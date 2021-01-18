@@ -1,0 +1,28 @@
+name: flutter_runtime_database
+description: >-
+  Package to handle NoSQL-like database in runtime.
+version: 0.6.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_runtime_database
+
+environment:
+  sdk: ">=2.8.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  loading_animations: ^2.1.0
+  masamune_core: ^0.6.0
+  flutter_hooks: ^0.15.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  # Masamune
+  masamune_test: ^0.5.0
+  
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
