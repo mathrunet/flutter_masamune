@@ -2,9 +2,9 @@ name: masamune
 description: >-
   Package to handle NoSQL-like database in runtime.
   A framework that includes routing functions.
-version: 0.6.0+1
+version: 0.6.2
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/masamune
+repository: https://github.com/mathrunet/flutter_masamune
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
