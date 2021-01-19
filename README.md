@@ -1,4 +1,4 @@
-# Flutter Widget Model
+# Masamune
 
 Package to handle NoSQL-like database in runtime.
 A framework that includes routing functions.
@@ -13,14 +13,14 @@ It is very compatible with Firestore and others.
 Add this to your package's pubspec.yaml file:
 ```yaml
 dependencies:
-  flutter_runtime_database: ^0.6.0
+  masamune: ^0.6.0
 ```
 You should then run `flutter packages upgrade`.
 
 ## Usage
 
 ```yaml
-import 'package:flutter_runtime_database/flutter_runtime_database.dart';
+import 'package:masamune/masamune.dart';
 ```
 
 ## Feature

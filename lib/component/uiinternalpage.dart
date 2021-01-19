@@ -1,4 +1,4 @@
-part of flutter_runtime_database;
+part of masamune;
 
 /// Used to display a page within a page.
 ///
@@ -175,7 +175,7 @@ class _UIInternalPageState extends State<UIInternalPage>
     ModalRoute route = ModalRoute.of(this.context);
     final data = route?.settings?.arguments;
     if (data is IDataDocument) {
-      final document = DataDocument(DefaultPath.pageData);
+      final document = DataDocument(UIPage.dataPath);
       document.clear();
       for (MapEntry<String, IDataField> tmp in data.entries) {
         if (isEmpty(tmp.key) || tmp.value == null || tmp.value.data == null)

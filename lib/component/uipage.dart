@@ -1,4 +1,4 @@
-part of flutter_runtime_database;
+part of masamune;
 
 /// Base class for handling page transitions.
 ///
@@ -21,6 +21,9 @@ abstract class UIPage extends StatefulHookWidget with UIPageDataMixin {
   /// ```
   static RouteObserver<PageRoute> get routeObserver => _routeObserver;
   static RouteObserver<PageRoute> _routeObserver = RouteObserver<PageRoute>();
+
+  /// Data loaded on the page.
+  static const String dataPath = "page/data";
 
   /// The closest instance of this class that encloses the given context.
   ///
@@ -237,23 +240,22 @@ class UIPageState extends State<UIPage>
   /// List of paths to dispose of when the widget is disposed.
   PathList get willDisposePathList => this._willDisposePathList;
   PathList _willDisposePathList = PathList();
-  List<IPath> _listenPathList = [];
+  List<String> _listenPathList = [];
 
   void _addListener(IPath path) {
-    if (path == null) return;
-    if (this._listenPathList.any((e) => e == path || e.path == path.path))
-      return;
-    path.watch(this._listener);
-    this._listenPathList.add(path);
+    if (isEmpty(path?.path)) return;
+    if (this._listenPathList.contains(path.path)) return;
+    path.watch(this._handledModelChanged);
+    this._listenPathList.add(path.path);
   }
 
   void _removeListener(IPath path) {
     if (path == null) return;
-    path.unwatch(this._listener);
-    this._listenPathList.removeWhere((e) => e == path || e.path == path.path);
+    path.unwatch(this._handledModelChanged);
+    this._listenPathList.removeWhere((e) => e == path.path);
   }
 
-  void _listener(IPath path) => this.refresh();
+  void _handledModelChanged(IPath path) => this.refresh();
 
   /// Updates the content of the widget.
   void refresh() => this.setState(() {});
@@ -307,7 +309,9 @@ class UIPageState extends State<UIPage>
     this._parent?._removeDidPopNextListener(this._didPopNextInternal);
     this._parent?._removeDidPushNextListener(this.didPushNext);
     this._willDisposePathList?.dispose();
-    this._listenPathList?.forEach((path) => this._removeListener(path));
+    for (int i = this._listenPathList.length - 1; i >= 0; i--) {
+      PathListener.unwatch(this._listenPathList[i], this._handledModelChanged);
+    }
     this._listenPathList?.release();
   }
 
@@ -360,7 +364,7 @@ class UIPageState extends State<UIPage>
     ModalRoute route = ModalRoute.of(this.context);
     final data = route?.settings?.arguments;
     if (data is IDataDocument) {
-      final document = DataDocument(DefaultPath.pageData);
+      final document = DataDocument(UIPage.dataPath);
       document.clear();
       for (MapEntry<String, IDataField> tmp in data.entries) {
         if (isEmpty(tmp.key) || tmp.value == null || tmp.value.data == null)

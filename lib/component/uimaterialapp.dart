@@ -1,4 +1,4 @@
-part of flutter_runtime_database;
+part of masamune;
 
 /// Widget which extended [MaterialApp] for Path.
 class UIMaterialApp extends StatefulHookWidget {

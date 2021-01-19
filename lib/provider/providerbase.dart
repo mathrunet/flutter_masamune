@@ -1,4 +1,4 @@
-part of flutter_runtime_database;
+part of masamune;
 
 /// Base class for overriding and using providers.
 ///

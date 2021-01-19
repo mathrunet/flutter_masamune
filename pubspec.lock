@@ -204,9 +204,9 @@ packages:
       name: masamune_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.0+6"
+    version: "0.6.1+4"
   masamune_localize:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: masamune_localize
       url: "https://pub.dartlang.org"
@@ -227,7 +227,7 @@ packages:
     source: hosted
     version: "0.12.10-nullsafety.1"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"

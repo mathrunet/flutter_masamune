@@ -1,4 +1,4 @@
-part of flutter_runtime_database;
+part of masamune;
 
 /// [IPath] Provider.
 /// It can be used in the way riverpod is used.
@@ -40,6 +40,8 @@ class _PathProviderState<T extends IPath> = ProviderStateBase<FutureOr<T>, T>
 
 mixin _PathProviderStateMixin<T extends IPath>
     on ProviderStateBase<FutureOr<T>, T> {
+  T _cachedValue;
+
   @override
   void valueChanged({FutureOr<T> previous}) {
     if (createdValue == previous) {
@@ -53,24 +55,26 @@ mixin _PathProviderStateMixin<T extends IPath>
     final value = createdValue;
     if (value is Future<T>) {
       value?.then((p) {
-        exposedValue = p;
-        p?.unwatch(_listener);
+        exposedValue = this._cachedValue = p;
+        p?.watch(_listener);
       });
     } else if (value is T) {
-      exposedValue = value;
-      value?.unwatch(_listener);
+      exposedValue = this._cachedValue = value;
+      value?.watch(_listener);
     }
   }
 
-  void _listener(T path) {
-    exposedValue = path;
+  void _listener(IPath path) {
+    exposedValue = this._cachedValue;
   }
 
   @override
   void dispose() {
     final value = createdValue;
     if (value is Future<T>) {
-      value?.then((p) => p?.unwatch(_listener));
+      value?.then((p) {
+        p?.unwatch(_listener);
+      });
     } else if (value is T) {
       value?.unwatch(_listener);
     }

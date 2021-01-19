@@ -1,4 +1,4 @@
-part of flutter_runtime_database;
+part of masamune;
 
 /// Class that inherits from [HookWidget].
 /// You can treat it like a regular [HookWidget].

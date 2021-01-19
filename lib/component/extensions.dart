@@ -1,4 +1,4 @@
-part of flutter_runtime_database;
+part of masamune;
 
 /// BuildContext extension methods.
 extension BuildContextExtension on BuildContext {
@@ -6,6 +6,7 @@ extension BuildContextExtension on BuildContext {
   void refresh() {
     UIPage.of(this)?.refresh();
   }
+
   /// Outputs the theme related to the context.
   ThemeData get theme => Theme.of(this);
 
@@ -21,7 +22,7 @@ extension BuildContextExtension on BuildContext {
   /// Get the data passed to the page.
   IDataDocument get data =>
       (ModalRoute.of(this)?.settings?.arguments as IDataDocument) ??
-      TemporaryDocument();
+      TempDocument();
 
   /// Get the media qury related to context
   MediaQueryData get mediaQuery => MediaQuery.of(this);

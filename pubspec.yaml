@@ -1,10 +1,10 @@
-name: flutter_runtime_database
+name: masamune
 description: >-
   Package to handle NoSQL-like database in runtime.
   A framework that includes routing functions.
-version: 0.6.0
+version: 0.6.0+1
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/flutter_runtime_database
+repository: https://github.com/mathrunet/masamune
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
@@ -12,8 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  meta: ^1.1.7
   loading_animations: ^2.1.0
   masamune_core: ^0.6.0
+  masamune_localize: ^0.6.0
   riverpod: ^0.12.2
   hooks_riverpod: ^0.12.2
   flutter_riverpod: ^0.12.2
