@@ -50,3 +50,4 @@ part 'route/routequery.dart';
 part 'route/uirouteobserver.dart';
 
 part 'theme/themecolor.dart';
+part 'theme/widgettheme.dart';

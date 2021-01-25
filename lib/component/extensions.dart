@@ -10,6 +10,9 @@ extension BuildContextExtension on BuildContext {
   /// Outputs the theme related to the context.
   ThemeData get theme => Theme.of(this);
 
+  /// Outputs the widget theme related to the context.
+  WidgetTheme get widgetTheme => WidgetTheme.of(this);
+
   /// Get the Navigator related to context.
   NavigatorState get navigator => Navigator.of(this);
 

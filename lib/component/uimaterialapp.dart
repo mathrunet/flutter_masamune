@@ -34,6 +34,7 @@ class UIMaterialApp extends StatefulHookWidget {
   final bool checkerboardOffscreenLayers;
   final bool showSemanticsDebugger;
   final bool debugShowCheckedModeBanner;
+  final WidgetTheme widgetTheme;
 
   /// Widget which extended [MaterialApp] for Path.
   UIMaterialApp(
@@ -42,6 +43,7 @@ class UIMaterialApp extends StatefulHookWidget {
       this.dispose,
       this.pause,
       this.unpause,
+      this.widgetTheme = const WidgetTheme(),
       this.quit,
       Key key,
       this.flavor,
@@ -127,50 +129,67 @@ class _UIMaterialAppState extends State<UIMaterialApp>
     return ProviderScope(
       child: FlavorScope(
         flavor: this.widget.flavor,
-        child: MaterialApp(
-          key: this.widget.key,
-          navigatorKey: this.widget.navigatorKey,
-          initialRoute: this.widget.initialRoute,
-          home: this.widget.home != null ? this.widget.home(context) : null,
-          onGenerateRoute: this.widget.home != null
-              ? null
-              : (settings) => RouteConfig._onGenerateRoute(settings),
-          onGenerateInitialRoutes: this.widget.home != null
-              ? null
-              : (initialRouteName) => RouteConfig._onGenerateInitialRoute(
-                  initialRouteName,
-                  boot: this.widget.onBootRoute),
-          navigatorObservers: [
-            if (this.widget.navigatorObservers != null)
-              ...this.widget.navigatorObservers,
-            UIRouteObserver(),
-            UIPage.routeObserver
-          ],
-          builder: null,
-          title: this.widget.title,
-          onUnknownRoute: this.widget.onUnknownRoute == null
-              ? null
-              : (settings) => RouteConfig._onSingleRoute(
-                  settings, this.widget.onUnknownRoute),
-          color: this.widget.color,
-          theme: this.widget.theme?.toThemeData(),
-          darkTheme: this.widget.darkTheme?.toThemeData(),
-          themeMode: this.widget.themeMode,
-          localizationsDelegates: this.widget.localizationsDelegates,
-          localeListResolutionCallback:
-              this.widget.localeListResolutionCallback,
-          localeResolutionCallback: this.widget.localeResolutionCallback,
-          supportedLocales: this.widget.supportedLocales,
-          debugShowMaterialGrid: this.widget.debugShowMaterialGrid,
-          showPerformanceOverlay: this.widget.showPerformanceOverlay,
-          checkerboardRasterCacheImages:
-              this.widget.checkerboardRasterCacheImages,
-          checkerboardOffscreenLayers: this.widget.checkerboardOffscreenLayers,
-          showSemanticsDebugger: this.widget.showSemanticsDebugger,
-          debugShowCheckedModeBanner: this.widget.debugShowCheckedModeBanner,
+        child: _UIMaterialAppScope(
+          state: this,
+          child: MaterialApp(
+            key: this.widget.key,
+            navigatorKey: this.widget.navigatorKey,
+            initialRoute: this.widget.initialRoute,
+            home: this.widget.home != null ? this.widget.home(context) : null,
+            onGenerateRoute: this.widget.home != null
+                ? null
+                : (settings) => RouteConfig._onGenerateRoute(settings),
+            onGenerateInitialRoutes: this.widget.home != null
+                ? null
+                : (initialRouteName) => RouteConfig._onGenerateInitialRoute(
+                    initialRouteName,
+                    boot: this.widget.onBootRoute),
+            navigatorObservers: [
+              if (this.widget.navigatorObservers != null)
+                ...this.widget.navigatorObservers,
+              UIRouteObserver(),
+              UIPage.routeObserver
+            ],
+            builder: null,
+            title: this.widget.title,
+            onUnknownRoute: this.widget.onUnknownRoute == null
+                ? null
+                : (settings) => RouteConfig._onSingleRoute(
+                    settings, this.widget.onUnknownRoute),
+            color: this.widget.color,
+            theme: this.widget.theme?.toThemeData(),
+            darkTheme: this.widget.darkTheme?.toThemeData(),
+            themeMode: this.widget.themeMode,
+            localizationsDelegates: this.widget.localizationsDelegates,
+            localeListResolutionCallback:
+                this.widget.localeListResolutionCallback,
+            localeResolutionCallback: this.widget.localeResolutionCallback,
+            supportedLocales: this.widget.supportedLocales,
+            debugShowMaterialGrid: this.widget.debugShowMaterialGrid,
+            showPerformanceOverlay: this.widget.showPerformanceOverlay,
+            checkerboardRasterCacheImages:
+                this.widget.checkerboardRasterCacheImages,
+            checkerboardOffscreenLayers:
+                this.widget.checkerboardOffscreenLayers,
+            showSemanticsDebugger: this.widget.showSemanticsDebugger,
+            debugShowCheckedModeBanner: this.widget.debugShowCheckedModeBanner,
+          ),
         ),
       ),
     );
+  }
+}
+
+class _UIMaterialAppScope extends InheritedWidget {
+  final _UIMaterialAppState state;
+  _UIMaterialAppScope({
+    Key key,
+    this.state,
+    Widget child,
+  }) : super(key: key, child: child);
+  @override
+  bool updateShouldNotify(_UIMaterialAppScope oldWidget) {
+    return true;
   }
 }
 
@@ -195,7 +214,9 @@ class FlavorScope extends InheritedWidget {
   ///
   /// You can check the current Flavor setting.
   static FlavorScope of(BuildContext context) {
-    return context.getElementForInheritedWidgetOfExactType()?.widget;
+    return context
+        .getElementForInheritedWidgetOfExactType<FlavorScope>()
+        ?.widget;
   }
 
   /// Flavor.
