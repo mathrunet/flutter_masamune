@@ -16,7 +16,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:masamune_core/masamune_core.dart';
 import 'package:riverpod/src/framework.dart';
 import 'package:meta/meta.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/src/consumer.dart';
 export 'package:masamune_core/masamune_core.dart';
 export 'package:flutter_hooks/flutter_hooks.dart';
 export 'package:riverpod/riverpod.dart';
@@ -38,6 +40,7 @@ part 'component/extensions.dart';
 part 'component/uiwidget.dart';
 part 'component/uiinternalpage.dart';
 part 'component/uipagedatamixin.dart';
+part 'component/uiscope.dart';
 
 part 'core/typedef.dart';
 part 'core/defaultpath.dart';
