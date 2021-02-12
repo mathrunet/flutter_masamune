@@ -1,7 +1,7 @@
 // Copyright 2021 mathru. All rights reserved.
 
-/// Package to handle NoSQL-like database in runtime.
-/// A framework that includes routing functions.
+/// Package that supports Flutter states and their transitions
+/// using the Model Nofifier package and the Katana Routing package.
 ///
 /// To use, import `package:masamune/masamune.dart`.
 ///
@@ -10,47 +10,51 @@
 library masamune;
 
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:masamune_core/masamune_core.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
+import 'package:loading_animations/loading_animations.dart';
+import 'package:model_notifier/model_notifier.dart';
+import 'package:katana_routing/katana_routing.dart';
+// ignore: implementation_imports
 import 'package:riverpod/src/framework.dart';
-import 'package:meta/meta.dart';
-import 'package:riverpod/riverpod.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_riverpod/src/consumer.dart';
-export 'package:masamune_core/masamune_core.dart';
-export 'package:flutter_hooks/flutter_hooks.dart';
-export 'package:riverpod/riverpod.dart';
-export 'package:flutter_riverpod/flutter_riverpod.dart';
-export 'package:hooks_riverpod/hooks_riverpod.dart';
-export 'package:masamune_localize/masamune_localize.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:selectable_autolink_text/selectable_autolink_text.dart';
+import 'package:share/share.dart';
+import "package:intl/intl.dart";
+import 'package:video_player/video_player.dart';
 
-part 'provider/providerbase.dart';
-part 'provider/pathprovider.dart';
-part 'provider/datafieldprovider.dart';
-part 'provider/runtimedocumentprovider.dart';
-part 'provider/runtimecollectionprovider.dart';
-part 'provider/localdocumentprovider.dart';
-part 'provider/localcollectionprovider.dart';
+part "src/extensions.dart";
+part "src/asset_type.dart";
 
-part 'component/uimaterialapp.dart';
-part 'component/uipage.dart';
-part 'component/extensions.dart';
-part 'component/uiwidget.dart';
-part 'component/uiinternalpage.dart';
-part 'component/uipagedatamixin.dart';
-part 'component/uiscope.dart';
+part "animation/ui_animator_scenario.dart";
+part "animation/ui_animator_unit.dart";
 
-part 'core/typedef.dart';
-part 'core/defaultpath.dart';
+part 'widget/dialog/ui_dialog.dart';
+part 'widget/dialog/ui_confirm.dart';
+part 'widget/dialog/ui_connect_dialog.dart';
+part 'widget/dialog/ui_select_dialog.dart';
 
-part 'route/dataconfig.dart';
-part 'route/extensions.dart';
-part 'route/routeconfig.dart';
-part 'route/uipageroute.dart';
-part 'route/routequery.dart';
-part 'route/uirouteobserver.dart';
+part 'widget/component/empty.dart';
+part 'widget/component/video.dart';
+part 'widget/component/ui_markdown.dart';
+part 'widget/component/ui_text.dart';
+part 'widget/component/space.dart';
+part 'widget/component/divid.dart';
 
-part 'theme/themecolor.dart';
-part 'theme/widgettheme.dart';
+part 'widget/builder/full_screen_builder.dart';
+part 'widget/builder/search_builder.dart';
+part 'widget/builder/ui_animated_builder.dart';
+
+part 'widget/property/default_box_decoration.dart';
+part 'widget/property/network_or_asset.dart';
+
+part 'widget/drawer/account_drawer_header.dart';
+
+part 'template/ui_boot.dart';
+part 'template/ui_page_tab_scaffold.dart';
