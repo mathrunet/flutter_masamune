@@ -7,7 +7,7 @@
 library masamune.list;
 
 import 'dart:io';
-import 'package:bordered_text/bordered_text.dart';
+// import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:katana/katana.dart';

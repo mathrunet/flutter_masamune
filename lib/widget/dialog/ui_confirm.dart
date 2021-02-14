@@ -60,9 +60,9 @@ class UIConfirm {
                 ),
               ),
               content: SingleChildScrollView(
-                child: UIText(
+                child: Text(
                   text.localize(),
-                  color: color ?? context.theme.colorScheme.onSurface,
+                  // color: color ?? context.theme.colorScheme.onSurface,
                 ),
               ),
               backgroundColor:
