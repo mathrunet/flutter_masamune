@@ -190,14 +190,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.20"
+    version: "0.8.0-nullsafety.21"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.11"
+    version: "0.8.0-nullsafety.12"
   markdown:
     dependency: transitive
     description:
@@ -239,7 +239,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.16"
+    version: "0.8.0-nullsafety.17"
   path:
     dependency: transitive
     description:
