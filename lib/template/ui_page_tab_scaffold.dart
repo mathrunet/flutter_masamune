@@ -126,11 +126,11 @@ class _FlexibleTabController extends StatefulWidget {
   /// ```dart
   /// TabController controller = FlexibleTabController.of(context);
   /// ```
-  static TabController? of(BuildContext context) {
-    final scope = context
-        .dependOnInheritedWidgetOfExactType<_FlexibleTabControllerScope>();
-    return scope?.controller;
-  }
+  // static TabController? of(BuildContext context) {
+  //   final scope = context
+  //       .dependOnInheritedWidgetOfExactType<_FlexibleTabControllerScope>();
+  //   return scope?.controller;
+  // }
 
   /// Create a state.
   ///

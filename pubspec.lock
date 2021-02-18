@@ -64,13 +64,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0-nullsafety.0"
-  datetime_picker_formfield:
-    dependency: "direct main"
-    description:
-      name: datetime_picker_formfield
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -91,7 +84,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -103,14 +96,14 @@ packages:
       name: flutter_hooks
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.0-nullsafety.0"
+    version: "0.16.0"
   flutter_markdown:
     dependency: "direct main"
     description:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.0-nullsafety.1"
+    version: "0.6.0"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -190,14 +183,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.21"
+    version: "0.8.0-nullsafety.22"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.12"
+    version: "0.8.0-nullsafety.13"
   markdown:
     dependency: transitive
     description:
@@ -239,7 +232,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.17"
+    version: "0.8.0-nullsafety.18"
   path:
     dependency: transitive
     description:
@@ -253,7 +246,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0-nullsafety"
+    version: "2.0.0-nullsafety.1"
   path_provider_linux:
     dependency: transitive
     description:

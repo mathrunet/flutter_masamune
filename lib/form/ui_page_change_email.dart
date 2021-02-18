@@ -59,7 +59,7 @@ class UIPageChangeEmail extends UIPageForm {
   /// [form]: Form data.
   @override
   @protected
-  void onSubmit(BuildContext context, Map<String, dynamic> form) async {
+  Future<void> onSubmit(BuildContext context, Map<String, dynamic> form) async {
     if (!validate(context)) {
       return;
     }

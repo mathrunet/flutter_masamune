@@ -24,8 +24,6 @@ import 'package:katana_routing/katana_routing.dart';
 // import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 // ignore: import_of_legacy_library_into_null_safe
 // import 'package:loading_animations/loading_animations.dart';
-import 'package:share/share.dart';
-import "package:intl/intl.dart";
 import 'package:video_player/video_player.dart';
 export 'package:masamune/form/form.dart';
 export 'package:masamune/list/list.dart';

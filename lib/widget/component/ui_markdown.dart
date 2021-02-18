@@ -5,19 +5,11 @@ part of masamune;
 /// See below for description.
 /// [https://qiita.com/tbpgr/items/989c6badefff69377da7]
 class UIMarkdown extends StatelessWidget {
-  final String text;
-  final bool selectable;
-  final void Function(String url)? onTapLink;
-  final double imageWidth;
-  final MarkdownCheckboxBuilder? checkboxBuilder;
-  final Color? color;
-  final double? fontSize;
-
   /// Widgets that can use markdown notation.
   ///
   /// See below for description.
   /// [https://qiita.com/tbpgr/items/989c6badefff69377da7]
-  UIMarkdown(
+  const UIMarkdown(
     this.text, {
     this.selectable = true,
     this.onTapLink,
@@ -27,35 +19,43 @@ class UIMarkdown extends StatelessWidget {
     this.fontSize,
   });
 
+  final String text;
+  final bool selectable;
+  final void Function(String url)? onTapLink;
+  final double imageWidth;
+  final MarkdownCheckboxBuilder? checkboxBuilder;
+  final Color? color;
+  final double? fontSize;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
       style: TextStyle(
-        color: this.color,
-        fontSize: this.fontSize,
+        color: color,
+        fontSize: fontSize,
       ),
       child: MarkdownBody(
-        data: this.text,
-        selectable: this.selectable,
+        data: text,
+        selectable: selectable,
         imageBuilder: (uri, title, alt) {
           return Image(
             image: NetworkOrAsset.image(uri.toString()),
-            width: this.imageWidth,
+            width: imageWidth,
           );
         },
         onTapLink: (text, href, title) {
           if (href == null) {
             return;
           }
-          if (this.onTapLink != null) {
-            this.onTapLink?.call(href);
+          if (onTapLink != null) {
+            onTapLink?.call(href);
           } else if (href.startsWith("http")) {
             openURL(href);
           } else {
             context.navigator.pushNamed(href);
           }
         },
-        checkboxBuilder: this.checkboxBuilder,
+        checkboxBuilder: checkboxBuilder,
         shrinkWrap: true,
         fitContent: true,
       ),
