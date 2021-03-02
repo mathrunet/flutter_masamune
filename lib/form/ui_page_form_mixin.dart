@@ -16,7 +16,7 @@ mixin UIPageFormMixin on UIPage {
   final formKey = GlobalKey<FormState>();
 
   Map<String, dynamic> get form {
-    return ProviderContainer().read(formProvider);
+    return readProvider(formProvider);
   }
 
   /// Validate the data in the form.
@@ -35,7 +35,7 @@ mixin UIPageFormMixin on UIPage {
     if (!formKey.currentState!.validate()) {
       return false;
     }
-    final form = ProviderContainer().read(formProvider);
+    final form = readProvider(formProvider);
     form.clear();
     initial.forEach((key, value) {
       if (key.isEmpty || value == null) {
