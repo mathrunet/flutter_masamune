@@ -11,6 +11,8 @@ library masamune;
 
 import 'dart:async';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +48,7 @@ part 'widget/dialog/ui_dialog.dart';
 part 'widget/dialog/ui_confirm.dart';
 part 'widget/dialog/ui_connect_dialog.dart';
 part 'widget/dialog/ui_select_dialog.dart';
+part 'widget/dialog/ui_future.dart';
 
 part 'widget/component/empty.dart';
 part 'widget/component/video.dart';

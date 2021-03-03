@@ -15,8 +15,7 @@ class NetworkOrAsset {
       return AssetImage(defaultURI);
     }
     if (uri.startsWith("http")) {
-      return NetworkImage(uri);
-      // return CachedNetworkImageProvider(uri);
+      return CachedNetworkImageProvider(uri);
     } else if (uri.startsWith("device:") || uri.startsWith("local:")) {
       final file = File(uri.replaceAll(RegExp(r"(device|local):(//)?"),
           "${Config.documentDirectory.path}/"));
