@@ -56,6 +56,7 @@ part 'widget/component/ui_markdown.dart';
 part 'widget/component/ui_text.dart';
 part 'widget/component/space.dart';
 part 'widget/component/divid.dart';
+part 'widget/component/ui_bottom_navigation_bar.dart';
 
 part 'widget/builder/full_screen_builder.dart';
 part 'widget/builder/search_builder.dart';

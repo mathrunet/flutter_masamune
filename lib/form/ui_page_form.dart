@@ -7,7 +7,7 @@ abstract class UIPageForm extends UIPageScaffold with UIPageFormMixin {
   /// [context]: Build context.
   @override
   @protected
-  Widget floatingActionButton(BuildContext context) {
+  Widget? floatingActionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
         if (autoValidate && !validate(context)) {

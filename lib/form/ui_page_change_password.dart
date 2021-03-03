@@ -17,7 +17,7 @@ class UIPageChangePassword extends UIPageForm {
   /// [context]: Build context.
   @override
   @protected
-  PreferredSizeWidget appBar(BuildContext context) {
+  PreferredSizeWidget? appBar(BuildContext context) {
     return AppBar(title: Text(title));
   }
 
