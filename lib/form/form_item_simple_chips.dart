@@ -100,7 +100,7 @@ class _FormItemSimpleChipsState extends FormFieldState<String> {
     if (!_chips.containsKey(tag)) {
       return;
     }
-    if (_chips.get(tag).def(false)) {
+    if (_chips.get(tag, false)) {
       _chips[tag] = false;
     } else {
       _chips[tag] = true;
@@ -127,7 +127,7 @@ class _FormItemSimpleChipsState extends FormFieldState<String> {
         );
       },
       onSubmit: (form) {
-        final text = form.get<String>("tag") ?? "";
+        final text = form.get("tag", "");
         if (text.isEmpty) {
           return;
         }

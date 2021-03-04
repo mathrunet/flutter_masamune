@@ -59,6 +59,6 @@ class UIPageReauth extends UIPageForm {
     if (!validate(context)) {
       return;
     }
-    context.navigator.pushReplacementNamed(context.arg.get("redirect_to"));
+    context.navigator.pushReplacementNamed(context.arg.get("redirect_to", "/"));
   }
 }

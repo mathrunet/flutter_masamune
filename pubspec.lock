@@ -239,14 +239,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.25"
+    version: "0.8.0-nullsafety.28"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.15"
+    version: "0.8.0-nullsafety.18"
   markdown:
     dependency: transitive
     description:
@@ -288,7 +288,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.20"
+    version: "0.8.0-nullsafety.25"
   octo_image:
     dependency: transitive
     description:
@@ -344,7 +344,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0"
+    version: "1.11.0"
   petitparser:
     dependency: transitive
     description:

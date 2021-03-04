@@ -167,7 +167,7 @@ class UIBottomNavigationBarItem extends BottomNavigationBarItem {
     this.onRouteChange,
   }) : super(
           icon: icon,
-          label: label,
+          label: label ?? "",
           activeIcon: activeIcon,
           backgroundColor: backgroundColor,
         );

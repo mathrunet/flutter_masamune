@@ -7,14 +7,7 @@ class _UIFuture {
     void Function(T? value)? actionOnFinish,
   }) async {
     T? val;
-    await future.then((v) => val = v).whenComplete(
-          () => WidgetsBinding.instance?.addPostFrameCallback(
-            (timeStamp) {
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-          ),
-        );
-    await showDialog(
+    final dialog = showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
@@ -31,6 +24,12 @@ class _UIFuture {
         );
       },
     );
+    future.then((v) => val = v).whenComplete(
+      () async {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+    await dialog;
     actionOnFinish?.call(val);
     return val;
   }
@@ -44,14 +43,13 @@ extension UIFutureExtension<T> on Future<T> {
   ///
   /// [context]: Build context.
   /// [actionOnFinish]: Action after the task is finished.
-  Future<T?> showIndicator(
+  Future<T?> showIndicator2(
     BuildContext context, {
     void Function(T? value)? actionOnFinish,
   }) async {
     await Future<void>.delayed(Duration.zero);
     _UIFuture.show<T>(context, this, actionOnFinish: actionOnFinish);
     final value = await this;
-    await Future<void>.delayed(Duration.zero);
     await Future<void>.delayed(Duration.zero);
     return value;
   }
