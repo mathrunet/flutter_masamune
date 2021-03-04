@@ -63,10 +63,11 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
   @override
   void initState() {
     super.initState();
-    currentIndex = widget.initialIndex;
     if (widget.indexID.isNotEmpty) {
       currentIndex =
           widget.items.indexWhere((element) => element.id == widget.indexID);
+    } else {
+      currentIndex = widget.initialIndex;
     }
     if (currentIndex < 0) {
       currentIndex = widget.initialIndex;
@@ -74,12 +75,36 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
   }
 
   @override
+  @protected
+  @mustCallSuper
+  void didUpdateWidget(UIBottomNavigationBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.indexID != oldWidget.indexID ||
+        widget.items.length != oldWidget.items.length ||
+        widget.initialIndex != oldWidget.initialIndex) {
+      if (widget.indexID.isNotEmpty) {
+        currentIndex =
+            widget.items.indexWhere((element) => element.id == widget.indexID);
+      } else {
+        currentIndex = widget.initialIndex;
+      }
+      if (currentIndex < 0) {
+        currentIndex = widget.initialIndex;
+      }
+    }
+  }
+
+  @override
+  @protected
+  @mustCallSuper
   void didChangeDependencies() {
     super.didChangeDependencies();
     // widget.routeObserver?.subscribe(_onRouteChange);
   }
 
   @override
+  @protected
+  @mustCallSuper
   void dispose() {
     super.dispose();
     // widget.routeObserver?.unsubscribe(_onRouteChange);

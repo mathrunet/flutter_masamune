@@ -43,7 +43,7 @@ extension UIFutureExtension<T> on Future<T> {
   ///
   /// [context]: Build context.
   /// [actionOnFinish]: Action after the task is finished.
-  Future<T?> showIndicator2(
+  Future<T?> showIndicator(
     BuildContext context, {
     void Function(T? value)? actionOnFinish,
   }) async {

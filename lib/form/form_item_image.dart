@@ -96,6 +96,7 @@ class _FormItemImageState extends FormFieldState<String> {
     if (widget.controller == null) {
       _controller = TextEditingController(text: widget.initialValue);
     } else {
+      setValue(widget.controller?.text ?? value);
       widget.controller?.addListener(_handleControllerChanged);
     }
   }
