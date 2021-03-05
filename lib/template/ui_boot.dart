@@ -13,7 +13,7 @@ abstract class UIBoot extends UIPage {
   /// Abstract class for creating boot pages.
   ///
   /// [key]: Widget key.
-  const UIBoot({Key? key}) : super(key: key);
+  UIBoot({Key? key}) : super(key: key);
 
   /// Indicator color.
   ///
