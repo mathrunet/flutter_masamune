@@ -40,6 +40,7 @@ export 'package:flutter/material.dart' hide Listener;
 
 part "src/extensions.dart";
 part "src/asset_type.dart";
+part "src/functions.dart";
 
 part "animation/ui_animator_scenario.dart";
 part "animation/ui_animator_unit.dart";
