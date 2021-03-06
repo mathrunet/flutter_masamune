@@ -1,6 +1,6 @@
 part of masamune.form;
 
-class UIPageChangeEmail extends UIPage with UIPageFormMixin {
+class UIPageChangeEmail extends PageWidget with UIPageFormMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

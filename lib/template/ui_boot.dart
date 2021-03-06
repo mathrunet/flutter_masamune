@@ -9,7 +9,7 @@ part of masamune;
 /// Normally, please override body.
 ///
 /// Please inherit and use.
-abstract class UIBoot extends UIPage {
+abstract class UIBoot extends PageWidget {
   /// Abstract class for creating boot pages.
   ///
   /// [key]: Widget key.

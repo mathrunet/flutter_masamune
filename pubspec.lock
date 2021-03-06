@@ -246,7 +246,7 @@ packages:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.23"
+    version: "0.8.0-nullsafety.25"
   markdown:
     dependency: transitive
     description:

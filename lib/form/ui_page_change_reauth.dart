@@ -1,6 +1,6 @@
 part of masamune.form;
 
-class UIPageChangeReauth extends UIPage with UIPageFormMixin {
+class UIPageChangeReauth extends PageWidget with UIPageFormMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

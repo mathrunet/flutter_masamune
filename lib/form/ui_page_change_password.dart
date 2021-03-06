@@ -1,6 +1,6 @@
 part of masamune.form;
 
-class UIPageChangePassword extends UIPage with UIPageFormMixin {
+class UIPageChangePassword extends PageWidget with UIPageFormMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

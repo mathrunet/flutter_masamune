@@ -11,7 +11,7 @@ final formProvider = Provider((_) => <String, dynamic>{});
 /// Run [validate(context)] at the time of applying the changes to check if the values are correct.
 ///
 /// Finally, save all changes to the specified document by running [save()].
-mixin UIPageFormMixin on UIPage {
+mixin UIPageFormMixin on PageWidget {
   /// Key for form.
   final formKey = GlobalKey<FormState>();
 
