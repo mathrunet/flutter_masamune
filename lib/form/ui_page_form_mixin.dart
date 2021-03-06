@@ -1,7 +1,5 @@
 part of masamune.form;
 
-final formProvider = Provider((_) => <String, dynamic>{});
-
 /// Mix-in that provides the ability to handle forms.
 ///
 /// Pass a [formKey] as the key to the [Form] widget.
@@ -14,10 +12,6 @@ final formProvider = Provider((_) => <String, dynamic>{});
 mixin UIPageFormMixin on PageWidget {
   /// Key for form.
   final formKey = GlobalKey<FormState>();
-
-  Map<String, dynamic> get form {
-    return readProvider(formProvider);
-  }
 
   /// Validate the data in the form.
   ///
@@ -35,13 +29,11 @@ mixin UIPageFormMixin on PageWidget {
     if (!formKey.currentState!.validate()) {
       return false;
     }
-    final form = readProvider(formProvider);
-    form.clear();
     initial.forEach((key, value) {
       if (key.isEmpty || value == null) {
         return;
       }
-      form[key] = value;
+      context[key] = value;
     });
     formKey.currentState!.save();
     return true;
