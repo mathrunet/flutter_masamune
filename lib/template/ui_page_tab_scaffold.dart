@@ -5,63 +5,61 @@ part of masamune;
 /// Please pass the IDataCollection data to [source].
 ///
 /// Please inherit and use.
-abstract class UIPageTabScaffold extends UIPageScaffold {
+class TabScaffold<T> extends StatefulWidget {
   /// Abstract class for creating pages.
-  UIPageTabScaffold({Key? key}) : super(key: key);
+  const TabScaffold({
+    Key? key,
+    this.title,
+    this.actions,
+    this.leading,
+    this.automaticallyImplyLeading = true,
+    this.tabLabelStyle,
+    this.indicatorColor,
+    this.tabLabelPadding =
+        const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+    required this.source,
+    required this.tabBuilder,
+    required this.viewBuilder,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonAnimator,
+    this.persistentFooterButtons,
+    this.drawer,
+    this.onDrawerChanged,
+    this.endDrawer,
+    this.onEndDrawerChanged,
+    this.bottomNavigationBar,
+    this.bottomSheet,
+    this.backgroundColor,
+  }) : super(key: key);
 
-  final _UITabData _tabData = _UITabData();
+  final Widget? title;
+  final List<Widget>? actions;
+  final Widget? leading;
+  final bool automaticallyImplyLeading;
+  final TextStyle? tabLabelStyle;
+  final Color? indicatorColor;
+  final EdgeInsetsGeometry tabLabelPadding;
+  final List<T> source;
+  final Widget Function(T item) tabBuilder;
+  final Widget Function(T item) viewBuilder;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
+  final List<Widget>? persistentFooterButtons;
+  final Widget? drawer;
+  final void Function(bool)? onDrawerChanged;
+  final Widget? endDrawer;
+  final void Function(bool)? onEndDrawerChanged;
+  final Widget? bottomNavigationBar;
+  final Widget? bottomSheet;
+  final Color? backgroundColor;
 
-  /// Source data for tab.
-  Iterable get source;
-
-  /// Tab controller.
-  TabController? get tabController => _tabData.controller;
-
-  /// View of tabs.
-  ///
-  /// [context]: Build context.
-  List<Widget> tabView(BuildContext context);
-
-  /// The color of the indicator on the tab.
-  ///
-  /// [context]: Build context.
-  Color indicatorColor(BuildContext context) => context.theme.accentColor;
-
-  /// Tab label style.
-  ///
-  /// [context]: Build context.
-  TextStyle labelStyle(BuildContext context) =>
-      context.theme.textTheme.bodyText1 ?? const TextStyle();
-
-  /// Tab.
-  ///
-  /// [context]: Build context.
-  List<Widget> tabs(BuildContext context) {
-    return source.mapAndRemoveEmpty((item) => Text(item));
-  }
-
-  /// Tab bar. Place this in the bottom of the AppBar.
-  ///
-  /// [context]: Build context.
-  TabBar tabBar(BuildContext context) {
-    return TabBar(
-      indicatorColor: indicatorColor(context),
-      controller: tabController,
-      labelStyle: labelStyle(context),
-      labelPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      isScrollable: true,
-      tabs: tabs(context),
-    );
-  }
-
-  /// Creating a body.
-  ///
-  /// [context]: Build context.
   @override
-  Widget body(BuildContext context) {
-    return TabBarView(controller: tabController, children: tabView(context));
-  }
+  State<StatefulWidget> createState() => _TabScaffoldState<T>();
+}
 
+class _TabScaffoldState<T> extends State<TabScaffold<T>> {
   /// Callback for building.
   ///
   /// Override and use.
@@ -69,24 +67,60 @@ abstract class UIPageTabScaffold extends UIPageScaffold {
   /// [context]: Build context.
   @override
   Widget build(BuildContext context) {
-    return _FlexibleTabController(
-        key: key,
-        data: source,
-        child: (context, controller) {
-          _tabData.controller = controller;
-          return super.build(context);
-        });
+    return _FlexibleTabController<T>(
+      key: widget.key,
+      data: widget.source,
+      child: (context, controller) {
+        return Scaffold(
+          appBar: AppBar(
+            leading: widget.leading,
+            title: widget.title,
+            actions: widget.actions,
+            automaticallyImplyLeading: widget.automaticallyImplyLeading,
+            bottom: TabBar(
+              indicatorColor:
+                  widget.indicatorColor ?? context.theme.accentColor,
+              controller: controller,
+              labelStyle: widget.tabLabelStyle ??
+                  context.theme.textTheme.bodyText1 ??
+                  const TextStyle(),
+              labelPadding:
+                  const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              isScrollable: true,
+              tabs: widget.source.mapAndRemoveEmpty((item) {
+                return widget.tabBuilder.call(item);
+              }),
+            ),
+          ),
+          body: TabBarView(
+            controller: controller,
+            children: widget.source.mapAndRemoveEmpty(
+              (item) {
+                return widget.viewBuilder.call(item);
+              },
+            ),
+          ),
+          floatingActionButton: widget.floatingActionButton,
+          floatingActionButtonLocation: widget.floatingActionButtonLocation,
+          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+          persistentFooterButtons: widget.persistentFooterButtons,
+          drawer: widget.drawer,
+          onDrawerChanged: widget.onDrawerChanged,
+          endDrawer: widget.endDrawer,
+          onEndDrawerChanged: widget.onEndDrawerChanged,
+          bottomNavigationBar: widget.bottomNavigationBar,
+          bottomSheet: widget.bottomSheet,
+          backgroundColor: widget.backgroundColor,
+        );
+      },
+    );
   }
-}
-
-class _UITabData {
-  TabController? controller;
 }
 
 /// Tab controller in which the number of tabs is variable depending on the given Collection.
 ///
 /// Give an ICollection to [data] and change the number of tabs by changing that collection.
-class _FlexibleTabController extends StatefulWidget {
+class _FlexibleTabController<T> extends StatefulWidget {
   /// Tab controller in which the number of tabs is variable depending on the given Collection.
   ///
   /// Give an ICollection to [data] and change the number of tabs by changing that collection.
@@ -106,7 +140,7 @@ class _FlexibleTabController extends StatefulWidget {
   final void Function(int index)? onUpdateIndex;
 
   /// Collection data for tabs.
-  final Iterable data;
+  final Iterable<T> data;
 
   /// First index number.
   final int initialIndex;
@@ -137,10 +171,10 @@ class _FlexibleTabController extends StatefulWidget {
   /// Do not use from outside.
   @override
   @protected
-  _FlexibleTabControllerState createState() => _FlexibleTabControllerState();
+  _FlexibleTabControllerState createState() => _FlexibleTabControllerState<T>();
 }
 
-class _FlexibleTabControllerState extends State<_FlexibleTabController>
+class _FlexibleTabControllerState<T> extends State<_FlexibleTabController>
     with TickerProviderStateMixin {
   TabController? _controller;
   @override

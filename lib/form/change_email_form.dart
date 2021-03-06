@@ -1,9 +1,11 @@
 part of masamune.form;
 
-class ReauthForm extends StatelessWidget {
-  const ReauthForm({
+class ChangeEmailForm extends StatelessWidget {
+  const ChangeEmailForm({
     required GlobalKey<FormState> key,
+    this.defaultEmail = "",
   }) : super(key: key);
+  final String defaultEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -12,21 +14,20 @@ class ReauthForm extends StatelessWidget {
       key: key as GlobalKey<FormState>,
       children: [
         Text(
-          "Please enter your login information again".localize(),
+          "Please enter the information you want to change".localize(),
           textAlign: TextAlign.center,
         ),
         const Space.height(20),
         FormItemTextField(
-          controller: useTextEditingController(),
-          hintText: "Please enter a password".localize(),
-          labelText: "Password".localize(),
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: true,
+          controller: useTextEditingController(text: defaultEmail),
+          hintText: "Please enter a email address".localize(),
+          labelText: "Email".localize(),
+          keyboardType: TextInputType.emailAddress,
           onSaved: (value) {
             if (value.isEmpty) {
               return;
             }
-            context["password"] = value;
+            context["email"] = value;
           },
         ),
       ],

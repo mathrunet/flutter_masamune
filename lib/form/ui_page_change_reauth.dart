@@ -1,12 +1,12 @@
 part of masamune.form;
 
-class UIPageChangeEmail extends UIPage with UIPageFormMixin {
+class UIPageChangeReauth extends UIPage with UIPageFormMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Change Email".localize(),
+          "Reauthentication".localize(),
         ),
       ),
       body: ChangeEmailForm(key: formKey),
@@ -16,15 +16,8 @@ class UIPageChangeEmail extends UIPage with UIPageFormMixin {
           if (!validate(context)) {
             return;
           }
-          UIDialog.show(
-            context,
-            title: "Success".localize(),
-            text: "Editing is complete.".localize(),
-            submitText: "OK".localize(),
-            onSubmit: () {
-              context.navigator.pop();
-            },
-          );
+          context.navigator
+              .pushReplacementNamed(context.get("redirect_to", "/"));
         },
       ),
     );

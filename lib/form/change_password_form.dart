@@ -1,7 +1,7 @@
 part of masamune.form;
 
-class ReauthForm extends StatelessWidget {
-  const ReauthForm({
+class ChangePasswordForm extends StatelessWidget {
+  const ChangePasswordForm({
     required GlobalKey<FormState> key,
   }) : super(key: key);
 
@@ -12,16 +12,16 @@ class ReauthForm extends StatelessWidget {
       key: key as GlobalKey<FormState>,
       children: [
         Text(
-          "Please enter your login information again".localize(),
+          "Please enter the information you want to change".localize(),
           textAlign: TextAlign.center,
         ),
         const Space.height(20),
-        FormItemTextField(
-          controller: useTextEditingController(),
+        FormItemPassword(
           hintText: "Please enter a password".localize(),
           labelText: "Password".localize(),
-          keyboardType: TextInputType.visiblePassword,
-          obscureText: true,
+          confirm: true,
+          notMatchText: "Passwords do not match.".localize(),
+          confirmLabelText: "ConfirmationPassword".localize(),
           onSaved: (value) {
             if (value.isEmpty) {
               return;
