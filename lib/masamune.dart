@@ -68,5 +68,9 @@ part 'widget/property/network_or_asset.dart';
 
 part 'widget/drawer/account_drawer_header.dart';
 
+part 'widget/mixin/ui_page_scaffold_mixin.dart';
+part 'widget/mixin/ui_page_uuid_mixin.dart';
+
+part 'widget/scaffold/tab_scaffold.dart';
+
 part 'template/ui_boot.dart';
-part 'template/ui_page_tab_scaffold.dart';

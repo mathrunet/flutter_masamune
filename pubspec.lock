@@ -99,6 +99,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0-nullsafety.0"
+  datetime_picker_formfield:
+    dependency: "direct main"
+    description:
+      name: datetime_picker_formfield
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -131,7 +138,7 @@ packages:
       name: flutter_blurhash
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.2-nullsafety.0"
+    version: "0.5.4-nullsafety.0"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -239,14 +246,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.30"
+    version: "0.8.0-nullsafety.31"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.25"
+    version: "0.8.0-nullsafety.28"
   markdown:
     dependency: transitive
     description:
@@ -288,7 +295,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0-nullsafety.31"
+    version: "0.8.0-nullsafety.32"
   octo_image:
     dependency: transitive
     description:
@@ -624,5 +631,5 @@ packages:
     source: hosted
     version: "5.0.2"
 sdks:
-  dart: ">=2.12.0-259.9.beta <3.0.0"
-  flutter: ">=1.24.0-10.2.pre"
+  dart: ">=2.12.0 <3.0.0"
+  flutter: ">=2.0.0"
