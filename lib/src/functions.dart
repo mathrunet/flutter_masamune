@@ -1,7 +1,11 @@
 part of masamune;
 
-TextEditingController useMemoizedTextEditingController([String? value]) {
-  return useTextEditingController(text: value, keys: [value]);
+TextEditingController useMemoizedTextEditingController([String value = ""]) {
+  final controller = useTextEditingController();
+  useEffect(() {
+    controller.text = value;
+  }, [value]);
+  return controller;
 }
 
 AsyncSnapshot<T> useMemoizedFuture<T>(Future<T> future, T initialData) {

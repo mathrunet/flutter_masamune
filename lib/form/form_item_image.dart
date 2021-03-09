@@ -19,7 +19,10 @@ class FormItemImage extends FormField<String> {
     this.controller,
     required this.onTap,
     this.color,
+    this.hintText = "",
+    this.allowEmpty = false,
     this.dense = false,
+    this.height = 200,
     this.icon = Icons.add_a_photo,
     void Function(String? value)? onSaved,
     String Function(String? value)? validator,
@@ -31,10 +34,17 @@ class FormItemImage extends FormField<String> {
             return const Empty();
           },
           onSaved: onSaved,
-          validator: validator,
+          validator: (value) {
+            if (!allowEmpty && value.isEmpty) {
+              return hintText;
+            }
+            return validator?.call(value);
+          },
           initialValue: initialURI,
           enabled: enabled,
         );
+
+  static const double errorTextHeight = 20;
 
   /// Processing when tapped.
   /// Finally save the file using onUpdate.
@@ -48,6 +58,13 @@ class FormItemImage extends FormField<String> {
 
   /// True for dense.
   final bool dense;
+
+  final double height;
+
+  final bool allowEmpty;
+
+  /// Hint label.
+  final String hintText;
 
   /// Text ediging controller.
   final TextEditingController? controller;
@@ -123,14 +140,24 @@ class _FormItemImageState extends FormFieldState<String> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return InkWell(
-      onTap: () {
-        if (!widget.enabled) {
-          return;
-        }
-        widget.onTap.call(_onUpdate);
-      },
-      child: _buildImage(context),
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            if (!widget.enabled) {
+              return;
+            }
+            widget.onTap.call(_onUpdate);
+          },
+          child: _buildImage(context),
+        ),
+        if (errorText.isNotEmpty)
+          AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              child: Text(errorText ?? "",
+                  style: Theme.of(context).inputDecorationTheme.errorStyle),
+              height: errorText.isNotEmpty ? FormItemImage.errorTextHeight : 0)
+      ],
     );
   }
 
@@ -143,7 +170,10 @@ class _FormItemImageState extends FormFieldState<String> {
         padding: widget.dense
             ? const EdgeInsets.all(0)
             : const EdgeInsets.symmetric(vertical: 10),
-        constraints: const BoxConstraints.expand(height: 200),
+        constraints: BoxConstraints.expand(
+            height: errorText.isNotEmpty
+                ? (widget.height - FormItemImage.errorTextHeight)
+                : widget.height),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
           child: Image.file(_data!, fit: BoxFit.cover),
@@ -154,7 +184,10 @@ class _FormItemImageState extends FormFieldState<String> {
         padding: widget.dense
             ? const EdgeInsets.all(0)
             : const EdgeInsets.symmetric(vertical: 10),
-        constraints: const BoxConstraints.expand(height: 200),
+        constraints: BoxConstraints.expand(
+            height: errorText.isNotEmpty
+                ? (widget.height - FormItemImage.errorTextHeight)
+                : widget.height),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
           child: Image(image: NetworkOrAsset.image(_path!), fit: BoxFit.cover),
@@ -166,7 +199,10 @@ class _FormItemImageState extends FormFieldState<String> {
           padding: widget.dense
               ? const EdgeInsets.all(0)
               : const EdgeInsets.symmetric(vertical: 10),
-          constraints: const BoxConstraints.expand(height: 200),
+          constraints: BoxConstraints.expand(
+              height: errorText.isNotEmpty
+                  ? (widget.height - FormItemImage.errorTextHeight)
+                  : widget.height),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
             child: Image(image: NetworkOrAsset.image(value), fit: BoxFit.cover),
@@ -178,7 +214,10 @@ class _FormItemImageState extends FormFieldState<String> {
             padding: widget.dense
                 ? const EdgeInsets.all(0)
                 : const EdgeInsets.symmetric(vertical: 10),
-            constraints: const BoxConstraints.expand(height: 200),
+            constraints: BoxConstraints.expand(
+                height: errorText.isNotEmpty
+                    ? (widget.height - FormItemImage.errorTextHeight)
+                    : widget.height),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
               child: Image.file(_local!, fit: BoxFit.cover),
@@ -190,7 +229,10 @@ class _FormItemImageState extends FormFieldState<String> {
               ? const EdgeInsets.all(0)
               : const EdgeInsets.symmetric(vertical: 10),
           child: Container(
-            constraints: const BoxConstraints.expand(height: 160),
+            constraints: BoxConstraints.expand(
+                height: errorText.isNotEmpty
+                    ? (widget.height - FormItemImage.errorTextHeight)
+                    : widget.height),
             decoration: BoxDecoration(
                 border: Border.all(
                     color: widget.color ?? Theme.of(context).disabledColor,

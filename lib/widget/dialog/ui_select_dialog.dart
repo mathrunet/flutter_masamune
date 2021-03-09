@@ -22,7 +22,7 @@ class UISelectDialog {
     Color? backgroundColor,
     Color? color,
     required String title,
-    required String selected,
+    String? selected,
     required Map<String, VoidCallback> selectors,
     bool disableBackKey = false,
     bool popOnPress = true,

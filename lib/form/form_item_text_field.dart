@@ -19,6 +19,12 @@ class FormItemTextField extends StatelessWidget implements FormItem {
       this.lengthErrorText = "",
       this.prefix,
       this.suffix,
+      this.prefixText,
+      this.suffixText,
+      this.prefixIcon,
+      this.prefixIconConstraints,
+      this.suffixIcon,
+      this.suffixIconConstraints,
       this.dense = false,
       this.padding,
       this.suggestion = const [],
@@ -51,6 +57,12 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final bool enabled;
   final Widget? prefix;
   final Widget? suffix;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final String? prefixText;
+  final String? suffixText;
+  final BoxConstraints? prefixIconConstraints;
+  final BoxConstraints? suffixIconConstraints;
   final bool readOnly;
   final bool obscureText;
   final bool expands;
@@ -128,6 +140,12 @@ class FormItemTextField extends StatelessWidget implements FormItem {
             counterText: counterText,
             prefix: prefix,
             suffix: suffix,
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+            prefixText: prefixText,
+            suffixText: suffixText,
+            prefixIconConstraints: prefixIconConstraints,
+            suffixIconConstraints: suffixIconConstraints,
             labelStyle: TextStyle(color: color),
             hintStyle: TextStyle(color: subColor),
             suffixStyle: TextStyle(color: subColor),
@@ -143,7 +161,11 @@ class FormItemTextField extends StatelessWidget implements FormItem {
           },
           onTap: enabled
               ? () {
-                  onTap.call();
+                  if (this.onTap != null) {
+                    this.onTap?.call();
+                  } else {
+                    onTap.call();
+                  }
                 }
               : null,
           validator: (value) {
