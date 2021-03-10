@@ -17,3 +17,13 @@ AsyncSnapshot<T> useMemoizedStream<T>(Stream<T> stream, T initialData) {
   final initial = useMemoized(() => stream);
   return useStream<T>(initial, initialData: initialData);
 }
+
+void useWidgetState({
+  required void Function() onInit,
+  void Function()? onDispose,
+}) {
+  useEffect(() {
+    onInit.call();
+    return onDispose;
+  }, const []);
+}

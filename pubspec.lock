@@ -400,7 +400,7 @@ packages:
       name: share
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   shared_preferences:
     dependency: transitive
     description:
@@ -594,7 +594,7 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   video_player_platform_interface:
     dependency: transitive
     description:
