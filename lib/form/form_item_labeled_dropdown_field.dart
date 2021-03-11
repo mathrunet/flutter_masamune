@@ -6,7 +6,7 @@ class FormItemLabeledDropdownField extends StatelessWidget implements FormItem {
     required this.items,
     this.labelText = "",
     this.prefix,
-    this.height = 60,
+    this.height,
     this.dropdownWidth = 100,
     this.backgroundColor,
     this.dense = false,
@@ -24,7 +24,7 @@ class FormItemLabeledDropdownField extends StatelessWidget implements FormItem {
   final Widget? suffix;
   final bool dense;
   final Color? backgroundColor;
-  final double height;
+  final double? height;
   final double dropdownWidth;
   final void Function(String? value)? onSaved;
   final void Function(String? value)? onChanged;
@@ -50,6 +50,7 @@ class FormItemLabeledDropdownField extends StatelessWidget implements FormItem {
               padding: const EdgeInsets.only(left: 12, top: 4.5, bottom: 4.5),
               child: Text(
                 labelText,
+                overflow: TextOverflow.visible,
                 style: TextStyle(
                   color: enabled ? null : context.theme.disabledColor,
                 ),
@@ -57,7 +58,7 @@ class FormItemLabeledDropdownField extends StatelessWidget implements FormItem {
             ),
           ),
           Container(
-            constraints: BoxConstraints.expand(width: dropdownWidth),
+            width: dropdownWidth,
             color: backgroundColor,
             padding: const EdgeInsets.fromLTRB(12, 4.5, 8, 4.5),
             alignment: Alignment.center,
