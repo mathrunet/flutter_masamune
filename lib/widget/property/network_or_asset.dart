@@ -16,10 +16,6 @@ class NetworkOrAsset {
     }
     if (uri.startsWith("http")) {
       return CachedNetworkImageProvider(uri);
-    } else if (uri.startsWith("device:") || uri.startsWith("local:")) {
-      final file = File(uri.replaceAll(RegExp(r"(device|local):(//)?"),
-          "${Config.documentDirectory.path}/"));
-      return FileImage(file);
     } else if (uri.startsWith("resource:")) {
       return AssetImage(uri.replaceAll(RegExp(r"resource:(//)?"), ""));
     } else {
