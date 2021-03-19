@@ -1,47 +1,50 @@
 part of masamune.form;
 
 class FormItemTextField extends StatelessWidget implements FormItem {
-  const FormItemTextField(
-      {this.controller,
-      this.keyboardType = TextInputType.text,
-      this.maxLength,
-      this.onTap,
-      this.minLength,
-      this.contentPadding,
-      this.maxLines,
-      this.minLines = 1,
-      this.border,
-      this.disabledBorder,
-      this.backgroundColor,
-      this.expands = false,
-      this.hintText = "",
-      this.labelText = "",
-      this.lengthErrorText = "",
-      this.prefix,
-      this.suffix,
-      this.prefixText,
-      this.suffixText,
-      this.prefixIcon,
-      this.prefixIconConstraints,
-      this.suffixIcon,
-      this.suffixIconConstraints,
-      this.dense = false,
-      this.padding,
-      this.suggestion = const [],
-      this.allowEmpty = false,
-      this.enabled = true,
-      this.readOnly = false,
-      this.obscureText = false,
-      this.counterText = "",
-      this.onDeleteSuggestion,
-      this.validator,
-      this.onSaved,
-      this.onSubmitted,
-      this.onChanged,
-      this.showCursor,
-      this.focusNode,
-      this.color,
-      this.subColor});
+  const FormItemTextField({
+    this.controller,
+    this.keyboardType = TextInputType.text,
+    this.maxLength,
+    this.onTap,
+    this.minLength,
+    this.contentPadding,
+    this.maxLines,
+    this.minLines = 1,
+    this.border,
+    this.disabledBorder,
+    this.backgroundColor,
+    this.expands = false,
+    this.hintText = "",
+    this.labelText = "",
+    this.lengthErrorText = "",
+    this.prefix,
+    this.suffix,
+    this.prefixText,
+    this.suffixText,
+    this.prefixIcon,
+    this.prefixIconConstraints,
+    this.suffixIcon,
+    this.suffixIconConstraints,
+    this.dense = false,
+    this.padding,
+    this.suggestion = const [],
+    this.allowEmpty = false,
+    this.enabled = true,
+    this.readOnly = false,
+    this.obscureText = false,
+    this.counterText = "",
+    this.onDeleteSuggestion,
+    this.validator,
+    this.inputFormatters,
+    this.onSaved,
+    this.onSubmitted,
+    this.onChanged,
+    this.showCursor,
+    this.focusNode,
+    this.color,
+    this.fontSize,
+    this.subColor,
+  });
 
   final TextEditingController? controller;
   final TextInputType keyboardType;
@@ -59,6 +62,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final Widget? suffix;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final double? fontSize;
   final String? prefixText;
   final String? suffixText;
   final BoxConstraints? prefixIconConstraints;
@@ -82,6 +86,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final bool? showCursor;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
   final void Function(String? value)? onSubmitted;
 
   @override
@@ -96,6 +101,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
                 ? const EdgeInsets.all(0)
                 : const EdgeInsets.symmetric(vertical: 10)),
         child: TextFormField(
+          inputFormatters: inputFormatters,
           focusNode: focusNode,
           showCursor: showCursor,
           enabled: enabled,
@@ -146,14 +152,14 @@ class FormItemTextField extends StatelessWidget implements FormItem {
             suffixText: suffixText,
             prefixIconConstraints: prefixIconConstraints,
             suffixIconConstraints: suffixIconConstraints,
-            labelStyle: TextStyle(color: color),
-            hintStyle: TextStyle(color: subColor),
-            suffixStyle: TextStyle(color: subColor),
-            prefixStyle: TextStyle(color: subColor),
-            counterStyle: TextStyle(color: subColor),
-            helperStyle: TextStyle(color: subColor),
+            labelStyle: TextStyle(color: color, fontSize: fontSize),
+            hintStyle: TextStyle(color: subColor, fontSize: fontSize),
+            suffixStyle: TextStyle(color: subColor, fontSize: fontSize),
+            prefixStyle: TextStyle(color: subColor, fontSize: fontSize),
+            counterStyle: TextStyle(color: subColor, fontSize: fontSize),
+            helperStyle: TextStyle(color: subColor, fontSize: fontSize),
           ),
-          style: TextStyle(color: color),
+          style: TextStyle(color: color, fontSize: fontSize),
           obscureText: obscureText,
           readOnly: readOnly,
           onFieldSubmitted: (value) {
