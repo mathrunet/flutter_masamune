@@ -5,8 +5,8 @@ class FormItemDynamicLabeledDropdownField extends StatefulWidget
   const FormItemDynamicLabeledDropdownField(
       {this.controller,
       required this.items,
-      this.labelText = "",
-      this.lengthErrorText,
+      this.labelText,
+      this.lengthErrorText = "",
       this.prefix,
       this.suffix,
       this.onSaved,
@@ -26,7 +26,7 @@ class FormItemDynamicLabeledDropdownField extends StatefulWidget
       this.minLines = 1,
       this.onDeleteSuggestion,
       this.allowEmpty = false,
-      this.hintText = "",
+      this.hintText,
       this.readOnly = false,
       this.obscureText = false,
       this.counterText = ""});
@@ -36,7 +36,7 @@ class FormItemDynamicLabeledDropdownField extends StatefulWidget
   }
 
   final TextEditingController? controller;
-  final String labelText;
+  final String? labelText;
   final Map<String, String> items;
   final Widget? prefix;
   final Widget? suffix;
@@ -48,8 +48,8 @@ class FormItemDynamicLabeledDropdownField extends StatefulWidget
   final int? minLength;
   final int? maxLines;
   final int minLines;
-  final String hintText;
-  final String counterText;
+  final String? hintText;
+  final String? counterText;
   final String? lengthErrorText;
   final bool readOnly;
   final bool obscureText;

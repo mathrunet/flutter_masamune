@@ -8,8 +8,8 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
       this.maxLines = 1,
       this.minLines,
       this.backgroundColor,
-      this.hintText = "",
-      this.labelText = "",
+      this.hintText,
+      this.labelText,
       this.counterText = "",
       this.dense = false,
       this.enabled = true,
@@ -72,9 +72,9 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final int maxLines;
   final bool dense;
   final int? minLines;
-  final String hintText;
-  final String labelText;
-  final String counterText;
+  final String? hintText;
+  final String? labelText;
+  final String? counterText;
   final Widget? prefix;
   final Widget? suffix;
   final bool readOnly;

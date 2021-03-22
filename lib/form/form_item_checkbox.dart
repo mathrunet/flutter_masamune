@@ -16,7 +16,7 @@ class FormItemCheckbox extends FormField<bool> {
       this.checkColor,
       this.hintText,
       this.errorText,
-      this.labelText = "",
+      this.labelText,
       Key? key,
       void Function(bool? value)? onSaved,
       String? Function(bool? value)? validator,
@@ -44,7 +44,7 @@ class FormItemCheckbox extends FormField<bool> {
   final Color? color;
   final Color? backgroundColor;
   final Color? borderColor;
-  final String labelText;
+  final String? labelText;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   @override
@@ -142,7 +142,7 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     UIMarkdown(
-                      widget.labelText,
+                      widget.labelText ?? "",
                       color: widget.enabled
                           ? widget.color
                           : Theme.of(context).disabledColor,
@@ -171,7 +171,10 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
             widget.onChanged?.call(value);
             setState(() {});
           },
-          title: UIMarkdown(widget.labelText, color: widget.color),
+          title: UIMarkdown(
+            widget.labelText ?? "",
+            color: widget.color,
+          ),
           subtitle: errorText.isNotEmpty
               ? Text(
                   errorText ?? "",

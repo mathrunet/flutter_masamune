@@ -16,9 +16,9 @@ class FormItemChipsField extends FormField<String> {
     this.border,
     this.disabledBorder,
     this.subColor,
-    this.hintText = "",
+    this.hintText,
     this.counterText = "",
-    this.labelText = "",
+    this.labelText,
     this.lengthErrorText = "",
     this.prefix,
     this.suffix,
@@ -73,10 +73,10 @@ class FormItemChipsField extends FormField<String> {
   final Color? subColor;
   final Color? backgroundColor;
   final bool dense;
-  final String hintText;
-  final String labelText;
-  final String counterText;
-  final String lengthErrorText;
+  final String? hintText;
+  final String? labelText;
+  final String? counterText;
+  final String? lengthErrorText;
   final Widget? prefix;
   final Widget? suffix;
   final bool readOnly;

@@ -16,8 +16,8 @@ class FormItemFullScreen<T extends Object> extends FormField<T> {
     this.disabledBorder,
     this.color,
     this.subColor,
-    this.hintText = "",
-    this.labelText = "",
+    this.hintText,
+    this.labelText,
     Key? key,
     void Function(T? value)? onSaved,
     String? Function(T? value)? validator,
@@ -36,10 +36,10 @@ class FormItemFullScreen<T extends Object> extends FormField<T> {
 
   final TextEditingController? controller;
   final String path;
-  final String hintText;
+  final String? hintText;
   final bool dense;
-  final String labelText;
-  final String counterText;
+  final String? labelText;
+  final String? counterText;
   final T Function(String value)? parseFromString;
   final String Function(T? value)? parseToString;
   final Widget? prefix;

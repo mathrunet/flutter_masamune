@@ -13,7 +13,7 @@ class FormItemSimpleChips extends FormField<String> {
     this.dialogLabelText = "Tag",
     this.backgroundColor,
     this.dense = false,
-    this.labelText = "",
+    this.labelText,
     this.border,
     this.disabledBorder,
     this.separator = ",",
@@ -58,7 +58,7 @@ class FormItemSimpleChips extends FormField<String> {
   final String dialogLabelText;
   final Color? backgroundColor;
   final bool dense;
-  final String labelText;
+  final String? labelText;
   final InputBorder? border;
   final InputBorder? disabledBorder;
   @override

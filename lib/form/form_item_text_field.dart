@@ -14,8 +14,8 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.disabledBorder,
     this.backgroundColor,
     this.expands = false,
-    this.hintText = "",
-    this.labelText = "",
+    this.hintText,
+    this.labelText,
     this.lengthErrorText = "",
     this.prefix,
     this.suffix,
@@ -44,6 +44,8 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.color,
     this.fontSize,
     this.subColor,
+    this.height,
+    this.showErrorText = true,
   });
 
   final TextEditingController? controller;
@@ -51,12 +53,13 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final int? maxLength;
   final int? minLength;
   final int? maxLines;
+  final double? height;
   final int minLines;
   final bool dense;
-  final String hintText;
-  final String labelText;
-  final String counterText;
-  final String lengthErrorText;
+  final String? hintText;
+  final String? labelText;
+  final String? counterText;
+  final String? lengthErrorText;
   final bool enabled;
   final Widget? prefix;
   final Widget? suffix;
@@ -86,6 +89,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final bool? showCursor;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
+  final bool showErrorText;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String? value)? onSubmitted;
 
@@ -95,7 +99,8 @@ class FormItemTextField extends StatelessWidget implements FormItem {
       items: suggestion,
       onDeleteSuggestion: onDeleteSuggestion,
       controller: controller,
-      builder: (context, controller, onTap) => Padding(
+      builder: (context, controller, onTap) => Container(
+        height: height,
         padding: padding ??
             (dense
                 ? const EdgeInsets.all(0)
@@ -176,21 +181,16 @@ class FormItemTextField extends StatelessWidget implements FormItem {
               : null,
           validator: (value) {
             if (!allowEmpty && value.isEmpty) {
-              return hintText;
+              return showErrorText ? hintText : "";
             }
             if (!allowEmpty &&
                 lengthErrorText.isNotEmpty &&
                 minLength.def(0) > value.length) {
-              return lengthErrorText;
+              return showErrorText ? lengthErrorText : "";
             }
             return validator?.call(value);
           },
-          onChanged: (value) {
-            if (!allowEmpty && value.isEmpty) {
-              return;
-            }
-            onChanged?.call(value);
-          },
+          onChanged: onChanged,
           onSaved: (value) {
             if (!allowEmpty && value.isEmpty) {
               return;

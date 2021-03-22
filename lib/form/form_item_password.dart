@@ -8,8 +8,8 @@ class FormItemPassword extends StatefulWidget implements FormItem {
       this.minLength,
       this.disabledBorder,
       this.backgroundColor,
-      this.hintText = "",
-      this.labelText = "",
+      this.hintText,
+      this.labelText,
       this.confirmLabelText = "",
       this.lengthErrorText = "",
       this.prefix,
@@ -26,12 +26,12 @@ class FormItemPassword extends StatefulWidget implements FormItem {
       this.color,
       this.subColor});
 
-  final String hintText;
+  final String? hintText;
   final bool dense;
-  final String labelText;
-  final String confirmLabelText;
-  final String lengthErrorText;
-  final String counterText;
+  final String? labelText;
+  final String? confirmLabelText;
+  final String? lengthErrorText;
+  final String? counterText;
   final Widget? prefix;
   final int? maxLength;
   final int? minLength;
@@ -46,7 +46,7 @@ class FormItemPassword extends StatefulWidget implements FormItem {
   final void Function(String? value)? onSaved;
   final String? Function(String? value)? validator;
   final EdgeInsetsGeometry padding;
-  final String notMatchText;
+  final String? notMatchText;
   final Color? color;
   final Color? subColor;
 

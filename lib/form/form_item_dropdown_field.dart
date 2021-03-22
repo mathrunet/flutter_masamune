@@ -3,14 +3,14 @@ part of masamune.form;
 class FormItemDropdownField extends StatelessWidget implements FormItem {
   const FormItemDropdownField({
     this.controller,
-    this.hintText = "",
+    this.hintText,
     required this.items,
     this.enabled = true,
     this.border,
     this.padding = const EdgeInsets.symmetric(vertical: 10),
     this.backgroundColor,
     this.dense = false,
-    this.labelText = "",
+    this.labelText,
     this.contentPadding = const EdgeInsets.all(17.5),
     this.prefix,
     this.allowEmpty = false,
@@ -21,9 +21,9 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
   });
 
   final TextEditingController? controller;
-  final String hintText;
-  final String labelText;
-  final String counterText;
+  final String? hintText;
+  final String? labelText;
+  final String? counterText;
   final Map<String, String> items;
   final Widget? prefix;
   final Widget? suffix;
@@ -79,9 +79,7 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
           }
           return null;
         },
-        onChanged: (value) {
-          onChanged?.call(value);
-        },
+        onChanged: onChanged,
         onSaved: (value) {
           if (!allowEmpty && value.isEmpty) {
             return;
