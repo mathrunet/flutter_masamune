@@ -21,11 +21,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:model_notifier/model_notifier.dart';
 import 'package:katana_routing/katana_routing.dart';
 // ignore: import_of_legacy_library_into_null_safe
-// import 'package:selectable_autolink_text/selectable_autolink_text.dart';
-// ignore: import_of_legacy_library_into_null_safe
 // import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
-// ignore: import_of_legacy_library_into_null_safe
-// import 'package:loading_animations/loading_animations.dart';
+import 'package:loading_animations/loading_animations.dart';
+import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 export 'package:masamune/form/form.dart';
 export 'package:masamune/list/list.dart';
@@ -54,7 +52,6 @@ part 'widget/dialog/ui_future.dart';
 part 'widget/component/empty.dart';
 part 'widget/component/video.dart';
 part 'widget/component/ui_markdown.dart';
-part 'widget/component/ui_text.dart';
 part 'widget/component/space.dart';
 part 'widget/component/divid.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';

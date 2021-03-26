@@ -112,15 +112,15 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return Center(
-              child: context.widgetTheme.loadingIndicator?.call(
-                    context,
-                    widget.indicatorColor ?? context.theme.disabledColor,
-                  ) ??
-                  // LoadingBouncingGrid.square(
-                  //   backgroundColor:
-                  //       widget.indicatorColor ?? context.theme.disabledColor,
-                  // ),
-                  const CircularProgressIndicator());
+            child: context.widgetTheme.loadingIndicator?.call(
+                  context,
+                  widget.indicatorColor ?? context.theme.disabledColor,
+                ) ??
+                LoadingBouncingGrid.square(
+                  backgroundColor:
+                      widget.indicatorColor ?? context.theme.disabledColor,
+                ),
+          );
         } else {
           if (snapshot.data.isEmpty) {
             if (widget.emptyWidget != null) {

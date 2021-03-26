@@ -13,7 +13,7 @@ abstract class UIBoot extends PageHookWidget {
   /// Abstract class for creating boot pages.
   ///
   /// [key]: Widget key.
-  UIBoot({Key? key}) : super(key: key);
+  const UIBoot({Key? key}) : super(key: key);
 
   /// Indicator color.
   ///
@@ -132,6 +132,8 @@ abstract class UIBoot extends PageHookWidget {
     //     },
     //   ),
     // );
-    return const Empty();
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }
