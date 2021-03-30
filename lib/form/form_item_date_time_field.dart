@@ -130,8 +130,6 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
     }
     if (widget.initialDateTime != null) {
       widget.controller?.text = widget.format.format(widget.initialDateTime!);
-    } else {
-      widget.controller?.text = "";
     }
     _controller = TextEditingController(text: widget.controller?.text);
     _controller?.addListener(_listenerInside);
@@ -496,7 +494,7 @@ class _DateTimeField extends FormField<DateTime> {
                 textAlign: textAlign,
                 textCapitalization: textCapitalization,
                 autofocus: autofocus,
-                readOnly: readOnly,
+                readOnly: true,
                 showCursor: showCursor,
                 obscureText: obscureText,
                 autocorrect: autocorrect,
@@ -677,6 +675,9 @@ class _DateTimeFieldState extends FormFieldState<DateTime> {
   DateTime? parse(String? text) => _DateTimeField.tryParse(text, widget.format);
 
   Future<void> requestUpdate() async {
+    if (widget.readOnly) {
+      return;
+    }
     if (!isShowingDialog) {
       isShowingDialog = true;
       final newValue =
@@ -689,7 +690,7 @@ class _DateTimeFieldState extends FormFieldState<DateTime> {
   }
 
   void _handleFocusChanged() {
-    if (hasFocus && !hadFocus && (!hasText || widget.readOnly)) {
+    if (hasFocus && !hadFocus) {
       hadFocus = hasFocus;
       _hideKeyboard();
       requestUpdate();
@@ -703,6 +704,9 @@ class _DateTimeFieldState extends FormFieldState<DateTime> {
   }
 
   Future<void> clear() async {
+    if (widget.readOnly) {
+      return;
+    }
     _hideKeyboard();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       setState(() => _effectiveController?.clear());
@@ -710,5 +714,7 @@ class _DateTimeFieldState extends FormFieldState<DateTime> {
   }
 
   bool shouldShowClearIcon([InputDecoration? decoration]) =>
-      (hasText || hasFocus) && decoration?.suffixIcon == null;
+      (hasText || hasFocus) &&
+      decoration?.suffixIcon == null &&
+      !widget.readOnly;
 }
