@@ -18,11 +18,16 @@ mixin UIPageFormMixin on PageHookWidget {
   /// Returns True if the validation is successful.
   ///
   /// If you enter a value in [initial], you can set it to the initial value.
+  ///
+  /// If [autoUnfocus] is `true`, the focus will be removed automatically.
   bool validate(
     BuildContext context, {
+    bool autoUnfocus = true,
     Map<String, dynamic> initial = const {},
   }) {
-    context.unfocus();
+    if (autoUnfocus) {
+      context.unfocus();
+    }
     if (formKey.currentState == null) {
       return false;
     }

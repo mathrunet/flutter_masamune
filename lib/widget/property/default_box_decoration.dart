@@ -15,10 +15,12 @@ class DefaultBoxDecoration extends BoxDecoration {
     double width = 1,
   }) : super(
           color: backgroundColor,
-          border: Border.all(
-            color: color ?? Colors.black,
-            width: width,
-          ),
+          border: width <= 0 || color == Colors.transparent
+              ? null
+              : Border.all(
+                  color: color ?? Colors.black,
+                  width: width,
+                ),
           borderRadius: BorderRadius.circular(radius),
         );
 }

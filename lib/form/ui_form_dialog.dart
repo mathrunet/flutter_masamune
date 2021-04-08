@@ -23,7 +23,7 @@ class UIFormDialog {
     required List<Widget> Function(
             BuildContext context, Map<String, dynamic> form)
         builder,
-    BorderRadiusGeometry? submitBorderRadius,
+    double submitBorderRadius = 8.0,
     Color? submitBackgroundColor,
     double submitHeight = 80,
     required String title,

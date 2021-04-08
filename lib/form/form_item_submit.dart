@@ -11,9 +11,12 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     this.fontSize = 18,
     this.dense = false,
     this.enabled = true,
-    this.borderRadius,
     this.icon,
+    this.style,
+    this.borderRadius = 8.0,
   });
+  final double borderRadius;
+  final ButtonStyle? style;
   final String label;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
@@ -24,7 +27,6 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
   final double height;
   final double fontSize;
   final EdgeInsetsGeometry padding;
-  final BorderRadiusGeometry? borderRadius;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,18 +34,13 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
       padding: dense ? const EdgeInsets.all(0) : padding,
       child: icon != null
           ? TextButton.icon(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(10),
-                backgroundColor: enabled
-                    ? (backgroundColor ?? context.theme.primaryColor)
-                    : context.theme.disabledColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: borderRadius ??
-                      BorderRadius.all(
-                        Radius.circular(dense ? 0 : 8.0),
-                      ),
-                ),
-              ),
+              style: style ??
+                  DefaultTextButtonStyle(
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor:
+                          backgroundColor ?? context.theme.primaryColor,
+                      disabledBackgroundColor: context.theme.disabledColor,
+                      radius: dense ? 0 : borderRadius),
               icon: Icon(icon,
                   size: fontSize * 1.2,
                   color: color ?? context.theme.backgroundColor),
@@ -53,18 +50,13 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
                       fontSize: fontSize)),
               onPressed: enabled ? onPressed : null)
           : TextButton(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(10),
-                backgroundColor: enabled
-                    ? (backgroundColor ?? context.theme.primaryColor)
-                    : context.theme.disabledColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: borderRadius ??
-                      BorderRadius.all(
-                        Radius.circular(dense ? 0 : 8.0),
-                      ),
-                ),
-              ),
+              style: style ??
+                  DefaultTextButtonStyle(
+                      padding: const EdgeInsets.all(10),
+                      backgroundColor:
+                          backgroundColor ?? context.theme.primaryColor,
+                      disabledBackgroundColor: context.theme.disabledColor,
+                      radius: dense ? 0 : borderRadius),
               child: Text(label,
                   style: TextStyle(
                       color: color ?? context.theme.backgroundColor,

@@ -45,6 +45,21 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
       _DateTimeTextFormField.formatTime(millisecondsSinceEpoch,
           format: format, defaultValue: defaultValue);
 
+  /// Converts a string with only date and time information to DateTime.
+  static DateTime? tryParseFromDate(String formattedString,
+          {DateTime? defaultValue,
+          String format = r"([0-9]+)/([0-9]+)/([0-9]+)"}) =>
+      _DateTimeTextFormField.tryParseFromDate(formattedString,
+          defaultValue: defaultValue, format: format);
+
+  /// Converts a string with only date and time information to DateTime.
+  static DateTime? tryParseFromDateTime(String formattedString,
+          {DateTime? defaultValue,
+          String format =
+              r"([0-9]+)/([0-9]+)/([0-9]+)(\([^\)]+\))? ([0-9]+):([0-9]+):([0-9]+)"}) =>
+      _DateTimeTextFormField.tryParseFromDateTime(formattedString,
+          defaultValue: defaultValue, format: format);
+
   /// Calculate DateTime from [millisecondsSinceEpoch].
   static DateTime value(int millisecondsSinceEpoch) =>
       _DateTimeTextFormField.value(millisecondsSinceEpoch);
@@ -289,6 +304,56 @@ class _DateTimeTextFormField extends StatelessWidget {
       return defaultValue;
     }
     return DateFormat(format).format(value(millisecondsSinceEpoch));
+  }
+
+  /// Converts a string with only date and time information to DateTime.
+  static DateTime? tryParseFromDate(String formattedString,
+      {DateTime? defaultValue, String format = r"([0-9]+)/([0-9]+)/([0-9]+)"}) {
+    if (formattedString.isEmpty || format.isEmpty) {
+      return defaultValue;
+    }
+    final regex = RegExp(format);
+    final match = regex.firstMatch(formattedString);
+    if (match == null) {
+      return defaultValue;
+    }
+    final year = int.tryParse(match.group(1) ?? "");
+    final month = int.tryParse(match.group(2) ?? "");
+    final day = int.tryParse(match.group(3) ?? "");
+    if (year == null || month == null || day == null) {
+      return defaultValue;
+    }
+    return DateTime(year, month, day);
+  }
+
+  /// Converts a string with only date and time information to DateTime.
+  static DateTime? tryParseFromDateTime(String formattedString,
+      {DateTime? defaultValue,
+      String format =
+          r"([0-9]+)/([0-9]+)/([0-9]+)(\([^\)]+\))? ([0-9]+):([0-9]+):([0-9]+)"}) {
+    if (formattedString.isEmpty || format.isEmpty) {
+      return defaultValue;
+    }
+    final regex = RegExp(format);
+    final match = regex.firstMatch(formattedString);
+    if (match == null) {
+      return defaultValue;
+    }
+    final year = int.tryParse(match.group(1) ?? "");
+    final month = int.tryParse(match.group(2) ?? "");
+    final day = int.tryParse(match.group(3) ?? "");
+    final hour = int.tryParse(match.group(5) ?? "");
+    final minute = int.tryParse(match.group(6) ?? "");
+    final second = int.tryParse(match.group(7) ?? "");
+    if (year == null ||
+        month == null ||
+        day == null ||
+        hour == null ||
+        minute == null ||
+        second == null) {
+      return defaultValue;
+    }
+    return DateTime(year, month, day, hour, minute, second);
   }
 
   /// Calculate DateTime from [millisecondsSinceEpoch].

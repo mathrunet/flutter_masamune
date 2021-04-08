@@ -61,6 +61,7 @@ part 'widget/builder/search_builder.dart';
 part 'widget/builder/ui_animated_builder.dart';
 
 part 'widget/property/default_box_decoration.dart';
+part 'widget/property/default_text_button_style.dart';
 part 'widget/property/network_or_asset.dart';
 
 part 'widget/drawer/account_drawer_header.dart';
