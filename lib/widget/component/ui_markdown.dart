@@ -17,6 +17,7 @@ class UIMarkdown extends StatelessWidget {
     this.checkboxBuilder,
     this.color,
     this.fontSize,
+    this.linkTextStyle,
   });
 
   final String text;
@@ -26,6 +27,7 @@ class UIMarkdown extends StatelessWidget {
   final MarkdownCheckboxBuilder? checkboxBuilder;
   final Color? color;
   final double? fontSize;
+  final TextStyle? linkTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,18 @@ class UIMarkdown extends StatelessWidget {
       ),
       child: MarkdownBody(
         data: text,
+        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context).copyWith(
+                textTheme: Theme.of(context).textTheme.apply(
+                    fontSizeDelta: fontSize == null
+                        ? 0.0
+                        : (fontSize! -
+                            (Theme.of(context).textTheme.bodyText1?.fontSize ??
+                                12)),
+                    bodyColor: color,
+                    displayColor: color)))
+            .copyWith(
+          a: linkTextStyle,
+        ),
         selectable: selectable,
         imageBuilder: (uri, title, alt) {
           return Image(
