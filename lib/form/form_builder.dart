@@ -23,24 +23,28 @@ class FormBuilder extends StatelessWidget {
       case FormBuilderType.fixed:
         return Padding(
           padding: padding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: children,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: children,
+            ),
           ),
         );
       case FormBuilderType.center:
         return ConstrainedBox(
           constraints: const BoxConstraints.expand(),
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: padding,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: children,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: padding,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                ),
               ),
             ),
           ),
