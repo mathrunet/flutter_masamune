@@ -23,13 +23,11 @@ class FormBuilder extends StatelessWidget {
       case FormBuilderType.fixed:
         return Padding(
           padding: padding,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: children,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: children,
           ),
         );
       case FormBuilderType.center:

@@ -20,6 +20,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:model_notifier/model_notifier.dart';
 import 'package:katana_routing/katana_routing.dart';
+import 'package:katana_module/katana_module.dart';
 // ignore: import_of_legacy_library_into_null_safe
 // import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:loading_animations/loading_animations.dart';
@@ -29,6 +30,7 @@ export 'package:masamune/form/form.dart';
 export 'package:masamune/list/list.dart';
 export 'package:katana/katana.dart';
 export 'package:katana_routing/katana_routing.dart';
+export 'package:katana_module/katana_module.dart';
 export 'package:model_notifier/model_notifier.dart';
 export 'package:riverpod/riverpod.dart';
 export 'package:flutter_hooks/flutter_hooks.dart';
@@ -72,3 +74,5 @@ part 'widget/mixin/ui_page_uuid_mixin.dart';
 part 'widget/scaffold/tab_scaffold.dart';
 
 part 'template/ui_boot.dart';
+
+part "adapter/local_module_adapter.dart";
