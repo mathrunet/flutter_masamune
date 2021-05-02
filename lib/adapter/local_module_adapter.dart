@@ -1,35 +1,37 @@
 part of masamune;
 
 @immutable
-class LocalModuleAdapter extends ModuleAdapter<
-    LocalDynamicDocumentModel,
-    LocalDynamicCollectionModel,
-    ModelProvider<LocalDynamicDocumentModel>,
-    ModelProvider<LocalDynamicCollectionModel>> {
+class LocalModuleAdapter extends ModuleAdapter {
   const LocalModuleAdapter();
 
   @override
-  T collectionProvider<T extends ModelProvider<LocalDynamicCollectionModel>>(
+  ModelProvider<T> collectionProvider<T extends DynamicCollectionModel>(
           String path) =>
-      localCollectionProvider(path) as T;
+      localCollectionProvider(path) as ModelProvider<T>;
 
   @override
-  T documentProvider<T extends ModelProvider<LocalDynamicDocumentModel>>(
+  ModelProvider<T> documentProvider<T extends DynamicDocumentModel>(
           String path) =>
-      localDocumentProvider(path) as T;
+      localDocumentProvider(path) as ModelProvider<T>;
 
   @override
-  LocalDynamicDocumentModel loadDocument(LocalDynamicDocumentModel document) {
-    return document..loadOnce();
+  T loadDocument<T extends DynamicDocumentModel>(T document) {
+    if (document is LocalDynamicDocumentModel) {
+      document.loadOnce();
+    }
+    return document;
   }
 
   @override
-  LocalDynamicCollectionModel loadCollection(
-      LocalDynamicCollectionModel collection) {
-    return collection..loadOnce();
+  T loadCollection<T extends DynamicCollectionModel>(T collection) {
+    if (collection is LocalDynamicCollectionModel) {
+      collection.loadOnce();
+    }
+    return collection;
   }
 
   @override
+  // ignore: avoid_field_initializers_in_const_classes
   final bool enabledAuth = false;
 
   @override
@@ -63,4 +65,39 @@ class LocalModuleAdapter extends ModuleAdapter<
   Future<void> tryRestoreAuth() {
     throw UnimplementedError("The authentication function is not implemented.");
   }
+
+  @override
+  String get email {
+    throw UnimplementedError("The authentication function is not implemented.");
+  }
+
+  @override
+  // ignore: avoid_field_initializers_in_const_classes
+  final bool isAnonymously = true;
+
+  @override
+  // ignore: avoid_field_initializers_in_const_classes
+  final bool isSignedIn = true;
+
+  @override
+  // ignore: avoid_field_initializers_in_const_classes
+  final bool isVerified = true;
+
+  @override
+  String get name {
+    throw UnimplementedError("The authentication function is not implemented.");
+  }
+
+  @override
+  String get phoneNumber {
+    throw UnimplementedError("The authentication function is not implemented.");
+  }
+
+  @override
+  String get photoURL {
+    throw UnimplementedError("The authentication function is not implemented.");
+  }
+
+  @override
+  String get userId => Config.uid;
 }

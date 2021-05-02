@@ -6,12 +6,14 @@ class FormBuilder extends StatelessWidget {
     required this.children,
     this.padding = const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
     this.type = FormBuilderType.listView,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
   }) : _key = key;
 
   final GlobalKey<FormState> _key;
   final List<Widget> children;
   final FormBuilderType type;
   final EdgeInsetsGeometry padding;
+  final CrossAxisAlignment crossAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class FormBuilder extends StatelessWidget {
         return Padding(
           padding: padding,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: crossAxisAlignment,
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: children,
@@ -40,7 +42,7 @@ class FormBuilder extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: crossAxisAlignment,
                   children: children,
                 ),
               ),
@@ -53,7 +55,7 @@ class FormBuilder extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: crossAxisAlignment,
             children: children,
           ),
         );
