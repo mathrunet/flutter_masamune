@@ -12,7 +12,7 @@ class DefaultBoxDecoration extends BoxDecoration {
     Color? color,
     Color? backgroundColor,
     double radius = 6.0,
-    double width = 1,
+    double width = 0,
   }) : super(
           color: backgroundColor,
           border: width <= 0 || color == Colors.transparent

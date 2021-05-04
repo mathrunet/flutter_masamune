@@ -211,7 +211,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.2"
+    version: "0.13.3"
   http_parser:
     dependency: transitive
     description:
@@ -260,7 +260,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0+12"
+    version: "0.8.0+13"
   katana_routing:
     dependency: "direct main"
     description:
@@ -316,7 +316,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.1+18"
+    version: "0.8.1+20"
   octo_image:
     dependency: transitive
     description:
@@ -401,6 +401,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.1"
+  responsive_grid:
+    dependency: "direct main"
+    description:
+      name: responsive_grid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   riverpod:
     dependency: "direct main"
     description:
