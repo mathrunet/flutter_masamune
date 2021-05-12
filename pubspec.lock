@@ -152,7 +152,7 @@ packages:
       name: flutter_cache_manager
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   flutter_hooks:
     dependency: "direct main"
     description:
@@ -253,21 +253,21 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.1+21"
+    version: "0.8.1+23"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0+13"
+    version: "0.8.0+21"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.1+13"
+    version: "0.8.1+14"
   loading_animations:
     dependency: "direct main"
     description:
@@ -282,13 +282,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  masamune_test:
-    dependency: "direct dev"
-    description:
-      name: masamune_test
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
   matcher:
     dependency: transitive
     description:
@@ -421,7 +414,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.26.0"
+    version: "0.27.0"
   share:
     dependency: "direct main"
     description:
@@ -489,7 +482,7 @@ packages:
       name: sprintf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "6.0.0"
   sqflite:
     dependency: transitive
     description:

@@ -1,6 +1,6 @@
 name: masamune
 description: Package that supports Flutter states and their transitions using the Model Nofifier package and the Katana Routing package.
-version: 0.8.1+35
+version: 0.8.1+41
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune
 
@@ -38,7 +38,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   # Masamune
-  masamune_test: ^0.5.0
+  # masamune_test: ^0.5.0
   
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

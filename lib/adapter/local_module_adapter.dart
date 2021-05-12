@@ -31,6 +31,26 @@ class LocalModuleAdapter extends ModuleAdapter {
   }
 
   @override
+  Future<void> deleteDocument<T extends DynamicDocumentModel>(
+      T document) async {
+    if (document is LocalDynamicDocumentModel) {
+      await document.delete();
+    }
+  }
+
+  @override
+  Future<void> saveDocument<T extends DynamicDocumentModel>(T document) async {
+    if (document is LocalDynamicDocumentModel) {
+      await document.save();
+    }
+  }
+
+  @override
+  Future<String> uploadMedia(String path) {
+    throw UnimplementedError("The function is not implemented.");
+  }
+
+  @override
   // ignore: avoid_field_initializers_in_const_classes
   final bool enabledAuth = false;
 

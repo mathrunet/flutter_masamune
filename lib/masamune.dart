@@ -79,3 +79,4 @@ part 'template/ui_boot.dart';
 
 part "adapter/local_module_adapter.dart";
 part "adapter/mock_module_adapter.dart";
+part "adapter/multi_platform_adapter.dart";

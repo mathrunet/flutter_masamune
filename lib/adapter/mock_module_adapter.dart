@@ -60,6 +60,22 @@ class MockModuleAdapter extends ModuleAdapter {
   }
 
   @override
+  Future<void> deleteDocument<T extends DynamicDocumentModel>(
+      T document) async {
+    print("The function is not implemented.");
+  }
+
+  @override
+  Future<void> saveDocument<T extends DynamicDocumentModel>(T document) async {
+    print("The function is not implemented.");
+  }
+
+  @override
+  Future<String> uploadMedia(String path) {
+    throw UnimplementedError("The function is not implemented.");
+  }
+
+  @override
   final String userId;
 
   @override
