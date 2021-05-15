@@ -15,9 +15,11 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
       this.enabled = true,
       this.prefix,
       this.suffix,
+      this.errorText,
       this.allowEmpty = false,
       this.readOnly = false,
       this.obscureText = false,
+      this.contentPadding,
       this.type = FormItemDateTimeFieldPickerType.dateTime,
       this.initialDateTime,
       DateFormat? format,
@@ -88,6 +90,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final bool dense;
   final int? minLines;
   final String? hintText;
+  final String? errorText;
   final String? labelText;
   final String? counterText;
   final Widget? prefix;
@@ -99,6 +102,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final DateTime? initialDateTime;
   final DateFormat? _format;
   final bool enabled;
+  final EdgeInsetsGeometry? contentPadding;
   final FormItemDateTimeFieldPickerType type;
   final Future<DateTime> Function(BuildContext, DateTime)? _onShowPicker;
   final void Function(DateTime? value)? onSaved;
@@ -175,61 +179,63 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: widget.dense
-            ? const EdgeInsets.all(0)
-            : const EdgeInsets.symmetric(vertical: 10),
-        child: _DateTimeTextFormField(
-            controller: _controller,
-            keyboardType: TextInputType.text,
-            initialValue: widget.initialDateTime,
-            maxLength: widget.maxLength,
-            maxLines: widget.maxLines,
-            enabled: widget.enabled,
-            minLines: widget.minLines,
-            decoration: InputDecoration(
-              fillColor: widget.backgroundColor,
-              filled: widget.backgroundColor != null,
-              border: OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
-              enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
-              disabledBorder: OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
-              errorBorder: OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
-              focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
-              focusedErrorBorder: OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
-              hintText: widget.hintText,
-              counterText: widget.counterText,
-              labelText: widget.labelText,
-              prefix: widget.prefix,
-              suffix: widget.suffix,
-            ),
-            style: Config.isIOS ? const TextStyle(fontSize: 13) : null,
-            obscureText: widget.obscureText,
-            readOnly: widget.readOnly,
-            format: widget.format,
-            validator: (value) {
-              if (!widget.allowEmpty && value == null) {
-                return widget.hintText;
-              }
-              return null;
-            },
-            onSaved: (value) {
-              if (!widget.allowEmpty && value == null) {
-                return;
-              }
-              widget.onSaved?.call(value!);
-            },
-            onShowPicker: widget.onShowPicker));
+      padding: widget.dense
+          ? const EdgeInsets.symmetric(vertical: 10, horizontal: 6)
+          : const EdgeInsets.symmetric(vertical: 10),
+      child: _DateTimeTextFormField(
+        controller: _controller,
+        keyboardType: TextInputType.text,
+        initialValue: widget.initialDateTime,
+        maxLength: widget.maxLength,
+        maxLines: widget.maxLines,
+        enabled: widget.enabled,
+        minLines: widget.minLines,
+        decoration: InputDecoration(
+          fillColor: widget.backgroundColor,
+          contentPadding: widget.contentPadding ??
+              (widget.dense
+                  ? const EdgeInsets.symmetric(horizontal: 10, vertical: 0)
+                  : null),
+          filled: widget.backgroundColor != null,
+          border: OutlineInputBorder(
+              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+          enabledBorder: OutlineInputBorder(
+              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+          disabledBorder: OutlineInputBorder(
+              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+          errorBorder: OutlineInputBorder(
+              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+          focusedBorder: OutlineInputBorder(
+              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+          hintText: widget.hintText,
+          counterText: widget.counterText,
+          labelText: widget.labelText,
+          prefix: widget.prefix,
+          suffix: widget.suffix,
+        ),
+        style: Config.isIOS ? const TextStyle(fontSize: 13) : null,
+        obscureText: widget.obscureText,
+        readOnly: widget.readOnly,
+        format: widget.format,
+        validator: (value) {
+          if (!widget.allowEmpty &&
+              widget.errorText.isNotEmpty &&
+              value == null) {
+            return widget.errorText;
+          }
+          return null;
+        },
+        onSaved: (value) {
+          if (!widget.allowEmpty && value == null) {
+            return;
+          }
+          widget.onSaved?.call(value!);
+        },
+        onShowPicker: widget.onShowPicker,
+      ),
+    );
   }
 }
 
@@ -663,6 +669,13 @@ class _DateTimeFieldState extends FormFieldState<DateTime> {
       _controller = TextEditingController(
           text: format(widget.initialValue ?? DateTime.now()));
       _controller?.addListener(_handleControllerChanged);
+    }
+    if (value == null) {
+      setValue(
+        _DateTimeField.tryParse(_controller?.text, widget.format) ??
+            widget.initialValue ??
+            DateTime.now(),
+      );
     }
     if (widget.focusNode == null) {
       _focusNode = FocusNode();

@@ -25,17 +25,12 @@ class MockModuleAdapter extends ModuleAdapter {
       T collection) {
     if (collection is RuntimeDynamicCollectionModel && collection.isEmpty) {
       final runtime = collection;
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-        if (runtime.isNotEmpty) {
-          return;
-        }
-        final path = runtime.path.trimString("/");
-        final match = RegExp(r"^" + path + r"/[^/]+$");
-        data.entries.where((e) => match.hasMatch(e.key)).forEach((element) {
-          final doc = runtime.create(path.split("/").last);
-          doc.value = element.value;
-          runtime.add(doc);
-        });
+      final path = runtime.path.trimQuery().trimString("/");
+      final match = RegExp(r"^" + path + r"/[^/]+$");
+      data.entries.where((e) => match.hasMatch(e.key)).forEach((element) {
+        final doc = runtime.create(path.split("/").last);
+        doc.value = element.value;
+        runtime.add(doc);
       });
     }
     return collection;
@@ -45,16 +40,13 @@ class MockModuleAdapter extends ModuleAdapter {
   T loadDocument<T extends DynamicDocumentModel>(T document) {
     if (document is RuntimeDynamicDocumentModel && document.isEmpty) {
       final runtime = document;
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-        if (runtime.isNotEmpty) {
-          return;
+      final path = runtime.path.trimQuery().trimString("/");
+      final doc = data.entries.firstWhereOrNull((item) => item.key == path);
+      if (doc != null) {
+        for (final tmp in doc.value.entries) {
+          runtime.value[tmp.key] = tmp.value;
         }
-        final path = runtime.path.trimString("/");
-        final doc = data.entries.firstWhereOrNull((item) => item.key == path);
-        if (doc != null) {
-          runtime.value = doc.value;
-        }
-      });
+      }
     }
     return document;
   }

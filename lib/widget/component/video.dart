@@ -23,6 +23,7 @@ class Video extends StatefulWidget {
       this.fit,
       this.autoplay = false,
       this.mute = false,
+      this.iconSize = 64,
       this.controllable = false})
       : _type = _VideoType.asset,
         file = null,
@@ -46,6 +47,7 @@ class Video extends StatefulWidget {
       this.width,
       this.height,
       this.fit,
+      this.iconSize = 64,
       this.autoplay = false,
       this.mute = false,
       this.controllable = false})
@@ -69,6 +71,7 @@ class Video extends StatefulWidget {
       this.width,
       this.height,
       this.fit,
+      this.iconSize = 64,
       this.autoplay = false,
       this.mute = false,
       this.controllable = false})
@@ -104,6 +107,9 @@ class Video extends StatefulWidget {
   /// True to mute.
   final bool mute;
   final _VideoType _type;
+
+  /// Icon size.
+  final double iconSize;
 
   @override
   _VideoState createState() => _VideoState();
@@ -206,6 +212,7 @@ class _VideoState extends State<Video> {
         if (widget.controllable)
           Center(
             child: IconButton(
+              iconSize: widget.iconSize,
               icon: Icon(
                   _controller!.value.isPlaying
                       ? Icons.pause_circle_filled

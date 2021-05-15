@@ -45,7 +45,9 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.fontSize,
     this.subColor,
     this.height,
-    this.showErrorText = true,
+    this.errorText,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical,
   });
 
   final TextEditingController? controller;
@@ -57,6 +59,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final int minLines;
   final bool dense;
   final String? hintText;
+  final String? errorText;
   final String? labelText;
   final String? counterText;
   final String? lengthErrorText;
@@ -89,9 +92,10 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final bool? showCursor;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
-  final bool showErrorText;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String? value)? onSubmitted;
+  final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +107,13 @@ class FormItemTextField extends StatelessWidget implements FormItem {
         height: height,
         padding: padding ??
             (dense
-                ? const EdgeInsets.all(0)
+                ? const EdgeInsets.symmetric(vertical: 20)
                 : const EdgeInsets.symmetric(vertical: 10)),
         child: TextFormField(
           inputFormatters: inputFormatters,
           focusNode: focusNode,
+          textAlign: textAlign,
+          textAlignVertical: textAlignVertical,
           showCursor: showCursor,
           enabled: enabled,
           controller: controller,
@@ -117,7 +123,10 @@ class FormItemTextField extends StatelessWidget implements FormItem {
           minLines: obscureText ? 1 : (expands ? null : minLines),
           expands: !obscureText && expands,
           decoration: InputDecoration(
-            contentPadding: contentPadding,
+            contentPadding: contentPadding ??
+                (dense
+                    ? const EdgeInsets.symmetric(horizontal: 16, vertical: 0)
+                    : null),
             fillColor: backgroundColor,
             filled: backgroundColor != null,
             isDense: dense,
@@ -180,13 +189,13 @@ class FormItemTextField extends StatelessWidget implements FormItem {
                 }
               : null,
           validator: (value) {
-            if (!allowEmpty && value.isEmpty) {
-              return showErrorText ? hintText : "";
+            if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
+              return errorText;
             }
             if (!allowEmpty &&
                 lengthErrorText.isNotEmpty &&
                 minLength.def(0) > value.length) {
-              return showErrorText ? lengthErrorText : "";
+              return lengthErrorText;
             }
             return validator?.call(value);
           },
