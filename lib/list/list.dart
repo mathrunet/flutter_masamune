@@ -27,6 +27,7 @@ part 'list_item.dart';
 part 'list_text.dart';
 part 'message_box.dart';
 part 'multi_media_view.dart';
+part 'divid_headline.dart';
 part 'ranking_list_tile.dart';
 part 'right_button.dart';
 part 'small_gallery.dart';
