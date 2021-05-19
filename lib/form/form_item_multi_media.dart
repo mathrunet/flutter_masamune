@@ -66,8 +66,8 @@ class FormItemMultiMedia extends FormField<String> {
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
-            child: Video.file(
-              data.file,
+            child: Video(
+              FileVideoProvider(data.file!),
               fit: BoxFit.cover,
               height: size.height,
               width: size.width,
@@ -82,8 +82,8 @@ class FormItemMultiMedia extends FormField<String> {
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
-            child: Video.network(
-              data.url!,
+            child: Video(
+              NetworkVideoProvider(data.url!),
               fit: BoxFit.cover,
               height: size.height,
               width: size.width,

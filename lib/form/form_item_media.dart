@@ -1,20 +1,20 @@
 part of masamune.form;
 
-/// Form item for uploading an image.
-class FormItemImage extends FormField<String> {
-  /// Form item for uploading an image.
+/// Form item for uploading an image and video.
+class FormItemMedia extends FormField<String> {
+  /// Form item for uploading an image and video.
   ///
   /// [key]: Key.
   /// [onTap]: Processing when tapped.
   /// Finally save the file using onUpdate.
   /// [controller]: Text ediging controller.
-  /// [color]: The overall color if you have not uploaded an image.
-  /// [icon]: Icon if you have not uploaded an image.
+  /// [color]: The overall color if you have not uploaded an image and video.
+  /// [icon]: Icon if you have not uploaded an image and video.
   /// [onSaved]: Processing when saved.
   /// [validator]: Processing when validated.
   /// [enabled]: True to enable.
   /// [dense]: True for dense.
-  FormItemImage({
+  FormItemMedia({
     Key? key,
     this.controller,
     required this.onTap,
@@ -23,11 +23,19 @@ class FormItemImage extends FormField<String> {
     this.allowEmpty = false,
     this.dense = false,
     this.height = 200,
+    this.videoExtensionList = const [
+      "mp4",
+      "ogv",
+      "webm",
+      "avi",
+      "mpeg",
+    ],
     this.icon = Icons.add_a_photo,
     void Function(String? value)? onSaved,
     String Function(String? value)? validator,
     String? initialURI,
     bool enabled = true,
+    this.type = FormItemMediaType.both,
   }) : super(
           key: key,
           builder: (state) {
@@ -50,10 +58,10 @@ class FormItemImage extends FormField<String> {
   /// Finally save the file using onUpdate.
   final void Function(void Function(dynamic fileOrUrl) onUpdate) onTap;
 
-  /// The overall color if you have not uploaded an image.
+  /// The overall color if you have not uploaded an image and video.
   final Color? color;
 
-  /// Icon if you have not uploaded an image.
+  /// Icon if you have not uploaded an image and video.
   final IconData icon;
 
   /// True for dense.
@@ -66,14 +74,20 @@ class FormItemImage extends FormField<String> {
   /// Hint label.
   final String hintText;
 
+  /// Video extension list.
+  final List<String> videoExtensionList;
+
+  /// Media type.
+  final FormItemMediaType type;
+
   /// Text ediging controller.
   final TextEditingController? controller;
 
   @override
-  _FormItemImageState createState() => _FormItemImageState();
+  _FormItemMediaState createState() => _FormItemMediaState();
 }
 
-class _FormItemImageState extends FormFieldState<String> {
+class _FormItemMediaState extends FormFieldState<String> {
   TextEditingController? _controller;
   File? _data;
   File? _local;
@@ -83,7 +97,7 @@ class _FormItemImageState extends FormFieldState<String> {
       widget.controller ?? _controller;
 
   @override
-  FormItemImage get widget => super.widget as FormItemImage;
+  FormItemMedia get widget => super.widget as FormItemMedia;
 
   void _onUpdate(dynamic fileOrUrl) {
     if (fileOrUrl is String) {
@@ -119,7 +133,7 @@ class _FormItemImageState extends FormFieldState<String> {
   }
 
   @override
-  void didUpdateWidget(FormItemImage oldWidget) {
+  void didUpdateWidget(FormItemMedia oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -149,19 +163,68 @@ class _FormItemImageState extends FormFieldState<String> {
             }
             widget.onTap.call(_onUpdate);
           },
-          child: _buildImage(context),
+          child: _buildMedia(context),
         ),
         if (errorText.isNotEmpty)
           AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               child: Text(errorText ?? "",
                   style: Theme.of(context).inputDecorationTheme.errorStyle),
-              height: errorText.isNotEmpty ? FormItemImage.errorTextHeight : 0)
+              height: errorText.isNotEmpty ? FormItemMedia.errorTextHeight : 0)
       ],
     );
   }
 
-  Widget _buildImage(BuildContext context) {
+  FormItemMediaType _platformMediaType(String path) {
+    if (widget.type != FormItemMediaType.both) {
+      return widget.type;
+    }
+    final uri = Uri.tryParse(path);
+    if (uri == null) {
+      return FormItemMediaType.image;
+    }
+    final ext = uri.path.split(".").lastOrNull;
+    if (ext == null) {
+      return FormItemMediaType.image;
+    }
+    return widget.videoExtensionList.contains(ext)
+        ? FormItemMediaType.video
+        : FormItemMediaType.image;
+  }
+
+  Widget _showMediaFromFile(File file) {
+    final type = _platformMediaType(file.path);
+    switch (type) {
+      case FormItemMediaType.video:
+        return Video(
+          FileVideoProvider(file),
+          fit: BoxFit.cover,
+          autoplay: true,
+          mute: true,
+          mixWithOthers: true,
+        );
+      default:
+        return Image.file(file, fit: BoxFit.cover);
+    }
+  }
+
+  Widget _showMediaFromPath(String path) {
+    final type = _platformMediaType(path);
+    switch (type) {
+      case FormItemMediaType.video:
+        return Video(
+          NetworkOrAsset.video(path),
+          fit: BoxFit.cover,
+          autoplay: true,
+          mute: true,
+          mixWithOthers: true,
+        );
+      default:
+        return Image(image: NetworkOrAsset.image(path), fit: BoxFit.cover);
+    }
+  }
+
+  Widget _buildMedia(BuildContext context) {
     final value = widget.initialValue.isNotEmpty
         ? widget.initialValue
         : _effectiveController?.text;
@@ -172,11 +235,11 @@ class _FormItemImageState extends FormFieldState<String> {
             : const EdgeInsets.symmetric(vertical: 10),
         constraints: BoxConstraints.expand(
             height: errorText.isNotEmpty
-                ? (widget.height - FormItemImage.errorTextHeight)
+                ? (widget.height - FormItemMedia.errorTextHeight)
                 : widget.height),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
-          child: Image.file(_data!, fit: BoxFit.cover),
+          child: _showMediaFromFile(_data!),
         ),
       );
     } else if (_path != null) {
@@ -186,11 +249,11 @@ class _FormItemImageState extends FormFieldState<String> {
             : const EdgeInsets.symmetric(vertical: 10),
         constraints: BoxConstraints.expand(
             height: errorText.isNotEmpty
-                ? (widget.height - FormItemImage.errorTextHeight)
+                ? (widget.height - FormItemMedia.errorTextHeight)
                 : widget.height),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
-          child: Image(image: NetworkOrAsset.image(_path!), fit: BoxFit.cover),
+          child: _showMediaFromPath(_path!),
         ),
       );
     } else if (value.isNotEmpty) {
@@ -201,11 +264,11 @@ class _FormItemImageState extends FormFieldState<String> {
               : const EdgeInsets.symmetric(vertical: 10),
           constraints: BoxConstraints.expand(
               height: errorText.isNotEmpty
-                  ? (widget.height - FormItemImage.errorTextHeight)
+                  ? (widget.height - FormItemMedia.errorTextHeight)
                   : widget.height),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
-            child: Image(image: NetworkOrAsset.image(value), fit: BoxFit.cover),
+            child: _showMediaFromPath(value),
           ),
         );
       } else {
@@ -216,11 +279,11 @@ class _FormItemImageState extends FormFieldState<String> {
               : const EdgeInsets.symmetric(vertical: 10),
           constraints: BoxConstraints.expand(
               height: errorText.isNotEmpty
-                  ? (widget.height - FormItemImage.errorTextHeight)
+                  ? (widget.height - FormItemMedia.errorTextHeight)
                   : widget.height),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
-            child: Image.file(_local!, fit: BoxFit.cover),
+            child: _showMediaFromFile(_local!),
           ),
         );
       }
@@ -232,7 +295,7 @@ class _FormItemImageState extends FormFieldState<String> {
         child: Container(
           constraints: BoxConstraints.expand(
               height: errorText.isNotEmpty
-                  ? (widget.height - FormItemImage.errorTextHeight)
+                  ? (widget.height - FormItemMedia.errorTextHeight)
                   : widget.height),
           decoration: BoxDecoration(
               border: Border.all(
@@ -274,4 +337,16 @@ class _FormItemImageState extends FormFieldState<String> {
       didChange(_effectiveController?.text);
     }
   }
+}
+
+/// Media type.
+enum FormItemMediaType {
+  /// Both.
+  both,
+
+  /// Image.
+  image,
+
+  /// Video.
+  video
 }

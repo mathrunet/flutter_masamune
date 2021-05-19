@@ -35,6 +35,7 @@ part 'form_item_simple_chips.dart';
 part 'form_item_dynamic_labeled_dropdown_field.dart';
 part 'form_item_headline.dart';
 part 'form_item_image.dart';
+part 'form_item_media.dart';
 part 'form_item_labeled_dropdown_field.dart';
 part 'form_item_multi_media.dart';
 part 'form_item_submit.dart';

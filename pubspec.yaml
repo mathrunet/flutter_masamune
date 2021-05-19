@@ -1,6 +1,6 @@
 name: masamune
 description: Package that supports Flutter states and their transitions using the Model Nofifier package and the Katana Routing package.
-version: 0.8.1+46
+version: 0.8.1+51
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune
 
@@ -25,12 +25,12 @@ dependencies:
   font_awesome_flutter: ^9.0.0
   flutter_markdown: ^0.6.0
   share: ^2.0.0
-  video_player: ^2.0.0
   connectivity: ^3.0.2
   cached_network_image: ^3.0.0-nullsafety
   datetime_picker_formfield: ^2.0.0
   loading_animations: ^2.2.0
   responsive_grid: ^2.0.0
+  cached_video_player: ^2.0.0-dev.1
   # flutter_sequence_animation: ^3.0.1
   # bordered_text: ^1.0.1
 

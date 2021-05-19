@@ -7,84 +7,24 @@ class Video extends StatefulWidget {
   /// Place the video as a widget.
   ///
   /// A preview is also possible.
-  ///
-  /// [path]: Asset path.
-  /// [loop]: True to loop the video.
-  /// [width]: Horizontal size of the video.
-  /// [height]: Vertical size of the video.
-  /// [fit]: Video fit.
-  /// [autoplay]: True for auto play.
-  /// [controllable]: True if it can be played and stopped.
-  /// [mute]: True to mute.
-  const Video.asset(String path,
-      {this.loop = true,
-      this.width,
-      this.height,
-      this.fit,
-      this.autoplay = false,
-      this.mute = false,
-      this.iconSize = 64,
-      this.controllable = false})
-      : _type = _VideoType.asset,
-        file = null,
-        // ignore: prefer_initializing_formals
-        uri = path;
+  const Video(
+    this.videoProvider, {
+    this.loop = true,
+    this.width,
+    this.height,
+    this.fit,
+    this.autoplay = false,
+    this.mute = false,
+    this.iconSize = 64,
+    this.controllable = false,
+    this.mixWithOthers = false,
+  });
 
-  /// Place the video as a widget.
-  ///
-  /// A preview is also possible.
-  ///
-  /// [file]: File objects.
-  /// [loop]: True to loop the video.
-  /// [width]: Horizontal size of the video.
-  /// [height]: Vertical size of the video.
-  /// [autoplay]: True for auto play.
-  /// [controllable]: True if it can be played and stopped.
-  /// [mute]: True to mute.
-  /// [fit]: Video fit.
-  const Video.file(this.file,
-      {this.loop = true,
-      this.width,
-      this.height,
-      this.fit,
-      this.iconSize = 64,
-      this.autoplay = false,
-      this.mute = false,
-      this.controllable = false})
-      : _type = _VideoType.file,
-        uri = null;
+  /// Mix with others.
+  final bool mixWithOthers;
 
-  /// Place the video as a widget.
-  ///
-  /// A preview is also possible.
-  ///
-  /// [url]: Network urls.
-  /// [loop]: True to loop the video.
-  /// [width]: Horizontal size of the video.
-  /// [height]: Vertical size of the video.
-  /// [autoplay]: True for auto play.
-  /// [controllable]: True if it can be played and stopped.
-  /// [mute]: True to mute.
-  /// [fit]: Video fit.
-  const Video.network(String url,
-      {this.loop = true,
-      this.width,
-      this.height,
-      this.fit,
-      this.iconSize = 64,
-      this.autoplay = false,
-      this.mute = false,
-      this.controllable = false})
-      : _type = _VideoType.network,
-        file = null,
-        // ignore: prefer_initializing_formals
-        uri = url;
-
-  /// Video URL and path.
-  final String? uri;
-
-  /// Video file.
-  final File? file;
+  /// Video Provider.
+  final VideoProvider videoProvider;
 
   /// True to loop the video.
   final bool loop;
@@ -106,7 +46,6 @@ class Video extends StatefulWidget {
 
   /// True to mute.
   final bool mute;
-  final _VideoType _type;
 
   /// Icon size.
   final double iconSize;
@@ -121,15 +60,31 @@ class _VideoState extends State<Video> {
 
   @override
   void initState() {
-    switch (widget._type) {
-      case _VideoType.file:
-        _controller = VideoPlayerController.file(widget.file!);
+    final provider = widget.videoProvider;
+    switch (provider.runtimeType) {
+      case FileVideoProvider:
+        _controller = VideoPlayerController.file(
+          (provider as FileVideoProvider).file,
+          videoPlayerOptions: widget.mixWithOthers
+              ? VideoPlayerOptions(mixWithOthers: true)
+              : null,
+        );
         break;
-      case _VideoType.network:
-        _controller = VideoPlayerController.network(widget.uri!);
+      case NetworkVideoProvider:
+        _controller = VideoPlayerController.network(
+          (provider as NetworkVideoProvider).url,
+          videoPlayerOptions: widget.mixWithOthers
+              ? VideoPlayerOptions(mixWithOthers: true)
+              : null,
+        );
         break;
-      default:
-        _controller = VideoPlayerController.asset(widget.uri!);
+      case AssetVideoProvider:
+        _controller = VideoPlayerController.asset(
+          (provider as AssetVideoProvider).path,
+          videoPlayerOptions: widget.mixWithOthers
+              ? VideoPlayerOptions(mixWithOthers: true)
+              : null,
+        );
         break;
     }
     _initializing = _controller?.initialize().then((value) {
@@ -235,4 +190,25 @@ class _VideoState extends State<Video> {
   }
 }
 
-enum _VideoType { asset, file, network }
+@immutable
+abstract class VideoProvider {
+  const VideoProvider();
+}
+
+@immutable
+class AssetVideoProvider extends VideoProvider {
+  const AssetVideoProvider(this.path);
+  final String path;
+}
+
+@immutable
+class NetworkVideoProvider extends VideoProvider {
+  const NetworkVideoProvider(this.url);
+  final String url;
+}
+
+@immutable
+class FileVideoProvider extends VideoProvider {
+  const FileVideoProvider(this.file);
+  final File file;
+}
