@@ -267,7 +267,9 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                   return Align(
                     alignment: Alignment.center,
                     child: Text(
-                      _effectiveController.isEmpty ? "--" : value.localize(),
+                      _effectiveController.isEmpty
+                          ? (widget.decoration.hintText ?? "--")
+                          : value.localize(),
                       textAlign: widget.textAlign,
                       style: widget.itemTextColor != null
                           ? TextStyle(color: widget.itemTextColor)

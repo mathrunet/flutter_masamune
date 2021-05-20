@@ -9,8 +9,7 @@ class Indent extends StatelessWidget {
   /// [padding]: Specifies all padding.
   const Indent({
     required this.children,
-    this.indent = 20,
-    this.padding,
+    this.padding = const EdgeInsets.all(16),
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.min,
@@ -19,11 +18,8 @@ class Indent extends StatelessWidget {
   /// List of widgets to indent.
   final List<Widget> children;
 
-  /// Indent size.
-  final double indent;
-
   /// Specifies all padding.
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry padding;
 
   /// Column crossAxisAlignment.
   final CrossAxisAlignment crossAxisAlignment;
@@ -37,7 +33,7 @@ class Indent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? EdgeInsets.only(left: indent),
+      padding: padding,
       child: Column(
         crossAxisAlignment: crossAxisAlignment,
         mainAxisAlignment: mainAxisAlignment,

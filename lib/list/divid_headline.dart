@@ -1,7 +1,11 @@
 part of masamune.list;
 
 class DividHeadline extends StatelessWidget {
-  const DividHeadline(this.label);
+  const DividHeadline(
+    this.label, {
+    this.icon,
+  });
+  final IconData? icon;
 
   final String label;
   @override
@@ -12,16 +16,23 @@ class DividHeadline extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         const SizedBox(width: 12, child: Divid()),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: context.theme.disabledColor,
-              fontSize: 12,
-            ),
+        const Space.width(4),
+        if (icon != null) ...[
+          Icon(
+            icon,
+            color: context.theme.disabledColor,
+            size: 12,
+          ),
+          const Space.width(4),
+        ],
+        Text(
+          label,
+          style: TextStyle(
+            color: context.theme.disabledColor,
+            fontSize: 12,
           ),
         ),
+        const Space.width(4),
         const Expanded(child: Divid())
       ],
     );

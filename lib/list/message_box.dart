@@ -17,6 +17,8 @@ class MessageBox extends StatelessWidget {
     this.icon = Icons.info,
     this.color,
     this.onTap,
+    this.margin,
+    this.padding,
   });
 
   /// Text content.
@@ -31,17 +33,23 @@ class MessageBox extends StatelessWidget {
   /// Processing when tapped.
   final VoidCallback? onTap;
 
+  /// Margin.
+  final EdgeInsetsGeometry? margin;
+
+  /// Padding.
+  final EdgeInsetsGeometry? padding;
+
   /// Build method.
   ///
   /// [BuildContext]: Build Context.
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: margin ?? const EdgeInsets.symmetric(vertical: 10),
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: padding ?? const EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(
               color: color ?? context.theme.colorScheme.error,
@@ -57,7 +65,7 @@ class MessageBox extends StatelessWidget {
             children: [
               if (icon != null) ...[
                 Icon(
-                  Icons.info,
+                  icon,
                   color: color ?? context.theme.colorScheme.error,
                 ),
                 const Space.width(15),
