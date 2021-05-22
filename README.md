@@ -1,6 +1,6 @@
 # Masamune
 
-[![Version](https://img.shields.io/badge/version-0.8.1-blue.svg)](https://mathru.net)
+[![Version](https://img.shields.io/badge/version-0.8.2-blue.svg)](https://mathru.net)
 [![Language](https://img.shields.io/badge/language-dart-blue.svg)](https://dart.dev/)
 [![License: BSD](https://img.shields.io/badge/license-BSD-purple.svg)](https://opensource.org/licenses/BSD-3-Clause)
 

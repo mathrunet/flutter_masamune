@@ -120,7 +120,7 @@ class AppendableBuilderItem extends StatelessWidget {
     this.onPressed,
     required this.child,
     this.icon,
-    this.height = 80,
+    this.height,
   });
 
   /// Icon data.
@@ -133,7 +133,7 @@ class AppendableBuilderItem extends StatelessWidget {
   final VoidCallback? onPressed;
 
   /// Height of the element.
-  final double height;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {

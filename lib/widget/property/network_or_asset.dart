@@ -10,7 +10,7 @@ class NetworkOrAsset {
   /// otherwise get an asset image.
   /// [defaultURI]: The path to be read from the asset when [uri] is empty.
   static ImageProvider image(String uri,
-      [String defaultURI = "assets/icon.png"]) {
+      [String defaultURI = "assets/default.png"]) {
     if (uri.isEmpty) {
       return AssetImage(defaultURI);
     }

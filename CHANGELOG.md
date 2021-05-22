@@ -1,3 +1,8 @@
+## [0.8.2] - Update README (2021.05.22)
+
+* Bug fix.
+* Add a new widget.
+
 ## [0.8.1] - Update README (2021.03.16)
 
 * Main release to coincide with Flutter 2.

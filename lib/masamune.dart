@@ -39,6 +39,8 @@ export 'package:hooks_riverpod/hooks_riverpod.dart';
 export 'package:responsive_grid/responsive_grid.dart';
 export 'package:flutter/material.dart' hide Listener;
 
+part "hooks/text_editing_controller_map.dart";
+
 part "src/extensions.dart";
 part "src/asset_type.dart";
 part "src/functions.dart";
