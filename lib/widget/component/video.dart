@@ -18,6 +18,7 @@ class Video extends StatefulWidget {
     this.iconSize = 64,
     this.controllable = false,
     this.mixWithOthers = false,
+    this.onTap,
   });
 
   /// Mix with others.
@@ -49,6 +50,9 @@ class Video extends StatefulWidget {
 
   /// Icon size.
   final double iconSize;
+
+  /// Tap action.
+  final VoidCallback? onTap;
 
   @override
   _VideoState createState() => _VideoState();
@@ -183,6 +187,14 @@ class _VideoState extends State<Video> {
                 }
                 setState(() {});
               },
+            ),
+          ),
+        if (widget.onTap != null)
+          Material(
+            color: Colors.transparent,
+            child: ClickableBox(
+              hoverColor: context.theme.splashColor.withOpacity(0.1),
+              onTap: widget.onTap,
             ),
           ),
       ],

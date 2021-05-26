@@ -40,6 +40,7 @@ export 'package:responsive_grid/responsive_grid.dart';
 export 'package:flutter/material.dart' hide Listener;
 
 part "hooks/text_editing_controller_map.dart";
+part "hooks/navigator_controller.dart";
 
 part "src/extensions.dart";
 part "src/asset_type.dart";
@@ -60,11 +61,14 @@ part 'widget/component/ui_markdown.dart';
 part 'widget/component/space.dart';
 part 'widget/component/divid.dart';
 part 'widget/component/grid.dart';
+part 'widget/component/clickable_box.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';
 
 part 'widget/builder/full_screen_builder.dart';
 part 'widget/builder/search_builder.dart';
 part 'widget/builder/ui_animated_builder.dart';
+part 'widget/builder/platform_builder.dart';
+part 'widget/builder/inline_page_builder.dart';
 
 part 'widget/property/default_box_decoration.dart';
 part 'widget/property/default_text_button_style.dart';

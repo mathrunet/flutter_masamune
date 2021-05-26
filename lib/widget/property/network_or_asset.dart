@@ -15,7 +15,10 @@ class NetworkOrAsset {
       return AssetImage(defaultURI);
     }
     if (uri.startsWith("http")) {
-      return CachedNetworkImageProvider(uri);
+      return CachedNetworkImageProvider(
+        uri,
+        imageRenderMethodForWeb: ImageRenderMethodForWeb.HtmlImage,
+      );
     } else if (uri.startsWith("resource:")) {
       return AssetImage(uri.replaceAll(RegExp(r"resource:(//)?"), ""));
     } else {
