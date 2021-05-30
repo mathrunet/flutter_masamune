@@ -27,7 +27,7 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
   }
 
   /// Keys for the navigator.
-  NavigatorState get navigator => _effectiveController!._state;
+  NavigatorState get navigator => _effectiveController!.navigator;
 
   /// Creating a body.
   ///
@@ -74,13 +74,10 @@ class NavigatorController extends Listenable {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
   final InternalNavigatorObserver observer = InternalNavigatorObserver._();
-  NavigatorState get _state => _navigatorKey.currentState!;
+  NavigatorState get navigator => _navigatorKey.currentState!;
 
   RouteSettings? get route =>
-      observer._current?.settings ??
-      RouteSettings(
-        name: _route,
-      );
+      observer._current?.settings ?? RouteSettings(name: _route);
 
   @override
   void addListener(VoidCallback listener) {
@@ -91,177 +88,6 @@ class NavigatorController extends Listenable {
   void removeListener(VoidCallback listener) {
     observer._removeListener(listener);
   }
-
-  bool canPop() => _state.canPop();
-
-  Future<bool> maybePop<T extends Object?>([T? result]) =>
-      _state.maybePop<T>(result);
-
-  void pop<T extends Object?>([T? result]) => _state.pop<T>(result);
-
-  Future<T?> popAndPushNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
-      _state.popAndPushNamed<T, TO>(
-        routeName,
-        result: result,
-        arguments: arguments,
-      );
-
-  void popUntil(RoutePredicate predicate) => _state.popUntil(predicate);
-
-  Future<T?> push<T extends Object?>(Route<T> route) => _state.push<T>(route);
-
-  Future<T?> pushAndRemoveUntil<T extends Object?>(
-          Route<T> newRoute, RoutePredicate predicate) =>
-      _state.pushAndRemoveUntil<T>(
-        newRoute,
-        predicate,
-      );
-
-  Future<T?> pushNamed<T extends Object?>(String routeName,
-          {Object? arguments}) =>
-      _state.pushNamed<T>(
-        routeName,
-        arguments: arguments,
-      );
-
-  Future<T?> pushNamedAndRemoveUntil<T extends Object?>(
-          String newRouteName, RoutePredicate predicate,
-          {Object? arguments}) =>
-      _state.pushNamedAndRemoveUntil<T>(
-        newRouteName,
-        predicate,
-        arguments: arguments,
-      );
-
-  Future<T?> pushReplacement<T extends Object?, TO extends Object?>(
-          Route<T> newRoute,
-          {TO? result}) =>
-      _state.pushReplacement<T, TO>(
-        newRoute,
-        result: result,
-      );
-
-  Future<T?> pushReplacementNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
-      _state.pushReplacementNamed<T, TO>(
-        routeName,
-        result: result,
-        arguments: arguments,
-      );
-
-  void removeRoute(Route route) => _state.removeRoute(route);
-
-  void removeRouteBelow(Route anchorRoute) =>
-      _state.removeRouteBelow(anchorRoute);
-
-  void replace<T extends Object?>(
-          {required Route oldRoute, required Route<T> newRoute}) =>
-      _state.replace<T>(
-        oldRoute: oldRoute,
-        newRoute: newRoute,
-      );
-
-  void replaceRouteBelow<T extends Object?>(
-          {required Route anchorRoute, required Route<T> newRoute}) =>
-      _state.replaceRouteBelow<T>(
-        anchorRoute: anchorRoute,
-        newRoute: newRoute,
-      );
-
-  String restorablePopAndPushNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
-      _state.restorablePopAndPushNamed<T, TO>(
-        routeName,
-        result: result,
-        arguments: arguments,
-      );
-
-  String restorablePush<T extends Object?>(
-          RestorableRouteBuilder<T> routeBuilder,
-          {Object? arguments}) =>
-      _state.restorablePush<T>(
-        routeBuilder,
-        arguments: arguments,
-      );
-
-  String restorablePushAndRemoveUntil<T extends Object?>(
-          RestorableRouteBuilder<T> newRouteBuilder, RoutePredicate predicate,
-          {Object? arguments}) =>
-      _state.restorablePushAndRemoveUntil<T>(
-        newRouteBuilder,
-        predicate,
-        arguments: arguments,
-      );
-
-  String restorablePushNamed<T extends Object?>(String routeName,
-          {Object? arguments}) =>
-      _state.restorablePushNamed(
-        routeName,
-        arguments: arguments,
-      );
-
-  String restorablePushNamedAndRemoveUntil<T extends Object?>(
-          String newRouteName, RoutePredicate predicate,
-          {Object? arguments}) =>
-      _state.restorablePushNamedAndRemoveUntil<T>(
-        newRouteName,
-        predicate,
-        arguments: arguments,
-      );
-
-  String restorablePushReplacement<T extends Object?, TO extends Object?>(
-          RestorableRouteBuilder<T> routeBuilder,
-          {TO? result,
-          Object? arguments}) =>
-      _state.restorablePushReplacement<T, TO>(
-        routeBuilder,
-        result: result,
-        arguments: arguments,
-      );
-
-  String restorablePushReplacementNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
-      _state.restorablePushReplacementNamed<T, TO>(
-        routeName,
-        result: result,
-        arguments: arguments,
-      );
-
-  String restorableReplace<T extends Object?>(
-          {required Route oldRoute,
-          required RestorableRouteBuilder<T> newRouteBuilder,
-          Object? arguments}) =>
-      _state.restorableReplace<T>(
-        oldRoute: oldRoute,
-        newRouteBuilder: newRouteBuilder,
-        arguments: arguments,
-      );
-
-  String restorableReplaceRouteBelow<T extends Object?>(
-          {required Route anchorRoute,
-          required RestorableRouteBuilder<T> newRouteBuilder,
-          Object? arguments}) =>
-      _state.restorableReplaceRouteBelow(
-        anchorRoute: anchorRoute,
-        newRouteBuilder: newRouteBuilder,
-        arguments: arguments,
-      );
-
-  String? get restorationId => _state.restorationId;
-
-  bool get restorePending => _state.restorePending;
-
-  void restoreState(RestorationBucket? oldBucket, bool initialRestore) =>
-      _state.restoreState(oldBucket, initialRestore);
 }
 
 /// Observer to be able to catch the navigation movement inside.
@@ -295,7 +121,9 @@ class InternalNavigatorObserver extends NavigatorObserver {
       _current = newRoute;
     } else {
       _current = newRoute;
-      _listener.forEach((element) => element.call());
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        _listener.forEach((element) => element.call());
+      });
     }
   }
 
@@ -312,7 +140,9 @@ class InternalNavigatorObserver extends NavigatorObserver {
       _current = route;
     } else {
       _current = route;
-      _listener.forEach((element) => element.call());
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        _listener.forEach((element) => element.call());
+      });
     }
   }
 
@@ -329,7 +159,9 @@ class InternalNavigatorObserver extends NavigatorObserver {
       _current = previousRoute;
     } else {
       _current = previousRoute;
-      _listener.forEach((element) => element.call());
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        _listener.forEach((element) => element.call());
+      });
     }
   }
 }

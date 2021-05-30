@@ -188,7 +188,7 @@ class _SuggestionOverlayBuilderState extends State<SuggestionOverlayBuilder> {
                 width: width,
                 child: _SuggestionOverlay(
                   items: widget.items,
-                  color: widget.color ?? context.theme.colorScheme.onSurface,
+                  color: widget.color ?? context.theme.textColorOnSurface,
                   offset: Offset(0.0, up ? 20 : widget.maxHeight + height - 20),
                   maxHeight: widget.maxHeight,
                   direction: up ? VerticalDirection.up : VerticalDirection.down,

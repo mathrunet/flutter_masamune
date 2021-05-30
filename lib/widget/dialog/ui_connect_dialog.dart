@@ -53,12 +53,12 @@ class UIConnectDialog {
             child: AlertDialog(
               title: Text(title.localize(),
                   style: TextStyle(
-                      color: color ?? context.theme.colorScheme.onSurface)),
+                      color: color ?? context.theme.textColorOnSurface)),
               content: SingleChildScrollView(
                 child: Text(
                   text.localize(),
                   style: TextStyle(
-                    color: color ?? context.theme.colorScheme.onSurface,
+                    color: color ?? context.theme.textColorOnSurface,
                   ),
                 ),
               ),

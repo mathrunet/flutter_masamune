@@ -212,85 +212,88 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
         canvasColor:
             widget.itemBackgroundColor ?? context.theme.backgroundColor,
       ),
-      child: DropdownButtonFormField<String>(
-        hint: widget.hint,
-        decoration: widget.decoration,
-        value: _effectiveController.isEmpty
-            ? widget.items.keys.first
-            : _effectiveController!.text,
-        validator: (value) {
-          if (!widget.enabled) {
-            return null;
-          }
-          if (_effectiveController.isEmpty) {
-            return null;
-          }
-          return widget.validator?.call(value);
-        },
-        onTap: widget.onTap,
-        onSaved: (value) {
-          if (!widget.enabled) {
-            return;
-          }
-          if (_effectiveController.isEmpty) {
-            return;
-          }
-          widget.onSaved?.call(value);
-        },
-        onChanged: widget.enabled
-            ? (value) {
-                _effectiveController?.text = value ?? "";
-                widget.onChanged?.call(value);
-              }
-            : null,
-        disabledHint: widget.disabledHint ??
-            Text(
-              _effectiveController.isNotEmpty &&
-                      widget.items.containsKey(_effectiveController!.text)
-                  ? widget.items[_effectiveController!.text]?.localize() ?? ""
-                  : widget.items.values.first.localize(),
-              textAlign: widget.textAlign,
-            ),
-        elevation: widget.elevation,
-        style: widget.style,
-        icon: widget.icon,
-        iconDisabledColor: widget.iconDisabledColor,
-        iconEnabledColor: widget.iconEnabledColor,
-        iconSize: widget.iconSize,
-        isDense: widget.isDense,
-        isExpanded: widget.isExpanded,
-        itemHeight: widget.itemHeight,
-        selectedItemBuilder: widget.selectedItemBuilder ??
-            (context) {
-              return widget.items.toList<Widget>(
+      child: MouseRegion(
+        cursor: widget.enabled ? SystemMouseCursors.click : MouseCursor.defer,
+        child: DropdownButtonFormField<String>(
+          hint: widget.hint,
+          decoration: widget.decoration,
+          value: _effectiveController.isEmpty
+              ? widget.items.keys.first
+              : _effectiveController!.text,
+          validator: (value) {
+            if (!widget.enabled) {
+              return null;
+            }
+            if (_effectiveController.isEmpty) {
+              return null;
+            }
+            return widget.validator?.call(value);
+          },
+          onTap: widget.onTap,
+          onSaved: (value) {
+            if (!widget.enabled) {
+              return;
+            }
+            if (_effectiveController.isEmpty) {
+              return;
+            }
+            widget.onSaved?.call(value);
+          },
+          onChanged: widget.enabled
+              ? (value) {
+                  _effectiveController?.text = value ?? "";
+                  widget.onChanged?.call(value);
+                }
+              : null,
+          disabledHint: widget.disabledHint ??
+              Text(
+                _effectiveController.isNotEmpty &&
+                        widget.items.containsKey(_effectiveController!.text)
+                    ? widget.items[_effectiveController!.text]?.localize() ?? ""
+                    : widget.items.values.first.localize(),
+                textAlign: widget.textAlign,
+              ),
+          elevation: widget.elevation,
+          style: widget.style,
+          icon: widget.icon,
+          iconDisabledColor: widget.iconDisabledColor,
+          iconEnabledColor: widget.iconEnabledColor,
+          iconSize: widget.iconSize,
+          isDense: widget.isDense,
+          isExpanded: widget.isExpanded,
+          itemHeight: widget.itemHeight,
+          selectedItemBuilder: widget.selectedItemBuilder ??
+              (context) {
+                return widget.items.toList<Widget>(
+                  (String key, String value) {
+                    return Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        _effectiveController.isEmpty
+                            ? (widget.decoration.hintText ?? "--")
+                            : value.localize(),
+                        textAlign: widget.textAlign,
+                        style: widget.itemTextColor != null
+                            ? TextStyle(color: widget.itemTextColor)
+                            : null,
+                      ),
+                    );
+                  },
+                ).toList();
+              },
+          items: widget.children ??
+              widget.items.toList(
                 (String key, String value) {
-                  return Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      _effectiveController.isEmpty
-                          ? (widget.decoration.hintText ?? "--")
-                          : value.localize(),
-                      textAlign: widget.textAlign,
-                      style: widget.itemTextColor != null
-                          ? TextStyle(color: widget.itemTextColor)
-                          : null,
-                    ),
+                  return DropdownMenuItem(
+                    value: key,
+                    child: Text(value.localize(),
+                        style: widget.itemTextColor != null
+                            ? TextStyle(color: widget.itemTextColor)
+                            : null),
                   );
                 },
-              ).toList();
-            },
-        items: widget.children ??
-            widget.items.toList(
-              (String key, String value) {
-                return DropdownMenuItem(
-                  value: key,
-                  child: Text(value.localize(),
-                      style: widget.itemTextColor != null
-                          ? TextStyle(color: widget.itemTextColor)
-                          : null),
-                );
-              },
-            ).toList(),
+              ).toList(),
+        ),
       ),
     );
   }

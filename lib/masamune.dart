@@ -55,6 +55,7 @@ part 'widget/dialog/ui_connect_dialog.dart';
 part 'widget/dialog/ui_select_dialog.dart';
 part 'widget/dialog/ui_future.dart';
 
+part 'widget/component/blog_container.dart';
 part 'widget/component/empty.dart';
 part 'widget/component/video.dart';
 part 'widget/component/ui_markdown.dart';
@@ -67,14 +68,21 @@ part 'widget/component/ui_bottom_navigation_bar.dart';
 part 'widget/builder/full_screen_builder.dart';
 part 'widget/builder/search_builder.dart';
 part 'widget/builder/ui_animated_builder.dart';
-part 'widget/builder/platform_builder.dart';
 part 'widget/builder/inline_page_builder.dart';
 
 part 'widget/property/default_box_decoration.dart';
 part 'widget/property/default_text_button_style.dart';
 part 'widget/property/network_or_asset.dart';
 
+part "widget/platform/platform_app_bar.dart";
+part "widget/platform/platform_inline_app_bar.dart";
+part "widget/platform/platform_builder.dart";
+part "widget/platform/platform_modal_view.dart";
+part "widget/platform/platform_scrollbar.dart";
+
 part 'widget/drawer/account_drawer_header.dart';
+
+part 'widget/page/empty_page.dart';
 
 part 'widget/mixin/ui_page_scaffold_mixin.dart';
 part 'widget/mixin/ui_page_uuid_mixin.dart';

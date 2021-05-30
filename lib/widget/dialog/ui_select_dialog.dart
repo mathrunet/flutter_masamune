@@ -45,7 +45,7 @@ class UISelectDialog {
               child: Text(
                 selector.key.localize(),
                 style: TextStyle(
-                  color: color ?? context.theme.colorScheme.onSurface,
+                  color: color ?? context.theme.textColorOnSurface,
                   fontWeight: selected == selector.key ? FontWeight.bold : null,
                 ),
               ),
@@ -62,7 +62,7 @@ class UISelectDialog {
                 title: Text(
                   title.localize(),
                   style: TextStyle(
-                    color: color ?? context.theme.colorScheme.onSurface,
+                    color: color ?? context.theme.textColorOnSurface,
                   ),
                 ),
                 children: options,

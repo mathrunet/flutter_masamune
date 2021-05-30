@@ -43,3 +43,20 @@ extension ButtonStyleExtension on ButtonStyle {
     );
   }
 }
+
+extension PlatformBuildContextExtensions on BuildContext {
+  bool get isMobile => Config.isMobile;
+
+  bool get isDesktop => Config.isDesktop;
+
+  bool get isModal {
+    return ModalRoute.of(this) is UIModalRoute;
+  }
+
+  bool get isMobileOrModal => isModal || isMobile;
+
+  bool get isFullscreen {
+    final parentRoute = ModalRoute.of(this);
+    return parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+  }
+}

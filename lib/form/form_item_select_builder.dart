@@ -204,7 +204,7 @@ class FormItemSelectItem extends StatelessWidget {
                   ? (selectedIcon ?? FontAwesomeIcons.checkCircle)
                   : (icon ?? FontAwesomeIcons.circle),
               color: selected
-                  ? (selectedColor ?? context.theme.colorScheme.onPrimary)
+                  ? (selectedColor ?? context.theme.textColorOnPrimary)
                   : context.theme.disabledColor,
             ),
             const Space.width(10),
@@ -214,8 +214,7 @@ class FormItemSelectItem extends StatelessWidget {
                     label,
                     style: TextStyle(
                       color: selected
-                          ? (selectedColor ??
-                              context.theme.colorScheme.onPrimary)
+                          ? (selectedColor ?? context.theme.textColorOnPrimary)
                           : null,
                       fontWeight: selected ? FontWeight.bold : null,
                     ),

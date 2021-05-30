@@ -547,6 +547,7 @@ class _DateTimeField extends FormField<DateTime> {
               final InputDecoration effectiveDecoration = decoration
                   .applyDefaults(Theme.of(field.context).inputDecorationTheme);
               return TextField(
+                mouseCursor: SystemMouseCursors.click,
                 controller: state._effectiveController,
                 focusNode: state._effectiveFocusNode,
                 decoration: effectiveDecoration.copyWith(

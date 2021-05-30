@@ -73,7 +73,7 @@ part of masamune.list;
 //       padding: padding,
 //       child: BorderedText(
 //         strokeWidth: outlineWidth,
-//         strokeColor: outlineColor ?? context.theme.colorScheme.onBackground,
+//         strokeColor: outlineColor ?? context.theme.textColor,
 //         child: Text(
 //           label,
 //           style: TextStyle(

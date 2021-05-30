@@ -1,3 +1,8 @@
+## [0.8.3] - Update README (2021.05.30)
+
+* Katana update support.
+* Added Platform Widget.
+
 ## [0.8.2] - Update README (2021.05.22)
 
 * Bug fix.

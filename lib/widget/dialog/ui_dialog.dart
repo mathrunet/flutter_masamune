@@ -99,13 +99,13 @@ class UIDialog {
               title: Text(
                 title.localize(),
                 style: TextStyle(
-                  color: color ?? context.theme.colorScheme.onSurface,
+                  color: color ?? context.theme.textColorOnSurface,
                 ),
               ),
               content: SingleChildScrollView(
                 child: Text(
                   text.localize(),
-                  // color: color ?? context.theme.colorScheme.onSurface,
+                  // color: color ?? context.theme.textColorOnSurface,
                 ),
               ),
               backgroundColor:
