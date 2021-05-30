@@ -1,5 +1,7 @@
 part of masamune;
 
+const double kMobileBreakPoint = 768;
+
 extension TextEditingControllerExtensions on TextEditingController? {
   bool get isEmpty {
     if (this == null) {
@@ -46,6 +48,13 @@ extension ButtonStyleExtension on ButtonStyle {
 
 extension PlatformBuildContextExtensions on BuildContext {
   bool get isMobile => Config.isMobile;
+
+  bool get isMobileOrSmall {
+    if (isMobile) {
+      return true;
+    }
+    return mediaQuery.size.width <= kMobileBreakPoint;
+  }
 
   bool get isDesktop => Config.isDesktop;
 
