@@ -8,6 +8,9 @@ class FormItemMultiMedia extends FormField<String> {
     this.icon,
     this.controller,
     this.onPreSave,
+    this.typeKey = Const.type,
+    this.fileKey = Const.file,
+    this.urlKey = Const.url,
     required this.items,
     Widget Function(
             BuildContext context,
@@ -35,6 +38,9 @@ class FormItemMultiMedia extends FormField<String> {
           enabled: enabled,
         );
 
+  final String typeKey;
+  final String fileKey;
+  final String urlKey;
   final double height;
   final Color? color;
   final IconData? icon;
@@ -290,13 +296,13 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
     for (final tmp in items) {
       if (tmp.url.isNotEmpty) {
         res.add({
-          "type": _getTypeString(tmp.type),
-          "url": tmp.url,
+          widget.typeKey: _getTypeString(tmp.type),
+          widget.urlKey: tmp.url,
         });
       } else {
         res.add({
-          "type": _getTypeString(tmp.type),
-          "file": tmp.file?.path,
+          widget.typeKey: _getTypeString(tmp.type),
+          widget.fileKey: tmp.file?.path,
         });
       }
     }
@@ -311,21 +317,21 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
     final list = jsonDecodeAsList(value!);
     for (final tmp in list) {
       if (tmp is Map<String, dynamic>) {
-        if (tmp.containsKey("file")) {
+        if (tmp.containsKey(widget.fileKey)) {
           res.add(
             FormItemMultiMediaItem(
-              file: File(tmp["file"]),
-              type: tmp.containsKey("type")
-                  ? _getType(tmp["type"])
+              file: File(tmp[widget.fileKey]),
+              type: tmp.containsKey(widget.typeKey)
+                  ? _getType(tmp[widget.typeKey])
                   : AssetType.image,
             ),
           );
-        } else if (tmp.containsKey("url")) {
+        } else if (tmp.containsKey(widget.urlKey)) {
           res.add(
             FormItemMultiMediaItem(
-              url: tmp["url"],
-              type: tmp.containsKey("type")
-                  ? _getType(tmp["type"])
+              url: tmp[widget.urlKey],
+              type: tmp.containsKey(widget.typeKey)
+                  ? _getType(tmp[widget.typeKey])
                   : AssetType.image,
             ),
           );

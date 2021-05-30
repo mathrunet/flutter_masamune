@@ -260,7 +260,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2"
+    version: "0.8.2+2"
   katana_module:
     dependency: "direct main"
     description:
@@ -316,7 +316,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2"
+    version: "0.8.2+1"
   octo_image:
     dependency: transitive
     description:
