@@ -1,29 +1,28 @@
 part of masamune;
 
 @immutable
-class MockModuleAdapter extends ModuleAdapter {
+class MockModuleAdapter extends ModuleAdapter<RuntimeDynamicDocumentModel,
+    RuntimeDynamicCollectionModel> {
   const MockModuleAdapter({required this.userId, required this.data});
 
   final Map<String, Map<String, dynamic>> data;
 
   @override
-  ModelProvider<T> collectionProvider<T extends DynamicCollectionModel>(
-      String path) {
+  ModelProvider<RuntimeDynamicCollectionModel> collectionProvider(String path) {
     path = path.trimString("/");
-    return runtimeCollectionProvider(path) as ModelProvider<T>;
+    return runtimeCollectionProvider(path);
   }
 
   @override
-  ModelProvider<T> documentProvider<T extends DynamicDocumentModel>(
-      String path) {
+  ModelProvider<RuntimeDynamicDocumentModel> documentProvider(String path) {
     path = path.trimString("/");
-    return runtimeDocumentProvider(path) as ModelProvider<T>;
+    return runtimeDocumentProvider(path);
   }
 
   @override
-  T loadCollection<T extends DynamicCollectionModel<DynamicDocumentModel>>(
-      T collection) {
-    if (collection is RuntimeDynamicCollectionModel && collection.isEmpty) {
+  RuntimeDynamicCollectionModel loadCollection(
+      RuntimeDynamicCollectionModel collection) {
+    if (collection.isEmpty) {
       final runtime = collection;
       final path = runtime.path.trimQuery().trimString("/");
       final match = RegExp(r"^" + path + r"/[^/]+$");
@@ -37,8 +36,9 @@ class MockModuleAdapter extends ModuleAdapter {
   }
 
   @override
-  T loadDocument<T extends DynamicDocumentModel>(T document) {
-    if (document is RuntimeDynamicDocumentModel && document.isEmpty) {
+  RuntimeDynamicDocumentModel loadDocument(
+      RuntimeDynamicDocumentModel document) {
+    if (document.isEmpty) {
       final runtime = document;
       final path = runtime.path.trimQuery().trimString("/");
       final doc = data.entries.firstWhereOrNull((item) => item.key == path);
@@ -52,14 +52,21 @@ class MockModuleAdapter extends ModuleAdapter {
   }
 
   @override
-  Future<void> deleteDocument<T extends DynamicDocumentModel>(
-      T document) async {
-    print("The function is not implemented.");
+  RuntimeDynamicDocumentModel createDocument(
+    RuntimeDynamicCollectionModel collection, [
+    String? id,
+  ]) {
+    return collection.create(id);
   }
 
   @override
-  Future<void> saveDocument<T extends DynamicDocumentModel>(T document) async {
-    print("The function is not implemented.");
+  Future<void> deleteDocument(RuntimeDynamicDocumentModel document) async {
+    await document.delete();
+  }
+
+  @override
+  Future<void> saveDocument(RuntimeDynamicDocumentModel document) async {
+    await document.save();
   }
 
   @override

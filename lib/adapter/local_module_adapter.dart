@@ -1,48 +1,47 @@
 part of masamune;
 
 @immutable
-class LocalModuleAdapter extends ModuleAdapter {
+class LocalModuleAdapter extends ModuleAdapter<LocalDynamicDocumentModel,
+    LocalDynamicCollectionModel> {
   const LocalModuleAdapter();
 
   @override
-  ModelProvider<T> collectionProvider<T extends DynamicCollectionModel>(
-          String path) =>
-      localCollectionProvider(path) as ModelProvider<T>;
+  ModelProvider<LocalDynamicCollectionModel> collectionProvider(String path) =>
+      localCollectionProvider(path);
 
   @override
-  ModelProvider<T> documentProvider<T extends DynamicDocumentModel>(
-          String path) =>
-      localDocumentProvider(path) as ModelProvider<T>;
+  ModelProvider<LocalDynamicDocumentModel> documentProvider(String path) =>
+      localDocumentProvider(path);
 
   @override
-  T loadDocument<T extends DynamicDocumentModel>(T document) {
-    if (document is LocalDynamicDocumentModel) {
-      document.loadOnce();
-    }
+  LocalDynamicDocumentModel loadDocument(LocalDynamicDocumentModel document) {
+    document.loadOnce();
     return document;
   }
 
   @override
-  T loadCollection<T extends DynamicCollectionModel>(T collection) {
-    if (collection is LocalDynamicCollectionModel) {
-      collection.loadOnce();
-    }
+  LocalDynamicCollectionModel loadCollection(
+      LocalDynamicCollectionModel collection) {
+    collection.loadOnce();
     return collection;
   }
 
   @override
-  Future<void> deleteDocument<T extends DynamicDocumentModel>(
-      T document) async {
-    if (document is LocalDynamicDocumentModel) {
-      await document.delete();
-    }
+  Future<void> deleteDocument(LocalDynamicDocumentModel document) async {
+    await document.delete();
   }
 
   @override
-  Future<void> saveDocument<T extends DynamicDocumentModel>(T document) async {
-    if (document is LocalDynamicDocumentModel) {
-      await document.save();
-    }
+  LocalDynamicDocumentModel createDocument(
+    LocalDynamicCollectionModel collection, [
+    String? id,
+  ]) {
+    return collection.create(id);
+  }
+
+  @override
+  Future<void> saveDocument(LocalDynamicDocumentModel document) async {
+    await document.save();
   }
 
   @override

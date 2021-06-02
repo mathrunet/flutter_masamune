@@ -55,13 +55,12 @@ part 'widget/dialog/ui_connect_dialog.dart';
 part 'widget/dialog/ui_select_dialog.dart';
 part 'widget/dialog/ui_future.dart';
 
-part 'widget/component/blog_container.dart';
+part 'widget/component/cms_layout.dart';
 part 'widget/component/empty.dart';
 part 'widget/component/video.dart';
 part 'widget/component/ui_markdown.dart';
 part 'widget/component/space.dart';
 part 'widget/component/divid.dart';
-part 'widget/component/grid.dart';
 part 'widget/component/clickable_box.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';
 
@@ -79,6 +78,7 @@ part "widget/platform/platform_inline_app_bar.dart";
 part "widget/platform/platform_builder.dart";
 part "widget/platform/platform_modal_view.dart";
 part "widget/platform/platform_scrollbar.dart";
+part "widget/platform/platform_app_layout.dart";
 
 part 'widget/drawer/account_drawer_header.dart';
 
