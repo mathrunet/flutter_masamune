@@ -6,7 +6,7 @@
 
 ---------------------------------------
 
-Package that supports Flutter states and their transitions using the Model Nofifier package and the Katana Routing package.
+Package that supports Flutter states and their transitions using the Model Notifier package and the Katana Routing package.
 
 ## Getting Started
 

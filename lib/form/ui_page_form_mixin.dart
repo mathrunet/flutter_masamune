@@ -23,7 +23,7 @@ mixin UIPageFormMixin on PageHookWidget {
   bool validate(
     BuildContext context, {
     bool autoUnfocus = true,
-    Map<String, dynamic> initial = const {},
+    DynamicMap initial = const {},
   }) {
     if (autoUnfocus) {
       context.unfocus();

@@ -1,4 +1,4 @@
-part of masamune;
+part of masamune.component.others;
 
 /// Place the video as a widget.
 ///
@@ -54,6 +54,23 @@ class Video extends StatefulWidget {
   /// Tap action.
   final VoidCallback? onTap;
 
+  /// Creates the mutable state for this widget at a given location in the tree.
+  ///
+  /// Subclasses should override this method to return a newly created
+  /// instance of their associated [State] subclass:
+  ///
+  /// ```dart
+  /// @override
+  /// _MyState createState() => _MyState();
+  /// ```
+  ///
+  /// The framework can call this method multiple times over the lifetime of
+  /// a [StatefulWidget]. For example, if the widget is inserted into the tree
+  /// in multiple locations, the framework will create a separate [State] object
+  /// for each location. Similarly, if the widget is removed from the tree and
+  /// later inserted into the tree again, the framework will call [createState]
+  /// again to create a fresh [State] object, simplifying the lifecycle of
+  /// [State] objects.
   @override
   _VideoState createState() => _VideoState();
 }
@@ -67,13 +84,8 @@ class _VideoState extends State<Video> {
     final provider = widget.videoProvider;
     switch (provider.runtimeType) {
       case FileVideoProvider:
-        _controller = VideoPlayerController.file(
-          (provider as FileVideoProvider).file,
-          videoPlayerOptions: widget.mixWithOthers
-              ? VideoPlayerOptions(mixWithOthers: true)
-              : null,
-        );
-        break;
+        throw UnsupportedError(
+            "Video playback by passing [FileVideoProvider] is not supported on this platform.");
       case NetworkVideoProvider:
         _controller = VideoPlayerController.network(
           (provider as NetworkVideoProvider).url,
@@ -222,5 +234,5 @@ class NetworkVideoProvider extends VideoProvider {
 @immutable
 class FileVideoProvider extends VideoProvider {
   const FileVideoProvider(this.file);
-  final File file;
+  final dynamic file;
 }

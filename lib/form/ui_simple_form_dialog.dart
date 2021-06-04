@@ -19,11 +19,10 @@ class UISimpleFormDialog {
   static Future show(
     BuildContext context, {
     IconData? submitIcon,
-    required Widget Function(BuildContext context, Map<String, dynamic> form)
-        builder,
+    required Widget Function(BuildContext context, DynamicMap form) builder,
     Color? submitBackgroundColor,
     bool popOnPress = true,
-    void Function(Map<String, dynamic> form)? onSubmit,
+    void Function(DynamicMap form)? onSubmit,
   }) async {
     final key = GlobalKey<FormState>();
     final overlay = context.navigator.overlay;

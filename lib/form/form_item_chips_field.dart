@@ -612,7 +612,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   }
 
   @override
-  void performPrivateCommand(String action, Map<String, dynamic> data) {}
+  void performPrivateCommand(String action, DynamicMap data) {}
 
   @override
   void didUpdateWidget(_ChipsInput<T> oldWidget) {

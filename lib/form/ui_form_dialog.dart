@@ -20,8 +20,7 @@ class UIFormDialog {
   static Future show(
     BuildContext context, {
     String submitText = "OK",
-    required List<Widget> Function(
-            BuildContext context, Map<String, dynamic> form)
+    required List<Widget> Function(BuildContext context, DynamicMap form)
         builder,
     double submitBorderRadius = 8.0,
     Color? submitBackgroundColor,
@@ -29,7 +28,7 @@ class UIFormDialog {
     required String title,
     bool validate = true,
     bool popOnPress = true,
-    void Function(Map<String, dynamic> form)? onSubmit,
+    void Function(DynamicMap form)? onSubmit,
   }) async {
     final key = GlobalKey<FormState>();
     final overlay = context.navigator.overlay;

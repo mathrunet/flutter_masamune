@@ -5,7 +5,7 @@ class MockModuleAdapter extends ModuleAdapter<RuntimeDynamicDocumentModel,
     RuntimeDynamicCollectionModel> {
   const MockModuleAdapter({required this.userId, required this.data});
 
-  final Map<String, Map<String, dynamic>> data;
+  final Map<String, DynamicMap> data;
 
   @override
   ModelProvider<RuntimeDynamicCollectionModel> collectionProvider(String path) {
@@ -70,8 +70,8 @@ class MockModuleAdapter extends ModuleAdapter<RuntimeDynamicDocumentModel,
   }
 
   @override
-  Future<String> uploadMedia(String path) {
-    throw UnimplementedError("The function is not implemented.");
+  Future<String> uploadMedia(String path) async {
+    return path;
   }
 
   @override

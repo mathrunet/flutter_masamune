@@ -28,7 +28,7 @@
 //   /// [context]: Build context.
 //   /// [form]: Form data.
 //   @protected
-//   void onSubmit(BuildContext context, Map<String, dynamic> form) {}
+//   void onSubmit(BuildContext context, DynamicMap form) {}
 
 //   /// FAB icon definition.
 //   @protected
@@ -39,7 +39,7 @@
 //   /// [context]: Build context.
 //   /// [form]: Form data.
 //   @protected
-//   List<Widget> formBody(BuildContext context, Map<String, dynamic> form);
+//   List<Widget> formBody(BuildContext context, DynamicMap form);
 
 //   /// Set the form type.
 //   ///

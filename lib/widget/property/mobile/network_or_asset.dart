@@ -1,4 +1,4 @@
-part of masamune;
+part of masamune.property.mobile;
 
 /// Providing the right provider by choosing between in-network and assets.
 class NetworkOrAsset {
@@ -6,15 +6,15 @@ class NetworkOrAsset {
   ///
   /// Get the provider for the image.
   ///
-  /// [uri]: If it starts with http, get a network image,
+  /// [uri] is if it starts with http, get a network image,
   /// otherwise get an asset image.
-  /// [defaultURI]: The path to be read from the asset when [uri] is empty.
+  /// [defaultURI] is the path to be read from the asset when [uri] is empty.
   static ImageProvider image(String uri,
       [String defaultURI = "assets/default.png"]) {
     if (uri.isEmpty) {
       return AssetImage(defaultURI);
     }
-    if (uri.startsWith("http")) {
+    if (uri.startsWith("http") || uri.startsWith("blob:")) {
       return CachedNetworkImageProvider(
         uri,
         imageRenderMethodForWeb: ImageRenderMethodForWeb.HtmlImage,
@@ -30,15 +30,15 @@ class NetworkOrAsset {
   ///
   /// Get the provider for the video.
   ///
-  /// [uri]: If it starts with http, get a network video,
+  /// [uri] is if it starts with http, get a network video,
   /// otherwise get an asset image.
-  /// [defaultURI]: The path to be read from the asset when [uri] is empty.
+  /// [defaultURI] is the path to be read from the asset when [uri] is empty.
   static VideoProvider video(String uri,
       [String defaultURI = "assets/default.mp4"]) {
     if (uri.isEmpty) {
       return AssetVideoProvider(defaultURI);
     }
-    if (uri.startsWith("http")) {
+    if (uri.startsWith("http") || uri.startsWith("blob:")) {
       return NetworkVideoProvider(uri);
     } else if (uri.startsWith("resource:")) {
       return AssetVideoProvider(uri.replaceAll(RegExp(r"resource:(//)?"), ""));

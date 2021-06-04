@@ -45,8 +45,8 @@ class LocalModuleAdapter extends ModuleAdapter<LocalDynamicDocumentModel,
   }
 
   @override
-  Future<String> uploadMedia(String path) {
-    throw UnimplementedError("The function is not implemented.");
+  Future<String> uploadMedia(String path) async {
+    return path;
   }
 
   @override

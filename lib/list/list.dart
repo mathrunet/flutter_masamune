@@ -6,7 +6,6 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune.list;
 
-import 'dart:io';
 // import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

@@ -1,19 +1,34 @@
-part of masamune.form;
+part of masamune.form.mobile;
 
-/// Form item for uploading an image and video.
+/// Form widget for uploading media (Image and Video).
+///
+/// ```
+/// FormItemMedia(
+///   constroller: useMemoizedTextEditingController(),
+///   onTap: (onUpdate){
+///     final media = await UIMediaDialog();
+///     onUpdate(media.path);
+///   },
+///   onSaved: (value){
+///     context["url"] = value;
+///   }
+/// )
+/// ```
 class FormItemMedia extends FormField<String> {
-  /// Form item for uploading an image and video.
+  /// Form widget for uploading media (Image and Video).
   ///
-  /// [key]: Key.
-  /// [onTap]: Processing when tapped.
-  /// Finally save the file using onUpdate.
-  /// [controller]: Text ediging controller.
-  /// [color]: The overall color if you have not uploaded an image and video.
-  /// [icon]: Icon if you have not uploaded an image and video.
-  /// [onSaved]: Processing when saved.
-  /// [validator]: Processing when validated.
-  /// [enabled]: True to enable.
-  /// [dense]: True for dense.
+  /// ```
+  /// FormItemMedia(
+  ///   constroller: useMemoizedTextEditingController(),
+  ///   onTap: (onUpdate){
+  ///     final media = await UIMediaDialog();
+  ///     onUpdate(media.path);
+  ///   },
+  ///   onSaved: (value){
+  ///     context["url"] = value;
+  ///   }
+  /// )
+  /// ```
   FormItemMedia({
     Key? key,
     this.controller,
@@ -52,10 +67,12 @@ class FormItemMedia extends FormField<String> {
           enabled: enabled,
         );
 
+  /// The height of the text display when an error occurs.
   static const double errorTextHeight = 20;
 
   /// Processing when tapped.
-  /// Finally save the file using onUpdate.
+  ///
+  /// Finally save the file using [onUpdate].
   final void Function(void Function(dynamic fileOrUrl) onUpdate) onTap;
 
   /// The overall color if you have not uploaded an image and video.
@@ -64,11 +81,13 @@ class FormItemMedia extends FormField<String> {
   /// Icon if you have not uploaded an image and video.
   final IconData icon;
 
-  /// True for dense.
+  /// `True` for dense.
   final bool dense;
 
+  /// Height of form.
   final double height;
 
+  /// `True` if the data should be empty.
   final bool allowEmpty;
 
   /// Hint label.
@@ -83,6 +102,23 @@ class FormItemMedia extends FormField<String> {
   /// Text ediging controller.
   final TextEditingController? controller;
 
+  /// Creates the mutable state for this widget at a given location in the tree.
+  ///
+  /// Subclasses should override this method to return a newly created
+  /// instance of their associated [State] subclass:
+  ///
+  /// ```dart
+  /// @override
+  /// _MyState createState() => _MyState();
+  /// ```
+  ///
+  /// The framework can call this method multiple times over the lifetime of
+  /// a [StatefulWidget]. For example, if the widget is inserted into the tree
+  /// in multiple locations, the framework will create a separate [State] object
+  /// for each location. Similarly, if the widget is removed from the tree and
+  /// later inserted into the tree again, the framework will call [createState]
+  /// again to create a fresh [State] object, simplifying the lifecycle of
+  /// [State] objects.
   @override
   _FormItemMediaState createState() => _FormItemMediaState();
 }

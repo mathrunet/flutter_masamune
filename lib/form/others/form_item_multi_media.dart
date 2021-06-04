@@ -1,6 +1,38 @@
-part of masamune.form;
+part of masamune.form.others;
 
+/// Form widget for uploading multiple media files (images and videos) at once.
+///
+/// The value passed by [controller] and [onSaved] becomes a Json data of [DynamicMap].
+///
+/// ```
+/// FormItemMultiMedia(
+///   constroller: useMemoizedTextEditingController(),
+///   onTap: (onUpdate){
+///     final media = await UIMediaDialog();
+///     onUpdate(media.path);
+///   },
+///   onSaved: (value){
+///     context["image"] = value;
+///   }
+/// )
+/// ```
 class FormItemMultiMedia extends FormField<String> {
+  /// Form widget for uploading multiple media files (images and videos) at once.
+  ///
+  /// The value passed by [controller] and [onSaved] becomes a Json data of [DynamicMap].
+  ///
+  /// ```
+  /// FormItemMultiMedia(
+  ///   constroller: useMemoizedTextEditingController(),
+  ///   onTap: (onUpdate){
+  ///     final media = await UIMediaDialog();
+  ///     onUpdate(media.path);
+  ///   },
+  ///   onSaved: (value){
+  ///     context["image"] = value;
+  ///   }
+  /// )
+  /// ```
   FormItemMultiMedia({
     this.height = 100,
     this.color,
@@ -9,17 +41,17 @@ class FormItemMultiMedia extends FormField<String> {
     this.controller,
     this.onPreSave,
     this.typeKey = Const.type,
-    this.fileKey = Const.file,
-    this.urlKey = Const.url,
-    required this.items,
+    this.pathKey = "path",
+    this.items,
     Widget Function(
-            BuildContext context,
-            FormItemMultiMediaItem data,
-            Size size,
-            void Function(dynamic fileOrURL, AssetType type) onUpdate,
-            Function onRemove)
+      BuildContext context,
+      FormItemMultiMediaItem data,
+      Size size,
+      void Function(dynamic fileOrURL, AssetType type) onUpdate,
+      Function onRemove,
+    )
         builder = _defaultBuilder,
-    this.onPressed,
+    this.onTap,
     Key? key,
     void Function(String? value)? onSaved,
     String Function(String? value)? validator,
@@ -38,34 +70,59 @@ class FormItemMultiMedia extends FormField<String> {
           enabled: enabled,
         );
 
+  /// File type.
   final String typeKey;
-  final String fileKey;
-  final String urlKey;
+
+  /// path key.
+  final String pathKey;
+
+  /// Height of form.
   final double height;
+
+  /// Color of the form.
   final Color? color;
+
+  /// The form icon.
   final IconData? icon;
-  final List<FormItemMultiMediaItem> items;
+
+  /// Initial data list.
+  final List<FormItemMultiMediaItem>? items;
+
+  /// Callback in case of deletion.
   final void Function(FormItemMultiMediaItem data)? onRemove;
+
+  /// Text Controller.
   final TextEditingController? controller;
+
+  /// Callback for converting data when saving.
   final String Function(List<FormItemMultiMediaItem> data)? onPreSave;
+
+  /// Defines the builder of the form.
   final Widget Function(
-      BuildContext context,
-      FormItemMultiMediaItem data,
-      Size size,
-      void Function(dynamic fileOrURL, AssetType type) onUpdate,
-      Function onRemove) _builder;
+    BuildContext context,
+    FormItemMultiMediaItem data,
+    Size size,
+    void Function(dynamic fileOrURL, AssetType type) onUpdate,
+    Function onRemove,
+  ) _builder;
+
+  /// Size of each item.
   final Size size;
+
+  /// What happens when you tap the Create New button.
   final void Function(
-      void Function(dynamic fileOrURL, AssetType type) onUpdate)? onPressed;
+    void Function(dynamic fileOrURL, AssetType type) onUpdate,
+  )? onTap;
 
   static Widget _defaultBuilder(
-      BuildContext context,
-      FormItemMultiMediaItem data,
-      Size size,
-      void Function(dynamic fileOrURL, AssetType type) onUpdate,
-      Function onRemove) {
-    if (data.type == AssetType.video) {
-      if (data.file != null) {
+    BuildContext context,
+    FormItemMultiMediaItem data,
+    Size size,
+    void Function(dynamic fileOrURL, AssetType type) onUpdate,
+    Function onRemove,
+  ) {
+    if (data.path.isNotEmpty) {
+      if (data.type == AssetType.video) {
         return InkWell(
           onLongPress: () {
             onRemove();
@@ -73,7 +130,7 @@ class FormItemMultiMedia extends FormField<String> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
             child: Video(
-              FileVideoProvider(data.file!),
+              NetworkVideoProvider(data.path!),
               fit: BoxFit.cover,
               height: size.height,
               width: size.width,
@@ -81,36 +138,7 @@ class FormItemMultiMedia extends FormField<String> {
             ),
           ),
         );
-      } else if (data.url.isNotEmpty) {
-        return InkWell(
-          onLongPress: () {
-            onRemove();
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4.0),
-            child: Video(
-              NetworkVideoProvider(data.url!),
-              fit: BoxFit.cover,
-              height: size.height,
-              width: size.width,
-              controllable: true,
-            ),
-          ),
-        );
-      }
-    } else {
-      if (data.file != null) {
-        return InkWell(
-            onLongPress: () {
-              onRemove();
-            },
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(4.0),
-                child: Image.file(data.file!,
-                    fit: BoxFit.cover,
-                    height: size.height,
-                    width: size.width)));
-      } else if (data.url.isNotEmpty) {
+      } else {
         return InkWell(
           onLongPress: () {
             onRemove();
@@ -118,7 +146,7 @@ class FormItemMultiMedia extends FormField<String> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
             child: Image.network(
-              data.url!,
+              data.path!,
               fit: BoxFit.cover,
               height: size.height,
               width: size.width,
@@ -130,6 +158,23 @@ class FormItemMultiMedia extends FormField<String> {
     return const Empty();
   }
 
+  /// Creates the mutable state for this widget at a given location in the tree.
+  ///
+  /// Subclasses should override this method to return a newly created
+  /// instance of their associated [State] subclass:
+  ///
+  /// ```dart
+  /// @override
+  /// _MyState createState() => _MyState();
+  /// ```
+  ///
+  /// The framework can call this method multiple times over the lifetime of
+  /// a [StatefulWidget]. For example, if the widget is inserted into the tree
+  /// in multiple locations, the framework will create a separate [State] object
+  /// for each location. Similarly, if the widget is removed from the tree and
+  /// later inserted into the tree again, the framework will call [createState]
+  /// again to create a fresh [State] object, simplifying the lifecycle of
+  /// [State] objects.
   @override
   _FormItemMultiMediaState createState() => _FormItemMultiMediaState();
 }
@@ -151,9 +196,10 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
       oldWidget.controller?.removeListener(_handleControllerChanged);
       widget.controller?.addListener(_handleControllerChanged);
 
-      if (oldWidget.controller != null && widget.controller == null)
+      if (oldWidget.controller != null && widget.controller == null) {
         _controller =
             TextEditingController.fromValue(oldWidget.controller?.value);
+      }
       if (widget.controller != null) {
         setValue(widget.controller?.text);
         if (oldWidget.controller == null) {
@@ -166,9 +212,10 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
   @override
   void initState() {
     super.initState();
-    _items = widget.items;
-    if (widget.initialValue.isNotEmpty)
+    _items = widget.items ?? [];
+    if (widget.initialValue.isNotEmpty) {
       _items = _decodeJson(widget.initialValue);
+    }
     if (widget.controller.isNotEmpty) {
       _items = _decodeJson(widget.controller?.text);
     }
@@ -180,10 +227,8 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
   }
 
   void _onUpdate(dynamic fileOrURL, AssetType type) {
-    if (fileOrURL is File) {
-      _items.add(FormItemMultiMediaItem(type: type, file: fileOrURL));
-    } else if (fileOrURL is String) {
-      _items.add(FormItemMultiMediaItem(type: type, url: fileOrURL));
+    if (fileOrURL is String) {
+      _items.add(FormItemMultiMediaItem(type: type, path: fileOrURL));
     }
     setValue(_encodeJson(_items));
     setState(() {});
@@ -246,8 +291,8 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
                   size: widget.height / 3.0,
                 ),
                 onPressed: () {
-                  if (widget.onPressed != null) {
-                    widget.onPressed?.call(_onUpdate);
+                  if (widget.onTap != null) {
+                    widget.onTap?.call(_onUpdate);
                   }
                 },
               ),
@@ -292,17 +337,17 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
   }
 
   String _encodeJson(List<FormItemMultiMediaItem> items) {
-    final res = <Map<String, dynamic>>[];
+    final res = <DynamicMap>[];
     for (final tmp in items) {
-      if (tmp.url.isNotEmpty) {
+      if (tmp.path.isNotEmpty) {
         res.add({
           widget.typeKey: _getTypeString(tmp.type),
-          widget.urlKey: tmp.url,
+          widget.pathKey: tmp.path,
         });
       } else {
         res.add({
           widget.typeKey: _getTypeString(tmp.type),
-          widget.fileKey: tmp.file?.path,
+          widget.pathKey: tmp.path,
         });
       }
     }
@@ -316,20 +361,11 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
     final res = <FormItemMultiMediaItem>[];
     final list = jsonDecodeAsList(value!);
     for (final tmp in list) {
-      if (tmp is Map<String, dynamic>) {
-        if (tmp.containsKey(widget.fileKey)) {
+      if (tmp is DynamicMap) {
+        if (tmp.containsKey(widget.pathKey)) {
           res.add(
             FormItemMultiMediaItem(
-              file: File(tmp[widget.fileKey]),
-              type: tmp.containsKey(widget.typeKey)
-                  ? _getType(tmp[widget.typeKey])
-                  : AssetType.image,
-            ),
-          );
-        } else if (tmp.containsKey(widget.urlKey)) {
-          res.add(
-            FormItemMultiMediaItem(
-              url: tmp[widget.urlKey],
+              path: tmp[widget.pathKey],
               type: tmp.containsKey(widget.typeKey)
                   ? _getType(tmp[widget.typeKey])
                   : AssetType.image,
@@ -375,13 +411,17 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
   }
 }
 
+/// Class for storing various data to be uploaded for [FormItemMultiMedia].
 class FormItemMultiMediaItem {
+  /// Class for storing various data to be uploaded for [FormItemMultiMedia].
   const FormItemMultiMediaItem({
     this.type = AssetType.image,
-    this.file,
-    this.url,
+    this.path,
   });
+
+  /// Specify the asset type.
   final AssetType type;
-  final File? file;
-  final String? url;
+
+  /// File path.
+  final String? path;
 }

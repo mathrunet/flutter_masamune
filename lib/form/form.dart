@@ -8,7 +8,6 @@ library masamune.form;
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:masamune/masamune.dart';
@@ -20,6 +19,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:katana_routing/katana_routing.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+export 'others/others.dart'
+    if (dart.library.io) 'mobile/mobile.dart'
+    if (dart.library.js) 'others/others.dart'
+    if (dart.library.html) 'others/others.dart';
 
 part 'form_item_label.dart';
 part 'form_item_checkbox.dart';
@@ -34,10 +38,7 @@ part 'form_item_dropdown_button.dart';
 part 'form_item_simple_chips.dart';
 part 'form_item_dynamic_labeled_dropdown_field.dart';
 part 'form_item_headline.dart';
-part 'form_item_image.dart';
-part 'form_item_media.dart';
 part 'form_item_labeled_dropdown_field.dart';
-part 'form_item_multi_media.dart';
 part 'form_item_submit.dart';
 part 'form_item_text_field.dart';
 part 'form_item_password.dart';
