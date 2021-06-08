@@ -1,11 +1,17 @@
 part of masamune;
 
 class InlinePageBuilder extends StatefulWidget {
-  InlinePageBuilder({this.initialRoute, this.controller})
-      : assert(initialRoute != null || controller?._route != null,
-            "Either [initialRoute] or [initialRoute] of [controller] must be specified.");
+  InlinePageBuilder({
+    this.initialRoute,
+    this.controller,
+    this.routes,
+  }) : assert(
+          initialRoute != null || controller?._route != null,
+          "Either [initialRoute] or [initialRoute] of [controller] must be specified.",
+        );
   final String? initialRoute;
   final NavigatorController? controller;
+  final Map<String, RouteConfig>? routes;
 
   @override
   State<StatefulWidget> createState() => _InlinePageBuilderState();
@@ -23,6 +29,30 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
     super.initState();
     if (widget.controller == null) {
       _controller = NavigatorController(widget.initialRoute);
+    }
+    if (widget.routes.isNotEmpty) {
+      RouteConfig.addRoutes(widget.routes!);
+    }
+  }
+
+  @override
+  void didUpdateWidget(InlinePageBuilder oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.routes != oldWidget.routes) {
+      if (oldWidget.routes.isNotEmpty) {
+        RouteConfig.removeRoutes(oldWidget.routes!);
+      }
+      if (widget.routes.isNotEmpty) {
+        RouteConfig.addRoutes(widget.routes!);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (widget.routes.isNotEmpty) {
+      RouteConfig.removeRoutes(widget.routes!);
     }
   }
 
