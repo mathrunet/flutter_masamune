@@ -15,6 +15,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/src/foundation/diagnostics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:katana_module/katana_module.dart';
@@ -67,9 +68,10 @@ export 'widget/property/others/others.dart'
     if (dart.library.js) 'widget/property/others/others.dart'
     if (dart.library.html) 'widget/property/others/others.dart';
 
-part "adapter/local_module_adapter.dart";
-part "adapter/mock_module_adapter.dart";
+part 'adapter/local_model_adapter.dart';
+part 'adapter/mock_model_adapter.dart';
 part "adapter/multi_platform_adapter.dart";
+part 'adapter/inherited_model_adapter.dart';
 part "animation/ui_animator_scenario.dart";
 part "animation/ui_animator_unit.dart";
 part "hooks/navigator_controller.dart";
@@ -89,6 +91,7 @@ part 'widget/component/empty.dart';
 part 'widget/component/space.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';
 part 'widget/component/ui_markdown.dart';
+part 'widget/component/inline_app_preview.dart';
 part 'widget/dialog/ui_confirm.dart';
 part 'widget/dialog/ui_connect_dialog.dart';
 part 'widget/dialog/ui_dialog.dart';

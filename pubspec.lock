@@ -218,7 +218,7 @@ packages:
       name: font_awesome_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.0.0"
+    version: "9.1.0"
   freezed_annotation:
     dependency: transitive
     description:
@@ -302,21 +302,21 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+12"
+    version: "0.8.2+14"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+3"
+    version: "0.8.2+10"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+5"
+    version: "0.8.2+9"
   loading_animations:
     dependency: "direct main"
     description:
@@ -358,7 +358,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+7"
+    version: "0.8.2+8"
   octo_image:
     dependency: transitive
     description:
@@ -727,7 +727,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   xdg_directories:
     dependency: transitive
     description:

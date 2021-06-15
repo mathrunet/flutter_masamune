@@ -27,4 +27,19 @@ class MultiPlatformAdapter extends PlatformAdapter {
         return UIMediaDialogType.both;
     }
   }
+
+  @override
+  MultiPlatformAdapter? fromMap(DynamicMap map) {
+    if (map.get("type", "") != type) {
+      return null;
+    }
+    return const MultiPlatformAdapter();
+  }
+
+  @override
+  DynamicMap toMap() {
+    return <String, dynamic>{
+      "type": type,
+    };
+  }
 }

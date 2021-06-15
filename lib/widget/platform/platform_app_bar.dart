@@ -577,7 +577,7 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ? null
                     : () {
                         context.rootNavigator
-                            .resetAndPushNamed(app.initialRoute!);
+                            .resetAndPushNamed(app.initialRoute);
                       },
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
@@ -587,7 +587,7 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
                           fit: BoxFit.fitHeight,
                           height: tHeight - 8,
                         )
-                      : Text(app.title!),
+                      : Text(app.title),
                 ),
               ),
               actions: [

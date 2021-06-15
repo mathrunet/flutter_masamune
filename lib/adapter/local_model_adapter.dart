@@ -1,9 +1,9 @@
 part of masamune;
 
 @immutable
-class LocalModuleAdapter extends ModuleAdapter<LocalDynamicDocumentModel,
+class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     LocalDynamicCollectionModel> {
-  const LocalModuleAdapter();
+  const LocalModelAdapter();
 
   @override
   ModelProvider<LocalDynamicCollectionModel> collectionProvider(String path) =>
@@ -119,4 +119,19 @@ class LocalModuleAdapter extends ModuleAdapter<LocalDynamicDocumentModel,
 
   @override
   String get userId => Config.uid;
+
+  @override
+  LocalModelAdapter? fromMap(DynamicMap map) {
+    if (map.get("type", "") != type) {
+      return null;
+    }
+    return const LocalModelAdapter();
+  }
+
+  @override
+  DynamicMap toMap() {
+    return <String, dynamic>{
+      "type": type,
+    };
+  }
 }

@@ -5,6 +5,8 @@ class InlinePageBuilder extends StatefulWidget {
     this.initialRoute,
     this.controller,
     this.routes,
+    this.prefix = "",
+    this.suffix = "",
   }) : assert(
           initialRoute != null || controller?._route != null,
           "Either [initialRoute] or [initialRoute] of [controller] must be specified.",
@@ -12,6 +14,8 @@ class InlinePageBuilder extends StatefulWidget {
   final String? initialRoute;
   final NavigatorController? controller;
   final Map<String, RouteConfig>? routes;
+  final String prefix;
+  final String suffix;
 
   @override
   State<StatefulWidget> createState() => _InlinePageBuilderState();
@@ -31,7 +35,12 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
       _controller = NavigatorController(widget.initialRoute);
     }
     if (widget.routes.isNotEmpty) {
-      RouteConfig.addRoutes(widget.routes!);
+      RouteConfig.addRoutes(
+        widget.routes!.map(
+          (key, value) =>
+              MapEntry("${widget.prefix}$key${widget.suffix}", value),
+        ),
+      );
     }
   }
 
@@ -40,10 +49,20 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
     super.didUpdateWidget(oldWidget);
     if (widget.routes != oldWidget.routes) {
       if (oldWidget.routes.isNotEmpty) {
-        RouteConfig.removeRoutes(oldWidget.routes!);
+        RouteConfig.removeRoutes(
+          oldWidget.routes!.map(
+            (key, value) =>
+                MapEntry("${widget.prefix}$key${widget.suffix}", value),
+          ),
+        );
       }
       if (widget.routes.isNotEmpty) {
-        RouteConfig.addRoutes(widget.routes!);
+        RouteConfig.addRoutes(
+          widget.routes!.map(
+            (key, value) =>
+                MapEntry("${widget.prefix}$key${widget.suffix}", value),
+          ),
+        );
       }
     }
   }
@@ -52,7 +71,12 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
   void dispose() {
     super.dispose();
     if (widget.routes.isNotEmpty) {
-      RouteConfig.removeRoutes(widget.routes!);
+      RouteConfig.removeRoutes(
+        widget.routes!.map(
+          (key, value) =>
+              MapEntry("${widget.prefix}$key${widget.suffix}", value),
+        ),
+      );
     }
   }
 
@@ -71,9 +95,11 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
       onWillPop: () async {
         return !await navigator.maybePop();
       },
-      child: Navigator(
+      child: InlineNavigator(
         observers: [_effectiveController!.observer],
         key: _effectiveController!._navigatorKey,
+        prefix: widget.prefix,
+        suffix: widget.suffix,
         initialRoute: _effectiveController?._route,
         onGenerateRoute: (settings) => RouteConfig.onGenerateRoute(settings),
         onGenerateInitialRoutes: (state, initialRouteName) {
@@ -96,6 +122,128 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
       ),
     );
   }
+}
+
+class InlineNavigator extends Navigator {
+  InlineNavigator({
+    Key? key,
+    List<Page<dynamic>> pages = const <Page<dynamic>>[],
+    bool Function(Route<dynamic>, dynamic)? onPopPage,
+    String? initialRoute,
+    List<Route<dynamic>> Function(NavigatorState, String)
+        onGenerateInitialRoutes = Navigator.defaultGenerateInitialRoutes,
+    Route<dynamic>? Function(RouteSettings)? onGenerateRoute,
+    Route<dynamic>? Function(RouteSettings)? onUnknownRoute,
+    TransitionDelegate<dynamic> transitionDelegate =
+        const DefaultTransitionDelegate<dynamic>(),
+    bool reportsRouteUpdateToEngine = false,
+    List<NavigatorObserver> observers = const <NavigatorObserver>[],
+    String? restorationScopeId,
+    this.prefix = "",
+    this.suffix = "",
+  }) : super(
+          key: key,
+          pages: pages,
+          onPopPage: onPopPage,
+          initialRoute: "$prefix$initialRoute$suffix",
+          onGenerateInitialRoutes: onGenerateInitialRoutes,
+          onGenerateRoute: onGenerateRoute,
+          onUnknownRoute: onUnknownRoute,
+          transitionDelegate: transitionDelegate,
+          reportsRouteUpdateToEngine: reportsRouteUpdateToEngine,
+          observers: observers,
+          restorationScopeId: restorationScopeId,
+        );
+
+  final String prefix;
+  final String suffix;
+  @override
+  InlineNavigatorState createState() => InlineNavigatorState();
+}
+
+class InlineNavigatorState extends NavigatorState {
+  @override
+  InlineNavigator get widget => super.widget as InlineNavigator;
+
+  @override
+  Future<T?> popAndPushNamed<T extends Object?, TO extends Object?>(
+          String routeName,
+          {TO? result,
+          Object? arguments}) =>
+      super.popAndPushNamed<T, TO>(
+        "${widget.prefix}$routeName${widget.suffix}",
+        result: result,
+        arguments: arguments,
+      );
+
+  @override
+  Future<T?> pushNamed<T extends Object?>(String routeName,
+          {Object? arguments}) =>
+      super.pushNamed<T>(
+        "${widget.prefix}$routeName${widget.suffix}",
+        arguments: arguments,
+      );
+
+  @override
+  Future<T?> pushNamedAndRemoveUntil<T extends Object?>(
+          String newRouteName, RoutePredicate predicate,
+          {Object? arguments}) =>
+      super.pushNamedAndRemoveUntil<T>(
+        "${widget.prefix}$newRouteName${widget.suffix}",
+        predicate,
+        arguments: arguments,
+      );
+
+  @override
+  Future<T?> pushReplacementNamed<T extends Object?, TO extends Object?>(
+          String routeName,
+          {TO? result,
+          Object? arguments}) =>
+      super.pushReplacementNamed<T, TO>(
+        "${widget.prefix}$routeName${widget.suffix}",
+        result: result,
+        arguments: arguments,
+      );
+
+  @override
+  String restorablePopAndPushNamed<T extends Object?, TO extends Object?>(
+          String routeName,
+          {TO? result,
+          Object? arguments}) =>
+      super.restorablePopAndPushNamed<T, TO>(
+        "${widget.prefix}$routeName${widget.suffix}",
+        result: result,
+        arguments: arguments,
+      );
+
+  @override
+  String restorablePushNamed<T extends Object?>(String routeName,
+          {Object? arguments}) =>
+      super.restorablePushNamed<T>(
+        "${widget.prefix}$routeName${widget.suffix}",
+        arguments: arguments,
+      );
+
+  @override
+  String restorablePushNamedAndRemoveUntil<T extends Object?>(
+          String newRouteName, RoutePredicate predicate,
+          {Object? arguments}) =>
+      super.restorablePushNamedAndRemoveUntil<T>(
+        "${widget.prefix}$newRouteName${widget.suffix}",
+        predicate,
+        arguments: arguments,
+      );
+
+  @override
+  String restorablePushReplacementNamed<T extends Object?, TO extends Object?>(
+          String routeName,
+          {TO? result,
+          Object? arguments}) =>
+      super.restorablePushReplacementNamed<T, TO>(
+        "${widget.prefix}$routeName${widget.suffix}",
+        result: result,
+        arguments: arguments,
+      );
 }
 
 class NavigatorController extends Listenable {

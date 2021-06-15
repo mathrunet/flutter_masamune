@@ -1,9 +1,9 @@
 part of masamune;
 
 @immutable
-class MockModuleAdapter extends ModuleAdapter<RuntimeDynamicDocumentModel,
+class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     RuntimeDynamicCollectionModel> {
-  const MockModuleAdapter({required this.userId, required this.data});
+  const MockModelAdapter({required this.userId, required this.data});
 
   final Map<String, DynamicMap> data;
 
@@ -122,4 +122,26 @@ class MockModuleAdapter extends ModuleAdapter<RuntimeDynamicDocumentModel,
 
   @override
   Future<void> tryRestoreAuth() => Future.delayed(Duration.zero);
+
+  @override
+  MockModelAdapter? fromMap(DynamicMap map) {
+    if (map.get("type", "") != type ||
+        !map.containsKey("user") ||
+        !map.containsKey("data")) {
+      return null;
+    }
+    return MockModelAdapter(
+      userId: map.get("user", ""),
+      data: map.getAsMap<DynamicMap>("data"),
+    );
+  }
+
+  @override
+  DynamicMap toMap() {
+    return <String, dynamic>{
+      "type": type,
+      "user": userId,
+      "data": data,
+    };
+  }
 }
