@@ -20,8 +20,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:katana_module/katana_module.dart';
 import 'package:katana_routing/katana_routing.dart';
+import 'package:wordpress_api/wordpress_api.dart' as WordPress;
 // ignore: import_of_legacy_library_into_null_safe
-// import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
+import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:model_notifier/model_notifier.dart';
 
@@ -74,6 +75,7 @@ part "adapter/multi_platform_adapter.dart";
 part 'adapter/inherited_model_adapter.dart';
 part "animation/ui_animator_scenario.dart";
 part "animation/ui_animator_unit.dart";
+part "model/wordpress_collection_model.dart";
 part "hooks/navigator_controller.dart";
 part "hooks/text_editing_controller_map.dart";
 part "src/asset_type.dart";
@@ -83,6 +85,7 @@ part 'template/ui_boot.dart';
 part 'widget/builder/full_screen_builder.dart';
 part 'widget/builder/inline_page_builder.dart';
 part 'widget/builder/search_builder.dart';
+part 'widget/builder/loading_builder.dart';
 part 'widget/builder/ui_animated_builder.dart';
 part 'widget/component/clickable_box.dart';
 part 'widget/component/cms_layout.dart';

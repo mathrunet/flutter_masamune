@@ -13,16 +13,17 @@ class SearchBuilder<T extends Object> extends StatefulWidget {
   /// [indicatorColor]: Loading indicator color.
   /// [search]: Callback to be executed during the search.
   /// [builder]: Builder when the task is completed.
-  const SearchBuilder(
-      {this.emptyWidget,
-      this.padding = const EdgeInsets.all(10),
-      this.controller,
-      this.minLength = 2,
-      this.initialWidget,
-      this.indicatorColor,
-      required this.search,
-      this.initialValue,
-      required this.builder});
+  const SearchBuilder({
+    this.emptyWidget,
+    this.padding = const EdgeInsets.all(10),
+    this.controller,
+    this.minLength = 2,
+    this.initialWidget,
+    this.indicatorColor,
+    required this.search,
+    this.initialValue,
+    required this.builder,
+  });
 
   /// Builder when the data is empty.
   final Widget? emptyWidget;
