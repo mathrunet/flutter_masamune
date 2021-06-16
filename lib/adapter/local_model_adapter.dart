@@ -14,14 +14,16 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
       localDocumentProvider(path);
 
   @override
-  LocalDynamicDocumentModel loadDocument(LocalDynamicDocumentModel document) {
+  LocalDynamicDocumentModel loadDocument(LocalDynamicDocumentModel document,
+      [bool once = false]) {
     document.loadOnce();
     return document;
   }
 
   @override
   LocalDynamicCollectionModel loadCollection(
-      LocalDynamicCollectionModel collection) {
+      LocalDynamicCollectionModel collection,
+      [bool once = false]) {
     collection.loadOnce();
     return collection;
   }

@@ -23,11 +23,12 @@ class InheritedModelAdapter<TDocument extends DynamicDocumentModel,
       adapter.documentProvider("$prefix$path$suffix");
 
   @override
-  TDocument loadDocument(TDocument document) => adapter.loadDocument(document);
+  TDocument loadDocument(TDocument document, [bool once = false]) =>
+      adapter.loadDocument(document, once);
 
   @override
-  TCollection loadCollection(TCollection collection) =>
-      adapter.loadCollection(collection);
+  TCollection loadCollection(TCollection collection, [bool once = false]) =>
+      adapter.loadCollection(collection, once);
 
   @override
   Future<void> deleteDocument(TDocument document) =>

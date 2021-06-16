@@ -21,7 +21,8 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
 
   @override
   RuntimeDynamicCollectionModel loadCollection(
-      RuntimeDynamicCollectionModel collection) {
+      RuntimeDynamicCollectionModel collection,
+      [bool once = false]) {
     if (collection.isEmpty) {
       final runtime = collection;
       final path = runtime.path.trimQuery().trimString("/");
@@ -36,8 +37,8 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   }
 
   @override
-  RuntimeDynamicDocumentModel loadDocument(
-      RuntimeDynamicDocumentModel document) {
+  RuntimeDynamicDocumentModel loadDocument(RuntimeDynamicDocumentModel document,
+      [bool once = false]) {
     if (document.isEmpty) {
       final runtime = document;
       final path = runtime.path.trimQuery().trimString("/");

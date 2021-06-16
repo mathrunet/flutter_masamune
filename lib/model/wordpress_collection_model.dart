@@ -65,8 +65,22 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
   @override
   @protected
   Future<void> loadRequest() async {
+    final cache = Prefs.getString(endpoint);
+    if (cache.isNotEmpty) {
+      final data =
+          fromCollection(filterOnLoad(jsonDecodeAsList<DynamicMap>(cache)));
+      addAll(data);
+      _loadProcess(false);
+    } else {
+      final posts = await _loadProcess();
+      final data = fromCollection(filterOnLoad(posts));
+      addAll(data);
+    }
+  }
+
+  Future<List<DynamicMap>> _loadProcess([bool exception = true]) async {
     final res = await _wordpress.posts.fetch(args: paramaters);
-    if (res.statusCode != 200) {
+    if (res.statusCode != 200 && exception) {
       throw Exception("Could not retrieve data from wordpress.");
     }
     onCatchResponse(res);
@@ -81,8 +95,11 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
       final media = await _wordpress.media.fetch(id: featuredMedia);
       e["image"] = media.data.sourceUrl;
     }));
-    final data = fromCollection(filterOnLoad(posts));
-    addAll(data);
+    if (posts.isNotEmpty) {
+      final cache = jsonEncode(posts);
+      Prefs.set(endpoint, cache);
+    }
+    return posts;
   }
 
   /// The actual loading process is done from the API when it is saved.
