@@ -19,6 +19,13 @@ class NetworkOrAsset {
         uri,
         imageRenderMethodForWeb: ImageRenderMethodForWeb.HtmlImage,
       );
+    } else if (uri.startsWith("/")) {
+      final file = File(uri);
+      if (file.existsSync()) {
+        return FileImage(file);
+      } else {
+        return AssetImage(uri.trimString("/"));
+      }
     } else if (uri.startsWith("resource:")) {
       return AssetImage(uri.replaceAll(RegExp(r"resource:(//)?"), ""));
     } else {
@@ -40,6 +47,13 @@ class NetworkOrAsset {
     }
     if (uri.startsWith("http") || uri.startsWith("blob:")) {
       return NetworkVideoProvider(uri);
+    } else if (uri.startsWith("/")) {
+      final file = File(uri);
+      if (file.existsSync()) {
+        return FileVideoProvider(file);
+      } else {
+        return AssetVideoProvider(uri.trimString("/"));
+      }
     } else if (uri.startsWith("resource:")) {
       return AssetVideoProvider(uri.replaceAll(RegExp(r"resource:(//)?"), ""));
     } else {

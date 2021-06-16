@@ -400,7 +400,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+10"
+    version: "0.8.2+11"
   octo_image:
     dependency: transitive
     description:

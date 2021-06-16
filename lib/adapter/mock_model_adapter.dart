@@ -28,7 +28,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
       final path = runtime.path.trimQuery().trimString("/");
       final match = RegExp(r"^" + path + r"/[^/]+$");
       data.entries.where((e) => match.hasMatch(e.key)).forEach((element) {
-        final doc = runtime.create(path.split("/").last);
+        final doc = runtime.create(element.key.split("/").last);
         doc.value = element.value;
         runtime.add(doc);
       });

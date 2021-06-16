@@ -1,31 +1,31 @@
 part of masamune.form;
 
 class FormItemDateTimeField extends StatefulWidget implements FormItem {
-  const FormItemDateTimeField(
-      {this.controller,
-      this.keyboardType = TextInputType.text,
-      this.maxLength,
-      this.maxLines = 1,
-      this.minLines,
-      this.backgroundColor,
-      this.hintText,
-      this.labelText,
-      this.counterText = "",
-      this.dense = false,
-      this.enabled = true,
-      this.prefix,
-      this.suffix,
-      this.errorText,
-      this.allowEmpty = false,
-      this.readOnly = false,
-      this.obscureText = false,
-      this.contentPadding,
-      this.type = FormItemDateTimeFieldPickerType.dateTime,
-      this.initialDateTime,
-      DateFormat? format,
-      Future<DateTime> onShowPicker(BuildContext context, DateTime dateTime)?,
-      this.onSaved})
-      : _format = format,
+  const FormItemDateTimeField({
+    this.controller,
+    this.keyboardType = TextInputType.text,
+    this.maxLength,
+    this.maxLines = 1,
+    this.minLines,
+    this.backgroundColor,
+    this.hintText,
+    this.labelText,
+    this.counterText = "",
+    this.dense = false,
+    this.enabled = true,
+    this.prefix,
+    this.suffix,
+    this.errorText,
+    this.allowEmpty = false,
+    this.readOnly = false,
+    this.obscureText = false,
+    this.contentPadding,
+    this.type = FormItemDateTimeFieldPickerType.dateTime,
+    this.initialDateTime,
+    DateFormat? format,
+    Future<DateTime> onShowPicker(BuildContext context, DateTime dateTime)?,
+    this.onSaved,
+  })  : _format = format,
         _onShowPicker = onShowPicker;
 
   /// Calculate formatted datetime string from [millisecondsSinceEpoch].
@@ -231,7 +231,7 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
           if (!widget.allowEmpty && value == null) {
             return;
           }
-          widget.onSaved?.call(value!);
+          widget.onSaved?.call(value);
         },
         onShowPicker: widget.onShowPicker,
       ),
@@ -630,11 +630,7 @@ class _DateTimeField extends FormField<DateTime> {
   /// Returns null if [format.parse()] throws.
   static DateTime? tryParse(String? string, DateFormat format) {
     if (string.isNotEmpty) {
-      try {
-        return format.parse(string!);
-      } catch (e) {
-        // print('Error parsing date: $e');
-      }
+      return format.parse(string!);
     }
     return null;
   }
@@ -667,16 +663,13 @@ class _DateTimeFieldState extends FormFieldState<DateTime> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = TextEditingController(
-          text: format(widget.initialValue ?? DateTime.now()));
+      _controller = TextEditingController(text: format(widget.initialValue));
       _controller?.addListener(_handleControllerChanged);
     }
     if (value == null) {
       setValue(
-        _DateTimeField.tryParse(_controller?.text, widget.format) ??
-            widget.initialValue ??
-            DateTime.now(),
-      );
+          _DateTimeField.tryParse(_effectiveController?.text, widget.format) ??
+              widget.initialValue);
     }
     if (widget.focusNode == null) {
       _focusNode = FocusNode();

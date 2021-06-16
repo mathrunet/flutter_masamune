@@ -35,6 +35,7 @@ class FormItemMedia extends FormField<String> {
     required this.onTap,
     this.color,
     this.hintText = "",
+    this.errorText = "",
     this.allowEmpty = false,
     this.dense = false,
     this.height = 200,
@@ -58,8 +59,8 @@ class FormItemMedia extends FormField<String> {
           },
           onSaved: onSaved,
           validator: (value) {
-            if (!allowEmpty && value.isEmpty) {
-              return hintText;
+            if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
+              return errorText;
             }
             return validator?.call(value);
           },
@@ -92,6 +93,9 @@ class FormItemMedia extends FormField<String> {
 
   /// Hint label.
   final String hintText;
+
+  /// Error label.
+  final String errorText;
 
   /// Video extension list.
   final List<String> videoExtensionList;
