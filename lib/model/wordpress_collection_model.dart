@@ -25,7 +25,7 @@ class WordpressQuery {
 
 class WordpressCollectionModel extends ApiDynamicCollectionModel {
   WordpressCollectionModel(String endpoint)
-      : paramaters = _getParamaters(endpoint),
+      : parameters = _getParameters(endpoint),
         super(_getPath(endpoint));
 
   static String _getPath(String path) {
@@ -35,7 +35,7 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
     return path;
   }
 
-  static Map<String, dynamic> _getParamaters(String path) {
+  static Map<String, dynamic> _getParameters(String path) {
     if (path.contains("?")) {
       final params = Uri.parse(path).queryParameters;
       return <String, dynamic>{
@@ -49,7 +49,7 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
     return const {};
   }
 
-  final Map<String, dynamic> paramaters;
+  final Map<String, dynamic> parameters;
   late final WordPress.WordPressAPI _wordpress;
 
   @override
@@ -79,7 +79,7 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
   }
 
   Future<List<DynamicMap>> _loadProcess([bool exception = true]) async {
-    final res = await _wordpress.posts.fetch(args: paramaters);
+    final res = await _wordpress.posts.fetch(args: parameters);
     if (res.statusCode != 200 && exception) {
       throw Exception("Could not retrieve data from wordpress.");
     }

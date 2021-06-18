@@ -23,32 +23,44 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   RuntimeDynamicCollectionModel loadCollection(
       RuntimeDynamicCollectionModel collection,
       [bool once = false]) {
-    if (collection.isEmpty) {
-      final runtime = collection;
-      final path = runtime.path.trimQuery().trimString("/");
-      final match = RegExp(r"^" + path + r"/[^/]+$");
-      data.entries.where((e) => match.hasMatch(e.key)).forEach((element) {
-        final doc = runtime.create(element.key.split("/").last);
-        doc.value = element.value;
-        runtime.add(doc);
-      });
-    }
+    collection.loadOnce().then((value) {
+      if (value.isEmpty) {
+        final runtime = collection;
+        final path = runtime.path.trimQuery().trimString("/");
+        final match = RegExp(r"^" + path + r"/[^/]+$");
+        data.entries.where((e) => match.hasMatch(e.key)).forEach((element) {
+          final doc = runtime.create(element.key.split("/").last);
+          doc.value = Map.from(element.value);
+          runtime.add(doc);
+        });
+        if (runtime.isNotEmpty) {
+          // ignore: invalid_use_of_protected_member
+          runtime.notifyListeners();
+        }
+      }
+    });
     return collection;
   }
 
   @override
   RuntimeDynamicDocumentModel loadDocument(RuntimeDynamicDocumentModel document,
       [bool once = false]) {
-    if (document.isEmpty) {
-      final runtime = document;
-      final path = runtime.path.trimQuery().trimString("/");
-      final doc = data.entries.firstWhereOrNull((item) => item.key == path);
-      if (doc != null) {
-        for (final tmp in doc.value.entries) {
-          runtime.value[tmp.key] = tmp.value;
+    document.loadOnce().then((value) {
+      if (document.isEmpty) {
+        final runtime = document;
+        final path = runtime.path.trimQuery().trimString("/");
+        final doc = data.entries.firstWhereOrNull((item) => item.key == path);
+        if (doc != null) {
+          for (final tmp in doc.value.entries) {
+            runtime.value[tmp.key] = tmp.value;
+          }
+        }
+        if (runtime.isNotEmpty) {
+          // ignore: invalid_use_of_protected_member
+          runtime.notifyListeners();
         }
       }
-    }
+    });
     return document;
   }
 
