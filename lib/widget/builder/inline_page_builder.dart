@@ -65,6 +65,18 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
         );
       }
     }
+    if (widget.controller != oldWidget.controller) {
+      if (widget.controller == null) {
+        if (widget.initialRoute != oldWidget.initialRoute) {
+          _controller?.dispose();
+          _controller = NavigatorController(widget.initialRoute);
+        }
+      } else if (oldWidget.controller == null) {
+        _controller?.dispose();
+      }
+      _cache = null;
+      setState(() {});
+    }
   }
 
   @override
@@ -125,7 +137,7 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
 }
 
 class InlineNavigator extends Navigator {
-  InlineNavigator({
+  const InlineNavigator({
     Key? key,
     List<Page<dynamic>> pages = const <Page<dynamic>>[],
     bool Function(Route<dynamic>, dynamic)? onPopPage,
@@ -266,6 +278,11 @@ class NavigatorController extends Listenable {
   void removeListener(VoidCallback listener) {
     observer._removeListener(listener);
   }
+
+  /// Destroy this object.
+  void dispose() {
+    observer.dispose();
+  }
 }
 
 /// Observer to be able to catch the navigation movement inside.
@@ -286,6 +303,12 @@ class InternalNavigatorObserver extends NavigatorObserver {
 
   void _removeListener(VoidCallback listener) {
     _listener.remove(listener);
+  }
+
+  /// Destroy this object.
+  void dispose() {
+    _current = null;
+    _listener.clear();
   }
 
   /// The [Navigator] replaced oldRoute with newRoute.

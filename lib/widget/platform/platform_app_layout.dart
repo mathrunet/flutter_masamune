@@ -33,9 +33,24 @@ class _PlatformAppLayoutState extends State<PlatformAppLayout> {
   }
 
   @override
+  void didUpdateWidget(PlatformAppLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (Config.isMobile) {
+      return;
+    }
+    if (widget.initialPath != oldWidget.initialPath) {
+      _inlinePageCache = null;
+      _controller?.dispose();
+      _controller = NavigatorController(widget.initialPath);
+      _controller?.addListener(_handledOnUpdate);
+      setState(() {});
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
-    _controller?.removeListener(_handledOnUpdate);
+    _controller?.dispose();
   }
 
   void _handledOnUpdate() {
