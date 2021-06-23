@@ -4,8 +4,17 @@ class PlatformAppLayout extends StatefulWidget {
   const PlatformAppLayout({
     required this.initialPath,
     required this.builder,
+    this.futures = const [],
+    this.loading,
+    this.indicatorColor,
   });
 
+  /// Loading indicator color.
+  final Color? indicatorColor;
+
+  /// Builder when the data is empty.
+  final Widget? loading;
+  final List<Future<dynamic>> futures;
   final String initialPath;
   final Widget Function(
     BuildContext context,
@@ -45,6 +54,9 @@ class _PlatformAppLayoutState extends State<PlatformAppLayout> {
       _controller?.addListener(_handledOnUpdate);
       setState(() {});
     }
+    if (widget.futures != oldWidget.futures && widget.futures.isNotEmpty) {
+      setState(() {});
+    }
   }
 
   @override
@@ -59,6 +71,14 @@ class _PlatformAppLayoutState extends State<PlatformAppLayout> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.futures.isNotEmpty) {
+      return WaitingBuilder(futures: widget.futures, builder: _build);
+    } else {
+      return _build(context);
+    }
+  }
+
+  Widget _build(BuildContext context) {
     final isMobile = Config.isMobile;
     if (isMobile) {
       return widget.builder.call(context, isMobile, null, null);

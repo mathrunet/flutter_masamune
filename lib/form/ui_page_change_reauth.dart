@@ -1,19 +1,23 @@
 part of masamune.form;
 
-class UIPageChangeReauth extends PageHookWidget with UIPageFormMixin {
+class UIPageChangeReauth extends PageHookWidget {
+  const UIPageChangeReauth();
+
   @override
   Widget build(BuildContext context) {
+    final form = useForm();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Reauthentication".localize(),
         ),
       ),
-      body: ChangeEmailForm(key: formKey),
+      body: ChangeEmailForm(key: form.key),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.check),
         onPressed: () {
-          if (!validate(context)) {
+          if (!form.validate()) {
             return;
           }
           context.navigator

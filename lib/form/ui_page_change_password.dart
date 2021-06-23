@@ -1,19 +1,23 @@
 part of masamune.form;
 
-class UIPageChangePassword extends PageHookWidget with UIPageFormMixin {
+class UIPageChangePassword extends PageHookWidget {
+  const UIPageChangePassword();
+
   @override
   Widget build(BuildContext context) {
+    final form = useForm();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Change Password".localize(),
         ),
       ),
-      body: ChangePasswordForm(key: formKey),
+      body: ChangePasswordForm(key: form.key),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.check),
         onPressed: () {
-          if (!validate(context)) {
+          if (!form.validate()) {
             return;
           }
           UIDialog.show(
