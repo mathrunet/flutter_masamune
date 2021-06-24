@@ -262,6 +262,8 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
   AnimationController? _animationController;
   CalendarController? _calendarController;
   final List<Listenable> _listenableList = [];
+  Listenable? _eventsListenable;
+  Listenable? _holidaysListenable;
 
   @override
   void initState() {
@@ -272,6 +274,14 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 400),
     );
     _animationController?.forward();
+    if (widget.events is Listenable) {
+      _eventsListenable = (widget.events as Listenable)
+        ..addListener(_handledOnListUpdate);
+    }
+    if (widget.holidays is Listenable) {
+      _holidaysListenable = (widget.holidays as Listenable)
+        ..addListener(_handledOnListUpdate);
+    }
     _listenableList.addAll(widget.events.whereType<Listenable>());
     _listenableList.addAll(widget.holidays.whereType<Listenable>());
     _listenableList.forEach((element) => element.addListener(_handledOnUpdate));
@@ -281,10 +291,22 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
     setState(() {});
   }
 
+  void _handledOnListUpdate() {
+    _listenableList
+        .forEach((element) => element.removeListener(_handledOnUpdate));
+    _listenableList.clear();
+    _listenableList.addAll(widget.events.whereType<Listenable>());
+    _listenableList.addAll(widget.holidays.whereType<Listenable>());
+    _listenableList.forEach((element) => element.addListener(_handledOnUpdate));
+    setState(() {});
+  }
+
   @override
   void dispose() {
     _listenableList
         .forEach((element) => element.removeListener(_handledOnUpdate));
+    _eventsListenable?.removeListener(_handledOnListUpdate);
+    _holidaysListenable?.removeListener(_handledOnListUpdate);
     _animationController?.dispose();
     _calendarController?.dispose();
     super.dispose();
@@ -295,13 +317,24 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
     super.didUpdateWidget(oldWidget);
     if (widget.events != oldWidget.events ||
         widget.holidays != oldWidget.holidays) {
+      _eventsListenable?.removeListener(_handledOnListUpdate);
+      _holidaysListenable?.removeListener(_handledOnListUpdate);
       _listenableList
           .forEach((element) => element.removeListener(_handledOnUpdate));
       _listenableList.clear();
+      if (widget.events is Listenable) {
+        _eventsListenable = (widget.events as Listenable)
+          ..addListener(_handledOnListUpdate);
+      }
+      if (widget.holidays is Listenable) {
+        _holidaysListenable = (widget.holidays as Listenable)
+          ..addListener(_handledOnListUpdate);
+      }
       _listenableList.addAll(widget.events.whereType<Listenable>());
       _listenableList.addAll(widget.holidays.whereType<Listenable>());
       _listenableList
           .forEach((element) => element.addListener(_handledOnUpdate));
+      setState(() {});
     }
   }
 

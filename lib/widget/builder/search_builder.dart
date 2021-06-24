@@ -17,7 +17,7 @@ class SearchBuilder<T extends Object> extends StatefulWidget {
     this.emptyWidget,
     this.padding = const EdgeInsets.all(10),
     this.controller,
-    this.minLength = 2,
+    this.minLength = 1,
     this.initialWidget,
     this.indicatorColor,
     required this.search,
