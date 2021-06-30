@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:katana/katana.dart';
 import 'package:katana_routing/katana_routing.dart';
+import 'package:loading_animations/loading_animations.dart';
 import 'package:masamune/masamune.dart';
 
 part 'appendable_builder.dart';

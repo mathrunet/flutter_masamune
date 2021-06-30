@@ -19,7 +19,7 @@ FormContext useForm([String? editingId]) {
     context: context,
     key: useGlobalKey<FormState>(),
     uid: editingId.isNotEmpty ? context.get(editingId!, uuid) : uuid,
-    exists: editingId.isEmpty || !context.arg.containsKey(editingId!),
+    exists: editingId.isEmpty || context.arg.containsKey(editingId!),
   );
 }
 

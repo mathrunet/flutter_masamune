@@ -3,31 +3,32 @@ part of masamune;
 /// Wrapper for BottomNavigationBar.
 class UIBottomNavigationBar extends StatefulWidget {
   /// Wrapper for BottomNavigationBar.
-  const UIBottomNavigationBar(
-      {Key? key,
-      this.indexID,
-      required this.items,
-      this.top,
-      this.initialIndex = 0,
-      this.disableOnTapWhenInitialIndex = true,
-      this.elevation = 8.0,
-      this.bottom,
-      this.type = BottomNavigationBarType.fixed,
-      this.fixedColor,
-      // this.routeObserver,
-      this.backgroundColor,
-      this.iconSize = 24.0,
-      this.selectedItemColor,
-      this.unselectedItemColor,
-      this.selectedIconTheme = const IconThemeData(),
-      this.unselectedIconTheme = const IconThemeData(),
-      this.selectedFontSize = 14.0,
-      this.unselectedFontSize = 12.0,
-      this.selectedLabelStyle,
-      this.unselectedLabelStyle,
-      this.showSelectedLabels = true,
-      this.showUnselectedLabels})
-      : super(key: key);
+  const UIBottomNavigationBar({
+    Key? key,
+    this.indexID,
+    required this.items,
+    this.top,
+    this.initialIndex = 0,
+    this.disableOnTapWhenInitialIndex = true,
+    this.elevation = 8.0,
+    this.bottom,
+    this.type = BottomNavigationBarType.fixed,
+    this.fixedColor,
+    // this.routeObserver,
+    this.backgroundColor,
+    this.iconSize = 24.0,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.selectedIconTheme = const IconThemeData(),
+    this.unselectedIconTheme = const IconThemeData(),
+    this.selectedFontSize = 14.0,
+    this.unselectedFontSize = 12.0,
+    this.selectedLabelStyle,
+    this.unselectedLabelStyle,
+    this.showSelectedLabels = true,
+    this.showUnselectedLabels,
+    this.controller,
+  }) : super(key: key);
 
   final List<UIBottomNavigationBarItem> items;
   final int initialIndex;
@@ -51,6 +52,7 @@ class UIBottomNavigationBar extends StatefulWidget {
   final bool? showUnselectedLabels;
   final bool disableOnTapWhenInitialIndex;
   final String? indexID;
+  final NavigatorController? controller;
 
   @override
   State<StatefulWidget> createState() => _UIBottomNavigationBarState();
@@ -72,6 +74,7 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
     if (currentIndex < 0) {
       currentIndex = widget.initialIndex;
     }
+    widget.controller?.addListener(_handledOnRouteChange);
   }
 
   @override
@@ -92,14 +95,10 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
         currentIndex = widget.initialIndex;
       }
     }
-  }
-
-  @override
-  @protected
-  @mustCallSuper
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // widget.routeObserver?.subscribe(_onRouteChange);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller?.removeListener(_handledOnRouteChange);
+      widget.controller?.addListener(_handledOnRouteChange);
+    }
   }
 
   @override
@@ -107,22 +106,29 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
   @mustCallSuper
   void dispose() {
     super.dispose();
-    // widget.routeObserver?.unsubscribe(_onRouteChange);
+    widget.controller?.removeListener(_handledOnRouteChange);
   }
 
-  // void _onRouteChange(Route route) {
-  //   if (this.widget.routeObserver == null) return;
-  //   if (this.widget.items == null || this.widget.items.length <= 0) return;
-  //   for (int i = 0; i < this.widget.items.length; i++) {
-  //     UIBottomNavigationBarItem item = this.widget.items[i];
-  //     if (i == this.currentIndex) continue;
-  //     if (item == null || item.onRouteChange == null) continue;
-  //     if (!item.onRouteChange(route)) continue;
-  //     this.setState(() {
-  //       this.currentIndex = i;
-  //     });
-  //   }
-  // }
+  void _handledOnRouteChange() {
+    if (widget.controller == null || widget.items.isEmpty) {
+      return;
+    }
+    for (var i = 0; i < widget.items.length; i++) {
+      final item = widget.items[i];
+      if (i == currentIndex) {
+        continue;
+      }
+      if (item.onRouteChange == null) {
+        continue;
+      }
+      if (!item.onRouteChange!.call(widget.controller?.route)) {
+        continue;
+      }
+      setState(() {
+        currentIndex = i;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,6 +204,6 @@ class UIBottomNavigationBarItem extends BottomNavigationBarItem {
         );
   final String id;
   final void Function()? onTap;
-  final bool Function(Route route)? onRouteChange;
+  final bool Function(RouteSettings? route)? onRouteChange;
   final void Function()? onTapWhenInitialIndex;
 }

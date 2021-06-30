@@ -1,17 +1,16 @@
 part of masamune;
 
-class LoadingBuilder<T> extends StatefulWidget {
+class LoadingBuilder extends StatelessWidget {
   const LoadingBuilder({
-    required this.source,
+    required this.futures,
     required this.builder,
     this.indicatorColor,
     this.loading,
-    this.emptyWidget,
   });
 
-  final FutureOr<T> source;
+  final List<FutureOr<dynamic>> futures;
 
-  final Widget Function(BuildContext context, T data) builder;
+  final Widget Function(BuildContext context) builder;
 
   /// Builder when the data is empty.
   final Widget? loading;
@@ -19,46 +18,32 @@ class LoadingBuilder<T> extends StatefulWidget {
   /// Loading indicator color.
   final Color? indicatorColor;
 
-  /// Builder when the data is empty.
-  final Widget? emptyWidget;
-
-  @override
-  State<StatefulWidget> createState() => _LoadingBuilder<T>();
-}
-
-class _LoadingBuilder<T> extends State<LoadingBuilder<T>> {
   @override
   Widget build(BuildContext context) {
-    final source = widget.source;
-    if (source is T) {
-      return widget.builder(context, source);
-    } else if (source is Future<T>) {
-      return FutureBuilder<T>(
-        future: source,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return Center(
-              child: widget.loading ??
-                  context.widgetTheme.loadingIndicator?.call(
-                    context,
-                    widget.indicatorColor ?? context.theme.disabledColor,
-                  ) ??
-                  LoadingBouncingGrid.square(
-                    backgroundColor:
-                        widget.indicatorColor ?? context.theme.disabledColor,
-                  ),
-            );
-          } else {
-            if (snapshot.data == null) {
-              return widget.emptyWidget ??
-                  Center(child: Text("No data.".localize()));
-            }
-            // ignore: null_check_on_nullable_type_parameter
-            return widget.builder(context, snapshot.data!);
-          }
-        },
-      );
+    final _futures = futures.whereType<Future>();
+    final _wait = _futures.isNotEmpty ? Future.wait(_futures) : null;
+    if (_wait == null) {
+      return builder(context);
     }
-    return const Empty();
+    return FutureBuilder(
+      future: _wait,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(
+            child: loading ??
+                context.widgetTheme.loadingIndicator?.call(
+                  context,
+                  indicatorColor ?? context.theme.disabledColor,
+                ) ??
+                LoadingBouncingGrid.square(
+                  backgroundColor:
+                      indicatorColor ?? context.theme.disabledColor,
+                ),
+          );
+        } else {
+          return builder(context);
+        }
+      },
+    );
   }
 }

@@ -7,7 +7,6 @@
 library masamune.form;
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:masamune/masamune.dart';
@@ -29,6 +28,7 @@ part 'form_item_label.dart';
 part 'form_item_checkbox.dart';
 part 'form_builder.dart';
 part 'form_item.dart';
+part 'extensions.dart';
 part 'form_item_chips_field.dart';
 part 'form_item_avatar_image.dart';
 part 'form_item_builder.dart';

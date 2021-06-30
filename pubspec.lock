@@ -175,7 +175,7 @@ packages:
     source: hosted
     version: "0.6.0"
   flutter_cache_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_cache_manager
       url: "https://pub.dartlang.org"
@@ -316,7 +316,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+17"
+    version: "0.8.2+20"
   katana_module:
     dependency: "direct main"
     description:
@@ -337,7 +337,7 @@ packages:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+10"
+    version: "0.8.2+12"
   loading_animations:
     dependency: "direct main"
     description:
@@ -386,7 +386,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+23"
+    version: "0.8.2+29"
   octo_image:
     dependency: transitive
     description:

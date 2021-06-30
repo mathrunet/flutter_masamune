@@ -69,3 +69,17 @@ extension PlatformBuildContextExtensions on BuildContext {
     return parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
   }
 }
+
+extension NetworkOrAssetDynamicMapExtensions on DynamicMap {
+  ImageProvider getAsImage(String key,
+      [String defaultURI = "assets/default.png"]) {
+    final uri = get(key, "");
+    return NetworkOrAsset.image(uri, defaultURI);
+  }
+
+  VideoProvider getAsVideo(String key,
+      [String defaultURI = "assets/default.mp4"]) {
+    final uri = get(key, "");
+    return NetworkOrAsset.video(uri, defaultURI);
+  }
+}

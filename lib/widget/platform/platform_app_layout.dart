@@ -14,7 +14,7 @@ class PlatformAppLayout extends StatefulWidget {
 
   /// Builder when the data is empty.
   final Widget? loading;
-  final List<Future<dynamic>> futures;
+  final List<FutureOr<dynamic>> futures;
   final String initialPath;
   final Widget Function(
     BuildContext context,
@@ -72,7 +72,7 @@ class _PlatformAppLayoutState extends State<PlatformAppLayout> {
   @override
   Widget build(BuildContext context) {
     if (widget.futures.isNotEmpty) {
-      return WaitingBuilder(futures: widget.futures, builder: _build);
+      return LoadingBuilder(futures: widget.futures, builder: _build);
     } else {
       return _build(context);
     }
