@@ -316,28 +316,28 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+20"
+    version: "0.8.3"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+20"
+    version: "0.8.3"
   katana_module_builder_annotation:
     dependency: transitive
     description:
       name: katana_module_builder_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0+1"
+    version: "1.0.1"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+13"
+    version: "0.8.3"
   loading_animations:
     dependency: "direct main"
     description:
@@ -386,7 +386,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+29"
+    version: "0.8.3"
   octo_image:
     dependency: transitive
     description:
