@@ -13,7 +13,11 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     this.enabled = true,
     this.icon,
     this.style,
+    this.disabledColor,
+    this.disabledBackgroundColor,
     this.borderRadius = 8.0,
+    this.borderColor,
+    this.width = 0.0,
   });
   final double borderRadius;
   final ButtonStyle? style;
@@ -21,12 +25,16 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? color;
+  final Color? disabledColor;
+  final Color? disabledBackgroundColor;
   final IconData? icon;
   final bool enabled;
   final bool dense;
   final double height;
   final double fontSize;
+  final Color? borderColor;
   final EdgeInsetsGeometry padding;
+  final double width;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,30 +45,41 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
               style: style ??
                   DefaultTextButtonStyle(
                       padding: const EdgeInsets.all(10),
-                      backgroundColor:
-                          backgroundColor ?? context.theme.primaryColor,
-                      disabledBackgroundColor: context.theme.disabledColor,
-                      radius: dense ? 0 : borderRadius),
-              icon: Icon(icon,
-                  size: fontSize * 1.2,
-                  color: color ?? context.theme.backgroundColor),
-              label: Text(label,
-                  style: TextStyle(
                       color: color ?? context.theme.backgroundColor,
-                      fontSize: fontSize)),
+                      disabledColor: disabledColor,
+                      backgroundColor: backgroundColor ??
+                          context.theme.primaryColor,
+                      disabledBackgroundColor:
+                          backgroundColor == Colors.transparent
+                              ? backgroundColor
+                              : (disabledBackgroundColor ??
+                                  context.theme.disabledColor),
+                      borderColor: borderColor,
+                      width: width,
+                      radius: dense ? 0 : borderRadius),
+              icon: Icon(
+                icon,
+                size: fontSize * 1.2,
+              ),
+              label: Text(label, style: TextStyle(fontSize: fontSize)),
               onPressed: enabled ? onPressed : null)
           : TextButton(
               style: style ??
                   DefaultTextButtonStyle(
                       padding: const EdgeInsets.all(10),
-                      backgroundColor:
-                          backgroundColor ?? context.theme.primaryColor,
-                      disabledBackgroundColor: context.theme.disabledColor,
-                      radius: dense ? 0 : borderRadius),
-              child: Text(label,
-                  style: TextStyle(
                       color: color ?? context.theme.backgroundColor,
-                      fontSize: fontSize)),
+                      disabledColor: disabledColor,
+                      backgroundColor: backgroundColor ??
+                          context.theme.primaryColor,
+                      disabledBackgroundColor:
+                          backgroundColor == Colors.transparent
+                              ? backgroundColor
+                              : (disabledBackgroundColor ??
+                                  context.theme.disabledColor),
+                      borderColor: borderColor,
+                      width: width,
+                      radius: dense ? 0 : borderRadius),
+              child: Text(label, style: TextStyle(fontSize: fontSize)),
               onPressed: enabled ? onPressed : null,
             ),
     );

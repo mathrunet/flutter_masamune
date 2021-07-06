@@ -65,75 +65,73 @@ abstract class UIBoot extends PageHookWidget {
         child: widget,
       );
     }
-    // return Container(
-    //   color: backgroundColor ?? context.theme.backgroundColor,
-    //   child: UIAnimatedBuilder(
-    //     animator: UIAnimatorScenario([
-    //       UIAnimatorUnit(
-    //         animatable: Tween<double>(begin: 150, end: 100),
-    //         from: const Duration(milliseconds: 0),
-    //         to: const Duration(milliseconds: 2500),
-    //         curve: Curves.easeInOutQuint,
-    //         tag: "size",
-    //       ),
-    //       UIAnimatorUnit(
-    //         animatable: Tween<double>(begin: 100, end: 150),
-    //         from: const Duration(milliseconds: 2500),
-    //         to: const Duration(milliseconds: 5000),
-    //         curve: Curves.easeInOutQuint,
-    //         tag: "size",
-    //       ),
-    //       UIAnimatorUnit(
-    //         animatable: ColorTween(
-    //           begin: indicatorColor ?? Colors.red,
-    //           end: indicatorColor ?? Colors.purple,
-    //         ),
-    //         from: const Duration(seconds: 0),
-    //         to: const Duration(seconds: 1),
-    //         tag: "color",
-    //       ),
-    //       UIAnimatorUnit(
-    //         animatable: ColorTween(
-    //           begin: indicatorColor ?? Colors.purple,
-    //           end: indicatorColor ?? Colors.blue,
-    //         ),
-    //         from: const Duration(seconds: 2),
-    //         to: const Duration(seconds: 3),
-    //         tag: "color",
-    //       ),
-    //       UIAnimatorUnit(
-    //         animatable: ColorTween(
-    //           begin: indicatorColor ?? Colors.blue,
-    //           end: indicatorColor ?? Colors.purple,
-    //         ),
-    //         from: const Duration(seconds: 4),
-    //         to: const Duration(seconds: 5),
-    //         tag: "color",
-    //       ),
-    //       UIAnimatorUnit(
-    //         animatable: ColorTween(
-    //           begin: indicatorColor ?? Colors.purple,
-    //           end: indicatorColor ?? Colors.red,
-    //         ),
-    //         from: const Duration(seconds: 8),
-    //         to: const Duration(seconds: 10),
-    //         tag: "color",
-    //       )
-    //     ])
-    //       ..playRepeat(),
-    //     builder: (context, child, animator) {
-    //       return LoadingBouncingGrid.circle(
-    //         size: animator.attr("size", defaultValue: 0),
-    //         backgroundColor: animator.attr(
-    //           "color",
-    //           defaultValue: indicatorColor ?? Colors.red,
-    //         ),
-    //       );
-    //     },
-    //   ),
-    // );
-    return const Center(
-      child: CircularProgressIndicator(),
+    return ColoredBox(
+      color: backgroundColor ?? context.theme.backgroundColor,
+      child: AnimationScope(
+        animation: useAutoRepeatAnimationScenario(
+          [
+            AnimationUnit(
+              tween: DoubleTween(begin: 150, end: 100),
+              from: const Duration(milliseconds: 0),
+              to: const Duration(milliseconds: 2500),
+              curve: Curves.easeInOutQuint,
+              tag: "size",
+            ),
+            AnimationUnit(
+              tween: DoubleTween(begin: 100, end: 150),
+              from: const Duration(milliseconds: 2500),
+              to: const Duration(milliseconds: 5000),
+              curve: Curves.easeInOutQuint,
+              tag: "size",
+            ),
+            AnimationUnit(
+              tween: ColorTween(
+                begin: indicatorColor ?? Colors.red,
+                end: indicatorColor ?? Colors.purple,
+              ),
+              from: const Duration(seconds: 0),
+              to: const Duration(seconds: 1),
+              tag: "color",
+            ),
+            AnimationUnit(
+              tween: ColorTween(
+                begin: indicatorColor ?? Colors.purple,
+                end: indicatorColor ?? Colors.blue,
+              ),
+              from: const Duration(seconds: 2),
+              to: const Duration(seconds: 3),
+              tag: "color",
+            ),
+            AnimationUnit(
+              tween: ColorTween(
+                begin: indicatorColor ?? Colors.blue,
+                end: indicatorColor ?? Colors.purple,
+              ),
+              from: const Duration(seconds: 4),
+              to: const Duration(seconds: 5),
+              tag: "color",
+            ),
+            AnimationUnit(
+              tween: ColorTween(
+                begin: indicatorColor ?? Colors.purple,
+                end: indicatorColor ?? Colors.red,
+              ),
+              from: const Duration(seconds: 8),
+              to: const Duration(seconds: 10),
+              tag: "color",
+            )
+          ],
+        ),
+        builder: (context, child, animator) {
+          return LoadingBouncingGrid.circle(
+            size: animator.get("size", 0),
+            backgroundColor: animator.get(
+              "color",
+              indicatorColor ?? Colors.red,
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -6,14 +6,16 @@ class InlineAppPreview extends StatelessWidget {
     this.controller,
     this.routes,
     this.widgetTheme,
-    this.theme,
+    this.lightTheme,
+    this.darkTheme,
     this.enableModules = const [],
     this.availableModules = const [],
     this.prefix,
     this.suffix,
   });
   final String? initialRoute;
-  final ThemeData? theme;
+  final ThemeData? lightTheme;
+  final ThemeData? darkTheme;
   final NavigatorController? controller;
   final Map<String, RouteConfig>? routes;
   final WidgetTheme? widgetTheme;
@@ -30,6 +32,7 @@ class InlineAppPreview extends StatelessWidget {
     ]);
     final moduleConfig = PageModule.merge(enableModules);
     final appModule = enableModules.whereType<AppModule>().firstOrNull;
+    final brightness = MediaQuery.platformBrightnessOf(context);
     return AppScope(
       app: appModule ?? context.app,
       child: AdapterScope(
@@ -43,8 +46,9 @@ class InlineAppPreview extends StatelessWidget {
           child: WidgetThemeScope(
             widgetTheme: widgetTheme ?? context.widgetTheme,
             child: Theme(
-              data: appModule?.themeColor?.toThemeData() ??
-                  theme ??
+              data: (brightness == Brightness.light
+                      ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
+                      : (appModule?.darkTheme?.toThemeData() ?? darkTheme)) ??
                   context.theme,
               child: InlinePageBuilder(
                 prefix: prefix ?? "",

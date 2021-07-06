@@ -4,18 +4,25 @@ part of masamune;
 ///
 /// The animation stored in [UIAnimatorUnit] is
 /// executed according to the collection order.
-class UIAnimatorScenario extends Model<UIAnimatorUnit>
-    implements TickerProvider {
-  UIAnimatorScenario(this.animation);
+class AnimationScenario extends ValueModel<List<AnimationUnit>>
+    with ListModelMixin<AnimationUnit>
+    implements List<AnimationUnit>, TickerProvider {
+  AnimationScenario([List<AnimationUnit>? units]) : super(units ?? []);
 
-  final Iterable<UIAnimatorUnit> animation;
+  @override
+  @protected
+  void notifyListeners() {
+    super.notifyListeners();
+    __builder = null;
+    __animation = null;
+  }
 
   void _rebuild() {
     __animation = null;
     __builder = SequenceAnimationBuilder();
-    for (final anim in animation) {
+    for (final anim in value) {
       _builder.addAnimatable(
-        animatable: anim.animatable,
+        animatable: anim.tween,
         from: anim.from,
         to: anim.to,
         tag: anim.tag ?? "",
@@ -60,28 +67,28 @@ class UIAnimatorScenario extends Model<UIAnimatorUnit>
   SequenceAnimation? __animation;
 
   /// Play the animation.
-  Future<UIAnimatorScenario> play() async {
+  Future<AnimationScenario> play() async {
     __animation = _builder.animate(controller);
     await controller.forward().orCancel;
     return this;
   }
 
   /// Play the animation from the opposite.
-  Future<UIAnimatorScenario> playReverse() async {
+  Future<AnimationScenario> playReverse() async {
     __animation = _builder.animate(controller);
     await controller.reverse().orCancel;
     return this;
   }
 
   /// Repeat the animation and play.
-  Future<UIAnimatorScenario> playRepeat() async {
+  Future<AnimationScenario> playRepeat() async {
     __animation = _builder.animate(controller);
     await controller.repeat().orCancel;
     return this;
   }
 
   /// Stop the animation you are playing.
-  UIAnimatorScenario stop() {
+  AnimationScenario stop() {
     __animation = _builder.animate(controller);
     controller.stop();
     return this;
@@ -91,7 +98,7 @@ class UIAnimatorScenario extends Model<UIAnimatorUnit>
   ///
   /// [tag]: Animation tag.
   /// [defaultValue]: The initial value if there is no value.
-  T? attr<T>(String tag, {T? defaultValue}) {
+  T get<T>(String tag, T defaultValue) {
     assert(tag.isNotEmpty, "The tag is empty.");
     final value = _animation[tag].value as T?;
     return value ?? defaultValue;
@@ -106,4 +113,69 @@ class UIAnimatorScenario extends Model<UIAnimatorUnit>
     _ticker.dispose();
     super.dispose();
   }
+}
+
+AnimationScenario useAutoAnimationScenario([List<AnimationUnit>? units]) {
+  final animationScenario = useAnimationScenario(units);
+  useEffect(
+    () {
+      animationScenario.play();
+      return () {};
+    },
+    [animationScenario],
+  );
+  return animationScenario;
+}
+
+AnimationScenario useAutoRepeatAnimationScenario([List<AnimationUnit>? units]) {
+  final animationScenario = useAnimationScenario(units);
+  useEffect(
+    () {
+      animationScenario.playRepeat();
+      return () {};
+    },
+    [animationScenario],
+  );
+  return animationScenario;
+}
+
+class _AnimationScenarioHookCreator {
+  const _AnimationScenarioHookCreator();
+
+  /// Create a new animation scenario.
+  AnimationScenario call([List<AnimationUnit>? units]) {
+    return use(_AnimationScenarioHook(units));
+  }
+}
+
+/// Create a new animation scenario.
+const useAnimationScenario = _AnimationScenarioHookCreator();
+
+class _AnimationScenarioHook extends Hook<AnimationScenario> {
+  const _AnimationScenarioHook([
+    this.units,
+    List<Object?>? keys,
+  ]) : super(keys: keys);
+
+  final List<AnimationUnit>? units;
+
+  @override
+  _AnimationScenarioHookState createState() {
+    return _AnimationScenarioHookState();
+  }
+}
+
+class _AnimationScenarioHookState
+    extends HookState<AnimationScenario, _AnimationScenarioHook> {
+  late final AnimationScenario _animationScenario;
+  @override
+  void initHook() {
+    _animationScenario = AnimationScenario(hook.units);
+  }
+
+  @override
+  AnimationScenario build(BuildContext context) => _animationScenario;
+
+  @override
+  String get debugLabel => 'useAnimationScenario';
 }
