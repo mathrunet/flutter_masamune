@@ -7,6 +7,7 @@ class PlatformAppLayout extends StatefulWidget {
     this.futures = const [],
     this.loading,
     this.indicatorColor,
+    this.appBar,
   });
 
   /// Loading indicator color.
@@ -22,6 +23,8 @@ class PlatformAppLayout extends StatefulWidget {
     NavigatorController? controller,
     String? routeId,
   ) builder;
+
+  final SliverAppBar? appBar;
 
   @override
   State<StatefulWidget> createState() => _PlatformAppLayoutState();
@@ -72,9 +75,15 @@ class _PlatformAppLayoutState extends State<PlatformAppLayout> {
   @override
   Widget build(BuildContext context) {
     if (widget.futures.isNotEmpty) {
-      return LoadingBuilder(futures: widget.futures, builder: _build);
+      return _sliverScroll(
+        context,
+        LoadingBuilder(futures: widget.futures, builder: _build),
+      );
     } else {
-      return _build(context);
+      return _sliverScroll(
+        context,
+        _build(context),
+      );
     }
   }
 
@@ -98,5 +107,17 @@ class _PlatformAppLayoutState extends State<PlatformAppLayout> {
     }
     _inlinePageCache = InlinePageBuilder(controller: _controller);
     return _inlinePageCache!;
+  }
+
+  Widget _sliverScroll(BuildContext context, Widget child) {
+    if (!Config.isMobile) {
+      return child;
+    }
+    return CustomScrollView(
+      slivers: [
+        if (widget.appBar != null) widget.appBar!,
+        child,
+      ],
+    );
   }
 }

@@ -21,8 +21,8 @@ class ListBuilder<T> extends StatelessWidget {
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
     this.cacheExtent,
-    this.listenWhenListenable = true,
     this.semanticChildCount,
+    this.listenWhenListenable = true,
     this.loading,
     this.loadingOpacity = 0.25,
     this.indicatorColor,
@@ -41,10 +41,10 @@ class ListBuilder<T> extends StatelessWidget {
   final bool? primary;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
-  final bool listenWhenListenable;
   final EdgeInsetsGeometry? padding;
   final double? itemExtent;
   final int insertPosition;
+  final bool listenWhenListenable;
   final List<Widget>? insert;
   final List<Widget>? top;
   final List<Widget>? bottom;

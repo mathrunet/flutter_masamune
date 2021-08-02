@@ -109,7 +109,8 @@ class _MemoizedCachedNetworkImageProvider
     Map<String, String>? headers,
     cache_manager.BaseCacheManager? cacheManager,
     String? cacheKey,
-    ImageRenderMethodForWeb? imageRenderMethodForWeb,
+    ImageRenderMethodForWeb imageRenderMethodForWeb =
+        ImageRenderMethodForWeb.HtmlImage,
   }) : super(
           url,
           maxHeight: maxHeight,

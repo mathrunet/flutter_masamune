@@ -7,6 +7,7 @@ class FormBuilder extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
     this.type = FormBuilderType.listView,
     this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.alwaysShowScrollbar = false,
   }) : _key = key;
 
   final GlobalKey<FormState> _key;
@@ -14,6 +15,7 @@ class FormBuilder extends StatelessWidget {
   final FormBuilderType type;
   final EdgeInsetsGeometry padding;
   final CrossAxisAlignment crossAxisAlignment;
+  final bool alwaysShowScrollbar;
 
   @override
   Widget build(BuildContext context) {
@@ -50,16 +52,27 @@ class FormBuilder extends StatelessWidget {
           ),
         );
       default:
-        return SingleChildScrollView(
-          padding: padding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: crossAxisAlignment,
-            children: children,
-          ),
-        );
+        if (alwaysShowScrollbar || !Config.isMobile) {
+          return Scrollbar(
+            child: _scollView(context),
+            isAlwaysShown: true,
+          );
+        } else {
+          return _scollView(context);
+        }
     }
+  }
+
+  Widget _scollView(BuildContext context) {
+    return SingleChildScrollView(
+      padding: padding,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: crossAxisAlignment,
+        children: children,
+      ),
+    );
   }
 }
 

@@ -4,8 +4,10 @@ library masamune.property.mobile;
 import 'dart:io';
 
 // ignore: implementation_imports
-import 'package:cached_network_image/src/image_provider/_image_provider_io.dart'
+import 'package:cached_network_image/src/image_provider/cached_network_image_provider.dart'
     as provider;
+import 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart'
+    show ImageRenderMethodForWeb;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
