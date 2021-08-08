@@ -310,19 +310,8 @@ class UIGridBuilder<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     if (alwaysShowScrollbar || !Config.isMobile) {
       return Scrollbar(
-        child: _padding(context),
-        isAlwaysShown: true,
-      );
-    } else {
-      return _padding(context);
-    }
-  }
-
-  Widget _padding(BuildContext context) {
-    if (padding != null) {
-      return Padding(
-        padding: padding!,
         child: _scollView(context),
+        isAlwaysShown: true,
       );
     } else {
       return _scollView(context);
@@ -349,16 +338,19 @@ class UIGridBuilder<T> extends StatelessWidget {
         restorationId: restorationId,
         clipBehavior: clipBehavior,
         slivers: [
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: maxCrossAxisExtent!,
-              mainAxisSpacing: mainAxisSpacing,
-              crossAxisSpacing: crossAxisSpacing,
-              childAspectRatio: childAspectRatio,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              _builder,
-              childCount: source.length,
+          _padding(
+            context,
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: maxCrossAxisExtent!,
+                mainAxisSpacing: mainAxisSpacing,
+                crossAxisSpacing: crossAxisSpacing,
+                childAspectRatio: childAspectRatio,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                _builder,
+                childCount: source.length,
+              ),
             ),
           )
         ],
@@ -382,20 +374,34 @@ class UIGridBuilder<T> extends StatelessWidget {
         restorationId: restorationId,
         clipBehavior: clipBehavior,
         slivers: [
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount!,
-              mainAxisSpacing: mainAxisSpacing,
-              crossAxisSpacing: crossAxisSpacing,
-              childAspectRatio: childAspectRatio,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              _builder,
-              childCount: source.length,
+          _padding(
+            context,
+            SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount!,
+                mainAxisSpacing: mainAxisSpacing,
+                crossAxisSpacing: crossAxisSpacing,
+                childAspectRatio: childAspectRatio,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                _builder,
+                childCount: source.length,
+              ),
             ),
           )
         ],
       );
+    }
+  }
+
+  Widget _padding(BuildContext context, Widget sliver) {
+    if (padding != null) {
+      return SliverPadding(
+        padding: padding!,
+        sliver: sliver,
+      );
+    } else {
+      return sliver;
     }
   }
 

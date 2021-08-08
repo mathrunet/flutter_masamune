@@ -45,7 +45,7 @@ class UIAppBar extends StatelessWidget {
     this.systemOverlayStyle,
     this.designType,
     this.background,
-    this.scrollStyle = UIAppBarScrollStyle.none,
+    this.scrollStyle = UIAppBarScrollStyle.pinned,
   })  : assert(floating || !snap,
             'The "snap" argument only makes sense for floating app bars.'),
         assert(stretchTriggerOffset > 0.0),
@@ -387,7 +387,21 @@ class UIAppBar extends StatelessWidget {
           key: key,
           leading: leading,
           automaticallyImplyLeading: automaticallyImplyLeading,
-          title: title,
+          title: subtitle == null
+              ? title
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (title != null) title!,
+                    DefaultTextStyle(
+                      style:
+                          context.theme.textTheme.overline ?? const TextStyle(),
+                      child: subtitle!,
+                    ),
+                  ],
+                ),
           actions: actions,
           flexibleSpace: flexibleSpace,
           bottom: bottom,

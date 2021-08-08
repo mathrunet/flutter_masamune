@@ -599,7 +599,11 @@ class UIScaffold extends StatelessWidget {
       return AppBar(
         leading: appBar.leading,
         automaticallyImplyLeading: appBar.automaticallyImplyLeading,
-        title: appBar.title,
+        title: _mobileAppBarTitle(
+          context,
+          title: appBar.title,
+          subtitle: appBar.subtitle,
+        ),
         actions: appBar.actions,
         flexibleSpace: appBar.flexibleSpace,
         bottom: appBar.bottom,
@@ -625,6 +629,27 @@ class UIScaffold extends StatelessWidget {
         systemOverlayStyle: appBar.systemOverlayStyle,
       );
     }
+  }
+
+  Widget? _mobileAppBarTitle(
+    BuildContext context, {
+    Widget? title,
+    Widget? subtitle,
+  }) {
+    return subtitle == null
+        ? title
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (title != null) title,
+              DefaultTextStyle(
+                style: context.theme.textTheme.overline ?? const TextStyle(),
+                child: subtitle,
+              ),
+            ],
+          );
   }
 
   PreferredSizeWidget? _toInlineAppBar(BuildContext context) {
@@ -724,9 +749,10 @@ class UIScaffold extends StatelessWidget {
       return AppBar(
         leading: appBar.leading,
         automaticallyImplyLeading: false,
-        title: DefaultTextStyle(
-          style: context.theme.textTheme.headline6 ?? const TextStyle(),
-          child: appBar.title ?? const Empty(),
+        title: _inlineAppBarTitle(
+          context,
+          title: appBar.title,
+          subtitle: appBar.subtitle,
         ),
         actions: appBar.actions
             ?.map((e) => IconTheme(
@@ -764,6 +790,37 @@ class UIScaffold extends StatelessWidget {
         systemOverlayStyle: appBar.systemOverlayStyle,
       );
     }
+  }
+
+  Widget? _inlineAppBarTitle(
+    BuildContext context, {
+    Widget? title,
+    Widget? subtitle,
+  }) {
+    return subtitle == null
+        ? DefaultTextStyle(
+            style: context.theme.textTheme.headline6 ?? const TextStyle(),
+            child: title ?? const Empty(),
+          )
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (title != null)
+                DefaultTextStyle(
+                  style: context.theme.textTheme.headline6 ?? const TextStyle(),
+                  child: title,
+                ),
+              DefaultTextStyle(
+                style: context.theme.textTheme.overline?.copyWith(
+                      color: context.theme.disabledColor,
+                    ) ??
+                    const TextStyle(),
+                child: subtitle,
+              ),
+            ],
+          );
   }
 
   PreferredSizeWidget? _toMainAppBar(BuildContext context) {
@@ -834,6 +891,7 @@ class UIScaffold extends StatelessWidget {
         leading: appBar.leading,
         automaticallyImplyLeading: false,
         title: appBar.title,
+        subtitle: appBar.subtitle,
         actions: appBar.actions,
         flexibleSpace: appBar.flexibleSpace,
         bottom: appBar.bottom is TabBar ? null : appBar.bottom,
@@ -867,6 +925,7 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.leading,
     this.automaticallyImplyLeading = true,
     this.title,
+    this.subtitle,
     this.actions,
     this.flexibleSpace,
     this.bottom,
@@ -899,11 +958,12 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 (title != null ? _kSubToolbarHeight + 1.0 : 0.0))),
         super(key: key);
 
-  static const double _kSubToolbarHeight = 38;
+  static const double _kSubToolbarHeight = 48;
   final Widget? leading;
   final bool automaticallyImplyLeading;
 
   final Widget? title;
+  final Widget? subtitle;
   final List<Widget>? actions;
   final Widget? flexibleSpace;
   final PreferredSizeWidget? bottom;
@@ -937,6 +997,7 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
     final app = context.app;
     final tHeight =
         toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize.height ?? 0.0);
+    final title = _title(context);
 
     return ColoredBox(
       color: context.theme.scaffoldBackgroundColor,
@@ -1031,26 +1092,17 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
             titleTextStyle: titleTextStyle,
             systemOverlayStyle: systemOverlayStyle,
           ),
-          DefaultTextStyle(
-            style: context.theme.textTheme.headline6
-                    ?.copyWith(color: context.theme.disabledColor) ??
-                TextStyle(
-                  fontSize: 18,
-                  color: context.theme.disabledColor,
-                  fontWeight: FontWeight.bold,
-                ),
-            child: Container(
-              height: _kSubToolbarHeight,
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.fromLTRB(16, 0, 12, 0),
-              child: IconTheme(
-                data: IconThemeData(color: context.theme.disabledColor),
-                child: Row(
-                  children: [
-                    if (title != null) Expanded(child: title!),
-                    if (actions != null) ...actions!,
-                  ],
-                ),
+          Container(
+            height: _kSubToolbarHeight,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(16, 0, 12, 0),
+            child: IconTheme(
+              data: IconThemeData(color: context.theme.disabledColor),
+              child: Row(
+                children: [
+                  if (title != null) Expanded(child: title),
+                  if (actions != null) ...actions!,
+                ],
               ),
             ),
           ),
@@ -1060,6 +1112,56 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget? _title(BuildContext context) {
+    if (subtitle == null) {
+      if (title != null) {
+        return DefaultTextStyle(
+          style: context.theme.textTheme.headline6
+                  ?.copyWith(color: context.theme.disabledColor) ??
+              TextStyle(
+                fontSize: 18,
+                color: context.theme.disabledColor,
+                fontWeight: FontWeight.bold,
+              ),
+          child: title!,
+        );
+      } else {
+        return null;
+      }
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          DefaultTextStyle(
+            style: context.theme.textTheme.headline6?.copyWith(
+                  color: context.theme.disabledColor,
+                  fontSize: 18,
+                ) ??
+                TextStyle(
+                  fontSize: 18,
+                  color: context.theme.disabledColor,
+                  fontWeight: FontWeight.bold,
+                ),
+            child: title!,
+          ),
+        DefaultTextStyle(
+          style: context.theme.textTheme.overline?.copyWith(
+                color: context.theme.disabledColor,
+                fontSize: 10,
+              ) ??
+              TextStyle(
+                color: context.theme.disabledColor,
+                fontSize: 10,
+              ),
+          child: subtitle!,
+        ),
+      ],
     );
   }
 }

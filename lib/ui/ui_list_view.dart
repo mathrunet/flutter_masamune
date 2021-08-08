@@ -245,19 +245,8 @@ class UIListView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (alwaysShowScrollbar || !Config.isMobile) {
       return Scrollbar(
-        child: _padding(context),
-        isAlwaysShown: true,
-      );
-    } else {
-      return _padding(context);
-    }
-  }
-
-  Widget _padding(BuildContext context) {
-    if (padding != null) {
-      return Padding(
-        padding: padding!,
         child: _scollView(context),
+        isAlwaysShown: true,
       );
     } else {
       return _scollView(context);
@@ -282,7 +271,23 @@ class UIListView extends StatelessWidget {
       keyboardDismissBehavior: keyboardDismissBehavior,
       restorationId: restorationId,
       clipBehavior: clipBehavior,
-      slivers: [SliverList(delegate: SliverChildListDelegate(children))],
+      slivers: [
+        _padding(
+          context,
+          SliverList(delegate: SliverChildListDelegate(children)),
+        )
+      ],
     );
+  }
+
+  Widget _padding(BuildContext context, Widget sliver) {
+    if (padding != null) {
+      return SliverPadding(
+        padding: padding!,
+        sliver: sliver,
+      );
+    } else {
+      return sliver;
+    }
   }
 }

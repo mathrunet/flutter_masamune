@@ -379,32 +379,36 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
         startTime.day,
         12,
       ).toUtc();
-      if (_events.containsKey(startDay)) {
-        _events[startDay]?.add(
-          EventData(
-            startTime: startTime,
-            endTime: endTime,
-            data: data,
-            title: widget.titleBuilder?.call(data) ??
-                data.get(widget.titleKey, ""),
-            text:
-                widget.textBuilder?.call(data) ?? data.get(widget.textKey, ""),
-            allDay: data.get(widget.allDayKey, false),
-          ),
-        );
-      } else {
-        _events[startDay] = [
-          EventData(
-            startTime: startTime,
-            endTime: endTime,
-            data: data,
-            title: widget.titleBuilder?.call(data) ??
-                data.get(widget.titleKey, ""),
-            text:
-                widget.textBuilder?.call(data) ?? data.get(widget.textKey, ""),
-            allDay: data.get(widget.allDayKey, false),
-          )
-        ];
+      _setEvent(
+        _events,
+        day: startDay,
+        startTime: startTime,
+        endTime: endTime,
+        data: data,
+        allDay: data.get(widget.allDayKey, false),
+      );
+      if (endTime != null) {
+        final endDay = DateTime(
+          endTime.year,
+          endTime.month,
+          endTime.day,
+          12,
+        ).toUtc();
+        if (startDay.day != endDay.day) {
+          for (var day = startDay.add(const Duration(days: 1));
+              day.millisecondsSinceEpoch <= endDay.millisecondsSinceEpoch;
+              day = day.add(const Duration(days: 1))) {
+            _setEvent(
+              _events,
+              day: day,
+              startTime: startTime,
+              endTime: endTime,
+              data: data,
+              allDay: data.get(widget.allDayKey, false) ||
+                  day.millisecondsSinceEpoch != endDay.millisecondsSinceEpoch,
+            );
+          }
+        }
       }
     }
   }
@@ -426,31 +430,13 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
         startTime.day,
         12,
       ).toUtc();
-      if (_events.containsKey(startDay)) {
-        _events[startDay]?.add(
-          EventData(
-            startTime: startDay,
-            data: data,
-            title: widget.titleBuilder?.call(data) ??
-                data.get(widget.titleKey, ""),
-            text:
-                widget.textBuilder?.call(data) ?? data.get(widget.textKey, ""),
-            allDay: true,
-          ),
-        );
-      } else {
-        _events[startDay] = [
-          EventData(
-            startTime: startDay,
-            data: data,
-            title: widget.titleBuilder?.call(data) ??
-                data.get(widget.titleKey, ""),
-            text:
-                widget.textBuilder?.call(data) ?? data.get(widget.textKey, ""),
-            allDay: true,
-          ),
-        ];
-      }
+      _setEvent(
+        _events,
+        day: startDay,
+        startTime: startTime,
+        data: data,
+        allDay: true,
+      );
     }
   }
 
@@ -468,6 +454,42 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
             12)
         .toUtc();
     _selectedEvents = _events[date] ?? [];
+  }
+
+  void _setEvent(
+    Map<DateTime, List<EventData>> event, {
+    DateTime? day,
+    required DateTime startTime,
+    required Map<String, dynamic> data,
+    DateTime? endTime,
+    bool allDay = false,
+  }) {
+    day ??= startTime;
+    if (event.containsKey(day)) {
+      event[day]?.add(
+        EventData(
+          startTime: startTime,
+          endTime: endTime,
+          data: data,
+          title:
+              widget.titleBuilder?.call(data) ?? data.get(widget.titleKey, ""),
+          text: widget.textBuilder?.call(data) ?? data.get(widget.textKey, ""),
+          allDay: allDay,
+        ),
+      );
+    } else {
+      event[day] = [
+        EventData(
+          startTime: startTime,
+          endTime: endTime,
+          data: data,
+          title:
+              widget.titleBuilder?.call(data) ?? data.get(widget.titleKey, ""),
+          text: widget.textBuilder?.call(data) ?? data.get(widget.textKey, ""),
+          allDay: allDay,
+        ),
+      ];
+    }
   }
 
   @override
@@ -517,9 +539,18 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
       heightOfDayOfWeekLabel: widget.heightOfDayOfWeekLabel,
       calendarStyle: CalendarStyle(
         outsideDaysVisible: false,
-        contentPadding: widget.expand
-            ? const EdgeInsets.all(0)
-            : const EdgeInsets.only(bottom: 4.0, left: 8.0, right: 8.0),
+        contentDecoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(
+                color: context.theme.dividerColor.withOpacity(0.25), width: 1),
+            top: BorderSide(
+                color: context.theme.dividerColor.withOpacity(0.25), width: 1),
+          ),
+        ),
+        contentPadding: const EdgeInsets.all(0),
+        // contentPadding: widget.expand
+        //     ? const EdgeInsets.all(0)
+        //     : const EdgeInsets.only(bottom: 4.0, left: 8.0, right: 8.0),
         weekendStyle: TextStyle(color: Colors.red[800]),
         holidayStyle: TextStyle(color: Colors.red[800]),
       ),
@@ -541,7 +572,19 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
           }
           return Container(
             padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: context.theme.backgroundColor,
+            decoration: BoxDecoration(
+              border: Border(
+                left: date.day == 1
+                    ? BorderSide(
+                        color: context.theme.dividerColor.withOpacity(0.25),
+                        width: 1)
+                    : BorderSide.none,
+                right: BorderSide(
+                    color: context.theme.dividerColor.withOpacity(0.25),
+                    width: 1),
+              ),
+            ),
+            // color: context.theme.scaffoldBackgroundColor,
             constraints: const BoxConstraints.expand(),
             child: Text(
               "${date.day}",

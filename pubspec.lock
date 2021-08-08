@@ -42,7 +42,7 @@ packages:
       name: cached_network_image_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   cached_video_player:
     dependency: "direct main"
     description:
@@ -215,7 +215,7 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.3"
+    version: "0.6.4"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -407,7 +407,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.3+1"
+    version: "0.8.3+2"
   octo_image:
     dependency: transitive
     description:
