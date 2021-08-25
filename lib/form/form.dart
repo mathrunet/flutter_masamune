@@ -41,6 +41,7 @@ part 'form_item_headline.dart';
 part 'form_item_labeled_dropdown_field.dart';
 part 'form_item_submit.dart';
 part 'form_item_text_field.dart';
+part 'form_item_comment_field.dart';
 part 'form_item_password.dart';
 part 'form_item_switch.dart';
 part 'ui_form_dialog.dart';

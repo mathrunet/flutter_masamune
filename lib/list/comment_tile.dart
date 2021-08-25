@@ -1,9 +1,9 @@
 part of masamune.list;
 
 /// List tiles for comment.
-class UICommentTile extends StatelessWidget {
+class CommentTile extends StatelessWidget {
   /// List tiles for comment.
-  const UICommentTile({
+  const CommentTile({
     this.image,
     this.avatar,
     this.name,

@@ -107,7 +107,6 @@ part 'widget/component/ui_top_navigation_bar.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';
 part 'widget/component/ui_markdown.dart';
 part 'widget/component/inline_app_preview.dart';
-part 'widget/component/bottom_sheet_text_field.dart';
 part 'widget/dialog/ui_confirm.dart';
 part 'widget/dialog/ui_connect_dialog.dart';
 part 'widget/dialog/ui_dialog.dart';

@@ -19,6 +19,7 @@ class Video extends StatefulWidget {
     this.controllable = false,
     this.mixWithOthers = false,
     this.onTap,
+    this.iconColor,
   });
 
   /// Mix with others.
@@ -53,6 +54,9 @@ class Video extends StatefulWidget {
 
   /// Tap action.
   final VoidCallback? onTap;
+
+  /// Icon color.
+  final Color? iconColor;
 
   /// Creates the mutable state for this widget at a given location in the tree.
   ///
@@ -190,7 +194,7 @@ class _VideoState extends State<Video> {
                       : Icons.play_circle_filled,
                   color: _controller!.value.isPlaying
                       ? Colors.transparent
-                      : context.theme.backgroundColor),
+                      : (widget.iconColor ?? context.theme.dividerColor)),
               onPressed: () {
                 if (_controller!.value.isPlaying) {
                   _controller!.pause();

@@ -13,6 +13,7 @@ part 'customization/days_of_week_style.dart';
 part 'customization/header_style.dart';
 part 'widgets/cell_widget.dart';
 part 'widgets/custom_icon_button.dart';
+part 'ui_day_calendar.dart';
 
 /// Widget that provides a calendar function.
 ///

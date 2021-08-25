@@ -1,7 +1,7 @@
-part of masamune;
+part of masamune.form;
 
-class BottomSheetTextField extends StatefulWidget {
-  const BottomSheetTextField({
+class FormItemCommentField extends StatefulWidget {
+  const FormItemCommentField({
     this.hintText,
     this.focusNode,
     this.controller,
@@ -14,8 +14,10 @@ class BottomSheetTextField extends StatefulWidget {
     this.borderColor,
     this.mediaIcon,
     this.onTapMediaIcon,
+    this.templateIcon,
+    this.onTapTemplateIcon,
     this.iconColor,
-    this.sendIcon,
+    this.submitIcon,
     this.autofocus = false,
   });
   final String? hintText;
@@ -26,19 +28,21 @@ class BottomSheetTextField extends StatefulWidget {
   final int minLines;
   final void Function(String? value)? onSubmitted;
   final VoidCallback? onTapMediaIcon;
+  final VoidCallback? onTapTemplateIcon;
   final IconData? mediaIcon;
+  final IconData? templateIcon;
   final Color? backgroundColor;
   final Color? borderColor;
   final EdgeInsetsGeometry padding;
   final Color? iconColor;
-  final IconData? sendIcon;
+  final IconData? submitIcon;
   final bool autofocus;
 
   @override
-  State<StatefulWidget> createState() => _BottomSheetTextFieldState();
+  State<StatefulWidget> createState() => _FormItemCommentFieldState();
 }
 
-class _BottomSheetTextFieldState extends State<BottomSheetTextField> {
+class _FormItemCommentFieldState extends State<FormItemCommentField> {
   TextEditingController? _controller;
   TextEditingController? get effectiveController =>
       widget.controller ?? _controller;
@@ -59,7 +63,7 @@ class _BottomSheetTextFieldState extends State<BottomSheetTextField> {
   }
 
   @override
-  void didUpdateWidget(BottomSheetTextField oldWidget) {
+  void didUpdateWidget(FormItemCommentField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       if (widget.controller == null) {
@@ -77,16 +81,26 @@ class _BottomSheetTextFieldState extends State<BottomSheetTextField> {
 
   @override
   Widget build(BuildContext context) {
+    var left = 16.0;
+    if (widget.onTapMediaIcon != null) {
+      left += 40.0;
+    }
+    if (widget.onTapTemplateIcon != null) {
+      left += 40.0;
+    }
+
     return Container(
       padding: widget.padding,
       decoration: BoxDecoration(
-        color: widget.backgroundColor ?? context.theme.backgroundColor,
-        border: Border(
-          top: BorderSide(
-            color: widget.borderColor ?? context.theme.dividerColor,
-            width: 1,
-          ),
-        ),
+        color: widget.backgroundColor,
+        border: widget.borderColor != null
+            ? Border(
+                top: BorderSide(
+                  color: widget.borderColor!,
+                  width: 1,
+                ),
+              )
+            : null,
       ),
       child: Stack(
         children: [
@@ -100,8 +114,7 @@ class _BottomSheetTextFieldState extends State<BottomSheetTextField> {
             minLines: widget.minLines,
             textAlignVertical: TextAlignVertical.top,
             textAlign: TextAlign.start,
-            contentPadding: EdgeInsets.fromLTRB(
-                widget.onTapMediaIcon != null ? 56 : 16, 0, 56, 0),
+            contentPadding: EdgeInsets.fromLTRB(left, 0, 56, 0),
             onSubmitted: (value) {
               widget.onSubmitted?.call(value);
               effectiveFocusNode?.requestFocus();
@@ -122,7 +135,7 @@ class _BottomSheetTextFieldState extends State<BottomSheetTextField> {
               padding: const EdgeInsets.all(0),
               visualDensity: VisualDensity.compact,
               icon: Icon(
-                widget.sendIcon ?? Icons.send,
+                widget.submitIcon ?? Icons.send,
                 size: 25,
                 color: widget.iconColor ?? context.theme.disabledColor,
               ),
@@ -143,7 +156,23 @@ class _BottomSheetTextFieldState extends State<BottomSheetTextField> {
                   color: widget.iconColor ?? context.theme.disabledColor,
                 ),
               ),
-            )
+            ),
+          if (widget.onTapTemplateIcon != null)
+            Positioned(
+              left: widget.onTapMediaIcon != null ? 40 : 10,
+              top: 0,
+              bottom: 6,
+              child: IconButton(
+                onPressed: widget.onTapTemplateIcon,
+                padding: const EdgeInsets.all(0),
+                visualDensity: VisualDensity.compact,
+                icon: Icon(
+                  widget.templateIcon ?? FontAwesomeIcons.clipboardList,
+                  size: 23,
+                  color: widget.iconColor ?? context.theme.disabledColor,
+                ),
+              ),
+            ),
         ],
       ),
     );

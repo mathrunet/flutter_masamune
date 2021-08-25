@@ -7,6 +7,7 @@ class InlinePageBuilder extends StatefulWidget {
     this.routes,
     this.prefix = "",
     this.suffix = "",
+    this.showEmptyPage,
   }) : assert(
           initialRoute != null || controller?._route != null,
           "Either [initialRoute] or [initialRoute] of [controller] must be specified.",
@@ -16,6 +17,7 @@ class InlinePageBuilder extends StatefulWidget {
   final Map<String, RouteConfig>? routes;
   final String prefix;
   final String suffix;
+  final bool Function(String routeName)? showEmptyPage;
 
   @override
   State<StatefulWidget> createState() => _InlinePageBuilderState();
@@ -113,8 +115,35 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
         prefix: widget.prefix,
         suffix: widget.suffix,
         initialRoute: _effectiveController?._route,
-        onGenerateRoute: (settings) => RouteConfig.onGenerateRoute(settings),
+        onGenerateRoute: (settings) {
+          if (settings.name.isNotEmpty &&
+              (widget.showEmptyPage?.call(settings.name!) ??
+                  _effectiveController?._showEmptyPage?.call(settings.name!) ??
+                  false)) {
+            return UIPageRoute(
+              builder: (_) => const EmptyPage(),
+              settings: RouteSettings(
+                name: settings.name!,
+                arguments: settings.arguments,
+              ),
+            );
+          }
+          return RouteConfig.onGenerateRoute(settings);
+        },
         onGenerateInitialRoutes: (state, initialRouteName) {
+          if (widget.showEmptyPage?.call(initialRouteName) ??
+              _effectiveController?._showEmptyPage?.call(initialRouteName) ??
+              false) {
+            return [
+              UIPageRoute(
+                builder: (_) => const EmptyPage(),
+                settings: RouteSettings(
+                  name: initialRouteName,
+                  arguments: ModalRoute.of(context)?.settings.arguments,
+                ),
+              ),
+            ];
+          }
           return [
             RouteConfig.onGenerateRoute(
                   RouteSettings(
@@ -123,7 +152,7 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
                   ),
                 ) ??
                 UIPageRoute(
-                  builder: (_) => const Empty(),
+                  builder: (_) => const EmptyPage(),
                   settings: RouteSettings(
                     name: initialRouteName,
                     arguments: ModalRoute.of(context)?.settings.arguments,
@@ -259,8 +288,14 @@ class InlineNavigatorState extends NavigatorState {
 }
 
 class NavigatorController extends Listenable {
-  NavigatorController([String? initialRoute]) : _route = initialRoute;
+  NavigatorController([
+    String? initialRoute,
+    bool Function(String routeName)? showEmptyPage,
+  ])  : _route = initialRoute,
+        _showEmptyPage = showEmptyPage;
   final String? _route;
+  // ignore: unused_field
+  final bool Function(String routeName)? _showEmptyPage;
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
   final InternalNavigatorObserver observer = InternalNavigatorObserver._();

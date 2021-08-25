@@ -15,6 +15,7 @@ import 'package:katana_routing/katana_routing.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:masamune/masamune.dart';
 
+part 'list_text_field.dart';
 part 'appendable_builder.dart';
 part 'avatar_image.dart';
 part 'headline.dart';
@@ -35,4 +36,4 @@ part 'divid_headline.dart';
 part 'ranking_list_tile.dart';
 part 'right_button.dart';
 part 'small_gallery.dart';
-part 'ui_comment_tile.dart';
+part 'comment_tile.dart';
