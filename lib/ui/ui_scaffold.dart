@@ -645,7 +645,9 @@ class UIScaffold extends StatelessWidget {
             children: [
               if (title != null) title,
               DefaultTextStyle(
-                style: context.theme.textTheme.overline ?? const TextStyle(),
+                style: context.theme.textTheme.overline
+                        ?.copyWith(color: context.theme.textColorOnPrimary) ??
+                    TextStyle(color: context.theme.textColorOnPrimary),
                 child: subtitle,
               ),
             ],

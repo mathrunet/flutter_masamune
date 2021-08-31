@@ -1,6 +1,6 @@
 part of masamune_calendar;
 
-class UIDayCalendar extends StatelessWidget {
+class UIDayCalendar extends StatefulWidget {
   const UIDayCalendar({
     required this.source,
     required this.builder,
@@ -32,16 +32,76 @@ class UIDayCalendar extends StatelessWidget {
   final Widget? Function(BuildContext context, DynamicMap item) builder;
 
   @override
+  State<StatefulWidget> createState() => _UIDayCalendarState();
+}
+
+class _UIDayCalendarState extends State<UIDayCalendar> {
+  final List<Listenable> _listenableList = [];
+  Listenable? _sourceListenable;
+  final now = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.source is Listenable) {
+      _sourceListenable = (widget.source as Listenable)
+        ..addListener(_handledOnListUpdate);
+    }
+    _listenableList.addAll(widget.source.whereType<Listenable>());
+    _listenableList.forEach((element) => element.addListener(_handledOnUpdate));
+  }
+
+  void _handledOnListUpdate() {
+    _listenableList
+        .forEach((element) => element.removeListener(_handledOnUpdate));
+    _listenableList.clear();
+    _listenableList.addAll(widget.source.whereType<Listenable>());
+    _listenableList.forEach((element) => element.addListener(_handledOnUpdate));
+    setState(() {});
+  }
+
+  void _handledOnUpdate() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _listenableList
+        .forEach((element) => element.removeListener(_handledOnUpdate));
+    _sourceListenable?.removeListener(_handledOnListUpdate);
+  }
+
+  @override
+  void didUpdateWidget(UIDayCalendar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.source != oldWidget.source) {
+      _sourceListenable?.removeListener(_handledOnListUpdate);
+      _listenableList
+          .forEach((element) => element.removeListener(_handledOnUpdate));
+      _listenableList.clear();
+      if (widget.source is Listenable) {
+        _sourceListenable = (widget.source as Listenable)
+          ..addListener(_handledOnListUpdate);
+      }
+      _listenableList.addAll(widget.source.whereType<Listenable>());
+      _listenableList
+          .forEach((element) => element.addListener(_handledOnUpdate));
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final day = DateTime(this.day?.year ?? now.year,
-        this.day?.month ?? now.month, this.day?.day ?? now.day);
+    final day = DateTime(widget.day?.year ?? now.year,
+        widget.day?.month ?? now.month, widget.day?.day ?? now.day);
     final eventMap = <DateTime, List<DynamicMap>>{};
-    source.forEach((item) {
-      if (item.get(allDayKey, false) || !item.containsKey(endTimeKey)) {
+    widget.source.forEach((item) {
+      if (item.get(widget.allDayKey, false) ||
+          !item.containsKey(widget.endTimeKey)) {
         return;
       }
-      final startTime = item.getAsDateTime(startTimeKey);
+      final startTime = item.getAsDateTime(widget.startTimeKey);
       if (eventMap.containsKey(startTime)) {
         eventMap[startTime]?.add(item);
       } else {
@@ -50,27 +110,27 @@ class UIDayCalendar extends StatelessWidget {
     });
     final events = eventMap.toList((key, value) {
       if (value.length > 1) {
-        final startTime = value.first.getAsDateTime(startTimeKey);
+        final startTime = value.first.getAsDateTime(widget.startTimeKey);
         final start = startTime.difference(day);
         return Positioned(
-          left: labelWidth + 8,
+          left: widget.labelWidth + 8,
           right: 8,
-          top: start.inMinutes * height / 60,
+          top: start.inMinutes * widget.height / 60,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: value.mapAndRemoveEmpty((item) {
-              final endTime = item.getAsDateTime(endTimeKey);
+              final endTime = item.getAsDateTime(widget.endTimeKey);
               final duration = endTime.difference(startTime);
-              final widget = builder.call(context, item);
-              if (widget == null) {
+              final child = widget.builder.call(context, item);
+              if (child == null) {
                 return const Empty();
               }
               return Expanded(
                 flex: 1,
                 child: SizedBox(
-                  height: (height * duration.inMinutes / 60) + 1,
-                  child: widget,
+                  height: (widget.height * duration.inMinutes / 60) + 1,
+                  child: child,
                 ),
               );
             }),
@@ -78,33 +138,54 @@ class UIDayCalendar extends StatelessWidget {
         );
       } else {
         final item = value.first;
-        final startTime = item.getAsDateTime(startTimeKey);
-        final endTime = item.getAsDateTime(endTimeKey);
+        final startTime = item.getAsDateTime(widget.startTimeKey);
+        final endTime = item.getAsDateTime(widget.endTimeKey);
         final duration = endTime.difference(startTime);
         final start = startTime.difference(day);
-        final widget = builder.call(context, item);
-        if (widget == null) {
+        final child = widget.builder.call(context, item);
+        if (child == null) {
           return const Empty();
         }
         return Positioned(
-          left: labelWidth + 8,
+          left: widget.labelWidth + 8,
           right: 8,
-          top: start.inMinutes * height / 60,
+          top: start.inMinutes * widget.height / 60,
           child: SizedBox(
-            height: (height * duration.inMinutes / 60) + 1,
-            child: widget,
+            height: (widget.height * duration.inMinutes / 60) + 1,
+            child: child,
           ),
         );
       }
     });
 
-    final allDay = source.mapAndRemoveEmpty((item) {
-      if (item.get(allDayKey, false) || !item.containsKey(endTimeKey)) {
-        final widget = builder.call(context, item);
-        if (widget == null) {
+    final allDay = widget.source.mapAndRemoveEmpty((item) {
+      if (!item.containsKey(widget.endTimeKey)) {
+        final startDate = item.getAsDateTime(widget.startTimeKey);
+        if (startDate.day != day.day ||
+            startDate.month != day.month ||
+            startDate.year != day.year) {
           return null;
         }
-        return widget;
+        final child = widget.builder.call(context, item);
+        if (child == null) {
+          return null;
+        }
+        return child;
+      } else if (item.get(widget.allDayKey, false)) {
+        final startDate = item.getAsDateTime(widget.startTimeKey);
+        final endDate = item.getAsDateTime(widget.endTimeKey);
+        final start = DateTime(startDate.year, startDate.month, startDate.day);
+        final end = DateTime(endDate.year, endDate.month, endDate.day)
+            .add(const Duration(days: 1));
+        if (start.millisecondsSinceEpoch > day.millisecondsSinceEpoch ||
+            end.millisecondsSinceEpoch <= day.millisecondsSinceEpoch) {
+          return null;
+        }
+        final child = widget.builder.call(context, item);
+        if (child == null) {
+          return null;
+        }
+        return child;
       }
       return null;
     });
@@ -122,7 +203,7 @@ class UIDayCalendar extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     SizedBox(
-                      width: labelWidth + 8,
+                      width: widget.labelWidth + 8,
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Column(
@@ -146,10 +227,12 @@ class UIDayCalendar extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: allDay)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: allDay,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                   ],
                 ),
@@ -165,17 +248,17 @@ class UIDayCalendar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         SizedBox(
-                          height: (height - 8).limitLow(0),
+                          height: (widget.height - 8).limitLow(0),
                         ),
                         for (var i = 1; i <= 11; i++)
                           SizedBox(
-                            height: height,
+                            height: widget.height,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 SizedBox(
-                                  width: labelWidth,
+                                  width: widget.labelWidth,
                                   child: Text(
                                     "%s AM".localize().format([i]),
                                     style: TextStyle(
@@ -203,13 +286,13 @@ class UIDayCalendar extends StatelessWidget {
                           ),
                         for (var i = 0; i <= 11; i++)
                           SizedBox(
-                            height: height,
+                            height: widget.height,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 SizedBox(
-                                  width: labelWidth,
+                                  width: widget.labelWidth,
                                   child: Text(
                                     "%s AM".localize().format([i]),
                                     style: TextStyle(
@@ -248,7 +331,7 @@ class UIDayCalendar extends StatelessWidget {
             Positioned(
               top: 0,
               bottom: 0,
-              left: labelWidth + 8,
+              left: widget.labelWidth + 8,
               child: SizedBox(
                 width: 1,
                 child: ColoredBox(

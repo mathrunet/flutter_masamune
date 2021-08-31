@@ -88,6 +88,7 @@ part "hooks/navigator_controller.dart";
 part "hooks/text_editing_controller_map.dart";
 part "hooks/global_key.dart";
 part "hooks/uuid.dart";
+part "hooks/date_time.dart";
 part "hooks/auto_focus_node.dart";
 part "src/asset_type.dart";
 part "src/extensions.dart";

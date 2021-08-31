@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  collapsible:
+    dependency: "direct main"
+    description:
+      name: collapsible
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   collection:
     dependency: transitive
     description:
@@ -337,7 +344,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.4"
+    version: "0.8.4+3"
   katana_module:
     dependency: "direct main"
     description:
@@ -372,7 +379,7 @@ packages:
       name: logger
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0"
   markdown:
     dependency: transitive
     description:
@@ -783,7 +790,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.6"
+    version: "2.2.8"
   wordpress_api:
     dependency: "direct main"
     description:

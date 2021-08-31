@@ -14,6 +14,7 @@ part 'customization/header_style.dart';
 part 'widgets/cell_widget.dart';
 part 'widgets/custom_icon_button.dart';
 part 'ui_day_calendar.dart';
+part 'ui_schedule_calendar.dart';
 
 /// Widget that provides a calendar function.
 ///

@@ -7,6 +7,7 @@
 library masamune.list;
 
 // import 'package:bordered_text/bordered_text.dart';
+import 'package:collapsible/collapsible.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -26,6 +27,7 @@ part 'sub_headline.dart';
 part 'list_builder.dart';
 part 'small_headline.dart';
 part 'indent.dart';
+part 'collapse.dart';
 part 'list_card.dart';
 part 'list_button.dart';
 part 'list_item.dart';

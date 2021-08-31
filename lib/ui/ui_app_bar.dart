@@ -335,13 +335,35 @@ class UIAppBar extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      title!,
+                      if (title != null)
+                        DefaultTextStyle(
+                          style: (context.theme.textTheme.headline6 ??
+                                      context.theme.textTheme.headline6 ??
+                                      context.theme.primaryTextTheme.headline6)
+                                  ?.copyWith(
+                                color: borderColor == null ||
+                                        backgroundColor != null ||
+                                        background != null
+                                    ? null
+                                    : context.theme.textColor,
+                              ) ??
+                              TextStyle(
+                                color: borderColor == null ||
+                                        backgroundColor != null ||
+                                        background != null
+                                    ? null
+                                    : context.theme.textColor,
+                              ),
+                          child: title!,
+                        ),
                       if (subtitle != null)
                         DefaultTextStyle(
                           style: context.theme.textTheme.overline?.copyWith(
                                 color: context.theme.disabledColor,
                               ) ??
-                              const TextStyle(),
+                              TextStyle(
+                                color: context.theme.disabledColor,
+                              ),
                           child: subtitle!,
                         ),
                     ],
@@ -353,14 +375,34 @@ class UIAppBar extends StatelessWidget {
                 centerTitle: false,
               ),
           bottom: bottom,
-          elevation: 1,
-          shadowColor: borderColor ?? context.theme.backgroundColor,
+          elevation: borderColor != null ||
+                  backgroundColor != null ||
+                  background != null
+              ? 1
+              : 0,
+          shadowColor: borderColor ?? context.theme.scaffoldBackgroundColor,
           forceElevated: true,
-          backgroundColor: context.theme.scaffoldBackgroundColor,
-          foregroundColor: foregroundColor,
+          backgroundColor:
+              backgroundColor ?? context.theme.scaffoldBackgroundColor,
+          foregroundColor: foregroundColor ??
+              (borderColor != null ||
+                      backgroundColor != null ||
+                      background != null
+                  ? null
+                  : context.theme.dividerColor),
           brightness: brightness,
-          iconTheme: iconTheme,
-          actionsIconTheme: actionsIconTheme,
+          iconTheme: iconTheme ??
+              (borderColor != null ||
+                      backgroundColor != null ||
+                      background != null
+                  ? null
+                  : IconThemeData(color: context.theme.dividerColor)),
+          actionsIconTheme: actionsIconTheme ??
+              (borderColor != null ||
+                      backgroundColor != null ||
+                      background != null
+                  ? null
+                  : IconThemeData(color: context.theme.dividerColor)),
           textTheme: textTheme,
           primary: primary,
           centerTitle: true,
@@ -396,8 +438,12 @@ class UIAppBar extends StatelessWidget {
                   children: [
                     if (title != null) title!,
                     DefaultTextStyle(
-                      style:
-                          context.theme.textTheme.overline ?? const TextStyle(),
+                      style: context.theme.textTheme.overline?.copyWith(
+                            color: context.theme.textColorOnPrimary,
+                          ) ??
+                          TextStyle(
+                            color: context.theme.textColorOnPrimary,
+                          ),
                       child: subtitle!,
                     ),
                   ],

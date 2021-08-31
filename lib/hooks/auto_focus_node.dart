@@ -1,10 +1,12 @@
 part of masamune;
 
-FocusNode useAutoFocusNode() {
+FocusNode useAutoFocusNode([bool autoFocus = true]) {
   final focusNode = useFocusNode();
   useEffect(
     () {
-      focusNode.requestFocus();
+      if (autoFocus) {
+        focusNode.requestFocus();
+      }
       return () {};
     },
     [focusNode],
