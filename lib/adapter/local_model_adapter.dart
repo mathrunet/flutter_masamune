@@ -6,11 +6,13 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   const LocalModelAdapter();
 
   @override
-  ModelProvider<LocalDynamicCollectionModel> collectionProvider(String path) =>
+  ChangeNotifierProvider<LocalDynamicCollectionModel> collectionProvider(
+          String path) =>
       localCollectionProvider(path);
 
   @override
-  ModelProvider<LocalDynamicDocumentModel> documentProvider(String path) =>
+  ChangeNotifierProvider<LocalDynamicDocumentModel> documentProvider(
+          String path) =>
       localDocumentProvider(path);
 
   @override

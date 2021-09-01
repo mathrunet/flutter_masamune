@@ -15,11 +15,11 @@ class InheritedModelAdapter<TDocument extends DynamicDocumentModel,
   final ModelAdapter<TDocument, TCollection> adapter;
 
   @override
-  ModelProvider<TCollection> collectionProvider(String path) =>
+  ChangeNotifierProvider<TCollection> collectionProvider(String path) =>
       adapter.collectionProvider("$prefix$path$suffix");
 
   @override
-  ModelProvider<TDocument> documentProvider(String path) =>
+  ChangeNotifierProvider<TDocument> documentProvider(String path) =>
       adapter.documentProvider("$prefix$path$suffix");
 
   @override

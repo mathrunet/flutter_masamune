@@ -13,7 +13,8 @@ part of masamune.media.mobile;
 /// final media = readProvider(localMediaProvider("test.jpg")).video();
 /// if(media == null) return;
 /// ```
-final localMediaProvider = ModelProvider.family<LocalMediaModel, String>(
+final localMediaProvider =
+    ChangeNotifierProvider.family<LocalMediaModel, String>(
   (_, path) => LocalMediaModel(path),
 );
 

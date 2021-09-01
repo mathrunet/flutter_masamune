@@ -1,7 +1,7 @@
 part of masamune;
 
 final wordpressCollectionProvider =
-    ModelProvider.family<WordpressCollectionModel, String>(
+    ChangeNotifierProvider.family<WordpressCollectionModel, String>(
   (_, endpoint) => WordpressCollectionModel(endpoint),
 );
 

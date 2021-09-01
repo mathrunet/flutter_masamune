@@ -1,3 +1,7 @@
+## [0.8.5] - Update README (2021.09.01)
+
+* Changed to match the Riverpod update.
+
 ## [0.8.4] - Update README (2021.07.01)
 
 * Katana update support.

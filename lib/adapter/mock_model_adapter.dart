@@ -8,13 +8,15 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   final Map<String, DynamicMap> data;
 
   @override
-  ModelProvider<RuntimeDynamicCollectionModel> collectionProvider(String path) {
+  ChangeNotifierProvider<RuntimeDynamicCollectionModel> collectionProvider(
+      String path) {
     path = path.trimString("/");
     return runtimeCollectionProvider(path);
   }
 
   @override
-  ModelProvider<RuntimeDynamicDocumentModel> documentProvider(String path) {
+  ChangeNotifierProvider<RuntimeDynamicDocumentModel> documentProvider(
+      String path) {
     path = path.trimString("/");
     return runtimeDocumentProvider(path);
   }
