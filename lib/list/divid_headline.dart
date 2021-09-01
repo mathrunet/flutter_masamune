@@ -4,8 +4,10 @@ class DividHeadline extends StatelessWidget {
   const DividHeadline(
     this.label, {
     this.icon,
+    this.color,
   });
   final IconData? icon;
+  final Color? color;
 
   final String label;
   @override
@@ -15,12 +17,12 @@ class DividHeadline extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
-        const SizedBox(width: 12, child: Divid()),
+        SizedBox(width: 12, child: Divid(color: color)),
         const Space.width(4),
         if (icon != null) ...[
           Icon(
             icon,
-            color: context.theme.disabledColor,
+            color: color ?? context.theme.disabledColor,
             size: 12,
           ),
           const Space.width(4),
@@ -28,12 +30,12 @@ class DividHeadline extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: context.theme.disabledColor,
+            color: color ?? context.theme.disabledColor,
             fontSize: 12,
           ),
         ),
         const Space.width(4),
-        const Expanded(child: Divid())
+        Expanded(child: Divid(color: color))
       ],
     );
   }

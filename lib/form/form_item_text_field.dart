@@ -46,6 +46,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.subColor,
     this.height,
     this.errorText,
+    this.cursorColor,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
   });
@@ -57,6 +58,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final int? maxLines;
   final double? height;
   final int minLines;
+  final Color? cursorColor;
   final bool dense;
   final String? hintText;
   final String? errorText;
@@ -110,6 +112,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
                 ? const EdgeInsets.symmetric(vertical: 20)
                 : const EdgeInsets.symmetric(vertical: 10)),
         child: TextFormField(
+          cursorColor: cursorColor,
           inputFormatters: inputFormatters,
           focusNode: focusNode,
           textAlign: textAlign,

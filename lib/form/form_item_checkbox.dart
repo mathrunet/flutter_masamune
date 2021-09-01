@@ -17,6 +17,8 @@ class FormItemCheckbox extends FormField<bool> {
       this.hintText,
       this.errorText,
       this.labelText,
+      this.needToCheck = false,
+      this.linkTextStyle,
       Key? key,
       void Function(bool? value)? onSaved,
       String? Function(bool? value)? validator,
@@ -28,12 +30,18 @@ class FormItemCheckbox extends FormField<bool> {
               return const Empty();
             },
             onSaved: onSaved,
-            validator: validator,
+            validator: (value) {
+              if (needToCheck && !(value ?? false)) {
+                return errorText;
+              }
+              return validator?.call(value);
+            },
             initialValue: initialValue,
             enabled: enabled);
 
   final TextEditingController? controller;
   final FormItemCheckboxType type;
+  final bool needToCheck;
   final void Function(bool? value)? onChanged;
   final Color? activeColor;
   final bool dense;
@@ -47,6 +55,7 @@ class FormItemCheckbox extends FormField<bool> {
   final String? labelText;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
+  final TextStyle? linkTextStyle;
   @override
   _FormItemCheckboxState createState() => _FormItemCheckboxState();
 }
@@ -124,6 +133,9 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
                   alignment: Alignment.centerRight,
                   child: Checkbox(
                     value: value,
+                    side: widget.color != null
+                        ? BorderSide(color: widget.color!)
+                        : null,
                     activeColor: widget.activeColor,
                     checkColor: widget.checkColor,
                     onChanged: (bool? value) {
@@ -146,8 +158,9 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
                       color: widget.enabled
                           ? widget.color
                           : Theme.of(context).disabledColor,
+                      linkTextStyle: widget.linkTextStyle,
                     ),
-                    if (widget.errorText.isNotEmpty)
+                    if (errorText.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Text(
@@ -174,6 +187,7 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
           title: UIMarkdown(
             widget.labelText ?? "",
             color: widget.color,
+            linkTextStyle: widget.linkTextStyle,
           ),
           subtitle: errorText.isNotEmpty
               ? Text(
