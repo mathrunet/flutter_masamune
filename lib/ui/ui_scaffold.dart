@@ -34,10 +34,12 @@ class UIScaffold extends StatelessWidget {
     this.loadingIndicatorColor,
     this.designType,
     this.modalSizeRatio = 0.8,
+    this.waitTransition = false,
   }) : super(key: key);
 
   final bool? webStyle;
   final DesignType? designType;
+  final bool waitTransition;
 
   final NavigatorController? inlineNavigatorControllerOnWeb;
   final List<FutureOr<dynamic>>? loadingFutures;
@@ -521,15 +523,27 @@ class UIScaffold extends StatelessWidget {
   }
 
   Widget _loading(BuildContext context) {
-    if (loadingFutures.isEmpty) {
-      return _body(context);
+    if (waitTransition) {
+      return LoadingBuilder(
+        futures: [
+          Future.delayed(kTransitionDuration),
+          if (loadingFutures.isNotEmpty) loadingFutures!
+        ],
+        loading: loadingWidget,
+        indicatorColor: loadingIndicatorColor,
+        builder: (context) => _body(context),
+      );
+    } else {
+      if (loadingFutures.isEmpty) {
+        return _body(context);
+      }
+      return LoadingBuilder(
+        futures: loadingFutures!,
+        loading: loadingWidget,
+        indicatorColor: loadingIndicatorColor,
+        builder: (context) => _body(context),
+      );
     }
-    return LoadingBuilder(
-      futures: loadingFutures!,
-      loading: loadingWidget,
-      indicatorColor: loadingIndicatorColor,
-      builder: (context) => _body(context),
-    );
   }
 
   Widget _body(BuildContext context) {
