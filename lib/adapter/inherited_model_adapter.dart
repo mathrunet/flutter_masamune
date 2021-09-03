@@ -52,21 +52,46 @@ class InheritedModelAdapter<TDocument extends DynamicDocumentModel,
   bool get enabledAuth => adapter.enabledAuth;
 
   @override
-  Future<void> registerInEmailAndPassword(
-          {required String email, required String password}) =>
-      adapter.registerInEmailAndPassword(email: email, password: password);
+  Future<void> registerInEmailAndPassword({
+    required String email,
+    required String password,
+    DynamicMap? data,
+    String userPath = "user",
+  }) =>
+      adapter.registerInEmailAndPassword(
+        email: email,
+        password: password,
+        data: data,
+        userPath: userPath,
+      );
 
   @override
   Future<void> sendPasswordResetEmail({required String email}) =>
       adapter.sendPasswordResetEmail(email: email);
 
   @override
-  Future<void> signInAnonymously() => adapter.signInAnonymously();
+  Future<void> signInAnonymously({
+    DynamicMap? data,
+    String userPath = "user",
+  }) =>
+      adapter.signInAnonymously(
+        data: data,
+        userPath: userPath,
+      );
 
   @override
-  Future<void> signInEmailAndPassword(
-          {required String email, required String password}) =>
-      adapter.signInEmailAndPassword(email: email, password: password);
+  Future<void> signInEmailAndPassword({
+    required String email,
+    required String password,
+    DynamicMap? data,
+    String userPath = "user",
+  }) =>
+      adapter.signInEmailAndPassword(
+        email: email,
+        password: password,
+        data: data,
+        userPath: userPath,
+      );
 
   @override
   Future<void> signOut() => adapter.signOut();

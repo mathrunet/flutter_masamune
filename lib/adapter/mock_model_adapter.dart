@@ -88,21 +88,60 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   String get photoURL => "";
 
   @override
-  Future<void> registerInEmailAndPassword(
-          {required String email, required String password}) =>
-      Future.delayed(Duration.zero);
+  Future<void> registerInEmailAndPassword({
+    required String email,
+    required String password,
+    DynamicMap? data,
+    String userPath = "user",
+  }) async {
+    if (data.isEmpty) {
+      return;
+    }
+    RuntimeDatabase.registerMockData(this.data);
+    final doc = readProvider(runtimeDocumentProvider("$userPath/$userId"));
+    await doc.loadOnce();
+    doc.addAllIfEmpty(data!);
+    await doc.save();
+  }
 
   @override
   Future<void> sendPasswordResetEmail({required String email}) =>
       Future.delayed(Duration.zero);
 
   @override
-  Future<void> signInAnonymously() => Future.delayed(Duration.zero);
+  Future<void> signInAnonymously({
+    DynamicMap? data,
+    String userPath = "user",
+  }) async {
+    if (data.isEmpty) {
+      return;
+    }
+    RuntimeDatabase.registerMockData(this.data);
+    final doc = readProvider(runtimeDocumentProvider("$userPath/$userId"));
+    await doc.loadOnce();
+    doc.addAllIfEmpty(data!);
+    await doc.save();
+  }
 
   @override
-  Future<void> signInEmailAndPassword(
-          {required String email, required String password}) =>
-      Future.delayed(Duration.zero);
+  Future<void> signInEmailAndPassword({
+    required String email,
+    required String password,
+    DynamicMap? data,
+    String userPath = "user",
+  }) async {
+    data ??= {};
+    RuntimeDatabase.registerMockData(this.data);
+    if (email.contains("@")) {
+      data["role"] = email.split("@")[0];
+    } else {
+      data["role"] = email;
+    }
+    final doc = readProvider(runtimeDocumentProvider("$userPath/$userId"));
+    await doc.loadOnce();
+    doc.addAllIfEmpty(data);
+    await doc.save();
+  }
 
   @override
   Future<void> signOut() => Future.delayed(Duration.zero);

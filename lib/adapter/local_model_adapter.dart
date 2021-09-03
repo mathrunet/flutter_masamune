@@ -58,9 +58,19 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   final bool enabledAuth = false;
 
   @override
-  Future<void> registerInEmailAndPassword(
-      {required String email, required String password}) {
-    throw UnimplementedError("The authentication function is not implemented.");
+  Future<void> registerInEmailAndPassword({
+    required String email,
+    required String password,
+    DynamicMap? data,
+    String userPath = "user",
+  }) async {
+    if (data.isEmpty) {
+      return;
+    }
+    final doc = readProvider(localDocumentProvider("$userPath/$userId"));
+    await doc.loadOnce();
+    doc.addAllIfEmpty(data!);
+    await doc.save();
   }
 
   @override
@@ -69,14 +79,33 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   }
 
   @override
-  Future<void> signInAnonymously() {
-    throw UnimplementedError("The authentication function is not implemented.");
+  Future<void> signInAnonymously({
+    DynamicMap? data,
+    String userPath = "user",
+  }) async {
+    if (data.isEmpty) {
+      return;
+    }
+    final doc = readProvider(localDocumentProvider("$userPath/$userId"));
+    await doc.loadOnce();
+    doc.addAllIfEmpty(data!);
+    await doc.save();
   }
 
   @override
-  Future<void> signInEmailAndPassword(
-      {required String email, required String password}) {
-    throw UnimplementedError("The authentication function is not implemented.");
+  Future<void> signInEmailAndPassword({
+    required String email,
+    required String password,
+    DynamicMap? data,
+    String userPath = "user",
+  }) async {
+    if (data.isEmpty) {
+      return;
+    }
+    final doc = readProvider(localDocumentProvider("$userPath/$userId"));
+    await doc.loadOnce();
+    doc.addAllIfEmpty(data!);
+    await doc.save();
   }
 
   @override
