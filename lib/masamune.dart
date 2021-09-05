@@ -90,6 +90,8 @@ part "hooks/global_key.dart";
 part "hooks/uuid.dart";
 part "hooks/date_time.dart";
 part "hooks/auto_focus_node.dart";
+part "provider/date_time.dart";
+part "provider/global_key.dart";
 part "src/asset_type.dart";
 part "src/extensions.dart";
 part "src/functions.dart";
