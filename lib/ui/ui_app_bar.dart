@@ -44,6 +44,7 @@ class UIAppBar extends StatelessWidget {
     this.titleTextStyle,
     this.systemOverlayStyle,
     this.designType,
+    this.sliverLayoutWhenModernDesign = true,
     this.background,
     this.scrollStyle = UIAppBarScrollStyle.pinned,
   })  : assert(floating || !snap,
@@ -54,6 +55,7 @@ class UIAppBar extends StatelessWidget {
         super(key: key);
 
   final DesignType? designType;
+  final bool sliverLayoutWhenModernDesign;
   final Widget? background;
   final UIAppBarScrollStyle scrollStyle;
 
@@ -318,112 +320,193 @@ class UIAppBar extends StatelessWidget {
     final design = designType ?? context.designType;
     switch (design) {
       case DesignType.modern:
-        final bottomHeight = bottom?.preferredSize.height ?? 0;
-        final height =
-            max(context.mediaQuery.size.height / 5, 120.0) + bottomHeight;
-        return SliverAppBar(
-          key: key,
-          leading: leading,
-          automaticallyImplyLeading: automaticallyImplyLeading,
-          title: null,
-          actions: actions,
-          flexibleSpace: flexibleSpace ??
-              FlexibleSpaceBar(
-                title: SingleChildScrollView(
-                  child: Column(
+        if (!sliverLayoutWhenModernDesign) {
+          return SliverAppBar(
+            key: key,
+            leading: leading,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            title: subtitle == null
+                ? title
+                : Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      if (title != null)
-                        DefaultTextStyle(
-                          style: (context.theme.textTheme.headline6 ??
-                                      context.theme.textTheme.headline6 ??
-                                      context.theme.primaryTextTheme.headline6)
-                                  ?.copyWith(
-                                color: borderColor == null ||
-                                        backgroundColor != null ||
-                                        background != null
-                                    ? null
-                                    : context.theme.textColor,
-                              ) ??
-                              TextStyle(
-                                color: borderColor == null ||
-                                        backgroundColor != null ||
-                                        background != null
-                                    ? null
-                                    : context.theme.textColor,
-                              ),
-                          child: title!,
-                        ),
-                      if (subtitle != null)
-                        DefaultTextStyle(
-                          style: context.theme.textTheme.overline?.copyWith(
-                                color: context.theme.disabledColor,
-                              ) ??
-                              TextStyle(
-                                color: context.theme.disabledColor,
-                              ),
-                          child: subtitle!,
-                        ),
+                      if (title != null) title!,
+                      DefaultTextStyle(
+                        style: context.theme.textTheme.overline?.copyWith(
+                              color: context.theme.textColorOnPrimary,
+                            ) ??
+                            TextStyle(
+                              color: context.theme.textColorOnPrimary,
+                            ),
+                        child: subtitle!,
+                      ),
                     ],
                   ),
+            actions: actions,
+            flexibleSpace: flexibleSpace,
+            bottom: bottom,
+            elevation: elevation ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? 1
+                    : 0),
+            shadowColor: borderColor ?? context.theme.scaffoldBackgroundColor,
+            forceElevated: true,
+            backgroundColor:
+                backgroundColor ?? context.theme.scaffoldBackgroundColor,
+            foregroundColor: foregroundColor ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? null
+                    : context.theme.dividerColor),
+            brightness: brightness,
+            iconTheme: iconTheme ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? null
+                    : IconThemeData(color: context.theme.dividerColor)),
+            actionsIconTheme: actionsIconTheme ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? null
+                    : IconThemeData(color: context.theme.dividerColor)),
+            textTheme: textTheme,
+            primary: primary,
+            centerTitle: centerTitle,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            titleSpacing: titleSpacing,
+            collapsedHeight: collapsedHeight,
+            expandedHeight: expandedHeight,
+            floating: floating,
+            pinned: pinned,
+            snap: snap,
+            stretch: stretch,
+            stretchTriggerOffset: stretchTriggerOffset,
+            onStretchTrigger: onStretchTrigger,
+            shape: shape,
+            toolbarHeight: toolbarHeight,
+            leadingWidth: leadingWidth,
+            backwardsCompatibility: backwardsCompatibility,
+            toolbarTextStyle: toolbarTextStyle,
+            titleTextStyle: titleTextStyle,
+            systemOverlayStyle: systemOverlayStyle,
+          );
+        } else {
+          final bottomHeight = bottom?.preferredSize.height ?? 0;
+          final height =
+              max(context.mediaQuery.size.height / 5, 120.0) + bottomHeight;
+          return SliverAppBar(
+            key: key,
+            leading: leading,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            title: null,
+            actions: actions,
+            flexibleSpace: flexibleSpace ??
+                FlexibleSpaceBar(
+                  title: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (title != null)
+                          DefaultTextStyle(
+                            style: (context.theme.textTheme.headline6 ??
+                                        context.theme.textTheme.headline6 ??
+                                        context
+                                            .theme.primaryTextTheme.headline6)
+                                    ?.copyWith(
+                                  color: borderColor == null ||
+                                          backgroundColor != null ||
+                                          background != null
+                                      ? null
+                                      : context.theme.textColor,
+                                ) ??
+                                TextStyle(
+                                  color: borderColor == null ||
+                                          backgroundColor != null ||
+                                          background != null
+                                      ? null
+                                      : context.theme.textColor,
+                                ),
+                            child: title!,
+                          ),
+                        if (subtitle != null)
+                          DefaultTextStyle(
+                            style: context.theme.textTheme.overline?.copyWith(
+                                  color: context.theme.disabledColor,
+                                ) ??
+                                TextStyle(
+                                  color: context.theme.disabledColor,
+                                ),
+                            child: subtitle!,
+                          ),
+                      ],
+                    ),
+                  ),
+                  background: background,
+                  titlePadding: EdgeInsets.fromLTRB(
+                      60, 0, 0, (subtitle != null ? 8 : 16) + bottomHeight),
+                  centerTitle: false,
                 ),
-                background: background,
-                titlePadding: EdgeInsets.fromLTRB(
-                    60, 0, 0, (subtitle != null ? 8 : 16) + bottomHeight),
-                centerTitle: false,
-              ),
-          bottom: bottom,
-          elevation: borderColor != null ||
-                  backgroundColor != null ||
-                  background != null
-              ? 1
-              : 0,
-          shadowColor: borderColor ?? context.theme.scaffoldBackgroundColor,
-          forceElevated: true,
-          backgroundColor:
-              backgroundColor ?? context.theme.scaffoldBackgroundColor,
-          foregroundColor: foregroundColor ??
-              (borderColor != null ||
-                      backgroundColor != null ||
-                      background != null
-                  ? null
-                  : context.theme.dividerColor),
-          brightness: brightness,
-          iconTheme: iconTheme ??
-              (borderColor != null ||
-                      backgroundColor != null ||
-                      background != null
-                  ? null
-                  : IconThemeData(color: context.theme.dividerColor)),
-          actionsIconTheme: actionsIconTheme ??
-              (borderColor != null ||
-                      backgroundColor != null ||
-                      background != null
-                  ? null
-                  : IconThemeData(color: context.theme.dividerColor)),
-          textTheme: textTheme,
-          primary: primary,
-          centerTitle: true,
-          excludeHeaderSemantics: excludeHeaderSemantics,
-          titleSpacing: titleSpacing,
-          collapsedHeight: _collapsedHeightFromStyle,
-          expandedHeight: expandedHeight ?? height,
-          floating: _floatingFromStyle,
-          pinned: _pinnedFromStyle,
-          snap: snap,
-          stretch: stretch,
-          stretchTriggerOffset: stretchTriggerOffset,
-          onStretchTrigger: onStretchTrigger,
-          shape: shape,
-          toolbarHeight: toolbarHeight,
-          leadingWidth: leadingWidth,
-          backwardsCompatibility: backwardsCompatibility,
-          toolbarTextStyle: toolbarTextStyle,
-          titleTextStyle: titleTextStyle,
-          systemOverlayStyle: systemOverlayStyle,
-        );
+            bottom: bottom,
+            elevation: elevation ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? 1
+                    : 0),
+            shadowColor: borderColor ?? context.theme.scaffoldBackgroundColor,
+            forceElevated: true,
+            backgroundColor:
+                backgroundColor ?? context.theme.scaffoldBackgroundColor,
+            foregroundColor: foregroundColor ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? null
+                    : context.theme.dividerColor),
+            brightness: brightness,
+            iconTheme: iconTheme ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? null
+                    : IconThemeData(color: context.theme.dividerColor)),
+            actionsIconTheme: actionsIconTheme ??
+                (borderColor != null ||
+                        backgroundColor != null ||
+                        background != null
+                    ? null
+                    : IconThemeData(color: context.theme.dividerColor)),
+            textTheme: textTheme,
+            primary: primary,
+            centerTitle: true,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            titleSpacing: titleSpacing,
+            collapsedHeight: _collapsedHeightFromStyle,
+            expandedHeight: expandedHeight ?? height,
+            floating: _floatingFromStyle,
+            pinned: _pinnedFromStyle,
+            snap: snap,
+            stretch: stretch,
+            stretchTriggerOffset: stretchTriggerOffset,
+            onStretchTrigger: onStretchTrigger,
+            shape: shape,
+            toolbarHeight: toolbarHeight,
+            leadingWidth: leadingWidth,
+            backwardsCompatibility: backwardsCompatibility,
+            toolbarTextStyle: toolbarTextStyle,
+            titleTextStyle: titleTextStyle,
+            systemOverlayStyle: systemOverlayStyle,
+          );
+        }
       default:
         return SliverAppBar(
           key: key,

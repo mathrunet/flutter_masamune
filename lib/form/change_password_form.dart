@@ -17,7 +17,7 @@ class ChangePasswordForm extends StatelessWidget {
         ),
         const Space.height(20),
         FormItemPassword(
-          hintText: "Please enter a password".localize(),
+          hintText: "Input %s".localize().format(["Password".localize()]),
           labelText: "Password".localize(),
           confirm: true,
           notMatchText: "Passwords do not match.".localize(),

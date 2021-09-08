@@ -18,7 +18,8 @@ class ReauthForm extends StatelessWidget {
         const Space.height(20),
         FormItemTextField(
           controller: useTextEditingController(),
-          hintText: "Please enter a password".localize(),
+          hintText: "Input %s".localize().format(["Password".localize()]),
+          errorText: "No input %s".localize().format(["Password".localize()]),
           labelText: "Password".localize(),
           keyboardType: TextInputType.visiblePassword,
           obscureText: true,

@@ -167,4 +167,47 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
       "type": type,
     };
   }
+
+  @override
+  Future<void> reauthInEmailAndPassword({required String password}) =>
+      Future.value();
+
+  @override
+  bool requiredReauthInEmailAndPassword() => false;
+
+  @override
+  Future<void> changeEmail({required String email}) => Future.value();
+
+  @override
+  Future<void> changePassword({required String password}) => Future.value();
+
+  @override
+  Future<void> changePhoneNumber({required String smsCode}) => Future.value();
+
+  @override
+  Future<void> confirmPasswordReset(
+          {required String code, required String password}) =>
+      Future.value();
+
+  @override
+  Future<void> deleteAccount() => Future.value();
+
+  @override
+  Future<void> sendEmailLink(
+          {required String email,
+          required String url,
+          required String packageName,
+          int androidMinimumVersion = 1}) =>
+      Future.value();
+
+  @override
+  Future<void> sendEmailVerification() => Future.value();
+  @override
+  Future<void> sendSMS({required String phoneNumber}) => Future.value();
+
+  @override
+  Future<void> signInEmailLink({required String link}) => Future.value();
+
+  @override
+  Future<void> signInSMS({required String smsCode}) => Future.value();
 }

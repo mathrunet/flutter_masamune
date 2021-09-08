@@ -1,6 +1,6 @@
 part of masamune.ui;
 
-class UIScaffold extends StatelessWidget {
+class UIScaffold extends StatefulWidget {
   /// Creates a visual scaffold for material design widgets.
   const UIScaffold({
     Key? key,
@@ -368,156 +368,173 @@ class UIScaffold extends StatelessWidget {
   final String? restorationId;
 
   @override
+  State<StatefulWidget> createState() => _UIScaffoldState();
+}
+
+class _UIScaffoldState extends State<UIScaffold> {
+  bool _transitionWaited = false;
+
+  bool get waitTransition {
+    if (_transitionWaited) {
+      return false;
+    }
+    _transitionWaited = true;
+    return widget.waitTransition;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final useWebStyle = webStyle ?? context.webStyle;
+    final useWebStyle = widget.webStyle ?? context.webStyle;
     if (context.isMobile || !useWebStyle) {
-      switch (designType ?? context.designType) {
+      switch (widget.designType ?? context.designType) {
         case DesignType.modern:
           return Scaffold(
-            key: key,
+            key: widget.key,
             body: NestedScrollView(
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                 return [
-                  if (appBar != null) appBar!,
+                  if (widget.appBar != null) widget.appBar!,
                 ];
               },
               body: _loading(context),
             ),
-            floatingActionButton: floatingActionButton,
-            floatingActionButtonLocation: floatingActionButtonLocation,
-            floatingActionButtonAnimator: floatingActionButtonAnimator,
-            persistentFooterButtons: persistentFooterButtons,
-            drawer: drawer,
-            onDrawerChanged: onDrawerChanged,
-            endDrawer: endDrawer,
-            onEndDrawerChanged: onEndDrawerChanged,
-            bottomNavigationBar: bottomNavigationBar,
-            bottomSheet: bottomSheet,
-            backgroundColor: backgroundColor,
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            primary: primary,
-            drawerDragStartBehavior: drawerDragStartBehavior,
-            extendBody: extendBody,
-            extendBodyBehindAppBar: extendBodyBehindAppBar,
-            drawerScrimColor: drawerScrimColor,
-            drawerEdgeDragWidth: drawerEdgeDragWidth,
-            drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-            endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
-            restorationId: restorationId,
+            floatingActionButton: widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+            persistentFooterButtons: widget.persistentFooterButtons,
+            drawer: widget.drawer,
+            onDrawerChanged: widget.onDrawerChanged,
+            endDrawer: widget.endDrawer,
+            onEndDrawerChanged: widget.onEndDrawerChanged,
+            bottomNavigationBar: widget.bottomNavigationBar,
+            bottomSheet: widget.bottomSheet,
+            backgroundColor: widget.backgroundColor,
+            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+            primary: widget.primary,
+            drawerDragStartBehavior: widget.drawerDragStartBehavior,
+            extendBody: widget.extendBody,
+            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+            drawerScrimColor: widget.drawerScrimColor,
+            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+            endDrawerEnableOpenDragGesture:
+                widget.endDrawerEnableOpenDragGesture,
+            restorationId: widget.restorationId,
           );
         default:
           return Scaffold(
-            key: key,
+            key: widget.key,
             appBar: _toMobileAppBar(context),
             body: _loading(context),
-            floatingActionButton: floatingActionButton,
-            floatingActionButtonLocation: floatingActionButtonLocation,
-            floatingActionButtonAnimator: floatingActionButtonAnimator,
-            persistentFooterButtons: persistentFooterButtons,
-            drawer: drawer,
-            onDrawerChanged: onDrawerChanged,
-            endDrawer: endDrawer,
-            onEndDrawerChanged: onEndDrawerChanged,
-            bottomNavigationBar: bottomNavigationBar,
-            bottomSheet: bottomSheet,
-            backgroundColor: backgroundColor,
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            primary: primary,
-            drawerDragStartBehavior: drawerDragStartBehavior,
-            extendBody: extendBody,
-            extendBodyBehindAppBar: extendBodyBehindAppBar,
-            drawerScrimColor: drawerScrimColor,
-            drawerEdgeDragWidth: drawerEdgeDragWidth,
-            drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-            endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
-            restorationId: restorationId,
+            floatingActionButton: widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+            persistentFooterButtons: widget.persistentFooterButtons,
+            drawer: widget.drawer,
+            onDrawerChanged: widget.onDrawerChanged,
+            endDrawer: widget.endDrawer,
+            onEndDrawerChanged: widget.onEndDrawerChanged,
+            bottomNavigationBar: widget.bottomNavigationBar,
+            bottomSheet: widget.bottomSheet,
+            backgroundColor: widget.backgroundColor,
+            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+            primary: widget.primary,
+            drawerDragStartBehavior: widget.drawerDragStartBehavior,
+            extendBody: widget.extendBody,
+            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+            drawerScrimColor: widget.drawerScrimColor,
+            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+            endDrawerEnableOpenDragGesture:
+                widget.endDrawerEnableOpenDragGesture,
+            restorationId: widget.restorationId,
           );
       }
     } else if (context.isModal) {
       return _WebModalView(
-        widthRatio: modalSizeRatio,
-        heightRatio: modalSizeRatio,
+        widthRatio: widget.modalSizeRatio,
+        heightRatio: widget.modalSizeRatio,
         child: Scaffold(
-          key: key,
+          key: widget.key,
           appBar: _toMobileAppBar(context),
           body: _loading(context),
-          floatingActionButton: floatingActionButton,
-          floatingActionButtonLocation: floatingActionButtonLocation,
-          floatingActionButtonAnimator: floatingActionButtonAnimator,
-          persistentFooterButtons: persistentFooterButtons,
-          drawer: drawer,
-          onDrawerChanged: onDrawerChanged,
-          endDrawer: endDrawer,
-          onEndDrawerChanged: onEndDrawerChanged,
-          bottomNavigationBar: bottomNavigationBar,
-          bottomSheet: bottomSheet,
-          backgroundColor: backgroundColor,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          primary: primary,
-          drawerDragStartBehavior: drawerDragStartBehavior,
-          extendBody: extendBody,
-          extendBodyBehindAppBar: extendBodyBehindAppBar,
-          drawerScrimColor: drawerScrimColor,
-          drawerEdgeDragWidth: drawerEdgeDragWidth,
-          drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-          endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
-          restorationId: restorationId,
+          floatingActionButton: widget.floatingActionButton,
+          floatingActionButtonLocation: widget.floatingActionButtonLocation,
+          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+          persistentFooterButtons: widget.persistentFooterButtons,
+          drawer: widget.drawer,
+          onDrawerChanged: widget.onDrawerChanged,
+          endDrawer: widget.endDrawer,
+          onEndDrawerChanged: widget.onEndDrawerChanged,
+          bottomNavigationBar: widget.bottomNavigationBar,
+          bottomSheet: widget.bottomSheet,
+          backgroundColor: widget.backgroundColor,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+          primary: widget.primary,
+          drawerDragStartBehavior: widget.drawerDragStartBehavior,
+          extendBody: widget.extendBody,
+          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+          drawerScrimColor: widget.drawerScrimColor,
+          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+          endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+          restorationId: widget.restorationId,
         ),
       );
     } else if (context.navigator != context.rootNavigator) {
       return Scaffold(
-        key: key,
+        key: widget.key,
         appBar: _toInlineAppBar(context),
         body: _loading(context),
-        floatingActionButton: floatingActionButton,
-        floatingActionButtonLocation: floatingActionButtonLocation,
-        floatingActionButtonAnimator: floatingActionButtonAnimator,
-        persistentFooterButtons: persistentFooterButtons,
-        drawer: drawer,
-        onDrawerChanged: onDrawerChanged,
-        endDrawer: endDrawer,
-        onEndDrawerChanged: onEndDrawerChanged,
-        bottomNavigationBar: bottomNavigationBar,
-        bottomSheet: bottomSheet,
-        backgroundColor: backgroundColor,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        primary: primary,
-        drawerDragStartBehavior: drawerDragStartBehavior,
-        extendBody: extendBody,
-        extendBodyBehindAppBar: extendBodyBehindAppBar,
-        drawerScrimColor: drawerScrimColor,
-        drawerEdgeDragWidth: drawerEdgeDragWidth,
-        drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-        endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
-        restorationId: restorationId,
+        floatingActionButton: widget.floatingActionButton,
+        floatingActionButtonLocation: widget.floatingActionButtonLocation,
+        floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+        persistentFooterButtons: widget.persistentFooterButtons,
+        drawer: widget.drawer,
+        onDrawerChanged: widget.onDrawerChanged,
+        endDrawer: widget.endDrawer,
+        onEndDrawerChanged: widget.onEndDrawerChanged,
+        bottomNavigationBar: widget.bottomNavigationBar,
+        bottomSheet: widget.bottomSheet,
+        backgroundColor: widget.backgroundColor,
+        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+        primary: widget.primary,
+        drawerDragStartBehavior: widget.drawerDragStartBehavior,
+        extendBody: widget.extendBody,
+        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+        drawerScrimColor: widget.drawerScrimColor,
+        drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+        drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+        endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+        restorationId: widget.restorationId,
       );
     } else {
       return Scaffold(
-        key: key,
+        key: widget.key,
         appBar: _toMainAppBar(context),
         body: _loading(context),
-        floatingActionButton: floatingActionButton,
-        floatingActionButtonLocation: floatingActionButtonLocation,
-        floatingActionButtonAnimator: floatingActionButtonAnimator,
-        persistentFooterButtons: persistentFooterButtons,
-        drawer: drawer,
-        onDrawerChanged: onDrawerChanged,
-        endDrawer: endDrawer,
-        onEndDrawerChanged: onEndDrawerChanged,
-        bottomNavigationBar: bottomNavigationBar,
-        bottomSheet: bottomSheet,
-        backgroundColor: backgroundColor,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        primary: primary,
-        drawerDragStartBehavior: drawerDragStartBehavior,
-        extendBody: extendBody,
-        extendBodyBehindAppBar: extendBodyBehindAppBar,
-        drawerScrimColor: drawerScrimColor,
-        drawerEdgeDragWidth: drawerEdgeDragWidth,
-        drawerEnableOpenDragGesture: drawerEnableOpenDragGesture,
-        endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
-        restorationId: restorationId,
+        floatingActionButton: widget.floatingActionButton,
+        floatingActionButtonLocation: widget.floatingActionButtonLocation,
+        floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+        persistentFooterButtons: widget.persistentFooterButtons,
+        drawer: widget.drawer,
+        onDrawerChanged: widget.onDrawerChanged,
+        endDrawer: widget.endDrawer,
+        onEndDrawerChanged: widget.onEndDrawerChanged,
+        bottomNavigationBar: widget.bottomNavigationBar,
+        bottomSheet: widget.bottomSheet,
+        backgroundColor: widget.backgroundColor,
+        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+        primary: widget.primary,
+        drawerDragStartBehavior: widget.drawerDragStartBehavior,
+        extendBody: widget.extendBody,
+        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+        drawerScrimColor: widget.drawerScrimColor,
+        drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+        drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+        endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+        restorationId: widget.restorationId,
       );
     }
   }
@@ -527,34 +544,34 @@ class UIScaffold extends StatelessWidget {
       return LoadingBuilder(
         futures: [
           Future.delayed(kTransitionDuration),
-          if (loadingFutures.isNotEmpty) loadingFutures!
+          if (widget.loadingFutures.isNotEmpty) widget.loadingFutures!
         ],
-        loading: loadingWidget,
-        indicatorColor: loadingIndicatorColor,
+        loading: widget.loadingWidget,
+        indicatorColor: widget.loadingIndicatorColor,
         builder: (context) => _body(context),
       );
     } else {
-      if (loadingFutures.isEmpty) {
+      if (widget.loadingFutures.isEmpty) {
         return _body(context);
       }
       return LoadingBuilder(
-        futures: loadingFutures!,
-        loading: loadingWidget,
-        indicatorColor: loadingIndicatorColor,
+        futures: widget.loadingFutures!,
+        loading: widget.loadingWidget,
+        indicatorColor: widget.loadingIndicatorColor,
         builder: (context) => _body(context),
       );
     }
   }
 
   Widget _body(BuildContext context) {
-    final useWebStyle = webStyle ?? context.webStyle;
+    final useWebStyle = widget.webStyle ?? context.webStyle;
     if (!useWebStyle ||
         context.isMobile ||
-        inlineNavigatorControllerOnWeb?.route?.name == null) {
-      return this.body ?? const Empty();
+        widget.inlineNavigatorControllerOnWeb?.route?.name == null) {
+      return widget.body ?? const Empty();
     }
-    final body = this.body;
-    final appBar = this.appBar;
+    final body = widget.body;
+    final appBar = widget.appBar;
     if (body is TabBarView) {
       if (appBar is UIAppBar && appBar.bottom is TabBar) {
         return _WebTabLayout(
@@ -569,13 +586,13 @@ class UIScaffold extends StatelessWidget {
     }
 
     return _WebAppLayout(
-      builder: (context) => this.body ?? const Empty(),
-      controller: inlineNavigatorControllerOnWeb!,
+      builder: (context) => widget.body ?? const Empty(),
+      controller: widget.inlineNavigatorControllerOnWeb!,
     );
   }
 
   PreferredSizeWidget? _toMobileAppBar(BuildContext context) {
-    final appBar = this.appBar;
+    final appBar = widget.appBar;
     if (appBar == null) {
       return null;
     }
@@ -598,7 +615,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: appBar.centerTitle,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
@@ -630,7 +647,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: appBar.centerTitle,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
@@ -669,7 +686,7 @@ class UIScaffold extends StatelessWidget {
   }
 
   PreferredSizeWidget? _toInlineAppBar(BuildContext context) {
-    final appBar = this.appBar;
+    final appBar = widget.appBar;
     if (appBar == null) {
       return null;
     }
@@ -705,7 +722,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
@@ -750,7 +767,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
@@ -794,7 +811,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
@@ -840,7 +857,7 @@ class UIScaffold extends StatelessWidget {
   }
 
   PreferredSizeWidget? _toMainAppBar(BuildContext context) {
-    final appBar = this.appBar;
+    final appBar = widget.appBar;
     if (appBar == null) {
       return null;
     }
@@ -861,7 +878,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
@@ -891,7 +908,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
@@ -920,7 +937,7 @@ class UIScaffold extends StatelessWidget {
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         textTheme: appBar.textTheme,
-        primary: primary,
+        primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,

@@ -20,7 +20,8 @@ class ChangeEmailForm extends StatelessWidget {
         const Space.height(20),
         FormItemTextField(
           controller: useTextEditingController(text: defaultEmail),
-          hintText: "Please enter a email address".localize(),
+          hintText: "Input %s".localize().format(["Email".localize()]),
+          errorText: "No input %s".localize().format(["Email".localize()]),
           labelText: "Email".localize(),
           keyboardType: TextInputType.emailAddress,
           onSaved: (value) {

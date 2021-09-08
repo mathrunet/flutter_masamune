@@ -23,7 +23,7 @@ class UIPageChangeEmail extends PageHookWidget {
           UIDialog.show(
             context,
             title: "Success".localize(),
-            text: "Editing is complete.".localize(),
+            text: "Editing is completed.".localize(),
             submitText: "OK".localize(),
             onSubmit: () {
               context.navigator.pop();

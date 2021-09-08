@@ -323,7 +323,7 @@ packages:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.0"
+    version: "2.4.1"
   intl:
     dependency: "direct main"
     description:
@@ -351,14 +351,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+6"
+    version: "0.8.5+8"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+5"
+    version: "0.8.5+11"
   katana_module_builder_annotation:
     dependency: transitive
     description:
@@ -657,7 +657,7 @@ packages:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.1+1"
   stack_trace:
     dependency: transitive
     description:
@@ -671,7 +671,7 @@ packages:
       name: state_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   stream_channel:
     dependency: transitive
     description:
@@ -797,7 +797,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.8"
+    version: "2.2.9"
   wordpress_api:
     dependency: "direct main"
     description:

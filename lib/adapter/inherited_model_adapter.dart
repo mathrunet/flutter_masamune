@@ -132,4 +132,67 @@ class InheritedModelAdapter<TDocument extends DynamicDocumentModel,
   DynamicMap toMap() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> skipRegistration({
+    DynamicMap? data,
+    String userPath = "user",
+  }) =>
+      adapter.skipRegistration(data: data, userPath: userPath);
+
+  @override
+  Future<void> reauthInEmailAndPassword({required String password}) =>
+      adapter.reauthInEmailAndPassword(password: password);
+
+  @override
+  bool requiredReauthInEmailAndPassword() =>
+      adapter.requiredReauthInEmailAndPassword();
+
+  @override
+  Future<void> changeEmail({required String email}) =>
+      adapter.changeEmail(email: email);
+
+  @override
+  Future<void> changePassword({required String password}) =>
+      adapter.changePassword(password: password);
+
+  @override
+  Future<void> changePhoneNumber({required String smsCode}) =>
+      adapter.changePhoneNumber(smsCode: smsCode);
+
+  @override
+  Future<void> confirmPasswordReset(
+          {required String code, required String password}) =>
+      adapter.confirmPasswordReset(code: code, password: password);
+
+  @override
+  Future<void> deleteAccount() => adapter.deleteAccount();
+
+  @override
+  Future<void> sendEmailLink(
+          {required String email,
+          required String url,
+          required String packageName,
+          int androidMinimumVersion = 1}) =>
+      adapter.sendEmailLink(
+        email: email,
+        url: url,
+        packageName: packageName,
+        androidMinimumVersion: androidMinimumVersion,
+      );
+
+  @override
+  Future<void> sendEmailVerification() => adapter.sendEmailVerification();
+
+  @override
+  Future<void> sendSMS({required String phoneNumber}) =>
+      adapter.sendSMS(phoneNumber: phoneNumber);
+
+  @override
+  Future<void> signInEmailLink({required String link}) =>
+      adapter.signInEmailLink(link: link);
+
+  @override
+  Future<void> signInSMS({required String smsCode}) =>
+      adapter.signInSMS(smsCode: smsCode);
 }
