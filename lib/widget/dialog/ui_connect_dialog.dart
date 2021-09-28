@@ -6,6 +6,8 @@ part of masamune;
 // /// UIConnectDialog.show( context );
 // /// ```
 class UIConnectDialog {
+  const UIConnectDialog._();
+
   /// Show dialog.
   ///
   /// [context]: Build context.
@@ -25,7 +27,7 @@ class UIConnectDialog {
   /// [text]: Default text.
   /// [showBackButton]: If true, the back button is displayed.
   /// [disableBackKey]: True to disable the back key.
-  static Future show(
+  static Future<void> show(
     BuildContext context, {
     String retryText = "Retry",
     String backText = "Back",

@@ -6,6 +6,8 @@ part of masamune;
 /// UIConfirm.show( context );
 /// ```
 class UIConfirm {
+  const UIConfirm._();
+
   /// Show confirmation dialog.
   ///
   /// ```
@@ -29,7 +31,7 @@ class UIConfirm {
   /// [text]: Default text.
   /// [popOnPress]: True if the dialog should be closed together when the button is pressed.
   /// [willShowRepetition]: True if the dialog will continue to be displayed unless you press the regular close button.
-  static Future show(
+  static Future<void> show(
     BuildContext context, {
     Color? backgroundColor,
     Color? color,

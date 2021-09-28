@@ -6,6 +6,8 @@ part of masamune;
 /// UIDialog.show( context );
 /// ```
 class UIDialog {
+  const UIDialog._();
+
   /// Check the value and display a dialog when it is [false].
   ///
   /// [context]: Build context.
@@ -73,7 +75,7 @@ class UIDialog {
   /// [disableBackKey]: True to disable the back key.
   /// [popOnPress]: True if the dialog should be closed together when the button is pressed.
   /// [willShowRepetition]: True if the dialog will continue to be displayed unless you press the regular close button.
-  static Future show(BuildContext context,
+  static Future<void> show(BuildContext context,
       {String submitText = "OK",
       Color? backgroundColor,
       Color? color,

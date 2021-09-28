@@ -387,10 +387,11 @@ class _DateTimeTextField extends FormField<DateTime> {
                   .applyDefaults(Theme.of(field.context).inputDecorationTheme);
               return TextField(
                 mouseCursor: SystemMouseCursors.click,
-                controller: TextEditingController(
-                    text: state.value != null
-                        ? state.widget.format.format(state.value!)
-                        : null),
+                controller: state._effectiveController ??
+                    TextEditingController(
+                        text: state.value != null
+                            ? state.widget.format.format(state.value!)
+                            : null),
                 focusNode: state._effectiveFocusNode,
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,
@@ -485,8 +486,7 @@ class _DateTimeTextFieldState extends FormFieldState<DateTime> {
       _controller?.addListener(_handleControllerChanged);
     }
     if (value == null) {
-      setValue(DateTime.tryParse(_effectiveController?.text ?? "") ??
-          widget.initialValue);
+      setValue(parse(_effectiveController?.text ?? "") ?? widget.initialValue);
     }
     if (widget.focusNode == null) {
       _focusNode = FocusNode();
@@ -562,8 +562,15 @@ class _DateTimeTextFieldState extends FormFieldState<DateTime> {
       didChange(parse(_effectiveController?.text));
   }
 
-  String? format(DateTime? date) => date?.toIso8601String();
-  DateTime? parse(String? text) => DateTime.tryParse(text ?? "");
+  String? format(DateTime? date) =>
+      date == null ? null : widget.format.format(date);
+  DateTime? parse(String? text) {
+    try {
+      return text.isEmpty ? null : widget.format.parseLoose(text!);
+    } catch (e) {
+      return null;
+    }
+  }
 
   Future<void> requestUpdate() async {
     if (widget.readOnly) {

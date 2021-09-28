@@ -128,7 +128,7 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
               ),
             );
           }
-          return RouteConfig.onGenerateRoute(settings);
+          return RouteConfig.onGenerateRoute(context, settings);
         },
         onGenerateInitialRoutes: (state, initialRouteName) {
           if (widget.showEmptyPage?.call(initialRouteName) ??
@@ -146,6 +146,7 @@ class _InlinePageBuilderState extends State<InlinePageBuilder> {
           }
           return [
             RouteConfig.onGenerateRoute(
+                  context,
                   RouteSettings(
                     name: initialRouteName,
                     arguments: ModalRoute.of(context)?.settings.arguments,

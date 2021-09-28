@@ -11,6 +11,8 @@ part of masamune.dialog.mobile;
 ///
 /// [willShowRepetition] is `true` if the dialog will continue to be displayed unless you press the regular close button.
 class UIMediaDialog {
+  const UIMediaDialog._();
+
   /// Displays a dialog to select media.
   ///
   /// [type] is asset selection type.

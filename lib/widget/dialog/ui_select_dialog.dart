@@ -6,6 +6,8 @@ part of masamune;
 /// UISelectDialog.show( context );
 /// ```
 class UISelectDialog {
+  const UISelectDialog._();
+
   /// Show selecting dialog.
   ///
   /// [context]: Build context.
@@ -17,7 +19,7 @@ class UISelectDialog {
   /// [disableBackKey]: True to disable the back key.
   /// [popOnPress]: True if the dialog should be closed together when the button is pressed.
   /// [willShowRepetition]: True if the dialog will continue to be displayed unless you press the regular close button.
-  static Future show(
+  static Future<void> show(
     BuildContext context, {
     Color? backgroundColor,
     Color? color,

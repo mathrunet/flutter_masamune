@@ -1,6 +1,8 @@
 part of masamune;
 
 class _UIFuture {
+  const _UIFuture._();
+
   static Future<T?> show<T>(
     BuildContext context,
     Future<T> future, {
