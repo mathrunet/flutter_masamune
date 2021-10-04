@@ -65,6 +65,7 @@ class UICalendar extends StatefulWidget {
     this.holidays = const [],
     this.initialDay,
     this.markerIcon,
+    this.markerIconSize,
     this.markerType = UICalendarMarkerType.count,
     this.markerItemBuilder,
     this.onTap,
@@ -110,6 +111,9 @@ class UICalendar extends StatefulWidget {
 
   /// Sunday Colors.
   final Color? sundayColor;
+
+  /// MarkerIconSize.
+  final double? markerIconSize;
 
   /// Display the calendar in the full width of the parent widget.
   final bool expand;
@@ -704,7 +708,7 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
 
   Color? _markerColor(BuildContext context, DateTime date) {
     if (_calendarController == null) {
-      return context.theme.textTheme.bodyText1?.color;
+      return context.theme.primaryColor;
     }
     if (_calendarController!.isToday(date)) {
       return widget.highlightTodayTextColor ??
@@ -714,7 +718,7 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
       return widget.highlightSelectedDayTextColor ??
           context.theme.colorScheme.onPrimary;
     }
-    return context.theme.textTheme.bodyText1?.color;
+    return context.theme.primaryColor;
   }
 
   Color? _countBackgroundColor(BuildContext context, DateTime date) {
@@ -753,6 +757,7 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
           IconTheme(
             data: IconThemeData(
               color: _markerColor(context, date),
+              size: widget.markerIconSize ?? 36,
             ),
             child: Container(
               constraints: const BoxConstraints.expand(),
