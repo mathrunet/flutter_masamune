@@ -48,7 +48,7 @@ class ListBuilder<T> extends StatelessWidget {
   final List<Widget>? insert;
   final List<Widget>? top;
   final List<Widget>? bottom;
-  final List<Widget>? Function(BuildContext context, T item) builder;
+  final List<Widget>? Function(BuildContext context, T item, int index) builder;
   final List<T> source;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
@@ -122,7 +122,7 @@ class ListBuilder<T> extends StatelessWidget {
 
   Widget _sourceBuilder(BuildContext context, int pos) {
     final item = source[pos];
-    final children = builder.call(context, item);
+    final children = builder.call(context, item, pos);
     if (children.isEmpty) {
       return _listenableBuilder(
         context: context,

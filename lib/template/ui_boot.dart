@@ -42,10 +42,17 @@ abstract class UIBoot extends PageHookWidget {
   }
 
   Widget _body(BuildContext context) {
-    final image = featureImage;
+    final config = context.app?.bootConfig;
+    final image = config != null &&
+            config.designType == BootDesignType.logo &&
+            config.logoPath.isNotEmpty
+        ? NetworkOrAsset.image(config.logoPath)
+        : featureImage;
     if (image != null) {
       return ColoredBox(
-        color: backgroundColor ?? context.theme.backgroundColor,
+        color: config?.backgroundColor ??
+            backgroundColor ??
+            context.theme.backgroundColor,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -57,16 +64,26 @@ abstract class UIBoot extends PageHookWidget {
         ),
       );
     }
-    final widget = featureWidget;
+    final widget =
+        config != null && config.designType == BootDesignType.indicator
+            ? CircularProgressIndicator(
+                backgroundColor: config.backgroundColor,
+                color: config.color,
+              )
+            : featureWidget;
     if (widget != null) {
       return Container(
-        color: backgroundColor ?? context.theme.backgroundColor,
+        color: config?.backgroundColor ??
+            backgroundColor ??
+            context.theme.backgroundColor,
         alignment: Alignment.center,
         child: widget,
       );
     }
     return ColoredBox(
-      color: backgroundColor ?? context.theme.backgroundColor,
+      color: config?.backgroundColor ??
+          backgroundColor ??
+          context.theme.backgroundColor,
       child: AnimationScope(
         animation: useAutoRepeatAnimationScenario(
           [
@@ -86,8 +103,8 @@ abstract class UIBoot extends PageHookWidget {
             ),
             AnimationUnit(
               tween: ColorTween(
-                begin: indicatorColor ?? Colors.red,
-                end: indicatorColor ?? Colors.purple,
+                begin: config?.color ?? indicatorColor ?? Colors.red,
+                end: config?.color ?? indicatorColor ?? Colors.purple,
               ),
               from: const Duration(seconds: 0),
               to: const Duration(seconds: 1),
@@ -95,8 +112,8 @@ abstract class UIBoot extends PageHookWidget {
             ),
             AnimationUnit(
               tween: ColorTween(
-                begin: indicatorColor ?? Colors.purple,
-                end: indicatorColor ?? Colors.blue,
+                begin: config?.color ?? indicatorColor ?? Colors.purple,
+                end: config?.color ?? indicatorColor ?? Colors.blue,
               ),
               from: const Duration(seconds: 2),
               to: const Duration(seconds: 3),
@@ -104,8 +121,8 @@ abstract class UIBoot extends PageHookWidget {
             ),
             AnimationUnit(
               tween: ColorTween(
-                begin: indicatorColor ?? Colors.blue,
-                end: indicatorColor ?? Colors.purple,
+                begin: config?.color ?? indicatorColor ?? Colors.blue,
+                end: config?.color ?? indicatorColor ?? Colors.purple,
               ),
               from: const Duration(seconds: 4),
               to: const Duration(seconds: 5),
@@ -113,8 +130,8 @@ abstract class UIBoot extends PageHookWidget {
             ),
             AnimationUnit(
               tween: ColorTween(
-                begin: indicatorColor ?? Colors.purple,
-                end: indicatorColor ?? Colors.red,
+                begin: config?.color ?? indicatorColor ?? Colors.purple,
+                end: config?.color ?? indicatorColor ?? Colors.red,
               ),
               from: const Duration(seconds: 8),
               to: const Duration(seconds: 10),
@@ -127,7 +144,7 @@ abstract class UIBoot extends PageHookWidget {
             size: animator.get("size", 0),
             backgroundColor: animator.get(
               "color",
-              indicatorColor ?? Colors.red,
+              config?.color ?? indicatorColor ?? Colors.red,
             ),
           );
         },

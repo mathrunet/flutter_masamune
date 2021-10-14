@@ -58,7 +58,7 @@ class SearchBuilder<T extends Object> extends StatefulWidget {
   final Future<Iterable<T>> Function(String text) search;
 
   /// Builder when the task is completed.
-  final List<Widget> Function(BuildContext context, T item) builder;
+  final List<Widget> Function(BuildContext context, T item, int index) builder;
 
   final int insertPosition;
   final List<Widget>? insert;
@@ -128,7 +128,7 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
           listenWhenListenable: false,
           source: widget.history!.source,
           top: widget.history!.top,
-          builder: (context, item) {
+          builder: (context, item, index) {
             return [widget.history!.builder.call(context, item, _history)];
           },
         );

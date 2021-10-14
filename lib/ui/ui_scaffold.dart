@@ -651,8 +651,7 @@ class _UIScaffoldState extends State<UIScaffold> {
         centerTitle: appBar.centerTitle,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
-        toolbarHeight:
-            appBar.toolbarHeight + (appBar.bottom?.preferredSize.height ?? 0),
+        toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
         backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
@@ -1260,7 +1259,7 @@ class _WebTabLayoutState extends State<_WebTabLayout>
       sideBorder: const BorderSide(),
       leftBar: UIListBuilder<Widget>(
         source: widget.tabBar.tabs,
-        builder: (context, item) {
+        builder: (context, item, index) {
           final i = widget.tabBar.tabs.indexOf(item);
           return [
             ListItem(

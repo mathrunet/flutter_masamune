@@ -111,7 +111,7 @@ class _UIScheduleCalendarState extends State<UIScheduleCalendar> {
       physics: widget.physics,
       padding: widget.padding,
       source: keys,
-      builder: (context, day) {
+      builder: (context, day, index) {
         final event = data[day];
         if (event == null) {
           return [];
