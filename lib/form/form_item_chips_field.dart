@@ -35,7 +35,7 @@ class FormItemChipsField extends FormField<String> {
     this.autocorrect = true,
     void Function(List<String> value)? onSaved,
     String Function(String? value)? validator,
-    String? initialURI,
+    String? initialValue,
   }) : super(
             key: key,
             builder: (state) {
@@ -45,7 +45,7 @@ class FormItemChipsField extends FormField<String> {
               onSaved?.call(value?.split(separator) ?? const []);
             },
             validator: validator,
-            initialValue: initialURI,
+            initialValue: initialValue,
             enabled: enabled);
 
   final String separator;
@@ -85,10 +85,10 @@ class FormItemChipsField extends FormField<String> {
   final TextEditingController? controller;
 
   @override
-  _FormItemChipsInput createState() => _FormItemChipsInput();
+  _FormItemChipsField createState() => _FormItemChipsField();
 }
 
-class _FormItemChipsInput extends FormFieldState<String> {
+class _FormItemChipsField extends FormFieldState<String> {
   TextEditingController? _controller;
   List<String> _items = [];
   final FocusNode _focusNode = FocusNode();
@@ -224,6 +224,7 @@ class _FormItemChipsInput extends FormFieldState<String> {
   @override
   void dispose() {
     super.dispose();
+    widget.controller?.removeListener(_handleControllerChanged);
     _focusNode.removeListener(_handleFocus);
   }
 

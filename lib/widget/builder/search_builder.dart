@@ -71,6 +71,8 @@ class SearchBuilder<T extends Object> extends StatefulWidget {
 
 class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
   String? value;
+  String? _prevValue;
+  Iterable<T>? _prevData;
   TextEditingController? _controller;
   final List<String> _histories = [];
 
@@ -150,50 +152,81 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
         Center(child: Text("No data.".localize())),
       );
     }
-    return FutureBuilder<Iterable<T>>(
-      future: widget.search(value ?? ""),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return _builder(
-            context,
-            Center(
-              child: context.widgetTheme.loadingIndicator?.call(
-                    context,
-                    widget.indicatorColor ?? context.theme.disabledColor,
-                  ) ??
-                  LoadingBouncingGrid.square(
-                    backgroundColor:
-                        widget.indicatorColor ?? context.theme.disabledColor,
-                  ),
-            ),
-          );
-        } else {
-          if (snapshot.data.isEmpty) {
-            if (widget.emptyWidget != null) {
+    if (_prevValue != value || _prevData == null) {
+      _prevValue = value;
+      return FutureBuilder<Iterable<T>>(
+        future: _search(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return _builder(
+              context,
+              Center(
+                child: context.widgetTheme.loadingIndicator?.call(
+                      context,
+                      widget.indicatorColor ?? context.theme.disabledColor,
+                    ) ??
+                    LoadingBouncingGrid.square(
+                      backgroundColor:
+                          widget.indicatorColor ?? context.theme.disabledColor,
+                    ),
+              ),
+            );
+          } else {
+            if (snapshot.data.isEmpty) {
+              if (widget.emptyWidget != null) {
+                return _builder(
+                  context,
+                  widget.emptyWidget!,
+                );
+              }
               return _builder(
                 context,
-                widget.emptyWidget!,
+                Center(child: Text("No data.".localize())),
               );
             }
             return _builder(
               context,
-              Center(child: Text("No data.".localize())),
+              ListBuilder<T>(
+                source: snapshot.data?.toList() ?? <T>[],
+                padding: const EdgeInsets.all(0),
+                bottom: widget.bottom,
+                insert: widget.insert,
+                insertPosition: widget.insertPosition,
+                builder: widget.builder,
+              ),
             );
           }
+        },
+      );
+    } else {
+      if (_prevData.isEmpty) {
+        if (widget.emptyWidget != null) {
           return _builder(
             context,
-            ListBuilder<T>(
-              source: snapshot.data?.toList() ?? <T>[],
-              padding: const EdgeInsets.all(0),
-              bottom: widget.bottom,
-              insert: widget.insert,
-              insertPosition: widget.insertPosition,
-              builder: widget.builder,
-            ),
+            widget.emptyWidget!,
           );
         }
-      },
-    );
+        return _builder(
+          context,
+          Center(child: Text("No data.".localize())),
+        );
+      }
+      return _builder(
+        context,
+        ListBuilder<T>(
+          source: _prevData?.toList() ?? <T>[],
+          padding: const EdgeInsets.all(0),
+          bottom: widget.bottom,
+          insert: widget.insert,
+          insertPosition: widget.insertPosition,
+          builder: widget.builder,
+        ),
+      );
+    }
+  }
+
+  Future<Iterable<T>> _search() async {
+    return _prevData = await widget.search(value ?? "");
   }
 
   Widget _builder(BuildContext context, Widget child) {
