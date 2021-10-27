@@ -2,7 +2,7 @@ part of masamune;
 
 @immutable
 class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
-    RuntimeDynamicCollectionModel> {
+    RuntimeDynamicCollectionModel, RuntimeDynamicSearchableCollectionModel> {
   const MockModelAdapter({required this.userId, required this.data});
 
   final Map<String, DynamicMap> data;
@@ -15,11 +15,48 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   }
 
   @override
+  ChangeNotifierProvider<RuntimeDynamicSearchableCollectionModel>
+      searchableCollectionProvider(String path) {
+    path = path.trimString("/");
+    return runtimeSearchableCollectionProvider(path);
+  }
+
+  @override
   ChangeNotifierProvider<RuntimeDynamicDocumentModel> documentProvider(
       String path) {
     path = path.trimString("/");
     return runtimeDocumentProvider(path);
   }
+
+  @override
+  Future<String> generateCode({
+    required String path,
+    required String key,
+    int length = 6,
+    String charSet = "23456789abcdefghjkmnpqrstuvwxy",
+  }) =>
+      RuntimeTransaction.generateCode(
+        path: path,
+        key: key,
+        length: length,
+        charSet: charSet,
+      );
+
+  @override
+  IncrementCounterTransactionBuilder incrementCounter(
+          {required String collectionPath,
+          String counterSuffix = "Count",
+          String Function(String path)? counterBuilder,
+          String? linkedCollectionPath,
+          String Function(String linkPath)? linkedCounterBuilder,
+          List<CounterUpdaterInterval> counterIntervals = const []}) =>
+      RuntimeTransaction.incrementCounter(
+        collectionPath: collectionPath,
+        counterSuffix: counterSuffix,
+        counterBuilder: counterBuilder,
+        linkedCollectionPath: linkedCollectionPath,
+        counterIntervals: counterIntervals,
+      );
 
   @override
   RuntimeDynamicCollectionModel loadCollection(

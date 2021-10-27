@@ -1,15 +1,18 @@
 part of masamune.form;
 
-class ReauthForm extends StatelessWidget {
+class ReauthForm extends HookWidget {
   const ReauthForm({
-    required GlobalKey<FormState> key,
-  }) : super(key: key);
+    required this.formKey,
+    this.focusNode,
+  }) : super();
+  final FocusNode? focusNode;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
     return FormBuilder(
       // ignore: cast_nullable_to_non_nullable
-      key: key as GlobalKey<FormState>,
+      key: formKey,
       children: [
         Text(
           "Please enter your login information again".localize(),
@@ -17,7 +20,8 @@ class ReauthForm extends StatelessWidget {
         ),
         const Space.height(20),
         FormItemTextField(
-          controller: useTextEditingController(),
+          focusNode: focusNode,
+          controller: useMemoizedTextEditingController(),
           hintText: "Input %s".localize().format(["Password".localize()]),
           errorText: "No input %s".localize().format(["Password".localize()]),
           labelText: "Password".localize(),

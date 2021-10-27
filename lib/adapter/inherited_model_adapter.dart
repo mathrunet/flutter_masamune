@@ -1,9 +1,11 @@
 part of masamune;
 
 @immutable
-class InheritedModelAdapter<TDocument extends DynamicDocumentModel,
-        TCollection extends DynamicCollectionModel>
-    extends ModelAdapter<TDocument, TCollection> {
+class InheritedModelAdapter<
+        TDocument extends DynamicDocumentModel,
+        TCollection extends DynamicCollectionModel,
+        TSeachableCollection extends DynamicSearchableCollectionModel>
+    extends ModelAdapter<TDocument, TCollection, TSeachableCollection> {
   const InheritedModelAdapter(
     this.adapter, {
     this.prefix = "",
@@ -12,7 +14,7 @@ class InheritedModelAdapter<TDocument extends DynamicDocumentModel,
 
   final String prefix;
   final String suffix;
-  final ModelAdapter<TDocument, TCollection> adapter;
+  final ModelAdapter<TDocument, TCollection, TSeachableCollection> adapter;
 
   @override
   ChangeNotifierProvider<TCollection> collectionProvider(String path) =>
@@ -21,6 +23,41 @@ class InheritedModelAdapter<TDocument extends DynamicDocumentModel,
   @override
   ChangeNotifierProvider<TDocument> documentProvider(String path) =>
       adapter.documentProvider("$prefix$path$suffix");
+
+  @override
+  ChangeNotifierProvider<TSeachableCollection> searchableCollectionProvider(
+          String path) =>
+      adapter.searchableCollectionProvider("$prefix$path$suffix");
+
+  @override
+  Future<String> generateCode({
+    required String path,
+    required String key,
+    int length = 6,
+    String charSet = "23456789abcdefghjkmnpqrstuvwxy",
+  }) =>
+      adapter.generateCode(
+        path: path,
+        key: key,
+        length: length,
+        charSet: charSet,
+      );
+
+  @override
+  IncrementCounterTransactionBuilder incrementCounter(
+          {required String collectionPath,
+          String counterSuffix = "Count",
+          String Function(String path)? counterBuilder,
+          String? linkedCollectionPath,
+          String Function(String linkPath)? linkedCounterBuilder,
+          List<CounterUpdaterInterval> counterIntervals = const []}) =>
+      adapter.incrementCounter(
+        collectionPath: collectionPath,
+        counterSuffix: counterSuffix,
+        counterBuilder: counterBuilder,
+        linkedCollectionPath: linkedCollectionPath,
+        counterIntervals: counterIntervals,
+      );
 
   @override
   TDocument loadDocument(TDocument document, [bool once = false]) =>

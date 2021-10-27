@@ -20,10 +20,8 @@ class UIAppBar extends StatelessWidget {
     this.forceElevated = false,
     this.backgroundColor,
     this.foregroundColor,
-    this.brightness,
     this.iconTheme,
     this.actionsIconTheme,
-    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -37,9 +35,8 @@ class UIAppBar extends StatelessWidget {
     this.stretchTriggerOffset = 100.0,
     this.onStretchTrigger,
     this.shape,
-    this.toolbarHeight = kToolbarHeight,
+    this.toolbarHeight = kToolbarHeight + 1,
     this.leadingWidth,
-    this.backwardsCompatibility,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
@@ -124,11 +121,6 @@ class UIAppBar extends StatelessWidget {
   /// This property is used to configure an [AppBar].
   final Color? foregroundColor;
 
-  /// {@macro flutter.material.appbar.brightness}
-  ///
-  /// This property is used to configure an [AppBar].
-  final Brightness? brightness;
-
   /// {@macro flutter.material.appbar.iconTheme}
   ///
   /// This property is used to configure an [AppBar].
@@ -138,11 +130,6 @@ class UIAppBar extends StatelessWidget {
   ///
   /// This property is used to configure an [AppBar].
   final IconThemeData? actionsIconTheme;
-
-  /// {@macro flutter.material.appbar.textTheme}
-  ///
-  /// This property is used to configure an [AppBar].
-  final TextTheme? textTheme;
 
   /// {@macro flutter.material.appbar.primary}
   ///
@@ -295,11 +282,6 @@ class UIAppBar extends StatelessWidget {
   /// This property is used to configure an [AppBar].
   final double? leadingWidth;
 
-  /// {@macro flutter.material.appbar.backwardsCompatibility}
-  ///
-  /// This property is used to configure an [AppBar].
-  final bool? backwardsCompatibility;
-
   /// {@macro flutter.material.appbar.toolbarTextStyle}
   ///
   /// This property is used to configure an [AppBar].
@@ -321,7 +303,7 @@ class UIAppBar extends StatelessWidget {
     switch (design) {
       case DesignType.modern:
         if (!sliverLayoutWhenModernDesign) {
-          return SliverAppBar(
+          return AppBar(
             key: key,
             leading: leading,
             automaticallyImplyLeading: automaticallyImplyLeading,
@@ -354,16 +336,14 @@ class UIAppBar extends StatelessWidget {
                     ? 1
                     : 0),
             shadowColor: borderColor ?? context.theme.scaffoldBackgroundColor,
-            forceElevated: true,
             backgroundColor:
-                backgroundColor ?? context.theme.scaffoldBackgroundColor,
+                backgroundColor ?? context.theme.appBarTheme.backgroundColor,
             foregroundColor: foregroundColor ??
                 (borderColor != null ||
                         backgroundColor != null ||
                         background != null
                     ? null
                     : context.theme.dividerColor),
-            brightness: brightness,
             iconTheme: iconTheme ??
                 (borderColor != null ||
                         backgroundColor != null ||
@@ -376,23 +356,13 @@ class UIAppBar extends StatelessWidget {
                         background != null
                     ? null
                     : IconThemeData(color: context.theme.dividerColor)),
-            textTheme: textTheme,
             primary: primary,
             centerTitle: centerTitle,
             excludeHeaderSemantics: excludeHeaderSemantics,
             titleSpacing: titleSpacing,
-            collapsedHeight: collapsedHeight,
-            expandedHeight: expandedHeight,
-            floating: floating,
-            pinned: pinned,
-            snap: snap,
-            stretch: stretch,
-            stretchTriggerOffset: stretchTriggerOffset,
-            onStretchTrigger: onStretchTrigger,
             shape: shape,
             toolbarHeight: toolbarHeight,
             leadingWidth: leadingWidth,
-            backwardsCompatibility: backwardsCompatibility,
             toolbarTextStyle: toolbarTextStyle,
             titleTextStyle: titleTextStyle,
             systemOverlayStyle: systemOverlayStyle,
@@ -472,7 +442,6 @@ class UIAppBar extends StatelessWidget {
                         background != null
                     ? null
                     : context.theme.dividerColor),
-            brightness: brightness,
             iconTheme: iconTheme ??
                 (borderColor != null ||
                         backgroundColor != null ||
@@ -485,7 +454,6 @@ class UIAppBar extends StatelessWidget {
                         background != null
                     ? null
                     : IconThemeData(color: context.theme.dividerColor)),
-            textTheme: textTheme,
             primary: primary,
             centerTitle: true,
             excludeHeaderSemantics: excludeHeaderSemantics,
@@ -501,14 +469,13 @@ class UIAppBar extends StatelessWidget {
             shape: shape,
             toolbarHeight: toolbarHeight,
             leadingWidth: leadingWidth,
-            backwardsCompatibility: backwardsCompatibility,
             toolbarTextStyle: toolbarTextStyle,
             titleTextStyle: titleTextStyle,
             systemOverlayStyle: systemOverlayStyle,
           );
         }
       default:
-        return SliverAppBar(
+        return AppBar(
           key: key,
           leading: leading,
           automaticallyImplyLeading: automaticallyImplyLeading,
@@ -536,29 +503,17 @@ class UIAppBar extends StatelessWidget {
           bottom: bottom,
           elevation: elevation,
           shadowColor: shadowColor,
-          forceElevated: forceElevated,
           backgroundColor: backgroundColor,
           foregroundColor: foregroundColor,
-          brightness: brightness,
           iconTheme: iconTheme,
           actionsIconTheme: actionsIconTheme,
-          textTheme: textTheme,
           primary: primary,
           centerTitle: centerTitle,
           excludeHeaderSemantics: excludeHeaderSemantics,
           titleSpacing: titleSpacing,
-          collapsedHeight: collapsedHeight,
-          expandedHeight: expandedHeight,
-          floating: floating,
-          pinned: pinned,
-          snap: snap,
-          stretch: stretch,
-          stretchTriggerOffset: stretchTriggerOffset,
-          onStretchTrigger: onStretchTrigger,
           shape: shape,
           toolbarHeight: toolbarHeight,
           leadingWidth: leadingWidth,
-          backwardsCompatibility: backwardsCompatibility,
           toolbarTextStyle: toolbarTextStyle,
           titleTextStyle: titleTextStyle,
           systemOverlayStyle: systemOverlayStyle,
@@ -600,6 +555,11 @@ class UIAppBar extends StatelessWidget {
       default:
         return collapsedHeight;
     }
+  }
+
+  bool _useSliverAppBar(BuildContext context) {
+    final design = designType ?? context.designType;
+    return design == DesignType.modern && sliverLayoutWhenModernDesign;
   }
 }
 

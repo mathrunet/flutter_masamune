@@ -64,7 +64,7 @@ class Headline extends StatelessWidget {
       elevation: elevation,
       child: Container(
         padding: padding,
-        color: backgroundColor ?? context.theme.accentColor,
+        color: backgroundColor ?? context.theme.secondaryColor,
         child: Row(
           crossAxisAlignment: crossAxisAlignment,
           children: <Widget>[

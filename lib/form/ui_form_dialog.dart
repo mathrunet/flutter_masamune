@@ -6,6 +6,8 @@ part of masamune.form;
 /// UIFormDialog.show( context );
 /// ```
 class UIFormDialog {
+  const UIFormDialog._();
+
   /// Show dialog.
   ///
   /// [context]: Build context.

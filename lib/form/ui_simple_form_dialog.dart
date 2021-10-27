@@ -6,6 +6,8 @@ part of masamune.form;
 /// UISimpleFormDialog.show( context );
 /// ```
 class UISimpleFormDialog {
+  const UISimpleFormDialog._();
+
   /// Show dialog.
   ///
   /// [context]: Build context.
@@ -65,7 +67,7 @@ class UISimpleFormDialog {
                         height: 50,
                         decoration: ShapeDecoration(
                           color: submitBackgroundColor ??
-                              context.theme.accentColor,
+                              context.theme.secondaryColor,
                           shape: const CircleBorder(),
                         ),
                         child: Icon(

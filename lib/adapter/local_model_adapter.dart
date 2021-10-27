@@ -2,7 +2,7 @@ part of masamune;
 
 @immutable
 class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
-    LocalDynamicCollectionModel> {
+    LocalDynamicCollectionModel, LocalDynamicSearchableCollectionModel> {
   const LocalModelAdapter();
 
   @override
@@ -14,6 +14,41 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   ChangeNotifierProvider<LocalDynamicDocumentModel> documentProvider(
           String path) =>
       localDocumentProvider(path);
+
+  @override
+  ChangeNotifierProvider<LocalDynamicSearchableCollectionModel>
+      searchableCollectionProvider(String path) =>
+          localSearchableCollectionProvider(path);
+
+  @override
+  Future<String> generateCode({
+    required String path,
+    required String key,
+    int length = 6,
+    String charSet = "23456789abcdefghjkmnpqrstuvwxy",
+  }) =>
+      LocalTransaction.generateCode(
+        path: path,
+        key: key,
+        length: length,
+        charSet: charSet,
+      );
+
+  @override
+  IncrementCounterTransactionBuilder incrementCounter(
+          {required String collectionPath,
+          String counterSuffix = "Count",
+          String Function(String path)? counterBuilder,
+          String? linkedCollectionPath,
+          String Function(String linkPath)? linkedCounterBuilder,
+          List<CounterUpdaterInterval> counterIntervals = const []}) =>
+      LocalTransaction.incrementCounter(
+        collectionPath: collectionPath,
+        counterSuffix: counterSuffix,
+        counterBuilder: counterBuilder,
+        linkedCollectionPath: linkedCollectionPath,
+        counterIntervals: counterIntervals,
+      );
 
   @override
   LocalDynamicDocumentModel loadDocument(LocalDynamicDocumentModel document,

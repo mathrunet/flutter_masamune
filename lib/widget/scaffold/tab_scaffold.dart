@@ -82,7 +82,7 @@ class _TabScaffoldState<T> extends State<TabScaffold<T>> {
             automaticallyImplyLeading: widget.automaticallyImplyLeading,
             bottom: TabBar(
               indicatorColor:
-                  widget.indicatorColor ?? context.theme.accentColor,
+                  widget.indicatorColor ?? context.theme.secondaryColor,
               controller: controller,
               labelStyle: widget.tabLabelStyle ??
                   context.theme.textTheme.bodyText1 ??

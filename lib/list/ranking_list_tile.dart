@@ -107,7 +107,7 @@ class RankingListTile extends StatelessWidget {
     if (rank <= 1) {
       return primaryColor ?? context.theme.primaryColor;
     } else if (rank <= 3) {
-      return secondaryColor ?? context.theme.accentColor;
+      return secondaryColor ?? context.theme.secondaryColor;
     } else {
       return color ?? context.theme.disabledColor;
     }

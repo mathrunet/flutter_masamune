@@ -844,7 +844,7 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
   Widget _buildHolidaysMarker() {
     return Container(
       alignment: Alignment.center,
-      color: context.theme.accentColor,
+      color: context.theme.secondaryColor,
       child: const Icon(Icons.add, size: 20.0, color: Colors.white),
     );
   }

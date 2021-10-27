@@ -1,32 +1,35 @@
 part of masamune.form;
 
 class FormItemPassword extends StatefulWidget implements FormItem {
-  const FormItemPassword(
-      {this.confirm = false,
-      this.border,
-      this.maxLength,
-      this.minLength,
-      this.disabledBorder,
-      this.backgroundColor,
-      this.hintText,
-      this.labelText,
-      this.confirmLabelText = "",
-      this.lengthErrorText = "",
-      this.prefix,
-      this.suffix,
-      this.dense = false,
-      this.padding = const EdgeInsets.all(10),
-      this.allowEmpty = false,
-      this.enabled = true,
-      this.counterText = "",
-      this.onDeleteSuggestion,
-      this.notMatchText = "",
-      this.validator,
-      this.onSaved,
-      this.color,
-      this.subColor});
+  const FormItemPassword({
+    this.confirm = false,
+    this.border,
+    this.maxLength,
+    this.minLength,
+    this.disabledBorder,
+    this.backgroundColor,
+    this.hintText,
+    this.labelText,
+    this.confirmLabelText = "",
+    this.lengthErrorText = "",
+    this.prefix,
+    this.suffix,
+    this.dense = false,
+    this.padding = const EdgeInsets.all(10),
+    this.allowEmpty = false,
+    this.enabled = true,
+    this.counterText = "",
+    this.onDeleteSuggestion,
+    this.notMatchText = "",
+    this.validator,
+    this.onSaved,
+    this.color,
+    this.subColor,
+    this.focusNode,
+  });
 
   final String? hintText;
+  final FocusNode? focusNode;
   final bool dense;
   final String? labelText;
   final String? confirmLabelText;
@@ -67,6 +70,7 @@ class _FormItemPasswordState extends State<FormItemPassword> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextFormField(
+            focusNode: widget.focusNode,
             enabled: widget.enabled,
             controller: _mainController,
             keyboardType: TextInputType.visiblePassword,

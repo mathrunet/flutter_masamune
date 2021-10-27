@@ -24,10 +24,8 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.shape,
     this.backgroundColor,
     this.foregroundColor,
-    this.brightness,
     this.iconTheme,
     this.actionsIconTheme,
-    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -37,7 +35,6 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.toolbarHeight,
     this.subToolbarHeight,
     this.leadingWidth,
-    this.backwardsCompatibility,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
@@ -298,34 +295,6 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
   ///    is light or dark.
   final Color? foregroundColor;
 
-  /// {@template flutter.material.appbar.brightness}
-  /// This property is obsolete, please use [systemOverlayStyle] instead.
-  ///
-  /// Determines the brightness of the [SystemUiOverlayStyle]: for
-  /// [Brightness.dark], [SystemUiOverlayStyle.light] is used and fo
-  /// [Brightness.light], [SystemUiOverlayStyle.dark] is used.
-  ///
-  /// If this value is null then [AppBarTheme.brightness] is used
-  /// and if that's null then overall theme's brightness is used.
-  ///
-  /// The AppBar is built within a `AnnotatedRegion<SystemUiOverlayStyle>`
-  /// which causes [SystemChrome.setSystemUIOverlayStyle] to be called
-  /// automatically.  Apps should not enclose the AppBar with
-  /// their own [AnnotatedRegion].
-  /// {@endtemplate}
-  ///
-  /// See also:
-  ///
-  ///  * [Theme.of], which returns the current overall Material theme as
-  ///    a [ThemeData].
-  ///  * [ThemeData.colorScheme], the thirteen colors that most Material widget
-  ///    default colors are based on.
-  ///  * [ColorScheme.brightness], which indicates if the overall [Theme]
-  ///    is light or dark.
-  ///  * [backwardsCompatibility], which forces AppBar to use this
-  ///    obsolete property.
-  final Brightness? brightness;
-
   /// {@template flutter.material.appbar.iconTheme}
   /// The color, opacity, and size to use for toolbar icons.
   ///
@@ -357,16 +326,6 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
   ///
   ///  * [iconTheme], which defines the appearance of all of the toolbar icons.
   final IconThemeData? actionsIconTheme;
-
-  /// {@template flutter.material.appbar.textTheme}
-  /// The typographic styles to use for text in the app bar. Typically this is
-  /// set along with [brightness] [backgroundColor], [iconTheme].
-  ///
-  /// If this property is null, then [AppBarTheme.textTheme] of
-  /// [ThemeData.appBarTheme] is used. If that is also null, then
-  /// [ThemeData.primaryTextTheme] is used.
-  /// {@endtemplate}
-  final TextTheme? textTheme;
 
   /// {@template flutter.material.appbar.primary}
   /// Whether this app bar is being displayed at the top of the screen.
@@ -456,24 +415,6 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// {@endtemplate}
   final double? leadingWidth;
 
-  /// {@template flutter.material.appbar.backwardsCompatibility}
-  /// If true, preserves the original defaults for the [backgroundColor],
-  /// [iconTheme], [actionsIconTheme] properties, and the original use of
-  /// the [textTheme] and [brightness] properties.
-  ///
-  /// If this property is null, then [AppBarTheme.backwardsCompatibility] of
-  /// [ThemeData.appBarTheme] is used. If that is also null, the default
-  /// value is true.
-  ///
-  /// This is a temporary property. When setting it to false is no
-  /// longer considered a breaking change, it will be depreacted and
-  /// its default value will be changed to false. App developers are
-  /// encouraged to opt into the new features by setting it to false
-  /// and using the [foregroundColor] and [systemOverlayStyle]
-  /// properties as needed.
-  /// {@endtemplate}
-  final bool? backwardsCompatibility;
-
   /// {@template flutter.material.appbar.toolbarTextStyle}
   /// The default text style for the AppBar's [leading], and
   /// [actions] widgets, but not its [title].
@@ -543,10 +484,8 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
         shape: shape,
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
-        brightness: brightness,
         iconTheme: iconTheme,
         actionsIconTheme: actionsIconTheme,
-        textTheme: textTheme,
         primary: primary,
         centerTitle: centerTitle,
         excludeHeaderSemantics: excludeHeaderSemantics,
@@ -555,7 +494,6 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
         bottomOpacity: bottomOpacity,
         toolbarHeight: toolbarHeight,
         leadingWidth: leadingWidth,
-        backwardsCompatibility: backwardsCompatibility,
         toolbarTextStyle: toolbarTextStyle,
         titleTextStyle: titleTextStyle,
         systemOverlayStyle: systemOverlayStyle,
@@ -636,10 +574,8 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
               shape: shape,
               backgroundColor: backgroundColor,
               foregroundColor: foregroundColor,
-              brightness: brightness,
               iconTheme: iconTheme,
               actionsIconTheme: actionsIconTheme,
-              textTheme: textTheme,
               primary: primary,
               centerTitle: false,
               excludeHeaderSemantics: excludeHeaderSemantics,
@@ -648,7 +584,6 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
               bottomOpacity: bottomOpacity,
               toolbarHeight: toolbarHeight,
               leadingWidth: leadingWidth,
-              backwardsCompatibility: backwardsCompatibility,
               toolbarTextStyle: toolbarTextStyle,
               titleTextStyle: titleTextStyle,
               systemOverlayStyle: systemOverlayStyle,

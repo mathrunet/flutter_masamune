@@ -108,6 +108,7 @@ part 'widget/component/space.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';
 part 'widget/component/ui_markdown.dart';
 part 'widget/component/ui_top_navigation_bar.dart';
+part 'widget/component/search_bar.dart';
 part 'widget/dialog/ui_confirm.dart';
 part 'widget/dialog/ui_modal.dart';
 part 'widget/dialog/ui_connect_dialog.dart';

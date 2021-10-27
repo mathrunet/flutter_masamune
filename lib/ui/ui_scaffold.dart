@@ -386,70 +386,73 @@ class _UIScaffoldState extends State<UIScaffold> {
   Widget build(BuildContext context) {
     final useWebStyle = widget.webStyle ?? context.webStyle;
     if (context.isMobile || !useWebStyle) {
-      switch (widget.designType ?? context.designType) {
-        case DesignType.modern:
-          return Scaffold(
-            key: widget.key,
-            body: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  if (widget.appBar != null) widget.appBar!,
-                ];
-              },
-              body: _loading(context),
-            ),
-            floatingActionButton: widget.floatingActionButton,
-            floatingActionButtonLocation: widget.floatingActionButtonLocation,
-            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-            persistentFooterButtons: widget.persistentFooterButtons,
-            drawer: widget.drawer,
-            onDrawerChanged: widget.onDrawerChanged,
-            endDrawer: widget.endDrawer,
-            onEndDrawerChanged: widget.onEndDrawerChanged,
-            bottomNavigationBar: widget.bottomNavigationBar,
-            bottomSheet: widget.bottomSheet,
-            backgroundColor: widget.backgroundColor,
-            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-            primary: widget.primary,
-            drawerDragStartBehavior: widget.drawerDragStartBehavior,
-            extendBody: widget.extendBody,
-            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-            drawerScrimColor: widget.drawerScrimColor,
-            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-            endDrawerEnableOpenDragGesture:
-                widget.endDrawerEnableOpenDragGesture,
-            restorationId: widget.restorationId,
-          );
-        default:
-          return Scaffold(
-            key: widget.key,
-            appBar: _toMobileAppBar(context),
+      final design = widget.designType ?? context.designType;
+      final appBar = widget.appBar;
+      final useSliver = !(appBar == null ||
+              appBar is! UIAppBar ||
+              !appBar._useSliverAppBar(context)) &&
+          design == DesignType.modern;
+      if (useSliver) {
+        return Scaffold(
+          key: widget.key,
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                if (widget.appBar != null) widget.appBar!,
+              ];
+            },
             body: _loading(context),
-            floatingActionButton: widget.floatingActionButton,
-            floatingActionButtonLocation: widget.floatingActionButtonLocation,
-            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-            persistentFooterButtons: widget.persistentFooterButtons,
-            drawer: widget.drawer,
-            onDrawerChanged: widget.onDrawerChanged,
-            endDrawer: widget.endDrawer,
-            onEndDrawerChanged: widget.onEndDrawerChanged,
-            bottomNavigationBar: widget.bottomNavigationBar,
-            bottomSheet: widget.bottomSheet,
-            backgroundColor: widget.backgroundColor,
-            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-            primary: widget.primary,
-            drawerDragStartBehavior: widget.drawerDragStartBehavior,
-            extendBody: widget.extendBody,
-            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-            drawerScrimColor: widget.drawerScrimColor,
-            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-            endDrawerEnableOpenDragGesture:
-                widget.endDrawerEnableOpenDragGesture,
-            restorationId: widget.restorationId,
-          );
+          ),
+          floatingActionButton: widget.floatingActionButton,
+          floatingActionButtonLocation: widget.floatingActionButtonLocation,
+          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+          persistentFooterButtons: widget.persistentFooterButtons,
+          drawer: widget.drawer,
+          onDrawerChanged: widget.onDrawerChanged,
+          endDrawer: widget.endDrawer,
+          onEndDrawerChanged: widget.onEndDrawerChanged,
+          bottomNavigationBar: widget.bottomNavigationBar,
+          bottomSheet: widget.bottomSheet,
+          backgroundColor: widget.backgroundColor,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+          primary: widget.primary,
+          drawerDragStartBehavior: widget.drawerDragStartBehavior,
+          extendBody: widget.extendBody,
+          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+          drawerScrimColor: widget.drawerScrimColor,
+          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+          endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+          restorationId: widget.restorationId,
+        );
+      } else {
+        return Scaffold(
+          key: widget.key,
+          appBar: _toMobileAppBar(context),
+          body: _loading(context),
+          floatingActionButton: widget.floatingActionButton,
+          floatingActionButtonLocation: widget.floatingActionButtonLocation,
+          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+          persistentFooterButtons: widget.persistentFooterButtons,
+          drawer: widget.drawer,
+          onDrawerChanged: widget.onDrawerChanged,
+          endDrawer: widget.endDrawer,
+          onEndDrawerChanged: widget.onEndDrawerChanged,
+          bottomNavigationBar: widget.bottomNavigationBar,
+          bottomSheet: widget.bottomSheet,
+          backgroundColor: widget.backgroundColor,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+          primary: widget.primary,
+          drawerDragStartBehavior: widget.drawerDragStartBehavior,
+          extendBody: widget.extendBody,
+          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+          drawerScrimColor: widget.drawerScrimColor,
+          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+          endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+          restorationId: widget.restorationId,
+        );
       }
     } else if (context.isModal) {
       return _WebModalView(
@@ -611,17 +614,14 @@ class _UIScaffoldState extends State<UIScaffold> {
         shape: appBar.shape,
         backgroundColor: appBar.backgroundColor,
         foregroundColor: appBar.foregroundColor,
-        brightness: appBar.brightness,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: appBar.centerTitle,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
@@ -635,29 +635,35 @@ class _UIScaffoldState extends State<UIScaffold> {
           title: appBar.title,
           subtitle: appBar.subtitle,
         ),
+        elevation: appBar.elevation ??
+            (appBar.borderColor != null ||
+                    appBar.backgroundColor != null ||
+                    appBar.background != null
+                ? 1
+                : 0),
+        shadowColor:
+            appBar.borderColor ?? context.theme.scaffoldBackgroundColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor: appBar.foregroundColor,
+        iconTheme: appBar.iconTheme,
+        actionsIconTheme: appBar.actionsIconTheme,
         actions: appBar.actions,
         flexibleSpace: appBar.flexibleSpace,
         bottom: appBar.bottom,
-        elevation: appBar.elevation,
-        shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: appBar.backgroundColor,
-        foregroundColor: appBar.foregroundColor,
-        brightness: appBar.brightness,
-        iconTheme: appBar.iconTheme,
-        actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: appBar.centerTitle,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
       );
+    } else if (appBar is PreferredSizeWidget) {
+      return appBar;
     }
   }
 
@@ -717,10 +723,8 @@ class _UIScaffoldState extends State<UIScaffold> {
         shape: appBar.shape,
         backgroundColor: Colors.transparent,
         foregroundColor: context.theme.textColor,
-        brightness: appBar.brightness,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
@@ -729,7 +733,6 @@ class _UIScaffoldState extends State<UIScaffold> {
         bottomOpacity: appBar.bottomOpacity,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
@@ -762,17 +765,14 @@ class _UIScaffoldState extends State<UIScaffold> {
         shape: appBar.shape,
         backgroundColor: Colors.transparent,
         foregroundColor: context.theme.textColor,
-        brightness: appBar.brightness,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
@@ -806,21 +806,20 @@ class _UIScaffoldState extends State<UIScaffold> {
         shape: appBar.shape,
         backgroundColor: Colors.transparent,
         foregroundColor: context.theme.textColor,
-        brightness: appBar.brightness,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
       );
+    } else if (appBar is PreferredSizeWidget) {
+      return appBar;
     }
   }
 
@@ -873,10 +872,8 @@ class _UIScaffoldState extends State<UIScaffold> {
         shape: appBar.shape,
         backgroundColor: Colors.transparent,
         foregroundColor: context.theme.textColor,
-        brightness: appBar.brightness,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
@@ -885,7 +882,6 @@ class _UIScaffoldState extends State<UIScaffold> {
         bottomOpacity: appBar.bottomOpacity,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
@@ -903,17 +899,14 @@ class _UIScaffoldState extends State<UIScaffold> {
         shape: appBar.shape,
         backgroundColor: Colors.transparent,
         foregroundColor: context.theme.textColor,
-        brightness: appBar.brightness,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
@@ -932,21 +925,20 @@ class _UIScaffoldState extends State<UIScaffold> {
         shape: appBar.shape,
         backgroundColor: Colors.transparent,
         foregroundColor: context.theme.textColor,
-        brightness: appBar.brightness,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
-        textTheme: appBar.textTheme,
         primary: appBar.primary,
         centerTitle: false,
         excludeHeaderSemantics: appBar.excludeHeaderSemantics,
         titleSpacing: appBar.titleSpacing,
         toolbarHeight: appBar.toolbarHeight,
         leadingWidth: appBar.leadingWidth,
-        backwardsCompatibility: appBar.backwardsCompatibility,
         toolbarTextStyle: appBar.toolbarTextStyle,
         titleTextStyle: appBar.titleTextStyle,
         systemOverlayStyle: appBar.systemOverlayStyle,
       );
+    } else if (appBar is PreferredSizeWidget) {
+      return appBar;
     }
   }
 }
@@ -966,10 +958,8 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.shape,
     this.backgroundColor,
     this.foregroundColor,
-    this.brightness,
     this.iconTheme,
     this.actionsIconTheme,
-    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -979,7 +969,6 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.toolbarHeight,
     this.subToolbarHeight,
     this.leadingWidth,
-    this.backwardsCompatibility,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
@@ -1004,10 +993,8 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ShapeBorder? shape;
   final Color? backgroundColor;
   final Color? foregroundColor;
-  final Brightness? brightness;
   final IconThemeData? iconTheme;
   final IconThemeData? actionsIconTheme;
-  final TextTheme? textTheme;
   final bool primary;
   final bool? centerTitle;
   final bool excludeHeaderSemantics;
@@ -1019,7 +1006,6 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? toolbarHeight;
   final double? subToolbarHeight;
   final double? leadingWidth;
-  final bool? backwardsCompatibility;
   final TextStyle? toolbarTextStyle;
   final TextStyle? titleTextStyle;
   final SystemUiOverlayStyle? systemOverlayStyle;
@@ -1107,10 +1093,8 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
             shape: shape,
             backgroundColor: context.theme.primaryColor,
             foregroundColor: foregroundColor,
-            brightness: brightness,
             iconTheme: iconTheme,
             actionsIconTheme: actionsIconTheme,
-            textTheme: textTheme,
             primary: primary,
             centerTitle: false,
             excludeHeaderSemantics: excludeHeaderSemantics,
@@ -1119,7 +1103,6 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
             bottomOpacity: bottomOpacity,
             toolbarHeight: toolbarHeight,
             leadingWidth: leadingWidth,
-            backwardsCompatibility: backwardsCompatibility,
             toolbarTextStyle: toolbarTextStyle,
             titleTextStyle: titleTextStyle,
             systemOverlayStyle: systemOverlayStyle,

@@ -1,17 +1,20 @@
 part of masamune.form;
 
-class ChangeEmailForm extends StatelessWidget {
+class ChangeEmailForm extends HookWidget {
   const ChangeEmailForm({
-    required GlobalKey<FormState> key,
+    required this.formKey,
     this.defaultEmail = "",
-  }) : super(key: key);
+    this.focusNode,
+  }) : super();
   final String defaultEmail;
+  final FocusNode? focusNode;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
     return FormBuilder(
       // ignore: cast_nullable_to_non_nullable
-      key: key as GlobalKey<FormState>,
+      key: formKey,
       children: [
         Text(
           "Please enter the information you want to change".localize(),
@@ -19,7 +22,8 @@ class ChangeEmailForm extends StatelessWidget {
         ),
         const Space.height(20),
         FormItemTextField(
-          controller: useTextEditingController(text: defaultEmail),
+          focusNode: focusNode,
+          controller: useMemoizedTextEditingController(defaultEmail),
           hintText: "Input %s".localize().format(["Email".localize()]),
           errorText: "No input %s".localize().format(["Email".localize()]),
           labelText: "Email".localize(),

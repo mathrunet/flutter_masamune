@@ -28,6 +28,8 @@ class UIBottomNavigationBar extends StatefulWidget {
     this.showSelectedLabels = true,
     this.showUnselectedLabels,
     this.controller,
+    this.dividerColor,
+    this.dividerSize = 1.0,
   }) : super(key: key);
 
   final List<UIBottomNavigationBarItem> items;
@@ -53,6 +55,8 @@ class UIBottomNavigationBar extends StatefulWidget {
   final bool disableOnTapWhenInitialIndex;
   final String? indexID;
   final NavigatorController? controller;
+  final Color? dividerColor;
+  final double dividerSize;
 
   @override
   State<StatefulWidget> createState() => _UIBottomNavigationBarState();
@@ -136,10 +140,10 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
       mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.top != null) ...[
-          const Divider(height: 1),
+          Divider(height: widget.dividerSize, color: widget.dividerColor),
           widget.top!,
         ],
-        const Divider(height: 1),
+        Divider(height: widget.dividerSize, color: widget.dividerColor),
         BottomNavigationBar(
           key: widget.key,
           items: widget.items,
@@ -176,7 +180,7 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
           showUnselectedLabels: widget.showUnselectedLabels,
         ),
         if (widget.bottom != null) ...[
-          const Divider(height: 1),
+          Divider(height: widget.dividerSize, color: widget.dividerColor),
           widget.bottom!,
         ],
       ],

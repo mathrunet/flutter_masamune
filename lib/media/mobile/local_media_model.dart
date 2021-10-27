@@ -52,7 +52,7 @@ class LocalMediaModel extends ValueModel<LocalMedia> {
   final ImagePicker _picker = ImagePicker();
 
   Future<LocalMedia> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.getImage(source: source);
+    final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile == null || pickedFile.path.isEmpty) {
       throw Exception("The file was not found.");
     }
@@ -62,7 +62,7 @@ class LocalMediaModel extends ValueModel<LocalMedia> {
   }
 
   Future<LocalMedia> _pickVideo(ImageSource source) async {
-    final pickedFile = await _picker.getVideo(source: source);
+    final pickedFile = await _picker.pickVideo(source: source);
     if (pickedFile == null || pickedFile.path.isEmpty) {
       throw Exception("The file was not found.");
     }

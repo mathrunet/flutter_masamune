@@ -60,12 +60,12 @@ class AccountDrawerHeader extends StatelessWidget {
                   image: backgroundImage!,
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                    (color ?? context.theme.accentColor).withOpacity(0.5),
+                    (color ?? context.theme.secondaryColor).withOpacity(0.5),
                     BlendMode.srcOver,
                   ),
                 )
               : null,
-          color: color ?? context.theme.accentColor,
+          color: color ?? context.theme.secondaryColor,
         ),
       ),
     );
