@@ -6,11 +6,13 @@ class _UIFuture {
   static Future<T?> show<T>(
     BuildContext context,
     Future<T> future, {
+    Color? barrierColor = Colors.black54,
     void Function(T? value)? actionOnFinish,
   }) async {
     T? val;
     final dialog = showDialog(
       context: context,
+      barrierColor: barrierColor,
       barrierDismissible: false,
       builder: (context) {
         return WillPopScope(
@@ -46,10 +48,16 @@ extension UIFutureExtension<T> on Future<T> {
   /// [actionOnFinish]: Action after the task is finished.
   Future<T?> showIndicator(
     BuildContext context, {
+    Color? barrierColor = Colors.black54,
     void Function(T? value)? actionOnFinish,
   }) async {
     await Future<void>.delayed(Duration.zero);
-    _UIFuture.show<T>(context, this, actionOnFinish: actionOnFinish);
+    _UIFuture.show<T>(
+      context,
+      this,
+      actionOnFinish: actionOnFinish,
+      barrierColor: barrierColor,
+    );
     final value = await this;
     await Future<void>.delayed(Duration.zero);
     return value;

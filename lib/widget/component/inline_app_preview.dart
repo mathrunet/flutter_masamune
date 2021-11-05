@@ -36,14 +36,18 @@ class InlineAppPreview extends StatelessWidget {
     return AppScope(
       app: appModule ?? context.app,
       child: AdapterScope(
-        adsAdapter:
-            enableModules.whereType<AdsAdapter>().firstOrNull ?? context.ads,
-        purchaseAdapter:
-            enableModules.whereType<PurchaseAdapter>().firstOrNull ??
-                context.purchase,
-        messagingAdapter:
-            enableModules.whereType<MessagingAdapter>().firstOrNull ??
-                context.messaging,
+        plugin: AdapterPlugins(
+          ads: enableModules.whereType<AdsAdapter>().firstOrNull ??
+              context.plugin?.ads,
+          purchase: enableModules.whereType<PurchaseAdapter>().firstOrNull ??
+              context.plugin?.purchase,
+          messaging: enableModules.whereType<MessagingAdapter>().firstOrNull ??
+              context.plugin?.messaging,
+          streaming: enableModules.whereType<StreamingAdapter>().firstOrNull ??
+              context.plugin?.streaming,
+          location: enableModules.whereType<LocationAdapter>().firstOrNull ??
+              context.plugin?.location,
+        ),
         modelAdapter: enableModules.whereType<ModelAdapter>().firstOrNull ??
             context.model,
         platformAdapter:
