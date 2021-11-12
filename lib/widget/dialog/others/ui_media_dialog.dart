@@ -65,7 +65,7 @@ class UIMediaDialog {
     if (assetType == null) {
       return null;
     }
-    final localMedia = readProvider(localMediaProvider(
+    final localMedia = read(localMediaProvider(
         "$uuid.${assetType == AssetType.video ? "mp4" : "jpg"}"));
     if (assetType == AssetType.image) {
       res = localMedia.image(source: ImageSource.gallery);

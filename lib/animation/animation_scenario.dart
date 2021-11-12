@@ -69,21 +69,33 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
   /// Play the animation.
   Future<AnimationScenario> play() async {
     __animation = _builder.animate(controller);
-    await controller.forward().orCancel;
+    try {
+      await controller.forward().orCancel;
+    } catch (e) {
+      print("Canceled animation.");
+    }
     return this;
   }
 
   /// Play the animation from the opposite.
   Future<AnimationScenario> playReverse() async {
     __animation = _builder.animate(controller);
-    await controller.reverse().orCancel;
+    try {
+      await controller.reverse().orCancel;
+    } catch (e) {
+      print("Canceled animation.");
+    }
     return this;
   }
 
   /// Repeat the animation and play.
   Future<AnimationScenario> playRepeat() async {
     __animation = _builder.animate(controller);
-    await controller.repeat().orCancel;
+    try {
+      await controller.repeat().orCancel;
+    } catch (e) {
+      print("Canceled animation.");
+    }
     return this;
   }
 
@@ -113,6 +125,92 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
     _ticker.dispose();
     super.dispose();
   }
+}
+
+extension WidgetRefAnimationScenarioExtensions on WidgetRef {
+  AnimationScenario useAnimationScenario(String key,
+      [List<AnimationUnit>? units]) {
+    return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
+      key: "animationScenario:$key",
+      builder: () {
+        return _AnimationScenarioValue(
+          units: units,
+        );
+      },
+    );
+  }
+
+  AnimationScenario useAutoAnimationScenario(String key,
+      [List<AnimationUnit>? units]) {
+    return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
+      key: "animationScenario:$key",
+      builder: () {
+        return _AnimationScenarioValue(
+          units: units,
+          onInit: (scenario) => scenario.play(),
+        );
+      },
+    );
+  }
+
+  AnimationScenario useAutoRepeatAnimationScenario(String key,
+      [List<AnimationUnit>? units]) {
+    return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
+      key: "animationScenario:$key",
+      builder: () {
+        return _AnimationScenarioValue(
+          units: units,
+          onInit: (scenario) => scenario.playRepeat(),
+        );
+      },
+    );
+  }
+}
+
+@immutable
+class _AnimationScenarioValue extends ScopedValue<AnimationScenario> {
+  const _AnimationScenarioValue({
+    required this.units,
+    this.onInit,
+  });
+
+  final List<AnimationUnit>? units;
+  final void Function(AnimationScenario scenario)? onInit;
+
+  @override
+  ScopedValueState<AnimationScenario, ScopedValue<AnimationScenario>>
+      createState() => _AnimationScenarioValueState();
+}
+
+class _AnimationScenarioValueState
+    extends ScopedValueState<AnimationScenario, _AnimationScenarioValue> {
+  late AnimationScenario scenario;
+
+  @override
+  void initValue() {
+    super.initValue();
+    scenario = AnimationScenario(value.units);
+    value.onInit?.call(scenario);
+  }
+
+  @override
+  void didUpdateValue(_AnimationScenarioValue oldValue) {
+    super.didUpdateValue(oldValue);
+    if (value.units != oldValue.units) {
+      scenario.dispose();
+      scenario = AnimationScenario(value.units);
+      value.onInit?.call(scenario);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scenario.dispose();
+  }
+
+  @override
+  AnimationScenario build() => scenario;
 }
 
 AnimationScenario useAutoAnimationScenario([List<AnimationUnit>? units]) {

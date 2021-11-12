@@ -1,6 +1,6 @@
 part of masamune.form;
 
-class ReauthForm extends HookWidget {
+class ReauthForm extends ScopedWidget {
   const ReauthForm({
     required this.formKey,
     this.focusNode,
@@ -9,7 +9,7 @@ class ReauthForm extends HookWidget {
   final GlobalKey<FormState> formKey;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FormBuilder(
       // ignore: cast_nullable_to_non_nullable
       key: formKey,
@@ -21,7 +21,7 @@ class ReauthForm extends HookWidget {
         const Space.height(20),
         FormItemTextField(
           focusNode: focusNode,
-          controller: useMemoizedTextEditingController(),
+          controller: ref.useTextEditingController("password"),
           hintText: "Input %s".localize().format(["Password".localize()]),
           errorText: "No input %s".localize().format(["Password".localize()]),
           labelText: "Password".localize(),

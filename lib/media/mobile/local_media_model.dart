@@ -5,12 +5,12 @@ part of masamune.media.mobile;
 /// Images and video are acquired separately.
 ///
 /// ```
-/// final media = readProvider(localMediaProvider("test.jpg")).image();
+/// final media = read(localMediaProvider("test.jpg")).image();
 /// if(media == null) return;
 /// ```
 ///
 /// ```
-/// final media = readProvider(localMediaProvider("test.jpg")).video();
+/// final media = read(localMediaProvider("test.jpg")).video();
 /// if(media == null) return;
 /// ```
 final localMediaProvider =
@@ -23,12 +23,12 @@ final localMediaProvider =
 /// Images and video are acquired separately.
 ///
 /// ```
-/// final media = readProvider(localMediaProvider("test.jpg")).image();
+/// final media = read(localMediaProvider("test.jpg")).image();
 /// if(media == null) return;
 /// ```
 ///
 /// ```
-/// final media = readProvider(localMediaProvider("test.jpg")).video();
+/// final media = read(localMediaProvider("test.jpg")).video();
 /// if(media == null) return;
 /// ```
 class LocalMediaModel extends ValueModel<LocalMedia> {
@@ -37,12 +37,12 @@ class LocalMediaModel extends ValueModel<LocalMedia> {
   /// Images and video are acquired separately.
   ///
   /// ```
-  /// final media = readProvider(localMediaProvider("test.jpg")).image();
+  /// final media = read(localMediaProvider("test.jpg")).image();
   /// if(media == null) return;
   /// ```
   ///
   /// ```
-  /// final media = readProvider(localMediaProvider("test.jpg")).video();
+  /// final media = read(localMediaProvider("test.jpg")).video();
   /// if(media == null) return;
   /// ```
   LocalMediaModel(this.path) : super(const LocalMedia());

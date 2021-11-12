@@ -20,6 +20,7 @@ class GridBuilder<T> extends StatelessWidget {
     this.addSemanticIndexes = true,
     this.cacheExtent,
     this.semanticChildCount,
+    this.listenWhenListenable = true,
     this.dragStartBehavior = DragStartBehavior.start,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
@@ -46,6 +47,7 @@ class GridBuilder<T> extends StatelessWidget {
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
+    this.listenWhenListenable = true,
     this.cacheExtent,
     this.semanticChildCount,
     this.dragStartBehavior = DragStartBehavior.start,
@@ -67,6 +69,7 @@ class GridBuilder<T> extends StatelessWidget {
   final ScrollPhysics? physics;
   final bool shrinkWrap;
   final EdgeInsetsGeometry? padding;
+  final bool listenWhenListenable;
   final Widget Function(BuildContext context, T item) builder;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
@@ -125,6 +128,21 @@ class GridBuilder<T> extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, int i) {
-    return builder.call(context, source[i]);
+    return _listenableBuilder(context: context, item: source[i]);
+  }
+
+  Widget _listenableBuilder({
+    required BuildContext context,
+    required T item,
+  }) {
+    if (!listenWhenListenable || item is! Listenable) {
+      return builder.call(context, item);
+    }
+    return ListenableListener<Listenable>(
+      listenable: item,
+      builder: (context, listenable) {
+        return builder.call(context, item);
+      },
+    );
   }
 }

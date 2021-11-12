@@ -1,6 +1,6 @@
 part of masamune.form;
 
-class ChangePasswordForm extends StatelessWidget {
+class ChangePasswordForm extends ScopedWidget {
   const ChangePasswordForm({
     required this.formKey,
     this.focusNode,
@@ -9,7 +9,7 @@ class ChangePasswordForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FormBuilder(
       // ignore: cast_nullable_to_non_nullable
       key: formKey,

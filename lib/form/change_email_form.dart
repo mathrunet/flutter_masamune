@@ -1,6 +1,6 @@
 part of masamune.form;
 
-class ChangeEmailForm extends HookWidget {
+class ChangeEmailForm extends ScopedWidget {
   const ChangeEmailForm({
     required this.formKey,
     this.defaultEmail = "",
@@ -11,7 +11,7 @@ class ChangeEmailForm extends HookWidget {
   final GlobalKey<FormState> formKey;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FormBuilder(
       // ignore: cast_nullable_to_non_nullable
       key: formKey,
@@ -23,7 +23,7 @@ class ChangeEmailForm extends HookWidget {
         const Space.height(20),
         FormItemTextField(
           focusNode: focusNode,
-          controller: useMemoizedTextEditingController(defaultEmail),
+          controller: ref.useTextEditingController("email", defaultEmail),
           hintText: "Input %s".localize().format(["Email".localize()]),
           errorText: "No input %s".localize().format(["Email".localize()]),
           labelText: "Email".localize(),

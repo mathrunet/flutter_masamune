@@ -1,16 +1,16 @@
 part of masamune.form;
 
-abstract class UIPageChangeEmail extends PageHookWidget {
+abstract class UIPageChangeEmail extends PageScopedWidget {
   const UIPageChangeEmail();
 
   String? emailBuilder(BuildContext context);
 
-  Future<bool> onSubmit(BuildContext context, FormContext form);
+  Future<bool> onSubmit(BuildContext context, WidgetRef ref, FormContext form);
 
   @override
-  Widget build(BuildContext context) {
-    final form = useForm();
-    final focusNode = useAutoFocusNode();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final form = ref.useForm();
+    final focusNode = ref.useFocusNode("focusNode");
     final email = emailBuilder(context);
 
     return Scaffold(
@@ -30,7 +30,7 @@ abstract class UIPageChangeEmail extends PageHookWidget {
           if (!form.validate()) {
             return;
           }
-          if (await onSubmit(context, form)) {
+          if (await onSubmit(context, ref, form)) {
             UIDialog.show(
               context,
               title: "Success".localize(),

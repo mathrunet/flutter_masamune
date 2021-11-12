@@ -12,38 +12,64 @@ part of masamune.form;
 /// Run [FormContext.validate()] at the time of applying the changes to check if the values are correct.
 ///
 /// Finally, save all changes to the specified document by running [save()].
-FormContext useForm([String? editingId]) {
-  final uuid = useUuid();
-  final context = useContext();
-  return FormContext._(
-    context: context,
-    key: useGlobalKey<FormState>(),
-    uid: editingId.isNotEmpty ? context.get(editingId!, uuid) : uuid,
-    exists: editingId.isEmpty || context.arg.containsKey(editingId!),
-  );
+// FormContext useForm([String? editingId]) {
+//   final uuid = useUuid();
+//   final context = useContext();
+//   final ref = context as WidgetRef;
+//   return FormContext._(
+//     ref: ref,
+//     key: useGlobalKey<FormState>(),
+//     uid: editingId.isNotEmpty ? ref.get(editingId!, uuid) : uuid,
+//     exists: editingId.isEmpty || ref.containsKey(editingId!),
+//   );
+// }
+
+extension WidgetRefFormExtensions on WidgetRef {
+  FormContext useForm<T>([String? editingId]) {
+    return valueBuilder<FormContext, _FormContextValue>(
+      key: "form",
+      builder: () {
+        return _FormContextValue(editingId);
+      },
+    );
+  }
 }
 
 /// The context for handling the form.
 ///
 /// You can generate it with [useForm].
-class FormContext {
-  const FormContext._({
-    required BuildContext context,
-    required this.key,
-    required this.uid,
-    required this.exists,
-  }) : _context = context;
+@immutable
+class _FormContextValue extends ScopedValue<FormContext> {
+  const _FormContextValue(this.editingId);
 
-  final BuildContext _context;
+  final String? editingId;
+
+  @override
+  ScopedValueState<FormContext, ScopedValue<FormContext>> createState() =>
+      FormContext._();
+}
+
+class FormContext extends ScopedValueState<FormContext, _FormContextValue> {
+  FormContext._();
 
   /// The key for the form.
-  final GlobalKey<FormState> key;
+  final GlobalKey<FormState> key = GlobalKey<FormState>();
 
   /// The UID of the document for the form.
-  final String uid;
+  late final String uid;
 
   /// If the form edits an existing one, `true`.
-  final bool exists;
+  late final bool exists;
+
+  BuildContext get _context => ref as BuildContext;
+
+  @override
+  void initValue() {
+    super.initValue();
+    final editingId = value.editingId;
+    uid = editingId.isNotEmpty ? _context.get(editingId!, uuid) : uuid;
+    exists = editingId.isEmpty || _context.containsKey(editingId!);
+  }
 
   /// If the document exists, [exist] will be displayed,
   /// and if it is new, [orElse] will be displayed.
@@ -63,7 +89,7 @@ class FormContext {
     DynamicMap initial = const {},
   }) {
     if (autoUnfocus) {
-      _context.unfocus();
+      (ref as BuildContext).unfocus();
     }
     if (key.currentState == null) {
       return false;
@@ -81,42 +107,6 @@ class FormContext {
     return true;
   }
 
-  /// Gets the value from the [key] of the map stored in [context].
-  ///
-  /// If [key] does not exist in the map, [orElse] is returned.
-  T get<T>(String key, T orElse) => _context.get(key, orElse);
-
-  /// Get the list corresponding to [key] in the map.
-  ///
-  /// If [key] is not found, the list of [orElse] is returned.
-  List<T> getAsList<T>(String key, [List<T>? orElse]) =>
-      _context.getAsList(key, orElse);
-
-  /// Get the map corresponding to [key] in the map.
-  ///
-  /// If [key] is not found, the map of [orElse] is returned.
-  Map<String, T> getAsMap<T>(String key, [Map<String, T>? orElse]) =>
-      _context.getAsMap(key, orElse);
-
-  /// Get the set corresponding to [key] in the map.
-  ///
-  /// If [key] is not found, the set of [orElse] is returned.
-  Set<T> getAsSets<T>(String key, [Set<T>? orElse]) =>
-      _context.getAsSets(key, orElse);
-
-  /// Get the set corresponding to [key] in the DateTime.
-  ///
-  /// If [key] is not found, the set of [orElse] is returned.
-  DateTime getAsDateTime(String key, [DateTime? orElse]) =>
-      _context.getAsDateTime(key, orElse);
-
-  /// Save [value] to [key] of the map stored in [context].
-  ///
-  /// The data will be unique within the page and can continue to be used even if the widget is rebuilt.
-  void operator []=(String key, dynamic value) {
-    _context[key] = value;
-  }
-
   /// Copy the data stored in the form and [context] to [target].
   ///
   /// Only the data specified in the key of [keyAndInitialValues] will be copied.
@@ -126,4 +116,7 @@ class FormContext {
     target.copyFrom(_context, keyAndInitialValues);
     return target;
   }
+
+  @override
+  FormContext build() => this;
 }

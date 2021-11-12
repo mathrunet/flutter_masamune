@@ -17,6 +17,7 @@ class UIGridBuilder<T> extends StatelessWidget {
     this.anchor = 0.0,
     this.cacheExtent,
     this.semanticChildCount,
+    this.listenWhenListenable = true,
     this.dragStartBehavior = DragStartBehavior.start,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
@@ -67,6 +68,7 @@ class UIGridBuilder<T> extends StatelessWidget {
     this.anchor = 0.0,
     this.cacheExtent,
     this.semanticChildCount,
+    this.listenWhenListenable = true,
     this.dragStartBehavior = DragStartBehavior.start,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
@@ -104,6 +106,7 @@ class UIGridBuilder<T> extends StatelessWidget {
   final List<T> source;
   final Widget Function(BuildContext context, T item) builder;
   final bool alwaysShowScrollbar;
+  final bool listenWhenListenable;
 
   final int? crossAxisCount;
   final double? maxCrossAxisExtent;
@@ -406,6 +409,21 @@ class UIGridBuilder<T> extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, int i) {
-    return builder.call(context, source[i]);
+    return _listenableBuilder(context: context, item: source[i]);
+  }
+
+  Widget _listenableBuilder({
+    required BuildContext context,
+    required T item,
+  }) {
+    if (!listenWhenListenable || item is! Listenable) {
+      return builder.call(context, item);
+    }
+    return ListenableListener<Listenable>(
+      listenable: item,
+      builder: (context, listenable) {
+        return builder.call(context, item);
+      },
+    );
   }
 }

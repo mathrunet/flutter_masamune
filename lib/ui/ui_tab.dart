@@ -1,21 +1,154 @@
 part of masamune.ui;
 
-TabContext<T> useTab<T>(List<T> source) {
-  final context = useContext();
-  final controller = useTabController(
-    initialLength: source.length,
-    keys: [source.length],
-  );
-  return TabContext<T>._(
-    context: context,
-    controller: controller,
-    source: source,
-  );
+extension WidgetRefTabControllerExtensions on WidgetRef {
+  TabContext<T> useTab<T>(List<T> source) {
+    return valueBuilder<TabContext<T>, _TabContextValue<T>>(
+      key: "tab",
+      builder: () {
+        return _TabContextValue<T>._(
+          context: this as BuildContext,
+          source: source,
+        );
+      },
+    );
+  }
+
+  TabController useTabController({
+    required int initialLength,
+    TickerProvider? vsync,
+    int initialIndex = 0,
+  }) {
+    return valueBuilder<TabController, _TabControllerValue>(
+      key: "tabController",
+      builder: () {
+        return _TabControllerValue(
+          initialIndex: initialIndex,
+          vsync: vsync,
+          initialLength: initialLength,
+        );
+      },
+    );
+  }
+
+  TickerProvider useSingleTickerProvider() {
+    return valueBuilder<TickerProvider, _TickerProviderValue>(
+      key: "singleTickerProvider",
+      builder: () {
+        return const _TickerProviderValue();
+      },
+    );
+  }
 }
 
-class TabContext<T> {
-  const TabContext._({
-    required this.controller,
+@immutable
+class _TabControllerValue extends ScopedValue<TabController> {
+  const _TabControllerValue({
+    required this.initialLength,
+    this.vsync,
+    this.initialIndex = 0,
+  });
+
+  final int initialLength;
+  final TickerProvider? vsync;
+  final int initialIndex;
+
+  @override
+  ScopedValueState<TabController, ScopedValue<TabController>> createState() =>
+      _TabControllerValueState();
+}
+
+class _TabControllerValueState
+    extends ScopedValueState<TabController, _TabControllerValue>
+    implements TickerProvider {
+  late TabController _controller;
+  Ticker? _ticker;
+
+  @override
+  Ticker createTicker(TickerCallback onTick) {
+    assert(() {
+      if (_ticker == null) {
+        return true;
+      }
+      throw FlutterError(
+          'You attempted to use a TickerProviderContainer multiple times.\n'
+          'A SingleTickerProviderStateMixin can only be used as a TickerProvider once. '
+          'If you need multiple Ticker, consider using useSingleTickerProvider multiple times '
+          'to create as many Tickers as needed.');
+    }(), '');
+    return _ticker =
+        Ticker(onTick, debugLabel: 'created by TickerProviderContainer');
+  }
+
+  @override
+  void initValue() {
+    super.initValue();
+    _controller = TabController(
+      length: value.initialLength,
+      vsync: value.vsync ?? this,
+      initialIndex: value.initialIndex,
+    );
+  }
+
+  @override
+  void didUpdateValue(_TabControllerValue oldValue) {
+    super.didUpdateValue(oldValue);
+    if (value.initialLength != oldValue.initialLength) {
+      _controller.dispose();
+      _controller = TabController(
+        length: value.initialLength,
+        vsync: value.vsync ?? this,
+        initialIndex: value.initialIndex,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  TabController build() => _controller;
+}
+
+@immutable
+class _TickerProviderValue extends ScopedValue<TickerProvider> {
+  const _TickerProviderValue();
+
+  @override
+  ScopedValueState<TickerProvider, ScopedValue<TickerProvider>> createState() =>
+      _TickerProviderValueState();
+}
+
+class _TickerProviderValueState
+    extends ScopedValueState<TickerProvider, _TickerProviderValue>
+    implements TickerProvider {
+  Ticker? _ticker;
+
+  @override
+  Ticker createTicker(TickerCallback onTick) {
+    assert(() {
+      if (_ticker == null) {
+        return true;
+      }
+      throw FlutterError(
+          'You attempted to use a TickerProviderContainer multiple times.\n'
+          'A SingleTickerProviderStateMixin can only be used as a TickerProvider once. '
+          'If you need multiple Ticker, consider using useSingleTickerProvider multiple times '
+          'to create as many Tickers as needed.');
+    }(), '');
+    return _ticker =
+        Ticker(onTick, debugLabel: 'created by TickerProviderContainer');
+  }
+
+  @override
+  TickerProvider build() => this;
+}
+
+@immutable
+class _TabContextValue<T> extends ScopedValue<TabContext<T>> {
+  const _TabContextValue._({
     required this.source,
     required BuildContext context,
   })  : length = source.length,
@@ -24,7 +157,71 @@ class TabContext<T> {
   final BuildContext _context;
   final int length;
   final List<T> source;
-  final TabController controller;
+
+  @override
+  ScopedValueState<TabContext<T>, ScopedValue<TabContext<T>>> createState() =>
+      TabContext<T>._();
+}
+
+class TabContext<T> extends ScopedValueState<TabContext<T>, _TabContextValue<T>>
+    implements TickerProvider {
+  TabContext._();
+
+  late TabController _controller;
+  Ticker? _ticker;
+
+  TabController get controller => _controller;
+
+  int get length => value.length;
+  List<T> get source => value.source;
+
+  BuildContext get _context => value._context;
+
+  @override
+  Ticker createTicker(TickerCallback onTick) {
+    assert(() {
+      if (_ticker == null) {
+        return true;
+      }
+      throw FlutterError(
+          'You attempted to use a TickerProviderContainer multiple times.\n'
+          'A SingleTickerProviderStateMixin can only be used as a TickerProvider once. '
+          'If you need multiple Ticker, consider using useSingleTickerProvider multiple times '
+          'to create as many Tickers as needed.');
+    }(), '');
+    return _ticker =
+        Ticker(onTick, debugLabel: 'created by TickerProviderContainer');
+  }
+
+  @override
+  void initValue() {
+    super.initValue();
+    _controller = TabController(
+      length: value.length,
+      vsync: this,
+    );
+  }
+
+  @override
+  void didUpdateValue(_TabContextValue<T> oldValue) {
+    super.didUpdateValue(oldValue);
+    if (value.length != oldValue.length) {
+      _controller.dispose();
+      _controller = TabController(
+        length: value.length,
+        vsync: this,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  TabContext<T> build() => this;
 }
 
 class UITabBar<T> extends TabBar {

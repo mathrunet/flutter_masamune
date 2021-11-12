@@ -1,14 +1,14 @@
 part of masamune.form;
 
-abstract class UIPageChangeReauth extends PageHookWidget {
+abstract class UIPageChangeReauth extends PageScopedWidget {
   const UIPageChangeReauth();
 
-  Future<bool> onSubmit(BuildContext context, FormContext form);
+  Future<bool> onSubmit(BuildContext context, WidgetRef ref, FormContext form);
 
   @override
-  Widget build(BuildContext context) {
-    final form = useForm();
-    final focusNode = useAutoFocusNode();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final form = ref.useForm();
+    final focusNode = ref.useFocusNode("focusNode");
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +26,7 @@ abstract class UIPageChangeReauth extends PageHookWidget {
           if (!form.validate()) {
             return;
           }
-          if (await onSubmit(context, form)) {
+          if (await onSubmit(context, ref, form)) {
             context.navigator
                 .pushReplacementNamed(context.get("redirect_to", "/"));
           } else {

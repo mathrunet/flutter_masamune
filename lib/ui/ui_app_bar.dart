@@ -548,7 +548,7 @@ class UIAppBar extends StatelessWidget {
   double? get _collapsedHeightFromStyle {
     switch (scrollStyle) {
       case UIAppBarScrollStyle.pinned:
-        return kToolbarHeight;
+        return kToolbarHeight + 1;
       case UIAppBarScrollStyle.hidden:
       case UIAppBarScrollStyle.floating:
         return null;

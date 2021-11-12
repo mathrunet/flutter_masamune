@@ -9,39 +9,52 @@ part of masamune;
 /// Normally, please override body.
 ///
 /// Please inherit and use.
-abstract class UIBoot extends PageHookWidget {
+abstract class UIBoot extends PageScopedWidget {
   /// Abstract class for creating boot pages.
   ///
   /// [key]: Widget key.
   const UIBoot({Key? key}) : super(key: key);
 
+  /// The process executed at initialization.
+  @protected
+  void onInit(BuildContext context, WidgetRef ref) {}
+
   /// Indicator color.
   ///
   /// If null, the color will be gradation.
+  @protected
   Color? get indicatorColor => null;
 
   /// Feature image.
   ///
   /// If you register it, this is the only one displayed.
+  @protected
   ImageProvider? get featureImage => null;
 
   /// Feature widget.
   ///
   /// If you register it, this is the only one displayed.
+  @protected
   Widget? get featureWidget => null;
 
   /// Background color.
+  @protected
   Color? get backgroundColor => null;
 
   /// Creating a body.
   ///
   /// [context]: Build context.
   @override
-  Widget build(BuildContext context) {
-    return applySafeArea ? SafeArea(child: _body(context)) : _body(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.effect(onInitOrUpdate: () => onInit(context, ref));
+    return applySafeArea
+        ? SafeArea(
+            child: _body(context, ref),
+          )
+        : _body(context, ref);
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, WidgetRef ref) {
     final config = context.app?.bootConfig;
     final image = config != null &&
             config.designType == BootDesignType.logo &&
@@ -85,7 +98,8 @@ abstract class UIBoot extends PageHookWidget {
           backgroundColor ??
           context.theme.backgroundColor,
       child: AnimationScope(
-        animation: useAutoRepeatAnimationScenario(
+        animation: ref.useAutoRepeatAnimationScenario(
+          r"_$boot",
           [
             AnimationUnit(
               tween: DoubleTween(begin: 150, end: 100),
