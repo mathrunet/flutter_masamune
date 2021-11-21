@@ -33,7 +33,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
 
   /// Calculate formatted datetime string from [millisecondsSinceEpoch].
   static String formatDateTime(int millisecondsSinceEpoch,
-      {String format = "yyyy/MM/dd(E) HH:mm:ss", String defaultValue = ""}) {
+      {String format = "yyyy/MM/dd(E) HH:mm", String defaultValue = ""}) {
     if (format.isEmpty || millisecondsSinceEpoch <= 0) {
       return defaultValue;
     }
@@ -51,7 +51,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
 
   /// Calculate formatted time string from [millisecondsSinceEpoch].
   static String formatTime(int millisecondsSinceEpoch,
-      {String format = "HH:mm:ss", String defaultValue = ""}) {
+      {String format = "HH:mm", String defaultValue = ""}) {
     if (format.isEmpty || millisecondsSinceEpoch <= 0) {
       return defaultValue;
     }
@@ -82,7 +82,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   static DateTime? tryParseFromDateTime(String formattedString,
       {DateTime? defaultValue,
       String format =
-          r"([0-9]+)/([0-9]+)/([0-9]+)(\([^\)]+\))? ([0-9]+):([0-9]+):([0-9]+)"}) {
+          r"([0-9]+)/([0-9]+)/([0-9]+)(\([^\)]+\))? ([0-9]+):([0-9]+)"}) {
     if (formattedString.isEmpty || format.isEmpty) {
       return defaultValue;
     }
@@ -96,16 +96,14 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     final day = int.tryParse(match.group(3) ?? "");
     final hour = int.tryParse(match.group(5) ?? "");
     final minute = int.tryParse(match.group(6) ?? "");
-    final second = int.tryParse(match.group(7) ?? "");
     if (year == null ||
         month == null ||
         day == null ||
         hour == null ||
-        minute == null ||
-        second == null) {
+        minute == null) {
       return defaultValue;
     }
-    return DateTime(year, month, day, hour, minute, second);
+    return DateTime(year, month, day, hour, minute);
   }
 
   /// Calculate DateTime from [millisecondsSinceEpoch].
@@ -221,9 +219,9 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
       case FormItemDateTimeFieldPickerType.date:
         return DateFormat("yyyy/MM/dd(E)");
       case FormItemDateTimeFieldPickerType.time:
-        return DateFormat("HH:mm:ss");
+        return DateFormat("HH:mm");
       default:
-        return DateFormat("yyyy/MM/dd(E) HH:mm:ss");
+        return DateFormat("yyyy/MM/dd(E) HH:mm");
     }
   }
 
@@ -531,7 +529,9 @@ class _DateTimeTextFieldState extends FormFieldState<DateTime> {
       }
     }
     if (widget.format != oldWidget.format) {
-      setState(() {});
+      if (_effectiveController?.text != format(value)) {
+        setValue(parse(_effectiveController?.text ?? ""));
+      }
     }
   }
 

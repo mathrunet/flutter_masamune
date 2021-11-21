@@ -1,13 +1,13 @@
 part of masamune;
 
 extension WidgetRefMemoizedExtensions on WidgetRef {
-  T useMemoized<T>(
+  T cache<T>(
     String key,
     T Function() callback, {
     List<Object?>? keys,
   }) {
     return valueBuilder<T, _MemoizedValue<T>>(
-      key: "memoized:$key",
+      key: "cache:$key",
       builder: () {
         return _MemoizedValue<T>(
           callback: callback,

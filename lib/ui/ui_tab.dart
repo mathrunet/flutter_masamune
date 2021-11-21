@@ -147,35 +147,43 @@ class _TickerProviderValueState
 }
 
 @immutable
+class TabContext<T> {
+  const TabContext._({
+    required this.controller,
+    required this.length,
+    required this.source,
+    required BuildContext context,
+  }) : _context = context;
+
+  final TabController controller;
+
+  final int length;
+  final List<T> source;
+  final BuildContext _context;
+}
+
+@immutable
 class _TabContextValue<T> extends ScopedValue<TabContext<T>> {
   const _TabContextValue._({
     required this.source,
-    required BuildContext context,
-  })  : length = source.length,
-        _context = context;
+    required this.context,
+  });
 
-  final BuildContext _context;
-  final int length;
+  final BuildContext context;
   final List<T> source;
 
   @override
   ScopedValueState<TabContext<T>, ScopedValue<TabContext<T>>> createState() =>
-      TabContext<T>._();
+      _TabContextState<T>();
 }
 
-class TabContext<T> extends ScopedValueState<TabContext<T>, _TabContextValue<T>>
+class _TabContextState<T>
+    extends ScopedValueState<TabContext<T>, _TabContextValue<T>>
     implements TickerProvider {
-  TabContext._();
+  _TabContextState();
 
-  late TabController _controller;
+  late TabContext<T> _context;
   Ticker? _ticker;
-
-  TabController get controller => _controller;
-
-  int get length => value.length;
-  List<T> get source => value.source;
-
-  BuildContext get _context => value._context;
 
   @override
   Ticker createTicker(TickerCallback onTick) {
@@ -196,20 +204,32 @@ class TabContext<T> extends ScopedValueState<TabContext<T>, _TabContextValue<T>>
   @override
   void initValue() {
     super.initValue();
-    _controller = TabController(
-      length: value.length,
-      vsync: this,
+    final length = value.source.length;
+    _context = TabContext<T>._(
+      controller: TabController(
+        length: length,
+        vsync: this,
+      ),
+      source: value.source,
+      length: length,
+      context: value.context,
     );
   }
 
   @override
   void didUpdateValue(_TabContextValue<T> oldValue) {
     super.didUpdateValue(oldValue);
-    if (value.length != oldValue.length) {
-      _controller.dispose();
-      _controller = TabController(
-        length: value.length,
-        vsync: this,
+    if (value.source.length != oldValue.source.length) {
+      final length = value.source.length;
+      _context.controller.dispose();
+      _context = TabContext<T>._(
+        controller: TabController(
+          length: length,
+          vsync: this,
+        ),
+        source: value.source,
+        length: length,
+        context: value.context,
       );
     }
   }
@@ -217,11 +237,11 @@ class TabContext<T> extends ScopedValueState<TabContext<T>, _TabContextValue<T>>
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _context.controller.dispose();
   }
 
   @override
-  TabContext<T> build() => this;
+  TabContext<T> build() => _context;
 }
 
 class UITabBar<T> extends TabBar {

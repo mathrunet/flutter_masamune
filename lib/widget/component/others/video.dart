@@ -80,43 +80,72 @@ class Video extends StatefulWidget {
 }
 
 class _VideoState extends State<Video> {
-  Future<void>? _initializing;
+  Completer<void>? _completer;
   VideoPlayerController? _controller;
 
   @override
   void initState() {
-    final provider = widget.videoProvider;
-    switch (provider.runtimeType) {
-      case FileVideoProvider:
-        throw UnsupportedError(
-            "Video playback by passing [FileVideoProvider] is not supported on this platform.");
-      case NetworkVideoProvider:
-        _controller = VideoPlayerController.network(
-          (provider as NetworkVideoProvider).url,
-          videoPlayerOptions: widget.mixWithOthers
-              ? VideoPlayerOptions(mixWithOthers: true)
-              : null,
-        );
-        break;
-      case AssetVideoProvider:
-        _controller = VideoPlayerController.asset(
-          (provider as AssetVideoProvider).path,
-          videoPlayerOptions: widget.mixWithOthers
-              ? VideoPlayerOptions(mixWithOthers: true)
-              : null,
-        );
-        break;
+    _updateVideoController();
+    super.initState();
+  }
+
+  Future<void> _updateVideoController() async {
+    if (_completer != null) {
+      await _completer!.future;
     }
-    _initializing = _controller?.initialize().then((value) {
+    try {
+      _completer = Completer<void>();
+      _controller?.dispose();
+      _controller = null;
+      final provider = widget.videoProvider;
+      switch (provider.runtimeType) {
+        case FileVideoProvider:
+          throw UnsupportedError(
+              "Video playback by passing [FileVideoProvider] is not supported on this platform.");
+        case NetworkVideoProvider:
+          _controller = VideoPlayerController.network(
+            (provider as NetworkVideoProvider).url,
+            videoPlayerOptions: widget.mixWithOthers
+                ? VideoPlayerOptions(mixWithOthers: true)
+                : null,
+          );
+          break;
+        case AssetVideoProvider:
+          _controller = VideoPlayerController.asset(
+            (provider as AssetVideoProvider).path,
+            videoPlayerOptions: widget.mixWithOthers
+                ? VideoPlayerOptions(mixWithOthers: true)
+                : null,
+          );
+          break;
+      }
+      final initializing = _controller?.initialize();
+      _controller?.setLooping(widget.loop);
+      if (widget.mute) {
+        _controller?.setVolume(0);
+      }
+      await initializing;
       if (widget.autoplay) {
         _controller?.play();
       }
-    });
-    _controller?.setLooping(widget.loop);
-    if (widget.mute) {
-      _controller?.setVolume(0);
+      _completer?.complete();
+      _completer = null;
+    } catch (e) {
+      _completer?.completeError(e);
+      _completer = null;
+    } finally {
+      _completer?.complete();
+      _completer = null;
     }
-    super.initState();
+    setState(() {});
+  }
+
+  @override
+  void didUpdateWidget(Video oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.videoProvider != oldWidget.videoProvider) {
+      _updateVideoController();
+    }
   }
 
   @override
@@ -128,7 +157,7 @@ class _VideoState extends State<Video> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initializing,
+      future: _completer?.future,
       builder: (context, snapshot) {
         if (_controller != null &&
             snapshot.connectionState == ConnectionState.done) {

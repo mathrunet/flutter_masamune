@@ -1,6 +1,6 @@
 name: masamune
 description: Package that supports Flutter states and their transitions using the Model Notifier package and the Katana Routing package.
-version: 0.8.5+87
+version: 0.8.5+92
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune
 
@@ -32,7 +32,7 @@ dependencies:
   datetime_picker_formfield: ^2.0.0
   loading_animations: ^2.2.0
   responsive_grid: ^2.0.0
-  cached_video_player: ^2.0.0-dev.1
+  video_player: ^2.2.7
   image_picker: ^0.8.3+3
   selectable_autolink_text: ^2.2.0
   wordpress_api: ^1.1.0
@@ -41,6 +41,7 @@ dependencies:
   flutter_sequence_animation: ^4.0.0-nullsafety
   collapsible: ^1.0.0
   bordered_text: ^2.0.0
+  flutter_breadcrumb: ^1.0.1
 
 dev_dependencies:
   flutter_test:

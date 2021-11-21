@@ -80,7 +80,7 @@ class Video extends StatefulWidget {
 }
 
 class _VideoState extends State<Video> {
-  Future<void>? _initializing;
+  Completer<void>? _completer;
   VideoPlayerController? _controller;
 
   @override
@@ -89,54 +89,80 @@ class _VideoState extends State<Video> {
     super.initState();
   }
 
-  void _updateVideoController() {
-    _controller?.dispose();
-    _controller = null;
-    final provider = widget.videoProvider;
-    switch (provider.runtimeType) {
-      case FileVideoProvider:
-        _controller = VideoPlayerController.file(
-          (provider as FileVideoProvider).file,
-          videoPlayerOptions: widget.mixWithOthers
-              ? VideoPlayerOptions(mixWithOthers: true)
-              : null,
-        );
-        break;
-      case NetworkVideoProvider:
-        _controller = VideoPlayerController.network(
-          (provider as NetworkVideoProvider).url,
-          videoPlayerOptions: widget.mixWithOthers
-              ? VideoPlayerOptions(mixWithOthers: true)
-              : null,
-        );
-        break;
-      case AssetVideoProvider:
-        _controller = VideoPlayerController.asset(
-          (provider as AssetVideoProvider).path,
-          videoPlayerOptions: widget.mixWithOthers
-              ? VideoPlayerOptions(mixWithOthers: true)
-              : null,
-        );
-        break;
+  Future<void> _updateVideoController() async {
+    if (_completer != null) {
+      await _completer!.future;
     }
-    _initializing = _controller?.initialize().then((value) {
+    try {
+      _completer = Completer<void>();
+      _controller?.dispose();
+      _controller = null;
+      final provider = widget.videoProvider;
+      switch (provider.runtimeType) {
+        case FileVideoProvider:
+          _controller = VideoPlayerController.file(
+            (provider as FileVideoProvider).file,
+            videoPlayerOptions: widget.mixWithOthers
+                ? VideoPlayerOptions(mixWithOthers: true)
+                : null,
+          );
+          break;
+        case NetworkVideoProvider:
+          final cacheManager = DefaultCacheManager();
+          final url = (provider as NetworkVideoProvider).url;
+          final file = await cacheManager.getFileFromCache(url);
+          if (file == null) {
+            unawaited(cacheManager.downloadFile(url));
+            _controller = VideoPlayerController.network(
+              url,
+              videoPlayerOptions: widget.mixWithOthers
+                  ? VideoPlayerOptions(mixWithOthers: true)
+                  : null,
+            );
+          } else {
+            _controller = VideoPlayerController.file(
+              file.file,
+              videoPlayerOptions: widget.mixWithOthers
+                  ? VideoPlayerOptions(mixWithOthers: true)
+                  : null,
+            );
+          }
+          break;
+        case AssetVideoProvider:
+          _controller = VideoPlayerController.asset(
+            (provider as AssetVideoProvider).path,
+            videoPlayerOptions: widget.mixWithOthers
+                ? VideoPlayerOptions(mixWithOthers: true)
+                : null,
+          );
+          break;
+      }
+      final initializing = _controller?.initialize();
+      _controller?.setLooping(widget.loop);
+      if (widget.mute) {
+        _controller?.setVolume(0);
+      }
+      await initializing;
       if (widget.autoplay) {
         _controller?.play();
       }
-    });
-    _controller?.setLooping(widget.loop);
-    if (widget.mute) {
-      _controller?.setVolume(0);
+      _completer?.complete();
+      _completer = null;
+    } catch (e) {
+      _completer?.completeError(e);
+      _completer = null;
+    } finally {
+      _completer?.complete();
+      _completer = null;
     }
+    setState(() {});
   }
 
   @override
   void didUpdateWidget(Video oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.videoProvider != oldWidget.videoProvider) {
-      setState(() {
-        _updateVideoController();
-      });
+      _updateVideoController();
     }
   }
 
@@ -149,7 +175,7 @@ class _VideoState extends State<Video> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initializing,
+      future: _completer?.future,
       builder: (context, snapshot) {
         if (_controller != null &&
             snapshot.connectionState == ConnectionState.done) {

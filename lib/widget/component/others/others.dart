@@ -1,7 +1,9 @@
 /// For others.
 library masamune.component.others;
 
-import 'package:cached_video_player/cached_video_player.dart';
+import 'dart:async';
+
+import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:selectable_autolink_text/selectable_autolink_text.dart';
