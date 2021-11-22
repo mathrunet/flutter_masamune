@@ -91,6 +91,7 @@ part 'hooks/focus_node.dart';
 part "hooks/global_key.dart";
 part "hooks/navigator_controller.dart";
 part "hooks/scroll_controller.dart";
+part "hooks/page_controller.dart";
 part 'hooks/state.dart';
 part 'hooks/text_editing_controller.dart';
 part "hooks/uuid.dart";

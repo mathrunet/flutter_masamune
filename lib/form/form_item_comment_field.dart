@@ -10,6 +10,8 @@ class FormItemCommentField extends StatefulWidget {
     this.minLines = 1,
     this.onSubmitted,
     this.padding = const EdgeInsets.all(0),
+    this.color,
+    this.subColor,
     this.backgroundColor,
     this.borderColor,
     this.mediaIcon,
@@ -20,6 +22,8 @@ class FormItemCommentField extends StatefulWidget {
     this.submitIcon,
     this.autofocus = false,
   });
+  final Color? color;
+  final Color? subColor;
   final String? hintText;
   final FocusNode? focusNode;
   final TextEditingController? controller;
@@ -110,6 +114,9 @@ class _FormItemCommentFieldState extends State<FormItemCommentField> {
             focusNode: effectiveFocusNode,
             controller: effectiveController,
             keyboardType: widget.keyboardType,
+            color: widget.color ?? context.theme.textColor,
+            subColor:
+                widget.subColor ?? context.theme.textColor.withOpacity(0.5),
             maxLines: widget.maxLines,
             minLines: widget.minLines,
             textAlignVertical: TextAlignVertical.top,
@@ -137,7 +144,9 @@ class _FormItemCommentFieldState extends State<FormItemCommentField> {
               icon: Icon(
                 widget.submitIcon ?? Icons.send,
                 size: 25,
-                color: widget.iconColor ?? context.theme.disabledColor,
+                color: widget.iconColor ??
+                    widget.color ??
+                    context.theme.textColor.withOpacity(0.5),
               ),
             ),
           ),
@@ -153,7 +162,9 @@ class _FormItemCommentFieldState extends State<FormItemCommentField> {
                 icon: Icon(
                   widget.mediaIcon ?? Icons.add_photo_alternate,
                   size: 25,
-                  color: widget.iconColor ?? context.theme.disabledColor,
+                  color: widget.iconColor ??
+                      widget.color ??
+                      context.theme.textColor.withOpacity(0.5),
                 ),
               ),
             ),
@@ -169,7 +180,9 @@ class _FormItemCommentFieldState extends State<FormItemCommentField> {
                 icon: Icon(
                   widget.templateIcon ?? FontAwesomeIcons.clipboardList,
                   size: 23,
-                  color: widget.iconColor ?? context.theme.disabledColor,
+                  color: widget.iconColor ??
+                      widget.color ??
+                      context.theme.textColor.withOpacity(0.5),
                 ),
               ),
             ),

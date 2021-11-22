@@ -1,11 +1,11 @@
 part of masamune.ui;
 
-class UIUserProfileAppBar extends UIAppBar {
+class UIModernDetailAppBar extends UIAppBar {
   /// Creates a material design app bar that can be placed in a [CustomScrollView].
   ///
   /// The arguments [forceElevated], [primary], [floating], [pinned], [snap]
   /// and [automaticallyImplyLeading] must not be null.
-  const UIUserProfileAppBar({
+  const UIModernDetailAppBar({
     Key? key,
     Widget? leading,
     bool automaticallyImplyLeading = true,
@@ -44,6 +44,7 @@ class UIUserProfileAppBar extends UIAppBar {
     Widget? background,
     UIAppBarScrollStyle scrollStyle = UIAppBarScrollStyle.pinned,
     this.icon,
+    this.onTapImage,
     this.backgroundImage,
     this.bottomActions,
     this.borderWidth = 4.0,
@@ -95,6 +96,7 @@ class UIUserProfileAppBar extends UIAppBar {
   final double borderWidth;
   final ImageProvider? backgroundImage;
   final List<Widget>? bottomActions;
+  final VoidCallback? onTapImage;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +110,7 @@ class UIUserProfileAppBar extends UIAppBar {
 
 class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
   const _UIUserProfileAppBarDelegate(this.appBar);
-  final UIUserProfileAppBar appBar;
+  final UIModernDetailAppBar appBar;
 
   @override
   Widget build(
@@ -177,13 +179,16 @@ class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
               leading: appBar.leading,
               flexibleSpace: appBar.backgroundImage == null
                   ? null
-                  : Opacity(
-                      opacity: percent,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: appBar.backgroundImage!,
-                            fit: BoxFit.cover,
+                  : InkWell(
+                      onTap: appBar.onTapImage,
+                      child: Opacity(
+                        opacity: percent,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: appBar.backgroundImage!,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

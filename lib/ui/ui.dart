@@ -25,4 +25,4 @@ part 'ui_grid_view.dart';
 part 'ui_grid_builder.dart';
 part 'ui_tab.dart';
 part 'ui_scrollbar.dart';
-part 'ui_user_profile_app_bar.dart';
+part 'ui_modern_detail_app_bar.dart';
