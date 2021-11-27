@@ -177,22 +177,24 @@ class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
                 : appBarSize,
             child: AppBar(
               leading: appBar.leading,
-              flexibleSpace: appBar.backgroundImage == null
-                  ? null
-                  : InkWell(
-                      onTap: appBar.onTapImage,
-                      child: Opacity(
-                        opacity: percent,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: appBar.backgroundImage!,
-                              fit: BoxFit.cover,
-                            ),
+              flexibleSpace:
+                  appBar.background == null && appBar.backgroundImage == null
+                      ? null
+                      : InkWell(
+                          onTap: appBar.onTapImage,
+                          child: Opacity(
+                            opacity: percent,
+                            child: appBar.background ??
+                                Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: appBar.backgroundImage!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
                           ),
                         ),
-                      ),
-                    ),
               automaticallyImplyLeading: appBar.automaticallyImplyLeading,
               actions: appBar.actions,
               backgroundColor: appBar.backgroundColor,
