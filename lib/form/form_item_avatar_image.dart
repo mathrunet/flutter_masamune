@@ -26,12 +26,15 @@ class FormItemAvatarImage extends StatelessWidget implements FormItem {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 120,
-              width: 120,
-              child: CircleAvatar(
-                backgroundColor: context.theme.disabledColor,
-                backgroundImage: image,
+            InkWell(
+              onTap: enabled ? onPressed : null,
+              child: SizedBox(
+                height: 120,
+                width: 120,
+                child: CircleAvatar(
+                  backgroundColor: context.theme.disabledColor,
+                  backgroundImage: image,
+                ),
               ),
             ),
             if (label.isNotEmpty)

@@ -1,5 +1,18 @@
 part of masamune;
 
+extension DynamicMapTextEditingControllerExtensions on DynamicMap? {
+  TextEditingController useTextEditingController(
+    WidgetRef ref,
+    String key, [
+    String defaultValue = "",
+  ]) {
+    return ref.useTextEditingController(
+      key,
+      this?[key]?.toString() ?? defaultValue,
+    );
+  }
+}
+
 extension WidgetRefTextEditingControllerExtensions on WidgetRef {
   TextEditingController useTextEditingController(
     String key, [

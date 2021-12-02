@@ -1,5 +1,10 @@
 part of masamune.form.others;
 
+enum FormItemMultiMediaType {
+  form,
+  list,
+}
+
 /// Form widget for uploading multiple media files (images and videos) at once.
 ///
 /// The value passed by [controller] and [onSaved] becomes a Json data of [DynamicMap].
@@ -40,17 +45,20 @@ class FormItemMultiMedia extends FormField<String> {
     this.icon,
     this.controller,
     this.onPreSave,
+    this.padding = const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
     this.typeKey = Const.type,
     this.pathKey = "path",
     this.items,
+    this.addLabel = "Add",
+    this.type = FormItemMultiMediaType.form,
     Widget Function(
       BuildContext context,
       FormItemMultiMediaItem data,
       Size size,
       void Function(dynamic fileOrURL, AssetType type) onUpdate,
       Function onRemove,
-    )
-        builder = _defaultBuilder,
+    )?
+        builder,
     this.onTap,
     Key? key,
     void Function(String? value)? onSaved,
@@ -69,6 +77,15 @@ class FormItemMultiMedia extends FormField<String> {
           initialValue: initialJson,
           enabled: enabled,
         );
+
+  /// Additional labels when [type] is [FormItemMultiMediaType.list].
+  final String addLabel;
+
+  /// Padding.
+  final EdgeInsetsGeometry padding;
+
+  /// Form type.
+  final FormItemMultiMediaType type;
 
   /// File type.
   final String typeKey;
@@ -104,7 +121,7 @@ class FormItemMultiMedia extends FormField<String> {
     Size size,
     void Function(dynamic fileOrURL, AssetType type) onUpdate,
     Function onRemove,
-  ) _builder;
+  )? _builder;
 
   /// Size of each item.
   final Size size;
@@ -114,7 +131,81 @@ class FormItemMultiMedia extends FormField<String> {
     void Function(dynamic fileOrURL, AssetType type) onUpdate,
   )? onTap;
 
-  static Widget _defaultBuilder(
+  static Widget _defaultListBuilder(
+    BuildContext context,
+    FormItemMultiMediaItem data,
+    Size size,
+    void Function(dynamic fileOrURL, AssetType type) onUpdate,
+    Function onRemove,
+  ) {
+    if (data.path.isNotEmpty) {
+      if (data.type == AssetType.video) {
+        return ListItem(
+          leading: SizedBox(
+            width: 40,
+            height: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4.0),
+              child: Video(
+                NetworkVideoProvider(data.path!),
+                fit: BoxFit.cover,
+                height: size.height,
+                width: size.width,
+                controllable: true,
+              ),
+            ),
+          ),
+          title: Text(data.path!.last()),
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                color: context.theme.textColor,
+                onPressed: () {
+                  onRemove();
+                },
+                icon: const Icon(Icons.close),
+              )
+            ],
+          ),
+        );
+      } else {
+        return ListItem(
+          leading: SizedBox(
+            width: 40,
+            height: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4.0),
+              child: Image.network(
+                data.path!,
+                fit: BoxFit.cover,
+                height: size.height,
+                width: size.width,
+              ),
+            ),
+          ),
+          title: Text(data.path!.last()),
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                color: context.theme.textColor,
+                onPressed: () {
+                  onRemove();
+                },
+                icon: const Icon(Icons.close),
+              )
+            ],
+          ),
+        );
+      }
+    }
+    return const Empty();
+  }
+
+  static Widget _defaultFormBuilder(
     BuildContext context,
     FormItemMultiMediaItem data,
     Size size,
@@ -261,61 +352,138 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
     return super.validate();
   }
 
+  Widget _builder(BuildContext context, FormItemMultiMediaItem item) {
+    if (widget._builder != null) {
+      return widget._builder!.call(
+        context,
+        item,
+        widget.size,
+        _onUpdate,
+        () => _onRemove(item),
+      );
+    }
+    switch (widget.type) {
+      case FormItemMultiMediaType.list:
+        return FormItemMultiMedia._defaultListBuilder(
+          context,
+          item,
+          widget.size,
+          _onUpdate,
+          () => _onRemove(item),
+        );
+      default:
+        return FormItemMultiMedia._defaultFormBuilder(
+          context,
+          item,
+          widget.size,
+          _onUpdate,
+          () => _onRemove(item),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      height: widget.height,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: widget.size.width,
-              height: widget.size.height,
-              margin: const EdgeInsets.only(right: 10),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(
-                    color: widget.color ?? context.theme.disabledColor,
-                    width: 2,
-                  ),
-                ),
-                child: Icon(
-                  widget.icon ?? Icons.photo,
-                  color: widget.color ?? context.theme.disabledColor,
-                  size: widget.height / 3.0,
-                ),
-                onPressed: () {
+    switch (widget.type) {
+      case FormItemMultiMediaType.list:
+        return Padding(
+          padding: widget.padding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ReorderableListBuilder<FormItemMultiMediaItem>(
+                source: _items,
+                builder: (context, item, index) {
+                  return [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: _builder(context, item),
+                    ),
+                  ];
+                },
+                onReorder: (o, n, item, reordered) {
+                  _items = reordered;
+                  setValue(_encodeJson(_items));
+                },
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+              ),
+              ListTile(
+                onTap: () {
                   if (widget.onTap != null) {
                     widget.onTap?.call(_onUpdate);
                   }
                 },
+                title: Text(widget.addLabel.localize(),
+                    textAlign: TextAlign.right),
+                trailing: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: context.theme.textColor,
+                        size: 28,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            ..._items.mapAndRemoveEmpty(
-              (item) {
-                final widget = this.widget._builder(
-                      context,
-                      item,
-                      this.widget.size,
-                      _onUpdate,
-                      () => _onRemove(item),
+            ],
+          ),
+        );
+      default:
+        return Container(
+          alignment: Alignment.centerLeft,
+          padding: widget.padding,
+          height: widget.height,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: widget.size.width,
+                  height: widget.size.height,
+                  margin: const EdgeInsets.only(right: 10),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                        color: widget.color ?? context.theme.disabledColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: Icon(
+                      widget.icon ?? Icons.photo,
+                      color: widget.color ?? context.theme.disabledColor,
+                      size: widget.height / 3.0,
+                    ),
+                    onPressed: () {
+                      if (widget.onTap != null) {
+                        widget.onTap?.call(_onUpdate);
+                      }
+                    },
+                  ),
+                ),
+                ..._items.mapAndRemoveEmpty(
+                  (item) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: _builder(context, item),
                     );
-                return Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: widget,
-                );
-              },
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        );
+    }
   }
 
   @override
@@ -412,6 +580,7 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
 }
 
 /// Class for storing various data to be uploaded for [FormItemMultiMedia].
+@immutable
 class FormItemMultiMediaItem {
   /// Class for storing various data to be uploaded for [FormItemMultiMedia].
   const FormItemMultiMediaItem({
@@ -424,4 +593,15 @@ class FormItemMultiMediaItem {
 
   /// File path.
   final String? path;
+
+  /// Create a new [FormItemMultiMediaItem].
+  FormItemMultiMediaItem copyWith({
+    AssetType? type,
+    String? path,
+  }) {
+    return FormItemMultiMediaItem(
+      type: type ?? this.type,
+      path: path ?? this.path,
+    );
+  }
 }

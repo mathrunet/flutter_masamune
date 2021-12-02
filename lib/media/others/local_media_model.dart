@@ -103,26 +103,3 @@ class LocalMediaModel extends ValueModel<LocalMedia> {
     return value = LocalMedia(path: path, assetType: AssetType.image);
   }
 }
-
-/// Class for storing local media data.
-///
-/// The path of the local file in [path].
-///
-/// Specify image or video for [assetType].
-class LocalMedia {
-  /// Class for storing local media data.
-  ///
-  /// The path of the local file in [path].
-  ///
-  /// Specify image or video for [assetType].
-  const LocalMedia({this.path, this.assetType = AssetType.none});
-
-  /// Local Path.
-  final String? path;
-
-  /// Specify image or video.
-  final AssetType assetType;
-
-  /// If the path exists, `true`.
-  bool get hasPath => path.isNotEmpty;
-}

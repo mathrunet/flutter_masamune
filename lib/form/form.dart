@@ -7,12 +7,12 @@
 library masamune.form;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -42,6 +42,7 @@ part 'form_item_dropdown_field.dart';
 part 'form_item_dynamic_labeled_dropdown_field.dart';
 part 'form_item_full_screen.dart';
 part 'form_item_headline.dart';
+part 'form_item_multiple_full_screen.dart';
 part 'form_item_label.dart';
 part 'form_item_labeled_dropdown_field.dart';
 part 'form_item_password.dart';

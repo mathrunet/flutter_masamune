@@ -25,7 +25,7 @@ class FormItemHeadline extends StatelessWidget implements FormItem {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 10, right: 15, bottom: 5, top: 25),
+      padding: const EdgeInsets.only(left: 8, right: 16, bottom: 4, top: 24),
       decoration: BoxDecoration(
         border: Border(
           bottom: bottomBorder ??
@@ -42,7 +42,7 @@ class FormItemHeadline extends StatelessWidget implements FormItem {
               color: context.theme.textTheme.caption?.color,
               size: context.theme.textTheme.caption?.fontSize,
             ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 24),
           ],
           Text(
             title,

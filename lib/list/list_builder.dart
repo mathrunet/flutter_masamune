@@ -101,7 +101,7 @@ class ListBuilder<T> extends StatelessWidget {
       } else if (source.length <= insertPosition) {
         final pos = i - _topLength;
         if (pos < source.length) {
-          return _sourceBuilder(context, pos);
+          return _listenableBuilder(context, pos);
         } else {
           return insert![i - source.length - _topLength];
         }
@@ -110,9 +110,9 @@ class ListBuilder<T> extends StatelessWidget {
         if (pos >= insertPosition && pos < insertPosition + insert.length) {
           return insert![pos - insertPosition];
         } else if (pos < insertPosition) {
-          return _sourceBuilder(context, pos);
+          return _listenableBuilder(context, pos);
         } else {
-          return _sourceBuilder(context, pos - insert.length);
+          return _listenableBuilder(context, pos - insert.length);
         }
       }
     } else {
@@ -120,23 +120,22 @@ class ListBuilder<T> extends StatelessWidget {
     }
   }
 
-  Widget _sourceBuilder(BuildContext context, int pos) {
-    final item = source[pos];
+  Widget _sourceBuilder(BuildContext context, T item, int pos) {
     final children = builder.call(context, item, pos);
     if (children.isEmpty) {
-      return _listenableBuilder(
+      return _loadingBuilder(
         context: context,
         item: item,
         child: const Empty(),
       );
     } else if (children.length <= 1) {
-      return _listenableBuilder(
+      return _loadingBuilder(
         context: context,
         item: item,
         child: children!.firstOrNull ?? const Empty(),
       );
     } else {
-      return _listenableBuilder(
+      return _loadingBuilder(
         context: context,
         item: item,
         child: Column(
@@ -148,26 +147,15 @@ class ListBuilder<T> extends StatelessWidget {
     }
   }
 
-  Widget _listenableBuilder({
-    required BuildContext context,
-    required T item,
-    required Widget child,
-  }) {
+  Widget _listenableBuilder(BuildContext context, int pos) {
+    final item = source[pos];
     if (!listenWhenListenable || item is! Listenable) {
-      return _loadingBuilder(
-        context: context,
-        item: item,
-        child: child,
-      );
+      return _sourceBuilder(context, item, pos);
     }
     return ListenableListener<Listenable>(
       listenable: item,
       builder: (context, listenable) {
-        return _loadingBuilder(
-          context: context,
-          item: item,
-          child: child,
-        );
+        return _sourceBuilder(context, item, pos);
       },
     );
   }

@@ -36,6 +36,7 @@ class FormItemMedia extends FormField<String> {
     this.color,
     this.hintText = "",
     this.errorText = "",
+    this.padding = const EdgeInsets.symmetric(vertical: 8),
     this.allowEmpty = false,
     this.dense = false,
     this.height = 200,
@@ -70,6 +71,9 @@ class FormItemMedia extends FormField<String> {
 
   /// The height of the text display when an error occurs.
   static const double errorTextHeight = 20;
+
+  /// Padding.
+  final EdgeInsetsGeometry padding;
 
   /// Processing when tapped.
   ///
@@ -194,24 +198,28 @@ class _FormItemMediaState extends FormFieldState<String> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            if (!widget.enabled) {
-              return;
-            }
-            widget.onTap.call(_onUpdate);
-          },
-          child: _buildMedia(context),
-        ),
-        if (errorText.isNotEmpty)
-          AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              child: Text(errorText ?? "",
-                  style: Theme.of(context).inputDecorationTheme.errorStyle),
-              height: errorText.isNotEmpty ? FormItemMedia.errorTextHeight : 0)
-      ],
+    return Padding(
+      padding: widget.padding,
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              if (!widget.enabled) {
+                return;
+              }
+              widget.onTap.call(_onUpdate);
+            },
+            child: _buildMedia(context),
+          ),
+          if (errorText.isNotEmpty)
+            AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                child: Text(errorText ?? "",
+                    style: Theme.of(context).inputDecorationTheme.errorStyle),
+                height:
+                    errorText.isNotEmpty ? FormItemMedia.errorTextHeight : 0)
+        ],
+      ),
     );
   }
 

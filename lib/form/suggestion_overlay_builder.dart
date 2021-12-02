@@ -20,14 +20,22 @@ class SuggestionOverlayBuilder extends StatefulWidget {
       this.onDeleteSuggestion,
       this.maxHeight = 260,
       this.color,
+      this.focusNode,
       this.backgroundColor,
       this.elevation = 8.0,
       this.controller,
       this.onTap,
+      this.offset = const Offset(0, 20),
       this.showOnTap = true});
 
   /// Source list for suggestion.
   final List<String> items;
+
+  /// FocusNode.
+  final FocusNode? focusNode;
+
+  /// Offset.
+  final Offset offset;
 
   /// Text editing controller.
   final TextEditingController? controller;
@@ -72,6 +80,7 @@ class _SuggestionOverlayBuilderState extends State<SuggestionOverlayBuilder> {
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
+    widget.focusNode?.addListener(_listener);
     _effectiveController?.addListener(_listener);
   }
 
@@ -91,6 +100,10 @@ class _SuggestionOverlayBuilderState extends State<SuggestionOverlayBuilder> {
         }
       }
     }
+    if (widget.focusNode != oldWidget.focusNode) {
+      oldWidget.focusNode?.removeListener(_listener);
+      widget.focusNode?.addListener(_listener);
+    }
   }
 
   void _listener() {
@@ -105,8 +118,15 @@ class _SuggestionOverlayBuilderState extends State<SuggestionOverlayBuilder> {
     }
     final search = _effectiveController?.text;
     final wordList = search?.split(" ") ?? const <String>[];
+    if (widget.focusNode != null &&
+        widget.focusNode!.hasFocus &&
+        search.isEmpty) {
+      _updateOverlay();
+      return;
+    }
     if (!widget.items.any((element) =>
-        element.isNotEmpty & wordList.isNotEmpty &&
+        element.isNotEmpty &&
+        wordList.isNotEmpty &&
         wordList.last.isNotEmpty &&
         element != wordList.last &&
         element.toLowerCase().startsWith(wordList.last.toLowerCase()))) {
@@ -118,6 +138,7 @@ class _SuggestionOverlayBuilderState extends State<SuggestionOverlayBuilder> {
   @override
   void dispose() {
     super.dispose();
+    widget.focusNode?.removeListener(_listener);
     _effectiveController?.removeListener(_listener);
   }
 
@@ -189,7 +210,11 @@ class _SuggestionOverlayBuilderState extends State<SuggestionOverlayBuilder> {
                 child: _SuggestionOverlay(
                   items: widget.items,
                   color: widget.color ?? context.theme.textColorOnSurface,
-                  offset: Offset(0.0, up ? 20 : widget.maxHeight + height - 20),
+                  offset: Offset(
+                      widget.offset.dx,
+                      up
+                          ? widget.offset.dy
+                          : widget.maxHeight + height + widget.offset.dy),
                   maxHeight: widget.maxHeight,
                   direction: up ? VerticalDirection.up : VerticalDirection.down,
                   onDeleteSuggestion: widget.onDeleteSuggestion,
@@ -290,15 +315,16 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    final widgets = widget.items.mapAndRemoveEmpty((e) {
-      if (e.isNotEmpty &&
-          _wordList.isNotEmpty &&
-          _wordList.last.isNotEmpty &&
-          e != _wordList.last &&
-          !e.toLowerCase().startsWith(_wordList.last.toLowerCase())) {
-        return null;
-      }
-      return GestureDetector(
+    final widgets = widget.items.mapAndRemoveEmpty(
+      (e) {
+        if (e.isNotEmpty &&
+            _wordList.isNotEmpty &&
+            _wordList.last.isNotEmpty &&
+            e != _wordList.last &&
+            !e.toLowerCase().startsWith(_wordList.last.toLowerCase())) {
+          return null;
+        }
+        return GestureDetector(
           onTap: () {
             if (_wordList.isNotEmpty) {
               _wordList[_wordList.length - 1] = e;
@@ -314,14 +340,16 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
           child: Container(
             padding: const EdgeInsets.all(10),
             constraints: const BoxConstraints.expand(height: 50),
-            child: Row(children: [
-              Expanded(
-                  child: Text(e,
-                      style: TextStyle(fontSize: 18, color: widget.color))),
-              Container(
-                  width: 80,
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
+            child: Row(
+              children: [
+                Expanded(
+                    child: Text(e,
+                        style: TextStyle(fontSize: 18, color: widget.color))),
+                if (widget.onDeleteSuggestion != null)
+                  Container(
+                    width: 80,
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
                       visualDensity: VisualDensity.compact,
                       padding: const EdgeInsets.all(0),
                       icon: Icon(Icons.close, size: 20, color: widget.color),
@@ -330,10 +358,15 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
                           widget.items.remove(e);
                           widget.onDeleteSuggestion?.call(e);
                         });
-                      }))
-            ]),
-          ));
-    });
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
     if (widgets.isEmpty) {
       widget.onTap?.call();
       return const Empty();

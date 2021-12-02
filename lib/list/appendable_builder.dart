@@ -3,13 +3,15 @@ part of masamune.list;
 class AppendableBuilder extends StatefulWidget {
   const AppendableBuilder({
     this.child,
+    this.dense = false,
     required this.builder,
-    this.title,
+    this.label,
     this.backgroundColor,
     this.initialValues = const [],
   });
 
-  final String? title;
+  final String? label;
+  final bool dense;
   final Color? backgroundColor;
   final Widget Function(BuildContext context, List<Widget> children,
       Function onAdd, void Function(String id) onRemove)? child;
@@ -52,42 +54,51 @@ class _AppendableBuilderState extends State<AppendableBuilder> {
   @override
   Widget build(BuildContext context) {
     if (widget.child == null) {
-      return Column(children: [
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          padding: const EdgeInsets.only(left: 15),
-          constraints: const BoxConstraints.expand(height: 60),
-          decoration: BoxDecoration(
-            border:
-                Border.all(color: Theme.of(context).disabledColor, width: 1),
-            borderRadius: BorderRadius.circular(4.0),
+      return Column(
+        children: [
+          Container(
+            margin: widget.dense
+                ? null
+                : const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.only(left: 15),
+            constraints: const BoxConstraints.expand(height: 60),
+            decoration: widget.dense
+                ? null
+                : BoxDecoration(
+                    border: Border.all(
+                        color: Theme.of(context).disabledColor, width: 1),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    widget.label ?? "",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Container(
+                    color: widget.backgroundColor,
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      padding: const EdgeInsets.all(10),
+                      icon: const Icon(Icons.add),
+                      onPressed: _onAdd,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Row(children: [
-            Expanded(
-              flex: 4,
-              child: Text(
-                widget.title ?? "",
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(
-                color: widget.backgroundColor,
-                alignment: Alignment.center,
-                child: IconButton(
-                  padding: const EdgeInsets.all(10),
-                  icon: const Icon(Icons.add),
-                  onPressed: _onAdd,
-                ),
-              ),
-            ),
-          ]),
-        ),
-        ..._children.values
-      ]);
+          if(widget.dense && _children.values.isNotEmpty) Divid(color: context.theme.dividerColor.withOpacity(0.25)),
+          ..._children.values
+        ],
+      );
     } else {
       return widget.child!
           .call(context, _children.values.toList(), _onAdd, _onRemove);

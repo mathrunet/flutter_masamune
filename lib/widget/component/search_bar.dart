@@ -8,7 +8,9 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.color,
     this.actions = const [],
+    this.suggestion = const [],
     this.onChanged,
+    this.onDeleteSuggestion,
   });
 
   final TextEditingController? controller;
@@ -17,7 +19,9 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final Color? color;
   final List<Widget> actions;
-  final void Function(String value)? onChanged;
+  final List<String> suggestion;
+  final void Function(String value)? onDeleteSuggestion;
+  final void Function(String? value)? onChanged;
 
   @override
   State<StatefulWidget> createState() => _SearchBarState();
@@ -52,6 +56,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      titleSpacing: 0,
       iconTheme: IconThemeData(
         color: widget.color ?? context.theme.textColor,
       ),
@@ -72,19 +77,17 @@ class _SearchBarState extends State<SearchBar> {
         },
       ),
       backgroundColor: widget.backgroundColor ?? context.theme.backgroundColor,
-      title: TextFormField(
+      title: FormItemTextField(
+        dense: true,
         focusNode: widget.focusNode,
         controller: _effectiveController,
-        style: TextStyle(color: widget.color ?? context.theme.textColor),
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          focusedErrorBorder: InputBorder.none,
-        ),
+        color: widget.color ?? context.theme.textColor,
+        hintText: widget.hintText,
         onChanged: widget.onChanged,
+        padding: const EdgeInsets.all(0),
+        contentPadding: const EdgeInsets.all(0),
+        suggestion: widget.suggestion,
+        onDeleteSuggestion: widget.onDeleteSuggestion,
       ),
     );
   }

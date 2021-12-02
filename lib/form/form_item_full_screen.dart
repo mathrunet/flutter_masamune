@@ -17,6 +17,7 @@ class FormItemFullScreen<T extends Object> extends FormField<T> {
     this.color,
     this.subColor,
     this.hintText,
+    this.errorText,
     this.labelText,
     Key? key,
     void Function(T? value)? onSaved,
@@ -37,6 +38,7 @@ class FormItemFullScreen<T extends Object> extends FormField<T> {
   final TextEditingController? controller;
   final String path;
   final String? hintText;
+  final String? errorText;
   final bool dense;
   final String? labelText;
   final String? counterText;
@@ -106,7 +108,7 @@ class _FormItemFullScreenState<T extends Object> extends FormFieldState<T> {
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         enabled: widget.enabled,
         controller: _effectiveController,
@@ -169,8 +171,10 @@ class _FormItemFullScreenState<T extends Object> extends FormFieldState<T> {
               }
             : null,
         validator: (value) {
-          if (!widget.allowEmpty && value.isEmpty) {
-            return widget.hintText;
+          if (!widget.allowEmpty &&
+              widget.errorText.isNotEmpty &&
+              value.isEmpty) {
+            return widget.errorText;
           }
           return null;
         },

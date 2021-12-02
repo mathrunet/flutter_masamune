@@ -4,6 +4,7 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
   const FormItemDropdownField({
     this.controller,
     this.hintText,
+    this.errorText,
     required this.items,
     this.enabled = true,
     this.border,
@@ -22,6 +23,7 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
 
   final TextEditingController? controller;
   final String? hintText;
+  final String? errorText;
   final String? labelText;
   final String? counterText;
   final Map<String, String> items;
@@ -74,8 +76,8 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
           suffix: suffix,
         ),
         validator: (value) {
-          if (!allowEmpty && value.isEmpty) {
-            return hintText;
+          if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
+            return errorText;
           }
           return null;
         },
@@ -121,7 +123,7 @@ class DropdownTextFormField extends StatefulWidget {
       this.iconEnabledColor,
       this.iconSize = 24.0,
       this.isDense = true,
-      this.isExpanded = false,
+      this.isExpanded = true,
       this.itemHeight,
       this.itemBackgroundColor,
       this.itemTextColor})
@@ -267,7 +269,7 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                 return widget.items.toList<Widget>(
                   (String key, String value) {
                     return Align(
-                      alignment: Alignment.center,
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         _effectiveController.isEmpty
                             ? (widget.decoration.hintText ?? "--")
@@ -286,10 +288,12 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
                 (String key, String value) {
                   return DropdownMenuItem(
                     value: key,
-                    child: Text(value.localize(),
-                        style: widget.itemTextColor != null
-                            ? TextStyle(color: widget.itemTextColor)
-                            : null),
+                    child: Text(
+                      value.localize(),
+                      style: widget.itemTextColor != null
+                          ? TextStyle(color: widget.itemTextColor)
+                          : null,
+                    ),
                   );
                 },
               ).toList(),

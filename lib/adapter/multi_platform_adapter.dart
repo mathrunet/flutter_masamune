@@ -5,7 +5,7 @@ class MultiPlatformAdapter extends PlatformAdapter {
   const MultiPlatformAdapter();
 
   @override
-  Future<dynamic> mediaDialog(
+  Future<LocalMedia?> mediaDialog(
     BuildContext context, {
     required String title,
     PlatformMediaType type = PlatformMediaType.all,

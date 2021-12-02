@@ -27,6 +27,7 @@ class FormItemDynamicLabeledDropdownField extends StatefulWidget
       this.onDeleteSuggestion,
       this.allowEmpty = false,
       this.hintText,
+      this.errorText,
       this.readOnly = false,
       this.obscureText = false,
       this.counterText = ""});
@@ -48,6 +49,7 @@ class FormItemDynamicLabeledDropdownField extends StatefulWidget
   final int? minLength;
   final int? maxLines;
   final int minLines;
+  final String? errorText;
   final String? hintText;
   final String? counterText;
   final String? lengthErrorText;
@@ -217,8 +219,10 @@ class _FormItemDynamicLabeledDropdownFieldState
                 readOnly: widget.readOnly,
                 onTap: widget.enabled ? onTap : null,
                 validator: (value) {
-                  if (!widget.allowEmpty && value.isEmpty) {
-                    return widget.hintText;
+                  if (!widget.allowEmpty &&
+                      widget.errorText.isNotEmpty &&
+                      value.isEmpty) {
+                    return widget.errorText;
                   }
 
                   if (!widget.allowEmpty &&
