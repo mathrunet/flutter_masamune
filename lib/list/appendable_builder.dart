@@ -57,9 +57,8 @@ class _AppendableBuilderState extends State<AppendableBuilder> {
       return Column(
         children: [
           Container(
-            margin: widget.dense
-                ? null
-                : const EdgeInsets.symmetric(vertical: 10),
+            margin:
+                widget.dense ? null : const EdgeInsets.symmetric(vertical: 10),
             padding: const EdgeInsets.only(left: 15),
             constraints: const BoxConstraints.expand(height: 60),
             decoration: widget.dense
@@ -95,7 +94,8 @@ class _AppendableBuilderState extends State<AppendableBuilder> {
               ],
             ),
           ),
-          if(widget.dense && _children.values.isNotEmpty) Divid(color: context.theme.dividerColor.withOpacity(0.25)),
+          if (widget.dense && _children.values.isNotEmpty)
+            Divid(color: context.theme.dividerColor.withOpacity(0.25)),
           ..._children.values
         ],
       );
