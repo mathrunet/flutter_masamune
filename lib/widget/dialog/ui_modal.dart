@@ -52,7 +52,7 @@ class UIModal {
           type: MaterialType.transparency,
           child: SafeArea(
             child: WillPopScope(
-              onWillPop: disableBackKey ? () async => true : null,
+              onWillPop: disableBackKey ? () async => false : null,
               child: Center(
                 child: child,
               ),
