@@ -35,6 +35,7 @@ part 'form_item_avatar_image.dart';
 part 'form_item_builder.dart';
 part 'form_item_checkbox.dart';
 part 'form_item_chips_field.dart';
+part 'form_item_multiple_dropdown_field.dart';
 part 'form_item_comment_field.dart';
 part 'form_item_date_time_field.dart';
 part 'form_item_dropdown_button.dart';

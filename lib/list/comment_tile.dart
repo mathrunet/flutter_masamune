@@ -8,6 +8,7 @@ class CommentTile extends StatelessWidget {
     this.avatar,
     this.name,
     this.date,
+    this.onTapAvatar,
     this.format = "yyyy/MM/dd HH:mm",
     required this.text,
   });
@@ -20,6 +21,9 @@ class CommentTile extends StatelessWidget {
 
   /// Avatar image.
   final ImageProvider? avatar;
+
+  /// Callback on tap avatar image.
+  final VoidCallback? onTapAvatar;
 
   /// Name.
   final String? name;
@@ -40,11 +44,14 @@ class CommentTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (avatar != null) ...[
-            SizedBox(
-              height: 40,
-              width: 40,
-              child: CircleAvatar(
-                backgroundImage: avatar,
+            InkWell(
+              onTap: onTapAvatar,
+              child: SizedBox(
+                height: 40,
+                width: 40,
+                child: CircleAvatar(
+                  backgroundImage: avatar,
+                ),
               ),
             ),
             const Space.width(20),
