@@ -11,6 +11,7 @@ class CommentTile extends StatelessWidget {
     this.onTapAvatar,
     this.format = "yyyy/MM/dd HH:mm",
     required this.text,
+    this.trailing,
   });
 
   /// Format.
@@ -33,6 +34,9 @@ class CommentTile extends StatelessWidget {
 
   /// Comments.
   final String text;
+
+  /// Trailing widget.
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +91,10 @@ class CommentTile extends StatelessWidget {
               ],
             ),
           ),
+          if (trailing != null) ...[
+            const Space(),
+            trailing!,
+          ],
         ],
       ),
     );
