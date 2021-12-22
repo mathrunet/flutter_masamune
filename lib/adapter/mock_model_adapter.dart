@@ -184,7 +184,9 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   Future<void> signOut() => Future.delayed(Duration.zero);
 
   @override
-  Future<void> tryRestoreAuth() => Future.delayed(Duration.zero);
+  Future<void> tryRestoreAuth() async {
+    await Config.onUserStateChanged.call(userId);
+  }
 
   @override
   MockModelAdapter? fromMap(DynamicMap map) {

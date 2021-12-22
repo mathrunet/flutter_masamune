@@ -1,20 +1,48 @@
 part of masamune.form;
 
-class FormItemMultipleDropdownField extends FormField<List<String>> {
-  FormItemMultipleDropdownField({
-    this.onChanged,
+class FormItemMultipleTextField extends FormField<List<String>> {
+  FormItemMultipleTextField({
     this.controller,
-    this.hintText,
-    this.errorText,
-    required this.items,
+    this.keyboardType = TextInputType.text,
+    this.maxLength,
+    this.onTap,
+    this.minLength,
+    this.contentPadding,
+    this.maxLines,
+    this.minLines = 1,
     this.border,
+    this.disabledBorder,
     this.backgroundColor,
-    this.dense = false,
+    this.expands = false,
+    this.hintText,
     this.labelText,
+    this.lengthErrorText = "",
     this.prefix,
-    this.allowEmpty = false,
     this.suffix,
+    this.prefixText,
+    this.suffixText,
+    this.prefixIcon,
+    this.prefixIconConstraints,
+    this.suffixIcon,
+    this.suffixIconConstraints,
+    this.dense = false,
+    this.padding,
+    this.allowEmpty = false,
+    this.obscureText = false,
     this.counterText = "",
+    this.inputFormatters,
+    this.onSubmitted,
+    this.onChanged,
+    this.showCursor,
+    this.focusNode,
+    this.color,
+    this.fontSize,
+    this.subColor,
+    this.height,
+    this.errorText,
+    this.cursorColor,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical,
     this.separator = ",",
     this.addLabel = "Add",
     Key? key,
@@ -34,34 +62,62 @@ class FormItemMultipleDropdownField extends FormField<List<String>> {
         );
 
   final String addLabel;
-  final TextEditingController? controller;
-  final String? hintText;
   final String separator;
+  final TextEditingController? controller;
+  final TextInputType keyboardType;
+  final int? maxLength;
+  final int? minLength;
+  final int? maxLines;
+  final double? height;
+  final int minLines;
+  final Color? cursorColor;
+  final bool dense;
+  final String? hintText;
   final String? errorText;
   final String? labelText;
   final String? counterText;
-  final Map<String, String> items;
+  final String? lengthErrorText;
   final Widget? prefix;
   final Widget? suffix;
-  final bool dense;
-  final InputBorder? border;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final double? fontSize;
+  final String? prefixText;
+  final String? suffixText;
+  final BoxConstraints? prefixIconConstraints;
+  final BoxConstraints? suffixIconConstraints;
+  final bool obscureText;
+  final bool expands;
   final bool allowEmpty;
+  final InputBorder? border;
+  final InputBorder? disabledBorder;
   final Color? backgroundColor;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? contentPadding;
+  final Color? color;
+  final Color? subColor;
+  final bool? showCursor;
+  final VoidCallback? onTap;
+  final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
+  final void Function(String? value)? onSubmitted;
+  final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
   final void Function(List<String>? value)? onChanged;
 
   @override
-  _FormItemMultipleDropdownFieldState createState() =>
-      _FormItemMultipleDropdownFieldState();
+  _FormItemMultipleTextFieldState createState() =>
+      _FormItemMultipleTextFieldState();
 }
 
-class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
+class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
   TextEditingController? _controller;
-  final List<_FormItemMultipleDropdownFieldValue> _values = [];
+  final List<_FormItemMultipleTextFieldValue> _values = [];
 
   void _updateValues() {
     _values.clear();
     for (final val in value ?? []) {
-      _values.add(_FormItemMultipleDropdownFieldValue(val));
+      _values.add(_FormItemMultipleTextFieldValue(val));
     }
   }
 
@@ -69,8 +125,8 @@ class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
       widget.controller ?? _controller;
 
   @override
-  FormItemMultipleDropdownField get widget =>
-      super.widget as FormItemMultipleDropdownField;
+  FormItemMultipleTextField get widget =>
+      super.widget as FormItemMultipleTextField;
 
   String _encode(List<String> list) {
     return list.join(widget.separator);
@@ -84,7 +140,7 @@ class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
   }
 
   @override
-  void didUpdateWidget(FormItemMultipleDropdownField oldWidget) {
+  void didUpdateWidget(FormItemMultipleTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -116,8 +172,8 @@ class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
   }
 
   Future<void> _onAdd() async {
+    _values.add(_FormItemMultipleTextFieldValue(""));
     didChange(List.from(value ?? [])..add(""));
-    _values.add(_FormItemMultipleDropdownFieldValue(""));
     setState(() {});
   }
 
@@ -129,28 +185,54 @@ class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
     setState(() {});
   }
 
-  Widget _builder(BuildContext context,
-      _FormItemMultipleDropdownFieldValue item, int index) {
+  Widget _builder(
+      BuildContext context, _FormItemMultipleTextFieldValue item, int index) {
     return ListTile(
-      title: FormItemDropdownField(
+      title: FormItemTextField(
         padding: const EdgeInsets.all(0),
         controller: item.controller,
+        keyboardType: widget.keyboardType,
+        maxLength: widget.maxLength,
+        onTap: widget.onTap,
+        minLength: widget.minLength,
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
+        border: widget.border,
+        disabledBorder: widget.disabledBorder,
+        backgroundColor: widget.backgroundColor,
+        expands: widget.expands,
         hintText: widget.hintText,
-        errorText: widget.errorText,
         labelText: widget.labelText,
-        counterText: widget.counterText,
-        items: widget.items,
+        lengthErrorText: widget.lengthErrorText,
         prefix: widget.prefix,
         suffix: widget.suffix,
-        enabled: widget.enabled,
+        prefixText: widget.prefixText,
+        suffixText: widget.suffixText,
+        prefixIcon: widget.prefixIcon,
+        prefixIconConstraints: widget.prefixIconConstraints,
+        suffixIcon: widget.suffixIcon,
+        suffixIconConstraints: widget.suffixIconConstraints,
         dense: widget.dense,
-        border: widget.border,
         allowEmpty: widget.allowEmpty,
-        backgroundColor: widget.backgroundColor,
+        readOnly: false,
+        obscureText: widget.obscureText,
+        counterText: widget.counterText,
+        inputFormatters: widget.inputFormatters,
+        onSubmitted: widget.onSubmitted,
+        showCursor: widget.showCursor,
+        focusNode: widget.focusNode,
+        color: widget.color,
+        fontSize: widget.fontSize,
+        subColor: widget.subColor,
+        height: widget.height,
+        errorText: widget.errorText,
+        cursorColor: widget.cursorColor,
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
         onChanged: (val) {
           value?[index] = val ?? "";
           _values[index].value = val ?? "";
-          didChange(List.from(value ?? []));
+          setValue(List.from(value ?? []));
         },
         contentPadding: const EdgeInsets.all(0),
       ),
@@ -174,7 +256,7 @@ class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ReorderableListBuilder<_FormItemMultipleDropdownFieldValue>(
+          ReorderableListBuilder<_FormItemMultipleTextFieldValue>(
             source: _values,
             builder: (context, item, index) {
               return [
@@ -253,8 +335,8 @@ class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
   }
 }
 
-class _FormItemMultipleDropdownFieldValue {
-  _FormItemMultipleDropdownFieldValue(this.value)
+class _FormItemMultipleTextFieldValue {
+  _FormItemMultipleTextFieldValue(this.value)
       : controller = TextEditingController(text: value);
   String value;
   TextEditingController controller;

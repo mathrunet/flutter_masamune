@@ -149,8 +149,8 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   }
 
   @override
-  Future<void> tryRestoreAuth() {
-    throw UnimplementedError("The authentication function is not implemented.");
+  Future<void> tryRestoreAuth() async {
+    await Config.onUserStateChanged.call(userId);
   }
 
   @override

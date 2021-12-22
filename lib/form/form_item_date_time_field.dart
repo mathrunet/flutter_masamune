@@ -396,6 +396,7 @@ class _DateTimeTextField extends FormField<DateTime> {
                   suffixIcon: state.shouldShowClearIcon(effectiveDecoration)
                       ? IconButton(
                           icon: resetIcon,
+                          color: field.context.theme.textColor,
                           onPressed: state.clear,
                         )
                       : null,

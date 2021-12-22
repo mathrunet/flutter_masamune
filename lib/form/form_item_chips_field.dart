@@ -606,14 +606,15 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
     // _receivedRemoteTextEditingValue = value;
     final _oldTextEditingValue = _value;
     if (value.text != _oldTextEditingValue.text) {
-      setState(() => _value = value);
+      setState(() {
+        _value = value;
+      });
       if (value.replacementCharactersCount <
           _oldTextEditingValue.replacementCharactersCount) {
         final removedChip = _chips.last;
-        setState(() =>
-            _chips = Set.of(_chips.take(value.replacementCharactersCount)));
+        _chips = Set.of(_chips.take(value.replacementCharactersCount));
         widget.onChanged(_chips.toList(growable: false));
-        String? putText = '';
+        var putText = '';
         if (widget.allowChipEditing && _enteredTexts.containsKey(removedChip)) {
           putText = _enteredTexts[removedChip]!;
           _enteredTexts.remove(removedChip);
@@ -632,15 +633,23 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
           String.fromCharCodes(_chips.map((_) => kObjectReplacementChar)) +
               (replaceText ? '' : _value.normalCharactersText) +
               putText;
-      setState(() => _value = _value.copyWith(
-            text: updatedText,
-            selection: TextSelection.collapsed(offset: updatedText.length),
-            //composing: TextRange(start: 0, end: text.length),
-            composing: TextRange.empty,
-          ));
+      setState(() {
+        final textLength = updatedText.characters.length;
+        final replacedLength = _chips.length;
+        _value = _value.copyWith(
+          text: updatedText,
+          selection: TextSelection.collapsed(offset: textLength),
+          composing: (Config.isIOS || replacedLength == textLength)
+              ? TextRange.empty
+              : TextRange(
+                  start: replacedLength,
+                  end: textLength,
+                ),
+        );
+      });
+      _textInputConnection ??= TextInput.attach(this, textInputConfiguration);
+      _textInputConnection?.setEditingState(_value);
     }
-    _textInputConnection ??= TextInput.attach(this, textInputConfiguration);
-    _textInputConnection?.setEditingState(_value);
   }
 
   @override

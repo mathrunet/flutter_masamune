@@ -10,15 +10,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 // ignore: import_of_legacy_library_into_null_safe
 // import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:katana_routing/katana_routing.dart';
 import 'package:masamune/masamune.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 export 'others/others.dart'
     if (dart.library.io) 'mobile/mobile.dart'
@@ -59,3 +57,5 @@ part 'ui_page_change_email.dart';
 part 'ui_page_change_password.dart';
 part 'ui_page_change_reauth.dart';
 part 'ui_simple_form_dialog.dart';
+part 'form_item_multiple_checkbox.dart';
+part 'form_item_multiple_text_field.dart';
