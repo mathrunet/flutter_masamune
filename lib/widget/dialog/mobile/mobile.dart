@@ -1,7 +1,6 @@
 /// For mobile.
 library masamune.dialog.mobile;
 
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:masamune/masamune.dart';
 

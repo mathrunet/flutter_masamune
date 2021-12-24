@@ -1,6 +1,5 @@
 library masamune_calendar;
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:masamune/masamune.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';

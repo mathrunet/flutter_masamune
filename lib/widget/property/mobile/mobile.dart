@@ -9,8 +9,6 @@ import 'package:cached_network_image/src/image_provider/cached_network_image_pro
     as provider;
 import 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart'
     show ImageRenderMethodForWeb;
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart'
     as cache_manager;
 import 'package:masamune/masamune.dart';

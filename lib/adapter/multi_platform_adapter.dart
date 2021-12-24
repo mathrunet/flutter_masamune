@@ -1,9 +1,18 @@
 part of masamune;
 
+/// Adapter for multiple platforms.
+///
+/// IOS, Android, and Web support are available.
 @immutable
 class MultiPlatformAdapter extends PlatformAdapter {
+  /// Adapter for multiple platforms.
+  ///
+  /// IOS, Android, and Web support are available.
   const MultiPlatformAdapter();
 
+  /// Display the media dialog and get the data.
+  ///
+  /// You can limit the media type by specifying [mediaType].
   @override
   Future<LocalMedia?> mediaDialog(
     BuildContext context, {
@@ -28,6 +37,7 @@ class MultiPlatformAdapter extends PlatformAdapter {
     }
   }
 
+  /// Convert the module information from [DynamicMap].
   @override
   MultiPlatformAdapter? fromMap(DynamicMap map) {
     if (map.get("type", "") != type) {
@@ -36,6 +46,7 @@ class MultiPlatformAdapter extends PlatformAdapter {
     return const MultiPlatformAdapter();
   }
 
+  /// Convert the module information to [DynamicMap].
   @override
   DynamicMap toMap() {
     return <String, dynamic>{

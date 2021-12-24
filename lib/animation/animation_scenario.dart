@@ -2,13 +2,28 @@ part of masamune;
 
 /// Collection for running a continuous animation.
 ///
-/// The animation stored in [UIAnimatorUnit] is
+/// The animation stored in [AnimatorUnit] is
 /// executed according to the collection order.
 class AnimationScenario extends ValueModel<List<AnimationUnit>>
     with ListModelMixin<AnimationUnit>
     implements List<AnimationUnit>, TickerProvider {
   AnimationScenario([List<AnimationUnit>? units]) : super(units ?? []);
 
+  /// Call all the registered listeners.
+  ///
+  /// Call this method whenever the object changes, to notify any clients the
+  /// object may have changed. Listeners that are added during this iteration
+  /// will not be visited. Listeners that are removed during this iteration will
+  /// not be visited after they are removed.
+  ///
+  /// Exceptions thrown by listeners will be caught and reported using
+  /// [FlutterError.reportError].
+  ///
+  /// This method must not be called after [dispose] has been called.
+  ///
+  /// Surprising behavior can result when reentrantly removing a listener (e.g.
+  /// in response to a notification) that has been registered multiple times.
+  /// See the discussion at [removeListener].
   @override
   @protected
   void notifyListeners() {
@@ -106,19 +121,21 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
     return this;
   }
 
-  /// Gets the current value according to the tags in the animation list.
+  /// Gets the current value according to the [tag] in the animation list.
   ///
-  /// [tag]: Animation tag.
-  /// [defaultValue]: The initial value if there is no value.
+  /// If [defaultValue] is specified and there is no value, that value will be used.
   T get<T>(String tag, T defaultValue) {
     assert(tag.isNotEmpty, "The tag is empty.");
     final value = _animation[tag].value as T?;
     return value ?? defaultValue;
   }
 
-  /// Destroys the object.
+  /// Discards any resources used by the object. After this is called, the
+  /// object is not in a usable state and should be discarded (calls to
+  /// [addListener] and [removeListener] will throw after the object is
+  /// disposed).
   ///
-  /// Destroyed objects are not allowed.
+  /// This method should only be called by the object's owner.
   @override
   void dispose() {
     controller.dispose();
@@ -128,6 +145,13 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
 }
 
 extension WidgetRefAnimationScenarioExtensions on WidgetRef {
+  /// Create a new [AnimationScenario].
+  ///
+  /// It is possible to create a separate scenario for each [key].
+  ///
+  /// Specify [AnimationUnit] for [units] to create an animation.
+  ///
+  /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
   AnimationScenario useAnimationScenario(String key,
       [List<AnimationUnit>? units]) {
     return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
@@ -140,7 +164,16 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
     );
   }
 
-  AnimationScenario useAutoAnimationScenario(String key,
+  /// Create a new [AnimationScenario].
+  ///
+  /// Playback will start automatically.
+  ///
+  /// It is possible to create a separate scenario for each [key].
+  ///
+  /// Specify [AnimationUnit] for [units] to create an animation.
+  ///
+  /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
+  AnimationScenario useAutoPlayAnimationScenario(String key,
       [List<AnimationUnit>? units]) {
     return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
       key: "animationScenario:$key",
@@ -153,6 +186,15 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
     );
   }
 
+  /// Create a new [AnimationScenario].
+  ///
+  /// Automatically repeat playback.
+  ///
+  /// It is possible to create a separate scenario for each [key].
+  ///
+  /// Specify [AnimationUnit] for [units] to create an animation.
+  ///
+  /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
   AnimationScenario useAutoRepeatAnimationScenario(String key,
       [List<AnimationUnit>? units]) {
     return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
@@ -211,69 +253,4 @@ class _AnimationScenarioValueState
 
   @override
   AnimationScenario build() => scenario;
-}
-
-AnimationScenario useAutoAnimationScenario([List<AnimationUnit>? units]) {
-  final animationScenario = useAnimationScenario(units);
-  useEffect(
-    () {
-      animationScenario.play();
-      return () {};
-    },
-    [animationScenario],
-  );
-  return animationScenario;
-}
-
-AnimationScenario useAutoRepeatAnimationScenario([List<AnimationUnit>? units]) {
-  final animationScenario = useAnimationScenario(units);
-  useEffect(
-    () {
-      animationScenario.playRepeat();
-      return () {};
-    },
-    [animationScenario],
-  );
-  return animationScenario;
-}
-
-class _AnimationScenarioHookCreator {
-  const _AnimationScenarioHookCreator();
-
-  /// Create a new animation scenario.
-  AnimationScenario call([List<AnimationUnit>? units]) {
-    return use(_AnimationScenarioHook(units));
-  }
-}
-
-/// Create a new animation scenario.
-const useAnimationScenario = _AnimationScenarioHookCreator();
-
-class _AnimationScenarioHook extends Hook<AnimationScenario> {
-  const _AnimationScenarioHook([
-    this.units,
-    List<Object?>? keys,
-  ]) : super(keys: keys);
-
-  final List<AnimationUnit>? units;
-
-  @override
-  _AnimationScenarioHookState createState() {
-    return _AnimationScenarioHookState();
-  }
-}
-
-class _AnimationScenarioHookState
-    extends HookState<AnimationScenario, _AnimationScenarioHook> {
-  late final AnimationScenario _animationScenario;
-  @override
-  void initHook() {
-    _animationScenario = AnimationScenario(hook.units);
-  }
-
-  @override
-  AnimationScenario build(BuildContext context) => _animationScenario;
-
-  @override
-  String get debugLabel => 'useAnimationScenario';
 }

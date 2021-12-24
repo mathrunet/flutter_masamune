@@ -5,9 +5,13 @@ class DividHeadline extends StatelessWidget {
     this.label, {
     this.icon,
     this.color,
+    this.prefix,
+    this.suffix,
   });
   final IconData? icon;
   final Color? color;
+  final Widget? prefix;
+  final Widget? suffix;
 
   final String label;
   @override
@@ -19,6 +23,10 @@ class DividHeadline extends StatelessWidget {
       children: [
         SizedBox(width: 12, child: Divid(color: color)),
         const Space.width(4),
+        if (prefix != null) ...[
+          prefix!,
+          const Space.width(4),
+        ],
         if (icon != null) ...[
           Icon(
             icon,
@@ -35,7 +43,12 @@ class DividHeadline extends StatelessWidget {
           ),
         ),
         const Space.width(4),
-        Expanded(child: Divid(color: color))
+        Expanded(child: Divid(color: color)),
+        if (suffix != null) ...[
+          const Space.width(4),
+          suffix!,
+          SizedBox(width: 12, child: Divid(color: color)),
+        ],
       ],
     );
   }

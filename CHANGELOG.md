@@ -1,3 +1,8 @@
+## [0.9.0] - Update README (2021.12.22)
+
+* Add some Form widgets.
+* Removed Hooks system. Added an extension method that can be run from WidgetRef instead.
+
 ## [0.8.5] - Update README (2021.09.01)
 
 * Changed to match the Riverpod update.

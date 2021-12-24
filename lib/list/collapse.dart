@@ -61,10 +61,6 @@ class _CollapseIconState extends State<CollapseIcon>
   }
 }
 
-ValueNotifier<bool> useCollapse(bool initialState) {
-  return useState(initialState);
-}
-
 class Collapse extends StatelessWidget {
   const Collapse({
     Key? key,

@@ -2,8 +2,11 @@ part of masamune;
 
 /// Unit for storing animation information.
 ///
-/// Please use it together with [UIAnimatorScenario].
+/// Please use it together with [AnimatorScenario].
 class AnimationUnit {
+  /// Unit for storing animation information.
+  ///
+  /// Please use it together with [AnimatorScenario].
   const AnimationUnit(
       {required this.tween,
       required this.from,
@@ -11,12 +14,24 @@ class AnimationUnit {
       this.tag,
       this.curve = Curves.linear});
 
+  /// An [Animatable]Object, such as the specified tween.
   final Animatable tween;
+
+  /// Duration to start.
   final Duration from;
+
+  /// Duration to end.
   final Duration to;
+
+  /// Animation tags.
+  ///
+  /// You can later specify a tag to get the animation value.
   final String? tag;
+
+  /// Animation curve.
   final Curve curve;
 
+  /// Create a new AnimationObject by copying the AnimationUnit.
   AnimationUnit copyWith({
     Animatable? tween,
     Duration? from,

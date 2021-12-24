@@ -1,4 +1,4 @@
-// Copyright 2021 mathru. All rights reserved.
+// Copyright 2022 mathru. All rights reserved.
 
 /// Masamune list plugin framework library.
 ///
@@ -9,10 +9,6 @@ library masamune.list;
 // import 'package:bordered_text/bordered_text.dart';
 import 'package:collapsible/collapsible.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:katana/katana.dart';
-import 'package:katana_routing/katana_routing.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:masamune/masamune.dart';
 

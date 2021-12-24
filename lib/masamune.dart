@@ -1,4 +1,4 @@
-// Copyright 2021 mathru. All rights reserved.
+// Copyright 2022 mathru. All rights reserved.
 
 /// Package that supports Flutter states and their transitions
 /// using the Model Notifier package and the Katana Routing package.
@@ -12,21 +12,18 @@ library masamune;
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:katana_module/katana_module.dart';
-import 'package:katana_routing/katana_routing.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:masamune/form/form.dart';
 import 'package:masamune/list/list.dart';
-import 'package:model_notifier/model_notifier.dart';
 // ignore: library_prefixes
 import 'package:wordpress_api/wordpress_api.dart' as WordPress;
 
@@ -46,9 +43,7 @@ import 'widget/property/others/others.dart'
 export 'package:flutter/material.dart' hide Listener;
 export 'package:flutter_breadcrumb/flutter_breadcrumb.dart'
     show BreadCrumb, BreadCrumbItem, WrapOverflow, ScrollableOverflow;
-export 'package:flutter_hooks/flutter_hooks.dart';
 export 'package:flutter_riverpod/flutter_riverpod.dart';
-export 'package:hooks_riverpod/hooks_riverpod.dart';
 export 'package:katana/katana.dart';
 export 'package:katana_module/katana_module.dart';
 export 'package:katana_routing/katana_routing.dart';
@@ -101,7 +96,6 @@ part "provider/date_time.dart";
 part "provider/global_key.dart";
 part "src/asset_type.dart";
 part "src/extensions.dart";
-part "src/functions.dart";
 part 'template/ui_boot.dart';
 part 'widget/builder/animation_scope.dart';
 part "widget/builder/bread_crumb_builder.dart";
