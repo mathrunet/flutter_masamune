@@ -46,11 +46,7 @@ class CalendarBuilders {
 
   final FullBuilder? unavailableDayBuilder;
 
-  ///
-
   final FullListBuilder? markersBuilder;
-
-  ///
 
   final SingleMarkerBuilder? singleMarkerBuilder;
 

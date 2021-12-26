@@ -80,8 +80,6 @@ class CalendarStyle {
 
   final int markersMaxAmount;
 
-  ///
-
   final bool outsideDaysVisible;
 
   final bool renderSelectedFirst;
