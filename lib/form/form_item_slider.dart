@@ -101,46 +101,58 @@ class _FormItemSliderState extends FormFieldState<double> {
     setValue(_parse(_effectiveController?.text ?? ""));
   }
 
+  Widget _build(BuildContext context) {
+    final min = widget.min ?? 0.0;
+    final max = widget.max ?? 1.0;
+    return Slider(
+      value: value ?? min,
+      onChanged: (value) {
+        if (widget.readOnly) {
+          return;
+        }
+        widget.onChanged?.call(value);
+        didChange(value);
+      },
+      label: (value ?? min).format(widget.format),
+      min: min,
+      max: max,
+      divisions: widget.divisions,
+      activeColor: widget.activeColor,
+      inactiveColor: widget.inaciveColor,
+      thumbColor: widget.thumbColor,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final min = widget.min ?? 0.0;
-    final max = widget.max ?? 1.0;
-    return Padding(
-      padding: widget.padding,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            child: Slider(
-              value: value ?? min,
-              onChanged: (value) {
-                if (widget.readOnly) {
-                  return;
-                }
-                widget.onChanged?.call(value);
-                didChange(value);
-              },
-              label: (value ?? min).format(widget.format),
-              min: min,
-              max: max,
-              divisions: widget.divisions,
-              activeColor: widget.activeColor,
-              inactiveColor: widget.inaciveColor,
-              thumbColor: widget.thumbColor,
+    if (widget.showLabel) {
+      return Padding(
+        padding: widget.padding,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: _build(context),
             ),
-          ),
-          if (widget.showLabel)
-            Text(
-              (value ?? min).format(widget.format),
-              textAlign: TextAlign.end,
-              style: widget.labelTextStyle,
-            ),
-        ],
-      ),
-    );
+            if (widget.showLabel)
+              Text(
+                (value ?? min).format(widget.format),
+                textAlign: TextAlign.end,
+                style: widget.labelTextStyle,
+              ),
+          ],
+        ),
+      );
+    } else {
+      return Padding(
+        padding: widget.padding,
+        child: _build(context),
+      );
+    }
   }
 
   @override

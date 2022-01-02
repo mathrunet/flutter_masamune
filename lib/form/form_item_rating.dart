@@ -110,33 +110,64 @@ class _FormItemRatingState extends FormFieldState<double> {
     setValue(_parse(_effectiveController?.text ?? ""));
   }
 
+  Widget _build(BuildContext context) {
+    final min = widget.minRating ?? 1.0;
+    if (widget.readOnly) {
+      return RatingBarIndicator(
+        rating: value ?? min,
+        itemBuilder: (context, index) {
+          if (widget.itemBuilder != null) {
+            return widget.itemBuilder!.call(context, index);
+          }
+          return Icon(Icons.star, color: widget.activeColor ?? Colors.amber);
+        },
+        unratedColor: widget.inaciveColor,
+        direction: widget.direction,
+        itemSize: widget.size,
+        itemCount: widget.count,
+      );
+    } else {
+      return RatingBar.builder(
+        minRating: min,
+        maxRating: widget.maxRating ?? widget.count.toDouble(),
+        itemBuilder: (context, index) {
+          if (widget.itemBuilder != null) {
+            return widget.itemBuilder!.call(context, index);
+          }
+          return Icon(Icons.star, color: widget.activeColor ?? Colors.amber);
+        },
+        onRatingUpdate: (value) {
+          widget.onChanged?.call(value);
+          setValue(value);
+          if (_parse(_effectiveController?.text ?? "") != value) {
+            _effectiveController?.text = value.toString();
+          }
+        },
+        tapOnlyMode: widget.tapOnlyMode,
+        initialRating: value ?? min,
+        allowHalfRating: widget.allowHalfRating,
+        unratedColor: widget.inaciveColor,
+        direction: widget.direction,
+        itemSize: widget.size,
+        itemCount: widget.count,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final min = widget.minRating ?? 1.0;
-    if (widget.readOnly) {
+    if (widget.showLabel) {
       return Padding(
         padding: widget.padding,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: widget.showLabel ? MainAxisSize.max : MainAxisSize.min,
           children: [
             Expanded(
-              child: RatingBarIndicator(
-                rating: value ?? min,
-                itemBuilder: (context, index) {
-                  if (widget.itemBuilder != null) {
-                    return widget.itemBuilder!.call(context, index);
-                  }
-                  return Icon(Icons.star,
-                      color: widget.activeColor ?? Colors.amber);
-                },
-                unratedColor: widget.inaciveColor,
-                direction: widget.direction,
-                itemSize: widget.size,
-                itemCount: widget.count,
-              ),
+              child: _build(context),
             ),
             if (widget.showLabel)
               Text(
@@ -148,49 +179,7 @@ class _FormItemRatingState extends FormFieldState<double> {
         ),
       );
     } else {
-      return Padding(
-        padding: widget.padding,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: RatingBar.builder(
-                minRating: min,
-                maxRating: widget.maxRating ?? widget.count.toDouble(),
-                itemBuilder: (context, index) {
-                  if (widget.itemBuilder != null) {
-                    return widget.itemBuilder!.call(context, index);
-                  }
-                  return Icon(Icons.star,
-                      color: widget.activeColor ?? Colors.amber);
-                },
-                onRatingUpdate: (value) {
-                  widget.onChanged?.call(value);
-                  setValue(value);
-                  if (_parse(_effectiveController?.text ?? "") != value) {
-                    _effectiveController?.text = value.toString();
-                  }
-                },
-                tapOnlyMode: widget.tapOnlyMode,
-                initialRating: value ?? min,
-                allowHalfRating: widget.allowHalfRating,
-                unratedColor: widget.inaciveColor,
-                direction: widget.direction,
-                itemSize: widget.size,
-                itemCount: widget.count,
-              ),
-            ),
-            if (widget.showLabel)
-              Text(
-                (value ?? min).format(widget.format),
-                textAlign: TextAlign.end,
-                style: widget.labelTextStyle,
-              ),
-          ],
-        ),
-      );
+      return Padding(padding: widget.padding, child: _build(context));
     }
   }
 
