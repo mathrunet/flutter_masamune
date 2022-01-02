@@ -49,7 +49,7 @@ class ListButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           title,
-          style: TextStyle(color: color ?? context.theme.backgroundColor),
+          style: TextStyle(color: color ?? context.theme.textColorOnPrimary),
         ),
       ),
     );

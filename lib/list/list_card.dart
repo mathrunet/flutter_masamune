@@ -64,16 +64,16 @@ class ListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        margin: margin,
-        elevation: elevation,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(radius),
-          ),
+    return Card(
+      margin: margin,
+      elevation: elevation,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(radius),
         ),
+      ),
+      child: InkWell(
+        onTap: onTap,
         child: Column(
           children: [
             if (feature != null ||

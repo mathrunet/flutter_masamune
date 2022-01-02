@@ -12,7 +12,9 @@ library masamune;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -40,10 +42,12 @@ import 'widget/property/others/others.dart'
     if (dart.library.js) 'widget/property/others/others.dart'
     if (dart.library.html) 'widget/property/others/others.dart';
 
+export 'package:badges/badges.dart';
 export 'package:flutter/material.dart' hide Listener;
 export 'package:flutter_breadcrumb/flutter_breadcrumb.dart'
     show BreadCrumb, BreadCrumbItem, WrapOverflow, ScrollableOverflow;
 export 'package:flutter_riverpod/flutter_riverpod.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:katana/katana.dart';
 export 'package:katana_module/katana_module.dart';
 export 'package:katana_routing/katana_routing.dart';
@@ -80,6 +84,9 @@ part "adapter/multi_platform_adapter.dart";
 part 'animation/animation_scenario.dart';
 part 'animation/animation_unit.dart';
 part 'animation/typedef.dart';
+part "model/wordpress_collection_model.dart";
+part "provider/date_time.dart";
+part "provider/global_key.dart";
 part 'ref/cache.dart';
 part "ref/date_time.dart";
 part "ref/effect.dart";
@@ -91,9 +98,6 @@ part "ref/scroll_controller.dart";
 part 'ref/state.dart';
 part 'ref/text_editing_controller.dart';
 part "ref/uuid.dart";
-part "model/wordpress_collection_model.dart";
-part "provider/date_time.dart";
-part "provider/global_key.dart";
 part "src/asset_type.dart";
 part "src/extensions.dart";
 part 'template/ui_boot.dart';
@@ -111,6 +115,7 @@ part 'widget/component/inline_app_preview.dart';
 part 'widget/component/search_bar.dart';
 part 'widget/component/space.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';
+part "widget/component/ui_carousel.dart";
 part 'widget/component/ui_markdown.dart';
 part 'widget/component/ui_top_navigation_bar.dart';
 part 'widget/dialog/ui_confirm.dart';

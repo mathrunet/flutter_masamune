@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -35,6 +36,7 @@ part 'form_item_checkbox.dart';
 part 'form_item_chips_field.dart';
 part 'form_item_multiple_dropdown_field.dart';
 part 'form_item_comment_field.dart';
+part 'form_item_rating.dart';
 part 'form_item_date_time_field.dart';
 part 'form_item_dropdown_button.dart';
 part 'form_item_dropdown_field.dart';
@@ -46,6 +48,7 @@ part 'form_item_label.dart';
 part 'form_item_labeled_dropdown_field.dart';
 part 'form_item_password.dart';
 part 'form_item_select_builder.dart';
+part 'form_item_slider.dart';
 part 'form_item_simple_chips.dart';
 part 'form_item_submit.dart';
 part 'form_item_switch.dart';

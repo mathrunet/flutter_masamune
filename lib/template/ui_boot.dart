@@ -69,10 +69,29 @@ abstract class UIBoot extends PageScopedWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image(
-              image: image,
-              fit: BoxFit.contain,
-            ),
+            if (config?.logoSize != null)
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: config!.logoSize!.width,
+                  height: config.logoSize!.height,
+                  child: ClipRRect(
+                    borderRadius: config.logoBorderRadius ?? BorderRadius.zero,
+                    child: Image(
+                      image: image,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              )
+            else
+              ClipRRect(
+                borderRadius: config?.logoBorderRadius ?? BorderRadius.zero,
+                child: Image(
+                  image: image,
+                  fit: BoxFit.contain,
+                ),
+              )
           ],
         ),
       );

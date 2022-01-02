@@ -19,6 +19,7 @@ class ReorderableListBuilder<T> extends StatefulWidget {
     required this.builder,
     required this.onReorder,
     this.cacheExtent,
+    this.keyBuilder,
     this.listenWhenListenable = true,
     this.loading,
     this.loadingOpacity = 0.25,
@@ -31,6 +32,41 @@ class ReorderableListBuilder<T> extends StatefulWidget {
         _length = top.length + source.length + bottom.length + insert.length,
         _topSourcelength = top.length + source.length + insert.length,
         super(key: key);
+
+  static M setOrderForDynamicMap<M extends DynamicMap>(
+    M map,
+    int oldPosition,
+    int newPosition,
+    List<M> reordered, {
+    String key = "order",
+    double? defaultOrder,
+  }) {
+    if (reordered.length <= 1) {
+      return map;
+    }
+    if (oldPosition < newPosition) {
+      if (reordered.length <= newPosition) {
+        map[key] =
+            defaultOrder ?? DateTime.now().millisecondsSinceEpoch.toDouble();
+      } else {
+        map[key] = (reordered[newPosition].get(key, 0.0) +
+                reordered[newPosition - 2].get(key, 0.0)) /
+            2.0;
+      }
+    } else {
+      if (newPosition <= 0) {
+        map[key] = reordered[1].get(key, 0.0) / 2.0;
+      } else if (reordered.length - 1 <= newPosition) {
+        map[key] =
+            defaultOrder ?? DateTime.now().millisecondsSinceEpoch.toDouble();
+      } else {
+        map[key] = (reordered[newPosition + 1].get(key, 0.0) +
+                reordered[newPosition - 1].get(key, 0.0)) /
+            2.0;
+      }
+    }
+    return map;
+  }
 
   final Axis scrollDirection;
   final bool reverse;
@@ -45,6 +81,7 @@ class ReorderableListBuilder<T> extends StatefulWidget {
   final List<Widget>? insert;
   final List<Widget>? top;
   final List<Widget>? bottom;
+  final Object Function(T item)? keyBuilder;
   final List<Widget>? Function(BuildContext context, T item, int index) builder;
   final List<T> source;
   final double? cacheExtent;
@@ -72,14 +109,16 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
   @override
   void initState() {
     super.initState();
-    _source = widget.source;
+    _source = List.from(widget.source);
   }
 
   @override
   void didUpdateWidget(ReorderableListBuilder<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.source != oldWidget.source) {
-      _source = widget.source;
+    if (widget.source != oldWidget.source ||
+        widget.source.length != oldWidget.source.length ||
+        widget.source.length != _source.length) {
+      _source = List.from(widget.source);
       setState(() {});
     }
   }
@@ -165,7 +204,7 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
           } else if (npos < widget.insertPosition) {
             setState(() {
               _exchange(pos - widget.insert.length, npos);
-              return widget.onReorder
+              widget.onReorder
                   .call(pos - widget.insert.length, npos, item, _source);
             });
           } else {
@@ -212,7 +251,8 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
 
   Widget _sourceBuilder(BuildContext context, int pos) {
     final item = _source[pos];
-    final key = ValueKey(item);
+    final keyObject = widget.keyBuilder?.call(item) ?? item;
+    final key = ValueKey(keyObject);
     final children = widget.builder.call(context, item, pos);
     if (children.isEmpty) {
       return _listenableBuilder(

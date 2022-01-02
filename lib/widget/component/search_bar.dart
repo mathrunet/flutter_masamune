@@ -10,16 +10,22 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.actions = const [],
     this.suggestion = const [],
     this.onChanged,
+    this.elevation,
+    this.contentPadding = const EdgeInsets.all(0),
+    this.shadowColor,
     this.onDeleteSuggestion,
   });
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final String? hintText;
+  final Color? shadowColor;
   final Color? backgroundColor;
   final Color? color;
+  final double? elevation;
   final List<Widget> actions;
   final List<String> suggestion;
+  final EdgeInsetsGeometry contentPadding;
   final void Function(String value)? onDeleteSuggestion;
   final void Function(String? value)? onChanged;
 
@@ -60,6 +66,7 @@ class _SearchBarState extends State<SearchBar> {
       iconTheme: IconThemeData(
         color: widget.color ?? context.theme.textColor,
       ),
+      elevation: widget.elevation,
       actionsIconTheme: IconThemeData(
         color: widget.color ?? context.theme.textColor,
       ),
@@ -70,12 +77,15 @@ class _SearchBarState extends State<SearchBar> {
           onPressed: () {},
         )
       ],
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          context.navigator.pop();
-        },
-      ),
+      shadowColor: widget.shadowColor,
+      leading: context.navigator.canPop()
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                context.navigator.pop();
+              },
+            )
+          : null,
       backgroundColor: widget.backgroundColor ?? context.theme.backgroundColor,
       title: FormItemTextField(
         dense: true,
@@ -85,7 +95,7 @@ class _SearchBarState extends State<SearchBar> {
         hintText: widget.hintText,
         onChanged: widget.onChanged,
         padding: const EdgeInsets.all(0),
-        contentPadding: const EdgeInsets.all(0),
+        contentPadding: widget.contentPadding,
         suggestion: widget.suggestion,
         onDeleteSuggestion: widget.onDeleteSuggestion,
       ),

@@ -67,7 +67,7 @@ class InlineAppPreview extends StatelessWidget {
                 suffix: suffix ?? "",
                 initialRoute: initialRoute,
                 controller: controller,
-                routes: moduleConfig?.routeSettings?.merge(routes) ?? routes,
+                routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
               ),
             ),
           ),

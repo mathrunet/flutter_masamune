@@ -189,9 +189,10 @@ class _UIBottomNavigationBarState extends State<UIBottomNavigationBar>
 }
 
 /// Wrapper for BottomNavigationBarItem.
+@immutable
 class UIBottomNavigationBarItem extends BottomNavigationBarItem {
   /// Wrapper for BottomNavigationBarItem.
-  UIBottomNavigationBarItem({
+  const UIBottomNavigationBarItem({
     required this.id,
     required Widget icon,
     String? label,

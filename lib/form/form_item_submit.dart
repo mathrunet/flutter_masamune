@@ -45,7 +45,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
               style: style ??
                   DefaultTextButtonStyle(
                       padding: const EdgeInsets.all(10),
-                      color: color ?? context.theme.backgroundColor,
+                      color: color ?? context.theme.textColorOnPrimary,
                       disabledColor: disabledColor,
                       backgroundColor: backgroundColor ??
                           context.theme.primaryColor,
@@ -67,7 +67,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
               style: style ??
                   DefaultTextButtonStyle(
                       padding: const EdgeInsets.all(10),
-                      color: color ?? context.theme.backgroundColor,
+                      color: color ?? context.theme.textColorOnPrimary,
                       disabledColor: disabledColor,
                       backgroundColor: backgroundColor ??
                           context.theme.primaryColor,
