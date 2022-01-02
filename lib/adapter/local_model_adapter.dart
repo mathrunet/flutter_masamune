@@ -256,23 +256,6 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   @override
   String get userId => Config.uid;
 
-  /// Convert the module information from [DynamicMap].
-  @override
-  LocalModelAdapter? fromMap(DynamicMap map) {
-    if (map.get("type", "") != type) {
-      return null;
-    }
-    return const LocalModelAdapter();
-  }
-
-  /// Convert the module information to [DynamicMap].
-  @override
-  DynamicMap toMap() {
-    return <String, dynamic>{
-      "type": type,
-    };
-  }
-
   /// Enter your [password] to re-authenticate.
   @override
   Future<void> reauthInEmailAndPassword({required String password}) =>

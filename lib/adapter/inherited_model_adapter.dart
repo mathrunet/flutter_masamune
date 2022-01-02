@@ -237,18 +237,6 @@ class InheritedModelAdapter<
   @override
   String get userId => adapter.userId;
 
-  /// Convert the module information from [DynamicMap].
-  @override
-  InheritedModelAdapter? fromMap(DynamicMap map) {
-    throw UnimplementedError();
-  }
-
-  /// Convert the module information to [DynamicMap].
-  @override
-  DynamicMap toMap() {
-    throw UnimplementedError();
-  }
-
   /// Skip registration and register [data].
   ///
   /// If the return value is true, registration is skipped.

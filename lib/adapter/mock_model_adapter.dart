@@ -258,30 +258,6 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     await Config.onUserStateChanged.call(userId);
   }
 
-  /// Convert the module information from [DynamicMap].
-  @override
-  MockModelAdapter? fromMap(DynamicMap map) {
-    if (map.get("type", "") != type ||
-        !map.containsKey("user") ||
-        !map.containsKey("data")) {
-      return null;
-    }
-    return MockModelAdapter(
-      userId: map.get("user", ""),
-      data: map.getAsMap<DynamicMap>("data"),
-    );
-  }
-
-  /// Convert the module information to [DynamicMap].
-  @override
-  DynamicMap toMap() {
-    return <String, dynamic>{
-      "type": type,
-      "user": userId,
-      "data": data,
-    };
-  }
-
   /// Skip registration and register [data].
   ///
   /// If the return value is true, registration is skipped.

@@ -412,21 +412,14 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0+21"
-  katana_module_builder_annotation:
-    dependency: transitive
-    description:
-      name: katana_module_builder_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
+    version: "0.9.0+23"
   katana_routing:
     dependency: "direct main"
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0+3"
+    version: "0.9.0+4"
   loading_animations:
     dependency: "direct main"
     description:
