@@ -1,6 +1,9 @@
 part of masamune_calendar;
 
+/// Style class for calendar.
+@immutable
 class CalendarStyle {
+  /// Style class for calendar.
   const CalendarStyle({
     this.contentDecoration = const BoxDecoration(),
     this.weekdayStyle = const TextStyle(),
@@ -40,59 +43,87 @@ class CalendarStyle {
     this.highlightToday = true,
   });
 
+  /// Content Decoration.
   final BoxDecoration contentDecoration;
 
+  /// Text style for days of the week.
   final TextStyle weekdayStyle;
 
+  /// Text style for days of the week (weekends)
   final TextStyle weekendStyle;
 
+  /// Text style for holidays.
   final TextStyle holidayStyle;
 
+  /// Text style for the selected day.
   final TextStyle selectedStyle;
 
+  /// Text style of the day.
   final TextStyle todayStyle;
 
+  /// Text style for days not in that month.
   final TextStyle outsideStyle;
 
+  /// Weekend texting style for days not in that month.
   final TextStyle outsideWeekendStyle;
 
+  /// Text style for holidays on days not in that month.
   final TextStyle outsideHolidayStyle;
 
+  /// Text style for unavailable days.
   final TextStyle unavailableStyle;
 
+  /// Event day text style.
   final TextStyle eventDayStyle;
 
+  /// The color, if selected.
   final Color selectedColor;
 
+  /// Color of the today.
   final Color todayColor;
 
+  /// Marker color.
   final Color markersColor;
 
+  /// Marker placement.
   final Alignment markersAlignment;
 
+  /// Marker position (from top)
   final double? markersPositionTop;
 
+  /// Marker position (from bottom)
   final double markersPositionBottom;
 
+  /// Marker positions (from left)
   final double? markersPositionLeft;
 
+  /// Marker position (from right)
   final double? markersPositionRight;
 
+  /// Maximum number of markers to display.
   final int markersMaxAmount;
 
+  /// `True` if you want to show days that are not in the month.
   final bool outsideDaysVisible;
 
+  /// `True` if you want to show the first selected day.
   final bool renderSelectedFirst;
 
+  /// If you want to display the day of the week, use `True`.
   final bool renderDaysOfWeek;
 
+  /// Content padding.
   final EdgeInsetsGeometry contentPadding;
 
+  /// The margin of each cell.
   final EdgeInsetsGeometry cellMargin;
 
+  /// `True` if you want to show the event marker out of the way.
   final bool canEventMarkersOverflow;
 
+  /// If you want to highlight the selected day `True`.
   final bool highlightSelected;
 
+  /// If you want to highlight today, use `True`.
   final bool highlightToday;
 }

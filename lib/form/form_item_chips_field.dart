@@ -647,6 +647,12 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
                 ),
         );
       });
+      if (Config.isIOS) {
+        _textInputConnection ??= TextInput.attach(this, textInputConfiguration);
+        _textInputConnection?.setEditingState(_value);
+      }
+    }
+    if (!Config.isIOS) {
       _textInputConnection ??= TextInput.attach(this, textInputConfiguration);
       _textInputConnection?.setEditingState(_value);
     }

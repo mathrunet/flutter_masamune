@@ -138,10 +138,7 @@ class _FormItemRatingState extends FormFieldState<double> {
         },
         onRatingUpdate: (value) {
           widget.onChanged?.call(value);
-          setValue(value);
-          if (_parse(_effectiveController?.text ?? "") != value) {
-            _effectiveController?.text = value.toString();
-          }
+          didChange(value);
         },
         tapOnlyMode: widget.tapOnlyMode,
         initialRating: value ?? min,

@@ -1,6 +1,15 @@
 part of masamune_calendar;
 
+/// Time calendar for one day only.
+///
+/// This is used to display the detailed schedule of a day
+/// after displaying the weekly or monthly calendar in [UICalendar].
+@immutable
 class UIDayCalendar extends StatefulWidget {
+  /// Time calendar for one day only.
+  ///
+  /// This is used to display the detailed schedule of a day
+  /// after displaying the weekly or monthly calendar in [UICalendar].
   const UIDayCalendar({
     required this.source,
     required this.builder,
@@ -17,20 +26,65 @@ class UIDayCalendar extends StatefulWidget {
     this.allDayKey = "allDay",
   });
 
+  /// Specify the calendar date.
+  ///
+  /// If null, it will be today.
   final DateTime? day;
+
+  /// Calendar padding.
   final EdgeInsetsGeometry padding;
+
+  /// Key for event start time.
   final String startTimeKey;
+
+  /// Key for event end time.
   final String endTimeKey;
+
+  /// The name key.
   final String titleKey;
+
+  /// The text key.
   final String textKey;
-  final double height;
-  final double labelWidth;
-  final List<DynamicMap> source;
+
+  /// True if the event is all day.
   final String allDayKey;
+
+  /// One hour hight on the calendar.
+  final double height;
+
+  /// Label width.
+  final double labelWidth;
+
+  /// Calendar event data source.
+  final List<DynamicMap> source;
+
+  /// Title Builder.
   final String Function(DynamicMap data)? titleBuilder;
+
+  /// Text Builder.
   final String Function(DynamicMap data)? textBuilder;
+
+  /// Builder for events.
   final Widget? Function(BuildContext context, DynamicMap item) builder;
 
+  /// Creates the mutable state for this widget at a given location in the tree.
+  ///
+  /// Subclasses should override this method to return a newly created
+  /// instance of their associated [State] subclass:
+  ///
+  /// ```dart
+  /// @override
+  /// State<MyWidget> createState() => _MyWidgetState();
+  /// ```
+  ///
+  /// The framework can call this method multiple times over the lifetime of
+  /// a [StatefulWidget]. For example, if the widget is inserted into the tree
+  /// in multiple locations, the framework will create a separate [State] object
+  /// for each location. Similarly, if the widget is removed from the tree and
+  /// later inserted into the tree again, the framework will call [createState]
+  /// again to create a fresh [State] object, simplifying the lifecycle of
+  /// [State] objects.
+  @protected
   @override
   State<StatefulWidget> createState() => _UIDayCalendarState();
 }

@@ -5,24 +5,35 @@ const double _dxMin = -1.2;
 
 typedef _SelectedDayCallback = void Function(DateTime day);
 
+/// Controller for calendar.
+///
+/// You can manipulate the calendar and get the calendar status from outside the widget.
 class CalendarController {
   CalendarController();
 
-  bool get isInitialized => _isInitialized;
+  /// `True` if the controller has been initialized.
+  bool get initialized => _initialized;
   // ignore: prefer_final_fields
-  bool _isInitialized = false;
+  bool _initialized = false;
 
+  /// Get the currently focused date.
   DateTime get focusedDay => _focusedDay;
 
+  /// Get the currently selected date.
+  ///
+  /// Returns null if no selection is made.
   DateTime? get selectedDay => _selectedDay;
 
+  /// Returns the current calendar format.
   CalendarFormat get calendarFormat => _calendarFormat.value;
 
+  /// Get the list of dates currently displayed.
   List<DateTime> get visibleDays =>
       calendarFormat == CalendarFormat.month && !_includeInvisibleDays
           ? _visibleDays.value.where((day) => !_isExtraDay(day)).toList()
           : _visibleDays.value;
 
+  /// Get the list of events currently displayed.
   Map<DateTime, List> get visibleEvents {
     return Map.fromEntries(
       _events.entries.where((entry) {
@@ -37,6 +48,7 @@ class CalendarController {
     );
   }
 
+  /// Retrieves the list of holidays currently displayed.
   Map<DateTime, List> get visibleHolidays {
     return Map.fromEntries(
       _holidays.entries.where((entry) {
@@ -125,19 +137,24 @@ class CalendarController {
         _calendarFormat.value,
       );
     }
-    _isInitialized = true;
+    _initialized = true;
   }
 
+  /// Discard the controller.
   void dispose() {
-    _isInitialized = false;
+    _initialized = false;
     _calendarFormat.dispose();
     _visibleDays.dispose();
   }
 
+  /// Switches the calendar format.
   void toggleCalendarFormat() {
     _calendarFormat.value = _nextFormat();
   }
 
+  /// Swipe to switch calendar formats.
+  ///
+  /// If [isSwipeUp] is set to `True`, swiping upwards is allowed.
   void swipeCalendarFormat({required bool isSwipeUp}) {
     final formats = _availableCalendarFormats.keys.toList();
     int id = formats.indexOf(_calendarFormat.value);
@@ -150,10 +167,12 @@ class CalendarController {
     _calendarFormat.value = formats[id];
   }
 
+  /// Set the calendar format to [value].
   void setCalendarFormat(CalendarFormat value) {
     _calendarFormat.value = value;
   }
 
+  /// Select the date specified in [value].
   void setSelectedDay(
     DateTime value, {
     bool isProgrammatic = true,
@@ -179,6 +198,7 @@ class CalendarController {
     }
   }
 
+  /// Focus on the [value] date.
   void setFocusedDay(DateTime value) {
     _focusedDay = _normalizeDate(value);
     _updateVisibleDays(true);

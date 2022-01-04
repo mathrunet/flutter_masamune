@@ -20,44 +20,30 @@ part 'ui_schedule_calendar.dart';
 /// Tap the date on the monthly calendar to display the event details.
 ///
 /// You can also tap the event to take action.
+///
+/// You can define various events by passing a list of [DynamicMap] to [events] and [holidays].
+///
+/// It doesn't work when keys such as [startTimeKey] and [endTimeKey] are not included in the given [DynamicMap].
+///
+/// If the value of [allDayKey] is `True`, it is specified as an all-day event.
+///
+/// By specifying [markerType], you can change the type of marker display.
+/// If you want to specify in detail, please create a marker with [markerItemBuilder].
 class UICalendar extends StatefulWidget {
   /// Widget that provides a calendar function.
   ///
   /// Tap the date on the monthly calendar to display the event details.
   ///
   /// You can also tap the event to take action.
-  /// [events]: Event list.
-  /// [onTap]: Processing when an event is tapped.
-  /// [holidays]: Holiday list.
-  /// [initialDay]: First date to choose.
-  /// [startTimeKey]: Key for event start time.
-  /// [endTimeKey]: Key for event end time.
-  /// [titleBuilder]: Builder for getting the title.
-  /// [textBuilder]: Builder for getting text.
-  /// [allDayKey]: True if the event is all day.
-  /// [animationTime]: Animation time.
-  /// [expand]: Display the calendar in the full width of the parent widget.
-  /// [heightOfDayOfWeekLabel]: DayOfWeek label height.
-  /// [calendarContentBorder]: Specify all borders of the calendar.
-  /// [highlightTodayColor]: Color for highlighting today.
-  /// [highlightSelectedDayColor]: The color when the selected date is highlighted.
-  /// [dayBuilder]: Day builder.
-  /// [selectedDayBuilder]: Selected day builder.
-  /// [todayDayBuilder]: Today day builder.
-  /// [titleKey]: The name key.
-  /// [textKey]: The text key.
-  /// [markersBuilder]: Markers builder.
-  /// [onDaySelect]: What happens when a date is selected.
-  /// [onDayLongPressed]: What happens when a date is long pressed.
-  /// [highlightToday]: True to highlight today.
-  /// [highlightSelectedDay]: True to highlight the selected days.
-  /// [markerIcon]: Icons for markers.
-  /// [markerType]: Marker type of calendar.
-  /// [markerItemBuilder]: Builder for each item in the marker.
-  /// [regularHolidays]: Regular holiday list.
-  /// [saturdayColor]: Saturday Color.
-  /// [holidayColor]: Holiday Colors.
-  /// [sundayColor]: Sunday Colors.
+  ///
+  /// You can define various events by passing a list of [DynamicMap] to [events] and [holidays].
+  ///
+  /// It doesn't work when keys such as [startTimeKey] and [endTimeKey] are not included in the given [DynamicMap].
+  ///
+  /// If the value of [allDayKey] is `True`, it is specified as an all-day event.
+  ///
+  /// By specifying [markerType], you can change the type of marker display.
+  /// If you want to specify in detail, please create a marker with [markerItemBuilder].
   const UICalendar({
     Key? key,
     this.events = const [],
@@ -235,6 +221,24 @@ class UICalendar extends StatefulWidget {
   /// Icons for markers.
   final Widget? markerIcon;
 
+  /// Creates the mutable state for this widget at a given location in the tree.
+  ///
+  /// Subclasses should override this method to return a newly created
+  /// instance of their associated [State] subclass:
+  ///
+  /// ```dart
+  /// @override
+  /// State<MyWidget> createState() => _MyWidgetState();
+  /// ```
+  ///
+  /// The framework can call this method multiple times over the lifetime of
+  /// a [StatefulWidget]. For example, if the widget is inserted into the tree
+  /// in multiple locations, the framework will create a separate [State] object
+  /// for each location. Similarly, if the widget is removed from the tree and
+  /// later inserted into the tree again, the framework will call [createState]
+  /// again to create a fresh [State] object, simplifying the lifecycle of
+  /// [State] objects.
+  @protected
   @override
   _UICalendarState createState() => _UICalendarState();
 
@@ -446,7 +450,7 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
   }
 
   void _initSelectedEvents() {
-    if (_calendarController == null || !_calendarController!.isInitialized) {
+    if (_calendarController == null || !_calendarController!.initialized) {
       return;
     }
     if (_calendarController?.focusedDay == null) {
@@ -916,13 +920,6 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
 /// Class for storing event data.
 class EventData {
   /// Class for storing event data.
-  ///
-  /// [startTime]: Start date and time.
-  /// [endTime]: End date and time.
-  /// [title]: Event title.
-  /// [text]: Event details.
-  /// [allDay]: True if the event is all day.
-  /// [data]: Raw data for the event.
   const EventData({
     required this.startTime,
     this.data = const {},

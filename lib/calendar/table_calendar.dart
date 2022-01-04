@@ -1,30 +1,67 @@
 part of masamune_calendar;
 
+/// Callback for when a date is selected.
 typedef OnDaySelected = void Function(DateTime day, List events, List holidays);
 
+/// Callback for when the displayed date has changed.
 typedef OnVisibleDaysChanged = void Function(
     DateTime first, DateTime last, CalendarFormat format);
 
+/// Callback for when the calendar is created.
 typedef OnCalendarCreated = void Function(
     DateTime first, DateTime last, CalendarFormat format);
 
+/// Callback for when a header gesture is made.
 typedef HeaderGestureCallback = void Function(DateTime focusedDay);
 
+/// A builder for text.
 typedef TextBuilder = String Function(DateTime date, dynamic locale);
 
+/// Callback for determining a valid date.
 typedef EnabledDayPredicate = bool Function(DateTime day);
 
-enum CalendarFormat { month, twoWeeks, week }
+/// Calendar Format.
+enum CalendarFormat {
+  /// Monthly Calendar.
+  month,
 
-enum FormatAnimation { slide, scale }
+  /// Two-weekly calendar.
+  twoWeeks,
 
+  /// Weekly calendar.
+  week,
+}
+
+/// Format switching animation.
+enum FormatAnimation {
+  /// Slide animation.
+  slide,
+
+  /// Scale animation.
+  scale,
+}
+
+/// Start day.
 enum StartingDayOfWeek {
+  /// Monday.
   monday,
+
+  /// Tuesday
   tuesday,
+
+  /// Wednesday
   wednesday,
+
+  /// Thursday.
   thursday,
+
+  /// Friday.
   friday,
+
+  /// Saturday.
   saturday,
+
+  /// Sunday.
   sunday
 }
 
@@ -32,7 +69,20 @@ int _getWeekdayNumber(StartingDayOfWeek weekday) {
   return StartingDayOfWeek.values.indexOf(weekday) + 1;
 }
 
-enum AvailableGestures { none, verticalSwipe, horizontalSwipe, all }
+/// Valid gestures.
+enum AvailableGestures {
+  /// No gestures.
+  none,
+
+  /// Up and down swipe.
+  verticalSwipe,
+
+  /// Horizontal swipe.
+  horizontalSwipe,
+
+  /// Swipe in all directions.
+  all,
+}
 
 class _TableCalendar extends StatefulWidget {
   _TableCalendar({

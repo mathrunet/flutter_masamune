@@ -1,17 +1,9 @@
 part of masamune_calendar;
 
-typedef FullBuilder = Widget Function(
-    BuildContext context, DateTime date, List events);
-
-typedef FullListBuilder = List<Widget> Function(
-    BuildContext context, DateTime date, List events, List holidays);
-
-typedef DowBuilder = Widget Function(BuildContext context, String weekday);
-
-typedef SingleMarkerBuilder = Widget Function(
-    BuildContext context, DateTime? date, dynamic event);
-
+/// Class for calendar builders.
+@immutable
 class CalendarBuilders {
+  /// Class for calendar builders.
   const CalendarBuilders({
     this.dayBuilder,
     this.selectedDayBuilder,
@@ -28,29 +20,56 @@ class CalendarBuilders {
     this.dowWeekendBuilder,
   }) : assert(!(singleMarkerBuilder != null && markersBuilder != null));
 
-  final FullBuilder? dayBuilder;
+  /// Builder to make a normal day.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      dayBuilder;
 
-  final FullBuilder? selectedDayBuilder;
+  /// Builder to create the selected date.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      selectedDayBuilder;
 
-  final FullBuilder? todayDayBuilder;
+  /// A builder to make today.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      todayDayBuilder;
 
-  final FullBuilder? holidayDayBuilder;
+  /// A builder of holidays.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      holidayDayBuilder;
 
-  final FullBuilder? weekendDayBuilder;
+  /// A builder to make your weekend.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      weekendDayBuilder;
 
-  final FullBuilder? outsideDayBuilder;
+  /// Builder to create a day that is not that month.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      outsideDayBuilder;
 
-  final FullBuilder? outsideWeekendDayBuilder;
+  /// Builder to create a weekend day that is not that month.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      outsideWeekendDayBuilder;
 
-  final FullBuilder? outsideHolidayDayBuilder;
+  /// Builder to create a holiday that is not in that month.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      outsideHolidayDayBuilder;
 
-  final FullBuilder? unavailableDayBuilder;
+  /// Builders to create days of unavailability.
+  final Widget Function(BuildContext context, DateTime date, List events)?
+      unavailableDayBuilder;
 
-  final FullListBuilder? markersBuilder;
+  /// Builder for markers.
+  final List<Widget> Function(
+          BuildContext context, DateTime date, List events, List holidays)?
+      markersBuilder;
 
-  final SingleMarkerBuilder? singleMarkerBuilder;
+  /// Builder for creating a single marker.
+  final Widget Function(BuildContext context, DateTime? date, dynamic event)?
+      singleMarkerBuilder;
 
-  final DowBuilder? dowWeekdayBuilder;
+  /// A builder for making days of the week.
+  final Widget Function(BuildContext context, String weekday)?
+      dowWeekdayBuilder;
 
-  final DowBuilder? dowWeekendBuilder;
+  /// Builder for making days of the week (weekends).
+  final Widget Function(BuildContext context, String weekday)?
+      dowWeekendBuilder;
 }

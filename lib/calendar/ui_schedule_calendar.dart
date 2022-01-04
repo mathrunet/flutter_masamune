@@ -1,6 +1,13 @@
 part of masamune_calendar;
 
+/// Calendar on an event basis.
+///
+/// This is used to display a list of the most recent events.
+@immutable
 class UIScheduleCalendar extends StatefulWidget {
+  /// Calendar on an event basis.
+  ///
+  /// This is used to display a list of the most recent events.
   const UIScheduleCalendar({
     required this.source,
     required this.builder,
@@ -15,19 +22,61 @@ class UIScheduleCalendar extends StatefulWidget {
     this.physics,
     this.shrinkWrap = false,
   });
+
+  /// [ScrollPhysics] for lists.
   final ScrollPhysics? physics;
+
+  /// [shrinkWrap] for lists.
   final bool shrinkWrap;
+
+  /// Padding.
   final EdgeInsetsGeometry? padding;
+
+  /// Key for event start time.
   final String startTimeKey;
+
+  /// Key for event end time.
   final String endTimeKey;
+
+  /// The name key.
   final String titleKey;
+
+  /// The text key.
   final String textKey;
-  final TextStyle? dayTextStyle;
-  final List<DynamicMap> source;
+
+  /// True if the event is all day.
   final String allDayKey;
+
+  /// Date text style.
+  final TextStyle? dayTextStyle;
+
+  /// Calendar event data source.
+  final List<DynamicMap> source;
+
+  /// Label width.
   final double labelWidth;
+
+  /// Builder for events.
   final Widget? Function(BuildContext context, DynamicMap item) builder;
 
+  /// Creates the mutable state for this widget at a given location in the tree.
+  ///
+  /// Subclasses should override this method to return a newly created
+  /// instance of their associated [State] subclass:
+  ///
+  /// ```dart
+  /// @override
+  /// State<MyWidget> createState() => _MyWidgetState();
+  /// ```
+  ///
+  /// The framework can call this method multiple times over the lifetime of
+  /// a [StatefulWidget]. For example, if the widget is inserted into the tree
+  /// in multiple locations, the framework will create a separate [State] object
+  /// for each location. Similarly, if the widget is removed from the tree and
+  /// later inserted into the tree again, the framework will call [createState]
+  /// again to create a fresh [State] object, simplifying the lifecycle of
+  /// [State] objects.
+  @protected
   @override
   State<StatefulWidget> createState() => _UIScheduleCalendarState();
 }
