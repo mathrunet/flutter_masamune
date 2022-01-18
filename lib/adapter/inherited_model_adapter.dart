@@ -31,19 +31,35 @@ class InheritedModelAdapter<
   /// Adapter to reference.
   final ModelAdapter<TDocument, TCollection, TSeachableCollection> adapter;
 
+  String get _prefix {
+    if (prefix.endsWith("/")) {
+      return prefix;
+    } else {
+      return "$prefix/";
+    }
+  }
+
+  String get _suffix {
+    if (suffix.startsWith("/")) {
+      return suffix;
+    } else {
+      return "/$suffix";
+    }
+  }
+
   /// Gets the provider of the [Collection].
   ///
   /// In [path], enter the path where you want to retrieve the collection.
   @override
   ChangeNotifierProvider<TCollection> collectionProvider(String path) =>
-      adapter.collectionProvider("$prefix$path$suffix");
+      adapter.collectionProvider("$_prefix$path$_suffix");
 
   /// Gets the provider of the [Document].
   ///
   /// In [path], enter the path where you want to retrieve the document.
   @override
   ChangeNotifierProvider<TDocument> documentProvider(String path) =>
-      adapter.documentProvider("$prefix$path$suffix");
+      adapter.documentProvider("$_prefix$path$_suffix");
 
   /// Gets the provider of the [Collection] for search.
   ///
@@ -51,7 +67,7 @@ class InheritedModelAdapter<
   @override
   ChangeNotifierProvider<TSeachableCollection> searchableCollectionProvider(
           String path) =>
-      adapter.searchableCollectionProvider("$prefix$path$suffix");
+      adapter.searchableCollectionProvider("$_prefix$path$_suffix");
 
   /// Create a code of length [length] randomly for id.
   ///
@@ -66,7 +82,7 @@ class InheritedModelAdapter<
     String charSet = "23456789abcdefghjkmnpqrstuvwxy",
   }) =>
       adapter.generateCode(
-        path: path,
+        path: "$_prefix$path$_suffix",
         key: key,
         length: length,
         charSet: charSet,
@@ -86,10 +102,10 @@ class InheritedModelAdapter<
           String Function(String linkPath)? linkedCounterBuilder,
           List<CounterUpdaterInterval> counterIntervals = const []}) =>
       adapter.incrementCounter(
-        collectionPath: collectionPath,
+        collectionPath: "$_prefix$collectionPath$_suffix",
         counterSuffix: counterSuffix,
         counterBuilder: counterBuilder,
-        linkedCollectionPath: linkedCollectionPath,
+        linkedCollectionPath: "$_prefix$linkedCollectionPath$_suffix",
         counterIntervals: counterIntervals,
       );
 

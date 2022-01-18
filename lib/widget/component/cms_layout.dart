@@ -20,6 +20,9 @@ class CMSLayout extends StatelessWidget {
     this.footerBorder,
     this.headerBackgroundColor,
     this.footerBackgroundColor,
+    this.toggleWidth = 720,
+    this.padding = const EdgeInsets.all(0),
+    this.contentPadding = const EdgeInsets.symmetric(horizontal: 32),
   });
   final BorderSide? sideBorder;
   final BorderSide? headerBorder;
@@ -39,62 +42,71 @@ class CMSLayout extends StatelessWidget {
   final double crossAxisSpace;
   final List<Widget>? options;
   final Widget child;
+  final double toggleWidth;
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry contentPadding;
 
   @override
   Widget build(BuildContext context) {
     if (header == null && footer == null && options.isEmpty) {
-      return _middle(context);
+      return Padding(
+        padding: padding,
+        child: _middle(context),
+      );
     } else {
-      return Column(
-        children: [
-          if (header != null) ...[
-            if (headerBackgroundColor != null || headerBorder != null)
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: headerBackgroundColor,
-                  border: headerBorder != null
-                      ? Border(
-                          bottom: headerBorder!.copyWith(
-                            color: borderColor ??
-                                context.theme.dividerColor.withOpacity(0.25),
-                          ),
-                        )
-                      : null,
-                ),
-                child: header,
-              )
-            else
-              header!,
-            if (mainAxisSpace > 0) Space.height(mainAxisSpace),
+      return Padding(
+        padding: padding,
+        child: Column(
+          children: [
+            if (header != null) ...[
+              if (headerBackgroundColor != null || headerBorder != null)
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: headerBackgroundColor,
+                    border: headerBorder != null
+                        ? Border(
+                            bottom: headerBorder!.copyWith(
+                              color: borderColor ??
+                                  context.theme.dividerColor.withOpacity(0.25),
+                            ),
+                          )
+                        : null,
+                  ),
+                  child: header,
+                )
+              else
+                header!,
+              if (mainAxisSpace > 0) Space.height(mainAxisSpace),
+            ],
+            _middle(context),
+            if (options.isNotEmpty) ...[
+              if (mainAxisSpace > 0) Space.height(mainAxisSpace),
+              Row(
+                children: options!.map((e) => Flexible(child: e)).toList(),
+              ),
+            ],
+            if (footer != null) ...[
+              if (mainAxisSpace > 0) Space.height(mainAxisSpace),
+              if (footerBackgroundColor != null || footerBorder != null)
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: footerBackgroundColor,
+                    border: footerBorder != null
+                        ? Border(
+                            top: footerBorder!.copyWith(
+                              color: borderColor ??
+                                  context.theme.dividerColor.withOpacity(0.25),
+                            ),
+                          )
+                        : null,
+                  ),
+                  child: header,
+                )
+              else
+                footer!,
+            ],
           ],
-          _middle(context),
-          if (options.isNotEmpty) ...[
-            if (mainAxisSpace > 0) Space.height(mainAxisSpace),
-            Row(
-              children: options!.map((e) => Flexible(child: e)).toList(),
-            ),
-          ],
-          if (footer != null) ...[
-            if (mainAxisSpace > 0) Space.height(mainAxisSpace),
-            if (footerBackgroundColor != null || footerBorder != null)
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: footerBackgroundColor,
-                  border: footerBorder != null
-                      ? Border(
-                          top: footerBorder!.copyWith(
-                            color: borderColor ??
-                                context.theme.dividerColor.withOpacity(0.25),
-                          ),
-                        )
-                      : null,
-                ),
-                child: header,
-              )
-            else
-              footer!,
-          ],
-        ],
+        ),
       );
     }
   }
@@ -121,52 +133,110 @@ class CMSLayout extends StatelessWidget {
 
   Widget _middle(BuildContext context) {
     if (leftBar == null && rightBar == null) {
-      return _center(context);
+      return Padding(
+        padding: contentPadding,
+        child: _center(context),
+      );
     } else {
-      return Row(
-        children: [
-          if (leftBar != null)
-            if (sideBorder != null)
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    right: sideBorder!.copyWith(
-                      color: borderColor ??
-                          context.theme.dividerColor.withOpacity(0.25),
-                    ),
+      return Padding(
+        padding: contentPadding,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = constraints.maxWidth;
+            if (screenWidth < toggleWidth) {
+              return Column(
+                children: [
+                  _center(context),
+                  if (leftBar != null) ...[
+                    if (mainAxisSpace > 0) Space.height(mainAxisSpace),
+                    if (sideBorder != null)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: sideBorder!.copyWith(
+                              color: borderColor ??
+                                  context.theme.dividerColor.withOpacity(0.25),
+                            ),
+                          ),
+                        ),
+                        child: leftBar,
+                      )
+                    else
+                      leftBar!,
+                  ],
+                  if (rightBar != null) ...[
+                    if (mainAxisSpace > 0) Space.height(mainAxisSpace),
+                    if (sideBorder != null)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: sideBorder!.copyWith(
+                              color: borderColor ??
+                                  context.theme.dividerColor.withOpacity(0.25),
+                            ),
+                          ),
+                        ),
+                        child: rightBar,
+                      )
+                    else
+                      rightBar!,
+                  ],
+                ],
+              );
+            } else {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (leftBar != null) ...[
+                    if (sideBorder != null)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: sideBorder!.copyWith(
+                              color: borderColor ??
+                                  context.theme.dividerColor.withOpacity(0.25),
+                            ),
+                          ),
+                        ),
+                        width: leftBarWidth,
+                        child: leftBar,
+                      )
+                    else
+                      SizedBox(
+                        width: leftBarWidth,
+                        child: leftBar,
+                      ),
+                    if (crossAxisSpace > 0) Space.width(crossAxisSpace),
+                  ],
+                  Expanded(
+                    child: _center(context),
                   ),
-                ),
-                width: leftBarWidth,
-                child: leftBar,
-              )
-            else
-              SizedBox(
-                width: leftBarWidth,
-                child: leftBar,
-              ),
-          Expanded(
-            child: _center(context),
-          ),
-          if (rightBar != null)
-            if (sideBorder != null)
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: sideBorder!.copyWith(
-                      color: borderColor ??
-                          context.theme.dividerColor.withOpacity(0.25),
-                    ),
-                  ),
-                ),
-                width: rightBarWidth,
-                child: rightBar,
-              )
-            else
-              SizedBox(
-                width: rightBarWidth,
-                child: rightBar,
-              ),
-        ],
+                  if (rightBar != null) ...[
+                    if (crossAxisSpace > 0) Space.width(crossAxisSpace),
+                    if (sideBorder != null)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: sideBorder!.copyWith(
+                              color: borderColor ??
+                                  context.theme.dividerColor.withOpacity(0.25),
+                            ),
+                          ),
+                        ),
+                        width: rightBarWidth,
+                        child: rightBar,
+                      )
+                    else
+                      SizedBox(
+                        width: rightBarWidth,
+                        child: rightBar,
+                      ),
+                  ],
+                ],
+              );
+            }
+          },
+        ),
       );
     }
   }

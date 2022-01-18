@@ -17,7 +17,7 @@ abstract class UIBoot extends PageScopedWidget {
 
   /// The process executed at initialization.
   @protected
-  void onInit(BuildContext context, WidgetRef ref) {}
+  void onInit(BuildContext context, WidgetRef ref, BuildContext root) {}
 
   /// Indicator color.
   ///
@@ -46,7 +46,9 @@ abstract class UIBoot extends PageScopedWidget {
   /// [context]: Build context.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.effect(onInitOrUpdate: () => onInit(context, ref));
+    ref.effect(onInitOrUpdate: () {
+      onInit(context, ref, context.navigator.context);
+    });
     return applySafeArea
         ? SafeArea(
             child: _body(context, ref),

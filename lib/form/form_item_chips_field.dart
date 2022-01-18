@@ -46,7 +46,9 @@ class FormItemChipsField extends FormField<String> {
               return const Empty();
             },
             onSaved: (value) {
-              onSaved?.call(value?.split(separator) ?? const []);
+              final val = value?.split(separator) ?? const [];
+              val.removeWhere((e) => e.isEmpty);
+              onSaved?.call(val);
             },
             validator: validator,
             initialValue: initialValue,
@@ -110,9 +112,9 @@ class _FormItemChipsField extends FormFieldState<String> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final List<String> values = _effectiveController?.text == null
+    final List<String> values = (_effectiveController?.text == null
         ? []
-        : _effectiveController?.text.split(widget.separator) ?? []
+        : _effectiveController?.text.split(widget.separator) ?? [])
       ..removeWhere((e) => e.isEmpty);
 
     return Padding(
@@ -187,7 +189,8 @@ class _FormItemChipsField extends FormFieldState<String> {
           return _items;
         },
         onChanged: (values) {
-          setValue(values.join(widget.separator));
+          final val = List.from(values)..removeWhere((e) => e.isEmpty);
+          setValue(val.join(widget.separator));
           widget.onChanged?.call(values);
         },
         focusNode: _focusNode,
@@ -213,9 +216,9 @@ class _FormItemChipsField extends FormFieldState<String> {
     } else {
       widget.controller?.addListener(_handleControllerChanged);
     }
-    final List<String> values = _effectiveController?.text == null
+    final List<String> values = (_effectiveController?.text == null
         ? []
-        : _effectiveController?.text.split(widget.separator) ?? []
+        : _effectiveController?.text.split(widget.separator) ?? [])
       ..removeWhere((e) => e.isEmpty);
     setValue(values.join(widget.separator));
   }
@@ -613,7 +616,9 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
           _oldTextEditingValue.replacementCharactersCount) {
         final removedChip = _chips.last;
         _chips = Set.of(_chips.take(value.replacementCharactersCount));
-        widget.onChanged(_chips.toList(growable: false));
+        widget.onChanged(
+          _chips.toList(growable: false)..removeEmpty(),
+        );
         var putText = '';
         if (widget.allowChipEditing && _enteredTexts.containsKey(removedChip)) {
           putText = _enteredTexts[removedChip]!;

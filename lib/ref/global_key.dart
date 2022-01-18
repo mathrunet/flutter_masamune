@@ -9,6 +9,15 @@ extension WidgetRefGlobalKeyExtensions on WidgetRef {
       },
     );
   }
+
+  GlobalKey<T> useGlobalValueKey<T extends State<StatefulWidget>>(String key) {
+    return valueBuilder<GlobalKey<T>, _GlobalKeyValue<T>>(
+      key: "globalKey:${T.toString()}:$key",
+      builder: () {
+        return _GlobalKeyValue<T>();
+      },
+    );
+  }
 }
 
 class _GlobalKeyValue<T extends State> extends ScopedValue<GlobalKey<T>> {

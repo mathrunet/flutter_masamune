@@ -10,6 +10,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
     this.actions = const [],
     this.suggestion = const [],
     this.onChanged,
+    this.onSubmitted,
     this.elevation,
     this.contentPadding = const EdgeInsets.all(0),
     this.shadowColor,
@@ -28,6 +29,7 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final EdgeInsetsGeometry contentPadding;
   final void Function(String value)? onDeleteSuggestion;
   final void Function(String? value)? onChanged;
+  final void Function(String? value)? onSubmitted;
 
   @override
   State<StatefulWidget> createState() => _SearchBarState();
@@ -74,7 +76,9 @@ class _SearchBarState extends State<SearchBar> {
         ...widget.actions,
         IconButton(
           icon: const Icon(Icons.search),
-          onPressed: () {},
+          onPressed: () {
+            widget.onSubmitted?.call(_effectiveController?.text);
+          },
         )
       ],
       shadowColor: widget.shadowColor,
@@ -97,6 +101,7 @@ class _SearchBarState extends State<SearchBar> {
         padding: const EdgeInsets.all(0),
         contentPadding: widget.contentPadding,
         suggestion: widget.suggestion,
+        onSubmitted: widget.onSubmitted,
         onDeleteSuggestion: widget.onDeleteSuggestion,
       ),
     );
