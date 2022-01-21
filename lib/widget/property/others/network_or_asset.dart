@@ -47,13 +47,49 @@ class NetworkOrAsset {
   }
 }
 
-class _ImageMomoryCache {
-  const _ImageMomoryCache();
+/// Manages the memory cache for images.
+class ImageMemoryCache {
+  const ImageMemoryCache._();
   static final Map<String, ImageStreamCompleter> _manager = {};
   static final Map<String, ImageStreamCompleterHandle> _managerHandles = {};
   static final List<String> _savedImages = [];
 
-  static ImageStreamCompleter? getCache(String? key) {
+  /// Caches the image of [localUrl] as the image of [remoteUrl].
+  static void cacheLocalImageAsRemote({
+    required String localUrl,
+    required String remoteUrl,
+    double scale = 1.0,
+  }) {
+    final StreamController<ImageChunkEvent> chunkEvents =
+        StreamController<ImageChunkEvent>();
+
+    _setCache(
+      remoteUrl,
+      MultiFrameImageStreamCompleter(
+        chunkEvents: chunkEvents.stream,
+        codec: _loadAsync(localUrl, chunkEvents),
+        scale: scale,
+        debugLabel: localUrl,
+      ),
+    );
+  }
+
+  static Future<ui.Codec> _loadAsync(
+    String url,
+    StreamController<ImageChunkEvent> chunkEvents,
+  ) {
+    final Uri resolved = Uri.base.resolve(url);
+    // ignore: undefined_function, avoid_dynamic_calls
+    return ui.webOnlyInstantiateImageCodecFromUrl(
+      resolved,
+      chunkCallback: (bytes, total) {
+        chunkEvents.add(ImageChunkEvent(
+            cumulativeBytesLoaded: bytes, expectedTotalBytes: total));
+      },
+    ) as Future<ui.Codec>;
+  }
+
+  static ImageStreamCompleter? _getCache(String? key) {
     if (!Config.isInitialized || key.isEmpty) {
       return null;
     }
@@ -63,7 +99,7 @@ class _ImageMomoryCache {
     return null;
   }
 
-  static ImageStreamCompleter setCache(
+  static ImageStreamCompleter _setCache(
       String? key, ImageStreamCompleter completer) {
     if (!Config.isInitialized || key.isEmpty) {
       return completer;
@@ -97,11 +133,11 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
     if (key.url.isEmpty) {
       return super.load(key, decode);
     }
-    final cache = _ImageMomoryCache.getCache(key.url);
+    final cache = ImageMemoryCache._getCache(key.url);
     if (cache != null) {
       return cache;
     }
-    return _ImageMomoryCache.setCache(key.url, super.load(key, decode));
+    return ImageMemoryCache._setCache(key.url, super.load(key, decode));
   }
 }
 
@@ -121,10 +157,10 @@ class _MemoizedAssetImage extends AssetImage {
     if (key.name.isEmpty) {
       return super.load(key, decode);
     }
-    final cache = _ImageMomoryCache.getCache(key.name);
+    final cache = ImageMemoryCache._getCache(key.name);
     if (cache != null) {
       return cache;
     }
-    return _ImageMomoryCache.setCache(key.name, super.load(key, decode));
+    return ImageMemoryCache._setCache(key.name, super.load(key, decode));
   }
 }

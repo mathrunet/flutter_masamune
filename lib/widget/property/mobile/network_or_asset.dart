@@ -65,13 +65,63 @@ class NetworkOrAsset {
   }
 }
 
-class _ImageMomoryCache {
-  const _ImageMomoryCache();
+/// Manages the memory cache for images.
+class ImageMemoryCache {
+  const ImageMemoryCache._();
   static final Map<String, ImageStreamCompleter> _manager = {};
   static final Map<String, ImageStreamCompleterHandle> _managerHandles = {};
   static final List<String> _savedImages = [];
 
-  static ImageStreamCompleter? getCache(String? key) {
+  /// Caches the image of [localUrl] as the image of [remoteUrl].
+  static void cacheLocalImageAsRemote({
+    required String localUrl,
+    required String remoteUrl,
+    double scale = 1.0,
+  }) {
+    _setCache(
+      remoteUrl,
+      MultiFrameImageStreamCompleter(
+        codec: _loadAsync(
+          localUrl,
+          cache_manager.DefaultCacheManager(),
+        ),
+        scale: scale,
+        debugLabel: localUrl,
+      ),
+    );
+  }
+
+  static Future<ui.Codec> _loadAsync(
+    String url,
+    cache_manager.BaseCacheManager cacheManager,
+  ) async {
+    if (cacheManager is cache_manager.ImageCacheManager) {
+      cacheManager.getImageFile(
+        url,
+        withProgress: true,
+        key: url,
+      );
+    } else {
+      cacheManager.getFileStream(
+        url,
+        withProgress: true,
+        key: url,
+      );
+    }
+    final file = File(url);
+
+    final Uint8List bytes = await file.readAsBytes();
+
+    if (bytes.lengthInBytes == 0) {
+      // The file may become available later.
+      PaintingBinding.instance!.imageCache!.evict(url);
+      throw StateError('$file is empty and cannot be loaded as an image.');
+    }
+
+    return PaintingBinding.instance!.instantiateImageCodec(bytes);
+  }
+
+  static ImageStreamCompleter? _getCache(String? key) {
     if (!Config.isInitialized || key.isEmpty) {
       return null;
     }
@@ -81,7 +131,7 @@ class _ImageMomoryCache {
     return null;
   }
 
-  static ImageStreamCompleter setCache(
+  static ImageStreamCompleter _setCache(
       String? key, ImageStreamCompleter completer) {
     if (!Config.isInitialized || key.isEmpty) {
       return completer;
@@ -125,11 +175,11 @@ class _MemoizedCachedNetworkImageProvider
   @override
   ImageStreamCompleter load(
       CachedNetworkImageProvider key, DecoderCallback decode) {
-    final cache = _ImageMomoryCache.getCache(key.cacheKey);
+    final cache = ImageMemoryCache._getCache(key.cacheKey);
     if (cache != null) {
       return cache;
     }
-    return _ImageMomoryCache.setCache(key.cacheKey, super.load(key, decode));
+    return ImageMemoryCache._setCache(key.cacheKey, super.load(key, decode));
   }
 }
 
@@ -142,11 +192,11 @@ class _MemoizedFileImage extends FileImage {
     if (key.file.path.isEmpty) {
       return super.load(key, decode);
     }
-    final cache = _ImageMomoryCache.getCache(key.file.path);
+    final cache = ImageMemoryCache._getCache(key.file.path);
     if (cache != null) {
       return cache;
     }
-    return _ImageMomoryCache.setCache(key.file.path, super.load(key, decode));
+    return ImageMemoryCache._setCache(key.file.path, super.load(key, decode));
   }
 }
 
@@ -166,10 +216,10 @@ class _MemoizedAssetImage extends AssetImage {
     if (key.name.isEmpty) {
       return super.load(key, decode);
     }
-    final cache = _ImageMomoryCache.getCache(key.name);
+    final cache = ImageMemoryCache._getCache(key.name);
     if (cache != null) {
       return cache;
     }
-    return _ImageMomoryCache.setCache(key.name, super.load(key, decode));
+    return ImageMemoryCache._setCache(key.name, super.load(key, decode));
   }
 }

@@ -405,14 +405,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0+9"
+    version: "0.9.0+10"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0+31"
+    version: "0.9.0+37"
   katana_routing:
     dependency: "direct main"
     description:
@@ -879,7 +879,7 @@ packages:
       name: url_launcher_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.3"
   url_launcher_macos:
     dependency: transitive
     description:
@@ -935,7 +935,7 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.11"
+    version: "2.2.13"
   video_player_platform_interface:
     dependency: transitive
     description:
