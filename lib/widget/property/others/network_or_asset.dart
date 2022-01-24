@@ -11,8 +11,11 @@ class NetworkOrAsset {
   /// [uri] is if it starts with http, get a network image,
   /// otherwise get an asset image.
   /// [defaultURI] is the path to be read from the asset when [uri] is empty.
-  static ImageProvider image(String uri,
-      [String defaultURI = "assets/default.png"]) {
+  static ImageProvider image(
+    String uri, [
+    String defaultURI = "assets/default.png",
+    ImageSize size = ImageSize.full,
+  ]) {
     if (uri.isEmpty) {
       return _MemoizedAssetImage(defaultURI);
     }
@@ -162,5 +165,30 @@ class _MemoizedAssetImage extends AssetImage {
       return cache;
     }
     return ImageMemoryCache._setCache(key.name, super.load(key, decode));
+  }
+}
+
+enum ImageSize {
+  thumbnail,
+  small,
+  medium,
+  large,
+  full,
+}
+
+extension ImageSizeExtensions on ImageSize {
+  int get limit {
+    switch (this) {
+      case ImageSize.thumbnail:
+        return 128;
+      case ImageSize.small:
+        return 256;
+      case ImageSize.medium:
+        return 512;
+      case ImageSize.large:
+        return 1024;
+      case ImageSize.full:
+        return 2048;
+    }
   }
 }

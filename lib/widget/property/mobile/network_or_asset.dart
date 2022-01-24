@@ -11,15 +11,20 @@ class NetworkOrAsset {
   /// [uri] is if it starts with http, get a network image,
   /// otherwise get an asset image.
   /// [defaultURI] is the path to be read from the asset when [uri] is empty.
-  static ImageProvider image(String uri,
-      [String defaultURI = "assets/default.png"]) {
+  static ImageProvider image(
+    String uri, [
+    String defaultURI = "assets/default.png",
+    ImageSize size = ImageSize.full,
+  ]) {
     if (uri.isEmpty) {
       return _MemoizedAssetImage(defaultURI);
     }
     if (uri.startsWith("http") || uri.startsWith("blob:")) {
       return _MemoizedCachedNetworkImageProvider(
         uri,
-        cacheKey: uri,
+        cacheKey: "$uri${size.key}",
+        maxHeight: size.limit,
+        maxWidth: size.limit,
         imageRenderMethodForWeb: ImageRenderMethodForWeb.HtmlImage,
       );
     } else if (uri.startsWith("/")) {
@@ -221,5 +226,45 @@ class _MemoizedAssetImage extends AssetImage {
       return cache;
     }
     return ImageMemoryCache._setCache(key.name, super.load(key, decode));
+  }
+}
+
+enum ImageSize {
+  thumbnail,
+  small,
+  medium,
+  large,
+  full,
+}
+
+extension ImageSizeExtensions on ImageSize {
+  int get limit {
+    switch (this) {
+      case ImageSize.thumbnail:
+        return 128;
+      case ImageSize.small:
+        return 256;
+      case ImageSize.medium:
+        return 512;
+      case ImageSize.large:
+        return 1024;
+      case ImageSize.full:
+        return 2048;
+    }
+  }
+
+  String get key {
+    switch (this) {
+      case ImageSize.thumbnail:
+        return "#thumb";
+      case ImageSize.small:
+        return "#small";
+      case ImageSize.medium:
+        return "#medium";
+      case ImageSize.large:
+        return "#large";
+      case ImageSize.full:
+        return "";
+    }
   }
 }
