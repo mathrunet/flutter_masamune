@@ -53,7 +53,7 @@ class UIMarkdown extends StatelessWidget {
         selectable: selectable,
         imageBuilder: (uri, title, alt) {
           return Image(
-            image: NetworkOrAsset.image(uri.toString(), "assets/default.png"),
+            image: NetworkOrAsset.image(uri.toString()),
             width: imageWidth,
           );
         },

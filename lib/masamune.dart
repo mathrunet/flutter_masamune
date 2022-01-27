@@ -81,6 +81,7 @@ part 'adapter/inherited_model_adapter.dart';
 part 'adapter/local_model_adapter.dart';
 part 'adapter/mock_model_adapter.dart';
 part "adapter/multi_platform_adapter.dart";
+part "adapter/mock_sign_in_adapter.dart";
 part 'animation/animation_scenario.dart';
 part 'animation/animation_unit.dart';
 part 'animation/typedef.dart';

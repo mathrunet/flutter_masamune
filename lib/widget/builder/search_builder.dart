@@ -71,8 +71,9 @@ class SearchBuilder<T extends Object> extends StatefulWidget {
 
 class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
   String? value;
-  String? _prevValue;
-  Iterable<T>? _prevData;
+  final StreamController<String> _streamController =
+      StreamController<String>.broadcast();
+  late final Stream<Iterable<T>> _stream;
   TextEditingController? _controller;
   final List<String> _histories = [];
 
@@ -119,114 +120,88 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
     if (widget.history != null && widget.history!.source.isNotEmpty) {
       _histories.addAll(widget.history!.source);
     }
+    _stream = _streamController.stream.asyncMap(_search);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (value.isEmpty || value.length < widget.minLength) {
-      if (widget.history?.builder != null &&
-          widget.history!.source.isNotEmpty) {
-        return ListBuilder<String>(
-          listenWhenListenable: false,
-          source: widget.history!.source,
-          top: widget.history!.top,
-          builder: (context, item, index) {
-            return [widget.history!.builder.call(context, item, _history)];
-          },
-        );
-      }
-      if (widget.initialWidget != null) {
-        return _builder(
-          context,
-          widget.initialWidget!,
-        );
-      }
-      if (widget.emptyWidget != null) {
-        return _builder(
-          context,
-          widget.emptyWidget!,
-        );
-      }
-      return _builder(
-        context,
-        Center(child: Text("No data.".localize())),
-      );
-    }
-    if (_prevValue != value || _prevData == null) {
-      _prevValue = value;
-      return FutureBuilder<Iterable<T>>(
-        future: _search(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
+    return StreamBuilder<Iterable<T>>(
+      stream: _stream,
+      builder: (context, snapshot) {
+        if (value.isEmpty || value.length < widget.minLength) {
+          if (widget.history?.builder != null &&
+              widget.history!.source.isNotEmpty) {
+            return ListBuilder<String>(
+              listenWhenListenable: false,
+              source: widget.history!.source,
+              top: widget.history!.top,
+              builder: (context, item, index) {
+                return [widget.history!.builder.call(context, item, _history)];
+              },
+            );
+          }
+          if (widget.initialWidget != null) {
             return _builder(
               context,
-              Center(
-                child: context.widgetTheme.loadingIndicator?.call(
-                      context,
-                      widget.indicatorColor ?? context.theme.disabledColor,
-                    ) ??
-                    LoadingBouncingGrid.square(
-                      backgroundColor:
-                          widget.indicatorColor ?? context.theme.disabledColor,
-                    ),
-              ),
+              widget.initialWidget!,
             );
-          } else {
-            if (snapshot.data.isEmpty) {
-              if (widget.emptyWidget != null) {
-                return _builder(
-                  context,
-                  widget.emptyWidget!,
-                );
-              }
+          }
+          if (widget.emptyWidget != null) {
+            return _builder(
+              context,
+              widget.emptyWidget!,
+            );
+          }
+          return _builder(
+            context,
+            Center(child: Text("No data.".localize())),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _builder(
+            context,
+            Center(
+              child: context.widgetTheme.loadingIndicator?.call(
+                    context,
+                    widget.indicatorColor ?? context.theme.disabledColor,
+                  ) ??
+                  LoadingBouncingGrid.square(
+                    backgroundColor:
+                        widget.indicatorColor ?? context.theme.disabledColor,
+                  ),
+            ),
+          );
+        } else {
+          if (snapshot.data.isEmpty) {
+            if (widget.emptyWidget != null) {
               return _builder(
                 context,
-                Center(child: Text("No data.".localize())),
+                widget.emptyWidget!,
               );
             }
             return _builder(
               context,
-              ListBuilder<T>(
-                source: snapshot.data?.toList() ?? <T>[],
-                padding: const EdgeInsets.all(0),
-                bottom: widget.bottom,
-                insert: widget.insert,
-                insertPosition: widget.insertPosition,
-                builder: widget.builder,
-              ),
+              Center(child: Text("No data.".localize())),
             );
           }
-        },
-      );
-    } else {
-      if (_prevData.isEmpty) {
-        if (widget.emptyWidget != null) {
           return _builder(
             context,
-            widget.emptyWidget!,
+            ListBuilder<T>(
+              source: snapshot.data?.toList() ?? <T>[],
+              padding: const EdgeInsets.all(0),
+              bottom: widget.bottom,
+              insert: widget.insert,
+              insertPosition: widget.insertPosition,
+              builder: widget.builder,
+            ),
           );
         }
-        return _builder(
-          context,
-          Center(child: Text("No data.".localize())),
-        );
-      }
-      return _builder(
-        context,
-        ListBuilder<T>(
-          source: _prevData?.toList() ?? <T>[],
-          padding: const EdgeInsets.all(0),
-          bottom: widget.bottom,
-          insert: widget.insert,
-          insertPosition: widget.insertPosition,
-          builder: widget.builder,
-        ),
-      );
-    }
+      },
+    );
   }
 
-  Future<Iterable<T>> _search() async {
-    return _prevData = await widget.search(value ?? "");
+  Future<Iterable<T>> _search(String value) async {
+    return await widget.search(value);
   }
 
   Widget _builder(BuildContext context, Widget child) {
@@ -254,16 +229,17 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
 
   @override
   void dispose() {
+    _streamController.close();
     widget.controller?.removeListener(_handleControllerChanged);
     super.dispose();
   }
 
-  void setValue(String value) {
-    if (value == this.value) {
+  Future<void> setValue(String value) async {
+    if (this.value == value) {
       return;
     }
     this.value = value;
-    setState(() {});
+    _streamController.sink.add(value);
   }
 
   void _history(String text) {

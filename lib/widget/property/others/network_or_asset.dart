@@ -13,8 +13,8 @@ class NetworkOrAsset {
   /// [defaultURI] is the path to be read from the asset when [uri] is empty.
   static ImageProvider image(
     String uri, [
-    String defaultURI = "assets/default.png",
     ImageSize size = ImageSize.full,
+    String defaultURI = "assets/default.png",
   ]) {
     if (uri.isEmpty) {
       return _MemoizedAssetImage(defaultURI);

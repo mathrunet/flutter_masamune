@@ -1038,8 +1038,7 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
                       cursor: SystemMouseCursors.click,
                       child: app.logoUrl.isNotEmpty
                           ? Image(
-                              image: NetworkOrAsset.image(
-                                  app.logoUrl!, "assets/default.png"),
+                              image: NetworkOrAsset.image(app.logoUrl!),
                               fit: BoxFit.fitHeight,
                               height: tHeight - 8,
                             )

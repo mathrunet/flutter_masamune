@@ -61,7 +61,7 @@ abstract class UIBoot extends PageScopedWidget {
     final image = config != null &&
             config.designType == BootDesignType.logo &&
             config.logoPath.isNotEmpty
-        ? NetworkOrAsset.image(config.logoPath)
+        ? NetworkOrAsset.image(config.logoPath, ImageSize.medium)
         : featureImage;
     if (image != null) {
       return ColoredBox(
