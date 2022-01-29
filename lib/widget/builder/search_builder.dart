@@ -121,6 +121,11 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
       _histories.addAll(widget.history!.source);
     }
     _stream = _streamController.stream.asyncMap(_search);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      if (value.isNotEmpty) {
+        _streamController.sink.add(value!);
+      }
+    });
   }
 
   @override
@@ -201,6 +206,9 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
   }
 
   Future<Iterable<T>> _search(String value) async {
+    if (value.isEmpty) {
+      return [];
+    }
     return await widget.search(value);
   }
 
