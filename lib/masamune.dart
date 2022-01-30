@@ -115,6 +115,7 @@ part 'widget/component/empty.dart';
 part 'widget/component/inline_app_preview.dart';
 part 'widget/component/search_bar.dart';
 part 'widget/component/space.dart';
+part 'widget/component/ui_bottom_call_action.dart';
 part 'widget/component/ui_bottom_navigation_bar.dart';
 part "widget/component/ui_carousel.dart";
 part 'widget/component/ui_markdown.dart';

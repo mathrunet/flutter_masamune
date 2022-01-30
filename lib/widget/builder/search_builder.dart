@@ -28,7 +28,16 @@ class SearchBuilder<T extends Object> extends StatefulWidget {
     this.insert,
     this.insertPosition = 0,
     this.bottom,
+    this.force = false,
+    this.listenWhenListenable = true,
+    this.rebuildKeys = const [],
   });
+
+  /// Forced update even if the search terms are the same.
+  final bool force;
+
+  /// When this is updated, it will rebuild the widget.
+  final List<Object> rebuildKeys;
 
   /// Search history builder.
   final SearchBuilderHistory? history;
@@ -64,6 +73,8 @@ class SearchBuilder<T extends Object> extends StatefulWidget {
   final List<Widget>? insert;
   final List<Widget>? top;
   final List<Widget>? bottom;
+
+  final bool listenWhenListenable;
 
   @override
   _SearchBuilderState<T> createState() => _SearchBuilderState<T>();
@@ -105,6 +116,18 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
         widget.history!.source.isNotEmpty) {
       _histories.clear();
       _histories.addAll(widget.history!.source);
+    }
+    if (widget.rebuildKeys.length != oldWidget.rebuildKeys.length) {
+      _streamController.sink.add(value ?? "");
+    } else {
+      for (int i = 0; i < widget.rebuildKeys.length; i++) {
+        final n = widget.rebuildKeys[i];
+        final o = oldWidget.rebuildKeys[i];
+        if (n != o) {
+          _streamController.sink.add(value ?? "");
+          break;
+        }
+      }
     }
   }
 
@@ -195,6 +218,7 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
               source: snapshot.data?.toList() ?? <T>[],
               padding: const EdgeInsets.all(0),
               bottom: widget.bottom,
+              listenWhenListenable: widget.listenWhenListenable,
               insert: widget.insert,
               insertPosition: widget.insertPosition,
               builder: widget.builder,
@@ -243,7 +267,7 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
   }
 
   Future<void> setValue(String value) async {
-    if (this.value == value) {
+    if (!widget.force && this.value == value) {
       return;
     }
     this.value = value;
