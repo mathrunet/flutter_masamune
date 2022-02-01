@@ -52,7 +52,7 @@ class FormItemMedia extends FormField<String> {
     String Function(String? value)? validator,
     String? initialURI,
     bool enabled = true,
-    this.type = FormItemMediaType.both,
+    this.type = PlatformMediaType.all,
   }) : super(
           key: key,
           builder: (state) {
@@ -105,7 +105,7 @@ class FormItemMedia extends FormField<String> {
   final List<String> videoExtensionList;
 
   /// Media type.
-  final FormItemMediaType type;
+  final PlatformMediaType type;
 
   /// Text ediging controller.
   final TextEditingController? controller;
@@ -223,27 +223,27 @@ class _FormItemMediaState extends FormFieldState<String> {
     );
   }
 
-  FormItemMediaType _platformMediaType(String path) {
-    if (widget.type != FormItemMediaType.both) {
+  PlatformMediaType _platformMediaType(String path) {
+    if (widget.type != PlatformMediaType.all) {
       return widget.type;
     }
     final uri = Uri.tryParse(path);
     if (uri == null) {
-      return FormItemMediaType.image;
+      return PlatformMediaType.image;
     }
     final ext = uri.path.split(".").lastOrNull;
     if (ext == null) {
-      return FormItemMediaType.image;
+      return PlatformMediaType.image;
     }
     return widget.videoExtensionList.contains(ext)
-        ? FormItemMediaType.video
-        : FormItemMediaType.image;
+        ? PlatformMediaType.video
+        : PlatformMediaType.image;
   }
 
   Widget _showMediaFromFile(File file) {
     final type = _platformMediaType(file.path);
     switch (type) {
-      case FormItemMediaType.video:
+      case PlatformMediaType.video:
         return Video(
           FileVideoProvider(file),
           fit: BoxFit.cover,
@@ -259,7 +259,7 @@ class _FormItemMediaState extends FormFieldState<String> {
   Widget _showMediaFromPath(String path) {
     final type = _platformMediaType(path);
     switch (type) {
-      case FormItemMediaType.video:
+      case PlatformMediaType.video:
         return Video(
           NetworkOrAsset.video(path),
           fit: BoxFit.cover,
@@ -385,16 +385,4 @@ class _FormItemMediaState extends FormFieldState<String> {
       didChange(_effectiveController?.text);
     }
   }
-}
-
-/// Media type.
-enum FormItemMediaType {
-  /// Both.
-  both,
-
-  /// Image.
-  image,
-
-  /// Video.
-  video
 }

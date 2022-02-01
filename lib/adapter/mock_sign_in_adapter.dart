@@ -11,4 +11,8 @@ class MockSignInAdapter extends SNSSignInAdapter {
   /// Sign in with sns account.
   @override
   Future<void> signIn() => Future.value();
+
+  /// Sign out with sns account.
+  @override
+  Future<void> signOut() => Future.value();
 }

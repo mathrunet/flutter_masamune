@@ -17,6 +17,7 @@ class FormItemChipsField extends FormField<String> {
     this.disabledBorder,
     this.subColor,
     this.hintText,
+    this.errorText,
     this.counterText = "",
     this.labelText,
     this.lengthErrorText = "",
@@ -50,7 +51,12 @@ class FormItemChipsField extends FormField<String> {
               val.removeWhere((e) => e.isEmpty);
               onSaved?.call(val);
             },
-            validator: validator,
+            validator: (value) {
+              if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
+                return errorText;
+              }
+              return validator?.call(value);
+            },
             initialValue: initialValue,
             enabled: enabled);
 
@@ -80,6 +86,7 @@ class FormItemChipsField extends FormField<String> {
   final Color? backgroundColor;
   final bool dense;
   final String? hintText;
+  final String? errorText;
   final String? labelText;
   final String? counterText;
   final String? lengthErrorText;

@@ -340,4 +340,8 @@ class InheritedModelAdapter<
   @override
   Future<void> signInSMS({required String smsCode}) =>
       adapter.signInSMS(smsCode: smsCode);
+
+  /// Returns the ID of the currently active provider.
+  @override
+  List<String> get activeProviders => adapter.activeProviders;
 }

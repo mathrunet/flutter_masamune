@@ -342,4 +342,8 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   /// Authenticate by sending a code to your phone number.
   @override
   Future<void> signInSMS({required String smsCode}) => Future.value();
+
+  /// Returns the ID of the currently active provider.
+  @override
+  List<String> get activeProviders => const [];
 }
