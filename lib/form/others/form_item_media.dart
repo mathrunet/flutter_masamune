@@ -47,6 +47,9 @@ class FormItemMedia extends FormField<String> {
       "avi",
       "mpeg",
     ],
+    this.showOverlayIcon = true,
+    this.overlayColor = Colors.black38,
+    this.overlayIconColor = Colors.white70,
     this.icon = Icons.add_a_photo,
     void Function(String? value)? onSaved,
     String Function(String? value)? validator,
@@ -85,6 +88,15 @@ class FormItemMedia extends FormField<String> {
 
   /// Icon if you have not uploaded an image and video.
   final IconData icon;
+
+  /// Displays the settings icon in an overlay.
+  final bool showOverlayIcon;
+
+  /// Color of the overlay.
+  final Color overlayColor;
+
+  /// Color of the overlay icon.
+  final Color overlayIconColor;
 
   /// `True` for dense.
   final bool dense;
@@ -232,16 +244,47 @@ class _FormItemMediaState extends FormFieldState<String> {
     final type = _platformMediaType(path);
     switch (type) {
       case PlatformMediaType.video:
-        return Video(
-          NetworkOrAsset.video(path),
-          fit: BoxFit.cover,
-          autoplay: true,
-          mute: true,
-          mixWithOthers: true,
+        return _buiildCover(
+          context,
+          Video(
+            NetworkOrAsset.video(path),
+            fit: BoxFit.cover,
+            autoplay: true,
+            mute: true,
+            mixWithOthers: true,
+          ),
         );
       default:
-        return Image(image: NetworkOrAsset.image(path), fit: BoxFit.cover);
+        return _buiildCover(
+          context,
+          Image(
+            image: NetworkOrAsset.image(path),
+            fit: BoxFit.cover,
+          ),
+        );
     }
+  }
+
+  Widget _buiildCover(BuildContext context, Widget child) {
+    if (!widget.showOverlayIcon) {
+      return child;
+    }
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        child,
+        ColoredBox(
+          color: widget.overlayColor,
+          child: Center(
+            child: Icon(
+              widget.icon,
+              color: widget.overlayIconColor,
+              size: 48,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildMedia(BuildContext context) {

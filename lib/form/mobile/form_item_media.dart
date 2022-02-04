@@ -48,6 +48,9 @@ class FormItemMedia extends FormField<String> {
       "mpeg",
     ],
     this.icon = Icons.add_a_photo,
+    this.showOverlayIcon = true,
+    this.overlayColor = Colors.black38,
+    this.overlayIconColor = Colors.white70,
     void Function(String? value)? onSaved,
     String Function(String? value)? validator,
     String? initialURI,
@@ -79,6 +82,15 @@ class FormItemMedia extends FormField<String> {
   ///
   /// Finally save the file using [onUpdate].
   final void Function(void Function(dynamic fileOrUrl) onUpdate) onTap;
+
+  /// Displays the settings icon in an overlay.
+  final bool showOverlayIcon;
+
+  /// Color of the overlay.
+  final Color overlayColor;
+
+  /// Color of the overlay icon.
+  final Color overlayIconColor;
 
   /// The overall color if you have not uploaded an image and video.
   final Color? color;
@@ -213,11 +225,11 @@ class _FormItemMediaState extends FormFieldState<String> {
           ),
           if (errorText.isNotEmpty)
             AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                child: Text(errorText ?? "",
-                    style: Theme.of(context).inputDecorationTheme.errorStyle),
-                height:
-                    errorText.isNotEmpty ? FormItemMedia.errorTextHeight : 0)
+              duration: const Duration(milliseconds: 200),
+              child: Text(errorText ?? "",
+                  style: Theme.of(context).inputDecorationTheme.errorStyle),
+              height: errorText.isNotEmpty ? FormItemMedia.errorTextHeight : 0,
+            )
         ],
       ),
     );
@@ -244,15 +256,21 @@ class _FormItemMediaState extends FormFieldState<String> {
     final type = _platformMediaType(file.path);
     switch (type) {
       case PlatformMediaType.video:
-        return Video(
-          FileVideoProvider(file),
-          fit: BoxFit.cover,
-          autoplay: true,
-          mute: true,
-          mixWithOthers: true,
+        return _buiildCover(
+          context,
+          Video(
+            FileVideoProvider(file),
+            fit: BoxFit.cover,
+            autoplay: true,
+            mute: true,
+            mixWithOthers: true,
+          ),
         );
       default:
-        return Image.file(file, fit: BoxFit.cover);
+        return _buiildCover(
+          context,
+          Image.file(file, fit: BoxFit.cover),
+        );
     }
   }
 
@@ -260,16 +278,44 @@ class _FormItemMediaState extends FormFieldState<String> {
     final type = _platformMediaType(path);
     switch (type) {
       case PlatformMediaType.video:
-        return Video(
-          NetworkOrAsset.video(path),
-          fit: BoxFit.cover,
-          autoplay: true,
-          mute: true,
-          mixWithOthers: true,
+        return _buiildCover(
+          context,
+          Video(
+            NetworkOrAsset.video(path),
+            fit: BoxFit.cover,
+            autoplay: true,
+            mute: true,
+            mixWithOthers: true,
+          ),
         );
       default:
-        return Image(image: NetworkOrAsset.image(path), fit: BoxFit.cover);
+        return _buiildCover(
+          context,
+          Image(image: NetworkOrAsset.image(path), fit: BoxFit.cover),
+        );
     }
+  }
+
+  Widget _buiildCover(BuildContext context, Widget child) {
+    if (!widget.showOverlayIcon) {
+      return child;
+    }
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        child,
+        ColoredBox(
+          color: widget.overlayColor,
+          child: Center(
+            child: Icon(
+              widget.icon,
+              color: widget.overlayIconColor,
+              size: 48,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildMedia(BuildContext context) {
