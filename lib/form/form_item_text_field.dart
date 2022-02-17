@@ -2,6 +2,7 @@ part of masamune.form;
 
 class FormItemTextField extends StatelessWidget implements FormItem {
   const FormItemTextField({
+    Key? key,
     this.controller,
     this.keyboardType = TextInputType.text,
     this.maxLength,
@@ -12,6 +13,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.minLines = 1,
     this.border,
     this.disabledBorder,
+    this.errorBorder,
     this.backgroundColor,
     this.expands = false,
     this.hintText,
@@ -46,10 +48,12 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.subColor,
     this.height,
     this.errorText,
+    this.errorColor,
+    this.helperFontSize,
     this.cursorColor,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
-  });
+  }) : super(key: key);
 
   final TextEditingController? controller;
   final TextInputType keyboardType;
@@ -81,6 +85,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final bool allowEmpty;
   final InputBorder? border;
   final InputBorder? disabledBorder;
+  final InputBorder? errorBorder;
   final List<String> suggestion;
   final Color? backgroundColor;
   final void Function(String value)? onDeleteSuggestion;
@@ -91,6 +96,8 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final EdgeInsetsGeometry? contentPadding;
   final Color? color;
   final Color? subColor;
+  final Color? errorColor;
+  final double? helperFontSize;
   final bool? showCursor;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
@@ -113,6 +120,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
                 ? const EdgeInsets.symmetric(vertical: 20)
                 : const EdgeInsets.symmetric(vertical: 10)),
         child: TextFormField(
+          key: key,
           cursorColor: cursorColor,
           inputFormatters: inputFormatters,
           focusNode: focusNode,
@@ -147,15 +155,18 @@ class FormItemTextField extends StatelessWidget implements FormItem {
                 OutlineInputBorder(
                   borderSide: dense ? BorderSide.none : const BorderSide(),
                 ),
-            errorBorder: border ??
+            errorBorder: errorBorder ??
+                border ??
                 OutlineInputBorder(
                   borderSide: dense ? BorderSide.none : const BorderSide(),
+                  gapPadding: 0,
                 ),
             focusedBorder: border ??
                 OutlineInputBorder(
                   borderSide: dense ? BorderSide.none : const BorderSide(),
                 ),
-            focusedErrorBorder: border ??
+            focusedErrorBorder: errorBorder ??
+                border ??
                 OutlineInputBorder(
                   borderSide: dense ? BorderSide.none : const BorderSide(),
                 ),
@@ -191,12 +202,16 @@ class FormItemTextField extends StatelessWidget implements FormItem {
                 color: subColor ??
                     color?.withOpacity(0.5) ??
                     context.theme.textColor.withOpacity(0.5),
-                fontSize: fontSize),
+                fontSize: helperFontSize),
             helperStyle: TextStyle(
                 color: subColor ??
                     color?.withOpacity(0.5) ??
                     context.theme.textColor.withOpacity(0.5),
-                fontSize: fontSize),
+                fontSize: helperFontSize),
+            errorStyle: TextStyle(
+              color: errorColor ?? context.theme.errorColor,
+              fontSize: helperFontSize,
+            ),
           ),
           style: TextStyle(
               color: color ?? context.theme.textColor, fontSize: fontSize),

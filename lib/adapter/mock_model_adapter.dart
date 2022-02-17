@@ -11,6 +11,16 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   /// If you put the user ID in [userId], you can pass around the authentication.
   const MockModelAdapter({required this.userId, required this.data});
 
+  /// Path prefix.
+  @override
+  // ignore: avoid_field_initializers_in_const_classes
+  final String prefix = "";
+
+  /// Path suffix.
+  @override
+  // ignore: avoid_field_initializers_in_const_classes
+  final String suffix = "";
+
   /// Mock data.
   final Map<String, DynamicMap> data;
 
@@ -63,25 +73,37 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
         charSet: charSet,
       );
 
-  /// Save the number of elements in [collectionPath] to its parent document with [counterSuffix].
+  /// Outputs the builder to be written by the transaction.
+  ///
+  /// Basically, it writes and deletes data for [collectionPath].
   ///
   /// You can add the corresponding element by specifying [linkedCollectionPath].
   ///
+  /// If [enableCounter] is set to `true`,
+  /// the number of elements will be counted and recorded in the document of the level above each collection path.
+  ///
   /// You can generate a key to store the number of elements in a document by specifying [counterBuilder] or [linkedCounterBuilder].
   @override
-  IncrementCounterTransactionBuilder incrementCounter(
-          {required String collectionPath,
-          String counterSuffix = "Count",
-          String Function(String path)? counterBuilder,
-          String? linkedCollectionPath,
-          String Function(String linkPath)? linkedCounterBuilder,
-          List<CounterUpdaterInterval> counterIntervals = const []}) =>
-      RuntimeTransaction.incrementCounter(
+  DatabaseTransactionBuilder transaction({
+    required String collectionPath,
+    bool enableCounter = true,
+    String counterSuffix = "Count",
+    String Function(String path)? counterBuilder,
+    String? linkedCollectionPath,
+    String Function(String linkPath)? linkedCounterBuilder,
+    List<CounterUpdaterInterval> counterIntervals = const [],
+    DynamicMap? additionalData,
+    DynamicMap? linkedAdditionalData,
+  }) =>
+      RuntimeTransaction.transaction(
+        enableCounter: enableCounter,
         collectionPath: collectionPath,
         counterSuffix: counterSuffix,
         counterBuilder: counterBuilder,
         linkedCollectionPath: linkedCollectionPath,
         counterIntervals: counterIntervals,
+        additionalData: additionalData,
+        linkedAdditionalData: linkedAdditionalData,
       );
 
   /// Performs the process of loading a collection.
