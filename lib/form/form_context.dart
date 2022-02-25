@@ -25,7 +25,7 @@ part of masamune.form;
 // }
 
 extension WidgetRefFormExtensions on WidgetRef {
-  FormContext useForm<T>([String? editingId]) {
+  FormContext useForm([String? editingId]) {
     return valueBuilder<FormContext, _FormContextValue>(
       key: "form",
       builder: () {
