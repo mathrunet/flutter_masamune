@@ -64,6 +64,7 @@ export 'media/others/others.dart'
     if (dart.library.io) 'media/mobile/mobile.dart'
     if (dart.library.js) 'media/others/others.dart'
     if (dart.library.html) 'media/others/others.dart';
+export 'variable/variable.dart';
 export 'widget/component/others/others.dart'
     if (dart.library.io) 'widget/component/mobile/mobile.dart'
     if (dart.library.js) 'widget/component/others/others.dart'
@@ -80,8 +81,8 @@ export 'widget/property/others/others.dart'
 part 'adapter/inherited_model_adapter.dart';
 part 'adapter/local_model_adapter.dart';
 part 'adapter/mock_model_adapter.dart';
-part "adapter/multi_platform_adapter.dart";
 part "adapter/mock_sign_in_adapter.dart";
+part "adapter/multi_platform_adapter.dart";
 part 'animation/animation_scenario.dart';
 part 'animation/animation_unit.dart';
 part 'animation/typedef.dart';
