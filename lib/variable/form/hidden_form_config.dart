@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using Hidden.
 @immutable
-class HiddenFormConfig<T> extends FormConfig<T> {
+class HiddenFormConfig<T> extends VariableFormConfig<T> {
   const HiddenFormConfig({
     this.type = HiddenFormConfigType.variable,
     this.applyOnUpdate = true,
@@ -11,29 +11,10 @@ class HiddenFormConfig<T> extends FormConfig<T> {
   final HiddenFormConfigType type;
 
   final bool applyOnUpdate;
-}
-
-/// The type of Hidden form config.
-enum HiddenFormConfigType {
-  /// Value.
-  variable,
-
-  /// Current time.
-  dateTimeNow,
-
-  /// Initial Order.
-  initialOrder,
-}
-
-@immutable
-class HiddenFormConfigBuilder<T>
-    extends FormConfigBuilder<T, HiddenFormConfig<T>> {
-  const HiddenFormConfigBuilder();
 
   @override
-  Iterable<Widget> form({
+  Iterable<Widget> build({
     required VariableConfig<T> config,
-    required HiddenFormConfig<T> form,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
@@ -43,19 +24,7 @@ class HiddenFormConfigBuilder<T>
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<T> config,
-    required HiddenFormConfig<T> form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    return [];
-  }
-
-  @override
-  dynamic value({
+  T? value({
     required VariableConfig<T> config,
     required BuildContext context,
     required WidgetRef ref,
@@ -70,11 +39,23 @@ class HiddenFormConfigBuilder<T>
     }
     switch (form.type) {
       case HiddenFormConfigType.dateTimeNow:
-        return DateTime.now().millisecondsSinceEpoch;
+        return DateTime.now().millisecondsSinceEpoch as T;
       case HiddenFormConfigType.initialOrder:
-        return DateTime.now().millisecondsSinceEpoch.toDouble();
+        return DateTime.now().millisecondsSinceEpoch.toDouble() as T;
       default:
         return config.value;
     }
   }
+}
+
+/// The type of Hidden form config.
+enum HiddenFormConfigType {
+  /// Value.
+  variable,
+
+  /// Current time.
+  dateTimeNow,
+
+  /// Initial Order.
+  initialOrder,
 }

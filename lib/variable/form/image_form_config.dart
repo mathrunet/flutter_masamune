@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using Image.
 @immutable
-class ImageFormConfig extends FormConfig<String> {
+class ImageFormConfig extends VariableFormConfig<String> {
   const ImageFormConfig({
     this.color,
     this.backgroundColor,
@@ -17,17 +17,10 @@ class ImageFormConfig extends FormConfig<String> {
   final PlatformMediaType type;
 
   final double height;
-}
-
-@immutable
-class ImageFormConfigBuilder
-    extends FormConfigBuilder<String, ImageFormConfig> {
-  const ImageFormConfigBuilder();
 
   @override
-  Iterable<Widget> form({
+  Iterable<Widget> build({
     required VariableConfig<String> config,
-    required ImageFormConfig form,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
@@ -36,8 +29,8 @@ class ImageFormConfigBuilder
     return [
       FormItemMedia(
         dense: true,
-        height: form.height,
-        color: form.color,
+        height: height,
+        color: color,
         padding: const EdgeInsets.only(bottom: 4),
         hintText: "Select %s".localize().format([config.label.localize()]),
         errorText: "No select %s".localize().format([config.label.localize()]),
@@ -52,7 +45,7 @@ class ImageFormConfigBuilder
             final media = await context.platform?.mediaDialog(
               context,
               title: "Select %s".localize().format([config.label.localize()]),
-              type: form.type,
+              type: type,
             );
             if (media == null || media.path.isEmpty) {
               return;
@@ -80,34 +73,7 @@ class ImageFormConfigBuilder
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<String> config,
-    required ImageFormConfig form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    final path = data.get(config.id, config.value);
-    final type = getPlatformMediaType(path);
-    switch (type) {
-      case PlatformMediaType.image:
-        return [
-          Image(image: NetworkOrAsset.image(path), fit: BoxFit.cover),
-        ];
-      case PlatformMediaType.video:
-        return [
-          Video(NetworkOrAsset.video(path), fit: BoxFit.cover),
-        ];
-      default:
-        return [
-          const Empty(),
-        ];
-    }
-  }
-
-  @override
-  dynamic value({
+  String? value({
     required VariableConfig<String> config,
     required BuildContext context,
     required WidgetRef ref,

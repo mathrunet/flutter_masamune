@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using rage TextField.
 @immutable
-class RangeFormConfig extends FormConfig<num> {
+class RangeFormConfig extends VariableFormConfig<DynamicMap> {
   const RangeFormConfig({
     this.color,
     this.backgroundColor,
@@ -38,22 +38,16 @@ class RangeFormConfig extends FormConfig<num> {
   final int? maxLength;
 
   final TextInputFormatterConfig? inputFormatter;
-}
-
-@immutable
-class RangeFormConfigBuilder extends FormConfigBuilder<num, RangeFormConfig> {
-  const RangeFormConfigBuilder();
 
   @override
-  Iterable<Widget> form({
-    required VariableConfig<num> config,
-    required RangeFormConfig form,
+  Iterable<Widget> build({
+    required VariableConfig<DynamicMap> config,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
     bool onlyRequired = false,
   }) {
-    final map = data.getAsMap(config.id, <String, dynamic>{});
+    final map = data.getAsMap(config.id, config.value);
     return [
       if (config.label.isNotEmpty)
         DividHeadline(
@@ -73,20 +67,19 @@ class RangeFormConfigBuilder extends FormConfigBuilder<num, RangeFormConfig> {
             flex: 1,
             child: FormItemTextField(
               dense: true,
-              color: form.color,
+              color: color,
               inputFormatters: [
-                if (form.inputFormatter != null) form.inputFormatter!.value
+                if (inputFormatter != null) inputFormatter!.value
               ],
               errorText:
                   "No input %s".localize().format([config.label.localize()]),
-              minLength: form.minLength,
-              maxLength: form.maxLength,
-              keyboardType: form.keyboardType,
-              backgroundColor: form.backgroundColor,
+              minLength: minLength,
+              maxLength: maxLength,
+              keyboardType: keyboardType,
+              backgroundColor: backgroundColor,
               allowEmpty: !config.required,
-              controller: ref.useTextEditingController(
-                  "${config.id}:${form.minKey}",
-                  map.get(form.minKey, config.value).toString()),
+              controller: ref.useTextEditingController("${config.id}:$minKey",
+                  map.get(minKey, config.value).toString()),
               onSaved: (value) {
                 if (value.isEmpty) {
                   return;
@@ -96,24 +89,24 @@ class RangeFormConfigBuilder extends FormConfigBuilder<num, RangeFormConfig> {
                 if (min == null) {
                   return;
                 }
-                if (map.containsKey(form.maxKey)) {
-                  final max = map.get(form.maxKey, min);
+                if (map.containsKey(maxKey)) {
+                  final max = map.get(maxKey, min);
                   if (min > max) {
-                    map[form.minKey] = max;
-                    map[form.maxKey] = min;
+                    map[minKey] = max;
+                    map[maxKey] = min;
                   }
                 } else {
-                  map[form.minKey] = min;
+                  map[minKey] = min;
                 }
                 context[config.id] = map;
               },
-              prefix: form.prefix ??
-                  (form.prefixText != null
-                      ? Text(form.prefixText?.localize() ?? "")
+              prefix: prefix ??
+                  (prefixText != null
+                      ? Text(prefixText?.localize() ?? "")
                       : null),
-              suffix: form.suffix ??
-                  (form.suffixText != null
-                      ? Text(form.suffixText?.localize() ?? "")
+              suffix: suffix ??
+                  (suffixText != null
+                      ? Text(suffixText?.localize() ?? "")
                       : null),
             ),
           ),
@@ -130,20 +123,19 @@ class RangeFormConfigBuilder extends FormConfigBuilder<num, RangeFormConfig> {
             flex: 1,
             child: FormItemTextField(
               dense: true,
-              color: form.color,
+              color: color,
               inputFormatters: [
-                if (form.inputFormatter != null) form.inputFormatter!.value
+                if (inputFormatter != null) inputFormatter!.value
               ],
               errorText:
                   "No input %s".localize().format([config.label.localize()]),
-              minLength: form.minLength,
-              maxLength: form.maxLength,
-              keyboardType: form.keyboardType,
-              backgroundColor: form.backgroundColor,
+              minLength: minLength,
+              maxLength: maxLength,
+              keyboardType: keyboardType,
+              backgroundColor: backgroundColor,
               allowEmpty: !config.required,
-              controller: ref.useTextEditingController(
-                  "${config.id}:${form.maxKey}",
-                  map.get(form.maxKey, config.value).toString()),
+              controller: ref.useTextEditingController("${config.id}:$maxKey",
+                  map.get(maxKey, config.value).toString()),
               onSaved: (value) {
                 if (value.isEmpty) {
                   return;
@@ -153,24 +145,24 @@ class RangeFormConfigBuilder extends FormConfigBuilder<num, RangeFormConfig> {
                 if (max == null) {
                   return;
                 }
-                if (map.containsKey(form.minKey)) {
-                  final min = map.get(form.minKey, max);
+                if (map.containsKey(minKey)) {
+                  final min = map.get(minKey, max);
                   if (min > max) {
-                    map[form.minKey] = max;
-                    map[form.maxKey] = min;
+                    map[minKey] = max;
+                    map[maxKey] = min;
                   }
                 } else {
-                  map[form.maxKey] = max;
+                  map[maxKey] = max;
                 }
                 context[config.id] = map;
               },
-              prefix: form.prefix ??
-                  (form.prefixText != null
-                      ? Text(form.prefixText?.localize() ?? "")
+              prefix: prefix ??
+                  (prefixText != null
+                      ? Text(prefixText?.localize() ?? "")
                       : null),
-              suffix: form.suffix ??
-                  (form.suffixText != null
-                      ? Text(form.suffixText?.localize() ?? "")
+              suffix: suffix ??
+                  (suffixText != null
+                      ? Text(suffixText?.localize() ?? "")
                       : null),
             ),
           ),
@@ -180,32 +172,8 @@ class RangeFormConfigBuilder extends FormConfigBuilder<num, RangeFormConfig> {
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<num> config,
-    required RangeFormConfig form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    final map = data.getAsMap(config.id, <String, dynamic>{});
-    return [
-      if (config.label.isNotEmpty)
-        DividHeadline(
-          config.label.localize(),
-        )
-      else
-        const Divid(),
-      ListItem(
-        title: UIText(
-            "${map.get(form.minKey, config.value)} ～ ${map.get(form.maxKey, config.value)}"),
-      ),
-    ];
-  }
-
-  @override
-  dynamic value({
-    required VariableConfig<num> config,
+  DynamicMap? value({
+    required VariableConfig<DynamicMap> config,
     required BuildContext context,
     required WidgetRef ref,
     bool updated = true,

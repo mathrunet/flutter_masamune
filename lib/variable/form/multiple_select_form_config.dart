@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using Select/DropdownField.
 @immutable
-class MultipleSelectFormConfig extends FormConfig<List<String>> {
+class MultipleSelectFormConfig extends VariableFormConfig<List<String>> {
   const MultipleSelectFormConfig({
     required this.items,
     this.backgroundColor,
@@ -13,17 +13,10 @@ class MultipleSelectFormConfig extends FormConfig<List<String>> {
   final Color? backgroundColor;
 
   final Color? color;
-}
-
-@immutable
-class MultipleSelectFormConfigBuilder
-    extends FormConfigBuilder<List<String>, MultipleSelectFormConfig> {
-  const MultipleSelectFormConfigBuilder();
 
   @override
-  Iterable<Widget> form({
+  Iterable<Widget> build({
     required VariableConfig<List<String>> config,
-    required MultipleSelectFormConfig form,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
@@ -44,8 +37,8 @@ class MultipleSelectFormConfigBuilder
         const Divid(),
       FormItemMultipleCheckbox(
         dense: true,
-        backgroundColor: form.backgroundColor,
-        items: form.items,
+        backgroundColor: backgroundColor,
+        items: items,
         allowEmpty: !config.required,
         labelText: "Input %s".localize().format([config.label.localize()]),
         hintText: "Input %s".localize().format([config.label.localize()]),
@@ -64,31 +57,7 @@ class MultipleSelectFormConfigBuilder
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<List<String>> config,
-    required MultipleSelectFormConfig form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    final list = data.getAsList(config.id, config.value);
-    return [
-      if (config.label.isNotEmpty)
-        DividHeadline(
-          config.label.localize(),
-        )
-      else
-        const Divid(),
-      if (list.isEmpty)
-        const ListItem(title: Text("--"))
-      else
-        for (final key in list) ListItem(title: Text(form.items[key] ?? "")),
-    ];
-  }
-
-  @override
-  dynamic value({
+  List<String>? value({
     required VariableConfig<List<String>> config,
     required BuildContext context,
     required WidgetRef ref,

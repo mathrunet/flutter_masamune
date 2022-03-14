@@ -17,24 +17,32 @@ extension WidgetRefTextEditingControllerExtensions on WidgetRef {
   TextEditingController useTextEditingController(
     String key, [
     String defaultValue = "",
+    bool resetValueWhenDifferentDefaultValue = true,
   ]) {
     return valueBuilder<TextEditingController, _TextEditingControllerValue>(
       key: "textEditingController:$key",
       builder: () {
-        return _TextEditingControllerValue(defaultValue);
+        return _TextEditingControllerValue(
+          defaultValue,
+          resetValueWhenDifferentDefaultValue,
+        );
       },
     );
   }
 
   Map<String, TextEditingController> useTextEditingControllerMap(
     String key,
-    Map defaultValues,
-  ) {
+    Map defaultValues, [
+    bool resetValueWhenDifferentDefaultValue = true,
+  ]) {
     return valueBuilder<Map<String, TextEditingController>,
         _TextEditingControllerMapValue>(
       key: "textEditingControllerMap:$key",
       builder: () {
-        return _TextEditingControllerMapValue(defaultValues);
+        return _TextEditingControllerMapValue(
+          defaultValues,
+          resetValueWhenDifferentDefaultValue,
+        );
       },
     );
   }
@@ -42,8 +50,12 @@ extension WidgetRefTextEditingControllerExtensions on WidgetRef {
 
 @immutable
 class _TextEditingControllerValue extends ScopedValue<TextEditingController> {
-  const _TextEditingControllerValue(this.initialValue);
+  const _TextEditingControllerValue(
+    this.initialValue,
+    this.resetValueWhenDifferentDefaultValue,
+  );
   final String initialValue;
+  final bool resetValueWhenDifferentDefaultValue;
 
   @override
   ScopedValueState<TextEditingController, ScopedValue<TextEditingController>>
@@ -63,7 +75,8 @@ class _TextEditingControllerValueState extends ScopedValueState<
   @override
   void didUpdateValue(_TextEditingControllerValue oldValue) {
     super.didUpdateValue(oldValue);
-    if (value.initialValue != oldValue.initialValue) {
+    if (value.resetValueWhenDifferentDefaultValue &&
+        value.initialValue != oldValue.initialValue) {
       _controller.text = value.initialValue;
     }
   }
@@ -81,8 +94,12 @@ class _TextEditingControllerValueState extends ScopedValueState<
 @immutable
 class _TextEditingControllerMapValue
     extends ScopedValue<Map<String, TextEditingController>> {
-  const _TextEditingControllerMapValue(this.initialValues);
+  const _TextEditingControllerMapValue(
+    this.initialValues,
+    this.resetValueWhenDifferentDefaultValue,
+  );
   final Map initialValues;
+  final bool resetValueWhenDifferentDefaultValue;
 
   @override
   ScopedValueState<Map<String, TextEditingController>,
@@ -108,7 +125,8 @@ class _TextEditingControllerMapValueState extends ScopedValueState<
   @override
   void didUpdateValue(_TextEditingControllerMapValue oldValue) {
     super.didUpdateValue(oldValue);
-    if (value.initialValues != oldValue.initialValues) {
+    if (value.resetValueWhenDifferentDefaultValue &&
+        value.initialValues != oldValue.initialValues) {
       for (final tmp in value.initialValues.entries) {
         if (_controllers.containsKey(tmp.key)) {
           final key = tmp.key.toString();

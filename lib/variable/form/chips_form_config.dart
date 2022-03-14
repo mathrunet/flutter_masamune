@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using ChipsField.
 @immutable
-class ChipsFormConfig extends FormConfig<List<String>> {
+class ChipsFormConfig extends VariableFormConfig<List<String>> {
   const ChipsFormConfig({
     this.color,
     this.backgroundColor,
@@ -20,17 +20,10 @@ class ChipsFormConfig extends FormConfig<List<String>> {
   final Color? chipTextColor;
 
   final TextInputType keyboardType;
-}
-
-@immutable
-class ChipsFormConfigBuilder
-    extends FormConfigBuilder<List<String>, ChipsFormConfig> {
-  const ChipsFormConfigBuilder();
 
   @override
-  Iterable<Widget> form({
+  Iterable<Widget> build({
     required VariableConfig<List<String>> config,
-    required ChipsFormConfig form,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
@@ -51,11 +44,11 @@ class ChipsFormConfigBuilder
         const Divid(),
       FormItemChipsField(
         dense: true,
-        color: form.color,
-        inputType: form.keyboardType,
+        color: color,
+        inputType: keyboardType,
         hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),
-        backgroundColor: form.backgroundColor,
+        backgroundColor: backgroundColor,
         allowEmpty: !config.required,
         controller: ref.useTextEditingController(
           config.id,
@@ -72,13 +65,12 @@ class ChipsFormConfigBuilder
             label: Text(
               value,
               style: TextStyle(
-                color: form.chipTextColor ?? context.theme.textColorOnPrimary,
+                color: chipTextColor ?? context.theme.textColorOnPrimary,
               ),
             ),
-            backgroundColor: form.chipColor ?? context.theme.primaryColor,
+            backgroundColor: chipColor ?? context.theme.primaryColor,
             deleteIcon: const Icon(Icons.close),
-            deleteIconColor:
-                form.chipTextColor ?? context.theme.textColorOnPrimary,
+            deleteIconColor: chipTextColor ?? context.theme.textColorOnPrimary,
             onDeleted: () {
               state.deleteChip(value);
             },
@@ -89,45 +81,7 @@ class ChipsFormConfigBuilder
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<List<String>> config,
-    required ChipsFormConfig form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    return [
-      if (config.label.isNotEmpty)
-        DividHeadline(
-          config.label.localize(),
-        )
-      else
-        const Divid(),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-        child: Wrap(
-          children: data.getAsList(config.id, config.value).mapAndRemoveEmpty(
-            (value) {
-              return Chip(
-                label: Text(
-                  value,
-                  style: TextStyle(
-                    color:
-                        form.chipTextColor ?? context.theme.textColorOnPrimary,
-                  ),
-                ),
-                backgroundColor: form.chipColor ?? context.theme.primaryColor,
-              );
-            },
-          ),
-        ),
-      ),
-    ];
-  }
-
-  @override
-  dynamic value({
+  List<String>? value({
     required VariableConfig<List<String>> config,
     required BuildContext context,
     required WidgetRef ref,

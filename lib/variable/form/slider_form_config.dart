@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using Slider.
 @immutable
-class SliderFormConfig extends FormConfig<num> {
+class SliderFormConfig extends VariableFormConfig<num> {
   const SliderFormConfig({
     required this.min,
     required this.max,
@@ -21,16 +21,10 @@ class SliderFormConfig extends FormConfig<num> {
   final Color? backgroundColor;
 
   final Color? color;
-}
-
-@immutable
-class SliderFormConfigBuilder extends FormConfigBuilder<num, SliderFormConfig> {
-  const SliderFormConfigBuilder();
 
   @override
-  Iterable<Widget> form({
+  Iterable<Widget> build({
     required VariableConfig<num> config,
-    required SliderFormConfig form,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
@@ -54,15 +48,14 @@ class SliderFormConfigBuilder extends FormConfigBuilder<num, SliderFormConfig> {
           config.id,
           data.get(config.id, config.value).toString(),
         ),
-        min: form.min,
-        max: form.max,
-        format:
-            "0.##${form.suffixLabel != null ? " " + form.suffixLabel! : ""}",
-        divisions: form.divisions,
-        inaciveColor: form.backgroundColor,
+        min: min,
+        max: max,
+        format: "0.##${suffixLabel != null ? " " + suffixLabel! : ""}",
+        divisions: divisions,
+        inaciveColor: backgroundColor,
         showLabel: true,
         padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-        activeColor: form.color,
+        activeColor: color,
         onSaved: (value) {
           if (value.isEmpty) {
             context[config.id] = config.value;
@@ -75,32 +68,7 @@ class SliderFormConfigBuilder extends FormConfigBuilder<num, SliderFormConfig> {
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<num> config,
-    required SliderFormConfig form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    return [
-      if (config.label.isNotEmpty)
-        DividHeadline(
-          config.label.localize(),
-        )
-      else
-        const Divid(),
-      ListItem(
-        title: Text(data.get(config.id, form.min).toString()),
-        trailing: form.suffixLabel.isEmpty
-            ? null
-            : Text(form.suffixLabel!.localize()),
-      ),
-    ];
-  }
-
-  @override
-  dynamic value({
+  num? value({
     required VariableConfig<num> config,
     required BuildContext context,
     required WidgetRef ref,

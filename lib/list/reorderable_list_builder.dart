@@ -33,14 +33,15 @@ class ReorderableListBuilder<T> extends StatefulWidget {
         _topSourcelength = top.length + source.length + insert.length,
         super(key: key);
 
-  static M setOrderForDynamicMap<M extends DynamicMap>(
+  static Future<M> setOrderForDynamicMap<M extends DynamicMap>(
     M map,
     int oldPosition,
     int newPosition,
     List<M> reordered, {
+    FutureOr<void> Function(M data)? onSave,
     String key = "order",
     double? defaultOrder,
-  }) {
+  }) async {
     if (reordered.length <= 1) {
       return map;
     }
@@ -65,6 +66,7 @@ class ReorderableListBuilder<T> extends StatefulWidget {
             2.0;
       }
     }
+    await onSave?.call(map);
     return map;
   }
 

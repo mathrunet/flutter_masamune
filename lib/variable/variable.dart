@@ -5,22 +5,26 @@ library masamune.variable;
 
 import 'package:masamune/masamune.dart';
 
+part 'form/text_form_config.dart';
+part 'form/chips_form_config.dart';
+part 'form/date_time_form_config.dart';
+part 'form/duration_form_config.dart';
+part 'form/hidden_form_config.dart';
+part 'form/image_form_config.dart';
+part 'form/multiple_select_form_config.dart';
+part 'form/multiple_text_form_config.dart';
+part 'form/range_form_config.dart';
+part 'form/select_form_config.dart';
+part 'form/slider_form_config.dart';
+
+part 'view/list_tile_view_config.dart';
+part 'view/select_list_tile_view_config.dart';
+part 'view/range_list_tile_view_config.dart';
+part 'view/multiple_list_tile_view_config.dart';
+part 'view/multiple_select_list_tile_view_config.dart';
+part 'view/date_time_list_tile_view_config.dart';
+part 'view/duration_list_tile_view_config.dart';
+part 'view/chips_view_config.dart';
+part 'view/media_view_config.dart';
+
 part 'variable_config_definition.dart';
-part 'default_form_config_builders.dart';
-
-part 'date_time_form_config.dart';
-part 'hidden_form_config.dart';
-
-part 'multiple_select_form_config.dart';
-part 'multiple_text_form_config.dart';
-
-part 'select_form_config.dart';
-
-part 'slider_form_config.dart';
-
-part 'text_form_config.dart';
-
-part 'image_form_config.dart';
-
-part 'chips_form_config.dart';
-part 'range_form_config.dart';

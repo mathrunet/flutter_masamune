@@ -298,6 +298,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.9"
+  flutter_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -370,7 +377,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.4+10"
+    version: "0.8.4+11"
   image_picker_for_web:
     dependency: transitive
     description:
@@ -412,7 +419,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0+70"
+    version: "0.9.0+74"
   katana_routing:
     dependency: "direct main"
     description:
@@ -942,7 +949,7 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.19"
+    version: "2.3.0"
   video_player_android:
     dependency: transitive
     description:

@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using multiple TextField List.
 @immutable
-class MultipleTextFormConfig extends FormConfig<List<String>> {
+class MultipleTextFormConfig extends VariableFormConfig<List<String>> {
   const MultipleTextFormConfig({
     this.backgroundColor,
     this.obscureText = false,
@@ -32,17 +32,10 @@ class MultipleTextFormConfig extends FormConfig<List<String>> {
   final int? maxLength;
 
   final bool obscureText;
-}
-
-@immutable
-class MultipleTextFormConfigBuilder
-    extends FormConfigBuilder<List<String>, MultipleTextFormConfig> {
-  const MultipleTextFormConfigBuilder();
 
   @override
-  Iterable<Widget> form({
+  Iterable<Widget> build({
     required VariableConfig<List<String>> config,
-    required MultipleTextFormConfig form,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
@@ -63,16 +56,16 @@ class MultipleTextFormConfigBuilder
         const Divid(),
       FormItemMultipleTextField(
         dense: true,
-        color: form.color,
-        minLines: form.minLines ?? 1,
+        color: color,
+        minLines: minLines ?? 1,
         hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),
-        maxLines: form.maxLines,
-        minLength: form.minLength,
-        maxLength: form.maxLength,
-        keyboardType: form.keyboardType,
-        backgroundColor: form.backgroundColor,
-        obscureText: form.obscureText,
+        maxLines: maxLines,
+        minLength: minLength,
+        maxLength: maxLength,
+        keyboardType: keyboardType,
+        backgroundColor: backgroundColor,
+        obscureText: obscureText,
         allowEmpty: !config.required,
         controller: ref.useTextEditingController(
             config.id, data.getAsList(config.id, config.value).join(",")),
@@ -84,31 +77,7 @@ class MultipleTextFormConfigBuilder
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<List<String>> config,
-    required MultipleTextFormConfig form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    final list = data.getAsList(config.id, config.value);
-    return [
-      if (config.label.isNotEmpty)
-        DividHeadline(
-          config.label.localize(),
-        )
-      else
-        const Divid(),
-      if (list.isEmpty)
-        const ListItem(title: Text("--"))
-      else
-        for (final text in list) ListItem(title: UIText(text)),
-    ];
-  }
-
-  @override
-  dynamic value({
+  List<String>? value({
     required VariableConfig<List<String>> config,
     required BuildContext context,
     required WidgetRef ref,

@@ -2,7 +2,7 @@ part of masamune.variable;
 
 /// FormConfig for using TextField.
 @immutable
-class TextFormConfig<T> extends FormConfig<T> {
+class TextFormConfig<T> extends VariableFormConfig<T> {
   const TextFormConfig({
     this.color,
     this.backgroundColor,
@@ -17,6 +17,8 @@ class TextFormConfig<T> extends FormConfig<T> {
     this.prefixText,
     this.suffix,
     this.suffixText,
+    this.top,
+    this.bottom,
   });
 
   final String? prefixText;
@@ -42,21 +44,20 @@ class TextFormConfig<T> extends FormConfig<T> {
   final bool obscureText;
 
   final TextInputFormatterConfig? inputFormatter;
-}
 
-@immutable
-class TextFormConfigBuilder<T> extends FormConfigBuilder<T, TextFormConfig> {
-  const TextFormConfigBuilder();
+  final ValueWidget<TextEditingController>? top;
+  final ValueWidget<TextEditingController>? bottom;
 
   @override
-  Iterable<Widget> form({
+  Iterable<Widget> build({
     required VariableConfig<T> config,
-    required TextFormConfig form,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
     bool onlyRequired = false,
   }) {
+    final controller = ref.useTextEditingController(
+        config.id, data.get(config.id, config.value).toString());
     return [
       if (config.label.isNotEmpty)
         DividHeadline(
@@ -70,63 +71,36 @@ class TextFormConfigBuilder<T> extends FormConfigBuilder<T, TextFormConfig> {
         )
       else
         const Divid(),
+      if (top != null) ValueProvider(value: controller, child: top!),
       FormItemTextField(
         dense: true,
-        color: form.color,
-        inputFormatters: [
-          if (form.inputFormatter != null) form.inputFormatter!.value
-        ],
-        minLines: form.minLines ?? 1,
+        color: color,
+        inputFormatters: [if (inputFormatter != null) inputFormatter!.value],
+        minLines: minLines ?? 1,
         hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),
-        maxLines: form.maxLines,
-        minLength: form.minLength,
-        maxLength: form.maxLength,
-        keyboardType: form.keyboardType,
-        backgroundColor: form.backgroundColor,
-        obscureText: form.obscureText,
+        maxLines: maxLines,
+        minLength: minLength,
+        maxLength: maxLength,
+        keyboardType: keyboardType,
+        backgroundColor: backgroundColor,
+        obscureText: obscureText,
         allowEmpty: !config.required,
-        controller: ref.useTextEditingController(
-            config.id, data.get(config.id, config.value).toString()),
+        controller: controller,
         onSaved: (value) {
           context[config.id] = value;
         },
-        prefix: form.prefix ??
-            (form.prefixText != null
-                ? Text(form.prefixText?.localize() ?? "")
-                : null),
-        suffix: form.suffix ??
-            (form.suffixText != null
-                ? Text(form.suffixText?.localize() ?? "")
-                : null),
+        prefix: prefix ??
+            (prefixText != null ? Text(prefixText?.localize() ?? "") : null),
+        suffix: suffix ??
+            (suffixText != null ? Text(suffixText?.localize() ?? "") : null),
       ),
+      if (bottom != null) ValueProvider(value: controller, child: bottom!),
     ];
   }
 
   @override
-  Iterable<Widget> view({
-    required VariableConfig<T> config,
-    required TextFormConfig form,
-    required BuildContext context,
-    required WidgetRef ref,
-    DynamicMap? data,
-    bool onlyRequired = false,
-  }) {
-    return [
-      if (config.label.isNotEmpty)
-        DividHeadline(
-          config.label.localize(),
-        )
-      else
-        const Divid(),
-      ListItem(
-        title: UIText(data.get(config.id, config.value).toString()),
-      ),
-    ];
-  }
-
-  @override
-  dynamic value({
+  T? value({
     required VariableConfig<T> config,
     required BuildContext context,
     required WidgetRef ref,

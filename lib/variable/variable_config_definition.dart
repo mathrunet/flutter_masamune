@@ -10,6 +10,7 @@ class VariableConfigDefinition {
     value: "",
     required: true,
     form: TextFormConfig(),
+    view: ListTileViewConfig(),
   );
 
   /// VariableConfig definition of the image.
@@ -20,6 +21,7 @@ class VariableConfigDefinition {
     form: ImageFormConfig(
       type: PlatformMediaType.image,
     ),
+    view: MediaViewConfig(),
   );
 
   /// VariableConfig definition of the media.
@@ -30,6 +32,7 @@ class VariableConfigDefinition {
     form: ImageFormConfig(
       type: PlatformMediaType.all,
     ),
+    view: MediaViewConfig(),
   );
 
   /// VariableConfig definition of the text.
@@ -38,6 +41,7 @@ class VariableConfigDefinition {
     label: "Text",
     value: "",
     form: TextFormConfig(maxLines: 5, minLines: 5),
+    view: ListTileViewConfig(),
   );
 
   /// VariableConfig definition of the tags.
@@ -46,6 +50,7 @@ class VariableConfigDefinition {
     label: "Tag",
     value: [],
     form: ChipsFormConfig(),
+    view: ChipsViewConfig(),
   );
 
   /// VariableConfig definition of the gender.
@@ -60,6 +65,13 @@ class VariableConfigDefinition {
         "other": "Others",
       },
     ),
+    view: SelectListTileViewConfig(
+      items: {
+        "male": "Male",
+        "female": "Female",
+        "other": "Others",
+      },
+    ),
   );
 
   /// VariableConfig definition of the age.
@@ -68,6 +80,16 @@ class VariableConfigDefinition {
     label: "Ages",
     value: "twenties",
     form: SelectFormConfig(
+      items: {
+        "teens": "10s",
+        "twenties": "20s",
+        "thirties": "30s",
+        "forties": "40s",
+        "fifties": "50s",
+        "sixties": "60s",
+      },
+    ),
+    view: SelectListTileViewConfig(
       items: {
         "teens": "10s",
         "twenties": "20s",
@@ -120,15 +142,17 @@ class VariableConfigDefinition {
       keyboardType: TextInputType.number,
       inputFormatter: TextInputFormatterConfig(r"[0-9]"),
     ),
+    view: ListTileViewConfig(),
   );
 
   /// VariableConfig definition of the name.
-  static const VariableConfig<num> range = VariableConfig(
+  static const VariableConfig<DynamicMap> range = VariableConfig(
     id: "range",
     label: "Range",
-    value: 0,
+    value: {"range:min": 0, "range:max": 0},
     form: RangeFormConfig(
       inputFormatter: TextInputFormatterConfig(r"[0-9]"),
     ),
+    view: RangeListTileViewConfig(),
   );
 }

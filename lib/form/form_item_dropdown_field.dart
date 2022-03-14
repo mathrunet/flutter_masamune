@@ -19,6 +19,7 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
     this.counterText = "",
     this.onSaved,
     this.onChanged,
+    this.builder,
   });
 
   final TextEditingController? controller;
@@ -38,6 +39,7 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
   final void Function(String? value)? onSaved;
   final void Function(String? value)? onChanged;
   final EdgeInsetsGeometry contentPadding;
+  final Widget Function(String key, String value)? builder;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
       child: DropdownTextFormField(
         controller: controller,
         items: items,
+        builder: builder,
         enabled: enabled,
         decoration: InputDecoration(
           fillColor: backgroundColor,
@@ -126,6 +129,7 @@ class DropdownTextFormField extends StatefulWidget {
       this.isExpanded = true,
       this.itemHeight,
       this.itemBackgroundColor,
+      this.builder,
       this.itemTextColor})
       : super(key: key);
 
@@ -154,6 +158,7 @@ class DropdownTextFormField extends StatefulWidget {
   final Color? itemBackgroundColor;
   final Color? itemTextColor;
   final TextEditingController? controller;
+  final Widget Function(String key, String value)? builder;
   @override
   _DropdownTextFormFieldState createState() => _DropdownTextFormFieldState();
 }
@@ -268,6 +273,9 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
               (context) {
                 return widget.items.toList<Widget>(
                   (String key, String value) {
+                    if (widget.builder != null) {
+                      return widget.builder!.call(key, value);
+                    }
                     return Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -286,6 +294,12 @@ class _DropdownTextFormFieldState extends State<DropdownTextFormField> {
           items: widget.children ??
               widget.items.toList(
                 (String key, String value) {
+                  if (widget.builder != null) {
+                    return DropdownMenuItem(
+                      value: key,
+                      child: widget.builder!.call(key, value),
+                    );
+                  }
                   return DropdownMenuItem(
                     value: key,
                     child: Text(
