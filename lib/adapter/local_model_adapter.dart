@@ -77,24 +77,11 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   @override
   DatabaseTransactionBuilder transaction({
     required String collectionPath,
-    bool enableCounter = true,
-    String counterSuffix = "Count",
-    String Function(String path)? counterBuilder,
     String? linkedCollectionPath,
-    String Function(String linkPath)? linkedCounterBuilder,
-    List<CounterUpdaterInterval> counterIntervals = const [],
-    DynamicMap? additionalData,
-    DynamicMap? linkedAdditionalData,
   }) =>
       LocalTransaction.transaction(
-        enableCounter: enableCounter,
         collectionPath: collectionPath,
-        counterSuffix: counterSuffix,
-        counterBuilder: counterBuilder,
         linkedCollectionPath: linkedCollectionPath,
-        counterIntervals: counterIntervals,
-        additionalData: additionalData,
-        linkedAdditionalData: linkedAdditionalData,
       );
 
   /// Performs the process of loading a document.

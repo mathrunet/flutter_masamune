@@ -26,6 +26,7 @@ class UIAppBar extends StatelessWidget {
     this.centerTitle,
     this.excludeHeaderSemantics = false,
     this.titleSpacing,
+    this.titlePadding = const EdgeInsets.fromLTRB(24, 0, 0, 0),
     this.collapsedHeight,
     this.expandedHeight,
     this.floating = true,
@@ -55,6 +56,7 @@ class UIAppBar extends StatelessWidget {
   final bool sliverLayoutWhenModernDesign;
   final Widget? background;
   final UIAppBarScrollStyle scrollStyle;
+  final EdgeInsetsGeometry titlePadding;
 
   /// {@macro flutter.material.appbar.leading}
   ///
@@ -371,6 +373,15 @@ class UIAppBar extends StatelessWidget {
           final bottomHeight = bottom?.preferredSize.height ?? 0;
           final height =
               max(context.mediaQuery.size.height / 5, 120.0) + bottomHeight;
+          final padding = titlePadding.resolve(TextDirection.ltr);
+          final scaffold = Scaffold.maybeOf(context);
+          final parentRoute = ModalRoute.of(context);
+          final hasDrawer = scaffold?.hasDrawer ?? false;
+          final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
+          final canPop = parentRoute?.canPop ?? false;
+          final hasLeading = (automaticallyImplyLeading &&
+                  (hasDrawer || (!hasEndDrawer && canPop))) ||
+              leading != null;
           return SliverAppBar(
             key: key,
             leading: leading,
@@ -422,7 +433,12 @@ class UIAppBar extends StatelessWidget {
                   ),
                   background: background,
                   titlePadding: EdgeInsets.fromLTRB(
-                      60, 0, 0, (subtitle != null ? 8 : 16) + bottomHeight),
+                      padding.left + (hasLeading ? (leadingWidth ?? 36) : 0),
+                      padding.top,
+                      padding.right,
+                      padding.bottom +
+                          (subtitle != null ? 8 : 16) +
+                          bottomHeight),
                   centerTitle: false,
                 ),
             bottom: bottom,

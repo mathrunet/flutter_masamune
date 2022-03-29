@@ -86,6 +86,8 @@ part "adapter/multi_platform_adapter.dart";
 part 'animation/animation_scenario.dart';
 part 'animation/animation_unit.dart';
 part 'animation/typedef.dart';
+part 'filter/merge_user_filter_query.dart';
+part 'filter/merge_detail_filter_query.dart';
 part "model/wordpress_collection_model.dart";
 part "provider/date_time.dart";
 part "provider/global_key.dart";
