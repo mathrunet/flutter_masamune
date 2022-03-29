@@ -665,6 +665,7 @@ class _UIScaffoldState extends State<UIScaffold> {
     } else if (appBar is PreferredSizeWidget) {
       return appBar;
     }
+    return null;
   }
 
   Widget? _mobileAppBarTitle(
@@ -821,6 +822,7 @@ class _UIScaffoldState extends State<UIScaffold> {
     } else if (appBar is PreferredSizeWidget) {
       return appBar;
     }
+    return null;
   }
 
   Widget? _inlineAppBarTitle(
@@ -940,6 +942,7 @@ class _UIScaffoldState extends State<UIScaffold> {
     } else if (appBar is PreferredSizeWidget) {
       return appBar;
     }
+    return null;
   }
 }
 
