@@ -1,32 +1,26 @@
 part of masamune.variable;
 
-/// FormConfig for using TextField.
+/// FormConfig for using identified multiple TextField List.
 @immutable
-class TextFormConfig<T> extends VariableFormConfig<T>
-    with VariableFormConfigUtilMixin<T> {
-  const TextFormConfig({
-    this.color,
+class IdentifiedMultipleTextFormConfig
+    extends VariableFormConfig<Map<String, String>>
+    with VariableFormConfigUtilMixin<Map<String, String>> {
+  const IdentifiedMultipleTextFormConfig({
     this.backgroundColor,
     this.obscureText = false,
-    this.minLines,
-    this.maxLines,
+    this.color,
     this.minLength,
     this.maxLength,
+    this.minLines,
+    this.maxLines,
+    this.maxItems,
+    this.minItems,
     this.keyboardType = TextInputType.text,
-    this.inputFormatter,
-    this.prefix,
-    this.prefixText,
-    this.suffix,
-    this.suffixText,
-    this.top,
-    this.bottom,
   });
 
-  final String? prefixText;
-  final String? suffixText;
+  final int? maxItems;
 
-  final Widget? prefix;
-  final Widget? suffix;
+  final int? minItems;
 
   final Color? backgroundColor;
 
@@ -44,21 +38,14 @@ class TextFormConfig<T> extends VariableFormConfig<T>
 
   final bool obscureText;
 
-  final TextInputFormatterConfig? inputFormatter;
-
-  final ValueWidget<TextEditingController>? top;
-  final ValueWidget<TextEditingController>? bottom;
-
   @override
   Iterable<Widget> build({
-    required VariableConfig<T> config,
+    required VariableConfig<Map<String, String>> config,
     required BuildContext context,
     required WidgetRef ref,
     DynamicMap? data,
     bool onlyRequired = false,
   }) {
-    final controller = ref.useTextEditingController(
-        config.id, data.get(config.id, config.value).toString());
     return [
       if (config.label.isNotEmpty)
         DividHeadline(
@@ -72,13 +59,12 @@ class TextFormConfig<T> extends VariableFormConfig<T>
         )
       else
         const Divid(),
-      if (top != null) ValueProvider(value: controller, child: top!),
-      FormItemTextField(
+      FormItemIdentifiedMultipleTextField(
         dense: true,
         color: color,
         cursorColor: color,
+        minItems: minItems,
         subColor: color?.withOpacity(0.5),
-        inputFormatters: [if (inputFormatter != null) inputFormatter!.value],
         minLines: minLines ?? 1,
         hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),
@@ -89,26 +75,23 @@ class TextFormConfig<T> extends VariableFormConfig<T>
         backgroundColor: backgroundColor,
         obscureText: obscureText,
         allowEmpty: !config.required,
-        controller: controller,
+        controller: ref.useTextEditingController(
+            config.id, jsonEncode(data.getAsMap(config.id, config.value))),
         onSaved: (value) {
-          context[config.id] = value;
+          context[config.id] = Map.from(value ?? {})
+            ..removeWhere((key, value) => key.isEmpty || value.isEmpty);
         },
-        prefix: prefix ??
-            (prefixText != null ? Text(prefixText?.localize() ?? "") : null),
-        suffix: suffix ??
-            (suffixText != null ? Text(suffixText?.localize() ?? "") : null),
       ),
-      if (bottom != null) ValueProvider(value: controller, child: bottom!),
     ];
   }
 
   @override
-  T? value({
-    required VariableConfig<T> config,
+  Map<String, String>? value({
+    required VariableConfig<Map<String, String>> config,
     required BuildContext context,
     required WidgetRef ref,
     bool updated = true,
   }) {
-    return context.get(config.id, config.value);
+    return context.getAsMap(config.id, config.value);
   }
 }

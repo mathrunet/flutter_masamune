@@ -2,7 +2,8 @@ part of masamune.variable;
 
 /// FormConfig for using rage TextField.
 @immutable
-class RangeFormConfig extends VariableFormConfig<DynamicMap> {
+class RangeFormConfig extends VariableFormConfig<DynamicMap>
+    with VariableFormConfigUtilMixin<DynamicMap> {
   const RangeFormConfig({
     this.color,
     this.backgroundColor,
@@ -52,12 +53,12 @@ class RangeFormConfig extends VariableFormConfig<DynamicMap> {
       if (config.label.isNotEmpty)
         DividHeadline(
           config.label.localize(),
-          prefix: config.required
-              ? IconTheme(
-                  data: const IconThemeData(size: 16),
-                  child: context.widgetTheme.requiredIcon,
-                )
-              : null,
+          color: color?.withOpacity(0.75),
+          prefix: headlinePrefix(
+            context: context,
+            config: config,
+            color: color,
+          ),
         )
       else
         const Divid(),

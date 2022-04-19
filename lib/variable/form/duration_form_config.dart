@@ -14,7 +14,8 @@ enum DuratioinFormConfigBaseUnit {
 
 /// FormConfig for using duration field.
 @immutable
-class DurationFormConfig extends VariableFormConfig<int> {
+class DurationFormConfig extends VariableFormConfig<int>
+    with VariableFormConfigUtilMixin<int> {
   const DurationFormConfig({
     this.backgroundColor,
     this.color,
@@ -44,12 +45,12 @@ class DurationFormConfig extends VariableFormConfig<int> {
       if (config.label.isNotEmpty)
         DividHeadline(
           config.label.localize(),
-          prefix: config.required
-              ? IconTheme(
-                  data: const IconThemeData(size: 16),
-                  child: context.widgetTheme.requiredIcon,
-                )
-              : null,
+          color: color?.withOpacity(0.75),
+          prefix: headlinePrefix(
+            context: context,
+            config: config,
+            color: color,
+          ),
         )
       else
         const Divid(),

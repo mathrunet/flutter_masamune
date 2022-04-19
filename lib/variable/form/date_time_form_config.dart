@@ -14,7 +14,8 @@ enum DateTimeFormConfigType {
 
 /// FormConfig for using date time field.
 @immutable
-class DateTimeFormConfig extends VariableFormConfig<int> {
+class DateTimeFormConfig extends VariableFormConfig<int>
+    with VariableFormConfigUtilMixin<int> {
   const DateTimeFormConfig({
     this.backgroundColor,
     this.initialDate,
@@ -49,12 +50,12 @@ class DateTimeFormConfig extends VariableFormConfig<int> {
       if (config.label.isNotEmpty)
         DividHeadline(
           config.label.localize(),
-          prefix: config.required
-              ? IconTheme(
-                  data: const IconThemeData(size: 16),
-                  child: context.widgetTheme.requiredIcon,
-                )
-              : null,
+          color: color?.withOpacity(0.75),
+          prefix: headlinePrefix(
+            context: context,
+            config: config,
+            color: color,
+          ),
         )
       else
         const Divid(),

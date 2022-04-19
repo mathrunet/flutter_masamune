@@ -174,44 +174,39 @@ class _VideoState extends State<Video> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _completer?.future,
-      builder: (context, snapshot) {
-        if (_controller != null &&
-            snapshot.connectionState == ConnectionState.done) {
-          if (widget.width != null && widget.height != null) {
-            return SizedBox(
-              width: widget.width!,
-              height: widget.height!,
-              child: _videoWidget(context),
-            );
-          } else if (widget.width != null) {
-            return SizedBox(
-              width: widget.width!,
-              height: widget.width! / _controller!.value.aspectRatio,
-              child: _videoWidget(context),
-            );
-          } else if (widget.height != null) {
-            return SizedBox(
-              width: widget.height! * _controller!.value.aspectRatio,
-              height: widget.height!,
-              child: _videoWidget(context),
-            );
-          } else {
-            return AspectRatio(
-              aspectRatio: _controller!.value.aspectRatio,
-              child: _videoWidget(context),
-            );
-          }
-        } else {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Theme.of(context).disabledColor,
-            ),
-          );
-        }
-      },
-    );
+    if (_controller != null &&
+        (_completer == null || _completer!.isCompleted)) {
+      if (widget.width != null && widget.height != null) {
+        return SizedBox(
+          width: widget.width!,
+          height: widget.height!,
+          child: _videoWidget(context),
+        );
+      } else if (widget.width != null) {
+        return SizedBox(
+          width: widget.width!,
+          height: widget.width! / _controller!.value.aspectRatio,
+          child: _videoWidget(context),
+        );
+      } else if (widget.height != null) {
+        return SizedBox(
+          width: widget.height! * _controller!.value.aspectRatio,
+          height: widget.height!,
+          child: _videoWidget(context),
+        );
+      } else {
+        return AspectRatio(
+          aspectRatio: _controller!.value.aspectRatio,
+          child: _videoWidget(context),
+        );
+      }
+    } else {
+      return Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Theme.of(context).disabledColor,
+        ),
+      );
+    }
   }
 
   Widget _videoWidget(BuildContext context) {

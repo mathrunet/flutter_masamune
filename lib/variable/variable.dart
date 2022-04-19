@@ -3,6 +3,8 @@
 
 library masamune.variable;
 
+import 'dart:convert';
+
 import 'package:masamune/masamune.dart';
 
 part 'form/text_form_config.dart';
@@ -16,6 +18,7 @@ part 'form/multiple_text_form_config.dart';
 part 'form/range_form_config.dart';
 part 'form/select_form_config.dart';
 part 'form/slider_form_config.dart';
+part 'form/identified_multiple_text_form_config.dart';
 
 part 'view/list_tile_view_config.dart';
 part 'view/select_list_tile_view_config.dart';
@@ -28,3 +31,4 @@ part 'view/chips_view_config.dart';
 part 'view/media_view_config.dart';
 
 part 'variable_config_definition.dart';
+part 'variable_form_config_util_mixin.dart';

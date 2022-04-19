@@ -8,6 +8,7 @@ class FormItemFullScreen<T extends Object> extends FormField<T> {
     this.counterText = "",
     this.parseFromString,
     this.parseToString,
+    this.textBuilder,
     this.prefix,
     this.suffix,
     this.obscureText = false,
@@ -36,6 +37,7 @@ class FormItemFullScreen<T extends Object> extends FormField<T> {
         );
 
   final TextEditingController? controller;
+  final String Function(String value)? textBuilder;
   final String path;
   final String? hintText;
   final String? errorText;
@@ -111,7 +113,11 @@ class _FormItemFullScreenState<T extends Object> extends FormFieldState<T> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         enabled: widget.enabled,
-        controller: _effectiveController,
+        controller: TextEditingController(
+          text: widget.textBuilder != null
+              ? widget.textBuilder?.call(_effectiveController?.text ?? "")
+              : _effectiveController?.text ?? "",
+        ),
         decoration: InputDecoration(
           border: widget.border ??
               OutlineInputBorder(

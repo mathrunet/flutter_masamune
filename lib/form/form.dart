@@ -47,6 +47,7 @@ part 'form_item_labeled_dropdown_field.dart';
 part 'form_item_multiple_checkbox.dart';
 part 'form_item_multiple_dropdown_field.dart';
 part 'form_item_multiple_full_screen.dart';
+part 'form_item_identified_multiple_text_field.dart';
 part 'form_item_multiple_text_field.dart';
 part 'form_item_password.dart';
 part 'form_item_rating.dart';

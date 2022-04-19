@@ -1,7 +1,8 @@
 part of masamune.form;
 
-class FormItemMultipleTextField extends FormField<List<String>> {
-  FormItemMultipleTextField({
+class FormItemIdentifiedMultipleTextField
+    extends FormField<Map<String, String>> {
+  FormItemIdentifiedMultipleTextField({
     this.controller,
     this.keyboardType = TextInputType.text,
     this.maxLength,
@@ -44,12 +45,11 @@ class FormItemMultipleTextField extends FormField<List<String>> {
     this.cursorColor,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
-    this.separator = ",",
     this.addLabel = "Add",
     Key? key,
-    void Function(List<String>? value)? onSaved,
-    String? Function(List<String>? value)? validator,
-    List<String>? initialValue,
+    void Function(Map<String, String>? value)? onSaved,
+    String? Function(Map<String, String>? value)? validator,
+    Map<String, String>? initialValue,
     bool enabled = true,
   }) : super(
           key: key,
@@ -64,7 +64,6 @@ class FormItemMultipleTextField extends FormField<List<String>> {
 
   final String addLabel;
   final int? minItems;
-  final String separator;
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final int? maxLength;
@@ -102,24 +101,26 @@ class FormItemMultipleTextField extends FormField<List<String>> {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
-  final void Function(List<String>? value)? onSubmitted;
+  final void Function(Map<String, String>? value)? onSubmitted;
   final TextAlign textAlign;
   final TextAlignVertical? textAlignVertical;
-  final void Function(List<String>? value)? onChanged;
+  final void Function(Map<String, String>? value)? onChanged;
 
   @override
-  _FormItemMultipleTextFieldState createState() =>
-      _FormItemMultipleTextFieldState();
+  _FormItemIdentifiedMultipleTextFieldState createState() =>
+      _FormItemIdentifiedMultipleTextFieldState();
 }
 
-class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
+class _FormItemIdentifiedMultipleTextFieldState
+    extends FormFieldState<Map<String, String>> {
   TextEditingController? _controller;
-  final List<_FormItemMultipleTextFieldValue> _values = [];
+  final List<_FormItemIdentifiedMultipleTextFieldValue> _values = [];
 
   void _updateValues() {
     _values.clear();
-    for (final val in value ?? []) {
-      _values.add(_FormItemMultipleTextFieldValue(val));
+    for (final val in value?.entries ?? <MapEntry<String, String>>[]) {
+      _values
+          .add(_FormItemIdentifiedMultipleTextFieldValue(val.key, val.value));
     }
   }
 
@@ -127,22 +128,24 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
       widget.controller ?? _controller;
 
   @override
-  FormItemMultipleTextField get widget =>
-      super.widget as FormItemMultipleTextField;
+  FormItemIdentifiedMultipleTextField get widget =>
+      super.widget as FormItemIdentifiedMultipleTextField;
 
-  String _encode(List<String> list) {
-    return list.join(widget.separator);
+  String _encode(Map<String, String> map) {
+    return jsonEncode(map);
   }
 
-  List<String> _decode(String? value) {
+  Map<String, String> _decode(String? value) {
     if (value.isEmpty) {
-      return [];
+      return {};
     }
-    return value!.split(widget.separator);
+    return jsonDecodeAsMap(value!).map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
   }
 
   @override
-  void didUpdateWidget(FormItemMultipleTextField oldWidget) {
+  void didUpdateWidget(FormItemIdentifiedMultipleTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -172,31 +175,36 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
     setValue(_decode(_effectiveController?.text ?? ""));
     _updateValues();
     if (widget.minItems != null) {
-      final _value = value ?? [];
+      final _value = value ?? {};
       while (widget.minItems! > _values.length) {
-        _values.add(_FormItemMultipleTextFieldValue(""));
-        _value.add("");
+        final uid = uuid;
+        _values.add(_FormItemIdentifiedMultipleTextFieldValue(uid, ""));
+        _value[uid] = "";
       }
       setValue(_value);
     }
   }
 
   Future<void> _onAdd() async {
-    _values.add(_FormItemMultipleTextFieldValue(""));
-    didChange(List.from(value ?? [])..add(""));
+    final uid = uuid;
+    _values.add(_FormItemIdentifiedMultipleTextFieldValue(uid, ""));
+    didChange(Map.from(value ?? {})..addAll({uid: ""}));
     setState(() {});
   }
 
-  void _onRemove(int index) {
-    assert(index >= 0 && index < value.length, "The value of Index is wrong.");
-    value?.removeAt(index);
-    _values.removeAt(index);
-    didChange(List.from(value ?? []));
+  void _onRemove(String key) {
+    assert(
+      key.isNotEmpty && value.containsKey(key),
+      "The value of key is wrong.",
+    );
+    value?.remove(key);
+    _values.removeWhere((e) => e.key == key);
+    didChange(Map.from(value ?? {}));
     setState(() {});
   }
 
-  Widget _builder(
-      BuildContext context, _FormItemMultipleTextFieldValue item, int index) {
+  Widget _builder(BuildContext context,
+      _FormItemIdentifiedMultipleTextFieldValue item, int index) {
     return ListTile(
       title: FormItemTextField(
         padding: const EdgeInsets.all(0),
@@ -242,9 +250,16 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
         textAlign: widget.textAlign,
         textAlignVertical: widget.textAlignVertical,
         onChanged: (val) {
-          value?[index] = val ?? "";
-          _values[index].value = val ?? "";
-          setValue(List.from(value ?? []));
+          value?[item.key] = val ?? "";
+          final field = _values.firstWhereOrNull((e) => e.key == item.key);
+          if (field == null) {
+            _values.add(
+              _FormItemIdentifiedMultipleTextFieldValue(item.key, val ?? ""),
+            );
+          } else {
+            field.value = val ?? "";
+          }
+          setValue(Map.from(value ?? {}));
         },
         contentPadding: const EdgeInsets.all(0),
       ),
@@ -252,7 +267,7 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
           ? null
           : IconButton(
               onPressed: () {
-                _onRemove(index);
+                _onRemove(item.key);
               },
               color: widget.color ?? context.theme.textColor,
               icon: const Icon(Icons.close),
@@ -270,7 +285,7 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ReorderableListBuilder<_FormItemMultipleTextFieldValue>(
+          ReorderableListBuilder<_FormItemIdentifiedMultipleTextFieldValue>(
             source: _values,
             builder: (context, item, index) {
               return [
@@ -282,7 +297,11 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
             },
             onReorder: (o, n, item, reordered) {
               context.unfocus();
-              didChange(reordered.map((e) => e.value).toList());
+              didChange(
+                reordered
+                    .map((e) => MapEntry(e.key, e.value))
+                    .toMap(key: (e) => e.key, value: (e) => e.value),
+              );
               _updateValues();
             },
             shrinkWrap: true,
@@ -318,10 +337,10 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
   }
 
   @override
-  void didChange(List<String>? value) {
+  void didChange(Map<String, String>? value) {
     super.didChange(value);
     if (this.value != value) {
-      value ??= [];
+      value ??= {};
       _effectiveController?.text = _encode(value);
       setValue(value);
     }
@@ -353,9 +372,10 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
   }
 }
 
-class _FormItemMultipleTextFieldValue {
-  _FormItemMultipleTextFieldValue(this.value)
+class _FormItemIdentifiedMultipleTextFieldValue {
+  _FormItemIdentifiedMultipleTextFieldValue(this.key, this.value)
       : controller = TextEditingController(text: value);
+  String key;
   String value;
   TextEditingController controller;
 }

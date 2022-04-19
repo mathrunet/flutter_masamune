@@ -27,8 +27,7 @@ abstract class UIBoot extends PageScopedWidget {
 
   /// Feature image.
   ///
-  /// If you register it, this is the only one displayed.
-  @protected
+  /// If you register it,
   ImageProvider? get featureImage => null;
 
   /// Feature widget.

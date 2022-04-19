@@ -2,7 +2,8 @@ part of masamune.variable;
 
 /// FormConfig for using ChipsField.
 @immutable
-class ChipsFormConfig extends VariableFormConfig<List<String>> {
+class ChipsFormConfig extends VariableFormConfig<List<String>>
+    with VariableFormConfigUtilMixin<List<String>> {
   const ChipsFormConfig({
     this.color,
     this.backgroundColor,
@@ -33,12 +34,12 @@ class ChipsFormConfig extends VariableFormConfig<List<String>> {
       if (config.label.isNotEmpty)
         DividHeadline(
           config.label.localize(),
-          prefix: config.required
-              ? IconTheme(
-                  data: const IconThemeData(size: 16),
-                  child: context.widgetTheme.requiredIcon,
-                )
-              : null,
+          color: color?.withOpacity(0.75),
+          prefix: headlinePrefix(
+            context: context,
+            config: config,
+            color: color,
+          ),
         )
       else
         const Divid(),

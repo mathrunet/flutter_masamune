@@ -53,22 +53,19 @@ class InlineAppPreview extends StatelessWidget {
         platformAdapter:
             enableModules.whereType<PlatformAdapter>().firstOrNull ??
                 context.platform,
-        child: RoleScope(
-          roles: appModule?.roles ?? context.roles,
-          child: WidgetThemeScope(
-            widgetTheme: widgetTheme ?? context.widgetTheme,
-            child: Theme(
-              data: (brightness == Brightness.light
-                      ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
-                      : (appModule?.darkTheme?.toThemeData() ?? darkTheme)) ??
-                  context.theme,
-              child: InlinePageBuilder(
-                prefix: prefix ?? "",
-                suffix: suffix ?? "",
-                initialRoute: initialRoute,
-                controller: controller,
-                routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
-              ),
+        child: WidgetThemeScope(
+          widgetTheme: widgetTheme ?? context.widgetTheme,
+          child: Theme(
+            data: (brightness == Brightness.light
+                    ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
+                    : (appModule?.darkTheme?.toThemeData() ?? darkTheme)) ??
+                context.theme,
+            child: InlinePageBuilder(
+              prefix: prefix ?? "",
+              suffix: suffix ?? "",
+              initialRoute: initialRoute,
+              controller: controller,
+              routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
             ),
           ),
         ),

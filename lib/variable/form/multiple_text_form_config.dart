@@ -2,7 +2,8 @@ part of masamune.variable;
 
 /// FormConfig for using multiple TextField List.
 @immutable
-class MultipleTextFormConfig extends VariableFormConfig<List<String>> {
+class MultipleTextFormConfig extends VariableFormConfig<List<String>>
+    with VariableFormConfigUtilMixin<List<String>> {
   const MultipleTextFormConfig({
     this.backgroundColor,
     this.obscureText = false,
@@ -12,10 +13,13 @@ class MultipleTextFormConfig extends VariableFormConfig<List<String>> {
     this.minLines,
     this.maxLines,
     this.maxItems,
-    this.keyboardType = TextInputType.url,
+    this.minItems,
+    this.keyboardType = TextInputType.text,
   });
 
   final int? maxItems;
+
+  final int? minItems;
 
   final Color? backgroundColor;
 
@@ -45,18 +49,21 @@ class MultipleTextFormConfig extends VariableFormConfig<List<String>> {
       if (config.label.isNotEmpty)
         DividHeadline(
           config.label.localize(),
-          prefix: config.required
-              ? IconTheme(
-                  data: const IconThemeData(size: 16),
-                  child: context.widgetTheme.requiredIcon,
-                )
-              : null,
+          color: color?.withOpacity(0.75),
+          prefix: headlinePrefix(
+            context: context,
+            config: config,
+            color: color,
+          ),
         )
       else
         const Divid(),
       FormItemMultipleTextField(
         dense: true,
         color: color,
+        cursorColor: color,
+        minItems: minItems,
+        subColor: color?.withOpacity(0.5),
         minLines: minLines ?? 1,
         hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),

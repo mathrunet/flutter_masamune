@@ -48,8 +48,8 @@ class ListBuilder<T> extends StatelessWidget {
   final List<Widget>? insert;
   final List<Widget>? top;
   final List<Widget>? bottom;
-  final List<Widget>? Function(BuildContext context, T item, int index) builder;
   final List<T> source;
+  final List<Widget>? Function(BuildContext context, T item, int index) builder;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
   final bool addSemanticIndexes;

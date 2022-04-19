@@ -22,6 +22,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     this.validator,
     this.onChanged,
     this.onEditingComplete,
+    this.showResetButton = true,
     this.contentPadding,
     this.type = FormItemDateTimeFieldPickerType.dateTime,
     this.initialDateTime,
@@ -106,6 +107,19 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     return DateTime(year, month, day, hour, minute);
   }
 
+  /// Create a DateTime by combining [date] and [time].
+  static DateTime combine(DateTime date, DateTime time) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+      time.second,
+      time.millisecond,
+    );
+  }
+
   /// Calculate DateTime from [millisecondsSinceEpoch].
   static DateTime value(int millisecondsSinceEpoch) {
     assert(millisecondsSinceEpoch > 0);
@@ -177,6 +191,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final bool dense;
   final int? minLines;
   final String? hintText;
+  final bool showResetButton;
   final String? errorText;
   final String? labelText;
   final String? counterText;
@@ -277,6 +292,7 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
         keyboardType: TextInputType.text,
         initialValue: widget.initialDateTime,
         maxLength: widget.maxLength,
+        showResetButton: widget.showResetButton,
         maxLines: widget.maxLines,
         enabled: widget.enabled,
         minLines: widget.minLines,
@@ -351,6 +367,7 @@ class _DateTimeTextField extends FormField<DateTime> {
     TextCapitalization textCapitalization = TextCapitalization.none,
     TextInputAction? textInputAction,
     TextStyle? style,
+    bool showResetButton = true,
     StrutStyle? strutStyle,
     TextAlign textAlign = TextAlign.start,
     bool autofocus = false,
@@ -393,7 +410,8 @@ class _DateTimeTextField extends FormField<DateTime> {
                 focusNode: state._effectiveFocusNode,
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,
-                  suffixIcon: state.shouldShowClearIcon(effectiveDecoration)
+                  suffixIcon: showResetButton &&
+                          state.shouldShowClearIcon(effectiveDecoration)
                       ? IconButton(
                           icon: resetIcon,
                           color: field.context.theme.textColor,
