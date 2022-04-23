@@ -39,7 +39,7 @@ abstract class UIPageChangeEmail extends PageScopedWidget {
                       .localize(),
               submitText: "OK".localize(),
               onSubmit: () {
-                ref.navigator.pop();
+                context.navigator.pop();
               },
             );
           } else {

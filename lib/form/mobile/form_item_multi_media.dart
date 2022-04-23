@@ -45,6 +45,7 @@ class FormItemMultiMedia extends FormField<String> {
     this.icon,
     this.controller,
     this.onPreSave,
+    this.maxItem,
     this.typeKey = Const.type,
     this.pathKey = "path",
     this.items,
@@ -101,6 +102,9 @@ class FormItemMultiMedia extends FormField<String> {
 
   /// The form icon.
   final IconData? icon;
+
+  /// Max item.
+  final int? maxItem;
 
   /// Initial data list.
   final List<FormItemMultiMediaItem>? items;
@@ -318,6 +322,9 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
   }
 
   void _onUpdate(dynamic fileOrURL, AssetType type) {
+    if (widget.maxItem != null && widget.maxItem! <= _items.length) {
+      return;
+    }
     if (fileOrURL is File) {
       _items.add(FormItemMultiMediaItem(type: type, path: fileOrURL.path));
     } else if (fileOrURL is String) {
@@ -413,29 +420,30 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
               ),
-              ListTile(
-                onTap: () {
-                  if (widget.onTap != null) {
-                    widget.onTap?.call(_onUpdate);
-                  }
-                },
-                title: Text(widget.addLabel.localize(),
-                    textAlign: TextAlign.right),
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.add,
-                        color: context.theme.textColor,
-                        size: 28,
-                      ),
-                    ],
+              if (widget.maxItem != null && widget.maxItem! > _items.length)
+                ListTile(
+                  onTap: () {
+                    if (widget.onTap != null) {
+                      widget.onTap?.call(_onUpdate);
+                    }
+                  },
+                  title: Text(widget.addLabel.localize(),
+                      textAlign: TextAlign.right),
+                  trailing: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.add,
+                          color: context.theme.textColor,
+                          size: 28,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         );
@@ -450,29 +458,30 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: widget.size.width,
-                  height: widget.size.height,
-                  margin: const EdgeInsets.only(right: 10),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: widget.color ?? context.theme.disabledColor,
-                        width: 2,
+                if (widget.maxItem != null && widget.maxItem! > _items.length)
+                  Container(
+                    width: widget.size.width,
+                    height: widget.size.height,
+                    margin: const EdgeInsets.only(right: 10),
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: widget.color ?? context.theme.disabledColor,
+                          width: 2,
+                        ),
                       ),
+                      child: Icon(
+                        widget.icon ?? Icons.photo,
+                        color: widget.color ?? context.theme.disabledColor,
+                        size: widget.height / 3.0,
+                      ),
+                      onPressed: () {
+                        if (widget.onTap != null) {
+                          widget.onTap?.call(_onUpdate);
+                        }
+                      },
                     ),
-                    child: Icon(
-                      widget.icon ?? Icons.photo,
-                      color: widget.color ?? context.theme.disabledColor,
-                      size: widget.height / 3.0,
-                    ),
-                    onPressed: () {
-                      if (widget.onTap != null) {
-                        widget.onTap?.call(_onUpdate);
-                      }
-                    },
                   ),
-                ),
                 ..._items.mapAndRemoveEmpty(
                   (item) {
                     return Padding(

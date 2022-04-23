@@ -87,7 +87,53 @@ extension NetworkOrAssetDynamicMapExtensions on DynamicMap {
   }
 }
 
-extension ListenableMapListExtensions on List<ListenableMap<String, dynamic>> {
+extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
+  /// Merge user data into the target document.
+  /// 
+  /// The path to the user collection can be specified in [userCollectionPath].
+  ///
+  /// By specifying [userKey], a key containing the uid of the user of the original document can be specified.
+  ///
+  /// [keyPrefix] can be specified to prefix user data keys.
+  ListenableMap<String, dynamic> mergeUserInformation(
+    WidgetRef ref, {
+    String userCollectionPath = "user",
+    String userKey = "user",
+    String keyPrefix = "user",
+  }) {
+    final res = ListenableMap<String, dynamic>.from(this);
+    final user =
+        ref.watchDocumentModel("$userCollectionPath/${get(userKey, "")}");
+    for (final tmp in user.entries) {
+      res["$keyPrefix${tmp.key}"] = tmp.value;
+    }
+    return res;
+  }
+
+  /// Merge other document data into the target document.
+  /// 
+  /// The path to the other collection can be specified in [collectionPath].
+  ///
+  /// By specifying [idKey], a key containing the uid of the user of the original document can be specified.
+  ///
+  /// [keyPrefix] can be specified to prefix user data keys.
+  ListenableMap<String, dynamic> mergeDetailInformation(
+    WidgetRef ref,
+    String collectionPath, {
+    String idKey = Const.uid,
+    String keyPrefix = "",
+  }) {
+    final res = ListenableMap<String, dynamic>.from(this);
+    final collection =
+        ref.watchDocumentModel("$collectionPath/${get(idKey, "")}");
+    for (final tmp in collection.entries) {
+      res["$keyPrefix${tmp.key}"] = tmp.value;
+    }
+    return res;
+  }
+}
+
+extension DynamicListenableMapListExtensions on List<ListenableMap<String, dynamic>> {
   /// Merge user data for all documents in a particular collection.
   ///
   /// The path to the user collection can be specified in [userCollectionPath].
