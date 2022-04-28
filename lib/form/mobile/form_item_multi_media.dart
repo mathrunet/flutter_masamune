@@ -330,7 +330,7 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
     } else if (fileOrURL is String) {
       _items.add(FormItemMultiMediaItem(type: type, path: fileOrURL));
     }
-    setValue(_encodeJson(_items));
+    didChange(_encodeJson(_items));
     setState(() {});
   }
 

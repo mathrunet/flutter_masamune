@@ -15,6 +15,7 @@ part 'form/hidden_form_config.dart';
 part 'form/image_form_config.dart';
 part 'form/multiple_select_form_config.dart';
 part 'form/multiple_text_form_config.dart';
+part 'form/multiple_full_screen_form_config.dart';
 part 'form/range_form_config.dart';
 part 'form/select_form_config.dart';
 part 'form/slider_form_config.dart';

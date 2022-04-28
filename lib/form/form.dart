@@ -30,7 +30,6 @@ part 'extensions.dart';
 part 'form_builder.dart';
 part 'form_context.dart';
 part 'form_item.dart';
-part 'form_item_avatar_image.dart';
 part 'form_item_builder.dart';
 part 'form_item_checkbox.dart';
 part 'form_item_chips_field.dart';

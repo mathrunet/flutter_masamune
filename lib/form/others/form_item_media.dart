@@ -159,7 +159,7 @@ class _FormItemMediaState extends FormFieldState<String> {
         return;
       }
       setState(() {
-        setValue(fileOrUrl);
+        didChange(fileOrUrl);
         _path = fileOrUrl;
       });
     }

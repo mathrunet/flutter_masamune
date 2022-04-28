@@ -19,9 +19,16 @@ class UIScheduleCalendar extends StatefulWidget {
     this.labelWidth = 56,
     this.padding,
     this.dayTextStyle,
+    this.alwaysShown = false,
+    this.startDate,
+    this.endDate,
+    this.emptyWidget,
     this.physics,
     this.shrinkWrap = false,
-  });
+  }) : assert(
+          !alwaysShown || (startDate != null && endDate != null),
+          "If [alwaysShown] is set to True, [startDate] and [endDate] must be specified.",
+        );
 
   /// [ScrollPhysics] for lists.
   final ScrollPhysics? physics;
@@ -53,8 +60,22 @@ class UIScheduleCalendar extends StatefulWidget {
   /// Calendar event data source.
   final List<DynamicMap> source;
 
+  /// The date on which the display will begin.
+  final DateTime? startDate;
+
+  /// Date and time to end the display.
+  final DateTime? endDate;
+
+  /// True if all dates are to be displayed.
+  ///
+  /// If this is specified, [startDate] and [endDate] must be specified.
+  final bool alwaysShown;
+
   /// Label width.
   final double labelWidth;
+
+  /// Indication if event is empty.
+  final Widget? emptyWidget;
 
   /// Builder for events.
   final Widget? Function(BuildContext context, DynamicMap item) builder;
@@ -142,10 +163,32 @@ class _UIScheduleCalendarState extends State<UIScheduleCalendar> {
     for (final tmp in widget.source) {
       final start = tmp.getAsDateTime(widget.startTimeKey);
       final day = start.toDate();
+      if (widget.startDate != null &&
+          day.millisecondsSinceEpoch <
+              widget.startDate!.millisecondsSinceEpoch) {
+        continue;
+      }
+      if (widget.endDate != null &&
+          day.millisecondsSinceEpoch >=
+              widget.endDate!.millisecondsSinceEpoch) {
+        continue;
+      }
       if (data.containsKey(day)) {
         data[day]!.add(tmp);
       } else {
         data[day] = [tmp];
+      }
+    }
+    if (widget.alwaysShown &&
+        widget.startDate != null &&
+        widget.endDate != null) {
+      for (var day = widget.startDate!.toDate();
+          day.millisecondsSinceEpoch < widget.endDate!.millisecondsSinceEpoch;
+          day = day.add(const Duration(days: 1))) {
+        if (data.containsKey(day)) {
+          continue;
+        }
+        data[day] = [];
       }
     }
     for (final val in data.values) {
@@ -201,9 +244,13 @@ class _UIScheduleCalendarState extends State<UIScheduleCalendar> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: event.mapAndRemoveEmpty((item) {
-                    return widget.builder.call(context, item);
-                  }),
+                  children: event.isEmpty
+                      ? [
+                          if (widget.emptyWidget != null) widget.emptyWidget!,
+                        ]
+                      : event.mapAndRemoveEmpty((item) {
+                          return widget.builder.call(context, item);
+                        }),
                 ),
               ),
             ],

@@ -89,7 +89,7 @@ extension NetworkOrAssetDynamicMapExtensions on DynamicMap {
 
 extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
   /// Merge user data into the target document.
-  /// 
+  ///
   /// The path to the user collection can be specified in [userCollectionPath].
   ///
   /// By specifying [userKey], a key containing the uid of the user of the original document can be specified.
@@ -111,7 +111,7 @@ extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
   }
 
   /// Merge other document data into the target document.
-  /// 
+  ///
   /// The path to the other collection can be specified in [collectionPath].
   ///
   /// By specifying [idKey], a key containing the uid of the user of the original document can be specified.
@@ -133,7 +133,8 @@ extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
   }
 }
 
-extension DynamicListenableMapListExtensions on List<ListenableMap<String, dynamic>> {
+extension DynamicListenableMapListExtensions
+    on List<ListenableMap<String, dynamic>> {
   /// Merge user data for all documents in a particular collection.
   ///
   /// The path to the user collection can be specified in [userCollectionPath].

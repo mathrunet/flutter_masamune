@@ -283,7 +283,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     RuntimeDatabase.registerMockData(this.data);
     final doc = read(runtimeDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
-    doc.addAllIfEmpty(data!);
+    doc.addAll(data!);
     await doc.save();
     return true;
   }

@@ -13,7 +13,10 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
     )
         builder,
     this.addLabel = "Add",
+    this.color,
     Key? key,
+    this.minItems,
+    this.errorText,
     void Function(List<DynamicMap>? value)? onSaved,
     String? Function(List<DynamicMap>? value)? validator,
     List<DynamicMap>? initialValue,
@@ -25,7 +28,12 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
             return const Empty();
           },
           onSaved: onSaved,
-          validator: validator,
+          validator: (value) {
+            if (errorText.isNotEmpty && value.length < (minItems ?? 0)) {
+              return errorText!;
+            }
+            return validator?.call(value);
+          },
           initialValue: initialValue,
           enabled: enabled,
         );
@@ -33,6 +41,9 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
   final TextEditingController? controller;
   final String path;
   final String addLabel;
+  final int? minItems;
+  final String? errorText;
+  final Color? color;
 
   final Widget Function(
     BuildContext context,
@@ -170,7 +181,11 @@ class _FormItemMultipleFullScreenState
             onTap: () {
               _onAdd();
             },
-            title: Text(widget.addLabel.localize(), textAlign: TextAlign.right),
+            title: Text(
+              widget.addLabel.localize(),
+              textAlign: TextAlign.right,
+              style: TextStyle(color: widget.color),
+            ),
             trailing: Padding(
               padding: const EdgeInsets.only(right: 20),
               child: Row(
@@ -179,7 +194,7 @@ class _FormItemMultipleFullScreenState
                 children: [
                   Icon(
                     Icons.add,
-                    color: context.theme.textColor,
+                    color: widget.color ?? context.theme.textColor,
                     size: 28,
                   ),
                 ],

@@ -7,8 +7,8 @@ class IdentifiedMultipleTextFormConfig
     with VariableFormConfigUtilMixin<Map<String, String>> {
   const IdentifiedMultipleTextFormConfig({
     this.backgroundColor,
-    this.obscureText = false,
     this.color,
+    this.obscureText = false,
     this.minLength,
     this.maxLength,
     this.minLines,

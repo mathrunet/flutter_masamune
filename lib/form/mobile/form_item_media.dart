@@ -161,7 +161,7 @@ class _FormItemMediaState extends FormFieldState<String> {
         return;
       }
       setState(() {
-        setValue(fileOrUrl);
+        didChange(fileOrUrl);
         _path = fileOrUrl;
         _data = null;
       });
@@ -170,7 +170,7 @@ class _FormItemMediaState extends FormFieldState<String> {
         return;
       }
       setState(() {
-        setValue(fileOrUrl.path);
+        didChange(fileOrUrl.path);
         _data = fileOrUrl;
         _path = null;
       });

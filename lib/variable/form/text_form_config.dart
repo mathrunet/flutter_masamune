@@ -10,6 +10,7 @@ class TextFormConfig<T> extends VariableFormConfig<T>
     this.obscureText = false,
     this.minLines,
     this.maxLines,
+    this.expands = false,
     this.minLength,
     this.maxLength,
     this.keyboardType = TextInputType.text,
@@ -31,6 +32,8 @@ class TextFormConfig<T> extends VariableFormConfig<T>
   final Color? backgroundColor;
 
   final Color? color;
+
+  final bool expands;
 
   final int? minLines;
 
@@ -73,33 +76,65 @@ class TextFormConfig<T> extends VariableFormConfig<T>
       else
         const Divid(),
       if (top != null) ValueProvider(value: controller, child: top!),
-      FormItemTextField(
-        dense: true,
-        color: color,
-        cursorColor: color,
-        subColor: color?.withOpacity(0.5),
-        inputFormatters: [if (inputFormatter != null) inputFormatter!.value],
-        minLines: minLines ?? 1,
-        hintText: "Input %s".localize().format([config.label.localize()]),
-        errorText: "No input %s".localize().format([config.label.localize()]),
-        maxLines: maxLines,
-        minLength: minLength,
-        maxLength: maxLength,
-        keyboardType: keyboardType,
-        backgroundColor: backgroundColor,
-        obscureText: obscureText,
-        allowEmpty: !config.required,
-        controller: controller,
-        onSaved: (value) {
-          context[config.id] = value;
-        },
-        prefix: prefix ??
-            (prefixText != null ? Text(prefixText?.localize() ?? "") : null),
-        suffix: suffix ??
-            (suffixText != null ? Text(suffixText?.localize() ?? "") : null),
-      ),
+      if (expands)
+        Expanded(
+          child: _textField(
+            config: config,
+            context: context,
+            ref: ref,
+            data: data,
+            onlyRequired: onlyRequired,
+            controller: controller,
+          ),
+        )
+      else
+        _textField(
+          config: config,
+          context: context,
+          ref: ref,
+          data: data,
+          onlyRequired: onlyRequired,
+          controller: controller,
+        ),
       if (bottom != null) ValueProvider(value: controller, child: bottom!),
     ];
+  }
+
+  Widget _textField({
+    required VariableConfig<T> config,
+    required BuildContext context,
+    required WidgetRef ref,
+    required TextEditingController controller,
+    DynamicMap? data,
+    bool onlyRequired = false,
+  }) {
+    return FormItemTextField(
+      dense: true,
+      expands: expands,
+      color: color,
+      cursorColor: color,
+      subColor: color?.withOpacity(0.5),
+      inputFormatters: [if (inputFormatter != null) inputFormatter!.value],
+      minLines: minLines ?? 1,
+      hintText: "Input %s".localize().format([config.label.localize()]),
+      errorText: "No input %s".localize().format([config.label.localize()]),
+      maxLines: maxLines,
+      minLength: minLength,
+      maxLength: maxLength,
+      textAlignVertical: TextAlignVertical.top,
+      keyboardType: keyboardType,
+      backgroundColor: backgroundColor,
+      obscureText: obscureText,
+      allowEmpty: !config.required,
+      controller: controller,
+      onSaved: (value) {
+        context[config.id] = value;
+      },
+      prefix: prefix ??
+          (prefixText != null ? Text(prefixText?.localize() ?? "") : null),
+      suffix: suffix ??
+          (suffixText != null ? Text(suffixText?.localize() ?? "") : null),
+    );
   }
 
   @override
