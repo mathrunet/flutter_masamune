@@ -13,7 +13,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -131,6 +130,7 @@ part 'widget/dialog/ui_modal.dart';
 part 'widget/dialog/ui_select_dialog.dart';
 part 'widget/drawer/account_drawer_header.dart';
 part 'widget/page/empty_page.dart';
+part 'widget/page/not_found_page.dart';
 part "widget/platform/platform_app_bar.dart";
 part "widget/platform/platform_app_layout.dart";
 part "widget/platform/platform_builder.dart";

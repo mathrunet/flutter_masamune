@@ -1,3 +1,10 @@
+## [0.9.1] - Update README (2022.04.29)
+
+* Added VariableConfig type classes.
+* Add Widget.
+* Add list widget.
+* Add form widget.
+
 ## [0.9.0] - Update README (2021.12.22)
 
 * Add some Form widgets.

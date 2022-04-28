@@ -1,5 +1,8 @@
 part of masamune.list;
 
+typedef ListBuilderCallback<T> = List<Widget>? Function(
+    BuildContext context, T item, int index);
+
 class ListBuilder<T> extends StatelessWidget {
   const ListBuilder({
     Key? key,
@@ -15,8 +18,8 @@ class ListBuilder<T> extends StatelessWidget {
     this.insertPosition = 0,
     this.bottom,
     this.itemExtent,
-    required this.source,
     required this.builder,
+    required this.source,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
@@ -49,7 +52,7 @@ class ListBuilder<T> extends StatelessWidget {
   final List<Widget>? top;
   final List<Widget>? bottom;
   final List<T> source;
-  final List<Widget>? Function(BuildContext context, T item, int index) builder;
+  final ListBuilderCallback<T> builder;
   final bool addAutomaticKeepAlives;
   final bool addRepaintBoundaries;
   final bool addSemanticIndexes;
