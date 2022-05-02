@@ -13,6 +13,7 @@ class ListItem extends StatelessWidget {
   /// [trailing]: List trailing.
   /// [onTap]: Processing when tapped.
   const ListItem({
+    Key? key,
     this.leading,
     this.color,
     this.textColor,
@@ -31,7 +32,10 @@ class ListItem extends StatelessWidget {
     this.selectedColor,
     this.selectedTileColor,
     this.disabledTapOnSelected = false,
-  });
+    this.startAction,
+    this.endAction,
+    this.enableSlidable = true,
+  }) : super(key: key);
 
   /// Leading widget for items.
   final Widget? leading;
@@ -87,8 +91,30 @@ class ListItem extends StatelessWidget {
   /// If it is selected, the tap should not respond.
   final bool disabledTapOnSelected;
 
+  /// Left slidable action.
+  final ActionPane? startAction;
+
+  /// Right slidable action.
+  final ActionPane? endAction;
+
+  /// True if Slidable is enabled.
+  final bool enableSlidable;
+
   @override
   Widget build(BuildContext context) {
+    if (startAction != null || endAction != null) {
+      return Slidable(
+        key: key,
+        startActionPane: startAction,
+        endActionPane: endAction,
+        child: _build(context),
+      );
+    } else {
+      return _build(context);
+    }
+  }
+
+  Widget _build(BuildContext context) {
     final style = ListTileTheme.of(context);
     return ListTileTheme(
       style: style.style,

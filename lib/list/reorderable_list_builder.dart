@@ -231,7 +231,7 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
       } else if (_source.length <= widget.insertPosition) {
         final pos = i - widget._topLength;
         if (pos < _source.length) {
-          return _sourceBuilder(context, pos);
+          return _listenableBuilder(context, pos);
         } else {
           return widget.insert![i - _source.length - widget._topLength];
         }
@@ -241,9 +241,9 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
             pos < widget.insertPosition + widget.insert.length) {
           return widget.insert![pos - widget.insertPosition];
         } else if (pos < widget.insertPosition) {
-          return _sourceBuilder(context, pos);
+          return _listenableBuilder(context, pos);
         } else {
-          return _sourceBuilder(context, pos - widget.insert.length);
+          return _listenableBuilder(context, pos - widget.insert.length);
         }
       }
     } else {
@@ -251,27 +251,24 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
     }
   }
 
-  Widget _sourceBuilder(BuildContext context, int pos) {
-    final item = _source[pos];
-    final keyObject = widget.keyBuilder?.call(item) ?? item;
-    final key = ValueKey(keyObject);
+  Widget _sourceBuilder(BuildContext context, T item, int pos, Key? key) {
     final children = widget.builder.call(context, item, pos);
     if (children.isEmpty) {
-      return _listenableBuilder(
+      return _loadingBuilder(
         key: key,
         context: context,
         item: item,
         child: const Empty(),
       );
     } else if (children.length <= 1) {
-      return _listenableBuilder(
+      return _loadingBuilder(
         key: key,
         context: context,
         item: item,
         child: children!.firstOrNull ?? const Empty(),
       );
     } else {
-      return _listenableBuilder(
+      return _loadingBuilder(
         key: key,
         context: context,
         item: item,
@@ -284,29 +281,21 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
     }
   }
 
-  Widget _listenableBuilder({
-    required BuildContext context,
-    required T item,
-    required Widget child,
-    Key? key,
-  }) {
+  Widget _listenableBuilder(
+    BuildContext context,
+    int pos,
+  ) {
+    final item = _source[pos];
+    final keyObject = widget.keyBuilder?.call(item) ?? item;
+    final key = ValueKey(keyObject);
     if (!widget.listenWhenListenable || item is! Listenable) {
-      return _loadingBuilder(
-        key: key,
-        context: context,
-        item: item,
-        child: child,
-      );
+      return _sourceBuilder(context, item, pos, key);
     }
     return ListenableListener<Listenable>(
       key: key,
       listenable: item,
       builder: (context, listenable) {
-        return _loadingBuilder(
-          context: context,
-          item: item,
-          child: child,
-        );
+        return _sourceBuilder(context, item, pos, key);
       },
     );
   }

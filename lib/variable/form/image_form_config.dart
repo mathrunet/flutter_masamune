@@ -7,7 +7,9 @@ class ImageFormConfig extends VariableFormConfig<String> {
     this.color,
     this.backgroundColor,
     this.height = 160,
+    this.fit = BoxFit.cover,
     this.type = PlatformMediaType.all,
+    this.contentPadding,
   });
 
   final Color? backgroundColor;
@@ -17,6 +19,10 @@ class ImageFormConfig extends VariableFormConfig<String> {
   final PlatformMediaType type;
 
   final double height;
+
+  final BoxFit fit;
+
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Iterable<Widget> build({
@@ -31,6 +37,8 @@ class ImageFormConfig extends VariableFormConfig<String> {
         dense: true,
         height: height,
         color: color,
+        fit: fit,
+        contentPadding: contentPadding,
         padding: const EdgeInsets.only(bottom: 4),
         hintText: "Select %s".localize().format([config.label.localize()]),
         errorText: "No select %s".localize().format([config.label.localize()]),

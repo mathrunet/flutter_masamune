@@ -120,9 +120,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     return document;
   }
 
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen]. Retrieves a document from a [collection].
+  /// Retrieves a document from a [collection].
   ///
   /// By specifying [id], you can specify the ID of newly created document. If not specified, [uuid] will be used.
   @override
@@ -131,6 +129,12 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     String? id,
   ]) {
     return collection.create(id);
+  }
+
+  /// Retrieves a document from a [path].
+  @override
+  RuntimeDynamicDocumentModel createDocumentFromPath(String path) {
+    return RuntimeDynamicDocumentModel(path);
   }
 
   /// Deletes information associated with a document.

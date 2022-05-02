@@ -133,9 +133,7 @@ class InheritedModelAdapter<
   Future<void> deleteDocument(TDocument document) =>
       adapter.deleteDocument(document);
 
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen]. Retrieves a document from a [collection].
+  /// Retrieves a document from a [collection].
   ///
   /// By specifying [id], you can specify the ID of newly created document. If not specified, [uuid] will be used.
   @override
@@ -144,6 +142,11 @@ class InheritedModelAdapter<
     String? id,
   ]) =>
       adapter.createDocument(collection, id);
+
+  /// Retrieves a document from a [path].
+  @override
+  TDocument createDocumentFromPath(String path) =>
+      adapter.createDocumentFromPath(path);
 
   /// Save the data in the document so that you can use it after restarting the app.
   @override

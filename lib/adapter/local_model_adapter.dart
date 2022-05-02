@@ -115,9 +115,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     await document.delete();
   }
 
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen]. Retrieves a document from a [collection].
+  /// Retrieves a document from a [collection].
   ///
   /// By specifying [id], you can specify the ID of newly created document. If not specified, [uuid] will be used.
   @override
@@ -126,6 +124,12 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     String? id,
   ]) {
     return collection.create(id);
+  }
+
+  /// Retrieves a document from a [path].
+  @override
+  LocalDynamicDocumentModel createDocumentFromPath(String path) {
+    return LocalDynamicDocumentModel(path);
   }
 
   /// Save the data in the document so that you can use it after restarting the app.

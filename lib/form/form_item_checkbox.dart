@@ -19,6 +19,7 @@ class FormItemCheckbox extends FormField<bool> {
       this.labelText,
       this.needToCheck = false,
       this.linkTextStyle,
+      this.checkboxWidth = 48,
       Key? key,
       void Function(bool? value)? onSaved,
       String? Function(bool? value)? validator,
@@ -56,6 +57,7 @@ class FormItemCheckbox extends FormField<bool> {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final TextStyle? linkTextStyle;
+  final double checkboxWidth;
   @override
   _FormItemCheckboxState createState() => _FormItemCheckboxState();
 }
@@ -127,10 +129,10 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Flexible(
-                flex: 1,
+              SizedBox(
+                width: widget.checkboxWidth,
                 child: Align(
-                  alignment: Alignment.centerRight,
+                  alignment: Alignment.centerLeft,
                   child: Checkbox(
                     value: value,
                     side: widget.color != null

@@ -40,6 +40,8 @@ class FormItemMedia extends FormField<String> {
     this.padding = const EdgeInsets.symmetric(vertical: 8),
     this.dense = false,
     this.height = 200,
+    this.fit = BoxFit.cover,
+    this.contentPadding,
     this.videoExtensionList = const [
       "mp4",
       "ogv",
@@ -121,6 +123,12 @@ class FormItemMedia extends FormField<String> {
 
   /// Text ediging controller.
   final TextEditingController? controller;
+
+  /// Image fitting.
+  final BoxFit fit;
+
+  /// Padding for content.
+  final EdgeInsetsGeometry? contentPadding;
 
   /// Creates the mutable state for this widget at a given location in the tree.
   ///
@@ -248,7 +256,7 @@ class _FormItemMediaState extends FormFieldState<String> {
           context,
           Video(
             NetworkOrAsset.video(path),
-            fit: BoxFit.cover,
+            fit: widget.fit,
             autoplay: true,
             mute: true,
             mixWithOthers: true,
@@ -259,7 +267,7 @@ class _FormItemMediaState extends FormFieldState<String> {
           context,
           Image(
             image: NetworkOrAsset.image(path),
-            fit: BoxFit.cover,
+            fit: widget.fit,
           ),
         );
     }
@@ -272,7 +280,10 @@ class _FormItemMediaState extends FormFieldState<String> {
     return Stack(
       fit: StackFit.expand,
       children: [
-        child,
+        Padding(
+          padding: widget.contentPadding ?? const EdgeInsets.all(0),
+          child: child,
+        ),
         ColoredBox(
           color: widget.overlayColor,
           child: Center(

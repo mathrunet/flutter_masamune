@@ -2,9 +2,9 @@ part of masamune.variable;
 
 /// FormConfig for using Select/DropdownField.
 @immutable
-class MultipleSelectFormConfig extends VariableFormConfig<List<String>>
+class MultipleCheckboxFormConfig extends VariableFormConfig<List<String>>
     with VariableFormConfigUtilMixin<List<String>> {
-  const MultipleSelectFormConfig({
+  const MultipleCheckboxFormConfig({
     required this.items,
     this.backgroundColor,
     this.color,
