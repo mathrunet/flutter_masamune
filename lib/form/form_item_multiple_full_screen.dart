@@ -9,7 +9,7 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
       DynamicMap item,
       int index,
       void Function() onEdit,
-      void Function() onRemove,
+      void Function()? onRemove,
     )
         builder,
     this.addLabel = "Add",
@@ -17,11 +17,14 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
     Key? key,
     this.minItems,
     this.errorText,
+    this.hintText,
     void Function(List<DynamicMap>? value)? onSaved,
     String? Function(List<DynamicMap>? value)? validator,
     List<DynamicMap>? initialValue,
     bool enabled = true,
   })  : _builder = builder,
+        assert(minItems == null || (minItems != null && hintText.isNotEmpty),
+            "When specifying [minItems], please write [hintText]."),
         super(
           key: key,
           builder: (state) {
@@ -29,8 +32,12 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
           },
           onSaved: onSaved,
           validator: (value) {
-            if (errorText.isNotEmpty && value.length < (minItems ?? 0)) {
-              return errorText!;
+            if (errorText.isNotEmpty && minItems != null) {
+              final filtered =
+                  value?.where((element) => element.isNotEmpty) ?? [];
+              if (minItems > filtered.length) {
+                return errorText!;
+              }
             }
             return validator?.call(value);
           },
@@ -44,13 +51,14 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
   final int? minItems;
   final String? errorText;
   final Color? color;
+  final String? hintText;
 
   final Widget Function(
     BuildContext context,
     DynamicMap item,
     int index,
     void Function() onEdit,
-    void Function() onRemove,
+    void Function()? onRemove,
   ) _builder;
 
   @override
@@ -107,7 +115,11 @@ class _FormItemMultipleFullScreenState
     } else {
       widget.controller?.addListener(_handleControllerChanged);
     }
-    setValue(_decodeJson(_effectiveController?.text ?? ""));
+    final list = _decodeJson(_effectiveController?.text ?? "");
+    if (widget.minItems != null && widget.minItems! > list.length) {
+      list.add({});
+    }
+    setValue(list);
   }
 
   Future<void> _onAdd() async {
@@ -136,6 +148,9 @@ class _FormItemMultipleFullScreenState
 
   void _onRemove(int index) {
     assert(index >= 0 && index < value.length, "The value of Index is wrong.");
+    if (widget.minItems != null && widget.minItems! >= value.length) {
+      return;
+    }
     value?.removeAt(index);
     didChange(List.from(value ?? []));
     setState(() {});
@@ -147,7 +162,9 @@ class _FormItemMultipleFullScreenState
       item,
       index,
       () => _onEdit(index, item),
-      () => _onRemove(index),
+      widget.minItems == null || index >= widget.minItems!
+          ? () => _onRemove(index)
+          : null,
     );
   }
 
@@ -164,6 +181,21 @@ class _FormItemMultipleFullScreenState
           ReorderableListBuilder<DynamicMap>(
             source: value ?? [],
             builder: (context, item, index) {
+              if (item.isEmpty) {
+                return [
+                  ListTile(
+                    title: Text(
+                      widget.hintText ?? "",
+                      style: TextStyle(
+                          color: widget.color?.withOpacity(0.5) ??
+                              context.theme.disabledColor),
+                    ),
+                    onTap: () {
+                      _onEdit(index, item);
+                    },
+                  ),
+                ];
+              }
               return [
                 Padding(
                   padding: const EdgeInsets.only(right: 10),

@@ -47,6 +47,7 @@ class MultipleFullScreenFormConfig extends VariableFormConfig<List<DynamicMap>>
         path: path,
         minItems: minItems,
         color: color,
+        hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),
         builder: (context, item, index, onEdit, onDelete) {
           return ValueProvider(
@@ -88,7 +89,7 @@ class MultipleFullscreenFormValue {
   });
 
   final VoidCallback onEdit;
-  final VoidCallback onDelete;
+  final VoidCallback? onDelete;
   final DynamicMap value;
 }
 
@@ -116,12 +117,14 @@ class MultipleFullscreenFormItem
       onTap: () {
         value.onEdit.call();
       },
-      trailing: IconButton(
-        onPressed: () {
-          value.onDelete.call();
-        },
-        icon: Icon(Icons.delete, color: color),
-      ),
+      trailing: value.onDelete == null
+          ? null
+          : IconButton(
+              onPressed: () {
+                value.onDelete?.call();
+              },
+              icon: Icon(Icons.delete, color: color),
+            ),
     );
   }
 }

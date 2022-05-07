@@ -147,7 +147,7 @@ packages:
       name: cross_file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.2"
+    version: "0.3.3"
   crypto:
     dependency: transitive
     description:
@@ -433,7 +433,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.1+4"
+    version: "0.9.1+5"
   katana_module:
     dependency: "direct main"
     description:
@@ -496,7 +496,7 @@ packages:
       name: mime
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   model_notifier:
     dependency: "direct main"
     description:

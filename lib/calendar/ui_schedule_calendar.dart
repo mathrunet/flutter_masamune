@@ -17,8 +17,9 @@ class UIScheduleCalendar extends StatefulWidget {
     this.textKey = "text",
     this.allDayKey = "allDay",
     this.labelWidth = 56,
-    this.padding,
+    this.weekTextStyle,
     this.dayTextStyle,
+    this.padding,
     this.alwaysShown = false,
     this.startDate,
     this.endDate,
@@ -79,6 +80,9 @@ class UIScheduleCalendar extends StatefulWidget {
 
   /// Builder for events.
   final Widget? Function(BuildContext context, DynamicMap item) builder;
+
+  /// Text style of the day of the week.
+  final TextStyle? weekTextStyle;
 
   /// Creates the mutable state for this widget at a given location in the tree.
   ///
@@ -219,21 +223,22 @@ class _UIScheduleCalendarState extends State<UIScheduleCalendar> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                   child: DefaultTextStyle(
-                    style: widget.dayTextStyle ??
-                        TextStyle(
-                          color: context.theme.dividerColor,
-                        ),
+                    style: TextStyle(
+                      color: context.theme.dividerColor,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           day.shortLocalizedWeekDay,
-                          style: const TextStyle(fontSize: 12),
+                          style: widget.weekTextStyle ??
+                              const TextStyle(fontSize: 12),
                         ),
                         Text(
                           day.day.toString(),
-                          style: const TextStyle(fontSize: 24),
+                          style: widget.dayTextStyle ??
+                              const TextStyle(fontSize: 24),
                         ),
                       ],
                     ),
