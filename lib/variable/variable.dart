@@ -18,6 +18,7 @@ part 'form/multiple_text_form_config.dart';
 part 'form/multiple_full_screen_form_config.dart';
 part 'form/range_form_config.dart';
 part 'form/select_form_config.dart';
+part 'form/avatar_form_config.dart';
 part 'form/checkbox_form_config.dart';
 part 'form/slider_form_config.dart';
 part 'form/identified_multiple_text_form_config.dart';

@@ -34,7 +34,7 @@ class HiddenFormConfig<T> extends VariableFormConfig<T> {
     if (form is! HiddenFormConfig<T>) {
       return null;
     }
-    if (!form.applyOnUpdate && !updated) {
+    if (!form.applyOnUpdate && updated) {
       return null;
     }
     switch (form.type) {
