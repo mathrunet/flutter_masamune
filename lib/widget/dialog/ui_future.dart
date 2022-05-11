@@ -51,7 +51,8 @@ extension UIFutureExtension<T> on Future<T> {
     Color? barrierColor = Colors.black54,
     void Function(T? value)? actionOnFinish,
   }) async {
-    await Future<void>.delayed(Duration.zero);
+    // FIXME: 動作がおかしくなるようであれば修正
+    // await Future<void>.delayed(Duration.zero);
     _UIFuture.show<T>(
       context,
       this,

@@ -146,7 +146,7 @@ class InheritedModelAdapter<
   /// Retrieves a document from a [path].
   @override
   TDocument createDocumentFromPath(String path) =>
-      adapter.createDocumentFromPath(path);
+      adapter.createDocumentFromPath("$_prefix$path$_suffix");
 
   /// Save the data in the document so that you can use it after restarting the app.
   @override
