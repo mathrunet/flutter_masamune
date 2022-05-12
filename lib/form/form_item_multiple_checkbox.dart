@@ -16,13 +16,15 @@ class FormItemMultipleCheckbox extends FormField<List<String>>
       this.checkColor,
       this.hintText,
       this.errorText,
-      this.minHeight = 40,
+      this.minHeight = 48,
       this.labelText,
       this.submitText,
       this.cancelText,
       this.allowEmpty = false,
       this.separator = ",",
       this.unselectColor,
+      this.border,
+      this.scroll = false,
       Key? key,
       void Function(List<String>? value)? onSaved,
       String? Function(List<String>? value)? validator,
@@ -44,6 +46,8 @@ class FormItemMultipleCheckbox extends FormField<List<String>>
             enabled: enabled);
 
   final String separator;
+  final bool scroll;
+  final BoxBorder? border;
   final Map<String, String> items;
   final TextEditingController? controller;
   final bool allowEmpty;
@@ -115,7 +119,7 @@ class _FormItemMultipleCheckboxState extends FormFieldState<List<String>> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = TextEditingController();
+      _controller = TextEditingController(text: value?.join(widget.separator));
     } else {
       widget.controller?.addListener(_handleControllerChanged);
     }
@@ -127,7 +131,13 @@ class _FormItemMultipleCheckboxState extends FormFieldState<List<String>> {
     super.build(context);
     return Container(
       padding: widget.margin,
-      color: widget.backgroundColor,
+      decoration: BoxDecoration(
+        color: widget.backgroundColor,
+        borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+        border: widget.border ??
+            Border.fromBorderSide(
+                widget.dense ? BorderSide.none : const BorderSide()),
+      ),
       child: Column(
         children: [
           _MultiSelectDialogFieldView<String>(
@@ -141,7 +151,7 @@ class _FormItemMultipleCheckboxState extends FormFieldState<List<String>> {
                 ? Text("Close".localize())
                 : Text(widget.cancelText!),
             title: widget.labelText.isEmpty
-                ? Text("",
+                ? Text(widget.hintText ?? "",
                     style: TextStyle(color: context.theme.textColorOnSurface))
                 : Text(widget.labelText!,
                     style: TextStyle(color: context.theme.textColorOnSurface)),
@@ -150,6 +160,8 @@ class _FormItemMultipleCheckboxState extends FormFieldState<List<String>> {
             selectedItemsTextStyle: TextStyle(
                 color: widget.color ?? context.theme.textColorOnSurface),
             chipDisplay: MultiSelectChipDisplay<String>(
+                scroll: widget.scroll,
+                height: widget.minHeight,
                 chipColor: widget.activeColor ?? context.theme.primaryColor,
                 textStyle: TextStyle(
                     color: widget.color ?? context.theme.textColorOnPrimary)),
@@ -333,15 +345,17 @@ class __MultiSelectDialogFieldViewState<V>
             items: chipDisplayItems,
             colorator: widget.chipDisplay!.colorator ?? widget.colorator,
             onTap: (item) {
-              List<V>? newValues;
               if (widget.chipDisplay!.onTap != null) {
+                List<V>? newValues;
                 final result = widget.chipDisplay!.onTap!(item);
                 if (result is List<V>) {
                   newValues = result;
                 }
-              }
-              if (newValues != null) {
-                _selectedItems = newValues;
+                if (newValues != null) {
+                  _selectedItems = newValues;
+                }
+              } else {
+                _showDialog(context);
               }
             },
             decoration: widget.chipDisplay!.decoration,
@@ -406,7 +420,7 @@ class __MultiSelectDialogFieldViewState<V>
             setState(() {
               _selectedItems = selected;
               if (widget.onConfirm != null) {
-                widget.onConfirm!(selected);
+                widget.onConfirm?.call(selected);
               }
             });
           },
