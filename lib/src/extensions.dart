@@ -102,8 +102,11 @@ extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
     String keyPrefix = "user",
   }) {
     final res = ListenableMap<String, dynamic>.from(this);
-    final user =
-        ref.watchDocumentModel("$userCollectionPath/${get(userKey, "")}");
+    final key = get(userKey, "");
+    if (key.isEmpty) {
+      return res;
+    }
+    final user = ref.watchDocumentModel("$userCollectionPath/$key");
     for (final tmp in user.entries) {
       res["$keyPrefix${tmp.key}"] = tmp.value;
     }
@@ -124,8 +127,11 @@ extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
     String keyPrefix = "",
   }) {
     final res = ListenableMap<String, dynamic>.from(this);
-    final collection =
-        ref.watchDocumentModel("$collectionPath/${get(idKey, "")}");
+    final key = get(idKey, "");
+    if (key.isEmpty) {
+      return res;
+    }
+    final collection = ref.watchDocumentModel("$collectionPath/$key");
     for (final tmp in collection.entries) {
       res["$keyPrefix${tmp.key}"] = tmp.value;
     }

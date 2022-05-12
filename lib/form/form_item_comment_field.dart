@@ -21,6 +21,7 @@ class FormItemCommentField extends StatefulWidget {
     this.iconColor,
     this.submitIcon,
     this.autofocus = false,
+    this.suffix,
   });
   final Color? color;
   final Color? subColor;
@@ -41,6 +42,7 @@ class FormItemCommentField extends StatefulWidget {
   final Color? iconColor;
   final IconData? submitIcon;
   final bool autofocus;
+  final Widget? suffix;
 
   @override
   State<StatefulWidget> createState() => _FormItemCommentFieldState();
@@ -185,6 +187,13 @@ class _FormItemCommentFieldState extends State<FormItemCommentField> {
                       context.theme.textColor.withOpacity(0.5),
                 ),
               ),
+            ),
+          if (widget.suffix != null)
+            Positioned(
+              right: 40,
+              top: 0,
+              bottom: 6,
+              child: widget.suffix!,
             ),
         ],
       ),
