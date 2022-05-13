@@ -252,7 +252,7 @@ packages:
       name: ffi
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.2"
+    version: "1.2.1"
   file:
     dependency: transitive
     description:
@@ -384,7 +384,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+2"
+    version: "0.8.5+3"
   image_picker_android:
     dependency: transitive
     description:
@@ -440,7 +440,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.1+22"
+    version: "0.9.1+23"
   katana_routing:
     dependency: "direct main"
     description:
