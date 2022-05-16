@@ -160,7 +160,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     if (data.isEmpty) {
       return;
     }
-    final doc = read(localDocumentProvider("$userPath/$userId"));
+    final doc = readProvider(localDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
     doc.addAllIfEmpty(data!);
     await doc.save();
@@ -181,7 +181,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     if (data.isEmpty) {
       return;
     }
-    final doc = read(localDocumentProvider("$userPath/$userId"));
+    final doc = readProvider(localDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
     doc.addAllIfEmpty(data!);
     await doc.save();
@@ -198,7 +198,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     if (data.isEmpty) {
       return;
     }
-    final doc = read(localDocumentProvider("$userPath/$userId"));
+    final doc = readProvider(localDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
     doc.addAllIfEmpty(data!);
     await doc.save();

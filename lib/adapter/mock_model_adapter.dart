@@ -213,7 +213,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
       return;
     }
     RuntimeDatabase.registerMockData(this.data);
-    final doc = read(runtimeDocumentProvider("$userPath/$userId"));
+    final doc = readProvider(runtimeDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
     doc.addAllIfEmpty(data!);
     await doc.save();
@@ -234,7 +234,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
       return;
     }
     RuntimeDatabase.registerMockData(this.data);
-    final doc = read(runtimeDocumentProvider("$userPath/$userId"));
+    final doc = readProvider(runtimeDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
     doc.addAllIfEmpty(data!);
     await doc.save();
@@ -255,7 +255,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     } else {
       data["role"] = email;
     }
-    final doc = read(runtimeDocumentProvider("$userPath/$userId"));
+    final doc = readProvider(runtimeDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
     doc.addAllIfEmpty(data);
     await doc.save();
@@ -285,7 +285,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
       return true;
     }
     RuntimeDatabase.registerMockData(this.data);
-    final doc = read(runtimeDocumentProvider("$userPath/$userId"));
+    final doc = readProvider(runtimeDocumentProvider("$userPath/$userId"));
     await doc.loadOnce();
     doc.addAll(data!);
     await doc.save();
