@@ -1,7 +1,7 @@
 part of masamune.form;
 
-class FormItemDurationField extends StatefulWidget implements FormItem {
-  const FormItemDurationField({
+class FormItemMonthDayField extends StatefulWidget implements FormItem {
+  const FormItemMonthDayField({
     this.controller,
     this.keyboardType = TextInputType.text,
     this.maxLength,
@@ -24,26 +24,26 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
     this.onChanged,
     this.onEditingComplete,
     this.contentPadding,
-    this.initialDuration,
-    this.baseUnit = FormItemDurationFieldBaseUnit.second,
+    this.initialDateTime,
     String? format,
-    Future<Duration?> onShowPicker(BuildContext context, Duration duration)?,
+    Future<DateTime?> onShowPicker(BuildContext context, DateTime duration)?,
     this.onSaved,
   })  : _format = format,
         _onShowPicker = onShowPicker;
 
-  /// Calculate formatted duration string from [milliseconds].
-  static String tryFormat(int milliseconds,
-      {String format = "HH:mm:ss", String defaultValue = ""}) {
-    if (format.isEmpty || milliseconds < 0) {
+  /// Calculate formatted DateTime string from [millisecondsSinceEpoch].
+  static String tryFormat(int millisecondsSinceEpoch,
+      {String format = "MM/dd", String defaultValue = ""}) {
+    if (format.isEmpty || millisecondsSinceEpoch < 0) {
       return defaultValue;
     }
-    return Duration(milliseconds: milliseconds).format(format);
+    return DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch)
+        .format(format);
   }
 
-  /// Converts a string with only date and time information to duration.
-  static Duration? tryParse(String formattedString,
-      {Duration? defaultValue, String format = r"([0-9]+):([0-9]+):([0-9]+)"}) {
+  /// Converts a string with only date and time information to DateTime.
+  static DateTime? tryParse(String formattedString,
+      {DateTime? defaultValue, String format = r"([0-9]+)/([0-9]+)"}) {
     if (formattedString.isEmpty || format.isEmpty) {
       return defaultValue;
     }
@@ -52,202 +52,80 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
     if (match == null) {
       return defaultValue;
     }
-    final hours = int.tryParse(match.group(1) ?? "");
-    final minutes = int.tryParse(match.group(2) ?? "");
-    final seconds = int.tryParse(match.group(3) ?? "");
-    if (hours == null || minutes == null || seconds == null) {
+    final month = int.tryParse(match.group(1) ?? "");
+    final day = int.tryParse(match.group(2) ?? "");
+    if (month == null || day == null) {
       return defaultValue;
     }
-    return Duration(hours: hours, minutes: minutes, seconds: seconds);
+    final now = DateTime.now();
+    return DateTime(now.year, month, day);
   }
 
-  /// Calculate duration from [milliseconds].
-  static Duration value(int milliseconds) {
-    assert(milliseconds > 0);
-    return Duration(milliseconds: milliseconds);
+  /// Calculate DateTime from [millisecondsSinceEpoch].
+  static DateTime value(int millisecondsSinceEpoch) {
+    assert(millisecondsSinceEpoch > 0);
+    return DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
   }
 
-  /// Defines the picker for Duration.
-  static Future<Duration?> Function(BuildContext, Duration?) picker({
-    Duration? defaultDuration,
-    FormItemDurationFieldBaseUnit baseUnit =
-        FormItemDurationFieldBaseUnit.second,
+  /// Defines the picker for DateTime.
+  static Future<DateTime?> Function(BuildContext, DateTime?) picker({
+    DateTime? defaultDateTime,
+    String monthSuffix = "",
+    String daySuffix = "",
+    String monthFormat = "MM",
     Color? backgroundColor,
     Color? color,
-    String hourSuffix = "h",
-    String minuteSuffix = "m",
-    String secondSuffix = "s",
     String confirmText = "Confirm",
     String cancelText = "Cancel",
   }) {
-    return (context, currentDuration) async {
-      switch (baseUnit) {
-        case FormItemDurationFieldBaseUnit.second:
-          Duration? res;
-          await Picker(
-            height: 240,
-            confirmText: confirmText.localize(),
-            cancelText: cancelText.localize(),
-            backgroundColor: backgroundColor ?? context.theme.surfaceColor,
-            containerColor: backgroundColor ?? context.theme.surfaceColor,
-            headerColor: backgroundColor ?? context.theme.surfaceColor,
-            textStyle:
-                TextStyle(color: color ?? context.theme.textColorOnSurface),
-            selecteds: [
-              currentDuration?.inHours ?? defaultDuration?.inHours ?? 0,
-              currentDuration?.inMinutes.remainder(60) ??
-                  defaultDuration?.inMinutes.remainder(60) ??
-                  0,
-              currentDuration?.inSeconds.remainder(60) ??
-                  defaultDuration?.inSeconds.remainder(60) ??
-                  0,
-            ],
-            adapter: PickerDataAdapter<int>(
-              data: [
-                PickerItem(
-                  children: List.generate(
-                    24,
-                    (index) => PickerItem(
-                      text: Text(
-                        "$index $hourSuffix",
-                        style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
-                      ),
-                      value: index,
+    return (context, currentDateTime) async {
+      DateTime? res;
+      await Picker(
+        height: 240,
+        backgroundColor: backgroundColor ?? context.theme.surfaceColor,
+        containerColor: backgroundColor ?? context.theme.surfaceColor,
+        headerColor: backgroundColor ?? context.theme.surfaceColor,
+        textStyle: TextStyle(color: color ?? context.theme.textColorOnSurface),
+        confirmText: confirmText.localize(),
+        cancelText: cancelText.localize(),
+        selecteds: [
+          (currentDateTime?.month ?? defaultDateTime?.month ?? 1) - 1,
+          (currentDateTime?.day ?? defaultDateTime?.day ?? 1) - 1,
+        ],
+        adapter: PickerDataAdapter<int>(
+          data: [
+            ...List.generate(12, (m) {
+              final month = DateTime(1970, m + 2, 0);
+              return PickerItem(
+                text: Text(
+                  "${month.format(monthFormat)}$monthSuffix",
+                  style: TextStyle(
+                      color: color ?? context.theme.textColorOnSurface),
+                ),
+                value: m + 1,
+                children: List.generate(
+                  month.day,
+                  (d) => PickerItem(
+                    text: Text(
+                      "${(d + 1).format("00")}$daySuffix",
+                      style: TextStyle(
+                          color: color ?? context.theme.textColorOnSurface),
                     ),
+                    value: d + 1,
                   ),
                 ),
-                PickerItem(
-                  children: List.generate(
-                    60,
-                    (index) => PickerItem(
-                      text: Text(
-                        "$index $minuteSuffix",
-                        style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
-                      ),
-                      value: index,
-                    ),
-                  ),
-                ),
-                PickerItem(
-                  children: List.generate(
-                    60,
-                    (index) => PickerItem(
-                      text: Text(
-                        "$index $secondSuffix",
-                        style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
-                      ),
-                      value: index,
-                    ),
-                  ),
-                ),
-              ],
-              isArray: true,
-            ),
-            hideHeader: false,
-            onConfirm: (Picker picker, List<int> value) {
-              res = Duration(
-                  hours: value[0], minutes: value[1], seconds: value[2]);
-            },
-          ).showModal(context);
-          return res;
-        case FormItemDurationFieldBaseUnit.minute:
-          Duration? res;
-          await Picker(
-            height: 240,
-            confirmText: confirmText.localize(),
-            cancelText: cancelText.localize(),
-            backgroundColor: backgroundColor ?? context.theme.surfaceColor,
-            containerColor: backgroundColor ?? context.theme.surfaceColor,
-            headerColor: backgroundColor ?? context.theme.surfaceColor,
-            textStyle:
-                TextStyle(color: color ?? context.theme.textColorOnSurface),
-            selecteds: [
-              currentDuration?.inHours ?? defaultDuration?.inHours ?? 0,
-              currentDuration?.inMinutes.remainder(60) ??
-                  defaultDuration?.inMinutes.remainder(60) ??
-                  0,
-            ],
-            adapter: PickerDataAdapter<int>(
-              data: [
-                PickerItem(
-                  children: List.generate(
-                    24,
-                    (index) => PickerItem(
-                      text: Text(
-                        "$index $hourSuffix",
-                        style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
-                      ),
-                      value: index,
-                    ),
-                  ),
-                ),
-                PickerItem(
-                  children: List.generate(
-                    60,
-                    (index) => PickerItem(
-                      text: Text(
-                        "$index $minuteSuffix",
-                        style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
-                      ),
-                      value: index,
-                    ),
-                  ),
-                ),
-              ],
-              isArray: true,
-            ),
-            changeToFirst: true,
-            hideHeader: false,
-            onConfirm: (Picker picker, List<int> value) {
-              res = Duration(hours: value[0], minutes: value[1]);
-            },
-          ).showModal(context);
-          return res;
-        case FormItemDurationFieldBaseUnit.hour:
-          Duration? res;
-          await Picker(
-            height: 240,
-            confirmText: confirmText.localize(),
-            cancelText: cancelText.localize(),
-            backgroundColor: backgroundColor ?? context.theme.surfaceColor,
-            containerColor: backgroundColor ?? context.theme.surfaceColor,
-            headerColor: backgroundColor ?? context.theme.surfaceColor,
-            textStyle:
-                TextStyle(color: color ?? context.theme.textColorOnSurface),
-            selecteds: [
-              currentDuration?.inHours ?? defaultDuration?.inHours ?? 0,
-            ],
-            adapter: PickerDataAdapter<int>(
-              data: [
-                PickerItem(
-                  children: List.generate(
-                    24,
-                    (index) => PickerItem(
-                      text: Text(
-                        "$index $hourSuffix",
-                        style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
-                      ),
-                      value: index,
-                    ),
-                  ),
-                ),
-              ],
-              isArray: true,
-            ),
-            changeToFirst: true,
-            hideHeader: false,
-            onConfirm: (Picker picker, List<int> value) {
-              res = Duration(hours: value[0]);
-            },
-          ).showModal(context);
-          return res;
-      }
+              );
+            }),
+          ],
+        ),
+        changeToFirst: true,
+        hideHeader: false,
+        onConfirm: (Picker picker, List<int> value) {
+          final now = DateTime.now();
+          res = DateTime(now.year, value[0] + 1, value[1] + 1);
+        },
+      ).showModal(context);
+      return res;
     };
   }
 
@@ -257,9 +135,9 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
   final int maxLines;
   final bool dense;
   final int? minLines;
+  final bool showResetButton;
   final String? hintText;
   final String? errorText;
-  final bool showResetButton;
   final String? labelText;
   final String? counterText;
   final Widget? prefix;
@@ -268,18 +146,17 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
   final bool allowEmpty;
   final bool obscureText;
   final Color? backgroundColor;
-  final Duration? initialDuration;
+  final DateTime? initialDateTime;
   final String? _format;
   final bool enabled;
-  final FormFieldValidator<Duration?>? validator;
+  final FormFieldValidator<DateTime?>? validator;
   final EdgeInsetsGeometry? contentPadding;
-  final FormItemDurationFieldBaseUnit baseUnit;
-  final Future<Duration?> Function(BuildContext, Duration)? _onShowPicker;
-  final void Function(Duration? value)? onSaved;
-  final void Function(Duration? value)? onChanged;
+  final Future<DateTime?> Function(BuildContext, DateTime)? _onShowPicker;
+  final void Function(DateTime? value)? onSaved;
+  final void Function(DateTime? value)? onChanged;
   final void Function()? onEditingComplete;
 
-  Future<Duration?> Function(BuildContext, Duration) get onShowPicker {
+  Future<DateTime?> Function(BuildContext, DateTime) get onShowPicker {
     if (_onShowPicker != null) {
       return _onShowPicker!;
     }
@@ -290,14 +167,14 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
     if (_format.isNotEmpty) {
       return _format!;
     }
-    return "HH:mm:ss";
+    return "MM/dd";
   }
 
   @override
-  State<StatefulWidget> createState() => _FormItemDurationFieldState();
+  State<StatefulWidget> createState() => _FormItemMonthDayFieldState();
 }
 
-class _FormItemDurationFieldState extends State<FormItemDurationField> {
+class _FormItemMonthDayFieldState extends State<FormItemMonthDayField> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -305,8 +182,8 @@ class _FormItemDurationFieldState extends State<FormItemDurationField> {
     if (widget.controller == null) {
       return;
     }
-    if (widget.initialDuration != null) {
-      widget.controller?.text = widget.initialDuration!.format(widget.format);
+    if (widget.initialDateTime != null) {
+      widget.controller?.text = widget.initialDateTime!.format(widget.format);
     }
     _controller = TextEditingController(text: widget.controller?.text);
     _controller?.addListener(_listenerInside);
@@ -340,10 +217,10 @@ class _FormItemDurationFieldState extends State<FormItemDurationField> {
       padding: widget.dense
           ? const EdgeInsets.symmetric(vertical: 10, horizontal: 6)
           : const EdgeInsets.symmetric(vertical: 10),
-      child: _DurationTextField(
+      child: _MonthDayTextField(
         controller: _controller,
         keyboardType: TextInputType.text,
-        initialValue: widget.initialDuration,
+        initialValue: widget.initialDateTime,
         maxLength: widget.maxLength,
         maxLines: widget.maxLines,
         enabled: widget.enabled,
@@ -400,27 +277,25 @@ class _FormItemDurationFieldState extends State<FormItemDurationField> {
   }
 }
 
-enum FormItemDurationFieldBaseUnit { second, minute, hour }
-
-class _DurationTextField extends FormField<Duration> {
-  _DurationTextField({
+class _MonthDayTextField extends FormField<DateTime> {
+  _MonthDayTextField({
     required this.format,
     required this.onShowPicker,
     Key? key,
-    FormFieldSetter<Duration?>? onSaved,
-    FormFieldValidator<Duration?>? validator,
-    Duration? initialValue,
+    FormFieldSetter<DateTime?>? onSaved,
+    FormFieldValidator<DateTime?>? validator,
+    DateTime? initialValue,
     bool enabled = true,
     this.resetIcon = const Icon(Icons.close),
     this.onChanged,
     this.controller,
     this.focusNode,
-    bool showResetButton = true,
     InputDecoration decoration = const InputDecoration(),
     TextInputType? keyboardType,
     TextCapitalization textCapitalization = TextCapitalization.none,
     TextInputAction? textInputAction,
     TextStyle? style,
+    bool showResetButton = true,
     StrutStyle? strutStyle,
     TextAlign textAlign = TextAlign.start,
     bool autofocus = false,
@@ -433,7 +308,7 @@ class _DurationTextField extends FormField<Duration> {
     bool expands = false,
     int? maxLength,
     VoidCallback? onEditingComplete,
-    ValueChanged<Duration?>? onSubmitted,
+    ValueChanged<DateTime?>? onSubmitted,
     List<TextInputFormatter>? inputFormatters,
     double cursorWidth = 2.0,
     Radius? cursorRadius,
@@ -449,8 +324,8 @@ class _DurationTextField extends FormField<Duration> {
             validator: validator,
             onSaved: onSaved,
             builder: (field) {
-              final _DurationTextFieldState state =
-                  field as _DurationTextFieldState;
+              final _MonthDayTextFieldState state =
+                  field as _MonthDayTextFieldState;
               final InputDecoration effectiveDecoration = decoration
                   .applyDefaults(Theme.of(field.context).inputDecorationTheme);
               return TextField(
@@ -508,7 +383,7 @@ class _DurationTextField extends FormField<Duration> {
   final String format;
 
   /// Called when the date chooser dialog should be shown.
-  final Future<Duration?> Function(BuildContext context, Duration currentValue)?
+  final Future<DateTime?> Function(BuildContext context, DateTime currentValue)?
       onShowPicker;
 
   /// The [InputDecoration.suffixIcon] to show when the field has text. Tapping
@@ -519,20 +394,20 @@ class _DurationTextField extends FormField<Duration> {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final bool readOnly;
-  final void Function(Duration? value)? onChanged;
+  final void Function(DateTime? value)? onChanged;
 
   @override
-  _DurationTextFieldState createState() => _DurationTextFieldState();
+  _MonthDayTextFieldState createState() => _MonthDayTextFieldState();
 }
 
-class _DurationTextFieldState extends FormFieldState<Duration> {
+class _MonthDayTextFieldState extends FormFieldState<DateTime> {
   TextEditingController? _controller;
   FocusNode? _focusNode;
   bool isShowingDialog = false;
   bool hadFocus = false;
 
   @override
-  _DurationTextField get widget => super.widget as _DurationTextField;
+  _MonthDayTextField get widget => super.widget as _MonthDayTextField;
 
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
@@ -560,7 +435,7 @@ class _DurationTextFieldState extends FormFieldState<Duration> {
   }
 
   @override
-  void didUpdateWidget(_DurationTextField oldWidget) {
+  void didUpdateWidget(_MonthDayTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -601,7 +476,7 @@ class _DurationTextFieldState extends FormFieldState<Duration> {
   }
 
   @override
-  void didChange(Duration? value) {
+  void didChange(DateTime? value) {
     widget.onChanged?.call(value);
     super.didChange(value);
   }
@@ -627,9 +502,9 @@ class _DurationTextFieldState extends FormFieldState<Duration> {
       didChange(parse(_effectiveController?.text));
   }
 
-  String? format(Duration? duration) =>
+  String? format(DateTime? duration) =>
       duration == null ? null : duration.format(widget.format);
-  Duration? parse(String? text) {
+  DateTime? parse(String? text) {
     try {
       return text.isEmpty ? null : _parseLoose(text!);
     } catch (e) {
@@ -637,35 +512,27 @@ class _DurationTextFieldState extends FormFieldState<Duration> {
     }
   }
 
-  Duration? _parseLoose(String text) {
+  DateTime? _parseLoose(String text) {
     final regex = RegExp(
       widget.format
-          .replaceAll("dd", "(?<dd>[0-9]+)")
-          .replaceAll("HH", "(?<HH>[0-9]+)")
-          .replaceAll("mm", "(?<mm>[0-9]+)")
-          .replaceAll("ss", "(?<ss>[0-9]+)"),
+          .replaceAll("MM", "(?<MM>[0-9]+)")
+          .replaceAll("dd", "(?<dd>[0-9]+)"),
     );
     final match = regex.firstMatch(text);
     if (match == null) {
       return null;
     }
+    final now = DateTime.now();
     final days = match.groupNames.contains("dd")
         ? int.tryParse(match.namedGroup("dd") ?? "") ?? 0
         : 0;
-    final hours = match.groupNames.contains("HH")
-        ? int.tryParse(match.namedGroup("HH") ?? "") ?? 0
+    final months = match.groupNames.contains("MM")
+        ? int.tryParse(match.namedGroup("MM") ?? "") ?? 0
         : 0;
-    final minutes = match.groupNames.contains("mm")
-        ? int.tryParse(match.namedGroup("mm") ?? "") ?? 0
-        : 0;
-    final seconds = match.groupNames.contains("ss")
-        ? int.tryParse(match.namedGroup("ss") ?? "") ?? 0
-        : 0;
-    return Duration(
-      days: days,
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
+    return DateTime(
+      now.year,
+      months,
+      days,
     );
   }
 
@@ -676,7 +543,7 @@ class _DurationTextFieldState extends FormFieldState<Duration> {
     if (!isShowingDialog) {
       isShowingDialog = true;
       final newValue =
-          await widget.onShowPicker?.call(context, value ?? Duration.zero);
+          await widget.onShowPicker?.call(context, value ?? DateTime.now());
       isShowingDialog = false;
       if (newValue != null) {
         _effectiveController?.text = format(newValue) ?? "";

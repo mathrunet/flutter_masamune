@@ -11,6 +11,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     this.hintText,
     this.labelText,
     this.counterText = "",
+    this.pickerLabelText,
     this.dense = false,
     this.enabled = true,
     this.prefix,
@@ -127,12 +128,17 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   }
 
   /// Picker definition that selects only dates.
-  static Future<DateTime> Function(BuildContext, DateTime) datePicker(
-      {DateTime? startDate, DateTime? currentDate, DateTime? endDate}) {
+  static Future<DateTime> Function(BuildContext, DateTime) datePicker({
+    DateTime? startDate,
+    DateTime? currentDate,
+    DateTime? endDate,
+    String? helpText,
+  }) {
     return (context, dateTime) async {
       final now = dateTime;
       final date = await showDatePicker(
           context: context,
+          helpText: helpText,
           firstDate: startDate ?? now.subtract(const Duration(days: 365)),
           initialDate: currentDate ?? now,
           lastDate: endDate ?? now.add(const Duration(days: 365)));
@@ -144,12 +150,15 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   }
 
   /// Definition of a picker to select time.
-  static Future<DateTime> Function(BuildContext, DateTime) timePicker(
-      {DateTime? currentTime}) {
+  static Future<DateTime> Function(BuildContext, DateTime) timePicker({
+    DateTime? currentTime,
+    String? helpText,
+  }) {
     return (context, dateTime) async {
       final now = dateTime;
       final time = await showTimePicker(
         context: context,
+        helpText: helpText,
         initialTime: TimeOfDay.fromDateTime(currentTime ?? now),
       );
       return _DateTimeTextField.combine(
@@ -160,18 +169,24 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   }
 
   /// Picker definition that selects the date and time.
-  static Future<DateTime> Function(BuildContext, DateTime) dateTimePicker(
-      {DateTime? startDate, DateTime? current, DateTime? endDate}) {
+  static Future<DateTime> Function(BuildContext, DateTime) dateTimePicker({
+    DateTime? startDate,
+    DateTime? current,
+    DateTime? endDate,
+    String? helpText,
+  }) {
     return (context, dateTime) async {
       final now = dateTime;
       final date = await showDatePicker(
           context: context,
+          helpText: helpText,
           firstDate: startDate ?? now.subtract(const Duration(days: 365)),
           initialDate: current ?? now,
           lastDate: endDate ?? now.add(const Duration(days: 365)));
       if (date != null) {
         final time = await showTimePicker(
           context: context,
+          helpText: helpText,
           initialTime: TimeOfDay.fromDateTime(current ?? now),
         );
         return _DateTimeTextField.combine(
@@ -198,6 +213,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final Widget? prefix;
   final Widget? suffix;
   final bool readOnly;
+  final String? pickerLabelText;
   final bool allowEmpty;
   final bool obscureText;
   final Color? backgroundColor;
@@ -218,11 +234,11 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     }
     switch (type) {
       case FormItemDateTimeFieldPickerType.date:
-        return FormItemDateTimeField.datePicker();
+        return FormItemDateTimeField.datePicker(helpText: pickerLabelText);
       case FormItemDateTimeFieldPickerType.time:
-        return FormItemDateTimeField.timePicker();
+        return FormItemDateTimeField.timePicker(helpText: pickerLabelText);
       default:
-        return FormItemDateTimeField.dateTimePicker();
+        return FormItemDateTimeField.dateTimePicker(helpText: pickerLabelText);
     }
   }
 
