@@ -2,8 +2,24 @@ part of masamune;
 
 /// Collection for running a continuous animation.
 ///
-/// The animation stored in [AnimatorUnit] is
+/// The animation stored in [AnimationUnit] is
 /// executed according to the collection order.
+///
+/// ```
+/// final animation = ref.useAutoPlayAnimationScenario("animation", [
+///   AnimationUnit(
+///     tween: DoubleTween(begin: 0.0, end: 0.0),
+///     from: Duration(seconds: 0.0),
+///     to: Duration(seconds: 1.0),
+///     tag: "opacity",
+///   ),
+/// ]);
+///
+/// return Opacity(
+///   opacity: animation.get("opacity", 0.0),
+///   child: Text("Opacity"),
+/// );
+/// ```
 class AnimationScenario extends ValueModel<List<AnimationUnit>>
     with ListModelMixin<AnimationUnit>
     implements List<AnimationUnit>, TickerProvider {

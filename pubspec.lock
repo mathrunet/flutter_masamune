@@ -147,7 +147,7 @@ packages:
       name: cross_file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.3"
+    version: "0.3.3+1"
   crypto:
     dependency: transitive
     description:
@@ -339,7 +339,7 @@ packages:
       name: flutter_slidable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.3.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -440,7 +440,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.1+9"
+    version: "0.9.1+10"
   katana_module:
     dependency: "direct main"
     description:

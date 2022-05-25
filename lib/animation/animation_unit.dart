@@ -2,17 +2,20 @@ part of masamune;
 
 /// Unit for storing animation information.
 ///
-/// Please use it together with [AnimatorScenario].
+/// Please use it together with [AnimationScenario].
+///
+/// Set [IntTween], [DoubleTween], etc. to [tween], and set [from] and [to] to [Duration], which is the time axis. (All starting from [Duration.zero])
+///
+/// If [tag] is specified, it is possible to get a specific value using the [get] method of [AnimationScenario].
+@immutable
 class AnimationUnit {
-  /// Unit for storing animation information.
-  ///
-  /// Please use it together with [AnimatorScenario].
-  const AnimationUnit(
-      {required this.tween,
-      required this.from,
-      required this.to,
-      this.tag,
-      this.curve = Curves.linear});
+  const AnimationUnit({
+    required this.tween,
+    required this.from,
+    required this.to,
+    this.tag,
+    this.curve = Curves.linear,
+  });
 
   /// An [Animatable]Object, such as the specified tween.
   final Animatable tween;

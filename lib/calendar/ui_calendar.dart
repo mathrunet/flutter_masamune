@@ -30,20 +30,6 @@ part 'ui_schedule_calendar.dart';
 /// By specifying [markerType], you can change the type of marker display.
 /// If you want to specify in detail, please create a marker with [markerItemBuilder].
 class UICalendar extends StatefulWidget {
-  /// Widget that provides a calendar function.
-  ///
-  /// Tap the date on the monthly calendar to display the event details.
-  ///
-  /// You can also tap the event to take action.
-  ///
-  /// You can define various events by passing a list of [DynamicMap] to [events] and [holidays].
-  ///
-  /// It doesn't work when keys such as [startTimeKey] and [endTimeKey] are not included in the given [DynamicMap].
-  ///
-  /// If the value of [allDayKey] is `True`, it is specified as an all-day event.
-  ///
-  /// By specifying [markerType], you can change the type of marker display.
-  /// If you want to specify in detail, please create a marker with [markerItemBuilder].
   const UICalendar({
     Key? key,
     this.events = const [],
