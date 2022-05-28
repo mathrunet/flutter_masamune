@@ -45,7 +45,8 @@ class UIConnectDialog {
     if (overlay == null) {
       return;
     }
-    while (await Config.connect() == ConnectivityResult.none && !clicked) {
+    while (await Config.checkConnectivity() == ConnectivityResult.none &&
+        !clicked) {
       await showDialog(
         context: overlay.context,
         barrierDismissible: false,
