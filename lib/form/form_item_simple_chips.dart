@@ -42,8 +42,12 @@ class FormItemSimpleChips extends FormField<String> {
 
   final TextEditingController? controller;
   final String separator;
-  final Widget Function(BuildContext context, _FormItemSimpleChipsState state,
-      String key, bool selected) chipBuilder;
+  final Widget Function(
+    BuildContext context,
+    _FormItemSimpleChipsState state,
+    String key,
+    bool selected,
+  ) chipBuilder;
 
   final Widget? Function(BuildContext context, _FormItemSimpleChipsState state)
       additioanlChipBuilder;

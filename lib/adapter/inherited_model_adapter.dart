@@ -68,7 +68,8 @@ class InheritedModelAdapter<
   /// In [path], enter the path where you want to retrieve the collection.
   @override
   ChangeNotifierProvider<TSeachableCollection> searchableCollectionProvider(
-          String path) =>
+    String path,
+  ) =>
       adapter.searchableCollectionProvider("$_prefix$path$_suffix");
 
   /// Create a code of length [length] randomly for id.
@@ -300,8 +301,10 @@ class InheritedModelAdapter<
 
   /// Send you an email to reset your password.
   @override
-  Future<void> confirmPasswordReset(
-          {required String code, required String password}) =>
+  Future<void> confirmPasswordReset({
+    required String code,
+    required String password,
+  }) =>
       adapter.confirmPasswordReset(code: code, password: password);
 
   /// Account delete.
@@ -310,11 +313,12 @@ class InheritedModelAdapter<
 
   /// Send an email link.
   @override
-  Future<void> sendEmailLink(
-          {required String email,
-          required String url,
-          required String packageName,
-          int androidMinimumVersion = 1}) =>
+  Future<void> sendEmailLink({
+    required String email,
+    required String url,
+    required String packageName,
+    int androidMinimumVersion = 1,
+  }) =>
       adapter.sendEmailLink(
         email: email,
         url: url,

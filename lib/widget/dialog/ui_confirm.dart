@@ -51,50 +51,51 @@ class UIConfirm {
     }
     do {
       await showDialog(
-          context: overlay.context,
-          barrierDismissible: false,
-          builder: (context) {
-            return AlertDialog(
-              title: Text(
-                title.localize(),
+        context: overlay.context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              title.localize(),
+              style: TextStyle(
+                color: color ?? context.theme.textColorOnSurface,
+              ),
+            ),
+            content: SingleChildScrollView(
+              child: Text(
+                text.localize(),
                 style: TextStyle(
                   color: color ?? context.theme.textColorOnSurface,
                 ),
               ),
-              content: SingleChildScrollView(
-                child: Text(
-                  text.localize(),
-                  style: TextStyle(
-                    color: color ?? context.theme.textColorOnSurface,
-                  ),
-                ),
+            ),
+            backgroundColor:
+                backgroundColor ?? context.theme.colorScheme.surface,
+            actions: <Widget>[
+              TextButton(
+                child: Text(cacnelText.localize()),
+                onPressed: () {
+                  if (popOnPress) {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  }
+                  onCancel?.call();
+                  clicked = true;
+                },
               ),
-              backgroundColor:
-                  backgroundColor ?? context.theme.colorScheme.surface,
-              actions: <Widget>[
-                TextButton(
-                  child: Text(cacnelText.localize()),
-                  onPressed: () {
-                    if (popOnPress) {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    }
-                    onCancel?.call();
-                    clicked = true;
-                  },
-                ),
-                TextButton(
-                  child: Text(submitText.localize()),
-                  onPressed: () {
-                    if (popOnPress) {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    }
-                    onSubmit?.call();
-                    clicked = true;
-                  },
-                )
-              ],
-            );
-          });
+              TextButton(
+                child: Text(submitText.localize()),
+                onPressed: () {
+                  if (popOnPress) {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  }
+                  onSubmit?.call();
+                  clicked = true;
+                },
+              )
+            ],
+          );
+        },
+      );
     } while (willShowRepetition && !clicked);
   }
 }

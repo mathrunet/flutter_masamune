@@ -67,13 +67,15 @@ class RankingListTile extends StatelessWidget {
                 ),
               ),
             ),
-            child: Text(rank.toString(),
-                style: TextStyle(
-                  color: _getColor(context),
-                  fontWeight: _getWeight(context),
-                  fontSize: 32,
-                ),
-                textAlign: TextAlign.center),
+            child: Text(
+              rank.toString(),
+              style: TextStyle(
+                color: _getColor(context),
+                fontWeight: _getWeight(context),
+                fontSize: 32,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
           const Space.width(20),
           if (image != null) ...[

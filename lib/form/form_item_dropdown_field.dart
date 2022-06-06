@@ -55,22 +55,28 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
           filled: backgroundColor != null,
           border: border ??
               OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide()),
+                borderSide: dense ? BorderSide.none : const BorderSide(),
+              ),
           enabledBorder: border ??
               OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide()),
+                borderSide: dense ? BorderSide.none : const BorderSide(),
+              ),
           disabledBorder: border ??
               OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide()),
+                borderSide: dense ? BorderSide.none : const BorderSide(),
+              ),
           errorBorder: border ??
               OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide()),
+                borderSide: dense ? BorderSide.none : const BorderSide(),
+              ),
           focusedBorder: border ??
               OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide()),
+                borderSide: dense ? BorderSide.none : const BorderSide(),
+              ),
           focusedErrorBorder: border ??
               OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide()),
+                borderSide: dense ? BorderSide.none : const BorderSide(),
+              ),
           contentPadding: contentPadding,
           hintText: hintText,
           labelText: labelText,
@@ -103,35 +109,35 @@ class DropdownTextFormField extends StatefulWidget {
   /// Selectable type text field
   ///
   /// Use with Form.
-  const DropdownTextFormField(
-      {Key? key,
-      this.value,
-      this.controller,
-      required this.items,
-      this.children,
-      this.selectedItemBuilder,
-      this.hint,
-      this.onChanged,
-      this.onTap,
-      this.textAlign,
-      this.decoration = const InputDecoration(),
-      this.onSaved,
-      this.enabled = true,
-      this.validator,
-      this.disabledHint,
-      this.elevation = 8,
-      this.style,
-      this.icon,
-      this.iconDisabledColor,
-      this.iconEnabledColor,
-      this.iconSize = 24.0,
-      this.isDense = true,
-      this.isExpanded = true,
-      this.itemHeight,
-      this.itemBackgroundColor,
-      this.builder,
-      this.itemTextColor})
-      : super(key: key);
+  const DropdownTextFormField({
+    Key? key,
+    this.value,
+    this.controller,
+    required this.items,
+    this.children,
+    this.selectedItemBuilder,
+    this.hint,
+    this.onChanged,
+    this.onTap,
+    this.textAlign,
+    this.decoration = const InputDecoration(),
+    this.onSaved,
+    this.enabled = true,
+    this.validator,
+    this.disabledHint,
+    this.elevation = 8,
+    this.style,
+    this.icon,
+    this.iconDisabledColor,
+    this.iconEnabledColor,
+    this.iconSize = 24.0,
+    this.isDense = true,
+    this.isExpanded = true,
+    this.itemHeight,
+    this.itemBackgroundColor,
+    this.builder,
+    this.itemTextColor,
+  }) : super(key: key);
 
   final Map<String, String> items;
   final String? value;

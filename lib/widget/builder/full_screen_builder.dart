@@ -12,23 +12,24 @@ class FullScreenBuilder extends StatefulWidget {
   /// [defaultOrientations]: The orientation of the device under normal conditions.
   /// [fullscreenOrientations]: The orientation of the device while in full screen.
   /// [useMediaQuery]: Use media queries to determine orientation.
-  const FullScreenBuilder(
-      {this.aspectRatio = 1,
-      this.backgroundColor,
-      required this.foreground,
-      this.useMediaQuery = false,
-      this.defaultOrientations = const [
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-        DeviceOrientation.portraitDown,
-        DeviceOrientation.portraitUp
-      ],
-      this.fullscreenOrientations = const [
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight
-      ],
-      this.bottom,
-      this.background});
+  const FullScreenBuilder({
+    this.aspectRatio = 1,
+    this.backgroundColor,
+    required this.foreground,
+    this.useMediaQuery = false,
+    this.defaultOrientations = const [
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp
+    ],
+    this.fullscreenOrientations = const [
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ],
+    this.bottom,
+    this.background,
+  });
 
   /// Use media queries to determine orientation.
   final bool useMediaQuery;
@@ -44,7 +45,10 @@ class FullScreenBuilder extends StatefulWidget {
 
   /// Foreground of full screen elements.
   final Widget Function(
-      BuildContext context, bool fullscreen, Function onToggle) foreground;
+    BuildContext context,
+    bool fullscreen,
+    Function onToggle,
+  ) foreground;
 
   /// Elements to be displayed when not in full screen.
   final Widget? bottom;
@@ -63,28 +67,38 @@ class _FullStreenBuilderState extends State<FullScreenBuilder> {
   bool _fullscreen = false;
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return OrientationBuilder(builder: (context, oriantation) {
-        if (widget.useMediaQuery) {
-          oriantation = MediaQuery.of(context).orientation;
-        }
-        final fullscreen = oriantation == Orientation.landscape;
-        return Column(children: [
-          Container(
-              width: constraints.maxWidth,
-              height: !fullscreen
-                  ? constraints.maxWidth / widget.aspectRatio
-                  : constraints.maxHeight,
-              color: widget.backgroundColor,
-              child: Stack(fit: StackFit.expand, children: [
-                if (widget.background != null)
-                  FittedBox(fit: BoxFit.cover, child: widget.background),
-                widget.foreground(context, fullscreen, _onToggle),
-              ])),
-          if (widget.bottom != null) Expanded(child: widget.bottom!)
-        ]);
-      });
-    });
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return OrientationBuilder(
+          builder: (context, oriantation) {
+            if (widget.useMediaQuery) {
+              oriantation = MediaQuery.of(context).orientation;
+            }
+            final fullscreen = oriantation == Orientation.landscape;
+            return Column(
+              children: [
+                Container(
+                  width: constraints.maxWidth,
+                  height: !fullscreen
+                      ? constraints.maxWidth / widget.aspectRatio
+                      : constraints.maxHeight,
+                  color: widget.backgroundColor,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      if (widget.background != null)
+                        FittedBox(fit: BoxFit.cover, child: widget.background),
+                      widget.foreground(context, fullscreen, _onToggle),
+                    ],
+                  ),
+                ),
+                if (widget.bottom != null) Expanded(child: widget.bottom!)
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   void _onToggle() {

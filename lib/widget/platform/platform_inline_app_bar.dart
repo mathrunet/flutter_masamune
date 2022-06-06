@@ -37,8 +37,10 @@ class PlatformInlineAppBar extends StatelessWidget
     this.titleTextStyle,
     this.systemOverlayStyle,
   })  : assert(elevation == null || elevation >= 0.0),
-        preferredSize = Size.fromHeight(toolbarHeight ??
-            kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)),
+        preferredSize = Size.fromHeight(
+          toolbarHeight ??
+              kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
+        ),
         super(key: key);
 
   /// {@template flutter.material.appbar.leading}
@@ -493,17 +495,20 @@ class PlatformInlineAppBar extends StatelessWidget
           child: title ?? const Empty(),
         ),
         actions: actions
-            ?.map((e) => IconTheme(
-                  data: IconThemeData(color: context.theme.textColor),
-                  child: e,
-                ))
+            ?.map(
+              (e) => IconTheme(
+                data: IconThemeData(color: context.theme.textColor),
+                child: e,
+              ),
+            )
             .toList(),
         flexibleSpace: flexibleSpace,
         bottom: PreferredSize(
           child: Container(
-              color: context.theme.dividerColor.withOpacity(0.25),
-              height: 1.0,
-              child: bottom),
+            color: context.theme.dividerColor.withOpacity(0.25),
+            height: 1.0,
+            child: bottom,
+          ),
           preferredSize:
               Size.fromHeight((bottom?.preferredSize.height ?? 0.0) + 1.0),
         ),

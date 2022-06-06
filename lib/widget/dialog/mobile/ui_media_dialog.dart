@@ -65,8 +65,11 @@ class UIMediaDialog {
     if (assetType == null) {
       return null;
     }
-    final localMedia = readProvider(localMediaProvider(
-        "$uuid.${assetType == AssetType.video ? "mp4" : "jpg"}"));
+    final localMedia = readProvider(
+      localMediaProvider(
+        "$uuid.${assetType == AssetType.video ? "mp4" : "jpg"}",
+      ),
+    );
     await UISelectDialog.show(
       context,
       selectors: {

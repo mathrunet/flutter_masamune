@@ -42,31 +42,36 @@ class FormItemChipsField extends FormField<String> {
     String Function(String? value)? validator,
     String? initialValue,
   }) : super(
-            key: key,
-            builder: (state) {
-              return const Empty();
-            },
-            onSaved: (value) {
-              final val = value?.split(separator) ?? const [];
-              val.removeWhere((e) => e.isEmpty);
-              onSaved?.call(val);
-            },
-            validator: (value) {
-              if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
-                return errorText;
-              }
-              return validator?.call(value);
-            },
-            initialValue: initialValue,
-            enabled: enabled);
+          key: key,
+          builder: (state) {
+            return const Empty();
+          },
+          onSaved: (value) {
+            final val = value?.split(separator) ?? const [];
+            val.removeWhere((e) => e.isEmpty);
+            onSaved?.call(val);
+          },
+          validator: (value) {
+            if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
+              return errorText;
+            }
+            return validator?.call(value);
+          },
+          initialValue: initialValue,
+          enabled: enabled,
+        );
 
   final String separator;
   final Widget Function(
-          BuildContext context, _ChipsInputState<String> state, String value)
-      chipBuilder;
+    BuildContext context,
+    _ChipsInputState<String> state,
+    String value,
+  ) chipBuilder;
   final Widget Function(
-          BuildContext context, _ChipsInputState<String> state, String value)?
-      suggestionBuilder;
+    BuildContext context,
+    _ChipsInputState<String> state,
+    String value,
+  )? suggestionBuilder;
   final FutureOr<List<String>> Function(String searchText)? findSuggestions;
   final List<String>? initialItems;
   final void Function(List<String> values)? onChanged;
@@ -135,29 +140,29 @@ class _FormItemChipsField extends FormFieldState<String> {
           isDense: widget.dense,
           border: widget.border ??
               OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
+                borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+              ),
           enabledBorder: widget.border ??
               OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
+                borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+              ),
           disabledBorder: widget.disabledBorder ??
               widget.border ??
               OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
+                borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+              ),
           errorBorder: widget.border ??
               OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
+                borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+              ),
           focusedBorder: widget.border ??
               OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
+                borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+              ),
           focusedErrorBorder: widget.border ??
               OutlineInputBorder(
-                  borderSide:
-                      widget.dense ? BorderSide.none : const BorderSide()),
+                borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+              ),
           hintText: widget.hintText,
           labelText: widget.labelText,
           counterText: widget.counterText,
@@ -269,10 +274,15 @@ class _FormItemChipsField extends FormFieldState<String> {
 }
 
 typedef ChipsInputSuggestions<T> = FutureOr<List<T>> Function(
-    String query, Set<T> chips);
+  String query,
+  Set<T> chips,
+);
 typedef ChipSelected<T> = void Function(T data, bool selected);
 typedef ChipsBuilder<T> = Widget Function(
-    BuildContext context, _ChipsInputState<T> state, T data);
+  BuildContext context,
+  _ChipsInputState<T> state,
+  T data,
+);
 
 const kObjectReplacementChar = 0xFFFD;
 
@@ -594,8 +604,10 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
     final localId = ++_searchId;
     final results = await widget.findSuggestions(value, _chips);
     if (_searchId == localId && mounted) {
-      setState(() => _suggestions =
-          results.where((r) => !_chips.contains(r)).toList(growable: false));
+      setState(
+        () => _suggestions =
+            results.where((r) => !_chips.contains(r)).toList(growable: false),
+      );
     }
     _suggestionsStreamController.add(_suggestions ?? []);
     if (!_suggestionsBoxController.isOpened && !_hasReachedMaxChips) {

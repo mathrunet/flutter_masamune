@@ -34,8 +34,11 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
         _onShowPicker = onShowPicker;
 
   /// Calculate formatted datetime string from [millisecondsSinceEpoch].
-  static String formatDateTime(int millisecondsSinceEpoch,
-      {String format = "yyyy/MM/dd(E) HH:mm", String defaultValue = ""}) {
+  static String formatDateTime(
+    int millisecondsSinceEpoch, {
+    String format = "yyyy/MM/dd(E) HH:mm",
+    String defaultValue = "",
+  }) {
     if (format.isEmpty || millisecondsSinceEpoch <= 0) {
       return defaultValue;
     }
@@ -43,8 +46,11 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   }
 
   /// Calculate formatted date string from [millisecondsSinceEpoch].
-  static String formatDate(int millisecondsSinceEpoch,
-      {String format = "yyyy/MM/dd(E)", String defaultValue = ""}) {
+  static String formatDate(
+    int millisecondsSinceEpoch, {
+    String format = "yyyy/MM/dd(E)",
+    String defaultValue = "",
+  }) {
     if (format.isEmpty || millisecondsSinceEpoch <= 0) {
       return defaultValue;
     }
@@ -52,8 +58,11 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   }
 
   /// Calculate formatted time string from [millisecondsSinceEpoch].
-  static String formatTime(int millisecondsSinceEpoch,
-      {String format = "HH:mm", String defaultValue = ""}) {
+  static String formatTime(
+    int millisecondsSinceEpoch, {
+    String format = "HH:mm",
+    String defaultValue = "",
+  }) {
     if (format.isEmpty || millisecondsSinceEpoch <= 0) {
       return defaultValue;
     }
@@ -61,8 +70,11 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   }
 
   /// Converts a string with only date and time information to DateTime.
-  static DateTime? tryParseFromDate(String formattedString,
-      {DateTime? defaultValue, String format = r"([0-9]+)/([0-9]+)/([0-9]+)"}) {
+  static DateTime? tryParseFromDate(
+    String formattedString, {
+    DateTime? defaultValue,
+    String format = r"([0-9]+)/([0-9]+)/([0-9]+)",
+  }) {
     if (formattedString.isEmpty || format.isEmpty) {
       return defaultValue;
     }
@@ -81,10 +93,12 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   }
 
   /// Converts a string with only date and time information to DateTime.
-  static DateTime? tryParseFromDateTime(String formattedString,
-      {DateTime? defaultValue,
-      String format =
-          r"([0-9]+)/([0-9]+)/([0-9]+)(\([^\)]+\))? ([0-9]+):([0-9]+)"}) {
+  static DateTime? tryParseFromDateTime(
+    String formattedString, {
+    DateTime? defaultValue,
+    String format =
+        r"([0-9]+)/([0-9]+)/([0-9]+)(\([^\)]+\))? ([0-9]+):([0-9]+)",
+  }) {
     if (formattedString.isEmpty || format.isEmpty) {
       return defaultValue;
     }
@@ -137,11 +151,15 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     return (context, dateTime) async {
       final now = dateTime;
       final date = await showDatePicker(
-          context: context,
-          helpText: helpText,
-          firstDate: startDate ?? now.subtract(const Duration(days: 365)),
-          initialDate: currentDate ?? now,
-          lastDate: endDate ?? now.add(const Duration(days: 365)));
+        context: context,
+        helpText: helpText,
+        firstDate: startDate ?? now.subtract(const Duration(days: 365)),
+        initialDate: currentDate ?? now,
+        lastDate: endDate ??
+            now.add(
+              const Duration(days: 365),
+            ),
+      );
       return _DateTimeTextField.combine(
         date ?? now,
         TimeOfDay.fromDateTime(now),
@@ -178,11 +196,15 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     return (context, dateTime) async {
       final now = dateTime;
       final date = await showDatePicker(
-          context: context,
-          helpText: helpText,
-          firstDate: startDate ?? now.subtract(const Duration(days: 365)),
-          initialDate: current ?? now,
-          lastDate: endDate ?? now.add(const Duration(days: 365)));
+        context: context,
+        helpText: helpText,
+        firstDate: startDate ?? now.subtract(const Duration(days: 365)),
+        initialDate: current ?? now,
+        lastDate: endDate ??
+            now.add(
+              const Duration(days: 365),
+            ),
+      );
       if (date != null) {
         final time = await showTimePicker(
           context: context,
@@ -320,17 +342,23 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
                   : null),
           filled: widget.backgroundColor != null,
           border: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           enabledBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           disabledBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           errorBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           focusedBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           hintText: widget.hintText,
           counterText: widget.counterText,
           labelText: widget.labelText,
@@ -406,64 +434,66 @@ class _DateTimeTextField extends FormField<DateTime> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-            key: key,
-            initialValue: initialValue,
-            enabled: enabled,
-            validator: validator,
-            onSaved: onSaved,
-            builder: (field) {
-              final _DateTimeTextFieldState state =
-                  field as _DateTimeTextFieldState;
-              final InputDecoration effectiveDecoration = decoration
-                  .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-              return TextField(
-                mouseCursor: SystemMouseCursors.click,
-                controller: state._effectiveController ??
-                    TextEditingController(
-                        text: state.value != null
-                            ? state.widget.format.format(state.value!)
-                            : null),
-                focusNode: state._effectiveFocusNode,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: field.errorText,
-                  suffixIcon: showResetButton &&
-                          state.shouldShowClearIcon(effectiveDecoration)
-                      ? IconButton(
-                          icon: resetIcon,
-                          color: field.context.theme.textColor,
-                          onPressed: state.clear,
-                        )
-                      : null,
-                ),
-                keyboardType: keyboardType,
-                textInputAction: textInputAction,
-                style: style,
-                strutStyle: strutStyle,
-                textAlign: textAlign,
-                textCapitalization: textCapitalization,
-                autofocus: autofocus,
-                readOnly: true,
-                showCursor: showCursor,
-                obscureText: obscureText,
-                autocorrect: autocorrect,
-                maxLines: maxLines,
-                minLines: minLines,
-                expands: expands,
-                maxLength: maxLength,
-                onChanged: (text) => field.didChange(state.parse(text)),
-                onEditingComplete: onEditingComplete,
-                onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
-                inputFormatters: inputFormatters,
-                enabled: enabled,
-                cursorWidth: cursorWidth,
-                cursorRadius: cursorRadius,
-                cursorColor: cursorColor,
-                scrollPadding: scrollPadding,
-                keyboardAppearance: keyboardAppearance,
-                enableInteractiveSelection: enableInteractiveSelection,
-                buildCounter: buildCounter,
-              );
-            });
+          key: key,
+          initialValue: initialValue,
+          enabled: enabled,
+          validator: validator,
+          onSaved: onSaved,
+          builder: (field) {
+            final _DateTimeTextFieldState state =
+                field as _DateTimeTextFieldState;
+            final InputDecoration effectiveDecoration = decoration
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            return TextField(
+              mouseCursor: SystemMouseCursors.click,
+              controller: state._effectiveController ??
+                  TextEditingController(
+                    text: state.value != null
+                        ? state.widget.format.format(state.value!)
+                        : null,
+                  ),
+              focusNode: state._effectiveFocusNode,
+              decoration: effectiveDecoration.copyWith(
+                errorText: field.errorText,
+                suffixIcon: showResetButton &&
+                        state.shouldShowClearIcon(effectiveDecoration)
+                    ? IconButton(
+                        icon: resetIcon,
+                        color: field.context.theme.textColor,
+                        onPressed: state.clear,
+                      )
+                    : null,
+              ),
+              keyboardType: keyboardType,
+              textInputAction: textInputAction,
+              style: style,
+              strutStyle: strutStyle,
+              textAlign: textAlign,
+              textCapitalization: textCapitalization,
+              autofocus: autofocus,
+              readOnly: true,
+              showCursor: showCursor,
+              obscureText: obscureText,
+              autocorrect: autocorrect,
+              maxLines: maxLines,
+              minLines: minLines,
+              expands: expands,
+              maxLength: maxLength,
+              onChanged: (text) => field.didChange(state.parse(text)),
+              onEditingComplete: onEditingComplete,
+              onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
+              inputFormatters: inputFormatters,
+              enabled: enabled,
+              cursorWidth: cursorWidth,
+              cursorRadius: cursorRadius,
+              cursorColor: cursorColor,
+              scrollPadding: scrollPadding,
+              keyboardAppearance: keyboardAppearance,
+              enableInteractiveSelection: enableInteractiveSelection,
+              buildCounter: buildCounter,
+            );
+          },
+        );
 
   /// For representing the date as a string e.g.
   /// `DateFormat("EEEE, MMMM d, yyyy 'at' h:mma")`

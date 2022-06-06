@@ -12,9 +12,13 @@ class CalendarStyle {
     this.holidayStyle =
         const TextStyle(color: Color(0xFFF44336)), // Material red[500]
     this.selectedStyle = const TextStyle(
-        color: Color(0xFFFAFAFA), fontSize: 16.0), // Material grey[50]
+      color: Color(0xFFFAFAFA),
+      fontSize: 16.0,
+    ), // Material grey[50]
     this.todayStyle = const TextStyle(
-        color: Color(0xFFFAFAFA), fontSize: 16.0), // Material grey[50]
+      color: Color(0xFFFAFAFA),
+      fontSize: 16.0,
+    ), // Material grey[50]
     this.outsideStyle =
         const TextStyle(color: Color(0xFF9E9E9E)), // Material grey[500]
     this.outsideWeekendStyle =

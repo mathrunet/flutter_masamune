@@ -147,8 +147,11 @@ class _UIDayCalendarState extends State<UIDayCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    final day = DateTime(widget.day?.year ?? now.year,
-        widget.day?.month ?? now.month, widget.day?.day ?? now.day);
+    final day = DateTime(
+      widget.day?.year ?? now.year,
+      widget.day?.month ?? now.month,
+      widget.day?.day ?? now.day,
+    );
     final eventMap = <DateTime, List<DynamicMap>>{};
     widget.source.forEach((item) {
       if (item.get(widget.allDayKey, false) ||
@@ -267,14 +270,16 @@ class _UIDayCalendarState extends State<UIDayCalendar> {
                             Text(
                               day.shortLocalizedWeekDay,
                               style: TextStyle(
-                                  color: context.theme.dividerColor,
-                                  fontSize: 12),
+                                color: context.theme.dividerColor,
+                                fontSize: 12,
+                              ),
                             ),
                             Text(
                               day.day.toString(),
                               style: TextStyle(
-                                  color: context.theme.dividerColor,
-                                  fontSize: 24),
+                                color: context.theme.dividerColor,
+                                fontSize: 24,
+                              ),
                             ),
                           ],
                         ),
@@ -316,7 +321,8 @@ class _UIDayCalendarState extends State<UIDayCalendar> {
                                   child: Text(
                                     "%s AM".localize().format([i]),
                                     style: TextStyle(
-                                        color: context.theme.dividerColor),
+                                      color: context.theme.dividerColor,
+                                    ),
                                     textAlign: TextAlign.right,
                                   ),
                                 ),
@@ -328,7 +334,8 @@ class _UIDayCalendarState extends State<UIDayCalendar> {
                                     padding: const EdgeInsets.only(top: 8),
                                     child: ConstrainedBox(
                                       constraints: const BoxConstraints.expand(
-                                          height: 1),
+                                        height: 1,
+                                      ),
                                       child: ColoredBox(
                                         color: context.theme.dividerColor,
                                       ),
@@ -350,7 +357,8 @@ class _UIDayCalendarState extends State<UIDayCalendar> {
                                   child: Text(
                                     "%s AM".localize().format([i]),
                                     style: TextStyle(
-                                        color: context.theme.dividerColor),
+                                      color: context.theme.dividerColor,
+                                    ),
                                     textAlign: TextAlign.right,
                                   ),
                                 ),
@@ -362,7 +370,8 @@ class _UIDayCalendarState extends State<UIDayCalendar> {
                                     padding: const EdgeInsets.only(top: 8),
                                     child: ConstrainedBox(
                                       constraints: const BoxConstraints.expand(
-                                          height: 1),
+                                        height: 1,
+                                      ),
                                       child: ColoredBox(
                                         color: context.theme.dividerColor,
                                       ),

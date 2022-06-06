@@ -303,8 +303,11 @@ class SearchBuilderHistory {
   final List<String> source;
 
   /// History builder.
-  final Widget Function(BuildContext context, String history,
-      void Function(String text) search) builder;
+  final Widget Function(
+    BuildContext context,
+    String history,
+    void Function(String text) search,
+  ) builder;
 
   final void Function(String text)? onSaved;
 

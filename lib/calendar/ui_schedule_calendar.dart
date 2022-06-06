@@ -196,8 +196,9 @@ class _UIScheduleCalendarState extends State<UIScheduleCalendar> {
       }
     }
     for (final val in data.values) {
-      val.sort((a, b) =>
-          a.get(widget.startTimeKey, 0) - b.get(widget.startTimeKey, 0));
+      val.sort(
+        (a, b) => a.get(widget.startTimeKey, 0) - b.get(widget.startTimeKey, 0),
+      );
     }
     final keys = List<DateTime>.from(data.keys);
     keys.sort((a, b) => a.compareTo(b));

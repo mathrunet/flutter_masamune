@@ -40,8 +40,10 @@ class FormItemBuilder<TController extends Object> extends FormField<String> {
   final Future? future;
   final Colors? indicatorColor;
   final Widget Function(
-          BuildContext context, TController? controller, FocusNode? focusNode)
-      _builder;
+    BuildContext context,
+    TController? controller,
+    FocusNode? focusNode,
+  ) _builder;
 
   @override
   _FormItemBuilderState<TController> createState() =>

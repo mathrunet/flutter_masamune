@@ -54,9 +54,12 @@ class UIConnectDialog {
           return WillPopScope(
             onWillPop: disableBackKey ? () async => true : null,
             child: AlertDialog(
-              title: Text(title.localize(),
-                  style: TextStyle(
-                      color: color ?? context.theme.textColorOnSurface)),
+              title: Text(
+                title.localize(),
+                style: TextStyle(
+                  color: color ?? context.theme.textColorOnSurface,
+                ),
+              ),
               content: SingleChildScrollView(
                 child: Text(
                   text.localize(),

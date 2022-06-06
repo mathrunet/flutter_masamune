@@ -44,41 +44,44 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
           ? TextButton.icon(
               style: style ??
                   DefaultTextButtonStyle(
-                      padding: const EdgeInsets.all(10),
-                      color: color ?? context.theme.textColorOnPrimary,
-                      disabledColor: disabledColor,
-                      backgroundColor: backgroundColor ??
-                          context.theme.primaryColor,
-                      disabledBackgroundColor:
-                          backgroundColor == Colors.transparent
-                              ? backgroundColor
-                              : (disabledBackgroundColor ??
-                                  context.theme.disabledColor),
-                      borderColor: borderColor,
-                      width: width,
-                      radius: dense ? 0 : borderRadius),
+                    padding: const EdgeInsets.all(10),
+                    color: color ?? context.theme.textColorOnPrimary,
+                    disabledColor: disabledColor,
+                    backgroundColor:
+                        backgroundColor ?? context.theme.primaryColor,
+                    disabledBackgroundColor:
+                        backgroundColor == Colors.transparent
+                            ? backgroundColor
+                            : (disabledBackgroundColor ??
+                                context.theme.disabledColor),
+                    borderColor: borderColor,
+                    width: width,
+                    radius: dense ? 0 : borderRadius,
+                  ),
               icon: Icon(
                 icon,
                 size: fontSize * 1.2,
               ),
               label: Text(label, style: TextStyle(fontSize: fontSize)),
-              onPressed: enabled ? onPressed : null)
+              onPressed: enabled ? onPressed : null,
+            )
           : TextButton(
               style: style ??
                   DefaultTextButtonStyle(
-                      padding: const EdgeInsets.all(10),
-                      color: color ?? context.theme.textColorOnPrimary,
-                      disabledColor: disabledColor,
-                      backgroundColor: backgroundColor ??
-                          context.theme.primaryColor,
-                      disabledBackgroundColor:
-                          backgroundColor == Colors.transparent
-                              ? backgroundColor
-                              : (disabledBackgroundColor ??
-                                  context.theme.disabledColor),
-                      borderColor: borderColor,
-                      width: width,
-                      radius: dense ? 0 : borderRadius),
+                    padding: const EdgeInsets.all(10),
+                    color: color ?? context.theme.textColorOnPrimary,
+                    disabledColor: disabledColor,
+                    backgroundColor:
+                        backgroundColor ?? context.theme.primaryColor,
+                    disabledBackgroundColor:
+                        backgroundColor == Colors.transparent
+                            ? backgroundColor
+                            : (disabledBackgroundColor ??
+                                context.theme.disabledColor),
+                    borderColor: borderColor,
+                    width: width,
+                    radius: dense ? 0 : borderRadius,
+                  ),
               child: Text(label, style: TextStyle(fontSize: fontSize)),
               onPressed: enabled ? onPressed : null,
             ),

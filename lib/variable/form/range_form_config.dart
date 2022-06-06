@@ -79,8 +79,10 @@ class RangeFormConfig extends VariableFormConfig<DynamicMap>
               keyboardType: keyboardType,
               backgroundColor: backgroundColor,
               allowEmpty: !config.required,
-              controller: ref.useTextEditingController("${config.id}:$minKey",
-                  map.get(minKey, config.value).toString()),
+              controller: ref.useTextEditingController(
+                "${config.id}:$minKey",
+                map.get(minKey, config.value).toString(),
+              ),
               onSaved: (value) {
                 if (value.isEmpty) {
                   return;
@@ -135,8 +137,10 @@ class RangeFormConfig extends VariableFormConfig<DynamicMap>
               keyboardType: keyboardType,
               backgroundColor: backgroundColor,
               allowEmpty: !config.required,
-              controller: ref.useTextEditingController("${config.id}:$maxKey",
-                  map.get(maxKey, config.value).toString()),
+              controller: ref.useTextEditingController(
+                "${config.id}:$maxKey",
+                map.get(maxKey, config.value).toString(),
+              ),
               onSaved: (value) {
                 if (value.isEmpty) {
                   return;

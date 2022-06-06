@@ -26,7 +26,8 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   /// In [path], enter the path where you want to retrieve the collection.
   @override
   ChangeNotifierProvider<LocalDynamicCollectionModel> collectionProvider(
-          String path) =>
+    String path,
+  ) =>
       localCollectionProvider(path);
 
   /// Gets the provider of the [Document].
@@ -34,7 +35,8 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   /// In [path], enter the path where you want to retrieve the document.
   @override
   ChangeNotifierProvider<LocalDynamicDocumentModel> documentProvider(
-          String path) =>
+    String path,
+  ) =>
       localDocumentProvider(path);
 
   /// Gets the provider of the [Collection] for search.
@@ -90,8 +92,10 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   ///
   /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
   @override
-  LocalDynamicDocumentModel loadDocument(LocalDynamicDocumentModel document,
-      [bool once = false]) {
+  LocalDynamicDocumentModel loadDocument(
+    LocalDynamicDocumentModel document, [
+    bool once = false,
+  ]) {
     document.loadOnce();
     return document;
   }
@@ -103,8 +107,9 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
   @override
   LocalDynamicCollectionModel loadCollection(
-      LocalDynamicCollectionModel collection,
-      [bool once = false]) {
+    LocalDynamicCollectionModel collection, [
+    bool once = false,
+  ]) {
     collection.loadOnce();
     return collection;
   }
@@ -296,8 +301,10 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
 
   /// Send you an email to reset your password.
   @override
-  Future<void> confirmPasswordReset(
-          {required String code, required String password}) =>
+  Future<void> confirmPasswordReset({
+    required String code,
+    required String password,
+  }) =>
       Future.value();
 
   /// Account delete.
@@ -306,11 +313,12 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
 
   /// Send an email link.
   @override
-  Future<void> sendEmailLink(
-          {required String email,
-          required String url,
-          required String packageName,
-          int androidMinimumVersion = 1}) =>
+  Future<void> sendEmailLink({
+    required String email,
+    required String url,
+    required String packageName,
+    int androidMinimumVersion = 1,
+  }) =>
       Future.value();
 
   /// Resend the email for email address verification.

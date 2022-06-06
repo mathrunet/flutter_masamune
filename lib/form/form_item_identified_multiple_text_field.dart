@@ -203,8 +203,11 @@ class _FormItemIdentifiedMultipleTextFieldState
     setState(() {});
   }
 
-  Widget _builder(BuildContext context,
-      _FormItemIdentifiedMultipleTextFieldValue item, int index) {
+  Widget _builder(
+    BuildContext context,
+    _FormItemIdentifiedMultipleTextFieldValue item,
+    int index,
+  ) {
     return ListTile(
       title: FormItemTextField(
         padding: const EdgeInsets.all(0),

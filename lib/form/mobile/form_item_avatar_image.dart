@@ -214,8 +214,11 @@ class _FormItemAvatarImageState extends FormFieldState<String> {
                   backgroundColor: context.theme.disabledColor,
                   backgroundImage: image,
                   child: image == null
-                      ? Icon(widget.icon,
-                          color: context.theme.textColorOnPrimary, size: 40)
+                      ? Icon(
+                          widget.icon,
+                          color: context.theme.textColorOnPrimary,
+                          size: 40,
+                        )
                       : null,
                 ),
               ),

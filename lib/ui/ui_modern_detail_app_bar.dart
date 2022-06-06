@@ -114,7 +114,10 @@ class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final appBarSize = appBar.expandedHeight! - shrinkOffset;
     final proportion = 2 - (appBar.expandedHeight! / appBarSize);
     final percent = proportion < 0 || proportion > 1 ? 0.0 : proportion;
@@ -209,7 +212,8 @@ class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
                   ? Opacity(
                       opacity:
                           appBar.hideTitleWhenExpanded ? 1.0 - percent : 1.0,
-                      child: appBar.title)
+                      child: appBar.title,
+                    )
                   : Opacity(
                       opacity:
                           appBar.hideTitleWhenExpanded ? 1.0 - percent : 1.0,

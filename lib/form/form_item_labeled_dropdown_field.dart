@@ -34,11 +34,12 @@ class FormItemLabeledDropdownField extends StatelessWidget implements FormItem {
     return Container(
       height: height,
       decoration: BoxDecoration(
-          border: Border.all(
-            color: context.theme.disabledColor,
-            style: dense ? BorderStyle.none : BorderStyle.solid,
-          ),
-          borderRadius: BorderRadius.circular(4.0)),
+        border: Border.all(
+          color: context.theme.disabledColor,
+          style: dense ? BorderStyle.none : BorderStyle.solid,
+        ),
+        borderRadius: BorderRadius.circular(4.0),
+      ),
       margin: dense
           ? const EdgeInsets.all(0)
           : const EdgeInsets.symmetric(vertical: 10),
@@ -69,15 +70,17 @@ class FormItemLabeledDropdownField extends StatelessWidget implements FormItem {
               items: items,
               enabled: enabled,
               style: TextStyle(
-                  fontSize: 18,
-                  color: context.theme.textTheme.bodyText1?.color,
-                  height: 1.2),
+                fontSize: 18,
+                color: context.theme.textTheme.bodyText1?.color,
+                height: 1.2,
+              ),
               decoration: InputDecoration(
-                  disabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  prefix: prefix,
-                  suffix: suffix),
+                disabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                prefix: prefix,
+                suffix: suffix,
+              ),
               onChanged: onChanged,
               onSaved: (value) {
                 if (value.isEmpty) {

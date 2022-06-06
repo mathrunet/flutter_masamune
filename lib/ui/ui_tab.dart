@@ -65,18 +65,24 @@ class _TabControllerValueState
 
   @override
   Ticker createTicker(TickerCallback onTick) {
-    assert(() {
-      if (_ticker == null) {
-        return true;
-      }
-      throw FlutterError(
+    assert(
+      () {
+        if (_ticker == null) {
+          return true;
+        }
+        throw FlutterError(
           'You attempted to use a TickerProviderContainer multiple times.\n'
           'A SingleTickerProviderStateMixin can only be used as a TickerProvider once. '
           'If you need multiple Ticker, consider using useSingleTickerProvider multiple times '
-          'to create as many Tickers as needed.');
-    }(), '');
-    return _ticker =
-        Ticker(onTick, debugLabel: 'created by TickerProviderContainer');
+          'to create as many Tickers as needed.',
+        );
+      }(),
+      '',
+    );
+    return _ticker = Ticker(
+      onTick,
+      debugLabel: 'created by TickerProviderContainer',
+    );
   }
 
   @override
@@ -128,18 +134,24 @@ class _TickerProviderValueState
 
   @override
   Ticker createTicker(TickerCallback onTick) {
-    assert(() {
-      if (_ticker == null) {
-        return true;
-      }
-      throw FlutterError(
+    assert(
+      () {
+        if (_ticker == null) {
+          return true;
+        }
+        throw FlutterError(
           'You attempted to use a TickerProviderContainer multiple times.\n'
           'A SingleTickerProviderStateMixin can only be used as a TickerProvider once. '
           'If you need multiple Ticker, consider using useSingleTickerProvider multiple times '
-          'to create as many Tickers as needed.');
-    }(), '');
-    return _ticker =
-        Ticker(onTick, debugLabel: 'created by TickerProviderContainer');
+          'to create as many Tickers as needed.',
+        );
+      }(),
+      '',
+    );
+    return _ticker = Ticker(
+      onTick,
+      debugLabel: 'created by TickerProviderContainer',
+    );
   }
 
   @override
@@ -187,18 +199,24 @@ class _TabContextState<T>
 
   @override
   Ticker createTicker(TickerCallback onTick) {
-    assert(() {
-      if (_ticker == null) {
-        return true;
-      }
-      throw FlutterError(
+    assert(
+      () {
+        if (_ticker == null) {
+          return true;
+        }
+        throw FlutterError(
           'You attempted to use a TickerProviderContainer multiple times.\n'
           'A SingleTickerProviderStateMixin can only be used as a TickerProvider once. '
           'If you need multiple Ticker, consider using useSingleTickerProvider multiple times '
-          'to create as many Tickers as needed.');
-    }(), '');
-    return _ticker =
-        Ticker(onTick, debugLabel: 'created by TickerProviderContainer');
+          'to create as many Tickers as needed.',
+        );
+      }(),
+      '',
+    );
+    return _ticker = Ticker(
+      onTick,
+      debugLabel: 'created by TickerProviderContainer',
+    );
   }
 
   @override
@@ -322,7 +340,8 @@ class UITabView<T> extends TabBarView {
   }) : super(
           key: key,
           children: tab.source.mapAndRemoveEmpty(
-              (item) => builder.call(tab._context, item, PageStorageKey(item))),
+            (item) => builder.call(tab._context, item, PageStorageKey(item)),
+          ),
           controller: tab.controller,
           physics: physics,
           dragStartBehavior: dragStartBehavior,

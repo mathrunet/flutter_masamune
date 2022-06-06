@@ -196,7 +196,10 @@ class _FormItemMultipleTextFieldState extends FormFieldState<List<String>> {
   }
 
   Widget _builder(
-      BuildContext context, _FormItemMultipleTextFieldValue item, int index) {
+    BuildContext context,
+    _FormItemMultipleTextFieldValue item,
+    int index,
+  ) {
     return ListTile(
       title: FormItemTextField(
         padding: const EdgeInsets.all(0),

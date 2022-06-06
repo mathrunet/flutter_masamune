@@ -2,35 +2,36 @@ part of masamune.form;
 
 class FormItemDynamicLabeledDropdownField extends StatefulWidget
     implements FormItem {
-  const FormItemDynamicLabeledDropdownField(
-      {this.controller,
-      required this.items,
-      this.labelText,
-      this.lengthErrorText = "",
-      this.prefix,
-      this.suffix,
-      this.onSaved,
-      this.dropdownWidth = 100,
-      this.dense = false,
-      this.backgroundColor,
-      this.dropdownColor,
-      this.onChanged,
-      this.enabled = true,
-      this.suggestion = const [],
-      this.validator,
-      this.separator = ":",
-      this.keyboardType = TextInputType.text,
-      this.maxLength,
-      this.minLength,
-      this.maxLines,
-      this.minLines = 1,
-      this.onDeleteSuggestion,
-      this.allowEmpty = false,
-      this.hintText,
-      this.errorText,
-      this.readOnly = false,
-      this.obscureText = false,
-      this.counterText = ""});
+  const FormItemDynamicLabeledDropdownField({
+    this.controller,
+    required this.items,
+    this.labelText,
+    this.lengthErrorText = "",
+    this.prefix,
+    this.suffix,
+    this.onSaved,
+    this.dropdownWidth = 100,
+    this.dense = false,
+    this.backgroundColor,
+    this.dropdownColor,
+    this.onChanged,
+    this.enabled = true,
+    this.suggestion = const [],
+    this.validator,
+    this.separator = ":",
+    this.keyboardType = TextInputType.text,
+    this.maxLength,
+    this.minLength,
+    this.maxLines,
+    this.minLines = 1,
+    this.onDeleteSuggestion,
+    this.allowEmpty = false,
+    this.hintText,
+    this.errorText,
+    this.readOnly = false,
+    this.obscureText = false,
+    this.counterText = "",
+  });
 
   static String value(String key, String value) {
     return "$key:$value";
@@ -171,83 +172,84 @@ class _FormItemDynamicLabeledDropdownFieldState
           fit: StackFit.expand,
           children: [
             TextFormField(
-                enabled: widget.enabled,
-                controller: controller,
-                keyboardType: TextInputType.text,
-                maxLength: widget.maxLength,
-                maxLines: widget.maxLines,
-                minLines: widget.minLines,
-                decoration: InputDecoration(
-                  fillColor: widget.backgroundColor,
-                  filled: widget.backgroundColor != null,
-                  border: OutlineInputBorder(
-                    borderSide:
-                        widget.dense ? BorderSide.none : const BorderSide(),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        widget.dense ? BorderSide.none : const BorderSide(),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide:
-                        widget.dense ? BorderSide.none : const BorderSide(),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide:
-                        widget.dense ? BorderSide.none : const BorderSide(),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        widget.dense ? BorderSide.none : const BorderSide(),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide:
-                        widget.dense ? BorderSide.none : const BorderSide(),
-                  ),
-                  hintText: widget.hintText,
-                  labelText: widget.labelText,
-                  counterText: widget.counterText,
-                  contentPadding: EdgeInsets.only(
-                    top: 20,
-                    left: 12,
-                    bottom: 20,
-                    right: widget.dropdownWidth + 12,
-                  ),
-                  prefix: widget.prefix,
+              enabled: widget.enabled,
+              controller: controller,
+              keyboardType: TextInputType.text,
+              maxLength: widget.maxLength,
+              maxLines: widget.maxLines,
+              minLines: widget.minLines,
+              decoration: InputDecoration(
+                fillColor: widget.backgroundColor,
+                filled: widget.backgroundColor != null,
+                border: OutlineInputBorder(
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
                 ),
-                obscureText: widget.obscureText,
-                readOnly: widget.readOnly,
-                onTap: widget.enabled ? onTap : null,
-                validator: (value) {
-                  if (!widget.allowEmpty &&
-                      widget.errorText.isNotEmpty &&
-                      value.isEmpty) {
-                    return widget.errorText;
-                  }
+                enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
+                ),
+                hintText: widget.hintText,
+                labelText: widget.labelText,
+                counterText: widget.counterText,
+                contentPadding: EdgeInsets.only(
+                  top: 20,
+                  left: 12,
+                  bottom: 20,
+                  right: widget.dropdownWidth + 12,
+                ),
+                prefix: widget.prefix,
+              ),
+              obscureText: widget.obscureText,
+              readOnly: widget.readOnly,
+              onTap: widget.enabled ? onTap : null,
+              validator: (value) {
+                if (!widget.allowEmpty &&
+                    widget.errorText.isNotEmpty &&
+                    value.isEmpty) {
+                  return widget.errorText;
+                }
 
-                  if (!widget.allowEmpty &&
-                      widget.lengthErrorText.isNotEmpty &&
-                      widget.minLength.def(0) > value.length) {
-                    return widget.lengthErrorText;
-                  }
-                  return widget.validator?.call(
-                    value,
-                    _dropdownController.isEmpty
-                        ? widget.items.entries.first.key
-                        : _dropdownController!.text,
-                  );
-                },
-                onSaved: (value) {
-                  if (!widget.allowEmpty && value.isEmpty) {
-                    return;
-                  }
-                  widget.onSaved?.call(
-                    value,
-                    _dropdownController.isEmpty
-                        ? widget.items.entries.first.key
-                        : _dropdownController!.text,
-                  );
-                }),
+                if (!widget.allowEmpty &&
+                    widget.lengthErrorText.isNotEmpty &&
+                    widget.minLength.def(0) > value.length) {
+                  return widget.lengthErrorText;
+                }
+                return widget.validator?.call(
+                  value,
+                  _dropdownController.isEmpty
+                      ? widget.items.entries.first.key
+                      : _dropdownController!.text,
+                );
+              },
+              onSaved: (value) {
+                if (!widget.allowEmpty && value.isEmpty) {
+                  return;
+                }
+                widget.onSaved?.call(
+                  value,
+                  _dropdownController.isEmpty
+                      ? widget.items.entries.first.key
+                      : _dropdownController!.text,
+                );
+              },
+            ),
             Align(
               alignment: Alignment.centerRight,
               child: Container(
@@ -267,9 +269,10 @@ class _FormItemDynamicLabeledDropdownFieldState
                   items: widget.items,
                   enabled: widget.enabled,
                   style: TextStyle(
-                      fontSize: 20,
-                      color: context.theme.textTheme.bodyText1?.color,
-                      height: 1.15),
+                    fontSize: 20,
+                    color: context.theme.textTheme.bodyText1?.color,
+                    height: 1.15,
+                  ),
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     disabledBorder: InputBorder.none,

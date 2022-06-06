@@ -7,32 +7,32 @@ part of masamune;
 /// Please inherit and use.
 class TabScaffold<T> extends StatefulWidget {
   /// Abstract class for creating pages.
-  const TabScaffold(
-      {Key? key,
-      this.title,
-      this.actions,
-      this.leading,
-      this.automaticallyImplyLeading = true,
-      this.tabLabelStyle,
-      this.indicatorColor,
-      this.tabLabelPadding =
-          const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      required this.source,
-      required this.tabBuilder,
-      required this.viewBuilder,
-      this.floatingActionButton,
-      this.floatingActionButtonLocation,
-      this.floatingActionButtonAnimator,
-      this.persistentFooterButtons,
-      this.drawer,
-      this.onDrawerChanged,
-      this.endDrawer,
-      this.onEndDrawerChanged,
-      this.bottomNavigationBar,
-      this.bottomSheet,
-      this.backgroundColor,
-      this.centerTitle})
-      : super(key: key);
+  const TabScaffold({
+    Key? key,
+    this.title,
+    this.actions,
+    this.leading,
+    this.automaticallyImplyLeading = true,
+    this.tabLabelStyle,
+    this.indicatorColor,
+    this.tabLabelPadding =
+        const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+    required this.source,
+    required this.tabBuilder,
+    required this.viewBuilder,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonAnimator,
+    this.persistentFooterButtons,
+    this.drawer,
+    this.onDrawerChanged,
+    this.endDrawer,
+    this.onEndDrawerChanged,
+    this.bottomNavigationBar,
+    this.bottomSheet,
+    this.backgroundColor,
+    this.centerTitle,
+  }) : super(key: key);
 
   final Widget? title;
   final bool? centerTitle;

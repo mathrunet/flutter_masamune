@@ -86,15 +86,17 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
     onCatchResponse(res);
     final posts = (res.data as List<WordPress.Post>)
         .mapAndRemoveEmpty((item) => item.toMap());
-    await Future.wait(posts.mapAndRemoveEmpty((e) async {
-      final featuredMedia = e.get("featured_media", 0);
-      if (featuredMedia.isEmpty) {
-        e["image"] = null;
-        return;
-      }
-      final media = await _wordpress.media.fetch(id: featuredMedia);
-      e["image"] = media.data.sourceUrl;
-    }));
+    await Future.wait(
+      posts.mapAndRemoveEmpty((e) async {
+        final featuredMedia = e.get("featured_media", 0);
+        if (featuredMedia.isEmpty) {
+          e["image"] = null;
+          return;
+        }
+        final media = await _wordpress.media.fetch(id: featuredMedia);
+        e["image"] = media.data.sourceUrl;
+      }),
+    );
     if (posts.isNotEmpty) {
       final cache = jsonEncode(posts);
       Prefs.set(endpoint, cache);

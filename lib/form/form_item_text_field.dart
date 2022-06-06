@@ -182,39 +182,48 @@ class FormItemTextField extends StatelessWidget implements FormItem {
             prefixIconConstraints: prefixIconConstraints,
             suffixIconConstraints: suffixIconConstraints,
             labelStyle: TextStyle(
-                color: color ?? context.theme.textColor, fontSize: fontSize),
+              color: color ?? context.theme.textColor,
+              fontSize: fontSize,
+            ),
             hintStyle: TextStyle(
-                color: subColor ??
-                    color?.withOpacity(0.5) ??
-                    context.theme.textColor.withOpacity(0.5),
-                fontSize: fontSize),
+              color: subColor ??
+                  color?.withOpacity(0.5) ??
+                  context.theme.textColor.withOpacity(0.5),
+              fontSize: fontSize,
+            ),
             suffixStyle: TextStyle(
-                color: subColor ??
-                    color?.withOpacity(0.5) ??
-                    context.theme.textColor.withOpacity(0.5),
-                fontSize: fontSize),
+              color: subColor ??
+                  color?.withOpacity(0.5) ??
+                  context.theme.textColor.withOpacity(0.5),
+              fontSize: fontSize,
+            ),
             prefixStyle: TextStyle(
-                color: subColor ??
-                    color?.withOpacity(0.5) ??
-                    context.theme.textColor.withOpacity(0.5),
-                fontSize: fontSize),
+              color: subColor ??
+                  color?.withOpacity(0.5) ??
+                  context.theme.textColor.withOpacity(0.5),
+              fontSize: fontSize,
+            ),
             counterStyle: TextStyle(
-                color: subColor ??
-                    color?.withOpacity(0.5) ??
-                    context.theme.textColor.withOpacity(0.5),
-                fontSize: helperFontSize),
+              color: subColor ??
+                  color?.withOpacity(0.5) ??
+                  context.theme.textColor.withOpacity(0.5),
+              fontSize: helperFontSize,
+            ),
             helperStyle: TextStyle(
-                color: subColor ??
-                    color?.withOpacity(0.5) ??
-                    context.theme.textColor.withOpacity(0.5),
-                fontSize: helperFontSize),
+              color: subColor ??
+                  color?.withOpacity(0.5) ??
+                  context.theme.textColor.withOpacity(0.5),
+              fontSize: helperFontSize,
+            ),
             errorStyle: TextStyle(
               color: errorColor ?? context.theme.errorColor,
               fontSize: helperFontSize,
             ),
           ),
           style: TextStyle(
-              color: color ?? context.theme.textColor, fontSize: fontSize),
+            color: color ?? context.theme.textColor,
+            fontSize: fontSize,
+          ),
           obscureText: obscureText,
           readOnly: readOnly,
           onFieldSubmitted: (value) {

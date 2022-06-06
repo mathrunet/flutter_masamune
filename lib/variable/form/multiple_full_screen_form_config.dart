@@ -60,7 +60,9 @@ class MultipleFullScreenFormConfig extends VariableFormConfig<List<DynamicMap>>
           );
         },
         controller: ref.useTextEditingController(
-            config.id, jsonEncode(data.getAsList(config.id, config.value))),
+          config.id,
+          jsonEncode(data.getAsList(config.id, config.value)),
+        ),
         onSaved: (value) {
           context[config.id] = List<DynamicMap>.from(value ?? [])
             ..removeWhere((e) => e.isEmpty);
@@ -103,7 +105,10 @@ class MultipleFullscreenFormItem
 
   @override
   Widget build(
-      BuildContext context, WidgetRef ref, MultipleFullscreenFormValue value) {
+    BuildContext context,
+    WidgetRef ref,
+    MultipleFullscreenFormValue value,
+  ) {
     final image =
         value.value.get(Const.image, value.value.get(Const.media, ""));
     final name = value.value.get(Const.name, "");

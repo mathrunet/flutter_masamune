@@ -38,16 +38,19 @@ class UIMarkdown extends StatelessWidget {
       ),
       child: MarkdownBody(
         data: text,
-        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context).copyWith(
-                textTheme: Theme.of(context).textTheme.apply(
-                    fontSizeDelta: fontSize == null
-                        ? 0.0
-                        : (fontSize! -
-                            (Theme.of(context).textTheme.bodyText1?.fontSize ??
-                                12)),
-                    bodyColor: color,
-                    displayColor: color)))
-            .copyWith(
+        styleSheet: MarkdownStyleSheet.fromTheme(
+          Theme.of(context).copyWith(
+            textTheme: Theme.of(context).textTheme.apply(
+                  fontSizeDelta: fontSize == null
+                      ? 0.0
+                      : (fontSize! -
+                          (Theme.of(context).textTheme.bodyText1?.fontSize ??
+                              12)),
+                  bodyColor: color,
+                  displayColor: color,
+                ),
+          ),
+        ).copyWith(
           a: linkTextStyle,
         ),
         selectable: selectable,

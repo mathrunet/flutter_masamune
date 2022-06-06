@@ -443,11 +443,11 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
       return;
     }
     final date = DateTime(
-            _calendarController!.focusedDay.year,
-            _calendarController!.focusedDay.month,
-            _calendarController!.focusedDay.day,
-            12)
-        .toUtc();
+      _calendarController!.focusedDay.year,
+      _calendarController!.focusedDay.month,
+      _calendarController!.focusedDay.day,
+      12,
+    ).toUtc();
     _selectedEvents = _events[date] ?? [];
   }
 
@@ -502,8 +502,9 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _buildTableCalendarWithBuilders()),
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _buildTableCalendarWithBuilders(),
+          ),
           Expanded(child: _buildEventList()),
         ],
       );
@@ -537,9 +538,13 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
         contentDecoration: BoxDecoration(
           border: Border(
             left: BorderSide(
-                color: context.theme.dividerColor.withOpacity(0.25), width: 1),
+              color: context.theme.dividerColor.withOpacity(0.25),
+              width: 1,
+            ),
             top: BorderSide(
-                color: context.theme.dividerColor.withOpacity(0.25), width: 1),
+              color: context.theme.dividerColor.withOpacity(0.25),
+              width: 1,
+            ),
           ),
         ),
         contentPadding: const EdgeInsets.all(0),
@@ -572,11 +577,13 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
                 left: date.day == 1
                     ? BorderSide(
                         color: context.theme.dividerColor.withOpacity(0.25),
-                        width: 1)
+                        width: 1,
+                      )
                     : BorderSide.none,
                 right: BorderSide(
-                    color: context.theme.dividerColor.withOpacity(0.25),
-                    width: 1),
+                  color: context.theme.dividerColor.withOpacity(0.25),
+                  width: 1,
+                ),
               ),
             ),
             // color: context.theme.scaffoldBackgroundColor,
@@ -645,11 +652,19 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
                 : null),
         markersBuilder: (context, date, events, holidays) {
           if (widget.markersBuilder != null) {
-            return widget.markersBuilder!.call(context, date,
-                events.cast<EventData>(), holidays.cast<EventData>());
+            return widget.markersBuilder!.call(
+              context,
+              date,
+              events.cast<EventData>(),
+              holidays.cast<EventData>(),
+            );
           }
-          return _defaultMarkers(context, date, events.cast<EventData>(),
-              holidays.cast<EventData>());
+          return _defaultMarkers(
+            context,
+            date,
+            events.cast<EventData>(),
+            holidays.cast<EventData>(),
+          );
         },
       ),
       onDaySelected: (date, events, holidays) {
@@ -685,8 +700,9 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
     }
     if (widget.holidayColor != null &&
         widget.regularHolidays != null &&
-        widget.regularHolidays!.keys.any((element) =>
-            element.month == date.month && element.day == date.day)) {
+        widget.regularHolidays!.keys.any(
+          (element) => element.month == date.month && element.day == date.day,
+        )) {
       return widget.holidayColor;
     }
     if (widget.saturdayColor != null && date.weekday == DateTime.saturday) {
@@ -738,8 +754,12 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
     return widget.counterTextColor ?? context.theme.colorScheme.onPrimary;
   }
 
-  List<Widget> _defaultMarkers(BuildContext context, DateTime date,
-      List<EventData> events, List<EventData> holidays) {
+  List<Widget> _defaultMarkers(
+    BuildContext context,
+    DateTime date,
+    List<EventData> events,
+    List<EventData> holidays,
+  ) {
     switch (widget.markerType) {
       case UICalendarMarkerType.icon:
         return [
@@ -887,8 +907,9 @@ class _UICalendarState extends State<UICalendar> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Text(event.timeString)),
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(event.timeString),
+                        ),
                         Flexible(child: Text(event.title))
                       ],
                     ),

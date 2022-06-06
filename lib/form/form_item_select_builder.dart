@@ -3,10 +3,11 @@ part of masamune.form;
 class FormItemSelectBuilder extends FormField<String> {
   FormItemSelectBuilder({
     required List<Widget> Function(
-            BuildContext context,
-            Map<String, String> items,
-            String selected,
-            void Function(String value) onSelect)
+      BuildContext context,
+      Map<String, String> items,
+      String selected,
+      void Function(String value) onSelect,
+    )
         builder,
     this.labelText,
     String? initialValue,
@@ -38,10 +39,15 @@ class FormItemSelectBuilder extends FormField<String> {
   final String? hintText;
   final Widget? header;
   final Widget? footer;
-  final List<Widget> Function(BuildContext context, Map<String, String> items,
-      String selected, void Function(String value) onSelect) _builder;
+  final List<Widget> Function(
+    BuildContext context,
+    Map<String, String> items,
+    String selected,
+    void Function(String value) onSelect,
+  ) _builder;
   final void Function(
-      void Function(dynamic fileOrURL, AssetType type) onUpdate)? onPressed;
+    void Function(dynamic fileOrURL, AssetType type) onUpdate,
+  )? onPressed;
 
   @override
   _FormItemSelectBuilderState createState() => _FormItemSelectBuilderState();
@@ -99,8 +105,9 @@ class _FormItemSelectBuilderState extends FormFieldState<String> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1),
-          borderRadius: BorderRadius.circular(6.0)),
+        border: Border.all(color: Colors.black, width: 1),
+        borderRadius: BorderRadius.circular(6.0),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -190,8 +197,9 @@ class FormItemSelectItem extends StatelessWidget {
               ? (selectedBackgroundColor ?? context.theme.primaryColor)
               : null,
           border: Border.all(
-              color: selected ? Colors.transparent : context.theme.dividerColor,
-              width: 1),
+            color: selected ? Colors.transparent : context.theme.dividerColor,
+            width: 1,
+          ),
           borderRadius: BorderRadius.circular(6.0),
         ),
         child: Row(
@@ -201,7 +209,7 @@ class FormItemSelectItem extends StatelessWidget {
           children: [
             Icon(
               selected
-                  ? (selectedIcon ?? FontAwesomeIcons.checkCircle)
+                  ? (selectedIcon ?? FontAwesomeIcons.circleCheck)
                   : (icon ?? FontAwesomeIcons.circle),
               color: selected
                   ? (selectedColor ?? context.theme.textColorOnPrimary)

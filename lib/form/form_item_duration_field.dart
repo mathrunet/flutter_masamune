@@ -33,8 +33,11 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
         _onShowPicker = onShowPicker;
 
   /// Calculate formatted duration string from [milliseconds].
-  static String tryFormat(int milliseconds,
-      {String format = "HH:mm:ss", String defaultValue = ""}) {
+  static String tryFormat(
+    int milliseconds, {
+    String format = "HH:mm:ss",
+    String defaultValue = "",
+  }) {
     if (format.isEmpty || milliseconds < 0) {
       return defaultValue;
     }
@@ -42,8 +45,11 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
   }
 
   /// Converts a string with only date and time information to duration.
-  static Duration? tryParse(String formattedString,
-      {Duration? defaultValue, String format = r"([0-9]+):([0-9]+):([0-9]+)"}) {
+  static Duration? tryParse(
+    String formattedString, {
+    Duration? defaultValue,
+    String format = r"([0-9]+):([0-9]+):([0-9]+)",
+  }) {
     if (formattedString.isEmpty || format.isEmpty) {
       return defaultValue;
     }
@@ -111,7 +117,8 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
                       text: Text(
                         "$index $hourSuffix",
                         style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
+                          color: color ?? context.theme.textColorOnSurface,
+                        ),
                       ),
                       value: index,
                     ),
@@ -124,7 +131,8 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
                       text: Text(
                         "$index $minuteSuffix",
                         style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
+                          color: color ?? context.theme.textColorOnSurface,
+                        ),
                       ),
                       value: index,
                     ),
@@ -137,7 +145,8 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
                       text: Text(
                         "$index $secondSuffix",
                         style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
+                          color: color ?? context.theme.textColorOnSurface,
+                        ),
                       ),
                       value: index,
                     ),
@@ -149,7 +158,10 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
             hideHeader: false,
             onConfirm: (Picker picker, List<int> value) {
               res = Duration(
-                  hours: value[0], minutes: value[1], seconds: value[2]);
+                hours: value[0],
+                minutes: value[1],
+                seconds: value[2],
+              );
             },
           ).showModal(context);
           return res;
@@ -179,7 +191,8 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
                       text: Text(
                         "$index $hourSuffix",
                         style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
+                          color: color ?? context.theme.textColorOnSurface,
+                        ),
                       ),
                       value: index,
                     ),
@@ -192,7 +205,8 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
                       text: Text(
                         "$index $minuteSuffix",
                         style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
+                          color: color ?? context.theme.textColorOnSurface,
+                        ),
                       ),
                       value: index,
                     ),
@@ -231,7 +245,8 @@ class FormItemDurationField extends StatefulWidget implements FormItem {
                       text: Text(
                         "$index $hourSuffix",
                         style: TextStyle(
-                            color: color ?? context.theme.textColorOnSurface),
+                          color: color ?? context.theme.textColorOnSurface,
+                        ),
                       ),
                       value: index,
                     ),
@@ -357,17 +372,23 @@ class _FormItemDurationFieldState extends State<FormItemDurationField> {
                   : null),
           filled: widget.backgroundColor != null,
           border: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           enabledBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           disabledBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           errorBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           focusedBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           hintText: widget.hintText,
           counterText: widget.counterText,
           labelText: widget.labelText,
@@ -443,64 +464,66 @@ class _DurationTextField extends FormField<Duration> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-            key: key,
-            initialValue: initialValue,
-            enabled: enabled,
-            validator: validator,
-            onSaved: onSaved,
-            builder: (field) {
-              final _DurationTextFieldState state =
-                  field as _DurationTextFieldState;
-              final InputDecoration effectiveDecoration = decoration
-                  .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-              return TextField(
-                mouseCursor: SystemMouseCursors.click,
-                controller: state._effectiveController ??
-                    TextEditingController(
-                        text: state.value != null
-                            ? state.value!.format(state.widget.format)
-                            : null),
-                focusNode: state._effectiveFocusNode,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: field.errorText,
-                  suffixIcon: showResetButton &&
-                          state.shouldShowClearIcon(effectiveDecoration)
-                      ? IconButton(
-                          icon: resetIcon,
-                          color: field.context.theme.textColor,
-                          onPressed: state.clear,
-                        )
-                      : null,
-                ),
-                keyboardType: keyboardType,
-                textInputAction: textInputAction,
-                style: style,
-                strutStyle: strutStyle,
-                textAlign: textAlign,
-                textCapitalization: textCapitalization,
-                autofocus: autofocus,
-                readOnly: true,
-                showCursor: showCursor,
-                obscureText: obscureText,
-                autocorrect: autocorrect,
-                maxLines: maxLines,
-                minLines: minLines,
-                expands: expands,
-                maxLength: maxLength,
-                onChanged: (text) => field.didChange(state.parse(text)),
-                onEditingComplete: onEditingComplete,
-                onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
-                inputFormatters: inputFormatters,
-                enabled: enabled,
-                cursorWidth: cursorWidth,
-                cursorRadius: cursorRadius,
-                cursorColor: cursorColor,
-                scrollPadding: scrollPadding,
-                keyboardAppearance: keyboardAppearance,
-                enableInteractiveSelection: enableInteractiveSelection,
-                buildCounter: buildCounter,
-              );
-            });
+          key: key,
+          initialValue: initialValue,
+          enabled: enabled,
+          validator: validator,
+          onSaved: onSaved,
+          builder: (field) {
+            final _DurationTextFieldState state =
+                field as _DurationTextFieldState;
+            final InputDecoration effectiveDecoration = decoration
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            return TextField(
+              mouseCursor: SystemMouseCursors.click,
+              controller: state._effectiveController ??
+                  TextEditingController(
+                    text: state.value != null
+                        ? state.value!.format(state.widget.format)
+                        : null,
+                  ),
+              focusNode: state._effectiveFocusNode,
+              decoration: effectiveDecoration.copyWith(
+                errorText: field.errorText,
+                suffixIcon: showResetButton &&
+                        state.shouldShowClearIcon(effectiveDecoration)
+                    ? IconButton(
+                        icon: resetIcon,
+                        color: field.context.theme.textColor,
+                        onPressed: state.clear,
+                      )
+                    : null,
+              ),
+              keyboardType: keyboardType,
+              textInputAction: textInputAction,
+              style: style,
+              strutStyle: strutStyle,
+              textAlign: textAlign,
+              textCapitalization: textCapitalization,
+              autofocus: autofocus,
+              readOnly: true,
+              showCursor: showCursor,
+              obscureText: obscureText,
+              autocorrect: autocorrect,
+              maxLines: maxLines,
+              minLines: minLines,
+              expands: expands,
+              maxLength: maxLength,
+              onChanged: (text) => field.didChange(state.parse(text)),
+              onEditingComplete: onEditingComplete,
+              onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
+              inputFormatters: inputFormatters,
+              enabled: enabled,
+              cursorWidth: cursorWidth,
+              cursorRadius: cursorRadius,
+              cursorColor: cursorColor,
+              scrollPadding: scrollPadding,
+              keyboardAppearance: keyboardAppearance,
+              enableInteractiveSelection: enableInteractiveSelection,
+              buildCounter: buildCounter,
+            );
+          },
+        );
 
   /// For representing the date as a string e.g.
   /// `DateFormat("EEEE, MMMM d, yyyy 'at' h:mma")`

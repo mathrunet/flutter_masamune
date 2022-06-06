@@ -26,7 +26,8 @@ class SmallGallery extends StatelessWidget {
                 ? Container(
                     alignment: Alignment.center,
                     height: 100,
-                    child: Text("No data.".localize()))
+                    child: Text("No data.".localize()),
+                  )
                 : GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

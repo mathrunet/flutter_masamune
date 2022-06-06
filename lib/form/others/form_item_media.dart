@@ -221,11 +221,13 @@ class _FormItemMediaState extends FormFieldState<String> {
           ),
           if (errorText.isNotEmpty)
             AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                child: Text(errorText ?? "",
-                    style: Theme.of(context).inputDecorationTheme.errorStyle),
-                height:
-                    errorText.isNotEmpty ? FormItemMedia.errorTextHeight : 0)
+              duration: const Duration(milliseconds: 200),
+              child: Text(
+                errorText ?? "",
+                style: Theme.of(context).inputDecorationTheme.errorStyle,
+              ),
+              height: errorText.isNotEmpty ? FormItemMedia.errorTextHeight : 0,
+            )
         ],
       ),
     );
@@ -308,9 +310,10 @@ class _FormItemMediaState extends FormFieldState<String> {
             ? const EdgeInsets.all(0)
             : const EdgeInsets.symmetric(vertical: 10),
         constraints: BoxConstraints.expand(
-            height: errorText.isNotEmpty
-                ? (widget.height - FormItemMedia.errorTextHeight)
-                : widget.height),
+          height: errorText.isNotEmpty
+              ? (widget.height - FormItemMedia.errorTextHeight)
+              : widget.height,
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
           child: _showMediaFromPath(_path!),
@@ -322,9 +325,10 @@ class _FormItemMediaState extends FormFieldState<String> {
             ? const EdgeInsets.all(0)
             : const EdgeInsets.symmetric(vertical: 10),
         constraints: BoxConstraints.expand(
-            height: errorText.isNotEmpty
-                ? (widget.height - FormItemMedia.errorTextHeight)
-                : widget.height),
+          height: errorText.isNotEmpty
+              ? (widget.height - FormItemMedia.errorTextHeight)
+              : widget.height,
+        ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(widget.dense ? 0 : 8.0),
           child: _showMediaFromPath(value!),
@@ -337,16 +341,22 @@ class _FormItemMediaState extends FormFieldState<String> {
             : const EdgeInsets.symmetric(vertical: 10),
         child: Container(
           constraints: BoxConstraints.expand(
-              height: errorText.isNotEmpty
-                  ? (widget.height - FormItemMedia.errorTextHeight)
-                  : widget.height),
+            height: errorText.isNotEmpty
+                ? (widget.height - FormItemMedia.errorTextHeight)
+                : widget.height,
+          ),
           decoration: BoxDecoration(
-              border: Border.all(
-                  color: widget.color ?? Theme.of(context).disabledColor,
-                  style: widget.dense ? BorderStyle.none : BorderStyle.solid),
-              borderRadius: BorderRadius.circular(8.0)),
-          child: Icon(widget.icon,
-              size: 56, color: widget.color ?? Theme.of(context).disabledColor),
+            border: Border.all(
+              color: widget.color ?? Theme.of(context).disabledColor,
+              style: widget.dense ? BorderStyle.none : BorderStyle.solid,
+            ),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Icon(
+            widget.icon,
+            size: 56,
+            color: widget.color ?? Theme.of(context).disabledColor,
+          ),
         ),
       );
     }

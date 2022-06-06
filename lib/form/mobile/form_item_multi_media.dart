@@ -427,8 +427,10 @@ class _FormItemMultiMediaState extends FormFieldState<String> {
                       widget.onTap?.call(_onUpdate);
                     }
                   },
-                  title: Text(widget.addLabel.localize(),
-                      textAlign: TextAlign.right),
+                  title: Text(
+                    widget.addLabel.localize(),
+                    textAlign: TextAlign.right,
+                  ),
                   trailing: Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(

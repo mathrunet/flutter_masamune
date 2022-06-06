@@ -45,9 +45,11 @@ abstract class UIBoot extends PageScopedWidget {
   /// [context]: Build context.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.effect(onInitOrUpdate: () {
-      onInit(context, ref, context.navigator.context);
-    });
+    ref.effect(
+      onInitOrUpdate: () {
+        onInit(context, ref, context.navigator.context);
+      },
+    );
     return applySafeArea
         ? SafeArea(
             child: _body(context, ref),

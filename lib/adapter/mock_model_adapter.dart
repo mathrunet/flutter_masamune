@@ -29,7 +29,8 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   /// In [path], enter the path where you want to retrieve the collection.
   @override
   ChangeNotifierProvider<RuntimeDynamicCollectionModel> collectionProvider(
-      String path) {
+    String path,
+  ) {
     path = path.trimString("/");
     return runtimeCollectionProvider(path);
   }
@@ -49,7 +50,8 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   /// In [path], enter the path where you want to retrieve the document.
   @override
   ChangeNotifierProvider<RuntimeDynamicDocumentModel> documentProvider(
-      String path) {
+    String path,
+  ) {
     path = path.trimString("/");
     return runtimeDocumentProvider(path);
   }
@@ -100,8 +102,9 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
   @override
   RuntimeDynamicCollectionModel loadCollection(
-      RuntimeDynamicCollectionModel collection,
-      [bool once = false]) {
+    RuntimeDynamicCollectionModel collection, [
+    bool once = false,
+  ]) {
     RuntimeDatabase.registerMockData(data);
     collection.loadOnce();
     return collection;
@@ -113,8 +116,10 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   ///
   /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
   @override
-  RuntimeDynamicDocumentModel loadDocument(RuntimeDynamicDocumentModel document,
-      [bool once = false]) {
+  RuntimeDynamicDocumentModel loadDocument(
+    RuntimeDynamicDocumentModel document, [
+    bool once = false,
+  ]) {
     RuntimeDatabase.registerMockData(data);
     document.loadOnce();
     return document;
@@ -319,8 +324,10 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
 
   /// Send you an email to reset your password.
   @override
-  Future<void> confirmPasswordReset(
-          {required String code, required String password}) =>
+  Future<void> confirmPasswordReset({
+    required String code,
+    required String password,
+  }) =>
       Future.value();
 
   /// Account delete.
@@ -329,11 +336,12 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
 
   /// Send an email link.
   @override
-  Future<void> sendEmailLink(
-          {required String email,
-          required String url,
-          required String packageName,
-          int androidMinimumVersion = 1}) =>
+  Future<void> sendEmailLink({
+    required String email,
+    required String url,
+    required String packageName,
+    int androidMinimumVersion = 1,
+  }) =>
       Future.value();
 
   /// Resend the email for email address verification.

@@ -1,17 +1,18 @@
 part of masamune;
 
 class DefaultTextButtonStyle extends ButtonStyle {
-  factory DefaultTextButtonStyle(
-      {Color? color,
-      Color? backgroundColor,
-      Color? focusedAndSelectedColor,
-      Color? focusedAndSelectedBackgroundColor,
-      Color? disabledColor,
-      Color? disabledBackgroundColor,
-      Color? borderColor,
-      double radius = 6.0,
-      double width = 0,
-      EdgeInsetsGeometry? padding}) {
+  factory DefaultTextButtonStyle({
+    Color? color,
+    Color? backgroundColor,
+    Color? focusedAndSelectedColor,
+    Color? focusedAndSelectedBackgroundColor,
+    Color? disabledColor,
+    Color? disabledBackgroundColor,
+    Color? borderColor,
+    double radius = 6.0,
+    double width = 0,
+    EdgeInsetsGeometry? padding,
+  }) {
     return DefaultTextButtonStyle._(
       TextButton.styleFrom(
         padding: padding,

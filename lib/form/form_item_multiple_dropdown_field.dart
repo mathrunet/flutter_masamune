@@ -129,8 +129,11 @@ class _FormItemMultipleDropdownFieldState extends FormFieldState<List<String>> {
     setState(() {});
   }
 
-  Widget _builder(BuildContext context,
-      _FormItemMultipleDropdownFieldValue item, int index) {
+  Widget _builder(
+    BuildContext context,
+    _FormItemMultipleDropdownFieldValue item,
+    int index,
+  ) {
     return ListTile(
       title: FormItemDropdownField(
         padding: const EdgeInsets.all(0),

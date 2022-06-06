@@ -27,7 +27,8 @@ class RangeListTileViewConfig<T> extends VariableViewConfig<T> {
         const Divid(),
       ListItem(
         title: UIText(
-            "${map.get(minKey, config.value)} ～ ${map.get(maxKey, config.value)}"),
+          "${map.get(minKey, config.value)} ～ ${map.get(maxKey, config.value)}",
+        ),
       ),
     ];
   }

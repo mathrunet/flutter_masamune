@@ -2,48 +2,49 @@ part of masamune.form;
 
 class FormItemMultipleCheckbox extends FormField<List<String>>
     implements FormItem {
-  FormItemMultipleCheckbox(
-      {this.controller,
-      this.leading,
-      required this.items,
-      this.dense = false,
-      this.padding = const EdgeInsets.fromLTRB(4, 0, 24, 0),
-      this.margin = const EdgeInsets.symmetric(vertical: 4),
-      this.onChanged,
-      this.backgroundColor,
-      this.color,
-      this.activeColor,
-      this.checkColor,
-      this.hintText,
-      this.errorText,
-      this.minHeight = 48,
-      this.labelText,
-      this.submitText,
-      this.cancelText,
-      this.allowEmpty = false,
-      this.separator = ",",
-      this.unselectColor,
-      this.border,
-      this.scroll = false,
-      Key? key,
-      void Function(List<String>? value)? onSaved,
-      String? Function(List<String>? value)? validator,
-      List<String> initialValue = const [],
-      bool enabled = true})
-      : super(
-            key: key,
-            builder: (state) {
-              return const Empty();
-            },
-            onSaved: onSaved,
-            validator: (value) {
-              if (!allowEmpty && value.isEmpty) {
-                return errorText;
-              }
-              return validator?.call(value);
-            },
-            initialValue: initialValue,
-            enabled: enabled);
+  FormItemMultipleCheckbox({
+    this.controller,
+    this.leading,
+    required this.items,
+    this.dense = false,
+    this.padding = const EdgeInsets.fromLTRB(4, 0, 24, 0),
+    this.margin = const EdgeInsets.symmetric(vertical: 4),
+    this.onChanged,
+    this.backgroundColor,
+    this.color,
+    this.activeColor,
+    this.checkColor,
+    this.hintText,
+    this.errorText,
+    this.minHeight = 48,
+    this.labelText,
+    this.submitText,
+    this.cancelText,
+    this.allowEmpty = false,
+    this.separator = ",",
+    this.unselectColor,
+    this.border,
+    this.scroll = false,
+    Key? key,
+    void Function(List<String>? value)? onSaved,
+    String? Function(List<String>? value)? validator,
+    List<String> initialValue = const [],
+    bool enabled = true,
+  }) : super(
+          key: key,
+          builder: (state) {
+            return const Empty();
+          },
+          onSaved: onSaved,
+          validator: (value) {
+            if (!allowEmpty && value.isEmpty) {
+              return errorText;
+            }
+            return validator?.call(value);
+          },
+          initialValue: initialValue,
+          enabled: enabled,
+        );
 
   final String separator;
   final bool scroll;
@@ -136,7 +137,8 @@ class _FormItemMultipleCheckboxState extends FormFieldState<List<String>> {
         borderRadius: const BorderRadius.all(Radius.circular(4.0)),
         border: widget.border ??
             Border.fromBorderSide(
-                widget.dense ? BorderSide.none : const BorderSide()),
+              widget.dense ? BorderSide.none : const BorderSide(),
+            ),
       ),
       child: Column(
         children: [
@@ -151,20 +153,29 @@ class _FormItemMultipleCheckboxState extends FormFieldState<List<String>> {
                 ? Text("Close".localize())
                 : Text(widget.cancelText!),
             title: widget.labelText.isEmpty
-                ? Text(widget.hintText ?? "",
-                    style: TextStyle(color: context.theme.textColorOnSurface))
-                : Text(widget.labelText!,
-                    style: TextStyle(color: context.theme.textColorOnSurface)),
+                ? Text(
+                    widget.hintText ?? "",
+                    style: TextStyle(
+                      color: context.theme.textColorOnSurface,
+                    ),
+                  )
+                : Text(
+                    widget.labelText!,
+                    style: TextStyle(color: context.theme.textColorOnSurface),
+                  ),
             height: widget.minHeight,
             selectedColor: widget.activeColor ?? context.theme.primaryColor,
             selectedItemsTextStyle: TextStyle(
-                color: widget.color ?? context.theme.textColorOnSurface),
+              color: widget.color ?? context.theme.textColorOnSurface,
+            ),
             chipDisplay: MultiSelectChipDisplay<String>(
-                scroll: widget.scroll,
-                height: widget.minHeight,
-                chipColor: widget.activeColor ?? context.theme.primaryColor,
-                textStyle: TextStyle(
-                    color: widget.color ?? context.theme.textColorOnPrimary)),
+              scroll: widget.scroll,
+              height: widget.minHeight,
+              chipColor: widget.activeColor ?? context.theme.primaryColor,
+              textStyle: TextStyle(
+                color: widget.color ?? context.theme.textColorOnPrimary,
+              ),
+            ),
             itemsTextStyle: TextStyle(
               color: widget.unselectColor ?? context.theme.disabledColor,
             ),
@@ -321,8 +332,9 @@ class __MultiSelectDialogFieldViewState<V>
 
   Widget _buildInheritedChipDisplay() {
     final chipDisplayItems = _selectedItems
-        .map((e) =>
-            widget.items.firstWhereOrNull((element) => e == element.value))
+        .map(
+          (e) => widget.items.firstWhereOrNull((element) => e == element.value),
+        )
         .toList();
     chipDisplayItems.removeWhere((element) => element == null);
     if (chipDisplayItems.isEmpty) {

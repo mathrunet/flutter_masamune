@@ -53,9 +53,12 @@ class _CollapseIconState extends State<CollapseIcon>
   @override
   Widget build(BuildContext context) {
     return RotationTransition(
-      turns: _controller.drive(Tween<double>(
+      turns: _controller.drive(
+        Tween<double>(
           begin: widget.direction == CollapseIconDirection.right ? -0.25 : 0.25,
-          end: 0)),
+          end: 0,
+        ),
+      ),
       child: Icon(widget.icon),
     );
   }

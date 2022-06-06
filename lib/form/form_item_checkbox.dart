@@ -1,44 +1,45 @@
 part of masamune.form;
 
 class FormItemCheckbox extends FormField<bool> {
-  FormItemCheckbox(
-      {this.controller,
-      this.leading,
-      this.dense = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 4.5),
-      this.margin = const EdgeInsets.symmetric(vertical: 10),
-      this.type = FormItemCheckboxType.form,
-      this.onChanged,
-      this.backgroundColor,
-      this.borderColor,
-      this.color,
-      this.activeColor,
-      this.checkColor,
-      this.hintText,
-      this.errorText,
-      this.labelText,
-      this.needToCheck = false,
-      this.linkTextStyle,
-      this.checkboxWidth = 48,
-      Key? key,
-      void Function(bool? value)? onSaved,
-      String? Function(bool? value)? validator,
-      bool initialValue = false,
-      bool enabled = true})
-      : super(
-            key: key,
-            builder: (state) {
-              return const Empty();
-            },
-            onSaved: onSaved,
-            validator: (value) {
-              if (needToCheck && !(value ?? false)) {
-                return errorText;
-              }
-              return validator?.call(value);
-            },
-            initialValue: initialValue,
-            enabled: enabled);
+  FormItemCheckbox({
+    this.controller,
+    this.leading,
+    this.dense = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 4.5),
+    this.margin = const EdgeInsets.symmetric(vertical: 10),
+    this.type = FormItemCheckboxType.form,
+    this.onChanged,
+    this.backgroundColor,
+    this.borderColor,
+    this.color,
+    this.activeColor,
+    this.checkColor,
+    this.hintText,
+    this.errorText,
+    this.labelText,
+    this.needToCheck = false,
+    this.linkTextStyle,
+    this.checkboxWidth = 48,
+    Key? key,
+    void Function(bool? value)? onSaved,
+    String? Function(bool? value)? validator,
+    bool initialValue = false,
+    bool enabled = true,
+  }) : super(
+          key: key,
+          builder: (state) {
+            return const Empty();
+          },
+          onSaved: onSaved,
+          validator: (value) {
+            if (needToCheck && !(value ?? false)) {
+              return errorText;
+            }
+            return validator?.call(value);
+          },
+          initialValue: initialValue,
+          enabled: enabled,
+        );
 
   final TextEditingController? controller;
   final FormItemCheckboxType type;
@@ -118,12 +119,13 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
       case FormItemCheckboxType.form:
         return Container(
           decoration: BoxDecoration(
-              color: widget.backgroundColor,
-              border: Border.all(
-                color: widget.borderColor ?? Theme.of(context).disabledColor,
-                style: widget.dense ? BorderStyle.none : BorderStyle.solid,
-              ),
-              borderRadius: BorderRadius.circular(4.0)),
+            color: widget.backgroundColor,
+            border: Border.all(
+              color: widget.borderColor ?? Theme.of(context).disabledColor,
+              style: widget.dense ? BorderStyle.none : BorderStyle.solid,
+            ),
+            borderRadius: BorderRadius.circular(4.0),
+          ),
           margin: widget.dense ? const EdgeInsets.all(0) : widget.margin,
           padding: widget.padding,
           child: Row(

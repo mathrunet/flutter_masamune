@@ -305,9 +305,11 @@ class CalendarController {
       return _daysInMonth(_focusedDay);
     } else if (calendarFormat == CalendarFormat.twoWeeks) {
       return _daysInWeek(_focusedDay)
-        ..addAll(_daysInWeek(
-          _focusedDay.add(const Duration(days: 7)),
-        ));
+        ..addAll(
+          _daysInWeek(
+            _focusedDay.add(const Duration(days: 7)),
+          ),
+        );
     } else {
       return _daysInWeek(_focusedDay);
     }

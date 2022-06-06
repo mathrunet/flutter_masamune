@@ -44,7 +44,9 @@ class ImageFormConfig extends VariableFormConfig<String> {
         errorText: "No select %s".localize().format([config.label.localize()]),
         allowEmpty: !config.required,
         controller: ref.useTextEditingController(
-            config.id, data.get(config.id, config.value)),
+          config.id,
+          data.get(config.id, config.value),
+        ),
         onSaved: (value) {
           context[config.id] = value;
         },

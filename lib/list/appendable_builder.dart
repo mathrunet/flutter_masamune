@@ -13,10 +13,18 @@ class AppendableBuilder extends StatefulWidget {
   final String? label;
   final bool dense;
   final Color? backgroundColor;
-  final Widget Function(BuildContext context, List<Widget> children,
-      Function onAdd, void Function(String id) onRemove)? child;
-  final Widget Function(BuildContext context, String id, Function onAdd,
-      void Function(String id) onRemove) builder;
+  final Widget Function(
+    BuildContext context,
+    List<Widget> children,
+    Function onAdd,
+    void Function(String id) onRemove,
+  )? child;
+  final Widget Function(
+    BuildContext context,
+    String id,
+    Function onAdd,
+    void Function(String id) onRemove,
+  ) builder;
   final Iterable<String> initialValues;
 
   @override
@@ -65,7 +73,9 @@ class _AppendableBuilderState extends State<AppendableBuilder> {
                 ? null
                 : BoxDecoration(
                     border: Border.all(
-                        color: Theme.of(context).disabledColor, width: 1),
+                      color: Theme.of(context).disabledColor,
+                      width: 1,
+                    ),
                     borderRadius: BorderRadius.circular(4.0),
                   ),
             child: Row(

@@ -168,8 +168,10 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Specify [AnimationUnit] for [units] to create an animation.
   ///
   /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
-  AnimationScenario useAnimationScenario(String key,
-      [List<AnimationUnit>? units]) {
+  AnimationScenario useAnimationScenario(
+    String key, [
+    List<AnimationUnit>? units,
+  ]) {
     return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
       key: "animationScenario:$key",
       builder: () {
@@ -189,8 +191,10 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Specify [AnimationUnit] for [units] to create an animation.
   ///
   /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
-  AnimationScenario useAutoPlayAnimationScenario(String key,
-      [List<AnimationUnit>? units]) {
+  AnimationScenario useAutoPlayAnimationScenario(
+    String key, [
+    List<AnimationUnit>? units,
+  ]) {
     return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
       key: "animationScenario:$key",
       builder: () {
@@ -211,8 +215,10 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Specify [AnimationUnit] for [units] to create an animation.
   ///
   /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
-  AnimationScenario useAutoRepeatAnimationScenario(String key,
-      [List<AnimationUnit>? units]) {
+  AnimationScenario useAutoRepeatAnimationScenario(
+    String key, [
+    List<AnimationUnit>? units,
+  ]) {
     return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
       key: "animationScenario:$key",
       builder: () {

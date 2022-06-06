@@ -578,13 +578,19 @@ class _UIScaffoldState extends State<UIScaffold> {
     if (body is TabBarView) {
       if (appBar is UIAppBar && appBar.bottom is TabBar) {
         return _WebTabLayout(
-            tabBar: appBar.bottom! as TabBar, tabBarView: body);
+          tabBar: appBar.bottom! as TabBar,
+          tabBarView: body,
+        );
       } else if (appBar is SliverAppBar && appBar.bottom is TabBar) {
         return _WebTabLayout(
-            tabBar: appBar.bottom! as TabBar, tabBarView: body);
+          tabBar: appBar.bottom! as TabBar,
+          tabBarView: body,
+        );
       } else if (appBar is AppBar && appBar.bottom is TabBar) {
         return _WebTabLayout(
-            tabBar: appBar.bottom! as TabBar, tabBarView: body);
+          tabBar: appBar.bottom! as TabBar,
+          tabBarView: body,
+        );
       }
     }
 
@@ -705,19 +711,23 @@ class _UIScaffoldState extends State<UIScaffold> {
           child: appBar.title ?? const Empty(),
         ),
         actions: appBar.actions
-            ?.map((e) => IconTheme(
-                  data: IconThemeData(color: context.theme.textColor),
-                  child: e,
-                ))
+            ?.map(
+              (e) => IconTheme(
+                data: IconThemeData(color: context.theme.textColor),
+                child: e,
+              ),
+            )
             .toList(),
         flexibleSpace: appBar.flexibleSpace,
         bottom: PreferredSize(
           child: Container(
-              color: context.theme.dividerColor.withOpacity(0.25),
-              height: 1.0,
-              child: appBar.bottom),
+            color: context.theme.dividerColor.withOpacity(0.25),
+            height: 1.0,
+            child: appBar.bottom,
+          ),
           preferredSize: Size.fromHeight(
-              (appBar.bottom?.preferredSize.height ?? 0.0) + 1.0),
+            (appBar.bottom?.preferredSize.height ?? 0.0) + 1.0,
+          ),
         ),
         elevation: 0,
         shadowColor: appBar.shadowColor,
@@ -747,19 +757,23 @@ class _UIScaffoldState extends State<UIScaffold> {
           child: appBar.title ?? const Empty(),
         ),
         actions: appBar.actions
-            ?.map((e) => IconTheme(
-                  data: IconThemeData(color: context.theme.textColor),
-                  child: e,
-                ))
+            ?.map(
+              (e) => IconTheme(
+                data: IconThemeData(color: context.theme.textColor),
+                child: e,
+              ),
+            )
             .toList(),
         flexibleSpace: appBar.flexibleSpace,
         bottom: PreferredSize(
           child: Container(
-              color: context.theme.dividerColor.withOpacity(0.25),
-              height: 1.0,
-              child: appBar.bottom),
+            color: context.theme.dividerColor.withOpacity(0.25),
+            height: 1.0,
+            child: appBar.bottom,
+          ),
           preferredSize: Size.fromHeight(
-              (appBar.bottom?.preferredSize.height ?? 0.0) + 1.0),
+            (appBar.bottom?.preferredSize.height ?? 0.0) + 1.0,
+          ),
         ),
         elevation: 0,
         shadowColor: appBar.shadowColor,
@@ -788,19 +802,23 @@ class _UIScaffoldState extends State<UIScaffold> {
           subtitle: appBar.subtitle,
         ),
         actions: appBar.actions
-            ?.map((e) => IconTheme(
-                  data: IconThemeData(color: context.theme.textColor),
-                  child: e,
-                ))
+            ?.map(
+              (e) => IconTheme(
+                data: IconThemeData(color: context.theme.textColor),
+                child: e,
+              ),
+            )
             .toList(),
         flexibleSpace: appBar.flexibleSpace,
         bottom: PreferredSize(
           child: Container(
-              color: context.theme.dividerColor.withOpacity(0.25),
-              height: 1.0,
-              child: appBar.bottom),
+            color: context.theme.dividerColor.withOpacity(0.25),
+            height: 1.0,
+            child: appBar.bottom,
+          ),
           preferredSize: Size.fromHeight(
-              (appBar.bottom?.preferredSize.height ?? 0.0) + 1.0),
+            (appBar.bottom?.preferredSize.height ?? 0.0) + 1.0,
+          ),
         ),
         elevation: 0,
         shadowColor: appBar.shadowColor,
@@ -976,10 +994,12 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.titleTextStyle,
     this.systemOverlayStyle,
   })  : assert(elevation == null || elevation >= 0.0),
-        preferredSize = Size.fromHeight((toolbarHeight ??
-                kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)) +
-            (subToolbarHeight ??
-                (title != null ? _kSubToolbarHeight + 1.0 : 0.0))),
+        preferredSize = Size.fromHeight(
+          (toolbarHeight ??
+                  kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)) +
+              (subToolbarHeight ??
+                  (title != null ? _kSubToolbarHeight + 1.0 : 0.0)),
+        ),
         super(key: key);
 
   static const double _kSubToolbarHeight = 48;
@@ -1330,14 +1350,15 @@ class _WebAppLayoutState extends State<_WebAppLayout> {
 }
 
 class _WebModalView extends StatelessWidget {
-  const _WebModalView(
-      {required this.child,
-      this.width,
-      this.widthRatio,
-      this.height,
-      this.heightRatio,
-      this.close,
-      this.borderRadius = 16.0});
+  const _WebModalView({
+    required this.child,
+    this.width,
+    this.widthRatio,
+    this.height,
+    this.heightRatio,
+    this.close,
+    this.borderRadius = 16.0,
+  });
   final Widget child;
   final double? widthRatio;
   final double? heightRatio;

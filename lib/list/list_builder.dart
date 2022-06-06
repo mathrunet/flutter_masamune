@@ -1,7 +1,10 @@
 part of masamune.list;
 
 typedef ListBuilderCallback<T> = List<Widget>? Function(
-    BuildContext context, T item, int index);
+  BuildContext context,
+  T item,
+  int index,
+);
 
 class ListBuilder<T> extends StatelessWidget {
   const ListBuilder({

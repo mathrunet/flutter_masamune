@@ -209,9 +209,10 @@ class InlineNavigatorState extends NavigatorState {
 
   @override
   Future<T?> popAndPushNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
+    String routeName, {
+    TO? result,
+    Object? arguments,
+  }) =>
       super.popAndPushNamed<T, TO>(
         "${widget.prefix}$routeName${widget.suffix}",
         result: result,
@@ -219,8 +220,10 @@ class InlineNavigatorState extends NavigatorState {
       );
 
   @override
-  Future<T?> pushNamed<T extends Object?>(String routeName,
-          {Object? arguments}) =>
+  Future<T?> pushNamed<T extends Object?>(
+    String routeName, {
+    Object? arguments,
+  }) =>
       super.pushNamed<T>(
         "${widget.prefix}$routeName${widget.suffix}",
         arguments: arguments,
@@ -228,8 +231,10 @@ class InlineNavigatorState extends NavigatorState {
 
   @override
   Future<T?> pushNamedAndRemoveUntil<T extends Object?>(
-          String newRouteName, RoutePredicate predicate,
-          {Object? arguments}) =>
+    String newRouteName,
+    RoutePredicate predicate, {
+    Object? arguments,
+  }) =>
       super.pushNamedAndRemoveUntil<T>(
         "${widget.prefix}$newRouteName${widget.suffix}",
         predicate,
@@ -238,9 +243,10 @@ class InlineNavigatorState extends NavigatorState {
 
   @override
   Future<T?> pushReplacementNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
+    String routeName, {
+    TO? result,
+    Object? arguments,
+  }) =>
       super.pushReplacementNamed<T, TO>(
         "${widget.prefix}$routeName${widget.suffix}",
         result: result,
@@ -249,9 +255,10 @@ class InlineNavigatorState extends NavigatorState {
 
   @override
   String restorablePopAndPushNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
+    String routeName, {
+    TO? result,
+    Object? arguments,
+  }) =>
       super.restorablePopAndPushNamed<T, TO>(
         "${widget.prefix}$routeName${widget.suffix}",
         result: result,
@@ -259,8 +266,10 @@ class InlineNavigatorState extends NavigatorState {
       );
 
   @override
-  String restorablePushNamed<T extends Object?>(String routeName,
-          {Object? arguments}) =>
+  String restorablePushNamed<T extends Object?>(
+    String routeName, {
+    Object? arguments,
+  }) =>
       super.restorablePushNamed<T>(
         "${widget.prefix}$routeName${widget.suffix}",
         arguments: arguments,
@@ -268,8 +277,10 @@ class InlineNavigatorState extends NavigatorState {
 
   @override
   String restorablePushNamedAndRemoveUntil<T extends Object?>(
-          String newRouteName, RoutePredicate predicate,
-          {Object? arguments}) =>
+    String newRouteName,
+    RoutePredicate predicate, {
+    Object? arguments,
+  }) =>
       super.restorablePushNamedAndRemoveUntil<T>(
         "${widget.prefix}$newRouteName${widget.suffix}",
         predicate,
@@ -278,9 +289,10 @@ class InlineNavigatorState extends NavigatorState {
 
   @override
   String restorablePushReplacementNamed<T extends Object?, TO extends Object?>(
-          String routeName,
-          {TO? result,
-          Object? arguments}) =>
+    String routeName, {
+    TO? result,
+    Object? arguments,
+  }) =>
       super.restorablePushReplacementNamed<T, TO>(
         "${widget.prefix}$routeName${widget.suffix}",
         result: result,

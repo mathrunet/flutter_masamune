@@ -95,7 +95,11 @@ class ReorderableListBuilder<T> extends StatefulWidget {
   final Color? indicatorColor;
   final double loadingOpacity;
   final void Function(
-      int oldPosition, int newPosition, T item, List<T> reordered) onReorder;
+    int oldPosition,
+    int newPosition,
+    T item,
+    List<T> reordered,
+  ) onReorder;
 
   final int _topLength;
   final int _length;
@@ -212,9 +216,15 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
           } else {
             setState(() {
               _exchange(
-                  pos - widget.insert.length, npos - widget.insert.length);
-              widget.onReorder.call(pos - widget.insert.length,
-                  npos - widget.insert.length, item, _source);
+                pos - widget.insert.length,
+                npos - widget.insert.length,
+              );
+              widget.onReorder.call(
+                pos - widget.insert.length,
+                npos - widget.insert.length,
+                item,
+                _source,
+              );
             });
           }
         }

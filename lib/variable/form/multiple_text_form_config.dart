@@ -75,7 +75,9 @@ class MultipleTextFormConfig extends VariableFormConfig<List<String>>
         obscureText: obscureText,
         allowEmpty: !config.required,
         controller: ref.useTextEditingController(
-            config.id, data.getAsList(config.id, config.value).join(",")),
+          config.id,
+          data.getAsList(config.id, config.value).join(","),
+        ),
         onSaved: (value) {
           context[config.id] = value?.where((e) => e.isNotEmpty).toList() ?? [];
         },

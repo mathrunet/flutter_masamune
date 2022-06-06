@@ -101,7 +101,8 @@ class _VideoState extends State<Video> {
       switch (provider.runtimeType) {
         case FileVideoProvider:
           throw UnsupportedError(
-              "Video playback by passing [FileVideoProvider] is not supported on this platform.");
+            "Video playback by passing [FileVideoProvider] is not supported on this platform.",
+          );
         case NetworkVideoProvider:
           _controller = VideoPlayerController.network(
             (provider as NetworkVideoProvider).url,
@@ -202,23 +203,25 @@ class _VideoState extends State<Video> {
           VideoPlayer(_controller!)
         else
           FittedBox(
-              fit: widget.fit!,
-              child: SizedBox(
-                width: _controller!.value.size.width,
-                height: _controller!.value.size.height,
-                child: VideoPlayer(_controller!),
-              )),
+            fit: widget.fit!,
+            child: SizedBox(
+              width: _controller!.value.size.width,
+              height: _controller!.value.size.height,
+              child: VideoPlayer(_controller!),
+            ),
+          ),
         if (widget.controllable)
           Center(
             child: IconButton(
               iconSize: widget.iconSize,
               icon: Icon(
-                  _controller!.value.isPlaying
-                      ? Icons.pause_circle_filled
-                      : Icons.play_circle_filled,
-                  color: _controller!.value.isPlaying
-                      ? Colors.transparent
-                      : (widget.iconColor ?? context.theme.dividerColor)),
+                _controller!.value.isPlaying
+                    ? Icons.pause_circle_filled
+                    : Icons.play_circle_filled,
+                color: _controller!.value.isPlaying
+                    ? Colors.transparent
+                    : (widget.iconColor ?? context.theme.dividerColor),
+              ),
               onPressed: () {
                 if (_controller!.value.isPlaying) {
                   _controller!.pause();

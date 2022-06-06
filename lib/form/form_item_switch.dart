@@ -1,29 +1,29 @@
 part of masamune.form;
 
 class FormItemSwitch extends FormField<bool> {
-  FormItemSwitch(
-      {this.controller,
-      this.leading,
-      this.dense = false,
-      this.backgroundColor,
-      this.borderColor,
-      this.color,
-      this.type = FormItemSwitchType.form,
-      this.onChanged,
-      this.activeColor,
-      this.activeTrackColor,
-      this.inactiveThumbColor,
-      this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 4.5),
-      this.margin,
-      this.inactiveTrackColor,
-      this.hintText,
-      this.labelText,
-      Key? key,
-      void Function(bool? value)? onSaved,
-      String? Function(bool? value)? validator,
-      bool? initialValue,
-      bool enabled = true})
-      : super(
+  FormItemSwitch({
+    this.controller,
+    this.leading,
+    this.dense = false,
+    this.backgroundColor,
+    this.borderColor,
+    this.color,
+    this.type = FormItemSwitchType.form,
+    this.onChanged,
+    this.activeColor,
+    this.activeTrackColor,
+    this.inactiveThumbColor,
+    this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 4.5),
+    this.margin,
+    this.inactiveTrackColor,
+    this.hintText,
+    this.labelText,
+    Key? key,
+    void Function(bool? value)? onSaved,
+    String? Function(bool? value)? validator,
+    bool? initialValue,
+    bool enabled = true,
+  }) : super(
           key: key,
           builder: (state) {
             return const Empty();
@@ -129,10 +129,12 @@ class _FormItemSwitchState extends FormFieldState<bool> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    UIMarkdown(widget.labelText ?? "",
-                        color: widget.enabled
-                            ? widget.color
-                            : Theme.of(context).disabledColor),
+                    UIMarkdown(
+                      widget.labelText ?? "",
+                      color: widget.enabled
+                          ? widget.color
+                          : Theme.of(context).disabledColor,
+                    ),
                     if (errorText.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
@@ -145,21 +147,23 @@ class _FormItemSwitchState extends FormFieldState<bool> {
                 ),
               ),
               Flexible(
-                  flex: 1,
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Switch(
-                        value: value ?? false,
-                        activeColor: widget.activeColor,
-                        activeTrackColor: widget.activeTrackColor,
-                        inactiveThumbColor: widget.inactiveThumbColor,
-                        inactiveTrackColor: widget.inactiveTrackColor,
-                        onChanged: (bool value) {
-                          setValue(value);
-                          widget.onChanged?.call(value);
-                          setState(() {});
-                        },
-                      )))
+                flex: 1,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Switch(
+                    value: value ?? false,
+                    activeColor: widget.activeColor,
+                    activeTrackColor: widget.activeTrackColor,
+                    inactiveThumbColor: widget.inactiveThumbColor,
+                    inactiveTrackColor: widget.inactiveTrackColor,
+                    onChanged: (bool value) {
+                      setValue(value);
+                      widget.onChanged?.call(value);
+                      setState(() {});
+                    },
+                  ),
+                ),
+              )
             ],
           ),
         );

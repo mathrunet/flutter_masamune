@@ -58,8 +58,11 @@ class CalendarBuilders {
 
   /// Builder for markers.
   final List<Widget> Function(
-          BuildContext context, DateTime date, List events, List holidays)?
-      markersBuilder;
+    BuildContext context,
+    DateTime date,
+    List events,
+    List holidays,
+  )? markersBuilder;
 
   /// Builder for creating a single marker.
   final Widget Function(BuildContext context, DateTime? date, dynamic event)?

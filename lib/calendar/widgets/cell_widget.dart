@@ -43,13 +43,19 @@ class _CellWidget extends StatelessWidget {
         calendarStyle.renderSelectedFirst &&
         calendarStyle.highlightSelected) {
       return BoxDecoration(
-          shape: BoxShape.circle, color: calendarStyle.selectedColor);
+        shape: BoxShape.circle,
+        color: calendarStyle.selectedColor,
+      );
     } else if (isToday && calendarStyle.highlightToday) {
       return BoxDecoration(
-          shape: BoxShape.circle, color: calendarStyle.todayColor);
+        shape: BoxShape.circle,
+        color: calendarStyle.todayColor,
+      );
     } else if (isSelected && calendarStyle.highlightSelected) {
       return BoxDecoration(
-          shape: BoxShape.circle, color: calendarStyle.selectedColor);
+        shape: BoxShape.circle,
+        color: calendarStyle.selectedColor,
+      );
     } else {
       return const BoxDecoration(shape: BoxShape.circle);
     }

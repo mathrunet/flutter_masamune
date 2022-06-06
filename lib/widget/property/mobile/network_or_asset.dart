@@ -48,8 +48,10 @@ class NetworkOrAsset {
   /// [uri] is if it starts with http, get a network video,
   /// otherwise get an asset image.
   /// [defaultURI] is the path to be read from the asset when [uri] is empty.
-  static VideoProvider video(String uri,
-      [String defaultURI = "assets/default.mp4"]) {
+  static VideoProvider video(
+    String uri, [
+    String defaultURI = "assets/default.mp4",
+  ]) {
     if (uri.isEmpty) {
       return AssetVideoProvider(defaultURI);
     }
@@ -137,7 +139,9 @@ class ImageMemoryCache {
   }
 
   static ImageStreamCompleter _setCache(
-      String? key, ImageStreamCompleter completer) {
+    String? key,
+    ImageStreamCompleter completer,
+  ) {
     if (!Config.isInitialized || key.isEmpty) {
       return completer;
     }
@@ -179,7 +183,9 @@ class _MemoizedCachedNetworkImageProvider
 
   @override
   ImageStreamCompleter load(
-      CachedNetworkImageProvider key, DecoderCallback decode) {
+    CachedNetworkImageProvider key,
+    DecoderCallback decode,
+  ) {
     final cache = ImageMemoryCache._getCache(key.cacheKey);
     if (cache != null) {
       return cache;

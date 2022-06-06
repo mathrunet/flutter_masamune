@@ -45,11 +45,15 @@ class UIAppBar extends StatelessWidget {
     this.sliverLayoutWhenModernDesign = true,
     this.background,
     this.scrollStyle = UIAppBarScrollStyle.pinned,
-  })  : assert(floating || !snap,
-            'The "snap" argument only makes sense for floating app bars.'),
+  })  : assert(
+          floating || !snap,
+          'The "snap" argument only makes sense for floating app bars.',
+        ),
         assert(stretchTriggerOffset > 0.0),
-        assert(collapsedHeight == null || collapsedHeight >= toolbarHeight,
-            'The "collapsedHeight" argument has to be larger than or equal to [toolbarHeight].'),
+        assert(
+          collapsedHeight == null || collapsedHeight >= toolbarHeight,
+          'The "collapsedHeight" argument has to be larger than or equal to [toolbarHeight].',
+        ),
         super(key: key);
 
   final DesignType? designType;
@@ -433,12 +437,11 @@ class UIAppBar extends StatelessWidget {
                   ),
                   background: background,
                   titlePadding: EdgeInsets.fromLTRB(
-                      padding.left + (hasLeading ? (leadingWidth ?? 36) : 0),
-                      padding.top,
-                      padding.right,
-                      padding.bottom +
-                          (subtitle != null ? 8 : 16) +
-                          bottomHeight),
+                    padding.left + (hasLeading ? (leadingWidth ?? 36) : 0),
+                    padding.top,
+                    padding.right,
+                    padding.bottom + (subtitle != null ? 8 : 16) + bottomHeight,
+                  ),
                   centerTitle: false,
                 ),
             bottom: bottom,

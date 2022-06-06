@@ -75,16 +75,18 @@ class UIDialog {
   /// [disableBackKey]: True to disable the back key.
   /// [popOnPress]: True if the dialog should be closed together when the button is pressed.
   /// [willShowRepetition]: True if the dialog will continue to be displayed unless you press the regular close button.
-  static Future<void> show(BuildContext context,
-      {String submitText = "OK",
-      Color? backgroundColor,
-      Color? color,
-      required String title,
-      required String text,
-      VoidCallback? onSubmit,
-      bool disableBackKey = false,
-      bool popOnPress = true,
-      bool willShowRepetition = false}) async {
+  static Future<void> show(
+    BuildContext context, {
+    String submitText = "OK",
+    Color? backgroundColor,
+    Color? color,
+    required String title,
+    required String text,
+    VoidCallback? onSubmit,
+    bool disableBackKey = false,
+    bool popOnPress = true,
+    bool willShowRepetition = false,
+  }) async {
     bool clicked = false;
     final overlay = context.navigator.overlay;
     if (overlay == null) {

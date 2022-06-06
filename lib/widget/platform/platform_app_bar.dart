@@ -39,12 +39,14 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.titleTextStyle,
     this.systemOverlayStyle,
   })  : assert(elevation == null || elevation >= 0.0),
-        preferredSize = Size.fromHeight((toolbarHeight ??
-                kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)) +
-            (subToolbarHeight ??
-                (!Config.isMobile && title != null
-                    ? kSubToolbarHeight + 1.0
-                    : 0.0))),
+        preferredSize = Size.fromHeight(
+          (toolbarHeight ??
+                  kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)) +
+              (subToolbarHeight ??
+                  (!Config.isMobile && title != null
+                      ? kSubToolbarHeight + 1.0
+                      : 0.0)),
+        ),
         super(key: key);
 
   /// {@template flutter.material.appbar.leading}

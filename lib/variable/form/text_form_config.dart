@@ -61,7 +61,9 @@ class TextFormConfig<T> extends VariableFormConfig<T>
     bool onlyRequired = false,
   }) {
     final controller = ref.useTextEditingController(
-        config.id, data.get(config.id, config.value).toString());
+      config.id,
+      data.get(config.id, config.value).toString(),
+    );
     return [
       if (config.label.isNotEmpty)
         DividHeadline(

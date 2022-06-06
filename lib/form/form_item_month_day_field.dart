@@ -32,8 +32,11 @@ class FormItemMonthDayField extends StatefulWidget implements FormItem {
         _onShowPicker = onShowPicker;
 
   /// Calculate formatted DateTime string from [millisecondsSinceEpoch].
-  static String tryFormat(int millisecondsSinceEpoch,
-      {String format = "MM/dd", String defaultValue = ""}) {
+  static String tryFormat(
+    int millisecondsSinceEpoch, {
+    String format = "MM/dd",
+    String defaultValue = "",
+  }) {
     if (format.isEmpty || millisecondsSinceEpoch < 0) {
       return defaultValue;
     }
@@ -42,8 +45,11 @@ class FormItemMonthDayField extends StatefulWidget implements FormItem {
   }
 
   /// Converts a string with only date and time information to DateTime.
-  static DateTime? tryParse(String formattedString,
-      {DateTime? defaultValue, String format = r"([0-9]+)/([0-9]+)"}) {
+  static DateTime? tryParse(
+    String formattedString, {
+    DateTime? defaultValue,
+    String format = r"([0-9]+)/([0-9]+)",
+  }) {
     if (formattedString.isEmpty || format.isEmpty) {
       return defaultValue;
     }
@@ -100,7 +106,8 @@ class FormItemMonthDayField extends StatefulWidget implements FormItem {
                 text: Text(
                   "${month.format(monthFormat)}$monthSuffix",
                   style: TextStyle(
-                      color: color ?? context.theme.textColorOnSurface),
+                    color: color ?? context.theme.textColorOnSurface,
+                  ),
                 ),
                 value: m + 1,
                 children: List.generate(
@@ -109,7 +116,8 @@ class FormItemMonthDayField extends StatefulWidget implements FormItem {
                     text: Text(
                       "${(d + 1).format("00")}$daySuffix",
                       style: TextStyle(
-                          color: color ?? context.theme.textColorOnSurface),
+                        color: color ?? context.theme.textColorOnSurface,
+                      ),
                     ),
                     value: d + 1,
                   ),
@@ -234,17 +242,23 @@ class _FormItemMonthDayFieldState extends State<FormItemMonthDayField> {
                   : null),
           filled: widget.backgroundColor != null,
           border: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           enabledBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           disabledBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           errorBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           focusedBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: widget.dense ? BorderSide.none : const BorderSide()),
+            borderSide: widget.dense ? BorderSide.none : const BorderSide(),
+          ),
           hintText: widget.hintText,
           counterText: widget.counterText,
           labelText: widget.labelText,
@@ -318,64 +332,66 @@ class _MonthDayTextField extends FormField<DateTime> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-            key: key,
-            initialValue: initialValue,
-            enabled: enabled,
-            validator: validator,
-            onSaved: onSaved,
-            builder: (field) {
-              final _MonthDayTextFieldState state =
-                  field as _MonthDayTextFieldState;
-              final InputDecoration effectiveDecoration = decoration
-                  .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-              return TextField(
-                mouseCursor: SystemMouseCursors.click,
-                controller: state._effectiveController ??
-                    TextEditingController(
-                        text: state.value != null
-                            ? state.value!.format(state.widget.format)
-                            : null),
-                focusNode: state._effectiveFocusNode,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: field.errorText,
-                  suffixIcon: showResetButton &&
-                          state.shouldShowClearIcon(effectiveDecoration)
-                      ? IconButton(
-                          icon: resetIcon,
-                          color: field.context.theme.textColor,
-                          onPressed: state.clear,
-                        )
-                      : null,
-                ),
-                keyboardType: keyboardType,
-                textInputAction: textInputAction,
-                style: style,
-                strutStyle: strutStyle,
-                textAlign: textAlign,
-                textCapitalization: textCapitalization,
-                autofocus: autofocus,
-                readOnly: true,
-                showCursor: showCursor,
-                obscureText: obscureText,
-                autocorrect: autocorrect,
-                maxLines: maxLines,
-                minLines: minLines,
-                expands: expands,
-                maxLength: maxLength,
-                onChanged: (text) => field.didChange(state.parse(text)),
-                onEditingComplete: onEditingComplete,
-                onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
-                inputFormatters: inputFormatters,
-                enabled: enabled,
-                cursorWidth: cursorWidth,
-                cursorRadius: cursorRadius,
-                cursorColor: cursorColor,
-                scrollPadding: scrollPadding,
-                keyboardAppearance: keyboardAppearance,
-                enableInteractiveSelection: enableInteractiveSelection,
-                buildCounter: buildCounter,
-              );
-            });
+          key: key,
+          initialValue: initialValue,
+          enabled: enabled,
+          validator: validator,
+          onSaved: onSaved,
+          builder: (field) {
+            final _MonthDayTextFieldState state =
+                field as _MonthDayTextFieldState;
+            final InputDecoration effectiveDecoration = decoration
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            return TextField(
+              mouseCursor: SystemMouseCursors.click,
+              controller: state._effectiveController ??
+                  TextEditingController(
+                    text: state.value != null
+                        ? state.value!.format(state.widget.format)
+                        : null,
+                  ),
+              focusNode: state._effectiveFocusNode,
+              decoration: effectiveDecoration.copyWith(
+                errorText: field.errorText,
+                suffixIcon: showResetButton &&
+                        state.shouldShowClearIcon(effectiveDecoration)
+                    ? IconButton(
+                        icon: resetIcon,
+                        color: field.context.theme.textColor,
+                        onPressed: state.clear,
+                      )
+                    : null,
+              ),
+              keyboardType: keyboardType,
+              textInputAction: textInputAction,
+              style: style,
+              strutStyle: strutStyle,
+              textAlign: textAlign,
+              textCapitalization: textCapitalization,
+              autofocus: autofocus,
+              readOnly: true,
+              showCursor: showCursor,
+              obscureText: obscureText,
+              autocorrect: autocorrect,
+              maxLines: maxLines,
+              minLines: minLines,
+              expands: expands,
+              maxLength: maxLength,
+              onChanged: (text) => field.didChange(state.parse(text)),
+              onEditingComplete: onEditingComplete,
+              onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
+              inputFormatters: inputFormatters,
+              enabled: enabled,
+              cursorWidth: cursorWidth,
+              cursorRadius: cursorRadius,
+              cursorColor: cursorColor,
+              scrollPadding: scrollPadding,
+              keyboardAppearance: keyboardAppearance,
+              enableInteractiveSelection: enableInteractiveSelection,
+              buildCounter: buildCounter,
+            );
+          },
+        );
 
   /// For representing the date as a string e.g.
   /// `DateFormat("EEEE, MMMM d, yyyy 'at' h:mma")`

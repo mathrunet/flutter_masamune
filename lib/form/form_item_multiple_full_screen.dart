@@ -23,8 +23,10 @@ class FormItemMultipleFullScreen extends FormField<List<DynamicMap>> {
     List<DynamicMap>? initialValue,
     bool enabled = true,
   })  : _builder = builder,
-        assert(minItems == null || (minItems != null && hintText.isNotEmpty),
-            "When specifying [minItems], please write [hintText]."),
+        assert(
+          minItems == null || hintText.isNotEmpty,
+          "When specifying [minItems], please write [hintText].",
+        ),
         super(
           key: key,
           builder: (state) {
@@ -187,8 +189,9 @@ class _FormItemMultipleFullScreenState
                     title: Text(
                       widget.hintText ?? "",
                       style: TextStyle(
-                          color: widget.color?.withOpacity(0.5) ??
-                              context.theme.disabledColor),
+                        color: widget.color?.withOpacity(0.5) ??
+                            context.theme.disabledColor,
+                      ),
                     ),
                     onTap: () {
                       _onEdit(index, item);

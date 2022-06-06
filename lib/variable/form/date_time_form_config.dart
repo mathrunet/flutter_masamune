@@ -106,13 +106,16 @@ class DateTimeFormConfig extends VariableFormConfig<int>
     switch (type) {
       case DateTimeFormConfigType.date:
         return FormItemDateTimeField.formatDate(
-            dateTime.millisecondsSinceEpoch);
+          dateTime.millisecondsSinceEpoch,
+        );
       case DateTimeFormConfigType.time:
         return FormItemDateTimeField.formatTime(
-            dateTime.millisecondsSinceEpoch);
+          dateTime.millisecondsSinceEpoch,
+        );
       default:
         return FormItemDateTimeField.formatDateTime(
-            dateTime.millisecondsSinceEpoch);
+          dateTime.millisecondsSinceEpoch,
+        );
     }
   }
 

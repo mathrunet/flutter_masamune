@@ -80,8 +80,10 @@ extension NetworkOrAssetDynamicMapExtensions on DynamicMap {
     return NetworkOrAsset.image(uri, size, defaultURI);
   }
 
-  VideoProvider getAsVideo(String key,
-      [String defaultURI = "assets/default.mp4"]) {
+  VideoProvider getAsVideo(
+    String key, [
+    String defaultURI = "assets/default.mp4",
+  ]) {
     final uri = get(key, "");
     return NetworkOrAsset.video(uri, defaultURI);
   }

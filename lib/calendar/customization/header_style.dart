@@ -13,10 +13,11 @@ class HeaderStyle {
     this.formatButtonTextStyle = const TextStyle(),
     this.formatButtonDecoration = const BoxDecoration(
       border: Border(
-          top: BorderSide(),
-          bottom: BorderSide(),
-          left: BorderSide(),
-          right: BorderSide()),
+        top: BorderSide(),
+        bottom: BorderSide(),
+        left: BorderSide(),
+        right: BorderSide(),
+      ),
       borderRadius: BorderRadius.all(Radius.circular(12.0)),
     ),
     this.headerMargin,
