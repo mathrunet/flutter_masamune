@@ -435,6 +435,7 @@ class _DurationTextField extends FormField<Duration> {
     this.resetIcon = const Icon(Icons.close),
     this.onChanged,
     this.controller,
+    // ignore: unused_element
     this.focusNode,
     bool showResetButton = true,
     InputDecoration decoration = const InputDecoration(),
@@ -726,7 +727,7 @@ class _DurationTextFieldState extends FormFieldState<Duration> {
       return;
     }
     _hideKeyboard();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _effectiveController?.clear());
     });
   }

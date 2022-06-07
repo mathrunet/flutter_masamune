@@ -303,6 +303,7 @@ class _MonthDayTextField extends FormField<DateTime> {
     this.resetIcon = const Icon(Icons.close),
     this.onChanged,
     this.controller,
+    // ignore: unused_element
     this.focusNode,
     InputDecoration decoration = const InputDecoration(),
     TextInputType? keyboardType,
@@ -586,7 +587,7 @@ class _MonthDayTextFieldState extends FormFieldState<DateTime> {
       return;
     }
     _hideKeyboard();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _effectiveController?.clear());
     });
   }

@@ -181,7 +181,7 @@ class _UITextState extends State<UIText> {
               context.navigator.pushNamed(url);
             }
           },
-      onLongPress: widget.onLongPress ?? (url) => Share.share(url),
+      onLongPress: widget.onLongPress ?? (url) => share(text: url),
     );
   }
 }

@@ -121,11 +121,11 @@ class ImageMemoryCache {
 
     if (bytes.lengthInBytes == 0) {
       // The file may become available later.
-      PaintingBinding.instance!.imageCache!.evict(url);
+      PaintingBinding.instance.imageCache.evict(url);
       throw StateError('$file is empty and cannot be loaded as an image.');
     }
 
-    return PaintingBinding.instance!.instantiateImageCodec(bytes);
+    return PaintingBinding.instance.instantiateImageCodec(bytes);
   }
 
   static ImageStreamCompleter? _getCache(String? key) {

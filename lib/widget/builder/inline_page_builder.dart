@@ -370,7 +370,7 @@ class InternalNavigatorObserver extends NavigatorObserver {
       _current = newRoute;
     } else {
       _current = newRoute;
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         _listener.forEach((element) => element.call());
       });
     }
@@ -389,7 +389,7 @@ class InternalNavigatorObserver extends NavigatorObserver {
       _current = route;
     } else {
       _current = route;
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         _listener.forEach((element) => element.call());
       });
     }
@@ -408,7 +408,7 @@ class InternalNavigatorObserver extends NavigatorObserver {
       _current = previousRoute;
     } else {
       _current = previousRoute;
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         _listener.forEach((element) => element.call());
       });
     }
