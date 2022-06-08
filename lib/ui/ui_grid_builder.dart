@@ -314,7 +314,7 @@ class UIGridBuilder<T> extends StatelessWidget {
     if (alwaysShowScrollbar || !Config.isMobile) {
       return Scrollbar(
         child: _scollView(context),
-        isAlwaysShown: true,
+        thumbVisibility: true,
       );
     } else {
       return _scollView(context);

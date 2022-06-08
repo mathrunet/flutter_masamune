@@ -99,15 +99,21 @@ class _TableCalendar extends StatefulWidget {
     this.holidays = const {},
     this.onDaySelected,
     this.onDayLongPressed,
+    // ignore: unused_element
     this.onUnavailableDaySelected,
+    // ignore: unused_element
     this.onUnavailableDayLongPressed,
+    // ignore: unused_element
     this.onHeaderTapped,
+    // ignore: unused_element
     this.onHeaderLongPressed,
     this.calendarContentBorder,
     this.onVisibleDaysChanged,
     this.onCalendarCreated,
     this.initialSelectedDay,
+    // ignore: unused_element
     this.startDay,
+    // ignore: unused_element
     this.endDay,
     this.expand = false,
     this.heightOfDayOfWeekLabel = 20,
@@ -118,13 +124,18 @@ class _TableCalendar extends StatefulWidget {
       CalendarFormat.twoWeeks: '2 weeks',
       CalendarFormat.week: 'Week',
     },
+    // ignore: unused_element
     this.headerVisible = true,
+    // ignore: unused_element
     this.enabledDayPredicate,
+    // ignore: unused_element
     this.rowHeight,
     this.formatAnimation = FormatAnimation.slide,
     this.startingDayOfWeek = StartingDayOfWeek.sunday,
+    // ignore: unused_element
     this.dayHitTestBehavior = HitTestBehavior.deferToChild,
     this.availableGestures = AvailableGestures.all,
+    // ignore: unused_element
     this.simpleSwipeConfig = const SimpleSwipeConfig(
       verticalThreshold: 25.0,
       swipeDetectionBehavior: SwipeDetectionBehavior.continuousDistinct,

@@ -1352,11 +1352,15 @@ class _WebAppLayoutState extends State<_WebAppLayout> {
 class _WebModalView extends StatelessWidget {
   const _WebModalView({
     required this.child,
+    // ignore: unused_element
     this.width,
     this.widthRatio,
+    // ignore: unused_element
     this.height,
     this.heightRatio,
+    // ignore: unused_element
     this.close,
+    // ignore: unused_element
     this.borderRadius = 16.0,
   });
   final Widget child;

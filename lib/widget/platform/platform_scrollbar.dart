@@ -12,7 +12,7 @@ class PlatformScrollbar extends StatelessWidget {
       return child;
     } else {
       return Scrollbar(
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: child,
       );
     }
