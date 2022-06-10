@@ -344,4 +344,16 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   /// Returns the ID of the currently active provider.
   @override
   List<String> get activeProviders => const [];
+
+  /// Export the currently used data to [fileName].
+  @override
+  Future<void> exportDatabase(String fileName) {
+    return LocalDatabase.export(fileName);
+  }
+
+  /// Import the data stored in [fileName] into the database you are currently using.
+  @override
+  Future<void> importDatabase(String fileName) {
+    return LocalDatabase.import(fileName);
+  }
 }
