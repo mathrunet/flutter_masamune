@@ -341,9 +341,9 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   @override
   Future<void> signInSMS({required String smsCode}) => Future.value();
 
-  /// Returns the ID of the currently active provider.
+  /// Returns the ID of the currently active sign-in provider.
   @override
-  List<String> get activeProviders => const [];
+  List<String> get activeSignInProviders => const [];
 
   /// Export the currently used data to [fileName].
   @override

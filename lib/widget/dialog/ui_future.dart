@@ -39,28 +39,33 @@ class _UIFuture {
 }
 
 /// Extension methods for UIFuture.
-extension UIFutureExtension<T> on Future<T> {
+extension UIFutureOrExtension<T> on FutureOr<T> {
   /// Show indicator and dialog.
   ///
   /// Display an indicator if you are waiting for the task to end.
   ///
   /// [context]: Build context.
   /// [actionOnFinish]: Action after the task is finished.
-  Future<T?> showIndicator(
+  FutureOr<T?> showIndicator(
     BuildContext context, {
     Color? barrierColor = Colors.black54,
     void Function(T? value)? actionOnFinish,
   }) async {
-    // FIXME: 動作がおかしくなるようであれば修正
-    // await Future<void>.delayed(Duration.zero);
-    _UIFuture.show<T>(
-      context,
-      this,
-      actionOnFinish: actionOnFinish,
-      barrierColor: barrierColor,
-    );
-    final value = await this;
-    await Future<void>.delayed(Duration.zero);
-    return value;
+    final futureOr = this;
+    if (futureOr is Future<T>) {
+      // FIXME: 動作がおかしくなるようであれば修正
+      // await Future<void>.delayed(Duration.zero);
+      _UIFuture.show<T>(
+        context,
+        futureOr,
+        actionOnFinish: actionOnFinish,
+        barrierColor: barrierColor,
+      );
+      final value = await this;
+      await Future<void>.delayed(Duration.zero);
+      return value;
+    } else {
+      return await this;
+    }
   }
 }

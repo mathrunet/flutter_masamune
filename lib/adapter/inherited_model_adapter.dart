@@ -349,9 +349,9 @@ class InheritedModelAdapter<
   Future<void> signInSMS({required String smsCode}) =>
       adapter.signInSMS(smsCode: smsCode);
 
-  /// Returns the ID of the currently active provider.
+  /// Returns the ID of the currently active sign-in provider.
   @override
-  List<String> get activeProviders => adapter.activeProviders;
+  List<String> get activeSignInProviders => adapter.activeSignInProviders;
 
   /// Export the currently used data to [fileName].
   @override
