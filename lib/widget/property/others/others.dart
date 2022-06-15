@@ -10,3 +10,4 @@ import 'package:flutter/src/painting/_network_image_web.dart' as network_image;
 import 'package:masamune/masamune.dart';
 
 part 'network_or_asset.dart';
+part 'local_file_storage.dart';

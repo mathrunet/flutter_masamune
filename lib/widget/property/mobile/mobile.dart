@@ -17,3 +17,4 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart'
 import 'package:masamune/masamune.dart';
 
 part "network_or_asset.dart";
+part "local_file_storage.dart";

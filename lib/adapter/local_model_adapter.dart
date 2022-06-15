@@ -146,7 +146,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   /// Upload your media.
   @override
   Future<String> uploadMedia(String path) async {
-    return path;
+    return LocalFileStorage.upload(path);
   }
 
   /// Return true If authentication is enabled.
