@@ -99,6 +99,7 @@ class ListCard extends StatelessWidget {
             Padding(
               padding: contentPadding,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (leading != null) ...[
                     leading!,
