@@ -18,9 +18,12 @@ class UITopNavigationBar extends StatefulWidget {
     this.selectedItemColor,
     this.unselectedItemColor,
     this.selectedItemTextColor,
+    this.builder,
     this.unselectedItemTextColor,
     this.showSelectedLabels = true,
     this.contentPadding = const EdgeInsets.symmetric(horizontal: 4),
+    this.dividerColor,
+    this.dividerSize = 1.0,
   }) : super(key: key);
 
   final List<UITopNavigationBarItem> items;
@@ -39,6 +42,10 @@ class UITopNavigationBar extends StatefulWidget {
   final double height;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry contentPadding;
+  final Color? dividerColor;
+  final double dividerSize;
+  final Widget Function(
+      UITopNavigationBarItem item, bool selected, VoidCallback onTap)? builder;
 
   @override
   State<StatefulWidget> createState() => _UITopNavigationBarState();
@@ -142,42 +149,50 @@ class _UITopNavigationBarState extends State<UITopNavigationBar>
                   if (!widget.showSelectedLabels && selected) {
                     return null;
                   }
+                  final internalIndex = index;
                   index++;
+                  final onTap = () {
+                    if (widget.items.length <= internalIndex ||
+                        internalIndex < 0) {
+                      return;
+                    }
+                    if (selected) {
+                      e.onTapWhenInitialIndex?.call();
+                      if (widget.disableOnTapWhenInitialIndex) {
+                        return;
+                      }
+                    }
+                    e.onTap?.call();
+                  };
                   return Flexible(
                     flex: 1,
                     child: Padding(
                       padding: widget.contentPadding,
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          shape: const StadiumBorder(),
-                          backgroundColor: selected
-                              ? (widget.selectedItemColor ??
-                                  context.theme.primaryColor)
-                              : widget.unselectedItemColor,
-                          padding: const EdgeInsets.all(0),
-                        ),
-                        onPressed: () {
-                          if (widget.items.length <= index || index < 0) {
-                            return;
-                          }
-                          if (selected) {
-                            e.onTapWhenInitialIndex?.call();
-                            if (widget.disableOnTapWhenInitialIndex) {
-                              return;
-                            }
-                          }
-                          e.onTap?.call();
-                        },
-                        child: DefaultTextStyle.merge(
-                          style: TextStyle(
-                            color: selected
-                                ? (widget.selectedItemTextColor ??
-                                    context.theme.colorScheme.onPrimary)
-                                : widget.unselectedItemTextColor,
+                      child: widget.builder?.call(
+                            e,
+                            selected,
+                            onTap,
+                          ) ??
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              shape: const StadiumBorder(),
+                              backgroundColor: selected
+                                  ? (widget.selectedItemColor ??
+                                      context.theme.primaryColor)
+                                  : widget.unselectedItemColor,
+                              padding: const EdgeInsets.all(0),
+                            ),
+                            onPressed: onTap,
+                            child: DefaultTextStyle.merge(
+                              style: TextStyle(
+                                color: selected
+                                    ? (widget.selectedItemTextColor ??
+                                        context.theme.colorScheme.onPrimary)
+                                    : widget.unselectedItemTextColor,
+                              ),
+                              child: e.title,
+                            ),
                           ),
-                          child: e.title,
-                        ),
-                      ),
                     ),
                   );
                 },
@@ -185,7 +200,7 @@ class _UITopNavigationBarState extends State<UITopNavigationBar>
             ],
           ),
         ),
-        const Divid(),
+        Divider(height: widget.dividerSize, color: widget.dividerColor),
       ],
     );
   }
