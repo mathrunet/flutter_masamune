@@ -6,7 +6,7 @@ class ListCard extends StatelessWidget {
     this.feature,
     this.featureBackgroundColor,
     this.featureBackgroundImage,
-    this.margin = const EdgeInsets.symmetric(vertical: 10),
+    this.margin = const EdgeInsets.symmetric(vertical: 8),
     this.elevation = 8,
     this.icon,
     this.onIconTap,
@@ -19,9 +19,10 @@ class ListCard extends StatelessWidget {
     this.onButtonTap,
     this.radius = 4.0,
     this.foregroundColor,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
     this.bottom,
     this.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
   });
 
   final Color? foregroundColor;
@@ -62,6 +63,8 @@ class ListCard extends StatelessWidget {
 
   final Widget? bottom;
 
+  final CrossAxisAlignment crossAxisAlignment;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -75,6 +78,7 @@ class ListCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (feature != null ||
                 featureBackgroundColor != null ||
@@ -99,7 +103,7 @@ class ListCard extends StatelessWidget {
             Padding(
               padding: contentPadding,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: crossAxisAlignment,
                 children: [
                   if (leading != null) ...[
                     leading!,
