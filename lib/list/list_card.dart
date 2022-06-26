@@ -83,22 +83,24 @@ class ListCard extends StatelessWidget {
             if (feature != null ||
                 featureBackgroundColor != null ||
                 featureBackgroundImage != null)
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(radius),
-                    topRight: Radius.circular(radius),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(radius),
+                      topRight: Radius.circular(radius),
+                    ),
+                    image: featureBackgroundImage != null
+                        ? DecorationImage(
+                            image: featureBackgroundImage!,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                    color: featureBackgroundColor,
                   ),
-                  image: featureBackgroundImage != null
-                      ? DecorationImage(
-                          image: featureBackgroundImage!,
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                  color: featureBackgroundColor,
+                  constraints: BoxConstraints.expand(height: height),
+                  child: feature,
                 ),
-                constraints: BoxConstraints.expand(height: height),
-                child: feature,
               ),
             Padding(
               padding: contentPadding,
