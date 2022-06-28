@@ -49,4 +49,5 @@ part 'reorderable_list_builder.dart';
 part 'right_button.dart';
 part 'small_gallery.dart';
 part 'small_headline.dart';
+part 'next_button.dart';
 part 'small_list_card.dart';
