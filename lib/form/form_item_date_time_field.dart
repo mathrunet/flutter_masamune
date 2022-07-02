@@ -17,6 +17,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     this.prefix,
     this.suffix,
     this.errorText,
+    this.textAlign = TextAlign.start,
     this.allowEmpty = false,
     this.readOnly = false,
     this.obscureText = false,
@@ -236,6 +237,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final Widget? suffix;
   final bool readOnly;
   final String? pickerLabelText;
+  final TextAlign textAlign;
   final bool allowEmpty;
   final bool obscureText;
   final Color? backgroundColor;
@@ -368,6 +370,7 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
         style: Config.isIOS ? const TextStyle(fontSize: 13) : null,
         obscureText: widget.obscureText,
         readOnly: widget.readOnly,
+        textAlign: widget.textAlign,
         format: widget.format,
         validator: (value) {
           if (!widget.allowEmpty &&

@@ -21,6 +21,7 @@ class FormItemMonthDayField extends StatefulWidget implements FormItem {
     this.obscureText = false,
     this.showResetButton = true,
     this.validator,
+    this.textAlign = TextAlign.start,
     this.onChanged,
     this.onEditingComplete,
     this.contentPadding,
@@ -147,6 +148,7 @@ class FormItemMonthDayField extends StatefulWidget implements FormItem {
   final String? hintText;
   final String? errorText;
   final String? labelText;
+  final TextAlign textAlign;
   final String? counterText;
   final Widget? prefix;
   final Widget? suffix;
@@ -267,6 +269,7 @@ class _FormItemMonthDayFieldState extends State<FormItemMonthDayField> {
         ),
         style: Config.isIOS ? const TextStyle(fontSize: 13) : null,
         obscureText: widget.obscureText,
+        textAlign: widget.textAlign,
         readOnly: widget.readOnly,
         format: widget.format,
         validator: (value) {
@@ -364,10 +367,10 @@ class _MonthDayTextField extends FormField<DateTime> {
                     : null,
               ),
               keyboardType: keyboardType,
+              textAlign: textAlign,
               textInputAction: textInputAction,
               style: style,
               strutStyle: strutStyle,
-              textAlign: textAlign,
               textCapitalization: textCapitalization,
               autofocus: autofocus,
               readOnly: true,

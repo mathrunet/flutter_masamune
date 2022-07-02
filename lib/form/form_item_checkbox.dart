@@ -19,6 +19,7 @@ class FormItemCheckbox extends FormField<bool> {
     this.labelText,
     this.needToCheck = false,
     this.linkTextStyle,
+    this.readonly = false,
     this.checkboxWidth = 48,
     Key? key,
     void Function(bool? value)? onSaved,
@@ -58,6 +59,7 @@ class FormItemCheckbox extends FormField<bool> {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final TextStyle? linkTextStyle;
+  final bool readonly;
   final double checkboxWidth;
   @override
   _FormItemCheckboxState createState() => _FormItemCheckboxState();
@@ -140,9 +142,14 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
                     side: widget.color != null
                         ? BorderSide(color: widget.color!)
                         : null,
-                    activeColor: widget.activeColor,
-                    checkColor: widget.checkColor,
+                    activeColor:
+                        widget.activeColor ?? context.theme.primaryColor,
+                    checkColor:
+                        widget.checkColor ?? context.theme.textColorOnPrimary,
                     onChanged: (bool? value) {
+                      if (widget.readonly) {
+                        return;
+                      }
                       setValue(value);
                       if (widget.onChanged != null) {
                         widget.onChanged?.call(value);
@@ -181,9 +188,12 @@ class _FormItemCheckboxState extends FormFieldState<bool> {
       default:
         return CheckboxListTile(
           dense: widget.dense,
-          activeColor: widget.activeColor,
-          checkColor: widget.checkColor,
+          activeColor: widget.activeColor ?? context.theme.primaryColor,
+          checkColor: widget.checkColor ?? context.theme.textColorOnPrimary,
           onChanged: (bool? value) {
+            if (widget.readonly) {
+              return;
+            }
             setValue(value);
             widget.onChanged?.call(value);
             setState(() {});
