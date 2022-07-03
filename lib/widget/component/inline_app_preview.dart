@@ -7,6 +7,7 @@ class InlineAppPreview extends StatelessWidget {
     this.routes,
     this.widgetTheme,
     this.lightTheme,
+    this.imageTheme,
     this.darkTheme,
     this.enableModules = const [],
     this.availableModules = const [],
@@ -19,6 +20,7 @@ class InlineAppPreview extends StatelessWidget {
   final NavigatorController? controller;
   final Map<String, RouteConfig>? routes;
   final WidgetTheme? widgetTheme;
+  final ImageTheme? imageTheme;
   final List<Module> enableModules;
   final List<Module> availableModules;
   final String? prefix;
@@ -53,8 +55,9 @@ class InlineAppPreview extends StatelessWidget {
         platformAdapter:
             enableModules.whereType<PlatformAdapter>().firstOrNull ??
                 context.platform,
-        child: WidgetThemeScope(
+        child: ThemeScope(
           widgetTheme: widgetTheme ?? context.widgetTheme,
+          imageTheme: imageTheme ?? context.imageTheme,
           child: Theme(
             data: (brightness == Brightness.light
                     ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
