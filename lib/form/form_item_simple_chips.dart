@@ -215,9 +215,7 @@ class _FormItemSimpleChipsState extends FormFieldState<String> {
   @override
   void initState() {
     super.initState();
-    _chips = widget.initialItems
-            ?.toMap(key: (key) => key, value: (value) => false) ??
-        const {};
+    _chips = widget.initialItems?.toMap((e) => MapEntry(e, false)) ?? const {};
     _focusNode.addListener(_handleFocus);
     if (widget.controller == null) {
       _controller = TextEditingController(text: widget.initialValue);

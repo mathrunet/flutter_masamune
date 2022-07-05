@@ -36,7 +36,7 @@ class UIConfirm {
     Color? backgroundColor,
     Color? color,
     String submitText = "Yes",
-    String cacnelText = "No",
+    String cancelText = "No",
     required String title,
     required String text,
     VoidCallback? onSubmit,
@@ -73,7 +73,7 @@ class UIConfirm {
                 backgroundColor ?? context.theme.colorScheme.surface,
             actions: <Widget>[
               TextButton(
-                child: Text(cacnelText.localize()),
+                child: Text(cancelText.localize()),
                 onPressed: () {
                   if (popOnPress) {
                     Navigator.of(context, rootNavigator: true).pop();

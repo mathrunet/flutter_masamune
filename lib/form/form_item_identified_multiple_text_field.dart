@@ -301,9 +301,7 @@ class _FormItemIdentifiedMultipleTextFieldState
             onReorder: (o, n, item, reordered) {
               context.unfocus();
               didChange(
-                reordered
-                    .map((e) => MapEntry(e.key, e.value))
-                    .toMap(key: (e) => e.key, value: (e) => e.value),
+                reordered.toMap((e) => MapEntry(e.key, e.value)),
               );
               _updateValues();
             },
