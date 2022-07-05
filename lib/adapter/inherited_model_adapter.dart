@@ -34,7 +34,9 @@ class InheritedModelAdapter<
   final ModelAdapter<TDocument, TCollection, TSeachableCollection> adapter;
 
   String get _prefix {
-    if (prefix.endsWith("/")) {
+    if (prefix.isEmpty) {
+      return "";
+    } else if (prefix.endsWith("/")) {
       return prefix;
     } else {
       return "$prefix/";
@@ -42,7 +44,9 @@ class InheritedModelAdapter<
   }
 
   String get _suffix {
-    if (suffix.startsWith("/")) {
+    if (suffix.isEmpty) {
+      return "";
+    } else if (suffix.startsWith("/")) {
       return suffix;
     } else {
       return "/$suffix";
