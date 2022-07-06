@@ -115,7 +115,7 @@ part "ref/timer.dart";
 part "ref/uuid.dart";
 part "src/asset_type.dart";
 part "src/extensions.dart";
-part 'template/ui_boot.dart';
+part 'template/boot.dart';
 part 'widget/builder/animation_scope.dart';
 part "widget/builder/bread_crumb_builder.dart";
 part 'widget/builder/full_screen_builder.dart';

@@ -1,23 +1,76 @@
 part of masamune;
 
-/// Abstract class for creating boot pages.
+/// Class for creating boot pages.
 ///
 /// It is inherited and used by the class that displays the page.
 ///
 /// Scaffold is built in by default, and the provided method is overridden and used.
-///
-/// Normally, please override body.
-///
-/// Please inherit and use.
-abstract class UIBoot extends PageScopedWidget {
-  /// Abstract class for creating boot pages.
-  ///
-  /// [key]: Widget key.
-  const UIBoot({Key? key}) : super(key: key);
+class Boot extends PageScopedWidget {
+  const Boot({Key? key}) : super(key: key);
 
-  /// The process executed at initialization.
+  Future<void> _onInit(
+    BuildContext context,
+    WidgetRef ref,
+    BuildContext root,
+  ) async {
+    try {
+      await Future.wait([
+        Future.delayed(
+          context.app?.splashScreenMinimumDuration ??
+              const Duration(seconds: 1),
+        ),
+        _initializeProcess(context, root),
+      ]);
+      final pageTransition = context.app?.initialPageTransition;
+      context.navigator.pushReplacementNamed(
+        context.get(kRedirectTo, context.app?.initialRoute ?? "/"),
+        arguments: RouteQuery(
+          transition: pageTransition ?? PageTransition.fade,
+        ),
+      );
+      await Future.wait([
+        ...Module.registeredHooks.map((e) => e.onAfterFinishBoot(root)),
+        onAfterFinish(root),
+      ]);
+    } catch (e) {
+      UIDialog.show(
+        context,
+        title: "Error".localize(),
+        text: "Initialization failed. Application is quit.".localize(),
+        submitText: "OK".localize(),
+        onSubmit: () => SystemNavigator.pop(),
+      );
+    }
+  }
+
+  /// It is executed after the boot process is finished and
+  /// after transitioning to another page.
   @protected
-  void onInit(BuildContext context, WidgetRef ref, BuildContext root) {}
+  @mustCallSuper
+  Future<void> onAfterFinish(BuildContext context) => Future.value();
+
+  /// Runs after authentication has taken place.
+  ///
+  /// It is also called after registration or login has been completed.
+  @protected
+  @mustCallSuper
+  Future<void> onAfterAuth(BuildContext context) => Future.value();
+
+  /// Run it the first time the app is launched.
+  @protected
+  @mustCallSuper
+  Future<void> onInit(BuildContext context) => Future.value();
+
+  /// Runs when restoring authentication.
+  @protected
+  @mustCallSuper
+  Future<void> onRestoreAuth(BuildContext context) => Future.value();
+
+  /// It is executed after the boot process is finished and
+  /// before transitioning to another page.
+  @protected
+  @mustCallSuper
+  Future<void> onBeforeFinishBoot(BuildContext context) => Future.value();
 
   /// Indicator color.
   ///
@@ -28,6 +81,7 @@ abstract class UIBoot extends PageScopedWidget {
   /// Feature image.
   ///
   /// If you register it,
+  @protected
   ImageProvider? get featureImage => null;
 
   /// Feature widget.
@@ -47,7 +101,7 @@ abstract class UIBoot extends PageScopedWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.effect(
       onInitOrUpdate: () {
-        onInit(context, ref, context.navigator.context);
+        _onInit(context, ref, context.navigator.context);
       },
     );
     return applySafeArea
@@ -55,6 +109,40 @@ abstract class UIBoot extends PageScopedWidget {
             child: _body(context, ref),
           )
         : _body(context, ref);
+  }
+
+  Future<void> _initializeProcess(
+    BuildContext context,
+    BuildContext root,
+  ) async {
+    Config.onUserStateChanged.addListener((userId) async {
+      if (userId.isEmpty) {
+        return;
+      }
+      await Future.wait([
+        ...Module.registeredHooks.map((e) => e.onAfterAuth(root)),
+        onAfterAuth(root),
+      ]);
+    });
+    await Future.wait([
+      Config.initialize(
+        flavor: context.flavor,
+      ),
+      Localize.initialize(
+        path: context.app?.localizationFile ?? "assets/Localization.csv",
+      ),
+      ...Module.registeredHooks.map((e) => e.onInit(root)),
+      onInit(root),
+    ]);
+    await UIConnectDialog.show(context, showBackButton: false);
+    await Future.wait([
+      ...Module.registeredHooks.map((e) => e.onRestoreAuth(root)),
+      onRestoreAuth(root),
+    ]);
+    await UIConnectDialog.show(context, showBackButton: false);
+    await Future.wait([
+      ...Module.registeredHooks.map((e) => e.onBeforeFinishBoot(root)),
+    ]);
   }
 
   Widget _body(BuildContext context, WidgetRef ref) {

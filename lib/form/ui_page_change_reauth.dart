@@ -28,7 +28,7 @@ abstract class UIPageChangeReauth extends PageScopedWidget {
           }
           if (await onSubmit(context, ref, form)) {
             context.navigator
-                .pushReplacementNamed(context.get("redirect_to", "/"));
+                .pushReplacementNamed(context.get(kRedirectTo, "/"));
           } else {
             UIDialog.show(
               context,
