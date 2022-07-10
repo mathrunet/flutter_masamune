@@ -102,13 +102,19 @@ extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
     String userCollectionPath = "user",
     String userKey = "user",
     String keyPrefix = "user",
+    bool listen = true,
+    bool disposable = false,
   }) {
     final res = ListenableMap<String, dynamic>.from(this);
     final key = get(userKey, "");
     if (key.isEmpty) {
       return res;
     }
-    final user = ref.watchDocumentModel("$userCollectionPath/$key");
+    final user = ref.watchDocumentModel(
+      "$userCollectionPath/$key",
+      listen: listen,
+      disposable: disposable,
+    );
     for (final tmp in user.entries) {
       res["$keyPrefix${tmp.key}"] = tmp.value;
     }
@@ -127,13 +133,19 @@ extension DynamicListenableMapExtensions on ListenableMap<String, dynamic> {
     String collectionPath, {
     String idKey = Const.uid,
     String keyPrefix = "",
+    bool listen = true,
+    bool disposable = false,
   }) {
     final res = ListenableMap<String, dynamic>.from(this);
     final key = get(idKey, "");
     if (key.isEmpty) {
       return res;
     }
-    final collection = ref.watchDocumentModel("$collectionPath/$key");
+    final collection = ref.watchDocumentModel(
+      "$collectionPath/$key",
+      listen: listen,
+      disposable: disposable,
+    );
     for (final tmp in collection.entries) {
       res["$keyPrefix${tmp.key}"] = tmp.value;
     }
@@ -155,6 +167,8 @@ extension DynamicListenableMapListExtensions
     String userCollectionPath = "user",
     String userKey = "user",
     String keyPrefix = "user",
+    bool listen = true,
+    bool disposable = false,
   }) {
     final user = ref.watchCollectionModel(
       ModelQuery(
@@ -162,6 +176,8 @@ extension DynamicListenableMapListExtensions
         key: Const.uid,
         whereIn: map((e) => e.get(userKey, "")).distinct(),
       ).value,
+      listen: listen,
+      disposable: disposable,
     );
     return setWhereListenable(
       user,
@@ -184,6 +200,8 @@ extension DynamicListenableMapListExtensions
     String collectionPath, {
     String idKey = Const.uid,
     String keyPrefix = "",
+    bool listen = true,
+    bool disposable = false,
   }) {
     final collection = ref.watchCollectionModel(
       ModelQuery(
@@ -191,6 +209,8 @@ extension DynamicListenableMapListExtensions
         key: Const.uid,
         whereIn: map((e) => e.get(idKey, "")).distinct(),
       ).value,
+      listen: listen,
+      disposable: disposable,
     );
     return setWhereListenable(
       collection,

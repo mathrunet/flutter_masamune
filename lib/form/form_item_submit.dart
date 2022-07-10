@@ -6,9 +6,10 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     this.onPressed,
     this.backgroundColor,
     this.color,
-    this.padding = const EdgeInsets.symmetric(vertical: 10),
+    this.padding = const EdgeInsets.symmetric(vertical: 8),
+    this.mergin = EdgeInsets.zero,
     this.height = 60,
-    this.fontSize = 18,
+    this.fontSize = 16,
     this.dense = false,
     this.enabled = true,
     this.icon,
@@ -19,6 +20,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     this.borderColor,
     this.width = 0.0,
   });
+  final EdgeInsetsGeometry mergin;
   final double borderRadius;
   final ButtonStyle? style;
   final String label;
@@ -40,6 +42,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     return Container(
       constraints: BoxConstraints.expand(height: height),
       padding: dense ? const EdgeInsets.all(0) : padding,
+      margin: mergin,
       child: icon != null
           ? TextButton.icon(
               style: style ??

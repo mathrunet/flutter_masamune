@@ -22,7 +22,7 @@ class ListCard extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.bottom,
     this.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
   });
 
   final Color? foregroundColor;
@@ -79,28 +79,27 @@ class ListCard extends StatelessWidget {
         onTap: onTap,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             if (feature != null ||
                 featureBackgroundColor != null ||
                 featureBackgroundImage != null)
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(radius),
-                      topRight: Radius.circular(radius),
-                    ),
-                    image: featureBackgroundImage != null
-                        ? DecorationImage(
-                            image: featureBackgroundImage!,
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                    color: featureBackgroundColor,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(radius),
+                    topRight: Radius.circular(radius),
                   ),
-                  constraints: BoxConstraints.expand(height: height),
-                  child: feature,
+                  image: featureBackgroundImage != null
+                      ? DecorationImage(
+                          image: featureBackgroundImage!,
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                  color: featureBackgroundColor,
                 ),
+                constraints: BoxConstraints.expand(height: height),
+                child: feature,
               ),
             Padding(
               padding: contentPadding,
@@ -126,7 +125,7 @@ class ListCard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (title != null)
+                                if (title != null) ...[
                                   DefaultTextStyle(
                                     style: TextStyle(
                                       color: foregroundColor ??
@@ -134,6 +133,8 @@ class ListCard extends StatelessWidget {
                                     ),
                                     child: title!,
                                   ),
+                                  const Space.height(4),
+                                ],
                                 DefaultTextStyle(
                                   style: context.theme.textTheme.overline
                                           ?.copyWith(

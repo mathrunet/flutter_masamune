@@ -29,7 +29,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   @override
   ProviderBase<LocalDynamicCollectionModel> collectionProvider(
     String path, {
-    bool disposable = false,
+    bool disposable = true,
   }) {
     path = path.trimString("/");
     if (disposable) {
@@ -47,7 +47,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   @override
   ProviderBase<LocalDynamicDocumentModel> documentProvider(
     String path, {
-    bool disposable = false,
+    bool disposable = true,
   }) {
     path = path.trimString("/");
     if (disposable) {

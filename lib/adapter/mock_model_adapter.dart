@@ -32,7 +32,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   @override
   ProviderBase<RuntimeDynamicCollectionModel> collectionProvider(
     String path, {
-    bool disposable = false,
+    bool disposable = true,
   }) {
     path = path.trimString("/");
     if (disposable) {
@@ -60,7 +60,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   @override
   ProviderBase<RuntimeDynamicDocumentModel> documentProvider(
     String path, {
-    bool disposable = false,
+    bool disposable = true,
   }) {
     path = path.trimString("/");
     if (disposable) {

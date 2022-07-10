@@ -22,7 +22,7 @@ class UIListView extends StatelessWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
-    this.alwaysShowScrollbar = false,
+    // this.alwaysShowScrollbar = false,
     this.padding,
   })  : assert(
           !(controller != null && primary == true),
@@ -44,7 +44,7 @@ class UIListView extends StatelessWidget {
         super(key: key);
 
   final List<Widget> children;
-  final bool alwaysShowScrollbar;
+  // final bool alwaysShowScrollbar;
   final EdgeInsetsGeometry? padding;
 
   /// {@template flutter.widgets.scroll_view.scrollDirection}
@@ -243,14 +243,15 @@ class UIListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (alwaysShowScrollbar || !Config.isMobile) {
-      return Scrollbar(
-        child: _scollView(context),
-        thumbVisibility: true,
-      );
-    } else {
-      return _scollView(context);
-    }
+    return _scollView(context);
+    // if (alwaysShowScrollbar || !Config.isMobile) {
+    //   return Scrollbar(
+    //     child: _scollView(context),
+    //     thumbVisibility: true,
+    //   );
+    // } else {
+    //   return _scollView(context);
+    // }
   }
 
   Widget _scollView(BuildContext context) {

@@ -24,7 +24,7 @@ class UIListBuilder<T> extends StatelessWidget {
     this.scrollBehavior,
     this.shrinkWrap = false,
     this.center,
-    this.alwaysShowScrollbar = false,
+    // this.alwaysShowScrollbar = false,
     this.anchor = 0.0,
     this.cacheExtent,
     this.semanticChildCount,
@@ -56,7 +56,7 @@ class UIListBuilder<T> extends StatelessWidget {
         super(key: key);
 
   final int insertPosition;
-  final bool alwaysShowScrollbar;
+  // final bool alwaysShowScrollbar;
   final bool listenWhenListenable;
   final List<Widget>? insert;
   final List<Widget>? top;
@@ -268,14 +268,15 @@ class UIListBuilder<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (alwaysShowScrollbar || !Config.isMobile) {
-      return Scrollbar(
-        child: _scollView(context),
-        thumbVisibility: true,
-      );
-    } else {
-      return _scollView(context);
-    }
+    return _scollView(context);
+    // if (alwaysShowScrollbar || !Config.isMobile) {
+    //   return Scrollbar(
+    //     child: _scollView(context),
+    //     thumbVisibility: true,
+    //   );
+    // } else {
+    //   return _scollView(context);
+    // }
   }
 
   Widget _scollView(BuildContext context) {
