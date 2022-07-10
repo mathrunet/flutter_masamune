@@ -24,28 +24,48 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   /// Gets the provider of the [Collection].
   ///
   /// In [path], enter the path where you want to retrieve the collection.
+  ///
+  /// If [disposable] is `true`, the widget is automatically disposed when it is destroyed.
   @override
-  ChangeNotifierProvider<LocalDynamicCollectionModel> collectionProvider(
-    String path,
-  ) =>
-      localCollectionProvider(path);
+  ProviderBase<LocalDynamicCollectionModel> collectionProvider(
+    String path, {
+    bool disposable = false,
+  }) {
+    path = path.trimString("/");
+    if (disposable) {
+      return localCollectionDisposableProvider(path);
+    } else {
+      return localCollectionProvider(path);
+    }
+  }
 
   /// Gets the provider of the [Document].
   ///
   /// In [path], enter the path where you want to retrieve the document.
+  ///
+  /// If [disposable] is `true`, the widget is automatically disposed when it is destroyed.
   @override
-  ChangeNotifierProvider<LocalDynamicDocumentModel> documentProvider(
-    String path,
-  ) =>
-      localDocumentProvider(path);
+  ProviderBase<LocalDynamicDocumentModel> documentProvider(
+    String path, {
+    bool disposable = false,
+  }) {
+    path = path.trimString("/");
+    if (disposable) {
+      return localDocumentDisposableProvider(path);
+    } else {
+      return localDocumentProvider(path);
+    }
+  }
 
   /// Gets the provider of the [Collection] for search.
   ///
   /// In [path], enter the path where you want to retrieve the collection.
   @override
-  ChangeNotifierProvider<LocalDynamicSearchableCollectionModel>
-      searchableCollectionProvider(String path) =>
-          localSearchableCollectionProvider(path);
+  ProviderBase<LocalDynamicSearchableCollectionModel>
+      searchableCollectionProvider(String path) {
+    path = path.trimString("/");
+    return localSearchableCollectionProvider(path);
+  }
 
   /// Create a code of length [length] randomly for id.
   ///
@@ -68,20 +88,22 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
 
   /// Outputs the builder to be written by the transaction.
   ///
+  /// Basically, it writes and deletes data for [documentPath].
+  @override
+  DocumentTransactionBuilder documentTransaction(String documentPath) =>
+      LocalTransaction.documentTransaction(documentPath);
+
+  /// Outputs the builder to be written by the transaction.
+  ///
   /// Basically, it writes and deletes data for [collectionPath].
   ///
   /// You can add the corresponding element by specifying [linkedCollectionPath].
-  ///
-  /// If [enableCounter] is set to `true`,
-  /// the number of elements will be counted and recorded in the document of the level above each collection path.
-  ///
-  /// You can generate a key to store the number of elements in a document by specifying [counterBuilder] or [linkedCounterBuilder].
   @override
-  DatabaseTransactionBuilder transaction({
+  CollectionTransactionBuilder collectionTransaction({
     required String collectionPath,
     String? linkedCollectionPath,
   }) =>
-      LocalTransaction.transaction(
+      LocalTransaction.collectionTransaction(
         collectionPath: collectionPath,
         linkedCollectionPath: linkedCollectionPath,
       );
@@ -90,12 +112,12 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   ///
   /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
   ///
-  /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
+  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
   @override
   LocalDynamicDocumentModel loadDocument(
-    LocalDynamicDocumentModel document, [
-    bool once = false,
-  ]) {
+    LocalDynamicDocumentModel document, {
+    bool listen = true,
+  }) {
     document.loadOnce();
     return document;
   }
@@ -104,12 +126,12 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   ///
   /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
   ///
-  /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
+  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
   @override
   LocalDynamicCollectionModel loadCollection(
-    LocalDynamicCollectionModel collection, [
-    bool once = false,
-  ]) {
+    LocalDynamicCollectionModel collection, {
+    bool listen = true,
+  }) {
     collection.loadOnce();
     return collection;
   }

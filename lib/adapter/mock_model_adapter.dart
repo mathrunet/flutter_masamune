@@ -27,19 +27,28 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   /// Gets the provider of the [Collection].
   ///
   /// In [path], enter the path where you want to retrieve the collection.
+  ///
+  /// If [disposable] is `true`, the widget is automatically disposed when it is destroyed.
   @override
-  ChangeNotifierProvider<RuntimeDynamicCollectionModel> collectionProvider(
-    String path,
-  ) {
+  ProviderBase<RuntimeDynamicCollectionModel> collectionProvider(
+    String path, {
+    bool disposable = false,
+  }) {
     path = path.trimString("/");
-    return runtimeCollectionProvider(path);
+    if (disposable) {
+      return runtimeCollectionDisposableProvider(path);
+    } else {
+      return runtimeCollectionProvider(path);
+    }
   }
 
   /// Gets the provider of the [Collection] for search.
   ///
   /// In [path], enter the path where you want to retrieve the collection.
+  ///
+  /// If [disposable] is `true`, the widget is automatically disposed when it is destroyed.
   @override
-  ChangeNotifierProvider<RuntimeDynamicSearchableCollectionModel>
+  ProviderBase<RuntimeDynamicSearchableCollectionModel>
       searchableCollectionProvider(String path) {
     path = path.trimString("/");
     return runtimeSearchableCollectionProvider(path);
@@ -49,11 +58,16 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   ///
   /// In [path], enter the path where you want to retrieve the document.
   @override
-  ChangeNotifierProvider<RuntimeDynamicDocumentModel> documentProvider(
-    String path,
-  ) {
+  ProviderBase<RuntimeDynamicDocumentModel> documentProvider(
+    String path, {
+    bool disposable = false,
+  }) {
     path = path.trimString("/");
-    return runtimeDocumentProvider(path);
+    if (disposable) {
+      return runtimeDocumentDisposableProvider(path);
+    } else {
+      return runtimeDocumentProvider(path);
+    }
   }
 
   /// Create a code of length [length] randomly for id.
@@ -77,20 +91,22 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
 
   /// Outputs the builder to be written by the transaction.
   ///
+  /// Basically, it writes and deletes data for [documentPath].
+  @override
+  DocumentTransactionBuilder documentTransaction(String documentPath) =>
+      RuntimeTransaction.documentTransaction(documentPath);
+
+  /// Outputs the builder to be written by the transaction.
+  ///
   /// Basically, it writes and deletes data for [collectionPath].
   ///
   /// You can add the corresponding element by specifying [linkedCollectionPath].
-  ///
-  /// If [enableCounter] is set to `true`,
-  /// the number of elements will be counted and recorded in the document of the level above each collection path.
-  ///
-  /// You can generate a key to store the number of elements in a document by specifying [counterBuilder] or [linkedCounterBuilder].
   @override
-  DatabaseTransactionBuilder transaction({
+  CollectionTransactionBuilder collectionTransaction({
     required String collectionPath,
     String? linkedCollectionPath,
   }) =>
-      RuntimeTransaction.transaction(
+      RuntimeTransaction.collectionTransaction(
         collectionPath: collectionPath,
         linkedCollectionPath: linkedCollectionPath,
       );
@@ -99,12 +115,12 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   ///
   /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
   ///
-  /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
+  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
   @override
   RuntimeDynamicCollectionModel loadCollection(
-    RuntimeDynamicCollectionModel collection, [
-    bool once = false,
-  ]) {
+    RuntimeDynamicCollectionModel collection, {
+    bool listen = true,
+  }) {
     RuntimeDatabase.registerMockData(data);
     collection.loadOnce();
     return collection;
@@ -114,12 +130,12 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   ///
   /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
   ///
-  /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
+  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
   @override
   RuntimeDynamicDocumentModel loadDocument(
-    RuntimeDynamicDocumentModel document, [
-    bool once = false,
-  ]) {
+    RuntimeDynamicDocumentModel document, {
+    bool listen = true,
+  }) {
     RuntimeDatabase.registerMockData(data);
     document.loadOnce();
     return document;

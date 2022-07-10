@@ -56,22 +56,38 @@ class InheritedModelAdapter<
   /// Gets the provider of the [Collection].
   ///
   /// In [path], enter the path where you want to retrieve the collection.
+  ///
+  /// If [disposable] is `true`, the widget is automatically disposed when it is destroyed.
   @override
-  ChangeNotifierProvider<TCollection> collectionProvider(String path) =>
-      adapter.collectionProvider("$_prefix$path$_suffix");
+  ProviderBase<TCollection> collectionProvider(
+    String path, {
+    bool disposable = false,
+  }) =>
+      adapter.collectionProvider(
+        "$_prefix$path$_suffix",
+        disposable: disposable,
+      );
 
   /// Gets the provider of the [Document].
   ///
   /// In [path], enter the path where you want to retrieve the document.
+  ///
+  /// If [disposable] is `true`, the widget is automatically disposed when it is destroyed.
   @override
-  ChangeNotifierProvider<TDocument> documentProvider(String path) =>
-      adapter.documentProvider("$_prefix$path$_suffix");
+  ProviderBase<TDocument> documentProvider(
+    String path, {
+    bool disposable = false,
+  }) =>
+      adapter.documentProvider(
+        "$_prefix$path$_suffix",
+        disposable: disposable,
+      );
 
   /// Gets the provider of the [Collection] for search.
   ///
   /// In [path], enter the path where you want to retrieve the collection.
   @override
-  ChangeNotifierProvider<TSeachableCollection> searchableCollectionProvider(
+  ProviderBase<TSeachableCollection> searchableCollectionProvider(
     String path,
   ) =>
       adapter.searchableCollectionProvider("$_prefix$path$_suffix");
@@ -97,20 +113,22 @@ class InheritedModelAdapter<
 
   /// Outputs the builder to be written by the transaction.
   ///
+  /// Basically, it writes and deletes data for [documentPath].
+  @override
+  DocumentTransactionBuilder documentTransaction(String documentPath) =>
+      adapter.documentTransaction(documentPath);
+
+  /// Outputs the builder to be written by the transaction.
+  ///
   /// Basically, it writes and deletes data for [collectionPath].
   ///
   /// You can add the corresponding element by specifying [linkedCollectionPath].
-  ///
-  /// If [enableCounter] is set to `true`,
-  /// the number of elements will be counted and recorded in the document of the level above each collection path.
-  ///
-  /// You can generate a key to store the number of elements in a document by specifying [counterBuilder] or [linkedCounterBuilder].
   @override
-  DatabaseTransactionBuilder transaction({
+  CollectionTransactionBuilder collectionTransaction({
     required String collectionPath,
     String? linkedCollectionPath,
   }) =>
-      adapter.transaction(
+      adapter.collectionTransaction(
         collectionPath: "$_prefix$collectionPath$_suffix",
         linkedCollectionPath: "$_prefix$linkedCollectionPath$_suffix",
       );
@@ -119,19 +137,31 @@ class InheritedModelAdapter<
   ///
   /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
   ///
-  /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
+  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
   @override
-  TDocument loadDocument(TDocument document, [bool once = false]) =>
-      adapter.loadDocument(document, once);
+  TDocument loadDocument(
+    TDocument document, {
+    bool listen = true,
+  }) =>
+      adapter.loadDocument(
+        document,
+        listen: listen,
+      );
 
   /// Performs the process of loading a collection.
   ///
   /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
   ///
-  /// If you set [once] to true, [loadOnce] is used even if the model can use [listen].
+  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
   @override
-  TCollection loadCollection(TCollection collection, [bool once = false]) =>
-      adapter.loadCollection(collection, once);
+  TCollection loadCollection(
+    TCollection collection, {
+    bool listen = true,
+  }) =>
+      adapter.loadCollection(
+        collection,
+        listen: listen,
+      );
 
   /// Deletes information associated with a document.
   @override
