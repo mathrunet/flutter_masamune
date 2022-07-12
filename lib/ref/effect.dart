@@ -4,6 +4,7 @@ extension WidgetRefEffectExtensions on WidgetRef {
   void effect({
     VoidCallback? onInitOrUpdate,
     VoidCallback? onDispose,
+    VoidCallback? onDeactivate,
     List<Object?>? keys,
   }) {
     return valueBuilder<void, _EffectValue>(
@@ -11,6 +12,7 @@ extension WidgetRefEffectExtensions on WidgetRef {
       builder: () {
         return _EffectValue(
           onInitOrUpdate: onInitOrUpdate,
+          onDeactivate: onDeactivate,
           onDispose: onDispose,
           keys: keys,
         );
@@ -24,10 +26,12 @@ class _EffectValue extends ScopedValue<void> {
   const _EffectValue({
     required this.onInitOrUpdate,
     required this.onDispose,
+    required this.onDeactivate,
     required this.keys,
   });
   final VoidCallback? onInitOrUpdate;
   final VoidCallback? onDispose;
+  final VoidCallback? onDeactivate;
   final List<Object?>? keys;
   @override
   ScopedValueState<void, ScopedValue<void>> createState() =>
@@ -47,6 +51,12 @@ class _EffectValueState extends ScopedValueState<void, _EffectValue> {
     if (!equalsKeys(value.keys, oldValue.keys)) {
       value.onInitOrUpdate?.call();
     }
+  }
+
+  @override
+  void deactivate() {
+    value.onDeactivate?.call();
+    super.deactivate();
   }
 
   @override

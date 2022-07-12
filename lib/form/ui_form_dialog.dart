@@ -26,7 +26,6 @@ class UIFormDialog {
         builder,
     double submitBorderRadius = 8.0,
     Color? submitBackgroundColor,
-    double submitHeight = 80,
     required String title,
     bool validate = true,
     bool popOnPress = true,
@@ -54,7 +53,6 @@ class UIFormDialog {
                 const Space.height(10),
                 FormItemSubmit(
                   submitText,
-                  height: submitHeight,
                   backgroundColor: submitBackgroundColor,
                   borderRadius: submitBorderRadius,
                   onPressed: () {

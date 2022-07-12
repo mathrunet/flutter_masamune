@@ -8,7 +8,6 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     this.color,
     this.padding = const EdgeInsets.symmetric(vertical: 8),
     this.mergin = EdgeInsets.zero,
-    this.height = 60,
     this.fontSize = 16,
     this.dense = false,
     this.enabled = true,
@@ -18,7 +17,8 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     this.disabledBackgroundColor,
     this.borderRadius = 8.0,
     this.borderColor,
-    this.width = 0.0,
+    this.textStyle,
+    this.width,
   });
   final EdgeInsetsGeometry mergin;
   final double borderRadius;
@@ -32,22 +32,23 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
   final IconData? icon;
   final bool enabled;
   final bool dense;
-  final double height;
+  final TextStyle? textStyle;
+  // final double height;
   final double fontSize;
   final Color? borderColor;
   final EdgeInsetsGeometry padding;
-  final double width;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints.expand(height: height),
+      width: width ?? double.infinity,
       padding: dense ? const EdgeInsets.all(0) : padding,
       margin: mergin,
       child: icon != null
           ? TextButton.icon(
               style: style ??
                   DefaultTextButtonStyle(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(8),
                     color: color ?? context.theme.textColorOnPrimary,
                     disabledColor: disabledColor,
                     backgroundColor:
@@ -58,20 +59,23 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
                             : (disabledBackgroundColor ??
                                 context.theme.disabledColor),
                     borderColor: borderColor,
-                    width: width,
                     radius: dense ? 0 : borderRadius,
                   ),
               icon: Icon(
                 icon,
                 size: fontSize * 1.2,
               ),
-              label: Text(label, style: TextStyle(fontSize: fontSize)),
+              label: Text(
+                label,
+                style: textStyle?.copyWith(fontSize: fontSize) ??
+                    TextStyle(fontSize: fontSize),
+              ),
               onPressed: enabled ? onPressed : null,
             )
           : TextButton(
               style: style ??
                   DefaultTextButtonStyle(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(8),
                     color: color ?? context.theme.textColorOnPrimary,
                     disabledColor: disabledColor,
                     backgroundColor:
@@ -82,10 +86,13 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
                             : (disabledBackgroundColor ??
                                 context.theme.disabledColor),
                     borderColor: borderColor,
-                    width: width,
                     radius: dense ? 0 : borderRadius,
                   ),
-              child: Text(label, style: TextStyle(fontSize: fontSize)),
+              child: Text(
+                label,
+                style: textStyle?.copyWith(fontSize: fontSize) ??
+                    TextStyle(fontSize: fontSize),
+              ),
               onPressed: enabled ? onPressed : null,
             ),
     );
