@@ -26,6 +26,7 @@ import 'package:katana_module/katana_module.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:masamune/form/form.dart';
 import 'package:masamune/list/list.dart';
+import 'package:wakelock/wakelock.dart';
 // ignore: library_prefixes
 import 'package:wordpress_api/wordpress_api.dart' as WordPress;
 
@@ -59,7 +60,6 @@ export 'package:model_notifier/model_notifier.dart';
 export 'package:responsive_grid/responsive_grid.dart';
 export 'package:riverpod/riverpod.dart';
 export 'package:url_strategy/url_strategy.dart';
-export 'package:wakelock/wakelock.dart' show Wakelock;
 
 export 'calendar/ui_calendar.dart';
 export 'media/others/others.dart'
@@ -101,6 +101,7 @@ part 'provider/local_searchable_collection_model.dart';
 part 'provider/runtime_collection_provider.dart';
 part 'provider/runtime_document_provider.dart';
 part 'provider/runtime_searchable_collection_model.dart';
+part 'ref/wakelock.dart';
 part 'ref/cache.dart';
 part "ref/date_time.dart";
 part "ref/effect.dart";
