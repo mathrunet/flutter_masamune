@@ -126,6 +126,36 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     return collection;
   }
 
+  /// Reload the given [document].
+  ///
+  /// There is no effect with respect to the document being listened to.
+  @override
+  RuntimeDynamicDocumentModel reloadDocument(
+      RuntimeDynamicDocumentModel document) {
+    document.reload();
+    return document;
+  }
+
+  /// Reload the given [collection].
+  ///
+  /// There is no effect with respect to the collection being listened to.
+  @override
+  RuntimeDynamicCollectionModel reloadCollection(
+    RuntimeDynamicCollectionModel collection,
+  ) {
+    collection.reload();
+    return collection;
+  }
+
+  /// Loads data for the next cursor further in the [collection] that has been read.
+  @override
+  RuntimeDynamicCollectionModel loadNextCollection(
+    RuntimeDynamicCollectionModel collection,
+  ) {
+    collection.next();
+    return collection;
+  }
+
   /// Performs the process of loading a document.
   ///
   /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].

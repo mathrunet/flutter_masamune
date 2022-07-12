@@ -136,6 +136,35 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     return collection;
   }
 
+  /// Reload the given [document].
+  ///
+  /// There is no effect with respect to the document being listened to.
+  @override
+  LocalDynamicDocumentModel reloadDocument(LocalDynamicDocumentModel document) {
+    document.reload();
+    return document;
+  }
+
+  /// Reload the given [collection].
+  ///
+  /// There is no effect with respect to the collection being listened to.
+  @override
+  LocalDynamicCollectionModel reloadCollection(
+    LocalDynamicCollectionModel collection,
+  ) {
+    collection.reload();
+    return collection;
+  }
+
+  /// Loads data for the next cursor further in the [collection] that has been read.
+  @override
+  LocalDynamicCollectionModel loadNextCollection(
+    LocalDynamicCollectionModel collection,
+  ) {
+    collection.next();
+    return collection;
+  }
+
   /// Deletes information associated with a document.
   @override
   Future<void> deleteDocument(LocalDynamicDocumentModel document) async {

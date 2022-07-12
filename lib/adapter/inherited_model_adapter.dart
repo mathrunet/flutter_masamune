@@ -163,6 +163,25 @@ class InheritedModelAdapter<
         listen: listen,
       );
 
+  /// Reload the given [document].
+  ///
+  /// There is no effect with respect to the document being listened to.
+  @override
+  TDocument reloadDocument(TDocument document) =>
+      adapter.reloadDocument(document);
+
+  /// Reload the given [collection].
+  ///
+  /// There is no effect with respect to the collection being listened to.
+  @override
+  TCollection reloadCollection(TCollection collection) =>
+      adapter.reloadCollection(collection);
+
+  /// Loads data for the next cursor further in the [collection] that has been read.
+  @override
+  TCollection loadNextCollection(TCollection collection) =>
+      adapter.loadNextCollection(collection);
+
   /// Deletes information associated with a document.
   @override
   Future<void> deleteDocument(TDocument document) =>
