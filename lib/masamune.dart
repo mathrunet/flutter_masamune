@@ -59,6 +59,7 @@ export 'package:model_notifier/model_notifier.dart';
 export 'package:responsive_grid/responsive_grid.dart';
 export 'package:riverpod/riverpod.dart';
 export 'package:url_strategy/url_strategy.dart';
+export 'package:wakelock/wakelock.dart' show Wakelock;
 
 export 'calendar/ui_calendar.dart';
 export 'media/others/others.dart'

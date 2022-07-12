@@ -130,9 +130,10 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   ///
   /// There is no effect with respect to the document being listened to.
   @override
-  RuntimeDynamicDocumentModel reloadDocument(
-      RuntimeDynamicDocumentModel document) {
-    document.reload();
+  Future<RuntimeDynamicDocumentModel> reloadDocument(
+    RuntimeDynamicDocumentModel document,
+  ) async {
+    await document.reload();
     return document;
   }
 
@@ -140,19 +141,19 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   ///
   /// There is no effect with respect to the collection being listened to.
   @override
-  RuntimeDynamicCollectionModel reloadCollection(
+  Future<RuntimeDynamicCollectionModel> reloadCollection(
     RuntimeDynamicCollectionModel collection,
-  ) {
-    collection.reload();
+  ) async {
+    await collection.reload();
     return collection;
   }
 
   /// Loads data for the next cursor further in the [collection] that has been read.
   @override
-  RuntimeDynamicCollectionModel loadNextCollection(
+  Future<RuntimeDynamicCollectionModel> loadNextCollection(
     RuntimeDynamicCollectionModel collection,
-  ) {
-    collection.next();
+  ) async {
+    await collection.next();
     return collection;
   }
 

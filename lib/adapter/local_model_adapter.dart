@@ -140,8 +140,9 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   ///
   /// There is no effect with respect to the document being listened to.
   @override
-  LocalDynamicDocumentModel reloadDocument(LocalDynamicDocumentModel document) {
-    document.reload();
+  Future<LocalDynamicDocumentModel> reloadDocument(
+      LocalDynamicDocumentModel document) async {
+    await document.reload();
     return document;
   }
 
@@ -149,19 +150,19 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   ///
   /// There is no effect with respect to the collection being listened to.
   @override
-  LocalDynamicCollectionModel reloadCollection(
+  Future<LocalDynamicCollectionModel> reloadCollection(
     LocalDynamicCollectionModel collection,
-  ) {
-    collection.reload();
+  ) async {
+    await collection.reload();
     return collection;
   }
 
   /// Loads data for the next cursor further in the [collection] that has been read.
   @override
-  LocalDynamicCollectionModel loadNextCollection(
+  Future<LocalDynamicCollectionModel> loadNextCollection(
     LocalDynamicCollectionModel collection,
-  ) {
-    collection.next();
+  ) async {
+    await collection.next();
     return collection;
   }
 

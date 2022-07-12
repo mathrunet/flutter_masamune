@@ -13,6 +13,7 @@ import 'package:collapsible/collapsible.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:loading_animations/loading_animations.dart';
+import 'package:loadmore/loadmore.dart';
 import 'package:masamune/masamune.dart';
 
 export 'package:flutter_slidable/flutter_slidable.dart'
@@ -51,3 +52,5 @@ part 'small_gallery.dart';
 part 'small_headline.dart';
 part 'next_button.dart';
 part 'small_list_card.dart';
+part 'reload_indicator.dart';
+part 'next_indicator.dart';
