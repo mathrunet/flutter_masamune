@@ -1,7 +1,7 @@
 part of masamune.form;
 
-class FormItemSubmit extends StatelessWidget implements FormItem {
-  const FormItemSubmit(
+class FormItemButton extends StatelessWidget implements FormItem {
+  const FormItemButton(
     this.label, {
     this.onPressed,
     this.backgroundColor,
@@ -19,6 +19,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
     this.borderColor,
     this.textStyle,
     this.width,
+    this.borderWidth,
   });
   final EdgeInsetsGeometry mergin;
   final double borderRadius;
@@ -38,6 +39,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
   final Color? borderColor;
   final EdgeInsetsGeometry padding;
   final double? width;
+  final double? borderWidth;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -60,6 +62,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
                                 context.theme.disabledColor),
                     borderColor: borderColor,
                     radius: dense ? 0 : borderRadius,
+                    borderWidth: borderWidth ?? 0.0,
                   ),
               icon: Icon(
                 icon,
@@ -87,6 +90,7 @@ class FormItemSubmit extends StatelessWidget implements FormItem {
                                 context.theme.disabledColor),
                     borderColor: borderColor,
                     radius: dense ? 0 : borderRadius,
+                    borderWidth: borderWidth ?? 0.0,
                   ),
               child: Text(
                 label,

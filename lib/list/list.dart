@@ -8,6 +8,7 @@ library masamune.list;
 
 // import 'package:bordered_text/bordered_text.dart';
 import 'dart:async';
+import 'dart:math';
 
 import 'package:collapsible/collapsible.dart';
 import 'package:flutter/gestures.dart';

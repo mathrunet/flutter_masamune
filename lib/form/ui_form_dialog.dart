@@ -51,7 +51,7 @@ class UIFormDialog {
               children: [
                 ...builder(context, form),
                 const Space.height(10),
-                FormItemSubmit(
+                FormItemButton(
                   submitText,
                   backgroundColor: submitBackgroundColor,
                   borderRadius: submitBorderRadius,

@@ -54,7 +54,7 @@ part 'form_item_select_builder.dart';
 part 'form_item_simple_chips.dart';
 part 'form_item_month_day_field.dart';
 part 'form_item_slider.dart';
-part 'form_item_submit.dart';
+part 'form_item_button.dart';
 part 'form_item_switch.dart';
 part 'form_item_text_field.dart';
 part 'reauth_form.dart';

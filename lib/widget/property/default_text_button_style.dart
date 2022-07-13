@@ -10,7 +10,7 @@ class DefaultTextButtonStyle extends ButtonStyle {
     Color? disabledBackgroundColor,
     Color? borderColor,
     double radius = 6.0,
-    double width = 0,
+    double borderWidth = 0.0,
     EdgeInsetsGeometry? padding,
   }) {
     return DefaultTextButtonStyle._(
@@ -20,9 +20,10 @@ class DefaultTextButtonStyle extends ButtonStyle {
         onSurface: color,
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
-          side: width <= 0 || borderColor == Colors.transparent
+          side: borderWidth <= 0 || borderColor == Colors.transparent
               ? BorderSide.none
-              : BorderSide(color: borderColor ?? Colors.black, width: width),
+              : BorderSide(
+                  color: borderColor ?? Colors.black, width: borderWidth),
           borderRadius: radius <= 0
               ? BorderRadius.zero
               : BorderRadius.all(

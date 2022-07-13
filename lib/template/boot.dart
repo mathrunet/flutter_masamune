@@ -33,6 +33,7 @@ class Boot extends PageScopedWidget {
         onAfterFinish(root),
       ]);
     } catch (e) {
+      print(e.toString());
       UIDialog.show(
         context,
         title: "Error".localize(),
