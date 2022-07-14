@@ -417,7 +417,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
     _nodeAttachment = _effectiveFocusNode.attach(context);
     _effectiveFocusNode.canRequestFocus = _canRequestFocus;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.scheduleFrameCallback((_) async {
       _initOverlayEntry();
       if (mounted && widget.autofocus) {
         FocusScope.of(context).autofocus(_effectiveFocusNode);
@@ -591,7 +591,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
 
   void _scrollToVisible() {
     Future.delayed(const Duration(milliseconds: 300), () {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
+      WidgetsBinding.instance.scheduleFrameCallback((_) async {
         final renderBox = context.findRenderObject() as RenderBox?;
         if (renderBox != null) {
           await Scrollable.of(context)?.position.ensureVisible(renderBox);
@@ -780,7 +780,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
 
     return NotificationListener<SizeChangedLayoutNotification>(
       onNotification: (SizeChangedLayoutNotification val) {
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
+        WidgetsBinding.instance.scheduleFrameCallback((_) async {
           _suggestionsBoxController.overlayEntry?.markNeedsBuild();
         });
         return true;

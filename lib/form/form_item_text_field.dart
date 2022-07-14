@@ -8,6 +8,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.maxLength,
     this.onTap,
     this.minLength,
+    this.padding,
     this.contentPadding,
     this.maxLines,
     this.minLines = 1,
@@ -28,7 +29,6 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.suffixIcon,
     this.suffixIconConstraints,
     this.dense = false,
-    this.padding,
     this.suggestion = const [],
     this.allowEmpty = false,
     this.enabled = true,
@@ -45,6 +45,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.focusNode,
     this.color,
     this.fontSize,
+    this.textStyle,
     this.subColor,
     this.height,
     this.errorText,
@@ -83,6 +84,7 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final bool obscureText;
   final bool expands;
   final bool allowEmpty;
+  final TextStyle? textStyle;
   final InputBorder? border;
   final InputBorder? disabledBorder;
   final InputBorder? errorBorder;
@@ -108,6 +110,33 @@ class FormItemTextField extends StatelessWidget implements FormItem {
 
   @override
   Widget build(BuildContext context) {
+    final mainTextStyle = textStyle?.copyWith(
+          color: color,
+          fontSize: fontSize,
+        ) ??
+        TextStyle(
+          color: color ?? context.theme.textColor,
+          fontSize: fontSize,
+        );
+    final subTextStyle = textStyle?.copyWith(
+          color: subColor,
+          fontSize: fontSize,
+        ) ??
+        TextStyle(
+          color: subColor ??
+              color?.withOpacity(0.5) ??
+              context.theme.textColor.withOpacity(0.5),
+          fontSize: fontSize,
+        );
+    final errorTextStyle = textStyle?.copyWith(
+          color: errorColor,
+          fontSize: helperFontSize,
+        ) ??
+        TextStyle(
+          color: errorColor ?? context.theme.errorColor,
+          fontSize: helperFontSize,
+        );
+
     return SuggestionOverlayBuilder(
       items: suggestion,
       onDeleteSuggestion: onDeleteSuggestion,
@@ -181,49 +210,15 @@ class FormItemTextField extends StatelessWidget implements FormItem {
             suffixText: suffixText,
             prefixIconConstraints: prefixIconConstraints,
             suffixIconConstraints: suffixIconConstraints,
-            labelStyle: TextStyle(
-              color: color ?? context.theme.textColor,
-              fontSize: fontSize,
-            ),
-            hintStyle: TextStyle(
-              color: subColor ??
-                  color?.withOpacity(0.5) ??
-                  context.theme.textColor.withOpacity(0.5),
-              fontSize: fontSize,
-            ),
-            suffixStyle: TextStyle(
-              color: subColor ??
-                  color?.withOpacity(0.5) ??
-                  context.theme.textColor.withOpacity(0.5),
-              fontSize: fontSize,
-            ),
-            prefixStyle: TextStyle(
-              color: subColor ??
-                  color?.withOpacity(0.5) ??
-                  context.theme.textColor.withOpacity(0.5),
-              fontSize: fontSize,
-            ),
-            counterStyle: TextStyle(
-              color: subColor ??
-                  color?.withOpacity(0.5) ??
-                  context.theme.textColor.withOpacity(0.5),
-              fontSize: helperFontSize,
-            ),
-            helperStyle: TextStyle(
-              color: subColor ??
-                  color?.withOpacity(0.5) ??
-                  context.theme.textColor.withOpacity(0.5),
-              fontSize: helperFontSize,
-            ),
-            errorStyle: TextStyle(
-              color: errorColor ?? context.theme.errorColor,
-              fontSize: helperFontSize,
-            ),
+            labelStyle: mainTextStyle,
+            hintStyle: subTextStyle,
+            suffixStyle: subTextStyle,
+            prefixStyle: subTextStyle,
+            counterStyle: subTextStyle,
+            helperStyle: subTextStyle,
+            errorStyle: errorTextStyle,
           ),
-          style: TextStyle(
-            color: color ?? context.theme.textColor,
-            fontSize: fontSize,
-          ),
+          style: mainTextStyle,
           obscureText: obscureText,
           readOnly: readOnly,
           onFieldSubmitted: (value) {

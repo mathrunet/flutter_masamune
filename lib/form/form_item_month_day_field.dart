@@ -590,7 +590,7 @@ class _MonthDayTextFieldState extends FormFieldState<DateTime> {
       return;
     }
     _hideKeyboard();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
       setState(() => _effectiveController?.clear());
     });
   }

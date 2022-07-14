@@ -727,7 +727,7 @@ class _DurationTextFieldState extends FormFieldState<Duration> {
       return;
     }
     _hideKeyboard();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
       setState(() => _effectiveController?.clear());
     });
   }

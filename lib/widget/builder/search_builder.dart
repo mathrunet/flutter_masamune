@@ -144,7 +144,7 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
       _histories.addAll(widget.history!.source);
     }
     _stream = _streamController.stream.asyncMap(_search);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
       if (value.isNotEmpty) {
         _streamController.sink.add(value!);
       }

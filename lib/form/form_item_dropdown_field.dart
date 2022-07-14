@@ -8,14 +8,16 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
     required this.items,
     this.enabled = true,
     this.border,
-    this.padding = const EdgeInsets.symmetric(vertical: 10),
+    this.padding,
     this.backgroundColor,
     this.dense = false,
     this.labelText,
-    this.contentPadding = const EdgeInsets.all(17.5),
+    this.contentPadding,
     this.prefix,
     this.suffix,
     this.allowEmpty = false,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical,
     this.counterText = "",
     this.onSaved,
     this.onChanged,
@@ -33,18 +35,23 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
   final bool enabled;
   final bool dense;
   final InputBorder? border;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final bool allowEmpty;
   final Color? backgroundColor;
   final void Function(String? value)? onSaved;
   final void Function(String? value)? onChanged;
-  final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry? contentPadding;
   final Widget Function(String key, String value)? builder;
+  final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: dense ? const EdgeInsets.all(0) : padding,
+      padding: padding ??
+          (dense
+              ? const EdgeInsets.all(0)
+              : const EdgeInsets.symmetric(vertical: 8)),
       child: DropdownTextFormField(
         controller: controller,
         items: items,
@@ -77,13 +84,15 @@ class FormItemDropdownField extends StatelessWidget implements FormItem {
               OutlineInputBorder(
                 borderSide: dense ? BorderSide.none : const BorderSide(),
               ),
-          contentPadding: contentPadding,
+          contentPadding: contentPadding ?? const EdgeInsets.all(16),
           hintText: hintText,
           labelText: labelText,
           counterText: counterText,
           prefix: prefix,
           suffix: suffix,
         ),
+        textAlign: textAlign,
+        textAlignVertical: textAlignVertical,
         validator: (value) {
           if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
             return errorText;
@@ -119,7 +128,6 @@ class DropdownTextFormField extends StatefulWidget {
     this.hint,
     this.onChanged,
     this.onTap,
-    this.textAlign,
     this.decoration = const InputDecoration(),
     this.onSaved,
     this.enabled = true,
@@ -137,6 +145,8 @@ class DropdownTextFormField extends StatefulWidget {
     this.itemBackgroundColor,
     this.builder,
     this.itemTextColor,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical,
   }) : super(key: key);
 
   final Map<String, String> items;
@@ -157,13 +167,14 @@ class DropdownTextFormField extends StatefulWidget {
   final Color? iconDisabledColor;
   final Color? iconEnabledColor;
   final double iconSize;
-  final TextAlign? textAlign;
   final bool isDense;
   final bool isExpanded;
   final double? itemHeight;
   final Color? itemBackgroundColor;
   final Color? itemTextColor;
   final TextEditingController? controller;
+  final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
   final Widget Function(String key, String value)? builder;
   @override
   _DropdownTextFormFieldState createState() => _DropdownTextFormFieldState();

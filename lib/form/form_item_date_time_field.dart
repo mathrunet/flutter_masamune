@@ -6,6 +6,8 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     this.keyboardType = TextInputType.text,
     this.maxLength,
     this.maxLines = 1,
+    this.padding,
+    this.contentPadding,
     this.minLines,
     this.backgroundColor,
     this.hintText,
@@ -18,6 +20,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     this.suffix,
     this.errorText,
     this.textAlign = TextAlign.start,
+    this.textAlignVertical,
     this.allowEmpty = false,
     this.readOnly = false,
     this.obscureText = false,
@@ -25,7 +28,6 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
     this.onChanged,
     this.onEditingComplete,
     this.showResetButton = true,
-    this.contentPadding,
     this.type = FormItemDateTimeFieldPickerType.dateTime,
     this.initialDateTime,
     String? format,
@@ -229,6 +231,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final bool dense;
   final int? minLines;
   final String? hintText;
+  final EdgeInsetsGeometry? padding;
   final bool showResetButton;
   final String? errorText;
   final String? labelText;
@@ -238,6 +241,7 @@ class FormItemDateTimeField extends StatefulWidget implements FormItem {
   final bool readOnly;
   final String? pickerLabelText;
   final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
   final bool allowEmpty;
   final bool obscureText;
   final Color? backgroundColor;
@@ -324,9 +328,10 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.dense
-          ? const EdgeInsets.symmetric(vertical: 10, horizontal: 6)
-          : const EdgeInsets.symmetric(vertical: 10),
+      padding: widget.padding ??
+          (widget.dense
+              ? const EdgeInsets.symmetric(vertical: 8, horizontal: 8)
+              : const EdgeInsets.symmetric(vertical: 8)),
       child: _DateTimeTextField(
         controller: _controller,
         keyboardType: TextInputType.text,
@@ -340,7 +345,7 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
           fillColor: widget.backgroundColor,
           contentPadding: widget.contentPadding ??
               (widget.dense
-                  ? const EdgeInsets.symmetric(horizontal: 10, vertical: 0)
+                  ? const EdgeInsets.symmetric(horizontal: 8, vertical: 0)
                   : null),
           filled: widget.backgroundColor != null,
           border: OutlineInputBorder(
@@ -371,6 +376,7 @@ class _FormItemDateTimeFieldState extends State<FormItemDateTimeField> {
         obscureText: widget.obscureText,
         readOnly: widget.readOnly,
         textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
         format: widget.format,
         validator: (value) {
           if (!widget.allowEmpty &&
@@ -418,6 +424,7 @@ class _DateTimeTextField extends FormField<DateTime> {
     bool showResetButton = true,
     StrutStyle? strutStyle,
     TextAlign textAlign = TextAlign.start,
+    TextAlignVertical? textAlignVertical,
     bool autofocus = false,
     this.readOnly = true,
     bool? showCursor,
@@ -473,6 +480,7 @@ class _DateTimeTextField extends FormField<DateTime> {
               style: style,
               strutStyle: strutStyle,
               textAlign: textAlign,
+              textAlignVertical: textAlignVertical,
               textCapitalization: textCapitalization,
               autofocus: autofocus,
               readOnly: true,
@@ -675,7 +683,7 @@ class _DateTimeTextFieldState extends FormFieldState<DateTime> {
       return;
     }
     _hideKeyboard();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.scheduleFrameCallback((_) {
       setState(() => _effectiveController?.clear());
     });
   }
