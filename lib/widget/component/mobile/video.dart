@@ -20,6 +20,7 @@ class Video extends StatefulWidget {
     this.controllable = false,
     this.mixWithOthers = false,
     this.onTap,
+    this.enableCache = true,
   });
 
   /// Mix with others.
@@ -57,6 +58,9 @@ class Video extends StatefulWidget {
 
   /// Icon color.
   final Color? iconColor;
+
+  /// Enable cache.
+  final bool enableCache;
 
   /// Creates the mutable state for this widget at a given location in the tree.
   ///
@@ -108,11 +112,8 @@ class _VideoState extends State<Video> {
           );
           break;
         case NetworkVideoProvider:
-          final cacheManager = DefaultCacheManager();
           final url = (provider as NetworkVideoProvider).url;
-          final file = await cacheManager.getFileFromCache(url);
-          if (file == null) {
-            unawaited(cacheManager.downloadFile(url));
+          if (!widget.enableCache) {
             _controller = VideoPlayerController.network(
               url,
               videoPlayerOptions: widget.mixWithOthers
@@ -120,12 +121,24 @@ class _VideoState extends State<Video> {
                   : null,
             );
           } else {
-            _controller = VideoPlayerController.file(
-              file.file,
-              videoPlayerOptions: widget.mixWithOthers
-                  ? VideoPlayerOptions(mixWithOthers: true)
-                  : null,
-            );
+            final cacheManager = DefaultCacheManager();
+            final file = await cacheManager.getFileFromCache(url);
+            if (file == null) {
+              unawaited(cacheManager.downloadFile(url));
+              _controller = VideoPlayerController.network(
+                url,
+                videoPlayerOptions: widget.mixWithOthers
+                    ? VideoPlayerOptions(mixWithOthers: true)
+                    : null,
+              );
+            } else {
+              _controller = VideoPlayerController.file(
+                file.file,
+                videoPlayerOptions: widget.mixWithOthers
+                    ? VideoPlayerOptions(mixWithOthers: true)
+                    : null,
+              );
+            }
           }
           break;
         case AssetVideoProvider:

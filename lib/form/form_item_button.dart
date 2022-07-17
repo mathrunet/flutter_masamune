@@ -6,7 +6,7 @@ class FormItemButton extends StatelessWidget implements FormItem {
     this.onPressed,
     this.backgroundColor,
     this.color,
-    this.padding = const EdgeInsets.symmetric(vertical: 8),
+    this.padding = const EdgeInsets.all(8),
     this.mergin = EdgeInsets.zero,
     this.fontSize = 16,
     this.dense = false,
@@ -44,13 +44,12 @@ class FormItemButton extends StatelessWidget implements FormItem {
   Widget build(BuildContext context) {
     return Container(
       width: width ?? double.infinity,
-      padding: dense ? const EdgeInsets.all(0) : padding,
       margin: mergin,
       child: icon != null
           ? TextButton.icon(
               style: style ??
                   DefaultTextButtonStyle(
-                    padding: const EdgeInsets.all(8),
+                    padding: padding,
                     color: color ?? context.theme.textColorOnPrimary,
                     disabledColor: disabledColor,
                     backgroundColor:
@@ -78,7 +77,7 @@ class FormItemButton extends StatelessWidget implements FormItem {
           : TextButton(
               style: style ??
                   DefaultTextButtonStyle(
-                    padding: const EdgeInsets.all(8),
+                    padding: padding,
                     color: color ?? context.theme.textColorOnPrimary,
                     disabledColor: disabledColor,
                     backgroundColor:

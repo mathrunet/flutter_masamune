@@ -20,6 +20,7 @@ class Video extends StatefulWidget {
     this.mixWithOthers = false,
     this.onTap,
     this.iconColor,
+    this.enableCache = true,
   });
 
   /// Mix with others.
@@ -57,6 +58,9 @@ class Video extends StatefulWidget {
 
   /// Icon color.
   final Color? iconColor;
+
+  /// Enable cache.
+  final bool enableCache;
 
   /// Creates the mutable state for this widget at a given location in the tree.
   ///
