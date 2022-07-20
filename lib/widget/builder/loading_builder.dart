@@ -31,7 +31,7 @@ class LoadingBuilder extends StatelessWidget {
         if (snapshot.connectionState != ConnectionState.done) {
           return Center(
             child: loading ??
-                context.widgetTheme.loadingIndicator?.call(
+                context.theme.widget.loadingIndicator?.call(
                   context,
                   indicatorColor ?? context.theme.disabledColor,
                 ) ??

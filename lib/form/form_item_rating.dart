@@ -9,8 +9,8 @@ class FormItemRating extends FormField<double> {
     this.onChanged,
     this.activeColor,
     this.inaciveColor,
-    this.minRating,
-    this.maxRating,
+    this.min,
+    this.max,
     this.itemBuilder,
     this.allowHalfRating = true,
     this.tapOnlyMode = false,
@@ -18,6 +18,7 @@ class FormItemRating extends FormField<double> {
     this.direction = Axis.horizontal,
     this.showLabel = false,
     this.labelTextStyle,
+    this.icon,
     this.format = "0.#",
     Key? key,
     void Function(double? value)? onSaved,
@@ -40,11 +41,12 @@ class FormItemRating extends FormField<double> {
   final TextStyle? labelTextStyle;
   final bool showLabel;
   final Color? activeColor;
-  final double? minRating;
-  final double? maxRating;
+  final double? min;
+  final double? max;
   final EdgeInsetsGeometry padding;
   final Color? inaciveColor;
   final String format;
+  final Widget? icon;
   final Widget Function(BuildContext context, int index)? itemBuilder;
   final int count;
   final double size;
@@ -111,7 +113,7 @@ class _FormItemRatingState extends FormFieldState<double> {
   }
 
   Widget _build(BuildContext context) {
-    final min = widget.minRating ?? 1.0;
+    final min = widget.min ?? 1.0;
     if (widget.readOnly) {
       return RatingBarIndicator(
         rating: value ?? min,
@@ -129,12 +131,13 @@ class _FormItemRatingState extends FormFieldState<double> {
     } else {
       return RatingBar.builder(
         minRating: min,
-        maxRating: widget.maxRating ?? widget.count.toDouble(),
+        maxRating: widget.max ?? widget.count.toDouble(),
         itemBuilder: (context, index) {
           if (widget.itemBuilder != null) {
             return widget.itemBuilder!.call(context, index);
           }
-          return Icon(Icons.star, color: widget.activeColor ?? Colors.amber);
+          return widget.icon ??
+              Icon(Icons.star, color: widget.activeColor ?? Colors.amber);
         },
         onRatingUpdate: (value) {
           widget.onChanged?.call(value);
@@ -154,7 +157,7 @@ class _FormItemRatingState extends FormFieldState<double> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final min = widget.minRating ?? 1.0;
+    final min = widget.min ?? 1.0;
     if (widget.showLabel) {
       return Padding(
         padding: widget.padding,
@@ -176,7 +179,12 @@ class _FormItemRatingState extends FormFieldState<double> {
         ),
       );
     } else {
-      return Padding(padding: widget.padding, child: _build(context));
+      return Padding(
+        padding: widget.padding,
+        child: Center(
+          child: _build(context),
+        ),
+      );
     }
   }
 

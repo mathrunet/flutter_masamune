@@ -32,9 +32,10 @@ class _FutureValueState<T>
     super.initValue();
     _value = FutureValue<T>(state: ConnectionState.active);
     final future = value.callback.call();
-    _value = FutureValue<T>(state: ConnectionState.waiting);
+    _value = FutureValue<T>(state: ConnectionState.waiting, future: future);
     final val = await future;
-    _value = FutureValue<T>(value: val, state: ConnectionState.done);
+    _value =
+        FutureValue<T>(value: val, state: ConnectionState.done, future: future);
   }
 
   @override
@@ -44,8 +45,10 @@ class _FutureValueState<T>
 class FutureValue<T> {
   FutureValue({
     this.value,
+    this.future,
     this.state = ConnectionState.none,
   });
   final T? value;
+  final Future<T>? future;
   final ConnectionState state;
 }

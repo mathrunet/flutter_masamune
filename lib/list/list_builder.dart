@@ -179,7 +179,7 @@ class ListBuilder<T> extends StatelessWidget {
         Opacity(opacity: loadingOpacity, child: child),
         Positioned.fill(
           child: Center(
-            child: context.widgetTheme.loadingIndicator?.call(
+            child: context.theme.widget.loadingIndicator?.call(
                   context,
                   indicatorColor ?? context.theme.disabledColor,
                 ) ??

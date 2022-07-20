@@ -18,7 +18,7 @@ mixin VariableFormConfigUtilMixin<T> on VariableFormConfig<T> {
     if (config.required) {
       return IconTheme(
         data: const IconThemeData(size: 16),
-        child: context.widgetTheme.requiredIcon,
+        child: context.theme.widget.requiredIcon,
       );
     }
     return null;

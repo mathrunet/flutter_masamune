@@ -5,9 +5,7 @@ class InlineAppPreview extends StatelessWidget {
     this.initialRoute,
     this.controller,
     this.routes,
-    this.widgetTheme,
     this.lightTheme,
-    this.imageTheme,
     this.darkTheme,
     this.enableModules = const [],
     this.availableModules = const [],
@@ -19,8 +17,6 @@ class InlineAppPreview extends StatelessWidget {
   final ThemeData? darkTheme;
   final NavigatorController? controller;
   final Map<String, RouteConfig>? routes;
-  final WidgetTheme? widgetTheme;
-  final ImageTheme? imageTheme;
   final List<Module> enableModules;
   final List<Module> availableModules;
   final String? prefix;
@@ -55,21 +51,17 @@ class InlineAppPreview extends StatelessWidget {
         platformAdapter:
             enableModules.whereType<PlatformAdapter>().firstOrNull ??
                 context.platform,
-        child: ThemeScope(
-          widgetTheme: widgetTheme ?? context.widgetTheme,
-          imageTheme: imageTheme ?? context.imageTheme,
-          child: Theme(
-            data: (brightness == Brightness.light
-                    ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
-                    : (appModule?.darkTheme?.toThemeData() ?? darkTheme)) ??
-                context.theme,
-            child: InlinePageBuilder(
-              prefix: prefix ?? "",
-              suffix: suffix ?? "",
-              initialRoute: initialRoute,
-              controller: controller,
-              routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
-            ),
+        child: Theme(
+          data: (brightness == Brightness.light
+                  ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
+                  : (appModule?.darkTheme?.toThemeData() ?? darkTheme)) ??
+              context.theme,
+          child: InlinePageBuilder(
+            prefix: prefix ?? "",
+            suffix: suffix ?? "",
+            initialRoute: initialRoute,
+            controller: controller,
+            routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
           ),
         ),
       ),

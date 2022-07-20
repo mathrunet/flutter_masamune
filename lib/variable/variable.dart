@@ -21,7 +21,9 @@ part 'form/select_form_config.dart';
 part 'form/avatar_form_config.dart';
 part 'form/checkbox_form_config.dart';
 part 'form/slider_form_config.dart';
+part 'form/rating_form_config.dart';
 part 'form/identified_multiple_text_form_config.dart';
+part 'form/selective_icon_form_config.dart';
 
 part 'view/list_tile_view_config.dart';
 part 'view/select_list_tile_view_config.dart';

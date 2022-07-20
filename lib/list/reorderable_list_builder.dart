@@ -325,7 +325,7 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
         Opacity(opacity: widget.loadingOpacity, child: child),
         Positioned.fill(
           child: Center(
-            child: context.widgetTheme.loadingIndicator?.call(
+            child: context.theme.widget.loadingIndicator?.call(
                   context,
                   widget.indicatorColor ?? context.theme.disabledColor,
                 ) ??

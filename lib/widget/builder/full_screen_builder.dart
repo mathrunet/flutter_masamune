@@ -86,8 +86,7 @@ class _FullStreenBuilderState extends State<FullScreenBuilder> {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      if (widget.background != null)
-                        FittedBox(fit: BoxFit.cover, child: widget.background),
+                      if (widget.background != null) widget.background!,
                       widget.foreground(context, fullscreen, _onToggle),
                     ],
                   ),

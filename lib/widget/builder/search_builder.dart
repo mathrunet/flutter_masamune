@@ -189,7 +189,7 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
           return _builder(
             context,
             Center(
-              child: context.widgetTheme.loadingIndicator?.call(
+              child: context.theme.widget.loadingIndicator?.call(
                     context,
                     widget.indicatorColor ?? context.theme.disabledColor,
                   ) ??

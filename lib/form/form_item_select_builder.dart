@@ -17,6 +17,7 @@ class FormItemSelectBuilder extends FormField<String> {
     this.footer,
     required this.items,
     this.onPressed,
+    this.space = 8.0,
     Key? key,
     void Function(String? value)? onSaved,
     String? Function(String? value)? validator,
@@ -39,6 +40,7 @@ class FormItemSelectBuilder extends FormField<String> {
   final String? hintText;
   final Widget? header;
   final Widget? footer;
+  final double space;
   final List<Widget> Function(
     BuildContext context,
     Map<String, String> items,
@@ -103,7 +105,7 @@ class _FormItemSelectBuilderState extends FormFieldState<String> {
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1),
         borderRadius: BorderRadius.circular(6.0),
@@ -116,14 +118,15 @@ class _FormItemSelectBuilderState extends FormFieldState<String> {
           if (widget.labelText.isNotEmpty)
             Text(widget.labelText!, style: context.theme.textTheme.caption),
           if (widget.header != null) ...[
-            const Space(),
+            Space(height: widget.space),
             widget.header!,
           ],
+          Space(height: widget.space),
           ...widget
               ._builder(context, widget.items, value ?? "", _onSelect)
-              .expandAndRemoveEmpty((item) => [const Space(), item]),
+              .insertEvery(Space(height: widget.space), 1),
           if (widget.footer != null) ...[
-            const Space(),
+            Space(height: widget.space),
             widget.footer!,
           ]
         ],
@@ -159,78 +162,78 @@ class _FormItemSelectBuilderState extends FormFieldState<String> {
   }
 }
 
-class FormItemSelectItem extends StatelessWidget {
-  const FormItemSelectItem({
-    required this.id,
-    this.selected = false,
-    required this.onSelect,
-    required this.label,
-    this.selectedBackgroundColor,
-    this.selectedColor,
-    this.selectedIcon,
-    this.icon,
-    this.padding = const EdgeInsets.all(10),
-    this.child,
-  });
+// class FormItemSelectItem extends StatelessWidget {
+//   const FormItemSelectItem({
+//     required this.id,
+//     this.selected = false,
+//     required this.onSelect,
+//     required this.label,
+//     this.selectedBackgroundColor,
+//     this.selectedColor,
+//     this.selectedIcon,
+//     this.icon,
+//     this.padding = const EdgeInsets.all(10),
+//     this.child,
+//   });
 
-  final void Function(String value) onSelect;
-  final bool selected;
-  final String id;
-  final String label;
-  final Color? selectedBackgroundColor;
-  final Color? selectedColor;
-  final EdgeInsetsGeometry padding;
-  final IconData? selectedIcon;
-  final IconData? icon;
-  final Widget? child;
+//   final void Function(String value) onSelect;
+//   final bool selected;
+//   final String id;
+//   final String label;
+//   final Color? selectedBackgroundColor;
+//   final Color? selectedColor;
+//   final EdgeInsetsGeometry padding;
+//   final IconData? selectedIcon;
+//   final IconData? icon;
+//   final Widget? child;
 
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onSelect(id);
-      },
-      child: Container(
-        padding: padding,
-        decoration: BoxDecoration(
-          color: selected
-              ? (selectedBackgroundColor ?? context.theme.primaryColor)
-              : null,
-          border: Border.all(
-            color: selected ? Colors.transparent : context.theme.dividerColor,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(6.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              selected
-                  ? (selectedIcon ?? FontAwesomeIcons.circleCheck)
-                  : (icon ?? FontAwesomeIcons.circle),
-              color: selected
-                  ? (selectedColor ?? context.theme.textColorOnPrimary)
-                  : context.theme.disabledColor,
-            ),
-            const Space.width(10),
-            Expanded(
-              child: child ??
-                  Text(
-                    label,
-                    style: TextStyle(
-                      color: selected
-                          ? (selectedColor ?? context.theme.textColorOnPrimary)
-                          : null,
-                      fontWeight: selected ? FontWeight.bold : null,
-                    ),
-                  ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         onSelect(id);
+//       },
+//       child: Container(
+//         padding: padding,
+//         decoration: BoxDecoration(
+//           color: selected
+//               ? (selectedBackgroundColor ?? context.theme.primaryColor)
+//               : null,
+//           border: Border.all(
+//             color: selected ? Colors.transparent : context.theme.dividerColor,
+//             width: 1,
+//           ),
+//           borderRadius: BorderRadius.circular(6.0),
+//         ),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           mainAxisSize: MainAxisSize.max,
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             Icon(
+//               selected
+//                   ? (selectedIcon ?? FontAwesomeIcons.circleCheck)
+//                   : (icon ?? FontAwesomeIcons.circle),
+//               color: selected
+//                   ? (selectedColor ?? context.theme.textColorOnPrimary)
+//                   : context.theme.disabledColor,
+//             ),
+//             const Space.width(10),
+//             Expanded(
+//               child: child ??
+//                   Text(
+//                     label,
+//                     style: TextStyle(
+//                       color: selected
+//                           ? (selectedColor ?? context.theme.textColorOnPrimary)
+//                           : null,
+//                       fontWeight: selected ? FontWeight.bold : null,
+//                     ),
+//                   ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
