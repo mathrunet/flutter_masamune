@@ -11,3 +11,6 @@ import 'package:video_player/video_player.dart';
 
 part "ui_text.dart";
 part "video.dart";
+part "video_controller.dart";
+part "video_seek.dart";
+part "video_control_panel.dart";

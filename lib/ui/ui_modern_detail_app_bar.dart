@@ -19,6 +19,7 @@ class UIModernDetailAppBar extends UIAppBar {
     Color? borderColor,
     bool forceElevated = false,
     Color? backgroundColor,
+    this.expandedBackgroundColor,
     Color? foregroundColor,
     IconThemeData? iconTheme,
     IconThemeData? actionsIconTheme,
@@ -97,6 +98,7 @@ class UIModernDetailAppBar extends UIAppBar {
   final ImageProvider? backgroundImage;
   final List<Widget>? bottomActions;
   final VoidCallback? onTapImage;
+  final Color? expandedBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +125,11 @@ class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
     final percent = proportion < 0 || proportion > 1 ? 0.0 : proportion;
     final iconSize =
         (appBar.bottomHeight * 2 * percent).limitLow(appBar.bottomHeight);
+    final backgroundColor = _lerpColor(
+      appBar.expandedBackgroundColor,
+      appBar.backgroundColor,
+      percent,
+    );
 
     final iconWidget = appBar.icon == null
         ? null
@@ -200,7 +207,7 @@ class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
                         ),
               automaticallyImplyLeading: appBar.automaticallyImplyLeading,
               actions: appBar.actions,
-              backgroundColor: appBar.backgroundColor,
+              backgroundColor: backgroundColor,
               foregroundColor: appBar.foregroundColor,
               iconTheme: appBar.iconTheme,
               actionsIconTheme: appBar.actionsIconTheme,
@@ -244,6 +251,16 @@ class _UIUserProfileAppBarDelegate extends SliverPersistentHeaderDelegate {
         ],
       ),
     );
+  }
+
+  Color? _lerpColor(Color? expandedColor, Color? shrinkColor, double t) {
+    if (expandedColor == null) {
+      return shrinkColor;
+    }
+    if (shrinkColor == null) {
+      return expandedColor;
+    }
+    return Color.lerp(shrinkColor, expandedColor, t);
   }
 
   @override

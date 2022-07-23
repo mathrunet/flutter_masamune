@@ -9,6 +9,7 @@ class Video extends StatefulWidget {
   /// A preview is also possible.
   const Video(
     this.videoProvider, {
+    this.controller,
     this.loop = true,
     this.width,
     this.height,
@@ -28,6 +29,9 @@ class Video extends StatefulWidget {
 
   /// Video Provider.
   final VideoProvider videoProvider;
+
+  /// Video controller.
+  final VideoController? controller;
 
   /// True to loop the video.
   final bool loop;
@@ -85,22 +89,22 @@ class Video extends StatefulWidget {
 
 class _VideoState extends State<Video> {
   Completer<void>? _completer;
-  VideoPlayerController? _controller;
+  VideoPlayerController? _playerController;
 
   @override
   void initState() {
-    _updateVideoController();
+    _updateVideoPlayerController();
     super.initState();
   }
 
-  Future<void> _updateVideoController() async {
+  Future<void> _updateVideoPlayerController() async {
     if (_completer != null) {
       await _completer!.future;
     }
     try {
       _completer = Completer<void>();
-      _controller?.dispose();
-      _controller = null;
+      _playerController?.dispose();
+      _playerController = null;
       final provider = widget.videoProvider;
       switch (provider.runtimeType) {
         case FileVideoProvider:
@@ -108,7 +112,7 @@ class _VideoState extends State<Video> {
             "Video playback by passing [FileVideoProvider] is not supported on this platform.",
           );
         case NetworkVideoProvider:
-          _controller = VideoPlayerController.network(
+          _playerController = VideoPlayerController.network(
             (provider as NetworkVideoProvider).url,
             videoPlayerOptions: widget.mixWithOthers
                 ? VideoPlayerOptions(mixWithOthers: true)
@@ -116,7 +120,7 @@ class _VideoState extends State<Video> {
           );
           break;
         case AssetVideoProvider:
-          _controller = VideoPlayerController.asset(
+          _playerController = VideoPlayerController.asset(
             (provider as AssetVideoProvider).path,
             videoPlayerOptions: widget.mixWithOthers
                 ? VideoPlayerOptions(mixWithOthers: true)
@@ -124,14 +128,15 @@ class _VideoState extends State<Video> {
           );
           break;
       }
-      final initializing = _controller?.initialize();
-      _controller?.setLooping(widget.loop);
+      widget.controller?._setController(_playerController);
+      final initializing = _playerController?.initialize();
+      _playerController?.setLooping(widget.loop);
       if (widget.mute) {
-        _controller?.setVolume(0);
+        _playerController?.setVolume(0);
       }
       await initializing;
       if (widget.autoplay) {
-        _controller?.play();
+        _playerController?.play();
       }
       _completer?.complete();
       _completer = null;
@@ -149,19 +154,19 @@ class _VideoState extends State<Video> {
   void didUpdateWidget(Video oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.videoProvider != oldWidget.videoProvider) {
-      _updateVideoController();
+      _updateVideoPlayerController();
     }
   }
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _playerController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_controller != null &&
+    if (_playerController != null &&
         (_completer == null || _completer!.isCompleted)) {
       if (widget.width != null && widget.height != null) {
         return SizedBox(
@@ -172,18 +177,18 @@ class _VideoState extends State<Video> {
       } else if (widget.width != null) {
         return SizedBox(
           width: widget.width!,
-          height: widget.width! / _controller!.value.aspectRatio,
+          height: widget.width! / _playerController!.value.aspectRatio,
           child: _videoWidget(context),
         );
       } else if (widget.height != null) {
         return SizedBox(
-          width: widget.height! * _controller!.value.aspectRatio,
+          width: widget.height! * _playerController!.value.aspectRatio,
           height: widget.height!,
           child: _videoWidget(context),
         );
       } else {
         return AspectRatio(
-          aspectRatio: _controller!.value.aspectRatio,
+          aspectRatio: _playerController!.value.aspectRatio,
           child: _videoWidget(context),
         );
       }
@@ -197,21 +202,21 @@ class _VideoState extends State<Video> {
   }
 
   Widget _videoWidget(BuildContext context) {
-    if (_controller == null) {
+    if (_playerController == null) {
       return const Empty();
     }
     return Stack(
       fit: StackFit.expand,
       children: [
         if (widget.fit == null)
-          VideoPlayer(_controller!)
+          VideoPlayer(_playerController!)
         else
           FittedBox(
             fit: widget.fit!,
             child: SizedBox(
-              width: _controller!.value.size.width,
-              height: _controller!.value.size.height,
-              child: VideoPlayer(_controller!),
+              width: _playerController!.value.size.width,
+              height: _playerController!.value.size.height,
+              child: VideoPlayer(_playerController!),
             ),
           ),
         if (widget.controllable)
@@ -219,18 +224,18 @@ class _VideoState extends State<Video> {
             child: IconButton(
               iconSize: widget.iconSize,
               icon: Icon(
-                _controller!.value.isPlaying
+                _playerController!.value.isPlaying
                     ? Icons.pause_circle_filled
                     : Icons.play_circle_filled,
-                color: _controller!.value.isPlaying
+                color: _playerController!.value.isPlaying
                     ? Colors.transparent
                     : (widget.iconColor ?? context.theme.dividerColor),
               ),
               onPressed: () {
-                if (_controller!.value.isPlaying) {
-                  _controller!.pause();
+                if (_playerController!.value.isPlaying) {
+                  _playerController!.pause();
                 } else {
-                  _controller!.play();
+                  _playerController!.play();
                 }
                 setState(() {});
               },

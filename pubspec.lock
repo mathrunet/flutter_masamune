@@ -318,7 +318,7 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.10+2"
+    version: "0.6.10+3"
   flutter_picker:
     dependency: "direct main"
     description:
@@ -475,14 +475,14 @@ packages:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2+5"
+    version: "0.9.2+6"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2+50"
+    version: "0.9.2+57s"
   katana_routing:
     dependency: "direct main"
     description:
@@ -1047,7 +1047,7 @@ packages:
       name: video_player_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.0.12"
   wakelock:
     dependency: "direct main"
     description:
