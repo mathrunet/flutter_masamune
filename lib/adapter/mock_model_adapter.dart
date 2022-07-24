@@ -206,7 +206,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   /// Folder can be specified by specifying [folderPath].
   @override
   Future<String> uploadMedia(String path, [String? folderPath]) async {
-    folderPath = folderPath?.trimString("/");
+    folderPath = folderPath?.trimString("/") ?? "";
     if (folderPath.isEmpty) {
       return path;
     }

@@ -9,7 +9,7 @@ class LocalFileStorage {
   ///
   /// The path after application placement is returned.
   static Future<String> upload(String path, [String? folderPath]) async {
-    folderPath = folderPath?.trimString("/");
+    folderPath = folderPath?.trimString("/") ?? "";
     if (folderPath.isEmpty) {
       return path;
     }
