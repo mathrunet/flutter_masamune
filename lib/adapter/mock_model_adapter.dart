@@ -202,9 +202,15 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   }
 
   /// Upload your media.
+  ///
+  /// Folder can be specified by specifying [folderPath].
   @override
-  Future<String> uploadMedia(String path) async {
-    return path;
+  Future<String> uploadMedia(String path, [String? folderPath]) async {
+    folderPath = folderPath?.trimString("/");
+    if (folderPath.isEmpty) {
+      return path;
+    }
+    return "$folderPath/$path";
   }
 
   /// You can get the UID after authentication is completed.

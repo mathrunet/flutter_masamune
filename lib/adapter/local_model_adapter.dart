@@ -196,9 +196,11 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   }
 
   /// Upload your media.
+  ///
+  /// Folder can be specified by specifying [folderPath].
   @override
-  Future<String> uploadMedia(String path) async {
-    return LocalFileStorage.upload(path);
+  Future<String> uploadMedia(String path, [String? folderPath]) async {
+    return LocalFileStorage.upload(path, folderPath);
   }
 
   /// Return true If authentication is enabled.

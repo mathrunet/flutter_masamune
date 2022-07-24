@@ -8,13 +8,17 @@ class LocalFileStorage {
   /// made available until the app deletes them.
   ///
   /// The path after application placement is returned.
-  static Future<String> upload(String path) async {
+  static Future<String> upload(String path, [String? folderPath]) async {
+    folderPath = folderPath?.trimString("/");
+    if (folderPath.isNotEmpty) {
+      folderPath = "$folderPath/";
+    }
     final file = File(path);
     if (!file.existsSync()) {
-      return path;
+      return "$folderPath$path";
     }
     final fileName = path.last();
-    final rename = "${Config.documentDirectory}/$fileName";
+    final rename = "${Config.documentDirectory}/$folderPath$fileName";
     await file.rename(rename);
     return rename;
   }

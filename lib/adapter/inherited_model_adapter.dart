@@ -208,8 +208,11 @@ class InheritedModelAdapter<
       adapter.saveDocument(document);
 
   /// Upload your media.
+  ///
+  /// Folder can be specified by specifying [folderPath].
   @override
-  Future<String> uploadMedia(String path) => adapter.uploadMedia(path);
+  Future<String> uploadMedia(String path, [String? folderPath]) =>
+      adapter.uploadMedia(path, folderPath);
 
   /// Return true If authentication is enabled.
   @override
