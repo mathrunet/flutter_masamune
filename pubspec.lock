@@ -196,14 +196,14 @@ packages:
       name: dbus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.4"
+    version: "0.7.7"
   device_info_plus:
     dependency: transitive
     description:
       name: device_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.4"
+    version: "4.0.1"
   device_info_plus_linux:
     dependency: transitive
     description:
@@ -238,7 +238,7 @@ packages:
       name: device_info_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "3.0.1"
   dio:
     dependency: transitive
     description:
@@ -273,7 +273,7 @@ packages:
       name: ffi
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "2.0.1"
   file:
     dependency: transitive
     description:
@@ -468,21 +468,21 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2+10"
+    version: "0.9.2+11"
   katana_flutter:
     dependency: "direct main"
     description:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2+6"
+    version: "0.9.2+7"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.2+58s"
+    version: "0.9.2+60s"
   katana_routing:
     dependency: "direct main"
     description:
@@ -580,7 +580,7 @@ packages:
       name: package_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.2"
+    version: "1.4.3"
   package_info_plus_linux:
     dependency: transitive
     description:
@@ -615,7 +615,7 @@ packages:
       name: package_info_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "2.0.0"
   path:
     dependency: transitive
     description:
@@ -671,7 +671,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.7"
+    version: "2.1.0"
   pedantic:
     dependency: transitive
     description:
@@ -1089,7 +1089,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.1"
+    version: "2.7.0"
   wordpress_api:
     dependency: "direct main"
     description:

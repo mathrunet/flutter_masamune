@@ -107,6 +107,7 @@ part "ref/date_time.dart";
 part "ref/effect.dart";
 part 'ref/focus_node.dart';
 part 'ref/future.dart';
+part 'ref/validator.dart';
 part "ref/global_key.dart";
 part "ref/navigator_controller.dart";
 part "ref/page_controller.dart";
