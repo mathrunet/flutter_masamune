@@ -35,11 +35,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     bool disposable = true,
   }) {
     path = path.trimString("/");
-    if (disposable) {
-      return runtimeCollectionDisposableProvider(path);
-    } else {
-      return runtimeCollectionProvider(path);
-    }
+    return runtimeCollectionProvider(path);
   }
 
   /// Gets the provider of the [Collection] for search.
@@ -63,11 +59,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     bool disposable = true,
   }) {
     path = path.trimString("/");
-    if (disposable) {
-      return runtimeDocumentDisposableProvider(path);
-    } else {
-      return runtimeDocumentProvider(path);
-    }
+    return runtimeDocumentProvider(path);
   }
 
   /// Create a code of length [length] randomly for id.

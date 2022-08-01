@@ -32,11 +32,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     bool disposable = true,
   }) {
     path = path.trimString("/");
-    if (disposable) {
-      return localCollectionDisposableProvider(path);
-    } else {
-      return localCollectionProvider(path);
-    }
+    return localCollectionProvider(path);
   }
 
   /// Gets the provider of the [Document].
@@ -50,11 +46,7 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
     bool disposable = true,
   }) {
     path = path.trimString("/");
-    if (disposable) {
-      return localDocumentDisposableProvider(path);
-    } else {
-      return localDocumentProvider(path);
-    }
+    return localDocumentProvider(path);
   }
 
   /// Gets the provider of the [Collection] for search.
