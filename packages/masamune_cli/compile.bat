@@ -1,0 +1,3 @@
+echo Compile masamune client...
+call dart format .
+call dart compile exe bin/masamune.dart
