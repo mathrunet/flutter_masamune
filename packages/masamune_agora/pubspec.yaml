@@ -1,6 +1,6 @@
 name: masamune_agora
 description: Plugin module for agora.io of Masamune framework. Only RTC available. Registration with Agora.io and issuance of an API key are required.
-version: 0.9.2+11
+version: 0.10.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/packages/masamune_agora
 
@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^0.9.0
-  masamune_firebase: ^0.9.0
+  masamune: ^0.10.0
+  masamune_firebase: ^0.10.0
   permission_handler: ^9.2.0
   agora_rtc_engine: ^5.2.0
   http: ^0.13.4

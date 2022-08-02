@@ -1,6 +1,6 @@
 name: firebase_model_notifier
 description: ModelNotifier package for Firebase. When you listen in Firestore, you can tell riverpod and others about the update.
-version: 0.9.3
+version: 0.10.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/firebase_model_notifier
 
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^0.9.0
-  katana_firebase: ^0.9.0
-  model_notifier: ^0.9.0
+  katana: ^0.10.0
+  katana_firebase: ^0.10.0
+  model_notifier: ^0.10.0
   meta: ^1.7.0
   firebase_core: ^1.10.6
   cloud_firestore: ^3.1.5

@@ -1,6 +1,6 @@
 name: masamune_module
 description: Package in which various functions are modularized. The katana_routing routing system is used on the assumption that Riverpod is used.
-version: 0.9.2+24
+version: 0.10.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/packages/masamune_module
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.9.2
+  masamune: ^0.10.0
   share_plus: ^4.0.4
   font_awesome_flutter: ^10.1.0
   photo_view: ^0.14.0
