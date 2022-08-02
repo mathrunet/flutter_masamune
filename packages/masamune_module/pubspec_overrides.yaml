@@ -1,0 +1,14 @@
+# melos_managed_dependency_overrides: katana,katana_flutter,katana_module,katana_routing,masamune,model_notifier
+dependency_overrides:
+  katana:
+    path: ..\\katana
+  katana_flutter:
+    path: ..\\katana_flutter
+  katana_module:
+    path: ..\\katana_module
+  katana_routing:
+    path: ..\\katana_routing
+  masamune:
+    path: ..\\masamune
+  model_notifier:
+    path: ..\\model_notifier

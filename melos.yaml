@@ -1,5 +1,15 @@
 name: masamune
+repository: https://github.com/mathrunet/flutter_masamune
 packages:
   - packages/**
-scripts:
+command:
+  version:
+    # Generate commit links in package changelogs.
+    linkToCommits: true
+    # # Only allow versioning to happen on main branch.
+    # branch: master
+    # Additionally build a changelog at the root of the workspace.
+    workspaceChangelog: true
+  bootstrap:
+    usePubspecOverrides: true
   
