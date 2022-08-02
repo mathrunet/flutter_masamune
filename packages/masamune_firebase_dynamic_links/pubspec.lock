@@ -406,7 +406,7 @@ packages:
       path: "../firebase_model_notifier"
       relative: true
     source: path
-    version: "0.9.3"
+    version: "0.10.0"
   firebase_storage:
     dependency: transitive
     description:
@@ -615,35 +615,35 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "0.9.3"
+    version: "0.10.0"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "0.9.3"
+    version: "0.10.0"
   katana_flutter:
     dependency: "direct overridden"
     description:
       path: "../katana_flutter"
       relative: true
     source: path
-    version: "0.9.2+7"
+    version: "0.10.0"
   katana_module:
     dependency: "direct main"
     description:
       path: "../katana_module"
       relative: true
     source: path
-    version: "0.9.2+60s"
+    version: "0.10.0"
   katana_routing:
     dependency: "direct overridden"
     description:
       path: "../katana_routing"
       relative: true
     source: path
-    version: "0.9.2+23"
+    version: "0.10.0"
   loading_animations:
     dependency: transitive
     description:
@@ -678,14 +678,14 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "0.9.2+49"
+    version: "0.10.0"
   masamune_firebase:
     dependency: "direct main"
     description:
       path: "../masamune_firebase"
       relative: true
     source: path
-    version: "0.9.2+15"
+    version: "0.10.0"
   matcher:
     dependency: transitive
     description:
@@ -720,7 +720,7 @@ packages:
       path: "../model_notifier"
       relative: true
     source: path
-    version: "0.9.2+14"
+    version: "0.10.0"
   multi_select_flutter:
     dependency: transitive
     description:

@@ -1,6 +1,0 @@
-# melos_managed_dependency_overrides: katana,katana_flutter
-dependency_overrides:
-  katana:
-    path: ..\\katana
-  katana_flutter:
-    path: ..\\katana_flutter

@@ -283,19 +283,19 @@ packages:
     source: hosted
     version: "0.6.4"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana"
-      relative: true
-    source: path
-    version: "0.9.3"
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.0"
   katana_flutter:
     dependency: "direct main"
     description:
-      path: "../katana_flutter"
-      relative: true
-    source: path
-    version: "0.9.2+7"
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.0"
   matcher:
     dependency: transitive
     description:

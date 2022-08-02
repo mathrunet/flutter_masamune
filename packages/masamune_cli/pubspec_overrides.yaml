@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: katana
-dependency_overrides:
-  katana:
-    path: ..\\katana

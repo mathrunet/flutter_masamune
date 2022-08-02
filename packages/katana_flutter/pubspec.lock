@@ -243,10 +243,10 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
-    version: "0.9.3"
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.0"
   matcher:
     dependency: transitive
     description:

@@ -265,21 +265,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "0.9.3"
+    version: "0.10.0"
   katana_flutter:
     dependency: "direct overridden"
     description:
       path: "../katana_flutter"
       relative: true
     source: path
-    version: "0.9.2+7"
+    version: "0.10.0"
   katana_routing:
     dependency: "direct main"
     description:
       path: "../katana_routing"
       relative: true
     source: path
-    version: "0.9.2+23"
+    version: "0.10.0"
   matcher:
     dependency: transitive
     description:
@@ -314,7 +314,7 @@ packages:
       path: "../model_notifier"
       relative: true
     source: path
-    version: "0.9.2+14"
+    version: "0.10.0"
   nm:
     dependency: transitive
     description:
