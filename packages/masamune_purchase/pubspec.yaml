@@ -2,7 +2,7 @@ name: masamune_purchase
 description: Plug-in module that provides the billing system function of Masamune framework. Limited to those available on the client side.
 version: 0.10.0
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/flutter_masamune/packages/masamune_purchase
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_purchase
 
 environment:
   sdk: ">=2.17.0 <3.0.0"

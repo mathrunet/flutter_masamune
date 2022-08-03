@@ -17,7 +17,16 @@ command:
     runPubGetInParallel: false
 
 scripts:
-  format: melos exec -- "dart format ."
+  format: >
+    melos exec -- "dart format ."
   
-  publish: melos publish --no-dry-run -y
+  publish: >
+    melos publish --no-dry-run -y
+  
+  upgrade: >
+    melos exec -- "flutter pub upgrade"
+
+  readme: >
+    dart util.dart
+    
   

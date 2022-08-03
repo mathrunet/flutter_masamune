@@ -568,32 +568,32 @@ packages:
     source: hosted
     version: "0.6.4"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   katana_flutter:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_flutter"
-      relative: true
-    source: path
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   katana_module:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_module"
-      relative: true
-    source: path
+      name: katana_module
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   katana_routing:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_routing"
-      relative: true
-    source: path
+      name: katana_routing
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   loading_animations:
     dependency: "direct main"
@@ -626,9 +626,9 @@ packages:
   masamune:
     dependency: "direct main"
     description:
-      path: "../masamune"
-      relative: true
-    source: path
+      name: masamune
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   matcher:
     dependency: transitive
@@ -659,11 +659,11 @@ packages:
     source: hosted
     version: "1.0.2"
   model_notifier:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../model_notifier"
-      relative: true
-    source: path
+      name: model_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   multi_select_flutter:
     dependency: transitive

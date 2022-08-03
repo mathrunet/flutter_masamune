@@ -98,42 +98,42 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.1"
+    version: "3.4.3"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.10"
+    version: "5.7.0"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.19"
+    version: "2.8.3"
   cloud_functions:
     dependency: transitive
     description:
       name: cloud_functions
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1"
+    version: "3.3.3"
   cloud_functions_platform_interface:
     dependency: transitive
     description:
       name: cloud_functions_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.10"
+    version: "5.1.12"
   cloud_functions_web:
     dependency: transitive
     description:
       name: cloud_functions_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.18"
+    version: "4.3.1"
   collapsible:
     dependency: transitive
     description:
@@ -329,83 +329,83 @@ packages:
       name: firebase_analytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.1.12"
+    version: "9.3.0"
   firebase_analytics_platform_interface:
     dependency: transitive
     description:
       name: firebase_analytics_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.10"
+    version: "3.3.0"
   firebase_analytics_web:
     dependency: transitive
     description:
       name: firebase_analytics_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+17"
+    version: "0.4.2"
   firebase_auth:
     dependency: "direct main"
     description:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.1"
+    version: "3.6.2"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.3.1"
+    version: "6.5.2"
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.19"
+    version: "4.2.2"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.19.1"
+    version: "1.20.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.4.3"
+    version: "4.5.0"
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.6"
+    version: "1.7.1"
   firebase_dynamic_links:
     dependency: transitive
     description:
       name: firebase_dynamic_links
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.1"
+    version: "4.3.3"
   firebase_dynamic_links_platform_interface:
     dependency: transitive
     description:
       name: firebase_dynamic_links_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.3+6"
+    version: "0.2.3+8"
   firebase_model_notifier:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../firebase_model_notifier"
-      relative: true
-    source: path
+      name: firebase_model_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   firebase_storage:
     dependency: transitive
@@ -413,21 +413,21 @@ packages:
       name: firebase_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "10.3.1"
+    version: "10.3.4"
   firebase_storage_platform_interface:
     dependency: transitive
     description:
       name: firebase_storage_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.10"
+    version: "4.1.12"
   firebase_storage_web:
     dependency: transitive
     description:
       name: firebase_storage_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.19"
+    version: "3.3.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -460,7 +460,7 @@ packages:
       name: flutter_facebook_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.4+2"
+    version: "4.4.0+1"
   flutter_facebook_auth_platform_interface:
     dependency: transitive
     description:
@@ -486,21 +486,21 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.10+2"
+    version: "0.6.10+3"
   flutter_picker:
     dependency: transitive
     description:
       name: flutter_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
       name: flutter_plugin_android_lifecycle
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   flutter_rating_bar:
     dependency: transitive
     description:
@@ -528,7 +528,7 @@ packages:
       name: flutter_slidable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.3.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -608,14 +608,14 @@ packages:
       name: image_picker_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+5"
+    version: "0.8.5+6"
   image_picker_platform_interface:
     dependency: transitive
     description:
       name: image_picker_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.0"
   intl:
     dependency: transitive
     description:
@@ -631,39 +631,39 @@ packages:
     source: hosted
     version: "0.6.4"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   katana_firebase:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_firebase"
-      relative: true
-    source: path
+      name: katana_firebase
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   katana_flutter:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_flutter"
-      relative: true
-    source: path
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   katana_module:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_module"
-      relative: true
-    source: path
+      name: katana_module
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   katana_routing:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_routing"
-      relative: true
-    source: path
+      name: katana_routing
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   loading_animations:
     dependency: transitive
@@ -696,16 +696,16 @@ packages:
   masamune:
     dependency: "direct main"
     description:
-      path: "../masamune"
-      relative: true
-    source: path
+      name: masamune
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   masamune_firebase:
     dependency: "direct main"
     description:
-      path: "../masamune_firebase"
-      relative: true
-    source: path
+      name: masamune_firebase
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   matcher:
     dependency: transitive
@@ -736,11 +736,11 @@ packages:
     source: hosted
     version: "1.0.2"
   model_notifier:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../model_notifier"
-      relative: true
-    source: path
+      name: model_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   multi_select_flutter:
     dependency: transitive
@@ -825,14 +825,14 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.16"
+    version: "2.0.17"
   path_provider_ios:
     dependency: transitive
     description:
       name: path_provider_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.0.11"
   path_provider_linux:
     dependency: transitive
     description:
@@ -895,7 +895,7 @@ packages:
       name: pointycastle
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.6.0"
+    version: "3.6.1"
   process:
     dependency: transitive
     description:
@@ -923,7 +923,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.27.4"
+    version: "0.27.5"
   selectable_autolink_text:
     dependency: transitive
     description:
@@ -1061,7 +1061,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2+1"
+    version: "2.0.3"
   sqflite_common:
     dependency: transitive
     description:
@@ -1215,7 +1215,7 @@ packages:
       name: video_player_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.8"
   video_player_avfoundation:
     dependency: transitive
     description:
@@ -1236,7 +1236,7 @@ packages:
       name: video_player_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.0.12"
   wakelock:
     dependency: transitive
     description:

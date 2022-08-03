@@ -2,7 +2,7 @@ name: masamune_signin_google
 description: Plugin for signing in with a Google account. Basically used with masamune_firebase authentication; requires use of FirebaseAuth.
 version: 0.10.0
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/flutter_masamune/packages/masamune_signin_google
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_signin_google
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
