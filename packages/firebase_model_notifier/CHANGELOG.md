@@ -1,3 +1,7 @@
+## 0.10.0+1
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
 ## 0.10.0
 
 > Note: This release has breaking changes.

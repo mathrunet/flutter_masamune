@@ -3,6 +3,147 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`firebase_model_notifier` - `v0.10.0+1`](#firebase_model_notifier---v01001)
+ - [`katana` - `v0.10.0+1`](#katana---v01001)
+ - [`katana_firebase` - `v0.10.0+1`](#katana_firebase---v01001)
+ - [`katana_flutter` - `v0.10.0+1`](#katana_flutter---v01001)
+ - [`katana_module` - `v0.10.0+1`](#katana_module---v01001)
+ - [`katana_routing` - `v0.10.0+1`](#katana_routing---v01001)
+ - [`masamune` - `v0.10.0+1`](#masamune---v01001)
+ - [`masamune_ads` - `v0.10.0+1`](#masamune_ads---v01001)
+ - [`masamune_agora` - `v0.10.0+1`](#masamune_agora---v01001)
+ - [`masamune_cli` - `v0.10.0+1`](#masamune_cli---v01001)
+ - [`masamune_firebase` - `v0.10.0+1`](#masamune_firebase---v01001)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+1`](#masamune_firebase_dynamic_links---v01001)
+ - [`masamune_firebase_messaging` - `v0.10.0+1`](#masamune_firebase_messaging---v01001)
+ - [`masamune_local_messaging` - `v0.10.0+1`](#masamune_local_messaging---v01001)
+ - [`masamune_location` - `v0.10.0+1`](#masamune_location---v01001)
+ - [`masamune_module` - `v0.10.0+1`](#masamune_module---v01001)
+ - [`masamune_notion` - `v0.10.0+1`](#masamune_notion---v01001)
+ - [`masamune_purchase` - `v0.10.0+1`](#masamune_purchase---v01001)
+ - [`masamune_purchase_firebase` - `v0.10.0+1`](#masamune_purchase_firebase---v01001)
+ - [`masamune_purchase_stripe` - `v0.10.0+1`](#masamune_purchase_stripe---v01001)
+ - [`masamune_signin_apple` - `v0.10.0+1`](#masamune_signin_apple---v01001)
+ - [`masamune_signin_facebook` - `v0.10.0+1`](#masamune_signin_facebook---v01001)
+ - [`masamune_signin_google` - `v0.10.0+1`](#masamune_signin_google---v01001)
+ - [`masamune_signin_twitter` - `v0.10.0+1`](#masamune_signin_twitter---v01001)
+ - [`model_notifier` - `v0.10.0+1`](#model_notifier---v01001)
+
+---
+
+#### `firebase_model_notifier` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `katana` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `katana_firebase` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `katana_flutter` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `katana_module` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `katana_routing` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_ads` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_agora` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_cli` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_firebase` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_firebase_dynamic_links` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_firebase_messaging` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_local_messaging` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_location` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_module` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_notion` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_purchase` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_purchase_firebase` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_purchase_stripe` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_signin_apple` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_signin_facebook` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_signin_google` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `masamune_signin_twitter` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+#### `model_notifier` - `v0.10.0+1`
+
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+
+
 ## 2022-08-02
 
 ### Changes
