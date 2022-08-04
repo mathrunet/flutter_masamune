@@ -16,6 +16,7 @@ part 'command/ads/admob.dart';
 part 'command/ads/ads.dart';
 part 'command/agora.dart';
 part 'command/app.dart';
+part 'command/generate.dart';
 part 'command/codemagic/android.dart';
 part 'command/codemagic/codemagic.dart';
 part 'command/codemagic/ios.dart';
@@ -74,6 +75,7 @@ const commands = <String, CliCommand>{
   "format": FormatCliCommand(),
   "publish": PublishCliCommand(),
   "upgrade": UpgradeCliCommand(),
+  "generate": GenerateCliCommand(),
 };
 
 Future<void> main(List<String> args) async {
