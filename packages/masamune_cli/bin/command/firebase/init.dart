@@ -27,22 +27,30 @@ class FirebaseInitCliCommand extends CliCommand {
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll("TODO_REPLACE_FIREBASE_ID", projectId);
-      text = text.replaceAll("// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN", """
+      text = text.replaceAll(
+        "// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN",
+        """
 // Comment out using Google services (Firebase、Admob、Google OAuth、Map etc...)
             // [Firebase] [Firestore] [GoogleSignIn] [GoogleMap]
             // [FirebaseCrashlytics] [FirebaseAnalytics] [FirebaseDynamicLink] [FirebaseMessaging]
             apply plugin: 'com.google.gms.google-services'
-            """);
-      text = text.replaceAll("// TODO_REPLACE_GOOGLE_SERVICES_CLASSPASS", """
+            """,
+      );
+      text = text.replaceAll(
+        "// TODO_REPLACE_GOOGLE_SERVICES_CLASSPASS",
+        """
 // Comment out using Google services (Firebase、Google OAuth、Map etc..)
             // [Firebase] [Firestore] [GoogleSignIn] [GoogleMap]
             // [FirebaseCrashlytics] [FirebaseAnalytics] [FirebaseDynamicLink] [FirebaseMessaging]
             classpath 'com.google.gms:google-services:4.3.3'
-            """);
+            """,
+      );
       text = text.replaceAllMapped(
-          RegExp(
-              r"// ([A-Z0-9]+) /\* GoogleService-Info\.plist in Resources \*/"),
-          (m) => "${m.group(1)} /* GoogleService-Info.plist in Resources */");
+        RegExp(
+          r"// ([A-Z0-9]+) /\* GoogleService-Info\.plist in Resources \*/",
+        ),
+        (m) => "${m.group(1)} /* GoogleService-Info.plist in Resources */",
+      );
       File(file.path).writeAsStringSync(text);
     });
 
@@ -61,7 +69,7 @@ class FirebaseInitCliCommand extends CliCommand {
       return;
     }
     if (!Directory(path!).existsSync()) {
-      await Process.run(
+      final cloneProcess = await Process.start(
         git!,
         [
           "submodule",
@@ -71,6 +79,7 @@ class FirebaseInitCliCommand extends CliCommand {
         ],
         runInShell: true,
       );
+      await cloneProcess.print();
     }
     final code = File(templatePath!).readAsStringSync();
     final file = File(indexPath!);

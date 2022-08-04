@@ -11,7 +11,7 @@ class FunctionsDeployCliCommand extends CliCommand {
     final bin = yaml["bin"] as YamlMap;
     final command = bin["firebase"] as String?;
     applyFunctionsTemplate();
-    final resultDeploy = await Process.run(
+    final resultDeploy = await Process.start(
       command!,
       [
         "deploy",
@@ -21,6 +21,6 @@ class FunctionsDeployCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultDeploy.stdout);
+    await resultDeploy.print();
   }
 }

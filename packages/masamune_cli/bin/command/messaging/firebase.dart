@@ -21,18 +21,23 @@ class MessagingFirebaseCliCommand extends CliCommand {
     }
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("<!-- TODO_REPLACE_IOS_FIREBASE_MESSAGING -->", """
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_IOS_FIREBASE_MESSAGING -->",
+        """
 <key>aps-environment</key>
 	<string>development</string>
-            """);
-      text = text
-          .replaceAll("<!-- TODO_REPLACE_ANDROID_FIREBASE_MESSAGING -->", """
+            """,
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_ANDROID_FIREBASE_MESSAGING -->",
+        """
 <!-- Firebase Messaging configuration -->
         <!-- [Firebase] [FirebaseMessaging] -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/notification_channel_id" />
-            """);
+            """,
+      );
       File(file.path).writeAsStringSync(text);
     });
   }

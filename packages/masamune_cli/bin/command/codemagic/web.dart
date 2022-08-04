@@ -18,9 +18,12 @@ class CodemagicWebCliCommand extends CliCommand {
     }
     var codemagic = File("codemagic.yaml").readAsStringSync();
     codemagic = codemagic.replaceAll(
-        RegExp(r"(# )?CM_FIREBASE_TOKEN: [a-zA-Z0-9_=+/-]+"),
-        "CM_FIREBASE_TOKEN: $token");
-    codemagic = codemagic.replaceAll("# TODO_REPLACE_CODEMAGIC_WEB_SCRIPT", r"""
+      RegExp(r"(# )?CM_FIREBASE_TOKEN: [a-zA-Z0-9_=+/-]+"),
+      "CM_FIREBASE_TOKEN: $token",
+    );
+    codemagic = codemagic.replaceAll(
+      "# TODO_REPLACE_CODEMAGIC_WEB_SCRIPT",
+      r"""
 - |
         # build web
         cd .
@@ -31,15 +34,20 @@ class CodemagicWebCliCommand extends CliCommand {
         cp -R * ../../firebase/hosting/.
         cd ../../firebase
         firebase deploy --only hosting --token $CM_FIREBASE_TOKEN
-          """);
-    codemagic =
-        codemagic.replaceAll("# TODO_REPLACE_CODEMAGIC_WEB_ARTIFACTS", """
+          """,
+    );
+    codemagic = codemagic.replaceAll(
+      "# TODO_REPLACE_CODEMAGIC_WEB_ARTIFACTS",
+      """
 - build/web.zip
-          """);
+          """,
+    );
     File("codemagic.yaml").writeAsStringSync(codemagic);
     var firebase = File("firebase/firebase.json").readAsStringSync();
-    firebase = firebase.replaceAll("\"destination\": \"/en/index.html\"",
-        "\"destination\": \"/index.html\"");
+    firebase = firebase.replaceAll(
+      "\"destination\": \"/en/index.html\"",
+      "\"destination\": \"/index.html\"",
+    );
     File("firebase/firebase.json").writeAsStringSync(firebase);
   }
 }

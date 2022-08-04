@@ -26,6 +26,7 @@ class CsrCliCommand extends CliCommand {
       runInShell: true,
       mode: ProcessStartMode.normal,
     );
+    process.stdout.transform(utf8.decoder).forEach(print);
     process.stdin.write(".\n");
     process.stdin.write(".\n");
     process.stdin.write(".\n");

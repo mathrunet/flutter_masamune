@@ -32,25 +32,32 @@ class PurchaseMobileCliCommand extends CliCommand {
     final sharedSecret = mobile["shared_secret"] as String?;
     if (clientId.isEmpty || clientSecret.isEmpty || sharedSecret.isEmpty) {
       print(
-          "ClientID and ClientSecret are not specified. Set up and obtain the OAuth client and OAuth consent screen for GoogleCloutPlatform with redirect url: https://asia-northeast1-$projectId.cloudfunctions.net/android_token.");
+        "ClientID and ClientSecret are not specified. Set up and obtain the OAuth client and OAuth consent screen for GoogleCloutPlatform with redirect url: https://asia-northeast1-$projectId.cloudfunctions.net/android_token.",
+      );
       return;
     }
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("// TODO_MOBILE_PURCHASING_SERVER",
-          "// [InAppPurchase]\r\n    android_auth_code: \"./functions/purchase/android_auth_code\",\r\n    android_token: \"./functions/purchase/android_token\",\r\n    consumable_verify_android: \"./functions/purchase/consumable_verify_android\",\r\n    consumable_verify_ios: \"./functions/purchase/consumable_verify_ios\",\r\n    nonconsumable_verify_android: \"./functions/purchase/nonconsumable_verify_android\",\r\n    nonconsumable_verify_ios: \"./functions/purchase/nonconsumable_verify_ios\",\r\n    subscription_verify_android: \"./functions/purchase/subscription_verify_android\",\r\n    subscription_verify_ios: \"./functions/purchase/subscription_verify_ios\",\r\n    subscription_schedule: \"./functions/purchase/subscription_schedule\",\r\n    purchase_webhook_android: \"./functions/purchase/purchase_webhook_android\",\r\n    purchase_webhook_ios: \"./functions/purchase/purchase_webhook_ios\",\r\n");
-      text = text.replaceAll("// TODO_REPLACE_BILLING_APPLY_PLUGIN", """
+      text = text.replaceAll(
+        "// TODO_MOBILE_PURCHASING_SERVER",
+        "// [InAppPurchase]\r\n    android_auth_code: \"./functions/purchase/android_auth_code\",\r\n    android_token: \"./functions/purchase/android_token\",\r\n    consumable_verify_android: \"./functions/purchase/consumable_verify_android\",\r\n    consumable_verify_ios: \"./functions/purchase/consumable_verify_ios\",\r\n    nonconsumable_verify_android: \"./functions/purchase/nonconsumable_verify_android\",\r\n    nonconsumable_verify_ios: \"./functions/purchase/nonconsumable_verify_ios\",\r\n    subscription_verify_android: \"./functions/purchase/subscription_verify_android\",\r\n    subscription_verify_ios: \"./functions/purchase/subscription_verify_ios\",\r\n    subscription_schedule: \"./functions/purchase/subscription_schedule\",\r\n    purchase_webhook_android: \"./functions/purchase/purchase_webhook_android\",\r\n    purchase_webhook_ios: \"./functions/purchase/purchase_webhook_ios\",\r\n",
+      );
+      text = text.replaceAll(
+        "// TODO_REPLACE_BILLING_APPLY_PLUGIN",
+        """
 // ToDo: Comment out using In App Purchase
     // [InAppPurchase]
     implementation 'com.android.billingclient:billing:3.0.2'
-            """);
+            """,
+      );
       text = text.replaceAllMapped(
-          RegExp(r"// ([A-Z0-9]+) /\* StoreKit.framework"),
-          (m) => "${m.group(1)} /* StoreKit.framework");
+        RegExp(r"// ([A-Z0-9]+) /\* StoreKit.framework"),
+        (m) => "${m.group(1)} /* StoreKit.framework",
+      );
       File(file.path).writeAsStringSync(text);
     });
     applyFunctionsTemplate();
-    final resultFirst = await Process.run(
+    final resultFirst = await Process.start(
       command!,
       [
         "functions:config:set",
@@ -62,8 +69,8 @@ class PurchaseMobileCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultFirst.stdout);
-    final resultFirstDeploy = await Process.run(
+    await resultFirst.print();
+    final resultFirstDeploy = await Process.start(
       command,
       [
         "deploy",
@@ -73,14 +80,15 @@ class PurchaseMobileCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultFirstDeploy.stdout);
+    await resultFirstDeploy.print();
     final refreshToken = mobile["refresh_token"] as String?;
     if (refreshToken.isEmpty) {
       print(
-          "RefreshToken are not specified. Please access to https://asia-northeast1-$projectId.cloudfunctions.net/android_auth_code?id=$clientId");
+        "RefreshToken are not specified. Please access to https://asia-northeast1-$projectId.cloudfunctions.net/android_auth_code?id=$clientId",
+      );
       return;
     }
-    final resultLast = await Process.run(
+    final resultLast = await Process.start(
       command,
       [
         "functions:config:set",
@@ -104,8 +112,8 @@ class PurchaseMobileCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultLast.stdout);
-    final resultLastDeploy = await Process.run(
+    await resultLast.print();
+    final resultLastDeploy = await Process.start(
       command,
       [
         "deploy",
@@ -115,6 +123,6 @@ class PurchaseMobileCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultLastDeploy.stdout);
+    await resultLastDeploy.print();
   }
 }

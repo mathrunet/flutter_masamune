@@ -36,15 +36,20 @@ class SigninFacebookCliCommand extends CliCommand {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll("TODO_REPLACE_NAME_TEMPLATE", title!);
       text = text.replaceAll("TODO_REPLACE_FACEBOOK_APP_ID", id!);
-      text = text.replaceAll("<!-- TODO_REPLACE_FACEBOOK_URL_SCHEME -->", r"""
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_FACEBOOK_URL_SCHEME -->",
+        r"""
 <dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>$(FACEBOOK_URL_SCHEME)</string>
 			</array>
 		</dict>
-        """);
-      text = text.replaceAll("<!-- TODO_REPLACE_FACEBOOK_MANIFEST -->", """
+        """,
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_FACEBOOK_MANIFEST -->",
+        """
 <!-- Facebook Login configuration -->
         <!-- Be sure to comment out when using FirebaseAuth. -->
         <!-- Fall on Android. -->
@@ -67,7 +72,8 @@ class SigninFacebookCliCommand extends CliCommand {
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        """);
+        """,
+      );
       File(file.path).writeAsStringSync(text);
     });
   }

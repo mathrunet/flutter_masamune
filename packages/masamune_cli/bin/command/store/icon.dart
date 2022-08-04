@@ -42,7 +42,7 @@ class StoreIconCliCommand extends CliCommand {
       height: 512,
     );
     File("document/icon.png").writeAsBytesSync(encodePng(resized));
-    await Process.run(
+    final process = await Process.start(
       flutter!,
       [
         "pub",
@@ -52,5 +52,6 @@ class StoreIconCliCommand extends CliCommand {
       ],
       runInShell: true,
     );
+    await process.print();
   }
 }

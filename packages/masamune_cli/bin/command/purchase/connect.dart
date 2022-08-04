@@ -57,7 +57,7 @@ class PurchaseConnectCliCommand extends CliCommand {
           print("Gmail information is invalid.");
           return;
         }
-        final resultMail = await Process.run(
+        final resultMail = await Process.start(
           command!,
           [
             "functions:config:set",
@@ -67,7 +67,7 @@ class PurchaseConnectCliCommand extends CliCommand {
           runInShell: true,
           workingDirectory: "${Directory.current.path}/firebase",
         );
-        print(resultMail.stdout);
+        await resultMail.print();
         break;
       case "sendgrid":
         final sendgrid = email["sendgrid"] as YamlMap;
@@ -76,7 +76,7 @@ class PurchaseConnectCliCommand extends CliCommand {
           print("Sendgrid information is invalid.");
           return;
         }
-        final resultMail = await Process.run(
+        final resultMail = await Process.start(
           command!,
           [
             "functions:config:set",
@@ -85,7 +85,7 @@ class PurchaseConnectCliCommand extends CliCommand {
           runInShell: true,
           workingDirectory: "${Directory.current.path}/firebase",
         );
-        print(resultMail.stdout);
+        await resultMail.print();
         break;
       default:
         print("Email type is invalid.");
@@ -93,15 +93,22 @@ class PurchaseConnectCliCommand extends CliCommand {
     }
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("// TODO_STRIPE_CONNECT_SERVER",
-          "// [stripe]\r\n    stripe: \"./functions/stripe/stripe\",\r\n    stripe_webhook: \"./functions/stripe/stripe_webhook\",\r\n    stripe_connect_webhook: \"./functions/stripe/stripe_connect_webhook\",\r\n    stripe_secure_webhook: \"./functions/stripe/stripe_secure_webhook\",\r\n");
-      text = text.replaceAll("<!-- TODO_REPLACE_IOS_STRIPE_CONNECT -->", """
+      text = text.replaceAll(
+        "// TODO_STRIPE_CONNECT_SERVER",
+        "// [stripe]\r\n    stripe: \"./functions/stripe/stripe\",\r\n    stripe_webhook: \"./functions/stripe/stripe_webhook\",\r\n    stripe_connect_webhook: \"./functions/stripe/stripe_connect_webhook\",\r\n    stripe_secure_webhook: \"./functions/stripe/stripe_secure_webhook\",\r\n",
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_IOS_STRIPE_CONNECT -->",
+        """
 <key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:$domain</string>
 	</array>
-            """);
-      text = text.replaceAll("<!-- TODO_REPLACE_ANDROID_STRIPE_CONNECT -->", """
+            """,
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_ANDROID_STRIPE_CONNECT -->",
+        """
 <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -110,10 +117,11 @@ class PurchaseConnectCliCommand extends CliCommand {
                     android:host="$domain"
                     android:scheme="https"/>
             </intent-filter>
-            """);
+            """,
+      );
       File(file.path).writeAsStringSync(text);
     });
-    final resultKeys = await Process.run(
+    final resultKeys = await Process.start(
       command,
       [
         "functions:config:set",
@@ -129,7 +137,7 @@ class PurchaseConnectCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultKeys.stdout);
+    await resultKeys.print();
     final endpointsRes = await http.get(
       Uri.parse("https://api.stripe.com/v1/webhook_endpoints"),
       headers: {
@@ -147,7 +155,8 @@ class PurchaseConnectCliCommand extends CliCommand {
         final data = endpoint as Map<String, dynamic>;
         final res = await http.delete(
           Uri.parse(
-              "https://api.stripe.com/v1/webhook_endpoints/${data["id"]}"),
+            "https://api.stripe.com/v1/webhook_endpoints/${data["id"]}",
+          ),
           headers: {"Authorization": "Basic $encodedApiSecret"},
         );
         print(res.body);
@@ -194,7 +203,7 @@ class PurchaseConnectCliCommand extends CliCommand {
     print(connectRes.body);
     final stripeResMap = jsonDecode(stripeRes.body) as Map<String, dynamic>;
     final connectResMap = jsonDecode(connectRes.body) as Map<String, dynamic>;
-    final resultHooks = await Process.run(
+    final resultHooks = await Process.start(
       command,
       [
         "functions:config:set",
@@ -204,9 +213,9 @@ class PurchaseConnectCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultHooks.stdout);
+    await resultHooks.print();
     applyFunctionsTemplate();
-    final resultHooksDeploy = await Process.run(
+    final resultHooksDeploy = await Process.start(
       command,
       [
         "deploy",
@@ -216,8 +225,8 @@ class PurchaseConnectCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultHooksDeploy.stdout);
-    final resultHostingDeploy = await Process.run(
+    await resultHooksDeploy.print();
+    final resultHostingDeploy = await Process.start(
       command,
       [
         "deploy",
@@ -227,6 +236,6 @@ class PurchaseConnectCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultHostingDeploy.stdout);
+    await resultHostingDeploy.print();
   }
 }

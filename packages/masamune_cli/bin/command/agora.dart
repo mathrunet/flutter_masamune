@@ -26,36 +26,52 @@ class AgoraCliCommand extends CliCommand {
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll(
-          "<!-- TODO_REPLACE_PERMISSION_READ_PHONE_STATE -->",
-          "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />");
-      text = text.replaceAll("<!-- TODO_REPLACE_PERMISSION_RECORD_AUDIO -->",
-          "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />");
-      text = text.replaceAll("<!-- TODO_REPLACE_PERMISSION_CAMERA -->",
-          "<uses-permission android:name=\"android.permission.CAMERA\" />");
+        "<!-- TODO_REPLACE_PERMISSION_READ_PHONE_STATE -->",
+        "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
+      );
       text = text.replaceAll(
-          "<!-- TODO_REPLACE_PERMISSION_MODIFY_AUDIO_SETTINGS -->",
-          "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />");
+        "<!-- TODO_REPLACE_PERMISSION_RECORD_AUDIO -->",
+        "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
+      );
       text = text.replaceAll(
-          "<!-- TODO_REPLACE_PERMISSION_ACCESS_NETWORK_STATE -->",
-          "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />");
-      text = text.replaceAll("<!-- TODO_REPLACE_PERMISSION_BLUETOOTH -->",
-          "<uses-permission android:name=\"android.permission.BLUETOOTH\" />");
+        "<!-- TODO_REPLACE_PERMISSION_CAMERA -->",
+        "<uses-permission android:name=\"android.permission.CAMERA\" />",
+      );
       text = text.replaceAll(
-          "<!-- TODO_REPLACE_PERMISSION_ACCESS_WIFI_STATE -->",
-          "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />");
+        "<!-- TODO_REPLACE_PERMISSION_MODIFY_AUDIO_SETTINGS -->",
+        "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />",
+      );
       text = text.replaceAll(
-          "<!-- TODO_REPLACE_PERMISSION_READ_EXTERNAL_STORAGE -->",
-          "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />");
-      text = text.replaceAll("<!-- TODO_REPLACE_PERMISSION_WAKE_LOCK -->",
-          "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />");
+        "<!-- TODO_REPLACE_PERMISSION_ACCESS_NETWORK_STATE -->",
+        "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+      );
       text = text.replaceAll(
-          "<!-- TODO_REPLACE_PERMISSION_READ_PRIVILEGED_PHONE_STATE -->",
-          "<uses-permission android:name=\"android.permission.READ_PRIVILEGED_PHONE_STATE\" tools:ignore=\"ProtectedPermissions\" />");
-      text = text.replaceAll("// TODO_AGORA_SERVER",
-          "// [agora]\r\n    agora_token: \"./functions/agora/agora_token\",\r\n    agora_cloud_recording: \"./functions/agora/agora_cloud_recording\",\r\n");
+        "<!-- TODO_REPLACE_PERMISSION_BLUETOOTH -->",
+        "<uses-permission android:name=\"android.permission.BLUETOOTH\" />",
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_PERMISSION_ACCESS_WIFI_STATE -->",
+        "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_PERMISSION_READ_EXTERNAL_STORAGE -->",
+        "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_PERMISSION_WAKE_LOCK -->",
+        "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
+      );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_PERMISSION_READ_PRIVILEGED_PHONE_STATE -->",
+        "<uses-permission android:name=\"android.permission.READ_PRIVILEGED_PHONE_STATE\" tools:ignore=\"ProtectedPermissions\" />",
+      );
+      text = text.replaceAll(
+        "// TODO_AGORA_SERVER",
+        "// [agora]\r\n    agora_token: \"./functions/agora/agora_token\",\r\n    agora_cloud_recording: \"./functions/agora/agora_cloud_recording\",\r\n",
+      );
       File(file.path).writeAsStringSync(text);
     });
-    final resultHooks = await Process.run(
+    final resultHooks = await Process.start(
       command!,
       [
         "functions:config:set",
@@ -66,9 +82,9 @@ class AgoraCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultHooks.stdout);
+    await resultHooks.print();
     applyFunctionsTemplate();
-    final resultHooksDeploy = await Process.run(
+    final resultHooksDeploy = await Process.start(
       command,
       [
         "deploy",
@@ -78,6 +94,6 @@ class AgoraCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultHooksDeploy.stdout);
+    await resultHooksDeploy.print();
   }
 }

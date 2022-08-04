@@ -59,9 +59,12 @@ class PermissionCliCommand extends CliCommand {
       final key = "TODO_REPLACE_${tmp.value}";
       currentFiles.forEach((file) {
         var text = File(file.path).readAsStringSync();
-        text = text.replaceAll("<!-- $key -->", """
+        text = text.replaceAll(
+          "<!-- $key -->",
+          """
 <key>${tmp.value}</key>
-	<string>$def</string>""");
+	<string>$def</string>""",
+        );
         text =
             text.replaceAll("/* ${key}_Default */", "${tmp.value} = \"$def\";");
         for (final l in langMap.entries) {
@@ -73,7 +76,9 @@ class PermissionCliCommand extends CliCommand {
             continue;
           }
           text = text.replaceAll(
-              "/* ${key}_${l.value} */", "${tmp.value} = \"$v\";");
+            "/* ${key}_${l.value} */",
+            "${tmp.value} = \"$v\";",
+          );
         }
         File(file.path).writeAsStringSync(text);
       });

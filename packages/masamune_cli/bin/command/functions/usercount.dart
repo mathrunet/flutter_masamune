@@ -12,12 +12,14 @@ class FunctionsUsercountCliCommand extends CliCommand {
     final command = bin["firebase"] as String?;
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("// TODO_USER_COUNT_SERVER",
-          "// [UserCount]\r\n    user_count: \"./functions/firebase/user_count\",\r\n");
+      text = text.replaceAll(
+        "// TODO_USER_COUNT_SERVER",
+        "// [UserCount]\r\n    user_count: \"./functions/firebase/user_count\",\r\n",
+      );
       File(file.path).writeAsStringSync(text);
     });
     applyFunctionsTemplate();
-    final resultDeploy = await Process.run(
+    final resultDeploy = await Process.start(
       command!,
       [
         "deploy",
@@ -27,6 +29,6 @@ class FunctionsUsercountCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(resultDeploy.stdout);
+    await resultDeploy.print();
   }
 }

@@ -10,7 +10,13 @@ class KeystoreCliCommand extends CliCommand {
   Future<void> exec(YamlMap yaml, List<String> args) async {
     final bin = yaml["bin"] as YamlMap;
     final keytool = bin["keytool"] as String?;
+    final keystore = yaml["keystore"] as YamlMap;
+    final alias = keystore["alias"] as String?;
     final fingerPrintFile = File("android/app/fingerprint.txt");
+    if (alias.isEmpty) {
+      print("Alias is empty.");
+      return;
+    }
     if (fingerPrintFile.existsSync()) {
       print("Keystore is already exists.");
       return;
@@ -21,7 +27,7 @@ class KeystoreCliCommand extends CliCommand {
       passwordFile.writeAsStringSync(password);
     }
     final password = passwordFile.readAsStringSync();
-    final process = await Process.run(
+    final process = await Process.start(
       keytool!,
       [
         "-genkey",
@@ -33,7 +39,7 @@ class KeystoreCliCommand extends CliCommand {
         "-storepass",
         password,
         "-alias",
-        "mathrunet",
+        alias!,
         "-validity",
         "10950",
         "-dname",
@@ -41,13 +47,14 @@ class KeystoreCliCommand extends CliCommand {
       ],
       workingDirectory: Directory.current.path,
     );
-    print(process.stdout);
+    await process.print();
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll("TODO_REPLACE_KEYSTORE_PASSWORD", password);
+      text = text.replaceAll("TODO_REPLACE_KEYSTORE_ALIAS", alias);
       File(file.path).writeAsStringSync(text);
     });
-    final processP12 = await Process.run(
+    final processP12 = await Process.start(
       keytool,
       [
         "-v",
@@ -55,7 +62,7 @@ class KeystoreCliCommand extends CliCommand {
         "-srckeystore",
         "android/app/appkey.keystore",
         "-srcalias",
-        "mathrunet",
+        alias,
         "-srcstorepass",
         password,
         "-srckeypass",
@@ -69,8 +76,8 @@ class KeystoreCliCommand extends CliCommand {
       ],
       workingDirectory: Directory.current.path,
     );
-    print(processP12.stdout);
-    final fingerPrint = await Process.run(
+    await processP12.print();
+    final fingerPrint = await Process.start(
       keytool,
       [
         "-list",
@@ -78,7 +85,7 @@ class KeystoreCliCommand extends CliCommand {
         "-keystore",
         "android/app/appkey.keystore",
         "-alias",
-        "mathrunet",
+        alias,
         "-storepass",
         password,
         "-keypass",
@@ -86,7 +93,7 @@ class KeystoreCliCommand extends CliCommand {
       ],
       workingDirectory: Directory.current.path,
     );
-    print(fingerPrint.stdout);
-    fingerPrintFile.writeAsStringSync(fingerPrint.stdout);
+    final stdout = await fingerPrint.print();
+    fingerPrintFile.writeAsStringSync(stdout);
   }
 }

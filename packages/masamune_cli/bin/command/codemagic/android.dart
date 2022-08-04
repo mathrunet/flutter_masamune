@@ -25,19 +25,24 @@ class CodemagicAndroidCliCommand extends CliCommand {
     }
     var codemagic = File("codemagic.yaml").readAsStringSync();
     codemagic = codemagic.replaceAll(
-        RegExp(r"(# )?CM_KEYSTORE: [a-zA-Z0-9_=+/-]+"),
-        "CM_KEYSTORE: $keyStoreString");
+      RegExp(r"(# )?CM_KEYSTORE: [a-zA-Z0-9_=+/-]+"),
+      "CM_KEYSTORE: $keyStoreString",
+    );
     codemagic = codemagic.replaceAll(
-        RegExp(r"(# )?CM_KEYSTORE_PASSWORD: [a-zA-Z0-9_=+/-]+"),
-        "CM_KEYSTORE_PASSWORD: $password");
+      RegExp(r"(# )?CM_KEYSTORE_PASSWORD: [a-zA-Z0-9_=+/-]+"),
+      "CM_KEYSTORE_PASSWORD: $password",
+    );
     codemagic = codemagic.replaceAll(
-        RegExp(r"(# )?CM_KEY_ALIAS_USERNAME: [a-zA-Z0-9_=+/-]+"),
-        "CM_KEY_ALIAS_USERNAME: $alias");
+      RegExp(r"(# )?CM_KEY_ALIAS_USERNAME: [a-zA-Z0-9_=+/-]+"),
+      "CM_KEY_ALIAS_USERNAME: $alias",
+    );
     codemagic = codemagic.replaceAll(
-        RegExp(r"(# )?CM_KEY_ALIAS_PASSWORD: [a-zA-Z0-9_=+/-]+"),
-        "CM_KEY_ALIAS_PASSWORD: $password");
-    codemagic =
-        codemagic.replaceAll("# TODO_REPLACE_CODEMAGIC_ANDROID_SCRIPT", r"""
+      RegExp(r"(# )?CM_KEY_ALIAS_PASSWORD: [a-zA-Z0-9_=+/-]+"),
+      "CM_KEY_ALIAS_PASSWORD: $password",
+    );
+    codemagic = codemagic.replaceAll(
+      "# TODO_REPLACE_CODEMAGIC_ANDROID_SCRIPT",
+      r"""
 - |
         # set up key.properties
         echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
@@ -60,20 +65,25 @@ class CodemagicAndroidCliCommand extends CliCommand {
           --ks-pass $CM_KEYSTORE_PASSWORD \
           --ks-key-alias $CM_KEY_ALIAS_USERNAME \
           --key-pass $CM_KEY_ALIAS_PASSWORD
-              """);
-    codemagic =
-        codemagic.replaceAll("# TODO_REPLACE_CODEMAGIC_ANDROID_ARTIFACTS", """
+              """,
+    );
+    codemagic = codemagic.replaceAll(
+      "# TODO_REPLACE_CODEMAGIC_ANDROID_ARTIFACTS",
+      """
 - build/**/outputs/**/*.apk
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
-          """);
+          """,
+    );
     if (credentials.isNotEmpty && track.isNotEmpty) {
-      codemagic = codemagic
-          .replaceAll("# TODO_REPLACE_CODEMAGIC_ANDROID_PUBLISHING", """
+      codemagic = codemagic.replaceAll(
+        "# TODO_REPLACE_CODEMAGIC_ANDROID_PUBLISHING",
+        """
 google_play:
         credentials: $credentials
         track: $track
-          """);
+          """,
+      );
     }
     File("codemagic.yaml").writeAsStringSync(codemagic);
   }

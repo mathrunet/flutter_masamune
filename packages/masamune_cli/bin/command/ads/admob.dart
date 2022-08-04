@@ -27,13 +27,16 @@ class AdsAdmobCliCommand extends CliCommand {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll("TODO_REPLACE_ADMOB_ANDROID_APP_ID", android!);
       text = text.replaceAll("TODO_REPLACE_ADMOB_IOS_APP_ID", ios!);
-      text = text.replaceAll("<!-- TODO_REPLACE_ADMOB_MANIFEST -->", """
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_ADMOB_MANIFEST -->",
+        """
 <!-- Admob configuration -->
         <!-- [GoogleAdmob] -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id"/>
-        """);
+        """,
+      );
       File(file.path).writeAsStringSync(text);
     });
   }

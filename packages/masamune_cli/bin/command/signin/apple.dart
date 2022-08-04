@@ -14,12 +14,15 @@ class SigninAppleCliCommand extends CliCommand {
     }
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("<!-- TODO_REPLACE_IOS_APPLE_SIGNIN -->", """
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_IOS_APPLE_SIGNIN -->",
+        """
 <key>com.apple.developer.applesignin</key>
 	<array>
 		<string>Default</string>
 	</array>
-            """);
+            """,
+      );
       File(file.path).writeAsStringSync(text);
     });
   }

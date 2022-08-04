@@ -29,7 +29,7 @@ class CodemagicIOSCliCommand extends CliCommand {
       print("Password is missing.");
       return;
     }
-    await Process.run(
+    final generateProcess = await Process.start(
       openssl!,
       [
         "x509",
@@ -44,7 +44,8 @@ class CodemagicIOSCliCommand extends CliCommand {
       ],
       runInShell: true,
     );
-    await Process.run(
+    await generateProcess.print();
+    final exportProcess = await Process.start(
       openssl,
       [
         "pkcs12",
@@ -60,6 +61,7 @@ class CodemagicIOSCliCommand extends CliCommand {
       ],
       runInShell: true,
     );
+    await exportProcess.print();
     final p12 = search(RegExp(r"ios_distribution.p12$"));
     final mobileProvision = search(RegExp(r"[a-zA-Z0-9_-]+.mobileprovision$"));
     final p12String = base64Encode(File(p12.path).readAsBytesSync());
@@ -73,15 +75,20 @@ class CodemagicIOSCliCommand extends CliCommand {
     }
     var codemagic = File("codemagic.yaml").readAsStringSync();
     codemagic = codemagic.replaceAll(
-        RegExp(r"(# )?CM_CERTIFICATE: [a-zA-Z0-9_=+/-]+"),
-        "CM_CERTIFICATE: $p12String");
+      RegExp(r"(# )?CM_CERTIFICATE: [a-zA-Z0-9_=+/-]+"),
+      "CM_CERTIFICATE: $p12String",
+    );
     codemagic = codemagic.replaceAll(
-        RegExp("(# )?CM_PROVISIONING_PROFILE: [a-zA-Z0-9_+=/-]+"),
-        "CM_PROVISIONING_PROFILE: $mobileProvisionString");
+      RegExp("(# )?CM_PROVISIONING_PROFILE: [a-zA-Z0-9_+=/-]+"),
+      "CM_PROVISIONING_PROFILE: $mobileProvisionString",
+    );
     codemagic = codemagic.replaceAll(
-        RegExp("(# )?CM_CERTIFICATE_PASSWORD: [a-zA-Z0-9_+=/-]+"),
-        "CM_CERTIFICATE_PASSWORD: $password");
-    codemagic = codemagic.replaceAll("# TODO_REPLACE_CODEMAGIC_IOS_SCRIPT", r"""
+      RegExp("(# )?CM_CERTIFICATE_PASSWORD: [a-zA-Z0-9_+=/-]+"),
+      "CM_CERTIFICATE_PASSWORD: $password",
+    );
+    codemagic = codemagic.replaceAll(
+      "# TODO_REPLACE_CODEMAGIC_IOS_SCRIPT",
+      r"""
 - find . -name "Podfile" -execdir pod install \;
       - keychain initialize
       - |      
@@ -100,18 +107,23 @@ class CodemagicIOSCliCommand extends CliCommand {
       - xcode-project use-profiles
       - cd . && xcode-project build-ipa --workspace "ios/Runner.xcworkspace" --scheme
         "Production"
-          """);
-    codemagic =
-        codemagic.replaceAll("# TODO_REPLACE_CODEMAGIC_IOS_ARTIFACTS", """
+          """,
+    );
+    codemagic = codemagic.replaceAll(
+      "# TODO_REPLACE_CODEMAGIC_IOS_ARTIFACTS",
+      """
 - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-          """);
-    codemagic =
-        codemagic.replaceAll("# TODO_REPLACE_CODEMAGIC_IOS_PUBLISHING", """
+          """,
+    );
+    codemagic = codemagic.replaceAll(
+      "# TODO_REPLACE_CODEMAGIC_IOS_PUBLISHING",
+      """
 app_store_connect:
         apple_id: $appleId
         password: $applePassword
-          """);
+          """,
+    );
     File("codemagic.yaml").writeAsStringSync(codemagic);
   }
 }

@@ -27,18 +27,24 @@ class SigninGoogleCliCommand extends CliCommand {
       var text = File(file.path).readAsStringSync();
       text =
           text.replaceAll("TODO_REPLACE_GOOGLE_OAUTH_REVERSE_DOMAIN", domain);
-      text = text.replaceAll("// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN", """
+      text = text.replaceAll(
+        "// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN",
+        """
 // Comment out using Google services (Firebase、Admob、Google OAuth、Map etc...)
             // [Firebase] [Firestore] [GoogleSignIn] [GoogleMap]
             // [FirebaseCrashlytics] [FirebaseAnalytics] [FirebaseDynamicLink] [FirebaseMessaging]
             apply plugin: 'com.google.gms.google-services'
-            """);
-      text = text.replaceAll("// TODO_REPLACE_GOOGLE_SERVICES_CLASSPASS", """
+            """,
+      );
+      text = text.replaceAll(
+        "// TODO_REPLACE_GOOGLE_SERVICES_CLASSPASS",
+        """
 // Comment out using Google services (Firebase、Google OAuth、Map etc..)
             // [Firebase] [Firestore] [GoogleSignIn] [GoogleMap]
             // [FirebaseCrashlytics] [FirebaseAnalytics] [FirebaseDynamicLink] [FirebaseMessaging]
             classpath 'com.google.gms:google-services:4.3.3'
-            """);
+            """,
+      );
       File(file.path).writeAsStringSync(text);
     });
   }

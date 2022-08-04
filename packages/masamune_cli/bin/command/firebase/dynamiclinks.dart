@@ -29,15 +29,18 @@ class FirebaseDynamicLinksCliCommand extends CliCommand {
 
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text
-          .replaceAll("<!-- TODO_REPLACE_IOS_FIREBASE_DYNAMIC_LINKS -->", """
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_IOS_FIREBASE_DYNAMIC_LINKS -->",
+        """
 <key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:$domain</string>
 	</array>
-            """);
+            """,
+      );
       text = text.replaceAll(
-          "<!-- TODO_REPLACE_ANDROID_FIREBASE_DYNAMIC_LINKS -->", """
+        "<!-- TODO_REPLACE_ANDROID_FIREBASE_DYNAMIC_LINKS -->",
+        """
 <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -46,7 +49,8 @@ class FirebaseDynamicLinksCliCommand extends CliCommand {
                     android:host="$domain"
                     android:scheme="https"/>
             </intent-filter>
-            """);
+            """,
+      );
       File(file.path).writeAsStringSync(text);
     });
   }

@@ -43,11 +43,13 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
 }
 
 void showReadme() {
-  print("""
+  print(
+    """
 Masamune command line interfaces.
 
 ${commands.toList((key, value) => "$key:\r\n    - ${value.description}").join("\r\n")}
-""");
+""",
+  );
 }
 
 void applyFunctionsTemplate() {
@@ -116,6 +118,18 @@ String formatQueryParamater(Map<String, dynamic> paramater) {
     }
   }
   return res.join("&");
+}
+
+extension ProcessExtensions on Process {
+  Future<String> print() async {
+    var res = "";
+    this.stdout.transform(utf8.decoder).forEach((e) {
+      res += e;
+      core.print(e);
+    });
+    await this.exitCode;
+    return res;
+  }
 }
 
 extension ZipFileEncoderExtensions on ZipFileEncoder {

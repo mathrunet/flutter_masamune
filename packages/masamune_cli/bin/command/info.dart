@@ -18,7 +18,8 @@ class InfoCliCommand extends CliCommand {
         loadYaml(await File("android/app/fingerprint.yaml").readAsString());
     final sha1 = figerPrint["sha1"] as String?;
     final base64 = figerPrint["base64_sha1"] as String?;
-    File("information.txt").writeAsStringSync("""
+    File("information.txt").writeAsStringSync(
+      """
 # 提供情報
 
 - バンドルID
@@ -33,6 +34,7 @@ $base64
 - デバッグ用の署名証明書キー    
 $sha1  
 
-""");
+""",
+    );
   }
 }

@@ -11,7 +11,7 @@ class HostingCliCommand extends CliCommand {
   Future<void> exec(YamlMap yaml, List<String> args) async {
     final bin = yaml["bin"] as YamlMap;
     final firebase = bin["firebase"] as String?;
-    final process = await Process.run(
+    final process = await Process.start(
       firebase!,
       [
         "deploy",
@@ -21,6 +21,6 @@ class HostingCliCommand extends CliCommand {
       runInShell: true,
       workingDirectory: "${Directory.current.path}/firebase",
     );
-    print(process.stdout);
+    await process.print();
   }
 }

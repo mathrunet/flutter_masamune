@@ -10,12 +10,15 @@ class MessagingLocalCliCommand extends CliCommand {
   Future<void> exec(YamlMap yaml, List<String> args) async {
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("// TODO_REPLACE_IOS_LOCAL_MESSAGING", """
+      text = text.replaceAll(
+        "// TODO_REPLACE_IOS_LOCAL_MESSAGING",
+        """
 // flutter_local_notification
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
     }
-            """);
+            """,
+      );
       File(file.path).writeAsStringSync(text);
     });
   }
