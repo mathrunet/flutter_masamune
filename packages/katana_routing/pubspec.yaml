@@ -1,5 +1,5 @@
 name: katana_routing
-description: Katana package for routing. It supports page creation and page routing. And other extension methods of BuildContext.
+description: Package for routing. It supports page creation and page routing. And other extension methods of BuildContext.
 version: 0.10.0+2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_routing
