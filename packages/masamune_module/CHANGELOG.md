@@ -1,3 +1,7 @@
+## 0.10.0+3
+
+ - **FIX**: Bug fix. ([b60a13e8](https://github.com/mathrunet/flutter_masamune/commit/b60a13e8eb82626a3311848b2afd7d2e62d6554b))
+
 ## 0.10.0+2
 
  - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))

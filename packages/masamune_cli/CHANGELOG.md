@@ -1,3 +1,9 @@
+## 0.10.2
+
+ - **FIX**: Fix prints. ([49c69159](https://github.com/mathrunet/flutter_masamune/commit/49c6915954b0ff22a0213e84ee46546703789218))
+ - **FIX**: Fix command parameter. ([99fcc941](https://github.com/mathrunet/flutter_masamune/commit/99fcc941504a3f48930ecd9dbe735dee38a97bc4))
+ - **FEAT**: Add code generator. ([96fffb70](https://github.com/mathrunet/flutter_masamune/commit/96fffb70ecd176c5bf1a136a1460ef44d9ca7f96))
+
 ## 0.10.1
 
  - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))

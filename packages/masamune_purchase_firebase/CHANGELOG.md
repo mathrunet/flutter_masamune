@@ -1,3 +1,7 @@
+## 0.10.0+3
+
+ - Update a dependency to the latest release.
+
 ## 0.10.0+2
 
  - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
