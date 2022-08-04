@@ -15,6 +15,150 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.10.0+3`](#firebase_model_notifier---v01003)
+ - [`katana` - `v0.10.0+3`](#katana---v01003)
+ - [`katana_firebase` - `v0.10.0+3`](#katana_firebase---v01003)
+ - [`katana_flutter` - `v0.10.0+3`](#katana_flutter---v01003)
+ - [`katana_module` - `v0.10.0+4`](#katana_module---v01004)
+ - [`katana_routing` - `v0.10.0+3`](#katana_routing---v01003)
+ - [`masamune` - `v0.10.0+4`](#masamune---v01004)
+ - [`masamune_ads` - `v0.10.0+4`](#masamune_ads---v01004)
+ - [`masamune_agora` - `v0.10.0+4`](#masamune_agora---v01004)
+ - [`masamune_cli` - `v0.10.2+1`](#masamune_cli---v01021)
+ - [`masamune_firebase` - `v0.10.0+4`](#masamune_firebase---v01004)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+4`](#masamune_firebase_dynamic_links---v01004)
+ - [`masamune_firebase_messaging` - `v0.10.0+4`](#masamune_firebase_messaging---v01004)
+ - [`masamune_local_messaging` - `v0.10.0+4`](#masamune_local_messaging---v01004)
+ - [`masamune_location` - `v0.10.0+4`](#masamune_location---v01004)
+ - [`masamune_module` - `v0.10.0+4`](#masamune_module---v01004)
+ - [`masamune_notion` - `v0.10.0+4`](#masamune_notion---v01004)
+ - [`masamune_purchase` - `v0.10.0+4`](#masamune_purchase---v01004)
+ - [`masamune_purchase_firebase` - `v0.10.0+4`](#masamune_purchase_firebase---v01004)
+ - [`masamune_purchase_stripe` - `v0.10.0+4`](#masamune_purchase_stripe---v01004)
+ - [`masamune_signin_apple` - `v0.10.0+4`](#masamune_signin_apple---v01004)
+ - [`masamune_signin_facebook` - `v0.10.0+4`](#masamune_signin_facebook---v01004)
+ - [`masamune_signin_google` - `v0.10.0+4`](#masamune_signin_google---v01004)
+ - [`masamune_signin_twitter` - `v0.10.0+4`](#masamune_signin_twitter---v01004)
+ - [`model_notifier` - `v0.10.0+3`](#model_notifier---v01003)
+
+---
+
+#### `firebase_model_notifier` - `v0.10.0+3`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `katana` - `v0.10.0+3`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `katana_firebase` - `v0.10.0+3`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `katana_flutter` - `v0.10.0+3`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `katana_module` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `katana_routing` - `v0.10.0+3`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **DOCS**: Corrected pubspec description. ([fb3a14fa](https://github.com/mathrunet/flutter_masamune/commit/fb3a14fa8d1e1cd42322a90de1aa1a555b758662))
+
+#### `masamune` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_ads` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_agora` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_cli` - `v0.10.2+1`
+
+ - **FIX**: Get data for app command from spreadsheet. ([de640907](https://github.com/mathrunet/flutter_masamune/commit/de6409070d7c616370aaa806a29e6567ef850a45))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_firebase` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_firebase_dynamic_links` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_firebase_messaging` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_local_messaging` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_location` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_module` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_notion` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_purchase` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **DOCS**: Corrected pubspec description. ([fb3a14fa](https://github.com/mathrunet/flutter_masamune/commit/fb3a14fa8d1e1cd42322a90de1aa1a555b758662))
+
+#### `masamune_purchase_firebase` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_purchase_stripe` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_signin_apple` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_signin_facebook` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_signin_google` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `masamune_signin_twitter` - `v0.10.0+4`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+#### `model_notifier` - `v0.10.0+3`
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
+
+## 2022-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_module` - `v0.10.0+3`](#katana_module---v01003)
  - [`masamune_cli` - `v0.10.2`](#masamune_cli---v0102)
  - [`masamune_module` - `v0.10.0+3`](#masamune_module---v01003)

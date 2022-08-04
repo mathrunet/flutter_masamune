@@ -1,3 +1,7 @@
+## 0.10.0+4
+
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
 ## 0.10.0+3
 
  - **FIX**: Bug fix. ([b60a13e8](https://github.com/mathrunet/flutter_masamune/commit/b60a13e8eb82626a3311848b2afd7d2e62d6554b))

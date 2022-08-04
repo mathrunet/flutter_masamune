@@ -1,6 +1,6 @@
 name: masamune_firebase_dynamic_links
 description: Plugin to add Firebase Dynamic Links to the Masamune framework. Model notifier is used to make it easier to use.
-version: 0.10.0+3
+version: 0.10.0+4
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_firebase_dynamic_links
 

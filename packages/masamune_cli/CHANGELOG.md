@@ -1,3 +1,8 @@
+## 0.10.2+1
+
+ - **FIX**: Get data for app command from spreadsheet. ([de640907](https://github.com/mathrunet/flutter_masamune/commit/de6409070d7c616370aaa806a29e6567ef850a45))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+
 ## 0.10.2
 
  - **FIX**: Fix prints. ([49c69159](https://github.com/mathrunet/flutter_masamune/commit/49c6915954b0ff22a0213e84ee46546703789218))
