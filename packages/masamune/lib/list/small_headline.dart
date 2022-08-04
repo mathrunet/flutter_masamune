@@ -46,8 +46,11 @@ class SmallHeadline extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
-            Icon(icon,
-                size: 16, color: color ?? context.theme.textColorOnPrimary),
+            Icon(
+              icon,
+              size: 16,
+              color: color ?? context.theme.textColorOnPrimary,
+            ),
             const Space.width(8),
           ],
           Text(

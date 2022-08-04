@@ -23,7 +23,9 @@ class DefaultTextButtonStyle extends ButtonStyle {
           side: borderWidth <= 0 || borderColor == Colors.transparent
               ? BorderSide.none
               : BorderSide(
-                  color: borderColor ?? Colors.black, width: borderWidth),
+                  color: borderColor ?? Colors.black,
+                  width: borderWidth,
+                ),
           borderRadius: radius <= 0
               ? BorderRadius.zero
               : BorderRadius.all(

@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://firebase.google.com/docs/flutter">
-    <img width="240px" src=".github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
+  <a href="https://mathru.net">
+    <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
   </a>
   <h1 align="center">Masamune Framework</h1>
 </p>

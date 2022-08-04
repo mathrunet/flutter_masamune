@@ -1,6 +1,5 @@
-import 'package:test/test.dart';
-
 import 'package:katana/katana.dart';
+import 'package:test/test.dart';
 
 void main() {
   test("splitWhere", () async {

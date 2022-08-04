@@ -133,7 +133,8 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
   /// There is no effect with respect to the document being listened to.
   @override
   Future<LocalDynamicDocumentModel> reloadDocument(
-      LocalDynamicDocumentModel document) async {
+    LocalDynamicDocumentModel document,
+  ) async {
     await document.reload();
     return document;
   }

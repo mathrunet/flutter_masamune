@@ -31,8 +31,10 @@ abstract class StreamingAdapter<TModel extends StreamingModel>
   Future<bool> checkActiveRecordURL(String path);
 
   /// Checks permissions. If `false`, it cannot be used.
-  Future<bool> checkPermission(
-      {bool enableVideo = true, bool enableAudio = true});
+  Future<bool> checkPermission({
+    bool enableVideo = true,
+    bool enableAudio = true,
+  });
 }
 
 /// Model for Streaming.

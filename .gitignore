@@ -64,3 +64,6 @@ archived.zip
 
 # DartDefines.xcconfig is generated at build time and its contents change depending on FLAVOR, so it is not subject to Git management.
 **/ios/Flutter/DartDefines.xcconfig
+
+# Pubspec overrides file.
+pubspec_overrides.yaml

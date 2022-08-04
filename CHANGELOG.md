@@ -186,101 +186,101 @@ Packages with other changes:
 
 #### `firebase_model_notifier` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `katana` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `katana_firebase` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `katana_flutter` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `katana_module` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `katana_routing` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_ads` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_agora` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_cli` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_firebase` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_firebase_dynamic_links` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_firebase_messaging` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_local_messaging` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_location` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_module` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_notion` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_purchase` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_purchase_firebase` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_purchase_stripe` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_signin_apple` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_signin_facebook` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_signin_google` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `masamune_signin_twitter` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 
 #### `model_notifier` - `v0.10.0`
 
- - **BREAKING** **CHORE**: Melos蟇ｾ蠢・. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+ - **BREAKING** **CHORE**: Melos support and change repository structure. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
 

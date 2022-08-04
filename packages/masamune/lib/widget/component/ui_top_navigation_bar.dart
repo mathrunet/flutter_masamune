@@ -45,7 +45,10 @@ class UITopNavigationBar extends StatefulWidget {
   final Color? dividerColor;
   final double dividerSize;
   final Widget Function(
-      UITopNavigationBarItem item, bool selected, VoidCallback onTap)? builder;
+    UITopNavigationBarItem item,
+    bool selected,
+    VoidCallback onTap,
+  )? builder;
 
   @override
   State<StatefulWidget> createState() => _UITopNavigationBarState();

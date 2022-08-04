@@ -14,7 +14,7 @@ class NotionPageCollectionModel
   final String databaseQuery;
   // ignore: unused_field
   String? _nextCursor;
-  List<_NotionPageCollectionModelCache> _cacheList = [];
+  final List<_NotionPageCollectionModelCache> _cacheList = [];
 
   /// It becomes `true` after [loadOnce] is executed.
   bool loaded = false;
