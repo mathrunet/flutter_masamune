@@ -123,6 +123,7 @@ String formatQueryParamater(Map<String, dynamic> paramater) {
 extension ProcessExtensions on Process {
   Future<String> print() async {
     var res = "";
+    this.stderr.transform(utf8.decoder).forEach(core.print);
     this.stdout.transform(utf8.decoder).forEach((e) {
       res += e;
       core.print(e);

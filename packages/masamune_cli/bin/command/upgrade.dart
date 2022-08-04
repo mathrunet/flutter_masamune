@@ -22,8 +22,7 @@ class UpgradeCliCommand extends CliCommand {
         runInShell: true,
         workingDirectory: Directory.current.path,
       );
-      process.print();
-      await process.exitCode;
+      await process.print();
     } else {
       final process = await Process.start(
         flutter!,
@@ -34,8 +33,7 @@ class UpgradeCliCommand extends CliCommand {
         runInShell: true,
         workingDirectory: Directory.current.path,
       );
-      process.print();
-      await process.exitCode;
+      await process.print();
     }
   }
 }
