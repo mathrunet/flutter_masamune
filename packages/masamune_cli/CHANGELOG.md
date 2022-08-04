@@ -1,3 +1,8 @@
+## 0.10.1
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FEAT**: Add new commands. ([508aa78a](https://github.com/mathrunet/flutter_masamune/commit/508aa78aab136f041eef14b4b85127dbc1094a29))
+
 ## 0.10.0+1
 
  - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))

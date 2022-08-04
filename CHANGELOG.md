@@ -3,6 +3,148 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`firebase_model_notifier` - `v0.10.0+2`](#firebase_model_notifier---v01002)
+ - [`katana` - `v0.10.0+2`](#katana---v01002)
+ - [`katana_firebase` - `v0.10.0+2`](#katana_firebase---v01002)
+ - [`katana_flutter` - `v0.10.0+2`](#katana_flutter---v01002)
+ - [`katana_module` - `v0.10.0+2`](#katana_module---v01002)
+ - [`katana_routing` - `v0.10.0+2`](#katana_routing---v01002)
+ - [`masamune` - `v0.10.0+2`](#masamune---v01002)
+ - [`masamune_ads` - `v0.10.0+2`](#masamune_ads---v01002)
+ - [`masamune_agora` - `v0.10.0+2`](#masamune_agora---v01002)
+ - [`masamune_cli` - `v0.10.1`](#masamune_cli---v0101)
+ - [`masamune_firebase` - `v0.10.0+2`](#masamune_firebase---v01002)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+2`](#masamune_firebase_dynamic_links---v01002)
+ - [`masamune_firebase_messaging` - `v0.10.0+2`](#masamune_firebase_messaging---v01002)
+ - [`masamune_local_messaging` - `v0.10.0+2`](#masamune_local_messaging---v01002)
+ - [`masamune_location` - `v0.10.0+2`](#masamune_location---v01002)
+ - [`masamune_module` - `v0.10.0+2`](#masamune_module---v01002)
+ - [`masamune_notion` - `v0.10.0+2`](#masamune_notion---v01002)
+ - [`masamune_purchase` - `v0.10.0+2`](#masamune_purchase---v01002)
+ - [`masamune_purchase_firebase` - `v0.10.0+2`](#masamune_purchase_firebase---v01002)
+ - [`masamune_purchase_stripe` - `v0.10.0+2`](#masamune_purchase_stripe---v01002)
+ - [`masamune_signin_apple` - `v0.10.0+2`](#masamune_signin_apple---v01002)
+ - [`masamune_signin_facebook` - `v0.10.0+2`](#masamune_signin_facebook---v01002)
+ - [`masamune_signin_google` - `v0.10.0+2`](#masamune_signin_google---v01002)
+ - [`masamune_signin_twitter` - `v0.10.0+2`](#masamune_signin_twitter---v01002)
+ - [`model_notifier` - `v0.10.0+2`](#model_notifier---v01002)
+
+---
+
+#### `firebase_model_notifier` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `katana` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `katana_firebase` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `katana_flutter` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `katana_module` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `katana_routing` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_ads` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_agora` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_cli` - `v0.10.1`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FEAT**: Add new commands. ([508aa78a](https://github.com/mathrunet/flutter_masamune/commit/508aa78aab136f041eef14b4b85127dbc1094a29))
+
+#### `masamune_firebase` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_firebase_dynamic_links` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_firebase_messaging` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_local_messaging` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_location` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_module` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_notion` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_purchase` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_purchase_firebase` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_purchase_stripe` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_signin_apple` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_signin_facebook` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_signin_google` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `masamune_signin_twitter` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+#### `model_notifier` - `v0.10.0+2`
+
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+
+
 ## 2022-08-03
 
 ### Changes
