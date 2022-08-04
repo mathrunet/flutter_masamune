@@ -88,4 +88,3 @@ google_play:
     File("codemagic.yaml").writeAsStringSync(codemagic);
   }
 }
-

@@ -26,13 +26,13 @@ The framework itself has the following components.
 
 | Package Name | Details |
 | --- | --- |
-| katana | Packages for extensions and additional functions of the Dart language. |
-| katana_flutter | Packages for extensions and additional functions of the Flutter. |
-| katana_routing | Package that provides page routing and page-related mechanisms. |
-| katana_module | Package to provide a base system of modules. |
-| model_notifier | Package to provide model and status notification mechanisms. |
-| masamune | Basic package for using the Masamune framework. |
-| masamune_module | Package that defines the page module. |
+| katana | Package containing a collection of basic Dart utilities. It provides the base part of the Masamune framework. |
+| katana_flutter | Package containing a collection of basic Flutter utilities. It provides the base part of the Masamune framework. |
+| katana_routing | Package for routing. It supports page creation and page routing. And other extension methods of BuildContext. |
+| katana_module | Package that defines a base class for modularization. It defines abstract classes, etc. for use with the Masamune module. |
+| model_notifier | Package that makes it easy to define ValueNotifier as a model and improves the affinity with riverpod and freezed. |
+| masamune | Package that supports Flutter states and their transitions using the Model Notifier package and the Katana Routing package. |
+| masamune_module | Package in which various functions are modularized. The katana_routing routing system is used on the assumption that Riverpod is used. |
 
 The following plug-ins are additionally loaded depending on the functions used by the application.
 
@@ -40,10 +40,11 @@ Basically, you can pass the Adapter as a module to `UIModuleMaterialApp` to use 
 
 | Package Name | Details |
 | --- | --- |
-| katana_firebase | Package for using the Core portion of Firebase. |
-| firebase_model_notifier | Package that optimizes model_notifier for Firebase and Firestore. |
-| masamune_firebase | Basic package for using Firebase and Firestore. |
+| katana_firebase | Katana package that provides utilities for firebase. It initializes Firebase and so on. |
+| firebase_model_notifier | ModelNotifier package for Firebase. When you listen in Firestore, you can tell riverpod and others about the update. |
+| masamune_firebase | Module for supporting the Firebase/Firestore function of Masamune framework. It is also available on the web. |
 | masamune_purchase | Package to provide mobile billing functionality. It is equipped with functions to perform all billing on the client without server verification, etc. |
+| masamune_purchase_firebase | Plugin that extends the billing system plugin to the processing by the server (Firebase). Firebase Functions are required. |
 
 # Documentation
 
