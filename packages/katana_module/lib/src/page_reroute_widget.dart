@@ -177,21 +177,23 @@ class PageRerouteState extends PageScopedStateBase<PageRerouteWidget> {
   Widget build(BuildContext context) {
     return PageScoped(
       state: this,
-      child: GestureDetector(
-        onTap: () => context.unfocus(),
-        child: SafeArea(
-          child: Scoped(
-            builder: (context, ref) {
-              if (!_initialized) {
-                widget.reroute(context, ref);
-                _initialized = true;
-              }
-              return Center(
-                child: context.theme.widget.loadingIndicator
-                        ?.call(context, context.theme.primaryColor) ??
-                    const CircularProgressIndicator(),
-              );
-            },
+      child: Scaffold(
+        body: GestureDetector(
+          onTap: () => context.unfocus(),
+          child: SafeArea(
+            child: Scoped(
+              builder: (context, ref) {
+                if (!_initialized) {
+                  widget.reroute(context, ref);
+                  _initialized = true;
+                }
+                return Center(
+                  child: context.theme.widget.loadingIndicator
+                          ?.call(context, context.theme.primaryColor) ??
+                      const CircularProgressIndicator(),
+                );
+              },
+            ),
           ),
         ),
       ),
