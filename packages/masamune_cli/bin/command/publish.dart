@@ -18,7 +18,7 @@ class PublishCliCommand extends CliCommand {
       melos!,
       [
         "version",
-        "-y",
+        "--yes",
       ],
       runInShell: true,
       workingDirectory: Directory.current.path,
