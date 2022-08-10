@@ -31,7 +31,7 @@ class UIConfirm {
   /// [text]: Default text.
   /// [popOnPress]: True if the dialog should be closed together when the button is pressed.
   /// [willShowRepetition]: True if the dialog will continue to be displayed unless you press the regular close button.
-  static Future<void> show(
+  static Future<bool> show(
     BuildContext context, {
     Color? backgroundColor,
     Color? color,
@@ -44,10 +44,11 @@ class UIConfirm {
     bool popOnPress = true,
     bool willShowRepetition = false,
   }) async {
+    bool state = false;
     bool clicked = false;
     final overlay = context.navigator.overlay;
     if (overlay == null) {
-      return;
+      return state;
     }
     do {
       await showDialog(
@@ -79,6 +80,7 @@ class UIConfirm {
                     Navigator.of(context, rootNavigator: true).pop();
                   }
                   onCancel?.call();
+                  state = false;
                   clicked = true;
                 },
               ),
@@ -89,6 +91,7 @@ class UIConfirm {
                     Navigator.of(context, rootNavigator: true).pop();
                   }
                   onSubmit?.call();
+                  state = true;
                   clicked = true;
                 },
               )
@@ -97,5 +100,6 @@ class UIConfirm {
         },
       );
     } while (willShowRepetition && !clicked);
+    return state;
   }
 }
