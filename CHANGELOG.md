@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v0.10.0+5`](#masamune---v01005)
+ - [`masamune_agora` - `v0.10.0+5`](#masamune_agora---v01005)
+ - [`masamune_module` - `v0.10.0+5`](#masamune_module---v01005)
+ - [`masamune_notion` - `v0.10.0+5`](#masamune_notion---v01005)
+ - [`masamune_local_messaging` - `v0.10.0+5`](#masamune_local_messaging---v01005)
+ - [`masamune_signin_twitter` - `v0.10.0+5`](#masamune_signin_twitter---v01005)
+ - [`masamune_purchase` - `v0.10.0+5`](#masamune_purchase---v01005)
+ - [`masamune_firebase` - `v0.10.0+5`](#masamune_firebase---v01005)
+ - [`masamune_signin_apple` - `v0.10.0+5`](#masamune_signin_apple---v01005)
+ - [`masamune_purchase_firebase` - `v0.10.0+5`](#masamune_purchase_firebase---v01005)
+ - [`masamune_location` - `v0.10.0+5`](#masamune_location---v01005)
+ - [`masamune_firebase_messaging` - `v0.10.0+5`](#masamune_firebase_messaging---v01005)
+ - [`masamune_ads` - `v0.10.0+5`](#masamune_ads---v01005)
+ - [`masamune_purchase_stripe` - `v0.10.0+5`](#masamune_purchase_stripe---v01005)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+5`](#masamune_firebase_dynamic_links---v01005)
+ - [`masamune_signin_google` - `v0.10.0+5`](#masamune_signin_google---v01005)
+ - [`masamune_signin_facebook` - `v0.10.0+5`](#masamune_signin_facebook---v01005)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.10.0+5`
+ - `masamune_module` - `v0.10.0+5`
+ - `masamune_notion` - `v0.10.0+5`
+ - `masamune_local_messaging` - `v0.10.0+5`
+ - `masamune_signin_twitter` - `v0.10.0+5`
+ - `masamune_purchase` - `v0.10.0+5`
+ - `masamune_firebase` - `v0.10.0+5`
+ - `masamune_signin_apple` - `v0.10.0+5`
+ - `masamune_purchase_firebase` - `v0.10.0+5`
+ - `masamune_location` - `v0.10.0+5`
+ - `masamune_firebase_messaging` - `v0.10.0+5`
+ - `masamune_ads` - `v0.10.0+5`
+ - `masamune_purchase_stripe` - `v0.10.0+5`
+ - `masamune_firebase_dynamic_links` - `v0.10.0+5`
+ - `masamune_signin_google` - `v0.10.0+5`
+ - `masamune_signin_facebook` - `v0.10.0+5`
+
+---
+
+#### `masamune` - `v0.10.0+5`
+
+ - **FIX**: Changed the return value of UIConfirm.show. ([e5547c18](https://github.com/mathrunet/flutter_masamune/commit/e5547c18423ba74081aad714ec58f7acd0960f1e))
+
+
 ## 2022-08-04
 
 ### Changes

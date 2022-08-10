@@ -1,3 +1,7 @@
+## 0.10.0+5
+
+ - **FIX**: Changed the return value of UIConfirm.show. ([e5547c18](https://github.com/mathrunet/flutter_masamune/commit/e5547c18423ba74081aad714ec58f7acd0960f1e))
+
 ## 0.10.0+4
 
  - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))

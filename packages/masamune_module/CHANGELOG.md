@@ -1,3 +1,7 @@
+## 0.10.0+5
+
+ - Update a dependency to the latest release.
+
 ## 0.10.0+4
 
  - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
