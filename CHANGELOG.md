@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_module` - `v0.10.0+5`](#katana_module---v01005)
+ - [`katana_routing` - `v0.10.0+4`](#katana_routing---v01004)
+ - [`masamune` - `v0.10.0+6`](#masamune---v01006)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+6`](#masamune_firebase_dynamic_links---v01006)
+ - [`masamune_agora` - `v0.10.0+6`](#masamune_agora---v01006)
+ - [`masamune_module` - `v0.10.0+6`](#masamune_module---v01006)
+ - [`masamune_purchase` - `v0.10.0+6`](#masamune_purchase---v01006)
+ - [`masamune_signin_apple` - `v0.10.0+6`](#masamune_signin_apple---v01006)
+ - [`masamune_firebase` - `v0.10.0+6`](#masamune_firebase---v01006)
+ - [`masamune_purchase_firebase` - `v0.10.0+6`](#masamune_purchase_firebase---v01006)
+ - [`masamune_notion` - `v0.10.0+6`](#masamune_notion---v01006)
+ - [`masamune_signin_google` - `v0.10.0+6`](#masamune_signin_google---v01006)
+ - [`masamune_local_messaging` - `v0.10.0+6`](#masamune_local_messaging---v01006)
+ - [`masamune_signin_twitter` - `v0.10.0+6`](#masamune_signin_twitter---v01006)
+ - [`masamune_purchase_stripe` - `v0.10.0+6`](#masamune_purchase_stripe---v01006)
+ - [`masamune_location` - `v0.10.0+6`](#masamune_location---v01006)
+ - [`masamune_firebase_messaging` - `v0.10.0+6`](#masamune_firebase_messaging---v01006)
+ - [`masamune_signin_facebook` - `v0.10.0+6`](#masamune_signin_facebook---v01006)
+ - [`masamune_ads` - `v0.10.0+6`](#masamune_ads---v01006)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_dynamic_links` - `v0.10.0+6`
+ - `masamune_agora` - `v0.10.0+6`
+ - `masamune_module` - `v0.10.0+6`
+ - `masamune_purchase` - `v0.10.0+6`
+ - `masamune_signin_apple` - `v0.10.0+6`
+ - `masamune_firebase` - `v0.10.0+6`
+ - `masamune_purchase_firebase` - `v0.10.0+6`
+ - `masamune_notion` - `v0.10.0+6`
+ - `masamune_signin_google` - `v0.10.0+6`
+ - `masamune_local_messaging` - `v0.10.0+6`
+ - `masamune_signin_twitter` - `v0.10.0+6`
+ - `masamune_purchase_stripe` - `v0.10.0+6`
+ - `masamune_location` - `v0.10.0+6`
+ - `masamune_firebase_messaging` - `v0.10.0+6`
+ - `masamune_signin_facebook` - `v0.10.0+6`
+ - `masamune_ads` - `v0.10.0+6`
+
+---
+
+#### `katana_module` - `v0.10.0+5`
+
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+
+#### `katana_routing` - `v0.10.0+4`
+
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+
+#### `masamune` - `v0.10.0+6`
+
+ - **FIX**: Adjust the height of FormItemButton. ([43024982](https://github.com/mathrunet/flutter_masamune/commit/430249826eee56b3ed4ac12671d5798c90e21cea))
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+
+
 ## 2022-08-10
 
 ### Changes

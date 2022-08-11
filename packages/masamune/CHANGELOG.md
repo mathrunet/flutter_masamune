@@ -1,3 +1,8 @@
+## 0.10.0+6
+
+ - **FIX**: Adjust the height of FormItemButton. ([43024982](https://github.com/mathrunet/flutter_masamune/commit/430249826eee56b3ed4ac12671d5798c90e21cea))
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+
 ## 0.10.0+5
 
  - **FIX**: Changed the return value of UIConfirm.show. ([e5547c18](https://github.com/mathrunet/flutter_masamune/commit/e5547c18423ba74081aad714ec58f7acd0960f1e))

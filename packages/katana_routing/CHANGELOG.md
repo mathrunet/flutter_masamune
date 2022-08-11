@@ -1,3 +1,7 @@
+## 0.10.0+4
+
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+
 ## 0.10.0+3
 
  - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
