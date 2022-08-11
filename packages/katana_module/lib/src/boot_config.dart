@@ -6,7 +6,7 @@ class BootConfig {
   /// Configure the boot screen settings.
   const BootConfig({
     this.designType = BootDesignType.loading,
-    this.logoPath = "assets/icon.png",
+    this.logoPath,
     this.backgroundColor,
     this.logoSize,
     this.logoBorderRadius,
@@ -21,7 +21,7 @@ class BootConfig {
   final BootDesignType designType;
 
   /// The asset path if the design type is [logo].
-  final String logoPath;
+  final String? logoPath;
 
   /// [LOGO] size.
   final Size? logoSize;

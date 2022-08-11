@@ -85,6 +85,9 @@ class Boot extends PageScopedWidget {
   @protected
   ImageProvider? get featureImage => null;
 
+  @protected
+  ImageProvider? get backgroundImage => null;
+
   /// Feature widget.
   ///
   /// If you register it, this is the only one displayed.
@@ -105,11 +108,29 @@ class Boot extends PageScopedWidget {
         _onInit(context, ref, context.navigator.context);
       },
     );
+
+    final background = context.theme.image.bootBackgroundImage.isEmpty
+        ? backgroundImage
+        : NetworkOrAsset.image(context.theme.image.bootBackgroundImage!);
     return applySafeArea
         ? SafeArea(
-            child: _body(context, ref),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                if (background != null)
+                  Image(image: background, fit: BoxFit.cover),
+                _body(context, ref),
+              ],
+            ),
           )
-        : _body(context, ref);
+        : Stack(
+            fit: StackFit.expand,
+            children: [
+              if (background != null)
+                Image(image: background, fit: BoxFit.cover),
+              _body(context, ref),
+            ],
+          );
   }
 
   Future<void> _initializeProcess(
@@ -148,10 +169,11 @@ class Boot extends PageScopedWidget {
 
   Widget _body(BuildContext context, WidgetRef ref) {
     final config = context.app?.bootConfig;
+    final logoPath = context.theme.image.bootFeatureImage ?? config?.logoPath;
     final image = config != null &&
             config.designType == BootDesignType.logo &&
-            config.logoPath.isNotEmpty
-        ? NetworkOrAsset.image(config.logoPath, ImageSize.medium)
+            logoPath.isNotEmpty
+        ? NetworkOrAsset.image(logoPath!, ImageSize.medium)
         : featureImage;
     if (image != null) {
       return ColoredBox(

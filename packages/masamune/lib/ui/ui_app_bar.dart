@@ -26,7 +26,7 @@ class UIAppBar extends StatelessWidget {
     this.centerTitle,
     this.excludeHeaderSemantics = false,
     this.titleSpacing,
-    this.titlePadding = const EdgeInsets.fromLTRB(24, 0, 0, 0),
+    this.titlePadding = const EdgeInsets.fromLTRB(16, 0, 0, 0),
     this.collapsedHeight,
     this.expandedHeight,
     this.floating = true,
