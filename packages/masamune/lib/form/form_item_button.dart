@@ -6,7 +6,7 @@ class FormItemButton extends StatelessWidget implements FormItem {
     this.onPressed,
     this.backgroundColor,
     this.color,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.mergin = EdgeInsets.zero,
     this.fontSize = 16,
     this.dense = false,
