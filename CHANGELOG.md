@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_cli` - `v0.10.2+2`](#masamune_cli---v01022)
+
+---
+
+#### `masamune_cli` - `v0.10.2+2`
+
+ - **FIX**: Icon and screenshot specification changes. ([dab5e0c9](https://github.com/mathrunet/flutter_masamune/commit/dab5e0c9b48bad6011753207ed433ced1258cc14))
+
+
 ## 2022-08-11
 
 ### Changes

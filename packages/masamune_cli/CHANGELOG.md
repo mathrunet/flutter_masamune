@@ -1,3 +1,7 @@
+## 0.10.2+2
+
+ - **FIX**: Icon and screenshot specification changes. ([dab5e0c9](https://github.com/mathrunet/flutter_masamune/commit/dab5e0c9b48bad6011753207ed433ced1258cc14))
+
 ## 0.10.2+1
 
  - **FIX**: Get data for app command from spreadsheet. ([de640907](https://github.com/mathrunet/flutter_masamune/commit/de6409070d7c616370aaa806a29e6567ef850a45))
