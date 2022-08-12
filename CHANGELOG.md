@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v0.10.0+7`](#masamune---v01007)
+ - [`masamune_agora` - `v0.10.0+7`](#masamune_agora---v01007)
+ - [`masamune_module` - `v0.10.0+7`](#masamune_module---v01007)
+ - [`masamune_local_messaging` - `v0.10.0+7`](#masamune_local_messaging---v01007)
+ - [`masamune_notion` - `v0.10.0+7`](#masamune_notion---v01007)
+ - [`masamune_signin_twitter` - `v0.10.0+7`](#masamune_signin_twitter---v01007)
+ - [`masamune_purchase` - `v0.10.0+7`](#masamune_purchase---v01007)
+ - [`masamune_firebase` - `v0.10.0+7`](#masamune_firebase---v01007)
+ - [`masamune_signin_apple` - `v0.10.0+7`](#masamune_signin_apple---v01007)
+ - [`masamune_purchase_firebase` - `v0.10.0+7`](#masamune_purchase_firebase---v01007)
+ - [`masamune_firebase_messaging` - `v0.10.0+7`](#masamune_firebase_messaging---v01007)
+ - [`masamune_location` - `v0.10.0+7`](#masamune_location---v01007)
+ - [`masamune_purchase_stripe` - `v0.10.0+7`](#masamune_purchase_stripe---v01007)
+ - [`masamune_ads` - `v0.10.0+7`](#masamune_ads---v01007)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+7`](#masamune_firebase_dynamic_links---v01007)
+ - [`masamune_signin_google` - `v0.10.0+7`](#masamune_signin_google---v01007)
+ - [`masamune_signin_facebook` - `v0.10.0+7`](#masamune_signin_facebook---v01007)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.10.0+7`
+ - `masamune_module` - `v0.10.0+7`
+ - `masamune_local_messaging` - `v0.10.0+7`
+ - `masamune_notion` - `v0.10.0+7`
+ - `masamune_signin_twitter` - `v0.10.0+7`
+ - `masamune_purchase` - `v0.10.0+7`
+ - `masamune_firebase` - `v0.10.0+7`
+ - `masamune_signin_apple` - `v0.10.0+7`
+ - `masamune_purchase_firebase` - `v0.10.0+7`
+ - `masamune_firebase_messaging` - `v0.10.0+7`
+ - `masamune_location` - `v0.10.0+7`
+ - `masamune_purchase_stripe` - `v0.10.0+7`
+ - `masamune_ads` - `v0.10.0+7`
+ - `masamune_firebase_dynamic_links` - `v0.10.0+7`
+ - `masamune_signin_google` - `v0.10.0+7`
+ - `masamune_signin_facebook` - `v0.10.0+7`
+
+---
+
+#### `masamune` - `v0.10.0+7`
+
+ - **FIX**: Changed Boot logo to fade. ([4311b090](https://github.com/mathrunet/flutter_masamune/commit/4311b090894b45efcbca86ef0c2ee6ed989dd2a7))
+
+
+## 2022-08-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_cli` - `v0.10.2+2`](#masamune_cli---v01022)
 
 ---

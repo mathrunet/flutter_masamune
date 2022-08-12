@@ -1,3 +1,7 @@
+## 0.10.0+7
+
+ - **FIX**: Changed Boot logo to fade. ([4311b090](https://github.com/mathrunet/flutter_masamune/commit/4311b090894b45efcbca86ef0c2ee6ed989dd2a7))
+
 ## 0.10.0+6
 
  - **FIX**: Adjust the height of FormItemButton. ([43024982](https://github.com/mathrunet/flutter_masamune/commit/430249826eee56b3ed4ac12671d5798c90e21cea))
