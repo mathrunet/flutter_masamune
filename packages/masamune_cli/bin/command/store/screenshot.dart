@@ -32,8 +32,8 @@ class StoreScreenshotCliCommand extends CliCommand {
   Future<void> exec(YamlMap yaml, List<String> args) async {
     final store = yaml["store"] as YamlMap;
     final exportDir = store["export_dir"] as String?;
-    final colorCode = store["color"] as String?;
     final screenshot = store["screenshot"] as YamlMap;
+    final colorCode = screenshot["color"] as String?;
     final orientation = screenshot["orientation"] as String?;
     final sourceDir = screenshot["source_dir"] as String?;
     if (exportDir.isEmpty || sourceDir.isEmpty || colorCode.isEmpty) {
@@ -42,9 +42,9 @@ class StoreScreenshotCliCommand extends CliCommand {
     }
     // 色の変換
     final color = Color.fromRgb(
-      int.parse(colorCode!.substring(0, 2), radix: 16),
-      int.parse(colorCode.substring(2, 4), radix: 16),
-      int.parse(colorCode.substring(4, 6), radix: 16),
+      int.parse(colorCode!.substring(1, 3), radix: 16),
+      int.parse(colorCode.substring(3, 5), radix: 16),
+      int.parse(colorCode.substring(5, 7), radix: 16),
     );
     final document = Directory("document");
     if (!document.existsSync()) {

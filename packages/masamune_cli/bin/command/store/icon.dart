@@ -11,10 +11,11 @@ class StoreIconCliCommand extends CliCommand {
     final bin = yaml["bin"] as YamlMap;
     final flutter = bin["flutter"] as String?;
     final store = yaml["store"] as YamlMap;
-    final colorCode = store["color"] as String?;
+    final icon = store["icon"] as YamlMap;
+    final colorCode = icon["color"] as String?;
     final exportDir = store["export_dir"] as String?;
-    final icon = store["icon"] as String?;
-    if (icon.isEmpty ||
+    final path = icon["path"] as String?;
+    if (path.isEmpty ||
         exportDir.isEmpty ||
         flutter.isEmpty ||
         colorCode.isEmpty) {
@@ -23,15 +24,15 @@ class StoreIconCliCommand extends CliCommand {
     }
     // 色の変換
     final color = Color.fromRgb(
-      int.parse(colorCode!.substring(0, 2), radix: 16),
-      int.parse(colorCode.substring(2, 4), radix: 16),
-      int.parse(colorCode.substring(4, 6), radix: 16),
+      int.parse(colorCode!.substring(1, 3), radix: 16),
+      int.parse(colorCode.substring(3, 5), radix: 16),
+      int.parse(colorCode.substring(5, 7), radix: 16),
     );
     final document = Directory("document");
     if (!document.existsSync()) {
       document.createSync();
     }
-    final file = File(icon!);
+    final file = File(path!);
     if (!file.existsSync()) {
       final image = Image(512, 512)..fill(color);
       file.writeAsBytesSync(encodePng(image));
@@ -41,7 +42,33 @@ class StoreIconCliCommand extends CliCommand {
       width: 512,
       height: 512,
     );
+    final sizeAndroid = (512 * 66 / 108).round();
+    final resizedAndroid = copyResize(
+      decodeImage(file.readAsBytesSync())!,
+      width: sizeAndroid,
+      height: sizeAndroid,
+    );
+    final imageAndroid = drawImage(
+      Image(512, 512)..fill(color),
+      resizedAndroid,
+      dstX: ((512 / 2) - (sizeAndroid / 2)).round(),
+      dstY: ((512 / 2) - (sizeAndroid / 2)).round(),
+    );
     File("document/icon.png").writeAsBytesSync(encodePng(resized));
+    File("assets/icon_ios.png").writeAsBytesSync(encodePng(resized));
+    File("assets/icon_android.png").writeAsBytesSync(encodePng(imageAndroid));
+    currentFiles.forEach((file) {
+      var text = File(file.path).readAsStringSync();
+      text = text.replaceAll(
+        "# adaptive_icon_background: \"#ffffff\"",
+        "adaptive_icon_background: \"#$colorCode\"",
+      );
+      text = text.replaceAll(
+        "# adaptive_icon_foreground: \"assets/icon_android.png\"",
+        "adaptive_icon_foreground: \"assets/icon_android.png\"",
+      );
+      File(file.path).writeAsStringSync(text);
+    });
     final process = await Process.start(
       flutter!,
       [
