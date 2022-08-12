@@ -98,41 +98,6 @@ class Boot extends PageScopedWidget {
   @protected
   Color? get backgroundColor => null;
 
-  /// Creating a body.
-  ///
-  /// [context]: Build context.
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.effect(
-      onInitOrUpdate: () {
-        _onInit(context, ref, context.navigator.context);
-      },
-    );
-
-    final background = context.theme.image.bootBackgroundImage.isEmpty
-        ? backgroundImage
-        : NetworkOrAsset.image(context.theme.image.bootBackgroundImage!);
-    return applySafeArea
-        ? SafeArea(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                if (background != null)
-                  Image(image: background, fit: BoxFit.cover),
-                _body(context, ref),
-              ],
-            ),
-          )
-        : Stack(
-            fit: StackFit.expand,
-            children: [
-              if (background != null)
-                Image(image: background, fit: BoxFit.cover),
-              _body(context, ref),
-            ],
-          );
-  }
-
   Future<void> _initializeProcess(
     BuildContext context,
     BuildContext root,
@@ -167,6 +132,63 @@ class Boot extends PageScopedWidget {
     ]);
   }
 
+  /// Creating a body.
+  ///
+  /// [context]: Build context.
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.effect(
+      onInitOrUpdate: () {
+        _onInit(context, ref, context.navigator.context);
+      },
+    );
+
+    return applySafeArea
+        ? SafeArea(
+            child: _build(context, ref),
+          )
+        : _build(context, ref);
+  }
+
+  Widget _build(BuildContext context, WidgetRef ref) {
+    final config = context.app?.bootConfig;
+    final background = context.theme.image.bootBackgroundImage.isEmpty
+        ? backgroundImage
+        : NetworkOrAsset.image(context.theme.image.bootBackgroundImage!);
+
+    return ColoredBox(
+      color: config?.backgroundColor ??
+          backgroundColor ??
+          context.theme.backgroundColor,
+      child: AnimationScope(
+        animation: ref.useAutoPlayAnimationScenario(
+          r"_$bootRoot",
+          [
+            AnimationUnit(
+              tag: "opacity",
+              tween: DoubleTween(begin: 0.0, end: 1.0),
+              from: const Duration(milliseconds: 250),
+              to: const Duration(milliseconds: 500),
+            )
+          ],
+        ),
+        builder: (context, child, animator) {
+          return Opacity(
+            opacity: animator.get("opacity", 0.0),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                if (background != null)
+                  Image(image: background, fit: BoxFit.cover),
+                _body(context, ref),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _body(BuildContext context, WidgetRef ref) {
     final config = context.app?.bootConfig;
     final logoPath = context.theme.image.bootFeatureImage ?? config?.logoPath;
@@ -176,38 +198,33 @@ class Boot extends PageScopedWidget {
         ? NetworkOrAsset.image(logoPath!, ImageSize.medium)
         : featureImage;
     if (image != null) {
-      return ColoredBox(
-        color: config?.backgroundColor ??
-            backgroundColor ??
-            context.theme.backgroundColor,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            if (config?.logoSize != null)
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: config!.logoSize!.width,
-                  height: config.logoSize!.height,
-                  child: ClipRRect(
-                    borderRadius: config.logoBorderRadius ?? BorderRadius.zero,
-                    child: Image(
-                      image: image,
-                      fit: BoxFit.contain,
-                    ),
+      return Stack(
+        fit: StackFit.expand,
+        children: [
+          if (config?.logoSize != null)
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: config!.logoSize!.width,
+                height: config.logoSize!.height,
+                child: ClipRRect(
+                  borderRadius: config.logoBorderRadius ?? BorderRadius.zero,
+                  child: Image(
+                    image: image,
+                    fit: BoxFit.contain,
                   ),
                 ),
-              )
-            else
-              ClipRRect(
-                borderRadius: config?.logoBorderRadius ?? BorderRadius.zero,
-                child: Image(
-                  image: image,
-                  fit: BoxFit.contain,
-                ),
-              )
-          ],
-        ),
+              ),
+            )
+          else
+            ClipRRect(
+              borderRadius: config?.logoBorderRadius ?? BorderRadius.zero,
+              child: Image(
+                image: image,
+                fit: BoxFit.contain,
+              ),
+            )
+        ],
       );
     }
     final widget =
@@ -226,76 +243,71 @@ class Boot extends PageScopedWidget {
         child: widget,
       );
     }
-    return ColoredBox(
-      color: config?.backgroundColor ??
-          backgroundColor ??
-          context.theme.backgroundColor,
-      child: AnimationScope(
-        animation: ref.useAutoRepeatAnimationScenario(
-          r"_$boot",
-          [
-            AnimationUnit(
-              tween: DoubleTween(begin: 150, end: 100),
-              from: const Duration(milliseconds: 0),
-              to: const Duration(milliseconds: 2500),
-              curve: Curves.easeInOutQuint,
-              tag: "size",
+    return AnimationScope(
+      animation: ref.useAutoRepeatAnimationScenario(
+        r"_$bootLogo",
+        [
+          AnimationUnit(
+            tween: DoubleTween(begin: 150, end: 100),
+            from: const Duration(milliseconds: 0),
+            to: const Duration(milliseconds: 2500),
+            curve: Curves.easeInOutQuint,
+            tag: "size",
+          ),
+          AnimationUnit(
+            tween: DoubleTween(begin: 100, end: 150),
+            from: const Duration(milliseconds: 2500),
+            to: const Duration(milliseconds: 5000),
+            curve: Curves.easeInOutQuint,
+            tag: "size",
+          ),
+          AnimationUnit(
+            tween: ColorTween(
+              begin: config?.color ?? indicatorColor ?? Colors.red,
+              end: config?.color ?? indicatorColor ?? Colors.purple,
             ),
-            AnimationUnit(
-              tween: DoubleTween(begin: 100, end: 150),
-              from: const Duration(milliseconds: 2500),
-              to: const Duration(milliseconds: 5000),
-              curve: Curves.easeInOutQuint,
-              tag: "size",
+            from: const Duration(seconds: 0),
+            to: const Duration(seconds: 1),
+            tag: "color",
+          ),
+          AnimationUnit(
+            tween: ColorTween(
+              begin: config?.color ?? indicatorColor ?? Colors.purple,
+              end: config?.color ?? indicatorColor ?? Colors.blue,
             ),
-            AnimationUnit(
-              tween: ColorTween(
-                begin: config?.color ?? indicatorColor ?? Colors.red,
-                end: config?.color ?? indicatorColor ?? Colors.purple,
-              ),
-              from: const Duration(seconds: 0),
-              to: const Duration(seconds: 1),
-              tag: "color",
+            from: const Duration(seconds: 2),
+            to: const Duration(seconds: 3),
+            tag: "color",
+          ),
+          AnimationUnit(
+            tween: ColorTween(
+              begin: config?.color ?? indicatorColor ?? Colors.blue,
+              end: config?.color ?? indicatorColor ?? Colors.purple,
             ),
-            AnimationUnit(
-              tween: ColorTween(
-                begin: config?.color ?? indicatorColor ?? Colors.purple,
-                end: config?.color ?? indicatorColor ?? Colors.blue,
-              ),
-              from: const Duration(seconds: 2),
-              to: const Duration(seconds: 3),
-              tag: "color",
+            from: const Duration(seconds: 4),
+            to: const Duration(seconds: 5),
+            tag: "color",
+          ),
+          AnimationUnit(
+            tween: ColorTween(
+              begin: config?.color ?? indicatorColor ?? Colors.purple,
+              end: config?.color ?? indicatorColor ?? Colors.red,
             ),
-            AnimationUnit(
-              tween: ColorTween(
-                begin: config?.color ?? indicatorColor ?? Colors.blue,
-                end: config?.color ?? indicatorColor ?? Colors.purple,
-              ),
-              from: const Duration(seconds: 4),
-              to: const Duration(seconds: 5),
-              tag: "color",
-            ),
-            AnimationUnit(
-              tween: ColorTween(
-                begin: config?.color ?? indicatorColor ?? Colors.purple,
-                end: config?.color ?? indicatorColor ?? Colors.red,
-              ),
-              from: const Duration(seconds: 8),
-              to: const Duration(seconds: 10),
-              tag: "color",
-            )
-          ],
-        ),
-        builder: (context, child, animator) {
-          return LoadingBouncingGrid.circle(
-            size: animator.get("size", 0),
-            backgroundColor: animator.get(
-              "color",
-              config?.color ?? indicatorColor ?? Colors.red,
-            ),
-          );
-        },
+            from: const Duration(seconds: 8),
+            to: const Duration(seconds: 10),
+            tag: "color",
+          )
+        ],
       ),
+      builder: (context, child, animator) {
+        return LoadingBouncingGrid.circle(
+          size: animator.get("size", 0),
+          backgroundColor: animator.get(
+            "color",
+            config?.color ?? indicatorColor ?? Colors.red,
+          ),
+        );
+      },
     );
   }
 }
