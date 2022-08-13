@@ -33,6 +33,9 @@ class FirebaseCore {
     if (_app != null) {
       return;
     }
+    if (Config.isWeb) {
+      assert(options != null, "For the Web, Options is always required.");
+    }
     FirebaseCore.region = region;
     await Localize.initialize();
     _app = await Firebase.initializeApp(options: options);

@@ -14,7 +14,7 @@ class NotionCore {
   static late final String _cacheBucketName;
   static late final String _cachePath;
 
-  static void initialize(
+  static Future<void> initialize(
     String endpoint,
     String cacheBucketName, {
     NotionQuery? defaultQuery,
@@ -22,7 +22,8 @@ class NotionCore {
     String contentPath = "notion/database/content",
     String cachePath = "images",
     String Function(String url) onOpenInternalPath = _defaultOnOpenInternal,
-  }) {
+    FirebaseOptions? firebaseOptions,
+  }) async {
     if (_initialized) {
       return;
     }
@@ -36,6 +37,7 @@ class NotionCore {
     _contentPath = contentPath;
     _defaultQuery = defaultQuery;
     _onOpenInternalPath = onOpenInternalPath;
+    await FirebaseCore.initialize(options: firebaseOptions);
     _initialized = true;
   }
 
