@@ -1,3 +1,7 @@
+## 0.10.0+8
+
+ - **FIX**: Add FirebaseOption. ([e6b4c343](https://github.com/mathrunet/flutter_masamune/commit/e6b4c3435bec4e4fe4c25269f4175b7836bf488d))
+
 ## 0.10.0+7
 
  - Update a dependency to the latest release.

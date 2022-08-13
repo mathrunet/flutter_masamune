@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_firebase` - `v0.10.0+4`](#katana_firebase---v01004)
+ - [`masamune_notion` - `v0.10.0+8`](#masamune_notion---v01008)
+ - [`masamune_firebase_messaging` - `v0.10.0+8`](#masamune_firebase_messaging---v01008)
+ - [`masamune_purchase_stripe` - `v0.10.0+8`](#masamune_purchase_stripe---v01008)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+8`](#masamune_firebase_dynamic_links---v01008)
+ - [`firebase_model_notifier` - `v0.10.0+4`](#firebase_model_notifier---v01004)
+ - [`masamune_firebase` - `v0.10.0+8`](#masamune_firebase---v01008)
+ - [`masamune_agora` - `v0.10.0+8`](#masamune_agora---v01008)
+ - [`masamune_signin_twitter` - `v0.10.0+8`](#masamune_signin_twitter---v01008)
+ - [`masamune_signin_apple` - `v0.10.0+8`](#masamune_signin_apple---v01008)
+ - [`masamune_purchase_firebase` - `v0.10.0+8`](#masamune_purchase_firebase---v01008)
+ - [`masamune_signin_google` - `v0.10.0+8`](#masamune_signin_google---v01008)
+ - [`masamune_signin_facebook` - `v0.10.0+8`](#masamune_signin_facebook---v01008)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_messaging` - `v0.10.0+8`
+ - `masamune_purchase_stripe` - `v0.10.0+8`
+ - `masamune_firebase_dynamic_links` - `v0.10.0+8`
+ - `firebase_model_notifier` - `v0.10.0+4`
+ - `masamune_firebase` - `v0.10.0+8`
+ - `masamune_agora` - `v0.10.0+8`
+ - `masamune_signin_twitter` - `v0.10.0+8`
+ - `masamune_signin_apple` - `v0.10.0+8`
+ - `masamune_purchase_firebase` - `v0.10.0+8`
+ - `masamune_signin_google` - `v0.10.0+8`
+ - `masamune_signin_facebook` - `v0.10.0+8`
+
+---
+
+#### `katana_firebase` - `v0.10.0+4`
+
+ - **FIX**: Add FirebaseOption. ([e6b4c343](https://github.com/mathrunet/flutter_masamune/commit/e6b4c3435bec4e4fe4c25269f4175b7836bf488d))
+
+#### `masamune_notion` - `v0.10.0+8`
+
+ - **FIX**: Add FirebaseOption. ([e6b4c343](https://github.com/mathrunet/flutter_masamune/commit/e6b4c3435bec4e4fe4c25269f4175b7836bf488d))
+
+
 ## 2022-08-12
 
 ### Changes
