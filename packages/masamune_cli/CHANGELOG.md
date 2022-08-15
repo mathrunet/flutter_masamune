@@ -1,3 +1,7 @@
+## 0.10.2+3
+
+ - **FIX**: Fixed a bug that did not work. ([87e5a231](https://github.com/mathrunet/flutter_masamune/commit/87e5a23146a098ba695c9fc7139f378c8a399b9f))
+
 ## 0.10.2+2
 
  - **FIX**: Icon and screenshot specification changes. ([dab5e0c9](https://github.com/mathrunet/flutter_masamune/commit/dab5e0c9b48bad6011753207ed433ced1258cc14))

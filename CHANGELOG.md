@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_cli` - `v0.10.2+3`](#masamune_cli---v01023)
+
+---
+
+#### `masamune_cli` - `v0.10.2+3`
+
+ - **FIX**: Fixed a bug that did not work. ([87e5a231](https://github.com/mathrunet/flutter_masamune/commit/87e5a23146a098ba695c9fc7139f378c8a399b9f))
+
+
+## 2022-08-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_notion` - `v0.10.1`](#masamune_notion---v0101)
 
 ---
