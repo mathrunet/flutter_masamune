@@ -14,7 +14,7 @@ class AppCliCommand extends CliCommand {
       print("App data could not be found.");
       return;
     }
-    var found = [];
+    var found = List<String>.generate(10, (index) => "");
     final information = yaml["information"] as String?;
     final account = app["account"] as String?;
     final id = app["bundle_id"] as String?;
@@ -45,7 +45,7 @@ class AppCliCommand extends CliCommand {
         if (id.isEmpty || id != account) {
           continue;
         }
-        found = line;
+        found = line.map((e) => e.toString()).toList();
       }
     }
     final appId = (app["app_id"] as int?).toString();
@@ -69,19 +69,19 @@ class AppCliCommand extends CliCommand {
         text = text.replaceAll("TODO_REPLACE_APPLE_APPID", appId);
       }
       if (title.isNotEmpty) {
-        text = text.replaceAll("TODO_REPLACE_NAME_TEMPLATE", title!);
+        text = text.replaceAll("TODO_REPLACE_NAME_TEMPLATE", title);
       }
       if (titleShort.isNotEmpty) {
-        text = text.replaceAll("TODO_REPLACE_SHORT_NAME_TEMPLATE", titleShort!);
+        text = text.replaceAll("TODO_REPLACE_SHORT_NAME_TEMPLATE", titleShort);
       }
       if (description.isNotEmpty) {
-        text = text.replaceAll("TODO_REPLACE_TEXT_TEMPLATE", description!);
+        text = text.replaceAll("TODO_REPLACE_TEXT_TEMPLATE", description);
       }
       if (email.isNotEmpty) {
-        text = text.replaceAll("TODO_REPLACE_SUPPORT_EMAIL", email!);
+        text = text.replaceAll("TODO_REPLACE_SUPPORT_EMAIL", email);
       }
       if (url.isNotEmpty) {
-        text = text.replaceAll("TODO_REPLACE_URL_TEMPLATE", url!);
+        text = text.replaceAll("TODO_REPLACE_URL_TEMPLATE", url);
       }
       if (image.isNotEmpty) {
         text = text.replaceAll("TODO_REPLACE_IMAGE_TEMPLATE", image!);
