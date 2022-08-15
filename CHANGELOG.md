@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_notion` - `v0.10.1`](#masamune_notion---v0101)
+
+---
+
+#### `masamune_notion` - `v0.10.1`
+
+ - **FEAT**: Addition of Image and Column blocks. ([4b44a01e](https://github.com/mathrunet/flutter_masamune/commit/4b44a01e65c5d5998c0d66bdae192b80a06e3e41))
+
+
 ## 2022-08-14
 
 ### Changes

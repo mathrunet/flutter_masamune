@@ -1,3 +1,7 @@
+## 0.10.1
+
+ - **FEAT**: Addition of Image and Column blocks. ([4b44a01e](https://github.com/mathrunet/flutter_masamune/commit/4b44a01e65c5d5998c0d66bdae192b80a06e3e41))
+
 ## 0.10.0+8
 
  - **FIX**: Add FirebaseOption. ([e6b4c343](https://github.com/mathrunet/flutter_masamune/commit/e6b4c3435bec4e4fe4c25269f4175b7836bf488d))
