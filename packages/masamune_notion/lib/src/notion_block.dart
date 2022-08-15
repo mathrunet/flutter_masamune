@@ -88,7 +88,7 @@ class NotionBlock extends StatefulWidget {
 
 class _NotionBlockState extends State<NotionBlock> {
   NotionBlockDocumentModel get block => widget.block;
-  static const double _indentWidth = 16.0;
+  static const double _indentWidth = 24.0;
 
   @override
   void initState() {
@@ -126,29 +126,58 @@ class _NotionBlockState extends State<NotionBlock> {
               const CircularProgressIndicator(),
         );
       }
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Space.height(4),
-          _build(context),
-          LoadingBuilder(
-            futures: [
-              block.children?.loading,
-            ],
-            builder: (context) {
-              return Indent(
-                padding: const EdgeInsets.only(left: _indentWidth, top: 4),
-                children: block.children!.map((e) {
-                  return NotionBlock(e, depth: widget.depth + 1);
-                }).toList(),
-              );
-            },
-          ),
-          const Space.height(4),
-        ],
-      );
+      if (block.type == "column_list") {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Space.height(4),
+            LoadingBuilder(
+              futures: [
+                block.children?.loading,
+              ],
+              builder: (context) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: block.children!.map((e) {
+                    return Flexible(
+                      child: NotionBlock(e, depth: widget.depth + 1),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+            const Space.height(4),
+          ],
+        );
+      } else {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Space.height(4),
+            _build(context),
+            LoadingBuilder(
+              futures: [
+                block.children?.loading,
+              ],
+              builder: (context) {
+                return Indent(
+                  padding: const EdgeInsets.only(left: _indentWidth, top: 4),
+                  children: block.children!.map((e) {
+                    return NotionBlock(e, depth: widget.depth + 1);
+                  }).toList(),
+                );
+              },
+            ),
+            const Space.height(4),
+          ],
+        );
+      }
     } else {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
@@ -169,7 +198,10 @@ class _NotionBlockState extends State<NotionBlock> {
     }
     switch (block.type) {
       case "divider":
-        return const Divid();
+        return const Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Divid(),
+        );
       case "bulleted_list_item":
         final data = block.rawData;
         return Row(
@@ -177,14 +209,18 @@ class _NotionBlockState extends State<NotionBlock> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: _indentWidth,
-              child: Icon(
-                Icons.circle,
-                size: 12,
-                color: context.theme.textColorOnSurface,
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: SizedBox(
+                width: _indentWidth,
+                child: Icon(
+                  Icons.circle,
+                  size: 12,
+                  color: context.theme.textColorOnSurface,
+                ),
               ),
             ),
+            const Space.width(8),
             Flexible(
               child: NotionBlock.richText(
                 context,
@@ -296,6 +332,31 @@ class _NotionBlockState extends State<NotionBlock> {
             ),
           ),
         );
+      case "image":
+        final data = block.rawData;
+        if (data.containsKey("file")) {
+          final file = data.getAsMap("file");
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: Image(
+              image: NetworkOrAsset.image(file.get("url", "")),
+            ),
+          );
+        } else if (data.containsKey("external")) {
+          final data = block.rawData;
+          final file = data.getAsMap("external");
+          return Padding(
+            padding: const EdgeInsets.all(8),
+            child: Image(
+              image: NetworkOrAsset.image(file.get("url", "")),
+            ),
+          );
+        }
+        break;
+      default:
+        print(block.type);
+        print(block.rawData);
+        break;
     }
     return const Empty();
   }
