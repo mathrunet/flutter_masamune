@@ -11,6 +11,147 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`firebase_model_notifier` - `v0.10.0+5`](#firebase_model_notifier---v01005)
+ - [`katana` - `v0.10.0+4`](#katana---v01004)
+ - [`katana_firebase` - `v0.10.0+5`](#katana_firebase---v01005)
+ - [`katana_flutter` - `v0.10.0+4`](#katana_flutter---v01004)
+ - [`katana_module` - `v0.10.0+6`](#katana_module---v01006)
+ - [`katana_routing` - `v0.10.0+5`](#katana_routing---v01005)
+ - [`masamune` - `v0.11.0+1`](#masamune---v01101)
+ - [`masamune_ads` - `v0.10.0+9`](#masamune_ads---v01009)
+ - [`masamune_agora` - `v0.10.0+10`](#masamune_agora---v010010)
+ - [`masamune_cli` - `v0.11.0+1`](#masamune_cli---v01101)
+ - [`masamune_firebase` - `v0.10.0+10`](#masamune_firebase---v010010)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+10`](#masamune_firebase_dynamic_links---v010010)
+ - [`masamune_firebase_messaging` - `v0.10.0+10`](#masamune_firebase_messaging---v010010)
+ - [`masamune_local_messaging` - `v0.10.0+9`](#masamune_local_messaging---v01009)
+ - [`masamune_location` - `v0.10.0+9`](#masamune_location---v01009)
+ - [`masamune_module` - `v0.11.0+1`](#masamune_module---v01101)
+ - [`masamune_notion` - `v0.11.0+1`](#masamune_notion---v01101)
+ - [`masamune_purchase` - `v0.10.0+9`](#masamune_purchase---v01009)
+ - [`masamune_purchase_firebase` - `v0.10.0+10`](#masamune_purchase_firebase---v010010)
+ - [`masamune_purchase_stripe` - `v0.10.0+10`](#masamune_purchase_stripe---v010010)
+ - [`masamune_signin_apple` - `v0.10.0+10`](#masamune_signin_apple---v010010)
+ - [`masamune_signin_facebook` - `v0.10.0+10`](#masamune_signin_facebook---v010010)
+ - [`masamune_signin_google` - `v0.10.0+10`](#masamune_signin_google---v010010)
+ - [`masamune_signin_twitter` - `v0.10.0+10`](#masamune_signin_twitter---v010010)
+ - [`model_notifier` - `v0.10.0+4`](#model_notifier---v01004)
+
+---
+
+#### `firebase_model_notifier` - `v0.10.0+5`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `katana` - `v0.10.0+4`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `katana_firebase` - `v0.10.0+5`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `katana_flutter` - `v0.10.0+4`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `katana_module` - `v0.10.0+6`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `katana_routing` - `v0.10.0+5`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune` - `v0.11.0+1`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_ads` - `v0.10.0+9`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_agora` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_cli` - `v0.11.0+1`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_firebase` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_firebase_dynamic_links` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_firebase_messaging` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_local_messaging` - `v0.10.0+9`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_location` - `v0.10.0+9`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_module` - `v0.11.0+1`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_notion` - `v0.11.0+1`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_purchase` - `v0.10.0+9`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_purchase_firebase` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_purchase_stripe` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_signin_apple` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_signin_facebook` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_signin_google` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `masamune_signin_twitter` - `v0.10.0+10`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+#### `model_notifier` - `v0.10.0+4`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+
+
+## 2022-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`masamune` - `v0.11.0`](#masamune---v0110)
  - [`masamune_cli` - `v0.11.0`](#masamune_cli---v0110)
  - [`masamune_module` - `v0.11.0`](#masamune_module---v0110)
