@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`masamune` - `v0.11.0`](#masamune---v0110)
+ - [`masamune_cli` - `v0.11.0`](#masamune_cli---v0110)
+ - [`masamune_module` - `v0.11.0`](#masamune_module---v0110)
+ - [`masamune_notion` - `v0.11.0`](#masamune_notion---v0110)
+
+Packages with other changes:
+
+ - [`masamune_agora` - `v0.10.0+9`](#masamune_agora---v01009)
+ - [`masamune_signin_twitter` - `v0.10.0+9`](#masamune_signin_twitter---v01009)
+ - [`masamune_local_messaging` - `v0.10.0+8`](#masamune_local_messaging---v01008)
+ - [`masamune_purchase` - `v0.10.0+8`](#masamune_purchase---v01008)
+ - [`masamune_firebase` - `v0.10.0+9`](#masamune_firebase---v01009)
+ - [`masamune_signin_apple` - `v0.10.0+9`](#masamune_signin_apple---v01009)
+ - [`masamune_purchase_firebase` - `v0.10.0+9`](#masamune_purchase_firebase---v01009)
+ - [`masamune_firebase_messaging` - `v0.10.0+9`](#masamune_firebase_messaging---v01009)
+ - [`masamune_location` - `v0.10.0+8`](#masamune_location---v01008)
+ - [`masamune_purchase_stripe` - `v0.10.0+9`](#masamune_purchase_stripe---v01009)
+ - [`masamune_ads` - `v0.10.0+8`](#masamune_ads---v01008)
+ - [`masamune_firebase_dynamic_links` - `v0.10.0+9`](#masamune_firebase_dynamic_links---v01009)
+ - [`masamune_signin_google` - `v0.10.0+9`](#masamune_signin_google---v01009)
+ - [`masamune_signin_facebook` - `v0.10.0+9`](#masamune_signin_facebook---v01009)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.10.0+9`
+ - `masamune_signin_twitter` - `v0.10.0+9`
+ - `masamune_local_messaging` - `v0.10.0+8`
+ - `masamune_purchase` - `v0.10.0+8`
+ - `masamune_firebase` - `v0.10.0+9`
+ - `masamune_signin_apple` - `v0.10.0+9`
+ - `masamune_purchase_firebase` - `v0.10.0+9`
+ - `masamune_firebase_messaging` - `v0.10.0+9`
+ - `masamune_location` - `v0.10.0+8`
+ - `masamune_purchase_stripe` - `v0.10.0+9`
+ - `masamune_ads` - `v0.10.0+8`
+ - `masamune_firebase_dynamic_links` - `v0.10.0+9`
+ - `masamune_signin_google` - `v0.10.0+9`
+ - `masamune_signin_facebook` - `v0.10.0+9`
+
+---
+
+#### `masamune` - `v0.11.0`
+
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+
+#### `masamune_cli` - `v0.11.0`
+
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+
+#### `masamune_module` - `v0.11.0`
+
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+
+#### `masamune_notion` - `v0.11.0`
+
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+
+
 ## 2022-08-15
 
 ### Changes

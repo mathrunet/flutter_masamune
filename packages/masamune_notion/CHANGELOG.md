@@ -1,3 +1,9 @@
+## 0.11.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+
 ## 0.10.1
 
  - **FEAT**: Addition of Image and Column blocks. ([4b44a01e](https://github.com/mathrunet/flutter_masamune/commit/4b44a01e65c5d5998c0d66bdae192b80a06e3e41))
