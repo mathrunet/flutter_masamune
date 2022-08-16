@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v0.11.0`](#masamune_location---v0110)
+
+---
+
+#### `masamune_location` - `v0.11.0`
+
+ - Bump "masamune_location" to `0.11.0`.
+
+
+## 2022-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase` - `v0.11.0`](#masamune_purchase---v0110)
  - [`masamune_purchase_firebase` - `v0.11.0+1`](#masamune_purchase_firebase---v01101)
 
