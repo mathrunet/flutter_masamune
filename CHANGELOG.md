@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_firebase` - `v0.11.0`](#masamune_purchase_firebase---v0110)
+
+---
+
+#### `masamune_purchase_firebase` - `v0.11.0`
+
+ - Bump "masamune_purchase_firebase" to `0.11.0`.
+
+
+## 2022-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_stripe` - `v0.11.0`](#masamune_purchase_stripe---v0110)
 
 ---
