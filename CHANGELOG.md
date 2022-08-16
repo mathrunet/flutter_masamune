@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_signin_apple` - `v0.11.0`](#masamune_signin_apple---v0110)
+
+---
+
+#### `masamune_signin_apple` - `v0.11.0`
+
+ - Bump "masamune_signin_apple" to `0.11.0`.
+
+
+## 2022-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.10.0+5`](#firebase_model_notifier---v01005)
  - [`katana` - `v0.10.0+4`](#katana---v01004)
  - [`katana_firebase` - `v0.10.0+5`](#katana_firebase---v01005)
