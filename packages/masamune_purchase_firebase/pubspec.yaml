@@ -20,9 +20,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.10.0
-  masamune_firebase: ^0.10.0
-  masamune_purchase: ^0.10.0
+  masamune:
+  masamune_firebase:
+  masamune_purchase:
   http: ^0.13.0
   in_app_purchase: ^3.0.5
   in_app_purchase_android: ^0.2.2

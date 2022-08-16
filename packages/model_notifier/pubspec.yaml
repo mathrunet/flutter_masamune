@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^0.10.0
-  katana_flutter: ^0.10.0
+  katana:
+  katana_flutter:
   http: ^0.13.0
   meta: ^1.7.0
 

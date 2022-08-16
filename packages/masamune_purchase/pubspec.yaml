@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.10.0
+  masamune:
   http: ^0.13.0
   in_app_purchase: ^3.0.5
   in_app_purchase_android: ^0.2.2

@@ -12,10 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.10.0
-  katana_module: ^0.10.0
-  katana_firebase: ^0.10.0
-  masamune_firebase: ^0.10.0
+  masamune:
+  katana_module:
+  katana_firebase:
+  masamune_firebase:
   firebase_dynamic_links: ^4.0.3
 
 dev_dependencies:

@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.10.0
+  masamune:
   google_mobile_ads: ^1.0.1
 
 dev_dependencies:

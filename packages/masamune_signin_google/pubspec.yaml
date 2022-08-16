@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^0.10.0
-  masamune_firebase: ^0.10.0
+  masamune:
+  masamune_firebase:
   firebase_core: ^1.10.6
   firebase_auth: ^3.3.4
   google_sign_in: ^5.2.1

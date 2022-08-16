@@ -112,7 +112,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+1"
+    version: "0.10.0+3"
   lints:
     dependency: "direct main"
     description:
@@ -161,7 +161,7 @@ packages:
       name: sprintf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.2"
   string_scanner:
     dependency: transitive
     description:

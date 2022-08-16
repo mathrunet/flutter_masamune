@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.10.0
-  model_notifier: ^0.10.0
-  firebase_model_notifier: ^0.10.0
+  masamune:
+  model_notifier:
+  firebase_model_notifier:
   flutter_riverpod: ^1.0.3
   riverpod: ^1.0.3
   meta: ^1.7.0
