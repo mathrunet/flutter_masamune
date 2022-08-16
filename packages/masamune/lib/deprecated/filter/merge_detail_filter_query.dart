@@ -8,6 +8,7 @@ part of masamune;
 ///
 /// [keyPrefix] can be specified to prefix user data keys.
 @immutable
+@deprecated
 class MergeDetailFilterQuery extends FilterQuery<ListenableDynamicMap> {
   const MergeDetailFilterQuery({
     required this.collectionPath,

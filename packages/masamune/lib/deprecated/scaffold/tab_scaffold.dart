@@ -5,6 +5,7 @@ part of masamune;
 /// Please pass the IDataCollection data to [source].
 ///
 /// Please inherit and use.
+@deprecated
 class TabScaffold<T> extends StatefulWidget {
   /// Abstract class for creating pages.
   const TabScaffold({

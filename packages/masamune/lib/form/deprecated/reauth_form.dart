@@ -1,5 +1,6 @@
 part of masamune.form;
 
+@deprecated
 class ReauthForm extends ScopedWidget {
   const ReauthForm({
     required this.formKey,

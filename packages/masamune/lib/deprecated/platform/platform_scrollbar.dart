@@ -1,5 +1,6 @@
 part of masamune;
 
+@deprecated
 class PlatformScrollbar extends StatelessWidget {
   const PlatformScrollbar({
     required this.child,

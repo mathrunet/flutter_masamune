@@ -1,5 +1,6 @@
 part of masamune.form;
 
+@deprecated
 abstract class UIPageChangeReauth extends PageScopedWidget {
   const UIPageChangeReauth();
 

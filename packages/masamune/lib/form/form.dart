@@ -24,8 +24,16 @@ export 'others/others.dart'
     if (dart.library.js) 'others/others.dart'
     if (dart.library.html) 'others/others.dart';
 
-part 'change_email_form.dart';
-part 'change_password_form.dart';
+part 'deprecated/reauth_form.dart';
+part 'deprecated/ui_form_dialog.dart';
+part 'deprecated/ui_page_change_email.dart';
+part 'deprecated/ui_page_change_password.dart';
+part 'deprecated/ui_page_change_reauth.dart';
+part 'deprecated/ui_simple_form_dialog.dart';
+part 'deprecated/change_email_form.dart';
+part 'deprecated/change_password_form.dart';
+part 'deprecated/form_item_simple_chips.dart';
+
 part 'extensions.dart';
 part 'form_builder.dart';
 part 'form_context.dart';
@@ -51,17 +59,10 @@ part 'form_item_multiple_text_field.dart';
 part 'form_item_password.dart';
 part 'form_item_rating.dart';
 part 'form_item_select_builder.dart';
-part 'form_item_simple_chips.dart';
 part 'form_item_month_day_field.dart';
 part 'form_item_slider.dart';
 part 'form_item_button.dart';
 part 'form_item_selective_icon_builder.dart';
 part 'form_item_switch.dart';
 part 'form_item_text_field.dart';
-part 'reauth_form.dart';
 part 'suggestion_overlay_builder.dart';
-part 'ui_form_dialog.dart';
-part 'ui_page_change_email.dart';
-part 'ui_page_change_password.dart';
-part 'ui_page_change_reauth.dart';
-part 'ui_simple_form_dialog.dart';

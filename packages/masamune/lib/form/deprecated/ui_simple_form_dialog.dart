@@ -5,6 +5,7 @@ part of masamune.form;
 /// ```
 /// UISimpleFormDialog.show( context );
 /// ```
+@deprecated
 class UISimpleFormDialog {
   const UISimpleFormDialog._();
 

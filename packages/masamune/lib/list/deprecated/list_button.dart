@@ -1,6 +1,7 @@
 part of masamune.list;
 
 /// Button for list.
+@deprecated
 class ListButton extends StatelessWidget {
   /// Button for list.
   ///

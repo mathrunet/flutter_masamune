@@ -1,6 +1,7 @@
 part of masamune.list;
 
 /// Button for continue.
+@deprecated
 class ContinueButton extends StatelessWidget {
   /// Button for continue.
   const ContinueButton({

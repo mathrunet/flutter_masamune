@@ -3,6 +3,7 @@ part of masamune.list;
 /// Place button on the right.
 ///
 /// Please use it in the list.
+@deprecated
 class RightButton extends StatelessWidget {
   /// Place button on the right.
   ///

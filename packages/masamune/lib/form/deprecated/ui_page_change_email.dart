@@ -1,7 +1,10 @@
 part of masamune.form;
 
-abstract class UIPageChangePassword extends PageScopedWidget {
-  const UIPageChangePassword();
+@deprecated
+abstract class UIPageChangeEmail extends PageScopedWidget {
+  const UIPageChangeEmail();
+
+  String? emailBuilder(BuildContext context);
 
   Future<bool> onSubmit(BuildContext context, WidgetRef ref, FormContext form);
 
@@ -9,15 +12,17 @@ abstract class UIPageChangePassword extends PageScopedWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final form = ref.useForm();
     final focusNode = ref.useFocusNode("focusNode");
+    final email = emailBuilder(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Change Password".localize(),
+          "Change Email".localize(),
         ),
       ),
-      body: ChangePasswordForm(
+      body: ChangeEmailForm(
         formKey: form.key,
+        defaultEmail: email ?? "",
         focusNode: focusNode,
       ),
       floatingActionButton: FloatingActionButton(
@@ -31,7 +36,8 @@ abstract class UIPageChangePassword extends PageScopedWidget {
               context,
               title: "Success".localize(),
               text:
-                  "%s is completed.".localize().format(["Editing".localize()]),
+                  "Confirmation email has been sent to your registered email address. Your registration will be completed once we have received your email address."
+                      .localize(),
               submitText: "OK".localize(),
               onSubmit: () {
                 context.navigator.pop();
@@ -44,7 +50,7 @@ abstract class UIPageChangePassword extends PageScopedWidget {
               text: "%s is not completed."
                   .localize()
                   .format(["Editing".localize()]),
-              submitText: "OK".localize(),
+              submitText: "Close".localize(),
             );
           }
         },

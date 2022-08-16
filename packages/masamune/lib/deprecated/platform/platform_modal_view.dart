@@ -1,5 +1,6 @@
 part of masamune;
 
+@deprecated
 class PlatformModalView extends StatelessWidget {
   const PlatformModalView({
     required this.child,

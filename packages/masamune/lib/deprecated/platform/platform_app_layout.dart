@@ -1,5 +1,6 @@
 part of masamune;
 
+@deprecated
 class PlatformAppLayout extends StatefulWidget {
   const PlatformAppLayout({
     required this.initialPath,

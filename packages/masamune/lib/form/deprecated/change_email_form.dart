@@ -1,5 +1,6 @@
 part of masamune.form;
 
+@deprecated
 class ChangeEmailForm extends ScopedWidget {
   const ChangeEmailForm({
     required this.formKey,

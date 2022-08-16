@@ -1,5 +1,6 @@
 part of masamune.form;
 
+@deprecated
 class FormItemSimpleChips extends FormField<String> {
   FormItemSimpleChips({
     Key? key,

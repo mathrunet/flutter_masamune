@@ -1,7 +1,10 @@
 part of masamune;
 
-class PlatformInlineAppBar extends StatelessWidget
-    implements PreferredSizeWidget {
+@deprecated
+const double kSubToolbarHeight = 38;
+
+@deprecated
+class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Creates a material design app bar.
   ///
   /// The arguments [primary], [toolbarOpacity], [bottomOpacity],
@@ -10,7 +13,7 @@ class PlatformInlineAppBar extends StatelessWidget
   /// be non-negative.
   ///
   /// Typically used in the [Scaffold.appBar] property.
-  PlatformInlineAppBar({
+  PlatformAppBar({
     Key? key,
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -32,14 +35,19 @@ class PlatformInlineAppBar extends StatelessWidget
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
     this.toolbarHeight,
+    this.subToolbarHeight,
     this.leadingWidth,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
   })  : assert(elevation == null || elevation >= 0.0),
         preferredSize = Size.fromHeight(
-          toolbarHeight ??
-              kToolbarHeight + (bottom?.preferredSize.height ?? 0.0),
+          (toolbarHeight ??
+                  kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)) +
+              (subToolbarHeight ??
+                  (!Config.isMobile && title != null
+                      ? kSubToolbarHeight + 1.0
+                      : 0.0)),
         ),
         super(key: key);
 
@@ -397,6 +405,13 @@ class PlatformInlineAppBar extends StatelessWidget
   /// {@endtemplate}
   final double? toolbarHeight;
 
+  /// {@template flutter.material.appbar.toolbarHeight}
+  /// Defines the height of the toolbar component of an [AppBar].
+  ///
+  /// By default, the value of `toolbarHeight` is [kToolbarHeight].
+  /// {@endtemplate}
+  final double? subToolbarHeight;
+
   /// {@template flutter.material.appbar.leadingWidth}
   /// Defines the width of [leading] widget.
   ///
@@ -459,7 +474,8 @@ class PlatformInlineAppBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    if (context.isMobileOrModal) {
+    final app = context.app;
+    if (Config.isMobile || app == null) {
       return AppBar(
         leading: leading,
         automaticallyImplyLeading: automaticallyImplyLeading,
@@ -487,49 +503,123 @@ class PlatformInlineAppBar extends StatelessWidget
         systemOverlayStyle: systemOverlayStyle,
       );
     } else {
-      return AppBar(
-        leading: leading,
-        automaticallyImplyLeading: false,
-        title: DefaultTextStyle(
-          style: context.theme.textTheme.headline6 ?? const TextStyle(),
-          child: title ?? const Empty(),
-        ),
-        actions: actions
-            ?.map(
-              (e) => IconTheme(
-                data: IconThemeData(color: context.theme.textColor),
-                child: e,
+      final tHeight = toolbarHeight ??
+          kToolbarHeight + (bottom?.preferredSize.height ?? 0.0);
+
+      return ColoredBox(
+        color: context.theme.backgroundColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppBar(
+              leading: leading,
+              automaticallyImplyLeading: false,
+              title: GestureDetector(
+                onTap: app.initialRoute.isEmpty
+                    ? null
+                    : () {
+                        context.rootNavigator
+                            .resetAndPushNamed(app.initialRoute);
+                      },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: app.logoUrl.isNotEmpty
+                      ? Image(
+                          image: Asset.image(app.logoUrl!),
+                          fit: BoxFit.fitHeight,
+                          height: tHeight - 8,
+                        )
+                      : Text(app.title),
+                ),
               ),
+              actions: [
+                ...app.menus.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: e.icon != null
+                        ? TextButton.icon(
+                            onPressed: () {
+                              if (e.path.isEmpty) {
+                                return;
+                              }
+                              context.rootNavigator.pushNamed(e.path!);
+                            },
+                            style: TextButton.styleFrom(
+                              primary: foregroundColor ??
+                                  context.theme.appBarTheme.foregroundColor ??
+                                  context.theme.textColorOnPrimary,
+                            ),
+                            icon: Icon(e.icon),
+                            label: Text(e.name),
+                          )
+                        : TextButton(
+                            onPressed: () {
+                              if (e.path.isEmpty) {
+                                return;
+                              }
+                              context.rootNavigator.pushNamed(e.path!);
+                            },
+                            style: TextButton.styleFrom(
+                              primary: foregroundColor ??
+                                  context.theme.appBarTheme.foregroundColor ??
+                                  context.theme.textColorOnPrimary,
+                            ),
+                            child: Text(e.name),
+                          ),
+                  ),
+                ),
+                const Space.width(16),
+              ],
+              flexibleSpace: flexibleSpace,
+              bottom: bottom,
+              elevation: elevation,
+              shadowColor: shadowColor,
+              shape: shape,
+              backgroundColor: backgroundColor,
+              foregroundColor: foregroundColor,
+              iconTheme: iconTheme,
+              actionsIconTheme: actionsIconTheme,
+              primary: primary,
+              centerTitle: false,
+              excludeHeaderSemantics: excludeHeaderSemantics,
+              titleSpacing: titleSpacing,
+              toolbarOpacity: toolbarOpacity,
+              bottomOpacity: bottomOpacity,
+              toolbarHeight: toolbarHeight,
+              leadingWidth: leadingWidth,
+              toolbarTextStyle: toolbarTextStyle,
+              titleTextStyle: titleTextStyle,
+              systemOverlayStyle: systemOverlayStyle,
+            ),
+            DefaultTextStyle(
+              style: context.theme.textTheme.headline6
+                      ?.copyWith(color: context.theme.disabledColor) ??
+                  TextStyle(
+                    fontSize: 18,
+                    color: context.theme.disabledColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+              child: Container(
+                height: kSubToolbarHeight,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.fromLTRB(16, 0, 12, 0),
+                child: IconTheme(
+                  data: IconThemeData(color: context.theme.disabledColor),
+                  child: Row(
+                    children: [
+                      if (title != null) Expanded(child: title!),
+                      if (actions != null) ...actions!,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 1,
+              color: context.theme.dividerColor.withOpacity(0.25),
             )
-            .toList(),
-        flexibleSpace: flexibleSpace,
-        bottom: PreferredSize(
-          child: Container(
-            color: context.theme.dividerColor.withOpacity(0.25),
-            height: 1.0,
-            child: bottom,
-          ),
-          preferredSize:
-              Size.fromHeight((bottom?.preferredSize.height ?? 0.0) + 1.0),
+          ],
         ),
-        elevation: 0,
-        shadowColor: shadowColor,
-        shape: shape,
-        backgroundColor: Colors.transparent,
-        foregroundColor: context.theme.textColor,
-        iconTheme: iconTheme,
-        actionsIconTheme: actionsIconTheme,
-        primary: primary,
-        centerTitle: false,
-        excludeHeaderSemantics: excludeHeaderSemantics,
-        titleSpacing: titleSpacing,
-        toolbarOpacity: toolbarOpacity,
-        bottomOpacity: bottomOpacity,
-        toolbarHeight: toolbarHeight,
-        leadingWidth: leadingWidth,
-        toolbarTextStyle: toolbarTextStyle,
-        titleTextStyle: titleTextStyle,
-        systemOverlayStyle: systemOverlayStyle,
       );
     }
   }

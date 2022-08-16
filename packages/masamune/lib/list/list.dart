@@ -26,11 +26,13 @@ export 'package:flutter_slidable/flutter_slidable.dart'
         StretchMotion,
         DismissiblePane;
 
+part 'deprecated/right_button.dart';
+part 'deprecated/continue_button.dart';
+
 part 'appendable_builder.dart';
 part 'avatar_image.dart';
 part 'collapse.dart';
 part 'comment_tile.dart';
-part 'continue_button.dart';
 part 'divid_headline.dart';
 part 'grid.dart';
 part 'grid_builder.dart';
@@ -38,7 +40,7 @@ part 'headline.dart';
 part 'image_headline.dart';
 part 'indent.dart';
 part 'list_builder.dart';
-part 'list_button.dart';
+part 'deprecated/list_button.dart';
 part 'list_card.dart';
 part 'list_item.dart';
 part 'list_text.dart';
@@ -47,7 +49,6 @@ part 'message_box.dart';
 part 'multi_media_view.dart';
 part 'ranking_list_tile.dart';
 part 'reorderable_list_builder.dart';
-part 'right_button.dart';
 part 'small_gallery.dart';
 part 'small_headline.dart';
 part 'next_button.dart';

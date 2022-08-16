@@ -1,5 +1,6 @@
 part of masamune;
 
+@deprecated
 class PlatformBuilder extends StatelessWidget {
   const PlatformBuilder({
     this.mobile,

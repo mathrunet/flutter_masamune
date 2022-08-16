@@ -1,5 +1,6 @@
 part of masamune.form;
 
+@deprecated
 class ChangePasswordForm extends ScopedWidget {
   const ChangePasswordForm({
     required this.formKey,
