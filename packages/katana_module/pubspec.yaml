@@ -1,6 +1,6 @@
 name: katana_module
 description: Package that defines a base class for modularization. It defines abstract classes, etc. for use with the Masamune module.
-version: 0.11.0+1
+version: 0.11.0+2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_module
 
