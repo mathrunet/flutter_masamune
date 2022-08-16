@@ -11,7 +11,7 @@ class CodemagicAndroidCliCommand extends CliCommand {
   Future<void> exec(YamlMap yaml, List<String> args) async {
     final build = yaml["codemagic"] as YamlMap;
     final android = build["android"] as YamlMap;
-    final credentials = android["publishing_credentials"] as String?;
+    final credentials = android["publishing_credentials_path"] as String?;
     final track = android["publishing_track"] as String?;
     const alias = "mathrunet";
     final keyStoreString =
@@ -76,14 +76,20 @@ class CodemagicAndroidCliCommand extends CliCommand {
           """,
     );
     if (credentials.isNotEmpty && track.isNotEmpty) {
-      codemagic = codemagic.replaceAll(
-        "# TODO_REPLACE_CODEMAGIC_ANDROID_PUBLISHING",
-        """
+      final credentialsFile = File(credentials!);
+      if (credentialsFile.existsSync()) {
+        final credentialsString = base64Encode(
+          credentialsFile.readAsBytesSync(),
+        );
+        codemagic = codemagic.replaceAll(
+          "# TODO_REPLACE_CODEMAGIC_ANDROID_PUBLISHING",
+          """
 google_play:
-        credentials: $credentials
+        credentials: $credentialsString
         track: $track
           """,
-      );
+        );
+      }
     }
     File("codemagic.yaml").writeAsStringSync(codemagic);
   }

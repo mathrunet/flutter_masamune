@@ -13,12 +13,19 @@ class CodemagicIOSCliCommand extends CliCommand {
     final openssl = bin["openssl"] as String?;
     final build = yaml["codemagic"] as YamlMap;
     final ios = build["ios"] as YamlMap;
-    final appleId = ios["publishing_apple_id"] as String?;
-    final applePassword = ios["publishing_password"] as String?;
-    if (appleId.isEmpty || applePassword.isEmpty) {
+    final issuerId = ios["publishing_issuer_id"] as String?;
+    final apiKeyId = ios["publishing_api_key_id"] as String?;
+    final apiKeyPath = ios["publishing_api_key_path"] as String?;
+    if (issuerId.isEmpty || apiKeyId.isEmpty || apiKeyPath.isEmpty) {
       print("Codemagic IOS information is missing.");
       return;
     }
+    final apiKeyFile = File(apiKeyPath!);
+    if (!apiKeyFile.existsSync()) {
+      print("Api key: $apiKeyPath is not found.");
+      return;
+    }
+    final apiKey = base64Encode(apiKeyFile.readAsBytesSync());
     final passwordFile = File("ios/ios_certificate_password.key");
     if (!passwordFile.existsSync()) {
       final password = generateCode(16);
@@ -120,8 +127,9 @@ class CodemagicIOSCliCommand extends CliCommand {
       "# TODO_REPLACE_CODEMAGIC_IOS_PUBLISHING",
       """
 app_store_connect:
-        apple_id: $appleId
-        password: $applePassword
+        api_key: $apiKey
+        key_id: $apiKeyId
+        issuer_id: $issuerId
           """,
     );
     File("codemagic.yaml").writeAsStringSync(codemagic);
