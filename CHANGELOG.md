@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase` - `v0.11.0`](#masamune_purchase---v0110)
+ - [`masamune_purchase_firebase` - `v0.11.0+1`](#masamune_purchase_firebase---v01101)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_firebase` - `v0.11.0+1`
+
+---
+
+#### `masamune_purchase` - `v0.11.0`
+
+ - Bump "masamune_purchase" to `0.11.0`.
+
+
+## 2022-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_firebase` - `v0.11.0`](#masamune_purchase_firebase---v0110)
 
 ---
