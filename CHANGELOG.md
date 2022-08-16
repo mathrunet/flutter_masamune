@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_local_messaging` - `v0.11.0`](#masamune_local_messaging---v0110)
+
+---
+
+#### `masamune_local_messaging` - `v0.11.0`
+
+ - Bump "masamune_local_messaging" to `0.11.0`.
+
+
+## 2022-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v0.11.0`](#masamune_location---v0110)
 
 ---
