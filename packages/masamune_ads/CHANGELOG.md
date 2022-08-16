@@ -1,3 +1,7 @@
+## 0.11.0
+
+ - Bump "masamune_ads" to `0.11.0`.
+
 ## 0.10.0+9
 
  - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
