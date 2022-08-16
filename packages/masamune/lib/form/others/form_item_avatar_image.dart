@@ -242,9 +242,9 @@ class _FormItemAvatarImageState extends FormFieldState<String> {
         ? widget.initialValue
         : _effectiveController?.text;
     if (_path != null) {
-      return NetworkOrAsset.image(_path!);
+      return Asset.image(_path!);
     } else if (value.isNotEmpty) {
-      return NetworkOrAsset.image(value!);
+      return Asset.image(value!);
     } else {
       return null;
     }

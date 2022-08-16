@@ -339,7 +339,7 @@ class _NotionBlockState extends State<NotionBlock> {
           return Padding(
             padding: const EdgeInsets.all(8),
             child: Image(
-              image: NetworkOrAsset.image(file.get("url", "")),
+              image: Asset.image(file.get("url", "")),
             ),
           );
         } else if (data.containsKey("external")) {
@@ -348,7 +348,7 @@ class _NotionBlockState extends State<NotionBlock> {
           return Padding(
             padding: const EdgeInsets.all(8),
             child: Image(
-              image: NetworkOrAsset.image(file.get("url", "")),
+              image: Asset.image(file.get("url", "")),
             ),
           );
         }

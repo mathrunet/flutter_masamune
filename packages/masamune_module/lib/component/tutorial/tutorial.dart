@@ -254,7 +254,7 @@ class TutorialModuleView extends ModuleWidget<TutorialModule> {
     }
     if (imagePath.isNotEmpty) {
       return Image(
-        image: NetworkOrAsset.image(imagePath!),
+        image: Asset.image(imagePath!),
         fit: BoxFit.contain,
       );
     }

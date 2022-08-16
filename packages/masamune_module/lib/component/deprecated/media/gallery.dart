@@ -410,7 +410,7 @@
 //                   color: context.theme.dividerColor,
 //                   child: ClipRRect(
 //                     child: ClickableBox.video(
-//                       video: NetworkOrAsset.video(path),
+//                       video: Asset.video(path),
 //                       fit: BoxFit.cover,
 //                       onTap: () {
 //                         context.rootNavigator.pushNamed(
@@ -425,7 +425,7 @@
 //                 );
 //               default:
 //                 return ClickableBox.image(
-//                   image: NetworkOrAsset.image(path),
+//                   image: Asset.image(path),
 //                   fit: BoxFit.cover,
 //                   onTap: () {
 //                     context.rootNavigator.pushNamed(
@@ -494,7 +494,7 @@
 //                     height: module.heightOnDetailView,
 //                     child: ClipRRect(
 //                       child: Video(
-//                         NetworkOrAsset.video(media),
+//                         Asset.video(media),
 //                         fit: BoxFit.cover,
 //                         autoplay: true,
 //                         mute: true,
@@ -507,7 +507,7 @@
 //                     height: module.heightOnDetailView,
 //                     decoration: BoxDecoration(
 //                       image: DecorationImage(
-//                         image: NetworkOrAsset.image(media),
+//                         image: Asset.image(media),
 //                         fit: BoxFit.cover,
 //                       ),
 //                       color: context.theme.disabledColor,
@@ -595,7 +595,7 @@
 //                 case PlatformMediaType.video:
 //                   return Center(
 //                     child: Video(
-//                       NetworkOrAsset.video(media),
+//                       Asset.video(media),
 //                       fit: BoxFit.contain,
 //                       controllable: true,
 //                       mixWithOthers: true,
@@ -603,7 +603,7 @@
 //                   );
 //                 default:
 //                   return phto_view.PhotoView(
-//                     imageProvider: NetworkOrAsset.image(media),
+//                     imageProvider: Asset.image(media),
 //                   );
 //               }
 //             }(),

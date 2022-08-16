@@ -523,7 +523,7 @@ class PlatformAppBar extends StatelessWidget implements PreferredSizeWidget {
                   cursor: SystemMouseCursors.click,
                   child: app.logoUrl.isNotEmpty
                       ? Image(
-                          image: NetworkOrAsset.image(app.logoUrl!),
+                          image: Asset.image(app.logoUrl!),
                           fit: BoxFit.fitHeight,
                           height: tHeight - 8,
                         )

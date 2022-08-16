@@ -16,11 +16,11 @@ class MediaViewConfig extends VariableViewConfig<String> {
     switch (type) {
       case PlatformMediaType.image:
         return [
-          Image(image: NetworkOrAsset.image(path), fit: BoxFit.cover),
+          Image(image: Asset.image(path), fit: BoxFit.cover),
         ];
       case PlatformMediaType.video:
         return [
-          Video(NetworkOrAsset.video(path), fit: BoxFit.cover),
+          Video(Asset.video(path), fit: BoxFit.cover),
         ];
       default:
         return [

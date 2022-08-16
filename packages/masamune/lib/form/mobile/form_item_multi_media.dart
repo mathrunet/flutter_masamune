@@ -151,7 +151,7 @@ class FormItemMultiMedia extends FormField<String> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4.0),
               child: Video(
-                NetworkOrAsset.video(data.path!),
+                Asset.video(data.path!),
                 fit: BoxFit.cover,
                 height: size.height,
                 width: size.width,
@@ -182,7 +182,7 @@ class FormItemMultiMedia extends FormField<String> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4.0),
               child: Image(
-                image: NetworkOrAsset.image(data.path!),
+                image: Asset.image(data.path!),
                 fit: BoxFit.cover,
                 height: size.height,
                 width: size.width,
@@ -225,7 +225,7 @@ class FormItemMultiMedia extends FormField<String> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
             child: Video(
-              NetworkOrAsset.video(data.path!),
+              Asset.video(data.path!),
               fit: BoxFit.cover,
               height: size.height,
               width: size.width,
@@ -241,7 +241,7 @@ class FormItemMultiMedia extends FormField<String> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
             child: Image(
-              image: NetworkOrAsset.image(data.path!),
+              image: Asset.image(data.path!),
               fit: BoxFit.cover,
               height: size.height,
               width: size.width,

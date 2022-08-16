@@ -257,7 +257,7 @@ class _FormItemMediaState extends FormFieldState<String> {
         return _buiildCover(
           context,
           Video(
-            NetworkOrAsset.video(path),
+            Asset.video(path),
             fit: widget.fit,
             autoplay: true,
             mute: true,
@@ -268,7 +268,7 @@ class _FormItemMediaState extends FormFieldState<String> {
         return _buiildCover(
           context,
           Image(
-            image: NetworkOrAsset.image(path),
+            image: Asset.image(path),
             fit: widget.fit,
           ),
         );

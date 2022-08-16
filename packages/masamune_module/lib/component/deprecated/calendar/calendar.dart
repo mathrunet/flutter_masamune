@@ -436,7 +436,7 @@
 //             ...footer,
 //             ...comments.mapListenable((item) {
 //               return CommentTile(
-//                 avatar: NetworkOrAsset.image(
+//                 avatar: Asset.image(
 //                   item.get("${Const.user}${module.imageKey}", ""),
 //                 ),
 //                 name: item.get("${Const.user}${module.nameKey}", ""),
@@ -497,7 +497,7 @@
 //               ...footer,
 //               ...comments.mapListenable((item) {
 //                 return CommentTile(
-//                   avatar: NetworkOrAsset.image(
+//                   avatar: Asset.image(
 //                     item.get("${Const.user}${module.imageKey}", ""),
 //                   ),
 //                   name: item.get("${Const.user}${module.nameKey}", ""),
@@ -532,7 +532,7 @@
 //               ...footer,
 //               ...comments.mapListenable((item) {
 //                 return CommentTile(
-//                   avatar: NetworkOrAsset.image(
+//                   avatar: Asset.image(
 //                     item.get("${Const.user}${module.imageKey}", ""),
 //                   ),
 //                   name: item.get("${Const.user}${module.nameKey}", ""),

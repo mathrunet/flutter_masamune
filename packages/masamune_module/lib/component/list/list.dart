@@ -147,7 +147,7 @@ class ListModuleProfileWidget
         children: [
           SizedBox(
             child: CircleAvatar(
-              backgroundImage: NetworkOrAsset.image(value.get(Const.image, "")),
+              backgroundImage: Asset.image(value.get(Const.image, "")),
             ),
           ),
           const Space.width(16),

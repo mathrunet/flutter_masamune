@@ -72,7 +72,7 @@ class SliverHomeModuleHomePage extends PageModuleWidget<SliverHomeModule> {
         background: module.backgroundImage.isEmpty
             ? null
             : Image(
-                image: NetworkOrAsset.image(module.backgroundImage!),
+                image: Asset.image(module.backgroundImage!),
                 fit: BoxFit.cover,
               ),
       ),
@@ -143,7 +143,7 @@ class SliverHomeModuleListTileComponent
       leading: image.isEmpty
           ? null
           : CircleAvatar(
-              backgroundImage: NetworkOrAsset.image(image),
+              backgroundImage: Asset.image(image),
             ),
       title: Text(title),
     );

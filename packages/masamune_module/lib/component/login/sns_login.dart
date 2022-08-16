@@ -204,7 +204,7 @@ class SnsLoginModuleLandingPage extends PageModuleWidget<SnsLoginModule> {
                                       borderRadius: module.featureImageRadius ??
                                           BorderRadius.zero,
                                       child: Image(
-                                        image: NetworkOrAsset.image(
+                                        image: Asset.image(
                                           featureImage!,
                                           ImageSize.medium,
                                         ),
@@ -522,7 +522,7 @@ class _LoginModuleBackgroundImage extends StatelessWidget {
       children: [
         if (backgroundImage.isNotEmpty) ...[
           Image(
-            image: NetworkOrAsset.image(backgroundImage!),
+            image: Asset.image(backgroundImage!),
             fit: BoxFit.cover,
           ),
           if (module.backgroundImageBlur != null)

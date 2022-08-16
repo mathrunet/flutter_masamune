@@ -129,14 +129,14 @@ class SingleMediaModuleHomePage extends PageModuleWidget<SingleMediaModule> {
                 case PlatformMediaType.video:
                   return Center(
                     child: Video(
-                      NetworkOrAsset.video(media),
+                      Asset.video(media),
                       fit: BoxFit.contain,
                       controllable: true,
                       mixWithOthers: true,
                     ),
                   );
                 default:
-                  return PhotoView(imageProvider: NetworkOrAsset.image(media));
+                  return PhotoView(imageProvider: Asset.image(media));
               }
             }(),
     );

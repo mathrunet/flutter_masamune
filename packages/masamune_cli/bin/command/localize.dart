@@ -25,9 +25,9 @@ class LocalizeCliCommand extends CliCommand {
     print("Load from $endpoint");
     final request = await HttpClient().getUrl(Uri.parse(endpoint));
     final response = await request.close();
-    await response.pipe(File('assets/Localization.csv').openWrite());
+    await response.pipe(File("assets/Localization.csv").openWrite());
     print("Convert to code-snippets");
-    final csv = await File('assets/Localization.csv').readAsString();
+    final csv = await File("assets/Localization.csv").readAsString();
     final raw = const CsvToListConverter().convert(csv);
     final snippets = <String, dynamic>{};
     for (final line in raw) {
@@ -44,7 +44,7 @@ class LocalizeCliCommand extends CliCommand {
       };
     }
     if (snippets.isNotEmpty) {
-      await File('.vscode/localize.code-snippets')
+      await File(".vscode/localize.code-snippets")
           .writeAsString(jsonEncode(snippets));
     }
     print("Loading is success!!");

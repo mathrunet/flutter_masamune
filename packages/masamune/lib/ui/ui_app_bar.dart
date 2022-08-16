@@ -601,7 +601,7 @@ class UIAppBarBackground extends StatelessWidget {
         return ColorFiltered(
           colorFilter: ColorFilter.mode(filterColor, BlendMode.multiply),
           child: Video(
-            NetworkOrAsset.video(path),
+            Asset.video(path),
             fit: fit,
             autoplay: true,
             mute: true,
@@ -610,7 +610,7 @@ class UIAppBarBackground extends StatelessWidget {
         );
       default:
         return Image(
-          image: NetworkOrAsset.image(path),
+          image: Asset.image(path),
           fit: fit,
           color: filterColor,
           colorBlendMode: BlendMode.multiply,

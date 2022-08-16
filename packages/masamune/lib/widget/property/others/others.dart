@@ -5,9 +5,11 @@ library masamune.property.others;
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 // ignore: implementation_imports
 import 'package:flutter/src/painting/_network_image_web.dart' as network_image;
 import 'package:masamune/masamune.dart';
 
-part 'network_or_asset.dart';
+part 'asset.dart';
 part 'local_file_storage.dart';

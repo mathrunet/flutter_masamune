@@ -116,7 +116,7 @@ class MultipleFullscreenFormItem
       leading: image.isEmpty
           ? null
           : CircleAvatar(
-              backgroundImage: NetworkOrAsset.image(image),
+              backgroundImage: Asset.image(image),
             ),
       title: Text(name, style: TextStyle(color: color)),
       onTap: () {

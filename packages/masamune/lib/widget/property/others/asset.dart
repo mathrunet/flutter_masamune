@@ -1,15 +1,52 @@
 part of masamune.property.others;
 
 /// Providing the right provider by choosing between in-network and assets.
-class NetworkOrAsset {
-  const NetworkOrAsset._();
+class Asset {
+  const Asset._();
 
-  /// Providing the right provider by choosing between in-network and assets.
+  /// Load from network or local files or Flutter assets.
   ///
-  /// Get the provider for the image.
+  /// Obtains text data.
   ///
-  /// [uri] is if it starts with http, get a network image,
-  /// otherwise get an asset image.
+  /// The [uri] is used to identify the file. If the uri starts with "http(s)://", it loads the file from the network.
+  ///
+  /// If the file starts with "resource://", it is loaded from the asset; otherwise, it is loaded from the asset.
+  ///
+  /// Request headers can be given when loading from the network by specifying [headers].
+  ///
+  /// [defaultValue] is the value when [uri] is empty.
+  static Future<String> text(
+    String uri, {
+    Map<String, String>? headers,
+    String defaultValue = "",
+  }) async {
+    if (uri.isEmpty) {
+      return defaultValue;
+    }
+    if (uri.startsWith("http")) {
+      final res = await get(Uri.parse(uri), headers: headers);
+      if (res.statusCode != 200) {
+        return defaultValue;
+      }
+      return res.body;
+    } else if (uri.startsWith("resource:")) {
+      return await rootBundle
+          .loadString(uri.replaceAll(RegExp(r"resource:(//)?"), ""));
+    } else {
+      return await rootBundle.loadString(uri);
+    }
+  }
+
+  /// Load from network or local files or Flutter assets.
+  ///
+  /// Obtains image data.
+  ///
+  /// The [uri] is used to identify the file. If the uri starts with "http(s)://", it loads the file from the network.
+  ///
+  /// If the file starts with "resource://", it is loaded from the asset; otherwise, it is loaded from the asset.
+  ///
+  /// You can select the size to cache by specifying [size].
+  ///
   /// [defaultURI] is the path to be read from the asset when [uri] is empty.
   static ImageProvider image(
     String uri, [
@@ -28,12 +65,14 @@ class NetworkOrAsset {
     }
   }
 
-  /// Providing the right provider by choosing between in-network and assets.
+  /// Load from network or local files or Flutter assets.
   ///
-  /// Get the provider for the video.
+  /// Obtains video data.
   ///
-  /// [uri] is if it starts with http, get a network video,
-  /// otherwise get an asset image.
+  /// The [uri] is used to identify the file. If the uri starts with "http(s)://", it loads the file from the network.
+  ///
+  /// If the file starts with "resource://", it is loaded from the asset; otherwise, it is loaded from the asset.
+  ///
   /// [defaultURI] is the path to be read from the asset when [uri] is empty.
   static VideoProvider video(
     String uri, [

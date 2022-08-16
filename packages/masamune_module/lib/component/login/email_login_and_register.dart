@@ -231,7 +231,7 @@ class EmailLoginAndRegisterModuleLandingPage
                                       borderRadius: module.featureImageRadius ??
                                           BorderRadius.zero,
                                       child: Image(
-                                        image: NetworkOrAsset.image(
+                                        image: Asset.image(
                                           module.featureImage!,
                                         ),
                                         fit: module.featureImageFit,
@@ -423,7 +423,7 @@ class EmailLoginAndRegisterModuleLoginPage
                       borderRadius:
                           module.featureImageRadius ?? BorderRadius.zero,
                       child: Image(
-                        image: NetworkOrAsset.image(module.featureImage!),
+                        image: Asset.image(module.featureImage!),
                         fit: module.featureImageFit,
                       ),
                     ),
@@ -655,7 +655,7 @@ class EmailLoginAndRegisterModuleRegisterPage
                       borderRadius:
                           module.featureImageRadius ?? BorderRadius.zero,
                       child: Image(
-                        image: NetworkOrAsset.image(module.featureImage!),
+                        image: Asset.image(module.featureImage!),
                         fit: module.featureImageFit,
                       ),
                     ),
@@ -1005,7 +1005,7 @@ class EmailLoginAndRegisterModulePasswordResetPage
                       borderRadius:
                           module.featureImageRadius ?? BorderRadius.zero,
                       child: Image(
-                        image: NetworkOrAsset.image(module.featureImage!),
+                        image: Asset.image(module.featureImage!),
                         fit: module.featureImageFit,
                       ),
                     ),
@@ -1143,7 +1143,7 @@ class _EmailLoginAndRegisterModuleBackgroundImage extends StatelessWidget {
       children: [
         if (module.backgroundImage.isNotEmpty) ...[
           Image(
-            image: NetworkOrAsset.image(module.backgroundImage!),
+            image: Asset.image(module.backgroundImage!),
             fit: BoxFit.cover,
           ),
           if (module.backgroundImageBlur != null)

@@ -421,7 +421,7 @@
 //                     SizedBox(
 //                       width: 48,
 //                       child: CircleAvatar(
-//                         backgroundImage: NetworkOrAsset.image(
+//                         backgroundImage: Asset.image(
 //                           item.get("${Const.user}${module.mediaKey}", ""),
 //                           ImageSize.thumbnail,
 //                         ),
@@ -550,7 +550,7 @@
 //               },
 //               child: ClipRRect(
 //                 borderRadius: BorderRadius.circular(8.0),
-//                 child: Video(NetworkOrAsset.video(media)),
+//                 child: Video(Asset.video(media)),
 //               ),
 //             ),
 //           );
@@ -566,7 +566,7 @@
 //               },
 //               child: ClipRRect(
 //                 borderRadius: BorderRadius.circular(8.0),
-//                 child: Image(image: NetworkOrAsset.image(media)),
+//                 child: Image(image: Asset.image(media)),
 //               ),
 //             ),
 //           );
@@ -619,7 +619,7 @@
 //                 case PlatformMediaType.video:
 //                   return Center(
 //                     child: Video(
-//                       NetworkOrAsset.video(media),
+//                       Asset.video(media),
 //                       fit: BoxFit.contain,
 //                       controllable: true,
 //                       mixWithOthers: true,
@@ -627,7 +627,7 @@
 //                   );
 //                 default:
 //                   return PhotoView(
-//                     imageProvider: NetworkOrAsset.image(media),
+//                     imageProvider: Asset.image(media),
 //                   );
 //               }
 //             }(),

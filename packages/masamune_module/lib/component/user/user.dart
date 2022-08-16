@@ -227,17 +227,15 @@ class UserModuleHomePage extends PageModuleWidget<UserModule> {
       appBar: UIModernDetailAppBar(
         designType: DesignType.modern,
         expandedHeight: module.expandedHeight,
-        icon: module.enableAvatar
-            ? NetworkOrAsset.image(icon, ImageSize.thumbnail)
-            : null,
+        icon:
+            module.enableAvatar ? Asset.image(icon, ImageSize.thumbnail) : null,
         automaticallyImplyLeading:
             !own || module.automaticallyImplyLeadingOnHome,
         backgroundColor: context.theme.appBarTheme.backgroundColor ??
             context.theme.backgroundColor,
         expandedBackgroundColor: context.theme.primaryColor,
-        backgroundImage: image.isNotEmpty
-            ? NetworkOrAsset.image(image, ImageSize.large)
-            : null,
+        backgroundImage:
+            image.isNotEmpty ? Asset.image(image, ImageSize.large) : null,
         bottomActions: [
           if (own)
             TextButton(
@@ -475,7 +473,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                             : context.theme.primaryColor,
                         image: module.enableFeature
                             ? DecorationImage(
-                                image: NetworkOrAsset.image(
+                                image: Asset.image(
                                   image,
                                   ImageSize.large,
                                 ),
@@ -539,7 +537,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                           ),
                           child: CircleAvatar(
                             backgroundImage:
-                                NetworkOrAsset.image(icon, ImageSize.thumbnail),
+                                Asset.image(icon, ImageSize.thumbnail),
                             child: InkWell(
                               onTap: () async {
                                 final media =

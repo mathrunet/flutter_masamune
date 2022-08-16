@@ -161,7 +161,7 @@ class TileGalleryMediaModuleHomePage
                     color: context.theme.dividerColor,
                     child: ClipRRect(
                       child: ClickableBox.video(
-                        video: NetworkOrAsset.video(path),
+                        video: Asset.video(path),
                         fit: BoxFit.cover,
                         onTap: () {
                           context.rootNavigator.pushNamed(
@@ -182,7 +182,7 @@ class TileGalleryMediaModuleHomePage
                   );
                 default:
                   return ClickableBox.image(
-                    image: NetworkOrAsset.image(path),
+                    image: Asset.image(path),
                     fit: BoxFit.cover,
                     onTap: () {
                       context.rootNavigator.pushNamed(
@@ -282,7 +282,7 @@ class TileGalleryMediaModuleMediaDetailPage
                     height: module.heightOnDetailView,
                     child: ClipRRect(
                       child: Video(
-                        NetworkOrAsset.video(media),
+                        Asset.video(media),
                         fit: BoxFit.cover,
                         autoplay: true,
                         mute: true,
@@ -295,7 +295,7 @@ class TileGalleryMediaModuleMediaDetailPage
                     height: module.heightOnDetailView,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkOrAsset.image(media),
+                        image: Asset.image(media),
                         fit: BoxFit.cover,
                       ),
                       color: context.theme.disabledColor,
@@ -391,7 +391,7 @@ class TileGalleryMediaModuleMediaViewPage
                 case PlatformMediaType.video:
                   return Center(
                     child: Video(
-                      NetworkOrAsset.video(media),
+                      Asset.video(media),
                       fit: BoxFit.contain,
                       controllable: true,
                       mixWithOthers: true,
@@ -399,7 +399,7 @@ class TileGalleryMediaModuleMediaViewPage
                   );
                 default:
                   return photo_view.PhotoView(
-                    imageProvider: NetworkOrAsset.image(media),
+                    imageProvider: Asset.image(media),
                   );
               }
             }(),

@@ -162,7 +162,7 @@ class TileMenuHomeModuleHomePage extends PageModuleWidget<TileMenuHomeModule> {
                             decoration: BoxDecoration(
                               image: module.featureImage.isNotEmpty
                                   ? DecorationImage(
-                                      image: NetworkOrAsset.image(
+                                      image: Asset.image(
                                         module.featureImage!,
                                       ),
                                       fit: module.featureImageFit,
@@ -175,7 +175,7 @@ class TileMenuHomeModuleHomePage extends PageModuleWidget<TileMenuHomeModule> {
                               children: [
                                 if (module.featureIcon.isNotEmpty) ...[
                                   Image(
-                                    image: NetworkOrAsset.image(
+                                    image: Asset.image(
                                       module.featureIcon!,
                                     ),
                                   ),
@@ -909,7 +909,7 @@ class TileMenuHomeModuleChangeAffiliationSelectionPage
           return [
             ListItem(
               leading: CircleAvatar(
-                backgroundImage: NetworkOrAsset.image(item.get(imageKey, "")),
+                backgroundImage: Asset.image(item.get(imageKey, "")),
               ),
               onTap: affiliationId == item.uid
                   ? null

@@ -70,14 +70,14 @@ extension PlatformBuildContextExtensions on BuildContext {
   }
 }
 
-extension NetworkOrAssetDynamicMapExtensions on DynamicMap {
+extension AssetDynamicMapExtensions on DynamicMap {
   ImageProvider getAsImage(
     String key, [
     ImageSize size = ImageSize.full,
     String defaultURI = "assets/default.png",
   ]) {
     final uri = get(key, "");
-    return NetworkOrAsset.image(uri, size, defaultURI);
+    return Asset.image(uri, size, defaultURI);
   }
 
   VideoProvider getAsVideo(
@@ -85,7 +85,7 @@ extension NetworkOrAssetDynamicMapExtensions on DynamicMap {
     String defaultURI = "assets/default.mp4",
   ]) {
     final uri = get(key, "");
-    return NetworkOrAsset.video(uri, defaultURI);
+    return Asset.video(uri, defaultURI);
   }
 }
 

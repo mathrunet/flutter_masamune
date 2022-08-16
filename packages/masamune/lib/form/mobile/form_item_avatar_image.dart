@@ -256,10 +256,10 @@ class _FormItemAvatarImageState extends FormFieldState<String> {
     if (_data != null) {
       return FileImage(_data!);
     } else if (_path != null) {
-      return NetworkOrAsset.image(_path!);
+      return Asset.image(_path!);
     } else if (value.isNotEmpty) {
       if (value!.startsWith("http")) {
-        return NetworkOrAsset.image(value);
+        return Asset.image(value);
       } else {
         _local ??= File(value);
         return FileImage(_local!);

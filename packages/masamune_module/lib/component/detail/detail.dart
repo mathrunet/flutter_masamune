@@ -193,7 +193,7 @@ class DetailModuleHomePage extends PageModuleWidget<DetailModule> {
                           Expanded(
                             flex: 2,
                             child: Image(
-                              image: NetworkOrAsset.image(images.first),
+                              image: Asset.image(images.first),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -207,7 +207,7 @@ class DetailModuleHomePage extends PageModuleWidget<DetailModule> {
                                   if (i < images.length) ...[
                                     Expanded(
                                       child: Image(
-                                        image: NetworkOrAsset.image(images[i]),
+                                        image: Asset.image(images[i]),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -226,7 +226,7 @@ class DetailModuleHomePage extends PageModuleWidget<DetailModule> {
                     )
                   : null,
               backgroundImage:
-                  images.isNotEmpty ? NetworkOrAsset.image(images.first) : null,
+                  images.isNotEmpty ? Asset.image(images.first) : null,
               bottomActions: module.appBarBottomActions,
             )
           : AppBar(
@@ -277,7 +277,7 @@ class DetailModuleHomePage extends PageModuleWidget<DetailModule> {
         builder: (context, item, index) {
           return [
             CommentTile(
-              avatar: NetworkOrAsset.image(
+              avatar: Asset.image(
                 item.get("${module.userKey}${module.iconKey}", ""),
               ),
               name: item.get("${module.userKey}${module.nameKey}", ""),
@@ -543,7 +543,7 @@ class DetailModuleProfileWidget extends ModuleWidget<DetailModule> {
               width: 64,
               height: 64,
               child: CircleAvatar(
-                backgroundImage: NetworkOrAsset.image(icon),
+                backgroundImage: Asset.image(icon),
               ),
             ),
             const Space.width(16),
@@ -734,7 +734,7 @@ class DetailModuleImageViewPage extends PageModuleWidget<DetailModule> {
                   pageController: controller,
                   builder: (context, index) {
                     return PhotoViewGalleryPageOptions(
-                      imageProvider: NetworkOrAsset.image(images[index]),
+                      imageProvider: Asset.image(images[index]),
                     );
                   },
                 ),
@@ -778,7 +778,7 @@ class DetailModuleImageViewPage extends PageModuleWidget<DetailModule> {
               ],
             )
           : PhotoView(
-              imageProvider: NetworkOrAsset.image(images.firstOrNull),
+              imageProvider: Asset.image(images.firstOrNull),
             ),
     );
   }

@@ -76,7 +76,7 @@ class SelectiveIconFormConfig extends VariableFormConfig<String>
     if (value is Widget) {
       return value;
     } else if (value is String) {
-      return Image(image: NetworkOrAsset.image(value));
+      return Image(image: Asset.image(value));
     } else if (value is IconData) {
       return Icon(value);
     }

@@ -154,7 +154,7 @@ class Boot extends PageScopedWidget {
     final config = context.app?.bootConfig;
     final background = context.theme.image.bootBackgroundImage.isEmpty
         ? backgroundImage
-        : NetworkOrAsset.image(context.theme.image.bootBackgroundImage!);
+        : Asset.image(context.theme.image.bootBackgroundImage!);
 
     return ColoredBox(
       color: config?.backgroundColor ??
@@ -195,7 +195,7 @@ class Boot extends PageScopedWidget {
     final image = config != null &&
             config.designType == BootDesignType.logo &&
             logoPath.isNotEmpty
-        ? NetworkOrAsset.image(logoPath!, ImageSize.medium)
+        ? Asset.image(logoPath!, ImageSize.medium)
         : featureImage;
     if (image != null) {
       return Stack(

@@ -120,8 +120,7 @@ class MemberModuleHomePage extends PageModuleWidget<MemberModule> {
           return [
             ListItem(
               leading: CircleAvatar(
-                backgroundImage:
-                    NetworkOrAsset.image(item.get(module.iconKey, "")),
+                backgroundImage: Asset.image(item.get(module.iconKey, "")),
                 backgroundColor: context.theme.disabledColor,
               ),
               title: Text(item.get(module.nameKey, "")),
