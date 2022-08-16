@@ -1,3 +1,7 @@
+## 0.11.0+1
+
+ - Update a dependency to the latest release.
+
 ## 0.11.0
 
  - Bump "katana_module" to `0.11.0`.
