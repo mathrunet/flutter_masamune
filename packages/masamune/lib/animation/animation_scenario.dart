@@ -103,7 +103,7 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
     try {
       await controller.forward().orCancel;
     } catch (e) {
-      print("Canceled animation.");
+      debugPrint("Canceled animation.");
     }
     return this;
   }
@@ -114,7 +114,7 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
     try {
       await controller.reverse().orCancel;
     } catch (e) {
-      print("Canceled animation.");
+      debugPrint("Canceled animation.");
     }
     return this;
   }
@@ -125,7 +125,7 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
     try {
       await controller.repeat().orCancel;
     } catch (e) {
-      print("Canceled animation.");
+      debugPrint("Canceled animation.");
     }
     return this;
   }
