@@ -1,3 +1,7 @@
+## 0.11.0+7
+
+ - **FIX**: Package Version Upgrade. ([7770f7a5](https://github.com/mathrunet/flutter_masamune/commit/7770f7a5eb81d024c4e965a10dfbbedaabec8e90))
+
 ## 0.11.0+6
 
  - Update a dependency to the latest release.
