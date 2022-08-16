@@ -1139,6 +1139,34 @@ extension NullableNumExtensions on num? {
     }
     return this! / other;
   }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  num? operator %(num? other) {
+    if (this == null) {
+      return other;
+    }
+    if (other == null) {
+      return this;
+    }
+    return this! % other;
+  }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  int? operator ~/(num? other) {
+    if (this == null) {
+      return other?.toInt();
+    }
+    if (other == null) {
+      return this?.toInt();
+    }
+    return this! ~/ other;
+  }
 }
 
 /// Provides general extensions to [int?].
@@ -1176,6 +1204,90 @@ extension NullableDoubleExtensions on double? {
       return false;
     }
     return this != 0.0;
+  }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  double? operator +(num? other) {
+    if (this == null) {
+      return other?.toDouble();
+    }
+    if (other == null) {
+      return this;
+    }
+    return this! + other;
+  }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  double? operator -(num? other) {
+    if (this == null) {
+      return other?.toDouble();
+    }
+    if (other == null) {
+      return this;
+    }
+    return this! - other;
+  }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  double? operator *(num? other) {
+    if (this == null) {
+      return other?.toDouble();
+    }
+    if (other == null) {
+      return this;
+    }
+    return this! - other;
+  }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  double? operator /(num? other) {
+    if (this == null) {
+      return other?.toDouble();
+    }
+    if (other == null) {
+      return this;
+    }
+    return this! / other;
+  }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  double? operator %(num? other) {
+    if (this == null) {
+      return other?.toDouble();
+    }
+    if (other == null) {
+      return this;
+    }
+    return this! % other;
+  }
+
+  /// Calculation assuming Null.
+  ///
+  /// If both are null, null is returned.
+  /// If either is not null, a non-null value is returned.
+  int? operator ~/(num? other) {
+    if (this == null) {
+      return other?.toInt();
+    }
+    if (other == null) {
+      return this?.toInt();
+    }
+    return this! ~/ other;
   }
 }
 
