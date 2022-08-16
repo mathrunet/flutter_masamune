@@ -1,3 +1,7 @@
+## 0.11.1+1
+
+ - **FIX**: Fixed for calculation with Double? ([6388ca74](https://github.com/mathrunet/flutter_masamune/commit/6388ca74a124cf2af4b48e26d2ae7d6b6b00bec0))
+
 ## 0.11.1
 
  - **FEAT**: Added calculation for null. ([19c1d6ce](https://github.com/mathrunet/flutter_masamune/commit/19c1d6ce73a2b25d238b7bdbbefb15c608d113b0))
