@@ -1,3 +1,7 @@
+## 0.11.1
+
+ - **FEAT**: Added calculation for null. ([19c1d6ce](https://github.com/mathrunet/flutter_masamune/commit/19c1d6ce73a2b25d238b7bdbbefb15c608d113b0))
+
 ## 0.11.0
 
  - Bump "katana" to `0.11.0`.
