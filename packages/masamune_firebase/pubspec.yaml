@@ -1,6 +1,6 @@
 name: masamune_firebase
 description: Module for supporting the Firebase/Firestore function of Masamune framework. It is also available on the web.
-version: 0.10.0+10
+version: 0.11.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_firebase
 
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune:
-  model_notifier:
-  firebase_model_notifier:
+  masamune: ^0.11.0
+  model_notifier: ^0.11.0
+  firebase_model_notifier: ^0.11.0
   flutter_riverpod: ^1.0.3
   riverpod: ^1.0.3
   meta: ^1.7.0

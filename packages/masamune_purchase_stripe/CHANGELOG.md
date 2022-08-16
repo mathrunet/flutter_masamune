@@ -1,3 +1,7 @@
+## 0.11.0+1
+
+ - Update a dependency to the latest release.
+
 ## 0.11.0
 
  - Bump "masamune_purchase_stripe" to `0.11.0`.
