@@ -15,6 +15,69 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_module` - `v0.11.1+1`](#katana_module---v01111)
+ - [`masamune` - `v0.11.1`](#masamune---v0111)
+ - [`masamune_firebase_dynamic_links` - `v0.11.0+13`](#masamune_firebase_dynamic_links---v011013)
+ - [`masamune_agora` - `v0.11.0+13`](#masamune_agora---v011013)
+ - [`masamune_module` - `v0.11.0+10`](#masamune_module---v011010)
+ - [`masamune_local_messaging` - `v0.11.0+9`](#masamune_local_messaging---v01109)
+ - [`masamune_notion` - `v0.11.0+14`](#masamune_notion---v011014)
+ - [`masamune_signin_twitter` - `v0.11.0+13`](#masamune_signin_twitter---v011013)
+ - [`masamune_purchase` - `v0.11.0+9`](#masamune_purchase---v01109)
+ - [`masamune_firebase` - `v0.11.0+12`](#masamune_firebase---v011012)
+ - [`masamune_signin_apple` - `v0.11.0+13`](#masamune_signin_apple---v011013)
+ - [`masamune_purchase_firebase` - `v0.11.0+14`](#masamune_purchase_firebase---v011014)
+ - [`masamune_firebase_messaging` - `v0.11.0+13`](#masamune_firebase_messaging---v011013)
+ - [`masamune_location` - `v0.11.0+9`](#masamune_location---v01109)
+ - [`masamune_purchase_stripe` - `v0.11.0+13`](#masamune_purchase_stripe---v011013)
+ - [`masamune_ads` - `v0.11.0+9`](#masamune_ads---v01109)
+ - [`masamune_signin_google` - `v0.11.0+13`](#masamune_signin_google---v011013)
+ - [`masamune_signin_facebook` - `v0.11.0+13`](#masamune_signin_facebook---v011013)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_dynamic_links` - `v0.11.0+13`
+ - `masamune_agora` - `v0.11.0+13`
+ - `masamune_module` - `v0.11.0+10`
+ - `masamune_local_messaging` - `v0.11.0+9`
+ - `masamune_notion` - `v0.11.0+14`
+ - `masamune_signin_twitter` - `v0.11.0+13`
+ - `masamune_purchase` - `v0.11.0+9`
+ - `masamune_firebase` - `v0.11.0+12`
+ - `masamune_signin_apple` - `v0.11.0+13`
+ - `masamune_purchase_firebase` - `v0.11.0+14`
+ - `masamune_firebase_messaging` - `v0.11.0+13`
+ - `masamune_location` - `v0.11.0+9`
+ - `masamune_purchase_stripe` - `v0.11.0+13`
+ - `masamune_ads` - `v0.11.0+9`
+ - `masamune_signin_google` - `v0.11.0+13`
+ - `masamune_signin_facebook` - `v0.11.0+13`
+
+---
+
+#### `katana_module` - `v0.11.1+1`
+
+ - **FIX**: Bug fix. ([f9eff88c](https://github.com/mathrunet/flutter_masamune/commit/f9eff88ce9406c408a83796ec5c46228555188c8))
+
+#### `masamune` - `v0.11.1`
+
+ - **FEAT**: Boot縺ｫretrieveRedirectUri繧定ｿｽ蜉. ([e88e6347](https://github.com/mathrunet/flutter_masamune/commit/e88e6347c26b1010b4cac08aacc8170cb0785ae2))
+
+
+## 2022-08-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_module` - `v0.11.1`](#katana_module---v0111)
  - [`masamune_cli` - `v0.11.0+5`](#masamune_cli---v01105)
  - [`masamune` - `v0.11.0+9`](#masamune---v01109)

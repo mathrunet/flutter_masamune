@@ -1,3 +1,7 @@
+## 0.11.1+1
+
+ - **FIX**: Bug fix. ([f9eff88c](https://github.com/mathrunet/flutter_masamune/commit/f9eff88ce9406c408a83796ec5c46228555188c8))
+
 ## 0.11.1
 
  - **FEAT**: retrieveRedirectUriOnBoot繧定ｿｽ蜉. ([eeb12549](https://github.com/mathrunet/flutter_masamune/commit/eeb125495218c6e37c2d0be02491143f0aef0bbd))

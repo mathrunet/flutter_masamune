@@ -1,3 +1,7 @@
+## 0.11.1
+
+ - **FEAT**: Boot縺ｫretrieveRedirectUri繧定ｿｽ蜉. ([e88e6347](https://github.com/mathrunet/flutter_masamune/commit/e88e6347c26b1010b4cac08aacc8170cb0785ae2))
+
 ## 0.11.0+9
 
  - Update a dependency to the latest release.
