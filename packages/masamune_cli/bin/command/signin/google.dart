@@ -28,6 +28,19 @@ class SigninGoogleCliCommand extends CliCommand {
       text =
           text.replaceAll("TODO_REPLACE_GOOGLE_OAUTH_REVERSE_DOMAIN", domain);
       text = text.replaceAll(
+        "<!-- TODO_REPLACE_GOOGLE_OAUTH_REVERSE_DOMAIN_URL_SCHEME -->",
+        r"""
+<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(GOOGLE_OAUTH_REVERSE_DOMAIN)</string>
+			</array>
+		</dict>
+        """,
+      );      
+      text = text.replaceAll(
         "// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN",
         """
 // Comment out using Google services (Firebase、Admob、Google OAuth、Map etc...)

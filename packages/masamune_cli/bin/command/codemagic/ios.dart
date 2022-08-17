@@ -14,9 +14,8 @@ class CodemagicIOSCliCommand extends CliCommand {
     final build = yaml["codemagic"] as YamlMap;
     final ios = build["ios"] as YamlMap;
     final issuerId = ios["publishing_issuer_id"] as String?;
-    final apiKeyId = ios["publishing_api_key_id"] as String?;
     final apiKeyPath = ios["publishing_api_key_path"] as String?;
-    if (issuerId.isEmpty || apiKeyId.isEmpty || apiKeyPath.isEmpty) {
+    if (issuerId.isEmpty || apiKeyPath.isEmpty) {
       print("Codemagic IOS information is missing.");
       return;
     }
@@ -26,6 +25,12 @@ class CodemagicIOSCliCommand extends CliCommand {
       return;
     }
     final apiKey = base64Encode(apiKeyFile.readAsBytesSync());
+    final match = RegExp("AuthKey_([a-zA-Z0-8]+).p8").firstMatch(apiKeyPath);
+    final apiKeyId = match?.group(1);
+    if (!apiKeyFile.existsSync()) {
+      print("Api key: $apiKeyId is not found. Do not rename the file.");
+      return;
+    }
     final passwordFile = File("ios/ios_certificate_password.key");
     if (!passwordFile.existsSync()) {
       final password = generateCode(16);
