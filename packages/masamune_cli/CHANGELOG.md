@@ -1,3 +1,8 @@
+## 0.11.0+5
+
+ - **FIX**: Correction of CodeMagic Publishing Credentials. ([102ec90b](https://github.com/mathrunet/flutter_masamune/commit/102ec90b1b3988566af7ebd018b61591a8f485f6))
+ - **FIX**: Change Codemagic's Publishing settings. ([94da621d](https://github.com/mathrunet/flutter_masamune/commit/94da621d88b7c6a967118cf0d46aee4f998351e7))
+
 ## 0.11.0+4
 
  - Update a dependency to the latest release.

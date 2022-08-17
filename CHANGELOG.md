@@ -3,6 +3,72 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_module` - `v0.11.1`](#katana_module---v0111)
+ - [`masamune_cli` - `v0.11.0+5`](#masamune_cli---v01105)
+ - [`masamune` - `v0.11.0+9`](#masamune---v01109)
+ - [`masamune_firebase_dynamic_links` - `v0.11.0+12`](#masamune_firebase_dynamic_links---v011012)
+ - [`masamune_local_messaging` - `v0.11.0+8`](#masamune_local_messaging---v01108)
+ - [`masamune_notion` - `v0.11.0+13`](#masamune_notion---v011013)
+ - [`masamune_module` - `v0.11.0+9`](#masamune_module---v01109)
+ - [`masamune_agora` - `v0.11.0+12`](#masamune_agora---v011012)
+ - [`masamune_purchase` - `v0.11.0+8`](#masamune_purchase---v01108)
+ - [`masamune_signin_twitter` - `v0.11.0+12`](#masamune_signin_twitter---v011012)
+ - [`masamune_firebase` - `v0.11.0+11`](#masamune_firebase---v011011)
+ - [`masamune_purchase_stripe` - `v0.11.0+12`](#masamune_purchase_stripe---v011012)
+ - [`masamune_firebase_messaging` - `v0.11.0+12`](#masamune_firebase_messaging---v011012)
+ - [`masamune_location` - `v0.11.0+8`](#masamune_location---v01108)
+ - [`masamune_ads` - `v0.11.0+8`](#masamune_ads---v01108)
+ - [`masamune_signin_google` - `v0.11.0+12`](#masamune_signin_google---v011012)
+ - [`masamune_signin_facebook` - `v0.11.0+12`](#masamune_signin_facebook---v011012)
+ - [`masamune_purchase_firebase` - `v0.11.0+13`](#masamune_purchase_firebase---v011013)
+ - [`masamune_signin_apple` - `v0.11.0+12`](#masamune_signin_apple---v011012)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v0.11.0+9`
+ - `masamune_firebase_dynamic_links` - `v0.11.0+12`
+ - `masamune_local_messaging` - `v0.11.0+8`
+ - `masamune_notion` - `v0.11.0+13`
+ - `masamune_module` - `v0.11.0+9`
+ - `masamune_agora` - `v0.11.0+12`
+ - `masamune_purchase` - `v0.11.0+8`
+ - `masamune_signin_twitter` - `v0.11.0+12`
+ - `masamune_firebase` - `v0.11.0+11`
+ - `masamune_purchase_stripe` - `v0.11.0+12`
+ - `masamune_firebase_messaging` - `v0.11.0+12`
+ - `masamune_location` - `v0.11.0+8`
+ - `masamune_ads` - `v0.11.0+8`
+ - `masamune_signin_google` - `v0.11.0+12`
+ - `masamune_signin_facebook` - `v0.11.0+12`
+ - `masamune_purchase_firebase` - `v0.11.0+13`
+ - `masamune_signin_apple` - `v0.11.0+12`
+
+---
+
+#### `katana_module` - `v0.11.1`
+
+ - **FEAT**: retrieveRedirectUriOnBoot繧定ｿｽ蜉. ([eeb12549](https://github.com/mathrunet/flutter_masamune/commit/eeb125495218c6e37c2d0be02491143f0aef0bbd))
+
+#### `masamune_cli` - `v0.11.0+5`
+
+ - **FIX**: Correction of CodeMagic Publishing Credentials. ([102ec90b](https://github.com/mathrunet/flutter_masamune/commit/102ec90b1b3988566af7ebd018b61591a8f485f6))
+ - **FIX**: Change Codemagic's Publishing settings. ([94da621d](https://github.com/mathrunet/flutter_masamune/commit/94da621d88b7c6a967118cf0d46aee4f998351e7))
+
+
 ## 2022-08-16
 
 ### Changes

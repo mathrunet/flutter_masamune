@@ -73,6 +73,21 @@ class Boot extends PageScopedWidget {
   @mustCallSuper
   Future<void> onBeforeFinishBoot(BuildContext context) => Future.value();
 
+  // /// This is called if you want to redirect to a specific URL when Boot redirects.
+  // ///
+  // /// If null or non-empty is returned, it is ignored.
+  // @protected
+  // @mustCallSuper
+  // Future<String> onRetrieveRedirectUri(BuildContext context) {
+  //   for (final e in Module.registeredHooks) {
+  //     final res = await e.retrieveRedirectUriOnBoot(context);
+  //     if (res.isNotEmpty) {
+  //       return res;
+  //     }
+  //   }
+  //   return null;
+  // }
+
   /// Indicator color.
   ///
   /// If null, the color will be gradation.

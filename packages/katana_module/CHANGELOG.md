@@ -1,3 +1,7 @@
+## 0.11.1
+
+ - **FEAT**: retrieveRedirectUriOnBoot繧定ｿｽ蜉. ([eeb12549](https://github.com/mathrunet/flutter_masamune/commit/eeb125495218c6e37c2d0be02491143f0aef0bbd))
+
 ## 0.11.0+6
 
  - Update a dependency to the latest release.
