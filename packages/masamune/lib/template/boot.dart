@@ -21,16 +21,18 @@ class Boot extends PageScopedWidget {
         ),
         _initializeProcess(context, root),
       ]);
+      final redirectUri = await retrieveRedirectUri(context);
       final pageTransition = context.app?.initialPageTransition;
       context.navigator.pushReplacementNamed(
-        context.get(kRedirectTo, context.app?.initialRoute ?? "/"),
+        redirectUri ??
+            context.get(kRedirectTo, context.app?.initialRoute ?? "/"),
         arguments: RouteQuery(
           transition: pageTransition ?? PageTransition.fade,
         ),
       );
       await Future.wait([
         ...Module.registeredHooks.map((e) => e.onAfterFinishBoot(root)),
-        onAfterFinish(root),
+        onAfterFinishBoot(root),
       ]);
     } catch (e) {
       print(e.toString());
@@ -48,7 +50,7 @@ class Boot extends PageScopedWidget {
   /// after transitioning to another page.
   @protected
   @mustCallSuper
-  Future<void> onAfterFinish(BuildContext context) => Future.value();
+  Future<void> onAfterFinishBoot(BuildContext context) => Future.value();
 
   /// Runs after authentication has taken place.
   ///
@@ -76,17 +78,17 @@ class Boot extends PageScopedWidget {
   // /// This is called if you want to redirect to a specific URL when Boot redirects.
   // ///
   // /// If null or non-empty is returned, it is ignored.
-  // @protected
-  // @mustCallSuper
-  // Future<String> onRetrieveRedirectUri(BuildContext context) {
-  //   for (final e in Module.registeredHooks) {
-  //     final res = await e.retrieveRedirectUriOnBoot(context);
-  //     if (res.isNotEmpty) {
-  //       return res;
-  //     }
-  //   }
-  //   return null;
-  // }
+  @protected
+  @mustCallSuper
+  Future<String?> retrieveRedirectUri(BuildContext context) async {
+    for (final e in Module.registeredHooks) {
+      final res = await e.retrieveRedirectUriOnBoot(context);
+      if (res.isNotEmpty) {
+        return res;
+      }
+    }
+    return context.get(kRedirectTo, context.app?.initialRoute ?? "/");
+  }
 
   /// Indicator color.
   ///
