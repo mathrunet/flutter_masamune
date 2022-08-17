@@ -406,7 +406,7 @@ packages:
       name: firebase_model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+5"
+    version: "0.11.0+7"
   firebase_storage:
     dependency: transitive
     description:
@@ -615,35 +615,35 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+4"
+    version: "0.11.1+1"
   katana_firebase:
     dependency: "direct main"
     description:
       name: katana_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+5"
+    version: "0.11.0+4"
   katana_flutter:
     dependency: transitive
     description:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+4"
+    version: "0.11.0+3"
   katana_module:
     dependency: "direct main"
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+6"
+    version: "0.11.1+1"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+5"
+    version: "0.11.0+4"
   loading_animations:
     dependency: transitive
     description:
@@ -678,14 +678,14 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0+1"
+    version: "0.11.1"
   masamune_firebase:
     dependency: "direct main"
     description:
       name: masamune_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+10"
+    version: "0.11.0+12"
   matcher:
     dependency: transitive
     description:
@@ -720,7 +720,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0+4"
+    version: "0.11.0+4"
   multi_select_flutter:
     dependency: transitive
     description:
@@ -1194,7 +1194,7 @@ packages:
       name: video_player_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.8"
+    version: "2.3.9"
   video_player_avfoundation:
     dependency: transitive
     description:

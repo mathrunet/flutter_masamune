@@ -657,7 +657,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.1"
+    version: "0.11.1+1"
   katana_routing:
     dependency: transitive
     description:
@@ -699,14 +699,14 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0+9"
+    version: "0.11.1"
   masamune_firebase:
     dependency: "direct main"
     description:
       name: masamune_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0+11"
+    version: "0.11.0+12"
   matcher:
     dependency: transitive
     description:
