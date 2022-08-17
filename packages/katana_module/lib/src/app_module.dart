@@ -144,4 +144,18 @@ class AppModule extends Module implements ModuleHook {
   Future<void> onAfterFinishBoot(BuildContext context) async {
     await Future.wait(rerouteConfigs.map((e) => e.onAfterFinishBoot(context)));
   }
+
+  /// This is called if you want to redirect to a specific URL when Boot redirects.
+  ///
+  /// If null or non-empty is returned, it is ignored.
+  @override
+  Future<String?> retrieveRedirectUriOnBoot(BuildContext context) async {
+    for (final e in rerouteConfigs) {
+      final res = await e.retrieveRedirectUriOnBoot(context);
+      if (res.isNotEmpty) {
+        return res;
+      }
+    }
+    return null;
+  }
 }

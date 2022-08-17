@@ -8,12 +8,14 @@ class HookModule extends Module implements ModuleHook {
     Future<void> Function(BuildContext context)? onAfterAuth,
     Future<void> Function(BuildContext context)? onBeforeFinishBoot,
     Future<void> Function(BuildContext context)? onAfterFinishBoot,
+    Future<String?> Function(BuildContext context)? retrieveRedirectUriOnBoot,
     bool enabled = true,
   })  : _onInit = onInit,
         _onRestoreAuth = onRestoreAuth,
         _onAfterAuth = onAfterAuth,
         _onBeforeFinishBoot = onBeforeFinishBoot,
         _onAfterFinishBoot = onAfterFinishBoot,
+        _retrieveRedirectUriOnBoot = retrieveRedirectUriOnBoot,
         super(enabled: enabled);
 
   final Future<void> Function(BuildContext context)? _onInit;
@@ -25,6 +27,9 @@ class HookModule extends Module implements ModuleHook {
   final Future<void> Function(BuildContext context)? _onBeforeFinishBoot;
 
   final Future<void> Function(BuildContext context)? _onAfterFinishBoot;
+
+  final Future<String?> Function(BuildContext context)?
+      _retrieveRedirectUriOnBoot;
 
   /// Run it the first time the app is launched.
   @override
@@ -64,6 +69,15 @@ class HookModule extends Module implements ModuleHook {
   Future<void> onAfterFinishBoot(BuildContext context) async {
     _onAfterFinishBoot?.call(context);
   }
+
+  /// This is called if you want to redirect to a specific URL when Boot redirects.
+  ///
+  /// If null or non-empty is returned, it is ignored.
+  @override
+  @mustCallSuper
+  Future<String?> retrieveRedirectUriOnBoot(BuildContext context) async {
+    return _retrieveRedirectUriOnBoot?.call(context);
+  }
 }
 
 /// Abstract class for defining the behavior hooks of a module.
@@ -91,4 +105,10 @@ abstract class ModuleHook {
   /// after transitioning to another page.
   @mustCallSuper
   Future<void> onAfterFinishBoot(BuildContext context);
+
+  /// This is called if you want to redirect to a specific URL when Boot redirects.
+  ///
+  /// If null or non-empty is returned, it is ignored.
+  @mustCallSuper
+  Future<String?> retrieveRedirectUriOnBoot(BuildContext context);
 }
