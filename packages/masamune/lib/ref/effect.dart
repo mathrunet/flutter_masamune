@@ -42,14 +42,18 @@ class _EffectValueState extends ScopedValueState<void, _EffectValue> {
   @override
   void initValue() {
     super.initValue();
-    value.onInitOrUpdate?.call();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      value.onInitOrUpdate?.call();
+    });
   }
 
   @override
   void didUpdateValue(_EffectValue oldValue) {
     super.didUpdateValue(oldValue);
     if (!equalsKeys(value.keys, oldValue.keys)) {
-      value.onInitOrUpdate?.call();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        value.onInitOrUpdate?.call();
+      });
     }
   }
 
