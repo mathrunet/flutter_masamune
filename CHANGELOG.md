@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v0.11.1+1`](#masamune---v01111)
+ - [`masamune_signin_twitter` - `v0.11.0+14`](#masamune_signin_twitter---v011014)
+ - [`masamune_notion` - `v0.11.0+15`](#masamune_notion---v011015)
+ - [`masamune_local_messaging` - `v0.11.0+10`](#masamune_local_messaging---v011010)
+ - [`masamune_agora` - `v0.11.0+14`](#masamune_agora---v011014)
+ - [`masamune_module` - `v0.11.0+11`](#masamune_module---v011011)
+ - [`masamune_location` - `v0.11.0+10`](#masamune_location---v011010)
+ - [`masamune_signin_apple` - `v0.11.0+14`](#masamune_signin_apple---v011014)
+ - [`masamune_firebase_messaging` - `v0.11.0+14`](#masamune_firebase_messaging---v011014)
+ - [`masamune_purchase_firebase` - `v0.11.0+15`](#masamune_purchase_firebase---v011015)
+ - [`masamune_firebase` - `v0.11.0+13`](#masamune_firebase---v011013)
+ - [`masamune_purchase` - `v0.11.0+10`](#masamune_purchase---v011010)
+ - [`masamune_firebase_dynamic_links` - `v0.11.0+14`](#masamune_firebase_dynamic_links---v011014)
+ - [`masamune_ads` - `v0.11.0+10`](#masamune_ads---v011010)
+ - [`masamune_signin_google` - `v0.11.0+14`](#masamune_signin_google---v011014)
+ - [`masamune_purchase_stripe` - `v0.11.0+14`](#masamune_purchase_stripe---v011014)
+ - [`masamune_signin_facebook` - `v0.11.0+14`](#masamune_signin_facebook---v011014)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_signin_twitter` - `v0.11.0+14`
+ - `masamune_notion` - `v0.11.0+15`
+ - `masamune_local_messaging` - `v0.11.0+10`
+ - `masamune_agora` - `v0.11.0+14`
+ - `masamune_module` - `v0.11.0+11`
+ - `masamune_location` - `v0.11.0+10`
+ - `masamune_signin_apple` - `v0.11.0+14`
+ - `masamune_firebase_messaging` - `v0.11.0+14`
+ - `masamune_purchase_firebase` - `v0.11.0+15`
+ - `masamune_firebase` - `v0.11.0+13`
+ - `masamune_purchase` - `v0.11.0+10`
+ - `masamune_firebase_dynamic_links` - `v0.11.0+14`
+ - `masamune_ads` - `v0.11.0+10`
+ - `masamune_signin_google` - `v0.11.0+14`
+ - `masamune_purchase_stripe` - `v0.11.0+14`
+ - `masamune_signin_facebook` - `v0.11.0+14`
+
+---
+
+#### `masamune` - `v0.11.1+1`
+
+ - **FIX**: Fix useEffect. ([14dab630](https://github.com/mathrunet/flutter_masamune/commit/14dab630b8d1d09097d7cbbb7aa0c1d1fe1115f4))
+
+
 ## 2022-08-17
 
 ### Changes

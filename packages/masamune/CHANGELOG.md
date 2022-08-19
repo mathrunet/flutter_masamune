@@ -1,3 +1,7 @@
+## 0.11.1+1
+
+ - **FIX**: Fix useEffect. ([14dab630](https://github.com/mathrunet/flutter_masamune/commit/14dab630b8d1d09097d7cbbb7aa0c1d1fe1115f4))
+
 ## 0.11.1
 
  - **FEAT**: Boot縺ｫretrieveRedirectUri繧定ｿｽ蜉. ([e88e6347](https://github.com/mathrunet/flutter_masamune/commit/e88e6347c26b1010b4cac08aacc8170cb0785ae2))
