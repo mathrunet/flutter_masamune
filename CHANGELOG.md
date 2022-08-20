@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v0.11.1+2`](#masamune---v01112)
+ - [`masamune_cli` - `v0.11.0+6`](#masamune_cli---v01106)
+ - [`masamune_agora` - `v0.11.0+15`](#masamune_agora---v011015)
+ - [`masamune_notion` - `v0.11.0+16`](#masamune_notion---v011016)
+ - [`masamune_local_messaging` - `v0.11.0+11`](#masamune_local_messaging---v011011)
+ - [`masamune_module` - `v0.11.0+12`](#masamune_module---v011012)
+ - [`masamune_signin_twitter` - `v0.11.0+15`](#masamune_signin_twitter---v011015)
+ - [`masamune_purchase` - `v0.11.0+11`](#masamune_purchase---v011011)
+ - [`masamune_firebase` - `v0.11.0+14`](#masamune_firebase---v011014)
+ - [`masamune_signin_apple` - `v0.11.0+15`](#masamune_signin_apple---v011015)
+ - [`masamune_purchase_firebase` - `v0.11.0+16`](#masamune_purchase_firebase---v011016)
+ - [`masamune_firebase_messaging` - `v0.11.0+15`](#masamune_firebase_messaging---v011015)
+ - [`masamune_location` - `v0.11.0+11`](#masamune_location---v011011)
+ - [`masamune_purchase_stripe` - `v0.11.0+15`](#masamune_purchase_stripe---v011015)
+ - [`masamune_ads` - `v0.11.0+11`](#masamune_ads---v011011)
+ - [`masamune_firebase_dynamic_links` - `v0.11.0+15`](#masamune_firebase_dynamic_links---v011015)
+ - [`masamune_signin_google` - `v0.11.0+15`](#masamune_signin_google---v011015)
+ - [`masamune_signin_facebook` - `v0.11.0+15`](#masamune_signin_facebook---v011015)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.11.0+15`
+ - `masamune_notion` - `v0.11.0+16`
+ - `masamune_local_messaging` - `v0.11.0+11`
+ - `masamune_module` - `v0.11.0+12`
+ - `masamune_signin_twitter` - `v0.11.0+15`
+ - `masamune_purchase` - `v0.11.0+11`
+ - `masamune_firebase` - `v0.11.0+14`
+ - `masamune_signin_apple` - `v0.11.0+15`
+ - `masamune_purchase_firebase` - `v0.11.0+16`
+ - `masamune_firebase_messaging` - `v0.11.0+15`
+ - `masamune_location` - `v0.11.0+11`
+ - `masamune_purchase_stripe` - `v0.11.0+15`
+ - `masamune_ads` - `v0.11.0+11`
+ - `masamune_firebase_dynamic_links` - `v0.11.0+15`
+ - `masamune_signin_google` - `v0.11.0+15`
+ - `masamune_signin_facebook` - `v0.11.0+15`
+
+---
+
+#### `masamune` - `v0.11.1+2`
+
+ - **FIX**: Added onChanged to FormItemSelectiveIconBuilder. ([baa63f02](https://github.com/mathrunet/flutter_masamune/commit/baa63f02c10e3684404c5b14827b434f797d5136))
+
+#### `masamune_cli` - `v0.11.0+6`
+
+ - **FIX**: Fixed a bug in Codemagic's Android settings. ([8a3789da](https://github.com/mathrunet/flutter_masamune/commit/8a3789da6617adf8a4e0eb7b96ea9e3f38b7309a))
+
+
 ## 2022-08-19
 
 ### Changes

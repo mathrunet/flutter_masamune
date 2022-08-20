@@ -1,3 +1,7 @@
+## 0.11.0+6
+
+ - **FIX**: Fixed a bug in Codemagic's Android settings. ([8a3789da](https://github.com/mathrunet/flutter_masamune/commit/8a3789da6617adf8a4e0eb7b96ea9e3f38b7309a))
+
 ## 0.11.0+5
 
  - **FIX**: Correction of CodeMagic Publishing Credentials. ([102ec90b](https://github.com/mathrunet/flutter_masamune/commit/102ec90b1b3988566af7ebd018b61591a8f485f6))

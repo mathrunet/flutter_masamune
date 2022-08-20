@@ -1,3 +1,7 @@
+## 0.11.1+2
+
+ - **FIX**: Added onChanged to FormItemSelectiveIconBuilder. ([baa63f02](https://github.com/mathrunet/flutter_masamune/commit/baa63f02c10e3684404c5b14827b434f797d5136))
+
 ## 0.11.1+1
 
  - **FIX**: Fix useEffect. ([14dab630](https://github.com/mathrunet/flutter_masamune/commit/14dab630b8d1d09097d7cbbb7aa0c1d1fe1115f4))
