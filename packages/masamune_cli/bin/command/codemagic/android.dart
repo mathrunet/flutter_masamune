@@ -78,14 +78,20 @@ class CodemagicAndroidCliCommand extends CliCommand {
     if (credentials.isNotEmpty && track.isNotEmpty) {
       final credentialsFile = File(credentials!);
       if (credentialsFile.existsSync()) {
-        final credentialsString = base64Encode(
-          credentialsFile.readAsBytesSync(),
+        final credentialsString = jsonEncode(
+          jsonDecode(
+            credentialsFile
+                .readAsStringSync()
+                .replaceAll("\r\n", "\n")
+                .replaceAll("\r", "\n")
+                .replaceAll("\n", ""),
+          ),
         );
         codemagic = codemagic.replaceAll(
           "# TODO_REPLACE_CODEMAGIC_ANDROID_PUBLISHING",
           """
 google_play:
-        credentials: $credentialsString
+        credentials: '$credentialsString'
         track: $track
           """,
         );
