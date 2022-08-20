@@ -17,6 +17,7 @@ class FormItemSelectiveIconBuilder extends FormField<String> {
     Key? key,
     this.space = 8.0,
     void Function(String? value)? onSaved,
+    this.onChanged,
     String? Function(String? value)? validator,
     bool enabled = true,
     this.readOnly = false,
@@ -33,6 +34,7 @@ class FormItemSelectiveIconBuilder extends FormField<String> {
         );
 
   final double space;
+  final void Function(String? value)? onChanged;
   final Map<String, Widget> items;
   final bool readOnly;
   final EdgeInsetsGeometry? padding;
@@ -123,6 +125,7 @@ class _FormItemSelectiveIconBuilderState extends FormFieldState<String> {
   @override
   void didChange(String? value) {
     super.didChange(value);
+    widget.onChanged?.call(value);
     if (_effectiveController?.text != value) {
       _effectiveController?.text = value ?? "";
     }
