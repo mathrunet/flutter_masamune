@@ -151,6 +151,7 @@ part 'widget/dialog/ui_connect_dialog.dart';
 part 'widget/dialog/ui_dialog.dart';
 part 'widget/dialog/ui_future.dart';
 part 'widget/dialog/ui_modal.dart';
+part 'widget/dialog/ui_stream.dart';
 part 'widget/dialog/ui_select_dialog.dart';
 part 'widget/drawer/account_drawer_header.dart';
 part 'widget/page/empty_page.dart';
