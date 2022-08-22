@@ -1,3 +1,7 @@
+## 0.11.2+1
+
+ - Update a dependency to the latest release.
+
 ## 0.11.2
 
  - **FEAT**: Add showProgressIndicator. ([c5491fee](https://github.com/mathrunet/flutter_masamune/commit/c5491feee5caf74d3db9747e8340c12daa6ba3dd))

@@ -15,6 +15,66 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_module` - `v0.11.1+3`](#katana_module---v01113)
+ - [`masamune` - `v0.11.2+1`](#masamune---v01121)
+ - [`masamune_firebase_dynamic_links` - `v0.11.0+17`](#masamune_firebase_dynamic_links---v011017)
+ - [`masamune_agora` - `v0.11.0+17`](#masamune_agora---v011017)
+ - [`masamune_module` - `v0.11.0+14`](#masamune_module---v011014)
+ - [`masamune_local_messaging` - `v0.11.0+13`](#masamune_local_messaging---v011013)
+ - [`masamune_notion` - `v0.11.0+18`](#masamune_notion---v011018)
+ - [`masamune_signin_twitter` - `v0.11.0+17`](#masamune_signin_twitter---v011017)
+ - [`masamune_purchase` - `v0.11.0+13`](#masamune_purchase---v011013)
+ - [`masamune_firebase` - `v0.11.0+16`](#masamune_firebase---v011016)
+ - [`masamune_signin_apple` - `v0.11.0+17`](#masamune_signin_apple---v011017)
+ - [`masamune_purchase_firebase` - `v0.11.0+18`](#masamune_purchase_firebase---v011018)
+ - [`masamune_firebase_messaging` - `v0.11.0+17`](#masamune_firebase_messaging---v011017)
+ - [`masamune_location` - `v0.11.0+13`](#masamune_location---v011013)
+ - [`masamune_purchase_stripe` - `v0.11.0+17`](#masamune_purchase_stripe---v011017)
+ - [`masamune_ads` - `v0.11.0+13`](#masamune_ads---v011013)
+ - [`masamune_signin_google` - `v0.11.0+17`](#masamune_signin_google---v011017)
+ - [`masamune_signin_facebook` - `v0.11.0+17`](#masamune_signin_facebook---v011017)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v0.11.2+1`
+ - `masamune_firebase_dynamic_links` - `v0.11.0+17`
+ - `masamune_agora` - `v0.11.0+17`
+ - `masamune_module` - `v0.11.0+14`
+ - `masamune_local_messaging` - `v0.11.0+13`
+ - `masamune_notion` - `v0.11.0+18`
+ - `masamune_signin_twitter` - `v0.11.0+17`
+ - `masamune_purchase` - `v0.11.0+13`
+ - `masamune_firebase` - `v0.11.0+16`
+ - `masamune_signin_apple` - `v0.11.0+17`
+ - `masamune_purchase_firebase` - `v0.11.0+18`
+ - `masamune_firebase_messaging` - `v0.11.0+17`
+ - `masamune_location` - `v0.11.0+13`
+ - `masamune_purchase_stripe` - `v0.11.0+17`
+ - `masamune_ads` - `v0.11.0+13`
+ - `masamune_signin_google` - `v0.11.0+17`
+ - `masamune_signin_facebook` - `v0.11.0+17`
+
+---
+
+#### `katana_module` - `v0.11.1+3`
+
+ - **FIX**: Added a method to the Group module because it was missing. ([ddc8f494](https://github.com/mathrunet/flutter_masamune/commit/ddc8f494eebbfc83cf3a48d52851757c69cb50a1))
+
+
+## 2022-08-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v0.11.1+2`](#katana---v01112)
  - [`masamune` - `v0.11.2`](#masamune---v0112)
  - [`katana_flutter` - `v0.11.0+4`](#katana_flutter---v01104)

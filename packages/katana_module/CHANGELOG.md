@@ -1,3 +1,7 @@
+## 0.11.1+3
+
+ - **FIX**: Added a method to the Group module because it was missing. ([ddc8f494](https://github.com/mathrunet/flutter_masamune/commit/ddc8f494eebbfc83cf3a48d52851757c69cb50a1))
+
 ## 0.11.1+2
 
  - Update a dependency to the latest release.
