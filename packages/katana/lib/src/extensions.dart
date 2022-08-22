@@ -464,7 +464,7 @@ extension MapExtensions<K, V> on Map<K, V> {
   /// Get the value corresponding to [key] in the map.
   ///
   /// If [key] is not found, the value of [orElse] is returned.
-  T get<T extends V>(K key, T orElse) {
+  T get<T>(K key, T orElse) {
     assert(key != null, "The key is empty.");
     if (!containsKey(key)) {
       return orElse;
@@ -1785,7 +1785,6 @@ extension NullableIterableExtensions<T> on Iterable<T>? {
     return this!.equalsTo(others!);
   }
 }
-
 
 /// Provides general extensions to [Iterable<T?>].
 extension NullableValueIterableExtensions<T> on Iterable<T?> {
