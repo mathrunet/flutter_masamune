@@ -65,4 +65,12 @@ abstract class GroupModule extends Module implements ModuleHook {
   @override
   @mustCallSuper
   Future<void> onAfterFinishBoot(BuildContext context) => Future.value();
+
+  /// This is called if you want to redirect to a specific URL when Boot redirects.
+  ///
+  /// If null or non-empty is returned, it is ignored.
+  @override
+  @mustCallSuper
+  Future<String?> retrieveRedirectUriOnBoot(BuildContext context) =>
+      Future.value(null);
 }
