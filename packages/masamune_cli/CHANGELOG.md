@@ -1,3 +1,7 @@
+## 0.11.0+7
+
+ - Update a dependency to the latest release.
+
 ## 0.11.0+6
 
  - **FIX**: Fixed a bug in Codemagic's Android settings. ([8a3789da](https://github.com/mathrunet/flutter_masamune/commit/8a3789da6617adf8a4e0eb7b96ea9e3f38b7309a))

@@ -1,3 +1,7 @@
+## 0.11.2
+
+ - **FEAT**: Add showProgressIndicator. ([c5491fee](https://github.com/mathrunet/flutter_masamune/commit/c5491feee5caf74d3db9747e8340c12daa6ba3dd))
+
 ## 0.11.1+2
 
  - **FIX**: Added onChanged to FormItemSelectiveIconBuilder. ([baa63f02](https://github.com/mathrunet/flutter_masamune/commit/baa63f02c10e3684404c5b14827b434f797d5136))
