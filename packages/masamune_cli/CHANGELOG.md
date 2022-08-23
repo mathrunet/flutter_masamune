@@ -1,3 +1,7 @@
+## 0.11.0+9
+
+ - **FIX**: Fixed a bug in the color specification. ([62ea274e](https://github.com/mathrunet/flutter_masamune/commit/62ea274e1c3d7ac8b9700ea96897418859d52214))
+
 ## 0.11.0+8
 
  - Update a dependency to the latest release.

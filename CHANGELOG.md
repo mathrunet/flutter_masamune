@@ -15,6 +15,83 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v0.11.2+1`](#katana---v01121)
+ - [`masamune_cli` - `v0.11.0+9`](#masamune_cli---v01109)
+ - [`katana_flutter` - `v0.11.0+6`](#katana_flutter---v01106)
+ - [`masamune` - `v0.11.2+3`](#masamune---v01123)
+ - [`model_notifier` - `v0.11.0+7`](#model_notifier---v01107)
+ - [`katana_module` - `v0.11.1+5`](#katana_module---v01115)
+ - [`firebase_model_notifier` - `v0.11.0+10`](#firebase_model_notifier---v011010)
+ - [`masamune_local_messaging` - `v0.11.0+15`](#masamune_local_messaging---v011015)
+ - [`katana_routing` - `v0.11.0+7`](#katana_routing---v01107)
+ - [`katana_firebase` - `v0.11.0+7`](#katana_firebase---v01107)
+ - [`masamune_signin_twitter` - `v0.11.0+19`](#masamune_signin_twitter---v011019)
+ - [`masamune_notion` - `v0.11.0+20`](#masamune_notion---v011020)
+ - [`masamune_module` - `v0.11.0+16`](#masamune_module---v011016)
+ - [`masamune_signin_apple` - `v0.11.0+19`](#masamune_signin_apple---v011019)
+ - [`masamune_agora` - `v0.11.0+19`](#masamune_agora---v011019)
+ - [`masamune_firebase` - `v0.11.0+18`](#masamune_firebase---v011018)
+ - [`masamune_purchase` - `v0.11.0+15`](#masamune_purchase---v011015)
+ - [`masamune_purchase_stripe` - `v0.11.0+19`](#masamune_purchase_stripe---v011019)
+ - [`masamune_purchase_firebase` - `v0.11.0+20`](#masamune_purchase_firebase---v011020)
+ - [`masamune_location` - `v0.11.0+15`](#masamune_location---v011015)
+ - [`masamune_firebase_messaging` - `v0.11.0+19`](#masamune_firebase_messaging---v011019)
+ - [`masamune_ads` - `v0.11.0+15`](#masamune_ads---v011015)
+ - [`masamune_signin_facebook` - `v0.11.0+19`](#masamune_signin_facebook---v011019)
+ - [`masamune_firebase_dynamic_links` - `v0.11.0+19`](#masamune_firebase_dynamic_links---v011019)
+ - [`masamune_signin_google` - `v0.11.0+19`](#masamune_signin_google---v011019)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_flutter` - `v0.11.0+6`
+ - `masamune` - `v0.11.2+3`
+ - `model_notifier` - `v0.11.0+7`
+ - `katana_module` - `v0.11.1+5`
+ - `firebase_model_notifier` - `v0.11.0+10`
+ - `masamune_local_messaging` - `v0.11.0+15`
+ - `katana_routing` - `v0.11.0+7`
+ - `katana_firebase` - `v0.11.0+7`
+ - `masamune_signin_twitter` - `v0.11.0+19`
+ - `masamune_notion` - `v0.11.0+20`
+ - `masamune_module` - `v0.11.0+16`
+ - `masamune_signin_apple` - `v0.11.0+19`
+ - `masamune_agora` - `v0.11.0+19`
+ - `masamune_firebase` - `v0.11.0+18`
+ - `masamune_purchase` - `v0.11.0+15`
+ - `masamune_purchase_stripe` - `v0.11.0+19`
+ - `masamune_purchase_firebase` - `v0.11.0+20`
+ - `masamune_location` - `v0.11.0+15`
+ - `masamune_firebase_messaging` - `v0.11.0+19`
+ - `masamune_ads` - `v0.11.0+15`
+ - `masamune_signin_facebook` - `v0.11.0+19`
+ - `masamune_firebase_dynamic_links` - `v0.11.0+19`
+ - `masamune_signin_google` - `v0.11.0+19`
+
+---
+
+#### `katana` - `v0.11.2+1`
+
+ - **FIX**: Fixed a bug in the calculation. ([8149a6e7](https://github.com/mathrunet/flutter_masamune/commit/8149a6e7ed208de531481b07b2c027f81dd5a807))
+
+#### `masamune_cli` - `v0.11.0+9`
+
+ - **FIX**: Fixed a bug in the color specification. ([62ea274e](https://github.com/mathrunet/flutter_masamune/commit/62ea274e1c3d7ac8b9700ea96897418859d52214))
+
+
+## 2022-08-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v0.11.2`](#katana---v0112)
  - [`katana_flutter` - `v0.11.0+5`](#katana_flutter---v01105)
  - [`masamune` - `v0.11.2+2`](#masamune---v01122)

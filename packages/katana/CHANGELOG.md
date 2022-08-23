@@ -1,3 +1,7 @@
+## 0.11.2+1
+
+ - **FIX**: Fixed a bug in the calculation. ([8149a6e7](https://github.com/mathrunet/flutter_masamune/commit/8149a6e7ed208de531481b07b2c027f81dd5a807))
+
 ## 0.11.2
 
  - **FEAT**: Add getAsInt and getAsDouble. ([f81ee6f4](https://github.com/mathrunet/flutter_masamune/commit/f81ee6f420ee581ffbd4e96e15f145300231aef1))
