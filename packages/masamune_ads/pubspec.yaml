@@ -1,6 +1,6 @@
 name: masamune_ads
 description: Library that provides advertising system of Masamune framework. Use Admob etc. Model notifier is used to make it easier to use.
-version: 0.11.0+13
+version: 0.11.0+14
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ads
 

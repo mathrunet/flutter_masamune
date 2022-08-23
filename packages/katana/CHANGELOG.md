@@ -1,3 +1,7 @@
+## 0.11.2
+
+ - **FEAT**: Add getAsInt and getAsDouble. ([f81ee6f4](https://github.com/mathrunet/flutter_masamune/commit/f81ee6f420ee581ffbd4e96e15f145300231aef1))
+
 ## 0.11.1+2
 
  - **FIX**: Map.get() was causing an error with null, fixed. ([989d6e0a](https://github.com/mathrunet/flutter_masamune/commit/989d6e0a98b5c62b19be1766c8527b4ef93a90bb))

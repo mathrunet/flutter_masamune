@@ -1,6 +1,6 @@
 name: katana
 description: Package containing a collection of basic Dart utilities. It provides the base part of the Masamune framework.
-version: 0.11.1+2
+version: 0.11.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana
 
