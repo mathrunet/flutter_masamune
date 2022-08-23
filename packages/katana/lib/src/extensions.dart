@@ -472,6 +472,28 @@ extension MapExtensions<K, V> on Map<K, V> {
     return (this[key] as T?) ?? orElse;
   }
 
+  /// Get the int value corresponding to [key] in the map.
+  ///
+  /// If [key] is not found, the value of [orElse] is returned.
+  int getAsInt(K key, [int orElse = 0]) {
+    assert(key != null, "The key is empty.");
+    if (!containsKey(key)) {
+      return orElse;
+    }
+    return (this[key] as num?)?.toInt() ?? orElse;
+  }
+
+  /// Get the double value corresponding to [key] in the map.
+  ///
+  /// If [key] is not found, the value of [orElse] is returned.
+  double getAsDouble(K key, [double orElse = 0.0]) {
+    assert(key != null, "The key is empty.");
+    if (!containsKey(key)) {
+      return orElse;
+    }
+    return (this[key] as num?)?.toDouble() ?? orElse;
+  }
+
   /// Get the list corresponding to [key] in the map.
   ///
   /// If [key] is not found, the list of [orElse] is returned.
@@ -497,7 +519,7 @@ extension MapExtensions<K, V> on Map<K, V> {
   /// Get the set corresponding to [key] in the map.
   ///
   /// If [key] is not found, the set of [orElse] is returned.
-  Set<T> getAsSets<T>(K key, [Set<T>? orElse]) {
+  Set<T> getAsSet<T>(K key, [Set<T>? orElse]) {
     assert(key != null, "The key is empty.");
     if (!containsKey(key)) {
       return orElse ?? {};
@@ -667,6 +689,28 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
     return (this![key] as T?) ?? orElse;
   }
 
+  /// Get the int value corresponding to [key] in the map.
+  ///
+  /// If [key] is not found, the value of [orElse] is returned.
+  int getAsInt(K key, [int orElse = 0]) {
+    assert(key != null, "The key is empty.");
+    if (this == null || !containsKey(key)) {
+      return orElse;
+    }
+    return (this![key] as num?)?.toInt() ?? orElse;
+  }
+
+  /// Get the double value corresponding to [key] in the map.
+  ///
+  /// If [key] is not found, the value of [orElse] is returned.
+  double getAsDouble(K key, [double orElse = 0.0]) {
+    assert(key != null, "The key is empty.");
+    if (this == null || !containsKey(key)) {
+      return orElse;
+    }
+    return (this![key] as num?)?.toDouble() ?? orElse;
+  }
+
   /// Get the list corresponding to [key] in the map.
   ///
   /// If [key] is not found, the list of [orElse] is returned.
@@ -692,7 +736,7 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   /// Get the set corresponding to [key] in the map.
   ///
   /// If [key] is not found, the set of [orElse] is returned.
-  Set<T> getAsSets<T>(K key, [Set<T>? orElse]) {
+  Set<T> getAsSet<T>(K key, [Set<T>? orElse]) {
     assert(key != null, "The key is empty.");
     if (this == null || !containsKey(key)) {
       return orElse ?? {};
