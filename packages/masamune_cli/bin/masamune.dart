@@ -41,6 +41,7 @@ part 'command/permission.dart';
 part 'command/publish.dart';
 part 'command/purchase/connect.dart';
 part 'command/purchase/mobile.dart';
+part 'command/purchase/stripe.dart';
 part 'command/purchase/purchase.dart';
 part 'command/signin/apple.dart';
 part 'command/signin/facebook.dart';

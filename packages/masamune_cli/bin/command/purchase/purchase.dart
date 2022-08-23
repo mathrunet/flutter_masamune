@@ -10,5 +10,6 @@ class PurchaseCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "mobile": PurchaseMobileCliCommand(),
         "connect": PurchaseConnectCliCommand(),
+        "stripe": PurchaseStripeCliCommand(),
       };
 }

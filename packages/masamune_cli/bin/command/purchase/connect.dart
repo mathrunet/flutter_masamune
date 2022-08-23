@@ -11,6 +11,7 @@ class PurchaseConnectCliCommand extends CliCommand {
   Future<void> exec(YamlMap yaml, List<String> args) async {
     final bin = yaml["bin"] as YamlMap;
     final purchase = yaml["purchase"] as YamlMap;
+    final stripe = purchase["stripe"] as YamlMap;
     final connect = purchase["connect"] as YamlMap;
     final command = bin["firebase"] as String?;
     final email = yaml["email"] as YamlMap;
@@ -32,7 +33,7 @@ class PurchaseConnectCliCommand extends CliCommand {
       print("Project ID could not be obtained.");
       return;
     }
-    final apiSecret = connect["api_secret"] as String?;
+    final apiSecret = stripe["api_secret"] as String?;
     final emailType = connect["email_type"] as String? ?? "gmail";
     final domain = connect["domain"] as String?;
     if (apiSecret.isEmpty) {
@@ -95,7 +96,7 @@ class PurchaseConnectCliCommand extends CliCommand {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll(
         "// TODO_STRIPE_CONNECT_SERVER",
-        "// [stripe]\r\n    stripe: \"./functions/stripe/stripe\",\r\n    stripe_webhook: \"./functions/stripe/stripe_webhook\",\r\n    stripe_connect_webhook: \"./functions/stripe/stripe_connect_webhook\",\r\n    stripe_secure_webhook: \"./functions/stripe/stripe_secure_webhook\",\r\n",
+        "// [stripe]\r\n    stripe_connect: \"./functions/stripe/stripe_connect\",\r\n    stripe_webhook: \"./functions/stripe/stripe_webhook\",\r\n    stripe_connect_webhook: \"./functions/stripe/stripe_connect_webhook\",\r\n    stripe_secure_webhook: \"./functions/stripe/stripe_secure_webhook\",\r\n",
       );
       text = text.replaceAll(
         "<!-- TODO_REPLACE_IOS_STRIPE_CONNECT -->",
