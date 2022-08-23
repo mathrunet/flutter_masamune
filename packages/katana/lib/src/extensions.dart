@@ -1019,7 +1019,7 @@ extension NullableNumExtensions on num? {
     if (other == null) {
       return this;
     }
-    return this! - other;
+    return this! * other;
   }
 
   /// Calculation assuming Null.
@@ -1141,7 +1141,7 @@ extension NullableDoubleExtensions on double? {
     if (other == null) {
       return this;
     }
-    return this! - other;
+    return this! * other;
   }
 
   /// Calculation assuming Null.
@@ -1241,7 +1241,7 @@ extension DoubleExtensions on double {
 
   /// Restrict value from [min] to [max].
   double limit(double min, double max) {
-    if (this < min) {
+    if (isNaN || this < min) {
       return min;
     }
     if (this > max) {
@@ -1252,7 +1252,7 @@ extension DoubleExtensions on double {
 
   /// Restrict value from [min].
   double limitLow(double min) {
-    if (this < min) {
+    if (isNaN || this < min) {
       return min;
     }
     return this;
@@ -1260,7 +1260,7 @@ extension DoubleExtensions on double {
 
   /// Restrict value from [max].
   double limitHigh(double max) {
-    if (this > max) {
+    if (isNaN || this > max) {
       return max;
     }
     return this;
