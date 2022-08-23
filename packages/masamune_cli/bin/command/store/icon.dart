@@ -61,7 +61,7 @@ class StoreIconCliCommand extends CliCommand {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll(
         "# adaptive_icon_background: \"#ffffff\"",
-        "adaptive_icon_background: \"#$colorCode\"",
+        "adaptive_icon_background: \"$colorCode\"",
       );
       text = text.replaceAll(
         "# adaptive_icon_foreground: \"assets/icon_android.png\"",
