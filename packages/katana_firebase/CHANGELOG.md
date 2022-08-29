@@ -1,3 +1,7 @@
+## 0.12.0+2
+
+ - **FIX**: Versionを元に戻す. ([5a164ead](https://github.com/mathrunet/flutter_masamune/commit/5a164ead75e895b3bd6ac1b32caf2c29eeecfbb6))
+
 ## 0.12.0+1
 
  - **FIX**: Version updated. ([a595199e](https://github.com/mathrunet/flutter_masamune/commit/a595199ec72454b2b8a691fa64a9732e4df92657))
