@@ -1,3 +1,7 @@
+## 0.12.0+1
+
+ - **FIX**: Version updated. ([a595199e](https://github.com/mathrunet/flutter_masamune/commit/a595199ec72454b2b8a691fa64a9732e4df92657))
+
 ## 0.12.0
 
 > Note: This release has breaking changes.
