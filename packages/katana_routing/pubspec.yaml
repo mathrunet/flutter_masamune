@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
     
-  katana_flutter: ^0.11.0
+  katana_flutter: ^0.12.0
   flutter_riverpod: ^1.0.3
   riverpod: ^1.0.3
   google_fonts: ^2.3.2

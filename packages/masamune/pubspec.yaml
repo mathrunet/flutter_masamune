@@ -12,11 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  katana: ^0.11.0
-  katana_flutter: ^0.11.0
-  katana_routing: ^0.11.0
-  katana_module: ^0.11.0
-  model_notifier: ^0.11.0
+  katana: ^0.12.0
+  katana_flutter: ^0.12.0
+  katana_routing: ^0.12.0
+  katana_module: ^0.12.0
+  model_notifier: ^0.12.0
   flutter_riverpod: ^1.0.3
   riverpod: ^1.0.3
   meta: ^1.7.0
