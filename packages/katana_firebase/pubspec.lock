@@ -288,14 +288,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.2+1"
+    version: "0.12.0"
   katana_flutter:
     dependency: "direct main"
     description:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0"
+    version: "0.12.0+2"
   matcher:
     dependency: transitive
     description:
