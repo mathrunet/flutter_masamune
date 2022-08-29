@@ -1429,6 +1429,12 @@ extension DateTimeExtensions on DateTime {
             .floor() +
         1;
   }
+
+  /// Convert string data that is UTC but UTC is not specified to local time while forcing the data to be treated as UTC.
+  DateTime? toUnUtc() {
+    return DateTime.tryParse("${toIso8601String().trimStringRight("Z")}Z")
+        ?.toLocal();
+  }
 }
 
 /// Provides general extensions to [Iterable<T>].
