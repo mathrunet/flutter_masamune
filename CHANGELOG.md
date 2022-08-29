@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_cli` - `v0.12.0+3`](#masamune_cli---v01203)
+
+---
+
+#### `masamune_cli` - `v0.12.0+3`
+
+ - **FIX**: Separate puslish from version. ([4d7f2a33](https://github.com/mathrunet/flutter_masamune/commit/4d7f2a33fc6b7473492b7cb9648113e7a2ea55f4))
+
+
 ## 2022-08-29
 
 ### Changes

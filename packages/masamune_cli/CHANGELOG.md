@@ -1,3 +1,7 @@
+## 0.12.0+3
+
+ - **FIX**: Separate puslish from version. ([4d7f2a33](https://github.com/mathrunet/flutter_masamune/commit/4d7f2a33fc6b7473492b7cb9648113e7a2ea55f4))
+
 ## 0.12.0+2
 
  - **FIX**: Versionを元に戻す. ([5a164ead](https://github.com/mathrunet/flutter_masamune/commit/5a164ead75e895b3bd6ac1b32caf2c29eeecfbb6))
