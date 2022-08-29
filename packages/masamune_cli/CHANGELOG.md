@@ -1,3 +1,28 @@
+## 0.12.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Fixed a bug in the color specification. ([62ea274e](https://github.com/mathrunet/flutter_masamune/commit/62ea274e1c3d7ac8b9700ea96897418859d52214))
+ - **FIX**: Fixed a bug in Codemagic's Android settings. ([8a3789da](https://github.com/mathrunet/flutter_masamune/commit/8a3789da6617adf8a4e0eb7b96ea9e3f38b7309a))
+ - **FIX**: Correction of CodeMagic Publishing Credentials. ([102ec90b](https://github.com/mathrunet/flutter_masamune/commit/102ec90b1b3988566af7ebd018b61591a8f485f6))
+ - **FIX**: Change Codemagic's Publishing settings. ([94da621d](https://github.com/mathrunet/flutter_masamune/commit/94da621d88b7c6a967118cf0d46aee4f998351e7))
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Fixed a bug that did not work. ([87e5a231](https://github.com/mathrunet/flutter_masamune/commit/87e5a23146a098ba695c9fc7139f378c8a399b9f))
+ - **FIX**: Icon and screenshot specification changes. ([dab5e0c9](https://github.com/mathrunet/flutter_masamune/commit/dab5e0c9b48bad6011753207ed433ced1258cc14))
+ - **FIX**: Get data for app command from spreadsheet. ([de640907](https://github.com/mathrunet/flutter_masamune/commit/de6409070d7c616370aaa806a29e6567ef850a45))
+ - **FIX**: Fix prints. ([49c69159](https://github.com/mathrunet/flutter_masamune/commit/49c6915954b0ff22a0213e84ee46546703789218))
+ - **FIX**: Fix command parameter. ([99fcc941](https://github.com/mathrunet/flutter_masamune/commit/99fcc941504a3f48930ecd9dbe735dee38a97bc4))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: :Add build command. ([512ed824](https://github.com/mathrunet/flutter_masamune/commit/512ed82408007a5ef9c808d5337e3ba6f89d2ed9))
+ - **FEAT**: Add command for Stripe. ([e4f65c59](https://github.com/mathrunet/flutter_masamune/commit/e4f65c59e93f5975bcac1637d1cd78250a09f493))
+ - **FEAT**: Add code generator. ([96fffb70](https://github.com/mathrunet/flutter_masamune/commit/96fffb70ecd176c5bf1a136a1460ef44d9ca7f96))
+ - **FEAT**: Add new commands. ([508aa78a](https://github.com/mathrunet/flutter_masamune/commit/508aa78aab136f041eef14b4b85127dbc1094a29))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
 ## 0.11.0+9
 
  - **FIX**: Fixed a bug in the color specification. ([62ea274e](https://github.com/mathrunet/flutter_masamune/commit/62ea274e1c3d7ac8b9700ea96897418859d52214))

@@ -3,6 +3,304 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`firebase_model_notifier` - `v0.12.0`](#firebase_model_notifier---v0120)
+ - [`katana` - `v0.12.0`](#katana---v0120)
+ - [`katana_firebase` - `v0.12.0`](#katana_firebase---v0120)
+ - [`katana_flutter` - `v0.12.0`](#katana_flutter---v0120)
+ - [`katana_module` - `v0.12.0`](#katana_module---v0120)
+ - [`katana_routing` - `v0.12.0`](#katana_routing---v0120)
+ - [`masamune` - `v0.12.0`](#masamune---v0120)
+ - [`masamune_ads` - `v0.12.0`](#masamune_ads---v0120)
+ - [`masamune_agora` - `v0.12.0`](#masamune_agora---v0120)
+ - [`masamune_cli` - `v0.12.0`](#masamune_cli---v0120)
+ - [`masamune_firebase` - `v0.12.0`](#masamune_firebase---v0120)
+ - [`masamune_firebase_dynamic_links` - `v0.12.0`](#masamune_firebase_dynamic_links---v0120)
+ - [`masamune_firebase_messaging` - `v0.12.0`](#masamune_firebase_messaging---v0120)
+ - [`masamune_local_messaging` - `v0.12.0`](#masamune_local_messaging---v0120)
+ - [`masamune_location` - `v0.12.0`](#masamune_location---v0120)
+ - [`masamune_module` - `v0.12.0`](#masamune_module---v0120)
+ - [`masamune_notion` - `v0.12.0`](#masamune_notion---v0120)
+ - [`masamune_purchase` - `v0.12.0`](#masamune_purchase---v0120)
+ - [`masamune_purchase_firebase` - `v0.12.0`](#masamune_purchase_firebase---v0120)
+ - [`masamune_purchase_stripe` - `v0.12.0`](#masamune_purchase_stripe---v0120)
+ - [`masamune_signin_apple` - `v0.12.0`](#masamune_signin_apple---v0120)
+ - [`masamune_signin_facebook` - `v0.12.0`](#masamune_signin_facebook---v0120)
+ - [`masamune_signin_google` - `v0.12.0`](#masamune_signin_google---v0120)
+ - [`masamune_signin_twitter` - `v0.12.0`](#masamune_signin_twitter---v0120)
+ - [`model_notifier` - `v0.12.0`](#model_notifier---v0120)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `firebase_model_notifier` - `v0.12.0`
+
+ - **FIX**: Package Version Upgrade. ([7770f7a5](https://github.com/mathrunet/flutter_masamune/commit/7770f7a5eb81d024c4e965a10dfbbedaabec8e90))
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `katana` - `v0.12.0`
+
+ - **FIX**: Fixed a bug in the calculation. ([8149a6e7](https://github.com/mathrunet/flutter_masamune/commit/8149a6e7ed208de531481b07b2c027f81dd5a807))
+ - **FIX**: Map.get() was causing an error with null, fixed. ([989d6e0a](https://github.com/mathrunet/flutter_masamune/commit/989d6e0a98b5c62b19be1766c8527b4ef93a90bb))
+ - **FIX**: Fixed for calculation with Double? ([6388ca74](https://github.com/mathrunet/flutter_masamune/commit/6388ca74a124cf2af4b48e26d2ae7d6b6b00bec0))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: Add toUnUtc(). ([37c62087](https://github.com/mathrunet/flutter_masamune/commit/37c620879579bdb1b2f42f48db3910e2ef2f5e54))
+ - **FEAT**: Add getAsInt and getAsDouble. ([f81ee6f4](https://github.com/mathrunet/flutter_masamune/commit/f81ee6f420ee581ffbd4e96e15f145300231aef1))
+ - **FEAT**: Added calculation for null. ([19c1d6ce](https://github.com/mathrunet/flutter_masamune/commit/19c1d6ce73a2b25d238b7bdbbefb15c608d113b0))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `katana_firebase` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Add FirebaseOption. ([e6b4c343](https://github.com/mathrunet/flutter_masamune/commit/e6b4c3435bec4e4fe4c25269f4175b7836bf488d))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `katana_flutter` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `katana_module` - `v0.12.0`
+
+ - **FIX**: Added a method to the Group module because it was missing. ([ddc8f494](https://github.com/mathrunet/flutter_masamune/commit/ddc8f494eebbfc83cf3a48d52851757c69cb50a1))
+ - **FIX**: Bug fix. ([f9eff88c](https://github.com/mathrunet/flutter_masamune/commit/f9eff88ce9406c408a83796ec5c46228555188c8))
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+ - **FIX**: Bug fix. ([b60a13e8](https://github.com/mathrunet/flutter_masamune/commit/b60a13e8eb82626a3311848b2afd7d2e62d6554b))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: retrieveRedirectUriOnBootを追加. ([eeb12549](https://github.com/mathrunet/flutter_masamune/commit/eeb125495218c6e37c2d0be02491143f0aef0bbd))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `katana_routing` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **DOCS**: Corrected pubspec description. ([fb3a14fa](https://github.com/mathrunet/flutter_masamune/commit/fb3a14fa8d1e1cd42322a90de1aa1a555b758662))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune` - `v0.12.0`
+
+ - **FIX**: Added onChanged to FormItemSelectiveIconBuilder. ([baa63f02](https://github.com/mathrunet/flutter_masamune/commit/baa63f02c10e3684404c5b14827b434f797d5136))
+ - **FIX**: Fix useEffect. ([14dab630](https://github.com/mathrunet/flutter_masamune/commit/14dab630b8d1d09097d7cbbb7aa0c1d1fe1115f4))
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Changed Boot logo to fade. ([4311b090](https://github.com/mathrunet/flutter_masamune/commit/4311b090894b45efcbca86ef0c2ee6ed989dd2a7))
+ - **FIX**: Adjust the height of FormItemButton. ([43024982](https://github.com/mathrunet/flutter_masamune/commit/430249826eee56b3ed4ac12671d5798c90e21cea))
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+ - **FIX**: Changed the return value of UIConfirm.show. ([e5547c18](https://github.com/mathrunet/flutter_masamune/commit/e5547c18423ba74081aad714ec58f7acd0960f1e))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: Add showProgressIndicator. ([c5491fee](https://github.com/mathrunet/flutter_masamune/commit/c5491feee5caf74d3db9747e8340c12daa6ba3dd))
+ - **FEAT**: BootにretrieveRedirectUriを追加. ([e88e6347](https://github.com/mathrunet/flutter_masamune/commit/e88e6347c26b1010b4cac08aacc8170cb0785ae2))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_ads` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_agora` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_cli` - `v0.12.0`
+
+ - **FIX**: Fixed a bug in the color specification. ([62ea274e](https://github.com/mathrunet/flutter_masamune/commit/62ea274e1c3d7ac8b9700ea96897418859d52214))
+ - **FIX**: Fixed a bug in Codemagic's Android settings. ([8a3789da](https://github.com/mathrunet/flutter_masamune/commit/8a3789da6617adf8a4e0eb7b96ea9e3f38b7309a))
+ - **FIX**: Correction of CodeMagic Publishing Credentials. ([102ec90b](https://github.com/mathrunet/flutter_masamune/commit/102ec90b1b3988566af7ebd018b61591a8f485f6))
+ - **FIX**: Change Codemagic's Publishing settings. ([94da621d](https://github.com/mathrunet/flutter_masamune/commit/94da621d88b7c6a967118cf0d46aee4f998351e7))
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Fixed a bug that did not work. ([87e5a231](https://github.com/mathrunet/flutter_masamune/commit/87e5a23146a098ba695c9fc7139f378c8a399b9f))
+ - **FIX**: Icon and screenshot specification changes. ([dab5e0c9](https://github.com/mathrunet/flutter_masamune/commit/dab5e0c9b48bad6011753207ed433ced1258cc14))
+ - **FIX**: Get data for app command from spreadsheet. ([de640907](https://github.com/mathrunet/flutter_masamune/commit/de6409070d7c616370aaa806a29e6567ef850a45))
+ - **FIX**: Fix prints. ([49c69159](https://github.com/mathrunet/flutter_masamune/commit/49c6915954b0ff22a0213e84ee46546703789218))
+ - **FIX**: Fix command parameter. ([99fcc941](https://github.com/mathrunet/flutter_masamune/commit/99fcc941504a3f48930ecd9dbe735dee38a97bc4))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: :Add build command. ([512ed824](https://github.com/mathrunet/flutter_masamune/commit/512ed82408007a5ef9c808d5337e3ba6f89d2ed9))
+ - **FEAT**: Add command for Stripe. ([e4f65c59](https://github.com/mathrunet/flutter_masamune/commit/e4f65c59e93f5975bcac1637d1cd78250a09f493))
+ - **FEAT**: Add code generator. ([96fffb70](https://github.com/mathrunet/flutter_masamune/commit/96fffb70ecd176c5bf1a136a1460ef44d9ca7f96))
+ - **FEAT**: Add new commands. ([508aa78a](https://github.com/mathrunet/flutter_masamune/commit/508aa78aab136f041eef14b4b85127dbc1094a29))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_firebase` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_firebase_dynamic_links` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_firebase_messaging` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_local_messaging` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_location` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_module` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Bug fix. ([b60a13e8](https://github.com/mathrunet/flutter_masamune/commit/b60a13e8eb82626a3311848b2afd7d2e62d6554b))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_notion` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Add FirebaseOption. ([e6b4c343](https://github.com/mathrunet/flutter_masamune/commit/e6b4c3435bec4e4fe4c25269f4175b7836bf488d))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: Addition of Image and Column blocks. ([4b44a01e](https://github.com/mathrunet/flutter_masamune/commit/4b44a01e65c5d5998c0d66bdae192b80a06e3e41))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **FIX**: Change NetworkOrAsset to Asset and add text. ([926c1021](https://github.com/mathrunet/flutter_masamune/commit/926c1021bcea0d16419d77d539af5fe9583c8bdf))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_purchase` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **DOCS**: Corrected pubspec description. ([fb3a14fa](https://github.com/mathrunet/flutter_masamune/commit/fb3a14fa8d1e1cd42322a90de1aa1a555b758662))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_purchase_firebase` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_purchase_stripe` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_signin_apple` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_signin_facebook` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_signin_google` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `masamune_signin_twitter` - `v0.12.0`
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+#### `model_notifier` - `v0.12.0`
+
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
+
 ## 2022-08-23
 
 ### Changes

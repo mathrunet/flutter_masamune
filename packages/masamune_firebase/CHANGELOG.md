@@ -1,3 +1,13 @@
+## 0.12.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
 ## 0.11.0+18
 
  - Update a dependency to the latest release.

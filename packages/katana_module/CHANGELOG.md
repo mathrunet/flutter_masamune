@@ -1,3 +1,19 @@
+## 0.12.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: Added a method to the Group module because it was missing. ([ddc8f494](https://github.com/mathrunet/flutter_masamune/commit/ddc8f494eebbfc83cf3a48d52851757c69cb50a1))
+ - **FIX**: Bug fix. ([f9eff88c](https://github.com/mathrunet/flutter_masamune/commit/f9eff88ce9406c408a83796ec5c46228555188c8))
+ - **FIX**: Version upgrade. ([244013b5](https://github.com/mathrunet/flutter_masamune/commit/244013b51b0e665d3e185a813872bd21461408df))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Fixed image theme-related issues. ([928fc4fc](https://github.com/mathrunet/flutter_masamune/commit/928fc4fc06594e317271ed4e541195d38e88dc97))
+ - **FIX**: Bug fix. ([b60a13e8](https://github.com/mathrunet/flutter_masamune/commit/b60a13e8eb82626a3311848b2afd7d2e62d6554b))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: retrieveRedirectUriOnBootを追加. ([eeb12549](https://github.com/mathrunet/flutter_masamune/commit/eeb125495218c6e37c2d0be02491143f0aef0bbd))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
 ## 0.11.1+5
 
  - Update a dependency to the latest release.
