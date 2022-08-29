@@ -1,10 +1,10 @@
 part of masamune_cli;
 
-class PublishCliCommand extends CliCommand {
-  const PublishCliCommand();
+class VersionCliCommand extends CliCommand {
+  const VersionCliCommand();
 
   @override
-  String get description => "Dartパッケージのpubへのデプロイを行います。";
+  String get description => "Dartパッケージのバージョンアップを行います。";
 
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
@@ -14,16 +14,15 @@ class PublishCliCommand extends CliCommand {
       print("melos.yamlのファイルが存在しません。");
       return;
     }
-    final processPublish = await Process.start(
+    final processVersion = await Process.start(
       melos!,
       [
-        "publish",
-        "--no-dry-run",
-        "-y",
+        "version",
+        "--yes",
       ],
       runInShell: true,
       workingDirectory: Directory.current.path,
     );
-    await processPublish.print();
+    await processVersion.print();
   }
 }

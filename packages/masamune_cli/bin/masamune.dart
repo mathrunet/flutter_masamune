@@ -54,6 +54,7 @@ part 'command/signin/signin.dart';
 part 'command/store/icon.dart';
 part 'command/store/screenshot.dart';
 part 'command/store/store.dart';
+part 'command/version.dart';
 part 'command/upgrade.dart';
 part 'command/zip.dart';
 part 'src/framework.dart';
@@ -79,6 +80,7 @@ const commands = <String, CliCommand>{
   "init": InitCliCommand(),
   "format": FormatCliCommand(),
   "publish": PublishCliCommand(),
+  "version": VersionCliCommand(),
   "upgrade": UpgradeCliCommand(),
   "generate": GenerateCliCommand(),
   "build": AppBuildCliCommand(),
