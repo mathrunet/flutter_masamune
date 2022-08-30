@@ -1,6 +1,6 @@
 name: masamune_signin_facebook
 description: Plugin for signing in with a Facebook account. Basically used with masamune_firebase authentication; requires use of FirebaseAuth.
-version: 0.12.0+2
+version: 0.12.0+3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_signin_facebook
 

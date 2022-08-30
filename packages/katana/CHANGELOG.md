@@ -1,3 +1,7 @@
+## 0.12.1
+
+ - **FEAT**: Add replaceNanOrInfinite. ([bb99c330](https://github.com/mathrunet/flutter_masamune/commit/bb99c330d88584afea56e2ae119d304b9cdc4fa3))
+
 ## 0.12.0
 
 > Note: This release has breaking changes.

@@ -1,3 +1,7 @@
+## 0.12.0+4
+
+ - **FIX**: Codemagic bug fixes. ([0a82d397](https://github.com/mathrunet/flutter_masamune/commit/0a82d3975f3f71aa50427536a6e3d1399f98560b))
+
 ## 0.12.0+3
 
  - **FIX**: Separate puslish from version. ([4d7f2a33](https://github.com/mathrunet/flutter_masamune/commit/4d7f2a33fc6b7473492b7cb9648113e7a2ea55f4))

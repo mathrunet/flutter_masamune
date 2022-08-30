@@ -1,3 +1,7 @@
+## 0.12.0+3
+
+ - **FIX**: Avoiding values that cannot be JsonEncode. ([061be911](https://github.com/mathrunet/flutter_masamune/commit/061be911308c564d562dd37dbadcd230913f5026))
+
 ## 0.12.0+2
 
  - **FIX**: Versionを元に戻す. ([5a164ead](https://github.com/mathrunet/flutter_masamune/commit/5a164ead75e895b3bd6ac1b32caf2c29eeecfbb6))
