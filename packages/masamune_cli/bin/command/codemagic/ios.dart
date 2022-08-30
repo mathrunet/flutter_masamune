@@ -27,7 +27,7 @@ class CodemagicIOSCliCommand extends CliCommand {
     final apiKey = base64Encode(apiKeyFile.readAsBytesSync());
     final match = RegExp("AuthKey_([a-zA-Z0-8]+).p8").firstMatch(apiKeyPath);
     final apiKeyId = match?.group(1);
-    if (!apiKeyFile.existsSync()) {
+    if (apiKeyId.isEmpty) {
       print("Api key: $apiKeyId is not found. Do not rename the file.");
       return;
     }
