@@ -17,7 +17,7 @@ class DatabaseExporter {
     WidgetsBinding.instance.scheduleFrameCallback((_) async {
       _scheduled = false;
       await Prefs.initialize();
-      final json = jsonEncode(data);
+      final json = jsonEncode(_unsupportedObjectFilter(data));
       Prefs.set(fileName.toSHA1(), json);
     });
   }
@@ -29,5 +29,23 @@ class DatabaseExporter {
     await Prefs.initialize();
     final json = Prefs.get(fileName.toSHA1(), "");
     return jsonDecodeAsMap(json, {});
+  }
+
+  static DynamicMap _unsupportedObjectFilter(DynamicMap data) {
+    final filtered = <String, dynamic>{};
+    for (final entry in data.entries) {
+      var val = entry.value;
+      if (val == null) {
+        continue;
+      }
+      if (val is num && (val.isNaN || val.isInfinite)) {
+        continue;
+      }
+      if (val is DynamicMap) {
+        val = _unsupportedObjectFilter(val);
+      }
+      filtered[entry.key] = val;
+    }
+    return filtered;
   }
 }

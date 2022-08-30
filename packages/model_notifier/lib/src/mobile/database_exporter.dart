@@ -18,7 +18,7 @@ class DatabaseExporter {
       _scheduled = false;
       compute<_ComputeMessaging, void>(
         (message) async {
-          final json = jsonEncode(message.data).toAES(
+          final json = jsonEncode(_unsupportedObjectFilter(message.data)).toAES(
             message.fileName.last().toSHA1(),
           );
           await File(message.fileName).writeAsString(json);
@@ -43,6 +43,24 @@ class DatabaseExporter {
       },
       fileName,
     );
+  }
+
+  static DynamicMap _unsupportedObjectFilter(DynamicMap data) {
+    final filtered = <String, dynamic>{};
+    for (final entry in data.entries) {
+      var val = entry.value;
+      if (val == null) {
+        continue;
+      }
+      if (val is num && (val.isNaN || val.isInfinite)) {
+        continue;
+      }
+      if (val is DynamicMap) {
+        val = _unsupportedObjectFilter(val);
+      }
+      filtered[entry.key] = val;
+    }
+    return filtered;
   }
 }
 
