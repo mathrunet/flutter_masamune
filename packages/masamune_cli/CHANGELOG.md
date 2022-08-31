@@ -1,3 +1,7 @@
+## 0.12.0+5
+
+ - **FIX**: made available without specifying a file. ([e22a3f83](https://github.com/mathrunet/flutter_masamune/commit/e22a3f839ca36de1759416b5f40457eb6d606459))
+
 ## 0.12.0+4
 
  - **FIX**: Codemagic bug fixes. ([0a82d397](https://github.com/mathrunet/flutter_masamune/commit/0a82d3975f3f71aa50427536a6e3d1399f98560b))

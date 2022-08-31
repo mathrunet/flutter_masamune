@@ -1,3 +1,7 @@
+## 0.12.0+4
+
+ - **FIX**: Button size change. ([d9a1da19](https://github.com/mathrunet/flutter_masamune/commit/d9a1da199cca5260ca610f4be0712973e1636525))
+
 ## 0.12.0+3
 
  - Update a dependency to the latest release.

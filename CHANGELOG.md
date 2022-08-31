@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_cli` - `v0.12.0+5`](#masamune_cli---v01205)
+ - [`masamune_module` - `v0.12.0+4`](#masamune_module---v01204)
+
+---
+
+#### `masamune_cli` - `v0.12.0+5`
+
+ - **FIX**: made available without specifying a file. ([e22a3f83](https://github.com/mathrunet/flutter_masamune/commit/e22a3f839ca36de1759416b5f40457eb6d606459))
+
+#### `masamune_module` - `v0.12.0+4`
+
+ - **FIX**: Button size change. ([d9a1da19](https://github.com/mathrunet/flutter_masamune/commit/d9a1da199cca5260ca610f4be0712973e1636525))
+
+
 ## 2022-08-30
 
 ### Changes
