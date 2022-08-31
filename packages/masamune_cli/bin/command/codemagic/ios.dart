@@ -14,18 +14,19 @@ class CodemagicIOSCliCommand extends CliCommand {
     final build = yaml["codemagic"] as YamlMap;
     final ios = build["ios"] as YamlMap;
     final issuerId = ios["publishing_issuer_id"] as String?;
-    final apiKeyPath = ios["publishing_api_key_path"] as String?;
-    if (issuerId.isEmpty || apiKeyPath.isEmpty) {
+    if (issuerId.isEmpty) {
       print("Codemagic IOS information is missing.");
       return;
     }
-    final apiKeyFile = File(apiKeyPath!);
-    if (!apiKeyFile.existsSync()) {
-      print("Api key: $apiKeyPath is not found.");
+    final apiKeyFileEntry = search(RegExp("AuthKey_([a-zA-Z0-9]+).p8"));
+    if (apiKeyFileEntry == null || !apiKeyFileEntry.existsSync()) {
+      print("Api key: ${apiKeyFileEntry?.path} is not found.");
       return;
     }
+    final apiKeyFile = File(apiKeyFileEntry.path);
     final apiKey = base64Encode(apiKeyFile.readAsBytesSync());
-    final match = RegExp("AuthKey_([a-zA-Z0-8]+).p8").firstMatch(apiKeyPath);
+    final match =
+        RegExp("AuthKey_([a-zA-Z0-9]+).p8").firstMatch(apiKeyFileEntry.path);
     final apiKeyId = match?.group(1);
     if (apiKeyId.isEmpty) {
       print("Api key: $apiKeyId is not found. Do not rename the file.");
@@ -76,6 +77,10 @@ class CodemagicIOSCliCommand extends CliCommand {
     await exportProcess.print();
     final p12 = search(RegExp(r"ios_distribution.p12$"));
     final mobileProvision = search(RegExp(r"[a-zA-Z0-9_-]+.mobileprovision$"));
+    if (p12 == null || mobileProvision == null) {
+      print("ios_distribution.p12 or mobileprovision file could not be found.");
+      return;
+    }
     final p12String = base64Encode(File(p12.path).readAsBytesSync());
     final mobileProvisionString =
         base64Encode(File(mobileProvision.path).readAsBytesSync());

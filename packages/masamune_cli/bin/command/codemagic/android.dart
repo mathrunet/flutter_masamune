@@ -11,7 +11,6 @@ class CodemagicAndroidCliCommand extends CliCommand {
   Future<void> exec(YamlMap yaml, List<String> args) async {
     final build = yaml["codemagic"] as YamlMap;
     final android = build["android"] as YamlMap;
-    final credentials = android["publishing_credentials_path"] as String?;
     final track = android["publishing_track"] as String?;
     const alias = "mathrunet";
     final keyStoreString =
@@ -75,8 +74,9 @@ class CodemagicAndroidCliCommand extends CliCommand {
       - build/**/outputs/**/mapping.txt
           """,
     );
-    if (credentials.isNotEmpty && track.isNotEmpty) {
-      final credentialsFile = File(credentials!);
+    final credentials = search(RegExp("pc-api-[a-zA-Z0-9-]+.json"));
+    if (credentials != null && credentials.existsSync() && track.isNotEmpty) {
+      final credentialsFile = File(credentials.path);
       if (credentialsFile.existsSync()) {
         final credentialsString = jsonEncode(
           jsonDecode(

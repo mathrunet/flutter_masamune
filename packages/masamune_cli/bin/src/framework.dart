@@ -57,9 +57,9 @@ void applyFunctionsTemplate() {
       .copySync("${Directory.current.path}/firebase/functions/src/index.ts");
 }
 
-FileSystemEntity search(RegExp regExp) {
+FileSystemEntity? search(RegExp regExp) {
   final root = Directory.current.path.replaceAll(r"\", "/");
-  return Directory.current.listSync(recursive: true).firstWhere((file) {
+  return Directory.current.listSync(recursive: true).firstWhereOrNull((file) {
     final path = file.path.replaceAll(r"\", "/").replaceAll("$root/", "");
     return regExp.hasMatch(path);
   });
