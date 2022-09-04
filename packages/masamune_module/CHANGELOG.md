@@ -1,3 +1,7 @@
+## 0.12.0+5
+
+ - **FIX**: Change Module button size. ([6c1c78ff](https://github.com/mathrunet/flutter_masamune/commit/6c1c78ff57068b29ad5498fe9d01daab71943a7c))
+
 ## 0.12.0+4
 
  - **FIX**: Button size change. ([d9a1da19](https://github.com/mathrunet/flutter_masamune/commit/d9a1da199cca5260ca610f4be0712973e1636525))

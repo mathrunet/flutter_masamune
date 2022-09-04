@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_module` - `v0.12.0+5`](#masamune_module---v01205)
+
+---
+
+#### `masamune_module` - `v0.12.0+5`
+
+ - **FIX**: Change Module button size. ([6c1c78ff](https://github.com/mathrunet/flutter_masamune/commit/6c1c78ff57068b29ad5498fe9d01daab71943a7c))
+
+
 ## 2022-08-31
 
 ### Changes
