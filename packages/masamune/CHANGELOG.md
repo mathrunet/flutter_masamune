@@ -1,3 +1,7 @@
+## 0.13.0+4
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
 ## 0.13.0+3
 
  - Update a dependency to the latest release.

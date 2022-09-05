@@ -15,6 +15,97 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_module` - `v0.13.0+2`](#katana_module---v01302)
+ - [`katana_routing` - `v0.13.0+2`](#katana_routing---v01302)
+ - [`masamune` - `v0.13.0+4`](#masamune---v01304)
+ - [`masamune_cli` - `v0.13.0+2`](#masamune_cli---v01302)
+ - [`masamune_media` - `v0.13.0+4`](#masamune_media---v01304)
+ - [`masamune_module` - `v0.13.0+4`](#masamune_module---v01304)
+ - [`masamune_notion` - `v0.13.0+4`](#masamune_notion---v01304)
+ - [`masamune_ui` - `v0.13.0+5`](#masamune_ui---v01305)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+4`](#masamune_firebase_dynamic_links---v01304)
+ - [`masamune_agora` - `v0.13.0+4`](#masamune_agora---v01304)
+ - [`masamune_location` - `v0.13.0+4`](#masamune_location---v01304)
+ - [`masamune_local_messaging` - `v0.13.0+4`](#masamune_local_messaging---v01304)
+ - [`masamune_firebase_messaging` - `v0.13.0+4`](#masamune_firebase_messaging---v01304)
+ - [`masamune_signin_apple` - `v0.13.0+4`](#masamune_signin_apple---v01304)
+ - [`masamune_signin_facebook` - `v0.13.0+4`](#masamune_signin_facebook---v01304)
+ - [`masamune_signin_google` - `v0.13.0+4`](#masamune_signin_google---v01304)
+ - [`masamune_purchase` - `v0.13.0+4`](#masamune_purchase---v01304)
+ - [`masamune_wordpress` - `v0.13.0+4`](#masamune_wordpress---v01304)
+ - [`masamune_firebase` - `v0.13.0+4`](#masamune_firebase---v01304)
+ - [`masamune_signin_twitter` - `v0.13.0+4`](#masamune_signin_twitter---v01304)
+ - [`masamune_ads` - `v0.13.0+4`](#masamune_ads---v01304)
+ - [`masamune_purchase_firebase` - `v0.13.0+4`](#masamune_purchase_firebase---v01304)
+ - [`masamune_purchase_stripe` - `v0.13.0+4`](#masamune_purchase_stripe---v01304)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_dynamic_links` - `v0.13.0+4`
+ - `masamune_agora` - `v0.13.0+4`
+ - `masamune_location` - `v0.13.0+4`
+ - `masamune_local_messaging` - `v0.13.0+4`
+ - `masamune_firebase_messaging` - `v0.13.0+4`
+ - `masamune_signin_apple` - `v0.13.0+4`
+ - `masamune_signin_facebook` - `v0.13.0+4`
+ - `masamune_signin_google` - `v0.13.0+4`
+ - `masamune_purchase` - `v0.13.0+4`
+ - `masamune_wordpress` - `v0.13.0+4`
+ - `masamune_firebase` - `v0.13.0+4`
+ - `masamune_signin_twitter` - `v0.13.0+4`
+ - `masamune_ads` - `v0.13.0+4`
+ - `masamune_purchase_firebase` - `v0.13.0+4`
+ - `masamune_purchase_stripe` - `v0.13.0+4`
+
+---
+
+#### `katana_module` - `v0.13.0+2`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+#### `katana_routing` - `v0.13.0+2`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+#### `masamune` - `v0.13.0+4`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+#### `masamune_cli` - `v0.13.0+2`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+#### `masamune_media` - `v0.13.0+4`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+#### `masamune_module` - `v0.13.0+4`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+#### `masamune_notion` - `v0.13.0+4`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+#### `masamune_ui` - `v0.13.0+5`
+
+ - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
+
+
+## 2022-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.13.0+1`](#firebase_model_notifier---v01301)
  - [`katana` - `v0.13.0+1`](#katana---v01301)
  - [`katana_firebase` - `v0.13.0+1`](#katana_firebase---v01301)
