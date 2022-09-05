@@ -11,9 +11,7 @@ library masamune;
 
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katana_module/katana_module.dart';
 
 import 'property/others/others.dart'
@@ -27,6 +25,11 @@ export 'package:katana_module/katana_module.dart';
 export 'package:katana_routing/katana_routing.dart';
 export 'package:model_notifier/model_notifier.dart';
 export 'package:url_strategy/url_strategy.dart' show setPathUrlStrategy;
+
+export 'property/others/others.dart'
+    if (dart.library.io) 'property/mobile/mobile.dart'
+    if (dart.library.js) 'property/others/others.dart'
+    if (dart.library.html) 'property/others/others.dart';
 
 part 'adapter/inherited_model_adapter.dart';
 part 'adapter/local_model_adapter.dart';

@@ -18,7 +18,6 @@ dependencies:
   katana_module: ^0.13.0
   model_notifier: ^0.13.0
   http: ^0.13.5
-  flutter_riverpod: ^1.0.3
   cached_network_image: ^3.2.0
   cached_network_image_platform_interface: ^1.0.0
   flutter_cache_manager: ^3.3.0

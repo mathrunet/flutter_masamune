@@ -236,7 +236,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_riverpod:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_riverpod
       url: "https://pub.dartlang.org"
@@ -260,7 +260,7 @@ packages:
     source: hosted
     version: "2.3.3"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -290,31 +290,31 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
-    version: "0.12.1"
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.0"
   katana_flutter:
     dependency: "direct main"
     description:
-      path: "../katana_flutter"
-      relative: true
-    source: path
-    version: "0.12.0+3"
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.0"
   katana_module:
     dependency: "direct main"
     description:
-      path: "../katana_module"
-      relative: true
-    source: path
-    version: "0.12.0+3"
+      name: katana_module
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.0"
   katana_routing:
     dependency: "direct main"
     description:
-      path: "../katana_routing"
-      relative: true
-    source: path
-    version: "0.12.0+3"
+      name: katana_routing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.0"
   matcher:
     dependency: transitive
     description:
@@ -346,10 +346,10 @@ packages:
   model_notifier:
     dependency: "direct main"
     description:
-      path: "../model_notifier"
-      relative: true
-    source: path
-    version: "0.12.0+3"
+      name: model_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.0"
   nm:
     dependency: transitive
     description:
