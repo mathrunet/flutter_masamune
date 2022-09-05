@@ -132,7 +132,7 @@ class TileMenuHomeModuleHomePage extends PageModuleWidget<TileMenuHomeModule> {
   Widget build(BuildContext context, WidgetRef ref, TileMenuHomeModule module) {
     return Scaffold(
       body: SafeArea(
-        child: PlatformScrollbar(
+        child: Scrollbar(
           child: ListView(
             padding: const EdgeInsets.all(8),
             children: [

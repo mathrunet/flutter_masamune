@@ -660,7 +660,7 @@ class UserModuleAccountPage extends PageModuleWidget<UserModule> {
         sliverLayoutWhenModernDesign: module.sliverLayoutWhenModernDesignOnHome,
         automaticallyImplyLeading: module.automaticallyImplyLeadingOnHome,
       ),
-      body: PlatformScrollbar(
+      body: UIScrollbar(
         child: ListView(
           children: module.accountContents,
         ),

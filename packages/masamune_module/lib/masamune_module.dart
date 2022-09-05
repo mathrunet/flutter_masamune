@@ -15,7 +15,7 @@ import 'package:tuple/tuple.dart';
 
 import 'masamune_module.dart';
 
-export 'package:masamune/masamune.dart';
+export 'package:masamune_ui/masamune_ui.dart';
 
 export 'component/deprecated/calendar/calendar.dart';
 export 'component/deprecated/chat/chat.dart';
