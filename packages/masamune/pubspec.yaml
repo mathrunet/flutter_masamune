@@ -18,39 +18,10 @@ dependencies:
   katana_module: ^0.12.0
   model_notifier: ^0.12.0
   flutter_riverpod: ^1.0.3
-  riverpod: ^1.0.3
-  meta: ^1.7.0
-  intl: ^0.17.0
-  loadmore: ^2.0.1
-  wakelock: ^0.6.2
-  badges: ^2.0.2
-  http: ^0.13.4
-  font_awesome_flutter: ^10.1.0
-  flutter_markdown: ^0.6.9
-  flutter_rating_bar: ^4.0.0
-  carousel_slider: ^4.0.0
-  connectivity_plus: ^2.1.0
   cached_network_image: ^3.2.0
   cached_network_image_platform_interface: ^1.0.0
   flutter_cache_manager: ^3.3.0
-  datetime_picker_formfield: ^2.0.0
-  loading_animations: ^2.2.0
-  holding_gesture: ^1.1.0
-  responsive_grid: ^2.0.0
-  video_player: ^2.2.7
-  image_picker: ^0.8.3+3
-  selectable_autolink_text: ^2.3.0
-  dots_indicator: ^2.0.0
-  wordpress_api: ^1.2.0
   url_strategy: ^0.2.0
-  simple_gesture_detector: ^0.2.0
-  flutter_sequence_animation: ^4.0.0-nullsafety
-  collapsible: ^1.0.0
-  bordered_text: ^2.0.0
-  flutter_breadcrumb: ^1.0.1
-  multi_select_flutter: ^4.0.0
-  flutter_picker: ^2.0.3
-  flutter_slidable: ^1.2.0
 
 dev_dependencies:
   flutter_test:
