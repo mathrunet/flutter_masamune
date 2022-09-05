@@ -1,3 +1,7 @@
+## 0.13.0+4
+
+ - **FIX**: Package update. ([bb3b0562](https://github.com/mathrunet/flutter_masamune/commit/bb3b0562f42e45c6dfe7dba3f3004381ca5d1cd5))
+
 ## 0.13.0+3
 
  - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
