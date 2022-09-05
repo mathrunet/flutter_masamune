@@ -1,3 +1,7 @@
+## 0.13.0+2
+
+ - **FIX**: Perform formatting. ([8ff8fd24](https://github.com/mathrunet/flutter_masamune/commit/8ff8fd2467cd08934ef6deba156dd15a6949d600))
+
 ## 0.13.0+1
 
  - **FIX**: Package upgrade. ([cea0d3c5](https://github.com/mathrunet/flutter_masamune/commit/cea0d3c5714b6a824f6e500bad85dd93d2b93602))

@@ -1,3 +1,7 @@
+## 0.13.0+5
+
+ - **FIX**: Perform formatting. ([8ff8fd24](https://github.com/mathrunet/flutter_masamune/commit/8ff8fd2467cd08934ef6deba156dd15a6949d600))
+
 ## 0.13.0+4
 
  - **FIX**: Problem solved. ([e9396877](https://github.com/mathrunet/flutter_masamune/commit/e93968774f59dba564cd2937b4a1a06dc79cec74))
