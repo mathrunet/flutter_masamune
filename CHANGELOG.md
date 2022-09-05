@@ -11,6 +11,70 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v0.13.0+1`](#masamune---v01301)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+1`](#masamune_firebase_dynamic_links---v01301)
+ - [`masamune_agora` - `v0.13.0+1`](#masamune_agora---v01301)
+ - [`masamune_location` - `v0.13.0+1`](#masamune_location---v01301)
+ - [`masamune_local_messaging` - `v0.13.0+1`](#masamune_local_messaging---v01301)
+ - [`masamune_firebase_messaging` - `v0.13.0+1`](#masamune_firebase_messaging---v01301)
+ - [`masamune_signin_apple` - `v0.13.0+1`](#masamune_signin_apple---v01301)
+ - [`masamune_signin_google` - `v0.13.0+1`](#masamune_signin_google---v01301)
+ - [`masamune_signin_facebook` - `v0.13.0+1`](#masamune_signin_facebook---v01301)
+ - [`masamune_purchase` - `v0.13.0+1`](#masamune_purchase---v01301)
+ - [`masamune_media` - `v0.13.0+1`](#masamune_media---v01301)
+ - [`masamune_ads` - `v0.13.0+1`](#masamune_ads---v01301)
+ - [`masamune_firebase` - `v0.13.0+1`](#masamune_firebase---v01301)
+ - [`masamune_wordpress` - `v0.13.0+1`](#masamune_wordpress---v01301)
+ - [`masamune_signin_twitter` - `v0.13.0+1`](#masamune_signin_twitter---v01301)
+ - [`masamune_module` - `v0.13.0+1`](#masamune_module---v01301)
+ - [`masamune_purchase_firebase` - `v0.13.0+1`](#masamune_purchase_firebase---v01301)
+ - [`masamune_notion` - `v0.13.0+1`](#masamune_notion---v01301)
+ - [`masamune_purchase_stripe` - `v0.13.0+1`](#masamune_purchase_stripe---v01301)
+ - [`masamune_ui` - `v0.13.0+1`](#masamune_ui---v01301)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_dynamic_links` - `v0.13.0+1`
+ - `masamune_agora` - `v0.13.0+1`
+ - `masamune_location` - `v0.13.0+1`
+ - `masamune_local_messaging` - `v0.13.0+1`
+ - `masamune_firebase_messaging` - `v0.13.0+1`
+ - `masamune_signin_apple` - `v0.13.0+1`
+ - `masamune_signin_google` - `v0.13.0+1`
+ - `masamune_signin_facebook` - `v0.13.0+1`
+ - `masamune_purchase` - `v0.13.0+1`
+ - `masamune_media` - `v0.13.0+1`
+ - `masamune_ads` - `v0.13.0+1`
+ - `masamune_firebase` - `v0.13.0+1`
+ - `masamune_wordpress` - `v0.13.0+1`
+ - `masamune_signin_twitter` - `v0.13.0+1`
+ - `masamune_module` - `v0.13.0+1`
+ - `masamune_purchase_firebase` - `v0.13.0+1`
+ - `masamune_notion` - `v0.13.0+1`
+ - `masamune_purchase_stripe` - `v0.13.0+1`
+ - `masamune_ui` - `v0.13.0+1`
+
+---
+
+#### `masamune` - `v0.13.0+1`
+
+ - **FIX**: Export functions that have not been able to be exported. ([f5e0c0ee](https://github.com/mathrunet/flutter_masamune/commit/f5e0c0eecf127f440ab5e302ce292c6dbad61eed))
+
+
+## 2022-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`firebase_model_notifier` - `v0.13.0`](#firebase_model_notifier---v0130)
  - [`katana` - `v0.13.0`](#katana---v0130)
  - [`katana_firebase` - `v0.13.0`](#katana_firebase---v0130)
