@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ui` - `v0.13.0+3`](#masamune_ui---v01303)
+
+---
+
+#### `masamune_ui` - `v0.13.0+3`
+
+ - **FIX**: Add missing packages. ([17a14b62](https://github.com/mathrunet/flutter_masamune/commit/17a14b620b8064d4f6de973f0c28af3402d5dc55))
+
+
+## 2022-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v0.13.0+2`](#masamune---v01302)
  - [`masamune_media` - `v0.13.0+2`](#masamune_media---v01302)
  - [`masamune_ui` - `v0.13.0+2`](#masamune_ui---v01302)

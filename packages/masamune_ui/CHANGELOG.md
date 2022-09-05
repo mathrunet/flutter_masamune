@@ -1,3 +1,7 @@
+## 0.13.0+3
+
+ - **FIX**: Add missing packages. ([17a14b62](https://github.com/mathrunet/flutter_masamune/commit/17a14b620b8064d4f6de973f0c28af3402d5dc55))
+
 ## 0.13.0+2
 
  - **FIX**: :Fixed import bug. ([89f9f2de](https://github.com/mathrunet/flutter_masamune/commit/89f9f2de81d3ca2aca856bcad64cabd739aa34e7))
