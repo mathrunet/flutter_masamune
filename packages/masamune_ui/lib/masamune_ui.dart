@@ -12,23 +12,22 @@ import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
-import 'package:katana_module/katana_module.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:masamune/form/form.dart';
-import 'package:masamune/list/list.dart';
+import 'package:masamune/masamune.dart';
 import 'package:wakelock/wakelock.dart';
 
 import 'component/others/others.dart'
     if (dart.library.io) 'component/mobile/mobile.dart'
     if (dart.library.js) 'component/others/others.dart'
     if (dart.library.html) 'component/others/others.dart';
+import 'form/form.dart';
+import 'list/list.dart';
 
 export 'package:badges/badges.dart' show Badge, BadgeAnimationType;
 export 'package:flutter_breadcrumb/flutter_breadcrumb.dart'

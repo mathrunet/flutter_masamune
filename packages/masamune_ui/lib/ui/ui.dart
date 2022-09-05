@@ -15,6 +15,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:loading_animations/loading_animations.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_ui/masamune_ui.dart';
 
 part 'ui_scaffold.dart';
 part 'ui_app_bar.dart';

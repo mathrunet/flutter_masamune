@@ -1,7 +1,7 @@
 library masamune_calendar;
 
 import 'package:intl/intl.dart';
-import 'package:masamune/masamune.dart';
+import 'package:masamune_ui/masamune_ui.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
 part 'table_calendar.dart';

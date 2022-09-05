@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_ui/masamune_ui.dart';
 import 'package:selectable_autolink_text/selectable_autolink_text.dart';
 import 'package:video_player/video_player.dart';
 
