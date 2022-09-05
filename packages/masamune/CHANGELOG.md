@@ -1,3 +1,7 @@
+## 0.13.0+3
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+2
 
  - **FIX**: Indent addition. ([d0d756c6](https://github.com/mathrunet/flutter_masamune/commit/d0d756c6bb81fd850be336b0271290d0a67bb1fe))

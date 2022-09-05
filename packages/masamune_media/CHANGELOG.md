@@ -1,3 +1,7 @@
+## 0.13.0+3
+
+ - **FIX**: Package upgrade. ([cea0d3c5](https://github.com/mathrunet/flutter_masamune/commit/cea0d3c5714b6a824f6e500bad85dd93d2b93602))
+
 ## 0.13.0+2
 
  - **FIX**: Fixed import bug. ([81da5a21](https://github.com/mathrunet/flutter_masamune/commit/81da5a21a63e652f6bd40d81df2e29ccf5674956))
