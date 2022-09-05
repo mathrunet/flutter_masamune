@@ -50,12 +50,12 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
   }
 
   final Map<String, dynamic> parameters;
-  late final WordPress.WordPressAPI _wordpress;
+  late final wordPress.WordPressAPI _wordpress;
 
   @override
   void initState() {
     super.initState();
-    _wordpress = WordPress.WordPressAPI(endpoint);
+    _wordpress = wordPress.WordPressAPI(endpoint);
   }
 
   /// The actual loading process is done from the API when it is loaded.
@@ -84,7 +84,7 @@ class WordpressCollectionModel extends ApiDynamicCollectionModel {
       throw Exception("Could not retrieve data from wordpress.");
     }
     onCatchResponse(res);
-    final posts = (res.data as List<WordPress.Post>)
+    final posts = (res.data as List<wordPress.Post>)
         .mapAndRemoveEmpty((item) => item.toMap());
     await Future.wait(
       posts.mapAndRemoveEmpty((e) async {
