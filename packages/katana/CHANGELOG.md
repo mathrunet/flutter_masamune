@@ -1,3 +1,9 @@
+## 0.13.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Package version up to 0.13.0. ([2c68c67b](https://github.com/mathrunet/flutter_masamune/commit/2c68c67b3ba952ff40a49fea8dba9bfcb9938912))
+
 ## 0.12.1
 
  - **FEAT**: Add replaceNanOrInfinite. ([bb99c330](https://github.com/mathrunet/flutter_masamune/commit/bb99c330d88584afea56e2ae119d304b9cdc4fa3))

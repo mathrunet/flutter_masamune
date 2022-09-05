@@ -1,3 +1,10 @@
+## 0.13.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Package version up to 0.13.0. ([2c68c67b](https://github.com/mathrunet/flutter_masamune/commit/2c68c67b3ba952ff40a49fea8dba9bfcb9938912))
+ - **BREAKING** **FEAT**: Package Separation. ([7333799e](https://github.com/mathrunet/flutter_masamune/commit/7333799e081d24b8bca2a3c3e042217b26b8e18d))
+
 ## 0.12.0+3
 
  - Update a dependency to the latest release.

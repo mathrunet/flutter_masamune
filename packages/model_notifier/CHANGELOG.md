@@ -1,3 +1,9 @@
+## 0.13.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: Package version up to 0.13.0. ([2c68c67b](https://github.com/mathrunet/flutter_masamune/commit/2c68c67b3ba952ff40a49fea8dba9bfcb9938912))
+
 ## 0.12.0+3
 
  - **FIX**: Avoiding values that cannot be JsonEncode. ([061be911](https://github.com/mathrunet/flutter_masamune/commit/061be911308c564d562dd37dbadcd230913f5026))
