@@ -32,6 +32,7 @@ The framework itself has the following components.
 | katana_module | Package that defines a base class for modularization. It defines abstract classes, etc. for use with the Masamune module. |
 | model_notifier | Package that makes it easy to define ValueNotifier as a model and improves the affinity with riverpod and freezed. |
 | masamune | Package that supports Flutter states and their transitions using the Model Notifier package and the Katana Routing package. |
+| masamune_ui | UI library using Masamune. Please be careful when using it normally, as it uses multiple external packages. |
 | masamune_module | Package in which various functions are modularized. The katana_routing routing system is used on the assumption that Riverpod is used. |
 
 The following plug-ins are additionally loaded depending on the functions used by the application.
@@ -45,6 +46,7 @@ Basically, you can pass the Adapter as a module to `UIModuleMaterialApp` to use 
 | masamune_firebase | Module for supporting the Firebase/Firestore function of Masamune framework. It is also available on the web. |
 | masamune_purchase | Package to provide mobile billing functionality. It is equipped with functions to perform all billing on the client without server verification, etc. |
 | masamune_purchase_firebase | Plugin that extends the billing system plugin to the processing by the server (Firebase). Firebase Functions are required. |
+
 
 # Documentation
 

@@ -290,30 +290,30 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.12.1"
   katana_flutter:
     dependency: "direct main"
     description:
-      name: katana_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_flutter"
+      relative: true
+    source: path
     version: "0.12.0+3"
   katana_module:
     dependency: "direct main"
     description:
-      name: katana_module
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_module"
+      relative: true
+    source: path
     version: "0.12.0+3"
   katana_routing:
     dependency: "direct main"
     description:
-      name: katana_routing
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_routing"
+      relative: true
+    source: path
     version: "0.12.0+3"
   matcher:
     dependency: transitive
@@ -346,9 +346,9 @@ packages:
   model_notifier:
     dependency: "direct main"
     description:
-      name: model_notifier
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../model_notifier"
+      relative: true
+    source: path
     version: "0.12.0+3"
   nm:
     dependency: transitive
