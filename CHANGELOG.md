@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ui` - `v0.13.0+10`](#masamune_ui---v013010)
+ - [`masamune_module` - `v0.13.0+9`](#masamune_module---v01309)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module` - `v0.13.0+9`
+
+---
+
+#### `masamune_ui` - `v0.13.0+10`
+
+ - **FIX**: Remove unused packages. ([9995e00b](https://github.com/mathrunet/flutter_masamune/commit/9995e00b1c1bc01cfa80c3f1d34fafdbf3fb5817))
+
+
+## 2022-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.13.0+4`](#firebase_model_notifier---v01304)
  - [`katana_firebase` - `v0.13.0+4`](#katana_firebase---v01304)
  - [`katana_module` - `v0.13.0+5`](#katana_module---v01305)

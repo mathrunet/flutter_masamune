@@ -1,3 +1,7 @@
+## 0.13.0+10
+
+ - **FIX**: Remove unused packages. ([9995e00b](https://github.com/mathrunet/flutter_masamune/commit/9995e00b1c1bc01cfa80c3f1d34fafdbf3fb5817))
+
 ## 0.13.0+9
 
  - **FIX**: Package update. ([bb3b0562](https://github.com/mathrunet/flutter_masamune/commit/bb3b0562f42e45c6dfe7dba3f3004381ca5d1cd5))
