@@ -72,6 +72,7 @@ part 'component/timer_builder.dart';
 part 'component/divid.dart';
 part 'component/empty.dart';
 part 'component/space.dart';
+part 'component/indent.dart';
 part 'dialog/ui_confirm.dart';
 part 'dialog/ui_connect_dialog.dart';
 part 'dialog/ui_dialog.dart';
