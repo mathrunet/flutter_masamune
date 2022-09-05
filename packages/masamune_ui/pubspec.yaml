@@ -1,0 +1,42 @@
+name: masamune_ui
+description: UI library using Masamune. Please be careful when using it normally, as it uses multiple external packages.
+version: 0.12.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ui
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  masamune: ^0.12.0
+  loadmore: ^2.0.1
+  wakelock: ^0.6.2
+  badges: ^2.0.2
+  font_awesome_flutter: ^10.1.0
+  flutter_markdown: ^0.6.9
+  flutter_rating_bar: ^4.0.0
+  carousel_slider: ^4.0.0
+  datetime_picker_formfield: ^2.0.0
+  loading_animations: ^2.2.0
+  holding_gesture: ^1.1.0
+  responsive_grid: ^2.0.0
+  video_player: ^2.2.7
+  selectable_autolink_text: ^2.3.0
+  dots_indicator: ^2.0.0
+  simple_gesture_detector: ^0.2.0
+  flutter_sequence_animation: ^4.0.0-nullsafety
+  collapsible: ^1.0.0
+  bordered_text: ^2.0.0
+  flutter_breadcrumb: ^1.0.1
+  multi_select_flutter: ^4.0.0
+  flutter_picker: ^2.0.3
+  flutter_slidable: ^1.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
