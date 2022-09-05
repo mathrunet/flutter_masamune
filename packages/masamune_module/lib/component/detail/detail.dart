@@ -403,7 +403,7 @@ class DetailModuleTagsWidget extends ModuleWidget<DetailModule> {
               visualDensity: VisualDensity.compact,
               padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
               alignment: Alignment.centerLeft,
-              primary: context.theme.textColor.withOpacity(0.5),
+              foregroundColor: context.theme.textColor.withOpacity(0.5),
             ),
             child: Text(
               "#$e",
@@ -455,7 +455,7 @@ class DetailModuleActionWidget extends ModuleWidget<DetailModule> {
           if (module.enableLike)
             TextButton.icon(
               style: TextButton.styleFrom(
-                primary:
+                foregroundColor:
                     like ? context.theme.primaryColor : context.theme.textColor,
               ),
               icon: const Icon(Icons.thumb_up),

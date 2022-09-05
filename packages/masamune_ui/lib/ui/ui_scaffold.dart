@@ -1082,7 +1082,7 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
                               context.rootNavigator.pushNamed(e.path!);
                             },
                             style: TextButton.styleFrom(
-                              primary: foregroundColor ??
+                              foregroundColor: foregroundColor ??
                                   context.theme.appBarTheme.foregroundColor ??
                                   context.theme.textColorOnPrimary,
                             ),
@@ -1097,7 +1097,7 @@ class _WebMainAppBar extends StatelessWidget implements PreferredSizeWidget {
                               context.rootNavigator.pushNamed(e.path!);
                             },
                             style: TextButton.styleFrom(
-                              primary: foregroundColor ??
+                              foregroundColor: foregroundColor ??
                                   context.theme.appBarTheme.foregroundColor ??
                                   context.theme.textColorOnPrimary,
                             ),

@@ -16,8 +16,8 @@ class DefaultTextButtonStyle extends ButtonStyle {
     return DefaultTextButtonStyle._(
       TextButton.styleFrom(
         padding: padding,
-        primary: color,
-        onSurface: color,
+        foregroundColor: color,
+        disabledForegroundColor: color,
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
           side: borderWidth <= 0 || borderColor == Colors.transparent

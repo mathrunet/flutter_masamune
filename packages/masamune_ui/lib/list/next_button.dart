@@ -74,8 +74,8 @@ class _NextButtonState extends State<NextButton> {
       );
     } else {
       final style = TextButton.styleFrom(
-        primary: widget.primaryColor,
-        onSurface: widget.onSurfaceColor,
+        foregroundColor: widget.primaryColor,
+        disabledForegroundColor: widget.onSurfaceColor,
         backgroundColor: widget.backgroundColor,
         shadowColor: widget.shadowColor,
         surfaceTintColor: widget.surfaceTintColor,

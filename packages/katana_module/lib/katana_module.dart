@@ -8,7 +8,6 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_module;
 
-import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katana_routing/katana_routing.dart';

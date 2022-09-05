@@ -14,7 +14,6 @@ import 'package:collapsible/collapsible.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:loading_animations/loading_animations.dart';
-import 'package:masamune/masamune.dart';
 import 'package:masamune_ui/masamune_ui.dart';
 
 export 'package:flutter_slidable/flutter_slidable.dart'

@@ -8,7 +8,6 @@ class AppBuildAabCliCommand extends CliCommand {
 
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
-    final build = yaml["build"] as YamlMap;
     final bin = yaml["bin"] as YamlMap;
     final flutter = bin["flutter"] as String?;
     final generateProcess = await Process.start(

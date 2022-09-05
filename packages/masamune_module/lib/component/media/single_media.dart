@@ -110,7 +110,7 @@ class SingleMediaModuleHomePage extends PageModuleWidget<SingleMediaModule> {
               ? Center(
                   child: TextButton.icon(
                     style: TextButton.styleFrom(
-                      primary: context.theme.textColorOnPrimary,
+                      foregroundColor: context.theme.textColorOnPrimary,
                       backgroundColor: context.theme.primaryColor,
                     ),
                     label: Text("Add".localize()),

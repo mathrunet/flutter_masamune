@@ -174,7 +174,9 @@ class ImageMemoryCache {
       throw StateError('$file is empty and cannot be loaded as an image.');
     }
 
-    return PaintingBinding.instance.instantiateImageCodec(bytes);
+    return PaintingBinding.instance.instantiateImageCodecFromBuffer(
+      await ImmutableBuffer.fromUint8List(bytes),
+    );
   }
 
   static ImageStreamCompleter? _getCache(String? key) {

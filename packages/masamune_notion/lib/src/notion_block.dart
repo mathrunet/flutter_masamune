@@ -199,7 +199,7 @@ class _NotionBlockState extends State<NotionBlock> {
     switch (block.type) {
       case "divider":
         return const Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: EdgeInsets.symmetric(vertical: 4),
           child: Divid(),
         );
       case "bulleted_list_item":

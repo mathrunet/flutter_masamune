@@ -5,7 +5,6 @@ library masamune_ui.variable;
 
 import 'dart:convert';
 
-import 'package:masamune/masamune.dart';
 import 'package:masamune_ui/masamune_ui.dart';
 
 part 'form/text_form_config.dart';

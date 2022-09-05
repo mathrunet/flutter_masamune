@@ -251,7 +251,7 @@ class UserModuleHomePage extends PageModuleWidget<UserModule> {
                 shape: StadiumBorder(
                   side: BorderSide(color: context.theme.textColor, width: 2),
                 ),
-                primary: context.theme.textColor,
+                foregroundColor: context.theme.textColor,
                 backgroundColor: context.theme.scaffoldBackgroundColor,
               ),
             )
@@ -264,7 +264,7 @@ class UserModuleHomePage extends PageModuleWidget<UserModule> {
                 shape: StadiumBorder(
                   side: BorderSide(color: context.theme.textColor, width: 2),
                 ),
-                primary: context.theme.textColor,
+                foregroundColor: context.theme.textColor,
                 backgroundColor: context.theme.scaffoldBackgroundColor,
               ),
             )
