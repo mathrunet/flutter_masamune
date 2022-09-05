@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [int].
 extension IntExtensions on int {
   /// Whether this int is zero.

@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [Map<K,V>].
 extension MapExtensions<K, V> on Map<K, V> {
   /// Convert it to a list through [callback].

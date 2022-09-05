@@ -39,7 +39,8 @@ class UIBottomCallAction extends StatelessWidget {
                 style: TextButton.styleFrom(
                   backgroundColor:
                       buttonBackgroundColor ?? context.theme.primaryColor,
-                  foregroundColor: buttonColor ?? context.theme.textColorOnPrimary,
+                  foregroundColor:
+                      buttonColor ?? context.theme.textColorOnPrimary,
                   elevation: 0.0,
                   padding: buttonPadding,
                   shape: RoundedRectangleBorder(

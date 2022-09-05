@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [DateTime].
 extension DateTimeExtensions on DateTime {
   /// True if the specified time or the current time is the same day.

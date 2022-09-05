@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [num?].
 extension NullableNumExtensions on num? {
   /// Whether this num is null or zero.

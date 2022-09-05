@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [Set<T>].
 extension SetExtensions<T> on Set<T> {
   /// Returns `true` if any of the given [others] is in the list.

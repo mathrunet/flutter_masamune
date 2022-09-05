@@ -1,7 +1,4 @@
-
 part of katana;
-
-
 
 /// Provides general extensions to [Random].
 extension RandomExtensions on Random {

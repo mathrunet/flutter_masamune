@@ -1,6 +1,4 @@
-
 part of katana;
-
 
 /// Provides general extensions to [Duration].
 extension DurationExtensions on Duration {

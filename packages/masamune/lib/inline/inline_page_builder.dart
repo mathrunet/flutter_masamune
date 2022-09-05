@@ -299,4 +299,3 @@ class InlineNavigatorState extends NavigatorState {
         arguments: arguments,
       );
 }
-

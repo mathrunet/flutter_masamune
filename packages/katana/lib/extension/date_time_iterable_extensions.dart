@@ -1,7 +1,4 @@
-
 part of katana;
-
-
 
 /// Provides general extensions to [Iterable<DateTime>].
 extension DateTimeIterableExtensions on Iterable<DateTime> {

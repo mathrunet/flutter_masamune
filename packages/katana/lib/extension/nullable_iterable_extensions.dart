@@ -1,7 +1,5 @@
 part of katana;
 
-
-
 /// Provides general extensions to [Iterable<T>?].
 extension NullableIterableExtensions<T> on Iterable<T>? {
   /// Returns true if there are no elements in this collection.

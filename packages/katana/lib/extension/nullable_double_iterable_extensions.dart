@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [Iterable<double>?].
 extension NullableDoubleIterableExtensions on Iterable<double>? {
   /// Get the number closest to [point] from the array.

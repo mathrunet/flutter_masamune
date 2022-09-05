@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [Set<T>?].
 extension NullableSetExtensions<T> on Set<T>? {
   /// Returns true if there are no elements in this collection.

@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [String?].
 extension NullableStringExtensions on String? {
   /// Whether this string is empty.

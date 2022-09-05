@@ -1,7 +1,4 @@
-
 part of katana;
-
-
 
 /// Provides general extensions to [List<T>?].
 extension NullableListExtensions<T> on List<T>? {

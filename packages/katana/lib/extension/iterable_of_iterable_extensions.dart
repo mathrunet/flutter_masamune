@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [Iterable<Iterable<T>>].
 extension InterableOfIterableExtensions<T> on Iterable<Iterable<T>> {
   /// The list inside are grouped together into a single list.

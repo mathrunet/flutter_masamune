@@ -1,6 +1,5 @@
 part of katana;
 
-
 /// Provides general extensions to [Iterable<T>].
 extension IterableExtensions<T> on Iterable<T> {
   /// Remove duplicate values from the list.

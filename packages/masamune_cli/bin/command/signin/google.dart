@@ -39,7 +39,7 @@ class SigninGoogleCliCommand extends CliCommand {
 			</array>
 		</dict>
         """,
-      );      
+      );
       text = text.replaceAll(
         "// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN",
         """

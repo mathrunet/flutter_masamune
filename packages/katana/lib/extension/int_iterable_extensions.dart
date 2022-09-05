@@ -1,7 +1,5 @@
 part of katana;
 
-
-
 /// Provides general extensions to [Iterable<int>].
 extension IntIterableExtensions on Iterable<int> {
   /// Get the number closest to [point] from the array.

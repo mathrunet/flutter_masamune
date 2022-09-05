@@ -33,7 +33,6 @@ class NavigatorController extends Listenable {
   }
 }
 
-
 /// Observer to be able to catch the navigation movement inside.
 ///
 /// You can describe what to do
