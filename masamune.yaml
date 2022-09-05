@@ -5,5 +5,5 @@ bin:
   firebase: firebase
   melos: melos
   git: git
-  openssl: C:\Program Files\OpenSSL-Win64\bin\openssl.exe
-  keytool: C:\Program Files\Java\jdk-11.0.2\bin\keytool.exe
+  openssl: openssl
+  keytool: /Applications/Android\ Studio.app/Contents/jre/Contents/Home/bin/keytool
