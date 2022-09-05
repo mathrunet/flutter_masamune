@@ -1,3 +1,7 @@
+## 0.13.0+7
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+6
 
  - **FIX**: Add BootPage. ([5d1c4a1c](https://github.com/mathrunet/flutter_masamune/commit/5d1c4a1cf98dc87934e5448d5cfcff5523b81863))

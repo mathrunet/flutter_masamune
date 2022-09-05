@@ -15,6 +15,159 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.13.0+3`](#firebase_model_notifier---v01303)
+ - [`katana_firebase` - `v0.13.0+3`](#katana_firebase---v01303)
+ - [`katana_flutter` - `v0.13.0+3`](#katana_flutter---v01303)
+ - [`katana_module` - `v0.13.0+4`](#katana_module---v01304)
+ - [`katana_routing` - `v0.13.0+4`](#katana_routing---v01304)
+ - [`masamune_ads` - `v0.13.0+7`](#masamune_ads---v01307)
+ - [`masamune_agora` - `v0.13.0+7`](#masamune_agora---v01307)
+ - [`masamune_cli` - `v0.13.0+4`](#masamune_cli---v01304)
+ - [`masamune_firebase` - `v0.13.0+7`](#masamune_firebase---v01307)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+7`](#masamune_firebase_dynamic_links---v01307)
+ - [`masamune_firebase_messaging` - `v0.13.0+7`](#masamune_firebase_messaging---v01307)
+ - [`masamune_local_messaging` - `v0.13.0+7`](#masamune_local_messaging---v01307)
+ - [`masamune_location` - `v0.13.0+7`](#masamune_location---v01307)
+ - [`masamune_media` - `v0.13.0+7`](#masamune_media---v01307)
+ - [`masamune_module` - `v0.13.0+7`](#masamune_module---v01307)
+ - [`masamune_notion` - `v0.13.0+7`](#masamune_notion---v01307)
+ - [`masamune_purchase` - `v0.13.0+7`](#masamune_purchase---v01307)
+ - [`masamune_purchase_firebase` - `v0.13.0+7`](#masamune_purchase_firebase---v01307)
+ - [`masamune_purchase_stripe` - `v0.13.0+7`](#masamune_purchase_stripe---v01307)
+ - [`masamune_signin_apple` - `v0.13.0+7`](#masamune_signin_apple---v01307)
+ - [`masamune_signin_facebook` - `v0.13.0+7`](#masamune_signin_facebook---v01307)
+ - [`masamune_signin_google` - `v0.13.0+7`](#masamune_signin_google---v01307)
+ - [`masamune_signin_twitter` - `v0.13.0+7`](#masamune_signin_twitter---v01307)
+ - [`masamune_ui` - `v0.13.0+8`](#masamune_ui---v01308)
+ - [`masamune_wordpress` - `v0.13.0+7`](#masamune_wordpress---v01307)
+ - [`model_notifier` - `v0.13.0+3`](#model_notifier---v01303)
+ - [`masamune` - `v0.13.0+7`](#masamune---v01307)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v0.13.0+7`
+
+---
+
+#### `firebase_model_notifier` - `v0.13.0+3`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `katana_firebase` - `v0.13.0+3`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `katana_flutter` - `v0.13.0+3`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `katana_module` - `v0.13.0+4`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `katana_routing` - `v0.13.0+4`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_ads` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_agora` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_cli` - `v0.13.0+4`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_firebase` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_firebase_dynamic_links` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_firebase_messaging` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_local_messaging` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_location` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_media` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_module` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_notion` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_purchase` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_purchase_firebase` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_purchase_stripe` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_signin_apple` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_signin_facebook` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_signin_google` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_signin_twitter` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `masamune_ui` - `v0.13.0+8`
+
+ - **FIX**: Moved Boot and Animation to masamune. ([e0859172](https://github.com/mathrunet/flutter_masamune/commit/e08591721038d9779bee961e4a910ce5148e2c0e))
+
+#### `masamune_wordpress` - `v0.13.0+7`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+#### `model_notifier` - `v0.13.0+3`
+
+ - **FIX**: Package version up. ([e020ecb7](https://github.com/mathrunet/flutter_masamune/commit/e020ecb7920165e16a7e138afe450eea35850d87))
+
+
+## 2022-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v0.13.0+6`](#masamune---v01306)
  - [`masamune_firebase_dynamic_links` - `v0.13.0+6`](#masamune_firebase_dynamic_links---v01306)
  - [`masamune_agora` - `v0.13.0+6`](#masamune_agora---v01306)

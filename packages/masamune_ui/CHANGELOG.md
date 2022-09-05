@@ -1,3 +1,7 @@
+## 0.13.0+8
+
+ - **FIX**: Moved Boot and Animation to masamune. ([e0859172](https://github.com/mathrunet/flutter_masamune/commit/e08591721038d9779bee961e4a910ce5148e2c0e))
+
 ## 0.13.0+7
 
  - Update a dependency to the latest release.
