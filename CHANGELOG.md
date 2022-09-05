@@ -15,6 +15,70 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v0.13.0+6`](#masamune---v01306)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+6`](#masamune_firebase_dynamic_links---v01306)
+ - [`masamune_agora` - `v0.13.0+6`](#masamune_agora---v01306)
+ - [`masamune_location` - `v0.13.0+6`](#masamune_location---v01306)
+ - [`masamune_local_messaging` - `v0.13.0+6`](#masamune_local_messaging---v01306)
+ - [`masamune_signin_apple` - `v0.13.0+6`](#masamune_signin_apple---v01306)
+ - [`masamune_purchase` - `v0.13.0+6`](#masamune_purchase---v01306)
+ - [`masamune_wordpress` - `v0.13.0+6`](#masamune_wordpress---v01306)
+ - [`masamune_signin_google` - `v0.13.0+6`](#masamune_signin_google---v01306)
+ - [`masamune_signin_facebook` - `v0.13.0+6`](#masamune_signin_facebook---v01306)
+ - [`masamune_media` - `v0.13.0+6`](#masamune_media---v01306)
+ - [`masamune_signin_twitter` - `v0.13.0+6`](#masamune_signin_twitter---v01306)
+ - [`masamune_ads` - `v0.13.0+6`](#masamune_ads---v01306)
+ - [`masamune_module` - `v0.13.0+6`](#masamune_module---v01306)
+ - [`masamune_purchase_firebase` - `v0.13.0+6`](#masamune_purchase_firebase---v01306)
+ - [`masamune_notion` - `v0.13.0+6`](#masamune_notion---v01306)
+ - [`masamune_purchase_stripe` - `v0.13.0+6`](#masamune_purchase_stripe---v01306)
+ - [`masamune_ui` - `v0.13.0+7`](#masamune_ui---v01307)
+ - [`masamune_firebase_messaging` - `v0.13.0+6`](#masamune_firebase_messaging---v01306)
+ - [`masamune_firebase` - `v0.13.0+6`](#masamune_firebase---v01306)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_dynamic_links` - `v0.13.0+6`
+ - `masamune_agora` - `v0.13.0+6`
+ - `masamune_location` - `v0.13.0+6`
+ - `masamune_local_messaging` - `v0.13.0+6`
+ - `masamune_signin_apple` - `v0.13.0+6`
+ - `masamune_purchase` - `v0.13.0+6`
+ - `masamune_wordpress` - `v0.13.0+6`
+ - `masamune_signin_google` - `v0.13.0+6`
+ - `masamune_signin_facebook` - `v0.13.0+6`
+ - `masamune_media` - `v0.13.0+6`
+ - `masamune_signin_twitter` - `v0.13.0+6`
+ - `masamune_ads` - `v0.13.0+6`
+ - `masamune_module` - `v0.13.0+6`
+ - `masamune_purchase_firebase` - `v0.13.0+6`
+ - `masamune_notion` - `v0.13.0+6`
+ - `masamune_purchase_stripe` - `v0.13.0+6`
+ - `masamune_ui` - `v0.13.0+7`
+ - `masamune_firebase_messaging` - `v0.13.0+6`
+ - `masamune_firebase` - `v0.13.0+6`
+
+---
+
+#### `masamune` - `v0.13.0+6`
+
+ - **FIX**: Add BootPage. ([5d1c4a1c](https://github.com/mathrunet/flutter_masamune/commit/5d1c4a1cf98dc87934e5448d5cfcff5523b81863))
+
+
+## 2022-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v0.13.0+2`](#katana---v01302)
  - [`masamune` - `v0.13.0+5`](#masamune---v01305)
  - [`masamune_cli` - `v0.13.0+3`](#masamune_cli---v01303)

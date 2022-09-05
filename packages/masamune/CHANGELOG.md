@@ -1,3 +1,7 @@
+## 0.13.0+6
+
+ - **FIX**: Add BootPage. ([5d1c4a1c](https://github.com/mathrunet/flutter_masamune/commit/5d1c4a1cf98dc87934e5448d5cfcff5523b81863))
+
 ## 0.13.0+5
 
  - **FIX**: Perform formatting. ([8ff8fd24](https://github.com/mathrunet/flutter_masamune/commit/8ff8fd2467cd08934ef6deba156dd15a6949d600))

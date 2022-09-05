@@ -1,3 +1,7 @@
+## 0.13.0+7
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+6
 
  - **FIX**: Perform formatting. ([8ff8fd24](https://github.com/mathrunet/flutter_masamune/commit/8ff8fd2467cd08934ef6deba156dd15a6949d600))
