@@ -1,3 +1,7 @@
+## 0.13.0+2
+
+ - **FIX**: Indent addition. ([d0d756c6](https://github.com/mathrunet/flutter_masamune/commit/d0d756c6bb81fd850be336b0271290d0a67bb1fe))
+
 ## 0.13.0+1
 
  - **FIX**: Export functions that have not been able to be exported. ([f5e0c0ee](https://github.com/mathrunet/flutter_masamune/commit/f5e0c0eecf127f440ab5e302ce292c6dbad61eed))

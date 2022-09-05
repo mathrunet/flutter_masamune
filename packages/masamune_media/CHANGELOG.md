@@ -1,3 +1,7 @@
+## 0.13.0+2
+
+ - **FIX**: Fixed import bug. ([81da5a21](https://github.com/mathrunet/flutter_masamune/commit/81da5a21a63e652f6bd40d81df2e29ccf5674956))
+
 ## 0.13.0+1
 
  - Update a dependency to the latest release.

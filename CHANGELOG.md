@@ -15,6 +15,79 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v0.13.0+2`](#masamune---v01302)
+ - [`masamune_media` - `v0.13.0+2`](#masamune_media---v01302)
+ - [`masamune_ui` - `v0.13.0+2`](#masamune_ui---v01302)
+ - [`masamune_wordpress` - `v0.13.0+2`](#masamune_wordpress---v01302)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+2`](#masamune_firebase_dynamic_links---v01302)
+ - [`masamune_location` - `v0.13.0+2`](#masamune_location---v01302)
+ - [`masamune_agora` - `v0.13.0+2`](#masamune_agora---v01302)
+ - [`masamune_local_messaging` - `v0.13.0+2`](#masamune_local_messaging---v01302)
+ - [`masamune_firebase_messaging` - `v0.13.0+2`](#masamune_firebase_messaging---v01302)
+ - [`masamune_signin_apple` - `v0.13.0+2`](#masamune_signin_apple---v01302)
+ - [`masamune_signin_facebook` - `v0.13.0+2`](#masamune_signin_facebook---v01302)
+ - [`masamune_signin_google` - `v0.13.0+2`](#masamune_signin_google---v01302)
+ - [`masamune_purchase` - `v0.13.0+2`](#masamune_purchase---v01302)
+ - [`masamune_firebase` - `v0.13.0+2`](#masamune_firebase---v01302)
+ - [`masamune_signin_twitter` - `v0.13.0+2`](#masamune_signin_twitter---v01302)
+ - [`masamune_ads` - `v0.13.0+2`](#masamune_ads---v01302)
+ - [`masamune_module` - `v0.13.0+2`](#masamune_module---v01302)
+ - [`masamune_purchase_firebase` - `v0.13.0+2`](#masamune_purchase_firebase---v01302)
+ - [`masamune_notion` - `v0.13.0+2`](#masamune_notion---v01302)
+ - [`masamune_purchase_stripe` - `v0.13.0+2`](#masamune_purchase_stripe---v01302)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_dynamic_links` - `v0.13.0+2`
+ - `masamune_location` - `v0.13.0+2`
+ - `masamune_agora` - `v0.13.0+2`
+ - `masamune_local_messaging` - `v0.13.0+2`
+ - `masamune_firebase_messaging` - `v0.13.0+2`
+ - `masamune_signin_apple` - `v0.13.0+2`
+ - `masamune_signin_facebook` - `v0.13.0+2`
+ - `masamune_signin_google` - `v0.13.0+2`
+ - `masamune_purchase` - `v0.13.0+2`
+ - `masamune_firebase` - `v0.13.0+2`
+ - `masamune_signin_twitter` - `v0.13.0+2`
+ - `masamune_ads` - `v0.13.0+2`
+ - `masamune_module` - `v0.13.0+2`
+ - `masamune_purchase_firebase` - `v0.13.0+2`
+ - `masamune_notion` - `v0.13.0+2`
+ - `masamune_purchase_stripe` - `v0.13.0+2`
+
+---
+
+#### `masamune` - `v0.13.0+2`
+
+ - **FIX**: Indent addition. ([d0d756c6](https://github.com/mathrunet/flutter_masamune/commit/d0d756c6bb81fd850be336b0271290d0a67bb1fe))
+
+#### `masamune_media` - `v0.13.0+2`
+
+ - **FIX**: Fixed import bug. ([81da5a21](https://github.com/mathrunet/flutter_masamune/commit/81da5a21a63e652f6bd40d81df2e29ccf5674956))
+
+#### `masamune_ui` - `v0.13.0+2`
+
+ - **FIX**: :Fixed import bug. ([89f9f2de](https://github.com/mathrunet/flutter_masamune/commit/89f9f2de81d3ca2aca856bcad64cabd739aa34e7))
+
+#### `masamune_wordpress` - `v0.13.0+2`
+
+ - **FIX**: Fixed import bug. ([464075c3](https://github.com/mathrunet/flutter_masamune/commit/464075c3226d461be7fe03c435de82745a1568e3))
+
+
+## 2022-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v0.13.0+1`](#masamune---v01301)
  - [`masamune_firebase_dynamic_links` - `v0.13.0+1`](#masamune_firebase_dynamic_links---v01301)
  - [`masamune_agora` - `v0.13.0+1`](#masamune_agora---v01301)
