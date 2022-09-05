@@ -16,7 +16,7 @@ dependencies:
   masamune: ^0.13.0
   masamune_firebase: ^0.13.0
   firebase_model_notifier: ^0.13.0
-  firebase_messaging: ^11.2.4
+  firebase_messaging: ^13.0.0
   http: ^0.13.0
   flutter_local_notifications: ^9.1.5
 

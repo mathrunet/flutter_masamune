@@ -288,7 +288,7 @@ packages:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.0+3"
   matcher:
     dependency: transitive
     description:

@@ -328,21 +328,21 @@ packages:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.0+3"
   katana_module:
     dependency: transitive
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+3"
+    version: "0.13.0+4"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+3"
+    version: "0.13.0+4"
   loading_animations:
     dependency: transitive
     description:
@@ -356,7 +356,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+6"
+    version: "0.13.0+7"
   matcher:
     dependency: transitive
     description:
@@ -391,7 +391,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.0+3"
   nm:
     dependency: transitive
     description:

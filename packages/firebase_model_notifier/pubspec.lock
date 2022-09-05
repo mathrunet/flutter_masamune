@@ -309,14 +309,14 @@ packages:
       name: katana_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.0+3"
   katana_flutter:
     dependency: transitive
     description:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.0+3"
   matcher:
     dependency: transitive
     description:
@@ -351,7 +351,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.0+3"
   nm:
     dependency: transitive
     description:
