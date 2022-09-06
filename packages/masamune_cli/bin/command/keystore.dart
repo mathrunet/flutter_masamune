@@ -45,6 +45,7 @@ class KeystoreCliCommand extends CliCommand {
         "-dname",
         "CN=mathru, O=mathru.net, S=Tokyo, C=Japan",
       ],
+      runInShell: true,
       workingDirectory: Directory.current.path,
     );
     await process.print();
@@ -74,6 +75,7 @@ class KeystoreCliCommand extends CliCommand {
         "-storepass",
         password,
       ],
+      runInShell: true,
       workingDirectory: Directory.current.path,
     );
     await processP12.print();
@@ -91,6 +93,7 @@ class KeystoreCliCommand extends CliCommand {
         "-keypass",
         password,
       ],
+      runInShell: true,
       workingDirectory: Directory.current.path,
     );
     final stdout = await fingerPrint.print();
