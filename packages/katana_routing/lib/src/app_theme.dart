@@ -36,6 +36,7 @@ class AppTheme {
     this.onWarning = const Color(0xFFFFFFFF),
     this.brightness = Brightness.light,
     this.appBarColor,
+    this.onAppBarColor,
     this.scaffoldBackgroundColor,
     this.fontFamily,
     this.useMaterial3 = true,
@@ -167,6 +168,7 @@ class AppTheme {
     this.onSuccess = const Color(0xFFFFFFFF),
     this.onWarning = const Color(0xFFFFFFFF),
     this.appBarColor,
+    this.onAppBarColor,
     this.scaffoldBackgroundColor,
     this.fontFamily,
     this.useMaterial3 = true,
@@ -298,6 +300,7 @@ class AppTheme {
     this.onSuccess = const Color(0xFFFFFFFF),
     this.onWarning = const Color(0xFFFFFFFF),
     this.appBarColor,
+    this.onAppBarColor,
     this.scaffoldBackgroundColor,
     this.fontFamily,
     this.useMaterial3 = true,
@@ -493,6 +496,9 @@ class AppTheme {
   /// App bar color.
   final Color? appBarColor;
 
+  /// Text on app bar color.
+  final Color? onAppBarColor;
+
   /// Scaffold color.
   final Color? scaffoldBackgroundColor;
 
@@ -608,34 +614,36 @@ class AppTheme {
             bodyColor: onBackground,
             displayColor: onBackground,
           ),
-          appBarTheme: appBarColor != null
-              ? theme.appBarTheme.copyWith(
-                  backgroundColor: appBarColor,
-                  elevation: appBarColor == Colors.transparent ? 0 : null,
-                  foregroundColor:
-                      appBarColor == Colors.transparent ? onBackground : null,
-                  toolbarTextStyle: appBarColor == Colors.transparent
-                      ? theme.appBarTheme.toolbarTextStyle?.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                  titleTextStyle: appBarColor == Colors.transparent
-                      ? theme.appBarTheme.titleTextStyle?.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                  iconTheme: appBarColor == Colors.transparent
-                      ? theme.iconTheme.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                  actionsIconTheme: appBarColor == Colors.transparent
-                      ? theme.iconTheme.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                )
-              : null,
+          appBarTheme: theme.appBarTheme.copyWith(
+            backgroundColor: appBarColor,
+            elevation: appBarColor == Colors.transparent ? 0 : null,
+            color: appBarColor == Colors.transparent
+                ? onBackground
+                : onAppBarColor,
+            foregroundColor: appBarColor == Colors.transparent
+                ? onBackground
+                : onAppBarColor,
+            toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+            titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+            iconTheme: theme.iconTheme.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+            actionsIconTheme: theme.iconTheme.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+          ),
           buttonTheme: theme.buttonTheme.copyWith(
             textTheme: theme.buttonTheme.textTheme,
             buttonColor: primary,
@@ -721,34 +729,36 @@ class AppTheme {
           colorScheme: colorScheme,
           splashColor: const Color(0xFFFFFFFF).withOpacity(0.8),
           scaffoldBackgroundColor: scaffoldBackgroundColor,
-          appBarTheme: appBarColor != null
-              ? theme.appBarTheme.copyWith(
-                  backgroundColor: appBarColor,
-                  elevation: appBarColor == Colors.transparent ? 0 : null,
-                  foregroundColor:
-                      appBarColor == Colors.transparent ? onBackground : null,
-                  toolbarTextStyle: appBarColor == Colors.transparent
-                      ? theme.appBarTheme.toolbarTextStyle?.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                  titleTextStyle: appBarColor == Colors.transparent
-                      ? theme.appBarTheme.titleTextStyle?.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                  iconTheme: appBarColor == Colors.transparent
-                      ? theme.iconTheme.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                  actionsIconTheme: appBarColor == Colors.transparent
-                      ? theme.iconTheme.copyWith(
-                          color: onBackground,
-                        )
-                      : null,
-                )
-              : null,
+          appBarTheme: theme.appBarTheme.copyWith(
+            backgroundColor: appBarColor,
+            elevation: appBarColor == Colors.transparent ? 0 : null,
+            color: appBarColor == Colors.transparent
+                ? onBackground
+                : onAppBarColor,
+            foregroundColor: appBarColor == Colors.transparent
+                ? onBackground
+                : onAppBarColor,
+            toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+            titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+            iconTheme: theme.iconTheme.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+            actionsIconTheme: theme.iconTheme.copyWith(
+              color: appBarColor == Colors.transparent
+                  ? onBackground
+                  : onAppBarColor,
+            ),
+          ),
           textTheme: textTheme.apply(
             bodyColor: onBackground,
             displayColor: onBackground,
