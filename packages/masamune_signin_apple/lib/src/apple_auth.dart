@@ -58,7 +58,10 @@ class AppleAuth {
     await auth.signInWithProvider(
       providerCallback: (timeout) async {
         try {
-          final info = await PackageInfo.fromPlatform().timeout(timeout);
+          final info = Config.packageInfo;
+          if (info == null) {
+            throw Exception("Package information is not found.");
+          }
           final appleResult = await SignInWithApple.getAppleIDCredential(
             scopes: [
               AppleIDAuthorizationScopes.email,
