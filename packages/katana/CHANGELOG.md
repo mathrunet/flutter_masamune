@@ -1,3 +1,7 @@
+## 0.13.1+1
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
 ## 0.13.1
 
  - **FIX**: Added Meta class. ([d4dd399d](https://github.com/mathrunet/flutter_masamune/commit/d4dd399dd16475acfab4d37a83b8bedd20e5ca1a))

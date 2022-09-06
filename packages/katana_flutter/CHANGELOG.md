@@ -1,3 +1,7 @@
+## 0.13.0+5
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
 ## 0.13.0+4
 
  - Update a dependency to the latest release.

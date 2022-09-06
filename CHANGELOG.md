@@ -15,6 +15,162 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.13.0+6`](#firebase_model_notifier---v01306)
+ - [`katana` - `v0.13.1+1`](#katana---v01311)
+ - [`katana_firebase` - `v0.13.0+6`](#katana_firebase---v01306)
+ - [`katana_flutter` - `v0.13.0+5`](#katana_flutter---v01305)
+ - [`katana_module` - `v0.13.0+7`](#katana_module---v01307)
+ - [`katana_routing` - `v0.13.0+7`](#katana_routing---v01307)
+ - [`masamune` - `v0.13.0+10`](#masamune---v013010)
+ - [`masamune_ads` - `v0.13.0+10`](#masamune_ads---v013010)
+ - [`masamune_agora` - `v0.13.0+10`](#masamune_agora---v013010)
+ - [`masamune_cli` - `v0.13.0+6`](#masamune_cli---v01306)
+ - [`masamune_firebase` - `v0.13.0+10`](#masamune_firebase---v013010)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+10`](#masamune_firebase_dynamic_links---v013010)
+ - [`masamune_firebase_messaging` - `v0.13.0+10`](#masamune_firebase_messaging---v013010)
+ - [`masamune_local_messaging` - `v0.13.0+10`](#masamune_local_messaging---v013010)
+ - [`masamune_location` - `v0.13.0+10`](#masamune_location---v013010)
+ - [`masamune_media` - `v0.13.0+10`](#masamune_media---v013010)
+ - [`masamune_module` - `v0.13.0+11`](#masamune_module---v013011)
+ - [`masamune_notion` - `v0.13.0+10`](#masamune_notion---v013010)
+ - [`masamune_purchase` - `v0.13.0+10`](#masamune_purchase---v013010)
+ - [`masamune_purchase_firebase` - `v0.13.0+10`](#masamune_purchase_firebase---v013010)
+ - [`masamune_purchase_stripe` - `v0.13.0+10`](#masamune_purchase_stripe---v013010)
+ - [`masamune_signin_apple` - `v0.13.0+10`](#masamune_signin_apple---v013010)
+ - [`masamune_signin_facebook` - `v0.13.0+10`](#masamune_signin_facebook---v013010)
+ - [`masamune_signin_google` - `v0.13.0+10`](#masamune_signin_google---v013010)
+ - [`masamune_signin_twitter` - `v0.13.0+10`](#masamune_signin_twitter---v013010)
+ - [`masamune_ui` - `v0.13.0+12`](#masamune_ui---v013012)
+ - [`masamune_wordpress` - `v0.13.0+10`](#masamune_wordpress---v013010)
+ - [`model_notifier` - `v0.13.0+6`](#model_notifier---v01306)
+
+---
+
+#### `firebase_model_notifier` - `v0.13.0+6`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `katana` - `v0.13.1+1`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `katana_firebase` - `v0.13.0+6`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `katana_flutter` - `v0.13.0+5`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `katana_module` - `v0.13.0+7`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `katana_routing` - `v0.13.0+7`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_ads` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_agora` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_cli` - `v0.13.0+6`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_firebase` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_firebase_dynamic_links` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_firebase_messaging` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_local_messaging` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_location` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_media` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_module` - `v0.13.0+11`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_notion` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_purchase` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_purchase_firebase` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_purchase_stripe` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_signin_apple` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_signin_facebook` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_signin_google` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_signin_twitter` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_ui` - `v0.13.0+12`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `masamune_wordpress` - `v0.13.0+10`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+#### `model_notifier` - `v0.13.0+6`
+
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+
+
+## 2022-09-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v0.13.1`](#katana---v0131)
  - [`katana_module` - `v0.13.0+6`](#katana_module---v01306)
  - [`katana_flutter` - `v0.13.0+4`](#katana_flutter---v01304)
