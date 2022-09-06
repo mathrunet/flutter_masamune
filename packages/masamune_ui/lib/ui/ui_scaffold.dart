@@ -1260,7 +1260,7 @@ class _WebTabLayoutState extends State<_WebTabLayout>
 
   @override
   Widget build(BuildContext context) {
-    return CMSLayout(
+    return CMSBuilder(
       sideBorder: const BorderSide(),
       leftBar: UIListBuilder<Widget>(
         source: widget.tabBar.tabs,
@@ -1333,7 +1333,7 @@ class _WebAppLayoutState extends State<_WebAppLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return CMSLayout(
+    return CMSBuilder(
       sideBorder: const BorderSide(),
       leftBar: widget.builder.call(context),
       child: _inlinePage(context),

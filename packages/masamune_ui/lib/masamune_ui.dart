@@ -47,7 +47,7 @@ export 'variable/variable.dart';
 part 'component/account_drawer_header.dart';
 part "component/bread_crumb_builder.dart";
 part 'component/clickable_box.dart';
-part 'component/cms_layout.dart';
+part 'component/cms_builder.dart';
 part 'component/search_bar.dart';
 part 'component/search_builder.dart';
 part 'component/ui_bottom_call_action.dart';

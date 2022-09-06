@@ -1,7 +1,7 @@
 part of masamune_ui;
 
-class CMSLayout extends StatelessWidget {
-  const CMSLayout({
+class CMSBuilder extends StatelessWidget {
+  const CMSBuilder({
     required this.child,
     this.leftBar,
     this.rightBar,
