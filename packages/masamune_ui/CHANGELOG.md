@@ -1,3 +1,7 @@
+## 0.13.0+11
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+10
 
  - **FIX**: Remove unused packages. ([9995e00b](https://github.com/mathrunet/flutter_masamune/commit/9995e00b1c1bc01cfa80c3f1d34fafdbf3fb5817))

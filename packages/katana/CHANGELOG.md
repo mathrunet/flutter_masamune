@@ -1,3 +1,8 @@
+## 0.13.1
+
+ - **FIX**: Added Meta class. ([d4dd399d](https://github.com/mathrunet/flutter_masamune/commit/d4dd399dd16475acfab4d37a83b8bedd20e5ca1a))
+ - **FEAT**: Added Api class. ([6d2ba70f](https://github.com/mathrunet/flutter_masamune/commit/6d2ba70fe1c7d961c4b7601d73962876e751ca7b))
+
 ## 0.13.0+2
 
  - **FIX**: Perform formatting. ([8ff8fd24](https://github.com/mathrunet/flutter_masamune/commit/8ff8fd2467cd08934ef6deba156dd15a6949d600))

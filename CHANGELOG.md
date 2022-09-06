@@ -3,6 +3,87 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v0.13.1`](#katana---v0131)
+ - [`katana_module` - `v0.13.0+6`](#katana_module---v01306)
+ - [`katana_flutter` - `v0.13.0+4`](#katana_flutter---v01304)
+ - [`model_notifier` - `v0.13.0+5`](#model_notifier---v01305)
+ - [`masamune_cli` - `v0.13.0+5`](#masamune_cli---v01305)
+ - [`firebase_model_notifier` - `v0.13.0+5`](#firebase_model_notifier---v01305)
+ - [`masamune` - `v0.13.0+9`](#masamune---v01309)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+9`](#masamune_firebase_dynamic_links---v01309)
+ - [`katana_routing` - `v0.13.0+6`](#katana_routing---v01306)
+ - [`katana_firebase` - `v0.13.0+5`](#katana_firebase---v01305)
+ - [`masamune_local_messaging` - `v0.13.0+9`](#masamune_local_messaging---v01309)
+ - [`masamune_firebase` - `v0.13.0+9`](#masamune_firebase---v01309)
+ - [`masamune_firebase_messaging` - `v0.13.0+9`](#masamune_firebase_messaging---v01309)
+ - [`masamune_agora` - `v0.13.0+9`](#masamune_agora---v01309)
+ - [`masamune_location` - `v0.13.0+9`](#masamune_location---v01309)
+ - [`masamune_signin_apple` - `v0.13.0+9`](#masamune_signin_apple---v01309)
+ - [`masamune_signin_facebook` - `v0.13.0+9`](#masamune_signin_facebook---v01309)
+ - [`masamune_signin_google` - `v0.13.0+9`](#masamune_signin_google---v01309)
+ - [`masamune_media` - `v0.13.0+9`](#masamune_media---v01309)
+ - [`masamune_purchase` - `v0.13.0+9`](#masamune_purchase---v01309)
+ - [`masamune_wordpress` - `v0.13.0+9`](#masamune_wordpress---v01309)
+ - [`masamune_signin_twitter` - `v0.13.0+9`](#masamune_signin_twitter---v01309)
+ - [`masamune_ads` - `v0.13.0+9`](#masamune_ads---v01309)
+ - [`masamune_purchase_firebase` - `v0.13.0+9`](#masamune_purchase_firebase---v01309)
+ - [`masamune_module` - `v0.13.0+10`](#masamune_module---v013010)
+ - [`masamune_notion` - `v0.13.0+9`](#masamune_notion---v01309)
+ - [`masamune_purchase_stripe` - `v0.13.0+9`](#masamune_purchase_stripe---v01309)
+ - [`masamune_ui` - `v0.13.0+11`](#masamune_ui---v013011)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.13.0+6`
+ - `katana_flutter` - `v0.13.0+4`
+ - `model_notifier` - `v0.13.0+5`
+ - `masamune_cli` - `v0.13.0+5`
+ - `firebase_model_notifier` - `v0.13.0+5`
+ - `masamune` - `v0.13.0+9`
+ - `masamune_firebase_dynamic_links` - `v0.13.0+9`
+ - `katana_routing` - `v0.13.0+6`
+ - `katana_firebase` - `v0.13.0+5`
+ - `masamune_local_messaging` - `v0.13.0+9`
+ - `masamune_firebase` - `v0.13.0+9`
+ - `masamune_firebase_messaging` - `v0.13.0+9`
+ - `masamune_agora` - `v0.13.0+9`
+ - `masamune_location` - `v0.13.0+9`
+ - `masamune_signin_apple` - `v0.13.0+9`
+ - `masamune_signin_facebook` - `v0.13.0+9`
+ - `masamune_signin_google` - `v0.13.0+9`
+ - `masamune_media` - `v0.13.0+9`
+ - `masamune_purchase` - `v0.13.0+9`
+ - `masamune_wordpress` - `v0.13.0+9`
+ - `masamune_signin_twitter` - `v0.13.0+9`
+ - `masamune_ads` - `v0.13.0+9`
+ - `masamune_purchase_firebase` - `v0.13.0+9`
+ - `masamune_module` - `v0.13.0+10`
+ - `masamune_notion` - `v0.13.0+9`
+ - `masamune_purchase_stripe` - `v0.13.0+9`
+ - `masamune_ui` - `v0.13.0+11`
+
+---
+
+#### `katana` - `v0.13.1`
+
+ - **FIX**: Added Meta class. ([d4dd399d](https://github.com/mathrunet/flutter_masamune/commit/d4dd399dd16475acfab4d37a83b8bedd20e5ca1a))
+ - **FEAT**: Added Api class. ([6d2ba70f](https://github.com/mathrunet/flutter_masamune/commit/6d2ba70fe1c7d961c4b7601d73962876e751ca7b))
+
+
 ## 2022-09-05
 
 ### Changes
