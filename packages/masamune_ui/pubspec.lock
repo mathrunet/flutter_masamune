@@ -319,13 +319,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  flutter_sequence_animation:
-    dependency: transitive
-    description:
-      name: flutter_sequence_animation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0-nullsafety"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -419,14 +412,14 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+10"
+    version: "0.13.0+11"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+10"
+    version: "0.13.0+11"
   loading_animations:
     dependency: transitive
     description:
@@ -454,7 +447,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+13"
+    version: "0.13.0+14"
   matcher:
     dependency: transitive
     description:
@@ -489,7 +482,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+9"
+    version: "0.13.0+10"
   multi_select_flutter:
     dependency: "direct main"
     description:

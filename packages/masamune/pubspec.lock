@@ -314,14 +314,14 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+10"
+    version: "0.13.0+11"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+10"
+    version: "0.13.0+11"
   loading_animations:
     dependency: "direct main"
     description:
@@ -363,7 +363,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+9"
+    version: "0.13.0+10"
   nm:
     dependency: transitive
     description:
