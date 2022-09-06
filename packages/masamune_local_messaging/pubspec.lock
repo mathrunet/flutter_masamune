@@ -182,7 +182,7 @@ packages:
       name: device_info_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   encrypt:
     dependency: transitive
     description:
@@ -316,32 +316,32 @@ packages:
     source: hosted
     version: "0.6.4"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.13.1+3"
   katana_flutter:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_flutter"
-      relative: true
-    source: path
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.13.0+8"
   katana_module:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_module"
-      relative: true
-    source: path
+      name: katana_module
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.13.0+11"
   katana_routing:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_routing"
-      relative: true
-    source: path
+      name: katana_routing
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.13.0+11"
   loading_animations:
     dependency: transitive
@@ -353,9 +353,9 @@ packages:
   masamune:
     dependency: "direct main"
     description:
-      path: "../masamune"
-      relative: true
-    source: path
+      name: masamune
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.13.0+14"
   matcher:
     dependency: transitive
@@ -386,11 +386,11 @@ packages:
     source: hosted
     version: "1.0.2"
   model_notifier:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../model_notifier"
-      relative: true
-    source: path
+      name: model_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.13.0+10"
   nm:
     dependency: transitive
@@ -447,7 +447,7 @@ packages:
       name: package_info_plus_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0"
   path:
     dependency: transitive
     description:
@@ -566,7 +566,7 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.10+1"
+    version: "4.1.0"
   share_plus_linux:
     dependency: transitive
     description:
@@ -837,7 +837,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.7.0"
+    version: "3.0.0"
   xdg_directories:
     dependency: transitive
     description:
