@@ -1,3 +1,7 @@
+## 0.13.1+3
+
+ - **FIX**: Fixed a bug that prevented access by static. ([67d5c492](https://github.com/mathrunet/flutter_masamune/commit/67d5c492cb0c5b108735db93379ef3d23e63d44c))
+
 ## 0.13.1+2
 
  - **FIX**: Bug Fixes. ([86f6ff26](https://github.com/mathrunet/flutter_masamune/commit/86f6ff262b80d1347148825d7af1c618c37bdba9))
