@@ -1,3 +1,7 @@
+## 0.13.0+11
+
+ - **FIX**: Bug Fixes. ([86f6ff26](https://github.com/mathrunet/flutter_masamune/commit/86f6ff262b80d1347148825d7af1c618c37bdba9))
+
 ## 0.13.0+10
 
  - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))

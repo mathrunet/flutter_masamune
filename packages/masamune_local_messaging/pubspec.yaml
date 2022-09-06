@@ -1,6 +1,6 @@
 name: masamune_local_messaging
 description: Masamune package for local notification. Push notifications are sent according to pre-set local schedules.
-version: 0.13.0+10
+version: 0.13.0+11
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_local_messaging
 
