@@ -15,6 +15,147 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.13.0+10`](#firebase_model_notifier---v013010)
+ - [`katana_firebase` - `v0.13.0+10`](#katana_firebase---v013010)
+ - [`katana_module` - `v0.13.0+11`](#katana_module---v013011)
+ - [`katana_routing` - `v0.13.0+11`](#katana_routing---v013011)
+ - [`masamune` - `v0.13.0+14`](#masamune---v013014)
+ - [`masamune_ads` - `v0.13.0+14`](#masamune_ads---v013014)
+ - [`masamune_agora` - `v0.13.0+14`](#masamune_agora---v013014)
+ - [`masamune_firebase` - `v0.13.0+14`](#masamune_firebase---v013014)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+14`](#masamune_firebase_dynamic_links---v013014)
+ - [`masamune_firebase_messaging` - `v0.13.0+14`](#masamune_firebase_messaging---v013014)
+ - [`masamune_local_messaging` - `v0.13.0+14`](#masamune_local_messaging---v013014)
+ - [`masamune_location` - `v0.13.0+14`](#masamune_location---v013014)
+ - [`masamune_media` - `v0.13.0+14`](#masamune_media---v013014)
+ - [`masamune_module` - `v0.13.0+15`](#masamune_module---v013015)
+ - [`masamune_notion` - `v0.13.0+14`](#masamune_notion---v013014)
+ - [`masamune_purchase` - `v0.13.0+14`](#masamune_purchase---v013014)
+ - [`masamune_purchase_firebase` - `v0.13.0+14`](#masamune_purchase_firebase---v013014)
+ - [`masamune_purchase_stripe` - `v0.13.0+14`](#masamune_purchase_stripe---v013014)
+ - [`masamune_signin_apple` - `v0.13.0+14`](#masamune_signin_apple---v013014)
+ - [`masamune_signin_facebook` - `v0.13.0+14`](#masamune_signin_facebook---v013014)
+ - [`masamune_signin_google` - `v0.13.0+14`](#masamune_signin_google---v013014)
+ - [`masamune_signin_twitter` - `v0.13.0+14`](#masamune_signin_twitter---v013014)
+ - [`masamune_ui` - `v0.13.0+16`](#masamune_ui---v013016)
+ - [`masamune_wordpress` - `v0.13.0+14`](#masamune_wordpress---v013014)
+ - [`model_notifier` - `v0.13.0+10`](#model_notifier---v013010)
+
+---
+
+#### `firebase_model_notifier` - `v0.13.0+10`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `katana_firebase` - `v0.13.0+10`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `katana_module` - `v0.13.0+11`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `katana_routing` - `v0.13.0+11`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_ads` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_agora` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_firebase` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_firebase_dynamic_links` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_firebase_messaging` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_local_messaging` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_location` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_media` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_module` - `v0.13.0+15`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_notion` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_purchase` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_purchase_firebase` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_purchase_stripe` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_signin_apple` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_signin_facebook` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_signin_google` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_signin_twitter` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_ui` - `v0.13.0+16`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `masamune_wordpress` - `v0.13.0+14`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+#### `model_notifier` - `v0.13.0+10`
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
+
+## 2022-09-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.13.0+9`](#firebase_model_notifier---v01309)
  - [`katana_firebase` - `v0.13.0+9`](#katana_firebase---v01309)
  - [`katana_flutter` - `v0.13.0+8`](#katana_flutter---v01308)

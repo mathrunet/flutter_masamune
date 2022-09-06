@@ -1,6 +1,6 @@
 name: katana_firebase
 description: Katana package that provides utilities for firebase. It initializes Firebase and so on.
-version: 0.13.0+9
+version: 0.13.0+10
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_firebase
 

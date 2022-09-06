@@ -1,3 +1,7 @@
+## 0.13.0+16
+
+ - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
+
 ## 0.13.0+15
 
  - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
