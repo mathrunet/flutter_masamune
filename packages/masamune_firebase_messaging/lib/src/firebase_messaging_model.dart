@@ -135,8 +135,8 @@ class FirebaseMessagingModel extends ValueModel<MessagingValue?> {
       if (path.isNotEmpty) {
         data["path"] = path;
       }
-      await http.post(
-        Uri.parse("https://fcm.googleapis.com/fcm/send"),
+      await Api.post(
+        "https://fcm.googleapis.com/fcm/send",
         headers: <String, String>{
           "Content-Type": "application/json",
           "Authorization": "key=$serverKey",

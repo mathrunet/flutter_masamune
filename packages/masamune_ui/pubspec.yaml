@@ -16,7 +16,6 @@ dependencies:
   loadmore: ^2.0.1
   wakelock: ^0.6.2
   badges: ^2.0.2
-  font_awesome_flutter: ^10.1.0
   flutter_markdown: ^0.6.9
   flutter_rating_bar: ^4.0.0
   carousel_slider: ^4.0.0

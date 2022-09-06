@@ -15,7 +15,6 @@ import 'dart:math';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
-import 'package:http/http.dart';
 import 'package:masamune_firebase/masamune_firebase.dart';
 import 'package:permission_handler/permission_handler.dart'
     as permission_handler;

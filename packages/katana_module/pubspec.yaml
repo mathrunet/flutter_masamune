@@ -14,8 +14,6 @@ dependencies:
     
   katana_routing: ^0.13.0
   model_notifier: ^0.13.0
-  flutter_riverpod: ^1.0.3
-  riverpod: ^1.0.3
 
 dev_dependencies:
   flutter_test:

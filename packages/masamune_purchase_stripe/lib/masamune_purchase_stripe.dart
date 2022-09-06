@@ -14,7 +14,6 @@ import 'dart:collection';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:masamune_firebase/masamune_firebase.dart';
 
-export 'package:masamune/masamune.dart';
 export 'package:masamune_firebase/masamune_firebase.dart';
 
 part 'adapter/stripe_market_place_adapter.dart';

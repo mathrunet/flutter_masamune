@@ -28,8 +28,6 @@ import 'list/list.dart';
 export 'package:badges/badges.dart' show Badge, BadgeAnimationType;
 export 'package:flutter_breadcrumb/flutter_breadcrumb.dart'
     show BreadCrumb, BreadCrumbItem, WrapOverflow, ScrollableOverflow;
-export 'package:font_awesome_flutter/font_awesome_flutter.dart'
-    show FontAwesomeIcons;
 export 'package:holding_gesture/holding_gesture.dart'
     show HoldDetector, HoldTimeoutDetector;
 export 'package:masamune/masamune.dart';

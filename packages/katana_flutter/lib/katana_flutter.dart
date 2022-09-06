@@ -25,6 +25,8 @@ import 'config/others/others.dart'
 
 export 'package:connectivity_plus/connectivity_plus.dart'
     show ConnectivityResult;
+export 'package:font_awesome_flutter/font_awesome_flutter.dart'
+    show FontAwesomeIcons;
 export 'package:katana/katana.dart';
 
 export 'config/others/others.dart'

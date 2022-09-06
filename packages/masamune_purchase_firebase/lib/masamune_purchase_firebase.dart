@@ -13,7 +13,6 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:masamune_firebase/masamune_firebase.dart';
 import 'package:masamune_purchase/masamune_purchase.dart';
 
-export 'package:masamune/masamune.dart';
 export 'package:masamune_firebase/masamune_firebase.dart';
 export 'package:masamune_purchase/masamune_purchase.dart';
 

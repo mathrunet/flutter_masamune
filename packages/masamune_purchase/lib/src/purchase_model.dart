@@ -579,8 +579,8 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
         authorizationCode.isEmpty) {
       return null;
     }
-    final response = await http.post(
-      Uri.parse("https://accounts.google.com/o/oauth2/token"),
+    final response = await Api.post(
+      "https://accounts.google.com/o/oauth2/token",
       headers: {"content-type": "application/x-www-form-urlencoded"},
       body: {
         "grant_type": "authorization_code",

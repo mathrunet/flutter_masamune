@@ -121,7 +121,7 @@ class FirebaseDynamicLinksUrlModel extends ValueModel<String?> {
           },
         ),
       );
-      final data = jsonDecodeAsMap(res?.body ?? "");
+      final data = jsonDecodeAsMap(res.body);
       value = data.get<String?>("shortLink", null);
       _createCompleter?.complete();
       _createCompleter = null;

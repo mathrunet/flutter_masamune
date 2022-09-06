@@ -12,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:masamune_firebase/masamune_firebase.dart';
 import 'package:twitter_login/twitter_login.dart';
 
-export 'package:masamune/masamune.dart';
 export 'package:masamune_firebase/masamune_firebase.dart';
 
 part 'src/twitter_auth.dart';

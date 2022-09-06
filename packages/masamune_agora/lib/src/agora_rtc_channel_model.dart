@@ -518,8 +518,8 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
     final credential = base64Encode(
       utf8.encode(core.customerId! + ":" + core._customerSecret!),
     );
-    final res = await post(
-      Uri.parse("$_agoraURL/${core.appId}/cloud_recording/acquire"),
+    final res = await Api.post(
+      "$_agoraURL/${core.appId}/cloud_recording/acquire",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         "Authorization": "Basic $credential",
@@ -535,10 +535,8 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
     if (res.statusCode == 200) {
       final map = jsonDecodeAsMap(res.body);
       if (map.containsKey("resourceId")) {
-        final result = await post(
-          Uri.parse(
-            "$_agoraURL/${core.appId}/cloud_recording/resourceid/${map.get("resourceId", "")}/mode/individual/start",
-          ),
+        final result = await Api.post(
+          "$_agoraURL/${core.appId}/cloud_recording/resourceid/${map.get("resourceId", "")}/mode/individual/start",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
             "Authorization": "Basic $credential",
@@ -610,10 +608,8 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
     final credential = base64Encode(
       utf8.encode(core.customerId! + ":" + core._customerSecret!),
     );
-    await post(
-      Uri.parse(
-        "$_agoraURL/${core.appId}/cloud_recording/resourceid/$_resourceCaptureId/sid/$_sidCapture/mode/individual/stop",
-      ),
+    await Api.post(
+      "$_agoraURL/${core.appId}/cloud_recording/resourceid/$_resourceCaptureId/sid/$_sidCapture/mode/individual/stop",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         "Authorization": "Basic $credential",
@@ -648,8 +644,8 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
     final credential = base64Encode(
       utf8.encode(core.customerId! + ":" + core._customerSecret!),
     );
-    final res = await post(
-      Uri.parse("$_agoraURL/${core.appId}/cloud_recording/acquire"),
+    final res = await Api.post(
+      "$_agoraURL/${core.appId}/cloud_recording/acquire",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         "Authorization": "Basic $credential",
@@ -665,10 +661,8 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
     if (res.statusCode == 200) {
       final map = jsonDecodeAsMap(res.body);
       if (map.containsKey("resourceId")) {
-        final result = await post(
-          Uri.parse(
-            "$_agoraURL/${core.appId}/cloud_recording/resourceid/${map.get("resourceId", "")}/mode/mix/start",
-          ),
+        final result = await Api.post(
+          "$_agoraURL/${core.appId}/cloud_recording/resourceid/${map.get("resourceId", "")}/mode/mix/start",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
             "Authorization": "Basic $credential",
@@ -746,10 +740,8 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
     final credential = base64Encode(
       utf8.encode(core.customerId! + ":" + core._customerSecret!),
     );
-    await post(
-      Uri.parse(
-        "$_agoraURL/${core.appId}/cloud_recording/resourceid/$_resourceVideoId/sid/$_sidVideo/mode/mix/stop",
-      ),
+    await Api.post(
+      "$_agoraURL/${core.appId}/cloud_recording/resourceid/$_resourceVideoId/sid/$_sidVideo/mode/mix/stop",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
         "Authorization": "Basic $credential",
@@ -773,10 +765,8 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
     );
     await Future.delayed(const Duration(seconds: 5));
     while (_resourceVideoId != null && _sidVideo != null) {
-      final result = await get(
-        Uri.parse(
-          "$_agoraURL/${core.appId}/cloud_recording/resourceid/$_resourceVideoId/sid/$_sidVideo/mode/mix/query",
-        ),
+      final result = await Api.get(
+        "$_agoraURL/${core.appId}/cloud_recording/resourceid/$_resourceVideoId/sid/$_sidVideo/mode/mix/query",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
           "Authorization": "Basic $credential",
@@ -897,7 +887,7 @@ class AgoraRTCChannelModel extends ValueModel<Map<String, DynamicMap>>
 
   @override
   Future<bool> checkActiveRecordURL() async {
-    final res = await get(Uri.parse(recordURL));
+    final res = await Api.get(recordURL);
     if (res.statusCode != 200) {
       return false;
     }

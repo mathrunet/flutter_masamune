@@ -145,7 +145,7 @@ class PurchaseConnectCliCommand extends CliCommand {
         "Authorization": "Basic ${base64Encode(utf8.encode("$apiSecret:"))}"
       },
     );
-    if (endpointsRes == null || endpointsRes.statusCode != 200) {
+    if (endpointsRes.statusCode != 200) {
       print("Api secret is invalid.");
       return;
     }
@@ -158,7 +158,7 @@ class PurchaseConnectCliCommand extends CliCommand {
           "https://api.stripe.com/v1/webhook_endpoints/${data["id"]}",
           headers: {"Authorization": "Basic $encodedApiSecret"},
         );
-        print(res?.body ?? "");
+        print(res.body);
       }
     }
     final stripeRes = await Api.post(
@@ -184,7 +184,7 @@ class PurchaseConnectCliCommand extends CliCommand {
         "connect": "false",
       }),
     );
-    print(stripeRes?.body ?? "");
+    print(stripeRes.body);
     final connectRes = await Api.post(
       "https://api.stripe.com/v1/webhook_endpoints",
       headers: {
@@ -199,11 +199,9 @@ class PurchaseConnectCliCommand extends CliCommand {
         "connect": "true",
       }),
     );
-    print(connectRes?.body ?? "");
-    final stripeResMap =
-        jsonDecode(stripeRes?.body ?? "") as Map<String, dynamic>;
-    final connectResMap =
-        jsonDecode(connectRes?.body ?? "") as Map<String, dynamic>;
+    print(connectRes.body);
+    final stripeResMap = jsonDecode(stripeRes.body) as Map<String, dynamic>;
+    final connectResMap = jsonDecode(connectRes.body) as Map<String, dynamic>;
     final resultHooks = await Process.start(
       command,
       [

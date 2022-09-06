@@ -16,7 +16,7 @@ import 'package:flutter/gestures.dart';
 
 import 'package:masamune_firebase/masamune_firebase.dart';
 
-export 'package:masamune/masamune.dart';
+export 'package:masamune_firebase/masamune_firebase.dart';
 
 part 'src/notion_core.dart';
 part 'src/notion_property.dart';

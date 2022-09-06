@@ -9,7 +9,6 @@
 library katana_module;
 
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katana_routing/katana_routing.dart';
 import 'package:model_notifier/model_notifier.dart';
 

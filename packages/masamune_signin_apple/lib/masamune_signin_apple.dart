@@ -13,7 +13,6 @@ import 'package:masamune_firebase/masamune_firebase.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-export 'package:masamune/masamune.dart';
 export 'package:masamune_firebase/masamune_firebase.dart';
 
 part 'adapter/apple_sign_in_adapter.dart';
