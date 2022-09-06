@@ -50,7 +50,7 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
 
   void _rebuild() {
     __animation = null;
-    __builder = SequenceAnimationBuilder();
+    __builder = _SequenceAnimationBuilder();
     for (final anim in value) {
       _builder.addAnimatable(
         animatable: anim.tween,
@@ -63,14 +63,14 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
   }
 
   late Ticker _ticker;
-  SequenceAnimationBuilder get _builder {
+  _SequenceAnimationBuilder get _builder {
     if (__builder == null) {
       _rebuild();
     }
     return __builder!;
   }
 
-  SequenceAnimationBuilder? __builder;
+  _SequenceAnimationBuilder? __builder;
 
   /// Creates a ticker with the given callback.
   ///
@@ -90,12 +90,12 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
 
   AnimationController? _controller;
 
-  SequenceAnimation get _animation {
+  _SequenceAnimation get _animation {
     __animation ??= _builder.animate(controller);
     return __animation!;
   }
 
-  SequenceAnimation? __animation;
+  _SequenceAnimation? __animation;
 
   /// Play the animation.
   Future<AnimationScenario> play() async {

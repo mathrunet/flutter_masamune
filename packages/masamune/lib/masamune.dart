@@ -49,6 +49,7 @@ part 'adapter/multi_platform_adapter.dart';
 part 'animation/animation_scenario.dart';
 part 'animation/animation_scope.dart';
 part 'animation/animation_unit.dart';
+part 'animation/sequence_animation_builder.dart';
 part 'animation/typedef.dart';
 part 'component/divid.dart';
 part 'component/empty.dart';
