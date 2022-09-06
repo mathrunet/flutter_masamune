@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_signin_apple` - `v0.13.0+15`](#masamune_signin_apple---v013015)
+ - [`masamune_signin_facebook` - `v0.13.0+15`](#masamune_signin_facebook---v013015)
+ - [`masamune_signin_google` - `v0.13.0+15`](#masamune_signin_google---v013015)
+ - [`masamune_signin_twitter` - `v0.13.0+15`](#masamune_signin_twitter---v013015)
+
+---
+
+#### `masamune_signin_apple` - `v0.13.0+15`
+
+ - **FIX**: Unnecessary plug-ins removed. ([8ef1af77](https://github.com/mathrunet/flutter_masamune/commit/8ef1af7765fc73bbec8bd37352f9f47f35c2d9c3))
+
+#### `masamune_signin_facebook` - `v0.13.0+15`
+
+ - **FIX**: Unnecessary plug-ins removed. ([8ef1af77](https://github.com/mathrunet/flutter_masamune/commit/8ef1af7765fc73bbec8bd37352f9f47f35c2d9c3))
+
+#### `masamune_signin_google` - `v0.13.0+15`
+
+ - **FIX**: Unnecessary plug-ins removed. ([8ef1af77](https://github.com/mathrunet/flutter_masamune/commit/8ef1af7765fc73bbec8bd37352f9f47f35c2d9c3))
+
+#### `masamune_signin_twitter` - `v0.13.0+15`
+
+ - **FIX**: Unnecessary plug-ins removed. ([8ef1af77](https://github.com/mathrunet/flutter_masamune/commit/8ef1af7765fc73bbec8bd37352f9f47f35c2d9c3))
+
+
+## 2022-09-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.13.0+10`](#firebase_model_notifier---v013010)
  - [`katana_firebase` - `v0.13.0+10`](#katana_firebase---v013010)
  - [`katana_module` - `v0.13.0+11`](#katana_module---v013011)

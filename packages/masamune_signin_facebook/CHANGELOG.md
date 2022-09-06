@@ -1,3 +1,7 @@
+## 0.13.0+15
+
+ - **FIX**: Unnecessary plug-ins removed. ([8ef1af77](https://github.com/mathrunet/flutter_masamune/commit/8ef1af7765fc73bbec8bd37352f9f47f35c2d9c3))
+
 ## 0.13.0+14
 
  - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))
