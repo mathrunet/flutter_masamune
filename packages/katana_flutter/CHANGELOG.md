@@ -1,3 +1,7 @@
+## 0.13.0+8
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
 ## 0.13.0+7
 
  - Update a dependency to the latest release.

@@ -15,6 +15,157 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.13.0+9`](#firebase_model_notifier---v01309)
+ - [`katana_firebase` - `v0.13.0+9`](#katana_firebase---v01309)
+ - [`katana_flutter` - `v0.13.0+8`](#katana_flutter---v01308)
+ - [`katana_module` - `v0.13.0+10`](#katana_module---v013010)
+ - [`katana_routing` - `v0.13.0+10`](#katana_routing---v013010)
+ - [`masamune` - `v0.13.0+13`](#masamune---v013013)
+ - [`masamune_ads` - `v0.13.0+13`](#masamune_ads---v013013)
+ - [`masamune_agora` - `v0.13.0+13`](#masamune_agora---v013013)
+ - [`masamune_cli` - `v0.13.0+9`](#masamune_cli---v01309)
+ - [`masamune_firebase` - `v0.13.0+13`](#masamune_firebase---v013013)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+13`](#masamune_firebase_dynamic_links---v013013)
+ - [`masamune_firebase_messaging` - `v0.13.0+13`](#masamune_firebase_messaging---v013013)
+ - [`masamune_local_messaging` - `v0.13.0+13`](#masamune_local_messaging---v013013)
+ - [`masamune_location` - `v0.13.0+13`](#masamune_location---v013013)
+ - [`masamune_media` - `v0.13.0+13`](#masamune_media---v013013)
+ - [`masamune_module` - `v0.13.0+14`](#masamune_module---v013014)
+ - [`masamune_notion` - `v0.13.0+13`](#masamune_notion---v013013)
+ - [`masamune_purchase` - `v0.13.0+13`](#masamune_purchase---v013013)
+ - [`masamune_purchase_firebase` - `v0.13.0+13`](#masamune_purchase_firebase---v013013)
+ - [`masamune_purchase_stripe` - `v0.13.0+13`](#masamune_purchase_stripe---v013013)
+ - [`masamune_signin_apple` - `v0.13.0+13`](#masamune_signin_apple---v013013)
+ - [`masamune_signin_facebook` - `v0.13.0+13`](#masamune_signin_facebook---v013013)
+ - [`masamune_signin_google` - `v0.13.0+13`](#masamune_signin_google---v013013)
+ - [`masamune_signin_twitter` - `v0.13.0+13`](#masamune_signin_twitter---v013013)
+ - [`masamune_ui` - `v0.13.0+15`](#masamune_ui---v013015)
+ - [`masamune_wordpress` - `v0.13.0+13`](#masamune_wordpress---v013013)
+ - [`model_notifier` - `v0.13.0+9`](#model_notifier---v01309)
+
+---
+
+#### `firebase_model_notifier` - `v0.13.0+9`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `katana_firebase` - `v0.13.0+9`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `katana_flutter` - `v0.13.0+8`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `katana_module` - `v0.13.0+10`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `katana_routing` - `v0.13.0+10`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_ads` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_agora` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_cli` - `v0.13.0+9`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_firebase` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_firebase_dynamic_links` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_firebase_messaging` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_local_messaging` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_location` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_media` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_module` - `v0.13.0+14`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_notion` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_purchase` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_purchase_firebase` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_purchase_stripe` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_signin_apple` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_signin_facebook` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_signin_google` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_signin_twitter` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_ui` - `v0.13.0+15`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `masamune_wordpress` - `v0.13.0+13`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+#### `model_notifier` - `v0.13.0+9`
+
+ - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
+
+
+## 2022-09-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v0.13.1+3`](#katana---v01313)
  - [`katana_flutter` - `v0.13.0+7`](#katana_flutter---v01307)
  - [`masamune_cli` - `v0.13.0+8`](#masamune_cli---v01308)
