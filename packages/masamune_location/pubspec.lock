@@ -263,13 +263,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  flutter_sequence_animation:
-    dependency: transitive
-    description:
-      name: flutter_sequence_animation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0-nullsafety"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -351,33 +344,33 @@ packages:
     source: hosted
     version: "0.6.4"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.13.1+3"
   katana_flutter:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_flutter"
+      relative: true
+    source: path
     version: "0.13.0+8"
   katana_module:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_module
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.0+10"
+      path: "../katana_module"
+      relative: true
+    source: path
+    version: "0.13.0+11"
   katana_routing:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_routing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.0+10"
+      path: "../katana_routing"
+      relative: true
+    source: path
+    version: "0.13.0+11"
   loading_animations:
     dependency: transitive
     description:
@@ -409,10 +402,10 @@ packages:
   masamune:
     dependency: "direct main"
     description:
-      name: masamune
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.0+13"
+      path: "../masamune"
+      relative: true
+    source: path
+    version: "0.13.0+14"
   matcher:
     dependency: transitive
     description:
@@ -442,12 +435,12 @@ packages:
     source: hosted
     version: "1.0.2"
   model_notifier:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: model_notifier
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.13.0+9"
+      path: "../model_notifier"
+      relative: true
+    source: path
+    version: "0.13.0+10"
   nm:
     dependency: transitive
     description:
