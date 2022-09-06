@@ -123,6 +123,7 @@ class _SequenceAnimationBuilder {
 
   _SequenceAnimation animate(AnimationController controller) {
     final int longestTimeMicro = _currentLengthInMicroSeconds();
+    // Sets the duration of the controller
     controller.duration = Duration(microseconds: longestTimeMicro);
 
     final Map<Object, Animatable> animatables = {};
@@ -137,7 +138,7 @@ class _SequenceAnimationBuilder {
       final Interval intervalCurve = Interval(begin, end, curve: info.curve);
       if (animatables[info.tag] == null) {
         animatables[info.tag] =
-            IntervalAnimatable.chainCurve(info.animatable, intervalCurve);
+            _IntervalAnimatable.chainCurve(info.animatable, intervalCurve);
         begins[info.tag] = begin;
         ends[info.tag] = end;
       } else {
@@ -147,10 +148,10 @@ class _SequenceAnimationBuilder {
             "a) Have them not overlap \n"
             "b) Add them in an ordered fashion\n"
             "Animation with tag ${info.tag} ends at ${ends[info.tag]} but also begins at $begin");
-        animatables[info.tag] = IntervalAnimatable(
+        animatables[info.tag] = _IntervalAnimatable(
           animatable: animatables[info.tag]!,
           defaultAnimatable:
-              IntervalAnimatable.chainCurve(info.animatable, intervalCurve),
+              _IntervalAnimatable.chainCurve(info.animatable, intervalCurve),
           begin: begins[info.tag]!,
           end: ends[info.tag]!,
         );
@@ -178,5 +179,34 @@ class _SequenceAnimation {
       "There was no animatable with the key: $key",
     );
     return _animations[key]!;
+  }
+}
+
+class _IntervalAnimatable<T> extends Animatable<T> {
+  _IntervalAnimatable({
+    required this.animatable,
+    required this.defaultAnimatable,
+    required this.begin,
+    required this.end,
+  });
+
+  final Animatable animatable;
+  final Animatable defaultAnimatable;
+
+  final double begin;
+
+  final double end;
+
+  static Animatable chainCurve(Animatable parent, Interval interval) {
+    return parent.chain(CurveTween(curve: interval));
+  }
+
+  @override
+  T transform(double t) {
+    if (t >= begin && t <= end) {
+      return animatable.transform(t);
+    } else {
+      return defaultAnimatable.transform(t);
+    }
   }
 }

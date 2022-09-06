@@ -13,7 +13,6 @@ import 'dart:async';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sequence_animation/flutter_sequence_animation.dart';
 import 'package:katana_module/katana_module.dart';
 import 'package:loading_animations/loading_animations.dart';
 

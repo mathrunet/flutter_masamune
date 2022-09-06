@@ -205,6 +205,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: transitive
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.1.0"
   http:
     dependency: transitive
     description:
@@ -246,7 +253,7 @@ packages:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+7"
+    version: "0.13.0+8"
   matcher:
     dependency: transitive
     description:

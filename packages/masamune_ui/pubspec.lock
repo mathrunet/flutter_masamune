@@ -343,6 +343,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: transitive
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.1.0"
   google_fonts:
     dependency: transitive
     description:
@@ -405,21 +412,21 @@ packages:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+7"
+    version: "0.13.0+8"
   katana_module:
     dependency: transitive
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+9"
+    version: "0.13.0+10"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+9"
+    version: "0.13.0+10"
   loading_animations:
     dependency: transitive
     description:
@@ -447,7 +454,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+12"
+    version: "0.13.0+13"
   matcher:
     dependency: transitive
     description:
@@ -482,7 +489,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+8"
+    version: "0.13.0+9"
   multi_select_flutter:
     dependency: "direct main"
     description:
