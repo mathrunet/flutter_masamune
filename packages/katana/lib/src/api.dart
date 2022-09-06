@@ -133,7 +133,7 @@ class Api {
   /// This automatically initializes a new [http.Client] and closes that client once
   /// the request is complete. If you're planning on making multiple requests to
   /// the same server, you should use a single [http.Client] for all of those requests.
-  Future<String> read(
+  static Future<String> read(
     String path, {
     Map<String, String>? headers,
   }) async {
@@ -151,7 +151,7 @@ class Api {
   /// This automatically initializes a new [http.Client] and closes that client once
   /// the request is complete. If you're planning on making multiple requests to
   /// the same server, you should use a single [http.Client] for all of those requests.
-  Future<Uint8List> readBytes(
+  static Future<Uint8List> readBytes(
     String path, {
     Map<String, String>? headers,
   }) async {
