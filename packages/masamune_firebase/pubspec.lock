@@ -336,7 +336,7 @@ packages:
       name: firebase_model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+3"
+    version: "0.13.0+5"
   firebase_storage:
     dependency: "direct main"
     description:
@@ -383,7 +383,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_riverpod:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_riverpod
       url: "https://pub.dartlang.org"
@@ -414,7 +414,7 @@ packages:
     source: hosted
     version: "2.3.3"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -447,35 +447,35 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.1"
   katana_firebase:
     dependency: transitive
     description:
       name: katana_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+3"
+    version: "0.13.0+5"
   katana_flutter:
     dependency: transitive
     description:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+3"
+    version: "0.13.0+4"
   katana_module:
     dependency: transitive
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+4"
+    version: "0.13.0+6"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+4"
+    version: "0.13.0+6"
   loading_animations:
     dependency: transitive
     description:
@@ -489,7 +489,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+7"
+    version: "0.13.0+9"
   matcher:
     dependency: transitive
     description:
@@ -505,7 +505,7 @@ packages:
     source: hosted
     version: "0.1.5"
   meta:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
@@ -519,12 +519,12 @@ packages:
     source: hosted
     version: "1.0.2"
   model_notifier:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+3"
+    version: "0.13.0+5"
   nm:
     dependency: transitive
     description:
@@ -680,7 +680,7 @@ packages:
     source: hosted
     version: "4.2.4"
   riverpod:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: riverpod
       url: "https://pub.dartlang.org"

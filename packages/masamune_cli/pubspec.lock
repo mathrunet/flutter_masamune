@@ -72,12 +72,12 @@ packages:
     source: hosted
     version: "5.0.1"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.4"
+    version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
@@ -112,7 +112,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.1"
   lints:
     dependency: "direct main"
     description:

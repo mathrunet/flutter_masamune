@@ -14,7 +14,6 @@ dependencies:
 
   katana: ^0.13.0
   csv: ^5.0.0
-  intl: ^0.17.0
   shared_preferences: ^2.0.15
   url_launcher: ^6.1.5
   connectivity_plus: ^2.3.6

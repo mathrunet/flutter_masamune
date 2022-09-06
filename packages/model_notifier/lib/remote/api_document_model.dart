@@ -103,7 +103,7 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   /// Throwing Exceptions on responses, etc.
   @protected
   @mustCallSuper
-  void onCatchResponse(Response response) {}
+  void onCatchResponse(dynamic response) {}
 
   /// Callback for converting to a map of objects for a response.
   @protected
@@ -133,7 +133,10 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   /// in addition to simply retrieving from the URL.
   @protected
   Future<void> loadRequest() async {
-    final res = await get(Uri.parse(getEndpoint), headers: getHeaders);
+    final res = await Api.get(getEndpoint, headers: getHeaders);
+    if (res == null) {
+      return;
+    }
     onCatchResponse(res);
     value = fromMap(filterOnLoad(fromResponse(res.body)));
   }
@@ -144,11 +147,14 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   /// in addition to simply saving to the URL.
   @protected
   Future<void> saveRequest() async {
-    final res = await post(
-      Uri.parse(postEndpoint),
+    final res = await Api.post(
+      postEndpoint,
       headers: postHeaders,
       body: toRequest(filterOnSave(toMap(value))),
     );
+    if (res == null) {
+      return;
+    }
     onCatchResponse(res);
   }
 
@@ -158,11 +164,14 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   /// in addition to simply deleting to the URL.
   @protected
   Future<void> deleteRequest() async {
-    final res = await http.delete(
-      Uri.parse(deleteEndpoint),
+    final res = await Api.delete(
+      deleteEndpoint,
       headers: deleteHeaders,
       body: toRequest(filterOnSave(toMap(value))),
     );
+    if (res == null) {
+      return;
+    }
     onCatchResponse(res);
   }
 

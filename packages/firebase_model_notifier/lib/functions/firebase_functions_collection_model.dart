@@ -57,8 +57,6 @@ abstract class FirebaseFunctionsCollectionModel<T> extends ValueModel<List<T>>
   /// Describe error handling (throw Exception in case of error), etc.
   @protected
   @mustCallSuper
-  @protected
-  @mustCallSuper
   void onCatchResponse(HttpsCallableResult<List> response) {}
 
   /// You can describe the process of converting the response [list] data to [List<Object>] data.

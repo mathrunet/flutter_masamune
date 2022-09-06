@@ -12,9 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.13.0
   masamune_firebase: ^0.13.0
-  katana_firebase: ^0.13.0
   cloud_functions: ^3.2.16
 
 dev_dependencies:

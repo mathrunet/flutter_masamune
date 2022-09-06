@@ -15,7 +15,6 @@ dependencies:
   masamune_firebase: ^0.13.0
   permission_handler: ^10.0.0
   agora_rtc_engine: ^5.2.0
-  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

@@ -9,7 +9,7 @@ class Api {
   /// Sends an HTTP DELETE request with the given headers to the given URL.
   ///
   /// This automatically initializes a new [http.Client] and closes that client once the request is complete. If you're planning on making multiple requests to the same server, you should use a single [http.Client] for all of those requests.
-  Future<ApiResponse?> delete(
+  static Future<ApiResponse?> delete(
     String path, {
     Map<String, String>? headers,
     Object? body,
@@ -30,7 +30,8 @@ class Api {
   /// Sends an HTTP GET request with the given headers to the given URL.
   ///
   /// This automatically initializes a new [http.Client] and closes that client once the request is complete. If you're planning on making multiple requests to the same server, you should use a single [http.Client] for all of those requests.
-  Future<ApiResponse?> get(String path, {Map<String, String>? headers}) async {
+  static Future<ApiResponse?> get(String path,
+      {Map<String, String>? headers}) async {
     final url = Uri.tryParse(path);
     if (url == null) {
       return null;
@@ -44,7 +45,8 @@ class Api {
   /// Sends an HTTP HEAD request with the given headers to the given URL.
   ///
   /// This automatically initializes a new [http.Client] and closes that client once the request is complete. If you're planning on making multiple requests to the same server, you should use a single [http.Client] for all of those requests.
-  Future<ApiResponse?> head(String path, {Map<String, String>? headers}) async {
+  static Future<ApiResponse?> head(String path,
+      {Map<String, String>? headers}) async {
     final url = Uri.tryParse(path);
     if (url == null) {
       return null;
@@ -64,7 +66,7 @@ class Api {
   /// If [body] is a Map, it's encoded as form fields using [encoding]. The content-type of the request will be set to "application/x-www-form-urlencoded"; this cannot be overridden.
   ///
   /// [encoding] defaults to [utf8].
-  Future<ApiResponse?> patch(
+  static Future<ApiResponse?> patch(
     String path, {
     Map<String, String>? headers,
     Object? body,
@@ -91,7 +93,7 @@ class Api {
   /// If [body] is a Map, it's encoded as form fields using [encoding]. The content-type of the request will be set to "application/x-www-form-urlencoded"; this cannot be overridden.
   ///
   /// [encoding] defaults to [utf8].
-  Future<ApiResponse?> post(
+  static Future<ApiResponse?> post(
     String path, {
     Map<String, String>? headers,
     Object? body,
@@ -118,7 +120,7 @@ class Api {
   /// If [body] is a Map, it's encoded as form fields using [encoding]. The content-type of the request will be set to "application/x-www-form-urlencoded"; this cannot be overridden.
   ///
   /// [encoding] defaults to [utf8].
-  Future<ApiResponse?> put(
+  static Future<ApiResponse?> put(
     String path, {
     Map<String, String>? headers,
     Object? body,

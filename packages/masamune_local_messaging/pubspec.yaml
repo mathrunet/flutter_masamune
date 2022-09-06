@@ -13,8 +13,6 @@ dependencies:
     sdk: flutter
 
   masamune: ^0.13.0
-  katana_flutter: ^0.13.0
-  http: ^0.13.0
   flutter_local_notifications: ^9.1.5
   timezone: ^0.8.0
 

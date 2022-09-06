@@ -159,7 +159,10 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   /// in addition to simply retrieving from the URL.
   @protected
   Future<void> loadRequest() async {
-    final res = await get(Uri.parse(getEndpoint), headers: getHeaders);
+    final res = await Api.get(getEndpoint, headers: getHeaders);
+    if (res == null) {
+      return;
+    }
     onCatchResponse(res);
     final data = fromCollection(filterOnLoad(fromResponse(res.body)));
     addAll(data);
@@ -171,11 +174,14 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   /// in addition to simply saving to the URL.
   @protected
   Future<void> saveRequest() async {
-    final res = await post(
-      Uri.parse(postEndpoint),
+    final res = await Api.post(
+      postEndpoint,
       headers: postHeaders,
       body: toRequest(filterOnSave(toCollection(this))),
     );
+    if (res == null) {
+      return;
+    }
     onCatchResponse(res);
   }
 
@@ -185,7 +191,10 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   /// in addition to simply retrieving from the URL.
   @protected
   Future<void> loadNextRequest() async {
-    final res = await get(Uri.parse(getEndpoint), headers: getHeaders);
+    final res = await Api.get(getEndpoint, headers: getHeaders);
+    if (res == null) {
+      return;
+    }
     onCatchResponse(res);
     final data = fromCollection(filterOnLoad(fromResponse(res.body)));
     addAll(data);

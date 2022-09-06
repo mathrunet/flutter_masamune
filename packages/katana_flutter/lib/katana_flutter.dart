@@ -13,8 +13,6 @@ import 'dart:async';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// ignore: implementation_imports
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:katana/katana.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^0.13.0
   katana_routing: ^0.13.0
   model_notifier: ^0.13.0
   flutter_riverpod: ^1.0.3

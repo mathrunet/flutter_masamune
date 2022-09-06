@@ -206,7 +206,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -234,19 +234,19 @@ packages:
     source: hosted
     version: "0.6.4"
   katana:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+2"
+    version: "0.13.1"
   katana_flutter:
     dependency: "direct main"
     description:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+3"
+    version: "0.13.0+4"
   matcher:
     dependency: transitive
     description:
@@ -262,7 +262,7 @@ packages:
     source: hosted
     version: "0.1.5"
   meta:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
