@@ -22,10 +22,7 @@ import 'property/others/others.dart'
     if (dart.library.js) 'property/others/others.dart'
     if (dart.library.html) 'property/others/others.dart';
 
-export 'package:katana/katana.dart';
-export 'package:katana_flutter/katana_flutter.dart';
 export 'package:katana_module/katana_module.dart';
-export 'package:katana_routing/katana_routing.dart';
 export 'package:loading_animations/loading_animations.dart'
     show
         LoadingFlipping,
@@ -37,7 +34,6 @@ export 'package:loading_animations/loading_animations.dart'
         LoadingBouncingLine,
         LoadingJumpingLine,
         LoadingBumpingLine;
-export 'package:model_notifier/model_notifier.dart';
 export 'package:url_strategy/url_strategy.dart' show setPathUrlStrategy;
 
 export 'property/others/others.dart'

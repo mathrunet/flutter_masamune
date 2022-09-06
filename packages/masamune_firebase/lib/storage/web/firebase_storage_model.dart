@@ -137,7 +137,7 @@ class FirebaseStorageModel extends ValueModel<String?> {
       if (filePath.startsWith("http")) {
         return;
       }
-      final byte = await http.readBytes(Uri.parse(filePath));
+      final byte = await Api.readBytes(Uri.parse(filePath));
       final uploadTask = reference.putData(byte);
       await Future.value(uploadTask).timeout(timeout);
       value = filePath;

@@ -233,7 +233,7 @@ packages:
     source: hosted
     version: "6.1.4"
   firebase_core:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -302,7 +302,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.1"
+    version: "0.13.1+1"
   katana_firebase:
     dependency: "direct main"
     description:
@@ -316,7 +316,7 @@ packages:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+4"
+    version: "0.13.0+5"
   matcher:
     dependency: transitive
     description:
@@ -351,7 +351,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+5"
+    version: "0.13.0+6"
   nm:
     dependency: transitive
     description:

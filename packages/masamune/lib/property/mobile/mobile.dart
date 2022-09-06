@@ -14,7 +14,6 @@ import 'package:cached_network_image_platform_interface/cached_network_image_pla
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart'
     as cache_manager;
-import 'package:http/http.dart';
 import 'package:masamune/masamune.dart';
 
 part 'asset.dart';

@@ -24,7 +24,6 @@ import 'storage/others/others.dart'
 export "package:firebase_auth/firebase_auth.dart" show ActionCodeSettings;
 export 'package:firebase_model_notifier/firebase_model_notifier.dart';
 export 'package:masamune/masamune.dart';
-export "package:model_notifier/model_notifier.dart";
 
 export 'dynamic_links/others/others.dart'
     if (dart.library.io) 'dynamic_links/mobile/mobile.dart'

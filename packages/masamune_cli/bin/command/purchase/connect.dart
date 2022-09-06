@@ -139,13 +139,13 @@ class PurchaseConnectCliCommand extends CliCommand {
       workingDirectory: "${Directory.current.path}/firebase",
     );
     await resultKeys.print();
-    final endpointsRes = await http.get(
-      Uri.parse("https://api.stripe.com/v1/webhook_endpoints"),
+    final endpointsRes = await Api.get(
+      "https://api.stripe.com/v1/webhook_endpoints",
       headers: {
         "Authorization": "Basic ${base64Encode(utf8.encode("$apiSecret:"))}"
       },
     );
-    if (endpointsRes.statusCode != 200) {
+    if (endpointsRes == null || endpointsRes.statusCode != 200) {
       print("Api secret is invalid.");
       return;
     }
@@ -154,17 +154,15 @@ class PurchaseConnectCliCommand extends CliCommand {
     if (endpoints.isNotEmpty) {
       for (final endpoint in endpoints) {
         final data = endpoint as Map<String, dynamic>;
-        final res = await http.delete(
-          Uri.parse(
-            "https://api.stripe.com/v1/webhook_endpoints/${data["id"]}",
-          ),
+        final res = await Api.delete(
+          "https://api.stripe.com/v1/webhook_endpoints/${data["id"]}",
           headers: {"Authorization": "Basic $encodedApiSecret"},
         );
-        print(res.body);
+        print(res?.body ?? "");
       }
     }
-    final stripeRes = await http.post(
-      Uri.parse("https://api.stripe.com/v1/webhook_endpoints"),
+    final stripeRes = await Api.post(
+      "https://api.stripe.com/v1/webhook_endpoints",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": "Basic $encodedApiSecret"
@@ -186,9 +184,9 @@ class PurchaseConnectCliCommand extends CliCommand {
         "connect": "false",
       }),
     );
-    print(stripeRes.body);
-    final connectRes = await http.post(
-      Uri.parse("https://api.stripe.com/v1/webhook_endpoints"),
+    print(stripeRes?.body ?? "");
+    final connectRes = await Api.post(
+      "https://api.stripe.com/v1/webhook_endpoints",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": "Basic $encodedApiSecret"
@@ -201,9 +199,11 @@ class PurchaseConnectCliCommand extends CliCommand {
         "connect": "true",
       }),
     );
-    print(connectRes.body);
-    final stripeResMap = jsonDecode(stripeRes.body) as Map<String, dynamic>;
-    final connectResMap = jsonDecode(connectRes.body) as Map<String, dynamic>;
+    print(connectRes?.body ?? "");
+    final stripeResMap =
+        jsonDecode(stripeRes?.body ?? "") as Map<String, dynamic>;
+    final connectResMap =
+        jsonDecode(connectRes?.body ?? "") as Map<String, dynamic>;
     final resultHooks = await Process.start(
       command,
       [

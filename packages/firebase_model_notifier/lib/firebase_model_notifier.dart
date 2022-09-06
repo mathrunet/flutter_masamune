@@ -14,11 +14,9 @@ import 'dart:math';
 
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:cloud_functions/cloud_functions.dart";
-// ignore: unused_import
-import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
-import "package:katana/katana.dart" as katana show generateCode;
 import "package:katana_firebase/katana_firebase.dart";
+import "package:katana_firebase/katana_firebase.dart" as katana show generateCode;
 import "package:model_notifier/model_notifier.dart";
 
 export "package:cloud_firestore/cloud_firestore.dart";

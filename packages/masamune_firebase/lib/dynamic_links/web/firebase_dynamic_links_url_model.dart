@@ -88,8 +88,8 @@ class FirebaseDynamicLinksUrlModel extends ValueModel<String?> {
       return creating;
     }
     try {
-      final res = await http.post(
-        Uri.parse(restAPIURL.format([webAPIKey!])),
+      final res = await Api.post(
+        restAPIURL.format([webAPIKey!]),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(
           {
@@ -121,7 +121,7 @@ class FirebaseDynamicLinksUrlModel extends ValueModel<String?> {
           },
         ),
       );
-      final data = jsonDecodeAsMap(res.body);
+      final data = jsonDecodeAsMap(res?.body ?? "");
       value = data.get<String?>("shortLink", null);
       _createCompleter?.complete();
       _createCompleter = null;

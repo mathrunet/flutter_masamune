@@ -468,7 +468,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.1"
+    version: "0.13.1+1"
   katana_firebase:
     dependency: transitive
     description:
@@ -482,21 +482,21 @@ packages:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+4"
+    version: "0.13.0+5"
   katana_module:
     dependency: transitive
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+6"
+    version: "0.13.0+7"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+6"
+    version: "0.13.0+7"
   loading_animations:
     dependency: transitive
     description:
@@ -552,7 +552,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0+5"
+    version: "0.13.0+6"
   nm:
     dependency: transitive
     description:

@@ -9,16 +9,13 @@ class Api {
   /// Sends an HTTP DELETE request with the given headers to the given URL.
   ///
   /// This automatically initializes a new [http.Client] and closes that client once the request is complete. If you're planning on making multiple requests to the same server, you should use a single [http.Client] for all of those requests.
-  static Future<ApiResponse?> delete(
+  static Future<ApiResponse> delete(
     String path, {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
   }) async {
-    final url = Uri.tryParse(path);
-    if (url == null) {
-      return null;
-    }
+    final url = Uri.parse(path);
     return http.delete(
       url,
       headers: headers,
@@ -30,12 +27,11 @@ class Api {
   /// Sends an HTTP GET request with the given headers to the given URL.
   ///
   /// This automatically initializes a new [http.Client] and closes that client once the request is complete. If you're planning on making multiple requests to the same server, you should use a single [http.Client] for all of those requests.
-  static Future<ApiResponse?> get(String path,
-      {Map<String, String>? headers}) async {
-    final url = Uri.tryParse(path);
-    if (url == null) {
-      return null;
-    }
+  static Future<ApiResponse> get(
+    String path, {
+    Map<String, String>? headers,
+  }) async {
+    final url = Uri.parse(path);
     return http.get(
       url,
       headers: headers,
@@ -45,12 +41,11 @@ class Api {
   /// Sends an HTTP HEAD request with the given headers to the given URL.
   ///
   /// This automatically initializes a new [http.Client] and closes that client once the request is complete. If you're planning on making multiple requests to the same server, you should use a single [http.Client] for all of those requests.
-  static Future<ApiResponse?> head(String path,
-      {Map<String, String>? headers}) async {
-    final url = Uri.tryParse(path);
-    if (url == null) {
-      return null;
-    }
+  static Future<ApiResponse> head(
+    String path, {
+    Map<String, String>? headers,
+  }) async {
+    final url = Uri.parse(path);
     return http.head(
       url,
       headers: headers,
@@ -66,16 +61,13 @@ class Api {
   /// If [body] is a Map, it's encoded as form fields using [encoding]. The content-type of the request will be set to "application/x-www-form-urlencoded"; this cannot be overridden.
   ///
   /// [encoding] defaults to [utf8].
-  static Future<ApiResponse?> patch(
+  static Future<ApiResponse> patch(
     String path, {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
   }) async {
-    final url = Uri.tryParse(path);
-    if (url == null) {
-      return null;
-    }
+    final url = Uri.parse(path);
     return http.patch(
       url,
       headers: headers,
@@ -93,16 +85,13 @@ class Api {
   /// If [body] is a Map, it's encoded as form fields using [encoding]. The content-type of the request will be set to "application/x-www-form-urlencoded"; this cannot be overridden.
   ///
   /// [encoding] defaults to [utf8].
-  static Future<ApiResponse?> post(
+  static Future<ApiResponse> post(
     String path, {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
   }) async {
-    final url = Uri.tryParse(path);
-    if (url == null) {
-      return null;
-    }
+    final url = Uri.parse(path);
     return http.post(
       url,
       headers: headers,
@@ -120,22 +109,54 @@ class Api {
   /// If [body] is a Map, it's encoded as form fields using [encoding]. The content-type of the request will be set to "application/x-www-form-urlencoded"; this cannot be overridden.
   ///
   /// [encoding] defaults to [utf8].
-  static Future<ApiResponse?> put(
+  static Future<ApiResponse> put(
     String path, {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
   }) async {
-    final url = Uri.tryParse(path);
-    if (url == null) {
-      return null;
-    }
+    final url = Uri.parse(path);
     return http.put(
       url,
       headers: headers,
       body: body,
       encoding: encoding,
     );
+  }
+
+  /// Sends an HTTP GET request with the given headers to the given URL and
+  /// returns a Future that completes to the body of the response as a [String].
+  ///
+  /// The Future will emit a [http.ClientException] if the response doesn't have a
+  /// success status code.
+  ///
+  /// This automatically initializes a new [http.Client] and closes that client once
+  /// the request is complete. If you're planning on making multiple requests to
+  /// the same server, you should use a single [http.Client] for all of those requests.
+  Future<String> read(
+    String path, {
+    Map<String, String>? headers,
+  }) async {
+    final url = Uri.parse(path);
+    return http.read(url, headers: headers);
+  }
+
+  /// Sends an HTTP GET request with the given headers to the given URL and
+  /// returns a Future that completes to the body of the response as a list of
+  /// bytes.
+  ///
+  /// The Future will emit a [http.ClientException] if the response doesn't have a
+  /// success status code.
+  ///
+  /// This automatically initializes a new [http.Client] and closes that client once
+  /// the request is complete. If you're planning on making multiple requests to
+  /// the same server, you should use a single [http.Client] for all of those requests.
+  Future<Uint8List> readBytes(
+    String path, {
+    Map<String, String>? headers,
+  }) async {
+    final url = Uri.parse(path);
+    return http.readBytes(url, headers: headers);
   }
 }
 

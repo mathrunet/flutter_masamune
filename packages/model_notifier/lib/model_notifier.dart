@@ -15,8 +15,8 @@ import "dart:math";
 
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
-import 'package:katana/katana.dart' as katana;
 import 'package:katana_flutter/katana_flutter.dart';
+import 'package:katana_flutter/katana_flutter.dart' as katana show generateCode;
 
 import 'src/others/others.dart'
     if (dart.library.io) 'src/mobile/mobile.dart'

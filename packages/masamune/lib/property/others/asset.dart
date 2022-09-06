@@ -24,8 +24,8 @@ class Asset {
       return defaultValue;
     }
     if (uri.startsWith("http")) {
-      final res = await get(Uri.parse(uri), headers: headers);
-      if (res.statusCode != 200) {
+      final res = await Api.get(uri, headers: headers);
+      if (res == null || res.statusCode != 200) {
         return defaultValue;
       }
       return res.body;
