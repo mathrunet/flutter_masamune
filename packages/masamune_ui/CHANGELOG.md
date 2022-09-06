@@ -1,3 +1,7 @@
+## 0.13.0+17
+
+ - **FIX**: Rename CMSLayout. ([75dea514](https://github.com/mathrunet/flutter_masamune/commit/75dea514b1535660e61a8c35fb7a924cb29423c7))
+
 ## 0.13.0+16
 
  - **FIX**: Error correction. ([9cf92ae8](https://github.com/mathrunet/flutter_masamune/commit/9cf92ae8b9682783bd11edd9023e38dee33d583f))

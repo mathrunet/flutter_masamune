@@ -15,6 +15,82 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_routing` - `v0.13.0+12`](#katana_routing---v013012)
+ - [`masamune_cli` - `v0.13.0+10`](#masamune_cli---v013010)
+ - [`masamune_ui` - `v0.13.0+17`](#masamune_ui---v013017)
+ - [`katana_module` - `v0.13.0+12`](#katana_module---v013012)
+ - [`masamune` - `v0.13.0+15`](#masamune---v013015)
+ - [`masamune_agora` - `v0.13.0+15`](#masamune_agora---v013015)
+ - [`masamune_location` - `v0.13.0+15`](#masamune_location---v013015)
+ - [`masamune_local_messaging` - `v0.13.0+15`](#masamune_local_messaging---v013015)
+ - [`masamune_media` - `v0.13.0+15`](#masamune_media---v013015)
+ - [`masamune_purchase` - `v0.13.0+15`](#masamune_purchase---v013015)
+ - [`masamune_wordpress` - `v0.13.0+15`](#masamune_wordpress---v013015)
+ - [`masamune_firebase` - `v0.13.0+15`](#masamune_firebase---v013015)
+ - [`masamune_ads` - `v0.13.0+15`](#masamune_ads---v013015)
+ - [`masamune_purchase_firebase` - `v0.13.0+15`](#masamune_purchase_firebase---v013015)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+15`](#masamune_firebase_dynamic_links---v013015)
+ - [`masamune_signin_apple` - `v0.13.0+16`](#masamune_signin_apple---v013016)
+ - [`masamune_firebase_messaging` - `v0.13.0+15`](#masamune_firebase_messaging---v013015)
+ - [`masamune_signin_facebook` - `v0.13.0+16`](#masamune_signin_facebook---v013016)
+ - [`masamune_signin_google` - `v0.13.0+16`](#masamune_signin_google---v013016)
+ - [`masamune_signin_twitter` - `v0.13.0+16`](#masamune_signin_twitter---v013016)
+ - [`masamune_notion` - `v0.13.0+15`](#masamune_notion---v013015)
+ - [`masamune_purchase_stripe` - `v0.13.0+15`](#masamune_purchase_stripe---v013015)
+ - [`masamune_module` - `v0.13.0+16`](#masamune_module---v013016)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.13.0+12`
+ - `masamune` - `v0.13.0+15`
+ - `masamune_agora` - `v0.13.0+15`
+ - `masamune_location` - `v0.13.0+15`
+ - `masamune_local_messaging` - `v0.13.0+15`
+ - `masamune_media` - `v0.13.0+15`
+ - `masamune_purchase` - `v0.13.0+15`
+ - `masamune_wordpress` - `v0.13.0+15`
+ - `masamune_firebase` - `v0.13.0+15`
+ - `masamune_ads` - `v0.13.0+15`
+ - `masamune_purchase_firebase` - `v0.13.0+15`
+ - `masamune_firebase_dynamic_links` - `v0.13.0+15`
+ - `masamune_signin_apple` - `v0.13.0+16`
+ - `masamune_firebase_messaging` - `v0.13.0+15`
+ - `masamune_signin_facebook` - `v0.13.0+16`
+ - `masamune_signin_google` - `v0.13.0+16`
+ - `masamune_signin_twitter` - `v0.13.0+16`
+ - `masamune_notion` - `v0.13.0+15`
+ - `masamune_purchase_stripe` - `v0.13.0+15`
+ - `masamune_module` - `v0.13.0+16`
+
+---
+
+#### `katana_routing` - `v0.13.0+12`
+
+ - **FIX**: AppTheme changes. ([c1290a6f](https://github.com/mathrunet/flutter_masamune/commit/c1290a6ff0a7e2061ef4d95b2aa1f1c1802e8152))
+
+#### `masamune_cli` - `v0.13.0+10`
+
+ - **FIX**: Fixed a bug that prevented Keystore from running on mac. ([db378752](https://github.com/mathrunet/flutter_masamune/commit/db378752924b5d493645e2cdc3f771be2a4c4751))
+
+#### `masamune_ui` - `v0.13.0+17`
+
+ - **FIX**: Rename CMSLayout. ([75dea514](https://github.com/mathrunet/flutter_masamune/commit/75dea514b1535660e61a8c35fb7a924cb29423c7))
+
+
+## 2022-09-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_signin_apple` - `v0.13.0+15`](#masamune_signin_apple---v013015)
  - [`masamune_signin_facebook` - `v0.13.0+15`](#masamune_signin_facebook---v013015)
  - [`masamune_signin_google` - `v0.13.0+15`](#masamune_signin_google---v013015)

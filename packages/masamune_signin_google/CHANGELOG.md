@@ -1,3 +1,7 @@
+## 0.13.0+16
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+15
 
  - **FIX**: Unnecessary plug-ins removed. ([8ef1af77](https://github.com/mathrunet/flutter_masamune/commit/8ef1af7765fc73bbec8bd37352f9f47f35c2d9c3))

@@ -1,3 +1,7 @@
+## 0.13.0+10
+
+ - **FIX**: Fixed a bug that prevented Keystore from running on mac. ([db378752](https://github.com/mathrunet/flutter_masamune/commit/db378752924b5d493645e2cdc3f771be2a4c4751))
+
 ## 0.13.0+9
 
  - **FIX**: Package slimming completed. ([f4c49df9](https://github.com/mathrunet/flutter_masamune/commit/f4c49df92e11b9ae7d39ca87a1c0b8329c227cfd))
