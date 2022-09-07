@@ -617,9 +617,6 @@ class AppTheme {
           appBarTheme: theme.appBarTheme.copyWith(
             backgroundColor: appBarColor,
             elevation: appBarColor == Colors.transparent ? 0 : null,
-            color: appBarColor == Colors.transparent
-                ? onBackground
-                : onAppBarColor,
             foregroundColor: appBarColor == Colors.transparent
                 ? onBackground
                 : onAppBarColor,
@@ -732,9 +729,6 @@ class AppTheme {
           appBarTheme: theme.appBarTheme.copyWith(
             backgroundColor: appBarColor,
             elevation: appBarColor == Colors.transparent ? 0 : null,
-            color: appBarColor == Colors.transparent
-                ? onBackground
-                : onAppBarColor,
             foregroundColor: appBarColor == Colors.transparent
                 ? onBackground
                 : onAppBarColor,
