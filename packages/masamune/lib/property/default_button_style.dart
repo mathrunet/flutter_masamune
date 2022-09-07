@@ -1,7 +1,7 @@
 part of masamune;
 
-class DefaultTextButtonStyle extends ButtonStyle {
-  factory DefaultTextButtonStyle({
+class DefaultButtonStyle extends ButtonStyle {
+  factory DefaultButtonStyle({
     Color? color,
     Color? backgroundColor,
     Color? focusedAndSelectedColor,
@@ -12,10 +12,12 @@ class DefaultTextButtonStyle extends ButtonStyle {
     double radius = 6.0,
     double borderWidth = 0.0,
     EdgeInsetsGeometry? padding,
+    TextStyle? textStyle,
   }) {
-    return DefaultTextButtonStyle._(
+    return DefaultButtonStyle._(
       TextButton.styleFrom(
         padding: padding,
+        textStyle: textStyle,
         foregroundColor: color,
         disabledForegroundColor: color,
         backgroundColor: backgroundColor,
@@ -47,7 +49,7 @@ class DefaultTextButtonStyle extends ButtonStyle {
     );
   }
 
-  DefaultTextButtonStyle._(ButtonStyle style)
+  DefaultButtonStyle._(ButtonStyle style)
       : super(
           textStyle: style.textStyle,
           backgroundColor: style.backgroundColor,

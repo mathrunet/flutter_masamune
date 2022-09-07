@@ -73,7 +73,7 @@ part 'page/boot_page.dart';
 part 'page/empty_page.dart';
 part 'page/not_found_page.dart';
 part 'property/default_box_decoration.dart';
-part 'property/default_text_button_style.dart';
+part 'property/default_button_style.dart';
 part 'provider/api_collection_provider.dart';
 part 'provider/api_document_provider.dart';
 part "provider/date_time.dart";
