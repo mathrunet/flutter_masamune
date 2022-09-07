@@ -3,6 +3,77 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_routing` - `v0.13.0+13`](#katana_routing---v013013)
+ - [`masamune_ui` - `v0.13.0+18`](#masamune_ui---v013018)
+ - [`katana_module` - `v0.13.0+13`](#katana_module---v013013)
+ - [`masamune` - `v0.13.0+16`](#masamune---v013016)
+ - [`masamune_agora` - `v0.13.0+16`](#masamune_agora---v013016)
+ - [`masamune_location` - `v0.13.0+16`](#masamune_location---v013016)
+ - [`masamune_local_messaging` - `v0.13.0+16`](#masamune_local_messaging---v013016)
+ - [`masamune_media` - `v0.13.0+16`](#masamune_media---v013016)
+ - [`masamune_purchase` - `v0.13.0+16`](#masamune_purchase---v013016)
+ - [`masamune_wordpress` - `v0.13.0+16`](#masamune_wordpress---v013016)
+ - [`masamune_firebase` - `v0.13.0+16`](#masamune_firebase---v013016)
+ - [`masamune_ads` - `v0.13.0+16`](#masamune_ads---v013016)
+ - [`masamune_purchase_firebase` - `v0.13.0+16`](#masamune_purchase_firebase---v013016)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+16`](#masamune_firebase_dynamic_links---v013016)
+ - [`masamune_firebase_messaging` - `v0.13.0+16`](#masamune_firebase_messaging---v013016)
+ - [`masamune_signin_apple` - `v0.13.0+17`](#masamune_signin_apple---v013017)
+ - [`masamune_signin_facebook` - `v0.13.0+17`](#masamune_signin_facebook---v013017)
+ - [`masamune_signin_google` - `v0.13.0+17`](#masamune_signin_google---v013017)
+ - [`masamune_signin_twitter` - `v0.13.0+17`](#masamune_signin_twitter---v013017)
+ - [`masamune_notion` - `v0.13.0+16`](#masamune_notion---v013016)
+ - [`masamune_purchase_stripe` - `v0.13.0+16`](#masamune_purchase_stripe---v013016)
+ - [`masamune_module` - `v0.13.0+17`](#masamune_module---v013017)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.13.0+13`
+ - `masamune` - `v0.13.0+16`
+ - `masamune_agora` - `v0.13.0+16`
+ - `masamune_location` - `v0.13.0+16`
+ - `masamune_local_messaging` - `v0.13.0+16`
+ - `masamune_media` - `v0.13.0+16`
+ - `masamune_purchase` - `v0.13.0+16`
+ - `masamune_wordpress` - `v0.13.0+16`
+ - `masamune_firebase` - `v0.13.0+16`
+ - `masamune_ads` - `v0.13.0+16`
+ - `masamune_purchase_firebase` - `v0.13.0+16`
+ - `masamune_firebase_dynamic_links` - `v0.13.0+16`
+ - `masamune_firebase_messaging` - `v0.13.0+16`
+ - `masamune_signin_apple` - `v0.13.0+17`
+ - `masamune_signin_facebook` - `v0.13.0+17`
+ - `masamune_signin_google` - `v0.13.0+17`
+ - `masamune_signin_twitter` - `v0.13.0+17`
+ - `masamune_notion` - `v0.13.0+16`
+ - `masamune_purchase_stripe` - `v0.13.0+16`
+ - `masamune_module` - `v0.13.0+17`
+
+---
+
+#### `katana_routing` - `v0.13.0+13`
+
+ - **FIX**: Fixed a bug in AppTheme. ([c344411c](https://github.com/mathrunet/flutter_masamune/commit/c344411c12f7d8ce45ad77e2288c1bc92c37e8c1))
+
+#### `masamune_ui` - `v0.13.0+18`
+
+ - **FIX**: Fixed a bug in UIScaffold. ([dc4f2c3c](https://github.com/mathrunet/flutter_masamune/commit/dc4f2c3ce417764fd86f811d9822f3bab8e4a901))
+
+
 ## 2022-09-06
 
 ### Changes

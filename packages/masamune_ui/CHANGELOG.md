@@ -1,3 +1,7 @@
+## 0.13.0+18
+
+ - **FIX**: Fixed a bug in UIScaffold. ([dc4f2c3c](https://github.com/mathrunet/flutter_masamune/commit/dc4f2c3ce417764fd86f811d9822f3bab8e4a901))
+
 ## 0.13.0+17
 
  - **FIX**: Rename CMSLayout. ([75dea514](https://github.com/mathrunet/flutter_masamune/commit/75dea514b1535660e61a8c35fb7a924cb29423c7))

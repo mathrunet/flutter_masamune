@@ -1,3 +1,7 @@
+## 0.13.0+13
+
+ - **FIX**: Fixed a bug in AppTheme. ([c344411c](https://github.com/mathrunet/flutter_masamune/commit/c344411c12f7d8ce45ad77e2288c1bc92c37e8c1))
+
 ## 0.13.0+12
 
  - **FIX**: AppTheme changes. ([c1290a6f](https://github.com/mathrunet/flutter_masamune/commit/c1290a6ff0a7e2061ef4d95b2aa1f1c1802e8152))
