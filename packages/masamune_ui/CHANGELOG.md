@@ -1,3 +1,7 @@
+## 0.13.0+19
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+18
 
  - **FIX**: Fixed a bug in UIScaffold. ([dc4f2c3c](https://github.com/mathrunet/flutter_masamune/commit/dc4f2c3ce417764fd86f811d9822f3bab8e4a901))

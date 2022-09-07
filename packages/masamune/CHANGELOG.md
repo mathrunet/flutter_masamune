@@ -1,3 +1,7 @@
+## 0.13.0+17
+
+ - **FIX**: Add onError to BootPage. ([5f3cf05a](https://github.com/mathrunet/flutter_masamune/commit/5f3cf05abc2c69c5f42c797c2df1a5db7b8051b7))
+
 ## 0.13.0+16
 
  - Update a dependency to the latest release.
