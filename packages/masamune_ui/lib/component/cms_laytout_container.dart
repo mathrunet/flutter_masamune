@@ -1,8 +1,8 @@
 part of masamune_ui;
 
-class CMSBuilder extends StatelessWidget {
-  const CMSBuilder({
-    required this.child,
+class CMSLaytoutContainer extends StatelessWidget {
+  const CMSLaytoutContainer({
+    this.child,
     this.leftBar,
     this.rightBar,
     this.header,
@@ -41,7 +41,7 @@ class CMSBuilder extends StatelessWidget {
   final double mainAxisSpace;
   final double crossAxisSpace;
   final List<Widget>? options;
-  final Widget child;
+  final Widget? child;
   final double toggleWidth;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry contentPadding;
@@ -113,7 +113,7 @@ class CMSBuilder extends StatelessWidget {
 
   Widget _center(BuildContext context) {
     if (top == null && bottom == null) {
-      return child;
+      return child ?? const Empty();
     } else {
       return Column(
         children: [
@@ -121,7 +121,7 @@ class CMSBuilder extends StatelessWidget {
             top!,
             if (mainAxisSpace > 0) Space.height(mainAxisSpace),
           ],
-          child,
+          child ?? const Empty(),
           if (bottom != null) ...[
             if (mainAxisSpace > 0) Space.height(mainAxisSpace),
             bottom!,

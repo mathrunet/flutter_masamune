@@ -618,8 +618,10 @@ class _UIScaffoldState extends State<UIScaffold> {
         elevation: appBar.elevation,
         shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: appBar.backgroundColor,
-        foregroundColor: appBar.foregroundColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         primary: appBar.primary,
@@ -651,7 +653,8 @@ class _UIScaffoldState extends State<UIScaffold> {
             appBar.borderColor ?? context.theme.scaffoldBackgroundColor,
         backgroundColor:
             appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
-        foregroundColor: appBar.foregroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         actions: appBar.actions,
@@ -732,8 +735,10 @@ class _UIScaffoldState extends State<UIScaffold> {
         elevation: 0,
         shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: Colors.transparent,
-        foregroundColor: context.theme.textColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         primary: appBar.primary,
@@ -778,8 +783,10 @@ class _UIScaffoldState extends State<UIScaffold> {
         elevation: 0,
         shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: Colors.transparent,
-        foregroundColor: context.theme.textColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         primary: appBar.primary,
@@ -823,8 +830,10 @@ class _UIScaffoldState extends State<UIScaffold> {
         elevation: 0,
         shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: Colors.transparent,
-        foregroundColor: context.theme.textColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         primary: appBar.primary,
@@ -890,8 +899,10 @@ class _UIScaffoldState extends State<UIScaffold> {
         elevation: appBar.elevation,
         shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: Colors.transparent,
-        foregroundColor: context.theme.textColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         primary: appBar.primary,
@@ -917,8 +928,10 @@ class _UIScaffoldState extends State<UIScaffold> {
         elevation: appBar.elevation,
         shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: Colors.transparent,
-        foregroundColor: context.theme.textColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         primary: appBar.primary,
@@ -943,8 +956,10 @@ class _UIScaffoldState extends State<UIScaffold> {
         elevation: appBar.elevation,
         shadowColor: appBar.shadowColor,
         shape: appBar.shape,
-        backgroundColor: Colors.transparent,
-        foregroundColor: context.theme.textColor,
+        backgroundColor:
+            appBar.backgroundColor ?? context.theme.appBarTheme.backgroundColor,
+        foregroundColor:
+            appBar.foregroundColor ?? context.theme.appBarTheme.foregroundColor,
         iconTheme: appBar.iconTheme,
         actionsIconTheme: appBar.actionsIconTheme,
         primary: appBar.primary,
@@ -1260,7 +1275,7 @@ class _WebTabLayoutState extends State<_WebTabLayout>
 
   @override
   Widget build(BuildContext context) {
-    return CMSBuilder(
+    return CMSLaytoutContainer(
       sideBorder: const BorderSide(),
       leftBar: UIListBuilder<Widget>(
         source: widget.tabBar.tabs,
@@ -1333,7 +1348,7 @@ class _WebAppLayoutState extends State<_WebAppLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return CMSBuilder(
+    return CMSLaytoutContainer(
       sideBorder: const BorderSide(),
       leftBar: widget.builder.call(context),
       child: _inlinePage(context),
