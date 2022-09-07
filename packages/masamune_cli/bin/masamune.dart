@@ -56,6 +56,7 @@ part 'command/store/store.dart';
 part 'command/version.dart';
 part 'command/upgrade.dart';
 part 'command/zip.dart';
+part 'command/submodule.dart';
 part 'src/framework.dart';
 
 const commands = <String, CliCommand>{
