@@ -1,3 +1,7 @@
+## 0.13.0+18
+
+ - **FIX**: Change to DefaultButtonStyle. ([0ea97817](https://github.com/mathrunet/flutter_masamune/commit/0ea97817b986b0eb38ae6193556e2964bbbba442))
+
 ## 0.13.0+17
 
  - **FIX**: Add onError to BootPage. ([5f3cf05a](https://github.com/mathrunet/flutter_masamune/commit/5f3cf05abc2c69c5f42c797c2df1a5db7b8051b7))

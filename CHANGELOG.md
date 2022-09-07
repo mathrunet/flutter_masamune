@@ -15,6 +15,70 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v0.13.0+18`](#masamune---v013018)
+ - [`masamune_agora` - `v0.13.0+18`](#masamune_agora---v013018)
+ - [`masamune_location` - `v0.13.0+18`](#masamune_location---v013018)
+ - [`masamune_local_messaging` - `v0.13.0+18`](#masamune_local_messaging---v013018)
+ - [`masamune_media` - `v0.13.0+18`](#masamune_media---v013018)
+ - [`masamune_purchase` - `v0.13.0+18`](#masamune_purchase---v013018)
+ - [`masamune_wordpress` - `v0.13.0+18`](#masamune_wordpress---v013018)
+ - [`masamune_firebase` - `v0.13.0+18`](#masamune_firebase---v013018)
+ - [`masamune_ads` - `v0.13.0+18`](#masamune_ads---v013018)
+ - [`masamune_ui` - `v0.13.0+20`](#masamune_ui---v013020)
+ - [`masamune_purchase_firebase` - `v0.13.0+18`](#masamune_purchase_firebase---v013018)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+18`](#masamune_firebase_dynamic_links---v013018)
+ - [`masamune_firebase_messaging` - `v0.13.0+18`](#masamune_firebase_messaging---v013018)
+ - [`masamune_signin_apple` - `v0.13.0+19`](#masamune_signin_apple---v013019)
+ - [`masamune_signin_facebook` - `v0.13.0+19`](#masamune_signin_facebook---v013019)
+ - [`masamune_signin_google` - `v0.13.0+19`](#masamune_signin_google---v013019)
+ - [`masamune_signin_twitter` - `v0.13.0+19`](#masamune_signin_twitter---v013019)
+ - [`masamune_notion` - `v0.13.0+18`](#masamune_notion---v013018)
+ - [`masamune_purchase_stripe` - `v0.13.0+18`](#masamune_purchase_stripe---v013018)
+ - [`masamune_module` - `v0.13.0+19`](#masamune_module---v013019)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.13.0+18`
+ - `masamune_location` - `v0.13.0+18`
+ - `masamune_local_messaging` - `v0.13.0+18`
+ - `masamune_media` - `v0.13.0+18`
+ - `masamune_purchase` - `v0.13.0+18`
+ - `masamune_wordpress` - `v0.13.0+18`
+ - `masamune_firebase` - `v0.13.0+18`
+ - `masamune_ads` - `v0.13.0+18`
+ - `masamune_ui` - `v0.13.0+20`
+ - `masamune_purchase_firebase` - `v0.13.0+18`
+ - `masamune_firebase_dynamic_links` - `v0.13.0+18`
+ - `masamune_firebase_messaging` - `v0.13.0+18`
+ - `masamune_signin_apple` - `v0.13.0+19`
+ - `masamune_signin_facebook` - `v0.13.0+19`
+ - `masamune_signin_google` - `v0.13.0+19`
+ - `masamune_signin_twitter` - `v0.13.0+19`
+ - `masamune_notion` - `v0.13.0+18`
+ - `masamune_purchase_stripe` - `v0.13.0+18`
+ - `masamune_module` - `v0.13.0+19`
+
+---
+
+#### `masamune` - `v0.13.0+18`
+
+ - **FIX**: Change to DefaultButtonStyle. ([0ea97817](https://github.com/mathrunet/flutter_masamune/commit/0ea97817b986b0eb38ae6193556e2964bbbba442))
+
+
+## 2022-09-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v0.13.0+17`](#masamune---v013017)
  - [`masamune_agora` - `v0.13.0+17`](#masamune_agora---v013017)
  - [`masamune_local_messaging` - `v0.13.0+17`](#masamune_local_messaging---v013017)
