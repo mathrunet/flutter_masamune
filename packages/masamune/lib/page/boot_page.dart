@@ -34,16 +34,24 @@ class BootPage extends PageScopedWidget {
         ...Module.registeredHooks.map((e) => e.onAfterFinishBoot(root)),
         onAfterFinishBoot(root),
       ]);
-    } catch (e) {
-      print(e.toString());
-      UIDialog.show(
-        context,
-        title: "Error".localize(),
-        text: "Initialization failed. Application is quit.".localize(),
-        submitText: "OK".localize(),
-        onSubmit: () => SystemNavigator.pop(),
-      );
+    } catch (error) {
+      onError(root, error);
     }
+  }
+
+  /// Executed in the event of an error.
+  ///
+  /// The error is passed to [error].
+  @protected
+  void onError(BuildContext context, Object error) {
+    print(error.toString());
+    UIDialog.show(
+      context,
+      title: "Error".localize(),
+      text: "Initialization failed. Application is quit.".localize(),
+      submitText: "OK".localize(),
+      onSubmit: () => SystemNavigator.pop(),
+    );
   }
 
   /// It is executed after the boot process is finished and
