@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_cli` - `v0.13.1`](#masamune_cli---v0131)
+
+---
+
+#### `masamune_cli` - `v0.13.1`
+
+ - **FEAT**: Add submodule command. ([d777e9be](https://github.com/mathrunet/flutter_masamune/commit/d777e9be75441aeceac010debfc653019cda42f1))
+
+
+## 2022-09-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_routing` - `v0.13.0+13`](#katana_routing---v013013)
  - [`masamune_ui` - `v0.13.0+18`](#masamune_ui---v013018)
  - [`katana_module` - `v0.13.0+13`](#katana_module---v013013)

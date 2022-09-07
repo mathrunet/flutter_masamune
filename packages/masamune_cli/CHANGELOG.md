@@ -1,3 +1,7 @@
+## 0.13.1
+
+ - **FEAT**: Add submodule command. ([d777e9be](https://github.com/mathrunet/flutter_masamune/commit/d777e9be75441aeceac010debfc653019cda42f1))
+
 ## 0.13.0+10
 
  - **FIX**: Fixed a bug that prevented Keystore from running on mac. ([db378752](https://github.com/mathrunet/flutter_masamune/commit/db378752924b5d493645e2cdc3f771be2a4c4751))

@@ -1,6 +1,6 @@
 name: masamune_cli
 description: Make the Masamune command line available to your application.
-version: 0.13.0+10
+version: 0.13.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_cli
 
