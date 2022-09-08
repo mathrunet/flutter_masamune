@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_module` - `v0.13.0+20`](#masamune_module---v013020)
+ - [`masamune_ui` - `v0.13.0+21`](#masamune_ui---v013021)
+
+---
+
+#### `masamune_module` - `v0.13.0+20`
+
+ - **FIX**: Changed EmailLoginAndRegister to make it easier to use. ([d125c3e1](https://github.com/mathrunet/flutter_masamune/commit/d125c3e158a4ebd9bccb2879c7f9c6d8c1d023f5))
+
+#### `masamune_ui` - `v0.13.0+21`
+
+ - **FIX**: Renamed DefaultButtonStyle. ([315f24ca](https://github.com/mathrunet/flutter_masamune/commit/315f24ca903ad1ca4e95b7ddbd9d8f1ac822c32a))
+
+
 ## 2022-09-07
 
 ### Changes
