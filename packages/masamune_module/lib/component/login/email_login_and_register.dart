@@ -507,8 +507,7 @@ class EmailLoginAndRegisterModuleLoginPage
                 ),
                 suffixIconConstraints:
                     const BoxConstraints(minHeight: 0, minWidth: 0),
-                onSubmitted: (value) =>
-                    _onSubmitted(context, ref, module, form),
+                onSubmitted: (value) => onSubmitted(context, ref, module, form),
               ),
               Divid(color: color.withOpacity(0.75)),
               const Space.height(16),
@@ -544,7 +543,7 @@ class EmailLoginAndRegisterModuleLoginPage
                     backgroundColor: buttonBackgroundColor,
                     borderColor: buttonColor,
                     icon: Icons.check,
-                    onPressed: () => _onSubmitted(context, ref, module, form),
+                    onPressed: () => onSubmitted(context, ref, module, form),
                   )
                 ],
               ),
@@ -566,7 +565,8 @@ class EmailLoginAndRegisterModuleLoginPage
     return null;
   }
 
-  Future<void> _onSubmitted(
+  @protected
+  Future<void> onSubmitted(
     BuildContext context,
     WidgetRef ref,
     EmailLoginAndRegisterModule module,
@@ -787,7 +787,7 @@ class EmailLoginAndRegisterModuleRegisterPage
                 suffixIconConstraints:
                     const BoxConstraints(minHeight: 0, minWidth: 0),
                 onSubmitted: (value) {
-                  _onSubmitted(context, ref, module, form, role);
+                  onSubmitted(context, ref, module, form, role);
                 },
               ),
               ...context.app?.userVariables.buildForm(
@@ -845,7 +845,7 @@ class EmailLoginAndRegisterModuleRegisterPage
                     borderColor: buttonColor,
                     icon: Icons.check,
                     onPressed: () =>
-                        _onSubmitted(context, ref, module, form, role),
+                        onSubmitted(context, ref, module, form, role),
                   )
                 ],
               ),
@@ -867,7 +867,8 @@ class EmailLoginAndRegisterModuleRegisterPage
     return null;
   }
 
-  Future<void> _onSubmitted(
+  @protected
+  Future<void> onSubmitted(
     BuildContext context,
     WidgetRef ref,
     EmailLoginAndRegisterModule module,
@@ -1054,8 +1055,7 @@ class EmailLoginAndRegisterModulePasswordResetPage
                 onSaved: (value) {
                   context["email"] = value;
                 },
-                onSubmitted: (value) =>
-                    _onSubmitted(context, ref, module, form),
+                onSubmitted: (value) => onSubmitted(context, ref, module, form),
               ),
               Divid(color: color.withOpacity(0.75)),
               const Space.height(24),
@@ -1073,7 +1073,7 @@ class EmailLoginAndRegisterModulePasswordResetPage
                     backgroundColor: buttonBackgroundColor,
                     borderColor: buttonColor,
                     icon: Icons.send,
-                    onPressed: () => _onSubmitted(context, ref, module, form),
+                    onPressed: () => onSubmitted(context, ref, module, form),
                   ),
                 ],
               ),
@@ -1095,7 +1095,8 @@ class EmailLoginAndRegisterModulePasswordResetPage
     return null;
   }
 
-  Future<void> _onSubmitted(
+  @protected
+  Future<void> onSubmitted(
     BuildContext context,
     WidgetRef ref,
     EmailLoginAndRegisterModule module,
