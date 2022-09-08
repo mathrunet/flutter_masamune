@@ -48,7 +48,7 @@ class FormItemButton extends StatelessWidget implements FormItem {
       child: icon != null
           ? TextButton.icon(
               style: style ??
-                  DefaultTextButtonStyle(
+                  DefaultButtonStyle(
                     padding: padding,
                     color: color ?? context.theme.textColorOnPrimary,
                     disabledColor: disabledColor,
@@ -76,7 +76,7 @@ class FormItemButton extends StatelessWidget implements FormItem {
             )
           : TextButton(
               style: style ??
-                  DefaultTextButtonStyle(
+                  DefaultButtonStyle(
                     padding: padding,
                     color: color ?? context.theme.textColorOnPrimary,
                     disabledColor: disabledColor,
