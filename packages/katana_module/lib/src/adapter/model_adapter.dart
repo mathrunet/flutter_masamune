@@ -83,6 +83,11 @@ abstract class ModelAdapter<
   /// Loads data for the next cursor further in the [collection] that has been read.
   Future<TCollection> loadNextCollection(TCollection collection);
 
+  /// Cast [TCollection] into the form [DynamicCollectionModel<E>] using [convert].
+  DynamicCollectionModel<E> castCollection<E extends DynamicDocumentModel>(
+    E Function(DynamicDocumentModel e) convert,
+  );
+
   /// Outputs the builder to be written by the transaction.
   ///
   /// Basically, it writes and deletes data for [collectionPath].
