@@ -1,3 +1,9 @@
+## 0.13.1+1
+
+ - **FIX**: Delete castCollection. ([7918e451](https://github.com/mathrunet/flutter_masamune/commit/7918e4516e7449a15b0165185f0fbcccfafcf8aa))
+ - **FIX**: Bug fixes. ([9c0b2b8f](https://github.com/mathrunet/flutter_masamune/commit/9c0b2b8f9f9c2413ed1be3cc8a34c74a19918ff6))
+ - **FIX**: Bug fixes. ([6c143411](https://github.com/mathrunet/flutter_masamune/commit/6c143411efbac68acf154db2b709648bc968356b))
+
 ## 0.13.1
 
  - **FEAT**: Add castCollection to ModelAdapter. ([bdb3d6e2](https://github.com/mathrunet/flutter_masamune/commit/bdb3d6e29ab78ab150c70d27b0ceda33b7bc65c7))
