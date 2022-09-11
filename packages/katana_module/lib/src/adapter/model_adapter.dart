@@ -86,7 +86,7 @@ abstract class ModelAdapter<
   /// Cast [collection] into the form [DynamicCollectionModel<E>] using [convert].
   DynamicCollectionModel<E> castCollection<E extends DynamicDocumentModel>(
     TCollection collection,
-    E Function(DynamicDocumentModel e) convert,
+    E Function(TDocument e) convert,
   );
 
   /// Outputs the builder to be written by the transaction.
