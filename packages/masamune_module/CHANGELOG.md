@@ -1,3 +1,7 @@
+## 0.13.0+21
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+20
 
  - **FIX**: Changed EmailLoginAndRegister to make it easier to use. ([d125c3e1](https://github.com/mathrunet/flutter_masamune/commit/d125c3e158a4ebd9bccb2879c7f9c6d8c1d023f5))

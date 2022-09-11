@@ -3,6 +3,84 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_module` - `v0.13.1`](#katana_module---v0131)
+ - [`masamune_cli` - `v0.13.1+1`](#masamune_cli---v01311)
+ - [`model_notifier` - `v0.13.1`](#model_notifier---v0131)
+ - [`masamune` - `v0.13.0+19`](#masamune---v013019)
+ - [`masamune_location` - `v0.13.0+19`](#masamune_location---v013019)
+ - [`masamune_agora` - `v0.13.0+19`](#masamune_agora---v013019)
+ - [`masamune_local_messaging` - `v0.13.0+19`](#masamune_local_messaging---v013019)
+ - [`masamune_media` - `v0.13.0+19`](#masamune_media---v013019)
+ - [`masamune_purchase` - `v0.13.0+19`](#masamune_purchase---v013019)
+ - [`masamune_wordpress` - `v0.13.0+19`](#masamune_wordpress---v013019)
+ - [`masamune_firebase` - `v0.13.0+19`](#masamune_firebase---v013019)
+ - [`masamune_ads` - `v0.13.0+19`](#masamune_ads---v013019)
+ - [`masamune_ui` - `v0.13.0+22`](#masamune_ui---v013022)
+ - [`masamune_purchase_firebase` - `v0.13.0+19`](#masamune_purchase_firebase---v013019)
+ - [`masamune_firebase_dynamic_links` - `v0.13.0+19`](#masamune_firebase_dynamic_links---v013019)
+ - [`masamune_signin_facebook` - `v0.13.0+20`](#masamune_signin_facebook---v013020)
+ - [`masamune_firebase_messaging` - `v0.13.0+19`](#masamune_firebase_messaging---v013019)
+ - [`masamune_signin_apple` - `v0.13.0+20`](#masamune_signin_apple---v013020)
+ - [`masamune_signin_google` - `v0.13.0+20`](#masamune_signin_google---v013020)
+ - [`masamune_signin_twitter` - `v0.13.0+20`](#masamune_signin_twitter---v013020)
+ - [`masamune_notion` - `v0.13.0+19`](#masamune_notion---v013019)
+ - [`masamune_purchase_stripe` - `v0.13.0+19`](#masamune_purchase_stripe---v013019)
+ - [`masamune_module` - `v0.13.0+21`](#masamune_module---v013021)
+ - [`firebase_model_notifier` - `v0.13.0+11`](#firebase_model_notifier---v013011)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v0.13.0+19`
+ - `masamune_location` - `v0.13.0+19`
+ - `masamune_agora` - `v0.13.0+19`
+ - `masamune_local_messaging` - `v0.13.0+19`
+ - `masamune_media` - `v0.13.0+19`
+ - `masamune_purchase` - `v0.13.0+19`
+ - `masamune_wordpress` - `v0.13.0+19`
+ - `masamune_firebase` - `v0.13.0+19`
+ - `masamune_ads` - `v0.13.0+19`
+ - `masamune_ui` - `v0.13.0+22`
+ - `masamune_purchase_firebase` - `v0.13.0+19`
+ - `masamune_firebase_dynamic_links` - `v0.13.0+19`
+ - `masamune_signin_facebook` - `v0.13.0+20`
+ - `masamune_firebase_messaging` - `v0.13.0+19`
+ - `masamune_signin_apple` - `v0.13.0+20`
+ - `masamune_signin_google` - `v0.13.0+20`
+ - `masamune_signin_twitter` - `v0.13.0+20`
+ - `masamune_notion` - `v0.13.0+19`
+ - `masamune_purchase_stripe` - `v0.13.0+19`
+ - `masamune_module` - `v0.13.0+21`
+ - `firebase_model_notifier` - `v0.13.0+11`
+
+---
+
+#### `katana_module` - `v0.13.1`
+
+ - **FEAT**: Add castCollection to ModelAdapter. ([bdb3d6e2](https://github.com/mathrunet/flutter_masamune/commit/bdb3d6e29ab78ab150c70d27b0ceda33b7bc65c7))
+
+#### `masamune_cli` - `v0.13.1+1`
+
+ - **FIX**: Codemagic command modification. ([fa910834](https://github.com/mathrunet/flutter_masamune/commit/fa910834b148cd4c30d31469af1fdb39b8f8c2b2))
+
+#### `model_notifier` - `v0.13.1`
+
+ - **FEAT**: Add DynamicCollection(Document)ModelMixin. ([8e9b7d66](https://github.com/mathrunet/flutter_masamune/commit/8e9b7d666a0a449cd2a39cce28d5cc789c9e73ff))
+
+
 ## 2022-09-08
 
 ### Changes

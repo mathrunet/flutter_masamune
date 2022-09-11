@@ -1,3 +1,7 @@
+## 0.13.1
+
+ - **FEAT**: Add castCollection to ModelAdapter. ([bdb3d6e2](https://github.com/mathrunet/flutter_masamune/commit/bdb3d6e29ab78ab150c70d27b0ceda33b7bc65c7))
+
 ## 0.13.0+13
 
  - Update a dependency to the latest release.

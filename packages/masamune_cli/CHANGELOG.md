@@ -1,3 +1,7 @@
+## 0.13.1+1
+
+ - **FIX**: Codemagic command modification. ([fa910834](https://github.com/mathrunet/flutter_masamune/commit/fa910834b148cd4c30d31469af1fdb39b8f8c2b2))
+
 ## 0.13.1
 
  - **FEAT**: Add submodule command. ([d777e9be](https://github.com/mathrunet/flutter_masamune/commit/d777e9be75441aeceac010debfc653019cda42f1))

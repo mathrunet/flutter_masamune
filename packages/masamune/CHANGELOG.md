@@ -1,3 +1,7 @@
+## 0.13.0+19
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+18
 
  - **FIX**: Change to DefaultButtonStyle. ([0ea97817](https://github.com/mathrunet/flutter_masamune/commit/0ea97817b986b0eb38ae6193556e2964bbbba442))
