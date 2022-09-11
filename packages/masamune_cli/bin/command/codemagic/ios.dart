@@ -108,6 +108,7 @@ class CodemagicIOSCliCommand extends CliCommand {
       r"""
 - find . -name "Podfile" -execdir pod install \;
       - keychain initialize
+      - flutter packages pub upgrade
       - |      
         # set up provisioning profiles
         PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"

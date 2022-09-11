@@ -54,7 +54,7 @@ class CodemagicAndroidCliCommand extends CliCommand {
       - |
         # set up local properties
         echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
-      - flutter packages pub get
+      - flutter packages pub upgrade
       - flutter build appbundle --release  --build-number=$BUILD_NUMBER --dart-define=FLAVOR=prod
       - |
         # generate signed universal apk with user specified keys
