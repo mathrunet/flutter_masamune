@@ -15,6 +15,76 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`model_notifier` - `v0.14.0+2`](#model_notifier---v01402)
+ - [`katana_module` - `v0.14.0+2`](#katana_module---v01402)
+ - [`firebase_model_notifier` - `v0.14.0+2`](#firebase_model_notifier---v01402)
+ - [`masamune` - `v0.14.0+2`](#masamune---v01402)
+ - [`masamune_firebase` - `v0.14.0+2`](#masamune_firebase---v01402)
+ - [`masamune_firebase_messaging` - `v0.14.0+2`](#masamune_firebase_messaging---v01402)
+ - [`masamune_agora` - `v0.14.0+2`](#masamune_agora---v01402)
+ - [`masamune_location` - `v0.14.0+2`](#masamune_location---v01402)
+ - [`masamune_local_messaging` - `v0.14.0+2`](#masamune_local_messaging---v01402)
+ - [`masamune_media` - `v0.14.0+2`](#masamune_media---v01402)
+ - [`masamune_purchase` - `v0.14.0+2`](#masamune_purchase---v01402)
+ - [`masamune_wordpress` - `v0.14.0+2`](#masamune_wordpress---v01402)
+ - [`masamune_ui` - `v0.14.0+2`](#masamune_ui---v01402)
+ - [`masamune_ads` - `v0.14.0+2`](#masamune_ads---v01402)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+2`](#masamune_firebase_dynamic_links---v01402)
+ - [`masamune_signin_apple` - `v0.14.0+2`](#masamune_signin_apple---v01402)
+ - [`masamune_signin_facebook` - `v0.14.0+2`](#masamune_signin_facebook---v01402)
+ - [`masamune_signin_google` - `v0.14.0+2`](#masamune_signin_google---v01402)
+ - [`masamune_signin_twitter` - `v0.14.0+2`](#masamune_signin_twitter---v01402)
+ - [`masamune_purchase_firebase` - `v0.14.0+2`](#masamune_purchase_firebase---v01402)
+ - [`masamune_purchase_stripe` - `v0.14.0+2`](#masamune_purchase_stripe---v01402)
+ - [`masamune_notion` - `v0.14.0+2`](#masamune_notion---v01402)
+ - [`masamune_module` - `v0.14.0+2`](#masamune_module---v01402)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.14.0+2`
+ - `firebase_model_notifier` - `v0.14.0+2`
+ - `masamune` - `v0.14.0+2`
+ - `masamune_firebase` - `v0.14.0+2`
+ - `masamune_firebase_messaging` - `v0.14.0+2`
+ - `masamune_agora` - `v0.14.0+2`
+ - `masamune_location` - `v0.14.0+2`
+ - `masamune_local_messaging` - `v0.14.0+2`
+ - `masamune_media` - `v0.14.0+2`
+ - `masamune_purchase` - `v0.14.0+2`
+ - `masamune_wordpress` - `v0.14.0+2`
+ - `masamune_ui` - `v0.14.0+2`
+ - `masamune_ads` - `v0.14.0+2`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+2`
+ - `masamune_signin_apple` - `v0.14.0+2`
+ - `masamune_signin_facebook` - `v0.14.0+2`
+ - `masamune_signin_google` - `v0.14.0+2`
+ - `masamune_signin_twitter` - `v0.14.0+2`
+ - `masamune_purchase_firebase` - `v0.14.0+2`
+ - `masamune_purchase_stripe` - `v0.14.0+2`
+ - `masamune_notion` - `v0.14.0+2`
+ - `masamune_module` - `v0.14.0+2`
+
+---
+
+#### `model_notifier` - `v0.14.0+2`
+
+ - **FIX**: Added StoredDocumentModel to DynamicDocumentModel. ([56821c5e](https://github.com/mathrunet/flutter_masamune/commit/56821c5eb5af0544cfd5db444bbf04cfdd7158d6))
+
+
+## 2022-09-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`model_notifier` - `v0.14.0+1`](#model_notifier---v01401)
  - [`katana_module` - `v0.14.0+1`](#katana_module---v01401)
  - [`firebase_model_notifier` - `v0.14.0+1`](#firebase_model_notifier---v01401)

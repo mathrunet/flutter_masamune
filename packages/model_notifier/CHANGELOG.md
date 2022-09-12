@@ -1,3 +1,7 @@
+## 0.14.0+2
+
+ - **FIX**: Added StoredDocumentModel to DynamicDocumentModel. ([56821c5e](https://github.com/mathrunet/flutter_masamune/commit/56821c5eb5af0544cfd5db444bbf04cfdd7158d6))
+
 ## 0.14.0+1
 
  - **FIX**: Bug fixes. ([55716c55](https://github.com/mathrunet/flutter_masamune/commit/55716c55842439a4071880666e27e9725352f5f0))
