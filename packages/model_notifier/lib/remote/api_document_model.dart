@@ -7,7 +7,7 @@ part of model_notifier;
 ///
 /// Use `get` in the [load()] method and `post` in the [save()] method as HTTP methods.
 abstract class ApiDocumentModel<T> extends DocumentModel<T>
-    implements StoredModel<T, ApiDocumentModel<T>> {
+    implements StoredDocumentModel<T> {
   /// Class that can retrieve data from the RestAPI and store it as a document.
   ///
   /// Basically, you get a  Map as a response of RestAPI and use it by converting it.
@@ -65,13 +65,11 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   bool loaded = false;
 
   /// Callback before the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onLoad() async {}
 
   /// Callback before the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onSave() async {}
@@ -82,13 +80,11 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   Future<void> onDelete() async {}
 
   /// Callback after the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidLoad() async {}
 
   /// Callback after the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidSave() async {}
@@ -134,9 +130,6 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   @protected
   Future<void> loadRequest() async {
     final res = await Api.get(getEndpoint, headers: getHeaders);
-    if (res == null) {
-      return;
-    }
     onCatchResponse(res);
     value = fromMap(filterOnLoad(fromResponse(res.body)));
   }
@@ -152,9 +145,6 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
       headers: postHeaders,
       body: toRequest(filterOnSave(toMap(value))),
     );
-    if (res == null) {
-      return;
-    }
     onCatchResponse(res);
   }
 
@@ -169,9 +159,6 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
       headers: deleteHeaders,
       body: toRequest(filterOnSave(toMap(value))),
     );
-    if (res == null) {
-      return;
-    }
     onCatchResponse(res);
   }
 
@@ -182,10 +169,9 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<ApiDocumentModel<T>> load() async {
+  Future<void> load() async {
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     try {
@@ -203,17 +189,24 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
       _loadCompleter?.complete();
       _loadCompleter = null;
     }
-    return this;
+    return;
+  }
+
+  /// Load data while monitoring Firestore for real-time updates.
+  ///
+  /// It will continue to monitor for updates until [dispose()].
+  @override
+  Future<void> listen() {
+    return load();
   }
 
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
   /// The updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<ApiDocumentModel<T>> save() async {
+  Future<void> save() async {
     if (_saveCompleter != null) {
-      await saving;
-      return this;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {
@@ -231,7 +224,7 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
       _saveCompleter?.complete();
       _saveCompleter = null;
     }
-    return this;
+    return;
   }
 
   /// Reload data and updates the data in the model.
@@ -239,7 +232,7 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   @override
-  Future<ApiDocumentModel<T>> reload() => load();
+  Future<void> reload() => load();
 
   /// If the data is empty, [load] is performed only once.
   ///
@@ -247,21 +240,20 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
   @override
-  Future<ApiDocumentModel<T>> loadOnce() async {
+  Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;
       return load();
     }
-    return this;
   }
 
   /// Deletes the document.
   ///
   /// It may not affect Collection as it is deleted via API.
+  @override
   Future<void> delete() async {
     if (_saveCompleter != null) {
-      await saving;
-      return;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {

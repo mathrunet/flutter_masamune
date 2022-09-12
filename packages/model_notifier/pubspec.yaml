@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana_flutter: ^0.13.0
+  katana_flutter: ^0.14.0
 
 dev_dependencies:
   flutter_test:

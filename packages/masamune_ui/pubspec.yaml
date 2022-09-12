@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune: ^0.13.0
+  masamune: ^0.14.0
   loadmore: ^2.0.1
   wakelock: ^0.6.2
   badges: ^2.0.2

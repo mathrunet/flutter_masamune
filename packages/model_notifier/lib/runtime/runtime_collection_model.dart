@@ -8,8 +8,7 @@ part of model_notifier;
 /// In addition, since it can be used as [List],
 /// it is possible to operate the content as it is.
 abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
-    extends ListModel<T>
-    implements StoredModel<List<T>, RuntimeCollectionModel<T>> {
+    extends ListModel<T> implements StoredCollectionModel<T> {
   /// Base class for holding and manipulating data from a runtime database as a collection of [RuntimeDocumentModel].
   ///
   /// The runtime database is a Json database.
@@ -102,19 +101,16 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   bool loaded = false;
 
   /// Callback before the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onLoad() async {}
 
   /// Callback after the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidLoad() async {}
 
   /// Callback after the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onSave() async => throw UnimplementedError(
@@ -122,7 +118,6 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
       );
 
   /// Callback after the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidSave() async => throw UnimplementedError(
@@ -162,6 +157,7 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   /// Create a new document.
   ///
   /// [id] is the ID of the document. If it is blank, [uuid] is used.
+  @override
   T create([String? id]) =>
       createDocument("${path.trimQuery()}/${id.isEmpty ? uuid : id}");
 
@@ -172,10 +168,9 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<RuntimeCollectionModel<T>> load() async {
+  Future<void> load() async {
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     try {
@@ -235,7 +230,14 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
       _loadCompleter?.complete();
       _loadCompleter = null;
     }
-    return this;
+  }
+
+  /// Load data while monitoring Firestore for real-time updates.
+  ///
+  /// It will continue to monitor for updates until [dispose()].
+  @override
+  Future<void> listen() {
+    return load();
   }
 
   void _handledOnUpdate(LocalStoreDocumentUpdate update) {
@@ -362,7 +364,7 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   ///
   /// The updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<RuntimeCollectionModel<T>> save() async {
+  Future<void> save() async {
     throw UnimplementedError("Save process should be done for each document.");
   }
 
@@ -371,18 +373,18 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   @override
-  Future<RuntimeCollectionModel<T>> reload() async {
+  Future<void> reload() async {
     clear();
-    await load();
-    return this;
+    return load();
   }
 
   /// Load the data on the next page.
   ///
   /// If there is no data, [load()] is executed.
-  Future<RuntimeCollectionModel<T>> next() async {
+  @override
+  Future<void> next() async {
     if (!canNext) {
-      return this;
+      return;
     }
     final prevLength = length;
     clear();
@@ -391,12 +393,12 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
     if (prevLength == length) {
       _nextCount = _nextCount - 1;
     }
-    return this;
   }
 
   /// Returns True if the following reads are possible
   ///
   /// Returns False if no data has been read yet and no limit has been set.
+  @override
   bool get canNext {
     if (isEmpty) {
       return false;
@@ -414,19 +416,18 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
   @override
-  Future<RuntimeCollectionModel<T>> loadOnce() async {
+  Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;
       return load();
     }
-    return this;
   }
 
   /// Remove elements in the collection that are `true` in [test].
+  @override
   Future<void> delete(bool Function(T value) test) async {
     if (_saveCompleter != null) {
-      await saving;
-      return;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {
@@ -454,19 +455,19 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   /// Add a new document to the current collection based on [uid].
   ///
   /// It is possible to specify data to be added to the document by giving [data].
+  @override
   Future<void> append(
     String uid, {
-    DynamicMap data = const {},
+    T? data,
   }) async {
     if (_saveCompleter != null) {
-      await saving;
-      return;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {
       await onAppend();
       final val = createDocument("${path.trimQuery()}/$uid");
-      val.value = val.fromMap(val.filterOnLoad(Map.from(data)));
+      val.value = val.fromMap(val.filterOnLoad(val.toMap(data)));
       await val.save();
       await onDidAppend();
       _saveCompleter?.complete();

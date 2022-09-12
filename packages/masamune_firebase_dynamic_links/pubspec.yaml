@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune_firebase: ^0.13.0
+  masamune_firebase: ^0.14.0
   firebase_dynamic_links: ^4.0.3
 
 dev_dependencies:

@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana_routing: ^0.13.0
-  model_notifier: ^0.13.0
+  katana_routing: ^0.14.0
+  model_notifier: ^0.14.0
 
 dev_dependencies:
   flutter_test:

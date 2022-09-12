@@ -31,17 +31,6 @@ abstract class ModelAdapter<
     bool disposable = true,
   });
 
-  /// Performs the process of loading a document.
-  ///
-  /// Usually, you specify a method that can be executed only the first time,
-  /// such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  TDocument loadDocument(
-    TDocument document, {
-    bool listen = true,
-  });
-
   /// Gets the provider of the [Collection].
   ///
   /// In [path], enter the path where you want to retrieve the collection.
@@ -58,30 +47,6 @@ abstract class ModelAdapter<
   ProviderBase<TSearchableCollection> searchableCollectionProvider(
     String path,
   );
-
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time,
-  /// such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  TCollection loadCollection(
-    TCollection collection, {
-    bool listen = true,
-  });
-
-  /// Reload the given [document].
-  ///
-  /// There is no effect with respect to the document being listened to.
-  Future<TDocument> reloadDocument(TDocument document);
-
-  /// Reload the given [collection].
-  ///
-  /// There is no effect with respect to the collection being listened to.
-  Future<TCollection> reloadCollection(TCollection collection);
-
-  /// Loads data for the next cursor further in the [collection] that has been read.
-  Future<TCollection> loadNextCollection(TCollection collection);
 
   /// Outputs the builder to be written by the transaction.
   ///
@@ -111,27 +76,8 @@ abstract class ModelAdapter<
     String charSet = "23456789abcdefghjkmnpqrstuvwxy",
   });
 
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time,
-  /// such as [loadOnce] or [listen].
-  // TCollection listenCollection(TCollection collection);
-
-  /// Retrieves a document from a [collection].
-  ///
-  /// By specifying [id], you can specify the ID of newly created document.
-  /// If not specified, [uuid] will be used.
-  TDocument createDocument(TCollection collection, [String? id]);
-
   /// Retrieves a document from a [path].
-  TDocument createDocumentFromPath(String path);
-
-  /// Save the data in the document so that
-  /// you can use it after restarting the app.
-  Future<void> saveDocument(TDocument document);
-
-  /// Deletes information associated with a document.
-  Future<void> deleteDocument(TDocument document);
+  TDocument createDocument(String path);
 
   /// Upload your media.
   ///

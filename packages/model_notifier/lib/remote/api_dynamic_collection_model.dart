@@ -19,4 +19,5 @@ class ApiDynamicCollectionModel extends ApiCollectionModel<DynamicMap> {
 
   @override
   DynamicMap createDocument([Object? id]) => {};
+
 }

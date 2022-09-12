@@ -8,7 +8,7 @@ part of model_notifier;
 /// Use `get` in the [load()] method and `post` in the [save()] method as HTTP methods.
 abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
     with ListModelMixin<T>
-    implements List<T>, StoredModel<List<T>, ApiCollectionModel<T>> {
+    implements List<T>, StoredCollectionModel<T> {
   /// Class that can retrieve data from the RestAPI and store it as a collection of value.
   ///
   /// Basically, you get a List of Map or a Map of Map as a response of RestAPI and use it by converting it.
@@ -82,7 +82,6 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   List<Object> toCollection(List<T> list);
 
   /// Callback before the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onLoad() async {}
@@ -93,19 +92,16 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   Future<void> onLoadNext() async {}
 
   /// Callback before the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onSave() async {}
 
   /// Callback after the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidLoad() async {}
 
   /// Callback after the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidSave() async {}
@@ -114,6 +110,26 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   @protected
   @mustCallSuper
   Future<void> onDidLoadNext() async {}
+
+  /// Callback before the delete has been done.
+  @protected
+  @mustCallSuper
+  Future<void> onDelete() async {}
+
+  /// Callback after the delete has been done.
+  @protected
+  @mustCallSuper
+  Future<void> onDidDelete() async {}
+
+  /// Callback before the append has been done.
+  @protected
+  @mustCallSuper
+  Future<void> onAppend() async {}
+
+  /// Callback after the append has been done.
+  @protected
+  @mustCallSuper
+  Future<void> onDidAppend() async {}
 
   /// Callback to catch what to do with the response.
   ///
@@ -151,6 +167,7 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   /// Create a new document.
   ///
   /// [id] is the ID of the document.
+  @override
   T create([Object? id]) => createDocument(id);
 
   /// The actual loading process is done from the API when it is loaded.
@@ -160,9 +177,6 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   @protected
   Future<void> loadRequest() async {
     final res = await Api.get(getEndpoint, headers: getHeaders);
-    if (res == null) {
-      return;
-    }
     onCatchResponse(res);
     final data = fromCollection(filterOnLoad(fromResponse(res.body)));
     addAll(data);
@@ -179,9 +193,6 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
       headers: postHeaders,
       body: toRequest(filterOnSave(toCollection(this))),
     );
-    if (res == null) {
-      return;
-    }
     onCatchResponse(res);
   }
 
@@ -192,12 +203,40 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   @protected
   Future<void> loadNextRequest() async {
     final res = await Api.get(getEndpoint, headers: getHeaders);
-    if (res == null) {
-      return;
-    }
     onCatchResponse(res);
     final data = fromCollection(filterOnLoad(fromResponse(res.body)));
     addAll(data);
+  }
+
+  /// The actual loading process is done from the API when it is deleted.
+  ///
+  /// By overriding, it is possible to use plugins, etc.
+  /// in addition to simply retrieving from the URL.
+  @protected
+  Future<void> deleteRequest(List<T> deleteList) async {
+    await Api.delete(
+      getEndpoint,
+      headers: getHeaders,
+      body: toRequest(
+        filterOnSave(
+          toCollection(deleteList),
+        ),
+      ),
+    );
+  }
+
+  /// The actual loading process is done from the API when it is append.
+  ///
+  /// By overriding, it is possible to use plugins, etc.
+  /// in addition to simply retrieving from the URL.
+  @protected
+  Future<void> appendRequest(T data) async {
+    await Api.post(
+      getEndpoint,
+      headers: getHeaders,
+      body: toRequest(filterOnSave(toCollection([...this, data]))),
+    );
+    add(data);
   }
 
   /// Retrieves data and updates the data in the model.
@@ -207,10 +246,9 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<ApiCollectionModel<T>> load() async {
+  Future<void> load() async {
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     try {
@@ -228,17 +266,23 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
       _loadCompleter?.complete();
       _loadCompleter = null;
     }
-    return this;
+  }
+
+  /// Load data while monitoring Firestore for real-time updates.
+  ///
+  /// It will continue to monitor for updates until [dispose()].
+  @override
+  Future<void> listen() {
+    return load();
   }
 
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
   /// The updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<ApiCollectionModel<T>> save() async {
+  Future<void> save() async {
     if (_saveCompleter != null) {
-      await saving;
-      return this;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {
@@ -256,7 +300,6 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
       _saveCompleter?.complete();
       _saveCompleter = null;
     }
-    return this;
   }
 
   /// Reload data and updates the data in the model.
@@ -264,10 +307,9 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   @override
-  Future<ApiCollectionModel<T>> reload() async {
+  Future<void> reload() async {
     clear();
-    await load();
-    return this;
+    return load();
   }
 
   /// If the data is empty, [load] is performed only once.
@@ -276,21 +318,20 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
   @override
-  Future<ApiCollectionModel<T>> loadOnce() async {
+  Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;
       return load();
     }
-    return this;
   }
 
   /// Load the data on the next page.
   ///
   /// If there is no data, [load()] is executed.
-  Future<ApiCollectionModel<T>> next() async {
+  @override
+  Future<void> next() async {
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     try {
@@ -308,7 +349,62 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
       _loadCompleter?.complete();
       _loadCompleter = null;
     }
-    return this;
+  }
+
+  /// Returns True if the following reads are possible
+  ///
+  /// Returns False if no data has been read yet and no limit has been set.
+  @override
+  bool get canNext => throw UnimplementedError();
+
+  /// Remove elements in the collection that are `true` in [test].
+  @override
+  Future<void> delete(bool Function(T value) test) async {
+    if (_saveCompleter != null) {
+      return saving;
+    }
+    _saveCompleter = Completer<void>();
+    try {
+      await onDelete();
+      await deleteRequest(where(test).toList());
+      removeWhere(test);
+      await onDidDelete();
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    } catch (e) {
+      _saveCompleter?.completeError(e);
+      _saveCompleter = null;
+    } finally {
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    }
+  }
+
+  /// Add a new document to the current collection based on [uid].
+  ///
+  /// It is possible to specify data to be added to the document by giving [data].
+  @override
+  Future<void> append(String uid, {T? data}) async {
+    if (data == null) {
+      return;
+    }
+    if (_saveCompleter != null) {
+      return saving;
+    }
+    _saveCompleter = Completer<void>();
+    try {
+      await onAppend();
+      await appendRequest(data);
+      await onDidAppend();
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    } catch (e) {
+      _saveCompleter?.completeError(e);
+      _saveCompleter = null;
+    } finally {
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    }
   }
 
   /// The equality operator.

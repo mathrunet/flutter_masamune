@@ -8,7 +8,7 @@ part of model_notifier;
 /// In addition, since it can be used as [Map],
 /// it is possible to operate the content as it is.
 abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
-    implements StoredModel<T, RuntimeDocumentModel<T>> {
+    implements StoredDocumentModel<T> {
   /// Base class for holding and manipulating data from a runtime database as a document of [T].
   ///
   /// The runtime database is a Json database.
@@ -79,13 +79,11 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   Future<void> get deleting => Future.value();
 
   /// Callback before the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onLoad() async {}
 
   /// Callback before the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onSave() async {}
@@ -96,13 +94,11 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   Future<void> onDelete() async {}
 
   /// Callback after the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidLoad() async {}
 
   /// Callback after the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidSave() async {}
@@ -133,10 +129,9 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<RuntimeDocumentModel<T>> load() async {
+  Future<void> load() async {
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     try {
@@ -153,7 +148,6 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
       _loadCompleter?.complete();
       _loadCompleter = null;
     }
-    return this;
   }
 
   Future<T> _loadProcess() async {
@@ -165,6 +159,14 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
     RuntimeDatabase._db.addDocumentListener(_query!);
     final data = await RuntimeDatabase._db.loadDocument(_query!);
     return fromMap(filterOnLoad(data != null ? Map.from(data) : {}));
+  }
+
+  /// Load data while monitoring Firestore for real-time updates.
+  ///
+  /// It will continue to monitor for updates until [dispose()].
+  @override
+  Future<void> listen() {
+    return load();
   }
 
   void _handledOnUpdate(LocalStoreDocumentUpdate update) {
@@ -187,10 +189,9 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   ///
   /// The updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<RuntimeDocumentModel<T>> save() async {
+  Future<void> save() async {
     if (_saveCompleter != null) {
-      await saving;
-      return this;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {
@@ -207,7 +208,6 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
       _saveCompleter?.complete();
       _saveCompleter = null;
     }
-    return this;
   }
 
   void _saveProcess() {
@@ -225,7 +225,7 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   @override
-  Future<RuntimeDocumentModel<T>> reload() => load();
+  Future<void> reload() => load();
 
   /// If the data is empty, [load] is performed only once.
   ///
@@ -233,21 +233,20 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
   @override
-  Future<RuntimeDocumentModel<T>> loadOnce() async {
+  Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;
       return load();
     }
-    return this;
   }
 
   /// Deletes the document.
   ///
   /// Deleted documents are immediately reflected and removed from related collections, etc.
+  @override
   Future<void> delete() async {
     if (_saveCompleter != null) {
-      await saving;
-      return;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {

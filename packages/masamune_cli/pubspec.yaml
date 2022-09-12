@@ -12,7 +12,7 @@ dependencies:
   yaml: ^3.1.0
   archive: ^3.1.9
   csv: ^5.0.1
-  katana: ^0.13.0
+  katana: ^0.14.0
   image: ^3.2.0
 
 executables:
