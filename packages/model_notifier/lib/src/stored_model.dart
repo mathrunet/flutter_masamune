@@ -3,6 +3,14 @@ part of model_notifier;
 /// Abstract class that defines methods on document model for reading and writing data.
 abstract class StoredDocumentModel<T> extends Model<T>
     implements FutureModel<T> {
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`, load only.
+  Future<void> fetch([bool listen = true]);
+
   /// Retrieves data and updates the data in the model.
   ///
   /// You will be notified of model updates at the time they are retrieved.
@@ -13,10 +21,10 @@ abstract class StoredDocumentModel<T> extends Model<T>
 
   /// Load data while monitoring Firestore for real-time updates.
   ///
-  /// If not Listen, normal loading is performed.
+  /// Returns [UnimplementedError] if there is no real-time update.
   ///
   /// It will continue to monitor for updates until [dispose()].
-  Future<void> loadOrListen();
+  Future<void> listen();
 
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
@@ -59,6 +67,14 @@ abstract class StoredCollectionModel<T> extends Model<List<T>>
   /// [id] is the ID of the document. If it is blank, [uuid] is used.
   T create([String? id]);
 
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`, load only.
+  Future<void> fetch([bool listen = true]);
+
   /// Retrieves data and updates the data in the model.
   ///
   /// You will be notified of model updates at the time they are retrieved.
@@ -69,10 +85,10 @@ abstract class StoredCollectionModel<T> extends Model<List<T>>
 
   /// Load data while monitoring Firestore for real-time updates.
   ///
-  /// If not Listen, normal loading is performed.
+  /// Returns [UnimplementedError] if there is no real-time update.
   ///
   /// It will continue to monitor for updates until [dispose()].
-  Future<void> loadOrListen();
+  Future<void> listen();
 
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
