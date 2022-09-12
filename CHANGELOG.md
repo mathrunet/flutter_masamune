@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_module` - `v0.14.1+2`](#masamune_module---v01412)
+
+---
+
+#### `masamune_module` - `v0.14.1+2`
+
+ - **FIX**: Avoiding flutter_quill errors. ([37704284](https://github.com/mathrunet/flutter_masamune/commit/3770428457d33f50af771c58547ddffb63369686))
+
+
 ## 2022-09-12
 
 ### Changes
