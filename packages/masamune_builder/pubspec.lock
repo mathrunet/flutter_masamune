@@ -235,13 +235,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.0"
-  katana_module_builder_annotation:
+  katana_annotation:
     dependency: "direct main"
     description:
-      name: katana_module_builder_annotation
+      name: katana_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "0.14.1"
   logging:
     dependency: transitive
     description:

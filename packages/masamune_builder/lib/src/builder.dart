@@ -4,7 +4,7 @@ Builder masamuneBuilderFactory(BuilderOptions options) {
   return PartBuilder([MasamuneGenerator()], ".m.dart");
 }
 
-class MasamuneGenerator extends GeneratorForAnnotation<MasamuneModule> {
+class MasamuneGenerator extends GeneratorForAnnotation<ModelPath> {
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
