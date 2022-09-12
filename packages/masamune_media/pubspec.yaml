@@ -1,6 +1,6 @@
 name: masamune_media
 description: Plug-in package for uploading Masamune media files. Select and upload images and videos from your library or camera.
-version: 0.14.0+7
+version: 0.14.0+8
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_media
 
