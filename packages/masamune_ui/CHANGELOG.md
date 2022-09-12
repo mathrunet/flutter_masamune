@@ -1,3 +1,9 @@
+## 0.14.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
 ## 0.13.0+24
 
  - Update a dependency to the latest release.

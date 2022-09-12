@@ -11,6 +11,157 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - [`firebase_model_notifier` - `v0.14.0`](#firebase_model_notifier---v0140)
+ - [`katana_firebase` - `v0.14.0`](#katana_firebase---v0140)
+ - [`katana_flutter` - `v0.14.0`](#katana_flutter---v0140)
+ - [`katana_module` - `v0.14.0`](#katana_module---v0140)
+ - [`katana_routing` - `v0.14.0`](#katana_routing---v0140)
+ - [`masamune` - `v0.14.0`](#masamune---v0140)
+ - [`masamune_ads` - `v0.14.0`](#masamune_ads---v0140)
+ - [`masamune_agora` - `v0.14.0`](#masamune_agora---v0140)
+ - [`masamune_cli` - `v0.14.0`](#masamune_cli---v0140)
+ - [`masamune_firebase` - `v0.14.0`](#masamune_firebase---v0140)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0`](#masamune_firebase_dynamic_links---v0140)
+ - [`masamune_firebase_messaging` - `v0.14.0`](#masamune_firebase_messaging---v0140)
+ - [`masamune_local_messaging` - `v0.14.0`](#masamune_local_messaging---v0140)
+ - [`masamune_location` - `v0.14.0`](#masamune_location---v0140)
+ - [`masamune_media` - `v0.14.0`](#masamune_media---v0140)
+ - [`masamune_module` - `v0.14.0`](#masamune_module---v0140)
+ - [`masamune_notion` - `v0.14.0`](#masamune_notion---v0140)
+ - [`masamune_purchase` - `v0.14.0`](#masamune_purchase---v0140)
+ - [`masamune_purchase_firebase` - `v0.14.0`](#masamune_purchase_firebase---v0140)
+ - [`masamune_purchase_stripe` - `v0.14.0`](#masamune_purchase_stripe---v0140)
+ - [`masamune_signin_apple` - `v0.14.0`](#masamune_signin_apple---v0140)
+ - [`masamune_signin_facebook` - `v0.14.0`](#masamune_signin_facebook---v0140)
+ - [`masamune_signin_google` - `v0.14.0`](#masamune_signin_google---v0140)
+ - [`masamune_signin_twitter` - `v0.14.0`](#masamune_signin_twitter---v0140)
+ - [`masamune_ui` - `v0.14.0`](#masamune_ui---v0140)
+ - [`masamune_wordpress` - `v0.14.0`](#masamune_wordpress---v0140)
+ - [`model_notifier` - `v0.14.0`](#model_notifier---v0140)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `firebase_model_notifier` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `katana_firebase` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `katana_flutter` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `katana_module` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `katana_routing` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_ads` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_agora` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_cli` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_firebase` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_firebase_dynamic_links` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_firebase_messaging` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_local_messaging` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_location` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_media` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_module` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_notion` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_purchase` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_purchase_firebase` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_purchase_stripe` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_signin_apple` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_signin_facebook` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_signin_google` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_signin_twitter` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_ui` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `masamune_wordpress` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+#### `model_notifier` - `v0.14.0`
+
+ - **BREAKING** **FIX**: Specification changes to the ModelNotifier base class. ([f94a20a4](https://github.com/mathrunet/flutter_masamune/commit/f94a20a4cfe6bedae97a3a947fbb9cb86fe6b88f))
+
+
+## 2022-09-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - There are no breaking changes in this release.
 
 Packages with other changes:
