@@ -16,9 +16,8 @@ class _DocumentModuleTag extends ModuleTag {
     if (param.length < 2) {
       return "";
     }
-    final doc = context.model!.loadDocument(
-      ref.watch(context.model!.documentProvider(param[0])),
-    );
+    final doc = ref.watch(context.model!.documentProvider(param[0]))
+      ..fetch();
     return doc.get<dynamic>(param.last, "").toString();
   }
 }

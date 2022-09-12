@@ -62,15 +62,12 @@ extension WidgetRefModelExtensions on WidgetRef {
   }) {
     final context = this as BuildContext;
 
-    return context.model!.loadDocument(
-      read(
-        context.model!.documentProvider(
-          applyModuleTag(path),
-          disposable: disposable,
-        ),
+    return read(
+      context.model!.documentProvider(
+        applyModuleTag(path),
+        disposable: disposable,
       ),
-      listen: listen,
-    );
+    )..fetch(listen);
   }
 
   /// Get the collection model of [path] from the resource registered with Adapter.
@@ -85,15 +82,12 @@ extension WidgetRefModelExtensions on WidgetRef {
   }) {
     final context = this as BuildContext;
 
-    return context.model!.loadCollection(
-      read(
-        context.model!.collectionProvider(
-          applyModuleTag(path),
-          disposable: disposable,
-        ),
+    return read(
+      context.model!.collectionProvider(
+        applyModuleTag(path),
+        disposable: disposable,
       ),
-      listen: listen,
-    );
+    )..fetch(listen);
   }
 
   /// Get the searchable collection model of [path] from the resource registered with Adapter.
@@ -117,15 +111,12 @@ extension WidgetRefModelExtensions on WidgetRef {
   }) {
     final context = this as BuildContext;
 
-    return context.model!.loadDocument(
-      read(
-        context.model!.documentProvider(
-          applyModuleTag("$userPath/${context.model?.userId}"),
-          disposable: disposable,
-        ),
+    return read(
+      context.model!.documentProvider(
+        applyModuleTag("$userPath/${context.model?.userId}"),
+        disposable: disposable,
       ),
-      listen: listen,
-    );
+    )..fetch(listen);
   }
 
   /// Get the document model of [path] from the resource registered with Adapter.
@@ -140,15 +131,12 @@ extension WidgetRefModelExtensions on WidgetRef {
   }) {
     final context = this as BuildContext;
 
-    return context.model!.loadDocument(
-      watch(
-        context.model!.documentProvider(
-          applyModuleTag(path),
-          disposable: disposable,
-        ),
+    return watch(
+      context.model!.documentProvider(
+        applyModuleTag(path),
+        disposable: disposable,
       ),
-      listen: listen,
-    );
+    )..fetch(listen);
   }
 
   /// Get the collection model of [path] from the resource registered with Adapter.
@@ -165,15 +153,12 @@ extension WidgetRefModelExtensions on WidgetRef {
   }) {
     final context = this as BuildContext;
 
-    return context.model!.loadCollection(
-      watch(
-        context.model!.collectionProvider(
-          applyModuleTag(path),
-          disposable: disposable,
-        ),
+    return watch(
+      context.model!.collectionProvider(
+        applyModuleTag(path),
+        disposable: disposable,
       ),
-      listen: listen,
-    );
+    )..fetch(listen);
   }
 
   /// Get the searchable collection model of [path] from the resource registered with Adapter.
@@ -203,14 +188,11 @@ extension WidgetRefModelExtensions on WidgetRef {
   }) {
     final context = this as BuildContext;
 
-    return context.model!.loadDocument(
-      watch(
-        context.model!.documentProvider(
-          applyModuleTag("$userPath/${context.model?.userId}"),
-          disposable: disposable,
-        ),
+    return watch(
+      context.model!.documentProvider(
+        applyModuleTag("$userPath/${context.model?.userId}"),
+        disposable: disposable,
       ),
-      listen: listen,
-    );
+    )..fetch(listen);
   }
 }

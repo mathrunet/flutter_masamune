@@ -15,9 +15,7 @@ class _CollectionModuleTag extends ModuleTag {
     if (param.length < 2) {
       return "";
     }
-    final col = context.model!.loadCollection(
-      ref.watch(context.model!.collectionProvider(param[0])),
-    );
+    final col = ref.watch(context.model!.collectionProvider(param[0]))..fetch();
     return col
         .mapAndRemoveEmpty(
           (item) => item.get<dynamic>(param.last, "").toString(),

@@ -72,8 +72,7 @@ class RoleRerouteConfig extends RerouteConfig {
       return;
     }
     final doc = readProvider(provider);
-    context.model?.loadDocument(doc);
-    await doc.loading;
+    await doc.fetch();
     return super.onAfterAuth(context);
   }
 
