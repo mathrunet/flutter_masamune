@@ -1,3 +1,7 @@
+## 0.14.0+5
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+4
 
  - **FIX**: Remove unnecessary interfaces. ([10cab147](https://github.com/mathrunet/flutter_masamune/commit/10cab147bce8ac33fd6591a47d21115da662af46))

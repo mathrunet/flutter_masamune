@@ -15,6 +15,164 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.14.0+5`](#firebase_model_notifier---v01405)
+ - [`katana` - `v0.14.0+1`](#katana---v01401)
+ - [`katana_firebase` - `v0.14.0+1`](#katana_firebase---v01401)
+ - [`katana_flutter` - `v0.14.0+1`](#katana_flutter---v01401)
+ - [`katana_module` - `v0.14.0+5`](#katana_module---v01405)
+ - [`katana_routing` - `v0.14.0+1`](#katana_routing---v01401)
+ - [`masamune` - `v0.14.0+5`](#masamune---v01405)
+ - [`masamune_ads` - `v0.14.0+5`](#masamune_ads---v01405)
+ - [`masamune_agora` - `v0.14.0+5`](#masamune_agora---v01405)
+ - [`masamune_cli` - `v0.14.0+1`](#masamune_cli---v01401)
+ - [`masamune_firebase` - `v0.14.0+5`](#masamune_firebase---v01405)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+5`](#masamune_firebase_dynamic_links---v01405)
+ - [`masamune_firebase_messaging` - `v0.14.0+5`](#masamune_firebase_messaging---v01405)
+ - [`masamune_local_messaging` - `v0.14.0+5`](#masamune_local_messaging---v01405)
+ - [`masamune_location` - `v0.14.0+5`](#masamune_location---v01405)
+ - [`masamune_media` - `v0.14.0+5`](#masamune_media---v01405)
+ - [`masamune_module` - `v0.14.0+5`](#masamune_module---v01405)
+ - [`masamune_notion` - `v0.14.0+5`](#masamune_notion---v01405)
+ - [`masamune_purchase` - `v0.14.0+5`](#masamune_purchase---v01405)
+ - [`masamune_purchase_firebase` - `v0.14.0+5`](#masamune_purchase_firebase---v01405)
+ - [`masamune_purchase_stripe` - `v0.14.0+5`](#masamune_purchase_stripe---v01405)
+ - [`masamune_signin_apple` - `v0.14.0+5`](#masamune_signin_apple---v01405)
+ - [`masamune_signin_facebook` - `v0.14.0+5`](#masamune_signin_facebook---v01405)
+ - [`masamune_signin_google` - `v0.14.0+5`](#masamune_signin_google---v01405)
+ - [`masamune_signin_twitter` - `v0.14.0+5`](#masamune_signin_twitter---v01405)
+ - [`masamune_ui` - `v0.14.0+5`](#masamune_ui---v01405)
+ - [`masamune_wordpress` - `v0.14.0+5`](#masamune_wordpress---v01405)
+ - [`model_notifier` - `v0.14.0+5`](#model_notifier---v01405)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `model_notifier` - `v0.14.0+5`
+
+---
+
+#### `firebase_model_notifier` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `katana` - `v0.14.0+1`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `katana_firebase` - `v0.14.0+1`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `katana_flutter` - `v0.14.0+1`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `katana_module` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `katana_routing` - `v0.14.0+1`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_ads` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_agora` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_cli` - `v0.14.0+1`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_firebase` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_firebase_dynamic_links` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_firebase_messaging` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_local_messaging` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_location` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_media` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_module` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_notion` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_purchase` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_purchase_firebase` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_purchase_stripe` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_signin_apple` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_signin_facebook` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_signin_google` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_signin_twitter` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_ui` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+#### `masamune_wordpress` - `v0.14.0+5`
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
+
+## 2022-09-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.14.0+4`](#firebase_model_notifier---v01404)
  - [`katana_module` - `v0.14.0+4`](#katana_module---v01404)
  - [`model_notifier` - `v0.14.0+4`](#model_notifier---v01404)

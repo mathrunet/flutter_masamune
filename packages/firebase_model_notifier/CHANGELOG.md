@@ -1,3 +1,7 @@
+## 0.14.0+5
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+
 ## 0.14.0+4
 
  - **FIX**: Support for interface changes. ([2f7663a5](https://github.com/mathrunet/flutter_masamune/commit/2f7663a52a5e9f97024019f642bf081d2fad01ef))
