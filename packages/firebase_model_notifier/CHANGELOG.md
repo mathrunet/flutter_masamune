@@ -1,3 +1,7 @@
+## 0.14.0+4
+
+ - **FIX**: Support for interface changes. ([2f7663a5](https://github.com/mathrunet/flutter_masamune/commit/2f7663a52a5e9f97024019f642bf081d2fad01ef))
+
 ## 0.14.0+3
 
  - Update a dependency to the latest release.

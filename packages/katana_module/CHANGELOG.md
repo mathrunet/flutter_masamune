@@ -1,3 +1,7 @@
+## 0.14.0+4
+
+ - **FIX**: Changed the interface of Adapter. ([b095485b](https://github.com/mathrunet/flutter_masamune/commit/b095485b3801828a341b6e6afcfc2d5512cb704b))
+
 ## 0.14.0+3
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 0.14.0+4
+
+ - **FIX**: Remove unnecessary interfaces. ([10cab147](https://github.com/mathrunet/flutter_masamune/commit/10cab147bce8ac33fd6591a47d21115da662af46))
+
 ## 0.14.0+3
 
  - **FIX**: Added fetch method to unify data fetching. ([d09e6b8a](https://github.com/mathrunet/flutter_masamune/commit/d09e6b8a259f8e91c826b90219450ed5957cd9ee))
