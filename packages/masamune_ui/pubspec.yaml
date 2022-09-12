@@ -1,6 +1,6 @@
 name: masamune_ui
 description: UI library using Masamune. Please be careful when using it normally, as it uses multiple external packages.
-version: 0.14.0+5
+version: 0.14.0+6
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_ui
 

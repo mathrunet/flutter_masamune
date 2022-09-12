@@ -1,3 +1,7 @@
+## 0.14.1
+
+ - **FEAT**: Change Hooks key to Optional. ([1528cf5f](https://github.com/mathrunet/flutter_masamune/commit/1528cf5f78af068fe8b80678503c22d1315b4577))
+
 ## 0.14.0+5
 
  - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
