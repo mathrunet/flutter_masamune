@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_module` - `v0.14.0+7`](#masamune_module---v01407)
+ - [`masamune_ui` - `v0.14.0+7`](#masamune_ui---v01407)
+
+---
+
+#### `masamune_module` - `v0.14.0+7`
+
+ - **FIX**: Response to Hook changes. ([5775df09](https://github.com/mathrunet/flutter_masamune/commit/5775df09f99ce37125da6767e9afbadc6355d3ff))
+
+#### `masamune_ui` - `v0.14.0+7`
+
+ - **FIX**: Response to Hooks changes. ([ad8fe3c2](https://github.com/mathrunet/flutter_masamune/commit/ad8fe3c26e1ac06d28d9d81aad57e6af2f0fba91))
+
+
+## 2022-09-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v0.14.1`](#masamune---v0141)
  - [`masamune_agora` - `v0.14.0+6`](#masamune_agora---v01406)
  - [`masamune_location` - `v0.14.0+6`](#masamune_location---v01406)
