@@ -7,9 +7,7 @@ part of firebase_model_notifier;
 /// In addition, since it can be used as [Map],
 /// it is possible to operate the content as it is.
 abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
-    implements
-        StoredModel<T, FirestoreDocumentModel<T>>,
-        ListenedModel<T, FirestoreDocumentModel<T>> {
+    implements StoredDocumentModel<T> {
   /// Base class for holding and manipulating data from a firestore database as a document of [T].
   ///
   /// You can monitor for real-time updates by running [listen()].
@@ -86,7 +84,6 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
   bool loaded = false;
 
   /// Callback before the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onLoad() async {}
@@ -97,7 +94,6 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
   Future<void> onListen() async {}
 
   /// Callback before the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onSave() async {}
@@ -108,7 +104,6 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
   Future<void> onDelete() async {}
 
   /// Callback after the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidLoad() async {}
@@ -119,7 +114,6 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
   Future<void> onDidListen() async {}
 
   /// Callback after the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidSave() async {}
@@ -163,17 +157,30 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
     return firestore.doc(path);
   }
 
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`, load only.
+  @override
+  Future<void> fetch([bool listen = true]) {
+    if (listen) {
+      return this.listen();
+    } else {
+      return loadOnce();
+    }
+  }
+
   /// Retrieves data and updates the data in the model.
   ///
   /// You will be notified of model updates at the time they are retrieved.
   ///
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
-  @override
-  Future<FirestoreDocumentModel<T>> load() async {
+  Future<void> load() async {
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     await FirebaseCore.initialize();
@@ -198,21 +205,18 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
         _loadCompleter = null;
       }
     });
-    await loading;
-    return this;
+    return loading;
   }
 
   /// Load data while monitoring Firestore for real-time updates.
   ///
   /// It will continue to monitor for updates until [dispose()].
-  @override
-  Future<FirestoreDocumentModel<T>> listen() async {
+  Future<void> listen() async {
     if (subscriptions.isNotEmpty) {
-      return this;
+      return;
     }
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     await FirebaseCore.initialize();
@@ -245,8 +249,7 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
         _loadCompleter = null;
       }
     });
-    await loading;
-    return this;
+    return loading;
   }
 
   void _handleOnUpdate(DocumentSnapshot<DynamicMap> snapshot) {
@@ -258,10 +261,9 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
   ///
   /// The updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<FirestoreDocumentModel<T>> save() async {
+  Future<void> save() async {
     if (_saveCompleter != null) {
-      await saving;
-      return this;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     await FirebaseCore.initialize();
@@ -286,8 +288,7 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
         _saveCompleter = null;
       }
     });
-    await saving;
-    return this;
+    return saving;
   }
 
   /// Reload data and updates the data in the model.
@@ -295,27 +296,25 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   @override
-  Future<FirestoreDocumentModel<T>> reload() => load();
+  Future<void> reload() => load();
 
   /// If the data is empty, [load] is performed only once.
   ///
   /// In other cases, the value is returned as is.
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
-  @override
-  Future<FirestoreDocumentModel<T>> loadOnce() async {
+  Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;
       return load();
     }
-    return this;
   }
 
   /// Delete this document.
+  @override
   Future<void> delete() async {
     if (_saveCompleter != null) {
-      await saving;
-      return;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     await FirebaseCore.initialize();
@@ -340,7 +339,7 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
         _saveCompleter = null;
       }
     });
-    await saving;
+    return saving;
   }
 
   /// Return `true` if data is not empty.

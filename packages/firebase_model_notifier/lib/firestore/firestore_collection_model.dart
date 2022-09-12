@@ -10,10 +10,7 @@ part of firebase_model_notifier;
 ///
 /// Each document's change is notified only to the documents in it.
 abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
-    extends ListModel<T>
-    implements
-        StoredModel<List<T>, FirestoreCollectionModel<T>>,
-        ListenedModel<List<T>, FirestoreCollectionModel<T>> {
+    extends ListModel<T> implements StoredCollectionModel<T> {
   /// Base class for holding and manipulating data from a firestore database as a collection of [FirestoreDocumentModel].
   ///
   /// The [load()] method retrieves the value from the firestore database and
@@ -112,7 +109,6 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   bool loaded = false;
 
   /// Callback before the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onLoad() async {}
@@ -128,7 +124,6 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   Future<void> onLoadNext() async {}
 
   /// Callback after the load has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidLoad() async {}
@@ -144,7 +139,6 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   Future<void> onDidLoadNext() async {}
 
   /// Callback before the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onSave() async => throw UnimplementedError(
@@ -152,7 +146,6 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
       );
 
   /// Callback after the save has been done.
-  @override
   @protected
   @mustCallSuper
   Future<void> onDidSave() async => throw UnimplementedError(
@@ -199,8 +192,24 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   /// Create a new document.
   ///
   /// [id] is the ID of the document. If it is blank, [uuid] is used.
+  @override
   T create([String? id]) =>
       createDocument("${path.trimQuery()}/${id.isEmpty ? uuid : id}");
+
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`, load only.
+  @override
+  Future<void> fetch([bool listen = true]) {
+    if (listen) {
+      return this.listen();
+    } else {
+      return loadOnce();
+    }
+  }
 
   /// Retrieves data and updates the data in the model.
   ///
@@ -208,11 +217,9 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   ///
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
-  @override
-  Future<FirestoreCollectionModel<T>> load() async {
+  Future<void> load() async {
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     await FirebaseCore.initialize();
@@ -240,8 +247,7 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
         _loadCompleter = null;
       }
     });
-    await loading;
-    return this;
+    return loading;
   }
 
   /// If the data is empty, [load] is performed only once.
@@ -249,13 +255,11 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   /// In other cases, the value is returned as is.
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
-  @override
-  Future<FirestoreCollectionModel<T>> loadOnce() async {
+  Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;
       return load();
     }
-    return this;
   }
 
   /// Reload data and updates the data in the model.
@@ -263,19 +267,19 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   @override
-  Future<FirestoreCollectionModel<T>> reload() async {
+  Future<void> reload() async {
     clear();
-    await load();
-    return this;
+    return load();
   }
 
   /// Load the data on the next page.
   ///
   /// If there is no data, [load()] is executed.
-  Future<FirestoreCollectionModel<T>> next() async {
+  @override
+  Future<void> next() async {
     try {
       if (!canNext) {
-        return this;
+        return;
       }
       final prevLength = length;
       _nextCount = _nextCount + 1;
@@ -293,7 +297,6 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
       if (prevLength == length) {
         _nextCount = _nextCount - 1;
       }
-      return this;
     } catch (e) {
       rethrow;
     }
@@ -302,6 +305,7 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   /// Returns True if the following reads are possible
   ///
   /// Returns False if no data has been read yet and no limit has been set.
+  @override
   bool get canNext {
     if (isEmpty) {
       return false;
@@ -316,14 +320,12 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   /// Load data while monitoring Firestore for real-time updates.
   ///
   /// It will continue to monitor for updates until [dispose()].
-  @override
-  Future<FirestoreCollectionModel<T>> listen() async {
+  Future<void> listen() async {
     if (subscriptions.isNotEmpty) {
-      return this;
+      return;
     }
     if (_loadCompleter != null) {
-      await loading;
-      return this;
+      return loading;
     }
     _loadCompleter = Completer<void>();
     await FirebaseCore.initialize();
@@ -360,15 +362,14 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
         _loadCompleter = null;
       }
     });
-    await loading;
-    return this;
+    return loading;
   }
 
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
   /// The updated [Resuult] can be obtained at the stage where the loading is finished.
   @override
-  Future<FirestoreCollectionModel<T>> save() async {
+  Future<void> save() async {
     throw UnimplementedError("Save process should be done for each document.");
   }
 
@@ -409,10 +410,10 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   }
 
   /// Remove elements in the collection that are `true` in [test].
+  @override
   Future<void> delete(bool Function(T value) test) async {
     if (_saveCompleter != null) {
-      await saving;
-      return;
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {
@@ -440,19 +441,22 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
   /// Add a new document to the current collection based on [uid].
   ///
   /// It is possible to specify data to be added to the document by giving [data].
+  @override
   Future<void> append(
     String uid, {
-    DynamicMap data = const {},
+    T? data,
   }) async {
-    if (_saveCompleter != null) {
-      await saving;
+    if (data == null) {
       return;
+    }
+    if (_saveCompleter != null) {
+      return saving;
     }
     _saveCompleter = Completer<void>();
     try {
       await onAppend();
       final val = createDocument("${path.trimQuery()}/$uid");
-      val.value = val.fromMap(val.filterOnLoad(Map.from(data)));
+      val.value = val.fromMap(val.filterOnLoad(val.toMap(data)));
       await val.save();
       await onDidAppend();
       _saveCompleter?.complete();
