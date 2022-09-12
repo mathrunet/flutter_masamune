@@ -55,7 +55,7 @@ class TutorialModuleHomePage extends PageModuleWidget<TutorialModule> {
   Widget build(BuildContext context, WidgetRef ref, TutorialModule module) {
     // Please describe reference.
     final pageController = ref.usePageController();
-    final notifier = ref.state("pageNotifier", 0.0);
+    final notifier = ref.state(0.0);
 
     // Please describe the Widget.
     return UIScaffold(

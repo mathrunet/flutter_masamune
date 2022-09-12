@@ -74,7 +74,7 @@ class ContentFormConfig extends VariableFormConfig<String> {
     switch (type) {
       case PostEditingType.wysiwyg:
         final controller = ref.cache(
-          config.id,
+          hookId: config.id,
           () => text.isEmpty
               ? QuillController.basic()
               : QuillController(
@@ -113,7 +113,10 @@ class ContentFormConfig extends VariableFormConfig<String> {
             child: QuillEditor(
               scrollController: ScrollController(),
               scrollable: true,
-              focusNode: ref.useFocusNode("${config.id}FocusNode", false),
+              focusNode: ref.useFocusNode(
+                hookId: "${config.id}FocusNode",
+                autoFocus: false,
+              ),
               autoFocus: false,
               controller: controller,
               placeholder:
@@ -155,7 +158,8 @@ class ContentFormConfig extends VariableFormConfig<String> {
               errorText:
                   "No input %s".localize().format([config.label.localize()]),
               subColor: subColor ?? context.theme.disabledColor,
-              controller: ref.useTextEditingController(config.id, text),
+              controller: ref.useTextEditingController(
+                  hookId: config.id, defaultValue: text),
               onSaved: (value) {
                 context[config.id] = value;
               },

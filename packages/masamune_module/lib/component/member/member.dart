@@ -252,7 +252,7 @@ class MemberModuleInvitePage extends PageModuleWidget<MemberModule> {
           DividHeadline("Email".localize()),
           FormItemTextField(
             dense: true,
-            controller: ref.useTextEditingController("email"),
+            controller: ref.useTextEditingController(),
             hintText: "Input %s".localize().format(["Email".localize()]),
             errorText: "No input %s".localize().format(["Email".localize()]),
             onSaved: (value) {

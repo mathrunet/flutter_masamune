@@ -48,7 +48,7 @@ class ContentViewConfig extends VariableViewConfig<String> {
     switch (type) {
       case PostEditingType.wysiwyg:
         final controller = ref.cache(
-          config.id,
+          hookId: config.id,
           () => text.isEmpty
               ? QuillController.basic()
               : QuillController(
@@ -64,7 +64,10 @@ class ContentViewConfig extends VariableViewConfig<String> {
             child: QuillEditor(
               scrollController: ScrollController(),
               scrollable: false,
-              focusNode: ref.useFocusNode("${config.id}FocusNode", false),
+              focusNode: ref.useFocusNode(
+                hookId: "${config.id}FocusNode",
+                autoFocus: false,
+              ),
               autoFocus: false,
               controller: controller,
               placeholder: "",

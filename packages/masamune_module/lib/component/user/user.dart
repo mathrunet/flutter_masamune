@@ -842,7 +842,7 @@ class UserModuleAccountReauthPage extends PageModuleWidget<UserModule> {
   @override
   Widget build(BuildContext context, WidgetRef ref, UserModule module) {
     final form = ref.useForm();
-    final showPassword = ref.state("showPassword", false);
+    final showPassword = ref.state(false);
 
     return UIScaffold(
       appBar: UIAppBar(
@@ -930,8 +930,7 @@ class UserModuleAccountEditEmailPage extends PageModuleWidget<UserModule> {
   Widget build(BuildContext context, WidgetRef ref, UserModule module) {
     final form = ref.useForm();
     final controller = ref.useTextEditingController(
-      "email",
-      context.model?.email ?? "",
+      defaultValue: context.model?.email ?? "",
     );
 
     return UIScaffold(

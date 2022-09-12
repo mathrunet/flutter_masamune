@@ -471,8 +471,8 @@ class TileGalleryMediaModuleEditPage
             height: 200,
             dense: true,
             controller: ref.useTextEditingController(
-              module.mediaKey,
-              form.select(media, ""),
+              hookId: module.mediaKey,
+              defaultValue: form.select(media, ""),
             ),
             errorText: "No input %s".localize().format(["Image".localize()]),
             onTap: (onUpdate) async {
@@ -496,8 +496,8 @@ class TileGalleryMediaModuleEditPage
             hintText: "Input %s".localize().format(["Title".localize()]),
             errorText: "No input %s".localize().format(["Title".localize()]),
             controller: ref.useTextEditingController(
-              module.nameKey,
-              form.select(name, ""),
+              hookId: module.nameKey,
+              defaultValue: form.select(name, ""),
             ),
             onSaved: (value) {
               context[module.nameKey] = value;
@@ -512,8 +512,8 @@ class TileGalleryMediaModuleEditPage
             hintText: "Input %s".localize().format(["Description".localize()]),
             allowEmpty: true,
             controller: ref.useTextEditingController(
-              module.textKey,
-              form.select(text, ""),
+              hookId: module.textKey,
+              defaultValue: form.select(text, ""),
             ),
             onSaved: (value) {
               context[module.textKey] = value;

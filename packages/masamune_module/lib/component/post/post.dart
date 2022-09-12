@@ -223,7 +223,7 @@ class PostModuleViewPage extends PageModuleWidget<PostModule> {
     switch (editingType) {
       case PostEditingType.wysiwyg:
         final controller = ref.cache(
-          "controller",
+          hookId: "controller",
           () => text.isEmpty
               ? QuillController.basic()
               : QuillController(
@@ -252,7 +252,7 @@ class PostModuleViewPage extends PageModuleWidget<PostModule> {
               QuillEditor(
                 scrollController: ScrollController(),
                 scrollable: false,
-                focusNode: ref.useFocusNode("text", false),
+                focusNode: ref.useFocusNode(autoFocus: false),
                 autoFocus: false,
                 controller: controller,
                 placeholder: "Text".localize(),
@@ -359,7 +359,10 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
         hintText: "Title".localize(),
         errorText: "No input %s".localize().format(["Title".localize()]),
         subColor: context.theme.disabledColor,
-        controller: ref.useTextEditingController(module.nameKey, name),
+        controller: ref.useTextEditingController(
+          hookId: module.nameKey,
+          defaultValue: name,
+        ),
         onSaved: (value) {
           context[module.nameKey] = value;
         },
@@ -370,8 +373,8 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
         hintText: "Post time".localize(),
         errorText: "No input %s".localize().format(["Post time".localize()]),
         controller: ref.useTextEditingController(
-          module.createdTimeKey,
-          FormItemDateTimeField.formatDateTime(dateTime),
+          hookId: module.createdTimeKey,
+          defaultValue: FormItemDateTimeField.formatDateTime(dateTime),
         ),
         onSaved: (value) {
           context[module.createdTimeKey] =
@@ -384,7 +387,7 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
     switch (editingType) {
       case PostEditingType.wysiwyg:
         final controller = ref.cache(
-          "controller",
+          hookId: "controller",
           () => text.isEmpty
               ? QuillController.basic()
               : QuillController(
@@ -429,7 +432,7 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
                 child: QuillEditor(
                   scrollController: ScrollController(),
                   scrollable: true,
-                  focusNode: ref.useFocusNode("text", false),
+                  focusNode: ref.useFocusNode(autoFocus: false),
                   autoFocus: false,
                   controller: controller,
                   placeholder: "Text".localize(),
@@ -503,8 +506,10 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
                   keyboardType: TextInputType.multiline,
                   hintText: "Text".localize(),
                   subColor: context.theme.disabledColor,
-                  controller:
-                      ref.useTextEditingController(module.textKey, text),
+                  controller: ref.useTextEditingController(
+                    hookId: module.textKey,
+                    defaultValue: text,
+                  ),
                   onSaved: (value) {
                     context[module.textKey] = value;
                   },

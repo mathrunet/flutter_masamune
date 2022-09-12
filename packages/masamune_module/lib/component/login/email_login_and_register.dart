@@ -389,9 +389,9 @@ class EmailLoginAndRegisterModuleLoginPage
     EmailLoginAndRegisterModule module,
   ) {
     final form = ref.useForm();
-    final emailFocus = ref.useFocusNode("email");
-    final passFocus = ref.useFocusNode("pass");
-    final showPassword = ref.state("showPassword", false);
+    final emailFocus = ref.useFocusNode(hookId: "email");
+    final passFocus = ref.useFocusNode(hookId: "pass");
+    final showPassword = ref.state(false);
 
     final color = module.color ?? Colors.white;
     final buttonColor = module.buttonColor ?? module.color ?? Colors.white;
@@ -615,11 +615,11 @@ class EmailLoginAndRegisterModuleRegisterPage
     EmailLoginAndRegisterModule module,
   ) {
     final form = ref.useForm();
-    final emailFocus = ref.useFocusNode("email");
-    final passFocus = ref.useFocusNode("pass");
-    final passConfirmFocus = ref.useFocusNode("passConfirm");
-    final showPassword = ref.state("showPassword", false);
-    final showPasswordConfirm = ref.state("showPasswordConfirm", false);
+    final emailFocus = ref.useFocusNode(hookId: "email");
+    final passFocus = ref.useFocusNode(hookId: "pass");
+    final passConfirmFocus = ref.useFocusNode(hookId: "passConfirm");
+    final showPassword = ref.state(hookId: "showPassword", false);
+    final showPasswordConfirm = ref.state(hookId: "showPasswordConfirm", false);
     final role = module.menu.length <= 1
         ? module.menu.first
         : module.menu.firstWhere(
@@ -976,7 +976,7 @@ class EmailLoginAndRegisterModulePasswordResetPage
     EmailLoginAndRegisterModule module,
   ) {
     final form = ref.useForm();
-    final emailFocus = ref.useFocusNode("main");
+    final emailFocus = ref.useFocusNode();
 
     final color = module.color ?? Colors.white;
     final buttonColor = module.buttonColor ?? module.color ?? Colors.white;

@@ -148,8 +148,7 @@ class DetailModuleHomePage extends PageModuleWidget<DetailModule> {
               detail.get(module.imageKey, "")
           ];
     final focus = ref.useFocusNode(
-      "comment",
-      context.get("comment", false),
+      autoFocus: context.get("comment", false),
     );
     final comment = ref.watchCollectionModel(
       ModelQuery(
@@ -257,7 +256,7 @@ class DetailModuleHomePage extends PageModuleWidget<DetailModule> {
             FormItemCommentField(
               focusNode: focus,
               hintText: "Input %s".localize().format(["Comment".localize()]),
-              controller: ref.useTextEditingController("comment"),
+              controller: ref.useTextEditingController(hookId: "comment"),
               onSubmitted: (value) async {
                 if (value.isEmpty) {
                   return;

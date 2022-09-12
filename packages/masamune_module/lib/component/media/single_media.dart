@@ -173,8 +173,8 @@ class SingleMediaModuleEditPage extends PageModuleWidget<SingleMediaModule> {
             height: 200,
             dense: true,
             controller: ref.useTextEditingController(
-              module.mediaKey,
-              media,
+              hookId: module.mediaKey,
+              defaultValue: media,
             ),
             errorText: "No input %s".localize().format(["Image".localize()]),
             onTap: (onUpdate) async {
@@ -198,8 +198,8 @@ class SingleMediaModuleEditPage extends PageModuleWidget<SingleMediaModule> {
             hintText: "Input %s".localize().format(["Title".localize()]),
             errorText: "No input %s".localize().format(["Title".localize()]),
             controller: ref.useTextEditingController(
-              module.nameKey,
-              name,
+              hookId: module.nameKey,
+              defaultValue: name,
             ),
             onSaved: (value) {
               context[module.nameKey] = value;
