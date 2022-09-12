@@ -15,6 +15,76 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`model_notifier` - `v0.14.0+3`](#model_notifier---v01403)
+ - [`katana_module` - `v0.14.0+3`](#katana_module---v01403)
+ - [`firebase_model_notifier` - `v0.14.0+3`](#firebase_model_notifier---v01403)
+ - [`masamune` - `v0.14.0+3`](#masamune---v01403)
+ - [`masamune_firebase_messaging` - `v0.14.0+3`](#masamune_firebase_messaging---v01403)
+ - [`masamune_firebase` - `v0.14.0+3`](#masamune_firebase---v01403)
+ - [`masamune_location` - `v0.14.0+3`](#masamune_location---v01403)
+ - [`masamune_agora` - `v0.14.0+3`](#masamune_agora---v01403)
+ - [`masamune_local_messaging` - `v0.14.0+3`](#masamune_local_messaging---v01403)
+ - [`masamune_media` - `v0.14.0+3`](#masamune_media---v01403)
+ - [`masamune_purchase` - `v0.14.0+3`](#masamune_purchase---v01403)
+ - [`masamune_wordpress` - `v0.14.0+3`](#masamune_wordpress---v01403)
+ - [`masamune_ads` - `v0.14.0+3`](#masamune_ads---v01403)
+ - [`masamune_ui` - `v0.14.0+3`](#masamune_ui---v01403)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+3`](#masamune_firebase_dynamic_links---v01403)
+ - [`masamune_signin_facebook` - `v0.14.0+3`](#masamune_signin_facebook---v01403)
+ - [`masamune_signin_apple` - `v0.14.0+3`](#masamune_signin_apple---v01403)
+ - [`masamune_signin_google` - `v0.14.0+3`](#masamune_signin_google---v01403)
+ - [`masamune_signin_twitter` - `v0.14.0+3`](#masamune_signin_twitter---v01403)
+ - [`masamune_purchase_firebase` - `v0.14.0+3`](#masamune_purchase_firebase---v01403)
+ - [`masamune_notion` - `v0.14.0+3`](#masamune_notion---v01403)
+ - [`masamune_purchase_stripe` - `v0.14.0+3`](#masamune_purchase_stripe---v01403)
+ - [`masamune_module` - `v0.14.0+3`](#masamune_module---v01403)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.14.0+3`
+ - `firebase_model_notifier` - `v0.14.0+3`
+ - `masamune` - `v0.14.0+3`
+ - `masamune_firebase_messaging` - `v0.14.0+3`
+ - `masamune_firebase` - `v0.14.0+3`
+ - `masamune_location` - `v0.14.0+3`
+ - `masamune_agora` - `v0.14.0+3`
+ - `masamune_local_messaging` - `v0.14.0+3`
+ - `masamune_media` - `v0.14.0+3`
+ - `masamune_purchase` - `v0.14.0+3`
+ - `masamune_wordpress` - `v0.14.0+3`
+ - `masamune_ads` - `v0.14.0+3`
+ - `masamune_ui` - `v0.14.0+3`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+3`
+ - `masamune_signin_facebook` - `v0.14.0+3`
+ - `masamune_signin_apple` - `v0.14.0+3`
+ - `masamune_signin_google` - `v0.14.0+3`
+ - `masamune_signin_twitter` - `v0.14.0+3`
+ - `masamune_purchase_firebase` - `v0.14.0+3`
+ - `masamune_notion` - `v0.14.0+3`
+ - `masamune_purchase_stripe` - `v0.14.0+3`
+ - `masamune_module` - `v0.14.0+3`
+
+---
+
+#### `model_notifier` - `v0.14.0+3`
+
+ - **FIX**: Added fetch method to unify data fetching. ([d09e6b8a](https://github.com/mathrunet/flutter_masamune/commit/d09e6b8a259f8e91c826b90219450ed5957cd9ee))
+
+
+## 2022-09-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`model_notifier` - `v0.14.0+2`](#model_notifier---v01402)
  - [`katana_module` - `v0.14.0+2`](#katana_module---v01402)
  - [`firebase_model_notifier` - `v0.14.0+2`](#firebase_model_notifier---v01402)

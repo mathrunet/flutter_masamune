@@ -1,3 +1,7 @@
+## 0.14.0+3
+
+ - **FIX**: Added fetch method to unify data fetching. ([d09e6b8a](https://github.com/mathrunet/flutter_masamune/commit/d09e6b8a259f8e91c826b90219450ed5957cd9ee))
+
 ## 0.14.0+2
 
  - **FIX**: Added StoredDocumentModel to DynamicDocumentModel. ([56821c5e](https://github.com/mathrunet/flutter_masamune/commit/56821c5eb5af0544cfd5db444bbf04cfdd7158d6))
