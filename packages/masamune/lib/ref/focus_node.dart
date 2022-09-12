@@ -1,13 +1,13 @@
 part of masamune;
 
 extension WidgetRefFocusNodeExtensions on WidgetRef {
-  FocusNode useFocusNode(
-    String key, [
+  FocusNode useFocusNode({
     bool autoFocus = true,
+    String hookId = "",
     List<FutureOr<dynamic>?>? waitingFutures,
-  ]) {
+  }) {
     return valueBuilder<FocusNode, _FocusNodeValue>(
-      key: "focusNode:$key",
+      key: "focusNode:$hookId",
       builder: () {
         return _FocusNodeValue(
           autoFocus: autoFocus,

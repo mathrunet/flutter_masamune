@@ -168,12 +168,12 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Specify [AnimationUnit] for [units] to create an animation.
   ///
   /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
-  AnimationScenario useAnimationScenario(
-    String key, [
+  AnimationScenario useAnimationScenario([
+    String hookId = "",
     List<AnimationUnit>? units,
   ]) {
     return valueBuilder<AnimationScenario, _AnimationScenarioValue>(
-      key: "animationScenario:$key",
+      key: "animationScenario:$hookId",
       builder: () {
         return _AnimationScenarioValue(
           units: units,

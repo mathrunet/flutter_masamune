@@ -2,11 +2,11 @@ part of masamune;
 
 extension WidgetRefFutureExtensions on WidgetRef {
   FutureValue<T> useFuture<T>(
-    String key,
-    Future<T> Function() callback,
-  ) {
+    Future<T> Function() callback, {
+    String hookId = "",
+  }) {
     return valueBuilder<FutureValue<T>, _FutureValue<T>>(
-      key: "future:$key",
+      key: "future:$hookId",
       builder: () {
         return _FutureValue<T>(callback);
       },

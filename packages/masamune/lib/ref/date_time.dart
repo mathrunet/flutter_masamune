@@ -10,9 +10,9 @@ extension WidgetRefDateTimeExtensions on WidgetRef {
     );
   }
 
-  DateTime useDateTime(String key, DateTime dateTime) {
+  DateTime useDateTime(DateTime dateTime, {String hookId = ""}) {
     return valueBuilder<DateTime, _DateTimeValue>(
-      key: "dateTime:$key",
+      key: "dateTime:$hookId",
       builder: () {
         return _DateTimeValue(dateTime);
       },

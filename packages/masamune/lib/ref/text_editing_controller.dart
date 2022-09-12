@@ -1,26 +1,13 @@
 part of masamune;
 
-extension DynamicMapTextEditingControllerExtensions on DynamicMap? {
-  TextEditingController useTextEditingController(
-    WidgetRef ref,
-    String key, [
-    String defaultValue = "",
-  ]) {
-    return ref.useTextEditingController(
-      key,
-      this?[key]?.toString() ?? defaultValue,
-    );
-  }
-}
-
 extension WidgetRefTextEditingControllerExtensions on WidgetRef {
-  TextEditingController useTextEditingController(
-    String key, [
+  TextEditingController useTextEditingController({
     String defaultValue = "",
+    String hookId = "",
     bool resetValueWhenDifferentDefaultValue = true,
-  ]) {
+  }) {
     return valueBuilder<TextEditingController, _TextEditingControllerValue>(
-      key: "textEditingController:$key",
+      key: "textEditingController:$hookId",
       builder: () {
         return _TextEditingControllerValue(
           defaultValue,

@@ -3,10 +3,11 @@ part of masamune;
 extension WidgetRefTimerExtensions on WidgetRef {
   Timer useTimer(
     void Function(DateTime dateTime) callback, {
+    String hookId = "",
     Duration duration = const Duration(seconds: 1),
   }) {
     return valueBuilder<Timer, _TimerValue>(
-      key: "timer:${duration.inMicroseconds}",
+      key: "timer:$hookId:${duration.inMicroseconds}",
       builder: () {
         return _TimerValue(
           duration: duration,

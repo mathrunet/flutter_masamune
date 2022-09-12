@@ -2,12 +2,12 @@ part of masamune;
 
 extension WidgetRefMemoizedExtensions on WidgetRef {
   T cache<T>(
-    String key,
     T Function() callback, {
+    String hookId = "",
     List<Object?>? keys,
   }) {
     return valueBuilder<T, _MemoizedValue<T>>(
-      key: "cache:$key",
+      key: "cache:$hookId",
       builder: () {
         return _MemoizedValue<T>(
           callback: callback,

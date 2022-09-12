@@ -1,9 +1,12 @@
 part of masamune;
 
 extension WidgetRefValueNotifierExtensions on WidgetRef {
-  ValueNotifier<T> state<T>(String key, T defaultValue) {
+  ValueNotifier<T> state<T>(
+    T defaultValue, {
+    String hookId = "",
+  }) {
     return valueBuilder<ValueNotifier<T>, _ValueNotifierValue<T>>(
-      key: "valueNotifier:$key",
+      key: "valueNotifier:$hookId",
       builder: () {
         return _ValueNotifierValue<T>(defaultValue);
       },

@@ -1,9 +1,9 @@
 part of masamune;
 
 extension WidgetRefUuidExtensions on WidgetRef {
-  String useUuid([String key = ""]) {
+  String useUuid({String hookId = ""}) {
     return valueBuilder<String, _UuidValue>(
-      key: "uuid:$key",
+      key: "uuid:$hookId",
       builder: () {
         return const _UuidValue();
       },
