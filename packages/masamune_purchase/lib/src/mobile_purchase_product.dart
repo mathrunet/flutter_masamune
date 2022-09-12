@@ -163,14 +163,13 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
         if (documentPath.isEmpty) {
           return;
         }
-        _listener = core.context.model!.loadDocument(
-          readProvider(
-            core.context.model!.documentProvider(
-              documentPath,
-              disposable: false,
-            ),
+        final _doc = readProvider(
+          core.context.model!.documentProvider(
+            documentPath,
+            disposable: false,
           ),
-        );
+        )..fetch();
+        _listener = _doc;
         break;
       case ProductType.subscription:
         final options = core.subscribeOptions;
@@ -178,18 +177,17 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
         if (userId.isEmpty) {
           return;
         }
-        _listener = core.context.model?.loadCollection(
-          readProvider(
-            core.context.model!.collectionProvider(
-              ModelQuery(
-                options.subscriptionCollectionPath,
-                key: options.userIDKey,
-                isEqualTo: userId,
-              ).value,
-              disposable: false,
-            ),
+        final _doc = readProvider(
+          core.context.model!.collectionProvider(
+            ModelQuery(
+              options.subscriptionCollectionPath,
+              key: options.userIDKey,
+              isEqualTo: userId,
+            ).value,
+            disposable: false,
           ),
-        );
+        )..fetch();
+        _listener = _doc;
         break;
     }
     _listener?.addListener(_handledOnUpdate);

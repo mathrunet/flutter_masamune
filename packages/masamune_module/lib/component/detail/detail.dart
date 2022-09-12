@@ -262,13 +262,10 @@ class DetailModuleHomePage extends PageModuleWidget<DetailModule> {
                 if (value.isEmpty) {
                   return;
                 }
-                final doc = context.model?.createDocument(comment);
-                if (doc == null) {
-                  return;
-                }
+                final doc = comment.create();
                 doc[module.userKey] = context.model?.userId;
                 doc[module.textKey] = value;
-                await context.model?.saveDocument(doc);
+                await doc.save();
               },
             ),
             const Divid(),
@@ -683,7 +680,7 @@ class DetailModuleDeleteIcon extends ModuleWidget<DetailModule> {
           submitText: "Yes".localize(),
           cancelText: "No".localize(),
           onSubmit: () async {
-            await context.model?.deleteDocument(detail).showIndicator(context);
+            await detail.delete().showIndicator(context);
             UIDialog.show(
               context,
               title: "Success".localize(),

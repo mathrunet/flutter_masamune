@@ -50,14 +50,12 @@ class ClientPurchaseDelegate extends PurchaseDelegate {
     }
     final documentPath = product.target!.parentPath();
     final key = product.target!.last();
-    final document = core.context.model!.loadDocument(
-      readProvider(
-        core.context.model!.documentProvider(documentPath),
-      ),
-    );
+    final document = readProvider(
+      core.context.model!.documentProvider(documentPath),
+    )..fetch();
     await document.loading;
     document[key] = true;
-    await core.context.model!.saveDocument(document);
+    await document.save();
   }
 
   @override
@@ -72,14 +70,12 @@ class ClientPurchaseDelegate extends PurchaseDelegate {
     final documentPath = product.target!.parentPath();
     final key = product.target!.last();
     final value = product.value;
-    final document = core.context.model!.loadDocument(
-      readProvider(
-        core.context.model!.documentProvider(documentPath),
-      ),
-    );
+    final document = readProvider(
+      core.context.model!.documentProvider(documentPath),
+    )..fetch();
     await document.loading;
     document.increment(key, value);
-    await core.context.model!.saveDocument(document);
+    await document.save();
   }
 
   @override

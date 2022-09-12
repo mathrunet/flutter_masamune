@@ -301,9 +301,7 @@ class UserModuleHomePage extends PageModuleWidget<UserModule> {
                     onSubmit: () async {
                       try {
                         block[Const.user] = context.model?.userId;
-                        await context.model
-                            ?.saveDocument(block)
-                            .showIndicator(context);
+                        await block.save().showIndicator(context);
                         UIDialog.show(
                           context,
                           title: "Success".localize(),
@@ -343,9 +341,7 @@ class UserModuleHomePage extends PageModuleWidget<UserModule> {
                       try {
                         final count = report.get(Const.count, 0);
                         report[Const.count] = count + 1;
-                        await context.model
-                            ?.saveDocument(report)
-                            .showIndicator(context);
+                        await report.save().showIndicator(context);
                         UIDialog.show(
                           context,
                           title: "Success".localize(),
@@ -505,9 +501,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                                     ?.uploadMedia(media!.path!)
                                     .showIndicator(context);
                                 user[module.imageKey] = url;
-                                await context.model
-                                    ?.saveDocument(user)
-                                    .showIndicator(context);
+                                await user.save().showIndicator(context);
                               },
                               child: Stack(
                                 fit: StackFit.expand,
@@ -557,9 +551,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                                     ?.uploadMedia(media!.path!)
                                     .showIndicator(context);
                                 user[module.iconKey] = url;
-                                await context.model
-                                    ?.saveDocument(user)
-                                    .showIndicator(context);
+                                await user.save().showIndicator(context);
                               },
                               child: Stack(
                                 fit: StackFit.expand,
@@ -604,7 +596,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
               ref: ref,
               updated: true,
             );
-            await context.model?.saveDocument(user).showIndicator(context);
+            await user.save().showIndicator(context);
             UIDialog.show(
               context,
               title: "Success".localize(),
@@ -1168,9 +1160,7 @@ class UserModuleAccountBlockListPage extends PageModuleWidget<UserModule> {
                         if (doc == null) {
                           return;
                         }
-                        await context.model
-                            ?.deleteDocument(doc)
-                            .showIndicator(context);
+                        await doc.delete().showIndicator(context);
                       } catch (e) {
                         UIDialog.show(
                           context,

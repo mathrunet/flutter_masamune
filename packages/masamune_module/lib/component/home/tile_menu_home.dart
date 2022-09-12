@@ -845,9 +845,7 @@ class TileMenuHomeModuleChangeAffiliationWidget
                             return;
                           }
                           user[affiliationKey] = uid;
-                          context.model
-                              ?.saveDocument(user)
-                              .showIndicator(context);
+                          await user.save().showIndicator(context);
                           UIDialog.show(
                             context,
                             title: "Success".localize(),

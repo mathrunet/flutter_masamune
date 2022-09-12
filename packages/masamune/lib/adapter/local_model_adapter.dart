@@ -100,92 +100,10 @@ class LocalModelAdapter extends ModelAdapter<LocalDynamicDocumentModel,
         linkedCollectionPath: linkedCollectionPath,
       );
 
-  /// Performs the process of loading a document.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  @override
-  LocalDynamicDocumentModel loadDocument(
-    LocalDynamicDocumentModel document, {
-    bool listen = true,
-  }) {
-    document.loadOnce();
-    return document;
-  }
-
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  @override
-  LocalDynamicCollectionModel loadCollection(
-    LocalDynamicCollectionModel collection, {
-    bool listen = true,
-  }) {
-    collection.loadOnce();
-    return collection;
-  }
-
-  /// Reload the given [document].
-  ///
-  /// There is no effect with respect to the document being listened to.
-  @override
-  Future<LocalDynamicDocumentModel> reloadDocument(
-    LocalDynamicDocumentModel document,
-  ) async {
-    await document.reload();
-    return document;
-  }
-
-  /// Reload the given [collection].
-  ///
-  /// There is no effect with respect to the collection being listened to.
-  @override
-  Future<LocalDynamicCollectionModel> reloadCollection(
-    LocalDynamicCollectionModel collection,
-  ) async {
-    await collection.reload();
-    return collection;
-  }
-
-  /// Loads data for the next cursor further in the [collection] that has been read.
-  @override
-  Future<LocalDynamicCollectionModel> loadNextCollection(
-    LocalDynamicCollectionModel collection,
-  ) async {
-    await collection.next();
-    return collection;
-  }
-
-  /// Deletes information associated with a document.
-  @override
-  Future<void> deleteDocument(LocalDynamicDocumentModel document) async {
-    await document.delete();
-  }
-
-  /// Retrieves a document from a [collection].
-  ///
-  /// By specifying [id], you can specify the ID of newly created document. If not specified, [uuid] will be used.
-  @override
-  LocalDynamicDocumentModel createDocument(
-    LocalDynamicCollectionModel collection, [
-    String? id,
-  ]) {
-    return collection.create(id);
-  }
-
   /// Retrieves a document from a [path].
   @override
-  LocalDynamicDocumentModel createDocumentFromPath(String path) {
+  LocalDynamicDocumentModel createDocument(String path) {
     return LocalDynamicDocumentModel(path);
-  }
-
-  /// Save the data in the document so that you can use it after restarting the app.
-  @override
-  Future<void> saveDocument(LocalDynamicDocumentModel document) async {
-    await document.save();
   }
 
   /// Upload your media.

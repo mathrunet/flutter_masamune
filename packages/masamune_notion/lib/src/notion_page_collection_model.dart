@@ -17,8 +17,11 @@ class NotionPageCollectionModel
   final List<_NotionPageCollectionModelCache> _cacheList = [];
 
   /// It becomes `true` after [loadOnce] is executed.
-  bool loaded = false;
+  @override
+  bool get loaded => _loaded;
+  bool _loaded = false;
 
+  @override
   bool get canNext {
     return _nextCursor.isNotEmpty;
   }
@@ -65,15 +68,15 @@ class NotionPageCollectionModel
   @mustCallSuper
   void onCatchResponse(HttpsCallableResult<Map> response) {}
 
-  /// Add a process to create a document object.
-  @protected
-  NotionPageDocumentModel createDocument() {
-    throw UnimplementedError();
-  }
-
-  /// Create a new document.
-  NotionPageDocumentModel create() {
-    throw UnimplementedError();
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`
+  @override
+  Future<void> fetch([bool listen = true]) {
+    return loadOnce();
   }
 
   /// Functions can be called to retrieve the data.
@@ -110,6 +113,7 @@ class NotionPageCollectionModel
     return this;
   }
 
+  @override
   Future<NotionPageCollectionModel> next([bool useCache = true]) async {
     if (_loadCompleter != null) {
       await loading;
@@ -247,6 +251,7 @@ class NotionPageCollectionModel
   ///
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
+  @override
   Future<NotionPageCollectionModel> reload([bool useCache = true]) =>
       load(useCache);
 
@@ -257,10 +262,36 @@ class NotionPageCollectionModel
   /// Use [isEmpty] to determine whether the file is empty or not.
   Future<NotionPageCollectionModel> loadOnce([bool useCache = true]) async {
     if (!loaded) {
-      loaded = true;
+      _loaded = true;
       return load(useCache);
     }
     return this;
+  }
+
+  /// Add a process to create a document object.
+  @protected
+  NotionPageDocumentModel createDocument() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> append(String uid, {NotionPageDocumentModel? data}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> delete(bool Function(NotionPageDocumentModel value) test) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> save() {
+    throw UnimplementedError();
+  }
+
+  @override
+  NotionPageDocumentModel create([String? id]) {
+    throw UnimplementedError();
   }
 }
 

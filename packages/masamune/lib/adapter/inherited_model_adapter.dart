@@ -133,79 +133,10 @@ class InheritedModelAdapter<
         linkedCollectionPath: "$_prefix$linkedCollectionPath$_suffix",
       );
 
-  /// Performs the process of loading a document.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  @override
-  TDocument loadDocument(
-    TDocument document, {
-    bool listen = true,
-  }) =>
-      adapter.loadDocument(
-        document,
-        listen: listen,
-      );
-
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  @override
-  TCollection loadCollection(
-    TCollection collection, {
-    bool listen = true,
-  }) =>
-      adapter.loadCollection(
-        collection,
-        listen: listen,
-      );
-
-  /// Reload the given [document].
-  ///
-  /// There is no effect with respect to the document being listened to.
-  @override
-  Future<TDocument> reloadDocument(TDocument document) =>
-      adapter.reloadDocument(document);
-
-  /// Reload the given [collection].
-  ///
-  /// There is no effect with respect to the collection being listened to.
-  @override
-  Future<TCollection> reloadCollection(TCollection collection) =>
-      adapter.reloadCollection(collection);
-
-  /// Loads data for the next cursor further in the [collection] that has been read.
-  @override
-  Future<TCollection> loadNextCollection(TCollection collection) =>
-      adapter.loadNextCollection(collection);
-
-  /// Deletes information associated with a document.
-  @override
-  Future<void> deleteDocument(TDocument document) =>
-      adapter.deleteDocument(document);
-
-  /// Retrieves a document from a [collection].
-  ///
-  /// By specifying [id], you can specify the ID of newly created document. If not specified, [uuid] will be used.
-  @override
-  TDocument createDocument(
-    TCollection collection, [
-    String? id,
-  ]) =>
-      adapter.createDocument(collection, id);
-
   /// Retrieves a document from a [path].
   @override
-  TDocument createDocumentFromPath(String path) =>
-      adapter.createDocumentFromPath("$_prefix$path$_suffix");
-
-  /// Save the data in the document so that you can use it after restarting the app.
-  @override
-  Future<void> saveDocument(TDocument document) =>
-      adapter.saveDocument(document);
+  TDocument createDocument(String path) =>
+      adapter.createDocument("$_prefix$path$_suffix");
 
   /// Upload your media.
   ///

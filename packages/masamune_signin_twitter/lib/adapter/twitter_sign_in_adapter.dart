@@ -92,8 +92,7 @@ class TwitterSignInAdapter extends SignInAdapter {
       return;
     }
     final provider =
-        readProvider(context.model!.documentProvider("user/$userId"));
-    context.model?.loadDocument(provider);
+        readProvider(context.model!.documentProvider("user/$userId"))..fetch();
     await provider.loading;
     if (!provider.containsKey(idKey)) {
       provider[idKey] = TwitterAuth.id;
@@ -101,7 +100,7 @@ class TwitterSignInAdapter extends SignInAdapter {
       provider[imageKey] = TwitterAuth.image;
       provider[tokenKey] = TwitterAuth.accessToken;
       provider[secretKey] = TwitterAuth.accessSecret;
-      await context.model?.saveDocument(provider);
+      await provider.save();
     }
   }
 }

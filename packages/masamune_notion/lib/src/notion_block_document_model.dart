@@ -47,7 +47,9 @@ class NotionBlockDocumentModel extends DocumentModel<DynamicMap>
   }
 
   /// It becomes `true` after [loadOnce] is executed.
-  bool loaded = false;
+  @override
+  bool get loaded => _loaded;
+  bool _loaded = false;
 
   /// Callback before the load has been done.
   @protected
@@ -102,6 +104,17 @@ class NotionBlockDocumentModel extends DocumentModel<DynamicMap>
   @protected
   FirebaseFunctions get functions {
     return FirebaseFunctions.instanceFor(region: FirebaseCore.region);
+  }
+
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`
+  @override
+  Future<void> fetch([bool listen = true]) {
+    return loadChildrenOnce();
   }
 
   /// Retrieves data and updates the data in the model.
@@ -165,7 +178,7 @@ class NotionBlockDocumentModel extends DocumentModel<DynamicMap>
       return this;
     }
     if (!loaded) {
-      loaded = true;
+      _loaded = true;
       return loadChildren(useCache);
     }
     return this;
@@ -174,6 +187,21 @@ class NotionBlockDocumentModel extends DocumentModel<DynamicMap>
   /// Return `true` if data is not empty.
   @override
   bool get isNotEmpty => !isEmpty;
+
+  @override
+  Future<void> delete() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> reload() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> save() {
+    throw UnimplementedError();
+  }
 
   /// The equality operator.
   ///

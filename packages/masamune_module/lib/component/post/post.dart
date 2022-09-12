@@ -339,9 +339,7 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
                 submitText: "Yes".localize(),
                 cancelText: "No".localize(),
                 onSubmit: () async {
-                  await context.model
-                      ?.deleteDocument(item)
-                      .showIndicator(context);
+                  await item.delete().showIndicator(context);
                   context.navigator.pop();
                   context.navigator.pop();
                 },
@@ -466,7 +464,7 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
                   module.createdTimeKey,
                   now.millisecondsSinceEpoch,
                 );
-                await context.model?.saveDocument(item).showIndicator(context);
+                await item.save().showIndicator(context);
                 context.navigator.pop();
               } catch (e) {
                 UIDialog.show(
@@ -526,7 +524,7 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
                   module.createdTimeKey,
                   now.millisecondsSinceEpoch,
                 );
-                await context.model?.saveDocument(item).showIndicator(context);
+                await item.save().showIndicator(context);
                 context.navigator.pop();
               } catch (e) {
                 UIDialog.show(

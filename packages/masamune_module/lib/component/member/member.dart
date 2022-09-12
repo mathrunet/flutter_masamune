@@ -160,9 +160,7 @@ class MemberModuleHomePage extends PageModuleWidget<MemberModule> {
                             }
                             doc[module.affiliationKey] = affiliation
                               ..remove(groupId);
-                            await context.model
-                                ?.saveDocument(doc)
-                                .showIndicator(context);
+                            await doc.save().showIndicator(context);
                             UIDialog.show(
                               context,
                               title: "Success".localize(),

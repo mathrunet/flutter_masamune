@@ -19,7 +19,9 @@ class NotionBlockCollectionModel
   FirestoreDynamicCollectionModel? _collection;
 
   /// It becomes `true` after [loadOnce] is executed.
-  bool loaded = false;
+  @override
+  bool get loaded => _loaded;
+  bool _loaded = false;
 
   @override
   Future<void>? get loading => _loadCompleter?.future;
@@ -63,15 +65,15 @@ class NotionBlockCollectionModel
   @mustCallSuper
   void onCatchResponse(HttpsCallableResult<Map> response) {}
 
-  /// Add a process to create a document object.
-  @protected
-  NotionPageDocumentModel createDocument() {
-    throw UnimplementedError();
-  }
-
-  /// Create a new document.
-  NotionPageDocumentModel create() {
-    throw UnimplementedError();
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`
+  @override
+  Future<void> fetch([bool listen = true]) {
+    return loadOnce();
   }
 
   /// Functions can be called to retrieve the data.
@@ -185,6 +187,7 @@ class NotionBlockCollectionModel
   ///
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
+  @override
   Future<NotionBlockCollectionModel> reload([bool useCache = true]) =>
       load(useCache);
 
@@ -195,9 +198,48 @@ class NotionBlockCollectionModel
   /// Use [isEmpty] to determine whether the file is empty or not.
   Future<NotionBlockCollectionModel> loadOnce([bool useCache = true]) async {
     if (!loaded) {
-      loaded = true;
+      _loaded = true;
       return load(useCache);
     }
     return this;
+  }
+
+  /// Add a process to create a document object.
+  @protected
+  NotionPageDocumentModel createDocument() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> append(String uid, {NotionBlockDocumentModel? data}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool get canNext => throw UnimplementedError();
+
+  @override
+  Future<void> delete(bool Function(NotionBlockDocumentModel value) test) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> listen() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> next() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> save() {
+    throw UnimplementedError();
+  }
+
+  @override
+  NotionBlockDocumentModel create([String? id]) {
+    throw UnimplementedError();
   }
 }

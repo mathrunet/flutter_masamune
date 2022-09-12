@@ -111,9 +111,7 @@ class EditModuleHomePage extends PageModuleWidget<EditModule> {
                             doc,
                           )
                           .showIndicator(context);
-                      await context.model
-                          ?.deleteDocument(doc)
-                          .showIndicator(context);
+                      await doc.delete().showIndicator(context);
                       await module.function
                           ?.postProcessOnDelete(
                             context,
@@ -191,7 +189,7 @@ class EditModuleHomePage extends PageModuleWidget<EditModule> {
                     doc,
                   )
                   .showIndicator(context);
-              await context.model?.saveDocument(doc).showIndicator(context);
+              await doc.save().showIndicator(context);
               await module.function
                   ?.postProcessOnAddOrUpdate(
                     context,
@@ -205,7 +203,7 @@ class EditModuleHomePage extends PageModuleWidget<EditModule> {
                 return;
               }
               final collection = ref.readCollectionModel(module.queryPath);
-              final doc = model.createDocument(collection);
+              final doc = collection.create();
               variables.setValue(
                 target: doc,
                 context: context,
@@ -219,7 +217,7 @@ class EditModuleHomePage extends PageModuleWidget<EditModule> {
                     doc,
                   )
                   .showIndicator(context);
-              await context.model?.saveDocument(doc).showIndicator(context);
+              await doc.save().showIndicator(context);
               await module.function
                   ?.postProcessOnAddOrUpdate(
                     context,

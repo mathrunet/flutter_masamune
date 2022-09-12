@@ -1241,17 +1241,14 @@ class EmailLoginAndRegisterModuleRegisterAnonymousPage
               throw Exception("User id is not found.");
             }
             final collection = ref.readCollectionModel(module.userPath);
-            final doc = context.model?.createDocument(collection, userId);
-            if (doc == null) {
-              throw Exception("User document has not created.");
-            }
+            final doc = collection.create(userId);
             context.app?.userVariables.setValue(
               target: doc,
               context: context,
               ref: ref,
               updated: false,
             );
-            await context.model?.saveDocument(doc).showIndicator(context);
+            await doc.save().showIndicator(context);
             context.navigator.pushReplacementNamed(
               module.redirectPage.apply(module),
             );

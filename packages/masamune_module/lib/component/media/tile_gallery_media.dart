@@ -448,9 +448,7 @@ class TileGalleryMediaModuleEditPage
                   submitText: "Yes".localize(),
                   cancelText: "No".localize(),
                   onSubmit: () async {
-                    await context.model
-                        ?.deleteDocument(item)
-                        .showIndicator(context);
+                    await item.delete().showIndicator(context);
                     if (module.enableDetail) {
                       context.navigator.pop();
                       context.navigator.pop();
@@ -536,7 +534,7 @@ class TileGalleryMediaModuleEditPage
           item[module.mediaKey] = await context.model
               ?.uploadMedia(context.get(module.mediaKey, ""))
               .showIndicator(context);
-          await context.model?.saveDocument(item).showIndicator(context);
+          await item.save().showIndicator(context);
           context.navigator.pop();
         },
         label: Text("Submit".localize()),

@@ -98,83 +98,8 @@ class FirebaseModelAdapter extends ModelAdapter<
           firestoreSearchableCollectionProvider("$_prefix$path");
 
   @override
-  FirestoreDynamicDocumentModel loadDocument(
-    FirestoreDynamicDocumentModel document, {
-    bool listen = true,
-  }) {
-    if (!listen) {
-      document.loadOnce();
-    } else {
-      document.listen();
-    }
-    return document;
-  }
-
-  @override
-  FirestoreDynamicCollectionModel loadCollection(
-    FirestoreDynamicCollectionModel collection, {
-    bool listen = true,
-  }) {
-    if (!listen) {
-      collection.loadOnce();
-    } else {
-      collection.listen();
-    }
-    return collection;
-  }
-
-  /// Reload the given [document].
-  ///
-  /// There is no effect with respect to the document being listened to.
-  @override
-  Future<FirestoreDynamicDocumentModel> reloadDocument(
-    FirestoreDynamicDocumentModel document,
-  ) async {
-    await document.reload();
-    return document;
-  }
-
-  /// Reload the given [collection].
-  ///
-  /// There is no effect with respect to the collection being listened to.
-  @override
-  Future<FirestoreDynamicCollectionModel> reloadCollection(
-    FirestoreDynamicCollectionModel collection,
-  ) async {
-    await collection.reload();
-    return collection;
-  }
-
-  /// Loads data for the next cursor further in the [collection] that has been read.
-  @override
-  Future<FirestoreDynamicCollectionModel> loadNextCollection(
-    FirestoreDynamicCollectionModel collection,
-  ) async {
-    await collection.next();
-    return collection;
-  }
-
-  @override
-  FirestoreDynamicDocumentModel createDocument(
-    FirestoreDynamicCollectionModel collection, [
-    String? id,
-  ]) {
-    return collection.create(id);
-  }
-
-  @override
-  FirestoreDynamicDocumentModel createDocumentFromPath(String path) {
+  FirestoreDynamicDocumentModel createDocument(String path) {
     return FirestoreDynamicDocumentModel("$_prefix$path");
-  }
-
-  @override
-  Future<void> deleteDocument(FirestoreDynamicDocumentModel document) async {
-    await document.delete();
-  }
-
-  @override
-  Future<void> saveDocument(FirestoreDynamicDocumentModel document) async {
-    await document.save();
   }
 
   @override

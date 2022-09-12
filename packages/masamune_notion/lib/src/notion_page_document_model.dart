@@ -56,7 +56,9 @@ class NotionPageDocumentModel extends DocumentModel<DynamicMap>
   }
 
   /// It becomes `true` after [loadOnce] is executed.
-  bool loaded = false;
+  @override
+  bool get loaded => _loaded;
+  bool _loaded = false;
 
   /// Callback before the load has been done.
   @protected
@@ -114,6 +116,18 @@ class NotionPageDocumentModel extends DocumentModel<DynamicMap>
   @protected
   FirebaseFunctions get functions {
     return FirebaseFunctions.instanceFor(region: FirebaseCore.region);
+  }
+
+
+  /// Provides the best data acquisition method to implement during screen build.
+  ///
+  /// Data loading does not occur in duplicate when a screen is built multiple times.
+  ///
+  /// Basically, it listens for data.
+  /// If [listen] is set to `false`
+  @override
+  Future<void> fetch([bool listen = true]) {
+    return loadOnce();
   }
 
   /// Retrieves data and updates the data in the model.
@@ -187,6 +201,7 @@ class NotionPageDocumentModel extends DocumentModel<DynamicMap>
   ///
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
+  @override
   Future<NotionPageDocumentModel> reload([bool useCache = true]) =>
       load(useCache);
 
@@ -197,7 +212,7 @@ class NotionPageDocumentModel extends DocumentModel<DynamicMap>
   /// Use [isEmpty] to determine whether the file is empty or not.
   Future<NotionPageDocumentModel> loadOnce([bool useCache = true]) async {
     if (!loaded && isEmpty) {
-      loaded = true;
+      _loaded = true;
       return load(useCache);
     }
     return this;
@@ -206,6 +221,16 @@ class NotionPageDocumentModel extends DocumentModel<DynamicMap>
   /// Return `true` if data is not empty.
   @override
   bool get isNotEmpty => !isEmpty;
+
+  @override
+  Future<void> delete() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> save() {
+    throw UnimplementedError();
+  }
 
   /// The equality operator.
   ///

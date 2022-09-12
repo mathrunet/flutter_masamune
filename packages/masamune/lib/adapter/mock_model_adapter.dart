@@ -103,94 +103,10 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
         linkedCollectionPath: linkedCollectionPath,
       );
 
-  /// Performs the process of loading a collection.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  @override
-  RuntimeDynamicCollectionModel loadCollection(
-    RuntimeDynamicCollectionModel collection, {
-    bool listen = true,
-  }) {
-    RuntimeDatabase.registerMockData(data);
-    collection.loadOnce();
-    return collection;
-  }
-
-  /// Reload the given [document].
-  ///
-  /// There is no effect with respect to the document being listened to.
-  @override
-  Future<RuntimeDynamicDocumentModel> reloadDocument(
-    RuntimeDynamicDocumentModel document,
-  ) async {
-    await document.reload();
-    return document;
-  }
-
-  /// Reload the given [collection].
-  ///
-  /// There is no effect with respect to the collection being listened to.
-  @override
-  Future<RuntimeDynamicCollectionModel> reloadCollection(
-    RuntimeDynamicCollectionModel collection,
-  ) async {
-    await collection.reload();
-    return collection;
-  }
-
-  /// Loads data for the next cursor further in the [collection] that has been read.
-  @override
-  Future<RuntimeDynamicCollectionModel> loadNextCollection(
-    RuntimeDynamicCollectionModel collection,
-  ) async {
-    await collection.next();
-    return collection;
-  }
-
-  /// Performs the process of loading a document.
-  ///
-  /// Usually, you specify a method that can be executed only the first time, such as [loadOnce] or [listen].
-  ///
-  /// If you set [listen] to `false`, [loadOnce] is used even if the model can use [listen].
-  @override
-  RuntimeDynamicDocumentModel loadDocument(
-    RuntimeDynamicDocumentModel document, {
-    bool listen = true,
-  }) {
-    RuntimeDatabase.registerMockData(data);
-    document.loadOnce();
-    return document;
-  }
-
-  /// Retrieves a document from a [collection].
-  ///
-  /// By specifying [id], you can specify the ID of newly created document. If not specified, [uuid] will be used.
-  @override
-  RuntimeDynamicDocumentModel createDocument(
-    RuntimeDynamicCollectionModel collection, [
-    String? id,
-  ]) {
-    return collection.create(id);
-  }
-
   /// Retrieves a document from a [path].
   @override
-  RuntimeDynamicDocumentModel createDocumentFromPath(String path) {
+  RuntimeDynamicDocumentModel createDocument(String path) {
     return RuntimeDynamicDocumentModel(path);
-  }
-
-  /// Deletes information associated with a document.
-  @override
-  Future<void> deleteDocument(RuntimeDynamicDocumentModel document) async {
-    await document.delete();
-  }
-
-  /// Save the data in the document so that you can use it after restarting the app.
-  @override
-  Future<void> saveDocument(RuntimeDynamicDocumentModel document) async {
-    await document.save();
   }
 
   /// Upload your media.
