@@ -11,21 +11,6 @@ abstract class StoredDocumentModel<T> extends Model<T>
   /// If [listen] is set to `false`, load only.
   Future<void> fetch([bool listen = true]);
 
-  /// Retrieves data and updates the data in the model.
-  ///
-  /// You will be notified of model updates at the time they are retrieved.
-  ///
-  /// In addition,
-  /// the updated [Result] can be obtained at the stage where the loading is finished.
-  Future<void> load();
-
-  /// Load data while monitoring Firestore for real-time updates.
-  ///
-  /// Returns [UnimplementedError] if there is no real-time update.
-  ///
-  /// It will continue to monitor for updates until [dispose()].
-  Future<void> listen();
-
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
   /// The updated [Result] can be obtained at the stage where the loading is finished.
@@ -36,13 +21,6 @@ abstract class StoredDocumentModel<T> extends Model<T>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   Future<void> reload();
-
-  /// If the data is empty, [load] is performed only once.
-  ///
-  /// In other cases, the value is returned as is.
-  ///
-  /// Use [isEmpty] to determine whether the file is empty or not.
-  Future<void> loadOnce();
 
   /// Deletes the document.
   ///
@@ -75,21 +53,6 @@ abstract class StoredCollectionModel<T> extends Model<List<T>>
   /// If [listen] is set to `false`, load only.
   Future<void> fetch([bool listen = true]);
 
-  /// Retrieves data and updates the data in the model.
-  ///
-  /// You will be notified of model updates at the time they are retrieved.
-  ///
-  /// In addition,
-  /// the updated [Result] can be obtained at the stage where the loading is finished.
-  Future<void> load();
-
-  /// Load data while monitoring Firestore for real-time updates.
-  ///
-  /// Returns [UnimplementedError] if there is no real-time update.
-  ///
-  /// It will continue to monitor for updates until [dispose()].
-  Future<void> listen();
-
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
   /// The updated [Result] can be obtained at the stage where the loading is finished.
@@ -100,13 +63,6 @@ abstract class StoredCollectionModel<T> extends Model<List<T>>
   /// It is basically the same as the [load] method,
   /// but combining it with [loadOnce] makes it easier to manage the data.
   Future<void> reload();
-
-  /// If the data is empty, [load] is performed only once.
-  ///
-  /// In other cases, the value is returned as is.
-  ///
-  /// Use [isEmpty] to determine whether the file is empty or not.
-  Future<void> loadOnce();
 
   /// Load the data on the next page.
   ///

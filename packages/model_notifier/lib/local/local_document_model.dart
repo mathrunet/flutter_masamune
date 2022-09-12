@@ -142,7 +142,6 @@ abstract class LocalDocumentModel<T> extends DocumentModel<T>
   ///
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
-  @override
   Future<void> load() async {
     if (_loadCompleter != null) {
       return loading;
@@ -161,18 +160,6 @@ abstract class LocalDocumentModel<T> extends DocumentModel<T>
       _loadCompleter?.complete();
       _loadCompleter = null;
     }
-  }
-
-  /// Load data while monitoring Firestore for real-time updates.
-  ///
-  /// Returns [UnimplementedError] if there is no real-time update.
-  ///
-  /// It will continue to monitor for updates until [dispose()].
-  @override
-  Future<void> listen() {
-    throw UnimplementedError(
-      "Real-time update functionality is not provided; please execute load().",
-    );
   }
 
   Future<T> _loadProcess() async {
@@ -249,7 +236,6 @@ abstract class LocalDocumentModel<T> extends DocumentModel<T>
   /// In other cases, the value is returned as is.
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
-  @override
   Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;

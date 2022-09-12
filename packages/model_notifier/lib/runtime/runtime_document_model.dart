@@ -122,7 +122,6 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   @mustCallSuper
   DynamicMap filterOnSave(DynamicMap save) => save;
 
-
   /// Provides the best data acquisition method to implement during screen build.
   ///
   /// Data loading does not occur in duplicate when a screen is built multiple times.
@@ -140,7 +139,6 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   ///
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
-  @override
   Future<void> load() async {
     if (_loadCompleter != null) {
       return loading;
@@ -171,18 +169,6 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
     RuntimeDatabase._db.addDocumentListener(_query!);
     final data = await RuntimeDatabase._db.loadDocument(_query!);
     return fromMap(filterOnLoad(data != null ? Map.from(data) : {}));
-  }
-
-  /// Load data while monitoring Firestore for real-time updates.
-  ///
-  /// Returns [UnimplementedError] if there is no real-time update.
-  ///
-  /// It will continue to monitor for updates until [dispose()].
-  @override
-  Future<void> listen() {
-    throw UnimplementedError(
-      "Real-time update functionality is not provided; please execute load().",
-    );
   }
 
   void _handledOnUpdate(LocalStoreDocumentUpdate update) {
@@ -248,7 +234,6 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
   /// In other cases, the value is returned as is.
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
-  @override
   Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;

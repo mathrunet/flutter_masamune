@@ -178,7 +178,6 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   ///
   /// In addition,
   /// the updated [Resuult] can be obtained at the stage where the loading is finished.
-  @override
   Future<void> load() async {
     if (_loadCompleter != null) {
       return loading;
@@ -243,17 +242,6 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
     }
   }
 
-  /// Load data while monitoring Firestore for real-time updates.
-  ///
-  /// Returns [UnimplementedError] if there is no real-time update.
-  ///
-  /// It will continue to monitor for updates until [dispose()].
-  @override
-  Future<void> listen() {
-    throw UnimplementedError(
-      "Real-time update functionality is not provided; please execute load().",
-    );
-  }
 
   void _handledOnUpdate(LocalStoreDocumentUpdate update) {
     final limit = ModelQuery.limitCountFrom(parameters);
@@ -430,7 +418,6 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   /// In other cases, the value is returned as is.
   ///
   /// Use [isEmpty] to determine whether the file is empty or not.
-  @override
   Future<void> loadOnce() async {
     if (!loaded) {
       loaded = true;
