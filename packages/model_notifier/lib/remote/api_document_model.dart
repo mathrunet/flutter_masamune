@@ -196,7 +196,7 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
   ///
   /// It will continue to monitor for updates until [dispose()].
   @override
-  Future<void> listen() {
+  Future<void> loadOrListen() {
     return load();
   }
 

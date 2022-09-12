@@ -13,8 +13,10 @@ abstract class StoredDocumentModel<T> extends Model<T>
 
   /// Load data while monitoring Firestore for real-time updates.
   ///
+  /// If not Listen, normal loading is performed.
+  ///
   /// It will continue to monitor for updates until [dispose()].
-  Future<void> listen();
+  Future<void> loadOrListen();
 
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///
@@ -67,8 +69,10 @@ abstract class StoredCollectionModel<T> extends Model<List<T>>
 
   /// Load data while monitoring Firestore for real-time updates.
   ///
+  /// If not Listen, normal loading is performed.
+  ///
   /// It will continue to monitor for updates until [dispose()].
-  Future<void> listen();
+  Future<void> loadOrListen();
 
   /// Data stored in the model is stored in a database external to the app that is tied to the model.
   ///

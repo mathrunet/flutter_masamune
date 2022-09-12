@@ -60,7 +60,6 @@ part "src/list_model_mixin.dart";
 part "src/listenable_list.dart";
 part 'src/listenable_listener.dart';
 part "src/listenable_map.dart";
-part "src/listened_model.dart";
 part "src/local_store.dart";
 part "src/map_model.dart";
 part "src/map_model_mixin.dart";

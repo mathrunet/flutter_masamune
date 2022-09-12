@@ -236,7 +236,7 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   ///
   /// It will continue to monitor for updates until [dispose()].
   @override
-  Future<void> listen() {
+  Future<void> loadOrListen() {
     return load();
   }
 
@@ -460,6 +460,9 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
     String uid, {
     T? data,
   }) async {
+    if (data == null) {
+      return;
+    }
     if (_saveCompleter != null) {
       return saving;
     }

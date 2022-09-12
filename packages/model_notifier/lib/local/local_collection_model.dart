@@ -243,7 +243,7 @@ abstract class LocalCollectionModel<T extends LocalDocumentModel>
   ///
   /// It will continue to monitor for updates until [dispose()].
   @override
-  Future<void> listen() {
+  Future<void> loadOrListen() {
     return load();
   }
 
@@ -467,6 +467,9 @@ abstract class LocalCollectionModel<T extends LocalDocumentModel>
     String uid, {
     T? data,
   }) async {
+    if (data == null) {
+      return;
+    }
     if (_saveCompleter != null) {
       return saving;
     }
