@@ -7,6 +7,7 @@ import 'package:flutter_quill/src/widgets/controller.dart';
 import 'package:flutter_quill/src/widgets/default_styles.dart';
 import 'package:flutter_quill/src/widgets/editor.dart';
 import 'package:flutter_quill/src/widgets/toolbar.dart';
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:masamune_module/masamune_module.dart';
 import 'package:tuple/tuple.dart';
 
@@ -414,12 +415,30 @@ class PostModuleEditPage extends PageModuleWidget<PostModule> {
                   controller: controller,
                   toolbarIconSize: 24,
                   multiRowsDisplay: false,
-                  onImagePickCallback: (file) async {
-                    if (file.path.isEmpty || !file.existsSync()) {
-                      return "";
-                    }
-                    return await context.model!.uploadMedia(file.path);
-                  },
+                  embedButtons: FlutterQuillEmbeds.buttons(
+                    showVideoButton: false,
+                    onImagePickCallback: (file) async {
+                      if (file.path.isEmpty || !file.existsSync()) {
+                        return "";
+                      }
+                      return await context.model!.uploadMedia(file.path);
+                    },
+                    onVideoPickCallback: (file) async {
+                      if (file.path.isEmpty || !file.existsSync()) {
+                        return "";
+                      }
+                      return await context.model!.uploadMedia(file.path);
+                    },
+                    filePickImpl: (context) async {
+                      final media = await context.platform?.mediaDialog(
+                        context,
+                        title: "Select %s".localize().format(
+                          ["Image".localize()],
+                        ),
+                      );
+                      return media?.path;
+                    },
+                  ),
                 ),
               ),
               Divid(color: context.theme.dividerColor.withOpacity(0.25)),

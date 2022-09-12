@@ -1,0 +1,25 @@
+name: masamune_builder
+description: Building system for masamune packages. Automatic Model creation and Page route generation.
+version: 0.14.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_builder
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+    
+  katana_annotation: ^0.14.0
+  build: ^2.3.0
+  dart_style: ^2.2.3
+  code_builder: ^4.2.0
+  build_runner: ^2.2.0
+  source_gen: ^1.2.2
+  analyzer: ^4.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
