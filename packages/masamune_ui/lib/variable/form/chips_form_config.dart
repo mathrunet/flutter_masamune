@@ -52,8 +52,8 @@ class ChipsFormConfig extends VariableFormConfig<List<String>>
         backgroundColor: backgroundColor,
         allowEmpty: !config.required,
         controller: ref.useTextEditingController(
-          config.id,
-          data
+          hookId: config.id,
+          defaultValue: data
               .getAsList(config.id, config.value)
               .map((e) => e.toString())
               .join(","),

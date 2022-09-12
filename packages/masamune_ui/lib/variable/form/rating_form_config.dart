@@ -49,8 +49,8 @@ class RatingFormConfig extends VariableFormConfig<num>
         const Divid(),
       FormItemRating(
         controller: ref.useTextEditingController(
-          config.id,
-          data.get(config.id, config.value).toString(),
+          hookId: config.id,
+         defaultValue:  data.get(config.id, config.value).toString(),
         ),
         min: min,
         max: max,

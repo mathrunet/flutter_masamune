@@ -45,8 +45,8 @@ class MultipleCheckboxFormConfig extends VariableFormConfig<List<String>>
         hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),
         controller: ref.useTextEditingController(
-          config.id,
-          data.getAsList(config.id, config.value).join(","),
+          hookId: config.id,
+          defaultValue: data.getAsList(config.id, config.value).join(","),
         ),
         onSaved: (value) {
           if (value.isEmpty) {

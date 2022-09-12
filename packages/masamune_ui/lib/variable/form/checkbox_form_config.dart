@@ -51,8 +51,8 @@ class CheckboxFormConfig extends VariableFormConfig<bool>
         hintText: config.label.localize(),
         errorText: "No input %s".localize().format([config.label.localize()]),
         controller: ref.useTextEditingController(
-          config.id,
-          data.get(config.id, config.value).toString(),
+          hookId: config.id,
+          defaultValue: data.get(config.id, config.value).toString(),
         ),
         onSaved: (value) {
           if (value == null) {

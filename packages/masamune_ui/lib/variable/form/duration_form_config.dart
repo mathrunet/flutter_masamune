@@ -58,8 +58,8 @@ class DurationFormConfig extends VariableFormConfig<int>
         dense: true,
         baseUnit: baseUnit,
         controller: ref.useTextEditingController(
-          config.id,
-          FormItemDurationField.tryFormat(
+          hookId: config.id,
+          defaultValue: FormItemDurationField.tryFormat(
             initialValue?.inMilliseconds ?? 0,
             format: format,
           ),

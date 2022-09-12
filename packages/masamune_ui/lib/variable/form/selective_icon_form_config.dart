@@ -39,8 +39,8 @@ class SelectiveIconFormConfig extends VariableFormConfig<String>
         const Divid(),
       FormItemSelectiveIconBuilder(
         controller: ref.useTextEditingController(
-          config.id,
-          data.get(config.id, config.value),
+          hookId: config.id,
+          defaultValue: data.get(config.id, config.value),
         ),
         items: items.map((key, value) => MapEntry(key, Icon(value))),
         builder: (context, items, selected, onSelect) {

@@ -63,8 +63,9 @@ class DateTimeFormConfig extends VariableFormConfig<int>
         dense: true,
         type: _type(),
         controller: ref.useTextEditingController(
-          config.id,
-          initialValue != null ? _tryParseFromDateTime(initialValue) : "",
+          hookId: config.id,
+          defaultValue:
+              initialValue != null ? _tryParseFromDateTime(initialValue) : "",
         ),
         hintText: "Input %s".localize().format([config.label.localize()]),
         errorText: "No input %s".localize().format([config.label.localize()]),

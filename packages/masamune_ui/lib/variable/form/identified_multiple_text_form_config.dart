@@ -76,8 +76,8 @@ class IdentifiedMultipleTextFormConfig
         obscureText: obscureText,
         allowEmpty: !config.required,
         controller: ref.useTextEditingController(
-          config.id,
-          jsonEncode(data.getAsMap(config.id, config.value)),
+          hookId: config.id,
+          defaultValue: jsonEncode(data.getAsMap(config.id, config.value)),
         ),
         onSaved: (value) {
           context[config.id] = Map.from(value ?? {})

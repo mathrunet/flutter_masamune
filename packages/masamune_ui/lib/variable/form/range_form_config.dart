@@ -80,8 +80,8 @@ class RangeFormConfig extends VariableFormConfig<DynamicMap>
               backgroundColor: backgroundColor,
               allowEmpty: !config.required,
               controller: ref.useTextEditingController(
-                "${config.id}:$minKey",
-                map.get(minKey, config.value).toString(),
+                hookId: "${config.id}:$minKey",
+                defaultValue: map.get(minKey, config.value).toString(),
               ),
               onSaved: (value) {
                 if (value.isEmpty) {
@@ -138,8 +138,8 @@ class RangeFormConfig extends VariableFormConfig<DynamicMap>
               backgroundColor: backgroundColor,
               allowEmpty: !config.required,
               controller: ref.useTextEditingController(
-                "${config.id}:$maxKey",
-                map.get(maxKey, config.value).toString(),
+                hookId: "${config.id}:$maxKey",
+                defaultValue: map.get(maxKey, config.value).toString(),
               ),
               onSaved: (value) {
                 if (value.isEmpty) {

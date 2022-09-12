@@ -60,8 +60,8 @@ class MultipleFullScreenFormConfig extends VariableFormConfig<List<DynamicMap>>
           );
         },
         controller: ref.useTextEditingController(
-          config.id,
-          jsonEncode(data.getAsList(config.id, config.value)),
+          hookId: config.id,
+          defaultValue: jsonEncode(data.getAsList(config.id, config.value)),
         ),
         onSaved: (value) {
           context[config.id] = List<DynamicMap>.from(value ?? [])
