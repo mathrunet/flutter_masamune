@@ -94,30 +94,30 @@ class ContentFormConfig extends VariableFormConfig<String> {
               controller: controller,
               toolbarIconSize: 24,
               multiRowsDisplay: false,
-              embedButtons: FlutterQuillEmbeds.buttons(
-                showVideoButton: false,
-                onImagePickCallback: (file) async {
-                  if (file.path.isEmpty || !file.existsSync()) {
-                    return "";
-                  }
-                  return await context.model!.uploadMedia(file.path);
-                },
-                onVideoPickCallback: (file) async {
-                  if (file.path.isEmpty || !file.existsSync()) {
-                    return "";
-                  }
-                  return await context.model!.uploadMedia(file.path);
-                },
-                filePickImpl: (context) async {
-                  final media = await context.platform?.mediaDialog(
-                    context,
-                    title: "Select %s".localize().format(
-                      ["Image".localize()],
-                    ),
-                  );
-                  return media?.path;
-                },
-              ),
+              // embedButtons: FlutterQuillEmbeds.buttons(
+              //   showVideoButton: false,
+              //   onImagePickCallback: (file) async {
+              //     if (file.path.isEmpty || !file.existsSync()) {
+              //       return "";
+              //     }
+              //     return await context.model!.uploadMedia(file.path);
+              //   },
+              //   onVideoPickCallback: (file) async {
+              //     if (file.path.isEmpty || !file.existsSync()) {
+              //       return "";
+              //     }
+              //     return await context.model!.uploadMedia(file.path);
+              //   },
+              //   filePickImpl: (context) async {
+              //     final media = await context.platform?.mediaDialog(
+              //       context,
+              //       title: "Select %s".localize().format(
+              //         ["Image".localize()],
+              //       ),
+              //     );
+              //     return media?.path;
+              //   },
+              // ),
             ),
           ),
           Divid(color: context.theme.dividerColor.withOpacity(0.25)),

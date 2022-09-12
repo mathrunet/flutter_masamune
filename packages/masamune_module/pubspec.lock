@@ -169,13 +169,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  cross_file:
-    dependency: transitive
-    description:
-      name: cross_file
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.3+1"
   crypto:
     dependency: transitive
     description:
@@ -328,13 +321,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  flutter_inappwebview_quill:
-    dependency: transitive
-    description:
-      name: flutter_inappwebview_quill
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.4.6"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -368,13 +354,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.10+5"
-  flutter_math_fork:
-    dependency: transitive
-    description:
-      name: flutter_math_fork
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.3+1"
   flutter_picker:
     dependency: transitive
     description:
@@ -382,13 +361,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.7"
   flutter_quill:
     dependency: "direct main"
     description:
@@ -396,13 +368,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.2"
-  flutter_quill_extensions:
-    dependency: "direct main"
-    description:
-      name: flutter_quill_extensions
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   flutter_rating_bar:
     dependency: transitive
     description:
@@ -431,13 +396,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.3+3"
-  flutter_svg:
-    dependency: transitive
-    description:
-      name: flutter_svg
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.5"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -455,13 +413,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "10.2.1"
-  gallery_saver:
-    dependency: transitive
-    description:
-      name: gallery_saver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.3.2"
   gettext_parser:
     dependency: transitive
     description:
@@ -518,41 +469,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.1"
-  image_picker:
-    dependency: transitive
-    description:
-      name: image_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.5+3"
-  image_picker_android:
-    dependency: transitive
-    description:
-      name: image_picker_android
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.5+3"
-  image_picker_for_web:
-    dependency: transitive
-    description:
-      name: image_picker_for_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.8"
-  image_picker_ios:
-    dependency: transitive
-    description:
-      name: image_picker_ios
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.6"
-  image_picker_platform_interface:
-    dependency: transitive
-    description:
-      name: image_picker_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.6.1"
   intl:
     dependency: transitive
     description:
@@ -651,20 +567,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
-  math_expressions:
-    dependency: transitive
-    description:
-      name: math_expressions
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.3.1"
-  math_keyboard:
-    dependency: transitive
-    description:
-      name: math_keyboard
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.7"
   meta:
     dependency: transitive
     description:
@@ -693,13 +595,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.2"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   nm:
     dependency: transitive
     description:
@@ -770,20 +665,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   path_provider:
     dependency: transitive
     description:
@@ -882,13 +763,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.3"
   pub_semver:
     dependency: transitive
     description:
@@ -1097,13 +971,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-  string_validator:
-    dependency: transitive
-    description:
-      name: string_validator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   synchronized:
     dependency: transitive
     description:
@@ -1152,7 +1019,7 @@ packages:
       name: url_launcher_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.18"
+    version: "6.0.19"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1321,13 +1188,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
-  youtube_player_flutter_quill:
-    dependency: transitive
-    description:
-      name: youtube_player_flutter_quill
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "8.2.2"
 sdks:
   dart: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"
