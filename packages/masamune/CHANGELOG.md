@@ -1,3 +1,7 @@
+## 0.14.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.14.1
 
  - **FEAT**: Change Hooks key to Optional. ([1528cf5f](https://github.com/mathrunet/flutter_masamune/commit/1528cf5f78af068fe8b80678503c22d1315b4577))

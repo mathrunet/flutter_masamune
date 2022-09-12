@@ -1,3 +1,7 @@
+## 0.14.1
+
+ - **FEAT**: Initial commit. ([f5f26998](https://github.com/mathrunet/flutter_masamune/commit/f5f26998ffc6d9acf957aa487d80ddb8a1889777))
+
 ## 0.14.0+7
 
  - **FIX**: Response to Hook changes. ([5775df09](https://github.com/mathrunet/flutter_masamune/commit/5775df09f99ce37125da6767e9afbadc6355d3ff))

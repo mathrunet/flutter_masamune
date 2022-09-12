@@ -1,3 +1,7 @@
+## 0.14.0+8
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+7
 
  - **FIX**: Response to Hooks changes. ([ad8fe3c2](https://github.com/mathrunet/flutter_masamune/commit/ad8fe3c26e1ac06d28d9d81aad57e6af2f0fba91))
