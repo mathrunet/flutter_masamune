@@ -1,3 +1,7 @@
+## 0.13.1+2
+
+ - Update a dependency to the latest release.
+
 ## 0.13.1+1
 
  - **FIX**: Delete castCollection. ([7918e451](https://github.com/mathrunet/flutter_masamune/commit/7918e4516e7449a15b0165185f0fbcccfafcf8aa))

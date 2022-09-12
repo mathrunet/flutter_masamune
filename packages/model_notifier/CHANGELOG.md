@@ -1,3 +1,7 @@
+## 0.13.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.13.1
 
  - **FEAT**: Add DynamicCollection(Document)ModelMixin. ([8e9b7d66](https://github.com/mathrunet/flutter_masamune/commit/8e9b7d666a0a449cd2a39cce28d5cc789c9e73ff))

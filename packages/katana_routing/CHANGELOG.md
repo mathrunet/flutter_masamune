@@ -1,3 +1,7 @@
+## 0.13.0+14
+
+ - Update a dependency to the latest release.
+
 ## 0.13.0+13
 
  - **FIX**: Fixed a bug in AppTheme. ([c344411c](https://github.com/mathrunet/flutter_masamune/commit/c344411c12f7d8ce45ad77e2288c1bc92c37e8c1))
