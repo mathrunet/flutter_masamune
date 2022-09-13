@@ -1,5 +1,13 @@
 part of katana_annotation;
 
+/// Annotation to set default values for parameters.
+class Default {
+  const Default(this.defaultValue);
+
+  /// Default value.
+  final Object? defaultValue;
+}
+
 /// Annotation indicating a collection in Masamune.
 class CollectionPath {
   const CollectionPath(this.path);
