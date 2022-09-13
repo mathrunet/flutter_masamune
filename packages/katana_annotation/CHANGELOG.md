@@ -1,3 +1,7 @@
+## 0.14.2
+
+ - **FEAT**: Added basic Builder functions. ([68bd92eb](https://github.com/mathrunet/flutter_masamune/commit/68bd92eba625426c1d42d7097aae924a15ec1d25))
+
 ## 0.14.1+3
 
  - **FIX**: Added Default. ([2b0ebe60](https://github.com/mathrunet/flutter_masamune/commit/2b0ebe60a2ade0c1eee3f88cd10443f91f663bd3))
