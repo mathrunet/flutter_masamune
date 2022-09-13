@@ -8,4 +8,6 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_annotation;
 
+export 'package:katana:katana.dart';
+
 part 'src/annotation.dart';
