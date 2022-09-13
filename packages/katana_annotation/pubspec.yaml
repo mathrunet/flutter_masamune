@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  model_notifier: ^0.14.0
+  katana: ^0.14.0
   freezed_annotation: ^2.1.0
     
 dev_dependencies:

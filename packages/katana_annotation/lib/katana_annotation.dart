@@ -8,12 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_annotation;
 
-import 'package:model_notifier/model_notifier.dart';
+export 'dart:collection' show ListMixin;
 
 export 'package:freezed_annotation/freezed_annotation.dart' show Default;
-export 'package:model_notifier/model_notifier.dart';
+export 'package:katana/katana.dart';
 
 part 'src/annotation.dart';
 part 'src/converter.dart';
-part 'src/dynamic_collection_model_generated_wrapper_mixin.dart';
-part 'src/dynamic_document_model_generated_wrapper_mixin.dart';
