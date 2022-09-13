@@ -1,3 +1,7 @@
+## 0.14.0+8
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+7
 
  - **FIX**: Added katana_annotation. ([28838b25](https://github.com/mathrunet/flutter_masamune/commit/28838b252e6074894752cf4ab80934e7e7c2f190))

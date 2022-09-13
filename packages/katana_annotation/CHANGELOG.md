@@ -1,3 +1,7 @@
+## 0.14.1+1
+
+ - **FIX**: Split ModelPath into CollectionPath and DocumentPath. ([c09e1668](https://github.com/mathrunet/flutter_masamune/commit/c09e166837ee2c67f6fc61527d9b6bf1506bfca6))
+
 ## 0.14.1
 
  - **FEAT**: Initial commitments. ([2a93023b](https://github.com/mathrunet/flutter_masamune/commit/2a93023b676fe2f6edd9234f8bb8c6cebb0502ab))

@@ -1,3 +1,7 @@
+## 0.14.1+3
+
+ - Update a dependency to the latest release.
+
 ## 0.14.1+2
 
  - **FIX**: Avoiding flutter_quill errors. ([37704284](https://github.com/mathrunet/flutter_masamune/commit/3770428457d33f50af771c58547ddffb63369686))
