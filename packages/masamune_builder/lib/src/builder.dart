@@ -1,10 +1,11 @@
 part of masamune_builder;
 
 Builder masamuneBuilderFactory(BuilderOptions options) {
-  return PartBuilder([MasamuneGenerator()], ".m.dart");
+  return PartBuilder([MasamuneCollectionGenerator()], ".m.dart");
 }
 
-class MasamuneGenerator extends GeneratorForAnnotation<ModelPath> {
+class MasamuneCollectionGenerator
+    extends GeneratorForAnnotation<CollectionPath> {
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
@@ -13,82 +14,57 @@ class MasamuneGenerator extends GeneratorForAnnotation<ModelPath> {
   ) {
     if (!element.library!.isNonNullableByDefault) {
       throw InvalidGenerationSourceError(
-        'Generator cannot target libraries that have not been migrated to '
-        'null-safety.',
+        "Generator cannot target libraries that have not been migrated to "
+        "null-safety.",
         element: element,
       );
     }
 
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        '`@module` can only be used on classes.',
+        "`@CollectionPath()` can only be used on classes.",
         element: element,
       );
     }
 
-    final mixin = Library(
-      (b) => b
+    final _path = annotation.read("path").stringValue;
+    final _keySuffix = annotation.read("keySuffix").stringValue;
+    final _converter = annotation
+        .peek("converter")
+        ?.revive()
+        .source
+        .toString()
+        .split("#")
+        .lastOrNull;
+    final _class = ClassModel(element);
+
+    if (_path.splitLength() <= 0 || _path.splitLength() % 2 != 1) {
+      throw Exception(
+        "The path hierarchy must be an odd number: $_path",
+      );
+    }
+
+    final generated = Library(
+      (l) => l
         ..body.addAll(
           [
-            Method(
-              (m) => m
-                ..name = "_\$${element.name}FromMap"
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (b) => b
-                      ..name = "map"
-                      ..type = const Reference("DynamicMap"),
-                  ),
-                  Parameter(
-                    (b) => b
-                      ..name = "ref"
-                      ..type = Reference(element.name),
-                  )
-                ])
-                ..returns = refer("${element.name}?")
-                ..body = Code(
-                    "if(map.isEmpty || map.get(\"type\", \"\") != ref.type){ return null; } return ${element.name}(${_generateFromMapCode(element)});"),
-            ),
-            Method(
-              (m) => m
-                ..name = "_\$${element.name}ToMap"
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (b) => b
-                      ..name = "ref"
-                      ..type = Reference(element.name),
-                  )
-                ])
-                ..returns =
-                    refer("DynamicMap", "package:masamune/masamune.dart")
-                ..body = Code(
-                    "return <String, dynamic>{${_generateToMapCode(element)}};"),
-            ),
+            pathField(_path),
+            converterField(_converter ?? "DefaultConverter"),
+            convertMethod(_class, _keySuffix),
+            keyConstClass(_class, _keySuffix),
+            ...documentClass(_class, _keySuffix),
+            ...collectionClass(_class),
+            dynamicMapExtensions(_class),
+            dynamicMapCollectionExtensions(_class),
+            widgetRefDocumentExtensions(_class),
+            widgetRefCollectionExtensions(_class)
           ],
         ),
     );
     final emitter = DartEmitter();
-    return DartFormatter().format('${mixin.accept(emitter)}');
-  }
-
-  String _generateFromMapCode(ClassElement element) {
-    return [
-      ...element.constructors.first.parameters
-          .map(
-            (e) => e.codeFromMap,
-          )
-          .where((e) => e.isNotEmpty),
-    ].join(",");
-  }
-
-  String _generateToMapCode(ClassElement element) {
-    return [
-      "\"type\": ref.type",
-      ...element.constructors.first.parameters
-          .map(
-            (e) => e.codeToMap,
-          )
-          .where((e) => e.isNotEmpty),
-    ].join(",");
+    return DartFormatter().format(
+      // "// ignore_for_file: require_trailing_commas"
+      "${generated.accept(emitter)}",
+    );
   }
 }
