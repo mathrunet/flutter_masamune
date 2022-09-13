@@ -1,8 +1,16 @@
 part of katana_annotation;
 
-/// Annotation indicating a model in Masamune.
-class ModelPath {
-  const ModelPath(this.path);
+/// Annotation indicating a collection in Masamune.
+class CollectionPath {
+  const CollectionPath(this.path);
+
+  /// Paths for models.
+  final String path;
+}
+
+/// Annotation indicating a document in Masamune.
+class DocumentPath {
+  const DocumentPath(this.path);
 
   /// Paths for models.
   final String path;
