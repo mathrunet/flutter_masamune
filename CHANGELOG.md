@@ -15,6 +15,76 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_annotation` - `v0.14.1+3`](#katana_annotation---v01413)
+ - [`katana_module` - `v0.14.0+10`](#katana_module---v014010)
+ - [`masamune_builder` - `v0.14.1+4`](#masamune_builder---v01414)
+ - [`masamune` - `v0.14.1+5`](#masamune---v01415)
+ - [`masamune_agora` - `v0.14.0+11`](#masamune_agora---v014011)
+ - [`masamune_local_messaging` - `v0.14.0+11`](#masamune_local_messaging---v014011)
+ - [`masamune_location` - `v0.14.0+11`](#masamune_location---v014011)
+ - [`masamune_media` - `v0.14.0+11`](#masamune_media---v014011)
+ - [`masamune_purchase` - `v0.14.0+11`](#masamune_purchase---v014011)
+ - [`masamune_wordpress` - `v0.14.0+11`](#masamune_wordpress---v014011)
+ - [`masamune_firebase` - `v0.14.0+11`](#masamune_firebase---v014011)
+ - [`masamune_ads` - `v0.14.0+11`](#masamune_ads---v014011)
+ - [`masamune_ui` - `v0.14.0+12`](#masamune_ui---v014012)
+ - [`masamune_purchase_firebase` - `v0.14.0+11`](#masamune_purchase_firebase---v014011)
+ - [`masamune_firebase_messaging` - `v0.14.0+11`](#masamune_firebase_messaging---v014011)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+11`](#masamune_firebase_dynamic_links---v014011)
+ - [`masamune_signin_facebook` - `v0.14.0+11`](#masamune_signin_facebook---v014011)
+ - [`masamune_signin_apple` - `v0.14.0+11`](#masamune_signin_apple---v014011)
+ - [`masamune_signin_google` - `v0.14.0+11`](#masamune_signin_google---v014011)
+ - [`masamune_signin_twitter` - `v0.14.0+11`](#masamune_signin_twitter---v014011)
+ - [`masamune_purchase_stripe` - `v0.14.0+11`](#masamune_purchase_stripe---v014011)
+ - [`masamune_notion` - `v0.14.0+11`](#masamune_notion---v014011)
+ - [`masamune_module` - `v0.14.1+5`](#masamune_module---v01415)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.14.0+10`
+ - `masamune_builder` - `v0.14.1+4`
+ - `masamune` - `v0.14.1+5`
+ - `masamune_agora` - `v0.14.0+11`
+ - `masamune_local_messaging` - `v0.14.0+11`
+ - `masamune_location` - `v0.14.0+11`
+ - `masamune_media` - `v0.14.0+11`
+ - `masamune_purchase` - `v0.14.0+11`
+ - `masamune_wordpress` - `v0.14.0+11`
+ - `masamune_firebase` - `v0.14.0+11`
+ - `masamune_ads` - `v0.14.0+11`
+ - `masamune_ui` - `v0.14.0+12`
+ - `masamune_purchase_firebase` - `v0.14.0+11`
+ - `masamune_firebase_messaging` - `v0.14.0+11`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+11`
+ - `masamune_signin_facebook` - `v0.14.0+11`
+ - `masamune_signin_apple` - `v0.14.0+11`
+ - `masamune_signin_google` - `v0.14.0+11`
+ - `masamune_signin_twitter` - `v0.14.0+11`
+ - `masamune_purchase_stripe` - `v0.14.0+11`
+ - `masamune_notion` - `v0.14.0+11`
+ - `masamune_module` - `v0.14.1+5`
+
+---
+
+#### `katana_annotation` - `v0.14.1+3`
+
+ - **FIX**: Added Default. ([2b0ebe60](https://github.com/mathrunet/flutter_masamune/commit/2b0ebe60a2ade0c1eee3f88cd10443f91f663bd3))
+
+
+## 2022-09-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_annotation` - `v0.14.1+2`](#katana_annotation---v01412)
  - [`katana_module` - `v0.14.0+9`](#katana_module---v01409)
  - [`masamune_builder` - `v0.14.1+3`](#masamune_builder---v01413)

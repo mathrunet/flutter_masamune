@@ -297,7 +297,7 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.10+5"
+    version: "0.6.10+6"
   flutter_picker:
     dependency: "direct main"
     description:
@@ -405,7 +405,7 @@ packages:
       name: katana_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1"
+    version: "0.14.1+2"
   katana_flutter:
     dependency: transitive
     description:
@@ -419,7 +419,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+7"
+    version: "0.14.0+9"
   katana_routing:
     dependency: transitive
     description:
@@ -454,7 +454,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1+2"
+    version: "0.14.1+4"
   matcher:
     dependency: transitive
     description:
