@@ -1,6 +1,6 @@
 name: masamune_purchase_stripe
 description: The plugin provide a billing mechanism using Stripe. FirebaseFirestore and FirebaseFunctions are required.
-version: 0.14.0+9
+version: 0.14.0+10
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_purchase_stripe
 

@@ -1,3 +1,7 @@
+## 0.14.1+2
+
+ - **FIX**: katana library is now loaded. ([cf083e58](https://github.com/mathrunet/flutter_masamune/commit/cf083e58b31617d16c20145d940d0bc1c016ffa9))
+
 ## 0.14.1+1
 
  - **FIX**: Split ModelPath into CollectionPath and DocumentPath. ([c09e1668](https://github.com/mathrunet/flutter_masamune/commit/c09e166837ee2c67f6fc61527d9b6bf1506bfca6))
