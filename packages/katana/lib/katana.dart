@@ -19,6 +19,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:uuid/uuid.dart';
+import 'package:recase/recase.dart';
 
 export 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 export 'package:intl/intl.dart' show DateFormat;

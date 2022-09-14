@@ -108,6 +108,16 @@ extension StringExtensions on String {
     return replaceAll(pattern, "");
   }
 
+  /// Convert the letters to snake case.
+  String toSnakeCase() {
+    return snakeCase;
+  }
+
+  /// Convert the letters to camel case.
+  String toCamelCase() {
+    return camelCase;
+  }
+
   /// Converts a String to an int.
   ///
   /// Normally it parses, but if it cannot parse it, it creates a random string.
