@@ -1,3 +1,7 @@
+## 0.14.2
+
+ - **FEAT**: CollectionPath builder addition. ([38a3f83f](https://github.com/mathrunet/flutter_masamune/commit/38a3f83f6718cc25dc84e6d3320418e26f8e5df3))
+
 ## 0.14.1+5
 
  - Update a dependency to the latest release.

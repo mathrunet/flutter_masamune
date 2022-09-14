@@ -1,3 +1,7 @@
+## 0.14.1
+
+ - **FEAT**: Added toSnakeCase and toCamelCase. ([a9441f6a](https://github.com/mathrunet/flutter_masamune/commit/a9441f6a0f078cee78e5c3cc13f568c44aeda135))
+
 ## 0.14.0+1
 
  - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))

@@ -1,3 +1,7 @@
+## 0.14.2+1
+
+ - **FIX**: 不具合調査。. ([2c11b35d](https://github.com/mathrunet/flutter_masamune/commit/2c11b35d501a1477c144976c7974727e2c5e26b1))
+
 ## 0.14.2
 
  - **FEAT**: Added basic Builder functions. ([68bd92eb](https://github.com/mathrunet/flutter_masamune/commit/68bd92eba625426c1d42d7097aae924a15ec1d25))
