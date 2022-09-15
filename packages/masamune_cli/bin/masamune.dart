@@ -84,6 +84,7 @@ const commands = <String, CliCommand>{
   "upgrade": UpgradeCliCommand(),
   "generate": GenerateCliCommand(),
   "build": AppBuildCliCommand(),
+  "submodule": SubmoduleCliCommand(),
 };
 
 Future<void> main(List<String> args) async {
