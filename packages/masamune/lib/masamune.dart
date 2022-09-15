@@ -63,7 +63,6 @@ part 'dialog/ui_dialog.dart';
 part 'dialog/ui_future.dart';
 part 'dialog/ui_modal.dart';
 part 'dialog/ui_select_dialog.dart';
-part 'dialog/ui_stream.dart';
 part 'inline/inline_app_preview.dart';
 part 'inline/inline_page_builder.dart';
 part "inline/navigator_controller.dart";

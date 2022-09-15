@@ -8,6 +8,7 @@ class _UIFuture {
     Future<T> future, {
     Color? barrierColor = Colors.black54,
     void Function(T? value)? actionOnFinish,
+    Widget? indicator,
   }) async {
     T? val;
     final dialog = showDialog(
@@ -17,15 +18,16 @@ class _UIFuture {
       builder: (context) {
         return WillPopScope(
           onWillPop: () async => false,
-          child: Center(
-            child: context.theme.widget.loadingIndicator
-                    ?.call(context, Colors.white.withOpacity(0.5)) ??
-                CircularProgressIndicator(
-                  backgroundColor: Colors.white.withOpacity(
-                    0.5,
-                  ),
-                ),
-          ),
+          child: indicator ??
+              Center(
+                child: context.theme.widget.loadingIndicator
+                        ?.call(context, Colors.white.withOpacity(0.5)) ??
+                    CircularProgressIndicator(
+                      backgroundColor: Colors.white.withOpacity(
+                        0.5,
+                      ),
+                    ),
+              ),
         );
       },
     );
@@ -52,6 +54,7 @@ extension UIFutureOrExtension<T> on FutureOr<T> {
     BuildContext context, {
     Color? barrierColor = Colors.black54,
     void Function(T? value)? actionOnFinish,
+    Widget? indicator,
   }) async {
     final futureOr = this;
     if (futureOr is Future<T>) {
@@ -62,6 +65,7 @@ extension UIFutureOrExtension<T> on FutureOr<T> {
         futureOr,
         actionOnFinish: actionOnFinish,
         barrierColor: barrierColor,
+        indicator: indicator,
       );
       final value = await this;
       await Future<void>.delayed(Duration.zero);
