@@ -80,7 +80,8 @@ List<FileSystemEntity> get currentFiles {
     }
     if (path.startsWith("build/") ||
         path.startsWith("assets/") ||
-        path.startsWith("firebase/functions/node_modules/")) {
+        path.startsWith("firebase/functions/node_modules/") ||
+        path.startsWith("ios/Pods")) {
       return false;
     }
     if (path.endsWith(".dart") ||
