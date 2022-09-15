@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_cli` - `v0.14.0+5`](#masamune_cli---v01405)
+
+---
+
+#### `masamune_cli` - `v0.14.0+5`
+
+ - **FIX**: Changed to point to the subsequent steps after the command is completed. ([24e78807](https://github.com/mathrunet/flutter_masamune/commit/24e788078f060dea03b02de9e5bee5ef447f7b6f))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_media` - `v0.14.0+14`](#masamune_media---v014014)
 
 ---

@@ -1,3 +1,7 @@
+## 0.14.0+5
+
+ - **FIX**: Changed to point to the subsequent steps after the command is completed. ([24e78807](https://github.com/mathrunet/flutter_masamune/commit/24e788078f060dea03b02de9e5bee5ef447f7b6f))
+
 ## 0.14.0+4
 
  - **FIX**: The submodule command was not included, so it was added. ([1c5d40ab](https://github.com/mathrunet/flutter_masamune/commit/1c5d40aba7bc37e21f65e96a69d4ed8094ccdab6))
