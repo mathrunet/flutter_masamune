@@ -1,3 +1,7 @@
+## 0.14.0+6
+
+ - **FIX**: Delete subscription_schedule. ([6d819eeb](https://github.com/mathrunet/flutter_masamune/commit/6d819eeb5aa24a1bbd4dbd853115062a848972f5))
+
 ## 0.14.0+5
 
  - **FIX**: Changed to point to the subsequent steps after the command is completed. ([24e78807](https://github.com/mathrunet/flutter_masamune/commit/24e788078f060dea03b02de9e5bee5ef447f7b6f))

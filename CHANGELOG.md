@@ -15,6 +15,79 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_routing` - `v0.14.1`](#katana_routing---v0141)
+ - [`masamune_cli` - `v0.14.0+6`](#masamune_cli---v01406)
+ - [`katana_module` - `v0.14.0+14`](#katana_module---v014014)
+ - [`masamune` - `v0.14.1+9`](#masamune---v01419)
+ - [`masamune_agora` - `v0.14.0+15`](#masamune_agora---v014015)
+ - [`masamune_local_messaging` - `v0.14.0+15`](#masamune_local_messaging---v014015)
+ - [`masamune_location` - `v0.14.0+15`](#masamune_location---v014015)
+ - [`masamune_media` - `v0.14.0+16`](#masamune_media---v014016)
+ - [`masamune_purchase` - `v0.14.0+16`](#masamune_purchase---v014016)
+ - [`masamune_wordpress` - `v0.14.0+15`](#masamune_wordpress---v014015)
+ - [`masamune_firebase` - `v0.14.0+15`](#masamune_firebase---v014015)
+ - [`masamune_ads` - `v0.14.0+15`](#masamune_ads---v014015)
+ - [`masamune_ui` - `v0.14.0+16`](#masamune_ui---v014016)
+ - [`masamune_purchase_firebase` - `v0.14.0+16`](#masamune_purchase_firebase---v014016)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+15`](#masamune_firebase_dynamic_links---v014015)
+ - [`masamune_signin_apple` - `v0.14.0+15`](#masamune_signin_apple---v014015)
+ - [`masamune_signin_facebook` - `v0.14.0+15`](#masamune_signin_facebook---v014015)
+ - [`masamune_signin_google` - `v0.14.0+15`](#masamune_signin_google---v014015)
+ - [`masamune_firebase_messaging` - `v0.14.0+15`](#masamune_firebase_messaging---v014015)
+ - [`masamune_signin_twitter` - `v0.14.0+15`](#masamune_signin_twitter---v014015)
+ - [`masamune_notion` - `v0.14.0+15`](#masamune_notion---v014015)
+ - [`masamune_purchase_stripe` - `v0.14.0+15`](#masamune_purchase_stripe---v014015)
+ - [`masamune_module` - `v0.14.1+9`](#masamune_module---v01419)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.14.0+14`
+ - `masamune` - `v0.14.1+9`
+ - `masamune_agora` - `v0.14.0+15`
+ - `masamune_local_messaging` - `v0.14.0+15`
+ - `masamune_location` - `v0.14.0+15`
+ - `masamune_media` - `v0.14.0+16`
+ - `masamune_purchase` - `v0.14.0+16`
+ - `masamune_wordpress` - `v0.14.0+15`
+ - `masamune_firebase` - `v0.14.0+15`
+ - `masamune_ads` - `v0.14.0+15`
+ - `masamune_ui` - `v0.14.0+16`
+ - `masamune_purchase_firebase` - `v0.14.0+16`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+15`
+ - `masamune_signin_apple` - `v0.14.0+15`
+ - `masamune_signin_facebook` - `v0.14.0+15`
+ - `masamune_signin_google` - `v0.14.0+15`
+ - `masamune_firebase_messaging` - `v0.14.0+15`
+ - `masamune_signin_twitter` - `v0.14.0+15`
+ - `masamune_notion` - `v0.14.0+15`
+ - `masamune_purchase_stripe` - `v0.14.0+15`
+ - `masamune_module` - `v0.14.1+9`
+
+---
+
+#### `katana_routing` - `v0.14.1`
+
+ - **FEAT**: Introduce the concept of PageQuery. ([74791876](https://github.com/mathrunet/flutter_masamune/commit/747918768ba5b06d995875c5054bf15facf91111))
+
+#### `masamune_cli` - `v0.14.0+6`
+
+ - **FIX**: Delete subscription_schedule. ([6d819eeb](https://github.com/mathrunet/flutter_masamune/commit/6d819eeb5aa24a1bbd4dbd853115062a848972f5))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_routing` - `v0.14.0+3`](#katana_routing---v01403)
  - [`masamune` - `v0.14.1+8`](#masamune---v01418)
  - [`masamune_builder` - `v0.14.2+1`](#masamune_builder---v01421)

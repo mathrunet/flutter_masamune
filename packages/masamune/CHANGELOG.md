@@ -1,3 +1,7 @@
+## 0.14.1+9
+
+ - Update a dependency to the latest release.
+
 ## 0.14.1+8
 
  - **FIX**: Added ability to add indicatorWidget to showIndicator. ([19e1b9ed](https://github.com/mathrunet/flutter_masamune/commit/19e1b9edb42fe9d16a0f797b27cd8ca3b813e11f))

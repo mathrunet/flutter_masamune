@@ -1,3 +1,7 @@
+## 0.14.1
+
+ - **FEAT**: Introduce the concept of PageQuery. ([74791876](https://github.com/mathrunet/flutter_masamune/commit/747918768ba5b06d995875c5054bf15facf91111))
+
 ## 0.14.0+3
 
  - **FIX**: Fixed a bug in Theme. ([47010d73](https://github.com/mathrunet/flutter_masamune/commit/47010d735db0474e4b1838066d4691b95dd41da0))

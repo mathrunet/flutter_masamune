@@ -1,3 +1,7 @@
+## 0.14.1+9
+
+ - Update a dependency to the latest release.
+
 ## 0.14.1+8
 
  - **FIX**: CopyRight can be listed. ([9124e547](https://github.com/mathrunet/flutter_masamune/commit/9124e54770f4869295726dde4104d68e62c7f37e))
