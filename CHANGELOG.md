@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase` - `v0.14.0+14`](#masamune_purchase---v014014)
+ - [`masamune_purchase_firebase` - `v0.14.0+14`](#masamune_purchase_firebase---v014014)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_firebase` - `v0.14.0+14`
+
+---
+
+#### `masamune_purchase` - `v0.14.0+14`
+
+ - **FIX**: Throw Exception when cancelled. ([e96645ee](https://github.com/mathrunet/flutter_masamune/commit/e96645ee1a78ce04a89acbd39cfb0e53b1ddf844))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_cli` - `v0.14.0+5`](#masamune_cli---v01405)
 
 ---
