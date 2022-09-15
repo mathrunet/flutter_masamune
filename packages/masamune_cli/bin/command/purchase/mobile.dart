@@ -124,5 +124,11 @@ class PurchaseMobileCliCommand extends CliCommand {
       workingDirectory: "${Directory.current.path}/firebase",
     );
     await resultLastDeploy.print();
+    print("#####");
+    print(
+        "下記のURLをAppStoreの該当アプリ→App情報→App Storeサーバ通知の「プロダクションサーバーURL」と「SandboxサーバーURL」に記載してください。");
+    print(
+        "https://asia-northeast1-$projectId.cloudfunctions.net/purchase_webhook_ios");
+    print("#####");
   }
 }
