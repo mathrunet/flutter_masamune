@@ -28,7 +28,7 @@ packages:
       name: asn1lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   async:
     dependency: transitive
     description:
@@ -119,7 +119,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6+1"
+    version: "2.3.7"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -346,7 +346,7 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.11"
+    version: "0.6.12"
   flutter_picker:
     dependency: transitive
     description:
@@ -517,14 +517,14 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+12"
+    version: "0.14.0+13"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+2"
+    version: "0.14.0+3"
   loading_animations:
     dependency: transitive
     description:
@@ -552,14 +552,14 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1+7"
+    version: "0.14.1+8"
   masamune_ui:
     dependency: "direct main"
     description:
       name: masamune_ui
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+14"
+    version: "0.14.0+15"
   matcher:
     dependency: transitive
     description:
