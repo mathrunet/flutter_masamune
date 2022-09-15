@@ -5,7 +5,7 @@ extension NavigatorStateExtensions on NavigatorState {
   /// Pops the page to the page with the specified path.
   ///
   /// Enter the pathname of the page in [name].
-  Future<void> popUntilNamed(String name) async {
+  void popUntilNamed(String name) {
     popUntil((route) {
       return route.settings.name == name;
     });
@@ -28,6 +28,150 @@ extension NavigatorStateExtensions on NavigatorState {
       (route) => false,
       arguments: arguments,
     );
+  }
+
+  /// Pops the page to the page with the specified path.
+  ///
+  /// Enter the pathname of the page in [name].
+  void popUntilPage(PageQuery pageQuery) {
+    return popUntilNamed(pageQuery.toString());
+  }
+
+  /// Reset all history and go to a specific page.
+  ///
+  /// After all pages are [pop()],
+  /// the page specified by [newRouteName] is [pushNamed()].
+  ///
+  /// In [arguments], put [RouteQuery] and so on.
+  ///
+  /// Ideal for moving after logging out.
+  Future<T?> resetAndPushPage<T extends Object?>(
+    PageQuery newRoutePage, {
+    RouteQuery? arguments,
+  }) {
+    return resetAndPushNamed<T>(
+      newRoutePage.toString(),
+      arguments: _arguments(newRoutePage, arguments),
+    );
+  }
+
+  /// Pop the current route off the navigator and push a named route in its place.
+  Future<T?> popAndPushPage<T extends Object?, TO extends Object?>(
+    PageQuery routePage, {
+    TO? result,
+    RouteQuery? arguments,
+  }) {
+    return popAndPushNamed<T, TO>(
+      routePage.toString(),
+      result: result,
+      arguments: _arguments(routePage, arguments),
+    );
+  }
+
+  /// Push a named route onto the navigator.
+  Future<T?> pushPage<T extends Object?>(
+    PageQuery routePage, {
+    RouteQuery? arguments,
+  }) {
+    return pushNamed<T>(
+      routePage.toString(),
+      arguments: _arguments(routePage, arguments),
+    );
+  }
+
+  /// Push the route with the given name onto the navigator,
+  /// and then remove all the previous routes until the predicate returns true.
+  Future<T?> pushPageAndRemoveUntil<T extends Object?>(
+    PageQuery newRoutePage,
+    RoutePredicate predicate, {
+    RouteQuery? arguments,
+  }) {
+    return pushNamedAndRemoveUntil<T>(
+      newRoutePage.toString(),
+      predicate,
+      arguments: _arguments(newRoutePage, arguments),
+    );
+  }
+
+  /// Replace the current route of the navigator by pushing the route named [routeName] and then disposing the previous route once the new route has finished animating in.
+  Future<T?> pushReplacementPage<T extends Object?, TO extends Object?>(
+    PageQuery routePage, {
+    TO? result,
+    RouteQuery? arguments,
+  }) {
+    return pushReplacementNamed<T, TO>(
+      routePage.toString(),
+      result: result,
+      arguments: _arguments(routePage, arguments),
+    );
+  }
+
+  /// Pop the current route off the navigator and push a named route in its place.
+  String restorablePopAndPushPage<T extends Object?, TO extends Object?>(
+    PageQuery routePage, {
+    TO? result,
+    RouteQuery? arguments,
+  }) {
+    return restorablePopAndPushNamed<T, TO>(
+      routePage.toString(),
+      result: result,
+      arguments: _arguments(routePage, arguments),
+    );
+  }
+
+  /// Push a named route onto the navigator.
+  String restorablePushPage<T extends Object?>(
+    PageQuery routePage, {
+    RouteQuery? arguments,
+  }) {
+    return restorablePushNamed<T>(
+      routePage.toString(),
+      arguments: _arguments(routePage, arguments),
+    );
+  }
+
+  /// Push the route with the given name onto the navigator,
+  /// and then remove all the previous routes until the predicate returns true.
+  String restorablePushPageAndRemoveUntil<T extends Object?>(
+    PageQuery newRoutePage,
+    RoutePredicate predicate, {
+    RouteQuery? arguments,
+  }) {
+    return restorablePushNamedAndRemoveUntil<T>(
+      newRoutePage.toString(),
+      predicate,
+      arguments: _arguments(newRoutePage, arguments),
+    );
+  }
+
+  /// Replace the current route of the navigator by pushing the route named [routeName] and then disposing the previous route once the new route has finished animating in.
+  String restorablePushReplacementPage<T extends Object?, TO extends Object?>(
+    PageQuery routePage, {
+    TO? result,
+    RouteQuery? arguments,
+  }) {
+    return restorablePushReplacementNamed<T, TO>(
+      routePage.toString(),
+      result: result,
+      arguments: _arguments(routePage, arguments),
+    );
+  }
+
+  Object? _arguments(PageQuery query, Object? arguments) {
+    if (arguments is DynamicMap) {
+      return <String, dynamic>{
+        ...query.toArguments(),
+        ...arguments,
+      };
+    } else if (arguments is RouteQuery) {
+      return arguments.copyWith(
+        parameters: <String, dynamic>{
+          ...query.toArguments(),
+          ...arguments._parameters,
+        },
+      );
+    }
+    return null;
   }
 }
 

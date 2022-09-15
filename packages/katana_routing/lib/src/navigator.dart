@@ -205,6 +205,7 @@ class _BuildContextNavigatorContainer implements NavigatorState {
     return _navigator.pushNamedAndRemoveUntil<T>(
       _parse(newRouteName),
       predicate,
+      arguments: arguments,
     );
   }
 

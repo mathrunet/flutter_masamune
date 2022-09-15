@@ -49,3 +49,4 @@ part "src/ui_material_app.dart";
 part "src/ui_modal_route.dart";
 part "src/ui_page_route.dart";
 part "src/widget_theme.dart";
+part "src/page_query.dart";
