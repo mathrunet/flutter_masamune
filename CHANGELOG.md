@@ -15,6 +15,85 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_routing` - `v0.14.0+3`](#katana_routing---v01403)
+ - [`masamune` - `v0.14.1+8`](#masamune---v01418)
+ - [`masamune_builder` - `v0.14.2+1`](#masamune_builder---v01421)
+ - [`masamune_module` - `v0.14.1+8`](#masamune_module---v01418)
+ - [`katana_module` - `v0.14.0+13`](#katana_module---v014013)
+ - [`masamune_purchase` - `v0.14.0+15`](#masamune_purchase---v014015)
+ - [`masamune_firebase` - `v0.14.0+14`](#masamune_firebase---v014014)
+ - [`masamune_wordpress` - `v0.14.0+14`](#masamune_wordpress---v014014)
+ - [`masamune_agora` - `v0.14.0+14`](#masamune_agora---v014014)
+ - [`masamune_location` - `v0.14.0+14`](#masamune_location---v014014)
+ - [`masamune_local_messaging` - `v0.14.0+14`](#masamune_local_messaging---v014014)
+ - [`masamune_media` - `v0.14.0+15`](#masamune_media---v014015)
+ - [`masamune_ads` - `v0.14.0+14`](#masamune_ads---v014014)
+ - [`masamune_ui` - `v0.14.0+15`](#masamune_ui---v014015)
+ - [`masamune_purchase_firebase` - `v0.14.0+15`](#masamune_purchase_firebase---v014015)
+ - [`masamune_firebase_messaging` - `v0.14.0+14`](#masamune_firebase_messaging---v014014)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+14`](#masamune_firebase_dynamic_links---v014014)
+ - [`masamune_signin_facebook` - `v0.14.0+14`](#masamune_signin_facebook---v014014)
+ - [`masamune_signin_google` - `v0.14.0+14`](#masamune_signin_google---v014014)
+ - [`masamune_signin_apple` - `v0.14.0+14`](#masamune_signin_apple---v014014)
+ - [`masamune_signin_twitter` - `v0.14.0+14`](#masamune_signin_twitter---v014014)
+ - [`masamune_notion` - `v0.14.0+14`](#masamune_notion---v014014)
+ - [`masamune_purchase_stripe` - `v0.14.0+14`](#masamune_purchase_stripe---v014014)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.14.0+13`
+ - `masamune_purchase` - `v0.14.0+15`
+ - `masamune_firebase` - `v0.14.0+14`
+ - `masamune_wordpress` - `v0.14.0+14`
+ - `masamune_agora` - `v0.14.0+14`
+ - `masamune_location` - `v0.14.0+14`
+ - `masamune_local_messaging` - `v0.14.0+14`
+ - `masamune_media` - `v0.14.0+15`
+ - `masamune_ads` - `v0.14.0+14`
+ - `masamune_ui` - `v0.14.0+15`
+ - `masamune_purchase_firebase` - `v0.14.0+15`
+ - `masamune_firebase_messaging` - `v0.14.0+14`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+14`
+ - `masamune_signin_facebook` - `v0.14.0+14`
+ - `masamune_signin_google` - `v0.14.0+14`
+ - `masamune_signin_apple` - `v0.14.0+14`
+ - `masamune_signin_twitter` - `v0.14.0+14`
+ - `masamune_notion` - `v0.14.0+14`
+ - `masamune_purchase_stripe` - `v0.14.0+14`
+
+---
+
+#### `katana_routing` - `v0.14.0+3`
+
+ - **FIX**: Fixed a bug in Theme. ([47010d73](https://github.com/mathrunet/flutter_masamune/commit/47010d735db0474e4b1838066d4691b95dd41da0))
+
+#### `masamune` - `v0.14.1+8`
+
+ - **FIX**: Added ability to add indicatorWidget to showIndicator. ([19e1b9ed](https://github.com/mathrunet/flutter_masamune/commit/19e1b9edb42fe9d16a0f797b27cd8ca3b813e11f))
+
+#### `masamune_builder` - `v0.14.2+1`
+
+ - **FIX**: PagePathにQueryを追加. ([73def34f](https://github.com/mathrunet/flutter_masamune/commit/73def34fa76f14371d75e0d2a64da2208904e1f0))
+
+#### `masamune_module` - `v0.14.1+8`
+
+ - **FIX**: CopyRight can be listed. ([9124e547](https://github.com/mathrunet/flutter_masamune/commit/9124e54770f4869295726dde4104d68e62c7f37e))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase` - `v0.14.0+14`](#masamune_purchase---v014014)
  - [`masamune_purchase_firebase` - `v0.14.0+14`](#masamune_purchase_firebase---v014014)
 

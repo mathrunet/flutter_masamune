@@ -1,3 +1,7 @@
+## 0.14.0+15
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+14
 
  - **FIX**: Throw Exception when cancelled. ([e96645ee](https://github.com/mathrunet/flutter_masamune/commit/e96645ee1a78ce04a89acbd39cfb0e53b1ddf844))
