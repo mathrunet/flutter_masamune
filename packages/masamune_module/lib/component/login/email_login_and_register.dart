@@ -25,6 +25,7 @@ class EmailLoginAndRegisterModule extends PageModule {
     this.formImageSize,
     this.featureImageFit = BoxFit.cover,
     this.titleTextStyle,
+    this.copyRightText,
     this.titleAlignment = Alignment.bottomLeft,
     this.menu = const [
       MenuConfig(
@@ -168,6 +169,9 @@ class EmailLoginAndRegisterModule extends PageModule {
 
   /// `true` if you want to show only necessary values at registration.
   final bool showOnlyRequiredVariable;
+
+  /// コピーライトテキスト。
+  final String? copyRightText;
 }
 
 class EmailLoginAndRegisterModuleLandingPage
@@ -217,7 +221,7 @@ class EmailLoginAndRegisterModuleLandingPage
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
-                          flex: 2,
+                          flex: 3,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -262,7 +266,7 @@ class EmailLoginAndRegisterModuleLandingPage
                           ),
                         ),
                         Flexible(
-                          flex: 1,
+                          flex: 2,
                           child: SingleChildScrollView(
                             child: Padding(
                               padding: module.padding,
@@ -352,6 +356,8 @@ class EmailLoginAndRegisterModuleLandingPage
                             ),
                           ),
                         ),
+                        if (module.copyRightText.isNotEmpty)
+                          Text(module.copyRightText!)
                       ],
                     ),
                   );
