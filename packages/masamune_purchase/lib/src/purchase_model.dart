@@ -171,6 +171,8 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
                         "There is no method for purchase. Set up a method for purchasing.",
                       );
                     }
+                  } else if (purchase.status == PurchaseStatus.canceled) {
+                    throw Exception("Your purchase has been canceled.");
                   }
                   if (Config.isAndroid) {
                     if (!_autoConsumeOnAndroid &&
@@ -195,30 +197,24 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
               }
             }
             if (done) {
-              if (_purchaseCompleter != null &&
-                  !_purchaseCompleter!.isCompleted) {
-                _purchaseCompleter!.complete();
-              }
+              _purchaseCompleter?.complete();
+              _purchaseCompleter = null;
               notifyListeners();
             }
           } catch (e) {
-            if (_purchaseCompleter != null &&
-                !_purchaseCompleter!.isCompleted) {
-              _purchaseCompleter!.completeError(e);
-            }
+            _purchaseCompleter?.completeError(e);
+            _purchaseCompleter = null;
             rethrow;
           }
         },
         onDone: () {
-          if (_purchaseCompleter != null && !_purchaseCompleter!.isCompleted) {
-            _purchaseCompleter!.complete();
-          }
+          _purchaseCompleter?.complete();
+          _purchaseCompleter = null;
           dispose();
         },
         onError: (error) {
-          if (_purchaseCompleter != null && !_purchaseCompleter!.isCompleted) {
-            _purchaseCompleter!.completeError(error);
-          }
+          _purchaseCompleter?.completeError(error);
+          _purchaseCompleter = null;
           throw Exception(error.toString());
         },
       );
@@ -411,23 +407,33 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
       );
       _purchaseCompleter = Completer<void>();
       if (product.type == ProductType.consumable) {
-        await connection
+        final success = await connection
             .buyConsumable(
               purchaseParam: purchaseParam,
               autoConsume: _autoConsumeOnAndroid || Config.isIOS,
             )
             .timeout(timeout);
+        if (!success) {
+          throw Exception("Purchase failed or was canceled.");
+        }
       } else {
-        await connection
+        final success = await connection
             .buyNonConsumable(purchaseParam: purchaseParam)
             .timeout(timeout);
+        if (!success) {
+          throw Exception("Purchase failed or was canceled.");
+        }
       }
-      await _purchaseCompleter!.future;
+      await _purchaseCompleter?.future;
+      _purchaseCompleter?.complete();
+      _purchaseCompleter = null;
     } catch (e) {
-      if (_purchaseCompleter != null && !_purchaseCompleter!.isCompleted) {
-        _purchaseCompleter!.complete();
-      }
+      _purchaseCompleter?.completeError(e);
+      _purchaseCompleter = null;
       rethrow;
+    } finally {
+      _purchaseCompleter?.complete();
+      _purchaseCompleter = null;
     }
   }
 
