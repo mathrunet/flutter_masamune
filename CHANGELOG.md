@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_media` - `v0.14.0+14`](#masamune_media---v014014)
+
+---
+
+#### `masamune_media` - `v0.14.0+14`
+
+ - **FIX**: Creation of Adapter. ([86f494a0](https://github.com/mathrunet/flutter_masamune/commit/86f494a08cccbc898b2633442bd4cd64d96c0390))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_cli` - `v0.14.0+4`](#masamune_cli---v01404)
 
 ---

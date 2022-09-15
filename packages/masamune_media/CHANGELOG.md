@@ -1,3 +1,7 @@
+## 0.14.0+14
+
+ - **FIX**: Creation of Adapter. ([86f494a0](https://github.com/mathrunet/flutter_masamune/commit/86f494a08cccbc898b2633442bd4cd64d96c0390))
+
 ## 0.14.0+13
 
  - Update a dependency to the latest release.
