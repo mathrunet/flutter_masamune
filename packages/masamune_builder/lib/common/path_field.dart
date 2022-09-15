@@ -1,9 +1,9 @@
 part of masamune_builder;
 
-Field pathField(String path) {
+Field pathField(ClassModel mode, String path) {
   return Field(
     (f) => f
-      ..name = "_path"
+      ..name = "_${mode.name.toCamelCase()}Path"
       ..modifier = FieldModifier.constant
       ..assignment = Code("\"$path\""),
   );

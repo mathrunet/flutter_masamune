@@ -28,7 +28,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ])
               ..lambda = true
               ..body = Code(
-                "_ModelTest._(_convert(${model.parameters.map((e) => "${e.name}:${e.name}").join(",")},),)",
+                "_${model.name}._(_${model.name.toCamelCase()}Convert(${model.parameters.map((e) => "${e.name}:${e.name}").join(",")},),)",
               ),
           ),
           Constructor(
@@ -150,7 +150,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
                   ..type = MethodType.getter
                   ..returns = Reference(param.type.toString())
                   ..body = Code(
-                    "_converter.convertFrom<${param.type}>(_value[${model.name}$suffix.${param.name}]) ?? _${param.name}",
+                    "_${model.name.toCamelCase()}Converter.convertFrom<${param.type}>(_value[${model.name}$suffix.${param.name}]) ?? _${param.name}",
                   ),
               ),
               Method(
@@ -166,7 +166,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
                     )
                   ])
                   ..body = Code(
-                    "_value[${model.name}$suffix.${param.name}] = _converter.convertTo(val)",
+                    "_value[${model.name}$suffix.${param.name}] = _${model.name.toCamelCase()}Converter.convertTo(val)",
                   ),
               ),
               Method(

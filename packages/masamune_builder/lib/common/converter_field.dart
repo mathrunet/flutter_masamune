@@ -1,9 +1,9 @@
 part of masamune_builder;
 
-Field converterField(String converter) {
+Field converterField(ClassModel model, String converter) {
   return Field(
     (f) => f
-      ..name = "_converter"
+      ..name = "_${model.name.toCamelCase()}Converter"
       ..modifier = FieldModifier.constant
       ..assignment = Code("$converter()"),
   );

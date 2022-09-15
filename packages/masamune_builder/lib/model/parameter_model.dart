@@ -19,6 +19,8 @@ class ParamaterModel {
             "Different types of DefaultValue:${defaultValue.runtimeType.toString()}!=${type.toString()}",
           );
         }
+      } else if (element.hasDefaultValue) {
+        defaultValue = element.defaultValueCode;
       } else {
         throw Exception(
           "DefaultValue is not specified.",

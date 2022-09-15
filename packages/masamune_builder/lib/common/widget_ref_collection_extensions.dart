@@ -110,7 +110,7 @@ Extension widgetRefCollectionExtensions(ClassModel model) {
             ])
             ..returns = Reference("${model.name}List")
             ..body = Code(
-              "return ${model.name}List._(readCollectionModel(ModelQuery(_path,key: key,isEqualTo: isEqualTo,isNotEqualTo: isNotEqualTo,isLessThanOrEqualTo: isLessThanOrEqualTo,isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,arrayContains: arrayContains,arrayContainsAny: arrayContainsAny,whereIn: whereIn,whereNotIn: whereNotIn,geoHash: geoHash,order: order,limit: limit,orderBy: orderBy,).value,listen: listen,disposable: disposable,),);",
+              "return ${model.name}List._(readCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,key: key,isEqualTo: isEqualTo,isNotEqualTo: isNotEqualTo,isLessThanOrEqualTo: isLessThanOrEqualTo,isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,arrayContains: arrayContains,arrayContainsAny: arrayContainsAny,whereIn: whereIn,whereNotIn: whereNotIn,geoHash: geoHash,order: order,limit: limit,orderBy: orderBy,).value,listen: listen,disposable: disposable,),);",
             ),
         ),
         Method(
@@ -135,7 +135,7 @@ Extension widgetRefCollectionExtensions(ClassModel model) {
             ])
             ..returns = Reference("${model.name}List")
             ..body = Code(
-              "return ${model.name}List._(watchCollectionModel(ModelQuery(_path,key: key,isEqualTo: isEqualTo,isNotEqualTo: isNotEqualTo,isLessThanOrEqualTo: isLessThanOrEqualTo,isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,arrayContains: arrayContains,arrayContainsAny: arrayContainsAny,whereIn: whereIn,whereNotIn: whereNotIn,geoHash: geoHash,order: order,limit: limit,orderBy: orderBy,).value,listen: listen,disposable: disposable,),);",
+              "return ${model.name}List._(watchCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,key: key,isEqualTo: isEqualTo,isNotEqualTo: isNotEqualTo,isLessThanOrEqualTo: isLessThanOrEqualTo,isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,arrayContains: arrayContains,arrayContainsAny: arrayContainsAny,whereIn: whereIn,whereNotIn: whereNotIn,geoHash: geoHash,order: order,limit: limit,orderBy: orderBy,).value,listen: listen,disposable: disposable,),);",
             ),
         ),
       ]),

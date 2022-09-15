@@ -3,7 +3,7 @@ part of masamune_builder;
 Method convertMethod(ClassModel model, String suffix) {
   return Method(
     (m) => m
-      ..name = "_convert"
+      ..name = "_${model.name.toCamelCase()}Convert"
       ..optionalParameters = ListBuilder([
         ...model.parameters.map((param) {
           return Parameter(
@@ -20,7 +20,7 @@ Method convertMethod(ClassModel model, String suffix) {
       ..body = Code(
         "return {${model.parameters.map(
               (param) =>
-                  "if (${param.name} != null) ${model.name}$suffix.${param.name}: _converter.convertTo(${param.name})",
+                  "if (${param.name} != null) ${model.name}$suffix.${param.name}: _${model.name.toCamelCase()}Converter.convertTo(${param.name})",
             ).join(",")},};",
       ),
   );
