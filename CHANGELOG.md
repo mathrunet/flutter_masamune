@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_cli` - `v0.14.0+4`](#masamune_cli---v01404)
+
+---
+
+#### `masamune_cli` - `v0.14.0+4`
+
+ - **FIX**: The submodule command was not included, so it was added. ([1c5d40ab](https://github.com/mathrunet/flutter_masamune/commit/1c5d40aba7bc37e21f65e96a69d4ed8094ccdab6))
+
+
+## 2022-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_cli` - `v0.14.0+3`](#masamune_cli---v01403)
 
 ---
