@@ -598,6 +598,8 @@ class AppTheme {
           fontSizeFactor: fontSizeFactor,
           fontSizeDelta: fontSizeDelta,
         );
+        final appBarForegroundColor =
+            appBarColor == Colors.transparent ? onBackground : onAppBarColor;
         return ThemeData(
           useMaterial3: useMaterial3,
           platform: TargetPlatform.iOS,
@@ -617,29 +619,31 @@ class AppTheme {
           appBarTheme: theme.appBarTheme.copyWith(
             backgroundColor: appBarColor,
             elevation: appBarColor == Colors.transparent ? 0 : null,
-            foregroundColor: appBarColor == Colors.transparent
-                ? onBackground
-                : onAppBarColor,
+            foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
-            iconTheme: theme.iconTheme.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
-            actionsIconTheme: theme.iconTheme.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
+            iconTheme: theme.appBarTheme.iconTheme?.copyWith(
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
+            actionsIconTheme: theme.appBarTheme.actionsIconTheme?.copyWith(
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
           ),
           buttonTheme: theme.buttonTheme.copyWith(
             textTheme: theme.buttonTheme.textTheme,
@@ -714,6 +718,8 @@ class AppTheme {
           fontSizeFactor: fontSizeFactor,
           fontSizeDelta: fontSizeDelta,
         );
+        final appBarForegroundColor =
+            appBarColor == Colors.transparent ? onBackground : onAppBarColor;
         return ThemeData(
           useMaterial3: useMaterial3,
           platform: TargetPlatform.iOS,
@@ -729,29 +735,31 @@ class AppTheme {
           appBarTheme: theme.appBarTheme.copyWith(
             backgroundColor: appBarColor,
             elevation: appBarColor == Colors.transparent ? 0 : null,
-            foregroundColor: appBarColor == Colors.transparent
-                ? onBackground
-                : onAppBarColor,
+            foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
-            iconTheme: theme.iconTheme.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
-            actionsIconTheme: theme.iconTheme.copyWith(
-              color: appBarColor == Colors.transparent
-                  ? onBackground
-                  : onAppBarColor,
-            ),
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
+            iconTheme: theme.appBarTheme.iconTheme?.copyWith(
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
+            actionsIconTheme: theme.appBarTheme.actionsIconTheme?.copyWith(
+                  color: appBarForegroundColor,
+                ) ??
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
           ),
           textTheme: textTheme.apply(
             bodyColor: onBackground,
