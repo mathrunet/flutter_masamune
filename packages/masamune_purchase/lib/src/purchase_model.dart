@@ -126,7 +126,7 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
               try {
                 final product = findByPurchase(purchase);
                 if (product == null) {
-                  throw Exception("Product not found.");
+                  throw Exception("Product not found: ${purchase.productID}");
                 }
                 if (purchase.status != PurchaseStatus.pending) {
                   if (purchase.status == PurchaseStatus.error) {
@@ -134,7 +134,7 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
                       await connection.completePurchase(purchase);
                     }
                     throw Exception(
-                      "Purchase completed with error: ${purchase.productID}",
+                      "Purchase completed with error: ${purchase.productID}:${purchase.error.toString()}",
                     );
                   } else if (purchase.status == PurchaseStatus.purchased) {
                     if (_onVerify != null &&
@@ -193,7 +193,9 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
                   debugPrint("Purchase completed: ${purchase.productID}");
                   await connection.completePurchase(purchase);
                 }
-                rethrow;
+                throw Exception(
+                  "Purchase completed with error: ${purchase.productID}:${e.toString()}:${StackTrace.current.toString()}",
+                );
               }
             }
             if (done) {
@@ -204,7 +206,9 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
           } catch (e) {
             _purchaseCompleter?.completeError(e);
             _purchaseCompleter = null;
-            rethrow;
+            throw Exception(
+              "Purchase completed with error: ${e.toString()}:${StackTrace.current.toString()}",
+            );
           }
         },
         onDone: () {
@@ -215,7 +219,9 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
         onError: (error) {
           _purchaseCompleter?.completeError(error);
           _purchaseCompleter = null;
-          throw Exception(error.toString());
+          throw Exception(
+            "Purchase completed with error: ${error.toString()}:${StackTrace.current.toString()}",
+          );
         },
       );
       await _onCheckSubscription?.call(this);
@@ -232,7 +238,9 @@ class PurchaseModel extends ValueModel<List<MobilePurchaseProduct>> {
       }
       _isInitialized = true;
     } catch (e) {
-      rethrow;
+      throw Exception(
+        "Purchase completed with error: ${e.toString()}:${StackTrace.current.toString()}",
+      );
     }
   }
 
