@@ -344,14 +344,14 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+13"
+    version: "0.14.0+14"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+3"
+    version: "0.14.1"
   loading_animations:
     dependency: transitive
     description:
@@ -365,7 +365,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1+8"
+    version: "0.14.1+9"
   material_color_utilities:
     dependency: transitive
     description:

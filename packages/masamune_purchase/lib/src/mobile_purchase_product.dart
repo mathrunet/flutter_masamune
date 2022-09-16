@@ -145,7 +145,8 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
   MobilePurchaseProductValueModel(MobilePurchaseProduct product)
       : super(product);
 
-  ChangeNotifier? _listener;
+  final Map<String, ChangeNotifier> _collectionListener = {};
+  final Map<String, ChangeNotifier> _documentListener = {};
 
   @override
   void initState() {
@@ -169,7 +170,7 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
             disposable: false,
           ),
         )..fetch();
-        _listener = _doc;
+        _documentListener[documentPath] = _doc;
         break;
       case ProductType.subscription:
         final options = core.subscribeOptions;
@@ -177,7 +178,7 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
         if (userId.isEmpty) {
           return;
         }
-        final _doc = readProvider(
+        final _col = readProvider(
           core.context.model!.collectionProvider(
             ModelQuery(
               options.subscriptionCollectionPath,
@@ -187,14 +188,42 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
             disposable: false,
           ),
         )..fetch();
-        _listener = _doc;
+        _collectionListener[options.subscriptionCollectionPath] = _col;
+        _col.forEach(
+          (_doc) => _documentListener[
+              "${options.subscriptionCollectionPath}/${_doc.uid}"] = _doc,
+        );
         break;
     }
-    _listener?.addListener(_handledOnUpdate);
+    _documentListener.values
+        .forEach((l) => l.addListener(_handledOnDocumentUpdate));
+    _collectionListener.values
+        .forEach((l) => l.addListener(_handledOnCollectionUpdate));
   }
 
-  void _handledOnUpdate() {
-    if (_listener == null) {
+  void _handledOnCollectionUpdate() {
+    if (_collectionListener.isEmpty) {
+      return;
+    }
+    for (final tmp in _collectionListener.entries) {
+      final listener = tmp.value;
+      if (listener is! DynamicCollectionModel) {
+        continue;
+      }
+      for (final doc in listener) {
+        final path = "${tmp.key}/${doc.uid}";
+        if (_documentListener.containsKey(path)) {
+          continue;
+        }
+        doc.addListener(_handledOnDocumentUpdate);
+        _documentListener[path] = doc;
+      }
+    }
+    _handledOnDocumentUpdate();
+  }
+
+  void _handledOnDocumentUpdate() {
+    if (_documentListener.isEmpty) {
       return;
     }
     final core = PurchaseCore._purchase;
@@ -203,10 +232,15 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
         value = true;
         break;
       case ProductType.nonConsumable:
-        final listener = _listener;
-        if (product.target.isEmpty || listener is! DynamicDocumentModel) {
+        if (product.target.isEmpty) {
           return;
         }
+        final documentPath = product.target!.parentPath();
+        final listener = _documentListener[documentPath];
+        if (listener is! DynamicDocumentModel) {
+          return;
+        }
+
         final key = product.target!.last();
         if (key.isEmpty) {
           return;
@@ -214,8 +248,10 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
         value = listener.get(key, false);
         break;
       case ProductType.subscription:
-        final listener = _listener;
         final userId = core.userId;
+        final options = core.subscribeOptions;
+        final listener =
+            _collectionListener[options.subscriptionCollectionPath];
         if (userId.isEmpty || listener is! DynamicCollectionModel) {
           return;
         }
@@ -234,19 +270,38 @@ class MobilePurchaseProductValueModel extends PurchaseProductValueModel {
 
   @override
   Future<void>? get loading async {
-    final listener = _listener;
-    if (listener is DynamicDocumentModel) {
-      return listener.loading;
-    } else if (listener is DynamicCollectionModel) {
-      return listener.loading;
-    }
+    await wait([
+      ..._documentListener.values.mapAndRemoveEmpty((listener) {
+        if (listener is DynamicDocumentModel) {
+          return listener.loading;
+        } else if (listener is DynamicCollectionModel) {
+          return listener.loading;
+        }
+        return null;
+      }),
+      ..._collectionListener.values.mapAndRemoveEmpty((listener) {
+        if (listener is DynamicDocumentModel) {
+          return listener.loading;
+        } else if (listener is DynamicCollectionModel) {
+          return listener.loading;
+        }
+        return null;
+      }),
+    ]);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _listener?.removeListener(_handledOnUpdate);
-    _listener?.dispose();
-    _listener = null;
+    _documentListener.values.forEach((l) {
+      l.removeListener(_handledOnDocumentUpdate);
+      l.dispose();
+    });
+    _collectionListener.values.forEach((l) {
+      l.removeListener(_handledOnCollectionUpdate);
+      l.dispose();
+    });
+    _documentListener.clear();
+    _collectionListener.clear();
   }
 }
