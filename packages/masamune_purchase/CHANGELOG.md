@@ -1,3 +1,7 @@
+## 0.14.0+18
+
+ - **FIX**: Make the log of defects visible. ([f57e15dd](https://github.com/mathrunet/flutter_masamune/commit/f57e15ddb5df11544423a73282a2a5f2db3e744e))
+
 ## 0.14.0+17
 
  - **FIX**: Fixing glitches. ([c0cb8d18](https://github.com/mathrunet/flutter_masamune/commit/c0cb8d18ec0c5b01f701aeadc09626e9a3b90602))

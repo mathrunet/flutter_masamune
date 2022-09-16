@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase` - `v0.14.0+18`](#masamune_purchase---v014018)
+ - [`masamune_purchase_firebase` - `v0.14.0+18`](#masamune_purchase_firebase---v014018)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_firebase` - `v0.14.0+18`
+
+---
+
+#### `masamune_purchase` - `v0.14.0+18`
+
+ - **FIX**: Make the log of defects visible. ([f57e15dd](https://github.com/mathrunet/flutter_masamune/commit/f57e15ddb5df11544423a73282a2a5f2db3e744e))
+
+
+## 2022-09-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase` - `v0.14.0+17`](#masamune_purchase---v014017)
  - [`masamune_purchase_firebase` - `v0.14.0+17`](#masamune_purchase_firebase---v014017)
 
