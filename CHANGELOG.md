@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_purchase` - `v0.14.0+17`](#masamune_purchase---v014017)
+ - [`masamune_purchase_firebase` - `v0.14.0+17`](#masamune_purchase_firebase---v014017)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_purchase_firebase` - `v0.14.0+17`
+
+---
+
+#### `masamune_purchase` - `v0.14.0+17`
+
+ - **FIX**: Fixing glitches. ([c0cb8d18](https://github.com/mathrunet/flutter_masamune/commit/c0cb8d18ec0c5b01f701aeadc09626e9a3b90602))
+
+
 ## 2022-09-15
 
 ### Changes
