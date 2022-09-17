@@ -1,3 +1,7 @@
+## 0.14.1
+
+ - **FEAT**: Added INSTALL command. ([0ad84925](https://github.com/mathrunet/flutter_masamune/commit/0ad8492522d6847dfcddab2418249e912e9bacf4))
+
 ## 0.14.0+6
 
  - **FIX**: Delete subscription_schedule. ([6d819eeb](https://github.com/mathrunet/flutter_masamune/commit/6d819eeb5aa24a1bbd4dbd853115062a848972f5))

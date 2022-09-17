@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_cli` - `v0.14.1`](#masamune_cli---v0141)
+
+---
+
+#### `masamune_cli` - `v0.14.1`
+
+ - **FEAT**: Added INSTALL command. ([0ad84925](https://github.com/mathrunet/flutter_masamune/commit/0ad8492522d6847dfcddab2418249e912e9bacf4))
+
+
 ## 2022-09-16
 
 ### Changes
