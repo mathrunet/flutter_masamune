@@ -26,6 +26,13 @@ class SigninAppleCliCommand extends CliCommand {
 	</array>
             """,
       );
+      text = text.replaceAll(
+        "<!-- TODO_REPLACE_WEB_APPLE_SIGNIN -->",
+        """
+<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+            """,
+      );
+
       File(file.path).writeAsStringSync(text);
     });
   }

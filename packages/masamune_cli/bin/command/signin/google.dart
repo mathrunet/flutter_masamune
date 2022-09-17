@@ -7,6 +7,9 @@ class SigninGoogleCliCommand extends CliCommand {
       "`firebase_options.dart`を元にGoogleアカウントでのログイン設定を行ないます。先に`masamune firebase init`のコマンドを実行してください。";
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
+    final firebase = yaml["firebase"] as YamlMap;
+    final signin = firebase["signin"] as YamlMap;
+    final googleOauthClientId = signin["google_oauth_client_id"] as String?;
     final options = firebaseOptions();
     if (options == null) {
       print(
@@ -55,6 +58,14 @@ class SigninGoogleCliCommand extends CliCommand {
             classpath 'com.google.gms:google-services:4.3.3'
             """,
       );
+      if (googleOauthClientId.isNotEmpty) {
+        text = text.replaceAll(
+          "<!-- TODO_REPLACE_WEB_GOOGLE_SIGNIN -->",
+          """
+<meta name="google-signin-client_id" content="$googleOauthClientId" />
+        """,
+        );
+      }
       File(file.path).writeAsStringSync(text);
     });
   }
