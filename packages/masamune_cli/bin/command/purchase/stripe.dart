@@ -5,7 +5,7 @@ class PurchaseStripeCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "masamune.yamlや`google-services.json`や`GoogleService-Info.plist`を元にStripeの初期設定を行います。予めStripeのプロジェクトを作成し`APIKey`と`APISecret`を取得しておくのと`firebase`のコマンドを実行しておくこと、firebaseを`Blazeプラン`にしておくことが必要です。";
+      "masamune.yamlや`firebase_options.dart`を元にStripeの初期設定を行います。予めStripeのプロジェクトを作成し`APIKey`と`APISecret`を取得しておくのと`masamune firebase init`のコマンドを実行しておくこと、firebaseを`Blazeプラン`にしておくことが必要です。";
 
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
@@ -13,27 +13,22 @@ class PurchaseStripeCliCommand extends CliCommand {
     final command = bin["firebase"] as String?;
     final purchase = yaml["purchase"] as YamlMap;
     final stripe = purchase["stripe"] as YamlMap;
-    final json = File("android/app/google-services.json");
-    if (!json.existsSync()) {
-      print("google-services.json could not be found in android/app.");
+    final options = firebaseOptions();
+    if (options == null) {
+      print(
+        "firebase_options.dart is not found. Please run `masamune firebase init`",
+      );
       return;
     }
-    final plist = File("ios/Runner/GoogleService-Info.plist");
-    if (!plist.existsSync()) {
-      print("GoogleService-Info.plist could not be found in ios/Runner.");
-      return;
-    }
-    final text = json.readAsStringSync();
-    final data = jsonDecode(text) as Map;
-    final projectInfo = data["project_info"] as Map;
-    final projectId = projectInfo["project_id"] as String;
+
+    final projectId = options.get("projectId", "");
     if (projectId.isEmpty) {
-      print("Project ID could not be obtained.");
+      print("Project ID from firebase_options.dart could not be obtained.");
       return;
     }
     final apiSecret = stripe["api_secret"] as String?;
     if (apiSecret.isEmpty) {
-      print("Api secret is invalid.");
+      print("purchase/stripe/api_secret is invalid.");
       return;
     }
     currentFiles.forEach((file) {

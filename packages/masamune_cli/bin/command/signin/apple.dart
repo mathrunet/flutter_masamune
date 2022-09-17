@@ -4,14 +4,17 @@ class SigninAppleCliCommand extends CliCommand {
   const SigninAppleCliCommand();
   @override
   String get description =>
-      "`GoogleService-Info.plist`を元にIOSでのみに利用可能なAppleIDログインの設定を行います。";
+      "`firebase_options.dart`を元にAppleIDログインの設定を行います。先に`masamune firebase init`のコマンドを実行してください。";
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
-    final file = File("ios/Runner/GoogleService-Info.plist");
-    if (!file.existsSync()) {
-      print("GoogleService-Info.plist could not be found in ios/Runner.");
+    final options = firebaseOptions();
+    if (options == null) {
+      print(
+        "firebase_options.dart is not found. Please run `masamune firebase init`",
+      );
       return;
     }
+
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll(

@@ -16,13 +16,18 @@ class InstallCliCommand extends CliCommand {
       [
         "-sL",
         "https://firebase.tools",
-        "|",
-        "bash",
       ],
       runInShell: true,
       workingDirectory: Directory.current.path,
     );
-    await process.print();
+    final processPipe = await Process.start(
+      "bash",
+      [],
+      runInShell: true,
+      workingDirectory: Directory.current.path,
+    );
+    await process.stdout.pipe(processPipe.stdin);
+    await processPipe.print();
     final processFlutterFire = await Process.start(
       dart!,
       [

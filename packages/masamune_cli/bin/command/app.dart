@@ -16,7 +16,7 @@ class AppCliCommand extends CliCommand {
     }
     var found = List<String>.generate(10, (index) => "");
     final information = yaml["information"] as String?;
-    final account = app["account"] as String?;
+    final account = yaml["account"] as String?;
     final id = app["bundle_id"] as String?;
     if (id.isEmpty) {
       print("bundle_id could not be found.");
@@ -48,7 +48,7 @@ class AppCliCommand extends CliCommand {
         found = line.map((e) => e.toString()).toList();
       }
     }
-    final appId = (app["app_id"] as int?).toString();
+    final appId = (app["apple_app_id"] as int?).toString();
     final title = app["title"] as String? ?? found[4];
     final titleShort = app["short_title"] as String? ?? found[3];
     if (title.isEmpty || titleShort.isEmpty) {

@@ -5,7 +5,7 @@ class FirebaseDynamicLinksCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "`google-services.json`や`GoogleService-Info.plist`を元にFirebase DynamicLinksのアプリ側の初期設定を行ないます。";
+      "`firebase_options.dart`を元にFirebase DynamicLinksのアプリ側の初期設定を行ないます。先に`masamune firebase init`を実行してください。";
 
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
@@ -13,17 +13,14 @@ class FirebaseDynamicLinksCliCommand extends CliCommand {
     final dynamicLinks = firebase["dynamic_links"] as YamlMap;
     final domain = dynamicLinks["domain"] as String?;
     if (domain.isEmpty) {
-      print("Firebase dynamic links domain is empty.");
+      print("firebase/dynamic_links/domain is empty.");
       return;
     }
-    final json = File("android/app/google-services.json");
-    if (!json.existsSync()) {
-      print("google-services.json could not be found in android/app.");
-      return;
-    }
-    final file = File("ios/Runner/GoogleService-Info.plist");
-    if (!file.existsSync()) {
-      print("GoogleService-Info.plist could not be found in ios/Runner.");
+    final options = firebaseOptions();
+    if (options == null) {
+      print(
+        "firebase_options.dart is not found. Please run `masamune firebase init`",
+      );
       return;
     }
 

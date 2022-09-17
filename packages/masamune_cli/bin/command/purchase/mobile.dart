@@ -5,7 +5,7 @@ class PurchaseMobileCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "masamune.yamlを元にストア課金のサーバー検証やサブスクリプションの更新処理をデプロイします。事前に https://www.notion.so/Android-1d4a60948a1446d7a82c010d96417a3d の設定を済ませておくこと、firebaseを`Blaze`プランにしておくことが必要です。";
+      "masamune.yamlを元にストア課金のサーバー検証やサブスクリプションの更新処理をデプロイします。事前に https://www.notion.so/Android-1d4a60948a1446d7a82c010d96417a3d の設定を済ませておくこと、`masamune firebase init`のコマンドを実行しておくこと、firebaseを`Blaze`プランにしておくことが必要です。";
 
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
@@ -13,20 +13,16 @@ class PurchaseMobileCliCommand extends CliCommand {
     final purchase = yaml["purchase"] as YamlMap;
     final mobile = purchase["mobile"] as YamlMap;
     final command = bin["firebase"] as String?;
-    final json = File("android/app/google-services.json");
-    if (!json.existsSync()) {
-      print("google-services.json could not be found in android/app.");
+
+    final options = firebaseOptions();
+    if (options == null) {
+      print(
+        "firebase_options.dart is not found. Please run `masamune firebase init`",
+      );
       return;
     }
-    final plist = File("ios/Runner/GoogleService-Info.plist");
-    if (!plist.existsSync()) {
-      print("GoogleService-Info.plist could not be found in ios/Runner.");
-      return;
-    }
-    final text = json.readAsStringSync();
-    final data = jsonDecode(text) as Map;
-    final projectInfo = data["project_info"] as Map;
-    final projectId = projectInfo["project_id"] as String;
+
+    final projectId = options.get("projectId", "");
     final clientId = mobile["client_id"] as String?;
     final clientSecret = mobile["client_secret"] as String?;
     final sharedSecret = mobile["shared_secret"] as String?;
@@ -124,11 +120,15 @@ class PurchaseMobileCliCommand extends CliCommand {
       workingDirectory: "${Directory.current.path}/firebase",
     );
     await resultLastDeploy.print();
-    print("#####");
     print(
-        "下記のURLをAppStoreの該当アプリ→App情報→App Storeサーバ通知の「プロダクションサーバーURL」と「SandboxサーバーURL」に記載してください。");
-    print(
-        "https://asia-northeast1-$projectId.cloudfunctions.net/purchase_webhook_ios");
-    print("#####");
+      """
+#####
+下記のURLをAppStoreの該当アプリ→App情報→App Storeサーバ通知の「プロダクションサーバーURL」と「SandboxサーバーURL」に記載してください。
+  
+  https://asia-northeast1-$projectId.cloudfunctions.net/purchase_webhook_ios
+
+#####
+""",
+    );
   }
 }

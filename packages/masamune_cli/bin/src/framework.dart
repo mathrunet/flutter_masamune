@@ -52,6 +52,31 @@ ${commands.toList((key, value) => "$key:\r\n    - ${value.description}").join("\
   );
 }
 
+Map<String, String>? firebaseOptions() {
+  final res = <String, String>{};
+  final regexp = RegExp(r"([a-zA-Z]+): '([^']+)'");
+  final file = File("${Directory.current.path}/lib/firebase_options.dart");
+  if (!file.existsSync()) {
+    return null;
+  }
+  final code = file.readAsStringSync();
+  if (code.isEmpty) {
+    return null;
+  }
+  final lines =
+      code.replaceAll("\r\n", "\n").replaceAll("\r", "\n").split("\n");
+  for (final line in lines) {
+    final match = regexp.firstMatch(line);
+    final key = match?.group(1);
+    final value = match?.group(2);
+    if (key == null || value == null) {
+      continue;
+    }
+    res[key] = value;
+  }
+  return res;
+}
+
 void applyFunctionsTemplate() {
   File("${Directory.current.path}/firebase/index.ts.template")
       .copySync("${Directory.current.path}/firebase/functions/src/index.ts");

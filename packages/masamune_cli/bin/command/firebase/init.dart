@@ -5,28 +5,41 @@ class FirebaseInitCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "`google-services.json`や`GoogleService-Info.plist`を元にFirebaseのアプリ側の初期設定を行ないます。";
+      "`flutterfire configure`のコマンドを実行しFirebaseの初期設定を行います。";
 
   @override
   Future<void> exec(YamlMap yaml, List<String> args) async {
-    final json = File("android/app/google-services.json");
-    if (!json.existsSync()) {
-      print("google-services.json could not be found in android/app.");
+    final firebase = yaml["firebase"] as YamlMap;
+    final bin = yaml["bin"] as YamlMap;
+    final app = yaml["app"] as YamlMap;
+    final accountId = firebase["account_id"] as String?;
+    final projectId = firebase["project_id"] as String?;
+    final flutterFire = bin["flutterfire"] as String?;
+    final bundleId = app["bundle_id"] as String?;
+    if (accountId.isEmpty || projectId.isEmpty) {
+      print("firebase/account_id or firebase/project_id is not defined.");
       return;
     }
-    final plist = File("ios/Runner/GoogleService-Info.plist");
-    if (!plist.existsSync()) {
-      print("GoogleService-Info.plist could not be found in ios/Runner.");
+    if (bundleId.isEmpty) {
+      print("BundleId is not defined.");
       return;
     }
-    final text = json.readAsStringSync();
-    final data = jsonDecode(text) as Map;
-    final projectInfo = data["project_info"] as Map;
-    final projectId = projectInfo["project_id"] as String;
+    final configureProcess = await Process.start(flutterFire!, [
+      "configure",
+      "--project=$projectId",
+      "--account=$accountId",
+      "--platforms=android,ios,web",
+      "--ios-bundle-id=$bundleId",
+      "--android-app-id=$bundleId",
+      "--android-package-name=$bundleId",
+    ]);
+    await configureProcess.print();
+    final firebaseOption = firebaseOptions();
+    print(firebaseOption);
 
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("TODO_REPLACE_FIREBASE_ID", projectId);
+      text = text.replaceAll("TODO_REPLACE_FIREBASE_ID", projectId!);
       text = text.replaceAll(
         "// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN",
         """
@@ -42,21 +55,13 @@ class FirebaseInitCliCommand extends CliCommand {
 // Comment out using Google services (Firebase、Google OAuth、Map etc..)
             // [Firebase] [Firestore] [GoogleSignIn] [GoogleMap]
             // [FirebaseCrashlytics] [FirebaseAnalytics] [FirebaseDynamicLink] [FirebaseMessaging]
-            classpath 'com.google.gms:google-services:4.3.3'
+            classpath 'com.google.gms:google-services:4.3.13'
             """,
-      );
-      text = text.replaceAllMapped(
-        RegExp(
-          r"// ([A-Z0-9]+) /\* GoogleService-Info\.plist in Resources \*/",
-        ),
-        (m) => "${m.group(1)} /* GoogleService-Info.plist in Resources */",
       );
       File(file.path).writeAsStringSync(text);
     });
 
-    final bin = yaml["bin"] as YamlMap;
     final git = bin["git"] as String?;
-    final firebase = yaml["firebase"] as YamlMap;
     final functions = firebase["functions"] as YamlMap;
     final path = functions["path"] as String?;
     final templatePath = functions["template_path"] as String?;
@@ -65,7 +70,9 @@ class FirebaseInitCliCommand extends CliCommand {
         indexPath.isEmpty ||
         path.isEmpty ||
         git.isEmpty) {
-      print("Firebase functions information is missing.");
+      print(
+        "Firebase functions information (firebase/functions/path, firebase/functions/template_path, firebase/functions/index_path) is missing.",
+      );
       return;
     }
     if (!Directory(path!).existsSync()) {
