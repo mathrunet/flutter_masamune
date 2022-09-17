@@ -4,24 +4,29 @@ class AppleSignInAdapter extends SignInAdapter {
   const AppleSignInAdapter({
     this.clientId,
     this.redirectUri,
-    this.onlyIOS = true,
-    this.visible = true,
-  });
+    bool visible = true,
+  }) : _visible = visible;
 
   final String? clientId;
   final String? redirectUri;
-  final bool onlyIOS;
 
   @override
   String get provider => AppleAuth.options.id;
 
   /// If `true`, display.
   @override
-  final bool visible;
+  bool get visible {
+    if (!_visible) {
+      return false;
+    }
+    return Config.isIOS || (clientId.isNotEmpty && redirectUri.isNotEmpty);
+  }
+
+  final bool _visible;
 
   @override
   Future<void> signIn() {
-    if (!onlyIOS) {
+    if (!Config.isIOS) {
       assert(
         clientId.isNotEmpty && redirectUri.isNotEmpty,
         "For non-IOS use, [clientId] and [redirectUri] need to be specified.",
@@ -29,7 +34,6 @@ class AppleSignInAdapter extends SignInAdapter {
       AppleAuth.initialize(
         clientId: clientId!,
         redirectUri: redirectUri!,
-        onlyIOS: false,
       );
     }
     return AppleAuth.signIn();
@@ -37,7 +41,7 @@ class AppleSignInAdapter extends SignInAdapter {
 
   @override
   Future<void> signOut() {
-    if (!onlyIOS) {
+    if (!Config.isIOS) {
       assert(
         clientId.isNotEmpty && redirectUri.isNotEmpty,
         "For non-IOS use, [clientId] and [redirectUri] need to be specified.",
@@ -45,7 +49,6 @@ class AppleSignInAdapter extends SignInAdapter {
       AppleAuth.initialize(
         clientId: clientId!,
         redirectUri: redirectUri!,
-        onlyIOS: false,
       );
     }
     return AppleAuth.signOut();
@@ -56,15 +59,10 @@ class AppleSignInAdapter extends SignInAdapter {
   @mustCallSuper
   Future<void> onInit(BuildContext context) async {
     super.onInit(context);
-    if (!onlyIOS) {
-      assert(
-        clientId.isNotEmpty && redirectUri.isNotEmpty,
-        "For non-IOS use, [clientId] and [redirectUri] need to be specified.",
-      );
+    if (!Config.isIOS && clientId.isNotEmpty && redirectUri.isNotEmpty) {
       AppleAuth.initialize(
         clientId: clientId!,
         redirectUri: redirectUri!,
-        onlyIOS: false,
       );
     }
   }

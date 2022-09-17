@@ -4,7 +4,6 @@ part of masamune_signin_apple;
 class AppleAuth {
   const AppleAuth._();
 
-  static bool _onlyIOS = true;
   static String? _clientId;
   static String? _redirectUri;
 
@@ -15,9 +14,7 @@ class AppleAuth {
   static void initialize({
     required String clientId,
     required String redirectUri,
-    bool onlyIOS = false,
   }) {
-    _onlyIOS = onlyIOS;
     _clientId = clientId;
     _redirectUri = redirectUri;
   }
@@ -33,10 +30,7 @@ class AppleAuth {
     BuildContext context,
     Duration timeout,
   ) async {
-    if (_onlyIOS && !Config.isIOS) {
-      throw Exception("Not supported on non-IOS platforms.");
-    }
-    if (!_onlyIOS && (_clientId.isEmpty || _redirectUri.isEmpty)) {
+    if (!Config.isIOS && (_clientId.isEmpty || _redirectUri.isEmpty)) {
       throw Exception("Unable to read required information.");
     }
     return signIn(timeout: timeout);
@@ -48,45 +42,70 @@ class AppleAuth {
   static Future<FirebaseAuthModel> signIn({
     Duration timeout = const Duration(seconds: 60),
   }) async {
-    if (_onlyIOS && !Config.isIOS) {
-      throw Exception("Not supported on non-IOS platforms.");
-    }
-    if (!_onlyIOS && (_clientId.isEmpty || _redirectUri.isEmpty)) {
+    if (!Config.isIOS && (_clientId.isEmpty || _redirectUri.isEmpty)) {
       throw Exception("Unable to read required information.");
     }
     final auth = readProvider(firebaseAuthProvider);
     await auth.signInWithProvider(
       providerCallback: (timeout) async {
         try {
-          final info = Config.packageInfo;
-          if (info == null) {
-            throw Exception("Package information is not found.");
-          }
-          final appleResult = await SignInWithApple.getAppleIDCredential(
-            scopes: [
-              AppleIDAuthorizationScopes.email,
-              AppleIDAuthorizationScopes.fullName,
-            ],
-            webAuthenticationOptions:
-                _clientId.isNotEmpty && _redirectUri.isNotEmpty
-                    ? WebAuthenticationOptions(
-                        clientId: _clientId!,
-                        redirectUri: Uri.parse(
-                          _redirectUri!
-                              .replaceAll("[PackageName]", info.packageName),
-                        ),
-                      )
-                    : null,
-          );
-          if (appleResult.identityToken != null) {
-            return OAuthProvider(options.id).credential(
-              idToken: appleResult.identityToken,
-              accessToken: appleResult.authorizationCode,
+          if (Config.isWeb) {
+            if (_clientId.isEmpty || _redirectUri.isEmpty) {
+              throw Exception("ClientId and RedirectUri is empty.");
+            }
+            final appleResult = await SignInWithApple.getAppleIDCredential(
+              scopes: [
+                AppleIDAuthorizationScopes.email,
+                AppleIDAuthorizationScopes.fullName,
+              ],
+              webAuthenticationOptions: WebAuthenticationOptions(
+                clientId: _clientId!,
+                redirectUri: Uri.parse(
+                  _redirectUri!,
+                ),
+              ),
             );
+            if (appleResult.identityToken != null) {
+              return OAuthProvider(options.id).credential(
+                idToken: appleResult.identityToken,
+                accessToken: appleResult.authorizationCode,
+              );
+            } else {
+              throw Exception(
+                "Login failed because the authentication information cannot be found.",
+              );
+            }
           } else {
-            throw Exception(
-              "Login failed because the authentication information cannot be found.",
+            final info = Config.packageInfo;
+            if (info == null) {
+              throw Exception("Package information is not found.");
+            }
+            final appleResult = await SignInWithApple.getAppleIDCredential(
+              scopes: [
+                AppleIDAuthorizationScopes.email,
+                AppleIDAuthorizationScopes.fullName,
+              ],
+              webAuthenticationOptions:
+                  _clientId.isNotEmpty && _redirectUri.isNotEmpty
+                      ? WebAuthenticationOptions(
+                          clientId: _clientId!,
+                          redirectUri: Uri.parse(
+                            _redirectUri!
+                                .replaceAll("[PackageName]", info.packageName),
+                          ),
+                        )
+                      : null,
             );
+            if (appleResult.identityToken != null) {
+              return OAuthProvider(options.id).credential(
+                idToken: appleResult.identityToken,
+                accessToken: appleResult.authorizationCode,
+              );
+            } else {
+              throw Exception(
+                "Login failed because the authentication information cannot be found.",
+              );
+            }
           }
         } catch (e) {
           rethrow;
@@ -101,10 +120,7 @@ class AppleAuth {
   /// Sign out from Firebase using Apple SignIn.
   static Future<void> signOut() async {
     try {
-      if (_onlyIOS && !Config.isIOS) {
-        throw Exception("Not supported on non-IOS platforms.");
-      }
-      if (!_onlyIOS && (_clientId.isEmpty || _redirectUri.isEmpty)) {
+      if (!Config.isIOS && (_clientId.isEmpty || _redirectUri.isEmpty)) {
         throw Exception("Unable to read required information.");
       }
       final auth = readProvider(firebaseAuthProvider);
