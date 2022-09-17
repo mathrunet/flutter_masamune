@@ -6,4 +6,6 @@ bin:
   melos: melos
   git: git
   openssl: openssl
+  curl: curl
+  flutterfire: flutterfire
   keytool: /Applications/Android\ Studio.app/Contents/jre/Contents/Home/bin/keytool

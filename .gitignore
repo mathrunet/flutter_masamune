@@ -53,12 +53,6 @@ app.*.map.json
 # Archived file.
 archived.zip
 
-# The following items are copied and should be ignored.
-# **/ios/Runner/GoogleService-Info.plist
-
-# android/app/google-services.json is generated at build time and its content changes depending on FLAVOR.
-# **/android/app/google-services.json
-
 # android/app/src/main/res/mipmap*/ is generated at build time and its content changes depending on FLAVOR.
 **/android/app/src/main/res/mipmap*/
 
