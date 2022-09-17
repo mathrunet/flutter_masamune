@@ -15,6 +15,33 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_cli` - `v0.14.1+1`](#masamune_cli---v01411)
+ - [`masamune_signin_apple` - `v0.14.0+16`](#masamune_signin_apple---v014016)
+
+---
+
+#### `masamune_cli` - `v0.14.1+1`
+
+ - **FIX**: SignIn web support. ([d5be7e9f](https://github.com/mathrunet/flutter_masamune/commit/d5be7e9f663ddc27771c23839a566019180efa31))
+ - **FIX**: Support for flutterfire command. ([0608743c](https://github.com/mathrunet/flutter_masamune/commit/0608743c016f3524e3287463de75185aa0fcf7c3))
+
+#### `masamune_signin_apple` - `v0.14.0+16`
+
+ - **FIX**: Simplification of parameters. ([451d7b12](https://github.com/mathrunet/flutter_masamune/commit/451d7b12ac9b01a40b15c0381d018c54cf7c0481))
+
+
+## 2022-09-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_cli` - `v0.14.1`](#masamune_cli---v0141)
 
 ---

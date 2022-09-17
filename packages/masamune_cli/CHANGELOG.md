@@ -1,3 +1,8 @@
+## 0.14.1+1
+
+ - **FIX**: SignIn web support. ([d5be7e9f](https://github.com/mathrunet/flutter_masamune/commit/d5be7e9f663ddc27771c23839a566019180efa31))
+ - **FIX**: Support for flutterfire command. ([0608743c](https://github.com/mathrunet/flutter_masamune/commit/0608743c016f3524e3287463de75185aa0fcf7c3))
+
 ## 0.14.1
 
  - **FEAT**: Added INSTALL command. ([0ad84925](https://github.com/mathrunet/flutter_masamune/commit/0ad8492522d6847dfcddab2418249e912e9bacf4))
