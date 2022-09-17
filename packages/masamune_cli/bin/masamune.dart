@@ -57,6 +57,7 @@ part 'command/version.dart';
 part 'command/upgrade.dart';
 part 'command/zip.dart';
 part 'command/submodule.dart';
+part 'command/install.dart';
 part 'src/framework.dart';
 
 const commands = <String, CliCommand>{
@@ -85,6 +86,7 @@ const commands = <String, CliCommand>{
   "generate": GenerateCliCommand(),
   "build": AppBuildCliCommand(),
   "submodule": SubmoduleCliCommand(),
+  "install": InstallCliCommand(),
 };
 
 Future<void> main(List<String> args) async {
