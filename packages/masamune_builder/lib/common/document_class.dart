@@ -141,6 +141,16 @@ List<Class> documentClass(ClassModel model, String suffix) {
         ])
         ..abstract = true
         ..methods = ListBuilder([
+          Method(
+            (m) => m
+              ..name = "uid"
+              ..lambda = true
+              ..type = MethodType.getter
+              ..returns = const Reference("String")
+              ..body = Code(
+                "_value[${model.name}$suffix.uid.id]) ?? \"\"",
+              ),
+          ),
           ...model.parameters.expand((param) {
             return [
               Method(

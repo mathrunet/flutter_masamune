@@ -5,6 +5,11 @@ const _coreChecker = TypeChecker.fromRuntime(Default);
 class ParamaterModel {
   ParamaterModel(this.element) {
     name = element.displayName;
+    if (ignoreWords.contains(name)) {
+      throw Exception(
+        "`$name` is a prohibited word. This word cannot be set as a parameter. Please specify another name.",
+      );
+    }
     type = element.type;
     if (element.type.isNullable || element.isRequired) {
       defaultValue = null;

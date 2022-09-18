@@ -22,6 +22,7 @@ import 'package:katana_annotation/katana_annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
 part 'src/builder.dart';
+part 'src/config.dart';
 part 'src/extensions.dart';
 part 'src/functions.dart';
 

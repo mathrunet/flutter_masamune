@@ -5,9 +5,12 @@ Enum keyEnum(ClassModel model, String suffix) {
     (e) => e
       ..name = "${model.name}$suffix"
       ..values = ListBuilder([
+        EnumValue(
+          (e) => e..name = "uid",
+        ),
         ...model.parameters.map((param) {
           return EnumValue(
-            (v) => v..name = param.name,
+            (e) => e..name = param.name,
           );
         }),
       ]),

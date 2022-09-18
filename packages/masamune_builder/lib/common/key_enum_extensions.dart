@@ -11,7 +11,8 @@ Extension keyEnumExtensions(ClassModel model, String suffix) {
             ..name = "id"
             ..type = MethodType.getter
             ..returns = const Reference("String")
-            ..body = Code("switch(this){${model.parameters.map((param) {
+            ..body = Code(
+                "switch(this){case ${model.name}$suffix.uid: return \"uid\";${model.parameters.map((param) {
               return "case ${model.name}$suffix.${param.name}: return \"${param.name}\";";
             }).join("")}}"),
         )
