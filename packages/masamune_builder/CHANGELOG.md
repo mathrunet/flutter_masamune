@@ -1,3 +1,7 @@
+## 0.14.2+3
+
+ - **FIX**: Error Countermeasures. ([8255b14d](https://github.com/mathrunet/flutter_masamune/commit/8255b14db5f71a3827de16de3292733aeaae1021))
+
 ## 0.14.2+2
 
  - **FIX**: Change Const to enum. ([860dcc67](https://github.com/mathrunet/flutter_masamune/commit/860dcc672b44d0fc55c593d1713a22c3c4f7ece0))

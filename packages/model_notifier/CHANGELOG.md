@@ -1,3 +1,7 @@
+## 0.14.1
+
+ - **FEAT**: Transaction support. ([d1380d5f](https://github.com/mathrunet/flutter_masamune/commit/d1380d5fa8c15b24a0bee48efa70ce7ffe68f5ae))
+
 ## 0.14.0+6
 
  - Update a dependency to the latest release.

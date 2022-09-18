@@ -1,3 +1,7 @@
+## 0.14.0+16
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+15
 
  - **FIX**: Changed AdapterScope mechanism. ([3c2a7597](https://github.com/mathrunet/flutter_masamune/commit/3c2a759704242b35baacc3cc8ce708558863fc76))
