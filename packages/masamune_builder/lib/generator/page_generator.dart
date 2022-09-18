@@ -26,12 +26,6 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
         PathModel(annotation.read("path").stringValue.trimString("/"));
     final _class = ClassModel(element);
 
-    if (_path.path.splitLength() <= 0 || _path.path.splitLength() % 2 != 1) {
-      throw Exception(
-        "The path hierarchy must be an odd number: $_path",
-      );
-    }
-
     final generated = Library(
       (l) => l
         ..body.addAll(
@@ -39,6 +33,8 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
             pathField(_class, _path.path),
             pageParameterClass(_class, _path),
             pageBuildContextExtensions(_class, _path),
+            pageQueryClass(_class, _path),
+            pageRouteConfig(_class, _path),
           ],
         ),
     );

@@ -52,10 +52,11 @@ class DocumentGenerator extends GeneratorForAnnotation<DocumentPath> {
             pathField(_class, _path),
             converterField(_class, _converter ?? "DefaultConverter"),
             convertMethod(_class, _keySuffix),
-            keyConstClass(_class, _keySuffix),
             ...documentClass(_class, _keySuffix),
             dynamicMapExtensions(_class),
             widgetRefDocumentExtensions(_class),
+            keyEnum(_class, _keySuffix),
+            keyEnumExtensions(_class, _keySuffix),
           ],
         ),
     );

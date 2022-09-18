@@ -17,7 +17,7 @@ class MultiPlatformAdapter extends PlatformAdapter {
   Future<LocalMedia?> mediaDialog(
     BuildContext context, {
     required String title,
-    PlatformMediaType type = PlatformMediaType.all,
+    AdapterMediaType type = AdapterMediaType.all,
   }) async {
     return null;
   }

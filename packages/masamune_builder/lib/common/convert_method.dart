@@ -20,7 +20,7 @@ Method convertMethod(ClassModel model, String suffix) {
       ..body = Code(
         "return {${model.parameters.map(
               (param) =>
-                  "if (${param.name} != null) ${model.name}$suffix.${param.name}: _${model.name.toCamelCase()}Converter.convertTo(${param.name})",
+                  "if (${param.name} != null) ${model.name}$suffix.${param.name}.id: _${model.name.toCamelCase()}Converter.convertTo(${param.name})",
             ).join(",")},};",
       ),
   );

@@ -4,56 +4,91 @@ Class pageQueryClass(ClassModel model, PathModel path) {
   return Class(
     (c) => c
       ..name = "${model.name}Query"
+      ..extend = const Reference("PageQuery")
       ..constructors = ListBuilder([
         Constructor(
           (c) => c
-            ..name = "_"
             ..constant = true
-            ..requiredParameters = ListBuilder([
-              Parameter(
-                (p) => p
-                  ..name = "context"
-                  ..type = const Reference("BuildContext"),
-              ),
-            ])
-            ..initializers = ListBuilder([
-              const Code("_context = context"),
+            ..optionalParameters = ListBuilder([
+              ...model.parameters.mapAndRemoveEmpty((param) {
+                if (param.element.isRequired) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.name
+                      ..named = true
+                      ..required = true
+                      ..toThis = true,
+                  );
+                }
+                if (param.defaultValue != null) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.name
+                      ..named = true
+                      ..toThis = true
+                      ..defaultTo = Code("${param.defaultValue}"),
+                  );
+                } else {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.name
+                      ..named = true
+                      ..toThis = true,
+                  );
+                }
+              }),
+              ...path.parameters.map((param) {
+                return Parameter(
+                  (f) => f
+                    ..name = param.camelCase
+                    ..named = true
+                    ..required = true
+                    ..toThis = true,
+                );
+              }),
             ]),
         )
       ])
       ..fields = ListBuilder([
-        Field(
-          (f) => f
-            ..name = "_context"
-            ..type = const Reference("BuildContext")
-            ..modifier = FieldModifier.final$,
-        ),
-      ])
-      ..methods = ListBuilder([
         ...model.parameters.map((param) {
-          return Method(
-            (m) => m
+          return Field(
+            (f) => f
               ..name = param.name
-              ..lambda = true
-              ..type = MethodType.getter
-              ..returns = Reference(param.type.toString())
-              ..body = Code(
-                "_context.get<${param.type}>(\"${param.name}\", ${param.defaultValue ?? _defaultValue(param)})",
-              ),
+              ..modifier = FieldModifier.final$
+              ..type = Reference(param.type.toString()),
           );
         }),
         ...path.parameters.map((param) {
-          return Method(
-            (m) => m
+          return Field(
+            (f) => f
               ..name = param.camelCase
-              ..lambda = true
-              ..type = MethodType.getter
-              ..returns = const Reference("String")
-              ..body = Code(
-                "_context.get<String>(\"${param.snakeCase}\", \"\")",
-              ),
+              ..modifier = FieldModifier.final$
+              ..type = const Reference("String"),
           );
         }),
+      ])
+      ..methods = ListBuilder([
+        Method(
+          (m) => m
+            ..name = "toString"
+            ..lambda = true
+            ..annotations = ListBuilder([const Reference("override")])
+            ..returns = const Reference("String")
+            ..body = Code(
+                "\"${path.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+              return "\$${match.group(1)?.toCamelCase()}";
+            })}\""),
+        ),
+        Method(
+          (m) => m
+            ..name = "toArguments"
+            ..lambda = true
+            ..annotations = ListBuilder([const Reference("override")])
+            ..returns = const Reference("Map<String, dynamic>")
+            ..body = Code(
+              "{${model.parameters.map((e) => "\"${e.name}\":${e.name}").join(",")}}..removeWhere((key, value) => value == null)",
+            ),
+        ),
       ]),
   );
 }

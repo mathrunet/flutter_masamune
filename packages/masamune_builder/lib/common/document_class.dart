@@ -150,7 +150,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
                   ..type = MethodType.getter
                   ..returns = Reference(param.type.toString())
                   ..body = Code(
-                    "_${model.name.toCamelCase()}Converter.convertFrom<${param.type}>(_value[${model.name}$suffix.${param.name}]) ?? _${param.name}",
+                    "_${model.name.toCamelCase()}Converter.convertFrom<${param.type}>(_value[${model.name}$suffix.${param.name}.id]) ?? _${param.name}",
                   ),
               ),
               Method(
@@ -166,7 +166,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
                     )
                   ])
                   ..body = Code(
-                    "_value[${model.name}$suffix.${param.name}] = _${model.name.toCamelCase()}Converter.convertTo(val)",
+                    "_value[${model.name}$suffix.${param.name}.id] = _${model.name.toCamelCase()}Converter.convertTo(val)",
                   ),
               ),
               Method(

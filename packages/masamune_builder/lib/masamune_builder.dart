@@ -46,3 +46,6 @@ part 'common/widget_ref_document_extensions.dart';
 part 'common/widget_ref_collection_extensions.dart';
 part 'common/page_parameter_class.dart';
 part 'common/page_build_context_extensions.dart';
+part 'common/page_route_config.dart';
+part 'common/key_enum.dart';
+part 'common/key_enum_extensions.dart';
