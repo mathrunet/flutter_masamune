@@ -1,3 +1,7 @@
+## 0.14.2+4
+
+ - **FIX**: Additional support for transaction. ([c2d4f05f](https://github.com/mathrunet/flutter_masamune/commit/c2d4f05f447738ef6d8c10ed6464a5fd331111cb))
+
 ## 0.14.2+3
 
  - **FIX**: Error Countermeasures. ([8255b14d](https://github.com/mathrunet/flutter_masamune/commit/8255b14db5f71a3827de16de3292733aeaae1021))

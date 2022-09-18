@@ -15,6 +15,62 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.14.0+8`](#firebase_model_notifier---v01408)
+ - [`masamune_builder` - `v0.14.2+4`](#masamune_builder---v01424)
+ - [`masamune_notion` - `v0.14.0+19`](#masamune_notion---v014019)
+ - [`masamune_firebase_messaging` - `v0.14.0+19`](#masamune_firebase_messaging---v014019)
+ - [`masamune_firebase` - `v0.14.0+19`](#masamune_firebase---v014019)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+19`](#masamune_firebase_dynamic_links---v014019)
+ - [`masamune_agora` - `v0.14.0+19`](#masamune_agora---v014019)
+ - [`masamune_signin_apple` - `v0.14.0+20`](#masamune_signin_apple---v014020)
+ - [`masamune_signin_facebook` - `v0.14.0+19`](#masamune_signin_facebook---v014019)
+ - [`masamune_signin_google` - `v0.14.0+19`](#masamune_signin_google---v014019)
+ - [`masamune_signin_twitter` - `v0.14.0+19`](#masamune_signin_twitter---v014019)
+ - [`masamune_purchase_firebase` - `v0.14.0+22`](#masamune_purchase_firebase---v014022)
+ - [`masamune_purchase_stripe` - `v0.14.0+19`](#masamune_purchase_stripe---v014019)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_messaging` - `v0.14.0+19`
+ - `masamune_firebase` - `v0.14.0+19`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+19`
+ - `masamune_agora` - `v0.14.0+19`
+ - `masamune_signin_apple` - `v0.14.0+20`
+ - `masamune_signin_facebook` - `v0.14.0+19`
+ - `masamune_signin_google` - `v0.14.0+19`
+ - `masamune_signin_twitter` - `v0.14.0+19`
+ - `masamune_purchase_firebase` - `v0.14.0+22`
+ - `masamune_purchase_stripe` - `v0.14.0+19`
+
+---
+
+#### `firebase_model_notifier` - `v0.14.0+8`
+
+ - **FIX**: Additional support for transaction. ([c2d4f05f](https://github.com/mathrunet/flutter_masamune/commit/c2d4f05f447738ef6d8c10ed6464a5fd331111cb))
+
+#### `masamune_builder` - `v0.14.2+4`
+
+ - **FIX**: Additional support for transaction. ([c2d4f05f](https://github.com/mathrunet/flutter_masamune/commit/c2d4f05f447738ef6d8c10ed6464a5fd331111cb))
+
+#### `masamune_notion` - `v0.14.0+19`
+
+ - **FIX**: Additional support for transaction. ([c2d4f05f](https://github.com/mathrunet/flutter_masamune/commit/c2d4f05f447738ef6d8c10ed6464a5fd331111cb))
+
+
+## 2022-09-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_annotation` - `v0.14.3`](#katana_annotation---v0143)
  - [`masamune_builder` - `v0.14.2+3`](#masamune_builder---v01423)
  - [`model_notifier` - `v0.14.1`](#model_notifier---v0141)
