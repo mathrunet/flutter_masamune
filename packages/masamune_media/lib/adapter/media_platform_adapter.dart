@@ -1,14 +1,14 @@
 part of masamune_media;
 
-/// Adapter for media platforms.
+/// Adapter for mobile/web media.
 ///
 /// IOS, Android, and Web support are available.
 @immutable
-class MediaPlatformAdapter extends PlatformAdapter {
-  /// Adapter for media platforms.
+class DefaultMediaAdapter extends MediaAdapter {
+  /// Adapter for mobile/web media.
   ///
   /// IOS, Android, and Web support are available.
-  const MediaPlatformAdapter();
+  const DefaultMediaAdapter();
 
   /// Display the media dialog and get the data.
   ///
@@ -17,7 +17,7 @@ class MediaPlatformAdapter extends PlatformAdapter {
   Future<LocalMedia?> mediaDialog(
     BuildContext context, {
     required String title,
-    PlatformMediaType type = PlatformMediaType.all,
+    AdapterMediaType type = AdapterMediaType.all,
   }) async {
     return UIMediaDialog.show(
       context,
@@ -26,11 +26,11 @@ class MediaPlatformAdapter extends PlatformAdapter {
     );
   }
 
-  UIMediaDialogType _toUIMediaDialogType(PlatformMediaType type) {
+  UIMediaDialogType _toUIMediaDialogType(AdapterMediaType type) {
     switch (type) {
-      case PlatformMediaType.image:
+      case AdapterMediaType.image:
         return UIMediaDialogType.image;
-      case PlatformMediaType.video:
+      case AdapterMediaType.video:
         return UIMediaDialogType.video;
       default:
         return UIMediaDialogType.both;
