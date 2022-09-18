@@ -224,11 +224,6 @@ class NotionBlockCollectionModel
   }
 
   @override
-  Future<void> listen() {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> next() {
     throw UnimplementedError();
   }
@@ -240,6 +235,11 @@ class NotionBlockCollectionModel
 
   @override
   NotionBlockDocumentModel create([String? id]) {
+    throw UnimplementedError();
+  }
+
+  @override
+  CollectionTransactionBuilder transaction([String? linkedPath]) {
     throw UnimplementedError();
   }
 }

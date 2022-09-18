@@ -49,7 +49,7 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.4.7"
+    version: "3.4.8"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
@@ -358,7 +358,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+6"
+    version: "0.14.1"
   nm:
     dependency: transitive
     description:
@@ -484,7 +484,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   pointycastle:
     dependency: transitive
     description:

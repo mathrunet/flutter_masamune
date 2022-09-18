@@ -23,6 +23,9 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
     }
 
     final _path = annotation.read("path").stringValue.trimString("/");
+    final _linkedPath = annotation.read("linkedPath").isNull
+        ? null
+        : annotation.read("linkedPath").stringValue.trimString("/");
     final _keySuffix = annotation.read("keySuffix").stringValue;
     final _converter = annotation
         .peek("converter")
@@ -39,6 +42,14 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
       );
     }
 
+    if (_linkedPath != null &&
+        (_linkedPath.splitLength() <= 0 ||
+            _linkedPath.splitLength() % 2 != 1)) {
+      throw Exception(
+        "The linked path hierarchy must be an odd number: $_linkedPath",
+      );
+    }
+
     if (_keySuffix.isEmpty || !RegExp(r"^[a-zA-Z]+$").hasMatch(_keySuffix)) {
       throw Exception(
         "The key suffix is available only for alphabetical characters.: $_keySuffix",
@@ -50,6 +61,7 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
         ..body.addAll(
           [
             pathField(_class, _path),
+            linkedPathField(_class, _linkedPath),
             converterField(_class, _converter ?? "DefaultConverter"),
             convertMethod(_class, _keySuffix),
             ...documentClass(_class, _keySuffix),

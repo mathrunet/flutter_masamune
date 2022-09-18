@@ -166,6 +166,15 @@ List<Class> collectionClass(ClassModel model) {
           ),
           Method(
             (m) => m
+              ..name = "transaction"
+              ..lambda = true
+              ..returns = const Reference("CollectionTransactionBuilder")
+              ..body = Code(
+                "collection().transaction(_linked${model.name}Path)",
+              ),
+          ),
+          Method(
+            (m) => m
               ..name = "fetch"
               ..lambda = true
               ..optionalParameters = ListBuilder([

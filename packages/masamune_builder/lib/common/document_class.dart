@@ -102,6 +102,14 @@ List<Class> documentClass(ClassModel model, String suffix) {
           ),
           Method(
             (m) => m
+              ..name = "transaction"
+              ..lambda = true
+              ..annotations = ListBuilder([const Reference("override")])
+              ..returns = const Reference("DocumentTransactionBuilder")
+              ..body = const Code("document().transaction()"),
+          ),
+          Method(
+            (m) => m
               ..name = "loading"
               ..lambda = true
               ..type = MethodType.getter
@@ -292,6 +300,13 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..name = "delete"
               ..lambda = true
               ..returns = const Reference("Future<void>")
+              ..body = const Code("throw UnimplementedError()"),
+          ),
+          Method(
+            (m) => m
+              ..name = "transaction"
+              ..lambda = true
+              ..returns = const Reference("DocumentTransactionBuilder")
               ..body = const Code("throw UnimplementedError()"),
           ),
           Method(

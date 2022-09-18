@@ -203,6 +203,11 @@ class NotionBlockDocumentModel extends DocumentModel<DynamicMap>
     throw UnimplementedError();
   }
 
+  @override
+  DocumentTransactionBuilder transaction() {
+    throw UnimplementedError();
+  }
+
   /// The equality operator.
   ///
   /// The default behavior for all [Object]s is to return true if and only if this object and [other] are the same object.

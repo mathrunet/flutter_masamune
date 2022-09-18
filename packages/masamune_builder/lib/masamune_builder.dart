@@ -35,6 +35,7 @@ part 'generator/document_generator.dart';
 part 'generator/page_generator.dart';
 
 part 'common/path_field.dart';
+part 'common/linked_path_field.dart';
 part 'common/converter_field.dart';
 part 'common/page_query_class.dart';
 part 'common/convert_method.dart';

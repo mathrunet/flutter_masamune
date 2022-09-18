@@ -342,6 +342,14 @@ abstract class FirestoreDocumentModel<T> extends DocumentModel<T>
     return saving;
   }
 
+  /// Generate a Transaction for this document.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  @override
+  FirestoreDocumentTransactionBuilder transaction() {
+    return FirestoreTransaction.documentTransaction(path);
+  }
+
   /// Return `true` if data is not empty.
   @override
   bool get isNotEmpty => !isEmpty;

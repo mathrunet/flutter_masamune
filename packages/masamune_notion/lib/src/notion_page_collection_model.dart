@@ -290,6 +290,11 @@ class NotionPageCollectionModel
   }
 
   @override
+  CollectionTransactionBuilder transaction([String? linkedPath]) {
+    throw UnimplementedError();
+  }
+
+  @override
   NotionPageDocumentModel create([String? id]) {
     throw UnimplementedError();
   }

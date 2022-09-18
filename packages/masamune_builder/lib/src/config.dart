@@ -12,6 +12,7 @@ final ignoreWords = <String>[
   "create",
   "delete",
   "value",
+  "transaction",
   "dispose",
   "document",
   "runtimeType",

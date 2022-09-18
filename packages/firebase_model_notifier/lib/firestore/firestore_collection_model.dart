@@ -470,6 +470,21 @@ abstract class FirestoreCollectionModel<T extends FirestoreDocumentModel>
     }
   }
 
+  /// Generate a Transaction for this collection.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  ///
+  /// Specifying [linkedCollectionPath] allows you to simultaneously create linked documents (e.g., follow and follower documents).
+  @override
+  FirestoreCollectionTransactionBuilder transaction([
+    String? linkedCollectionPath,
+  ]) {
+    return FirestoreTransaction.collectionTransaction(
+      collectionPath: path,
+      linkedCollectionPath: linkedCollectionPath,
+    );
+  }
+
   /// The equality operator.
   ///
   /// The default behavior for all [Object]s is to return true if and only if this object and [other] are the same object.

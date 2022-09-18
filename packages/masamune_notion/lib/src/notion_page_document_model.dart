@@ -118,7 +118,6 @@ class NotionPageDocumentModel extends DocumentModel<DynamicMap>
     return FirebaseFunctions.instanceFor(region: FirebaseCore.region);
   }
 
-
   /// Provides the best data acquisition method to implement during screen build.
   ///
   /// Data loading does not occur in duplicate when a screen is built multiple times.
@@ -229,6 +228,11 @@ class NotionPageDocumentModel extends DocumentModel<DynamicMap>
 
   @override
   Future<void> save() {
+    throw UnimplementedError();
+  }
+
+  @override
+  DocumentTransactionBuilder transaction() {
     throw UnimplementedError();
   }
 

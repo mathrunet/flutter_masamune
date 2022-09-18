@@ -5,6 +5,7 @@ Field pathField(ClassModel model, String path) {
     (f) => f
       ..name = "_${model.name.toCamelCase()}Path"
       ..modifier = FieldModifier.constant
+      ..type = const Reference("String")
       ..assignment = Code("\"$path\""),
   );
 }
