@@ -242,7 +242,6 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
     }
   }
 
-
   void _handledOnUpdate(LocalStoreDocumentUpdate update) {
     final limit = ModelQuery.limitCountFrom(parameters);
     final oldPos = _rawEntries.indexWhere(
@@ -484,6 +483,21 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
       _saveCompleter?.complete();
       _saveCompleter = null;
     }
+  }
+
+  /// Generate a Transaction for this collection.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  ///
+  /// Specifying [linkedCollectionPath] allows you to simultaneously create linked documents (e.g., follow and follower documents).
+  @override
+  RuntimeCollectionTransactionBuilder transaction([
+    String? linkedCollectionPath,
+  ]) {
+    return RuntimeTransaction.collectionTransaction(
+      collectionPath: path,
+      linkedCollectionPath: linkedCollectionPath,
+    );
   }
 
   /// The equality operator.

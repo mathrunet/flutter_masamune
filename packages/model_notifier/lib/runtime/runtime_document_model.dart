@@ -276,6 +276,14 @@ abstract class RuntimeDocumentModel<T> extends DocumentModel<T>
     RuntimeDatabase._db.deleteDocument(_query!);
   }
 
+  /// Generate a Transaction for this document.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  @override
+  RuntimeDocumentTransactionBuilder transaction() {
+    return RuntimeTransaction.documentTransaction(path);
+  }
+
   /// Return `true` if data is not empty.
   @override
   bool get isNotEmpty => !isEmpty;

@@ -275,6 +275,14 @@ abstract class ApiDocumentModel<T> extends DocumentModel<T>
     return;
   }
 
+  /// Generate a Transaction for this document.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  @override
+  DocumentTransactionBuilder transaction() {
+    throw UnimplementedError();
+  }
+
   /// Return `true` if data is not empty.
   @override
   bool get isNotEmpty => !isEmpty;

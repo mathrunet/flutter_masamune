@@ -278,6 +278,14 @@ abstract class LocalDocumentModel<T> extends DocumentModel<T>
     LocalDatabase._db.deleteDocument(_query!);
   }
 
+  /// Generate a Transaction for this document.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  @override
+  LocalDocumentTransactionBuilder transaction() {
+    return LocalTransaction.documentTransaction(path);
+  }
+
   /// Return `true` if data is not empty.
   @override
   bool get isNotEmpty => !isEmpty;

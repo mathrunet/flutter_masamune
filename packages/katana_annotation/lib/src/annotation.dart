@@ -4,8 +4,9 @@ part of katana_annotation;
 class CollectionPath {
   const CollectionPath(
     this.path, {
-    this.keySuffix = "Const",
+    this.keySuffix = "Keys",
     this.converter = const DefaultConverter(),
+    this.linkedPath,
   });
 
   /// Paths for models.
@@ -16,13 +17,18 @@ class CollectionPath {
 
   /// Converter for value conversion.
   final ConverterBase converter;
+
+  /// Specifying [linkedPath] allows you to simultaneously create linked documents (e.g., follow and follower documents).
+  ///
+  /// Must be a path to another collection.
+  final String? linkedPath;
 }
 
 /// Annotation indicating a document in Masamune.
 class DocumentPath {
   const DocumentPath(
     this.path, {
-    this.keySuffix = "Const",
+    this.keySuffix = "Keys",
     this.converter = const DefaultConverter(),
   });
 

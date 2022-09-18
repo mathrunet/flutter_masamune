@@ -27,6 +27,11 @@ abstract class StoredDocumentModel<T> extends Model<T>
   /// Deleted documents are immediately reflected and removed from related collections, etc.
   Future<void> delete();
 
+  /// Generate a Transaction for this document.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  DocumentTransactionBuilder transaction();
+
   /// It becomes `true` after [loadOnce] is executed.
   bool get loaded;
 
@@ -81,6 +86,13 @@ abstract class StoredCollectionModel<T> extends Model<List<T>>
   ///
   /// It is possible to specify data to be added to the document by giving [data].
   Future<void> append(String uid, {T? data});
+
+  /// Generate a Transaction for this collection.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  ///
+  /// Specifying [linkedCollectionPath] allows you to simultaneously create linked documents (e.g., follow and follower documents).
+  CollectionTransactionBuilder transaction([String? linkedCollectionPath]);
 
   /// It becomes `true` after [loadOnce] is executed.
   bool get loaded;

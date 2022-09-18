@@ -408,6 +408,18 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
     }
   }
 
+  /// Generate a Transaction for this collection.
+  ///
+  /// Please note that the file will not be saved unless you execute [save] after it has been executed.
+  ///
+  /// Specifying [linkedCollectionPath] allows you to simultaneously create linked documents (e.g., follow and follower documents).
+  @override
+  CollectionTransactionBuilder transaction([
+    String? linkedCollectionPath,
+  ]) {
+    throw UnimplementedError();
+  }
+
   /// The equality operator.
   ///
   /// The default behavior for all [Object]s is to return true if and only if this object and [other] are the same object.

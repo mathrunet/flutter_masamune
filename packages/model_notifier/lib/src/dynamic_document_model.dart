@@ -7,4 +7,5 @@ abstract class DynamicDocumentModel
         DynamicMap,
         ListenableDynamicMap,
         FutureModel<DynamicMap>,
-        StoredDocumentModel<DynamicMap> {}
+        StoredDocumentModel<DynamicMap> {
+}
