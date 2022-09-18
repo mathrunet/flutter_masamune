@@ -40,7 +40,7 @@ class AvatarFormConfig extends VariableFormConfig<String> {
         },
         onTap: (onUpdate) async {
           try {
-            final media = await context.platform?.mediaDialog(
+            final media = await context.plugin?.media?.mediaDialog(
               context,
               title: "Select %s".localize().format([config.label.localize()]),
               type: AdapterMediaType.image,
