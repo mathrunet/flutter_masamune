@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_module` - `v0.14.0+15`](#katana_module---v014015)
+ - [`masamune` - `v0.14.1+10`](#masamune---v014110)
+ - [`masamune_builder` - `v0.14.2+2`](#masamune_builder---v01422)
+ - [`masamune_media` - `v0.14.0+17`](#masamune_media---v014017)
+ - [`masamune_module` - `v0.14.1+10`](#masamune_module---v014110)
+ - [`masamune_ui` - `v0.14.0+17`](#masamune_ui---v014017)
+ - [`masamune_agora` - `v0.14.0+16`](#masamune_agora---v014016)
+ - [`masamune_location` - `v0.14.0+16`](#masamune_location---v014016)
+ - [`masamune_local_messaging` - `v0.14.0+16`](#masamune_local_messaging---v014016)
+ - [`masamune_purchase` - `v0.14.0+19`](#masamune_purchase---v014019)
+ - [`masamune_wordpress` - `v0.14.0+16`](#masamune_wordpress---v014016)
+ - [`masamune_firebase` - `v0.14.0+16`](#masamune_firebase---v014016)
+ - [`masamune_ads` - `v0.14.0+16`](#masamune_ads---v014016)
+ - [`masamune_purchase_firebase` - `v0.14.0+19`](#masamune_purchase_firebase---v014019)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+16`](#masamune_firebase_dynamic_links---v014016)
+ - [`masamune_firebase_messaging` - `v0.14.0+16`](#masamune_firebase_messaging---v014016)
+ - [`masamune_signin_facebook` - `v0.14.0+16`](#masamune_signin_facebook---v014016)
+ - [`masamune_signin_apple` - `v0.14.0+17`](#masamune_signin_apple---v014017)
+ - [`masamune_signin_google` - `v0.14.0+16`](#masamune_signin_google---v014016)
+ - [`masamune_signin_twitter` - `v0.14.0+16`](#masamune_signin_twitter---v014016)
+ - [`masamune_notion` - `v0.14.0+16`](#masamune_notion---v014016)
+ - [`masamune_purchase_stripe` - `v0.14.0+16`](#masamune_purchase_stripe---v014016)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.14.0+16`
+ - `masamune_location` - `v0.14.0+16`
+ - `masamune_local_messaging` - `v0.14.0+16`
+ - `masamune_purchase` - `v0.14.0+19`
+ - `masamune_wordpress` - `v0.14.0+16`
+ - `masamune_firebase` - `v0.14.0+16`
+ - `masamune_ads` - `v0.14.0+16`
+ - `masamune_purchase_firebase` - `v0.14.0+19`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+16`
+ - `masamune_firebase_messaging` - `v0.14.0+16`
+ - `masamune_signin_facebook` - `v0.14.0+16`
+ - `masamune_signin_apple` - `v0.14.0+17`
+ - `masamune_signin_google` - `v0.14.0+16`
+ - `masamune_signin_twitter` - `v0.14.0+16`
+ - `masamune_notion` - `v0.14.0+16`
+ - `masamune_purchase_stripe` - `v0.14.0+16`
+
+---
+
+#### `katana_module` - `v0.14.0+15`
+
+ - **FIX**: Changed AdapterScope mechanism. ([3c2a7597](https://github.com/mathrunet/flutter_masamune/commit/3c2a759704242b35baacc3cc8ce708558863fc76))
+
+#### `masamune` - `v0.14.1+10`
+
+ - **FIX**: Change Const to enum. ([860dcc67](https://github.com/mathrunet/flutter_masamune/commit/860dcc672b44d0fc55c593d1713a22c3c4f7ece0))
+
+#### `masamune_builder` - `v0.14.2+2`
+
+ - **FIX**: Change Const to enum. ([860dcc67](https://github.com/mathrunet/flutter_masamune/commit/860dcc672b44d0fc55c593d1713a22c3c4f7ece0))
+
+#### `masamune_media` - `v0.14.0+17`
+
+ - **FIX**: Change PlatformAdapter to MediaAdapter. ([eabbe3c1](https://github.com/mathrunet/flutter_masamune/commit/eabbe3c11ee6546da956f0d40b45834bf4c43d4f))
+
+#### `masamune_module` - `v0.14.1+10`
+
+ - **FIX**: PlatformMediaType changed to AdapterMediaType. ([c7e47d72](https://github.com/mathrunet/flutter_masamune/commit/c7e47d7261c23798b6a4470c4083a993dbaa633f))
+
+#### `masamune_ui` - `v0.14.0+17`
+
+ - **FIX**: PlatformMediaType changed to AdapterMediaType. ([c7e47d72](https://github.com/mathrunet/flutter_masamune/commit/c7e47d7261c23798b6a4470c4083a993dbaa633f))
+
+
 ## 2022-09-17
 
 ### Changes

@@ -1,3 +1,7 @@
+## 0.14.0+17
+
+ - **FIX**: PlatformMediaType changed to AdapterMediaType. ([c7e47d72](https://github.com/mathrunet/flutter_masamune/commit/c7e47d7261c23798b6a4470c4083a993dbaa633f))
+
 ## 0.14.0+16
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 0.14.2+2
+
+ - **FIX**: Change Const to enum. ([860dcc67](https://github.com/mathrunet/flutter_masamune/commit/860dcc672b44d0fc55c593d1713a22c3c4f7ece0))
+
 ## 0.14.2+1
 
  - **FIX**: PagePathにQueryを追加. ([73def34f](https://github.com/mathrunet/flutter_masamune/commit/73def34fa76f14371d75e0d2a64da2208904e1f0))

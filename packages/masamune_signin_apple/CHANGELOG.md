@@ -1,3 +1,7 @@
+## 0.14.0+17
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+16
 
  - **FIX**: Simplification of parameters. ([451d7b12](https://github.com/mathrunet/flutter_masamune/commit/451d7b12ac9b01a40b15c0381d018c54cf7c0481))

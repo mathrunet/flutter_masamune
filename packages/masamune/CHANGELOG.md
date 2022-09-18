@@ -1,3 +1,7 @@
+## 0.14.1+10
+
+ - **FIX**: Change Const to enum. ([860dcc67](https://github.com/mathrunet/flutter_masamune/commit/860dcc672b44d0fc55c593d1713a22c3c4f7ece0))
+
 ## 0.14.1+9
 
  - Update a dependency to the latest release.

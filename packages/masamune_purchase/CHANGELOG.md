@@ -1,3 +1,7 @@
+## 0.14.0+19
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+18
 
  - **FIX**: Make the log of defects visible. ([f57e15dd](https://github.com/mathrunet/flutter_masamune/commit/f57e15ddb5df11544423a73282a2a5f2db3e744e))
