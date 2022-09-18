@@ -7,6 +7,7 @@ class CollectionPath {
     this.keySuffix = "Keys",
     this.converter = const DefaultConverter(),
     this.linkedPath,
+    this.enableCollectionCount = false,
   });
 
   /// Paths for models.
@@ -22,6 +23,11 @@ class CollectionPath {
   ///
   /// Must be a path to another collection.
   final String? linkedPath;
+
+  /// Record the counts of your own collection in the document in the hierarchy above.
+  ///
+  /// If you set this to `true`, the collection cannot be counted on the first level.
+  final bool enableCollectionCount;
 }
 
 /// Annotation indicating a document in Masamune.
