@@ -15,6 +15,76 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_annotation` - `v0.14.3+1`](#katana_annotation---v01431)
+ - [`katana_module` - `v0.14.0+17`](#katana_module---v014017)
+ - [`masamune_builder` - `v0.14.2+5`](#masamune_builder---v01425)
+ - [`masamune` - `v0.14.1+13`](#masamune---v014113)
+ - [`masamune_agora` - `v0.14.0+20`](#masamune_agora---v014020)
+ - [`masamune_location` - `v0.14.0+19`](#masamune_location---v014019)
+ - [`masamune_local_messaging` - `v0.14.0+19`](#masamune_local_messaging---v014019)
+ - [`masamune_media` - `v0.14.0+20`](#masamune_media---v014020)
+ - [`masamune_purchase` - `v0.14.0+22`](#masamune_purchase---v014022)
+ - [`masamune_wordpress` - `v0.14.0+19`](#masamune_wordpress---v014019)
+ - [`masamune_firebase` - `v0.14.0+20`](#masamune_firebase---v014020)
+ - [`masamune_ads` - `v0.14.0+19`](#masamune_ads---v014019)
+ - [`masamune_ui` - `v0.14.0+20`](#masamune_ui---v014020)
+ - [`masamune_purchase_firebase` - `v0.14.0+23`](#masamune_purchase_firebase---v014023)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+20`](#masamune_firebase_dynamic_links---v014020)
+ - [`masamune_firebase_messaging` - `v0.14.0+20`](#masamune_firebase_messaging---v014020)
+ - [`masamune_signin_apple` - `v0.14.0+21`](#masamune_signin_apple---v014021)
+ - [`masamune_signin_facebook` - `v0.14.0+20`](#masamune_signin_facebook---v014020)
+ - [`masamune_signin_google` - `v0.14.0+20`](#masamune_signin_google---v014020)
+ - [`masamune_signin_twitter` - `v0.14.0+20`](#masamune_signin_twitter---v014020)
+ - [`masamune_notion` - `v0.14.0+20`](#masamune_notion---v014020)
+ - [`masamune_purchase_stripe` - `v0.14.0+20`](#masamune_purchase_stripe---v014020)
+ - [`masamune_module` - `v0.14.1+13`](#masamune_module---v014113)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_module` - `v0.14.0+17`
+ - `masamune_builder` - `v0.14.2+5`
+ - `masamune` - `v0.14.1+13`
+ - `masamune_agora` - `v0.14.0+20`
+ - `masamune_location` - `v0.14.0+19`
+ - `masamune_local_messaging` - `v0.14.0+19`
+ - `masamune_media` - `v0.14.0+20`
+ - `masamune_purchase` - `v0.14.0+22`
+ - `masamune_wordpress` - `v0.14.0+19`
+ - `masamune_firebase` - `v0.14.0+20`
+ - `masamune_ads` - `v0.14.0+19`
+ - `masamune_ui` - `v0.14.0+20`
+ - `masamune_purchase_firebase` - `v0.14.0+23`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+20`
+ - `masamune_firebase_messaging` - `v0.14.0+20`
+ - `masamune_signin_apple` - `v0.14.0+21`
+ - `masamune_signin_facebook` - `v0.14.0+20`
+ - `masamune_signin_google` - `v0.14.0+20`
+ - `masamune_signin_twitter` - `v0.14.0+20`
+ - `masamune_notion` - `v0.14.0+20`
+ - `masamune_purchase_stripe` - `v0.14.0+20`
+ - `masamune_module` - `v0.14.1+13`
+
+---
+
+#### `katana_annotation` - `v0.14.3+1`
+
+ - **FIX**: Add enableCollectionCount to CollectionPath. ([bda0a931](https://github.com/mathrunet/flutter_masamune/commit/bda0a931a35892f325faae82aaabd5136d8b23b1))
+
+
+## 2022-09-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.14.0+8`](#firebase_model_notifier---v01408)
  - [`masamune_builder` - `v0.14.2+4`](#masamune_builder---v01424)
  - [`masamune_notion` - `v0.14.0+19`](#masamune_notion---v014019)

@@ -1,3 +1,7 @@
+## 0.14.3+1
+
+ - **FIX**: Add enableCollectionCount to CollectionPath. ([bda0a931](https://github.com/mathrunet/flutter_masamune/commit/bda0a931a35892f325faae82aaabd5136d8b23b1))
+
 ## 0.14.3
 
  - **FEAT**: Transaction support. ([d1380d5f](https://github.com/mathrunet/flutter_masamune/commit/d1380d5fa8c15b24a0bee48efa70ce7ffe68f5ae))
