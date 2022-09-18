@@ -178,7 +178,7 @@ class SingleMediaModuleEditPage extends PageModuleWidget<SingleMediaModule> {
             ),
             errorText: "No input %s".localize().format(["Image".localize()]),
             onTap: (onUpdate) async {
-              final media = await context.platform?.mediaDialog(
+              final media = await context.plugin?.media?.mediaDialog(
                 context,
                 title: "Please select your %s"
                     .localize()

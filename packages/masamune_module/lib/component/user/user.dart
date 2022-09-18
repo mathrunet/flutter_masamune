@@ -485,7 +485,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                           ? InkWell(
                               onTap: () async {
                                 final media =
-                                    await context.platform?.mediaDialog(
+                                    await context.plugin?.media?.mediaDialog(
                                   context,
                                   title:
                                       "Please select your %s".localize().format(
@@ -535,7 +535,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                             child: InkWell(
                               onTap: () async {
                                 final media =
-                                    await context.platform?.mediaDialog(
+                                    await context.plugin?.media?.mediaDialog(
                                   context,
                                   title:
                                       "Please select your %s".localize().format(
