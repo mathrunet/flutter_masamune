@@ -33,35 +33,42 @@ class InlineAppPreview extends StatelessWidget {
     final brightness = MediaQuery.platformBrightnessOf(context);
     return AppScope(
       app: appModule ?? context.app,
-      child: AdapterScope(
-        plugin: AdapterPlugins(
-          ads: enableModules.whereType<AdsAdapter>().firstOrNull ??
-              context.plugin?.ads,
-          purchase: enableModules.whereType<PurchaseAdapter>().firstOrNull ??
-              context.plugin?.purchase,
-          messaging: enableModules.whereType<MessagingAdapter>().firstOrNull ??
-              context.plugin?.messaging,
-          streaming: enableModules.whereType<StreamingAdapter>().firstOrNull ??
-              context.plugin?.streaming,
-          location: enableModules.whereType<LocationAdapter>().firstOrNull ??
-              context.plugin?.location,
-        ),
-        modelAdapter: enableModules.whereType<ModelAdapter>().firstOrNull ??
+      child: ModelAdapterScope(
+        adapter: enableModules.whereType<ModelAdapter>().firstOrNull ??
             context.model,
-        platformAdapter:
-            enableModules.whereType<PlatformAdapter>().firstOrNull ??
-                context.platform,
-        child: Theme(
-          data: (brightness == Brightness.light
-                  ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
-                  : (appModule?.darkTheme?.toThemeData() ?? darkTheme)) ??
-              context.theme,
-          child: InlinePageBuilder(
-            prefix: prefix ?? "",
-            suffix: suffix ?? "",
-            initialRoute: initialRoute,
-            controller: controller,
-            routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
+        child: PlatformAdapterScope(
+          adapter: enableModules.whereType<PlatformAdapter>().firstOrNull ??
+              context.platform,
+          child: PluginsAdapterScope(
+            plugins: AdapterPlugins(
+              ads: enableModules.whereType<AdsAdapter>().firstOrNull ??
+                  context.plugin?.ads,
+              purchase:
+                  enableModules.whereType<PurchaseAdapter>().firstOrNull ??
+                      context.plugin?.purchase,
+              messaging:
+                  enableModules.whereType<MessagingAdapter>().firstOrNull ??
+                      context.plugin?.messaging,
+              streaming:
+                  enableModules.whereType<StreamingAdapter>().firstOrNull ??
+                      context.plugin?.streaming,
+              location:
+                  enableModules.whereType<LocationAdapter>().firstOrNull ??
+                      context.plugin?.location,
+            ),
+            child: Theme(
+              data: (brightness == Brightness.light
+                      ? (appModule?.lightTheme?.toThemeData() ?? lightTheme)
+                      : (appModule?.darkTheme?.toThemeData() ?? darkTheme)) ??
+                  context.theme,
+              child: InlinePageBuilder(
+                prefix: prefix ?? "",
+                suffix: suffix ?? "",
+                initialRoute: initialRoute,
+                controller: controller,
+                routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
+              ),
+            ),
           ),
         ),
       ),
