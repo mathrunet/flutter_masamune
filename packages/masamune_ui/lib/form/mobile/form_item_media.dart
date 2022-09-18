@@ -57,7 +57,7 @@ class FormItemMedia extends FormField<String> {
     String Function(String? value)? validator,
     String? initialURI,
     bool enabled = true,
-    this.type = PlatformMediaType.all,
+    this.type = AdapterMediaType.all,
   }) : super(
           key: key,
           builder: (state) {
@@ -119,7 +119,7 @@ class FormItemMedia extends FormField<String> {
   final List<String> videoExtensionList;
 
   /// Media type.
-  final PlatformMediaType type;
+  final AdapterMediaType type;
 
   /// Text ediging controller.
   final TextEditingController? controller;
@@ -245,27 +245,27 @@ class _FormItemMediaState extends FormFieldState<String> {
     );
   }
 
-  PlatformMediaType _platformMediaType(String path) {
-    if (widget.type != PlatformMediaType.all) {
+  AdapterMediaType _AdapterMediaType(String path) {
+    if (widget.type != AdapterMediaType.all) {
       return widget.type;
     }
     final uri = Uri.tryParse(path);
     if (uri == null) {
-      return PlatformMediaType.image;
+      return AdapterMediaType.image;
     }
     final ext = uri.path.split(".").lastOrNull;
     if (ext == null) {
-      return PlatformMediaType.image;
+      return AdapterMediaType.image;
     }
     return widget.videoExtensionList.contains(ext)
-        ? PlatformMediaType.video
-        : PlatformMediaType.image;
+        ? AdapterMediaType.video
+        : AdapterMediaType.image;
   }
 
   Widget _showMediaFromFile(File file) {
-    final type = _platformMediaType(file.path);
+    final type = _AdapterMediaType(file.path);
     switch (type) {
-      case PlatformMediaType.video:
+      case AdapterMediaType.video:
         return _buiildCover(
           context,
           Video(
@@ -288,9 +288,9 @@ class _FormItemMediaState extends FormFieldState<String> {
   }
 
   Widget _showMediaFromPath(String path) {
-    final type = _platformMediaType(path);
+    final type = _AdapterMediaType(path);
     switch (type) {
-      case PlatformMediaType.video:
+      case AdapterMediaType.video:
         return _buiildCover(
           context,
           Video(

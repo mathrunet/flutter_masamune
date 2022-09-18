@@ -43,7 +43,7 @@ class AvatarFormConfig extends VariableFormConfig<String> {
             final media = await context.platform?.mediaDialog(
               context,
               title: "Select %s".localize().format([config.label.localize()]),
-              type: PlatformMediaType.image,
+              type: AdapterMediaType.image,
             );
             if (media == null || media.path.isEmpty) {
               return;

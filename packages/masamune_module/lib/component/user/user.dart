@@ -491,7 +491,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                                       "Please select your %s".localize().format(
                                     ["Media".localize().toLowerCase()],
                                   ),
-                                  type: PlatformMediaType.image,
+                                  type: AdapterMediaType.image,
                                 );
                                 if (media?.path == null) {
                                   return;
@@ -541,7 +541,7 @@ class UserModuleEditProfilePage extends PageModuleWidget<UserModule> {
                                       "Please select your %s".localize().format(
                                     ["Media".localize().toLowerCase()],
                                   ),
-                                  type: PlatformMediaType.image,
+                                  type: AdapterMediaType.image,
                                 );
                                 if (media?.path == null) {
                                   return;

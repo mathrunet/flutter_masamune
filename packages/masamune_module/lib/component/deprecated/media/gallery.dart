@@ -30,7 +30,7 @@
 //     this.heightOnDetailView = 200,
 //     this.tileSpacing = 1,
 //     this.categoryConfig = const [],
-//     this.mediaType = PlatformMediaType.all,
+//     this.mediaType = AdapterMediaType.all,
 //     this.skipDetailPage = false,
 //     this.sliverLayoutWhenModernDesignOnHome = true,
 //     this.automaticallyImplyLeadingOnHome = true,
@@ -135,7 +135,7 @@
 //   final double heightOnDetailView;
 
 //   /// 対応するメディアタイプ。
-//   final PlatformMediaType mediaType;
+//   final AdapterMediaType mediaType;
 
 //   /// カテゴリーの設定。
 //   final List<GroupConfig> categoryConfig;
@@ -403,9 +403,9 @@
 //           source: filtered.toList(),
 //           builder: (context, item) {
 //             final path = item.get(module.mediaKey, "");
-//             final type = getPlatformMediaType(path);
+//             final type = getAdapterMediaType(path);
 //             switch (type) {
-//               case PlatformMediaType.video:
+//               case AdapterMediaType.video:
 //                 return Container(
 //                   color: context.theme.dividerColor,
 //                   child: ClipRRect(
@@ -459,7 +459,7 @@
 //     final media = item.get(module.mediaKey, "");
 //     final createdTime =
 //         item.get(module.createdTimeKey, now.millisecondsSinceEpoch);
-//     final type = getPlatformMediaType(media);
+//     final type = getAdapterMediaType(media);
 
 //     return UIScaffold(
 //       waitTransition: true,
@@ -488,7 +488,7 @@
 //             },
 //             child: () {
 //               switch (type) {
-//                 case PlatformMediaType.video:
+//                 case AdapterMediaType.video:
 //                   return Container(
 //                     color: context.theme.dividerColor,
 //                     height: module.heightOnDetailView,
@@ -563,7 +563,7 @@
 //     );
 //     final name = item.get(module.nameKey, "");
 //     final media = item.get(module.mediaKey, "");
-//     final type = getPlatformMediaType(media);
+//     final type = getAdapterMediaType(media);
 
 //     return UIScaffold(
 //       waitTransition: true,
@@ -592,7 +592,7 @@
 //             )
 //           : () {
 //               switch (type) {
-//                 case PlatformMediaType.video:
+//                 case AdapterMediaType.video:
 //                   return Center(
 //                     child: Video(
 //                       Asset.video(media),

@@ -24,7 +24,7 @@ class TileGalleryMediaModule extends PageModule {
     this.sliverLayoutWhenModernDesignOnHome = true,
     this.enableEdit = true,
     this.enableDetail = true,
-    this.mediaType = PlatformMediaType.all,
+    this.mediaType = AdapterMediaType.all,
     List<RerouteConfig> rerouteConfigs = const [],
     this.homePage = const PageConfig(
       "/",
@@ -96,7 +96,7 @@ class TileGalleryMediaModule extends PageModule {
   final double heightOnDetailView;
 
   /// 対応するメディアタイプ。
-  final PlatformMediaType mediaType;
+  final AdapterMediaType mediaType;
 
   /// タイルの横方向のサイズ。
   final double maxCrossAxisExtentForMobile;
@@ -154,9 +154,9 @@ class TileGalleryMediaModuleHomePage
             source: gallery,
             builder: (context, item) {
               final path = item.get(module.mediaKey, "");
-              final type = getPlatformMediaType(path);
+              final type = getAdapterMediaType(path);
               switch (type) {
-                case PlatformMediaType.video:
+                case AdapterMediaType.video:
                   return Container(
                     color: context.theme.dividerColor,
                     child: ClipRRect(
@@ -240,7 +240,7 @@ class TileGalleryMediaModuleMediaDetailPage
     final media = item.get(module.mediaKey, "");
     final createdTime =
         item.get(module.createdTimeKey, now.millisecondsSinceEpoch);
-    final type = getPlatformMediaType(media);
+    final type = getAdapterMediaType(media);
 
     return UIScaffold(
       waitTransition: true,
@@ -276,7 +276,7 @@ class TileGalleryMediaModuleMediaDetailPage
             },
             child: () {
               switch (type) {
-                case PlatformMediaType.video:
+                case AdapterMediaType.video:
                   return Container(
                     color: context.theme.dividerColor,
                     height: module.heightOnDetailView,
@@ -356,7 +356,7 @@ class TileGalleryMediaModuleMediaViewPage
     );
     final name = item.get(module.nameKey, "");
     final media = item.get(module.mediaKey, "");
-    final type = getPlatformMediaType(media);
+    final type = getAdapterMediaType(media);
 
     return UIScaffold(
       waitTransition: true,
@@ -388,7 +388,7 @@ class TileGalleryMediaModuleMediaViewPage
             )
           : () {
               switch (type) {
-                case PlatformMediaType.video:
+                case AdapterMediaType.video:
                   return Center(
                     child: Video(
                       Asset.video(media),

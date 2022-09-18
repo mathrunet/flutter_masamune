@@ -13,7 +13,7 @@ class SingleMediaModule extends PageModule {
     this.nameKey = Const.name,
     this.textKey = Const.text,
     this.createdTimeKey = Const.createdTime,
-    this.mediaType = PlatformMediaType.all,
+    this.mediaType = AdapterMediaType.all,
     this.enableEdit = true,
     this.automaticallyImplyLeadingOnHome = true,
     this.sliverLayoutWhenModernDesignOnHome = true,
@@ -67,7 +67,7 @@ class SingleMediaModule extends PageModule {
   final bool automaticallyImplyLeadingOnHome;
 
   /// 対応するメディアタイプ。
-  final PlatformMediaType mediaType;
+  final AdapterMediaType mediaType;
 }
 
 class SingleMediaModuleHomePage extends PageModuleWidget<SingleMediaModule> {
@@ -80,7 +80,7 @@ class SingleMediaModuleHomePage extends PageModuleWidget<SingleMediaModule> {
         ref.watchDocumentModel(module.query?.value ?? module.queryPath);
     final name = item.get(module.nameKey, "");
     final media = item.get(module.mediaKey, "");
-    final type = getPlatformMediaType(media);
+    final type = getAdapterMediaType(media);
 
     // Please describe the Widget.
     return UIScaffold(
@@ -126,7 +126,7 @@ class SingleMediaModuleHomePage extends PageModuleWidget<SingleMediaModule> {
               : const Empty()
           : () {
               switch (type) {
-                case PlatformMediaType.video:
+                case AdapterMediaType.video:
                   return Center(
                     child: Video(
                       Asset.video(media),

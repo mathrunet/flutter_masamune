@@ -595,9 +595,9 @@ class UIAppBarBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final type = getPlatformMediaType(path);
+    final type = getAdapterMediaType(path);
     switch (type) {
-      case PlatformMediaType.video:
+      case AdapterMediaType.video:
         return ColorFiltered(
           colorFilter: ColorFilter.mode(filterColor, BlendMode.multiply),
           child: Video(

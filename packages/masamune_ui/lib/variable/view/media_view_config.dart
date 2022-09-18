@@ -12,13 +12,13 @@ class MediaViewConfig extends VariableViewConfig<String> {
     bool onlyRequired = false,
   }) {
     final path = data.get(config.id, config.value);
-    final type = getPlatformMediaType(path);
+    final type = getAdapterMediaType(path);
     switch (type) {
-      case PlatformMediaType.image:
+      case AdapterMediaType.image:
         return [
           Image(image: Asset.image(path), fit: BoxFit.cover),
         ];
-      case PlatformMediaType.video:
+      case AdapterMediaType.video:
         return [
           Video(Asset.video(path), fit: BoxFit.cover),
         ];

@@ -24,7 +24,7 @@
 //     this.queryPath = "chat",
 //     this.userPath = "user",
 //     this.availableMemberPath = "user",
-//     this.mediaType = PlatformMediaType.all,
+//     this.mediaType = AdapterMediaType.all,
 //     this.nameKey = Const.name,
 //     this.textKey = Const.text,
 //     this.typeKey = Const.type,
@@ -116,7 +116,7 @@
 //   final String mediaKey;
 
 //   /// 対応するメディアタイプ。
-//   final PlatformMediaType mediaType;
+//   final AdapterMediaType mediaType;
 
 //   /// チャットルームのクエリ。
 //   final ModelQuery? chatRoomQuery;
@@ -536,9 +536,9 @@
 //   Widget build(BuildContext context, WidgetRef ref, ChatModule module) {
 //     final media = data.get(module.mediaKey, "");
 //     if (media.isNotEmpty) {
-//       final type = getPlatformMediaType(media);
+//       final type = getAdapterMediaType(media);
 //       switch (type) {
-//         case PlatformMediaType.video:
+//         case AdapterMediaType.video:
 //           return ConstrainedBox(
 //             constraints: const BoxConstraints(maxWidth: 150),
 //             child: InkWell(
@@ -599,7 +599,7 @@
 //       "${module.queryPath}/${context.get("chat_id", "")}/${module.queryPath}/${context.get("timeline_id", "")}",
 //     );
 //     final media = item.get(module.mediaKey, "");
-//     final type = getPlatformMediaType(media);
+//     final type = getAdapterMediaType(media);
 
 //     return UIScaffold(
 //       waitTransition: true,
@@ -616,7 +616,7 @@
 //             )
 //           : () {
 //               switch (type) {
-//                 case PlatformMediaType.video:
+//                 case AdapterMediaType.video:
 //                   return Center(
 //                     child: Video(
 //                       Asset.video(media),

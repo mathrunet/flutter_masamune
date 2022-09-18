@@ -19,7 +19,7 @@ class VariableConfigDefinition {
     label: "Image",
     value: "assets/default.png",
     form: ImageFormConfig(
-      type: PlatformMediaType.image,
+      type: AdapterMediaType.image,
     ),
     view: MediaViewConfig(),
   );
@@ -30,7 +30,7 @@ class VariableConfigDefinition {
     label: "Media",
     value: "assets/default.png",
     form: ImageFormConfig(
-      type: PlatformMediaType.all,
+      type: AdapterMediaType.all,
     ),
     view: MediaViewConfig(),
   );

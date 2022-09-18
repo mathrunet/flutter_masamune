@@ -8,7 +8,7 @@ class ImageFormConfig extends VariableFormConfig<String> {
     this.backgroundColor,
     this.height = 160,
     this.fit = BoxFit.cover,
-    this.type = PlatformMediaType.all,
+    this.type = AdapterMediaType.all,
     this.contentPadding,
   });
 
@@ -16,7 +16,7 @@ class ImageFormConfig extends VariableFormConfig<String> {
 
   final Color? color;
 
-  final PlatformMediaType type;
+  final AdapterMediaType type;
 
   final double height;
 
