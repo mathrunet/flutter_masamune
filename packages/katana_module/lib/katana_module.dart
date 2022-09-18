@@ -28,6 +28,7 @@ part "src/adapter/platform_adapter.dart";
 part "src/adapter/purchase_adapter.dart";
 part 'src/adapter/sign_in_adapter.dart';
 part 'src/adapter/streaming_adapter.dart';
+part 'src/adapter/media_adapter.dart';
 part 'src/adapter_module.dart';
 part "src/app_module.dart";
 part "src/boot_config.dart";

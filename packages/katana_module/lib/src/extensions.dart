@@ -3,17 +3,17 @@ part of katana_module;
 extension ModuleBuildContextExtensions on BuildContext {
   /// Get the model adapter.
   ModelAdapter? get model {
-    return AdapterScope.of(this)?.modelAdapter;
+    return ModelAdapterScope.of(this)?.adapter;
   }
 
   /// Get the adapter plugins.
   AdapterPlugins? get plugin {
-    return AdapterScope.of(this)?.plugin;
+    return PluginsAdapterScope.of(this)?.plugins;
   }
 
   /// Get the platform adapter.
   PlatformAdapter? get platform {
-    return AdapterScope.of(this)?.platformAdapter;
+    return PlatformAdapterScope.of(this)?.adapter;
   }
 
   /// Get the app module config.

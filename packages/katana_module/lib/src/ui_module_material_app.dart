@@ -99,68 +99,76 @@ class UIModuleMaterialApp extends StatelessWidget {
     return AppScope(
       app: appModule,
       template: template,
-      child: AdapterScope(
-        modelAdapter: enableModules.whereType<ModelAdapter>().firstOrNull,
-        platformAdapter: enableModules.whereType<PlatformAdapter>().firstOrNull,
-        plugin: AdapterPlugins(
-          analytics: analytics,
-          ads: enableModules.whereType<AdsAdapter>().firstOrNull,
-          purchase: enableModules.whereType<PurchaseAdapter>().firstOrNull,
-          messaging: enableModules.whereType<MessagingAdapter>().firstOrNull,
-          location: enableModules.whereType<LocationAdapter>().firstOrNull,
-          streaming: enableModules.whereType<StreamingAdapter>().firstOrNull,
-          dynamicLinks:
-              enableModules.whereType<DynamicLinksAdapter>().firstOrNull,
-          marketPlace:
-              enableModules.whereType<MarketPlaceAdapter>().firstOrNull,
-          signIns: enableModules.whereType<SignInAdapter>().toList(),
-          functions: enableModules.whereType<FunctionAdapter>().toList(),
-        ),
-        child: _ModuleTagScope(
-          tags: [
-            if (template != null) ...template.moduleTags,
-            ...moduleTags,
-          ],
-          child: UIMaterialApp(
-            key: key,
-            designType: appModule?.designType ?? designType,
-            webStyle: appModule?.webStyle ?? webStyle,
-            flavor: flavor,
-            home: home,
-            navigatorKey: navigatorKey,
-            routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
-            initialRoute: appModule?.initialRoute ?? initialRoute,
-            navigatorObservers: [
-              if (analytics?.observer != null) analytics!.observer!,
-              ...navigatorObservers,
-            ],
-            title: appModule?.title ?? moduleConfig?.title ?? title,
-            onGenerateTitle: onGenerateTitle,
-            onUnknownRoute: appModule?.unknownPage != null
-                ? RouteConfig((_) => appModule!.unknownPage!)
-                : onUnknownRoute,
-            onBootRoute: appModule?.bootConfig.bootPage != null
-                ? RouteConfig((_) => appModule!.bootConfig.bootPage!)
-                : onBootRoute,
-            color: color,
-            theme: appModule?.lightTheme ?? theme,
-            darkTheme: appModule?.darkTheme ?? darkTheme,
-            themeMode: appModule?.themeMode ?? themeMode,
-            locale: locale,
-            localizationsDelegates: localizationsDelegates,
-            localeListResolutionCallback: localeListResolutionCallback,
-            localeResolutionCallback: localeResolutionCallback,
-            supportedLocales: supportedLocales,
-            debugShowMaterialGrid: debugShowMaterialGrid,
-            showPerformanceOverlay: showPerformanceOverlay,
-            checkerboardRasterCacheImages: checkerboardRasterCacheImages,
-            checkerboardOffscreenLayers: checkerboardOffscreenLayers,
-            showSemanticsDebugger: showSemanticsDebugger,
-            builder: builder,
-            debugShowCheckedModeBanner: appModule?.debugShowCheckedModeBanner ??
-                debugShowCheckedModeBanner,
-            minTextScaleFactor: minTextScaleFactor,
-            maxTextScaleFactor: maxTextScaleFactor,
+      child: ModelAdapterScope(
+        adapter: enableModules.whereType<ModelAdapter>().firstOrNull,
+        child: PlatformAdapterScope(
+          adapter: enableModules.whereType<PlatformAdapter>().firstOrNull,
+          child: PluginsAdapterScope(
+            plugins: AdapterPlugins(
+              analytics: analytics,
+              ads: enableModules.whereType<AdsAdapter>().firstOrNull,
+              purchase: enableModules.whereType<PurchaseAdapter>().firstOrNull,
+              messaging:
+                  enableModules.whereType<MessagingAdapter>().firstOrNull,
+              location: enableModules.whereType<LocationAdapter>().firstOrNull,
+              streaming:
+                  enableModules.whereType<StreamingAdapter>().firstOrNull,
+              dynamicLinks:
+                  enableModules.whereType<DynamicLinksAdapter>().firstOrNull,
+              marketPlace:
+                  enableModules.whereType<MarketPlaceAdapter>().firstOrNull,
+              media: enableModules.whereType<MediaAdapter>().firstOrNull,
+              signIns: enableModules.whereType<SignInAdapter>().toList(),
+              functions: enableModules.whereType<FunctionAdapter>().toList(),
+            ),
+            child: _ModuleTagScope(
+              tags: [
+                if (template != null) ...template.moduleTags,
+                ...moduleTags,
+              ],
+              child: UIMaterialApp(
+                key: key,
+                designType: appModule?.designType ?? designType,
+                webStyle: appModule?.webStyle ?? webStyle,
+                flavor: flavor,
+                home: home,
+                navigatorKey: navigatorKey,
+                routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
+                initialRoute: appModule?.initialRoute ?? initialRoute,
+                navigatorObservers: [
+                  if (analytics?.observer != null) analytics!.observer!,
+                  ...navigatorObservers,
+                ],
+                title: appModule?.title ?? moduleConfig?.title ?? title,
+                onGenerateTitle: onGenerateTitle,
+                onUnknownRoute: appModule?.unknownPage != null
+                    ? RouteConfig((_) => appModule!.unknownPage!)
+                    : onUnknownRoute,
+                onBootRoute: appModule?.bootConfig.bootPage != null
+                    ? RouteConfig((_) => appModule!.bootConfig.bootPage!)
+                    : onBootRoute,
+                color: color,
+                theme: appModule?.lightTheme ?? theme,
+                darkTheme: appModule?.darkTheme ?? darkTheme,
+                themeMode: appModule?.themeMode ?? themeMode,
+                locale: locale,
+                localizationsDelegates: localizationsDelegates,
+                localeListResolutionCallback: localeListResolutionCallback,
+                localeResolutionCallback: localeResolutionCallback,
+                supportedLocales: supportedLocales,
+                debugShowMaterialGrid: debugShowMaterialGrid,
+                showPerformanceOverlay: showPerformanceOverlay,
+                checkerboardRasterCacheImages: checkerboardRasterCacheImages,
+                checkerboardOffscreenLayers: checkerboardOffscreenLayers,
+                showSemanticsDebugger: showSemanticsDebugger,
+                builder: builder,
+                debugShowCheckedModeBanner:
+                    appModule?.debugShowCheckedModeBanner ??
+                        debugShowCheckedModeBanner,
+                minTextScaleFactor: minTextScaleFactor,
+                maxTextScaleFactor: maxTextScaleFactor,
+              ),
+            ),
           ),
         ),
       ),
@@ -200,36 +208,28 @@ class _ModuleTagScope extends InheritedWidget {
 
 /// Widget to get the adapter.
 ///
-/// You can get the widget with [AdapterScope.of(context)].
-class AdapterScope extends InheritedWidget {
+/// You can get the adapter with [ModelAdapterScope.of(context)].
+class ModelAdapterScope extends InheritedWidget {
   /// Widget to get the adapter.
   ///
-  /// You can get the widget with [AdapterScope.of(context)].
-  const AdapterScope({
+  /// You can get the adapter with [ModelAdapterScope.of(context)].
+  const ModelAdapterScope({
     Key? key,
-    required this.modelAdapter,
-    required this.plugin,
-    required this.platformAdapter,
+    this.adapter,
     required Widget child,
   }) : super(key: key, child: child);
 
   /// Get AdapterScope.
   ///
   /// You can check the current Adapter setting.
-  static AdapterScope? of(BuildContext context) {
+  static ModelAdapterScope? of(BuildContext context) {
     return context
-        .getElementForInheritedWidgetOfExactType<AdapterScope>()
-        ?.widget as AdapterScope?;
+        .getElementForInheritedWidgetOfExactType<ModelAdapterScope>()
+        ?.widget as ModelAdapterScope?;
   }
 
   /// Model adapter.
-  final ModelAdapter? modelAdapter;
-
-  /// Adapter plugins.
-  final AdapterPlugins plugin;
-
-  /// Platform adapter.
-  final PlatformAdapter? platformAdapter;
+  final ModelAdapter? adapter;
 
   /// Whether the framework should notify widgets that inherit from this widget.
   ///
@@ -239,7 +239,83 @@ class AdapterScope extends InheritedWidget {
   /// The framework distinguishes these cases by calling this function with the widget that previously occupied this location in the tree as an argument.
   /// The given widget is guaranteed to have the same [runtimeType] as this object.
   @override
-  bool updateShouldNotify(AdapterScope oldWidget) {
+  bool updateShouldNotify(ModelAdapterScope oldWidget) {
+    return true;
+  }
+}
+
+/// Widget to get the adapter.
+///
+/// You can get the adapter with [PlatformAdapterScope.of(context)].
+class PlatformAdapterScope extends InheritedWidget {
+  /// Widget to get the adapter.
+  ///
+  /// You can get the adapter with [PlatformAdapterScope.of(context)].
+  const PlatformAdapterScope({
+    Key? key,
+    this.adapter,
+    required Widget child,
+  }) : super(key: key, child: child);
+
+  /// Get AdapterScope.
+  ///
+  /// You can check the current Adapter setting.
+  static PlatformAdapterScope? of(BuildContext context) {
+    return context
+        .getElementForInheritedWidgetOfExactType<PlatformAdapterScope>()
+        ?.widget as PlatformAdapterScope?;
+  }
+
+  /// Platform adapter.
+  final PlatformAdapter? adapter;
+
+  /// Whether the framework should notify widgets that inherit from this widget.
+  ///
+  /// When widget: widget, sometimes we need to rebuild the widgets that inherit from widget: widget,
+  /// if the data held by widget: widget, then we do not need to rebuild the widgets that inherited the data held by oldWidget.
+  ///
+  /// The framework distinguishes these cases by calling this function with the widget that previously occupied this location in the tree as an argument.
+  /// The given widget is guaranteed to have the same [runtimeType] as this object.
+  @override
+  bool updateShouldNotify(PlatformAdapterScope oldWidget) {
+    return true;
+  }
+}
+
+/// Widget to get the adapter.
+///
+/// You can get the plugins with [PluginsAdapterScope.of(context)].
+class PluginsAdapterScope extends InheritedWidget {
+  /// Widget to get the adapter.
+  ///
+  /// You can get the plugins with [PluginsAdapterScope.of(context)].
+  const PluginsAdapterScope({
+    Key? key,
+    this.plugins,
+    required Widget child,
+  }) : super(key: key, child: child);
+
+  /// Get AdapterScope.
+  ///
+  /// You can check the current Adapter setting.
+  static PluginsAdapterScope? of(BuildContext context) {
+    return context
+        .getElementForInheritedWidgetOfExactType<PluginsAdapterScope>()
+        ?.widget as PluginsAdapterScope?;
+  }
+
+  /// Adapter plugins.
+  final AdapterPlugins? plugins;
+
+  /// Whether the framework should notify widgets that inherit from this widget.
+  ///
+  /// When widget: widget, sometimes we need to rebuild the widgets that inherit from widget: widget,
+  /// if the data held by widget: widget, then we do not need to rebuild the widgets that inherited the data held by oldWidget.
+  ///
+  /// The framework distinguishes these cases by calling this function with the widget that previously occupied this location in the tree as an argument.
+  /// The given widget is guaranteed to have the same [runtimeType] as this object.
+  @override
+  bool updateShouldNotify(PluginsAdapterScope oldWidget) {
     return true;
   }
 }
@@ -256,6 +332,7 @@ class AdapterPlugins {
     this.analytics,
     this.dynamicLinks,
     this.marketPlace,
+    this.media,
     this.signIns = const [],
     this.functions = const [],
   });
@@ -290,9 +367,41 @@ class AdapterPlugins {
   /// Market place adapter.
   final MarketPlaceAdapter? marketPlace;
 
+  /// Media adapter.
+  final MediaAdapter? media;
+
   /// The SignIn adapter corresponding to [providerId].
   SignInAdapter? signIn(String providerId) {
     return signIns.firstWhereOrNull((item) => item.provider == providerId);
+  }
+
+  /// Copy AdapterPlugins and generate new AdapterPlugins.
+  AdapterPlugins copyWith({
+    List<FunctionAdapter>? functions,
+    List<SignInAdapter>? signIns,
+    AdsAdapter? ads,
+    AnalyticsAdapter? analytics,
+    PurchaseAdapter? purchase,
+    MessagingAdapter? messaging,
+    StreamingAdapter? streaming,
+    LocationAdapter? location,
+    DynamicLinksAdapter? dynamicLinks,
+    MarketPlaceAdapter? marketPlace,
+    MediaAdapter? media,
+  }) {
+    return AdapterPlugins(
+      functions: functions ?? this.functions,
+      signIns: signIns ?? this.signIns,
+      ads: ads ?? this.ads,
+      analytics: analytics ?? this.analytics,
+      purchase: purchase ?? this.purchase,
+      messaging: messaging ?? this.messaging,
+      streaming: streaming ?? this.streaming,
+      location: location ?? this.location,
+      dynamicLinks: dynamicLinks ?? this.dynamicLinks,
+      marketPlace: marketPlace ?? this.marketPlace,
+      media: media ?? this.media,
+    );
   }
 }
 
