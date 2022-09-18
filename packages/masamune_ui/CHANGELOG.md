@@ -1,3 +1,7 @@
+## 0.14.0+18
+
+ - **FIX**: Bug fixes. ([d03e1809](https://github.com/mathrunet/flutter_masamune/commit/d03e1809f6369d431ebc58e00c959bec2a99573e))
+
 ## 0.14.0+17
 
  - **FIX**: PlatformMediaType changed to AdapterMediaType. ([c7e47d72](https://github.com/mathrunet/flutter_masamune/commit/c7e47d7261c23798b6a4470c4083a993dbaa633f))

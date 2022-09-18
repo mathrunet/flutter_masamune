@@ -1,3 +1,7 @@
+## 0.14.0+18
+
+ - Update a dependency to the latest release.
+
 ## 0.14.0+17
 
  - **FIX**: Change PlatformAdapter to MediaAdapter. ([eabbe3c1](https://github.com/mathrunet/flutter_masamune/commit/eabbe3c11ee6546da956f0d40b45834bf4c43d4f))
