@@ -15,3 +15,5 @@ export 'package:katana/katana.dart';
 
 part 'src/annotation.dart';
 part 'src/converter.dart';
+part 'src/built_document_base.dart';
+part 'src/built_collection_base.dart';
