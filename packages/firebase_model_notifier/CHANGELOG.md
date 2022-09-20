@@ -1,3 +1,7 @@
+## 0.15.1
+
+ - **FEAT**: Create a BuiltBase. ([b857ae4b](https://github.com/mathrunet/flutter_masamune/commit/b857ae4b05fc31ff15f5f1816d8e953b49cb5835))
+
 ## 0.15.0
 
 > Note: This release has breaking changes.

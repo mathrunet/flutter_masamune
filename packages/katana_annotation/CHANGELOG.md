@@ -1,3 +1,7 @@
+## 0.14.5
+
+ - **FEAT**: Create a BuiltBase. ([b857ae4b](https://github.com/mathrunet/flutter_masamune/commit/b857ae4b05fc31ff15f5f1816d8e953b49cb5835))
+
 ## 0.14.4
 
  - **FIX**: Added Relation annotation. ([8172614a](https://github.com/mathrunet/flutter_masamune/commit/8172614adcf392798ddbc6665035924c39f36235))

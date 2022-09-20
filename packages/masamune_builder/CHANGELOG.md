@@ -1,3 +1,7 @@
+## 0.14.4+1
+
+ - Update a dependency to the latest release.
+
 ## 0.14.4
 
  - **FIX**: Additional support for transaction. ([c2d4f05f](https://github.com/mathrunet/flutter_masamune/commit/c2d4f05f447738ef6d8c10ed6464a5fd331111cb))
