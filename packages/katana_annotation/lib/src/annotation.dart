@@ -48,6 +48,15 @@ class DocumentPath {
   final ConverterBase converter;
 }
 
+/// Annotation for defining relationships within a Document.
+///
+/// You can specify a key for comparing related objects by specifying [key].
+class Relation {
+  const Relation({this.key = "uid"});
+
+  final String key;
+}
+
 /// Annotation indicating a page in Masamune.
 class PagePath {
   const PagePath(this.path);
