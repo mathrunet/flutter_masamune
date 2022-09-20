@@ -336,7 +336,7 @@ packages:
       name: firebase_model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+6"
+    version: "0.14.0+8"
   firebase_storage:
     dependency: transitive
     description:
@@ -468,7 +468,7 @@ packages:
       name: katana_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.2+1"
+    version: "0.14.3+1"
   katana_firebase:
     dependency: transitive
     description:
@@ -489,7 +489,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+14"
+    version: "0.14.0+17"
   katana_routing:
     dependency: transitive
     description:
@@ -510,14 +510,14 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1+9"
+    version: "0.14.1+13"
   masamune_firebase:
     dependency: "direct main"
     description:
       name: masamune_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+15"
+    version: "0.14.0+20"
   matcher:
     dependency: transitive
     description:
@@ -552,7 +552,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+6"
+    version: "0.14.1"
   nm:
     dependency: transitive
     description:
