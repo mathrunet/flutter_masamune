@@ -156,7 +156,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..type = MethodType.getter
               ..returns = const Reference("String")
               ..body = Code(
-                "_value[${model.name}$suffix.uid.id]) ?? \"\"",
+                "_value[${model.name}$suffix.uid.id] ?? \"\"",
               ),
           ),
           ...model.parameters.expand((param) {

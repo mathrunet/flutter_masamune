@@ -1,6 +1,8 @@
 part of masamune_builder;
 
 class PageGenerator extends GeneratorForAnnotation<PagePath> {
+  static Set<String> allAnnotations = {};
+
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
@@ -25,6 +27,10 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
     final _path =
         PathModel(annotation.read("path").stringValue.trimString("/"));
     final _class = ClassModel(element);
+    allAnnotations.add(_path.path);
+    print("-----");
+    print(allAnnotations.join("\n"));
+    print("-----");
 
     final generated = Library(
       (l) => l

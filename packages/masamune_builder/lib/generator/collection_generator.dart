@@ -34,6 +34,8 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
         .toString()
         .split("#")
         .lastOrNull;
+    final _enableCollectionCount =
+        annotation.read("enableCollectionCount").boolValue;
     final _class = ClassModel(element);
 
     if (_path.splitLength() <= 0 || _path.splitLength() % 2 != 1) {
@@ -47,6 +49,12 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
             _linkedPath.splitLength() % 2 != 1)) {
       throw Exception(
         "The linked path hierarchy must be an odd number: $_linkedPath",
+      );
+    }
+
+    if (_enableCollectionCount && _path.splitLength() <= 1) {
+      throw Exception(
+        "If [enableCollectionCount] is `true`, you cannot specify a path that is less than one level. Please increase the hierarchy of paths: $_path",
       );
     }
 
@@ -72,12 +80,15 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
             widgetRefParameterDocumentExtensions(_class),
             keyEnum(_class, _keySuffix),
             keyEnumExtensions(_class, _keySuffix),
+            if (_enableCollectionCount) ...[
+              counterDocumentClass(_class, _path),
+              widgetRefCounterDocumentExtensions(_class, _path)
+            ]
           ],
         ),
     );
     final emitter = DartEmitter();
     return DartFormatter().format(
-      // "// ignore_for_file: require_trailing_commas"
       "${generated.accept(emitter)}",
     );
   }

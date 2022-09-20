@@ -8,5 +8,7 @@ Builder masamuneBuilderFactory(BuilderOptions options) {
       PageGenerator(),
     ],
     ".m.dart",
+    header:
+        "// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors",
   );
 }
