@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v0.14.1+14`](#masamune---v014114)
+ - [`masamune_agora` - `v0.14.0+21`](#masamune_agora---v014021)
+ - [`masamune_location` - `v0.14.0+20`](#masamune_location---v014020)
+ - [`masamune_local_messaging` - `v0.14.0+20`](#masamune_local_messaging---v014020)
+ - [`masamune_media` - `v0.14.0+21`](#masamune_media---v014021)
+ - [`masamune_purchase` - `v0.14.0+23`](#masamune_purchase---v014023)
+ - [`masamune_wordpress` - `v0.14.0+20`](#masamune_wordpress---v014020)
+ - [`masamune_firebase` - `v0.14.0+21`](#masamune_firebase---v014021)
+ - [`masamune_ads` - `v0.14.0+20`](#masamune_ads---v014020)
+ - [`masamune_ui` - `v0.14.0+21`](#masamune_ui---v014021)
+ - [`masamune_purchase_firebase` - `v0.14.0+24`](#masamune_purchase_firebase---v014024)
+ - [`masamune_firebase_dynamic_links` - `v0.14.0+21`](#masamune_firebase_dynamic_links---v014021)
+ - [`masamune_signin_apple` - `v0.14.0+22`](#masamune_signin_apple---v014022)
+ - [`masamune_signin_google` - `v0.14.0+21`](#masamune_signin_google---v014021)
+ - [`masamune_signin_facebook` - `v0.14.0+21`](#masamune_signin_facebook---v014021)
+ - [`masamune_firebase_messaging` - `v0.14.0+21`](#masamune_firebase_messaging---v014021)
+ - [`masamune_signin_twitter` - `v0.14.0+21`](#masamune_signin_twitter---v014021)
+ - [`masamune_notion` - `v0.14.0+21`](#masamune_notion---v014021)
+ - [`masamune_purchase_stripe` - `v0.14.0+21`](#masamune_purchase_stripe---v014021)
+ - [`masamune_module` - `v0.14.1+14`](#masamune_module---v014114)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.14.0+21`
+ - `masamune_location` - `v0.14.0+20`
+ - `masamune_local_messaging` - `v0.14.0+20`
+ - `masamune_media` - `v0.14.0+21`
+ - `masamune_purchase` - `v0.14.0+23`
+ - `masamune_wordpress` - `v0.14.0+20`
+ - `masamune_firebase` - `v0.14.0+21`
+ - `masamune_ads` - `v0.14.0+20`
+ - `masamune_ui` - `v0.14.0+21`
+ - `masamune_purchase_firebase` - `v0.14.0+24`
+ - `masamune_firebase_dynamic_links` - `v0.14.0+21`
+ - `masamune_signin_apple` - `v0.14.0+22`
+ - `masamune_signin_google` - `v0.14.0+21`
+ - `masamune_signin_facebook` - `v0.14.0+21`
+ - `masamune_firebase_messaging` - `v0.14.0+21`
+ - `masamune_signin_twitter` - `v0.14.0+21`
+ - `masamune_notion` - `v0.14.0+21`
+ - `masamune_purchase_stripe` - `v0.14.0+21`
+ - `masamune_module` - `v0.14.1+14`
+
+---
+
+#### `masamune` - `v0.14.1+14`
+
+ - **FIX**: Fixed a bug that prevented mocks from loading. ([72c8d4cc](https://github.com/mathrunet/flutter_masamune/commit/72c8d4ccbd42fbfbaa172d5050eea3dcb65d1dad))
+
+
 ## 2022-09-18
 
 ### Changes

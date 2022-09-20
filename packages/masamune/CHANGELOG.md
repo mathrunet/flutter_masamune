@@ -1,3 +1,7 @@
+## 0.14.1+14
+
+ - **FIX**: Fixed a bug that prevented mocks from loading. ([72c8d4cc](https://github.com/mathrunet/flutter_masamune/commit/72c8d4ccbd42fbfbaa172d5050eea3dcb65d1dad))
+
 ## 0.14.1+13
 
  - Update a dependency to the latest release.
