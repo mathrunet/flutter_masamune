@@ -1,3 +1,30 @@
+## 0.15.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: ModelNotifier change support. ([dfe252c3](https://github.com/mathrunet/flutter_masamune/commit/dfe252c32a0160b3ec1135578719a298d08e7751))
+ - **FIX**: Fixed a bug that prevented access by static. ([67d5c492](https://github.com/mathrunet/flutter_masamune/commit/67d5c492cb0c5b108735db93379ef3d23e63d44c))
+ - **FIX**: Bug Fixes. ([86f6ff26](https://github.com/mathrunet/flutter_masamune/commit/86f6ff262b80d1347148825d7af1c618c37bdba9))
+ - **FIX**: Remove duplicate packages. ([9d3c309b](https://github.com/mathrunet/flutter_masamune/commit/9d3c309be13ef3e30152c6c54d7b66dccb21d9ed))
+ - **FIX**: Added Meta class. ([d4dd399d](https://github.com/mathrunet/flutter_masamune/commit/d4dd399dd16475acfab4d37a83b8bedd20e5ca1a))
+ - **FIX**: Perform formatting. ([8ff8fd24](https://github.com/mathrunet/flutter_masamune/commit/8ff8fd2467cd08934ef6deba156dd15a6949d600))
+ - **FIX**: Package upgrade. ([cea0d3c5](https://github.com/mathrunet/flutter_masamune/commit/cea0d3c5714b6a824f6e500bad85dd93d2b93602))
+ - **FIX**: Fixed a bug in the calculation. ([8149a6e7](https://github.com/mathrunet/flutter_masamune/commit/8149a6e7ed208de531481b07b2c027f81dd5a807))
+ - **FIX**: Map.get() was causing an error with null, fixed. ([989d6e0a](https://github.com/mathrunet/flutter_masamune/commit/989d6e0a98b5c62b19be1766c8527b4ef93a90bb))
+ - **FIX**: Fixed for calculation with Double? ([6388ca74](https://github.com/mathrunet/flutter_masamune/commit/6388ca74a124cf2af4b48e26d2ae7d6b6b00bec0))
+ - **FIX**: Eliminated Masamune version dependencies. ([7a26a309](https://github.com/mathrunet/flutter_masamune/commit/7a26a309f26f76aaeb41330b8899e28bc71d6f7f))
+ - **FIX**: Formatting for lints. ([faddd803](https://github.com/mathrunet/flutter_masamune/commit/faddd803aa30f1e10549df81bccb5e424a9ccca6))
+ - **FIX**: Update readme.md. ([1cf48740](https://github.com/mathrunet/flutter_masamune/commit/1cf4874003135aee66bdf381fff1f5215cd55d6e))
+ - **FEAT**: Added toSnakeCase and toCamelCase. ([a9441f6a](https://github.com/mathrunet/flutter_masamune/commit/a9441f6a0f078cee78e5c3cc13f568c44aeda135))
+ - **FEAT**: Added Api class. ([6d2ba70f](https://github.com/mathrunet/flutter_masamune/commit/6d2ba70fe1c7d961c4b7601d73962876e751ca7b))
+ - **FEAT**: Add replaceNanOrInfinite. ([bb99c330](https://github.com/mathrunet/flutter_masamune/commit/bb99c330d88584afea56e2ae119d304b9cdc4fa3))
+ - **FEAT**: Add toUnUtc(). ([37c62087](https://github.com/mathrunet/flutter_masamune/commit/37c620879579bdb1b2f42f48db3910e2ef2f5e54))
+ - **FEAT**: Add getAsInt and getAsDouble. ([f81ee6f4](https://github.com/mathrunet/flutter_masamune/commit/f81ee6f420ee581ffbd4e96e15f145300231aef1))
+ - **FEAT**: Added calculation for null. ([19c1d6ce](https://github.com/mathrunet/flutter_masamune/commit/19c1d6ce73a2b25d238b7bdbbefb15c608d113b0))
+ - **DOCS**: Update readme. ([c26bf396](https://github.com/mathrunet/flutter_masamune/commit/c26bf3968d7652ef706322aa45d014da27fd4fab))
+ - **BREAKING** **FEAT**: Package version up to 0.13.0. ([2c68c67b](https://github.com/mathrunet/flutter_masamune/commit/2c68c67b3ba952ff40a49fea8dba9bfcb9938912))
+ - **BREAKING** **CHORE**: Melos対応. ([2cdb1304](https://github.com/mathrunet/flutter_masamune/commit/2cdb13044ea12f1f53b9b3cbcf0383e62fad11ac))
+
 ## 0.14.1
 
  - **FEAT**: Added toSnakeCase and toCamelCase. ([a9441f6a](https://github.com/mathrunet/flutter_masamune/commit/a9441f6a0f078cee78e5c3cc13f568c44aeda135))
