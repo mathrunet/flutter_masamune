@@ -35,6 +35,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     bool disposable = true,
   }) {
     path = path.trimString("/");
+    RuntimeDatabase.registerMockData(data);
     return runtimeCollectionProvider(path);
   }
 
@@ -59,6 +60,7 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     bool disposable = true,
   }) {
     path = path.trimString("/");
+    RuntimeDatabase.registerMockData(data);
     return runtimeDocumentProvider(path);
   }
 
@@ -73,20 +75,23 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
     required String key,
     int length = 6,
     String charSet = "23456789abcdefghjkmnpqrstuvwxy",
-  }) =>
-      RuntimeTransaction.generateCode(
-        path: path,
-        key: key,
-        length: length,
-        charSet: charSet,
-      );
+  }) {
+    return RuntimeTransaction.generateCode(
+      path: path,
+      key: key,
+      length: length,
+      charSet: charSet,
+    );
+  }
 
   /// Outputs the builder to be written by the transaction.
   ///
   /// Basically, it writes and deletes data for [documentPath].
   @override
-  DocumentTransactionBuilder documentTransaction(String documentPath) =>
-      RuntimeTransaction.documentTransaction(documentPath);
+  DocumentTransactionBuilder documentTransaction(String documentPath) {
+    RuntimeDatabase.registerMockData(data);
+    return RuntimeTransaction.documentTransaction(documentPath);
+  }
 
   /// Outputs the builder to be written by the transaction.
   ///
@@ -97,11 +102,13 @@ class MockModelAdapter extends ModelAdapter<RuntimeDynamicDocumentModel,
   CollectionTransactionBuilder collectionTransaction({
     required String collectionPath,
     String? linkedCollectionPath,
-  }) =>
-      RuntimeTransaction.collectionTransaction(
-        collectionPath: collectionPath,
-        linkedCollectionPath: linkedCollectionPath,
-      );
+  }) {
+    RuntimeDatabase.registerMockData(data);
+    return RuntimeTransaction.collectionTransaction(
+      collectionPath: collectionPath,
+      linkedCollectionPath: linkedCollectionPath,
+    );
+  }
 
   /// Retrieves a document from a [path].
   @override
