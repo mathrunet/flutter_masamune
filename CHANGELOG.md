@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v0.14.3`](#masamune_builder---v0143)
+
+---
+
+#### `masamune_builder` - `v0.14.3`
+
+ - **FEAT**: Added Transaction command. ([74fba398](https://github.com/mathrunet/flutter_masamune/commit/74fba39889b97c4b0d9fa30e5a5e8617caf0f809))
+
+
+## 2022-09-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v0.14.1+14`](#masamune---v014114)
  - [`masamune_agora` - `v0.14.0+21`](#masamune_agora---v014021)
  - [`masamune_location` - `v0.14.0+20`](#masamune_location---v014020)
