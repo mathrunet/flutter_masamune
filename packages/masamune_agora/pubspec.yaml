@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^0.14.0
-  masamune_firebase: ^0.14.0
+  masamune: ^0.15.0
+  masamune_firebase: ^0.15.0
   permission_handler: ^10.0.0
   agora_rtc_engine: ^5.2.0
 

@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  katana_module: ^0.14.0
-  model_notifier: ^0.14.0
+  katana_module: ^0.15.0
+  model_notifier: ^0.15.0
   cached_network_image: ^3.2.0
   cached_network_image_platform_interface: ^1.0.0
   flutter_cache_manager: ^3.3.0

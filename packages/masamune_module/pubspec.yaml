@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  masamune_ui: ^0.14.0
+  masamune_ui: ^0.15.0
   photo_view: ^0.14.0
   flutter_quill: ^6.0.2
   tuple: ^2.0.0

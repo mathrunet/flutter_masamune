@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune_firebase: ^0.14.0
+  masamune_firebase: ^0.15.0
   firebase_auth: ^3.3.4
   sign_in_with_apple: ^4.1.0
 

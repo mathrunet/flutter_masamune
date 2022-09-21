@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
  
-  katana_annotation: ^0.14.0
+  katana_annotation: ^0.15.0
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0
@@ -20,7 +20,7 @@ dependencies:
   source_gen: ^1.2.2
   analyzer: ^4.7.0
   built_collection: ^5.1.1
-  katana: ^0.14.0
+  katana: ^0.15.0
 
 dev_dependencies:
   flutter_test:

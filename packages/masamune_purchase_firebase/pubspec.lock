@@ -482,7 +482,7 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.6.0"
+    version: "4.7.0"
   katana:
     dependency: transitive
     description:
@@ -496,7 +496,7 @@ packages:
       name: katana_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.3+1"
+    version: "0.14.5+2"
   katana_firebase:
     dependency: transitive
     description:
@@ -538,21 +538,21 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1+13"
+    version: "0.14.1+14"
   masamune_firebase:
     dependency: "direct main"
     description:
       name: masamune_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+20"
+    version: "0.14.0+21"
   masamune_purchase:
     dependency: "direct main"
     description:
       name: masamune_purchase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+22"
+    version: "0.14.0+23"
   matcher:
     dependency: transitive
     description:
@@ -769,7 +769,7 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.4.0"
   share_plus_linux:
     dependency: transitive
     description:
@@ -886,14 +886,14 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3+1"
+    version: "2.1.0"
   sqflite_common:
     dependency: transitive
     description:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1+1"
+    version: "2.3.0"
   stack_trace:
     dependency: transitive
     description:
@@ -1049,5 +1049,5 @@ packages:
     source: hosted
     version: "6.1.0"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
-  flutter: ">=3.0.0"
+  dart: ">=2.18.0-0 <3.0.0"
+  flutter: ">=3.3.0-0"
