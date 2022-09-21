@@ -1,6 +1,6 @@
 name: katana_annotation
 description: Definition of annotation when used in masamune.
-version: 0.14.5+2
+version: 0.15.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_annotation
 

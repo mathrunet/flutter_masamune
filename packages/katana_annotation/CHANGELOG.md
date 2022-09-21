@@ -1,3 +1,7 @@
+## 0.15.0
+
+ - Bump "katana_annotation" to `0.15.0`.
+
 ## 0.14.5+2
 
  - **FIX**: Adjustment of the interface. ([1aa23aca](https://github.com/mathrunet/flutter_masamune/commit/1aa23acad91790e18573b58a00b73d1d903d2593))
