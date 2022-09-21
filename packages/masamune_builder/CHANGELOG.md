@@ -1,3 +1,7 @@
+## 0.14.4+3
+
+ - **FIX**: Adjustment of the interface. ([1aa23aca](https://github.com/mathrunet/flutter_masamune/commit/1aa23acad91790e18573b58a00b73d1d903d2593))
+
 ## 0.14.4+2
 
  - Update a dependency to the latest release.

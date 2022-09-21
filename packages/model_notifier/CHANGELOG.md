@@ -1,3 +1,7 @@
+## 0.15.0+2
+
+ - **FIX**: Adjustment of the interface. ([1aa23aca](https://github.com/mathrunet/flutter_masamune/commit/1aa23acad91790e18573b58a00b73d1d903d2593))
+
 ## 0.15.0+1
 
  - **FIX**: Fixing LOADED. ([7c885f1b](https://github.com/mathrunet/flutter_masamune/commit/7c885f1b34310bd92610a6019c059f4b66469500))
