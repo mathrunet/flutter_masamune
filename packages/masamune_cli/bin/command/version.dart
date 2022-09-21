@@ -17,8 +17,8 @@ class VersionCliCommand extends CliCommand {
       print("melos.yamlのファイルが存在しません。");
       return;
     }
-    final mode = args[1];
-    if (mode.isNotEmpty) {
+    if (args.length > 1 && args[1].isNotEmpty) {
+      final mode = args[1];
       switch (mode) {
         case "import":
           final processVersion = await Process.start(

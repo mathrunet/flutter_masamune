@@ -112,7 +112,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1"
+    version: "0.15.0+1"
   lints:
     dependency: "direct main"
     description:
