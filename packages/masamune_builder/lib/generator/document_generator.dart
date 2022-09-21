@@ -1,6 +1,6 @@
 part of masamune_builder;
 
-class DocumentGenerator extends GeneratorForAnnotation<DocumentPath> {
+class DocumentGenerator extends GeneratorForAnnotation<DocumentModel> {
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
@@ -17,13 +17,12 @@ class DocumentGenerator extends GeneratorForAnnotation<DocumentPath> {
 
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        "`@DocumentPath()` can only be used on classes.",
+        "`@DocumentModel()` can only be used on classes.",
         element: element,
       );
     }
 
     final _path = annotation.read("path").stringValue.trimString("/");
-    final _keySuffix = annotation.read("keySuffix").stringValue;
     final _converter = annotation
         .peek("converter")
         ?.revive()
@@ -39,24 +38,18 @@ class DocumentGenerator extends GeneratorForAnnotation<DocumentPath> {
       );
     }
 
-    if (_keySuffix.isEmpty || !RegExp(r"^[a-zA-Z]+$").hasMatch(_keySuffix)) {
-      throw Exception(
-        "The key suffix is available only for alphabetical characters.: $_keySuffix",
-      );
-    }
-
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
             pathField(_class, _path),
             converterField(_class, _converter ?? "DefaultConverter"),
-            convertMethod(_class, _keySuffix),
-            ...documentClass(_class, _keySuffix),
+            convertMethod(_class),
+            ...documentClass(_class),
             dynamicMapExtensions(_class),
             widgetRefDocumentExtensions(_class),
-            keyEnum(_class, _keySuffix),
-            keyEnumExtensions(_class, _keySuffix),
+            keyEnum(_class),
+            keyEnumExtensions(_class),
           ],
         ),
     );

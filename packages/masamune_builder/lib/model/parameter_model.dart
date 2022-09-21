@@ -1,6 +1,7 @@
 part of masamune_builder;
 
-const _coreChecker = TypeChecker.fromRuntime(Default);
+const _defaultChecker = TypeChecker.fromRuntime(Default);
+const _relationChecker = TypeChecker.fromRuntime(Relation);
 
 class ParamaterModel {
   ParamaterModel(this.element) {
@@ -11,25 +12,29 @@ class ParamaterModel {
       );
     }
     type = element.type;
+    isRelation = _relationChecker.hasAnnotationOfExact(element);
+
     if (element.type.isNullable || element.isRequired) {
       defaultValue = null;
     } else {
-      if (_coreChecker.hasAnnotationOfExact(element)) {
-        defaultValue = _coreChecker
+      if (_defaultChecker.hasAnnotationOfExact(element)) {
+        defaultValue = _defaultChecker
             .firstAnnotationOfExact(element)
             ?.getField("defaultValue")
             ?.toValue();
         if (defaultValue.runtimeType.toString() != type.toString()) {
           throw Exception(
-            "Different types of DefaultValue:${defaultValue.runtimeType.toString()}!=${type.toString()}",
+            "Different types of DefaultValue:${defaultValue.runtimeType.toString()}!=${type.toString()} at $name($type)",
           );
         }
       } else if (element.hasDefaultValue) {
         defaultValue = element.defaultValueCode;
-      } else {
+      } else if (!isRelation) {
         throw Exception(
-          "DefaultValue is not specified.",
+          "DefaultValue is not specified at $name($type)",
         );
+      } else {
+        defaultValue = null;
       }
     }
   }
@@ -37,9 +42,10 @@ class ParamaterModel {
   late final Object? defaultValue;
   late final DartType type;
   late final String name;
+  late final bool isRelation;
 
   @override
   String toString() {
-    return "$name($type) => $defaultValue";
+    return "$name($type) => $defaultValue (Relation:$isRelation)";
   }
 }

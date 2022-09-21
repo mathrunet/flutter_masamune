@@ -5,8 +5,12 @@ List<Class> collectionClass(ClassModel model) {
     Class(
       (c) => c
         ..name = "${model.name}List"
+        ..extend = const Reference("ChangeNotifier")
         ..mixins = ListBuilder([
           Reference("ListMixin<${model.name}>"),
+        ])
+        ..implements = ListBuilder([
+          const Reference("BuiltCollectionBase"),
         ])
         ..constructors = ListBuilder([
           Constructor(
@@ -19,9 +23,33 @@ List<Class> collectionClass(ClassModel model) {
                     ..type = const Reference("List<Map<String, dynamic>>"),
                 )
               ])
+              ..optionalParameters = ListBuilder([
+                ...model.parameters
+                    .where((param) => param.isRelation)
+                    .map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.name
+                      ..named = true
+                      ..type = Reference(
+                        "${param.type.toString().trimString("?")}List?",
+                      ),
+                  );
+                })
+              ])
               ..initializers = ListBuilder([
                 const Code("_value = value"),
-              ]),
+                ...model.parameters
+                    .where((param) => param.isRelation)
+                    .map((param) {
+                  return Code("_${param.name} = ${param.name}");
+                }),
+              ])
+              ..body = Code(
+                "if (_value is Listenable) {(_value as Listenable).addListener(notifyListeners);}${model.parameters.where((param) => param.isRelation).map((param) {
+                  return Code("_${param.name}?.addListener(notifyListeners);");
+                }).join()}",
+              ),
           ),
         ])
         ..fields = ListBuilder([
@@ -30,19 +58,29 @@ List<Class> collectionClass(ClassModel model) {
               ..name = "_value"
               ..type = const Reference("List<Map<String, dynamic>>")
               ..modifier = FieldModifier.final$,
-          )
+          ),
+          ...model.parameters.where((param) => param.isRelation).map((param) {
+            return Field(
+              (f) => f
+                ..name = "_${param.name}"
+                ..type =
+                    Reference("${param.type.toString().trimString("?")}List?")
+                ..modifier = FieldModifier.final$,
+            );
+          }),
         ])
         ..methods = ListBuilder([
           Method(
             (m) => m
               ..name = "value"
               ..lambda = true
+              ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("List<Map<String, dynamic>>")
               ..body = const Code("_value"),
           ),
           Method(
             (m) => m
-              ..name = "collection"
+              ..name = "_valueCollection"
               ..lambda = true
               ..returns = const Reference("DynamicCollectionModel")
               ..body = const Code("_value as DynamicCollectionModel"),
@@ -74,7 +112,6 @@ List<Class> collectionClass(ClassModel model) {
           Method(
             (m) => m
               ..name = "operator []"
-              ..lambda = true
               ..annotations = ListBuilder([const Reference("override")])
               ..requiredParameters = ListBuilder([
                 Parameter(
@@ -84,7 +121,9 @@ List<Class> collectionClass(ClassModel model) {
                 ),
               ])
               ..returns = Reference(model.name.toString())
-              ..body = Code("_value[index].to${model.name}()"),
+              ..body = Code(
+                "final document = _value[index];return document.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) => "${e.name}: _${e.name}.firstWhereOrNull((e) => e.uid == document.get(\"${e.name}\", \"\"))").join(",")});",
+              ),
           ),
           Method(
             (m) => m
@@ -119,7 +158,7 @@ List<Class> collectionClass(ClassModel model) {
               ])
               ..returns = Reference(model.name.toString())
               ..body = Code(
-                "collection().create(id).to${model.name}()",
+                "_valueCollection().create(id).to${model.name}()",
               ),
           ),
           Method(
@@ -137,7 +176,7 @@ List<Class> collectionClass(ClassModel model) {
               ])
               ..returns = const Reference("Future<void>")
               ..body = Code(
-                "collection().delete((val) => test.call(val.to${model.name}()))",
+                "_valueCollection().delete((val) => test.call(val.to${model.name}()))",
               ),
           ),
           Method(
@@ -161,7 +200,7 @@ List<Class> collectionClass(ClassModel model) {
               ])
               ..returns = const Reference("Future<void>")
               ..body = const Code(
-                "collection().append(uid, data: data?.document())",
+                "_valueCollection().append(uid, data: data?._valueDocument())",
               ),
           ),
           Method(
@@ -170,7 +209,7 @@ List<Class> collectionClass(ClassModel model) {
               ..lambda = true
               ..returns = const Reference("CollectionTransactionBuilder")
               ..body = Code(
-                "collection().transaction(_linked${model.name}Path)",
+                "_valueCollection().transaction(_linked${model.name}Path)",
               ),
           ),
           Method(
@@ -185,27 +224,30 @@ List<Class> collectionClass(ClassModel model) {
                     ..type = const Reference("bool"),
                 ),
               ])
+              ..modifier = MethodModifier.async
               ..returns = const Reference("Future<void>")
               ..body = const Code(
-                "collection().fetch(listen)",
+                "_valueCollection().fetch(listen)",
               ),
           ),
           Method(
             (m) => m
               ..name = "reload"
               ..lambda = true
+              ..modifier = MethodModifier.async
               ..returns = const Reference("Future<void>")
               ..body = const Code(
-                "collection().reload()",
+                "_valueCollection().reload()",
               ),
           ),
           Method(
             (m) => m
               ..name = "next"
               ..lambda = true
+              ..modifier = MethodModifier.async
               ..returns = const Reference("Future<void>")
               ..body = const Code(
-                "collection().next()",
+                "_valueCollection().next()",
               ),
           ),
           Method(
@@ -215,7 +257,7 @@ List<Class> collectionClass(ClassModel model) {
               ..type = MethodType.getter
               ..returns = const Reference("bool")
               ..body = const Code(
-                "collection().canNext",
+                "_valueCollection().canNext",
               ),
           ),
           Method(
@@ -224,7 +266,45 @@ List<Class> collectionClass(ClassModel model) {
               ..lambda = true
               ..returns = const Reference("Future<void>")
               ..body = const Code(
-                "collection().save()",
+                "_valueCollection().save()",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "loading"
+              ..lambda = true
+              ..type = MethodType.getter
+              ..returns = const Reference("Future<void>?")
+              ..body = Code(
+                "wait([_valueCollection().loading, ${model.parameters.where((e) => e.isRelation).map((e) {
+                  return "_${e.name}?.loading";
+                }).join(",")}])",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "saving"
+              ..lambda = true
+              ..type = MethodType.getter
+              ..returns = const Reference("Future<void>?")
+              ..body = const Code(
+                "_valueCollection().saving",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "dispose"
+              ..returns = const Reference("void")
+              ..annotations = ListBuilder([
+                const Reference("override"),
+                const Reference("mustCallSuper"),
+              ])
+              ..body = Code(
+                "super.dispose();if (_value is Listenable) {(_value as Listenable).removeListener(notifyListeners);}${model.parameters.where((param) => param.isRelation).map((param) {
+                  return Code(
+                    "_${param.name}?.removeListener(notifyListeners);",
+                  );
+                }).join()}",
               ),
           ),
         ]),

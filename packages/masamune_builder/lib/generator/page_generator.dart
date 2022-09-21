@@ -1,8 +1,6 @@
 part of masamune_builder;
 
-class PageGenerator extends GeneratorForAnnotation<PagePath> {
-  static Set<String> allAnnotations = {};
-
+class PageGenerator extends GeneratorForAnnotation<AppPage> {
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
@@ -19,18 +17,14 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
 
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        "`@PagePath()` can only be used on classes.",
+        "`@AppPage()` can only be used on classes.",
         element: element,
       );
     }
 
     final _path =
-        PathModel(annotation.read("path").stringValue.trimString("/"));
+        PathModel("/${annotation.read("path").stringValue.trimString("/")}");
     final _class = ClassModel(element);
-    allAnnotations.add(_path.path);
-    print("-----");
-    print(allAnnotations.join("\n"));
-    print("-----");
 
     final generated = Library(
       (l) => l

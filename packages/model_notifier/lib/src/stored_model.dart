@@ -3,6 +3,7 @@ part of model_notifier;
 /// Abstract class that defines methods on document model for reading and writing data.
 abstract class StoredDocumentModel<T> extends Model<T>
     implements FutureModel<T> {
+
   /// Provides the best data acquisition method to implement during screen build.
   ///
   /// Data loading does not occur in duplicate when a screen is built multiple times.

@@ -10,8 +10,8 @@ part of model_notifier;
 ///
 /// In addition, since it can be used as [Map],
 /// it is possible to operate the content as it is.
-abstract class LocalDocumentModel<T> extends DocumentModel<T>
-    implements StoredDocumentModel<T> {
+abstract class LocalDocumentModel<T> extends ValueModel<T>
+    implements StoredDocumentModel<T>, ConvertableValueModel<T> {
   /// Base class for holding and manipulating data from a local database as a document of [T].
   ///
   /// The [load()] method retrieves the value from the local database and

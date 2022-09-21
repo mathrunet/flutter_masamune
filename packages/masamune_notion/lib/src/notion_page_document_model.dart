@@ -5,7 +5,7 @@ final notionPageDocumentProvider =
   (_, pageId) => NotionPageDocumentModel(pageId, {}),
 );
 
-class NotionPageDocumentModel extends DocumentModel<DynamicMap>
+class NotionPageDocumentModel extends ValueModel<DynamicMap>
     with MapModelMixin<String, dynamic>
     implements DynamicDocumentModel {
   NotionPageDocumentModel(this.pageId, DynamicMap value) : super(value);

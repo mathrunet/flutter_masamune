@@ -4,4 +4,7 @@ part of katana_annotation;
 abstract class BuiltDocumentBase {
   /// Obtains the actual data contained within.
   Map<String, dynamic> value();
+
+  /// Document uid.
+  String get uid;
 }

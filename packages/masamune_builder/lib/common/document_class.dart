@@ -1,6 +1,6 @@
 part of masamune_builder;
 
-List<Class> documentClass(ClassModel model, String suffix) {
+List<Class> documentClass(ClassModel model) {
   return [
     // _Class
     Class(
@@ -21,14 +21,14 @@ List<Class> documentClass(ClassModel model, String suffix) {
                       ..name = param.name
                       ..named = true
                       ..type = Reference(
-                        "${param.type.toString().trimStringRight("?")}?",
+                        "${param.type.toString().trimString("?")}?",
                       ),
                   );
                 }),
               ])
               ..lambda = true
               ..body = Code(
-                "_${model.name}._(_${model.name.toCamelCase()}Convert(${model.parameters.map((e) => "${e.name}:${e.name}").join(",")},),)",
+                "_${model.name}._(_${model.name.toCamelCase()}Convert(${model.parameters.map((e) => "${e.name}:${e.name}").join(",")}),${model.parameters.where((e) => e.isRelation).map((e) => "${e.name}:${e.name}").join(",")})",
               ),
           ),
           Constructor(
@@ -41,12 +41,30 @@ List<Class> documentClass(ClassModel model, String suffix) {
                     ..type = const Reference("Map<String, dynamic>"),
                 )
               ])
+              ..optionalParameters = ListBuilder([
+                ...model.parameters
+                    .where((param) => param.isRelation)
+                    .map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.name
+                      ..named = true
+                      ..type = Reference(
+                        "${param.type.toString().trimString("?")}?",
+                      ),
+                  );
+                }),
+              ])
               ..initializers = ListBuilder([
                 const Code("_value = value"),
                 const Code("super._()"),
               ])
-              ..body = const Code(
-                "if (_value is Listenable) {(_value as Listenable).addListener(notifyListeners);}",
+              ..body = Code(
+                "${model.parameters.where((e) => e.isRelation).map((e) => "_${e.name} = ${e.name};").join()}if (_value is Listenable) {(_value as Listenable).addListener(notifyListeners);}${model.parameters.where((param) => param.isRelation).map((param) {
+                  return Code(
+                    "_${param.name}?.addListener(notifyListeners);",
+                  );
+                }).join()}",
               ),
           )
         ])
@@ -74,7 +92,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
                 ),
               ])
               ..returns = const Reference("Future<void>")
-              ..body = const Code("document().fetch(listen)"),
+              ..body = const Code("_valueDocument().fetch(listen)"),
           ),
           Method(
             (m) => m
@@ -82,7 +100,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..lambda = true
               ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("Future<void>")
-              ..body = const Code("document().reload()"),
+              ..body = const Code("_valueDocument().reload()"),
           ),
           Method(
             (m) => m
@@ -90,7 +108,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..lambda = true
               ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("Future<void>")
-              ..body = const Code("document().save()"),
+              ..body = const Code("_valueDocument().save()"),
           ),
           Method(
             (m) => m
@@ -98,7 +116,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..lambda = true
               ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("Future<void>")
-              ..body = const Code("document().delete()"),
+              ..body = const Code("_valueDocument().delete()"),
           ),
           Method(
             (m) => m
@@ -106,7 +124,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..lambda = true
               ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("DocumentTransactionBuilder")
-              ..body = const Code("document().transaction()"),
+              ..body = const Code("_valueDocument().transaction()"),
           ),
           Method(
             (m) => m
@@ -115,7 +133,9 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..type = MethodType.getter
               ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("Future<void>?")
-              ..body = const Code("document().loading"),
+              ..body = Code(
+                "wait([_valueDocument().loading, ${model.parameters.where((e) => e.isRelation).map((e) => "_${e.name}?.loading").join(",")}])",
+              ),
           ),
           Method(
             (m) => m
@@ -124,7 +144,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..type = MethodType.getter
               ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("Future<void>?")
-              ..body = const Code("document().saving"),
+              ..body = const Code("_valueDocument().saving"),
           ),
           Method(
             (m) => m
@@ -134,8 +154,12 @@ List<Class> documentClass(ClassModel model, String suffix) {
                 const Reference("override"),
                 const Reference("mustCallSuper"),
               ])
-              ..body = const Code(
-                "super.dispose();if (_value is Listenable) {(_value as Listenable).removeListener(notifyListeners);}",
+              ..body = Code(
+                "super.dispose();if (_value is Listenable) {(_value as Listenable).removeListener(notifyListeners);}${model.parameters.where((param) => param.isRelation).map((param) {
+                  return Code(
+                    "_${param.name}?.removeListener(notifyListeners);",
+                  );
+                }).join()}",
               ),
           ),
         ]),
@@ -146,8 +170,18 @@ List<Class> documentClass(ClassModel model, String suffix) {
         ..name = "_\$${model.name}"
         ..implements = ListBuilder([
           const Reference("ChangeNotifier"),
+          const Reference("BuiltDocumentBase"),
         ])
         ..abstract = true
+        ..fields = ListBuilder([
+          ...model.parameters.where((param) => param.isRelation).map((param) {
+            return Field(
+              (f) => f
+                ..name = "_${param.name}"
+                ..type = Reference("${param.type.toString().trimString("?")}?"),
+            );
+          }),
+        ])
         ..methods = ListBuilder([
           Method(
             (m) => m
@@ -156,51 +190,86 @@ List<Class> documentClass(ClassModel model, String suffix) {
               ..type = MethodType.getter
               ..returns = const Reference("String")
               ..body = Code(
-                "_value[${model.name}$suffix.uid.id] ?? \"\"",
+                "_value[${model.name}Keys.uid.id] ?? \"\"",
               ),
           ),
           ...model.parameters.expand((param) {
-            return [
-              Method(
-                (m) => m
-                  ..name = param.name
-                  ..lambda = true
-                  ..type = MethodType.getter
-                  ..returns = Reference(param.type.toString())
-                  ..body = Code(
-                    "_${model.name.toCamelCase()}Converter.convertFrom<${param.type}>(_value[${model.name}$suffix.${param.name}.id]) ?? _${param.name}",
-                  ),
-              ),
-              Method(
-                (m) => m
-                  ..name = param.name
-                  ..lambda = true
-                  ..type = MethodType.setter
-                  ..requiredParameters = ListBuilder([
-                    Parameter(
-                      (p) => p
-                        ..name = "val"
-                        ..type = Reference(param.type.toString()),
+            if (param.isRelation) {
+              return [
+                Method(
+                  (m) => m
+                    ..name = param.name
+                    ..lambda = true
+                    ..type = MethodType.getter
+                    ..returns = Reference(
+                      "${param.type.toString().trimString("?")}?",
                     )
-                  ])
-                  ..body = Code(
-                    "_value[${model.name}$suffix.${param.name}.id] = _${model.name.toCamelCase()}Converter.convertTo(val)",
-                  ),
-              ),
-              Method(
-                (m) => m
-                  ..name = "_${param.name}"
-                  ..lambda = true
-                  ..type = MethodType.getter
-                  ..returns = Reference(param.type.toString())
-                  ..body = Code(_defaultValue(param)),
-              )
-            ];
+                    ..body = Code(
+                      "_${param.name}",
+                    ),
+                ),
+                Method(
+                  (m) => m
+                    ..name = param.name
+                    ..type = MethodType.setter
+                    ..requiredParameters = ListBuilder([
+                      Parameter(
+                        (p) => p
+                          ..name = "val"
+                          ..type = Reference(
+                            "${param.type.toString().trimString("?")}?",
+                          ),
+                      )
+                    ])
+                    ..body = Code(
+                      "if(val == null){return;}_${param.name} = val;_value[${model.name}Keys.${param.name}.id] = val.uid;",
+                    ),
+                ),
+              ];
+            } else {
+              return [
+                Method(
+                  (m) => m
+                    ..name = param.name
+                    ..lambda = true
+                    ..type = MethodType.getter
+                    ..returns = Reference(param.type.toString())
+                    ..body = Code(
+                      "_${model.name.toCamelCase()}Converter.convertFrom<${param.type}>(_value[${model.name}Keys.${param.name}.id]) ?? _${param.name}",
+                    ),
+                ),
+                Method(
+                  (m) => m
+                    ..name = param.name
+                    ..lambda = true
+                    ..type = MethodType.setter
+                    ..requiredParameters = ListBuilder([
+                      Parameter(
+                        (p) => p
+                          ..name = "val"
+                          ..type = Reference(param.type.toString()),
+                      )
+                    ])
+                    ..body = Code(
+                      "_value[${model.name}Keys.${param.name}.id] = _${model.name.toCamelCase()}Converter.convertTo(val)",
+                    ),
+                ),
+                Method(
+                  (m) => m
+                    ..name = "_${param.name}"
+                    ..lambda = true
+                    ..type = MethodType.getter
+                    ..returns = Reference(param.type.toString())
+                    ..body = Code(_defaultValue(param)),
+                )
+              ];
+            }
           }),
           Method(
             (m) => m
               ..name = "value"
               ..lambda = true
+              ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("Map<String, dynamic>")
               ..body = const Code("_value"),
           ),
@@ -214,7 +283,7 @@ List<Class> documentClass(ClassModel model, String suffix) {
           ),
           Method(
             (m) => m
-              ..name = "document"
+              ..name = "_valueDocument"
               ..lambda = true
               ..returns = const Reference("DynamicDocumentModel")
               ..body = const Code("_value as DynamicDocumentModel"),

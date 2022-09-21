@@ -1,7 +1,8 @@
 part of firebase_model_notifier;
 
 /// Abstract class for retrieving document data of [T] through Functions.
-abstract class FirebaseFunctionsDocumentModel<T> extends DocumentModel<T> {
+abstract class FirebaseFunctionsDocumentModel<T> extends ValueModel<T>
+    implements ConvertableValueModel<T> {
   /// Abstract class for retrieving document data of [T] through Functions.
   FirebaseFunctionsDocumentModel(this.endpoint, T initialValue)
       : super(initialValue);

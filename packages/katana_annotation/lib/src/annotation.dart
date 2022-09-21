@@ -1,10 +1,9 @@
 part of katana_annotation;
 
 /// Annotation indicating a collection in Masamune.
-class CollectionPath {
-  const CollectionPath(
+class CollectionModel {
+  const CollectionModel(
     this.path, {
-    this.keySuffix = "Keys",
     this.converter = const DefaultConverter(),
     this.linkedPath,
     this.enableCollectionCount = false,
@@ -12,9 +11,6 @@ class CollectionPath {
 
   /// Paths for models.
   final String path;
-
-  /// Suffix of the class that defines the key constant for the value.
-  final String keySuffix;
 
   /// Converter for value conversion.
   final ConverterBase converter;
@@ -31,35 +27,27 @@ class CollectionPath {
 }
 
 /// Annotation indicating a document in Masamune.
-class DocumentPath {
-  const DocumentPath(
+class DocumentModel {
+  const DocumentModel(
     this.path, {
-    this.keySuffix = "Keys",
     this.converter = const DefaultConverter(),
   });
 
   /// Paths for models.
   final String path;
 
-  /// Suffix of the class that defines the key constant for the value.
-  final String keySuffix;
-
   /// Converter for value conversion.
   final ConverterBase converter;
 }
 
 /// Annotation for defining relationships within a Document.
-///
-/// You can specify a key for comparing related objects by specifying [key].
 class Relation {
-  const Relation({this.key = "uid"});
-
-  final String key;
+  const Relation();
 }
 
 /// Annotation indicating a page in Masamune.
-class PagePath {
-  const PagePath(this.path);
+class AppPage {
+  const AppPage(this.path);
 
   /// Paths for models.
   final String path;

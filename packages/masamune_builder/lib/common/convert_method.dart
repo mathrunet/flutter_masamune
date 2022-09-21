@@ -1,6 +1,6 @@
 part of masamune_builder;
 
-Method convertMethod(ClassModel model, String suffix) {
+Method convertMethod(ClassModel model) {
   return Method(
     (m) => m
       ..name = "_${model.name.toCamelCase()}Convert"
@@ -18,10 +18,13 @@ Method convertMethod(ClassModel model, String suffix) {
       ])
       ..returns = const Reference("Map<String, dynamic>")
       ..body = Code(
-        "return {${model.parameters.map(
-              (param) =>
-                  "if (${param.name} != null) ${model.name}$suffix.${param.name}.id: _${model.name.toCamelCase()}Converter.convertTo(${param.name})",
-            ).join(",")},};",
+        "return {${model.parameters.map((param) {
+          if (param.isRelation) {
+            return "if (${param.name} != null) ${model.name}Keys.${param.name}.id: ${param.name}.uid";
+          } else {
+            return "if (${param.name} != null) ${model.name}Keys.${param.name}.id: _${model.name.toCamelCase()}Converter.convertTo(${param.name})";
+          }
+        }).join(",")},};",
       ),
   );
 }

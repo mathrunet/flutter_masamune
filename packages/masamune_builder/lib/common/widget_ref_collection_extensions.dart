@@ -1,11 +1,11 @@
 part of masamune_builder;
 
-List<Parameter> _modelQueryParameters(ClassModel model, String suffix) => [
+List<Parameter> _modelQueryParameters(ClassModel model) => [
       Parameter(
         (p) => p
           ..name = "key"
           ..named = true
-          ..type = Reference("${model.name}$suffix?"),
+          ..type = Reference("${model.name}Keys?"),
       ),
       Parameter(
         (p) => p
@@ -78,11 +78,12 @@ List<Parameter> _modelQueryParameters(ClassModel model, String suffix) => [
         (p) => p
           ..name = "orderBy"
           ..named = true
-          ..type = Reference("${model.name}$suffix?"),
+          ..type = Reference("${model.name}Keys?"),
       ),
     ];
 
-Extension widgetRefCollectionExtensions(ClassModel model, String suffix) {
+Extension widgetRefCollectionExtensions(ClassModel model) {
+  final parameters = _modelQueryParameters(model);
   return Extension(
     (e) => e
       ..name = "\$${model.name}WidgetRefCollectionExtensions"
@@ -92,7 +93,7 @@ Extension widgetRefCollectionExtensions(ClassModel model, String suffix) {
           (m) => m
             ..name = "read${model.name}Collection"
             ..optionalParameters = ListBuilder([
-              ..._modelQueryParameters(model, suffix),
+              ...parameters,
               Parameter(
                 (p) => p
                   ..name = "listen"
@@ -110,14 +111,16 @@ Extension widgetRefCollectionExtensions(ClassModel model, String suffix) {
             ])
             ..returns = Reference("${model.name}List")
             ..body = Code(
-              "return ${model.name}List._(readCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,key: key?.id,isEqualTo: isEqualTo,isNotEqualTo: isNotEqualTo,isLessThanOrEqualTo: isLessThanOrEqualTo,isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,arrayContains: arrayContains,arrayContainsAny: arrayContainsAny,whereIn: whereIn,whereNotIn: whereNotIn,geoHash: geoHash,order: order,limit: limit,orderBy: orderBy?.id,).value,listen: listen,disposable: disposable,),);",
+              "final original = readCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,${parameters.map((e) => e.name == "key" || e.name == "orderBy" ? "${e.name}: ${e.name}?.id" : "${e.name}: ${e.name}").join(",")}).value,listen: listen,disposable: disposable,);return ${model.name}List._(original,${model.parameters.where((param) => param.isRelation).map((param) {
+                return "${param.name}: read${param.type.toString().trimString("?")}Collection( key: ${param.type.toString().trimString("?")}Keys.uid, whereIn: original.map((e) => e.get(\"${param.name}\", \"\")).removeEmpty().distinct(),listen: listen, disposable: disposable,)";
+              }).join(",")});",
             ),
         ),
         Method(
           (m) => m
             ..name = "watch${model.name}Collection"
             ..optionalParameters = ListBuilder([
-              ..._modelQueryParameters(model, suffix),
+              ..._modelQueryParameters(model),
               Parameter(
                 (p) => p
                   ..name = "listen"
@@ -135,7 +138,9 @@ Extension widgetRefCollectionExtensions(ClassModel model, String suffix) {
             ])
             ..returns = Reference("${model.name}List")
             ..body = Code(
-              "return ${model.name}List._(watchCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,key: key?.id,isEqualTo: isEqualTo,isNotEqualTo: isNotEqualTo,isLessThanOrEqualTo: isLessThanOrEqualTo,isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,arrayContains: arrayContains,arrayContainsAny: arrayContainsAny,whereIn: whereIn,whereNotIn: whereNotIn,geoHash: geoHash,order: order,limit: limit,orderBy: orderBy?.id,).value,listen: listen,disposable: disposable,),);",
+              "final original = watchCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,${parameters.map((e) => e.name == "key" || e.name == "orderBy" ? "${e.name}: ${e.name}?.id" : "${e.name}: ${e.name}").join(",")}).value,listen: listen,disposable: disposable,);return ${model.name}List._(original,${model.parameters.where((param) => param.isRelation).map((param) {
+                return "${param.name}: watch${param.type.toString().trimString("?")}Collection( key: ${param.type.toString().trimString("?")}Keys.uid, whereIn: original.map((e) => e.get(\"${param.name}\", \"\")).removeEmpty().distinct(),listen: listen, disposable: disposable,)";
+              }).join(",")});",
             ),
         ),
       ]),

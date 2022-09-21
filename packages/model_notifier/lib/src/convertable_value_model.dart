@@ -1,13 +1,13 @@
 part of model_notifier;
 
-/// Abstract class for the document model.
+/// Abstract class for the convertable value model.
 ///
 /// It defines the required methods.
-abstract class DocumentModel<T> extends ValueModel<T> {
-  /// Abstract class for the document model.
+abstract class ConvertableValueModel<T> extends ValueModel<T> {
+  /// Abstract class for the convertable value model.
   ///
   /// It defines the required methods.
-  DocumentModel(T value) : super(value);
+  ConvertableValueModel(T value) : super(value);
 
   /// Creates a specific object from a given [map].
   ///

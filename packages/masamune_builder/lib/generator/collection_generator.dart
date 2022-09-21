@@ -1,6 +1,6 @@
 part of masamune_builder;
 
-class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
+class CollectionGenerator extends GeneratorForAnnotation<CollectionModel> {
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
@@ -17,7 +17,7 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
 
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        "`@CollectionPath()` can only be used on classes.",
+        "`@CollectionModel()` can only be used on classes.",
         element: element,
       );
     }
@@ -26,7 +26,6 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
     final _linkedPath = annotation.read("linkedPath").isNull
         ? null
         : annotation.read("linkedPath").stringValue.trimString("/");
-    final _keySuffix = annotation.read("keySuffix").stringValue;
     final _converter = annotation
         .peek("converter")
         ?.revive()
@@ -58,12 +57,6 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
       );
     }
 
-    if (_keySuffix.isEmpty || !RegExp(r"^[a-zA-Z]+$").hasMatch(_keySuffix)) {
-      throw Exception(
-        "The key suffix is available only for alphabetical characters.: $_keySuffix",
-      );
-    }
-
     final generated = Library(
       (l) => l
         ..body.addAll(
@@ -71,15 +64,16 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionPath> {
             pathField(_class, _path),
             linkedPathField(_class, _linkedPath),
             converterField(_class, _converter ?? "DefaultConverter"),
-            convertMethod(_class, _keySuffix),
-            ...documentClass(_class, _keySuffix),
+            convertMethod(_class),
+            ...documentClass(_class),
             ...collectionClass(_class),
             dynamicMapExtensions(_class),
             dynamicMapCollectionExtensions(_class),
-            widgetRefCollectionExtensions(_class, _keySuffix),
+            findRelationMethod(_class),
+            widgetRefCollectionExtensions(_class),
             widgetRefParameterDocumentExtensions(_class),
-            keyEnum(_class, _keySuffix),
-            keyEnumExtensions(_class, _keySuffix),
+            keyEnum(_class),
+            keyEnumExtensions(_class),
             if (_enableCollectionCount) ...[
               counterDocumentClass(_class, _path),
               widgetRefCounterDocumentExtensions(_class, _path)

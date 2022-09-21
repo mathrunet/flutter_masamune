@@ -27,7 +27,9 @@ Extension widgetRefDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "return readDocumentModel(\"\$_${model.name.toCamelCase()}Path\",listen: listen,disposable: disposable,).to${model.name}();",
+              "final original = readDocumentModel(\"\$_${model.name.toCamelCase()}Path\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+                return "${e.name}: read${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
+              }).join(",")});",
             ),
         ),
         Method(
@@ -51,7 +53,9 @@ Extension widgetRefDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "return watchDocumentModel(\"\$_${model.name.toCamelCase()}Path\",listen: listen,disposable: disposable,).to${model.name}();",
+              "final original = watchDocumentModel(\"\$_${model.name.toCamelCase()}Path\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+                return "${e.name}: watch${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
+              }).join(",")});",
             ),
         ),
       ]),
@@ -92,7 +96,9 @@ Extension widgetRefParameterDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "return readDocumentModel(\"\$_${model.name.toCamelCase()}Path/\$id\",listen: listen,disposable: disposable,).to${model.name}();",
+              "final original = readDocumentModel(\"\$_${model.name.toCamelCase()}Path/\$id\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+                return "${e.name}: read${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
+              }).join(",")});",
             ),
         ),
         Method(
@@ -123,7 +129,9 @@ Extension widgetRefParameterDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "return watchDocumentModel(\"\$_${model.name.toCamelCase()}Path/\$id\",listen: listen,disposable: disposable,).to${model.name}();",
+              "final original = watchDocumentModel(\"\$_${model.name.toCamelCase()}Path/\$id\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+                return "${e.name}: watch${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
+              }).join(",")});",
             ),
         ),
       ]),

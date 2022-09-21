@@ -5,7 +5,7 @@ final notionBlockDocumentProvider =
   (_, blockId) => NotionBlockDocumentModel(blockId, {}),
 );
 
-class NotionBlockDocumentModel extends DocumentModel<DynamicMap>
+class NotionBlockDocumentModel extends ValueModel<DynamicMap>
     with MapModelMixin<String, dynamic>
     implements DynamicDocumentModel {
   NotionBlockDocumentModel(this.blockId, DynamicMap value) : super(value);
