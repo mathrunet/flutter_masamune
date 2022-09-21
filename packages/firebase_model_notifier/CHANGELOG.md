@@ -1,3 +1,7 @@
+## 0.15.1+5
+
+ - Update a dependency to the latest release.
+
 ## 0.15.1+4
 
  - **FIX**: Correction of spelling errors. ([7c85a1cf](https://github.com/mathrunet/flutter_masamune/commit/7c85a1cfae60098b1a3245b599fd4084d47bfa57))

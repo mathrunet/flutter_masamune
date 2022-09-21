@@ -1,3 +1,7 @@
+## 0.15.1
+
+ - **FEAT**: Added LinkedCollectionTransactionBuilder. ([fb383cea](https://github.com/mathrunet/flutter_masamune/commit/fb383ceacaf30ed8003b59c64a2ac96a7a1c96bb))
+
 ## 0.15.0+4
 
  - **FIX**: Correction of spelling errors. ([7c85a1cf](https://github.com/mathrunet/flutter_masamune/commit/7c85a1cfae60098b1a3245b599fd4084d47bfa57))
