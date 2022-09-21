@@ -335,35 +335,35 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1"
+    version: "0.15.0+1"
   katana_annotation:
     dependency: transitive
     description:
       name: katana_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.5+2"
+    version: "0.15.0+1"
   katana_flutter:
     dependency: transitive
     description:
       name: katana_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+2"
+    version: "0.15.0+1"
   katana_module:
     dependency: transitive
     description:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+17"
+    version: "0.15.0+7"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1"
+    version: "0.15.0+1"
   loading_animations:
     dependency: transitive
     description:
@@ -384,7 +384,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1+14"
+    version: "0.15.0+7"
   matcher:
     dependency: transitive
     description:
@@ -419,7 +419,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.1"
+    version: "0.15.0+4"
   nm:
     dependency: transitive
     description:
