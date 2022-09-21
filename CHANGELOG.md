@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v0.15.0`](#masamune_builder---v0150)
+
+---
+
+#### `masamune_builder` - `v0.15.0`
+
+ - chore: Fit versions with other packages.
+
+
+## 2022-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_cli` - `v0.15.0+1`](#masamune_cli---v01501)
 
 ---
