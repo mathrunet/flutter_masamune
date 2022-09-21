@@ -1,3 +1,7 @@
+## 0.15.1+1
+
+ - **FIX**: Fixing LOADED. ([7c885f1b](https://github.com/mathrunet/flutter_masamune/commit/7c885f1b34310bd92610a6019c059f4b66469500))
+
 ## 0.15.1
 
  - **FEAT**: Create a BuiltBase. ([b857ae4b](https://github.com/mathrunet/flutter_masamune/commit/b857ae4b05fc31ff15f5f1816d8e953b49cb5835))

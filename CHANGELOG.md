@@ -15,6 +15,79 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.15.1+1`](#firebase_model_notifier---v01511)
+ - [`model_notifier` - `v0.15.0+1`](#model_notifier---v01501)
+ - [`masamune_firebase_messaging` - `v0.15.0+3`](#masamune_firebase_messaging---v01503)
+ - [`masamune_firebase` - `v0.15.0+3`](#masamune_firebase---v01503)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+3`](#masamune_firebase_dynamic_links---v01503)
+ - [`masamune_signin_apple` - `v0.15.0+3`](#masamune_signin_apple---v01503)
+ - [`masamune_signin_facebook` - `v0.15.0+3`](#masamune_signin_facebook---v01503)
+ - [`masamune_signin_google` - `v0.15.0+3`](#masamune_signin_google---v01503)
+ - [`masamune_agora` - `v0.15.0+3`](#masamune_agora---v01503)
+ - [`masamune_signin_twitter` - `v0.15.0+3`](#masamune_signin_twitter---v01503)
+ - [`masamune_purchase_stripe` - `v0.15.0+3`](#masamune_purchase_stripe---v01503)
+ - [`masamune_purchase_firebase` - `v0.15.0+3`](#masamune_purchase_firebase---v01503)
+ - [`masamune_notion` - `v0.15.0+3`](#masamune_notion---v01503)
+ - [`katana_module` - `v0.15.0+3`](#katana_module---v01503)
+ - [`masamune` - `v0.15.0+3`](#masamune---v01503)
+ - [`masamune_location` - `v0.15.0+3`](#masamune_location---v01503)
+ - [`masamune_local_messaging` - `v0.15.0+3`](#masamune_local_messaging---v01503)
+ - [`masamune_wordpress` - `v0.15.0+3`](#masamune_wordpress---v01503)
+ - [`masamune_ads` - `v0.15.0+3`](#masamune_ads---v01503)
+ - [`masamune_media` - `v0.15.0+3`](#masamune_media---v01503)
+ - [`masamune_ui` - `v0.15.0+3`](#masamune_ui---v01503)
+ - [`masamune_purchase` - `v0.15.0+3`](#masamune_purchase---v01503)
+ - [`masamune_module` - `v0.15.0+3`](#masamune_module---v01503)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_messaging` - `v0.15.0+3`
+ - `masamune_firebase` - `v0.15.0+3`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+3`
+ - `masamune_signin_apple` - `v0.15.0+3`
+ - `masamune_signin_facebook` - `v0.15.0+3`
+ - `masamune_signin_google` - `v0.15.0+3`
+ - `masamune_agora` - `v0.15.0+3`
+ - `masamune_signin_twitter` - `v0.15.0+3`
+ - `masamune_purchase_stripe` - `v0.15.0+3`
+ - `masamune_purchase_firebase` - `v0.15.0+3`
+ - `masamune_notion` - `v0.15.0+3`
+ - `katana_module` - `v0.15.0+3`
+ - `masamune` - `v0.15.0+3`
+ - `masamune_location` - `v0.15.0+3`
+ - `masamune_local_messaging` - `v0.15.0+3`
+ - `masamune_wordpress` - `v0.15.0+3`
+ - `masamune_ads` - `v0.15.0+3`
+ - `masamune_media` - `v0.15.0+3`
+ - `masamune_ui` - `v0.15.0+3`
+ - `masamune_purchase` - `v0.15.0+3`
+ - `masamune_module` - `v0.15.0+3`
+
+---
+
+#### `firebase_model_notifier` - `v0.15.1+1`
+
+ - **FIX**: Fixing LOADED. ([7c885f1b](https://github.com/mathrunet/flutter_masamune/commit/7c885f1b34310bd92610a6019c059f4b66469500))
+
+#### `model_notifier` - `v0.15.0+1`
+
+ - **FIX**: Fixing LOADED. ([7c885f1b](https://github.com/mathrunet/flutter_masamune/commit/7c885f1b34310bd92610a6019c059f4b66469500))
+
+
+## 2022-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_annotation` - `v0.14.5+1`](#katana_annotation---v01451)
  - [`katana_module` - `v0.15.0+2`](#katana_module---v01502)
  - [`masamune_builder` - `v0.14.4+2`](#masamune_builder---v01442)
