@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v0.15.0+4`](#masamune_builder---v01504)
+
+---
+
+#### `masamune_builder` - `v0.15.0+4`
+
+ - **FIX**: Transaction type-safety. ([5dc55bc0](https://github.com/mathrunet/flutter_masamune/commit/5dc55bc0b9db7dd22fd09b6e305419b7e1009e63))
+
+
+## 2022-09-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`model_notifier` - `v0.15.1`](#model_notifier---v0151)
  - [`katana_module` - `v0.15.0+8`](#katana_module---v01508)
  - [`firebase_model_notifier` - `v0.15.1+5`](#firebase_model_notifier---v01515)

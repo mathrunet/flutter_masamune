@@ -1,3 +1,7 @@
+## 0.15.0+4
+
+ - **FIX**: Transaction type-safety. ([5dc55bc0](https://github.com/mathrunet/flutter_masamune/commit/5dc55bc0b9db7dd22fd09b6e305419b7e1009e63))
+
 ## 0.15.0+3
 
  - **FIX**: Variables are possible in the Path for Model. ([cd188b04](https://github.com/mathrunet/flutter_masamune/commit/cd188b0437b03481290a6e1aa78c3168a7ab0ff1))
