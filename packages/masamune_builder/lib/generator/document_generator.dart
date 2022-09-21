@@ -22,7 +22,9 @@ class DocumentGenerator extends GeneratorForAnnotation<DocumentModel> {
       );
     }
 
-    final _path = annotation.read("path").stringValue.trimString("/");
+    final _path = PathModel(
+      annotation.read("path").stringValue.trimString("/"),
+    );
     final _converter = annotation
         .peek("converter")
         ?.revive()
@@ -32,7 +34,7 @@ class DocumentGenerator extends GeneratorForAnnotation<DocumentModel> {
         .lastOrNull;
     final _class = ClassModel(element);
 
-    if (_path.splitLength() <= 0 || _path.splitLength() % 2 != 0) {
+    if (_path.path.splitLength() <= 0 || _path.path.splitLength() % 2 != 0) {
       throw Exception(
         "The path hierarchy must be an even number: $_path",
       );
@@ -47,7 +49,7 @@ class DocumentGenerator extends GeneratorForAnnotation<DocumentModel> {
             convertMethod(_class),
             ...documentClass(_class),
             dynamicMapExtensions(_class),
-            widgetRefDocumentExtensions(_class),
+            widgetRefDocumentExtensions(_class, _path),
             keyEnum(_class),
             keyEnumExtensions(_class),
           ],

@@ -82,7 +82,7 @@ List<Parameter> _modelQueryParameters(ClassModel model) => [
       ),
     ];
 
-Extension widgetRefCollectionExtensions(ClassModel model) {
+Extension widgetRefCollectionExtensions(ClassModel model, PathModel path) {
   final parameters = _modelQueryParameters(model);
   return Extension(
     (e) => e
@@ -94,6 +94,15 @@ Extension widgetRefCollectionExtensions(ClassModel model) {
             ..name = "read${model.name}Collection"
             ..optionalParameters = ListBuilder([
               ...parameters,
+              ...path.parameters.map((param) {
+                return Parameter(
+                  (p) => p
+                    ..name = param.camelCase
+                    ..required = true
+                    ..named = true
+                    ..type = const Reference("String"),
+                );
+              }),
               Parameter(
                 (p) => p
                   ..name = "listen"
@@ -111,7 +120,9 @@ Extension widgetRefCollectionExtensions(ClassModel model) {
             ])
             ..returns = Reference("${model.name}List")
             ..body = Code(
-              "final original = readCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,${parameters.map((e) => e.name == "key" || e.name == "orderBy" ? "${e.name}: ${e.name}?.id" : "${e.name}: ${e.name}").join(",")}).value,listen: listen,disposable: disposable,);return ${model.name}List._(original,${model.parameters.where((param) => param.isRelation).map((param) {
+              "final original = readCollectionModel(ModelQuery(\"${path.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                return "\$${match.group(1)?.toCamelCase()}";
+              })}\",${parameters.map((e) => e.name == "key" || e.name == "orderBy" ? "${e.name}: ${e.name}?.id" : "${e.name}: ${e.name}").join(",")}).value,listen: listen,disposable: disposable,);return ${model.name}List._(original,${model.parameters.where((param) => param.isRelation).map((param) {
                 return "${param.name}: read${param.type.toString().trimString("?")}Collection( key: ${param.type.toString().trimString("?")}Keys.uid, whereIn: original.map((e) => e.get(\"${param.name}\", \"\")).removeEmpty().distinct(),listen: listen, disposable: disposable,)";
               }).join(",")});",
             ),
@@ -121,6 +132,15 @@ Extension widgetRefCollectionExtensions(ClassModel model) {
             ..name = "watch${model.name}Collection"
             ..optionalParameters = ListBuilder([
               ..._modelQueryParameters(model),
+              ...path.parameters.map((param) {
+                return Parameter(
+                  (p) => p
+                    ..name = param.camelCase
+                    ..required = true
+                    ..named = true
+                    ..type = const Reference("String"),
+                );
+              }),
               Parameter(
                 (p) => p
                   ..name = "listen"
@@ -138,7 +158,9 @@ Extension widgetRefCollectionExtensions(ClassModel model) {
             ])
             ..returns = Reference("${model.name}List")
             ..body = Code(
-              "final original = watchCollectionModel(ModelQuery(_${model.name.toCamelCase()}Path,${parameters.map((e) => e.name == "key" || e.name == "orderBy" ? "${e.name}: ${e.name}?.id" : "${e.name}: ${e.name}").join(",")}).value,listen: listen,disposable: disposable,);return ${model.name}List._(original,${model.parameters.where((param) => param.isRelation).map((param) {
+              "final original = watchCollectionModel(ModelQuery(\"${path.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                return "\$${match.group(1)?.toCamelCase()}";
+              })}\",${parameters.map((e) => e.name == "key" || e.name == "orderBy" ? "${e.name}: ${e.name}?.id" : "${e.name}: ${e.name}").join(",")}).value,listen: listen,disposable: disposable,);return ${model.name}List._(original,${model.parameters.where((param) => param.isRelation).map((param) {
                 return "${param.name}: watch${param.type.toString().trimString("?")}Collection( key: ${param.type.toString().trimString("?")}Keys.uid, whereIn: original.map((e) => e.get(\"${param.name}\", \"\")).removeEmpty().distinct(),listen: listen, disposable: disposable,)";
               }).join(",")});",
             ),

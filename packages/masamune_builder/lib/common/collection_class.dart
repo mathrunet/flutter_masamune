@@ -1,6 +1,6 @@
 part of masamune_builder;
 
-List<Class> collectionClass(ClassModel model) {
+List<Class> collectionClass(ClassModel model, PathModel? linkedPath) {
   return [
     Class(
       (c) => c
@@ -207,9 +207,25 @@ List<Class> collectionClass(ClassModel model) {
             (m) => m
               ..name = "transaction"
               ..lambda = true
+              ..optionalParameters = ListBuilder([
+                ...linkedPath?.parameters.map((param) {
+                      return Parameter(
+                        (p) => p
+                          ..name = param.camelCase
+                          ..required = true
+                          ..named = true
+                          ..type = const Reference("String"),
+                      );
+                    }) ??
+                    []
+              ])
               ..returns = const Reference("CollectionTransactionBuilder")
               ..body = Code(
-                "_valueCollection().transaction(_linked${model.name}Path)",
+                linkedPath == null
+                    ? "_valueCollection().transaction()"
+                    : "_valueCollection().transaction(\"${linkedPath.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                        return "\$${match.group(1)?.toCamelCase()}";
+                      })}\")",
               ),
           ),
           Method(

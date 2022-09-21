@@ -1,6 +1,6 @@
 part of masamune_builder;
 
-Extension widgetRefDocumentExtensions(ClassModel model) {
+Extension widgetRefDocumentExtensions(ClassModel model, PathModel path) {
   return Extension(
     (e) => e
       ..name = "\$${model.name}WidgetRefDocumentExtensions"
@@ -27,7 +27,9 @@ Extension widgetRefDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "final original = readDocumentModel(\"\$_${model.name.toCamelCase()}Path\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+              "final original = readDocumentModel(\"${path.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                return "\$${match.group(1)?.toCamelCase()}";
+              })}\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
                 return "${e.name}: read${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
               }).join(",")});",
             ),
@@ -53,7 +55,9 @@ Extension widgetRefDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "final original = watchDocumentModel(\"\$_${model.name.toCamelCase()}Path\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+              "final original = watchDocumentModel(\"${path.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                return "\$${match.group(1)?.toCamelCase()}";
+              })}\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
                 return "${e.name}: watch${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
               }).join(",")});",
             ),
@@ -62,7 +66,8 @@ Extension widgetRefDocumentExtensions(ClassModel model) {
   );
 }
 
-Extension widgetRefParameterDocumentExtensions(ClassModel model) {
+Extension widgetRefParameterDocumentExtensions(
+    ClassModel model, PathModel path) {
   return Extension(
     (e) => e
       ..name = "\$${model.name}WidgetRefDocumentExtensions"
@@ -79,6 +84,15 @@ Extension widgetRefParameterDocumentExtensions(ClassModel model) {
               ),
             ])
             ..optionalParameters = ListBuilder([
+              ...path.parameters.map((param) {
+                return Parameter(
+                  (p) => p
+                    ..name = param.camelCase
+                    ..required = true
+                    ..named = true
+                    ..type = const Reference("String"),
+                );
+              }),
               Parameter(
                 (p) => p
                   ..name = "listen"
@@ -96,7 +110,9 @@ Extension widgetRefParameterDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "final original = readDocumentModel(\"\$_${model.name.toCamelCase()}Path/\$id\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+              "final original = readDocumentModel(\"${path.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                return "\$${match.group(1)?.toCamelCase()}";
+              })}/\$id\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
                 return "${e.name}: read${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
               }).join(",")});",
             ),
@@ -112,6 +128,15 @@ Extension widgetRefParameterDocumentExtensions(ClassModel model) {
               ),
             ])
             ..optionalParameters = ListBuilder([
+              ...path.parameters.map((param) {
+                return Parameter(
+                  (p) => p
+                    ..name = param.camelCase
+                    ..required = true
+                    ..named = true
+                    ..type = const Reference("String"),
+                );
+              }),
               Parameter(
                 (p) => p
                   ..name = "listen"
@@ -129,7 +154,9 @@ Extension widgetRefParameterDocumentExtensions(ClassModel model) {
             ])
             ..returns = Reference(model.name.toString())
             ..body = Code(
-              "final original = watchDocumentModel(\"\$_${model.name.toCamelCase()}Path/\$id\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
+              "final original = watchDocumentModel(\"${path.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                return "\$${match.group(1)?.toCamelCase()}";
+              })}/\$id\",listen: listen,disposable: disposable,); return original.to${model.name}(${model.parameters.where((e) => e.isRelation).map((e) {
                 return "${e.name}: watch${e.type.toString().trimString("?")}Collection( key: ${e.type.toString().trimString("?")}Keys.uid,isEqualTo: original.get(\"${e.name}\", \"\")).firstOrNull";
               }).join(",")});",
             ),
@@ -138,8 +165,8 @@ Extension widgetRefParameterDocumentExtensions(ClassModel model) {
   );
 }
 
-Extension widgetRefCounterDocumentExtensions(ClassModel model, String path) {
-  final parentPath = path.parentPath();
+Extension widgetRefCounterDocumentExtensions(ClassModel model, PathModel path) {
+  final parentPath = path.path.parentPath();
   return Extension(
     (e) => e
       ..name = "\$${model.name}WidgetRefCounterDocumentExtensions"

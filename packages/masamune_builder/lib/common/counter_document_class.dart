@@ -1,7 +1,12 @@
 part of masamune_builder;
 
-Class counterDocumentClass(ClassModel model, String path) {
-  final key = path.last();
+Class counterDocumentClass(ClassModel model, PathModel path) {
+  final key = path.path.last();
+  if (key.contains("{") || key.contains("}")) {
+    throw Exception(
+      "When dealing with Counters, variables are not allowed at the bottom of the PATH name. Please exclude {} in your definition.",
+    );
+  }
   return Class(
     (c) => c
       ..name = "${model.name}Counter"

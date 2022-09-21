@@ -30,7 +30,7 @@ class PageGenerator extends GeneratorForAnnotation<AppPage> {
       (l) => l
         ..body.addAll(
           [
-            pathField(_class, _path.path),
+            pathField(_class, _path),
             pageParameterClass(_class, _path),
             pageBuildContextExtensions(_class, _path),
             pageQueryClass(_class, _path),

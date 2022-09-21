@@ -21,11 +21,6 @@ Method findRelationMethod(ClassModel model) {
             ..name = "originalKey"
             ..type = const Reference("String"),
         ),
-        Parameter(
-          (p) => p
-            ..name = "additionalKey"
-            ..type = const Reference("String"),
-        )
       ])
       ..returns = const Reference("T?")
       ..body = const Code(
