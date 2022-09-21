@@ -15,6 +15,172 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.15.1+3`](#firebase_model_notifier---v01513)
+ - [`katana` - `v0.15.0+1`](#katana---v01501)
+ - [`katana_annotation` - `v0.15.0+1`](#katana_annotation---v01501)
+ - [`katana_firebase` - `v0.15.0+1`](#katana_firebase---v01501)
+ - [`katana_flutter` - `v0.15.0+1`](#katana_flutter---v01501)
+ - [`katana_module` - `v0.15.0+6`](#katana_module---v01506)
+ - [`katana_routing` - `v0.15.0+1`](#katana_routing---v01501)
+ - [`masamune` - `v0.15.0+6`](#masamune---v01506)
+ - [`masamune_ads` - `v0.15.0+6`](#masamune_ads---v01506)
+ - [`masamune_agora` - `v0.15.0+6`](#masamune_agora---v01506)
+ - [`masamune_builder` - `v0.15.0+2`](#masamune_builder---v01502)
+ - [`masamune_cli` - `v0.15.0+2`](#masamune_cli---v01502)
+ - [`masamune_firebase` - `v0.15.0+6`](#masamune_firebase---v01506)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+6`](#masamune_firebase_dynamic_links---v01506)
+ - [`masamune_firebase_messaging` - `v0.15.0+6`](#masamune_firebase_messaging---v01506)
+ - [`masamune_local_messaging` - `v0.15.0+6`](#masamune_local_messaging---v01506)
+ - [`masamune_location` - `v0.15.0+6`](#masamune_location---v01506)
+ - [`masamune_media` - `v0.15.0+6`](#masamune_media---v01506)
+ - [`masamune_module` - `v0.15.0+6`](#masamune_module---v01506)
+ - [`masamune_notion` - `v0.15.0+6`](#masamune_notion---v01506)
+ - [`masamune_purchase` - `v0.15.0+6`](#masamune_purchase---v01506)
+ - [`masamune_purchase_firebase` - `v0.15.0+6`](#masamune_purchase_firebase---v01506)
+ - [`masamune_purchase_stripe` - `v0.15.0+6`](#masamune_purchase_stripe---v01506)
+ - [`masamune_signin_apple` - `v0.15.0+6`](#masamune_signin_apple---v01506)
+ - [`masamune_signin_facebook` - `v0.15.0+6`](#masamune_signin_facebook---v01506)
+ - [`masamune_signin_google` - `v0.15.0+6`](#masamune_signin_google---v01506)
+ - [`masamune_signin_twitter` - `v0.15.0+6`](#masamune_signin_twitter---v01506)
+ - [`masamune_ui` - `v0.15.0+6`](#masamune_ui---v01506)
+ - [`masamune_wordpress` - `v0.15.0+6`](#masamune_wordpress---v01506)
+ - [`model_notifier` - `v0.15.0+3`](#model_notifier---v01503)
+
+---
+
+#### `firebase_model_notifier` - `v0.15.1+3`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `katana` - `v0.15.0+1`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `katana_annotation` - `v0.15.0+1`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `katana_firebase` - `v0.15.0+1`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `katana_flutter` - `v0.15.0+1`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `katana_module` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `katana_routing` - `v0.15.0+1`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_ads` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_agora` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_builder` - `v0.15.0+2`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_cli` - `v0.15.0+2`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_firebase` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_firebase_dynamic_links` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_firebase_messaging` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_local_messaging` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_location` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_media` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_module` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_notion` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_purchase` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_purchase_firebase` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_purchase_stripe` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_signin_apple` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_signin_facebook` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_signin_google` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_signin_twitter` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_ui` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `masamune_wordpress` - `v0.15.0+6`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+#### `model_notifier` - `v0.15.0+3`
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
+
+## 2022-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_annotation` - `v0.15.0`](#katana_annotation---v0150)
  - [`katana_module` - `v0.15.0+5`](#katana_module---v01505)
  - [`masamune_builder` - `v0.15.0+1`](#masamune_builder---v01501)

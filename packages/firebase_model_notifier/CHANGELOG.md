@@ -1,3 +1,7 @@
+## 0.15.1+3
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
 ## 0.15.1+2
 
  - **FIX**: Adjustment of the interface. ([1aa23aca](https://github.com/mathrunet/flutter_masamune/commit/1aa23acad91790e18573b58a00b73d1d903d2593))

@@ -1,3 +1,7 @@
+## 0.15.0+1
+
+ - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
+
 ## 0.15.0
 
  - Bump "katana_annotation" to `0.15.0`.
