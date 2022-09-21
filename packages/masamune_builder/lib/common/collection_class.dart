@@ -1,6 +1,7 @@
 part of masamune_builder;
 
-List<Class> collectionClass(ClassModel model, PathModel? linkedPath) {
+List<Class> collectionClass(
+    ClassModel model, PathModel? linkedPath, bool enableCollectionCount) {
   return [
     Class(
       (c) => c
@@ -206,7 +207,6 @@ List<Class> collectionClass(ClassModel model, PathModel? linkedPath) {
           Method(
             (m) => m
               ..name = "transaction"
-              ..lambda = true
               ..optionalParameters = ListBuilder([
                 ...linkedPath?.parameters.map((param) {
                       return Parameter(
@@ -217,16 +217,24 @@ List<Class> collectionClass(ClassModel model, PathModel? linkedPath) {
                           ..type = const Reference("String"),
                       );
                     }) ??
-                    []
+                    [],
+                if (enableCollectionCount)
+                  Parameter(
+                    (p) => p
+                      ..name = "counterIntervals"
+                      ..type = const Reference("List<CounterUpdaterInterval>")
+                      ..defaultTo = const Code("const []"),
+                  )
               ])
-              ..returns = const Reference("CollectionTransactionBuilder")
+              ..returns = Reference(
+                linkedPath != null
+                    ? "LinkedCollectionTransactionBuilder"
+                    : "CollectionTransactionBuilder",
+              )
               ..body = Code(
-                linkedPath == null
-                    ? "_valueCollection().transaction()"
-                    : "_valueCollection().transaction(\"${linkedPath.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
-                        return "\$${match.group(1)?.toCamelCase()}";
-                      })}\")",
-              ),
+                  "final transaction = ${linkedPath == null ? "_valueCollection().transaction()" : "LinkedCollectionTransactionBuilder(_valueCollection().transaction(\"${linkedPath.path.replaceAllMapped(RegExp(r"\{([^\}]+)\}"), (match) {
+                      return "\$${match.group(1)?.toCamelCase()}";
+                    })}\"))"}; ${enableCollectionCount ? "transaction.setCounterField(counterIntervals: counterIntervals);" : ""} return transaction;"),
           ),
           Method(
             (m) => m

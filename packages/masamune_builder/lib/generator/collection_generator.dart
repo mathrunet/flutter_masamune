@@ -70,7 +70,7 @@ class CollectionGenerator extends GeneratorForAnnotation<CollectionModel> {
             converterField(_class, _converter ?? "DefaultConverter"),
             convertMethod(_class),
             ...documentClass(_class),
-            ...collectionClass(_class, _linkedPath),
+            ...collectionClass(_class, _linkedPath, _enableCollectionCount),
             dynamicMapExtensions(_class),
             dynamicMapCollectionExtensions(_class),
             findRelationMethod(_class),
