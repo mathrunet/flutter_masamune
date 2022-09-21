@@ -33,7 +33,8 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
 
   /// It becomes `true` after [loadOnce] is executed.
   @override
-  bool loaded = false;
+  bool get loaded => _loaded;
+  bool _loaded = false;
 
   /// If this value is `true`,
   /// Notify changes when there are changes in the list itself using list-specific methods.
@@ -321,7 +322,7 @@ abstract class ApiCollectionModel<T> extends ValueModel<List<T>>
   /// Use [isEmpty] to determine whether the file is empty or not.
   Future<void> loadOnce() async {
     if (!loaded) {
-      loaded = true;
+      _loaded = true;
       return load();
     }
   }

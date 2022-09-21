@@ -98,7 +98,8 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
 
   /// It becomes `true` after [loadOnce] is executed.
   @override
-  bool loaded = false;
+  bool get loaded => _loaded;
+  bool _loaded = false;
 
   /// Callback before the load has been done.
   @protected
@@ -419,7 +420,7 @@ abstract class RuntimeCollectionModel<T extends RuntimeDocumentModel>
   /// Use [isEmpty] to determine whether the file is empty or not.
   Future<void> loadOnce() async {
     if (!loaded) {
-      loaded = true;
+      _loaded = true;
       return load();
     }
   }
