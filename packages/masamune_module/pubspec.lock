@@ -517,7 +517,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+7"
+    version: "0.15.0+8"
   katana_routing:
     dependency: transitive
     description:
@@ -552,14 +552,14 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+7"
+    version: "0.15.0+8"
   masamune_ui:
     dependency: "direct main"
     description:
       name: masamune_ui
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+7"
+    version: "0.15.0+8"
   matcher:
     dependency: transitive
     description:
@@ -594,7 +594,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+4"
+    version: "0.15.1"
   multi_select_flutter:
     dependency: transitive
     description:

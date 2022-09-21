@@ -344,7 +344,7 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+7"
+    version: "0.15.0+8"
   katana_routing:
     dependency: transitive
     description:
@@ -365,7 +365,7 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+7"
+    version: "0.15.0+8"
   material_color_utilities:
     dependency: transitive
     description:
@@ -393,7 +393,7 @@ packages:
       name: model_notifier
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+4"
+    version: "0.15.1"
   nm:
     dependency: transitive
     description:
