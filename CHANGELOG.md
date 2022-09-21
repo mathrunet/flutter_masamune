@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_cli` - `v0.15.0+1`](#masamune_cli---v01501)
+
+---
+
+#### `masamune_cli` - `v0.15.0+1`
+
+ - **FIX**: Added version adjustment function to version. ([0683cb85](https://github.com/mathrunet/flutter_masamune/commit/0683cb854fe89ddf47abf7dbfb34b957b55cf60e))
+
+
+## 2022-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.15.1+2`](#firebase_model_notifier---v01512)
  - [`katana_annotation` - `v0.14.5+2`](#katana_annotation---v01452)
  - [`masamune_builder` - `v0.14.4+3`](#masamune_builder---v01443)

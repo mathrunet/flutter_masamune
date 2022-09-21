@@ -1,3 +1,7 @@
+## 0.15.0+1
+
+ - **FIX**: Added version adjustment function to version. ([0683cb85](https://github.com/mathrunet/flutter_masamune/commit/0683cb854fe89ddf47abf7dbfb34b957b55cf60e))
+
 ## 0.15.0
 
 > Note: This release has breaking changes.
