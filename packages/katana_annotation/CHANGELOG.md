@@ -1,3 +1,7 @@
+## 0.14.5+1
+
+ - **FIX**: Completer to export. ([a41c9c35](https://github.com/mathrunet/flutter_masamune/commit/a41c9c35a77c5aae8c77ec2a3ce6595bfecd80b0))
+
 ## 0.14.5
 
  - **FEAT**: Create a BuiltBase. ([b857ae4b](https://github.com/mathrunet/flutter_masamune/commit/b857ae4b05fc31ff15f5f1816d8e953b49cb5835))
