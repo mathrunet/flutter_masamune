@@ -3,11 +3,11 @@ part of model_notifier;
 /// Abstract class for the convertable value model.
 ///
 /// It defines the required methods.
-abstract class ConvertableValueModel<T> extends ValueModel<T> {
+abstract class ConvertibleValueModel<T> extends ValueModel<T> {
   /// Abstract class for the convertable value model.
   ///
   /// It defines the required methods.
-  ConvertableValueModel(T value) : super(value);
+  ConvertibleValueModel(T value) : super(value);
 
   /// Creates a specific object from a given [map].
   ///

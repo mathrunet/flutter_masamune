@@ -7,7 +7,7 @@ part of firebase_model_notifier;
 /// In addition, since it can be used as [Map],
 /// it is possible to operate the content as it is.
 abstract class FirestoreDocumentModel<T> extends ValueModel<T>
-    implements StoredDocumentModel<T>, ConvertableValueModel<T> {
+    implements StoredDocumentModel<T>, ConvertibleValueModel<T> {
   /// Base class for holding and manipulating data from a firestore database as a document of [T].
   ///
   /// You can monitor for real-time updates by running [listen()].

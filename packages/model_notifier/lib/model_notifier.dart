@@ -47,7 +47,7 @@ part "runtime/runtime_dynamic_document_model.dart";
 part "runtime/runtime_search_query_mixin.dart";
 part "runtime/runtime_dynamic_searchable_collection_model.dart";
 part "runtime/runtime_transaction.dart";
-part 'src/convertable_value_model.dart';
+part 'src/convertible_value_model.dart';
 part "src/dynamic_collection_model.dart";
 part "src/counter_updater_interval.dart";
 part "src/dynamic_document_model.dart";

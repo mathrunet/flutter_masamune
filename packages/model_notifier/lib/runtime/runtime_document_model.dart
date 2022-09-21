@@ -8,7 +8,7 @@ part of model_notifier;
 /// In addition, since it can be used as [Map],
 /// it is possible to operate the content as it is.
 abstract class RuntimeDocumentModel<T> extends ValueModel<T>
-    implements StoredDocumentModel<T>, ConvertableValueModel<T> {
+    implements StoredDocumentModel<T>, ConvertibleValueModel<T> {
   /// Base class for holding and manipulating data from a runtime database as a document of [T].
   ///
   /// The runtime database is a Json database.

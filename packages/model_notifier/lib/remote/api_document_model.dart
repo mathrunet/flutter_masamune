@@ -7,7 +7,7 @@ part of model_notifier;
 ///
 /// Use `get` in the [load()] method and `post` in the [save()] method as HTTP methods.
 abstract class ApiDocumentModel<T> extends ValueModel<T>
-    implements StoredDocumentModel<T>, ConvertableValueModel<T> {
+    implements StoredDocumentModel<T>, ConvertibleValueModel<T> {
   /// Class that can retrieve data from the RestAPI and store it as a document.
   ///
   /// Basically, you get a  Map as a response of RestAPI and use it by converting it.
