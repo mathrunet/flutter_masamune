@@ -1,3 +1,7 @@
+## 0.15.0+3
+
+ - **FIX**: Variables are possible in the Path for Model. ([cd188b04](https://github.com/mathrunet/flutter_masamune/commit/cd188b0437b03481290a6e1aa78c3168a7ab0ff1))
+
 ## 0.15.0+2
 
  - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_builder` - `v0.15.0+3`](#masamune_builder---v01503)
+
+---
+
+#### `masamune_builder` - `v0.15.0+3`
+
+ - **FIX**: Variables are possible in the Path for Model. ([cd188b04](https://github.com/mathrunet/flutter_masamune/commit/cd188b0437b03481290a6e1aa78c3168a7ab0ff1))
+
+
 ## 2022-09-21
 
 ### Changes
