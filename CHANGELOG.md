@@ -15,6 +15,84 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`firebase_model_notifier` - `v0.15.1+4`](#firebase_model_notifier---v01514)
+ - [`masamune_cli` - `v0.15.0+3`](#masamune_cli---v01503)
+ - [`model_notifier` - `v0.15.0+4`](#model_notifier---v01504)
+ - [`masamune_firebase_messaging` - `v0.15.0+7`](#masamune_firebase_messaging---v01507)
+ - [`masamune_firebase` - `v0.15.0+7`](#masamune_firebase---v01507)
+ - [`masamune_agora` - `v0.15.0+7`](#masamune_agora---v01507)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+7`](#masamune_firebase_dynamic_links---v01507)
+ - [`masamune_signin_facebook` - `v0.15.0+7`](#masamune_signin_facebook---v01507)
+ - [`masamune_signin_apple` - `v0.15.0+7`](#masamune_signin_apple---v01507)
+ - [`masamune_signin_google` - `v0.15.0+7`](#masamune_signin_google---v01507)
+ - [`masamune_signin_twitter` - `v0.15.0+7`](#masamune_signin_twitter---v01507)
+ - [`masamune_notion` - `v0.15.0+7`](#masamune_notion---v01507)
+ - [`masamune_purchase_firebase` - `v0.15.0+7`](#masamune_purchase_firebase---v01507)
+ - [`masamune_purchase_stripe` - `v0.15.0+7`](#masamune_purchase_stripe---v01507)
+ - [`katana_module` - `v0.15.0+7`](#katana_module---v01507)
+ - [`masamune` - `v0.15.0+7`](#masamune---v01507)
+ - [`masamune_local_messaging` - `v0.15.0+7`](#masamune_local_messaging---v01507)
+ - [`masamune_location` - `v0.15.0+7`](#masamune_location---v01507)
+ - [`masamune_media` - `v0.15.0+7`](#masamune_media---v01507)
+ - [`masamune_purchase` - `v0.15.0+7`](#masamune_purchase---v01507)
+ - [`masamune_wordpress` - `v0.15.0+7`](#masamune_wordpress---v01507)
+ - [`masamune_ads` - `v0.15.0+7`](#masamune_ads---v01507)
+ - [`masamune_ui` - `v0.15.0+7`](#masamune_ui---v01507)
+ - [`masamune_module` - `v0.15.0+7`](#masamune_module---v01507)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase_messaging` - `v0.15.0+7`
+ - `masamune_firebase` - `v0.15.0+7`
+ - `masamune_agora` - `v0.15.0+7`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+7`
+ - `masamune_signin_facebook` - `v0.15.0+7`
+ - `masamune_signin_apple` - `v0.15.0+7`
+ - `masamune_signin_google` - `v0.15.0+7`
+ - `masamune_signin_twitter` - `v0.15.0+7`
+ - `masamune_notion` - `v0.15.0+7`
+ - `masamune_purchase_firebase` - `v0.15.0+7`
+ - `masamune_purchase_stripe` - `v0.15.0+7`
+ - `katana_module` - `v0.15.0+7`
+ - `masamune` - `v0.15.0+7`
+ - `masamune_local_messaging` - `v0.15.0+7`
+ - `masamune_location` - `v0.15.0+7`
+ - `masamune_media` - `v0.15.0+7`
+ - `masamune_purchase` - `v0.15.0+7`
+ - `masamune_wordpress` - `v0.15.0+7`
+ - `masamune_ads` - `v0.15.0+7`
+ - `masamune_ui` - `v0.15.0+7`
+ - `masamune_module` - `v0.15.0+7`
+
+---
+
+#### `firebase_model_notifier` - `v0.15.1+4`
+
+ - **FIX**: Correction of spelling errors. ([7c85a1cf](https://github.com/mathrunet/flutter_masamune/commit/7c85a1cfae60098b1a3245b599fd4084d47bfa57))
+
+#### `masamune_cli` - `v0.15.0+3`
+
+ - **FIX**: Correction of parameters. ([78fbcc18](https://github.com/mathrunet/flutter_masamune/commit/78fbcc18528461649eb706f0ff0e1028f673b8bd))
+
+#### `model_notifier` - `v0.15.0+4`
+
+ - **FIX**: Correction of spelling errors. ([7c85a1cf](https://github.com/mathrunet/flutter_masamune/commit/7c85a1cfae60098b1a3245b599fd4084d47bfa57))
+
+
+## 2022-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`firebase_model_notifier` - `v0.15.1+3`](#firebase_model_notifier---v01513)
  - [`katana` - `v0.15.0+1`](#katana---v01501)
  - [`katana_annotation` - `v0.15.0+1`](#katana_annotation---v01501)

@@ -1,3 +1,7 @@
+## 0.15.0+4
+
+ - **FIX**: Correction of spelling errors. ([7c85a1cf](https://github.com/mathrunet/flutter_masamune/commit/7c85a1cfae60098b1a3245b599fd4084d47bfa57))
+
 ## 0.15.0+3
 
  - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))

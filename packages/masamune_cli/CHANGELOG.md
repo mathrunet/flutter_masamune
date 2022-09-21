@@ -1,3 +1,7 @@
+## 0.15.0+3
+
+ - **FIX**: Correction of parameters. ([78fbcc18](https://github.com/mathrunet/flutter_masamune/commit/78fbcc18528461649eb706f0ff0e1028f673b8bd))
+
 ## 0.15.0+2
 
  - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))
