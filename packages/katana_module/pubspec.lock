@@ -300,7 +300,7 @@ packages:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+1"
+    version: "0.15.0+3"
   matcher:
     dependency: transitive
     description:

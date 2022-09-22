@@ -178,13 +178,14 @@ class RouteConfig {
   static List<Route> _onGenerateInitialRoute(
     BuildContext context,
     String initialRouteName, {
+    String? redirectRouteName,
     RouteConfig? boot,
   }) {
     if (boot == null) {
       return const [];
     }
     final map = <String, dynamic>{};
-    map[kRedirectTo] = initialRouteName;
+    map[kRedirectTo] = redirectRouteName ?? initialRouteName;
     return [
       UIPageRoute(
         builder: boot.builder,

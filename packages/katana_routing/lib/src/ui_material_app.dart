@@ -240,7 +240,8 @@ class _MaterialApp extends ConsumerWidget {
           ? null
           : (initialRouteName) => RouteConfig._onGenerateInitialRoute(
                 context,
-                homeRoute ?? initialRouteName,
+                initialRouteName,
+                redirectRouteName: homeRoute,
                 boot: onBootRoute,
               ),
       navigatorObservers: [
