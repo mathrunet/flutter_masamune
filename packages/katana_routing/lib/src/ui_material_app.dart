@@ -10,6 +10,7 @@ class UIMaterialApp extends StatelessWidget {
     this.navigatorKey,
     this.routes = const <String, RouteConfig>{},
     this.initialRoute = "/",
+    this.homeRoute,
     this.navigatorObservers = const <NavigatorObserver>[],
     this.title = "",
     this.onGenerateTitle,
@@ -53,6 +54,7 @@ class UIMaterialApp extends StatelessWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
   final Map<String, RouteConfig> routes;
   final String initialRoute;
+  final String? homeRoute;
   final List<NavigatorObserver> navigatorObservers;
   final String title;
   final RouteFactory? onGenerateTitle;
@@ -131,6 +133,7 @@ class UIMaterialApp extends StatelessWidget {
             builder: builder,
             navigatorKey: navigatorKey,
             initialRoute: initialRoute,
+            homeRoute: homeRoute,
             navigatorObservers: navigatorObservers,
             title: title,
             onGenerateTitle: onGenerateTitle,
@@ -172,6 +175,7 @@ class _MaterialApp extends ConsumerWidget {
     this.color,
     this.theme,
     this.darkTheme,
+    this.homeRoute,
     this.themeMode = ThemeMode.system,
     this.locale,
     this.localizationsDelegates,
@@ -199,6 +203,7 @@ class _MaterialApp extends ConsumerWidget {
   final Widget Function(BuildContext, Widget?)? builder;
   final GlobalKey<NavigatorState>? navigatorKey;
   final String initialRoute;
+  final String? homeRoute;
   final List<NavigatorObserver> navigatorObservers;
   final String title;
   final RouteFactory? onGenerateTitle;
@@ -235,7 +240,7 @@ class _MaterialApp extends ConsumerWidget {
           ? null
           : (initialRouteName) => RouteConfig._onGenerateInitialRoute(
                 context,
-                initialRouteName,
+                homeRoute ?? initialRouteName,
                 boot: onBootRoute,
               ),
       navigatorObservers: [

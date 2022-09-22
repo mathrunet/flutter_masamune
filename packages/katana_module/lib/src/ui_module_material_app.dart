@@ -10,6 +10,7 @@ class UIModuleMaterialApp extends StatelessWidget {
     this.navigatorKey,
     this.routes = const <String, RouteConfig>{},
     this.initialRoute = "/",
+    this.homeRoute,
     this.navigatorObservers = const <NavigatorObserver>[],
     this.title = "",
     this.onGenerateTitle,
@@ -60,6 +61,7 @@ class UIModuleMaterialApp extends StatelessWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
   final Map<String, RouteConfig> routes;
   final String initialRoute;
+  final String? homeRoute;
   final List<NavigatorObserver> navigatorObservers;
   final String title;
   final RouteFactory? onGenerateTitle;
@@ -134,7 +136,8 @@ class UIModuleMaterialApp extends StatelessWidget {
                 home: home,
                 navigatorKey: navigatorKey,
                 routes: moduleConfig?.routeSettings.merge(routes) ?? routes,
-                initialRoute: appModule?.initialRoute ?? initialRoute,
+                initialRoute: initialRoute,
+                homeRoute: appModule?.initialRoute ?? homeRoute,
                 navigatorObservers: [
                   if (analytics?.observer != null) analytics!.observer!,
                   ...navigatorObservers,
