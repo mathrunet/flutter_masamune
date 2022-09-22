@@ -1,3 +1,7 @@
+## 0.15.0+9
+
+ - **FIX**: Fixed a bug that made it difficult to understand initialRoute on the Web. ([75c3c421](https://github.com/mathrunet/flutter_masamune/commit/75c3c42159e4d56ab8976b36787ad1bbdc85e5c8))
+
 ## 0.15.0+8
 
  - Update a dependency to the latest release.
