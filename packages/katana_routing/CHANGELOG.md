@@ -1,3 +1,7 @@
+## 0.15.0+4
+
+ - **FIX**: Fixed a bug in homeRoute. ([2affe2eb](https://github.com/mathrunet/flutter_masamune/commit/2affe2eb7556162ffd1c1d11275ad253d050d882))
+
 ## 0.15.0+3
 
  - **FIX**: Added appBarLogoImage to ImageTheme. ([fbd35619](https://github.com/mathrunet/flutter_masamune/commit/fbd3561989be646fe25b5b3409b24b9348dd1d75))
