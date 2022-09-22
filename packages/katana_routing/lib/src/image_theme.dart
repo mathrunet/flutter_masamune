@@ -11,6 +11,7 @@ class ImageTheme extends ThemeExtension<ImageTheme> {
     this.bootFeatureImage,
     this.homeFeatureImage,
     this.homeAppBarBackgroundImage,
+    this.appBarLogoImage,
   });
 
   /// Landing Page Background.
@@ -34,6 +35,9 @@ class ImageTheme extends ThemeExtension<ImageTheme> {
   /// Appbar background image of the home screen.
   final String? homeAppBarBackgroundImage;
 
+  /// Logo image of Appbar (for web)
+  final String? appBarLogoImage;
+
   @override
   ImageTheme copyWith({
     String? landingBackgroundImage,
@@ -43,6 +47,7 @@ class ImageTheme extends ThemeExtension<ImageTheme> {
     String? backgroundImage,
     String? homeFeatureImage,
     String? homeAppBarBackgroundImage,
+    String? appBarLogoImage,
   }) {
     return ImageTheme(
       landingBackgroundImage:
@@ -54,6 +59,7 @@ class ImageTheme extends ThemeExtension<ImageTheme> {
       homeFeatureImage: homeFeatureImage ?? this.homeFeatureImage,
       homeAppBarBackgroundImage:
           homeAppBarBackgroundImage ?? this.homeAppBarBackgroundImage,
+      appBarLogoImage: appBarLogoImage ?? this.appBarLogoImage,
     );
   }
 
