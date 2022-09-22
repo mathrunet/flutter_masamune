@@ -249,4 +249,12 @@ extension IterableExtensions<T> on Iterable<T> {
     }
     return true;
   }
+
+  /// [print] the entire contents of [List].
+  /// [List]の中身をすべて[print]します。
+  void print() {
+    for (final tmp in this) {
+      core.print(tmp.toString());
+    }
+  }
 }

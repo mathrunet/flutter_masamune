@@ -1,7 +1,10 @@
 import 'package:katana/katana.dart';
 import 'package:test/test.dart';
 
+import 'date_time_extensions_test.dart' as date_time_extensions;
+
 void main() {
+  date_time_extensions.main();
   test("nullIntOperator", () {
     const int? a = null;
     const int b = 10;

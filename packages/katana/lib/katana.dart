@@ -8,8 +8,9 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana;
 
-import 'dart:async';
 import 'dart:convert';
+import 'dart:core';
+import 'dart:core' as core;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -17,9 +18,9 @@ import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:recase/recase.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:uuid/uuid.dart';
-import 'package:recase/recase.dart';
 
 export 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 export 'package:intl/intl.dart' show DateFormat;

@@ -1,10 +1,22 @@
 part of katana;
 
-/// Provides general extensions to [Iterable<DateTime>].
+/// Provides extended methods for [DateTime] arrays.
+/// [DateTime]の配列用の拡張メソッドを提供します。
 extension DateTimeIterableExtensions on Iterable<DateTime> {
-  /// Get the datetime closest to [point] from the array.
+  /// Get the closest [DateTime] to [point] in the [DateTime] array.
+  /// [DateTime]の配列の中で[point]に一番近い[DateTime]を取得します。
   ///
-  /// If the array has no elements, [Null] is passed.
+  /// If the array is empty, [Null] is returned.
+  /// 配列が空の場合は[Null]が返されます。
+  ///
+  /// ```dart
+  /// final dateTimeArray = [
+  ///   DateTime(2022, 12, 20),
+  ///   DateTime(2022, 12, 28),
+  ///   DateTime(2023, 1, 12),
+  /// ];
+  /// final nearest = dateTimeArray.nearestOrNull(DateTime(2022, 12, 22)); // DateTime(2022, 12, 20)
+  /// ```
   DateTime? nearestOrNull(DateTime point) {
     if (isEmpty) {
       return null;
