@@ -1,3 +1,7 @@
+## 0.15.0+3
+
+ - **FIX**: Added appBarLogoImage to ImageTheme. ([fbd35619](https://github.com/mathrunet/flutter_masamune/commit/fbd3561989be646fe25b5b3409b24b9348dd1d75))
+
 ## 0.15.0+2
 
  - **FIX**: Fixed a bug that made it difficult to understand initialRoute on the Web. ([75c3c421](https://github.com/mathrunet/flutter_masamune/commit/75c3c42159e4d56ab8976b36787ad1bbdc85e5c8))
