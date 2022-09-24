@@ -11,6 +11,6 @@ void main() {
       milliseconds: 765,
       microseconds: 354,
     );
-    expect(duration.format("dd HH:mm:ss.S.M"), "1 02:12:56.765.354");
+    expect(duration.format("d HH:mm:ss.S.M"), "1 02:12:56.765.354");
   });
 }

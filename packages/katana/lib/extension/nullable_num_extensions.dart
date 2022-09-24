@@ -1,8 +1,10 @@
 part of katana;
 
-/// Provides general extensions to [num?].
+/// Provides an extension method for [num] that is nullable.
+/// Nullableな[num]用の拡張メソッドを提供します。
 extension NullableNumExtensions on num? {
-  /// Whether this num is null or zero.
+  /// Returns `true` if [num] is [null] or `0`.
+  /// [num]が[Null]、もしくは`0`の場合`true`を返します。
   bool get isEmpty {
     if (this == null) {
       return true;
@@ -10,7 +12,8 @@ extension NullableNumExtensions on num? {
     return this == 0.0;
   }
 
-  /// Whether this num is not null or zero.
+  /// Returns `true` if [num] is not [Null] or `0`.
+  /// [num]が[Null]、もしくは`0`でない場合`true`を返します。
   bool get isNotEmpty {
     if (this == null) {
       return false;
@@ -18,10 +21,14 @@ extension NullableNumExtensions on num? {
     return this != 0.0;
   }
 
-  /// Calculation assuming Null.
+  /// Performs addition with a nullable [num] value.
+  /// Nullableな[num]値での加算を行います。
   ///
-  /// If both are null, null is returned.
-  /// If either is not null, a non-null value is returned.
+  /// If both are [Null], [Null] is returned.
+  /// 両方が[Null]の場合は[Null]が返されます。
+  ///
+  /// If only one of them is [Null], a non-null value is returned.
+  /// どちらかのみが[Null]の場合、[Null]でない値が返されます。
   num? operator +(num? other) {
     if (this == null) {
       return other;
@@ -32,10 +39,14 @@ extension NullableNumExtensions on num? {
     return this! + other;
   }
 
-  /// Calculation assuming Null.
+  /// Performs subtraction with a nullable [num] value.
+  /// Nullableな[num]値での減算を行います。
   ///
-  /// If both are null, null is returned.
-  /// If either is not null, a non-null value is returned.
+  /// If both are [Null], [Null] is returned.
+  /// 両方が[Null]の場合は[Null]が返されます。
+  ///
+  /// If only one of them is [Null], a non-null value is returned.
+  /// どちらかのみが[Null]の場合、[Null]でない値が返されます。
   num? operator -(num? other) {
     if (this == null) {
       return other;
@@ -46,10 +57,14 @@ extension NullableNumExtensions on num? {
     return this! - other;
   }
 
-  /// Calculation assuming Null.
+  /// Performs multiplication by a nullable [num] value.
+  /// Nullableな[num]値での乗算を行います。
   ///
-  /// If both are null, null is returned.
-  /// If either is not null, a non-null value is returned.
+  /// If both are [Null], [Null] is returned.
+  /// 両方が[Null]の場合は[Null]が返されます。
+  ///
+  /// If only one of them is [Null], a non-null value is returned.
+  /// どちらかのみが[Null]の場合、[Null]でない値が返されます。
   num? operator *(num? other) {
     if (this == null) {
       return other;
@@ -60,10 +75,14 @@ extension NullableNumExtensions on num? {
     return this! * other;
   }
 
-  /// Calculation assuming Null.
+  /// Performs division by a nullable [num] value.
+  /// Nullableな[num]値での除算を行います。
   ///
-  /// If both are null, null is returned.
-  /// If either is not null, a non-null value is returned.
+  /// If both are [Null], [Null] is returned.
+  /// 両方が[Null]の場合は[Null]が返されます。
+  ///
+  /// If only one of them is [Null], a non-null value is returned.
+  /// どちらかのみが[Null]の場合、[Null]でない値が返されます。
   double? operator /(num? other) {
     if (this == null) {
       return other?.toDouble();
@@ -74,10 +93,14 @@ extension NullableNumExtensions on num? {
     return this! / other;
   }
 
-  /// Calculation assuming Null.
+  /// Performs remainder operations on nullable [num] values.
+  /// Nullableな[num]値での剰余演算を行います。
   ///
-  /// If both are null, null is returned.
-  /// If either is not null, a non-null value is returned.
+  /// If both are [Null], [Null] is returned.
+  /// 両方が[Null]の場合は[Null]が返されます。
+  ///
+  /// If only one of them is [Null], a non-null value is returned.
+  /// どちらかのみが[Null]の場合、[Null]でない値が返されます。
   num? operator %(num? other) {
     if (this == null) {
       return other;
@@ -88,10 +111,14 @@ extension NullableNumExtensions on num? {
     return this! % other;
   }
 
-  /// Calculation assuming Null.
+  /// Performs truncated division by a nullable [num] value.
+  /// Nullableな[num]値での切り捨て除算を行います。
   ///
-  /// If both are null, null is returned.
-  /// If either is not null, a non-null value is returned.
+  /// If both are [Null], [Null] is returned.
+  /// 両方が[Null]の場合は[Null]が返されます。
+  ///
+  /// If only one of them is [Null], a non-null value is returned.
+  /// どちらかのみが[Null]の場合、[Null]でない値が返されます。
   int? operator ~/(num? other) {
     if (this == null) {
       return other?.toInt();

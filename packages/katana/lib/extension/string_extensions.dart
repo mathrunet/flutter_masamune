@@ -1,20 +1,17 @@
 part of katana;
 
-/// Provides general extensions to [String].
+/// Provides extended methods for [String].
+/// [String]用の拡張メソッドを提供します。
 extension StringExtensions on String {
   static final RegExp _tail = RegExp(r"[^/]+$");
 
-  /// Divides a path, etc., with [separator] and returns its length.
-  int splitLength({String separator = "/"}) {
-    if (isEmpty) {
-      return 0;
-    }
-    final paths = split(separator);
-    final length = paths.length;
-    return length;
-  }
-
-  /// The path, for example, is divided by [separator] and returns the path one level up.
+  /// [String] is divided by [separator] and moved one level up.
+  /// [String]を[separator]で分割し一つ上の階層に移動します。
+  ///
+  /// ```dart
+  /// final path = "aaaa/bbbb/cccc/dddd";
+  /// final parentPath = path.parentPath(); // "aaaa/bbbb/cccc"
+  /// ```
   String parentPath({String separator = "/"}) {
     if (isEmpty) {
       return this;
@@ -23,9 +20,13 @@ extension StringExtensions on String {
     return path.replaceAll(_tail, "").trimStringRight(separator);
   }
 
-  /// Splits the text by character.
+  /// Converts [String] to an array of one character at a time.
+  /// [String]を1文字ずつの配列に変換します。
   ///
-  /// It is used for searching.
+  /// ```dart
+  /// final text = "abcde";
+  /// final characters = ["a", "b", "c", "d", "e"];
+  /// ```
   List<String> splitByCharacter() {
     if (isEmpty) {
       return <String>[];
@@ -34,15 +35,19 @@ extension StringExtensions on String {
       return [this];
     }
     final tmp = <String>[];
-    for (int i = 0; i < length - 1; i++) {
+    for (int i = 0; i < length; i++) {
       tmp.add(substring(i, min(i + 1, length)));
     }
     return tmp;
   }
 
-  /// Splits the text using the bigram algorithm.
+  /// Convert [String] to Bigram, i.e., an array of two characters each.
+  /// [String]をBigram、つまり2文字ずつの配列に変換します。
   ///
-  /// It is used for searching.
+  /// ```dart
+  /// final text = "abcde";
+  /// final characters = ["ab", "bc", "cd", "de"];
+  /// ```
   List<String> splitByBigram() {
     if (isEmpty) {
       return <String>[];
@@ -57,9 +62,13 @@ extension StringExtensions on String {
     return tmp;
   }
 
-  /// Splits the text using the trigram algorithm.
+  /// Convert [String] to Trigram, i.e., an array of 3 characters each.
+  /// [String]をTrigram、つまり3文字ずつの配列に変換します。
   ///
-  /// It is used for searching.
+  /// ```dart
+  /// final text = "abcde";
+  /// final characters = ["abc", "bcd", "cde"];
+  /// ```
   List<String> splitByTrigram() {
     if (isEmpty) {
       return [];
@@ -74,7 +83,13 @@ extension StringExtensions on String {
     return tmp;
   }
 
-  /// Removes a query from a URL string.
+  /// Trims URL query characters (after ?).
+  /// URLのクエリ文字（?以降）をトリムします。
+  ///
+  /// ```dart
+  /// final url = "https://google.com?q=searchtext";
+  /// final trimed = url.trimQuery(); // "https://google.com"
+  /// ```
   String trimQuery() {
     if (!contains("?")) {
       return this;
@@ -82,9 +97,13 @@ extension StringExtensions on String {
     return split("?").first;
   }
 
-  /// Trim with specific characters.
+  /// Trims the characters given by [chars] from before and after [String].
+  /// [String]の前後から[chars]で与えられた文字をトリムします。
   ///
-  /// Specify the character string to be trimmed in [chars].
+  /// ```dart
+  /// final text = "__text___";
+  /// final trimed = text.trimString("_"); // "text"
+  /// ```
   String trimString(String chars) {
     final pattern = chars.isNotEmpty
         ? RegExp("^[$chars]+|[$chars]+\$")
@@ -92,80 +111,134 @@ extension StringExtensions on String {
     return replaceAll(pattern, "");
   }
 
-  /// Trim only the left side with a specific string.
+  /// Trims the characters given by [chars] from before [String].
+  /// [String]の前から[chars]で与えられた文字をトリムします。
   ///
-  /// Specify the character string to be trimmed in [chars].
+  /// ```dart
+  /// final text = "__text___";
+  /// final trimed = text.trimString("_"); // "text___"
+  /// ```
   String trimStringLeft(String chars) {
     final pattern = chars.isNotEmpty ? RegExp("^[$chars]+") : RegExp(r"^\s+");
     return replaceAll(pattern, "");
   }
 
-  /// Trim only the right side with a specific string.
+  /// Trims the characters given by [chars] from after [String].
+  /// [String]の後から[chars]で与えられた文字をトリムします。
   ///
-  /// Specify the character string to be trimmed in [chars].
+  /// ```dart
+  /// final text = "__text___";
+  /// final trimed = text.trimString("_"); // "__text"
+  /// ```
   String trimStringRight(String chars) {
     final pattern = chars.isNotEmpty ? RegExp("[$chars]+\$") : RegExp(r"\s+$");
     return replaceAll(pattern, "");
   }
 
-  /// Convert the letters to snake case.
+  /// Convert [String] to snake case.
+  /// [String]をスネークケースに変換します。
+  ///
+  /// ```dart
+  /// final text = "SnakeCaseText";
+  /// final snakeCase = text.toSnakeCase(); // "snake_case_text"
+  ///
+  /// final text = "Snake_Case_Text";
+  /// final snakeCase = text.toSnakeCase(); // "snake_case_text"
+  /// ```
   String toSnakeCase() {
     return snakeCase;
   }
 
-  /// Convert the letters to camel case.
+  /// Convert [String] to CamelCase (first letter is lower case).
+  /// [String]をキャメルケース（最初の文字は小文字）に変換します。
+  ///
+  /// ```dart
+  /// final text = "CAMEL_CASE_TEXT";
+  /// final snakeCase = text.toSnakeCase(); // "camelCaseText"
+  ///
+  /// final text = "camel_case_text";
+  /// final snakeCase = text.toSnakeCase(); // "camelCaseText"
+  /// ```
   String toCamelCase() {
     return camelCase;
   }
 
-  /// Converts a String to an int.
+  /// Converts [String] to [int].
+  /// [String]を[int]に変換します。
   ///
-  /// Normally it parses, but if it cannot parse it, it creates a random string.
-  int toInt() {
+  /// If the string cannot be converted, [defaultValue] is returned.
+  /// 変換できない文字列の場合、[defaultValue]が返されます。
+  int toInt([int defaultValue = 0]) {
     if (isEmpty) {
-      return 0;
+      return defaultValue;
     }
     final i = int.tryParse(this);
     if (i != null) {
       return i;
     }
-    int val = 0;
-    for (final rune in runes) {
-      val += (val + 1) * rune;
-    }
-    return val;
+    return defaultValue;
   }
 
-  /// Converts a String to an int.
+  /// Converts [String] to [double].
+  /// [String]を[double]に変換します。
   ///
-  /// Normally it parses, but if it cannot parse it, it creates a random string.
-  double toDouble() {
+  /// If the string cannot be converted, [defaultValue] is returned.
+  /// 変換できない文字列の場合、[defaultValue]が返されます。
+  double toDouble([double defaultValue = 0.0]) {
     if (isEmpty) {
-      return 0.0;
+      return defaultValue;
     }
     final d = double.tryParse(this);
     if (d != null) {
       return d;
     }
-    double val = 0.0;
-    for (final rune in runes) {
-      val += (val + 1.0) * rune;
-    }
-    return val;
+    return defaultValue;
   }
 
-  /// Parses a String into a bool.
-  bool toBool() {
+  /// Converts [String] to [bool].
+  /// [String]を[bool]に変換します。
+  ///
+  /// If the string cannot be converted, [defaultValue] is returned.
+  /// 変換できない文字列の場合、[defaultValue]が返されます。
+  ///
+  /// ```dart
+  /// final text = "True";
+  /// final boolValue = text.toBool(); // true
+  ///
+  /// final text = "false";
+  /// final boolValue = text.toBool(); // false
+  ///
+  /// final text = "TRUE";
+  /// final boolValue = text.toBool(); // true
+  /// ```
+  bool toBool([bool defaultValue = false]) {
     if (toLowerCase() == "true") {
       return true;
+    } else if (toLowerCase() == "false") {
+      return false;
     }
-    return false;
+    return defaultValue;
   }
 
-  /// Convert to Double or Int or Bool.
+  /// Converts a [String] to a type that can be parsed as [bool], [int], or [double], in that order, and returns the type as is.
+  /// [String]を[bool]、[int]、[double]の順でパースできる型に変換しその型のまま返します。
+  ///
+  /// If it cannot be converted, it is returned as [String].
+  /// 変換できない場合は[String]のまま返されます。
+  ///
+  /// ```dart
+  /// final text = "100";
+  /// final any = text.toAny(); // 100 (int)
+  /// final text = "100.9";
+  /// final any = text.toAny(); // 100.9 (double)
+  /// final text = "false";
+  /// final any = text.toAny(); // false (bool)
+  /// final text = "abc100";
+  /// final any = text.toAny(); // "abc100" (String)
+  /// ```
   dynamic toAny() {
     if (isEmpty) {
-      return null;
+      return "";
     }
     final b = toLowerCase();
     if (b == "true") {
@@ -173,17 +246,28 @@ extension StringExtensions on String {
     } else if (b == "false") {
       return false;
     }
-    final n = num.tryParse(this);
-    if (n != null) {
-      return n;
+    final i = int.tryParse(this);
+    if (i != null) {
+      return i;
+    }
+    final d = double.tryParse(this);
+    if (d != null) {
+      return d;
     }
     return this;
   }
 
-  /// Parses a String into a DateTime.
-  DateTime toDateTime() {
+  /// Converts [String] to [DateTime].
+  /// [String]を[DateTime]に変換します。
+  ///
+  /// If [String] cannot be parsed after parsing with [DateTime.tryParse], further parsing is attempted using the sequence "yyyyMMddHHmmss".
+  /// [String]を[DateTime.tryParse]でパースしたのちパースできなければ、"yyyyMMddHHmmss"の並びでさらにパースを試みます。
+  ///
+  /// If parsing is not possible, [defaultValue] or [DateTime.now] is returned.
+  /// パースできなかった場合、[defaultValue]、もしくは[DateTime.now]を返します。
+  DateTime toDateTime([DateTime? defaultValue]) {
     if (isEmpty) {
-      return DateTime.now();
+      return defaultValue ?? DateTime.now();
     }
     final dateTime = DateTime.tryParse(this);
     if (dateTime != null) {
@@ -196,7 +280,7 @@ extension StringExtensions on String {
     final minute = int.tryParse(substring(10, 12));
     final second = int.tryParse(substring(12, 14));
     if (year == null) {
-      return DateTime.now();
+      return defaultValue ?? DateTime.now();
     }
     if (month == null) {
       return DateTime(year);
@@ -223,66 +307,110 @@ extension StringExtensions on String {
     );
   }
 
-  /// Encoded in Base64.
+  /// Encode [String] into a Base64 string.
+  /// [String]をBase64の文字列にエンコードします。
   String toBase64() => utf8.fuse(base64).encode(this);
 
-  /// Encode in url safe base64.
+  /// Encode [String] into a Base64URL string.
+  /// [String]をBase64URLの文字列にエンコードします。
   String toBase64Url() => utf8.fuse(base64Url).encode(this);
 
-  /// Decoded in Base64.
+  /// Decodes Base64-encoded [String].
+  /// Base64エンコードされた[String]をデコードします。
   String fromBase64() => utf8.fuse(base64).decode(this);
 
-  /// Decoded in url safe base64.
+  /// Decodes Base64URL-encoded [String].
+  /// Base64URLエンコードされた[String]をデコードします。
   String fromBase64Url() => utf8.fuse(base64Url).decode(this);
 
-  /// Convert to SHA1 hash.
+  /// Hash [String] with SHA1.
+  /// [String]をSHA1でハッシュ化します。
   String toSHA1() => sha1.convert(utf8.encode(this)).toString();
 
-  /// Convert to SHA256 hash.
-  ///
-  /// Set the password for encoding to [password].
+  /// Give [password] to [String] and hash it with HMAC-SHA256.
+  /// [String]に[password]を与えてをHMAC-SHA256でハッシュ化します。
   String toSHA256(String password) {
     final hmacSha256 = Hmac(sha256, utf8.encode(password));
     return hmacSha256.convert(utf8.encode(this)).toString();
   }
 
-  /// Converts a string into a Base64-encoded AES cipher.
+  /// Pass [key] of at least 32 characters to [String] for AES encryption.
+  /// [String]に32文字以上の[key]を渡してAES暗号化します。
   ///
-  /// You can specify an AES encryption key by giving [key].
+  /// The encrypted string is returned Base64-encoded.
+  /// 暗号化された文字列はBase64エンコードされ返されます。
+  ///
+  /// The `IV` is created from [key].
+  /// `IV`は[key]から作成されます。
   String toAES(String key) {
+    assert(key.length >= 32, "Please pass at least 32 characters for [key].");
     final encodedKey = Key.fromUtf8(key.substring(0, 32));
     final iv = IV.fromUtf8(key.substring(max(0, key.length - 16), key.length));
     return Encrypter(AES(encodedKey)).encrypt(this, iv: iv).base64;
   }
 
-  /// Decrypts Base64 AES-encrypted strings.
+  /// Decrypts AES-encrypted and Base64-encoded [String].
+  /// AES暗号化されBase64エンコードされた[String]を復号化します。
   ///
-  /// You can specify an AES encryption key by giving [key].
+  /// The [key] should be the same as that given for the AES encryption.
+  /// [key]はAES暗号化された際に与えたものと同じものを与えてください。
   String fromAES(String key) {
+    assert(key.length >= 32, "Please pass at least 32 characters for [key].");
     final encodedKey = Key.fromUtf8(key.substring(0, 32));
     final iv = IV.fromUtf8(key.substring(max(0, key.length - 16), key.length));
     return Encrypter(AES(encodedKey)).decrypt64(this, iv: iv);
   }
 
-  /// Format for text.
+  /// Replaces [String] with the C printf format.
+  /// [String]をC言語のprintfの書式で置き換え返します。
   ///
-  /// You can assign a value to it by specifying [%s].
+  /// Pass the object to be replaced to [arg].
+  /// [arg]に置き換えるオブジェクトを渡します。
+  ///
+  /// Please list the letters to be replaced in the format below.
+  /// 下記のフォーマットで置き換える文字を記載してください。
+  ///
+  /// - `%s` Outputs a string. 文字列を出力する。	`%8s`, `%-10s`
+  /// - `%d` Output an integer in decimal. 整数を10進で出力する。	`%-2d`, `%03d`
+  /// - `%o` Output an integer in octal. 整数を8進で出力する。 `%06o`, `%03o`
+  /// - `%x` Output an integer in hexadecimal. 整数を16進で出力する。 `%04x`
+  /// - `%f` Output real numbers. 実数を出力する。 `%5.2f`
   String format(List<Object> arg) {
     return sprintf(this, arg);
   }
 
-  /// Get the first string which is separated by [separator].
+  /// Divides a [String] by [separator] and returns the first part.
+  /// [String]を[separator]で分割しその最初の部分を返します。
+  ///
+  /// ```dart
+  /// final path = "aaaa/bbbb/cccc/dddd";
+  /// final first = path.first(); // aaaa
+  /// ```
   String first({String separator = "/"}) {
     return split(separator).firstOrNull ?? "";
   }
 
-  /// Get the last string which is separated by [separator].
+  /// Divides a [String] by [separator] and returns the last part.
+  /// [String]を[separator]で分割しその最後の部分を返します。
+  ///
+  /// ```dart
+  /// final path = "aaaa/bbbb/cccc/dddd";
+  /// final first = path.first(); // dddd
+  /// ```
   String last({String separator = "/"}) {
     return split(separator).lastOrNull ?? "";
   }
 
-  /// Limits the string to [length],
-  /// followed by [suffix] if it is limited.
+  /// [String] with [length] to limit the number of characters.
+  /// [String]を[length]で文字数を制限します。
+  ///
+  /// If the string is restricted, [suffix] is added at the end.
+  /// 文字列が制限された場合、最後尾に[suffix]が追加されます。
+  ///
+  /// ```dart
+  /// final text = "abcdefghijklmn";
+  /// final limited = text.limit(5); // "abcde..."
+  /// ```
   String limit(int length, {String suffix = "..."}) {
     if (this.length <= length) {
       return this;
@@ -290,7 +418,13 @@ extension StringExtensions on String {
     return "${substring(0, length)}$suffix";
   }
 
-  /// Capitalize only the first letter.
+  /// Captialize and return [String].
+  /// [String]をキャピタライズして返します。
+  ///
+  /// ```dart
+  /// final text = "capitalize";
+  /// final capitalized = text.capitalize(); // "Capitalize"
+  /// ```
   String capitalize() {
     if (isEmpty) {
       return "";
@@ -301,19 +435,31 @@ extension StringExtensions on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 
-  /// Converts from JSON string to any object.
-  dynamic toJsonObject([Object? object]) {
-    return jsonDecode(this) ?? object;
+  /// Converts [String] to a Json-decoded object.
+  /// [String]をJsonデコードされたオブジェクトに変換します。
+  ///
+  /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+  /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
+  dynamic toJsonObject([Object? defaultValue]) {
+    return jsonDecode(this) ?? defaultValue;
   }
 
-  /// Converts from JSON string to Map.
+  /// Converts [String] to a Json-decoded Map<String, dynamic> object.
+  /// [String]をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
+  ///
+  /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+  /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
   Map<String, T> toJsonMap<T extends Object>([
     Map<String, T> defaultValue = const {},
   ]) {
     return jsonDecodeAsMap<T>(this, defaultValue);
   }
 
-  /// Converts from JSON string to List.
+  /// Converts [String] to a Json-decoded List<dynamic> object.
+  /// [String]をJsonデコードされたList<dynamic>オブジェクトに変換します。
+  ///
+  /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+  /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
   List<T> toJsonList<T extends Object>([
     List<T> defaultValue = const [],
   ]) {

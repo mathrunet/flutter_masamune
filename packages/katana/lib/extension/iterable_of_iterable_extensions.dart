@@ -1,10 +1,18 @@
 part of katana;
 
-/// Provides general extensions to [Iterable<Iterable<T>>].
+/// Provides extended methods for [Iterable] arrays.
+/// [Iterable]の配列用の拡張メソッドを提供します。
 extension InterableOfIterableExtensions<T> on Iterable<Iterable<T>> {
-  /// The list inside are grouped together into a single list.
+  /// Merges an array of arrays into a single array and returns it.
+  /// 配列の配列をマージして１つの配列にして返します。
   ///
-  /// You can define a [separator] to put an element in between.
+  /// When [separator] is passed, the elements of [separator] are inserted between the arrays to be merged.
+  /// [separator]を渡すと、マージする配列と配列の間に[separator]の要素が挿入されます。
+  ///
+  /// ```dart
+  /// final arrayOfArray = [[1, 2, 3], [5, 6], [8, 9]];
+  /// final joined = arrayOfArray.joinToList(4); // [1, 2, 3, 4, 5, 6, 4, 8, 9]
+  /// ```
   Iterable<T> joinToList([T? separator]) {
     final res = <T>[];
     for (final list in this) {

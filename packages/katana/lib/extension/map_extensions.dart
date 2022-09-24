@@ -1,116 +1,157 @@
 part of katana;
 
-/// Provides general extensions to [Map<K,V>].
+/// Provides extended methods for [Map].
+/// [Map]用の拡張メソッドを提供します。
 extension MapExtensions<K, V> on Map<K, V> {
-  /// Convert it to a list through [callback].
+  /// Returns a list of [callback] return values generated from [Map].
+  /// [Map]から生成された[callback]の戻り値のリストを返します。
+  ///
+  /// ```dart
+  /// final map = {"a": 1, "b": 2, "c": 3};
+  /// final list = map.toList((k, v) => k); // ["a", "b", "c"]
+  /// ```
   Iterable<T> toList<T>(T Function(K key, V value) callback) sync* {
     for (final tmp in entries) {
       yield callback(tmp.key, tmp.value);
     }
   }
 
-  /// Set only the value of the key specified
-  /// by [keys] in the map specified by [other].
+  /// Set only the value of the key specified by [keys] in the map specified by [others].
+  /// [others] で指定されたマップに、[keys] で指定されたキーの値のみを設定します。
   ///
-  /// ```
+  /// ```dart
   /// final main = {"c": 3, "d": 4};
   /// final other = {"a": 1, "b": 2};
-  /// main.addWith(other, ["a"]);     // {"a": 1, "c": 3, "d": 4}
+  /// main.addWith(other, ["a"]); // {"a": 1, "c": 3, "d": 4}
   /// ```
-  Map<K, V> addWith(Map<K, V> other, Iterable<K> keys) {
+  Map<K, V> addWith(Map<K, V> others, Iterable<K> keys) {
     for (final key in keys) {
-      if (!other.containsKey(key)) {
+      if (!others.containsKey(key)) {
         continue;
       }
       // ignore: null_check_on_nullable_type_parameter
-      this[key] = other[key]!;
+      this[key] = others[key]!;
     }
     return this;
   }
 
-  /// Get the value corresponding to [key] in the map.
+  /// Retrieves the element [key] from [Map].
+  /// [Map]から[key]の要素を取得します。
   ///
-  /// If [key] is not found, the value of [orElse] is returned.
+  /// If [Map] does not have an element of [key] or the type does not match [T], [orElse] is returned.
+  /// [Map]に[key]の要素がない場合や[T]と型が合わない場合、[orElse]が返されます。
   T get<T>(K key, T orElse) {
     assert(key != null, "The key is empty.");
-    if (!containsKey(key)) {
+    if (!containsKey(key) || this[key] is! T?) {
       return orElse;
     }
     return (this[key] as T?) ?? orElse;
   }
 
-  /// Get the int value corresponding to [key] in the map.
+  /// Retrieves the element of [key] of type [int] from [Map].
+  /// [Map]から[int]型の[key]の要素を取得します。
   ///
-  /// If [key] is not found, the value of [orElse] is returned.
+  /// If [Map] does not have an element of [key] or the type does not match [int], [orElse] is returned.
+  /// [Map]に[key]の要素がない場合や[int]と型が合わない場合、[orElse]が返されます。
   int getAsInt(K key, [int orElse = 0]) {
     assert(key != null, "The key is empty.");
-    if (!containsKey(key)) {
+    if (!containsKey(key) || this[key] is! num?) {
       return orElse;
     }
     return (this[key] as num?)?.toInt() ?? orElse;
   }
 
-  /// Get the double value corresponding to [key] in the map.
+  /// Retrieves the element of [key] of type [double] from [Map].
+  /// [Map]から[double]型の[key]の要素を取得します。
   ///
-  /// If [key] is not found, the value of [orElse] is returned.
+  /// If [Map] does not have an element of [key] or the type does not match [double], [orElse] is returned.
+  /// [Map]に[key]の要素がない場合や[double]と型が合わない場合、[orElse]が返されます。
   double getAsDouble(K key, [double orElse = 0.0]) {
     assert(key != null, "The key is empty.");
-    if (!containsKey(key)) {
+    if (!containsKey(key) || this[key] is! num?) {
       return orElse;
     }
     return (this[key] as num?)?.toDouble() ?? orElse;
   }
 
-  /// Get the list corresponding to [key] in the map.
+  /// Retrieves the element of [key] of type [List] from [Map].
+  /// [Map]から[List]型の[key]の要素を取得します。
   ///
-  /// If [key] is not found, the list of [orElse] is returned.
+  /// If [Map] does not have an element of [key] or the type does not match [List<T>], [orElse] is returned.
+  /// [Map]に[key]の要素がない場合や[List<T>]と型が合わない場合、[orElse]が返されます。
   List<T> getAsList<T>(K key, [List<T>? orElse]) {
     assert(key != null, "The key is empty.");
-    if (!containsKey(key)) {
+    if (!containsKey(key) || this[key] is! List?) {
       return orElse ?? [];
     }
     return (this[key] as List?)?.cast<T>() ?? orElse ?? [];
   }
 
-  /// Get the map corresponding to [key] in the map.
+  /// Retrieves the element of [key] of type [Map] from [Map].
+  /// [Map]から[Map]型の[key]の要素を取得します。
   ///
-  /// If [key] is not found, the map of [orElse] is returned.
+  /// If [Map] does not have an element of [key] or the type does not match [Map<String, T>], [orElse] is returned.
+  /// [Map]に[key]の要素がない場合や[Map<String, T>]と型が合わない場合、[orElse]が返されます。
   Map<String, T> getAsMap<T>(K key, [Map<String, T>? orElse]) {
     assert(key != null, "The key is empty.");
-    if (!containsKey(key)) {
+    if (!containsKey(key) || this[key] is! Map?) {
       return orElse ?? {};
     }
     return (this[key] as Map?)?.cast<String, T>() ?? orElse ?? {};
   }
 
-  /// Get the set corresponding to [key] in the map.
+  /// Retrieves the element of [key] of type [Set] from [Map].
+  /// [Map]から[Set]型の[key]の要素を取得します。
   ///
-  /// If [key] is not found, the set of [orElse] is returned.
+  /// If [Map] does not have an element of [key] or the type does not match [Set<T>], [orElse] is returned.
+  /// [Map]に[key]の要素がない場合や[Set<T>]と型が合わない場合、[orElse]が返されます。
   Set<T> getAsSet<T>(K key, [Set<T>? orElse]) {
     assert(key != null, "The key is empty.");
-    if (!containsKey(key)) {
+    if (!containsKey(key) || this[key] is! Set?) {
       return orElse ?? {};
     }
     return (this[key] as Set?)?.cast<T>() ?? orElse ?? {};
   }
 
-  /// Get the set corresponding to [key] in the DateTime.
+  /// Retrieves the element of [key] of type [Map] from [Map].
+  /// [Map]から[DateTime]の[key]の要素を取得します。
   ///
-  /// If [key] is not found, the set of [orElse] is returned.
+  /// If it is an [int] type, convert it to a [DateTime] type with [DateTime.fromMillisecondsSinceEpoch].
+  /// [int]型の場合は[DateTime.fromMillisecondsSinceEpoch]で[DateTime]型に変換します。
+  ///
+  /// If there is no element of [key] in [Map] or the type does not match [int] or [DateTime], [orElse] is returned.
+  /// [Map]に[key]の要素がない場合や[int]もしくは[DateTime]と型が合わない場合、[orElse]が返されます。
   DateTime getAsDateTime(K key, [DateTime? orElse]) {
     if (!containsKey(key)) {
       return orElse ?? DateTime.now();
     }
-    final millisecondsSinceEpoch = this[key] as int?;
-    if (millisecondsSinceEpoch == null) {
+    if (this[key] is int?) {
+      final millisecondsSinceEpoch = this[key] as int?;
+      if (millisecondsSinceEpoch == null) {
+        return orElse ?? DateTime.now();
+      }
+      return DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+    } else if (this[key] is DateTime?) {
+      return (this[key] as DateTime?) ?? orElse ?? DateTime.now();
+    } else {
       return orElse ?? DateTime.now();
     }
-    return DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
   }
 
-  /// Merges the map in [others] with the current map.
+  /// Merges elements of [others] into [Map].
+  /// [Map]に[others]の要素をマージします。
   ///
-  /// If the same key is found, the value of [others] has priority.
+  /// You can use [convertKeys] to convert keys when merging [others].
+  /// [others]をマージする際のキーを[convertKeys]で変換できます。
+  ///
+  /// You can use [convertValues] to convert values when merging [others].
+  /// [others]をマージする際の値を[convertValues]で変換できます。
+  ///
+  /// ```dart
+  /// final map = {"a": 1, "b": 2, "c": 3};
+  /// final others = {"d": 4, "e": 5};
+  /// final merged = map.merge(others, convertKeys: (key) => "merged_$key", convertValues: (value) => value * 2); // {"a": 1, "b": 2, "c": 3, "merged_d": 8, "merged_e": 10}
+  /// ```
   Map<K, V> merge(
     Map<K, V>? others, {
     K Function(K key)? convertKeys,
@@ -129,8 +170,17 @@ extension MapExtensions<K, V> on Map<K, V> {
     return res;
   }
 
-  /// Add the values of the keys in [others]
-  /// that do not exist in the current Map.
+  /// Add [others] to [Map].
+  /// [Map]に[others]を追加します。
+  ///
+  /// Keys in [others] that are already in [Map] will not be added.
+  /// [others]のキーの中で[Map]の中にすでにあるものは追加されません。
+  ///
+  /// ```dart
+  /// final map = {"a": 1, "b": 2, "c": 3};
+  /// final others = {"c": 4, "d": 5};
+  /// map.addAllIfEmpty(others); // {"a": 1, "b": 2, "c": 3, "d": 5}
+  /// ```
   void addAllIfEmpty(Map<K, V>? others) {
     if (others.isEmpty) {
       return;
@@ -143,29 +193,35 @@ extension MapExtensions<K, V> on Map<K, V> {
     }
   }
 
-  /// Returns `true` if any of the given [keys] is in the map.
+  /// Returns `true` if any of the keys in [Map] contain any of the keys in [keys].
+  /// [Map]のキーに[keys]のいずれかが含まれている場合`true`を返します。
   bool containsKeyAny(Iterable<Object?> keys) {
     return keys.any((element) => containsKey(element));
   }
 
-  /// Returns `true` if all of the given [keys] is in the map.
+  /// Returns `true` if all [keys] are included in the keys of [Map].
+  /// [Map]のキーに[keys]がすべて含まれている場合`true`を返します。
   bool containsKeyAll(Iterable<Object?> keys) {
     return keys.every((element) => containsKey(element));
   }
 
-  /// Returns `true` if any of the given [values] is in the map.
+  /// Returns `true` if the value of [Map] contains one of [values].
+  /// [Map]の値に[values]のいずれかが含まれている場合`true`を返します。
   bool containsValueAny(Iterable<Object?> values) {
     return values.any((element) => containsValue(element));
   }
 
-  /// Returns `true` if all of the given [values] is in the map.
+  /// Returns `true` if the value of [Map] contains all [values].
+  /// [Map]の値に[values]がすべて含まれている場合`true`を返します。
   bool containsValueAll(Iterable<Object?> values) {
     return values.every((element) => containsValue(element));
   }
 
-  /// Return `True` if all match while comparing the contents of [others].
+  /// Returns `true` if the internals of [Map] and [others] are compared and match.
+  /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
   bool equalsTo(Map<K, V> others) {
     for (final tmp in entries) {
+      print(tmp.key);
       if (!others.containsKey(tmp.key)) {
         return false;
       }
@@ -175,22 +231,29 @@ extension MapExtensions<K, V> on Map<K, V> {
         if (o is! Iterable?) {
           return false;
         }
-        return t.equalsTo(o);
+        if (!t.equalsTo(o)) {
+          return false;
+        }
       } else if (t is Map?) {
         if (o is! Map?) {
           return false;
         }
-        return t.equalsTo(o);
+        if (!t.equalsTo(o)) {
+          return false;
+        }
       } else if (t is Set?) {
         if (o is! Set?) {
           return false;
         }
-        return t.equalsTo(o);
+        if (!t.equalsTo(o)) {
+          return false;
+        }
       } else if (t != o) {
         return false;
       }
     }
     for (final tmp in others.entries) {
+      print(tmp.key);
       if (!containsKey(tmp.key)) {
         return false;
       }

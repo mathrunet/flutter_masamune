@@ -8,7 +8,7 @@ extension DurationExtensions on Duration {
   ///
   /// 下記のパラメーターを利用することが可能です。
   ///
-  /// - `dd` Displays days. 日付を表示します。
+  /// - `d` Displays days. 日付を表示します。
   /// - `H` Displays hours. 時間を表示します。
   /// - `m` Display minutes. 分を表示します。
   /// - `s` Display seconds. 秒を表示します。
@@ -34,7 +34,7 @@ extension DurationExtensions on Duration {
     final milliSeconds = inMilliseconds.remainder(1000);
     final microSeconds = inMicroseconds.remainder(1000);
     return format
-        .replaceAll("dd", inDays.toString())
+        .replaceAll("d", inDays.toString())
         .replaceAll("HH", twoDigits(hours))
         .replaceAll("mm", twoDigits(minutes))
         .replaceAll("ss", twoDigits(seconds))
