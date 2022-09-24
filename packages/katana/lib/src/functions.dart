@@ -1,23 +1,32 @@
 part of katana;
 
-/// Get UUID.
+/// Generate and retrieve the UUID for Version 4.
+/// Version4のUUIDを生成し取得します。
 ///
-/// A 32-byte string without hyphens is output.
+/// Returned as a string with 32 hyphenated characters removed.
+/// 32文字のハイフンが取り除かれた文字列として返されます。
 String get uuid {
   const uuid = Uuid();
   return uuid.v4().replaceAll("-", "");
 }
 
-/// Take out only Future's from [futures] and wait.
+/// Wait until all Futures given in [futures] are completed.
+/// [futures]で与えられたFutureがすべて終了するまで待ちます。
 Future<void> wait(Iterable<dynamic> futures) async {
   await Future.wait(futures.whereType<Future>());
 }
 
-/// Create a code of length [length] randomly for id.
+/// Generates and returns a random string with the number of characters given by [length].
+/// [length]で与えられた文字数でランダムな文字列を生成して返します。
 ///
-/// Characters that are difficult to understand are omitted.
+/// If [seed] is given, the random generation can be seeded.
+/// [seed]を与えた場合、ランダム生成にシードを与えることができます。
 ///
-/// [seed] can be specified.
+/// Only the characters given in [charSet] will be included in the randomly generated string.
+/// [charSet]で与えた文字のみがランダム生成する文字列に含まれます。
+///
+/// Characters such as `1`, `l`, and `i`, which are indistinguishable in some fonts, are eliminated by default.
+/// `1`や`l`、`i`などフォントによっては見分けがつかない文字をデフォルトでは排除しています。
 String generateCode(
   int length, {
   int seed = 0,
@@ -35,11 +44,11 @@ String generateCode(
   return String.fromCharCodes(codeUnits);
 }
 
-/// [json] decoding.
+/// Converts [json] to a Json-decoded Map<String, dynamic> object.
+/// [json]をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
 ///
-/// Only maps are output. If it is not a map, null is output.
-///
-/// If Json cannot be converted, [defaultValue] will be returned.
+/// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+/// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
 Map<String, T> jsonDecodeAsMap<T extends Object>(
   String json, [
   Map<String, T> defaultValue = const {},
@@ -51,11 +60,11 @@ Map<String, T> jsonDecodeAsMap<T extends Object>(
   return defaultValue;
 }
 
-/// [json] decoding.
+/// Converts [json] to a Json-decoded List<dynamic> object.
+/// [json]をJsonデコードされたList<dynamic>オブジェクトに変換します。
 ///
-/// Only lists are output. If it is not a list, null is output.
-///
-/// If Json cannot be converted, [defaultValue] will be returned.
+/// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+/// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
 List<T> jsonDecodeAsList<T extends Object>(
   String json, [
   List<T> defaultValue = const [],
