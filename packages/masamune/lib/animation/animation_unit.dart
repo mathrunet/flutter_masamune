@@ -7,6 +7,7 @@ part of masamune;
 /// Set [IntTween], [DoubleTween], etc. to [tween], and set [from] and [to] to [Duration], which is the time axis. (All starting from [Duration.zero])
 ///
 /// If [tag] is specified, it is possible to get a specific value using the [get] method of [AnimationScenario].
+@deprecated
 @immutable
 class AnimationUnit {
   const AnimationUnit({

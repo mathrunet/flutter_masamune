@@ -13,26 +13,19 @@ import 'dart:async';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart'
+    hide NumDurationExtensions;
 import 'package:katana_module/katana_module.dart';
-import 'package:loading_animations/loading_animations.dart';
+import 'package:loading_indicator/loading_indicator.dart' as loading_indicator;
 
 import 'property/others/others.dart'
     if (dart.library.io) 'property/mobile/mobile.dart'
     if (dart.library.js) 'property/others/others.dart'
     if (dart.library.html) 'property/others/others.dart';
 
+export 'package:flutter_animate/flutter_animate.dart'
+    hide NumDurationExtensions;
 export 'package:katana_module/katana_module.dart';
-export 'package:loading_animations/loading_animations.dart'
-    show
-        LoadingFlipping,
-        LoadingRotating,
-        LoadingDoubleFlipping,
-        LoadingBouncingGrid,
-        LoadingFilling,
-        LoadingFadingLine,
-        LoadingBouncingLine,
-        LoadingJumpingLine,
-        LoadingBumpingLine;
 export 'package:url_strategy/url_strategy.dart' show setPathUrlStrategy;
 
 export 'property/others/others.dart'
@@ -50,6 +43,8 @@ part 'animation/animation_scope.dart';
 part 'animation/animation_unit.dart';
 part 'animation/sequence_animation_builder.dart';
 part 'animation/typedef.dart';
+part 'animation/animate_repeat.dart';
+part 'animation/color_effect.dart';
 part 'component/divid.dart';
 part 'component/empty.dart';
 part 'component/full_screen_builder.dart';
@@ -57,6 +52,7 @@ part 'component/indent.dart';
 part 'component/loading_builder.dart';
 part 'component/space.dart';
 part 'component/timer_builder.dart';
+part 'component/loading_indicator.dart';
 part 'dialog/ui_confirm.dart';
 part 'dialog/ui_connect_dialog.dart';
 part 'dialog/ui_dialog.dart';
@@ -75,21 +71,27 @@ part 'property/default_box_decoration.dart';
 part 'property/default_button_style.dart';
 part 'provider/api_collection_provider.dart';
 part 'provider/api_document_provider.dart';
-part "provider/date_time.dart";
-part "provider/global_key.dart";
+part 'provider/date_time_provider.dart';
+part 'provider/focus_node_provider.dart';
+part 'provider/global_key_provider.dart';
 part 'provider/local_collection_provider.dart';
 part 'provider/local_document_provider.dart';
 part 'provider/local_searchable_collection_model.dart';
+part 'provider/navigator_controller_provider.dart';
+part 'provider/page_controller_provider.dart';
 part 'provider/runtime_collection_provider.dart';
 part 'provider/runtime_document_provider.dart';
 part 'provider/runtime_searchable_collection_model.dart';
+part 'provider/scroll_controller_provider.dart';
+part 'provider/text_editing_controller_provider.dart';
+part 'provider/value_notifier_provider.dart';
 part 'ref/cache.dart';
 part "ref/date_time.dart";
-part "ref/effect.dart";
 part 'ref/focus_node.dart';
 part 'ref/future.dart';
 part "ref/global_key.dart";
 part "ref/navigator_controller.dart";
+part 'ref/on.dart';
 part "ref/page_controller.dart";
 part "ref/scroll_controller.dart";
 part 'ref/state.dart';

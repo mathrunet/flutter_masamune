@@ -20,6 +20,7 @@ part of masamune;
 ///   child: Text("Opacity"),
 /// );
 /// ```
+@deprecated
 class AnimationScenario extends ValueModel<List<AnimationUnit>>
     with ListModelMixin<AnimationUnit>
     implements List<AnimationUnit>, TickerProvider {
@@ -160,6 +161,7 @@ class AnimationScenario extends ValueModel<List<AnimationUnit>>
   }
 }
 
+@deprecated
 extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Create a new [AnimationScenario].
   ///
@@ -168,6 +170,7 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Specify [AnimationUnit] for [units] to create an animation.
   ///
   /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
+  @deprecated
   AnimationScenario useAnimationScenario([
     String hookId = "",
     List<AnimationUnit>? units,
@@ -191,6 +194,7 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Specify [AnimationUnit] for [units] to create an animation.
   ///
   /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
+  @deprecated
   AnimationScenario useAutoPlayAnimationScenario(
     String key, [
     List<AnimationUnit>? units,
@@ -215,6 +219,7 @@ extension WidgetRefAnimationScenarioExtensions on WidgetRef {
   /// Specify [AnimationUnit] for [units] to create an animation.
   ///
   /// If the page given the calling [WedgetRef] is deleted, [AnimationScenario] will be disposed.
+    @deprecated
   AnimationScenario useAutoRepeatAnimationScenario(
     String key, [
     List<AnimationUnit>? units,

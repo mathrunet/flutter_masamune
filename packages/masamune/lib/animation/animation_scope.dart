@@ -6,6 +6,7 @@ part of masamune;
 /// Create the [UIAnimatorScenario] path first.
 ///
 /// The basic specifications are the same as [AnimatedBuilder].
+@deprecated
 class AnimationScope extends StatelessWidget {
   /// You can play the animation builder
   /// in the form corresponding to [UIAnimatorScenario].

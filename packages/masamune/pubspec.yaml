@@ -17,8 +17,9 @@ dependencies:
   cached_network_image: ^3.2.0
   cached_network_image_platform_interface: ^1.0.0
   flutter_cache_manager: ^3.3.0
+  flutter_animate: ^1.0.0
   url_strategy: ^0.2.0
-  loading_animations: ^2.2.0
+  loading_indicator: ^3.1.0
 
 dev_dependencies:
   flutter_test:
