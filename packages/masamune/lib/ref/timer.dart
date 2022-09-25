@@ -1,13 +1,19 @@
 part of masamune;
 
+/// Provides extended methods for [WidgetRef].
+/// [WidgetRef]用の拡張メソッドを提供します。
 extension WidgetRefTimerExtensions on WidgetRef {
-  Timer useTimer(
+  /// Create a timer to execute [callback] for each [duration].
+  /// [duration]ごとに[callback]を実行するタイマーを作成します。
+  ///
+  /// The created timer will be canceled if the page is destroyed.
+  /// 作成されたタイマーはページが破棄された場合キャンセルされます。
+  Timer periodic(
     void Function(DateTime dateTime) callback, {
-    String hookId = "",
     Duration duration = const Duration(seconds: 1),
   }) {
     return valueBuilder<Timer, _TimerValue>(
-      key: "timer:$hookId:${duration.inMicroseconds}",
+      key: "_\$\$periodic:${duration.inMicroseconds}",
       builder: () {
         return _TimerValue(
           duration: duration,
@@ -17,16 +23,39 @@ extension WidgetRefTimerExtensions on WidgetRef {
     );
   }
 
+  /// Create a timer that executes a process for each [duration] and executes the value [VoidCallback] each time a key ([DateTime]) in [schedule] elapses.
+  /// [duration]ごとに処理を実行し、[schedule]内のキー（[DateTime]）を経過するごとに値[VoidCallback]が実行されるタイマーを作成します。
+  ///
+  /// Once [VoidCallback] is executed after [DateTime] has elapsed, it will not be executed again.
+  /// 一度[DateTime]を経過して実行された[VoidCallback]は再度実行されません。
   Timer schedule(
     Map<DateTime, VoidCallback> schedule, {
     Duration duration = const Duration(seconds: 1),
   }) {
     return valueBuilder<Timer, _ScheduleValue>(
-      key: "schedule:${duration.inMicroseconds}",
+      key: "_\$\$schedule:${duration.inMicroseconds}",
       builder: () {
         return _ScheduleValue(
           duration: duration,
           schedule: schedule,
+        );
+      },
+    );
+  }
+
+  @Deprecated(
+    "It will not be available from the next version. Use [WidgetRef.periodic] instead.",
+  )
+  Timer useTimer(
+    void Function(DateTime dateTime) callback, {
+    Duration duration = const Duration(seconds: 1),
+  }) {
+    return valueBuilder<Timer, _TimerValue>(
+      key: "_\$\$periodic:${duration.inMicroseconds}",
+      builder: () {
+        return _TimerValue(
+          duration: duration,
+          callback: callback,
         );
       },
     );

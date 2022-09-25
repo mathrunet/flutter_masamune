@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefDateTimeExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [DateTimeProvider] instead.",
+  )
   DateTime useNow() {
     return valueBuilder<DateTime, _DateTimeValue>(
       key: "dateTimeNow",
@@ -10,6 +14,9 @@ extension WidgetRefDateTimeExtensions on WidgetRef {
     );
   }
 
+  @Deprecated(
+    "It will not be available from the next version. Use [DateTimeProvider] instead.",
+  )
   DateTime useDateTime(DateTime dateTime, {String hookId = ""}) {
     return valueBuilder<DateTime, _DateTimeValue>(
       key: "dateTime:$hookId",
@@ -20,6 +27,7 @@ extension WidgetRefDateTimeExtensions on WidgetRef {
   }
 }
 
+@deprecated
 class _DateTimeValue extends ScopedValue<DateTime> {
   const _DateTimeValue([this.dateTime]);
   final DateTime? dateTime;
@@ -28,6 +36,7 @@ class _DateTimeValue extends ScopedValue<DateTime> {
       _DateTimeValueState();
 }
 
+@deprecated
 class _DateTimeValueState extends ScopedValueState<DateTime, _DateTimeValue> {
   late final DateTime dateTime;
 

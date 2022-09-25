@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefValueNotifierExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [ValueNotifierProvider] instead.",
+  )
   ValueNotifier<T> state<T>(
     T defaultValue, {
     String hookId = "",
@@ -14,6 +18,7 @@ extension WidgetRefValueNotifierExtensions on WidgetRef {
   }
 }
 
+@deprecated
 class _ValueNotifierValue<T> extends ScopedValue<ValueNotifier<T>> {
   const _ValueNotifierValue(this.initialValue);
   final T initialValue;
@@ -22,6 +27,7 @@ class _ValueNotifierValue<T> extends ScopedValue<ValueNotifier<T>> {
       createState() => _ValueNotifierValueState<T>();
 }
 
+@deprecated
 class _ValueNotifierValueState<T>
     extends ScopedValueState<ValueNotifier<T>, _ValueNotifierValue<T>> {
   late ValueNotifier<T> _valueNotifier;

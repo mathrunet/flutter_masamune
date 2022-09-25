@@ -49,7 +49,7 @@ extension ButtonStyleExtension on ButtonStyle {
 extension PlatformBuildContextExtensions on BuildContext {
   bool get isMobile => Config.isMobile;
 
-  bool get isMobileOrSmall {
+  bool get isMobileOrSmallWidth {
     if (isMobile) {
       return true;
     }

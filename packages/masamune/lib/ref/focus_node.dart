@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefFocusNodeExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [FocusNodeProvider] instead.",
+  )
   FocusNode useFocusNode({
     bool autoFocus = true,
     String hookId = "",
@@ -18,6 +22,7 @@ extension WidgetRefFocusNodeExtensions on WidgetRef {
   }
 }
 
+@deprecated
 @immutable
 class _FocusNodeValue extends ScopedValue<FocusNode> {
   const _FocusNodeValue({
@@ -32,6 +37,7 @@ class _FocusNodeValue extends ScopedValue<FocusNode> {
       _FocusNodeValueState();
 }
 
+@deprecated
 class _FocusNodeValueState
     extends ScopedValueState<FocusNode, _FocusNodeValue> {
   final FocusNode focusNode = FocusNode();

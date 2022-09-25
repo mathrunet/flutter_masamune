@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefFutureExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [FutureProvider] instead.",
+  )
   FutureValue<T> useFuture<T>(
     Future<T> Function() callback, {
     String hookId = "",
@@ -14,6 +18,7 @@ extension WidgetRefFutureExtensions on WidgetRef {
   }
 }
 
+@deprecated
 @immutable
 class _FutureValue<T> extends ScopedValue<FutureValue<T>> {
   const _FutureValue(this.callback);
@@ -24,6 +29,7 @@ class _FutureValue<T> extends ScopedValue<FutureValue<T>> {
       _FutureValueState<T>();
 }
 
+@deprecated
 class _FutureValueState<T>
     extends ScopedValueState<FutureValue<T>, _FutureValue<T>> {
   FutureValue<T> _value = FutureValue<T>();

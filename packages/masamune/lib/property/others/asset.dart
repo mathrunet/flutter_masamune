@@ -25,7 +25,7 @@ class Asset {
     }
     if (uri.startsWith("http")) {
       final res = await Api.get(uri, headers: headers);
-      if (res == null || res.statusCode != 200) {
+      if (res.statusCode != 200) {
         return defaultValue;
       }
       return res.body;
@@ -179,6 +179,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
         );
 
   @override
+  // ignore: deprecated_member_use
   ImageStreamCompleter load(NetworkImage key, DecoderCallback decode) {
     if (key.url.isEmpty) {
       return super.load(key, decode);
@@ -203,6 +204,7 @@ class _MemoizedAssetImage extends AssetImage {
         );
 
   @override
+  // ignore: deprecated_member_use
   ImageStreamCompleter load(AssetBundleImageKey key, DecoderCallback decode) {
     if (key.name.isEmpty) {
       return super.load(key, decode);

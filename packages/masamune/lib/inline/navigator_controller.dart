@@ -1,6 +1,6 @@
 part of masamune;
 
-class NavigatorController extends Listenable {
+class NavigatorController implements ChangeNotifier {
   NavigatorController([
     String? initialRoute,
     bool Function(String routeName)? showEmptyPage,
@@ -28,8 +28,19 @@ class NavigatorController extends Listenable {
   }
 
   /// Destroy this object.
+  @override
   void dispose() {
     observer.dispose();
+  }
+
+  @override
+  bool get hasListeners => observer._listener.isNotEmpty;
+
+  @override
+  void notifyListeners() {
+    for (final tmp in observer._listener) {
+      tmp.call();
+    }
   }
 }
 

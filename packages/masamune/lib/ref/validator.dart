@@ -1,5 +1,6 @@
 part of masamune;
 
+@deprecated
 class ValidateContext implements Listenable {
   ValidateContext._(this.validationIds);
   final List<String> validationIds;
@@ -53,7 +54,9 @@ class ValidateContext implements Listenable {
   }
 }
 
+@deprecated
 extension WidgetRefValidatorExtensions on WidgetRef {
+  @deprecated
   ValidateContext useValidator(List<String> validationIds) {
     return valueBuilder<ValidateContext, _ValidatorValue>(
       key: "validator_${validationIds.join(",")}",
@@ -64,6 +67,7 @@ extension WidgetRefValidatorExtensions on WidgetRef {
   }
 }
 
+@deprecated
 class _ValidatorValue extends ScopedValue<ValidateContext> {
   const _ValidatorValue(this.validationIds);
   final List<String> validationIds;
@@ -72,6 +76,7 @@ class _ValidatorValue extends ScopedValue<ValidateContext> {
       createState() => _ValidatorValueState();
 }
 
+@deprecated
 class _ValidatorValueState
     extends ScopedValueState<ValidateContext, _ValidatorValue> {
   late final ValidateContext _validator;

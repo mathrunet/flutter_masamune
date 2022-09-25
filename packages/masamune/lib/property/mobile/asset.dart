@@ -26,7 +26,7 @@ class Asset {
     }
     if (uri.startsWith("http")) {
       final res = await Api.get(uri, headers: headers);
-      if (res == null || res.statusCode != 200) {
+      if (res.statusCode != 200) {
         return defaultValue;
       }
       return res.body;
@@ -235,6 +235,7 @@ class _MemoizedCachedNetworkImageProvider
   @override
   ImageStreamCompleter load(
     CachedNetworkImageProvider key,
+    // ignore: deprecated_member_use
     DecoderCallback decode,
   ) {
     final cache = ImageMemoryCache._getCache(key.cacheKey);
@@ -250,6 +251,7 @@ class _MemoizedFileImage extends FileImage {
       : super(file, scale: scale);
 
   @override
+  // ignore: deprecated_member_use
   ImageStreamCompleter load(FileImage key, DecoderCallback decode) {
     if (key.file.path.isEmpty) {
       return super.load(key, decode);
@@ -274,6 +276,7 @@ class _MemoizedAssetImage extends AssetImage {
         );
 
   @override
+  // ignore: deprecated_member_use
   ImageStreamCompleter load(AssetBundleImageKey key, DecoderCallback decode) {
     if (key.name.isEmpty) {
       return super.load(key, decode);

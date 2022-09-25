@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefGlobalKeyExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [GlobalKeyProvider] instead.",
+  )
   GlobalKey<T> useGlobalKey<T extends State<StatefulWidget>>() {
     return valueBuilder<GlobalKey<T>, _GlobalKeyValue<T>>(
       key: "globalKey:${T.toString()}",
@@ -10,6 +14,9 @@ extension WidgetRefGlobalKeyExtensions on WidgetRef {
     );
   }
 
+  @Deprecated(
+    "It will not be available from the next version. Use [GlobalKeyProvider] instead.",
+  )
   GlobalKey<T> useGlobalValueKey<T extends State<StatefulWidget>>(String key) {
     return valueBuilder<GlobalKey<T>, _GlobalKeyValue<T>>(
       key: "globalKey:${T.toString()}:$key",
@@ -20,6 +27,7 @@ extension WidgetRefGlobalKeyExtensions on WidgetRef {
   }
 }
 
+@deprecated
 class _GlobalKeyValue<T extends State> extends ScopedValue<GlobalKey<T>> {
   const _GlobalKeyValue();
   @override
@@ -27,6 +35,7 @@ class _GlobalKeyValue<T extends State> extends ScopedValue<GlobalKey<T>> {
       _GlobalKeyValueState<T>();
 }
 
+@deprecated
 class _GlobalKeyValueState<T extends State>
     extends ScopedValueState<GlobalKey<T>, _GlobalKeyValue<T>> {
   final GlobalKey<T> key = GlobalKey<T>();

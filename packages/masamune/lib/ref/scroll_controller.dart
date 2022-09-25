@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefScrollControllerExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [ScrollControllerProvider] instead.",
+  )
   ScrollController useScrollController({
     double initialScrollOffset = 0.0,
     bool keepScrollOffset = true,
@@ -19,6 +23,7 @@ extension WidgetRefScrollControllerExtensions on WidgetRef {
   }
 }
 
+@deprecated
 @immutable
 class _ScrollControllerValue extends ScopedValue<ScrollController> {
   const _ScrollControllerValue({
@@ -34,6 +39,7 @@ class _ScrollControllerValue extends ScopedValue<ScrollController> {
       createState() => _ScrollControllerValueState();
 }
 
+@deprecated
 class _ScrollControllerValueState
     extends ScopedValueState<ScrollController, _ScrollControllerValue> {
   late final ScrollController _controller;

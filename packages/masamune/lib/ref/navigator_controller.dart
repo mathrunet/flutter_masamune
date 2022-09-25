@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefNavigatorControllerExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [NavigatorControllerProvider] instead.",
+  )
   NavigatorController useNavigatorController([
     String? initialRoute,
     bool Function(String routeName)? showEmptyPage,
@@ -17,6 +21,7 @@ extension WidgetRefNavigatorControllerExtensions on WidgetRef {
   }
 }
 
+@deprecated
 @immutable
 class _NavigatorControllerValue extends ScopedValue<NavigatorController> {
   const _NavigatorControllerValue({
@@ -30,6 +35,7 @@ class _NavigatorControllerValue extends ScopedValue<NavigatorController> {
       createState() => _NavigatorControllerValueState();
 }
 
+@deprecated
 class _NavigatorControllerValueState
     extends ScopedValueState<NavigatorController, _NavigatorControllerValue> {
   late final NavigatorController _controller;

@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefTextEditingControllerExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [TextEditingControllerProvider] instead.",
+  )
   TextEditingController useTextEditingController({
     String defaultValue = "",
     String hookId = "",
@@ -17,6 +21,9 @@ extension WidgetRefTextEditingControllerExtensions on WidgetRef {
     );
   }
 
+  @Deprecated(
+    "It will not be available from the next version. Use [TextEditingControllerProvider] instead.",
+  )
   Map<String, TextEditingController> useTextEditingControllerMap(
     String key,
     Map defaultValues, [
@@ -35,6 +42,7 @@ extension WidgetRefTextEditingControllerExtensions on WidgetRef {
   }
 }
 
+@deprecated
 @immutable
 class _TextEditingControllerValue extends ScopedValue<TextEditingController> {
   const _TextEditingControllerValue(
@@ -49,6 +57,7 @@ class _TextEditingControllerValue extends ScopedValue<TextEditingController> {
       createState() => _TextEditingControllerValueState();
 }
 
+@deprecated
 class _TextEditingControllerValueState extends ScopedValueState<
     TextEditingController, _TextEditingControllerValue> {
   late TextEditingController _controller;
@@ -78,6 +87,7 @@ class _TextEditingControllerValueState extends ScopedValueState<
   TextEditingController build() => _controller;
 }
 
+@deprecated
 @immutable
 class _TextEditingControllerMapValue
     extends ScopedValue<Map<String, TextEditingController>> {
@@ -94,6 +104,7 @@ class _TextEditingControllerMapValue
       createState() => _TextEditingControllerMapValueState();
 }
 
+@deprecated
 class _TextEditingControllerMapValueState extends ScopedValueState<
     Map<String, TextEditingController>, _TextEditingControllerMapValue> {
   late final Map<String, TextEditingController> _controllers;

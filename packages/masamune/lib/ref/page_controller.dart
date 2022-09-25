@@ -1,6 +1,10 @@
 part of masamune;
 
+@deprecated
 extension WidgetRefPageControllerExtensions on WidgetRef {
+  @Deprecated(
+    "It will not be available from the next version. Use [PageControllerProvider] instead.",
+  )
   PageController usePageController({
     int initialPage = 0,
     bool keepPage = true,
@@ -19,6 +23,7 @@ extension WidgetRefPageControllerExtensions on WidgetRef {
   }
 }
 
+@deprecated
 @immutable
 class _PageControllerValue extends ScopedValue<PageController> {
   const _PageControllerValue({
@@ -36,6 +41,7 @@ class _PageControllerValue extends ScopedValue<PageController> {
   }
 }
 
+@deprecated
 class _PageControllerValueState
     extends ScopedValueState<PageController, _PageControllerValue> {
   late final PageController _controller;
