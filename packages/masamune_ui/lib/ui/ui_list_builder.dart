@@ -407,9 +407,8 @@ class UIListBuilder<T> extends StatelessWidget {
                   context,
                   indicatorColor ?? context.theme.disabledColor,
                 ) ??
-                LoadingBouncingGrid.square(
-                  backgroundColor:
-                      indicatorColor ?? context.theme.disabledColor,
+                LoadingIndicator(
+                  color: indicatorColor ?? context.theme.disabledColor,
                 ),
           ),
         ),

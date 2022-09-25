@@ -329,8 +329,8 @@ class _ReorderableListBuilderState<T> extends State<ReorderableListBuilder<T>> {
                   context,
                   widget.indicatorColor ?? context.theme.disabledColor,
                 ) ??
-                LoadingBouncingGrid.square(
-                  backgroundColor:
+                LoadingIndicator(
+                  color:
                       widget.indicatorColor ?? context.theme.disabledColor,
                 ),
           ),

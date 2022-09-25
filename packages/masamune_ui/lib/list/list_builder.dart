@@ -183,8 +183,8 @@ class ListBuilder<T> extends StatelessWidget {
                   context,
                   indicatorColor ?? context.theme.disabledColor,
                 ) ??
-                LoadingBouncingGrid.square(
-                  backgroundColor:
+                LoadingIndicator(
+                  color:
                       indicatorColor ?? context.theme.disabledColor,
                 ),
           ),

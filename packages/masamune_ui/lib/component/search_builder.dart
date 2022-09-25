@@ -193,8 +193,8 @@ class _SearchBuilderState<T extends Object> extends State<SearchBuilder<T>> {
                     context,
                     widget.indicatorColor ?? context.theme.disabledColor,
                   ) ??
-                  LoadingBouncingGrid.square(
-                    backgroundColor:
+                  LoadingIndicator(
+                    color:
                         widget.indicatorColor ?? context.theme.disabledColor,
                   ),
             ),
