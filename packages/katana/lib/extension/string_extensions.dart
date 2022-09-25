@@ -5,6 +5,22 @@ part of katana;
 extension StringExtensions on String {
   static final RegExp _tail = RegExp(r"[^/]+$");
 
+  /// Divides [String] by [separator] and returns the number of elements.
+  /// [String]を[separator]で分割し、その要素数を返します。
+  ///
+  /// ```dart
+  /// final path = "aaaa/bbbb/cccc/dddd";
+  /// final length = path.splitLength(); // 4
+  /// ```
+  int splitLength({String separator = "/"}) {
+    if (isEmpty) {
+      return 0;
+    }
+    final paths = split(separator);
+    final length = paths.length;
+    return length;
+  }
+
   /// [String] is divided by [separator] and moved one level up.
   /// [String]を[separator]で分割し一つ上の階層に移動します。
   ///

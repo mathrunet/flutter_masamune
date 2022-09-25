@@ -2,6 +2,10 @@ import 'package:katana/katana.dart';
 import 'package:test/test.dart';
 
 void main() {
+  test("StringExtensions.splitLength", () {
+    const path = "aaaa/bbbb/cccc/dddd";
+    expect(path.splitLength(), 4);
+  });
   test("StringExtensions.parentPath", () {
     const path = "aaaa/bbbb/cccc/dddd";
     expect(path.parentPath(), "aaaa/bbbb/cccc");
