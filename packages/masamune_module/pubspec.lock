@@ -517,14 +517,14 @@ packages:
       name: katana_module
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+10"
+    version: "0.15.0+11"
   katana_routing:
     dependency: transitive
     description:
       name: katana_routing
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+3"
+    version: "0.15.0+4"
   loading_animations:
     dependency: transitive
     description:
@@ -552,14 +552,14 @@ packages:
       name: masamune
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+10"
+    version: "0.15.0+11"
   masamune_ui:
     dependency: "direct main"
     description:
       name: masamune_ui
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+10"
+    version: "0.15.0+11"
   matcher:
     dependency: transitive
     description:

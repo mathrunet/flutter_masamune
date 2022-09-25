@@ -140,7 +140,7 @@ class TileMenuHomeModuleHomePage extends PageModuleWidget<TileMenuHomeModule> {
                 alignment: Alignment.centerLeft,
                 child: SizedBox(
                   height: module.headerHeight,
-                  width: context.isMobileOrSmall
+                  width: context.isMobileOrSmallWidth
                       ? null
                       : () {
                           return context.mediaQuery.size.width / 2;
@@ -303,7 +303,7 @@ class TileMenuHomeModuleHomePage extends PageModuleWidget<TileMenuHomeModule> {
                               Icon(
                                 item.icon ?? Icons.info,
                                 size: module.menuIconSize ??
-                                    (context.isMobileOrSmall ? 64 : 78),
+                                    (context.isMobileOrSmallWidth ? 64 : 78),
                                 color: module.textColor ??
                                     context.theme.textColorOnPrimary,
                               ),
@@ -315,7 +315,8 @@ class TileMenuHomeModuleHomePage extends PageModuleWidget<TileMenuHomeModule> {
                                   color: module.textColor ??
                                       context.theme.textColorOnPrimary,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: context.isMobileOrSmall ? null : 15,
+                                  fontSize:
+                                      context.isMobileOrSmallWidth ? null : 15,
                                 ),
                               ),
                             ],

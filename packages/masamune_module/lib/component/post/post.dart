@@ -137,7 +137,7 @@ class PostModuleHomePage extends PageModuleWidget<PostModule> {
           return [
             ListItem(
               selected: !context.isMobileOrModal &&
-                  controller.route?.name.last() == item.get(Const.uid, ""),
+                  controller.route?.name?.last() == item.get(Const.uid, ""),
               selectedColor: context.theme.textColorOnPrimary,
               selectedTileColor: context.theme.primaryColor.withOpacity(0.8),
               title: Text(item.get(module.nameKey, "")),
