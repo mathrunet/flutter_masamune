@@ -268,71 +268,10 @@ class BootPage extends PageScopedWidget {
         child: widget,
       );
     }
-    return AnimationScope(
-      animation: ref.useAutoRepeatAnimationScenario(
-        r"_$bootLogo",
-        [
-          AnimationUnit(
-            tween: DoubleTween(begin: 150, end: 100),
-            from: const Duration(milliseconds: 0),
-            to: const Duration(milliseconds: 2500),
-            curve: Curves.easeInOutQuint,
-            tag: "size",
-          ),
-          AnimationUnit(
-            tween: DoubleTween(begin: 100, end: 150),
-            from: const Duration(milliseconds: 2500),
-            to: const Duration(milliseconds: 5000),
-            curve: Curves.easeInOutQuint,
-            tag: "size",
-          ),
-          AnimationUnit(
-            tween: ColorTween(
-              begin: config?.color ?? indicatorColor ?? Colors.red,
-              end: config?.color ?? indicatorColor ?? Colors.purple,
-            ),
-            from: const Duration(seconds: 0),
-            to: const Duration(seconds: 1),
-            tag: "color",
-          ),
-          AnimationUnit(
-            tween: ColorTween(
-              begin: config?.color ?? indicatorColor ?? Colors.purple,
-              end: config?.color ?? indicatorColor ?? Colors.blue,
-            ),
-            from: const Duration(seconds: 2),
-            to: const Duration(seconds: 3),
-            tag: "color",
-          ),
-          AnimationUnit(
-            tween: ColorTween(
-              begin: config?.color ?? indicatorColor ?? Colors.blue,
-              end: config?.color ?? indicatorColor ?? Colors.purple,
-            ),
-            from: const Duration(seconds: 4),
-            to: const Duration(seconds: 5),
-            tag: "color",
-          ),
-          AnimationUnit(
-            tween: ColorTween(
-              begin: config?.color ?? indicatorColor ?? Colors.purple,
-              end: config?.color ?? indicatorColor ?? Colors.red,
-            ),
-            from: const Duration(seconds: 8),
-            to: const Duration(seconds: 10),
-            tag: "color",
-          )
-        ],
+    return Center(
+      child: LoadingIndicator(
+        color: config?.color ?? indicatorColor ?? context.theme.dividerColor,
       ),
-      builder: (context, child, animator) {
-        return LoadingBouncingGrid.circle(
-          size: animator.get("size", 0),
-          backgroundColor: animator.get(
-            "color",
-            config?.color ?? indicatorColor ?? Colors.red,
-          ),
-        );
-      },
     );
   }
 }
