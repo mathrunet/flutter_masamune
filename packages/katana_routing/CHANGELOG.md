@@ -1,3 +1,7 @@
+## 0.15.0+5
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+4
 
  - **FIX**: Fixed a bug in homeRoute. ([2affe2eb](https://github.com/mathrunet/flutter_masamune/commit/2affe2eb7556162ffd1c1d11275ad253d050d882))

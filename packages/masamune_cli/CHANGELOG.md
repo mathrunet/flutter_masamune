@@ -1,3 +1,7 @@
+## 0.15.0+4
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+3
 
  - **FIX**: Correction of parameters. ([78fbcc18](https://github.com/mathrunet/flutter_masamune/commit/78fbcc18528461649eb706f0ff0e1028f673b8bd))

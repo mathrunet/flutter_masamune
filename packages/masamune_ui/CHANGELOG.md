@@ -1,3 +1,7 @@
+## 0.15.0+12
+
+ - **FIX**: LoadingIndicator change support. ([7ab66f88](https://github.com/mathrunet/flutter_masamune/commit/7ab66f8807d663c99e0400e51705fb5a33a4dc82))
+
 ## 0.15.0+11
 
  - Update a dependency to the latest release.

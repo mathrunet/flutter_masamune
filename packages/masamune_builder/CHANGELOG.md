@@ -1,3 +1,7 @@
+## 0.15.0+5
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+4
 
  - **FIX**: Transaction type-safety. ([5dc55bc0](https://github.com/mathrunet/flutter_masamune/commit/5dc55bc0b9db7dd22fd09b6e305419b7e1009e63))

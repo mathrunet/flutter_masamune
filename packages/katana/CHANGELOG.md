@@ -1,3 +1,8 @@
+## 0.15.1
+
+ - **FEAT**: Add def method. ([b133941b](https://github.com/mathrunet/flutter_masamune/commit/b133941b0738de3f79bab2d5e6d8aca49fc06e81))
+ - **FEAT**: Added Duration extension method. ([61bfe2bc](https://github.com/mathrunet/flutter_masamune/commit/61bfe2bcfa3d1de4acb6a4e30814db62b9c54882))
+
 ## 0.15.0+1
 
  - **FIX**: Version up. ([2cb37b1e](https://github.com/mathrunet/flutter_masamune/commit/2cb37b1e7f715afc771e2ef7c95103c25e8e7332))

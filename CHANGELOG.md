@@ -3,6 +3,102 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v0.15.1`](#katana---v0151)
+ - [`masamune` - `v0.15.1`](#masamune---v0151)
+ - [`masamune_module` - `v0.15.0+12`](#masamune_module---v015012)
+ - [`masamune_ui` - `v0.15.0+12`](#masamune_ui---v015012)
+ - [`katana_flutter` - `v0.15.0+2`](#katana_flutter---v01502)
+ - [`masamune_cli` - `v0.15.0+4`](#masamune_cli---v01504)
+ - [`masamune_builder` - `v0.15.0+5`](#masamune_builder---v01505)
+ - [`katana_annotation` - `v0.15.0+2`](#katana_annotation---v01502)
+ - [`katana_routing` - `v0.15.0+5`](#katana_routing---v01505)
+ - [`katana_firebase` - `v0.15.0+2`](#katana_firebase---v01502)
+ - [`model_notifier` - `v0.15.1+1`](#model_notifier---v01511)
+ - [`katana_module` - `v0.15.0+12`](#katana_module---v015012)
+ - [`firebase_model_notifier` - `v0.15.1+6`](#firebase_model_notifier---v01516)
+ - [`masamune_firebase_messaging` - `v0.15.0+12`](#masamune_firebase_messaging---v015012)
+ - [`masamune_firebase` - `v0.15.0+12`](#masamune_firebase---v015012)
+ - [`masamune_agora` - `v0.15.0+12`](#masamune_agora---v015012)
+ - [`masamune_local_messaging` - `v0.15.0+12`](#masamune_local_messaging---v015012)
+ - [`masamune_location` - `v0.15.0+12`](#masamune_location---v015012)
+ - [`masamune_media` - `v0.15.0+12`](#masamune_media---v015012)
+ - [`masamune_purchase` - `v0.15.0+12`](#masamune_purchase---v015012)
+ - [`masamune_wordpress` - `v0.15.0+12`](#masamune_wordpress---v015012)
+ - [`masamune_ads` - `v0.15.0+12`](#masamune_ads---v015012)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+12`](#masamune_firebase_dynamic_links---v015012)
+ - [`masamune_signin_apple` - `v0.15.0+12`](#masamune_signin_apple---v015012)
+ - [`masamune_signin_facebook` - `v0.15.0+12`](#masamune_signin_facebook---v015012)
+ - [`masamune_signin_google` - `v0.15.0+12`](#masamune_signin_google---v015012)
+ - [`masamune_signin_twitter` - `v0.15.0+12`](#masamune_signin_twitter---v015012)
+ - [`masamune_purchase_firebase` - `v0.15.0+12`](#masamune_purchase_firebase---v015012)
+ - [`masamune_purchase_stripe` - `v0.15.0+12`](#masamune_purchase_stripe---v015012)
+ - [`masamune_notion` - `v0.15.0+12`](#masamune_notion---v015012)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_flutter` - `v0.15.0+2`
+ - `masamune_cli` - `v0.15.0+4`
+ - `masamune_builder` - `v0.15.0+5`
+ - `katana_annotation` - `v0.15.0+2`
+ - `katana_routing` - `v0.15.0+5`
+ - `katana_firebase` - `v0.15.0+2`
+ - `model_notifier` - `v0.15.1+1`
+ - `katana_module` - `v0.15.0+12`
+ - `firebase_model_notifier` - `v0.15.1+6`
+ - `masamune_firebase_messaging` - `v0.15.0+12`
+ - `masamune_firebase` - `v0.15.0+12`
+ - `masamune_agora` - `v0.15.0+12`
+ - `masamune_local_messaging` - `v0.15.0+12`
+ - `masamune_location` - `v0.15.0+12`
+ - `masamune_media` - `v0.15.0+12`
+ - `masamune_purchase` - `v0.15.0+12`
+ - `masamune_wordpress` - `v0.15.0+12`
+ - `masamune_ads` - `v0.15.0+12`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+12`
+ - `masamune_signin_apple` - `v0.15.0+12`
+ - `masamune_signin_facebook` - `v0.15.0+12`
+ - `masamune_signin_google` - `v0.15.0+12`
+ - `masamune_signin_twitter` - `v0.15.0+12`
+ - `masamune_purchase_firebase` - `v0.15.0+12`
+ - `masamune_purchase_stripe` - `v0.15.0+12`
+ - `masamune_notion` - `v0.15.0+12`
+
+---
+
+#### `katana` - `v0.15.1`
+
+ - **FEAT**: Add def method. ([b133941b](https://github.com/mathrunet/flutter_masamune/commit/b133941b0738de3f79bab2d5e6d8aca49fc06e81))
+ - **FEAT**: Added Duration extension method. ([61bfe2bc](https://github.com/mathrunet/flutter_masamune/commit/61bfe2bcfa3d1de4acb6a4e30814db62b9c54882))
+
+#### `masamune` - `v0.15.1`
+
+ - **FEAT**: Replace the use of Hook-based controllers in WidgetRef with riverpod-based controllers. ([c3e72bc9](https://github.com/mathrunet/flutter_masamune/commit/c3e72bc9bb14e531d54e2115dd45072a44869bf6))
+ - **FEAT**: Replaces LoadingIndicator. ([b7090e6f](https://github.com/mathrunet/flutter_masamune/commit/b7090e6f8349225389756add6ef3f0179ae90d87))
+ - **FEAT**: Replaced animation with flutter_animate base. ([b145fc0a](https://github.com/mathrunet/flutter_masamune/commit/b145fc0aed3b976ca343bd2d9624ed07d7d33314))
+
+#### `masamune_module` - `v0.15.0+12`
+
+ - **FIX**: masamune change support. ([1c99f590](https://github.com/mathrunet/flutter_masamune/commit/1c99f590f914e3ee04d12e8b9c826ae38ea61a0f))
+
+#### `masamune_ui` - `v0.15.0+12`
+
+ - **FIX**: LoadingIndicator change support. ([7ab66f88](https://github.com/mathrunet/flutter_masamune/commit/7ab66f8807d663c99e0400e51705fb5a33a4dc82))
+
+
 ## 2022-09-22
 
 ### Changes

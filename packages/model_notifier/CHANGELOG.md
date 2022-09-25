@@ -1,3 +1,7 @@
+## 0.15.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.15.1
 
  - **FEAT**: Added LinkedCollectionTransactionBuilder. ([fb383cea](https://github.com/mathrunet/flutter_masamune/commit/fb383ceacaf30ed8003b59c64a2ac96a7a1c96bb))

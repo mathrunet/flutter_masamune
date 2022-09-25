@@ -1,3 +1,9 @@
+## 0.15.1
+
+ - **FEAT**: Replace the use of Hook-based controllers in WidgetRef with riverpod-based controllers. ([c3e72bc9](https://github.com/mathrunet/flutter_masamune/commit/c3e72bc9bb14e531d54e2115dd45072a44869bf6))
+ - **FEAT**: Replaces LoadingIndicator. ([b7090e6f](https://github.com/mathrunet/flutter_masamune/commit/b7090e6f8349225389756add6ef3f0179ae90d87))
+ - **FEAT**: Replaced animation with flutter_animate base. ([b145fc0a](https://github.com/mathrunet/flutter_masamune/commit/b145fc0aed3b976ca343bd2d9624ed07d7d33314))
+
 ## 0.15.0+11
 
  - Update a dependency to the latest release.
