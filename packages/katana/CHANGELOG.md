@@ -1,3 +1,7 @@
+## 0.15.2+1
+
+ - **FIX**: Added <E> to get method. ([7afc502d](https://github.com/mathrunet/flutter_masamune/commit/7afc502dbbdf629b1d9e15d0207027b602c33e20))
+
 ## 0.15.2
 
  - **FEAT**: Add get method to List. ([319082fa](https://github.com/mathrunet/flutter_masamune/commit/319082fa826d25563cd970e879d67a293db00aa6))
