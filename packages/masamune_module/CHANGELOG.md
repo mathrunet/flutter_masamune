@@ -1,3 +1,7 @@
+## 0.15.0+13
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+12
 
  - **FIX**: masamune change support. ([1c99f590](https://github.com/mathrunet/flutter_masamune/commit/1c99f590f914e3ee04d12e8b9c826ae38ea61a0f))

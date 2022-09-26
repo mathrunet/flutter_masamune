@@ -1,3 +1,7 @@
+## 0.15.2
+
+ - **FEAT**: Add get method to List. ([319082fa](https://github.com/mathrunet/flutter_masamune/commit/319082fa826d25563cd970e879d67a293db00aa6))
+
 ## 0.15.1
 
  - **FEAT**: Add def method. ([b133941b](https://github.com/mathrunet/flutter_masamune/commit/b133941b0738de3f79bab2d5e6d8aca49fc06e81))

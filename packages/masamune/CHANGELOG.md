@@ -1,3 +1,7 @@
+## 0.15.1+1
+
+ - Update a dependency to the latest release.
+
 ## 0.15.1
 
  - **FEAT**: Replace the use of Hook-based controllers in WidgetRef with riverpod-based controllers. ([c3e72bc9](https://github.com/mathrunet/flutter_masamune/commit/c3e72bc9bb14e531d54e2115dd45072a44869bf6))

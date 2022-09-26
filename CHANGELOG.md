@@ -3,6 +3,92 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v0.15.2`](#katana---v0152)
+ - [`katana_flutter` - `v0.15.0+3`](#katana_flutter---v01503)
+ - [`masamune_cli` - `v0.15.0+5`](#masamune_cli---v01505)
+ - [`masamune_builder` - `v0.15.0+6`](#masamune_builder---v01506)
+ - [`katana_annotation` - `v0.15.0+3`](#katana_annotation---v01503)
+ - [`katana_routing` - `v0.15.0+6`](#katana_routing---v01506)
+ - [`katana_firebase` - `v0.15.0+3`](#katana_firebase---v01503)
+ - [`model_notifier` - `v0.15.1+2`](#model_notifier---v01512)
+ - [`katana_model` - `v0.15.1+2`](#katana_model---v01512)
+ - [`katana_module` - `v0.15.0+13`](#katana_module---v015013)
+ - [`firebase_model_notifier` - `v0.15.1+7`](#firebase_model_notifier---v01517)
+ - [`masamune` - `v0.15.1+1`](#masamune---v01511)
+ - [`masamune_firebase_messaging` - `v0.15.0+13`](#masamune_firebase_messaging---v015013)
+ - [`masamune_firebase` - `v0.15.0+13`](#masamune_firebase---v015013)
+ - [`masamune_location` - `v0.15.0+13`](#masamune_location---v015013)
+ - [`masamune_local_messaging` - `v0.15.0+13`](#masamune_local_messaging---v015013)
+ - [`masamune_agora` - `v0.15.0+13`](#masamune_agora---v015013)
+ - [`masamune_media` - `v0.15.0+13`](#masamune_media---v015013)
+ - [`masamune_purchase` - `v0.15.0+13`](#masamune_purchase---v015013)
+ - [`masamune_wordpress` - `v0.15.0+13`](#masamune_wordpress---v015013)
+ - [`masamune_ads` - `v0.15.0+13`](#masamune_ads---v015013)
+ - [`masamune_ui` - `v0.15.0+13`](#masamune_ui---v015013)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+13`](#masamune_firebase_dynamic_links---v015013)
+ - [`masamune_signin_facebook` - `v0.15.0+13`](#masamune_signin_facebook---v015013)
+ - [`masamune_signin_google` - `v0.15.0+13`](#masamune_signin_google---v015013)
+ - [`masamune_signin_apple` - `v0.15.0+13`](#masamune_signin_apple---v015013)
+ - [`masamune_signin_twitter` - `v0.15.0+13`](#masamune_signin_twitter---v015013)
+ - [`masamune_notion` - `v0.15.0+13`](#masamune_notion---v015013)
+ - [`masamune_purchase_firebase` - `v0.15.0+13`](#masamune_purchase_firebase---v015013)
+ - [`masamune_purchase_stripe` - `v0.15.0+13`](#masamune_purchase_stripe---v015013)
+ - [`masamune_module` - `v0.15.0+13`](#masamune_module---v015013)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_flutter` - `v0.15.0+3`
+ - `masamune_cli` - `v0.15.0+5`
+ - `masamune_builder` - `v0.15.0+6`
+ - `katana_annotation` - `v0.15.0+3`
+ - `katana_routing` - `v0.15.0+6`
+ - `katana_firebase` - `v0.15.0+3`
+ - `model_notifier` - `v0.15.1+2`
+ - `katana_model` - `v0.15.1+2`
+ - `katana_module` - `v0.15.0+13`
+ - `firebase_model_notifier` - `v0.15.1+7`
+ - `masamune` - `v0.15.1+1`
+ - `masamune_firebase_messaging` - `v0.15.0+13`
+ - `masamune_firebase` - `v0.15.0+13`
+ - `masamune_location` - `v0.15.0+13`
+ - `masamune_local_messaging` - `v0.15.0+13`
+ - `masamune_agora` - `v0.15.0+13`
+ - `masamune_media` - `v0.15.0+13`
+ - `masamune_purchase` - `v0.15.0+13`
+ - `masamune_wordpress` - `v0.15.0+13`
+ - `masamune_ads` - `v0.15.0+13`
+ - `masamune_ui` - `v0.15.0+13`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+13`
+ - `masamune_signin_facebook` - `v0.15.0+13`
+ - `masamune_signin_google` - `v0.15.0+13`
+ - `masamune_signin_apple` - `v0.15.0+13`
+ - `masamune_signin_twitter` - `v0.15.0+13`
+ - `masamune_notion` - `v0.15.0+13`
+ - `masamune_purchase_firebase` - `v0.15.0+13`
+ - `masamune_purchase_stripe` - `v0.15.0+13`
+ - `masamune_module` - `v0.15.0+13`
+
+---
+
+#### `katana` - `v0.15.2`
+
+ - **FEAT**: Add get method to List. ([319082fa](https://github.com/mathrunet/flutter_masamune/commit/319082fa826d25563cd970e879d67a293db00aa6))
+
+
 ## 2022-09-25
 
 ### Changes
