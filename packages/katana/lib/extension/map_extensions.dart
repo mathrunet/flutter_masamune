@@ -221,7 +221,6 @@ extension MapExtensions<K, V> on Map<K, V> {
   /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
   bool equalsTo(Map<K, V> others) {
     for (final tmp in entries) {
-      print(tmp.key);
       if (!others.containsKey(tmp.key)) {
         return false;
       }
@@ -253,7 +252,6 @@ extension MapExtensions<K, V> on Map<K, V> {
       }
     }
     for (final tmp in others.entries) {
-      print(tmp.key);
       if (!containsKey(tmp.key)) {
         return false;
       }
