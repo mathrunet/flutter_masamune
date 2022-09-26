@@ -43,6 +43,18 @@ extension ListExtensions<T> on List<T> {
     return this;
   }
 
+  /// Get the [index]th element.
+  /// [index]番目の要素を取得します。
+  ///
+  /// If [index] is out of range, [defaultValue] is returned.
+  /// [index]が範囲外の場合[defaultValue]が返されます。
+  T get(int index, T defaultValue) {
+    if (!containsIndex(index)) {
+      return defaultValue;
+    }
+    return this[index];
+  }
+
   /// Get a random element from [List].
   /// [List]からランダムに要素を取得します。
   ///

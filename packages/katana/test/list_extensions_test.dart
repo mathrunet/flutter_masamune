@@ -17,6 +17,12 @@ void main() {
       [1, 2, 10, 3, 4, 5],
     );
   });
+  test("ListExtensions.get", () {
+    final array = [1, 2, 3, 4, 5];
+    expect(array.get(2, 100), 3);
+    expect(array.get(-1, 100), 100);
+    expect(array.get(5, 100), 100);
+  });
   test("ListExtensions.getRandom", () {
     final array = [1, 2, 3, 4, 5];
     expect(
