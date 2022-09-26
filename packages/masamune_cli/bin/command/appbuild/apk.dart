@@ -7,11 +7,11 @@ class AppBuildApkCliCommand extends CliCommand {
   String get description => "masamune.yamlで指定したbuildの情報をAndroid用のApkビルドを行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final flutter = bin["flutter"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
     final generateProcess = await Process.start(
-      flutter!,
+      flutter,
       [
         "build",
         "apk",

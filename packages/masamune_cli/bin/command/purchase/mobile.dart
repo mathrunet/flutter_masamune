@@ -8,11 +8,11 @@ class PurchaseMobileCliCommand extends CliCommand {
       "masamune.yamlを元にストア課金のサーバー検証やサブスクリプションの更新処理をデプロイします。事前に https://www.notion.so/Android-1d4a60948a1446d7a82c010d96417a3d の設定を済ませておくこと、`masamune firebase init`のコマンドを実行しておくこと、firebaseを`Blaze`プランにしておくことが必要です。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final purchase = yaml["purchase"] as YamlMap;
-    final mobile = purchase["mobile"] as YamlMap;
-    final command = bin["firebase"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final purchase = yaml.getAsMap("purchase");
+    final mobile = purchase.getAsMap("mobile");
+    final command = bin.get("firebase", "firebase");
 
     final options = firebaseOptions();
     if (options == null) {
@@ -23,9 +23,9 @@ class PurchaseMobileCliCommand extends CliCommand {
     }
 
     final projectId = options.get("projectId", "");
-    final clientId = mobile["client_id"] as String?;
-    final clientSecret = mobile["client_secret"] as String?;
-    final sharedSecret = mobile["shared_secret"] as String?;
+    final clientId = mobile.get("client_id", "");
+    final clientSecret = mobile.get("client_secret", "");
+    final sharedSecret = mobile.get("shared_secret", "");
     if (clientId.isEmpty || clientSecret.isEmpty || sharedSecret.isEmpty) {
       print(
         "ClientID and ClientSecret are not specified. Set up and obtain the OAuth client and OAuth consent screen for GoogleCloutPlatform with redirect url: https://asia-northeast1-$projectId.cloudfunctions.net/android_token.",
@@ -54,7 +54,7 @@ class PurchaseMobileCliCommand extends CliCommand {
     });
     applyFunctionsTemplate();
     final resultFirst = await Process.start(
-      command!,
+      command,
       [
         "functions:config:set",
         "purchase.android.client_id=$clientId",
@@ -77,7 +77,7 @@ class PurchaseMobileCliCommand extends CliCommand {
       workingDirectory: "${Directory.current.path}/firebase",
     );
     await resultFirstDeploy.print();
-    final refreshToken = mobile["refresh_token"] as String?;
+    final refreshToken = mobile.get("refresh_token", "");
     if (refreshToken.isEmpty) {
       print(
         "RefreshToken are not specified. Please access to https://asia-northeast1-$projectId.cloudfunctions.net/android_auth_code?id=$clientId",

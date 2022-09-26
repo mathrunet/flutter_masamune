@@ -3,7 +3,7 @@ part of masamune_cli;
 abstract class CliCommand {
   const CliCommand();
   String get description;
-  Future<void> exec(YamlMap yaml, List<String> args);
+  Future<void> exec(Map yaml, List<String> args);
 }
 
 abstract class CliCommandGroup extends CliCommand {
@@ -21,7 +21,7 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
   }
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
+  Future<void> exec(Map yaml, List<String> args) async {
     if (args.length <= 1) {
       print(description);
       return;

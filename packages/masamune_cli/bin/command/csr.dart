@@ -8,11 +8,11 @@ class CsrCliCommand extends CliCommand {
       "AppStoreでの認証を行うための`CertificateSigningRequest.certSigningRequest`を自動出力します。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final openssl = bin["openssl"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final openssl = bin.get("openssl", "openssl");
     final process = await Process.start(
-      openssl!,
+      openssl,
       [
         "req",
         "-nodes",

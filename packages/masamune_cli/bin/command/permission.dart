@@ -8,8 +8,8 @@ class PermissionCliCommand extends CliCommand {
       "masamune.yamlで指定したカメラや位置情報のPermission許可時の文言をアプリに反映させます。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final permission = yaml["permission"] as YamlMap;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final permission = yaml.getAsMap("permission");
     if (permission.isEmpty) {
       print("Permission data could not be found.");
       return;
@@ -46,9 +46,9 @@ class PermissionCliCommand extends CliCommand {
       if (lang.isEmpty) {
         continue;
       }
-      var def = lang.containsKey("en") ? lang["en"] as String? : null;
+      var def = lang.containsKey("en") ? lang.get("en", "") : null;
       if (def.isEmpty) {
-        def = lang.containsKey("ja") ? lang["ja"] as String? : null;
+        def = lang.containsKey("ja") ? lang.get("ja", "") : null;
       }
       if (def.isEmpty) {
         def = lang.values.first as String?;

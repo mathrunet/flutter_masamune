@@ -6,10 +6,10 @@ class SigninGoogleCliCommand extends CliCommand {
   String get description =>
       "`firebase_options.dart`を元にGoogleアカウントでのログイン設定を行ないます。先に`masamune firebase init`のコマンドを実行してください。";
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final firebase = yaml["firebase"] as YamlMap;
-    final signin = firebase["signin"] as YamlMap;
-    final googleOauthClientId = signin["google_oauth_client_id"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final firebase = yaml.getAsMap("firebase");
+    final signin = firebase.getAsMap("signin");
+    final googleOauthClientId = signin.get("google_oauth_client_id", "");
     final options = firebaseOptions();
     if (options == null) {
       print(

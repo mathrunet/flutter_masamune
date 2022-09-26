@@ -8,13 +8,13 @@ class PurchaseConnectCliCommand extends CliCommand {
       "masamune.yamlや`firebase_options.dart`を元にStripeConnectの初期設定を行います。予めStripeのプロジェクトを作成し`APIKey`と`APISecret`を取得しておくのと`masamune firebase init`のコマンドを実行しておくこと、firebaseを`Blazeプラン`にしておくことが必要です。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final purchase = yaml["purchase"] as YamlMap;
-    final stripe = purchase["stripe"] as YamlMap;
-    final connect = purchase["connect"] as YamlMap;
-    final command = bin["firebase"] as String?;
-    final email = yaml["email"] as YamlMap;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final purchase = yaml.getAsMap("purchase");
+    final stripe = purchase.getAsMap("stripe");
+    final connect = purchase.getAsMap("connect");
+    final command = bin.get("firebase", "firebase");
+    final email = yaml.getAsMap("email");
 
     final options = firebaseOptions();
     if (options == null) {
@@ -29,9 +29,9 @@ class PurchaseConnectCliCommand extends CliCommand {
       print("Project ID could not be obtained.");
       return;
     }
-    final apiSecret = stripe["api_secret"] as String?;
-    final emailType = connect["email_type"] as String? ?? "gmail";
-    final domain = connect["domain"] as String?;
+    final apiSecret = stripe.get("api_secret", "");
+    final emailType = connect.get("email_type", "gmail");
+    final domain = connect.get("domain", "");
     if (apiSecret.isEmpty) {
       print("purchase/stripe/api_secret is invalid.");
       return;
@@ -47,15 +47,15 @@ class PurchaseConnectCliCommand extends CliCommand {
     });
     switch (emailType) {
       case "gmail":
-        final gmail = email["gmail"] as YamlMap;
-        final id = gmail["id"] as String?;
-        final password = gmail["password"] as String?;
+        final gmail = email.getAsMap("gmail");
+        final id = gmail.get("id", "");
+        final password = gmail.get("password", "");
         if (id.isEmpty || password.isEmpty) {
           print("email/gmail/id or email/gmail/password is invalid.");
           return;
         }
         final resultMail = await Process.start(
-          command!,
+          command,
           [
             "functions:config:set",
             "mail.gmail.id=$id",
@@ -67,14 +67,14 @@ class PurchaseConnectCliCommand extends CliCommand {
         await resultMail.print();
         break;
       case "sendgrid":
-        final sendgrid = email["sendgrid"] as YamlMap;
-        final sendgridApiKey = sendgrid["api_key"] as String?;
+        final sendgrid = email.getAsMap("sendgrid");
+        final sendgridApiKey = sendgrid.get("api_key", "");
         if (sendgridApiKey.isEmpty) {
           print("email/sendgrid/api_key is invalid.");
           return;
         }
         final resultMail = await Process.start(
-          command!,
+          command,
           [
             "functions:config:set",
             "mail.sendgrid.api_key=$sendgridApiKey",

@@ -10,9 +10,9 @@ class VersionCliCommand extends CliCommand {
   String get description => "Dartパッケージのバージョンアップを行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final melos = bin["melos"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final melos = bin.get("melos", "melos");
     if (!File("melos.yaml").existsSync()) {
       print("melos.yamlのファイルが存在しません。");
       return;
@@ -22,7 +22,7 @@ class VersionCliCommand extends CliCommand {
       switch (mode) {
         case "import":
           final processVersion = await Process.start(
-            melos!,
+            melos,
             ["list", "-l"],
             runInShell: true,
             workingDirectory: Directory.current.path,
@@ -71,7 +71,7 @@ class VersionCliCommand extends CliCommand {
           break;
         case "fit":
           final processVersion = await Process.start(
-            melos!,
+            melos,
             ["list", "-l"],
             runInShell: true,
             workingDirectory: Directory.current.path,
@@ -124,7 +124,7 @@ class VersionCliCommand extends CliCommand {
       }
     } else {
       final processVersion = await Process.start(
-        melos!,
+        melos,
         [
           "version",
           "--yes",

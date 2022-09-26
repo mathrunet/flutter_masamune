@@ -8,7 +8,7 @@ class LocalizeCliCommand extends CliCommand {
       "masamune.yamlで指定したGoogleSpreadSheetのURLを元にローカライズ用ファイルを作成します。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
+  Future<void> exec(Map yaml, List<String> args) async {
     final url = yaml["localize"] as String;
     if (url.isEmpty) {
       print("Localize url could not be found.");

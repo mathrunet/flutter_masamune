@@ -8,23 +8,23 @@ class AppBuildIOSCliCommand extends CliCommand {
       "masamune.yamlで指定したbuildの情報をIOS用のビルドを行います。TestFlightの配信まで行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final build = yaml["build"] as YamlMap;
-    final ios = build["ios"] as YamlMap;
-    final teamId = ios["team_id"] as String?;
-    final bin = yaml["bin"] as YamlMap;
-    final flutter = bin["flutter"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final build = yaml.getAsMap("build");
+    final ios = build.getAsMap("ios");
+    final teamId = ios.get("team_id", "");
+    final bin = yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
     if (teamId.isEmpty) {
       print("Build IOS information is missing.");
       return;
     }
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("<!-- TODO_REPLACE_APPLE_TEAM_ID -->", teamId!);
+      text = text.replaceAll("<!-- TODO_REPLACE_APPLE_TEAM_ID -->", teamId);
       File(file.path).writeAsStringSync(text);
     });
     final generateProcess = await Process.start(
-      flutter!,
+      flutter,
       [
         "build",
         "ipa",

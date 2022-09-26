@@ -7,7 +7,7 @@ class MessagingLocalCliCommand extends CliCommand {
   String get description => "ローカルプッシュ用の初期設定を行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
+  Future<void> exec(Map yaml, List<String> args) async {
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll(

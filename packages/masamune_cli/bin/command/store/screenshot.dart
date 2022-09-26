@@ -29,20 +29,20 @@ class StoreScreenshotCliCommand extends CliCommand {
   String get description => "ストア用のスクリーンショット画像等の作成を行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final store = yaml["store"] as YamlMap;
-    final exportDir = store["export_dir"] as String?;
-    final screenshot = store["screenshot"] as YamlMap;
-    final colorCode = screenshot["color"] as String?;
-    final orientation = screenshot["orientation"] as String?;
-    final sourceDir = screenshot["source_dir"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final store = yaml.getAsMap("store");
+    final exportDir = store.get("export_dir", "");
+    final screenshot = store.getAsMap("screenshot");
+    final colorCode = screenshot.get("color", "");
+    final orientation = screenshot.get("orientation", "");
+    final sourceDir = screenshot.get("source_dir", "");
     if (exportDir.isEmpty || sourceDir.isEmpty || colorCode.isEmpty) {
       print("Screenshot data could not be found.");
       return;
     }
     // 色の変換
     final color = Color.fromRgb(
-      int.parse(colorCode!.substring(1, 3), radix: 16),
+      int.parse(colorCode.substring(1, 3), radix: 16),
       int.parse(colorCode.substring(3, 5), radix: 16),
       int.parse(colorCode.substring(5, 7), radix: 16),
     );
@@ -50,7 +50,7 @@ class StoreScreenshotCliCommand extends CliCommand {
     if (!document.existsSync()) {
       document.createSync();
     }
-    final _sourceDir = Directory(sourceDir!);
+    final _sourceDir = Directory(sourceDir);
     if (!_sourceDir.existsSync()) {
       _sourceDir.createSync();
     }

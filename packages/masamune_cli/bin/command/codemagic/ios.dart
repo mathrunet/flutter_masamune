@@ -8,12 +8,12 @@ class CodemagicIOSCliCommand extends CliCommand {
       "masamune.yamlで指定したcodemagicの情報をIOS用の元にビルドスクリプトを作成します。先に`csr`のコマンドを実行しておき、https://www.notion.so/mathru/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20fe を元にIDの登録やProvisioning Profileを作成しておく必要があります。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final openssl = bin["openssl"] as String?;
-    final build = yaml["codemagic"] as YamlMap;
-    final ios = build["ios"] as YamlMap;
-    final issuerId = ios["publishing_issuer_id"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final openssl = bin.get("openssl", "openssl");
+    final build = yaml.getAsMap("codemagic");
+    final ios = build.getAsMap("ios");
+    final issuerId = ios.get("publishing_issuer_id", "");
     if (issuerId.isEmpty) {
       print("Codemagic IOS information is missing.");
       return;
@@ -43,7 +43,7 @@ class CodemagicIOSCliCommand extends CliCommand {
       return;
     }
     final generateProcess = await Process.start(
-      openssl!,
+      openssl,
       [
         "x509",
         "-in",

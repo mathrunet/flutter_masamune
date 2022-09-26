@@ -8,10 +8,10 @@ class CodemagicWebCliCommand extends CliCommand {
       "masamune.yamlで指定したcodemagicの情報をWeb用の元にビルドスクリプトを作成します。予め`firebase login:ci`を実行し`token`の項目を入れておく必要があります。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final build = yaml["codemagic"] as YamlMap;
-    final web = build["web"] as YamlMap;
-    final token = web["token"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final build = yaml.getAsMap("codemagic");
+    final web = build.getAsMap("web");
+    final token = web.get("token", "");
     if (token.isEmpty) {
       print("Codemagic Web information is missing.");
       return;

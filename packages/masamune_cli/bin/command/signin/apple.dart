@@ -6,7 +6,7 @@ class SigninAppleCliCommand extends CliCommand {
   String get description =>
       "`firebase_options.dart`を元にAppleIDログインの設定を行います。先に`masamune firebase init`のコマンドを実行してください。";
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
+  Future<void> exec(Map yaml, List<String> args) async {
     final options = firebaseOptions();
     if (options == null) {
       print(

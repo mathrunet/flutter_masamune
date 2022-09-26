@@ -7,12 +7,12 @@ class InstallCliCommand extends CliCommand {
   String get description => "必要なコマンドをインストールします。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final curl = bin["curl"] as String?;
-    final dart = bin["dart"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final curl = bin.get("curl", "curl");
+    final dart = bin.get("dart", "dart");
     final process = await Process.start(
-      curl!,
+      curl,
       [
         "-sL",
         "https://firebase.tools",
@@ -29,7 +29,7 @@ class InstallCliCommand extends CliCommand {
     await process.stdout.pipe(processPipe.stdin);
     await processPipe.print();
     final processFlutterFire = await Process.start(
-      dart!,
+      dart,
       [
         "pub",
         "global",

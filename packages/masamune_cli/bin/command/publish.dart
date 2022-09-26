@@ -7,15 +7,15 @@ class PublishCliCommand extends CliCommand {
   String get description => "Dartパッケージのpubへのデプロイを行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final melos = bin["melos"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final melos = bin.get("melos", "melos");
     if (!File("melos.yaml").existsSync()) {
       print("melos.yamlのファイルが存在しません。");
       return;
     }
     final processPublish = await Process.start(
-      melos!,
+      melos,
       [
         "publish",
         "--no-dry-run",

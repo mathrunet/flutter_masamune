@@ -8,11 +8,11 @@ class HostingCliCommand extends CliCommand {
       "Firebaseホスティングのデプロイを行います。Firebaseでの登録とHostingの初期設定が必要です。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final firebase = bin["firebase"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final firebase = bin.get("firebase", "firebase");
     final process = await Process.start(
-      firebase!,
+      firebase,
       [
         "deploy",
         "--only",

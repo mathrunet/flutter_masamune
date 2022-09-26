@@ -7,11 +7,11 @@ class SubmoduleCliCommand extends CliCommand {
   String get description => "サブモジュールをクローンします。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final git = bin["git"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final git = bin.get("git", "git");
     final processPublish = await Process.start(
-      git!,
+      git,
       [
         "submodule",
         "update",

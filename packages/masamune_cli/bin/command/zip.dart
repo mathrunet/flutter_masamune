@@ -7,7 +7,7 @@ class ZipCliCommand extends CliCommand {
   String get description => "プロジェクト内を配布用のファイルのみ抽出しZIPで固めます。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
+  Future<void> exec(Map yaml, List<String> args) async {
     final fileName = Directory.current.path.replaceAll(r"\", "/").last();
     final encoder = ZipFileEncoder();
     encoder.create("$fileName.zip");

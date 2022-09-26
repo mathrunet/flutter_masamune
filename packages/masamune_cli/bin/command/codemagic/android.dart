@@ -8,10 +8,10 @@ class CodemagicAndroidCliCommand extends CliCommand {
       "masamune.yamlで指定したcodemagicの情報をAndroid用の元にビルドスクリプトを作成します。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final build = yaml["codemagic"] as YamlMap;
-    final android = build["android"] as YamlMap;
-    final track = android["publishing_track"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final build = yaml.getAsMap("codemagic");
+    final android = build.getAsMap("android");
+    final track = android.get("publishing_track", "");
     const alias = "mathrunet";
     final keyStoreString =
         base64Encode(File("android/app/appkey.keystore").readAsBytesSync());

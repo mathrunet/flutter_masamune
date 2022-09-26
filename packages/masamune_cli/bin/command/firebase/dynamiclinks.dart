@@ -8,10 +8,10 @@ class FirebaseDynamicLinksCliCommand extends CliCommand {
       "`firebase_options.dart`を元にFirebase DynamicLinksのアプリ側の初期設定を行ないます。先に`masamune firebase init`を実行してください。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final firebase = yaml["firebase"] as YamlMap;
-    final dynamicLinks = firebase["dynamic_links"] as YamlMap;
-    final domain = dynamicLinks["domain"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final firebase = yaml.getAsMap("firebase");
+    final dynamicLinks = firebase.getAsMap("dynamic_links");
+    final domain = dynamicLinks.get("domain", "");
     if (domain.isEmpty) {
       print("firebase/dynamic_links/domain is empty.");
       return;

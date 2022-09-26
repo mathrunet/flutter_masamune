@@ -7,12 +7,12 @@ class FunctionsDeployCliCommand extends CliCommand {
   String get description => "FirebaseFunctionsのデプロイを行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final command = bin["firebase"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final command = bin.get("firebase", "firebase");
     applyFunctionsTemplate();
     final resultDeploy = await Process.start(
-      command!,
+      command,
       [
         "deploy",
         "--only",

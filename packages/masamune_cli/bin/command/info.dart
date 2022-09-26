@@ -7,17 +7,17 @@ class InfoCliCommand extends CliCommand {
   String get description => "ストア登録を行ってもらう際の客先に提供するための情報をinformation.txtに保存します。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final app = yaml["app"] as YamlMap;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final app = yaml.getAsMap("app");
     if (app.isEmpty) {
       print("App data could not be found.");
       return;
     }
-    final id = app["bundle_id"] as String?;
+    final id = app.get("bundle_id", "");
     final figerPrint =
         loadYaml(await File("android/app/fingerprint.yaml").readAsString());
-    final sha1 = figerPrint["sha1"] as String?;
-    final base64 = figerPrint["base64_sha1"] as String?;
+    final sha1 = figerPrint.get("sha1", "");
+    final base64 = figerPrint.get("base64_sha1", "");
     File("information.txt").writeAsStringSync(
       """
 # 提供情報

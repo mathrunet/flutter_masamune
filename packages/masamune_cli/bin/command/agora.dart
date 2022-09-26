@@ -8,13 +8,13 @@ class AgoraCliCommand extends CliCommand {
       "masamune.yamlを元にAgora.ioの初期設定を行います。予めAgoraのプロジェクトを作成（AppID+Token）を作成`AppID`と`AppCertificate`を作成しておくのと`firebase`のコマンドを実行しておくこと、firebaseを`Blazeプラン`にしておくことが必要です。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final agora = yaml["agora"] as YamlMap;
-    final appId = agora["app_id"] as String?;
-    final appCertificate = agora["app_certificate"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final agora = yaml.getAsMap("agora");
+    final appId = agora.get("app_id", "");
+    final appCertificate = agora.get("app_certificate", "");
     final expiration = agora["expiration"] as int? ?? 3600;
-    final command = bin["firebase"] as String?;
+    final command = bin.get("firebase", "firebase");
     if (appId.isEmpty) {
       print("Api id is invalid.");
       return;
@@ -72,7 +72,7 @@ class AgoraCliCommand extends CliCommand {
       File(file.path).writeAsStringSync(text);
     });
     final resultHooks = await Process.start(
-      command!,
+      command,
       [
         "functions:config:set",
         "agora.app_id=$appId",

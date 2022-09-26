@@ -8,14 +8,14 @@ class FirebaseInitCliCommand extends CliCommand {
       "`flutterfire configure`のコマンドを実行しFirebaseの初期設定を行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final firebase = yaml["firebase"] as YamlMap;
-    final bin = yaml["bin"] as YamlMap;
-    final app = yaml["app"] as YamlMap;
-    final accountId = firebase["account_id"] as String?;
-    final projectId = firebase["project_id"] as String?;
-    final flutterFire = bin["flutterfire"] as String?;
-    final bundleId = app["bundle_id"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final firebase = yaml.getAsMap("firebase");
+    final bin = yaml.getAsMap("bin");
+    final app = yaml.getAsMap("app");
+    final accountId = firebase.get("account_id", "");
+    final projectId = firebase.get("project_id", "");
+    final flutterFire = bin.get("flutterfire", "flutterfire");
+    final bundleId = app.get("bundle_id", "");
     if (accountId.isEmpty || projectId.isEmpty) {
       print("firebase/account_id or firebase/project_id is not defined.");
       return;
@@ -24,7 +24,7 @@ class FirebaseInitCliCommand extends CliCommand {
       print("BundleId is not defined.");
       return;
     }
-    final configureProcess = await Process.start(flutterFire!, [
+    final configureProcess = await Process.start(flutterFire, [
       "configure",
       "--project=$projectId",
       "--account=$accountId",
@@ -39,7 +39,7 @@ class FirebaseInitCliCommand extends CliCommand {
 
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("TODO_REPLACE_FIREBASE_ID", projectId!);
+      text = text.replaceAll("TODO_REPLACE_FIREBASE_ID", projectId);
       text = text.replaceAll(
         "// TODO_REPLACE_GOOGLE_SERVICES_APPLY_PLUGIN",
         """
@@ -61,11 +61,11 @@ class FirebaseInitCliCommand extends CliCommand {
       File(file.path).writeAsStringSync(text);
     });
 
-    final git = bin["git"] as String?;
-    final functions = firebase["functions"] as YamlMap;
-    final path = functions["path"] as String?;
-    final templatePath = functions["template_path"] as String?;
-    final indexPath = functions["index_path"] as String?;
+    final git = bin.get("git", "git");
+    final functions = firebase.getAsMap("functions");
+    final path = functions.get("path", "");
+    final templatePath = functions.get("template_path", "");
+    final indexPath = functions.get("index_path", "");
     if (templatePath.isEmpty ||
         indexPath.isEmpty ||
         path.isEmpty ||
@@ -75,9 +75,9 @@ class FirebaseInitCliCommand extends CliCommand {
       );
       return;
     }
-    if (!Directory(path!).existsSync()) {
+    if (!Directory(path).existsSync()) {
       final cloneProcess = await Process.start(
-        git!,
+        git,
         [
           "submodule",
           "add",
@@ -88,8 +88,8 @@ class FirebaseInitCliCommand extends CliCommand {
       );
       await cloneProcess.print();
     }
-    final code = File(templatePath!).readAsStringSync();
-    final file = File(indexPath!);
+    final code = File(templatePath).readAsStringSync();
+    final file = File(indexPath);
     if (!file.existsSync()) {
       file
         ..createSync(recursive: true)

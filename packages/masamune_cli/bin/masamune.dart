@@ -101,24 +101,28 @@ Future<void> main(List<String> args) async {
   }
   final masamune = File("masamune.yaml");
   if (!masamune.existsSync()) {
-    print(
-      "masamune.yaml file could not be found. Place it in the root of the project.",
-    );
-    return;
-  }
-  final yaml = loadYaml(await masamune.readAsString());
-  if (yaml.isEmpty) {
-    print(
-      "masamune.yaml file could not be found. Place it in the root of the project.",
-    );
-    return;
-  }
-  for (final tmp in commands.entries) {
-    if (tmp.key != command) {
-      continue;
+    for (final tmp in commands.entries) {
+      if (tmp.key != command) {
+        continue;
+      }
+      await tmp.value.exec({}, args);
+      return;
     }
-    await tmp.value.exec(yaml, args);
-    return;
+  } else {
+    final yaml = loadYaml(await masamune.readAsString());
+    if (yaml.isEmpty) {
+      print(
+        "masamune.yaml file could not be found. Place it in the root of the project.",
+      );
+      return;
+    }
+    for (final tmp in commands.entries) {
+      if (tmp.key != command) {
+        continue;
+      }
+      await tmp.value.exec(yaml, args);
+      return;
+    }
   }
   showReadme();
 }

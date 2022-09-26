@@ -7,9 +7,9 @@ class FunctionsUsercountCliCommand extends CliCommand {
   String get description => "Userをカウントする仕組みのデプロイを行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final command = bin["firebase"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final command = bin.get("firebase", "firebase");
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
       text = text.replaceAll(
@@ -20,7 +20,7 @@ class FunctionsUsercountCliCommand extends CliCommand {
     });
     applyFunctionsTemplate();
     final resultDeploy = await Process.start(
-      command!,
+      command,
       [
         "deploy",
         "--only",

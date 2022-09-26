@@ -8,21 +8,21 @@ class AppCliCommand extends CliCommand {
       "masamune.yamlで指定したアプリケーションのバンドルIDや名前、説明、メールアドレスなどを設定します。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final app = yaml["app"] as YamlMap;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final app = yaml.getAsMap("app");
     if (app.isEmpty) {
       print("App data could not be found.");
       return;
     }
     var found = List<String>.generate(10, (index) => "");
-    final information = yaml["information"] as String?;
-    final account = yaml["account"] as String?;
-    final id = app["bundle_id"] as String?;
+    final information = yaml.get("information", "");
+    final account = yaml.get("account", "");
+    final id = app.get("bundle_id", "");
     if (id.isEmpty) {
       print("bundle_id could not be found.");
       return;
     }
-    if (information != null && account.isNotEmpty) {
+    if (information.isNotEmpty && account.isNotEmpty) {
       final endpoint = information
           .replaceAllMapped(RegExp(r"/edit(#gid=([0-9]+))?$"), (match) {
         final gid = match.group(2);
@@ -41,7 +41,7 @@ class AppCliCommand extends CliCommand {
         if (line.length <= 1) {
           continue;
         }
-        final id = line[1] as String;
+        final id = line.get(1, "");
         if (id.isEmpty || id != account) {
           continue;
         }
@@ -49,21 +49,21 @@ class AppCliCommand extends CliCommand {
       }
     }
     final appId = (app["apple_app_id"] as int?).toString();
-    final title = app["title"] as String? ?? found[4];
-    final titleShort = app["short_title"] as String? ?? found[3];
+    final title = app.get("title", found.get(4, ""));
+    final titleShort = app.get("short_title", found.get(3, ""));
     if (title.isEmpty || titleShort.isEmpty) {
       print("title could not be found.");
       return;
     }
-    final description = app["description"] as String? ?? found[5];
-    final email = app["email"] as String? ?? found[8];
-    final color = app["color"] as String?;
-    final url = app["url"] as String? ?? found[9];
-    final image = app["image"] as String?;
+    final description = app.get("description", found.get(5, ""));
+    final email = app.get("email", found.get(8, ""));
+    final color = app.get("color", "");
+    final url = app.get("url", found.get(9, ""));
+    final image = app.get("image", "");
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
       if (id.isNotEmpty) {
-        text = text.replaceAll("net.mathru.xxx", id!);
+        text = text.replaceAll("net.mathru.xxx", id);
       }
       if (appId.isNotEmpty) {
         text = text.replaceAll("TODO_REPLACE_APPLE_APPID", appId);
@@ -84,10 +84,10 @@ class AppCliCommand extends CliCommand {
         text = text.replaceAll("TODO_REPLACE_URL_TEMPLATE", url);
       }
       if (image.isNotEmpty) {
-        text = text.replaceAll("TODO_REPLACE_IMAGE_TEMPLATE", image!);
+        text = text.replaceAll("TODO_REPLACE_IMAGE_TEMPLATE", image);
       }
       if (color.isNotEmpty) {
-        text = text.replaceAll("TODO_REPLACE_COLOR_TEMPLATE", "#${color!}");
+        text = text.replaceAll("TODO_REPLACE_COLOR_TEMPLATE", "#$color");
       }
       File(file.path).writeAsStringSync(text);
     });

@@ -8,11 +8,11 @@ class PurchaseStripeCliCommand extends CliCommand {
       "masamune.yamlや`firebase_options.dart`を元にStripeの初期設定を行います。予めStripeのプロジェクトを作成し`APIKey`と`APISecret`を取得しておくのと`masamune firebase init`のコマンドを実行しておくこと、firebaseを`Blazeプラン`にしておくことが必要です。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final command = bin["firebase"] as String?;
-    final purchase = yaml["purchase"] as YamlMap;
-    final stripe = purchase["stripe"] as YamlMap;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final command = bin.get("firebase", "firebase");
+    final purchase = yaml.getAsMap("purchase");
+    final stripe = purchase.getAsMap("stripe");
     final options = firebaseOptions();
     if (options == null) {
       print(
@@ -26,7 +26,7 @@ class PurchaseStripeCliCommand extends CliCommand {
       print("Project ID from firebase_options.dart could not be obtained.");
       return;
     }
-    final apiSecret = stripe["api_secret"] as String?;
+    final apiSecret = stripe.get("api_secret", "");
     if (apiSecret.isEmpty) {
       print("purchase/stripe/api_secret is invalid.");
       return;
@@ -41,7 +41,7 @@ class PurchaseStripeCliCommand extends CliCommand {
       File(file.path).writeAsStringSync(text);
     });
     final resultKeys = await Process.start(
-      command!,
+      command,
       [
         "functions:config:set",
         "purchase.stripe.subscription_path=subscription",

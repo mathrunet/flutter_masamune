@@ -7,11 +7,11 @@ class KeystoreCliCommand extends CliCommand {
   String get description => "Androidビルドを署名するためのKeystoreを生成します。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final keytool = bin["keytool"] as String?;
-    final keystore = yaml["keystore"] as YamlMap;
-    final alias = keystore["alias"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin", {});
+    final keytool = bin.get("keytool", "keytool");
+    final keystore = yaml.getAsMap("keystore");
+    final alias = keystore.get("alias", "");
     final fingerPrintFile = File("android/app/fingerprint.txt");
     if (alias.isEmpty) {
       print("Alias is empty.");
@@ -28,7 +28,7 @@ class KeystoreCliCommand extends CliCommand {
     }
     final password = passwordFile.readAsStringSync();
     final process = await Process.start(
-      keytool!,
+      keytool,
       [
         "-genkey",
         "-v",
@@ -39,7 +39,7 @@ class KeystoreCliCommand extends CliCommand {
         "-storepass",
         password,
         "-alias",
-        alias!,
+        alias,
         "-validity",
         "10950",
         "-dname",

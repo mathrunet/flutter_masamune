@@ -7,13 +7,13 @@ class UpgradeCliCommand extends CliCommand {
   String get description => "パッケージのアップグレードを行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final flutter = bin["flutter"] as String?;
-    final melos = bin["melos"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
+    final melos = bin.get("melos", "melos");
     if (File("melos.yaml").existsSync()) {
       final process = await Process.start(
-        melos!,
+        melos,
         [
           "exec",
           "--",
@@ -25,7 +25,7 @@ class UpgradeCliCommand extends CliCommand {
       await process.print();
     } else {
       final process = await Process.start(
-        flutter!,
+        flutter,
         [
           "pub",
           "upgrade",

@@ -6,13 +6,13 @@ class SigninFacebookCliCommand extends CliCommand {
   String get description =>
       "masamune.yamlで指定した`AppID`と`AppSecret`を元にFacebookアカウントでのログイン設定を行ないます。";
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final sns = yaml["sns"] as YamlMap;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final sns = yaml.getAsMap("sns");
     if (sns.isEmpty) {
       print("Sns data could not be found.");
       return;
     }
-    final facebook = sns["facebook"] as YamlMap;
+    final facebook = sns.getAsMap("facebook");
     if (facebook.isEmpty) {
       print("Facebook data could not be found.");
       return;
@@ -22,19 +22,19 @@ class SigninFacebookCliCommand extends CliCommand {
       print("Facebook settings could not be found.");
       return;
     }
-    final app = yaml["app"] as YamlMap;
+    final app = yaml.getAsMap("app");
     if (app.isEmpty) {
       print("App data could not be found.");
       return;
     }
-    final title = app["title"] as String?;
+    final title = app.get("title", "");
     if (title.isEmpty) {
       print("App title could not be found.");
       return;
     }
     currentFiles.forEach((file) {
       var text = File(file.path).readAsStringSync();
-      text = text.replaceAll("TODO_REPLACE_NAME_TEMPLATE", title!);
+      text = text.replaceAll("TODO_REPLACE_NAME_TEMPLATE", title);
       text = text.replaceAll("TODO_REPLACE_FACEBOOK_APP_ID", id!);
       text = text.replaceAll(
         "<!-- TODO_REPLACE_FACEBOOK_URL_SCHEME -->",

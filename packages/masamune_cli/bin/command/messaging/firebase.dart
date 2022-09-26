@@ -8,7 +8,7 @@ class MessagingFirebaseCliCommand extends CliCommand {
       "`firebase_options.dart`を元にFirebase Messagingのアプリ側の初期設定を行ないます。先に`masamune firebase init`を実行してください。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
+  Future<void> exec(Map yaml, List<String> args) async {
     final options = firebaseOptions();
     if (options == null) {
       print(

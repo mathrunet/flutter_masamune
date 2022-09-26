@@ -7,14 +7,14 @@ class StoreIconCliCommand extends CliCommand {
   String get description => "ストア用のアイコン画像の作成を行います。";
 
   @override
-  Future<void> exec(YamlMap yaml, List<String> args) async {
-    final bin = yaml["bin"] as YamlMap;
-    final flutter = bin["flutter"] as String?;
-    final store = yaml["store"] as YamlMap;
-    final icon = store["icon"] as YamlMap;
-    final colorCode = icon["color"] as String?;
-    final exportDir = store["export_dir"] as String?;
-    final path = icon["path"] as String?;
+  Future<void> exec(Map yaml, List<String> args) async {
+    final bin = yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
+    final store = yaml.getAsMap("store");
+    final icon = store.getAsMap("icon");
+    final colorCode = icon.get("color", "");
+    final exportDir = store.get("export_dir", "");
+    final path = icon.get("path", "");
     if (path.isEmpty ||
         exportDir.isEmpty ||
         flutter.isEmpty ||
@@ -24,7 +24,7 @@ class StoreIconCliCommand extends CliCommand {
     }
     // 色の変換
     final color = Color.fromRgb(
-      int.parse(colorCode!.substring(1, 3), radix: 16),
+      int.parse(colorCode.substring(1, 3), radix: 16),
       int.parse(colorCode.substring(3, 5), radix: 16),
       int.parse(colorCode.substring(5, 7), radix: 16),
     );
@@ -32,7 +32,7 @@ class StoreIconCliCommand extends CliCommand {
     if (!document.existsSync()) {
       document.createSync();
     }
-    final file = File(path!);
+    final file = File(path);
     if (!file.existsSync()) {
       final image = Image(512, 512)..fill(color);
       file.writeAsBytesSync(encodePng(image));
@@ -70,7 +70,7 @@ class StoreIconCliCommand extends CliCommand {
       File(file.path).writeAsStringSync(text);
     });
     final process = await Process.start(
-      flutter!,
+      flutter,
       [
         "pub",
         "pub",
