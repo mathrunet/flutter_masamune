@@ -14,7 +14,7 @@ class KeystoreCliCommand extends CliCommand {
     final alias = keystore.get("alias", "");
     final fingerPrintFile = File("android/app/fingerprint.txt");
     if (alias.isEmpty) {
-      print("Alias is empty.");
+      print("keystore/alias is empty.");
       return;
     }
     if (fingerPrintFile.existsSync()) {
