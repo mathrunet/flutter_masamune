@@ -1,3 +1,7 @@
+## 0.15.0+7
+
+ - **FIX**: Enabled to execute commands without masamune.yaml. ([6b8d6c26](https://github.com/mathrunet/flutter_masamune/commit/6b8d6c26fc25c4add6de704efa114f1d30b99585))
+
 ## 0.15.0+6
 
  - Update a dependency to the latest release.

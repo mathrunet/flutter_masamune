@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-09-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_agora` - `v0.15.0+15`](#masamune_agora---v015015)
+ - [`masamune_cli` - `v0.15.0+7`](#masamune_cli---v01507)
+
+---
+
+#### `masamune_agora` - `v0.15.0+15`
+
+ - **FIX**: Bug fixes. ([22b7867d](https://github.com/mathrunet/flutter_masamune/commit/22b7867d926bb7d73d08551903cb8cc4693874ed))
+
+#### `masamune_cli` - `v0.15.0+7`
+
+ - **FIX**: Enabled to execute commands without masamune.yaml. ([6b8d6c26](https://github.com/mathrunet/flutter_masamune/commit/6b8d6c26fc25c4add6de704efa114f1d30b99585))
+
+
 ## 2022-09-26
 
 ### Changes
