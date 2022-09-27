@@ -92,7 +92,7 @@ class AgoraRTCCore {
   }) async {
     if (enableVideo) {
       var status = await permission_handler.Permission.camera.status;
-      if (status == permission_handler.PermissionStatus.denied) {
+      if (status != permission_handler.PermissionStatus.granted) {
         await permission_handler.Permission.camera.request();
         status = await permission_handler.Permission.camera.status;
         if (status != permission_handler.PermissionStatus.granted) {
@@ -102,7 +102,7 @@ class AgoraRTCCore {
     }
     if (enableAudio) {
       var status = await permission_handler.Permission.microphone.status;
-      if (status == permission_handler.PermissionStatus.denied) {
+      if (status != permission_handler.PermissionStatus.granted) {
         await permission_handler.Permission.microphone.request();
         status = await permission_handler.Permission.microphone.status;
         if (status != permission_handler.PermissionStatus.granted) {
