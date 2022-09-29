@@ -1,0 +1,472 @@
+part of katana_model;
+
+/// Define a collection model that includes [DocumentBase] as an element.
+/// [DocumentBase]を要素に含めたコレクションモデルを定義します。
+///
+/// Any changes made locally in the app will be notified and related objects will reflect the changes.
+/// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
+///
+/// When changes are reflected, [notifyListeners] will notify all listeners of the changes.
+/// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+///
+/// Define [CollectionBase.create] to describe the process of creating a new document.
+/// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
+///
+/// By defining [query], you can specify settings for loading, such as collection paths and conditions.
+/// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
+///
+/// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
+/// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
+///
+/// Execute [SavableDocument.save] for each document to change elements, and [SavableDocument.delete] for each document to delete them.
+/// 要素を変更する場合は各ドキュメントの[SavableDocument.save]を実行し、削除する場合は各ドキュメントの[SavableDocument.delete]を実行してください。
+///
+/// To add elements, run [CollectionBase.create] to create a new document, then save it with [SavableDocument.save].
+/// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[SavableDocument.save]で保存してください。
+abstract class CollectionBase<TModel extends DocumentBase<T>, T>
+    extends ChangeNotifier implements List<TModel> {
+  /// Define a collection model that includes [DocumentBase] as an element.
+  /// [DocumentBase]を要素に含めたコレクションモデルを定義します。
+  ///
+  /// Any changes made locally in the app will be notified and related objects will reflect the changes.
+  /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
+  ///
+  /// When changes are reflected, [notifyListeners] will notify all listeners of the changes.
+  /// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+  ///
+  /// Define [CollectionBase.create] to describe the process of creating a new document.
+  /// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
+  ///
+  /// By defining [query], you can specify settings for loading, such as collection paths and conditions.
+  /// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
+  ///
+  /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
+  /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
+  ///
+  /// Execute [SavableDocument.save] for each document to change elements, and [SavableDocument.delete] for each document to delete them.
+  /// 要素を変更する場合は各ドキュメントの[SavableDocument.save]を実行し、削除する場合は各ドキュメントの[SavableDocument.delete]を実行してください。
+  ///
+  /// To add elements, run [CollectionBase.create] to create a new document, then save it with [SavableDocument.save].
+  /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[SavableDocument.save]で保存してください。
+  CollectionBase(
+    this.query, [
+    List<TModel>? value,
+  ])  : __value = value ?? [],
+        assert(
+          !(query.path.splitLength() <= 0 || query.path.splitLength() % 2 != 1),
+          "The query path hierarchy must be an odd number: ${query.path}",
+        );
+
+  /// Create a new document of type [TModel] from the contents of the collection.
+  /// コレクションの内容から新しく[TModel]型のドキュメントを作成します。
+  ///
+  /// The document will be created with the collection path of [query] plus [id] (if `null`, a random [uuid] will be used).
+  /// [query]のコレクションパスに[id]（`null`の場合はランダムな[uuid]が使用されます）を加えたパスでドキュメントが作成されます。
+  TModel create([String? id]);
+
+  /// Query to read and save collections.
+  /// コレクションを読込・保存するためのクエリ。
+  @protected
+  final CollectionModelQuery query;
+
+  /// Database queries for collections.
+  /// コレクション用のデータベースクエリ。
+  @protected
+  ModelAdapterCollectionQuery get databaseQuery {
+    return _databaseQuery ??= ModelAdapterCollectionQuery(
+      query: query,
+      callback: handledOnUpdate,
+      origin: this,
+    );
+  }
+
+  ModelAdapterCollectionQuery? _databaseQuery;
+
+  /// List of currently subscribed notifications. All should be canceled when the object is destroyed.
+  /// 現在購読中の通知一覧。オブジェクトの破棄時にすべてキャンセルするようにしてください。
+  @protected
+  List<StreamSubscription> get subscriptions => _subscriptions;
+  final List<StreamSubscription> _subscriptions = [];
+
+  @protected
+  List<TModel> get _value => __value;
+
+  @protected
+  set _value(List<TModel> value) {
+    if (__value == value) {
+      return;
+    }
+    __value = value;
+    notifyListeners();
+  }
+
+  // ignore: prefer_final_fields
+  @protected
+  late List<TModel> __value;
+
+  /// Describe the callback process to pass to [ModelAdapterCollectionQuery.callback].
+  /// [ModelAdapterCollectionQuery.callback]に渡すためのコールバック処理を記述します。
+  ///
+  /// This is executed when there is a change in the associated collection or document.
+  /// 関連するコレクションやドキュメントに変更があった場合、こちらが実行されます。
+  ///
+  /// Please take appropriate action according to the contents of [update].
+  /// [update]の内容に応じて適切な処理を行ってください。
+  @protected
+  void handledOnUpdate(ModelUpdateNotification update) {
+    var notify = false;
+    switch (update.status) {
+      case ModelUpdateNotificationStatus.added:
+        if (update.newIndex == null) {
+          return;
+        }
+        final value = create(update.id.trimQuery().trimString("?"));
+        value.value = value.fromMap(update.value);
+        _value.insert(update.newIndex!, value);
+        notify = true;
+        break;
+      case ModelUpdateNotificationStatus.modified:
+        if (update.oldIndex == null || update.newIndex == null) {
+          return;
+        }
+        final found = _value.removeAt(update.oldIndex!);
+        found.value = found.fromMap(update.value);
+        _value.insert(update.newIndex!, found);
+        if (update.newIndex != update.oldIndex) {
+          notify = true;
+        }
+        break;
+      case ModelUpdateNotificationStatus.removed:
+        if (update.oldIndex == null) {
+          return;
+        }
+        _value.removeAt(update.oldIndex!);
+        notify = true;
+        break;
+    }
+    if (notify) {
+      notifyListeners();
+    }
+  }
+
+  /// Creates a [List<TModel>] from a [map] of type [Map<String, DynamicMap>] decoded from Json.
+  /// Jsonからデコードされた[Map<String, DynamicMap>]型の[map]から[List<TModel>]を作成します。
+  ///
+  /// The number of elements output can be limited by specifying [limit].
+  /// [limit]を指定することで出力される要素数を制限することが可能です。
+  @protected
+  List<TModel> fromMap(Map<String, DynamicMap> map, int? limit) {
+    final res = <TModel>[];
+    final sorted = query.sort(List.from(map.entries));
+    for (final tmp in sorted) {
+      final key =
+          tmp.key.replaceAll("/", "").replaceAll("?", "").replaceAll("&", "");
+      if (key.isEmpty) {
+        continue;
+      }
+      final value = create(key);
+      value.value = value.fromMap(
+        Map<String, dynamic>.from(tmp.value),
+      );
+      res.add(value);
+    }
+    return limit != null ? res.sublist(0, limit) : res;
+  }
+
+  @override
+  @protected
+  @mustCallSuper
+  void dispose() {
+    super.dispose();
+    _value.clear();
+    query.adapter.disposeCollection(databaseQuery);
+    subscriptions.forEach((subscription) => subscription.cancel());
+    subscriptions.clear();
+  }
+
+  @override
+  String toString() => IterableBase.iterableToShortString(this, "(", ")");
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  set length(int value) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  @override
+  List<TModel> operator +(List<TModel> other) => _value + other;
+
+  @override
+  TModel operator [](int index) => _value[index];
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void operator []=(int index, TModel value) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void add(TModel value) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void addAll(Iterable<TModel> iterable) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void clear() {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void fillRange(int start, int end, [TModel? fillValue]) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void insert(int index, TModel element) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void insertAll(int index, Iterable<TModel> iterable) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  bool remove(Object? value) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  TModel removeAt(int index) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  TModel removeLast() {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void removeRange(int start, int end) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void removeWhere(bool Function(TModel element) test) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void replaceRange(int start, int end, Iterable<TModel> replacement) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void retainWhere(bool Function(TModel element) test) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void setAll(int index, Iterable<TModel> iterable) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void setRange(
+    int start,
+    int end,
+    Iterable<TModel> iterable, [
+    int skipCount = 0,
+  ]) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void shuffle([Random? random]) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  void sort([int Function(TModel a, TModel b)? compare]) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  @override
+  Iterable<TModel> get reversed => _value.reversed;
+
+  @override
+  bool any(bool test(TModel element)) => _value.any(test);
+
+  @override
+  List<E> cast<E>() => _value.cast<E>();
+
+  @override
+  bool contains(Object? element) => _value.contains(element);
+
+  @override
+  TModel elementAt(int index) => _value.elementAt(index);
+
+  @override
+  bool every(bool test(TModel element)) => _value.every(test);
+
+  @override
+  Iterable<E> expand<E>(Iterable<E> f(TModel element)) => _value.expand(f);
+
+  @override
+  TModel get first => _value.first;
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  set first(TModel element) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  @override
+  TModel firstWhere(bool test(TModel element), {TModel Function()? orElse}) =>
+      _value.firstWhere(test, orElse: orElse);
+
+  @override
+  E fold<E>(E initialValue, E combine(E previousValue, TModel element)) =>
+      _value.fold(initialValue, combine);
+
+  @override
+  Iterable<TModel> followedBy(Iterable<TModel> other) =>
+      _value.followedBy(other);
+
+  @override
+  void forEach(void f(TModel element)) => _value.forEach(f);
+
+  @override
+  bool get isEmpty => _value.isEmpty;
+
+  @override
+  bool get isNotEmpty => _value.isNotEmpty;
+
+  @override
+  Iterator<TModel> get iterator => _value.iterator;
+
+  @override
+  String join([String separator = ""]) => _value.join(separator);
+
+  @override
+  TModel get last => _value.last;
+
+  /// This operation is not supported by an model collection.
+  /// Model Collectionではこの操作はサポートされていません。
+  @override
+  set last(TModel element) {
+    throw UnsupportedError("Cannot modify unmodifiable list");
+  }
+
+  @override
+  TModel lastWhere(bool test(TModel element), {TModel Function()? orElse}) =>
+      _value.lastWhere(test, orElse: orElse);
+
+  @override
+  int get length => _value.length;
+
+  @override
+  Iterable<E> map<E>(E f(TModel e)) => _value.map(f);
+
+  @override
+  TModel reduce(TModel combine(TModel value, TModel element)) =>
+      _value.reduce(combine);
+
+  @override
+  TModel get single => _value.single;
+
+  @override
+  TModel singleWhere(bool test(TModel element), {TModel Function()? orElse}) =>
+      _value.singleWhere(test, orElse: orElse);
+
+  @override
+  Iterable<TModel> skip(int n) => _value.skip(n);
+
+  @override
+  Iterable<TModel> skipWhile(bool test(TModel value)) => _value.skipWhile(test);
+
+  @override
+  Iterable<TModel> take(int n) => _value.take(n);
+
+  @override
+  Iterable<TModel> takeWhile(bool test(TModel value)) => _value.takeWhile(test);
+
+  @override
+  List<TModel> toList({bool growable = true}) =>
+      _value.toList(growable: growable);
+
+  @override
+  Set<TModel> toSet() => _value.toSet();
+
+  @override
+  Iterable<TModel> where(bool test(TModel element)) => _value.where(test);
+
+  @override
+  Iterable<E> whereType<E>() => _value.whereType<E>();
+
+  @override
+  Map<int, TModel> asMap() => _value.asMap();
+
+  @override
+  Iterable<TModel> getRange(int start, int end) => _value.getRange(start, end);
+
+  @override
+  int indexOf(TModel element, [int start = 0]) =>
+      _value.indexOf(element, start);
+
+  @override
+  int indexWhere(bool test(TModel element), [int start = 0]) =>
+      _value.indexWhere(test, start);
+
+  @override
+  int lastIndexWhere(bool test(TModel element), [int? start]) =>
+      _value.lastIndexWhere(test, start);
+
+  @override
+  List<TModel> sublist(int start, [int? end]) => _value.sublist(start, end);
+
+  @override
+  int lastIndexOf(TModel element, [int? start]) =>
+      _value.lastIndexOf(element, start);
+}
