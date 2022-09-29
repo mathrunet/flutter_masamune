@@ -21,7 +21,7 @@ class FirebaseInitCliCommand extends CliCommand {
       return;
     }
     if (bundleId.isEmpty) {
-      print("BundleId is not defined.");
+      print("app/bundle_id is not defined.");
       return;
     }
     final configureProcess = await Process.start(flutterFire, [
