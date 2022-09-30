@@ -3,6 +3,7 @@ description: TODO_COMMENT.
 version: 1.0.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_model
+publish_to: none
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -12,7 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^0.15.0
+  katana:
+    path: "../katana"
 
 dev_dependencies:
   flutter_test:

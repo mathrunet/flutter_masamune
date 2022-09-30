@@ -1,3 +1,7 @@
+## 0.15.3
+
+ - **FEAT**: Add isJsonEncodable. ([55030f53](https://github.com/mathrunet/flutter_masamune/commit/55030f53a9c92bbc45eee2b880d6f64374090539))
+
 ## 0.15.2+1
 
  - **FIX**: Added <E> to get method. ([7afc502d](https://github.com/mathrunet/flutter_masamune/commit/7afc502dbbdf629b1d9e15d0207027b602c33e20))
