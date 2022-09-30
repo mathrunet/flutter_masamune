@@ -217,6 +217,18 @@ extension MapExtensions<K, V> on Map<K, V> {
     return values.every((element) => containsValue(element));
   }
 
+  /// If this object is Json encodable, `true` is returned.
+  /// このオブジェクトがJsonでエンコード可能な場合`true`が返されます。
+  ///
+  /// If a [List] or [Map] exists, its contents are also checked.
+  /// [List]や[Map]が存在していた場合はその中身までチェックされます。
+  bool get isJsonEncodable {
+    if (K != String) {
+      return false;
+    }
+    return values.every((element) => element.isJsonEncodable);
+  }
+
   /// Returns `true` if the internals of [Map] and [others] are compared and match.
   /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
   bool equalsTo(Map<K, V> others) {

@@ -137,4 +137,13 @@ extension ListExtensions<T> on List<T> {
     }
     return tmp;
   }
+
+  /// If this object is Json encodable, `true` is returned.
+  /// このオブジェクトがJsonでエンコード可能な場合`true`が返されます。
+  ///
+  /// If a [List] or [Map] exists, its contents are also checked.
+  /// [List]や[Map]が存在していた場合はその中身までチェックされます。
+  bool get isJsonEncodable {
+    return every((element) => element.isJsonEncodable);
+  }
 }
