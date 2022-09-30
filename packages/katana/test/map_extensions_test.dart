@@ -6,6 +6,10 @@ void main() {
     final map = {1: 1, 4: 2, 6: 3};
     expect(map.toList((k, v) => k + v), [2, 6, 9]);
   });
+  test("MapExtensions.where", () {
+    final map = {1: 1, 4: 2, 6: 3};
+    expect(map.where((key, value) => value.isOdd), {1: 1, 6: 3});
+  });
   test("MapExtensions.addWith", () {
     final main = {"c": 3, "d": 4};
     final other = {"a": 1, "b": 2};

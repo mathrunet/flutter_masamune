@@ -16,6 +16,15 @@ extension MapExtensions<K, V> on Map<K, V> {
     }
   }
 
+  /// Extracts only elements for which the return value of the callback given by [test] is `true`.
+  /// [test]で与えたコールバックの戻り値が`true`の要素だけを抽出します。
+  ///
+  /// An object different from the original object is returned.
+  /// 元のオブジェクトとは別のオブジェクトが返されます。
+  Map<K, V> where(bool Function(K key, V value) test) {
+    return Map.from(this)..removeWhere((key, value) => !test(key, value));
+  }
+
   /// Set only the value of the key specified by [keys] in the map specified by [others].
   /// [others] で指定されたマップに、[keys] で指定されたキーの値のみを設定します。
   ///
