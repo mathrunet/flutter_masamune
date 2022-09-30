@@ -13,8 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana:
-    path: "../katana"
+  katana: ^0.15.3
 
 dev_dependencies:
   flutter_test:

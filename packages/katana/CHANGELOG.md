@@ -1,3 +1,7 @@
+## 0.15.4
+
+ - **FEAT**: Added where to Map. ([0ba8db55](https://github.com/mathrunet/flutter_masamune/commit/0ba8db550e6cd27367cf397fa0d156a386f38a9d))
+
 ## 0.15.3
 
  - **FEAT**: Add isJsonEncodable. ([55030f53](https://github.com/mathrunet/flutter_masamune/commit/55030f53a9c92bbc45eee2b880d6f64374090539))

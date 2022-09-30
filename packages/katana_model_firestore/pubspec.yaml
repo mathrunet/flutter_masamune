@@ -12,7 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+  
+  katana: ^0.15.3
   katana_firebase: ^0.15.0
   katana_model:
     path: ../katana_model
