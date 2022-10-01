@@ -20,13 +20,13 @@ extension NullableObjectExtensions on Object? {
   ///
   /// If a [List] or [Map] exists, its contents are also checked.
   /// [List]や[Map]が存在していた場合はその中身までチェックされます。
+  ///
+  /// Cannot be applied to `dynamic` types.
+  /// `dynamic`型には適用できません。
   bool get isJsonEncodable {
-    final o = this;
-    if (o is List<dynamic>) {
-      return o.isJsonEncodable;
-    } else if (o is Map<String, dynamic>) {
-      return o.isJsonEncodable;
+    if (this == null) {
+      return false;
     }
-    return o is num || o is bool || o is String;
+    return jsonEncodable(this);
   }
 }

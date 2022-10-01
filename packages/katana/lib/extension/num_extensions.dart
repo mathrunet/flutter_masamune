@@ -29,7 +29,7 @@ extension NumExtensions on num {
   /// [num]をdaysの[Duration]に変換します。
   Duration get days =>
       Duration(microseconds: (this * 1000 * 1000 * 60 * 60 * 24).round());
-    
+
   /// Convert [num] to [Duration] in Milli-seconds.
   /// [num]をMilli-secondsの[Duration]に変換します。
   Duration get ms => milliseconds;
