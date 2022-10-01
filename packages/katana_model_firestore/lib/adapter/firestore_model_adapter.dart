@@ -75,7 +75,11 @@ class FirestoreModelAdapter extends ModelAdapter {
       FirebaseCore.isInitialized,
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
-    return _documentReference(query).set(value);
+
+    return _documentReference(query).set(
+      value,
+      SetOptions(merge: true),
+    );
   }
 
   @override
@@ -147,6 +151,60 @@ class FirestoreModelAdapter extends ModelAdapter {
     });
     await stream.first;
     return [subscription];
+  }
+
+  @override
+  FutureOr<void> deleteOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  ) {
+    if (ref is! FirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
+    }
+    ref.transaction.delete(database.doc(query.query.path));
+  }
+
+  @override
+  FutureOr<DynamicMap> loadOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  ) async {
+    if (ref is! FirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
+    }
+    final snapshot = await ref.transaction.get(database.doc(query.query.path));
+    return snapshot.data() ?? {};
+  }
+
+  @override
+  FutureOr<void> saveOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) {
+    if (ref is! FirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
+    }
+    ref.transaction.set(
+      database.doc(query.query.path),
+      value,
+      SetOptions(merge: true),
+    );
+  }
+
+  @override
+  FutureOr<void> runTransaction<T>(
+    DocumentBase<T> doc,
+    FutureOr<void> Function(
+      ModelTransactionRef ref,
+      ModelTransactionDocument<T> doc,
+    )
+        transaction,
+  ) async {
+    database.runTransaction((handler) async {
+      final ref = FirestoreModelTransactionRef._(handler);
+      await transaction.call(ref, ref.read(doc));
+    });
   }
 
   Query<DynamicMap> _query(
@@ -357,4 +415,71 @@ class FirestoreModelAdapter extends ModelAdapter {
         return ModelUpdateNotificationStatus.removed;
     }
   }
+
+  @override
+  Object? fromJsonEncodable(Object? value) {
+    return value;
+  }
+
+  @override
+  Object? fromModelCounter(ModelCounter value) {
+    return FieldValue.increment(value.incrementValue);
+  }
+
+  @override
+  Object? fromModelReference(ModelReference value) {
+    return database.doc(value.path.trimQuery().trimString("/"));
+  }
+
+  @override
+  Object? fromModelTimestamp(ModelTimestamp value) {
+    return Timestamp.fromDate(value.value);
+  }
+
+  @override
+  Object? fromNotJsonEncodable(Object? value) {
+    return FieldValue.delete();
+  }
+
+  @override
+  Object? toJsonEncodable(Object? value) {
+    return value;
+  }
+
+  @override
+  ModelCounter? toModelCounter(Object? value) {
+    if (value is! int) {
+      return null;
+    }
+    return ModelCounter(value);
+  }
+
+  @override
+  ModelReference? toModelReference(Object? value) {
+    if (value is! DocumentReference) {
+      return null;
+    }
+    return ModelReference(value.path.trimQuery().trimString("/"));
+  }
+
+  @override
+  ModelTimestamp? toModelTimestamp(Object? value) {
+    if (value is Timestamp) {
+      return ModelTimestamp(value.toDate());
+    } else if (value is int) {
+      return ModelTimestamp(DateTime.fromMillisecondsSinceEpoch(value));
+    }
+    return null;
+  }
+
+  @override
+  Object? toNotJsonEncodable(Object? value) {
+    return null;
+  }
+}
+
+@immutable
+class FirestoreModelTransactionRef extends ModelTransactionRef {
+  const FirestoreModelTransactionRef._(this.transaction);
+  final Transaction transaction;
 }

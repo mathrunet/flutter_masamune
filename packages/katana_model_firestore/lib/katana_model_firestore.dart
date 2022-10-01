@@ -12,6 +12,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:katana_model/katana_model.dart';
 
