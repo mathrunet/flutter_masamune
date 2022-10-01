@@ -3,6 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v0.15.5+1`](#katana---v01551)
+ - [`katana_flutter` - `v0.15.0+7`](#katana_flutter---v01507)
+ - [`masamune_cli` - `v0.15.0+10`](#masamune_cli---v015010)
+ - [`masamune_builder` - `v0.15.0+10`](#masamune_builder---v015010)
+ - [`katana_annotation` - `v0.15.0+7`](#katana_annotation---v01507)
+ - [`katana_routing` - `v0.15.0+10`](#katana_routing---v015010)
+ - [`katana_firebase` - `v0.15.0+7`](#katana_firebase---v01507)
+ - [`model_notifier` - `v0.15.1+6`](#model_notifier---v01516)
+ - [`katana_module` - `v0.15.0+17`](#katana_module---v015017)
+ - [`firebase_model_notifier` - `v0.15.1+11`](#firebase_model_notifier---v015111)
+ - [`masamune` - `v0.15.1+5`](#masamune---v01515)
+ - [`masamune_firebase_messaging` - `v0.15.0+17`](#masamune_firebase_messaging---v015017)
+ - [`masamune_firebase` - `v0.15.0+17`](#masamune_firebase---v015017)
+ - [`masamune_agora` - `v0.15.0+18`](#masamune_agora---v015018)
+ - [`masamune_local_messaging` - `v0.15.0+17`](#masamune_local_messaging---v015017)
+ - [`masamune_location` - `v0.15.0+17`](#masamune_location---v015017)
+ - [`masamune_media` - `v0.15.0+17`](#masamune_media---v015017)
+ - [`masamune_purchase` - `v0.15.0+17`](#masamune_purchase---v015017)
+ - [`masamune_ads` - `v0.15.0+17`](#masamune_ads---v015017)
+ - [`masamune_wordpress` - `v0.15.0+17`](#masamune_wordpress---v015017)
+ - [`masamune_ui` - `v0.15.0+17`](#masamune_ui---v015017)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+17`](#masamune_firebase_dynamic_links---v015017)
+ - [`masamune_signin_facebook` - `v0.15.0+17`](#masamune_signin_facebook---v015017)
+ - [`masamune_signin_apple` - `v0.15.0+17`](#masamune_signin_apple---v015017)
+ - [`masamune_signin_google` - `v0.15.0+17`](#masamune_signin_google---v015017)
+ - [`masamune_purchase_firebase` - `v0.15.0+17`](#masamune_purchase_firebase---v015017)
+ - [`masamune_signin_twitter` - `v0.15.0+17`](#masamune_signin_twitter---v015017)
+ - [`masamune_purchase_stripe` - `v0.15.0+17`](#masamune_purchase_stripe---v015017)
+ - [`masamune_notion` - `v0.15.0+17`](#masamune_notion---v015017)
+ - [`masamune_module` - `v0.15.0+17`](#masamune_module---v015017)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_flutter` - `v0.15.0+7`
+ - `masamune_cli` - `v0.15.0+10`
+ - `masamune_builder` - `v0.15.0+10`
+ - `katana_annotation` - `v0.15.0+7`
+ - `katana_routing` - `v0.15.0+10`
+ - `katana_firebase` - `v0.15.0+7`
+ - `model_notifier` - `v0.15.1+6`
+ - `katana_module` - `v0.15.0+17`
+ - `firebase_model_notifier` - `v0.15.1+11`
+ - `masamune` - `v0.15.1+5`
+ - `masamune_firebase_messaging` - `v0.15.0+17`
+ - `masamune_firebase` - `v0.15.0+17`
+ - `masamune_agora` - `v0.15.0+18`
+ - `masamune_local_messaging` - `v0.15.0+17`
+ - `masamune_location` - `v0.15.0+17`
+ - `masamune_media` - `v0.15.0+17`
+ - `masamune_purchase` - `v0.15.0+17`
+ - `masamune_ads` - `v0.15.0+17`
+ - `masamune_wordpress` - `v0.15.0+17`
+ - `masamune_ui` - `v0.15.0+17`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+17`
+ - `masamune_signin_facebook` - `v0.15.0+17`
+ - `masamune_signin_apple` - `v0.15.0+17`
+ - `masamune_signin_google` - `v0.15.0+17`
+ - `masamune_purchase_firebase` - `v0.15.0+17`
+ - `masamune_signin_twitter` - `v0.15.0+17`
+ - `masamune_purchase_stripe` - `v0.15.0+17`
+ - `masamune_notion` - `v0.15.0+17`
+ - `masamune_module` - `v0.15.0+17`
+
+---
+
+#### `katana` - `v0.15.5+1`
+
+ - **FIX**: Add function type since isJsonEncodable is not applicable for dynamic. ([8eb19d8f](https://github.com/mathrunet/flutter_masamune/commit/8eb19d8f63f837ec58eaa5f552aa7b426b39fe3d))
+
+
 ## 2022-09-30
 
 ### Changes

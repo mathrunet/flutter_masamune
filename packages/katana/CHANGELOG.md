@@ -1,3 +1,7 @@
+## 0.15.5+1
+
+ - **FIX**: Add function type since isJsonEncodable is not applicable for dynamic. ([8eb19d8f](https://github.com/mathrunet/flutter_masamune/commit/8eb19d8f63f837ec58eaa5f552aa7b426b39fe3d))
+
 ## 0.15.4
 
  - **FEAT**: Added where to Map. ([0ba8db55](https://github.com/mathrunet/flutter_masamune/commit/0ba8db550e6cd27367cf397fa0d156a386f38a9d))
