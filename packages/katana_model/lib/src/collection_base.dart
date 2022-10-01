@@ -18,12 +18,12 @@ part of katana_model;
 /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
 /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
 ///
-/// Execute [SavableDocument.save] for each document to change elements, and [SavableDocument.delete] for each document to delete them.
-/// 要素を変更する場合は各ドキュメントの[SavableDocument.save]を実行し、削除する場合は各ドキュメントの[SavableDocument.delete]を実行してください。
+/// Execute [DocumentBase.save] for each document to change elements, and [DocumentBase.delete] for each document to delete them.
+/// 要素を変更する場合は各ドキュメントの[DocumentBase.save]を実行し、削除する場合は各ドキュメントの[DocumentBase.delete]を実行してください。
 ///
-/// To add elements, run [CollectionBase.create] to create a new document, then save it with [SavableDocument.save].
-/// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[SavableDocument.save]で保存してください。
-abstract class CollectionBase<TModel extends DocumentBase<T>, T>
+/// To add elements, run [CollectionBase.create] to create a new document, then save it with [DocumentBase.save].
+/// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
+abstract class CollectionBase<TModel extends DocumentBase>
     extends ChangeNotifier implements List<TModel> {
   /// Define a collection model that includes [DocumentBase] as an element.
   /// [DocumentBase]を要素に含めたコレクションモデルを定義します。
@@ -43,11 +43,11 @@ abstract class CollectionBase<TModel extends DocumentBase<T>, T>
   /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
   /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
   ///
-  /// Execute [SavableDocument.save] for each document to change elements, and [SavableDocument.delete] for each document to delete them.
-  /// 要素を変更する場合は各ドキュメントの[SavableDocument.save]を実行し、削除する場合は各ドキュメントの[SavableDocument.delete]を実行してください。
+  /// Execute [DocumentBase.save] for each document to change elements, and [DocumentBase.delete] for each document to delete them.
+  /// 要素を変更する場合は各ドキュメントの[DocumentBase.save]を実行し、削除する場合は各ドキュメントの[DocumentBase.delete]を実行してください。
   ///
-  /// To add elements, run [CollectionBase.create] to create a new document, then save it with [SavableDocument.save].
-  /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[SavableDocument.save]で保存してください。
+  /// To add elements, run [CollectionBase.create] to create a new document, then save it with [DocumentBase.save].
+  /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
   CollectionBase(
     this.query, [
     List<TModel>? value,
@@ -104,6 +104,146 @@ abstract class CollectionBase<TModel extends DocumentBase<T>, T>
   @protected
   late List<TModel> __value;
 
+  /// Returns `true` if the data was successfully loaded by the [load] method.
+  /// [load]メソッドでデータが読み込みに成功した場合`true`を返します。
+  ///
+  /// If this is set to `true`, the [load] method will not be loaded when executed.
+  /// これが`true`になっている場合、[load]メソッドは実行しても読込は行われません。
+  bool get loaded => _loaded;
+  bool _loaded = false;
+
+  /// If [load], [reload] or [next] is executed, it waits until the reading process is completed.
+  /// [load]や[reload]、[next]を実行した場合、その読込処理が終わるまで待ちます。
+  ///
+  /// After reading, [CollectionBase] itself is returned.
+  /// 読込終了後、[CollectionBase]自身が返されます。
+  ///
+  /// If [load], [reload] or [next] is not in progress, [Null] is returned.
+  /// [load]や[reload]、[next]を実行中でない場合、[Null]が返されます。
+  Future<CollectionBase<TModel>>? get loading => _loadCompleter?.future;
+  Completer<CollectionBase<TModel>>? _loadCompleter;
+
+  /// If the number of elements is limited by [ModelQuery.limit], returns `true` if the next element can be added.
+  /// [ModelQuery.limit]で要素数を制限されている場合、次の要素が追加可能な場合`true`を返します。
+  ///
+  /// If the number of elements does not change when the [next] method is executed, [canNext] will be `false`.
+  /// [next]メソッドを実行した際に要素数が変わらなかった場合、[canNext]は`false`になります。
+  bool get canNext => _canNext;
+  bool _canNext = true;
+
+  /// Reads the collection corresponding to [query].
+  /// [query]に対応したコレクションの読込を行います。
+  ///
+  /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
+  /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
+  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
+  /// Once content is loaded, no new loading is performed. Therefore, it can be used in a method that is read any number of times, such as in the `build` method of a `widget`.
+  /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
+  ///
+  /// If you wish to reload the file, use the [reload] method.
+  /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
+  Future<CollectionBase<TModel>> load([
+    bool listenWhenPossible = true,
+  ]) async {
+    if (loaded) {
+      return this;
+    }
+    if (_loadCompleter != null) {
+      return loading!;
+    }
+    try {
+      _loadCompleter = Completer<CollectionBase<TModel>>();
+      final res = await loadRequest(listenWhenPossible);
+      if (res != null) {
+        _value = await fromMap(
+          res,
+          query.limit != null ? (query.limit! * databaseQuery.page) : null,
+        );
+      }
+      _loaded = true;
+      _loadCompleter?.complete(this);
+      _loadCompleter = null;
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      rethrow;
+    } finally {
+      _loadCompleter?.complete(this);
+      _loadCompleter = null;
+    }
+    return this;
+  }
+
+  /// Reload the collection corresponding to [query].
+  /// [query]に対応したコレクションの再読込を行います。
+  ///
+  /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
+  /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
+  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
+  /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
+  /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
+  Future<CollectionBase<TModel>> reload([
+    bool listenWhenPossible = true,
+  ]) {
+    _loaded = false;
+    return load(listenWhenPossible);
+  }
+
+  /// If the number of elements is limited by [ModelQuery.limit], additional elements are loaded for the next [ModelQuery.limit] number of elements.
+  /// [ModelQuery.limit]で要素数を制限されている場合、次の[ModelQuery.limit]個数分だけ追加要素を読み込みます。
+  ///
+  /// If the number of elements does not change when executed, [canNext] will be `false`, but this method will be executed even if [canNext] is `false`.
+  /// 実行した際に要素数が変わらなかった場合、[canNext]は`false`になりますがこのメソッドは[canNext]が`false`でも実行されます。
+  ///
+  /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
+  /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
+  Future<CollectionBase<TModel>> next([
+    bool listenWhenPossible = true,
+  ]) async {
+    _loaded = false;
+    _databaseQuery = databaseQuery.pageWith(page: databaseQuery.page + 1);
+    final _prevLength = length;
+    final loaded = await load(listenWhenPossible);
+    if (length == _prevLength) {
+      _canNext = false;
+      _databaseQuery = databaseQuery.pageWith(page: databaseQuery.page - 1);
+    }
+    return loaded;
+  }
+
+  /// Implement internal processing when [load], [reload], or [next] is executed.
+  /// [load]や[reload]、[next]を実行した際の内部処理を実装します。
+  ///
+  /// If [listenWhenPossible] is `true`, set the database to monitor changes against change-monitorable databases.
+  /// [listenWhenPossible]が`true`な場合、変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
+  /// If [Null] is returned, the value is not updated.
+  /// [Null]が返された場合は値をアップデートしません。
+  @protected
+  @mustCallSuper
+  Future<Map<String, DynamicMap>?> loadRequest(bool listenWhenPossible) async {
+    if (subscriptions.isNotEmpty) {
+      await Future.forEach<StreamSubscription>(
+        subscriptions,
+        (subscription) => subscription.cancel(),
+      );
+      subscriptions.clear();
+    }
+    if (listenWhenPossible && query.adapter.availableListen) {
+      subscriptions.addAll(
+        await query.adapter.listenCollection(databaseQuery),
+      );
+      return null;
+    } else {
+      return await query.adapter.loadCollection(databaseQuery);
+    }
+  }
+
   /// Describe the callback process to pass to [ModelAdapterCollectionQuery.callback].
   /// [ModelAdapterCollectionQuery.callback]に渡すためのコールバック処理を記述します。
   ///
@@ -113,7 +253,7 @@ abstract class CollectionBase<TModel extends DocumentBase<T>, T>
   /// Please take appropriate action according to the contents of [update].
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
-  void handledOnUpdate(ModelUpdateNotification update) {
+  Future<void> handledOnUpdate(ModelUpdateNotification update) async {
     var notify = false;
     switch (update.status) {
       case ModelUpdateNotificationStatus.added:
@@ -121,7 +261,7 @@ abstract class CollectionBase<TModel extends DocumentBase<T>, T>
           return;
         }
         final value = create(update.id.trimQuery().trimString("?"));
-        value.value = value.fromMap(update.value);
+        value.value = value.fromMap(await value.filterOnLoad(update.value));
         _value.insert(update.newIndex!, value);
         notify = true;
         break;
@@ -130,7 +270,7 @@ abstract class CollectionBase<TModel extends DocumentBase<T>, T>
           return;
         }
         final found = _value.removeAt(update.oldIndex!);
-        found.value = found.fromMap(update.value);
+        found.value = found.fromMap(await found.filterOnLoad(update.value));
         _value.insert(update.newIndex!, found);
         if (update.newIndex != update.oldIndex) {
           notify = true;
@@ -155,7 +295,7 @@ abstract class CollectionBase<TModel extends DocumentBase<T>, T>
   /// The number of elements output can be limited by specifying [limit].
   /// [limit]を指定することで出力される要素数を制限することが可能です。
   @protected
-  List<TModel> fromMap(Map<String, DynamicMap> map, int? limit) {
+  Future<List<TModel>> fromMap(Map<String, DynamicMap> map, int? limit) async {
     final res = <TModel>[];
     final sorted = query.sort(List.from(map.entries));
     for (final tmp in sorted) {
@@ -166,7 +306,9 @@ abstract class CollectionBase<TModel extends DocumentBase<T>, T>
       }
       final value = create(key);
       value.value = value.fromMap(
-        Map<String, dynamic>.from(tmp.value),
+        await value.filterOnLoad(
+          Map<String, dynamic>.from(tmp.value),
+        ),
       );
       res.add(value);
     }

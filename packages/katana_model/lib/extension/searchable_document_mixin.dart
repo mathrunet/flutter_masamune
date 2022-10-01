@@ -3,9 +3,6 @@ part of katana_model;
 /// Mix-in to make documents searchable.
 /// ドキュメントを検索対象にするためのミックスイン。
 ///
-/// **Be sure to `with` after [SavableDocumentMixin].**
-/// **必ず[SavableDocumentMixin]の後に`with`してください。**
-///
 /// This can be mixed in with `with` to make documents searchable and "display only specific strings" when querying collections.
 /// これを`with`でミックスインすることでドキュメントを検索対象にしてコレクションでのクエリ時に「特定の文字列のみ表示する」といったことを実現することができます。
 ///
@@ -29,7 +26,7 @@ part of katana_model;
 /// final collection = TestCollection(query);
 /// await collection.load(false); // search results
 /// ```
-mixin SearchableDocumentMixin<T> on SavableDocument<T> {
+mixin SearchableDocumentMixin<T> on DocumentBase<T> {
   /// The field with this key contains the Bigram data for the search.
   /// このキーを持つフィールドに検索用のBigramのデータを格納します。
   @protected
@@ -49,17 +46,16 @@ mixin SearchableDocumentMixin<T> on SavableDocument<T> {
   @override
   @protected
   @mustCallSuper
-  FutureOr<DynamicMap> filterOnSave(T value, DynamicMap rawData) {
+  FutureOr<DynamicMap> filterOnSave(DynamicMap rawData) {
     assert(
       searchValueFieldKey.isNotEmpty,
       "[searchValueFieldKey] is empty. Please specify a non-empty string.",
     );
     final searchText = buildSearchText(value);
     if (searchText.isEmpty) {
-      return super.filterOnSave(value, rawData);
+      return super.filterOnSave(rawData);
     }
     return super.filterOnSave(
-      value,
       Map.unmodifiable({
         ...rawData,
         searchValueFieldKey: searchText

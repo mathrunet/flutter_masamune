@@ -237,6 +237,9 @@ class NoSqlDatabase {
   ///
   /// You can also register a callback for [NoSqlDatabase.onSaved] to add processing such as writing as a file after saving.
   /// また、[NoSqlDatabase.onSaved]のコールバックを登録しておくことで保存後にファイルとして書き出すなどの処理を追加することができます。
+  ///
+  /// Keys with [value] value of [Null] will be deleted. If all keys are deleted, the document itself will be deleted.
+  /// [value]の値に[Null]が入っているキーは削除されます。すべてのキーが削除された場合、ドキュメント自体が削除されます。
   Future<void> saveDocument(
     ModelAdapterDocumentQuery query,
     DynamicMap value,
@@ -246,6 +249,10 @@ class NoSqlDatabase {
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
       return;
+    }
+    value = Map.from(value)..removeWhere((key, value) => value == null);
+    if (value.isEmpty) {
+      return deleteDocument(query);
     }
     final isAdd = _data._writeToPath(paths, 0, value);
     if (isAdd == null) {

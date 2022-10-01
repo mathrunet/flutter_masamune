@@ -21,13 +21,13 @@ part 'adapter/runtime_model_adapter.dart';
 
 part 'extension/searchable_document_mixin.dart';
 
+part 'src/const.dart';
 part 'src/model_update_notification.dart';
 part 'src/document_base.dart';
 part 'src/model_adapter.dart';
 part 'src/no_sql_database.dart';
 part 'src/model_query.dart';
 part 'src/collection_base.dart';
-part 'src/loadable_document.dart';
-part 'src/savable_document.dart';
-part 'src/loadable_collection.dart';
 part 'src/listenable_listener.dart';
+part 'src/model_transaction.dart';
+part 'src/model_field_value.dart';

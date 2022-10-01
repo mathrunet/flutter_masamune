@@ -122,7 +122,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.2+1"
+    version: "0.15.5+1"
   matcher:
     dependency: transitive
     description:

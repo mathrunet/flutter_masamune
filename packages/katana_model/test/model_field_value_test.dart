@@ -1,0 +1,61 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:katana_model/katana_model.dart';
+
+class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
+  RuntimeMapDocumentModel(super.query, super.value);
+
+  @override
+  DynamicMap fromMap(DynamicMap map) {
+    return Map.unmodifiable(
+      Map.fromEntries(
+        map.entries.where((entry) => !entry.key.startsWith("@")),
+      ),
+    );
+  }
+
+  @override
+  DynamicMap toMap(DynamicMap value) {
+    return Map.unmodifiable(value);
+  }
+}
+
+class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
+  RuntimeCollectionModel(super.query);
+
+  @override
+  RuntimeMapDocumentModel create([String? id]) {
+    return RuntimeMapDocumentModel(query.create(id), {});
+  }
+}
+
+void main() {
+  test("runtimeDocumentModel.modelFieldValue", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final model = RuntimeMapDocumentModel(query, {});
+    model.value = {
+      "counter": const ModelCounter(0),
+      "time": ModelTimestamp(DateTime(2022, 1, 1))
+    };
+    await model.save();
+    expect(
+      model.value,
+      {
+        "counter": const ModelCounter(0),
+        "time": ModelTimestamp(DateTime(2022, 1, 1))
+      },
+    );
+    model.value = {
+      "counter": model.value.getAsModelCounter("counter").increment(1),
+      "time": ModelTimestamp(DateTime(2022, 1, 2))
+    };
+    await model.save();
+    expect(
+      model.value,
+      {
+        "counter": const ModelCounter(1),
+        "time": ModelTimestamp(DateTime(2022, 1, 2))
+      },
+    );
+  });
+}

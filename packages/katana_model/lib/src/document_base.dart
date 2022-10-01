@@ -55,6 +55,7 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   /// A [DynamicMap] decoded from Json, etc. is passed to [map].
   /// [map]にJsonなどからデコード済みの[DynamicMap]が渡されます。
   @protected
+  @mustCallSuper
   T fromMap(DynamicMap map);
 
   /// Defines the conversion from a [T] object to a [DynamicMap] that can later be Json encoded.
@@ -63,6 +64,7 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   /// The object [T] held by the document is passed to [value].
   /// [value]にドキュメントが保持している[T]のオブジェクトが渡されます。
   @protected
+  @mustCallSuper
   DynamicMap toMap(T value);
 
   /// Query for loading and saving documents.
@@ -89,6 +91,243 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   List<StreamSubscription> get subscriptions => _subscriptions;
   final List<StreamSubscription> _subscriptions = [];
 
+  /// Returns `true` if the data was successfully loaded by the [load] method.
+  /// [load]メソッドでデータが読み込みに成功した場合`true`を返します。
+  ///
+  /// If this is set to `true`, the [load] method will not be loaded when executed.
+  /// これが`true`になっている場合、[load]メソッドは実行しても読込は行われません。
+  bool get loaded => _loaded;
+  bool _loaded = false;
+
+  /// If [load] or [reload] is executed, it waits until the loading process is completed.
+  /// [load]や[reload]を実行した場合、その読込処理が終わるまで待ちます。
+  ///
+  /// After reading is completed, a [T] object is returned.
+  /// 読込終了後、[T]オブジェクトが返されます。
+  ///
+  /// If neither [load] nor [reload] is in progress, [Null] is returned.
+  /// [load]や[reload]を実行中でない場合、[Null]が返されます。
+  Future<T>? get loading => _loadCompleter?.future;
+  Completer<T>? _loadCompleter;
+
+  /// If [save] or [delete] is executed, it waits until the read process is completed.
+  /// [save]や[delete]を実行した場合、その読込処理が終わるまで待ちます。
+  Future<void>? get saving => _saveCompleter?.future;
+  Completer<T>? _saveCompleter;
+
+  /// Reads documents corresponding to [query].
+  /// [query]に対応したドキュメントの読込を行います。
+  ///
+  /// The return value is a [T] object, and the loaded data is available as is.
+  /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
+  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
+  /// Once content is loaded, no new loading is performed. Therefore, it can be used in a method that is read any number of times, such as in the `build` method of a `widget`.
+  /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
+  ///
+  /// If you wish to reload the file, use the [reload] method.
+  /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
+  Future<T> load([bool listenWhenPossible = true]) async {
+    if (loaded) {
+      return value;
+    }
+    if (_loadCompleter != null) {
+      return loading!;
+    }
+    try {
+      _loadCompleter = Completer<T>();
+      final res = await loadRequest(listenWhenPossible);
+      if (res != null) {
+        value = fromMap(await filterOnLoad(res));
+      }
+      _loaded = true;
+      _loadCompleter?.complete(value);
+      _loadCompleter = null;
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      rethrow;
+    } finally {
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    }
+    return value;
+  }
+
+  /// Reload the document corresponding to [query].
+  /// [query]に対応したドキュメントの再読込を行います。
+  ///
+  /// The return value is a [T] object, and the loaded data is available as is.
+  /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
+  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
+  /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
+  /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
+  Future<T> reload([bool listenWhenPossible = true]) {
+    _loaded = false;
+    return load(listenWhenPossible);
+  }
+
+  /// Data can be saved.
+  /// データの保存を行うことができます。
+  ///
+  /// Since it is only the content of [value] that is saved, it is necessary to change the content of [value] before saving.
+  /// 保存を行うのはあくまで[value]の中身なので保存を行う前に[value]の中身を変更しておく必要があります。
+  ///
+  /// It is possible to wait for saving with `await`.
+  /// `await`で保存を待つことが可能です。
+  Future<void> save() async {
+    if (_saveCompleter != null) {
+      return saving!;
+    }
+    try {
+      _saveCompleter = Completer<T>();
+      await saveRequest(await filterOnSave(toMap(value)));
+      _saveCompleter?.complete(value);
+      _saveCompleter = null;
+    } catch (e) {
+      _saveCompleter?.completeError(e);
+      _saveCompleter = null;
+      rethrow;
+    } finally {
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    }
+  }
+
+  /// Data can be deleted.
+  /// データの削除を行うことができます。
+  ///
+  /// It is the data in his document that is deleted.
+  /// 削除されるのは自身のドキュメントのデータです。
+  ///
+  /// After deletion, the data is empty, but the object itself is still valid.
+  /// 削除後はデータが空になりますが、このオブジェクト自体は有効になっています。
+  ///
+  /// If the database allows it, the data can be restored by re-entering the data and executing [save].
+  /// データベース上可能な場合、再度データを入れ[save]を実行することでデータを復元できます。
+  Future<void> delete() async {
+    if (_saveCompleter != null) {
+      return saving!;
+    }
+    try {
+      _saveCompleter = Completer<T>();
+      await deleteRequest();
+      _saveCompleter?.complete(value);
+      _saveCompleter = null;
+    } catch (e) {
+      _saveCompleter?.completeError(e);
+      _saveCompleter = null;
+      rethrow;
+    } finally {
+      _saveCompleter?.complete();
+      _saveCompleter = null;
+    }
+  }
+
+  /// Create a transaction builder.
+  /// トランザクションビルダーを作成します。
+  ///
+  /// The invoked transaction can be `call` as is, and transaction processing can be performed by executing [ModelTransactionDocument.load], [ModelTransactionDocument.save], and [ModelTransactionDocument.delete].
+  /// 呼び出されたトランザクションはそのまま`call`することができ、その引数から与えられる[ModelTransactionDocument]を用いて[ModelTransactionDocument.load]、[ModelTransactionDocument.save]、[ModelTransactionDocument.delete]を実行することでトランザクション処理を行うことが可能です。
+  ///
+  /// ModelTransactionRef.read] can be used to create a [ModelTransactionDocument] from another [DocumentBase] and describe the process to be performed together.
+  /// [ModelTransactionRef.read]を用いて他の[DocumentBase]から[ModelTransactionDocument]を作成することができ、まとめて実行する処理を記述することができます。
+  ///
+  /// ```dart
+  /// final transaction = sourceDocument.transaction();
+  /// transaction((ref, doc){ // `doc`は`sourceDocument`の[ModelTransactionDocument]
+  ///   doc.value = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+  ///   doc.save();
+  /// });
+  /// ```
+  ModelTransactionBuilder<T> transaction() {
+    return ModelTransactionBuilder._(this);
+  }
+
+  /// Implement internal processing when [load] or [reload] is executed.
+  /// [load]や[reload]を実行した際の内部処理を実装します。
+  ///
+  /// If [listenWhenPossible] is `true`, set the database to monitor changes against change-monitorable databases.
+  /// [listenWhenPossible]が`true`な場合、変更監視可能なデータベースに対して変更を監視するように設定します。
+  @protected
+  @mustCallSuper
+  Future<DynamicMap?> loadRequest(bool listenWhenPossible) async {
+    if (subscriptions.isNotEmpty) {
+      await Future.forEach<StreamSubscription>(
+        subscriptions,
+        (subscription) => subscription.cancel(),
+      );
+      subscriptions.clear();
+    }
+    if (listenWhenPossible && query.adapter.availableListen) {
+      subscriptions.addAll(
+        await query.adapter.listenDocument(databaseQuery),
+      );
+      return null;
+    } else {
+      return await query.adapter.loadDocument(databaseQuery);
+    }
+  }
+
+  /// Implement internal processing when [save] is executed.
+  /// [save]を実行した際の内部処理を実装します。
+  ///
+  ///　The data to be stored in [map] is decoded and passed to [DynamicMap].
+  /// [map]に保存するためのデータが[DynamicMap]にデコードされ渡されます。
+  ///
+  /// Keys with [Null] in the value of [map] will be deleted. If all keys are deleted, the document itself will be deleted.
+  /// [map]の値に[Null]が入っているキーは削除されます。すべてのキーが削除された場合、ドキュメント自体が削除されます。
+  @protected
+  Future<void> saveRequest(DynamicMap map) async {
+    return await query.adapter.saveDocument(databaseQuery, map);
+  }
+
+  /// [delete]を実行した際の内部処理を実装します。
+  ///
+  /// The deletion process is performed using its own [query] and other data.
+  /// 自身の[query]などのデータを用いて削除処理を行います。
+  @protected
+  Future<void> deleteRequest() async {
+    return await query.adapter.deleteDocument(databaseQuery);
+  }
+
+  /// Implement filters when loading data.
+  /// データをロードする際のフィルターを実装します。
+  ///
+  /// The original [DynamicMap] data is passed to [rawData].
+  /// [rawData]に元の[DynamicMap]のデータが渡されます。
+  ///
+  /// By returning a converted [DynamicMap] value in the return value, that value is passed as a parameter to [fromMap].
+  /// 戻り値に変換した[DynamicMap]の値を戻すことでその値が[fromMap]のパラメータとして渡されます。
+  @protected
+  @mustCallSuper
+  FutureOr<DynamicMap> filterOnLoad(DynamicMap rawData) {
+    return ModelFieldValue.fromServer(query.adapter, rawData);
+  }
+
+  /// You can filter the data to be saved.
+  /// 保存するデータをフィルターすることができます。
+  ///
+  /// [rawData] will be the data that will be decoded and stored in [DynamicMap].
+  /// [rawData]が[DynamicMap]にデコードされた保存されるデータになります。
+  ///
+  /// The value returned is stored as data.
+  /// 戻り値に返した値がデータとして保存されます。
+  @protected
+  @mustCallSuper
+  FutureOr<DynamicMap> filterOnSave(DynamicMap rawData) {
+    return ModelFieldValue.toServer(query.adapter, {
+      ...rawData,
+      kTimeFieldKey: const ModelTimestamp(),
+      kUidFieldKey: query.path.trimQuery().last(),
+    });
+  }
+
   /// Describe the callback process to be passed to [ModelAdapterDocumentQuery.callback].
   /// [ModelAdapterDocumentQuery.callback]に渡すためのコールバック処理を記述します。
   ///
@@ -98,8 +337,8 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   /// Please take appropriate action according to the contents of [update].
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
-  void handledOnUpdate(ModelUpdateNotification update) {
-    value = fromMap(update.value);
+  Future<void> handledOnUpdate(ModelUpdateNotification update) async {
+    value = fromMap(await filterOnLoad(update.value));
   }
 
   @override

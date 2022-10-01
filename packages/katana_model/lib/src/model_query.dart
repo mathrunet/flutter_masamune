@@ -1,8 +1,5 @@
 part of katana_model;
 
-/// Default field key to form a searchable field.
-/// 検索可能なフィールドを形成するためのデフォルトのフィールドキー。
-const kDefaultSearchableFieldKey = "@search";
 
 /// Query class for defining Model.
 /// Modelを定義するためのクエリクラス。
@@ -61,8 +58,8 @@ class CollectionModelQuery extends ModelQuery {
   /// It is possible to define the [path] to be queried and other necessary conditions.
   /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
   ///
-  /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ ModelAdapter.primary] is used.
-  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
+  /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ModelAdapter.primary] is used.
+  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
   ///
   /// Use [DocumentModelQuery] for documents.
   /// ドキュメントに対しては[DocumentModelQuery]を使用してください。

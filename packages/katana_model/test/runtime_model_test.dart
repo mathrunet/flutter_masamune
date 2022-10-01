@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:katana_model/katana_model.dart';
 
-class RuntimeMapDocumentModel extends DocumentBase<DynamicMap>
-    with LoadableDocumentMixin<DynamicMap>, SavableDocumentMixin<DynamicMap> {
+class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query, super.value);
 
   @override
@@ -20,9 +19,7 @@ class RuntimeMapDocumentModel extends DocumentBase<DynamicMap>
   }
 }
 
-class RuntimeCollectionModel
-    extends CollectionBase<RuntimeMapDocumentModel, DynamicMap>
-    with LoadableCollectionMixin<RuntimeMapDocumentModel, DynamicMap> {
+class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
   RuntimeCollectionModel(super.query);
 
   @override

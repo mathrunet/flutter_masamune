@@ -80,6 +80,9 @@ abstract class ModelAdapter {
 
   /// By passing the [query] and the [value] to be stored, the data is stored on the platform set by the adapter.
   /// [query]と保存する[value]を渡すことでアダプターで設定されたプラットフォームにデータを保存します。
+  ///
+  /// Keys with [value] value of [null] should be deleted from the database.
+  /// [value]の値に[Null]が入っているキーはデータベース上から削除するようにしてください。
   Future<void> saveDocument(
     ModelAdapterDocumentQuery query,
     DynamicMap value,
@@ -130,6 +133,133 @@ abstract class ModelAdapter {
   Future<List<StreamSubscription>> listenCollection(
     ModelAdapterCollectionQuery query,
   );
+
+  /// Do the processing to execute the transaction.
+  /// トランザクションを実行するための処理を行います。
+  ///
+  /// The base document is passed to [doc] and the actual processing callback is passed to [transaction].
+  /// [doc]にベースとなるドキュメントが渡され、[transaction]に実際行われる処理のコールバックが渡されます。
+  ///
+  /// Create an adapter-specific [ModelTransactionRef] that internally inherits from [ModelTransactionRef], create a [doc] from that [ModelTransactionRef.read], pass it directly to the [transaction] argument, and execute [transaction].
+  /// 内部で[ModelTransactionRef]を継承したアダプター専用の[ModelTransactionRef]を作成し、その[ModelTransactionRef.read]から[doc]を作成、それをそのまま[transaction]の引数に渡し、[transaction]を実行するようにしてください。
+  FutureOr<void> runTransaction<T>(
+    DocumentBase<T> doc,
+    FutureOr<void> Function(
+      ModelTransactionRef ref,
+      ModelTransactionDocument<T> doc,
+    )
+        transaction,
+  );
+
+  /// Describe the data acquisition process when performing a transaction.
+  /// トランザクションを行う際のデータ取得処理を記述します。
+  ///
+  /// The [ModelTransactionRef] created by [runTransaction] is passed to [ref] and the query of the target document is passed to [query].
+  /// [ref]に[runTransaction]で作成した[ModelTransactionRef]が渡され、[query]は対象のドキュメントのクエリが渡されます。
+  ///
+  /// Return a Json map retrieved from the database in the return value.
+  /// 戻り値にデータベースから取得したJsonマップを返してください。
+  FutureOr<DynamicMap> loadOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  );
+
+  /// Describes the data storage process when performing a transaction.
+  /// トランザクションを行う際のデータ保存処理を記述します。
+  ///
+  /// The [ModelTransactionRef] created by [runTransaction] is passed to [ref] and the query of the target document is passed to [query].
+  /// [ref]に[runTransaction]で作成した[ModelTransactionRef]が渡され、[query]は対象のドキュメントのクエリが渡されます。
+  ///
+  /// The data to be stored is passed to [value].
+  /// [value]に保存するデータが渡されます。
+  ///
+  /// Keys with [value] value of [null] should be deleted from the database.
+  /// [value]の値に[Null]が入っているキーはデータベース上から削除するようにしてください。
+  FutureOr<void> saveOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  );
+
+  /// Describe the data deletion process when performing a transaction.
+  /// トランザクションを行う際のデータ削除処理を記述します。
+  ///
+  /// The [ModelTransactionRef] created by [runTransaction] is passed to [ref] and the query of the target document is passed to [query].
+  /// [ref]に[runTransaction]で作成した[ModelTransactionRef]が渡され、[query]は対象のドキュメントのクエリが渡されます。
+  FutureOr<void> deleteOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  );
+
+  /// Describes the conversion process when [ModelCounter] is given as a field value when saving data.
+  /// データ保存時にフィールドの値として[ModelCounter]が与えられた際の変換処理を記述します。
+  ///
+  /// Convert to values appropriate for your database.
+  /// データベースに適した値に変換してください。
+  Object? fromModelCounter(ModelCounter value);
+
+  /// Describes the conversion process when [ModelReference] is given as a field value when saving data.
+  /// データ保存時にフィールドの値として[ModelReference]が与えられた際の変換処理を記述します。
+  ///
+  /// Convert to values appropriate for your database.
+  /// データベースに適した値に変換してください。
+  Object? fromModelReference(ModelReference value);
+
+  /// Describes the conversion process when [ModelTimestamp] is given as a field value when saving data.
+  /// データ保存時にフィールドの値として[ModelTimestamp]が与えられた際の変換処理を記述します。
+  ///
+  /// Convert to values appropriate for your database.
+  /// データベースに適した値に変換してください。
+  Object? fromModelTimestamp(ModelTimestamp value);
+
+  /// Describes the conversion process when a Json encodable primitive type is given as a field value during data storage.
+  /// データ保存時にフィールドの値としてJsonにエンコード可能なプリミティブ型が与えられた際の変換処理を記述します。
+  ///
+  /// Convert to values appropriate for your database.
+  /// データベースに適した値に変換してください。
+  Object? fromJsonEncodable(Object? value);
+
+  /// Describes the conversion process when a non-Json encodable type is given as a field value during data storage.
+  /// データ保存時にフィールドの値としてJsonにエンコード不可能な型が与えられた際の変換処理を記述します。
+  ///
+  /// Convert to values appropriate for your database.
+  /// データベースに適した値に変換してください。
+  Object? fromNotJsonEncodable(Object? value);
+
+  /// Describes the conversion process when a value that can be converted to [ModelCounter] is given as a field value at the time of data acquisition.
+  /// データ取得時にフィールドの値として[ModelCounter]に変換可能な値が与えられた際の変換処理を記述します。
+  ///
+  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
+  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
+  ModelCounter? toModelCounter(Object? value);
+
+  /// Describes the conversion process when a value that can be converted to [ModelReference] is given as a field value at the time of data acquisition.
+  /// データ取得時にフィールドの値として[ModelReference]に変換可能な値が与えられた際の変換処理を記述します。
+  ///
+  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
+  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
+  ModelReference? toModelReference(Object? value);
+
+  /// Describes the conversion process when a value that can be converted to [ModelTimestamp] is given as a field value at the time of data acquisition.
+  /// データ取得時にフィールドの値として[ModelTimestamp]に変換可能な値が与えられた際の変換処理を記述します。
+  ///
+  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
+  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
+  ModelTimestamp? toModelTimestamp(Object? value);
+
+  /// Describes the conversion process when a primitive type that can be converted to Json is given as a field value at the time of data acquisition.
+  /// データ取得時にフィールドの値としてJsonに変換可能なプリミティブ型が与えられた際の変換処理を記述します。
+  ///
+  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
+  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
+  Object? toJsonEncodable(Object? value);
+
+  /// Describes the conversion process when a type that cannot be converted to Json is given as a field value at the time of data acquisition.
+  /// データ取得時にフィールドの値としてJsonに変換不可能な型が与えられた際の変換処理を記述します。
+  ///
+  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
+  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
+  Object? toNotJsonEncodable(Object? value);
 }
 
 /// Widget for setting [ModelAdapter].

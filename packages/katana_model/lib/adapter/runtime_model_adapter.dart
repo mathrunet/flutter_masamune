@@ -106,4 +106,106 @@ class RuntimeModelAdapter extends ModelAdapter {
   ) {
     throw UnsupportedError("This adapter cannot listen.");
   }
+
+  @override
+  FutureOr<void> deleteOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  ) {
+    return deleteDocument(query);
+  }
+
+  @override
+  FutureOr<DynamicMap> loadOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  ) {
+    return loadDocument(query);
+  }
+
+  @override
+  FutureOr<void> saveOnTransaction(
+    ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) {
+    return saveDocument(query, value);
+  }
+
+  @override
+  FutureOr<void> runTransaction<T>(
+    DocumentBase<T> doc,
+    FutureOr<void> Function(
+      ModelTransactionRef ref,
+      ModelTransactionDocument<T> doc,
+    )
+        transaction,
+  ) async {
+    const ref = RuntimeModelTransactionRef._();
+    await transaction.call(ref, ref.read(doc));
+  }
+
+  @override
+  Object? fromJsonEncodable(Object? value) => value;
+
+  @override
+  Object? fromModelCounter(ModelCounter value) {
+    return value.value;
+  }
+
+  @override
+  Object? fromModelReference(ModelReference value) {
+    return value.referenceUrl;
+  }
+
+  @override
+  Object? fromModelTimestamp(ModelTimestamp value) {
+    return value.value.millisecondsSinceEpoch;
+  }
+
+  @override
+  Object? fromNotJsonEncodable(Object? value) {
+    return null;
+  }
+
+  @override
+  Object? toJsonEncodable(Object? value) {
+    return value;
+  }
+
+  @override
+  ModelCounter? toModelCounter(Object? value) {
+    if (value is! int) {
+      return null;
+    }
+    return ModelCounter(value);
+  }
+
+  @override
+  ModelReference? toModelReference(Object? value) {
+    if (value is! String) {
+      return null;
+    }
+    return ModelReference.fromReferenceUrl(value);
+  }
+
+  @override
+  ModelTimestamp? toModelTimestamp(Object? value) {
+    if (value is! int) {
+      return null;
+    }
+    return ModelTimestamp(DateTime.fromMillisecondsSinceEpoch(value));
+  }
+
+  @override
+  Object? toNotJsonEncodable(Object? value) {
+    return null;
+  }
+}
+
+/// [ModelTransactionRef] for [RuntimeModelAdapter].
+/// [RuntimeModelAdapter]用の[ModelTransactionRef]。
+@immutable
+class RuntimeModelTransactionRef extends ModelTransactionRef {
+  const RuntimeModelTransactionRef._();
 }

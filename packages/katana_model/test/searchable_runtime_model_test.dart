@@ -2,10 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:katana_model/katana_model.dart';
 
 class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
-    with
-        LoadableDocumentMixin<DynamicMap>,
-        SavableDocumentMixin<DynamicMap>,
-        SearchableDocumentMixin<DynamicMap> {
+    with SearchableDocumentMixin<DynamicMap> {
   SearchableRuntimeMapDocumentModel(super.query, super.value);
 
   @override
@@ -32,9 +29,7 @@ class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
 }
 
 class SearchableRuntimeCollectionModel
-    extends CollectionBase<SearchableRuntimeMapDocumentModel, DynamicMap>
-    with
-        LoadableCollectionMixin<SearchableRuntimeMapDocumentModel, DynamicMap> {
+    extends CollectionBase<SearchableRuntimeMapDocumentModel> {
   SearchableRuntimeCollectionModel(super.query);
 
   @override
