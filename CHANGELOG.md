@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_cli` - `v0.15.0+11`](#masamune_cli---v015011)
+
+---
+
+#### `masamune_cli` - `v0.15.0+11`
+
+ - **FIX**: Added Stripe Key because it was missing. ([e3391434](https://github.com/mathrunet/flutter_masamune/commit/e3391434184b7eb10cba41723125578ee5d3dd95))
+
+
 ## 2022-10-01
 
 ### Changes
