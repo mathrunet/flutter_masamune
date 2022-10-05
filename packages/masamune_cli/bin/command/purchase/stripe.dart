@@ -45,8 +45,9 @@ class PurchaseStripeCliCommand extends CliCommand {
       [
         "functions:config:set",
         "purchase.stripe.subscription_path=subscription",
-        "purchase.stripe.expired_path=expired",
+        "purchase.stripe.expired_key=expired",
         "purchase.stripe.user_path=user",
+        "purchase.stripe.user_key=user",
         "purchase.stripe.api_key=$apiSecret",
       ],
       runInShell: true,
