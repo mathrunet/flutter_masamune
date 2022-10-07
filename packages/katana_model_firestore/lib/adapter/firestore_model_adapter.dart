@@ -1,5 +1,8 @@
 part of katana_model_firestore;
 
+const _kTypeKey = "@type";
+const _kTargetKey = "@target";
+
 /// Model adapter with Firebase Firestore available.
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
@@ -41,7 +44,7 @@ class FirestoreModelAdapter extends ModelAdapter {
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
     final snapshot = await _documentReference(query).get();
-    return snapshot.data()?.cast() ?? {};
+    return _convertFrom(snapshot.data()?.cast() ?? {});
   }
 
   @override
@@ -61,9 +64,9 @@ class FirestoreModelAdapter extends ModelAdapter {
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
-    return snapshot
-        .expand((e) => e.docChanges)
-        .toMap((e) => MapEntry(e.doc.id, e.doc.data()?.cast() ?? {}));
+    return snapshot.expand((e) => e.docChanges).toMap(
+          (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
+        );
   }
 
   @override
@@ -77,7 +80,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     );
 
     return _documentReference(query).set(
-      value,
+      _convertTo(value),
       SetOptions(merge: true),
     );
   }
@@ -90,7 +93,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     );
     Future.forEach<MapEntry<String, Map<String, dynamic>>>(
       rawData.entries,
-      (tmp) => database.doc(tmp.key).set(tmp.value),
+      (tmp) => database.doc(tmp.key).set(_convertTo(tmp.value)),
     );
   }
 
@@ -115,7 +118,7 @@ class FirestoreModelAdapter extends ModelAdapter {
               path: doc.doc.reference.path,
               id: doc.doc.id,
               status: _status(doc.type),
-              value: doc.doc.data()?.cast() ?? {},
+              value: _convertFrom(doc.doc.data()?.cast() ?? {}),
               oldIndex: doc.oldIndex,
               newIndex: doc.newIndex,
               origin: query.origin,
@@ -144,7 +147,7 @@ class FirestoreModelAdapter extends ModelAdapter {
           path: doc.reference.path,
           id: doc.id,
           status: ModelUpdateNotificationStatus.modified,
-          value: doc.data()?.cast() ?? {},
+          value: _convertFrom(doc.data()?.cast() ?? {}),
           origin: query.origin,
         ),
       );
@@ -173,7 +176,7 @@ class FirestoreModelAdapter extends ModelAdapter {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
     final snapshot = await ref.transaction.get(database.doc(query.query.path));
-    return snapshot.data() ?? {};
+    return _convertFrom(snapshot.data() ?? {});
   }
 
   @override
@@ -187,7 +190,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     }
     ref.transaction.set(
       database.doc(query.query.path),
-      value,
+      _convertTo(value),
       SetOptions(merge: true),
     );
   }
@@ -205,6 +208,86 @@ class FirestoreModelAdapter extends ModelAdapter {
       final ref = FirestoreModelTransactionRef._(handler);
       await transaction.call(ref, ref.read(doc));
     });
+  }
+
+  DynamicMap _convertFrom(DynamicMap map) {
+    final res = <String, dynamic>{};
+
+    for (final tmp in map.entries) {
+      final key = tmp.key;
+      final val = tmp.value;
+      if (val is DynamicMap && val.containsKey(_kTypeKey)) {
+        final type = val.get(_kTypeKey, "");
+        if (type == ModelCounter.typeString) {
+          final targetKey = val.get(_kTargetKey, "");
+          res[key] = ModelCounter(map.get(targetKey, 0)).toJson();
+        } else if (type == ModelTimestamp.typeString) {
+          final targetKey = val.get(_kTargetKey, "");
+          if (map.containsKey(targetKey)) {
+            if (map[targetKey] is Timestamp) {
+              final timestamp = map[targetKey] as Timestamp;
+              res[key] = ModelTimestamp(timestamp.toDate()).toJson();
+            } else if (map[targetKey] is int) {
+              final timestamp = map[targetKey] as int;
+              res[key] = ModelTimestamp(
+                DateTime.fromMillisecondsSinceEpoch(timestamp),
+              ).toJson();
+            } else {
+              res[key] = const ModelTimestamp().toJson();
+            }
+          } else {
+            res[key] = const ModelTimestamp().toJson();
+          }
+        } else {
+          res[key] = val;
+        }
+      } else if (val is DocumentReference) {
+        res[key] = ModelRef.fromPath(
+          val.path,
+        ).toJson();
+      } else {
+        res[key] = val;
+      }
+    }
+    return res;
+  }
+
+  DynamicMap _convertTo(DynamicMap map) {
+    final res = <String, dynamic>{};
+    for (final tmp in map.entries) {
+      final key = tmp.key;
+      final val = tmp.value;
+      if (val is DynamicMap && val.containsKey(_kTypeKey)) {
+        final type = val.get(_kTypeKey, "");
+        if (type == ModelCounter.typeString) {
+          final counter = ModelCounter.fromJson(val);
+          final targetKey = "#$key";
+          res[key] = {
+            ...counter.toJson(),
+            _kTargetKey: targetKey,
+          };
+          res[targetKey] = FieldValue.increment(counter.incrementValue);
+        } else if (type == ModelTimestamp.typeString) {
+          final timestamp = ModelTimestamp.fromJson(val);
+          final targetKey = "#$key";
+          res[key] = {
+            ...timestamp.toJson(),
+            _kTargetKey: targetKey,
+          };
+          res[targetKey] = FieldValue.serverTimestamp();
+        } else if (type.startsWith(ModelRef.typeString)) {
+          final ref = ModelRef.fromJson(val);
+          res[key] = database.doc(ref.query.path);
+        } else {
+          res[key] = val;
+        }
+      } else if (val == null) {
+        res[key] = FieldValue.delete();
+      } else {
+        res[key] = val;
+      }
+    }
+    return res;
   }
 
   Query<DynamicMap> _query(
@@ -414,67 +497,6 @@ class FirestoreModelAdapter extends ModelAdapter {
       case DocumentChangeType.removed:
         return ModelUpdateNotificationStatus.removed;
     }
-  }
-
-  @override
-  Object? fromJsonEncodable(Object? value) {
-    return value;
-  }
-
-  @override
-  Object? fromModelCounter(ModelCounter value) {
-    return FieldValue.increment(value.incrementValue);
-  }
-
-  @override
-  Object? fromModelReference(ModelReference value) {
-    return database.doc(value.path.trimQuery().trimString("/"));
-  }
-
-  @override
-  Object? fromModelTimestamp(ModelTimestamp value) {
-    return Timestamp.fromDate(value.value);
-  }
-
-  @override
-  Object? fromNotJsonEncodable(Object? value) {
-    return FieldValue.delete();
-  }
-
-  @override
-  Object? toJsonEncodable(Object? value) {
-    return value;
-  }
-
-  @override
-  ModelCounter? toModelCounter(Object? value) {
-    if (value is! int) {
-      return null;
-    }
-    return ModelCounter(value);
-  }
-
-  @override
-  ModelReference? toModelReference(Object? value) {
-    if (value is! DocumentReference) {
-      return null;
-    }
-    return ModelReference(value.path.trimQuery().trimString("/"));
-  }
-
-  @override
-  ModelTimestamp? toModelTimestamp(Object? value) {
-    if (value is Timestamp) {
-      return ModelTimestamp(value.toDate());
-    } else if (value is int) {
-      return ModelTimestamp(DateTime.fromMillisecondsSinceEpoch(value));
-    }
-    return null;
-  }
-
-  @override
-  Object? toNotJsonEncodable(Object? value) {
-    return null;
   }
 }
 
