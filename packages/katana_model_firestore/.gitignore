@@ -72,3 +72,20 @@ build/
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
+
+# Example
+example/android
+example/ios
+example/linux
+example/macos
+example/test
+example/test
+example/web
+example/windows
+example/.gitignore
+example/.metadata
+example/analysis_options.yaml
+example/pubspec.yaml
+example/pubspec.lock
+example/README.md
+example/lib/firebase_options.dart
