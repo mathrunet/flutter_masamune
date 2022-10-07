@@ -1,9 +1,33 @@
 part of masamune;
 
-@deprecated
+/// Provides extended methods for [WidgetRef].
+/// [WidgetRef]用の拡張メソッドを提供します。
 extension WidgetRefFutureExtensions on WidgetRef {
+  /// You can write a process to wait for Future to take the value of [T].
+  /// Futureを待って[T]の値を取るための処理を書くことができます。
+  ///
+  /// Please describe the process in [callback].
+  /// [callback]にその処理を記載してください。
+  ///
+  /// The widget is rebuilt again when the [callback] process is complete.
+  /// [callback]の処理が完了したときに再度ウィジェットがリビルドされます。
+  ///
+  /// If you change the contents of [keys], the process will be executed again.
+  /// [keys]の中身を変更すると再度処理が実行されます。
+  FutureValue<T> future<T>(
+    Future<T> Function() callback, {
+    List<Object> keys = const [],
+  }) {
+    return valueBuilder<FutureValue<T>, _FutureValue<T>>(
+      key: "future:${keys.join()}",
+      builder: () {
+        return _FutureValue<T>(callback);
+      },
+    );
+  }
+
   @Deprecated(
-    "It will not be available from the next version. Use [FutureProvider] instead.",
+    "It will not be available from the next version. Use [future] instead.",
   )
   FutureValue<T> useFuture<T>(
     Future<T> Function() callback, {

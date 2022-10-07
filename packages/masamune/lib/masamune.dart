@@ -71,6 +71,7 @@ part 'property/default_box_decoration.dart';
 part 'property/default_button_style.dart';
 part 'provider/api_collection_provider.dart';
 part 'provider/api_document_provider.dart';
+part 'provider/form_provider.dart';
 part 'provider/date_time_provider.dart';
 part 'provider/focus_node_provider.dart';
 part 'provider/global_key_provider.dart';
