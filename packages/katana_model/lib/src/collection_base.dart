@@ -97,7 +97,6 @@ abstract class CollectionBase<TModel extends DocumentBase>
       return;
     }
     __value = value;
-    notifyListeners();
   }
 
   // ignore: prefer_final_fields
@@ -147,22 +146,26 @@ abstract class CollectionBase<TModel extends DocumentBase>
   Future<CollectionBase<TModel>> load([
     bool listenWhenPossible = true,
   ]) async {
-    if (loaded) {
-      return this;
-    }
     if (_loadCompleter != null) {
       return loading!;
     }
     try {
+      final __value = _value;
       _loadCompleter = Completer<CollectionBase<TModel>>();
-      final res = await loadRequest(listenWhenPossible);
-      if (res != null) {
-        _value = await fromMap(
-          res,
-          query.limit != null ? (query.limit! * databaseQuery.page) : null,
-        );
+      if (!loaded) {
+        final res = await loadRequest(listenWhenPossible);
+        if (res != null) {
+          _value = await fromMap(
+            res,
+            query.limit != null ? (query.limit! * databaseQuery.page) : null,
+          );
+        }
+        _loaded = true;
       }
-      _loaded = true;
+      _value = _filterOnDidLoad(_value);
+      if (__value != _value) {
+        notifyListeners();
+      }
       _loadCompleter?.complete(this);
       _loadCompleter = null;
     } catch (e) {
@@ -216,6 +219,52 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return loaded;
   }
 
+  /// After loading is complete, add data.
+  /// ロード完了後、データを追加します。
+  ///
+  /// After loading is completed, [onDidLoad] is always executed, and the return value of [onDidLoad] is the value of the list as it is.
+  /// ロード完了後必ず[onDidLoad]が実行され、[onDidLoad]の戻り値がそのままリストの値となります。
+  ///
+  /// itself is returned after the method execution completes.
+  /// メソッド実行完了後自身が返されます。
+  FutureOr<CollectionBase<TModel>> append(
+    List<TModel> Function(List<TModel> value) onDidLoad,
+  ) async {
+    if (_loadCompleter != null) {
+      _onDidLoad = onDidLoad;
+      return loading!;
+    }
+    try {
+      final __value = _value;
+      _loadCompleter = Completer<CollectionBase<TModel>>();
+      _value = onDidLoad.call(_value);
+      if (__value != _value) {
+        notifyListeners();
+      }
+      _loadCompleter?.complete(this);
+      _loadCompleter = null;
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      rethrow;
+    } finally {
+      _loadCompleter?.complete(this);
+      _loadCompleter = null;
+    }
+    return this;
+  }
+
+  List<TModel> _filterOnDidLoad(List<TModel> value) {
+    if (_onDidLoad != null) {
+      final val = _onDidLoad!.call(value);
+      _onDidLoad = null;
+      return val;
+    }
+    return value;
+  }
+
+  List<TModel> Function(List<TModel> value)? _onDidLoad;
+
   /// Implement internal processing when [load], [reload], or [next] is executed.
   /// [load]や[reload]、[next]を実行した際の内部処理を実装します。
   ///
@@ -261,7 +310,13 @@ abstract class CollectionBase<TModel extends DocumentBase>
           return;
         }
         final value = create(update.id.trimQuery().trimString("?"));
-        value.value = value.fromMap(await value.filterOnLoad(update.value));
+        final __value = value.value;
+        value.value = await value._filterOnDidLoad(
+          value.fromMap(value.filterOnLoad(update.value)),
+        );
+        if (__value != value.value) {
+          value.notifyListeners();
+        }
         _value.insert(update.newIndex!, value);
         notify = true;
         break;
@@ -270,7 +325,13 @@ abstract class CollectionBase<TModel extends DocumentBase>
           return;
         }
         final found = _value.removeAt(update.oldIndex!);
-        found.value = found.fromMap(await found.filterOnLoad(update.value));
+        final __value = found.value;
+        found.value = await found._filterOnDidLoad(
+          found.fromMap(found.filterOnLoad(update.value)),
+        );
+        if (__value != found.value) {
+          found.notifyListeners();
+        }
         _value.insert(update.newIndex!, found);
         if (update.newIndex != update.oldIndex) {
           notify = true;
@@ -306,7 +367,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       }
       final value = create(key);
       value.value = value.fromMap(
-        await value.filterOnLoad(
+        value.filterOnLoad(
           Map<String, dynamic>.from(tmp.value),
         ),
       );

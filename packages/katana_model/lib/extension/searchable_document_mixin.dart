@@ -46,12 +46,12 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
   @override
   @protected
   @mustCallSuper
-  FutureOr<DynamicMap> filterOnSave(DynamicMap rawData) {
+  DynamicMap filterOnSave(DynamicMap rawData) {
     assert(
       searchValueFieldKey.isNotEmpty,
       "[searchValueFieldKey] is empty. Please specify a non-empty string.",
     );
-    final searchText = buildSearchText(value);
+    final searchText = buildSearchText(value as T);
     if (searchText.isEmpty) {
       return super.filterOnSave(rawData);
     }

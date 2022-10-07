@@ -111,11 +111,11 @@ class ModelTransactionDocument<T> {
 
   /// Document Value.
   /// ドキュメントの値。
-  T get value => _document.value;
+  T? get value => _document.value;
 
   /// Document Value.
   /// ドキュメントの値。
-  set value(T value) => _document.value = value;
+  set value(T? value) => _document.value = value;
 
   /// Reads the corresponding document.
   /// 対応したドキュメントの読込を行います。
@@ -125,7 +125,7 @@ class ModelTransactionDocument<T> {
   ///
   /// The value is stored in [value] and can be retrieved from there.
   /// また[value]に値が保存されているためそこから値を取得することができます。
-  FutureOr<T> load() async {
+  FutureOr<T?> load() async {
     final document = _document;
     final res = await _ref._load(document);
     final aaa = await document.filterOnLoad(res);
@@ -142,10 +142,15 @@ class ModelTransactionDocument<T> {
   /// It is possible to wait for saving with `await`.
   /// `await`で保存を待つことが可能です。
   FutureOr<void> save() async {
+    if (value == null) {
+      throw Exception(
+        "The value is not set. Please set the value and then execute `save`.",
+      );
+    }
     final document = _document;
     return _ref._save(
       document,
-      await document.filterOnSave(document.toMap(value)),
+      await document.filterOnSave(document.toMap(value as T)),
     );
   }
 

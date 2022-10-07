@@ -2,20 +2,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:katana_model/katana_model.dart';
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
-  RuntimeMapDocumentModel(super.query, super.value);
+  RuntimeMapDocumentModel(super.query, [super.value]);
 
   @override
   DynamicMap fromMap(DynamicMap map) {
-    return Map.unmodifiable(
-      Map.fromEntries(
-        map.entries.where((entry) => !entry.key.startsWith("@")),
-      ),
-    );
+    return ModelFieldValue.fromMap(map);
   }
 
   @override
   DynamicMap toMap(DynamicMap value) {
-    return Map.unmodifiable(value);
+    return ModelFieldValue.toMap(value);
   }
 }
 
@@ -306,6 +302,88 @@ void main() {
         "text": 456,
         "ids": [10]
       }
+    ]);
+  });
+  test("runtimeDocumentModel.append", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    adapter.setRawData({
+      "test/aaaa": {
+        "name": "aaaa",
+        "text": "bbbb",
+      },
+    });
+    final query = DocumentModelQuery(
+      "test/aaaa",
+      adapter: adapter,
+    );
+    final document = RuntimeMapDocumentModel(query);
+    document.load();
+    document.append(
+      (value) => {
+        ...value ?? {},
+        "count": 1,
+      },
+    );
+    await document.loading;
+    expect(
+      document.value,
+      {
+        "name": "aaaa",
+        "text": "bbbb",
+        "count": 1,
+      },
+    );
+  });
+  test("runtimeCollectionModel.append", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    adapter.setRawData({
+      "test/aaaa": {
+        "name": "aaaa",
+        "text": "bbbb",
+      },
+      "test/bbbb": {
+        "name": "cccc",
+        "text": "dddd",
+      },
+      "test/cccc": {
+        "name": "eeee",
+        "text": "ffff",
+      },
+    });
+    final query = CollectionModelQuery(
+      "test",
+      adapter: adapter,
+    );
+    final collection = RuntimeCollectionModel(query);
+    collection.load();
+    collection.append(
+      (value) => value
+          .map(
+            (e) => e
+              ..value = {
+                ...e.value ?? {},
+                "count": 1,
+              },
+          )
+          .toList(),
+    );
+    await collection.loading;
+    expect(collection.map((e) => e.value), [
+      {
+        "name": "aaaa",
+        "text": "bbbb",
+        "count": 1,
+      },
+      {
+        "name": "cccc",
+        "text": "dddd",
+        "count": 1,
+      },
+      {
+        "name": "eeee",
+        "text": "ffff",
+        "count": 1,
+      },
     ]);
   });
 }

@@ -53,6 +53,10 @@ abstract class ModelAdapter {
   /// If [ModelAdapterScope] is not running, [RuntimeModelAdapter] will be called.
   /// [ModelAdapterScope]が実行されていない場合には[RuntimeModelAdapter]が呼び出されます。
   static ModelAdapter get primary {
+    assert(
+      _primary != null,
+      "ModelAdapter is not set. Place [ModelAdapterScope] widget closer to the root.",
+    );
     return _primary ?? const RuntimeModelAdapter();
   }
 
@@ -190,76 +194,6 @@ abstract class ModelAdapter {
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   );
-
-  /// Describes the conversion process when [ModelCounter] is given as a field value when saving data.
-  /// データ保存時にフィールドの値として[ModelCounter]が与えられた際の変換処理を記述します。
-  ///
-  /// Convert to values appropriate for your database.
-  /// データベースに適した値に変換してください。
-  Object? fromModelCounter(ModelCounter value);
-
-  /// Describes the conversion process when [ModelReference] is given as a field value when saving data.
-  /// データ保存時にフィールドの値として[ModelReference]が与えられた際の変換処理を記述します。
-  ///
-  /// Convert to values appropriate for your database.
-  /// データベースに適した値に変換してください。
-  Object? fromModelReference(ModelReference value);
-
-  /// Describes the conversion process when [ModelTimestamp] is given as a field value when saving data.
-  /// データ保存時にフィールドの値として[ModelTimestamp]が与えられた際の変換処理を記述します。
-  ///
-  /// Convert to values appropriate for your database.
-  /// データベースに適した値に変換してください。
-  Object? fromModelTimestamp(ModelTimestamp value);
-
-  /// Describes the conversion process when a Json encodable primitive type is given as a field value during data storage.
-  /// データ保存時にフィールドの値としてJsonにエンコード可能なプリミティブ型が与えられた際の変換処理を記述します。
-  ///
-  /// Convert to values appropriate for your database.
-  /// データベースに適した値に変換してください。
-  Object? fromJsonEncodable(Object? value);
-
-  /// Describes the conversion process when a non-Json encodable type is given as a field value during data storage.
-  /// データ保存時にフィールドの値としてJsonにエンコード不可能な型が与えられた際の変換処理を記述します。
-  ///
-  /// Convert to values appropriate for your database.
-  /// データベースに適した値に変換してください。
-  Object? fromNotJsonEncodable(Object? value);
-
-  /// Describes the conversion process when a value that can be converted to [ModelCounter] is given as a field value at the time of data acquisition.
-  /// データ取得時にフィールドの値として[ModelCounter]に変換可能な値が与えられた際の変換処理を記述します。
-  ///
-  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
-  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
-  ModelCounter? toModelCounter(Object? value);
-
-  /// Describes the conversion process when a value that can be converted to [ModelReference] is given as a field value at the time of data acquisition.
-  /// データ取得時にフィールドの値として[ModelReference]に変換可能な値が与えられた際の変換処理を記述します。
-  ///
-  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
-  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
-  ModelReference? toModelReference(Object? value);
-
-  /// Describes the conversion process when a value that can be converted to [ModelTimestamp] is given as a field value at the time of data acquisition.
-  /// データ取得時にフィールドの値として[ModelTimestamp]に変換可能な値が与えられた際の変換処理を記述します。
-  ///
-  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
-  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
-  ModelTimestamp? toModelTimestamp(Object? value);
-
-  /// Describes the conversion process when a primitive type that can be converted to Json is given as a field value at the time of data acquisition.
-  /// データ取得時にフィールドの値としてJsonに変換可能なプリミティブ型が与えられた際の変換処理を記述します。
-  ///
-  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
-  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
-  Object? toJsonEncodable(Object? value);
-
-  /// Describes the conversion process when a type that cannot be converted to Json is given as a field value at the time of data acquisition.
-  /// データ取得時にフィールドの値としてJsonに変換不可能な型が与えられた際の変換処理を記述します。
-  ///
-  /// [Null] is returned if the original value is empty, invalid, or otherwise not convertible.
-  /// 元の値が空であったり不正であった場合など変換できなかった場合、[Null]が返されます。
-  Object? toNotJsonEncodable(Object? value);
 }
 
 /// Widget for setting [ModelAdapter].
@@ -304,9 +238,13 @@ class ModelAdapterScope extends StatefulWidget {
   /// By passing the [adapter] obtained here to [CollectionModelQuery] or [DocumentModelQuery], it is possible to change the internal processing of the model.
   /// ここで取得した[adapter]を[CollectionModelQuery]や[DocumentModelQuery]に渡すことでモデルの内部処理を変更することが可能です。
   static _ModelAdapterScope? of(BuildContext context) {
-    return context
-        .getElementForInheritedWidgetOfExactType<_ModelAdapterScope>()
-        ?.widget as _ModelAdapterScope?;
+    final scope =
+        context.getElementForInheritedWidgetOfExactType<_ModelAdapterScope>();
+    assert(
+      scope != null,
+      "ModelAdapterScope is not found. Place [ModelAdapterScope] widget closer to the root.",
+    );
+    return scope?.widget as _ModelAdapterScope?;
   }
 
   @override

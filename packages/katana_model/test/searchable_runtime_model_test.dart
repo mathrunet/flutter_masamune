@@ -7,16 +7,12 @@ class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
 
   @override
   DynamicMap fromMap(DynamicMap map) {
-    return Map.unmodifiable(
-      Map.fromEntries(
-        map.entries.where((entry) => !entry.key.startsWith("@")),
-      ),
-    );
+    return ModelFieldValue.fromMap(map);
   }
 
   @override
   DynamicMap toMap(DynamicMap value) {
-    return Map.unmodifiable(value);
+    return ModelFieldValue.toMap(value);
   }
 
   @override
@@ -34,7 +30,10 @@ class SearchableRuntimeCollectionModel
 
   @override
   SearchableRuntimeMapDocumentModel create([String? id]) {
-    return SearchableRuntimeMapDocumentModel(query.create(id), {});
+    return SearchableRuntimeMapDocumentModel(
+      query.create(id),
+      {},
+    );
   }
 }
 

@@ -1,7 +1,7 @@
 part of katana_model;
 
-/// Define a document model for storing [T] types that inherit from [ValueNotifier].
-/// [ValueNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
+/// Define a document model for storing [T] types that inherit from [ChangeNotifier].
+/// [ChangeNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
 ///
 /// Any changes made locally in the app will be notified and related objects will reflect the changes.
 /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
@@ -20,7 +20,8 @@ part of katana_model;
 ///
 /// The initial value is given in [value].
 /// [value]で初期値を与えます。
-abstract class DocumentBase<T> extends ValueNotifier<T> {
+abstract class DocumentBase<T> extends ChangeNotifier
+    implements ValueListenable<T?> {
   /// Define a document model for storing [T] types that inherit from [ValueNotifier].
   /// [ValueNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
   ///
@@ -41,10 +42,8 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   ///
   /// The initial value is given in [value].
   /// [value]で初期値を与えます。
-  DocumentBase(
-    this.query,
-    super.value,
-  ) : assert(
+  DocumentBase(this.query, [this._value])
+      : assert(
           !(query.path.splitLength() <= 0 || query.path.splitLength() % 2 != 0),
           "The query path hierarchy must be an even number: ${query.path}",
         );
@@ -66,6 +65,27 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   @protected
   @mustCallSuper
   DynamicMap toMap(T value);
+
+  /// The current value stored in this document.
+  /// このドキュメントに格納されている現在の値です。
+  ///
+  /// Unlike `ValueNotifer`, no notification is given even if the value is rewritten.
+  /// `ValueNotifer`と違って値を書き換えた場合でも通知は行いません。
+  @override
+  T? get value => _value;
+  T? _value;
+
+  /// The current value stored in this document.
+  /// このドキュメントに格納されている現在の値です。
+  ///
+  /// Unlike `ValueNotifer`, no notification is given even if the value is rewritten.
+  /// `ValueNotifer`と違って値を書き換えた場合でも通知は行いません。
+  set value(T? newValue) {
+    if (_value == newValue) {
+      return;
+    }
+    _value = newValue;
+  }
 
   /// Query for loading and saving documents.
   /// ドキュメントを読込・保存するためのクエリ。
@@ -129,20 +149,24 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   ///
   /// If you wish to reload the file, use the [reload] method.
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
-  Future<T> load([bool listenWhenPossible = true]) async {
-    if (loaded) {
-      return value;
-    }
+  Future<T?> load([bool listenWhenPossible = true]) async {
     if (_loadCompleter != null) {
       return loading!;
     }
     try {
+      final _value = value;
       _loadCompleter = Completer<T>();
-      final res = await loadRequest(listenWhenPossible);
-      if (res != null) {
-        value = fromMap(await filterOnLoad(res));
+      if (!loaded) {
+        final res = await loadRequest(listenWhenPossible);
+        if (res != null) {
+          value = fromMap(filterOnLoad(res));
+        }
+        _loaded = true;
       }
-      _loaded = true;
+      value = _filterOnDidLoad(value);
+      if (_value != value) {
+        notifyListeners();
+      }
       _loadCompleter?.complete(value);
       _loadCompleter = null;
     } catch (e) {
@@ -167,10 +191,56 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<T> reload([bool listenWhenPossible = true]) {
+  Future<T?> reload([bool listenWhenPossible = true]) {
     _loaded = false;
     return load(listenWhenPossible);
   }
+
+  /// After loading is complete, add data.
+  /// ロード完了後、データを追加します。
+  ///
+  /// After loading is completed, [onDidLoad] is always executed, and the return value of [onDidLoad] is the value of the list as it is.
+  /// ロード完了後必ず[onDidLoad]が実行され、[onDidLoad]の戻り値がそのままリストの値となります。
+  ///
+  /// After the method execution completes, the object [T] is returned.
+  /// メソッド実行完了後[T]のオブジェクトが返されます。
+  FutureOr<T?> append(
+    T? Function(T? value) onDidLoad,
+  ) async {
+    if (_loadCompleter != null) {
+      _onDidLoad = onDidLoad;
+      return loading!;
+    }
+    try {
+      final _value = value;
+      _loadCompleter = Completer<T>();
+      value = onDidLoad.call(value);
+      if (_value != value) {
+        notifyListeners();
+      }
+      _loadCompleter?.complete(value);
+      _loadCompleter = null;
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      rethrow;
+    } finally {
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    }
+    return value;
+  }
+
+  T? _filterOnDidLoad(T? value) {
+    if (_onDidLoad != null) {
+      final val = _onDidLoad!.call(value);
+      _onDidLoad = null;
+      return val;
+    }
+    return value;
+  }
+
+  T? Function(T? value)? _onDidLoad;
 
   /// Data can be saved.
   /// データの保存を行うことができます。
@@ -181,15 +251,20 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   /// It is possible to wait for saving with `await`.
   /// `await`で保存を待つことが可能です。
   Future<void> save() async {
+    if (value == null) {
+      throw Exception(
+        "The value is not set. Please set the value and then execute `save`.",
+      );
+    }
     if (_saveCompleter != null) {
       return saving!;
     }
     try {
       _saveCompleter = Completer<T>();
-      await saveRequest(await filterOnSave(toMap(value)));
+      await saveRequest(filterOnSave(toMap(value as T)));
       _saveCompleter?.complete(value);
       _saveCompleter = null;
-    } catch (e) {
+    } catch (e, stackTrace) {
       _saveCompleter?.completeError(e);
       _saveCompleter = null;
       rethrow;
@@ -306,8 +381,8 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   /// 戻り値に変換した[DynamicMap]の値を戻すことでその値が[fromMap]のパラメータとして渡されます。
   @protected
   @mustCallSuper
-  FutureOr<DynamicMap> filterOnLoad(DynamicMap rawData) {
-    return ModelFieldValue.fromServer(query.adapter, rawData);
+  DynamicMap filterOnLoad(DynamicMap rawData) {
+    return rawData;
   }
 
   /// You can filter the data to be saved.
@@ -320,12 +395,11 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   /// 戻り値に返した値がデータとして保存されます。
   @protected
   @mustCallSuper
-  FutureOr<DynamicMap> filterOnSave(DynamicMap rawData) {
-    return ModelFieldValue.toServer(query.adapter, {
+  DynamicMap filterOnSave(DynamicMap rawData) {
+    return {
       ...rawData,
-      kTimeFieldKey: const ModelTimestamp(),
       kUidFieldKey: query.path.trimQuery().last(),
-    });
+    };
   }
 
   /// Describe the callback process to be passed to [ModelAdapterDocumentQuery.callback].
@@ -338,7 +412,11 @@ abstract class DocumentBase<T> extends ValueNotifier<T> {
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
-    value = fromMap(await filterOnLoad(update.value));
+    final _value = value;
+    value = _filterOnDidLoad(fromMap(filterOnLoad(update.value)));
+    if (_value != value) {
+      notifyListeners();
+    }
   }
 
   @override

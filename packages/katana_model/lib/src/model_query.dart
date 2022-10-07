@@ -1,6 +1,5 @@
 part of katana_model;
 
-
 /// Query class for defining Model.
 /// Modelを定義するためのクエリクラス。
 ///
@@ -95,9 +94,12 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// If [id] is [Null], [uuid] (32-byte non-hyphenated string) is used.
   /// [id]が[Null]の場合は[uuid]（32バイトのハイフン無しの文字列）が利用されます。
-  DocumentModelQuery create([String? id]) {
+  DocumentModelQuery create<T>([
+    String? id,
+  ]) {
     return DocumentModelQuery(
       "${path.trimQuery().trimString("/")}/${id ?? uuid}",
+      adapter: adapter,
     );
   }
 }

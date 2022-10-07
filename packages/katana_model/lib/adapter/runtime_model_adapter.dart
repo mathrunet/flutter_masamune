@@ -1,5 +1,7 @@
 part of katana_model;
 
+const _kTypeKey = "@type";
+
 /// Model adapter that uses a database that runs only in the memory of the application.
 /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
 ///
@@ -143,63 +145,6 @@ class RuntimeModelAdapter extends ModelAdapter {
   ) async {
     const ref = RuntimeModelTransactionRef._();
     await transaction.call(ref, ref.read(doc));
-  }
-
-  @override
-  Object? fromJsonEncodable(Object? value) => value;
-
-  @override
-  Object? fromModelCounter(ModelCounter value) {
-    return value.value;
-  }
-
-  @override
-  Object? fromModelReference(ModelReference value) {
-    return value.referenceUrl;
-  }
-
-  @override
-  Object? fromModelTimestamp(ModelTimestamp value) {
-    return value.value.millisecondsSinceEpoch;
-  }
-
-  @override
-  Object? fromNotJsonEncodable(Object? value) {
-    return null;
-  }
-
-  @override
-  Object? toJsonEncodable(Object? value) {
-    return value;
-  }
-
-  @override
-  ModelCounter? toModelCounter(Object? value) {
-    if (value is! int) {
-      return null;
-    }
-    return ModelCounter(value);
-  }
-
-  @override
-  ModelReference? toModelReference(Object? value) {
-    if (value is! String) {
-      return null;
-    }
-    return ModelReference.fromReferenceUrl(value);
-  }
-
-  @override
-  ModelTimestamp? toModelTimestamp(Object? value) {
-    if (value is! int) {
-      return null;
-    }
-    return ModelTimestamp(DateTime.fromMillisecondsSinceEpoch(value));
-  }
-
-  @override
-  Object? toNotJsonEncodable(Object? value) {
-    return null;
   }
 }
 

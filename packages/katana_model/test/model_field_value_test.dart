@@ -6,16 +6,12 @@ class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
 
   @override
   DynamicMap fromMap(DynamicMap map) {
-    return Map.unmodifiable(
-      Map.fromEntries(
-        map.entries.where((entry) => !entry.key.startsWith("@")),
-      ),
-    );
+    return ModelFieldValue.fromMap(map);
   }
 
   @override
   DynamicMap toMap(DynamicMap value) {
-    return Map.unmodifiable(value);
+    return ModelFieldValue.toMap(value);
   }
 }
 
@@ -46,7 +42,7 @@ void main() {
       },
     );
     model.value = {
-      "counter": model.value.getAsModelCounter("counter").increment(1),
+      "counter": model.value?.getAsModelCounter("counter").increment(1),
       "time": ModelTimestamp(DateTime(2022, 1, 2))
     };
     await model.save();
