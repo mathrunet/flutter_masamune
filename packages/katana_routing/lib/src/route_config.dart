@@ -304,12 +304,7 @@ class RouteConfig {
   }
 
   static PageTransition _transitionType(DynamicMap map, RouteConfig config) {
-    if (map.containsKey(kTransition) ||
-        config.fullScreen ||
-        config.transition == PageTransition.fullscreen) {
-      return PageTransition.fullscreen;
-    } else if (map.get(kTransition, PageTransition.initial) ==
-            PageTransition.modal ||
+    if (map.get(kTransition, PageTransition.initial) == PageTransition.modal ||
         config.transition == PageTransition.modal) {
       return PageTransition.modal;
     } else if (map.get(kTransition, PageTransition.initial) ==
@@ -320,6 +315,10 @@ class RouteConfig {
             PageTransition.fade ||
         config.transition == PageTransition.fade) {
       return PageTransition.fade;
+    } else if (map.containsKey(kTransition) ||
+        config.fullScreen ||
+        config.transition == PageTransition.fullscreen) {
+      return PageTransition.fullscreen;
     } else {
       return PageTransition.initial;
     }
