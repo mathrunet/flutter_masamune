@@ -276,14 +276,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+1"
+    version: "0.15.5+1"
   katana_annotation:
     dependency: "direct main"
     description:
       name: katana_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.0+1"
+    version: "0.15.0+7"
   logging:
     dependency: transitive
     description:
@@ -367,7 +367,7 @@ packages:
       name: recase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   shelf:
     dependency: transitive
     description:
