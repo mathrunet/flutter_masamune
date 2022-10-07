@@ -1,6 +1,6 @@
 part of masamune_ui.form;
 
-class FormItemTextField extends StatelessWidget implements FormItem {
+class FormItemTextField extends StatefulWidget implements FormItem {
   const FormItemTextField({
     Key? key,
     this.controller,
@@ -54,10 +54,12 @@ class FormItemTextField extends StatelessWidget implements FormItem {
     this.cursorColor,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
+    this.initialValue,
   }) : super(key: key);
 
   final TextEditingController? controller;
   final TextInputType keyboardType;
+  final String? initialValue;
   final int? maxLength;
   final int? minLength;
   final int? maxLines;
@@ -109,107 +111,160 @@ class FormItemTextField extends StatelessWidget implements FormItem {
   final TextAlignVertical? textAlignVertical;
 
   @override
+  State<StatefulWidget> createState() => _FormItemTextFieldState();
+}
+
+class _FormItemTextFieldState extends State<FormItemTextField> {
+  TextEditingController? get _effectiveController =>
+      widget.controller ?? _controller;
+  TextEditingController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.controller != null) {
+      _controller = TextEditingController(text: widget.initialValue);
+    }
+    _effectiveController?.addListener(_handledOnUpdate);
+  }
+
+  @override
+  void didUpdateWidget(FormItemTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?.removeListener(_handledOnUpdate);
+      widget.controller?.addListener(_handledOnUpdate);
+    }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      _effectiveController?.text = widget.initialValue!;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _effectiveController?.removeListener(_handledOnUpdate);
+    _controller?.dispose();
+  }
+
+  void _handledOnUpdate() {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final mainTextStyle = textStyle?.copyWith(
-          color: color,
-          fontSize: fontSize,
+    final mainTextStyle = widget.textStyle?.copyWith(
+          color: widget.color,
+          fontSize: widget.fontSize,
         ) ??
         TextStyle(
-          color: color ?? context.theme.textColor,
-          fontSize: fontSize,
+          color: widget.color ?? context.theme.textColor,
+          fontSize: widget.fontSize,
         );
-    final subTextStyle = textStyle?.copyWith(
-          color: subColor,
-          fontSize: fontSize,
+    final subTextStyle = widget.textStyle?.copyWith(
+          color: widget.subColor,
+          fontSize: widget.fontSize,
         ) ??
         TextStyle(
-          color: subColor ??
-              color?.withOpacity(0.5) ??
+          color: widget.subColor ??
+              widget.color?.withOpacity(0.5) ??
               context.theme.textColor.withOpacity(0.5),
-          fontSize: fontSize,
+          fontSize: widget.fontSize,
         );
-    final errorTextStyle = textStyle?.copyWith(
-          color: errorColor,
-          fontSize: helperFontSize,
+    final errorTextStyle = widget.textStyle?.copyWith(
+          color: widget.errorColor,
+          fontSize: widget.helperFontSize,
         ) ??
         TextStyle(
-          color: errorColor ?? context.theme.errorColor,
-          fontSize: helperFontSize,
+          color: widget.errorColor ?? context.theme.errorColor,
+          fontSize: widget.helperFontSize,
         );
 
     return SuggestionOverlayBuilder(
-      items: suggestion,
-      onDeleteSuggestion: onDeleteSuggestion,
-      controller: controller,
-      focusNode: focusNode,
+      items: widget.suggestion,
+      onDeleteSuggestion: widget.onDeleteSuggestion,
+      controller: widget.controller,
+      focusNode: widget.focusNode,
       builder: (context, controller, onTap) => Container(
-        height: height,
-        padding: padding ??
-            (dense
+        height: widget.height,
+        padding: widget.padding ??
+            (widget.dense
                 ? const EdgeInsets.symmetric(vertical: 20)
                 : const EdgeInsets.symmetric(vertical: 10)),
         child: TextFormField(
-          key: key,
-          cursorColor: cursorColor,
-          inputFormatters: inputFormatters,
-          focusNode: focusNode,
-          textAlign: textAlign,
-          textAlignVertical: textAlignVertical,
-          showCursor: showCursor,
-          enabled: enabled,
+          key: widget.key,
+          cursorColor: widget.cursorColor,
+          inputFormatters: widget.inputFormatters,
+          focusNode: widget.focusNode,
+          textAlign: widget.textAlign,
+          textAlignVertical: widget.textAlignVertical,
+          showCursor: widget.showCursor,
+          enabled: widget.enabled,
           controller: controller,
-          keyboardType: keyboardType,
-          maxLength: maxLength,
-          maxLines: obscureText ? 1 : (expands ? null : maxLines),
-          minLines: obscureText ? 1 : (expands ? null : minLines),
-          expands: !obscureText && expands,
+          keyboardType: widget.keyboardType,
+          maxLength: widget.maxLength,
+          maxLines: widget.obscureText
+              ? 1
+              : (widget.expands ? null : widget.maxLines),
+          minLines: widget.obscureText
+              ? 1
+              : (widget.expands ? null : widget.minLines),
+          expands: !widget.obscureText && widget.expands,
           decoration: InputDecoration(
-            contentPadding: contentPadding ??
-                (dense
+            contentPadding: widget.contentPadding ??
+                (widget.dense
                     ? const EdgeInsets.symmetric(horizontal: 16, vertical: 0)
                     : null),
-            fillColor: backgroundColor,
-            filled: backgroundColor != null,
-            isDense: dense,
-            border: border ??
+            fillColor: widget.backgroundColor,
+            filled: widget.backgroundColor != null,
+            isDense: widget.dense,
+            border: widget.border ??
                 OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide(),
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
                 ),
-            enabledBorder: border ??
+            enabledBorder: widget.border ??
                 OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide(),
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
                 ),
-            disabledBorder: disabledBorder ??
-                border ??
+            disabledBorder: widget.disabledBorder ??
+                widget.border ??
                 OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide(),
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
                 ),
-            errorBorder: errorBorder ??
-                border ??
+            errorBorder: widget.errorBorder ??
+                widget.border ??
                 OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide(),
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
                   gapPadding: 0,
                 ),
-            focusedBorder: border ??
+            focusedBorder: widget.border ??
                 OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide(),
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
                 ),
-            focusedErrorBorder: errorBorder ??
-                border ??
+            focusedErrorBorder: widget.errorBorder ??
+                widget.border ??
                 OutlineInputBorder(
-                  borderSide: dense ? BorderSide.none : const BorderSide(),
+                  borderSide:
+                      widget.dense ? BorderSide.none : const BorderSide(),
                 ),
-            hintText: hintText,
-            labelText: labelText,
-            counterText: counterText,
-            prefix: prefix,
-            suffix: suffix,
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
-            prefixText: prefixText,
-            suffixText: suffixText,
-            prefixIconConstraints: prefixIconConstraints,
-            suffixIconConstraints: suffixIconConstraints,
+            hintText: widget.hintText,
+            labelText: widget.labelText,
+            counterText: widget.counterText,
+            prefix: widget.prefix,
+            suffix: widget.suffix,
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: widget.suffixIcon,
+            prefixText: widget.prefixText,
+            suffixText: widget.suffixText,
+            prefixIconConstraints: widget.prefixIconConstraints,
+            suffixIconConstraints: widget.suffixIconConstraints,
             labelStyle: mainTextStyle,
             hintStyle: subTextStyle,
             suffixStyle: subTextStyle,
@@ -219,37 +274,39 @@ class FormItemTextField extends StatelessWidget implements FormItem {
             errorStyle: errorTextStyle,
           ),
           style: mainTextStyle,
-          obscureText: obscureText,
-          readOnly: readOnly,
+          obscureText: widget.obscureText,
+          readOnly: widget.readOnly,
           onFieldSubmitted: (value) {
-            onSubmitted?.call(value);
+            widget.onSubmitted?.call(value);
           },
-          onTap: enabled
+          onTap: widget.enabled
               ? () {
-                  if (this.onTap != null) {
-                    this.onTap?.call();
+                  if (widget.onTap != null) {
+                    widget.onTap?.call();
                   } else {
                     onTap.call();
                   }
                 }
               : null,
           validator: (value) {
-            if (!allowEmpty && errorText.isNotEmpty && value.isEmpty) {
-              return errorText;
+            if (!widget.allowEmpty &&
+                widget.errorText.isNotEmpty &&
+                value.isEmpty) {
+              return widget.errorText;
             }
-            if (!allowEmpty &&
-                lengthErrorText.isNotEmpty &&
-                minLength.def(0) > value.length) {
-              return lengthErrorText;
+            if (!widget.allowEmpty &&
+                widget.lengthErrorText.isNotEmpty &&
+                widget.minLength.def(0) > value.length) {
+              return widget.lengthErrorText;
             }
-            return validator?.call(value);
+            return widget.validator?.call(value);
           },
-          onChanged: onChanged,
+          onChanged: widget.onChanged,
           onSaved: (value) {
-            if (!allowEmpty && value.isEmpty) {
+            if (!widget.allowEmpty && value.isEmpty) {
               return;
             }
-            onSaved?.call(value);
+            widget.onSaved?.call(value);
           },
         ),
       ),
