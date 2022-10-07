@@ -1,3 +1,7 @@
+## 0.15.0+11
+
+ - **FIX**: Fixed a bug that caused transitions to be fullscreen. ([e629417e](https://github.com/mathrunet/flutter_masamune/commit/e629417e32b82b5415957b7639adf6e3bb2d4826))
+
 ## 0.15.0+10
 
  - Update a dependency to the latest release.
