@@ -1,7 +1,5 @@
 part of katana_model;
 
-const _kTypeKey = "@type";
-
 /// Model adapter that uses a database that runs only in the memory of the application.
 /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
 ///
