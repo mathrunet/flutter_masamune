@@ -1,3 +1,11 @@
+## 0.15.0+20
+
+ - **FIX**: FormItemTextField initialValue support. ([480fbf6d](https://github.com/mathrunet/flutter_masamune/commit/480fbf6d1e4b78c43b0a720318ce872a5f13342d))
+
+## 0.15.0+19
+
+ - **FIX**: FormItemTextField initialValue support. ([480fbf6d](https://github.com/mathrunet/flutter_masamune/commit/480fbf6d1e4b78c43b0a720318ce872a5f13342d))
+
 ## 0.15.0+18
 
  - Update a dependency to the latest release.

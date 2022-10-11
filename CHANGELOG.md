@@ -3,6 +3,192 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.2.0`](#katana_router---v120)
+ - [`katana_router_annotation` - `v1.2.0`](#katana_router_annotation---v120)
+ - [`katana_router_builder` - `v1.2.0`](#katana_router_builder---v120)
+ - [`katana_router_riverpod` - `v1.2.0`](#katana_router_riverpod---v120)
+ - [`katana_router_riverpod_annotation` - `v1.2.0`](#katana_router_riverpod_annotation---v120)
+ - [`masamune` - `v0.15.3`](#masamune---v0153)
+ - [`masamune_ui` - `v0.15.0+20`](#masamune_ui---v015020)
+ - [`masamune_agora` - `v0.15.0+21`](#masamune_agora---v015021)
+ - [`masamune_location` - `v0.15.0+20`](#masamune_location---v015020)
+ - [`masamune_local_messaging` - `v0.15.0+20`](#masamune_local_messaging---v015020)
+ - [`masamune_purchase` - `v0.15.0+20`](#masamune_purchase---v015020)
+ - [`masamune_media` - `v0.15.0+20`](#masamune_media---v015020)
+ - [`masamune_wordpress` - `v0.15.0+20`](#masamune_wordpress---v015020)
+ - [`masamune_ads` - `v0.15.0+20`](#masamune_ads---v015020)
+ - [`masamune_firebase` - `v0.15.0+20`](#masamune_firebase---v015020)
+ - [`masamune_purchase_firebase` - `v0.15.0+20`](#masamune_purchase_firebase---v015020)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+20`](#masamune_firebase_dynamic_links---v015020)
+ - [`masamune_firebase_messaging` - `v0.15.0+20`](#masamune_firebase_messaging---v015020)
+ - [`masamune_signin_facebook` - `v0.15.0+20`](#masamune_signin_facebook---v015020)
+ - [`masamune_signin_google` - `v0.15.0+20`](#masamune_signin_google---v015020)
+ - [`masamune_signin_apple` - `v0.15.0+20`](#masamune_signin_apple---v015020)
+ - [`masamune_signin_twitter` - `v0.15.0+20`](#masamune_signin_twitter---v015020)
+ - [`masamune_notion` - `v0.15.0+20`](#masamune_notion---v015020)
+ - [`masamune_purchase_stripe` - `v0.15.0+20`](#masamune_purchase_stripe---v015020)
+ - [`masamune_module` - `v0.15.0+20`](#masamune_module---v015020)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+21`
+ - `masamune_location` - `v0.15.0+20`
+ - `masamune_local_messaging` - `v0.15.0+20`
+ - `masamune_purchase` - `v0.15.0+20`
+ - `masamune_media` - `v0.15.0+20`
+ - `masamune_wordpress` - `v0.15.0+20`
+ - `masamune_ads` - `v0.15.0+20`
+ - `masamune_firebase` - `v0.15.0+20`
+ - `masamune_purchase_firebase` - `v0.15.0+20`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+20`
+ - `masamune_firebase_messaging` - `v0.15.0+20`
+ - `masamune_signin_facebook` - `v0.15.0+20`
+ - `masamune_signin_google` - `v0.15.0+20`
+ - `masamune_signin_apple` - `v0.15.0+20`
+ - `masamune_signin_twitter` - `v0.15.0+20`
+ - `masamune_notion` - `v0.15.0+20`
+ - `masamune_purchase_stripe` - `v0.15.0+20`
+ - `masamune_module` - `v0.15.0+20`
+
+---
+
+#### `katana_router` - `v1.2.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+ - **FEAT**: New commitments. ([7fc7cf6f](https://github.com/mathrunet/flutter_masamune/commit/7fc7cf6fede00437c3f9716852ec5a981b4cb846))
+
+#### `katana_router_annotation` - `v1.2.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `katana_router_builder` - `v1.2.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `katana_router_riverpod` - `v1.2.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `katana_router_riverpod_annotation` - `v1.2.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `masamune` - `v0.15.3`
+
+ - **FEAT**: Adding new providers. ([a3fb7e05](https://github.com/mathrunet/flutter_masamune/commit/a3fb7e05317623197d3b4b97e6e84728cf67b8ca))
+
+#### `masamune_ui` - `v0.15.0+20`
+
+ - **FIX**: FormItemTextField initialValue support. ([480fbf6d](https://github.com/mathrunet/flutter_masamune/commit/480fbf6d1e4b78c43b0a720318ce872a5f13342d))
+
+
+## 2022-10-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.1.0`](#katana_router---v110)
+ - [`katana_router_annotation` - `v1.1.0`](#katana_router_annotation---v110)
+ - [`katana_router_builder` - `v1.1.0`](#katana_router_builder---v110)
+ - [`katana_router_riverpod` - `v1.1.0`](#katana_router_riverpod---v110)
+ - [`katana_router_riverpod_annotation` - `v1.1.0`](#katana_router_riverpod_annotation---v110)
+ - [`masamune` - `v0.15.2`](#masamune---v0152)
+ - [`masamune_ui` - `v0.15.0+19`](#masamune_ui---v015019)
+ - [`masamune_location` - `v0.15.0+19`](#masamune_location---v015019)
+ - [`masamune_local_messaging` - `v0.15.0+19`](#masamune_local_messaging---v015019)
+ - [`masamune_agora` - `v0.15.0+20`](#masamune_agora---v015020)
+ - [`masamune_media` - `v0.15.0+19`](#masamune_media---v015019)
+ - [`masamune_purchase` - `v0.15.0+19`](#masamune_purchase---v015019)
+ - [`masamune_firebase` - `v0.15.0+19`](#masamune_firebase---v015019)
+ - [`masamune_wordpress` - `v0.15.0+19`](#masamune_wordpress---v015019)
+ - [`masamune_ads` - `v0.15.0+19`](#masamune_ads---v015019)
+ - [`masamune_purchase_firebase` - `v0.15.0+19`](#masamune_purchase_firebase---v015019)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+19`](#masamune_firebase_dynamic_links---v015019)
+ - [`masamune_signin_facebook` - `v0.15.0+19`](#masamune_signin_facebook---v015019)
+ - [`masamune_firebase_messaging` - `v0.15.0+19`](#masamune_firebase_messaging---v015019)
+ - [`masamune_signin_google` - `v0.15.0+19`](#masamune_signin_google---v015019)
+ - [`masamune_signin_apple` - `v0.15.0+19`](#masamune_signin_apple---v015019)
+ - [`masamune_signin_twitter` - `v0.15.0+19`](#masamune_signin_twitter---v015019)
+ - [`masamune_purchase_stripe` - `v0.15.0+19`](#masamune_purchase_stripe---v015019)
+ - [`masamune_notion` - `v0.15.0+19`](#masamune_notion---v015019)
+ - [`masamune_module` - `v0.15.0+19`](#masamune_module---v015019)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v0.15.0+19`
+ - `masamune_local_messaging` - `v0.15.0+19`
+ - `masamune_agora` - `v0.15.0+20`
+ - `masamune_media` - `v0.15.0+19`
+ - `masamune_purchase` - `v0.15.0+19`
+ - `masamune_firebase` - `v0.15.0+19`
+ - `masamune_wordpress` - `v0.15.0+19`
+ - `masamune_ads` - `v0.15.0+19`
+ - `masamune_purchase_firebase` - `v0.15.0+19`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+19`
+ - `masamune_signin_facebook` - `v0.15.0+19`
+ - `masamune_firebase_messaging` - `v0.15.0+19`
+ - `masamune_signin_google` - `v0.15.0+19`
+ - `masamune_signin_apple` - `v0.15.0+19`
+ - `masamune_signin_twitter` - `v0.15.0+19`
+ - `masamune_purchase_stripe` - `v0.15.0+19`
+ - `masamune_notion` - `v0.15.0+19`
+ - `masamune_module` - `v0.15.0+19`
+
+---
+
+#### `katana_router` - `v1.1.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+ - **FEAT**: New commitments. ([7fc7cf6f](https://github.com/mathrunet/flutter_masamune/commit/7fc7cf6fede00437c3f9716852ec5a981b4cb846))
+
+#### `katana_router_annotation` - `v1.1.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `katana_router_builder` - `v1.1.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `katana_router_riverpod` - `v1.1.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `katana_router_riverpod_annotation` - `v1.1.0`
+
+ - **FEAT**: Implementation of Router system. ([81a71cfb](https://github.com/mathrunet/flutter_masamune/commit/81a71cfb41d28e492f8608d94d937f9eb98e93b1))
+
+#### `masamune` - `v0.15.2`
+
+ - **FEAT**: Adding new providers. ([a3fb7e05](https://github.com/mathrunet/flutter_masamune/commit/a3fb7e05317623197d3b4b97e6e84728cf67b8ca))
+
+#### `masamune_ui` - `v0.15.0+19`
+
+ - **FIX**: FormItemTextField initialValue support. ([480fbf6d](https://github.com/mathrunet/flutter_masamune/commit/480fbf6d1e4b78c43b0a720318ce872a5f13342d))
+
+
 ## 2022-10-07
 
 ### Changes

@@ -1,6 +1,6 @@
 name: katana_router_riverpod
 description: Building system for katana router packages. Automatic Page route generation for riverpod.
-version: 1.0.0
+version: 1.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_router_riverpod
 
@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
     
   katana: ^0.15.0
-  katana_router: ^1.0.0
-  katana_router_riverpod_annotation: ^1.0.0
+  katana_router: ^1.2.0
+  katana_router_riverpod_annotation: ^1.2.0
   riverpod: ^1.0.3
   flutter_riverpod: ^1.0.3
 

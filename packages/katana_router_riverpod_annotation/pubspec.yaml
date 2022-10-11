@@ -1,6 +1,6 @@
 name: katana_router_riverpod_annotation
 description: Definition of annotation when used in katana router for riverpod.
-version: 1.0.0
+version: 1.2.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_router_riverpod_annotation
 
@@ -11,7 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  katana_router_annotation: ^1.0.0
-    
+  katana_router_annotation: ^1.2.0
 dev_dependencies:
   test: ^1.21.3
