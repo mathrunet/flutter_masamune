@@ -1,0 +1,63 @@
+part of katana_router_annotation;
+
+/// Annotation defining the page.
+/// ページを定義するアノテーション。
+///
+/// Specify the path of the page in [path] as it is.
+/// [path]にページのパスをそのまま指定します。
+///
+/// When [reroute] is set, it is possible to write reroute settings for only that page.
+/// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+///
+/// ```dart
+/// @PagePath("/test")
+/// class TestWidget extends StatelessWidget {
+///   @override
+///   Widget build(BuildContext context) {
+///     return Scaffold(
+///       appBar: AppBar(title: Text("Test")),
+///       body: Center(child: Text("Body")),
+///     );
+///   }
+/// }
+/// ```
+class PagePath {
+  /// Annotation defining the page.
+  /// ページを定義するアノテーション。
+  ///
+  /// Specify the path of the page in [path] as it is.
+  /// [path]にページのパスをそのまま指定します。
+  ///
+  /// When [reroute] is set, it is possible to write reroute settings for only that page.
+  /// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+  ///
+  /// ```dart
+  /// @PagePath("/test")
+  /// class TestWidget extends StatelessWidget {
+  ///   @override
+  ///   Widget build(BuildContext context) {
+  ///     return Scaffold(
+  ///       appBar: AppBar(title: Text("Test")),
+  ///       body: Center(child: Text("Body")),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  const PagePath(
+    this.path,
+    //   [
+    //   this.reroute = const [],
+    // ]
+  );
+
+  /// Page path.
+  /// ページパス。
+  final String path;
+
+  /// Reroute settings.
+  /// リルート設定。
+  ///
+  /// When [reroute] is set, it is possible to write reroute settings for only that page.
+  /// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+  // final List<RerouteQuery> reroute;
+}

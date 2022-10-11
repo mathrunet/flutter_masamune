@@ -31,10 +31,10 @@ class ListenableListener<T extends Listenable> extends StatefulWidget {
   /// A widget that monitors changes in [Listenable] and updates the contents of [builder] when there is a change.
   /// [Listenable]の変更を監視し変更があった場合、[builder]の内容を更新するウィジェット。
   const ListenableListener({
-    Key? key,
+    super.key,
     required this.listenable,
     required this.builder,
-  }) : super(key: key);
+  });
 
   /// [Listenable] for monitoring.
   /// 監視するための[Listenable]。

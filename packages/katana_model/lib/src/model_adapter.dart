@@ -220,6 +220,7 @@ class ModelAdapterScope extends StatefulWidget {
   /// By passing the [adapter] obtained here to [CollectionModelQuery] or [DocumentModelQuery], it is possible to change the internal processing of the model.
   /// ここで設定した[adapter]を[CollectionModelQuery]や[DocumentModelQuery]に渡すことでモデルの内部処理を変更することが可能です。
   const ModelAdapterScope({
+    super.key,
     required this.child,
     required this.adapter,
   });

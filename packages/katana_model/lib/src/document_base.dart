@@ -264,7 +264,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       await saveRequest(filterOnSave(toMap(value as T)));
       _saveCompleter?.complete(value);
       _saveCompleter = null;
-    } catch (e, stackTrace) {
+    } catch (e) {
       _saveCompleter?.completeError(e);
       _saveCompleter = null;
       rethrow;
