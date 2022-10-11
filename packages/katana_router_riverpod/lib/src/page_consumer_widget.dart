@@ -1,11 +1,4 @@
-part of katana_router;
-
-/// Reference for page. Replaces [ValueNotifier].
-/// ページ用のリファレンス。[ValueNotifier]を置き換えたものです。
-///
-/// Replacing this value will update the widget.
-/// こちらの値を入れ替えるとウィジェットが更新されます。
-typedef PageRef<T> = ValueNotifier<T>;
+part of katana_router_riverpod;
 
 /// Widget-based for pages.
 /// ページ用のウィジェットベース。
@@ -16,7 +9,7 @@ typedef PageRef<T> = ValueNotifier<T>;
 /// Referencing or updating that [PageRef] will preserve or rebuild the widget's value.
 /// その[PageRef]を参照したり、更新したりすることでウィジェットの値を保持したりリビルドしたりします。
 @immutable
-abstract class PageWidget<T> extends StatefulWidget {
+abstract class PageConsumerWidget<T> extends ConsumerStatefulWidget {
   /// Widget-based for pages.
   /// ページ用のウィジェットベース。
   ///
@@ -25,7 +18,7 @@ abstract class PageWidget<T> extends StatefulWidget {
   ///
   /// Referencing or updating that [PageRef] will preserve or rebuild the widget's value.
   /// その[PageRef]を参照したり、更新したりすることでウィジェットの値を保持したりリビルドしたりします。
-  const PageWidget(T value, {super.key}) : _value = value;
+  const PageConsumerWidget(T value, {super.key}) : _value = value;
 
   final T _value;
 
@@ -37,15 +30,17 @@ abstract class PageWidget<T> extends StatefulWidget {
   ///
   /// The [PageRef] associated with this [PageWidget] is passed to [page]. Page-related information is passed here. Also, updating `page.value` will rebuild the page.
   /// [page]にこの[PageWidget]に関連した[PageRef]が渡されます。ここにページ関連の情報が渡されます。また`page.value`を更新することでベージがリビルドされます。
-  Widget build(BuildContext context, PageRef<T> page);
+  Widget build(BuildContext context, WidgetRef ref, PageRef<T> page);
 
   @override
-  State<StatefulWidget> createState() => PageWidgetState<T, PageWidget<T>>();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      PageConsumerWidgetState<T, PageConsumerWidget<T>>();
 }
 
 /// Create a state for [PageWidget].
 /// [PageWidget]用ののステートを作成します。
-class PageWidgetState<T, TState extends PageWidget<T>> extends State<TState> {
+class PageConsumerWidgetState<T, TState extends PageConsumerWidget<T>>
+    extends ConsumerState<TState> {
   late PageRef<T> _page;
 
   void _handledOnUpdate() {
@@ -80,7 +75,7 @@ class PageWidgetState<T, TState extends PageWidget<T>> extends State<TState> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: widget.build(context, _page),
+      child: widget.build(context, ref, _page),
     );
   }
 }
@@ -97,7 +92,7 @@ class PageWidgetState<T, TState extends PageWidget<T>> extends State<TState> {
 /// Referencing or updating that [PageRef] will preserve or rebuild the widget's value.
 /// その[PageRef]を参照したり、更新したりすることでウィジェットの値を保持したりリビルドしたりします。
 @immutable
-abstract class PageWidgetBuilder<T> extends StatefulWidget {
+abstract class PageConsumerWidgetBuilder<T> extends ConsumerStatefulWidget {
   /// A method to achieve the same functionality as [PageWidget] without the [T] argument.
   /// [PageWidget]と同じ機能を[T]の引数を与えずに実現するためのメソッド。
   ///
@@ -109,7 +104,7 @@ abstract class PageWidgetBuilder<T> extends StatefulWidget {
   ///
   /// Referencing or updating that [PageRef] will preserve or rebuild the widget's value.
   /// その[PageRef]を参照したり、更新したりすることでウィジェットの値を保持したりリビルドしたりします。
-  const PageWidgetBuilder({super.key});
+  const PageConsumerWidgetBuilder({super.key});
 
   /// Runs when a widget is created and creates a [T] object associated with the page.
   /// ウィジェット作成時に実行され、ページに関連した[T]のオブジェクトを作成します。
@@ -126,17 +121,17 @@ abstract class PageWidgetBuilder<T> extends StatefulWidget {
   ///
   /// The [PageRef] associated with this [PageWidget] is passed to [page]. Page-related information is passed here. Also, updating `page.value` will rebuild the page.
   /// [page]にこの[PageWidget]に関連した[PageRef]が渡されます。ここにページ関連の情報が渡されます。また`page.value`を更新することでベージがリビルドされます。
-  Widget build(BuildContext context, PageRef<T> page);
+  Widget build(BuildContext context, WidgetRef ref, PageRef<T> page);
 
   @override
-  State<StatefulWidget> createState() =>
-      PageWidgetBuilderState<T, PageWidgetBuilder<T>>();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      PageConsumerWidgetBuilderState<T, PageConsumerWidgetBuilder<T>>();
 }
 
 /// Create a state for [PageWidgetBuilder].
 /// [PageWidgetBuilder]用ののステートを作成します。
-class PageWidgetBuilderState<T, TState extends PageWidgetBuilder<T>>
-    extends State<TState> {
+class PageConsumerWidgetBuilderState<T,
+    TState extends PageConsumerWidgetBuilder<T>> extends ConsumerState<TState> {
   late PageRef<T> _page;
 
   void _handledOnUpdate() {
@@ -160,7 +155,7 @@ class PageWidgetBuilderState<T, TState extends PageWidgetBuilder<T>>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: widget.build(context, _page),
+      child: widget.build(context, ref, _page),
     );
   }
 }

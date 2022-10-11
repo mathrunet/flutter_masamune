@@ -13,11 +13,13 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-part "src/route_query.dart";
-part "src/reroute_query.dart";
-part "src/page_query.dart";
-part 'src/route_query_type.dart';
+export 'package:katana/katana.dart';
+export 'package:katana_router_annotation/katana_router_annotation.dart';
+
 part "src/extensions.dart";
+part "src/page_query.dart";
 part 'src/page_route_query.dart';
-part 'src/page_path.dart';
 part 'src/page_widget.dart';
+part "src/reroute_query.dart";
+part "src/route_query.dart";
+part 'src/route_query_type.dart';

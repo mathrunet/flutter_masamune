@@ -1,4 +1,4 @@
-part of katana_router;
+part of katana_router_riverpod_annotation;
 
 /// Annotation defining the page.
 /// ページを定義するアノテーション。
@@ -21,8 +21,7 @@ part of katana_router;
 ///   }
 /// }
 /// ```
-@immutable
-class PagePath {
+class ConsumerPagePath {
   /// Annotation defining the page.
   /// ページを定義するアノテーション。
   ///
@@ -44,10 +43,12 @@ class PagePath {
   ///   }
   /// }
   /// ```
-  const PagePath(
-    this.path, [
-    this.reroute = const [],
-  ]);
+  const ConsumerPagePath(
+    this.path,
+    //   [
+    //   this.reroute = const [],
+    // ]
+  );
 
   /// Page path.
   /// ページパス。
@@ -58,5 +59,5 @@ class PagePath {
   ///
   /// When [reroute] is set, it is possible to write reroute settings for only that page.
   /// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
-  final List<RerouteQuery> reroute;
+  // final List<RerouteQuery> reroute;
 }
