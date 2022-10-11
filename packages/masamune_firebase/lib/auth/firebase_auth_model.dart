@@ -4,9 +4,9 @@ final firebaseAuthProvider = ChangeNotifierProvider((_) => FirebaseAuthModel());
 
 /// This is the model for controlling FirebaseAuth.
 ///
-/// The current [User] is saved in [value].
+/// The current [User] is saved in [page].
 ///
-/// If you are not logged in, [value] will be [Null].
+/// If you are not logged in, [page] will be [Null].
 ///
 /// [tryRestoreAuth] to restore the authentication.
 class FirebaseAuthModel extends Model<User?> {

@@ -340,9 +340,9 @@ packages:
   firebase_model_notifier:
     dependency: "direct main"
     description:
-      name: firebase_model_notifier
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../firebase_model_notifier"
+      relative: true
+    source: path
     version: "0.15.1+11"
   firebase_storage:
     dependency: "direct main"
@@ -470,47 +470,47 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.5+1"
   katana_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_annotation"
+      relative: true
+    source: path
     version: "0.15.0+7"
   katana_firebase:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_firebase
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_firebase"
+      relative: true
+    source: path
     version: "0.15.0+7"
   katana_flutter:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_flutter"
+      relative: true
+    source: path
     version: "0.15.0+7"
   katana_module:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_module
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.15.0+17"
+      path: "../katana_module"
+      relative: true
+    source: path
+    version: "0.15.0+18"
   katana_routing:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_routing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.15.0+10"
+      path: "../katana_routing"
+      relative: true
+    source: path
+    version: "0.15.0+11"
   loading_indicator:
     dependency: transitive
     description:
@@ -521,10 +521,10 @@ packages:
   masamune:
     dependency: "direct main"
     description:
-      name: masamune
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.15.1+5"
+      path: "../masamune"
+      relative: true
+    source: path
+    version: "0.15.1+6"
   matcher:
     dependency: transitive
     description:
@@ -554,11 +554,11 @@ packages:
     source: hosted
     version: "1.0.2"
   model_notifier:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: model_notifier
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../model_notifier"
+      relative: true
+    source: path
     version: "0.15.1+6"
   nm:
     dependency: transitive

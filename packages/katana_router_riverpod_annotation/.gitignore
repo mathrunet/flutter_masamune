@@ -72,3 +72,8 @@ build/
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
+
+# Example
+example/**/google-services.json
+example/**/GoogleService-Info.plist
+example/**/firebase_options.dart

@@ -274,33 +274,33 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.5+1"
   katana_annotation:
     dependency: "direct main"
     description:
-      name: katana_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_annotation"
+      relative: true
+    source: path
     version: "0.15.0+7"
   katana_flutter:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_flutter"
+      relative: true
+    source: path
     version: "0.15.0+7"
   katana_routing:
     dependency: "direct main"
     description:
-      name: katana_routing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.15.0+10"
+      path: "../katana_routing"
+      relative: true
+    source: path
+    version: "0.15.0+11"
   matcher:
     dependency: transitive
     description:
@@ -332,9 +332,9 @@ packages:
   model_notifier:
     dependency: "direct main"
     description:
-      name: model_notifier
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../model_notifier"
+      relative: true
+    source: path
     version: "0.15.1+6"
   nm:
     dependency: transitive
