@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.2.1`](#katana_router---v121)
+ - [`katana_router_annotation` - `v1.2.1`](#katana_router_annotation---v121)
+ - [`katana_router_builder` - `v1.2.1`](#katana_router_builder---v121)
+ - [`katana_router_riverpod_annotation` - `v1.2.1`](#katana_router_riverpod_annotation---v121)
+ - [`katana_router_riverpod` - `v1.2.1`](#katana_router_riverpod---v121)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router_riverpod` - `v1.2.1`
+
+---
+
+#### `katana_router` - `v1.2.1`
+
+ - **FIX**: Test for Navigator 2.0 compliant. ([501d574e](https://github.com/mathrunet/flutter_masamune/commit/501d574e091485f114c6395dec6d12f68977c978))
+
+#### `katana_router_annotation` - `v1.2.1`
+
+ - **FIX**: Test for Navigator 2.0 compliant. ([501d574e](https://github.com/mathrunet/flutter_masamune/commit/501d574e091485f114c6395dec6d12f68977c978))
+
+#### `katana_router_builder` - `v1.2.1`
+
+ - **FIX**: Test for Navigator 2.0 compliant. ([501d574e](https://github.com/mathrunet/flutter_masamune/commit/501d574e091485f114c6395dec6d12f68977c978))
+
+#### `katana_router_riverpod_annotation` - `v1.2.1`
+
+ - **FIX**: Test for Navigator 2.0 compliant. ([501d574e](https://github.com/mathrunet/flutter_masamune/commit/501d574e091485f114c6395dec6d12f68977c978))
+
+
 ## 2022-10-11
 
 ### Changes
