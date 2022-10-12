@@ -80,7 +80,13 @@ class PageWidgetState<T, TState extends PageWidget<T>> extends State<TState> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: widget.build(context, _page),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light
+            .copyWith(statusBarColor: Theme.of(context).primaryColor),
+        child: SafeArea(
+          child: widget.build(context, _page),
+        ),
+      ),
     );
   }
 }
@@ -160,7 +166,13 @@ class PageWidgetBuilderState<T, TState extends PageWidgetBuilder<T>>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: widget.build(context, _page),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light
+            .copyWith(statusBarColor: Theme.of(context).primaryColor),
+        child: SafeArea(
+          child: widget.build(context, _page),
+        ),
+      ),
     );
   }
 }

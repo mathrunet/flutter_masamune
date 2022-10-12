@@ -1,6 +1,10 @@
 part of katana_router_builder;
 
-List<Class> valueClass(ClassModel model, PathModel path) {
+List<Class> valueClass(
+  ClassModel model,
+  PathModel path,
+  AnnotationModel annotation,
+) {
   return [
     Class(
       (c) => c

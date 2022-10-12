@@ -25,13 +25,19 @@ abstract class PageQuery {
   /// [query]にページ遷移を行う際の[RouteQuery]を渡すことでトランジションの方法などを指定できます。
   PageRouteQuery<T> route<T>(RouteQuery? query);
 
-  /// The reroute settings associated with this page are done by giving a list of classes that extend [RerouteQuery].
-  /// このページに紐づくリルート設定を[RerouteQuery]を継承したクラスのリストを与えることで行います。
+  /// The reroute settings associated with this page are done by giving a list of classes that extend [RedirectQuery].
+  /// このページに紐づくリルート設定を[RedirectQuery]を継承したクラスのリストを与えることで行います。
   ///
   /// This reroute setting applies only to transitions to this page.
   /// このリルート設定はこのページに遷移する際のみに適用されます。
-  List<RerouteQuery> reroute() => const [];
+  List<RedirectQuery> redirect() => const [];
 
   @override
   String toString() => path;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode => path.hashCode;
 }

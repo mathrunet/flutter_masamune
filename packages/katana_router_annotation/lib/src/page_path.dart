@@ -6,8 +6,8 @@ part of katana_router_annotation;
 /// Specify the path of the page in [path] as it is.
 /// [path]にページのパスをそのまま指定します。
 ///
-/// When [reroute] is set, it is possible to write reroute settings for only that page.
-/// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+/// When [redirect] is set, it is possible to write reroute settings for only that page.
+/// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
 ///
 /// ```dart
 /// @PagePath("/test")
@@ -28,8 +28,8 @@ class PagePath {
   /// Specify the path of the page in [path] as it is.
   /// [path]にページのパスをそのまま指定します。
   ///
-  /// When [reroute] is set, it is possible to write reroute settings for only that page.
-  /// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+  /// When [redirect] is set, it is possible to write reroute settings for only that page.
+  /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
   ///
   /// ```dart
   /// @PagePath("/test")
@@ -44,11 +44,9 @@ class PagePath {
   /// }
   /// ```
   const PagePath(
-    this.path,
-    //   [
-    //   this.reroute = const [],
-    // ]
-  );
+    this.path, {
+    this.redirect = const [],
+  });
 
   /// Page path.
   /// ページパス。
@@ -57,7 +55,10 @@ class PagePath {
   /// Reroute settings.
   /// リルート設定。
   ///
-  /// When [reroute] is set, it is possible to write reroute settings for only that page.
-  /// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
-  // final List<RerouteQuery> reroute;
+  /// When [redirect] is set, it is possible to write reroute settings for only that page.
+  /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+  ///
+  /// Only `RerouteQuery` and classes that extend it are used by the builder.
+  /// `RerouteQuery`とそれを継承したクラスのみがbuilderで利用されます。
+  final List<Object> redirect;
 }

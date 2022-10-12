@@ -8,10 +8,7 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
   flutter: ">=2.0.0"
 
-dependencies:
-  flutter:
-    sdk: flutter
- 
+dependencies: 
   katana: ^0.15.0
   katana_router_annotation: ^1.2.0
   katana_router_riverpod_annotation: ^1.2.0
@@ -24,5 +21,4 @@ dependencies:
   built_collection: ^5.1.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3

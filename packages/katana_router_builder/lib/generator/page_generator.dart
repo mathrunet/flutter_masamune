@@ -22,6 +22,7 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
       );
     }
 
+    final _annotation = AnnotationModel(element, PagePath);
     final _path =
         PathModel("/${annotation.read("path").stringValue.trimString("/")}");
     final _class = ClassModel(element);
@@ -29,12 +30,12 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
     for (final param in _path.parameters) {
       if (!_class.parameters.any((e) => e.name == param.camelCase)) {
         throw InvalidGenerationSourceError(
-          "A path variable is defined in {${param.snakeCase}}, but `${param.camelCase}` is not defined as a page argument."
-          "Add the following arguments"
-          ""
-          "```"
-          "required String ${param.camelCase},"
-          "```",
+          "A path variable is defined in {${param.snakeCase}}, but `${param.camelCase}` is not defined as a page argument.\n"
+          "Add the following arguments\n"
+          "\n"
+          "```\n"
+          "required String ${param.camelCase},\n"
+          "```\n",
           element: element,
         );
       }
@@ -42,11 +43,11 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
         (e) => e.name == param.camelCase && e.type.toString() == "String",
       )) {
         throw InvalidGenerationSourceError(
-          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but the type is not `String`."
-          ""
-          "```"
-          "required String ${param.camelCase},"
-          "```",
+          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but the type is not `String`.\n"
+          "\n"
+          "```\n"
+          "required String ${param.camelCase},\n"
+          "```\n",
           element: element,
         );
       }
@@ -56,12 +57,12 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
             (e.element.isRequired || e.defaultValue != null),
       )) {
         throw InvalidGenerationSourceError(
-          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but it is not `required` or the default value is not set."
-          "Add the following arguments"
-          ""
-          "```"
-          "required String ${param.camelCase},"
-          "```",
+          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but it is not `required` or the default value is not set.\n"
+          "Add the following arguments\n"
+          "\n"
+          "```\n"
+          "required String ${param.camelCase},\n"
+          "```\n",
           element: element,
         );
       }
@@ -71,9 +72,9 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
       (l) => l
         ..body.addAll(
           [
-            ...queryClass(_class, _path),
-            ...valueClass(_class, _path),
-            ...extendsClass(_class, _path),
+            ...queryClass(_class, _path, _annotation),
+            ...valueClass(_class, _path, _annotation),
+            ...extendsClass(_class, _path, _annotation),
           ],
         ),
     );

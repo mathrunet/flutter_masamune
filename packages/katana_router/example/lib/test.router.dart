@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators
 
 part of 'test.dart';
 
@@ -7,10 +7,23 @@ part of 'test.dart';
 // **************************************************************************
 
 @immutable
-class _$MainPageQuery {
+class _$MainPageQuery extends PageQueryBuilder {
   const _$MainPageQuery();
 
+  static final _regExp = RegExp(r"^$");
+
   _$_MainPageQuery call() => _$_MainPageQuery();
+
+  
+  @override
+  PageQuery? resolve(String? path) {
+    final match = _regExp
+        .firstMatch(path?.trimQuery().trimString("/") ?? "");
+    if (match == null) {
+      return null;
+    }
+    return _$_MainPageQuery();
+  }
 }
 
 @immutable
@@ -19,6 +32,8 @@ class _$_MainPageQuery extends PageQuery {
 
   @override
   String get path => "";
+  @override
+  List<RerouteQuery> reroute() => const [];
   @override
   PageRouteQuery<T> route<T>([RouteQuery? query]) {
     return PageRouteQuery<T>(
@@ -68,11 +83,22 @@ abstract class _$MainPage extends PageWidgetBuilder<$MainPage> {
 class _MainPageState extends PageWidgetBuilderState<$MainPage, _MainPage> {}
 
 @immutable
-class _$UserPageQuery {
+class _$UserPageQuery extends PageQueryBuilder {
   const _$UserPageQuery();
+
+  static final _regExp = RegExp(r"^page/(?<userId>[^/?&]+)$");
 
   _$_UserPageQuery call({required String userId}) =>
       _$_UserPageQuery(userId: userId);
+  @override
+  PageQuery? match(RouteSettings routeSettings) {
+    final match = _regExp
+        .firstMatch(routeSettings.name?.trimQuery().trimString("/") ?? "");
+    if (match == null) {
+      return null;
+    }
+    return _$_UserPageQuery(userId: match.namedGroup("userId") ?? "");
+  }
 }
 
 @immutable
@@ -83,6 +109,8 @@ class _$_UserPageQuery extends PageQuery {
 
   @override
   String get path => "page/$userId";
+  @override
+  List<RerouteQuery> reroute() => const [];
   @override
   PageRouteQuery<T> route<T>([RouteQuery? query]) {
     return PageRouteQuery<T>(
@@ -138,11 +166,22 @@ abstract class _$UserPage extends PageWidgetBuilder<$UserPage> {
 class _UserPageState extends PageWidgetBuilderState<$UserPage, _UserPage> {}
 
 @immutable
-class _$ContentPageQuery {
+class _$ContentPageQuery extends PageQueryBuilder {
   const _$ContentPageQuery();
+
+  static final _regExp = RegExp(r"^content/(?<contentId>[^/?&]+)$");
 
   _$_ContentPageQuery call({required String contentId}) =>
       _$_ContentPageQuery(contentId: contentId);
+  @override
+  PageQuery? match(RouteSettings routeSettings) {
+    final match = _regExp
+        .firstMatch(routeSettings.name?.trimQuery().trimString("/") ?? "");
+    if (match == null) {
+      return null;
+    }
+    return _$_ContentPageQuery(contentId: match.namedGroup("contentId") ?? "");
+  }
 }
 
 @immutable
@@ -153,6 +192,8 @@ class _$_ContentPageQuery extends PageQuery {
 
   @override
   String get path => "content/$contentId";
+  @override
+  List<RerouteQuery> reroute() => const [];
   @override
   PageRouteQuery<T> route<T>([RouteQuery? query]) {
     return PageRouteQuery<T>(

@@ -44,11 +44,9 @@ class ConsumerPagePath {
   /// }
   /// ```
   const ConsumerPagePath(
-    this.path,
-    //   [
-    //   this.reroute = const [],
-    // ]
-  );
+    this.path, {
+    this.reroute = const [],
+  });
 
   /// Page path.
   /// ページパス。
@@ -59,5 +57,8 @@ class ConsumerPagePath {
   ///
   /// When [reroute] is set, it is possible to write reroute settings for only that page.
   /// [reroute]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
-  // final List<RerouteQuery> reroute;
+  ///
+  /// Only `RerouteQuery` and classes that extend it are used by the builder.
+  /// `RerouteQuery`とそれを継承したクラスのみがbuilderで利用されます。
+  final List<Object> reroute;
 }

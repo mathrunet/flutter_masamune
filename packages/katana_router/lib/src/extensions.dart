@@ -62,8 +62,9 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
     PageQuery newRoutePage, [
     RouteQuery? query,
   ]) async {
+    final route = newRoutePage.route<T>(query);
     return resetAndPush<T>(
-      (await _reroute(newRoutePage)).route<T>(query),
+      route,
     );
   }
 
@@ -99,8 +100,9 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
     PageQuery routePage, [
     RouteQuery? query,
   ]) async {
+    final route = routePage.route<T>(query);
     return push<T>(
-      (await _reroute(routePage)).route<T>(query),
+      route,
     );
   }
 
@@ -117,8 +119,9 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
     RoutePredicate predicate, [
     RouteQuery? query,
   ]) async {
+    final route = newRoutePage.route<T>(query);
     return pushAndRemoveUntil<T>(
-      (await _reroute(newRoutePage)).route<T>(query),
+      route,
       predicate,
     );
   }
@@ -137,23 +140,9 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
     RouteQuery? query,
   }) async {
     return pushReplacement<T, TO>(
-      (await _reroute(routePage)).route<T>(query),
+      routePage.route<T>(query),
       result: result,
     );
-  }
-
-  FutureOr<PageQuery> _reroute(PageQuery source) async {
-    final reroutes = [
-      ...source.reroute(),
-      ...RerouteQueryScope._of(context)?.rerouteQueries ?? [],
-    ];
-    for (final reroute in reroutes) {
-      final tmp = await reroute.validate(context, source);
-      if (tmp != null) {
-        return tmp;
-      }
-    }
-    return source;
   }
 }
 

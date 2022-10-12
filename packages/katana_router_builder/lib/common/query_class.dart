@@ -1,14 +1,32 @@
 part of katana_router_builder;
 
-List<Class> queryClass(ClassModel model, PathModel path) {
+List<Class> queryClass(
+  ClassModel model,
+  PathModel path,
+  AnnotationModel annotation,
+) {
   return [
     Class(
       (c) => c
         ..name = "_\$${model.name}Query"
+        ..extend = const Reference("PageQueryBuilder")
         ..annotations = ListBuilder([const Reference("immutable")])
         ..constructors = ListBuilder([
           Constructor(
             (c) => c..constant = true,
+          )
+        ])
+        ..fields = ListBuilder([
+          Field(
+            (f) => f
+              ..name = "_regExp"
+              ..static = true
+              ..modifier = FieldModifier.final$
+              ..assignment = Code(
+                "RegExp(r\"^${path.path.trimQuery().trimString("/").replaceAllMapped(pathRegExp, (match) {
+                  return "(?<${match.group(1)?.toCamelCase()}>[^/?&]+)";
+                })}\$\")",
+              ),
           )
         ])
         ..methods = ListBuilder([
@@ -30,6 +48,32 @@ List<Class> queryClass(ClassModel model, PathModel path) {
               ])
               ..body = Code(
                 "_\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "query"
+              ..annotations = ListBuilder([const Reference("override")])
+              ..returns = const Reference("PageQuery")
+              ..type = MethodType.getter
+              ..body = Code(
+                "_\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:${_defaultValue(param)}").join(",")})",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "resolve"
+              ..annotations = ListBuilder([const Reference("override")])
+              ..returns = const Reference("PageQuery?")
+              ..requiredParameters = ListBuilder([
+                Parameter(
+                  (p) => p
+                    ..name = "path"
+                    ..type = const Reference("String?"),
+                )
+              ])
+              ..body = Code(
+                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null) {return null;} return _\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:match.namedGroup(\"${param.name}\") ?? ${_defaultValue(param)}").join(",")});",
               ),
           ),
         ]),
@@ -78,6 +122,14 @@ List<Class> queryClass(ClassModel model, PathModel path) {
                   "\"${path.path.trimQuery().trimString("/").replaceAllMapped(pathRegExp, (match) {
                 return "\$${match.group(1)?.toCamelCase()}";
               })}\""),
+          ),
+          Method(
+            (m) => m
+              ..name = "redirect"
+              ..annotations = ListBuilder([const Reference("override")])
+              ..lambda = true
+              ..returns = const Reference("List<RedirectQuery>")
+              ..body = Code("const [${annotation.redirectQueries.join(",")}]"),
           ),
           Method(
             (m) => m

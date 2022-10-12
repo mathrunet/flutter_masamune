@@ -7,6 +7,7 @@ class ConsumerPageGenerator extends GeneratorForAnnotation<ConsumerPagePath> {
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
+
     if (!element.library!.isNonNullableByDefault) {
       throw InvalidGenerationSourceError(
         "Generator cannot target libraries that have not been migrated to "
@@ -22,6 +23,7 @@ class ConsumerPageGenerator extends GeneratorForAnnotation<ConsumerPagePath> {
       );
     }
 
+    final _annotation = AnnotationModel(element, ConsumerPagePath);
     final _path =
         PathModel("/${annotation.read("path").stringValue.trimString("/")}");
     final _class = ClassModel(element);
@@ -29,12 +31,12 @@ class ConsumerPageGenerator extends GeneratorForAnnotation<ConsumerPagePath> {
     for (final param in _path.parameters) {
       if (!_class.parameters.any((e) => e.name == param.camelCase)) {
         throw InvalidGenerationSourceError(
-          "A path variable is defined in {${param.snakeCase}}, but `${param.camelCase}` is not defined as a page argument."
-          "Add the following arguments"
-          ""
-          "```"
-          "required String ${param.camelCase},"
-          "```",
+          "A path variable is defined in {${param.snakeCase}}, but `${param.camelCase}` is not defined as a page argument.\n"
+          "Add the following arguments\n"
+          "\n"
+          "```\n"
+          "required String ${param.camelCase},\n"
+          "```\n",
           element: element,
         );
       }
@@ -42,11 +44,11 @@ class ConsumerPageGenerator extends GeneratorForAnnotation<ConsumerPagePath> {
         (e) => e.name == param.camelCase && e.type.toString() == "String",
       )) {
         throw InvalidGenerationSourceError(
-          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but the type is not `String`."
-          ""
-          "```"
-          "required String ${param.camelCase},"
-          "```",
+          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but the type is not `String`.\n"
+          "\n"
+          "```\n"
+          "required String ${param.camelCase},\n"
+          "```\n",
           element: element,
         );
       }
@@ -56,12 +58,12 @@ class ConsumerPageGenerator extends GeneratorForAnnotation<ConsumerPagePath> {
             (e.element.isRequired || e.defaultValue != null),
       )) {
         throw InvalidGenerationSourceError(
-          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but it is not `required` or the default value is not set."
-          "Add the following arguments"
-          ""
-          "```"
-          "required String ${param.camelCase},"
-          "```",
+          "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but it is not `required` or the default value is not set.\n"
+          "Add the following arguments\n"
+          "\n"
+          "```\n"
+          "required String ${param.camelCase},\n"
+          "```\n",
           element: element,
         );
       }
@@ -71,9 +73,9 @@ class ConsumerPageGenerator extends GeneratorForAnnotation<ConsumerPagePath> {
       (l) => l
         ..body.addAll(
           [
-            ...queryClass(_class, _path),
-            ...valueClass(_class, _path),
-            ...consumerExtendsClass(_class, _path),
+            ...queryClass(_class, _path, _annotation),
+            ...valueClass(_class, _path, _annotation),
+            ...consumerExtendsClass(_class, _path, _annotation),
           ],
         ),
     );
