@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - Update a dependency to the latest release.
+
 ## 1.2.2
 
  - **FIX**: Navigator2.0 support completed. ([d1fdabf6](https://github.com/mathrunet/flutter_masamune/commit/d1fdabf6eb70dfd99e82563e553e0cdb4dc983d2))

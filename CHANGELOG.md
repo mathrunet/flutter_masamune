@@ -15,6 +15,88 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.2.3`](#katana_router---v123)
+ - [`katana_router_riverpod_annotation` - `v1.2.2`](#katana_router_riverpod_annotation---v122)
+ - [`katana_routing` - `v0.15.0+12`](#katana_routing---v015012)
+ - [`katana_router_riverpod` - `v1.2.3`](#katana_router_riverpod---v123)
+ - [`katana_router_builder` - `v1.2.3`](#katana_router_builder---v123)
+ - [`katana_module` - `v0.15.0+19`](#katana_module---v015019)
+ - [`masamune` - `v0.15.3+1`](#masamune---v01531)
+ - [`masamune_agora` - `v0.15.0+22`](#masamune_agora---v015022)
+ - [`masamune_location` - `v0.15.0+21`](#masamune_location---v015021)
+ - [`masamune_local_messaging` - `v0.15.0+21`](#masamune_local_messaging---v015021)
+ - [`masamune_media` - `v0.15.0+21`](#masamune_media---v015021)
+ - [`masamune_purchase` - `v0.15.0+21`](#masamune_purchase---v015021)
+ - [`masamune_ui` - `v0.15.0+21`](#masamune_ui---v015021)
+ - [`masamune_firebase` - `v0.15.0+21`](#masamune_firebase---v015021)
+ - [`masamune_ads` - `v0.15.0+21`](#masamune_ads---v015021)
+ - [`masamune_wordpress` - `v0.15.0+21`](#masamune_wordpress---v015021)
+ - [`masamune_purchase_firebase` - `v0.15.0+21`](#masamune_purchase_firebase---v015021)
+ - [`masamune_module` - `v0.15.0+21`](#masamune_module---v015021)
+ - [`masamune_firebase_messaging` - `v0.15.0+21`](#masamune_firebase_messaging---v015021)
+ - [`masamune_notion` - `v0.15.0+21`](#masamune_notion---v015021)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+21`](#masamune_firebase_dynamic_links---v015021)
+ - [`masamune_signin_apple` - `v0.15.0+21`](#masamune_signin_apple---v015021)
+ - [`masamune_signin_facebook` - `v0.15.0+21`](#masamune_signin_facebook---v015021)
+ - [`masamune_purchase_stripe` - `v0.15.0+21`](#masamune_purchase_stripe---v015021)
+ - [`masamune_signin_google` - `v0.15.0+21`](#masamune_signin_google---v015021)
+ - [`masamune_signin_twitter` - `v0.15.0+21`](#masamune_signin_twitter---v015021)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router_riverpod` - `v1.2.3`
+ - `katana_router_builder` - `v1.2.3`
+ - `katana_module` - `v0.15.0+19`
+ - `masamune` - `v0.15.3+1`
+ - `masamune_agora` - `v0.15.0+22`
+ - `masamune_location` - `v0.15.0+21`
+ - `masamune_local_messaging` - `v0.15.0+21`
+ - `masamune_media` - `v0.15.0+21`
+ - `masamune_purchase` - `v0.15.0+21`
+ - `masamune_ui` - `v0.15.0+21`
+ - `masamune_firebase` - `v0.15.0+21`
+ - `masamune_ads` - `v0.15.0+21`
+ - `masamune_wordpress` - `v0.15.0+21`
+ - `masamune_purchase_firebase` - `v0.15.0+21`
+ - `masamune_module` - `v0.15.0+21`
+ - `masamune_firebase_messaging` - `v0.15.0+21`
+ - `masamune_notion` - `v0.15.0+21`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+21`
+ - `masamune_signin_apple` - `v0.15.0+21`
+ - `masamune_signin_facebook` - `v0.15.0+21`
+ - `masamune_purchase_stripe` - `v0.15.0+21`
+ - `masamune_signin_google` - `v0.15.0+21`
+ - `masamune_signin_twitter` - `v0.15.0+21`
+
+---
+
+#### `katana_router` - `v1.2.3`
+
+ - **FIX**: Renaming classes, etc. ([fb7a138f](https://github.com/mathrunet/flutter_masamune/commit/fb7a138f37b794641f8ae40e34872e92734abc43))
+
+#### `katana_router_riverpod_annotation` - `v1.2.2`
+
+ - **FIX**: Renaming classes, etc. ([fb7a138f](https://github.com/mathrunet/flutter_masamune/commit/fb7a138f37b794641f8ae40e34872e92734abc43))
+
+#### `katana_routing` - `v0.15.0+12`
+
+ - **FIX**: Renaming classes, etc. ([fb7a138f](https://github.com/mathrunet/flutter_masamune/commit/fb7a138f37b794641f8ae40e34872e92734abc43))
+
+
+## 2022-10-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.2.2`](#katana_router---v122)
  - [`katana_router_builder` - `v1.2.2`](#katana_router_builder---v122)
  - [`katana_router_riverpod` - `v1.2.2`](#katana_router_riverpod---v122)

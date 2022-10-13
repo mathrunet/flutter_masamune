@@ -1,3 +1,7 @@
+## 0.15.3+1
+
+ - Update a dependency to the latest release.
+
 ## 0.15.3
 
  - **FEAT**: Adding new providers. ([a3fb7e05](https://github.com/mathrunet/flutter_masamune/commit/a3fb7e05317623197d3b4b97e6e84728cf67b8ca))

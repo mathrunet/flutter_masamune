@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Renaming classes, etc. ([fb7a138f](https://github.com/mathrunet/flutter_masamune/commit/fb7a138f37b794641f8ae40e34872e92734abc43))
+
 ## 1.2.2
 
  - **FIX**: Navigator2.0 support completed. ([d1fdabf6](https://github.com/mathrunet/flutter_masamune/commit/d1fdabf6eb70dfd99e82563e553e0cdb4dc983d2))

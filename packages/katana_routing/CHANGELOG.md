@@ -1,3 +1,7 @@
+## 0.15.0+12
+
+ - **FIX**: Renaming classes, etc. ([fb7a138f](https://github.com/mathrunet/flutter_masamune/commit/fb7a138f37b794641f8ae40e34872e92734abc43))
+
 ## 0.15.0+11
 
  - **FIX**: Fixed a bug that caused transitions to be fullscreen. ([e629417e](https://github.com/mathrunet/flutter_masamune/commit/e629417e32b82b5415957b7639adf6e3bb2d4826))
