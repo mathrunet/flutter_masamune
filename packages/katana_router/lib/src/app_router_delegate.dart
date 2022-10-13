@@ -19,7 +19,7 @@ class _AppRouterDelegate extends RouterDelegate<PageQuery> with ChangeNotifier {
     return AppRouteScope(
       router: router,
       child: Navigator(
-        pages: router._pageStack.map((e) => e.query).toList(),
+        pages: router._pageStack.map((e) => e.route).toList(),
         observers: observers,
         restorationScopeId: restorationScopeId,
         onPopPage: (route, result) {

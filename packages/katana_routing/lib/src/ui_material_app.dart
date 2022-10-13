@@ -22,6 +22,7 @@ class UIMaterialApp extends StatelessWidget {
     this.themeMode = ThemeMode.system,
     this.locale,
     this.localizationsDelegates,
+    this.onGenerateRoute,
     this.localeListResolutionCallback,
     this.localeResolutionCallback,
     this.supportedLocales = const <Locale>[
@@ -64,6 +65,7 @@ class UIMaterialApp extends StatelessWidget {
   final AppTheme? theme;
   final AppTheme? darkTheme;
   final ThemeMode themeMode;
+  final RouteFactory? onGenerateRoute;
   final Locale? locale;
   final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
   final Locale? Function(List<Locale>?, Iterable<Locale>)?
@@ -131,6 +133,7 @@ class UIMaterialApp extends StatelessWidget {
             maxTextScaleFactor: maxTextScaleFactor,
             home: home,
             builder: builder,
+            onGenerateRoute: onGenerateRoute,
             navigatorKey: navigatorKey,
             initialRoute: initialRoute,
             homeRoute: homeRoute,
@@ -186,6 +189,7 @@ class _MaterialApp extends ConsumerWidget {
       Locale("ja"),
       Locale("zh"),
     ],
+    this.onGenerateRoute,
     this.debugShowMaterialGrid = false,
     this.showPerformanceOverlay = false,
     this.checkerboardRasterCacheImages = false,
@@ -209,6 +213,7 @@ class _MaterialApp extends ConsumerWidget {
   final RouteFactory? onGenerateTitle;
   final RouteConfig? onUnknownRoute;
   final RouteConfig? onBootRoute;
+  final RouteFactory? onGenerateRoute;
   final Color? color;
   final AppTheme? theme;
   final AppTheme? darkTheme;
@@ -235,7 +240,8 @@ class _MaterialApp extends ConsumerWidget {
       home: home?.call(context),
       onGenerateRoute: home != null
           ? null
-          : (settings) => RouteConfig.onGenerateRoute(context, settings),
+          : onGenerateRoute ??
+              (settings) => RouteConfig.onGenerateRoute(context, settings),
       onGenerateInitialRoutes: home != null
           ? null
           : (initialRouteName) => RouteConfig._onGenerateInitialRoute(

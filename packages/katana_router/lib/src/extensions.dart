@@ -149,30 +149,21 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
 /// Provides extension methods for [BuildContext].
 /// [BuildContext]の拡張メソッドを提供します。
 extension RoutingBuildContedxtExtensions on BuildContext {
+  /// Get [AppRouter].
+  /// [AppRouter]を取得します。
+  ///
+  /// Page transitions can be performed directly by executing [AppRouter.push], [AppRouter.replace], or [AppRouter.pop].
+  /// [AppRouter.push]や[AppRouter.replace]、[AppRouter.pop]を実行することでページ遷移を直接行うことが可能です。
   AppRouter get router {
     return AppRouter.of(this);
   }
 
+  /// Get the root [AppRouter].
+  /// ルートの[AppRouter]を取得します。
+  ///
+  /// Page transitions can be performed directly by executing [AppRouter.push], [AppRouter.replace], or [AppRouter.pop].
+  /// [AppRouter.push]や[AppRouter.replace]、[AppRouter.pop]を実行することでページ遷移を直接行うことが可能です。
   AppRouter get rootRouter {
     return AppRouter.of(this, root: true);
   }
-  // /// Navigaor can be obtained.
-  // /// Navigaorを取得できます。
-  // NavigatorState get navigator {
-  //   return Navigator.of(this);
-  // }
-
-  // /// Get the most route navigator.
-  // /// 一番ルートのナビゲーターを取得します。
-  // NavigatorState get rootNavigator {
-  //   return Navigator.of(this, rootNavigator: true);
-  // }
-
-  // /// Browse the route settings.
-  // /// ルートの設定を参照します。
-  // ///
-  // /// If no route settings are passed or if it is the first page, an empty [RouteSettings] is returned.
-  // /// ルートの設定が渡されていない場合や最初のページの場合は空の[RouteSettings]が返されます。
-  // RouteSettings get route =>
-  //     ModalRoute.of(this)?.settings ?? const RouteSettings();
 }

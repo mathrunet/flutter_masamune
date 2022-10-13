@@ -163,8 +163,9 @@ class AppRouter extends ChangeNotifier
     final completer = Completer<E?>();
     _pageStack.add(
       _PageStackContainer<E>(
-        pageQuery.route<E>(routeQuery ?? _config.defaultRouteQuery),
-        completer,
+        query: pageQuery,
+        route: pageQuery.route<E>(routeQuery ?? _config.defaultRouteQuery),
+        completer: completer,
       ),
     );
     _routerDelegate.notifyListeners();
@@ -205,8 +206,38 @@ class AppRouter extends ChangeNotifier
       return;
     }
     final container = _pageStack.removeLast();
-    _routerDelegate.notifyListeners();
     container.completer.complete(result);
+    _routerDelegate.notifyListeners();
+  }
+
+  void popUntil<E>(bool Function(PageQuery query) predicate, [E? result]) {
+    var index = _pageStack.length - 1;
+    while (index >= 0 && !predicate(_pageStack[index].query)) {
+      final container = _pageStack.removeAt(index);
+      container.completer.complete(result);
+      index -= 1;
+    }
+    _routerDelegate.notifyListeners();
+  }
+
+  void reset<E>([E? result]) {
+    var index = _pageStack.length - 1;
+    while (index >= 0) {
+      final container = _pageStack.removeAt(index);
+      container.completer.complete(result);
+      index -= 1;
+    }
+    _routerDelegate.notifyListeners();
+  }
+
+  Future<E?> resetAndPush<E>(PageQuery pageQuery, [RouteQuery? routeQuery]) {
+    var index = _pageStack.length - 1;
+    while (index >= 0) {
+      final container = _pageStack.removeAt(index);
+      container.completer.complete(null);
+      index -= 1;
+    }
+    return push<E>(pageQuery, routeQuery);
   }
 
   /// Refresh the current page.
@@ -313,9 +344,14 @@ class AppRouteScope extends InheritedWidget {
 
 @immutable
 class _PageStackContainer<T> {
-  const _PageStackContainer(this.query, this.completer);
+  const _PageStackContainer({
+    required this.query,
+    required this.route,
+    required this.completer,
+  });
 
-  final PageRouteQuery<T> query;
+  final PageRouteQuery<T> route;
+  final PageQuery query;
 
   final Completer<T?> completer;
 }

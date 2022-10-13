@@ -142,7 +142,7 @@ extension $$streamModelExtensions on WidgetRef {
     )
       ..load()
       ..append((value) {
-        final userId = value?.user?.query.path.last() ?? "";
+        final userId = value?.user?.route.path.last() ?? "";
         final users = userId.isEmpty ? null : watchUserModelCollection(key: );
         return value;
       });
