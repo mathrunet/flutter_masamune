@@ -10,7 +10,7 @@ class MainPage extends _$MainPage {
   const factory MainPage() = _MainPage;
   const MainPage._();
 
-  static const query = _$MainPageQuery;
+  static const query = _$MainPageQuery();
 
   @override
   Widget build(BuildContext context, PageRef<$MainPage> page) {
@@ -22,15 +22,26 @@ class MainPage extends _$MainPage {
           children: [
             ListTile(
               title: const Text("UserPage"),
-              onTap: () {
-                context.navigator.pushPage(UserPage.query(userId: "aaaa"));
+              onTap: () async {
+                final aa = await context.router.push<String>(
+                  UserPage.query(userId: "aaaa"),
+                  RouteQuery.fullscreen,
+                );
+                print(aa);
               },
             ),
             ListTile(
               title: const Text("ContentPage"),
+              onTap: () async {
+                final cc = await context.router
+                    .replace<int>(ContentPage.query(contentId: "bbbb"));
+                print(cc.toString());
+              },
+            ),
+            ListTile(
+              title: const Text("Pop"),
               onTap: () {
-                context.navigator
-                    .pushPage(ContentPage.query(contentId: "bbbb"));
+                context.router.pop();
               },
             )
           ],
@@ -54,8 +65,9 @@ class UserPage extends _$UserPage {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          page.value =
-              page.value.copyWith(userId: Random().rangeInt(0, 100).toString());
+          context.router.pop("aaa");
+          // page.value =
+          //     page.value.copyWith(userId: Random().rangeInt(0, 100).toString());
         },
         child: Icon(Icons.abc),
       ),
@@ -83,8 +95,9 @@ class ContentPage extends _$ContentPage {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          page.value = page.value
-              .copyWith(contentId: Random().rangeInt(0, 100).toString());
+          context.router.pop(100);
+          // page.value = page.value
+          //     .copyWith(contentId: Random().rangeInt(0, 100).toString());
         },
         child: Icon(Icons.abc),
       ),

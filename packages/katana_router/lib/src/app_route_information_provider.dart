@@ -1,0 +1,94 @@
+part of katana_router;
+
+class _AppRouteInformationProvider extends RouteInformationProvider
+    with WidgetsBindingObserver, ChangeNotifier {
+  _AppRouteInformationProvider({
+    required RouteInformation initialRouteInformation,
+  }) : _value = initialRouteInformation;
+
+  // ignore: unnecessary_non_null_assertion
+  static WidgetsBinding get _binding => WidgetsBinding.instance;
+
+  @override
+  RouteInformation get value => RouteInformation(
+        location: _value.location,
+        state: _value.state,
+      );
+  RouteInformation _value;
+
+  set value(RouteInformation other) {
+    final bool shouldNotify =
+        _value.location != other.location || _value.state != other.state;
+    _value = other;
+    if (shouldNotify) {
+      notifyListeners();
+    }
+  }
+
+  RouteInformation _valueInEngine =
+      RouteInformation(location: _binding.platformDispatcher.defaultRouteName);
+
+  @override
+  void routerReportsNewRouteInformation(
+    RouteInformation routeInformation, {
+    RouteInformationReportingType type = RouteInformationReportingType.none,
+  }) {
+    final bool replace = type == RouteInformationReportingType.neglect ||
+        (type == RouteInformationReportingType.none &&
+            _valueInEngine.location == routeInformation.location);
+    SystemNavigator.selectMultiEntryHistory();
+    SystemNavigator.routeInformationUpdated(
+      location: routeInformation.location!,
+      replace: replace,
+    );
+    _value = routeInformation;
+    _valueInEngine = routeInformation;
+  }
+
+  @override
+  void addListener(VoidCallback listener) {
+    if (!hasListeners) {
+      _binding.addObserver(this);
+    }
+    super.addListener(listener);
+  }
+
+  @override
+  void removeListener(VoidCallback listener) {
+    super.removeListener(listener);
+    if (!hasListeners) {
+      _binding.removeObserver(this);
+    }
+  }
+
+  @override
+  void dispose() {
+    if (hasListeners) {
+      _binding.removeObserver(this);
+    }
+    super.dispose();
+  }
+
+  @override
+  Future<bool> didPushRouteInformation(RouteInformation routeInformation) {
+    assert(hasListeners);
+    _platformReportsNewRouteInformation(routeInformation);
+    return SynchronousFuture<bool>(true);
+  }
+
+  @override
+  Future<bool> didPushRoute(String route) {
+    assert(hasListeners);
+    _platformReportsNewRouteInformation(RouteInformation(location: route));
+    return SynchronousFuture<bool>(true);
+  }
+
+  void _platformReportsNewRouteInformation(RouteInformation routeInformation) {
+    if (_value == routeInformation) {
+      return;
+    }
+    _value = routeInformation;
+    _valueInEngine = routeInformation;
+    notifyListeners();
+  }
+}

@@ -15,7 +15,7 @@ const kTransitionDuration = Duration(milliseconds: 300);
 ///
 /// You can specify [RouteSettings] to move to the next page in `settings`.
 /// `settings`に次のページに移るための[RouteSettings]を指定できます。
-abstract class PageRouteQuery<T> extends PageRoute<T> {
+abstract class PageRouteQuery<T> extends Page<T> {
   /// Default [PageRoute].
   /// デフォルトの[PageRoute]。
   ///
@@ -28,89 +28,55 @@ abstract class PageRouteQuery<T> extends PageRoute<T> {
   /// You can specify [RouteSettings] to move to the next page in `settings`.
   /// `settings`に次のページに移るための[RouteSettings]を指定できます。
   factory PageRouteQuery({
+    LocalKey? key,
     required WidgetBuilder builder,
+    required String? path,
+    RouteQuery? routeQuery,
     RouteQueryType transition = RouteQueryType.initial,
-    RouteSettings? settings,
   }) {
     if (transition == RouteQueryType.modal) {
       return _ModalPageRoute(
+        key: key ?? ValueKey(path),
         builder: builder,
-        settings: settings,
+        path: path,
+        routeQuery: routeQuery,
       );
     } else {
       return _DefaultPageRoute(
+        key: key ?? ValueKey(path),
         builder: builder,
         transition: transition,
-        settings: settings,
+        path: path,
+        routeQuery: routeQuery,
       );
     }
   }
 }
 
-class _ModalPageRoute<T> extends PageRoute<T> implements PageRouteQuery<T> {
-  _ModalPageRoute({
+@immutable
+class _ModalPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
+  const _ModalPageRoute({
+    super.key,
     required this.builder,
+    required String? path,
+    RouteQuery? routeQuery,
     this.isAndroidBackEnable = true,
-    required RouteSettings? settings,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.opaque = false,
     this.barrierDismissible = false,
     this.barrierColor = const Color(0x80000000),
     this.barrierLabel,
     this.maintainState = true,
-  }) : super(settings: settings, fullscreenDialog: true);
+  }) : super(name: path, arguments: routeQuery);
 
   final WidgetBuilder builder;
   final bool isAndroidBackEnable;
-  @override
   final Duration transitionDuration;
-  @override
   final bool opaque;
-  @override
   final bool barrierDismissible;
-  @override
   final Color? barrierColor;
-  @override
   final String? barrierLabel;
-  @override
   final bool maintainState;
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) {
-    return Material(
-      type: MaterialType.transparency,
-      child: SafeArea(
-        child: WillPopScope(
-          onWillPop: () async {
-            return isAndroidBackEnable;
-          },
-          child: Center(
-            child: builder(context),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget buildTransitions(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    return FadeTransition(
-      opacity: _fadeTween.animate(animation),
-      child: ScaleTransition(
-        scale: _scaleTween.animate(animation),
-        child: child,
-      ),
-    );
-  }
 
   static final Animatable<double> _scaleTween = Tween<double>(
     begin: 0.25,
@@ -120,107 +86,55 @@ class _ModalPageRoute<T> extends PageRoute<T> implements PageRouteQuery<T> {
     begin: 0,
     end: 1,
   ).chain(CurveTween(curve: Curves.easeIn));
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return PageRouteBuilder(
+      settings: this,
+      transitionDuration: transitionDuration,
+      opaque: opaque,
+      barrierDismissible: barrierDismissible,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      maintainState: maintainState,
+      fullscreenDialog: true,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return FadeTransition(
+          opacity: _fadeTween.animate(animation),
+          child: ScaleTransition(
+            scale: _scaleTween.animate(animation),
+            child: Material(
+              type: MaterialType.transparency,
+              child: SafeArea(
+                child: WillPopScope(
+                  onWillPop: () async {
+                    return isAndroidBackEnable;
+                  },
+                  child: Center(
+                    child: builder(context),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
-class _DefaultPageRoute<T> extends PageRouteBuilder<T>
-    implements PageRouteQuery<T> {
-  _DefaultPageRoute({
-    required WidgetBuilder builder,
-    RouteQueryType transition = RouteQueryType.initial,
-    RouteSettings? settings,
-  }) : super(
-          settings: settings,
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return builder(context);
-          },
-          transitionDuration: kTransitionDuration,
-          reverseTransitionDuration: kTransitionDuration,
-          fullscreenDialog: transition == RouteQueryType.fullscreen,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            _TransitionType? rawTransitionType;
-            if (transition == RouteQueryType.none) {
-              return child;
-            }
-            if (kIsWeb) {
-              if (transition == RouteQueryType.fullscreen) {
-                return SlideTransition(
-                  position: _slideUpTween.animate(animation),
-                  child: FadeTransition(
-                    opacity: _fadeTween.animate(animation),
-                    child: child,
-                  ),
-                );
-              } else {
-                return FadeTransition(
-                  opacity: _fadeTween.animate(animation),
-                  child: child,
-                );
-              }
-            }
-            if (rawTransitionType == null) {
-              switch (transition) {
-                case RouteQueryType.fullscreen:
-                  return SlideTransition(
-                    position: _slideUpTween.animate(animation),
-                    child: FadeTransition(
-                      opacity: _fadeTween.animate(animation),
-                      child: child,
-                    ),
-                  );
-                case RouteQueryType.fade:
-                  rawTransitionType = _TransitionType.fade;
-                  break;
-                default:
-                  rawTransitionType = _TransitionType.slideToLeft;
-                  break;
-              }
-            }
-            switch (rawTransitionType) {
-              case _TransitionType.none:
-                return FadeTransition(
-                  opacity: _fadeTween.animate(animation),
-                  child: child,
-                );
-              case _TransitionType.fade:
-                return FadeTransition(
-                  opacity: _fadeTween.animate(animation),
-                  child: child,
-                );
-              case _TransitionType.slideToRight:
-                return SlideTransition(
-                  position: _slideRightTween.animate(animation),
-                  child: FadeTransition(
-                    opacity: _fadeTween.animate(animation),
-                    child: child,
-                  ),
-                );
-              case _TransitionType.slideToUp:
-                return SlideTransition(
-                  position: _slideUpTween.animate(animation),
-                  child: FadeTransition(
-                    opacity: _fadeTween.animate(animation),
-                    child: child,
-                  ),
-                );
-              case _TransitionType.slideToDown:
-                return SlideTransition(
-                  position: _slideDownTween.animate(animation),
-                  child: FadeTransition(
-                    opacity: _fadeTween.animate(animation),
-                    child: child,
-                  ),
-                );
-              default:
-                return SlideTransition(
-                  position: _slideLeftTween.animate(animation),
-                  child: FadeTransition(
-                    opacity: _fadeTween.animate(animation),
-                    child: child,
-                  ),
-                );
-            }
-          },
-        );
+@immutable
+class _DefaultPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
+  const _DefaultPageRoute({
+    super.key,
+    required this.builder,
+    required String? path,
+    RouteQuery? routeQuery,
+    this.transition = RouteQueryType.initial,
+  }) : super(name: path, arguments: routeQuery);
+
+  final WidgetBuilder builder;
+  final RouteQueryType transition;
 
   static final Animatable<Offset> _slideUpTween = Tween<Offset>(
     begin: const Offset(0.0, 0.25),
@@ -242,6 +156,103 @@ class _DefaultPageRoute<T> extends PageRouteBuilder<T>
     begin: 0,
     end: 1,
   ).chain(CurveTween(curve: Curves.easeIn));
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return PageRouteBuilder(
+      settings: this,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return builder(context);
+      },
+      transitionDuration: kTransitionDuration,
+      reverseTransitionDuration: kTransitionDuration,
+      fullscreenDialog: transition == RouteQueryType.fullscreen,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        _TransitionType? rawTransitionType;
+        if (transition == RouteQueryType.none) {
+          return child;
+        }
+        if (kIsWeb) {
+          if (transition == RouteQueryType.fullscreen) {
+            return SlideTransition(
+              position: _slideUpTween.animate(animation),
+              child: FadeTransition(
+                opacity: _fadeTween.animate(animation),
+                child: child,
+              ),
+            );
+          } else {
+            return FadeTransition(
+              opacity: _fadeTween.animate(animation),
+              child: child,
+            );
+          }
+        }
+        if (rawTransitionType == null) {
+          switch (transition) {
+            case RouteQueryType.fullscreen:
+              return SlideTransition(
+                position: _slideUpTween.animate(animation),
+                child: FadeTransition(
+                  opacity: _fadeTween.animate(animation),
+                  child: child,
+                ),
+              );
+            case RouteQueryType.fade:
+              rawTransitionType = _TransitionType.fade;
+              break;
+            default:
+              rawTransitionType = _TransitionType.slideToLeft;
+              break;
+          }
+        }
+        switch (rawTransitionType) {
+          case _TransitionType.none:
+            return FadeTransition(
+              opacity: _fadeTween.animate(animation),
+              child: child,
+            );
+          case _TransitionType.fade:
+            return FadeTransition(
+              opacity: _fadeTween.animate(animation),
+              child: child,
+            );
+          case _TransitionType.slideToRight:
+            return SlideTransition(
+              position: _slideRightTween.animate(animation),
+              child: FadeTransition(
+                opacity: _fadeTween.animate(animation),
+                child: child,
+              ),
+            );
+          case _TransitionType.slideToUp:
+            return SlideTransition(
+              position: _slideUpTween.animate(animation),
+              child: FadeTransition(
+                opacity: _fadeTween.animate(animation),
+                child: child,
+              ),
+            );
+          case _TransitionType.slideToDown:
+            return SlideTransition(
+              position: _slideDownTween.animate(animation),
+              child: FadeTransition(
+                opacity: _fadeTween.animate(animation),
+                child: child,
+              ),
+            );
+          default:
+            return SlideTransition(
+              position: _slideLeftTween.animate(animation),
+              child: FadeTransition(
+                opacity: _fadeTween.animate(animation),
+                child: child,
+              ),
+            );
+        }
+      },
+    );
+  }
 }
 
 enum _TransitionType {

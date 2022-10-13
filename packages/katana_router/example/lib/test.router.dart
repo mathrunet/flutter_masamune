@@ -13,13 +13,13 @@ class _$MainPageQuery extends PageQueryBuilder {
   static final _regExp = RegExp(r"^$");
 
   _$_MainPageQuery call() => _$_MainPageQuery();
-
-  
   @override
-  PageQuery? resolve(String? path) {
-    final match = _regExp
-        .firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null) {
+  PageQuery? resolve(
+    String? path, {
+    bool force = false,
+  }) {
+    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
+    if (match == null && !force) {
       return null;
     }
     return _$_MainPageQuery();
@@ -33,15 +33,17 @@ class _$_MainPageQuery extends PageQuery {
   @override
   String get path => "";
   @override
-  List<RerouteQuery> reroute() => const [];
+  List<RedirectQuery> redirect() => const [];
   @override
   PageRouteQuery<T> route<T>([RouteQuery? query]) {
     return PageRouteQuery<T>(
-        builder: (context) {
-          return _MainPage();
-        },
-        transition: query?.transition ?? RouteQueryType.initial,
-        settings: RouteSettings(name: path, arguments: {}));
+      path: path,
+      routeQuery: query,
+      builder: (context) {
+        return _MainPage();
+      },
+      transition: query?.transition ?? RouteQueryType.initial,
+    );
   }
 }
 
@@ -91,13 +93,15 @@ class _$UserPageQuery extends PageQueryBuilder {
   _$_UserPageQuery call({required String userId}) =>
       _$_UserPageQuery(userId: userId);
   @override
-  PageQuery? match(RouteSettings routeSettings) {
-    final match = _regExp
-        .firstMatch(routeSettings.name?.trimQuery().trimString("/") ?? "");
-    if (match == null) {
+  PageQuery? resolve(
+    String? path, {
+    bool force = false,
+  }) {
+    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
+    if (match == null && !force) {
       return null;
     }
-    return _$_UserPageQuery(userId: match.namedGroup("userId") ?? "");
+    return _$_UserPageQuery(userId: match?.namedGroup("userId") ?? "");
   }
 }
 
@@ -110,15 +114,17 @@ class _$_UserPageQuery extends PageQuery {
   @override
   String get path => "page/$userId";
   @override
-  List<RerouteQuery> reroute() => const [];
+  List<RedirectQuery> redirect() => const [];
   @override
   PageRouteQuery<T> route<T>([RouteQuery? query]) {
     return PageRouteQuery<T>(
-        builder: (context) {
-          return _UserPage(userId: userId);
-        },
-        transition: query?.transition ?? RouteQueryType.initial,
-        settings: RouteSettings(name: path, arguments: {"userId": userId}));
+      path: path,
+      routeQuery: query,
+      builder: (context) {
+        return _UserPage(userId: userId);
+      },
+      transition: query?.transition ?? RouteQueryType.initial,
+    );
   }
 }
 
@@ -174,13 +180,15 @@ class _$ContentPageQuery extends PageQueryBuilder {
   _$_ContentPageQuery call({required String contentId}) =>
       _$_ContentPageQuery(contentId: contentId);
   @override
-  PageQuery? match(RouteSettings routeSettings) {
-    final match = _regExp
-        .firstMatch(routeSettings.name?.trimQuery().trimString("/") ?? "");
-    if (match == null) {
+  PageQuery? resolve(
+    String? path, {
+    bool force = false,
+  }) {
+    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
+    if (match == null && !force) {
       return null;
     }
-    return _$_ContentPageQuery(contentId: match.namedGroup("contentId") ?? "");
+    return _$_ContentPageQuery(contentId: match?.namedGroup("contentId") ?? "");
   }
 }
 
@@ -193,16 +201,17 @@ class _$_ContentPageQuery extends PageQuery {
   @override
   String get path => "content/$contentId";
   @override
-  List<RerouteQuery> reroute() => const [];
+  List<RedirectQuery> redirect() => const [];
   @override
   PageRouteQuery<T> route<T>([RouteQuery? query]) {
     return PageRouteQuery<T>(
-        builder: (context) {
-          return _ContentPage(contentId: contentId);
-        },
-        transition: query?.transition ?? RouteQueryType.initial,
-        settings:
-            RouteSettings(name: path, arguments: {"contentId": contentId}));
+      path: path,
+      routeQuery: query,
+      builder: (context) {
+        return _ContentPage(contentId: contentId);
+      },
+      transition: query?.transition ?? RouteQueryType.initial,
+    );
   }
 }
 

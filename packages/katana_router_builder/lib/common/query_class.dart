@@ -52,16 +52,6 @@ List<Class> queryClass(
           ),
           Method(
             (m) => m
-              ..name = "query"
-              ..annotations = ListBuilder([const Reference("override")])
-              ..returns = const Reference("PageQuery")
-              ..type = MethodType.getter
-              ..body = Code(
-                "_\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:${_defaultValue(param)}").join(",")})",
-              ),
-          ),
-          Method(
-            (m) => m
               ..name = "resolve"
               ..annotations = ListBuilder([const Reference("override")])
               ..returns = const Reference("PageQuery?")
@@ -72,8 +62,17 @@ List<Class> queryClass(
                     ..type = const Reference("String?"),
                 )
               ])
+              ..optionalParameters = ListBuilder([
+                Parameter(
+                  (p) => p
+                    ..name = "force"
+                    ..named = true
+                    ..type = const Reference("bool")
+                    ..defaultTo = const Code("false"),
+                )
+              ])
               ..body = Code(
-                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null) {return null;} return _\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:match.namedGroup(\"${param.name}\") ?? ${_defaultValue(param)}").join(",")});",
+                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null && !force) {return null;} return _\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:match?.namedGroup(\"${param.name}\") ?? ${_defaultValue(param)}").join(",")});",
               ),
           ),
         ]),
@@ -144,7 +143,7 @@ List<Class> queryClass(
                 )
               ])
               ..body = Code(
-                "return PageRouteQuery<T>(builder: (context) {return _${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")});},transition: query?.transition ?? RouteQueryType.initial,settings: RouteSettings(name: path,arguments: {${model.parameters.map((param) => "\"${param.name}\":${param.name}").join(",")}}));",
+                "return PageRouteQuery<T>(path: path,routeQuery: query,builder: (context) {return _${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")});},transition: query?.transition ?? RouteQueryType.initial,);",
               ),
           ),
         ]),

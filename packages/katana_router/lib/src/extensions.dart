@@ -64,7 +64,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   ]) async {
     final route = newRoutePage.route<T>(query);
     return resetAndPush<T>(
-      route,
+      route.createRoute(context),
     );
   }
 
@@ -102,7 +102,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   ]) async {
     final route = routePage.route<T>(query);
     return push<T>(
-      route,
+      route.createRoute(context),
     );
   }
 
@@ -121,7 +121,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   ]) async {
     final route = newRoutePage.route<T>(query);
     return pushAndRemoveUntil<T>(
-      route,
+      route.createRoute(context),
       predicate,
     );
   }
@@ -140,7 +140,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
     RouteQuery? query,
   }) async {
     return pushReplacement<T, TO>(
-      routePage.route<T>(query),
+      routePage.route<T>(query).createRoute(context),
       result: result,
     );
   }
@@ -149,23 +149,30 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
 /// Provides extension methods for [BuildContext].
 /// [BuildContext]の拡張メソッドを提供します。
 extension RoutingBuildContedxtExtensions on BuildContext {
-  /// Navigaor can be obtained.
-  /// Navigaorを取得できます。
-  NavigatorState get navigator {
-    return Navigator.of(this);
+  AppRouter get router {
+    return AppRouter.of(this);
   }
 
-  /// Get the most route navigator.
-  /// 一番ルートのナビゲーターを取得します。
-  NavigatorState get rootNavigator {
-    return Navigator.of(this, rootNavigator: true);
+  AppRouter get rootRouter {
+    return AppRouter.of(this, root: true);
   }
+  // /// Navigaor can be obtained.
+  // /// Navigaorを取得できます。
+  // NavigatorState get navigator {
+  //   return Navigator.of(this);
+  // }
 
-  /// Browse the route settings.
-  /// ルートの設定を参照します。
-  ///
-  /// If no route settings are passed or if it is the first page, an empty [RouteSettings] is returned.
-  /// ルートの設定が渡されていない場合や最初のページの場合は空の[RouteSettings]が返されます。
-  RouteSettings get route =>
-      ModalRoute.of(this)?.settings ?? const RouteSettings();
+  // /// Get the most route navigator.
+  // /// 一番ルートのナビゲーターを取得します。
+  // NavigatorState get rootNavigator {
+  //   return Navigator.of(this, rootNavigator: true);
+  // }
+
+  // /// Browse the route settings.
+  // /// ルートの設定を参照します。
+  // ///
+  // /// If no route settings are passed or if it is the first page, an empty [RouteSettings] is returned.
+  // /// ルートの設定が渡されていない場合や最初のページの場合は空の[RouteSettings]が返されます。
+  // RouteSettings get route =>
+  //     ModalRoute.of(this)?.settings ?? const RouteSettings();
 }

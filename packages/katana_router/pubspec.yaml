@@ -14,6 +14,8 @@ dependencies:
     
   katana: ^0.15.0
   katana_router_annotation: ^1.2.1
+  url_strategy: ^0.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
