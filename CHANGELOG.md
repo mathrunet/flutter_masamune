@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.2.2`](#katana_router---v122)
+ - [`katana_router_builder` - `v1.2.2`](#katana_router_builder---v122)
+ - [`katana_router_riverpod` - `v1.2.2`](#katana_router_riverpod---v122)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router_riverpod` - `v1.2.2`
+
+---
+
+#### `katana_router` - `v1.2.2`
+
+ - **FIX**: Navigator2.0 support completed. ([d1fdabf6](https://github.com/mathrunet/flutter_masamune/commit/d1fdabf6eb70dfd99e82563e553e0cdb4dc983d2))
+
+#### `katana_router_builder` - `v1.2.2`
+
+ - **FIX**: Navigator2.0 support completed. ([d1fdabf6](https://github.com/mathrunet/flutter_masamune/commit/d1fdabf6eb70dfd99e82563e553e0cdb4dc983d2))
+
+
 ## 2022-10-12
 
 ### Changes

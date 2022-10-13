@@ -1,6 +1,6 @@
 name: katana_router
 description: A package to provide routing functionality. katana_router_builder can be used to automatically generate code with build_runner.
-version: 1.2.1
+version: 1.2.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_router
 
