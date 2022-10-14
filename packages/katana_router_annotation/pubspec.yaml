@@ -1,6 +1,6 @@
 name: katana_router_annotation
 description: Definition of annotation when used in katana router.
-version: 1.2.1
+version: 1.2.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_router_annotation
 

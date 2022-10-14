@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router_annotation` - `v1.2.2`](#katana_router_annotation---v122)
+ - [`katana_router_riverpod_annotation` - `v1.2.3`](#katana_router_riverpod_annotation---v123)
+ - [`katana_router_builder` - `v1.2.4`](#katana_router_builder---v124)
+ - [`katana_router` - `v1.2.4`](#katana_router---v124)
+ - [`katana_router_riverpod` - `v1.2.4`](#katana_router_riverpod---v124)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router_riverpod_annotation` - `v1.2.3`
+ - `katana_router_builder` - `v1.2.4`
+ - `katana_router` - `v1.2.4`
+ - `katana_router_riverpod` - `v1.2.4`
+
+---
+
+#### `katana_router_annotation` - `v1.2.2`
+
+ - **FIX**: PagePathParamを追加。. ([fc9fb24c](https://github.com/mathrunet/flutter_masamune/commit/fc9fb24c4d7a2ada9d13e34975b972125417582a))
+
+
 ## 2022-10-13
 
 ### Changes

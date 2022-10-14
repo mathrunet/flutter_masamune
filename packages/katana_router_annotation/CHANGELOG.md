@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **FIX**: PagePathParamを追加。. ([fc9fb24c](https://github.com/mathrunet/flutter_masamune/commit/fc9fb24c4d7a2ada9d13e34975b972125417582a))
+
 ## 1.2.1
 
  - **FIX**: Test for Navigator 2.0 compliant. ([501d574e](https://github.com/mathrunet/flutter_masamune/commit/501d574e091485f114c6395dec6d12f68977c978))
