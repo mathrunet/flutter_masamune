@@ -15,6 +15,36 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_annotation` - `v1.4.0`](#katana_router_annotation---v140)
+ - [`katana_router_builder` - `v1.3.2`](#katana_router_builder---v132)
+ - [`katana_router` - `v1.3.1`](#katana_router---v131)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router_builder` - `v1.3.2`
+ - `katana_router` - `v1.3.1`
+
+---
+
+#### `katana_router_annotation` - `v1.4.0`
+
+ - **FEAT**: :Added annotation for appRoute. ([0a6238b4](https://github.com/mathrunet/flutter_masamune/commit/0a6238b439eddfb44b0c82f801b0cc4b7ebe3c03))
+
+
+## 2022-10-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router_builder` - `v1.3.1`](#katana_router_builder---v131)
 
 ---

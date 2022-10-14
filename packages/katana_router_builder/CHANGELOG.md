@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - Update a dependency to the latest release.
+
 ## 1.3.1
 
  - **FIX**: Name Change. ([019899c7](https://github.com/mathrunet/flutter_masamune/commit/019899c734cdda2415caafcaa498d2b1295c010b))

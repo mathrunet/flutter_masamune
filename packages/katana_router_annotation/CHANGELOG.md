@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: :Added annotation for appRoute. ([0a6238b4](https://github.com/mathrunet/flutter_masamune/commit/0a6238b439eddfb44b0c82f801b0cc4b7ebe3c03))
+
 ## 1.3.0
 
  - **FEAT**: Eliminate state management. ([4dcfd0e3](https://github.com/mathrunet/flutter_masamune/commit/4dcfd0e3438a5d48f83c3d92b6b0de80716babb8))
