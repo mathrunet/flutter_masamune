@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **FIX**: Fixed a bug that appRoute was not included. ([fb0859a8](https://github.com/mathrunet/flutter_masamune/commit/fb0859a89927b1fa2d8a4e9353ab2e2a52b7bb30))
+
 ## 1.4.0
 
  - **FEAT**: :Added annotation for appRoute. ([0a6238b4](https://github.com/mathrunet/flutter_masamune/commit/0a6238b439eddfb44b0c82f801b0cc4b7ebe3c03))
