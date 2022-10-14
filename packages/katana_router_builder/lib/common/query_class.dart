@@ -8,7 +8,7 @@ List<Class> queryClass(
   return [
     Class(
       (c) => c
-        ..name = "_\$${model.name}Query"
+        ..name = "_\$${model.name}"
         ..extend = const Reference("PageQueryBuilder")
         ..annotations = ListBuilder([const Reference("immutable")])
         ..constructors = ListBuilder([
@@ -34,7 +34,7 @@ List<Class> queryClass(
             (m) => m
               ..name = "call"
               ..lambda = true
-              ..returns = Reference("_\$_${model.name}Query")
+              ..returns = Reference("_\$_${model.name}")
               ..optionalParameters = ListBuilder([
                 ...model.parameters.map((param) {
                   return Parameter(
@@ -47,7 +47,7 @@ List<Class> queryClass(
                 }),
               ])
               ..body = Code(
-                "_\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
+                "_\$_${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
               ),
           ),
           Method(
@@ -72,14 +72,14 @@ List<Class> queryClass(
                 )
               ])
               ..body = Code(
-                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null && !force) {return null;} return _\$_${model.name}Query(${model.parameters.map((param) => _defaultParsedValue(param)).join(",")});",
+                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null && !force) {return null;} return _\$_${model.name}(${model.parameters.map((param) => _defaultParsedValue(param)).join(",")});",
               ),
           ),
         ]),
     ),
     Class(
       (c) => c
-        ..name = "_\$_${model.name}Query"
+        ..name = "_\$_${model.name}"
         ..extend = const Reference("PageQuery")
         ..annotations = ListBuilder([const Reference("immutable")])
         ..constructors = ListBuilder([
