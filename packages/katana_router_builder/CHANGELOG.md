@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Eliminate state management. ([4dcfd0e3](https://github.com/mathrunet/flutter_masamune/commit/4dcfd0e3438a5d48f83c3d92b6b0de80716babb8))
+
 ## 1.2.5
 
  - Update a dependency to the latest release.

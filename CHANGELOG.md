@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.3.0`](#katana_router---v130)
+ - [`katana_router_annotation` - `v1.3.0`](#katana_router_annotation---v130)
+ - [`katana_router_builder` - `v1.3.0`](#katana_router_builder---v130)
+
+---
+
+#### `katana_router` - `v1.3.0`
+
+ - **FEAT**: Eliminate state management. ([4dcfd0e3](https://github.com/mathrunet/flutter_masamune/commit/4dcfd0e3438a5d48f83c3d92b6b0de80716babb8))
+
+#### `katana_router_annotation` - `v1.3.0`
+
+ - **FEAT**: Eliminate state management. ([4dcfd0e3](https://github.com/mathrunet/flutter_masamune/commit/4dcfd0e3438a5d48f83c3d92b6b0de80716babb8))
+
+#### `katana_router_builder` - `v1.3.0`
+
+ - **FEAT**: Eliminate state management. ([4dcfd0e3](https://github.com/mathrunet/flutter_masamune/commit/4dcfd0e3438a5d48f83c3d92b6b0de80716babb8))
+
+
+## 2022-10-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router_annotation` - `v1.2.3`](#katana_router_annotation---v123)
  - [`katana_router_riverpod_annotation` - `v1.2.4`](#katana_router_riverpod_annotation---v124)
  - [`katana_router_builder` - `v1.2.5`](#katana_router_builder---v125)

@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Eliminate state management. ([4dcfd0e3](https://github.com/mathrunet/flutter_masamune/commit/4dcfd0e3438a5d48f83c3d92b6b0de80716babb8))
+
 ## 1.2.3
 
  - **FIX**: Fixed a bug that PagePathParam was not included. ([635ae942](https://github.com/mathrunet/flutter_masamune/commit/635ae942184d63c36ce66c4f018135f7d05ad259))
