@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: Name Change. ([019899c7](https://github.com/mathrunet/flutter_masamune/commit/019899c734cdda2415caafcaa498d2b1295c010b))
+
 ## 1.3.0
 
  - **FEAT**: Eliminate state management. ([4dcfd0e3](https://github.com/mathrunet/flutter_masamune/commit/4dcfd0e3438a5d48f83c3d92b6b0de80716babb8))

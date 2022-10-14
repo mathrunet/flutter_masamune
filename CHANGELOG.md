@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_builder` - `v1.3.1`](#katana_router_builder---v131)
+
+---
+
+#### `katana_router_builder` - `v1.3.1`
+
+ - **FIX**: Name Change. ([019899c7](https://github.com/mathrunet/flutter_masamune/commit/019899c734cdda2415caafcaa498d2b1295c010b))
+
+
+## 2022-10-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.3.0`](#katana_router---v130)
  - [`katana_router_annotation` - `v1.3.0`](#katana_router_annotation---v130)
  - [`katana_router_builder` - `v1.3.0`](#katana_router_builder---v130)
