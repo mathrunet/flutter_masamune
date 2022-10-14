@@ -49,7 +49,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.1"
   crypto:
     dependency: transitive
     description:
@@ -109,9 +109,9 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.5+1"
   lints:
     dependency: "direct main"
@@ -212,4 +212,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.18.0 <3.0.0"

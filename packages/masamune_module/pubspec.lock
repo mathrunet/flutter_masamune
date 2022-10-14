@@ -119,7 +119,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.7"
+    version: "2.3.9"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -133,7 +133,7 @@ packages:
       name: connectivity_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.6"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -147,7 +147,7 @@ packages:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -161,7 +161,14 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.1"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.3+2"
   crypto:
     dependency: transitive
     description:
@@ -196,7 +203,7 @@ packages:
       name: device_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.2"
+    version: "4.1.3"
   device_info_plus_linux:
     dependency: transitive
     description:
@@ -327,7 +334,21 @@ packages:
       name: flutter_keyboard_visibility
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.0"
+    version: "5.4.0"
+  flutter_keyboard_visibility_linux:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  flutter_keyboard_visibility_macos:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_keyboard_visibility_platform_interface:
     dependency: transitive
     description:
@@ -342,6 +363,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  flutter_keyboard_visibility_windows:
+    dependency: transitive
+    description:
+      name: flutter_keyboard_visibility_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_localizations:
     dependency: transitive
     description: flutter
@@ -367,7 +395,7 @@ packages:
       name: flutter_quill
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.6+1"
+    version: "6.0.8+1"
   flutter_rating_bar:
     dependency: transitive
     description:
@@ -419,7 +447,7 @@ packages:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   gettext_parser:
     dependency: transitive
     description:
@@ -498,40 +526,40 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.5+1"
   katana_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_annotation"
-      relative: true
-    source: path
+      name: katana_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.0+7"
   katana_flutter:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_flutter"
-      relative: true
-    source: path
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.0+7"
   katana_module:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_module"
-      relative: true
-    source: path
-    version: "0.15.0+18"
+      name: katana_module
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.0+19"
   katana_routing:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_routing"
-      relative: true
-    source: path
-    version: "0.15.0+11"
+      name: katana_routing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.0+12"
   loading_indicator:
     dependency: transitive
     description:
@@ -554,19 +582,19 @@ packages:
     source: hosted
     version: "6.0.1"
   masamune:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../masamune"
-      relative: true
-    source: path
-    version: "0.15.1+6"
+      name: masamune
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.3+1"
   masamune_ui:
     dependency: "direct main"
     description:
-      path: "../masamune_ui"
-      relative: true
-    source: path
-    version: "0.15.0+18"
+      name: masamune_ui
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.0+21"
   matcher:
     dependency: transitive
     description:
@@ -596,11 +624,11 @@ packages:
     source: hosted
     version: "1.0.2"
   model_notifier:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../model_notifier"
-      relative: true
-    source: path
+      name: model_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.1+6"
   multi_select_flutter:
     dependency: transitive
@@ -664,7 +692,7 @@ packages:
       name: package_info_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.6"
   package_info_plus_windows:
     dependency: transitive
     description:
@@ -839,14 +867,14 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.4.0"
+    version: "4.5.3"
   share_plus_linux:
     dependency: transitive
     description:
       name: share_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   share_plus_macos:
     dependency: transitive
     description:
@@ -860,14 +888,14 @@ packages:
       name: share_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.3"
+    version: "3.1.1"
   share_plus_web:
     dependency: transitive
     description:
       name: share_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.0"
   share_plus_windows:
     dependency: transitive
     description:
@@ -963,7 +991,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.0+1"
   sqflite_common:
     dependency: transitive
     description:
@@ -1026,7 +1054,7 @@ packages:
       name: tuple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -1131,7 +1159,7 @@ packages:
       name: video_player_avfoundation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.7"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -1217,5 +1245,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.0-0 <3.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.3.0-0"

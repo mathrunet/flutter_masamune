@@ -56,7 +56,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.7"
+    version: "2.3.9"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: connectivity_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.6"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -98,7 +98,14 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.1"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.3+2"
   crypto:
     dependency: transitive
     description:
@@ -126,7 +133,7 @@ packages:
       name: device_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.2"
+    version: "4.1.3"
   device_info_plus_linux:
     dependency: transitive
     description:
@@ -230,7 +237,7 @@ packages:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   google_fonts:
     dependency: transitive
     description:
@@ -274,33 +281,33 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.5+1"
   katana_annotation:
     dependency: "direct main"
     description:
-      path: "../katana_annotation"
-      relative: true
-    source: path
+      name: katana_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.0+7"
   katana_flutter:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_flutter"
-      relative: true
-    source: path
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.0+7"
   katana_routing:
     dependency: "direct main"
     description:
-      path: "../katana_routing"
-      relative: true
-    source: path
-    version: "0.15.0+11"
+      name: katana_routing
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.0+12"
   matcher:
     dependency: transitive
     description:
@@ -332,9 +339,9 @@ packages:
   model_notifier:
     dependency: "direct main"
     description:
-      path: "../model_notifier"
-      relative: true
-    source: path
+      name: model_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.1+6"
   nm:
     dependency: transitive
@@ -377,7 +384,7 @@ packages:
       name: package_info_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.6"
   package_info_plus_windows:
     dependency: transitive
     description:
@@ -496,14 +503,14 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.4.0"
+    version: "4.5.3"
   share_plus_linux:
     dependency: transitive
     description:
       name: share_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   share_plus_macos:
     dependency: transitive
     description:
@@ -517,14 +524,14 @@ packages:
       name: share_plus_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.3"
+    version: "3.1.1"
   share_plus_web:
     dependency: transitive
     description:
       name: share_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.1.0"
   share_plus_windows:
     dependency: transitive
     description:
@@ -748,5 +755,5 @@ packages:
     source: hosted
     version: "6.1.0"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.0.0"

@@ -14,7 +14,7 @@ packages:
       name: _flutterfire_internals
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   analyzer:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "2.3.0"
   build_runner_core:
     dependency: transitive
     description:
@@ -133,21 +133,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.0"
+    version: "3.5.1"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.7.6"
+    version: "5.7.7"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.9"
+    version: "2.8.10"
   code_builder:
     dependency: transitive
     description:
@@ -168,7 +168,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.8"
+    version: "2.3.9"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -196,7 +196,7 @@ packages:
       name: connectivity_plus_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   connectivity_plus_windows:
     dependency: transitive
     description:
@@ -210,7 +210,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.1.1"
   cross_file:
     dependency: transitive
     description:
@@ -400,7 +400,7 @@ packages:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -477,30 +477,30 @@ packages:
       name: json_serializable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.4.1"
+    version: "6.5.1"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.5+1"
   katana_firebase:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana_firebase"
-      relative: true
-    source: path
+      name: katana_firebase
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.0+7"
   katana_flutter:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana_flutter"
-      relative: true
-    source: path
+      name: katana_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.0+7"
   katana_model:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       path: "../../katana_model"
       relative: true
@@ -743,14 +743,14 @@ packages:
       name: share_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.2"
+    version: "4.5.3"
   share_plus_linux:
     dependency: transitive
     description:
       name: share_plus_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   share_plus_macos:
     dependency: transitive
     description:
@@ -860,7 +860,7 @@ packages:
       name: source_gen
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   source_helper:
     dependency: transitive
     description:
