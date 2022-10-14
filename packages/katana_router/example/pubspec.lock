@@ -302,28 +302,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.2.1"
+    version: "1.2.5"
   katana_router_annotation:
     dependency: transitive
     description:
       name: katana_router_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.3"
   katana_router_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "1.2.1"
-  katana_router_riverpod_annotation:
-    dependency: transitive
-    description:
-      name: katana_router_riverpod_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.1"
+    version: "1.2.5"
   lints:
     dependency: transitive
     description:

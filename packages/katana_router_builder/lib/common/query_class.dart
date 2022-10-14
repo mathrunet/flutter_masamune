@@ -24,7 +24,7 @@ List<Class> queryClass(
               ..modifier = FieldModifier.final$
               ..assignment = Code(
                 "RegExp(r\"^${path.path.trimQuery().trimString("/").replaceAllMapped(pathRegExp, (match) {
-                  return "(?<${match.group(1)?.toCamelCase()}>[^/?&]+)";
+                  return "(?<${match.group(1)!}>[^/?&]+)";
                 })}\$\")",
               ),
           )
@@ -72,7 +72,7 @@ List<Class> queryClass(
                 )
               ])
               ..body = Code(
-                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null && !force) {return null;} return _\$_${model.name}Query(${model.parameters.map((param) => "${param.name}:match?.namedGroup(\"${param.name}\") ?? ${_defaultValue(param)}").join(",")});",
+                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null && !force) {return null;} return _\$_${model.name}Query(${model.parameters.map((param) => _defaultParsedValue(param)).join(",")});",
               ),
           ),
         ]),
@@ -143,10 +143,18 @@ List<Class> queryClass(
                 )
               ])
               ..body = Code(
-                "return PageRouteQuery<T>(path: path,routeQuery: query,builder: (context) {return _${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")});},transition: query?.transition ?? RouteQueryType.initial,);",
+                "return PageRouteQuery<T>(path: path,routeQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),transition: query?.transition ?? RouteQueryType.initial,);",
               ),
           ),
         ]),
     ),
   ];
+}
+
+String _defaultParsedValue(ParamaterModel param) {
+  if (param.type.toString() == "String") {
+    return "${param.name}:match?.groupNames.contains(\"${param.pageParamName}\") ?? false ? match?.namedGroup(\"${param.pageParamName}\") ?? ${_defaultValue(param)} : ${_defaultValue(param)}";
+  } else {
+    return "${param.name}:${_defaultValue(param)}";
+  }
 }

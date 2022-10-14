@@ -23,7 +23,6 @@ part "src/extensions.dart";
 part "src/page_query.dart";
 part 'src/page_query_builder.dart';
 part 'src/page_route_query.dart';
-part 'src/page_widget.dart';
 part 'src/redirect_query.dart';
 part "src/route_query.dart";
 part 'src/route_query_type.dart';

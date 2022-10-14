@@ -53,8 +53,8 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// After returning to the first page, you will be redirected to the [newRoutePage] page.
   /// 最初のページに戻った後[newRoutePage]のページに遷移します。
   ///
-  /// If there is a [RerouteQueryScope] in [newRoutePage] or in a widget in the hierarchy above, and the condition is met, the user may be redirected to that page.
-  /// [newRoutePage]内や上の階層のウィジェットに[RerouteQueryScope]があり条件に合致した場合、そのページに遷移する場合があります。
+  /// If there is a [RedirectQuery] in [newRoutePage] and the condition is met, the user may be redirected to that page.
+  /// [newRoutePage]内に[RedirectQuery]があり条件に合致した場合、そのページに遷移する場合があります。
   ///
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
@@ -74,8 +74,8 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// By giving [result] when returning to one page, you will receive [result] on the page you have returned to.
   /// 一つページを戻る際に[result]を与えることで戻った先のページで[result]を受け取ります。
   ///
-  /// If there is a [RerouteQueryScope] in [routePage] or in a widget in the hierarchy above, and the condition is met, the user may be redirected to that page.
-  /// [routePage]内や上の階層のウィジェットに[RerouteQueryScope]があり条件に合致した場合、そのページに遷移する場合があります。
+  /// If there is a [RedirectQuery] in [newRoutePage] and the condition is met, the user may be redirected to that page.
+  /// [newRoutePage]内に[RedirectQuery]があり条件に合致した場合、そのページに遷移する場合があります。
   ///
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
@@ -91,8 +91,8 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// Moves to a new [routePage].
   /// 新しい[routePage]に遷移します。
   ///
-  /// If there is a [RerouteQueryScope] in [routePage] or in a widget in the hierarchy above, and the condition is met, the user may be redirected to that page.
-  /// [routePage]内や上の階層のウィジェットに[RerouteQueryScope]があり条件に合致した場合、そのページに遷移する場合があります。
+  /// If there is a [RedirectQuery] in [newRoutePage] and the condition is met, the user may be redirected to that page.
+  /// [newRoutePage]内に[RedirectQuery]があり条件に合致した場合、そのページに遷移する場合があります。
   ///
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
@@ -109,8 +109,8 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// After returning to the page that matches the [predicate] condition, the user is redirected to the [newRoutePage] page.
   /// [predicate]の条件に合致するページに戻った後[newRoutePage]のページに遷移します。
   ///
-  /// If there is a [RerouteQueryScope] in [newRoutePage] or in a widget in the hierarchy above, and the condition is met, the user may be redirected to that page.
-  /// [newRoutePage]内や上の階層のウィジェットに[RerouteQueryScope]があり条件に合致した場合、そのページに遷移する場合があります。
+  /// If there is a [RedirectQuery] in [newRoutePage] and the condition is met, the user may be redirected to that page.
+  /// [newRoutePage]内に[RedirectQuery]があり条件に合致した場合、そのページに遷移する場合があります。
   ///
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
@@ -129,8 +129,8 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// Replace the current page with the new [routePage].
   /// 現在のページを新しい[routePage]に置き換えます。
   ///
-  /// If there is a [RerouteQueryScope] in [routePage] or in a widget in a higher level that matches the condition, it may be replaced with that page.
-  /// [routePage]内や上の階層のウィジェットに[RerouteQueryScope]があり条件に合致した場合、そのページに置き換えられるる場合があります。
+  /// If there is a [RedirectQuery] in [newRoutePage] and the condition is met, the user may be redirected to that page.
+  /// [newRoutePage]内に[RedirectQuery]があり条件に合致した場合、そのページに遷移する場合があります。
   ///
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。

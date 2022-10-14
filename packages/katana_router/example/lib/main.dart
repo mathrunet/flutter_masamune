@@ -9,7 +9,6 @@ void main() {
 }
 
 final appRoute = AppRouter(
-  initialPath: "/",
   boot: Boot(),
   pages: [
     MainPage.query,

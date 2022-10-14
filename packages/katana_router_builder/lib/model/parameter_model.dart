@@ -1,6 +1,7 @@
 part of katana_router_builder;
 
 const _defaultChecker = TypeChecker.fromRuntime(Default);
+const _pagePathParamChecker = TypeChecker.fromRuntime(PagePathParam);
 
 class ParamaterModel {
   ParamaterModel(this.element) {
@@ -11,6 +12,17 @@ class ParamaterModel {
       );
     }
     type = element.type;
+
+    if (_pagePathParamChecker.hasAnnotationOfExact(element)) {
+      pageParamName = _pagePathParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("name")
+              ?.toValue()
+              .toString() ??
+          name;
+    } else {
+      pageParamName = name;
+    }
 
     if (element.type.isNullable || element.isRequired) {
       defaultValue = null;
@@ -27,10 +39,6 @@ class ParamaterModel {
         }
       } else if (element.hasDefaultValue) {
         defaultValue = element.defaultValueCode;
-      } else if (!isRelation) {
-        throw Exception(
-          "DefaultValue is not specified at $name($type)",
-        );
       } else {
         defaultValue = null;
       }
@@ -40,10 +48,10 @@ class ParamaterModel {
   late final Object? defaultValue;
   late final DartType type;
   late final String name;
-  late final bool isRelation;
+  late final String pageParamName;
 
   @override
   String toString() {
-    return "$name($type) => $defaultValue (Relation:$isRelation)";
+    return "$name($type) => $defaultValue (PageParamName:$pageParamName)";
   }
 }

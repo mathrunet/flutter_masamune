@@ -1,6 +1,6 @@
 part of katana_router_builder;
 
-final pathRegExp = RegExp(r"\{([^\}]+)\}");
+final pathRegExp = RegExp(r":([^/]+)");
 
 final ignoreWords = <String>[
   "uid",

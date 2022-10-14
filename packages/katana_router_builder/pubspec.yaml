@@ -11,7 +11,6 @@ environment:
 dependencies: 
   katana: ^0.15.0
   katana_router_annotation: ^1.2.3
-  katana_router_riverpod_annotation: ^1.2.4
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0

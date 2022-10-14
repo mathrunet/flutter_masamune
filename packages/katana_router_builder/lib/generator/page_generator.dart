@@ -73,8 +73,7 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
         ..body.addAll(
           [
             ...queryClass(_class, _path, _annotation),
-            ...valueClass(_class, _path, _annotation),
-            ...extendsClass(_class, _path, _annotation),
+            // ...extendsClass(_class, _path, _annotation),
           ],
         ),
     );

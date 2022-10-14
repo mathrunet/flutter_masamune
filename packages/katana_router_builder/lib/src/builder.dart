@@ -4,7 +4,6 @@ Builder katanaRouterBuilderFactory(BuilderOptions options) {
   return PartBuilder(
     [
       PageGenerator(),
-      ConsumerPageGenerator(),
     ],
     ".router.dart",
     header:

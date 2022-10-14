@@ -6,14 +6,18 @@ import 'package:katana_router/katana_router.dart';
 part "test.router.dart";
 
 @PagePath("/")
-class MainPage extends _$MainPage {
-  const factory MainPage() = _MainPage;
-  const MainPage._();
+class MainPage extends StatelessWidget {
+  const MainPage({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
 
   static const query = _$MainPageQuery();
 
   @override
-  Widget build(BuildContext context, PageRef<$MainPage> page) {
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text("MainPage"),
@@ -49,15 +53,17 @@ class MainPage extends _$MainPage {
   }
 }
 
-@PagePath("/page/{user_id}")
-class UserPage extends _$UserPage {
-  const factory UserPage({required String userId}) = _UserPage;
-  const UserPage._();
+@PagePath("/page/:user_id")
+class UserPage extends StatelessWidget {
+  const UserPage({
+    super.key,
+    required this.userId,
+  });
+
+  final String userId;
 
   @override
-  Widget build(BuildContext context, PageRef<$UserPage> page) {
-    final userId = page.value.userId;
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("UserPage")),
       body: Center(
@@ -77,17 +83,17 @@ class UserPage extends _$UserPage {
   static const query = _$UserPageQuery();
 }
 
-@PagePath("/content/{content_id}")
-class ContentPage extends _$ContentPage {
-  const factory ContentPage({
-    required String contentId,
-  }) = _ContentPage;
-  const ContentPage._();
+@PagePath("/content/:content_id")
+class ContentPage extends StatelessWidget {
+  const ContentPage({
+    super.key,
+    required this.contentId,
+  });
+
+  final String contentId;
 
   @override
-  Widget build(BuildContext context, PageRef<$ContentPage> page) {
-    final contentId = page.value.contentId;
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("ContentPage")),
       body: Center(

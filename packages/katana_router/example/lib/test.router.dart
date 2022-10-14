@@ -12,7 +12,11 @@ class _$MainPageQuery extends PageQueryBuilder {
 
   static final _regExp = RegExp(r"^$");
 
-  _$_MainPageQuery call() => _$_MainPageQuery();
+  _$_MainPageQuery call({
+    Key? key,
+    required String title,
+  }) =>
+      _$_MainPageQuery(key: key, title: title);
   @override
   PageQuery? resolve(
     String? path, {
@@ -22,13 +26,24 @@ class _$MainPageQuery extends PageQueryBuilder {
     if (match == null && !force) {
       return null;
     }
-    return _$_MainPageQuery();
+    return _$_MainPageQuery(
+        key: null,
+        title: match?.groupNames.contains("title") ?? false
+            ? match?.namedGroup("title") ?? ""
+            : "");
   }
 }
 
 @immutable
 class _$_MainPageQuery extends PageQuery {
-  const _$_MainPageQuery();
+  const _$_MainPageQuery({
+    this.key,
+    required this.title,
+  });
+
+  final Key? key;
+
+  final String title;
 
   @override
   String get path => "";
@@ -39,59 +54,23 @@ class _$_MainPageQuery extends PageQuery {
     return PageRouteQuery<T>(
       path: path,
       routeQuery: query,
-      builder: (context) {
-        return _MainPage();
-      },
+      builder: (context) => MainPage(key: key, title: title),
       transition: query?.transition ?? RouteQueryType.initial,
     );
   }
 }
 
 @immutable
-class $MainPage {
-  const $MainPage();
-
-  $MainPage copyWith() {
-    return $MainPage();
-  }
-
-  @override
-  int get hashCode => super.hashCode;
-  @override
-  bool operator ==(Object other) => super.hashCode == hashCode;
-}
-
-@immutable
-class _MainPage extends MainPage {
-  const _MainPage() : super._();
-
-  @override
-  $MainPage create() {
-    return $MainPage();
-  }
-
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-@immutable
-abstract class _$MainPage extends PageWidgetBuilder<$MainPage> {
-  const _$MainPage();
-
-  @override
-  $MainPage create() => throw UnimplementedError();
-}
-
-class _MainPageState extends PageWidgetBuilderState<$MainPage, _MainPage> {}
-
-@immutable
 class _$UserPageQuery extends PageQueryBuilder {
   const _$UserPageQuery();
 
-  static final _regExp = RegExp(r"^page/(?<userId>[^/?&]+)$");
+  static final _regExp = RegExp(r"^page/(?<user_id>[^/?&]+)$");
 
-  _$_UserPageQuery call({required String userId}) =>
-      _$_UserPageQuery(userId: userId);
+  _$_UserPageQuery call({
+    Key? key,
+    required String userId,
+  }) =>
+      _$_UserPageQuery(key: key, userId: userId);
   @override
   PageQuery? resolve(
     String? path, {
@@ -101,13 +80,22 @@ class _$UserPageQuery extends PageQueryBuilder {
     if (match == null && !force) {
       return null;
     }
-    return _$_UserPageQuery(userId: match?.namedGroup("userId") ?? "");
+    return _$_UserPageQuery(
+        key: null,
+        userId: match?.groupNames.contains("userId") ?? false
+            ? match?.namedGroup("userId") ?? ""
+            : "");
   }
 }
 
 @immutable
 class _$_UserPageQuery extends PageQuery {
-  const _$_UserPageQuery({required this.userId});
+  const _$_UserPageQuery({
+    this.key,
+    required this.userId,
+  });
+
+  final Key? key;
 
   final String userId;
 
@@ -120,65 +108,23 @@ class _$_UserPageQuery extends PageQuery {
     return PageRouteQuery<T>(
       path: path,
       routeQuery: query,
-      builder: (context) {
-        return _UserPage(userId: userId);
-      },
+      builder: (context) => UserPage(key: key, userId: userId),
       transition: query?.transition ?? RouteQueryType.initial,
     );
   }
 }
 
 @immutable
-class $UserPage {
-  const $UserPage({required this.userId});
-
-  final String userId;
-
-  $UserPage copyWith({String? userId}) {
-    return $UserPage(userId: userId ?? this.userId);
-  }
-
-  @override
-  int get hashCode => userId.hashCode;
-  @override
-  bool operator ==(Object other) => super.hashCode == hashCode;
-}
-
-@immutable
-class _UserPage extends UserPage {
-  const _UserPage({required String userId})
-      : _userId = userId,
-        super._();
-
-  final String _userId;
-
-  @override
-  $UserPage create() {
-    return $UserPage(userId: _userId);
-  }
-
-  @override
-  _UserPageState createState() => _UserPageState();
-}
-
-@immutable
-abstract class _$UserPage extends PageWidgetBuilder<$UserPage> {
-  const _$UserPage();
-
-  @override
-  $UserPage create() => throw UnimplementedError();
-}
-
-class _UserPageState extends PageWidgetBuilderState<$UserPage, _UserPage> {}
-
-@immutable
 class _$ContentPageQuery extends PageQueryBuilder {
   const _$ContentPageQuery();
 
-  static final _regExp = RegExp(r"^content/(?<contentId>[^/?&]+)$");
+  static final _regExp = RegExp(r"^content/(?<content_id>[^/?&]+)$");
 
-  _$_ContentPageQuery call({required String contentId}) =>
-      _$_ContentPageQuery(contentId: contentId);
+  _$_ContentPageQuery call({
+    Key? key,
+    required String contentId,
+  }) =>
+      _$_ContentPageQuery(key: key, contentId: contentId);
   @override
   PageQuery? resolve(
     String? path, {
@@ -188,13 +134,22 @@ class _$ContentPageQuery extends PageQueryBuilder {
     if (match == null && !force) {
       return null;
     }
-    return _$_ContentPageQuery(contentId: match?.namedGroup("contentId") ?? "");
+    return _$_ContentPageQuery(
+        key: null,
+        contentId: match?.groupNames.contains("contentId") ?? false
+            ? match?.namedGroup("contentId") ?? ""
+            : "");
   }
 }
 
 @immutable
 class _$_ContentPageQuery extends PageQuery {
-  const _$_ContentPageQuery({required this.contentId});
+  const _$_ContentPageQuery({
+    this.key,
+    required this.contentId,
+  });
+
+  final Key? key;
 
   final String contentId;
 
@@ -207,54 +162,8 @@ class _$_ContentPageQuery extends PageQuery {
     return PageRouteQuery<T>(
       path: path,
       routeQuery: query,
-      builder: (context) {
-        return _ContentPage(contentId: contentId);
-      },
+      builder: (context) => ContentPage(key: key, contentId: contentId),
       transition: query?.transition ?? RouteQueryType.initial,
     );
   }
 }
-
-@immutable
-class $ContentPage {
-  const $ContentPage({required this.contentId});
-
-  final String contentId;
-
-  $ContentPage copyWith({String? contentId}) {
-    return $ContentPage(contentId: contentId ?? this.contentId);
-  }
-
-  @override
-  int get hashCode => contentId.hashCode;
-  @override
-  bool operator ==(Object other) => super.hashCode == hashCode;
-}
-
-@immutable
-class _ContentPage extends ContentPage {
-  const _ContentPage({required String contentId})
-      : _contentId = contentId,
-        super._();
-
-  final String _contentId;
-
-  @override
-  $ContentPage create() {
-    return $ContentPage(contentId: _contentId);
-  }
-
-  @override
-  _ContentPageState createState() => _ContentPageState();
-}
-
-@immutable
-abstract class _$ContentPage extends PageWidgetBuilder<$ContentPage> {
-  const _$ContentPage();
-
-  @override
-  $ContentPage create() => throw UnimplementedError();
-}
-
-class _ContentPageState
-    extends PageWidgetBuilderState<$ContentPage, _ContentPage> {}
