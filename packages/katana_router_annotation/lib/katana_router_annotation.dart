@@ -13,3 +13,4 @@ export 'package:katana/katana.dart';
 
 part 'src/page_path.dart';
 part 'src/page_path_param.dart';
+part 'src/app_route.dart';
