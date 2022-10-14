@@ -12,3 +12,4 @@ export 'package:freezed_annotation/freezed_annotation.dart' show Default;
 export 'package:katana/katana.dart';
 
 part 'src/page_path.dart';
+part 'src/page_path_param.dart';
