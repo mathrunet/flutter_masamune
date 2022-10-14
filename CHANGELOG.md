@@ -15,6 +15,40 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_annotation` - `v1.2.3`](#katana_router_annotation---v123)
+ - [`katana_router_riverpod_annotation` - `v1.2.4`](#katana_router_riverpod_annotation---v124)
+ - [`katana_router_builder` - `v1.2.5`](#katana_router_builder---v125)
+ - [`katana_router` - `v1.2.5`](#katana_router---v125)
+ - [`katana_router_riverpod` - `v1.2.5`](#katana_router_riverpod---v125)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router_riverpod_annotation` - `v1.2.4`
+ - `katana_router_builder` - `v1.2.5`
+ - `katana_router` - `v1.2.5`
+ - `katana_router_riverpod` - `v1.2.5`
+
+---
+
+#### `katana_router_annotation` - `v1.2.3`
+
+ - **FIX**: Fixed a bug that PagePathParam was not included. ([635ae942](https://github.com/mathrunet/flutter_masamune/commit/635ae942184d63c36ce66c4f018135f7d05ad259))
+
+
+## 2022-10-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router_annotation` - `v1.2.2`](#katana_router_annotation---v122)
  - [`katana_router_riverpod_annotation` - `v1.2.3`](#katana_router_riverpod_annotation---v123)
  - [`katana_router_builder` - `v1.2.4`](#katana_router_builder---v124)

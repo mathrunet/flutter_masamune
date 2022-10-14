@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Fixed a bug that PagePathParam was not included. ([635ae942](https://github.com/mathrunet/flutter_masamune/commit/635ae942184d63c36ce66c4f018135f7d05ad259))
+
 ## 1.2.2
 
  - **FIX**: PagePathParamを追加。. ([fc9fb24c](https://github.com/mathrunet/flutter_masamune/commit/fc9fb24c4d7a2ada9d13e34975b972125417582a))
