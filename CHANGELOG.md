@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_builder` - `v1.5.0`](#katana_router_builder---v150)
+
+---
+
+#### `katana_router_builder` - `v1.5.0`
+
+ - Bump "katana_router_builder" to `1.5.0`.
+
+
+## 2022-10-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.5.0`](#katana_router---v150)
 
 ---
