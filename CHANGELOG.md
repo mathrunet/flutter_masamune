@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router_annotation` - `v1.5.0`](#katana_router_annotation---v150)
+ - [`katana_router_builder` - `v1.3.4`](#katana_router_builder---v134)
+ - [`katana_router` - `v1.3.3`](#katana_router---v133)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router_builder` - `v1.3.4`
+ - `katana_router` - `v1.3.3`
+
+---
+
+#### `katana_router_annotation` - `v1.5.0`
+
+ - **FEAT**: Added pageRouteQuery. ([71cf8eea](https://github.com/mathrunet/flutter_masamune/commit/71cf8eea5b1d0b0aa5d27155bb7bec25bd431405))
+
+
 ## 2022-10-14
 
 ### Changes

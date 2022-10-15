@@ -1,3 +1,7 @@
+## 1.5.0
+
+ - **FEAT**: Added pageRouteQuery. ([71cf8eea](https://github.com/mathrunet/flutter_masamune/commit/71cf8eea5b1d0b0aa5d27155bb7bec25bd431405))
+
 ## 1.4.1
 
  - **FIX**: Fixed a bug that appRoute was not included. ([fb0859a8](https://github.com/mathrunet/flutter_masamune/commit/fb0859a89927b1fa2d8a4e9353ab2e2a52b7bb30))
