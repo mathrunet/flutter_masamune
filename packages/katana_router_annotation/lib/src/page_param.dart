@@ -16,7 +16,7 @@ part of katana_router_annotation;
 ///
 /// }
 /// ```
-const pagePathParam = PagePathParam();
+const pageParam = PageParam();
 
 /// Annotation to map each widget parameter to a variable in the page root.
 /// 各ウィジェットのパラメーターとページのルートの変数を対応するためのアノテーション。
@@ -37,7 +37,7 @@ const pagePathParam = PagePathParam();
 ///
 /// }
 /// ```
-class PagePathParam {
+class PageParam {
   /// Annotation to map each widget parameter to a variable in the page root.
   /// 各ウィジェットのパラメーターとページのルートの変数を対応するためのアノテーション。
   ///
@@ -57,7 +57,7 @@ class PagePathParam {
   ///
   /// }
   /// ```
-  const PagePathParam([this.name]);
+  const PageParam([this.name]);
 
   /// Name of parameter.
   /// パラメータの名前。

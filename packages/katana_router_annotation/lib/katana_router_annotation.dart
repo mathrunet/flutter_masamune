@@ -12,5 +12,6 @@ export 'package:freezed_annotation/freezed_annotation.dart' show Default;
 export 'package:katana/katana.dart';
 
 part 'src/page_path.dart';
-part 'src/page_path_param.dart';
+part 'src/page_param.dart';
 part 'src/app_route.dart';
+part 'src/page_query.dart';
