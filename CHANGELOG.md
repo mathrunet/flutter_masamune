@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_builder` - `v1.5.2`](#katana_router_builder---v152)
+
+---
+
+#### `katana_router_builder` - `v1.5.2`
+
+ - **FIX**: Remove freezed_annotation. ([a5a5d1a3](https://github.com/mathrunet/flutter_masamune/commit/a5a5d1a3e75d519e36d7e619c342444f93fc1011))
+
+
+## 2022-10-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.5.1`](#katana_router---v151)
  - [`katana_router_annotation` - `v1.5.1`](#katana_router_annotation---v151)
  - [`katana_router_builder` - `v1.5.1`](#katana_router_builder---v151)

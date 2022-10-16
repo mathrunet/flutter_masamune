@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Remove freezed_annotation. ([a5a5d1a3](https://github.com/mathrunet/flutter_masamune/commit/a5a5d1a3e75d519e36d7e619c342444f93fc1011))
+
 ## 1.5.1
 
  - **FIX**: Create a mechanism for automatic Routing generation. ([fb705f88](https://github.com/mathrunet/flutter_masamune/commit/fb705f886a17260d481d5b5bfb12820e197ff992))
