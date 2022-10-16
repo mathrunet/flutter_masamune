@@ -47,5 +47,5 @@ class Boot extends BootRouteQueryBuilder {
   }
 
   @override
-  TransitionQuery get initialRouteQuery => TransitionQuery.fade;
+  TransitionQuery get initialTransitionQuery => TransitionQuery.fade;
 }

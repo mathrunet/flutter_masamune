@@ -70,7 +70,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
     final boot = router._config.boot;
     if (boot != null) {
       await push<void>(boot.resolve(configuration.path));
-      return push<void>(configuration, boot.initialRouteQuery);
+      return push<void>(configuration, boot.initialTransitionQuery);
     }
     return super.setInitialRoutePath(configuration);
   }

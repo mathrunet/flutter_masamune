@@ -69,7 +69,7 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
 
   /// Define [TransitionQuery] for displaying the first page after the boot page.
   /// ブートページを表示した後最初のページを表示する際の[TransitionQuery]を定義します。
-  TransitionQuery get initialRouteQuery;
+  TransitionQuery get initialTransitionQuery;
 
   /// Describe the initialization process after the screen is displayed.
   /// 画面表示後の初期化処理を記述します。
