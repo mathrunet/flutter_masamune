@@ -1,6 +1,6 @@
-// Copyright 2022 mathru. All rights reserved.
+// Copyright 2023 mathru. All rights reserved.
 
-/// Building system for masamune packages. Automatic Model creation and Page route generation.
+/// Building system for katana router packages. Automatic Page route generation.
 ///
 /// To use, import `package:masamune_builder/masamune_builder.dart`.
 ///
@@ -24,7 +24,6 @@ import 'package:source_gen/source_gen.dart';
 
 import 'package:source_gen/source_gen.dart' as source_gen;
 
-part 'common/extends_class.dart';
 part 'common/query_class.dart';
 part 'common/router_class.dart';
 part 'generator/page_generator.dart';

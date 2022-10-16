@@ -1,6 +1,16 @@
 part of katana_router_builder;
 
+/// Defines the value of the class to which the annotation is assigned.
+/// アノテーションが付与されたクラスの値を定義します。
+///
+/// Specify the element to live in [element].
+/// [element]に暮らすエレメントを指定します。
 class ClassValue {
+  /// Defines the value of the class to which the annotation is assigned.
+  /// アノテーションが付与されたクラスの値を定義します。
+  ///
+  /// Specify the element to live in [element].
+  /// [element]に暮らすエレメントを指定します。
   ClassValue(this.element) {
     name = element.displayName;
     final contstuctor = element.constructors.firstWhere((e) {
@@ -11,9 +21,16 @@ class ClassValue {
     }).toList();
   }
 
+  /// Class Element.
+  /// クラスエレメント。
   final ClassElement element;
 
+  /// Class Name.
+  /// クラス名。
   late final String name;
+
+  /// Class parameters.
+  /// クラスのパラメーター。
   late final List<ParamaterValue> parameters;
 
   @override

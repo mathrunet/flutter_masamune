@@ -6,7 +6,6 @@ repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/k
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
-  flutter: ">=2.0.0"
 
 dependencies: 
   katana: ^0.15.0
@@ -16,7 +15,7 @@ dependencies:
   code_builder: ^4.2.0
   build_runner: ^2.2.0
   source_gen: ^1.2.2
-  analyzer: ^4.7.0
+  analyzer: ^	5.1.0
   built_collection: ^5.1.1
   glob: ^2.1.0
 

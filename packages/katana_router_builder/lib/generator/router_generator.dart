@@ -1,6 +1,10 @@
 part of katana_router_builder;
 
+/// Automatic generation of routers.
+/// ルーターの自動生成を行います。
 class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
+  /// Automatic generation of routers.
+  /// ルーターの自動生成を行います。
   RouterGenerator();
 
   static const _typeChecker = TypeChecker.fromRuntime(PagePath);

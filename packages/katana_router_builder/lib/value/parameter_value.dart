@@ -2,10 +2,20 @@ part of katana_router_builder;
 
 const _pageParamChecker = TypeChecker.fromRuntime(PageParam);
 
+/// Parameter Value.
+/// パラメーターの値。
+///
+/// Specify the parameter element in [element].
+/// [element]にパラメーターエレメントを指定します。
 class ParamaterValue {
+  /// Parameter Value.
+  /// パラメーターの値。
+  ///
+  /// Specify the parameter element in [element].
+  /// [element]にパラメーターエレメントを指定します。
   ParamaterValue(this.element) {
     name = element.displayName;
-    if (ignoreWords.contains(name)) {
+    if (_ignoreWords.contains(name)) {
       throw Exception(
         "`$name` is a prohibited word. This word cannot be set as a parameter. Please specify another name.",
       );
@@ -26,17 +36,6 @@ class ParamaterValue {
     if (element.type.isNullable || element.isRequired) {
       defaultValue = null;
     } else {
-      // if (_defaultChecker.hasAnnotationOfExact(element)) {
-      //   defaultValue = _defaultChecker
-      //       .firstAnnotationOfExact(element)
-      //       ?.getField("defaultValue")
-      //       ?.toValue();
-      //   if (defaultValue.runtimeType.toString() != type.toString()) {
-      //     throw Exception(
-      //       "Different types of DefaultValue:${defaultValue.runtimeType.toString()}!=${type.toString()} at $name($type)",
-      //     );
-      //   }
-      // } else
       if (element.hasDefaultValue) {
         defaultValue = element.defaultValueCode;
       } else {
@@ -44,10 +43,25 @@ class ParamaterValue {
       }
     }
   }
+
+  /// Parameter Element.
+  /// パラメーターエレメント。
   final ParameterElement element;
+
+  /// Default value of the parameter.
+  /// パラメーターのデフォルト値。
   late final Object? defaultValue;
+
+  /// Parameter Type.
+  /// パラメーターのタイプ。
   late final DartType type;
+
+  /// Name of parameter.
+  /// パラメーターの名前。
   late final String name;
+
+  /// Name for the parameter path.
+  /// パラメーターのパス用の名前。
   late final String pageParamName;
 
   @override

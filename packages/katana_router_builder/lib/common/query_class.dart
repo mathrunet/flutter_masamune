@@ -1,5 +1,10 @@
 part of katana_router_builder;
 
+/// Create classes for queries.
+/// クエリー用のクラスを作成します。
+///
+/// Pass the value for the query to [model], the path created from the annotation to [path], and the annotation value to [annotation].
+/// [model]にクエリー用の値を[path]にアノテーションから作成されたパスを[annotation]にアノテーションの値を渡します。
 List<Class> queryClass(
   ClassValue model,
   PathValue path,
@@ -23,7 +28,7 @@ List<Class> queryClass(
               ..static = true
               ..modifier = FieldModifier.final$
               ..assignment = Code(
-                "RegExp(r\"^${path.path.trimQuery().trimString("/").replaceAllMapped(pathRegExp, (match) {
+                "RegExp(r\"^${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
                   return "(?<${match.group(1)!}>[^/?&]+)";
                 })}\$\")",
               ),
@@ -118,7 +123,7 @@ List<Class> queryClass(
               ..lambda = true
               ..returns = const Reference("String")
               ..body = Code(
-                  "\"${path.path.trimQuery().trimString("/").replaceAllMapped(pathRegExp, (match) {
+                  "\"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
                 return "\$${match.group(1)?.toCamelCase()}";
               })}\""),
           ),
