@@ -1,6 +1,5 @@
 part of katana_router_builder;
 
-const _defaultChecker = TypeChecker.fromRuntime(Default);
 const _pageParamChecker = TypeChecker.fromRuntime(PageParam);
 
 class ParamaterValue {
@@ -27,17 +26,18 @@ class ParamaterValue {
     if (element.type.isNullable || element.isRequired) {
       defaultValue = null;
     } else {
-      if (_defaultChecker.hasAnnotationOfExact(element)) {
-        defaultValue = _defaultChecker
-            .firstAnnotationOfExact(element)
-            ?.getField("defaultValue")
-            ?.toValue();
-        if (defaultValue.runtimeType.toString() != type.toString()) {
-          throw Exception(
-            "Different types of DefaultValue:${defaultValue.runtimeType.toString()}!=${type.toString()} at $name($type)",
-          );
-        }
-      } else if (element.hasDefaultValue) {
+      // if (_defaultChecker.hasAnnotationOfExact(element)) {
+      //   defaultValue = _defaultChecker
+      //       .firstAnnotationOfExact(element)
+      //       ?.getField("defaultValue")
+      //       ?.toValue();
+      //   if (defaultValue.runtimeType.toString() != type.toString()) {
+      //     throw Exception(
+      //       "Different types of DefaultValue:${defaultValue.runtimeType.toString()}!=${type.toString()} at $name($type)",
+      //     );
+      //   }
+      // } else
+      if (element.hasDefaultValue) {
         defaultValue = element.defaultValueCode;
       } else {
         defaultValue = null;
