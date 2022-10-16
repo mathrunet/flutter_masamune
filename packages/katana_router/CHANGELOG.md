@@ -1,3 +1,7 @@
+## 1.5.4
+
+ - **FIX**: Rewrote README. ([04a0b64b](https://github.com/mathrunet/flutter_masamune/commit/04a0b64b353cdf934c4c9c9e29b79edea2e0e51e))
+
 ## 1.5.3
 
  - **FIX**: Change initialRouteQuery to initialTransitionQuery. ([aff3de90](https://github.com/mathrunet/flutter_masamune/commit/aff3de90182da8652b36574cfd4811a03d621644))

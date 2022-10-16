@@ -1,3 +1,7 @@
+## 1.5.4
+
+ - **FIX**: Rewrote README. ([04a0b64b](https://github.com/mathrunet/flutter_masamune/commit/04a0b64b353cdf934c4c9c9e29b79edea2e0e51e))
+
 ## 1.5.3
 
  - **FIX**: Additional Comments. ([08933e1a](https://github.com/mathrunet/flutter_masamune/commit/08933e1adab79bdf5bd15978d6199c56a3c2d57f))
