@@ -1,3 +1,7 @@
+## 1.5.3
+
+ - **FIX**: Additional Comments. ([08933e1a](https://github.com/mathrunet/flutter_masamune/commit/08933e1adab79bdf5bd15978d6199c56a3c2d57f))
+
 ## 1.5.2
 
  - **FIX**: Remove freezed_annotation. ([a5a5d1a3](https://github.com/mathrunet/flutter_masamune/commit/a5a5d1a3e75d519e36d7e619c342444f93fc1011))

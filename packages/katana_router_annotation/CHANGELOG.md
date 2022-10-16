@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Create a description. ([5664d68f](https://github.com/mathrunet/flutter_masamune/commit/5664d68f5105b273a0377fd2add81fd58e28d5e3))
+
 ## 1.5.1
 
  - **FIX**: Remove freezed_annotation. ([3317df0f](https://github.com/mathrunet/flutter_masamune/commit/3317df0f0cece5d127400ab35554bac0ba19bc06))

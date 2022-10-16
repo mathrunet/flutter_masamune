@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Create a description. ([5664d68f](https://github.com/mathrunet/flutter_masamune/commit/5664d68f5105b273a0377fd2add81fd58e28d5e3))
+
 ## 1.5.1
 
  - **FIX**: Refactoring and name change. ([3f8e9a34](https://github.com/mathrunet/flutter_masamune/commit/3f8e9a34f7d7c011d6e010e1ff041fe1522ac822))
