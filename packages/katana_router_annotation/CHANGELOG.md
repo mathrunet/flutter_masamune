@@ -1,3 +1,7 @@
+## 1.5.1
+
+ - **FIX**: Remove freezed_annotation. ([3317df0f](https://github.com/mathrunet/flutter_masamune/commit/3317df0f0cece5d127400ab35554bac0ba19bc06))
+
 ## 1.5.0
 
  - **FEAT**: Added pageRouteQuery. ([71cf8eea](https://github.com/mathrunet/flutter_masamune/commit/71cf8eea5b1d0b0aa5d27155bb7bec25bd431405))

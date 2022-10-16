@@ -1,3 +1,7 @@
+## 1.5.1
+
+ - **FIX**: Refactoring and name change. ([3f8e9a34](https://github.com/mathrunet/flutter_masamune/commit/3f8e9a34f7d7c011d6e010e1ff041fe1522ac822))
+
 ## 1.5.0
 
  - Bump "katana_router" to `1.5.0`.

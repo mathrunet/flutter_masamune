@@ -1,3 +1,7 @@
+## 1.5.1
+
+ - **FIX**: Create a mechanism for automatic Routing generation. ([fb705f88](https://github.com/mathrunet/flutter_masamune/commit/fb705f886a17260d481d5b5bfb12820e197ff992))
+
 ## 1.5.0
 
  - Bump "katana_router_builder" to `1.5.0`.
