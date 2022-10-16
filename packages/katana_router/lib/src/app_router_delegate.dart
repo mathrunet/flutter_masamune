@@ -1,13 +1,14 @@
 part of katana_router;
 
-class _AppRouterDelegate extends RouterDelegate<PageQuery> with ChangeNotifier {
+class _AppRouterDelegate extends RouterDelegate<RouteQuery>
+    with ChangeNotifier {
   _AppRouterDelegate({
     required this.router,
     this.observers = const [],
     this.restorationScopeId,
   });
 
-  final AppRouter router;
+  final AppRouterBase router;
   final String? restorationScopeId;
   final List<NavigatorObserver> observers;
 
@@ -34,14 +35,14 @@ class _AppRouterDelegate extends RouterDelegate<PageQuery> with ChangeNotifier {
   }
 
   Future<E?> push<E>(
-    PageQuery pageQuery, [
-    RouteQuery? routeQuery,
+    RouteQuery pageQuery, [
+    TransitionQuery? routeQuery,
   ]) =>
       router.push<E>(pageQuery, routeQuery);
 
   Future<E?> replace<E>(
-    PageQuery pageQuery, [
-    RouteQuery? routeQuery,
+    RouteQuery pageQuery, [
+    TransitionQuery? routeQuery,
   ]) =>
       router.replace<E>(pageQuery, routeQuery);
 
@@ -60,12 +61,12 @@ class _AppRouterDelegate extends RouterDelegate<PageQuery> with ChangeNotifier {
   }
 
   @override
-  Future<void> setNewRoutePath(PageQuery configuration) {
+  Future<void> setNewRoutePath(RouteQuery configuration) {
     return push<void>(configuration);
   }
 
   @override
-  Future<void> setInitialRoutePath(PageQuery configuration) async {
+  Future<void> setInitialRoutePath(RouteQuery configuration) async {
     final boot = router._config.boot;
     if (boot != null) {
       await push<void>(boot.resolve(configuration.path));

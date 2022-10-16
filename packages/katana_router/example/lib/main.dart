@@ -4,18 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:katana_router/katana_router.dart';
 import 'test.dart';
 
+import 'main.router.dart';
+
+@appRoute
+final appRouter = AppRouter();
+
 void main() {
   runApp(const MyApp());
 }
-
-final appRoute = AppRouter(
-  boot: Boot(),
-  pages: [
-    MainPage.query,
-    UserPage.query,
-    ContentPage.query,
-  ],
-);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -23,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: appRoute,
+      routerConfig: appRouter,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -33,7 +29,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Boot extends BootPageQueryBuilder {
+class Boot extends BootRouteQueryBuilder {
   const Boot({super.key});
 
   @override
@@ -51,5 +47,5 @@ class Boot extends BootPageQueryBuilder {
   }
 
   @override
-  RouteQuery get initialRouteQuery => RouteQuery.fade;
+  TransitionQuery get initialRouteQuery => TransitionQuery.fade;
 }

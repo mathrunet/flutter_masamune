@@ -3,6 +3,9 @@ part of katana_router;
 /// Controller to define routing for the entire app.
 /// アプリ全体のルーティングを定義するためのコントローラー。
 ///
+/// It is an abstract class and should be used by inheriting it from a class such as `AppRouter`.
+/// 抽象クラスなので`AppRouter`などのクラスに継承して利用してください。
+///
 /// You can define the routing for the entire app by passing it to `routerConfig` in [MaterialApp.router].
 /// [MaterialApp.router]の`routerConfig`に渡すことでアプリ全体のルーティングを定義することができます。
 ///
@@ -39,9 +42,9 @@ part of katana_router;
 /// }
 ///
 /// ```
-class AppRouter extends ChangeNotifier
+abstract class AppRouterBase extends ChangeNotifier
     with NavigatorObserver
-    implements RouterConfig<PageQuery> {
+    implements RouterConfig<RouteQuery> {
   /// Controller to define routing for the entire app.
   /// アプリ全体のルーティングを定義するためのコントローラー。
   ///
@@ -51,8 +54,8 @@ class AppRouter extends ChangeNotifier
   /// The controller itself can also be manipulated, and page transitions can be performed directly by executing [push], [replace], and [pop].
   /// また、このコントローラー自体を操作することが可能で[push]や[replace]、[pop]を実行することでページ遷移を直接行うことが可能です。
   ///
-  /// It is also possible to get the [AppRouter] object itself with [AppRouter.of].
-  /// また、[AppRouter.of]で[AppRouter]のオブジェクト自体を取得することも可能です。
+  /// It is also possible to get the [AppRouterBase] object itself with [AppRouterBase.of].
+  /// また、[AppRouterBase.of]で[AppRouterBase]のオブジェクト自体を取得することも可能です。
   ///
   /// By executing [setPathUrlStrategy], it is possible to use URLs with the web hash (#) removed.
   /// [setPathUrlStrategy]を実行することでWebのハッシュ（#）を消したURLを利用することが可能になります。
@@ -84,17 +87,17 @@ class AppRouter extends ChangeNotifier
   /// }
   ///
   /// ```
-  AppRouter({
-    UnknownPageQueryBuilder? unknown,
-    BootPageQueryBuilder? boot,
+  AppRouterBase({
+    UnknownRouteQueryBuilder? unknown,
+    BootRouteQueryBuilder? boot,
     String? initialPath = "/",
-    required List<PageQueryBuilder> pages,
+    required List<RouteQueryBuilder> pages,
     List<RedirectQuery> redirect = const [],
     List<NavigatorObserver> observers = const [],
     int redirectLimit = 5,
     GlobalKey<NavigatorState>? navigatorKey,
     String? restorationScopeId,
-    RouteQuery? defaultRouteQuery,
+    TransitionQuery? defaultRouteQuery,
   }) {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
@@ -127,11 +130,11 @@ class AppRouter extends ChangeNotifier
   final List<_PageStackContainer> _pageStack = [];
 
   @override
-  RouterDelegate<PageQuery> get routerDelegate => _routerDelegate;
+  RouterDelegate<RouteQuery> get routerDelegate => _routerDelegate;
   late final _AppRouterDelegate _routerDelegate;
 
   @override
-  RouteInformationParser<PageQuery> get routeInformationParser =>
+  RouteInformationParser<RouteQuery> get routeInformationParser =>
       _routeInformationParser;
   late final _AppRouteInformationParser _routeInformationParser;
 
@@ -159,7 +162,7 @@ class AppRouter extends ChangeNotifier
   ///
   /// In doing so, it can also receive the object passed by [pop].
   /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
-  Future<E?> push<E>(PageQuery pageQuery, [RouteQuery? routeQuery]) {
+  Future<E?> push<E>(RouteQuery pageQuery, [TransitionQuery? routeQuery]) {
     final completer = Completer<E?>();
     _pageStack.add(
       _PageStackContainer<E>(
@@ -183,7 +186,7 @@ class AppRouter extends ChangeNotifier
   ///
   /// In doing so, it can also receive the object passed by [pop].
   /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
-  Future<E?> replace<E>(PageQuery pageQuery, [RouteQuery? routeQuery]) {
+  Future<E?> replace<E>(RouteQuery pageQuery, [TransitionQuery? routeQuery]) {
     pop();
     return push<E>(pageQuery, routeQuery);
   }
@@ -210,7 +213,7 @@ class AppRouter extends ChangeNotifier
     _routerDelegate.notifyListeners();
   }
 
-  void popUntil<E>(bool Function(PageQuery query) predicate, [E? result]) {
+  void popUntil<E>(bool Function(RouteQuery query) predicate, [E? result]) {
     var index = _pageStack.length - 1;
     while (index >= 0 && !predicate(_pageStack[index].query)) {
       final container = _pageStack.removeAt(index);
@@ -230,7 +233,8 @@ class AppRouter extends ChangeNotifier
     _routerDelegate.notifyListeners();
   }
 
-  Future<E?> resetAndPush<E>(PageQuery pageQuery, [RouteQuery? routeQuery]) {
+  Future<E?> resetAndPush<E>(RouteQuery pageQuery,
+      [TransitionQuery? routeQuery]) {
     var index = _pageStack.length - 1;
     while (index >= 0) {
       final container = _pageStack.removeAt(index);
@@ -253,12 +257,12 @@ class AppRouter extends ChangeNotifier
   /// これは、すべてのプラットフォームで安全に呼び出すことができます。つまり、モバイルまたはデスクトップで実行している場合でも同様です。その場合、それは単にヌープになります。
   static void setPathUrlStrategy() => url_strategy.setPathUrlStrategy();
 
-  /// Get [AppRouter] placed on the widget tree.
-  /// ウィジェットツリー上に配置されている[AppRouter]を取得します。
+  /// Get [AppRouterBase] placed on the widget tree.
+  /// ウィジェットツリー上に配置されている[AppRouterBase]を取得します。
   ///
-  /// Setting [root] to `true` will get [AppRouter] at the top level.
-  /// [root]を`true`にすると最上位にある[AppRouter]を取得します。
-  static AppRouter of(BuildContext context, {bool root = false}) {
+  /// Setting [root] to `true` will get [AppRouterBase] at the top level.
+  /// [root]を`true`にすると最上位にある[AppRouterBase]を取得します。
+  static AppRouterBase of(BuildContext context, {bool root = false}) {
     final navigator = Navigator.of(context, rootNavigator: root).context;
     final scope = navigator
         .getElementForInheritedWidgetOfExactType<AppRouteScope>()
@@ -267,9 +271,9 @@ class AppRouter extends ChangeNotifier
     return scope!.router;
   }
 
-  FutureOr<PageQuery> _redirect(
+  FutureOr<RouteQuery> _redirect(
     BuildContext context,
-    PageQuery query,
+    RouteQuery query,
   ) async {
     final redirectList = [
       ...query.redirect(),
@@ -320,11 +324,11 @@ class AppRouter extends ChangeNotifier
   }
 }
 
-/// [InheritedWidget] for placing [AppRouter] on the widget tree.
-/// [AppRouter]をウィジェットツリー上に配置するための[InheritedWidget]。
+/// [InheritedWidget] for placing [AppRouterBase] on the widget tree.
+/// [AppRouterBase]をウィジェットツリー上に配置するための[InheritedWidget]。
 ///
-/// You can take the value of [AppRouter] passed here in [AppRouter.of].
-/// [AppRouter.of]でここで渡した[AppRouter]の値を取ることができます。
+/// You can take the value of [AppRouterBase] passed here in [AppRouterBase.of].
+/// [AppRouterBase.of]でここで渡した[AppRouterBase]の値を取ることができます。
 class AppRouteScope extends InheritedWidget {
   const AppRouteScope({
     super.key,
@@ -332,9 +336,9 @@ class AppRouteScope extends InheritedWidget {
     required super.child,
   });
 
-  /// Value of [AppRouter].
-  /// [AppRouter]の値。
-  final AppRouter router;
+  /// Value of [AppRouterBase].
+  /// [AppRouterBase]の値。
+  final AppRouterBase router;
 
   @override
   bool updateShouldNotify(covariant AppRouteScope oldWidget) {
@@ -350,8 +354,8 @@ class _PageStackContainer<T> {
     required this.completer,
   });
 
-  final PageRouteQuery<T> route;
-  final PageQuery query;
+  final AppPageRoute<T> route;
+  final RouteQuery query;
 
   final Completer<T?> completer;
 }
@@ -367,11 +371,11 @@ class _AppRouterConfig {
     required this.navigatorKey,
     this.defaultRouteQuery,
   });
-  final BootPageQueryBuilder? boot;
-  final UnknownPageQueryBuilder? unknown;
-  final List<PageQueryBuilder> pages;
+  final BootRouteQueryBuilder? boot;
+  final UnknownRouteQueryBuilder? unknown;
+  final List<RouteQueryBuilder> pages;
   final List<RedirectQuery> redirect;
   final int redirectLimite;
   final GlobalKey<NavigatorState> navigatorKey;
-  final RouteQuery? defaultRouteQuery;
+  final TransitionQuery? defaultRouteQuery;
 }

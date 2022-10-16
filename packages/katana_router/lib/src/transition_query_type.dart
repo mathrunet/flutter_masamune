@@ -2,7 +2,7 @@ part of katana_router;
 
 /// Defines how the page transitions.
 /// ページのトランジション方法を定義します。
-enum RouteQueryType {
+enum TransitionQueryType {
   /// Default transitions.
   /// デフォルトのトランジション。
   initial,

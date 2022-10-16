@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:katana_router/katana_router.dart';
 
-part "test.router.dart";
+part "test.page.dart";
 
 @PagePath("/")
 class MainPage extends StatelessWidget {
@@ -14,7 +14,8 @@ class MainPage extends StatelessWidget {
 
   final String title;
 
-  static const query = _$MainPageQuery();
+  @pageRouteQuery
+  static const query = _$MainPage();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class MainPage extends StatelessWidget {
               onTap: () async {
                 final aa = await context.router.push<String>(
                   UserPage.query(userId: "aaaa"),
-                  RouteQuery.fullscreen,
+                  TransitionQuery.fullscreen,
                 );
                 print(aa);
               },
@@ -59,8 +60,10 @@ class UserPage extends StatelessWidget {
     super.key,
     required this.userId,
   });
-
   final String userId;
+
+  @pageRouteQuery
+  static const query = _$UserPage();
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +82,6 @@ class UserPage extends StatelessWidget {
       ),
     );
   }
-
-  static const query = _$UserPageQuery();
 }
 
 @PagePath("/content/:content_id")
@@ -91,6 +92,9 @@ class ContentPage extends StatelessWidget {
   });
 
   final String contentId;
+
+  @pageRouteQuery
+  static const query = _$ContentPage();
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +113,4 @@ class ContentPage extends StatelessWidget {
       ),
     );
   }
-
-  static const query = _$ContentPageQuery();
 }

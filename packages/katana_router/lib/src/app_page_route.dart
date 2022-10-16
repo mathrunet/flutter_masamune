@@ -15,7 +15,7 @@ const kTransitionDuration = Duration(milliseconds: 300);
 ///
 /// You can specify [RouteSettings] to move to the next page in `settings`.
 /// `settings`に次のページに移るための[RouteSettings]を指定できます。
-abstract class PageRouteQuery<T> extends Page<T> {
+abstract class AppPageRoute<T> extends Page<T> {
   /// Default [PageRoute].
   /// デフォルトの[PageRoute]。
   ///
@@ -27,14 +27,14 @@ abstract class PageRouteQuery<T> extends Page<T> {
   ///
   /// You can specify [RouteSettings] to move to the next page in `settings`.
   /// `settings`に次のページに移るための[RouteSettings]を指定できます。
-  factory PageRouteQuery({
+  factory AppPageRoute({
     LocalKey? key,
     required WidgetBuilder builder,
     required String? path,
-    RouteQuery? routeQuery,
-    RouteQueryType transition = RouteQueryType.initial,
+    TransitionQuery? routeQuery,
+    TransitionQueryType transition = TransitionQueryType.initial,
   }) {
-    if (transition == RouteQueryType.modal) {
+    if (transition == TransitionQueryType.modal) {
       return _ModalPageRoute(
         key: key ?? ValueKey(path),
         builder: builder,
@@ -54,12 +54,12 @@ abstract class PageRouteQuery<T> extends Page<T> {
 }
 
 @immutable
-class _ModalPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
+class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   const _ModalPageRoute({
     super.key,
     required this.builder,
     required String? path,
-    RouteQuery? routeQuery,
+    TransitionQuery? routeQuery,
     this.isAndroidBackEnable = true,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.opaque = false,
@@ -124,17 +124,17 @@ class _ModalPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
 }
 
 @immutable
-class _DefaultPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
+class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   const _DefaultPageRoute({
     super.key,
     required this.builder,
     required String? path,
-    RouteQuery? routeQuery,
-    this.transition = RouteQueryType.initial,
+    TransitionQuery? routeQuery,
+    this.transition = TransitionQueryType.initial,
   }) : super(name: path, arguments: routeQuery);
 
   final WidgetBuilder builder;
-  final RouteQueryType transition;
+  final TransitionQueryType transition;
 
   static final Animatable<Offset> _slideUpTween = Tween<Offset>(
     begin: const Offset(0.0, 0.25),
@@ -166,14 +166,14 @@ class _DefaultPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
       },
       transitionDuration: kTransitionDuration,
       reverseTransitionDuration: kTransitionDuration,
-      fullscreenDialog: transition == RouteQueryType.fullscreen,
+      fullscreenDialog: transition == TransitionQueryType.fullscreen,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         _TransitionType? rawTransitionType;
-        if (transition == RouteQueryType.none) {
+        if (transition == TransitionQueryType.none) {
           return child;
         }
         if (kIsWeb) {
-          if (transition == RouteQueryType.fullscreen) {
+          if (transition == TransitionQueryType.fullscreen) {
             return SlideTransition(
               position: _slideUpTween.animate(animation),
               child: FadeTransition(
@@ -190,7 +190,7 @@ class _DefaultPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
         }
         if (rawTransitionType == null) {
           switch (transition) {
-            case RouteQueryType.fullscreen:
+            case TransitionQueryType.fullscreen:
               return SlideTransition(
                 position: _slideUpTween.animate(animation),
                 child: FadeTransition(
@@ -198,7 +198,7 @@ class _DefaultPageRoute<T> extends Page<T> implements PageRouteQuery<T> {
                   child: child,
                 ),
               );
-            case RouteQueryType.fade:
+            case TransitionQueryType.fade:
               rawTransitionType = _TransitionType.fade;
               break;
             default:

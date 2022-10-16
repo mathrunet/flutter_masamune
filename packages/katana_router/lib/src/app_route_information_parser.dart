@@ -1,15 +1,15 @@
 part of katana_router;
 
 @immutable
-class _AppRouteInformationParser extends RouteInformationParser<PageQuery> {
+class _AppRouteInformationParser extends RouteInformationParser<RouteQuery> {
   const _AppRouteInformationParser(
     this.router,
   );
 
-  final AppRouter router;
+  final AppRouterBase router;
 
   @override
-  Future<PageQuery> parseRouteInformationWithDependencies(
+  Future<RouteQuery> parseRouteInformationWithDependencies(
     RouteInformation routeInformation,
     BuildContext context,
   ) async {
@@ -18,12 +18,12 @@ class _AppRouteInformationParser extends RouteInformationParser<PageQuery> {
             .map((e) => e.resolve(path))
             .firstWhereOrNull((e) => e != null) ??
         router._config.unknown?.resolve(path ?? "") ??
-        const _EmptyPageQuery();
+        const _EmptyRouteQuery();
     return await router._redirect(context, query);
   }
 
   @override
-  RouteInformation? restoreRouteInformation(PageQuery configuration) {
+  RouteInformation? restoreRouteInformation(RouteQuery configuration) {
     return RouteInformation(location: configuration.path, state: configuration);
   }
 }

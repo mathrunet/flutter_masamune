@@ -1,6 +1,6 @@
-// Copyright 2022 mathru. All rights reserved.
+// Copyright 2023 mathru. All rights reserved.
 
-/// Package that improvement of routing.
+/// A package to automatically create routing configurations with build_runner to enable type-safe routing.
 ///
 /// To use, import `package:katana_router/katana_router.dart`.
 ///
@@ -20,12 +20,12 @@ export 'package:katana/katana.dart';
 export 'package:katana_router_annotation/katana_router_annotation.dart';
 
 part "src/extensions.dart";
-part "src/page_query.dart";
-part 'src/page_query_builder.dart';
-part 'src/page_route_query.dart';
+part 'src/route_query.dart';
+part 'src/route_query_builder.dart';
+part 'src/app_page_route.dart';
 part 'src/redirect_query.dart';
-part "src/route_query.dart";
-part 'src/route_query_type.dart';
+part 'src/transition_query.dart';
+part 'src/transition_query_type.dart';
 part 'src/app_router.dart';
 part 'src/app_route_information_parser.dart';
 part 'src/app_router_delegate.dart';

@@ -46,7 +46,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   ///
   /// If not found, return to the first page.
   /// 見つからない場合は最初のページまで戻ります。
-  void popUntilPage(PageQuery pageQuery) {
+  void popUntilPage(RouteQuery pageQuery) {
     return popUntilNamed(pageQuery.toString());
   }
 
@@ -59,8 +59,8 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
   Future<T?> resetAndPushPage<T extends Object?>(
-    PageQuery newRoutePage, [
-    RouteQuery? query,
+    RouteQuery newRoutePage, [
+    TransitionQuery? query,
   ]) async {
     final route = newRoutePage.route<T>(query);
     return resetAndPush<T>(
@@ -80,9 +80,9 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
   Future<T?> popAndPushPage<T extends Object?, TO extends Object?>(
-    PageQuery routePage, {
+    RouteQuery routePage, {
     TO? result,
-    RouteQuery? query,
+    TransitionQuery? query,
   }) {
     pop<TO>(result);
     return pushPage(routePage, query);
@@ -97,8 +97,8 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
   Future<T?> pushPage<T extends Object?>(
-    PageQuery routePage, [
-    RouteQuery? query,
+    RouteQuery routePage, [
+    TransitionQuery? query,
   ]) async {
     final route = routePage.route<T>(query);
     return push<T>(
@@ -115,9 +115,9 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
   Future<T?> pushPageAndRemoveUntil<T extends Object?>(
-    PageQuery newRoutePage,
+    RouteQuery newRoutePage,
     RoutePredicate predicate, [
-    RouteQuery? query,
+    TransitionQuery? query,
   ]) async {
     final route = newRoutePage.route<T>(query);
     return pushAndRemoveUntil<T>(
@@ -135,9 +135,9 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
   /// You can specify page transitions, etc. by giving [query].
   /// [query]を与えることでページのトランジションなどを指定することができます。
   Future<T?> pushReplacementPage<T extends Object?, TO extends Object?>(
-    PageQuery routePage, {
+    RouteQuery routePage, {
     TO? result,
-    RouteQuery? query,
+    TransitionQuery? query,
   }) async {
     return pushReplacement<T, TO>(
       routePage.route<T>(query).createRoute(context),
@@ -149,21 +149,21 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
 /// Provides extension methods for [BuildContext].
 /// [BuildContext]の拡張メソッドを提供します。
 extension RoutingBuildContedxtExtensions on BuildContext {
-  /// Get [AppRouter].
-  /// [AppRouter]を取得します。
+  /// Get [AppRouterBase].
+  /// [AppRouterBase]を取得します。
   ///
-  /// Page transitions can be performed directly by executing [AppRouter.push], [AppRouter.replace], or [AppRouter.pop].
-  /// [AppRouter.push]や[AppRouter.replace]、[AppRouter.pop]を実行することでページ遷移を直接行うことが可能です。
-  AppRouter get router {
-    return AppRouter.of(this);
+  /// Page transitions can be performed directly by executing [AppRouterBase.push], [AppRouterBase.replace], or [AppRouterBase.pop].
+  /// [AppRouterBase.push]や[AppRouterBase.replace]、[AppRouterBase.pop]を実行することでページ遷移を直接行うことが可能です。
+  AppRouterBase get router {
+    return AppRouterBase.of(this);
   }
 
-  /// Get the root [AppRouter].
-  /// ルートの[AppRouter]を取得します。
+  /// Get the root [AppRouterBase].
+  /// ルートの[AppRouterBase]を取得します。
   ///
-  /// Page transitions can be performed directly by executing [AppRouter.push], [AppRouter.replace], or [AppRouter.pop].
-  /// [AppRouter.push]や[AppRouter.replace]、[AppRouter.pop]を実行することでページ遷移を直接行うことが可能です。
-  AppRouter get rootRouter {
-    return AppRouter.of(this, root: true);
+  /// Page transitions can be performed directly by executing [AppRouterBase.push], [AppRouterBase.replace], or [AppRouterBase.pop].
+  /// [AppRouterBase.push]や[AppRouterBase.replace]、[AppRouterBase.pop]を実行することでページ遷移を直接行うことが可能です。
+  AppRouterBase get rootRouter {
+    return AppRouterBase.of(this, root: true);
   }
 }

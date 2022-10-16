@@ -1,70 +1,43 @@
 part of katana_router;
 
-/// Route queries for page transitions.
-/// ページ遷移するためのルートクエリー。
+/// Base class for creating queries to perform page transitions.
+/// ページ遷移を行うためのクエリーを作成するためのベースクラス。
 ///
-/// You can define page transitions by specifying [transition].
-/// [transition]を指定することでページのトランジションを定義できます。
-///
-/// [RouteQuery.fullscreen], [RouteQuery.fade], [RouteQuery.immediately], and [RouteQuery.modal] to get the [RouteQuery] that defines each transition as is.
-/// [RouteQuery.fullscreen]、[RouteQuery.fade]、[RouteQuery.immediately]、[RouteQuery.modal]で各トランジションを定義した[RouteQuery]をそのまま取得できます。
+/// Enter the path name of the page in [path] and make [route] return [Route] for the page transition.
+/// [path]にページのパス名を入力し、[route]にページ遷移を行うための[Route]を返すようにします。
 @immutable
-class RouteQuery {
-  /// Route queries for page transitions.
-  /// ページ遷移するためのルートクエリー。
+abstract class RouteQuery {
+  /// Base class for creating queries to perform page transitions.
+  /// ページ遷移を行うためのクエリーを作成するためのベースクラス。
   ///
-  /// You can define page transitions by specifying [transition].
-  /// [transition]を指定することでページのトランジションを定義できます。
+  /// Enter the path name of the page in [path] and make [route] return [Route] for the page transition.
+  /// [path]にページのパス名を入力し、[route]にページ遷移を行うための[Route]を返すようにします。
+  const RouteQuery();
+
+  /// The path name of the page.
+  /// ページのパス名。
+  String get path;
+
+  /// Make [AppPageRoute] return to perform page transitions.
+  /// ページ遷移を行うための[AppPageRoute]を返すようにします。
   ///
-  /// [RouteQuery.fullscreen], [RouteQuery.fade], [RouteQuery.immediately], and [RouteQuery.modal] to get the [RouteQuery] that defines each transition as is.
-  /// [RouteQuery.fullscreen]、[RouteQuery.fade]、[RouteQuery.immediately]、[RouteQuery.modal]で各トランジションを定義した[RouteQuery]をそのまま取得できます。
-  const RouteQuery({
-    this.transition = RouteQueryType.initial,
-  });
+  /// You can specify the method of transition, etc. by passing [TransitionQuery] for page transitions to [query].
+  /// [query]にページ遷移を行う際の[TransitionQuery]を渡すことでトランジションの方法などを指定できます。
+  AppPageRoute<T> route<T>(TransitionQuery? query);
 
-  /// Page transitions.
-  /// ページのトランジション。
-  final RouteQueryType transition;
-
-  /// Create a new [RouteQuery] with parameters.
-  /// パラメーターを与えて新しい[RouteQuery]を作成します。
-  RouteQuery copyWith({
-    RouteQueryType? transition,
-  }) {
-    return RouteQuery(
-      transition: transition ?? this.transition,
-    );
-  }
-
-  /// [RouteQuery] for full screen transitions.
-  /// フルスクリーンのトランジションを行う[RouteQuery]。
-  static RouteQuery get fullscreen =>
-      const RouteQuery(transition: RouteQueryType.fullscreen);
-
-  /// No transitions [RouteQuery].
-  /// トランジションを行なわない[RouteQuery]。
-  static RouteQuery get immediately =>
-      const RouteQuery(transition: RouteQueryType.none);
-
-  /// [RouteQuery] to perform fade transitions.
-  /// フェードのトランジションを行なう[RouteQuery]。
-  static RouteQuery get fade =>
-      const RouteQuery(transition: RouteQueryType.fade);
-
-  /// [RouteQuery] that performs modal transitions.
-  /// モーダルのトランジションを行なう[RouteQuery]。
+  /// The reroute settings associated with this page are done by giving a list of classes that extend [RedirectQuery].
+  /// このページに紐づくリルート設定を[RedirectQuery]を継承したクラスのリストを与えることで行います。
   ///
-  /// The back page will be visible.
-  /// 裏のページが見えるようになります。
-  static RouteQuery get modal =>
-      const RouteQuery(transition: RouteQueryType.modal);
+  /// This reroute setting applies only to transitions to this page.
+  /// このリルート設定はこのページに遷移する際のみに適用されます。
+  List<RedirectQuery> redirect() => const [];
+
+  @override
+  String toString() => path;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
-  int get hashCode => transition.hashCode;
-
-  @override
-  String toString() => "$runtimeType($transition)";
+  int get hashCode => path.hashCode;
 }
