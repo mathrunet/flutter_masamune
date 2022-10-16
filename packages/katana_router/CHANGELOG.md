@@ -1,3 +1,7 @@
+## 1.5.3
+
+ - **FIX**: Change initialRouteQuery to initialTransitionQuery. ([aff3de90](https://github.com/mathrunet/flutter_masamune/commit/aff3de90182da8652b36574cfd4811a03d621644))
+
 ## 1.5.2
 
  - **FIX**: Create a description. ([5664d68f](https://github.com/mathrunet/flutter_masamune/commit/5664d68f5105b273a0377fd2add81fd58e28d5e3))

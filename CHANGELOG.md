@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.5.3`](#katana_router---v153)
+
+---
+
+#### `katana_router` - `v1.5.3`
+
+ - **FIX**: Change initialRouteQuery to initialTransitionQuery. ([aff3de90](https://github.com/mathrunet/flutter_masamune/commit/aff3de90182da8652b36574cfd4811a03d621644))
+
+
+## 2022-10-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.5.2`](#katana_router---v152)
  - [`katana_router_annotation` - `v1.5.2`](#katana_router_annotation---v152)
  - [`katana_router_builder` - `v1.5.3`](#katana_router_builder---v153)
