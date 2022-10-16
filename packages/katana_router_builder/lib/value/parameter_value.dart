@@ -1,10 +1,10 @@
 part of katana_router_builder;
 
 const _defaultChecker = TypeChecker.fromRuntime(Default);
-const _pagePathParamChecker = TypeChecker.fromRuntime(PagePathParam);
+const _pageParamChecker = TypeChecker.fromRuntime(PageParam);
 
-class ParamaterModel {
-  ParamaterModel(this.element) {
+class ParamaterValue {
+  ParamaterValue(this.element) {
     name = element.displayName;
     if (ignoreWords.contains(name)) {
       throw Exception(
@@ -13,8 +13,8 @@ class ParamaterModel {
     }
     type = element.type;
 
-    if (_pagePathParamChecker.hasAnnotationOfExact(element)) {
-      pageParamName = _pagePathParamChecker
+    if (_pageParamChecker.hasAnnotationOfExact(element)) {
+      pageParamName = _pageParamChecker
               .firstAnnotationOfExact(element)
               ?.getField("name")
               ?.toValue()

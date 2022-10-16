@@ -1,9 +1,9 @@
 part of katana_router_builder;
 
 List<Class> extendsClass(
-  ClassModel model,
-  PathModel path,
-  AnnotationModel annotation,
+  ClassValue model,
+  PathValue path,
+  AnnotationValue annotation,
 ) {
   return [
     Class(

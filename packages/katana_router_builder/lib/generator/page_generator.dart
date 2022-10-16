@@ -1,6 +1,8 @@
 part of katana_router_builder;
 
 class PageGenerator extends GeneratorForAnnotation<PagePath> {
+  PageGenerator();
+
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
@@ -22,10 +24,10 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
       );
     }
 
-    final _annotation = AnnotationModel(element, PagePath);
+    final _annotation = AnnotationValue(element, PagePath);
     final _path =
-        PathModel("/${annotation.read("path").stringValue.trimString("/")}");
-    final _class = ClassModel(element);
+        PathValue("/${annotation.read("path").stringValue.trimString("/")}");
+    final _class = ClassValue(element);
 
     for (final param in _path.parameters) {
       if (!_class.parameters.any((e) => e.name == param.camelCase)) {

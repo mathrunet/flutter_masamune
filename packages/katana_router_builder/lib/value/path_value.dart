@@ -1,7 +1,7 @@
 part of katana_router_builder;
 
-class PathModel {
-  PathModel(this.path) {
+class PathValue {
+  PathValue(this.path) {
     parameters = pathRegExp.allMatches(path).mapAndRemoveEmpty(
           (e) => _PathValue(e.group(1)!),
         );

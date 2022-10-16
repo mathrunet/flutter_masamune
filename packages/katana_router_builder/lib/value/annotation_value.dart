@@ -1,7 +1,7 @@
 part of katana_router_builder;
 
-class AnnotationModel {
-  AnnotationModel(this.element, this.type) {
+class AnnotationValue {
+  AnnotationValue(this.element, this.type) {
     final matcher = TypeChecker.fromRuntime(type);
 
     for (final meta in element.metadata) {

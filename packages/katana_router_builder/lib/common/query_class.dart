@@ -1,15 +1,15 @@
 part of katana_router_builder;
 
 List<Class> queryClass(
-  ClassModel model,
-  PathModel path,
-  AnnotationModel annotation,
+  ClassValue model,
+  PathValue path,
+  AnnotationValue annotation,
 ) {
   return [
     Class(
       (c) => c
         ..name = "_\$${model.name}"
-        ..extend = const Reference("PageQueryBuilder")
+        ..extend = const Reference("RouteQueryBuilder")
         ..annotations = ListBuilder([const Reference("immutable")])
         ..constructors = ListBuilder([
           Constructor(
@@ -54,7 +54,7 @@ List<Class> queryClass(
             (m) => m
               ..name = "resolve"
               ..annotations = ListBuilder([const Reference("override")])
-              ..returns = const Reference("PageQuery?")
+              ..returns = const Reference("RouteQuery?")
               ..requiredParameters = ListBuilder([
                 Parameter(
                   (p) => p
@@ -80,7 +80,7 @@ List<Class> queryClass(
     Class(
       (c) => c
         ..name = "_\$_${model.name}"
-        ..extend = const Reference("PageQuery")
+        ..extend = const Reference("RouteQuery")
         ..annotations = ListBuilder([const Reference("immutable")])
         ..constructors = ListBuilder([
           Constructor(
@@ -134,16 +134,16 @@ List<Class> queryClass(
             (m) => m
               ..name = "route<T>"
               ..annotations = ListBuilder([const Reference("override")])
-              ..returns = const Reference("PageRouteQuery<T>")
+              ..returns = const Reference("AppPageRoute<T>")
               ..optionalParameters = ListBuilder([
                 Parameter(
                   (p) => p
-                    ..type = const Reference("RouteQuery?")
+                    ..type = const Reference("TransitionQuery?")
                     ..name = "query",
                 )
               ])
               ..body = Code(
-                "return PageRouteQuery<T>(path: path,routeQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),transition: query?.transition ?? RouteQueryType.initial,);",
+                "return AppPageRoute<T>(path: path,routeQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),transition: query?.transition ?? TransitionQueryType.initial,);",
               ),
           ),
         ]),
@@ -151,7 +151,7 @@ List<Class> queryClass(
   ];
 }
 
-String _defaultParsedValue(ParamaterModel param) {
+String _defaultParsedValue(ParamaterValue param) {
   if (param.type.toString() == "String") {
     return "${param.name}:match?.groupNames.contains(\"${param.pageParamName}\") ?? false ? match?.namedGroup(\"${param.pageParamName}\") ?? ${_defaultValue(param)} : ${_defaultValue(param)}";
   } else {

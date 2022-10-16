@@ -1,6 +1,6 @@
 part of katana_router_builder;
 
-String _defaultValue(ParamaterModel param) {
+String _defaultValue(ParamaterValue param) {
   final type = param.type.toString().trimStringRight("?");
   final nullable = param.type.isNullable;
   final defaultValue = param.defaultValue;

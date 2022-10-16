@@ -1,7 +1,14 @@
 builders:
-  katana_router_builder:
+  katana_router_page_builder:
     import: 'package:katana_router_builder/katana_router_builder.dart'
-    builder_factories: ['katanaRouterBuilderFactory']
+    builder_factories: ['katanaRouterPageBuilderFactory']
+    build_extensions: {'.dart': ['.page.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+  katana_router_router_builder:
+    import: 'package:katana_router_builder/katana_router_builder.dart'
+    builder_factories: ['katanaRouterRouterBuilderFactory']
     build_extensions: {'.dart': ['.router.dart']}
     auto_apply: dependents
     build_to: source
@@ -9,7 +16,16 @@ builders:
 targets:
   $default:
     builders:
-      katana_router_builder:
+      katana_router_page_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      katana_router_router_builder:
         enabled: true
         generate_for:
           exclude:
