@@ -15,6 +15,114 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v0.15.5+2`](#katana---v01552)
+ - [`katana_annotation` - `v0.15.0+8`](#katana_annotation---v01508)
+ - [`katana_firebase` - `v0.15.0+8`](#katana_firebase---v01508)
+ - [`katana_flutter` - `v0.15.0+8`](#katana_flutter---v01508)
+ - [`katana_router` - `v1.5.6`](#katana_router---v156)
+ - [`katana_router_annotation` - `v1.5.5`](#katana_router_annotation---v155)
+ - [`katana_router_builder` - `v1.5.6`](#katana_router_builder---v156)
+ - [`masamune_builder` - `v0.15.0+11`](#masamune_builder---v015011)
+ - [`masamune_cli` - `v0.15.0+12`](#masamune_cli---v015012)
+ - [`katana_routing` - `v0.15.0+13`](#katana_routing---v015013)
+ - [`model_notifier` - `v0.15.1+7`](#model_notifier---v01517)
+ - [`katana_module` - `v0.15.0+20`](#katana_module---v015020)
+ - [`firebase_model_notifier` - `v0.15.1+12`](#firebase_model_notifier---v015112)
+ - [`masamune` - `v0.15.3+2`](#masamune---v01532)
+ - [`masamune_firebase_messaging` - `v0.15.0+22`](#masamune_firebase_messaging---v015022)
+ - [`masamune_firebase` - `v0.15.0+22`](#masamune_firebase---v015022)
+ - [`masamune_agora` - `v0.15.0+23`](#masamune_agora---v015023)
+ - [`masamune_location` - `v0.15.0+22`](#masamune_location---v015022)
+ - [`masamune_local_messaging` - `v0.15.0+22`](#masamune_local_messaging---v015022)
+ - [`masamune_media` - `v0.15.0+22`](#masamune_media---v015022)
+ - [`masamune_purchase` - `v0.15.0+22`](#masamune_purchase---v015022)
+ - [`masamune_wordpress` - `v0.15.0+22`](#masamune_wordpress---v015022)
+ - [`masamune_ads` - `v0.15.0+22`](#masamune_ads---v015022)
+ - [`masamune_ui` - `v0.15.0+22`](#masamune_ui---v015022)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+22`](#masamune_firebase_dynamic_links---v015022)
+ - [`masamune_signin_facebook` - `v0.15.0+22`](#masamune_signin_facebook---v015022)
+ - [`masamune_signin_apple` - `v0.15.0+22`](#masamune_signin_apple---v015022)
+ - [`masamune_signin_google` - `v0.15.0+22`](#masamune_signin_google---v015022)
+ - [`masamune_signin_twitter` - `v0.15.0+22`](#masamune_signin_twitter---v015022)
+ - [`masamune_purchase_firebase` - `v0.15.0+22`](#masamune_purchase_firebase---v015022)
+ - [`masamune_purchase_stripe` - `v0.15.0+22`](#masamune_purchase_stripe---v015022)
+ - [`masamune_notion` - `v0.15.0+22`](#masamune_notion---v015022)
+ - [`masamune_module` - `v0.15.0+22`](#masamune_module---v015022)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v0.15.0+11`
+ - `masamune_cli` - `v0.15.0+12`
+ - `katana_routing` - `v0.15.0+13`
+ - `model_notifier` - `v0.15.1+7`
+ - `katana_module` - `v0.15.0+20`
+ - `firebase_model_notifier` - `v0.15.1+12`
+ - `masamune` - `v0.15.3+2`
+ - `masamune_firebase_messaging` - `v0.15.0+22`
+ - `masamune_firebase` - `v0.15.0+22`
+ - `masamune_agora` - `v0.15.0+23`
+ - `masamune_location` - `v0.15.0+22`
+ - `masamune_local_messaging` - `v0.15.0+22`
+ - `masamune_media` - `v0.15.0+22`
+ - `masamune_purchase` - `v0.15.0+22`
+ - `masamune_wordpress` - `v0.15.0+22`
+ - `masamune_ads` - `v0.15.0+22`
+ - `masamune_ui` - `v0.15.0+22`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+22`
+ - `masamune_signin_facebook` - `v0.15.0+22`
+ - `masamune_signin_apple` - `v0.15.0+22`
+ - `masamune_signin_google` - `v0.15.0+22`
+ - `masamune_signin_twitter` - `v0.15.0+22`
+ - `masamune_purchase_firebase` - `v0.15.0+22`
+ - `masamune_purchase_stripe` - `v0.15.0+22`
+ - `masamune_notion` - `v0.15.0+22`
+ - `masamune_module` - `v0.15.0+22`
+
+---
+
+#### `katana` - `v0.15.5+2`
+
+ - **DOCS**: Maintenance of Comments. ([1429d477](https://github.com/mathrunet/flutter_masamune/commit/1429d477e441aefa174ad58d8c437202ca792160))
+
+#### `katana_annotation` - `v0.15.0+8`
+
+ - **DOCS**: Maintenance of Comments. ([1429d477](https://github.com/mathrunet/flutter_masamune/commit/1429d477e441aefa174ad58d8c437202ca792160))
+
+#### `katana_firebase` - `v0.15.0+8`
+
+ - **DOCS**: Maintenance of Comments. ([1429d477](https://github.com/mathrunet/flutter_masamune/commit/1429d477e441aefa174ad58d8c437202ca792160))
+
+#### `katana_flutter` - `v0.15.0+8`
+
+ - **DOCS**: Maintenance of Comments. ([1429d477](https://github.com/mathrunet/flutter_masamune/commit/1429d477e441aefa174ad58d8c437202ca792160))
+
+#### `katana_router` - `v1.5.6`
+
+ - **DOCS**: Maintenance of Comments. ([ffbd5bea](https://github.com/mathrunet/flutter_masamune/commit/ffbd5bea886877b364985be06919bb1e455a3881))
+
+#### `katana_router_annotation` - `v1.5.5`
+
+ - **DOCS**: Maintenance of Comments. ([09b8f518](https://github.com/mathrunet/flutter_masamune/commit/09b8f5184c6b630882f7ceb2324f448cc2fa2b15))
+
+#### `katana_router_builder` - `v1.5.6`
+
+ - **DOCS**: Maintenance of Comments. ([f3d04b1b](https://github.com/mathrunet/flutter_masamune/commit/f3d04b1b7a39c8adad166d03cf4287b35e9dbc75))
+
+
+## 2022-10-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.5.5`](#katana_router---v155)
  - [`katana_router_annotation` - `v1.5.4`](#katana_router_annotation---v154)
  - [`katana_router_builder` - `v1.5.5`](#katana_router_builder---v155)

@@ -1,3 +1,7 @@
+## 0.15.0+13
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+12
 
  - **FIX**: Renaming classes, etc. ([fb7a138f](https://github.com/mathrunet/flutter_masamune/commit/fb7a138f37b794641f8ae40e34872e92734abc43))

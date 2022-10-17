@@ -1,3 +1,7 @@
+## 1.5.6
+
+ - **DOCS**: Maintenance of Comments. ([f3d04b1b](https://github.com/mathrunet/flutter_masamune/commit/f3d04b1b7a39c8adad166d03cf4287b35e9dbc75))
+
 ## 1.5.5
 
  - **FIX**: Fixed a typo in the ReadMe. ([2354bf12](https://github.com/mathrunet/flutter_masamune/commit/2354bf1211e54669d7b62a54d900948e0f4aeea2))

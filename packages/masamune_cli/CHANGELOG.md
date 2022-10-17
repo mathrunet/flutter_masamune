@@ -1,3 +1,7 @@
+## 0.15.0+12
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+11
 
  - **FIX**: Added Stripe Key because it was missing. ([e3391434](https://github.com/mathrunet/flutter_masamune/commit/e3391434184b7eb10cba41723125578ee5d3dd95))

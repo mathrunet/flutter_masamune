@@ -1,3 +1,7 @@
+## 0.15.5+2
+
+ - **DOCS**: Maintenance of Comments. ([1429d477](https://github.com/mathrunet/flutter_masamune/commit/1429d477e441aefa174ad58d8c437202ca792160))
+
 ## 0.15.5+1
 
  - **FIX**: Add function type since isJsonEncodable is not applicable for dynamic. ([8eb19d8f](https://github.com/mathrunet/flutter_masamune/commit/8eb19d8f63f837ec58eaa5f552aa7b426b39fe3d))
