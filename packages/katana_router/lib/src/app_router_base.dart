@@ -160,6 +160,7 @@ abstract class AppRouterBase extends ChangeNotifier
   late final _AppRouteInformationProvider _routeInformationProvider;
 
   /// You can check the current [RouteQuery].
+  ///
   /// 現在の[RouteQuery]を確認することができます。
   RouteQuery get currentQuery => _routerDelegate.currentConfiguration!;
 
@@ -219,6 +220,7 @@ abstract class AppRouterBase extends ChangeNotifier
   }
 
   /// Checks if the page is [pop]-able. If `true` is returned, the page is [pop]able.
+  ///
   /// ページが[pop]可能かどうかをチェックします。`true`が返された場合[pop]可能です。
   bool canPop() => _pageStack.isNotEmpty;
 
@@ -298,6 +300,7 @@ abstract class AppRouterBase extends ChangeNotifier
   }
 
   /// Refresh the current page.
+  ///
   /// 現在のページを再更新します。
   void refresh() {
     _routeInformationProvider.notifyListeners();

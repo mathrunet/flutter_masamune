@@ -1,9 +1,11 @@
 part of katana_router;
 
 /// Provides extension methods for [NavigatorState].
+/// 
 /// [NavigatorState]の拡張メソッドを提供します。
 extension RoutingNavigatorStateExtensions on NavigatorState {
   /// After returning to the first page, you will be redirected to the [newRoute] page.
+  /// 
   /// 最初のページに戻った後[newRoute]のページに遷移します。
   Future<T?> resetAndPush<T extends Object?>(
     Route<T> newRoute,
@@ -169,6 +171,7 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
 }
 
 /// Provides extension methods for [BuildContext].
+/// 
 /// [BuildContext]の拡張メソッドを提供します。
 extension RoutingBuildContedxtExtensions on BuildContext {
   /// Get [AppRouterBase].

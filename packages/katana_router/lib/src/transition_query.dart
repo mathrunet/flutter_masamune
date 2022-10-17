@@ -18,10 +18,12 @@ class TransitionQuery {
   });
 
   /// Page transitions.
+  ///
   /// ページのトランジション。
   final TransitionQueryType transition;
 
   /// Create a new [TransitionQuery] with parameters.
+  ///
   /// パラメーターを与えて新しい[TransitionQuery]を作成します。
   TransitionQuery copyWith({
     TransitionQueryType? transition,
@@ -32,24 +34,29 @@ class TransitionQuery {
   }
 
   /// [TransitionQuery] for full screen transitions.
+  ///
   /// フルスクリーンのトランジションを行う[TransitionQuery]。
   static TransitionQuery get fullscreen =>
       const TransitionQuery._(transition: TransitionQueryType.fullscreen);
 
   /// No transitions [TransitionQuery].
+  ///
   /// トランジションを行なわない[TransitionQuery]。
   static TransitionQuery get immediately =>
       const TransitionQuery._(transition: TransitionQueryType.none);
 
   /// [TransitionQuery] to perform fade transitions.
+  ///
   /// フェードのトランジションを行なう[TransitionQuery]。
   static TransitionQuery get fade =>
       const TransitionQuery._(transition: TransitionQueryType.fade);
 
   /// [TransitionQuery] that performs modal transitions.
-  /// モーダルのトランジションを行なう[TransitionQuery]。
   ///
   /// The back page will be visible.
+  ///
+  /// モーダルのトランジションを行なう[TransitionQuery]。
+  ///
   /// 裏のページが見えるようになります。
   static TransitionQuery get modal =>
       const TransitionQuery._(transition: TransitionQueryType.modal);

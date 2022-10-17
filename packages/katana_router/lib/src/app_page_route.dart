@@ -1,6 +1,7 @@
 part of katana_router;
 
 /// Duration of page transitions.
+///
 /// ページトランジションのデュレーション。
 const kTransitionDuration = Duration(milliseconds: 300);
 

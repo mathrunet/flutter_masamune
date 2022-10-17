@@ -88,6 +88,7 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
   Widget build(BuildContext context);
 
   /// Define [TransitionQuery] for displaying the first page after the boot page.
+  ///
   /// ブートページを表示した後最初のページを表示する際の[TransitionQuery]を定義します。
   TransitionQuery get initialTransitionQuery;
 
@@ -101,6 +102,7 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
   FutureOr<void> onInit(BuildContext context);
 
   /// Passing the current path to [path] returns the corresponding [RouteQuery].
+  ///
   /// [path]に現在のパスを渡すとそれに応じた[RouteQuery]を返します。
   RouteQuery resolve(String path) {
     return _BootRouteQuery(builder: this, sourcePath: path);
