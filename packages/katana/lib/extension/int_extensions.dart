@@ -1,17 +1,21 @@
 part of katana;
 
 /// Provides extended methods for [int].
+/// 
 /// [int]用の拡張メソッドを提供します。
 extension IntExtensions on int {
   /// Returns `true` if [int] is `0`.
+  /// 
   /// [int]が`0`の場合`true`を返します。
   bool get isEmpty => this == 0;
 
   /// Returns `true` if [int] is not `0`.
+  /// 
   /// [int]が`0`でない場合`true`を返します。
   bool get isNotEmpty => this != 0;
 
   /// If [int] is [double.nan], [double.infinity], or [double.negativeInfinity], replace it with [replace].
+  /// 
   /// [int]が[double.nan]か[double.infinity]、[double.negativeInfinity]の場合[replace]に置き換えます。
   int replaceNanOrInfinite([int replace = 0]) {
     if (isNaN || isInfinite) {
@@ -21,12 +25,15 @@ extension IntExtensions on int {
   }
 
   /// If [int] is less than or equal to [min], [min] is returned.
-  /// [int]が[min]以下の場合は[min]が返されます。
   ///
   /// If [int] is greater than or equal to [max], [max] is returned.
-  /// [int]が[max]以上の場合は[max]が返されます。
   ///
   /// If [double.nan], [min] is returned.
+  ///
+  /// [int]が[min]以下の場合は[min]が返されます。
+  ///
+  /// [int]が[max]以上の場合は[max]が返されます。
+  ///
   /// [double.nan]の場合は[min]が返されます。
   int limit(int min, int max) {
     if (this < min) {
@@ -39,9 +46,11 @@ extension IntExtensions on int {
   }
 
   /// If [int] is less than or equal to [min], [min] is returned.
-  /// [int]が[min]以下の場合は[min]が返されます。
   ///
   /// If [double.nan], [min] is returned.
+  ///
+  /// [int]が[min]以下の場合は[min]が返されます。
+  ///
   /// [double.nan]の場合は[min]が返されます。
   int limitLow(int min) {
     if (this < min) {
@@ -51,9 +60,11 @@ extension IntExtensions on int {
   }
 
   /// If [int] is greater than or equal to [max], [max] is returned.
-  /// [int]が[max]以上の場合は[max]が返されます。
   ///
   /// If [double.nan], [max] is returned.
+  ///
+  /// [int]が[max]以上の場合は[max]が返されます。
+  ///
   /// [double.nan]の場合は[max]が返されます。
   int limitHigh(int max) {
     if (this > max) {
@@ -63,9 +74,11 @@ extension IntExtensions on int {
   }
 
   /// Enter [format] to replace the value of [int] with a string.
-  /// [format]を入力して[int]の値を文字列に置き換えます。
   ///
   /// The following patterns can be used for [format].
+  ///
+  /// [format]を入力して[int]の値を文字列に置き換えます。
+  ///
   /// [format]には下記のパターンを使用することが可能です。
   ///
   /// - `0` A single digit

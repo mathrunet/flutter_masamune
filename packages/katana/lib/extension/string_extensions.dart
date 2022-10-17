@@ -1,11 +1,13 @@
 part of katana;
 
 /// Provides extended methods for [String].
+///
 /// [String]用の拡張メソッドを提供します。
 extension StringExtensions on String {
   static final RegExp _tail = RegExp(r"[^/]+$");
 
   /// Divides [String] by [separator] and returns the number of elements.
+  ///
   /// [String]を[separator]で分割し、その要素数を返します。
   ///
   /// ```dart
@@ -22,6 +24,7 @@ extension StringExtensions on String {
   }
 
   /// [String] is divided by [separator] and moved one level up.
+  ///
   /// [String]を[separator]で分割し一つ上の階層に移動します。
   ///
   /// ```dart
@@ -37,6 +40,7 @@ extension StringExtensions on String {
   }
 
   /// Converts [String] to an array of one character at a time.
+  ///
   /// [String]を1文字ずつの配列に変換します。
   ///
   /// ```dart
@@ -58,6 +62,7 @@ extension StringExtensions on String {
   }
 
   /// Convert [String] to Bigram, i.e., an array of two characters each.
+  ///
   /// [String]をBigram、つまり2文字ずつの配列に変換します。
   ///
   /// ```dart
@@ -79,6 +84,7 @@ extension StringExtensions on String {
   }
 
   /// Convert [String] to Trigram, i.e., an array of 3 characters each.
+  ///
   /// [String]をTrigram、つまり3文字ずつの配列に変換します。
   ///
   /// ```dart
@@ -100,6 +106,7 @@ extension StringExtensions on String {
   }
 
   /// Trims URL query characters (after ?).
+  ///
   /// URLのクエリ文字（?以降）をトリムします。
   ///
   /// ```dart
@@ -114,6 +121,7 @@ extension StringExtensions on String {
   }
 
   /// Trims the characters given by [chars] from before and after [String].
+  ///
   /// [String]の前後から[chars]で与えられた文字をトリムします。
   ///
   /// ```dart
@@ -128,6 +136,7 @@ extension StringExtensions on String {
   }
 
   /// Trims the characters given by [chars] from before [String].
+  ///
   /// [String]の前から[chars]で与えられた文字をトリムします。
   ///
   /// ```dart
@@ -140,6 +149,7 @@ extension StringExtensions on String {
   }
 
   /// Trims the characters given by [chars] from after [String].
+  ///
   /// [String]の後から[chars]で与えられた文字をトリムします。
   ///
   /// ```dart
@@ -152,6 +162,7 @@ extension StringExtensions on String {
   }
 
   /// Convert [String] to snake case.
+  ///
   /// [String]をスネークケースに変換します。
   ///
   /// ```dart
@@ -166,6 +177,7 @@ extension StringExtensions on String {
   }
 
   /// Convert [String] to CamelCase (first letter is lower case).
+  ///
   /// [String]をキャメルケース（最初の文字は小文字）に変換します。
   ///
   /// ```dart
@@ -180,9 +192,11 @@ extension StringExtensions on String {
   }
 
   /// Converts [String] to [int].
-  /// [String]を[int]に変換します。
   ///
   /// If the string cannot be converted, [defaultValue] is returned.
+  ///
+  /// [String]を[int]に変換します。
+  ///
   /// 変換できない文字列の場合、[defaultValue]が返されます。
   int toInt([int defaultValue = 0]) {
     if (isEmpty) {
@@ -196,9 +210,11 @@ extension StringExtensions on String {
   }
 
   /// Converts [String] to [double].
-  /// [String]を[double]に変換します。
   ///
   /// If the string cannot be converted, [defaultValue] is returned.
+  ///
+  /// [String]を[double]に変換します。
+  ///
   /// 変換できない文字列の場合、[defaultValue]が返されます。
   double toDouble([double defaultValue = 0.0]) {
     if (isEmpty) {
@@ -212,9 +228,11 @@ extension StringExtensions on String {
   }
 
   /// Converts [String] to [bool].
-  /// [String]を[bool]に変換します。
   ///
   /// If the string cannot be converted, [defaultValue] is returned.
+  ///
+  /// [String]を[bool]に変換します。
+  ///
   /// 変換できない文字列の場合、[defaultValue]が返されます。
   ///
   /// ```dart
@@ -237,9 +255,11 @@ extension StringExtensions on String {
   }
 
   /// Converts a [String] to a type that can be parsed as [bool], [int], or [double], in that order, and returns the type as is.
-  /// [String]を[bool]、[int]、[double]の順でパースできる型に変換しその型のまま返します。
   ///
   /// If it cannot be converted, it is returned as [String].
+  ///
+  /// [String]を[bool]、[int]、[double]の順でパースできる型に変換しその型のまま返します。
+  ///
   /// 変換できない場合は[String]のまま返されます。
   ///
   /// ```dart
@@ -274,12 +294,15 @@ extension StringExtensions on String {
   }
 
   /// Converts [String] to [DateTime].
-  /// [String]を[DateTime]に変換します。
   ///
   /// If [String] cannot be parsed after parsing with [DateTime.tryParse], further parsing is attempted using the sequence "yyyyMMddHHmmss".
-  /// [String]を[DateTime.tryParse]でパースしたのちパースできなければ、"yyyyMMddHHmmss"の並びでさらにパースを試みます。
   ///
   /// If parsing is not possible, [defaultValue] or [DateTime.now] is returned.
+  ///
+  /// [String]を[DateTime]に変換します。
+  ///
+  /// [String]を[DateTime.tryParse]でパースしたのちパースできなければ、"yyyyMMddHHmmss"の並びでさらにパースを試みます。
+  ///
   /// パースできなかった場合、[defaultValue]、もしくは[DateTime.now]を返します。
   DateTime toDateTime([DateTime? defaultValue]) {
     if (isEmpty) {
@@ -324,26 +347,32 @@ extension StringExtensions on String {
   }
 
   /// Encode [String] into a Base64 string.
+  ///
   /// [String]をBase64の文字列にエンコードします。
   String toBase64() => utf8.fuse(base64).encode(this);
 
   /// Encode [String] into a Base64URL string.
+  ///
   /// [String]をBase64URLの文字列にエンコードします。
   String toBase64Url() => utf8.fuse(base64Url).encode(this);
 
   /// Decodes Base64-encoded [String].
+  ///
   /// Base64エンコードされた[String]をデコードします。
   String fromBase64() => utf8.fuse(base64).decode(this);
 
   /// Decodes Base64URL-encoded [String].
+  ///
   /// Base64URLエンコードされた[String]をデコードします。
   String fromBase64Url() => utf8.fuse(base64Url).decode(this);
 
   /// Hash [String] with SHA1.
+  ///
   /// [String]をSHA1でハッシュ化します。
   String toSHA1() => sha1.convert(utf8.encode(this)).toString();
 
   /// Give [password] to [String] and hash it with HMAC-SHA256.
+  ///
   /// [String]に[password]を与えてをHMAC-SHA256でハッシュ化します。
   String toSHA256(String password) {
     final hmacSha256 = Hmac(sha256, utf8.encode(password));
@@ -351,12 +380,15 @@ extension StringExtensions on String {
   }
 
   /// Pass [key] of at least 32 characters to [String] for AES encryption.
-  /// [String]に32文字以上の[key]を渡してAES暗号化します。
   ///
   /// The encrypted string is returned Base64-encoded.
-  /// 暗号化された文字列はBase64エンコードされ返されます。
   ///
   /// The `IV` is created from [key].
+  ///
+  /// [String]に32文字以上の[key]を渡してAES暗号化します。
+  ///
+  /// 暗号化された文字列はBase64エンコードされ返されます。
+  ///
   /// `IV`は[key]から作成されます。
   String toAES(String key) {
     assert(key.length >= 32, "Please pass at least 32 characters for [key].");
@@ -366,9 +398,11 @@ extension StringExtensions on String {
   }
 
   /// Decrypts AES-encrypted and Base64-encoded [String].
-  /// AES暗号化されBase64エンコードされた[String]を復号化します。
   ///
   /// The [key] should be the same as that given for the AES encryption.
+  ///
+  /// AES暗号化されBase64エンコードされた[String]を復号化します。
+  ///
   /// [key]はAES暗号化された際に与えたものと同じものを与えてください。
   String fromAES(String key) {
     assert(key.length >= 32, "Please pass at least 32 characters for [key].");
@@ -378,12 +412,15 @@ extension StringExtensions on String {
   }
 
   /// Replaces [String] with the C printf format.
-  /// [String]をC言語のprintfの書式で置き換え返します。
   ///
   /// Pass the object to be replaced to [arg].
-  /// [arg]に置き換えるオブジェクトを渡します。
   ///
   /// Please list the letters to be replaced in the format below.
+  ///
+  /// [String]をC言語のprintfの書式で置き換え返します。
+  ///
+  /// [arg]に置き換えるオブジェクトを渡します。
+  ///
   /// 下記のフォーマットで置き換える文字を記載してください。
   ///
   /// - `%s` Outputs a string. 文字列を出力する。	`%8s`, `%-10s`
@@ -396,6 +433,7 @@ extension StringExtensions on String {
   }
 
   /// Divides a [String] by [separator] and returns the first part.
+  ///
   /// [String]を[separator]で分割しその最初の部分を返します。
   ///
   /// ```dart
@@ -407,6 +445,7 @@ extension StringExtensions on String {
   }
 
   /// Divides a [String] by [separator] and returns the last part.
+  ///
   /// [String]を[separator]で分割しその最後の部分を返します。
   ///
   /// ```dart
@@ -418,9 +457,11 @@ extension StringExtensions on String {
   }
 
   /// [String] with [length] to limit the number of characters.
-  /// [String]を[length]で文字数を制限します。
   ///
   /// If the string is restricted, [suffix] is added at the end.
+  ///
+  /// [String]を[length]で文字数を制限します。
+  ///
   /// 文字列が制限された場合、最後尾に[suffix]が追加されます。
   ///
   /// ```dart
@@ -435,6 +476,7 @@ extension StringExtensions on String {
   }
 
   /// Captialize and return [String].
+  ///
   /// [String]をキャピタライズして返します。
   ///
   /// ```dart
@@ -452,18 +494,22 @@ extension StringExtensions on String {
   }
 
   /// Converts [String] to a Json-decoded object.
-  /// [String]をJsonデコードされたオブジェクトに変換します。
   ///
   /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+  ///
+  /// [String]をJsonデコードされたオブジェクトに変換します。
+  ///
   /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
   dynamic toJsonObject([Object? defaultValue]) {
     return jsonDecode(this) ?? defaultValue;
   }
 
   /// Converts [String] to a Json-decoded Map<String, dynamic> object.
-  /// [String]をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
   ///
   /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+  ///
+  /// [String]をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
+  ///
   /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
   Map<String, T> toJsonMap<T extends Object>([
     Map<String, T> defaultValue = const {},
@@ -472,9 +518,11 @@ extension StringExtensions on String {
   }
 
   /// Converts [String] to a Json-decoded List<dynamic> object.
-  /// [String]をJsonデコードされたList<dynamic>オブジェクトに変換します。
   ///
   /// If [String] is in a format that cannot be decoded by Json, [defaultValue] is returned.
+  ///
+  /// [String]をJsonデコードされたList<dynamic>オブジェクトに変換します。
+  ///
   /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
   List<T> toJsonList<T extends Object>([
     List<T> defaultValue = const [],

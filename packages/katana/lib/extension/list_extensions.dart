@@ -1,9 +1,11 @@
 part of katana;
 
 /// Provides extended methods for [List] in [T].
+///
 /// [T]の[List]用の拡張メソッドを提供します。
 extension ListExtensions<T> on List<T> {
   /// Insert [element] at the beginning of [List].
+  ///
   /// [List]の最初に[element]を挿入します。
   List<T> insertFirst(T element) {
     insert(0, element);
@@ -11,6 +13,7 @@ extension ListExtensions<T> on List<T> {
   }
 
   /// Insert [element] at the end of [List].
+  ///
   /// [List]の最後に[element]を挿入します。
   List<T> insertLast(T element) {
     add(element);
@@ -18,6 +21,7 @@ extension ListExtensions<T> on List<T> {
   }
 
   /// Inserts [element] before the first element in [List] for which the return value of [test] is `true`.
+  ///
   /// [List]内の[test]の戻り値が`true`になった最初の要素の前に[element]を挿入します。
   ///
   /// ```dart
@@ -44,9 +48,11 @@ extension ListExtensions<T> on List<T> {
   }
 
   /// Get the [index]th element.
-  /// [index]番目の要素を取得します。
   ///
   /// If [index] is out of range and the value is not [E], [defaultValue] is returned.
+  ///
+  /// [index]番目の要素を取得します。
+  ///
   /// [index]が範囲外、値が[E]でない場合、[defaultValue]が返されます。
   E get<E>(int index, E defaultValue) {
     if (!containsIndex(index) || this[index] is! E) {
@@ -56,9 +62,11 @@ extension ListExtensions<T> on List<T> {
   }
 
   /// Get a random element from [List].
-  /// [List]からランダムに要素を取得します。
   ///
   /// If [seed] is specified, a random value is obtained according to the seed.
+  ///
+  /// [List]からランダムに要素を取得します。
+  ///
   /// [seed]を指定するとシードに応じたランダム値を取得します。
   T? getRandom([int? seed]) {
     if (isEmpty) {
@@ -69,9 +77,11 @@ extension ListExtensions<T> on List<T> {
   }
 
   /// Sorts this list according to the order specified by the [compare] function.
-  /// [compare] 関数で指定された順序に従って、このリストを並べ替えます。
   ///
   /// The [compare] function must act as a [Comparator].
+  ///
+  /// [compare] 関数で指定された順序に従って、このリストを並べ替えます。
+  ///
   /// [compare] 関数は [Comparator] として機能する必要があります。
   ///
   /// ```dart
@@ -82,6 +92,7 @@ extension ListExtensions<T> on List<T> {
   /// ```
   ///
   /// The default [List] implementations use [Comparable.compare] if [compare] is omitted.
+  ///
   /// [compare] が省略されている場合、デフォルトの [List] 実装は [Comparable.compare] を使用します。
   ///
   /// ```dart
@@ -91,12 +102,15 @@ extension ListExtensions<T> on List<T> {
   /// ```
   ///
   /// In that case, the elements of the list must be [Comparable] to each other.
-  /// その場合、リストの要素は互いに [Comparable] でなければなりません。
   ///
   /// A [Comparator] may compare objects as equal (return zero), even if they are distinct objects.
-  /// [Comparator] は、それらが異なるオブジェクトであっても、オブジェクトを等しいものとして比較する (0 を返す) 場合があります。
   ///
   /// The [sortTo] function is not guaranteed to be stable, so distinct objects that compare as equal may occur in any order in the result:
+  ///
+  /// その場合、リストの要素は互いに [Comparable] でなければなりません。
+  ///
+  /// [Comparator] は、それらが異なるオブジェクトであっても、オブジェクトを等しいものとして比較する (0 を返す) 場合があります。
+  ///
   /// [sortTo]関数は安定していることが保証されていないため、比較すると等しいと見なされる個別のオブジェクトが、結果内で任意の順序で発生する可能性があります。
   ///
   /// ```dart
@@ -111,15 +125,18 @@ extension ListExtensions<T> on List<T> {
   }
 
   /// Returns `true` if [index] is within the range of elements in [List].
+  ///
   /// [index]が[List]の要素の範囲内にある場合`true`を返します。
   bool containsIndex(int index) {
     return index >= 0 && index < length;
   }
 
   /// If the number of elements in [List] is less than [length], it is filled with [value] up to the [length] elements.
-  /// [List]の要素の数が[length]未満の場合、[length]の要素まで[value]で埋め尽くします。
   ///
   /// If [value] is not specified, [null] is inserted.
+  ///
+  /// [List]の要素の数が[length]未満の場合、[length]の要素まで[value]で埋め尽くします。
+  ///
   /// [value]が指定されない場合は[Null]が挿入されます。
   ///
   /// ```dart
@@ -139,9 +156,11 @@ extension ListExtensions<T> on List<T> {
   }
 
   /// If this object is Json encodable, `true` is returned.
-  /// このオブジェクトがJsonでエンコード可能な場合`true`が返されます。
   ///
   /// If a [List] or [Map] exists, its contents are also checked.
+  ///
+  /// このオブジェクトがJsonでエンコード可能な場合`true`が返されます。
+  ///
   /// [List]や[Map]が存在していた場合はその中身までチェックされます。
   bool get isJsonEncodable {
     return every((element) => element.isJsonEncodable);

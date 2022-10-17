@@ -1,12 +1,15 @@
 part of katana;
 
 /// Provides extended methods for [T] arrays.
+///
 /// [T]の配列用の拡張メソッドを提供します。
 extension IterableExtensions<T> on Iterable<T> {
   /// Deletes duplicate elements in an array.
-  /// 配列の中の重複している要素を削除します。
   ///
   /// By setting the return value of [key] to a specific duplicate key, duplicate checking can be performed for each specified duplicate key.
+  ///
+  /// 配列の中の重複している要素を削除します。
+  ///
   /// [key]の返り値を特定の重複キーにすることで指定された重複キーごとに重複チェックを行うことが可能です。
   ///
   /// ```dart
@@ -29,9 +32,11 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Returns the first element.
-  /// 最初の要素を返します。
   ///
   /// Return [Null] if the list has no element.
+  ///
+  /// 最初の要素を返します。
+  ///
   /// リストに要素がない場合は[Null]が返されます。
   T? get firstOrNull {
     if (isEmpty) {
@@ -41,9 +46,11 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Returns the last element.
-  /// 最後の要素を返します。
   ///
   /// Return [Null] if the list has no element.
+  ///
+  /// 最後の要素を返します。
+  ///
   /// リストに要素がない場合は[Null]が返されます。
   T? get lastOrNull {
     if (isEmpty) {
@@ -53,9 +60,11 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Returns the first element for which the return value of [test] is `true`.
-  /// [test]の返り値が`true`になる場合の最初の要素を返します。
   ///
   /// [Null] is returned if there is no element for which the return value of [test] is `true`.
+  ///
+  /// [test]の返り値が`true`になる場合の最初の要素を返します。
+  ///
   /// [test]の返り値が`true`になる要素がない場合は[Null]が返されます。
   T? firstWhereOrNull(bool Function(T item) test) {
     if (isEmpty) {
@@ -70,27 +79,34 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Each element of the list is converted to [TCast] data using [callback].
-  /// リストの各要素を[callback]を用い[TCast]のデータに変換します。
   ///
   /// If the return value of [callback] is [Null], the element is removed from the element.
-  /// [callback]の戻り値が[Null]の場合、要素から削除されます。
   ///
   /// It is returned as a [List] type, not as a [Iterable] type like [map].
+  ///
+  /// リストの各要素を[callback]を用い[TCast]のデータに変換します。
+  ///
+  /// [callback]の戻り値が[Null]の場合、要素から削除されます。
+  ///
   /// [map]のように[Iterable]型ではなく[List]型で返されます。
   List<TCast> mapAndRemoveEmpty<TCast>(TCast? Function(T item) callback) {
     return map<TCast?>(callback).removeEmpty();
   }
 
   /// Each element of the list is converted to [TCast] data using [callback].
-  /// リストの各要素を[callback]を用い[TCast]のデータに変換します。
   ///
   /// The return value of [callback] can be [Iterable] or [List], all of which will be each element of the list.
-  /// [callback]の戻り値は[Iterable]や[List]を指定でき、その全要素がリストの各要素となります。
   ///
   /// If the element inside the return value of [callback] is [Null], it is removed from the element.
-  /// [callback]の戻り値内部の要素が[Null]の場合、要素から削除されます。
   ///
   /// It is returned as a [List] type, not as a [Iterable] type like [expand].
+  ///
+  /// リストの各要素を[callback]を用い[TCast]のデータに変換します。
+  ///
+  /// [callback]の戻り値は[Iterable]や[List]を指定でき、その全要素がリストの各要素となります。
+  ///
+  /// [callback]の戻り値内部の要素が[Null]の場合、要素から削除されます。
+  ///
   /// [expand]のように[Iterable]型ではなく[List]型で返されます。
   List<TCast> expandAndRemoveEmpty<TCast>(
     Iterable<TCast?> Function(T item) callback,
@@ -99,6 +115,7 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// [Iterable] is divided into [length] elements each, creating a list of lists.
+  ///
   /// [Iterable]を[length]個の要素ごとに分割し、リストのリストを作成します。
   ///
   /// ```dart
@@ -130,6 +147,7 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Groups [Iterable] together with elements that have a return value of `true` for [test] and returns a list of each group.
+  ///
   /// [Iterable]を[test]の返り値が`true`になる要素同士でまとめて１つのグループとし、各グループのリストを返します。
   ///
   /// ```dart
@@ -159,15 +177,19 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// The callback given by [f] from [Iterable] will create a map of [K] and [V].
-  /// [Iterable]から[f]で与えられたコールバックによって[K]と[V]のマップを作成します。
   ///
   /// The return value of [f] must be [MapEntry].
-  /// [f]の戻り値は[MapEntry]である必要があります。
   ///
   /// If the return value of [f] is [Null], it is removed from the element.
-  /// [f]の戻り値を[Null]にした場合は要素から削除されます。
   ///
   /// If there are duplicate keys, the earlier element takes precedence.
+  ///
+  /// [Iterable]から[f]で与えられたコールバックによって[K]と[V]のマップを作成します。
+  ///
+  /// [f]の戻り値は[MapEntry]である必要があります。
+  ///
+  /// [f]の戻り値を[Null]にした場合は要素から削除されます。
+  ///
   /// キーが重複した場合、先の要素が優先されます。
   ///
   /// ```dart
@@ -184,6 +206,7 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Extract only the elements from [start] to [end] of [Iterable].
+  ///
   /// [Iterable]を[start]から[end]までの要素のみを抽出します。
   ///
   /// ```dart
@@ -199,6 +222,7 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Extract only the elements from [start] of [Iterable].
+  ///
   /// [Iterable]を[start]からの要素のみを抽出します。
   ///
   /// ```dart
@@ -208,6 +232,7 @@ extension IterableExtensions<T> on Iterable<T> {
   List<T> limitStart(int start) => limit(start, length);
 
   /// Extract only the elements to [end] of [Iterable].
+  ///
   /// [Iterable]を[end]までの要素のみを抽出します。からの要素のみを抽出します。
   ///
   /// ```dart
@@ -217,12 +242,14 @@ extension IterableExtensions<T> on Iterable<T> {
   List<T> limitEnd(int end) => limit(0, end);
 
   /// Returns `true` if [Iterable] contains any of [elements].
+  ///
   /// [Iterable]に[elements]のいずれかが含まれている場合`true`を返します。
   bool containsAny(Iterable<Object?> elements) {
     return elements.any((element) => contains(element));
   }
 
   /// Returns `true` if [Iterable] contains all [elements].
+  ///
   /// [Iterable]に[elements]がすべて含まれている場合`true`を返します。
   bool containsAll(Iterable<Object?> elements) {
     return elements.every((element) => contains(element));
@@ -230,11 +257,15 @@ extension IterableExtensions<T> on Iterable<T> {
 
   /// If [others] is given to [Iterable] and the return value of [test] is `true`,
   /// the return value of [apply] is replaced with the corresponding value of [Iterable].
-  /// [Iterable]に[others]を与え、[test]の戻り値が`true`になる場合[apply]の戻り値を[Iterable]の該当値と置き換えます。
   ///
   /// If no element is found in [others] for which the return value of [test] is `true`, it is replaced by the return value of [orElse].
-  /// [test]の戻り値が`true`になる要素が[others]から見つからなかった場合、[orElse]の戻り値に置き換えられます。
+  ///
   /// If [orElse] is not given, the element is deleted.
+  ///
+  /// [Iterable]に[others]を与え、[test]の戻り値が`true`になる場合[apply]の戻り値を[Iterable]の該当値と置き換えます。
+  ///
+  /// [test]の戻り値が`true`になる要素が[others]から見つからなかった場合、[orElse]の戻り値に置き換えられます。
+  ///
   /// [orElse]が与えられていない場合は要素が削除されます。
   ///
   /// ```dart
@@ -279,6 +310,7 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Inserts a [value] element for each [per] of [Iterable].
+  ///
   /// [Iterable]の[per]ごとに[value]の要素をインサートします。
   ///
   /// ```dart
@@ -290,6 +322,7 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// Returns `true` if the internals of [Iterable] and [others] are compared and match.
+  ///
   /// [Iterable]と[others]の内部を比較して一致している場合`true`を返します。
   bool equalsTo(Iterable<T> others) {
     for (final t in this) {
@@ -358,6 +391,7 @@ extension IterableExtensions<T> on Iterable<T> {
   }
 
   /// [print] the entire contents of [List].
+  ///
   /// [List]の中身をすべて[print]します。
   void print() {
     for (final tmp in this) {

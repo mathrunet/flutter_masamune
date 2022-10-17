@@ -1,12 +1,15 @@
 part of katana;
 
 /// Provides an extension method for [Iterable] whose value is nullable.
+///
 /// 値がNullableな[Iterable]用の拡張メソッドを提供します。
 extension NullableValueIterableExtensions<T> on Iterable<T?> {
   /// If the value of the content of [Iterable] is [Null], it is deleted.
-  /// [Iterable]の中身の値が[Null]な場合それを削除します。
   ///
   /// Returns [Iterable] as [List<T>] after being deleted.
+  ///
+  /// [Iterable]の中身の値が[Null]な場合それを削除します。
+  ///
   /// 削除されたあと[List<T>]として[Iterable]を返します。
   ///
   /// ```dart

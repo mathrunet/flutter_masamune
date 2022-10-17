@@ -1,12 +1,15 @@
 part of katana;
 
 /// Provides an extension method for [Map] that is nullable.
+///
 /// Nullableな[Map]用の拡張メソッドを提供します。
 extension NullableMapExtensions<K, V> on Map<K, V>? {
   /// Whether there is no key/value pair in the map.
-  /// マップにキーと値のペアがないかどうかを調べます。
   ///
   /// Returns `true` if itself is [Null].
+  ///
+  /// マップにキーと値のペアがないかどうかを調べます。
+  ///
   /// 自身が[Null]な場合は`true`を返します。
   bool get isEmpty {
     if (this == null) {
@@ -16,9 +19,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Whether there is at least one key/value pair in the map.
-  /// マップに少なくとも 1 つのキーと値のペアがあるかどうかを調べます。
   ///
   /// Returns `false` if itself is [Null].
+  ///
+  /// マップに少なくとも 1 つのキーと値のペアがあるかどうかを調べます。
+  ///
   /// 自身が[Null]な場合は`false`を返します。
   bool get isNotEmpty {
     if (this == null) {
@@ -28,9 +33,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// The number of key/value pairs in the map.
-  /// マップ内のキーと値のペアの数を返します。
   ///
   /// Returns `0` if itself is [Null].
+  ///
+  /// マップ内のキーと値のペアの数を返します。
+  ///
   /// 自身が[Null]な場合は`0`を返します。
   int get length {
     if (this == null) {
@@ -40,9 +47,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Whether this map contains the given [key].
-  /// このマップに指定された [key] が含まれているかどうかを調べます。
   ///
   /// Returns true if any of the keys in the map are equal to `key` according to the equality used by the map.
+  ///
+  /// このマップに指定された [key] が含まれているかどうかを調べます。
+  ///
   /// マップ内のキーのいずれかが、マップで使用される等式に従って`key`と等しい場合に true を返します。
   ///
   /// ```dart
@@ -53,6 +62,7 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   /// ```
   ///
   /// Returns `false` if itself is [Null].
+  ///
   /// 自身が[Null]な場合は`false`を返します。
   bool containsKey(Object? key) {
     if (this == null) {
@@ -62,9 +72,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Whether this map contains the given [value].
-  /// このマップに指定された [値] が含まれているかどうかを調べます。
   ///
   /// Returns true if any of the values in the map are equal to `value` according to the `==` operator.
+  ///
+  /// このマップに指定された [値] が含まれているかどうかを調べます。
+  ///
   /// `==` 演算子に従って、マップ内のいずれかの値が `value` と等しい場合に true を返します。
   ///
   /// ```dart
@@ -75,6 +87,7 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   /// ```
   ///
   /// Returns `false` if itself is [Null].
+  ///
   /// 自身が[Null]な場合は`false`を返します。
   bool containsValue(Object? value) {
     if (this == null) {
@@ -84,9 +97,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Retrieves the element [key] from [Map].
-  /// [Map]から[key]の要素を取得します。
   ///
   /// If [Map] has no element of [key], or if the type does not match [T], or if [Map] is itself [Null], [orElse] is returned.
+  ///
+  /// [Map]から[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[T]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   T get<T>(K key, T orElse) {
     assert(key != null, "The key is empty.");
@@ -97,9 +112,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Retrieves the element of [key] of type [int] from [Map].
-  /// [Map]から[int]型の[key]の要素を取得します。
   ///
   /// If [Map] has no element of [key], or if the type does not match [int], or if [Map] is itself [Null], [orElse] is returned.
+  ///
+  /// [Map]から[int]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[int]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   int getAsInt(K key, [int orElse = 0]) {
     assert(key != null, "The key is empty.");
@@ -110,9 +127,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Retrieves the element of [key] of type [double] from [Map].
-  /// [Map]から[double]型の[key]の要素を取得します。
   ///
   /// If [Map] has no element of [key], or if the type does not match [double], or if [Map] is itself [Null], [orElse] is returned.
+  ///
+  /// [Map]から[double]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[double]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   double getAsDouble(K key, [double orElse = 0.0]) {
     assert(key != null, "The key is empty.");
@@ -123,9 +142,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Retrieves the element of [key] of type [List] from [Map].
-  /// [Map]から[List]型の[key]の要素を取得します。
   ///
   /// If [Map] has no element of [key], or if the type does not match [List<T>], or if [Map] is itself [Null], [orElse] is returned.
+  ///
+  /// [Map]から[List]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[List<T>]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   List<T> getAsList<T>(K key, [List<T>? orElse]) {
     assert(key != null, "The key is empty.");
@@ -136,9 +157,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Retrieves the element of [key] of type [Map] from [Map].
-  /// [Map]から[Map]型の[key]の要素を取得します。
   ///
   /// If [Map] has no element of [key], or if the type does not match [Map<String, T>], or if [Map] is itself [Null], [orElse] is returned.
+  ///
+  /// [Map]から[Map]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[Map<String, T>]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   Map<String, T> getAsMap<T>(K key, [Map<String, T>? orElse]) {
     assert(key != null, "The key is empty.");
@@ -149,9 +172,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Retrieves the element of [key] of type [Set] from [Map].
-  /// [Map]から[Set]型の[key]の要素を取得します。
   ///
   /// If [Map] has no element of [key], or if the type does not match [Set<T>], or if [Map] is itself [Null], [orElse] is returned.
+  ///
+  /// [Map]から[Set]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[Set<T>]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   Set<T> getAsSet<T>(K key, [Set<T>? orElse]) {
     assert(key != null, "The key is empty.");
@@ -162,12 +187,15 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Retrieves the element of [key] of type [Map] from [Map].
-  /// [Map]から[DateTime]の[key]の要素を取得します。
   ///
   /// If it is an [int] type, convert it to a [DateTime] type with [DateTime.fromMillisecondsSinceEpoch].
-  /// [int]型の場合は[DateTime.fromMillisecondsSinceEpoch]で[DateTime]型に変換します。
   ///
   /// If there is no element of [key] in [Map], or if the type does not match [int] or [DateTime], or if it is [Null] itself, [orElse] is returned.
+  ///
+  /// [Map]から[DateTime]の[key]の要素を取得します。
+  ///
+  /// [int]型の場合は[DateTime.fromMillisecondsSinceEpoch]で[DateTime]型に変換します。
+  ///
   /// [Map]に[key]の要素がない場合や[int]もしくは[DateTime]と型が合わない場合、自身が[Null]の場合は[orElse]が返されます。
   DateTime getAsDateTime(K key, [DateTime? orElse]) {
     if (this == null || !containsKey(key)) {
@@ -187,9 +215,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Returns `true` if any of the keys in [Map] contain any of the keys in [keys].
-  /// [Map]のキーに[keys]のいずれかが含まれている場合`true`を返します。
   ///
   /// Returns `false` if itself is [Null].
+  ///
+  /// [Map]のキーに[keys]のいずれかが含まれている場合`true`を返します。
+  ///
   /// 自身が[Null]な場合は`false`を返します。
   bool containsKeyAny(Iterable<Object?> keys) {
     if (this == null) {
@@ -199,9 +229,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Returns `true` if all [keys] are included in the keys of [Map].
-  /// [Map]のキーに[keys]がすべて含まれている場合`true`を返します。
   ///
   /// Returns `false` if itself is [Null].
+  ///
+  /// [Map]のキーに[keys]がすべて含まれている場合`true`を返します。
+  ///
   /// 自身が[Null]な場合は`false`を返します。
   bool containsKeyAll(Iterable<Object?> keys) {
     if (this == null) {
@@ -211,9 +243,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Returns `true` if the value of [Map] contains one of [values].
-  /// [Map]の値に[values]のいずれかが含まれている場合`true`を返します。
   ///
   /// Returns `false` if itself is [Null].
+  ///
+  /// [Map]の値に[values]のいずれかが含まれている場合`true`を返します。
+  ///
   /// 自身が[Null]な場合は`false`を返します。
   bool containsValueAny(Iterable<Object?> values) {
     if (this == null) {
@@ -223,9 +257,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Returns `true` if the value of [Map] contains all [values].
-  /// [Map]の値に[values]がすべて含まれている場合`true`を返します。
   ///
   /// Returns `false` if itself is [Null].
+  ///
+  /// [Map]の値に[values]がすべて含まれている場合`true`を返します。
+  ///
   /// 自身が[Null]な場合は`false`を返します。
   bool containsValueAll(Iterable<Object?> values) {
     if (this == null) {
@@ -235,9 +271,11 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
   }
 
   /// Returns `true` if the internals of [Map] and [others] are compared and match.
-  /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
   ///
   /// Returns `true` if both itself and [others] are [null].
+  ///
+  /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
+  ///
   /// 自身と[others]が両方とも[Null]な場合`true`を返します。
   bool equalsTo(Map<K, V>? others) {
     if (this == null && others != null) {

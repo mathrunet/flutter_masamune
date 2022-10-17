@@ -1,9 +1,11 @@
 part of katana;
 
 /// Provides extended methods for [Map].
+///
 /// [Map]用の拡張メソッドを提供します。
 extension MapExtensions<K, V> on Map<K, V> {
   /// Returns a list of [callback] return values generated from [Map].
+  ///
   /// [Map]から生成された[callback]の戻り値のリストを返します。
   ///
   /// ```dart
@@ -17,15 +19,18 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Extracts only elements for which the return value of the callback given by [test] is `true`.
-  /// [test]で与えたコールバックの戻り値が`true`の要素だけを抽出します。
   ///
   /// An object different from the original object is returned.
+  ///
+  /// [test]で与えたコールバックの戻り値が`true`の要素だけを抽出します。
+  ///
   /// 元のオブジェクトとは別のオブジェクトが返されます。
   Map<K, V> where(bool Function(K key, V value) test) {
     return Map.from(this)..removeWhere((key, value) => !test(key, value));
   }
 
   /// Set only the value of the key specified by [keys] in the map specified by [others].
+  ///
   /// [others] で指定されたマップに、[keys] で指定されたキーの値のみを設定します。
   ///
   /// ```dart
@@ -45,9 +50,11 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Retrieves the element [key] from [Map].
-  /// [Map]から[key]の要素を取得します。
   ///
   /// If [Map] does not have an element of [key] or the type does not match [T], [orElse] is returned.
+  ///
+  /// [Map]から[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[T]と型が合わない場合、[orElse]が返されます。
   T get<T>(K key, T orElse) {
     assert(key != null, "The key is empty.");
@@ -58,9 +65,11 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Retrieves the element of [key] of type [int] from [Map].
-  /// [Map]から[int]型の[key]の要素を取得します。
   ///
   /// If [Map] does not have an element of [key] or the type does not match [int], [orElse] is returned.
+  ///
+  /// [Map]から[int]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[int]と型が合わない場合、[orElse]が返されます。
   int getAsInt(K key, [int orElse = 0]) {
     assert(key != null, "The key is empty.");
@@ -71,9 +80,11 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Retrieves the element of [key] of type [double] from [Map].
-  /// [Map]から[double]型の[key]の要素を取得します。
   ///
   /// If [Map] does not have an element of [key] or the type does not match [double], [orElse] is returned.
+  ///
+  /// [Map]から[double]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[double]と型が合わない場合、[orElse]が返されます。
   double getAsDouble(K key, [double orElse = 0.0]) {
     assert(key != null, "The key is empty.");
@@ -84,9 +95,11 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Retrieves the element of [key] of type [List] from [Map].
-  /// [Map]から[List]型の[key]の要素を取得します。
   ///
   /// If [Map] does not have an element of [key] or the type does not match [List<T>], [orElse] is returned.
+  ///
+  /// [Map]から[List]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[List<T>]と型が合わない場合、[orElse]が返されます。
   List<T> getAsList<T>(K key, [List<T>? orElse]) {
     assert(key != null, "The key is empty.");
@@ -97,9 +110,11 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Retrieves the element of [key] of type [Map] from [Map].
-  /// [Map]から[Map]型の[key]の要素を取得します。
   ///
   /// If [Map] does not have an element of [key] or the type does not match [Map<String, T>], [orElse] is returned.
+  ///
+  /// [Map]から[Map]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[Map<String, T>]と型が合わない場合、[orElse]が返されます。
   Map<String, T> getAsMap<T>(K key, [Map<String, T>? orElse]) {
     assert(key != null, "The key is empty.");
@@ -110,9 +125,11 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Retrieves the element of [key] of type [Set] from [Map].
-  /// [Map]から[Set]型の[key]の要素を取得します。
   ///
   /// If [Map] does not have an element of [key] or the type does not match [Set<T>], [orElse] is returned.
+  ///
+  /// [Map]から[Set]型の[key]の要素を取得します。
+  ///
   /// [Map]に[key]の要素がない場合や[Set<T>]と型が合わない場合、[orElse]が返されます。
   Set<T> getAsSet<T>(K key, [Set<T>? orElse]) {
     assert(key != null, "The key is empty.");
@@ -123,12 +140,15 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Retrieves the element of [key] of type [Map] from [Map].
-  /// [Map]から[DateTime]の[key]の要素を取得します。
   ///
   /// If it is an [int] type, convert it to a [DateTime] type with [DateTime.fromMillisecondsSinceEpoch].
-  /// [int]型の場合は[DateTime.fromMillisecondsSinceEpoch]で[DateTime]型に変換します。
   ///
   /// If there is no element of [key] in [Map] or the type does not match [int] or [DateTime], [orElse] is returned.
+  ///
+  /// [Map]から[DateTime]の[key]の要素を取得します。
+  ///
+  /// [int]型の場合は[DateTime.fromMillisecondsSinceEpoch]で[DateTime]型に変換します。
+  ///
   /// [Map]に[key]の要素がない場合や[int]もしくは[DateTime]と型が合わない場合、[orElse]が返されます。
   DateTime getAsDateTime(K key, [DateTime? orElse]) {
     if (!containsKey(key)) {
@@ -148,12 +168,15 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Merges elements of [others] into [Map].
-  /// [Map]に[others]の要素をマージします。
   ///
   /// You can use [convertKeys] to convert keys when merging [others].
-  /// [others]をマージする際のキーを[convertKeys]で変換できます。
   ///
   /// You can use [convertValues] to convert values when merging [others].
+  ///
+  /// [Map]に[others]の要素をマージします。
+  ///
+  /// [others]をマージする際のキーを[convertKeys]で変換できます。
+  ///
   /// [others]をマージする際の値を[convertValues]で変換できます。
   ///
   /// ```dart
@@ -180,9 +203,11 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Add [others] to [Map].
-  /// [Map]に[others]を追加します。
   ///
   /// Keys in [others] that are already in [Map] will not be added.
+  ///
+  /// [Map]に[others]を追加します。
+  ///
   /// [others]のキーの中で[Map]の中にすでにあるものは追加されません。
   ///
   /// ```dart
@@ -203,33 +228,39 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Returns `true` if any of the keys in [Map] contain any of the keys in [keys].
+  ///
   /// [Map]のキーに[keys]のいずれかが含まれている場合`true`を返します。
   bool containsKeyAny(Iterable<Object?> keys) {
     return keys.any((element) => containsKey(element));
   }
 
   /// Returns `true` if all [keys] are included in the keys of [Map].
+  ///
   /// [Map]のキーに[keys]がすべて含まれている場合`true`を返します。
   bool containsKeyAll(Iterable<Object?> keys) {
     return keys.every((element) => containsKey(element));
   }
 
   /// Returns `true` if the value of [Map] contains one of [values].
+  ///
   /// [Map]の値に[values]のいずれかが含まれている場合`true`を返します。
   bool containsValueAny(Iterable<Object?> values) {
     return values.any((element) => containsValue(element));
   }
 
   /// Returns `true` if the value of [Map] contains all [values].
+  ///
   /// [Map]の値に[values]がすべて含まれている場合`true`を返します。
   bool containsValueAll(Iterable<Object?> values) {
     return values.every((element) => containsValue(element));
   }
 
   /// If this object is Json encodable, `true` is returned.
-  /// このオブジェクトがJsonでエンコード可能な場合`true`が返されます。
   ///
   /// If a [List] or [Map] exists, its contents are also checked.
+  ///
+  /// このオブジェクトがJsonでエンコード可能な場合`true`が返されます。
+  ///
   /// [List]や[Map]が存在していた場合はその中身までチェックされます。
   bool get isJsonEncodable {
     if (K != String) {
@@ -239,6 +270,7 @@ extension MapExtensions<K, V> on Map<K, V> {
   }
 
   /// Returns `true` if the internals of [Map] and [others] are compared and match.
+  ///
   /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
   bool equalsTo(Map<K, V> others) {
     for (final tmp in entries) {

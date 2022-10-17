@@ -1,12 +1,15 @@
 part of katana;
 
 /// Provides extended methods for [int] arrays.
+/// 
 /// [int]の配列用の拡張メソッドを提供します。
 extension IntIterableExtensions on Iterable<int> {
   /// Get the closest [int] to [point] in the [int] array.
-  /// [int]の配列の中で[point]に一番近い[int]を取得します。
   ///
   /// [Null] is returned if the array is empty or if [point] is [double.nan].
+  ///
+  /// [int]の配列の中で[point]に一番近い[int]を取得します。
+  ///
   /// 配列が空の場合や[point]が[double.nan]の場合は[Null]が返されます。
   ///
   /// ```dart
