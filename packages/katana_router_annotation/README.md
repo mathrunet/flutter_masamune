@@ -105,7 +105,7 @@ class MainPage extends StatelessWidget {
 ## Navigation
 
 ```dart
-context.router.push(HomePage.query(userId: "User id"));
+context.router.push(HomePage.query());
 ```
 
 # Installation
@@ -122,7 +122,7 @@ flutter pub add --dev katana_router_builder
 
 ## Create Page
 
-Widget to display by page path`/user/user ID` is implemented as follows.
+Widget to display by page path`/user/any user ID` is implemented as follows.
 
 `part '`original filename`.page.dart';` to import a Part file.
 
@@ -150,7 +150,7 @@ class UserPage extends StatelessWidget {
   final String userId;
 
   @pageRouteQuery
-  static const query = _$HomePage();
+  static const query = _$UserPage();
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +210,7 @@ To `navigate` to HomePage, do the following
 The parameters defined in the widget can be described in the `query` as they are.
 
 ```dart
-context.router.push(HomePage.query(userId: "User id"));
+context.router.push(UserPage.query(userId: "User id"));
 ```
 
 # Code Generation
