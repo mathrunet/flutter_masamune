@@ -1,15 +1,19 @@
 part of katana_model;
 
 /// Mix-in to make documents searchable.
-/// ドキュメントを検索対象にするためのミックスイン。
 ///
 /// This can be mixed in with `with` to make documents searchable and "display only specific strings" when querying collections.
-/// これを`with`でミックスインすることでドキュメントを検索対象にしてコレクションでのクエリ時に「特定の文字列のみ表示する」といったことを実現することができます。
 ///
 /// Stores Bigram data for search in [searchValueFieldKey].
-/// [searchValueFieldKey]に検索用のBigramのデータを格納します。
 ///
 /// [buildSearchText] creates a string to be searched. If you want to search multiple items, combine all strings and return them as a single string.
+///
+/// ドキュメントを検索対象にするためのミックスイン。
+///
+/// これを`with`でミックスインすることでドキュメントを検索対象にしてコレクションでのクエリ時に「特定の文字列のみ表示する」といったことを実現することができます。
+///
+/// [searchValueFieldKey]に検索用のBigramのデータを格納します。
+///
 /// [buildSearchText]で検索対象の文字列を作成します。複数の項目を検索対象にしたい場合、すべての文字列を合成し１つの文字列として返してください。
 ///
 /// ```dart
@@ -19,6 +23,7 @@ part of katana_model;
 /// ```
 ///
 /// Documents targeted for search will be searchable in the collection. The search is made possible by passing a query using [ModelQuery.search].
+///
 /// 検索対象にされたドキュメントはコレクションで検索可能になります。検索の際は[ModelQuery.search]を用いてクエリを渡すことで検索可能になります。
 ///
 /// ```dart
@@ -28,11 +33,13 @@ part of katana_model;
 /// ```
 mixin SearchableDocumentMixin<T> on DocumentBase<T> {
   /// The field with this key contains the Bigram data for the search.
+  /// 
   /// このキーを持つフィールドに検索用のBigramのデータを格納します。
   @protected
   String get searchValueFieldKey;
 
   /// Creates a string to be searched. If you want to search multiple items, combine all strings and return them as a single string.
+  /// 
   /// 検索対象の文字列を作成します。複数の項目を検索対象にしたい場合、すべての文字列を合成し１つの文字列として返してください。
   ///
   /// ```dart

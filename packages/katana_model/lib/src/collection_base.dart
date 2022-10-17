@@ -1,52 +1,68 @@
 part of katana_model;
 
 /// Define a collection model that includes [DocumentBase] as an element.
-/// [DocumentBase]を要素に含めたコレクションモデルを定義します。
 ///
 /// Any changes made locally in the app will be notified and related objects will reflect the changes.
-/// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
 ///
 /// When changes are reflected, [notifyListeners] will notify all listeners of the changes.
-/// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
 ///
 /// Define [CollectionBase.create] to describe the process of creating a new document.
-/// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
 ///
 /// By defining [query], you can specify settings for loading, such as collection paths and conditions.
-/// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
 ///
 /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
-/// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
 ///
 /// Execute [DocumentBase.save] for each document to change elements, and [DocumentBase.delete] for each document to delete them.
-/// 要素を変更する場合は各ドキュメントの[DocumentBase.save]を実行し、削除する場合は各ドキュメントの[DocumentBase.delete]を実行してください。
 ///
 /// To add elements, run [CollectionBase.create] to create a new document, then save it with [DocumentBase.save].
+///
+/// [DocumentBase]を要素に含めたコレクションモデルを定義します。
+///
+/// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
+///
+/// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+///
+/// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
+///
+/// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
+///
+/// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
+///
+/// 要素を変更する場合は各ドキュメントの[DocumentBase.save]を実行し、削除する場合は各ドキュメントの[DocumentBase.delete]を実行してください。
+///
 /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
 abstract class CollectionBase<TModel extends DocumentBase>
     extends ChangeNotifier implements List<TModel> {
   /// Define a collection model that includes [DocumentBase] as an element.
-  /// [DocumentBase]を要素に含めたコレクションモデルを定義します。
   ///
   /// Any changes made locally in the app will be notified and related objects will reflect the changes.
-  /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
   ///
   /// When changes are reflected, [notifyListeners] will notify all listeners of the changes.
-  /// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
   ///
   /// Define [CollectionBase.create] to describe the process of creating a new document.
-  /// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
   ///
   /// By defining [query], you can specify settings for loading, such as collection paths and conditions.
-  /// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
   ///
   /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
-  /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
   ///
   /// Execute [DocumentBase.save] for each document to change elements, and [DocumentBase.delete] for each document to delete them.
-  /// 要素を変更する場合は各ドキュメントの[DocumentBase.save]を実行し、削除する場合は各ドキュメントの[DocumentBase.delete]を実行してください。
   ///
   /// To add elements, run [CollectionBase.create] to create a new document, then save it with [DocumentBase.save].
+  ///
+  /// [DocumentBase]を要素に含めたコレクションモデルを定義します。
+  ///
+  /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
+  ///
+  /// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+  ///
+  /// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
+  ///
+  /// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
+  ///
+  /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
+  ///
+  /// 要素を変更する場合は各ドキュメントの[DocumentBase.save]を実行し、削除する場合は各ドキュメントの[DocumentBase.delete]を実行してください。
+  ///
   /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
   CollectionBase(
     this.query, [
@@ -58,18 +74,22 @@ abstract class CollectionBase<TModel extends DocumentBase>
         );
 
   /// Create a new document of type [TModel] from the contents of the collection.
-  /// コレクションの内容から新しく[TModel]型のドキュメントを作成します。
   ///
   /// The document will be created with the collection path of [query] plus [id] (if `null`, a random [uuid] will be used).
+  ///
+  /// コレクションの内容から新しく[TModel]型のドキュメントを作成します。
+  ///
   /// [query]のコレクションパスに[id]（`null`の場合はランダムな[uuid]が使用されます）を加えたパスでドキュメントが作成されます。
   TModel create([String? id]);
 
   /// Query to read and save collections.
+  ///
   /// コレクションを読込・保存するためのクエリ。
   @protected
   final CollectionModelQuery query;
 
   /// Database queries for collections.
+  ///
   /// コレクション用のデータベースクエリ。
   @protected
   ModelAdapterCollectionQuery get databaseQuery {
@@ -83,6 +103,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ModelAdapterCollectionQuery? _databaseQuery;
 
   /// List of currently subscribed notifications. All should be canceled when the object is destroyed.
+  ///
   /// 現在購読中の通知一覧。オブジェクトの破棄時にすべてキャンセルするようにしてください。
   @protected
   List<StreamSubscription> get subscriptions => _subscriptions;
@@ -104,44 +125,57 @@ abstract class CollectionBase<TModel extends DocumentBase>
   late List<TModel> __value;
 
   /// Returns `true` if the data was successfully loaded by the [load] method.
-  /// [load]メソッドでデータが読み込みに成功した場合`true`を返します。
   ///
   /// If this is set to `true`, the [load] method will not be loaded when executed.
+  ///
+  /// [load]メソッドでデータが読み込みに成功した場合`true`を返します。
+  ///
   /// これが`true`になっている場合、[load]メソッドは実行しても読込は行われません。
   bool get loaded => _loaded;
   bool _loaded = false;
 
   /// If [load], [reload] or [next] is executed, it waits until the reading process is completed.
-  /// [load]や[reload]、[next]を実行した場合、その読込処理が終わるまで待ちます。
   ///
   /// After reading, [CollectionBase] itself is returned.
-  /// 読込終了後、[CollectionBase]自身が返されます。
   ///
   /// If [load], [reload] or [next] is not in progress, [Null] is returned.
+  ///
+  /// [load]や[reload]、[next]を実行した場合、その読込処理が終わるまで待ちます。
+  ///
+  /// 読込終了後、[CollectionBase]自身が返されます。
+  ///
   /// [load]や[reload]、[next]を実行中でない場合、[Null]が返されます。
   Future<CollectionBase<TModel>>? get loading => _loadCompleter?.future;
   Completer<CollectionBase<TModel>>? _loadCompleter;
 
   /// If the number of elements is limited by [ModelQuery.limit], returns `true` if the next element can be added.
-  /// [ModelQuery.limit]で要素数を制限されている場合、次の要素が追加可能な場合`true`を返します。
   ///
   /// If the number of elements does not change when the [next] method is executed, [canNext] will be `false`.
+  ///
+  /// [ModelQuery.limit]で要素数を制限されている場合、次の要素が追加可能な場合`true`を返します。
+  ///
   /// [next]メソッドを実行した際に要素数が変わらなかった場合、[canNext]は`false`になります。
   bool get canNext => _canNext;
   bool _canNext = true;
 
   /// Reads the collection corresponding to [query].
-  /// [query]に対応したコレクションの読込を行います。
   ///
   /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
-  /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
   /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
-  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
   /// Once content is loaded, no new loading is performed. Therefore, it can be used in a method that is read any number of times, such as in the `build` method of a `widget`.
-  /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
   ///
   /// If you wish to reload the file, use the [reload] method.
+  ///
+  /// [query]に対応したコレクションの読込を行います。
+  ///
+  /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
+  /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
+  ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
   Future<CollectionBase<TModel>> load([
     bool listenWhenPossible = true,
@@ -180,15 +214,19 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// Reload the collection corresponding to [query].
-  /// [query]に対応したコレクションの再読込を行います。
   ///
   /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
-  /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
   /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
-  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
   ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
+  ///
+  /// [query]に対応したコレクションの再読込を行います。
+  ///
+  /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
+  ///
+  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> reload([
     bool listenWhenPossible = true,
@@ -198,12 +236,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// If the number of elements is limited by [ModelQuery.limit], additional elements are loaded for the next [ModelQuery.limit] number of elements.
-  /// [ModelQuery.limit]で要素数を制限されている場合、次の[ModelQuery.limit]個数分だけ追加要素を読み込みます。
   ///
   /// If the number of elements does not change when executed, [canNext] will be `false`, but this method will be executed even if [canNext] is `false`.
-  /// 実行した際に要素数が変わらなかった場合、[canNext]は`false`になりますがこのメソッドは[canNext]が`false`でも実行されます。
   ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
+  ///
+  /// [ModelQuery.limit]で要素数を制限されている場合、次の[ModelQuery.limit]個数分だけ追加要素を読み込みます。
+  ///
+  /// 実行した際に要素数が変わらなかった場合、[canNext]は`false`になりますがこのメソッドは[canNext]が`false`でも実行されます。
+  ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> next([
     bool listenWhenPossible = true,
@@ -220,12 +261,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// After loading is complete, add data.
-  /// ロード完了後、データを追加します。
   ///
   /// After loading is completed, [onDidLoad] is always executed, and the return value of [onDidLoad] is the value of the list as it is.
-  /// ロード完了後必ず[onDidLoad]が実行され、[onDidLoad]の戻り値がそのままリストの値となります。
   ///
   /// itself is returned after the method execution completes.
+  ///
+  /// ロード完了後、データを追加します。
+  ///
+  /// ロード完了後必ず[onDidLoad]が実行され、[onDidLoad]の戻り値がそのままリストの値となります。
+  ///
   /// メソッド実行完了後自身が返されます。
   FutureOr<CollectionBase<TModel>> append(
     List<TModel> Function(List<TModel> value) onDidLoad,
@@ -266,12 +310,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
   List<TModel> Function(List<TModel> value)? _onDidLoad;
 
   /// Implement internal processing when [load], [reload], or [next] is executed.
-  /// [load]や[reload]、[next]を実行した際の内部処理を実装します。
   ///
   /// If [listenWhenPossible] is `true`, set the database to monitor changes against change-monitorable databases.
-  /// [listenWhenPossible]が`true`な場合、変更監視可能なデータベースに対して変更を監視するように設定します。
   ///
   /// If [Null] is returned, the value is not updated.
+  ///
+  /// [load]や[reload]、[next]を実行した際の内部処理を実装します。
+  ///
+  /// [listenWhenPossible]が`true`な場合、変更監視可能なデータベースに対して変更を監視するように設定します。
+  ///
   /// [Null]が返された場合は値をアップデートしません。
   @protected
   @mustCallSuper
@@ -294,12 +341,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// Describe the callback process to pass to [ModelAdapterCollectionQuery.callback].
-  /// [ModelAdapterCollectionQuery.callback]に渡すためのコールバック処理を記述します。
   ///
   /// This is executed when there is a change in the associated collection or document.
-  /// 関連するコレクションやドキュメントに変更があった場合、こちらが実行されます。
   ///
   /// Please take appropriate action according to the contents of [update].
+  ///
+  /// [ModelAdapterCollectionQuery.callback]に渡すためのコールバック処理を記述します。
+  ///
+  /// 関連するコレクションやドキュメントに変更があった場合、こちらが実行されます。
+  ///
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
@@ -351,9 +401,11 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// Creates a [List<TModel>] from a [map] of type [Map<String, DynamicMap>] decoded from Json.
-  /// Jsonからデコードされた[Map<String, DynamicMap>]型の[map]から[List<TModel>]を作成します。
   ///
   /// The number of elements output can be limited by specifying [limit].
+  ///
+  /// Jsonからデコードされた[Map<String, DynamicMap>]型の[map]から[List<TModel>]を作成します。
+  ///
   /// [limit]を指定することで出力される要素数を制限することが可能です。
   @protected
   Future<List<TModel>> fromMap(Map<String, DynamicMap> map, int? limit) async {
@@ -391,6 +443,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   String toString() => IterableBase.iterableToShortString(this, "(", ")");
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   set length(int value) {
@@ -404,6 +457,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   TModel operator [](int index) => _value[index];
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void operator []=(int index, TModel value) {
@@ -411,6 +465,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void add(TModel value) {
@@ -418,6 +473,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void addAll(Iterable<TModel> iterable) {
@@ -425,6 +481,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void clear() {
@@ -432,6 +489,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void fillRange(int start, int end, [TModel? fillValue]) {
@@ -439,6 +497,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void insert(int index, TModel element) {
@@ -446,6 +505,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void insertAll(int index, Iterable<TModel> iterable) {
@@ -453,6 +513,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   bool remove(Object? value) {
@@ -460,6 +521,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   TModel removeAt(int index) {
@@ -467,6 +529,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   TModel removeLast() {
@@ -474,6 +537,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void removeRange(int start, int end) {
@@ -481,6 +545,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void removeWhere(bool Function(TModel element) test) {
@@ -488,6 +553,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void replaceRange(int start, int end, Iterable<TModel> replacement) {
@@ -495,6 +561,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void retainWhere(bool Function(TModel element) test) {
@@ -502,6 +569,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void setAll(int index, Iterable<TModel> iterable) {
@@ -509,6 +577,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void setRange(
@@ -521,6 +590,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void shuffle([Random? random]) {
@@ -528,6 +598,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   void sort([int Function(TModel a, TModel b)? compare]) {
@@ -559,6 +630,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   TModel get first => _value.first;
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   set first(TModel element) {
@@ -596,6 +668,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   TModel get last => _value.last;
 
   /// This operation is not supported by an model collection.
+  ///
   /// Model Collectionではこの操作はサポートされていません。
   @override
   set last(TModel element) {

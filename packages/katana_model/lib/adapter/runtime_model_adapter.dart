@@ -1,43 +1,53 @@
 part of katana_model;
 
 /// Model adapter that uses a database that runs only in the memory of the application.
-/// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
-///
 /// All data will be reset when the application is re-launched.
-/// アプリを立ち上げ直すとデータはすべてリセットされます。
 ///
 /// It is usually used for temporary databases under development or for testing.
-/// 通常は開発途中の仮のデータベースやテスト用のデータベースに利用します。
 ///
 /// Normally, a common database [sharedDatabase] is used for the entire app, but if you want to reset the database each time, for example for testing, pass an individual database to [database].
-/// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
 ///
 /// By passing data to [RuntimeModelAdapter.setRawData], the database can be used as a data mockup since it contains data in advance.
+///
+/// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
+///
+/// アプリを立ち上げ直すとデータはすべてリセットされます。
+///
+/// 通常は開発途中の仮のデータベースやテスト用のデータベースに利用します。
+///
+/// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
+///
 /// [RuntimeModelAdapter.setRawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 @immutable
 class RuntimeModelAdapter extends ModelAdapter {
   /// Model adapter that uses a database that runs only in the memory of the application.
-  /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
-  ///
   /// All data will be reset when the application is re-launched.
-  /// アプリを立ち上げ直すとデータはすべてリセットされます。
   ///
   /// It is usually used for temporary databases under development or for testing.
-  /// 通常は開発途中の仮のデータベースやテスト用のデータベースに利用します。
   ///
   /// Normally, a common database [sharedDatabase] is used for the entire app, but if you want to reset the database each time, for example for testing, pass an individual database to [database].
-  /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
   ///
   /// By passing data to [RuntimeModelAdapter.setRawData], the database can be used as a data mockup since it contains data in advance.
+  ///
+  /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
+  ///
+  /// アプリを立ち上げ直すとデータはすべてリセットされます。
+  ///
+  /// 通常は開発途中の仮のデータベースやテスト用のデータベースに利用します。
+  ///
+  /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
+  ///
   /// [RuntimeModelAdapter.setRawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   const RuntimeModelAdapter({NoSqlDatabase? database}) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
+  /// 
   /// 指定のデータベース。テスト用途などにご利用ください。
   NoSqlDatabase get database => _database ?? sharedDatabase;
   final NoSqlDatabase? _database;
 
   /// A common database throughout the application.
+  /// 
   /// アプリ内全体での共通のデータベース。
   static final NoSqlDatabase sharedDatabase = NoSqlDatabase();
 

@@ -1,28 +1,36 @@
 part of katana_model;
 
 /// Query class for defining Model.
-/// Modelを定義するためのクエリクラス。
 ///
 /// The [path] to be queried is given and the document is loaded, etc.
-/// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
 ///
 /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ ModelAdapter.primary] is used.
-/// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
 ///
 /// Use [CollectionModelQuery] for collections.
+///
+/// Modelを定義するためのクエリクラス。
+///
+/// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
+///
+/// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
+///
 /// コレクションに対しては[CollectionModelQuery]を使用してください。
 @immutable
 class DocumentModelQuery extends ModelQuery {
   /// Query class for defining Model.
-  /// Modelを定義するためのクエリクラス。
   ///
   /// The [path] to be queried is given and the document is loaded, etc.
-  /// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
   ///
   /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ ModelAdapter.primary] is used.
-  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
   ///
   /// Use [CollectionModelQuery] for collections.
+  ///
+  /// Modelを定義するためのクエリクラス。
+  ///
+  /// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
+  ///
+  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
+  ///
   /// コレクションに対しては[CollectionModelQuery]を使用してください。
   const DocumentModelQuery(
     super.path, {
@@ -30,6 +38,7 @@ class DocumentModelQuery extends ModelQuery {
   }) : _adapter = adapter;
 
   /// An adapter for defining the process of reading and saving data. If [adapter] is not specified, [ModelAdapter.primary] is used.
+  ///
   /// データをを読込・保存する際の処理を定義するためのアダプター。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
   ModelAdapter get adapter {
     return _adapter ?? ModelAdapter.primary;
@@ -39,28 +48,36 @@ class DocumentModelQuery extends ModelQuery {
 }
 
 /// Query class for defining Model.
-/// Modelを定義するためのクエリクラス。
 ///
 /// It is possible to define the [path] to be queried and other necessary conditions.
-/// クエリ対象となる[path]と他必要な条件を定義することが可能です。
 ///
 /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ ModelAdapter.primary] is used.
-/// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
 ///
 /// Use [DocumentModelQuery] for documents.
+///
+/// Modelを定義するためのクエリクラス。
+///
+/// クエリ対象となる[path]と他必要な条件を定義することが可能です。
+///
+/// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
+///
 /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
 @immutable
 class CollectionModelQuery extends ModelQuery {
   /// Query class for defining Model.
-  /// Modelを定義するためのクエリクラス。
   ///
   /// It is possible to define the [path] to be queried and other necessary conditions.
-  /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
   ///
   /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ModelAdapter.primary] is used.
-  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
   ///
   /// Use [DocumentModelQuery] for documents.
+  ///
+  /// Modelを定義するためのクエリクラス。
+  ///
+  /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
+  ///
+  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
+  ///
   /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
   const CollectionModelQuery(
     super.path, {
@@ -82,6 +99,7 @@ class CollectionModelQuery extends ModelQuery {
   }) : _adapter = adapter;
 
   /// An adapter for defining the process of reading and saving data. If [adapter] is not specified, [ModelAdapter.primary] is used.
+  ///
   /// データをを読込・保存する際の処理を定義するためのアダプター。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
   ModelAdapter get adapter {
     return _adapter ?? ModelAdapter.primary;
@@ -90,9 +108,11 @@ class CollectionModelQuery extends ModelQuery {
   final ModelAdapter? _adapter;
 
   /// Create a [DocumentModelQuery] for a document under a collection using its own [path] and [id].
-  /// 自身の[path]と[id]を用いてコレクション配下のドキュメント用の[DocumentModelQuery]を作成します。
   ///
   /// If [id] is [Null], [uuid] (32-byte non-hyphenated string) is used.
+  ///
+  /// 自身の[path]と[id]を用いてコレクション配下のドキュメント用の[DocumentModelQuery]を作成します。
+  ///
   /// [id]が[Null]の場合は[uuid]（32バイトのハイフン無しの文字列）が利用されます。
   DocumentModelQuery create<T>([
     String? id,
@@ -105,22 +125,28 @@ class CollectionModelQuery extends ModelQuery {
 }
 
 /// Query class for defining Model.
-/// Modelを定義するためのクエリクラス。
 ///
 /// It is possible to define the [path] to be queried and other necessary conditions.
-/// クエリ対象となる[path]と他必要な条件を定義することが可能です。
 ///
 /// Use [DocumentModelQuery] for documents and [CollectionModelQuery] for collections.
+///
+/// Modelを定義するためのクエリクラス。
+///
+/// クエリ対象となる[path]と他必要な条件を定義することが可能です。
+///
 /// ドキュメントに対しては[DocumentModelQuery]、コレクションに対しては[CollectionModelQuery]を使用してください。
 @immutable
 class ModelQuery {
   /// Query class for defining Model.
-  /// Modelを定義するためのクエリクラス。
   ///
   /// It is possible to define the [path] to be queried and other necessary conditions.
-  /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
   ///
   /// Use [DocumentModelQuery] for documents and [CollectionModelQuery] for collections.
+  ///
+  /// Modelを定義するためのクエリクラス。
+  ///
+  /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
+  ///
   /// ドキュメントに対しては[DocumentModelQuery]、コレクションに対しては[CollectionModelQuery]を使用してください。
   const ModelQuery(
     this.path, {
@@ -141,15 +167,19 @@ class ModelQuery {
   });
 
   /// [ModelQuery] from [path].
-  /// [path]から[ModelQuery]を取得します。
   ///
   /// Query class for defining Model.
-  /// Modelを定義するためのクエリクラス。
   ///
   /// It is possible to define the [path] to be queried and other necessary conditions.
-  /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
   ///
   /// Use [DocumentModelQuery] for documents and [CollectionModelQuery] for collections.
+  ///
+  /// [path]から[ModelQuery]を取得します。
+  ///
+  /// Modelを定義するためのクエリクラス。
+  ///
+  /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
+  ///
   /// ドキュメントに対しては[DocumentModelQuery]、コレクションに対しては[CollectionModelQuery]を使用してください。
   factory ModelQuery.fromPath(String path) {
     if (path.isEmpty) {
@@ -195,71 +225,89 @@ class ModelQuery {
   }
 
   /// Path definition for the model.
+  ///
   /// モデルに対するパス定義。
   final String path;
 
   /// The key of the target to query.
+  ///
   /// クエリを行う対象のキー。
   final String? key;
 
   /// The key of the target for sorting.
+  ///
   /// ソートを行う対象のキー。
   final String? orderBy;
 
   /// If this is defined, only elements with the same value for [key] and [isEqualTo] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対する値と[isEqualTo]が同じ要素のみ取得されます。
   final dynamic isEqualTo;
 
   /// If this is defined, only elements with different values for [key] and [isNotEqualTo] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対する値と[isNotEqualTo]と違う要素のみ取得されます。
   final dynamic isNotEqualTo;
 
   /// If this is defined, only elements that are equal to or smaller than the value for [key] and [isLessThanOrEqualTo] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対する値と[isLessThanOrEqualTo]より同じか小さい要素のみ取得されます。
   final dynamic isLessThanOrEqualTo;
 
   /// If this is defined, only elements that are equal to or greater than the value for [key] and [isGreaterThanOrEqualTo] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対する値と[isGreaterThanOrEqualTo]より同じか大きい要素のみ取得されます。
   final dynamic isGreaterThanOrEqualTo;
 
   /// If this is defined, only elements with [arrayContains] in the list for [key] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対するリストに[arrayContains]が含まれる要素のみ取得されます。
   final dynamic arrayContains;
 
   /// If this is defined, only elements whose list for [key] contains one of [arrayContainsAny] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対するリストに[arrayContainsAny]のいずれかが含まれる要素のみ取得されます。
   final DynamicList? arrayContainsAny;
 
   /// If this is defined, only elements whose value for [key] is contained in one of [whereIn] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対する値が[whereIn]のいずれかに含まれる要素のみ取得されます。
   final DynamicList? whereIn;
 
   /// If this is defined, only elements whose value for [key] is not included in any of [whereNotIn] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対する値が[whereNotIn]のいずれにも含まれない要素のみ取得されます。
   final DynamicList? whereNotIn;
 
   /// Specify ascending order [ModelQueryOrder.asc] or descending order [ModelQueryOrder.desc] for sorting.
+  ///
   /// ソートを行う場合の昇順[ModelQueryOrder.asc]、降順[ModelQueryOrder.desc]を指定します。
   final ModelQueryOrder order;
 
   /// If this is defined, only elements whose GeoHash for [key] is within the range of [geoHash] will be retrieved.
+  ///
   /// これが定義されている場合[key]に対するGeoHashが[geoHash]の範囲内にある要素のみ取得されます。
   final List<String>? geoHash;
 
   /// Sets the upper limit for element retrieval.
-  /// 要素の取得上限を設定します。
   ///
   /// If [Null], unlimited.
+  ///
+  /// 要素の取得上限を設定します。
+  ///
   /// [Null]の場合は無制限になります。
   final int? limit;
 
   /// Query string for search.
-  /// 検索用のクエリ文字列。
   ///
   /// Also, [order] and [orderBy] do not work with this parameter.
-  /// また、このパラメーターを用いた場合[order]や[orderBy]が機能しません。
   ///
   /// To use this, the document to be searched for must be stored in Bigram with the string split and [key] in the following structure.
+  ///
+  /// 検索用のクエリ文字列。
+  ///
+  /// また、このパラメーターを用いた場合[order]や[orderBy]が機能しません。
+  ///
   /// これを利用する場合検索対象のドキュメントはBigramで文字列を分割し[key]で下記のような仕組みで保存されている必要があります。
   ///
   /// ```
@@ -277,6 +325,7 @@ class ModelQuery {
   /// ```
   ///
   /// Normally, the search function is achieved by mixing [SearchableDocumentMixin] into the document to be searched and matching [SearchableDocumentMixin.searchValueFieldKey] and [ModelQuery.key].
+  ///
   /// 通常は[SearchableDocumentMixin]を検索対象のドキュメントにミックスインし、[SearchableDocumentMixin.searchValueFieldKey]と[ModelQuery.key]を合わせることで検索機能を実現します。
   final String? search;
 
@@ -343,6 +392,7 @@ class ModelQuery {
   }
 
   /// Ignores [key] and returns `true` if it is within the range of other [ModelQuery] conditions.
+  ///
   /// [key]を無視してそれ以外の[ModelQuery]の条件の範囲内にある場合`true`を返します。
   bool hasMatchAsObject(Object? data) {
     _assert();
@@ -353,6 +403,7 @@ class ModelQuery {
   }
 
   /// Returns `true` if it is within the conditions of [ModelQuery] by reference to [key] in [data].
+  ///
   /// [data]内の[key]を参照し[ModelQuery]の条件の範囲内にある場合`true`を返します。
   bool hasMatchAsMap(DynamicMap? data) {
     _assert();
@@ -369,6 +420,7 @@ class ModelQuery {
   }
 
   /// Runs [hasMatchAsMap] recursively in [List] and returns `true` if one of the matches is found.
+  ///
   /// [List]内で再帰的に[hasMatchAsMap]を実行し、１つでも該当すれば`true`を返します。
   bool hasMatchAsList(List<DynamicMap> data) {
     _assert();
@@ -451,9 +503,11 @@ class ModelQuery {
   }
 
   /// Sort [data] according to [ModelQuery] settings.
-  /// [data]を[ModelQuery]の設定に従ってソートします。
   ///
   /// The return value is an object different from [data].
+  ///
+  /// [data]を[ModelQuery]の設定に従ってソートします。
+  ///
   /// 戻り値は[data]とは違うオブジェクトが返されます。
   List<MapEntry<String, DynamicMap>> sort(
     List<MapEntry<String, DynamicMap>> data,
@@ -476,9 +530,11 @@ class ModelQuery {
   }
 
   /// From [sorted], search according to the sort settings of [ModelQuery] and obtain the position where [data] is entered.
-  /// [sorted]から[ModelQuery]のソート設定に従って探索し[data]が入る位置を取得します。
   ///
   /// If [orderBy] is not set or [data] is empty, [Null] is returned.
+  ///
+  /// [sorted]から[ModelQuery]のソート設定に従って探索し[data]が入る位置を取得します。
+  ///
   /// [orderBy]が設定されていなかったり[data]が空の場合は[Null]が返されます。
   ///
   /// ```dart
@@ -677,6 +733,7 @@ class ModelQuery {
 }
 
 /// Define the sort order for [ModelQuery].
+///
 /// [ModelQuery]のソート順を定義します。
 enum ModelQueryOrder {
   /// Ascending Order.
