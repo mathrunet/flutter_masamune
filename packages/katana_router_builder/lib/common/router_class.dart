@@ -35,8 +35,13 @@ List<Class> routerClass(
                   (p) => p
                     ..name = "initialPath"
                     ..toSuper = true
-                    ..named = true
-                    ..defaultTo = const Code("\"/\""),
+                    ..named = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "initialQuery"
+                    ..toSuper = true
+                    ..named = true,
                 ),
                 Parameter(
                   (p) => p
@@ -77,10 +82,16 @@ List<Class> routerClass(
                     ..named = true
                     ..toSuper = true,
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "pages"
+                    ..named = true
+                    ..type = const Reference("List<RouteQueryBuilder>?"),
+                ),
               ])
               ..initializers = ListBuilder([
                 Code(
-                  "super(pages: [${queries.map((e) => e.query).join(",")}])",
+                  "super(pages: pages ?? [${queries.map((e) => e.query).join(",")}])",
                 ),
               ]),
           )
