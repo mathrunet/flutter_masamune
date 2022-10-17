@@ -1,3 +1,7 @@
+## 1.5.5
+
+ - **FIX**: Fixed a typo in the ReadMe. ([2354bf12](https://github.com/mathrunet/flutter_masamune/commit/2354bf1211e54669d7b62a54d900948e0f4aeea2))
+
 ## 1.5.4
 
  - **FIX**: Rewrote README. ([04a0b64b](https://github.com/mathrunet/flutter_masamune/commit/04a0b64b353cdf934c4c9c9e29b79edea2e0e51e))
