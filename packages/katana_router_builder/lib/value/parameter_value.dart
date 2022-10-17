@@ -3,15 +3,19 @@ part of katana_router_builder;
 const _pageParamChecker = TypeChecker.fromRuntime(PageParam);
 
 /// Parameter Value.
-/// パラメーターの値。
 ///
 /// Specify the parameter element in [element].
+///
+/// パラメーターの値。
+///
 /// [element]にパラメーターエレメントを指定します。
 class ParamaterValue {
   /// Parameter Value.
-  /// パラメーターの値。
   ///
   /// Specify the parameter element in [element].
+  ///
+  /// パラメーターの値。
+  ///
   /// [element]にパラメーターエレメントを指定します。
   ParamaterValue(this.element) {
     name = element.displayName;
@@ -45,22 +49,27 @@ class ParamaterValue {
   }
 
   /// Parameter Element.
+  ///
   /// パラメーターエレメント。
   final ParameterElement element;
 
   /// Default value of the parameter.
+  ///
   /// パラメーターのデフォルト値。
   late final Object? defaultValue;
 
   /// Parameter Type.
+  ///
   /// パラメーターのタイプ。
   late final DartType type;
 
   /// Name of parameter.
+  ///
   /// パラメーターの名前。
   late final String name;
 
   /// Name for the parameter path.
+  ///
   /// パラメーターのパス用の名前。
   late final String pageParamName;
 

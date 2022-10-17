@@ -1,9 +1,11 @@
 part of katana_router_builder;
 
 /// Create a class for the router.
-/// ルーター用のクラスを作成します。
 ///
 /// Create a list of parsed queries in [queries].
+///
+/// ルーター用のクラスを作成します。
+///
 /// [queries]に解析されたクエリーのリストを作成します。
 List<Class> routerClass(
   List<QueryValue> queries,
@@ -71,7 +73,7 @@ List<Class> routerClass(
                 ),
                 Parameter(
                   (p) => p
-                    ..name = "defaultRouteQuery"
+                    ..name = "defaultTransitionQuery"
                     ..named = true
                     ..toSuper = true,
                 ),

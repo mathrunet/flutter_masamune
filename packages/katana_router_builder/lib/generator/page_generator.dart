@@ -1,9 +1,11 @@
 part of katana_router_builder;
 
 /// Automatic page generation.
+///
 /// ページの自動生成を行います。
 class PageGenerator extends GeneratorForAnnotation<PagePath> {
   /// Automatic page generation.
+  ///
   /// ページの自動生成を行います。
   PageGenerator();
 

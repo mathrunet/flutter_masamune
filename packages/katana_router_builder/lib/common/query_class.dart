@@ -1,9 +1,11 @@
 part of katana_router_builder;
 
 /// Create classes for queries.
-/// クエリー用のクラスを作成します。
 ///
 /// Pass the value for the query to [model], the path created from the annotation to [path], and the annotation value to [annotation].
+///
+/// クエリー用のクラスを作成します。
+///
 /// [model]にクエリー用の値を[path]にアノテーションから作成されたパスを[annotation]にアノテーションの値を渡します。
 List<Class> queryClass(
   ClassValue model,
@@ -148,7 +150,7 @@ List<Class> queryClass(
                 )
               ])
               ..body = Code(
-                "return AppPageRoute<T>(path: path,routeQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),transition: query?.transition ?? TransitionQueryType.initial,);",
+                "return AppPageRoute<T>(path: path,transitionQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),);",
               ),
           ),
         ]),

@@ -1,9 +1,11 @@
 part of katana_router_builder;
 
 /// Automatic generation of routers.
+///
 /// ルーターの自動生成を行います。
 class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
   /// Automatic generation of routers.
+  ///
   /// ルーターの自動生成を行います。
   RouterGenerator();
 
@@ -36,6 +38,9 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
       );
     }
 
+    int i = 0;
+    final import = <String, String>{};
+    final export = <String, List<String>>{};
     final queries = <QueryValue>[];
     final assets = buildStep.findAssets(Glob("**.dart"));
     await for (final asset in assets) {
@@ -67,20 +72,40 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
             if (library.isEmpty) {
               continue;
             }
-            queries.add(
-              QueryValue(
-                library: library!,
-                path: path,
-                query: "${element.name}.${field.name}",
-                element: element,
-              ),
-            );
+            if (!export.containsKey(library!)) {
+              export[library] = [element.name];
+            } else {
+              export[library]!.add(element.name);
+            }
+            if (!import.containsKey(library)) {
+              i++;
+              import[library] = "_\$$i";
+              queries.add(
+                QueryValue(
+                  library: library,
+                  path: path,
+                  query: "${import[library]}.${element.name}.${field.name}",
+                  element: element,
+                ),
+              );
+            } else {
+              queries.add(
+                QueryValue(
+                  library: library,
+                  path: path,
+                  query: "${import[library]}.${element.name}.${field.name}",
+                  element: element,
+                ),
+              );
+            }
           }
         }
       }
     }
 
-    final sorted = queries.sortTo((a, b) => a.path.compareTo(b.path));
+    final sorted = queries.sortTo((a, b) {
+      return b.path.compareTo(a.path);
+    });
 
     final generated = Library(
       (l) => l
@@ -88,17 +113,17 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
           Directive.import(
             "package:katana_router/katana_router.dart",
           ),
-          ...sorted
-              .map((e) => e.library)
-              .distinct()
-              .map((e) => Directive.import(e)),
+          ...import
+              .toList((key, value) => Directive.import(key, as: value))
+              .toList()
+              .sortTo((a, b) => a.url.compareTo(b.url)),
           Directive.export(
             "package:katana_router/katana_router.dart",
           ),
-          ...sorted
-              .map((e) => e.library)
-              .distinct()
-              .map((e) => Directive.export(e))
+          ...export
+              .toList((key, value) => Directive.export(key, show: value))
+              .toList()
+              .sortTo((a, b) => a.url.compareTo(b.url)),
         ])
         ..body.addAll(
           [

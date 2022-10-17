@@ -1,15 +1,19 @@
 part of katana_router_builder;
 
 /// Class for storing annotation values.
-/// アノテーションの値を保存するためのクラス。
 ///
 /// Specify the class element in [element] and the annotation type in [annotationType].
+///
+/// アノテーションの値を保存するためのクラス。
+///
 /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
 class AnnotationValue {
   /// Class for storing annotation values.
-  /// アノテーションの値を保存するためのクラス。
   ///
   /// Specify the class element in [element] and the annotation type in [annotationType].
+  ///
+  /// アノテーションの値を保存するためのクラス。
+  ///
   /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
   AnnotationValue(this.element, this.annotationType) {
     final matcher = TypeChecker.fromRuntime(annotationType);
@@ -34,14 +38,17 @@ class AnnotationValue {
   static final _regExp = RegExp(r"redirect:\s*\[([^\]]*)\]");
 
   /// Class Element.
+  /// 
   /// クラスエレメント。
   final ClassElement element;
 
   /// Annotation Type
+  /// 
   /// アノテーションのタイプ
   final Type annotationType;
 
   /// List of `RedirectQuery`.
+  /// 
   /// `RedirectQuery`の一覧。
   late final List<String> redirectQueries;
 
