@@ -4,26 +4,33 @@ const _kTypeKey = "@type";
 const _kTargetKey = "@target";
 
 /// Model adapter with Firebase Firestore available.
-/// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
 /// Firestore application settings must be completed in advance and [FirebaseCore.initialize] must be executed.
-/// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
 ///
 /// Basically, the default [FirebaseFirestore.instance] is used, but it is possible to use a specified database by passing [database] when creating the adapter.
+///
+/// FirebaseFirestoreを利用できるようにしたモデルアダプター。
+///
+/// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
+///
 /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
 class FirestoreModelAdapter extends ModelAdapter {
   /// Model adapter with Firebase Firestore available.
-  /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
   ///
   /// Firestore application settings must be completed in advance and [FirebaseCore.initialize] must be executed.
-  /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
   ///
   /// Basically, the default [FirebaseFirestore.instance] is used, but it is possible to use a specified database by passing [database] when creating the adapter.
+  ///
+  /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
+  ///
+  /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
+  ///
   /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
   const FirestoreModelAdapter({FirebaseFirestore? database})
       : _database = database;
 
   /// The Firestore database instance used in the adapter.
+  /// 
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。
   FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
   final FirebaseFirestore? _database;
