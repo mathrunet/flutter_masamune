@@ -1,3 +1,7 @@
+## 1.5.7
+
+ - **FIX**: Add initialQuery parameters. ([ca44c0fe](https://github.com/mathrunet/flutter_masamune/commit/ca44c0fe57eb95ce66c8609cd4155b8846e56441))
+
 ## 1.5.6
 
  - **DOCS**: Maintenance of Comments. ([f3d04b1b](https://github.com/mathrunet/flutter_masamune/commit/f3d04b1b7a39c8adad166d03cf4287b35e9dbc75))

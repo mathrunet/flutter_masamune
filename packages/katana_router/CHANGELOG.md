@@ -1,3 +1,7 @@
+## 1.5.7
+
+ - **DOCS**: Corrected comment. ([aec37f1e](https://github.com/mathrunet/flutter_masamune/commit/aec37f1efb7e076a6dc81e7a2c518649ee9b255e))
+
 ## 1.5.6
 
  - **DOCS**: Maintenance of Comments. ([ffbd5bea](https://github.com/mathrunet/flutter_masamune/commit/ffbd5bea886877b364985be06919bb1e455a3881))
