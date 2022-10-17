@@ -20,6 +20,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
     return AppRouteScope(
       router: router,
       child: Navigator(
+        key: router._config.navigatorKey,
         pages: router._pageStack.map((e) => e.route).toList(),
         observers: observers,
         restorationScopeId: restorationScopeId,
@@ -35,16 +36,16 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
   }
 
   Future<E?> push<E>(
-    RouteQuery pageQuery, [
-    TransitionQuery? routeQuery,
+    RouteQuery routeQuery, [
+    TransitionQuery? transitionQuery,
   ]) =>
-      router.push<E>(pageQuery, routeQuery);
+      router.push<E>(routeQuery, transitionQuery);
 
   Future<E?> replace<E>(
-    RouteQuery pageQuery, [
-    TransitionQuery? routeQuery,
+    RouteQuery routeQuery, [
+    TransitionQuery? transitionQuery,
   ]) =>
-      router.replace<E>(pageQuery, routeQuery);
+      router.replace<E>(routeQuery, transitionQuery);
 
   bool canPop() => router.canPop();
 

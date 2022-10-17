@@ -20,9 +20,11 @@ enum TransitionQueryType {
   fade,
 
   /// Modal Transitions.
-  /// モーダルトランジション。
   ///
   /// The back page will be visible.
+  ///
+  /// モーダルトランジション。
+  ///
   /// 裏のページが見えるようになります。
   modal,
 }

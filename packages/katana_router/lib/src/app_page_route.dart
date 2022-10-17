@@ -5,49 +5,55 @@ part of katana_router;
 const kTransitionDuration = Duration(milliseconds: 300);
 
 /// Default [PageRoute].
-/// デフォルトの[PageRoute]。
 ///
 /// You can start the next page by returning a widget for the new page with `builder`.
-/// `builder`で新しいページのウィジェットを返すことで次のページを起動することができます。
 ///
 /// You can define page transitions by specifying `transition`.
-/// `transition`を指定することでページのトランジションを定義できます。
 ///
 /// You can specify [RouteSettings] to move to the next page in `settings`.
+///
+/// デフォルトの[PageRoute]。
+///
+/// `builder`で新しいページのウィジェットを返すことで次のページを起動することができます。
+///
+/// `transition`を指定することでページのトランジションを定義できます。
+///
 /// `settings`に次のページに移るための[RouteSettings]を指定できます。
 abstract class AppPageRoute<T> extends Page<T> {
   /// Default [PageRoute].
-  /// デフォルトの[PageRoute]。
   ///
   /// You can start the next page by returning a widget for the new page with `builder`.
-  /// `builder`で新しいページのウィジェットを返すことで次のページを起動することができます。
   ///
   /// You can define page transitions by specifying `transition`.
-  /// `transition`を指定することでページのトランジションを定義できます。
   ///
   /// You can specify [RouteSettings] to move to the next page in `settings`.
+  ///
+  /// デフォルトの[PageRoute]。
+  ///
+  /// `builder`で新しいページのウィジェットを返すことで次のページを起動することができます。
+  ///
+  /// `transition`を指定することでページのトランジションを定義できます。
+  ///
   /// `settings`に次のページに移るための[RouteSettings]を指定できます。
   factory AppPageRoute({
     LocalKey? key,
     required WidgetBuilder builder,
     required String? path,
-    TransitionQuery? routeQuery,
-    TransitionQueryType transition = TransitionQueryType.initial,
+    TransitionQuery? transitionQuery,
   }) {
-    if (transition == TransitionQueryType.modal) {
+    if (transitionQuery?.transition == TransitionQueryType.modal) {
       return _ModalPageRoute(
-        key: key ?? ValueKey(path),
+        key: key ?? ValueKey(uuid),
         builder: builder,
         path: path,
-        routeQuery: routeQuery,
+        transitionQuery: transitionQuery,
       );
     } else {
       return _DefaultPageRoute(
-        key: key ?? ValueKey(path),
+        key: key ?? ValueKey(uuid),
         builder: builder,
-        transition: transition,
         path: path,
-        routeQuery: routeQuery,
+        transitionQuery: transitionQuery,
       );
     }
   }
@@ -59,7 +65,7 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
     super.key,
     required this.builder,
     required String? path,
-    TransitionQuery? routeQuery,
+    TransitionQuery? transitionQuery,
     this.isAndroidBackEnable = true,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.opaque = false,
@@ -67,7 +73,7 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
     this.barrierColor = const Color(0x80000000),
     this.barrierLabel,
     this.maintainState = true,
-  }) : super(name: path, arguments: routeQuery);
+  }) : super(name: path, arguments: transitionQuery);
 
   final WidgetBuilder builder;
   final bool isAndroidBackEnable;
@@ -129,12 +135,11 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
     super.key,
     required this.builder,
     required String? path,
-    TransitionQuery? routeQuery,
-    this.transition = TransitionQueryType.initial,
-  }) : super(name: path, arguments: routeQuery);
+    this.transitionQuery,
+  }) : super(name: path, arguments: transitionQuery);
 
   final WidgetBuilder builder;
-  final TransitionQueryType transition;
+  final TransitionQuery? transitionQuery;
 
   static final Animatable<Offset> _slideUpTween = Tween<Offset>(
     begin: const Offset(0.0, 0.25),
@@ -166,14 +171,15 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       },
       transitionDuration: kTransitionDuration,
       reverseTransitionDuration: kTransitionDuration,
-      fullscreenDialog: transition == TransitionQueryType.fullscreen,
+      fullscreenDialog:
+          transitionQuery?.transition == TransitionQueryType.fullscreen,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         _TransitionType? rawTransitionType;
-        if (transition == TransitionQueryType.none) {
+        if (transitionQuery?.transition == TransitionQueryType.none) {
           return child;
         }
         if (kIsWeb) {
-          if (transition == TransitionQueryType.fullscreen) {
+          if (transitionQuery?.transition == TransitionQueryType.fullscreen) {
             return SlideTransition(
               position: _slideUpTween.animate(animation),
               child: FadeTransition(
@@ -189,7 +195,7 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
           }
         }
         if (rawTransitionType == null) {
-          switch (transition) {
+          switch (transitionQuery?.transition) {
             case TransitionQueryType.fullscreen:
               return SlideTransition(
                 position: _slideUpTween.animate(animation),

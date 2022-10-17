@@ -1,18 +1,23 @@
 part of katana_router;
 
 /// Controller to define routing for the entire app.
-/// アプリ全体のルーティングを定義するためのコントローラー。
-///
-/// It is an abstract class and should be used by inheriting it from a class such as `AppRouter`.
-/// 抽象クラスなので`AppRouter`などのクラスに継承して利用してください。
 ///
 /// You can define the routing for the entire app by passing it to `routerConfig` in [MaterialApp.router].
-/// [MaterialApp.router]の`routerConfig`に渡すことでアプリ全体のルーティングを定義することができます。
 ///
 /// The controller itself can also be manipulated, and page transitions can be performed directly by executing [push], [replace], and [pop].
-/// また、このコントローラー自体を操作することが可能で[push]や[replace]、[pop]を実行することでページ遷移を直接行うことが可能です。
+///
+/// It is also possible to get the [AppRouterBase] object itself with [AppRouterBase.of].
 ///
 /// By executing [setPathUrlStrategy], it is possible to use URLs with the web hash (#) removed.
+///
+/// アプリ全体のルーティングを定義するためのコントローラー。
+///
+/// [MaterialApp.router]の`routerConfig`に渡すことでアプリ全体のルーティングを定義することができます。
+///
+/// また、このコントローラー自体を操作することが可能で[push]や[replace]、[pop]を実行することでページ遷移を直接行うことが可能です。
+///
+/// また、[AppRouterBase.of]で[AppRouterBase]のオブジェクト自体を取得することも可能です。
+///
 /// [setPathUrlStrategy]を実行することでWebのハッシュ（#）を消したURLを利用することが可能になります。
 ///
 /// ```dart
@@ -46,18 +51,23 @@ abstract class AppRouterBase extends ChangeNotifier
     with NavigatorObserver
     implements RouterConfig<RouteQuery> {
   /// Controller to define routing for the entire app.
-  /// アプリ全体のルーティングを定義するためのコントローラー。
   ///
   /// You can define the routing for the entire app by passing it to `routerConfig` in [MaterialApp.router].
-  /// [MaterialApp.router]の`routerConfig`に渡すことでアプリ全体のルーティングを定義することができます。
   ///
   /// The controller itself can also be manipulated, and page transitions can be performed directly by executing [push], [replace], and [pop].
-  /// また、このコントローラー自体を操作することが可能で[push]や[replace]、[pop]を実行することでページ遷移を直接行うことが可能です。
   ///
   /// It is also possible to get the [AppRouterBase] object itself with [AppRouterBase.of].
-  /// また、[AppRouterBase.of]で[AppRouterBase]のオブジェクト自体を取得することも可能です。
   ///
   /// By executing [setPathUrlStrategy], it is possible to use URLs with the web hash (#) removed.
+  ///
+  /// アプリ全体のルーティングを定義するためのコントローラー。
+  ///
+  /// [MaterialApp.router]の`routerConfig`に渡すことでアプリ全体のルーティングを定義することができます。
+  ///
+  /// また、このコントローラー自体を操作することが可能で[push]や[replace]、[pop]を実行することでページ遷移を直接行うことが可能です。
+  ///
+  /// また、[AppRouterBase.of]で[AppRouterBase]のオブジェクト自体を取得することも可能です。
+  ///
   /// [setPathUrlStrategy]を実行することでWebのハッシュ（#）を消したURLを利用することが可能になります。
   ///
   /// ```dart
@@ -90,14 +100,15 @@ abstract class AppRouterBase extends ChangeNotifier
   AppRouterBase({
     UnknownRouteQueryBuilder? unknown,
     BootRouteQueryBuilder? boot,
-    String? initialPath = "/",
+    String? initialPath,
+    RouteQuery? initialQuery,
     required List<RouteQueryBuilder> pages,
     List<RedirectQuery> redirect = const [],
     List<NavigatorObserver> observers = const [],
     int redirectLimit = 5,
     GlobalKey<NavigatorState>? navigatorKey,
     String? restorationScopeId,
-    TransitionQuery? defaultRouteQuery,
+    TransitionQuery? defaultTransitionQuery,
   }) {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
@@ -108,7 +119,7 @@ abstract class AppRouterBase extends ChangeNotifier
       unknown: unknown,
       navigatorKey: navigatorKey,
       redirectLimite: redirectLimit,
-      defaultRouteQuery: defaultRouteQuery,
+      defaultTransitionQuery: defaultTransitionQuery,
     );
 
     _routerDelegate = _AppRouterDelegate(
@@ -121,7 +132,9 @@ abstract class AppRouterBase extends ChangeNotifier
 
     _routeInformationProvider = _AppRouteInformationProvider(
       initialRouteInformation: RouteInformation(
-        location: _effectiveInitialLocation(initialPath),
+        location: _effectiveInitialLocation(
+          initialQuery?.path ?? initialPath ?? "/",
+        ),
       ),
     );
   }
@@ -146,28 +159,35 @@ abstract class AppRouterBase extends ChangeNotifier
       _routeInformationProvider;
   late final _AppRouteInformationProvider _routeInformationProvider;
 
-  /// You can check the current path (URL).
-  /// 現在のパス（URL）を確認することができます。
-  String get path =>
-      _routerDelegate.currentConfiguration?.path.toString() ?? "";
+  /// You can check the current [RouteQuery].
+  /// 現在の[RouteQuery]を確認することができます。
+  RouteQuery get currentQuery => _routerDelegate.currentConfiguration!;
 
-  /// Passing [pageQuery] will take you to a new page.
-  /// [pageQuery]を渡すことにより新しいページに遷移します。
+  /// Passing [routeQuery] will take you to a new page.
   ///
-  /// The method of page transition can be specified with [routeQuery].
-  /// ページ遷移の方法を[routeQuery]で指定可能です。
+  /// The method of page transition can be specified with [transitionQuery].
   ///
   /// You can wait until the page is destroyed by the [pop] method with the return value [Future].
-  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
   ///
   /// In doing so, it can also receive the object passed by [pop].
+  ///
+  /// [routeQuery]を渡すことにより新しいページに遷移します。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  ///
+  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
+  ///
   /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
-  Future<E?> push<E>(RouteQuery pageQuery, [TransitionQuery? routeQuery]) {
+  Future<E?> push<E>(
+    RouteQuery routeQuery, [
+    TransitionQuery? transitionQuery,
+  ]) {
     final completer = Completer<E?>();
     _pageStack.add(
       _PageStackContainer<E>(
-        query: pageQuery,
-        route: pageQuery.route<E>(routeQuery ?? _config.defaultRouteQuery),
+        query: routeQuery,
+        route: routeQuery
+            .route<E>(transitionQuery ?? _config.defaultTransitionQuery),
         completer: completer,
       ),
     );
@@ -175,20 +195,27 @@ abstract class AppRouterBase extends ChangeNotifier
     return completer.future;
   }
 
-  /// Passing [pageQuery] replaces the currently displayed page with a new page.
-  /// [pageQuery]を渡すことにより現在表示されているページを新しいページに置き換えます。
+  /// Passing [routeQuery] replaces the currently displayed page with a new page.
   ///
-  /// The method of page transition can be specified with [routeQuery].
-  /// ページ遷移の方法を[routeQuery]で指定可能です。
+  /// The method of page transition can be specified with [transitionQuery].
   ///
   /// You can wait until the page is destroyed by the [pop] method with the return value [Future].
-  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
   ///
   /// In doing so, it can also receive the object passed by [pop].
+  ///
+  /// [routeQuery]を渡すことにより現在表示されているページを新しいページに置き換えます。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  ///
+  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
+  ///
   /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
-  Future<E?> replace<E>(RouteQuery pageQuery, [TransitionQuery? routeQuery]) {
+  Future<E?> replace<E>(
+    RouteQuery routeQuery, [
+    TransitionQuery? transitionQuery,
+  ]) {
     pop();
-    return push<E>(pageQuery, routeQuery);
+    return push<E>(routeQuery, transitionQuery);
   }
 
   /// Checks if the page is [pop]-able. If `true` is returned, the page is [pop]able.
@@ -196,12 +223,15 @@ abstract class AppRouterBase extends ChangeNotifier
   bool canPop() => _pageStack.isNotEmpty;
 
   /// Discards the current page and returns to the previous page.
-  /// 現在のページを破棄し、前のページに戻ります。
   ///
   /// If [canPop] is `false`, the application is terminated.
-  /// [canPop]が`false`の場合、アプリを終了します。
   ///
   /// By passing a value to [result], an object can be passed to the return value of [push] or [replace].
+  ///
+  /// 現在のページを破棄し、前のページに戻ります。
+  ///
+  /// [canPop]が`false`の場合、アプリを終了します。
+  ///
   /// [result]に値を渡すことにより[push]や[replace]の戻り値にオブジェクトを渡すことができます。
   void pop<E>([E? result]) {
     if (!canPop()) {
@@ -213,6 +243,13 @@ abstract class AppRouterBase extends ChangeNotifier
     _routerDelegate.notifyListeners();
   }
 
+  /// Keep [pop] until the [predicate] condition is `true`.
+  ///
+  /// The result of [pop] is returned by [result].
+  ///
+  /// [predicate]の条件が`true`になるまで[pop]し続けます。
+  ///
+  /// [pop]した結果を[result]で返します。
   void popUntil<E>(bool Function(RouteQuery query) predicate, [E? result]) {
     var index = _pageStack.length - 1;
     while (index >= 0 && !predicate(_pageStack[index].query)) {
@@ -223,6 +260,13 @@ abstract class AppRouterBase extends ChangeNotifier
     _routerDelegate.notifyListeners();
   }
 
+  /// Continue to [pop] until the history stack runs out.
+  ///
+  /// The result of [pop] is returned by [result].
+  ///
+  /// ヒストリーのスタックがなくなるまで[pop]し続けます。
+  ///
+  /// [pop]した結果を[result]で返します。
   void reset<E>([E? result]) {
     var index = _pageStack.length - 1;
     while (index >= 0) {
@@ -233,15 +277,24 @@ abstract class AppRouterBase extends ChangeNotifier
     _routerDelegate.notifyListeners();
   }
 
-  Future<E?> resetAndPush<E>(RouteQuery pageQuery,
-      [TransitionQuery? routeQuery]) {
+  /// Keep [pop] until the history stack runs out, then [push] [routeQuery].
+  ///
+  /// The method of page transition can be specified with [transitionQuery].
+  ///
+  /// ヒストリーのスタックがなくなるまで[pop]し続けた後[routeQuery]を[push]します。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  Future<E?> resetAndPush<E>(
+    RouteQuery routeQuery, [
+    TransitionQuery? transitionQuery,
+  ]) {
     var index = _pageStack.length - 1;
     while (index >= 0) {
       final container = _pageStack.removeAt(index);
       container.completer.complete(null);
       index -= 1;
     }
-    return push<E>(pageQuery, routeQuery);
+    return push<E>(routeQuery, transitionQuery);
   }
 
   /// Refresh the current page.
@@ -251,16 +304,20 @@ abstract class AppRouterBase extends ChangeNotifier
   }
 
   /// Sets the URL strategy of your web app to using paths instead of a leading hash (#).
-  /// Web アプリの URL 戦略を、先頭のハッシュ (#) の代わりにパスを使用するように設定します。
   ///
   /// You can safely call this on all platforms, i.e. also when running on mobile or desktop. In that case, it will simply be a noop.
+  ///
+  /// Web アプリの URL 戦略を、先頭のハッシュ (#) の代わりにパスを使用するように設定します。
+  ///
   /// これは、すべてのプラットフォームで安全に呼び出すことができます。つまり、モバイルまたはデスクトップで実行している場合でも同様です。その場合、それは単にヌープになります。
   static void setPathUrlStrategy() => url_strategy.setPathUrlStrategy();
 
   /// Get [AppRouterBase] placed on the widget tree.
-  /// ウィジェットツリー上に配置されている[AppRouterBase]を取得します。
   ///
   /// Setting [root] to `true` will get [AppRouterBase] at the top level.
+  ///
+  /// ウィジェットツリー上に配置されている[AppRouterBase]を取得します。
+  ///
   /// [root]を`true`にすると最上位にある[AppRouterBase]を取得します。
   static AppRouterBase of(BuildContext context, {bool root = false}) {
     final navigator = Navigator.of(context, rootNavigator: root).context;
@@ -325,9 +382,11 @@ abstract class AppRouterBase extends ChangeNotifier
 }
 
 /// [InheritedWidget] for placing [AppRouterBase] on the widget tree.
-/// [AppRouterBase]をウィジェットツリー上に配置するための[InheritedWidget]。
 ///
 /// You can take the value of [AppRouterBase] passed here in [AppRouterBase.of].
+///
+/// [AppRouterBase]をウィジェットツリー上に配置するための[InheritedWidget]。
+///
 /// [AppRouterBase.of]でここで渡した[AppRouterBase]の値を取ることができます。
 class AppRouteScope extends InheritedWidget {
   const AppRouteScope({
@@ -369,7 +428,7 @@ class _AppRouterConfig {
     this.redirect = const [],
     this.redirectLimite = 5,
     required this.navigatorKey,
-    this.defaultRouteQuery,
+    this.defaultTransitionQuery,
   });
   final BootRouteQueryBuilder? boot;
   final UnknownRouteQueryBuilder? unknown;
@@ -377,5 +436,5 @@ class _AppRouterConfig {
   final List<RedirectQuery> redirect;
   final int redirectLimite;
   final GlobalKey<NavigatorState> navigatorKey;
-  final TransitionQuery? defaultRouteQuery;
+  final TransitionQuery? defaultTransitionQuery;
 }

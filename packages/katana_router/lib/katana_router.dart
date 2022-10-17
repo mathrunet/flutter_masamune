@@ -26,7 +26,7 @@ part 'src/app_page_route.dart';
 part 'src/redirect_query.dart';
 part 'src/transition_query.dart';
 part 'src/transition_query_type.dart';
-part 'src/app_router.dart';
+part 'src/app_router_base.dart';
 part 'src/app_route_information_parser.dart';
 part 'src/app_router_delegate.dart';
 part 'src/app_route_information_provider.dart';

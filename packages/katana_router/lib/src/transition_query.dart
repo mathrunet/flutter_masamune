@@ -1,12 +1,15 @@
 part of katana_router;
 
 /// Route queries for page transitions.
-/// ページ遷移するためのルートクエリー。
 ///
 /// You can define page transitions by specifying [transition].
-/// [transition]を指定することでページのトランジションを定義できます。
 ///
 /// [TransitionQuery.fullscreen], [TransitionQuery.fade], [TransitionQuery.immediately], and [TransitionQuery.modal] to get the [TransitionQuery] that defines each transition as is.
+///
+/// ページ遷移するためのルートクエリー。
+///
+/// [transition]を指定することでページのトランジションを定義できます。
+///
 /// [TransitionQuery.fullscreen]、[TransitionQuery.fade]、[TransitionQuery.immediately]、[TransitionQuery.modal]で各トランジションを定義した[TransitionQuery]をそのまま取得できます。
 @immutable
 class TransitionQuery {
