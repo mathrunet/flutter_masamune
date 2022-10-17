@@ -1,12 +1,15 @@
 part of katana_router_annotation;
 
 /// Annotation to define the `RouteQuery` of the page.
-/// ページの`RouteQuery`を定義するためのアノテーション。
 ///
 /// Be sure to define it in the `static const` field.
-/// 必ず`static const`のフィールドに定義してください。
 ///
 /// By doing so, pages with annotations are defined in the routing object for all pages defined in [AppRoute].
+///
+/// ページの`RouteQuery`を定義するためのアノテーション。
+///
+/// 必ず`static const`のフィールドに定義してください。
+///
 /// こうすることにより[AppRoute]で定義した全ページのルーティングオブジェクトにアノテーションを付与したページが定義されます。
 ///
 /// ```dart
@@ -26,12 +29,15 @@ part of katana_router_annotation;
 const pageRouteQuery = PageRouteQuery();
 
 /// Annotation to define the `RouteQuery` of the page.
-/// ページの`RouteQuery`を定義するためのアノテーション。
 ///
 /// Be sure to define it in the `static const` field.
-/// 必ず`static const`のフィールドに定義してください。
 ///
 /// By doing so, pages with annotations are defined in the routing object for all pages defined in [AppRoute].
+///
+/// ページの`RouteQuery`を定義するためのアノテーション。
+///
+/// 必ず`static const`のフィールドに定義してください。
+///
 /// こうすることにより[AppRoute]で定義した全ページのルーティングオブジェクトにアノテーションを付与したページが定義されます。
 ///
 /// ```dart
@@ -50,12 +56,15 @@ const pageRouteQuery = PageRouteQuery();
 /// ```
 class PageRouteQuery {
   /// Annotation to define the `RouteQuery` of the page.
-  /// ページの`RouteQuery`を定義するためのアノテーション。
   ///
   /// Be sure to define it in the `static const` field.
-  /// 必ず`static const`のフィールドに定義してください。
   ///
   /// By doing so, pages with annotations are defined in the routing object for all pages defined in [AppRoute].
+  ///
+  /// ページの`RouteQuery`を定義するためのアノテーション。
+  ///
+  /// 必ず`static const`のフィールドに定義してください。
+  ///
   /// こうすることにより[AppRoute]で定義した全ページのルーティングオブジェクトにアノテーションを付与したページが定義されます。
   ///
   /// ```dart

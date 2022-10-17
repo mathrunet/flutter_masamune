@@ -1,9 +1,11 @@
 part of katana_router_annotation;
 
 /// Automatically generates routing for the entire application.
-/// アプリケーション全体のルーティングを自動生成します。
 ///
 /// By adding this annotation to the global field as shown in the example below, all pages defined with @PagePath will be automatically defined and routable in the application.
+///
+/// アプリケーション全体のルーティングを自動生成します。
+///
 /// 下記の例のようにグローバルのフィールドにこのアノテーションを付与することでアプリケーション内で@PagePathを付与して定義されたすべてのページが自動的に定義されルーティングが可能になります。
 ///
 /// ```dart
@@ -22,9 +24,11 @@ part of katana_router_annotation;
 const appRoute = AppRoute();
 
 /// Automatically generates routing for the entire application.
-/// アプリケーション全体のルーティングを自動生成します。
 ///
 /// By adding this annotation to the global field as shown in the example below, all pages defined with @PagePath will be automatically defined and routable in the application.
+///
+/// アプリケーション全体のルーティングを自動生成します。
+///
 /// 下記の例のようにグローバルのフィールドにこのアノテーションを付与することでアプリケーション内で@PagePathを付与して定義されたすべてのページが自動的に定義されルーティングが可能になります。
 ///
 /// ```dart
@@ -42,9 +46,11 @@ const appRoute = AppRoute();
 /// ```
 class AppRoute {
   /// Automatically generates routing for the entire application.
-  /// アプリケーション全体のルーティングを自動生成します。
   ///
   /// By adding this annotation to the global field as shown in the example below, all pages defined with @PagePath will be automatically defined and routable in the application.
+  ///
+  /// アプリケーション全体のルーティングを自動生成します。
+  ///
   /// 下記の例のようにグローバルのフィールドにこのアノテーションを付与することでアプリケーション内で@PagePathを付与して定義されたすべてのページが自動的に定義されルーティングが可能になります。
   ///
   /// ```dart

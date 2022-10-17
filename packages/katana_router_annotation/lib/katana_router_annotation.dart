@@ -1,6 +1,6 @@
 // Copyright 2022 mathru. All rights reserved.
 
-/// Definition of annotation when used in masamune.
+/// Define annotations to use the Katana router builder. Build with katana_router_builder using this annotation.
 ///
 /// To use, import `package:katana_router_annotation/katana_router_annotation.dart`.
 ///
