@@ -1,3 +1,7 @@
+## 1.8.1
+
+ - **DOCS**: Updated README. ([2d633536](https://github.com/mathrunet/flutter_masamune/commit/2d63353696fd5c3374087744be32e4f87713e2c3))
+
 ## 1.8.0
 
  - **FEAT**: Add name. ([0e299434](https://github.com/mathrunet/flutter_masamune/commit/0e2994348996ecd4758ef70935ace4461668870a))
