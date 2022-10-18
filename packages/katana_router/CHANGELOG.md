@@ -1,3 +1,7 @@
+## 1.6.0
+
+ - Bump "katana_router" to `1.6.0`.
+
 ## 1.5.8
 
  - Update a dependency to the latest release.
