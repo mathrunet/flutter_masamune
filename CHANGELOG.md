@@ -15,6 +15,36 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_annotation` - `v1.6.0`](#katana_router_annotation---v160)
+ - [`katana_router` - `v1.5.8`](#katana_router---v158)
+ - [`katana_router_builder` - `v1.5.8`](#katana_router_builder---v158)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_router` - `v1.5.8`
+ - `katana_router_builder` - `v1.5.8`
+
+---
+
+#### `katana_router_annotation` - `v1.6.0`
+
+ - **FEAT**: Added NestedPage. ([8c14f683](https://github.com/mathrunet/flutter_masamune/commit/8c14f683cb52256ed154e705a033ec3aaa2e00c1))
+
+
+## 2022-10-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.5.7`](#katana_router---v157)
  - [`katana_router_builder` - `v1.5.7`](#katana_router_builder---v157)
 

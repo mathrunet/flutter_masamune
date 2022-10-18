@@ -1,3 +1,7 @@
+## 1.5.8
+
+ - Update a dependency to the latest release.
+
 ## 1.5.7
 
  - **FIX**: Add initialQuery parameters. ([ca44c0fe](https://github.com/mathrunet/flutter_masamune/commit/ca44c0fe57eb95ce66c8609cd4155b8846e56441))

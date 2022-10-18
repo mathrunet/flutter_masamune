@@ -1,3 +1,7 @@
+## 1.5.8
+
+ - Update a dependency to the latest release.
+
 ## 1.5.7
 
  - **DOCS**: Corrected comment. ([aec37f1e](https://github.com/mathrunet/flutter_masamune/commit/aec37f1efb7e076a6dc81e7a2c518649ee9b255e))

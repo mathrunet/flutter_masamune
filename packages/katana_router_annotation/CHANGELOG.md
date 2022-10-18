@@ -1,3 +1,7 @@
+## 1.6.0
+
+ - **FEAT**: Added NestedPage. ([8c14f683](https://github.com/mathrunet/flutter_masamune/commit/8c14f683cb52256ed154e705a033ec3aaa2e00c1))
+
 ## 1.5.5
 
  - **DOCS**: Maintenance of Comments. ([09b8f518](https://github.com/mathrunet/flutter_masamune/commit/09b8f5184c6b630882f7ceb2324f448cc2fa2b15))
