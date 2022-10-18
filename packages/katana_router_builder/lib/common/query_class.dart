@@ -9,7 +9,7 @@ part of katana_router_builder;
 /// [model]にクエリー用の値を[path]にアノテーションから作成されたパスを[annotation]にアノテーションの値を渡します。
 List<Class> queryClass(
   ClassValue model,
-  PathValue path,
+  PathValue? path,
   AnnotationValue annotation,
 ) {
   return [
@@ -24,17 +24,18 @@ List<Class> queryClass(
           )
         ])
         ..fields = ListBuilder([
-          Field(
-            (f) => f
-              ..name = "_regExp"
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..assignment = Code(
-                "RegExp(r\"^${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
-                  return "(?<${match.group(1)!}>[^/?&]+)";
-                })}\$\")",
-              ),
-          )
+          if (path != null)
+            Field(
+              (f) => f
+                ..name = "_regExp"
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..assignment = Code(
+                  "RegExp(r\"^${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
+                    return "(?<${match.group(1)!}>[^/?&]+)";
+                  })}\$\")",
+                ),
+            )
         ])
         ..methods = ListBuilder([
           Method(
@@ -69,17 +70,10 @@ List<Class> queryClass(
                     ..type = const Reference("String?"),
                 )
               ])
-              ..optionalParameters = ListBuilder([
-                Parameter(
-                  (p) => p
-                    ..name = "force"
-                    ..named = true
-                    ..type = const Reference("bool")
-                    ..defaultTo = const Code("false"),
-                )
-              ])
               ..body = Code(
-                "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null && !force) {return null;} return _\$_${model.name}(${model.parameters.map((param) => _defaultParsedValue(param)).join(",")});",
+                path == null
+                    ? "return null;"
+                    : "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null) {return null;} return _\$_${model.name}(${model.parameters.map((param) => _defaultParsedValue(param)).join(",")});",
               ),
           ),
         ]),
@@ -125,9 +119,24 @@ List<Class> queryClass(
               ..lambda = true
               ..returns = const Reference("String")
               ..body = Code(
-                  "\"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
-                return "\$${match.group(1)?.toCamelCase()}";
-              })}\""),
+                path == null
+                    ? "\"$uuid\""
+                    : "\"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
+                        return "\$${match.group(1)?.toCamelCase()}";
+                      })}\"",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "key<E>"
+              ..annotations = ListBuilder([const Reference("override")])
+              ..lambda = true
+              ..returns = const Reference("E?")
+              ..body = Code(
+                annotation.keyString == "null"
+                    ? "null"
+                    : "${annotation.keyString} as E?",
+              ),
           ),
           Method(
             (m) => m
@@ -139,9 +148,9 @@ List<Class> queryClass(
           ),
           Method(
             (m) => m
-              ..name = "route<T>"
+              ..name = "route<E>"
               ..annotations = ListBuilder([const Reference("override")])
-              ..returns = const Reference("AppPageRoute<T>")
+              ..returns = const Reference("AppPageRoute<E>")
               ..optionalParameters = ListBuilder([
                 Parameter(
                   (p) => p
@@ -150,7 +159,7 @@ List<Class> queryClass(
                 )
               ])
               ..body = Code(
-                "return AppPageRoute<T>(path: path,transitionQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),);",
+                "return AppPageRoute<E>(path: path,transitionQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),);",
               ),
           ),
         ]),
@@ -160,7 +169,7 @@ List<Class> queryClass(
 
 String _defaultParsedValue(ParamaterValue param) {
   if (param.type.toString() == "String") {
-    return "${param.name}:match?.groupNames.contains(\"${param.pageParamName}\") ?? false ? match?.namedGroup(\"${param.pageParamName}\") ?? ${_defaultValue(param)} : ${_defaultValue(param)}";
+    return "${param.name}:match.groupNames.contains(\"${param.pageParamName}\") ? match.namedGroup(\"${param.pageParamName}\") ?? ${_defaultValue(param)} : ${_defaultValue(param)}";
   } else {
     return "${param.name}:${_defaultValue(param)}";
   }

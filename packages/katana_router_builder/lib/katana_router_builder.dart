@@ -27,6 +27,7 @@ import 'package:source_gen/source_gen.dart' as source_gen;
 part 'common/query_class.dart';
 part 'common/router_class.dart';
 part 'generator/page_generator.dart';
+part 'generator/nested_page_generator.dart';
 part 'generator/router_generator.dart';
 part 'value/annotation_value.dart';
 part 'value/class_value.dart';

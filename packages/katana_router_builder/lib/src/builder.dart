@@ -7,6 +7,7 @@ Builder katanaRouterPageBuilderFactory(BuilderOptions options) {
   return PartBuilder(
     [
       PageGenerator(),
+      NestedPageGenerator(),
     ],
     ".page.dart",
     header:

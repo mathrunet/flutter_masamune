@@ -20,7 +20,7 @@ class ClassValue {
     final contstuctor = element.constructors.firstWhere((e) {
       return e.name.isEmpty;
     });
-    parameters = contstuctor.parameters.map((e) {
+    parameters = contstuctor.parameters.where((e) => e.name != "key").map((e) {
       return ParamaterValue(e);
     }).toList();
   }

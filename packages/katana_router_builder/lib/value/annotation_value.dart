@@ -22,35 +22,64 @@ class AnnotationValue {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         final source = meta.toSource();
-        final match = _regExp.firstMatch(source);
-        if (match == null) {
-          continue;
+
+        final redirectMatch = _redirectRegExp.firstMatch(source);
+        if (redirectMatch != null) {
+          redirectQueries = redirectMatch
+                  .group(1)
+                  ?.split(",")
+                  .map((e) => e.trim())
+                  .toList() ??
+              const [];
+        } else {
+          redirectQueries = const [];
         }
-        redirectQueries =
-            match.group(1)?.split(",").map((e) => e.trim()).toList() ??
-                const [];
+
+        final keyMatch = _keyRegExp.firstMatch(source);
+        if (keyMatch != null) {
+          final key = keyMatch
+              .group(1)
+              ?.replaceAll(redirectMatch?.group(0) ?? "", "")
+              .trim()
+              .trimString(",")
+              .trim();
+          if (key.isNotEmpty) {
+            keyString = key!;
+          } else {
+            keyString = "null";
+          }
+        } else {
+          keyString = "null";
+        }
         return;
       }
     }
+    keyString = "null";
     redirectQueries = const [];
   }
 
-  static final _regExp = RegExp(r"redirect:\s*\[([^\]]*)\]");
+  static final _keyRegExp = RegExp(r"key\s*:\s*(.+),?\s*\)\s*$");
+  static final _redirectRegExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\]");
 
   /// Class Element.
-  /// 
+  ///
   /// クラスエレメント。
   final ClassElement element;
 
   /// Annotation Type
-  /// 
+  ///
   /// アノテーションのタイプ
   final Type annotationType;
 
   /// List of `RedirectQuery`.
-  /// 
+  ///
   /// `RedirectQuery`の一覧。
   late final List<String> redirectQueries;
+
+  /// Key string.
+  ///
+  /// Keyの文字列。
+  late final String keyString;
 
   @override
   String toString() {
