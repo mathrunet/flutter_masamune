@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.7.0`](#katana_router---v170)
+ - [`katana_router_annotation` - `v1.7.0`](#katana_router_annotation---v170)
+ - [`katana_router_builder` - `v1.7.0`](#katana_router_builder---v170)
+
+---
+
+#### `katana_router` - `v1.7.0`
+
+ - **FEAT**: Added functionality for NestedNavigation. ([8357317d](https://github.com/mathrunet/flutter_masamune/commit/8357317db4a9a9bb751dcb9feb7400f4a52a6012))
+
+#### `katana_router_annotation` - `v1.7.0`
+
+ - **FEAT**: key to identify the page. ([e04ad931](https://github.com/mathrunet/flutter_masamune/commit/e04ad9318b7fc590a48c3a3b5fa447adf68bd29f))
+
+#### `katana_router_builder` - `v1.7.0`
+
+ - **FEAT**: Added functionality for NestedNavigation. ([76f8cb66](https://github.com/mathrunet/flutter_masamune/commit/76f8cb6648308861bbf87c4c3a6ef8239986a9e2))
+
+
+## 2022-10-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router_builder` - `v1.6.0`](#katana_router_builder---v160)
 
 ---

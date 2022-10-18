@@ -1,3 +1,7 @@
+## 1.7.0
+
+ - **FEAT**: key to identify the page. ([e04ad931](https://github.com/mathrunet/flutter_masamune/commit/e04ad9318b7fc590a48c3a3b5fa447adf68bd29f))
+
 ## 1.6.0
 
  - **FEAT**: Added NestedPage. ([8c14f683](https://github.com/mathrunet/flutter_masamune/commit/8c14f683cb52256ed154e705a033ec3aaa2e00c1))

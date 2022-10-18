@@ -1,3 +1,7 @@
+## 1.7.0
+
+ - **FEAT**: Added functionality for NestedNavigation. ([8357317d](https://github.com/mathrunet/flutter_masamune/commit/8357317db4a9a9bb751dcb9feb7400f4a52a6012))
+
 ## 1.6.0
 
  - Bump "katana_router" to `1.6.0`.
