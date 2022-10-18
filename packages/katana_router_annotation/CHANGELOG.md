@@ -1,3 +1,7 @@
+## 1.8.0
+
+ - **FEAT**: Add name. ([0e299434](https://github.com/mathrunet/flutter_masamune/commit/0e2994348996ecd4758ef70935ace4461668870a))
+
 ## 1.7.0
 
  - **FEAT**: key to identify the page. ([e04ad931](https://github.com/mathrunet/flutter_masamune/commit/e04ad9318b7fc590a48c3a3b5fa447adf68bd29f))

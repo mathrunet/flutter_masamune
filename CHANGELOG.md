@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.8.0`](#katana_router---v180)
+ - [`katana_router_annotation` - `v1.8.0`](#katana_router_annotation---v180)
+ - [`katana_router_builder` - `v1.8.0`](#katana_router_builder---v180)
+
+---
+
+#### `katana_router` - `v1.8.0`
+
+ - **FEAT**: Add name. ([0e299434](https://github.com/mathrunet/flutter_masamune/commit/0e2994348996ecd4758ef70935ace4461668870a))
+
+#### `katana_router_annotation` - `v1.8.0`
+
+ - **FEAT**: Add name. ([0e299434](https://github.com/mathrunet/flutter_masamune/commit/0e2994348996ecd4758ef70935ace4461668870a))
+
+#### `katana_router_builder` - `v1.8.0`
+
+ - **FEAT**: Add name. ([0e299434](https://github.com/mathrunet/flutter_masamune/commit/0e2994348996ecd4758ef70935ace4461668870a))
+
+
+## 2022-10-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.7.0`](#katana_router---v170)
  - [`katana_router_annotation` - `v1.7.0`](#katana_router_annotation---v170)
  - [`katana_router_builder` - `v1.7.0`](#katana_router_builder---v170)

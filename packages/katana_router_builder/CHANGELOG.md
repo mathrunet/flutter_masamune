@@ -1,3 +1,7 @@
+## 1.8.0
+
+ - **FEAT**: Add name. ([0e299434](https://github.com/mathrunet/flutter_masamune/commit/0e2994348996ecd4758ef70935ace4461668870a))
+
 ## 1.7.0
 
  - **FEAT**: Added functionality for NestedNavigation. ([76f8cb66](https://github.com/mathrunet/flutter_masamune/commit/76f8cb6648308861bbf87c4c3a6ef8239986a9e2))
