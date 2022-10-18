@@ -105,7 +105,10 @@ class MainPage extends StatelessWidget {
 ## Navigation
 
 ```dart
+// push
 context.router.push(HomePage.query());
+// pop
+context.router.pop();
 ```
 
 # Installation
@@ -210,7 +213,10 @@ To `navigate` to HomePage, do the following
 The parameters defined in the widget can be described in the `query` as they are.
 
 ```dart
+// push
 context.router.push(UserPage.query(userId: "User id"));
+// pop
+context.router.pop();
 ```
 
 # Code Generation
@@ -222,6 +228,30 @@ flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 # Additional Usage
+
+## Initial Page Setup
+
+The initial page when the application is launched is the page associated with the `/` path.
+
+If you wish to change this, you can do so by specifying the initialPath when creating the created `AppRouter` object.
+
+```dart
+@appRoute
+final appRouter = AppRouter(
+	initialPath: "/landing"
+);
+```
+
+If `initialQuery` is specified, it is possible to specify the initial page with RouteQuery itself.
+
+This is safer.
+
+```dart
+@appRoute
+final appRouter = AppRouter(
+	initialQuey: HomePage.query(),
+);
+```
 
 ## Redirect
 
@@ -247,6 +277,38 @@ class LoginRequiredRedirectQuery extends RedirectQuery {
     } else {
       return Login.query();
     }
+  }
+}
+```
+
+When the `RedirectQuery` created here is passed by PagePath (for each individual page) or AppRouter (for all pages), the redirection mechanism implemented there will be applied.
+
+```dart
+@PagePath(
+	"/user/:user_id",
+	redirect: [
+		LoginRequiredRedirectQuery(),
+	]
+)
+class UserPage extends StatelessWidget {
+  const UserPage({
+    @PageParam("user_id") required this.userId,
+    super.key,
+  });
+
+  final String userId;
+
+  @pageRouteQuery
+  static const query = _$UserPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("User")),
+      body: Center(
+        child: Text("User id: $userId"),
+      ),
+    );
   }
 }
 ```
@@ -296,6 +358,240 @@ final appRouter = AppRouter(
 );
 ```
 
+## Nested Navigation
+
+Nested navigation can be implemented by managing the created `AppRouter` with a lower-level Widget.
+
+Please keep the state of the created AppRouter with a `StatefulWidget` or `Provider` to prevent it from being modified.
+
+`InitialQuery` is also available for nested navigation.
+
+It is also possible to further restrict the pages used by the `pages` parameter.
+
+By passing this AppRouter as it is in `Router.withConfig`, it is possible to implement navigation at a lower level.
+
+```dart
+@PagePath("/nested")
+class NestedContainerPage extends StatefulWidget {
+  const NestedContainerPage({
+    super.key,
+  });
+
+  @pageRouteQuery
+  static const query = _$NestedContainerPage();
+
+  @override
+  State<StatefulWidget> createState() => _NestedContainerPageState();
+}
+
+class _NestedContainerPageState extends State<NestedContainerPage> {
+  final router = AppRouter(
+    initialQuery: InnerPage1.query(),
+    pages: [
+      InnerPage1.query,
+      InnerPage2.query,
+    ],
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("NestedPage")),
+      body: Router.withConfig(config: router),
+    );
+  }
+}
+```
+
+Nested pages basically do not require a path for deep linking.
+
+Therefore, it is possible to use the `NestedPage` annotation exclusively.
+
+```dart
+@nestedPage()
+class InnerPage1 extends StatelessWidget {
+  const InnerPage1({super.key});
+
+  static const query = _$InnerPage1();
+
+  @override
+  Widget build(BuildContext context) {
+    final current = context.rootRouter.currentQuery;
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          context.router.push(InnerPage2.query());
+        },
+        child: Text("To Innerpage2"),
+      ),
+    );
+  }
+}
+
+@nestedPage()
+class InnerPage2 extends StatelessWidget {
+  const InnerPage2({super.key});
+
+  static const query = _$InnerPage2();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          context.router.push(InnerPage1.query());
+        },
+        child: Text("To Innerpage1"),
+      ),
+    );
+  }
+}
+```
+
+Specifying `context.router` within a nested page causes page transitions within the nested navigation.
+
+Use `context.rootRouter` for full-screen page transitions. You can use the top-level AppRouter to perform page transitions.
+
+### Tab Navigation
+
+AppRouter inherits from `ChangeNotifier` and notifies the user when a page transition is detected.
+
+Therefore, by monitoring AppRouter with `addListener`, it is possible to detect transitions that occur in the lower layers and update the widget itself.
+
+Information on the current page can also be found at `AppRouter.currentQuery`.
+
+Since `key` and `name` can be specified for each page, tab navigation can be implemented in a type-safe manner by, for example, "passing an enum value to key and changing the tab state based on that value”.
+
+```dart
+@PagePath("/nested", name: "nested")
+class NestedContainerPage extends StatefulWidget {
+  const NestedContainerPage({
+    super.key,
+  });
+
+  @pageRouteQuery
+  static const query = _$NestedContainerPage();
+
+  @override
+  State<StatefulWidget> createState() => _NestedContainerPageState();
+}
+
+class _NestedContainerPageState extends State<NestedContainerPage> {
+  final router = AppRouter(
+    initialQuery: InnerPage1.query(),
+    defaultTransitionQuery: TransitionQuery.fade,
+    pages: [
+      InnerPage1.query,
+      InnerPage2.query,
+    ],
+  );
+
+  final queries = {
+    InnerPageType.type1: InnerPage1.query(),
+    InnerPageType.type2: InnerPage2.query(),
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    router.addListener(handledOnUpdate);
+  }
+
+  void handledOnUpdate() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    router.removeListener(handledOnUpdate);
+    router.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final query = router.currentQuery;
+    return Scaffold(
+      appBar: AppBar(title: const Text("NestedPage")),
+      body: Router.withConfig(config: router),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (value) {
+          router.push(
+            queries[InnerPageType.values[value]]!,
+          );
+        },
+        currentIndex: query?.key<InnerPageType>()?.index ?? 0,
+        items: InnerPageType.values.map((type) {
+          return BottomNavigationBarItem(
+            icon: Icon(type.icon),
+            label: type.label,
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+@NestedPage(key: InnerPageType.type1)
+class InnerPage1 extends StatelessWidget {
+  const InnerPage1({super.key});
+
+  static const query = _$InnerPage1();
+
+  @override
+  Widget build(BuildContext context) {
+    final current = context.rootRouter.currentQuery;
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          context.rootRouter.pop();
+        },
+        child: Text("To Innerpage2 ${current?.name}"),
+      ),
+    );
+  }
+}
+
+@NestedPage(key: InnerPageType.type2)
+class InnerPage2 extends StatelessWidget {
+  const InnerPage2({super.key});
+
+  static const query = _$InnerPage2();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          context.router.push(InnerPage1.query());
+        },
+        child: Text("To Innerpage1"),
+      ),
+    );
+  }
+}
+
+enum InnerPageType {
+  type1(
+    icon: Icons.people,
+    label: "people",
+  ),
+  type2(
+    icon: Icons.settings,
+    label: "settings",
+  );
+
+  const InnerPageType({
+    required this.icon,
+    required this.label,
+  });
+
+  final IconData icon;
+
+  final String label;
+}
+```
+
 # vs auto_route
 
 There is a great existing package called [auto_route](https://pub.dev/packages/auto_route) that is a routing package that uses [build_runner](https://pub.dev/packages/build_runner).
@@ -310,4 +606,4 @@ We will make a comparison with this package.
 | Deep link | ○ | ○ |
 | Deep Link Parameters | ○ | ○ |
 | Redirect | ○ | ○ |
-| Nested Navigation | scheduled for mounting | ○ |
+| Nested Navigation | ○ | ○ |

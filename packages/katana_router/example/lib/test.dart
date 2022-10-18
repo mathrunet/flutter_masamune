@@ -146,6 +146,11 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
     ],
   );
 
+  final queries = {
+    InnerPageType.type1: InnerPage1.query(),
+    InnerPageType.type2: InnerPage2.query(),
+  };
+
   @override
   void initState() {
     super.initState();
@@ -153,7 +158,6 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
   }
 
   void handledOnUpdate() {
-    print("aaaaa");
     setState(() {});
   }
 
@@ -166,20 +170,29 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final aa = router.currentQuery;
+    final query = router.currentQuery;
     return Scaffold(
       appBar: AppBar(title: const Text("NestedPage")),
-      body: Column(children: [
-        Text(aa?.name ?? "none"),
-        Expanded(
-          child: Router.withConfig(config: router),
-        ),
-      ]),
+      body: Router.withConfig(config: router),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (value) {
+          router.push(
+            queries[InnerPageType.values[value]]!,
+          );
+        },
+        currentIndex: query?.key<InnerPageType>()?.index ?? 0,
+        items: InnerPageType.values.map((type) {
+          return BottomNavigationBarItem(
+            icon: Icon(type.icon),
+            label: type.label,
+          );
+        }).toList(),
+      ),
     );
   }
 }
 
-@NestedPage(key: InnerPageType.type1, name: "type1")
+@NestedPage(key: InnerPageType.type1)
 class InnerPage1 extends StatelessWidget {
   const InnerPage1({super.key});
 
@@ -199,7 +212,7 @@ class InnerPage1 extends StatelessWidget {
   }
 }
 
-@NestedPage(key: InnerPageType.type2, name: "type2")
+@NestedPage(key: InnerPageType.type2)
 class InnerPage2 extends StatelessWidget {
   const InnerPage2({super.key});
 
@@ -219,6 +232,21 @@ class InnerPage2 extends StatelessWidget {
 }
 
 enum InnerPageType {
-  type1,
-  type2,
+  type1(
+    icon: Icons.people,
+    label: "people",
+  ),
+  type2(
+    icon: Icons.settings,
+    label: "settings",
+  );
+
+  const InnerPageType({
+    required this.icon,
+    required this.label,
+  });
+
+  final IconData icon;
+
+  final String label;
 }

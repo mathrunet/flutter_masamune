@@ -13,6 +13,21 @@ import 'package:analyzer/dart/constant/value.dart';
 import 'package:katana_router_example/main.dart';
 
 void main() {
+  test("regexsplit", () {
+    const text =
+        "{name} is delisours. so {name} is mine. but {name} was wrong. {name}";
+    final regexp = RegExp(r"([^\{]+)|\{([a-zA-Z0-9_-]+)\}");
+    final matches = regexp.allMatches(text).toList();
+    expect(matches.map((e) => e.group(0)).toList(), [
+      "{name}",
+      " is delisours. so ",
+      "{name}",
+      " is mine. but ",
+      "{name}",
+      " was wrong. ",
+      "{name}",
+    ]);
+  });
   test("regexptest", () {
     const testList = {
       "InnerPageType.type2": "@NestedPage(value: InnerPageType.type2)",

@@ -49,3 +49,35 @@ class Boot extends BootRouteQueryBuilder {
   @override
   TransitionQuery get initialTransitionQuery => TransitionQuery.fade;
 }
+
+class Localize {
+  const Localize._();
+
+  static const _map = {
+    "ja": _$LocalizejaJP(Locale("ja", "JP")),
+  };
+
+  _$LocalizeBase of(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    final lang = locale.languageCode;
+    if (!_map.containsKey(lang)) {
+      return _map.entries.first.value;
+    }
+    return _map[lang]!;
+  }
+}
+
+class _$LocalizejaJP extends _$LocalizeBase {
+  const _$LocalizejaJP(super.locale);
+
+  @override
+  String get aaa => "aaa";
+}
+
+abstract class _$LocalizeBase {
+  const _$LocalizeBase(this.locale);
+
+  final Locale locale;
+
+  String get aaa => throw UnimplementedError();
+}
