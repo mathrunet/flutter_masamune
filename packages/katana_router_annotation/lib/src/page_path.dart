@@ -6,11 +6,15 @@ part of katana_router_annotation;
 ///
 /// When [redirect] is set, it is possible to write reroute settings for only that page.
 ///
+/// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+///
 /// ページを定義するアノテーション。
 ///
 /// [path]にページのパスをそのまま指定します。
 ///
 /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+///
+/// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
 ///
 /// ```dart
 /// @PagePath("/test")
@@ -31,11 +35,15 @@ class PagePath {
   ///
   /// When [redirect] is set, it is possible to write reroute settings for only that page.
   ///
+  /// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+  ///
   /// ページを定義するアノテーション。
   ///
   /// [path]にページのパスをそのまま指定します。
   ///
   /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+  ///
+  /// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
   ///
   /// ```dart
   /// @PagePath("/test")
@@ -51,6 +59,7 @@ class PagePath {
   /// ```
   const PagePath(
     this.path, {
+    this.key,
     this.redirect = const [],
   });
 
@@ -58,6 +67,15 @@ class PagePath {
   ///
   /// ページパス。
   final String path;
+
+  /// Key object of the page.
+  ///
+  /// Can be retrieved from `RouteQuery`. Please use it to identify the current page in nested navigation tabs, etc.
+  ///
+  /// ページのキーオブジェクト。
+  ///
+  /// `RouteQuery`から取り出すことが可能です。ネストナビゲーションのタブなどで現在のページを識別するためにご利用ください。
+  final Object? key;
 
   /// Reroute settings.
   ///
@@ -79,11 +97,15 @@ class PagePath {
 ///
 /// When [redirect] is set, it is possible to write reroute settings that correspond only to that page.
 ///
+/// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+///
 /// トップレベルではなくネストされたナビゲーターで用いるためのページ。
 ///
 /// これで使用した場合、ディープリンクでのアクセスができなくなります。
 ///
 /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+///
+/// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
 ///
 /// ```dart
 /// @NestedPage()
@@ -105,11 +127,15 @@ const nestedPage = NestedPage();
 ///
 /// When [redirect] is set, it is possible to write reroute settings that correspond only to that page.
 ///
+/// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+///
 /// トップレベルではなくネストされたナビゲーターで用いるためのページ。
 ///
 /// これで使用した場合、ディープリンクでのアクセスができなくなります。
 ///
 /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+///
+/// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
 ///
 /// ```dart
 /// @NestedPage()
@@ -130,11 +156,15 @@ class NestedPage {
   ///
   /// When [redirect] is set, it is possible to write reroute settings that correspond only to that page.
   ///
+  /// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+  ///
   /// トップレベルではなくネストされたナビゲーターで用いるためのページ。
   ///
   /// これで使用した場合、ディープリンクでのアクセスができなくなります。
   ///
   /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
+  ///
+  /// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
   ///
   /// ```dart
   /// @NestedPage()
@@ -149,8 +179,18 @@ class NestedPage {
   /// }
   /// ```
   const NestedPage({
+    this.key,
     this.redirect = const [],
   });
+
+  /// Key object of the page.
+  ///
+  /// Can be retrieved from `RouteQuery`. Please use it to identify the current page in nested navigation tabs, etc.
+  ///
+  /// ページのキーオブジェクト。
+  ///
+  /// `RouteQuery`から取り出すことが可能です。ネストナビゲーションのタブなどで現在のページを識別するためにご利用ください。
+  final Object? key;
 
   /// Reroute settings.
   ///
