@@ -6,7 +6,7 @@ part of katana_router_annotation;
 ///
 /// When [redirect] is set, it is possible to write reroute settings for only that page.
 ///
-/// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+/// You can give a name to a page by specifying [name], and you can bind an object (including enums, etc.) to a page by specifying [key]. All of these can be obtained from `RouteQuery`.
 ///
 /// ページを定義するアノテーション。
 ///
@@ -14,7 +14,7 @@ part of katana_router_annotation;
 ///
 /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
 ///
-/// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
+/// [name]を指定することでページに名前をつけることができ、[key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。これらはすべて`RouteQuery`から取得することができます。
 ///
 /// ```dart
 /// @PagePath("/test")
@@ -35,7 +35,7 @@ class PagePath {
   ///
   /// When [redirect] is set, it is possible to write reroute settings for only that page.
   ///
-  /// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+  /// You can give a name to a page by specifying [name], and you can bind an object (including enums, etc.) to a page by specifying [key]. All of these can be obtained from `RouteQuery`.
   ///
   /// ページを定義するアノテーション。
   ///
@@ -43,7 +43,7 @@ class PagePath {
   ///
   /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
   ///
-  /// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
+  /// [name]を指定することでページに名前をつけることができ、[key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。これらはすべて`RouteQuery`から取得することができます。
   ///
   /// ```dart
   /// @PagePath("/test")
@@ -60,6 +60,7 @@ class PagePath {
   const PagePath(
     this.path, {
     this.key,
+    this.name,
     this.redirect = const [],
   });
 
@@ -67,6 +68,11 @@ class PagePath {
   ///
   /// ページパス。
   final String path;
+
+  /// Page Name.
+  ///
+  /// ページの名前。
+  final String? name;
 
   /// Key object of the page.
   ///
@@ -95,17 +101,9 @@ class PagePath {
 ///
 /// If used with this, it will not be accessible via deep linking.
 ///
-/// When [redirect] is set, it is possible to write reroute settings that correspond only to that page.
-///
-/// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
-///
 /// トップレベルではなくネストされたナビゲーターで用いるためのページ。
 ///
 /// これで使用した場合、ディープリンクでのアクセスができなくなります。
-///
-/// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
-///
-/// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
 ///
 /// ```dart
 /// @NestedPage()
@@ -127,7 +125,7 @@ const nestedPage = NestedPage();
 ///
 /// When [redirect] is set, it is possible to write reroute settings that correspond only to that page.
 ///
-/// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+/// You can give a name to a page by specifying [name], and you can bind an object (including enums, etc.) to a page by specifying [key]. All of these can be obtained from `RouteQuery`.
 ///
 /// トップレベルではなくネストされたナビゲーターで用いるためのページ。
 ///
@@ -135,7 +133,7 @@ const nestedPage = NestedPage();
 ///
 /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
 ///
-/// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
+/// [name]を指定することでページに名前をつけることができ、[key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。これらはすべて`RouteQuery`から取得することができます。
 ///
 /// ```dart
 /// @NestedPage()
@@ -156,7 +154,7 @@ class NestedPage {
   ///
   /// When [redirect] is set, it is possible to write reroute settings that correspond only to that page.
   ///
-  /// It is possible to tie objects (including enums, etc.) to pages by specifying [key].
+  /// You can give a name to a page by specifying [name], and you can bind an object (including enums, etc.) to a page by specifying [key]. All of these can be obtained from `RouteQuery`.
   ///
   /// トップレベルではなくネストされたナビゲーターで用いるためのページ。
   ///
@@ -164,7 +162,7 @@ class NestedPage {
   ///
   /// [redirect]を設定するとそのページのみに対応するリルート設定を記述することが可能です。
   ///
-  /// [key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。
+  /// [name]を指定することでページに名前をつけることができ、[key]を指定することでページにオブジェクト（enumなども含む）を紐付けることが可能です。これらはすべて`RouteQuery`から取得することができます。
   ///
   /// ```dart
   /// @NestedPage()
@@ -180,8 +178,14 @@ class NestedPage {
   /// ```
   const NestedPage({
     this.key,
+    this.name,
     this.redirect = const [],
   });
+
+  /// Page Name.
+  ///
+  /// ページの名前。
+  final String? name;
 
   /// Key object of the page.
   ///

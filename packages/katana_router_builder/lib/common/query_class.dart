@@ -128,6 +128,17 @@ List<Class> queryClass(
           ),
           Method(
             (m) => m
+              ..name = "name"
+              ..type = MethodType.getter
+              ..annotations = ListBuilder([const Reference("override")])
+              ..lambda = true
+              ..returns = const Reference("String")
+              ..body = Code(
+                annotation.name == null ? "path" : "\"${annotation.name}\"",
+              ),
+          ),
+          Method(
+            (m) => m
               ..name = "key<E>"
               ..annotations = ListBuilder([const Reference("override")])
               ..lambda = true

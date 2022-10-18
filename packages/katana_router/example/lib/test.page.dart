@@ -35,6 +35,8 @@ class _$_MainPage extends RouteQuery {
   @override
   String get path => "";
   @override
+  String get name => "main";
+  @override
   E? key<E>() => null;
   @override
   List<RedirectQuery> redirect() => const [];
@@ -76,6 +78,8 @@ class _$_UserPage extends RouteQuery {
 
   @override
   String get path => "page/$userId";
+  @override
+  String get name => "user";
   @override
   E? key<E>() => null;
   @override
@@ -120,6 +124,8 @@ class _$_ContentPage extends RouteQuery {
   @override
   String get path => "content/$contentId";
   @override
+  String get name => path;
+  @override
   E? key<E>() => null;
   @override
   List<RedirectQuery> redirect() => const [];
@@ -157,6 +163,8 @@ class _$_NestedContainerPage extends RouteQuery {
   @override
   String get path => "nested";
   @override
+  String get name => "nested";
+  @override
   E? key<E>() => null;
   @override
   List<RedirectQuery> redirect() => const [];
@@ -190,7 +198,9 @@ class _$_InnerPage1 extends RouteQuery {
   const _$_InnerPage1();
 
   @override
-  String get path => "f1dc93be452044309aff3087c79014c0";
+  String get path => "0bd4da1e295946faa232f3e6b4b00099";
+  @override
+  String get name => "type1";
   @override
   E? key<E>() => InnerPageType.type1 as E?;
   @override
@@ -221,7 +231,9 @@ class _$_InnerPage2 extends RouteQuery {
   const _$_InnerPage2();
 
   @override
-  String get path => "018ba130d8b846be825c962c2f4c8cf0";
+  String get path => "7b6a4dfdcea64b5cb375dd1c4301c144";
+  @override
+  String get name => "type2";
   @override
   E? key<E>() => InnerPageType.type2 as E?;
   @override

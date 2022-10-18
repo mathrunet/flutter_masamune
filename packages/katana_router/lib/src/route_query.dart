@@ -31,6 +31,15 @@ abstract class RouteQuery {
   /// ページのパス名。
   String get path;
 
+  /// Page Name. The name by which the page is identified is defined.
+  ///
+  /// Default is the same as [path].
+  ///
+  /// ページ名。ページを識別する際の名前が定義されています。
+  ///
+  /// デフォルトは[path]と同じです。
+  String get name => path;
+
   /// A key to identify the query.
   ///
   /// It can be obtained as an object of [E] by specifying [E].

@@ -22,6 +22,7 @@ class AnnotationValue {
       final obj = meta.computeConstantValue()!;
       if (matcher.isExactlyType(obj.type!)) {
         final source = meta.toSource();
+        name = obj.getField("name")?.toStringValue();
 
         final redirectMatch = _redirectRegExp.firstMatch(source);
         if (redirectMatch != null) {
@@ -37,9 +38,13 @@ class AnnotationValue {
 
         final keyMatch = _keyRegExp.firstMatch(source);
         if (keyMatch != null) {
+          final nameMatch = _nameWithSingleQuoteRegExp.firstMatch(source) ??
+              _nameWithDoubleQuoteRegExp.firstMatch(source) ??
+              _nameWithVariableRegExp.firstMatch(source);
           final key = keyMatch
               .group(1)
               ?.replaceAll(redirectMatch?.group(0) ?? "", "")
+              .replaceAll(nameMatch?.group(0) ?? "", "")
               .trim()
               .trimString(",")
               .trim();
@@ -54,11 +59,16 @@ class AnnotationValue {
         return;
       }
     }
+    name = null;
     keyString = "null";
     redirectQueries = const [];
   }
 
   static final _keyRegExp = RegExp(r"key\s*:\s*(.+),?\s*\)\s*$");
+  static final _nameWithSingleQuoteRegExp = RegExp(r"name\s*:\s*('[^']+')");
+  static final _nameWithDoubleQuoteRegExp = RegExp(r'name\s*:\s*("[^"]+")');
+  static final _nameWithVariableRegExp =
+      RegExp(r'name\s*:\s*([a-zA-Z0-9$._-]+)');
   static final _redirectRegExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\]");
 
   /// Class Element.
@@ -75,6 +85,9 @@ class AnnotationValue {
   ///
   /// `RedirectQuery`の一覧。
   late final List<String> redirectQueries;
+
+  /// ページの名前。
+  late final String? name;
 
   /// Key string.
   ///

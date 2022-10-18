@@ -7,7 +7,7 @@ import 'main.router.dart';
 
 part "test.page.dart";
 
-@PagePath("/")
+@PagePath("/", name: "main")
 class MainPage extends StatelessWidget {
   const MainPage({
     super.key,
@@ -62,7 +62,7 @@ class MainPage extends StatelessWidget {
   }
 }
 
-@PagePath("/page/:user_id")
+@PagePath("/page/:user_id", name: "user")
 class UserPage extends StatelessWidget {
   const UserPage({
     super.key,
@@ -123,7 +123,7 @@ class ContentPage extends StatelessWidget {
   }
 }
 
-@PagePath("/nested")
+@PagePath("/nested", name: "nested")
 class NestedContainerPage extends StatefulWidget {
   const NestedContainerPage({
     super.key,
@@ -170,7 +170,7 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("NestedPage")),
       body: Column(children: [
-        Text(aa?.key<InnerPageType>().toString() ?? "none"),
+        Text(aa?.name ?? "none"),
         Expanded(
           child: Router.withConfig(config: router),
         ),
@@ -179,7 +179,7 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
   }
 }
 
-@NestedPage(key: InnerPageType.type1)
+@NestedPage(key: InnerPageType.type1, name: "type1")
 class InnerPage1 extends StatelessWidget {
   const InnerPage1({super.key});
 
@@ -187,18 +187,19 @@ class InnerPage1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final current = context.rootRouter.currentQuery;
     return Center(
       child: TextButton(
         onPressed: () {
-          context.router.push(InnerPage2.query());
+          context.rootRouter.pop();
         },
-        child: Text("To Innerpage2"),
+        child: Text("To Innerpage2 ${current?.name}"),
       ),
     );
   }
 }
 
-@NestedPage(key: InnerPageType.type2)
+@NestedPage(key: InnerPageType.type2, name: "type2")
 class InnerPage2 extends StatelessWidget {
   const InnerPage2({super.key});
 

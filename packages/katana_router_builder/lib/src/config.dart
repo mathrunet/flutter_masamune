@@ -5,8 +5,9 @@ final _pathRegExp = RegExp(r":([^/]+)");
 final _ignoreWords = <String>[
   "build",
   "query",
-  "value",
+  "key",
   "path",
   "redirect",
-  "route"
+  "route",
+  "name",
 ];
