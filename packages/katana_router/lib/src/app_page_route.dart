@@ -42,7 +42,7 @@ abstract class AppPageRoute<T> extends Page<T> {
     required String? path,
     TransitionQuery? transitionQuery,
   }) {
-    if (transitionQuery?.transition == TransitionQueryType.modal) {
+    if (transitionQuery?.transition == _TransitionQueryType.modal) {
       return _ModalPageRoute(
         key: key ?? ValueKey(uuid),
         builder: builder,
@@ -173,14 +173,14 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       transitionDuration: kTransitionDuration,
       reverseTransitionDuration: kTransitionDuration,
       fullscreenDialog:
-          transitionQuery?.transition == TransitionQueryType.fullscreen,
+          transitionQuery?.transition == _TransitionQueryType.fullscreen,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         _TransitionType? rawTransitionType;
-        if (transitionQuery?.transition == TransitionQueryType.none) {
+        if (transitionQuery?.transition == _TransitionQueryType.none) {
           return child;
         }
         if (kIsWeb) {
-          if (transitionQuery?.transition == TransitionQueryType.fullscreen) {
+          if (transitionQuery?.transition == _TransitionQueryType.fullscreen) {
             return SlideTransition(
               position: _slideUpTween.animate(animation),
               child: FadeTransition(
@@ -197,7 +197,7 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
         }
         if (rawTransitionType == null) {
           switch (transitionQuery?.transition) {
-            case TransitionQueryType.fullscreen:
+            case _TransitionQueryType.fullscreen:
               return SlideTransition(
                 position: _slideUpTween.animate(animation),
                 child: FadeTransition(
@@ -205,7 +205,7 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
                   child: child,
                 ),
               );
-            case TransitionQueryType.fade:
+            case _TransitionQueryType.fade:
               rawTransitionType = _TransitionType.fade;
               break;
             default:

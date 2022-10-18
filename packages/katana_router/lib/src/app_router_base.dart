@@ -131,9 +131,10 @@ abstract class AppRouterBase extends ChangeNotifier
     _routeInformationParser = _AppRouteInformationParser(this);
 
     _routeInformationProvider = _AppRouteInformationProvider(
-      initialRouteInformation: RouteInformation(
+      initialRouteInformation: InitialRouteInformation(
+        query: initialQuery,
         location: _effectiveInitialLocation(
-          initialQuery?.path ?? initialPath ?? "/",
+          initialPath ?? "/",
         ),
       ),
     );
@@ -162,7 +163,7 @@ abstract class AppRouterBase extends ChangeNotifier
   /// You can check the current [RouteQuery].
   ///
   /// 現在の[RouteQuery]を確認することができます。
-  RouteQuery get currentQuery => _routerDelegate.currentConfiguration!;
+  RouteQuery? get currentQuery => _routerDelegate.currentConfiguration;
 
   /// Passing [routeQuery] will take you to a new page.
   ///
@@ -349,20 +350,32 @@ abstract class AppRouterBase extends ChangeNotifier
   }
 
   @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
+    });
+  }
 
   @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
+    });
+  }
 
   @override
-  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) =>
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
+    });
+  }
 
   @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) =>
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
+    });
+  }
 
   @override
   void dispose() {

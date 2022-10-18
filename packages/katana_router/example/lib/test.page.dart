@@ -12,49 +12,38 @@ class _$MainPage extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^$");
 
-  _$_MainPage call({
-    Key? key,
-    required String title,
-  }) =>
-      _$_MainPage(key: key, title: title);
+  _$_MainPage call({required String title}) => _$_MainPage(title: title);
   @override
-  RouteQuery? resolve(
-    String? path, {
-    bool force = false,
-  }) {
+  RouteQuery? resolve(String? path) {
     final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null && !force) {
+    if (match == null) {
       return null;
     }
     return _$_MainPage(
-        key: null,
-        title: match?.groupNames.contains("title") ?? false
-            ? match?.namedGroup("title") ?? ""
+        title: match.groupNames.contains("title")
+            ? match.namedGroup("title") ?? ""
             : "");
   }
 }
 
 @immutable
 class _$_MainPage extends RouteQuery {
-  const _$_MainPage({
-    this.key,
-    required this.title,
-  });
-
-  final Key? key;
+  const _$_MainPage({required this.title});
 
   final String title;
 
   @override
   String get path => "";
   @override
+  E? key<E>() => null;
+  @override
   List<RedirectQuery> redirect() => const [];
   @override
-  AppPageRoute<T> route<T>([TransitionQuery? query]) {
-    return AppPageRoute<T>(
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
+    return AppPageRoute<E>(
       path: path,
       transitionQuery: query,
-      builder: (context) => MainPage(key: key, title: title),
+      builder: (context) => MainPage(title: title),
     );
   }
 }
@@ -65,49 +54,38 @@ class _$UserPage extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^page/(?<user_id>[^/?&]+)$");
 
-  _$_UserPage call({
-    Key? key,
-    required String userId,
-  }) =>
-      _$_UserPage(key: key, userId: userId);
+  _$_UserPage call({required String userId}) => _$_UserPage(userId: userId);
   @override
-  RouteQuery? resolve(
-    String? path, {
-    bool force = false,
-  }) {
+  RouteQuery? resolve(String? path) {
     final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null && !force) {
+    if (match == null) {
       return null;
     }
     return _$_UserPage(
-        key: null,
-        userId: match?.groupNames.contains("userId") ?? false
-            ? match?.namedGroup("userId") ?? ""
+        userId: match.groupNames.contains("userId")
+            ? match.namedGroup("userId") ?? ""
             : "");
   }
 }
 
 @immutable
 class _$_UserPage extends RouteQuery {
-  const _$_UserPage({
-    this.key,
-    required this.userId,
-  });
-
-  final Key? key;
+  const _$_UserPage({required this.userId});
 
   final String userId;
 
   @override
   String get path => "page/$userId";
   @override
+  E? key<E>() => null;
+  @override
   List<RedirectQuery> redirect() => const [];
   @override
-  AppPageRoute<T> route<T>([TransitionQuery? query]) {
-    return AppPageRoute<T>(
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
+    return AppPageRoute<E>(
       path: path,
       transitionQuery: query,
-      builder: (context) => UserPage(key: key, userId: userId),
+      builder: (context) => UserPage(userId: userId),
     );
   }
 }
@@ -118,49 +96,142 @@ class _$ContentPage extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^content/(?<content_id>[^/?&]+)$");
 
-  _$_ContentPage call({
-    Key? key,
-    required String contentId,
-  }) =>
-      _$_ContentPage(key: key, contentId: contentId);
+  _$_ContentPage call({required String contentId}) =>
+      _$_ContentPage(contentId: contentId);
   @override
-  RouteQuery? resolve(
-    String? path, {
-    bool force = false,
-  }) {
+  RouteQuery? resolve(String? path) {
     final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null && !force) {
+    if (match == null) {
       return null;
     }
     return _$_ContentPage(
-        key: null,
-        contentId: match?.groupNames.contains("contentId") ?? false
-            ? match?.namedGroup("contentId") ?? ""
+        contentId: match.groupNames.contains("contentId")
+            ? match.namedGroup("contentId") ?? ""
             : "");
   }
 }
 
 @immutable
 class _$_ContentPage extends RouteQuery {
-  const _$_ContentPage({
-    this.key,
-    required this.contentId,
-  });
-
-  final Key? key;
+  const _$_ContentPage({required this.contentId});
 
   final String contentId;
 
   @override
   String get path => "content/$contentId";
   @override
+  E? key<E>() => null;
+  @override
   List<RedirectQuery> redirect() => const [];
   @override
-  AppPageRoute<T> route<T>([TransitionQuery? query]) {
-    return AppPageRoute<T>(
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
+    return AppPageRoute<E>(
       path: path,
       transitionQuery: query,
-      builder: (context) => ContentPage(key: key, contentId: contentId),
+      builder: (context) => ContentPage(contentId: contentId),
+    );
+  }
+}
+
+@immutable
+class _$NestedContainerPage extends RouteQueryBuilder {
+  const _$NestedContainerPage();
+
+  static final _regExp = RegExp(r"^nested$");
+
+  _$_NestedContainerPage call() => _$_NestedContainerPage();
+  @override
+  RouteQuery? resolve(String? path) {
+    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
+    if (match == null) {
+      return null;
+    }
+    return _$_NestedContainerPage();
+  }
+}
+
+@immutable
+class _$_NestedContainerPage extends RouteQuery {
+  const _$_NestedContainerPage();
+
+  @override
+  String get path => "nested";
+  @override
+  E? key<E>() => null;
+  @override
+  List<RedirectQuery> redirect() => const [];
+  @override
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
+    return AppPageRoute<E>(
+      path: path,
+      transitionQuery: query,
+      builder: (context) => NestedContainerPage(),
+    );
+  }
+}
+
+// **************************************************************************
+// NestedPageGenerator
+// **************************************************************************
+
+@immutable
+class _$InnerPage1 extends RouteQueryBuilder {
+  const _$InnerPage1();
+
+  _$_InnerPage1 call() => _$_InnerPage1();
+  @override
+  RouteQuery? resolve(String? path) {
+    return null;
+  }
+}
+
+@immutable
+class _$_InnerPage1 extends RouteQuery {
+  const _$_InnerPage1();
+
+  @override
+  String get path => "f1dc93be452044309aff3087c79014c0";
+  @override
+  E? key<E>() => InnerPageType.type1 as E?;
+  @override
+  List<RedirectQuery> redirect() => const [];
+  @override
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
+    return AppPageRoute<E>(
+      path: path,
+      transitionQuery: query,
+      builder: (context) => InnerPage1(),
+    );
+  }
+}
+
+@immutable
+class _$InnerPage2 extends RouteQueryBuilder {
+  const _$InnerPage2();
+
+  _$_InnerPage2 call() => _$_InnerPage2();
+  @override
+  RouteQuery? resolve(String? path) {
+    return null;
+  }
+}
+
+@immutable
+class _$_InnerPage2 extends RouteQuery {
+  const _$_InnerPage2();
+
+  @override
+  String get path => "018ba130d8b846be825c962c2f4c8cf0";
+  @override
+  E? key<E>() => InnerPageType.type2 as E?;
+  @override
+  List<RedirectQuery> redirect() => const [];
+  @override
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
+    return AppPageRoute<E>(
+      path: path,
+      transitionQuery: query,
+      builder: (context) => InnerPage2(),
     );
   }
 }

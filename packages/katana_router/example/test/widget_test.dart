@@ -7,10 +7,59 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:katana/katana.dart';
+import 'package:analyzer/dart/constant/value.dart';
 
 import 'package:katana_router_example/main.dart';
 
 void main() {
+  test("regexptest", () {
+    const testList = {
+      "InnerPageType.type2": "@NestedPage(value: InnerPageType.type2)",
+      "'InnerPageType.type2'": "@NestedPage(value : 'InnerPageType.type2')",
+      '"InnerPageType.type2"': '@NestedPage(value:"InnerPageType.type2")',
+      '"a,b,c,d,e"': '@NestedPage(value : "a,b,c,d,e")',
+      "100": "@NestedPage(value: 100)",
+      "100.5928": "@NestedPage(value :100.5928)",
+      "false": "@NestedPage(value : false)",
+      "InnerPageType.type3":
+          "@NestedPage(value:InnerPageType.type3, redirect:[LoginRedirect(),])",
+      "500":
+          "@NestedPage(value:500, redirect :[LoginRedirect(),RegisterRedirect()])",
+      "LoginRedirect()":
+          "@NestedPage(value:LoginRedirect(), redirect :[ LoginRedirect(), RegisterRedirect()  ])",
+      "LoginRedirect('aaaa', 500, false )":
+          "@NestedPage(value:LoginRedirect('aaaa', 500, false ), redirect :[ LoginRedirect(), RegisterRedirect()  ])",
+      "LoginRedirect(test: 'aaaa', aaa: TestRidirect(), false )":
+          "@NestedPage(value:LoginRedirect(test: 'aaaa', aaa: TestRidirect(), false ), redirect:[LoginRedirect(),])",
+      "InnerPageType.type4":
+          "@NestedPage(redirect:[LoginRedirect(),], value:InnerPageType.type4, )",
+      "501":
+          "@NestedPage(redirect :[LoginRedirect(),RegisterRedirect()], value:501, )",
+      "LoginRedirect2()":
+          "@NestedPage( redirect :[ LoginRedirect(), RegisterRedirect()  ],value:LoginRedirect2())",
+      "LoginRedirect('aaaa', 500, true )":
+          "@NestedPage(redirect :[ LoginRedirect(), RegisterRedirect()  ], value:LoginRedirect('aaaa', 500, true ), )",
+      "LoginRedirect(test: 'aaaa', aaa: TestRidirect2(), false )":
+          "@NestedPage(redirect:[LoginRedirect(),], value:LoginRedirect(test: 'aaaa', aaa: TestRidirect2(), false ), )"
+    };
+    final regExpList = RegExp(r"value\s*:\s*(.+),?\s*\)\s*$");
+    final redirectExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\]");
+    for (final tmp in testList.entries) {
+      final res = regExpList.firstMatch(tmp.value);
+      final redirect = redirectExp.firstMatch(tmp.value);
+      print(res?.group(1));
+      print(redirect?.group(0));
+      expect(
+          res
+              ?.group(1)
+              ?.replaceAll(redirect?.group(0) ?? "", "")
+              .trim()
+              .trimStringRight(",")
+              .trim(),
+          tmp.key);
+    }
+  });
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());

@@ -3,7 +3,7 @@ part of katana_router;
 /// Defines how the page transitions.
 ///
 /// ページのトランジション方法を定義します。
-enum TransitionQueryType {
+enum _TransitionQueryType {
   /// Default transitions.
   ///
   /// デフォルトのトランジション。
@@ -31,5 +31,5 @@ enum TransitionQueryType {
   /// モーダルトランジション。
   ///
   /// 裏のページが見えるようになります。
-  modal,
+  modal;
 }

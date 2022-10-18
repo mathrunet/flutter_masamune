@@ -288,28 +288,28 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.5+1"
+    version: "0.15.5+2"
   katana_router:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.5.5"
+    version: "1.6.0"
   katana_router_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_router_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.5.4"
+      path: "../../katana_router_annotation"
+      relative: true
+    source: path
+    version: "1.6.0"
   katana_router_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "1.5.5"
+    version: "1.6.0"
   lints:
     dependency: transitive
     description:

@@ -13,6 +13,9 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
   final List<NavigatorObserver> observers;
 
   @override
+  RouteQuery? get currentConfiguration => router._pageStack.lastOrNull?.query;
+
+  @override
   Widget build(BuildContext context) {
     if (router._pageStack.isEmpty) {
       return const SizedBox.shrink();

@@ -10,10 +10,22 @@ class _AppRouteInformationProvider extends RouteInformationProvider
   static WidgetsBinding get _binding => WidgetsBinding.instance;
 
   @override
-  RouteInformation get value => RouteInformation(
-        location: _value.location,
-        state: _value.state,
+  RouteInformation get value {
+    final val = _value;
+    if (val is InitialRouteInformation) {
+      return InitialRouteInformation(
+        query: val.query,
+        location: val.location,
+        state: val.state,
       );
+    } else {
+      return RouteInformation(
+        location: val.location,
+        state: val.state,
+      );
+    }
+  }
+
   RouteInformation _value;
 
   set value(RouteInformation other) {
@@ -91,4 +103,10 @@ class _AppRouteInformationProvider extends RouteInformationProvider
     _valueInEngine = routeInformation;
     notifyListeners();
   }
+}
+
+class InitialRouteInformation extends RouteInformation {
+  const InitialRouteInformation({this.query, super.location, super.state});
+
+  final RouteQuery? query;
 }

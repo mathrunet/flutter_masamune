@@ -144,12 +144,15 @@ class _BootRouteQuery extends RouteQuery {
   String get path => sourcePath;
 
   @override
-  AppPageRoute<T> route<T>(TransitionQuery? query) {
+  E? key<E>() => throw UnimplementedError();
+
+  @override
+  AppPageRoute<E> route<E>(TransitionQuery? query) {
     return AppPageRoute(
       key: ValueKey(builder.hashCode),
       builder: (_) => builder,
       path: path,
-      transitionQuery: TransitionQuery.immediately,
+      transitionQuery: TransitionQuery.none,
     );
   }
 }
@@ -185,11 +188,15 @@ class _UnknownRouteQuery extends RouteQuery {
 
   final String sourcePath;
   final UnknownRouteQueryBuilder builder;
+
   @override
   String get path => sourcePath;
 
   @override
-  AppPageRoute<T> route<T>(TransitionQuery? query) {
+  E? key<E>() => throw UnimplementedError();
+
+  @override
+  AppPageRoute<E> route<E>(TransitionQuery? query) {
     return AppPageRoute(
       key: ValueKey(builder.hashCode),
       builder: (_) => builder,
@@ -200,13 +207,20 @@ class _UnknownRouteQuery extends RouteQuery {
 
 @immutable
 class _EmptyRouteQuery extends RouteQuery {
-  const _EmptyRouteQuery();
+  const _EmptyRouteQuery({
+    required this.sourcePath,
+  });
+
+  final String sourcePath;
 
   @override
-  String get path => "";
+  String get path => sourcePath;
 
   @override
-  AppPageRoute<T> route<T>(TransitionQuery? query) {
+  E? key<E>() => throw UnimplementedError();
+
+  @override
+  AppPageRoute<E> route<E>(TransitionQuery? query) {
     return AppPageRoute(
       builder: (_) => const SizedBox.shrink(),
       path: path,
