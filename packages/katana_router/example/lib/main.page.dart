@@ -1,6 +1,6 @@
 // ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering
 
-part of 'test.dart';
+part of 'main.dart';
 
 // **************************************************************************
 // PageGenerator
@@ -198,9 +198,9 @@ class _$_InnerPage1 extends RouteQuery {
   const _$_InnerPage1();
 
   @override
-  String get path => "0bd4da1e295946faa232f3e6b4b00099";
+  String get path => "67bbf6d381b241b2a4b9494990232bae";
   @override
-  String get name => "type1";
+  String get name => path;
   @override
   E? key<E>() => InnerPageType.type1 as E?;
   @override
@@ -231,9 +231,9 @@ class _$_InnerPage2 extends RouteQuery {
   const _$_InnerPage2();
 
   @override
-  String get path => "7b6a4dfdcea64b5cb375dd1c4301c144";
+  String get path => "54392ce8302f4348b8cdfda2213660bc";
   @override
-  String get name => "type2";
+  String get name => path;
   @override
   E? key<E>() => InnerPageType.type2 as E?;
   @override

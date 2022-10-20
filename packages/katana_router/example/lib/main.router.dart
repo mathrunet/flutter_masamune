@@ -6,9 +6,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:katana_router/katana_router.dart';
-import 'package:katana_router_example/test.dart' as _$1;
-export 'package:katana_router/katana_router.dart';
-export 'package:katana_router_example/test.dart'
+import 'package:katana_router_example/main.dart' as _$1;
+export 'package:katana_router_example/main.dart'
     show MainPage, UserPage, ContentPage, NestedContainerPage;
 
 class AppRouter extends AppRouterBase {
