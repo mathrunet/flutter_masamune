@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_localization` - `v1.1.0`](#katana_localization---v110)
+ - [`katana_localization_annotation` - `v1.1.0`](#katana_localization_annotation---v110)
+ - [`katana_localization_builder` - `v1.1.0`](#katana_localization_builder---v110)
+
+---
+
+#### `katana_localization` - `v1.1.0`
+
+ - **FEAT**: Initial commitments. ([ea344728](https://github.com/mathrunet/flutter_masamune/commit/ea3447280bb22f371853d5aa187c28a6cbd99f0e))
+
+#### `katana_localization_annotation` - `v1.1.0`
+
+ - **FEAT**: Initial commitments. ([ea344728](https://github.com/mathrunet/flutter_masamune/commit/ea3447280bb22f371853d5aa187c28a6cbd99f0e))
+
+#### `katana_localization_builder` - `v1.1.0`
+
+ - **FEAT**: Initial commitments. ([ea344728](https://github.com/mathrunet/flutter_masamune/commit/ea3447280bb22f371853d5aa187c28a6cbd99f0e))
+
+
 ## 2022-10-18
 
 ### Changes
