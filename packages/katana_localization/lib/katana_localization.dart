@@ -8,12 +8,9 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_localization;
 
-import 'dart:async';
-
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:katana/katana.dart';
+import 'package:flutter/widgets.dart';
 
 export 'package:katana/katana.dart';
 export 'package:katana_localization_annotation/katana_localization_annotation.dart';
+
+part 'src/app_localize_base.dart';

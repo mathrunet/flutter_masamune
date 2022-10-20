@@ -14,6 +14,15 @@ List<Spec> localizeClass(
   List<String> locales,
 ) {
   return [
+    Field(
+      (m) => m
+        ..name = "_\$${model.name.toCamelCase()}Localizations"
+        ..modifier = FieldModifier.final$
+        ..assignment = Code("{${locales.map((e) {
+          final locale = e.split("_");
+          return "Locale(\"${locale.first}\", \"${locale.last}\"): _\$${model.name}${e.toCamelCase().capitalize()}()";
+        }).join(",")}}"),
+    ),
     Class(
       (c) => c
         ..name = "_\$${model.name}$_kBaseName"

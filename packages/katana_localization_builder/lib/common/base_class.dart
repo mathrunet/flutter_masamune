@@ -17,6 +17,7 @@ List<Spec> baseClass(
       (c) => c
         ..name = "_\$${model.name}"
         ..abstract = true
+        ..extend = const Reference("AppLocalizeBase")
         ..constructors.addAll([
           Constructor(
             (c) => c..constant = true,
@@ -39,10 +40,9 @@ List<Spec> baseClass(
           ),
           Method(
             (m) => m
-              ..name = "of"
-              ..static = true
+              ..name = "call"
               ..returns = Reference("_\$${model.name}$_kBaseName")
-              ..requiredParameters.addAll([
+              ..optionalParameters.addAll([
                 Parameter(
                   (p) => p
                     ..name = "context"
@@ -50,7 +50,7 @@ List<Spec> baseClass(
                 )
               ])
               ..body = Code(
-                "return Localizations.of<_\$${model.name}$_kBaseName>(context, _\$${model.name}$_kBaseName) ?? _\$${model.name.toCamelCase()}Localizations.values.first;",
+                "final l = context != null ? Localizations.localeOf(context) : currentLocale;if (!_\$${model.name.toCamelCase()}Localizations.containsKey(l)) {return _\$${model.name.toCamelCase()}Localizations[l]!;} else {return _\$${model.name.toCamelCase()}Localizations.values.first;}",
               ),
           )
         ]),

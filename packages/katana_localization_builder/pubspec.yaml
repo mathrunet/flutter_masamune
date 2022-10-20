@@ -9,7 +9,7 @@ environment:
 
 dependencies: 
   katana: ^0.15.0
-  # katana_localization_annotation: ^1.8.1
+  katana_localization_annotation: ^1.1.0
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0

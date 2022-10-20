@@ -40,7 +40,10 @@ class LocalizeLoader {
     final destValues = <LocalizeValue>[];
     final _locales = <String>{};
     final num2lang = <int, String>{};
-    final csv = res.body.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+    final csv = utf8
+        .decode(res.bodyBytes)
+        .replaceAll("\r\n", "\n")
+        .replaceAll("\r", "\n");
     final converted = const CsvToListConverter().convert(csv, eol: "\n");
     // Organize by language
     for (int y = 1; y < converted.length; y++) {

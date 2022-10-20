@@ -14,7 +14,7 @@ packages:
       name: asn1lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.0"
   async:
     dependency: transitive
     description:
@@ -115,21 +115,21 @@ packages:
       name: js
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.4"
+    version: "0.6.5"
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.5+2"
   katana_localization_annotation:
     dependency: "direct main"
     description:
-      path: "../katana_localization_annotation"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: katana_localization_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   matcher:
     dependency: transitive
     description:
