@@ -1,3 +1,7 @@
+## 1.8.4
+
+ - Update a dependency to the latest release.
+
 ## 1.8.3
 
  - **FIX**: Changed katana_router to not export. ([e49f99be](https://github.com/mathrunet/flutter_masamune/commit/e49f99bea11e91c901633b10c22c84d9a5b2278a))

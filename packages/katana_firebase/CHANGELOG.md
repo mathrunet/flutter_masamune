@@ -1,3 +1,7 @@
+## 0.15.0+9
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+8
 
  - **DOCS**: Maintenance of Comments. ([1429d477](https://github.com/mathrunet/flutter_masamune/commit/1429d477e441aefa174ad58d8c437202ca792160))

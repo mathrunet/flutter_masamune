@@ -1,3 +1,7 @@
+## 0.15.6
+
+ - **FEAT**: Add lastWhereOrNull. ([0bf6b5e3](https://github.com/mathrunet/flutter_masamune/commit/0bf6b5e35e9ccac42e212f084d7bda584113cc50))
+
 ## 0.15.5+2
 
  - **DOCS**: Maintenance of Comments. ([1429d477](https://github.com/mathrunet/flutter_masamune/commit/1429d477e441aefa174ad58d8c437202ca792160))

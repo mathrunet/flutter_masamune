@@ -1,3 +1,7 @@
+## 1.8.4
+
+ - Update a dependency to the latest release.
+
 ## 1.8.3
 
  - **DOCS**: Organize Example. ([33b8dfec](https://github.com/mathrunet/flutter_masamune/commit/33b8dfec661d620e89aa23d6d0adc3c082506925))
