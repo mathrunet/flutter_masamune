@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v1.1.2`](#katana_localization---v112)
+ - [`katana_localization_builder` - `v1.1.2`](#katana_localization_builder---v112)
+
+---
+
+#### `katana_localization` - `v1.1.2`
+
+ - **FIX**: Conflict elimination. Bug fixes, etc. ([07898201](https://github.com/mathrunet/flutter_masamune/commit/078982017481ea7adc7dabb9f62272c4dd302d89))
+
+#### `katana_localization_builder` - `v1.1.2`
+
+ - **FIX**: Conflict elimination. Bug fixes, etc. ([07898201](https://github.com/mathrunet/flutter_masamune/commit/078982017481ea7adc7dabb9f62272c4dd302d89))
+
+
+## 2022-10-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.8.2`](#katana_router---v182)
  - [`katana_router_annotation` - `v1.8.2`](#katana_router_annotation---v182)
  - [`katana_router_builder` - `v1.8.2`](#katana_router_builder---v182)

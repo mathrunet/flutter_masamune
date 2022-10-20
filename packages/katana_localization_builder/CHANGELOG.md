@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: Conflict elimination. Bug fixes, etc. ([07898201](https://github.com/mathrunet/flutter_masamune/commit/078982017481ea7adc7dabb9f62272c4dd302d89))
+
 ## 1.1.1
 
  - **FIX**: Bug fixes. ([6f0901b3](https://github.com/mathrunet/flutter_masamune/commit/6f0901b3b1c8e224f3df2b94d78eae4144b12fec))
