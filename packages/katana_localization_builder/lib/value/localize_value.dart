@@ -216,7 +216,7 @@ class LocalizeValue {
         );
       }
     } else {
-      final className = "_\$$id$locale";
+      final className = "_\$$id${locale.toCamelCase().capitalize()}";
       if (node.variable) {
         return Method(
           (m) => m
@@ -446,7 +446,7 @@ class LocalizeWord {
   /// [raw]に分割された値を入れます。
   LocalizeWord(this.raw)
       : variable = raw.startsWith("{") && raw.endsWith("}"),
-        name = raw.trimStringLeft("{").trimStringRight("}");
+        name = _avoidConflict(raw.trimStringLeft("{").trimStringRight("}"));
 
   /// Original text.
   ///
@@ -503,4 +503,11 @@ class LocalizeWord {
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) => hashCode == other.hashCode;
+
+  static String _avoidConflict(String value) {
+    if (_ignoreWords.contains(value)) {
+      return "${value}_";
+    }
+    return value;
+  }
 }

@@ -297,21 +297,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.0"
+    version: "1.1.1"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization_annotation"
       relative: true
     source: path
-    version: "1.1.0"
+    version: "1.1.1"
   katana_localization_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_localization_builder"
       relative: true
     source: path
-    version: "1.1.0"
+    version: "1.1.1"
   lints:
     dependency: transitive
     description:

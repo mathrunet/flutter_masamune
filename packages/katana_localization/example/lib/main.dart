@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: l.delegates(),
       supportedLocales: l.supportedLocales(),
       home: const MainPage(),
+      locale: Locale("en", "US"),
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -37,10 +38,15 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    l.setCurrentLocale(context);
     return Scaffold(
       body: ListView(
         children: [
-          ListTile(title: Text("aa")),
+          ListTile(
+            title: Text(
+              l().$(l().$(l().process).of.$(l().data)).hasBeenCompleted,
+            ),
+          ),
         ],
       ),
     );

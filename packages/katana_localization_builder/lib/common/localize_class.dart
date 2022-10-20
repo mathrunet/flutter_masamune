@@ -50,5 +50,6 @@ List<Spec> localizeClass(
             localized.map((e) => e._toParam(locale)),
           ),
       ),
+    ...localized.expand((e) => e.toClass(locales)),
   ];
 }

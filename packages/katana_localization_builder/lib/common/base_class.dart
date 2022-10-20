@@ -18,11 +18,6 @@ List<Spec> baseClass(
         ..name = "_\$${model.name}"
         ..abstract = true
         ..extend = const Reference("AppLocalizeBase")
-        ..constructors.addAll([
-          Constructor(
-            (c) => c..constant = true,
-          )
-        ])
         ..methods.addAll([
           Method(
             (m) => m
@@ -46,27 +41,12 @@ List<Spec> baseClass(
                 Parameter(
                   (p) => p
                     ..name = "context"
-                    ..type = const Reference("BuildContext"),
+                    ..type = const Reference("BuildContext?"),
                 )
               ])
               ..body = Code(
-                "final l = context != null ? Localizations.localeOf(context) : currentLocale;if (!_\$${model.name.toCamelCase()}Localizations.containsKey(l)) {return _\$${model.name.toCamelCase()}Localizations[l]!;} else {return _\$${model.name.toCamelCase()}Localizations.values.first;}",
+                "final l = context != null ? Localizations.localeOf(context) : currentLocale;if (_\$${model.name.toCamelCase()}Localizations.containsKey(l)) {return _\$${model.name.toCamelCase()}Localizations[l]!;} else {return _\$${model.name.toCamelCase()}Localizations.values.first;}",
               ),
-          )
-        ]),
-    ),
-    Extension(
-      (e) => e
-        ..name = "${model.name}BuildContextExtensions"
-        ..on = const Reference("BuildContext")
-        ..methods.addAll([
-          Method(
-            (m) => m
-              ..name = "l"
-              ..type = MethodType.getter
-              ..returns = Reference("_\$${model.name}$_kBaseName")
-              ..lambda = true
-              ..body = Code("_\$${model.name}.of(this)"),
           )
         ]),
     ),
