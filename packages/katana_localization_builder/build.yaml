@@ -1,0 +1,20 @@
+builders:
+  katana_localization_builder:
+    import: 'package:katana_localization_builder/katana_localization_builder.dart'
+    builder_factories: ['katanaLocalizationBuilderFactory']
+    build_extensions: {'.dart': ['.localize.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+targets:
+  $default:
+    builders:
+      katana_localization_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+          include:
+            - test/integration/*
+            - test/integration/**/*

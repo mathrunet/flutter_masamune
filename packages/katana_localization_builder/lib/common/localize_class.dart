@@ -1,0 +1,45 @@
+part of katana_localization_builder;
+
+/// Create translated classes.
+///
+/// Pass the value for the query in [model] and the path created from the annotation in [path]. Pass a parsed [LocalizeValue] in [localized] and a list of locales in [locales].
+///
+/// 翻訳されたクラスを作成します。
+///
+/// [model]にクエリー用の値を[path]にアノテーションから作成されたパスを渡します。[localized]に解析済みの[LocalizeValue]を渡し、[locales]にロケールのリストを渡します。
+List<Spec> localizeClass(
+  ClassValue model,
+  PathValue? path,
+  List<LocalizeValue> localized,
+  List<String> locales,
+) {
+  return [
+    Class(
+      (c) => c
+        ..name = "_\$${model.name}$_kBaseName"
+        ..abstract = true
+        ..constructors.addAll([
+          Constructor(
+            (c) => c..constant = true,
+          )
+        ])
+        ..methods.addAll(
+          localized.map((e) => e._toBaseParam()),
+        ),
+    ),
+    for (final locale in locales)
+      Class(
+        (c) => c
+          ..name = "_\$${model.name}${locale.toCamelCase().capitalize()}"
+          ..extend = Reference("_\$${model.name}$_kBaseName")
+          ..constructors.addAll([
+            Constructor(
+              (c) => c..constant = true,
+            )
+          ])
+          ..methods.addAll(
+            localized.map((e) => e._toParam(locale)),
+          ),
+      ),
+  ];
+}
