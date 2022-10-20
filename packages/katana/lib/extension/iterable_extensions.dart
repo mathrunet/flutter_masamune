@@ -78,6 +78,17 @@ extension IterableExtensions<T> on Iterable<T> {
     return null;
   }
 
+  /// Returns the last element for which the return value of [test] is `true`.
+  ///
+  /// [Null] is returned if there is no element for which the return value of [test] is `true`.
+  ///
+  /// [test]の返り値が`true`になる場合の最後の要素を返します。
+  ///
+  /// [test]の返り値が`true`になる要素がない場合は[Null]が返されます。
+  T? lastWhereOrNull(bool Function(T item) test) {
+    return toList().reversed.firstWhereOrNull(test);
+  }
+
   /// Each element of the list is converted to [TCast] data using [callback].
   ///
   /// If the return value of [callback] is [Null], the element is removed from the element.

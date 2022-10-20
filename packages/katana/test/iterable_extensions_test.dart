@@ -22,6 +22,11 @@ void main() {
     expect(array.firstWhereOrNull((item) => item % 4 == 0), 8);
     expect(array.firstWhereOrNull((item) => item % 5 == 2), null);
   });
+  test("IterableExtensions.lastWhereOrNull", () {
+    final array = [1, 1, 3, 5, 6, 8, 9, 9];
+    expect(array.lastWhereOrNull((item) => item % 3 == 0), 9);
+    expect(array.lastWhereOrNull((item) => item % 5 == 2), null);
+  });
   test("IterableExtensions.mapAndRemoveEmpty", () {
     final array = [1, 1, 3, 5, 6, 8, 9, 9];
     expect(
