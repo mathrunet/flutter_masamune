@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: Set by default because an error will occur if the MaterialLocalizationDelegate is not set. ([9db2dbd1](https://github.com/mathrunet/flutter_masamune/commit/9db2dbd11f885947d2e4580abe26149b910f8411))
+
 ## 1.1.2
 
  - **FIX**: Conflict elimination. Bug fixes, etc. ([07898201](https://github.com/mathrunet/flutter_masamune/commit/078982017481ea7adc7dabb9f62272c4dd302d89))

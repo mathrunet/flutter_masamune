@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v1.1.3`](#katana_localization---v113)
+ - [`katana_localization_builder` - `v1.1.3`](#katana_localization_builder---v113)
+
+---
+
+#### `katana_localization` - `v1.1.3`
+
+ - **FIX**: Set by default because an error will occur if the MaterialLocalizationDelegate is not set. ([9db2dbd1](https://github.com/mathrunet/flutter_masamune/commit/9db2dbd11f885947d2e4580abe26149b910f8411))
+
+#### `katana_localization_builder` - `v1.1.3`
+
+ - **FIX**: Set by default because an error will occur if the MaterialLocalizationDelegate is not set. ([9db2dbd1](https://github.com/mathrunet/flutter_masamune/commit/9db2dbd11f885947d2e4580abe26149b910f8411))
+
+
+## 2022-10-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_localization` - `v1.1.2`](#katana_localization---v112)
  - [`katana_localization_builder` - `v1.1.2`](#katana_localization_builder---v112)
 
