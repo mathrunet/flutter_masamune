@@ -1,4 +1,4 @@
-// Copyright 2022 mathru. All rights reserved.
+// Copyright 2023 mathru. All rights reserved.
 
 /// Define annotations to use the Katana router builder. Build with katana_router_builder using this annotation.
 ///

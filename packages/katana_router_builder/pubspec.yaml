@@ -15,7 +15,7 @@ dependencies:
   code_builder: ^4.2.0
   build_runner: ^2.2.0
   source_gen: ^1.2.2
-  analyzer: ^	5.1.0
+  analyzer: ^5.0.0
   built_collection: ^5.1.1
   glob: ^2.1.0
 

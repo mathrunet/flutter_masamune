@@ -2,7 +2,7 @@
 
 /// Building system for katana router packages. Automatic Page route generation.
 ///
-/// To use, import `package:masamune_builder/masamune_builder.dart`.
+/// To use, import `package:katana_router_builder/katana_router_builder.dart`.
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel

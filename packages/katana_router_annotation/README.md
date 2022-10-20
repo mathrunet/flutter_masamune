@@ -39,6 +39,8 @@ This package has the following features
 - Widget can be used as is.
 - Widgets can be used as pages with a small number of lines.
 - All pages defined in the application can be understood and router classes can be automatically created.
+- Supports nested and tabbed navigation.
+    - Various parameters can be updated according to the current page status.
 
 This package can implement routing configuration as shown in the example below.
 
