@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v1.1.1`](#katana_localization---v111)
+ - [`katana_localization_annotation` - `v1.1.1`](#katana_localization_annotation---v111)
+ - [`katana_localization_builder` - `v1.1.1`](#katana_localization_builder---v111)
+
+---
+
+#### `katana_localization` - `v1.1.1`
+
+ - **FIX**: Bug fixes. ([6f0901b3](https://github.com/mathrunet/flutter_masamune/commit/6f0901b3b1c8e224f3df2b94d78eae4144b12fec))
+
+#### `katana_localization_annotation` - `v1.1.1`
+
+ - **FIX**: Bug fixes. ([6f0901b3](https://github.com/mathrunet/flutter_masamune/commit/6f0901b3b1c8e224f3df2b94d78eae4144b12fec))
+
+#### `katana_localization_builder` - `v1.1.1`
+
+ - **FIX**: Bug fixes. ([6f0901b3](https://github.com/mathrunet/flutter_masamune/commit/6f0901b3b1c8e224f3df2b94d78eae4144b12fec))
+
+
+## 2022-10-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_localization` - `v1.1.0`](#katana_localization---v110)
  - [`katana_localization_annotation` - `v1.1.0`](#katana_localization_annotation---v110)
  - [`katana_localization_builder` - `v1.1.0`](#katana_localization_builder---v110)
