@@ -23,7 +23,18 @@ List<Spec> baseClass(
             (m) => m
               ..name = "delegates"
               ..returns = const Reference("List<LocalizationsDelegate>")
-              ..body = Code("return const [_\$${model.name}Delegate()];"),
+              ..optionalParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "delegates"
+                    ..type = const Reference("List<LocalizationsDelegate>")
+                    ..defaultTo =
+                        const Code("GlobalMaterialLocalizations.delegates"),
+                )
+              ])
+              ..body = Code(
+                "return [const _\$${model.name}Delegate(), ...delegates,];",
+              ),
           ),
           Method(
             (m) => m

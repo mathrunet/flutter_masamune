@@ -9,4 +9,6 @@ final _ignoreWords = <String>[
   "in",
   "new",
   "class",
+  "set",
+  "get",
 ];

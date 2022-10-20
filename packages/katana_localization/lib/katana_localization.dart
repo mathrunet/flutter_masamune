@@ -10,6 +10,10 @@ library katana_localization;
 
 import 'package:flutter/widgets.dart';
 
+export 'package:flutter/foundation.dart' show SynchronousFuture;
+export 'package:flutter/widgets.dart' show Locale, LocalizationsDelegate;
+export 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalMaterialLocalizations;
 export 'package:katana/katana.dart';
 export 'package:katana_localization_annotation/katana_localization_annotation.dart';
 

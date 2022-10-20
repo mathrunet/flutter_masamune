@@ -379,6 +379,9 @@ class LocalizeSourceValue {
     final copied = <LocalizeWord>[];
     int p = 0;
     for (final word in words) {
+      if (word.name.isEmpty) {
+        continue;
+      }
       if (word.variable) {
         final name = word.name;
         p += 1;
