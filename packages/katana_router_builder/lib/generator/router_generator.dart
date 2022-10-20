@@ -117,9 +117,6 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
               .toList((key, value) => Directive.import(key, as: value))
               .toList()
               .sortTo((a, b) => a.url.compareTo(b.url)),
-          Directive.export(
-            "package:katana_router/katana_router.dart",
-          ),
           ...export
               .toList((key, value) => Directive.export(key, show: value))
               .toList()
