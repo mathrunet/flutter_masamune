@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.8.3`](#katana_router---v183)
+ - [`katana_router_builder` - `v1.8.3`](#katana_router_builder---v183)
+
+---
+
+#### `katana_router` - `v1.8.3`
+
+ - **DOCS**: Organize Example. ([33b8dfec](https://github.com/mathrunet/flutter_masamune/commit/33b8dfec661d620e89aa23d6d0adc3c082506925))
+
+#### `katana_router_builder` - `v1.8.3`
+
+ - **FIX**: Changed katana_router to not export. ([e49f99be](https://github.com/mathrunet/flutter_masamune/commit/e49f99bea11e91c901633b10c22c84d9a5b2278a))
+
+
+## 2022-10-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_localization` - `v1.1.3`](#katana_localization---v113)
  - [`katana_localization_builder` - `v1.1.3`](#katana_localization_builder---v113)
 

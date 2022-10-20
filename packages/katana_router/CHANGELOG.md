@@ -1,3 +1,7 @@
+## 1.8.3
+
+ - **DOCS**: Organize Example. ([33b8dfec](https://github.com/mathrunet/flutter_masamune/commit/33b8dfec661d620e89aa23d6d0adc3c082506925))
+
 ## 1.8.2
 
  - **DOCS**: Changes to README. ([50aab508](https://github.com/mathrunet/flutter_masamune/commit/50aab508f62bfc61152b622abd557b32989947c5))
