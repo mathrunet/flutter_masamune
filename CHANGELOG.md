@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v1.1.5`](#katana_localization---v115)
+ - [`katana_localization_annotation` - `v1.1.3`](#katana_localization_annotation---v113)
+ - [`katana_localization_builder` - `v1.1.5`](#katana_localization_builder---v115)
+ - [`katana_router` - `v1.8.6`](#katana_router---v186)
+ - [`katana_router_annotation` - `v1.8.5`](#katana_router_annotation---v185)
+ - [`katana_router_builder` - `v1.8.6`](#katana_router_builder---v186)
+
+---
+
+#### `katana_localization` - `v1.1.5`
+
+ - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
+
+#### `katana_localization_annotation` - `v1.1.3`
+
+ - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
+
+#### `katana_localization_builder` - `v1.1.5`
+
+ - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
+
+#### `katana_router` - `v1.8.6`
+
+ - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
+
+#### `katana_router_annotation` - `v1.8.5`
+
+ - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
+
+#### `katana_router_builder` - `v1.8.6`
+
+ - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
+
+
+## 2022-10-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.8.5`](#katana_router---v185)
  - [`katana_router_annotation` - `v1.8.4`](#katana_router_annotation---v184)
  - [`katana_router_builder` - `v1.8.5`](#katana_router_builder---v185)

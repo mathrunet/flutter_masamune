@@ -1,3 +1,7 @@
+## 1.8.6
+
+ - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
+
 ## 1.8.5
 
  - **DOCS**: Change ReadMe. ([22464319](https://github.com/mathrunet/flutter_masamune/commit/22464319204f672f75bdb8a1c88e215bb0fff314))
