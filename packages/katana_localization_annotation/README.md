@@ -44,7 +44,7 @@ At that time, I was suffering from the following phenomena.
     
     ```dart
     print(
-    	sprintf(localize("%s of the %s, by the %s, for the %s"), ["Government", "people", "people", "people"])
+      sprintf(localize("%s of the %s, by the %s, for the %s"), ["Government", "people", "people", "people"])
     );
     ```
     
@@ -63,7 +63,7 @@ Therefore, we have created a package with the following features to resolve the 
     
     ```dart
     print(
-    	l().$("Goverment").ofThe.$("People").byThe.$("People").forThe.$("People")
+      l().$("Goverment").ofThe.$("People").byThe.$("People").forThe.$("People")
     );
     ```
     
@@ -93,7 +93,7 @@ Google Spreadsheets will be made available in advance.
 
 The leftmost column of the Google spreadsheet is `the key`, and the translated text corresponding to the key in each row is described according to the locale in the second row.
 
-![GoogleSpreadSheet01](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss01.png)
+![Untitled](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss01.png)
 
 If you prefix a key with `#`, the line will not be read. Please use this for comments, etc.
 
@@ -103,7 +103,7 @@ You can embed variables there by entering `{variable name}` in the key.
 
 The same `{variable name}` can be included in the translation text so that the value corresponding to the same variable name will be embedded and displayed.
 
-![GoogleSpreadSheet02](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss02.png)
+![Untitled](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss02.png)
 
 # Implementation
 
@@ -158,20 +158,19 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LocalizeScope(
-			localize: l,
-			builder: (context, localize)
-				return MaterialApp(
-					locale: localize.locale,
-			    localizationsDelegates: localize.delegates(),
-			    supportedLocales: localize.supportedLocales(),
-			    localeResolutionCallback: localize.localeResolutionCallback(),
-		      title: "Test App",
-				);
-			},
+      localize: l,
+      builder: (context, localize)
+        return MaterialApp(
+          locale: localize.locale,
+          localizationsDelegates: localize.delegates(),
+          supportedLocales: localize.supportedLocales(),
+          localeResolutionCallback: localize.localeResolutionCallback(),
+          title: "Test App",
+        );
+      },
     );
   }
 }
-
 ```
 
 # Code generation
@@ -210,9 +209,9 @@ print( l().$( l().saving ).hasBeenCompleted );
 // 日本語: 保存が完了しました。
 
 print(
-	l().$(
-		l().$( l().saving ).of.$( l().data )
-	).hasBeenCompleted
+  l().$(
+    l().$( l().saving ).of.$( l().data )
+  ).hasBeenCompleted
 );
 // English: Saving of Data has been completed.
 // 日本語: データの保存が完了しました。

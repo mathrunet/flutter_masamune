@@ -13,12 +13,10 @@ dependencies:
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0
-  build_runner: ^2.2.0
   source_gen: ^1.2.2
   analyzer: ^5.0.0
   http: ^0.13.5
   csv: ^5.0.1
-  built_collection: ^5.1.1
 
 dev_dependencies:
   test: ^1.21.3
