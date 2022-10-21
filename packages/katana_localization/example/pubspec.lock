@@ -28,7 +28,7 @@ packages:
       name: asn1lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   async:
     dependency: transitive
     description:
@@ -209,6 +209,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -220,7 +225,7 @@ packages:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.1.0"
   glob:
     dependency: transitive
     description:
@@ -290,35 +295,35 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.5+2"
+    version: "0.15.6"
   katana_localization:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.1.1"
+    version: "1.1.4"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization_annotation"
       relative: true
     source: path
-    version: "1.1.1"
+    version: "1.1.2"
   katana_localization_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_localization_builder"
       relative: true
     source: path
-    version: "1.1.1"
+    version: "1.1.4"
   lints:
     dependency: transitive
     description:
       name: lints
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:

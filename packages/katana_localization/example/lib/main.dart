@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:katana_localization/katana_localization.dart';
 
@@ -20,33 +19,56 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: l.delegates(),
-      supportedLocales: l.supportedLocales(),
-      home: const MainPage(),
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+    return LocalizeScope(
+      localize: l,
+      builder: (context, localize) {
+        return MaterialApp(
+          locale: localize.locale,
+          localizationsDelegates: localize.delegates(),
+          supportedLocales: localize.supportedLocales(),
+          localeResolutionCallback: localize.localeResolutionCallback(),
+          home: MainPage(),
+          title: "Flutter Demo",
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+        );
+      },
     );
   }
 }
 
+// ignore: use_key_in_widget_constructors
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
   @override
   Widget build(BuildContext context) {
-    l.setCurrentLocale(context);
     return Scaffold(
+      appBar: AppBar(title: Text(l().appTitle)),
       body: ListView(
         children: [
+          ListTile(
+            title: Text(l.locale.toLanguageTag()),
+          ),
+          ListTile(
+            title: Text(l().ok),
+          ),
+          ListTile(
+            title: Text(l().cancel),
+          ),
           ListTile(
             title: Text(
               l().$(l().$(l().process).of.$(l().data)).hasBeenCompleted,
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.change_circle),
+        onPressed: () {
+          l.setCurrentLocale(
+            l.supportedLocales().firstWhere((element) => element != l.locale),
+          );
+        },
       ),
     );
   }

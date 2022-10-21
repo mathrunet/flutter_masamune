@@ -7,16 +7,23 @@ part of 'main.dart';
 // **************************************************************************
 
 abstract class _$AppLocalize extends AppLocalizeBase {
-  List<LocalizationsDelegate> delegates() {
-    return const [_$AppLocalizeDelegate()];
+  @override
+  List<LocalizationsDelegate> delegates(
+      [List<LocalizationsDelegate> delegates =
+          GlobalMaterialLocalizations.delegates]) {
+    return [
+      const _$AppLocalizeDelegate(),
+      ...delegates,
+    ];
   }
 
+  @override
   List<Locale> supportedLocales() {
     return _$appLocalizeLocalizations.keys.toList();
   }
 
   _$AppLocalizeBase call([BuildContext? context]) {
-    final l = context != null ? Localizations.localeOf(context) : currentLocale;
+    final l = context != null ? Localizations.localeOf(context) : locale;
     if (_$appLocalizeLocalizations.containsKey(l)) {
       return _$appLocalizeLocalizations[l]!;
     } else {
@@ -63,6 +70,7 @@ abstract class _$AppLocalizeBase {
   String get warning => throw UnimplementedError();
   String get notice => throw UnimplementedError();
   String get confirm => throw UnimplementedError();
+  String get decision => throw UnimplementedError();
   String get cancel => throw UnimplementedError();
   String get confirmation => throw UnimplementedError();
   String get refresh => throw UnimplementedError();
@@ -79,17 +87,26 @@ abstract class _$AppLocalizeBase {
   String get config => throw UnimplementedError();
   String get post => throw UnimplementedError();
   String get submit => throw UnimplementedError();
+  String get register => throw UnimplementedError();
   String get save => throw UnimplementedError();
   String get data => throw UnimplementedError();
   String get add => throw UnimplementedError();
+  String get edit => throw UnimplementedError();
   String get remove => throw UnimplementedError();
   String get delete => throw UnimplementedError();
   String get user => throw UnimplementedError();
   String get content => throw UnimplementedError();
   String get member => throw UnimplementedError();
   String get account => throw UnimplementedError();
-  _$c2db8e3922694f2d948bd936b3e4e872Base $(Object? _p1) =>
+  String get message => throw UnimplementedError();
+  String get login => throw UnimplementedError();
+  String get logout => throw UnimplementedError();
+  String get id => throw UnimplementedError();
+  String get password => throw UnimplementedError();
+  _$a4ee6521902b45c58cf3feff69dd35e0Base $(Object? _p1) =>
       throw UnimplementedError();
+  String get english => throw UnimplementedError();
+  String get japanese => throw UnimplementedError();
 }
 
 class _$AppLocalizeEnus extends _$AppLocalizeBase {
@@ -128,6 +145,8 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   @override
   String get confirm => "Confirm";
   @override
+  String get decision => "Decision";
+  @override
   String get cancel => "Cancel";
   @override
   String get confirmation => "Confirmation";
@@ -160,11 +179,15 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   @override
   String get submit => "Submit";
   @override
+  String get register => "Register";
+  @override
   String get save => "Save";
   @override
   String get data => "Data";
   @override
   String get add => "Add";
+  @override
+  String get edit => "Edit";
   @override
   String get remove => "Remove";
   @override
@@ -178,8 +201,22 @@ class _$AppLocalizeEnus extends _$AppLocalizeBase {
   @override
   String get account => "Account";
   @override
-  _$c2db8e3922694f2d948bd936b3e4e872Enus $(Object? _p1) =>
-      _$c2db8e3922694f2d948bd936b3e4e872Enus(p1: _p1);
+  String get message => "Message";
+  @override
+  String get login => "Login";
+  @override
+  String get logout => "Logout";
+  @override
+  String get id => "ID";
+  @override
+  String get password => "Password";
+  @override
+  _$a4ee6521902b45c58cf3feff69dd35e0Enus $(Object? _p1) =>
+      _$a4ee6521902b45c58cf3feff69dd35e0Enus(p1: _p1);
+  @override
+  String get english => "English";
+  @override
+  String get japanese => "Japanese";
 }
 
 class _$AppLocalizeJajp extends _$AppLocalizeBase {
@@ -218,6 +255,8 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   @override
   String get confirm => "決定";
   @override
+  String get decision => "確定";
+  @override
   String get cancel => "キャンセル";
   @override
   String get confirmation => "確認";
@@ -250,11 +289,15 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   @override
   String get submit => "決定";
   @override
+  String get register => "登録";
+  @override
   String get save => "保存";
   @override
   String get data => "データ";
   @override
   String get add => "追加";
+  @override
+  String get edit => "編集";
   @override
   String get remove => "削除";
   @override
@@ -268,47 +311,66 @@ class _$AppLocalizeJajp extends _$AppLocalizeBase {
   @override
   String get account => "アカウント";
   @override
-  _$c2db8e3922694f2d948bd936b3e4e872Jajp $(Object? _p1) =>
-      _$c2db8e3922694f2d948bd936b3e4e872Jajp(p1: _p1);
+  String get message => "メッセージ";
+  @override
+  String get login => "ログイン";
+  @override
+  String get logout => "ログアウト";
+  @override
+  String get id => "ID";
+  @override
+  String get password => "パスワード";
+  @override
+  _$a4ee6521902b45c58cf3feff69dd35e0Jajp $(Object? _p1) =>
+      _$a4ee6521902b45c58cf3feff69dd35e0Jajp(p1: _p1);
+  @override
+  String get english => "英語";
+  @override
+  String get japanese => "日本語";
 }
 
-abstract class _$c2db8e3922694f2d948bd936b3e4e872Base {
-  const _$c2db8e3922694f2d948bd936b3e4e872Base({Object? p1}) : _p1 = p1;
+abstract class _$a4ee6521902b45c58cf3feff69dd35e0Base {
+  const _$a4ee6521902b45c58cf3feff69dd35e0Base({Object? p1}) : _p1 = p1;
 
   final Object? _p1;
 
-  _$310bd525f89b4731ba62a5ea70175400Base get on => throw UnimplementedError();
-  _$b4955da361c94eee92d63871cce214d8Base get in_ => throw UnimplementedError();
-  _$dab7e2f2b0304220908311920eb82435Base get of => throw UnimplementedError();
-  _$9be4b831af634880a6f09f8ba7329642Base get and => throw UnimplementedError();
-  _$7334128089784c76b7a4d384becf862eBase get or => throw UnimplementedError();
+  String $(Object? _p2) => throw UnimplementedError();
+  _$ef2e0f8463f74a3498fd304e8750f3aaBase get on => throw UnimplementedError();
+  _$b32a73c3268e47faad0e99be239e85e8Base get in_ => throw UnimplementedError();
+  _$1229daeef0c54b52be5e6eca93194fe1Base get of => throw UnimplementedError();
+  _$3e4e6a5b872449edaccc3045be9c735dBase get and => throw UnimplementedError();
+  _$f02b1d258a824c72817f79de07881d96Base get or => throw UnimplementedError();
   String get hasBeenCompleted => throw UnimplementedError();
   String get haveBeenCompleted => throw UnimplementedError();
   String get hasBeenSuccessful => throw UnimplementedError();
   String get haveBeenSuccessful => throw UnimplementedError();
   String get hasFailed => throw UnimplementedError();
   String get haveFailed => throw UnimplementedError();
+  String get isNotEntered => throw UnimplementedError();
+  String get mayBeIncorrect => throw UnimplementedError();
 }
 
-class _$c2db8e3922694f2d948bd936b3e4e872Enus
-    extends _$c2db8e3922694f2d948bd936b3e4e872Base {
-  const _$c2db8e3922694f2d948bd936b3e4e872Enus({super.p1});
+class _$a4ee6521902b45c58cf3feff69dd35e0Enus
+    extends _$a4ee6521902b45c58cf3feff69dd35e0Base {
+  const _$a4ee6521902b45c58cf3feff69dd35e0Enus({super.p1});
 
   @override
-  _$310bd525f89b4731ba62a5ea70175400Enus get on =>
-      _$310bd525f89b4731ba62a5ea70175400Enus(p1: _p1);
+  String $(Object? _p2) => "${_p1} ${_p2}";
   @override
-  _$b4955da361c94eee92d63871cce214d8Enus get in_ =>
-      _$b4955da361c94eee92d63871cce214d8Enus(p1: _p1);
+  _$ef2e0f8463f74a3498fd304e8750f3aaEnus get on =>
+      _$ef2e0f8463f74a3498fd304e8750f3aaEnus(p1: _p1);
   @override
-  _$dab7e2f2b0304220908311920eb82435Enus get of =>
-      _$dab7e2f2b0304220908311920eb82435Enus(p1: _p1);
+  _$b32a73c3268e47faad0e99be239e85e8Enus get in_ =>
+      _$b32a73c3268e47faad0e99be239e85e8Enus(p1: _p1);
   @override
-  _$9be4b831af634880a6f09f8ba7329642Enus get and =>
-      _$9be4b831af634880a6f09f8ba7329642Enus(p1: _p1);
+  _$1229daeef0c54b52be5e6eca93194fe1Enus get of =>
+      _$1229daeef0c54b52be5e6eca93194fe1Enus(p1: _p1);
   @override
-  _$7334128089784c76b7a4d384becf862eEnus get or =>
-      _$7334128089784c76b7a4d384becf862eEnus(p1: _p1);
+  _$3e4e6a5b872449edaccc3045be9c735dEnus get and =>
+      _$3e4e6a5b872449edaccc3045be9c735dEnus(p1: _p1);
+  @override
+  _$f02b1d258a824c72817f79de07881d96Enus get or =>
+      _$f02b1d258a824c72817f79de07881d96Enus(p1: _p1);
   @override
   String get hasBeenCompleted => "${_p1} has been completed.";
   @override
@@ -321,27 +383,33 @@ class _$c2db8e3922694f2d948bd936b3e4e872Enus
   String get hasFailed => "${_p1} has failed.";
   @override
   String get haveFailed => "${_p1} have failed.";
+  @override
+  String get isNotEntered => "${_p1} is not entered.";
+  @override
+  String get mayBeIncorrect => "${_p1} may be incorrect.";
 }
 
-class _$c2db8e3922694f2d948bd936b3e4e872Jajp
-    extends _$c2db8e3922694f2d948bd936b3e4e872Base {
-  const _$c2db8e3922694f2d948bd936b3e4e872Jajp({super.p1});
+class _$a4ee6521902b45c58cf3feff69dd35e0Jajp
+    extends _$a4ee6521902b45c58cf3feff69dd35e0Base {
+  const _$a4ee6521902b45c58cf3feff69dd35e0Jajp({super.p1});
 
   @override
-  _$310bd525f89b4731ba62a5ea70175400Jajp get on =>
-      _$310bd525f89b4731ba62a5ea70175400Jajp(p1: _p1);
+  String $(Object? _p2) => "${_p2}${_p1}";
   @override
-  _$b4955da361c94eee92d63871cce214d8Jajp get in_ =>
-      _$b4955da361c94eee92d63871cce214d8Jajp(p1: _p1);
+  _$ef2e0f8463f74a3498fd304e8750f3aaJajp get on =>
+      _$ef2e0f8463f74a3498fd304e8750f3aaJajp(p1: _p1);
   @override
-  _$dab7e2f2b0304220908311920eb82435Jajp get of =>
-      _$dab7e2f2b0304220908311920eb82435Jajp(p1: _p1);
+  _$b32a73c3268e47faad0e99be239e85e8Jajp get in_ =>
+      _$b32a73c3268e47faad0e99be239e85e8Jajp(p1: _p1);
   @override
-  _$9be4b831af634880a6f09f8ba7329642Jajp get and =>
-      _$9be4b831af634880a6f09f8ba7329642Jajp(p1: _p1);
+  _$1229daeef0c54b52be5e6eca93194fe1Jajp get of =>
+      _$1229daeef0c54b52be5e6eca93194fe1Jajp(p1: _p1);
   @override
-  _$7334128089784c76b7a4d384becf862eJajp get or =>
-      _$7334128089784c76b7a4d384becf862eJajp(p1: _p1);
+  _$3e4e6a5b872449edaccc3045be9c735dJajp get and =>
+      _$3e4e6a5b872449edaccc3045be9c735dJajp(p1: _p1);
+  @override
+  _$f02b1d258a824c72817f79de07881d96Jajp get or =>
+      _$f02b1d258a824c72817f79de07881d96Jajp(p1: _p1);
   @override
   String get hasBeenCompleted => "${_p1}が完了しました。";
   @override
@@ -354,123 +422,127 @@ class _$c2db8e3922694f2d948bd936b3e4e872Jajp
   String get hasFailed => "${_p1}に失敗しました。";
   @override
   String get haveFailed => "${_p1}に失敗しました。";
+  @override
+  String get isNotEntered => "${_p1}が入力されていません。";
+  @override
+  String get mayBeIncorrect => "${_p1}が間違っている可能性があります。";
 }
 
-abstract class _$310bd525f89b4731ba62a5ea70175400Base {
-  const _$310bd525f89b4731ba62a5ea70175400Base({Object? p1}) : _p1 = p1;
+abstract class _$ef2e0f8463f74a3498fd304e8750f3aaBase {
+  const _$ef2e0f8463f74a3498fd304e8750f3aaBase({Object? p1}) : _p1 = p1;
 
   final Object? _p1;
 
   String $(Object? _p2) => throw UnimplementedError();
 }
 
-class _$310bd525f89b4731ba62a5ea70175400Enus
-    extends _$310bd525f89b4731ba62a5ea70175400Base {
-  const _$310bd525f89b4731ba62a5ea70175400Enus({super.p1});
+class _$ef2e0f8463f74a3498fd304e8750f3aaEnus
+    extends _$ef2e0f8463f74a3498fd304e8750f3aaBase {
+  const _$ef2e0f8463f74a3498fd304e8750f3aaEnus({super.p1});
 
   @override
   String $(Object? _p2) => "${_p1} on ${_p2}";
 }
 
-class _$310bd525f89b4731ba62a5ea70175400Jajp
-    extends _$310bd525f89b4731ba62a5ea70175400Base {
-  const _$310bd525f89b4731ba62a5ea70175400Jajp({super.p1});
+class _$ef2e0f8463f74a3498fd304e8750f3aaJajp
+    extends _$ef2e0f8463f74a3498fd304e8750f3aaBase {
+  const _$ef2e0f8463f74a3498fd304e8750f3aaJajp({super.p1});
 
   @override
   String $(Object? _p2) => "${_p2}上の${_p1}";
 }
 
-abstract class _$b4955da361c94eee92d63871cce214d8Base {
-  const _$b4955da361c94eee92d63871cce214d8Base({Object? p1}) : _p1 = p1;
+abstract class _$b32a73c3268e47faad0e99be239e85e8Base {
+  const _$b32a73c3268e47faad0e99be239e85e8Base({Object? p1}) : _p1 = p1;
 
   final Object? _p1;
 
   String $(Object? _p2) => throw UnimplementedError();
 }
 
-class _$b4955da361c94eee92d63871cce214d8Enus
-    extends _$b4955da361c94eee92d63871cce214d8Base {
-  const _$b4955da361c94eee92d63871cce214d8Enus({super.p1});
+class _$b32a73c3268e47faad0e99be239e85e8Enus
+    extends _$b32a73c3268e47faad0e99be239e85e8Base {
+  const _$b32a73c3268e47faad0e99be239e85e8Enus({super.p1});
 
   @override
   String $(Object? _p2) => "${_p1} in ${_p2}";
 }
 
-class _$b4955da361c94eee92d63871cce214d8Jajp
-    extends _$b4955da361c94eee92d63871cce214d8Base {
-  const _$b4955da361c94eee92d63871cce214d8Jajp({super.p1});
+class _$b32a73c3268e47faad0e99be239e85e8Jajp
+    extends _$b32a73c3268e47faad0e99be239e85e8Base {
+  const _$b32a73c3268e47faad0e99be239e85e8Jajp({super.p1});
 
   @override
   String $(Object? _p2) => "${_p2}中の${_p1}";
 }
 
-abstract class _$dab7e2f2b0304220908311920eb82435Base {
-  const _$dab7e2f2b0304220908311920eb82435Base({Object? p1}) : _p1 = p1;
+abstract class _$1229daeef0c54b52be5e6eca93194fe1Base {
+  const _$1229daeef0c54b52be5e6eca93194fe1Base({Object? p1}) : _p1 = p1;
 
   final Object? _p1;
 
   String $(Object? _p2) => throw UnimplementedError();
 }
 
-class _$dab7e2f2b0304220908311920eb82435Enus
-    extends _$dab7e2f2b0304220908311920eb82435Base {
-  const _$dab7e2f2b0304220908311920eb82435Enus({super.p1});
+class _$1229daeef0c54b52be5e6eca93194fe1Enus
+    extends _$1229daeef0c54b52be5e6eca93194fe1Base {
+  const _$1229daeef0c54b52be5e6eca93194fe1Enus({super.p1});
 
   @override
   String $(Object? _p2) => "${_p1} of ${_p2}";
 }
 
-class _$dab7e2f2b0304220908311920eb82435Jajp
-    extends _$dab7e2f2b0304220908311920eb82435Base {
-  const _$dab7e2f2b0304220908311920eb82435Jajp({super.p1});
+class _$1229daeef0c54b52be5e6eca93194fe1Jajp
+    extends _$1229daeef0c54b52be5e6eca93194fe1Base {
+  const _$1229daeef0c54b52be5e6eca93194fe1Jajp({super.p1});
 
   @override
   String $(Object? _p2) => "${_p2}の${_p1}";
 }
 
-abstract class _$9be4b831af634880a6f09f8ba7329642Base {
-  const _$9be4b831af634880a6f09f8ba7329642Base({Object? p1}) : _p1 = p1;
+abstract class _$3e4e6a5b872449edaccc3045be9c735dBase {
+  const _$3e4e6a5b872449edaccc3045be9c735dBase({Object? p1}) : _p1 = p1;
 
   final Object? _p1;
 
   String $(Object? _p2) => throw UnimplementedError();
 }
 
-class _$9be4b831af634880a6f09f8ba7329642Enus
-    extends _$9be4b831af634880a6f09f8ba7329642Base {
-  const _$9be4b831af634880a6f09f8ba7329642Enus({super.p1});
+class _$3e4e6a5b872449edaccc3045be9c735dEnus
+    extends _$3e4e6a5b872449edaccc3045be9c735dBase {
+  const _$3e4e6a5b872449edaccc3045be9c735dEnus({super.p1});
 
   @override
   String $(Object? _p2) => "${_p1} and ${_p2}";
 }
 
-class _$9be4b831af634880a6f09f8ba7329642Jajp
-    extends _$9be4b831af634880a6f09f8ba7329642Base {
-  const _$9be4b831af634880a6f09f8ba7329642Jajp({super.p1});
+class _$3e4e6a5b872449edaccc3045be9c735dJajp
+    extends _$3e4e6a5b872449edaccc3045be9c735dBase {
+  const _$3e4e6a5b872449edaccc3045be9c735dJajp({super.p1});
 
   @override
   String $(Object? _p2) => "${_p2}と${_p1}";
 }
 
-abstract class _$7334128089784c76b7a4d384becf862eBase {
-  const _$7334128089784c76b7a4d384becf862eBase({Object? p1}) : _p1 = p1;
+abstract class _$f02b1d258a824c72817f79de07881d96Base {
+  const _$f02b1d258a824c72817f79de07881d96Base({Object? p1}) : _p1 = p1;
 
   final Object? _p1;
 
   String $(Object? _p2) => throw UnimplementedError();
 }
 
-class _$7334128089784c76b7a4d384becf862eEnus
-    extends _$7334128089784c76b7a4d384becf862eBase {
-  const _$7334128089784c76b7a4d384becf862eEnus({super.p1});
+class _$f02b1d258a824c72817f79de07881d96Enus
+    extends _$f02b1d258a824c72817f79de07881d96Base {
+  const _$f02b1d258a824c72817f79de07881d96Enus({super.p1});
 
   @override
   String $(Object? _p2) => "${_p1} or ${_p2}";
 }
 
-class _$7334128089784c76b7a4d384becf862eJajp
-    extends _$7334128089784c76b7a4d384becf862eBase {
-  const _$7334128089784c76b7a4d384becf862eJajp({super.p1});
+class _$f02b1d258a824c72817f79de07881d96Jajp
+    extends _$f02b1d258a824c72817f79de07881d96Base {
+  const _$f02b1d258a824c72817f79de07881d96Jajp({super.p1});
 
   @override
   String $(Object? _p2) => "${_p2}または${_p1}";

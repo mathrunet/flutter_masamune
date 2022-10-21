@@ -8,7 +8,11 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_localization;
 
-import 'package:flutter/widgets.dart';
+import 'dart:ui' as ui;
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 export 'package:flutter/foundation.dart' show SynchronousFuture;
 export 'package:flutter/widgets.dart' show Locale, LocalizationsDelegate;
@@ -18,3 +22,4 @@ export 'package:katana/katana.dart';
 export 'package:katana_localization_annotation/katana_localization_annotation.dart';
 
 part 'src/app_localize_base.dart';
+part 'src/localize_scope.dart';

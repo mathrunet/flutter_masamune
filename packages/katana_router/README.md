@@ -175,9 +175,9 @@ class UserPage extends StatelessWidget {
 
 ## Router Creation
 
-To create a router, grant `@appRoute` Annotation with a top-level value.
-
 `import '`original filename`.router.dart';` to import library files.
+
+To create a router, grant `@appRoute` Annotation with a top-level value.
 
 Also, put the `AppRouter` object in its value.
 

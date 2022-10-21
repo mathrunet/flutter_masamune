@@ -22,6 +22,7 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "delegates"
+              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("List<LocalizationsDelegate>")
               ..optionalParameters.addAll([
                 Parameter(
@@ -39,6 +40,7 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "supportedLocales"
+              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("List<Locale>")
               ..body = Code(
                 "return _\$${model.name.toCamelCase()}Localizations.keys.toList();",
@@ -56,7 +58,7 @@ List<Spec> baseClass(
                 )
               ])
               ..body = Code(
-                "final l = context != null ? Localizations.localeOf(context) : currentLocale;if (_\$${model.name.toCamelCase()}Localizations.containsKey(l)) {return _\$${model.name.toCamelCase()}Localizations[l]!;} else {return _\$${model.name.toCamelCase()}Localizations.values.first;}",
+                "final l = context != null ? Localizations.localeOf(context) : locale;if (_\$${model.name.toCamelCase()}Localizations.containsKey(l)) {return _\$${model.name.toCamelCase()}Localizations[l]!;} else {return _\$${model.name.toCamelCase()}Localizations.values.first;}",
               ),
           )
         ]),
