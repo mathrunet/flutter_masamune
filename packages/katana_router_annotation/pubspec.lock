@@ -28,7 +28,7 @@ packages:
       name: asn1lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   async:
     dependency: transitive
     description:
@@ -98,7 +98,7 @@ packages:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.1.0"
   glob:
     dependency: transitive
     description:
@@ -154,7 +154,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.5+2"
+    version: "0.15.6"
   logging:
     dependency: transitive
     description:
