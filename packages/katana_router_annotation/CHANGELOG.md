@@ -1,3 +1,7 @@
+## 1.8.4
+
+ - **DOCS**: Change ReadMe. ([22464319](https://github.com/mathrunet/flutter_masamune/commit/22464319204f672f75bdb8a1c88e215bb0fff314))
+
 ## 1.8.3
 
  - Update a dependency to the latest release.

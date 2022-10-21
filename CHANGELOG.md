@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.8.5`](#katana_router---v185)
+ - [`katana_router_annotation` - `v1.8.4`](#katana_router_annotation---v184)
+ - [`katana_router_builder` - `v1.8.5`](#katana_router_builder---v185)
+
+---
+
+#### `katana_router` - `v1.8.5`
+
+ - **DOCS**: Change ReadMe. ([22464319](https://github.com/mathrunet/flutter_masamune/commit/22464319204f672f75bdb8a1c88e215bb0fff314))
+
+#### `katana_router_annotation` - `v1.8.4`
+
+ - **DOCS**: Change ReadMe. ([22464319](https://github.com/mathrunet/flutter_masamune/commit/22464319204f672f75bdb8a1c88e215bb0fff314))
+
+#### `katana_router_builder` - `v1.8.5`
+
+ - **DOCS**: Change ReadMe. ([22464319](https://github.com/mathrunet/flutter_masamune/commit/22464319204f672f75bdb8a1c88e215bb0fff314))
+
+
 ## 2022-10-20
 
 ### Changes
