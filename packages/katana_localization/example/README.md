@@ -1,4 +1,4 @@
-# katana_router_example
+# katana_localization_example
 
 A new Flutter project.
 
