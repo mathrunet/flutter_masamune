@@ -15,10 +15,10 @@ List<Class> routerClass(
       (c) => c
         ..name = r"AppRouter"
         ..extend = const Reference("AppRouterBase")
-        ..constructors = ListBuilder([
+        ..constructors.addAll([
           Constructor(
             (c) => c
-              ..optionalParameters = ListBuilder([
+              ..optionalParameters.addAll([
                 Parameter(
                   (p) => p
                     ..name = "unknown"
@@ -89,14 +89,14 @@ List<Class> routerClass(
                     ..type = const Reference("List<RouteQueryBuilder>?"),
                 ),
               ])
-              ..initializers = ListBuilder([
+              ..initializers.addAll([
                 Code(
                   "super(pages: pages ?? [${queries.map((e) => e.query).join(",")}])",
                 ),
               ]),
           )
         ])
-        ..fields = ListBuilder([
+        ..fields.addAll([
           ...queries.map((query) {
             return Field(
               (f) => f

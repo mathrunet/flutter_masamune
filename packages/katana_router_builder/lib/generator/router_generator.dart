@@ -109,7 +109,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
 
     final generated = Library(
       (l) => l
-        ..directives = ListBuilder([
+        ..directives.addAll([
           Directive.import(
             "package:katana_router/katana_router.dart",
           ),

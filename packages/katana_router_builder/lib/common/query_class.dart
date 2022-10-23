@@ -17,13 +17,13 @@ List<Class> queryClass(
       (c) => c
         ..name = "_\$${model.name}"
         ..extend = const Reference("RouteQueryBuilder")
-        ..annotations = ListBuilder([const Reference("immutable")])
-        ..constructors = ListBuilder([
+        ..annotations.addAll([const Reference("immutable")])
+        ..constructors.addAll([
           Constructor(
             (c) => c..constant = true,
           )
         ])
-        ..fields = ListBuilder([
+        ..fields.addAll([
           if (path != null)
             Field(
               (f) => f
@@ -37,13 +37,13 @@ List<Class> queryClass(
                 ),
             )
         ])
-        ..methods = ListBuilder([
+        ..methods.addAll([
           Method(
             (m) => m
               ..name = "call"
               ..lambda = true
               ..returns = Reference("_\$_${model.name}")
-              ..optionalParameters = ListBuilder([
+              ..optionalParameters.addAll([
                 ...model.parameters.map((param) {
                   return Parameter(
                     (p) => p
@@ -61,9 +61,9 @@ List<Class> queryClass(
           Method(
             (m) => m
               ..name = "resolve"
-              ..annotations = ListBuilder([const Reference("override")])
+              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("RouteQuery?")
-              ..requiredParameters = ListBuilder([
+              ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
                     ..name = "path"
@@ -82,12 +82,12 @@ List<Class> queryClass(
       (c) => c
         ..name = "_\$_${model.name}"
         ..extend = const Reference("RouteQuery")
-        ..annotations = ListBuilder([const Reference("immutable")])
-        ..constructors = ListBuilder([
+        ..annotations.addAll([const Reference("immutable")])
+        ..constructors.addAll([
           Constructor(
             (c) => c
               ..constant = true
-              ..optionalParameters = ListBuilder([
+              ..optionalParameters.addAll([
                 ...model.parameters.map((param) {
                   return Parameter(
                     (p) => p
@@ -100,7 +100,7 @@ List<Class> queryClass(
               ]),
           )
         ])
-        ..fields = ListBuilder([
+        ..fields.addAll([
           ...model.parameters.map((param) {
             return Field(
               (f) => f
@@ -110,12 +110,12 @@ List<Class> queryClass(
             );
           }),
         ])
-        ..methods = ListBuilder([
+        ..methods.addAll([
           Method(
             (m) => m
               ..name = "path"
               ..type = MethodType.getter
-              ..annotations = ListBuilder([const Reference("override")])
+              ..annotations.addAll([const Reference("override")])
               ..lambda = true
               ..returns = const Reference("String")
               ..body = Code(
@@ -130,7 +130,7 @@ List<Class> queryClass(
             (m) => m
               ..name = "name"
               ..type = MethodType.getter
-              ..annotations = ListBuilder([const Reference("override")])
+              ..annotations.addAll([const Reference("override")])
               ..lambda = true
               ..returns = const Reference("String")
               ..body = Code(
@@ -140,7 +140,7 @@ List<Class> queryClass(
           Method(
             (m) => m
               ..name = "key<E>"
-              ..annotations = ListBuilder([const Reference("override")])
+              ..annotations.addAll([const Reference("override")])
               ..lambda = true
               ..returns = const Reference("E?")
               ..body = Code(
@@ -152,7 +152,7 @@ List<Class> queryClass(
           Method(
             (m) => m
               ..name = "redirect"
-              ..annotations = ListBuilder([const Reference("override")])
+              ..annotations.addAll([const Reference("override")])
               ..lambda = true
               ..returns = const Reference("List<RedirectQuery>")
               ..body = Code("const [${annotation.redirectQueries.join(",")}]"),
@@ -160,9 +160,9 @@ List<Class> queryClass(
           Method(
             (m) => m
               ..name = "route<E>"
-              ..annotations = ListBuilder([const Reference("override")])
+              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("AppPageRoute<E>")
-              ..optionalParameters = ListBuilder([
+              ..optionalParameters.addAll([
                 Parameter(
                   (p) => p
                     ..type = const Reference("TransitionQuery?")
