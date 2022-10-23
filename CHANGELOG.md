@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables` - `v1.1.1`](#katana_listenables---v111)
+ - [`katana_listenables_builder` - `v1.1.1`](#katana_listenables_builder---v111)
+
+---
+
+#### `katana_listenables` - `v1.1.1`
+
+ - **FIX**: Fixed a bug that prevented it from being built. ([43c235a5](https://github.com/mathrunet/flutter_masamune/commit/43c235a5fe0d452501c1a2edf3195bd0a4bda992))
+
+#### `katana_listenables_builder` - `v1.1.1`
+
+ - **FIX**: Fixed a bug that prevented it from being built. ([43c235a5](https://github.com/mathrunet/flutter_masamune/commit/43c235a5fe0d452501c1a2edf3195bd0a4bda992))
+
+
+## 2022-10-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_listenables` - `v1.1.0`](#katana_listenables---v110)
  - [`katana_listenables_annotation` - `v1.1.0`](#katana_listenables_annotation---v110)
  - [`katana_listenables_builder` - `v1.1.0`](#katana_listenables_builder---v110)
