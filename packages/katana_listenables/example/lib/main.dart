@@ -1,38 +1,17 @@
 import 'dart:math';
 
+import 'package:katana_listenables_annotation/katana_listenables_annotation.dart';
+
 import 'package:flutter/material.dart';
 
 part 'main.listenable.dart';
 
-class Test with _$Test {
-  factory Test({
+@listenables
+class ListenableValue with _$ListenableValue {
+  factory ListenableValue({
     required TextEditingController name,
     ValueNotifier<String> value,
-  }) = _Test;
-}
-
-class _Test with ChangeNotifier implements Test {
-  _Test({required this.name, this.value}) {
-    if (name is Listenable) {
-      name?.addListener(notifyListeners);
-    }
-    if (value is Listenable) {
-      value?.addListener(notifyListeners);
-    }
-  }
-  final TextEditingController name;
-  final ValueNotifier<String>? value;
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (name is Listenable) {
-      name?.removeListener(notifyListeners);
-    }
-    if (value is Listenable) {
-      value?.removeListener(notifyListeners);
-    }
-  }
+  }) = _ListenableValue;
 }
 
 void main() {
@@ -44,38 +23,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LocalizeScope(
-      localize: l,
-      builder: (context, localize) {
-        return MaterialApp(
-          locale: localize.locale,
-          localizationsDelegates: localize.delegates(),
-          supportedLocales: localize.supportedLocales(),
-          localeResolutionCallback: localize.localeResolutionCallback(),
-          home: TestPage(),
-          title: "Flutter Demo",
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-        );
-      },
+    return MaterialApp(
+      home: const ListenablePage(),
+      title: "Flutter Demo",
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
     );
   }
 }
 
-class TestPage extends StatefulWidget {
+class ListenablePage extends StatefulWidget {
+  const ListenablePage({super.key});
+
   @override
-  State<StatefulWidget> createState() => TestPageState();
+  State<StatefulWidget> createState() => ListenablePageState();
 }
 
-class TestPageState extends State<TestPage> {
-  final test = Test(
-    name: TextEditingController(text: "ccc"),
+class ListenablePageState extends State<ListenablePage> {
+  final listenable = ListenableValue(
+    name: TextEditingController(text: "before click"),
   );
   @override
   void initState() {
     super.initState();
-    test.addListener(() {
+    listenable.addListener(() {
       setState(() {});
     });
   }
@@ -83,19 +55,19 @@ class TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(l().appTitle)),
+      appBar: AppBar(title: const Text("Flutter Demo")),
       body: ListView(
         children: [
           ListTile(
-            title: Text(test.name.text),
+            title: Text(listenable.name.text),
             onTap: () {
-              test.name.text = "aaa";
+              listenable.name.text = "after click";
             },
           ),
           ListTile(
-            title: Text(test.value?.value ?? ""),
+            title: Text(listenable.value?.value ?? ""),
             onTap: () {
-              test.value?.value = Random().rangeInt(0, 100).toString();
+              listenable.value?.value = Random().nextInt(100).toString();
             },
           )
         ],

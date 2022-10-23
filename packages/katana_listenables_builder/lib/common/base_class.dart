@@ -15,113 +15,197 @@ List<Spec> baseClass(
       (c) => c
         ..name = "_\$${model.name}"
         ..abstract = true
-        ..extend = const Reference("AppLocalizeBase")
-        ..methods.addAll([
-          Method(
-            (m) => m
-              ..name = "delegates"
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("List<LocalizationsDelegate>")
-              ..optionalParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "delegates"
-                    ..type = const Reference("List<LocalizationsDelegate>")
-                    ..defaultTo =
-                        const Code("GlobalMaterialLocalizations.delegates"),
-                )
-              ])
-              ..body = Code(
-                "return [const _\$${model.name}Delegate(), ...delegates,];",
-              ),
-          ),
-          Method(
-            (m) => m
-              ..name = "supportedLocales"
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("List<Locale>")
-              ..body = Code(
-                "return _\$${model.name.toCamelCase()}Localizations.keys.toList();",
-              ),
-          ),
-          Method(
-            (m) => m
-              ..name = "call"
-              ..returns = Reference("_\$${model.name}$_kBaseName")
-              ..optionalParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "context"
-                    ..type = const Reference("BuildContext?"),
-                )
-              ])
-              ..body = Code(
-                "final l = context != null ? Localizations.localeOf(context) : locale;if (_\$${model.name.toCamelCase()}Localizations.containsKey(l)) {return _\$${model.name.toCamelCase()}Localizations[l]!;} else {return _\$${model.name.toCamelCase()}Localizations.values.first;}",
-              ),
-          )
-        ]),
-    ),
-    Class(
-      (c) => c
-        ..name = "_\$${model.name}Delegate"
-        ..extend =
-            Reference("LocalizationsDelegate<_\$${model.name}$_kBaseName>")
-        ..constructors.addAll([
-          Constructor((c) => c..constant = true),
+        ..implements.addAll([
+          const Reference("ChangeListener"),
         ])
         ..methods.addAll([
+          ...model.parameters.map((param) {
+            return Method(
+              (m) => m
+                ..name = param.name
+                ..returns = Reference(
+                  "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
+                ),
+            );
+          }),
           Method(
             (m) => m
-              ..name = "isSupported"
+              ..name = "addListener"
               ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("bool")
+              ..returns = const Reference("void")
               ..lambda = true
               ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
-                    ..name = "locale"
-                    ..type = const Reference("Locale"),
+                    ..name = "listener"
+                    ..type = const Reference("VoidCallback"),
                 )
               ])
-              ..body = Code(
-                "_\$${model.name.toCamelCase()}Localizations.containsKey(locale)",
-              ),
+              ..body = const Code("throw UnimplementedError()"),
           ),
           Method(
             (m) => m
-              ..name = "load"
+              ..name = "removeListener"
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("Future<_\$${model.name}$_kBaseName>")
+              ..returns = const Reference("void")
               ..lambda = true
               ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
-                    ..name = "locale"
-                    ..type = const Reference("Locale"),
+                    ..name = "listener"
+                    ..type = const Reference("VoidCallback"),
                 )
               ])
-              ..body = Code(
-                "SynchronousFuture(_\$${model.name.toCamelCase()}Localizations[locale] ?? _\$${model.name.toCamelCase()}Localizations.values.first)",
-              ),
+              ..body = const Code("throw UnimplementedError()"),
           ),
           Method(
             (m) => m
-              ..name = "shouldReload"
+              ..name = "notifyListeners"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("void")
+              ..lambda = true
+              ..body = const Code("throw UnimplementedError()"),
+          ),
+          Method(
+            (m) => m
+              ..name = "dispose"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("void")
+              ..lambda = true
+              ..body = const Code("throw UnimplementedError()"),
+          ),
+          Method(
+            (m) => m
+              ..name = "hasListeners"
+              ..type = MethodType.getter
               ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("bool")
               ..lambda = true
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "old"
-                    ..type = Reference(
-                      "LocalizationsDelegate<_\$${model.name}$_kBaseName>",
-                    ),
-                )
-              ])
-              ..body = const Code("false"),
+              ..body = const Code("throw UnimplementedError()"),
           ),
         ]),
     ),
+    if (model.existUnderbarConstructor) ...[
+      Class(
+        (c) => c
+          ..name = "_${model.name}"
+          ..extend = Reference(model.name)
+          ..mixins.addAll([
+            const Reference("ChangeListener"),
+          ])
+          ..constructors.addAll([
+            Constructor(
+              (c) => c
+                ..optionalParameters.addAll([
+                  ...model.parameters.map((param) {
+                    return Parameter(
+                      (p) => p
+                        ..name = param.name
+                        ..toThis = true
+                        ..required = param.required,
+                    );
+                  }),
+                ])
+                ..initializers.addAll([const Code("super._()")])
+                ..body = Code(
+                  model.parameters
+                      .map(
+                        (e) =>
+                            "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.addListener(_handledOnUpdate);}",
+                      )
+                      .join("\n"),
+                ),
+            ),
+          ])
+          ..fields.addAll([
+            ...model.parameters.map((param) {
+              return Field(
+                (f) => f
+                  ..name = param.name
+                  ..modifier = FieldModifier.final$
+                  ..type = Reference(
+                    "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
+                  ),
+              );
+            })
+          ])
+          ..methods.addAll([
+            Method(
+              (m) => m
+                ..name = "dispose"
+                ..annotations.addAll([const Reference("override")])
+                ..returns = const Reference("void")
+                ..body = Code(
+                  "super.dispose(); ${model.parameters.map((e) => "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.removeListener(_handledOnUpdate);}").join("\n")}",
+                ),
+            ),
+          ]),
+      ),
+    ] else ...[
+      Class(
+        (c) => c
+          ..name = "_${model.name}"
+          ..mixins.addAll([
+            const Reference("ChangeListener"),
+          ])
+          ..implements.addAll([
+            Reference(model.name),
+          ])
+          ..constructors.addAll([
+            Constructor(
+              (c) => c
+                ..optionalParameters.addAll([
+                  ...model.parameters.map((param) {
+                    return Parameter(
+                      (p) => p
+                        ..name = param.name
+                        ..toThis = true
+                        ..required = param.required,
+                    );
+                  }),
+                ])
+                ..body = Code(
+                  model.parameters
+                      .map(
+                        (e) =>
+                            "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.addListener(_handledOnUpdate);}",
+                      )
+                      .join("\n"),
+                ),
+            ),
+          ])
+          ..fields.addAll([
+            ...model.parameters.map((param) {
+              return Field(
+                (f) => f
+                  ..name = param.name
+                  ..modifier = FieldModifier.final$
+                  ..type = Reference(
+                    "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
+                  ),
+              );
+            })
+          ])
+          ..methods.addAll([
+            Method(
+              (m) => m
+                ..name = "dispose"
+                ..annotations.addAll([const Reference("override")])
+                ..returns = const Reference("void")
+                ..body = Code(
+                  "super.dispose(); ${model.parameters.map((e) => "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.removeListener(_handledOnUpdate);}").join("\n")}",
+                ),
+            ),
+            Method(
+              (m) => m
+                ..name = "_handledOnUpdate"
+                ..returns = const Reference("void")
+                ..body = const Code(
+                  "notifyListeners();",
+                ),
+            ),
+          ]),
+      ),
+    ],
   ];
 }

@@ -23,6 +23,7 @@ class ParamaterValue {
       );
     }
     type = element.type;
+    required = element.isRequired;
   }
 
   /// Parameter Element.
@@ -39,6 +40,11 @@ class ParamaterValue {
   ///
   /// パラメーターの名前。
   late final String name;
+
+  /// True if Required.
+  ///
+  /// Requiredな場合true.
+  late final bool required;
 
   @override
   String toString() {

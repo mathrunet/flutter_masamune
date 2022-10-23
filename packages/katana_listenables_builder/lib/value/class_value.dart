@@ -20,9 +20,21 @@ class ClassValue {
     final contstuctor = element.constructors.firstWhere((e) {
       return e.name.isEmpty;
     });
+    existUnderbarConstructor = element.constructors.any((e) {
+      return e.name == "_" && !e.isFactory;
+    });
     parameters = contstuctor.parameters.where((e) => e.name != "key").map((e) {
       return ParamaterValue(e);
     }).toList();
+    existMethodOrField =
+        element.methods.isNotEmpty || element.fields.isNotEmpty;
+    if (existMethodOrField && !existUnderbarConstructor) {
+      throw InvalidGenerationSourceError(
+        "To define a method or field in a class, add the following constructor.\n\n"
+        "`$name._();`",
+        element: element,
+      );
+    }
   }
 
   /// Class Element.
@@ -39,6 +51,16 @@ class ClassValue {
   ///
   /// クラスのパラメーター。
   late final List<ParamaterValue> parameters;
+
+  /// Check if there is a _constructor_.
+  ///
+  /// _のコンストラクターがあるかどうかのチェック。
+  late final bool existUnderbarConstructor;
+
+  /// True if the method or field is present.
+  ///
+  /// メソッドやフィールドがある場合true.
+  late final bool existMethodOrField;
 
   @override
   String toString() {

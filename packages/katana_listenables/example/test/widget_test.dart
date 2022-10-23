@@ -8,6 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:katana_localization_example/main.dart';
+import 'package:katana_listenables_example/main.dart';
 
 void main() {}
