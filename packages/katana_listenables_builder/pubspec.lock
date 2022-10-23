@@ -106,13 +106,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  csv:
-    dependency: "direct main"
-    description:
-      name: csv
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.1"
   dart_style:
     dependency: "direct main"
     description:
@@ -156,7 +149,7 @@ packages:
     source: hosted
     version: "2.1.0"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -204,13 +197,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.15.6"
-  katana_localization_annotation:
+  katana_listenables_annotation:
     dependency: "direct main"
     description:
-      name: katana_localization_annotation
+      name: katana_listenables_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.3"
+    version: "1.1.0"
   logging:
     dependency: transitive
     description:

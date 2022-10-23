@@ -7,3 +7,5 @@
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_listenables;
+
+export 'package:katana_listenables_annotation/katana_listenables_annotation.dart';

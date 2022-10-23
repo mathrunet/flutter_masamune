@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:katana_listenables_annotation/katana_listenables_annotation.dart';
+import 'package:katana_listenables/katana_listenables.dart';
 
 import 'package:flutter/material.dart';
 
