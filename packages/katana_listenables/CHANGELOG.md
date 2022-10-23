@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: The generated code did not work, so it was fixed. ([73ea7f0f](https://github.com/mathrunet/flutter_masamune/commit/73ea7f0f8f15cad83d6157bd620b824a467adcdf))
+
 ## 1.1.1
 
  - **FIX**: Fixed a bug that prevented it from being built. ([43c235a5](https://github.com/mathrunet/flutter_masamune/commit/43c235a5fe0d452501c1a2edf3195bd0a4bda992))
