@@ -145,6 +145,7 @@ Pass `AppLocalize` methods and fields to MaterialApp's `locale`, `localizationsD
 // main.dart
 
 import 'package:flutter/material.dart';
+import 'package:katana_localization/katana_localization.dart';
 
 import 'localization.dart';
 
@@ -159,7 +160,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LocalizeScope(
       localize: l,
-      builder: (context, localize)
+      builder: (context, localize) {
         return MaterialApp(
           locale: localize.locale,
           localizationsDelegates: localize.delegates(),
