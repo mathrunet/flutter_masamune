@@ -1,3 +1,7 @@
+## 1.1.7
+
+ - **FIX**: ReadMe revision. ([f35d115b](https://github.com/mathrunet/flutter_masamune/commit/f35d115bebda2b17075755d18de8eddcee676352))
+
 ## 1.1.6
 
  - **DOCS**: README modifications. ([71241f63](https://github.com/mathrunet/flutter_masamune/commit/71241f63b6bfcdf93a07e0b2b454113a3eee67d2))

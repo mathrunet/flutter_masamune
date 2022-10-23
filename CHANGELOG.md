@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_listenables` - `v1.1.0`](#katana_listenables---v110)
+ - [`katana_listenables_annotation` - `v1.1.0`](#katana_listenables_annotation---v110)
+ - [`katana_listenables_builder` - `v1.1.0`](#katana_listenables_builder---v110)
+ - [`katana_localization` - `v1.1.7`](#katana_localization---v117)
+ - [`katana_localization_annotation` - `v1.1.5`](#katana_localization_annotation---v115)
+ - [`katana_localization_builder` - `v1.1.7`](#katana_localization_builder---v117)
+
+---
+
+#### `katana_listenables` - `v1.1.0`
+
+ - **FEAT**: Mounting Completed. ([049d6863](https://github.com/mathrunet/flutter_masamune/commit/049d68639fc246356dcd79bb64d7229965bb0235))
+ - **FEAT**: Initial commitments for katana_listenables. ([83663203](https://github.com/mathrunet/flutter_masamune/commit/836632032137a3d8d76f7b75e8325b72d9b678cf))
+
+#### `katana_listenables_annotation` - `v1.1.0`
+
+ - **FEAT**: Initial commitments for katana_listenables. ([83663203](https://github.com/mathrunet/flutter_masamune/commit/836632032137a3d8d76f7b75e8325b72d9b678cf))
+
+#### `katana_listenables_builder` - `v1.1.0`
+
+ - **FEAT**: Mounting Completed. ([049d6863](https://github.com/mathrunet/flutter_masamune/commit/049d68639fc246356dcd79bb64d7229965bb0235))
+ - **FEAT**: Initial commitments for katana_listenables. ([83663203](https://github.com/mathrunet/flutter_masamune/commit/836632032137a3d8d76f7b75e8325b72d9b678cf))
+
+#### `katana_localization` - `v1.1.7`
+
+ - **FIX**: ReadMe revision. ([f35d115b](https://github.com/mathrunet/flutter_masamune/commit/f35d115bebda2b17075755d18de8eddcee676352))
+
+#### `katana_localization_annotation` - `v1.1.5`
+
+ - **DOCS**: Documentation correction. ([1bb0227b](https://github.com/mathrunet/flutter_masamune/commit/1bb0227b2fa7099fd4345063caf0705f17b0aaa1))
+
+#### `katana_localization_builder` - `v1.1.7`
+
+ - **DOCS**: Documentation correction. ([1bb0227b](https://github.com/mathrunet/flutter_masamune/commit/1bb0227b2fa7099fd4345063caf0705f17b0aaa1))
+
+
 ## 2022-10-21
 
 ### Changes
