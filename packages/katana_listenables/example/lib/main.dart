@@ -7,11 +7,14 @@ import 'package:flutter/material.dart';
 part 'main.listenable.dart';
 
 @listenables
-class ListenableValue with _$ListenableValue {
+class ListenableValue with _$ListenableValue, ChangeNotifier {
   factory ListenableValue({
-    required TextEditingController name,
+    required TextEditingController controller,
     ValueNotifier<String> value,
   }) = _ListenableValue;
+  ListenableValue._();
+
+  void get() {}
 }
 
 void main() {
@@ -42,8 +45,10 @@ class ListenablePage extends StatefulWidget {
 
 class ListenablePageState extends State<ListenablePage> {
   final listenable = ListenableValue(
-    name: TextEditingController(text: "before click"),
+    controller: TextEditingController(text: "before click"),
+    value: ValueNotifier("0"),
   );
+
   @override
   void initState() {
     super.initState();
@@ -59,9 +64,9 @@ class ListenablePageState extends State<ListenablePage> {
       body: ListView(
         children: [
           ListTile(
-            title: Text(listenable.name.text),
+            title: Text(listenable.controller.text),
             onTap: () {
-              listenable.name.text = "after click";
+              listenable.controller.text = "after click";
             },
           ),
           ListTile(

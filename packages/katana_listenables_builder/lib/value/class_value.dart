@@ -23,6 +23,10 @@ class ClassValue {
     existUnderbarConstructor = element.constructors.any((e) {
       return e.name == "_" && !e.isFactory;
     });
+    existChangeNotifierMixin = element.mixins.any(
+      (element) =>
+          element.getDisplayString(withNullability: false) == "ChangeNotifier",
+    );
     parameters = contstuctor.parameters.where((e) => e.name != "key").map((e) {
       return ParamaterValue(e);
     }).toList();
@@ -61,6 +65,11 @@ class ClassValue {
   ///
   /// メソッドやフィールドがある場合true.
   late final bool existMethodOrField;
+
+  /// True if ChangeNotifier's Mixin is already defined.
+  ///
+  /// ChangeNotifierのMixinがすでに定義されている場合true.
+  late final bool existChangeNotifierMixin;
 
   @override
   String toString() {

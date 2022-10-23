@@ -16,16 +16,19 @@ List<Spec> baseClass(
         ..name = "_\$${model.name}"
         ..abstract = true
         ..implements.addAll([
-          const Reference("ChangeListener"),
+          const Reference("ChangeNotifier"),
         ])
         ..methods.addAll([
           ...model.parameters.map((param) {
             return Method(
               (m) => m
                 ..name = param.name
+                ..type = MethodType.getter
+                ..lambda = true
                 ..returns = Reference(
                   "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
-                ),
+                )
+                ..body = const Code("throw UnimplementedError()"),
             );
           }),
           Method(
@@ -83,6 +86,15 @@ List<Spec> baseClass(
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
           ),
+          Method(
+            (m) => m
+              ..name = "toString"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("String")
+              ..body = Code(
+                "return \"\$runtimeType(${model.parameters.map((e) => "${e.name}: \$${e.name}").join(", ")})\";",
+              ),
+          ),
         ]),
     ),
     if (model.existUnderbarConstructor) ...[
@@ -91,7 +103,8 @@ List<Spec> baseClass(
           ..name = "_${model.name}"
           ..extend = Reference(model.name)
           ..mixins.addAll([
-            const Reference("ChangeListener"),
+            if (!model.existChangeNotifierMixin)
+              const Reference("ChangeNotifier"),
           ])
           ..constructors.addAll([
             Constructor(
@@ -102,6 +115,7 @@ List<Spec> baseClass(
                       (p) => p
                         ..name = param.name
                         ..toThis = true
+                        ..named = true
                         ..required = param.required,
                     );
                   }),
@@ -123,6 +137,7 @@ List<Spec> baseClass(
                 (f) => f
                   ..name = param.name
                   ..modifier = FieldModifier.final$
+                  ..annotations.addAll([const Reference("override")])
                   ..type = Reference(
                     "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
                   ),
@@ -136,7 +151,15 @@ List<Spec> baseClass(
                 ..annotations.addAll([const Reference("override")])
                 ..returns = const Reference("void")
                 ..body = Code(
-                  "super.dispose(); ${model.parameters.map((e) => "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.removeListener(_handledOnUpdate);}").join("\n")}",
+                  "super.dispose(); ${model.parameters.map((e) => "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.removeListener(_handledOnUpdate); ${e.name}${e.required ? "" : "?"}.dispose();}").join("\n")}",
+                ),
+            ),
+            Method(
+              (m) => m
+                ..name = "_handledOnUpdate"
+                ..returns = const Reference("void")
+                ..body = const Code(
+                  "notifyListeners();",
                 ),
             ),
           ]),
@@ -146,7 +169,7 @@ List<Spec> baseClass(
         (c) => c
           ..name = "_${model.name}"
           ..mixins.addAll([
-            const Reference("ChangeListener"),
+            const Reference("ChangeNotifier"),
           ])
           ..implements.addAll([
             Reference(model.name),
@@ -160,6 +183,7 @@ List<Spec> baseClass(
                       (p) => p
                         ..name = param.name
                         ..toThis = true
+                        ..named = true
                         ..required = param.required,
                     );
                   }),
@@ -179,6 +203,7 @@ List<Spec> baseClass(
               return Field(
                 (f) => f
                   ..name = param.name
+                  ..annotations.addAll([const Reference("override")])
                   ..modifier = FieldModifier.final$
                   ..type = Reference(
                     "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
@@ -193,7 +218,7 @@ List<Spec> baseClass(
                 ..annotations.addAll([const Reference("override")])
                 ..returns = const Reference("void")
                 ..body = Code(
-                  "super.dispose(); ${model.parameters.map((e) => "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.removeListener(_handledOnUpdate);}").join("\n")}",
+                  "super.dispose(); ${model.parameters.map((e) => "if(${e.name} is Listenable){${e.name}${e.required ? "" : "?"}.removeListener(_handledOnUpdate); ${e.name}${e.required ? "" : "?"}.dispose();}").join("\n")}",
                 ),
             ),
             Method(
