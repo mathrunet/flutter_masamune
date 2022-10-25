@@ -51,15 +51,25 @@ class TransitionQuery {
   static TransitionQuery get fade =>
       const TransitionQuery._(transition: _TransitionQueryType.fade);
 
-  /// [TransitionQuery] that performs modal transitions.
+  /// [TransitionQuery] that performs a modal transition from the middle.
   ///
   /// The back page will be visible.
   ///
-  /// モーダルのトランジションを行なう[TransitionQuery]。
+  /// 真ん中からのモーダルのトランジションを行なう[TransitionQuery]。
   ///
   /// 裏のページが見えるようになります。
-  static TransitionQuery get modal =>
-      const TransitionQuery._(transition: _TransitionQueryType.modal);
+  static TransitionQuery get centerModal =>
+      const TransitionQuery._(transition: _TransitionQueryType.centerModal);
+
+  /// [TransitionQuery] to perform modal transitions from below.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 下からのモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  static TransitionQuery get bottomModal =>
+      const TransitionQuery._(transition: _TransitionQueryType.bottomModal);
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;

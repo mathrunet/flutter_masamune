@@ -143,6 +143,8 @@ abstract class AppRouterBase extends ChangeNotifier
   late final _AppRouterConfig _config;
   final List<_PageStackContainer> _pageStack = [];
 
+  BuildContext? get _context => _config.navigatorKey.currentContext;
+
   @override
   RouterDelegate<RouteQuery> get routerDelegate => _routerDelegate;
   late final _AppRouterDelegate _routerDelegate;
@@ -183,12 +185,13 @@ abstract class AppRouterBase extends ChangeNotifier
   Future<E?> push<E>(
     RouteQuery routeQuery, [
     TransitionQuery? transitionQuery,
-  ]) {
+  ]) async {
     final completer = Completer<E?>();
+    final resolveQuery = await _redirect(_context!, routeQuery);
     _pageStack.add(
       _PageStackContainer<E>(
-        query: routeQuery,
-        route: routeQuery
+        query: resolveQuery,
+        route: resolveQuery
             .route<E>(transitionQuery ?? _config.defaultTransitionQuery),
         completer: completer,
       ),

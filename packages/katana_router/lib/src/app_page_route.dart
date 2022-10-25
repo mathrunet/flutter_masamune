@@ -42,7 +42,7 @@ abstract class AppPageRoute<T> extends Page<T> {
     required String? path,
     TransitionQuery? transitionQuery,
   }) {
-    if (transitionQuery?.transition == _TransitionQueryType.modal) {
+    if (transitionQuery?.transition.modal ?? false) {
       return _ModalPageRoute(
         key: key ?? ValueKey(uuid),
         builder: builder,
@@ -66,7 +66,7 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
     super.key,
     required this.builder,
     required String? path,
-    TransitionQuery? transitionQuery,
+    this.transitionQuery,
     this.isAndroidBackEnable = true,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.opaque = false,
@@ -84,7 +84,12 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   final Color? barrierColor;
   final String? barrierLabel;
   final bool maintainState;
+  final TransitionQuery? transitionQuery;
 
+  static final Animatable<Offset> _slideUpTween = Tween<Offset>(
+    begin: const Offset(0.0, 0.25),
+    end: Offset.zero,
+  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
   static final Animatable<double> _scaleTween = Tween<double>(
     begin: 0.25,
     end: 1.0,
@@ -106,25 +111,44 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       maintainState: maintainState,
       fullscreenDialog: true,
       pageBuilder: (context, animation, secondaryAnimation) {
-        return FadeTransition(
-          opacity: _fadeTween.animate(animation),
-          child: ScaleTransition(
-            scale: _scaleTween.animate(animation),
-            child: Material(
-              type: MaterialType.transparency,
-              child: SafeArea(
-                child: WillPopScope(
-                  onWillPop: () async {
-                    return isAndroidBackEnable;
-                  },
-                  child: Center(
-                    child: builder(context),
+        switch (transitionQuery?.transition) {
+          case _TransitionQueryType.bottomModal:
+            return FadeTransition(
+              opacity: _fadeTween.animate(animation),
+              child: SlideTransition(
+                position: _slideUpTween.animate(animation),
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: WillPopScope(
+                    onWillPop: () async {
+                      return isAndroidBackEnable;
+                    },
+                    child: Center(
+                      child: builder(context),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        );
+            );
+          default:
+            return FadeTransition(
+              opacity: _fadeTween.animate(animation),
+              child: ScaleTransition(
+                scale: _scaleTween.animate(animation),
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: WillPopScope(
+                    onWillPop: () async {
+                      return isAndroidBackEnable;
+                    },
+                    child: Center(
+                      child: builder(context),
+                    ),
+                  ),
+                ),
+              ),
+            );
+        }
       },
     );
   }
