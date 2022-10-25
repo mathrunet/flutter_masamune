@@ -27,7 +27,7 @@
 
 # Motivation
 
-The multilingualization package would basically have the following features
+The localization package would basically have the following features
 
 - Create files with specific keys and corresponding translation text definitions
 - Extract and display matching text for the current locale, specifying a specific key at implementation
@@ -63,7 +63,7 @@ Therefore, we have created a package with the following features to resolve the 
     
     ```dart
     print(
-      l().$("Goverment").ofThe.$("People").byThe.$("People").forThe.$("People")
+      l().$("Government").ofThe.$("People").byThe.$("People").forThe.$("People")
     );
     ```
     
