@@ -147,7 +147,7 @@ class _BootRouteQuery extends RouteQuery {
   E? key<E>() => throw UnimplementedError();
 
   @override
-  AppPageRoute<E> route<E>(TransitionQuery? query) {
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute(
       key: ValueKey(builder.hashCode),
       builder: (_) => builder,
@@ -196,7 +196,7 @@ class _UnknownRouteQuery extends RouteQuery {
   E? key<E>() => throw UnimplementedError();
 
   @override
-  AppPageRoute<E> route<E>(TransitionQuery? query) {
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute(
       key: ValueKey(builder.hashCode),
       builder: (_) => builder,
@@ -220,7 +220,7 @@ class _EmptyRouteQuery extends RouteQuery {
   E? key<E>() => throw UnimplementedError();
 
   @override
-  AppPageRoute<E> route<E>(TransitionQuery? query) {
+  AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute(
       builder: (_) => const SizedBox.shrink(),
       path: path,

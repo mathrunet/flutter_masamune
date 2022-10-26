@@ -88,6 +88,13 @@ List<Class> routerClass(
                     ..named = true
                     ..type = const Reference("List<RouteQueryBuilder>?"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "reportsRouteUpdateToEngine"
+                    ..named = true
+                    ..toSuper = true
+                    ..defaultTo = const Code("true"),
+                ),
               ])
               ..initializers.addAll([
                 Code(

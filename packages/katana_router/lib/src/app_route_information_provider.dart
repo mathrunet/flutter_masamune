@@ -3,11 +3,14 @@ part of katana_router;
 class _AppRouteInformationProvider extends RouteInformationProvider
     with WidgetsBindingObserver, ChangeNotifier {
   _AppRouteInformationProvider({
+    required this.router,
     required RouteInformation initialRouteInformation,
   }) : _value = initialRouteInformation;
 
   // ignore: unnecessary_non_null_assertion
   static WidgetsBinding get _binding => WidgetsBinding.instance;
+
+  final AppRouterBase router;
 
   @override
   RouteInformation get value {
@@ -45,6 +48,18 @@ class _AppRouteInformationProvider extends RouteInformationProvider
     RouteInformation routeInformation, {
     RouteInformationReportingType type = RouteInformationReportingType.none,
   }) {
+    if (!router._config.reportsRouteUpdateToEngine) {
+      return;
+    }
+    assert(
+      routeInformation.state is RouteQuery?,
+      "RouteInformation does not contain a Query.",
+    );
+    final routeQuery = routeInformation.state as RouteQuery?;
+    if (routeQuery?._transition != null &&
+        routeQuery!._transition!.transition.modal) {
+      return;
+    }
     final bool replace = type == RouteInformationReportingType.neglect ||
         (type == RouteInformationReportingType.none &&
             _valueInEngine.location == routeInformation.location);

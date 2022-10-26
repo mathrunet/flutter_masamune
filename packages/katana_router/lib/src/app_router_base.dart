@@ -109,6 +109,7 @@ abstract class AppRouterBase extends ChangeNotifier
     GlobalKey<NavigatorState>? navigatorKey,
     String? restorationScopeId,
     TransitionQuery? defaultTransitionQuery,
+    bool reportsRouteUpdateToEngine = true,
   }) {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
@@ -120,6 +121,7 @@ abstract class AppRouterBase extends ChangeNotifier
       navigatorKey: navigatorKey,
       redirectLimite: redirectLimit,
       defaultTransitionQuery: defaultTransitionQuery,
+      reportsRouteUpdateToEngine: reportsRouteUpdateToEngine,
     );
 
     _routerDelegate = _AppRouterDelegate(
@@ -131,6 +133,7 @@ abstract class AppRouterBase extends ChangeNotifier
     _routeInformationParser = _AppRouteInformationParser(this);
 
     _routeInformationProvider = _AppRouteInformationProvider(
+      router: this,
       initialRouteInformation: InitialRouteInformation(
         query: initialQuery,
         location: _effectiveInitialLocation(
@@ -187,12 +190,16 @@ abstract class AppRouterBase extends ChangeNotifier
     TransitionQuery? transitionQuery,
   ]) async {
     final completer = Completer<E?>();
-    final resolveQuery = await _redirect(_context!, routeQuery);
+    final resolveQuery = _InnerRouteQueryImpl(
+      routeQuery: _context != null
+          ? await _redirect(_context!, routeQuery)
+          : routeQuery,
+      transitionQuery: transitionQuery ?? _config.defaultTransitionQuery,
+    );
     _pageStack.add(
       _PageStackContainer<E>(
         query: resolveQuery,
-        route: resolveQuery
-            .route<E>(transitionQuery ?? _config.defaultTransitionQuery),
+        route: resolveQuery.route<E>(),
         completer: completer,
       ),
     );
@@ -448,6 +455,7 @@ class _AppRouterConfig {
     this.redirectLimite = 5,
     required this.navigatorKey,
     this.defaultTransitionQuery,
+    this.reportsRouteUpdateToEngine = true,
   });
   final BootRouteQueryBuilder? boot;
   final UnknownRouteQueryBuilder? unknown;
@@ -456,4 +464,5 @@ class _AppRouterConfig {
   final int redirectLimite;
   final GlobalKey<NavigatorState> navigatorKey;
   final TransitionQuery? defaultTransitionQuery;
+  final bool reportsRouteUpdateToEngine;
 }

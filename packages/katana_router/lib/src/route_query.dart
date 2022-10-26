@@ -56,7 +56,7 @@ abstract class RouteQuery {
   /// ページ遷移を行うための[AppPageRoute]を返すようにします。
   ///
   /// [query]にページ遷移を行う際の[TransitionQuery]を渡すことでトランジションの方法などを指定できます。
-  AppPageRoute<E> route<E>(TransitionQuery? query);
+  AppPageRoute<E> route<E>([TransitionQuery? query]);
 
   /// The reroute settings associated with this page are done by giving a list of classes that extend [RedirectQuery].
   ///
@@ -67,6 +67,8 @@ abstract class RouteQuery {
   /// このリルート設定はこのページに遷移する際のみに適用されます。
   List<RedirectQuery> redirect() => const [];
 
+  TransitionQuery? get _transition => null;
+
   @override
   String toString() => path;
 
@@ -75,4 +77,29 @@ abstract class RouteQuery {
 
   @override
   int get hashCode => path.hashCode;
+}
+
+@immutable
+class _InnerRouteQueryImpl extends RouteQuery {
+  const _InnerRouteQueryImpl({
+    required this.routeQuery,
+    this.transitionQuery,
+  });
+
+  final RouteQuery routeQuery;
+  final TransitionQuery? transitionQuery;
+
+  @override
+  E? key<E>() => routeQuery.key<E>();
+
+  @override
+  String get path => routeQuery.path;
+
+  @override
+  AppPageRoute<E> route<E>([TransitionQuery? query]) => routeQuery.route(
+        query ?? transitionQuery,
+      );
+
+  @override
+  TransitionQuery? get _transition => transitionQuery;
 }
