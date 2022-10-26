@@ -1,11 +1,89 @@
 part of katana;
 
 /// Provides extended methods for [DateTime].
-/// 
+///
 /// [DateTime]用の拡張メソッドを提供します。
 extension DateTimeExtensions on DateTime {
+  static const List<int> _lengthInMonth = [
+    31,
+    28,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31,
+  ];
+
+  static bool _isLeapYear(int year) =>
+      (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
+
+  static int _daysInMonth(int year, int month) =>
+      (month == DateTime.february && _isLeapYear(year))
+          ? 29
+          : _lengthInMonth[month - 1];
+
+  DateTime _addDate(DateDuration duration) {
+    var years = year + duration.year;
+    years += (month + duration.month) ~/ DateTime.monthsPerYear;
+    final months = (month + duration.month) % DateTime.monthsPerYear;
+    final days = day + duration.day - 1;
+    return DateTime(years, months, 1).add(Duration(days: days));
+  }
+
+  DateDuration _differenceDate(DateTime other) {
+    int years = other.year - year;
+    int months = 0;
+    int days = 0;
+
+    if (month > other.month) {
+      years -= 1;
+      months = DateTime.monthsPerYear + other.month - month;
+
+      if (day > other.day) {
+        months -= 1;
+        days = _daysInMonth(
+              year + years,
+              ((month + months - 1) % DateTime.monthsPerYear) + 1,
+            ) +
+            other.day -
+            day;
+      } else {
+        days = other.day - day;
+      }
+    } else if (other.month == month) {
+      if (day > other.day) {
+        years -= 1;
+        months = DateTime.monthsPerYear - 1;
+        days = _daysInMonth(
+              year + years,
+              ((month + months - 1) % DateTime.monthsPerYear) + 1,
+            ) +
+            other.day -
+            day;
+      } else {
+        days = other.day - day;
+      }
+    } else {
+      months = other.month - month;
+
+      if (day > other.day) {
+        months -= 1;
+        days = _daysInMonth(year + years, month + months) + other.day - day;
+      } else {
+        days = other.day - day;
+      }
+    }
+
+    return DateDuration(years, months, days);
+  }
+
   /// Returns `true` if the date is the same as a specific [dateTime] or the current time.
-  /// 
+  ///
   /// 特定の[dateTime]もしくは現在時間と同じ日付の場合は`true`を返します
   bool isToday([DateTime? dateTime]) {
     dateTime ??= DateTime.now();
@@ -15,7 +93,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   /// Returns `true` if the month is the same as a specific [dateTime] or the current time.
-  /// 
+  ///
   /// 特定の[dateTime]もしくは現在時間と同じ月の場合は`true`を返します。
   bool isThisMonth([DateTime? dateTime]) {
     dateTime ??= DateTime.now();
@@ -23,7 +101,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   /// Returns `true` if the year is the same as a specific [dateTime] or the current time.
-  /// 
+  ///
   /// 特定の[dateTime]もしくは現在時間と同じ年の場合は`true`を返します。
   bool isThisYear([DateTime? dateTime]) {
     dateTime ??= DateTime.now();
@@ -31,7 +109,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   /// Returns `true` if the time is the same as a specific [dateTime] or the current time.
-  /// 
+  ///
   /// 特定の[dateTime]もしくは現在時間と同じ時刻の場合は`true`を返します。
   bool isThisHour([DateTime? dateTime]) {
     dateTime ??= DateTime.now();
@@ -42,7 +120,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   /// Returns `true` if the minute is the same as a specific [dateTime] or the current time.
-  /// 
+  ///
   /// 特定の[dateTime]もしくは現在時間と同じ分の場合は`true`を返します。
   bool isThisMinute([DateTime? dateTime]) {
     dateTime ??= DateTime.now();
@@ -54,7 +132,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   /// Returns `true` if the second is the same as a specific [dateTime] or the current time.
-  /// 
+  ///
   /// 特定の[dateTime]もしくは現在時間と同じ秒の場合は`true`を返します。
   bool isThisSecond([DateTime? dateTime]) {
     dateTime ??= DateTime.now();
@@ -98,9 +176,9 @@ extension DateTimeExtensions on DateTime {
   ///
   ///
   /// Please refer to the following page for details.
-  /// 
+  ///
   /// 詳細は下記ページを参考にしてください。
-  /// 
+  ///
   /// https://api.flutter.dev/flutter/intl/DateFormat-class.html
   String format(String format) {
     assert(format.isNotEmpty, "The format is empty.");
@@ -119,9 +197,9 @@ extension DateTimeExtensions on DateTime {
   /// `2022/12/21`のような形式で出力されます。
   ///
   /// Please refer to the following page for details.
-  /// 
+  ///
   /// 詳細は下記ページを参考にしてください。
-  /// 
+  ///
   /// https://api.flutter.dev/flutter/intl/DateFormat-class.html
   String yyyyMMdd() {
     return format("yyyy/MM/dd");
@@ -136,9 +214,9 @@ extension DateTimeExtensions on DateTime {
   /// `10:24:30`のような形式で出力されます。
   ///
   /// Please refer to the following page for details.
-  /// 
+  ///
   /// 詳細は下記ページを参考にしてください。
-  /// 
+  ///
   /// https://api.flutter.dev/flutter/intl/DateFormat-class.html
   // ignore: non_constant_identifier_names
   String HHmmss() {
@@ -154,9 +232,9 @@ extension DateTimeExtensions on DateTime {
   /// `2022/12/21 10:24:30`のような形式で出力されます。
   ///
   /// Please refer to the following page for details.
-  /// 
+  ///
   /// 詳細は下記ページを参考にしてください。
-  /// 
+  ///
   /// https://api.flutter.dev/flutter/intl/DateFormat-class.html
   String yyyyMMddHHmmss() {
     return format("yyyy/MM/dd HH:mm:ss");
@@ -204,9 +282,9 @@ extension DateTimeExtensions on DateTime {
   /// 2022年12月23日だと`51`が返されます。
   ///
   /// See below for details.
-  /// 
+  ///
   /// 詳しくは下記を参照ください。
-  /// 
+  ///
   /// https://en.wikipedia.org/wiki/ISO_8601
   int get weekNumber {
     final thursday = DateTime.fromMillisecondsSinceEpoch(
@@ -221,10 +299,37 @@ extension DateTimeExtensions on DateTime {
   }
 
   /// Treats [DateTime], which is not defined as UTC due to parsing, as UTC and converts it to local time.
-  /// 
+  ///
   /// パースの関係でUTCとして定義されていない[DateTime]をUTCとして扱いローカルタイムに変換します。
   DateTime toUnUtc() {
     return DateTime.tryParse("${toIso8601String().trimStringRight("Z")}Z")!
         .toLocal();
+  }
+
+  /// Returns the age at [today] (or current time) for the date.
+  ///
+  /// 日付に対しての[today]（もしくは現在時刻）における年齢を返します。
+  ///
+  /// ```dart
+  /// final date = DateTime(1984, 8, 2).age(DateTime(2022, 10, 26)); // year: 38, month: 2, day: 24
+  /// ```
+  DateDuration age([DateTime? today]) {
+    return _differenceDate(today ?? DateTime.now());
+  }
+
+  /// Returns the period until the next year date at [target] (or current time) for a date.
+  ///
+  /// 日付に対しての[target]（もしくは現在時刻）における次の年の日付までの期間を返します。
+  ///
+  /// ```dart
+  /// final date = DateTime(1984, 8, 2).age(DateTime(2022, 10, 26)); // year: 38, month: 2, day: 24
+  /// ```
+  DateDuration dateToNextBirthday([DateTime? target]) {
+    final endDate = target ?? DateTime.now();
+    final tmpDate = DateTime(endDate.year, month, day);
+    final nextBirthdayDate = tmpDate.isBefore(endDate)
+        ? tmpDate._addDate(const DateDuration(1, 0, 0))
+        : tmpDate;
+    return endDate._differenceDate(nextBirthdayDate);
   }
 }

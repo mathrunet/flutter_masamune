@@ -86,4 +86,15 @@ void main() {
     final dateTime = DateTime(2022, 12, 23, 10, 32, 10);
     expect(dateTime.toUnUtc(), DateTime(2022, 12, 23, 19, 32, 10));
   });
+  test("DateTimeExtensions.age", () {
+    final dateTime = DateTime(1984, 8, 2);
+    expect(dateTime.age(DateTime(2022, 10, 26)), const DateDuration(38, 2, 24));
+  });
+  test("DateTimeExtensions.dateToNextBirthday", () {
+    final dateTime = DateTime(1984, 8, 2);
+    expect(
+      dateTime.dateToNextBirthday(DateTime(2022, 10, 26)),
+      const DateDuration(0, 9, 7),
+    );
+  });
 }
