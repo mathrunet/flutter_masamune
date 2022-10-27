@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables` - `v1.2.2`](#katana_listenables---v122)
+ - [`katana_listenables_annotation` - `v1.2.1`](#katana_listenables_annotation---v121)
+ - [`katana_listenables_builder` - `v1.2.2`](#katana_listenables_builder---v122)
+ - [`katana_router` - `v1.8.8`](#katana_router---v188)
+ - [`katana_router_annotation` - `v1.8.7`](#katana_router_annotation---v187)
+ - [`katana_router_builder` - `v1.8.8`](#katana_router_builder---v188)
+
+---
+
+#### `katana_listenables` - `v1.2.2`
+
+ - **DOCS**: README modifications. ([53f3b12f](https://github.com/mathrunet/flutter_masamune/commit/53f3b12f0d46be0eb48d1e36a0f67e1abfb19a2b))
+
+#### `katana_listenables_annotation` - `v1.2.1`
+
+ - **DOCS**: README modifications. ([53f3b12f](https://github.com/mathrunet/flutter_masamune/commit/53f3b12f0d46be0eb48d1e36a0f67e1abfb19a2b))
+
+#### `katana_listenables_builder` - `v1.2.2`
+
+ - **DOCS**: README modifications. ([53f3b12f](https://github.com/mathrunet/flutter_masamune/commit/53f3b12f0d46be0eb48d1e36a0f67e1abfb19a2b))
+
+#### `katana_router` - `v1.8.8`
+
+ - **DOCS**: README modifications. ([53f3b12f](https://github.com/mathrunet/flutter_masamune/commit/53f3b12f0d46be0eb48d1e36a0f67e1abfb19a2b))
+
+#### `katana_router_annotation` - `v1.8.7`
+
+ - **DOCS**: README modifications. ([53f3b12f](https://github.com/mathrunet/flutter_masamune/commit/53f3b12f0d46be0eb48d1e36a0f67e1abfb19a2b))
+
+#### `katana_router_builder` - `v1.8.8`
+
+ - **DOCS**: README modifications. ([53f3b12f](https://github.com/mathrunet/flutter_masamune/commit/53f3b12f0d46be0eb48d1e36a0f67e1abfb19a2b))
+
+
+## 2022-10-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_listenables_annotation` - `v1.2.0`](#katana_listenables_annotation---v120)
  - [`katana_listenables` - `v1.2.1`](#katana_listenables---v121)
  - [`katana_listenables_builder` - `v1.2.1`](#katana_listenables_builder---v121)
