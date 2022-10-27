@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **DOCS**: ReadMe Updates. ([5174fee3](https://github.com/mathrunet/flutter_masamune/commit/5174fee32088e267c855de51cc23005cf6eb961f))
+
 ## 1.1.1
 
  - **FIX**: The generated code did not work, so it was fixed. ([73ea7f0f](https://github.com/mathrunet/flutter_masamune/commit/73ea7f0f8f15cad83d6157bd620b824a467adcdf))

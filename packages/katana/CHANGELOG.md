@@ -1,3 +1,7 @@
+## 0.15.7
+
+ - **FEAT**: DateTime.age, etc. added. ([03ab06a3](https://github.com/mathrunet/flutter_masamune/commit/03ab06a3224a9a0050ff39d85ef55ea86e2cedce))
+
 ## 0.15.6
 
  - **FEAT**: Add lastWhereOrNull. ([0bf6b5e3](https://github.com/mathrunet/flutter_masamune/commit/0bf6b5e35e9ccac42e212f084d7bda584113cc50))

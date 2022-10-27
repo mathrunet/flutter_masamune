@@ -43,8 +43,8 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^2.2.1
-  katana_theme_builder:
-    path: "../../katana_theme_builder"
+  # katana_theme_builder:
+  #   path: "../../katana_theme_builder"
   
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -55,8 +55,8 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 dependency_overrides:
-  katana_theme_annotation:
-    path: "../../katana_theme_annotation"
+  # katana_theme_annotation:
+  #   path: "../../katana_theme_annotation"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

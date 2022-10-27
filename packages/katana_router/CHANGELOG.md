@@ -1,3 +1,8 @@
+## 1.8.7
+
+ - **FIX**: Fixed a bug that caused URLs to change in NestedNavigation on the Web. ([792378f0](https://github.com/mathrunet/flutter_masamune/commit/792378f04f10e8b0cdbc4c6e2442a8b30d9a93de))
+ - **FIX**: Fixed a bug that prevented redirects from working properly. ([357f7f76](https://github.com/mathrunet/flutter_masamune/commit/357f7f7667461d0e545e13a8b7d09c53fd51e2bf))
+
 ## 1.8.6
 
  - **DOCS**: ReadMe updates. ([25ebe3a4](https://github.com/mathrunet/flutter_masamune/commit/25ebe3a4b9c4406872bbcce36fff76cf7b742d14))
