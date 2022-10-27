@@ -50,6 +50,12 @@ void main() {
     expect(text1.toCamelCase(), "camelCaseText");
     expect(text2.toCamelCase(), "camelCaseText");
   });
+  test("StringExtensions.toPascalCase", () {
+    const text1 = "PASCAL_CASE_TEXT";
+    const text2 = "pascal_case_text";
+    expect(text1.toPascalCase(), "PascalCaseText");
+    expect(text2.toPascalCase(), "PascalCaseText");
+  });
   test("StringExtensions.toInt", () {
     const text1 = "100";
     const text2 = "abc";

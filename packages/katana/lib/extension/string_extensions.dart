@@ -182,13 +182,28 @@ extension StringExtensions on String {
   ///
   /// ```dart
   /// final text = "CAMEL_CASE_TEXT";
-  /// final snakeCase = text.toSnakeCase(); // "camelCaseText"
+  /// final camelCase = text.toCamelCase(); // "camelCaseText"
   ///
   /// final text = "camel_case_text";
-  /// final snakeCase = text.toSnakeCase(); // "camelCaseText"
+  /// final camelCase = text.toCamelCase(); // "camelCaseText"
   /// ```
   String toCamelCase() {
     return camelCase;
+  }
+
+  /// Convert [String] to Pascal case (first letter capitalized).
+  ///
+  /// [String]をパスカルケース（最初の文字は大文字）に変換します。
+  ///
+  /// ```dart
+  /// final text = "PASCAL_CASE_TEXT";
+  /// final pascalCase = text.toPascalCase(); // "PascalCaseText"
+  ///
+  /// final text = "pascal_case_text";
+  /// final pascalCase = text.toPascalCase(); // "PascalCaseText"
+  /// ```
+  String toPascalCase() {
+    return pascalCase;
   }
 
   /// Converts [String] to [int].
