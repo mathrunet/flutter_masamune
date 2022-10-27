@@ -1,3 +1,7 @@
+## 0.15.8
+
+ - **FEAT**: Addition of toPascalCase. ([a6a13556](https://github.com/mathrunet/flutter_masamune/commit/a6a13556cd8e44d3d59d3b19bfc5480b7ce9d73d))
+
 ## 0.15.7
 
  - **FEAT**: DateTime.age, etc. added. ([03ab06a3](https://github.com/mathrunet/flutter_masamune/commit/03ab06a3224a9a0050ff39d85ef55ea86e2cedce))

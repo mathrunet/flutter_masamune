@@ -1,3 +1,7 @@
+## 1.1.9
+
+ - Update a dependency to the latest release.
+
 ## 1.1.8
 
  - **DOCS**: Correction of ReadMe wording. ([d17184eb](https://github.com/mathrunet/flutter_masamune/commit/d17184eb3a39666b704b9d8f5ffa54d6241d7533))
