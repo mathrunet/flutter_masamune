@@ -244,7 +244,7 @@ If you wish to change this, you can do so by specifying the initialPath when cre
 ```dart
 @appRoute
 final appRouter = AppRouter(
-	initialPath: "/landing"
+  initialPath: "/landing"
 );
 ```
 
@@ -255,7 +255,7 @@ This is safer.
 ```dart
 @appRoute
 final appRouter = AppRouter(
-	initialQuey: HomePage.query(),
+  initialQuery: HomePage.query(),
 );
 ```
 
@@ -291,10 +291,10 @@ When the `RedirectQuery` created here is passed by PagePath (for each individual
 
 ```dart
 @PagePath(
-	"/user/:user_id",
-	redirect: [
-		LoginRequiredRedirectQuery(),
-	]
+  "/user/:user_id",
+  redirect: [
+    LoginRequiredRedirectQuery(),
+  ]
 )
 class UserPage extends StatelessWidget {
   const UserPage({

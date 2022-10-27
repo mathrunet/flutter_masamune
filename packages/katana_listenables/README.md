@@ -45,12 +45,12 @@ For example, the following statement is used
 ```dart
 @listenables
 class ControllerGroup with _$ControllerGroup, ChangeNotifier {
-	factory ControllerGroup({
-		required TextEditingController emailTextEditingController,
-		required TextEditingController passwordTextEditingController,
-		required FocusNode focusNode,
-		ValueNotifier<bool> checkTerms,
-	}) = _ControllerGroup;
+  factory ControllerGroup({
+    required TextEditingController emailTextEditingController,
+    required TextEditingController passwordTextEditingController,
+    required FocusNode focusNode,
+    ValueNotifier<bool> checkTerms,
+  }) = _ControllerGroup;
 }
 ```
 
@@ -60,23 +60,23 @@ If you load this in [riverpod](https://pub.dev/packages/freezed), for example, a
 
 ```dart
 final controllerProvider = ChangeNotifierProvider((_) {
-	return ControllerGroup(
-		emailTextEditingController: TextEdigingController(),
-		passwordTextEditingController: TextEdigingController(),
-		focusNode: FocusNode(),
-		checkTerms: ValueNotifier(false),
-	);
+  return ControllerGroup(
+    emailTextEditingController: TextEdigingController(),
+    passwordTextEditingController: TextEdigingController(),
+    focusNode: FocusNode(),
+    checkTerms: ValueNotifier(false),
+ );
 });
 
 class TestPage extends ConsumerWidget {
-	@override
-	Widget build(BuildContext context, WidgetRef ref){
-		final controller = ref.watch(controllerProvider);
+  @override
+  Widget build(BuildContext context, WidgetRef ref){
+    final controller = ref.watch(controllerProvider);
 
-		~~~~
-		controller.emailTextEditingController.text = "New Text"; // At this time, the controller is also notified of the change and the widget is updated again.
-		~~~~
-	}
+    ~~~~
+    controller.emailTextEditingController.text = "New Text"; // At this time, the controller is also notified of the change and the widget is updated again.
+    ~~~~
+  }
 }
 ```
 
@@ -120,12 +120,12 @@ part 'controller.listenable.dart';
 
 @listenables
 class ControllerGroup with _$ControllerGroup, ChangeNotifier {
-	factory ControllerGroup({
-		required TextEditingController emailTextEditingController,
-		required TextEditingController passwordTextEditingController,
-		required FocusNode focusNode,
-		ValueNotifier<bool> checkTerms,
-	}) = _ControllerGroup;
+  factory ControllerGroup({
+    required TextEditingController emailTextEditingController,
+    required TextEditingController passwordTextEditingController,
+    required FocusNode focusNode,
+    ValueNotifier<bool> checkTerms,
+  }) = _ControllerGroup;
 }
 ```
 
@@ -145,43 +145,43 @@ Since the created class inherits from ChangeNotifier, it can be used in the same
 
 ```dart
 class TestPage extends StatefulWidget {
-	@override
-	State<StatefulWidget> createState => TestPageState();
+  @override
+  State<StatefulWidget> createState => TestPageState();
 }
 
 class TestPageState extends State<TestPage> {
-	final controller = ControllerGroup(
-		emailTextEditingController: TextEdigingController(),
-		passwordTextEditingController: TextEdigingController(),
-		focusNode: FocusNode(),
-		checkTerms: ValueNotifier(false),
-	);
+  final controller = ControllerGroup(
+    emailTextEditingController: TextEdigingController(),
+    passwordTextEditingController: TextEdigingController(),
+    focusNode: FocusNode(),
+    checkTerms: ValueNotifier(false),
+  );
 
-	@override
-	void initState(){
-		super.initState();
-		controller.addListener(_handledOnUpdate);
-	}
+  @override
+  void initState(){
+    super.initState();
+    controller.addListener(_handledOnUpdate);
+  }
 	
-	void _handledOnUpdate(){
-		setState((){});
-	}
+  void _handledOnUpdate(){
+    setState((){});
+  }
 
-	@override
-	void dispose(){
-		super.dispose();
-		controller.removeListener(_handledOnUpdate);
-		controller.dispose();
-	}
+  @override
+  void dispose(){
+    super.dispose();
+    controller.removeListener(_handledOnUpdate);
+    controller.dispose();
+  }
 
-	@override
-	Widget build(BuildContext context, WidgetRef ref){
-		final controller = ref.watch(controllerProvider);
+  @override
+  Widget build(BuildContext context, WidgetRef ref){
+    final controller = ref.watch(controllerProvider);
 
-		~~~~
-		controller.emailTextEditingController.text = "New Text"; // At this time, the controller is also notified of the change and the widget is updated again.
-		~~~~
-	}
+    ~~~~
+    controller.emailTextEditingController.text = "New Text"; // At this time, the controller is also notified of the change and the widget is updated again.
+    ~~~~
+  }
 }
 ```
 
@@ -189,23 +189,23 @@ class TestPageState extends State<TestPage> {
 
 ```dart
 final controllerProvider = ChangeNotifierProvider((_) {
-	return ControllerGroup(
-		emailTextEditingController: TextEdigingController(),
-		passwordTextEditingController: TextEdigingController(),
-		focusNode: FocusNode(),
-		checkTerms: ValueNotifier(false),
-	);
+  return ControllerGroup(
+    emailTextEditingController: TextEdigingController(),
+    passwordTextEditingController: TextEdigingController(),
+    focusNode: FocusNode(),
+    checkTerms: ValueNotifier(false),
+  );
 });
 
 class TestPage extends ConsumerWidget {
-	@override
-	Widget build(BuildContext context, WidgetRef ref){
-		final controller = ref.watch(controllerProvider);
+  @override
+  Widget build(BuildContext context, WidgetRef ref){
+    final controller = ref.watch(controllerProvider);
 
-		~~~~
-		controller.emailTextEditingController.text = "New Text"; // At this time, the controller is also notified of the change and the widget is updated again.
-		~~~~
-	}
+    ~~~~
+    controller.emailTextEditingController.text = "New Text"; // At this time, the controller is also notified of the change and the widget is updated again.
+    ~~~~
+  }
 }
 ```
 
@@ -227,16 +227,16 @@ part 'controller.listenable.dart';
 
 @listenables
 class ControllerGroup with _$ControllerGroup, ChangeNotifier {
-	factory ControllerGroup({
-		required TextEditingController emailTextEditingController,
-		required TextEditingController passwordTextEditingController,
-		required FocusNode focusNode,
-		ValueNotifier<bool> checkTerms,
-	}) = _ControllerGroup;
-	ControllerGroup._(); // Additional Required
+  factory ControllerGroup({
+    required TextEditingController emailTextEditingController,
+    required TextEditingController passwordTextEditingController,
+    required FocusNode focusNode,
+    ValueNotifier<bool> checkTerms,
+  }) = _ControllerGroup;
+  ControllerGroup._(); // Additional Required
 
-	bool checked {
-		return checkTerms?.value ?? false;
-	}
+  bool checked {
+    return checkTerms?.value ?? false;
+  }
 }
 ```

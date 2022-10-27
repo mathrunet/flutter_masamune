@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "49.0.0"
+    version: "50.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "5.2.0"
   args:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.6"
+    version: "7.2.7"
   built_collection:
     dependency: transitive
     description:
@@ -283,28 +283,28 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.6"
+    version: "0.15.7"
   katana_listenables:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.1.2"
+    version: "1.2.0"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_listenables_annotation"
       relative: true
     source: path
-    version: "1.1.1"
+    version: "1.1.2"
   katana_listenables_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_listenables_builder"
       relative: true
     source: path
-    version: "1.1.2"
+    version: "1.2.0"
   lints:
     dependency: transitive
     description:
