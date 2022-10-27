@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - Bump "katana_listenables_annotation" to `1.2.0`.
+
 ## 1.1.2
 
  - **DOCS**: ReadMe Updates. ([5174fee3](https://github.com/mathrunet/flutter_masamune/commit/5174fee32088e267c855de51cc23005cf6eb961f))

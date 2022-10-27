@@ -15,6 +15,36 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables_annotation` - `v1.2.0`](#katana_listenables_annotation---v120)
+ - [`katana_listenables` - `v1.2.1`](#katana_listenables---v121)
+ - [`katana_listenables_builder` - `v1.2.1`](#katana_listenables_builder---v121)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_listenables` - `v1.2.1`
+ - `katana_listenables_builder` - `v1.2.1`
+
+---
+
+#### `katana_listenables_annotation` - `v1.2.0`
+
+ - Bump "katana_listenables_annotation" to `1.2.0`.
+
+
+## 2022-10-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v0.15.7`](#katana---v0157)
  - [`katana_listenables` - `v1.2.0`](#katana_listenables---v120)
  - [`katana_listenables_annotation` - `v1.1.2`](#katana_listenables_annotation---v112)

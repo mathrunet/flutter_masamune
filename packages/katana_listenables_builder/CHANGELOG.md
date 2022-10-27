@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - Update a dependency to the latest release.
+
 ## 1.2.0
 
  - **FEAT**: Release started. ([fbe70404](https://github.com/mathrunet/flutter_masamune/commit/fbe70404d6e93505dcd128780491de2cc6ac6e12))
