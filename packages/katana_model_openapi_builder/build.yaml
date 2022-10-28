@@ -1,0 +1,21 @@
+builders:
+  katana_model_openapi_builder:
+    import: 'package:katana_model_openapi_builder/katana_model_openapi_builder.dart'
+    builder_factories: ['katanaModelOpenAPIBuilderFactory']
+    build_extensions: {'.openapi.yaml': ['.openapi.dart']}
+    auto_apply: all_packages
+    build_to: source
+    applies_builders: ['freezed', 'json_serializable']
+    runs_before: ['freezed', 'json_serializable']
+# targets:
+#   $default:
+#     builders:
+#       katana_model_openapi_builder:
+#         enabled: true
+#         generate_for:
+#           exclude:
+#             - test
+#             - example
+#           include:
+#             - test/integration/*
+#             - test/integration/**/*

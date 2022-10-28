@@ -31,7 +31,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  katana_listenables:
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.7.0
+  katana_model_openapi:
     path: "../"
 
   # The following adds the Cupertino Icons font to your application.
@@ -43,8 +45,10 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^2.2.1
-  katana_listenables_builder:
-    path: "../../katana_listenables_builder"
+  freezed: ^2.2.1
+  json_serializable: ^6.5.4
+  katana_model_openapi_builder:
+    path: "../../katana_model_openapi_builder"
   
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -53,10 +57,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
-dependency_overrides:
-  katana_listenables_annotation:
-    path: "../../katana_listenables_annotation"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
