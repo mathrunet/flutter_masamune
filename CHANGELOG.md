@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_openapi` - `v1.1.0`](#katana_model_openapi---v110)
+ - [`katana_model_openapi_builder` - `v1.1.0`](#katana_model_openapi_builder---v110)
+
+---
+
+#### `katana_model_openapi` - `v1.1.0`
+
+ - **FEAT**: katana_model_openapi first commit. ([c2a2ece5](https://github.com/mathrunet/flutter_masamune/commit/c2a2ece5595e08be8f09cf5cdf365bf7614586c7))
+
+#### `katana_model_openapi_builder` - `v1.1.0`
+
+ - **FEAT**: katana_model_openapi first commit. ([c2a2ece5](https://github.com/mathrunet/flutter_masamune/commit/c2a2ece5595e08be8f09cf5cdf365bf7614586c7))
+
+
 ## 2022-10-27
 
 ### Changes
