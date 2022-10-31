@@ -1,0 +1,91 @@
+part of katana_scoped;
+
+/// Place it close to the route (e.g., on top of MaterialApp) to use state management in the app.
+///
+/// Pass the globally defined [AppRef] in [appRef] and the child widget in [child].
+///
+/// アプリ内で状態管理を利用するためにルートに近い場所（MaterialAppの上など）に置いてください。
+///
+/// [appRef]にグローバルに定義した[AppRef]、[child]に子供のウィジェットを渡してください。
+///
+/// ```dart
+/// final appRef = AppRef();
+///
+/// void main() {
+///   runApp(const MyApp());
+/// }
+///
+/// class MyApp extends StatelessWidget {
+///   const MyApp();
+///
+///   @override
+///   Widget build(BuildContext context){
+///     return AppScoped(
+///       appRef: appRef,
+///       child: MaterialApp(
+///         ~~~~~
+///       ),
+///     );
+///   }
+/// }
+/// ```
+@immutable
+class AppScoped extends StatefulWidget {
+  /// Place it close to the route (e.g., on top of MaterialApp) to use state management in the app.
+  ///
+  /// Pass the globally defined [AppRef] in [appRef] and the child widget in [child].
+  ///
+  /// アプリ内で状態管理を利用するためにルートに近い場所（MaterialAppの上など）に置いてください。
+  ///
+  /// [appRef]にグローバルに定義した[AppRef]、[child]に子供のウィジェットを渡してください。
+  ///
+  /// ```dart
+  /// final appRef = AppRef();
+  ///
+  /// void main() {
+  ///   runApp(const MyApp());
+  /// }
+  ///
+  /// class MyApp extends StatelessWidget {
+  ///   const MyApp();
+  ///
+  ///   @override
+  ///   Widget build(BuildContext context){
+  ///     return AppScoped(
+  ///       appRef: appRef,
+  ///       child: MaterialApp(
+  ///         ~~~~~
+  ///       ),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  const AppScoped({
+    super.key,
+    required this.appRef,
+    required this.child,
+  });
+
+  /// Reference for managing the state of the app scope.
+  ///
+  /// アプリスコープの状態を管理するためのリファレンス。
+  final AppRef appRef;
+
+  /// Widgets to be placed below, such as MaterialApp.
+  ///
+  /// 下に配置されるウィジェット。MaterialApp等。
+  final Widget child;
+
+  @override
+  State<StatefulWidget> createState() => _AppScopedState();
+}
+
+class _AppScopedState extends State<AppScoped> {
+  @override
+  Widget build(BuildContext context) {
+    return _AppScopedScope(
+      state: this,
+      child: widget.child,
+    );
+  }
+}
