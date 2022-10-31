@@ -1,0 +1,4434 @@
+swagger: "2.0"
+info:
+  version: "2021-02-19T07:35:00Z"
+  title: ORPHE Analytics API
+  description: 時間の取り扱い方針<br>
+    ・基本的にはDBデータはUTCとする。<br>
+    ・例外はサマリーしているデータ。これらはサマリーした現地年月＋タイムゾーンをDBに保持する。<br>
+    ・APIのリクエストはGet、Post共にローカル日時とタイムゾーン。レスポンスもローカル時間 とする。<br>
+
+host: analytics.orphe.ai
+basePath: /api/v1
+
+schemes:
+  - https
+security: []
+paths:
+  "/login-accounts/{firebase_id}":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: ログインアカウント取得
+      parameters:
+        - name: firebase_id
+          in: path
+          required: true
+          type: string
+          description: "COMPANY ID"
+          example: "3"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/LoginAccountRecord"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/offices":
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 施設登録
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/OfficePost"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/OfficeGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/offices/{m_office_id}":
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 施設更新
+      parameters:
+        - name: m_office_id
+          in: path
+          description: m_office_id
+          required: true
+          type: integer
+          example: 3
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/OfficePut"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/OfficeGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 施設削除
+      parameters:
+        - name: m_office_id
+          in: path
+          description: m_office_id
+          required: true
+          type: integer
+          example: 3
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー取得
+      parameters:
+        - name: oid
+          in: query
+          required: true
+          type: string
+          description: "オフィスID。m_office_id"
+          example: ""
+
+        # - name: edgeuuid
+        #   in: query
+        #   required: true
+        #   type: string
+        #   description: "intdashのEdge uuid"
+        #   example: "c5505805-8bf7-4bb9-a027-5d1b834821bc"
+
+        - name: sort
+          in: query
+          type: string
+          description: "ソート条件。並び替えたいキーを指定。カンマ区切りで複数指定。先頭に「-」で降順（無しは昇順）。キーは「id」「name」「name_kana」「gender」「birth_date」「height」「weight」「created_at」「updated_at」"
+          example: -updated_at,id
+
+        - name: page
+          in: query
+          type: integer
+          example: 1
+          description: "該当データの何番目からデータを取得するかの値。1〜"
+
+        - name: size
+          in: query
+          type: integer
+          example: 200
+          description: "取得件数(MAX xxxx メンバーIDの昇順で取得)"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/MemberSearchRecordGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー登録
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/MemberRecordPost"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/MemberRecordGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}":
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー更新
+      parameters:
+        - name: m_member_id
+          in: path
+          description: m_member_id
+          required: true
+          type: integer
+          example: 3
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/MemberRecordPut"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/MemberRecordGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー削除
+      parameters:
+        - name: m_member_id
+          in: path
+          description: m_member_id
+          required: true
+          type: integer
+          example: 3
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/member-delete-list":
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバーリスト削除
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/MemberListDelete"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              message:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/edgeuuid/{edge_uuid}":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー取得(edge uuidから)
+      parameters:
+        - name: edgeuuid
+          in: path
+          required: true
+          type: string
+          description: "intdashのEdge uuid"
+          example: "c5505805-8bf7-4bb9-a027-5d1b834821bc"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/MemberRecordGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/link/{m_member_id}":
+    post:
+      security:
+        - BearerDataLake: []
+      produces:
+        - application/json
+      summary: メンバー連携データ登録
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/MemberLinkPost"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/MemberLinkGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/link/{m_member_id}/{m_member_link_id}":
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー連携データ更新
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/MemberLinkPut"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/MemberLinkGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+  "/record-measurement-sessions/":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 記録セッション データ取得
+      parameters:
+
+        - name: m_member_id
+          in: query
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+        - name: sort
+          in: query
+          type: string
+          description: "ソート条件。並び替えたいキーを指定。カンマ区切りで複数指定。先頭に「-」で降順（無しは昇順）。キーは「id」「m_member_id」「created_at」「updated_at」"
+          example: -updated_at,id
+
+        - name: page
+          in: query
+          type: integer
+          example: 1
+          description: "該当データの何番目からデータを取得するかの値。1〜"
+
+        - name: size
+          in: query
+          type: integer
+          example: 200
+          description: "取得件数(MAX xxxx メンバーIDの昇順で取得)"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordMeasurementSessionSearchGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 記録セッション データ登録
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordMeasurementSessionPost"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordMeasurementSessionGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+  "/record-measurement-sessions/{t_record_measurement_session_id}":
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 記録セッション データ更新
+      parameters:
+        - name: t_record_measurement_session_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 測定セッションID"
+          example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordMeasurementSessionPost"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordMeasurementSessionSearchGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 記録セッション データ削除
+      parameters:
+        - name: t_record_measurement_session_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 測定セッションID"
+          example: 3
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+
+
+
+  "/members/{m_member_id}/record-measurements":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー記録データ取得
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+        - name: tid
+          in: query
+          type: integer
+          description: "タグID。m_tag_id"
+          example: 30
+
+        - name: coreid
+          in: query
+          type: integer
+          description: "コアID。t_record_core_id"
+          example: 14
+
+        # - name: datalake
+        #   in: query
+        #   type: integer
+        #   description: "DataLakeのデータを含むかどうか？のフラグ"
+        #   example: 1
+
+        - name: sort
+          in: query
+          type: string
+          description: "ソート条件。並び替えたいキーを指定。カンマ区切りで複数指定。先頭に「-」で降順（無しは昇順）。キーは「id」「m_member_id」「record_datetime_from」「record_datetime_to」「record_name」「created_at」「updated_at」"
+          example: -updated_at,id
+
+        # - name: id
+        #   in: query
+        #   type: array
+        #   description: "Example: id[0]=11&id[1]=23<br>取得するID(t_record_data.id)を配列形式で指定（要エンコード）"
+
+        - name: page
+          in: query
+          type: integer
+          example: 1
+          description: "該当データの何番目からデータを取得するかの値。1〜"
+
+        - name: size
+          in: query
+          type: integer
+          example: 200
+          description: "取得件数(MAX xxxx メンバーIDの昇順で取得)"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordMeasurementSearchGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  # "/members/{m_member_id}/record-measurements":
+    post:
+      security:
+        - edgeToke: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(測定・コア) 登録
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordMeasurementPost"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordMeasurementGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/record-measurements/{t_record_measurement_id}":
+    put:
+      security:
+        - edgeToke: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(測定) 更新
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+        - name: t_record_measurement_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 測定ID"
+          example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordMeasurementPut"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordMeasurementSearchGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(測定) 削除
+      parameters:
+        - name: m_member_id
+          in: path
+          description: m_member_id
+          required: true
+          type: integer
+          example: 1
+        - name: t_record_measurement_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 測定ID"
+          example: 3
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/record-measurement-delete-list":
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(測定)リスト削除
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバー 記録データ(測定)ID"
+          example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordMeasurementListDelete"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              message:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+  "/members/{m_member_id}/gait-analysis":
+    post:
+      security:
+        - edgeToke: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(歩容解析) 登録
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordGaitAnalysisPost"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordGaitAnalysisGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/gait-analysis/{t_record_gait_analysis_id}":
+    put:
+      security:
+        - edgeToke: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(歩容解析) 更新
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+        - name: t_record_gait_analysis_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 歩容解析ID"
+          example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordGaitAnalysisPost"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordGaitAnalysisGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+  # "/members/{m_member_id}/record_data/{record_data_id}":
+  #   put:
+  #     security:
+  #       - Bearer: []
+  #     produces:
+  #       - application/json
+  #     summary: メンバー記録データ更新
+  #     parameters:
+  #       - name: m_member_id
+  #         in: path
+  #         required: true
+  #         type: integer
+  #         description: "メンバーID"
+  #         example: 3
+  #
+  #       - name: record_data_id
+  #         in: path
+  #         required: true
+  #         type: string
+  #         description: "記録ID"
+  #         example: "3f0d4109-5944-44ea-86fb-e64807426741"
+  #
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: "#/definitions/RecordDataPut"
+  #
+  #     responses:
+  #       "200":
+  #         description: 成功時のレスポンス
+  #         schema:
+  #           $ref: "#/definitions/RecordDataGet"
+  #       "500":
+  #         description: サーバー内部エラー
+  #         schema:
+  #           $ref: "#/definitions/Error"
+
+
+  "/members/{m_member_id}/record-measurements/{t_record_measurement_id}/analyses":
+    post:
+      security:
+        - edgeToke: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(解析) 登録
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+        - name: t_record_measurement_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 測定ID"
+          example: 3
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordAnalysisPost"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordAnalysisGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/record-measurements/{t_record_measurement_id}/analyses/{t_record_analysis_id}":
+    put:
+      security:
+        - edgeToke: []
+      produces:
+        - application/json
+      summary: メンバー 記録データ(解析) 更新
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+        - name: t_record_measurement_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 測定ID"
+          example: 3
+        - name: t_record_analysis_id
+          in: path
+          required: true
+          type: integer
+          description: "記録 解析ID"
+          example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/RecordAnalysisPost"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/RecordAnalysisGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+
+  "/record-measurements":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 記録データ検索
+      description: "カンパニーユーザーのみアクセス可能"
+      parameters:
+        - name: oid
+          in: query
+          required: true
+          type: integer
+          description: "オフィスID。m_office_id"
+          example: 21
+
+        - name: mid
+          in: query
+          type: integer
+          description: "メンバーID。m_member_id"
+          example: 24
+
+        - name: tid
+          in: query
+          type: integer
+          description: "タグID。m_tag_id"
+          example: 30
+
+        - name: coreid
+          in: query
+          type: integer
+          description: "コアID。t_record_core_id"
+          example: 14
+
+        - name: page
+          in: query
+          type: integer
+          example: 1
+          description: "該当データの何番目からデータを取得するかの値。1〜"
+
+        - name: size
+          in: query
+          type: integer
+          example: 200
+          description: "取得件数(MAX xxxx メンバーIDの昇順で取得)"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/RecordMeasurementSearchGet"
+
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  # '/record_data/{m_member_id}/blank':
+  #   post:
+  #     security:
+  #       - Bearer: []
+  #     produces:
+  #       - application/json
+  #     summary: 空の記録レコード作成(edge uuid)
+  #     description: 空の記録レコード作成用API
+  #     parameters:
+  #       - name: m_member_id
+  #         in: path
+  #         required: true
+  #         type: integer
+  #         description: "メンバーID"
+  #         example: 3
+  #
+  #     responses:
+  #       "200":
+  #         description: 成功時のレスポンス
+  #         schema:
+  #          $ref: "#/definitions/RecordDataBlank"
+  #       "500":
+  #         description: サーバー内部エラー
+  #         schema:
+  #           $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/note":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: ノート検索
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+        - name: page
+          in: query
+          type: integer
+          example: 1
+          description: "該当データの何番目からデータを取得するかの値。1〜"
+
+        - name: size
+          in: query
+          type: integer
+          example: 200
+          description: "取得件数(MAX xxxx 作成日の降順で取得)"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/NoteSearchGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: ノート登録
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/NotePost"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/NoteGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/note/{t_member_note_id}":
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: ノート更新
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+        - name: t_member_note_id
+          in: path
+          required: true
+          type: string
+          description: "ノートID"
+          example: "72"
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/NotePut"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/NoteGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: ノート削除
+      parameters:
+        - name: m_member_id
+          in: path
+          description: m_member_id
+          required: true
+          type: integer
+          example: 3
+
+        - name: t_member_note_id
+          in: path
+          required: true
+          type: string
+          description: "ノートID"
+          example: "72"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/edge":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 利用可能エッジ取得
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/MemberEdge"
+        "400":
+          description: エッジ利用可能数超過
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Edge usage limit"
+              usages:
+                type: array
+                items:
+                  $ref: "#/definitions/MemberEdgeUsage"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/members/{m_member_id}/edge/{edge_uuid}":
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: エッジ利用履歴登録
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+        - name: edge_uuid
+          in: path
+          required: true
+          type: string
+          description: "エッジUUID"
+          example: safsk3kd-4gakgjak-eeknfi9ns
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/EdgeAvailablePost"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/EdgeAvailableGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: エッジ利用履歴更新
+      parameters:
+        - name: m_member_id
+          in: path
+          required: true
+          type: integer
+          description: "メンバーID"
+          example: 3
+
+        - name: edge_uuid
+          in: path
+          required: true
+          type: string
+          description: "エッジUUID"
+          example: safsk3kd-4gakgjak-eeknfi9ns
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/EdgeAvailablePut"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/EdgeAvailableGet"
+        "404":
+          description: 更新対象のintdashMeasurementUUIDが存在しない
+          schema:
+            $ref: "#/definitions/Error"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/tags":
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: タグ検索
+      parameters:
+        - name: oid
+          in: query
+          required: true
+          type: string
+          description: "オフィスID。m_office_id"
+          example: ""
+
+        - name: page
+          in: query
+          type: integer
+          example: 1
+          description: "該当データの何番目からデータを取得するかの値。1〜"
+
+        - name: size
+          in: query
+          type: integer
+          example: 200
+          description: "取得件数(MAX xxxx メンバーIDの昇順で取得)"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/TagGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: タグ登録
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/TagPost"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/TagGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/tags/{m_tag_id}":
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: タグ更新
+      parameters:
+        - name: m_tag_id
+          in: path
+          description: m_tag_id
+          required: true
+          type: integer
+          example: 3
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/TagPut"
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/TagGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: タグ削除
+      parameters:
+        - name: m_tag_id
+          in: path
+          description: m_tag_id
+          required: true
+          type: integer
+          example: 3
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+  "/tags_set":
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: タグ設定
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # type: object
+              # items:
+              $ref: "#/definitions/TagSetPost"
+
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+            # $ref: "#/definitions/TagGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  "/record_measurement_session_tags_set":
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 記録セッション タグ設定
+      parameters:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              # type: object
+              # items:
+              $ref: "#/definitions/TagSetPost"
+
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              result:
+                type: string
+                example: success
+            # $ref: "#/definitions/TagGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+  '/notices':
+    get:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 通知検索
+      parameters:
+        - name: oid
+          in: query
+          required: true
+          type: string
+          description: "オフィスID。m_office_id"
+          example: ""
+
+        - name: page
+          in: query
+          type: integer
+          example: 1
+          description: "該当データの何番目からデータを取得するかの値。1〜"
+
+        - name: size
+          in: query
+          type: integer
+          example: 200
+          description: "取得件数(MAX xxxx メンバーIDの昇順で取得)"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/NoticeGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  '/notices/{m_notice_id}':
+    put:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 通知更新
+      parameters:
+        - name: m_notice_id
+          in: path
+          description: m_tag_id
+          required: true
+          type: integer
+          example: 3
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/NoticePut"
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/NoticeGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  '/gaitanalysis':
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 歩容解析
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/gaitAnalysisPost"
+
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              executionArn:
+                type: string
+                example: "arn:aws:states:ap-northeaast-1:xxxxxxxxxxxx:execution:gaitAnalysisJob:2e04aff1-4554-4c99-854e-0d022135bc26"
+              startDate:
+                type: number
+                example: 1.629459145181E9
+
+  '/gaitanalysis/status':
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 歩容解析 ステータス取得
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/gaitAnalysisStatusPost"
+
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/gaitAnalysisStatus"
+
+  '/tfposeanalysis':
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 姿勢推定
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/tfPosePost"
+
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          schema:
+            properties:
+              executionArn:
+                type: string
+                example: "arn:aws:states:ap-northeaast-1:xxxxxxxxxxxx:execution:tfPoseJob:2e04aff1-4554-4c99-854e-0d022135bc26"
+              startDate:
+                type: number
+                example: 1.629459145181E9
+
+  '/tfposeanalysis/status':
+    post:
+      security:
+        - Bearer: []
+      produces:
+        - application/json
+      summary: 姿勢推定 ステータス取得
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/gaitAnalysisStatusPost"
+
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/gaitAnalysisStatus"
+
+  '/user-api-token/{m_office_id}':
+    get:
+      security:
+        - preReservedApiKey: []
+      produces:
+        - application/json
+      summary: ユーザーAPIトークン取得
+      parameters:
+          - name: m_office_id
+            in: path
+            required: true
+            type: string
+            description: "オフィスID"
+            example: 3
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            $ref: "#/definitions/OfficeIntdashUserGet"
+        "500":
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+
+  '/edges/history':
+    get:
+      security:
+        - preReservedApiKey: []
+      produces:
+        - application/json
+      summary: エッジ 利用履歴取得
+      parameters:
+        - name: host
+          in: query
+          type: string
+          description: "エッジ利用履歴を取得する該当ホスト"
+          example: intdash.analytics.orphe.ai
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/EdgeAvailableGet"
+        '500':
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  '/vm2m/screen/{resource}':
+    get:
+      security:
+        - Bearer: []
+      summary: GitLabリソースのリバースプロキシ
+      parameters:
+        - name: resource
+          in: path
+          type: string
+          description: "https://gitlab.com/no-new-folk/public/OrpheAnalyticsVisualM2MData/-/raw/master/src/ 以降のパスを指定"
+          example: data.dat
+
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            type: string
+            example: ANY CONTENT..
+            description: 指定したGitLabのリソース
+        '500':
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+  '/admin/chunk-log-and-gps/{user_id}':
+    get:
+      security:
+        - Bearer: []
+      summary: 歩容解析データとGPSデータの取得（管理画面用）
+      parameters:
+        - name: user_id
+          in: path
+          type: string
+          description: ユーザーID
+          example: 940a6f27-a30e-4a3e-b580-a8a03d4053d5
+        - name: start_date
+          in: query
+          type: string
+          description: データ取得期間 開始日
+          example: 2022-05-01
+        - name: end_date
+          in: query
+          type: string
+          description: データ取得期間 終了日
+          example: 2022-05-31
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                activity_id:
+                  type: string
+                  example: C8EB08DF-DFF8-4E98-8192-17875FB10099
+                  description: アクティビティID
+                chunk_log:
+                  type: string
+                  example: CSV FILE DATA...
+                  description: chunk log CSVデータ
+                gps:
+                  type: string
+                  example: GPS FILE DATA...
+                  description: GPS CSVデータ
+        '500':
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+  '/admin/users':
+    get:
+      security:
+        - Bearer: []
+      summary: OrpheTrackユーザー一覧の取得（管理画面用）
+      responses:
+        "200":
+          description: 成功時のレスポンス
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                user_number:
+                  type: string
+                  example: 41010
+                  description:
+                user_id:
+                  type: string
+                  example: 5cbde489-ca61-4e54-92ea-8b796829ef71
+                  description: ユーザーID
+                nickname:
+                  example: tarou
+                  description: ニックネーム
+        '500':
+          description: サーバー内部エラー
+          schema:
+            $ref: "#/definitions/Error"
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+  BearerDataLake:
+    type: apiKey
+    name: Authorization
+    in: header
+
+  edgeToke:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+
+  preReservedApiKey:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+
+
+definitions:
+  Empty:
+    type: object
+    title: Empty Schema
+
+  Error:
+    type: object
+    properties:
+      errors:
+        type: object
+        message:
+          type: string
+          example: ""
+          description: "エラーメッセージ"
+
+  CompanyRecord:
+    type: "object"
+    required:
+      - "id"
+      - "name"
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: "会社ID"
+      name:
+        type: string
+        example: "株式会社 〇〇フィットネス"
+        description: "会社名"
+      owner:
+        type: string
+        example: "山本 太郎"
+        description: "代表者"
+      zip:
+        type: string
+        example: "1110011"
+        description: "郵便番号"
+      address1:
+        type: string
+        example: "13"
+        description: "都道府県コード"
+      address2:
+        type: string
+        example: "渋谷区渋谷"
+        description: "市区町村"
+      address3:
+        type: string
+        example: "1-1-1"
+        description: "番地"
+      address4:
+        type: string
+        example: "渋谷ビル 4F"
+        description: "建物名"
+      tel:
+        type: string
+        example: "03-3333-3333"
+        description: "電話番号"
+      email:
+        type: string
+        example: "maru-fitness@info.co.jp"
+        description: "メールアドレス"
+
+  OfficeRecord:
+    required:
+    properties:
+      id:
+        type: integer
+        example: 13
+        description: "オフィスID"
+      m_company_id:
+        type: integer
+        example: 3
+        description: "会社ID"
+      name:
+        type: string
+        example: "株式会社 〇〇フィットネス"
+        description: "会社名"
+      owner:
+        type: string
+        example: "山本 太郎"
+        description: "代表者"
+      zip:
+        type: string
+        example: "1110011"
+        description: "郵便番号"
+      address1:
+        type: string
+        example: "13"
+        description: "都道府県コード"
+      address2:
+        type: string
+        example: "渋谷区渋谷"
+        description: "市区町村"
+      address3:
+        type: string
+        example: "1-1-1"
+        description: "番地"
+      address4:
+        type: string
+        example: "渋谷ビル 4F"
+        description: "建物名"
+      tel:
+        type: string
+        example: "03-3333-3333"
+        description: "電話番号"
+      email:
+        type: string
+        example: "maru-fitness@info.co.jp"
+        description: "メールアドレス"
+      edgelimit:
+        type: integer
+        example: 5
+        description: "エッジ リミット"
+      intdash_tenant_id:
+        type: string
+        example: "5cdc75c9-ca87-4c68-936e-aa73ff1bb18s"
+        description: "Intdash テナントID"
+      crm_flg:
+        type: bool
+        example: 1
+        description: "CRM機能 ON/OFF"
+      pivot:
+        type: array
+        items:
+          $ref: "#/definitions/OfficePivotRecord"
+
+  OfficePivotRecord:
+    type: object
+    properties:
+      m_company_user_id:
+        type: integer
+        example: 3
+        description:
+      m_office_id:
+        type: integer
+        example: 13
+        description:
+
+  RoleRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 20
+        description: ""
+      role_name:
+        type: string
+        example: member
+        description: "ロール名（super_admin,company_user_admin,company_user_general,memberなど）"
+      pivot:
+        type: array
+        items:
+          $ref: "#/definitions/RolePivotRecord"
+      permissions:
+        type: array
+        items:
+          $ref: "#/definitions/PermissionRecord"
+      created_at:
+        type: string
+        example: "2021-03-12T12:23:05"
+      updated_at:
+        type: string
+        example: "2021-03-12T12:23:05"
+
+  PermissionRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 10
+        description: "権限ID"
+      permission_name:
+        type: string
+        example: member_create
+        description: "パーミッション名（member_create, member_read, record_data_update, record_data_delete など）"
+      pivot:
+        type: array
+        items:
+          $ref: "#/definitions/PermissionPivotRecord"
+      created_at:
+        type: string
+        example: "2021-03-12T12:23:05"
+      updated_at:
+        type: string
+        example: "2021-03-12T12:23:05"
+
+  RolePivotRecord:
+    type: object
+    properties:
+      m_login_account_id:
+        type: integer
+        example: 3
+        description:
+      m_role_id:
+        type: integer
+        example: 20
+        description:
+
+  PermissionPivotRecord:
+    type: object
+    properties:
+      m_role_id:
+        type: integer
+        example: 20
+        description:
+      m_permission_id:
+        type: integer
+        example: 10
+        description:
+
+  MemberSearchRecordGet:
+    type: object
+    properties:
+      current_page:
+        type: integer
+        example: 1
+        description: 現在のページ番号
+      last_page:
+        type: integer
+        example: 3
+        description: 最終ページ番号
+      per_page:
+        type: integer
+        example: 10
+        description: ページ毎のデータ数
+      from:
+        type: integer
+        example: 1
+        description: 取得開始データ番号
+      to:
+        type: integer
+        example: 10
+        description: 取得終了データ番号
+      total:
+        type: integer
+        example: 28
+        description: 全データ件数
+      first_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/13?page=1
+        description: 開始ページ取得URL
+      prev_page_url:
+        type: string
+        example: null
+        description: 前ページ取得URL
+      next_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/13?page=2
+        description: 次ページ取得URL
+      last_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/13?page=3
+        description: 最終ページ取得URL
+      path:
+        type: string
+        example: https://xxxxx.com/api/members/13
+        description: ベースURL
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/MemberRecordGet"
+
+  MemberRecordGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: id
+      m_office_id:
+        type: integer
+        example: 13
+        description: オフィスID
+      name:
+        type: string
+        example: 山本 一郎
+        description: 名前
+      name_kana:
+        type: string
+        example: ヤマモト イチロウ
+        description: カナ
+      gender:
+        type: integer
+        example: 1
+        description: 性別 (0:未回答、1:男性、2:女性)
+      birth_date:
+        type: string
+        example: "1978-04-21"
+        description: 生年月日
+      height:
+        type: number <float>
+        example: 172.5
+        description: 身長
+      weight:
+        type: number <float>
+        example: 68.3
+        description: 体重
+      member_edges:
+        type: array
+        items:
+          $ref: "#/definitions/MemberEdge"
+      member_links:
+        type: array
+        items:
+          $ref: "#/definitions/MemberLinkGet"
+      # edge_uuid:
+      #   type: string
+      #   example: c5505805-8bf7-4bb9-a027-5d1b834821bc
+      #   description: intdashのEdgeのuuid
+      record_measurement_sessions:
+        type: array
+        items:
+          $ref: "#/definitions/RecordMeasurementSessionGet"
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+      deleted_at:
+        type: string
+        example: "2021-03-05 10:03:05"
+        description:
+
+  MemberEdge:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: id
+      m_member_id:
+        type: integer
+        example: 2
+        description: m_member_id
+      edge_uuid:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: edge uuid
+
+  MemberEdgeUsage:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: id
+      m_member_id:
+        type: integer
+        example: 2
+        description: m_member_id
+      edge_uuid:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: edge uuid
+      member:
+        $ref: '#/definitions/MemberRecordGet'
+
+  OfficePost:
+    type: object
+    required:
+      - "m_company_id"
+      - "name"
+      - "email"
+    properties:
+      m_company_id:
+        type: integer
+        example: 13
+        description: 会社ID
+      name:
+        type: string
+        example: 東京施設
+        description: 名前
+      owner:
+        type: string
+        example: ヤマモト イチロウ
+        description: 代表者
+      zip:
+        type: integer
+        example: "111-1111"
+        description: 郵便番号
+      address1:
+        type: string
+        example: "13"
+        description: 都道府県
+      address2:
+        type: string
+        example: 渋谷区渋谷
+        description: 住所2
+      address3:
+        type: string
+        example: 1-1-1
+        description: 住所3
+      address4:
+        type: string
+        example: 渋谷ビル8F
+        description: 住所4
+      tel:
+        type: string
+        example: 03-3333-3333
+        description: 電話番号
+      email:
+        type: string
+        example: test@example.com
+        description: メールアドレス
+      edgelimit:
+        type: integer
+        example: 3
+        description: エッジリミット
+      crm_flg:
+        type: integer
+        example: 1
+        description: CRMフラグ
+      plan:
+        type: integer
+        example: 1
+        description: 契約プラン
+      term_start:
+        type: string
+        example: 2022/08/08
+        description: 契約開始日
+      term_end:
+        type: string
+        example: 2022/08/20
+        description: 契約終了日
+
+  OfficeGet:
+    type: object
+    required:
+      - "m_company_id"
+      - "name"
+      - "email"
+    properties:
+      id:
+        type: integer
+        example: 13
+        description: ID
+      m_company_id:
+        type: integer
+        example: 13
+        description: 会社ID
+      name:
+        type: string
+        example: 東京施設
+        description: 名前
+      owner:
+        type: string
+        example: ヤマモト イチロウ
+        description: 代表者
+      zip:
+        type: integer
+        example: "111-1111"
+        description: 郵便番号
+      address1:
+        type: string
+        example: "13"
+        description: 都道府県
+      address2:
+        type: string
+        example: 渋谷区渋谷
+        description: 住所2
+      address3:
+        type: string
+        example: 1-1-1
+        description: 住所3
+      address4:
+        type: string
+        example: 渋谷ビル8F
+        description: 住所4
+      tel:
+        type: string
+        example: 03-3333-3333
+        description: 電話番号
+      email:
+        type: string
+        example: test@example.com
+        description: メールアドレス
+      edgelimit:
+        type: integer
+        example: 3
+        description: エッジリミット
+      intdash_tenant_id:
+        type: string
+        example: tsaie9sfy-e8fyjashf0-sfhjsfh
+        description: IntdashテナントID
+      crm_flg:
+        type: integer
+        example: 1
+        description: CRMフラグ
+      plan:
+        type: integer
+        example: 1
+        description: 契約プラン
+      term_start:
+        type: string
+        example: 2022/08/08
+        description: 契約開始日
+      term_end:
+        type: string
+        example: 2022/08/20
+        description: 契約終了日
+
+  OfficePut:
+    type: object
+    required:
+      - "m_company_id"
+      - "name"
+    properties:
+      m_company_id:
+        type: integer
+        example: 13
+        description: 会社ID
+      name:
+        type: string
+        example: 東京施設
+        description: 名前
+      owner:
+        type: string
+        example: ヤマモト イチロウ
+        description: 代表者
+      zip:
+        type: integer
+        example: "111-1111"
+        description: 郵便番号
+      address1:
+        type: string
+        example: "13"
+        description: 都道府県
+      address2:
+        type: string
+        example: 渋谷区渋谷
+        description: 住所2
+      address3:
+        type: string
+        example: 1-1-1
+        description: 住所3
+      address4:
+        type: string
+        example: 渋谷ビル8F
+        description: 住所4
+      tel:
+        type: string
+        example: 03-3333-3333
+        description: 電話番号
+      email:
+        type: string
+        example: test@example.com
+        description: メールアドレス
+      edgelimit:
+        type: integer
+        example: 3
+        description: エッジリミット
+      intdash_tenant_id:
+        type: string
+        example: tsaie9sfy-e8fyjashf0-sfhjsfh
+        description: IntdashテナントID
+      crm_flg:
+        type: integer
+        example: 1
+        description: CRMフラグ
+      plan:
+        type: integer
+        example: 1
+        description: 契約プラン
+      term_start:
+        type: string
+        example: 2022/08/08
+        description: 契約開始日
+      term_end:
+        type: string
+        example: 2022/08/20
+        description: 契約終了日
+
+
+  MemberRecordPost:
+    type: object
+    required:
+      - "m_office_id"
+      - "name"
+      - "name_kana"
+    properties:
+      m_office_id:
+        type: integer
+        example: 13
+        description: オフィスID
+      name:
+        type: string
+        example: 山本 一郎
+        description: 名前
+      name_kana:
+        type: string
+        example: ヤマモト イチロウ
+        description: 名前カナ
+      gender:
+        type: integer
+        example: 1
+        description: 性別 (0:非回答、1:男性、2:女性、３:その他)
+      birth_date:
+        type: string
+        example: "1978-04-21"
+        description: 生年月日
+      height:
+        type: number <float>
+        example: 172.5
+        description: 身長
+      weight:
+        type: number <float>
+        example: 68.3
+        description: 体重
+
+  MemberLinkGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: id
+      link_service:
+        type: integer
+        example: 1
+        description: 1:OrpheTrack、2:ASICS、・・・・
+      link_data:
+        type: object
+        properties:
+          data_lake_token:
+            type: string
+            example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NmMwNDEwZmE1MjFjMTZlNDQ2NWE4ZjVjODU5NjZhNWY1MDk5NGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JwaGVhbmFseXRpY3MtdGVzdCIsImF1ZCI6Im9ycGhlYW5hbHl0aWNzLXRlc3QiLCJhdXRoX3RpbWUiOjE2MzEyNTcyNjEsInVzZXJfaWQiOiJ2SEx5ZUpUZFZuZEdWQ0JSaTAyR1huSnQzeVgyIiwic3ViIjoidkhMeWVKVGRWbmRHVkNCUmkwMkdYbkp0M3lYMiIsImlhdCI6MTYzOTcyMDcyOSwiZXhwIjoxNjM5NzI0MzI5LCJlbWFpbCI6Im1oaXJvc2VAbm8tbmV3LWZvbGsuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWhpcm9zZUBuby1uZXctZm9say5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.T0g8S0VprKrDyMnw_BfY3yOWFoybZ023xEZxXtxgiNQfcS_cCV3gOQFSG9uTo6z8Y3b7Qvm35BzprP176f7TXm6MG_hgvfgsLMU1lUXWdThxSyLkr7IFeHjRc-3J8CjKNj6tL8UB3cMM1E4FqT8IBnhZohtRcrkrLffC_2MG-o2pSGaEfbm21e_In6VL7S70PKTMMlL_u69KPJhDm47vspzd44VrYAo24fTeNzZ0rkL0lwHHORFrwn5rKK-QrO4BetRyt4dRaMk-njhfPag0Y7c9pM8Rc-q3dWgzDvPL3vLcval-kdBKlLGOb43lkeeeT_utCLXHc9I-VteN3LwZfw
+            description: DataLakeトークン
+          data_lake_refresh_token:
+            type: string
+            example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NmMwNDEwZmE1MjFjMTZlNDQ2NWE4ZjVjODU5NjZhNWY1MDk5NGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JwaGVhbmFseXRpY3MtdGVzdCIsImF1ZCI6Im9ycGhlYW5hbHl0aWNzLXRlc3QiLCJhdXRoX3RpbWUiOjE2MzEyNTcyNjEsInVzZXJfaWQiOiJ2SEx5ZUpUZFZuZEdWQ0JSaTAyR1huSnQzeVgyIiwic3ViIjoidkhMeWVKVGRWbmRHVkNCUmkwMkdYbkp0M3lYMiIsImlhdCI6MTYzOTcyMDcyOSwiZXhwIjoxNjM5NzI0MzI5LCJlbWFpbCI6Im1oaXJvc2VAbm8tbmV3LWZvbGsuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWhpcm9zZUBuby1uZXctZm9say5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.T0g8S0VprKrDyMnw_BfY3yOWFoybZ023xEZxXtxgiNQfcS_cCV3gOQFSG9uTo6z8Y3b7Qvm35BzprP176f7TXm6MG_hgvfgsLMU1lUXWdThxSyLkr7IFeHjRc-3J8CjKNj6tL8UB3cMM1E4FqT8IBnhZohtRcrkrLffC_2MG-o2pSGaEfbm21e_In6VL7S70PKTMMlL_u69KPJhDm47vspzd44VrYAo24fTeNzZ0rkL0lwHHORFrwn5rKK-QrO4BetRyt4dRaMk-njhfPag0Y7c9pM8Rc-q3dWgzDvPL3vLcval-kdBKlLGOb43lkeeeT_utCLXHc9I-VteN3LwZfw
+            description: DataLakeリフレッシュトークン
+          orphe_id:
+            type: string
+            example: 40392
+            description: Orphe TrackのユーザーID
+          tenant_id:
+            type: string
+            example: 5f8cc13d-2017-4f4c-896c-638c7918a8sy
+            description: DataLake テナントID
+
+
+  MemberLinkPost:
+    type: object
+    required:
+      - "link_service"
+      - "link_data"
+    properties:
+      link_service:
+        type: integer
+        example: 1
+        description: 1:OrpheTrack、2:ASICS、・・・・
+      link_data:
+        type: object
+        properties:
+          data_lake_token:
+            type: string
+            example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NmMwNDEwZmE1MjFjMTZlNDQ2NWE4ZjVjODU5NjZhNWY1MDk5NGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JwaGVhbmFseXRpY3MtdGVzdCIsImF1ZCI6Im9ycGhlYW5hbHl0aWNzLXRlc3QiLCJhdXRoX3RpbWUiOjE2MzEyNTcyNjEsInVzZXJfaWQiOiJ2SEx5ZUpUZFZuZEdWQ0JSaTAyR1huSnQzeVgyIiwic3ViIjoidkhMeWVKVGRWbmRHVkNCUmkwMkdYbkp0M3lYMiIsImlhdCI6MTYzOTcyMDcyOSwiZXhwIjoxNjM5NzI0MzI5LCJlbWFpbCI6Im1oaXJvc2VAbm8tbmV3LWZvbGsuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWhpcm9zZUBuby1uZXctZm9say5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.T0g8S0VprKrDyMnw_BfY3yOWFoybZ023xEZxXtxgiNQfcS_cCV3gOQFSG9uTo6z8Y3b7Qvm35BzprP176f7TXm6MG_hgvfgsLMU1lUXWdThxSyLkr7IFeHjRc-3J8CjKNj6tL8UB3cMM1E4FqT8IBnhZohtRcrkrLffC_2MG-o2pSGaEfbm21e_In6VL7S70PKTMMlL_u69KPJhDm47vspzd44VrYAo24fTeNzZ0rkL0lwHHORFrwn5rKK-QrO4BetRyt4dRaMk-njhfPag0Y7c9pM8Rc-q3dWgzDvPL3vLcval-kdBKlLGOb43lkeeeT_utCLXHc9I-VteN3LwZfw
+            description: DataLakeトークン
+          data_lake_refresh_token:
+            type: string
+            example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NmMwNDEwZmE1MjFjMTZlNDQ2NWE4ZjVjODU5NjZhNWY1MDk5NGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JwaGVhbmFseXRpY3MtdGVzdCIsImF1ZCI6Im9ycGhlYW5hbHl0aWNzLXRlc3QiLCJhdXRoX3RpbWUiOjE2MzEyNTcyNjEsInVzZXJfaWQiOiJ2SEx5ZUpUZFZuZEdWQ0JSaTAyR1huSnQzeVgyIiwic3ViIjoidkhMeWVKVGRWbmRHVkNCUmkwMkdYbkp0M3lYMiIsImlhdCI6MTYzOTcyMDcyOSwiZXhwIjoxNjM5NzI0MzI5LCJlbWFpbCI6Im1oaXJvc2VAbm8tbmV3LWZvbGsuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWhpcm9zZUBuby1uZXctZm9say5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.T0g8S0VprKrDyMnw_BfY3yOWFoybZ023xEZxXtxgiNQfcS_cCV3gOQFSG9uTo6z8Y3b7Qvm35BzprP176f7TXm6MG_hgvfgsLMU1lUXWdThxSyLkr7IFeHjRc-3J8CjKNj6tL8UB3cMM1E4FqT8IBnhZohtRcrkrLffC_2MG-o2pSGaEfbm21e_In6VL7S70PKTMMlL_u69KPJhDm47vspzd44VrYAo24fTeNzZ0rkL0lwHHORFrwn5rKK-QrO4BetRyt4dRaMk-njhfPag0Y7c9pM8Rc-q3dWgzDvPL3vLcval-kdBKlLGOb43lkeeeT_utCLXHc9I-VteN3LwZfw
+            description: DataLakeリフレッシュトークン
+          orphe_id:
+            type: string
+            example: 40392
+            description: Orphe TrackのユーザーID
+          tenant_id:
+            type: string
+            example: 5f8cc13d-2017-4f4c-896c-638c7918a8sy
+            description: DataLake テナントID
+
+  MemberLinkPut:
+    type: object
+    required:
+      - "link_service"
+      - "link_data"
+    properties:
+      link_service:
+        type: integer
+        example: 1
+        description: 1:OrpheTrack、2:ASICS、・・・・
+      link_data:
+        type: object
+        properties:
+          data_lake_token:
+            type: string
+            example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NmMwNDEwZmE1MjFjMTZlNDQ2NWE4ZjVjODU5NjZhNWY1MDk5NGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JwaGVhbmFseXRpY3MtdGVzdCIsImF1ZCI6Im9ycGhlYW5hbHl0aWNzLXRlc3QiLCJhdXRoX3RpbWUiOjE2MzEyNTcyNjEsInVzZXJfaWQiOiJ2SEx5ZUpUZFZuZEdWQ0JSaTAyR1huSnQzeVgyIiwic3ViIjoidkhMeWVKVGRWbmRHVkNCUmkwMkdYbkp0M3lYMiIsImlhdCI6MTYzOTcyMDcyOSwiZXhwIjoxNjM5NzI0MzI5LCJlbWFpbCI6Im1oaXJvc2VAbm8tbmV3LWZvbGsuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWhpcm9zZUBuby1uZXctZm9say5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.T0g8S0VprKrDyMnw_BfY3yOWFoybZ023xEZxXtxgiNQfcS_cCV3gOQFSG9uTo6z8Y3b7Qvm35BzprP176f7TXm6MG_hgvfgsLMU1lUXWdThxSyLkr7IFeHjRc-3J8CjKNj6tL8UB3cMM1E4FqT8IBnhZohtRcrkrLffC_2MG-o2pSGaEfbm21e_In6VL7S70PKTMMlL_u69KPJhDm47vspzd44VrYAo24fTeNzZ0rkL0lwHHORFrwn5rKK-QrO4BetRyt4dRaMk-njhfPag0Y7c9pM8Rc-q3dWgzDvPL3vLcval-kdBKlLGOb43lkeeeT_utCLXHc9I-VteN3LwZfw
+            description: DataLakeトークン
+          data_lake_refresh_token:
+            type: string
+            example: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk1NmMwNDEwZmE1MjFjMTZlNDQ2NWE4ZjVjODU5NjZhNWY1MDk5NGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vb3JwaGVhbmFseXRpY3MtdGVzdCIsImF1ZCI6Im9ycGhlYW5hbHl0aWNzLXRlc3QiLCJhdXRoX3RpbWUiOjE2MzEyNTcyNjEsInVzZXJfaWQiOiJ2SEx5ZUpUZFZuZEdWQ0JSaTAyR1huSnQzeVgyIiwic3ViIjoidkhMeWVKVGRWbmRHVkNCUmkwMkdYbkp0M3lYMiIsImlhdCI6MTYzOTcyMDcyOSwiZXhwIjoxNjM5NzI0MzI5LCJlbWFpbCI6Im1oaXJvc2VAbm8tbmV3LWZvbGsuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWhpcm9zZUBuby1uZXctZm9say5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.T0g8S0VprKrDyMnw_BfY3yOWFoybZ023xEZxXtxgiNQfcS_cCV3gOQFSG9uTo6z8Y3b7Qvm35BzprP176f7TXm6MG_hgvfgsLMU1lUXWdThxSyLkr7IFeHjRc-3J8CjKNj6tL8UB3cMM1E4FqT8IBnhZohtRcrkrLffC_2MG-o2pSGaEfbm21e_In6VL7S70PKTMMlL_u69KPJhDm47vspzd44VrYAo24fTeNzZ0rkL0lwHHORFrwn5rKK-QrO4BetRyt4dRaMk-njhfPag0Y7c9pM8Rc-q3dWgzDvPL3vLcval-kdBKlLGOb43lkeeeT_utCLXHc9I-VteN3LwZfw
+            description: DataLakeリフレッシュトークン
+          orphe_id:
+            type: string
+            example: 40392
+            description: Orphe TrackのユーザーID
+          tenant_id:
+            type: string
+            example: 5f8cc13d-2017-4f4c-896c-638c7918a8sy
+            description: DataLake テナントID
+
+  MemberRecordPut:
+    type: object
+    required:
+    properties:
+      m_office_id:
+        type: integer
+        example: 13
+        description: オフィスID
+      name:
+        type: string
+        example: 山本 一郎
+        description: 名前
+      name_kana:
+        type: string
+        example: ヤマモト イチロウ
+        description: 名前カナ
+      gender:
+        type: integer
+        example: 1
+        description: 性別 (0:非回答、1:男性、2:女性、３:その他)
+      birth_date:
+        type: string
+        example: "1978-04-21"
+        description: 生年月日
+      height:
+        type: number <float>
+        example: 172.5
+        description: 身長
+      weight:
+        type: number <float>
+        example: 68.3
+        description: 体重
+
+  LoginAccountRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description:
+      firebase_id:
+        type: string
+        example: 45kdsfhuasfk87668
+        description: グループID
+      account_type:
+        type: string
+        example: App\Models\MCompanyUser
+        description: ログインア カウントタイプ
+      account_id:
+        type: integer
+        example: 3
+        description: m_company_users.id,m_members.id など
+      email:
+        type: string
+        example: taro_yamamoto@aaa.com
+        description: メールアドレス
+      account:
+        $ref: "#/definitions/AccountRecord"
+      roles:
+        $ref: "#/definitions/RoleRecord"
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  AccountRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description:
+      m_company_id:
+        type: integer
+        example: 3
+        description:
+      name:
+        type: string
+        example: ログイン者１
+        description: ログインメンバー
+      company:
+        $ref: "#/definitions/CompanyRecord"
+      offices:
+        type: array
+        items:
+          $ref: "#/definitions/OfficeRecord"
+
+  RecordDataBlankPost:
+    type: object
+    properties:
+      m_member_id:
+        type: integer
+        example: 3
+        description:
+
+  RecordDataBlank:
+    type: object
+    properties:
+      record_data_id:
+        type: string
+        example: 3f0d4109-5944-44ea-86fb-e64807426741
+        description: 記録データID
+      intdash_mesurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+
+  RecordMeasurementSearchGet:
+    type: object
+    properties:
+      current_page:
+        type: integer
+        example: 1
+        description: 現在のページ番号
+      last_page:
+        type: integer
+        example: 3
+        description: 最終ページ番号
+      per_page:
+        type: integer
+        example: 10
+        description: ページ毎のデータ数
+      from:
+        type: integer
+        example: 1
+        description: 取得開始データ番号
+      to:
+        type: integer
+        example: 10
+        description: 取得終了データ番号
+      total:
+        type: integer
+        example: 28
+        description: 全データ件数
+      first_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements?page=1
+        description: 開始ページ取得URL
+      prev_page_url:
+        type: string
+        example: null
+        description: 前ページ取得URL
+      next_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements?page=2
+        description: 次ページ取得URL
+      last_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements?page=3
+        description: 最終ページ取得URL
+      path:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements
+        description: ベースURL
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/RecordMeasurementGet"
+
+  RecordMeasurementSessionSearchGet:
+    type: object
+    properties:
+      current_page:
+        type: integer
+        example: 1
+        description: 現在のページ番号
+      last_page:
+        type: integer
+        example: 3
+        description: 最終ページ番号
+      per_page:
+        type: integer
+        example: 10
+        description: ページ毎のデータ数
+      from:
+        type: integer
+        example: 1
+        description: 取得開始データ番号
+      to:
+        type: integer
+        example: 10
+        description: 取得終了データ番号
+      total:
+        type: integer
+        example: 28
+        description: 全データ件数
+      first_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements?page=1
+        description: 開始ページ取得URL
+      prev_page_url:
+        type: string
+        example: null
+        description: 前ページ取得URL
+      next_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements?page=2
+        description: 次ページ取得URL
+      last_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements?page=3
+        description: 最終ページ取得URL
+      path:
+        type: string
+        example: https://xxxxx.com/api/members/3/record-measurements
+        description: ベースURL
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/RecordMeasurementSessionGet"
+
+  RecordDataGet:
+    type: object
+    properties:
+      record_data_id:
+        type: string
+        example: 3f0d4109-5944-44ea-86fb-e64807426741
+        description: 記録データID
+      intdash_mesurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      record_datetime_from:
+        type: string
+        example: "2021-03-05 00:00:00"
+        description: 記録日時（from）
+      record_datetime_to:
+        type: string
+        example: "2021-03-05 23:59:59"
+        description: 記録日時（to）
+      record_name:
+        type: string
+        example: テスト記録
+        description: 記録名
+      pace:
+        type: number <string>
+        example: 312.20
+        description: ペース（スピード）（〇分〇秒/Km）
+      distance:
+        type: number <float>
+        example: 1000.00
+        description: 距離（m）
+      gait_type:
+        type: integer
+        example: 10
+        description: 0:Walk、10:Run
+      foot_strike_l:
+        type: number <float>
+        example: 3.00
+        description: 着地L
+      foot_strike_r:
+        type: number <float>
+        example: 3.00
+        description: 着地R
+      pronation_l:
+        type: number <float>
+        example: 3.00
+        description: プロネーションL
+      pronation_r:
+        type: number <float>
+        example: 3.00
+        description: プロネーションR
+      stride_l:
+        type: number <float>
+        example: 153.00
+        description: ストライドL
+      stride_r:
+        type: number <float>
+        example: 153.00
+        description: ストライドR
+      cadence_l:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスL（ピッチ）(spm)
+      cadence_r:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスR（ピッチ）(spm)
+      landing_time_l:
+        type: number <float>
+        example: 0.25
+        description: 着地時間L（秒）
+      landing_time_r:
+        type: number <float>
+        example: 0.25
+        description: 着地時間R（秒）
+      stride_height_l:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さL(cm)
+      stride_height_r:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さR(cm)
+      landing_force_l:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力L(cm)
+      landing_force_r:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力R(cm)
+      swing_phase_duration_l:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間L
+      swing_phase_duration_r:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間R
+      toe_off_angle_l:
+        type: number <float>
+        example: 3.20
+        description: 離地角度L
+      toe_off_angle_r:
+        type: number <float>
+        example: 3.20
+        description: 離地角度R
+      cyclic_stride_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_l.csv
+        description: 描画用ファイル名L
+      cyclic_stride_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_r.csv
+        description: 描画用ファイル名R
+      gait_analysis_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_l.csv
+        description: 歩容解析ファイル名L
+      gait_analysis_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_r.csv
+        description: 歩容解析ファイル名R
+      gaitanalysis_status:
+        type: number
+        example: 2
+        description: (0:未解析|1:解析中|2:解析完了|3:解析失敗)
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+      deleted_at:
+        type: string
+        example: "2021-03-05 10:03:05"
+        description:
+      tags:
+        type: array
+        items:
+          $ref: "#/definitions/TagGet"
+
+
+  RecordMeasurementPost:
+    type: object
+    properties:
+      # record_data_id:
+      #   type: string
+      #   example: 3f0d4109-5944-44ea-86fb-e64807426741
+      #   description: 記録データID
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      # record_datetime_from:
+      #   type: string
+      #   example: "2021-03-05 00:00:00"
+      #   description: 記録日時（from）
+      # record_datetime_to:
+      #   type: string
+      #   example: "2021-03-05 23:59:59"
+      #   description: 記録日時（to）
+      edge_uuid:
+        type: string
+        example: 45kds-fhuasf-k87668
+        description: エッジUUID
+        required: true
+      record_name:
+        type: string
+        example: テスト記録
+        description: 記録名
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID(指定された場合は計測UUIDを生成しない)
+      record_core:
+        type: array
+        items:
+          $ref: "#/definitions/RecordCorePost"
+
+  RecordMeasurementPut:
+    type: object
+    properties:
+      record_data_id:
+        type: string
+        example: 3f0d4109-5944-44ea-86fb-e64807426741
+        description: 記録データID
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      record_datetime_from:
+        type: string
+        example: "2021-03-05 00:00:00"
+        description: 記録日時（from）
+      record_datetime_to:
+        type: string
+        example: "2021-03-05 23:59:59"
+        description: 記録日時（to）
+      record_name:
+        type: string
+        example: テスト記録
+        description: 記録名
+
+  RecordCorePost:
+    type: object
+    properties:
+      core_type:
+        type: integer
+        format: "int64"
+        example: 0
+        description: 0 - 通常, 1 - 医療用センサー
+      core_version:
+        type: string
+        example: '2.0'
+        description:
+      firmware_version:
+        type: string
+        example: '2.2(20211219.1)'
+        description:
+      m_measurement_part_id:
+        type: integer
+        format: int64
+        example: 1
+        description: ID
+      intdash_measurement_channel:
+        type: integer
+        format: "int64"
+        example: 2
+        description: ID
+      m_device_id:
+        type: integer
+        format: "int64"
+        example: 2
+        description: 測定デバイスID（1:L_SHOES、2:R_SHOES、3:ORPHE_CORE）
+
+  RecordCoreGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 2
+        description: ID
+      core_type:
+        type: integer
+        format: "int64"
+        example: 0
+        description: 0 - 通常, 1 - 医療用センサー
+      core_version:
+        type: string
+        example: '2.0'
+        description:
+      firmware_version:
+        type: string
+        example: '2.2(20211219.1)'
+        description:
+      m_device_id:
+        type: integer
+        format: "int64"
+        example: 2
+        description: 測定デバイスID
+      t_record_measurement_id:
+        type: integer
+        example: 2
+        description: 記録 測定ID
+      m_measurement_part_id:
+        type: integer
+        format: int64
+        example: 1
+        description: ID
+      intdash_measurement_channel:
+        type: integer
+        format: "int64"
+        example: 2
+        description: ID
+      t_record_gait_analysis_id:
+        type: integer
+        example: 2
+        description: 記録 歩容解析ID
+      record_gait_analysis:
+        type: object
+        $ref: "#/definitions/RecordGaitAnalysisGet"
+
+
+  RecordMeasurementGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 2
+        description: ID
+      record_data_id:
+        type: string
+        example: 3f0d4109-5944-44ea-86fb-e64807426741
+        description: 記録データID
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      # edge_uuid:
+      #   type: string
+      #   example: f95340bf-a241-4769-b655-ebe87e2dd819
+      #   description: Edge uuid
+      record_datetime_from:
+        type: string
+        example: "2021-03-05 00:00:00"
+        description: 記録日時（from）
+      record_datetime_to:
+        type: string
+        example: "2021-03-05 23:59:59"
+        description: 記録日時（to）
+      record_name:
+        type: string
+        example: テスト記録
+        description: 記録名
+      record_core:
+        type: array
+        items:
+          $ref: "#/definitions/RecordCoreGet"
+      # record_analyses:
+      #   type: array
+      #   items:
+      #     $ref: "#/definitions/RecordAnalysisGet"
+      analysis_data:
+        $ref: "#/definitions/AnalysisData"
+      tags:
+        type: array
+        items:
+          $ref: "#/definitions/TagGet"
+
+  # TagGet:
+  #   type: object
+  #   properties:
+  #     id:
+  #       type: integer
+  #       example: 62
+  #       description: ID
+  #     m_office_id:
+  #       type: integer
+  #       example: 3
+  #       description: メンバーID
+  #     tag_name:
+  #       type: string
+  #       example: "膝関節症"
+  #       description: タグ名
+  #     created_at:
+  #       type: string
+  #       example: "2021-02-28 13:05:21"
+  #       description:
+  #     updated_at:
+  #       type: string
+  #       example: "2021-02-28 15:23:41"
+  #       description:
+
+
+  RecordGaitAnalysisPost:
+    type: object
+    properties:
+      t_record_core_id:
+        type: array
+        items:
+          type: integer
+        description: t_record_core_id
+
+      gait_analysis:
+        $ref: "#/definitions/RecordGaitAnalysisPostDetail"
+
+  MemberListDelete:
+    type: object
+    properties:
+      ids:
+        type: array
+        items:
+          type: integer
+        description: m_member_id
+
+  RecordMeasurementListDelete:
+    type: object
+    properties:
+      ids:
+        type: array
+        items:
+          type: integer
+        description: t_record_measurement_id
+
+  RecordGaitAnalysisPostDetail:
+    type: object
+    properties:
+      pace:
+        type: number <string>
+        example: 312.20
+        description: ペース（スピード）（〇分〇秒/Km）
+      distance:
+        type: number <float>
+        example: 1000.00
+        description: 距離（m）
+      gait_type:
+        type: integer
+        example: 10
+        description: 0:Walk、10:Run
+      foot_strike_l:
+        type: number <float>
+        example: 3.00
+        description: 着地L
+      foot_strike_r:
+        type: number <float>
+        example: 3.00
+        description: 着地R
+      pronation_l:
+        type: number <float>
+        example: 3.00
+        description: プロネーションL
+      pronation_r:
+        type: number <float>
+        example: 3.00
+        description: プロネーションR
+      stride_l:
+        type: number <float>
+        example: 153.00
+        description: ストライドL
+      stride_r:
+        type: number <float>
+        example: 153.00
+        description: ストライドR
+      cadence_l:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスL（ピッチ）(spm)
+      cadence_r:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスR（ピッチ）(spm)
+      landing_time_l:
+        type: number <float>
+        example: 0.25
+        description: 着地時間L（秒）
+      landing_time_r:
+        type: number <float>
+        example: 0.25
+        description: 着地時間R（秒）
+      stride_height_l:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さL(cm)
+      stride_height_r:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さR(cm)
+      landing_force_l:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力L(cm)
+      landing_force_r:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力R(cm)
+      swing_phase_duration_l:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間L
+      swing_phase_duration_r:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間R
+      toe_off_angle_l:
+        type: number <float>
+        example: 3.20
+        description: 離地角度L
+      toe_off_angle_r:
+        type: number <float>
+        example: 3.20
+        description: 離地角度R
+      cyclic_stride_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_l.csv
+        description: 描画用ファイル名L
+      cyclic_stride_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_r.csv
+        description: 描画用ファイル名R
+      gait_analysis_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_l.csv
+        description: 歩容解析ファイル名L
+      gait_analysis_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_r.csv
+        description: 歩容解析ファイル名R
+      gaitanalysis_status:
+        type: number
+        example: 2
+        description: (0:未解析|1:解析中|2:解析完了|3:解析失敗)
+
+
+
+
+
+  RecordGaitAnalysisGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 2
+        description: ID
+      pace:
+        type: number <string>
+        example: 312.20
+        description: ペース（スピード）（〇分〇秒/Km）
+      distance:
+        type: number <float>
+        example: 1000.00
+        description: 距離（m）
+      gait_type:
+        type: integer
+        example: 10
+        description: 0:Walk、10:Run
+      foot_strike_l:
+        type: number <float>
+        example: 3.00
+        description: 着地L
+      foot_strike_r:
+        type: number <float>
+        example: 3.00
+        description: 着地R
+      pronation_l:
+        type: number <float>
+        example: 3.00
+        description: プロネーションL
+      pronation_r:
+        type: number <float>
+        example: 3.00
+        description: プロネーションR
+      stride_l:
+        type: number <float>
+        example: 153.00
+        description: ストライドL
+      stride_r:
+        type: number <float>
+        example: 153.00
+        description: ストライドR
+      cadence_l:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスL（ピッチ）(spm)
+      cadence_r:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスR（ピッチ）(spm)
+      landing_time_l:
+        type: number <float>
+        example: 0.25
+        description: 着地時間L（秒）
+      landing_time_r:
+        type: number <float>
+        example: 0.25
+        description: 着地時間R（秒）
+      stride_height_l:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さL(cm)
+      stride_height_r:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さR(cm)
+      landing_force_l:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力L(cm)
+      landing_force_r:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力R(cm)
+      swing_phase_duration_l:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間L
+      swing_phase_duration_r:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間R
+      toe_off_angle_l:
+        type: number <float>
+        example: 3.20
+        description: 離地角度L
+      toe_off_angle_r:
+        type: number <float>
+        example: 3.20
+        description: 離地角度R
+      cyclic_stride_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_l.csv
+        description: 描画用ファイル名L
+      cyclic_stride_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_r.csv
+        description: 描画用ファイル名R
+      gait_analysis_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_l.csv
+        description: 歩容解析ファイル名L
+      gait_analysis_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_r.csv
+        description: 歩容解析ファイル名R
+      gaitanalysis_status:
+        type: number
+        example: 2
+        description: (0:未解析|1:解析中|2:解析完了|3:解析失敗)
+
+
+  RecordAnalysisPost:
+    type: object
+    properties:
+      analysis:
+        type: integer
+        example: 1
+        description: (1:姿勢推定|2:歩容解析|3:二次解析)
+      status:
+        type: integer
+        example: 2
+        description: (0:未解析|1:解析中|2:解析完了|3:解析失敗)
+
+  RecordAnalysisGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 2
+        description: ID
+      t_record_measurement_id:
+        type: integer
+        example: 4
+        description: 記録 測定ID
+      analysis:
+        type: integer
+        example: 1
+        description: (1:姿勢推定|2:XXXX・・・)
+      status:
+        type: integer
+        example: 2
+        description: (0:未解析|1:解析中|2:解析完了|3:解析失敗)
+
+
+  RecordDataPut:
+    type: object
+    properties:
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      record_datetime_from:
+        type: string
+        example: "2021-03-05 00:00:00"
+        description: 記録日時（from）
+      record_datetime_to:
+        type: string
+        example: "2021-03-05 23:59:59"
+        description: 記録日時（to）
+      record_name:
+        type: string
+        example: テスト記録
+        description: 記録名
+      pace:
+        type: number <string>
+        example: 312.20
+        description: ペース（スピード）（〇分〇秒/Km）
+      distance:
+        type: number <float>
+        example: 1000.00
+        description: 距離（m）
+      gait_type:
+        type: integer
+        example: 10
+        description: 0:Walk、10:Run
+      foot_strike_l:
+        type: number <float>
+        example: 3.00
+        description: 着地L
+      foot_strike_r:
+        type: number <float>
+        example: 3.00
+        description: 着地R
+      pronation_l:
+        type: number <float>
+        example: 3.00
+        description: プロネーションL
+      pronation_r:
+        type: number <float>
+        example: 3.00
+        description: プロネーションR
+      stride_l:
+        type: number <float>
+        example: 153.00
+        description: ストライドL
+      stride_r:
+        type: number <float>
+        example: 153.00
+        description: ストライドR
+      cadence_l:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスL（ピッチ）(spm)
+      cadence_r:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスR（ピッチ）(spm)
+      landing_time_l:
+        type: number <float>
+        example: 0.25
+        description: 着地時間L（秒）
+      landing_time_r:
+        type: number <float>
+        example: 0.25
+        description: 着地時間R（秒）
+      stride_height_l:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さL(cm)
+      stride_height_r:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さR(cm)
+      landing_force_l:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力L(cm)
+      landing_force_r:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力R(cm)
+      swing_phase_duration_l:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間L
+      swing_phase_duration_r:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間R
+      toe_off_angle_l:
+        type: number <float>
+        example: 3.20
+        description: 離地角度L
+      toe_off_angle_r:
+        type: number <float>
+        example: 3.20
+        description: 離地角度R
+      cyclic_stride_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_l.csv
+        description: 描画用ファイル名L
+      cyclic_stride_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_r.csv
+        description: 描画用ファイル名R
+      gait_analysis_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_l.csv
+        description: 歩容解析ファイル名L
+      gait_analysis_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_r.csv
+        description: 歩容解析ファイル名R
+      gaitanalysis_status:
+        type: number
+        example: 2
+        description: (0:未解析|1:解析中|2:解析完了|3:解析失敗)
+
+
+
+
+  NoteSearchGet:
+    type: object
+    properties:
+      current_page:
+        type: integer
+        example: 1
+        description: 現在のページ番号
+      last_page:
+        type: integer
+        example: 3
+        description: 最終ページ番号
+      per_page:
+        type: integer
+        example: 10
+        description: ページ毎のデータ数
+      from:
+        type: integer
+        example: 1
+        description: 取得開始データ番号
+      to:
+        type: integer
+        example: 10
+        description: 取得終了データ番号
+      total:
+        type: integer
+        example: 28
+        description: 全データ件数
+      first_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/note?page=1
+        description: 開始ページ取得URL
+      prev_page_url:
+        type: string
+        example: null
+        description: 前ページ取得URL
+      next_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/note?page=2
+        description: 次ページ取得URL
+      last_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/3/note?page=3
+        description: 最終ページ取得URL
+      path:
+        type: string
+        example: https://xxxxx.com/api/members/3/note
+        description: ベースURL
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/NoteGet"
+
+  NoteGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 62
+        description: ID
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      note:
+        type: string
+        example: "痛みの報告あり。ストレッチが必要。"
+        description: ノート
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  NotePost:
+    type: object
+    properties:
+      note:
+        type: string
+        example: "痛みの報告あり。ストレッチが必要。"
+        description: ノート
+
+  NotePut:
+    type: object
+    properties:
+      note:
+        type: string
+        example: "痛みの報告あり。ストレッチが必要。"
+        description: ノート
+
+
+
+  TagGet:
+    type: object
+    properties:
+      current_page:
+        type: integer
+        example: 1
+        description: 現在のページ番号
+      last_page:
+        type: integer
+        example: 3
+        description: 最終ページ番号
+      per_page:
+        type: integer
+        example: 10
+        description: ページ毎のデータ数
+      from:
+        type: integer
+        example: 1
+        description: 取得開始データ番号
+      to:
+        type: integer
+        example: 10
+        description: 取得終了データ番号
+      total:
+        type: integer
+        example: 28
+        description: 全データ件数
+      first_page_url:
+        type: string
+        example: https://xxxxx.com/api/tags?page=1
+        description: 開始ページ取得URL
+      prev_page_url:
+        type: string
+        example: null
+        description: 前ページ取得URL
+      next_page_url:
+        type: string
+        example: https://xxxxx.com/api/tags?page=2
+        description: 次ページ取得URL
+      last_page_url:
+        type: string
+        example: https://xxxxx.com/api/tags?page=3
+        description: 最終ページ取得URL
+      path:
+        type: string
+        example: https://xxxxx.com/api/members/13
+        description: ベースURL
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/TagGetData"
+
+  TagGetData:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 62
+        description: ID
+      m_office_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      tag_name:
+        type: string
+        example: "膝関節症"
+        description: タグ名
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  TagPost:
+    type: object
+    properties:
+      m_office_id:
+        type: integer
+        required: true
+        example: 1
+        description: オフィスID
+      tag_name:
+        type: string
+        required: true
+        example: "膝関節症"
+        description: タグ名
+
+  TagPut:
+    type: object
+    properties:
+      tag_name:
+        type: string
+        example: "膝関節症"
+        description: タグ名
+
+  TagSetPost:
+    type: object
+    properties:
+      t_record_measurement_sessions_id:
+        type: integer
+        example: 30
+        description: 記録セッションID
+      m_tag_id:
+        type: array
+        items:
+          type: integer
+          example: 1
+        description: タグID
+
+  RecordMeasurementSessionTagSetPost:
+    type: object
+    properties:
+      t_record_measurement_id:
+        type: integer
+        example: 30
+        description: 記録ID
+      m_tag_id:
+        type: array
+        items:
+          type: integer
+          example: 1
+        description: タグID
+
+  gaitAnalysisPost:
+    type: object
+    required:
+    - "type"
+    - "url"
+    - "measurement_uuid"
+    - "t_record_core_id"
+    - "m_member_id"
+    - "side"
+    properties:
+      type:
+        type: string
+        example: realtime
+        description: 処理方式 ( realtime | batch )
+      url:
+        type: string
+        example: https://vm2m.analytics.orphe.io
+        description: intdash URL
+      t_record_core_id:
+        type: array
+        items:
+          type: integer
+        example: [150, 151]
+        description: 記録データコアID typeがrealtime, batchの時は必須
+      t_record_measurement_id:
+        type: integer
+        example: 2
+        description: 記録 測定ID (未指定の場合、記録データコアIDを元に取得 importの場合は生成)
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      m_office_id:
+        type: integer
+        example: 2
+        description: オフィスID (未指定の場合、配列の最初に現れる値を自動取得)
+      measurement_uuid:
+        type: string
+        example: d13e750e-4bd9-4413-8941-2e268e39cd3a
+        description: 計測のUUID
+      edge_token:
+        type: string
+        example: e4DqyEmrKWnolKUec2clq7jZq_fqeL2QCVcVzsU1_B5YG8Xu
+        description: エッジトークン（将来的にはバックエンドから取得する）
+      src_edge_uuid:
+        type: string
+        example: 0306ecee-1ddd-4b64-a6d5-48b35cd3fc58
+        description: 送信元エッジのUUID
+      dest_edge_uuid:
+        type: string
+        example:  fdfc94ea-fb74-48a7-8e17-8bd2ce4f8203
+        description: 送信元エッジのUUID
+      nats_server:
+        type: string
+        example: nats://vm2m.analytics.orphe.local:4222
+        description: NATSサーバーのエンドポイント (未指定の場合、urlから自動認識)
+      nats_user:
+        type: string
+        example: intdash
+        description: NATSサーバー接続用ユーザー
+      nats_pass:
+        type: string
+        example: intdash
+        description: NATSサーバー接続用パスワード
+      side:
+        type: string
+        example: r
+        description: 左右 ( l | r )
+      height:
+        type: number <float>
+        example: 170.0
+        description: 身長
+      mass:
+        type: number <float>
+        example: 60.0
+        description: 体重
+      channel:
+        type: integer
+        example: 1
+        description: Import用 intdashのチャンネル
+      left_channel:
+        type: integer
+        example: 3
+        description: Import用 intdashのチャンネル 左足(足底=3,足背=5)
+      right_channel:
+        type: integer
+        example: 4
+        description: Import用 intdashのチャンネル 右足(足底=4,足背=6)
+      path:
+        type: string
+        example: dir/example.csv
+        description: Import用 firebase storageのパス
+      left_path:
+        type: string
+        example: dir/example_left.csv
+        description: Import用 firebase storageの左足用パス
+      right_path:
+        type: string
+        example: dir/example_right.csv
+        description: Import用 firebase storageの右足用パス
+
+  gaitAnalysisStatusPost:
+    type: object
+    required:
+      - executionArn
+    properties:
+      executionArn:
+        type: string
+        description: 実行を識別するAmazonリソース名（ARN）
+        example: "arn:aws:states:ap-northeast-1:922156855247:execution:gaitAnalysisJobRealtime-v1:55ee1d6e-2802-47d4-8917-c51dec8bc451"
+
+  gaitAnalysisStatus:
+    type: object
+    properties:
+      executionArn:
+        type: string
+        description: 実行を識別するAmazonリソース名（ARN）
+        example: "arn:aws:states:ap-northeast-1:922156855247:execution:gaitAnalysisJobRealtime-v1:55ee1d6e-2802-47d4-8917-c51dec8bc451"
+      input:
+        type: string
+        description: JSON入力データを含む文字列
+      inputDetails:
+        type: object
+        description: 入力に関する詳細
+        properties:
+          included:
+            type: boolean
+            example: true
+      output:
+        type: string
+        description: JSON出力データ (使用しない想定）
+      outputDetails:
+        type: object
+        description: 出力に関する詳細
+        properties:
+          included:
+            type: boolean
+            example: true
+      name:
+        type: string
+        description: 実行の名前
+        example: "55ee1d6e-2802-47d4-8917-c51dec8bc451"
+      startDate:
+        type: number
+        description: 開始された日付
+        example: 1629639003.572
+      stateMachineArn:
+        type: string
+        description: 実行されたステートマシンのAmazonリソース名（ARN）
+        example: "arn:aws:states:ap-northeast-1:922156855247:stateMachine:gaitAnalysisJobRealtime-v1"
+      status:
+        type: string
+        description: 現在のステータス ( RUNNING | SUCCEEDED | FAILED | TIMED_OUT | ABORTED ) 基本的にこのステータスを取得してもらえればOK
+        example: "RUNNING"
+      stopDate:
+        type: number
+        description: すでに終了している場合は、実行が停止した日付
+        example: 1629639903.873
+      traceHeader:
+        type: string
+        description: AWSX-Rayトレースヘッダー
+        example: "Root=1-6122515b-7d2087f67712755926c423fc;Sampled=1"
+
+  tfPosePost:
+    type: object
+    required:
+    - "uuid"
+    - "url"
+    - "edge_token"
+    properties:
+      url:
+        type: string
+        example: https://intdash.analytics.orphe.ai
+        description: intdash URL
+      uuid:
+        type: string
+        example: d13e750e-4bd9-4413-8941-2e268e39cd3a
+        description: 計測のUUID
+      edge_token:
+        type: string
+        example: e4DqyEmrKWnolKUec2clq7jZq_fqeL2QCVcVzsU1_B5YG8Xu
+        description: エッジトークン（将来的にはバックエンドから取得する）
+
+  EdgeAvailableGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+        description: ID
+      edge_uuid:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: edge uuid
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      start_datetime:
+        type: string
+        example: "2021-10-15 15:25:10"
+        description: 計測開始日時
+      end_datetime:
+        type: string
+        example: "2021-10-15 15:28:22"
+        description: 計測終了日時
+      batch_end_flg:
+        type: number
+        example: 0
+        description: バッチで終了した場合のフラグ
+
+  EdgeAvailablePost:
+    type: object
+    required:
+    - "edge_uuid"
+    - "intdash_measurement_uuid"
+    properties:
+      edge_uuid:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: edge uuid
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      start_datetime:
+        type: string
+        example: "2021-10-15 15:25:10"
+        description: 計測開始日時
+      end_datetime:
+        type: string
+        example: "2021-10-15 15:28:22"
+        description: 計測終了日時
+      batch_end_flg:
+        type: number
+        example: 0
+        description: バッチで終了した場合のフラグ
+
+  EdgeAvailablePut:
+    type: object
+    required:
+    - "edge_uuid"
+    - "intdash_measurement_uuid"
+    properties:
+      edge_uuid:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: edge uuid
+      intdash_measurement_uuid:
+        type: string
+        example: 9uJrk09-5a84-9uka-89sj-e648079jsdh41
+        description: intdashの計測UUID
+      start_datetime:
+        type: string
+        example: "2021-10-15 15:25:10"
+        description: 計測開始日時
+      end_datetime:
+        type: string
+        example: "2021-10-15 15:28:22"
+        description: 計測終了日時
+      batch_end_flg:
+        type: number
+        example: 0
+        description: バッチで終了した場合のフラグ
+
+
+  OfficeIntdashUserGet:
+    type: object
+    properties:
+      current_page:
+        type: integer
+        example: 1
+        description: 現在のページ番号
+      last_page:
+        type: integer
+        example: 3
+        description: 最終ページ番号
+      per_page:
+        type: integer
+        example: 10
+        description: ページ毎のデータ数
+      from:
+        type: integer
+        example: 1
+        description: 取得開始データ番号
+      to:
+        type: integer
+        example: 10
+        description: 取得終了データ番号
+      total:
+        type: integer
+        example: 28
+        description: 全データ件数
+      first_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/tes?page=1
+        description: 開始ページ取得URL
+      prev_page_url:
+        type: string
+        example: null
+        description: 前ページ取得URL
+      next_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/13?page=2
+        description: 次ページ取得URL
+      last_page_url:
+        type: string
+        example: https://xxxxx.com/api/members/13?page=3
+        description: 最終ページ取得URL
+      path:
+        type: string
+        example: https://xxxxx.com/api/members/13
+        description: ベースURL
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/OfficeIntdashUser"
+
+  OfficeIntdashUser:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description:
+      m_office_id:
+        type: integer
+        example: 2
+        description: オフィスID
+      uuid:
+        type: string
+        example: e757da66-a40a-4eaf-a38a-3338b74e5e59
+        description: ユーザーUUID
+      name:
+        type: string
+        example: edge_admin
+        description: ユーザー名
+      api_token:
+        type: string
+        example: olwFXYouTXWDa...IOlC9-z-69
+        description: ユーザーAPIトークン
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  RuleRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 2
+        description: ルールID
+      name:
+        type: string
+        example: 歩数変化前週比30％
+        description: ルール名
+      m_indicator_id:
+        type: integer
+        example: 3
+        description: ルール指標ID
+      rule:
+        type: string
+        example: "'cadance' > '30%' since between('created_at', ['2022-02-01','2022-03-01'])"
+        description: ルール
+      priority:
+        type: integer
+        example: 0
+        description: 優先度 (0:優先度高 > 100:優先度低)
+      indicator:
+        $ref: "#/definitions/RuleIndicatorRecord"
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  RuleIndicatorRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: ルール指標ID
+      name:
+        type: string
+        example: cadance
+        description: ルール指標名 (複合指標の場合はカンマ区切り cadance,stride,... )
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  RuleMessageRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: ルールメッセージID
+      m_rule_id:
+        type: integer
+        example: 2
+        description: ルールID
+      m_communication_type_id:
+        type: integer
+        example: 3
+        description: コミュニケーションタイプID
+      message:
+        type: string
+        example: ストライドが先週から30％以上減少しています
+        description: メッセージ
+      rule:
+        $ref: "#/definitions/RuleRecord"
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  CommunicationTypeRecord:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description: コミュニケーションタイプID
+      name:
+        type: string
+        example: 通知
+        description: コミュニケーションタイプ名
+      created_at:
+        type: string
+        example: "2021-02-28 13:05:21"
+        description:
+      updated_at:
+        type: string
+        example: "2021-02-28 15:23:41"
+        description:
+
+  NoticeGet:
+    type: object
+    properties:
+      current_page:
+        type: integer
+        example: 1
+        description: 現在のページ番号
+      last_page:
+        type: integer
+        example: 3
+        description: 最終ページ番号
+      per_page:
+        type: integer
+        example: 10
+        description: ページ毎のデータ数
+      from:
+        type: integer
+        example: 1
+        description: 取得開始データ番号
+      to:
+        type: integer
+        example: 10
+        description: 取得終了データ番号
+      total:
+        type: integer
+        example: 28
+        description: 全データ件数
+      path:
+        type: string
+        example: https://xxxxx.com/api/members/13
+        description: ベースURL
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            member:
+              $ref: "#/definitions/MemberRecordGet"
+            rule_message:
+              $ref: "#/definitions/RuleMessageRecord"
+            noticed:
+              type: boolean
+              example: true
+              description: 通知済みフラグ
+
+  NoticePut:
+    type: object
+    properties:
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      m_rule_id:
+        type: integer
+        example: 2
+        description: ルールID
+      m_rule_message_id:
+        type: integer
+        example: 3
+        description: ルールメッセージID
+      noticed:
+        type: boolean
+        example: true
+        description: 通知済みフラグ
+
+
+  RecordMeasurementSessionGet:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 3
+        description:
+      record_measurement_session_uuid:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: 記録計測セッションUUID
+      measurement_type:
+        type: integer
+        example: 1
+        description: 1:10m歩行、2:TUG
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      comment_advise:
+        type: string
+        example: ストライドを意識すると良いでしょう
+        description: おこなったアドバイス
+      comment_result:
+        type: string
+        example: 徐々に改善がみられた
+        description: 成果や反応
+      analysis_summary_data:
+          $ref: "#/definitions/AnalysisSummaryData"
+      record_measurement:
+        type: array
+        items:
+          $ref: "#/definitions/RecordMeasurementGet"
+
+
+
+
+  RecordMeasurementSessionPost:
+    type: object
+    required:
+    - "record_measurement_session_uuid"
+    - "measurement_type"
+    - "m_member_id"
+    properties:
+      record_measurement_session_uuid:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: 記録計測セッションUUID
+      measurement_type:
+        type: integer
+        example: 1
+        description: 1:10m歩行、2:TUG
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      comment_advise:
+        type: string
+        example: ストライドを意識すると良いでしょう
+        description: おこなったアドバイス
+      comment_result:
+        type: string
+        example: 徐々に改善がみられた
+        description: 成果や反応
+
+  AnalysisData:
+    type: object
+    required:
+    properties:
+      record_data_id:
+        type: string
+        example: safsk3kd-4gakgjak-eeknfi9ns
+        description: 記録データID
+      analysis_type:
+        type: integer
+        example: 0
+        description: 0:歩容解析
+      pace:
+        type: number <string>
+        example: 312.20
+        description: ペース（スピード）（〇分〇秒/Km）
+      distance:
+        type: number <float>
+        example: 1000.00
+        description: 距離（m）
+      gait_type:
+        type: integer
+        example: 10
+        description: 0:Walk、10:Run
+      foot_strike_l:
+        type: number <float>
+        example: 3.00
+        description: 着地L
+      foot_strike_r:
+        type: number <float>
+        example: 3.00
+        description: 着地R
+      pronation_l:
+        type: number <float>
+        example: 3.00
+        description: プロネーションL
+      pronation_r:
+        type: number <float>
+        example: 3.00
+        description: プロネーションR
+      stride_l:
+        type: number <float>
+        example: 153.00
+        description: ストライドL
+      stride_r:
+        type: number <float>
+        example: 153.00
+        description: ストライドR
+      cadence_l:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスL（ピッチ）(spm)
+      cadence_r:
+        type: number <float>
+        example: 160.00
+        description: ケイデンスR（ピッチ）(spm)
+      landing_time_l:
+        type: number <float>
+        example: 0.25
+        description: 着地時間L（秒）
+      landing_time_r:
+        type: number <float>
+        example: 0.25
+        description: 着地時間R（秒）
+      stride_height_l:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さL(cm)
+      stride_height_r:
+        type: number <float>
+        example: 35.00
+        description: ストライド高さR(cm)
+      landing_force_l:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力L(cm)
+      landing_force_r:
+        type: number <float>
+        example: 150.00
+        description: 着地衝撃力R(cm)
+      swing_phase_duration_l:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間L
+      swing_phase_duration_r:
+        type: number <float>
+        example: 0.55
+        description: 遊脚期時間R
+      toe_off_angle_l:
+        type: number <float>
+        example: 3.20
+        description: 離地角度L
+      toe_off_angle_r:
+        type: number <float>
+        example: 3.20
+        description: 離地角度R
+      cyclic_stride_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_l.csv
+        description: 描画用ファイル名L
+      cyclic_stride_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/cyclicStride_xxx_r.csv
+        description: 描画用ファイル名R
+      gait_analysis_file_l:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_l.csv
+        description: 歩容解析ファイル名L
+      gait_analysis_file_r:
+        type: string
+        example: record_data/3/3f0d4109-5944-44ea-86fb-e64807426741/2021/03/12/gaitAnalysisResult_xxx_r.csv
+        description: 歩容解析ファイル名R
+      gaitanalysis_status:
+        type: number
+        example: 2
+        description: (0:未解析|1:解析中|2:解析完了|3:解析失敗)
+
+  AnalysisSummaryData:
+    type: object
+    required:
+    properties:
+      m_member_id:
+        type: integer
+        example: 3
+        description: メンバーID
+      sort_id:
+        type: string
+        example: measurement_session#5#1
+        description: 検索用キー(aggregation_type#aggregate_conds#measurement_type)
+      aggregate_type:
+        type: string
+        example: monthly
+        description: 集計タイプ (measurement_group / daily / monthly)
+      aggregate_conds:
+        type: string
+        example: 2022-08
+        description: 計測条件 (record_measurement_group_uuid / 2022-08)
+      measurement_type:
+        type: integer
+        example: 2
+        description: 計測方法（0:ALL 1:10m歩行、2:TUG）
+      record_from:
+        type: string
+        example: "2021-03-05 00:00:00"
+        description: 記録日時（from）
+      record_to:
+        type: string
+        example: "2021-03-05 00:00:00"
+        description: 記録日時（to）
+      gait_type:
+        type: integer
+        example: 0
+        description: 0:Walk、10:Run
+      pace:
+        $ref: "#/definitions/SummaryStandard"
+      distance:
+        $ref: "#/definitions/SummaryStandard"
+      foot_strike_l:
+        $ref: "#/definitions/SummaryStandard"
+      foot_strike_r:
+        $ref: "#/definitions/SummaryStandard"
+      pronation_l:
+        $ref: "#/definitions/SummaryStandard"
+      pronation_r:
+        $ref: "#/definitions/SummaryStandard"
+      stride_l:
+        $ref: "#/definitions/SummaryStandard"
+      stride_r:
+        $ref: "#/definitions/SummaryStandard"
+      cadence_l:
+        $ref: "#/definitions/SummaryStandard"
+      cadence_r:
+        $ref: "#/definitions/SummaryStandard"
+      landing_time_l:
+        $ref: "#/definitions/SummaryStandard"
+      landing_time_r:
+        $ref: "#/definitions/SummaryStandard"
+      stride_height_l:
+        $ref: "#/definitions/SummaryStandard"
+      stride_height_r:
+        $ref: "#/definitions/SummaryStandard"
+      landing_force_l:
+        $ref: "#/definitions/SummaryStandard"
+      landing_force_r:
+        $ref: "#/definitions/SummaryStandard"
+      swing_phase_duration_l:
+        $ref: "#/definitions/SummaryStandard"
+      swing_phase_duration_r:
+        $ref: "#/definitions/SummaryStandard"
+      toe_off_angle_l:
+        $ref: "#/definitions/SummaryStandard"
+      toe_off_angle_r:
+        $ref: "#/definitions/SummaryStandard"
+      summmary_datetime:
+        type: string
+        example: "2021-03-05 00:00:00"
+        description: 集計日時
+
+
+  SummaryStandard:
+    type: object
+    required:
+    properties:
+      avg:
+        type: number <float>
+        example: 23.434
+        description: 平均
+      max:
+        type: number <float>
+        example: 23.434
+        description: 最大
+      min:
+        type: number <float>
+        example: 23.434
+        description: 最小
+      med:
+        type: number <float>
+        example: 23.434
+        description: 中央値
