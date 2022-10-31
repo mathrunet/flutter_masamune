@@ -58,7 +58,7 @@ String generateCode(
 /// [json]をJsonデコードされたMap<String, dynamic>オブジェクトに変換します。
 ///
 /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
-Map<String, T> jsonDecodeAsMap<T extends Object>(
+Map<String, T> jsonDecodeAsMap<T extends Object?>(
   String json, [
   Map<String, T> defaultValue = const {},
 ]) {
@@ -76,7 +76,7 @@ Map<String, T> jsonDecodeAsMap<T extends Object>(
 /// [json]をJsonデコードされたList<dynamic>オブジェクトに変換します。
 ///
 /// [String]がJsonでデコード不可能な形式だった場合[defaultValue]が返されます。
-List<T> jsonDecodeAsList<T extends Object>(
+List<T> jsonDecodeAsList<T extends Object?>(
   String json, [
   List<T> defaultValue = const [],
 ]) {

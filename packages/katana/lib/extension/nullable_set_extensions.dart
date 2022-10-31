@@ -1,6 +1,7 @@
 part of katana;
 
 /// Provides an extension method for [Set] that is nullable.
+///
 /// Nullableな[Set]用の拡張メソッドを提供します。
 extension NullableSetExtensions<T> on Set<T>? {
   /// Whether this collection has no elements.
