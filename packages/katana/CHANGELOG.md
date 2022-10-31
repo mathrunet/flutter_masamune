@@ -1,3 +1,7 @@
+## 0.15.8+1
+
+ - **FIX**: Fix jsonDecode object. ([19fea810](https://github.com/mathrunet/flutter_masamune/commit/19fea810a93d8cf6774b8cfde8c4d98eb3c7a38b))
+
 ## 0.15.8
 
  - **FEAT**: Addition of toPascalCase. ([a6a13556](https://github.com/mathrunet/flutter_masamune/commit/a6a13556cd8e44d3d59d3b19bfc5480b7ce9d73d))

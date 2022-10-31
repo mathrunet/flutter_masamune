@@ -3,6 +3,129 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-10-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v0.15.8+1`](#katana---v01581)
+ - [`katana_model_openapi` - `v1.1.1`](#katana_model_openapi---v111)
+ - [`katana_model_openapi_builder` - `v1.1.1`](#katana_model_openapi_builder---v111)
+ - [`katana_scoped` - `v1.1.0`](#katana_scoped---v110)
+ - [`katana_listenables_annotation` - `v1.2.3`](#katana_listenables_annotation---v123)
+ - [`katana_theme` - `v1.1.2`](#katana_theme---v112)
+ - [`katana_listenables_builder` - `v1.2.4`](#katana_listenables_builder---v124)
+ - [`katana_listenables` - `v1.2.4`](#katana_listenables---v124)
+ - [`masamune_cli` - `v0.15.0+16`](#masamune_cli---v015016)
+ - [`katana_theme_annotation` - `v1.1.2`](#katana_theme_annotation---v112)
+ - [`katana_theme_builder` - `v1.1.2`](#katana_theme_builder---v112)
+ - [`katana_localization_builder` - `v1.1.10`](#katana_localization_builder---v1110)
+ - [`katana_flutter` - `v0.15.0+12`](#katana_flutter---v015012)
+ - [`katana_localization_annotation` - `v1.1.8`](#katana_localization_annotation---v118)
+ - [`katana_router_builder` - `v1.8.10`](#katana_router_builder---v1810)
+ - [`katana_annotation` - `v0.15.0+12`](#katana_annotation---v015012)
+ - [`katana_router_annotation` - `v1.8.9`](#katana_router_annotation---v189)
+ - [`katana_router` - `v1.8.10`](#katana_router---v1810)
+ - [`masamune_builder` - `v0.15.0+15`](#masamune_builder---v015015)
+ - [`katana_localization` - `v1.1.10`](#katana_localization---v1110)
+ - [`katana_routing` - `v0.15.0+17`](#katana_routing---v015017)
+ - [`katana_firebase` - `v0.15.0+12`](#katana_firebase---v015012)
+ - [`model_notifier` - `v0.15.1+11`](#model_notifier---v015111)
+ - [`katana_module` - `v0.15.0+24`](#katana_module---v015024)
+ - [`firebase_model_notifier` - `v0.15.1+16`](#firebase_model_notifier---v015116)
+ - [`masamune` - `v0.15.3+6`](#masamune---v01536)
+ - [`masamune_firebase_messaging` - `v0.15.0+26`](#masamune_firebase_messaging---v015026)
+ - [`masamune_firebase` - `v0.15.0+26`](#masamune_firebase---v015026)
+ - [`masamune_agora` - `v0.15.0+27`](#masamune_agora---v015027)
+ - [`masamune_wordpress` - `v0.15.0+26`](#masamune_wordpress---v015026)
+ - [`masamune_local_messaging` - `v0.15.0+26`](#masamune_local_messaging---v015026)
+ - [`masamune_media` - `v0.15.0+26`](#masamune_media---v015026)
+ - [`masamune_purchase` - `v0.15.0+26`](#masamune_purchase---v015026)
+ - [`masamune_location` - `v0.15.0+26`](#masamune_location---v015026)
+ - [`masamune_ui` - `v0.15.0+26`](#masamune_ui---v015026)
+ - [`masamune_ads` - `v0.15.0+26`](#masamune_ads---v015026)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+26`](#masamune_firebase_dynamic_links---v015026)
+ - [`masamune_signin_google` - `v0.15.0+26`](#masamune_signin_google---v015026)
+ - [`masamune_signin_facebook` - `v0.15.0+26`](#masamune_signin_facebook---v015026)
+ - [`masamune_signin_twitter` - `v0.15.0+26`](#masamune_signin_twitter---v015026)
+ - [`masamune_purchase_stripe` - `v0.15.0+26`](#masamune_purchase_stripe---v015026)
+ - [`masamune_notion` - `v0.15.0+26`](#masamune_notion---v015026)
+ - [`masamune_signin_apple` - `v0.15.0+26`](#masamune_signin_apple---v015026)
+ - [`masamune_purchase_firebase` - `v0.15.0+26`](#masamune_purchase_firebase---v015026)
+ - [`masamune_module` - `v0.15.0+26`](#masamune_module---v015026)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_listenables_annotation` - `v1.2.3`
+ - `katana_theme` - `v1.1.2`
+ - `katana_listenables_builder` - `v1.2.4`
+ - `katana_listenables` - `v1.2.4`
+ - `masamune_cli` - `v0.15.0+16`
+ - `katana_theme_annotation` - `v1.1.2`
+ - `katana_theme_builder` - `v1.1.2`
+ - `katana_localization_builder` - `v1.1.10`
+ - `katana_flutter` - `v0.15.0+12`
+ - `katana_localization_annotation` - `v1.1.8`
+ - `katana_router_builder` - `v1.8.10`
+ - `katana_annotation` - `v0.15.0+12`
+ - `katana_router_annotation` - `v1.8.9`
+ - `katana_router` - `v1.8.10`
+ - `masamune_builder` - `v0.15.0+15`
+ - `katana_localization` - `v1.1.10`
+ - `katana_routing` - `v0.15.0+17`
+ - `katana_firebase` - `v0.15.0+12`
+ - `model_notifier` - `v0.15.1+11`
+ - `katana_module` - `v0.15.0+24`
+ - `firebase_model_notifier` - `v0.15.1+16`
+ - `masamune` - `v0.15.3+6`
+ - `masamune_firebase_messaging` - `v0.15.0+26`
+ - `masamune_firebase` - `v0.15.0+26`
+ - `masamune_agora` - `v0.15.0+27`
+ - `masamune_wordpress` - `v0.15.0+26`
+ - `masamune_local_messaging` - `v0.15.0+26`
+ - `masamune_media` - `v0.15.0+26`
+ - `masamune_purchase` - `v0.15.0+26`
+ - `masamune_location` - `v0.15.0+26`
+ - `masamune_ui` - `v0.15.0+26`
+ - `masamune_ads` - `v0.15.0+26`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+26`
+ - `masamune_signin_google` - `v0.15.0+26`
+ - `masamune_signin_facebook` - `v0.15.0+26`
+ - `masamune_signin_twitter` - `v0.15.0+26`
+ - `masamune_purchase_stripe` - `v0.15.0+26`
+ - `masamune_notion` - `v0.15.0+26`
+ - `masamune_signin_apple` - `v0.15.0+26`
+ - `masamune_purchase_firebase` - `v0.15.0+26`
+ - `masamune_module` - `v0.15.0+26`
+
+---
+
+#### `katana` - `v0.15.8+1`
+
+ - **FIX**: Fix jsonDecode object. ([19fea810](https://github.com/mathrunet/flutter_masamune/commit/19fea810a93d8cf6774b8cfde8c4d98eb3c7a38b))
+
+#### `katana_model_openapi` - `v1.1.1`
+
+ - **FIX**: Corrected against actual measured values. ([f4f787c4](https://github.com/mathrunet/flutter_masamune/commit/f4f787c48b40f56287d9acb7cd22685911e1a3ab))
+
+#### `katana_model_openapi_builder` - `v1.1.1`
+
+ - **FIX**: Corrected against actual measured values. ([f4f787c4](https://github.com/mathrunet/flutter_masamune/commit/f4f787c48b40f56287d9acb7cd22685911e1a3ab))
+
+#### `katana_scoped` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([0f0b9e95](https://github.com/mathrunet/flutter_masamune/commit/0f0b9e95894225bf86f95e97e7d24f686e2faaa7))
+
+
 ## 2022-10-28
 
 ### Changes
