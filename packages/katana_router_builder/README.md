@@ -259,6 +259,46 @@ final appRouter = AppRouter(
 );
 ```
 
+## Query parameters
+
+If you are using the system on the Web, you may want to receive query parameters.
+
+In such cases, the `QueryParam` annotation can be used to specify the query key.
+
+In the following case, `text` is passed to searchQuery when accessed with `https://myhost.com/search?q=text`.
+
+```dart
+// search.dart
+
+import 'package:katana_router/katana_router.dart';
+import 'package:flutter/material.dart';
+
+part 'search.page.dart';
+
+@PagePath("/search")
+class SearchPage extends StatelessWidget {
+  const SearchPage({
+    @QueryParam("q") required this.searchQuery,
+    super.key,
+  });
+
+  final String searchQuery;
+
+  @pageRouteQuery
+  static const query = _$SearchPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("User")),
+      body: Center(
+        child: Text("SearchQuery: $searchQuery"),
+      ),
+    );
+  }
+}
+```
+
 ## Redirect
 
 For example, use `RedirectQuery` to display the login screen if you are not logged in, and the home page if you are logged in.
@@ -366,7 +406,7 @@ final appRouter = AppRouter(
 
 ## Nested Navigation
 
-Nested navigation can be implemented by managing the created `AppRouter` with a lower-level Widget.
+Nested navigation can be implemented by managing the created `AppRouter` (or dedicated `NestedAppRouter`) with an underlying Widget.
 
 Please keep the state of the created AppRouter with a `StatefulWidget` or `Provider` to prevent it from being modified.
 
@@ -391,7 +431,7 @@ class NestedContainerPage extends StatefulWidget {
 }
 
 class _NestedContainerPageState extends State<NestedContainerPage> {
-  final router = AppRouter(
+  final router = NestedAppRouter(
     initialQuery: InnerPage1.query(),
     pages: [
       InnerPage1.query,

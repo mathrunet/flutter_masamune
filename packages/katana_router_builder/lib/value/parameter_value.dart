@@ -1,6 +1,7 @@
 part of katana_router_builder;
 
 const _pageParamChecker = TypeChecker.fromRuntime(PageParam);
+const _queryParamChecker = TypeChecker.fromRuntime(QueryParam);
 
 /// Parameter Value.
 ///
@@ -31,10 +32,20 @@ class ParamaterValue {
               .firstAnnotationOfExact(element)
               ?.getField("name")
               ?.toValue()
-              .toString() ??
+              ?.toString() ??
           name;
     } else {
       pageParamName = name;
+    }
+    if (_queryParamChecker.hasAnnotationOfExact(element)) {
+      queryParamName = _queryParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("name")
+              ?.toValue()
+              ?.toString() ??
+          name;
+    } else {
+      queryParamName = name;
     }
 
     if (element.type.isNullable || element.isRequired) {
@@ -73,8 +84,13 @@ class ParamaterValue {
   /// パラメーターのパス用の名前。
   late final String pageParamName;
 
+  /// Name for query parameters.
+  ///
+  /// クエリーパラメーター用の名前。
+  late final String queryParamName;
+
   @override
   String toString() {
-    return "$name($type) => $defaultValue (PageParamName:$pageParamName)";
+    return "$name($type) => $defaultValue (PageParamName:$pageParamName, QueryParamName: $queryParamName)";
   }
 }

@@ -11,6 +11,7 @@ part 'main.page.dart';
 final appRouter = AppRouter();
 
 void main() {
+  AppRouter.setPathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -56,9 +57,11 @@ class MainPage extends StatelessWidget {
   const MainPage({
     super.key,
     required this.title,
+    @queryParam this.q,
   });
 
   final String title;
+  final String? q;
 
   @pageRouteQuery
   static const query = _$MainPage();
@@ -98,6 +101,9 @@ class MainPage extends StatelessWidget {
               onTap: () {
                 context.router.pop();
               },
+            ),
+            ListTile(
+              title: Text("query: $q"),
             )
           ],
         ));
@@ -175,7 +181,7 @@ class NestedContainerPage extends StatefulWidget {
 }
 
 class _NestedContainerPageState extends State<NestedContainerPage> {
-  final router = AppRouter(
+  final router = NestedAppRouter(
     initialQuery: InnerPage1.query(),
     defaultTransitionQuery: TransitionQuery.fade,
     pages: [

@@ -55,7 +55,7 @@ List<Class> queryClass(
                 }),
               ])
               ..body = Code(
-                "_\$_${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
+                "_\$_${model.name}(null, ${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
               ),
           ),
           Method(
@@ -73,7 +73,7 @@ List<Class> queryClass(
               ..body = Code(
                 path == null
                     ? "return null;"
-                    : "final match = _regExp.firstMatch(path?.trimQuery().trimString(\"/\") ?? \"\"); if (match == null) {return null;} return _\$_${model.name}(${model.parameters.map((param) => _defaultParsedValue(param)).join(",")});",
+                    : "if (path == null) { return null; } if (path.contains(\"?\")) { final split = path.split(\"?\"); final match = _regExp.firstMatch(split.first.trimString(\"/\")); if (match == null) { return null; } final query = Uri.splitQueryString(split.last); return _\$_${model.name}(path, ${model.parameters.map((param) => _defaultParsedValue(param, true)).join(",")}); } else { path = path.trimQuery().trimString(\"/\"); final match = _regExp.firstMatch(path.trimQuery().trimString(\"/\")); if (match == null) { return null; } return _\$_${model.name}(path, ${model.parameters.map((param) => _defaultParsedValue(param, false)).join(",")}); }",
               ),
           ),
         ]),
@@ -87,6 +87,13 @@ List<Class> queryClass(
           Constructor(
             (c) => c
               ..constant = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..toThis = true
+                    ..name = "_path",
+                )
+              ])
               ..optionalParameters.addAll([
                 ...model.parameters.map((param) {
                   return Parameter(
@@ -109,6 +116,12 @@ List<Class> queryClass(
                 ..type = Reference(param.type.toString()),
             );
           }),
+          Field(
+            (f) => f
+              ..name = "_path"
+              ..modifier = FieldModifier.final$
+              ..type = const Reference("String?"),
+          ),
         ])
         ..methods.addAll([
           Method(
@@ -120,8 +133,8 @@ List<Class> queryClass(
               ..returns = const Reference("String")
               ..body = Code(
                 path == null
-                    ? "\"$uuid\""
-                    : "\"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
+                    ? "_path ?? \"$uuid\""
+                    : "_path ?? \"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
                         return "\$${match.group(1)?.toCamelCase()}";
                       })}\"",
               ),
@@ -178,10 +191,18 @@ List<Class> queryClass(
   ];
 }
 
-String _defaultParsedValue(ParamaterValue param) {
-  if (param.type.toString() == "String") {
-    return "${param.name}:match.groupNames.contains(\"${param.pageParamName}\") ? match.namedGroup(\"${param.pageParamName}\") ?? ${_defaultValue(param)} : ${_defaultValue(param)}";
+String _defaultParsedValue(ParamaterValue param, bool existQuery) {
+  if (existQuery) {
+    if (param.type.toString() == "String") {
+      return "${param.name}:match.groupNames.contains(\"${param.pageParamName}\") ? match.namedGroup(\"${param.pageParamName}\") ?? ( query.containsKey(\"${param.queryParamName}\") ? query[\"${param.queryParamName}\"] ?? ${_defaultValue(param)} : ${_defaultValue(param)}) : (query.containsKey(\"${param.queryParamName}\") ? query[\"${param.queryParamName}\"] ?? ${_defaultValue(param)} : ${_defaultValue(param)})";
+    } else {
+      return "${param.name}:(query.containsKey(\"${param.queryParamName}\") ? query[\"${param.queryParamName}\"] ?? ${_defaultValue(param)} : ${_defaultValue(param)})";
+    }
   } else {
-    return "${param.name}:${_defaultValue(param)}";
+    if (param.type.toString() == "String") {
+      return "${param.name}:match.groupNames.contains(\"${param.pageParamName}\") ? match.namedGroup(\"${param.pageParamName}\") ?? ${_defaultValue(param)} : ${_defaultValue(param)}";
+    } else {
+      return "${param.name}:${_defaultValue(param)}";
+    }
   }
 }

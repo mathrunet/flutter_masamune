@@ -23,6 +23,7 @@ class AppRouter extends AppRouterBase {
     super.restorationScopeId,
     super.defaultTransitionQuery,
     List<RouteQueryBuilder>? pages,
+    super.reportsRouteUpdateToEngine = true,
   }) : super(
             pages: pages ??
                 [
@@ -46,4 +47,23 @@ class AppRouter extends AppRouterBase {
     _$1.ContentPage.query: "/content/:content_id",
     _$1.MainPage.query: "/"
   };
+
+  static void setPathUrlStrategy() => AppRouterBase.setPathUrlStrategy();
+}
+
+class NestedAppRouter extends AppRouter {
+  NestedAppRouter({
+    super.unknown,
+    super.boot,
+    super.initialPath,
+    super.initialQuery,
+    super.redirect = const [],
+    super.observers = const [],
+    super.redirectLimit = 5,
+    super.navigatorKey,
+    super.restorationScopeId,
+    super.defaultTransitionQuery,
+    super.pages,
+    super.reportsRouteUpdateToEngine = false,
+  });
 }

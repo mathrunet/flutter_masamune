@@ -121,6 +121,104 @@ List<Class> routerClass(
                 "{${queries.map((q) => "${q.query}:\"/${q.path}\"").join(",")}}",
               ),
           )
+        ])
+        ..methods.addAll([
+          Method(
+            (m) => m
+              ..name = "setPathUrlStrategy"
+              ..static = true
+              ..returns = const Reference("void")
+              ..lambda = true
+              ..body = const Code("AppRouterBase.setPathUrlStrategy()"),
+          )
+        ]),
+    ),
+    Class(
+      (c) => c
+        ..name = r"NestedAppRouter"
+        ..extend = const Reference("AppRouter")
+        ..constructors.addAll([
+          Constructor(
+            (c) => c
+              ..optionalParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "unknown"
+                    ..named = true
+                    ..toSuper = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "boot"
+                    ..named = true
+                    ..toSuper = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "initialPath"
+                    ..toSuper = true
+                    ..named = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "initialQuery"
+                    ..toSuper = true
+                    ..named = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "redirect"
+                    ..toSuper = true
+                    ..named = true
+                    ..defaultTo = const Code("const []"),
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "observers"
+                    ..toSuper = true
+                    ..named = true
+                    ..defaultTo = const Code("const []"),
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "redirectLimit"
+                    ..toSuper = true
+                    ..named = true
+                    ..defaultTo = const Code("5"),
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "navigatorKey"
+                    ..named = true
+                    ..toSuper = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "restorationScopeId"
+                    ..named = true
+                    ..toSuper = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "defaultTransitionQuery"
+                    ..named = true
+                    ..toSuper = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "pages"
+                    ..named = true
+                    ..toSuper = true,
+                ),
+                Parameter(
+                  (p) => p
+                    ..name = "reportsRouteUpdateToEngine"
+                    ..named = true
+                    ..toSuper = true
+                    ..defaultTo = const Code("false"),
+                ),
+              ]),
+          )
         ]),
     ),
   ];

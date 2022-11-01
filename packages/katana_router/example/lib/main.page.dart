@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, unused_local_variable
 
 part of 'main.dart';
 
@@ -12,28 +12,60 @@ class _$MainPage extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^$");
 
-  _$_MainPage call({required String title}) => _$_MainPage(title: title);
+  _$_MainPage call({
+    required String title,
+    String? q,
+  }) =>
+      _$_MainPage(null, title: title, q: q);
   @override
   RouteQuery? resolve(String? path) {
-    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null) {
+    if (path == null) {
       return null;
     }
-    return _$_MainPage(
-        title: match.groupNames.contains("title")
-            ? match.namedGroup("title") ?? ""
-            : "");
+    if (path.contains("?")) {
+      final split = path.split("?");
+      final match = _regExp.firstMatch(split.first.trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      final query = Uri.splitQueryString(split.last);
+      return _$_MainPage(path,
+          title: match.groupNames.contains("title")
+              ? match.namedGroup("title") ??
+                  (query.containsKey("title") ? query["title"] ?? "" : "")
+              : (query.containsKey("title") ? query["title"] ?? "" : ""),
+          q: (query.containsKey("q") ? query["q"] ?? null : null));
+    } else {
+      path = path.trimQuery().trimString("/");
+      final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      return _$_MainPage(path,
+          title: match.groupNames.contains("title")
+              ? match.namedGroup("title") ?? ""
+              : "",
+          q: null);
+    }
   }
 }
 
 @immutable
 class _$_MainPage extends RouteQuery {
-  const _$_MainPage({required this.title});
+  const _$_MainPage(
+    this._path, {
+    required this.title,
+    this.q,
+  });
 
   final String title;
 
+  final String? q;
+
+  final String? _path;
+
   @override
-  String get path => "";
+  String get path => _path ?? "";
   @override
   String get name => "main";
   @override
@@ -45,7 +77,7 @@ class _$_MainPage extends RouteQuery {
     return AppPageRoute<E>(
       path: path,
       transitionQuery: query,
-      builder: (context) => MainPage(title: title),
+      builder: (context) => MainPage(title: title, q: q),
     );
   }
 }
@@ -56,28 +88,52 @@ class _$UserPage extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^page/(?<user_id>[^/?&]+)$");
 
-  _$_UserPage call({required String userId}) => _$_UserPage(userId: userId);
+  _$_UserPage call({required String userId}) =>
+      _$_UserPage(null, userId: userId);
   @override
   RouteQuery? resolve(String? path) {
-    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null) {
+    if (path == null) {
       return null;
     }
-    return _$_UserPage(
-        userId: match.groupNames.contains("userId")
-            ? match.namedGroup("userId") ?? ""
-            : "");
+    if (path.contains("?")) {
+      final split = path.split("?");
+      final match = _regExp.firstMatch(split.first.trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      final query = Uri.splitQueryString(split.last);
+      return _$_UserPage(path,
+          userId: match.groupNames.contains("userId")
+              ? match.namedGroup("userId") ??
+                  (query.containsKey("userId") ? query["userId"] ?? "" : "")
+              : (query.containsKey("userId") ? query["userId"] ?? "" : ""));
+    } else {
+      path = path.trimQuery().trimString("/");
+      final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      return _$_UserPage(path,
+          userId: match.groupNames.contains("userId")
+              ? match.namedGroup("userId") ?? ""
+              : "");
+    }
   }
 }
 
 @immutable
 class _$_UserPage extends RouteQuery {
-  const _$_UserPage({required this.userId});
+  const _$_UserPage(
+    this._path, {
+    required this.userId,
+  });
 
   final String userId;
 
+  final String? _path;
+
   @override
-  String get path => "page/$userId";
+  String get path => _path ?? "page/$userId";
   @override
   String get name => "user";
   @override
@@ -101,28 +157,55 @@ class _$ContentPage extends RouteQueryBuilder {
   static final _regExp = RegExp(r"^content/(?<content_id>[^/?&]+)$");
 
   _$_ContentPage call({required String contentId}) =>
-      _$_ContentPage(contentId: contentId);
+      _$_ContentPage(null, contentId: contentId);
   @override
   RouteQuery? resolve(String? path) {
-    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null) {
+    if (path == null) {
       return null;
     }
-    return _$_ContentPage(
-        contentId: match.groupNames.contains("contentId")
-            ? match.namedGroup("contentId") ?? ""
-            : "");
+    if (path.contains("?")) {
+      final split = path.split("?");
+      final match = _regExp.firstMatch(split.first.trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      final query = Uri.splitQueryString(split.last);
+      return _$_ContentPage(path,
+          contentId: match.groupNames.contains("contentId")
+              ? match.namedGroup("contentId") ??
+                  (query.containsKey("contentId")
+                      ? query["contentId"] ?? ""
+                      : "")
+              : (query.containsKey("contentId")
+                  ? query["contentId"] ?? ""
+                  : ""));
+    } else {
+      path = path.trimQuery().trimString("/");
+      final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      return _$_ContentPage(path,
+          contentId: match.groupNames.contains("contentId")
+              ? match.namedGroup("contentId") ?? ""
+              : "");
+    }
   }
 }
 
 @immutable
 class _$_ContentPage extends RouteQuery {
-  const _$_ContentPage({required this.contentId});
+  const _$_ContentPage(
+    this._path, {
+    required this.contentId,
+  });
 
   final String contentId;
 
+  final String? _path;
+
   @override
-  String get path => "content/$contentId";
+  String get path => _path ?? "content/$contentId";
   @override
   String get name => path;
   @override
@@ -145,23 +228,45 @@ class _$NestedContainerPage extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^nested$");
 
-  _$_NestedContainerPage call() => _$_NestedContainerPage();
+  _$_NestedContainerPage call() => _$_NestedContainerPage(
+        null,
+      );
   @override
   RouteQuery? resolve(String? path) {
-    final match = _regExp.firstMatch(path?.trimQuery().trimString("/") ?? "");
-    if (match == null) {
+    if (path == null) {
       return null;
     }
-    return _$_NestedContainerPage();
+    if (path.contains("?")) {
+      final split = path.split("?");
+      final match = _regExp.firstMatch(split.first.trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      final query = Uri.splitQueryString(split.last);
+      return _$_NestedContainerPage(
+        path,
+      );
+    } else {
+      path = path.trimQuery().trimString("/");
+      final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
+      if (match == null) {
+        return null;
+      }
+      return _$_NestedContainerPage(
+        path,
+      );
+    }
   }
 }
 
 @immutable
 class _$_NestedContainerPage extends RouteQuery {
-  const _$_NestedContainerPage();
+  const _$_NestedContainerPage(this._path);
+
+  final String? _path;
 
   @override
-  String get path => "nested";
+  String get path => _path ?? "nested";
   @override
   String get name => "nested";
   @override
@@ -186,7 +291,9 @@ class _$_NestedContainerPage extends RouteQuery {
 class _$InnerPage1 extends RouteQueryBuilder {
   const _$InnerPage1();
 
-  _$_InnerPage1 call() => _$_InnerPage1();
+  _$_InnerPage1 call() => _$_InnerPage1(
+        null,
+      );
   @override
   RouteQuery? resolve(String? path) {
     return null;
@@ -195,10 +302,12 @@ class _$InnerPage1 extends RouteQueryBuilder {
 
 @immutable
 class _$_InnerPage1 extends RouteQuery {
-  const _$_InnerPage1();
+  const _$_InnerPage1(this._path);
+
+  final String? _path;
 
   @override
-  String get path => "67bbf6d381b241b2a4b9494990232bae";
+  String get path => _path ?? "ca5cbaca4a04450c818e2827e694b681";
   @override
   String get name => path;
   @override
@@ -219,7 +328,9 @@ class _$_InnerPage1 extends RouteQuery {
 class _$InnerPage2 extends RouteQueryBuilder {
   const _$InnerPage2();
 
-  _$_InnerPage2 call() => _$_InnerPage2();
+  _$_InnerPage2 call() => _$_InnerPage2(
+        null,
+      );
   @override
   RouteQuery? resolve(String? path) {
     return null;
@@ -228,10 +339,12 @@ class _$InnerPage2 extends RouteQueryBuilder {
 
 @immutable
 class _$_InnerPage2 extends RouteQuery {
-  const _$_InnerPage2();
+  const _$_InnerPage2(this._path);
+
+  final String? _path;
 
   @override
-  String get path => "54392ce8302f4348b8cdfda2213660bc";
+  String get path => _path ?? "26eff80aa228425aa8a5cd24f10a8f50";
   @override
   String get name => path;
   @override
