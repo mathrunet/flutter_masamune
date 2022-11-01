@@ -356,6 +356,8 @@ class ModelAdapterDocumentQuery {
     this.callback,
     this.origin,
     this.listen = true,
+    this.headers = const {},
+    this.method,
   });
 
   /// Document query.
@@ -373,6 +375,16 @@ class ModelAdapterDocumentQuery {
   /// クエリの変更を監視する場合`true`に設定します。
   final bool listen;
 
+  /// Headers for sending a request.
+  ///
+  /// リクエストを送る際のヘッダー。
+  final Map<String, String> headers;
+
+  /// Method for sending a request.
+  ///
+  /// リクエストを送る際のメソッド。
+  final String? method;
+
   /// A callback that is notified when changes are made to the relevant document.
   ///
   /// Contains information on changes to `update`.
@@ -384,7 +396,7 @@ class ModelAdapterDocumentQuery {
 
   @override
   String toString() {
-    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode})";
+    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method)";
   }
 
   @override
@@ -416,6 +428,8 @@ class ModelAdapterCollectionQuery {
     this.origin,
     this.listen = true,
     this.page = 1,
+    this.headers = const {},
+    this.method,
   });
 
   /// Collection queries.
@@ -433,6 +447,16 @@ class ModelAdapterCollectionQuery {
   /// クエリの変更を監視する場合`true`に設定します。
   final bool listen;
 
+  /// Headers for sending a request.
+  ///
+  /// リクエストを送る際のヘッダー。
+  final Map<String, String> headers;
+
+  /// Method for sending a request.
+  ///
+  /// リクエストを送る際のメソッド。
+  final String? method;
+
   /// Page number to be read. If [ModelQuery.limit] is set, additional reading is performed according to this page number.
   ///
   /// 読込のページ番号。[ModelQuery.limit]が設定されている場合、こちらのページ番号に応じて追加読込を行います。
@@ -449,7 +473,7 @@ class ModelAdapterCollectionQuery {
 
   @override
   String toString() {
-    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode})";
+    return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method)";
   }
 
   @override
