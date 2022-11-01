@@ -1,3 +1,7 @@
+## 1.9.0
+
+ - **FEAT**: Added QueryParams functionality [#4](https://github.com/mathrunet/flutter_masamune/issues/4). ([3f2d1f20](https://github.com/mathrunet/flutter_masamune/commit/3f2d1f200481bc3f52f26fe8931c54df221e715e))
+
 ## 1.8.9
 
  - Update a dependency to the latest release.

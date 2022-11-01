@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: Support for RestAPI. ([3126bb9f](https://github.com/mathrunet/flutter_masamune/commit/3126bb9fa19aa8423eaafd3c2ba5c21685350bc7))
+
 ## 1.1.1
 
  - **FIX**: Corrected against actual measured values. ([f4f787c4](https://github.com/mathrunet/flutter_masamune/commit/f4f787c48b40f56287d9acb7cd22685911e1a3ab))

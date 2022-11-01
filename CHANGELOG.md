@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_openapi` - `v1.1.2`](#katana_model_openapi---v112)
+ - [`katana_model_openapi_builder` - `v1.1.2`](#katana_model_openapi_builder---v112)
+ - [`katana_router` - `v1.9.0`](#katana_router---v190)
+ - [`katana_router_annotation` - `v1.9.0`](#katana_router_annotation---v190)
+ - [`katana_router_builder` - `v1.9.0`](#katana_router_builder---v190)
+ - [`katana_scoped` - `v1.1.1`](#katana_scoped---v111)
+
+---
+
+#### `katana_model_openapi` - `v1.1.2`
+
+ - **FIX**: Support for RestAPI. ([3126bb9f](https://github.com/mathrunet/flutter_masamune/commit/3126bb9fa19aa8423eaafd3c2ba5c21685350bc7))
+
+#### `katana_model_openapi_builder` - `v1.1.2`
+
+ - **FIX**: Support for RestAPI. ([3126bb9f](https://github.com/mathrunet/flutter_masamune/commit/3126bb9fa19aa8423eaafd3c2ba5c21685350bc7))
+
+#### `katana_router` - `v1.9.0`
+
+ - **FEAT**: Added QueryParams functionality [#4](https://github.com/mathrunet/flutter_masamune/issues/4). ([3f2d1f20](https://github.com/mathrunet/flutter_masamune/commit/3f2d1f200481bc3f52f26fe8931c54df221e715e))
+
+#### `katana_router_annotation` - `v1.9.0`
+
+ - **FEAT**: Added QueryParams functionality [#4](https://github.com/mathrunet/flutter_masamune/issues/4). ([3f2d1f20](https://github.com/mathrunet/flutter_masamune/commit/3f2d1f200481bc3f52f26fe8931c54df221e715e))
+
+#### `katana_router_builder` - `v1.9.0`
+
+ - **FEAT**: Added QueryParams functionality [#4](https://github.com/mathrunet/flutter_masamune/issues/4). ([3f2d1f20](https://github.com/mathrunet/flutter_masamune/commit/3f2d1f200481bc3f52f26fe8931c54df221e715e))
+
+#### `katana_scoped` - `v1.1.1`
+
+ - **DOCS**: EXAMPLE Maintenance. ([06a0780e](https://github.com/mathrunet/flutter_masamune/commit/06a0780e95237adf47d560e8eed9d1a0b353bf0d))
+
+
 ## 2022-10-31
 
 ### Changes
