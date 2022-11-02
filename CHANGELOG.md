@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_scoped` - `v1.2.0`](#katana_scoped---v120)
+
+---
+
+#### `katana_scoped` - `v1.2.0`
+
+ - **FEAT**: Changed Deactivate specifications. ([b3637028](https://github.com/mathrunet/flutter_masamune/commit/b36370281c58db8299af496d24b54ff196497d04))
+
+
 ## 2022-11-01
 
 ### Changes
