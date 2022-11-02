@@ -331,15 +331,13 @@ The default `ScopedValueFunction` defined in the package is
     - Cache the value returned by `callback`.
     - If `notifyListners` are executed inside `T` monitoring values on further executed Widget, the Widget will be redrawn.
     - If the value of keys is changed, `callback` is executed again to update the cached value.
-- `OnContext on({ FutureOr<void> Function()? initOrUpdate,  VoidCallback? disposed, VoidCallback? deactivate,  List<Object> keys = const [] })`
+- `OnContext on({ FutureOr<void> Function()? initOrUpdate,  VoidCallback? disposed, List<Object> keys = const [] })`
     - Only page scope and widget scope can be executed.
     - It is possible to execute each process on the life cycle of the executed widget.
         - initOrUpdate
             - Processing runs the first time the on method is executed and the first time it is executed with a different value for `keys`.
             - If the value is returned as Future, the end can be monitored and detected by `OnContext.future` returned from the on method.
             - It is possible to implement a CircularProgressIndicator that performs some kind of initialization process and displays the CircularProgressIndicator until it finishes.
-        - deativate
-            - It is executed just before the widget is destroyed, so it is possible to implement exit processing using BuildContext, etc.
         - disposed
             - Executed when the widget is destroyed.
 - `void refresh()`
