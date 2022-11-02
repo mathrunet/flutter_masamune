@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **DOCS**: Fix readme. ([2a579d87](https://github.com/mathrunet/flutter_masamune/commit/2a579d8714e358b3f0d011235e76b460e19a442c))
+
 ## 1.2.0
 
  - **FEAT**: Changed Deactivate specifications. ([b3637028](https://github.com/mathrunet/flutter_masamune/commit/b36370281c58db8299af496d24b54ff196497d04))

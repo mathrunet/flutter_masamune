@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v1.2.1`](#katana_scoped---v121)
+
+---
+
+#### `katana_scoped` - `v1.2.1`
+
+ - **DOCS**: Fix readme. ([2a579d87](https://github.com/mathrunet/flutter_masamune/commit/2a579d8714e358b3f0d011235e76b460e19a442c))
+
+
+## 2022-11-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_scoped` - `v1.2.0`](#katana_scoped---v120)
 
 ---
