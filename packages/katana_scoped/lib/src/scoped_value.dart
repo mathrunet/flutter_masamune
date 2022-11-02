@@ -154,9 +154,9 @@ abstract class ScopedValueState<TResult,
   @mustCallSuper
   void initValue() {}
 
-  /// Executed just before the value is discarded.
+  /// If the widget is monitored by a widget, it is executed when the monitored widget is destroyed or otherwise removed.
   ///
-  /// 値が破棄される直前に実行されます。
+  /// ウィジェットで監視されている場合、監視されているウィジェットが破棄される等して外される場合に実行されます。
   @mustCallSuper
   void deactivate() {}
 

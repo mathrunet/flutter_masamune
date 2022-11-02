@@ -78,19 +78,6 @@ class ScopedValueContainer {
     }
   }
 
-  /// Called just before [ScopedValueContainer] is destroyed.
-  ///
-  /// ScopedValueState.deactivate] of the retained state is executed.
-  ///
-  /// [ScopedValueContainer]が破棄される直前に呼ばれます。
-  ///
-  /// 保持している状態の[ScopedValueState.deactivate]が実行されます。
-  void diactivate() {
-    for (final val in _data.values) {
-      val.deactivate();
-    }
-  }
-
   /// Called when [ScopedValueContainer] is destroyed.
   ///
   /// ScopedValueState.dispose] of the retained state is executed.

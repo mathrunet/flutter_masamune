@@ -13,8 +13,6 @@ extension RefOnExtensions on PageOrWidgetScopedValueRef {
   ///
   /// [initOrUpdate] can return [FutureOr]. In that case, [OnContext] is returned, so the end can be detected by [OnContext.initOrUpdating] there, such as [FutureBuilder].
   ///
-  /// If [deactivate] is specified, you can pass the process to be executed just before the widget is destroyed.
-  ///
   /// If [disposed] is specified, you can pass the process to be executed when the widget is disposed.
   ///
   /// ライフサイクルにおける処理を行います。
@@ -23,20 +21,16 @@ extension RefOnExtensions on PageOrWidgetScopedValueRef {
   ///
   /// [initOrUpdate]は[FutureOr]を返すことができます。その場合、[OnContext]が返されるためそこの[OnContext.initOrUpdating]で終了を[FutureBuilder]等で検知することができます。
   ///
-  /// [deactivate]を指定すると、ウィジェットが破棄される直前に実行される処理を渡すことができます。
-  ///
   /// [disposed]を指定すると、ウィジェットが破棄される際に実行される処理を渡すことができます。
   OnContext on({
     FutureOr<void> Function()? initOrUpdate,
     VoidCallback? disposed,
-    VoidCallback? deactivate,
     List<Object> keys = const [],
   }) {
     return getScopedValue<OnContext, _OnValue>(
       () => _OnValue(
         onInitOrUpdate: initOrUpdate,
         onDispose: disposed,
-        onDeactivate: deactivate,
         keys: keys,
       ),
     );
@@ -48,12 +42,10 @@ class _OnValue extends ScopedValue<OnContext> {
   const _OnValue({
     required this.onInitOrUpdate,
     required this.onDispose,
-    required this.onDeactivate,
     this.keys = const [],
   });
   final FutureOr<void> Function()? onInitOrUpdate;
   final VoidCallback? onDispose;
-  final VoidCallback? onDeactivate;
   final List<Object> keys;
 
   @override
@@ -98,12 +90,6 @@ class _OnValueState extends ScopedValueState<OnContext, _OnValue> {
         _context._completer = null;
       }
     }
-  }
-
-  @override
-  void deactivate() {
-    value.onDeactivate?.call();
-    super.deactivate();
   }
 
   @override

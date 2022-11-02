@@ -85,28 +85,13 @@ class ScopedValueListener {
       provider,
       onInitOrUpdate: (state) {
         if (listen) {
+          _watched.add(state);
           state._addListener(_callback);
         }
       },
       name: name,
     );
     return state.build();
-  }
-
-  /// Executed just before the widget is destroyed.
-  ///
-  /// ScopedValueState.deactivate] is executed for the monitored [ScopedValue] and the retained [ScopedValueContainer].
-  ///
-  /// ウィジェットが破棄される直前に実行します。
-  ///
-  /// 監視している[ScopedValue]と保持している[ScopedValueContainer]を対象に[ScopedValueState.deactivate]が実行されます。
-  void diactivate() {
-    for (final watched in _watched) {
-      watched.deactivate();
-    }
-    if (_container != null) {
-      _container!.diactivate();
-    }
   }
 
   /// Executed when the widget is destroyed.
@@ -118,8 +103,8 @@ class ScopedValueListener {
   /// 監視している[ScopedValue]と保持している[ScopedValueContainer]を対象に[ScopedValueState.dispose]が実行されます。
   void dispose() {
     for (final watched in _watched) {
-      watched.dispose();
       watched._removeListener(_callback);
+      watched.deactivate();
     }
     _watched.clear();
     if (_container != null) {

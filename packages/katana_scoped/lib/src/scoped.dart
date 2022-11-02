@@ -94,14 +94,6 @@ class _ScopedState<TPage extends PageScopedWidget>
   }
 
   @override
-  void deactivate() {
-    super.deactivate();
-    _appListener.diactivate();
-    _pageListener.diactivate();
-    _widgetListener.diactivate();
-  }
-
-  @override
   void dispose() {
     super.dispose();
     _appListener.dispose();
@@ -239,13 +231,6 @@ class _PageScopedWidgetState extends State<PageScopedWidget> {
       pageListener: _pageListener,
       context: context,
     );
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    _appListener.diactivate();
-    _pageListener.diactivate();
   }
 
   @override
