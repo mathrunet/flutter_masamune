@@ -4,62 +4,63 @@ part of katana_model;
 ///
 /// Any changes made locally in the app will be notified and related objects will reflect the changes.
 ///
-/// When changes are reflected, [notifyListeners] will notify all listeners of the changes.
+/// When a value is reflected by [save], [delete], [transaction], or updated in real time from outside, all listeners are notified of the change by [notifyListeners].
 ///
 /// Define object conversion from [DynamicMap] to [T], which is output by decoding Json by implementing [DocumentBase.fromMap].
 ///
 /// Implementing [DocumentBase.toMap] defines the conversion from a [T] object to a [DynamicMap] that can later be Json encoded.
 ///
-/// By defining [query], you can specify settings for loading, such as document paths.
+/// By defining [DocumentBase.modelQuery], you can specify settings for loading, such as document paths.
 ///
-/// The initial value is given in [value].
+/// The [value] value can be set and retrieved. In this case, no change notification is made as in the case of [ValueNotifier].
 ///
 /// [ChangeNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
 ///
 /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
 ///
-/// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+/// [save]や[delete]、[transaction]での値反映、外部からのリアルタイム更新が行われた場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
 ///
 /// [DocumentBase.fromMap]を実装することでJsonをデコードして出力される[DynamicMap]から[T]へのオブジェクト変換を定義します。
 ///
 /// [DocumentBase.toMap]を実装することで[T]のオブジェクトから後にJsonエンコード可能な[DynamicMap]への変換を定義します。
 ///
-/// [query]を定義することで、ドキュメントのパスなど読み込みを行うための設定を指定できます。
+/// [DocumentBase.modelQuery]を定義することで、ドキュメントのパスなど読み込みを行うための設定を指定できます。
 ///
-/// [value]で初期値を与えます。
+/// [value]値をセット、取得できます。その際[ValueNotifier]のように変更通知は行われません。
 abstract class DocumentBase<T> extends ChangeNotifier
     implements ValueListenable<T?> {
   /// Define a document model for storing [T] types that inherit from [ChangeNotifier].
   ///
   /// Any changes made locally in the app will be notified and related objects will reflect the changes.
   ///
-  /// When changes are reflected, [notifyListeners] will notify all listeners of the changes.
+  /// When a value is reflected by [save], [delete], [transaction], or updated in real time from outside, all listeners are notified of the change by [notifyListeners].
   ///
   /// Define object conversion from [DynamicMap] to [T], which is output by decoding Json by implementing [DocumentBase.fromMap].
   ///
   /// Implementing [DocumentBase.toMap] defines the conversion from a [T] object to a [DynamicMap] that can later be Json encoded.
   ///
-  /// By defining [query], you can specify settings for loading, such as document paths.
+  /// By defining [DocumentBase.modelQuery], you can specify settings for loading, such as document paths.
   ///
-  /// The initial value is given in [value].
+  /// The [value] value can be set and retrieved. In this case, no change notification is made as in the case of [ValueNotifier].
   ///
   /// [ChangeNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
   ///
   /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
   ///
-  /// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+  /// [save]や[delete]、[transaction]での値反映、外部からのリアルタイム更新が行われた場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
   ///
   /// [DocumentBase.fromMap]を実装することでJsonをデコードして出力される[DynamicMap]から[T]へのオブジェクト変換を定義します。
   ///
   /// [DocumentBase.toMap]を実装することで[T]のオブジェクトから後にJsonエンコード可能な[DynamicMap]への変換を定義します。
   ///
-  /// [query]を定義することで、ドキュメントのパスなど読み込みを行うための設定を指定できます。
+  /// [DocumentBase.modelQuery]を定義することで、ドキュメントのパスなど読み込みを行うための設定を指定できます。
   ///
-  /// [value]で初期値を与えます。
-  DocumentBase(this.query, [this._value])
+  /// [value]値をセット、取得できます。その際[ValueNotifier]のように変更通知は行われません。
+  DocumentBase(this.modelQuery, [this._value])
       : assert(
-          !(query.path.splitLength() <= 0 || query.path.splitLength() % 2 != 0),
-          "The query path hierarchy must be an even number: ${query.path}",
+          !(modelQuery.path.splitLength() <= 0 ||
+              modelQuery.path.splitLength() % 2 != 0),
+          "The query path hierarchy must be an even number: ${modelQuery.path}",
         );
 
   /// Defines the object transformation from [DynamicMap] to [T], which is output by decoding Json.
@@ -113,7 +114,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// ドキュメントを読込・保存するためのクエリ。
   @protected
-  final DocumentModelQuery query;
+  final DocumentModelQuery modelQuery;
 
   /// Database queries for documents.
   ///
@@ -121,7 +122,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @protected
   ModelAdapterDocumentQuery get databaseQuery {
     return _databaseQuery ??= ModelAdapterDocumentQuery(
-      query: query,
+      query: modelQuery,
       callback: handledOnUpdate,
       origin: this,
     );
@@ -166,7 +167,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   Future<void>? get saving => _saveCompleter?.future;
   Completer<T>? _saveCompleter;
 
-  /// Reads documents corresponding to [query].
+  /// Reads documents corresponding to [modelQuery].
   ///
   /// The return value is a [T] object, and the loaded data is available as is.
   ///
@@ -176,7 +177,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// If you wish to reload the file, use the [reload] method.
   ///
-  /// [query]に対応したドキュメントの読込を行います。
+  /// [modelQuery]に対応したドキュメントの読込を行います。
   ///
   /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
   ///
@@ -216,7 +217,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
     return value;
   }
 
-  /// Reload the document corresponding to [query].
+  /// Reload the document corresponding to [modelQuery].
   ///
   /// The return value is a [T] object, and the loaded data is available as is.
   ///
@@ -224,7 +225,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
   ///
-  /// [query]に対応したドキュメントの再読込を行います。
+  /// [modelQuery]に対応したドキュメントの再読込を行います。
   ///
   /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
   ///
@@ -394,13 +395,13 @@ abstract class DocumentBase<T> extends ChangeNotifier
       );
       subscriptions.clear();
     }
-    if (listenWhenPossible && query.adapter.availableListen) {
+    if (listenWhenPossible && modelQuery.adapter.availableListen) {
       subscriptions.addAll(
-        await query.adapter.listenDocument(databaseQuery),
+        await modelQuery.adapter.listenDocument(databaseQuery),
       );
       return null;
     } else {
-      return await query.adapter.loadDocument(databaseQuery);
+      return await modelQuery.adapter.loadDocument(databaseQuery);
     }
   }
 
@@ -417,19 +418,19 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// [map]の値に[Null]が入っているキーは削除されます。すべてのキーが削除された場合、ドキュメント自体が削除されます。
   @protected
   Future<void> saveRequest(DynamicMap map) async {
-    return await query.adapter.saveDocument(databaseQuery, map);
+    return await modelQuery.adapter.saveDocument(databaseQuery, map);
   }
 
   /// Implement internal processing when [delete] is executed.
   ///
-  /// The deletion process is performed using its own [query] and other data.
+  /// The deletion process is performed using its own [modelQuery] and other data.
   ///
   /// [delete]を実行した際の内部処理を実装します。
   ///
-  /// 自身の[query]などのデータを用いて削除処理を行います。
+  /// 自身の[modelQuery]などのデータを用いて削除処理を行います。
   @protected
   Future<void> deleteRequest() async {
-    return await query.adapter.deleteDocument(databaseQuery);
+    return await modelQuery.adapter.deleteDocument(databaseQuery);
   }
 
   /// Implement filters when loading data.
@@ -465,7 +466,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   DynamicMap filterOnSave(DynamicMap rawData) {
     return {
       ...rawData,
-      kUidFieldKey: query.path.trimQuery().last(),
+      kUidFieldKey: modelQuery.path.trimQuery().last(),
     };
   }
 
@@ -494,7 +495,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @mustCallSuper
   void dispose() {
     super.dispose();
-    query.adapter.disposeDocument(databaseQuery);
+    modelQuery.adapter.disposeDocument(databaseQuery);
     subscriptions.forEach((subscription) => subscription.cancel());
     subscriptions.clear();
   }

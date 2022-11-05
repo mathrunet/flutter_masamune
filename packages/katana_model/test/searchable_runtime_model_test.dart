@@ -31,7 +31,7 @@ class SearchableRuntimeCollectionModel
   @override
   SearchableRuntimeMapDocumentModel create([String? id]) {
     return SearchableRuntimeMapDocumentModel(
-      query.create(id),
+      modelQuery.create(id),
       {},
     );
   }

@@ -8,7 +8,7 @@ part of katana_model;
 ///
 /// Define [CollectionBase.create] to describe the process of creating a new document.
 ///
-/// By defining [query], you can specify settings for loading, such as collection paths and conditions.
+/// By defining [modelQuery], you can specify settings for loading, such as collection paths and conditions.
 ///
 /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
 ///
@@ -24,7 +24,7 @@ part of katana_model;
 ///
 /// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
 ///
-/// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
+/// [modelQuery]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
 ///
 /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
 ///
@@ -41,7 +41,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// Define [CollectionBase.create] to describe the process of creating a new document.
   ///
-  /// By defining [query], you can specify settings for loading, such as collection paths and conditions.
+  /// By defining [modelQuery], you can specify settings for loading, such as collection paths and conditions.
   ///
   /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
   ///
@@ -57,7 +57,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
   ///
-  /// [query]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
+  /// [modelQuery]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
   ///
   /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
   ///
@@ -65,28 +65,29 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
   CollectionBase(
-    this.query, [
+    this.modelQuery, [
     List<TModel>? value,
   ])  : __value = value ?? [],
         assert(
-          !(query.path.splitLength() <= 0 || query.path.splitLength() % 2 != 1),
-          "The query path hierarchy must be an odd number: ${query.path}",
+          !(modelQuery.path.splitLength() <= 0 ||
+              modelQuery.path.splitLength() % 2 != 1),
+          "The query path hierarchy must be an odd number: ${modelQuery.path}",
         );
 
   /// Create a new document of type [TModel] from the contents of the collection.
   ///
-  /// The document will be created with the collection path of [query] plus [id] (if `null`, a random [uuid] will be used).
+  /// The document will be created with the collection path of [modelQuery] plus [id] (if `null`, a random [uuid] will be used).
   ///
   /// コレクションの内容から新しく[TModel]型のドキュメントを作成します。
   ///
-  /// [query]のコレクションパスに[id]（`null`の場合はランダムな[uuid]が使用されます）を加えたパスでドキュメントが作成されます。
+  /// [modelQuery]のコレクションパスに[id]（`null`の場合はランダムな[uuid]が使用されます）を加えたパスでドキュメントが作成されます。
   TModel create([String? id]);
 
   /// Query to read and save collections.
   ///
   /// コレクションを読込・保存するためのクエリ。
   @protected
-  final CollectionModelQuery query;
+  final CollectionModelQuery modelQuery;
 
   /// Database queries for collections.
   ///
@@ -94,7 +95,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   @protected
   ModelAdapterCollectionQuery get databaseQuery {
     return _databaseQuery ??= ModelAdapterCollectionQuery(
-      query: query,
+      query: modelQuery,
       callback: handledOnUpdate,
       origin: this,
     );
@@ -158,7 +159,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   bool get canNext => _canNext;
   bool _canNext = true;
 
-  /// Reads the collection corresponding to [query].
+  /// Reads the collection corresponding to [modelQuery].
   ///
   /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
   ///
@@ -168,7 +169,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// If you wish to reload the file, use the [reload] method.
   ///
-  /// [query]に対応したコレクションの読込を行います。
+  /// [modelQuery]に対応したコレクションの読込を行います。
   ///
   /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
@@ -191,7 +192,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (res != null) {
           _value = await fromMap(
             res,
-            query.limit != null ? (query.limit! * databaseQuery.page) : null,
+            modelQuery.limit != null
+                ? (modelQuery.limit! * databaseQuery.page)
+                : null,
           );
         }
         _loaded = true;
@@ -213,7 +216,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return this;
   }
 
-  /// Reload the collection corresponding to [query].
+  /// Reload the collection corresponding to [modelQuery].
   ///
   /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
   ///
@@ -221,7 +224,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
   ///
-  /// [query]に対応したコレクションの再読込を行います。
+  /// [modelQuery]に対応したコレクションの再読込を行います。
   ///
   /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
@@ -330,13 +333,13 @@ abstract class CollectionBase<TModel extends DocumentBase>
       );
       subscriptions.clear();
     }
-    if (listenWhenPossible && query.adapter.availableListen) {
+    if (listenWhenPossible && modelQuery.adapter.availableListen) {
       subscriptions.addAll(
-        await query.adapter.listenCollection(databaseQuery),
+        await modelQuery.adapter.listenCollection(databaseQuery),
       );
       return null;
     } else {
-      return await query.adapter.loadCollection(databaseQuery);
+      return await modelQuery.adapter.loadCollection(databaseQuery);
     }
   }
 
@@ -410,7 +413,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   @protected
   Future<List<TModel>> fromMap(Map<String, DynamicMap> map, int? limit) async {
     final res = <TModel>[];
-    final sorted = query.sort(List.from(map.entries));
+    final sorted = modelQuery.sort(List.from(map.entries));
     for (final tmp in sorted) {
       final key =
           tmp.key.replaceAll("/", "").replaceAll("?", "").replaceAll("&", "");
@@ -434,7 +437,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   void dispose() {
     super.dispose();
     _value.clear();
-    query.adapter.disposeCollection(databaseQuery);
+    modelQuery.adapter.disposeCollection(databaseQuery);
     subscriptions.forEach((subscription) => subscription.cancel());
     subscriptions.clear();
   }

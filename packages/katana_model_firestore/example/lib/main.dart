@@ -309,7 +309,7 @@ class UserModelCollection extends CollectionBase<UserModelDocument> {
 
   @override
   UserModelDocument create([String? id]) {
-    return UserModelDocument(query.create(id));
+    return UserModelDocument(modelQuery.create(id));
   }
 }
 
@@ -330,6 +330,6 @@ class StreamModelCollection extends CollectionBase<StreamModelDocument> {
 
   @override
   StreamModelDocument create([String? id]) {
-    return StreamModelDocument(query.create(id));
+    return StreamModelDocument(modelQuery.create(id));
   }
 }

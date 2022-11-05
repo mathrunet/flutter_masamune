@@ -20,7 +20,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 
   @override
   RuntimeMapDocumentModel create([String? id]) {
-    return RuntimeMapDocumentModel(query.create(id), {});
+    return RuntimeMapDocumentModel(modelQuery.create(id), {});
   }
 }
 

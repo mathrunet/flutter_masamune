@@ -37,7 +37,7 @@ class ModelTransactionBuilder<T> {
     )
         transaction,
   ) {
-    return document.query.adapter.runTransaction<T>(
+    return document.modelQuery.adapter.runTransaction<T>(
       document,
       transaction,
     );
@@ -73,21 +73,21 @@ abstract class ModelTransactionRef {
       ModelTransactionDocument<E>._(this, document);
 
   FutureOr<DynamicMap> _load(DocumentBase document) async {
-    return await document.query.adapter.loadOnTransaction(
+    return await document.modelQuery.adapter.loadOnTransaction(
       this,
       document.databaseQuery,
     );
   }
 
   FutureOr<void> _delete(DocumentBase document) async {
-    await document.query.adapter.deleteOnTransaction(
+    await document.modelQuery.adapter.deleteOnTransaction(
       this,
       document.databaseQuery,
     );
   }
 
   FutureOr<void> _save(DocumentBase document, DynamicMap value) {
-    return document.query.adapter.saveOnTransaction(
+    return document.modelQuery.adapter.saveOnTransaction(
       this,
       document.databaseQuery,
       value,

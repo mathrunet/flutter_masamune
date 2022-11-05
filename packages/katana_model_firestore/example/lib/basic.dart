@@ -101,7 +101,7 @@ class FirestoreDynamicCollection
 
   @override
   FirestoreDynamicDocument create([String? id]) {
-    return FirestoreDynamicDocument(query.create(id), {});
+    return FirestoreDynamicDocument(modelQuery.create(id), {});
   }
 }
 
