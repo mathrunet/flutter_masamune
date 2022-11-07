@@ -10,5 +10,6 @@ class CodemagicCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "android": CodemagicAndroidCliCommand(),
         "ios": CodemagicIOSCliCommand(),
+        "web": CodemagicWebCliCommand(),
       };
 }

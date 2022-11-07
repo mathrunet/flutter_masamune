@@ -12,6 +12,17 @@ class GenerateCliCommand extends CliCommand {
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
     if (File("melos.yaml").existsSync()) {
+      final clean = await Process.start(
+        melos,
+        [
+          "exec",
+          "--",
+          "$flutter packages pub run build_runner clean",
+        ],
+        runInShell: true,
+        workingDirectory: Directory.current.path,
+      );
+      await clean.print();
       final process = await Process.start(
         melos,
         [
@@ -24,6 +35,19 @@ class GenerateCliCommand extends CliCommand {
       );
       await process.print();
     } else {
+      final clean = await Process.start(
+        flutter,
+        [
+          "packages",
+          "pub",
+          "run",
+          "build_runner",
+          "clean",
+        ],
+        runInShell: true,
+        workingDirectory: Directory.current.path,
+      );
+      await clean.print();
       final process = await Process.start(
         flutter,
         [
