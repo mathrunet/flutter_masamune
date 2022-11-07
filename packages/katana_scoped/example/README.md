@@ -1,4 +1,4 @@
-# katana_model_openapi_example
+# katana_scoped_example
 
 A new Flutter project.
 

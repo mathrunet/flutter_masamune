@@ -69,15 +69,10 @@ class _WatchValueState<T extends Listenable>
   }
 
   @override
-  void deactivate() {
-    super.deactivate();
-    _value.removeListener(_handledOnUpdate);
-  }
-
-  @override
   void dispose() {
     super.dispose();
     final val = _value;
+    _value.removeListener(_handledOnUpdate);
     if (val is ChangeNotifier) {
       val.dispose();
     }
