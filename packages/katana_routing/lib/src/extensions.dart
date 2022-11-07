@@ -312,7 +312,7 @@ extension BuildContedxtExtensions on BuildContext {
     return DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
   }
 
-  /// Get [value] to [key] of the map stored in [arg].
+  /// Get [key] to [key] of the map stored in [arg].
   ///
   /// The data will be unique within the page and can continue to be used even if the widget is rebuilt.
   dynamic operator [](Object? key) {

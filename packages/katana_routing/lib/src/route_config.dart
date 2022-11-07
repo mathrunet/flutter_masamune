@@ -238,7 +238,7 @@ class RouteConfig {
         }
       }
       map.addAll(tmp.value.parameters);
-      map[kTransition] = tmp.value.additional;
+      // map[kTransition] = tmp.value.additional;
       final replacedPath = path.replaceAllMapped(_keyRegex, (match) {
         final key = match.group(1) ?? "";
         if (map.containsKey(key)) {
