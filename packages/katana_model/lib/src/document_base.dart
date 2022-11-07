@@ -63,6 +63,35 @@ abstract class DocumentBase<T> extends ChangeNotifier
           "The query path hierarchy must be an even number: ${modelQuery.path}",
         );
 
+  /// Define a document model for storing [T] types that inherit from [ChangeNotifier].
+  ///
+  /// Any changes made locally in the app will be notified and related objects will reflect the changes.
+  ///
+  /// When a value is reflected by [save], [delete], [transaction], or updated in real time from outside, all listeners are notified of the change by [notifyListeners].
+  ///
+  /// Define object conversion from [DynamicMap] to [T], which is output by decoding Json by implementing [DocumentBase.fromMap].
+  ///
+  /// Implementing [DocumentBase.toMap] defines the conversion from a [T] object to a [DynamicMap] that can later be Json encoded.
+  ///
+  /// By defining [DocumentBase.modelQuery], you can specify settings for loading, such as document paths.
+  ///
+  /// The [value] value can be set and retrieved. In this case, no change notification is made as in the case of [ValueNotifier].
+  ///
+  /// [ChangeNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
+  ///
+  /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
+  ///
+  /// [save]や[delete]、[transaction]での値反映、外部からのリアルタイム更新が行われた場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+  ///
+  /// [DocumentBase.fromMap]を実装することでJsonをデコードして出力される[DynamicMap]から[T]へのオブジェクト変換を定義します。
+  ///
+  /// [DocumentBase.toMap]を実装することで[T]のオブジェクトから後にJsonエンコード可能な[DynamicMap]への変換を定義します。
+  ///
+  /// [DocumentBase.modelQuery]を定義することで、ドキュメントのパスなど読み込みを行うための設定を指定できます。
+  ///
+  /// [value]値をセット、取得できます。その際[ValueNotifier]のように変更通知は行われません。
+  DocumentBase.unrestricted(this.modelQuery, [this._value]);
+
   /// Defines the object transformation from [DynamicMap] to [T], which is output by decoding Json.
   ///
   /// A [DynamicMap] decoded from Json, etc. is passed to [map].

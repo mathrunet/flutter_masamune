@@ -41,13 +41,13 @@ class RuntimeModelAdapter extends ModelAdapter {
   const RuntimeModelAdapter({NoSqlDatabase? database}) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
-  /// 
+  ///
   /// 指定のデータベース。テスト用途などにご利用ください。
   NoSqlDatabase get database => _database ?? sharedDatabase;
   final NoSqlDatabase? _database;
 
   /// A common database throughout the application.
-  /// 
+  ///
   /// アプリ内全体での共通のデータベース。
   static final NoSqlDatabase sharedDatabase = NoSqlDatabase();
 

@@ -74,6 +74,42 @@ abstract class CollectionBase<TModel extends DocumentBase>
           "The query path hierarchy must be an odd number: ${modelQuery.path}",
         );
 
+  /// Define a collection model that includes [DocumentBase] as an element.
+  ///
+  /// Any changes made locally in the app will be notified and related objects will reflect the changes.
+  ///
+  /// When changes are reflected, [notifyListeners] will notify all listeners of the changes.
+  ///
+  /// Define [CollectionBase.create] to describe the process of creating a new document.
+  ///
+  /// By defining [modelQuery], you can specify settings for loading, such as collection paths and conditions.
+  ///
+  /// The collection implements [List], but changing an element is `Unmodifiable` and will result in an error.
+  ///
+  /// Execute [DocumentBase.save] for each document to change elements, and [DocumentBase.delete] for each document to delete them.
+  ///
+  /// To add elements, run [CollectionBase.create] to create a new document, then save it with [DocumentBase.save].
+  ///
+  /// [DocumentBase]を要素に含めたコレクションモデルを定義します。
+  ///
+  /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
+  ///
+  /// 変更内容が反映された場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+  ///
+  /// [CollectionBase.create]を定義することで新規にドキュメントを作成する処理を記述します。
+  ///
+  /// [modelQuery]を定義することで、コレクションのパスや条件など読み込みを行うための設定を指定できます。
+  ///
+  /// コレクションは[List]を実装していますが、要素の変更は`Unmodifiable`となりエラーになります。
+  ///
+  /// 要素を変更する場合は各ドキュメントの[DocumentBase.save]を実行し、削除する場合は各ドキュメントの[DocumentBase.delete]を実行してください。
+  ///
+  /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
+  CollectionBase.unrestricted(
+    this.modelQuery, [
+    List<TModel>? value,
+  ]) : __value = value ?? [];
+
   /// Create a new document of type [TModel] from the contents of the collection.
   ///
   /// The document will be created with the collection path of [modelQuery] plus [id] (if `null`, a random [uuid] will be used).
@@ -253,12 +289,12 @@ abstract class CollectionBase<TModel extends DocumentBase>
     bool listenWhenPossible = true,
   ]) async {
     _loaded = false;
-    _databaseQuery = databaseQuery.pageWith(page: databaseQuery.page + 1);
+    _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
     final _prevLength = length;
     final loaded = await load(listenWhenPossible);
     if (length == _prevLength) {
       _canNext = false;
-      _databaseQuery = databaseQuery.pageWith(page: databaseQuery.page - 1);
+      _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
     }
     return loaded;
   }

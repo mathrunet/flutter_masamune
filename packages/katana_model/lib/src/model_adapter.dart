@@ -394,6 +394,27 @@ class ModelAdapterDocumentQuery {
   /// `update`に変更された場合の情報が含まれています。
   final void Function(ModelUpdateNotification update)? callback;
 
+  /// Change [headers] or [method] and copy.
+  ///
+  /// Copied objects are recognized as the same object.
+  ///
+  /// [headers]もしくは[method]を変更してコピーします。
+  ///
+  /// コピーされたオブジェクトは同一オブジェクトとして認識されます。
+  ModelAdapterDocumentQuery copyWith({
+    Map<String, String>? headers,
+    String? method,
+  }) {
+    return ModelAdapterDocumentQuery(
+      query: query,
+      listen: listen,
+      origin: origin,
+      callback: callback,
+      headers: headers ?? this.headers,
+      method: method ?? this.method,
+    );
+  }
+
   @override
   String toString() {
     return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method)";
@@ -471,6 +492,29 @@ class ModelAdapterCollectionQuery {
   /// `update`に変更された場合の情報が含まれています。
   final void Function(ModelUpdateNotification update)? callback;
 
+  /// Change [headers] or [method] and [page] and copy.
+  ///
+  /// Copied objects are recognized as the same object.
+  ///
+  /// [headers]もしくは[method]、[page]を変更してコピーします。
+  ///
+  /// コピーされたオブジェクトは同一オブジェクトとして認識されます。
+  ModelAdapterCollectionQuery copyWith({
+    Map<String, String>? headers,
+    String? method,
+    int? page,
+  }) {
+    return ModelAdapterCollectionQuery(
+      query: query,
+      callback: callback,
+      origin: origin,
+      listen: listen,
+      headers: headers ?? this.headers,
+      method: method ?? this.method,
+      page: page ?? this.page,
+    );
+  }
+
   @override
   String toString() {
     return "$runtimeType(query: $query, listen: $listen, origin: ${origin.hashCode}, headers: $headers, method: $method)";
@@ -481,19 +525,4 @@ class ModelAdapterCollectionQuery {
 
   @override
   int get hashCode => query.hashCode ^ origin.hashCode;
-
-  /// Update [page] and create a new [ModelAdapterCollectionQuery].
-  ///
-  /// [page]を更新して新しい[ModelAdapterCollectionQuery]を作成します。
-  ModelAdapterCollectionQuery pageWith({
-    int? page,
-  }) {
-    return ModelAdapterCollectionQuery(
-      query: query,
-      callback: callback,
-      origin: origin,
-      listen: listen,
-      page: page ?? this.page,
-    );
-  }
 }
