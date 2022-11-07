@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **FIX**: Fixed a bug that caused the widget to be unmonitored if it was destroyed when using WATCH. ([b1bdcbdf](https://github.com/mathrunet/flutter_masamune/commit/b1bdcbdf19016895c90e8cec0a21602dd382bd03))
+
 ## 1.2.1
 
  - **DOCS**: Fix readme. ([2a579d87](https://github.com/mathrunet/flutter_masamune/commit/2a579d8714e358b3f0d011235e76b460e19a442c))

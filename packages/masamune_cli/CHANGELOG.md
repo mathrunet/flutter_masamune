@@ -1,3 +1,7 @@
+## 0.15.0+17
+
+ - **FIX**: Web was not included, so it was corrected. ([6f8bc5eb](https://github.com/mathrunet/flutter_masamune/commit/6f8bc5eb3a938e9e86c282743cc192081d8b436e))
+
 ## 0.15.0+16
 
  - Update a dependency to the latest release.

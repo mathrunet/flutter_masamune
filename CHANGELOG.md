@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v1.2.2`](#katana_scoped---v122)
+ - [`masamune_cli` - `v0.15.0+17`](#masamune_cli---v015017)
+
+---
+
+#### `katana_scoped` - `v1.2.2`
+
+ - **FIX**: Fixed a bug that caused the widget to be unmonitored if it was destroyed when using WATCH. ([b1bdcbdf](https://github.com/mathrunet/flutter_masamune/commit/b1bdcbdf19016895c90e8cec0a21602dd382bd03))
+
+#### `masamune_cli` - `v0.15.0+17`
+
+ - **FIX**: Web was not included, so it was corrected. ([6f8bc5eb](https://github.com/mathrunet/flutter_masamune/commit/6f8bc5eb3a938e9e86c282743cc192081d8b436e))
+
+
+## 2022-11-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_routing` - `v0.15.0+18`](#katana_routing---v015018)
  - [`katana_module` - `v0.15.0+25`](#katana_module---v015025)
  - [`masamune` - `v0.15.3+7`](#masamune---v01537)
