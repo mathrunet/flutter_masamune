@@ -30,7 +30,7 @@ class FirestoreModelAdapter extends ModelAdapter {
       : _database = database;
 
   /// The Firestore database instance used in the adapter.
-  /// 
+  ///
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。
   FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
   final FirebaseFirestore? _database;
@@ -129,6 +129,7 @@ class FirestoreModelAdapter extends ModelAdapter {
               oldIndex: doc.oldIndex,
               newIndex: doc.newIndex,
               origin: query.origin,
+              listen: query.listen,
             ),
           );
         }
@@ -156,6 +157,7 @@ class FirestoreModelAdapter extends ModelAdapter {
           status: ModelUpdateNotificationStatus.modified,
           value: _convertFrom(doc.data()?.cast() ?? {}),
           origin: query.origin,
+          listen: query.listen,
         ),
       );
     });
@@ -248,7 +250,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         } else {
           res[key] = val;
         }
-      } else if (val is DocumentReference) {
+      } else if (val is DocumentReference<DynamicMap>) {
         res[key] = ModelRef.fromPath(
           val.path,
         ).toJson();
@@ -284,7 +286,7 @@ class FirestoreModelAdapter extends ModelAdapter {
           res[targetKey] = FieldValue.serverTimestamp();
         } else if (type.startsWith(ModelRef.typeString)) {
           final ref = ModelRef.fromJson(val);
-          res[key] = database.doc(ref.query.path);
+          res[key] = database.doc(ref.modelQuery.path);
         } else {
           res[key] = val;
         }

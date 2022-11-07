@@ -187,14 +187,14 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// 読込終了後、[T]オブジェクトが返されます。
   ///
   /// [load]や[reload]を実行中でない場合、[Null]が返されます。
-  Future<T>? get loading => _loadCompleter?.future;
-  Completer<T>? _loadCompleter;
+  Future<T?>? get loading => _loadCompleter?.future;
+  Completer<T?>? _loadCompleter;
 
   /// If [save] or [delete] is executed, it waits until the read process is completed.
   ///
   /// [save]や[delete]を実行した場合、その読込処理が終わるまで待ちます。
   Future<void>? get saving => _saveCompleter?.future;
-  Completer<T>? _saveCompleter;
+  Completer<T?>? _saveCompleter;
 
   /// Reads documents corresponding to [modelQuery].
   ///
@@ -221,15 +221,17 @@ abstract class DocumentBase<T> extends ChangeNotifier
     }
     try {
       final _value = value;
-      _loadCompleter = Completer<T>();
+      _loadCompleter = Completer<T?>();
       if (!loaded) {
         final res = await loadRequest(listenWhenPossible);
         if (res != null) {
-          value = fromMap(filterOnLoad(res));
+          value = await filterOnDidLoad(
+            fromMap(filterOnLoad(res)),
+            listenWhenPossible,
+          );
         }
         _loaded = true;
       }
-      value = _filterOnDidLoad(value);
       if (_value != value) {
         notifyListeners();
       }
@@ -266,54 +268,9 @@ abstract class DocumentBase<T> extends ChangeNotifier
     return load(listenWhenPossible);
   }
 
-  /// After loading is complete, add data.
-  ///
-  /// After loading is completed, [onDidLoad] is always executed, and the return value of [onDidLoad] is the value of the list as it is.
-  ///
-  /// After the method execution completes, the object [T] is returned.
-  ///
-  /// ロード完了後、データを追加します。
-  ///
-  /// ロード完了後必ず[onDidLoad]が実行され、[onDidLoad]の戻り値がそのままリストの値となります。
-  ///
-  /// メソッド実行完了後[T]のオブジェクトが返されます。
-  FutureOr<T?> append(
-    T? Function(T? value) onDidLoad,
-  ) async {
-    if (_loadCompleter != null) {
-      _onDidLoad = onDidLoad;
-      return loading!;
-    }
-    try {
-      final _value = value;
-      _loadCompleter = Completer<T>();
-      value = onDidLoad.call(value);
-      if (_value != value) {
-        notifyListeners();
-      }
-      _loadCompleter?.complete(value);
-      _loadCompleter = null;
-    } catch (e) {
-      _loadCompleter?.completeError(e);
-      _loadCompleter = null;
-      rethrow;
-    } finally {
-      _loadCompleter?.complete();
-      _loadCompleter = null;
-    }
-    return value;
-  }
-
-  T? _filterOnDidLoad(T? value) {
-    if (_onDidLoad != null) {
-      final val = _onDidLoad!.call(value);
-      _onDidLoad = null;
-      return val;
-    }
-    return value;
-  }
-
-  T? Function(T? value)? _onDidLoad;
+  @protected
+  Future<T?> filterOnDidLoad(T? value, [bool listenWhenPossible = true]) =>
+      Future.value(value);
 
   /// Data can be saved.
   ///
@@ -336,7 +293,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       return saving!;
     }
     try {
-      _saveCompleter = Completer<T>();
+      _saveCompleter = Completer<T?>();
       await saveRequest(filterOnSave(toMap(value as T)));
       _saveCompleter?.complete(value);
       _saveCompleter = null;
@@ -370,7 +327,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       return saving!;
     }
     try {
-      _saveCompleter = Completer<T>();
+      _saveCompleter = Completer<T?>();
       await deleteRequest();
       _saveCompleter?.complete(value);
       _saveCompleter = null;
@@ -513,7 +470,10 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
     final _value = value;
-    value = _filterOnDidLoad(fromMap(filterOnLoad(update.value)));
+    value = await filterOnDidLoad(
+      fromMap(filterOnLoad(update.value)),
+      update.listen,
+    );
     if (_value != value) {
       notifyListeners();
     }

@@ -33,13 +33,13 @@ part of katana_model;
 /// ```
 mixin SearchableDocumentMixin<T> on DocumentBase<T> {
   /// The field with this key contains the Bigram data for the search.
-  /// 
+  ///
   /// このキーを持つフィールドに検索用のBigramのデータを格納します。
   @protected
   String get searchValueFieldKey;
 
   /// Creates a string to be searched. If you want to search multiple items, combine all strings and return them as a single string.
-  /// 
+  ///
   /// 検索対象の文字列を作成します。複数の項目を検索対象にしたい場合、すべての文字列を合成し１つの文字列として返してください。
   ///
   /// ```dart

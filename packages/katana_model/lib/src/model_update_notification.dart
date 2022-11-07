@@ -37,6 +37,7 @@ class ModelUpdateNotification {
     required this.id,
     required this.status,
     required this.value,
+    required this.listen,
     this.origin,
     this.oldIndex,
     this.newIndex,
@@ -81,8 +82,13 @@ class ModelUpdateNotification {
   /// 変更後のコレクションのインデックス。
   final int? newIndex;
 
+  /// true` if the query is being monitored.
+  ///
+  /// クエリーを監視中の場合は`true`.
+  final bool listen;
+
   @override
   String toString() {
-    return "$runtimeType(path: $path, id: $id, status: $status, origin: $origin, value: $value)";
+    return "$runtimeType(path: $path, id: $id, status: $status, origin: $origin, value: $value, listen: $listen)";
   }
 }

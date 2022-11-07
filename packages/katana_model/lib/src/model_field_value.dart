@@ -309,28 +309,28 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 
 /// Class for defining relationships between models.
 ///
-/// You can have that relationship as data by passing a query for the related document to [query].
+/// You can have that relationship as data by passing a query for the related document to [modelQuery].
 ///
 /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRef] and mixing in [ModelRefMixin].
 ///
 /// モデル間のリレーションを定義するためのクラス。
 ///
-/// [query]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
+/// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
 ///
 /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
 class ModelRef<T> extends ModelFieldValue<T?> {
   /// Class for defining relationships between models.
   ///
-  /// You can have that relationship as data by passing a query for the related document to [query].
+  /// You can have that relationship as data by passing a query for the related document to [modelQuery].
   ///
   /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRef] and mixing in [ModelRefMixin].
   ///
   /// モデル間のリレーションを定義するためのクラス。
   ///
-  /// [query]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
+  /// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
   ///
   /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
-  ModelRef(this.query);
+  ModelRef(this.modelQuery);
 
   /// Class for defining relationships between models.
   ///
@@ -371,14 +371,14 @@ class ModelRef<T> extends ModelFieldValue<T?> {
   /// [DocumentModelQuery] of the associated document.
   ///
   /// 関連するドキュメントの[DocumentModelQuery].
-  final DocumentModelQuery query;
+  final DocumentModelQuery modelQuery;
 
   static const _kRefKey = "@ref";
 
   @override
   Map<String, dynamic> toJson() => {
         kTypeFieldKey: runtimeType.toString(),
-        _kRefKey: query.path.trimQuery().trimString("/"),
+        _kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 
   /// Actual value.
@@ -406,7 +406,7 @@ class ModelRef<T> extends ModelFieldValue<T?> {
 
   @override
   String toString() {
-    return query.path;
+    return modelQuery.path;
   }
 }
 
@@ -417,6 +417,6 @@ abstract class ModelRefMixin<T> implements ModelRef<T> {
   @override
   Map<String, dynamic> toJson() => {
         kTypeFieldKey: runtimeType.toString(),
-        ModelRef._kRefKey: query.path.trimQuery().trimString("/"),
+        ModelRef._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 }

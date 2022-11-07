@@ -499,6 +499,7 @@ class NoSqlDatabase {
             status: status,
             value: Map.from(value),
             origin: query.origin,
+            listen: query.listen,
           ),
         ),
       );
@@ -525,6 +526,7 @@ class NoSqlDatabase {
                   origin: query.origin,
                   oldIndex: null,
                   newIndex: newIndex,
+                  listen: query.listen,
                 ),
               );
               break;
@@ -548,6 +550,7 @@ class NoSqlDatabase {
                       origin: query.origin,
                       oldIndex: null,
                       newIndex: newIndex,
+                      listen: query.listen,
                     ),
                   );
                 } else {
@@ -568,6 +571,7 @@ class NoSqlDatabase {
                       origin: query.origin,
                       oldIndex: oldIndex < 0 ? null : oldIndex,
                       newIndex: newIndex,
+                      listen: query.listen,
                     ),
                   );
                 }
@@ -585,6 +589,7 @@ class NoSqlDatabase {
                     origin: query.origin,
                     oldIndex: oldIndex < 0 ? null : oldIndex,
                     newIndex: null,
+                    listen: query.listen,
                   ),
                 );
               }
@@ -603,6 +608,7 @@ class NoSqlDatabase {
                   origin: query.origin,
                   oldIndex: oldIndex < 0 ? null : oldIndex,
                   newIndex: null,
+                        listen: query.listen,
                 ),
               );
               break;

@@ -226,16 +226,18 @@ abstract class CollectionBase<TModel extends DocumentBase>
       if (!loaded) {
         final res = await loadRequest(listenWhenPossible);
         if (res != null) {
-          _value = await fromMap(
-            res,
-            modelQuery.limit != null
-                ? (modelQuery.limit! * databaseQuery.page)
-                : null,
+          _value = await filterOnDidLoad(
+            await fromMap(
+              res,
+              modelQuery.limit != null
+                  ? (modelQuery.limit! * databaseQuery.page)
+                  : null,
+            ),
+            listenWhenPossible,
           );
         }
         _loaded = true;
       }
-      _value = _filterOnDidLoad(_value);
       if (__value != _value) {
         notifyListeners();
       }
@@ -299,54 +301,12 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return loaded;
   }
 
-  /// After loading is complete, add data.
-  ///
-  /// After loading is completed, [onDidLoad] is always executed, and the return value of [onDidLoad] is the value of the list as it is.
-  ///
-  /// itself is returned after the method execution completes.
-  ///
-  /// ロード完了後、データを追加します。
-  ///
-  /// ロード完了後必ず[onDidLoad]が実行され、[onDidLoad]の戻り値がそのままリストの値となります。
-  ///
-  /// メソッド実行完了後自身が返されます。
-  FutureOr<CollectionBase<TModel>> append(
-    List<TModel> Function(List<TModel> value) onDidLoad,
-  ) async {
-    if (_loadCompleter != null) {
-      _onDidLoad = onDidLoad;
-      return loading!;
-    }
-    try {
-      final __value = _value;
-      _loadCompleter = Completer<CollectionBase<TModel>>();
-      _value = onDidLoad.call(_value);
-      if (__value != _value) {
-        notifyListeners();
-      }
-      _loadCompleter?.complete(this);
-      _loadCompleter = null;
-    } catch (e) {
-      _loadCompleter?.completeError(e);
-      _loadCompleter = null;
-      rethrow;
-    } finally {
-      _loadCompleter?.complete(this);
-      _loadCompleter = null;
-    }
-    return this;
-  }
-
-  List<TModel> _filterOnDidLoad(List<TModel> value) {
-    if (_onDidLoad != null) {
-      final val = _onDidLoad!.call(value);
-      _onDidLoad = null;
-      return val;
-    }
-    return value;
-  }
-
-  List<TModel> Function(List<TModel> value)? _onDidLoad;
+  @protected
+  Future<List<TModel>> filterOnDidLoad(
+    List<TModel> value, [
+    bool listenWhenPossible = true,
+  ]) =>
+      Future.value(value);
 
   /// Implement internal processing when [load], [reload], or [next] is executed.
   ///
@@ -400,8 +360,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         final value = create(update.id.trimQuery().trimString("?"));
         final __value = value.value;
-        value.value = await value._filterOnDidLoad(
+        value.value = await value.filterOnDidLoad(
           value.fromMap(value.filterOnLoad(update.value)),
+          update.listen,
         );
         if (__value != value.value) {
           value.notifyListeners();
@@ -415,8 +376,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         final found = _value.removeAt(update.oldIndex!);
         final __value = found.value;
-        found.value = await found._filterOnDidLoad(
+        found.value = await found.filterOnDidLoad(
           found.fromMap(found.filterOnLoad(update.value)),
+          update.listen,
         );
         if (__value != found.value) {
           found.notifyListeners();
