@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v1.1.0`](#katana_model---v110)
+ - [`katana_model_firestore` - `v1.0.1`](#katana_model_firestore---v101)
+ - [`katana_model_firestore_example` - `v1.0.1`](#katana_model_firestore_example---v101)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v1.0.1`
+ - `katana_model_firestore_example` - `v1.0.1`
+
+---
+
+#### `katana_model` - `v1.1.0`
+
+ - **FIX**: Value cannot be set. ([b5824078](https://github.com/mathrunet/flutter_masamune/commit/b58240785f5af8a68877b5effa250657f4a60cd8))
+ - **FIX**: Maintenance of client join interface. ([c86720da](https://github.com/mathrunet/flutter_masamune/commit/c86720daff745ea127295c76cbdde75cd138df31))
+ - **FIX**: Add unrestricted constructor to each model. ([a277eb51](https://github.com/mathrunet/flutter_masamune/commit/a277eb51ee469c2021331e1947fa73acd2d5f427))
+ - **FIX**: Changed the name of QUERY. ([f83b5a99](https://github.com/mathrunet/flutter_masamune/commit/f83b5a99309d2cd0f33063c5d816dfe74a6c8b7a))
+ - **FIX**: Support for RestAPI. ([3126bb9f](https://github.com/mathrunet/flutter_masamune/commit/3126bb9fa19aa8423eaafd3c2ba5c21685350bc7))
+ - **FIX**: Introduce linter to add Key. ([f9cf3c95](https://github.com/mathrunet/flutter_masamune/commit/f9cf3c956ceef6f7544634c6aa70d719b413c07b))
+ - **FEAT**: Initial commit. ([156473ba](https://github.com/mathrunet/flutter_masamune/commit/156473bad5af652935ab6844e7aaa52f3a8c310d))
+ - **FEAT**: Implemented a client join mechanism. ([f7c2b56b](https://github.com/mathrunet/flutter_masamune/commit/f7c2b56bb52f54468ad3c92d5b6a9c698e2b582c))
+ - **FEAT**: Add Transaction and ModelFieldValue. ([d3f862f1](https://github.com/mathrunet/flutter_masamune/commit/d3f862f1a30a65b533b147a153e20e20af72df73))
+ - **FEAT**: The entire system is complete. ([7b2dd669](https://github.com/mathrunet/flutter_masamune/commit/7b2dd6693913503985bbc1a033d51e05217eaa33))
+ - **DOCS**: Maintenance of Comments. ([4643b523](https://github.com/mathrunet/flutter_masamune/commit/4643b52376921495d3774da80dca78c48f65d689))
+
+
 ## 2022-11-07
 
 ### Changes
