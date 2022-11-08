@@ -1,3 +1,7 @@
+## 1.1.1
+
+ - **DOCS**: Add description. ([7d7678d4](https://github.com/mathrunet/flutter_masamune/commit/7d7678d43c9c6eaaa2e3706e106b728c6095a2b6))
+
 ## 1.1.0
 
  - **FIX**: Value cannot be set. ([b5824078](https://github.com/mathrunet/flutter_masamune/commit/b58240785f5af8a68877b5effa250657f4a60cd8))
