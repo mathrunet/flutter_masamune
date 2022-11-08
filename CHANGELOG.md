@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.2.0`](#katana_model---v120)
+ - [`katana_model_firestore` - `v1.1.0`](#katana_model_firestore---v110)
+
+---
+
+#### `katana_model` - `v1.2.0`
+
+ - **FEAT**: Support for LocalDatabase. ([e950d9e2](https://github.com/mathrunet/flutter_masamune/commit/e950d9e28889dfb75a98d4d2592419a4e13dee9b))
+
+#### `katana_model_firestore` - `v1.1.0`
+
+ - **FEAT**: Support for LocalDatabase. ([e950d9e2](https://github.com/mathrunet/flutter_masamune/commit/e950d9e28889dfb75a98d4d2592419a4e13dee9b))
+
+
+## 2022-11-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_firebase` - `v1.1.0`](#katana_firebase---v110)
  - [`firebase_model_notifier` - `v0.15.1+17`](#firebase_model_notifier---v015117)
  - [`katana_model_firestore` - `v1.0.4`](#katana_model_firestore---v104)

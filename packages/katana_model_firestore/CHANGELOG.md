@@ -1,3 +1,7 @@
+## 1.1.0
+
+ - **FEAT**: Support for LocalDatabase. ([e950d9e2](https://github.com/mathrunet/flutter_masamune/commit/e950d9e28889dfb75a98d4d2592419a4e13dee9b))
+
 ## 1.0.4
 
  - Update a dependency to the latest release.
