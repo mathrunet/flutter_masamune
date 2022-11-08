@@ -1,54 +1,113 @@
 part of katana_firebase;
 
-/// Class that prepares to handle Firebase.
+/// Initialize Firebase.
 ///
-/// Please be sure to initialize by executing [initialize].
+/// Run [initilize] to initialize.
+///
+/// When initialization is complete, [initialized] is set to `true`.
+///
+/// You can also use `firebase_options.dart` created with the flutterfire command by passing [FirebaseOptions] at initialization.
+///
+/// If [region] is passed along with [functionsEndpoint], the functions endpoint can be obtained.
+///
+/// Hosting endpoints can also be obtained at [hostingEndpoint].
+///
+/// Firebaseの初期化を行ないます。
+///
+/// [initilize]を実行して初期化してください。
+///
+/// 初期化が完了すると[initialized]が`true`になります。
+///
+/// 初期化時に[FirebaseOptions]を渡すことでflutterfireコマンドで作成した`firebase_options.dart`も利用可能です。
+///
+/// 合わせて[region]を渡すと[functionsEndpoint]でFunctionsのエンドポイントを取得できるようになります。
+///
+/// [hostingEndpoint]でHostingのエンドポイントも取得可能です。
 ///
 /// ```
 /// await FirebaseCore.initialize();
 /// ```
 class FirebaseCore {
-  FirebaseCore._();
+  const FirebaseCore._();
   static FirebaseApp? _app;
-  // ignore: prefer_final_fields
-  static List<VoidCallback> _transactionQueue = [];
 
-  /// Enqueue a new [transaction].
-  static void enqueueTransaction(VoidCallback transaction) {
-    _transactionQueue.insertFirst(transaction);
-  }
+  /// Returns `true` if Firebase is initialized.
+  ///
+  /// Firebaseが初期化されている場合`true`を返します。
+  static bool get initialized => _app != null;
 
-  /// True if initialization has been completed.
-  static bool get isInitialized => _app != null;
-
-  /// Firebase Regions.
-  static late String region;
+  /// Returns the Firebase region.
+  ///
+  /// The [region] passed at the time of [initialize] is stored. The default is `asia-northeast1`.
+  ///
+  /// Firebaseのregionを返します。
+  ///
+  /// [initialize]時に渡した[region]が格納されます。デフォルトは`asia-northeast1`です。
+  static late final String region;
 
   /// Initialize Firebase.
+  ///
+  /// Run [initilize] to initialize.
+  ///
+  /// When initialization is complete, [initialized] is set to `true`.
+  ///
+  /// If it has already been initialized, nothing will happen.
+  ///
+  /// You can also use `firebase_options.dart` created with the flutterfire command by passing [FirebaseOptions] at initialization.
+  ///
+  /// If [region] is passed along with [functionsEndpoint], the functions endpoint can be obtained.
+  ///
+  /// Hosting endpoints can also be obtained at [hostingEndpoint].
+  ///
+  /// Firebaseの初期化を行ないます。
+  ///
+  /// [initilize]を実行して初期化してください。
+  ///
+  /// 初期化が完了すると[initialized]が`true`になります。
+  ///
+  /// すでに初期化されている場合はなにも起きません。
+  ///
+  /// 初期化時に[FirebaseOptions]を渡すことでflutterfireコマンドで作成した`firebase_options.dart`も利用可能です。
+  ///
+  /// 合わせて[region]を渡すと[functionsEndpoint]でFunctionsのエンドポイントを取得できるようになります。
+  ///
+  /// [hostingEndpoint]でHostingのエンドポイントも取得可能です。
+  ///
+  /// ```
+  /// await FirebaseCore.initialize();
+  /// ```
   static Future<void> initialize({
     String region = "asia-northeast1",
-    int transactionDurationMilliSeconds = 100,
     FirebaseOptions? options,
   }) async {
     if (_app != null) {
       return;
     }
-    if (Config.isWeb) {
+    if (kIsWeb) {
       assert(options != null, "For the Web, Options is always required.");
     }
     FirebaseCore.region = region;
-    await Localize.initialize();
     _app = await Firebase.initializeApp(options: options);
     if (!kIsWeb) {
       FirebaseFirestore.instance.settings = const Settings();
     }
-    Timer.periodic(
-      Duration(milliseconds: transactionDurationMilliSeconds),
-      _handledTransaction,
-    );
   }
 
-  /// Returns up to the hostname of the Firebase function endpoint.
+  /// Returns a Firebase Functions endpoint.
+  ///
+  /// Create from the initialized FirebaseApp project ID and the [region] passed at [initialize].
+  ///
+  /// The default for [region] is `asia-northeast1`.
+  ///
+  /// Returns [Exception] if not initialized.
+  ///
+  /// Firebase Functionsのエンドポイントを返します。
+  ///
+  /// 初期化されたFirebaseAppのプロジェクトIDと[initialize]時に渡された[region]から作成します。
+  ///
+  /// [region]のデフォルトは`asia-northeast1`です。
+  ///
+  /// 初期化されていない場合は[Exception]を返します。
   static String get functionsEndpoint {
     if (_app == null) {
       throw Exception(
@@ -59,7 +118,17 @@ class FirebaseCore {
     return "https://${FirebaseCore.region}-$projectId.cloudfunctions.net";
   }
 
-  /// Returns up to the hostname of the Firebase hosting endpoint.
+  /// Returns the Firebase Hosting endpoint.
+  ///
+  /// Create from an initialized FirebaseApp project ID.
+  ///
+  /// Returns [Exception] if not initialized.
+  ///
+  /// Firebase Hostingのエンドポイントを返します。
+  ///
+  /// 初期化されたFirebaseAppのプロジェクトIDから作成します。
+  ///
+  /// 初期化されていない場合は[Exception]を返します。
   static String get hostingEndpoint {
     if (_app == null) {
       throw Exception(
@@ -68,14 +137,5 @@ class FirebaseCore {
     }
     final projectId = _app!.options.projectId;
     return "https://$projectId.web.app";
-  }
-
-  static void _handledTransaction(Timer timer) {
-    if (_transactionQueue.isEmpty) {
-      return;
-    }
-    final transaction = _transactionQueue.last;
-    _transactionQueue.removeLast();
-    transaction.call();
   }
 }

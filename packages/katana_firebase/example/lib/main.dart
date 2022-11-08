@@ -1,16 +1,13 @@
-// Copyright 2021 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
 import 'package:flutter/material.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -21,7 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class FirebaseInitializeDemo extends StatefulWidget {
-  const FirebaseInitializeDemo();
+  const FirebaseInitializeDemo({super.key});
 
   @override
   State<StatefulWidget> createState() => FirebaseInitializeDemoState();
@@ -42,7 +39,7 @@ class FirebaseInitializeDemoState extends State<FirebaseInitializeDemo> {
       ),
       body: Center(
         child: Text(
-          FirebaseCore.isInitialized ? "Initialized" : "Not initialized",
+          FirebaseCore.initialized ? "Initialized" : "Not initialized",
         ),
       ),
     );
