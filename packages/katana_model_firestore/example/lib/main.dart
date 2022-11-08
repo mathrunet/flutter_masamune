@@ -271,7 +271,7 @@ class _$_StreamModelDocument extends DocumentModelQuery
 }
 
 class StreamModelDocument extends DocumentBase<StreamModel>
-    with ModelRefMixin<StreamModel> {
+    with ModelRefLoaderMixin<StreamModel> {
   StreamModelDocument(super.modelQuery, [super.value]);
 
   static const query = _$StreamModelDocument();
@@ -283,32 +283,15 @@ class StreamModelDocument extends DocumentBase<StreamModel>
   DynamicMap toMap(StreamModel value) => value.toJson();
 
   @override
-  Future<StreamModel?> filterOnDidLoad(StreamModel? value,
-      [bool listenWhenPossible = true]) async {
-    final modelQuery = value?.user?.modelQuery;
-    if (modelQuery != null &&
-        value?.user is! DocumentBase &&
-        !_clientJoinCache.containsKey(modelQuery)) {
-      final document = UserModelDocument(modelQuery)..load(listenWhenPossible);
-      document.addListener(notifyListeners);
-      _clientJoinCache[modelQuery] = document;
-      return value?.copyWith(
-        user: document,
-      );
-    }
-    return value;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    for (final cache in _clientJoinCache.values) {
-      cache.removeListener(notifyListeners);
-      cache.dispose();
-    }
-  }
-
-  final _clientJoinCache = <DocumentModelQuery, ChangeNotifier>{};
+  List<ModelRefBuilder> get builder => [
+        ModelRefBuilder<StreamModel, UserModel>(
+          modelRef: (value) => value.user,
+          document: (query) => UserModelDocument(query),
+          value: (value, document) {
+            return value.copyWith(user: document);
+          },
+        )
+      ];
 }
 
 class _$StreamModelCollection {
@@ -398,17 +381,5 @@ class StreamModelCollection extends CollectionBase<StreamModelDocument> {
   @override
   StreamModelDocument create([String? id]) {
     return StreamModelDocument(modelQuery.create(id));
-  }
-
-  @override
-  Future<List<StreamModelDocument>> filterOnDidLoad(
-      List<StreamModelDocument> value,
-      [bool listenWhenPossible = true]) async {
-    return await Future.wait(
-      value.map((e) async {
-        e.value = await e.filterOnDidLoad(e.value, listenWhenPossible);
-        return e;
-      }),
-    );
   }
 }

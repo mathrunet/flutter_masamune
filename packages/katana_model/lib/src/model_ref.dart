@@ -1,0 +1,289 @@
+part of katana_model;
+
+/// Class for defining relationships between models.
+///
+/// You can have that relationship as data by passing a query for the related document to [modelQuery].
+///
+/// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRef] and mixing in [ModelRefMixin].
+///
+/// モデル間のリレーションを定義するためのクラス。
+///
+/// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
+///
+/// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
+class ModelRef<T> extends ModelFieldValue<T?> {
+  /// Class for defining relationships between models.
+  ///
+  /// You can have that relationship as data by passing a query for the related document to [modelQuery].
+  ///
+  /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRef] and mixing in [ModelRefMixin].
+  ///
+  /// モデル間のリレーションを定義するためのクラス。
+  ///
+  /// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
+  ///
+  /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
+  ModelRef(this.modelQuery);
+
+  /// Class for defining relationships between models.
+  ///
+  /// By passing the path of the related document in [path], you can have that relationship as data.
+  ///
+  /// It is also possible to set a model adapter by specifying [adapter].
+  ///
+  /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRef] and mixing in [ModelRefMixin].
+  ///
+  /// モデル間のリレーションを定義するためのクラス。
+  ///
+  /// [path]に関連するドキュメントのパスを渡すことでそのリレーションをデータとして持つことができます。
+  ///
+  /// また[adapter]を指定してモデルアダプターを設定することが可能です。
+  ///
+  /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
+  factory ModelRef.fromPath(String path, [ModelAdapter? adapter]) {
+    return ModelRef(
+      DocumentModelQuery(
+        path.trimQuery().trimString("/"),
+        adapter: adapter,
+      ),
+    );
+  }
+
+  /// Convert from [json] map to [ModelRef].
+  ///
+  /// [json]のマップから[ModelRef]に変換します。
+  factory ModelRef.fromJson(Map<String, dynamic> json) {
+    return ModelRef.fromPath(json.get(_kRefKey, ""));
+  }
+
+  /// A string of type [ModelRef].
+  ///
+  /// [ModelRef]のタイプの文字列。
+  static const typeString = "ModelRef";
+
+  /// [DocumentModelQuery] of the associated document.
+  ///
+  /// 関連するドキュメントの[DocumentModelQuery].
+  final DocumentModelQuery modelQuery;
+
+  static const _kRefKey = "@ref";
+
+  @override
+  Map<String, dynamic> toJson() => {
+        kTypeFieldKey: runtimeType.toString(),
+        _kRefKey: modelQuery.path.trimQuery().trimString("/"),
+      };
+
+  /// Actual value.
+  ///
+  /// [Null] is returned.
+  ///
+  /// 実際の値。
+  ///
+  /// [Null]が返されます。
+  @override
+  T? get value {
+    return null;
+  }
+
+  /// Actual value.
+  ///
+  /// Set is not supported.
+  ///
+  /// 実際の値。
+  ///
+  /// セットすることはサポートされていません。
+  set value(T? value) {
+    throw UnsupportedError("Value cannot be set.");
+  }
+
+  @override
+  String toString() {
+    return modelQuery.path;
+  }
+}
+
+/// A mix-in to define that it is a relationship between models in [DocumentBase], etc.
+///
+/// Mix in the document to which you are relating.
+///
+/// [DocumentBase]などにモデル間のリレーションであるということを定義するためのミックスイン。
+///
+/// リレーション先のドキュメントにミックスインしてください。
+abstract class ModelRefMixin<T> implements ModelRef<T>, DocumentBase<T> {
+  @override
+  Map<String, dynamic> toJson() => {
+        kTypeFieldKey: runtimeType.toString(),
+        ModelRef._kRefKey: modelQuery.path.trimQuery().trimString("/"),
+      };
+}
+
+/// It is available by mixing in when using [ModelRef] in [DocumentBase.value].
+///
+/// When data is loaded in [DocumentBase.load], the data in [ModelRef] is automatically loaded and stored.
+///
+/// Define [builder] to store relevant documents and data.
+///
+/// Mix in the document from which you are relaying.
+///
+/// [DocumentBase.value]で[ModelRef]を利用している際にミックスインすることで利用できます。
+///
+/// [DocumentBase.load]でデータをロードする際に合わせて[ModelRef]内のデータを自動でロードして格納します。
+///
+/// [builder]を定義して関連するドキュメントとデータの格納を行ってください。
+///
+/// リレーション元のドキュメントにミックスインしてください。
+abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
+  final _modelRefBuilderCache = <DocumentModelQuery, DocumentBase>{};
+
+  /// ModelRefBuilder], which implements the definition of the loading method.
+  ///
+  /// Data is loaded and stored in the order listed.
+  ///
+  /// ロード方法の定義を実装した[ModelRefBuilder]。
+  ///
+  /// リストの順番通りにデータのロードと格納が行われます。
+  List<ModelRefBuilder> get builder;
+
+  @override
+  @protected
+  @mustCallSuper
+  Future<T?> filterOnDidLoad(T? value, [bool listenWhenPossible = true]) async {
+    final builderList = builder;
+    var _value = value;
+    for (final build in builderList) {
+      if (_value == null) {
+        continue;
+      }
+      _value = await build._build(
+        _value,
+        listenWhenPossible,
+        _modelRefBuilderCache,
+        (query, document) {
+          document.addListener(notifyListeners);
+          _modelRefBuilderCache[query] = document;
+        },
+      );
+    }
+    return _value;
+  }
+
+  @override
+  @protected
+  @mustCallSuper
+  void dispose() {
+    for (final cache in _modelRefBuilderCache.values) {
+      cache.removeListener(notifyListeners);
+      cache.dispose();
+    }
+  }
+}
+
+/// Builder for granting relationships between models and loading data.
+///
+/// Define [ModelRefLoaderMixin] to match the mix-in.
+///
+/// The procedure is;
+///
+/// 1. Returns a [ModelRef] containing only the relation information stored in [TValue] via [modelRef].
+/// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin] based on [DocumentModelQuery] via [document].
+/// 3. Store the [DocumentBase] generated via [value] in [TValue] and return the updated [TValue].
+///
+/// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
+///
+/// [ModelRefLoaderMixin]をミックスインしたときに合わせて定義します。
+///
+/// 手順としては
+///
+/// 1. [TValue]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
+/// 2. [DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+/// 3. [value]経由で生成された[DocumentBase]を[TValue]に保存して、更新した[TValue]を返すようにします。
+///
+/// ```dart
+/// @override
+/// List<ModelRefBuilder> get builder => [
+///       ModelRefBuilder<StreamModel, UserModel>(
+///         modelRef: (value) => value.user,
+///         document: (query) => UserModelDocument(query),
+///         value: (value, document) {
+///           return value.copyWith(user: document);
+///         },
+///       )
+///     ];
+/// ```
+@immutable
+class ModelRefBuilder<TValue, TResult> {
+  /// Builder for granting relationships between models and loading data.
+  ///
+  /// Define [ModelRefLoaderMixin] to match the mix-in.
+  ///
+  /// The procedure is;
+  ///
+  /// 1. Returns a [ModelRef] containing only the relation information stored in [TValue] via [modelRef].
+  /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin] based on [DocumentModelQuery] via [document].
+  /// 3. Store the [DocumentBase] generated via [value] in [TValue] and return the updated [TValue].
+  ///
+  /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
+  ///
+  /// [ModelRefLoaderMixin]をミックスインしたときに合わせて定義します。
+  ///
+  /// 手順としては
+  ///
+  /// 1. [TValue]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
+  /// 2. [DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+  /// 3. [value]経由で生成された[DocumentBase]を[TValue]に保存して、更新した[TValue]を返すようにします。
+  ///
+  /// ```dart
+  /// @override
+  /// List<ModelRefBuilder> get builder => [
+  ///       ModelRefBuilder<StreamModel, UserModel>(
+  ///         modelRef: (value) => value.user,
+  ///         document: (query) => UserModelDocument(query),
+  ///         value: (value, document) {
+  ///           return value.copyWith(user: document);
+  ///         },
+  ///       )
+  ///     ];
+  /// ```
+  const ModelRefBuilder({
+    required this.modelRef,
+    required this.document,
+    required this.value,
+  });
+
+  /// Callback to retrieve [ModelRef] stored in [TValue].
+  ///
+  /// [TValue]に格納されている[ModelRef]を取得するためのコールバック。
+  final ModelRef<TResult>? Function(TValue value) modelRef;
+
+  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin] based on a [DocumentModelQuery] obtained from a [ModelRef].
+  ///
+  /// [ModelRef]から取得された[DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を生成するためのコールバック。
+  final ModelRefMixin<TResult> Function(DocumentModelQuery modelQuery) document;
+
+  /// Callback to store the generated [ModelRefMixin] in [TValue].
+  ///
+  /// [TValue]に生成された[ModelRefMixin]を格納するためのコールバック。
+  final TValue Function(TValue value, ModelRefMixin<TResult> document) value;
+
+  Future<TValue?> _build(
+    TValue val,
+    bool listenWhenPossible,
+    Map<DocumentModelQuery, DocumentBase> cacheList,
+    void Function(DocumentModelQuery query, DocumentBase document) onDidLoad,
+  ) async {
+    final ref = modelRef(val);
+    final modelQuery = ref?.modelQuery;
+    if (modelQuery == null || cacheList.containsKey(modelQuery)) {
+      return val;
+    }
+    final doc = document(modelQuery);
+    assert(
+      doc.modelQuery == modelQuery,
+      "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
+    );
+    await doc.load(listenWhenPossible);
+    onDidLoad(modelQuery, doc);
+    return value(val, doc);
+  }
+}

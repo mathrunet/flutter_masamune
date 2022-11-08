@@ -268,7 +268,19 @@ abstract class DocumentBase<T> extends ChangeNotifier
     return load(listenWhenPossible);
   }
 
+  /// Callback called after loading.
+  ///
+  /// If [loaded] is `true`, it will not be executed.
+  ///
+  /// If [value] is passed and a modified version of it is returned, it becomes the [value] of [DocumentBase].
+  ///
+  /// ロード後に呼ばれるコールバック。
+  ///
+  /// [loaded]が`true`の場合は実行されません。
+  ///
+  /// [value]が渡されそれを加工したものを返すとそれが[DocumentBase]の[value]となります。
   @protected
+  @mustCallSuper
   Future<T?> filterOnDidLoad(T? value, [bool listenWhenPossible = true]) =>
       Future.value(value);
 

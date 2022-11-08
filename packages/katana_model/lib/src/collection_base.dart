@@ -301,12 +301,33 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return loaded;
   }
 
+  /// Callback called after loading.
+  ///
+  /// If [loaded] is `true`, it will not be executed.
+  ///
+  /// If [value] is passed and a modified version of it is returned, it becomes the [value] of [DocumentBase].
+  ///
+  /// ロード後に呼ばれるコールバック。
+  ///
+  /// [loaded]が`true`の場合は実行されません。
+  ///
+  /// リストの中の[DocumentBase]が
   @protected
+  @mustCallSuper
   Future<List<TModel>> filterOnDidLoad(
     List<TModel> value, [
     bool listenWhenPossible = true,
-  ]) =>
-      Future.value(value);
+  ]) async {
+    return await Future.wait(
+      value.map((e) async {
+        final res = await e.filterOnDidLoad(e.value, listenWhenPossible);
+        if (res != e.value) {
+          e.value = res;
+        }
+        return e;
+      }),
+    );
+  }
 
   /// Implement internal processing when [load], [reload], or [next] is executed.
   ///

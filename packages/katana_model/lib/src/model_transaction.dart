@@ -14,7 +14,7 @@ part of katana_model;
 ///
 /// ```dart
 /// final transaction = sourceDocument.transaction();
-/// transaction((ref, doc){ // `doc`は`sourceDocument`の[ModelTransactionDocument]
+/// transaction((ref, doc){ // `doc` is [ModelTransactionDocument] of `sourceDocument`.
 ///   doc.value = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
 ///   doc.save();
 /// });
