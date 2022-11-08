@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_firebase` - `v1.1.0`](#katana_firebase---v110)
+ - [`firebase_model_notifier` - `v0.15.1+17`](#firebase_model_notifier---v015117)
+ - [`katana_model_firestore` - `v1.0.4`](#katana_model_firestore---v104)
+ - [`masamune_firebase_messaging` - `v0.15.0+28`](#masamune_firebase_messaging---v015028)
+ - [`masamune_firebase` - `v0.15.0+28`](#masamune_firebase---v015028)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+28`](#masamune_firebase_dynamic_links---v015028)
+ - [`masamune_agora` - `v0.15.0+29`](#masamune_agora---v015029)
+ - [`masamune_signin_google` - `v0.15.0+28`](#masamune_signin_google---v015028)
+ - [`masamune_signin_facebook` - `v0.15.0+28`](#masamune_signin_facebook---v015028)
+ - [`masamune_signin_twitter` - `v0.15.0+28`](#masamune_signin_twitter---v015028)
+ - [`masamune_notion` - `v0.15.0+28`](#masamune_notion---v015028)
+ - [`masamune_purchase_stripe` - `v0.15.0+28`](#masamune_purchase_stripe---v015028)
+ - [`masamune_signin_apple` - `v0.15.0+28`](#masamune_signin_apple---v015028)
+ - [`masamune_purchase_firebase` - `v0.15.0+28`](#masamune_purchase_firebase---v015028)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `firebase_model_notifier` - `v0.15.1+17`
+ - `katana_model_firestore` - `v1.0.4`
+ - `masamune_firebase_messaging` - `v0.15.0+28`
+ - `masamune_firebase` - `v0.15.0+28`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+28`
+ - `masamune_agora` - `v0.15.0+29`
+ - `masamune_signin_google` - `v0.15.0+28`
+ - `masamune_signin_facebook` - `v0.15.0+28`
+ - `masamune_signin_twitter` - `v0.15.0+28`
+ - `masamune_notion` - `v0.15.0+28`
+ - `masamune_purchase_stripe` - `v0.15.0+28`
+ - `masamune_signin_apple` - `v0.15.0+28`
+ - `masamune_purchase_firebase` - `v0.15.0+28`
+
+---
+
+#### `katana_firebase` - `v1.1.0`
+
+ - **FEAT**: Renewed content. ([1ea50a26](https://github.com/mathrunet/flutter_masamune/commit/1ea50a264b9187907858b8ec6f226ef64a68b0dd))
+
+
 ## 2022-11-08
 
 ### Changes

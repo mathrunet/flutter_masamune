@@ -1,3 +1,7 @@
+## 1.0.4
+
+ - Update a dependency to the latest release.
+
 ## 1.0.3
 
  - **DOCS**: Removed example. ([37000954](https://github.com/mathrunet/flutter_masamune/commit/37000954955ce3c2c0b44f5ce69fe854760ef9e0))
