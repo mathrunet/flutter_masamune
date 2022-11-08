@@ -16,9 +16,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:katana/katana.dart';
 
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
 export 'package:katana/katana.dart';
+export 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
 
 part 'adapter/runtime_model_adapter.dart';
+part 'adapter/local_model_adapter.dart';
 
 part 'extension/searchable_document_mixin.dart';
 

@@ -38,7 +38,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     assert(
-      FirebaseCore.isInitialized,
+      FirebaseCore.initialized,
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
     return _documentReference(query).delete();
@@ -47,7 +47,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     assert(
-      FirebaseCore.isInitialized,
+      FirebaseCore.initialized,
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
     final snapshot = await _documentReference(query).get();
@@ -65,7 +65,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
   ) async {
     assert(
-      FirebaseCore.isInitialized,
+      FirebaseCore.initialized,
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
@@ -82,7 +82,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     DynamicMap value,
   ) async {
     assert(
-      FirebaseCore.isInitialized,
+      FirebaseCore.initialized,
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
 
@@ -94,14 +94,7 @@ class FirestoreModelAdapter extends ModelAdapter {
 
   @override
   void setRawData(Map<String, DynamicMap> rawData) {
-    assert(
-      FirebaseCore.isInitialized,
-      "Firebase is not initialized. Please run [FirebaseCore.initialize].",
-    );
-    Future.forEach<MapEntry<String, Map<String, dynamic>>>(
-      rawData.entries,
-      (tmp) => database.doc(tmp.key).set(_convertTo(tmp.value)),
-    );
+    throw UnsupportedError("This adapter prohibits direct writing of RawData.");
   }
 
   @override
@@ -112,7 +105,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     ModelAdapterCollectionQuery query,
   ) async {
     assert(
-      FirebaseCore.isInitialized,
+      FirebaseCore.initialized,
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
     final streams =
@@ -144,7 +137,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
   ) async {
     assert(
-      FirebaseCore.isInitialized,
+      FirebaseCore.initialized,
       "Firebase is not initialized. Please run [FirebaseCore.initialize].",
     );
     final stream = _documentReference(query).snapshots();

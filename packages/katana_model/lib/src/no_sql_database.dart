@@ -77,7 +77,7 @@ class NoSqlDatabase {
     this.onSaved,
     this.onDeleted,
   }) {
-    onInitialize?.call();
+    onInitialize?.call(this);
   }
   // ignore: prefer_final_fields
   DynamicMap _data = {};
@@ -85,22 +85,22 @@ class NoSqlDatabase {
   /// Executed at Database initialization time.
   ///
   /// Databaseの初期化時に実行されます。
-  final Future<void> Function()? onInitialize;
+  final Future<void> Function(NoSqlDatabase database)? onInitialize;
 
   /// Executed when saving the Database.
   ///
   /// Databaseの保存時に実行されます。
-  final Future<void> Function()? onSaved;
+  final Future<void> Function(NoSqlDatabase database)? onSaved;
 
   /// Executed when loading Database.
   ///
   /// Databaseの読み込み時に実行されます。
-  final Future<void> Function()? onLoad;
+  final Future<void> Function(NoSqlDatabase database)? onLoad;
 
   /// Executed when Database is deleted.
   ///
   /// Databaseの削除時に実行されます。
-  final Future<void> Function()? onDeleted;
+  final Future<void> Function(NoSqlDatabase database)? onDeleted;
 
   final List<String> _registeredRawDataPath = [];
   final Map<String, Set<ModelAdapterDocumentQuery>> _documentListeners = {};
@@ -173,7 +173,7 @@ class NoSqlDatabase {
   /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
   Future<DynamicMap?> loadDocument(ModelAdapterDocumentQuery query) async {
     _addDocumentListener(query);
-    await onLoad?.call();
+    await onLoad?.call(this);
     final trimPath = query.query.path.trimQuery().trimString("/");
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
@@ -205,7 +205,7 @@ class NoSqlDatabase {
     ModelAdapterCollectionQuery query,
   ) async {
     _addCollectionListener(query);
-    await onLoad?.call();
+    await onLoad?.call(this);
     final trimPath = query.query.path.trimQuery().trimString("/");
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
@@ -309,7 +309,7 @@ class NoSqlDatabase {
           : ModelUpdateNotificationStatus.modified,
       query,
     );
-    await onSaved?.call();
+    await onSaved?.call(this);
   }
 
   /// Deletes the data in the document corresponding to [query] by passing [query].
@@ -338,7 +338,7 @@ class NoSqlDatabase {
       ModelUpdateNotificationStatus.removed,
       query,
     );
-    await onDeleted?.call();
+    await onDeleted?.call(this);
   }
 
   /// Replaces all data in the database inside by giving [replaceData].
@@ -468,7 +468,7 @@ class NoSqlDatabase {
         );
       }
     }
-    await onSaved?.call();
+    await onSaved?.call(this);
   }
 
   /// Sends notifications to monitored documents and collections based on [documentPath] and [documentId].
@@ -608,7 +608,7 @@ class NoSqlDatabase {
                   origin: query.origin,
                   oldIndex: oldIndex < 0 ? null : oldIndex,
                   newIndex: null,
-                        listen: query.listen,
+                  listen: query.listen,
                 ),
               );
               break;
