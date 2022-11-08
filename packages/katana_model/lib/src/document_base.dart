@@ -12,7 +12,7 @@ part of katana_model;
 ///
 /// By defining [DocumentBase.modelQuery], you can specify settings for loading, such as document paths.
 ///
-/// The [value] value can be set and retrieved. In this case, no change notification is made as in the case of [ValueNotifier].
+/// The [value] value can be retrieved. The [value] set is forbidden and should be updated using the [save] method.
 ///
 /// [ChangeNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
 ///
@@ -26,7 +26,7 @@ part of katana_model;
 ///
 /// [DocumentBase.modelQuery]を定義することで、ドキュメントのパスなど読み込みを行うための設定を指定できます。
 ///
-/// [value]値をセット、取得できます。その際[ValueNotifier]のように変更通知は行われません。
+/// [value]値を取得できます。[value]のセットは禁止されており、[save]メソッドで更新を行ないます。
 abstract class DocumentBase<T> extends ChangeNotifier
     implements ValueListenable<T?> {
   /// Define a document model for storing [T] types that inherit from [ChangeNotifier].
@@ -41,7 +41,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// By defining [DocumentBase.modelQuery], you can specify settings for loading, such as document paths.
   ///
-  /// The [value] value can be set and retrieved. In this case, no change notification is made as in the case of [ValueNotifier].
+  /// The [value] value can be retrieved. The [value] set is forbidden and should be updated using the [save] method.
   ///
   /// [ChangeNotifier]を継承した[T]型を保存するためのドキュメントモデルを定義します。
   ///
@@ -55,7 +55,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// [DocumentBase.modelQuery]を定義することで、ドキュメントのパスなど読み込みを行うための設定を指定できます。
   ///
-  /// [value]値をセット、取得できます。その際[ValueNotifier]のように変更通知は行われません。
+  /// [value]値を取得できます。[value]のセットは禁止されており、[save]メソッドで更新を行ないます。
   DocumentBase(this.modelQuery, [this._value])
       : assert(
           !(modelQuery.path.splitLength() <= 0 ||
@@ -124,20 +124,6 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @override
   T? get value => _value;
   T? _value;
-
-  /// The current value stored in this document.
-  ///
-  /// Unlike `ValueNotifer`, no notification is given even if the value is rewritten.
-  ///
-  /// このドキュメントに格納されている現在の値です。
-  ///
-  /// `ValueNotifer`と違って値を書き換えた場合でも通知は行いません。
-  set value(T? newValue) {
-    if (_value == newValue) {
-      return;
-    }
-    _value = newValue;
-  }
 
   /// Query for loading and saving documents.
   ///
@@ -220,19 +206,19 @@ abstract class DocumentBase<T> extends ChangeNotifier
       return loading!;
     }
     try {
-      final _value = value;
+      final val = value;
       _loadCompleter = Completer<T?>();
       if (!loaded) {
         final res = await loadRequest(listenWhenPossible);
         if (res != null) {
-          value = await filterOnDidLoad(
+          _value = await filterOnDidLoad(
             fromMap(filterOnLoad(res)),
             listenWhenPossible,
           );
         }
         _loaded = true;
       }
-      if (_value != value) {
+      if (val != value) {
         notifyListeners();
       }
       _loadCompleter?.complete(value);
@@ -286,27 +272,34 @@ abstract class DocumentBase<T> extends ChangeNotifier
 
   /// Data can be saved.
   ///
-  /// Since it is only the content of [value] that is saved, it is necessary to change the content of [value] before saving.
+  /// The [newValue] is saved as it is as data. If [Null] is given, it is not executed.
+  ///
+  /// If the save is successful, [value] is replaced with [newValue].
+  ///
+  /// If the save fails, an attempt is made to restore to the previous data.
   ///
   /// It is possible to wait for saving with `await`.
   ///
   /// データの保存を行うことができます。
   ///
-  /// 保存を行うのはあくまで[value]の中身なので保存を行う前に[value]の中身を変更しておく必要があります。
+  /// [newValue]がそのままデータとして保存されます。[Null]が与えられた場合実行されません。
+  ///
+  /// 保存に成功した場合、[value]が[newValue]に置き換えられます。
+  ///
+  /// 保存に失敗した場合、前のデータへの復元を試みます。
   ///
   /// `await`で保存を待つことが可能です。
-  Future<void> save() async {
-    if (value == null) {
-      throw Exception(
-        "The value is not set. Please set the value and then execute `save`.",
-      );
+  Future<void> save(T? newValue) async {
+    if (newValue == null) {
+      return;
     }
     if (_saveCompleter != null) {
       return saving!;
     }
     try {
       _saveCompleter = Completer<T?>();
-      await saveRequest(filterOnSave(toMap(value as T)));
+      await saveRequest(filterOnSave(toMap(newValue)));
+      _value = newValue;
       _saveCompleter?.complete(value);
       _saveCompleter = null;
     } catch (e) {
@@ -368,8 +361,8 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// ```dart
   /// final transaction = sourceDocument.transaction();
   /// transaction((ref, doc){ // `doc`は`sourceDocument`の[ModelTransactionDocument]
-  ///   doc.value = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
-  ///   doc.save();
+  ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+  ///   doc.save(newValue);
   /// });
   /// ```
   ModelTransactionBuilder<T> transaction() {
@@ -481,12 +474,12 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
-    final _value = value;
-    value = await filterOnDidLoad(
+    final val = value;
+    _value = await filterOnDidLoad(
       fromMap(filterOnLoad(update.value)),
       update.listen,
     );
-    if (_value != value) {
+    if (val != value) {
       notifyListeners();
     }
   }
@@ -503,4 +496,12 @@ abstract class DocumentBase<T> extends ChangeNotifier
 
   @override
   String toString() => "$runtimeType($value)";
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => modelQuery.hashCode ^ value.hashCode;
 }

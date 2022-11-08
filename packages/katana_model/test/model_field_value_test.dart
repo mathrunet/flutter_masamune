@@ -29,11 +29,10 @@ void main() {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
     final model = RuntimeMapDocumentModel(query, {});
-    model.value = {
+    await model.save({
       "counter": const ModelCounter(0),
       "time": ModelTimestamp(DateTime(2022, 1, 1))
-    };
-    await model.save();
+    });
     expect(
       model.value,
       {
@@ -41,11 +40,10 @@ void main() {
         "time": ModelTimestamp(DateTime(2022, 1, 1))
       },
     );
-    model.value = {
+    await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
       "time": ModelTimestamp(DateTime(2022, 1, 2))
-    };
-    await model.save();
+    });
     expect(
       model.value,
       {

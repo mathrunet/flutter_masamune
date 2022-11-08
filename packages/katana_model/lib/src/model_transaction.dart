@@ -15,8 +15,8 @@ part of katana_model;
 /// ```dart
 /// final transaction = sourceDocument.transaction();
 /// transaction((ref, doc){ // `doc` is [ModelTransactionDocument] of `sourceDocument`.
-///   doc.value = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
-///   doc.save();
+///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+///   doc.save(newValue);
 /// });
 /// ```
 class ModelTransactionBuilder<T> {
@@ -130,11 +130,6 @@ class ModelTransactionDocument<T> {
   /// ドキュメントの値。
   T? get value => _document.value;
 
-  /// Document Value.
-  ///
-  /// ドキュメントの値。
-  set value(T? value) => _document.value = value;
-
   /// Reads the corresponding document.
   ///
   /// The return value is a [T] object, and the loaded data is available as is.
@@ -149,32 +144,39 @@ class ModelTransactionDocument<T> {
   FutureOr<T?> load() async {
     final document = _document;
     final res = await _ref._load(document);
-    value = document.fromMap(document.filterOnLoad(res));
+    document._value = document.fromMap(document.filterOnLoad(res));
     return value;
   }
 
   /// Data can be saved.
   ///
-  /// Since it is only the content of [value] that is saved, it is necessary to change the content of [value] before saving.
+  /// The [newValue] is saved as it is as data. If [Null] is given, it is not executed.
+  ///
+  /// If the save is successful, [value] is replaced with [newValue].
+  ///
+  /// If the save fails, an attempt is made to restore to the previous data.
   ///
   /// It is possible to wait for saving with `await`.
   ///
   /// データの保存を行うことができます。
   ///
-  /// 保存を行うのはあくまで[value]の中身なので保存を行う前に[value]の中身を変更しておく必要があります。
+  /// [newValue]がそのままデータとして保存されます。[Null]が与えられた場合実行されません。
+  ///
+  /// 保存に成功した場合、[value]が[newValue]に置き換えられます。
+  ///
+  /// 保存に失敗した場合、前のデータへの復元を試みます。
   ///
   /// `await`で保存を待つことが可能です。
-  FutureOr<void> save() async {
-    if (value == null) {
-      throw Exception(
-        "The value is not set. Please set the value and then execute `save`.",
-      );
+  FutureOr<void> save(T? newValue) async {
+    if (newValue == null) {
+      return;
     }
     final document = _document;
-    return _ref._save(
+    await _ref._save(
       document,
-      document.filterOnSave(document.toMap(value as T)),
+      document.filterOnSave(document.toMap(newValue)),
     );
+    document._value = newValue;
   }
 
   /// Data can be deleted.

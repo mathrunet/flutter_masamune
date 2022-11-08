@@ -322,7 +322,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       value.map((e) async {
         final res = await e.filterOnDidLoad(e.value, listenWhenPossible);
         if (res != e.value) {
-          e.value = res;
+          e._value = res;
         }
         return e;
       }),
@@ -380,12 +380,12 @@ abstract class CollectionBase<TModel extends DocumentBase>
           return;
         }
         final value = create(update.id.trimQuery().trimString("?"));
-        final __value = value.value;
-        value.value = await value.filterOnDidLoad(
+        final val = value.value;
+        value._value = await value.filterOnDidLoad(
           value.fromMap(value.filterOnLoad(update.value)),
           update.listen,
         );
-        if (__value != value.value) {
+        if (val != value.value) {
           value.notifyListeners();
         }
         _value.insert(update.newIndex!, value);
@@ -396,12 +396,12 @@ abstract class CollectionBase<TModel extends DocumentBase>
           return;
         }
         final found = _value.removeAt(update.oldIndex!);
-        final __value = found.value;
-        found.value = await found.filterOnDidLoad(
+        final val = found.value;
+        found._value = await found.filterOnDidLoad(
           found.fromMap(found.filterOnLoad(update.value)),
           update.listen,
         );
-        if (__value != found.value) {
+        if (val != found.value) {
           found.notifyListeners();
         }
         _value.insert(update.newIndex!, found);
@@ -440,7 +440,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
         continue;
       }
       final value = create(key);
-      value.value = value.fromMap(
+      value._value = value.fromMap(
         value.filterOnLoad(
           Map<String, dynamic>.from(tmp.value),
         ),
@@ -463,6 +463,14 @@ abstract class CollectionBase<TModel extends DocumentBase>
 
   @override
   String toString() => IterableBase.iterableToShortString(this, "(", ")");
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => modelQuery.hashCode ^ Object.hashAll(this);
 
   /// This operation is not supported by an model collection.
   ///

@@ -69,10 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
             return ListTile(
                 title: Text(item.value.get("name", 0).toString()),
                 onTap: () {
-                  item.value = {
-                    "name": int.tryParse(DateTime.now().toDateTimeID())
-                  };
-                  item.save();
+                  item.save(
+                      {"name": int.tryParse(DateTime.now().toDateTimeID())});
                 },
                 trailing: IconButton(
                   onPressed: () {
@@ -85,8 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             final doc = collection.create();
-            doc.value = {"name": int.tryParse(DateTime.now().toDateTimeID())};
-            doc.save();
+            doc.save({"name": int.tryParse(DateTime.now().toDateTimeID())});
           },
           child: const Icon(Icons.add),
         ),

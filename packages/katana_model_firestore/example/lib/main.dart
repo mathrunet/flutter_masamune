@@ -84,8 +84,8 @@ class MyHomePage extends PageScopedWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final user = stream.create();
-          await user.save();
+          final st = stream.create();
+          await st.save(st.value);
         },
         child: Text("追加"),
       ),

@@ -86,17 +86,6 @@ class ModelRef<T> extends ModelFieldValue<T?> {
     return null;
   }
 
-  /// Actual value.
-  ///
-  /// Set is not supported.
-  ///
-  /// 実際の値。
-  ///
-  /// セットすることはサポートされていません。
-  set value(T? value) {
-    throw UnsupportedError("Value cannot be set.");
-  }
-
   @override
   String toString() {
     return modelQuery.path;
@@ -156,13 +145,14 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
         continue;
       }
       _value = await build._build(
-        _value,
-        listenWhenPossible,
-        _modelRefBuilderCache,
-        (query, document) {
+        val: _value,
+        listenWhenPossible: listenWhenPossible,
+        cacheList: _modelRefBuilderCache,
+        onDidLoad: (query, document) {
           document.addListener(notifyListeners);
           _modelRefBuilderCache[query] = document;
         },
+        loaderModelQuery: modelQuery,
       );
     }
     return _value;
@@ -266,15 +256,23 @@ class ModelRefBuilder<TValue, TResult> {
   /// [TValue]に生成された[ModelRefMixin]を格納するためのコールバック。
   final TValue Function(TValue value, ModelRefMixin<TResult> document) value;
 
-  Future<TValue?> _build(
-    TValue val,
-    bool listenWhenPossible,
-    Map<DocumentModelQuery, DocumentBase> cacheList,
-    void Function(DocumentModelQuery query, DocumentBase document) onDidLoad,
-  ) async {
+  Future<TValue?> _build({
+    required TValue val,
+    required bool listenWhenPossible,
+    required Map<DocumentModelQuery, DocumentBase> cacheList,
+    required void Function(DocumentModelQuery query, DocumentBase document)
+        onDidLoad,
+    required DocumentModelQuery loaderModelQuery,
+  }) async {
     final ref = modelRef(val);
-    final modelQuery = ref?.modelQuery;
-    if (modelQuery == null || cacheList.containsKey(modelQuery)) {
+    if (ref == null) {
+      return val;
+    }
+    final modelQuery = DocumentModelQuery(
+      ref.modelQuery.path,
+      adapter: loaderModelQuery.adapter,
+    );
+    if (cacheList.containsKey(modelQuery)) {
       return val;
     }
     final doc = document(modelQuery);
