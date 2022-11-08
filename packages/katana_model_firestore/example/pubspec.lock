@@ -472,47 +472,47 @@ packages:
     source: hosted
     version: "6.5.4"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana"
+      relative: true
+    source: path
     version: "0.15.8+1"
   katana_firebase:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_firebase
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana_firebase"
+      relative: true
+    source: path
     version: "0.15.0+12"
   katana_flutter:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana_flutter"
+      relative: true
+    source: path
     version: "0.15.0+12"
   katana_model:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.1.0"
   katana_model_firestore:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.0.1"
   katana_scoped:
     dependency: "direct main"
     description:
-      name: katana_scoped
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
+      path: "../../katana_scoped"
+      relative: true
+    source: path
+    version: "1.2.2"
   lints:
     dependency: transitive
     description:

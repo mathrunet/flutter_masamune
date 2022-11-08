@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Package that defines and notifies the model.
+/// A package that models data into documents and collections and allows Firestore, local DB, and data mocks to be handled in the same interface.
 ///
 /// To use, import `package:katana_model/katana_model.dart`.
 ///
