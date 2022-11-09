@@ -58,7 +58,7 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
       searchValueFieldKey.isNotEmpty,
       "[searchValueFieldKey] is empty. Please specify a non-empty string.",
     );
-    final searchText = buildSearchText(value as T);
+    final searchText = buildSearchText(rawData as T);
     if (searchText.isEmpty) {
       return super.filterOnSave(rawData);
     }

@@ -58,8 +58,9 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// [value]値を取得できます。[value]のセットは禁止されており、[save]メソッドで更新を行ないます。
   DocumentBase(this.modelQuery, [this._value])
       : assert(
-          !(modelQuery.path.splitLength() <= 0 ||
-              modelQuery.path.splitLength() % 2 != 0),
+          !(modelQuery.path.trimQuery().trimString("/").splitLength() <= 0 ||
+              modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
+                  0),
           "The query path hierarchy must be an even number: ${modelQuery.path}",
         );
 
@@ -485,7 +486,6 @@ abstract class DocumentBase<T> extends ChangeNotifier
   }
 
   @override
-  @protected
   @mustCallSuper
   void dispose() {
     super.dispose();
@@ -503,5 +503,5 @@ abstract class DocumentBase<T> extends ChangeNotifier
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => modelQuery.hashCode ^ value.hashCode;
+  int get hashCode => modelQuery.hashCode;
 }

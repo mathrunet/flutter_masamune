@@ -91,14 +91,14 @@ void main() {
     await model4.save({"name": "ggg", "text": "test"});
     expect(collection.map((e) => e.value), [
       {
+        "name": "ggg",
+        "text": "test",
+      },
+      {
         "name": "test",
         "text": "bbbb",
         "ids": [1, 2, 10]
       },
-      {
-        "name": "ggg",
-        "text": "test",
-      }
     ]);
     final query5 = DocumentModelQuery("test/eee", adapter: adapter);
     final model5 = SearchableRuntimeMapDocumentModel(query5, {});
@@ -109,32 +109,32 @@ void main() {
     });
     expect(collection.map((e) => e.value), [
       {
+        "name": "ggg",
+        "text": "test",
+      },
+      {
         "name": "test",
         "text": "bbbb",
         "ids": [1, 2, 10]
       },
-      {
-        "name": "ggg",
-        "text": "test",
-      }
     ]);
     final query6 = DocumentModelQuery("test/fff", adapter: adapter);
     final model6 = SearchableRuntimeMapDocumentModel(query6, {});
     await model6.save({"name": "kkk", "text": "test"});
     expect(collection.map((e) => e.value), [
       {
-        "name": "test",
-        "text": "bbbb",
-        "ids": [1, 2, 10]
+        "name": "kkk",
+        "text": "test",
       },
       {
         "name": "ggg",
         "text": "test",
       },
       {
-        "name": "kkk",
-        "text": "test",
-      }
+        "name": "test",
+        "text": "bbbb",
+        "ids": [1, 2, 10]
+      },
     ]);
     await model4.save({
       "name": 123,
@@ -143,14 +143,14 @@ void main() {
     });
     expect(collection.map((e) => e.value), [
       {
+        "name": "kkk",
+        "text": "test",
+      },
+      {
         "name": "test",
         "text": "bbbb",
         "ids": [1, 2, 10]
       },
-      {
-        "name": "kkk",
-        "text": "test",
-      }
     ]);
     await model2.save({"name": 789, "text": 10});
     expect(collection.map((e) => e.value), [

@@ -662,7 +662,7 @@ class ModelQuery {
 
   @override
   int get hashCode =>
-      path.hashCode ^
+      path.trimQuery().trimString("/").hashCode ^
       key.hashCode ^
       isEqualTo.hashCode ^
       isNotEqualTo.hashCode ^

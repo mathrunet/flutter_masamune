@@ -69,8 +69,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
     List<TModel>? value,
   ])  : __value = value ?? [],
         assert(
-          !(modelQuery.path.splitLength() <= 0 ||
-              modelQuery.path.splitLength() % 2 != 1),
+          !(modelQuery.path.trimQuery().trimString("/").splitLength() <= 0 ||
+              modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
+                  1),
           "The query path hierarchy must be an odd number: ${modelQuery.path}",
         );
 
@@ -451,7 +452,6 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   @override
-  @protected
   @mustCallSuper
   void dispose() {
     super.dispose();
@@ -470,7 +470,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => modelQuery.hashCode ^ Object.hashAll(this);
+  int get hashCode => modelQuery.hashCode;
 
   /// This operation is not supported by an model collection.
   ///
