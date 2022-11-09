@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - Bump "katana_model_firestore" to `1.2.0`.
+
 ## 1.1.1
 
  - **DOCS**: Add Example. ([8facb830](https://github.com/mathrunet/flutter_masamune/commit/8facb830d58565cb6876afb629bac65cce30a3de))
