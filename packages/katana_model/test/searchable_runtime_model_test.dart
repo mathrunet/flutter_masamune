@@ -19,9 +19,6 @@ class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
   String buildSearchText(DynamicMap value) {
     return value.get("name", "") + value.get("text", "");
   }
-
-  @override
-  String get searchValueFieldKey => "@search";
 }
 
 class SearchableRuntimeCollectionModel
@@ -40,13 +37,12 @@ class SearchableRuntimeCollectionModel
 void main() {
   test("searchableRuntimeDocumentModel.search", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
-    final query = CollectionModelQuery(
+    final query = SearchableCollectionModelQuery(
       "test",
       adapter: adapter,
-      key: "@search",
-      search: "test",
     );
-    final collection = SearchableRuntimeCollectionModel(query);
+
+    final collection = SearchableRuntimeCollectionModel(query.search("test"));
     collection.load();
     await collection.loading;
     expect(collection, []);
@@ -91,13 +87,13 @@ void main() {
     await model4.save({"name": "ggg", "text": "test"});
     expect(collection.map((e) => e.value), [
       {
-        "name": "ggg",
-        "text": "test",
-      },
-      {
         "name": "test",
         "text": "bbbb",
         "ids": [1, 2, 10]
+      },
+      {
+        "name": "ggg",
+        "text": "test",
       },
     ]);
     final query5 = DocumentModelQuery("test/eee", adapter: adapter);
@@ -109,13 +105,13 @@ void main() {
     });
     expect(collection.map((e) => e.value), [
       {
-        "name": "ggg",
-        "text": "test",
-      },
-      {
         "name": "test",
         "text": "bbbb",
         "ids": [1, 2, 10]
+      },
+      {
+        "name": "ggg",
+        "text": "test",
       },
     ]);
     final query6 = DocumentModelQuery("test/fff", adapter: adapter);
@@ -123,17 +119,17 @@ void main() {
     await model6.save({"name": "kkk", "text": "test"});
     expect(collection.map((e) => e.value), [
       {
-        "name": "kkk",
-        "text": "test",
+        "name": "test",
+        "text": "bbbb",
+        "ids": [1, 2, 10]
       },
       {
         "name": "ggg",
         "text": "test",
       },
       {
-        "name": "test",
-        "text": "bbbb",
-        "ids": [1, 2, 10]
+        "name": "kkk",
+        "text": "test",
       },
     ]);
     await model4.save({
@@ -143,13 +139,13 @@ void main() {
     });
     expect(collection.map((e) => e.value), [
       {
-        "name": "kkk",
-        "text": "test",
-      },
-      {
         "name": "test",
         "text": "bbbb",
         "ids": [1, 2, 10]
+      },
+      {
+        "name": "kkk",
+        "text": "test",
       },
     ]);
     await model2.save({"name": 789, "text": 10});

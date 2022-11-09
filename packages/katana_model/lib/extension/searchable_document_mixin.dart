@@ -22,9 +22,9 @@ part of katana_model;
 /// }
 /// ```
 ///
-/// Documents targeted for search will be searchable in the collection. The search is made possible by passing a query using [ModelQuery.search].
+/// Documents targeted for search will be searchable in the collection. The search is made possible by passing a query using [ModelQuery.searchText].
 ///
-/// 検索対象にされたドキュメントはコレクションで検索可能になります。検索の際は[ModelQuery.search]を用いてクエリを渡すことで検索可能になります。
+/// 検索対象にされたドキュメントはコレクションで検索可能になります。検索の際は[ModelQuery.searchText]を用いてクエリを渡すことで検索可能になります。
 ///
 /// ```dart
 /// const query = ModelQuery("collection_path", key: "name", search: "mike");
@@ -32,11 +32,16 @@ part of katana_model;
 /// await collection.load(false); // search results
 /// ```
 mixin SearchableDocumentMixin<T> on DocumentBase<T> {
+  /// Field key for default search.
+  ///
+  /// デフォルトのサーチ用のフィールドキー。
+  static const defaultSearchValueFieldKey = "@search";
+
   /// The field with this key contains the Bigram data for the search.
   ///
   /// このキーを持つフィールドに検索用のBigramのデータを格納します。
   @protected
-  String get searchValueFieldKey;
+  String get searchValueFieldKey => defaultSearchValueFieldKey;
 
   /// Creates a string to be searched. If you want to search multiple items, combine all strings and return them as a single string.
   ///

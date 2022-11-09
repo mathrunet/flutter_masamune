@@ -38,7 +38,8 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
   ///
   /// [RuntimeModelAdapter.setRawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
-  const RuntimeModelAdapter({NoSqlDatabase? database}) : _database = database;
+  const RuntimeModelAdapter({NoSqlDatabase? database, this.rawData})
+      : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
   ///
@@ -50,6 +51,11 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// アプリ内全体での共通のデータベース。
   static final NoSqlDatabase sharedDatabase = NoSqlDatabase();
+
+  /// Actual data when used as a mock-up.
+  ///
+  /// モックアップとして利用する際の実データ。
+  final Map<String, DynamicMap>? rawData;
 
   @override
   void setRawData(Map<String, DynamicMap> rawData) {
@@ -118,11 +124,14 @@ class RuntimeModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> deleteOnTransaction(
+  void deleteOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
-    return deleteDocument(query);
+    if (ref is! RuntimeModelTransactionRef) {
+      throw Exception("[ref] is not [RuntimeModelTransactionRef].");
+    }
+    ref._transactionList.add(() => deleteDocument(query));
   }
 
   @override
@@ -134,12 +143,15 @@ class RuntimeModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> saveOnTransaction(
+  void saveOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
-    return saveDocument(query, value);
+    if (ref is! RuntimeModelTransactionRef) {
+      throw Exception("[ref] is not [RuntimeModelTransactionRef].");
+    }
+    ref._transactionList.add(() => saveDocument(query, value));
   }
 
   @override
@@ -151,8 +163,11 @@ class RuntimeModelAdapter extends ModelAdapter {
     )
         transaction,
   ) async {
-    const ref = RuntimeModelTransactionRef._();
+    final ref = RuntimeModelTransactionRef._();
     await transaction.call(ref, ref.read(doc));
+    for (final tmp in ref._transactionList) {
+      await tmp.call();
+    }
   }
 }
 
@@ -160,5 +175,7 @@ class RuntimeModelAdapter extends ModelAdapter {
 /// [RuntimeModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class RuntimeModelTransactionRef extends ModelTransactionRef {
-  const RuntimeModelTransactionRef._();
+  RuntimeModelTransactionRef._();
+
+  final List<FutureOr<void> Function()> _transactionList = [];
 }

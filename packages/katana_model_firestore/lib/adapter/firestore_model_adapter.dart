@@ -159,7 +159,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> deleteOnTransaction(
+  void deleteOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
@@ -182,7 +182,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> saveOnTransaction(
+  void saveOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
     DynamicMap value,
@@ -327,8 +327,8 @@ class FirestoreModelAdapter extends ModelAdapter {
           arrayContains: query.query.arrayContains,
         );
       }
-      if (query.query.search != null) {
-        query.query.search
+      if (query.query.searchText != null) {
+        query.query.searchText
             ?.toLowerCase()
             .splitByBigram()
             .distinct()
@@ -353,7 +353,7 @@ class FirestoreModelAdapter extends ModelAdapter {
                   query.query.arrayContainsAny != null ||
                   query.query.whereIn != null ||
                   query.query.whereNotIn != null ||
-                  query.query.search != null))) {
+                  query.query.searchText != null))) {
             firestoreQuery = firestoreQuery.orderBy(query.query.orderBy!);
           }
           break;
@@ -365,7 +365,7 @@ class FirestoreModelAdapter extends ModelAdapter {
                   query.query.arrayContainsAny != null ||
                   query.query.whereIn != null ||
                   query.query.whereNotIn != null ||
-                  query.query.search != null))) {
+                  query.query.searchText != null))) {
             firestoreQuery =
                 firestoreQuery.orderBy(query.query.orderBy!, descending: true);
           }

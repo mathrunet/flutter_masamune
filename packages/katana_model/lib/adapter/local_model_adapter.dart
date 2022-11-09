@@ -122,11 +122,14 @@ class LocalModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> deleteOnTransaction(
+  void deleteOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
-    return deleteDocument(query);
+    if (ref is! LocalModelTransactionRef) {
+      throw Exception("[ref] is not [LocalModelTransactionRef].");
+    }
+    ref._transactionList.add(() => deleteDocument(query));
   }
 
   @override
@@ -138,12 +141,15 @@ class LocalModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> saveOnTransaction(
+  void saveOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
-    return saveDocument(query, value);
+    if (ref is! LocalModelTransactionRef) {
+      throw Exception("[ref] is not [LocalModelTransactionRef].");
+    }
+    ref._transactionList.add(() => saveDocument(query, value));
   }
 
   @override
@@ -155,8 +161,11 @@ class LocalModelAdapter extends ModelAdapter {
     )
         transaction,
   ) async {
-    const ref = LocalModelTransactionRef._();
+    final ref = LocalModelTransactionRef._();
     await transaction.call(ref, ref.read(doc));
+    for (final tmp in ref._transactionList) {
+      await tmp.call();
+    }
   }
 }
 
@@ -164,5 +173,7 @@ class LocalModelAdapter extends ModelAdapter {
 /// [LocalModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class LocalModelTransactionRef extends ModelTransactionRef {
-  const LocalModelTransactionRef._();
+  LocalModelTransactionRef._();
+
+  final List<FutureOr<void> Function()> _transactionList = [];
 }

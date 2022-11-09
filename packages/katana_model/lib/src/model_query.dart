@@ -94,7 +94,6 @@ class CollectionModelQuery extends ModelQuery {
     super.order = ModelQueryOrder.asc,
     super.limit,
     super.orderBy,
-    super.search,
     ModelAdapter? adapter,
   }) : _adapter = adapter;
 
@@ -114,6 +113,123 @@ class CollectionModelQuery extends ModelQuery {
   /// 自身の[path]と[id]を用いてコレクション配下のドキュメント用の[DocumentModelQuery]を作成します。
   ///
   /// [id]が[Null]の場合は[uuid]（32バイトのハイフン無しの文字列）が利用されます。
+  DocumentModelQuery create<T>([
+    String? id,
+  ]) {
+    return DocumentModelQuery(
+      "${path.trimQuery().trimString("/")}/${id ?? uuid}",
+      adapter: adapter,
+    );
+  }
+}
+
+/// CollectionModelQuery] for performing searches.
+///
+/// The query target is specified by [path].
+///
+/// No other conditions can be specified, only [key] and [searchText].
+///
+/// [key] is [SearchableDocumentMixin.defaultSearchValueFieldKey] by default.
+///
+/// It is assumed that all documents in the target collection have [SearchableDocumentMixin] mixed in.
+///
+/// If it is not mixed in, it will be excluded from the search.
+///
+/// If the search phrase changes, a new query is copied and used in the [search] method.
+///
+/// 検索を行うための[CollectionModelQuery]です。
+///
+/// クエリ対象は[path]で指定します。
+///
+/// 他の条件は指定不可で[key]と[searchText]のみを指定できます。
+///
+/// [key]はデフォルトで[SearchableDocumentMixin.defaultSearchValueFieldKey]が利用されます。
+///
+/// 対象となるコレクション内のドキュメントはすべて[SearchableDocumentMixin]がミックスインされていることが前提となります。
+///
+/// ミックスインされていないと検索対象から外されます。
+///
+/// 検索語句が変わる場合、[search]メソッドで新しくクエリをコピーして利用します。
+///
+/// ```dart
+/// final query = SearchableCollectionModelQuery("user");
+///
+/// var col = UserModelCollection(query.search("masaru"));
+/// await col.load(); // Load masaru's data
+/// var col = UserModelCollection(query.search("kanimiso"));
+/// await col.load(); // Load kanimiso's data
+/// ```
+class SearchableCollectionModelQuery extends ModelQuery
+    implements CollectionModelQuery {
+  /// CollectionModelQuery] for performing searches.
+  ///
+  /// The query target is specified by [path].
+  ///
+  /// No other conditions can be specified, only [key] and [searchText].
+  ///
+  /// [key] is [SearchableDocumentMixin.defaultSearchValueFieldKey] by default.
+  ///
+  /// It is assumed that all documents in the target collection have [SearchableDocumentMixin] mixed in.
+  ///
+  /// If it is not mixed in, it will be excluded from the search.
+  ///
+  /// If the search phrase changes, a new query is copied and used in the [search] method.
+  ///
+  /// 検索を行うための[CollectionModelQuery]です。
+  ///
+  /// クエリ対象は[path]で指定します。
+  ///
+  /// 他の条件は指定不可で[key]と[searchText]のみを指定できます。
+  ///
+  /// [key]はデフォルトで[SearchableDocumentMixin.defaultSearchValueFieldKey]が利用されます。
+  ///
+  /// 対象となるコレクション内のドキュメントはすべて[SearchableDocumentMixin]がミックスインされていることが前提となります。
+  ///
+  /// ミックスインされていないと検索対象から外されます。
+  ///
+  /// 検索語句が変わる場合、[search]メソッドで新しくクエリをコピーして利用します。
+  ///
+  /// ```dart
+  /// final query = SearchableCollectionModelQuery("user");
+  ///
+  /// var col = UserModelCollection(query.search("masaru"));
+  /// await col.load(); // Load masaru's data
+  /// var col = UserModelCollection(query.search("kanimiso"));
+  /// await col.load(); // Load kanimiso's data
+  /// ```
+  const SearchableCollectionModelQuery(
+    super.path, {
+    super.key = SearchableDocumentMixin.defaultSearchValueFieldKey,
+    String searchText = "",
+    ModelAdapter? adapter,
+  })  : _adapter = adapter,
+        super(searchText: searchText);
+
+  /// Create a new [SearchableCollectionModelQuery] with [searchText].
+  ///
+  /// [path], [key], etc. are copied as is.
+  ///
+  /// [searchText]を指定して新しい[SearchableCollectionModelQuery]を作成します。
+  ///
+  /// [path]や[key]などはそのままコピーされます。
+  SearchableCollectionModelQuery search(String searchText) {
+    return SearchableCollectionModelQuery(
+      path,
+      key: key,
+      searchText: searchText,
+      adapter: adapter,
+    );
+  }
+
+  @override
+  ModelAdapter get adapter {
+    return _adapter ?? ModelAdapter.primary;
+  }
+
+  @override
+  final ModelAdapter? _adapter;
+
+  @override
   DocumentModelQuery create<T>([
     String? id,
   ]) {
@@ -163,7 +279,7 @@ class ModelQuery {
     this.order = ModelQueryOrder.asc,
     this.limit,
     this.orderBy,
-    this.search,
+    this.searchText,
   });
 
   /// [ModelQuery] from [path].
@@ -220,7 +336,7 @@ class ModelQuery {
         }
       }(),
       limit: _parseQuery(query, "limitToFirst"),
-      search: _parseQuery(query, "search")?.toString(),
+      searchText: _parseQuery(query, "search")?.toString(),
     );
   }
 
@@ -327,7 +443,7 @@ class ModelQuery {
   /// Normally, the search function is achieved by mixing [SearchableDocumentMixin] into the document to be searched and matching [SearchableDocumentMixin.searchValueFieldKey] and [ModelQuery.key].
   ///
   /// 通常は[SearchableDocumentMixin]を検索対象のドキュメントにミックスインし、[SearchableDocumentMixin.searchValueFieldKey]と[ModelQuery.key]を合わせることで検索機能を実現します。
-  final String? search;
+  final String? searchText;
 
   @override
   String toString() {
@@ -385,8 +501,8 @@ class ModelQuery {
               "$tmp&geoHash=${geoHash!.map((e) => e.toString()).join(",")}",
             ),
           ).trimString("&");
-    } else if (search.isNotEmpty) {
-      return "$path?${_limit("key=$key&search=$search").trimString("&")}";
+    } else if (searchText.isNotEmpty) {
+      return "$path?${_limit("key=$key&search=$searchText").trimString("&")}";
     }
     return "$path?${tmp.trimString("&")}";
   }
@@ -487,11 +603,11 @@ class ModelQuery {
       final val = value.toString();
       return geoHash!.any((item) => val.startsWith(item));
     }
-    if (search.isNotEmpty) {
+    if (searchText.isNotEmpty) {
       if (value is! Map) {
         return false;
       }
-      final splitBygram = search!.toLowerCase().splitByBigram();
+      final splitBygram = searchText!.toLowerCase().splitByBigram();
       for (final text in splitBygram) {
         if (value.get(text, false)) {
           return true;
@@ -676,7 +792,7 @@ class ModelQuery {
       order.hashCode ^
       limit.hashCode ^
       orderBy.hashCode ^
-      search.hashCode;
+      searchText.hashCode;
 
   @protected
   String _limit([String path = ""]) {
@@ -711,7 +827,7 @@ class ModelQuery {
                   whereIn == null &&
                   whereNotIn == null &&
                   geoHash == null &&
-                  search == null)) ||
+                  searchText == null)) ||
           (key != null &&
               (isEqualTo != null ||
                   isNotEqualTo != null ||
@@ -722,11 +838,11 @@ class ModelQuery {
                   whereIn != null ||
                   whereNotIn != null ||
                   geoHash != null ||
-                  search != null)),
+                  searchText != null)),
       "If you want to specify a condition, please specify [key].",
     );
     assert(
-      search == null || (search != null && orderBy == null),
+      searchText == null || (searchText != null && orderBy == null),
       "If you define [search], you cannot define [orderBy].",
     );
   }

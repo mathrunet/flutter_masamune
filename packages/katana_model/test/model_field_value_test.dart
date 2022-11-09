@@ -40,10 +40,14 @@ void main() {
         "time": ModelTimestamp(DateTime(2022, 1, 1))
       },
     );
+    print((model.value!["counter"] as ModelCounter).value);
+    print((model.value!["time"] as ModelTimestamp).value);
     await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
       "time": ModelTimestamp(DateTime(2022, 1, 2))
     });
+    print((model.value!["counter"] as ModelCounter).value);
+    print((model.value!["time"] as ModelTimestamp).value);
     expect(
       model.value,
       {

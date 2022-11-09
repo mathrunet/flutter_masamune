@@ -486,7 +486,7 @@ void main() {
   test("ModelQuery.search", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
-      search: "mas",
+      searchText: "mas",
       key: kDefaultSearchableFieldKey,
     );
     expect(
@@ -517,7 +517,7 @@ void main() {
     );
     query = const ModelQuery(
       "aaaa/bbbb",
-      search: "oooo",
+      searchText: "oooo",
       key: kDefaultSearchableFieldKey,
     );
     expect(

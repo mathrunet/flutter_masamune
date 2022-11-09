@@ -79,14 +79,14 @@ abstract class ModelTransactionRef {
     );
   }
 
-  FutureOr<void> _delete(DocumentBase document) async {
-    await document.modelQuery.adapter.deleteOnTransaction(
+  void _delete(DocumentBase document) {
+    document.modelQuery.adapter.deleteOnTransaction(
       this,
       document.databaseQuery,
     );
   }
 
-  FutureOr<void> _save(DocumentBase document, DynamicMap value) {
+  void _save(DocumentBase document, DynamicMap value) {
     return document.modelQuery.adapter.saveOnTransaction(
       this,
       document.databaseQuery,
@@ -156,8 +156,6 @@ class ModelTransactionDocument<T> {
   ///
   /// If the save fails, an attempt is made to restore to the previous data.
   ///
-  /// It is possible to wait for saving with `await`.
-  ///
   /// データの保存を行うことができます。
   ///
   /// [newValue]がそのままデータとして保存されます。[Null]が与えられた場合実行されません。
@@ -165,14 +163,12 @@ class ModelTransactionDocument<T> {
   /// 保存に成功した場合、[value]が[newValue]に置き換えられます。
   ///
   /// 保存に失敗した場合、前のデータへの復元を試みます。
-  ///
-  /// `await`で保存を待つことが可能です。
-  FutureOr<void> save(T? newValue) async {
+  void save(T? newValue) {
     if (newValue == null) {
       return;
     }
     final document = _document;
-    await _ref._save(
+    _ref._save(
       document,
       document.filterOnSave(document.toMap(newValue)),
     );
@@ -194,7 +190,7 @@ class ModelTransactionDocument<T> {
   /// 削除後はデータが空になりますが、このオブジェクト自体は有効になっています。
   ///
   /// データベース上可能な場合、再度データを入れ[save]を実行することでデータを復元できます。
-  FutureOr<void> delete() async {
-    await _ref._delete(_document);
+  void delete() {
+    _ref._delete(_document);
   }
 }

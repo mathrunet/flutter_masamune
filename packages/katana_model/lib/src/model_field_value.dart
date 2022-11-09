@@ -251,7 +251,7 @@ class ModelCounter extends ModelFieldValue<int> {
 ///
 /// ベースの値を[value]として与えます。与えられなかった場合現在時刻がセットされます。
 ///
-/// これをサーバーに渡すことでサーバー側のタイムスタンプをデータとして保存されます。
+/// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
 @immutable
 class ModelTimestamp extends ModelFieldValue<DateTime> {
   /// Define the field as a timestamp.
@@ -264,7 +264,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
   ///
   /// ベースの値を[value]として与えます。与えられなかった場合現在時刻がセットされます。
   ///
-  /// これをサーバーに渡すことでサーバー側のタイムスタンプをデータとして保存されます。
+  /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
   const ModelTimestamp([DateTime? value]) : _value = value;
 
   /// Convert from [json] map to [ModelTimestamp].

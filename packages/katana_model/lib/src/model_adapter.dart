@@ -223,7 +223,7 @@ abstract class ModelAdapter {
   /// [value]に保存するデータが渡されます。
   ///
   /// [value]の値に[Null]が入っているキーはデータベース上から削除するようにしてください。
-  FutureOr<void> saveOnTransaction(
+  void saveOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
     DynamicMap value,
@@ -236,7 +236,7 @@ abstract class ModelAdapter {
   /// トランザクションを行う際のデータ削除処理を記述します。
   ///
   /// [ref]に[runTransaction]で作成した[ModelTransactionRef]が渡され、[query]は対象のドキュメントのクエリが渡されます。
-  FutureOr<void> deleteOnTransaction(
+  void deleteOnTransaction(
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   );
