@@ -197,7 +197,7 @@ class LocalizeValue {
             ])
             ..lambda = true
             ..body = Code(
-              "\"${(node.localize[locale] ?? "").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
+              "\"${(node.localize[locale] ?? "").replaceAll('"', r'\"').replaceAll("\n", r"\n").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
             ),
         );
       } else {
@@ -211,7 +211,7 @@ class LocalizeValue {
             ..type = MethodType.getter
             ..lambda = true
             ..body = Code(
-              "\"${(node.localize[locale] ?? "").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
+              "\"${(node.localize[locale] ?? "").replaceAll('"', r'\"').replaceAll("\n", r"\\n").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
             ),
         );
       }
