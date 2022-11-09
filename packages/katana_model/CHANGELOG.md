@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Add SearchableCollectionQuery. ([350c5b07](https://github.com/mathrunet/flutter_masamune/commit/350c5b07809188ecb96141276bd64f98b302aacd))
+
 ## 1.2.1
 
  - **DOCS**: Add Example. ([8facb830](https://github.com/mathrunet/flutter_masamune/commit/8facb830d58565cb6876afb629bac65cce30a3de))

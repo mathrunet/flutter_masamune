@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v1.3.0`](#katana_model---v130)
+ - [`katana_model_firestore` - `v1.3.0`](#katana_model_firestore---v130)
+
+---
+
+#### `katana_model` - `v1.3.0`
+
+ - **FEAT**: Add SearchableCollectionQuery. ([350c5b07](https://github.com/mathrunet/flutter_masamune/commit/350c5b07809188ecb96141276bd64f98b302aacd))
+
+#### `katana_model_firestore` - `v1.3.0`
+
+ - **FEAT**: Add SearchableCollectionQuery. ([350c5b07](https://github.com/mathrunet/flutter_masamune/commit/350c5b07809188ecb96141276bd64f98b302aacd))
+
+
 ## 2022-11-09
 
 ### Changes

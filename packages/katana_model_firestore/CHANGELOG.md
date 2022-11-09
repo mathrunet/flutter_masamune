@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Add SearchableCollectionQuery. ([350c5b07](https://github.com/mathrunet/flutter_masamune/commit/350c5b07809188ecb96141276bd64f98b302aacd))
+
 ## 1.2.0
 
  - Bump "katana_model_firestore" to `1.2.0`.
