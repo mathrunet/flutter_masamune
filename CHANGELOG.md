@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v1.1.11`](#katana_localization---v1111)
+ - [`katana_localization_annotation` - `v1.1.9`](#katana_localization_annotation---v119)
+ - [`katana_localization_builder` - `v1.1.11`](#katana_localization_builder---v1111)
+ - [`katana_router` - `v1.9.1`](#katana_router---v191)
+ - [`katana_router_annotation` - `v1.9.1`](#katana_router_annotation---v191)
+ - [`katana_router_builder` - `v1.9.1`](#katana_router_builder---v191)
+
+---
+
+#### `katana_localization` - `v1.1.11`
+
+ - **FIX**: Fixed a bug that prevented builds when line breaks or double quotation marks were mixed in the translation. ([1d96546c](https://github.com/mathrunet/flutter_masamune/commit/1d96546ca7c210fee700fbcb7d839c2d2d605308))
+
+#### `katana_localization_annotation` - `v1.1.9`
+
+ - **FIX**: Fixed a bug that prevented builds when line breaks or double quotation marks were mixed in the translation. ([1d96546c](https://github.com/mathrunet/flutter_masamune/commit/1d96546ca7c210fee700fbcb7d839c2d2d605308))
+
+#### `katana_localization_builder` - `v1.1.11`
+
+ - **FIX**: Fixed a bug that prevented builds when line breaks or double quotation marks were mixed in the translation. ([1d96546c](https://github.com/mathrunet/flutter_masamune/commit/1d96546ca7c210fee700fbcb7d839c2d2d605308))
+
+#### `katana_router` - `v1.9.1`
+
+ - **FIX**: Fixed a bug in nested navigation that changed the path each time it was built. ([29d8da79](https://github.com/mathrunet/flutter_masamune/commit/29d8da79ee967b097ebc3b294400c90509fd6b3d))
+
+#### `katana_router_annotation` - `v1.9.1`
+
+ - **FIX**: Fixed a bug in nested navigation that changed the path each time it was built. ([29d8da79](https://github.com/mathrunet/flutter_masamune/commit/29d8da79ee967b097ebc3b294400c90509fd6b3d))
+
+#### `katana_router_builder` - `v1.9.1`
+
+ - **FIX**: Fixed a bug in nested navigation that changed the path each time it was built. ([29d8da79](https://github.com/mathrunet/flutter_masamune/commit/29d8da79ee967b097ebc3b294400c90509fd6b3d))
+
+
+## 2022-11-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_firestore` - `v1.2.0`](#katana_model_firestore---v120)
 
 ---

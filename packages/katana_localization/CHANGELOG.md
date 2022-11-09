@@ -1,3 +1,7 @@
+## 1.1.11
+
+ - **FIX**: Fixed a bug that prevented builds when line breaks or double quotation marks were mixed in the translation. ([1d96546c](https://github.com/mathrunet/flutter_masamune/commit/1d96546ca7c210fee700fbcb7d839c2d2d605308))
+
 ## 1.1.10
 
  - Update a dependency to the latest release.

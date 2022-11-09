@@ -1,3 +1,7 @@
+## 1.9.1
+
+ - **FIX**: Fixed a bug in nested navigation that changed the path each time it was built. ([29d8da79](https://github.com/mathrunet/flutter_masamune/commit/29d8da79ee967b097ebc3b294400c90509fd6b3d))
+
 ## 1.9.0
 
  - **FEAT**: Added QueryParams functionality [#4](https://github.com/mathrunet/flutter_masamune/issues/4). ([3f2d1f20](https://github.com/mathrunet/flutter_masamune/commit/3f2d1f200481bc3f52f26fe8931c54df221e715e))
