@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **DOCS**: Add Example. ([8facb830](https://github.com/mathrunet/flutter_masamune/commit/8facb830d58565cb6876afb629bac65cce30a3de))
+
 ## 1.1.2
 
  - **FIX**: Support for RestAPI. ([3126bb9f](https://github.com/mathrunet/flutter_masamune/commit/3126bb9fa19aa8423eaafd3c2ba5c21685350bc7))

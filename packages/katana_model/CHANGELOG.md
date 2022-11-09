@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **DOCS**: Add Example. ([8facb830](https://github.com/mathrunet/flutter_masamune/commit/8facb830d58565cb6876afb629bac65cce30a3de))
+
 ## 1.2.0
 
  - **FEAT**: Support for LocalDatabase. ([e950d9e2](https://github.com/mathrunet/flutter_masamune/commit/e950d9e28889dfb75a98d4d2592419a4e13dee9b))
