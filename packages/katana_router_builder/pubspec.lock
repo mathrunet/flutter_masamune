@@ -203,7 +203,7 @@ packages:
       name: katana_router_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.9"
+    version: "1.9.0"
   logging:
     dependency: transitive
     description:
@@ -308,7 +308,7 @@ packages:
       name: shelf_web_socket
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   source_gen:
     dependency: "direct main"
     description:
@@ -378,21 +378,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.21.7"
+    version: "1.22.0"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.15"
+    version: "0.4.16"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.19"
+    version: "0.4.20"
   typed_data:
     dependency: transitive
     description:

@@ -133,7 +133,7 @@ List<Class> queryClass(
               ..returns = const Reference("String")
               ..body = Code(
                 path == null
-                    ? "_path ?? \"$uuid\""
+                    ? "_path ?? \"${model.name.toSHA1()}\""
                     : "_path ?? \"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
                         return "\$${match.group(1)?.toCamelCase()}";
                       })}\"",
