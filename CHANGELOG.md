@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v1.3.0`](#katana_scoped---v130)
+
+---
+
+#### `katana_scoped` - `v1.3.0`
+
+ - **FEAT**: Scoped page changed to deprecated. ([54b70a7f](https://github.com/mathrunet/flutter_masamune/commit/54b70a7f68cba36a87eac030b5026f60c3b42283))
+
+
+## 2022-11-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.3.3`](#katana_model---v133)
  - [`katana_model_firestore` - `v1.3.4`](#katana_model_firestore---v134)
  - [`katana_scoped` - `v1.2.3`](#katana_scoped---v123)

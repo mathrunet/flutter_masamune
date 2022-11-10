@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Scoped page changed to deprecated. ([54b70a7f](https://github.com/mathrunet/flutter_masamune/commit/54b70a7f68cba36a87eac030b5026f60c3b42283))
+
 ## 1.2.3
 
  - **FIX**: Add name parameter to cache and watch. ([61ef9624](https://github.com/mathrunet/flutter_masamune/commit/61ef9624993aaeb5e743e67200e9eaaf3476b910))
