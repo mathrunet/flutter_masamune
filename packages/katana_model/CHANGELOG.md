@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: Changed the Search mechanism. ([1a1131b8](https://github.com/mathrunet/flutter_masamune/commit/1a1131b868b7d7212835de7e05409fd9814c7cee))
+
 ## 1.3.0
 
  - **FEAT**: Add SearchableCollectionQuery. ([350c5b07](https://github.com/mathrunet/flutter_masamune/commit/350c5b07809188ecb96141276bd64f98b302aacd))

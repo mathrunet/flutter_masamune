@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - Update a dependency to the latest release.
+
 ## 1.3.0
 
  - **FEAT**: Add SearchableCollectionQuery. ([350c5b07](https://github.com/mathrunet/flutter_masamune/commit/350c5b07809188ecb96141276bd64f98b302aacd))
