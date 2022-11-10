@@ -93,11 +93,6 @@ class FirestoreModelAdapter extends ModelAdapter {
   }
 
   @override
-  void setRawData(Map<String, DynamicMap> rawData) {
-    throw UnsupportedError("This adapter prohibits direct writing of RawData.");
-  }
-
-  @override
   bool get availableListen => true;
 
   @override
