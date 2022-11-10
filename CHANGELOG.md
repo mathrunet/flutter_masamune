@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.3.2`](#katana_model---v132)
+ - [`katana_model_firestore` - `v1.3.2`](#katana_model_firestore---v132)
+
+---
+
+#### `katana_model` - `v1.3.2`
+
+ - **DOCS**: Documentation modifications, etc. ([65984840](https://github.com/mathrunet/flutter_masamune/commit/65984840eec83b945e0f1d33a20c6f22d3a5352d))
+
+#### `katana_model_firestore` - `v1.3.2`
+
+ - **DOCS**: Documentation modifications, etc. ([65984840](https://github.com/mathrunet/flutter_masamune/commit/65984840eec83b945e0f1d33a20c6f22d3a5352d))
+
+
+## 2022-11-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.3.1`](#katana_model---v131)
  - [`katana_model_firestore` - `v1.3.1`](#katana_model_firestore---v131)
 

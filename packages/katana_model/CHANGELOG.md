@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **DOCS**: Documentation modifications, etc. ([65984840](https://github.com/mathrunet/flutter_masamune/commit/65984840eec83b945e0f1d33a20c6f22d3a5352d))
+
 ## 1.3.1
 
  - **FIX**: Changed the Search mechanism. ([1a1131b8](https://github.com/mathrunet/flutter_masamune/commit/1a1131b868b7d7212835de7e05409fd9814c7cee))
