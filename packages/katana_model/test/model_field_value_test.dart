@@ -5,14 +5,10 @@ class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query, super.value);
 
   @override
-  DynamicMap fromMap(DynamicMap map) {
-    return ModelFieldValue.fromMap(map);
-  }
+  DynamicMap fromMap(DynamicMap map) => map;
 
   @override
-  DynamicMap toMap(DynamicMap value) {
-    return ModelFieldValue.toMap(value);
-  }
+  DynamicMap toMap(DynamicMap value) => value;
 }
 
 class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {

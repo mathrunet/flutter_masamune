@@ -6,14 +6,10 @@ class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
   SearchableRuntimeMapDocumentModel(super.query, super.value);
 
   @override
-  DynamicMap fromMap(DynamicMap map) {
-    return ModelFieldValue.fromMap(map);
-  }
+  DynamicMap fromMap(DynamicMap map) => map;
 
   @override
-  DynamicMap toMap(DynamicMap value) {
-    return ModelFieldValue.toMap(value);
-  }
+  DynamicMap toMap(DynamicMap value) => value;
 
   @override
   String buildSearchText(DynamicMap value) {

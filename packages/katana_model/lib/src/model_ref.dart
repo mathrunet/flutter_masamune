@@ -132,7 +132,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
   /// ロード方法の定義を実装した[ModelRefBuilder]。
   ///
   /// リストの順番通りにデータのロードと格納が行われます。
-  List<ModelRefBuilder> get builder;
+  List<ModelRefBuilder<T>> get builder;
 
   @override
   @protected
@@ -175,9 +175,9 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 ///
 /// The procedure is;
 ///
-/// 1. Returns a [ModelRef] containing only the relation information stored in [TValue] via [modelRef].
+/// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
 /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin] based on [DocumentModelQuery] via [document].
-/// 3. Store the [DocumentBase] generated via [value] in [TValue] and return the updated [TValue].
+/// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
 ///
 /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
 ///
@@ -185,14 +185,14 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 ///
 /// 手順としては
 ///
-/// 1. [TValue]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
+/// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
 /// 2. [DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を[document]経由で生成し返します。
-/// 3. [value]経由で生成された[DocumentBase]を[TValue]に保存して、更新した[TValue]を返すようにします。
+/// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
 ///
 /// ```dart
 /// @override
-/// List<ModelRefBuilder> get builder => [
-///       ModelRefBuilder<StreamModel, UserModel>(
+/// List<ModelRefBuilder<StreamModel>> get builder => [
+///       ModelRefBuilder(
 ///         modelRef: (value) => value.user,
 ///         document: (query) => UserModelDocument(query),
 ///         value: (value, document) {
@@ -202,16 +202,16 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 ///     ];
 /// ```
 @immutable
-class ModelRefBuilder<TValue, TResult> {
+class ModelRefBuilder<TSource> {
   /// Builder for granting relationships between models and loading data.
   ///
   /// Define [ModelRefLoaderMixin] to match the mix-in.
   ///
   /// The procedure is;
   ///
-  /// 1. Returns a [ModelRef] containing only the relation information stored in [TValue] via [modelRef].
+  /// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
   /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin] based on [DocumentModelQuery] via [document].
-  /// 3. Store the [DocumentBase] generated via [value] in [TValue] and return the updated [TValue].
+  /// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
   ///
   /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
   ///
@@ -219,14 +219,14 @@ class ModelRefBuilder<TValue, TResult> {
   ///
   /// 手順としては
   ///
-  /// 1. [TValue]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
+  /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
   /// 2. [DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を[document]経由で生成し返します。
-  /// 3. [value]経由で生成された[DocumentBase]を[TValue]に保存して、更新した[TValue]を返すようにします。
+  /// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
   ///
   /// ```dart
   /// @override
-  /// List<ModelRefBuilder> get builder => [
-  ///       ModelRefBuilder<StreamModel, UserModel>(
+  /// List<ModelRefBuilder<StreamModel>> get builder => [
+  ///       ModelRefBuilder(
   ///         modelRef: (value) => value.user,
   ///         document: (query) => UserModelDocument(query),
   ///         value: (value, document) {
@@ -241,29 +241,35 @@ class ModelRefBuilder<TValue, TResult> {
     required this.value,
   });
 
-  /// Callback to retrieve [ModelRef] stored in [TValue].
+  /// Callback to retrieve [ModelRef] stored in [TSource].
   ///
-  /// [TValue]に格納されている[ModelRef]を取得するためのコールバック。
-  final ModelRef<TResult>? Function(TValue value) modelRef;
+  /// [TSource]に格納されている[ModelRef]を取得するためのコールバック。
+  final ModelRef? Function(TSource value) modelRef;
 
   /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin] based on a [DocumentModelQuery] obtained from a [ModelRef].
   ///
   /// [ModelRef]から取得された[DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を生成するためのコールバック。
-  final ModelRefMixin<TResult> Function(DocumentModelQuery modelQuery) document;
+  final ModelRefMixin Function(DocumentModelQuery modelQuery) document;
 
-  /// Callback to store the generated [ModelRefMixin] in [TValue].
+  /// Callback to store the generated [ModelRefMixin] in [TSource].
   ///
-  /// [TValue]に生成された[ModelRefMixin]を格納するためのコールバック。
-  final TValue Function(TValue value, ModelRefMixin<TResult> document) value;
+  /// [TSource]に生成された[ModelRefMixin]を格納するためのコールバック。
+  final TSource Function(
+    TSource value,
+    ModelRefMixin document,
+  ) value;
 
-  Future<TValue?> _build({
-    required TValue val,
+  Future<TSource?> _build({
+    required TSource? val,
     required bool listenWhenPossible,
     required Map<DocumentModelQuery, DocumentBase> cacheList,
     required void Function(DocumentModelQuery query, DocumentBase document)
         onDidLoad,
     required DocumentModelQuery loaderModelQuery,
   }) async {
+    if (val == null) {
+      return val;
+    }
     final ref = modelRef(val);
     if (ref == null) {
       return val;

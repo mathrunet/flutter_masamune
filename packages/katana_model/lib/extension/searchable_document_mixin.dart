@@ -22,14 +22,55 @@ part of katana_model;
 /// }
 /// ```
 ///
-/// Documents targeted for search will be searchable in the collection. The search is made possible by passing a query using [ModelQuery.searchText].
+/// A collection that performs searches should have [SearchableCollectionMixin] mixed in so that it can be searched.
+/// Then use [SearchableCollectionMixin.search] to perform the search.
 ///
-/// 検索対象にされたドキュメントはコレクションで検索可能になります。検索の際は[ModelQuery.searchText]を用いてクエリを渡すことで検索可能になります。
+/// 検索を行うコレクションには[SearchableCollectionMixin]をミックスインして検索できるようにします。
+/// その後、[SearchableCollectionMixin.search]を利用して検索を行います。
 ///
 /// ```dart
-/// const query = ModelQuery("collection_path", key: "name", search: "mike");
-/// final collection = TestCollection(query);
-/// await collection.load(false); // search results
+/// class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
+///     with SearchableDocumentMixin<DynamicMap> {
+///   SearchableRuntimeMapDocumentModel(super.query, super.value);
+///
+///   @override
+///   DynamicMap fromMap(DynamicMap map) {
+///     return ModelFieldValue.fromMap(map);
+///   }
+///
+///   @override
+///   DynamicMap toMap(DynamicMap value) {
+///     return ModelFieldValue.toMap(value);
+///   }
+///
+///   @override
+///   String buildSearchText(DynamicMap value) {
+///     return value.get("name", "") + value.get("text", "");
+///   }
+/// }
+///
+/// class SearchableRuntimeCollectionModel
+///     extends CollectionBase<SearchableRuntimeMapDocumentModel>
+///     with SearchableCollectionMixin<SearchableRuntimeMapDocumentModel> {
+///   SearchableRuntimeCollectionModel(super.query);
+///
+///   @override
+///   SearchableRuntimeMapDocumentModel create([String? id]) {
+///     return SearchableRuntimeMapDocumentModel(
+///       modelQuery.create(id),
+///       {},
+///     );
+///   }
+/// }
+///
+/// void search() {
+///   final query = CollectionModelQuery(
+///     "test",
+///   );
+///
+///   final collection = SearchableRuntimeCollectionModel(query);
+///   collection.search("test");
+/// }
 /// ```
 mixin SearchableDocumentMixin<T> on DocumentBase<T> {
   /// Field key for default search.

@@ -77,11 +77,6 @@ abstract class ModelAdapter {
 
   static ModelAdapter? _primary;
 
-  /// Set [rawData], such as mock data, to the platform set by the adapter.
-  ///
-  /// モックデータなどの[rawData]をアダプターで設定されたプラットフォームにセットします。
-  void setRawData(Map<String, DynamicMap> rawData);
-
   /// Pass [query] to the platform set by the adapter to retrieve the document.
   ///
   /// All return values are [DynamicMap].

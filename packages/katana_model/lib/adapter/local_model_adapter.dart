@@ -61,11 +61,6 @@ class LocalModelAdapter extends ModelAdapter {
   );
 
   @override
-  void setRawData(Map<String, DynamicMap> rawData) {
-    throw UnsupportedError("This adapter prohibits direct writing of RawData.");
-  }
-
-  @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     final data = await database.loadDocument(query);
     return data != null ? Map.from(data) : {};

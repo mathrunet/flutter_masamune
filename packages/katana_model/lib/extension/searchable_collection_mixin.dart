@@ -121,7 +121,7 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
 
   /// Search within a collection with [searchText].
   ///
-  /// It is [load] internally and the search results are returned in [CollectionBase].
+  /// It is [reload] internally and the search results are returned in [CollectionBase].
   ///
   /// It is not possible to filter or sort and return values using [CollectionModelQuery] keys in conjunction with a search.
   ///
@@ -129,7 +129,7 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
   ///
   /// [searchText]でコレクション内の検索を行います。
   ///
-  /// 内部で[load]され検索結果が[CollectionBase]で返されます。
+  /// 内部で[reload]され検索結果が[CollectionBase]で返されます。
   ///
   /// 検索と併せて[CollectionModelQuery]のキーを用いたフィルタリングやソートして値を返すことはできません。
   ///
@@ -142,7 +142,7 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
       limit: modelQuery.limit,
       adapter: modelQuery.adapter,
     );
-    return await load();
+    return await reload();
   }
 }
 

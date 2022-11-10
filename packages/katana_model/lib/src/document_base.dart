@@ -439,7 +439,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @protected
   @mustCallSuper
   DynamicMap filterOnLoad(DynamicMap rawData) {
-    return rawData;
+    return ModelFieldValue.fromMap(rawData);
   }
 
   /// You can filter the data to be saved.
@@ -457,7 +457,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @mustCallSuper
   DynamicMap filterOnSave(DynamicMap rawData) {
     return {
-      ...rawData,
+      ...ModelFieldValue.toMap(rawData),
       kUidFieldKey: modelQuery.path.trimQuery().last(),
     };
   }
@@ -503,5 +503,5 @@ abstract class DocumentBase<T> extends ChangeNotifier
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => modelQuery.hashCode;
+  int get hashCode => modelQuery.hashCode ^ value.hashCode;
 }

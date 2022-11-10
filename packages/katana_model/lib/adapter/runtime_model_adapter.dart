@@ -44,7 +44,16 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// Designated database. Please use for testing purposes, etc.
   ///
   /// 指定のデータベース。テスト用途などにご利用ください。
-  NoSqlDatabase get database => _database ?? sharedDatabase;
+  NoSqlDatabase get database {
+    final database = _database ?? sharedDatabase;
+    if (rawData.isNotEmpty && database._data.isEmpty) {
+      for (final tmp in rawData!.entries) {
+        database.setRawData(tmp.key, tmp.value);
+      }
+    }
+    return database;
+  }
+
   final NoSqlDatabase? _database;
 
   /// A common database throughout the application.
@@ -56,16 +65,6 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// モックアップとして利用する際の実データ。
   final Map<String, DynamicMap>? rawData;
-
-  @override
-  void setRawData(Map<String, DynamicMap> rawData) {
-    if (rawData.isEmpty) {
-      return;
-    }
-    for (final tmp in rawData.entries) {
-      database.setRawData(tmp.key, tmp.value);
-    }
-  }
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
