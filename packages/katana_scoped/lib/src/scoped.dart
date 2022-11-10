@@ -4,24 +4,18 @@ part of katana_scoped;
 ///
 /// Be sure to place it under [PageScopedWidget].
 ///
-/// Make sure to pass [page] that matches [TPage].
-///
 /// By passing [builder], you can place the widget you wish to reflect the update in it.
 ///
 /// ページの中やウィジェットの中で状態管理を行うためのウィジェット。
 ///
 /// 必ず[PageScopedWidget]の配下にくるように配置してください。
 ///
-/// [TPage]に合う[page]を渡すようにしてください。
-///
 /// [builder]を渡すことでその中に更新を反映したいウィジェットを配置することができます。
 @immutable
-class Scoped<TPage extends PageScopedWidget> extends StatefulWidget {
+class Scoped extends StatefulWidget {
   /// Widgets for state management within a page or widget.
   ///
   /// Be sure to place it under [PageScopedWidget].
-  ///
-  /// Make sure to pass [page] that matches [TPage].
   ///
   /// By passing [builder], you can place the widget you wish to reflect the update in it.
   ///
@@ -29,23 +23,15 @@ class Scoped<TPage extends PageScopedWidget> extends StatefulWidget {
   ///
   /// 必ず[PageScopedWidget]の配下にくるように配置してください。
   ///
-  /// [TPage]に合う[page]を渡すようにしてください。
-  ///
   /// [builder]を渡すことでその中に更新を反映したいウィジェットを配置することができます。
   const Scoped({
     super.key,
-    required this.page,
+    this.page,
     required this.builder,
   });
 
-  /// PageScopedWidget] placed at the top.
-  ///
-  /// You can refer to the value passed to the page.
-  ///
-  /// 上部に設置されている[PageScopedWidget]。
-  ///
-  /// ページに渡されている値を参照することができます。
-  final TPage page;
+  @Deprecated("Delete the page as there is no need to pass it on.")
+  final PageScopedWidget? page;
 
   /// A builder for building widgets under the page.
   ///
@@ -57,11 +43,10 @@ class Scoped<TPage extends PageScopedWidget> extends StatefulWidget {
   final Widget Function(BuildContext context, WidgetRef ref) builder;
 
   @override
-  State<StatefulWidget> createState() => _ScopedState<TPage>();
+  State<StatefulWidget> createState() => _ScopedState();
 }
 
-class _ScopedState<TPage extends PageScopedWidget>
-    extends State<Scoped<TPage>> {
+class _ScopedState extends State<Scoped> {
   late final ScopedValueContainer _container;
   late final AppScopedValueListener _appListener;
   late final PageScopedValueListener _pageListener;
@@ -118,39 +103,24 @@ class _ScopedState<TPage extends PageScopedWidget>
 ///
 /// Be sure to place the created widget under [PageScopedWidget].
 ///
-/// Make sure to pass [page] that matches [TPage].
-///
 /// ページの配下で状態管理を行うことが可能なウィジェットを作成するための抽象クラス。
 ///
 /// 作成したウィジェットは必ず[PageScopedWidget]の配下にくるように配置してください。
-///
-/// [TPage]に合う[page]を渡すようにしてください。
-abstract class ScopedWidget<TPage extends PageScopedWidget>
-    extends StatefulWidget {
+abstract class ScopedWidget extends StatefulWidget {
   /// Abstract class for creating widgets that can perform state management under the page.
   ///
   /// Be sure to place the created widget under [PageScopedWidget].
   ///
-  /// Make sure to pass [page] that matches [TPage].
-  ///
   /// ページの配下で状態管理を行うことが可能なウィジェットを作成するための抽象クラス。
   ///
   /// 作成したウィジェットは必ず[PageScopedWidget]の配下にくるように配置してください。
-  ///
-  /// [TPage]に合う[page]を渡すようにしてください。
   const ScopedWidget({
     super.key,
-    required this.page,
+    this.page,
   });
 
-  /// PageScopedWidget] placed at the top.
-  ///
-  /// You can refer to the value passed to the page.
-  ///
-  /// 上部に設置されている[PageScopedWidget]。
-  ///
-  /// ページに渡されている値を参照することができます。
-  final TPage page;
+  @Deprecated("Delete the page as there is no need to pass it on.")
+  final PageScopedWidget? page;
 
   /// Build the internal widget.
   ///
@@ -166,11 +136,10 @@ abstract class ScopedWidget<TPage extends PageScopedWidget>
   Widget build(BuildContext context, WidgetRef ref);
 
   @override
-  State<StatefulWidget> createState() => _ScopedWidgetState<TPage>();
+  State<StatefulWidget> createState() => _ScopedWidgetState();
 }
 
-class _ScopedWidgetState<TPage extends PageScopedWidget>
-    extends State<ScopedWidget> {
+class _ScopedWidgetState extends State<ScopedWidget> {
   @override
   Widget build(BuildContext context) {
     return Scoped(

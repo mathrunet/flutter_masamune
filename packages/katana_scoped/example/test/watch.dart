@@ -69,17 +69,14 @@ class ValueWatchPage extends PageScopedWidget {
           key: const ValueKey("title"),
         ),
       ),
-      body: ValueWatchContent(
-        page: this,
-      ),
+      body: const ValueWatchContent(),
     );
   }
 }
 
-class ValueWatchContent extends ScopedWidget<ValueWatchPage> {
+class ValueWatchContent extends ScopedWidget {
   const ValueWatchContent({
     super.key,
-    required super.page,
   });
 
   @override

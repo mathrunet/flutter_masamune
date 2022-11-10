@@ -205,7 +205,6 @@ class ParentPage extends PageScopedWidget {
         child: value.value
             ? const SizedBox.shrink()
             : ChildPage(
-                page: this,
                 container: container,
               ),
       ),
@@ -225,11 +224,10 @@ class ParentPage extends PageScopedWidget {
   }
 }
 
-class ChildPage extends ScopedWidget<ParentPage> {
+class ChildPage extends ScopedWidget {
   const ChildPage({
     required this.container,
     super.key,
-    required super.page,
   });
   final TestContaner container;
   @override
