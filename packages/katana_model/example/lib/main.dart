@@ -110,21 +110,6 @@ class ModelPageState extends State<ModelPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          final myDocument =
-              ModelDocument(const DocumentModelQuery("/user/me/follow/you"));
-          final yourDocument =
-              ModelDocument(const DocumentModelQuery("/user/you/follower/me"));
-
-          final transaction = myDocument.transaction();
-          transaction(
-            (ref, myDoc) {
-              final yourDoc = ref.read(yourDocument);
-
-              myDoc.save({"to": "you"});
-              yourDoc.save({"from": "me"});
-            },
-          );
-
           final doc = collection.create();
           doc.save({
             "count": Random().nextInt(100),

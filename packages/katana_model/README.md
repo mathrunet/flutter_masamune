@@ -619,7 +619,7 @@ Transaction processing can be organized by using `DocumentBase` `extensions`.
 extension FollowFollowerExtensions on DocumentBase<Map<String, dynamic>> {
   Future<void> follow(DocumentBase<Map<String, dynamic> target) async {
     final tr = transaction();
-		await tr(
+    await tr(
       (ref, me) {
         final tar = ref.read(target);
 		
