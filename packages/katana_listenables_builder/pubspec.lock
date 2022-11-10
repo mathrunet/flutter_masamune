@@ -28,7 +28,7 @@ packages:
       name: asn1lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   async:
     dependency: transitive
     description:
@@ -63,7 +63,7 @@ packages:
       name: built_value
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.4.1"
+    version: "8.4.2"
   clock:
     dependency: transitive
     description:
@@ -147,7 +147,7 @@ packages:
       name: glob
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   http:
     dependency: transitive
     description:
@@ -196,14 +196,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.7"
+    version: "0.15.8+1"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
       name: katana_listenables_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.2"
+    version: "1.2.3"
   logging:
     dependency: transitive
     description:
@@ -308,7 +308,7 @@ packages:
       name: shelf_web_socket
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   source_gen:
     dependency: "direct main"
     description:
@@ -364,7 +364,7 @@ packages:
       name: string_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.0"
   term_glyph:
     dependency: transitive
     description:
@@ -378,21 +378,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.21.7"
+    version: "1.22.0"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.15"
+    version: "0.4.16"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.19"
+    version: "0.4.20"
   typed_data:
     dependency: transitive
     description:
