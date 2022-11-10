@@ -9,16 +9,22 @@ extension RefCacheExtensions on Ref {
   ///
   /// If [keys] is passed a value different from the previous value, [callback] is executed again and the value is updated.
   ///
+  /// If [name] is specified, it is saved as a separate type. If [keys] is changed, the previous state is discarded, but if [name] is changed, it is kept as a separate state.
+  ///
   /// [callback]で返される値をキャッシュして保存します。
   ///
   /// [keys]が前の値と違う値が渡された場合、再度[callback]が実行され値が更新されます。
+  ///
+  /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
   T cache<T>(
     T Function() callback, {
     List<Object> keys = const [],
+    String? name,
   }) {
     return getScopedValue<T, _CacheValue<T>>(
       () => _CacheValue<T>(callback: callback, keys: keys),
       listen: false,
+      name: name,
     );
   }
 }

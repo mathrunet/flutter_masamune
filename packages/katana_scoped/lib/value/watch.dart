@@ -11,18 +11,24 @@ extension RefWatchExtensions on Ref {
   ///
   /// If [keys] is different from the previous value, [callback] is executed again and the new [ChangeNotifier] is saved.
   ///
+  /// If [name] is specified, it is saved as a separate type. If [keys] is changed, the previous state is discarded, but if [name] is changed, it is kept as a separate state.
+  ///
   /// [ChangeNotifier]を返す[callback]を渡すとそれを監視することができます。
   ///
   /// [ChangeNotifier.notifyListeners]が実行されると更新が通知され、関連するウィジェットが再描画されます。
   ///
   /// [keys]が前の値と違う場合再度[callback]が実行され、新しい[ChangeNotifier]が保存されます。
+  ///
+  /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
   T watch<T extends Listenable>(
     T Function() callback, {
     List<Object> keys = const [],
+    String? name,
   }) {
     return getScopedValue<T, _WatchValue<T>>(
       () => _WatchValue<T>(callback: callback, keys: keys),
       listen: true,
+      name: name,
     );
   }
 }
