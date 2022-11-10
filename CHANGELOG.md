@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.3.3`](#katana_model---v133)
+ - [`katana_model_firestore` - `v1.3.4`](#katana_model_firestore---v134)
+ - [`katana_scoped` - `v1.2.3`](#katana_scoped---v123)
+
+---
+
+#### `katana_model` - `v1.3.3`
+
+ - **DOCS**: ReadMe Correction. ([5a9080a7](https://github.com/mathrunet/flutter_masamune/commit/5a9080a7cc52e3ee38aeff9625a76bd7dda451b7))
+
+#### `katana_model_firestore` - `v1.3.4`
+
+ - **DOCS**: ReadMe Correction. ([5a9080a7](https://github.com/mathrunet/flutter_masamune/commit/5a9080a7cc52e3ee38aeff9625a76bd7dda451b7))
+
+#### `katana_scoped` - `v1.2.3`
+
+ - **FIX**: Add name parameter to cache and watch. ([61ef9624](https://github.com/mathrunet/flutter_masamune/commit/61ef9624993aaeb5e743e67200e9eaaf3476b910))
+
+
+## 2022-11-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_firestore` - `v1.3.3`](#katana_model_firestore---v133)
 
 ---

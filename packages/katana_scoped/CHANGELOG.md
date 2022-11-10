@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Add name parameter to cache and watch. ([61ef9624](https://github.com/mathrunet/flutter_masamune/commit/61ef9624993aaeb5e743e67200e9eaaf3476b910))
+
 ## 1.2.2
 
  - **FIX**: Fixed a bug that caused the widget to be unmonitored if it was destroyed when using WATCH. ([b1bdcbdf](https://github.com/mathrunet/flutter_masamune/commit/b1bdcbdf19016895c90e8cec0a21602dd382bd03))

@@ -1,3 +1,7 @@
+## 1.3.4
+
+ - **DOCS**: ReadMe Correction. ([5a9080a7](https://github.com/mathrunet/flutter_masamune/commit/5a9080a7cc52e3ee38aeff9625a76bd7dda451b7))
+
 ## 1.3.3
 
  - **FIX**: Remove unnecessary methods. ([a77eb59b](https://github.com/mathrunet/flutter_masamune/commit/a77eb59b70a25c96d95ea73f624e7209f6866c42))
