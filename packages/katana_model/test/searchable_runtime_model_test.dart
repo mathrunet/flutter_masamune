@@ -22,7 +22,8 @@ class SearchableRuntimeMapDocumentModel extends DocumentBase<DynamicMap>
 }
 
 class SearchableRuntimeCollectionModel
-    extends CollectionBase<SearchableRuntimeMapDocumentModel> {
+    extends CollectionBase<SearchableRuntimeMapDocumentModel>
+    with SearchableCollectionMixin<SearchableRuntimeMapDocumentModel> {
   SearchableRuntimeCollectionModel(super.query);
 
   @override
@@ -37,13 +38,13 @@ class SearchableRuntimeCollectionModel
 void main() {
   test("searchableRuntimeDocumentModel.search", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
-    final query = SearchableCollectionModelQuery(
+    final query = CollectionModelQuery(
       "test",
       adapter: adapter,
     );
 
-    final collection = SearchableRuntimeCollectionModel(query.search("test"));
-    collection.load();
+    final collection = SearchableRuntimeCollectionModel(query);
+    collection.search("test");
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
