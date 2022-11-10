@@ -1,3 +1,7 @@
+## 1.3.3
+
+ - **FIX**: Remove unnecessary methods. ([a77eb59b](https://github.com/mathrunet/flutter_masamune/commit/a77eb59b70a25c96d95ea73f624e7209f6866c42))
+
 ## 1.3.2
 
  - **DOCS**: Documentation modifications, etc. ([65984840](https://github.com/mathrunet/flutter_masamune/commit/65984840eec83b945e0f1d33a20c6f22d3a5352d))

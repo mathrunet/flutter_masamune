@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_firestore` - `v1.3.3`](#katana_model_firestore---v133)
+
+---
+
+#### `katana_model_firestore` - `v1.3.3`
+
+ - **FIX**: Remove unnecessary methods. ([a77eb59b](https://github.com/mathrunet/flutter_masamune/commit/a77eb59b70a25c96d95ea73f624e7209f6866c42))
+
+
+## 2022-11-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.3.2`](#katana_model---v132)
  - [`katana_model_firestore` - `v1.3.2`](#katana_model_firestore---v132)
 
