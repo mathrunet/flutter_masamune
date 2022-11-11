@@ -1,6 +1,6 @@
 name: katana_localization_builder
 description: Building system for katana localization packages. Automatic localization file generation.
-version: 1.1.11
+version: 1.1.12
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_localization_builder
 
@@ -9,7 +9,7 @@ environment:
 
 dependencies: 
   katana: ^0.15.0
-  katana_localization_annotation: ^1.1.9
+  katana_localization_annotation: ^1.1.10
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0

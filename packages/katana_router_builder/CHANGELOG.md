@@ -1,3 +1,7 @@
+## 1.9.2
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
 ## 1.9.1
 
  - **FIX**: Fixed a bug in nested navigation that changed the path each time it was built. ([29d8da79](https://github.com/mathrunet/flutter_masamune/commit/29d8da79ee967b097ebc3b294400c90509fd6b3d))

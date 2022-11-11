@@ -1,3 +1,7 @@
+## 1.3.5
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
 ## 1.3.4
 
  - **DOCS**: ReadMe Correction. ([5a9080a7](https://github.com/mathrunet/flutter_masamune/commit/5a9080a7cc52e3ee38aeff9625a76bd7dda451b7))

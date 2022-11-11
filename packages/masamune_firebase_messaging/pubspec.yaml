@@ -1,6 +1,6 @@
 name: masamune_firebase_messaging
 description: Plugin to add Firebase Messaging to the Masamune framework. Model notifier is used to make it easier to use.
-version: 0.15.0+28
+version: 0.15.0+29
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_firebase_messaging
 
@@ -14,7 +14,7 @@ dependencies:
 
   masamune_firebase: ^0.15.0
   firebase_model_notifier: ^0.15.0
-  firebase_messaging: ^13.0.0
+  firebase_messaging:
   flutter_local_notifications: ^9.1.5
 
 dev_dependencies:

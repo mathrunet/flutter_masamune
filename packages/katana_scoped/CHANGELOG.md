@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
 ## 1.3.0
 
  - **FEAT**: Scoped page changed to deprecated. ([54b70a7f](https://github.com/mathrunet/flutter_masamune/commit/54b70a7f68cba36a87eac030b5026f60c3b42283))

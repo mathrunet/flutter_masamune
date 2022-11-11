@@ -3,6 +3,132 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_localization` - `v1.1.12`](#katana_localization---v1112)
+ - [`katana_localization_annotation` - `v1.1.10`](#katana_localization_annotation---v1110)
+ - [`katana_localization_builder` - `v1.1.12`](#katana_localization_builder---v1112)
+ - [`katana_model` - `v1.3.4`](#katana_model---v134)
+ - [`katana_model_firestore` - `v1.3.5`](#katana_model_firestore---v135)
+ - [`katana_model_openapi` - `v1.1.4`](#katana_model_openapi---v114)
+ - [`katana_model_openapi_builder` - `v1.1.4`](#katana_model_openapi_builder---v114)
+ - [`katana_module` - `v0.15.0+26`](#katana_module---v015026)
+ - [`katana_router` - `v1.9.2`](#katana_router---v192)
+ - [`katana_router_annotation` - `v1.9.2`](#katana_router_annotation---v192)
+ - [`katana_router_builder` - `v1.9.2`](#katana_router_builder---v192)
+ - [`katana_routing` - `v0.15.0+19`](#katana_routing---v015019)
+ - [`katana_scoped` - `v1.3.1`](#katana_scoped---v131)
+ - [`masamune` - `v0.15.3+8`](#masamune---v01538)
+ - [`masamune_agora` - `v0.15.0+30`](#masamune_agora---v015030)
+ - [`masamune_wordpress` - `v0.15.0+28`](#masamune_wordpress---v015028)
+ - [`masamune_location` - `v0.15.0+28`](#masamune_location---v015028)
+ - [`masamune_purchase` - `v0.15.0+28`](#masamune_purchase---v015028)
+ - [`masamune_local_messaging` - `v0.15.0+28`](#masamune_local_messaging---v015028)
+ - [`masamune_media` - `v0.15.0+28`](#masamune_media---v015028)
+ - [`masamune_firebase` - `v0.15.0+29`](#masamune_firebase---v015029)
+ - [`masamune_ads` - `v0.15.0+28`](#masamune_ads---v015028)
+ - [`masamune_ui` - `v0.15.0+28`](#masamune_ui---v015028)
+ - [`masamune_purchase_firebase` - `v0.15.0+29`](#masamune_purchase_firebase---v015029)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+29`](#masamune_firebase_dynamic_links---v015029)
+ - [`masamune_firebase_messaging` - `v0.15.0+29`](#masamune_firebase_messaging---v015029)
+ - [`masamune_signin_facebook` - `v0.15.0+29`](#masamune_signin_facebook---v015029)
+ - [`masamune_signin_google` - `v0.15.0+29`](#masamune_signin_google---v015029)
+ - [`masamune_signin_twitter` - `v0.15.0+29`](#masamune_signin_twitter---v015029)
+ - [`masamune_purchase_stripe` - `v0.15.0+29`](#masamune_purchase_stripe---v015029)
+ - [`masamune_notion` - `v0.15.0+29`](#masamune_notion---v015029)
+ - [`masamune_signin_apple` - `v0.15.0+29`](#masamune_signin_apple---v015029)
+ - [`masamune_module` - `v0.15.0+28`](#masamune_module---v015028)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v0.15.3+8`
+ - `masamune_agora` - `v0.15.0+30`
+ - `masamune_wordpress` - `v0.15.0+28`
+ - `masamune_location` - `v0.15.0+28`
+ - `masamune_purchase` - `v0.15.0+28`
+ - `masamune_local_messaging` - `v0.15.0+28`
+ - `masamune_media` - `v0.15.0+28`
+ - `masamune_firebase` - `v0.15.0+29`
+ - `masamune_ads` - `v0.15.0+28`
+ - `masamune_ui` - `v0.15.0+28`
+ - `masamune_purchase_firebase` - `v0.15.0+29`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+29`
+ - `masamune_firebase_messaging` - `v0.15.0+29`
+ - `masamune_signin_facebook` - `v0.15.0+29`
+ - `masamune_signin_google` - `v0.15.0+29`
+ - `masamune_signin_twitter` - `v0.15.0+29`
+ - `masamune_purchase_stripe` - `v0.15.0+29`
+ - `masamune_notion` - `v0.15.0+29`
+ - `masamune_signin_apple` - `v0.15.0+29`
+ - `masamune_module` - `v0.15.0+28`
+
+---
+
+#### `katana_localization` - `v1.1.12`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_localization_annotation` - `v1.1.10`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_localization_builder` - `v1.1.12`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_model` - `v1.3.4`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_model_firestore` - `v1.3.5`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_model_openapi` - `v1.1.4`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_model_openapi_builder` - `v1.1.4`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_module` - `v0.15.0+26`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_router` - `v1.9.2`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_router_annotation` - `v1.9.2`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_router_builder` - `v1.9.2`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_routing` - `v0.15.0+19`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+#### `katana_scoped` - `v1.3.1`
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
+
 ## 2022-11-10
 
 ### Changes

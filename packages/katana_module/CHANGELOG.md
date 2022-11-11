@@ -1,3 +1,7 @@
+## 0.15.0+26
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
 ## 0.15.0+25
 
  - Update a dependency to the latest release.

@@ -1,6 +1,6 @@
 name: masamune_signin_twitter
 description: Plugin for signing in with a Twitter account. Basically used with masamune_firebase authentication; requires use of FirebaseAuth.
-version: 0.15.0+28
+version: 0.15.0+29
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_signin_twitter
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   masamune_firebase: ^0.15.0
-  firebase_auth: ^3.3.4
+  firebase_auth:
   twitter_login: ^4.0.1
 
 dev_dependencies:

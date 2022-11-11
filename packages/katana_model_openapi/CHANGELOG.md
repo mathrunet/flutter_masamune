@@ -1,3 +1,7 @@
+## 1.1.4
+
+ - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
+
 ## 1.1.3
 
  - **DOCS**: Add Example. ([8facb830](https://github.com/mathrunet/flutter_masamune/commit/8facb830d58565cb6876afb629bac65cce30a3de))
