@@ -642,7 +642,7 @@ enum InnerPageType {
 
 There is a great existing package called [auto_route](https://pub.dev/packages/auto_route) that is a routing package that uses [build_runner](https://pub.dev/packages/build_runner).
 
-We will make a comparison with this package.
+I will make a comparison with this package.
 
 |  | katana_router | auto_route |
 | --- | --- | --- |

@@ -49,7 +49,7 @@ At that time, I was suffering from the following phenomena.
     ```
     
 
-Therefore, we have created a package with the following features to resolve the above.
+Therefore, I have created a package with the following features to resolve the above.
 
 - Create translation data in Google Spreadsheet
     - Just share the sheet when you ask for a translation.

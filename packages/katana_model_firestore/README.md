@@ -27,17 +27,22 @@
 
 # Motivation
 
-Firestore is a powerful database for mobile apps.
+The implementation of data read/write is rather cumbersome.
 
-It can be used in a variety of application use cases because it is **easy**, **fast**, and **real-time updateable** without the need for server implementation.
+With RDB RestAPI, it is necessary to implement a schema that matches the schema, and it takes a lot of work just to implement the read/write process even if it is just to store the data locally.
 
-However, when compared to RDBs, queries are weaker, and there are some functions that are difficult to implement using only Firestore due to its data structure (follow functions, counting them, and search functions).
+Powerful databases that can be implemented simply, such as Firestore, are available for mobile and web applications, but the reality is that there are many situations where they are not necessary for certain types of applications.
 
-Also, the application needs to be implemented, and it may be reasonably difficult to set up an environment for testing.
+Based on our experience in developing a variety of applications, I believe that a model with the following functions would be sufficient to create 90% of all applications.
 
-In addition, Firestore itself is implemented using the SDK, so it must be adapted to a dedicated implementation when developing applications that use the terminal's local database, which does not store data remotely.
+- Ability to perform CRUD (Create, Read, Update, Delete)
+- Data structure can be any Map (Dictionary) type object and its list
+- Like search and simple query filter available
+- Tests, mockups, local and remote DBs available.
 
-Therefore, we have created the following package to solve them.
+I have found that this can be achieved by making a local DB and a mock-up/test DB available with aligned interfaces, while using Firestore as the axis for the remote DB.
+
+Therefore, I have created the following package to achieve them.
 
 - The interface and data structures have been simplified to match Firestore. The interface and data structure have been simplified to match Firestore, making it easy to use.
     - Simple interface just to do CRUD.
@@ -51,7 +56,48 @@ Therefore, we have created the following package to solve them.
     - [freezed](https://pub.dev/packages/freezed) allows you to define a schema for Firestore
 - Structure inherited from ChangeNotifier, which is easy to use in combination with [provider](https://pub.dev/packages/provider), [riverpod](https://pub.dev/packages/riverpod), etc.
 
-The model part can be implemented safely with less code.
+The model part can be safely implemented with less code as shown below.
+
+## Model implementation
+
+```dart
+class DynamicMapDocument extends DocumentBase<Map<String, dynamic>> {
+  DynamicMapDocument(super.modelQuery);
+
+  @override
+  Map<String, dynamic> fromMap(Map<String, dynamic> map) => map
+
+  @override
+  Map<String, dynamic> toMap(Map<String, dynamic> value) => value;
+}
+
+class DynamicMapCollection extends CollectionBase<DynamicMapDocument> {
+  DynamicMapCollection(super.modelQuery);
+
+  @override
+  DynamicMapDocument create([String? id]) {
+    return DynamicMapDocument(modelQuery.create(id));
+  }
+}
+```
+
+## How to use
+
+```dart
+// Create
+final doc = collection.create();
+doc.save({"first": "masaru", "last": "hirose"});
+
+// Read
+await collection.load();
+collection.forEach((doc) => print(doc.value));
+
+// Update
+doc.save({"first": "masaru", "last": "hirose"});
+
+// Delete
+doc.delete();
+```
 
 # Installation
 
@@ -619,7 +665,7 @@ Transaction processing can be organized by using `DocumentBase` `extensions`.
 extension FollowFollowerExtensions on DocumentBase<Map<String, dynamic>> {
   Future<void> follow(DocumentBase<Map<String, dynamic> target) async {
     final tr = transaction();
-    await tr(
+		await tr(
       (ref, me) {
         final tar = ref.read(target);
 		

@@ -147,7 +147,7 @@ packages:
       name: glob
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   http:
     dependency: transitive
     description:
@@ -203,7 +203,7 @@ packages:
       name: katana_router_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   logging:
     dependency: transitive
     description:

@@ -43,7 +43,7 @@ Therefore, I believe that they are consciously (or unconsciously) changing the w
 
 (I used riverpod for **App state** and StatefulWidget for **Ephemeral state**)
 
-Therefore, we further redefined the above state types as scopes as shown below and created a state management package that can be used to explicitly separate them.
+Therefore, I further redefined the above state types as scopes as shown below and created a state management package that can be used to explicitly separate them.
 
 - `Widget`
     - Individual widget, synonymous with **Ephemeral state**
@@ -255,7 +255,7 @@ class CounterPage extends PageScopedWidget {
 
 Widget under the page can be placed anything such as `StatelessWidget` or `StatefulWidget`, but if you want to manage the state, you can do so by creating a `ScopedWidget<T>`.
 
-In order to safely inform that it is under the page, we dare to require passing a widget that inherits from `PageScopedWidget`.
+In order to safely inform that it is under the page, I dare to require passing a widget that inherits from `PageScopedWidget`.
 
 From `WidgetRef`, `app`, `page`, and `widget` can be obtained, and their states can be obtained in `App scope`, `Page scope`, and `Widget scope`, respectively.
 
@@ -355,7 +355,7 @@ In such cases, it is possible to use a limited scope.
 
 For example, suppose that a class for retrieving data from DB is created with `XXRepository` by inheriting ChangeNotifier.
 
-We want to manage the data from the DB in App scope, so by default, we use the following.
+I want to manage the data from the DB in App scope, so by default, I use the following.
 
 ```dart
 final userRepository = ref.app.watch(() => UserRepository());
@@ -471,4 +471,4 @@ The actual use of this is as follows.
 ref.page.useFuture(() => Future.delayed(const Duration(seconds: 5))); // Redraw after 5 seconds
 ```
 
-In this case, we simply return the Future as is, but by creating a `snapshot` object with `FutureValueState<T>` and monitoring it, it is possible to implement a mechanism like FutureBuilder that allows the status of the snapshot to be monitored at any time.
+In this case, I simply return the Future as is, but by creating a `snapshot` object with `FutureValueState<T>` and monitoring it, it is possible to implement a mechanism like FutureBuilder that allows the status of the snapshot to be monitored at any time.

@@ -154,7 +154,7 @@ packages:
       name: glob
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   http:
     dependency: "direct main"
     description:
@@ -210,7 +210,7 @@ packages:
       name: katana_localization_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.8"
+    version: "1.1.9"
   logging:
     dependency: transitive
     description:
