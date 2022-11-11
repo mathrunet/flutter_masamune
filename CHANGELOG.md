@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.1.0`](#katana_form---v110)
+
+---
+
+#### `katana_form` - `v1.1.0`
+
+ - **FEAT**: Initial implementation complete. ([26f14f84](https://github.com/mathrunet/flutter_masamune/commit/26f14f842483b3a7c8fdaf5ef0163d9003c48510))
+
+
 ## 2022-11-11
 
 ### Changes
