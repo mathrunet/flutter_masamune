@@ -2,23 +2,21 @@ part of katana_form;
 
 /// Widgets for text fields for forms.
 ///
-/// Place [FormContext.key] under the given [Form].
+/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
-/// Pass [FormContext] to [context].
+/// When [FormController] is passed to [form], [onSaved] must be passed together with [form]. The contents of [onSaved] will be used to save the data.
 ///
-/// Enter the initial value given by [FormContext.value] in [initialValue].
+/// Enter the initial value given by [FormController.value] in [initialValue].
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// When [FormContext.validateAndSave] is executed, validation and data saving are performed.
+/// When [FormController.validateAndSave] is executed, validation and data saving are performed.
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
 /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
 ///
 /// Other error checking is performed by specifying [validator].
 /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// The contents of [onSaved] are executed to save the data.
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
@@ -36,23 +34,21 @@ part of katana_form;
 ///
 /// フォーム用のテキストフィールド用のウィジェット。
 ///
-/// [FormContext.key]を与えた[Form]配下に配置します。
+/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// [context]に[FormContext]を渡します。
+/// [form]に[FormController]を渡した場合、[form]を渡した場合一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// [initialValue]に[FormContext.value]から与えられた初期値を入力します。
+/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormContext.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
 ///
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// データの保存は[onSaved]の内容が実行されます。
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
@@ -70,23 +66,21 @@ part of katana_form;
 class FormTextField<TValue> extends StatefulWidget {
   /// Widgets for text fields for forms.
   ///
-  /// Place [FormContext.key] under the given [Form].
+  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
-  /// Pass [FormContext] to [context].
+  /// When [FormController] is passed to [form], [onSaved] must be passed together with [form]. The contents of [onSaved] will be used to save the data.
   ///
-  /// Enter the initial value given by [FormContext.value] in [initialValue].
+  /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// When [FormContext.validateAndSave] is executed, validation and data saving are performed.
+  /// When [FormController.validateAndSave] is executed, validation and data saving are performed.
   ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
   /// Only when [lengthErrorText] is specified, if the number of characters entered is less than [minLength], it is displayed as [lengthErrorText].
   ///
   /// Other error checking is performed by specifying [validator].
   /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// The contents of [onSaved] are executed to save the data.
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
@@ -104,23 +98,21 @@ class FormTextField<TValue> extends StatefulWidget {
   ///
   /// フォーム用のテキストフィールド用のウィジェット。
   ///
-  /// [FormContext.key]を与えた[Form]配下に配置します。
+  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// [context]に[FormContext]を渡します。
+  /// [form]に[FormController]を渡した場合、[form]を渡した場合一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// [initialValue]に[FormContext.value]から与えられた初期値を入力します。
+  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormContext.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   /// [lengthErrorText]が指定されている時に限り、[minLength]より入力された文字数が少ない場合[lengthErrorText]として表示されます。
   ///
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// データの保存は[onSaved]の内容が実行されます。
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
@@ -135,8 +127,8 @@ class FormTextField<TValue> extends StatefulWidget {
   /// [obscureText]が`true`になると入力された文字列が隠されます。パスワードの入力などにご利用ください。
   ///
   /// [inputFormatters]が指定されると入力される文字を制限することが可能です。
-  const FormTextField(
-    this.context, {
+  const FormTextField({
+    this.form,
     super.key,
     this.controller,
     this.style,
@@ -167,7 +159,11 @@ class FormTextField<TValue> extends StatefulWidget {
     this.initialValue,
     this.onTapSuggestion,
     this.suggestionStyle,
-  });
+  }) : assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [context] or [onSaved].",
+        );
 
   /// Context for forms.
   ///
@@ -176,7 +172,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// フォーム用のコンテキスト。
   ///
   /// 予めウィジェット外で作成し渡します。
-  final FormContext<TValue> context;
+  final FormController<TValue>? form;
 
   /// Form Style.
   ///
@@ -309,14 +305,14 @@ class FormTextField<TValue> extends StatefulWidget {
   /// サジェスト用のウインドウをタップした際に実行されるコールバック。
   final VoidCallback? onTapSuggestion;
 
-  /// Callback executed when [FormContext.validateAndSave] is executed.
+  /// Callback executed when [FormController.validateAndSave] is executed.
   ///
-  /// FormContext] passed as [context] is passed to `form`, and the current value is passed to `value`.
+  /// FormContext] passed as [form] is passed to `form`, and the current value is passed to `value`.
   ///
-  /// [FormContext.validateAndSave]が実行されたときに実行されるコールバック。
+  /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
   ///
-  /// `form`に[context]として渡した[FormContext]、`value`に現在の値が渡されます。
-  final TValue Function(FormContext<TValue> form, String value)? onSaved;
+  /// `form`に[form]として渡した[FormController]、`value`に現在の値が渡されます。
+  final TValue Function(FormController<TValue> form, String value)? onSaved;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -336,21 +332,21 @@ class FormTextField<TValue> extends StatefulWidget {
   /// `value`に現在の値が渡されます。
   final void Function(String? value)? onSubmitted;
 
-  /// Validator to be executed when [FormContext.validateAndSave] is executed.
+  /// Validator to be executed when [FormController.validateAndSave] is executed.
   ///
   /// It is executed before [onSaved] is called.
   ///
   /// The current value is passed to `value` and if it returns a value other than [Null], the character is displayed as error text.
   ///
-  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormContext.validateAndSave] will return `false`.
+  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormController.validateAndSave] will return `false`.
   ///
-  /// [FormContext.validateAndSave]が実行されたときに実行されるバリデーター。
+  /// [FormController.validateAndSave]が実行されたときに実行されるバリデーター。
   ///
   /// [onSaved]が呼ばれる前に実行されます。
   ///
   /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
   ///
-  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormContext.validateAndSave]が`false`が返されます。
+  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validateAndSave]が`false`が返されます。
   final String? Function(String? value)? validator;
 
   /// Executed when the form is tapped.
@@ -452,8 +448,9 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
         width: widget.style?.width,
         padding:
             widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-        child: TextFormField(
+        child: _TextFormField<TValue>(
           key: widget.key,
+          form: widget.form,
           cursorColor: widget.style?.cursorColor,
           inputFormatters: widget.inputFormatters,
           focusNode: widget.focusNode,
@@ -538,11 +535,11 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
             if (value == null) {
               return;
             }
-            final res = widget.onSaved?.call(widget.context, value);
+            final res = widget.onSaved?.call(widget.form!, value);
             if (res == null) {
               return;
             }
-            widget.context.value = res;
+            widget.form!.value = res;
           },
         ),
       ),
@@ -974,5 +971,268 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
         ),
       ),
     );
+  }
+}
+
+class _TextFormField<TValue> extends FormField<String> {
+  _TextFormField({
+    super.key,
+    this.controller,
+    this.form,
+    String? initialValue,
+    FocusNode? focusNode,
+    InputDecoration? decoration = const InputDecoration(),
+    TextInputType? keyboardType,
+    TextCapitalization textCapitalization = TextCapitalization.none,
+    TextInputAction? textInputAction,
+    TextStyle? style,
+    StrutStyle? strutStyle,
+    TextDirection? textDirection,
+    TextAlign textAlign = TextAlign.start,
+    TextAlignVertical? textAlignVertical,
+    bool autofocus = false,
+    bool readOnly = false,
+    ToolbarOptions? toolbarOptions,
+    bool? showCursor,
+    String obscuringCharacter = "•",
+    bool obscureText = false,
+    bool autocorrect = true,
+    SmartDashesType? smartDashesType,
+    SmartQuotesType? smartQuotesType,
+    bool enableSuggestions = true,
+    MaxLengthEnforcement? maxLengthEnforcement,
+    int? maxLines = 1,
+    int? minLines,
+    bool expands = false,
+    int? maxLength,
+    ValueChanged<String>? onChanged,
+    GestureTapCallback? onTap,
+    VoidCallback? onEditingComplete,
+    ValueChanged<String>? onFieldSubmitted,
+    super.onSaved,
+    super.validator,
+    List<TextInputFormatter>? inputFormatters,
+    bool? enabled,
+    double cursorWidth = 2.0,
+    double? cursorHeight,
+    Radius? cursorRadius,
+    Color? cursorColor,
+    Brightness? keyboardAppearance,
+    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
+    bool? enableInteractiveSelection,
+    TextSelectionControls? selectionControls,
+    InputCounterWidgetBuilder? buildCounter,
+    ScrollPhysics? scrollPhysics,
+    Iterable<String>? autofillHints,
+    AutovalidateMode? autovalidateMode,
+    ScrollController? scrollController,
+    super.restorationId,
+    bool enableIMEPersonalizedLearning = true,
+    MouseCursor? mouseCursor,
+  })  : assert(initialValue == null || controller == null),
+        assert(maxLines == null || maxLines > 0),
+        assert(minLines == null || minLines > 0),
+        assert(
+          (maxLines == null) || (minLines == null) || (maxLines >= minLines),
+          "minLines can't be greater than maxLines",
+        ),
+        assert(
+          !expands || (maxLines == null && minLines == null),
+          "minLines and maxLines must be null when expands is true.",
+        ),
+        assert(
+          !obscureText || maxLines == 1,
+          "Obscured fields cannot be multiline.",
+        ),
+        assert(
+          maxLength == null ||
+              maxLength == TextField.noMaxLength ||
+              maxLength > 0,
+        ),
+        super(
+          initialValue:
+              controller != null ? controller.text : (initialValue ?? ""),
+          enabled: enabled ?? decoration?.enabled ?? true,
+          autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
+          builder: (FormFieldState<String> field) {
+            final _TextFormFieldState<TValue> state =
+                field as _TextFormFieldState<TValue>;
+            final InputDecoration effectiveDecoration = (decoration ??
+                    const InputDecoration())
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            void onChangedHandler(String value) {
+              field.didChange(value);
+              if (onChanged != null) {
+                onChanged(value);
+              }
+            }
+
+            return UnmanagedRestorationScope(
+              bucket: field.bucket,
+              child: TextField(
+                restorationId: restorationId,
+                controller: state._effectiveController,
+                focusNode: focusNode,
+                decoration:
+                    effectiveDecoration.copyWith(errorText: field.errorText),
+                keyboardType: keyboardType,
+                textInputAction: textInputAction,
+                style: style,
+                strutStyle: strutStyle,
+                textAlign: textAlign,
+                textAlignVertical: textAlignVertical,
+                textDirection: textDirection,
+                textCapitalization: textCapitalization,
+                autofocus: autofocus,
+                toolbarOptions: toolbarOptions,
+                readOnly: readOnly,
+                showCursor: showCursor,
+                obscuringCharacter: obscuringCharacter,
+                obscureText: obscureText,
+                autocorrect: autocorrect,
+                smartDashesType: smartDashesType ??
+                    (obscureText
+                        ? SmartDashesType.disabled
+                        : SmartDashesType.enabled),
+                smartQuotesType: smartQuotesType ??
+                    (obscureText
+                        ? SmartQuotesType.disabled
+                        : SmartQuotesType.enabled),
+                enableSuggestions: enableSuggestions,
+                maxLengthEnforcement: maxLengthEnforcement,
+                maxLines: maxLines,
+                minLines: minLines,
+                expands: expands,
+                maxLength: maxLength,
+                onChanged: onChangedHandler,
+                onTap: onTap,
+                onEditingComplete: onEditingComplete,
+                onSubmitted: onFieldSubmitted,
+                inputFormatters: inputFormatters,
+                enabled: enabled ?? decoration?.enabled ?? true,
+                cursorWidth: cursorWidth,
+                cursorHeight: cursorHeight,
+                cursorRadius: cursorRadius,
+                cursorColor: cursorColor,
+                scrollPadding: scrollPadding,
+                scrollPhysics: scrollPhysics,
+                keyboardAppearance: keyboardAppearance,
+                enableInteractiveSelection:
+                    enableInteractiveSelection ?? (!obscureText || !readOnly),
+                selectionControls: selectionControls,
+                buildCounter: buildCounter,
+                autofillHints: autofillHints,
+                scrollController: scrollController,
+                enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
+                mouseCursor: mouseCursor,
+              ),
+            );
+          },
+        );
+
+  final FormController<TValue>? form;
+  final TextEditingController? controller;
+
+  @override
+  FormFieldState<String> createState() => _TextFormFieldState<TValue>();
+}
+
+class _TextFormFieldState<TValue> extends FormFieldState<String> {
+  RestorableTextEditingController? _controller;
+
+  TextEditingController get _effectiveController =>
+      _textFormField.controller ?? _controller!.value;
+
+  _TextFormField<TValue> get _textFormField =>
+      super.widget as _TextFormField<TValue>;
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    super.restoreState(oldBucket, initialRestore);
+    if (_controller != null) {
+      _registerController();
+    }
+    setValue(_effectiveController.text);
+  }
+
+  void _registerController() {
+    assert(_controller != null);
+    registerForRestoration(_controller!, "controller");
+  }
+
+  void _createLocalController([TextEditingValue? value]) {
+    assert(_controller == null);
+    _controller = value == null
+        ? RestorableTextEditingController()
+        : RestorableTextEditingController.fromValue(value);
+    if (!restorePending) {
+      _registerController();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (_textFormField.controller == null) {
+      _createLocalController(
+        widget.initialValue != null
+            ? TextEditingValue(text: widget.initialValue!)
+            : null,
+      );
+    } else {
+      _textFormField.controller!.addListener(_handleControllerChanged);
+    }
+    _textFormField.form?.register(this);
+  }
+
+  @override
+  void didUpdateWidget(_TextFormField<TValue> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_textFormField.controller != oldWidget.controller) {
+      oldWidget.controller?.removeListener(_handleControllerChanged);
+      _textFormField.controller?.addListener(_handleControllerChanged);
+
+      if (oldWidget.controller != null && _textFormField.controller == null) {
+        _createLocalController(oldWidget.controller!.value);
+      }
+
+      if (_textFormField.controller != null) {
+        setValue(_textFormField.controller!.text);
+        if (oldWidget.controller == null) {
+          unregisterFromRestoration(_controller!);
+          _controller!.dispose();
+          _controller = null;
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _textFormField.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
+    _textFormField.form?.unregister(this);
+    super.dispose();
+  }
+
+  @override
+  void didChange(String? value) {
+    super.didChange(value);
+
+    if (_effectiveController.text != value) {
+      _effectiveController.text = value ?? "";
+    }
+  }
+
+  @override
+  void reset() {
+    _effectiveController.text = widget.initialValue ?? "";
+    super.reset();
+  }
+
+  void _handleControllerChanged() {
+    if (_effectiveController.text != value) {
+      didChange(_effectiveController.text);
+    }
   }
 }

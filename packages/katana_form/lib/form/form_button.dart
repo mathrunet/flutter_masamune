@@ -114,7 +114,8 @@ class FormButton extends StatelessWidget {
     final disabledForegroundColor =
         style?.color ?? Theme.of(context).colorScheme.onSurface;
     final textStyle = style?.textStyle?.copyWith(
-            color: enabled ? foregroundColor : disabledForegroundColor) ??
+          color: enabled ? foregroundColor : disabledForegroundColor,
+        ) ??
         TextStyle(color: enabled ? foregroundColor : disabledForegroundColor);
 
     return Padding(
@@ -174,81 +175,6 @@ class FormButton extends StatelessWidget {
           ),
         ),
       ),
-    );
-    // final borderWidth = style?.borderWidth ?? 0.0;
-    // final borderColor = style?.borderColor;
-    // final borderRadius = style?.borderRadius;
-    // final buttonStyle = TextButton.styleFrom(
-    //   padding: style?.contentPadding,
-    //   textStyle: style?.textStyle,
-    //   foregroundColor: style?.color ?? Theme.of(context).colorScheme.onPrimary,
-    //   disabledForegroundColor:
-    //       style?.color ?? Theme.of(context).colorScheme.onPrimary,
-    //   backgroundColor:
-    //       style?.backgroundColor ?? Theme.of(context).colorScheme.primary,
-    //   shape: RoundedRectangleBorder(
-    //     side: borderWidth <= 0 || borderColor == Colors.transparent
-    //         ? BorderSide.none
-    //         : BorderSide(
-    //             color: borderColor ?? Colors.black,
-    //             width: borderWidth,
-    //           ),
-    //     borderRadius: borderRadius ?? BorderRadius.zero,
-    //   ),
-    // ).addState(
-    //   foregroundColor: style?.disabledColor,
-    //   backgroundColor: style?.backgroundColor == Colors.transparent
-    //       ? style?.backgroundColor
-    //       : (style?.disabledBackgroundColor ?? Theme.of(context).disabledColor),
-    //   state: {
-    //     MaterialState.disabled,
-    //   },
-    // );
-    // return Container(
-    //   width: style?.width ?? double.infinity,
-    //   margin: style?.padding,
-    //   child: icon != null
-    //       ? TextButton.icon(
-    //           style: buttonStyle,
-    //           icon: Icon(
-    //             icon,
-    //           ),
-    //           label: Text(label, style: style?.textStyle),
-    //           onPressed: enabled ? onPressed : null,
-    //         )
-    //       : TextButton(
-    //           style: buttonStyle,
-    //           child: Text(label, style: style?.textStyle),
-    //           onPressed: enabled ? onPressed : null,
-    //         ),
-    // );
-  }
-}
-
-extension _ButtonStyleExtension on ButtonStyle {
-  ButtonStyle addState({
-    Color? backgroundColor,
-    Color? foregroundColor,
-    Set<MaterialState> state = const {
-      MaterialState.focused,
-      MaterialState.hovered,
-      MaterialState.pressed,
-      MaterialState.selected,
-    },
-  }) {
-    return copyWith(
-      backgroundColor: MaterialStateProperty.resolveWith((st) {
-        if (st.containsAny(state)) {
-          return backgroundColor ?? this.backgroundColor?.resolve(st);
-        }
-        return this.backgroundColor?.resolve(st);
-      }),
-      foregroundColor: MaterialStateProperty.resolveWith((st) {
-        if (st.containsAny(state)) {
-          return foregroundColor ?? this.foregroundColor?.resolve(st);
-        }
-        return this.foregroundColor?.resolve(st);
-      }),
     );
   }
 }

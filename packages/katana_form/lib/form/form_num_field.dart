@@ -2,22 +2,20 @@ part of katana_form;
 
 /// A form to let you select a numerical value.
 ///
-/// Place [FormContext.key] under the given [Form].
+/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
-/// Pass [FormContext] to [context].
+/// When [FormController] is passed to [form], [onSaved] must be passed together with [form]. The contents of [onSaved] will be used to save the data.
 ///
-/// Enter the initial value given by [FormContext.value] in [initialValue].
+/// Enter the initial value given by [FormController.value] in [initialValue].
 ///
 /// Each time the content is changed, [onChanged] is executed.
 ///
-/// If [FormContext.validateAndSave] is executed, validation and data saving are performed.
+/// If [FormController.validateAndSave] is executed, validation and data saving are performed.
 ///
 /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
 ///
 /// Other error checking is performed by specifying [validator].
 /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-///
-/// The contents of [onSaved] are executed to save the data.
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
@@ -29,22 +27,20 @@ part of katana_form;
 ///
 /// 数値を選択させるためのフォーム。
 ///
-/// [FormContext.key]を与えた[Form]配下に配置します。
+/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// [context]に[FormContext]を渡します。
+/// [form]に[FormController]を渡した場合、[form]を渡した場合一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
-/// [initialValue]に[FormContext.value]から与えられた初期値を入力します。
+/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
 ///
 /// 内容が変更される度[onChanged]が実行されます。
 ///
-/// [FormContext.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
 ///
 /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
 ///
 /// それ以外のエラーチェックは[validator]を指定することで行ないます。
 /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-///
-/// データの保存は[onSaved]の内容が実行されます。
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
@@ -56,22 +52,20 @@ part of katana_form;
 class FormNumField<TValue> extends StatefulWidget {
   /// A form to let you select a numerical value.
   ///
-  /// Place [FormContext.key] under the given [Form].
+  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
-  /// Pass [FormContext] to [context].
+  /// When [FormController] is passed to [form], [onSaved] must be passed together with [form]. The contents of [onSaved] will be used to save the data.
   ///
-  /// Enter the initial value given by [FormContext.value] in [initialValue].
+  /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
   /// Each time the content is changed, [onChanged] is executed.
   ///
-  /// If [FormContext.validateAndSave] is executed, validation and data saving are performed.
+  /// If [FormController.validateAndSave] is executed, validation and data saving are performed.
   ///
   /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
   ///
   /// Other error checking is performed by specifying [validator].
   /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
-  ///
-  /// The contents of [onSaved] are executed to save the data.
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
@@ -83,22 +77,20 @@ class FormNumField<TValue> extends StatefulWidget {
   ///
   /// 数値を選択させるためのフォーム。
   ///
-  /// [FormContext.key]を与えた[Form]配下に配置します。
+  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// [context]に[FormContext]を渡します。
+  /// [form]に[FormController]を渡した場合、[form]を渡した場合一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
-  /// [initialValue]に[FormContext.value]から与えられた初期値を入力します。
+  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
   ///
   /// 内容が変更される度[onChanged]が実行されます。
   ///
-  /// [FormContext.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
   ///
   /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
   ///
   /// それ以外のエラーチェックは[validator]を指定することで行ないます。
   /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
-  ///
-  /// データの保存は[onSaved]の内容が実行されます。
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
@@ -107,8 +99,8 @@ class FormNumField<TValue> extends StatefulWidget {
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  const FormNumField(
-    this.context, {
+  const FormNumField({
+    this.form,
     super.key,
     this.controller,
     this.focusNode,
@@ -126,7 +118,11 @@ class FormNumField<TValue> extends StatefulWidget {
     this.initialValue,
     this.picker = const FormNumFieldPicker(),
     this.onSaved,
-  });
+  }) : assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [context] or [onSaved].",
+        );
 
   /// Context for forms.
   ///
@@ -135,7 +131,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// フォーム用のコンテキスト。
   ///
   /// 予めウィジェット外で作成し渡します。
-  final FormContext<TValue> context;
+  final FormController<TValue>? form;
 
   /// Form Style.
   ///
@@ -200,14 +196,14 @@ class FormNumField<TValue> extends StatefulWidget {
   /// これが`true`の場合、入力された内容が隠されます。パスワードの入力等にご利用ください。
   final bool obscureText;
 
-  /// Callback executed when [FormContext.validateAndSave] is executed.
+  /// Callback executed when [FormController.validateAndSave] is executed.
   ///
-  /// FormContext] passed as [context] is passed to `form`, and the current value is passed to `value`.
+  /// FormContext] passed as [form] is passed to `form`, and the current value is passed to `value`.
   ///
-  /// [FormContext.validateAndSave]が実行されたときに実行されるコールバック。
+  /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
   ///
-  /// `form`に[context]として渡した[FormContext]、`value`に現在の値が渡されます。
-  final TValue Function(FormContext<TValue> form, num? value)? onSaved;
+  /// `form`に[form]として渡した[FormController]、`value`に現在の値が渡されます。
+  final TValue Function(FormController<TValue> form, num? value)? onSaved;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -218,21 +214,21 @@ class FormNumField<TValue> extends StatefulWidget {
   /// `value`に現在の値が渡されます。
   final void Function(num? value)? onChanged;
 
-  /// Validator to be executed when [FormContext.validateAndSave] is executed.
+  /// Validator to be executed when [FormController.validateAndSave] is executed.
   ///
   /// It is executed before [onSaved] is called.
   ///
   /// The current value is passed to `value` and if it returns a value other than [Null], the character is displayed as error text.
   ///
-  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormContext.validateAndSave] will return `false`.
+  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormController.validateAndSave] will return `false`.
   ///
-  /// [FormContext.validateAndSave]が実行されたときに実行されるバリデーター。
+  /// [FormController.validateAndSave]が実行されたときに実行されるバリデーター。
   ///
   /// [onSaved]が呼ばれる前に実行されます。
   ///
   /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
   ///
-  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormContext.validateAndSave]が`false`が返されます。
+  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validateAndSave]が`false`が返されます。
   final FormFieldValidator<num?>? validator;
 
   /// It is executed when the Enter button on the keyboard or the Submit button on the software keyboard is pressed.
@@ -323,7 +319,8 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
     return Padding(
       padding:
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-      child: _NumTextField(
+      child: _NumTextField<TValue>(
+        form: widget.form,
         controller: _controller,
         focusNode: widget.focusNode,
         keyboardType: TextInputType.text,
@@ -382,11 +379,11 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
           if (value == null) {
             return;
           }
-          final res = widget.onSaved?.call(widget.context, value);
+          final res = widget.onSaved?.call(widget.form!, value);
           if (res == null) {
             return;
           }
-          widget.context.value = res;
+          widget.form!.value = res;
         },
         picker: widget.picker,
       ),
@@ -394,9 +391,10 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
   }
 }
 
-class _NumTextField extends FormField<num> {
+class _NumTextField<TValue> extends FormField<num> {
   _NumTextField({
     required this.picker,
+    this.form,
     Key? key,
     FormFieldSetter<num?>? onSaved,
     FormFieldValidator<num?>? validator,
@@ -436,7 +434,8 @@ class _NumTextField extends FormField<num> {
           validator: validator,
           onSaved: onSaved,
           builder: (field) {
-            final _NumTextFieldState state = field as _NumTextFieldState;
+            final _NumTextFieldState<TValue> state =
+                field as _NumTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
@@ -478,6 +477,7 @@ class _NumTextField extends FormField<num> {
           },
         );
 
+  final FormController<TValue>? form;
   final FormNumFieldPicker picker;
 
   final TextEditingController? controller;
@@ -486,17 +486,17 @@ class _NumTextField extends FormField<num> {
   final void Function(num? value)? onChanged;
 
   @override
-  _NumTextFieldState createState() => _NumTextFieldState();
+  _NumTextFieldState<TValue> createState() => _NumTextFieldState<TValue>();
 }
 
-class _NumTextFieldState extends FormFieldState<num> {
+class _NumTextFieldState<TValue> extends FormFieldState<num> {
   TextEditingController? _controller;
   FocusNode? _focusNode;
   bool isShowingDialog = false;
   bool hadFocus = false;
 
   @override
-  _NumTextField get widget => super.widget as _NumTextField;
+  _NumTextField<TValue> get widget => super.widget as _NumTextField<TValue>;
 
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
@@ -519,6 +519,7 @@ class _NumTextFieldState extends FormFieldState<num> {
       _focusNode = FocusNode();
       _focusNode?.addListener(_handleFocusChanged);
     }
+    widget.form?.register(this);
     widget.controller?.addListener(_handleControllerChanged);
     widget.focusNode?.addListener(_handleFocusChanged);
   }
@@ -571,6 +572,7 @@ class _NumTextFieldState extends FormFieldState<num> {
     _focusNode?.dispose();
     widget.controller?.removeListener(_handleControllerChanged);
     widget.focusNode?.removeListener(_handleFocusChanged);
+    widget.form?.unregister(this);
     super.dispose();
   }
 

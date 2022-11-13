@@ -9,7 +9,6 @@
 library katana_form;
 
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,9 +21,9 @@ part 'form/form_button.dart';
 part 'form/form_date_field.dart';
 part 'form/form_text_field.dart';
 part 'form/form_num_field.dart';
-part 'form/form_headline.dart';
+part 'form/form_label.dart';
 part 'form/form_date_time_field.dart';
 part 'form/form_enum_field.dart';
 part 'form/form_map_field.dart';
-part 'src/form_context.dart';
+part 'src/form_controller.dart';
 part 'src/form_stye.dart';

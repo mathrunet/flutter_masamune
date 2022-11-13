@@ -35,71 +35,87 @@ class FormPage extends StatefulWidget {
 }
 
 class FormPageState extends State<FormPage> {
-  final form = FormContext(<String, dynamic>{});
+  final form = FormController(<String, dynamic>{});
+
+  @override
+  void dispose() {
+    super.dispose();
+    form.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("App Demo")),
-      body: Form(
-        key: form.key,
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 32),
-          children: [
-            const FormLabel("Text Form"),
-            FormTextField(
-              form,
-              initialValue: form.value["name"],
-              onSaved: (form, value) => {...form.value, "name": value},
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 32),
+        children: [
+          const FormLabel("Name"),
+          FormTextField(
+            form: form,
+            initialValue: form.value["name"],
+            onSaved: (form, value) => {...form.value, "name": value},
+            style: FormStyle(
+                border: OutlineInputBorder(),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                contentPadding: const EdgeInsets.all(16)),
+          ),
+          const FormLabel("Description"),
+          FormTextField(
+            form: form,
+            minLines: 5,
+            initialValue: form.value["description"],
+            onSaved: (form, value) => {...form.value, "description": value},
+          ),
+          const FormLabel("DateTime Form"),
+          FormDateTimeField(
+            form: form,
+            initialValue: form.value["date"],
+            onSaved: (form, value) => {...form.value, "date": value},
+          ),
+          const FormLabel("Date Form"),
+          FormDateField(
+            form: form,
+            initialValue: form.value["monthDay"],
+            onSaved: (form, value) => {...form.value, "monthDay": value},
+          ),
+          const FormLabel("Number Form"),
+          FormNumField(
+            form: form,
+            initialValue: form.value["number"],
+            onSaved: (form, value) => {...form.value, "number": value},
+          ),
+          const FormLabel("Enum Form"),
+          FormEnumField(
+            form: form,
+            initialValue: Selection.one,
+            picker: FormEnumFieldPicker(
+              values: Selection.values,
             ),
-            const FormLabel("DateTime Form"),
-            FormDateTimeField(
-              form,
-              initialValue: form.value["date"],
-              onSaved: (form, value) => {...form.value, "date": value},
+            onSaved: (form, value) => {...form.value, "enumSelect": value},
+          ),
+          const FormLabel("Nao Form"),
+          FormMapField(
+            form: form,
+            initialValue: "one",
+            picker: FormMapFieldPicker(
+              defaultKey: "one",
+              data: {"one": "one", "two": "two", "three": "three"},
             ),
-            const FormLabel("Date Form"),
-            FormDateField(
-              form,
-              initialValue: form.value["date"],
-              onSaved: (form, value) => {...form.value, "date": value},
-            ),
-            const FormLabel("Number Form"),
-            FormNumField(
-              form,
-              initialValue: form.value["number"],
-              onSaved: (form, value) => {...form.value, "number": value},
-            ),
-            const FormLabel("Enum Form"),
-            FormEnumField(
-              form,
-              initialValue: Selection.one,
-              picker: FormEnumFieldPicker(
-                values: Selection.values,
-              ),
-              onSaved: (form, value) => {...form.value, "enumSelect": value},
-            ),
-            const FormLabel("Nao Form"),
-            FormMapField(
-              form,
-              initialValue: "one",
-              picker: FormMapFieldPicker(
-                defaultKey: "one",
-                data: {"one": "one", "two": "two", "three": "three"},
-              ),
-              onSaved: (form, value) => {...form.value, "mapSelect": value},
-            ),
-            const SizedBox(height: 16),
-            FormButton(
-              "Submit",
-              icon: Icon(Icons.add),
-              style: FormStyle(
-                prefix: FormAffixStyle.text("aaaa"),
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
+            onSaved: (form, value) => {...form.value, "mapSelect": value},
+          ),
+          const SizedBox(height: 16),
+          FormButton(
+            "Submit",
+            icon: Icon(Icons.add),
+            onPressed: () {
+              if (!form.validateAndSave()) {
+                return;
+              }
+              print(form.value);
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
