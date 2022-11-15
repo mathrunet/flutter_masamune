@@ -1,3 +1,7 @@
+## 1.1.11
+
+ - Update a dependency to the latest release.
+
 ## 1.1.10
 
  - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))

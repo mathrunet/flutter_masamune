@@ -1,3 +1,7 @@
+## 1.1.1
+
+ - Update a dependency to the latest release.
+
 ## 1.1.0
 
  - **FEAT**: Renewed content. ([1ea50a26](https://github.com/mathrunet/flutter_masamune/commit/1ea50a264b9187907858b8ec6f226ef64a68b0dd))

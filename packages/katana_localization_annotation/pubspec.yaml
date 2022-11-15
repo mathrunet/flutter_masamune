@@ -1,6 +1,6 @@
 name: katana_localization_annotation
 description: Define annotations to use the Katana localization builder. Build with katana_localization_builder using this annotation.
-version: 1.1.10
+version: 1.1.11
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_localization_annotation
 

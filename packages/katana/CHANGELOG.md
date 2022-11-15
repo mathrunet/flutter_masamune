@@ -1,3 +1,7 @@
+## 0.15.8+2
+
+ - **FIX**: Ported num_extension to katana_shorten. ([42a5804a](https://github.com/mathrunet/flutter_masamune/commit/42a5804a2c16a3ff8f9f00ed3957db680db2c5ab))
+
 ## 0.15.8+1
 
  - **FIX**: Fix jsonDecode object. ([19fea810](https://github.com/mathrunet/flutter_masamune/commit/19fea810a93d8cf6774b8cfde8c4d98eb3c7a38b))

@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - Update a dependency to the latest release.
+
 ## 1.1.1
 
  - **DOCS**: Adding documents. ([450fbb8a](https://github.com/mathrunet/flutter_masamune/commit/450fbb8a825933b2558e8e242db246001bf029e7))

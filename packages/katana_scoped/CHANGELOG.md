@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **DOCS**: The sentence was broken, so it was corrected. ([01e49003](https://github.com/mathrunet/flutter_masamune/commit/01e49003ce9d932d9e10cc2e6e53c176c398e026))
+
 ## 1.3.1
 
  - **DOCS**: Fixed a typo in the README. ([ee8feb5d](https://github.com/mathrunet/flutter_masamune/commit/ee8feb5d0f0c391bfe2290afcc15aaeb16a18959))
