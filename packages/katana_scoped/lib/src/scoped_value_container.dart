@@ -22,7 +22,7 @@ class ScopedValueContainer {
   ///
   /// 通常は[ScopedValueListener]を介して呼び出されます。
   ///
-  /// 内部に[ScopedValue]のデータベースを保持しており、[getScop
+  /// 内部に[ScopedValue]のデータベースを保持しており、[getScopedValueState]で[ScopedValue]に対応する[ScopedValueState]を読込み編集を加えることが可能です。
   ScopedValueContainer();
 
   final Map<String, ScopedValueState> _data = {};
