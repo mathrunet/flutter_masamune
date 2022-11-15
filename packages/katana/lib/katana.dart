@@ -52,7 +52,6 @@ part 'extension/nullable_object_extensions.dart';
 part 'extension/random_extensions.dart';
 part 'extension/set_extensions.dart';
 part 'extension/string_extensions.dart';
-part 'extension/num_extensions.dart';
 part 'src/date_duration.dart';
 part "src/api.dart";
 part "src/functions.dart";
