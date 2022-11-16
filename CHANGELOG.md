@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_indicator` - `v1.1.0`](#katana_indicator---v110)
+
+---
+
+#### `katana_indicator` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([7b67f762](https://github.com/mathrunet/flutter_masamune/commit/7b67f7627727def2f3f3f7ce5c6b8deba712d00d))
+
+
+## 2022-11-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_localization` - `v1.1.14`](#katana_localization---v1114)
  - [`katana_localization_annotation` - `v1.1.12`](#katana_localization_annotation---v1112)
  - [`katana_localization_builder` - `v1.1.14`](#katana_localization_builder---v1114)
