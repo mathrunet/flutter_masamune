@@ -12,7 +12,7 @@ part of katana_localization_builder;
 ///
 /// [node]に起点となる[LocalizeWord]を入れます。
 class LocalizeValue {
-  LocalizeValue(this.node) : id = uuid;
+  LocalizeValue(this.id, this.node);
 
   /// Starting point [LocalizeWord].
   ///
@@ -211,7 +211,7 @@ class LocalizeValue {
             ..type = MethodType.getter
             ..lambda = true
             ..body = Code(
-              "\"${(node.localize[locale] ?? "").replaceAll('"', r'\"').replaceAll("\n", r"\\n").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
+              "\"${(node.localize[locale] ?? "").replaceAll('"', r'\"').replaceAll("\n", r"\n").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
             ),
         );
       }
@@ -256,7 +256,10 @@ class LocalizeValue {
   }
 
   static void add(
-      List<LocalizeValue> current, List<LocalizeWord> words, int index) {
+    List<LocalizeValue> current,
+    List<LocalizeWord> words,
+    int index,
+  ) {
     if (words.length <= index) {
       return;
     }
@@ -265,7 +268,9 @@ class LocalizeValue {
     if (found != null) {
       return add(found.children, words, index + 1);
     } else {
-      final container = LocalizeValue(word);
+      final id =
+          "${index}_${words.map((e) => e.name).join("")}_${word.name}".toSHA1();
+      final container = LocalizeValue(id, word);
       current.add(container);
       return add(container.children, words, index + 1);
     }
@@ -447,8 +452,9 @@ class LocalizeWord {
   /// 翻訳を行うためのワードクラス。
   ///
   /// [raw]に分割された値を入れます。
-  LocalizeWord(this.raw)
-      : variable = raw.startsWith("{") && raw.endsWith("}"),
+  LocalizeWord(
+    this.raw,
+  )   : variable = raw.startsWith("{") && raw.endsWith("}"),
         name = _avoidConflict(raw.trimStringLeft("{").trimStringRight("}"));
 
   /// Original text.
