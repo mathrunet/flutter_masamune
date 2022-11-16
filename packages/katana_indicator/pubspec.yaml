@@ -1,0 +1,18 @@
+name: katana_indicator
+description: A package to make it easier to use Flutter's indicators (especially when waiting for processing in Future).
+version: 1.0.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_indicator
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+    
+  katana: ^0.15.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
