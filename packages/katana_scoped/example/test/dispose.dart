@@ -22,16 +22,16 @@ void main() {
       Root(container: container),
     );
     await tester.pump();
-    await tester.pumpAndSettle(100.ms);
+    await tester.pumpAndSettle(const Duration(milliseconds: 100));
     expect(container.value, 1);
     await tester.tapByKey("home");
     await tester.pump();
     expect(container.value, 2);
-    await tester.pumpAndSettle(100.ms);
+    await tester.pumpAndSettle(const Duration(milliseconds: 100));
     print("wait");
     await tester.tapByKey("next");
     await tester.pump();
-    await tester.pumpAndSettle(1000.ms);
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
   });
   testWidgets("duplicate", (tester) async {
     final container = TestContaner();
@@ -39,12 +39,12 @@ void main() {
       RootParent(container: container),
     );
     await tester.pump();
-    await tester.pumpAndSettle(100.ms);
+    await tester.pumpAndSettle(const Duration(milliseconds: 100));
     await tester.tapByKey("home");
     await tester.pump();
-    await tester.pumpAndSettle(100.ms);
+    await tester.pumpAndSettle(const Duration(milliseconds: 100));
     print("wait");
-    await tester.pumpAndSettle(1000.ms);
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
   });
 }
 

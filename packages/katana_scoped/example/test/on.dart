@@ -27,7 +27,7 @@ void main() {
     await tester.pump();
     expect(text("waiting")?.data, "0");
     expect(text("done"), null);
-    await tester.pumpAndSettle(1500.ms);
+    await tester.pumpAndSettle(const Duration(milliseconds: 1500));
     expect(text("wating"), null);
     expect(text("done")?.data, "1");
   });

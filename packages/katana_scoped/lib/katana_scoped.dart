@@ -26,3 +26,4 @@ part 'src/scoped_value.dart';
 part 'src/scoped_value_container.dart';
 part 'src/scoped_value_listener.dart';
 part 'src/scoped_value_ref.dart';
+part 'src/extensions.dart';

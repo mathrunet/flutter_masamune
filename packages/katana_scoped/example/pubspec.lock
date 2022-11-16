@@ -304,14 +304,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.8+1"
+    version: "0.15.8+2"
   katana_scoped:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.3.1"
+    version: "1.3.2"
   lints:
     dependency: transitive
     description:

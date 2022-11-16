@@ -103,17 +103,25 @@ class _ScopedState extends State<Scoped> {
 ///
 /// Be sure to place the created widget under [PageScopedWidget].
 ///
+/// You can get the widget content with [ScopedWidgetScope.of] since it inherits from [ScopedWidgetBase].
+///
 /// ページの配下で状態管理を行うことが可能なウィジェットを作成するための抽象クラス。
 ///
 /// 作成したウィジェットは必ず[PageScopedWidget]の配下にくるように配置してください。
-abstract class ScopedWidget extends StatefulWidget {
+///
+/// [ScopedWidgetBase]を継承しているため[ScopedWidgetScope.of]でウィジェットの内容を取得できます。
+abstract class ScopedWidget extends StatefulWidget implements ScopedWidgetBase {
   /// Abstract class for creating widgets that can perform state management under the page.
   ///
   /// Be sure to place the created widget under [PageScopedWidget].
   ///
+  /// You can get the widget content with [ScopedWidgetScope.of] since it inherits from [ScopedWidgetBase].
+  ///
   /// ページの配下で状態管理を行うことが可能なウィジェットを作成するための抽象クラス。
   ///
   /// 作成したウィジェットは必ず[PageScopedWidget]の配下にくるように配置してください。
+  ///
+  /// [ScopedWidgetBase]を継承しているため[ScopedWidgetScope.of]でウィジェットの内容を取得できます。
   const ScopedWidget({
     super.key,
     this.page,
@@ -142,9 +150,12 @@ abstract class ScopedWidget extends StatefulWidget {
 class _ScopedWidgetState extends State<ScopedWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scoped(
-      page: widget.page,
-      builder: widget.build,
+    return ScopedWidgetScope(
+      widget: widget,
+      child: Scoped(
+        page: widget.page,
+        builder: widget.build,
+      ),
     );
   }
 }
@@ -153,10 +164,26 @@ class _ScopedWidgetState extends State<ScopedWidget> {
 ///
 /// Since [PageRef] is passed to [build], you can subscribe to it to update the internal widget according to update notifications.
 ///
+/// ScopedWidgetScope.of] to get the widget's content, since it inherits from [ScopedWidgetBase].
+///
 /// ページで利用するウィジェットを作成するための抽象クラス。
 ///
 /// [build]に[PageRef]が渡されるためそれを購読することで更新通知に応じて内部のウィジェットを更新することができます。
-abstract class PageScopedWidget extends StatefulWidget {
+///
+/// [ScopedWidgetBase]を継承しているため[ScopedWidgetScope.of]でウィジェットの内容を取得できます。
+abstract class PageScopedWidget extends StatefulWidget
+    implements ScopedWidgetBase {
+  /// Abstract class for creating widgets for use on pages.
+  ///
+  /// Since [PageRef] is passed to [build], you can subscribe to it to update the internal widget according to update notifications.
+  ///
+  /// ScopedWidgetScope.of] to get the widget's content, since it inherits from [ScopedWidgetBase].
+  ///
+  /// ページで利用するウィジェットを作成するための抽象クラス。
+  ///
+  /// [build]に[PageRef]が渡されるためそれを購読することで更新通知に応じて内部のウィジェットを更新することができます。
+  ///
+  /// [ScopedWidgetBase]を継承しているため[ScopedWidgetScope.of]でウィジェットの内容を取得できます。
   const PageScopedWidget({super.key});
 
   /// Build the internal widget.
@@ -217,10 +244,89 @@ class _PageScopedWidgetState extends State<PageScopedWidget> {
   Widget build(BuildContext context) {
     return _PageScopedScope(
       state: this,
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: widget.build(context, _ref),
+      child: ScopedWidgetScope(
+        widget: widget,
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: widget.build(context, _ref),
+        ),
       ),
     );
+  }
+}
+
+/// Base class from which widgets can be retrieved with [ScopedWidgetScope.of].
+///
+/// [PageScopedWidget] and [ScopedWidget].
+///
+/// [ScopedWidgetScope.of]でウィジェットを取り出し可能なベースクラス。
+///
+/// [PageScopedWidget]と[ScopedWidget]があります。
+abstract class ScopedWidgetBase extends Widget {
+  /// Base class from which widgets can be retrieved with [ScopedWidgetScope.of].
+  ///
+  /// [PageScopedWidget] and [ScopedWidget].
+  ///
+  /// [ScopedWidgetScope.of]でウィジェットを取り出し可能なベースクラス。
+  ///
+  /// [PageScopedWidget]と[ScopedWidget]があります。
+  const ScopedWidgetBase({super.key});
+}
+
+/// [InheritedWidget] for making [ScopedWidgetBase] retrievable from descendant widgets.
+///
+/// Pass a class inheriting from [PageScopedWidget] or [ScopedWidget] to [widget].
+///
+/// [ScopedWidgetScope.of] allows you to retrieve the widget in the ancestor.
+///
+/// [ScopedWidgetBase]を子孫ウィジェットから取り出し可能にするための[InheritedWidget]。
+///
+/// [widget]に[PageScopedWidget]や[ScopedWidget]を継承したクラスを渡します。
+///
+/// [ScopedWidgetScope.of]で先祖にあるウィジェットを取り出すことができます。
+class ScopedWidgetScope extends InheritedWidget {
+  /// [InheritedWidget] for making [ScopedWidgetBase] retrievable from descendant widgets.
+  ///
+  /// Pass a class inheriting from [PageScopedWidget] or [ScopedWidget] to [widget].
+  ///
+  /// [ScopedWidgetScope.of] allows you to retrieve the widget in the ancestor.
+  ///
+  /// [ScopedWidgetBase]を子孫ウィジェットから取り出し可能にするための[InheritedWidget]。
+  ///
+  /// [widget]に[PageScopedWidget]や[ScopedWidget]を継承したクラスを渡します。
+  ///
+  /// [ScopedWidgetScope.of]で先祖にあるウィジェットを取り出すことができます。
+  const ScopedWidgetScope({
+    super.key,
+    required super.child,
+    required this.widget,
+  });
+
+  /// Widgets that inherit from [ScopedWidgetBase].
+  ///
+  /// [ScopedWidgetBase]を継承したウィジェット。
+  final Widget widget;
+
+  /// O(1) out [TWidget] in ancestor by passing [context].
+  ///
+  /// If [TWidget] does not exist in the ancestor, an error is output.
+  ///
+  /// [context]を渡して祖先にある[TWidget]をO(1)で取り出します。
+  ///
+  /// 祖先に[TWidget]が存在しない場合はエラーが出力されます。
+  static TWidget of<TWidget extends ScopedWidgetBase>(BuildContext context) {
+    final scope = context
+        .getElementForInheritedWidgetOfExactType<ScopedWidgetScope>()
+        ?.widget as ScopedWidgetScope?;
+    assert(
+      scope != null && scope.widget is TWidget,
+      "Could not find $TWidget. Please define $TWidget in the element above.",
+    );
+    return scope!.widget as TWidget;
+  }
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+    return false;
   }
 }
