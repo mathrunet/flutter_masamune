@@ -1,3 +1,7 @@
+## 1.1.12
+
+ - **FIX**: Fixed a bug that the key changes every time. ([eeff9d42](https://github.com/mathrunet/flutter_masamune/commit/eeff9d42d6bbbade140c3edff1a2b0e0434e4641))
+
 ## 1.1.11
 
  - Update a dependency to the latest release.

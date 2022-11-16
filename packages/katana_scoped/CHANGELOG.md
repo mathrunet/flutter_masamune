@@ -1,3 +1,7 @@
+## 1.3.3
+
+ - **FIX**: Context.scoped to take widgets of ancestors. ([a600bd0b](https://github.com/mathrunet/flutter_masamune/commit/a600bd0b5a115a8f38bcfcb8815c2fd1260620a6))
+
 ## 1.3.2
 
  - **DOCS**: The sentence was broken, so it was corrected. ([01e49003](https://github.com/mathrunet/flutter_masamune/commit/01e49003ce9d932d9e10cc2e6e53c176c398e026))
