@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **FIX**: prefix and suffix can be specified in widgets as well. ([1a4c5348](https://github.com/mathrunet/flutter_masamune/commit/1a4c5348c2ac0dbec5c729db1e974e7de138ff55))
+
 ## 1.2.0
 
  - **FEAT**: Changed the onSaved mechanism of form. ([b07ad300](https://github.com/mathrunet/flutter_masamune/commit/b07ad3003ac0c5b07c6711c97256f3eb8b5ca03b))

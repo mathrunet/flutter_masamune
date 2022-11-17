@@ -15,6 +15,33 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.2.1`](#katana_form---v121)
+ - [`katana_scoped` - `v1.5.0`](#katana_scoped---v150)
+
+---
+
+#### `katana_form` - `v1.2.1`
+
+ - **FIX**: prefix and suffix can be specified in widgets as well. ([1a4c5348](https://github.com/mathrunet/flutter_masamune/commit/1a4c5348c2ac0dbec5c729db1e974e7de138ff55))
+
+#### `katana_scoped` - `v1.5.0`
+
+ - **FEAT**: Add fetch method. ([3d5542cc](https://github.com/mathrunet/flutter_masamune/commit/3d5542cc8c25c5e912b199c016d32ed1aaaea684))
+ - **FEAT**: fetch method available. ([3ee571a2](https://github.com/mathrunet/flutter_masamune/commit/3ee571a241f736fd266558b54d17815a5c7e365e))
+
+
+## 2022-11-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.2.0`](#katana_form---v120)
  - [`katana_scoped` - `v1.4.0`](#katana_scoped---v140)
 
