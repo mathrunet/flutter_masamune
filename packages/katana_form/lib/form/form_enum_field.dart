@@ -186,12 +186,12 @@ class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
 
   /// Callback executed when [FormController.validateAndSave] is executed.
   ///
-  /// FormContext] passed as [form] is passed to `form`, and the current value is passed to `value`.
+  /// The current value is passed to `value`.
   ///
   /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
   ///
-  /// `form`に[form]として渡した[FormController]、`value`に現在の値が渡されます。
-  final TValue Function(FormController<TValue> form, TEnum? value)? onSaved;
+  /// `value`に現在の値が渡されます。
+  final TValue Function(TEnum value)? onSaved;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -367,7 +367,7 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
           if (value == null) {
             return;
           }
-          final res = widget.onSaved?.call(widget.form!, value);
+          final res = widget.onSaved?.call(value);
           if (res == null) {
             return;
           }

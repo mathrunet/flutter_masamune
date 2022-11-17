@@ -54,7 +54,7 @@ class FormPageState extends State<FormPage> {
           FormTextField(
             form: form,
             initialValue: form.value["name"],
-            onSaved: (form, value) => {...form.value, "name": value},
+            onSaved: (value) => {...form.value, "name": value},
             style: FormStyle(
                 border: OutlineInputBorder(),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -65,25 +65,25 @@ class FormPageState extends State<FormPage> {
             form: form,
             minLines: 5,
             initialValue: form.value["description"],
-            onSaved: (form, value) => {...form.value, "description": value},
+            onSaved: (value) => {...form.value, "description": value},
           ),
           const FormLabel("DateTime Form"),
           FormDateTimeField(
             form: form,
             initialValue: form.value["date"],
-            onSaved: (form, value) => {...form.value, "date": value},
+            onSaved: (value) => {...form.value, "date": value},
           ),
           const FormLabel("Date Form"),
           FormDateField(
             form: form,
             initialValue: form.value["monthDay"],
-            onSaved: (form, value) => {...form.value, "monthDay": value},
+            onSaved: (value) => {...form.value, "monthDay": value},
           ),
           const FormLabel("Number Form"),
           FormNumField(
             form: form,
             initialValue: form.value["number"],
-            onSaved: (form, value) => {...form.value, "number": value},
+            onSaved: (value) => {...form.value, "number": value},
           ),
           const FormLabel("Enum Form"),
           FormEnumField(
@@ -92,7 +92,7 @@ class FormPageState extends State<FormPage> {
             picker: FormEnumFieldPicker(
               values: Selection.values,
             ),
-            onSaved: (form, value) => {...form.value, "enumSelect": value},
+            onSaved: (value) => {...form.value, "enumSelect": value},
           ),
           const FormLabel("Nao Form"),
           FormMapField(
@@ -102,7 +102,7 @@ class FormPageState extends State<FormPage> {
               defaultKey: "one",
               data: {"one": "one", "two": "two", "three": "three"},
             ),
-            onSaved: (form, value) => {...form.value, "mapSelect": value},
+            onSaved: (value) => {...form.value, "mapSelect": value},
           ),
           const SizedBox(height: 16),
           FormButton(
