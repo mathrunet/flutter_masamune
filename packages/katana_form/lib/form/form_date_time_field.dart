@@ -849,7 +849,7 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
     BuildContext context,
     DateTime currentDateTime,
   ) async {
-    final now = defaultDateTime ?? DateTime.now();
+    final now = defaultDateTime ?? startDate ?? endDate ?? DateTime.now();
     final date = await showDatePicker(
       context: context,
       helpText: helpText,

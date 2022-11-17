@@ -185,15 +185,9 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
     initialQuery: InnerPage1.query(),
     defaultTransitionQuery: TransitionQuery.fade,
     pages: [
-      InnerPage1.query,
-      InnerPage2.query,
+      ...InnerPageType.values.map((e) => e.builder),
     ],
   );
-
-  final queries = {
-    InnerPageType.type1: InnerPage1.query(),
-    InnerPageType.type2: InnerPage2.query(),
-  };
 
   @override
   void initState() {
@@ -221,7 +215,7 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
           router.push(
-            queries[InnerPageType.values[value]]!,
+            InnerPageType.values[value].query,
           );
         },
         currentIndex: query?.key<InnerPageType>()?.index ?? 0,
@@ -269,7 +263,7 @@ class InnerPage2 extends StatelessWidget {
         onPressed: () {
           context.router.push(InnerPage1.query());
         },
-        child: Text("To Innerpage1"),
+        child: const Text("To Innerpage1"),
       ),
     );
   }
@@ -293,4 +287,22 @@ enum InnerPageType {
   final IconData icon;
 
   final String label;
+
+  RouteQueryBuilder get builder {
+    switch (this) {
+      case InnerPageType.type1:
+        return InnerPage1.query;
+      case InnerPageType.type2:
+        return InnerPage2.query;
+    }
+  }
+
+  RouteQuery get query {
+    switch (this) {
+      case InnerPageType.type1:
+        return InnerPage1.query();
+      case InnerPageType.type2:
+        return InnerPage2.query();
+    }
+  }
 }

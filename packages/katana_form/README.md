@@ -58,14 +58,14 @@ return Scaffold(
       FormTextField(
         form: form,
         initialValue: form.value["name"],
-        onSaved: (form, value) => {...form.value, "name": value},
+        onSaved: (value) => {...form.value, "name": value},
       ),
       const FormLabel("Description"),
       FormTextField(
         form: form,
         minLines: 5,
         initialValue: form.value["description"],
-        onSaved: (form, value) => {...form.value, "description": value},
+        onSaved: (value) => {...form.value, "description": value},
       ),
       FormButton(
         "Submit",
@@ -104,10 +104,10 @@ For new data creation, pass an empty object; for existing data, insert values re
 This example is for a case where `Map<String, dynamic>` is used to handle data for a database.
 
 ```dart
-// 新規データ
+// New data
 final form = FormController(<String, dynamic>{});
 
-// 既存データ
+// Existing data
 final Map<String, dynamic> data = getRepositoryData();
 final form = FormController(data);
 ```
@@ -124,13 +124,13 @@ All you have to do is pass the FormController you created, and if you pass a `Fo
 
 Pass the initial value to `initialValue`. When passing an initial value, pass the value obtained from `FormController.value` as is.
 
-`onSaved` is passed `FormController` and the currently entered value as a callback, so be sure to return the changed `FormController.value` value as is.
+`onSaved` is passed the currently entered value as a callback, so be sure to return the changed `FormController.value` value as is.
 
 ```dart
 FormTextField(
   form: form,
   initialValue: form.value["description"],
-  onSaved: (form, value) => {...form.value, "description": value},
+  onSaved: (value) => {...form.value, "description": value},
 ),
 ```
 
@@ -186,14 +186,14 @@ class FormPageState extends State<FormPage> {
           FormTextField(
             form: form,
             initialValue: form.value["name"],
-            onSaved: (form, value) => {...form.value, "name": value},
+            onSaved: (value) => {...form.value, "name": value},
           ),
           const FormLabel("Description"),
           FormTextField(
             form: form,
             minLines: 5,
             initialValue: form.value["description"],
-            onSaved: (form, value) => {...form.value, "description": value},
+            onSaved: (value) => {...form.value, "description": value},
           ),
           const SizedBox(height: 16),
           FormButton(
@@ -252,14 +252,14 @@ class FormPageState extends State<FormPage> {
           FormTextField(
             form: form,
             initialValue: form.value.name,
-            onSaved: (form, value) => form.value.copyWith(name: value),
+            onSaved: (value) => form.value.copyWith(name: value),
           ),
           const FormLabel("Description"),
           FormTextField(
             form: form,
             minLines: 5,
             initialValue: form.value.description,
-            onSaved: (form, value) => form.value.copyWith(description: value),
+            onSaved: (value) => form.value.copyWith(description: value),
           ),
           const SizedBox(height: 16),
           FormButton(
@@ -290,7 +290,7 @@ The default style is plain, but if you specify the following, the style will be 
 FormTextField(
   form: form,
   initialValue: form.value["name"],
-  onSaved: (form, value) => {...form.value, "name": value},
+  onSaved: (value) => {...form.value, "name": value},
   style: FormStyle(
       border: OutlineInputBorder(),
       padding: const EdgeInsets.symmetric(horizontal: 16),
