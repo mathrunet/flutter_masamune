@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.2.2`](#katana_form---v122)
+ - [`katana_router` - `v1.9.4`](#katana_router---v194)
+ - [`katana_router_annotation` - `v1.9.4`](#katana_router_annotation---v194)
+ - [`katana_router_builder` - `v1.9.4`](#katana_router_builder---v194)
+
+---
+
+#### `katana_form` - `v1.2.2`
+
+ - **DOCS**: README modifications. ([c3c2f3f1](https://github.com/mathrunet/flutter_masamune/commit/c3c2f3f13e63d7d76f1e0bcbeaa8b26fb228dd7f))
+
+#### `katana_router` - `v1.9.4`
+
+ - **DOCS**: README modifications. ([c3c2f3f1](https://github.com/mathrunet/flutter_masamune/commit/c3c2f3f13e63d7d76f1e0bcbeaa8b26fb228dd7f))
+
+#### `katana_router_annotation` - `v1.9.4`
+
+ - **DOCS**: README modifications. ([c3c2f3f1](https://github.com/mathrunet/flutter_masamune/commit/c3c2f3f13e63d7d76f1e0bcbeaa8b26fb228dd7f))
+
+#### `katana_router_builder` - `v1.9.4`
+
+ - **DOCS**: README modifications. ([c3c2f3f1](https://github.com/mathrunet/flutter_masamune/commit/c3c2f3f13e63d7d76f1e0bcbeaa8b26fb228dd7f))
+
+
+## 2022-11-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.2.1`](#katana_form---v121)
  - [`katana_scoped` - `v1.5.0`](#katana_scoped---v150)
 

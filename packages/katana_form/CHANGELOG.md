@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **DOCS**: README modifications. ([c3c2f3f1](https://github.com/mathrunet/flutter_masamune/commit/c3c2f3f13e63d7d76f1e0bcbeaa8b26fb228dd7f))
+
 ## 1.2.1
 
  - **FIX**: prefix and suffix can be specified in widgets as well. ([1a4c5348](https://github.com/mathrunet/flutter_masamune/commit/1a4c5348c2ac0dbec5c729db1e974e7de138ff55))
