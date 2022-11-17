@@ -103,6 +103,8 @@ class FormNumField<TValue> extends StatefulWidget {
     this.form,
     super.key,
     this.controller,
+    this.prefix,
+    this.suffix,
     this.focusNode,
     this.keyboardType = TextInputType.number,
     this.hintText,
@@ -137,6 +139,24 @@ class FormNumField<TValue> extends StatefulWidget {
   ///
   /// フォームのスタイル。
   final FormStyle? style;
+
+  /// A widget that is placed in front of the form.
+  ///
+  /// Priority is given to this one, and if there is a [Null] element, [FormStyle.prefix] will be applied.
+  ///
+  /// フォームの前に配置されるウィジェット。
+  ///
+  /// 優先的にこちらが表示され、[Null]の要素がある場合は[FormStyle.prefix]が適用されます。
+  final FormAffixStyle? prefix;
+
+  /// A widget that is placed after the form.
+  ///
+  /// Priority is given to this one, and if there is a [Null] element, [FormStyle.suffix] will be applied.
+  ///
+  /// フォームの後に配置されるウィジェット。
+  ///
+  /// 優先的にこちらが表示され、[Null]の要素がある場合は[FormStyle.suffix]が適用されます。
+  final FormAffixStyle? suffix;
 
   /// Controller for text forms.
   ///
@@ -344,16 +364,20 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
               widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
           hintText: widget.hintText,
           labelText: widget.labelText,
-          prefix: widget.style?.prefix?.child,
-          suffix: widget.style?.suffix?.child,
-          prefixIcon: widget.style?.prefix?.icon,
-          suffixIcon: widget.style?.suffix?.icon,
-          prefixText: widget.style?.prefix?.label,
-          suffixText: widget.style?.suffix?.label,
-          prefixIconColor: widget.style?.prefix?.iconColor,
-          suffixIconColor: widget.style?.suffix?.iconColor,
-          prefixIconConstraints: widget.style?.prefix?.iconConstraints,
-          suffixIconConstraints: widget.style?.suffix?.iconConstraints,
+          prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+          suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+          prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+          suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+          prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+          suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+          prefixIconColor:
+              widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+          suffixIconColor:
+              widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+          prefixIconConstraints: widget.prefix?.iconConstraints ??
+              widget.style?.prefix?.iconConstraints,
+          suffixIconConstraints: widget.suffix?.iconConstraints ??
+              widget.style?.suffix?.iconConstraints,
           labelStyle: mainTextStyle,
           hintStyle: subTextStyle,
           suffixStyle: subTextStyle,
