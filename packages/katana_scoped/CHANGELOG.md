@@ -1,3 +1,11 @@
+## 1.4.0
+
+ - **FEAT**: Add fetch method. ([3d5542cc](https://github.com/mathrunet/flutter_masamune/commit/3d5542cc8c25c5e912b199c016d32ed1aaaea684))
+
+## 1.4.0
+
+ - **FEAT**: fetch method available. ([3ee571a2](https://github.com/mathrunet/flutter_masamune/commit/3ee571a241f736fd266558b54d17815a5c7e365e))
+
 ## 1.3.3
 
  - **FIX**: Context.scoped to take widgets of ancestors. ([a600bd0b](https://github.com/mathrunet/flutter_masamune/commit/a600bd0b5a115a8f38bcfcb8815c2fd1260620a6))

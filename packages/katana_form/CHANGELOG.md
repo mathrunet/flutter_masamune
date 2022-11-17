@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Changed the onSaved mechanism of form. ([b07ad300](https://github.com/mathrunet/flutter_masamune/commit/b07ad3003ac0c5b07c6711c97256f3eb8b5ca03b))
+
 ## 1.1.2
 
  - Update a dependency to the latest release.

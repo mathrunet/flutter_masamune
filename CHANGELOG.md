@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.2.0`](#katana_form---v120)
+ - [`katana_scoped` - `v1.4.0`](#katana_scoped---v140)
+
+---
+
+#### `katana_form` - `v1.2.0`
+
+ - **FEAT**: Changed the onSaved mechanism of form. ([b07ad300](https://github.com/mathrunet/flutter_masamune/commit/b07ad3003ac0c5b07c6711c97256f3eb8b5ca03b))
+
+#### `katana_scoped` - `v1.4.0`
+
+ - **FEAT**: Add fetch method. ([3d5542cc](https://github.com/mathrunet/flutter_masamune/commit/3d5542cc8c25c5e912b199c016d32ed1aaaea684))
+
+
 ## 2022-11-16
 
 ### Changes
