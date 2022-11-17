@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+part of katana_scoped.value;
 
 /// Provides an extension method for [Ref] to perform caching.
 ///

@@ -78,6 +78,40 @@ class ScopedValueContainer {
     }
   }
 
+  /// Get the [ScopedValueState] associated with the [TScopedValue] already stored in the [ScopedValueContainer].
+  ///
+  /// Returns [Null] if [TScopedValue] does not exist.
+  ///
+  /// If [TScopedValue] was saved with [name], specify the same [name].
+  ///
+  /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
+  ///
+  /// [ScopedValueContainer]にすでに保存されている[TScopedValue]に関連する[ScopedValueState]を取得します。
+  ///
+  /// [TScopedValue]が存在しない場合は[Null]を返します。
+  ///
+  /// [name]を指定して[TScopedValue]を保存していた場合、同じ[name]を指定してください。
+  ///
+  /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
+  ScopedValueState<TResult, ScopedValue<TResult>>?
+      getAlreadyExistsScopedValueState<TResult,
+          TScopedValue extends ScopedValue<TResult>>({
+    String? name,
+  }) {
+    final key = "$TScopedValue/$name";
+    final found = _data[key];
+    if (found != null) {
+      assert(
+        found is ScopedValueState<TResult, TScopedValue>,
+        "The stored [value] type is incorrect: ${found.runtimeType}",
+      );
+      final state = found as ScopedValueState<TResult, TScopedValue>;
+      return state;
+    } else {
+      return null;
+    }
+  }
+
   /// Called when [ScopedValueContainer] is destroyed.
   ///
   /// ScopedValueState.dispose] of the retained state is executed.

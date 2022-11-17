@@ -1,7 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+part of katana_scoped.value;
 
 /// Provides extension methods for [PageOrWidgetScopedValueRef] for processing in the lifecycle.
 ///

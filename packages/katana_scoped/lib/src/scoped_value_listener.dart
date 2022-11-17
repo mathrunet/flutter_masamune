@@ -94,6 +94,32 @@ class ScopedValueListener {
     return state.build();
   }
 
+  /// Retrieves the [ScopedValueState] associated with the [TScopedValue] already stored in the [ScopedValueContainer] and returns the result.
+  ///
+  /// Returns [Null] if [TScopedValue] does not exist.
+  ///
+  /// If [TScopedValue] was saved with [name], specify the same [name].
+  ///
+  /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
+  ///
+  /// [ScopedValueContainer]にすでに保存されている[TScopedValue]に関連する[ScopedValueState]を取得し、その結果を返します。
+  ///
+  /// [TScopedValue]が存在しない場合は[Null]を返します。
+  ///
+  /// [name]を指定して[TScopedValue]を保存していた場合、同じ[name]を指定してください。
+  ///
+  /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
+  TResult? getAlreadtExistsScopedValueResult<TResult,
+      TScopedValue extends ScopedValue<TResult>>({
+    String? name,
+  }) {
+    final state =
+        container.getAlreadyExistsScopedValueState<TResult, TScopedValue>(
+      name: name,
+    );
+    return state?.build();
+  }
+
   /// Executed when the widget is destroyed.
   ///
   /// ScopedValueState.dispose] is executed on the monitored [ScopedValue] and the retained [ScopedValueContainer].

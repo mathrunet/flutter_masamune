@@ -146,6 +146,14 @@ class ScopedValueRef implements Ref {
   }
 
   @override
+  TResult? getAlreadyExistsScopedValue<TResult,
+      TScopedValue extends ScopedValue<TResult>>({String? name}) {
+    return _listener.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
+      name: name,
+    );
+  }
+
+  @override
   String toString() => "$runtimeType#${_listener.hashCode}";
 
   @override

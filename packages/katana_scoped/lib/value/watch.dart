@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+part of katana_scoped.value;
 
 /// Provides an extended method for [Ref] to monitor [ChangeNotifier].
 ///
@@ -34,7 +33,7 @@ extension RefWatchExtensions on Ref {
 }
 
 @immutable
-class _WatchValue<T extends Listenable> extends ScopedValue<T> {
+class _WatchValue<T> extends ScopedValue<T> {
   const _WatchValue({
     required this.callback,
     required this.keys,
@@ -47,8 +46,7 @@ class _WatchValue<T extends Listenable> extends ScopedValue<T> {
   ScopedValueState<T, ScopedValue<T>> createState() => _WatchValueState<T>();
 }
 
-class _WatchValueState<T extends Listenable>
-    extends ScopedValueState<T, _WatchValue<T>> {
+class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
   _WatchValueState();
 
   late T _value;
@@ -57,7 +55,10 @@ class _WatchValueState<T extends Listenable>
   void initValue() {
     super.initValue();
     _value = value.callback();
-    _value.addListener(_handledOnUpdate);
+    final val = _value;
+    if (val is Listenable) {
+      val.addListener(_handledOnUpdate);
+    }
   }
 
   void _handledOnUpdate() {
@@ -68,9 +69,15 @@ class _WatchValueState<T extends Listenable>
   void didUpdateValue(_WatchValue<T> oldValue) {
     super.didUpdateValue(oldValue);
     if (!equalsKeys(value.keys, oldValue.keys)) {
-      _value.removeListener(_handledOnUpdate);
+      final oldVal = _value;
+      if (oldVal is Listenable) {
+        oldVal.removeListener(_handledOnUpdate);
+      }
       _value = value.callback();
-      _value.addListener(_handledOnUpdate);
+      final newVal = _value;
+      if (newVal is Listenable) {
+        newVal.addListener(_handledOnUpdate);
+      }
     }
   }
 
@@ -78,9 +85,11 @@ class _WatchValueState<T extends Listenable>
   void dispose() {
     super.dispose();
     final val = _value;
-    _value.removeListener(_handledOnUpdate);
-    if (val is ChangeNotifier) {
-      val.dispose();
+    if (val is Listenable) {
+      val.removeListener(_handledOnUpdate);
+      if (val is ChangeNotifier) {
+        val.dispose();
+      }
     }
   }
 

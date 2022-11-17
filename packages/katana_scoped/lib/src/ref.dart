@@ -92,6 +92,26 @@ abstract class Ref {
     bool listen = false,
     String? name,
   });
+
+  /// {@template get_already_exists_scoped_value}
+  /// Obtains a [TScopedValue] already stored in [ScopedValueContainer].
+  ///
+  /// Returns [Null] if [TScopedValue] does not exist.
+  ///
+  /// If [TScopedValue] was saved with [name], specify the same [name].
+  ///
+  /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
+  ///
+  /// [ScopedValueContainer]にすでに保存されている[TScopedValue]を取得します。
+  ///
+  /// [TScopedValue]が存在しない場合は[Null]を返します。
+  ///
+  /// [name]を指定して[TScopedValue]を保存していた場合、同じ[name]を指定してください。
+  ///
+  /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
+  /// {@endtemplate}
+  TResult? getAlreadyExistsScopedValue<TResult,
+      TScopedValue extends ScopedValue<TResult>>({String? name});
 }
 
 /// Reference with [ScopedValueRef] in the application scope.

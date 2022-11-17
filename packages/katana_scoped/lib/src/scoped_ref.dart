@@ -58,6 +58,16 @@ class AppRef implements Ref {
         )
         .build();
   }
+
+  @override
+  TResult? getAlreadyExistsScopedValue<TResult,
+      TScopedValue extends ScopedValue<TResult>>({String? name}) {
+    return _scopedValueContainer
+        .getAlreadyExistsScopedValueState<TResult, TScopedValue>(
+          name: name,
+        )
+        ?.build();
+  }
 }
 
 /// A page-scoped reference passed from [PageScopedWidget.build].

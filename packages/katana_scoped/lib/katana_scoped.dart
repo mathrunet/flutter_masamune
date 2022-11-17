@@ -11,13 +11,10 @@ library katana_scoped;
 import 'package:flutter/material.dart';
 
 export 'package:katana/katana.dart';
-
-export 'value/cache.dart';
-export 'value/on.dart';
-export 'value/refresh.dart';
-export 'value/watch.dart';
+export 'value/value.dart';
 
 part 'src/app_scoped.dart';
+part 'src/extensions.dart';
 part 'src/ref.dart';
 part 'src/scoped.dart';
 part 'src/scoped_ref.dart';
@@ -26,4 +23,3 @@ part 'src/scoped_value.dart';
 part 'src/scoped_value_container.dart';
 part 'src/scoped_value_listener.dart';
 part 'src/scoped_value_ref.dart';
-part 'src/extensions.dart';
