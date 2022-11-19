@@ -284,7 +284,8 @@ abstract class ScopedWidgetBase extends Widget {
 /// [widget]に[PageScopedWidget]や[ScopedWidget]を継承したクラスを渡します。
 ///
 /// [ScopedWidgetScope.of]で先祖にあるウィジェットを取り出すことができます。
-class ScopedWidgetScope extends InheritedWidget {
+class ScopedWidgetScope<TWidget extends ScopedWidgetBase>
+    extends InheritedWidget {
   /// [InheritedWidget] for making [ScopedWidgetBase] retrievable from descendant widgets.
   ///
   /// Pass a class inheriting from [PageScopedWidget] or [ScopedWidget] to [widget].
@@ -305,7 +306,7 @@ class ScopedWidgetScope extends InheritedWidget {
   /// Widgets that inherit from [ScopedWidgetBase].
   ///
   /// [ScopedWidgetBase]を継承したウィジェット。
-  final Widget widget;
+  final TWidget widget;
 
   /// O(1) out [TWidget] in ancestor by passing [context].
   ///
@@ -316,13 +317,13 @@ class ScopedWidgetScope extends InheritedWidget {
   /// 祖先に[TWidget]が存在しない場合はエラーが出力されます。
   static TWidget of<TWidget extends ScopedWidgetBase>(BuildContext context) {
     final scope = context
-        .getElementForInheritedWidgetOfExactType<ScopedWidgetScope>()
-        ?.widget as ScopedWidgetScope?;
+        .getElementForInheritedWidgetOfExactType<ScopedWidgetScope<TWidget>>()
+        ?.widget as ScopedWidgetScope<TWidget>?;
     assert(
-      scope != null && scope.widget is TWidget,
+      scope != null,
       "Could not find $TWidget. Please define $TWidget in the element above.",
     );
-    return scope!.widget as TWidget;
+    return scope!.widget;
   }
 
   @override

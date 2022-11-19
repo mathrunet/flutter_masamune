@@ -68,6 +68,17 @@ class AppRef implements Ref {
         )
         ?.build();
   }
+
+  /// Discard and clear all appscope states.
+  ///
+  /// Please use this function to reset the application once, such as when logging out.
+  ///
+  /// すべてのアプリスコープの状態を破棄してクリアします。
+  ///
+  /// ログアウト時など一旦アプリをリセットする場合にご利用ください。
+  void dispose() {
+    _scopedValueContainer.dispose();
+  }
 }
 
 /// A page-scoped reference passed from [PageScopedWidget.build].
