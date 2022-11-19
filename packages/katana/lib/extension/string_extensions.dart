@@ -426,6 +426,17 @@ extension StringExtensions on String {
     return Encrypter(AES(encodedKey)).decrypt64(this, iv: iv);
   }
 
+  /// Converts string to [Uri].
+  ///
+  /// If it cannot be converted to [Uri], [Null] is returned.
+  ///
+  /// 文字列を[Uri]に変換します。
+  ///
+  /// [Uri]に変換できない場合は[Null]が返されます。
+  Uri? toUri() {
+    return Uri.tryParse(this);
+  }
+
   /// Replaces [String] with the C printf format.
   ///
   /// Pass the object to be replaced to [arg].
