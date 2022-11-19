@@ -1,3 +1,7 @@
+## 1.5.3
+
+ - **FIX**: Add dispose to AppRef. ([890bf70b](https://github.com/mathrunet/flutter_masamune/commit/890bf70be6fd2cbfb537db18e960a3abcd913fd7))
+
 ## 1.5.2
 
  - Update a dependency to the latest release.

@@ -15,6 +15,57 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.9.7`](#katana_router---v197)
+ - [`katana_router_annotation` - `v1.9.7`](#katana_router_annotation---v197)
+ - [`katana_router_builder` - `v1.9.7`](#katana_router_builder---v197)
+ - [`katana_scoped` - `v1.5.3`](#katana_scoped---v153)
+ - [`katana_theme` - `v1.2.0`](#katana_theme---v120)
+ - [`katana_theme_annotation` - `v1.2.0`](#katana_theme_annotation---v120)
+ - [`katana_theme_builder` - `v1.2.0`](#katana_theme_builder---v120)
+
+---
+
+#### `katana_router` - `v1.9.7`
+
+ - **FIX**: Fixed a bug that caused black background when using boot. ([5e20ae8c](https://github.com/mathrunet/flutter_masamune/commit/5e20ae8c9e1588682827d798f4478df329cbc7d6))
+
+#### `katana_router_annotation` - `v1.9.7`
+
+ - **FIX**: Fixed a bug that caused black background when using boot. ([5e20ae8c](https://github.com/mathrunet/flutter_masamune/commit/5e20ae8c9e1588682827d798f4478df329cbc7d6))
+
+#### `katana_router_builder` - `v1.9.7`
+
+ - **FIX**: Fixed a bug that caused black background when using boot. ([5e20ae8c](https://github.com/mathrunet/flutter_masamune/commit/5e20ae8c9e1588682827d798f4478df329cbc7d6))
+
+#### `katana_scoped` - `v1.5.3`
+
+ - **FIX**: Add dispose to AppRef. ([890bf70b](https://github.com/mathrunet/flutter_masamune/commit/890bf70be6fd2cbfb537db18e960a3abcd913fd7))
+
+#### `katana_theme` - `v1.2.0`
+
+ - **FEAT**: Initial Commit. ([e6eb848e](https://github.com/mathrunet/flutter_masamune/commit/e6eb848e1d250de11cf0d031acad5f3edf05c8ad))
+
+#### `katana_theme_annotation` - `v1.2.0`
+
+ - **FEAT**: Initial Commit. ([e6eb848e](https://github.com/mathrunet/flutter_masamune/commit/e6eb848e1d250de11cf0d031acad5f3edf05c8ad))
+
+#### `katana_theme_builder` - `v1.2.0`
+
+ - **FEAT**: Initial Commit. ([e6eb848e](https://github.com/mathrunet/flutter_masamune/commit/e6eb848e1d250de11cf0d031acad5f3edf05c8ad))
+
+
+## 2022-11-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v0.15.10`](#katana---v01510)
  - [`katana_shorten` - `v1.1.3`](#katana_shorten---v113)
  - [`katana_theme` - `v1.1.5`](#katana_theme---v115)

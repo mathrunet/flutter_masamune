@@ -1,3 +1,7 @@
+## 1.9.7
+
+ - **FIX**: Fixed a bug that caused black background when using boot. ([5e20ae8c](https://github.com/mathrunet/flutter_masamune/commit/5e20ae8c9e1588682827d798f4478df329cbc7d6))
+
 ## 1.9.6
 
  - Update a dependency to the latest release.

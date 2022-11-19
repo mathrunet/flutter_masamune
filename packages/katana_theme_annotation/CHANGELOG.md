@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Initial Commit. ([e6eb848e](https://github.com/mathrunet/flutter_masamune/commit/e6eb848e1d250de11cf0d031acad5f3edf05c8ad))
+
 ## 1.1.5
 
  - Update a dependency to the latest release.
