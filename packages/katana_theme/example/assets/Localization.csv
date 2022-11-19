@@ -1,0 +1,235 @@
+Localization,1.0.0,
+ID,ja:Japanese,en:English
+#Apps,,
+AppTitle,アプリタイトル,AppTitle
+#General,,
+Yes,はい,Yes
+No,いいえ,No
+OK,OK,Okay
+Open,開く,Open
+Close,閉じる,Close
+Forward,進む,Forward
+Back,戻る,Back
+Next,次,Next
+Prev,前,Prev
+Complete,完了,Complete
+Success,成功,Success
+Error,エラー,Error
+Warning,警告,Warning
+Notice,注意,Notice
+Confirmation,確認,Confirmation
+Refresh,更新,Refresh
+Resend,再送信,Resend
+Retry,リトライ,Retry
+Quit,終了,Quit
+Property,プロパティ,Property
+All day,終日,All day
+Others,その他,Others
+Setting,設定,Setting
+Config,設定,Config
+Post,投稿,Post
+Submit,決定,Submit
+Save,保存,Save
+Add,追加,Add
+New,新規,New
+Remove,削除,Remove
+Delete,削除,Delete
+Invite,招待,Invite
+User,ユーザー,User
+Content,コンテンツ,Content
+Member,メンバー,Member
+Account,アカウント,Account
+Editing,編集,Editing
+Deletion,削除,Deletion
+%s list,%sリスト,%s list
+Under maintenance,メンテナンス中,Under maintenance
+%s is completed.,%sが完了しました。,%s is completed.
+%s is not completed.,%sに失敗しました。,%s is not completed.
+You can't undo it after deleting it. May I delete it?,削除した後、元に戻すことはできません。削除してもよろしいでしょうか？,You can't undo it after deleting it. May I delete it?
+The app is currently under maintenance. Detailed information on maintenance will be announced on the official website.,現在アプリはメンテナンス中です。メンテナンスの詳しい情報は公式サイトでお知らせいたします。,The app is currently under maintenance. Detailed information on maintenance will be announced on the official website.
+Please update,アップデートしてください,Please update
+App update required. Get the latest version from the store.,アプリのアップデートが必要です。ストアから最新版を入手してください。,App update required. Get the latest version from the store.
+Search Users,ユーザーを検索,Search Users
+Terms,利用規約,Terms of use
+Privacy Policy,プライバシーポリシー,Privacy policy
+A new entry,新規追加,A new entry
+Editing %s,%sの編集,Editing %s
+#Language,,
+Japanese,日本語,Japanese
+English,英語,English
+Chinese,中国語,Chinese
+ChineseTraditional,中国語（繁体）,Chinese (Traditional)
+ChineseSimplified,中国語（簡体）,Chinese (Simplified)
+French,フランス語,French
+Spanish,スペイン語,Spanish
+Korean,韓国語,Korean
+Indonesian,インドネシア語,Indonesian
+Thai,タイ語,Thai
+Arabic,アラビア語,Arabic
+Russian,ロシア語,Russian
+German,ドイツ語,German
+Italian,イタリア語,Italian
+Portuguese,ポルトガル語,Portuguese
+#WeekDay,,
+WeekDay1,月曜日,Monday
+WeekDay2,火曜日,Tuesday
+WeekDay3,水曜日,Wednesday
+WeekDay4,木曜日,Thursday
+WeekDay5,金曜日,Friday
+WeekDay6,土曜日,Saturday
+WeekDay7,日曜日,Sunday
+Week1,月,Mon
+Week2,火,Tue
+Week3,水,Wed
+Week4,木,Thu
+Week5,金,Fri
+Week6,土,Sat
+Week7,日,Sun
+Yesterday,昨日,Yesterday
+Today,今日,Today
+Tomorrow,明日,Tomorrow
+#AppConfig,,
+Used for upload material by taking pictures and video communication.,カメラ撮影による素材のアップロード及びビデオコミュニケーションに利用します。,Used for upload material by taking pictures and video communication.
+Used for upload material by recording and video and audio communications.,録音による素材のアップロード及びビデオ・オーディオコミュニケーションに利用します。,Used for upload material by recording and video and audio communications.
+Used for map services.,マップサービスのために利用します。,Used for map services.
+Used for upload material.,素材のアップロードのために利用します。,Used for upload material.
+Used for processing materials.,素材の加工のために利用します。,Used for processing materials.
+Used for data sharing.,データ共有のために利用します。,Used for data sharing.
+Used to read/write schedule data.,スケジュールデータの読取/書込のために利用します。,Used to read/write schedule data.
+Used for schedule reminders.,スケジュールのリマインダのために利用します。,Used for schedule reminders.
+Used for data transmission and audio playback.,データ送信及びオーディオの再生のために利用します。,Used for data transmission and audio playback.
+Used for playing music.,音楽の再生のために利用します。,Used for playing music.
+Used for voice input.,音声入力のために利用します。,Used for voice input.
+Used for access analysis for the purpose of UI/UX improvement.,UI・UX改善を目的としたアクセス解析のために利用します。,Used for access analysis for the purpose of UI/UX improvement.
+#Auth,,
+This notification channel is used for important notifications.,この通知チャンネルは重要な通知に利用されます。,This notification channel is used for important notifications.
+#Auth,,
+Login,ログイン,Login
+Logout,ログアウト,Logout
+Registration,ユーザー登録,Registration
+%s registration,%sの登録,Registration of %s
+Change Email,メールアドレス変更,Change Email
+Change Password,パスワード変更,Change Password
+Account deletion,アカウント削除,Account deletion
+Google SignIn,Googleアカウント,Google Account
+Twitter SignIn,Twitterアカウント,Twitter Account
+Facebook SignIn,Facebookアカウント,Facebook Account
+Apple SignIn,Appleアカウント,Apple Account
+Email & Password SignIn,メール＆パスワード,Email & Password
+Anonymous SingIn,ログインしない,Do not log-in
+Reauthentication,再認証,Reauthentication
+Email,メールアドレス,Email
+Password,パスワード,Password
+ConfirmationPassword,パスワード（確認用）,Password (Confirmation)
+Click here if you forget your password,パスワードを忘れた場合はこちら,Click here if you forget your password
+Please enter your login information again,再度ログイン情報を入力してください,Please enter your login information again
+Please enter the information you want to change,変更したい情報を入力してください,Please enter the information you want to change
+Edit Profile,プロフィール編集,Edit Profile
+Password reset,パスワードリセット,Password reset
+Verifying email address,メールアドレス確認中,Verifying email address
+Send mail,メール送信,Send mail
+Please authenticate your email,メールを認証してください,Please authenticate your email
+Agree to the %s,%sに同意する,Agree to the %s
+Please agree to the %s,%sに同意してください,Please agree to the %s
+Currently sending a verification email to your registered email address. Please open the link in the email to complete the email verification process.,登録されたメールアドレスに現在認証メールを送信しております。メールに記載されたリンクを開いてメール認証を完了してください。,Currently sending a verification email to your registered email address. Please open the link in the email to complete the email verification process.
+"To send an authentication email again, press the ''Resend'' button. If the screen does not change after authentication, press the ''Refresh'' button. If you want to log in with another account, press the ''Logout'' button.",再度認証メールを送る場合は「再送信」ボタンを、認証後画面が切り替わらない場合は「更新」ボタンを、別のアカウントでログインしたい場合は「ログアウト」ボタンを押してください。,"To send an authentication email again, press the ''Resend'' button. If the screen does not change after authentication, press the ''Refresh'' button. If you want to log in with another account, press the ''Logout'' button."
+Confirmation email has been sent to your registered email address. Your registration will be completed once we have received your email address.,登録したメールアドレス宛に確認のメールを送信しました。メールアドレスの確認が取れた後登録完了となります。,Confirmation email has been sent to your registered email address. Your registration will be completed once we have received your email address.
+Resent the confirmation email.,確認用のメールを再送信しました。,Resent the confirmation email.
+Registration has been completed.,登録が完了しました。,Registration has been completed.
+"The account is deleted. After deleting the account, it cannot be restored. Are you sure?",アカウントを削除します。アカウントを削除後元に戻すことはできません。よろしいですか？,"The account is deleted. After deleting the account, it cannot be restored. Are you sure?"
+Account deletion is complete.,アカウントの削除が完了しました。,Account deletion is complete.
+You're logging out. Are you sure?,ログアウトします。よろしいですか？,You're logging out. Are you sure?
+Logout is complete.,ログアウトが完了しました。,Logout is complete.
+Passwords do not match.,パスワードが一致しません。,Passwords do not match.
+Could not register. It may already be registered. Please check your email address and password again.,登録できませんでした。すでに登録されている可能性があります。メールアドレスとパスワードを再度確認してください。,Could not register. It may already be registered. Please check your email address and password again.
+Could not login. Please check your email address and password.,ログインできませんでした。メールアドレスとパスワードを確認してください。,Could not login. Please check your email address and password.
+Email to reset your password will be sent to the email address you specified. Please reset your password from the link in the email you received.,指定したメールアドレスにパスワードリセット用のメールを送信します。届いたメールのリンクからパスワードをリセットしてください。,Email to reset your password will be sent to the email address you specified. Please reset your password from the link in the email you received.
+The specified email address did not exist. Please check your email address.,指定したメールアドレスが存在しませんでした。メールアドレスをご確認ください。,The specified email address did not exist. Please check your email address.
+Password reset email has been sent to the specified email address. Please login again after resetting the password.,指定したメールアドレスにパスワードリセット用のメールを送信しました。パスワードリセット後再度ログインしてください。,Password reset email has been sent to the specified email address. Please login again after resetting the password.
+#Users,,
+%s san,%sさん,%s
+Follow,フォローする,Follow
+Unfollow,フォロー解除,Unfollow
+Followers,フォロワー,Followers
+Report,通報する,Report
+Block,ブロックする,Block
+#Actions,,
+You will block this %s. Are you sure?,この%sをブロックします。よろしいですか？,You will block this %s. Are you sure?
+You will unblock this %s. Are you sure?,この%sをブロックから外します。よろしいですか？,You will unblock this %s. Are you sure?
+You will report this %s. Are you sure?,この%sを通報します。よろしいですか？,You will report this %s. Are you sure?
+You will delete this %s. Are you sure?,この%sを削除します。よろしいですか？,You will delete this %s. Are you sure?
+You will remove this %s from the list. Are you sure?,この%sをリストから削除します。よろしいですか？,You will remove this %s from the list. Are you sure?
+You have reported this %s.,この%sを通報しました。,You have reported this %s.
+You have blocked this %s.,この%sをブロックしました。,You have blocked this %s.
+You have unblocked this %s.,この%sをブロックから外しました。,You have unblocked this %s.
+You have deleted this %s.,この%sを削除しました。,You have deleted this %s.
+You have removed this %s from the list.,この%sをリストから削除しました。,You have removed this %s from the list.
+This %s has already been reported.,この%sはすでに通報されています。,This %s has already been reported.
+This %s has already been blocked.,この%sはすでにブロックされています。,This %s has already been blocked.
+This %s has already been deleted.,この%sはすでに削除されています。,This %s has already been deleted.
+This %s has already been removed.,この%sはすでに削除されています。,This %s has already been removed.
+#Assets,,
+Media,メディア,Media
+Image,画像,Image
+Video,ビデオ,Video
+Text,テキスト,Text
+Audio,オーディオ,Audio
+Taken with camera,カメラで撮影,Taken with camera
+Read from library,ライブラリーから読み込み,Read from library
+%s's Video,%sの動画,%s's Video
+%s's Image,%sの画像,%s's Image
+#Form,,
+Input %s,%sを入力してください,Input %s
+Select %s,%sを選択してください,Select %s
+No input %s,%sが入力されていません,%s is empty
+No select %s,%sが選択されていません,%s is not selected
+Please input your %s,%sを入力してください,Please input your %s
+Please select your %s,%sを選択してください,Please select your %s
+#Attribute,,
+Name,名前,Name
+Title,タイトル,Title
+Text,テキスト,Text
+Description,説明,Description
+Contents,コンテンツ,Contents
+URL,URL,URL
+Category,カテゴリー,Category
+Tag,タグ,Tag
+Post time,投稿日時,Post time
+Date,日付,Date
+Time,時間,Time
+Start date,開始日時,Start date
+End date,終了日時,End date
+Choices,選択肢,Choices
+Required,必須,Required
+Optional,任意,Optional
+Type,タイプ,Type
+Mode,モード,Mode
+#Location,,
+Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.,位置情報サービスが使用できません。プラットフォームが対応していないか設定で無効化されている場合があります。ご確認ください。,Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.
+You are not authorized to use the location information service. Check the permission settings.,位置情報サービスの権限がありません。パーミッションの設定を確認してください。,You are not authorized to use the location information service. Check the permission settings.
+#Error,,
+No data.,データがありません。,No data.
+No %s.,%sがありません。,No %s.
+Unknown error.,不明なエラーです。,Unknown error.
+Invalid error.,不正な処理です。,Invalid error.
+Please enter some text,なにか文字を入力してください,Please enter some text
+Timed out.,タイムアウトしました。,Timed out.
+Unable to connect to the network.,ネットワークに接続できません。,Unable to connect to the network.
+Unable to connect to the network. Application is quit.,ネットワークに接続できません。アプリを終了します。,Unable to connect to the network. Application is quit.
+You could not log in because the communication environment was bad. Please try again.,通信環境が悪いためログインが完了しませんでした。リトライしてください。,You could not log in because the communication environment was bad. Please try again.
+Initialization failed. Application is quit.,初期化に失敗しました。アプリを終了します。,Initialization failed. Application is quit.
+The login process could not be performed. Please try again.,ログインが完了しませんでした。リトライしてください。,The login process could not be performed. Please try again.
+Please input at least %s characters.,%s文字以上入力してください。,Please input at least %s characters.
+The end date and time must be a time after the start date and time.,終了日時は開始日時より後の時間を指定してください。,The end date and time must be a time after the start date and time.
+#Module,,
+Question,設問,Question
+Answer,回答,Answer
+Already responding,回答済み,Already responding
+Deadline %s,アンケート期限 %s,Deadline %s
+Question No.%s,設問 No.%s,Question No.%s
+List of %s answers,%sの回答一覧,List of %s answers
+%s answers,%sの回答,%s answers
+The question is empty. Please set a new question by clicking the 'Add New' button.,設問は空です。新規追加ボタンから新しく設問を設定してください。,The question is empty. Please set a new question by clicking the 'Add New' button.
+The question has not been set yet. Please wait for a while until the question is set.,まだ設問が設定されていません。設問が設定されるまでしばらくお待ち下さい。,The question has not been set yet. Please wait for a while until the question is set.
+An invitation email will be sent to the email address you entered. You can complete the invitation by clicking the link in the invitation email.,入力したメールアドレスに招待メールが届きます。招待メールに記載されたリンクをクリックしていただくことで招待が完了します。,An invitation email will be sent to the email address you entered. You can complete the invitation by clicking the link in the invitation email.
+#Apps,,

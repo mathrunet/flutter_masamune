@@ -1,17 +1,27 @@
 part of katana_theme;
 
-class ThemeScope<T extends AppThemeBase> extends InheritedWidget {
-  const ThemeScope({
+/// [InheritedWidget] for placing [AppThemeData] on the widget tree.
+///
+/// You can take the value of [AppThemeData] passed here in [AppThemeData.of].
+///
+/// [AppThemeData]をウィジェットツリー上に配置するための[InheritedWidget]。
+///
+/// [AppThemeData.of]でここで渡した[AppThemeData]の値を取ることができます。
+@immutable
+class AppThemeScope extends InheritedWidget {
+  const AppThemeScope({
     required super.child,
     required this.theme,
     super.key,
   });
 
-  final T theme;
+  /// Value of [AppThemeData].
+  ///
+  /// [AppThemeData]の値。
+  final AppThemeData theme;
 
   @override
-  // ignore: avoid_renaming_method_parameters
-  bool updateShouldNotify(ThemeScope old) {
-    return true;
+  bool updateShouldNotify(AppThemeScope oldWidget) {
+    return false;
   }
 }

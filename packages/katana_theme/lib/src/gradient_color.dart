@@ -1,14 +1,54 @@
 part of katana_theme;
 
+/// You can add gradient elements to the theme's color settings.
+///
+/// Two color gradients can be set by passing [mainColor] and [subColor].
+///
+/// To use it as a gradient, it must be converted to a gradient object using [Color.toLinearGradient].
+///
+/// When used as a normal [Color], the color of [mainColor] is used.
+///
+/// テーマの色設定にグラデーションの要素を加えることができます。
+///
+/// [mainColor]と[subColor]を渡すことで２色のグラデーションを設定可能です。
+///
+/// グラデーションとして用いるためには[Color.toLinearGradient]を利用してグラデーションオブジェクトに変換する必要があります。
+///
+/// 通常の[Color]として利用される場合、[mainColor]の色が使用されます。
 @immutable
 class GradientColor implements Color {
+  /// You can add gradient elements to the theme's color settings.
+  ///
+  /// Two color gradients can be set by passing [mainColor] and [subColor].
+  ///
+  /// To use it as a gradient, it must be converted to a gradient object using [Color.toLinearGradient].
+  ///
+  /// When used as a normal [Color], the color of [mainColor] is used.
+  ///
+  /// テーマの色設定にグラデーションの要素を加えることができます。
+  ///
+  /// [mainColor]と[subColor]を渡すことで２色のグラデーションを設定可能です。
+  ///
+  /// グラデーションとして用いるためには[Color.toLinearGradient]を利用してグラデーションオブジェクトに変換する必要があります。
+  ///
+  /// 通常の[Color]として利用される場合、[mainColor]の色が使用されます。
   const GradientColor(
     this.mainColor,
     this.subColor,
   );
 
+  /// The color of the starting point of the gradient color.
+  ///
+  /// This color is used when used as [Color].
+  ///
+  /// グラデーション色の開始地点の色。
+  ///
+  /// [Color]として利用される場合はこの色が利用されます。
   final Color mainColor;
 
+  /// The color at the end of the gradient color.
+  ///
+  /// グラデーション色の終了地点の色。
   final Color subColor;
 
   List<Color> _toGradient() {

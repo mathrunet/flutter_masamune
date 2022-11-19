@@ -1,4 +1,4 @@
-# katana_listenables_example
+# katana_theme_example
 
 A new Flutter project.
 
