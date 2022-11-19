@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v1.2.2`](#katana_theme---v122)
+ - [`katana_theme_annotation` - `v1.2.2`](#katana_theme_annotation---v122)
+ - [`katana_theme_builder` - `v1.2.2`](#katana_theme_builder---v122)
+
+---
+
+#### `katana_theme` - `v1.2.2`
+
+ - **FIX**: Added a new font type to the supported fonts. ([ca24c445](https://github.com/mathrunet/flutter_masamune/commit/ca24c4455aa7b8a491387852a8bf1b01275f2619))
+
+#### `katana_theme_annotation` - `v1.2.2`
+
+ - **FIX**: Added a new font type to the supported fonts. ([ca24c445](https://github.com/mathrunet/flutter_masamune/commit/ca24c4455aa7b8a491387852a8bf1b01275f2619))
+
+#### `katana_theme_builder` - `v1.2.2`
+
+ - **FIX**: Added a new font type to the supported fonts. ([ca24c445](https://github.com/mathrunet/flutter_masamune/commit/ca24c4455aa7b8a491387852a8bf1b01275f2619))
+
+
+## 2022-11-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v1.2.1`](#katana_theme---v121)
  - [`katana_theme_annotation` - `v1.2.1`](#katana_theme_annotation---v121)
  - [`katana_theme_builder` - `v1.2.1`](#katana_theme_builder---v121)

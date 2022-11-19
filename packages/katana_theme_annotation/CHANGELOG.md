@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **FIX**: Added a new font type to the supported fonts. ([ca24c445](https://github.com/mathrunet/flutter_masamune/commit/ca24c4455aa7b8a491387852a8bf1b01275f2619))
+
 ## 1.2.1
 
  - **DOCS**: README Description. ([a9c9d05f](https://github.com/mathrunet/flutter_masamune/commit/a9c9d05f94a87213125195821a80c7e7e49996e8))
