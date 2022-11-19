@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_theme` - `v1.2.1`](#katana_theme---v121)
+ - [`katana_theme_annotation` - `v1.2.1`](#katana_theme_annotation---v121)
+ - [`katana_theme_builder` - `v1.2.1`](#katana_theme_builder---v121)
+
+---
+
+#### `katana_theme` - `v1.2.1`
+
+ - **DOCS**: README Description. ([a9c9d05f](https://github.com/mathrunet/flutter_masamune/commit/a9c9d05f94a87213125195821a80c7e7e49996e8))
+
+#### `katana_theme_annotation` - `v1.2.1`
+
+ - **DOCS**: README Description. ([a9c9d05f](https://github.com/mathrunet/flutter_masamune/commit/a9c9d05f94a87213125195821a80c7e7e49996e8))
+
+#### `katana_theme_builder` - `v1.2.1`
+
+ - **DOCS**: README Description. ([a9c9d05f](https://github.com/mathrunet/flutter_masamune/commit/a9c9d05f94a87213125195821a80c7e7e49996e8))
+
+
 ## 2022-11-19
 
 ### Changes

@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **DOCS**: README Description. ([a9c9d05f](https://github.com/mathrunet/flutter_masamune/commit/a9c9d05f94a87213125195821a80c7e7e49996e8))
+
 ## 1.2.0
 
  - **FEAT**: Initial Commit. ([e6eb848e](https://github.com/mathrunet/flutter_masamune/commit/e6eb848e1d250de11cf0d031acad5f3edf05c8ad))
