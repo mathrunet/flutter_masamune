@@ -98,7 +98,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.1"
+    version: "1.6.0"
   crypto:
     dependency: transitive
     description:
@@ -193,17 +193,17 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.10"
   katana_theme_annotation:
     dependency: "direct main"
     description:
-      name: katana_theme_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.5"
+      path: "../katana_theme_annotation"
+      relative: true
+    source: path
+    version: "1.2.1"
   logging:
     dependency: transitive
     description:

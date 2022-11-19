@@ -25,6 +25,7 @@ AssetValueType _type(String path) {
       return AssetValueType.video;
     case "otf":
     case "ttf":
+    case "ttc":
       return AssetValueType.font;
   }
   return AssetValueType.text;
