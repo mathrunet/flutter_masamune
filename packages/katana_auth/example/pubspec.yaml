@@ -1,4 +1,4 @@
-name: katana_theme_example
+name: katana_auth_example
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  katana_theme:
+  katana_auth:
     path: "../"
 
   # The following adds the Cupertino Icons font to your application.
@@ -43,8 +43,8 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^2.2.1
-  katana_theme_builder:
-    path: "../../katana_theme_builder"
+  freezed: ^2.2.1
+  json_serializable: ^6.5.4
   
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -53,10 +53,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
-dependency_overrides:
-  # katana_theme_annotation:
-  #   path: "../../katana_theme_annotation"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -70,17 +66,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/
-    - assets/images/
-    - assets/images/2.0x/
-    - assets/images/3.0x/
-    - assets/images/connection/
-    - assets/images/connection/2.0x/
-    - assets/images/connection/3.0x/
-    - assets/images/orphe_core/
-    - assets/images/orphe_core/2.0x/
-    - assets/images/orphe_core/3.0x/
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

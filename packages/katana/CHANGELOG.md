@@ -1,3 +1,7 @@
+## 0.15.9
+
+ - **FEAT**: Added DynamicMap.toTreeMap. ([450d9f44](https://github.com/mathrunet/flutter_masamune/commit/450d9f44e890e6d72ad1d60c9e3376af3a68232f))
+
 ## 0.15.8+2
 
  - **FIX**: Ported num_extension to katana_shorten. ([42a5804a](https://github.com/mathrunet/flutter_masamune/commit/42a5804a2c16a3ff8f9f00ed3957db680db2c5ab))

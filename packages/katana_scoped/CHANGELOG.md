@@ -1,3 +1,7 @@
+## 1.5.1
+
+ - Update a dependency to the latest release.
+
 ## 1.5.0
 
  - **FEAT**: Add fetch method. ([3d5542cc](https://github.com/mathrunet/flutter_masamune/commit/3d5542cc8c25c5e912b199c016d32ed1aaaea684))
