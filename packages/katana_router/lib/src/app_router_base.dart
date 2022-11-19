@@ -110,6 +110,7 @@ abstract class AppRouterBase extends ChangeNotifier
     String? restorationScopeId,
     TransitionQuery? defaultTransitionQuery,
     bool reportsRouteUpdateToEngine = true,
+    Widget backgroundWidget = const Scaffold(),
   }) {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
@@ -122,6 +123,7 @@ abstract class AppRouterBase extends ChangeNotifier
       redirectLimite: redirectLimit,
       defaultTransitionQuery: defaultTransitionQuery,
       reportsRouteUpdateToEngine: reportsRouteUpdateToEngine,
+      backgroundWidget: backgroundWidget,
     );
 
     _routerDelegate = _AppRouterDelegate(
@@ -414,6 +416,7 @@ abstract class AppRouterBase extends ChangeNotifier
 /// [AppRouterBase]をウィジェットツリー上に配置するための[InheritedWidget]。
 ///
 /// [AppRouterBase.of]でここで渡した[AppRouterBase]の値を取ることができます。
+@immutable
 class AppRouteScope extends InheritedWidget {
   const AppRouteScope({
     super.key,
@@ -422,6 +425,7 @@ class AppRouteScope extends InheritedWidget {
   });
 
   /// Value of [AppRouterBase].
+  ///
   /// [AppRouterBase]の値。
   final AppRouterBase router;
 
@@ -455,6 +459,7 @@ class _AppRouterConfig {
     this.redirectLimite = 5,
     required this.navigatorKey,
     this.defaultTransitionQuery,
+    this.backgroundWidget = const Scaffold(),
     this.reportsRouteUpdateToEngine = true,
   });
   final BootRouteQueryBuilder? boot;
@@ -465,4 +470,5 @@ class _AppRouterConfig {
   final GlobalKey<NavigatorState> navigatorKey;
   final TransitionQuery? defaultTransitionQuery;
   final bool reportsRouteUpdateToEngine;
+  final Widget backgroundWidget;
 }

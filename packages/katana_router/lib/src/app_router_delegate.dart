@@ -18,7 +18,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
   @override
   Widget build(BuildContext context) {
     if (router._pageStack.isEmpty) {
-      return const SizedBox.shrink();
+      return router._config.backgroundWidget;
     }
     return AppRouteScope(
       router: router,

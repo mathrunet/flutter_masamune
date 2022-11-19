@@ -95,6 +95,13 @@ List<Class> routerClass(
                     ..toSuper = true
                     ..defaultTo = const Code("true"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "backgroundWidget"
+                    ..named = true
+                    ..toSuper = true
+                    ..defaultTo = const Code("const Scaffold()"),
+                ),
               ])
               ..initializers.addAll([
                 Code(

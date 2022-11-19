@@ -30,7 +30,7 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
 
     if (element is! TopLevelVariableElement) {
       throw InvalidGenerationSourceError(
-        "`@AppRoute()`はトップレベルのフィールドにのみ付与してください。\n"
+        "`@AppRoute()` should only be given to top-level fields.\n"
         "```\n"
         "\n"
         "```\n",
