@@ -2,8 +2,6 @@ name: masamune
 repository: https://github.com/mathrunet/flutter_masamune
 packages:
   - packages/**
-ignore:
-  - "packages/katana_model"
 command:
   version:
     # Generate commit links in package changelogs.

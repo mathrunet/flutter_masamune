@@ -28,7 +28,7 @@ packages:
       name: asn1lib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.2"
+    version: "1.4.0"
   async:
     dependency: transitive
     description:
@@ -290,26 +290,26 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.15.8+1"
+      path: "../../katana"
+      relative: true
+    source: path
+    version: "0.15.10"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
-      path: "../../katana_listenables_annotation"
-      relative: true
+      path: "/Users/mathru/Documents/github/flutter_masamune/packages/katana_model/example/../../katana_listenables_annotation"
+      relative: false
     source: path
-    version: "1.2.3"
+    version: "1.2.6"
   katana_model:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.3.2"
+    version: "1.3.7"
   lints:
     dependency: transitive
     description:
@@ -456,7 +456,7 @@ packages:
       name: pub_semver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   pubspec_parse:
     dependency: transitive
     description:
@@ -622,7 +622,7 @@ packages:
       name: uuid
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.6"
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
