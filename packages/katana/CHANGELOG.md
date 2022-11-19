@@ -1,3 +1,7 @@
+## 0.15.10
+
+ - **FEAT**: Added String.toUri. ([b0df160d](https://github.com/mathrunet/flutter_masamune/commit/b0df160d4fe801ea98e3bcef8faf124945fd3d45))
+
 ## 0.15.9
 
  - **FEAT**: Added DynamicMap.toTreeMap. ([450d9f44](https://github.com/mathrunet/flutter_masamune/commit/450d9f44e890e6d72ad1d60c9e3376af3a68232f))
