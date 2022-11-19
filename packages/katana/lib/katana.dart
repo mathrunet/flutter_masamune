@@ -39,6 +39,7 @@ part 'extension/iterable_of_iterable_extensions.dart';
 part 'extension/json_extensions.dart';
 part 'extension/list_extensions.dart';
 part 'extension/map_extensions.dart';
+part 'extension/dynamic_map_extensions.dart';
 part 'extension/nullable_double_extensions.dart';
 part 'extension/nullable_int_extensions.dart';
 part 'extension/nullable_iterable_extensions.dart';
