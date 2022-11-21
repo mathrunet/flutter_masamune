@@ -10,18 +10,12 @@ library katana_model_openapi_builder;
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 
-import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:katana/katana.dart';
-import 'package:open_api_forked/v2.dart' as v2;
-import 'package:open_api_forked/v2.dart';
-import 'package:open_api_forked/v3.dart' as v3;
-import 'package:source_gen/source_gen.dart' as source_gen;
+import 'package:open_api_forked/v3.dart';
 import 'package:yaml/yaml.dart';
 
 part 'src/builder.dart';

@@ -79,34 +79,35 @@ DynamicMap _filter(String? parentKey, DynamicMap map) {
   return res;
 }
 
-APIDocument _additionalDefinitions(APIDocument api) {
-  final definitions = api.definitions;
-  if (definitions == null) {
+APIDocument _additionalComponentSchemas(APIDocument api) {
+  final schemas = api.components?.schemas;
+  if (schemas == null) {
     return api;
   }
   final res = <String, APISchemaObject?>{};
-  for (final entry in definitions.entries) {
+  for (final entry in schemas.entries) {
     for (final property in (entry.value?.properties ?? {}).entries) {
       if (property.value?.referenceURI == null) {
         final url = "${entry.key.toPascalCase()}${property.key.toPascalCase()}";
         if (property.value?.type == APIType.object) {
           res["${entry.key.toPascalCase()}${property.key.toPascalCase()}"] =
               property.value;
-          property.value?.referenceURI = Uri.parse("#/definitions/$url");
+          property.value?.referenceURI = Uri.parse("#/components/schemas/$url");
         } else if (property.value?.type == APIType.array &&
             property.value?.items?.type == APIType.object) {
           res["${entry.key.toPascalCase()}${property.key.toPascalCase()}"] =
               property.value?.items;
-          property.value?.items?.referenceURI = Uri.parse("#/definitions/$url");
+          property.value?.items?.referenceURI =
+              Uri.parse("#/components/schemas/$url");
         }
       }
     }
   }
   for (final tmp in res.entries) {
-    if (definitions.containsKey(tmp.key)) {
+    if (schemas.containsKey(tmp.key)) {
       continue;
     }
-    definitions[tmp.key] = tmp.value;
+    schemas[tmp.key] = tmp.value;
   }
   return api;
 }

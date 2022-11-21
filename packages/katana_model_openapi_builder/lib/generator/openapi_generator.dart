@@ -17,7 +17,7 @@ class OpenAPIGenerator {
   /// Actual data from OepnAPI.
   ///
   /// OepnAPIの実データ。
-  final v2.APIDocument api;
+  final APIDocument api;
 
   /// Base name of the file.
   ///
@@ -38,7 +38,8 @@ class OpenAPIGenerator {
   ///
   /// ライブラリーを生成します。
   FutureOr<Library> generate() async {
-    final definitions = (api.definitions ?? {})
+    final schemas = (api.components?.schemas ?? {})
+        .map((key, value) => MapEntry(key.toPascalCase(), value))
       ..removeWhere((key, value) => value == null);
     final builder = LibraryBuilder()
       ..directives.addAll([
@@ -47,7 +48,7 @@ class OpenAPIGenerator {
         Directive.part(freezedPartFileName),
       ])
       ..body.addAll([
-        ...freezedClass(definitions.cast()),
+        ...freezedClass(schemas.cast()),
       ]);
 
     return builder.build();

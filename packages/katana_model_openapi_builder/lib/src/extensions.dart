@@ -8,7 +8,7 @@ extension APISchemaObjectExtensions on APISchemaObject {
   }) {
     final nullable = !inList && !required.contains(key) ? "?" : "";
     if (referenceURI != null) {
-      return "${referenceURI!.toString().split("/").last}$nullable";
+      return "${referenceURI!.toString().split("/").last.toPascalCase()}$nullable";
     }
     switch (type) {
       case APIType.string:
@@ -21,8 +21,6 @@ extension APISchemaObjectExtensions on APISchemaObject {
         return "bool$nullable";
       case APIType.array:
         return "List<${items?.toDartType(key, inList: true)}>";
-      case APIType.file:
-        return "file$nullable";
       default:
         return "Object$nullable";
     }

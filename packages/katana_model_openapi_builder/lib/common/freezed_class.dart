@@ -2,25 +2,25 @@ part of katana_model_openapi_builder;
 
 /// Creates classes created by Freezed.
 ///
-/// Pass the map generated from OepnAPI to [definitions].
+/// Pass the map generated from OepnAPI to [schemas].
 ///
 /// Freezedで作成されるクラスを作成します。
 ///
-/// [definitions]にOepnAPIから生成されたマップを渡します。
+/// [schemas]にOepnAPIから生成されたマップを渡します。
 List<Spec> freezedClass(
-  Map<String, APISchemaObject> definitions,
+  Map<String, APISchemaObject> schemas,
 ) {
   return [
-    ...definitions.entries.mapAndRemoveEmpty((define) {
-      final parameters = define.value.properties ?? {};
-      final required = define.value.required ?? [];
+    ...schemas.entries.mapAndRemoveEmpty((schema) {
+      final parameters = schema.value.properties ?? {};
+      final required = schema.value.required ?? [];
       return Class(
         (c) => c
-          ..name = define.key.toPascalCase()
+          ..name = schema.key.toPascalCase()
           ..annotations.addAll([
             const Reference("freezed"),
           ])
-          ..mixins.addAll([Reference("_\$${define.key.toPascalCase()}")])
+          ..mixins.addAll([Reference("_\$${schema.key.toPascalCase()}")])
           ..constructors.addAll([
             Constructor(
               (c) => c
@@ -48,7 +48,7 @@ List<Spec> freezedClass(
                 ])
                 ..factory = true
                 ..constant = true
-                ..redirect = Reference("_${define.key.toPascalCase()}"),
+                ..redirect = Reference("_${schema.key.toPascalCase()}"),
             ),
             Constructor(
               (c) => c
@@ -62,7 +62,7 @@ List<Spec> freezedClass(
                 ])
                 ..factory = true
                 ..lambda = true
-                ..body = Code("_\$${define.key.toPascalCase()}FromJson(json)"),
+                ..body = Code("_\$${schema.key.toPascalCase()}FromJson(json)"),
             )
           ]),
       );

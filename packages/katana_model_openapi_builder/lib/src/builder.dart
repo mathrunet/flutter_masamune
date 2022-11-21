@@ -27,7 +27,7 @@ class OpenApiCodeBuilder extends Builder {
       }
       final inputIdBasename =
           inputId.pathSegments.last.replaceAll(".openapi.yaml", "");
-      final api = _additionalDefinitions(
+      final api = _additionalComponentSchemas(
         _loadApiFromYaml(source),
       );
 
@@ -72,10 +72,10 @@ class OpenApiCodeBuilder extends Builder {
     return libraryOutput;
   }
 
-  v2.APIDocument _loadApiFromYaml(String yamlSource) {
+  APIDocument _loadApiFromYaml(String yamlSource) {
     final tmp = loadYaml(yamlSource);
     final decoded = jsonDecode(jsonEncode(tmp)) as DynamicMap?;
-    return v2.APIDocument.fromMap(
+    return APIDocument.fromMap(
       _filter(
         null,
         Map<String, dynamic>.from(decoded?.cast<String, dynamic>() ?? {}),
