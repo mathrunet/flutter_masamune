@@ -327,7 +327,7 @@ class _ModelAdapterScope extends InheritedWidget {
   final ModelAdapter adapter;
 
   @override
-  bool updateShouldNotify(covariant _ModelAdapterScope oldWidget) => true;
+  bool updateShouldNotify(covariant _ModelAdapterScope oldWidget) => false;
 }
 
 /// Query class to be passed when executing each function of [ModelAdapter].
