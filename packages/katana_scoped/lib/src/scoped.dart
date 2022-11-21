@@ -284,8 +284,7 @@ abstract class ScopedWidgetBase extends Widget {
 /// [widget]に[PageScopedWidget]や[ScopedWidget]を継承したクラスを渡します。
 ///
 /// [ScopedWidgetScope.of]で先祖にあるウィジェットを取り出すことができます。
-class ScopedWidgetScope<TWidget extends ScopedWidgetBase>
-    extends InheritedWidget {
+class ScopedWidgetScope extends StatefulWidget {
   /// [InheritedWidget] for making [ScopedWidgetBase] retrievable from descendant widgets.
   ///
   /// Pass a class inheriting from [PageScopedWidget] or [ScopedWidget] to [widget].
@@ -299,35 +298,70 @@ class ScopedWidgetScope<TWidget extends ScopedWidgetBase>
   /// [ScopedWidgetScope.of]で先祖にあるウィジェットを取り出すことができます。
   const ScopedWidgetScope({
     super.key,
-    required super.child,
+    required this.child,
     required this.widget,
   });
 
   /// Widgets that inherit from [ScopedWidgetBase].
   ///
   /// [ScopedWidgetBase]を継承したウィジェット。
-  final TWidget widget;
+  final ScopedWidgetBase widget;
 
-  /// O(1) out [TWidget] in ancestor by passing [context].
+  /// Children's widget.
+  ///
+  /// 子供のウィジェット。
+  final Widget child;
+
+  /// Pass [context] to retrieve [TWidget] in the ancestor.
   ///
   /// If [TWidget] does not exist in the ancestor, an error is output.
   ///
-  /// [context]を渡して祖先にある[TWidget]をO(1)で取り出します。
+  /// [context]を渡して祖先にある[TWidget]を取り出します。
   ///
   /// 祖先に[TWidget]が存在しない場合はエラーが出力されます。
   static TWidget of<TWidget extends ScopedWidgetBase>(BuildContext context) {
-    final scope = context
-        .getElementForInheritedWidgetOfExactType<ScopedWidgetScope<TWidget>>()
-        ?.widget as ScopedWidgetScope<TWidget>?;
+    _ScopedWidgetScope? scope;
+    do {
+      scope = context
+          .getElementForInheritedWidgetOfExactType<_ScopedWidgetScope>()
+          ?.widget as _ScopedWidgetScope?;
+      if (scope == null) {
+        break;
+      }
+      if (scope.state.widget is TWidget) {
+        break;
+      }
+      context = scope.state.context;
+    } while (scope.state.widget is! TWidget);
     assert(
-      scope != null,
+      scope != null && scope.state.widget is TWidget,
       "Could not find $TWidget. Please define $TWidget in the element above.",
     );
-    return scope!.widget;
+    return scope!.state.widget as TWidget;
   }
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return false;
+  State<StatefulWidget> createState() => _ScopedWidgetScopeState();
+}
+
+class _ScopedWidgetScopeState extends State<ScopedWidgetScope> {
+  @override
+  Widget build(BuildContext context) {
+    return _ScopedWidgetScope(
+      state: this,
+      child: widget.child,
+    );
   }
+}
+
+class _ScopedWidgetScope extends InheritedWidget {
+  const _ScopedWidgetScope({
+    required super.child,
+    required this.state,
+  });
+
+  final _ScopedWidgetScopeState state;
+
+  @override
+  bool updateShouldNotify(_ScopedWidgetScope oldWidget) => false;
 }
