@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v1.5.5`](#katana_scoped---v155)
+
+---
+
+#### `katana_scoped` - `v1.5.5`
+
+ - **FIX**: Fixed a bug that was not working properly. ([8a050501](https://github.com/mathrunet/flutter_masamune/commit/8a05050135f799996a36d397d6f9276adb95ec6c))
+
+
+## 2022-11-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.3.8`](#katana_model---v138)
  - [`katana_model_openapi` - `v1.2.0`](#katana_model_openapi---v120)
  - [`katana_model_openapi_builder` - `v1.2.0`](#katana_model_openapi_builder---v120)

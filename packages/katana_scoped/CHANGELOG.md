@@ -1,3 +1,7 @@
+## 1.5.5
+
+ - **FIX**: Fixed a bug that was not working properly. ([8a050501](https://github.com/mathrunet/flutter_masamune/commit/8a05050135f799996a36d397d6f9276adb95ec6c))
+
 ## 1.5.4
 
  - **FIX**: Fixed ScopedWidgetScope.of could not take ancestor values. ([1d1331f8](https://github.com/mathrunet/flutter_masamune/commit/1d1331f83a59b8081c109baedf144a6e04373b4f))
