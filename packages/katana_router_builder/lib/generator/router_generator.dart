@@ -111,6 +111,9 @@ class RouterGenerator extends GeneratorForAnnotation<AppRoute> {
       (l) => l
         ..directives.addAll([
           Directive.import(
+            "package:flutter/material.dart",
+          ),
+          Directive.import(
             "package:katana_router/katana_router.dart",
           ),
           ...import
