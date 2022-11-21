@@ -1,3 +1,7 @@
+## 1.2.4
+
+ - **FIX**: Added scaffoldBackgroundColor, etc. since they could not be taken from Theme. ([1525026c](https://github.com/mathrunet/flutter_masamune/commit/1525026ca972c1806c9f0f51d567139d403b1e73))
+
 ## 1.2.3
 
  - **FIX**: Added mediaQuery. ([a6e80065](https://github.com/mathrunet/flutter_masamune/commit/a6e800659eb716ff1c8a005e98ccc4da22c64f9b))

@@ -1,3 +1,7 @@
+## 1.9.8
+
+ - **FIX**: Added import of material package as it was needed. ([3c920581](https://github.com/mathrunet/flutter_masamune/commit/3c9205810d9453653874220937f6510d29cfa561))
+
 ## 1.9.7
 
  - **FIX**: Fixed a bug that caused black background when using boot. ([5e20ae8c](https://github.com/mathrunet/flutter_masamune/commit/5e20ae8c9e1588682827d798f4478df329cbc7d6))

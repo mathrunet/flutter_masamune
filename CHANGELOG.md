@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.3.8`](#katana_model---v138)
+ - [`katana_model_openapi` - `v1.2.0`](#katana_model_openapi---v120)
+ - [`katana_model_openapi_builder` - `v1.2.0`](#katana_model_openapi_builder---v120)
+ - [`katana_router_builder` - `v1.9.8`](#katana_router_builder---v198)
+ - [`katana_scoped` - `v1.5.4`](#katana_scoped---v154)
+ - [`katana_theme` - `v1.2.4`](#katana_theme---v124)
+ - [`katana_theme_builder` - `v1.2.3`](#katana_theme_builder---v123)
+ - [`katana_model_firestore` - `v1.3.9`](#katana_model_firestore---v139)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v1.3.9`
+
+---
+
+#### `katana_model` - `v1.3.8`
+
+ - **FIX**: Change updateShouldNotify of ModelAdapterScope to false. ([7ee492f6](https://github.com/mathrunet/flutter_masamune/commit/7ee492f65cd71e380b7853e94e0971334a0a8baf))
+
+#### `katana_model_openapi` - `v1.2.0`
+
+ - **FEAT**: Support for OepnAPI3. ([46686cff](https://github.com/mathrunet/flutter_masamune/commit/46686cffa9595aee08fde588feb6dbd8ac5da773))
+
+#### `katana_model_openapi_builder` - `v1.2.0`
+
+ - **FEAT**: Support for OepnAPI3. ([46686cff](https://github.com/mathrunet/flutter_masamune/commit/46686cffa9595aee08fde588feb6dbd8ac5da773))
+
+#### `katana_router_builder` - `v1.9.8`
+
+ - **FIX**: Added import of material package as it was needed. ([3c920581](https://github.com/mathrunet/flutter_masamune/commit/3c9205810d9453653874220937f6510d29cfa561))
+
+#### `katana_scoped` - `v1.5.4`
+
+ - **FIX**: Fixed ScopedWidgetScope.of could not take ancestor values. ([1d1331f8](https://github.com/mathrunet/flutter_masamune/commit/1d1331f83a59b8081c109baedf144a6e04373b4f))
+
+#### `katana_theme` - `v1.2.4`
+
+ - **FIX**: Added scaffoldBackgroundColor, etc. since they could not be taken from Theme. ([1525026c](https://github.com/mathrunet/flutter_masamune/commit/1525026ca972c1806c9f0f51d567139d403b1e73))
+
+#### `katana_theme_builder` - `v1.2.3`
+
+ - **FIX**: Added scaffoldBackgroundColor, etc. since they could not be taken from Theme. ([1525026c](https://github.com/mathrunet/flutter_masamune/commit/1525026ca972c1806c9f0f51d567139d403b1e73))
+
+
+## 2022-11-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v1.2.3`](#katana_theme---v123)
 
 ---

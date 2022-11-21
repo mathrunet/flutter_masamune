@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Added scaffoldBackgroundColor, etc. since they could not be taken from Theme. ([1525026c](https://github.com/mathrunet/flutter_masamune/commit/1525026ca972c1806c9f0f51d567139d403b1e73))
+
 ## 1.2.2
 
  - **FIX**: Added a new font type to the supported fonts. ([ca24c445](https://github.com/mathrunet/flutter_masamune/commit/ca24c4455aa7b8a491387852a8bf1b01275f2619))

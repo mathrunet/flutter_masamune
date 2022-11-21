@@ -1,3 +1,7 @@
+## 1.5.4
+
+ - **FIX**: Fixed ScopedWidgetScope.of could not take ancestor values. ([1d1331f8](https://github.com/mathrunet/flutter_masamune/commit/1d1331f83a59b8081c109baedf144a6e04373b4f))
+
 ## 1.5.3
 
  - **FIX**: Add dispose to AppRef. ([890bf70b](https://github.com/mathrunet/flutter_masamune/commit/890bf70be6fd2cbfb537db18e960a3abcd913fd7))
