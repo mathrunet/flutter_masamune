@@ -10,6 +10,11 @@ extension ThemeBuildContextExtensions on BuildContext {
   AppThemeData get theme {
     return AppThemeData.of(this);
   }
+
+  /// You can retrieve media queries.
+  ///
+  /// メディアクエリーを取得することができます。
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
 }
 
 /// Define a theme extension for [Color].
