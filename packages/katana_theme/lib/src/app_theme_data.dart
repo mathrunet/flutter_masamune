@@ -152,10 +152,10 @@ class AppThemeData {
     double fontSizeFactor = 1.0,
     double fontSizeDelta = 0.0,
     String? defaultFontFamily,
-    this.brightness = Brightness.light,
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
   })  : color = ColorThemeData._(
+          brightness: Brightness.light,
           primary: primary,
           secondary: secondary,
           tertiary: tertiary,
@@ -341,8 +341,8 @@ class AppThemeData {
     String? defaultFontFamily,
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
-  })  : brightness = Brightness.light,
-        color = ColorThemeData._(
+  })  : color = ColorThemeData._(
+          brightness: Brightness.light,
           primary: primary,
           secondary: secondary,
           tertiary: tertiary,
@@ -528,8 +528,8 @@ class AppThemeData {
     String? defaultFontFamily,
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
-  })  : brightness = Brightness.dark,
-        color = ColorThemeData._(
+  })  : color = ColorThemeData._(
+          brightness: Brightness.dark,
           primary: primary,
           secondary: secondary,
           tertiary: tertiary,
@@ -670,11 +670,6 @@ class AppThemeData {
   /// [WidgetThemeData]をエクステンションすることで新しいテーマを定義することが可能です。
   WidgetThemeData get widget => const WidgetThemeData._();
 
-  /// Define [Brightness] for the application. [Brightness.dark] will set it to dark mode and [Brightness.light] will set it to light mode.
-  ///
-  /// アプリの[Brightness]を定義します。[Brightness.dark]でダークモードに、[Brightness.light]でライトモードになります。
-  final Brightness brightness;
-
   /// If this is set to `true`, the app will be designed with Material3 design.
   ///
   /// これを`true`にした場合、Material3のデザインでアプリがデザインされます。
@@ -722,7 +717,7 @@ class AppThemeData {
     final text = this.text;
     defaultFontFamily ??= text.defaultFontFamily;
 
-    switch (brightness) {
+    switch (color.brightness) {
       case Brightness.dark:
         final colorScheme = const ColorScheme.dark().copyWith(
           primary: color.primary,
@@ -745,7 +740,7 @@ class AppThemeData {
           onSurface: color.onSurface,
           onError: color.onError,
           onErrorContainer: color.onWarning,
-          brightness: brightness,
+          brightness: color.brightness,
           outline: color.outline,
           inversePrimary: color.inversePrimary,
           inverseSurface: color.inverseSurface,
@@ -793,6 +788,7 @@ class AppThemeData {
           platform: platform,
           colorScheme: colorScheme,
           splashColor: color.splashColor,
+          canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
           textTheme: textTheme.apply(
             fontFamily: text.defaultFontFamily,
@@ -856,13 +852,12 @@ class AppThemeData {
             ),
           ),
           indicatorColor: color.secondary,
-          brightness: brightness,
+          brightness: color.brightness,
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
           errorColor: color.error,
           backgroundColor: color.background,
-          canvasColor: color.background,
         );
       default:
         final colorScheme = const ColorScheme.light().copyWith(
@@ -884,7 +879,7 @@ class AppThemeData {
           onBackground: color.onBackground,
           onSurface: color.onSurface,
           onError: color.onError,
-          brightness: brightness,
+          brightness: color.brightness,
           outline: color.outline,
           inversePrimary: color.inversePrimary,
           inverseSurface: color.inverseSurface,
@@ -932,6 +927,7 @@ class AppThemeData {
           platform: platform,
           colorScheme: colorScheme,
           splashColor: color.splashColor,
+          canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
           appBarTheme: theme.appBarTheme.copyWith(
             backgroundColor: color.appBarColor ?? color.primary,
@@ -994,13 +990,12 @@ class AppThemeData {
             ),
           ),
           indicatorColor: color.secondary,
-          brightness: brightness,
+          brightness: color.brightness,
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
           errorColor: color.error,
           backgroundColor: color.background,
-          canvasColor: color.background,
         );
     }
   }
@@ -1054,10 +1049,18 @@ class ColorThemeData {
     required this.inverseSurface,
     required this.onInverseSurface,
     required this.inversePrimary,
+    required this.brightness,
     this.appBarColor,
     this.onAppBarColor,
-    this.scaffoldBackgroundColor,
-  });
+    Color? canvasColor,
+    Color? scaffoldBackgroundColor,
+  })  : _scaffoldBackgroundColor = scaffoldBackgroundColor,
+        _canvas = canvasColor;
+
+  /// Define [Brightness] for the application. [Brightness.dark] will set it to dark mode and [Brightness.light] will set it to light mode.
+  ///
+  /// アプリの[Brightness]を定義します。[Brightness.dark]でダークモードに、[Brightness.light]でライトモードになります。
+  final Brightness brightness;
 
   /// Primary key color.
   ///
@@ -1345,7 +1348,30 @@ class ColorThemeData {
   /// [Scaffold]の背景色。
   ///
   /// Material3のカラースキーム外のカラーです。
-  final Color? scaffoldBackgroundColor;
+  Color get scaffoldBackgroundColor {
+    if (_scaffoldBackgroundColor != null) {
+      return _scaffoldBackgroundColor!;
+    }
+    return brightness == Brightness.dark ? Colors.grey[850]! : Colors.grey[50]!;
+  }
+
+  final Color? _scaffoldBackgroundColor;
+
+  /// Canvas background color.
+  ///
+  /// These are colors outside of the Material3 color scheme.
+  ///
+  /// キャンバスの背景色。
+  ///
+  /// Material3のカラースキーム外のカラーです。
+  Color get canvas {
+    if (_canvas != null) {
+      return _canvas!;
+    }
+    return brightness == Brightness.dark ? Colors.grey[850]! : Colors.grey[50]!;
+  }
+
+  final Color? _canvas;
 
   /// Color for the effect when the button is tapped.
   ///
