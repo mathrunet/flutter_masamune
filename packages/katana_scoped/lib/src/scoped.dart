@@ -328,16 +328,16 @@ class ScopedWidgetScope extends StatefulWidget {
       if (scope == null) {
         break;
       }
-      if (scope.state.widget is TWidget) {
+      if (scope.state.widget.widget is TWidget) {
         break;
       }
       context = scope.state.context;
-    } while (scope.state.widget is! TWidget);
+    } while (scope.state.widget.widget is! TWidget);
     assert(
-      scope != null && scope.state.widget is TWidget,
+      scope != null && scope.state.widget.widget is TWidget,
       "Could not find $TWidget. Please define $TWidget in the element above.",
     );
-    return scope!.state.widget as TWidget;
+    return scope!.state.widget.widget as TWidget;
   }
 
   @override
