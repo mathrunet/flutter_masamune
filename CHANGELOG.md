@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_theme` - `v1.2.3`](#katana_theme---v123)
+
+---
+
+#### `katana_theme` - `v1.2.3`
+
+ - **FIX**: Added mediaQuery. ([a6e80065](https://github.com/mathrunet/flutter_masamune/commit/a6e800659eb716ff1c8a005e98ccc4da22c64f9b))
+
+
 ## 2022-11-20
 
 ### Changes

@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Added mediaQuery. ([a6e80065](https://github.com/mathrunet/flutter_masamune/commit/a6e800659eb716ff1c8a005e98ccc4da22c64f9b))
+
 ## 1.2.2
 
  - **FIX**: Added a new font type to the supported fonts. ([ca24c445](https://github.com/mathrunet/flutter_masamune/commit/ca24c4455aa7b8a491387852a8bf1b01275f2619))
