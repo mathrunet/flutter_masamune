@@ -395,8 +395,11 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller != null) {
+    if (widget.controller == null) {
       _controller = TextEditingController(text: widget.initialValue);
+    }
+    if (widget.initialValue != null) {
+      _effectiveController?.text = widget.initialValue!;
     }
     _effectiveController?.addListener(_handledOnUpdate);
   }
@@ -461,7 +464,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
       onTap: widget.onTapSuggestion,
       style: widget.suggestionStyle ?? const SuggestionStyle(),
       onDeleteSuggestion: widget.onDeleteSuggestion,
-      controller: widget.controller,
+      controller: _effectiveController,
       focusNode: widget.focusNode,
       builder: (context, controller, onTap) => Container(
         height: widget.style?.height,
@@ -1053,8 +1056,7 @@ class _TextFormField<TValue> extends FormField<String> {
     super.restorationId,
     bool enableIMEPersonalizedLearning = true,
     MouseCursor? mouseCursor,
-  })  : assert(initialValue == null || controller == null),
-        assert(maxLines == null || maxLines > 0),
+  })  : assert(maxLines == null || maxLines > 0),
         assert(minLines == null || minLines > 0),
         assert(
           (maxLines == null) || (minLines == null) || (maxLines >= minLines),

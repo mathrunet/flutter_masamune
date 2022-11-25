@@ -35,7 +35,13 @@ class FormPage extends StatefulWidget {
 }
 
 class FormPageState extends State<FormPage> {
-  final form = FormController(<String, dynamic>{});
+  final form = FormController(<String, dynamic>{
+    "name": "aaaa",
+    "description": "bbb",
+    "date": DateTime.now(),
+    "monthDay": DateTime.now(),
+    "number": 100,
+  });
 
   @override
   void dispose() {
