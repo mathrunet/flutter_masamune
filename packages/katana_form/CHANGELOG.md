@@ -1,3 +1,7 @@
+## 1.2.5
+
+ - **FIX**: The initialValue of FormTextField was not reflected. ([bba67a92](https://github.com/mathrunet/flutter_masamune/commit/bba67a92f1d269d13a2d839c74017f539334e86d))
+
 ## 1.2.4
 
  - Update a dependency to the latest release.

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.2.5`](#katana_form---v125)
+
+---
+
+#### `katana_form` - `v1.2.5`
+
+ - **FIX**: The initialValue of FormTextField was not reflected. ([bba67a92](https://github.com/mathrunet/flutter_masamune/commit/bba67a92f1d269d13a2d839c74017f539334e86d))
+
+
 ## 2022-11-21
 
 ### Changes
