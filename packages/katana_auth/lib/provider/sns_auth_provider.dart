@@ -5,4 +5,6 @@ part of katana_auth;
 ///
 /// SNSのOAuth認証を行うための`AuthQuery`。
 /// {@endtemplate}
-abstract class SnsSignInAuthProvider extends SignInAuthProvider {}
+abstract class SnsSignInAuthProvider extends SignInAuthProvider {
+  Future<Credential> credential();
+}

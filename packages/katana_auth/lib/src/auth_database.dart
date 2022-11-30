@@ -27,7 +27,7 @@ const _kTempUserPhoneNumberKey = "tmpPhoneNumber";
 ///
 /// This also allows authentication information to be stored locally within the terminal.
 ///
-/// You can test each email and SMS sending process with [onSendEmailLink], [onSendSMS], [onResetPassword], and [onSendVerificationEmail].
+/// It is possible to test each email and SMS sending process with [onSendRegisteredEmail], [onSendEmailLink], [onSendSMS], [onResetPassword] and [onSendVerificationEmail].
 ///
 /// The password to be reset when [reset] is executed can be specified in [resetPassword].
 ///
@@ -41,7 +41,7 @@ const _kTempUserPhoneNumberKey = "tmpPhoneNumber";
 ///
 /// これにより、端末ローカル内に認証情報を保存することも可能です。
 ///
-/// [onSendEmailLink]や[onSendSMS]、[onResetPassword]、[onSendVerificationEmail]で各メールやSMSの送信処理をテストすることが可能です。
+/// [onSendRegisteredEmail]や[onSendEmailLink]、[onSendSMS]、[onResetPassword]、[onSendVerificationEmail]で各メールやSMSの送信処理をテストすることが可能です。
 ///
 /// [reset]が実行された場合リセットされるパスワードを[resetPassword]で指定することが可能です。
 class AuthDatabase {
@@ -55,7 +55,7 @@ class AuthDatabase {
   ///
   /// This also allows authentication information to be stored locally within the terminal.
   ///
-  /// You can test each email and SMS sending process with [onSendEmailLink], [onSendSMS], [onResetPassword], and [onSendVerificationEmail].
+  /// It is possible to test each email and SMS sending process with [onSendRegisteredEmail], [onSendEmailLink], [onSendSMS], [onResetPassword] and [onSendVerificationEmail].
   ///
   /// The password to be reset when [reset] is executed can be specified in [resetPassword].
   ///
@@ -69,13 +69,14 @@ class AuthDatabase {
   ///
   /// これにより、端末ローカル内に認証情報を保存することも可能です。
   ///
-  /// [onSendEmailLink]や[onSendSMS]、[onResetPassword]、[onSendVerificationEmail]で各メールやSMSの送信処理をテストすることが可能です。
+  /// [onSendRegisteredEmail]や[onSendEmailLink]、[onSendSMS]、[onResetPassword]、[onSendVerificationEmail]で各メールやSMSの送信処理をテストすることが可能です。
   ///
   /// [reset]が実行された場合リセットされるパスワードを[resetPassword]で指定することが可能です。
   AuthDatabase({
     this.onInitialize,
     this.onLoad,
     this.onSaved,
+    this.onSendRegisteredEmail,
     this.onSendEmailLink,
     this.onSendSMS,
     this.onResetPassword,
@@ -115,6 +116,16 @@ class AuthDatabase {
   ///
   /// Databaseの読み込み時に実行されます。
   final Future<void> Function(AuthDatabase database)? onLoad;
+
+  /// It is executed when the registration completion email is sent.
+  ///
+  /// The recipient's email address is passed to `email`, the password to `password`, and the language setting to `locale`.
+  ///
+  /// 登録完了メールを送信する際に実行されます。
+  ///
+  /// `email`に送信先のメールアドレス、`password`にパスワード、`locale`に言語設定が渡されます。
+  final Future<void> Function(String email, String password, Locale locale)?
+      onSendRegisteredEmail;
 
   /// Executed when issuing a mail link.
   ///
@@ -290,6 +301,11 @@ class AuthDatabase {
         ...activeProviderIds,
         provider.providerId,
       }.toList();
+      await onSendRegisteredEmail?.call(
+        provider.email,
+        provider.password,
+        provider.locale ?? defaultLocale,
+      );
     }
     await onSaved?.call(this);
   }

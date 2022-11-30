@@ -130,22 +130,23 @@ class EmailAndPasswordAuthQuery {
 
 /// {@macro register_auth_provider}
 ///
-/// Please give us your email address in [email] and your password in [password].
+/// Pass the email address in [email], the password in [password], and the language setting of the registration email in [locale].
 ///
-/// [email]にメールアドレス、[password]にパスワードを渡してください。
+/// [email]にメールアドレス、[password]にパスワード、[locale]に登録用のEメールの言語設定を渡します。
 ///
 /// {@macro email_and_password_auth}
 class EmailAndPasswordRegisterAuthProvider extends RegisterAuthProvider {
   /// {@macro register_auth_provider}
   ///
-  /// Please give us your email address in [email] and your password in [password].
+  /// Pass the email address in [email], the password in [password], and the language setting of the registration email in [locale].
   ///
-  /// [email]にメールアドレス、[password]にパスワードを渡してください。
+  /// [email]にメールアドレス、[password]にパスワード、[locale]に登録用のEメールの言語設定を渡します。
   ///
   /// {@macro email_and_password_auth}
   const EmailAndPasswordRegisterAuthProvider({
     required this.email,
     required this.password,
+    this.locale,
   });
 
   @override
@@ -161,6 +162,11 @@ class EmailAndPasswordRegisterAuthProvider extends RegisterAuthProvider {
   ///
   /// パスワード。
   final String password;
+
+  /// Language preference for registration e-mails.
+  ///
+  /// 登録用のEメールの言語設定。
+  final Locale? locale;
 }
 
 /// {@macro sign_in_auth_provider}
@@ -229,22 +235,23 @@ class EmailAndPasswordReAuthProvider extends ReAuthProvider {
 
 /// {@macro reset_auth_provider}
 ///
-/// Pass the email address in [email] and the language setting of the email for the reset in [locale].
+/// Pass the email address in [email], the language setting of the reset email in [locale], and the URL to be guided after the password reset in [continueUrl].
 ///
-/// [email]にメールアドレス、[locale]にリセット用のEメールの言語設定を渡します。
+/// [email]にメールアドレス、[locale]にリセット用のEメールの言語設定、[continueUrl]にパスワードリセット後に案内するURLを渡します。
 ///
 /// {@macro email_and_password_auth}
 class EmailAndPasswordResetAuthProvider extends ResetAuthProvider {
   /// {@macro reset_auth_provider}
   ///
-  /// Pass the email address in [email] and the language setting of the email for the reset in [locale].
+  /// Pass the email address in [email], the language setting of the reset email in [locale], and the URL to be guided after the password reset in [continueUrl].
   ///
-  /// [email]にメールアドレス、[locale]にリセット用のEメールの言語設定を渡します。
+  /// [email]にメールアドレス、[locale]にリセット用のEメールの言語設定、[continueUrl]にパスワードリセット後に案内するURLを渡します。
   ///
   /// {@macro email_and_password_auth}
   const EmailAndPasswordResetAuthProvider({
     required this.email,
     this.locale,
+    this.continueUrl,
   });
 
   @override
@@ -255,6 +262,11 @@ class EmailAndPasswordResetAuthProvider extends ResetAuthProvider {
   ///
   /// メールアドレス。
   final String email;
+
+  /// URL to be guided after password reset.
+  ///
+  /// パスワードリセット後に案内するURL。
+  final String? continueUrl;
 
   /// Email language settings for reset.
   ///

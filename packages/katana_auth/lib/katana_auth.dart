@@ -25,3 +25,4 @@ part 'src/auth_adapter.dart';
 part 'src/authentication.dart';
 part 'src/auth_provider.dart';
 part 'src/auth_database.dart';
+part 'src/auth_credential.dart';
