@@ -18,4 +18,4 @@ import 'package:katana_auth/katana_auth.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'src/firebase_auth_adapter.dart';
+part 'adapter/firebase_auth_adapter.dart';
