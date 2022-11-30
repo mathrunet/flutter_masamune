@@ -225,7 +225,7 @@ packages:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.0"
   glob:
     dependency: transitive
     description:
@@ -290,17 +290,17 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
-      path: "/Users/mathru/Documents/github/flutter_masamune/packages/katana_model/example/../../katana_listenables_annotation"
-      relative: false
+      path: "../../katana_listenables_annotation"
+      relative: true
     source: path
     version: "1.2.6"
   katana_model:
@@ -309,7 +309,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.3.7"
+    version: "1.3.8"
   lints:
     dependency: transitive
     description:
@@ -379,7 +379,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.21"
+    version: "2.0.22"
   path_provider_ios:
     dependency: transitive
     description:
@@ -650,7 +650,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   xdg_directories:
     dependency: transitive
     description:

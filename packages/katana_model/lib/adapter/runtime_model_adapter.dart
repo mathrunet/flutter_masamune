@@ -7,7 +7,7 @@ part of katana_model;
 ///
 /// Normally, a common database [sharedDatabase] is used for the entire app, but if you want to reset the database each time, for example for testing, pass an individual database to [database].
 ///
-/// By passing data to [RuntimeModelAdapter.setRawData], the database can be used as a data mockup since it contains data in advance.
+/// By passing data to [rawData], the database can be used as a data mockup since it contains data in advance.
 ///
 /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
 ///
@@ -17,7 +17,7 @@ part of katana_model;
 ///
 /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
 ///
-/// [RuntimeModelAdapter.setRawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+/// [rawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 @immutable
 class RuntimeModelAdapter extends ModelAdapter {
   /// Model adapter that uses a database that runs only in the memory of the application.
@@ -27,7 +27,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// Normally, a common database [sharedDatabase] is used for the entire app, but if you want to reset the database each time, for example for testing, pass an individual database to [database].
   ///
-  /// By passing data to [RuntimeModelAdapter.setRawData], the database can be used as a data mockup since it contains data in advance.
+  /// By passing data to [rawData], the database can be used as a data mockup since it contains data in advance.
   ///
   /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
   ///
@@ -37,7 +37,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
   ///
-  /// [RuntimeModelAdapter.setRawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+  /// [rawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   const RuntimeModelAdapter({NoSqlDatabase? database, this.rawData})
       : _database = database;
 
