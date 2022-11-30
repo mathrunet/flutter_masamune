@@ -118,7 +118,9 @@ class FormButton extends StatelessWidget {
         ) ??
         TextStyle(color: enabled ? foregroundColor : disabledForegroundColor);
 
-    return Padding(
+    return Container(
+      width: style?.width,
+      height: style?.height,
       padding: style?.padding ??
           const EdgeInsets.symmetric(
             horizontal: 32,
