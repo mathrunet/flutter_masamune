@@ -220,7 +220,7 @@ packages:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.0"
   glob:
     dependency: transitive
     description:
@@ -285,11 +285,11 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10"
   katana_theme:
     dependency: "direct main"
@@ -297,21 +297,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.2.1"
+    version: "1.2.4"
   katana_theme_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana_theme_annotation"
-      relative: true
-    source: path
-    version: "1.2.1"
+      name: katana_theme_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.2"
   katana_theme_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "1.2.1"
+    version: "1.2.3"
   lints:
     dependency: transitive
     description:
