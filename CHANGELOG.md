@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth_firebase` - `v1.1.0`](#katana_auth_firebase---v110)
+
+---
+
+#### `katana_auth_firebase` - `v1.1.0`
+
+ - **FEAT**: Add FirebaseAuthAdapter. ([c3cf6afe](https://github.com/mathrunet/flutter_masamune/commit/c3cf6afec573c50a7aa39c98d81c3095b9f71fdd))
+
+
+## 2022-11-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v1.1.0`](#katana_auth---v110)
 
 ---
