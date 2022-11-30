@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-11-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v1.1.0`](#katana_auth---v110)
+
+---
+
+#### `katana_auth` - `v1.1.0`
+
+ - **FEAT**: Add FirebaseAuthAdapter. ([c3cf6afe](https://github.com/mathrunet/flutter_masamune/commit/c3cf6afec573c50a7aa39c98d81c3095b9f71fdd))
+ - **FEAT**: Initial commit. ([5c8d42a3](https://github.com/mathrunet/flutter_masamune/commit/5c8d42a3c6213127422d0db077240ad03963eead))
+
+
 ## 2022-11-25
 
 ### Changes
