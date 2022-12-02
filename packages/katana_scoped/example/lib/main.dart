@@ -25,12 +25,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
+final valueNotifierQuery =
+    ChangeNotifierScopedQueryFamily<ValueNotifier<int>, int>(
+  (p) => ValueNotifier(p),
+);
+
 class CounterPage extends PageScopedWidget {
   const CounterPage({super.key});
 
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final counter = ref.page.watch(() => ValueNotifier(0));
+    final counter = ref.page.query(valueNotifierQuery(100));
 
     return Scaffold(
       appBar: AppBar(title: const Text("App Demo")),

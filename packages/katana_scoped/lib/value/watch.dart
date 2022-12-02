@@ -19,7 +19,7 @@ extension RefWatchExtensions on Ref {
   /// [keys]が前の値と違う場合再度[callback]が実行され、新しい[ChangeNotifier]が保存されます。
   ///
   /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
-  T watch<T extends Listenable>(
+  T watch<T extends Listenable?>(
     T Function() callback, {
     List<Object> keys = const [],
     String? name,
