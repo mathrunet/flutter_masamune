@@ -100,6 +100,8 @@ class ScopedValueListener {
   ///
   /// If [TScopedValue] was saved with [name], specify the same [name].
   ///
+  /// If [listen] is `true`, then it should be associated with the widget to notify it of changes.
+  ///
   /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
   ///
   /// [ScopedValueContainer]にすでに保存されている[TScopedValue]に関連する[ScopedValueState]を取得し、その結果を返します。
@@ -108,13 +110,22 @@ class ScopedValueListener {
   ///
   /// [name]を指定して[TScopedValue]を保存していた場合、同じ[name]を指定してください。
   ///
+  /// [listen]が`true`の場合、ウィジェットに関連付けて変更を通知するようにします。
+  ///
   /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
   TResult? getAlreadtExistsScopedValueResult<TResult,
       TScopedValue extends ScopedValue<TResult>>({
+    bool listen = false,
     String? name,
   }) {
     final state =
         container.getAlreadyExistsScopedValueState<TResult, TScopedValue>(
+      onInitOrUpdate: (state) {
+        if (listen) {
+          _watched.add(state);
+          state._addListener(_callback);
+        }
+      },
       name: name,
     );
     return state?.build();

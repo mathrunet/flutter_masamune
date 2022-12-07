@@ -100,6 +100,8 @@ abstract class Ref {
   ///
   /// If [TScopedValue] was saved with [name], specify the same [name].
   ///
+  /// If [listen] is `true`, then it should be associated with the widget to notify it of changes.
+  ///
   /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
   ///
   /// [ScopedValueContainer]にすでに保存されている[TScopedValue]を取得します。
@@ -108,10 +110,15 @@ abstract class Ref {
   ///
   /// [name]を指定して[TScopedValue]を保存していた場合、同じ[name]を指定してください。
   ///
+  /// [listen]が`true`の場合、ウィジェットに関連付けて変更を通知するようにします。
+  ///
   /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
   /// {@endtemplate}
   TResult? getAlreadyExistsScopedValue<TResult,
-      TScopedValue extends ScopedValue<TResult>>({String? name});
+      TScopedValue extends ScopedValue<TResult>>({
+    String? name,
+    bool listen = false,
+  });
 }
 
 /// Reference with [ScopedValueRef] in the application scope.

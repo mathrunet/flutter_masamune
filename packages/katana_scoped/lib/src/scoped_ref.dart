@@ -61,7 +61,10 @@ class AppRef implements Ref {
 
   @override
   TResult? getAlreadyExistsScopedValue<TResult,
-      TScopedValue extends ScopedValue<TResult>>({String? name}) {
+      TScopedValue extends ScopedValue<TResult>>({
+    String? name,
+    bool listen = false,
+  }) {
     return _scopedValueContainer
         .getAlreadyExistsScopedValueState<TResult, TScopedValue>(
           name: name,

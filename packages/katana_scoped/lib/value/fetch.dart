@@ -10,16 +10,21 @@ extension RefFetchExtensions on Ref {
   ///
   /// [ScopedValue] registered in [watch] and [ScopedValue] registered in [cache] are processed in this order.
   ///
+  /// When [watch] returns a registered [ScopedValue], it will be associated with the widget and notify the user of the change.
+  ///
   /// [watch]や[cache]ですでに登録している[ScopedValue]をその下のウィジェット等で取得するために利用します。
   ///
   /// [watch]や[cache]で登録されていない[ScopedValue]を取得しようとした時[Null]が返されます。
   ///
   /// [watch]で登録した[ScopedValue]、[cache]で登録した[ScopedValue]の順番で処理されます。
+  ///
+  /// [watch]で登録した[ScopedValue]を返すときにウィジェットに関連付けて変更を通知するようにします。
   T? fetch<T>([
     String? name,
   ]) {
     return getAlreadyExistsScopedValue<T, _WatchValue<T>>(
           name: name,
+          listen: true,
         ) ??
         getAlreadyExistsScopedValue<T, _CacheValue<T>>(
           name: name,

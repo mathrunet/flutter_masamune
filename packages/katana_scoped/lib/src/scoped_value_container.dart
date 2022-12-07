@@ -86,6 +86,8 @@ class ScopedValueContainer {
   ///
   /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
   ///
+  /// The [onInitOrUpdate] is executed before the value is returned.
+  ///
   /// [ScopedValueContainer]にすでに保存されている[TScopedValue]に関連する[ScopedValueState]を取得します。
   ///
   /// [TScopedValue]が存在しない場合は[Null]を返します。
@@ -93,10 +95,14 @@ class ScopedValueContainer {
   /// [name]を指定して[TScopedValue]を保存していた場合、同じ[name]を指定してください。
   ///
   /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
+  ///
+  /// 値が返される前に[onInitOrUpdate]が実行されます。
   ScopedValueState<TResult, ScopedValue<TResult>>?
       getAlreadyExistsScopedValueState<TResult,
           TScopedValue extends ScopedValue<TResult>>({
     String? name,
+    void Function(ScopedValueState<TResult, TScopedValue> state)?
+        onInitOrUpdate,
   }) {
     final key = "$TScopedValue/$name";
     final found = _data[key];
@@ -106,6 +112,7 @@ class ScopedValueContainer {
         "The stored [value] type is incorrect: ${found.runtimeType}",
       );
       final state = found as ScopedValueState<TResult, TScopedValue>;
+      onInitOrUpdate?.call(state);
       return state;
     } else {
       return null;

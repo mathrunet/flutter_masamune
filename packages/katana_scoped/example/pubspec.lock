@@ -299,11 +299,11 @@ packages:
     source: hosted
     version: "6.5.4"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana"
+      relative: true
+    source: path
     version: "0.15.10"
   katana_scoped:
     dependency: "direct main"
@@ -543,4 +543,3 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.1 <3.0.0"
-  flutter: ">=2.0.0"

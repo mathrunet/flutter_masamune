@@ -147,9 +147,13 @@ class ScopedValueRef implements Ref {
 
   @override
   TResult? getAlreadyExistsScopedValue<TResult,
-      TScopedValue extends ScopedValue<TResult>>({String? name}) {
+      TScopedValue extends ScopedValue<TResult>>({
+    String? name,
+    bool listen = false,
+  }) {
     return _listener.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
       name: name,
+      listen: listen,
     );
   }
 
