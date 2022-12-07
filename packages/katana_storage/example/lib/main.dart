@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StorageAdapterScope(
-      adapter: const RuntimeStorageAdapter(),
+      adapter: const LocalStorageAdapter(),
       child: MaterialApp(
         home: const StoragePage(),
         title: "Flutter Demo",

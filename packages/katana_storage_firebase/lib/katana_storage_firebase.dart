@@ -8,10 +8,9 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_storage_firebase;
 
-import 'dart:async';
-import 'dart:typed_data';
+export 'package:katana_storage/katana_storage.dart';
 
-import 'package:flutter/widgets.dart';
-import 'package:katana_storage/katana_storage.dart';
-
-part 'adapter/firebase_storage_adapter.dart';
+export 'adapter/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';

@@ -11,11 +11,25 @@ library katana_storage;
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:katana/katana.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:katana/katana.dart';
 
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
+export 'package:katana/katana.dart';
+
+export 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
+part 'adapter/local_storage_adapter.dart';
 part 'adapter/runtime_storage_adapter.dart';
-
+part 'src/memory_storage.dart';
 part 'src/storage.dart';
 part 'src/storage_adapter.dart';
 part 'src/storage_query.dart';

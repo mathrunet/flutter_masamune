@@ -9,14 +9,14 @@ abstract class StorageAdapter {
       _primary != null,
       "StorageAdapter is not set. Place [StorageAdapterScope] widget closer to the root.",
     );
-    return _primary ?? const RuntimeStorageAdapter();
+    return _primary ?? const LocalStorageAdapter();
   }
 
   static StorageAdapter? _primary;
 
-  String get publicURL;
+  String fetchPublicURI(String path);
 
-  Future<String> fetchDownloadURL();
+  Future<String> fetchDownloadURI(String path);
 
   Future<void> download(String fromPath, String toPath);
 

@@ -14,10 +14,14 @@ class Storage extends ChangeNotifier {
   Future<void>? get deleting => _deleteCompleter?.future;
   Completer<void>? _deleteCompleter;
 
-  String get publicURL => storageQuery.adapter.publicURL;
+  String get publicURI => storageQuery.adapter.fetchPublicURI(
+        storageQuery.path.trimQuery().trimString("/"),
+      );
 
-  Future<String> fetchDownloadURL() async {
-    final path = await storageQuery.adapter.fetchDownloadURL();
+  Future<String> fetchDownloadURI() async {
+    final path = await storageQuery.adapter.fetchDownloadURI(
+      storageQuery.path.trimQuery().trimString("/"),
+    );
     notifyListeners();
     return path;
   }
