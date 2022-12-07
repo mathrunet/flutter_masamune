@@ -85,8 +85,9 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
         ),
     );
     final emitter = DartEmitter();
+    final code = generated.accept(emitter).toString();
     return DartFormatter().format(
-      "${generated.accept(emitter)}",
+      code.isEmpty ? "// no code." : code,
     );
   }
 }
