@@ -17,6 +17,8 @@ dependencies:
   katana: ^0.15.0
   katana_media:
     path: "../katana_media"
+  file_picker: ^5.2.3
+  image_picker: ^0.8.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

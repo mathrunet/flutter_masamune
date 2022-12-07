@@ -9,3 +9,10 @@
 library katana_media_mobile;
 
 import 'dart:async';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:katana/katana.dart';
+import 'package:katana_media/katana_media.dart';
+
+part 'adapter/mobile_image_picker_media_adapter.dart';
