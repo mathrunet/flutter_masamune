@@ -86,7 +86,7 @@ class AuthDatabase {
   }) {
     onInitialize?.call(this);
   }
-  final DynamicMap _data = {};
+  DynamicMap _data = {};
 
   /// Default locale when [Locale] is not set.
   ///

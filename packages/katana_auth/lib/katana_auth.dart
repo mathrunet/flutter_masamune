@@ -12,8 +12,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:katana/katana.dart';
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
+export 'package:katana/katana.dart';
+export 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
 
 part 'adapter/runtime_auth_adapter.dart';
+part 'adapter/local_auth_adapter.dart';
 
 part 'provider/anonymously_auth_provider.dart';
 part 'provider/email_and_password_auth_provider.dart';
