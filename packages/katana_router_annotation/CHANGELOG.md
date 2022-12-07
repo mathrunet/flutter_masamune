@@ -1,3 +1,7 @@
+## 1.9.8
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([c5c62b2e](https://github.com/mathrunet/flutter_masamune/commit/c5c62b2e92148baa93bab3f2985f656bf3e65efa))
+
 ## 1.9.7
 
  - **FIX**: Fixed a bug that caused black background when using boot. ([5e20ae8c](https://github.com/mathrunet/flutter_masamune/commit/5e20ae8c9e1588682827d798f4478df329cbc7d6))

@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([356600f7](https://github.com/mathrunet/flutter_masamune/commit/356600f70577ecc6f0da7ea3decc03a26c40d13c))
+
 ## 1.2.2
 
  - **FIX**: Added a new font type to the supported fonts. ([ca24c445](https://github.com/mathrunet/flutter_masamune/commit/ca24c4455aa7b8a491387852a8bf1b01275f2619))

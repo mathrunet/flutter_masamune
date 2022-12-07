@@ -1,3 +1,7 @@
+## 1.2.5
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([356600f7](https://github.com/mathrunet/flutter_masamune/commit/356600f70577ecc6f0da7ea3decc03a26c40d13c))
+
 ## 1.2.4
 
  - **FIX**: Added scaffoldBackgroundColor, etc. since they could not be taken from Theme. ([1525026c](https://github.com/mathrunet/flutter_masamune/commit/1525026ca972c1806c9f0f51d567139d403b1e73))

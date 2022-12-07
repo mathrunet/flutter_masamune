@@ -1,3 +1,8 @@
+## 1.6.0
+
+ - **FIX**: Add listen functionality to fetch. ([ce3507af](https://github.com/mathrunet/flutter_masamune/commit/ce3507af22d938ffbefa1c229974c5e3389703da))
+ - **FEAT**: Adding ScopedQuery. ([cd6959a6](https://github.com/mathrunet/flutter_masamune/commit/cd6959a668c0d6d5ad77eec4b2d50b878965d697))
+
 ## 1.5.5
 
  - **FIX**: Fixed a bug that was not working properly. ([8a050501](https://github.com/mathrunet/flutter_masamune/commit/8a05050135f799996a36d397d6f9276adb95ec6c))

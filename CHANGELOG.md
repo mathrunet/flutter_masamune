@@ -3,6 +3,141 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v1.1.1`](#katana_auth---v111)
+ - [`katana_auth_firebase` - `v1.1.1`](#katana_auth_firebase---v111)
+ - [`katana_listenables` - `v1.2.8`](#katana_listenables---v128)
+ - [`katana_listenables_annotation` - `v1.2.7`](#katana_listenables_annotation---v127)
+ - [`katana_listenables_builder` - `v1.2.8`](#katana_listenables_builder---v128)
+ - [`katana_localization` - `v1.1.17`](#katana_localization---v1117)
+ - [`katana_localization_annotation` - `v1.1.15`](#katana_localization_annotation---v1115)
+ - [`katana_localization_builder` - `v1.1.17`](#katana_localization_builder---v1117)
+ - [`katana_router` - `v1.9.8`](#katana_router---v198)
+ - [`katana_router_annotation` - `v1.9.8`](#katana_router_annotation---v198)
+ - [`katana_router_builder` - `v1.9.9`](#katana_router_builder---v199)
+ - [`katana_scoped` - `v1.6.0`](#katana_scoped---v160)
+ - [`katana_theme` - `v1.2.5`](#katana_theme---v125)
+ - [`katana_theme_annotation` - `v1.2.3`](#katana_theme_annotation---v123)
+ - [`katana_theme_builder` - `v1.2.4`](#katana_theme_builder---v124)
+ - [`masamune_wordpress` - `v0.15.0+32`](#masamune_wordpress---v015032)
+ - [`masamune_firebase` - `v0.15.0+33`](#masamune_firebase---v015033)
+ - [`masamune_purchase` - `v0.15.0+32`](#masamune_purchase---v015032)
+ - [`masamune_ads` - `v0.15.0+32`](#masamune_ads---v015032)
+ - [`masamune_ui` - `v0.15.0+32`](#masamune_ui---v015032)
+ - [`masamune_agora` - `v0.15.0+34`](#masamune_agora---v015034)
+ - [`masamune_media` - `v0.15.0+32`](#masamune_media---v015032)
+ - [`masamune_location` - `v0.15.0+32`](#masamune_location---v015032)
+ - [`masamune_local_messaging` - `v0.15.0+32`](#masamune_local_messaging---v015032)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+33`](#masamune_firebase_dynamic_links---v015033)
+ - [`masamune_signin_facebook` - `v0.15.0+33`](#masamune_signin_facebook---v015033)
+ - [`masamune_signin_google` - `v0.15.0+33`](#masamune_signin_google---v015033)
+ - [`masamune_signin_twitter` - `v0.15.0+33`](#masamune_signin_twitter---v015033)
+ - [`masamune_firebase_messaging` - `v0.15.0+33`](#masamune_firebase_messaging---v015033)
+ - [`masamune_purchase_stripe` - `v0.15.0+33`](#masamune_purchase_stripe---v015033)
+ - [`masamune_notion` - `v0.15.0+33`](#masamune_notion---v015033)
+ - [`masamune_purchase_firebase` - `v0.15.0+33`](#masamune_purchase_firebase---v015033)
+ - [`masamune_signin_apple` - `v0.15.0+33`](#masamune_signin_apple---v015033)
+ - [`masamune_module` - `v0.15.0+32`](#masamune_module---v015032)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_wordpress` - `v0.15.0+32`
+ - `masamune_firebase` - `v0.15.0+33`
+ - `masamune_purchase` - `v0.15.0+32`
+ - `masamune_ads` - `v0.15.0+32`
+ - `masamune_ui` - `v0.15.0+32`
+ - `masamune_agora` - `v0.15.0+34`
+ - `masamune_media` - `v0.15.0+32`
+ - `masamune_location` - `v0.15.0+32`
+ - `masamune_local_messaging` - `v0.15.0+32`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+33`
+ - `masamune_signin_facebook` - `v0.15.0+33`
+ - `masamune_signin_google` - `v0.15.0+33`
+ - `masamune_signin_twitter` - `v0.15.0+33`
+ - `masamune_firebase_messaging` - `v0.15.0+33`
+ - `masamune_purchase_stripe` - `v0.15.0+33`
+ - `masamune_notion` - `v0.15.0+33`
+ - `masamune_purchase_firebase` - `v0.15.0+33`
+ - `masamune_signin_apple` - `v0.15.0+33`
+ - `masamune_module` - `v0.15.0+32`
+
+---
+
+#### `katana_auth` - `v1.1.1`
+
+ - **FIX**: Support for LocalAuthAdapter. ([f2b6d214](https://github.com/mathrunet/flutter_masamune/commit/f2b6d21444828fe08cad6a359f24b3e08b4b7567))
+
+#### `katana_auth_firebase` - `v1.1.1`
+
+ - **FIX**: Support for LocalAuthAdapter. ([f2b6d214](https://github.com/mathrunet/flutter_masamune/commit/f2b6d21444828fe08cad6a359f24b3e08b4b7567))
+
+#### `katana_listenables` - `v1.2.8`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([ae8df3aa](https://github.com/mathrunet/flutter_masamune/commit/ae8df3aa616243dfaa3386cffc6fe55929750595))
+
+#### `katana_listenables_annotation` - `v1.2.7`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([ae8df3aa](https://github.com/mathrunet/flutter_masamune/commit/ae8df3aa616243dfaa3386cffc6fe55929750595))
+
+#### `katana_listenables_builder` - `v1.2.8`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([ae8df3aa](https://github.com/mathrunet/flutter_masamune/commit/ae8df3aa616243dfaa3386cffc6fe55929750595))
+
+#### `katana_localization` - `v1.1.17`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([54f47f50](https://github.com/mathrunet/flutter_masamune/commit/54f47f50746228970d37a58fbb16e15dc0f5161c))
+
+#### `katana_localization_annotation` - `v1.1.15`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([54f47f50](https://github.com/mathrunet/flutter_masamune/commit/54f47f50746228970d37a58fbb16e15dc0f5161c))
+
+#### `katana_localization_builder` - `v1.1.17`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([54f47f50](https://github.com/mathrunet/flutter_masamune/commit/54f47f50746228970d37a58fbb16e15dc0f5161c))
+
+#### `katana_router` - `v1.9.8`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([c5c62b2e](https://github.com/mathrunet/flutter_masamune/commit/c5c62b2e92148baa93bab3f2985f656bf3e65efa))
+
+#### `katana_router_annotation` - `v1.9.8`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([c5c62b2e](https://github.com/mathrunet/flutter_masamune/commit/c5c62b2e92148baa93bab3f2985f656bf3e65efa))
+
+#### `katana_router_builder` - `v1.9.9`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([c5c62b2e](https://github.com/mathrunet/flutter_masamune/commit/c5c62b2e92148baa93bab3f2985f656bf3e65efa))
+
+#### `katana_scoped` - `v1.6.0`
+
+ - **FIX**: Add listen functionality to fetch. ([ce3507af](https://github.com/mathrunet/flutter_masamune/commit/ce3507af22d938ffbefa1c229974c5e3389703da))
+ - **FEAT**: Adding ScopedQuery. ([cd6959a6](https://github.com/mathrunet/flutter_masamune/commit/cd6959a668c0d6d5ad77eec4b2d50b878965d697))
+
+#### `katana_theme` - `v1.2.5`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([356600f7](https://github.com/mathrunet/flutter_masamune/commit/356600f70577ecc6f0da7ea3decc03a26c40d13c))
+
+#### `katana_theme_annotation` - `v1.2.3`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([356600f7](https://github.com/mathrunet/flutter_masamune/commit/356600f70577ecc6f0da7ea3decc03a26c40d13c))
+
+#### `katana_theme_builder` - `v1.2.4`
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([356600f7](https://github.com/mathrunet/flutter_masamune/commit/356600f70577ecc6f0da7ea3decc03a26c40d13c))
+
+
 ## 2022-11-30
 
 ### Changes

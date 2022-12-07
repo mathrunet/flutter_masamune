@@ -1,3 +1,7 @@
+## 1.1.15
+
+ - **FIX**: Fixed a bug that files were not generated when information was empty. ([54f47f50](https://github.com/mathrunet/flutter_masamune/commit/54f47f50746228970d37a58fbb16e15dc0f5161c))
+
 ## 1.1.14
 
  - Update a dependency to the latest release.
