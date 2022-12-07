@@ -83,8 +83,9 @@ class ThemeGenerator extends GeneratorForAnnotation<AppTheme> {
         ),
     );
     final emitter = DartEmitter();
+    final code = generated.accept(emitter).toString();
     return DartFormatter().format(
-      "${generated.accept(emitter)}",
+      code.isEmpty ? "// no code." : code,
     );
   }
 }
