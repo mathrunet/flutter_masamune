@@ -73,7 +73,7 @@ List<Class> queryClass(
               ..body = Code(
                 path == null
                     ? "return null;"
-                    : "if (path == null) { return null; } if (path.contains(\"?\")) { final split = path.split(\"?\"); final match = _regExp.firstMatch(split.first.trimString(\"/\")); if (match == null) { return null; } final query = Uri.splitQueryString(split.last); return _\$_${model.name}(path, ${model.parameters.map((param) => _defaultParsedValue(param, true)).join(",")}); } else { path = path.trimQuery().trimString(\"/\"); final match = _regExp.firstMatch(path.trimQuery().trimString(\"/\")); if (match == null) { return null; } return _\$_${model.name}(path, ${model.parameters.map((param) => _defaultParsedValue(param, false)).join(",")}); }",
+                    : "if (path == null) { return null; } if (path.contains(\"?\")) { final split = path.split(\"?\"); final match = _regExp.firstMatch(split.first.trimString(\"/\")); if (match == null) { return null; } final query = Uri.splitQueryString(split.last); return _\$_${model.name}Query(path, ${model.parameters.map((param) => _defaultParsedValue(param, true)).join(",")}); } else { path = path.trimQuery().trimString(\"/\"); final match = _regExp.firstMatch(path.trimQuery().trimString(\"/\")); if (match == null) { return null; } return _\$_${model.name}Query(path, ${model.parameters.map((param) => _defaultParsedValue(param, false)).join(",")}); }",
               ),
           ),
         ]),
