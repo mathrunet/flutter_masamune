@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
   const HomePage();
 
   @pageRouteQuery
-  static const query = _$HomePage();
+  static const query = _$HomePageQuery();
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +139,9 @@ Define the Widget as a page in `@PagePath("path name")` Annotation.
 
 You can create a query for page transitions by defining a query field by giving `@pageRouteQuery` annotation.
 
-Widget parameters can be defined as is.
+Specify `_$(widget class name)Query` for the query value.
+
+Widget parameters can be defined as they are.
 
 ```dart
 // user.dart
@@ -159,7 +161,7 @@ class UserPage extends StatelessWidget {
   final String userId;
 
   @pageRouteQuery
-  static const query = _$UserPage();
+  static const query = _$UserPageQuery();
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +287,7 @@ class SearchPage extends StatelessWidget {
   final String searchQuery;
 
   @pageRouteQuery
-  static const query = _$SearchPage();
+  static const query = _$SearchPageQuery();
 
   @override
   Widget build(BuildContext context) {
@@ -345,7 +347,7 @@ class UserPage extends StatelessWidget {
   final String userId;
 
   @pageRouteQuery
-  static const query = _$UserPage();
+  static const query = _$UserPageQuery();
 
   @override
   Widget build(BuildContext context) {
@@ -424,7 +426,7 @@ class NestedContainerPage extends StatefulWidget {
   });
 
   @pageRouteQuery
-  static const query = _$NestedContainerPage();
+  static const query = _$NestedContainerPageQuery();
 
   @override
   State<StatefulWidget> createState() => _NestedContainerPageState();
@@ -458,7 +460,7 @@ Therefore, it is possible to use the `NestedPage` annotation exclusively.
 class InnerPage1 extends StatelessWidget {
   const InnerPage1({super.key});
 
-  static const query = _$InnerPage1();
+  static const query = _$InnerPage1Query();
 
   @override
   Widget build(BuildContext context) {
@@ -478,7 +480,7 @@ class InnerPage1 extends StatelessWidget {
 class InnerPage2 extends StatelessWidget {
   const InnerPage2({super.key});
 
-  static const query = _$InnerPage2();
+  static const query = _$InnerPage2Query();
 
   @override
   Widget build(BuildContext context) {
@@ -516,7 +518,7 @@ class NestedContainerPage extends StatefulWidget {
   });
 
   @pageRouteQuery
-  static const query = _$NestedContainerPage();
+  static const query = _$NestedContainerPageQuery();
 
   @override
   State<StatefulWidget> createState() => _NestedContainerPageState();
@@ -576,7 +578,7 @@ class _NestedContainerPageState extends State<NestedContainerPage> {
 class InnerPage1 extends StatelessWidget {
   const InnerPage1({super.key});
 
-  static const query = _$InnerPage1();
+  static const query = _$InnerPage1Query();
 
   @override
   Widget build(BuildContext context) {
@@ -596,7 +598,7 @@ class InnerPage1 extends StatelessWidget {
 class InnerPage2 extends StatelessWidget {
   const InnerPage2({super.key});
 
-  static const query = _$InnerPage2();
+  static const query = _$InnerPage2Query();
 
   @override
   Widget build(BuildContext context) {

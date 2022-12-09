@@ -15,7 +15,7 @@ List<Class> queryClass(
   return [
     Class(
       (c) => c
-        ..name = "_\$${model.name}"
+        ..name = "_\$${model.name}Query"
         ..extend = const Reference("RouteQueryBuilder")
         ..annotations.addAll([const Reference("immutable")])
         ..constructors.addAll([
@@ -42,7 +42,7 @@ List<Class> queryClass(
             (m) => m
               ..name = "call"
               ..lambda = true
-              ..returns = Reference("_\$_${model.name}")
+              ..returns = Reference("_\$_${model.name}Query")
               ..optionalParameters.addAll([
                 ...model.parameters.map((param) {
                   return Parameter(
@@ -55,7 +55,7 @@ List<Class> queryClass(
                 }),
               ])
               ..body = Code(
-                "_\$_${model.name}(null, ${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
+                "_\$_${model.name}Query(null, ${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
               ),
           ),
           Method(
@@ -80,7 +80,7 @@ List<Class> queryClass(
     ),
     Class(
       (c) => c
-        ..name = "_\$_${model.name}"
+        ..name = "_\$_${model.name}Query"
         ..extend = const Reference("RouteQuery")
         ..annotations.addAll([const Reference("immutable")])
         ..constructors.addAll([

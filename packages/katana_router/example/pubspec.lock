@@ -283,11 +283,11 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10"
   katana_router:
     dependency: "direct main"
@@ -295,21 +295,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.9.7"
+    version: "1.9.8"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
-      path: "/Users/mathru/Documents/github/flutter_masamune/packages/katana_router/example/../../katana_router_annotation"
-      relative: false
+      path: "../../katana_router_annotation"
+      relative: true
     source: path
-    version: "1.9.7"
+    version: "1.9.8"
   katana_router_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "1.9.8"
+    version: "1.9.9"
   lints:
     dependency: transitive
     description:
@@ -541,4 +541,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.1 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=2.0.0"
