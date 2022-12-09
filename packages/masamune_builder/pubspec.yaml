@@ -24,10 +24,12 @@ dependencies:
   katana_theme_annotation: ^1.2.3
   katana_localization_builder: ^1.1.17
   katana_localization_annotation: ^1.1.15
-  katana_router_builder: ^1.9.9
-  katana_router_annotation: ^1.9.8
+  katana_router_builder: ^1.10.0
+  katana_router_annotation: ^1.10.0
   katana_listenables_annotation: ^1.2.7
   katana_listenables_builder: ^1.2.8
+  masamune_annotation:
+    path: ../masamune_annotation
 dev_dependencies:
   flutter_test:
     sdk: flutter

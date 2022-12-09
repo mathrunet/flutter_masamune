@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.10.0`](#katana_router---v1100)
+ - [`katana_router_annotation` - `v1.10.0`](#katana_router_annotation---v1100)
+ - [`katana_router_builder` - `v1.10.0`](#katana_router_builder---v1100)
+ - [`masamune_agora` - `v0.15.0+35`](#masamune_agora---v015035)
+ - [`masamune_wordpress` - `v0.15.0+33`](#masamune_wordpress---v015033)
+ - [`masamune_location` - `v0.15.0+33`](#masamune_location---v015033)
+ - [`masamune_local_messaging` - `v0.15.0+33`](#masamune_local_messaging---v015033)
+ - [`masamune_media` - `v0.15.0+33`](#masamune_media---v015033)
+ - [`masamune_purchase` - `v0.15.0+33`](#masamune_purchase---v015033)
+ - [`masamune_firebase` - `v0.15.0+34`](#masamune_firebase---v015034)
+ - [`masamune_ads` - `v0.15.0+33`](#masamune_ads---v015033)
+ - [`masamune_ui` - `v0.15.0+33`](#masamune_ui---v015033)
+ - [`masamune_purchase_firebase` - `v0.15.0+34`](#masamune_purchase_firebase---v015034)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+34`](#masamune_firebase_dynamic_links---v015034)
+ - [`masamune_firebase_messaging` - `v0.15.0+34`](#masamune_firebase_messaging---v015034)
+ - [`masamune_signin_facebook` - `v0.15.0+34`](#masamune_signin_facebook---v015034)
+ - [`masamune_signin_google` - `v0.15.0+34`](#masamune_signin_google---v015034)
+ - [`masamune_signin_twitter` - `v0.15.0+34`](#masamune_signin_twitter---v015034)
+ - [`masamune_purchase_stripe` - `v0.15.0+34`](#masamune_purchase_stripe---v015034)
+ - [`masamune_notion` - `v0.15.0+34`](#masamune_notion---v015034)
+ - [`masamune_signin_apple` - `v0.15.0+34`](#masamune_signin_apple---v015034)
+ - [`masamune_module` - `v0.15.0+33`](#masamune_module---v015033)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+35`
+ - `masamune_wordpress` - `v0.15.0+33`
+ - `masamune_location` - `v0.15.0+33`
+ - `masamune_local_messaging` - `v0.15.0+33`
+ - `masamune_media` - `v0.15.0+33`
+ - `masamune_purchase` - `v0.15.0+33`
+ - `masamune_firebase` - `v0.15.0+34`
+ - `masamune_ads` - `v0.15.0+33`
+ - `masamune_ui` - `v0.15.0+33`
+ - `masamune_purchase_firebase` - `v0.15.0+34`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+34`
+ - `masamune_firebase_messaging` - `v0.15.0+34`
+ - `masamune_signin_facebook` - `v0.15.0+34`
+ - `masamune_signin_google` - `v0.15.0+34`
+ - `masamune_signin_twitter` - `v0.15.0+34`
+ - `masamune_purchase_stripe` - `v0.15.0+34`
+ - `masamune_notion` - `v0.15.0+34`
+ - `masamune_signin_apple` - `v0.15.0+34`
+ - `masamune_module` - `v0.15.0+33`
+
+---
+
+#### `katana_router` - `v1.10.0`
+
+ - **FEAT**: Add the Query suffix to the built query class. ([66ba131a](https://github.com/mathrunet/flutter_masamune/commit/66ba131a6fb0bfdedc479d90508057e433b14d9f))
+
+#### `katana_router_annotation` - `v1.10.0`
+
+ - **FEAT**: Add the Query suffix to the built query class. ([66ba131a](https://github.com/mathrunet/flutter_masamune/commit/66ba131a6fb0bfdedc479d90508057e433b14d9f))
+
+#### `katana_router_builder` - `v1.10.0`
+
+ - **FEAT**: Add the Query suffix to the built query class. ([66ba131a](https://github.com/mathrunet/flutter_masamune/commit/66ba131a6fb0bfdedc479d90508057e433b14d9f))
+
+
 ## 2022-12-07
 
 ### Changes

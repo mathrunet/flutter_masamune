@@ -1,3 +1,7 @@
+## 1.10.0
+
+ - **FEAT**: Add the Query suffix to the built query class. ([66ba131a](https://github.com/mathrunet/flutter_masamune/commit/66ba131a6fb0bfdedc479d90508057e433b14d9f))
+
 ## 1.9.8
 
  - **FIX**: Fixed a bug that files were not generated when information was empty. ([c5c62b2e](https://github.com/mathrunet/flutter_masamune/commit/c5c62b2e92148baa93bab3f2985f656bf3e65efa))
