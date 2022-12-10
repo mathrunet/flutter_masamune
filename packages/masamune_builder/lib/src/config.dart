@@ -1,24 +1,5 @@
 part of masamune_builder;
 
-final ignoreWords = <String>[
-  "uid",
-  "time",
-  "append",
-  "fetch",
-  "reload",
-  "save",
-  "loading",
-  "saving",
-  "create",
-  "delete",
-  "value",
-  "transaction",
-  "dispose",
-  "document",
-  "runtimeType",
-  "toString",
-  "addListener",
-  "removeListener",
-  "notifyListeners",
-  "hasListeners"
-];
+const _documentModelPathChecker = TypeChecker.fromRuntime(DocumentModelPath);
+const _collectionModelPathChecker = TypeChecker.fromRuntime(CollectionModelPath);
+const _freezedChecker = TypeChecker.fromRuntime(Freezed);

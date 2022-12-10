@@ -1,12 +1,14 @@
 part of masamune_builder;
 
-class PageGenerator extends GeneratorForAnnotation<AppPage> {
+class FormValueGenerator extends GeneratorForAnnotation<FormValue> {
+  FormValueGenerator();
+
   @override
   FutureOr<String> generateForAnnotatedElement(
     Element element,
     ConstantReader annotation,
     BuildStep buildStep,
-  ) {
+  ) async {
     if (!element.library!.isNonNullableByDefault) {
       throw InvalidGenerationSourceError(
         "Generator cannot target libraries that have not been migrated to "
@@ -17,31 +19,32 @@ class PageGenerator extends GeneratorForAnnotation<AppPage> {
 
     if (element is! ClassElement) {
       throw InvalidGenerationSourceError(
-        "`@AppPage()` can only be used on classes.",
+        "`@FormValue()` can only be used on classes.",
         element: element,
       );
     }
 
-    final _path =
-        PathModel("/${annotation.read("path").stringValue.trimString("/")}");
-    final _class = ClassModel(element);
+    if (!_freezedChecker.hasAnnotationOfExact(element)) {
+      throw InvalidGenerationSourceError(
+        "The `@freezed` annotation is required to use `@FormValue()`.",
+        element: element,
+      );
+    }
+
+    final _class = ClassValue(element);
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            pathField(_class, _path),
-            pageParameterClass(_class, _path),
-            pageBuildContextExtensions(_class, _path),
-            pageQueryClass(_class, _path),
-            pageRouteConfig(_class, _path),
+            ...formValueClass(_class),
           ],
         ),
     );
     final emitter = DartEmitter();
+    final code = generated.accept(emitter).toString();
     return DartFormatter().format(
-      // "// ignore_for_file: require_trailing_commas"
-      "${generated.accept(emitter)}",
+      code.isEmpty ? "// no code." : code,
     );
   }
 }
