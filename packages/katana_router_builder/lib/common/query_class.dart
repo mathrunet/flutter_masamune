@@ -43,6 +43,7 @@ List<Class> queryClass(
               ..name = "call"
               ..lambda = true
               ..returns = Reference("_\$_${model.name}Query")
+              ..annotations.addAll([const Reference("useResult")])
               ..optionalParameters.addAll([
                 ...model.parameters.map((param) {
                   return Parameter(
