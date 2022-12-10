@@ -290,11 +290,11 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10"
   katana_localization:
     dependency: "direct main"
@@ -302,21 +302,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.16"
+    version: "1.1.17"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
-      path: "/Users/mathru/Documents/github/flutter_masamune/packages/katana_localization/example/../../katana_localization_annotation"
-      relative: false
+      path: "../../katana_localization_annotation"
+      relative: true
     source: path
-    version: "1.1.14"
+    version: "1.1.15"
   katana_localization_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_localization_builder"
       relative: true
     source: path
-    version: "1.1.16"
+    version: "1.1.17"
   lints:
     dependency: transitive
     description:
@@ -541,3 +541,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.1 <3.0.0"
+  flutter: ">=2.0.0"

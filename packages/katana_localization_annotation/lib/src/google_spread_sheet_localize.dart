@@ -12,6 +12,10 @@ part of katana_localization_annotation;
 ///
 /// You can use the functionality for multilingualization by creating a class that inherits from `_$AppLocalize` with annotations as shown in the example below.
 ///
+/// You can also explicitly update the translation by changing the number of [version].
+///
+/// If [version] is not changed, the spreadsheet contents are cached.
+///
 /// Googleスプレッドシートを元に多言語化コードを自動作成するためのアノテーションです。
 ///
 /// 事前に下記の手順でGoogleスプレッドシートの準備を行います。
@@ -24,8 +28,15 @@ part of katana_localization_annotation;
 ///
 /// 下記の例のようにアノテーションを付与して`_$AppLocalize`を継承したクラスを作成することで多言語化用の機能を利用することができます。
 ///
+/// また[version]の数を変更することにより明示的に翻訳内容を更新することができます。
+///
+/// [version]を変更しない場合はスプレッドシートの内容がキャッシュされます。
+///
 /// ```dart
-/// @GoogleSpreadSheetLocalize("https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808")
+/// @GoogleSpreadSheetLocalize(
+///   "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+///   version: 1,
+/// )
 /// class AppLocalize extends _$AppLocalize {
 /// }
 ///
@@ -44,6 +55,10 @@ class GoogleSpreadSheetLocalize {
   ///
   /// You can use the functionality for multilingualization by creating a class that inherits from `_$AppLocalize` with annotations as shown in the example below.
   ///
+  /// You can also explicitly update the translation by changing the number of [version].
+  ///
+  /// If [version] is not changed, the spreadsheet contents are cached.
+  ///
   /// Googleスプレッドシートを元に多言語化コードを自動作成するためのアノテーションです。
   ///
   /// 事前に下記の手順でGoogleスプレッドシートの準備を行います。
@@ -56,14 +71,24 @@ class GoogleSpreadSheetLocalize {
   ///
   /// 下記の例のようにアノテーションを付与して`_$AppLocalize`を継承したクラスを作成することで多言語化用の機能を利用することができます。
   ///
+  /// また[version]の数を変更することにより明示的に翻訳内容を更新することができます。
+  ///
+  /// [version]を変更しない場合はスプレッドシートの内容がキャッシュされます。
+  ///
   /// ```dart
-  /// @GoogleSpreadSheetLocalize("https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808")
+  /// @GoogleSpreadSheetLocalize(
+  ///   "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+  ///   version: 1,
+  /// )
   /// class AppLocalize extends _$AppLocalize {
   /// }
   ///
   /// final l = AppLocalize();
   /// ```
-  const GoogleSpreadSheetLocalize(this.url);
+  const GoogleSpreadSheetLocalize(
+    this.url, {
+    required this.version,
+  });
 
   /// Google Spreadsheet URL.
   ///
@@ -77,4 +102,13 @@ class GoogleSpreadSheetLocalize {
   ///
   /// 例：`https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808`
   final String url;
+
+  /// Google Spreadsheet Version.
+  ///
+  /// This can be changed to update to the new translation.
+  ///
+  /// Googleスプレッドシートのバージョン。
+  ///
+  /// これを変更することにより新しい翻訳に更新することができます。
+  final int version;
 }
