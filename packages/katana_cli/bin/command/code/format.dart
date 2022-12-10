@@ -3,11 +3,11 @@ part of katana_cli;
 /// Dart file formatting.
 ///
 /// Dartファイルのフォーマッティングを行います。
-class FormatCliCommand extends CliCommand {
+class CodeFormatCliCommand extends CliCommand {
   /// Dart file formatting.
   ///
   /// Dartファイルのフォーマッティングを行います。
-  const FormatCliCommand();
+  const CodeFormatCliCommand();
 
   @override
   String get description => "Dart file formatting. Dartファイルのフォーマッティングを行います。";
@@ -18,26 +18,24 @@ class FormatCliCommand extends CliCommand {
     final dart = bin.get("dart", "dart");
     final melos = bin.get("melos", "melos");
     if (File("melos.yaml").existsSync()) {
-      await Process.start(
-        melos,
+      await command(
+        "Format all packages.",
         [
+          melos,
           "exec",
           "--",
           "$dart format .",
         ],
-        runInShell: true,
-        workingDirectory: Directory.current.path,
-      ).print();
+      );
     } else {
-      await Process.start(
-        dart,
+      await command(
+        "Format the current project.",
         [
+          dart,
           "format",
           ".",
         ],
-        runInShell: true,
-        workingDirectory: Directory.current.path,
-      ).print();
+      );
     }
   }
 }

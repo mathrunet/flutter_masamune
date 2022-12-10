@@ -3,11 +3,11 @@ part of katana_cli;
 /// Start Dart's build_runner to automatically generate code.
 ///
 /// Dartのbuild_runnerを起動してコードを自動生成します。
-class GenerateCliCommand extends CliCommand {
+class CodeGenerateCliCommand extends CliCommand {
   /// Start Dart's build_runner to automatically generate code.
   ///
   /// Dartのbuild_runnerを起動してコードを自動生成します。
-  const GenerateCliCommand();
+  const CodeGenerateCliCommand();
 
   @override
   String get description =>
@@ -18,43 +18,46 @@ class GenerateCliCommand extends CliCommand {
     final bin = yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
+    final isClean = args.get(2, "");
     if (File("melos.yaml").existsSync()) {
-      await Process.start(
-        melos,
+      if (isClean.isNotEmpty) {
+        await command(
+          "Delete the cache before running code generation.",
+          [
+            melos,
+            "exec",
+            "--",
+            "$flutter packages pub run build_runner clean",
+          ],
+        );
+      }
+      await command(
+        "Run build_runner for all packages to generate code.",
         [
-          "exec",
-          "--",
-          "$flutter packages pub run build_runner clean",
-        ],
-        runInShell: true,
-        workingDirectory: Directory.current.path,
-      ).print();
-      await Process.start(
-        melos,
-        [
+          melos,
           "exec",
           "--",
           "$flutter packages pub run build_runner build --delete-conflicting-outputs",
         ],
-        runInShell: true,
-        workingDirectory: Directory.current.path,
-      ).print();
+      );
     } else {
-      await Process.start(
-        flutter,
+      if (isClean.isNotEmpty) {
+        await command(
+          "Delete the cache before running code generation.",
+          [
+            flutter,
+            "packages",
+            "pub",
+            "run",
+            "build_runner",
+            "clean",
+          ],
+        );
+      }
+      await command(
+        "Run the project's build_runner to generate code.",
         [
-          "packages",
-          "pub",
-          "run",
-          "build_runner",
-          "clean",
-        ],
-        runInShell: true,
-        workingDirectory: Directory.current.path,
-      ).print();
-      await Process.start(
-        flutter,
-        [
+          flutter,
           "packages",
           "pub",
           "run",
@@ -62,9 +65,7 @@ class GenerateCliCommand extends CliCommand {
           "build",
           "--delete-conflicting-outputs",
         ],
-        runInShell: true,
-        workingDirectory: Directory.current.path,
-      ).print();
+      );
     }
   }
 }

@@ -3,11 +3,11 @@ part of katana_cli;
 /// Upgrade the Dart package.
 ///
 /// Dartパッケージのバージョンアップを行います。
-class VersionCliCommand extends CliCommand {
+class PubVersionCliCommand extends CliCommand {
   /// Upgrade the Dart package.
   ///
   /// Dartパッケージのバージョンアップを行います。
-  const VersionCliCommand();
+  const PubVersionCliCommand();
   static final RegExp _regExp = RegExp(
     r"([a-zA-Z0-9_-]+)\s+(([0-9]+)\.([0-9]+)\.([0-9]+)(\+([0-9]+))?)\s+([a-zA-Z0-9_/-]+)",
   );
@@ -28,12 +28,14 @@ class VersionCliCommand extends CliCommand {
       final mode = args[1];
       switch (mode) {
         case "import":
-          final processVersionRes = await Process.start(
-            melos,
-            ["list", "-l"],
-            runInShell: true,
-            workingDirectory: Directory.current.path,
-          ).print();
+          final processVersionRes = await command(
+            "Get a list of current management packages.",
+            [
+              melos,
+              "list",
+              "-l",
+            ],
+          );
           final packages = processVersionRes
               .replaceAll("\r", "\n")
               .replaceAll("\r\n", "\n")
@@ -75,12 +77,14 @@ class VersionCliCommand extends CliCommand {
           });
           break;
         case "fit":
-          final processVersionRes = await Process.start(
-            melos,
-            ["list", "-l"],
-            runInShell: true,
-            workingDirectory: Directory.current.path,
-          ).print();
+          final processVersionRes = await command(
+            "Get a list of current management packages.",
+            [
+              melos,
+              "list",
+              "-l",
+            ],
+          );
           final packages = processVersionRes
               .replaceAll("\r", "\n")
               .replaceAll("\r\n", "\n")
@@ -130,15 +134,14 @@ class VersionCliCommand extends CliCommand {
           break;
       }
     } else {
-      await Process.start(
-        melos,
+      await command(
+        "Update the version of the management package according to the Git log.",
         [
+          melos,
           "version",
           "--yes",
         ],
-        runInShell: true,
-        workingDirectory: Directory.current.path,
-      ).print();
+      );
     }
   }
 }

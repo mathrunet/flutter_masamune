@@ -7,24 +7,38 @@ import 'package:katana/katana.dart';
 import 'package:yaml/yaml.dart';
 import 'src/framework.dart';
 
-part 'command/format.dart';
-part 'command/generate.dart';
-part 'command/publish.dart';
+part 'command/pub/pub.dart';
+part 'command/pub/get.dart';
+part 'command/pub/upgrade.dart';
+part 'command/pub/version.dart';
+part 'command/pub/publish.dart';
+
+part 'command/code/code.dart';
+part 'command/code/create.dart';
+part 'command/code/format.dart';
+part 'command/code/generate.dart';
+part 'command/code/watch.dart';
+part 'command/code/controller.dart';
+part 'command/code/group.dart';
+part 'command/code/page.dart';
+part 'command/code/collection.dart';
+part 'command/code/document.dart';
+
 part 'command/submodule.dart';
-part 'command/upgrade.dart';
-part 'command/version.dart';
-part 'command/create.dart';
+
+part 'code/main.dart';
+part 'code/page.dart';
+part 'code/controller.dart';
+part 'code/controller_group.dart';
+part 'code/document_model.dart';
+part 'code/collection_model.dart';
 
 /// Defines a list of commands.
 ///
 /// コマンドの一覧を定義します。
 const commands = <String, CliCommand>{
-  "create": CreateCliCommand(),
-  "format": FormatCliCommand(),
-  "publish": PublishCliCommand(),
-  "version": VersionCliCommand(),
-  "upgrade": UpgradeCliCommand(),
-  "generate": GenerateCliCommand(),
+  "pub": PubCliCommand(),
+  "code": CodeCliCommand(),
   "submodule": SubmoduleCliCommand(),
 };
 

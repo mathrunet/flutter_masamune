@@ -3,11 +3,11 @@ part of katana_cli;
 /// Deploy the Dart package to the pub.
 ///
 /// Dartパッケージのpubへのデプロイを行います。
-class PublishCliCommand extends CliCommand {
+class PubPublishCliCommand extends CliCommand {
   /// Deploy the Dart package to the pub.
   ///
   /// Dartパッケージのpubへのデプロイを行います。
-  const PublishCliCommand();
+  const PubPublishCliCommand();
 
   @override
   String get description =>
@@ -21,15 +21,14 @@ class PublishCliCommand extends CliCommand {
       print("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");
       return;
     }
-    await Process.start(
-      melos,
+    await command(
+      "Deploy all Dart packages to pub.",
       [
+        melos,
         "publish",
         "--no-dry-run",
         "-y",
       ],
-      runInShell: true,
-      workingDirectory: Directory.current.path,
-    ).print();
+    );
   }
 }

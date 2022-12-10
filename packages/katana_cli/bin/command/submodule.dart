@@ -17,16 +17,15 @@ class SubmoduleCliCommand extends CliCommand {
   Future<void> exec(Map yaml, List<String> args) async {
     final bin = yaml.getAsMap("bin");
     final git = bin.get("git", "git");
-    await Process.start(
-      git,
+    await command(
+      "Recursively clone a Git submodule of the current project.",
       [
+        git,
         "submodule",
         "update",
         "--init",
         "--recursive",
       ],
-      runInShell: true,
-      workingDirectory: Directory.current.path,
-    ).print();
+    );
   }
 }
