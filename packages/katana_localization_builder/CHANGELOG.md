@@ -1,3 +1,7 @@
+## 1.1.18
+
+ - **FIX**: Added version to GoogleSpreadSheetLocalize. ([13e61aa5](https://github.com/mathrunet/flutter_masamune/commit/13e61aa558911efa69ba8b781857718db26d6a2c))
+
 ## 1.1.17
 
  - **FIX**: Fixed a bug that files were not generated when information was empty. ([54f47f50](https://github.com/mathrunet/flutter_masamune/commit/54f47f50746228970d37a58fbb16e15dc0f5161c))

@@ -23,8 +23,8 @@ dependencies:
   freezed_annotation: ^2.2.0
   katana_theme_builder: ^1.2.4
   katana_theme_annotation: ^1.2.3
-  katana_localization_builder: ^1.1.17
-  katana_localization_annotation: ^1.1.15
+  katana_localization_builder: ^1.1.18
+  katana_localization_annotation: ^1.1.16
   katana_router_builder: ^1.10.0
   katana_router_annotation: ^1.10.0
   katana_listenables_annotation: ^1.2.7

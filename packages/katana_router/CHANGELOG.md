@@ -1,3 +1,7 @@
+## 1.10.1
+
+ - **FIX**: Add useResult annotation to call method. ([068c54fd](https://github.com/mathrunet/flutter_masamune/commit/068c54fdf74900a4e38f37227622b9179b7568af))
+
 ## 1.10.0
 
  - **FEAT**: Add the Query suffix to the built query class. ([66ba131a](https://github.com/mathrunet/flutter_masamune/commit/66ba131a6fb0bfdedc479d90508057e433b14d9f))
