@@ -19,15 +19,15 @@ List<Spec> formValueClass(
               ..name = "call"
               ..annotations.addAll([const Reference("useResult")])
               ..returns = Reference("_\$_${model.name}FormQuery")
-              ..optionalParameters.addAll([
+              ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
-                    ..name = "defaultValue"
-                    ..type = Reference("${model.name}?"),
+                    ..name = "value"
+                    ..type = Reference(model.name),
                 )
               ])
               ..body = Code(
-                "return _\$_${model.name}FormQuery(defaultValue ?? ${model.name}());",
+                "return _\$_${model.name}FormQuery(value);",
               ),
           )
         ]),
