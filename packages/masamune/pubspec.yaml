@@ -22,7 +22,7 @@ dependencies:
   katana_listenables: ^1.2.8
   katana_router: ^1.10.0
   katana_theme: ^1.2.5
-  katana_localization: ^1.1.18
+  katana_localization: ^1.1.19
   katana_form: ^1.2.5
   katana_auth: ^1.1.1
   masamune_annotation:

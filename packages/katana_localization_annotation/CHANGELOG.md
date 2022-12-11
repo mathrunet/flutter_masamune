@@ -1,3 +1,7 @@
+## 1.1.17
+
+ - **FIX**: Corresponding to the parameters of version. ([349b37bb](https://github.com/mathrunet/flutter_masamune/commit/349b37bbe6ab807d4280ac5d88b6ca4bdab65bf0))
+
 ## 1.1.16
 
  - **FIX**: Added version to GoogleSpreadSheetLocalize. ([13e61aa5](https://github.com/mathrunet/flutter_masamune/commit/13e61aa558911efa69ba8b781857718db26d6a2c))
