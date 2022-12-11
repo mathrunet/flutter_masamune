@@ -16,6 +16,9 @@ class ControllerGroupCliCode extends CliCode {
   String get prefix => "controllerGroup";
 
   @override
+  String get directory => "lib/controllers";
+
+  @override
   String get description =>
       "Create the code necessary to create a controller group. The controller group name will be [(filename)ControllerGroup]. コントローラーグループを作成するために必要なコードを作成します。コントローラーグループ名は[(ファイル名)ControllerGroup]になります。";
 

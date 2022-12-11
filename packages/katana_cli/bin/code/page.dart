@@ -16,6 +16,9 @@ class PageCliCode extends CliCode {
   String get prefix => "page";
 
   @override
+  String get directory => "lib/pages";
+
+  @override
   String get description =>
       "Create the code necessary to create the page. The name of the page will be [(filename)Page]. ページ作成に必要なコードを作成します。ページ名は[(ファイル名)Page]となります。";
 

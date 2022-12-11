@@ -16,6 +16,9 @@ class ControllerCliCode extends CliCode {
   String get prefix => "controller";
 
   @override
+  String get directory => "lib/controllers";
+
+  @override
   String get description =>
       "Create the code necessary to create a controller. The controller name will be [(filename)Controller]. コントローラーを作成するために必要なコードを作成します。コントローラー名は[(ファイル名)Controller]になります。";
 
@@ -60,7 +63,7 @@ class ${className}Controller extends ChangeNotifier {
   /// ref.app.conroller(${className}Controller.query(parameters));  // Watch at application scope.
   /// ref.page.conroller(${className}Controller.query(parameters)); // Watch at page scope.
   /// ```
-  static const query = _\$${className}Controller();
+  static const query = _\$${className}ControllerQuery();
 }
 """;
   }

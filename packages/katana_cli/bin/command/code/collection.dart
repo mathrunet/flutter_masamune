@@ -1,17 +1,22 @@
 part of katana_cli;
 
-/// Create a base class for the collection model in `lib/model/(filepath).dart`.
+/// Create a base class for the collection model.
 ///
-/// コレクションモデルのベースクラスを`lib/model/(filepath).dart`に作成します。
+/// コレクションモデルのベースクラスを作成します。
 class CodeCollectionCliCommand extends CliCommand {
-  /// Create a base class for the collection model in `lib/model/(filepath).dart`.
+  /// Create a base class for the collection model.
   ///
-  /// コレクションモデルのベースクラスを`lib/model/(filepath).dart`に作成します。
+  /// コレクションモデルのベースクラスを作成します。
   const CodeCollectionCliCommand();
+
+  /// Code data.
+  ///
+  /// コードデータ。
+  static const code = CollectionModelCliCode();
 
   @override
   String get description =>
-      "Create a base class for the collection model in `lib/model/(filepath).dart`. コレクションモデルのベースクラスを`lib/model/(filepath).dart`に作成します。";
+      "Create a base class for the collection model in `${code.directory}/(filepath).dart`. コレクションモデルのベースクラスを`${code.directory}/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(Map yaml, List<String> args) async {
@@ -22,7 +27,7 @@ class CodeCollectionCliCommand extends CliCommand {
       );
       return;
     }
-    label("Create a collection class in `lib/model/$path.dart`.");
-    await const CollectionModelCliCode().generateDartCode("lib/model/$path");
+    label("Create a collection class in `${code.directory}/$path.dart`.");
+    await code.generateDartCode("${code.directory}/$path");
   }
 }

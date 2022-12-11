@@ -24,8 +24,8 @@ class PubVersionCliCommand extends CliCommand {
       print("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");
       return;
     }
-    if (args.length > 1 && args[1].isNotEmpty) {
-      final mode = args[1];
+    if (args.length > 2 && args[2].isNotEmpty) {
+      final mode = args[2];
       switch (mode) {
         case "import":
           final processVersionRes = await command(

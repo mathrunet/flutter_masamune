@@ -107,6 +107,11 @@ abstract class CliCode {
   /// コードのプレフィックスを定義します。スニペット用に利用します。
   String get prefix;
 
+  /// Specify the folder where the code will be generated.
+  ///
+  /// コードを生成するフォルダを指定します。
+  String get directory;
+
   /// Define the actual import code. The file name is passed to [baseName].
   ///
   /// 実際のインポートコードを定義します。[baseName]にファイル名が渡されます。

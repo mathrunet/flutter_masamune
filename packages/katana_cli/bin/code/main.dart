@@ -16,6 +16,9 @@ class MainCliCode extends CliCode {
   String get prefix => "main";
 
   @override
+  String get directory => "lib";
+
+  @override
   String get description =>
       "Create a main.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したmain.dartを作成します。";
 
@@ -97,7 +100,7 @@ final l = AppLocalize();
 @GoogleSpreadSheetLocalize(
   ${7:"https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808"},
 )
-class AppLocalize extends _\$AppLocalize {}
+class AppLocalize extends _$AppLocalize {}
 
 /// App Ref.
 ///

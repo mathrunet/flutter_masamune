@@ -1,17 +1,22 @@
 part of katana_cli;
 
-/// Create a base class for the page in `lib/page/(filepath).dart`.
+/// Create a base class for the page.
 ///
-/// ページのベースクラスを`lib/page/(filepath).dart`に作成します。
+/// ページのベースクラスを作成します。
 class CodePageCliCommand extends CliCommand {
-  /// Create a base class for the page in `lib/page/(filepath).dart`.
+  /// Create a base class for the page.
   ///
-  /// ページのベースクラスを`lib/page/(filepath).dart`に作成します。
+  /// ページのベースクラスを作成します。
   const CodePageCliCommand();
+
+  /// Code data.
+  ///
+  /// コードデータ。
+  static const code = PageCliCode();
 
   @override
   String get description =>
-      "Create a base class for the page in `lib/page/(filepath).dart`. ページのベースクラスを`lib/page/(filepath).dart`に作成します。";
+      "Create a base class for the page in `${code.directory}/(filepath).dart`. ページのベースクラスを`${code.directory}/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(Map yaml, List<String> args) async {
@@ -22,7 +27,7 @@ class CodePageCliCommand extends CliCommand {
       );
       return;
     }
-    label("Create a page class in `lib/page/$path.dart`.");
-    await const PageCliCode().generateDartCode("lib/page/$path");
+    label("Create a page class in `${code.directory}/$path.dart`.");
+    await code.generateDartCode("${code.directory}/$path");
   }
 }

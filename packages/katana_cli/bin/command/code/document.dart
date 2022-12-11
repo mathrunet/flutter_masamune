@@ -1,17 +1,22 @@
 part of katana_cli;
 
-/// Create a base class for the document model in `lib/model/(filepath).dart`.
+/// Create a base class for the document model.
 ///
-/// ドキュメントモデルのベースクラスを`lib/model/(filepath).dart`に作成します。
+/// ドキュメントモデルのベースクラスを作成します。
 class CodeDocumentCliCommand extends CliCommand {
-  /// Create a base class for the document model in `lib/model/(filepath).dart`.
+  /// Create a base class for the document model.
   ///
-  /// ドキュメントモデルのベースクラスを`lib/model/(filepath).dart`に作成します。
+  /// ドキュメントモデルのベースクラスを作成します。
   const CodeDocumentCliCommand();
+
+  /// Code data.
+  ///
+  /// コードデータ。
+  static const code = DocumentModelCliCode();
 
   @override
   String get description =>
-      "Create a base class for the document model in `lib/model/(filepath).dart`. ドキュメントモデルのベースクラスを`lib/model/(filepath).dart`に作成します。";
+      "Create a base class for the document model in `${code.directory}/(filepath).dart`. ドキュメントモデルのベースクラスを`${code.directory}/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(Map yaml, List<String> args) async {
@@ -22,7 +27,7 @@ class CodeDocumentCliCommand extends CliCommand {
       );
       return;
     }
-    label("Create a document class in `lib/page/$path.dart`.");
-    await const DocumentModelCliCode().generateDartCode("lib/model/$path");
+    label("Create a document class in `${code.directory}/$path.dart`.");
+    await code.generateDartCode("${code.directory}/$path");
   }
 }

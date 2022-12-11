@@ -16,6 +16,9 @@ class CollectionModelCliCode extends CliCode {
   String get prefix => "collectionModel";
 
   @override
+  String get directory => "lib/models";
+
+  @override
   String get description =>
       "Create the code needed to create the collection and document models. The model name will be [(filename)Model]. コレクションおよびドキュメントモデル作成に必要なコードを作成します。モデル名は[(ファイル名)Model]となります。";
 
@@ -58,7 +61,7 @@ class ${className}Model with _\$${className}Model {
   }) = _${className}Model;
   const ${className}Model._();
 
-  factory ${className}Model.fromJson(Map<String, Object?> json) => \$${className}ModelFromJson(json);
+  factory ${className}Model.fromJson(Map<String, Object?> json) => _\$${className}ModelFromJson(json);
 
   /// Query for document.
   ///

@@ -1,17 +1,22 @@
 part of katana_cli;
 
-/// Create a base class for the controller in `lib/controller/(filepath).dart`.
+/// Create a base class for the controller.
 ///
-/// コントローラーのベースクラスを`lib/controller/(filepath).dart`に作成します。
+/// コントローラーのベースクラスを作成します。
 class CodeControllerCliCommand extends CliCommand {
-  /// Create a base class for the controller in `lib/controller/(filepath).dart`.
+  /// Create a base class for the controller.
   ///
-  /// コントローラーのベースクラスを`lib/controller/(filepath).dart`に作成します。
+  /// コントローラーのベースクラスを作成します。
   const CodeControllerCliCommand();
+
+  /// Code data.
+  ///
+  /// コードデータ。
+  static const code = ControllerCliCode();
 
   @override
   String get description =>
-      "Create a base class for the controller in `lib/controller/(filepath).dart`. コントローラーのベースクラスを`lib/controller/(filepath).dart`に作成します。";
+      "Create a base class for the controller in `${code.directory}/(filepath).dart`. コントローラーのベースクラスを`${code.directory}/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(Map yaml, List<String> args) async {
@@ -22,7 +27,7 @@ class CodeControllerCliCommand extends CliCommand {
       );
       return;
     }
-    label("Create a controller class in `lib/controller/$path.dart`.");
-    await const ControllerCliCode().generateDartCode("lib/controller/$path");
+    label("Create a controller class in `${code.directory}/$path.dart`.");
+    await code.generateDartCode("${code.directory}/$path");
   }
 }

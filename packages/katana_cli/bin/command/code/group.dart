@@ -1,17 +1,22 @@
 part of katana_cli;
 
-/// Create a base class for the controller group in `lib/controller/(filepath).dart`.
+/// Create a base class for the controller group.
 ///
-/// コントローラーグループのベースクラスを`lib/controller/(filepath).dart`に作成します。
+/// コントローラーグループのベースクラスを作成します。
 class CodeGroupCliCommand extends CliCommand {
-/// Create a base class for the controller group in `lib/controller/(filepath).dart`.
-///
-/// コントローラーグループのベースクラスを`lib/controller/(filepath).dart`に作成します。
+  /// Create a base class for the controller group.
+  ///
+  /// コントローラーグループのベースクラスを作成します。
   const CodeGroupCliCommand();
+
+  /// Code data.
+  ///
+  /// コードデータ。
+  static const code = ControllerGroupCliCode();
 
   @override
   String get description =>
-      "Create a base class for the controller group in `lib/controller/(filepath).dart`. Create a base class for the controller group in `lib/controller/(filepath).dart`.";
+      "Create a base class for the controller group in `${code.directory}/(filepath).dart`. Create a base class for the controller group in `${code.directory}/(filepath).dart`.";
 
   @override
   Future<void> exec(Map yaml, List<String> args) async {
@@ -22,7 +27,7 @@ class CodeGroupCliCommand extends CliCommand {
       );
       return;
     }
-    label("Create a controller group class in `lib/controller/$path.dart`.");
-    await const ControllerGroupCliCode().generateDartCode("lib/controller/$path");
+    label("Create a controller group class in `${code.directory}/$path.dart`.");
+    await code.generateDartCode("${code.directory}/$path");
   }
 }
