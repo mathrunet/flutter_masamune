@@ -31,7 +31,10 @@ class GoogleSpreadSheetLocalizeGenerator
       );
     }
 
-    final _path = PathValue(annotation.read("url").stringValue.trimString("/"));
+    final _path = PathValue(
+      annotation.read("url").stringValue.trimString("/"),
+      annotation.read("version").intValue,
+    );
     final _class = ClassValue(element);
     final _loader = LocalizeLoader(_path);
 

@@ -19,31 +19,48 @@ class LocalizeLoader {
   ///
   /// ロードを行ないます。
   Future<void> load() async {
-    final endpoint =
-        path.path.replaceAllMapped(RegExp(r"/edit(#gid=([0-9]+))?$"), (match) {
-      final gid = match.group(2);
-      if (gid.isEmpty) {
-        return "/export?format=csv";
-      }
-      return "/export?format=csv&gid=$gid";
-    });
-    print("Load from $endpoint");
-    final res = await http.get(Uri.parse(endpoint));
-    if (res.statusCode != 200) {
-      throw InvalidGenerationSourceError(
-        "${path.path} could not be accessed successfully, please check if the URL and share settings are correct.",
-      );
+    final dir = Directory(".dart_tool/katana");
+    if (!dir.existsSync()) {
+      await dir.create(recursive: true);
     }
-    res.body;
+    Uint8List bytes;
+    final file = File("${dir.path}/localization.${path.version}.csv");
+    if (file.existsSync()) {
+      bytes = await file.readAsBytes();
+    } else {
+      final endpoint = path.path
+          .replaceAllMapped(RegExp(r"/edit(#gid=([0-9]+))?$"), (match) {
+        final gid = match.group(2);
+        if (gid.isEmpty) {
+          return "/export?format=csv";
+        }
+        return "/export?format=csv&gid=$gid";
+      });
+      print("Load from $endpoint");
+      final res = await http.get(Uri.parse(endpoint));
+      if (res.statusCode != 200) {
+        throw InvalidGenerationSourceError(
+          "${path.path} could not be accessed successfully, please check if the URL and share settings are correct.",
+        );
+      }
+      final list = dir.listSync();
+      for (final file in list) {
+        if (!file.path.contains("${dir.path}/localization.")) {
+          continue;
+        }
+        await file.delete();
+      }
+      bytes = res.bodyBytes;
+      await File("${dir.path}/localization.${path.version}.csv")
+          .writeAsBytes(bytes);
+    }
 
     final sourceValues = <String, LocalizeSourceValue>{};
     final destValues = <LocalizeValue>[];
     final _locales = <String>{};
     final num2lang = <int, String>{};
-    final csv = utf8
-        .decode(res.bodyBytes)
-        .replaceAll("\r\n", "\n")
-        .replaceAll("\r", "\n");
+    final csv =
+        utf8.decode(bytes).replaceAll("\r\n", "\n").replaceAll("\r", "\n");
     final converted = const CsvToListConverter().convert(csv, eol: "\n");
     // Organize by language
     for (int y = 1; y < converted.length; y++) {

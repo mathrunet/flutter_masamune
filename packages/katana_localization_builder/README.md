@@ -119,6 +119,8 @@ The class name can be any name, but be sure to use `_$ (The name of the defined 
 
 Copy and paste the URL of the Google spreadsheet prepared above (e.g., https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808) and paste it in.
 
+Normally, the downloaded spreadsheet content is cached, but it can be updated with new content by incrementing the `version`.
+
 In addition, define the top-level fields for use with that class. **The shorter the field name, the easier it will be to use later.**
 
 ```dart
@@ -127,7 +129,10 @@ import 'package:katana_localization/katana_localization.dart';
 
 part ‘localization.localize.dart’;
 
-@GoogleSpreadSheetLocalize("https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808")
+@GoogleSpreadSheetLocalize(
+  "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+  version: 1,
+)
 class AppLocalize extends _$AppLocalize { }
 
 final l = AppLocalize();

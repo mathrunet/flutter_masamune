@@ -10,6 +10,8 @@ library katana_localization_builder;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
