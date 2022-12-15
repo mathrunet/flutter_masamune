@@ -10,7 +10,6 @@ List<Spec> modelClass(
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
   final referencable = model.parameters.where((e) => e.isReference).toList();
   return [
-    Code("typedef ${model.name}Ref = ModelRef<${model.name}>?;"),
     Class(
       (c) => c
         ..name = "\$${model.name}Document"
