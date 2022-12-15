@@ -17,7 +17,7 @@ dependencies:
   katana: ^0.15.0
   katana_storage:
     path: "../katana_storage"
-  katana_firebase: ^1.1.3
+  katana_firebase: ^1.1.4
   firebase_core: ^2.2.0
   firebase_storage: ^11.0.6
 

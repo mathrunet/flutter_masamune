@@ -1,3 +1,7 @@
+## 1.10.1
+
+ - Update a dependency to the latest release.
+
 ## 1.10.0
 
  - **FEAT**: Add the Query suffix to the built query class. ([66ba131a](https://github.com/mathrunet/flutter_masamune/commit/66ba131a6fb0bfdedc479d90508057e433b14d9f))

@@ -1,3 +1,7 @@
+## 1.1.18
+
+ - Update a dependency to the latest release.
+
 ## 1.1.17
 
  - **FIX**: Corresponding to the parameters of version. ([349b37bb](https://github.com/mathrunet/flutter_masamune/commit/349b37bbe6ab807d4280ac5d88b6ca4bdab65bf0))

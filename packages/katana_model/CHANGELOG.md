@@ -1,3 +1,7 @@
+## 1.3.9
+
+ - **FIX**: Added uid to Document. ([9d61c291](https://github.com/mathrunet/flutter_masamune/commit/9d61c29163cbf12f84dbbe56cdf07b2a58bf31bf))
+
 ## 1.3.8
 
  - **FIX**: Change updateShouldNotify of ModelAdapterScope to false. ([7ee492f6](https://github.com/mathrunet/flutter_masamune/commit/7ee492f65cd71e380b7853e94e0971334a0a8baf))

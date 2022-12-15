@@ -1,3 +1,7 @@
+## 0.15.10+1
+
+ - **FIX**: Add yyyyMMddHHmm. ([d88bf722](https://github.com/mathrunet/flutter_masamune/commit/d88bf72256162ab6e2a186eadf49f97280f774fa))
+
 ## 0.15.10
 
  - **FEAT**: Added String.toUri. ([b0df160d](https://github.com/mathrunet/flutter_masamune/commit/b0df160d4fe801ea98e3bcef8faf124945fd3d45))

@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - Update a dependency to the latest release.
+
 ## 1.2.0
 
  - **FEAT**: Support for OepnAPI3. ([46686cff](https://github.com/mathrunet/flutter_masamune/commit/46686cffa9595aee08fde588feb6dbd8ac5da773))

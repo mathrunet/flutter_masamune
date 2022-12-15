@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - Update a dependency to the latest release.
+
 ## 1.1.1
 
  - **FIX**: Support for LocalAuthAdapter. ([f2b6d214](https://github.com/mathrunet/flutter_masamune/commit/f2b6d21444828fe08cad6a359f24b3e08b4b7567))

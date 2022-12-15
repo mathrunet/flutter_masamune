@@ -21,14 +21,14 @@ dependencies:
   source_gen: ^1.2.2
   analyzer: ^5.0.0
   freezed_annotation: ^2.2.0
-  katana_theme_builder: ^1.2.4
-  katana_theme_annotation: ^1.2.3
-  katana_localization_builder: ^1.1.19
-  katana_localization_annotation: ^1.1.17
+  katana_theme_builder: ^1.2.5
+  katana_theme_annotation: ^1.2.4
+  katana_localization_builder: ^1.1.20
+  katana_localization_annotation: ^1.1.18
   katana_router_builder: ^1.10.0
   katana_router_annotation: ^1.10.0
-  katana_listenables_annotation: ^1.2.7
-  katana_listenables_builder: ^1.2.8
+  katana_listenables_annotation: ^1.2.8
+  katana_listenables_builder: ^1.2.9
   masamune_annotation:
     path: ../masamune_annotation
 dev_dependencies:
