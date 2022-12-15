@@ -342,8 +342,39 @@ The default `ScopedValueFunction` defined in the package is
             - Executed when the widget is destroyed.
 - `void refresh()`
     - When executed, the associated widget will be redrawn.
+- `T query<T>(ScopedQuery<T> query)`
+    - Define a query that provides a global state like [riverpod](https://pub.dev/packages/riverpod) and read it to manage the state.
+    - See below for details.
 
-Most of the status management can be done using only the cache and watch methods.
+### ScopedQuery
+
+By defining ScopedQuery separately, it is possible to issue and use queries that provide state globally like [riverpod](https://pub.dev/packages/riverpod). `T query<T>(ScopedQuery<T> query)` of each scope can be used to manage the state.
+
+```dart
+final valueNotifierQuery = ChangeNotifierScopedQuery(
+  () => ValueNotifier(0),
+);
+
+class TestPage extends PageScopedWidget {
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    final valueNotifier = ref.page.query(valueNotifierQuery);
+
+    return Scaffold(
+      body: Center(child: Text("${valueNotifier.value}")),
+    );
+  }
+}
+```
+
+The following types of ScopedQuery are available
+
+- ScopedQuery
+    - Holds the value returned by the callback.
+    - It has the same functionality as `cache`.
+- ChangeNotifierScopedQuery
+    - Holds the value returned in the callback and monitors for value changes.
+    - It has the same functionality as `watch`.
 
 # Add `ScopedValueFunction`
 
