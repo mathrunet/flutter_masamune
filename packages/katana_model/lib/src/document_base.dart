@@ -126,6 +126,11 @@ abstract class DocumentBase<T> extends ChangeNotifier
   T? get value => _value;
   T? _value;
 
+  /// Returns the ID for the document path.
+  ///
+  /// ドキュメントのパス用のIDを返します。
+  String get uid => modelQuery.path.last();
+
   /// Query for loading and saving documents.
   ///
   /// ドキュメントを読込・保存するためのクエリ。
