@@ -1,36 +1,36 @@
 part of katana_cli;
 
-/// Base code for the page.
+/// Form page template.
 ///
-/// ページのベースコード。
-class FormPageCliCode extends CliCode {
-  /// Base code for the page.
+/// フォームのページテンプレート。
+class TmpFormCliCode extends CliCode {
+  /// Form page template.
   ///
-  /// ページのベースコード。
-  const FormPageCliCode();
+  /// フォームのページテンプレート。
+  const TmpFormCliCode();
 
   @override
-  String get name => "page";
+  String get name => "template_form";
 
   @override
-  String get prefix => "page";
+  String get prefix => "templateForm";
 
   @override
   String get directory => "lib/pages";
 
   @override
   String get description =>
-      "Create the code necessary to create the page. The name of the page will be [(filename)Page]. ページ作成に必要なコードを作成します。ページ名は[(ファイル名)Page]となります。";
+      "Create a page template for a form. The page name will be [(filename)Page]. フォーム用のページテンプレートを作成します。ページ名は[(ファイル名)Page]となります。";
 
   @override
   String import(String path, String baseName, String className) {
     return """
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:masamune/masamune.dart';
 
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import '/main.dart';
 """;
   }

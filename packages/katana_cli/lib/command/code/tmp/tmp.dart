@@ -3,6 +3,7 @@ library katana_cli.code.tmp;
 import 'package:katana_cli/katana_cli.dart';
 
 part 'form.dart';
+part 'basic.dart';
 
 class CodeTmpCliCommand extends CliCommandGroup {
   const CodeTmpCliCommand();
@@ -14,5 +15,6 @@ class CodeTmpCliCommand extends CliCommandGroup {
   @override
   Map<String, CliCommand> get commands => const {
         "form": CodeTmpFormCliCommand(),
+        "basic": CodeTmpBasicCliCommand(),
       };
 }

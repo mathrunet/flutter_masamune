@@ -12,7 +12,7 @@ class CodeTmpFormCliCommand extends CliCommand {
   /// Code data.
   ///
   /// コードデータ。
-  static const code = FormPageCliCode();
+  static const code = TmpFormCliCode();
 
   @override
   String get description =>

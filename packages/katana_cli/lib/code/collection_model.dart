@@ -25,12 +25,12 @@ class CollectionModelCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:masamune/masamune.dart';
 
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import '/main.dart';
 """;
   }
@@ -49,6 +49,15 @@ part '$baseName.freezed.dart';
   @override
   String body(String path, String baseName, String className) {
     return """
+/// Alias for ModelRef<${className}Model>.
+/// 
+/// When defining parameters for other Models, you can define them as follows
+/// 
+/// ```dart
+/// @refParam ${className}ModelRef $baseName
+/// ```
+typedef ${className}ModelRef = ModelRef<${className}Model>?;
+
 /// Value for model.
 @freezed
 @formValue

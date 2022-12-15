@@ -25,12 +25,12 @@ class ControllerGroupCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:masamune/masamune.dart';
 
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import '/main.dart';
 """;
   }

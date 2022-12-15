@@ -25,9 +25,9 @@ class MainCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
-// ignore: unused_import
+// ignore: unused_import, unnecessary_import
 import 'package:masamune/masamune.dart';
 """;
   }
@@ -49,13 +49,13 @@ part '$baseName.localize.dart';
     return r"""
 /// App Title.
 // TODO: Define the title of the application.
-const _title = "${1}";
+const title = "${1}";
 
 /// App Model.
 /// 
 /// By replacing this with another adapter, the data storage location can be changed.
 // TODO: Change the database.
-const _modelAdapter = ${2:RuntimeModelAdapter()};
+const modelAdapter = ${2:RuntimeModelAdapter()};
 
 /// App Theme.
 ///
