@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.pub;
 
 /// Deploy the Dart package to the pub.
 ///
@@ -14,8 +14,8 @@ class PubPublishCliCommand extends CliCommand {
       "Deploy the Dart package to the pub. Dartパッケージのpubへのデプロイを行います。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final melos = bin.get("melos", "melos");
     if (!File("melos.yaml").existsSync()) {
       print("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");

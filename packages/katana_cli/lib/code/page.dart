@@ -23,7 +23,7 @@ class PageCliCode extends CliCode {
       "Create the code necessary to create the page. The name of the page will be [(filename)Page]. ページ作成に必要なコードを作成します。ページ名は[(ファイル名)Page]となります。";
 
   @override
-  String import(String baseName) {
+  String import(String path, String baseName, String className) {
     return """
 // ignore: unused_import
 import 'package:flutter/material.dart';
@@ -36,17 +36,18 @@ import '/main.dart';
   }
 
   @override
-  String header(String baseName) {
+  String header(String path, String baseName, String className) {
     return """
 part '$baseName.page.dart';
 """;
   }
 
   @override
-  String body(String className) {
+  String body(String path, String baseName, String className) {
     return """
+@immutable
 // TODO: Set the path for the page.
-@PagePath("\${1}")
+@PagePath("\${1:$path}")
 class ${className}Page extends PageScopedWidget {
   const ${className}Page({
     super.key,

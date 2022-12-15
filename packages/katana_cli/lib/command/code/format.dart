@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.code;
 
 /// Dart file formatting.
 ///
@@ -13,8 +13,8 @@ class CodeFormatCliCommand extends CliCommand {
   String get description => "Dart file formatting. Dartファイルのフォーマッティングを行います。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final dart = bin.get("dart", "dart");
     final melos = bin.get("melos", "melos");
     if (File("melos.yaml").existsSync()) {

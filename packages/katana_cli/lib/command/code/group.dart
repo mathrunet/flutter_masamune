@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.code;
 
 /// Create a base class for the controller group.
 ///
@@ -19,8 +19,8 @@ class CodeGroupCliCommand extends CliCommand {
       "Create a base class for the controller group in `${code.directory}/(filepath).dart`. Create a base class for the controller group in `${code.directory}/(filepath).dart`.";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final path = args.get(2, "");
+  Future<void> exec(ExecContext context) async {
+    final path = context.args.get(2, "");
     if (path.isEmpty) {
       print(
         "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code group [path]\r\n",

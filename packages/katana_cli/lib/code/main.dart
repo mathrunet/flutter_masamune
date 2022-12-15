@@ -23,7 +23,7 @@ class MainCliCode extends CliCode {
       "Create a main.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したmain.dartを作成します。";
 
   @override
-  String import(String baseName) {
+  String import(String path, String baseName, String className) {
     return """
 // ignore: unused_import
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ import 'package:masamune/masamune.dart';
   }
 
   @override
-  String header(String baseName) {
+  String header(String path, String baseName, String className) {
     return """
 import '$baseName.router.dart';
 
@@ -45,7 +45,7 @@ part '$baseName.localize.dart';
   }
 
   @override
-  String body(String className) {
+  String body(String path, String baseName, String className) {
     return r"""
 /// App Title.
 // TODO: Define the title of the application.

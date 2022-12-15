@@ -1,4 +1,19 @@
-part of katana_cli;
+library katana_cli.code;
+
+import 'dart:io';
+
+import 'package:katana_cli/katana_cli.dart';
+import 'tmp/tmp.dart';
+
+part 'collection.dart';
+part 'controller.dart';
+part 'create.dart';
+part 'document.dart';
+part 'format.dart';
+part 'generate.dart';
+part 'group.dart';
+part 'page.dart';
+part 'watch.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -9,6 +24,7 @@ class CodeCliCommand extends CliCommandGroup {
 
   @override
   Map<String, CliCommand> get commands => const {
+        "tmp": CodeTmpCliCommand(),
         "create": CodeCreateCliCommand(),
         "format": CodeFormatCliCommand(),
         "generate": CodeGenerateCliCommand(),

@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.pub;
 
 /// Upgrade the Dart package.
 ///
@@ -17,15 +17,15 @@ class PubVersionCliCommand extends CliCommand {
       "Upgrade the Dart package. Dartパッケージのバージョンアップを行います。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final melos = bin.get("melos", "melos");
     if (!File("melos.yaml").existsSync()) {
       print("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");
       return;
     }
-    if (args.length > 2 && args[2].isNotEmpty) {
-      final mode = args[2];
+    final mode = context.args.get(2, "");
+    if (mode.isNotEmpty) {
       switch (mode) {
         case "import":
           final processVersionRes = await command(

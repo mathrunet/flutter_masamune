@@ -1,4 +1,14 @@
-part of katana_cli;
+library katana_cli.pub;
+
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:katana_cli/katana_cli.dart';
+
+part 'get.dart';
+part 'version.dart';
+part 'upgrade.dart';
+part 'publish.dart';
 
 class PubCliCommand extends CliCommandGroup {
   const PubCliCommand();

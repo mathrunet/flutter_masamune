@@ -1,4 +1,4 @@
-part of katana_cli;
+import 'package:katana_cli/katana_cli.dart';
 
 /// Recursively clone submodules.
 ///
@@ -14,8 +14,8 @@ class SubmoduleCliCommand extends CliCommand {
       "Recursively clone submodules. サブモジュールを再帰的にクローンします。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final git = bin.get("git", "git");
     await command(
       "Recursively clone a Git submodule of the current project.",

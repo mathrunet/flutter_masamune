@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.code;
 
 /// Create a base class for the document model.
 ///
@@ -19,8 +19,8 @@ class CodeDocumentCliCommand extends CliCommand {
       "Create a base class for the document model in `${code.directory}/(filepath).dart`. ドキュメントモデルのベースクラスを`${code.directory}/(filepath).dart`に作成します。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final path = args.get(2, "");
+  Future<void> exec(ExecContext context) async {
+    final path = context.args.get(2, "");
     if (path.isEmpty) {
       print(
         "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code document [path]\r\n",

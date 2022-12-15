@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.pub;
 
 /// Get the packages.
 ///
@@ -13,8 +13,8 @@ class PubGetCliCommand extends CliCommand {
   String get description => "Get the packages. パッケージの取得を行います。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
     if (File("melos.yaml").existsSync()) {

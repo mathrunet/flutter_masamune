@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.code;
 
 /// Package to import.
 ///
@@ -44,16 +44,16 @@ class CodeCreateCliCommand extends CliCommand {
       "Create a new Flutter project. 新しいFlutterプロジェクトを作成します。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
-    if (args.length < 3 || args[2].isEmpty) {
+    final packageName = context.args.get(2, "");
+    if (packageName.isEmpty) {
       print(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
       );
       return;
     }
-    final packageName = args[2];
     final projectName = packageName.split(".").lastOrNull;
     final domain = packageName
         .split(".")

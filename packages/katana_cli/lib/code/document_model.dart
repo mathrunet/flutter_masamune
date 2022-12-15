@@ -23,7 +23,7 @@ class DocumentModelCliCode extends CliCode {
       "Create the code necessary to create the document model. The model name is [(filename)Model]. ドキュメントモデル作成に必要なコードを作成します。モデル名は[(ファイル名)Model]となります。";
 
   @override
-  String import(String baseName) {
+  String import(String path, String baseName, String className) {
     return """
 // ignore: unused_import
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ import '/main.dart';
   }
 
   @override
-  String header(String baseName) {
+  String header(String path, String baseName, String className) {
     return """
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -47,13 +47,14 @@ part '$baseName.freezed.dart';
   }
 
   @override
-  String body(String className) {
+  String body(String path, String baseName, String className) {
     return """
 /// Value for model.
 @freezed
 @formValue
+@immutable
 // TODO: Set the path for the document.
-@DocumentModelPath("\${1}")
+@DocumentModelPath("\${1:$path}")
 class ${className}Model with _\$${className}Model {
   const factory ${className}Model({
      // TODO: Set the data schema.

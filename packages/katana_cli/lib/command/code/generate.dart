@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.code;
 
 /// Start Dart's build_runner to automatically generate code.
 ///
@@ -14,11 +14,11 @@ class CodeGenerateCliCommand extends CliCommand {
       "Start Dart's build_runner to automatically generate code. Dartのbuild_runnerを起動してコードを自動生成します。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
-    final isClean = args.get(2, "");
+    final isClean = context.args.get(2, "");
     if (File("melos.yaml").existsSync()) {
       if (isClean.isNotEmpty) {
         await command(

@@ -5,6 +5,54 @@ import 'dart:io';
 
 import 'package:katana/katana.dart';
 
+/// Prefix of the path to trim.
+///
+/// トリムするパスのプレフィックス。
+final _trimPrefixes = [
+  "models",
+  "pages",
+  "widgets",
+  "controllers",
+];
+
+/// The context in which the command is executed.
+///
+/// The contents of `katana.yaml` are passed to [yaml] and the arguments of the command are passed to [args].
+///
+/// コマンドを実行する際のコンテキスト。
+///
+/// [yaml]に`katana.yaml`の内容が渡され、[args]にコマンドの引数が渡されます。
+class ExecContext {
+  /// The context in which the command is executed.
+  ///
+  /// The contents of `katana.yaml` are passed to [yaml] and the arguments of the command are passed to [args].
+  ///
+  /// コマンドを実行する際のコンテキスト。
+  ///
+  /// [yaml]に`katana.yaml`の内容が渡され、[args]にコマンドの引数が渡されます。
+  const ExecContext({
+    required this.yaml,
+    required this.args,
+    int index = 1,
+  }) : _index = index;
+
+  /// The contents of `katana.yaml` will be included.
+  ///
+  /// `katana.yaml`の内容が入ります。
+  final Map yaml;
+
+  /// Arguments when the command is executed.
+  ///
+  /// コマンドを実行した際の引数。
+  final List<String> args;
+
+  final int _index;
+
+  ExecContext _copyToChild() {
+    return ExecContext(yaml: yaml, args: args, index: _index + 1);
+  }
+}
+
 /// Abstract class for creating command templates.
 ///
 /// コマンドの雛形を作成するための抽象クラス。
@@ -21,12 +69,12 @@ abstract class CliCommand {
 
   /// Run command.
   ///
-  /// The contents of `katana.yaml` are passed in [yaml]. Arguments of the command are passed in [args].
+  /// The contents of `katana.yaml` and the arguments of the command are passed to [context].
   ///
   /// コマンドを実行します。
   ///
-  /// [yaml]で`katana.yaml`の内容が渡されます。[args]にコマンドの引数が渡されます。
-  Future<void> exec(Map yaml, List<String> args);
+  /// [context]に`katana.yaml`の内容やコマンドの引数が渡されます。
+  Future<void> exec(ExecContext context);
 }
 
 /// A template for creating command groups.
@@ -57,12 +105,12 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
   }
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    if (args.length <= 1) {
+  Future<void> exec(ExecContext context) async {
+    if (context.args.length <= context._index) {
       print(description);
       return;
     }
-    final mode = args[1];
+    final mode = context.args[context._index];
     if (mode.isEmpty) {
       print(description);
       return;
@@ -71,7 +119,7 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
       if (tmp.key != mode) {
         continue;
       }
-      await tmp.value.exec(yaml, args);
+      await tmp.value.exec(context._copyToChild());
       return;
     }
     print(description);
@@ -112,33 +160,35 @@ abstract class CliCode {
   /// コードを生成するフォルダを指定します。
   String get directory;
 
-  /// Define the actual import code. The file name is passed to [baseName].
+  /// Define the actual import code. [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
   ///
-  /// 実際のインポートコードを定義します。[baseName]にファイル名が渡されます。
-  String import(String baseName);
+  /// 実際のインポートコードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String import(String path, String baseName, String className);
 
-  /// Defines the actual header code. The file name is passed to [baseName].
+  /// Defines the actual header code. [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
   ///
-  /// 実際のヘッダーコードを定義します。[baseName]にファイル名が渡されます。
-  String header(String baseName);
+  /// 実際のヘッダーコードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String header(String path, String baseName, String className);
 
-  /// Defines the actual body code. The file name is passed to [className].
+  /// Defines the actual body code. [path] is passed relative to `lib`, [baseName] is the filename, and [className] is the filename converted to Pascal case.
   ///
-  /// 実際の本体コードを定義します。[className]にファイル名が渡されます。
-  String body(String className);
+  /// 実際の本体コードを定義します。[path]に`lib`からの相対パス、[baseName]にファイル名が渡され、[className]にファイル名をパスカルケースに変換した値が渡されます。
+  String body(String path, String baseName, String className);
 
   /// Generate Dart code in [path].
   ///
   /// [path]にDartコードを生成します。
   Future<void> generateDartCode(String path) async {
     final baseName = path.last();
+    final trimedPath = _trimPathPrefix(path);
+    final className = baseName.toPascalCase();
     final dir = Directory(path.replaceAll("/$baseName", ""));
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }
     await File("$path.dart").writeAsString(
       _removeCodeSnippetValue(
-        "${import(baseName)}\n${header(baseName)}\n${body(baseName.toPascalCase())}",
+        "${import(trimedPath, baseName, className)}\n${header(trimedPath, baseName, className)}\n${body(trimedPath, baseName, className)}",
       ),
     );
   }
@@ -157,7 +207,7 @@ abstract class CliCode {
         "prefix": "m${prefix.toPascalCase()}",
         "description": description,
         "body":
-            "${import(_baseName)}\n${header(_baseName)}\n${body(_className)}\n"
+            "${import(_baseName, _baseName, _className)}\n${header(_baseName, _baseName, _className)}\n${body(_baseName, _baseName, _className)}\n"
                 .replaceAll("\r\n", "\n")
                 .replaceAll("\r", "\n")
                 .split("\n")
@@ -165,7 +215,7 @@ abstract class CliCode {
       "${name}_import": {
         "prefix": "i${prefix.toPascalCase()}",
         "description": description,
-        "body": "${import(_baseName)}\n"
+        "body": "${import(_baseName, _baseName, _className)}\n"
             .replaceAll("\r\n", "\n")
             .replaceAll("\r", "\n")
             .split("\n")
@@ -173,7 +223,7 @@ abstract class CliCode {
       "${name}_header": {
         "prefix": "h${prefix.toPascalCase()}",
         "description": description,
-        "body": "${header(_baseName)}\n"
+        "body": "${header(_baseName, _baseName, _className)}\n"
             .replaceAll("\r\n", "\n")
             .replaceAll("\r", "\n")
             .split("\n")
@@ -181,7 +231,7 @@ abstract class CliCode {
       "${name}_body": {
         "prefix": "b${prefix.toPascalCase()}",
         "description": description,
-        "body": "${body(_className)}\n"
+        "body": "${body(_baseName, _baseName, _className)}\n"
             .replaceAll("\r\n", "\n")
             .replaceAll("\r", "\n")
             .split("\n")
@@ -190,6 +240,17 @@ abstract class CliCode {
     await File("$directory/$fileName.code-snippets").writeAsString(
       jsonEncode(json),
     );
+  }
+
+  static String _trimPathPrefix(String path) {
+    path = path.trimStringLeft("lib/");
+    for (final prefix in _trimPrefixes) {
+      if (path.startsWith("$prefix/")) {
+        path = path.trimStringLeft("$prefix/");
+        break;
+      }
+    }
+    return path;
   }
 
   static String _removeCodeSnippetValue(String value) {

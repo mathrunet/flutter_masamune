@@ -1,4 +1,4 @@
-part of katana_cli;
+part of katana_cli.code;
 
 /// Start Dart's build_runner to monitor the code and automatically generate code in real time.
 ///
@@ -14,8 +14,8 @@ class CodeWatchCliCommand extends CliCommand {
       "Start Dart's build_runner to monitor the code and automatically generate code in real time. Dartのbuild_runnerを起動してコードを監視しリアルタイムでコードを自動生成します。";
 
   @override
-  Future<void> exec(Map yaml, List<String> args) async {
-    final bin = yaml.getAsMap("bin");
+  Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final melos = bin.get("melos", "melos");
     if (File("melos.yaml").existsSync()) {

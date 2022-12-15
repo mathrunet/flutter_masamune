@@ -23,7 +23,7 @@ class ControllerCliCode extends CliCode {
       "Create the code necessary to create a controller. The controller name will be [(filename)Controller]. コントローラーを作成するために必要なコードを作成します。コントローラー名は[(ファイル名)Controller]になります。";
 
   @override
-  String import(String baseName) {
+  String import(String path, String baseName, String className) {
     return """
 // ignore: unused_import
 import 'package:flutter/material.dart';
@@ -36,14 +36,14 @@ import '/main.dart';
   }
 
   @override
-  String header(String baseName) {
+  String header(String path, String baseName, String className) {
     return """
 part '$baseName.m.dart';
 """;
   }
 
   @override
-  String body(String className) {
+  String body(String path, String baseName, String className) {
     return """
 /// Controller.
 @controller
