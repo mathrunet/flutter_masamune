@@ -1,5 +1,8 @@
 part of masamune_builder;
 
+const _searchParamChecker = TypeChecker.fromRuntime(SearchParam);
+const _refParamChecker = TypeChecker.fromRuntime(RefParam);
+
 /// Parameter Value.
 ///
 /// Specify the parameter element in [element].
@@ -19,6 +22,8 @@ class ParamaterValue {
     name = element.displayName;
     type = element.type;
     required = element.isRequired;
+    isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
+    isReference = _refParamChecker.hasAnnotationOfExact(element);
   }
 
   /// Parameter Element.
@@ -40,6 +45,16 @@ class ParamaterValue {
   ///
   /// Requiredな場合true.
   late final bool required;
+
+  /// True if search target.
+  ///
+  /// 検索対象の場合true.
+  late final bool isSearchable;
+
+  /// True if referring to another document.
+  ///
+  /// 他のドキュメントを参照している場合true.
+  late final bool isReference;
 
   @override
   String toString() {

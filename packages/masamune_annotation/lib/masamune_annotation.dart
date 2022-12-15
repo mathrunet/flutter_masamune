@@ -15,3 +15,5 @@ part 'src/collection_model_path.dart';
 part 'src/controller.dart';
 part 'src/controller_group.dart';
 part 'src/form_value.dart';
+part 'src/ref_param.dart';
+part 'src/search_param.dart';

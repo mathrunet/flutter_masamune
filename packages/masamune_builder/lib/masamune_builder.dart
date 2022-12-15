@@ -10,6 +10,7 @@ library masamune_builder;
 
 import 'dart:async';
 
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
@@ -18,6 +19,7 @@ import 'package:dart_style/dart_style.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune_annotation/masamune_annotation.dart';
 import 'package:source_gen/source_gen.dart';
+import 'package:code_builder/src/specs/type_function.dart' as type_function;
 
 export 'package:katana/katana.dart';
 export 'package:katana_listenables_builder/katana_listenables_builder.dart'

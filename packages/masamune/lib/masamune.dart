@@ -26,5 +26,6 @@ export 'package:masamune_annotation/masamune_annotation.dart';
 export 'package:meta/meta.dart' show useResult;
 
 part 'model/model.dart';
+part 'form/form_scoped_widget.dart';
 part 'scoped/controller.dart';
 part 'src/masamune_app.dart';

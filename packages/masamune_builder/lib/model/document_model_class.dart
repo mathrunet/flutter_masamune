@@ -31,7 +31,7 @@ List<Spec> documentModelClass(
       (c) => c
         ..name = "_\$_${model.name}DocumentQuery"
         ..annotations.addAll([const Reference("immutable")])
-        ..extend = Reference("ModelQueryBase<_\$${model.name}Document>")
+        ..extend = Reference("ModelQueryBase<\$${model.name}Document>")
         ..constructors.addAll([
           Constructor(
             (c) => c
@@ -59,9 +59,9 @@ List<Spec> documentModelClass(
               ..name = "call"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("_\$${model.name}Document Function()")
+              ..returns = Reference("\$${model.name}Document Function()")
               ..body = Code(
-                "() => _\$${model.name}Document(modelQuery)",
+                "() => \$${model.name}Document(modelQuery)",
               ),
           ),
           Method(

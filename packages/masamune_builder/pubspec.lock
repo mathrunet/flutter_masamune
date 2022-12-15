@@ -234,14 +234,14 @@ packages:
       name: katana_localization_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.15"
+    version: "1.1.17"
   katana_localization_builder:
     dependency: "direct main"
     description:
       name: katana_localization_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.17"
+    version: "1.1.19"
   katana_router_annotation:
     dependency: "direct main"
     description:
@@ -255,7 +255,7 @@ packages:
       name: katana_router_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.1"
+    version: "1.10.2"
   katana_theme_annotation:
     dependency: "direct main"
     description:
