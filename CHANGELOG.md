@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_scoped` - `v1.6.1`](#katana_scoped---v161)
+ - [`masamune_agora` - `v0.15.0+38`](#masamune_agora---v015038)
+ - [`masamune_wordpress` - `v0.15.0+36`](#masamune_wordpress---v015036)
+ - [`masamune_location` - `v0.15.0+36`](#masamune_location---v015036)
+ - [`masamune_local_messaging` - `v0.15.0+36`](#masamune_local_messaging---v015036)
+ - [`masamune_media` - `v0.15.0+36`](#masamune_media---v015036)
+ - [`masamune_purchase` - `v0.15.0+36`](#masamune_purchase---v015036)
+ - [`masamune_firebase` - `v0.15.0+37`](#masamune_firebase---v015037)
+ - [`masamune_ads` - `v0.15.0+36`](#masamune_ads---v015036)
+ - [`masamune_ui` - `v0.15.0+36`](#masamune_ui---v015036)
+ - [`masamune_purchase_firebase` - `v0.15.0+37`](#masamune_purchase_firebase---v015037)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+37`](#masamune_firebase_dynamic_links---v015037)
+ - [`masamune_firebase_messaging` - `v0.15.0+37`](#masamune_firebase_messaging---v015037)
+ - [`masamune_signin_facebook` - `v0.15.0+37`](#masamune_signin_facebook---v015037)
+ - [`masamune_signin_google` - `v0.15.0+37`](#masamune_signin_google---v015037)
+ - [`masamune_signin_twitter` - `v0.15.0+37`](#masamune_signin_twitter---v015037)
+ - [`masamune_purchase_stripe` - `v0.15.0+37`](#masamune_purchase_stripe---v015037)
+ - [`masamune_notion` - `v0.15.0+37`](#masamune_notion---v015037)
+ - [`masamune_signin_apple` - `v0.15.0+37`](#masamune_signin_apple---v015037)
+ - [`masamune_module` - `v0.15.0+36`](#masamune_module---v015036)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+38`
+ - `masamune_wordpress` - `v0.15.0+36`
+ - `masamune_location` - `v0.15.0+36`
+ - `masamune_local_messaging` - `v0.15.0+36`
+ - `masamune_media` - `v0.15.0+36`
+ - `masamune_purchase` - `v0.15.0+36`
+ - `masamune_firebase` - `v0.15.0+37`
+ - `masamune_ads` - `v0.15.0+36`
+ - `masamune_ui` - `v0.15.0+36`
+ - `masamune_purchase_firebase` - `v0.15.0+37`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+37`
+ - `masamune_firebase_messaging` - `v0.15.0+37`
+ - `masamune_signin_facebook` - `v0.15.0+37`
+ - `masamune_signin_google` - `v0.15.0+37`
+ - `masamune_signin_twitter` - `v0.15.0+37`
+ - `masamune_purchase_stripe` - `v0.15.0+37`
+ - `masamune_notion` - `v0.15.0+37`
+ - `masamune_signin_apple` - `v0.15.0+37`
+ - `masamune_module` - `v0.15.0+36`
+
+---
+
+#### `katana_scoped` - `v1.6.1`
+
+ - **DOCS**: Update README. ([b4a5527f](https://github.com/mathrunet/flutter_masamune/commit/b4a5527fe2c813a298f16306c1f61a1644e0c6be))
+
+
 ## 2022-12-11
 
 ### Changes

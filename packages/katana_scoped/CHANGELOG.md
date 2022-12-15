@@ -1,3 +1,7 @@
+## 1.6.1
+
+ - **DOCS**: Update README. ([b4a5527f](https://github.com/mathrunet/flutter_masamune/commit/b4a5527fe2c813a298f16306c1f61a1644e0c6be))
+
 ## 1.6.0
 
  - **FIX**: Add listen functionality to fetch. ([ce3507af](https://github.com/mathrunet/flutter_masamune/commit/ce3507af22d938ffbefa1c229974c5e3389703da))
