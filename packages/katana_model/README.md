@@ -774,9 +774,9 @@ class UserDocument extends DocumentBase<Map<String, dynamic>>
 }
 ```
 
-Then, for the **referencing** document, mix in `ModelRefLoaderMixin<T>` and implement `List<ModelRefBuilder> get builder`.
+Then, for the **referencing** document, mix in `ModelRefLoaderMixin<T>` and implement `List<ModelRefBuilderBase<TSource>> get builder`.
 
-Define a list of `ModelRefBuilder<TSource, TResult>` for `List<ModelRefBuilder> get builder`. Define which documents from the reference type of the field are passed to which values in this `ModelRefBuilder`.
+Define a list of `ModelRefBuilder<TSource, TResult>` for `List<ModelRefBuilderBase<TSource>> get builder`. Define which documents from the reference type of the field are passed to which values in this `ModelRefBuilder`.
 
 The example below shows a definition that puts the `UserDocument` in the field named `user` in the `ShopDocument`.
 

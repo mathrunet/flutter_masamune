@@ -176,7 +176,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 /// The procedure is;
 ///
 /// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
-/// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TTarget>] based on [DocumentModelQuery] via [document].
+/// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
 /// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
 ///
 /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
@@ -186,7 +186,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 /// 手順としては
 ///
 /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
-/// 2. [DocumentModelQuery]を元に[ModelRefMixin<TTarget>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+/// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
 /// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
 ///
 /// ```dart
@@ -202,7 +202,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 ///     ];
 /// ```
 @immutable
-class ModelRefBuilder<TSource, TTarget> extends ModelRefBuilderBase<TSource> {
+class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   /// Builder for granting relationships between models and loading data.
   ///
   /// Define [ModelRefLoaderMixin] to match the mix-in.
@@ -210,7 +210,7 @@ class ModelRefBuilder<TSource, TTarget> extends ModelRefBuilderBase<TSource> {
   /// The procedure is;
   ///
   /// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
-  /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TTarget>] based on [DocumentModelQuery] via [document].
+  /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
   /// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
   ///
   /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
@@ -220,7 +220,7 @@ class ModelRefBuilder<TSource, TTarget> extends ModelRefBuilderBase<TSource> {
   /// 手順としては
   ///
   /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
-  /// 2. [DocumentModelQuery]を元に[ModelRefMixin<TTarget>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+  /// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
   /// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
   ///
   /// ```dart
@@ -246,17 +246,17 @@ class ModelRefBuilder<TSource, TTarget> extends ModelRefBuilderBase<TSource> {
   /// [TSource]に格納されている[ModelRef]を取得するためのコールバック。
   final ModelRef? Function(TSource value) modelRef;
 
-  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin<TTarget>] based on a [DocumentModelQuery] obtained from a [ModelRef].
+  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin<TResult>] based on a [DocumentModelQuery] obtained from a [ModelRef].
   ///
-  /// [ModelRef]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TTarget>]をミックスインした[DocumentBase]を生成するためのコールバック。
-  final ModelRefMixin<TTarget> Function(DocumentModelQuery modelQuery) document;
+  /// [ModelRef]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を生成するためのコールバック。
+  final ModelRefMixin<TResult> Function(DocumentModelQuery modelQuery) document;
 
-  /// Callback to store the generated [ModelRefMixin<TTarget>] in [TSource].
+  /// Callback to store the generated [ModelRefMixin<TResult>] in [TSource].
   ///
-  /// [TSource]に生成された[ModelRefMixin<TTarget>]を格納するためのコールバック。
+  /// [TSource]に生成された[ModelRefMixin<TResult>]を格納するためのコールバック。
   final TSource Function(
     TSource value,
-    ModelRefMixin<TTarget> document,
+    ModelRefMixin<TResult> document,
   ) value;
 
   @override
