@@ -132,7 +132,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
   /// ロード方法の定義を実装した[ModelRefBuilder]。
   ///
   /// リストの順番通りにデータのロードと格納が行われます。
-  List<ModelRefBuilder<T>> get builder;
+  List<ModelRefBuilderBase<T>> get builder;
 
   @override
   @protected
@@ -176,7 +176,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 /// The procedure is;
 ///
 /// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
-/// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin] based on [DocumentModelQuery] via [document].
+/// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TTarget>] based on [DocumentModelQuery] via [document].
 /// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
 ///
 /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
@@ -186,7 +186,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 /// 手順としては
 ///
 /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
-/// 2. [DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+/// 2. [DocumentModelQuery]を元に[ModelRefMixin<TTarget>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
 /// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
 ///
 /// ```dart
@@ -202,7 +202,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 ///     ];
 /// ```
 @immutable
-class ModelRefBuilder<TSource> {
+class ModelRefBuilder<TSource, TTarget> extends ModelRefBuilderBase<TSource> {
   /// Builder for granting relationships between models and loading data.
   ///
   /// Define [ModelRefLoaderMixin] to match the mix-in.
@@ -210,7 +210,7 @@ class ModelRefBuilder<TSource> {
   /// The procedure is;
   ///
   /// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
-  /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin] based on [DocumentModelQuery] via [document].
+  /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TTarget>] based on [DocumentModelQuery] via [document].
   /// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
   ///
   /// モデル間のリレーションを付与しデータのロードを行うためのビルダー。
@@ -220,7 +220,7 @@ class ModelRefBuilder<TSource> {
   /// 手順としては
   ///
   /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
-  /// 2. [DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を[document]経由で生成し返します。
+  /// 2. [DocumentModelQuery]を元に[ModelRefMixin<TTarget>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
   /// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
   ///
   /// ```dart
@@ -246,19 +246,20 @@ class ModelRefBuilder<TSource> {
   /// [TSource]に格納されている[ModelRef]を取得するためのコールバック。
   final ModelRef? Function(TSource value) modelRef;
 
-  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin] based on a [DocumentModelQuery] obtained from a [ModelRef].
+  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin<TTarget>] based on a [DocumentModelQuery] obtained from a [ModelRef].
   ///
-  /// [ModelRef]から取得された[DocumentModelQuery]を元に[ModelRefMixin]をミックスインした[DocumentBase]を生成するためのコールバック。
-  final ModelRefMixin Function(DocumentModelQuery modelQuery) document;
+  /// [ModelRef]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TTarget>]をミックスインした[DocumentBase]を生成するためのコールバック。
+  final ModelRefMixin<TTarget> Function(DocumentModelQuery modelQuery) document;
 
-  /// Callback to store the generated [ModelRefMixin] in [TSource].
+  /// Callback to store the generated [ModelRefMixin<TTarget>] in [TSource].
   ///
-  /// [TSource]に生成された[ModelRefMixin]を格納するためのコールバック。
+  /// [TSource]に生成された[ModelRefMixin<TTarget>]を格納するためのコールバック。
   final TSource Function(
     TSource value,
-    ModelRefMixin document,
+    ModelRefMixin<TTarget> document,
   ) value;
 
+  @override
   Future<TSource?> _build({
     required TSource? val,
     required bool listenWhenPossible,
@@ -290,4 +291,32 @@ class ModelRefBuilder<TSource> {
     onDidLoad(modelQuery, doc);
     return value(val, doc);
   }
+}
+
+/// Base class for defining [ModelRefBuilder].
+///
+/// The actual definition is done using [ModelRefBuilder].
+///
+/// [ModelRefBuilder]を定義するためのベースクラス。
+///
+/// 実際の定義は[ModelRefBuilder]を利用します。
+@immutable
+abstract class ModelRefBuilderBase<TSource> {
+  /// Base class for defining [ModelRefBuilder].
+  ///
+  /// The actual definition is done using [ModelRefBuilder].
+  ///
+  /// [ModelRefBuilder]を定義するためのベースクラス。
+  ///
+  /// 実際の定義は[ModelRefBuilder]を利用します。
+  const ModelRefBuilderBase();
+
+  Future<TSource?> _build({
+    required TSource? val,
+    required bool listenWhenPossible,
+    required Map<DocumentModelQuery, DocumentBase> cacheList,
+    required void Function(DocumentModelQuery query, DocumentBase document)
+        onDidLoad,
+    required DocumentModelQuery loaderModelQuery,
+  });
 }
