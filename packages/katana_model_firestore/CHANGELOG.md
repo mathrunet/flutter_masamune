@@ -1,3 +1,7 @@
+## 1.3.13
+
+ - **FIX**: Changed ModelRef to ModelRefBase and ModelRef to nullable. ([ea3dd072](https://github.com/mathrunet/flutter_masamune/commit/ea3dd07284292f88de6bc8c9e66902b0814755a6))
+
 ## 1.3.12
 
  - Update a dependency to the latest release.

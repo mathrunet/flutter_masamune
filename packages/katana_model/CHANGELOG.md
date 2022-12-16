@@ -1,3 +1,7 @@
+## 1.3.12
+
+ - **FIX**: Changed ModelRef to ModelRefBase and ModelRef to nullable. ([ea3dd072](https://github.com/mathrunet/flutter_masamune/commit/ea3dd07284292f88de6bc8c9e66902b0814755a6))
+
 ## 1.3.11
 
  - **DOCS**: Match the type name of the document. ([30e9ed23](https://github.com/mathrunet/flutter_masamune/commit/30e9ed23a5dee58fdb46b3dce3af5793ecb13502))

@@ -1,6 +1,6 @@
 name: katana_model_firestore
 description: Firestore plugin for katana_model. A package that models data into documents and collections and allows Firestore, local DB, and data mocks to be handled in the same interface.
-version: 1.3.12
+version: 1.3.13
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_model_firestore
 
@@ -14,7 +14,7 @@ dependencies:
   
   katana: ^0.15.3
   katana_firebase: ^1.1.4
-  katana_model: ^1.3.11
+  katana_model: ^1.3.12
   firebase_core: ^2.1.1
   cloud_firestore: ^4.0.4
 
