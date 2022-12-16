@@ -5,6 +5,7 @@ class MasamuneApp extends StatelessWidget {
   const MasamuneApp({
     super.key,
     this.appRef,
+    this.auth,
     this.localize,
     this.routerConfig,
     this.modelAdapter = const RuntimeModelAdapter(),
@@ -27,6 +28,7 @@ class MasamuneApp extends StatelessWidget {
   });
 
   final AppRef? appRef;
+  final AuthAdapter? auth;
   final AppThemeData? theme;
   final ModelAdapter? modelAdapter;
   final AppLocalizeBase? localize;
@@ -50,15 +52,18 @@ class MasamuneApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return buildModelAdapter(
+    return buildAppAuth(
       context,
-      buildAppScoped(
+      buildModelAdapter(
         context,
-        buildAppTheme(
+        buildAppScoped(
           context,
-          buildAppLocalize(
+          buildAppTheme(
             context,
-            buildAppRouter(context),
+            buildAppLocalize(
+              context,
+              buildAppRouter(context),
+            ),
           ),
         ),
       ),
@@ -79,6 +84,16 @@ class MasamuneApp extends StatelessWidget {
     if (appRef != null) {
       return AppScoped(
         appRef: appRef!,
+        child: child,
+      );
+    }
+    return child;
+  }
+
+  Widget buildAppAuth(BuildContext context, Widget child) {
+    if (auth != null) {
+      return AuthAdapterScope(
+        adapter: auth!,
         child: child,
       );
     }

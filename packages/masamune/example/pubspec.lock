@@ -328,105 +328,105 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10"
+    version: "0.15.10+1"
   katana_auth:
     dependency: transitive
     description:
       name: katana_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.2"
   katana_form:
     dependency: transitive
     description:
       name: katana_form
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   katana_indicator:
     dependency: transitive
     description:
       name: katana_indicator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.2"
+    version: "1.1.3"
   katana_listenables:
     dependency: transitive
     description:
       name: katana_listenables
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.8"
+    version: "1.2.9"
   katana_listenables_annotation:
     dependency: transitive
     description:
       name: katana_listenables_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.7"
+    version: "1.2.8"
   katana_localization:
     dependency: transitive
     description:
       name: katana_localization
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.19"
+    version: "1.1.20"
   katana_localization_annotation:
     dependency: transitive
     description:
       name: katana_localization_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.17"
+    version: "1.1.18"
   katana_model:
     dependency: transitive
     description:
       name: katana_model
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.8"
+    version: "1.3.12"
   katana_router:
     dependency: transitive
     description:
       name: katana_router
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.1"
+    version: "1.10.2"
   katana_router_annotation:
     dependency: transitive
     description:
       name: katana_router_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0"
+    version: "1.10.1"
   katana_scoped:
     dependency: transitive
     description:
       name: katana_scoped
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.0"
+    version: "1.6.2"
   katana_shorten:
     dependency: transitive
     description:
       name: katana_shorten
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.3"
+    version: "1.1.4"
   katana_theme:
     dependency: transitive
     description:
       name: katana_theme
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   katana_theme_annotation:
     dependency: transitive
     description:
       name: katana_theme_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.4"
   lints:
     dependency: transitive
     description:
