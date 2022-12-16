@@ -18,7 +18,7 @@ dependencies:
   katana_shorten: ^1.1.4
   katana_indicator: ^1.1.3
   katana_scoped: ^1.6.2
-  katana_model: ^1.3.9
+  katana_model: ^1.3.10
   katana_listenables: ^1.2.9
   katana_router: ^1.10.0
   katana_theme: ^1.2.6

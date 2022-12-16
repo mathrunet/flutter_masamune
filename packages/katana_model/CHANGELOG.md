@@ -1,3 +1,7 @@
+## 1.3.10
+
+ - **FIX**: Fixed a bug that prevented ModelRefBuilder from inferring types properly. ([b05cc8c9](https://github.com/mathrunet/flutter_masamune/commit/b05cc8c9eb3e5e10a404ef20095b8d75278ad013))
+
 ## 1.3.9
 
  - **FIX**: Added uid to Document. ([9d61c291](https://github.com/mathrunet/flutter_masamune/commit/9d61c29163cbf12f84dbbe56cdf07b2a58bf31bf))
