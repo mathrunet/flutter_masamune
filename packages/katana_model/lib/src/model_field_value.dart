@@ -56,8 +56,8 @@ abstract class ModelFieldValue<T> {
           res[key] = ModelCounter.fromJson(val);
         } else if (type == ModelTimestamp.typeString) {
           res[key] = ModelTimestamp.fromJson(val);
-        } else if (type.startsWith(ModelRef.typeString)) {
-          res[key] = ModelRef.fromJson(val);
+        } else if (type.startsWith(ModelRefBase.typeString)) {
+          res[key] = ModelRefBase.fromJson(val);
         } else {
           res[key] = val;
         }
@@ -95,7 +95,7 @@ abstract class ModelFieldValue<T> {
         case ModelTimestamp:
           res[key] = val.toJson();
           break;
-        case ModelRef:
+        case ModelRefBase:
           res[key] = val.toJson();
           break;
         default:
@@ -139,18 +139,18 @@ extension DynamicMapModelFieldValueExtensions on DynamicMap {
     return this[key] as ModelTimestamp;
   }
 
-  /// Retrieves the element of [key] of type [ModelRef] from [Map].
+  /// Retrieves the element of [key] of type [ModelRefBase] from [Map].
   ///
-  /// If there is no element of [key] in [Map] or the type does not match [ModelRef], [ModelTimestamp] whose value is [defaultPath] is returned.
+  /// If there is no element of [key] in [Map] or the type does not match [ModelRefBase], [ModelTimestamp] whose value is [defaultPath] is returned.
   ///
-  /// [Map]から[ModelRef]型の[key]の要素を取得します。
+  /// [Map]から[ModelRefBase]型の[key]の要素を取得します。
   ///
-  /// [Map]に[key]の要素がない場合や[ModelRef]と型が合わない場合、[defaultPath]が値となる[ModelRef]が返されます。
-  ModelRef<T> getAsModelRef<T>(String key, String defaultPath) {
-    if (!containsKey(key) || this[key] is! ModelRef<T>) {
-      return ModelRef<T>.fromPath(defaultPath);
+  /// [Map]に[key]の要素がない場合や[ModelRefBase]と型が合わない場合、[defaultPath]が値となる[ModelRefBase]が返されます。
+  ModelRefBase<T> getAsModelRef<T>(String key, String defaultPath) {
+    if (!containsKey(key) || this[key] is! ModelRefBase<T>) {
+      return ModelRefBase<T>.fromPath(defaultPath);
     }
-    return this[key] as ModelRef<T>;
+    return this[key] as ModelRefBase<T>;
   }
 }
 

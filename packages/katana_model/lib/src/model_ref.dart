@@ -11,19 +11,32 @@ part of katana_model;
 /// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
 ///
 /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
-class ModelRef<T> extends ModelFieldValue<T?> {
+typedef ModelRef<T> = ModelRefBase<T>?;
+
+/// Class for defining relationships between models.
+///
+/// You can have that relationship as data by passing a query for the related document to [modelQuery].
+///
+/// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRefBase] and mixing in [ModelRefMixin].
+///
+/// モデル間のリレーションを定義するためのクラス。
+///
+/// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
+///
+/// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
+class ModelRefBase<T> extends ModelFieldValue<T?> {
   /// Class for defining relationships between models.
   ///
   /// You can have that relationship as data by passing a query for the related document to [modelQuery].
   ///
-  /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRef] and mixing in [ModelRefMixin].
+  /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRefBase] and mixing in [ModelRefMixin].
   ///
   /// モデル間のリレーションを定義するためのクラス。
   ///
   /// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
   ///
-  /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
-  ModelRef(this.modelQuery);
+  /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
+  ModelRefBase(this.modelQuery);
 
   /// Class for defining relationships between models.
   ///
@@ -31,7 +44,7 @@ class ModelRef<T> extends ModelFieldValue<T?> {
   ///
   /// It is also possible to set a model adapter by specifying [adapter].
   ///
-  /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRef] and mixing in [ModelRefMixin].
+  /// Since it is a mutable class and has an interface to [DocumentBase], it can be replaced by [DocumentBase] by implementing [ModelRefBase] and mixing in [ModelRefMixin].
   ///
   /// モデル間のリレーションを定義するためのクラス。
   ///
@@ -39,9 +52,9 @@ class ModelRef<T> extends ModelFieldValue<T?> {
   ///
   /// また[adapter]を指定してモデルアダプターを設定することが可能です。
   ///
-  /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
-  factory ModelRef.fromPath(String path, [ModelAdapter? adapter]) {
-    return ModelRef(
+  /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
+  factory ModelRefBase.fromPath(String path, [ModelAdapter? adapter]) {
+    return ModelRefBase(
       DocumentModelQuery(
         path.trimQuery().trimString("/"),
         adapter: adapter,
@@ -49,16 +62,16 @@ class ModelRef<T> extends ModelFieldValue<T?> {
     );
   }
 
-  /// Convert from [json] map to [ModelRef].
+  /// Convert from [json] map to [ModelRefBase].
   ///
-  /// [json]のマップから[ModelRef]に変換します。
-  factory ModelRef.fromJson(Map<String, dynamic> json) {
-    return ModelRef.fromPath(json.get(_kRefKey, ""));
+  /// [json]のマップから[ModelRefBase]に変換します。
+  factory ModelRefBase.fromJson(Map<String, dynamic> json) {
+    return ModelRefBase.fromPath(json.get(_kRefKey, ""));
   }
 
-  /// A string of type [ModelRef].
+  /// A string of type [ModelRefBase].
   ///
-  /// [ModelRef]のタイプの文字列。
+  /// [ModelRefBase]のタイプの文字列。
   static const typeString = "ModelRef";
 
   /// [DocumentModelQuery] of the associated document.
@@ -99,25 +112,25 @@ class ModelRef<T> extends ModelFieldValue<T?> {
 /// [DocumentBase]などにモデル間のリレーションであるということを定義するためのミックスイン。
 ///
 /// リレーション先のドキュメントにミックスインしてください。
-abstract class ModelRefMixin<T> implements ModelRef<T>, DocumentBase<T> {
+abstract class ModelRefMixin<T> implements ModelRefBase<T>, DocumentBase<T> {
   @override
   Map<String, dynamic> toJson() => {
         kTypeFieldKey: runtimeType.toString(),
-        ModelRef._kRefKey: modelQuery.path.trimQuery().trimString("/"),
+        ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 }
 
-/// It is available by mixing in when using [ModelRef] in [DocumentBase.value].
+/// It is available by mixing in when using [ModelRefBase] in [DocumentBase.value].
 ///
-/// When data is loaded in [DocumentBase.load], the data in [ModelRef] is automatically loaded and stored.
+/// When data is loaded in [DocumentBase.load], the data in [ModelRefBase] is automatically loaded and stored.
 ///
 /// Define [builder] to store relevant documents and data.
 ///
 /// Mix in the document from which you are relaying.
 ///
-/// [DocumentBase.value]で[ModelRef]を利用している際にミックスインすることで利用できます。
+/// [DocumentBase.value]で[ModelRefBase]を利用している際にミックスインすることで利用できます。
 ///
-/// [DocumentBase.load]でデータをロードする際に合わせて[ModelRef]内のデータを自動でロードして格納します。
+/// [DocumentBase.load]でデータをロードする際に合わせて[ModelRefBase]内のデータを自動でロードして格納します。
 ///
 /// [builder]を定義して関連するドキュメントとデータの格納を行ってください。
 ///
@@ -175,7 +188,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 ///
 /// The procedure is;
 ///
-/// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
+/// 1. Returns a [ModelRefBase] containing only the relation information stored in [TSource] via [modelRef].
 /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
 /// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
 ///
@@ -185,13 +198,13 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
 ///
 /// 手順としては
 ///
-/// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
+/// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRefBase]を[modelRef]経由で返します。
 /// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
 /// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
 ///
 /// ```dart
 /// @override
-/// List<ModelRefBuilder<StreamModel>> get builder => [
+/// List<ModelRefBuilderBase<StreamModel>> get builder => [
 ///       ModelRefBuilder(
 ///         modelRef: (value) => value.user,
 ///         document: (query) => UserModelDocument(query),
@@ -209,7 +222,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   ///
   /// The procedure is;
   ///
-  /// 1. Returns a [ModelRef] containing only the relation information stored in [TSource] via [modelRef].
+  /// 1. Returns a [ModelRefBase] containing only the relation information stored in [TSource] via [modelRef].
   /// 2. Generates and returns a mixed-in [DocumentBase] with [ModelRefMixin<TResult>] based on [DocumentModelQuery] via [document].
   /// 3. Store the [DocumentBase] generated via [value] in [TSource] and return the updated [TSource].
   ///
@@ -219,13 +232,13 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   ///
   /// 手順としては
   ///
-  /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRef]を[modelRef]経由で返します。
+  /// 1. [TSource]に保存されているリレーション情報のみ入った[ModelRefBase]を[modelRef]経由で返します。
   /// 2. [DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を[document]経由で生成し返します。
   /// 3. [value]経由で生成された[DocumentBase]を[TSource]に保存して、更新した[TSource]を返すようにします。
   ///
   /// ```dart
   /// @override
-  /// List<ModelRefBuilder<StreamModel>> get builder => [
+  /// List<ModelRefBuilderBase<StreamModel>> get builder => [
   ///       ModelRefBuilder(
   ///         modelRef: (value) => value.user,
   ///         document: (query) => UserModelDocument(query),
@@ -241,14 +254,14 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     required this.value,
   });
 
-  /// Callback to retrieve [ModelRef] stored in [TSource].
+  /// Callback to retrieve [ModelRefBase] stored in [TSource].
   ///
-  /// [TSource]に格納されている[ModelRef]を取得するためのコールバック。
-  final ModelRef? Function(TSource value) modelRef;
+  /// [TSource]に格納されている[ModelRefBase]を取得するためのコールバック。
+  final ModelRefBase? Function(TSource value) modelRef;
 
-  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin<TResult>] based on a [DocumentModelQuery] obtained from a [ModelRef].
+  /// Callback to generate a [DocumentBase] that mixes in a [ModelRefMixin<TResult>] based on a [DocumentModelQuery] obtained from a [ModelRefBase].
   ///
-  /// [ModelRef]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を生成するためのコールバック。
+  /// [ModelRefBase]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を生成するためのコールバック。
   final ModelRefMixin<TResult> Function(DocumentModelQuery modelQuery) document;
 
   /// Callback to store the generated [ModelRefMixin<TResult>] in [TSource].

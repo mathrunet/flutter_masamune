@@ -239,7 +239,7 @@ class FirestoreModelAdapter extends ModelAdapter {
           res[key] = val;
         }
       } else if (val is DocumentReference<DynamicMap>) {
-        res[key] = ModelRef.fromPath(
+        res[key] = ModelRefBase.fromPath(
           val.path,
         ).toJson();
       } else {
@@ -272,8 +272,8 @@ class FirestoreModelAdapter extends ModelAdapter {
             _kTargetKey: targetKey,
           };
           res[targetKey] = FieldValue.serverTimestamp();
-        } else if (type.startsWith(ModelRef.typeString)) {
-          final ref = ModelRef.fromJson(val);
+        } else if (type.startsWith(ModelRefBase.typeString)) {
+          final ref = ModelRefBase.fromJson(val);
           res[key] = database.doc(ref.modelQuery.path);
         } else {
           res[key] = val;
