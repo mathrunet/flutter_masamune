@@ -792,7 +792,7 @@ class ShopDocument extends DocumentBase<Map<String, dynamic>>
   Map<String, dynamic> toMap(Map<String, dynamic> value) => value;
 
   @override
-  List<ModelRefBuilder<DynamicMap>> get builder => [
+  List<ModelRefBuilderBase<DynamicMap>> get builder => [
         ModelRefBuilder(
           modelRef: (value) => value.getAsModelRef("user", "/user/doc"),
           document: (modelQuery) => UserDocument(modelQuery),
@@ -882,7 +882,7 @@ class ShopValueDocument extends DocumentBase<ShopValue> with ModelRefLoaderMixin
   Map<String, dynamic> toMap(UserValue value) => value.toJson();
 
   @override
-  List<ModelRefBuilder<ShopValue>> get builder => [
+  List<ModelRefBuilderBase<ShopValue>> get builder => [
         ModelRefBuilder(
           modelRef: (value) => value.user,
           document: (modelQuery) => UserValueDocument(modelQuery),

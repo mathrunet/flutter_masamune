@@ -51,7 +51,7 @@ class ShopDocument extends DocumentBase<DynamicMap>
   DynamicMap toMap(DynamicMap value) => value;
 
   @override
-  List<ModelRefBuilder<DynamicMap>> get builder => [
+  List<ModelRefBuilderBase<DynamicMap>> get builder => [
         ModelRefBuilder(
           modelRef: (value) => value.getAsModelRef("user", "/user/doc"),
           document: (modelQuery) => UserDocument(modelQuery),
