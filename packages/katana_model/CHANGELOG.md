@@ -1,3 +1,8 @@
+## 1.3.11
+
+ - **DOCS**: Match the type name of the document. ([30e9ed23](https://github.com/mathrunet/flutter_masamune/commit/30e9ed23a5dee58fdb46b3dce3af5793ecb13502))
+ - **DOCS**: Documentation revisions. ([4b1f6401](https://github.com/mathrunet/flutter_masamune/commit/4b1f640113e617ba311534624a1b41835475630e))
+
 ## 1.3.10
 
  - **FIX**: Fixed a bug that prevented ModelRefBuilder from inferring types properly. ([b05cc8c9](https://github.com/mathrunet/flutter_masamune/commit/b05cc8c9eb3e5e10a404ef20095b8d75278ad013))

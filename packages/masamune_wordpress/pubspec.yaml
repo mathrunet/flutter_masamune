@@ -1,6 +1,6 @@
 name: masamune_wordpress
 description: This package provide an API to connect Flutter and Wordpress.
-version: 0.15.0+38
+version: 0.15.0+39
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_wordpress
 
