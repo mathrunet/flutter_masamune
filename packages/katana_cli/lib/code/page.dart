@@ -76,7 +76,7 @@ class ${className}Page extends PageScopedWidget {
 
     // Describes the structure of the page.
     // TODO: Implement the view.
-    return \${5};
+    return \${5:Scaffold()};
   }
 }
 """;

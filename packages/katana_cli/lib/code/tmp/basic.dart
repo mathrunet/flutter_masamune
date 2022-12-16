@@ -98,7 +98,7 @@ class ${className}Page extends PageScopedWidget {
 
     // Describes the structure of the page.
     // TODO: Implement the view.
-    return \${3};
+    return \${3:Scaffold()};
   }
 }
 
@@ -137,7 +137,7 @@ class ${className}DetailPage extends PageScopedWidget {
 
     // Describes the structure of the page.
     // TODO: Implement the view.
-    return \${6};
+    return \${6:Scaffold()};
   }
 }
 
@@ -204,7 +204,7 @@ class ${className}Form extends FormScopedWidget {
 
     // Describes the structure of the page.
     // TODO: Implement the view.
-    return \${10};
+    return \${10:Scaffold()};
   }
 }
 """;

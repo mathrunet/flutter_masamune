@@ -51,11 +51,15 @@ part '$baseName.localize.dart';
 // TODO: Define the title of the application.
 const title = "${1}";
 
+/// Initial page query.
+// TODO: Define the initial page query of the application.
+final initialQuery = ${2:null};
+
 /// App Model.
 /// 
 /// By replacing this with another adapter, the data storage location can be changed.
 // TODO: Change the database.
-const modelAdapter = ${2:RuntimeModelAdapter()};
+const modelAdapter = ${3:RuntimeModelAdapter()};
 
 /// App Theme.
 ///
@@ -70,7 +74,7 @@ final theme = AppThemeData(
   // TODO: Set the design.
   primary: Colors.blue,
   secondary: Colors.cyan,
-  ${3}
+  ${4}
 );
 
 /// App Router.
@@ -82,8 +86,8 @@ final theme = AppThemeData(
 @appRoute
 final router = AppRouter(
   // TODO: Please configure the initial routing and redirection settings.
-  boot: ${4:null},
-  initialQuery: ${5:null},
+  boot: ${5:null},
+  initialQuery: initialQuery,
   redirect: [
     ${6}
   ],
@@ -117,12 +121,12 @@ const flavor = String.fromEnvironment("FLAVOR");
 void main() {
   runApp(
     MasamuneApp(
-      title: _title,
+      title: title,
       appRef: appRef,
       routerConfig: router,
       localize: l,
       theme: theme,
-      modelAdapter: _modelAdapter,
+      modelAdapter: modelAdapter,
     ),
   );
 }
