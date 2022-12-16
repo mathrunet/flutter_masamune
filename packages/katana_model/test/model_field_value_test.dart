@@ -25,12 +25,21 @@ void main() {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
     final model = RuntimeMapDocumentModel(query, {});
+    final model2 = RuntimeMapDocumentModel(query, {});
     await model.save({
       "counter": const ModelCounter(0),
       "time": ModelTimestamp(DateTime(2022, 1, 1))
     });
     expect(
       model.value,
+      {
+        "counter": const ModelCounter(0),
+        "time": ModelTimestamp(DateTime(2022, 1, 1))
+      },
+    );
+    await model2.load();
+    expect(
+      model2.value,
       {
         "counter": const ModelCounter(0),
         "time": ModelTimestamp(DateTime(2022, 1, 1))
