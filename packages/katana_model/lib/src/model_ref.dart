@@ -13,6 +13,11 @@ part of katana_model;
 /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRef]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
 typedef ModelRef<T> = ModelRefBase<T>?;
 
+class _ModelRefBase<T> extends ModelRefBase<T>
+    with ModelFieldValueAsMapMixin<T?> {
+  const _ModelRefBase(super.modelQuery);
+}
+
 /// Class for defining relationships between models.
 ///
 /// You can have that relationship as data by passing a query for the related document to [modelQuery].
@@ -36,7 +41,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   /// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
   ///
   /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
-  ModelRefBase(this.modelQuery);
+  const ModelRefBase(this.modelQuery);
 
   /// Class for defining relationships between models.
   ///
@@ -54,7 +59,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   ///
   /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
   factory ModelRefBase.fromPath(String path, [ModelAdapter? adapter]) {
-    return ModelRefBase(
+    return _ModelRefBase(
       DocumentModelQuery(
         path.trimQuery().trimString("/"),
         adapter: adapter,
@@ -66,7 +71,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   ///
   /// [json]のマップから[ModelRefBase]に変換します。
   factory ModelRefBase.fromJson(Map<String, dynamic> json) {
-    return ModelRefBase.fromPath(json.get(_kRefKey, ""));
+    return ModelRefBase.fromPath(json.get(ModelRefBase._kRefKey, ""));
   }
 
   /// A string of type [ModelRefBase].
@@ -74,17 +79,17 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   /// [ModelRefBase]のタイプの文字列。
   static const typeString = "ModelRef";
 
+  static const _kRefKey = "@ref";
+
   /// [DocumentModelQuery] of the associated document.
   ///
   /// 関連するドキュメントの[DocumentModelQuery].
   final DocumentModelQuery modelQuery;
 
-  static const _kRefKey = "@ref";
-
   @override
   Map<String, dynamic> toJson() => {
         kTypeFieldKey: runtimeType.toString(),
-        _kRefKey: modelQuery.path.trimQuery().trimString("/"),
+        ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 
   /// Actual value.

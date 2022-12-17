@@ -50,7 +50,9 @@ abstract class ModelFieldValue<T> {
     for (final tmp in value.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      if (val is DynamicMap && val.containsKey(kTypeFieldKey)) {
+      if (val is ModelCounter || val is ModelTimestamp || val is ModelRef) {
+        res[key] = val;
+      } else if (val is DynamicMap && val.containsKey(kTypeFieldKey)) {
         final type = val.get(kTypeFieldKey, "");
         if (type == ModelCounter.typeString) {
           res[key] = ModelCounter.fromJson(val);
@@ -105,6 +107,153 @@ abstract class ModelFieldValue<T> {
     }
     return Map.unmodifiable(res);
   }
+}
+
+/// Mix-in to allow Json serialization and deserialization of ModelFieldValue.
+///
+/// It is treated as [Map], but updating the value is not supported.
+/// UnsupportedError] is printed when attempting to update the value.
+///
+/// ModelFieldValueをJsonシリアライズ・デシリアライズできるようにするためのミックスイン。
+///
+/// [Map]として扱われますが、値の更新はサポートされていません。
+/// 値を更新しようとすると[UnsupportedError]が出力されます。
+abstract class ModelFieldValueAsMapMixin<T>
+    implements Map<String, Object?>, ModelFieldValue<T> {
+  @override
+  Iterable<String> get keys {
+    final map = toJson();
+    return map.keys;
+  }
+
+  @override
+  Iterable<Object?> get values {
+    final map = toJson();
+    return map.values;
+  }
+
+  @override
+  Object? operator [](Object? key) {
+    final map = toJson();
+    return map[key];
+  }
+
+  @override
+  void operator []=(String key, Object? value) {
+    throw UnsupportedError("Writing to the map is not supported.");
+  }
+
+  @override
+  Object? remove(Object? key) {
+    throw UnsupportedError("Writing to the map is not supported.");
+  }
+
+  @override
+  void clear() {
+    throw UnsupportedError("Writing to the map is not supported.");
+  }
+
+  @override
+  Map<RK, RV> cast<RK, RV>() => Map.castFrom<String, Object?, RK, RV>(this);
+  @override
+  void forEach(void action(String key, Object? value)) {
+    for (final key in keys) {
+      action(key, this[key]);
+    }
+  }
+
+  @override
+  void addAll(Map<String, Object?> other) {
+    other.forEach((String key, Object? value) {
+      this[key] = value;
+    });
+  }
+
+  @override
+  bool containsValue(Object? value) {
+    for (final key in keys) {
+      if (this[key] == value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @override
+  Object? putIfAbsent(String key, Object? ifAbsent()) {
+    if (containsKey(key)) {
+      return this[key];
+    }
+    return this[key] = ifAbsent();
+  }
+
+  @override
+  Object? update(
+    String key,
+    Object? update(Object? value), {
+    Object? Function()? ifAbsent,
+  }) {
+    if (containsKey(key)) {
+      return this[key] = update(this[key]);
+    }
+    if (ifAbsent != null) {
+      return this[key] = ifAbsent();
+    }
+    throw ArgumentError.value(key, "key", "Key not in map.");
+  }
+
+  @override
+  void updateAll(Object? update(String key, Object? value)) {
+    for (final key in keys) {
+      this[key] = update(key, this[key]);
+    }
+  }
+
+  @override
+  Iterable<MapEntry<String, Object?>> get entries {
+    return keys.map((String key) => MapEntry<String, Object?>(key, this[key]));
+  }
+
+  @override
+  Map<K2, V2> map<K2, V2>(
+    MapEntry<K2, V2> transform(String key, Object? value),
+  ) {
+    final result = <K2, V2>{};
+    for (final key in keys) {
+      final entry = transform(key, this[key]);
+      result[entry.key] = entry.value;
+    }
+    return result;
+  }
+
+  @override
+  void addEntries(Iterable<MapEntry<String, Object?>> newEntries) {
+    for (final entry in newEntries) {
+      this[entry.key] = entry.value;
+    }
+  }
+
+  @override
+  void removeWhere(bool test(String key, Object? value)) {
+    final keysToRemove = <String>[];
+    for (final key in keys) {
+      if (test(key, this[key])) {
+        keysToRemove.add(key);
+      }
+    }
+    keysToRemove.forEach((key) => remove(key));
+  }
+
+  @override
+  bool containsKey(Object? key) => keys.contains(key);
+  @override
+  int get length => keys.length;
+  @override
+  bool get isEmpty => keys.isEmpty;
+  @override
+  bool get isNotEmpty => keys.isNotEmpty;
+  @override
+  String toString() => MapBase.mapToString(this);
 }
 
 /// Provides extension methods for [DynamicMap] for ModelFieldValue.
@@ -166,7 +315,8 @@ extension DynamicMapModelFieldValueExtensions on DynamicMap {
 ///
 /// これをサーバーに渡すことで安定して値の増減を行うことができます。
 @immutable
-class ModelCounter extends ModelFieldValue<int> {
+class ModelCounter extends ModelFieldValue<int>
+    with ModelFieldValueAsMapMixin<int> {
   /// Define the field as a counter.
   ///
   /// The base value is given as [value], and the value is increased or decreased by [increment].
@@ -238,7 +388,7 @@ class ModelCounter extends ModelFieldValue<int> {
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
-  int get hashCode => value.hashCode;
+  int get hashCode => _value.hashCode ^ _increment.hashCode;
 }
 
 /// Define the field as a timestamp.
@@ -253,7 +403,8 @@ class ModelCounter extends ModelFieldValue<int> {
 ///
 /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
 @immutable
-class ModelTimestamp extends ModelFieldValue<DateTime> {
+class ModelTimestamp extends ModelFieldValue<DateTime>
+    with ModelFieldValueAsMapMixin<DateTime> {
   /// Define the field as a timestamp.
   ///
   /// The base value is given as [value]. If not given, the current time is set.

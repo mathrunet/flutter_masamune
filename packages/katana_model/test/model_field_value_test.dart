@@ -1,14 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:katana_model/katana_model.dart';
+
+part 'model_field_value_test.freezed.dart';
+part 'model_field_value_test.g.dart';
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query, super.value);
 
   @override
-  DynamicMap fromMap(DynamicMap map) => map;
+  DynamicMap fromMap(DynamicMap map) => ModelFieldValue.fromMap(map);
 
   @override
-  DynamicMap toMap(DynamicMap value) => value;
+  DynamicMap toMap(DynamicMap value) => ModelFieldValue.toMap(value);
 }
 
 class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
@@ -17,6 +21,40 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
   @override
   RuntimeMapDocumentModel create([String? id]) {
     return RuntimeMapDocumentModel(modelQuery.create(id), {});
+  }
+}
+
+@freezed
+class TestValue with _$TestValue {
+  const factory TestValue({
+    @Default(ModelTimestamp()) ModelTimestamp time,
+    @Default(ModelCounter(0)) ModelCounter counter,
+  }) = _TestValue;
+
+  factory TestValue.fromJson(Map<String, Object?> map) =>
+      _$TestValueFromJson(map);
+}
+
+class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
+  RuntimeMTestValueDocumentModel(super.query, super.value);
+
+  @override
+  TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
+
+  @override
+  DynamicMap toMap(TestValue value) => value.toJson();
+}
+
+class RuntimeTestValueCollectionModel
+    extends CollectionBase<RuntimeMTestValueDocumentModel> {
+  RuntimeTestValueCollectionModel(super.query);
+
+  @override
+  RuntimeMTestValueDocumentModel create([String? id]) {
+    return RuntimeMTestValueDocumentModel(
+      modelQuery.create(id),
+      const TestValue(),
+    );
   }
 }
 
@@ -56,9 +94,51 @@ void main() {
     expect(
       model.value,
       {
-        "counter": const ModelCounter(1),
+        "counter": const ModelCounter(0).increment(1),
         "time": ModelTimestamp(DateTime(2022, 1, 2))
       },
+    );
+  });
+  test("runtimeDocumentModel.modelFieldValue.Freezed", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final model = RuntimeMTestValueDocumentModel(query, const TestValue());
+    final model2 = RuntimeMTestValueDocumentModel(query, const TestValue());
+    await model.save(
+      TestValue(
+        counter: const ModelCounter(0),
+        time: ModelTimestamp(DateTime(2022, 1, 1)),
+      ),
+    );
+    expect(
+      model.value,
+      TestValue(
+        counter: const ModelCounter(0),
+        time: ModelTimestamp(DateTime(2022, 1, 1)),
+      ),
+    );
+    await model2.load();
+    expect(
+      model2.value,
+      TestValue(
+        counter: const ModelCounter(0),
+        time: ModelTimestamp(DateTime(2022, 1, 1)),
+      ),
+    );
+    await model.save(
+      model.value?.copyWith(
+        counter: model.value?.counter.increment(1) ?? const ModelCounter(0),
+        time: ModelTimestamp(
+          DateTime(2022, 1, 2),
+        ),
+      ),
+    );
+    expect(
+      model.value.hashCode,
+      TestValue(
+        counter: const ModelCounter(0).increment(1),
+        time: ModelTimestamp(DateTime(2022, 1, 2)),
+      ).hashCode,
     );
   });
 }
