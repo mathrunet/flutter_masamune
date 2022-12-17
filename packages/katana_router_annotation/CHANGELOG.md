@@ -1,3 +1,7 @@
+## 1.10.3
+
+ - **FIX**: 不具合修正. ([906618cf](https://github.com/mathrunet/flutter_masamune/commit/906618cf7e9e7bc5e23eaa0ffd2fe520392214f7))
+
 ## 1.10.2
 
  - **FIX**: Manual AppRouter creation enabled. ([ee701166](https://github.com/mathrunet/flutter_masamune/commit/ee701166d4a2d5dce09dc10c837d344d41652fff))
