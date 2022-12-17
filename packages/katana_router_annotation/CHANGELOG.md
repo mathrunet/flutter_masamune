@@ -1,3 +1,7 @@
+## 1.10.4
+
+ - **FIX**: Fix useResult to export. ([fa42b265](https://github.com/mathrunet/flutter_masamune/commit/fa42b2654db3475d67ccd057ff28f6127c61d1dd))
+
 ## 1.10.3
 
  - **FIX**: 不具合修正. ([906618cf](https://github.com/mathrunet/flutter_masamune/commit/906618cf7e9e7bc5e23eaa0ffd2fe520392214f7))
