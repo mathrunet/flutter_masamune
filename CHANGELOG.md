@@ -15,6 +15,72 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.3.13`](#katana_model---v1313)
+ - [`katana_model_firestore` - `v1.3.14`](#katana_model_firestore---v1314)
+ - [`masamune_wordpress` - `v0.15.0+44`](#masamune_wordpress---v015044)
+ - [`masamune_agora` - `v0.15.0+46`](#masamune_agora---v015046)
+ - [`masamune_location` - `v0.15.0+44`](#masamune_location---v015044)
+ - [`masamune_local_messaging` - `v0.15.0+44`](#masamune_local_messaging---v015044)
+ - [`masamune_media` - `v0.15.0+44`](#masamune_media---v015044)
+ - [`masamune_purchase` - `v0.15.0+44`](#masamune_purchase---v015044)
+ - [`masamune_firebase` - `v0.15.0+45`](#masamune_firebase---v015045)
+ - [`masamune_ads` - `v0.15.0+44`](#masamune_ads---v015044)
+ - [`masamune_ui` - `v0.15.0+44`](#masamune_ui---v015044)
+ - [`masamune_purchase_firebase` - `v0.15.0+45`](#masamune_purchase_firebase---v015045)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+45`](#masamune_firebase_dynamic_links---v015045)
+ - [`masamune_signin_facebook` - `v0.15.0+45`](#masamune_signin_facebook---v015045)
+ - [`masamune_firebase_messaging` - `v0.15.0+45`](#masamune_firebase_messaging---v015045)
+ - [`masamune_signin_google` - `v0.15.0+45`](#masamune_signin_google---v015045)
+ - [`masamune_notion` - `v0.15.0+45`](#masamune_notion---v015045)
+ - [`masamune_signin_apple` - `v0.15.0+45`](#masamune_signin_apple---v015045)
+ - [`masamune_signin_twitter` - `v0.15.0+45`](#masamune_signin_twitter---v015045)
+ - [`masamune_purchase_stripe` - `v0.15.0+45`](#masamune_purchase_stripe---v015045)
+ - [`masamune_module` - `v0.15.0+44`](#masamune_module---v015044)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v1.3.14`
+ - `masamune_wordpress` - `v0.15.0+44`
+ - `masamune_agora` - `v0.15.0+46`
+ - `masamune_location` - `v0.15.0+44`
+ - `masamune_local_messaging` - `v0.15.0+44`
+ - `masamune_media` - `v0.15.0+44`
+ - `masamune_purchase` - `v0.15.0+44`
+ - `masamune_firebase` - `v0.15.0+45`
+ - `masamune_ads` - `v0.15.0+44`
+ - `masamune_ui` - `v0.15.0+44`
+ - `masamune_purchase_firebase` - `v0.15.0+45`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+45`
+ - `masamune_signin_facebook` - `v0.15.0+45`
+ - `masamune_firebase_messaging` - `v0.15.0+45`
+ - `masamune_signin_google` - `v0.15.0+45`
+ - `masamune_notion` - `v0.15.0+45`
+ - `masamune_signin_apple` - `v0.15.0+45`
+ - `masamune_signin_twitter` - `v0.15.0+45`
+ - `masamune_purchase_stripe` - `v0.15.0+45`
+ - `masamune_module` - `v0.15.0+44`
+
+---
+
+#### `katana_model` - `v1.3.13`
+
+ - **FIX**: Testing of response to freezed. ([3133e50c](https://github.com/mathrunet/flutter_masamune/commit/3133e50c5545faa94623cfdc98b97c3e9b07d680))
+
+
+## 2022-12-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.10.5`](#katana_router---v1105)
  - [`katana_router_annotation` - `v1.10.4`](#katana_router_annotation---v1104)
  - [`masamune_agora` - `v0.15.0+45`](#masamune_agora---v015045)

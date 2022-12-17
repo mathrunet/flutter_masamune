@@ -1,3 +1,7 @@
+## 1.3.13
+
+ - **FIX**: Testing of response to freezed. ([3133e50c](https://github.com/mathrunet/flutter_masamune/commit/3133e50c5545faa94623cfdc98b97c3e9b07d680))
+
 ## 1.3.12
 
  - **FIX**: Changed ModelRef to ModelRefBase and ModelRef to nullable. ([ea3dd072](https://github.com/mathrunet/flutter_masamune/commit/ea3dd07284292f88de6bc8c9e66902b0814755a6))
