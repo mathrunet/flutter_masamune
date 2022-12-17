@@ -12,6 +12,7 @@ class _$MainPageQuery extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^$");
 
+  @useResult
   _$_MainPageQuery call({
     required String title,
     String? q,
@@ -88,6 +89,7 @@ class _$UserPageQuery extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^page/(?<user_id>[^/?&]+)$");
 
+  @useResult
   _$_UserPageQuery call({required String userId}) =>
       _$_UserPageQuery(null, userId: userId);
   @override
@@ -156,6 +158,7 @@ class _$ContentPageQuery extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^content/(?<content_id>[^/?&]+)$");
 
+  @useResult
   _$_ContentPageQuery call({required String contentId}) =>
       _$_ContentPageQuery(null, contentId: contentId);
   @override
@@ -228,6 +231,7 @@ class _$NestedContainerPageQuery extends RouteQueryBuilder {
 
   static final _regExp = RegExp(r"^nested$");
 
+  @useResult
   _$_NestedContainerPageQuery call() => _$_NestedContainerPageQuery(
         null,
       );
@@ -291,6 +295,7 @@ class _$_NestedContainerPageQuery extends RouteQuery {
 class _$InnerPage1Query extends RouteQueryBuilder {
   const _$InnerPage1Query();
 
+  @useResult
   _$_InnerPage1Query call() => _$_InnerPage1Query(
         null,
       );
@@ -328,6 +333,7 @@ class _$_InnerPage1Query extends RouteQuery {
 class _$InnerPage2Query extends RouteQueryBuilder {
   const _$InnerPage2Query();
 
+  @useResult
   _$_InnerPage2Query call() => _$_InnerPage2Query(
         null,
       );

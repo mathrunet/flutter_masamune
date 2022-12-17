@@ -9,6 +9,7 @@
 library katana_router_annotation;
 
 export 'package:katana/katana.dart';
+export 'package:meta/meta.dart' show UseResult, useResult;
 
 part 'src/page_path.dart';
 part 'src/page_param.dart';
