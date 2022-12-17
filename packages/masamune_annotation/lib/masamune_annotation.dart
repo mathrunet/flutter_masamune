@@ -9,6 +9,7 @@
 library masamune_annotation;
 
 export 'package:katana/katana.dart';
+export 'package:meta/meta.dart' show UseResult, useResult;
 
 part 'src/document_model_path.dart';
 part 'src/collection_model_path.dart';

@@ -154,7 +154,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10"
+    version: "0.15.10+1"
   logging:
     dependency: transitive
     description:
@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "0.12.14"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"
