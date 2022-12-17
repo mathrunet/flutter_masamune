@@ -10,7 +10,7 @@ part of katana_router_annotation;
 ///
 /// ```dart
 /// @appRoute
-/// final appRouter = _$AppRouter();
+/// final appRouter = AutoRouter();
 ///
 /// void main(){
 ///   runApp(
@@ -33,7 +33,7 @@ const appRoute = AppRoute();
 ///
 /// ```dart
 /// @appRoute
-/// final appRouter = _$AppRouter();
+/// final appRouter = AutoRouter();
 ///
 /// void main(){
 ///   runApp(
@@ -55,7 +55,7 @@ class AppRoute {
   ///
   /// ```dart
   /// @appRoute
-  /// final appRouter = _$AppRouter();
+  /// final appRouter = AutoRouter();
   ///
   /// void main(){
   ///   runApp(

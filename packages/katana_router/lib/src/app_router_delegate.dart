@@ -8,7 +8,7 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
     this.restorationScopeId,
   });
 
-  final AppRouterBase router;
+  final AppRouter router;
   final String? restorationScopeId;
   final List<NavigatorObserver> observers;
 

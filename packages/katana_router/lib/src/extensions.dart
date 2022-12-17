@@ -1,11 +1,11 @@
 part of katana_router;
 
 /// Provides extension methods for [NavigatorState].
-/// 
+///
 /// [NavigatorState]の拡張メソッドを提供します。
 extension RoutingNavigatorStateExtensions on NavigatorState {
   /// After returning to the first page, you will be redirected to the [newRoute] page.
-  /// 
+  ///
   /// 最初のページに戻った後[newRoute]のページに遷移します。
   Future<T?> resetAndPush<T extends Object?>(
     Route<T> newRoute,
@@ -171,28 +171,28 @@ extension RoutingNavigatorStateExtensions on NavigatorState {
 }
 
 /// Provides extension methods for [BuildContext].
-/// 
+///
 /// [BuildContext]の拡張メソッドを提供します。
 extension RoutingBuildContedxtExtensions on BuildContext {
-  /// Get [AppRouterBase].
+  /// Get [AppRouter].
   ///
-  /// Page transitions can be performed directly by executing [AppRouterBase.push], [AppRouterBase.replace], or [AppRouterBase.pop].
+  /// Page transitions can be performed directly by executing [AppRouter.push], [AppRouter.replace], or [AppRouter.pop].
   ///
-  /// [AppRouterBase]を取得します。
+  /// [AppRouter]を取得します。
   ///
-  /// [AppRouterBase.push]や[AppRouterBase.replace]、[AppRouterBase.pop]を実行することでページ遷移を直接行うことが可能です。
-  AppRouterBase get router {
-    return AppRouterBase.of(this);
+  /// [AppRouter.push]や[AppRouter.replace]、[AppRouter.pop]を実行することでページ遷移を直接行うことが可能です。
+  AppRouter get router {
+    return AppRouter.of(this);
   }
 
-  /// Get the root [AppRouterBase].
+  /// Get the root [AppRouter].
   ///
-  /// Page transitions can be performed directly by executing [AppRouterBase.push], [AppRouterBase.replace], or [AppRouterBase.pop].
+  /// Page transitions can be performed directly by executing [AppRouter.push], [AppRouter.replace], or [AppRouter.pop].
   ///
-  /// ルートの[AppRouterBase]を取得します。
+  /// ルートの[AppRouter]を取得します。
   ///
-  /// [AppRouterBase.push]や[AppRouterBase.replace]、[AppRouterBase.pop]を実行することでページ遷移を直接行うことが可能です。
-  AppRouterBase get rootRouter {
-    return AppRouterBase.of(this, root: true);
+  /// [AppRouter.push]や[AppRouter.replace]、[AppRouter.pop]を実行することでページ遷移を直接行うことが可能です。
+  AppRouter get rootRouter {
+    return AppRouter.of(this, root: true);
   }
 }

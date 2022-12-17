@@ -10,7 +10,7 @@ class _AppRouteInformationProvider extends RouteInformationProvider
   // ignore: unnecessary_non_null_assertion
   static WidgetsBinding get _binding => WidgetsBinding.instance;
 
-  final AppRouterBase router;
+  final AppRouter router;
 
   @override
   RouteInformation get value {

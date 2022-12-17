@@ -8,10 +8,10 @@ import 'main.router.dart';
 part 'main.page.dart';
 
 @appRoute
-final appRouter = AppRouter();
+final appRouter = AutoRouter();
 
 void main() {
-  AppRouter.setPathUrlStrategy();
+  AutoRouter.setPathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -181,7 +181,7 @@ class NestedContainerPage extends StatefulWidget {
 }
 
 class _NestedContainerPageState extends State<NestedContainerPage> {
-  final router = NestedAppRouter(
+  final router = AppRouter(
     initialQuery: InnerPage1.query(),
     defaultTransitionQuery: TransitionQuery.fade,
     pages: [

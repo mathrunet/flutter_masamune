@@ -10,7 +10,7 @@ import 'package:katana_router_example/main.dart' as _$1;
 export 'package:katana_router_example/main.dart'
     show MainPage, UserPage, ContentPage, NestedContainerPage;
 
-class AppRouter extends AppRouterBase {
+class AppRouter extends AppRouter {
   AppRouter({
     super.unknown,
     super.boot,
@@ -48,7 +48,7 @@ class AppRouter extends AppRouterBase {
     _$1.MainPage.query: "/"
   };
 
-  static void setPathUrlStrategy() => AppRouterBase.setPathUrlStrategy();
+  static void setPathUrlStrategy() => AppRouter.setPathUrlStrategy();
 }
 
 class NestedAppRouter extends AppRouter {

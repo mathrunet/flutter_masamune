@@ -88,7 +88,7 @@ import 'package:flutter/material.dart';
 import 'main.router.dart';
 
 @appRoute
-final appRouter = AppRouter();
+final appRouter = AutoRouter();
 
 void main() {
   runApp(const MainPage());
@@ -181,7 +181,7 @@ class UserPage extends StatelessWidget {
 
 To create a router, grant `@appRoute` Annotation with a top-level value.
 
-Also, put the `AppRouter` object in its value.
+Also, put the `AutoRouter` object in its value.
 
 Give that value directly to the `routerConfig` in `MaterialApp.router`. This will automatically pass the routing information to the application.
 
@@ -194,7 +194,7 @@ import 'package:flutter/material.dart';
 import 'main.router.dart';
 
 @appRoute
-final appRouter = AppRouter();
+final appRouter = AutoRouter();
 
 void main() {
   runApp(const MainPage());
@@ -212,6 +212,49 @@ class MainPage extends StatelessWidget {
   }
 }
 
+```
+
+## Manual Router Use
+
+Even if you do not create an AutoRouter, you can use `AppRouter` to create a router.
+
+In this case, pass the query for the page you want to register to `pages`.
+
+Use this function when automatic router creation does not work, or when you want to limit page registrations.
+
+```dart
+// main.dart
+
+import 'package:katana_router/katana_router.dart';
+import 'package:flutter/material.dart';
+import 'pages/home.dart';
+import 'pages/edit.dart';
+import 'pages/detail.dart';
+
+@appRoute
+final appRouter = AppRouter(
+  pages: [
+    HomePage.query,
+    EditPage.query,
+    DetailPage.query,
+  ],
+);
+
+void main() {
+  runApp(const MainPage());
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      routerConfig: appRouter,
+      title: "Test App",
+    );
+  }
+}
 ```
 
 ## Navigation
@@ -241,11 +284,11 @@ flutter pub run build_runner build --delete-conflicting-outputs
 
 The initial page when the application is launched is the page associated with the `/` path.
 
-If you wish to change this, you can do so by specifying the initialPath when creating the created `AppRouter` object.
+If you wish to change this, you can do so by specifying the initialPath when creating the created `AppRouter` or `AutoRouter` object.
 
 ```dart
 @appRoute
-final appRouter = AppRouter(
+final appRouter = AutoRouter(
   initialPath: "/landing"
 );
 ```
@@ -256,7 +299,7 @@ This is safer.
 
 ```dart
 @appRoute
-final appRouter = AppRouter(
+final appRouter = AutoRouter(
   initialQuery: HomePage.query(),
 );
 ```
@@ -329,7 +372,7 @@ class LoginRequiredRedirectQuery extends RedirectQuery {
 }
 ```
 
-When the `RedirectQuery` created here is passed by PagePath (for each individual page) or AppRouter (for all pages), the redirection mechanism implemented there will be applied.
+When the `RedirectQuery` created here is passed by PagePath (for each individual page) or AppRouter or AutoRouter (for all pages), the redirection mechanism implemented there will be applied.
 
 ```dart
 @PagePath(
@@ -397,18 +440,18 @@ class AppBoot extends BootRouteQueryBuilder {
 }
 ```
 
-The `AppBoot` class defined here is given as an argument in the `AppRouter()` class.
+The `AppBoot` class defined here is given as an argument in the `AppRouter()` or `AutoRouter()` class.
 
 ```dart
 @appRoute
-final appRouter = AppRouter(
+final appRouter = AutoRouter(
   boot: const AppBoot(),
 );
 ```
 
 ## Nested Navigation
 
-Nested navigation can be implemented by managing the created `AppRouter` (or dedicated `NestedAppRouter`) with an underlying Widget.
+Nested navigation can be implemented by managing the created `AppRouter` with an underlying Widget.
 
 Please keep the state of the created AppRouter with a `StatefulWidget` or `Provider` to prevent it from being modified.
 
@@ -433,7 +476,7 @@ class NestedContainerPage extends StatefulWidget {
 }
 
 class _NestedContainerPageState extends State<NestedContainerPage> {
-  final router = NestedAppRouter(
+  final router = AppRouter(
     initialQuery: InnerPage1.query(),
     pages: [
       InnerPage1.query,
@@ -498,13 +541,13 @@ class InnerPage2 extends StatelessWidget {
 
 Specifying `context.router` within a nested page causes page transitions within the nested navigation.
 
-Use `context.rootRouter` for full-screen page transitions. You can use the top-level AppRouter to perform page transitions.
+Use `context.rootRouter` for full-screen page transitions. You can use the top-level AppRouter  or AutoRouter to perform page transitions.
 
 ### Tab Navigation
 
-AppRouter inherits from `ChangeNotifier` and notifies the user when a page transition is detected.
+AppRouter and AutoRouter inherits from `ChangeNotifier` and notifies the user when a page transition is detected.
 
-Therefore, by monitoring AppRouter with `addListener`, it is possible to detect transitions that occur in the lower layers and update the widget itself.
+Therefore, by monitoring AppRouter or AutoRouter with `addListener`, it is possible to detect transitions that occur in the lower layers and update the widget itself.
 
 Information on the current page can also be found at `AppRouter.currentQuery`.
 
@@ -525,7 +568,7 @@ class NestedContainerPage extends StatefulWidget {
 }
 
 class _NestedContainerPageState extends State<NestedContainerPage> {
-  final router = NestedAppRouter(
+  final router = AppRouter(
     initialQuery: InnerPage1.query(),
     defaultTransitionQuery: TransitionQuery.fade,
     pages: [

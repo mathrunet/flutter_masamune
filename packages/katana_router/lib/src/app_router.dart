@@ -6,7 +6,7 @@ part of katana_router;
 ///
 /// The controller itself can also be manipulated, and page transitions can be performed directly by executing [push], [replace], and [pop].
 ///
-/// It is also possible to get the [AppRouterBase] object itself with [AppRouterBase.of].
+/// It is also possible to get the [AppRouter] object itself with [AppRouter.of].
 ///
 /// By executing [setPathUrlStrategy], it is possible to use URLs with the web hash (#) removed.
 ///
@@ -16,7 +16,7 @@ part of katana_router;
 ///
 /// また、このコントローラー自体を操作することが可能で[push]や[replace]、[pop]を実行することでページ遷移を直接行うことが可能です。
 ///
-/// また、[AppRouterBase.of]で[AppRouterBase]のオブジェクト自体を取得することも可能です。
+/// また、[AppRouter.of]で[AppRouter]のオブジェクト自体を取得することも可能です。
 ///
 /// [setPathUrlStrategy]を実行することでWebのハッシュ（#）を消したURLを利用することが可能になります。
 ///
@@ -47,7 +47,7 @@ part of katana_router;
 /// }
 ///
 /// ```
-abstract class AppRouterBase extends ChangeNotifier
+abstract class AppRouter extends ChangeNotifier
     with NavigatorObserver
     implements RouterConfig<RouteQuery> {
   /// Controller to define routing for the entire app.
@@ -56,7 +56,7 @@ abstract class AppRouterBase extends ChangeNotifier
   ///
   /// The controller itself can also be manipulated, and page transitions can be performed directly by executing [push], [replace], and [pop].
   ///
-  /// It is also possible to get the [AppRouterBase] object itself with [AppRouterBase.of].
+  /// It is also possible to get the [AppRouter] object itself with [AppRouter.of].
   ///
   /// By executing [setPathUrlStrategy], it is possible to use URLs with the web hash (#) removed.
   ///
@@ -66,7 +66,7 @@ abstract class AppRouterBase extends ChangeNotifier
   ///
   /// また、このコントローラー自体を操作することが可能で[push]や[replace]、[pop]を実行することでページ遷移を直接行うことが可能です。
   ///
-  /// また、[AppRouterBase.of]で[AppRouterBase]のオブジェクト自体を取得することも可能です。
+  /// また、[AppRouter.of]で[AppRouter]のオブジェクト自体を取得することも可能です。
   ///
   /// [setPathUrlStrategy]を実行することでWebのハッシュ（#）を消したURLを利用することが可能になります。
   ///
@@ -97,7 +97,7 @@ abstract class AppRouterBase extends ChangeNotifier
   /// }
   ///
   /// ```
-  AppRouterBase({
+  AppRouter({
     UnknownRouteQueryBuilder? unknown,
     BootRouteQueryBuilder? boot,
     String? initialPath,
@@ -328,14 +328,14 @@ abstract class AppRouterBase extends ChangeNotifier
   /// これは、すべてのプラットフォームで安全に呼び出すことができます。つまり、モバイルまたはデスクトップで実行している場合でも同様です。その場合、それは単にヌープになります。
   static void setPathUrlStrategy() => url_strategy.setPathUrlStrategy();
 
-  /// Get [AppRouterBase] placed on the widget tree.
+  /// Get [AppRouter] placed on the widget tree.
   ///
-  /// Setting [root] to `true` will get [AppRouterBase] at the top level.
+  /// Setting [root] to `true` will get [AppRouter] at the top level.
   ///
-  /// ウィジェットツリー上に配置されている[AppRouterBase]を取得します。
+  /// ウィジェットツリー上に配置されている[AppRouter]を取得します。
   ///
-  /// [root]を`true`にすると最上位にある[AppRouterBase]を取得します。
-  static AppRouterBase of(BuildContext context, {bool root = false}) {
+  /// [root]を`true`にすると最上位にある[AppRouter]を取得します。
+  static AppRouter of(BuildContext context, {bool root = false}) {
     final navigator = Navigator.of(context, rootNavigator: root).context;
     final scope = navigator
         .getElementForInheritedWidgetOfExactType<AppRouteScope>()
@@ -409,13 +409,13 @@ abstract class AppRouterBase extends ChangeNotifier
   }
 }
 
-/// [InheritedWidget] for placing [AppRouterBase] on the widget tree.
+/// [InheritedWidget] for placing [AppRouter] on the widget tree.
 ///
-/// You can take the value of [AppRouterBase] passed here in [AppRouterBase.of].
+/// You can take the value of [AppRouter] passed here in [AppRouter.of].
 ///
-/// [AppRouterBase]をウィジェットツリー上に配置するための[InheritedWidget]。
+/// [AppRouter]をウィジェットツリー上に配置するための[InheritedWidget]。
 ///
-/// [AppRouterBase.of]でここで渡した[AppRouterBase]の値を取ることができます。
+/// [AppRouter.of]でここで渡した[AppRouter]の値を取ることができます。
 @immutable
 class AppRouteScope extends InheritedWidget {
   const AppRouteScope({
@@ -424,10 +424,10 @@ class AppRouteScope extends InheritedWidget {
     required super.child,
   });
 
-  /// Value of [AppRouterBase].
+  /// Value of [AppRouter].
   ///
-  /// [AppRouterBase]の値。
-  final AppRouterBase router;
+  /// [AppRouter]の値。
+  final AppRouter router;
 
   @override
   bool updateShouldNotify(covariant AppRouteScope oldWidget) {

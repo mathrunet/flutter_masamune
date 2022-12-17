@@ -6,7 +6,7 @@ class _AppRouteInformationParser extends RouteInformationParser<RouteQuery> {
     this.router,
   );
 
-  final AppRouterBase router;
+  final AppRouter router;
 
   @override
   Future<RouteQuery> parseRouteInformationWithDependencies(
