@@ -1,17 +1,18 @@
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, depend_on_referenced_packages
 
 // **************************************************************************
 // RouterGenerator
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:flutter/material.dart';
 import 'package:katana_router/katana_router.dart';
 import 'package:katana_router_example/main.dart' as _$1;
 export 'package:katana_router_example/main.dart'
     show MainPage, UserPage, ContentPage, NestedContainerPage;
 
-class AppRouter extends AppRouter {
-  AppRouter({
+class AutoRouter extends AppRouter {
+  AutoRouter({
     super.unknown,
     super.boot,
     super.initialPath,
@@ -24,6 +25,7 @@ class AppRouter extends AppRouter {
     super.defaultTransitionQuery,
     List<RouteQueryBuilder>? pages,
     super.reportsRouteUpdateToEngine = true,
+    super.backgroundWidget = const Scaffold(),
   }) : super(
             pages: pages ??
                 [
@@ -49,21 +51,4 @@ class AppRouter extends AppRouter {
   };
 
   static void setPathUrlStrategy() => AppRouter.setPathUrlStrategy();
-}
-
-class NestedAppRouter extends AppRouter {
-  NestedAppRouter({
-    super.unknown,
-    super.boot,
-    super.initialPath,
-    super.initialQuery,
-    super.redirect = const [],
-    super.observers = const [],
-    super.redirectLimit = 5,
-    super.navigatorKey,
-    super.restorationScopeId,
-    super.defaultTransitionQuery,
-    super.pages,
-    super.reportsRouteUpdateToEngine = false,
-  });
 }

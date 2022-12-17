@@ -7,16 +7,16 @@ part of 'main.dart';
 // **************************************************************************
 
 @immutable
-class _$MainPage extends RouteQueryBuilder {
-  const _$MainPage();
+class _$MainPageQuery extends RouteQueryBuilder {
+  const _$MainPageQuery();
 
   static final _regExp = RegExp(r"^$");
 
-  _$_MainPage call({
+  _$_MainPageQuery call({
     required String title,
     String? q,
   }) =>
-      _$_MainPage(null, title: title, q: q);
+      _$_MainPageQuery(null, title: title, q: q);
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -29,7 +29,7 @@ class _$MainPage extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_MainPage(path,
+      return _$_MainPageQuery(path,
           title: match.groupNames.contains("title")
               ? match.namedGroup("title") ??
                   (query.containsKey("title") ? query["title"] ?? "" : "")
@@ -41,7 +41,7 @@ class _$MainPage extends RouteQueryBuilder {
       if (match == null) {
         return null;
       }
-      return _$_MainPage(path,
+      return _$_MainPageQuery(path,
           title: match.groupNames.contains("title")
               ? match.namedGroup("title") ?? ""
               : "",
@@ -51,8 +51,8 @@ class _$MainPage extends RouteQueryBuilder {
 }
 
 @immutable
-class _$_MainPage extends RouteQuery {
-  const _$_MainPage(
+class _$_MainPageQuery extends RouteQuery {
+  const _$_MainPageQuery(
     this._path, {
     required this.title,
     this.q,
@@ -83,13 +83,13 @@ class _$_MainPage extends RouteQuery {
 }
 
 @immutable
-class _$UserPage extends RouteQueryBuilder {
-  const _$UserPage();
+class _$UserPageQuery extends RouteQueryBuilder {
+  const _$UserPageQuery();
 
   static final _regExp = RegExp(r"^page/(?<user_id>[^/?&]+)$");
 
-  _$_UserPage call({required String userId}) =>
-      _$_UserPage(null, userId: userId);
+  _$_UserPageQuery call({required String userId}) =>
+      _$_UserPageQuery(null, userId: userId);
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -102,7 +102,7 @@ class _$UserPage extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_UserPage(path,
+      return _$_UserPageQuery(path,
           userId: match.groupNames.contains("userId")
               ? match.namedGroup("userId") ??
                   (query.containsKey("userId") ? query["userId"] ?? "" : "")
@@ -113,7 +113,7 @@ class _$UserPage extends RouteQueryBuilder {
       if (match == null) {
         return null;
       }
-      return _$_UserPage(path,
+      return _$_UserPageQuery(path,
           userId: match.groupNames.contains("userId")
               ? match.namedGroup("userId") ?? ""
               : "");
@@ -122,8 +122,8 @@ class _$UserPage extends RouteQueryBuilder {
 }
 
 @immutable
-class _$_UserPage extends RouteQuery {
-  const _$_UserPage(
+class _$_UserPageQuery extends RouteQuery {
+  const _$_UserPageQuery(
     this._path, {
     required this.userId,
   });
@@ -151,13 +151,13 @@ class _$_UserPage extends RouteQuery {
 }
 
 @immutable
-class _$ContentPage extends RouteQueryBuilder {
-  const _$ContentPage();
+class _$ContentPageQuery extends RouteQueryBuilder {
+  const _$ContentPageQuery();
 
   static final _regExp = RegExp(r"^content/(?<content_id>[^/?&]+)$");
 
-  _$_ContentPage call({required String contentId}) =>
-      _$_ContentPage(null, contentId: contentId);
+  _$_ContentPageQuery call({required String contentId}) =>
+      _$_ContentPageQuery(null, contentId: contentId);
   @override
   RouteQuery? resolve(String? path) {
     if (path == null) {
@@ -170,7 +170,7 @@ class _$ContentPage extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_ContentPage(path,
+      return _$_ContentPageQuery(path,
           contentId: match.groupNames.contains("contentId")
               ? match.namedGroup("contentId") ??
                   (query.containsKey("contentId")
@@ -185,7 +185,7 @@ class _$ContentPage extends RouteQueryBuilder {
       if (match == null) {
         return null;
       }
-      return _$_ContentPage(path,
+      return _$_ContentPageQuery(path,
           contentId: match.groupNames.contains("contentId")
               ? match.namedGroup("contentId") ?? ""
               : "");
@@ -194,8 +194,8 @@ class _$ContentPage extends RouteQueryBuilder {
 }
 
 @immutable
-class _$_ContentPage extends RouteQuery {
-  const _$_ContentPage(
+class _$_ContentPageQuery extends RouteQuery {
+  const _$_ContentPageQuery(
     this._path, {
     required this.contentId,
   });
@@ -223,12 +223,12 @@ class _$_ContentPage extends RouteQuery {
 }
 
 @immutable
-class _$NestedContainerPage extends RouteQueryBuilder {
-  const _$NestedContainerPage();
+class _$NestedContainerPageQuery extends RouteQueryBuilder {
+  const _$NestedContainerPageQuery();
 
   static final _regExp = RegExp(r"^nested$");
 
-  _$_NestedContainerPage call() => _$_NestedContainerPage(
+  _$_NestedContainerPageQuery call() => _$_NestedContainerPageQuery(
         null,
       );
   @override
@@ -243,7 +243,7 @@ class _$NestedContainerPage extends RouteQueryBuilder {
         return null;
       }
       final query = Uri.splitQueryString(split.last);
-      return _$_NestedContainerPage(
+      return _$_NestedContainerPageQuery(
         path,
       );
     } else {
@@ -252,7 +252,7 @@ class _$NestedContainerPage extends RouteQueryBuilder {
       if (match == null) {
         return null;
       }
-      return _$_NestedContainerPage(
+      return _$_NestedContainerPageQuery(
         path,
       );
     }
@@ -260,8 +260,8 @@ class _$NestedContainerPage extends RouteQueryBuilder {
 }
 
 @immutable
-class _$_NestedContainerPage extends RouteQuery {
-  const _$_NestedContainerPage(this._path);
+class _$_NestedContainerPageQuery extends RouteQuery {
+  const _$_NestedContainerPageQuery(this._path);
 
   final String? _path;
 
@@ -288,10 +288,10 @@ class _$_NestedContainerPage extends RouteQuery {
 // **************************************************************************
 
 @immutable
-class _$InnerPage1 extends RouteQueryBuilder {
-  const _$InnerPage1();
+class _$InnerPage1Query extends RouteQueryBuilder {
+  const _$InnerPage1Query();
 
-  _$_InnerPage1 call() => _$_InnerPage1(
+  _$_InnerPage1Query call() => _$_InnerPage1Query(
         null,
       );
   @override
@@ -301,13 +301,13 @@ class _$InnerPage1 extends RouteQueryBuilder {
 }
 
 @immutable
-class _$_InnerPage1 extends RouteQuery {
-  const _$_InnerPage1(this._path);
+class _$_InnerPage1Query extends RouteQuery {
+  const _$_InnerPage1Query(this._path);
 
   final String? _path;
 
   @override
-  String get path => _path ?? "ca5cbaca4a04450c818e2827e694b681";
+  String get path => _path ?? "201662f73f10593624c1b6c898df8767fc90b085";
   @override
   String get name => path;
   @override
@@ -325,10 +325,10 @@ class _$_InnerPage1 extends RouteQuery {
 }
 
 @immutable
-class _$InnerPage2 extends RouteQueryBuilder {
-  const _$InnerPage2();
+class _$InnerPage2Query extends RouteQueryBuilder {
+  const _$InnerPage2Query();
 
-  _$_InnerPage2 call() => _$_InnerPage2(
+  _$_InnerPage2Query call() => _$_InnerPage2Query(
         null,
       );
   @override
@@ -338,13 +338,13 @@ class _$InnerPage2 extends RouteQueryBuilder {
 }
 
 @immutable
-class _$_InnerPage2 extends RouteQuery {
-  const _$_InnerPage2(this._path);
+class _$_InnerPage2Query extends RouteQuery {
+  const _$_InnerPage2Query(this._path);
 
   final String? _path;
 
   @override
-  String get path => _path ?? "26eff80aa228425aa8a5cd24f10a8f50";
+  String get path => _path ?? "26318fd13828503b957bad63061e1fc2d0bb4bfd";
   @override
   String get name => path;
   @override

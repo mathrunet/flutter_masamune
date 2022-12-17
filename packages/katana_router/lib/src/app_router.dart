@@ -47,7 +47,7 @@ part of katana_router;
 /// }
 ///
 /// ```
-abstract class AppRouter extends ChangeNotifier
+class AppRouter extends ChangeNotifier
     with NavigatorObserver
     implements RouterConfig<RouteQuery> {
   /// Controller to define routing for the entire app.

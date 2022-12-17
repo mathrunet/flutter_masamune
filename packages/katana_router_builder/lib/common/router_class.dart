@@ -136,7 +136,7 @@ List<Class> routerClass(
               ..static = true
               ..returns = const Reference("void")
               ..lambda = true
-              ..body = const Code("AppRouterBase.setPathUrlStrategy()"),
+              ..body = const Code("AppRouter.setPathUrlStrategy()"),
           )
         ]),
     ),
