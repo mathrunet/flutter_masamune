@@ -1,3 +1,8 @@
+## 1.10.3
+
+ - **FIX**: Manual AppRouter creation enabled. ([ee701166](https://github.com/mathrunet/flutter_masamune/commit/ee701166d4a2d5dce09dc10c837d344d41652fff))
+ - **FIX**: Add order to build.yaml. ([7ea5ec2d](https://github.com/mathrunet/flutter_masamune/commit/7ea5ec2defab0fb804bd0c1dcb6652e0e13ccf15))
+
 ## 1.10.2
 
  - Update a dependency to the latest release.

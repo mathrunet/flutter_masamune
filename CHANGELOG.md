@@ -3,6 +3,83 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.10.3`](#katana_router---v1103)
+ - [`katana_router_annotation` - `v1.10.2`](#katana_router_annotation---v1102)
+ - [`katana_router_builder` - `v1.10.4`](#katana_router_builder---v1104)
+ - [`masamune_agora` - `v0.15.0+43`](#masamune_agora---v015043)
+ - [`masamune_wordpress` - `v0.15.0+41`](#masamune_wordpress---v015041)
+ - [`masamune_location` - `v0.15.0+41`](#masamune_location---v015041)
+ - [`masamune_local_messaging` - `v0.15.0+41`](#masamune_local_messaging---v015041)
+ - [`masamune_purchase` - `v0.15.0+41`](#masamune_purchase---v015041)
+ - [`masamune_ads` - `v0.15.0+41`](#masamune_ads---v015041)
+ - [`masamune_firebase` - `v0.15.0+42`](#masamune_firebase---v015042)
+ - [`masamune_media` - `v0.15.0+41`](#masamune_media---v015041)
+ - [`masamune_ui` - `v0.15.0+41`](#masamune_ui---v015041)
+ - [`masamune_purchase_firebase` - `v0.15.0+42`](#masamune_purchase_firebase---v015042)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+42`](#masamune_firebase_dynamic_links---v015042)
+ - [`masamune_firebase_messaging` - `v0.15.0+42`](#masamune_firebase_messaging---v015042)
+ - [`masamune_signin_facebook` - `v0.15.0+42`](#masamune_signin_facebook---v015042)
+ - [`masamune_signin_google` - `v0.15.0+42`](#masamune_signin_google---v015042)
+ - [`masamune_signin_twitter` - `v0.15.0+42`](#masamune_signin_twitter---v015042)
+ - [`masamune_purchase_stripe` - `v0.15.0+42`](#masamune_purchase_stripe---v015042)
+ - [`masamune_notion` - `v0.15.0+42`](#masamune_notion---v015042)
+ - [`masamune_signin_apple` - `v0.15.0+42`](#masamune_signin_apple---v015042)
+ - [`masamune_module` - `v0.15.0+41`](#masamune_module---v015041)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+43`
+ - `masamune_wordpress` - `v0.15.0+41`
+ - `masamune_location` - `v0.15.0+41`
+ - `masamune_local_messaging` - `v0.15.0+41`
+ - `masamune_purchase` - `v0.15.0+41`
+ - `masamune_ads` - `v0.15.0+41`
+ - `masamune_firebase` - `v0.15.0+42`
+ - `masamune_media` - `v0.15.0+41`
+ - `masamune_ui` - `v0.15.0+41`
+ - `masamune_purchase_firebase` - `v0.15.0+42`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+42`
+ - `masamune_firebase_messaging` - `v0.15.0+42`
+ - `masamune_signin_facebook` - `v0.15.0+42`
+ - `masamune_signin_google` - `v0.15.0+42`
+ - `masamune_signin_twitter` - `v0.15.0+42`
+ - `masamune_purchase_stripe` - `v0.15.0+42`
+ - `masamune_notion` - `v0.15.0+42`
+ - `masamune_signin_apple` - `v0.15.0+42`
+ - `masamune_module` - `v0.15.0+41`
+
+---
+
+#### `katana_router` - `v1.10.3`
+
+ - **FIX**: Manual AppRouter creation enabled. ([ee701166](https://github.com/mathrunet/flutter_masamune/commit/ee701166d4a2d5dce09dc10c837d344d41652fff))
+ - **FIX**: Add order to build.yaml. ([7ea5ec2d](https://github.com/mathrunet/flutter_masamune/commit/7ea5ec2defab0fb804bd0c1dcb6652e0e13ccf15))
+
+#### `katana_router_annotation` - `v1.10.2`
+
+ - **FIX**: Manual AppRouter creation enabled. ([ee701166](https://github.com/mathrunet/flutter_masamune/commit/ee701166d4a2d5dce09dc10c837d344d41652fff))
+ - **FIX**: Add order to build.yaml. ([7ea5ec2d](https://github.com/mathrunet/flutter_masamune/commit/7ea5ec2defab0fb804bd0c1dcb6652e0e13ccf15))
+
+#### `katana_router_builder` - `v1.10.4`
+
+ - **FIX**: Manual AppRouter creation enabled. ([ee701166](https://github.com/mathrunet/flutter_masamune/commit/ee701166d4a2d5dce09dc10c837d344d41652fff))
+ - **FIX**: Add order to build.yaml. ([7ea5ec2d](https://github.com/mathrunet/flutter_masamune/commit/7ea5ec2defab0fb804bd0c1dcb6652e0e13ccf15))
+
+
 ## 2022-12-16
 
 ### Changes
