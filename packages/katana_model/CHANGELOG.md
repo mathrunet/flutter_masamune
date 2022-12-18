@@ -1,3 +1,7 @@
+## 1.3.14
+
+ - **FIX**: Hides the Map portion of ModelCounter and ModelTimestamp. ([d125bb0d](https://github.com/mathrunet/flutter_masamune/commit/d125bb0d017f2782d7fd4dca81d6da52c9bb7a75))
+
 ## 1.3.13
 
  - **FIX**: Testing of response to freezed. ([3133e50c](https://github.com/mathrunet/flutter_masamune/commit/3133e50c5545faa94623cfdc98b97c3e9b07d680))
