@@ -217,10 +217,15 @@ abstract class DocumentBase<T> extends ChangeNotifier
       if (!loaded) {
         final res = await loadRequest(listenWhenPossible);
         if (res != null) {
-          _value = await filterOnDidLoad(
-            fromMap(filterOnLoad(res)),
-            listenWhenPossible,
-          );
+          final filtered = filterOnLoad(res);
+          if (filtered.isEmpty) {
+            _value = null;
+          } else {
+            _value = await filterOnDidLoad(
+              fromMap(filtered),
+              listenWhenPossible,
+            );
+          }
         }
         _loaded = true;
       }
@@ -481,10 +486,15 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
     final val = value;
-    _value = await filterOnDidLoad(
-      fromMap(filterOnLoad(update.value)),
-      update.listen,
-    );
+    final filtered = filterOnLoad(update.value);
+    if (filtered.isEmpty) {
+      _value = null;
+    } else {
+      _value = await filterOnDidLoad(
+        fromMap(filtered),
+        update.listen,
+      );
+    }
     if (val != value) {
       notifyListeners();
     }

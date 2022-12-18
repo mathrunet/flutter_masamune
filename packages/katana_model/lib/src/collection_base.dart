@@ -382,10 +382,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         final value = create(update.id.trimQuery().trimString("?"));
         final val = value.value;
-        value._value = await value.filterOnDidLoad(
-          value.fromMap(value.filterOnLoad(update.value)),
-          update.listen,
-        );
+        final filtered = value.filterOnLoad(update.value);
+        if (filtered.isEmpty) {
+          value._value = null;
+        } else {
+          value._value = await value.filterOnDidLoad(
+            value.fromMap(filtered),
+            update.listen,
+          );
+        }
         if (val != value.value) {
           value.notifyListeners();
         }
@@ -398,10 +403,15 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         final found = _value.removeAt(update.oldIndex!);
         final val = found.value;
-        found._value = await found.filterOnDidLoad(
-          found.fromMap(found.filterOnLoad(update.value)),
-          update.listen,
-        );
+        final filtered = found.filterOnLoad(update.value);
+        if (filtered.isEmpty) {
+          found._value = null;
+        } else {
+          found._value = await found.filterOnDidLoad(
+            found.fromMap(found.filterOnLoad(update.value)),
+            update.listen,
+          );
+        }
         if (val != found.value) {
           found.notifyListeners();
         }
@@ -441,11 +451,14 @@ abstract class CollectionBase<TModel extends DocumentBase>
         continue;
       }
       final value = create(key);
-      value._value = value.fromMap(
-        value.filterOnLoad(
-          Map<String, dynamic>.from(tmp.value),
-        ),
+      final filtered = value.filterOnLoad(
+        Map<String, dynamic>.from(tmp.value),
       );
+      if (filtered.isEmpty) {
+        value._value = null;
+      } else {
+        value._value = value.fromMap(filtered);
+      }
       res.add(value);
     }
     return limit != null ? res.sublist(0, limit) : res;
