@@ -183,12 +183,12 @@ class AuthDatabase {
   /// Returns `true` if the registration has been authenticated.
   ///
   /// 登録が認証済みの場合`true`を返します。
-  bool get isVerified => _data.get(_kIsVerifiedKey, false);
+  bool get isVerified => isSignedIn && _data.get(_kIsVerifiedKey, false);
 
   /// Returns `true` in case of anonymous or guest authentication.
   ///
   /// 匿名認証、ゲスト認証の場合、`true`を返します。
-  bool get isAnonymously => _data.get(_kIsAnonymouslyKey, false);
+  bool get isAnonymously => isSignedIn && _data.get(_kIsAnonymouslyKey, false);
 
   /// Returns `true` if [confirmSignIn] or [confirmChange] is required.
   ///
@@ -204,22 +204,23 @@ class AuthDatabase {
   /// サインイン時、認証プラットフォーム上のユーザーIDを返します。
   ///
   /// このIDはユニークなものとなっているためユーザーのDBに登録するユニークIDとして利用可能です。
-  String get userId => _data.get(_kUserIdKey, "");
+  String get userId => !isSignedIn ? "" : _data.get(_kUserIdKey, "");
 
   /// Returns the user name on the authentication platform during sign-in.
   ///
   /// サインイン時、、認証プラットフォーム上のユーザー名を返します。
-  String get userName => _data.get(_kUserNameKey, "");
+  String get userName => !isSignedIn ? "" : _data.get(_kUserNameKey, "");
 
   /// Returns the email address registered with the authentication platform upon sign-in.
   ///
   /// サインイン時、認証プラットフォームに登録されたメールアドレスを返します。
-  String get userEmail => _data.get(_kUserEmailKey, "");
+  String get userEmail => !isSignedIn ? "" : _data.get(_kUserEmailKey, "");
 
   /// Returns the phone number registered with the authentication platform upon sign-in.
   ///
   /// サインイン時、認証プラットフォームに登録された電話番号を返します。
-  String get userPhoneNumber => _data.get(_kUserPhoneNumberKey, "");
+  String get userPhoneNumber =>
+      !isSignedIn ? "" : _data.get(_kUserPhoneNumberKey, "");
 
   /// Returns the URL of the user's icon registered on the authentication platform during sign-in.
   ///
@@ -230,17 +231,20 @@ class AuthDatabase {
   ///
   /// 基本的にSNSで登録されているアイコンを取得するために利用します。
   /// （SNSプラットフォームによっては取得できない場合もあります。）
-  String get userPhotoURL => _data.get(_kUserPhotoURLKey, "");
+  String get userPhotoURL =>
+      !isSignedIn ? "" : _data.get(_kUserPhotoURLKey, "");
 
   /// Returns a list of authenticated provider IDs upon sign-in.
   ///
   /// サインイン時、認証されたプロバイダーのID一覧を返します。
-  List<String> get activeProviderIds => _data.getAsList(_kActiveProvidersKey);
+  List<String> get activeProviderIds =>
+      !isSignedIn ? [] : _data.getAsList(_kActiveProvidersKey);
 
   /// Returns the stored password.
   ///
   /// 保存されたパスワードを返します。
-  String get userPassword => _data.get(_kUserPasswordKey, "");
+  String get userPassword =>
+      !isSignedIn ? "" : _data.get(_kUserPasswordKey, "");
 
   /// The respective authentication data can be entered directly.
   ///
@@ -536,14 +540,8 @@ class AuthDatabase {
     _data.remove(_kIsVerifiedKey);
     _data.remove(_kIsAnonymouslyKey);
     _data.remove(_kUserIdKey);
-    _data.remove(_kUserNameKey);
-    _data.remove(_kUserEmailKey);
-    _data.remove(_kUserPasswordKey);
-    _data.remove(_kUserPhoneNumberKey);
-    _data.remove(_kUserPhotoURLKey);
     _data.remove(_kEmailLinkUrlKey);
     _data.remove(_kSmsCodeKey);
-    _data.remove(_kActiveProvidersKey);
     await onSaved?.call(this);
   }
 
