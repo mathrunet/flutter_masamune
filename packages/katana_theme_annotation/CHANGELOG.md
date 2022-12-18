@@ -1,3 +1,7 @@
+## 1.2.5
+
+ - **FIX**: Fixed a bug with MaterialDesign3 support. ([0390bcdb](https://github.com/mathrunet/flutter_masamune/commit/0390bcdbc87f96af2ee04cd48ba1587e2a55aaae))
+
 ## 1.2.4
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: RuntimeAuthAdapter bug fixes. ([0651878d](https://github.com/mathrunet/flutter_masamune/commit/0651878dfcbcc095f065351ae4fee9900cb15f3d))
+
 ## 1.1.2
 
  - Update a dependency to the latest release.

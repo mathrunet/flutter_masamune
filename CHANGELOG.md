@@ -3,6 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v1.1.3`](#katana_auth---v113)
+ - [`katana_auth_firebase` - `v1.1.3`](#katana_auth_firebase---v113)
+ - [`katana_theme` - `v1.2.7`](#katana_theme---v127)
+ - [`katana_theme_annotation` - `v1.2.5`](#katana_theme_annotation---v125)
+ - [`katana_theme_builder` - `v1.2.6`](#katana_theme_builder---v126)
+ - [`masamune_agora` - `v0.15.0+47`](#masamune_agora---v015047)
+ - [`masamune_wordpress` - `v0.15.0+45`](#masamune_wordpress---v015045)
+ - [`masamune_location` - `v0.15.0+45`](#masamune_location---v015045)
+ - [`masamune_local_messaging` - `v0.15.0+45`](#masamune_local_messaging---v015045)
+ - [`masamune_media` - `v0.15.0+45`](#masamune_media---v015045)
+ - [`masamune_firebase` - `v0.15.0+46`](#masamune_firebase---v015046)
+ - [`masamune_purchase` - `v0.15.0+45`](#masamune_purchase---v015045)
+ - [`masamune_ads` - `v0.15.0+45`](#masamune_ads---v015045)
+ - [`masamune_ui` - `v0.15.0+45`](#masamune_ui---v015045)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+46`](#masamune_firebase_dynamic_links---v015046)
+ - [`masamune_firebase_messaging` - `v0.15.0+46`](#masamune_firebase_messaging---v015046)
+ - [`masamune_signin_facebook` - `v0.15.0+46`](#masamune_signin_facebook---v015046)
+ - [`masamune_purchase_stripe` - `v0.15.0+46`](#masamune_purchase_stripe---v015046)
+ - [`masamune_signin_google` - `v0.15.0+46`](#masamune_signin_google---v015046)
+ - [`masamune_signin_twitter` - `v0.15.0+46`](#masamune_signin_twitter---v015046)
+ - [`masamune_notion` - `v0.15.0+46`](#masamune_notion---v015046)
+ - [`masamune_signin_apple` - `v0.15.0+46`](#masamune_signin_apple---v015046)
+ - [`masamune_purchase_firebase` - `v0.15.0+46`](#masamune_purchase_firebase---v015046)
+ - [`masamune_module` - `v0.15.0+45`](#masamune_module---v015045)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+47`
+ - `masamune_wordpress` - `v0.15.0+45`
+ - `masamune_location` - `v0.15.0+45`
+ - `masamune_local_messaging` - `v0.15.0+45`
+ - `masamune_media` - `v0.15.0+45`
+ - `masamune_firebase` - `v0.15.0+46`
+ - `masamune_purchase` - `v0.15.0+45`
+ - `masamune_ads` - `v0.15.0+45`
+ - `masamune_ui` - `v0.15.0+45`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+46`
+ - `masamune_firebase_messaging` - `v0.15.0+46`
+ - `masamune_signin_facebook` - `v0.15.0+46`
+ - `masamune_purchase_stripe` - `v0.15.0+46`
+ - `masamune_signin_google` - `v0.15.0+46`
+ - `masamune_signin_twitter` - `v0.15.0+46`
+ - `masamune_notion` - `v0.15.0+46`
+ - `masamune_signin_apple` - `v0.15.0+46`
+ - `masamune_purchase_firebase` - `v0.15.0+46`
+ - `masamune_module` - `v0.15.0+45`
+
+---
+
+#### `katana_auth` - `v1.1.3`
+
+ - **FIX**: RuntimeAuthAdapter bug fixes. ([0651878d](https://github.com/mathrunet/flutter_masamune/commit/0651878dfcbcc095f065351ae4fee9900cb15f3d))
+
+#### `katana_auth_firebase` - `v1.1.3`
+
+ - **FIX**: RuntimeAuthAdapter bug fixes. ([0651878d](https://github.com/mathrunet/flutter_masamune/commit/0651878dfcbcc095f065351ae4fee9900cb15f3d))
+
+#### `katana_theme` - `v1.2.7`
+
+ - **FIX**: Fixed a bug with MaterialDesign3 support. ([0390bcdb](https://github.com/mathrunet/flutter_masamune/commit/0390bcdbc87f96af2ee04cd48ba1587e2a55aaae))
+
+#### `katana_theme_annotation` - `v1.2.5`
+
+ - **FIX**: Fixed a bug with MaterialDesign3 support. ([0390bcdb](https://github.com/mathrunet/flutter_masamune/commit/0390bcdbc87f96af2ee04cd48ba1587e2a55aaae))
+
+#### `katana_theme_builder` - `v1.2.6`
+
+ - **FIX**: Fixed a bug with MaterialDesign3 support. ([0390bcdb](https://github.com/mathrunet/flutter_masamune/commit/0390bcdbc87f96af2ee04cd48ba1587e2a55aaae))
+
+
 ## 2022-12-17
 
 ### Changes
