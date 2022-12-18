@@ -25,6 +25,8 @@ dependencies:
   katana_localization: ^1.1.20
   katana_form: ^1.2.6
   katana_auth: ^1.1.2
+  katana_ui:
+    path: ../katana_ui
   masamune_annotation:
     path: ../masamune_annotation
 dev_dependencies:
