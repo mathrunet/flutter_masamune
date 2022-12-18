@@ -28,6 +28,8 @@ const codeSnippets = [
   DocumentModelCliCode(),
   ControllerCliCode(),
   ControllerGroupCliCode(),
+  ValueCliCode(),
+  RedirectQueryCliCode(),
 ];
 
 /// Other generated files.

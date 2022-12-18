@@ -14,6 +14,8 @@ part 'generate.dart';
 part 'group.dart';
 part 'page.dart';
 part 'watch.dart';
+part 'value.dart';
+part 'redirect_query.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -34,5 +36,7 @@ class CodeCliCommand extends CliCommandGroup {
         "page": CodePageCliCommand(),
         "collection": CodeCollectionCliCommand(),
         "document": CodeDocumentCliCommand(),
+        "value": CodeValueCliCommand(),
+        "redirect": CodeRedirectQueryCliCommand(),
       };
 }
