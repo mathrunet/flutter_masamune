@@ -315,8 +315,7 @@ extension DynamicMapModelFieldValueExtensions on DynamicMap {
 ///
 /// これをサーバーに渡すことで安定して値の増減を行うことができます。
 @immutable
-class ModelCounter extends ModelFieldValue<int>
-    with ModelFieldValueAsMapMixin<int> {
+class ModelCounter extends ModelFieldValue<int> {
   /// Define the field as a counter.
   ///
   /// The base value is given as [value], and the value is increased or decreased by [increment].
@@ -328,9 +327,7 @@ class ModelCounter extends ModelFieldValue<int>
   /// ベースの値を[value]として与え、[increment]で値を増減していきます。
   ///
   /// これをサーバーに渡すことで安定して値の増減を行うことができます。
-  const ModelCounter(int value)
-      : _value = value,
-        _increment = 0;
+  const factory ModelCounter(int value) = _ModelCounter;
 
   /// Convert from [json] map to [ModelCounter].
   ///
@@ -391,6 +388,11 @@ class ModelCounter extends ModelFieldValue<int>
   int get hashCode => _value.hashCode ^ _increment.hashCode;
 }
 
+@immutable
+class _ModelCounter extends ModelCounter with ModelFieldValueAsMapMixin<int> {
+  const _ModelCounter(int value) : super._(value, 0);
+}
+
 /// Define the field as a timestamp.
 ///
 /// The base value is given as [value]. If not given, the current time is set.
@@ -403,8 +405,7 @@ class ModelCounter extends ModelFieldValue<int>
 ///
 /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
 @immutable
-class ModelTimestamp extends ModelFieldValue<DateTime>
-    with ModelFieldValueAsMapMixin<DateTime> {
+class ModelTimestamp extends ModelFieldValue<DateTime> {
   /// Define the field as a timestamp.
   ///
   /// The base value is given as [value]. If not given, the current time is set.
@@ -416,7 +417,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   /// ベースの値を[value]として与えます。与えられなかった場合現在時刻がセットされます。
   ///
   /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
-  const ModelTimestamp([DateTime? value]) : _value = value;
+  const factory ModelTimestamp([DateTime? value]) = _ModelTimestamp;
 
   /// Convert from [json] map to [ModelTimestamp].
   ///
@@ -428,6 +429,8 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
     );
     return ModelTimestamp(DateTime.fromMillisecondsSinceEpoch(timestamp));
   }
+
+  const ModelTimestamp._([DateTime? value]) : _value = value;
 
   /// A string of type [ModelTimestamp].
   ///
@@ -456,4 +459,10 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
 
   @override
   int get hashCode => _value.hashCode;
+}
+
+@immutable
+class _ModelTimestamp extends ModelTimestamp
+    with ModelFieldValueAsMapMixin<DateTime> {
+  const _ModelTimestamp([DateTime? value]) : super._(value);
 }
