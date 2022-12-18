@@ -25,9 +25,7 @@ class MainCliCode extends CliCode {
   @override
   String import(String path, String baseName, String className) {
     return """
-// ignore: unused_import, unnecessary_import
 import 'package:flutter/material.dart';
-// ignore: unused_import, unnecessary_import
 import 'package:masamune/masamune.dart';
 """;
   }
@@ -35,10 +33,6 @@ import 'package:masamune/masamune.dart';
   @override
   String header(String path, String baseName, String className) {
     return """
-import '$baseName.router.dart';
-
-export '$baseName.router.dart';
-
 part '$baseName.theme.dart';
 part '$baseName.localize.dart';
 """;
@@ -56,10 +50,16 @@ const title = "${1}";
 final initialQuery = ${2:null};
 
 /// App Model.
-/// 
+///
 /// By replacing this with another adapter, the data storage location can be changed.
 // TODO: Change the database.
-const modelAdapter = ${3:RuntimeModelAdapter()};
+final modelAdapter = RuntimeModelAdapter();
+
+/// App Auth.
+/// 
+/// Changing to another adapter allows you to change to another authentication mechanism.
+// TODO: Change the authentication.
+const authAdapter = RuntimeAuthAdapter();
 
 /// App Theme.
 ///
@@ -74,7 +74,9 @@ final theme = AppThemeData(
   // TODO: Set the design.
   primary: Colors.blue,
   secondary: Colors.cyan,
-  ${4}
+  onPrimary: Colors.white,
+  onSecondary: Colors.white,
+  ${3}
 );
 
 /// App Router.
@@ -83,15 +85,15 @@ final theme = AppThemeData(
 /// router.push(Page.query());  // Push page to Page.
 /// router.pop();               // Pop page.
 /// ```
-@appRoute
 final router = AppRouter(
-  // TODO: Please configure the initial routing and redirection settings.
-  boot: ${5:null},
-  initialQuery: initialQuery,
-  redirect: [
-    ${6}
-  ],
-);
+    // TODO: Please configure the initial routing and redirection settings.
+    boot: ${4:null},
+    initialQuery: initialQuery,
+    redirect: [],
+    pages: [
+      // TODO: Add the page query to be used for routing.
+      ${5},
+    ]);
 
 /// App Localization.
 ///
@@ -102,7 +104,8 @@ final l = AppLocalize();
 
 // TODO: Set the Google Spreadsheet URL for the translation.
 @GoogleSpreadSheetLocalize(
-  ${7:"https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808"},
+  "${6:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
+  version: 1,
 )
 class AppLocalize extends _$AppLocalize {}
 
@@ -114,18 +117,32 @@ class AppLocalize extends _$AppLocalize {}
 /// ```
 final appRef = AppRef();
 
+/// App authentication.
+///
+/// ```dart
+/// appAuth.signIn(
+///   EmailAndPasswordSignInAuthProvider(
+///     email: email,
+///     password: password,
+///   ),
+/// );
+/// ```
+final appAuth = Authentication();
+
 /// App Flavor.
 const flavor = String.fromEnvironment("FLAVOR");
 
 /// App.
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MasamuneApp(
       title: title,
       appRef: appRef,
+      theme: theme,
       routerConfig: router,
       localize: l,
-      theme: theme,
+      auth: authAdapter,
       modelAdapter: modelAdapter,
     ),
   );

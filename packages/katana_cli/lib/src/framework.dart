@@ -242,6 +242,19 @@ abstract class CliCode {
     );
   }
 
+  /// Create a specific file in [directory]/[fileName].
+  ///
+  /// [directory]/[fileName]に特定のファイルを作成します。
+  Future<void> generateFile(String fileName) async {
+    final dir = Directory(directory);
+    if (!dir.existsSync()) {
+      await dir.create(recursive: true);
+    }
+    await File("$directory/$fileName").writeAsString(
+      "${import("", "", "")}${header("", "", "")}${body("", "", "")}",
+    );
+  }
+
   static String _trimPathPrefix(String path) {
     path = path.trimStringLeft("lib/");
     for (final prefix in _trimPrefixes) {

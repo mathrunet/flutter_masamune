@@ -30,6 +30,13 @@ const codeSnippets = [
   ControllerGroupCliCode(),
 ];
 
+/// Other generated files.
+///
+/// その他の生成ファイル。
+const otherFiles = {
+  "launch.json": LaunchCliCode(),
+};
+
 /// Create a new Flutter project.
 ///
 /// 新しいFlutterプロジェクトを作成します。
@@ -101,6 +108,9 @@ class CodeCreateCliCommand extends CliCommand {
     label("Generate code-snippets for VSCode");
     for (final code in codeSnippets) {
       await code.generateCodeSnippet(".vscode");
+    }
+    for (final file in otherFiles.entries) {
+      await file.value.generateFile(file.key);
     }
     await command(
       "Run the project's build_runner to generate code.",

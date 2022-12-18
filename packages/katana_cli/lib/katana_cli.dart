@@ -23,5 +23,6 @@ part 'code/controller_group.dart';
 part 'code/document_model.dart';
 part 'code/main.dart';
 part 'code/page.dart';
+part 'code/launch.dart';
 part 'code/tmp/form.dart';
 part 'code/tmp/basic.dart';
