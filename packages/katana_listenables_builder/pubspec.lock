@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "50.0.0"
+    version: "51.0.0"
   analyzer:
     dependency: "direct main"
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.2.0"
+    version: "5.3.1"
   args:
     dependency: transitive
     description:
@@ -98,7 +98,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.0"
+    version: "1.6.1"
   crypto:
     dependency: transitive
     description:
@@ -193,17 +193,17 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
-    version: "0.15.10"
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.10+1"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
-      path: "../katana_listenables_annotation"
-      relative: true
-    source: path
-    version: "1.2.6"
+      name: katana_listenables_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.8"
   logging:
     dependency: transitive
     description:
@@ -217,7 +217,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.13"
+    version: "0.12.14"
   meta:
     dependency: transitive
     description:
@@ -378,21 +378,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.22.0"
+    version: "1.22.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.16"
+    version: "0.4.17"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.20"
+    version: "0.4.21"
   typed_data:
     dependency: transitive
     description:

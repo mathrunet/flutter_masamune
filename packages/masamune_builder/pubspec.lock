@@ -213,63 +213,63 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10"
+    version: "0.15.10+1"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
       name: katana_listenables_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.7"
+    version: "1.2.8"
   katana_listenables_builder:
     dependency: "direct main"
     description:
       name: katana_listenables_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.8"
+    version: "1.2.9"
   katana_localization_annotation:
     dependency: "direct main"
     description:
       name: katana_localization_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.17"
+    version: "1.1.18"
   katana_localization_builder:
     dependency: "direct main"
     description:
       name: katana_localization_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.19"
+    version: "1.1.20"
   katana_router_annotation:
     dependency: "direct main"
     description:
       name: katana_router_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0"
+    version: "1.10.4"
   katana_router_builder:
     dependency: "direct main"
     description:
       name: katana_router_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.2"
+    version: "1.10.6"
   katana_theme_annotation:
     dependency: "direct main"
     description:
       name: katana_theme_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.5"
   katana_theme_builder:
     dependency: "direct main"
     description:
       name: katana_theme_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.6"
   logging:
     dependency: transitive
     description:

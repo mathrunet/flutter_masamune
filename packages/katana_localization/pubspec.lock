@@ -127,14 +127,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10"
+    version: "0.15.10+1"
   katana_localization_annotation:
     dependency: "direct main"
     description:
       name: katana_localization_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.15"
+    version: "1.1.18"
   matcher:
     dependency: transitive
     description:

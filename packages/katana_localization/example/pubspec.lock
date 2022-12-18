@@ -77,7 +77,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.3"
   build_runner_core:
     dependency: transitive
     description:
@@ -295,28 +295,28 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10"
+    version: "0.15.10+1"
   katana_localization:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.1.17"
+    version: "1.1.20"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization_annotation"
       relative: true
     source: path
-    version: "1.1.15"
+    version: "1.1.18"
   katana_localization_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_localization_builder"
       relative: true
     source: path
-    version: "1.1.17"
+    version: "1.1.20"
   lints:
     dependency: transitive
     description:
