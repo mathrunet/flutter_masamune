@@ -582,6 +582,10 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
         _focusNode = null;
       }
     }
+    if (widget.form != oldWidget.form) {
+      oldWidget.form?.unregister(this);
+      widget.form?.register(this);
+    }
   }
 
   @override

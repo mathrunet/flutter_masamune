@@ -1231,6 +1231,10 @@ class _TextFormFieldState<TValue> extends FormFieldState<String> {
         }
       }
     }
+    if (_textFormField.form != oldWidget.form) {
+      oldWidget.form?.unregister(this);
+      _textFormField.form?.register(this);
+    }
   }
 
   @override

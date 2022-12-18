@@ -625,6 +625,10 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
         setValue(parse(_effectiveController?.text ?? ""));
       }
     }
+    if (widget.form != oldWidget.form) {
+      oldWidget.form?.unregister(this);
+      widget.form?.register(this);
+    }
   }
 
   @override

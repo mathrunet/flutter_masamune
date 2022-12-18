@@ -573,6 +573,10 @@ class _EnumTextFieldState<TEnum extends Enum, TValue>
         _focusNode = null;
       }
     }
+    if (widget.form != oldWidget.form) {
+      oldWidget.form?.unregister(this);
+      widget.form?.register(this);
+    }
   }
 
   @override

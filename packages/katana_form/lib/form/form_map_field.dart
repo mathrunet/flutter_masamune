@@ -570,6 +570,10 @@ class _SelectTextFieldState<TValue> extends FormFieldState<String> {
         _focusNode = null;
       }
     }
+    if (widget.form != oldWidget.form) {
+      oldWidget.form?.unregister(this);
+      widget.form?.register(this);
+    }
   }
 
   @override

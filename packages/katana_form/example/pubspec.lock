@@ -77,7 +77,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.3"
   build_runner_core:
     dependency: transitive
     description:
@@ -220,7 +220,7 @@ packages:
       name: freezed
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "2.3.2"
   freezed_annotation:
     dependency: transitive
     description:
@@ -311,14 +311,14 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10"
+    version: "0.15.10+1"
   katana_form:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.2.5"
+    version: "1.2.6"
   lints:
     dependency: transitive
     description:
@@ -360,7 +360,7 @@ packages:
       name: mime
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   package_config:
     dependency: transitive
     description:
