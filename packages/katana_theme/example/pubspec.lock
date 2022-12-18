@@ -77,7 +77,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.3"
   build_runner_core:
     dependency: transitive
     description:
@@ -285,33 +285,33 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
-    version: "0.15.10"
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.10+1"
   katana_theme:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.2.4"
+    version: "1.2.6"
   katana_theme_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana_theme_annotation"
-      relative: true
-    source: path
-    version: "1.2.2"
+      name: katana_theme_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.4"
   katana_theme_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "1.2.3"
+    version: "1.2.5"
   lints:
     dependency: transitive
     description:

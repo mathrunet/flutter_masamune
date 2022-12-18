@@ -1,5 +1,15 @@
 part of katana_theme;
 
+/// White for design.
+///
+/// デザイン用の白色。
+const kWhiteColor = Color(0xFFF7F7F7);
+
+/// Black for design.
+///
+/// デザイン用の黒色。
+const kBlackColor = Color(0xFF212121);
+
 /// {@template app_theme_data}
 /// Set the theme of the application.
 ///
@@ -47,30 +57,30 @@ class AppThemeData {
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
-    Color surface = Colors.white,
-    Color background = Colors.white,
-    Color onPrimary = Colors.white,
-    Color onSecondary = Colors.white,
-    Color onTertiary = Colors.white,
-    Color onPrimaryContainer = Colors.white,
-    Color onSecondaryContainer = Colors.white,
-    Color onTertiaryContainer = Colors.white,
-    Color onDisabled = Colors.white,
-    Color onSurface = Colors.white,
-    Color onBackground = const Color(0xFF212121),
-    Color onWeak = Colors.white,
-    Color onError = Colors.white,
-    Color onInfo = Colors.white,
-    Color onSuccess = const Color(0xFF212121),
-    Color onWarning = Colors.white,
+    Color surface = kWhiteColor,
+    Color background = kWhiteColor,
+    Color onPrimary = kWhiteColor,
+    Color onSecondary = kWhiteColor,
+    Color onTertiary = kWhiteColor,
+    Color onPrimaryContainer = kWhiteColor,
+    Color onSecondaryContainer = kWhiteColor,
+    Color onTertiaryContainer = kWhiteColor,
+    Color onDisabled = kWhiteColor,
+    Color onSurface = kBlackColor,
+    Color onBackground = kBlackColor,
+    Color onWeak = kWhiteColor,
+    Color onError = kWhiteColor,
+    Color onInfo = kWhiteColor,
+    Color onSuccess = kBlackColor,
+    Color onWarning = kWhiteColor,
     Color splashColor = const Color(0xaaFFFFFF),
     Color shadow = Colors.black,
-    Color inverseSurface = const Color(0xFF212121),
-    Color onInverseSurface = Colors.white,
-    Color inversePrimary = Colors.white,
+    Color inverseSurface = kBlackColor,
+    Color onInverseSurface = kWhiteColor,
+    Color inversePrimary = kWhiteColor,
     Color? appBarColor,
     Color? onAppBarColor,
-    Color? scaffoldBackgroundColor,
+    Color scaffoldBackgroundColor = kWhiteColor,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -234,30 +244,30 @@ class AppThemeData {
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
-    Color surface = Colors.white,
-    Color background = Colors.white,
-    Color onPrimary = Colors.white,
-    Color onSecondary = Colors.white,
-    Color onTertiary = Colors.white,
-    Color onPrimaryContainer = Colors.white,
-    Color onSecondaryContainer = Colors.white,
-    Color onTertiaryContainer = Colors.white,
-    Color onDisabled = Colors.white,
-    Color onSurface = Colors.white,
-    Color onBackground = const Color(0xFF212121),
-    Color onWeak = Colors.white,
-    Color onError = Colors.white,
-    Color onInfo = Colors.white,
-    Color onSuccess = const Color(0xFF212121),
-    Color onWarning = Colors.white,
+    Color surface = kWhiteColor,
+    Color background = kWhiteColor,
+    Color onPrimary = kWhiteColor,
+    Color onSecondary = kWhiteColor,
+    Color onTertiary = kWhiteColor,
+    Color onPrimaryContainer = kWhiteColor,
+    Color onSecondaryContainer = kWhiteColor,
+    Color onTertiaryContainer = kWhiteColor,
+    Color onDisabled = kWhiteColor,
+    Color onSurface = kBlackColor,
+    Color onBackground = kBlackColor,
+    Color onWeak = kWhiteColor,
+    Color onError = kWhiteColor,
+    Color onInfo = kWhiteColor,
+    Color onSuccess = kBlackColor,
+    Color onWarning = kWhiteColor,
     Color splashColor = const Color(0xaaFFFFFF),
     Color shadow = Colors.black,
-    Color inverseSurface = const Color(0xFF212121),
-    Color onInverseSurface = Colors.white,
-    Color inversePrimary = Colors.white,
+    Color inverseSurface = kBlackColor,
+    Color onInverseSurface = kWhiteColor,
+    Color inversePrimary = kWhiteColor,
     Color? appBarColor,
     Color? onAppBarColor,
-    Color? scaffoldBackgroundColor,
+    Color scaffoldBackgroundColor = kWhiteColor,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -421,30 +431,30 @@ class AppThemeData {
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
-    Color surface = const Color(0xFF212121),
-    Color background = const Color(0xFF212121),
-    Color onPrimary = const Color(0xFF212121),
-    Color onSecondary = const Color(0xFF212121),
-    Color onTertiary = const Color(0xFF212121),
-    Color onPrimaryContainer = const Color(0xFF212121),
-    Color onSecondaryContainer = const Color(0xFF212121),
-    Color onTertiaryContainer = const Color(0xFF212121),
-    Color onDisabled = const Color(0xFF212121),
-    Color onSurface = const Color(0xFF212121),
-    Color onBackground = Colors.white,
-    Color onWeak = const Color(0xFF212121),
-    Color onError = const Color(0xFF212121),
-    Color onInfo = const Color(0xFF212121),
-    Color onSuccess = Colors.white,
-    Color onWarning = const Color(0xFF212121),
+    Color surface = kBlackColor,
+    Color background = kBlackColor,
+    Color onPrimary = kBlackColor,
+    Color onSecondary = kBlackColor,
+    Color onTertiary = kBlackColor,
+    Color onPrimaryContainer = kBlackColor,
+    Color onSecondaryContainer = kBlackColor,
+    Color onTertiaryContainer = kBlackColor,
+    Color onDisabled = kBlackColor,
+    Color onSurface = kBlackColor,
+    Color onBackground = kWhiteColor,
+    Color onWeak = kBlackColor,
+    Color onError = kBlackColor,
+    Color onInfo = kBlackColor,
+    Color onSuccess = kWhiteColor,
+    Color onWarning = kBlackColor,
     Color splashColor = const Color(0xaaFFFFFF),
     Color shadow = Colors.black,
-    Color inverseSurface = Colors.white,
-    Color onInverseSurface = const Color(0xFF212121),
-    Color inversePrimary = const Color(0xFF212121),
+    Color inverseSurface = kWhiteColor,
+    Color onInverseSurface = kBlackColor,
+    Color inversePrimary = kBlackColor,
     Color? appBarColor,
     Color? onAppBarColor,
-    Color? scaffoldBackgroundColor,
+    Color scaffoldBackgroundColor = kBlackColor,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -719,7 +729,8 @@ class AppThemeData {
 
     switch (color.brightness) {
       case Brightness.dark:
-        final colorScheme = const ColorScheme.dark().copyWith(
+        final theme = ThemeData.dark();
+        final colorScheme = theme.colorScheme.copyWith(
           primary: color.primary,
           primaryContainer: color.primaryContainer,
           secondary: color.secondary,
@@ -746,7 +757,6 @@ class AppThemeData {
           inverseSurface: color.inverseSurface,
           onInverseSurface: color.onInverseSurface,
         );
-        final theme = ThemeData.dark();
         final textTheme = theme.textTheme.copyWith(
           displayLarge:
               text.displayLarge.copyWith(fontFamily: text.defaultFontFamily),
@@ -781,7 +791,7 @@ class AppThemeData {
         );
         final appBarForegroundColor = color.appBarColor == Colors.transparent
             ? color.onBackground
-            : (color.onAppBarColor ?? color.onPrimary);
+            : color.onAppBarColor;
         return ThemeData(
           fontFamily: defaultFontFamily,
           useMaterial3: useMaterial3,
@@ -798,25 +808,33 @@ class AppThemeData {
             fontSizeDelta: text.fontSizeDelta,
           ),
           appBarTheme: theme.appBarTheme.copyWith(
-            backgroundColor: color.appBarColor ?? color.primary,
+            backgroundColor: color.appBarColor,
             elevation: color.appBarColor == Colors.transparent ? 0 : null,
             foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                TextStyle(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                TextStyle(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                IconThemeData(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
             actionsIconTheme: theme.appBarTheme.actionsIconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                IconThemeData(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
           ),
           buttonTheme: theme.buttonTheme.copyWith(
             textTheme: theme.buttonTheme.textTheme,
@@ -860,7 +878,8 @@ class AppThemeData {
           backgroundColor: color.background,
         );
       default:
-        final colorScheme = const ColorScheme.light().copyWith(
+        final theme = ThemeData.light();
+        final colorScheme = theme.colorScheme.copyWith(
           primary: color.primary,
           primaryContainer: color.primaryContainer,
           secondary: color.secondary,
@@ -885,7 +904,6 @@ class AppThemeData {
           inverseSurface: color.inverseSurface,
           onInverseSurface: color.onInverseSurface,
         );
-        final theme = ThemeData.light();
         final textTheme = theme.textTheme.copyWith(
           displayLarge:
               text.displayLarge.copyWith(fontFamily: text.defaultFontFamily),
@@ -920,7 +938,7 @@ class AppThemeData {
         );
         final appBarForegroundColor = color.appBarColor == Colors.transparent
             ? color.onBackground
-            : (color.onAppBarColor ?? color.onPrimary);
+            : color.onAppBarColor;
         return ThemeData(
           fontFamily: defaultFontFamily,
           useMaterial3: useMaterial3,
@@ -930,25 +948,33 @@ class AppThemeData {
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
           appBarTheme: theme.appBarTheme.copyWith(
-            backgroundColor: color.appBarColor ?? color.primary,
+            backgroundColor: color.appBarColor,
             elevation: color.appBarColor == Colors.transparent ? 0 : null,
             foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                TextStyle(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                TextStyle(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? TextStyle(color: appBarForegroundColor)
+                    : null),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                IconThemeData(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
             actionsIconTheme: theme.appBarTheme.actionsIconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                IconThemeData(color: appBarForegroundColor),
+                (appBarForegroundColor != null
+                    ? IconThemeData(color: appBarForegroundColor)
+                    : null),
           ),
           textTheme: textTheme.apply(
             fontFamily: text.defaultFontFamily,
