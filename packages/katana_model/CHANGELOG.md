@@ -1,3 +1,7 @@
+## 1.3.15
+
+ - **FIX**: Fixed to put null in the value when there is no data. ([4d2da037](https://github.com/mathrunet/flutter_masamune/commit/4d2da03715fdc5368140b568adeea030557928dc))
+
 ## 1.3.14
 
  - **FIX**: Hides the Map portion of ModelCounter and ModelTimestamp. ([d125bb0d](https://github.com/mathrunet/flutter_masamune/commit/d125bb0d017f2782d7fd4dca81d6da52c9bb7a75))
