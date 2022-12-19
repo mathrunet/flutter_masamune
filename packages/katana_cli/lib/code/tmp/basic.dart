@@ -192,13 +192,13 @@ class ${className}Form extends FormScopedWidget {
   const ${className}Form({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref, FormContext form) {
+  Widget build(BuildContext context, FormRef ref) {
     // Describes the process of loading
     // and defining variables required for the page.
     // 
-    // You can use [form.isAdding] or [form.isEditing] to determine if the form is currently adding new data or editing data.
+    // You can use [ref.isAdding] or [ref.isEditing] to determine if the form is currently adding new data or editing data.
     //
-    // If editing is in progress, it is possible to get the ID of the item being edited with [form.editId].
+    // If editing is in progress, it is possible to get the ID of the item being edited with [ref.editId].
     // TODO: Implement the variable loading process.
     \${9}
 

@@ -47,8 +47,8 @@ part '$baseName.m.dart';
   String body(String path, String baseName, String className) {
     return """
 /// Controller Group.
-@controller
 @listenables
+@controllerGroup
 class ${className}ControllerGroup with _\$${className}ControllerGroup, ChangeNotifier {
   factory ${className}ControllerGroup({
     // TODO: Define the ChangeNotifier field here.

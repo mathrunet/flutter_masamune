@@ -86,14 +86,15 @@ final theme = AppThemeData(
 /// router.pop();               // Pop page.
 /// ```
 final router = AppRouter(
-    // TODO: Please configure the initial routing and redirection settings.
-    boot: ${4:null},
-    initialQuery: initialQuery,
-    redirect: [],
-    pages: [
-      // TODO: Add the page query to be used for routing.
-      ${5},
-    ]);
+  // TODO: Please configure the initial routing and redirection settings.
+  boot: ${4:null},
+  initialQuery: initialQuery,
+  redirect: [],
+  pages: [
+    // TODO: Add the page query to be used for routing.
+    ${5}
+  ],
+);
 
 /// App Localization.
 ///
