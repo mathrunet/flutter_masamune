@@ -1,5 +1,8 @@
 part of masamune_builder;
 
+/// Create a class for the controller group query to be used with `ref.page.controller`.
+///
+/// `ref.page.controller`で使えるようにするためのコントローラーグループクエリーのクラスを作成します。
 List<Spec> controllerGroupClass(
   ClassValue model,
 ) {

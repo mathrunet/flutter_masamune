@@ -1,6 +1,12 @@
 part of masamune_builder;
 
+/// Generator of document models for classes annotated with [DocumentModelPath].
+///
+/// [DocumentModelPath]アノテーションを付与されたクラスに対するドキュメントモデルのジェネレーター。
 class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
+  /// Generator of document models for classes annotated with [DocumentModelPath].
+  ///
+  /// [DocumentModelPath]アノテーションを付与されたクラスに対するドキュメントモデルのジェネレーター。
   DocumentModelGenerator();
 
   @override

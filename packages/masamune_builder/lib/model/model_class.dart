@@ -3,6 +3,9 @@ part of masamune_builder;
 final _regExpModelRef = RegExp(r"ModelRef(Base)?<([^>]+)>");
 final _regExpRef = RegExp(r"(.+)Ref");
 
+/// Create document and collection models.
+///
+/// ドキュメントモデルやコレクションモデルを作成します。
 List<Spec> modelClass(
   ClassValue model,
   PathValue path,

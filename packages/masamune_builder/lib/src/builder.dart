@@ -1,5 +1,8 @@
 part of masamune_builder;
 
+/// Builder to generate codes for Controllers and Models.
+///
+/// コントローラーやModel用のコードをジェネレートするためのビルダー。
 Builder masamuneBuilderFactory(BuilderOptions options) {
   return PartBuilder(
     [

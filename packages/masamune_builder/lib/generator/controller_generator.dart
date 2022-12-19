@@ -1,6 +1,12 @@
 part of masamune_builder;
 
+/// Generator of controllers for classes annotated with the [Controller] annotation.
+///
+/// [Controller]アノテーションを付与されたクラスに対するコントローラーのジェネレーター。
 class ControllerGenerator extends GeneratorForAnnotation<Controller> {
+  /// Generator of controllers for classes annotated with the [Controller] annotation.
+  ///
+  /// [Controller]アノテーションを付与されたクラスに対するコントローラーのジェネレーター。
   ControllerGenerator();
 
   @override

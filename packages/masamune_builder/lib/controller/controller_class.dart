@@ -1,5 +1,8 @@
 part of masamune_builder;
 
+/// Create a class for the controller query to be used with `ref.page.controller`.
+///
+/// `ref.page.controller`で使えるようにするためのコントローラークエリーのクラスを作成します。
 List<Spec> controllerClass(
   ClassValue model,
 ) {

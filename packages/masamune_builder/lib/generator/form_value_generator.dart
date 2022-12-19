@@ -1,6 +1,12 @@
 part of masamune_builder;
 
+/// Generator of form queries for classes annotated with [FormValue].
+///
+/// [FormValue]アノテーションを付与されたクラスに対するフォームクエリーのジェネレーター。
 class FormValueGenerator extends GeneratorForAnnotation<FormValue> {
+  /// Generator of form queries for classes annotated with [FormValue].
+  ///
+  /// [FormValue]アノテーションを付与されたクラスに対するフォームクエリーのジェネレーター。
   FormValueGenerator();
 
   @override

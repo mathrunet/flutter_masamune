@@ -1,7 +1,13 @@
 part of masamune_builder;
 
+/// Collection model generator for classes annotated with [CollectionModelPath].
+///
+/// [CollectionModelPath]アノテーションを付与されたクラスに対するコレクションモデルのジェネレーター。
 class CollectionModelGenerator
     extends GeneratorForAnnotation<CollectionModelPath> {
+  /// Collection model generator for classes annotated with [CollectionModelPath].
+  ///
+  /// [CollectionModelPath]アノテーションを付与されたクラスに対するコレクションモデルのジェネレーター。
   CollectionModelGenerator();
 
   @override

@@ -1,5 +1,8 @@
 part of masamune_builder;
 
+/// Create a FormController query class for use with `ref.page.controller`.
+///
+/// `ref.page.controller`で使えるようにするためのFormControllerクエリーのクラスを作成します。
 List<Spec> formValueClass(
   ClassValue model,
 ) {

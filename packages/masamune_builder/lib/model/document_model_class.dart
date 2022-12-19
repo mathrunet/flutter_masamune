@@ -1,5 +1,8 @@
 part of masamune_builder;
 
+/// Create a class to automatically create a document model.
+///
+/// ドキュメントモデルを自動作成するためのクラスを作成します。
 List<Spec> documentModelClass(
   ClassValue model,
   PathValue path,

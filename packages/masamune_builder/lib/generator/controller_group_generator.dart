@@ -1,6 +1,12 @@
 part of masamune_builder;
 
+/// Generator of controller groups for classes annotated with the [ControllerGroup] annotation.
+///
+/// [ControllerGroup]アノテーションを付与されたクラスに対するコントローラーグループのジェネレーター。
 class ControllerGroupGenerator extends GeneratorForAnnotation<ControllerGroup> {
+  /// Generator of controller groups for classes annotated with the [ControllerGroup] annotation.
+  ///
+  /// [ControllerGroup]アノテーションを付与されたクラスに対するコントローラーグループのジェネレーター。
   ControllerGroupGenerator();
 
   @override

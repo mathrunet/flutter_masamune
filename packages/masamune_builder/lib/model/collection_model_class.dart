@@ -1,26 +1,101 @@
 part of masamune_builder;
 
+/// Keys for querying the collection.
+///
+/// The type of the key in [type]. [defaultValue] is the initial value of the key.
+///
+/// コレクションのクエリー用のキー。
+///
+/// [type]にキーのタイプ。[defaultValue]にキーの初期値を記述します。
 enum CollectionQueryKey {
+  /// Query Key.
+  ///
+  /// クエリーキー。
   key(),
+
+  /// The key of `equalTo`.
+  ///
+  /// `equalTo`のキー。
   isEqualTo("dynamic"),
+
+  /// Key for `notEqualTo`.
+  ///
+  /// `notEqualTo`のキー。
   isNotEqualTo("dynamic"),
+
+  /// Key for `lessThanOrEqualTo`.
+  ///
+  /// `lessThanOrEqualTo`のキー。
   isLessThanOrEqualTo("dynamic"),
+
+  /// Key for `greaterThanOrEqualTo`.
+  ///
+  /// `greaterThanOrEqualTo`のキー。
   isGreaterThanOrEqualTo("dynamic"),
+
+  /// Key for `arrayContains`.
+  ///
+  /// `arrayContains`のキー。
   arrayContains("dynamic"),
+
+  /// Key for `arrayContainsAny`.
+  ///
+  /// `arrayContainsAny`のキー。
   arrayContainsAny("List<dynamic>?"),
+
+  /// Key for `whereIn`.
+  ///
+  /// `whereIn`のキー。
   whereIn("List<dynamic>?"),
+
+  /// Key for `whereNotIn`.
+  ///
+  /// `whereNotIn`のキー。
   whereNotIn("List<dynamic>?"),
+
+  /// Key for `geoHash`.
+  ///
+  /// `geoHash`のキー。
   geoHash("List<String>?"),
+
+  /// Key for `order`.
+  ///
+  /// `order`のキー。
   order("ModelQueryOrder", "ModelQueryOrder.asc"),
+
+  /// Key for `limit`.
+  ///
+  /// `limit`のキー。
   limit("int?"),
+
+  /// Key for `orderBy`.
+  ///
+  /// `orderBy`のキー。
   orderBy("String?");
 
+  /// Keys for querying the collection.
+  ///
+  /// The type of the key in [type]. [defaultValue] is the initial value of the key.
+  ///
+  /// コレクションのクエリー用のキー。
+  ///
+  /// [type]にキーのタイプ。[defaultValue]にキーの初期値を記述します。
   const CollectionQueryKey([this.type, this.defaultValue]);
 
+  /// Key Type.
+  ///
+  /// キーのタイプ。
   final String? type;
+
+  /// Initial value of the key.
+  ///
+  /// キーの初期値。
   final String? defaultValue;
 }
 
+/// Create a class to automatically create a collection model.
+///
+/// コレクションモデルを自動作成するためのクラスを作成します。
 List<Spec> collectionModelClass(
   ClassValue model,
   PathValue path,
