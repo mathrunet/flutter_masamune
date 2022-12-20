@@ -121,7 +121,7 @@ class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
   }) : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
-          "Both are required when using [context] or [onSaved].",
+          "Both are required when using [form] or [onSaved].",
         );
 
   /// Context for forms.

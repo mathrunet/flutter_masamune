@@ -8,6 +8,7 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_form;
 
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -25,5 +26,10 @@ part 'form/form_label.dart';
 part 'form/form_date_time_field.dart';
 part 'form/form_enum_field.dart';
 part 'form/form_map_field.dart';
+part 'form/form_media.dart';
+part 'form/form_multi_media.dart';
+
 part 'src/form_controller.dart';
+part 'src/form_media_value.dart';
 part 'src/form_stye.dart';
+part 'src/form_media_type.dart';

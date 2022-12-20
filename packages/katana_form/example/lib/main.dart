@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:katana_form/katana_form.dart';
-import 'package:katana_form/katana_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,17 +53,31 @@ class FormPageState extends State<FormPage> {
     return Scaffold(
       appBar: AppBar(title: const Text("App Demo")),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 32),
+        padding: const EdgeInsets.only(bottom: 32),
         children: [
+          FormMedia(
+            form: form,
+            onTap: (onUpdate) {
+              onUpdate("assets/default.png", FormMediaType.image);
+            },
+            builder: (context, value) {
+              return Image.asset(
+                value.path!,
+                fit: BoxFit.cover,
+              );
+            },
+            onSaved: (value) => {...form.value, "media": value},
+          ),
           const FormLabel("Name"),
           FormTextField(
             form: form,
             initialValue: form.value["name"],
             onSaved: (value) => {...form.value, "name": value},
-            style: FormStyle(
-                border: OutlineInputBorder(),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                contentPadding: const EdgeInsets.all(16)),
+            style: const FormStyle(
+              border: OutlineInputBorder(),
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              contentPadding: EdgeInsets.all(16),
+            ),
           ),
           const FormLabel("Description"),
           FormTextField(
@@ -100,7 +113,7 @@ class FormPageState extends State<FormPage> {
             ),
             onSaved: (value) => {...form.value, "enumSelect": value},
           ),
-          const FormLabel("Nao Form"),
+          const FormLabel("Map Form"),
           FormMapField(
             form: form,
             initialValue: "one",
@@ -110,10 +123,24 @@ class FormPageState extends State<FormPage> {
             ),
             onSaved: (value) => {...form.value, "mapSelect": value},
           ),
+          const FormLabel("Multimedia Form"),
+          FormMultiMedia(
+            form: form,
+            onTap: (onUpdate) {
+              onUpdate("assets/default.png", FormMediaType.image);
+            },
+            builder: (context, value) {
+              return Image.asset(
+                value.path!,
+                fit: BoxFit.cover,
+              );
+            },
+            onSaved: (value) => {...form.value, "multiMedia": value},
+          ),
           const SizedBox(height: 16),
           FormButton(
             "Submit",
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               if (!form.validateAndSave()) {
                 return;
