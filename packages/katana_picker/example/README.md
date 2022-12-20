@@ -1,4 +1,4 @@
-# katana_auth_example
+# katana_picker_example
 
 A new Flutter project.
 

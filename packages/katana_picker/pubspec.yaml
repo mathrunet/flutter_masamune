@@ -1,8 +1,8 @@
-name: katana_media
+name: katana_picker
 description: Base package for retrieving files such as images and videos from terminal storage, cameras, etc.
 version: 1.1.0
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_media
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_picker
 
 publish_to: none
 

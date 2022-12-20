@@ -1,15 +1,15 @@
-part of katana_media;
+part of katana_picker;
 
-class FilePickerMediaAdapter extends MediaAdapter {
-  const FilePickerMediaAdapter();
+class FilePickerAdapter extends PickerAdapter {
+  const FilePickerAdapter();
 
   @override
-  Future<List<MediaValue>> pickMultiple({
+  Future<List<PickerValue>> pickMultiple({
     String? dialogTitle,
-    MediaType type = MediaType.others,
+    PickerMediaType type = PickerMediaType.others,
   }) async {
     switch (type) {
-      case MediaType.image:
+      case PickerMediaType.image:
         final res = await FilePicker.platform.pickFiles(
           allowMultiple: true,
           dialogTitle: dialogTitle,
@@ -23,9 +23,9 @@ class FilePickerMediaAdapter extends MediaAdapter {
           if (file.path == null || file.bytes == null) {
             return null;
           }
-          return MediaValue(path: file.path!, bytes: file.bytes!);
+          return PickerValue(path: file.path!, bytes: file.bytes!);
         });
-      case MediaType.video:
+      case PickerMediaType.video:
         final res = await FilePicker.platform.pickFiles(
           allowMultiple: true,
           dialogTitle: dialogTitle,
@@ -39,7 +39,7 @@ class FilePickerMediaAdapter extends MediaAdapter {
           if (file.path == null || file.bytes == null) {
             return null;
           }
-          return MediaValue(path: file.path!, bytes: file.bytes!);
+          return PickerValue(path: file.path!, bytes: file.bytes!);
         });
       default:
         final res = await FilePicker.platform.pickFiles(
@@ -54,18 +54,18 @@ class FilePickerMediaAdapter extends MediaAdapter {
           if (file.path == null || file.bytes == null) {
             return null;
           }
-          return MediaValue(path: file.path!, bytes: file.bytes!);
+          return PickerValue(path: file.path!, bytes: file.bytes!);
         });
     }
   }
 
   @override
-  Future<MediaValue> pickSingle({
+  Future<PickerValue> pickSingle({
     String? dialogTitle,
-    MediaType type = MediaType.others,
+    PickerMediaType type = PickerMediaType.others,
   }) async {
     switch (type) {
-      case MediaType.image:
+      case PickerMediaType.image:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
           type: FileType.image,
@@ -74,8 +74,8 @@ class FilePickerMediaAdapter extends MediaAdapter {
         if (file == null || file.path == null || file.bytes == null) {
           throw Exception("File not found.");
         }
-        return MediaValue(path: file.path!, bytes: file.bytes!);
-      case MediaType.video:
+        return PickerValue(path: file.path!, bytes: file.bytes!);
+      case PickerMediaType.video:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
           type: FileType.video,
@@ -84,7 +84,7 @@ class FilePickerMediaAdapter extends MediaAdapter {
         if (file == null || file.path == null || file.bytes == null) {
           throw Exception("File not found.");
         }
-        return MediaValue(path: file.path!, bytes: file.bytes!);
+        return PickerValue(path: file.path!, bytes: file.bytes!);
       default:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
@@ -93,14 +93,14 @@ class FilePickerMediaAdapter extends MediaAdapter {
         if (file == null || file.path == null || file.bytes == null) {
           throw Exception("File not found.");
         }
-        return MediaValue(path: file.path!, bytes: file.bytes!);
+        return PickerValue(path: file.path!, bytes: file.bytes!);
     }
   }
 
   @override
-  Future<MediaValue> pickCamera({
+  Future<PickerValue> pickCamera({
     String? dialogTitle,
-    MediaType type = MediaType.others,
+    PickerMediaType type = PickerMediaType.others,
   }) {
     throw UnsupportedError("Camera functions are not supported.");
   }

@@ -1,8 +1,8 @@
-part of katana_media;
+part of katana_picker;
 
 @immutable
-class MediaValue {
-  const MediaValue({
+class PickerValue {
+  const PickerValue({
     required this.path,
     required this.bytes,
   });

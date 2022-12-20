@@ -1,21 +1,21 @@
-part of katana_media;
+part of katana_picker;
 
-class Media extends ChangeNotifier {
-  Media({MediaAdapter? adapter}) : _adapter = adapter;
+class Picker extends ChangeNotifier {
+  Picker({PickerAdapter? adapter}) : _adapter = adapter;
 
-  MediaAdapter get adapter {
-    return _adapter ?? MediaAdapter.primary;
+  PickerAdapter get adapter {
+    return _adapter ?? PickerAdapter.primary;
   }
 
-  final MediaAdapter? _adapter;
+  final PickerAdapter? _adapter;
 
   Future<void>? get future => _completer?.future;
 
   Completer<void>? _completer;
 
-  Future<MediaValue> pickSingle({
+  Future<PickerValue> pickSingle({
     String? dialogTitle,
-    MediaType type = MediaType.others,
+    PickerMediaType type = PickerMediaType.others,
   }) async {
     try {
       _completer = Completer();
@@ -36,9 +36,9 @@ class Media extends ChangeNotifier {
     }
   }
 
-  Future<List<MediaValue>> pickMultiple({
+  Future<List<PickerValue>> pickMultiple({
     String? dialogTitle,
-    MediaType type = MediaType.others,
+    PickerMediaType type = PickerMediaType.others,
   }) async {
     try {
       _completer = Completer();
