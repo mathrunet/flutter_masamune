@@ -97,6 +97,8 @@ class MasamuneApp extends StatelessWidget {
     super.key,
     this.appRef,
     this.authAdapter,
+    this.pickerAdapter,
+    this.storageAdapter,
     this.theme,
     this.localize,
     this.routerConfig,
@@ -141,6 +143,16 @@ class MasamuneApp extends StatelessWidget {
   ///
   /// `katana_model`で利用されるデータベース用のアダプター。
   final ModelAdapter? modelAdapter;
+
+  /// Adapter for file pickers used by `katana_picker`.
+  ///
+  /// `katana_picker`で利用されるファイルピッカー用のアダプター。
+  final PickerAdapter? pickerAdapter;
+
+  /// Adapter for file storage used by `katana_storage`.
+  ///
+  /// `katana_storage`で利用されるファイルストレージ用のアダプター。
+  final StorageAdapter? storageAdapter;
 
   /// Config for router used by `katana_router`.
   ///
@@ -284,17 +296,23 @@ class MasamuneApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildAppAuth(
+    return _buildAppPicker(
       context,
-      _buildModelAdapter(
+      _buildAppStorage(
         context,
-        _buildAppScoped(
+        _buildAppAuth(
           context,
-          _buildAppTheme(
+          _buildModelAdapter(
             context,
-            _buildAppLocalize(
+            _buildAppScoped(
               context,
-              _buildAppRouter(context),
+              _buildAppTheme(
+                context,
+                _buildAppLocalize(
+                  context,
+                  _buildAppRouter(context),
+                ),
+              ),
             ),
           ),
         ),
@@ -347,6 +365,26 @@ class MasamuneApp extends StatelessWidget {
       return LocalizeScope(
         localize: localize!,
         builder: (context, localize) => child,
+      );
+    }
+    return child;
+  }
+
+  Widget _buildAppStorage(BuildContext context, Widget child) {
+    if (storageAdapter != null) {
+      return StorageAdapterScope(
+        adapter: storageAdapter!,
+        child: child,
+      );
+    }
+    return child;
+  }
+
+  Widget _buildAppPicker(BuildContext context, Widget child) {
+    if (pickerAdapter != null) {
+      return PickerAdapterScope(
+        adapter: pickerAdapter!,
+        child: child,
       );
     }
     return child;

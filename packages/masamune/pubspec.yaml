@@ -29,6 +29,10 @@ dependencies:
     path: ../katana_ui
   masamune_annotation:
     path: ../masamune_annotation
+  katana_picker: 
+    path: ../katana_picker
+  katana_storage: 
+    path: ../katana_storage
 dev_dependencies:
   flutter_test:
     sdk: flutter
