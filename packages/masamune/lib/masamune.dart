@@ -17,8 +17,8 @@ export 'package:katana_form/katana_form.dart';
 export 'package:katana_indicator/katana_indicator.dart';
 export 'package:katana_listenables/katana_listenables.dart';
 export 'package:katana_localization/katana_localization.dart';
-export 'package:katana_picker/katana_picker.dart';
 export 'package:katana_model/katana_model.dart';
+export 'package:katana_picker/katana_picker.dart';
 export 'package:katana_router/katana_router.dart';
 export 'package:katana_scoped/katana_scoped.dart';
 export 'package:katana_shorten/katana_shorten.dart';
@@ -30,5 +30,6 @@ export 'package:meta/meta.dart' show useResult;
 
 part 'form/form_scoped_widget.dart';
 part 'model/model.dart';
+part 'storage/storage.dart';
 part 'scoped/controller.dart';
 part 'src/masamune_app.dart';
