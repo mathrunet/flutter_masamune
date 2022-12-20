@@ -20,10 +20,10 @@ class FilePickerAdapter extends PickerAdapter {
           throw Exception("File not found.");
         }
         return files.mapAndRemoveEmpty((file) {
-          if (file.path == null || file.bytes == null) {
+          if (file.path == null && file.bytes == null) {
             return null;
           }
-          return PickerValue(path: file.path!, bytes: file.bytes!);
+          return PickerValue(path: file.path, bytes: file.bytes);
         });
       case PickerMediaType.video:
         final res = await FilePicker.platform.pickFiles(
@@ -36,10 +36,10 @@ class FilePickerAdapter extends PickerAdapter {
           throw Exception("File not found.");
         }
         return files.mapAndRemoveEmpty((file) {
-          if (file.path == null || file.bytes == null) {
+          if (file.path == null && file.bytes == null) {
             return null;
           }
-          return PickerValue(path: file.path!, bytes: file.bytes!);
+          return PickerValue(path: file.path, bytes: file.bytes);
         });
       default:
         final res = await FilePicker.platform.pickFiles(
@@ -51,10 +51,10 @@ class FilePickerAdapter extends PickerAdapter {
           throw Exception("File not found.");
         }
         return files.mapAndRemoveEmpty((file) {
-          if (file.path == null || file.bytes == null) {
+          if (file.path == null && file.bytes == null) {
             return null;
           }
-          return PickerValue(path: file.path!, bytes: file.bytes!);
+          return PickerValue(path: file.path, bytes: file.bytes);
         });
     }
   }
@@ -71,29 +71,29 @@ class FilePickerAdapter extends PickerAdapter {
           type: FileType.image,
         );
         final file = res?.files.firstOrNull;
-        if (file == null || file.path == null || file.bytes == null) {
+        if (file == null || (file.path == null && file.bytes == null)) {
           throw Exception("File not found.");
         }
-        return PickerValue(path: file.path!, bytes: file.bytes!);
+        return PickerValue(path: file.path, bytes: file.bytes);
       case PickerMediaType.video:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
           type: FileType.video,
         );
         final file = res?.files.firstOrNull;
-        if (file == null || file.path == null || file.bytes == null) {
+        if (file == null || (file.path == null && file.bytes == null)) {
           throw Exception("File not found.");
         }
-        return PickerValue(path: file.path!, bytes: file.bytes!);
+        return PickerValue(path: file.path, bytes: file.bytes);
       default:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
         );
         final file = res?.files.firstOrNull;
-        if (file == null || file.path == null || file.bytes == null) {
+        if (file == null || (file.path == null && file.bytes == null)) {
           throw Exception("File not found.");
         }
-        return PickerValue(path: file.path!, bytes: file.bytes!);
+        return PickerValue(path: file.path, bytes: file.bytes);
     }
   }
 
