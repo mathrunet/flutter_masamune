@@ -16,3 +16,4 @@ part 'src/duration.dart';
 part 'src/edge_insets.dart';
 part 'src/space.dart';
 part 'src/empty.dart';
+part 'src/border_radius.dart';
