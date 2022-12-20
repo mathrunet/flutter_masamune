@@ -15,6 +15,70 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_shorten` - `v1.2.0`](#katana_shorten---v120)
+ - [`masamune_firebase` - `v0.15.0+51`](#masamune_firebase---v015051)
+ - [`masamune_agora` - `v0.15.0+52`](#masamune_agora---v015052)
+ - [`masamune_purchase` - `v0.15.0+50`](#masamune_purchase---v015050)
+ - [`masamune_local_messaging` - `v0.15.0+50`](#masamune_local_messaging---v015050)
+ - [`masamune_ui` - `v0.15.0+50`](#masamune_ui---v015050)
+ - [`masamune_media` - `v0.15.0+50`](#masamune_media---v015050)
+ - [`masamune_location` - `v0.15.0+50`](#masamune_location---v015050)
+ - [`masamune_ads` - `v0.15.0+50`](#masamune_ads---v015050)
+ - [`masamune_wordpress` - `v0.15.0+50`](#masamune_wordpress---v015050)
+ - [`masamune_firebase_messaging` - `v0.15.0+51`](#masamune_firebase_messaging---v015051)
+ - [`masamune_purchase_stripe` - `v0.15.0+51`](#masamune_purchase_stripe---v015051)
+ - [`masamune_signin_facebook` - `v0.15.0+51`](#masamune_signin_facebook---v015051)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+51`](#masamune_firebase_dynamic_links---v015051)
+ - [`masamune_notion` - `v0.15.0+51`](#masamune_notion---v015051)
+ - [`masamune_signin_twitter` - `v0.15.0+51`](#masamune_signin_twitter---v015051)
+ - [`masamune_signin_google` - `v0.15.0+51`](#masamune_signin_google---v015051)
+ - [`masamune_signin_apple` - `v0.15.0+51`](#masamune_signin_apple---v015051)
+ - [`masamune_purchase_firebase` - `v0.15.0+51`](#masamune_purchase_firebase---v015051)
+ - [`masamune_module` - `v0.15.0+50`](#masamune_module---v015050)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_firebase` - `v0.15.0+51`
+ - `masamune_agora` - `v0.15.0+52`
+ - `masamune_purchase` - `v0.15.0+50`
+ - `masamune_local_messaging` - `v0.15.0+50`
+ - `masamune_ui` - `v0.15.0+50`
+ - `masamune_media` - `v0.15.0+50`
+ - `masamune_location` - `v0.15.0+50`
+ - `masamune_ads` - `v0.15.0+50`
+ - `masamune_wordpress` - `v0.15.0+50`
+ - `masamune_firebase_messaging` - `v0.15.0+51`
+ - `masamune_purchase_stripe` - `v0.15.0+51`
+ - `masamune_signin_facebook` - `v0.15.0+51`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+51`
+ - `masamune_notion` - `v0.15.0+51`
+ - `masamune_signin_twitter` - `v0.15.0+51`
+ - `masamune_signin_google` - `v0.15.0+51`
+ - `masamune_signin_apple` - `v0.15.0+51`
+ - `masamune_purchase_firebase` - `v0.15.0+51`
+ - `masamune_module` - `v0.15.0+50`
+
+---
+
+#### `katana_shorten` - `v1.2.0`
+
+ - **FEAT**: Added BorderRadius. ([c6775615](https://github.com/mathrunet/flutter_masamune/commit/c6775615a133bfdd2ba651ded74d99756bd30471))
+
+
+## 2022-12-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v1.1.4`](#katana_auth---v114)
  - [`katana_auth_firebase` - `v1.1.4`](#katana_auth_firebase---v114)
  - [`katana_form` - `v1.3.1`](#katana_form---v131)

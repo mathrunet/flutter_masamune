@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Added BorderRadius. ([c6775615](https://github.com/mathrunet/flutter_masamune/commit/c6775615a133bfdd2ba651ded74d99756bd30471))
+
 ## 1.1.5
 
  - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
