@@ -1,3 +1,7 @@
+## 1.3.17
+
+ - **FIX**: Fixed compilation errors. ([c24de79a](https://github.com/mathrunet/flutter_masamune/commit/c24de79aa303fe7b032dabee0260d80c601cd677))
+
 ## 1.3.16
 
  - **FIX**: ModelFieldValue can now be registered externally. ([609c2d8e](https://github.com/mathrunet/flutter_masamune/commit/609c2d8e48e77a13ff81915d9c2fcce01cc19712))

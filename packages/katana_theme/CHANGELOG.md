@@ -1,3 +1,7 @@
+## 1.2.8
+
+ - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
+
 ## 1.2.7
 
  - **FIX**: Fixed a bug with MaterialDesign3 support. ([0390bcdb](https://github.com/mathrunet/flutter_masamune/commit/0390bcdbc87f96af2ee04cd48ba1587e2a55aaae))

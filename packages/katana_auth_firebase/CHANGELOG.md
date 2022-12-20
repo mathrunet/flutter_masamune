@@ -1,3 +1,7 @@
+## 1.1.4
+
+ - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
+
 ## 1.1.3
 
  - **FIX**: RuntimeAuthAdapter bug fixes. ([0651878d](https://github.com/mathrunet/flutter_masamune/commit/0651878dfcbcc095f065351ae4fee9900cb15f3d))

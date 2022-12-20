@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: Fixed the problem with Material3, as the shape is not correct. ([9cefae39](https://github.com/mathrunet/flutter_masamune/commit/9cefae39f085734a9cda926c206c005d83fed9fb))
+
 ## 1.3.0
 
  - **FEAT**: Added new FormMedia. ([58f36892](https://github.com/mathrunet/flutter_masamune/commit/58f36892b2ee84c4fabe50380ddb1016b19a3837))
