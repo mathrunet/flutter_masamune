@@ -10,6 +10,8 @@ library katana_shorten;
 
 import 'package:flutter/material.dart';
 
+export 'package:katana/katana.dart';
+
 part 'src/duration.dart';
 part 'src/edge_insets.dart';
 part 'src/space.dart';

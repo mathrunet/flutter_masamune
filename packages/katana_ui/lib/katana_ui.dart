@@ -11,6 +11,7 @@ library katana_ui;
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide Scaffold;
+export 'package:katana/katana.dart';
 
 part 'src/ui_type.dart';
 

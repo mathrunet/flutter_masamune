@@ -13,5 +13,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:katana/katana.dart';
 
+export 'package:katana/katana.dart';
+
 part 'src/future_indicator.dart';
 part 'src/progress_indicator.dart';

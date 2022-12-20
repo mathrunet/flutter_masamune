@@ -13,8 +13,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:katana/katana.dart';
 
+export 'package:katana/katana.dart';
 export 'package:katana_theme_annotation/katana_theme_annotation.dart';
 
 part 'src/app_theme_data.dart';
