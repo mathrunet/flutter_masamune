@@ -3,6 +3,77 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.3.0`](#katana_form---v130)
+ - [`katana_model` - `v1.3.16`](#katana_model---v1316)
+ - [`masamune_agora` - `v0.15.0+50`](#masamune_agora---v015050)
+ - [`masamune_wordpress` - `v0.15.0+48`](#masamune_wordpress---v015048)
+ - [`masamune_ads` - `v0.15.0+48`](#masamune_ads---v015048)
+ - [`masamune_firebase` - `v0.15.0+49`](#masamune_firebase---v015049)
+ - [`masamune_local_messaging` - `v0.15.0+48`](#masamune_local_messaging---v015048)
+ - [`masamune_purchase` - `v0.15.0+48`](#masamune_purchase---v015048)
+ - [`masamune_media` - `v0.15.0+48`](#masamune_media---v015048)
+ - [`masamune_ui` - `v0.15.0+48`](#masamune_ui---v015048)
+ - [`masamune_location` - `v0.15.0+48`](#masamune_location---v015048)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+49`](#masamune_firebase_dynamic_links---v015049)
+ - [`masamune_firebase_messaging` - `v0.15.0+49`](#masamune_firebase_messaging---v015049)
+ - [`masamune_signin_facebook` - `v0.15.0+49`](#masamune_signin_facebook---v015049)
+ - [`masamune_signin_google` - `v0.15.0+49`](#masamune_signin_google---v015049)
+ - [`masamune_signin_twitter` - `v0.15.0+49`](#masamune_signin_twitter---v015049)
+ - [`masamune_purchase_stripe` - `v0.15.0+49`](#masamune_purchase_stripe---v015049)
+ - [`masamune_signin_apple` - `v0.15.0+49`](#masamune_signin_apple---v015049)
+ - [`masamune_purchase_firebase` - `v0.15.0+49`](#masamune_purchase_firebase---v015049)
+ - [`masamune_notion` - `v0.15.0+49`](#masamune_notion---v015049)
+ - [`masamune_module` - `v0.15.0+48`](#masamune_module---v015048)
+ - [`katana_model_firestore` - `v1.3.17`](#katana_model_firestore---v1317)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+50`
+ - `masamune_wordpress` - `v0.15.0+48`
+ - `masamune_ads` - `v0.15.0+48`
+ - `masamune_firebase` - `v0.15.0+49`
+ - `masamune_local_messaging` - `v0.15.0+48`
+ - `masamune_purchase` - `v0.15.0+48`
+ - `masamune_media` - `v0.15.0+48`
+ - `masamune_ui` - `v0.15.0+48`
+ - `masamune_location` - `v0.15.0+48`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+49`
+ - `masamune_firebase_messaging` - `v0.15.0+49`
+ - `masamune_signin_facebook` - `v0.15.0+49`
+ - `masamune_signin_google` - `v0.15.0+49`
+ - `masamune_signin_twitter` - `v0.15.0+49`
+ - `masamune_purchase_stripe` - `v0.15.0+49`
+ - `masamune_signin_apple` - `v0.15.0+49`
+ - `masamune_purchase_firebase` - `v0.15.0+49`
+ - `masamune_notion` - `v0.15.0+49`
+ - `masamune_module` - `v0.15.0+48`
+ - `katana_model_firestore` - `v1.3.17`
+
+---
+
+#### `katana_form` - `v1.3.0`
+
+ - **FEAT**: Added new FormMedia. ([58f36892](https://github.com/mathrunet/flutter_masamune/commit/58f36892b2ee84c4fabe50380ddb1016b19a3837))
+
+#### `katana_model` - `v1.3.16`
+
+ - **FIX**: ModelFieldValue can now be registered externally. ([609c2d8e](https://github.com/mathrunet/flutter_masamune/commit/609c2d8e48e77a13ff81915d9c2fcce01cc19712))
+
+
 ## 2022-12-18
 
 ### Changes

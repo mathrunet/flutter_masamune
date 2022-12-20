@@ -1,3 +1,7 @@
+## 1.3.16
+
+ - **FIX**: ModelFieldValue can now be registered externally. ([609c2d8e](https://github.com/mathrunet/flutter_masamune/commit/609c2d8e48e77a13ff81915d9c2fcce01cc19712))
+
 ## 1.3.15
 
  - **FIX**: Fixed to put null in the value when there is no data. ([4d2da037](https://github.com/mathrunet/flutter_masamune/commit/4d2da03715fdc5368140b568adeea030557928dc))

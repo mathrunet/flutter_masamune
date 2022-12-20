@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Added new FormMedia. ([58f36892](https://github.com/mathrunet/flutter_masamune/commit/58f36892b2ee84c4fabe50380ddb1016b19a3837))
+
 ## 1.2.7
 
  - **FIX**: Fixed a bug when FormController is switched. ([032ff1c5](https://github.com/mathrunet/flutter_masamune/commit/032ff1c53f28eab83ada44870035b6ff57e13f47))
