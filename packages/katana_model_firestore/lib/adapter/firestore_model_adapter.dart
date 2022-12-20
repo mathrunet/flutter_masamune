@@ -215,10 +215,10 @@ class FirestoreModelAdapter extends ModelAdapter {
       final val = tmp.value;
       if (val is DynamicMap && val.containsKey(_kTypeKey)) {
         final type = val.get(_kTypeKey, "");
-        if (type == ModelCounter.typeString) {
+        if (type == (ModelCounter).toString()) {
           final targetKey = val.get(_kTargetKey, "");
           res[key] = ModelCounter(map.get(targetKey, 0)).toJson();
-        } else if (type == ModelTimestamp.typeString) {
+        } else if (type == (ModelTimestamp).toString()) {
           final targetKey = val.get(_kTargetKey, "");
           if (map.containsKey(targetKey)) {
             if (map[targetKey] is Timestamp) {
@@ -256,7 +256,7 @@ class FirestoreModelAdapter extends ModelAdapter {
       final val = tmp.value;
       if (val is DynamicMap && val.containsKey(_kTypeKey)) {
         final type = val.get(_kTypeKey, "");
-        if (type == ModelCounter.typeString) {
+        if (type == (ModelCounter).toString()) {
           final counter = ModelCounter.fromJson(val);
           final targetKey = "#$key";
           res[key] = {
@@ -264,7 +264,7 @@ class FirestoreModelAdapter extends ModelAdapter {
             _kTargetKey: targetKey,
           };
           res[targetKey] = FieldValue.increment(counter.incrementValue);
-        } else if (type == ModelTimestamp.typeString) {
+        } else if (type == (ModelTimestamp).toString()) {
           final timestamp = ModelTimestamp.fromJson(val);
           final targetKey = "#$key";
           res[key] = {
@@ -272,7 +272,7 @@ class FirestoreModelAdapter extends ModelAdapter {
             _kTargetKey: targetKey,
           };
           res[targetKey] = FieldValue.serverTimestamp();
-        } else if (type.startsWith(ModelRefBase.typeString)) {
+        } else if (type.startsWith((ModelRefBase).toString())) {
           final ref = ModelRefBase.fromJson(val);
           res[key] = database.doc(ref.modelQuery.path);
         } else {
