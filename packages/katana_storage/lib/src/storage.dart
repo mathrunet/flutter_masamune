@@ -14,13 +14,13 @@ class Storage extends ChangeNotifier {
   Future<void>? get deleting => _deleteCompleter?.future;
   Completer<void>? _deleteCompleter;
 
-  String get publicURI => storageQuery.adapter.fetchPublicURI(
-        storageQuery.path.trimQuery().trimString("/"),
+  Future<String> get publicURI => storageQuery.adapter.fetchPublicURI(
+        storageQuery.path.trimQuery().trimStringRight("/"),
       );
 
   Future<String> fetchDownloadURI() async {
     final path = await storageQuery.adapter.fetchDownloadURI(
-      storageQuery.path.trimQuery().trimString("/"),
+      storageQuery.path.trimQuery().trimStringRight("/"),
     );
     notifyListeners();
     return path;
@@ -34,8 +34,8 @@ class Storage extends ChangeNotifier {
     _downloadCompleter = Completer();
     try {
       await storageQuery.adapter.download(
-        storageQuery.path.trimQuery().trimString("/"),
-        cachePath.trimQuery().trimString("/"),
+        storageQuery.path.trimQuery().trimStringRight("/"),
+        cachePath.trimQuery().trimStringRight("/"),
       );
       notifyListeners();
       _downloadCompleter?.complete();
@@ -59,8 +59,8 @@ class Storage extends ChangeNotifier {
     _uploadCompleter = Completer();
     try {
       await storageQuery.adapter.upload(
-        filePath.trimQuery().trimString("/"),
-        storageQuery.path.trimQuery().trimString("/"),
+        filePath.trimQuery().trimStringRight("/"),
+        storageQuery.path.trimQuery().trimStringRight("/"),
       );
       notifyListeners();
       _uploadCompleter?.complete();
@@ -85,7 +85,7 @@ class Storage extends ChangeNotifier {
     try {
       await storageQuery.adapter.uploadWithBytes(
         fileBytes,
-        storageQuery.path.trimQuery().trimString("/"),
+        storageQuery.path.trimQuery().trimStringRight("/"),
       );
       notifyListeners();
       _uploadCompleter?.complete();
@@ -109,7 +109,7 @@ class Storage extends ChangeNotifier {
     _deleteCompleter = Completer();
     try {
       await storageQuery.adapter.delete(
-        storageQuery.path.trimQuery().trimString("/"),
+        storageQuery.path.trimQuery().trimStringRight("/"),
       );
       notifyListeners();
       _deleteCompleter?.complete();

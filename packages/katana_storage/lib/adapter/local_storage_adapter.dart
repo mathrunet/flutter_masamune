@@ -3,61 +3,66 @@ part of katana_storage;
 class LocalStorageAdapter extends StorageAdapter {
   const LocalStorageAdapter();
 
-  /// Designated storage.
+  /// Designated remote storage.
   ///
-  /// 指定のストレージ。
-  FileStorage get storage => sharedStorage;
+  /// 指定のリモートストレージ。
+  FileStorage get remoteStorage => sharedRemoteStorage;
 
-  /// Common storage throughout the app.
+  /// Common remote storage throughout the app.
   ///
-  /// アプリ内全体での共通のストレージ。
-  static final FileStorage sharedStorage = FileStorage();
+  /// アプリ内全体での共通のリモートストレージ。
+  static final FileStorage sharedRemoteStorage = FileStorage();
+
+  /// Local Storage.
+  ///
+  /// ローカルストレージ。
+  static final FileStorage localStorage = sharedRemoteStorage;
 
   @override
   Future<void> delete(String path) async {
-    await storage.delete("${FileStorage.documentDirectory}/$path");
+    await remoteStorage.delete("${await FileStorage.documentDirectory}/$path");
   }
 
   @override
   Future<void> download(String fromPath, String toPath) async {
-    final from = "${FileStorage.documentDirectory}/$fromPath";
+    final from = "${await FileStorage.documentDirectory}/$fromPath";
     final to = toPath;
-    if (!storage.exists(from)) {
+    if (!remoteStorage.exists(from)) {
       throw Exception("File could not be found: $from");
     }
-    if (storage.exists(to)) {
-      await storage.delete(to);
+    if (localStorage.exists(to)) {
+      await localStorage.delete(to);
     }
-    await storage.write(to, await storage.read(from));
+    await localStorage.write(to, await remoteStorage.read(from));
   }
 
   @override
   Future<String> fetchDownloadURI(String path) async => fetchPublicURI(path);
 
   @override
-  String fetchPublicURI(String path) {
-    return "${FileStorage.documentDirectory}/$path";
+  Future<String> fetchPublicURI(String path) async {
+    return "${await FileStorage.documentDirectory}/$path";
   }
 
   @override
   Future<void> upload(String fromPath, String toPath) async {
     final from = fromPath;
-    final to = "${FileStorage.documentDirectory}/$toPath";
-    if (!storage.exists(from)) {
+    final to = "${await FileStorage.documentDirectory}/$toPath";
+    if (!localStorage.exists(from)) {
       throw Exception("File could not be found: $from");
     }
-    if (storage.exists(to)) {
-      await storage.delete(to);
+    if (remoteStorage.exists(to)) {
+      await remoteStorage.delete(to);
     }
-    await storage.write(to, await storage.read(from));
+    await remoteStorage.write(to, await localStorage.read(from));
   }
 
   @override
   Future<void> uploadWithBytes(Uint8List bytes, String toPath) async {
-    final to = "${FileStorage.documentDirectory}/$toPath";
-    if (storage.exists(to)) {
-      await storage.delete(to);
+    final to = "${await FileStorage.documentDirectory}/$toPath";
+    if (remoteStorage.exists(to)) {
+      await remoteStorage.delete(to);
     }
-    await storage.write(to, bytes);
+    await remoteStorage.write(to, bytes);
   }
 }

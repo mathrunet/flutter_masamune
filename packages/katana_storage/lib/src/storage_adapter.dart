@@ -14,7 +14,7 @@ abstract class StorageAdapter {
 
   static StorageAdapter? _primary;
 
-  String fetchPublicURI(String path);
+  Future<String> fetchPublicURI(String path);
 
   Future<String> fetchDownloadURI(String path);
 
