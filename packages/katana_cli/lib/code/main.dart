@@ -143,7 +143,7 @@ void main() {
       theme: theme,
       routerConfig: router,
       localize: l,
-      auth: authAdapter,
+      authAdapter: authAdapter,
       modelAdapter: modelAdapter,
     ),
   );
