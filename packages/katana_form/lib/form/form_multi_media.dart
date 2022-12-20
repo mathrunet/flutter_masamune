@@ -537,12 +537,14 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
                 margin: const EdgeInsets.only(right: 8),
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color:
                           widget.style?.color ?? Theme.of(context).dividerColor,
                       width: widget.style?.borderWidth ?? 2,
                     ),
-                  ),
+                    borderRadius: BorderRadius.circular(4.0),
+                  )),
                   child: Icon(
                     addIcon,
                     color:
