@@ -6,7 +6,7 @@ part 'model_field_value_test.freezed.dart';
 part 'model_field_value_test.g.dart';
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
-  RuntimeMapDocumentModel(super.query, super.value);
+  RuntimeMapDocumentModel(super.query);
 
   @override
   DynamicMap fromMap(DynamicMap map) => ModelFieldValue.fromMap(map);
@@ -20,7 +20,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 
   @override
   RuntimeMapDocumentModel create([String? id]) {
-    return RuntimeMapDocumentModel(modelQuery.create(id), {});
+    return RuntimeMapDocumentModel(modelQuery.create(id));
   }
 }
 
@@ -36,7 +36,7 @@ class TestValue with _$TestValue {
 }
 
 class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
-  RuntimeMTestValueDocumentModel(super.query, super.value);
+  RuntimeMTestValueDocumentModel(super.query);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -51,10 +51,7 @@ class RuntimeTestValueCollectionModel
 
   @override
   RuntimeMTestValueDocumentModel create([String? id]) {
-    return RuntimeMTestValueDocumentModel(
-      modelQuery.create(id),
-      const TestValue(),
-    );
+    return RuntimeMTestValueDocumentModel(modelQuery.create(id));
   }
 }
 
@@ -62,8 +59,8 @@ void main() {
   test("runtimeDocumentModel.modelFieldValue", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
-    final model = RuntimeMapDocumentModel(query, {});
-    final model2 = RuntimeMapDocumentModel(query, {});
+    final model = RuntimeMapDocumentModel(query);
+    final model2 = RuntimeMapDocumentModel(query);
     await model.save({
       "counter": const ModelCounter(0),
       "time": ModelTimestamp(DateTime(2022, 1, 1))
@@ -102,8 +99,8 @@ void main() {
   test("runtimeDocumentModel.modelFieldValue.Freezed", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
-    final model = RuntimeMTestValueDocumentModel(query, const TestValue());
-    final model2 = RuntimeMTestValueDocumentModel(query, const TestValue());
+    final model = RuntimeMTestValueDocumentModel(query);
+    final model2 = RuntimeMTestValueDocumentModel(query);
     await model.save(
       TestValue(
         counter: const ModelCounter(0),
@@ -126,7 +123,7 @@ void main() {
       ),
     );
     await model.save(
-      model.value?.copyWith(
+      TestValue(
         counter: model.value?.counter.increment(1) ?? const ModelCounter(0),
         time: ModelTimestamp(
           DateTime(2022, 1, 2),

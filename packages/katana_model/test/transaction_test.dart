@@ -6,7 +6,7 @@ part 'transaction_test.freezed.dart';
 part 'transaction_test.g.dart';
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
-  RuntimeMapDocumentModel(super.query, super.value);
+  RuntimeMapDocumentModel(super.query);
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -20,7 +20,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 
   @override
   RuntimeMapDocumentModel create([String? id]) {
-    return RuntimeMapDocumentModel(modelQuery.create(id), {});
+    return RuntimeMapDocumentModel(modelQuery.create(id));
   }
 }
 
@@ -91,7 +91,7 @@ class TestValue with _$TestValue {
 }
 
 class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
-  RuntimeMTestValueDocumentModel(super.query, super.value);
+  RuntimeMTestValueDocumentModel(super.query);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -106,10 +106,7 @@ class RuntimeTestValueCollectionModel
 
   @override
   RuntimeMTestValueDocumentModel create([String? id]) {
-    return RuntimeMTestValueDocumentModel(
-      modelQuery.create(id),
-      const TestValue(),
-    );
+    return RuntimeMTestValueDocumentModel(modelQuery.create(id));
   }
 }
 
@@ -198,9 +195,9 @@ void main() {
       },
     );
     final query = DocumentModelQuery("test/doc", adapter: adapter);
-    final model = RuntimeMapDocumentModel(query, {});
+    final model = RuntimeMapDocumentModel(query);
     final query2 = DocumentModelQuery("test/doc2", adapter: adapter);
-    final model2 = RuntimeMapDocumentModel(query2, {});
+    final model2 = RuntimeMapDocumentModel(query2);
     final builder = model.transaction();
     await builder.call((ref, doc) async {
       final docData = await doc.load();
@@ -224,8 +221,8 @@ void main() {
       doc.delete();
       doc2.delete();
     });
-    expect(model.value, {});
-    expect(model2.value, {});
+    expect(model.value, null);
+    expect(model2.value, null);
   });
 
   test("runtimeDocumentModel.modelRef", () async {
@@ -271,9 +268,9 @@ void main() {
       },
     );
     final query = DocumentModelQuery("test/doc", adapter: adapter);
-    final model = RuntimeMTestValueDocumentModel(query, const TestValue());
+    final model = RuntimeMTestValueDocumentModel(query);
     final query2 = DocumentModelQuery("test/doc2", adapter: adapter);
-    final model2 = RuntimeMTestValueDocumentModel(query2, const TestValue());
+    final model2 = RuntimeMTestValueDocumentModel(query2);
     final builder = model.transaction();
     await builder.call((ref, doc) async {
       final docData = await doc.load();
@@ -281,8 +278,8 @@ void main() {
       final doc2 = ref.read(model2);
       await doc2.load();
       expect(doc2.value, const TestValue(name: "test2", text: "testtest2"));
-      doc.save(docData?.copyWith(name: "aaa", text: "bbb"));
-      doc2.save(doc2.value?.copyWith(name: "ccc", text: "ddd"));
+      doc.save(const TestValue(name: "aaa", text: "bbb"));
+      doc2.save(const TestValue(name: "ccc", text: "ddd"));
     });
     expect(model.value, const TestValue(name: "aaa", text: "bbb"));
     expect(model2.value, const TestValue(name: "ccc", text: "ddd"));
@@ -292,13 +289,13 @@ void main() {
       final doc2 = ref.read(model2);
       await doc2.load();
       expect(doc2.value, const TestValue(name: "ccc", text: "ddd"));
-      doc.save(docData?.copyWith(name: "aaa", text: "bbb"));
-      doc2.save(doc2.value?.copyWith(name: "ccc", text: "ddd"));
+      doc.save(const TestValue(name: "aaa", text: "bbb"));
+      doc2.save(const TestValue(name: "ccc", text: "ddd"));
       doc.delete();
       doc2.delete();
     });
-    expect(model.value, const TestValue());
-    expect(model2.value, const TestValue());
+    expect(model.value, null);
+    expect(model2.value, null);
   });
 
   test("runtimeDocumentModel.modelRef.Freezed", () async {

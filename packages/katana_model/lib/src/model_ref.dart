@@ -74,11 +74,6 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
     return ModelRefBase.fromPath(json.get(ModelRefBase._kRefKey, ""));
   }
 
-  /// A string of type [ModelRefBase].
-  ///
-  /// [ModelRefBase]のタイプの文字列。
-  static const typeString = "ModelRef";
-
   static const _kRefKey = "@ref";
 
   /// [DocumentModelQuery] of the associated document.
@@ -107,6 +102,27 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   @override
   String toString() {
     return modelQuery.path;
+  }
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelRefBase] as [ModelFieldValue].
+///
+/// [ModelRefBase]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelRefConverter extends ModelFieldValueConverter<ModelRefBase> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelRefBase] as [ModelFieldValue].
+  ///
+  /// [ModelRefBase]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelRefConverter();
+
+  @override
+  ModelRefBase fromJson(Map<String, Object?> map) {
+    return ModelRefBase.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelRefBase value) {
+    return value.toJson();
   }
 }
 

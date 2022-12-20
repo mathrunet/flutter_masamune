@@ -7,7 +7,7 @@ part 'runtime_model_test.freezed.dart';
 part 'runtime_model_test.g.dart';
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
-  RuntimeMapDocumentModel(super.query, [super.value]);
+  RuntimeMapDocumentModel(super.query);
 
   @override
   DynamicMap fromMap(DynamicMap map) => map;
@@ -21,7 +21,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 
   @override
   RuntimeMapDocumentModel create([String? id]) {
-    return RuntimeMapDocumentModel(modelQuery.create(id), {});
+    return RuntimeMapDocumentModel(modelQuery.create(id));
   }
 }
 
@@ -38,7 +38,7 @@ class TestValue with _$TestValue {
 }
 
 class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
-  RuntimeMTestValueDocumentModel(super.query, super.value);
+  RuntimeMTestValueDocumentModel(super.query);
 
   @override
   TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
@@ -53,10 +53,7 @@ class RuntimeTestValueCollectionModel
 
   @override
   RuntimeMTestValueDocumentModel create([String? id]) {
-    return RuntimeMTestValueDocumentModel(
-      modelQuery.create(id),
-      const TestValue(),
-    );
+    return RuntimeMTestValueDocumentModel(modelQuery.create(id));
   }
 }
 
@@ -64,14 +61,14 @@ void main() {
   test("runtimeDocumentModel.saveAndLoadAndDelete", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
-    final model = RuntimeMapDocumentModel(query, {});
+    final model = RuntimeMapDocumentModel(query);
     await model.load();
-    expect(model.value, {});
+    expect(model.value, null);
     model.save({"name": "aaaa", "text": "bbbb"});
     await model.saving;
     expect(model.value, {"name": "aaaa", "text": "bbbb"});
-    final remodel = RuntimeMapDocumentModel(query, {});
-    expect(remodel.value, {});
+    final remodel = RuntimeMapDocumentModel(query);
+    expect(remodel.value, null);
     expect(await remodel.load(), {"name": "aaaa", "text": "bbbb"});
     expect(remodel.value, {"name": "aaaa", "text": "bbbb"});
     remodel.save({"name": "cccc", "text": "dddd"});
@@ -80,8 +77,8 @@ void main() {
     await model.loading;
     expect(model.value, {"name": "cccc", "text": "dddd"});
     await model.delete();
-    expect(model.value, {});
-    expect(remodel.value, {});
+    expect(model.value, null);
+    expect(remodel.value, null);
     model.save({"name": "aaaa", "text": "bbbb"});
     await model.saving;
     expect(remodel.value, {"name": "aaaa", "text": "bbbb"});
@@ -94,20 +91,20 @@ void main() {
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
-    final model1 = RuntimeMapDocumentModel(query1, {});
+    final model1 = RuntimeMapDocumentModel(query1);
     await model1.save({"name": "aaaa", "text": "bbbb"});
     expect(collection.map((e) => e.value), [
       {"name": "aaaa", "text": "bbbb"}
     ]);
     final query2 = DocumentModelQuery("test/bbb", adapter: adapter);
-    final model2 = RuntimeMapDocumentModel(query2, {});
+    final model2 = RuntimeMapDocumentModel(query2);
     await model2.save({"name": "ccc", "text": "ddd"});
     expect(collection.map((e) => e.value), [
       {"name": "aaaa", "text": "bbbb"},
       {"name": "ccc", "text": "ddd"}
     ]);
     final query3 = DocumentModelQuery("test/ccc", adapter: adapter);
-    final model3 = RuntimeMapDocumentModel(query3, {});
+    final model3 = RuntimeMapDocumentModel(query3);
     await model3.save({"name": "eee", "text": "fff"});
     expect(collection.map((e) => e.value), [
       {"name": "aaaa", "text": "bbbb"},
@@ -115,7 +112,7 @@ void main() {
       {"name": "eee", "text": "fff"}
     ]);
     final query4 = DocumentModelQuery("test/ddd", adapter: adapter);
-    final model4 = RuntimeMapDocumentModel(query4, {});
+    final model4 = RuntimeMapDocumentModel(query4);
     await model4.save({"name": "ggg", "text": "hhh"});
     expect(collection.map((e) => e.value), [
       {"name": "aaaa", "text": "bbbb"},
@@ -124,7 +121,7 @@ void main() {
       {"name": "ggg", "text": "hhh"}
     ]);
     final query5 = DocumentModelQuery("test/eee", adapter: adapter);
-    final model5 = RuntimeMapDocumentModel(query5, {});
+    final model5 = RuntimeMapDocumentModel(query5);
     await model5.save({"name": "iii", "text": "jjj"});
     expect(collection.map((e) => e.value), [
       {"name": "aaaa", "text": "bbbb"},
@@ -134,7 +131,7 @@ void main() {
       {"name": "iii", "text": "jjj"}
     ]);
     final query6 = DocumentModelQuery("test/fff", adapter: adapter);
-    final model6 = RuntimeMapDocumentModel(query6, {});
+    final model6 = RuntimeMapDocumentModel(query6);
     await model6.save({"name": "kkk", "text": "lll"});
     expect(collection.map((e) => e.value), [
       {"name": "aaaa", "text": "bbbb"},
@@ -176,7 +173,7 @@ void main() {
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
-    final model1 = RuntimeMapDocumentModel(query1, {});
+    final model1 = RuntimeMapDocumentModel(query1);
     await model1.save({
       "name": "aaaa",
       "text": "bbbb",
@@ -184,7 +181,7 @@ void main() {
     });
     expect(collection.map((e) => e.value), []);
     final query2 = DocumentModelQuery("test/bbb", adapter: adapter);
-    final model2 = RuntimeMapDocumentModel(query2, {});
+    final model2 = RuntimeMapDocumentModel(query2);
     await model2.save({
       "name": "aaaa",
       "text": "bbbb",
@@ -198,7 +195,7 @@ void main() {
       }
     ]);
     final query3 = DocumentModelQuery("test/ccc", adapter: adapter);
-    final model3 = RuntimeMapDocumentModel(query3, {});
+    final model3 = RuntimeMapDocumentModel(query3);
     await model3.save({
       "name": "eee",
       "text": "fff",
@@ -217,7 +214,7 @@ void main() {
       }
     ]);
     final query4 = DocumentModelQuery("test/ddd", adapter: adapter);
-    final model4 = RuntimeMapDocumentModel(query4, {});
+    final model4 = RuntimeMapDocumentModel(query4);
     await model4.save({"name": "ggg", "text": "hhh"});
     expect(collection.map((e) => e.value), [
       {
@@ -232,7 +229,7 @@ void main() {
       }
     ]);
     final query5 = DocumentModelQuery("test/eee", adapter: adapter);
-    final model5 = RuntimeMapDocumentModel(query5, {});
+    final model5 = RuntimeMapDocumentModel(query5);
     await model5.save({
       "name": "iii",
       "text": "jjj",
@@ -256,7 +253,7 @@ void main() {
       }
     ]);
     final query6 = DocumentModelQuery("test/fff", adapter: adapter);
-    final model6 = RuntimeMapDocumentModel(query6, {});
+    final model6 = RuntimeMapDocumentModel(query6);
     await model6.save({"name": "kkk", "text": "lll"});
     expect(collection.map((e) => e.value), [
       {
@@ -324,25 +321,25 @@ void main() {
   test("runtimeDocumentModel.saveAndLoadAndDelete.Freezed", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
-    final model = RuntimeMTestValueDocumentModel(query, const TestValue());
+    final model = RuntimeMTestValueDocumentModel(query);
     await model.load();
-    expect(model.value, const TestValue());
-    model.save(model.value?.copyWith(name: "aaaa", text: "bbbb"));
+    expect(model.value, null);
+    model.save(const TestValue(name: "aaaa", text: "bbbb"));
     await model.saving;
     expect(model.value, const TestValue(name: "aaaa", text: "bbbb"));
-    final remodel = RuntimeMTestValueDocumentModel(query, const TestValue());
-    expect(remodel.value, const TestValue());
+    final remodel = RuntimeMTestValueDocumentModel(query);
+    expect(remodel.value, null);
     expect(await remodel.load(), const TestValue(name: "aaaa", text: "bbbb"));
     expect(remodel.value, const TestValue(name: "aaaa", text: "bbbb"));
-    remodel.save(model.value?.copyWith(name: "cccc", text: "dddd"));
+    remodel.save(const TestValue(name: "cccc", text: "dddd"));
     await remodel.saving;
     expect(remodel.value, const TestValue(name: "cccc", text: "dddd"));
     await model.loading;
     expect(model.value, const TestValue(name: "cccc", text: "dddd"));
     await model.delete();
-    expect(model.value, const TestValue());
-    expect(remodel.value, const TestValue());
-    model.save(model.value?.copyWith(name: "aaaa", text: "bbbb"));
+    expect(model.value, null);
+    expect(remodel.value, null);
+    model.save(const TestValue(name: "aaaa", text: "bbbb"));
     await model.saving;
     expect(remodel.value, const TestValue(name: "aaaa", text: "bbbb"));
   });
@@ -354,29 +351,29 @@ void main() {
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
-    final model1 = RuntimeMTestValueDocumentModel(query1, const TestValue());
-    await model1.save(model1.value?.copyWith(name: "aaaa", text: "bbbb"));
+    final model1 = RuntimeMTestValueDocumentModel(query1);
+    await model1.save(const TestValue(name: "aaaa", text: "bbbb"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
     ]);
     final query2 = DocumentModelQuery("test/bbb", adapter: adapter);
-    final model2 = RuntimeMTestValueDocumentModel(query2, const TestValue());
-    await model2.save(model2.value?.copyWith(name: "ccc", text: "ddd"));
+    final model2 = RuntimeMTestValueDocumentModel(query2);
+    await model2.save(const TestValue(name: "ccc", text: "ddd"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
       const TestValue(name: "ccc", text: "ddd"),
     ]);
     final query3 = DocumentModelQuery("test/ccc", adapter: adapter);
-    final model3 = RuntimeMTestValueDocumentModel(query3, const TestValue());
-    await model3.save(model3.value?.copyWith(name: "eee", text: "fff"));
+    final model3 = RuntimeMTestValueDocumentModel(query3);
+    await model3.save(const TestValue(name: "eee", text: "fff"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
       const TestValue(name: "ccc", text: "ddd"),
       const TestValue(name: "eee", text: "fff"),
     ]);
     final query4 = DocumentModelQuery("test/ddd", adapter: adapter);
-    final model4 = RuntimeMTestValueDocumentModel(query4, const TestValue());
-    await model4.save(model4.value?.copyWith(name: "ggg", text: "hhh"));
+    final model4 = RuntimeMTestValueDocumentModel(query4);
+    await model4.save(const TestValue(name: "ggg", text: "hhh"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
       const TestValue(name: "ccc", text: "ddd"),
@@ -384,8 +381,8 @@ void main() {
       const TestValue(name: "ggg", text: "hhh"),
     ]);
     final query5 = DocumentModelQuery("test/eee", adapter: adapter);
-    final model5 = RuntimeMTestValueDocumentModel(query5, const TestValue());
-    await model5.save(model5.value?.copyWith(name: "iii", text: "jjj"));
+    final model5 = RuntimeMTestValueDocumentModel(query5);
+    await model5.save(const TestValue(name: "iii", text: "jjj"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
       const TestValue(name: "ccc", text: "ddd"),
@@ -394,8 +391,8 @@ void main() {
       const TestValue(name: "iii", text: "jjj"),
     ]);
     final query6 = DocumentModelQuery("test/fff", adapter: adapter);
-    final model6 = RuntimeMTestValueDocumentModel(query6, const TestValue());
-    await model6.save(model6.value?.copyWith(name: "kkk", text: "lll"));
+    final model6 = RuntimeMTestValueDocumentModel(query6);
+    await model6.save(const TestValue(name: "kkk", text: "lll"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
       const TestValue(name: "ccc", text: "ddd"),
@@ -404,7 +401,7 @@ void main() {
       const TestValue(name: "iii", text: "jjj"),
       const TestValue(name: "kkk", text: "lll"),
     ]);
-    await model4.save(model4.value?.copyWith(name: "123", text: "456"));
+    await model4.save(const TestValue(name: "123", text: "456"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
       const TestValue(name: "ccc", text: "ddd"),
@@ -413,7 +410,7 @@ void main() {
       const TestValue(name: "iii", text: "jjj"),
       const TestValue(name: "kkk", text: "lll"),
     ]);
-    await model2.save(model2.value?.copyWith(name: "789", text: "10"));
+    await model2.save(const TestValue(name: "789", text: "10"));
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb"),
       const TestValue(name: "789", text: "10"),
@@ -436,13 +433,13 @@ void main() {
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
-    final model1 = RuntimeMTestValueDocumentModel(query1, const TestValue());
+    final model1 = RuntimeMTestValueDocumentModel(query1);
     await model1.save(
       model1.value?.copyWith(name: "aaaa", text: "bbbb", ids: [1, 2, 3]),
     );
     expect(collection.map((e) => e.value), []);
     final query2 = DocumentModelQuery("test/bbb", adapter: adapter);
-    final model2 = RuntimeMTestValueDocumentModel(query2, const TestValue());
+    final model2 = RuntimeMTestValueDocumentModel(query2);
     await model2.save(
       model2.value?.copyWith(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
     );
@@ -450,7 +447,7 @@ void main() {
       const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
     ]);
     final query3 = DocumentModelQuery("test/ccc", adapter: adapter);
-    final model3 = RuntimeMTestValueDocumentModel(query3, const TestValue());
+    final model3 = RuntimeMTestValueDocumentModel(query3);
     await model3.save(
       model3.value?.copyWith(name: "eee", text: "fff", ids: [5, 6, 10]),
     );
@@ -459,7 +456,7 @@ void main() {
       const TestValue(name: "eee", text: "fff", ids: [5, 6, 10]),
     ]);
     final query4 = DocumentModelQuery("test/ddd", adapter: adapter);
-    final model4 = RuntimeMTestValueDocumentModel(query4, const TestValue());
+    final model4 = RuntimeMTestValueDocumentModel(query4);
     await model4.save(
       model4.value?.copyWith(name: "ggg", text: "hhh"),
     );
@@ -468,7 +465,7 @@ void main() {
       const TestValue(name: "eee", text: "fff", ids: [5, 6, 10]),
     ]);
     final query5 = DocumentModelQuery("test/eee", adapter: adapter);
-    final model5 = RuntimeMTestValueDocumentModel(query5, const TestValue());
+    final model5 = RuntimeMTestValueDocumentModel(query5);
     await model5.save(
       model5.value?.copyWith(name: "iii", text: "jjj", ids: [9, 10, 11]),
     );
@@ -478,7 +475,7 @@ void main() {
       const TestValue(name: "iii", text: "jjj", ids: [9, 10, 11]),
     ]);
     final query6 = DocumentModelQuery("test/fff", adapter: adapter);
-    final model6 = RuntimeMTestValueDocumentModel(query6, const TestValue());
+    final model6 = RuntimeMTestValueDocumentModel(query6);
     await model6.save(
       model6.value?.copyWith(name: "kkk", text: "lll"),
     );

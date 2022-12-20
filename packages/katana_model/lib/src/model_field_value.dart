@@ -1,5 +1,43 @@
 part of katana_model;
 
+/// Use this when registering special classes in [ModelFieldValue].
+///
+/// Create a new class that inherits from this abstract class and register it with [ModelFieldValue.registerConverter] when the application starts.
+///
+/// [ModelFieldValue]に特殊なクラスを登録する場合に利用します。
+///
+/// この抽象クラスを継承して新しいクラスを作り、アプリ起動時に[ModelFieldValue.registerConverter]に登録を行ってください。
+abstract class ModelFieldValueConverter<T extends ModelFieldValue> {
+  /// Use this when registering special classes in [ModelFieldValue].
+  ///
+  /// Create a new class that inherits from this abstract class and register it with [ModelFieldValue.registerConverter] when the application starts.
+  ///
+  /// [ModelFieldValue]に特殊なクラスを登録する場合に利用します。
+  ///
+  /// この抽象クラスを継承して新しいクラスを作り、アプリ起動時に[ModelFieldValue.registerConverter]に登録を行ってください。
+  const ModelFieldValueConverter();
+
+  /// Type of class being handled.
+  ///
+  /// 扱うクラスのタイプ。
+  Type get type => T;
+
+  /// Returns `true` if the given [value] type matches [type].
+  ///
+  /// 与えられた[value]のタイプが[type]と一致する場合は`true`を返します。
+  bool check(Object? value) => value is T;
+
+  /// Converts [map] decoded from Json to [T].
+  ///
+  /// Jsonからデコードされた[map]を[T]に変換します。
+  T fromJson(Map<String, Object?> map);
+
+  /// Convert [T] values to [Map] that can be encoded in Json.
+  ///
+  /// [T]の値をJsonでエンコードできる[Map]に変換します。
+  Map<String, Object?> toJson(T value);
+}
+
 /// Class for defining special field values.
 ///
 /// The [value] of type [T] is the actual value.
@@ -21,7 +59,28 @@ abstract class ModelFieldValue<T> {
   /// [ModelFieldValue.fromMap]でサーバーから読み取られたデータを変換する処理を実行し、[ModelFieldValue.toMap]でサーバーへ保存するデータを変換する処理を実行します。
   const ModelFieldValue();
 
+  /// A special class can be registered as a [ModelFieldValue] by passing [ModelFieldValueConverter] to [converter].
+  ///
+  /// [ModelFieldValueConverter]を[converter]に渡すことで特殊なクラスを[ModelFieldValue]として登録することができます。
+  static void registerConverter(ModelFieldValueConverter converter) {
+    _converters.add(converter);
+  }
+
+  /// By passing [ModelFieldValueConverter] to [converter], you can release an already registered [ModelFieldValueConverter].
+  ///
+  /// [converter]に[ModelFieldValueConverter]を渡すことですでに登録されている[ModelFieldValueConverter]を解除することができます。
+  static void unregisterConverter(ModelFieldValueConverter converter) {
+    _converters.remove(converter);
+  }
+
+  static final Set<ModelFieldValueConverter> _converters = {
+    const ModelCounterConverter(),
+    const ModelTimestampConverter(),
+    const ModelRefConverter(),
+  };
+
   /// Actual value.
+  ///
   /// 実際の値。
   T get value;
 
@@ -50,16 +109,14 @@ abstract class ModelFieldValue<T> {
     for (final tmp in value.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      if (val is ModelCounter || val is ModelTimestamp || val is ModelRef) {
+      if (_converters.any((e) => e.check(val))) {
         res[key] = val;
       } else if (val is DynamicMap && val.containsKey(kTypeFieldKey)) {
         final type = val.get(kTypeFieldKey, "");
-        if (type == ModelCounter.typeString) {
-          res[key] = ModelCounter.fromJson(val);
-        } else if (type == ModelTimestamp.typeString) {
-          res[key] = ModelTimestamp.fromJson(val);
-        } else if (type.startsWith(ModelRefBase.typeString)) {
-          res[key] = ModelRefBase.fromJson(val);
+        final conveter =
+            _converters.firstWhereOrNull((e) => e.type.toString() == type);
+        if (conveter != null) {
+          res[key] = conveter.fromJson(val);
         } else {
           res[key] = val;
         }
@@ -90,19 +147,12 @@ abstract class ModelFieldValue<T> {
     for (final tmp in value.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      switch (val.runtimeType) {
-        case ModelCounter:
-          res[key] = val.toJson();
-          break;
-        case ModelTimestamp:
-          res[key] = val.toJson();
-          break;
-        case ModelRefBase:
-          res[key] = val.toJson();
-          break;
-        default:
-          res[key] = val;
-          break;
+      final conveter =
+          _converters.firstWhereOrNull((e) => e.type == val.runtimeType);
+      if (conveter != null) {
+        res[key] = conveter.toJson(val);
+      } else {
+        res[key] = val;
       }
     }
     return Map.unmodifiable(res);
@@ -342,11 +392,6 @@ class ModelCounter extends ModelFieldValue<int> {
       : _value = value,
         _increment = increment;
 
-  /// A string of type [ModelCounter].
-  ///
-  /// [ModelCounter]のタイプの文字列。
-  static const typeString = "ModelCounter";
-
   static const _kValueKey = "@value";
   static const _kIncrementKey = "@increment";
 
@@ -393,6 +438,27 @@ class _ModelCounter extends ModelCounter with ModelFieldValueAsMapMixin<int> {
   const _ModelCounter(int value) : super._(value, 0);
 }
 
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelCounter] as [ModelFieldValue].
+///
+/// [ModelCounter]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelCounterConverter extends ModelFieldValueConverter<ModelCounter> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelCounter] as [ModelFieldValue].
+  ///
+  /// [ModelCounter]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelCounterConverter();
+
+  @override
+  ModelCounter fromJson(Map<String, Object?> map) {
+    return ModelCounter.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelCounter value) {
+    return value.toJson();
+  }
+}
+
 /// Define the field as a timestamp.
 ///
 /// The base value is given as [value]. If not given, the current time is set.
@@ -432,11 +498,6 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 
   const ModelTimestamp._([DateTime? value]) : _value = value;
 
-  /// A string of type [ModelTimestamp].
-  ///
-  /// [ModelTimestamp]のタイプの文字列。
-  static const typeString = "ModelTimestamp";
-
   static const _kTimeKey = "@time";
 
   @override
@@ -465,4 +526,25 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 class _ModelTimestamp extends ModelTimestamp
     with ModelFieldValueAsMapMixin<DateTime> {
   const _ModelTimestamp([DateTime? value]) : super._(value);
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelTimestamp] as [ModelFieldValue].
+///
+/// [ModelTimestamp]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelTimestampConverter extends ModelFieldValueConverter<ModelTimestamp> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelTimestamp] as [ModelFieldValue].
+  ///
+  /// [ModelTimestamp]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelTimestampConverter();
+
+  @override
+  ModelTimestamp fromJson(Map<String, Object?> map) {
+    return ModelTimestamp.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelTimestamp value) {
+    return value.toJson();
+  }
 }
