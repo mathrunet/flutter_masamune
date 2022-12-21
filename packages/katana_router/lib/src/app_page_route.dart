@@ -42,7 +42,7 @@ abstract class AppPageRoute<T> extends Page<T> {
     required String? path,
     TransitionQuery? transitionQuery,
   }) {
-    if (transitionQuery?.transition.modal ?? false) {
+    if (transitionQuery?.transition.isModal ?? false) {
       return _ModalPageRoute(
         key: key ?? ValueKey(uuid),
         builder: builder,
@@ -86,19 +86,6 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   final bool maintainState;
   final TransitionQuery? transitionQuery;
 
-  static final Animatable<Offset> _slideUpTween = Tween<Offset>(
-    begin: const Offset(0.0, 0.25),
-    end: Offset.zero,
-  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
-  static final Animatable<double> _scaleTween = Tween<double>(
-    begin: 0.25,
-    end: 1.0,
-  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
-  static final Animatable<double> _fadeTween = Tween<double>(
-    begin: 0,
-    end: 1,
-  ).chain(CurveTween(curve: Curves.easeIn));
-
   @override
   Route<T> createRoute(BuildContext context) {
     return PageRouteBuilder(
@@ -109,46 +96,16 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       barrierColor: barrierColor,
       barrierLabel: barrierLabel,
       maintainState: maintainState,
-      fullscreenDialog: true,
+      fullscreenDialog: transitionQuery?.transition.isFullscreen ?? true,
       pageBuilder: (context, animation, secondaryAnimation) {
-        switch (transitionQuery?.transition) {
-          case _TransitionQueryType.bottomModal:
-            return FadeTransition(
-              opacity: _fadeTween.animate(animation),
-              child: SlideTransition(
-                position: _slideUpTween.animate(animation),
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: WillPopScope(
-                    onWillPop: () async {
-                      return isAndroidBackEnable;
-                    },
-                    child: Center(
-                      child: builder(context),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          default:
-            return FadeTransition(
-              opacity: _fadeTween.animate(animation),
-              child: ScaleTransition(
-                scale: _scaleTween.animate(animation),
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: WillPopScope(
-                    onWillPop: () async {
-                      return isAndroidBackEnable;
-                    },
-                    child: Center(
-                      child: builder(context),
-                    ),
-                  ),
-                ),
-              ),
-            );
-        }
+        return transitionQuery?.transition.build(
+              context,
+              animation,
+              secondaryAnimation,
+              builder: builder,
+              isAndroidBackEnable: isAndroidBackEnable,
+            ) ??
+            builder(context);
       },
     );
   }
@@ -166,27 +123,6 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
   final WidgetBuilder builder;
   final TransitionQuery? transitionQuery;
 
-  static final Animatable<Offset> _slideUpTween = Tween<Offset>(
-    begin: const Offset(0.0, 0.25),
-    end: Offset.zero,
-  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
-  static final Animatable<Offset> _slideDownTween = Tween<Offset>(
-    begin: const Offset(0.0, -0.25),
-    end: Offset.zero,
-  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
-  static final Animatable<Offset> _slideLeftTween = Tween<Offset>(
-    begin: const Offset(0.25, 0.0),
-    end: Offset.zero,
-  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
-  static final Animatable<Offset> _slideRightTween = Tween<Offset>(
-    begin: const Offset(-0.25, 0.0),
-    end: Offset.zero,
-  ).chain(CurveTween(curve: Curves.fastOutSlowIn));
-  static final Animatable<double> _fadeTween = Tween<double>(
-    begin: 0,
-    end: 1,
-  ).chain(CurveTween(curve: Curves.easeIn));
-
   @override
   Route<T> createRoute(BuildContext context) {
     return PageRouteBuilder(
@@ -196,101 +132,16 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       },
       transitionDuration: kTransitionDuration,
       reverseTransitionDuration: kTransitionDuration,
-      fullscreenDialog:
-          transitionQuery?.transition == _TransitionQueryType.fullscreen,
+      fullscreenDialog: transitionQuery?.transition.isFullscreen ?? false,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        _TransitionType? rawTransitionType;
-        if (transitionQuery?.transition == _TransitionQueryType.none) {
-          return child;
-        }
-        if (kIsWeb) {
-          if (transitionQuery?.transition == _TransitionQueryType.fullscreen) {
-            return SlideTransition(
-              position: _slideUpTween.animate(animation),
-              child: FadeTransition(
-                opacity: _fadeTween.animate(animation),
-                child: child,
-              ),
-            );
-          } else {
-            return FadeTransition(
-              opacity: _fadeTween.animate(animation),
+        return transitionQuery?.transition.build(
+              context,
+              animation,
+              secondaryAnimation,
               child: child,
-            );
-          }
-        }
-        if (rawTransitionType == null) {
-          switch (transitionQuery?.transition) {
-            case _TransitionQueryType.fullscreen:
-              return SlideTransition(
-                position: _slideUpTween.animate(animation),
-                child: FadeTransition(
-                  opacity: _fadeTween.animate(animation),
-                  child: child,
-                ),
-              );
-            case _TransitionQueryType.fade:
-              rawTransitionType = _TransitionType.fade;
-              break;
-            default:
-              rawTransitionType = _TransitionType.slideToLeft;
-              break;
-          }
-        }
-        switch (rawTransitionType) {
-          case _TransitionType.none:
-            return FadeTransition(
-              opacity: _fadeTween.animate(animation),
-              child: child,
-            );
-          case _TransitionType.fade:
-            return FadeTransition(
-              opacity: _fadeTween.animate(animation),
-              child: child,
-            );
-          case _TransitionType.slideToRight:
-            return SlideTransition(
-              position: _slideRightTween.animate(animation),
-              child: FadeTransition(
-                opacity: _fadeTween.animate(animation),
-                child: child,
-              ),
-            );
-          case _TransitionType.slideToUp:
-            return SlideTransition(
-              position: _slideUpTween.animate(animation),
-              child: FadeTransition(
-                opacity: _fadeTween.animate(animation),
-                child: child,
-              ),
-            );
-          case _TransitionType.slideToDown:
-            return SlideTransition(
-              position: _slideDownTween.animate(animation),
-              child: FadeTransition(
-                opacity: _fadeTween.animate(animation),
-                child: child,
-              ),
-            );
-          default:
-            return SlideTransition(
-              position: _slideLeftTween.animate(animation),
-              child: FadeTransition(
-                opacity: _fadeTween.animate(animation),
-                child: child,
-              ),
-            );
-        }
+            ) ??
+            child;
       },
     );
   }
-}
-
-enum _TransitionType {
-  none,
-  fade,
-  slideToLeft,
-  slideToRight,
-  slideToUp,
-  slideToDown
 }

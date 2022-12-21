@@ -57,7 +57,7 @@ class _AppRouteInformationProvider extends RouteInformationProvider
     );
     final routeQuery = routeInformation.state as RouteQuery?;
     if (routeQuery?._transition != null &&
-        routeQuery!._transition!.transition.modal) {
+        routeQuery!._transition!.transition.isModal) {
       return;
     }
     final bool replace = type == RouteInformationReportingType.neglect ||

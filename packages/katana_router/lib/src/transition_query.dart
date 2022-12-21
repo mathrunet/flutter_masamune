@@ -4,13 +4,13 @@ part of katana_router;
 ///
 /// You can define page transitions by specifying [transition].
 ///
-/// [TransitionQuery.fullscreen], [TransitionQuery.fade], [TransitionQuery.none], and [TransitionQuery.modal] to get the [TransitionQuery] that defines each transition as is.
+/// [TransitionQuery.fullscreen], [TransitionQuery.fade], [TransitionQuery.none], [TransitionQuery.bottomModal], [TransitionQuery.fadeModal] and [TransitionQuery.centerModal] to get the [TransitionQuery] that defines each transition as is.
 ///
 /// ページ遷移するためのルートクエリー。
 ///
 /// [transition]を指定することでページのトランジションを定義できます。
 ///
-/// [TransitionQuery.fullscreen]、[TransitionQuery.fade]、[TransitionQuery.none]、[TransitionQuery.modal]で各トランジションを定義した[TransitionQuery]をそのまま取得できます。
+/// [TransitionQuery.fullscreen]、[TransitionQuery.fade]、[TransitionQuery.none]、[TransitionQuery.centerModal]、[TransitionQuery.bottomModal]、[TransitionQuery.fadeModal]で各トランジションを定義した[TransitionQuery]をそのまま取得できます。
 @immutable
 class TransitionQuery {
   const TransitionQuery._({
@@ -70,6 +70,16 @@ class TransitionQuery {
   /// 裏のページが見えるようになります。
   static TransitionQuery get bottomModal =>
       const TransitionQuery._(transition: _TransitionQueryType.bottomModal);
+
+  /// TransitionQuery] that performs modal transitions that fade.
+  ///
+  /// The back page will be visible.
+  ///
+  /// フェードするモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  static TransitionQuery get fadeModal =>
+      const TransitionQuery._(transition: _TransitionQueryType.fadeModal);
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
