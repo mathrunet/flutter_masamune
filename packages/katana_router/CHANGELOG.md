@@ -1,3 +1,7 @@
+## 1.10.7
+
+ - **FIX**: Fixed a bug in transitions. ([4ce57d2e](https://github.com/mathrunet/flutter_masamune/commit/4ce57d2eaec81ec3d43fa3de4f501c940cc210d6))
+
 ## 1.10.6
 
  - **FIX**: Add TransitionQuery.fadeModal. ([d58f7955](https://github.com/mathrunet/flutter_masamune/commit/d58f79553ec3e3303c05dfe366b0bc5dddbb35d4))
