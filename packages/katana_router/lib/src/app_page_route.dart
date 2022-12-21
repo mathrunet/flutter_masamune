@@ -98,14 +98,14 @@ class _ModalPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       maintainState: maintainState,
       fullscreenDialog: transitionQuery?.transition.isFullscreen ?? true,
       pageBuilder: (context, animation, secondaryAnimation) {
-        return transitionQuery?.transition.build(
-              context,
-              animation,
-              secondaryAnimation,
-              builder: builder,
-              isAndroidBackEnable: isAndroidBackEnable,
-            ) ??
-            builder(context);
+        return (transitionQuery?.transition ?? _TransitionQueryType.initial)
+            .build(
+          context,
+          animation,
+          secondaryAnimation,
+          builder: builder,
+          isAndroidBackEnable: isAndroidBackEnable,
+        );
       },
     );
   }
@@ -134,13 +134,13 @@ class _DefaultPageRoute<T> extends Page<T> implements AppPageRoute<T> {
       reverseTransitionDuration: kTransitionDuration,
       fullscreenDialog: transitionQuery?.transition.isFullscreen ?? false,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return transitionQuery?.transition.build(
-              context,
-              animation,
-              secondaryAnimation,
-              child: child,
-            ) ??
-            child;
+        return (transitionQuery?.transition ?? _TransitionQueryType.initial)
+            .build(
+          context,
+          animation,
+          secondaryAnimation,
+          child: child,
+        );
       },
     );
   }
