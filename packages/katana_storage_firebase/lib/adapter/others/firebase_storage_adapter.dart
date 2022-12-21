@@ -17,7 +17,7 @@ class FirebaseStorageAdapter extends StorageAdapter {
   }
 
   @override
-  String fetchPublicURI(String path) {
+  Future<String> fetchPublicURI(String path) async {
     return "https://firebasestorage.googleapis.com/v0/b/$_storageBucket/o/$path?alt=media";
   }
 
