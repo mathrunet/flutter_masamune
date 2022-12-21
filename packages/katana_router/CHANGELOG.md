@@ -1,3 +1,7 @@
+## 1.10.6
+
+ - **FIX**: Add TransitionQuery.fadeModal. ([d58f7955](https://github.com/mathrunet/flutter_masamune/commit/d58f79553ec3e3303c05dfe366b0bc5dddbb35d4))
+
 ## 1.10.5
 
  - **FIX**: Fix useResult to export. ([fa42b265](https://github.com/mathrunet/flutter_masamune/commit/fa42b2654db3475d67ccd057ff28f6127c61d1dd))
