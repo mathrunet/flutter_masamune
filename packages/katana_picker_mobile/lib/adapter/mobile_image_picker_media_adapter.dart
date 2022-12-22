@@ -1,15 +1,37 @@
 part of katana_picker_mobile;
 
+/// Adapter to use mobile and other camera-enabled file pickers.
+///
+/// Internally, the `image_picker` package is used.
+///
+/// You can pick up media files captured by the camera with [pickCamera].
+///
+/// モバイルなどカメラが利用可能なファイルピッカーを利用するためのアダプター。
+///
+/// 内部的には`image_picker`のパッケージを利用しています。
+///
+/// [pickCamera]でカメラ撮影したメディアファイルをピックアップすることができます。
 class FilePickerMediaAdapter extends PickerAdapter {
+  /// Adapter to use mobile and other camera-enabled file pickers.
+  ///
+  /// Internally, the `image_picker` package is used.
+  ///
+  /// You can pick up media files captured by the camera with [pickCamera].
+  ///
+  /// モバイルなどカメラが利用可能なファイルピッカーを利用するためのアダプター。
+  ///
+  /// 内部的には`image_picker`のパッケージを利用しています。
+  ///
+  /// [pickCamera]でカメラ撮影したメディアファイルをピックアップすることができます。
   const FilePickerMediaAdapter();
 
   @override
   Future<List<PickerValue>> pickMultiple({
     String? dialogTitle,
-    PickerMediaType type = PickerMediaType.others,
+    PickerFileType type = PickerFileType.any,
   }) async {
     switch (type) {
-      case PickerMediaType.image:
+      case PickerFileType.image:
         final files = await ImagePicker().pickMultiImage();
         return Future.wait(
           files.mapAndRemoveEmpty((file) async {
@@ -19,7 +41,7 @@ class FilePickerMediaAdapter extends PickerAdapter {
             );
           }),
         );
-      case PickerMediaType.video:
+      case PickerFileType.video:
         final res = await FilePicker.platform.pickFiles(
           allowMultiple: true,
           dialogTitle: dialogTitle,
@@ -56,16 +78,16 @@ class FilePickerMediaAdapter extends PickerAdapter {
   @override
   Future<PickerValue> pickSingle({
     String? dialogTitle,
-    PickerMediaType type = PickerMediaType.others,
+    PickerFileType type = PickerFileType.any,
   }) async {
     switch (type) {
-      case PickerMediaType.image:
+      case PickerFileType.image:
         final file = await ImagePicker().pickImage(source: ImageSource.gallery);
         if (file == null) {
           throw Exception("File not found.");
         }
         return PickerValue(path: file.path, bytes: await file.readAsBytes());
-      case PickerMediaType.video:
+      case PickerFileType.video:
         final file = await ImagePicker().pickVideo(source: ImageSource.gallery);
         if (file == null) {
           throw Exception("File not found.");
@@ -86,16 +108,16 @@ class FilePickerMediaAdapter extends PickerAdapter {
   @override
   Future<PickerValue> pickCamera({
     String? dialogTitle,
-    PickerMediaType type = PickerMediaType.others,
+    PickerFileType type = PickerFileType.any,
   }) async {
     switch (type) {
-      case PickerMediaType.image:
+      case PickerFileType.image:
         final file = await ImagePicker().pickImage(source: ImageSource.camera);
         if (file == null) {
           throw Exception("File not found.");
         }
         return PickerValue(path: file.path, bytes: await file.readAsBytes());
-      case PickerMediaType.video:
+      case PickerFileType.video:
         final file = await ImagePicker().pickVideo(source: ImageSource.camera);
         if (file == null) {
           throw Exception("File not found.");

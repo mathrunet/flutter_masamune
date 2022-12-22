@@ -1,7 +1,21 @@
 part of katana_picker;
 
-enum PickerMediaType {
+/// The type of file to pick up.
+///
+/// ピックアップするファイルの種類。
+enum PickerFileType {
+  /// Image file.
+  ///
+  /// 画像ファイル。
   image,
+
+  /// Video file.
+  ///
+  /// 映像ファイル。
   video,
-  others;
+
+  /// Other files.
+  ///
+  /// その他のファイル。
+  any;
 }

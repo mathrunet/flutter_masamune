@@ -1,15 +1,37 @@
 part of katana_picker;
 
+/// Adapter to use the file picker available on all platforms.
+///
+/// Internally, the `file_picker` package is used.
+///
+/// The [pickCamera] function is not available.
+///
+/// すべてのプラットフォームで利用可能なファイルピッカーを利用するためのアダプター。
+///
+/// 内部的には`file_picker`のパッケージが利用されています。
+///
+/// [pickCamera]の機能は利用できません。
 class FilePickerAdapter extends PickerAdapter {
+  /// Adapter to use the file picker available on all platforms.
+  ///
+  /// Internally, the `file_picker` package is used.
+  ///
+  /// The [pickCamera] function is not available.
+  ///
+  /// すべてのプラットフォームで利用可能なファイルピッカーを利用するためのアダプター。
+  ///
+  /// 内部的には`file_picker`のパッケージが利用されています。
+  ///
+  /// [pickCamera]の機能は利用できません。
   const FilePickerAdapter();
 
   @override
   Future<List<PickerValue>> pickMultiple({
     String? dialogTitle,
-    PickerMediaType type = PickerMediaType.others,
+    PickerFileType type = PickerFileType.any,
   }) async {
     switch (type) {
-      case PickerMediaType.image:
+      case PickerFileType.image:
         final res = await FilePicker.platform.pickFiles(
           allowMultiple: true,
           dialogTitle: dialogTitle,
@@ -25,7 +47,7 @@ class FilePickerAdapter extends PickerAdapter {
           }
           return PickerValue(path: file.path, bytes: file.bytes);
         });
-      case PickerMediaType.video:
+      case PickerFileType.video:
         final res = await FilePicker.platform.pickFiles(
           allowMultiple: true,
           dialogTitle: dialogTitle,
@@ -62,10 +84,10 @@ class FilePickerAdapter extends PickerAdapter {
   @override
   Future<PickerValue> pickSingle({
     String? dialogTitle,
-    PickerMediaType type = PickerMediaType.others,
+    PickerFileType type = PickerFileType.any,
   }) async {
     switch (type) {
-      case PickerMediaType.image:
+      case PickerFileType.image:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
           type: FileType.image,
@@ -75,7 +97,7 @@ class FilePickerAdapter extends PickerAdapter {
           throw Exception("File not found.");
         }
         return PickerValue(path: file.path, bytes: file.bytes);
-      case PickerMediaType.video:
+      case PickerFileType.video:
         final res = await FilePicker.platform.pickFiles(
           dialogTitle: dialogTitle,
           type: FileType.video,
@@ -100,7 +122,7 @@ class FilePickerAdapter extends PickerAdapter {
   @override
   Future<PickerValue> pickCamera({
     String? dialogTitle,
-    PickerMediaType type = PickerMediaType.others,
+    PickerFileType type = PickerFileType.any,
   }) {
     throw UnsupportedError("Camera functions are not supported.");
   }
