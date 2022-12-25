@@ -1,3 +1,8 @@
+## 1.7.0
+
+ - **FIX**: Allows the class to be retrieved by the ancestor. ([04ecc4b8](https://github.com/mathrunet/flutter_masamune/commit/04ecc4b8d70bb901f1480f78c91d4b60592fdb6c))
+ - **FEAT**: Add Ref argument to callback. ([88a5c0d9](https://github.com/mathrunet/flutter_masamune/commit/88a5c0d9ffa92aa02d7bab2a932b949cb93c0034))
+
 ## 1.6.3
 
  - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
