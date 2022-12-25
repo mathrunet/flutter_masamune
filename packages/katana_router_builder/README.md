@@ -133,7 +133,7 @@ flutter pub add --dev katana_router_builder
 
 Widget to display by page path`/user/any user ID` is implemented as follows.
 
-`part '`original filename`.page.dart';` to import a Part file.
+`part '(original filename).page.dart';` to import a Part file.
 
 Define the Widget as a page in `@PagePath("path name")` Annotation.
 
@@ -177,7 +177,7 @@ class UserPage extends StatelessWidget {
 
 ## Router Creation
 
-`import '`original filename`.router.dart';` to import library files.
+`import '(original filename).router.dart';` to import library files.
 
 To create a router, grant `@appRoute` Annotation with a top-level value.
 
