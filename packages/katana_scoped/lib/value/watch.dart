@@ -20,12 +20,12 @@ extension RefWatchExtensions on Ref {
   ///
   /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
   T watch<T extends Listenable?>(
-    T Function() callback, {
+    T Function(Ref ref) callback, {
     List<Object> keys = const [],
     String? name,
   }) {
     return getScopedValue<T, _WatchValue<T>>(
-      () => _WatchValue<T>(callback: callback, keys: keys),
+      (ref) => _WatchValue<T>(callback: () => callback(ref), keys: keys),
       listen: true,
       name: name,
     );

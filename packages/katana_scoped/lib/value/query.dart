@@ -34,7 +34,7 @@ extension RefQueryExtensions on Ref {
   /// ```
   T query<T>(ScopedQuery<T> query) {
     return getScopedValue<T, _QueryValue<T>>(
-      () => _QueryValue<T>(query: query),
+      (ref) => _QueryValue<T>(callback: query.call(ref)),
       listen: query.listen,
       name: query.name,
     );
@@ -44,10 +44,10 @@ extension RefQueryExtensions on Ref {
 @immutable
 class _QueryValue<T> extends ScopedValue<T> {
   const _QueryValue({
-    required this.query,
+    required this.callback,
   });
 
-  final ScopedQuery<T> query;
+  final T Function() callback;
 
   @override
   ScopedValueState<T, ScopedValue<T>> createState() => _QueryValueState<T>();
@@ -61,7 +61,7 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
   @override
   void initValue() {
     super.initValue();
-    _value = value.query.call().call();
+    _value = value.callback.call();
     final val = _value;
     if (val is Listenable) {
       val.addListener(_handledOnUpdate);

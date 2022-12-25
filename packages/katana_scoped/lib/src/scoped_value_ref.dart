@@ -134,12 +134,12 @@ class ScopedValueRef implements Ref {
 
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
-    TScopedValue Function() provider, {
+    TScopedValue Function(Ref ref) provider, {
     bool listen = false,
     String? name,
   }) {
     return _listener.getScopedValueResult<TResult, TScopedValue>(
-      provider,
+      () => provider(this),
       listen: listen,
       name: name,
     );
@@ -165,39 +165,4 @@ class ScopedValueRef implements Ref {
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
-}
-
-class FutureValue<T> extends ScopedValue<Future<T>> {
-  const FutureValue(this.future);
-
-  final Future<T> future;
-
-  @override
-  ScopedValueState<Future<T>, ScopedValue<Future<T>>> createState() =>
-      FutureValueState<T>();
-}
-
-class FutureValueState<T> extends ScopedValueState<Future<T>, FutureValue<T>> {
-  late final Future<T> _future;
-
-  @override
-  void initValue() {
-    super.initValue();
-    _future = value.future;
-    _future.then(
-      (value) => setState(() {}),
-    );
-  }
-
-  @override
-  Future<T> build() => _future;
-}
-
-extension FutureValueRefExtension on Ref {
-  Future<T> useFuture<T>(Future<T> Function() callback) {
-    return getScopedValue(
-      () => FutureValue(callback.call()),
-      listen: true,
-    );
-  }
 }

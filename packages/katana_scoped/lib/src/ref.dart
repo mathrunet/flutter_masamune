@@ -88,7 +88,7 @@ abstract class Ref {
   /// 型と[name]がどちらも同じ場合は同じ`Key`としてみなされます。
   /// {@endtemplate}
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
-    TScopedValue Function() provider, {
+    TScopedValue Function(Ref ref) provider, {
     bool listen = false,
     String? name,
   });

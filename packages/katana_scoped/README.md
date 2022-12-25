@@ -72,7 +72,7 @@ class CounterPage extends PageScopedWidget {
 
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final counter = ref.page.watch(() => ValueNotifier(0));
+    final counter = ref.page.watch((ref) => ValueNotifier(0));
 
     return Scaffold(
       appBar: AppBar(
@@ -102,7 +102,7 @@ By explicitly specifying the `scope` at that time, users will be able to use it 
 extension RepositoryAppRefExtension on RefHasApp {
   Repository repository(){
     return app.getScopedValue(
-      () => RepositoryValue(),
+      (ref) => RepositoryValue(),
       listen: true,
     );
   }
@@ -231,7 +231,7 @@ class CounterPage extends PageScopedWidget {
 
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final counter = ref.page.watch(() => ValueNotifier(0));
+    final counter = ref.page.watch((ref) => ValueNotifier(0));
 
     return Scaffold(
       appBar: AppBar(
@@ -253,9 +253,7 @@ class CounterPage extends PageScopedWidget {
 
 ## Create a Widget
 
-Widget under the page can be placed anything such as `StatelessWidget` or `StatefulWidget`, but if you want to manage the state, you can do so by creating a `ScopedWidget<T>`.
-
-In order to safely inform that it is under the page, I dare to require passing a widget that inherits from `PageScopedWidget`.
+Widget under the page can be placed anything such as `StatelessWidget` or `StatefulWidget`, but if you want to manage the state, you can do so by creating a `ScopedWidget`.
 
 From `WidgetRef`, `app`, `page`, and `widget` can be obtained, and their states can be obtained in `App scope`, `Page scope`, and `Widget scope`, respectively.
 
@@ -273,24 +271,21 @@ class ScopedTestPage extends PageScopedWidget {
       appBar: AppBar(
         title: const Text("Test App"),
       ),
-      body: ScopedTestContent(
-        page: this,
-      ),
+      body: ScopedTestContent(),
     );
   }
 }
 
-class ScopedTestContent extends ScopedWidget<ScopedTestPage> {
+class ScopedTestContent extends ScopedWidget {
   const ScopedTestContent({
     super.key,
-    required super.page,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final widget = ref.widget.watch(() => ValueNotifier(0));
-    final page = ref.page.watch(() => ValueNotifier(0));
-    final app = ref.app.watch(() => ValueNotifier(0));
+    final widget = ref.widget.watch((ref) => ValueNotifier(0));
+    final page = ref.page.watch((ref) => ValueNotifier(0));
+    final app = ref.app.watch((ref) => ValueNotifier(0));
 
     return Column(
       children: [
@@ -324,14 +319,18 @@ When the state is acquired in `App scope`, `Page scope`, or `Widget scope`, it i
 
 The default `ScopedValueFunction` defined in the package is
 
-- `T cache<T>(T Function() callback, { List<Object> keys = const [] })`
+- `T cache<T>(T Function(Ref ref) callback, { List<Object> keys = const [], String? name })`
     - Cache the value returned by `callback`.
+        - The `ref` passed to callback is the `Ref` that was passed when this method was called.
     - If the value of keys is changed, `callback` is executed again to update the cached value.
-- `T watch<T extends Listenable>( T Function() callback, { List<Object> keys = const [] })`
+    - `name` can be specified to save it as a different state.
+- `T watch<T extends Listenable>( T Function(Ref ref) callback, { List<Object> keys = const [], String? name })`
     - Cache the value returned by `callback`.
+        - The `ref` passed to callback is the `Ref` that was passed when this method was called.
     - If `notifyListners` are executed inside `T` monitoring values on further executed Widget, the Widget will be redrawn.
     - If the value of keys is changed, `callback` is executed again to update the cached value.
-- `OnContext on({ FutureOr<void> Function()? initOrUpdate,  VoidCallback? disposed, List<Object> keys = const [] })`
+    - `name` can be specified to save it as a different state.
+- `OnContext on({ FutureOr<void> Function()? initOrUpdate,  VoidCallback? disposed, List<Object> keys = const [], String? name })`
     - Only page scope and widget scope can be executed.
     - It is possible to execute each process on the life cycle of the executed widget.
         - initOrUpdate
@@ -350,9 +349,11 @@ The default `ScopedValueFunction` defined in the package is
 
 By defining ScopedQuery separately, it is possible to issue and use queries that provide state globally like [riverpod](https://pub.dev/packages/riverpod). `T query<T>(ScopedQuery<T> query)` of each scope can be used to manage the state.
 
+It is also possible to load further other queries with `ref` available in the callback.
+
 ```dart
 final valueNotifierQuery = ChangeNotifierScopedQuery(
-  () => ValueNotifier(0),
+  (ref) => ValueNotifier(0),
 );
 
 class TestPage extends PageScopedWidget {
@@ -389,13 +390,13 @@ For example, suppose that a class for retrieving data from DB is created with `X
 I want to manage the data from the DB in App scope, so by default, I use the following.
 
 ```dart
-final userRepository = ref.app.watch(() => UserRepository());
+final userRepository = ref.app.watch((ref) => UserRepository());
 ```
 
 In this case, however, it can also be written as follows
 
 ```dart
-final userRepository = ref.page.watch(() => UserRepository());
+final userRepository = ref.page.watch((ref) => UserRepository());
 ```
 
 In this case, the state can be managed, but when the page is destroyed, the state is also destroyed.
@@ -411,7 +412,7 @@ extension UserRepositoryAppRef on RefHasApp {
   TRepository repository<TRepository extends Repository>(
     TRepository source,
   ) {
-    return app.watch(() => source);
+    return app.watch((ref) => source);
   }
 }
 ```
@@ -489,7 +490,7 @@ If you want to add this as a `ScopedValueFunction`, write the following via the 
 extension FutureValueRefExtension on Ref {
   Future<T> useFuture<T>(Future<T> Function() callback) {
     return getScopedValue(
-      () => FutureValue(callback.call()),
+      (ref) => FutureValue(callback.call()),
       listen: true,
     );
   }

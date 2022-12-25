@@ -81,10 +81,10 @@ class ValueWatchContent extends ScopedWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final widget = ref.widget.watch(() => ValueNotifier(0));
-    final page = ref.page.watch(() => ValueNotifier(0));
-    final pageWithDouble = ref.page.watch(() => ValueNotifier(0.0));
-    final app = ref.app.watch(() => ValueNotifier(0));
+    final widget = ref.widget.watch((ref) => ValueNotifier(0));
+    final page = ref.page.watch((ref) => ValueNotifier(0));
+    final pageWithDouble = ref.page.watch((ref) => ValueNotifier(0.0));
+    final app = ref.app.watch((ref) => ValueNotifier(0));
 
     return Column(children: [
       ListTile(

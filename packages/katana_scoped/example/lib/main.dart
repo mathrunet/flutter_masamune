@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
 final valueNotifierQuery =
     ChangeNotifierScopedQueryFamily<ValueNotifier<int>, int>(
-  (p) => ValueNotifier(p),
+  (ref, p) => ValueNotifier(p),
 );
 
 class CounterPage extends PageScopedWidget {

@@ -47,13 +47,13 @@ class AppRef implements Ref {
   /// {@macro get_scoped_value}
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
-    TScopedValue Function() provider, {
+    TScopedValue Function(Ref ref) provider, {
     bool listen = false,
     String? name,
   }) {
     return _scopedValueContainer
         .getScopedValueState<TResult, TScopedValue>(
-          provider,
+          () => provider(this),
           name: name,
         )
         .build();

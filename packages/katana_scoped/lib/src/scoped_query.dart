@@ -72,7 +72,7 @@ class ScopedQuery<Result> {
   /// A callback that returns the value you want to manage.
   ///
   /// 管理したい値を返すコールバック。
-  final Result Function() provider;
+  final Result Function(Ref ref) provider;
 
   /// Returns `true` if the value is monitored for update notification.
   ///
@@ -82,7 +82,7 @@ class ScopedQuery<Result> {
   /// Returns a callback that returns the value you want to manage.
   ///
   /// 管理したい値を返すコールバックを返します。
-  Result Function() call() => provider;
+  Result Function() call(Ref ref) => () => provider.call(ref);
 
   /// Returns a name to identify the state.
   ///
@@ -174,7 +174,7 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   bool get listen => true;
 
   @override
-  Result Function() call() => provider;
+  Result Function() call(Ref ref) => () => provider(ref);
 }
 
 /// You can pass one parameter [ScopedQuery].
@@ -199,13 +199,13 @@ class ScopedQueryFamily<Result, Param> {
   /// Returns a callback that returns the value you want to manage.
   ///
   /// 管理したい値を返すコールバックを返します。
-  final Result Function(Param param) provider;
+  final Result Function(Ref ref, Param param) provider;
 
   /// By passing [param], the corresponding [ScopedQuery] is returned.
   ///
   /// [param]を渡すことで対応した[ScopedQuery]を返します。
   ScopedQuery<Result> call(Param param) => ScopedQuery(
-        () => provider(param),
+        (ref) => provider(ref, param),
         name: "${_name ?? hashCode}#${param.hashCode}",
       );
 }
@@ -231,7 +231,7 @@ class ChangeNotifierScopedQueryFamily<Result extends Listenable?, Param>
   @override
   ChangeNotifierScopedQuery<Result> call(Param param) =>
       ChangeNotifierScopedQuery<Result>(
-        () => provider(param),
+        (ref) => provider(ref, param),
         name: "${_name ?? hashCode}#${param.hashCode}",
       );
 }

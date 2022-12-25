@@ -9,7 +9,7 @@ extension RefRefreshExtensions on PageOrWidgetScopedValueRef {
   /// 実行すると関連するウィジェットの再描画を行ないます。
   void refresh() {
     return getScopedValue<void, _RefreshValue>(
-      () => const _RefreshValue(),
+      (ref) => const _RefreshValue(),
       listen: true,
     );
   }

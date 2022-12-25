@@ -76,6 +76,22 @@ class AppScoped extends StatefulWidget {
   /// 下に配置されるウィジェット。MaterialApp等。
   final Widget child;
 
+  /// By passing [context], the [AppRef] set in [AppScoped] can be obtained.
+  ///
+  /// If the ancestor does not have [AppScoped], an error will occur.
+  ///
+  /// [context]を渡すことにより[AppScoped]で設定された[AppRef]を取得することができます。
+  ///
+  /// 祖先に[AppScoped]がない場合はエラーになります。
+  static AppRef? of(BuildContext context) {
+    final state = context.findRootAncestorStateOfType<_AppScopedState>();
+    assert(
+      state != null,
+      "AppScoped is not found. Place [AppScoped] widget closer to the root.",
+    );
+    return state?.widget.appRef;
+  }
+
   @override
   State<StatefulWidget> createState() => _AppScopedState();
 }

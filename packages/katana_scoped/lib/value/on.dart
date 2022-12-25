@@ -25,7 +25,7 @@ extension RefOnExtensions on PageOrWidgetScopedValueRef {
     List<Object> keys = const [],
   }) {
     return getScopedValue<OnContext, _OnValue>(
-      () => _OnValue(
+      (ref) => _OnValue(
         onInitOrUpdate: initOrUpdate,
         onDispose: disposed,
         keys: keys,

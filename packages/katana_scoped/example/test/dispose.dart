@@ -83,8 +83,8 @@ class HomePage extends PageScopedWidget {
   final TestContaner container;
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final val = ref.app.watch(() => ValueNotifier(0));
-    final test = ref.page.watch(() => TestNotifier());
+    final val = ref.app.watch((ref) => ValueNotifier(0));
+    final test = ref.page.watch((ref) => TestNotifier());
     print(val.hashCode);
     ref.page.on(
       initOrUpdate: () {
@@ -124,8 +124,8 @@ class NextPage extends PageScopedWidget {
   final TestContaner container;
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final val = ref.app.watch(() => ValueNotifier(0));
-    final test = ref.app.watch(() => TestNotifier());
+    final val = ref.app.watch((ref) => ValueNotifier(0));
+    final test = ref.app.watch((ref) => TestNotifier());
     print(val.hashCode);
     ref.page.on(
       initOrUpdate: () {
@@ -180,7 +180,7 @@ class ParentPage extends PageScopedWidget {
   final TestContaner container;
   @override
   Widget build(BuildContext context, PageRef ref) {
-    final value = ref.page.watch(() => ValueNotifier(false));
+    final value = ref.page.watch((ref) => ValueNotifier(false));
     // ref.page.on(
     //   initOrUpdate: () {
     //     print("init at parent");
