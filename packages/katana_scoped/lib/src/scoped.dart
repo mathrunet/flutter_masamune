@@ -321,6 +321,9 @@ class ScopedWidgetScope extends StatefulWidget {
   /// 祖先に[TWidget]が存在しない場合はエラーが出力されます。
   static TWidget of<TWidget extends ScopedWidgetBase>(BuildContext context) {
     _ScopedWidgetScope? scope;
+    if (context.widget is TWidget) {
+      return context.widget as TWidget;
+    }
     do {
       scope = context
           .getElementForInheritedWidgetOfExactType<_ScopedWidgetScope>()
