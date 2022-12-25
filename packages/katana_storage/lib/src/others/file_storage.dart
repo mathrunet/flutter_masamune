@@ -1,23 +1,45 @@
 part of katana_storage.others;
 
-class FileStorage {
-  FileStorage();
+/// Class for using storage functions in local storage.
+///
+/// The root folder is [getLibraryDirectory] for IOS and [getApplicationDocumentsDirectory] for others.
+///
+/// ローカルストレージでストレージ機能を利用するためのクラス。
+///
+/// ルートフォルダはIOSの場合、[getLibraryDirectory]がそれ以外は[getApplicationDocumentsDirectory]が用いられます。
+class FileStorage extends StorageBase {
+  /// Class for using storage functions in local storage.
+  ///
+  /// The root folder is [getLibraryDirectory] for IOS and [getApplicationDocumentsDirectory] for others.
+  ///
+  /// ローカルストレージでストレージ機能を利用するためのクラス。
+  ///
+  /// ルートフォルダはIOSの場合、[getLibraryDirectory]がそれ以外は[getApplicationDocumentsDirectory]が用いられます。
+  const FileStorage();
 
-  Future<Uint8List> read(String filePath) async {
-    return await File(filePath).readAsBytes();
+  @override
+  Future<Uint8List> read(String fileFullPath) async {
+    return await File(fileFullPath).readAsBytes();
   }
 
-  Future<void> write(String filePath, Uint8List bytes) async {
-    await File(filePath).writeAsBytes(bytes);
+  @override
+  Future<void> write(String fileFullPath, Uint8List bytes) async {
+    await File(fileFullPath).writeAsBytes(bytes);
   }
 
-  Future<void> delete(String filePath) async {
-    await File(filePath).delete();
+  @override
+  Future<void> delete(String fileFullPath) async {
+    await File(fileFullPath).delete();
   }
 
-  bool exists(String filePath) {
-    return File(filePath).existsSync();
+  @override
+  Future<bool> exists(String fileFullPath) async {
+    return File(fileFullPath).existsSync();
   }
+
+  @override
+  Future<String> fetchURI(String fileRelativePath) async =>
+      "${await documentDirectory}/$fileRelativePath";
 
   /// Obtains the document path where the file can be placed by determining the platform.
   ///
@@ -36,20 +58,5 @@ class FileStorage {
     } else {
       return (await getApplicationDocumentsDirectory()).path;
     }
-  }
-
-  /// Obtains the temporary path where the file can be placed by determining the platform.
-  ///
-  /// [getTemporaryDirectory].
-  ///
-  /// `Web` returns [Null].
-  ///
-  /// ファイルを置けるテンポラリパスをプラットフォームを判別して取得します。
-  ///
-  /// [getTemporaryDirectory]を利用します。
-  ///
-  /// `Web`は[Null]を返します。
-  static Future<String?> get temporaryDirectory async {
-    return (await getTemporaryDirectory()).path;
   }
 }

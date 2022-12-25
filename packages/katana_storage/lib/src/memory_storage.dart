@@ -1,34 +1,58 @@
 part of katana_storage;
 
-class MemoryStorage {
+/// Class for using storage functions on runtime memory.
+///
+/// Basically, it is stored as a map of paths and real data [Uint8List].
+///
+/// ランタイムメモリ上でストレージ機能を利用するためのクラス。
+///
+/// 基本的にはパスと実データ[Uint8List]のマップとして保管されます。
+class MemoryStorage extends StorageBase {
+  /// Class for using storage functions on runtime memory.
+  ///
+  /// Basically, it is stored as a map of paths and real data [Uint8List].
+  ///
+  /// ランタイムメモリ上でストレージ機能を利用するためのクラス。
+  ///
+  /// 基本的にはパスと実データ[Uint8List]のマップとして保管されます。
   MemoryStorage();
 
   final DynamicMap _data = {};
 
+  /// You can input data directly by passing [rawData].
+  ///
+  /// [rawData]を渡すことで直接データを入力することができます。
   void setRawData(Map<String, Uint8List> rawData) {
     _data.addAll(rawData);
   }
 
-  Future<Uint8List> read(String filePath) async {
-    filePath = filePath.trimQuery().trimString("/");
-    if (!_data.containsKey(filePath)) {
-      throw Exception("Data not found: $filePath");
+  @override
+  Future<Uint8List> read(String fileFullPath) async {
+    fileFullPath = fileFullPath.trimQuery().trimString("/");
+    if (!_data.containsKey(fileFullPath)) {
+      throw Exception("Data not found: $fileFullPath");
     }
-    return _data[filePath];
+    return _data[fileFullPath];
   }
 
-  Future<void> write(String filePath, Uint8List bytes) async {
-    filePath = filePath.trimQuery().trimString("/");
-    _data[filePath] = bytes;
+  @override
+  Future<void> write(String fileFullPath, Uint8List bytes) async {
+    fileFullPath = fileFullPath.trimQuery().trimString("/");
+    _data[fileFullPath] = bytes;
   }
 
-  Future<void> delete(String filePath) async {
-    filePath = filePath.trimQuery().trimString("/");
-    _data.remove(filePath);
+  @override
+  Future<void> delete(String fileFullPath) async {
+    fileFullPath = fileFullPath.trimQuery().trimString("/");
+    _data.remove(fileFullPath);
   }
 
-  bool exists(String filePath) {
-    filePath = filePath.trimQuery().trimString("/");
-    return _data.containsKey(filePath);
+  @override
+  Future<bool> exists(String fileFullPath) async {
+    fileFullPath = fileFullPath.trimQuery().trimString("/");
+    return _data.containsKey(fileFullPath);
   }
+
+  @override
+  Future<String> fetchURI(String fileRelativePath) async => fileRelativePath;
 }

@@ -1,11 +1,52 @@
 part of katana_storage;
 
+/// [StorageAdapter] for handling files at runtime.
+///
+/// Only available for file uploads and downloads.
+///
+/// It is not possible to issue URLs, etc. for displaying images.
+///
+/// MemoryStorage] can be used in the test by passing [MemoryStorage] to [storage].
+///
+/// You can specify a list of data to be initially retained in [rawData].
+///
+/// ランタイム上でファイルを扱うための[StorageAdapter]。
+///
+/// ファイルのアップロードとダウンロードでのみ利用可能です。
+///
+/// 画像の表示用のURL等を発行することはできません。
+///
+/// [storage]に[MemoryStorage]を渡すことでテストで利用することができます。
+///
+/// [rawData]に最初に保持しておくデータのリストを指定することができます。
 class RuntimeStorageAdapter extends StorageAdapter {
+  /// [StorageAdapter] for handling files at runtime.
+  ///
+  /// Only available for file uploads and downloads.
+  ///
+  /// It is not possible to issue URLs, etc. for displaying images.
+  ///
+  /// MemoryStorage] can be used in the test by passing [MemoryStorage] to [storage].
+  ///
+  /// You can specify a list of data to be initially retained in [rawData].
+  ///
+  /// ランタイム上でファイルを扱うための[StorageAdapter]。
+  ///
+  /// ファイルのアップロードとダウンロードでのみ利用可能です。
+  ///
+  /// 画像の表示用のURL等を発行することはできません。
+  ///
+  /// [storage]に[MemoryStorage]を渡すことでテストで利用することができます。
+  ///
+  /// [rawData]に最初に保持しておくデータのリストを指定することができます。
   const RuntimeStorageAdapter({
     MemoryStorage? storage,
     this.rawData = const {},
   }) : _storage = storage;
 
+  /// List of data to be retained initially.
+  ///
+  /// 最初に保持しておくデータのリスト。
   final Map<String, Uint8List> rawData;
 
   /// Designated remote storage.
@@ -29,53 +70,74 @@ class RuntimeStorageAdapter extends StorageAdapter {
   /// Local Storage.
   ///
   /// ローカルストレージ。
-  static final FileStorage localStorage = FileStorage();
+  static const FileStorage localStorage = FileStorage();
 
   @override
-  Future<void> delete(String path) async {
-    await remoteStorage.delete(path);
+  Future<void> delete(String relativePath) async {
+    await remoteStorage.delete(relativePath);
   }
 
   @override
-  Future<void> download(String fromPath, String toPath) async {
-    final from = fromPath;
-    final to = toPath;
-    if (!remoteStorage.exists(from)) {
-      throw Exception("File could not be found: $from");
-    }
-    if (localStorage.exists(to)) {
-      await localStorage.delete(to);
-    }
-    await localStorage.write(to, await remoteStorage.read(from));
+  Future<Uri> fetchDownloadURI(String remoteRelativePath) async =>
+      fetchPublicURI(remoteRelativePath);
+
+  @override
+  Future<Uri> fetchPublicURI(String remoteRelativePath) async {
+    return Uri.parse(await remoteStorage.fetchURI(remoteRelativePath));
   }
 
   @override
-  Future<String> fetchDownloadURI(String path) async => fetchPublicURI(path);
-
-  @override
-  Future<String> fetchPublicURI(String path) async {
-    return path;
+  Future<LocalFile> download(
+    String remoteRelativePath, [
+    String? localRelativePath,
+  ]) async {
+    if (!await remoteStorage.exists(remoteRelativePath)) {
+      throw Exception("File could not be found: $remoteRelativePath");
+    }
+    final bytes = await remoteStorage.read(remoteRelativePath);
+    if (localRelativePath.isNotEmpty) {
+      final localFullPath = await localStorage.fetchURI(localRelativePath!);
+      if (await localStorage.exists(localFullPath)) {
+        await localStorage.delete(localFullPath);
+      }
+      await localStorage.write(localFullPath, bytes);
+      return LocalFile._(path: Uri.parse(localFullPath), bytes: bytes);
+    } else {
+      return LocalFile._(bytes: bytes);
+    }
   }
 
   @override
-  Future<void> upload(String fromPath, String toPath) async {
-    final from = fromPath;
-    final to = toPath;
-    if (!localStorage.exists(from)) {
-      throw Exception("File could not be found: $from");
+  Future<RemoteFile> upload(
+    String localFullPath,
+    String remoteRelativePath,
+  ) async {
+    if (!await localStorage.exists(localFullPath)) {
+      throw Exception("File could not be found: $localFullPath");
     }
-    if (remoteStorage.exists(to)) {
-      await remoteStorage.delete(to);
+    final bytes = await localStorage.read(localFullPath);
+    if (await remoteStorage.exists(remoteRelativePath)) {
+      await remoteStorage.delete(remoteRelativePath);
     }
-    await remoteStorage.write(to, await localStorage.read(from));
+    await remoteStorage.write(remoteRelativePath, bytes);
+    return RemoteFile._(
+      path: await fetchPublicURI(remoteRelativePath),
+      bytes: bytes,
+    );
   }
 
   @override
-  Future<void> uploadWithBytes(Uint8List bytes, String toPath) async {
-    final to = toPath;
-    if (remoteStorage.exists(to)) {
-      await remoteStorage.delete(to);
+  Future<RemoteFile> uploadWithBytes(
+    Uint8List uploadFileByte,
+    String remoteRelativePath,
+  ) async {
+    if (await remoteStorage.exists(remoteRelativePath)) {
+      await remoteStorage.delete(remoteRelativePath);
     }
-    await remoteStorage.write(to, bytes);
+    await remoteStorage.write(remoteRelativePath, uploadFileByte);
+    return RemoteFile._(
+      path: await fetchPublicURI(remoteRelativePath),
+      bytes: uploadFileByte,
+    );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:katana_storage/katana_storage.dart';
 
@@ -32,6 +34,7 @@ class StoragePage extends StatefulWidget {
 
 class StoragePageState extends State<StoragePage> {
   final storage = Storage(const StorageQuery("/test/file"));
+  final controller = TextEditingController();
 
   @override
   void initState() {
@@ -50,16 +53,27 @@ class StoragePageState extends State<StoragePage> {
     storage.dispose();
   }
 
+  Future<void> _onInit() async {
+    await storage.download();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("App Demo")),
-      body: ListView(
-        children: [],
+      body: TextField(
+        controller: controller,
+        expands: true,
+        textAlignVertical: TextAlignVertical.top,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.person),
+        onPressed: () async {
+          final text = controller.text;
+          final bytes = Uint8List.fromList(text.codeUnits);
+          await storage.uploadWithBytes(bytes);
+        },
+        child: const Icon(Icons.upload_file),
       ),
     );
   }
