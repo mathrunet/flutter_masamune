@@ -45,7 +45,7 @@ class Picker extends ChangeNotifier {
   /// （対応アダプターのみ）
   Picker({PickerAdapter? adapter}) : _adapter = adapter;
 
-  /// PickerAdapter] to be used.
+  /// [PickerAdapter] to be used.
   ///
   /// If not specified, [PickerAdapter.primary] is used.
   ///

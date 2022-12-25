@@ -12,7 +12,6 @@ import 'dart:async';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:katana/katana.dart';
 import 'package:katana_picker/katana_picker.dart';
 
 export 'package:katana_picker/katana_picker.dart';
