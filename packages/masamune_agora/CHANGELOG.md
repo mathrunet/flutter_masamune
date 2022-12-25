@@ -1,3 +1,7 @@
+## 0.15.0+57
+
+ - **FIX**: Changes to katana_scoped. ([bf436d2e](https://github.com/mathrunet/flutter_masamune/commit/bf436d2e375ae23b6b63740bdaeaf4987cb3ab19))
+
 ## 0.15.0+56
 
  - Update a dependency to the latest release.

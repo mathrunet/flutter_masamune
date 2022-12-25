@@ -1,3 +1,7 @@
+## 1.10.8
+
+ - **DOCS**: README modifications. ([b867d149](https://github.com/mathrunet/flutter_masamune/commit/b867d1491f69c89737d9cea0a468f3a37a1fef0b))
+
 ## 1.10.7
 
  - **FIX**: Fixed a bug in transitions. ([4ce57d2e](https://github.com/mathrunet/flutter_masamune/commit/4ce57d2eaec81ec3d43fa3de4f501c940cc210d6))

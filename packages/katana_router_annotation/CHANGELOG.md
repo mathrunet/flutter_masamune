@@ -1,3 +1,7 @@
+## 1.10.5
+
+ - **DOCS**: README modifications. ([b867d149](https://github.com/mathrunet/flutter_masamune/commit/b867d1491f69c89737d9cea0a468f3a37a1fef0b))
+
 ## 1.10.4
 
  - **FIX**: Fix useResult to export. ([fa42b265](https://github.com/mathrunet/flutter_masamune/commit/fa42b2654db3475d67ccd057ff28f6127c61d1dd))
