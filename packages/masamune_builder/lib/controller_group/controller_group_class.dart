@@ -100,9 +100,9 @@ List<Spec> controllerGroupClass(
             (m) => m
               ..name = "call"
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("${model.name} Function()")
+              ..returns = Reference("${model.name} Function(Ref ref)")
               ..body = Code(
-                "return () => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}${param.type.toString().endsWith("?") ? "?" : ""}.call()").join(",")});",
+                "return (ref) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}${param.type.toString().endsWith("?") ? "?" : ""}.call()").join(",")});",
               ),
           ),
           Method(

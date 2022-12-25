@@ -1,7 +1,7 @@
 part of masamune;
 
 extension MasamunePickerUploaderAppRefExtensions on PickerValue {
-  Future<String> upload({String dirPath = ""}) async {
+  Future<Uri> upload({String dirPath = ""}) async {
     if (path.isEmpty) {
       throw Exception("[path] was not found.");
     }
@@ -13,6 +13,6 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
       ),
     );
     await storage.upload(path!);
-    return await storage.publicURI;
+    return await storage.fetchPublicURI();
   }
 }

@@ -173,9 +173,9 @@ List<Spec> collectionModelClass(
               ..name = "call"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("\$${model.name}Document Function()")
+              ..returns = Reference("\$${model.name}Document Function(Ref ref)")
               ..body = Code(
-                "() => \$${model.name}Document(modelQuery)",
+                "(ref) => \$${model.name}Document(modelQuery)",
               ),
           ),
           Method(
@@ -256,9 +256,10 @@ List<Spec> collectionModelClass(
               ..name = "call"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("_\$${model.name}Collection Function()")
+              ..returns =
+                  Reference("_\$${model.name}Collection Function(Ref ref)")
               ..body = Code(
-                "() => _\$${model.name}Collection(modelQuery)",
+                "(ref) => _\$${model.name}Collection(modelQuery)",
               ),
           ),
           Method(

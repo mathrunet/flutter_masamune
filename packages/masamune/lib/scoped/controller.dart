@@ -93,7 +93,7 @@ abstract class ControllerQueryBase<TController extends ChangeNotifier> {
   /// Create a callback to pass parameters to monitor the state with the `watch` method.
   ///
   /// 状態を`watch`メソッドで監視するためのパラメーターを渡すためのコールバックを作成します。
-  TController Function() call();
+  TController Function(Ref ref) call();
 
   /// Returns a name to pass to [ScopedValue].
   ///

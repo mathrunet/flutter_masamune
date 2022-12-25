@@ -25,12 +25,11 @@ dependencies:
   katana_localization: ^1.1.20
   katana_form: ^1.3.1
   katana_auth: ^1.1.4
+  katana_picker: ^1.2.0
   katana_ui:
     path: ../katana_ui
   masamune_annotation:
     path: ../masamune_annotation
-  katana_picker: 
-    path: ../katana_picker
   katana_storage: 
     path: ../katana_storage
 dev_dependencies:

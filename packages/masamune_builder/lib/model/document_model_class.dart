@@ -62,9 +62,9 @@ List<Spec> documentModelClass(
               ..name = "call"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("\$${model.name}Document Function()")
+              ..returns = Reference("\$${model.name}Document Function(Ref ref)")
               ..body = Code(
-                "() => \$${model.name}Document(modelQuery)",
+                "(ref) => \$${model.name}Document(modelQuery)",
               ),
           ),
           Method(

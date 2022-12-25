@@ -68,9 +68,10 @@ List<Spec> formValueClass(
               ..name = "call"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("FormController<${model.name}> Function()")
+              ..returns =
+                  Reference("FormController<${model.name}> Function(Ref ref)")
               ..body = const Code(
-                "() => FormController(value)",
+                "(ref) => FormController(value)",
               ),
           ),
           Method(
