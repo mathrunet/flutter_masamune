@@ -9,8 +9,10 @@ import 'package:yaml/yaml.dart';
 ///
 /// コマンドの一覧を定義します。
 const commands = <String, CliCommand>{
+  "app": AppCliCommand(),
   "pub": PubCliCommand(),
   "code": CodeCliCommand(),
+  "create": CreateCliCommand(),
   "submodule": SubmoduleCliCommand(),
 };
 

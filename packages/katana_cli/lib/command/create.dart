@@ -1,4 +1,4 @@
-part of katana_cli.code;
+import 'package:katana_cli/katana_cli.dart';
 
 /// Package to import.
 ///
@@ -42,11 +42,11 @@ const otherFiles = {
 /// Create a new Flutter project.
 ///
 /// 新しいFlutterプロジェクトを作成します。
-class CodeCreateCliCommand extends CliCommand {
+class CreateCliCommand extends CliCommand {
   /// Create a new Flutter project.
   ///
   /// 新しいFlutterプロジェクトを作成します。
-  const CodeCreateCliCommand();
+  const CreateCliCommand();
 
   @override
   String get description =>
@@ -114,6 +114,8 @@ class CodeCreateCliCommand extends CliCommand {
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
     }
+    label("Create a katana.yaml");
+    await const KatanaCliCode().generateFile("katana.yaml");
     await command(
       "Run the project's build_runner to generate code.",
       [

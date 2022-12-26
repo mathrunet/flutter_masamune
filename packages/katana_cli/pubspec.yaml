@@ -16,6 +16,7 @@ dependencies:
   csv: ^5.0.1
   katana: ^0.15.0
   image: ^3.2.0
+  xml: ^6.2.2
 
 executables:
   katana:

@@ -7,7 +7,6 @@ import 'tmp/tmp.dart';
 
 part 'collection.dart';
 part 'controller.dart';
-part 'create.dart';
 part 'document.dart';
 part 'format.dart';
 part 'generate.dart';
@@ -27,7 +26,6 @@ class CodeCliCommand extends CliCommandGroup {
   @override
   Map<String, CliCommand> get commands => const {
         "tmp": CodeTmpCliCommand(),
-        "create": CodeCreateCliCommand(),
         "format": CodeFormatCliCommand(),
         "generate": CodeGenerateCliCommand(),
         "watch": CodeWatchCliCommand(),
