@@ -3,6 +3,126 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2022-12-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_storage` - `v1.1.0`](#katana_storage---v110)
+ - [`katana_storage_firebase` - `v1.1.0`](#katana_storage_firebase---v110)
+ - [`katana_ui` - `v1.1.0`](#katana_ui---v110)
+ - [`masamune` - `v1.1.0`](#masamune---v110)
+ - [`masamune_annotation` - `v1.1.0`](#masamune_annotation---v110)
+ - [`masamune_builder` - `v1.1.0`](#masamune_builder---v110)
+ - [`masamune_agora` - `v0.15.0+58`](#masamune_agora---v015058)
+ - [`masamune_wordpress` - `v0.15.0+56`](#masamune_wordpress---v015056)
+ - [`masamune_location` - `v0.15.0+56`](#masamune_location---v015056)
+ - [`masamune_media` - `v0.15.0+56`](#masamune_media---v015056)
+ - [`masamune_local_messaging` - `v0.15.0+56`](#masamune_local_messaging---v015056)
+ - [`masamune_purchase` - `v0.15.0+56`](#masamune_purchase---v015056)
+ - [`masamune_firebase` - `v0.15.0+57`](#masamune_firebase---v015057)
+ - [`masamune_ads` - `v0.15.0+56`](#masamune_ads---v015056)
+ - [`masamune_ui` - `v0.15.0+56`](#masamune_ui---v015056)
+ - [`masamune_purchase_firebase` - `v0.15.0+57`](#masamune_purchase_firebase---v015057)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+57`](#masamune_firebase_dynamic_links---v015057)
+ - [`masamune_signin_google` - `v0.15.0+57`](#masamune_signin_google---v015057)
+ - [`masamune_signin_facebook` - `v0.15.0+57`](#masamune_signin_facebook---v015057)
+ - [`masamune_firebase_messaging` - `v0.15.0+57`](#masamune_firebase_messaging---v015057)
+ - [`masamune_signin_twitter` - `v0.15.0+57`](#masamune_signin_twitter---v015057)
+ - [`masamune_purchase_stripe` - `v0.15.0+57`](#masamune_purchase_stripe---v015057)
+ - [`masamune_notion` - `v0.15.0+57`](#masamune_notion---v015057)
+ - [`masamune_signin_apple` - `v0.15.0+57`](#masamune_signin_apple---v015057)
+ - [`masamune_module` - `v0.15.0+56`](#masamune_module---v015056)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+58`
+ - `masamune_wordpress` - `v0.15.0+56`
+ - `masamune_location` - `v0.15.0+56`
+ - `masamune_media` - `v0.15.0+56`
+ - `masamune_local_messaging` - `v0.15.0+56`
+ - `masamune_purchase` - `v0.15.0+56`
+ - `masamune_firebase` - `v0.15.0+57`
+ - `masamune_ads` - `v0.15.0+56`
+ - `masamune_ui` - `v0.15.0+56`
+ - `masamune_purchase_firebase` - `v0.15.0+57`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+57`
+ - `masamune_signin_google` - `v0.15.0+57`
+ - `masamune_signin_facebook` - `v0.15.0+57`
+ - `masamune_firebase_messaging` - `v0.15.0+57`
+ - `masamune_signin_twitter` - `v0.15.0+57`
+ - `masamune_purchase_stripe` - `v0.15.0+57`
+ - `masamune_notion` - `v0.15.0+57`
+ - `masamune_signin_apple` - `v0.15.0+57`
+ - `masamune_module` - `v0.15.0+56`
+
+---
+
+#### `katana_storage` - `v1.1.0`
+
+ - **FIX**: Support for interface changes. ([1185ad1a](https://github.com/mathrunet/flutter_masamune/commit/1185ad1a5c792408cc770f75b7f7090d89fed3bd))
+ - **FIX**: Change return values and correct comments. ([16f354db](https://github.com/mathrunet/flutter_masamune/commit/16f354db76b92a6cbd20794981f97a30d6c6c28a))
+ - **FIX**: Bug fixes. ([95661535](https://github.com/mathrunet/flutter_masamune/commit/956615355732e43eb624c020cf366fd6043b12a4))
+ - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
+ - **FEAT**: Initial commit. ([8fcd244c](https://github.com/mathrunet/flutter_masamune/commit/8fcd244c779e09e407ab57e9727914d808eebda5))
+ - **FEAT**: Initial commit. ([80a32e8d](https://github.com/mathrunet/flutter_masamune/commit/80a32e8d97319e9e99cbb766838a5229e97324d8))
+
+#### `katana_storage_firebase` - `v1.1.0`
+
+ - **FIX**: Support for interface changes. ([1185ad1a](https://github.com/mathrunet/flutter_masamune/commit/1185ad1a5c792408cc770f75b7f7090d89fed3bd))
+ - **FIX**: Support for interface changes. ([056cbf01](https://github.com/mathrunet/flutter_masamune/commit/056cbf01cf4d6e255105be119d97b60466b45f5d))
+ - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
+ - **FEAT**: Initial commit. ([8fcd244c](https://github.com/mathrunet/flutter_masamune/commit/8fcd244c779e09e407ab57e9727914d808eebda5))
+ - **FEAT**: Initial commit. ([80a32e8d](https://github.com/mathrunet/flutter_masamune/commit/80a32e8d97319e9e99cbb766838a5229e97324d8))
+
+#### `katana_ui` - `v1.1.0`
+
+ - **FIX**: Public process. ([536e5e48](https://github.com/mathrunet/flutter_masamune/commit/536e5e488df7dc37ed927118a5a6feee85d0e100))
+ - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
+ - **FEAT**: Modal addition. ([e6649f50](https://github.com/mathrunet/flutter_masamune/commit/e6649f50818147ca8b61fde4b968861ec531c0c3))
+ - **FEAT**: Initial commit. ([d000f734](https://github.com/mathrunet/flutter_masamune/commit/d000f7349c1f6ff7c6aae15c8050694dde73f4a4))
+ - **DOCS**: Added DartDoc. ([04f45cca](https://github.com/mathrunet/flutter_masamune/commit/04f45cca56e5aaf6178aea4256b7da0b2af4e344))
+
+#### `masamune` - `v1.1.0`
+
+ - **FIX**: Public process. ([07c8d420](https://github.com/mathrunet/flutter_masamune/commit/07c8d420cf6a3a187d9ab907774f0b6272d58b3f))
+ - **FIX**: Changes to katana_scoped. ([bf436d2e](https://github.com/mathrunet/flutter_masamune/commit/bf436d2e375ae23b6b63740bdaeaf4987cb3ab19))
+ - **FIX**: Added AuthAdapter. ([2c83d9cc](https://github.com/mathrunet/flutter_masamune/commit/2c83d9ccf291ac390706eb99951114c2b64d9955))
+ - **FIX**: Addition of Model Searchable and Reference. ([aa750bee](https://github.com/mathrunet/flutter_masamune/commit/aa750bee6e438ad9131861ede499682fa21e96bf))
+ - **FEAT**: Added Picker-Storage linkage. ([9ef85c69](https://github.com/mathrunet/flutter_masamune/commit/9ef85c69a7fb3d6b93c3d3cbd27aa872f26d915e))
+ - **FEAT**: Add Picker and Storage. ([e024a7ed](https://github.com/mathrunet/flutter_masamune/commit/e024a7ed9826d60927247c82cce85df847eb09ab))
+ - **FEAT**: Add katana_ui. ([55f55582](https://github.com/mathrunet/flutter_masamune/commit/55f55582f08cec7213e3652dc24b5ff3e8b9a635))
+ - **FEAT**: All functions are integrated into the latest katana package. ([37520941](https://github.com/mathrunet/flutter_masamune/commit/375209418b5627e8a35a08a6dee571df755961f1))
+ - **DOCS**: Added DartDoc. ([04f45cca](https://github.com/mathrunet/flutter_masamune/commit/04f45cca56e5aaf6178aea4256b7da0b2af4e344))
+
+#### `masamune_annotation` - `v1.1.0`
+
+ - **FIX**: Public process. ([07c8d420](https://github.com/mathrunet/flutter_masamune/commit/07c8d420cf6a3a187d9ab907774f0b6272d58b3f))
+ - **FIX**: Addition of Model Searchable and Reference. ([aa750bee](https://github.com/mathrunet/flutter_masamune/commit/aa750bee6e438ad9131861ede499682fa21e96bf))
+ - **FEAT**: Initial commit. ([b4c1f070](https://github.com/mathrunet/flutter_masamune/commit/b4c1f0701ae720639cb098f1cdda12bcea6f385c))
+ - **DOCS**: Added DartDoc. ([04f45cca](https://github.com/mathrunet/flutter_masamune/commit/04f45cca56e5aaf6178aea4256b7da0b2af4e344))
+
+#### `masamune_builder` - `v1.1.0`
+
+ - **FIX**: Public process. ([07c8d420](https://github.com/mathrunet/flutter_masamune/commit/07c8d420cf6a3a187d9ab907774f0b6272d58b3f))
+ - **FIX**: Changes to katana_scoped. ([bf436d2e](https://github.com/mathrunet/flutter_masamune/commit/bf436d2e375ae23b6b63740bdaeaf4987cb3ab19))
+ - **FIX**: Added ModelRef addition mechanism. ([3fdc19a9](https://github.com/mathrunet/flutter_masamune/commit/3fdc19a979ee524eb29d7f77f0ead64e601a8912))
+ - **FIX**: Removed Typedef. ([31be48bc](https://github.com/mathrunet/flutter_masamune/commit/31be48bc0acb67d27fdb70cdc7e18f9a7f5e79a9))
+ - **FIX**: Addition of Model Searchable and Reference. ([aa750bee](https://github.com/mathrunet/flutter_masamune/commit/aa750bee6e438ad9131861ede499682fa21e96bf))
+ - **FIX**: Corrected FormValue argument. ([5e91e7e9](https://github.com/mathrunet/flutter_masamune/commit/5e91e7e9830b45d90cc924e4b31e334ad2146132))
+ - **FEAT**: It has been redesigned to match the latest Masamune Framework. ([73977ed3](https://github.com/mathrunet/flutter_masamune/commit/73977ed3fddd6493f2b02bdba7df9be1075294bd))
+ - **DOCS**: Added DartDoc. ([04f45cca](https://github.com/mathrunet/flutter_masamune/commit/04f45cca56e5aaf6178aea4256b7da0b2af4e344))
+
+
 ## 2022-12-26
 
 ### Changes

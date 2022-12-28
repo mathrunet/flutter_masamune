@@ -1,0 +1,8 @@
+## 1.1.0
+
+ - **FIX**: Public process. ([536e5e48](https://github.com/mathrunet/flutter_masamune/commit/536e5e488df7dc37ed927118a5a6feee85d0e100))
+ - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))
+ - **FEAT**: Modal addition. ([e6649f50](https://github.com/mathrunet/flutter_masamune/commit/e6649f50818147ca8b61fde4b968861ec531c0c3))
+ - **FEAT**: Initial commit. ([d000f734](https://github.com/mathrunet/flutter_masamune/commit/d000f7349c1f6ff7c6aae15c8050694dde73f4a4))
+ - **DOCS**: Added DartDoc. ([04f45cca](https://github.com/mathrunet/flutter_masamune/commit/04f45cca56e5aaf6178aea4256b7da0b2af4e344))
+

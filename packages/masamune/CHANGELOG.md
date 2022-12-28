@@ -1,0 +1,12 @@
+## 1.1.0
+
+ - **FIX**: Public process. ([07c8d420](https://github.com/mathrunet/flutter_masamune/commit/07c8d420cf6a3a187d9ab907774f0b6272d58b3f))
+ - **FIX**: Changes to katana_scoped. ([bf436d2e](https://github.com/mathrunet/flutter_masamune/commit/bf436d2e375ae23b6b63740bdaeaf4987cb3ab19))
+ - **FIX**: Added AuthAdapter. ([2c83d9cc](https://github.com/mathrunet/flutter_masamune/commit/2c83d9ccf291ac390706eb99951114c2b64d9955))
+ - **FIX**: Addition of Model Searchable and Reference. ([aa750bee](https://github.com/mathrunet/flutter_masamune/commit/aa750bee6e438ad9131861ede499682fa21e96bf))
+ - **FEAT**: Added Picker-Storage linkage. ([9ef85c69](https://github.com/mathrunet/flutter_masamune/commit/9ef85c69a7fb3d6b93c3d3cbd27aa872f26d915e))
+ - **FEAT**: Add Picker and Storage. ([e024a7ed](https://github.com/mathrunet/flutter_masamune/commit/e024a7ed9826d60927247c82cce85df847eb09ab))
+ - **FEAT**: Add katana_ui. ([55f55582](https://github.com/mathrunet/flutter_masamune/commit/55f55582f08cec7213e3652dc24b5ff3e8b9a635))
+ - **FEAT**: All functions are integrated into the latest katana package. ([37520941](https://github.com/mathrunet/flutter_masamune/commit/375209418b5627e8a35a08a6dee571df755961f1))
+ - **DOCS**: Added DartDoc. ([04f45cca](https://github.com/mathrunet/flutter_masamune/commit/04f45cca56e5aaf6178aea4256b7da0b2af4e344))
+
