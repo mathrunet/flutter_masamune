@@ -237,14 +237,14 @@ packages:
       name: katana_router
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.7"
+    version: "1.10.8"
   katana_router_annotation:
     dependency: transitive
     description:
       name: katana_router_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.4"
+    version: "1.10.5"
   katana_scoped:
     dependency: "direct main"
     description:
