@@ -45,7 +45,10 @@ class StorageValue {
 /// ローカルのファイルと実データを扱うためのクラス。
 @immutable
 class LocalFile extends StorageFile {
-  const LocalFile._({Uri? path, Uint8List? bytes})
+  /// Class for handling local files and real data.
+  ///
+  /// ローカルのファイルと実データを扱うためのクラス。
+  const LocalFile({Uri? path, Uint8List? bytes})
       : super._(
           path: path,
           bytes: bytes,
@@ -57,7 +60,10 @@ class LocalFile extends StorageFile {
 /// リモートのファイルと実データを扱うためのクラス。
 @immutable
 class RemoteFile extends StorageFile {
-  const RemoteFile._({Uri? path, Uint8List? bytes})
+  /// Class for handling remote files and real data.
+  ///
+  /// リモートのファイルと実データを扱うためのクラス。
+  const RemoteFile({Uri? path, Uint8List? bytes})
       : super._(
           path: path,
           bytes: bytes,

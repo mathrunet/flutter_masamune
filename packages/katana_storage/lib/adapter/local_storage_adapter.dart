@@ -61,9 +61,9 @@ class LocalStorageAdapter extends StorageAdapter {
         await localStorage.delete(localFullPath);
       }
       await localStorage.write(localFullPath, bytes);
-      return LocalFile._(path: Uri.parse(localFullPath), bytes: bytes);
+      return LocalFile(path: Uri.parse(localFullPath), bytes: bytes);
     } else {
-      return LocalFile._(bytes: bytes);
+      return LocalFile(bytes: bytes);
     }
   }
 
@@ -89,7 +89,7 @@ class LocalStorageAdapter extends StorageAdapter {
       await remoteStorage.delete(remoteRelativePath);
     }
     await remoteStorage.write(remoteRelativePath, bytes);
-    return RemoteFile._(
+    return RemoteFile(
       path: await fetchPublicURI(remoteRelativePath),
       bytes: bytes,
     );
@@ -105,7 +105,7 @@ class LocalStorageAdapter extends StorageAdapter {
       await remoteStorage.delete(remoteFullPath);
     }
     await remoteStorage.write(remoteFullPath, uploadFileByte);
-    return RemoteFile._(
+    return RemoteFile(
       path: await fetchPublicURI(remoteFullPath),
       bytes: uploadFileByte,
     );
