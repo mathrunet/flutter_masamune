@@ -111,29 +111,11 @@ class AppInfoCliCommand extends CliCommand {
     await _removeAndroidResValues(data);
     await _replaceAndroidManifest();
     label("Replace ios information");
-    final xcode = XCode();
-    await xcode.load();
-    if (!xcode.pbxBuildFile.any((e) => e.fileName == "InfoPlist.strings")) {
-      xcode.pbxBuildFile.add(
-        PBXBuildFile(
-          fileName: "InfoPlist.strings",
-          fileDir: "Resource",
-          fileRef: XCode.generateId(),
-        ),
-      );
-    }
-    if (!xcode.pbxFileReference.any((e) => e.name == "en")) {
-      xcode.pbxFileReference.add(
-        PBXFileReference(
-          name: "en",
-          comment: "en",
-          path: "en.lproj/InfoPlist.strings",
-          lastKnownFileType: "text.plist.strings",
-          sourceTree: '"<group>"',
-        ),
-      );
-    }
-    await xcode.save();
+    await _createIOSInfoPlistStrings({
+      if (defaultLocale.isNotEmpty) "": data[defaultLocale!]!,
+      ...data,
+    });
+    await _attachInfoPlistStringsToXCode(data);
   }
 
   Future<void> _createAndroidResValues(
@@ -266,5 +248,155 @@ class AppInfoCliCommand extends CliCommand {
     await file.writeAsString(
       document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
     );
+  }
+
+  Future<void> _createIOSInfoPlistStrings(
+    Map<String, Map<String, String>> data,
+  ) async {
+    for (final tmp in data.entries) {
+      if (tmp.key.isEmpty) {
+        continue;
+      }
+      final dir = Directory(
+        "ios/Runner/${tmp.key}.lproj",
+      );
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+      final text =
+          'CFBundleDisplayName = "${tmp.value.get("short_title", "")}";';
+      final file = File("${dir.path}/InfoPlist.strings");
+      if (!file.existsSync()) {
+        await file.writeAsString(text);
+      } else {
+        final data = await file.readAsString();
+        final regExp = RegExp(r'CFBundleDisplayName[\s]*=[\s]*"([^"]+)";');
+        if (regExp.hasMatch(data)) {
+          await file.writeAsString(data.replaceAll(regExp, text));
+        } else {
+          await file.writeAsString("$data\n$text");
+        }
+      }
+    }
+    final base = data.entries.firstWhereOrNull((item) => item.key == "");
+    if (base != null) {
+      final dir = Directory("ios/Runner/Base.lproj");
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+      final text =
+          'CFBundleDisplayName = "${base.value.get("short_title", "")}";';
+      final file = File("${dir.path}/InfoPlist.strings");
+      if (!file.existsSync()) {
+        await file.writeAsString(text);
+      } else {
+        final data = await file.readAsString();
+        final regExp = RegExp(r'CFBundleDisplayName[\s]*=[\s]*"([^"]+)";');
+        if (regExp.hasMatch(data)) {
+          await file.writeAsString(data.replaceAll(regExp, text));
+        } else {
+          await file.writeAsString("$data\n$text");
+        }
+      }
+    }
+  }
+
+  Future<void> _attachInfoPlistStringsToXCode(
+    Map<String, Map<String, String>> data,
+  ) async {
+    final xcode = XCode();
+    await xcode.load();
+    late String variantGroupId;
+    late String buildFileId;
+    final fileIds = <String, String>{};
+    for (final tmp in data.entries) {
+      if (tmp.key.isEmpty) {
+        continue;
+      }
+      final ref =
+          xcode.pbxFileReference.firstWhereOrNull((e) => e.name == tmp.key);
+      if (ref == null) {
+        final id = XCode.generateId();
+        fileIds[tmp.key] = id;
+        xcode.pbxFileReference.add(
+          PBXFileReference(
+            id: id,
+            name: tmp.key,
+            path: "${tmp.key}.lproj/InfoPlist.strings",
+            comment: tmp.key,
+            sourceTree: '"<group>"',
+            lastKnownFileType: "text.plist.strings",
+          ),
+        );
+      } else {
+        fileIds[tmp.key] = ref.id;
+      }
+    }
+    final variantGroup = xcode.pbxVariantGroup
+        .firstWhereOrNull((e) => e.name == "InfoPlist.strings");
+    if (variantGroup != null) {
+      variantGroupId = variantGroup.id;
+      variantGroup.children.clear();
+      variantGroup.children.addAll(
+        fileIds.toList(
+          (key, value) => PBXVariantGroupChild(
+            id: value,
+            comment: key,
+          ),
+        ),
+      );
+    } else {
+      variantGroupId = XCode.generateId();
+      xcode.pbxVariantGroup.add(
+        PBXVariantGroup(
+          id: variantGroupId,
+          children: fileIds
+              .toList(
+                (key, value) => PBXVariantGroupChild(
+                  id: value,
+                  comment: key,
+                ),
+              )
+              .toList(),
+          name: "InfoPlist.strings",
+          sourceTree: '"<group>"',
+        ),
+      );
+    }
+    final runner = xcode.pbxGroup.firstWhereOrNull((e) => e.path == "Runner");
+    if (runner == null) {
+      throw Exception("Runner is not associated with XCode.");
+    }
+    if (!runner.children.any((e) => e.id == variantGroupId)) {
+      runner.children.add(
+        PBXGroupChild(id: variantGroupId, comment: "InfoPlist.strings"),
+      );
+    }
+    final buildFile =
+        xcode.pbxBuildFile.firstWhereOrNull((e) => e.fileRef == variantGroupId);
+    if (buildFile != null) {
+      buildFileId = buildFile.id;
+    } else {
+      buildFileId = XCode.generateId();
+      xcode.pbxBuildFile.add(
+        PBXBuildFile(
+          id: buildFileId,
+          fileRef: variantGroupId,
+          fileName: "InfoPlist.strings",
+          fileDir: "Resources",
+        ),
+      );
+    }
+    final buildPhase = xcode.pbxResourcesBuildPhase.first;
+    if (!buildPhase.files.any((e) => e.id == buildFileId)) {
+      buildPhase.files.add(
+        PBXResourcesBuildPhaseFile(
+          id: buildFileId,
+          fileDir: "InfoPlist.strings",
+          fileName: "Resources",
+        ),
+      );
+    }
+    await xcode.save();
   }
 }
