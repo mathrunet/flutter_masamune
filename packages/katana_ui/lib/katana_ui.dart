@@ -13,6 +13,4 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide Scaffold;
 export 'package:katana/katana.dart';
 
-part 'src/ui_type.dart';
-
 part 'modal/modal.dart';
