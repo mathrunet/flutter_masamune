@@ -110,6 +110,30 @@ class AppInfoCliCommand extends CliCommand {
     });
     await _removeAndroidResValues(data);
     await _replaceAndroidManifest();
+    label("Replace ios information");
+    final xcode = XCode();
+    await xcode.load();
+    if (!xcode.pbxBuildFile.any((e) => e.fileName == "InfoPlist.strings")) {
+      xcode.pbxBuildFile.add(
+        PBXBuildFile(
+          fileName: "InfoPlist.strings",
+          fileDir: "Resource",
+          fileRef: XCode.generateId(),
+        ),
+      );
+    }
+    if (!xcode.pbxFileReference.any((e) => e.name == "en")) {
+      xcode.pbxFileReference.add(
+        PBXFileReference(
+          name: "en",
+          comment: "en",
+          path: "en.lproj/InfoPlist.strings",
+          lastKnownFileType: "text.plist.strings",
+          sourceTree: '"<group>"',
+        ),
+      );
+    }
+    await xcode.save();
   }
 
   Future<void> _createAndroidResValues(

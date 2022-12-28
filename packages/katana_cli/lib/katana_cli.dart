@@ -18,6 +18,7 @@ export 'command/create.dart';
 export 'command/pub/pub.dart';
 export 'command/submodule.dart';
 export 'src/framework.dart';
+export 'src/xcode.dart';
 
 part 'code/collection_model.dart';
 part 'code/controller.dart';
