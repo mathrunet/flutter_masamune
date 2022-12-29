@@ -33,10 +33,25 @@ class AppInfoCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Set the application title, icon, and other information based on the information in `katana.yaml`. `katana.yaml`の情報を元にアプリケーションのタイトルやアイコンなどの情報を設定します。";
+      "Set the application title, icon, and other information based on the information in `katana.yaml`. You can add initial information in `katana.yaml` with the `init` option. `katana.yaml`の情報を元にアプリケーションのタイトルやアイコンなどの情報を設定します。initオプションで`katana.yaml`の初期情報を追加できます。";
 
   @override
   Future<void> exec(ExecContext context) async {
+    final command = context.args.get(2, "");
+    if (command == "init") {
+      if (!context.yaml.containsKey("app")) {
+        context.yaml["app"] = {};
+      }
+      final app = context.yaml.getAsMap("app");
+      if (!app.containsKey("spread_sheet")) {
+        app["spread_sheet"] = {};
+      }
+      final spreadSheet = app.getAsMap("spread_sheet");
+      spreadSheet["url"] = "";
+      spreadSheet["email"] = "";
+      await context.save();
+      return;
+    }
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
       print("The item [app] is missing. Please add an item.");

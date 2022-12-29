@@ -8,6 +8,8 @@ import 'package:katana_cli/katana_cli.dart';
 import 'package:xml/xml.dart';
 
 part 'info.dart';
+part 'csr.dart';
+part 'keystore.dart';
 
 class AppCliCommand extends CliCommandGroup {
   const AppCliCommand();
@@ -19,5 +21,6 @@ class AppCliCommand extends CliCommandGroup {
   @override
   Map<String, CliCommand> get commands => const {
         "info": AppInfoCliCommand(),
+        "csr": AppCsrCliCommand(),
       };
 }

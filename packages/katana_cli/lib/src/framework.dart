@@ -4,6 +4,7 @@ import 'dart:core' as core;
 import 'dart:io';
 
 import 'package:katana/katana.dart';
+import 'package:yaml_writer/yaml_writer.dart';
 
 /// Prefix of the path to trim.
 ///
@@ -50,6 +51,14 @@ class ExecContext {
 
   ExecContext _copyToChild() {
     return ExecContext(yaml: yaml, args: args, index: _index + 1);
+  }
+
+  /// Save [yaml] to `katana.yaml`.
+  ///
+  /// [yaml]を`katana.yaml`に保存します。
+  Future<void> save() async {
+    final content = YAMLWriter().write(yaml);
+    await File("katana.yaml").writeAsString(content);
   }
 }
 
@@ -270,6 +279,27 @@ abstract class CliCode {
     return value.replaceAllMapped(_regExp, (m) {
       return m.group(2) ?? "";
     });
+  }
+}
+
+/// Make an Unmodifidable map or listing Modifidable.
+///
+/// UnmodifidableなマップやリストをModifidableにします。
+dynamic modifize(dynamic object) {
+  if (object is Map) {
+    final modifized = Map.from(object);
+    for (final tmp in object.entries) {
+      modifized[tmp.key] = modifize(tmp.value);
+    }
+    return modifized;
+  } else if (object is List) {
+    final modifized = List.from(object);
+    for (var i = 0; i < modifized.length; i++) {
+      modifized[i] = modifize(modifized[i]);
+    }
+    return modifized;
+  } else {
+    return object;
   }
 }
 

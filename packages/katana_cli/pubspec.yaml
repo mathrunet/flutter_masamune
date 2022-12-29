@@ -12,6 +12,7 @@ environment:
 dependencies:
   lints: ^2.0.0
   yaml: ^3.1.0
+  yaml_writer: ^1.0.3
   archive: ^3.1.9
   csv: ^5.0.1
   katana: ^0.15.0

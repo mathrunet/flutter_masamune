@@ -41,13 +41,14 @@ Future<void> main(List<String> args) async {
       return;
     }
   } else {
-    final yaml = loadYaml(await katana.readAsString());
+    final yaml = modifize(loadYaml(await katana.readAsString()));
     if (yaml.isEmpty) {
       print(
         "katana.yaml file could not be found. Place it in the root of the project.",
       );
       return;
     }
+
     for (final tmp in commands.entries) {
       if (tmp.key != command) {
         continue;
