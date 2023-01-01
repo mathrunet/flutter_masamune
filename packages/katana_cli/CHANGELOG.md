@@ -1,0 +1,16 @@
+## 1.1.0
+
+ - **FIX**: Modify the main code to match the actual situation. ([6f1168be](https://github.com/mathrunet/flutter_masamune/commit/6f1168be12a664b0cada41683dc6646ba2ade228))
+ - **FIX**: Changed to use FormRef. ([97d00ad3](https://github.com/mathrunet/flutter_masamune/commit/97d00ad38598d605dc1529c68139503f4ca400e1))
+ - **FIX**: Maintenance of code main. ([32c0c456](https://github.com/mathrunet/flutter_masamune/commit/32c0c456b6275c03bd0aaa917a72f92174b3603e))
+ - **FIX**: Slight change to Code. ([6040f2b5](https://github.com/mathrunet/flutter_masamune/commit/6040f2b51bb2a5f1edbddd002b3f0cb2cfc2ff97))
+ - **FIX**: Fixes around code creation. ([45c14426](https://github.com/mathrunet/flutter_masamune/commit/45c144263dcfea8e75c2a8e22874a64fbe6e8fe4))
+ - **FIX**: Added Code generation function. ([6d3d6461](https://github.com/mathrunet/flutter_masamune/commit/6d3d64618b05942ba8b6cef30c0541f2d778d57d))
+ - **FEAT**: keystoreのコマンドを追加。. ([60e8c089](https://github.com/mathrunet/flutter_masamune/commit/60e8c0899e3eb48b039ae3ee8e272e4a9cc41779))
+ - **FEAT**: Creation of app name localization data by app info. ([c5cfaf4c](https://github.com/mathrunet/flutter_masamune/commit/c5cfaf4c76be834810c4cbe4e7161c6fa1c7ffcf))
+ - **FEAT**: Add app info command. ([5ed6610b](https://github.com/mathrunet/flutter_masamune/commit/5ed6610b9b7375f741f2d24443b9eb5d26cc3fe6))
+ - **FEAT**: Add value and redirect_query to code. ([34fe089f](https://github.com/mathrunet/flutter_masamune/commit/34fe089ff8cb0a6b95c17f713b746cb85c6f6fe9))
+ - **FEAT**: Basic template added. ([5b3091a3](https://github.com/mathrunet/flutter_masamune/commit/5b3091a3cf959fe75cf73893400edc53aaa32cb3))
+ - **FEAT**: Organize commands and create code commands. ([0f64f538](https://github.com/mathrunet/flutter_masamune/commit/0f64f538e7b5376e61da4eee6d69717eeb6dcee0))
+ - **FEAT**: Initial commit. ([a50d51ae](https://github.com/mathrunet/flutter_masamune/commit/a50d51ae62b5bb9f4a4571301ec88d8b9b97412c))
+

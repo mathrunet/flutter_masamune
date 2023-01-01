@@ -1,10 +1,8 @@
 name: katana_cli
 description: Command line tool for Masamune/Katana Framework. It initializes the project and initializes the services.
-version: 1.0.0
+version: 1.1.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_cli
-
-publish_to: none
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
