@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  meta: ^1.8.0
+
   katana: ^0.15.0
   katana_shorten: ^1.2.0
   katana_indicator: ^1.1.4

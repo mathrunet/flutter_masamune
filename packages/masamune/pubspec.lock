@@ -262,10 +262,10 @@ packages:
   katana_storage:
     dependency: "direct main"
     description:
-      path: "../katana_storage"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: katana_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   katana_theme:
     dependency: "direct main"
     description:
@@ -283,17 +283,17 @@ packages:
   katana_ui:
     dependency: "direct main"
     description:
-      path: "../katana_ui"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: katana_ui
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   masamune_annotation:
     dependency: "direct main"
     description:
-      path: "../masamune_annotation"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: masamune_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   matcher:
     dependency: transitive
     description:
@@ -309,7 +309,7 @@ packages:
     source: hosted
     version: "0.1.5"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"
