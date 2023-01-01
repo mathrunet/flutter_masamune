@@ -18,15 +18,16 @@ export 'command/create.dart';
 export 'command/pub/pub.dart';
 export 'command/submodule.dart';
 export 'src/framework.dart';
+export 'src/gradle.dart';
 export 'src/xcode.dart';
 
 part 'code/collection_model.dart';
 part 'code/controller.dart';
 part 'code/controller_group.dart';
 part 'code/document_model.dart';
+part 'code/katana.dart';
 part 'code/launch.dart';
 part 'code/main.dart';
-part 'code/katana.dart';
 part 'code/page.dart';
 part 'code/redirect_query.dart';
 part 'code/tmp/basic.dart';

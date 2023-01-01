@@ -17,6 +17,7 @@ class AppCsrCliCommand extends CliCommand {
   Future<void> exec(ExecContext context) async {
     final command = context.args.get(2, "");
     if (command == "init") {
+      label("Add initial information in `katana.yaml`.");
       if (!context.yaml.containsKey("app")) {
         context.yaml["app"] = {};
       }
@@ -48,9 +49,7 @@ class AppCsrCliCommand extends CliCommand {
       );
       return;
     }
-    print(
-      "\r\n#### Create a CertificateSigningRequest.certificateSigningRequest",
-    );
+    label("Create a CertificateSigningRequest.certificateSigningRequest");
     final process = await Process.start(
       openssl,
       [

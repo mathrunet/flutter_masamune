@@ -39,6 +39,7 @@ class AppInfoCliCommand extends CliCommand {
   Future<void> exec(ExecContext context) async {
     final command = context.args.get(2, "");
     if (command == "init") {
+      label("Add initial information in `katana.yaml`.");
       if (!context.yaml.containsKey("app")) {
         context.yaml["app"] = {};
       }

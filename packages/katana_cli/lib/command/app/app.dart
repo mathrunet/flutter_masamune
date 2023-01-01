@@ -22,5 +22,6 @@ class AppCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "info": AppInfoCliCommand(),
         "csr": AppCsrCliCommand(),
+        "keystore": AppKeystoreCliCommand(),
       };
 }

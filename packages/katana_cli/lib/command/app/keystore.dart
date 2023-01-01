@@ -11,10 +11,29 @@ class AppKeystoreCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Automatically outputs `CertificateSigningRequest.certSigningRequest` for authentication at AppStore. The key is stored in `ios/ios_enterprise.key` and the CertificateSigningRequest is output to `ios/CertificateSigningRequest.certSigningRequest`. AppStoreでの認証を行うための`CertificateSigningRequest.certSigningRequest`を自動出力します。`ios/ios_enterprise.key`にキーが保存され、`ios/CertificateSigningRequest.certSigningRequest`にCertificateSigningRequestが出力されます。";
+      "Generate a keystore for Android and use it only at release build time. Save the password for keystore generation in `android/app/appkey_password.key`. Store the keystore in `android/app/appkey.keystore` and `android/app/appkey.p12`. Save the keystore information in `android/key.properties` so that it can be read by build.gradle. Save fingerprint information in `android/app/appkey_fingerprint.txt`. you can add initial information in `katana.yaml` with `init` option. Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。`android/app/appkey_password.key`にkeystoreの生成時のパスワードを保存します。`android/app/appkey.keystore`と`android/app/appkey.p12`にキーストアが保存されます。`android/key.properties`にキーストアの情報を保存し、build.gradleで読み込めるようにします。`android/app/appkey_fingerprint.txt`にフィンガープリント情報を保存します。initオプションで`katana.yaml`の初期情報を追加できます。";
 
   @override
   Future<void> exec(ExecContext context) async {
+    final com = context.args.get(2, "");
+    if (com == "init") {
+      label("Add initial information in `katana.yaml`.");
+      if (!context.yaml.containsKey("app")) {
+        context.yaml["app"] = {};
+      }
+      final app = context.yaml.getAsMap("app");
+      if (!app.containsKey("keystore")) {
+        app["keystore"] = {};
+      }
+      final keystore = app.getAsMap("keystore");
+      keystore["alias"] = "";
+      keystore["name"] = "";
+      keystore["organization"] = "";
+      keystore["state"] = "Tokyo";
+      keystore["country"] = "Japan";
+      await context.save();
+      return;
+    }
     final bin = context.yaml.getAsMap("bin");
     final keytool = bin.get("keytool", "keytool");
     final app = context.yaml.getAsMap("app");
@@ -62,12 +81,14 @@ class AppKeystoreCliCommand extends CliCommand {
       );
       return;
     }
+    label("Create a password.");
     final passwordFile = File("android/app/appkey_password.key");
     if (!passwordFile.existsSync()) {
       final password = generateCode(16);
       passwordFile.writeAsStringSync(password);
     }
     final password = passwordFile.readAsStringSync();
+    label("Create a keystore.");
     final appKey = File("android/app/appkey.keystore");
     if (!appKey.existsSync()) {
       await command(
@@ -91,6 +112,7 @@ class AppKeystoreCliCommand extends CliCommand {
         ],
       );
     }
+    label("Convert the keystore to a p12 file.");
     final p12 = File("android/app/appkey.p12");
     if (!p12.existsSync()) {
       await command(
@@ -116,7 +138,8 @@ class AppKeystoreCliCommand extends CliCommand {
         ],
       );
     }
-    final properties = File("android/app.properties");
+    label("Store keystore information in `key.properties`.");
+    final properties = File("android/key.properties");
     if (properties.existsSync()) {
       final contents = await properties.readAsLines();
       if (!contents.any((e) => e.startsWith("storePassword"))) {
@@ -137,6 +160,32 @@ class AppKeystoreCliCommand extends CliCommand {
         "storePassword=$password\nkeyPassword=$password\nkeyAlias=$alias\nstoreFile=appkey.keystore",
       );
     }
+    label("Add processing to the Gradle file.");
+    final gradle = AppGradle();
+    await gradle.load();
+    if (!gradle.loadProperties.any((e) => e.name == "keyProperties")) {
+      gradle.loadProperties.add(
+        GradleLoadProperties(
+          path: "key.properties",
+          name: "keyProperties",
+          file: "keyPropertiesFile",
+        ),
+      );
+    }
+    gradle.android?.buildTypes = GradleAndroidBuildTypes(
+      release: GradleAndroidBuildType(signingConfig: "signingConfigs.release"),
+      debug: GradleAndroidBuildType(signingConfig: "signingConfigs.debug"),
+    );
+    gradle.android?.signingConfigs = GradleAndroidSigningConfigs(
+      release: GradleAndroidSigningConfig(
+        keyAlias: "keyProperties['keyAlias']",
+        keyPassword: "keyProperties['keyPassword']",
+        storeFile: "keyProperties['storeFile']",
+        storePassword: "keyProperties['storePassword']",
+      ),
+    );
+    await gradle.save();
+    label("Save the fingerprint information.");
     final fingerPrintFile = File("android/app/appkey_fingerprint.txt");
     if (!fingerPrintFile.existsSync()) {
       final fingerPrint = await command(
@@ -157,5 +206,22 @@ class AppKeystoreCliCommand extends CliCommand {
       );
       await fingerPrintFile.writeAsString(fingerPrint);
     }
+    label("Rewrite `.gitignore`.");
+    final gitignore = File("android/.gitignore");
+    if (!gitignore.existsSync()) {
+      print("Cannot find `android/.gitignore`. Project is broken.");
+      return;
+    }
+    final gitignores = await gitignore.readAsLines();
+    if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
+      gitignores.add("**/*.p12");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/appkey_fingerprint.txt"))) {
+      gitignores.add("**/appkey_fingerprint.txt");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/appkey_password.key"))) {
+      gitignores.add("**/appkey_password.key");
+    }
+    await gitignore.writeAsString(gitignores.join("\n"));
   }
 }

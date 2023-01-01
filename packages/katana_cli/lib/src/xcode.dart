@@ -5,27 +5,51 @@ import 'package:katana/katana.dart';
 ///
 /// XCodeのproject.pbxprojを編集するためのユーティリティ。
 class XCode {
+  /// Utility to edit XCode's project.pbxproj.
+  ///
+  /// XCodeのproject.pbxprojを編集するためのユーティリティ。
   XCode();
 
+  /// Original text data.
+  ///
+  /// 元のテキストデータ。
   String get rawData => _rawData;
   late String _rawData;
 
+  /// BuildFile data.
+  ///
+  /// BuildFileのデータ。
   List<PBXBuildFile> get pbxBuildFile => _pbxBuildFile;
   late List<PBXBuildFile> _pbxBuildFile;
 
+  /// FileReference data.
+  ///
+  /// FileReferenceのデータ。
   List<PBXFileReference> get pbxFileReference => _pbxFileReference;
   late List<PBXFileReference> _pbxFileReference;
 
+  /// PBXGroup data.
+  ///
+  /// PBXGroupのデータ。
   List<PBXGroup> get pbxGroup => _pbxGroup;
   late List<PBXGroup> _pbxGroup;
 
+  /// ResourcesBuildPhase data.
+  ///
+  /// ResourcesBuildPhaseのデータ。
   List<PBXResourcesBuildPhase> get pbxResourcesBuildPhase =>
       _pbxResourcesBuildPhase;
   late List<PBXResourcesBuildPhase> _pbxResourcesBuildPhase;
 
+  /// VariantGroup data.
+  ///
+  /// VariantGroupのデータ。
   List<PBXVariantGroup> get pbxVariantGroup => _pbxVariantGroup;
   late List<PBXVariantGroup> _pbxVariantGroup;
 
+  /// Data loading.
+  ///
+  /// データの読み込み。
   Future<void> load() async {
     final pbx = File("ios/Runner.xcodeproj/project.pbxproj");
     _rawData = await pbx.readAsString();
@@ -36,6 +60,9 @@ class XCode {
     _pbxVariantGroup = PBXVariantGroup._load(_rawData);
   }
 
+  /// Data storage.
+  ///
+  /// データの保存。
   Future<void> save() async {
     if (_rawData.isEmpty) {
       throw Exception("No value. Please load data with [load].");
@@ -53,12 +80,21 @@ class XCode {
     await pbx.writeAsString(_rawData);
   }
 
+  /// Create an ID for XCode.
+  ///
+  /// XCode用のIDを作成します。
   static String generateId() {
     return generateCode(24, charSet: "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ");
   }
 }
 
+/// BuildFile data.
+///
+/// BuildFileのデータ。
 class PBXBuildFile {
+  /// BuildFile data.
+  ///
+  /// BuildFileのデータ。
   factory PBXBuildFile({
     String? id,
     required String fileRef,
@@ -108,10 +144,29 @@ class PBXBuildFile {
     );
   }
 
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
   final String isa = "PBXBuildFile";
+
+  /// ID of the section.
+  ///
+  /// セクションのID。
   final String id;
+
+  /// Value of `fileRef`.
+  ///
+  /// `fileRef`の値。
   final String fileRef;
+
+  /// File name for comments.
+  ///
+  /// コメント用のファイル名。
   final String fileName;
+
+  /// Name of file folder for comments.
+  ///
+  /// コメント用のファイルフォルダ名。
   final String fileDir;
 
   @override
@@ -120,7 +175,13 @@ class PBXBuildFile {
   }
 }
 
+/// FileReference data.
+///
+/// FileReferenceのデータ。
 class PBXFileReference {
+  /// FileReference data.
+  ///
+  /// FileReferenceのデータ。
   factory PBXFileReference({
     String? id,
     String? lastKnownFileType,
@@ -190,15 +251,54 @@ class PBXFileReference {
     );
   }
 
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
   final String isa = "PBXFileReference";
+
+  /// ID of the section.
+  ///
+  /// セクションのID。
   final String id;
+
+  /// `lastKnownFileType` information.
+  ///
+  /// `lastKnownFileType`の情報。
   final String? lastKnownFileType;
+
+  /// File Path.
+  ///
+  /// ファイルパス。
   final String path;
+
+  /// File Name.
+  ///
+  /// ファイル名。
   final String? name;
+
+  /// Comment Data.
+  ///
+  /// コメントデータ。
   final String comment;
+
+  /// SourceTree data.
+  ///
+  /// SourceTreeのデータ。
   final String sourceTree;
+
+  /// File encoding number.
+  ///
+  /// ファイルエンコーディング番号。
   final int? fileEncoding;
+
+  /// Data of `explicitFileType`.
+  ///
+  /// `explicitFileType`のデータ。
   final String? explicitFileType;
+
+  /// Data for `includeInIndex`.
+  ///
+  /// `includeInIndex`のデータ。
   final int? includeInIndex;
 
   @override
@@ -207,7 +307,13 @@ class PBXFileReference {
   }
 }
 
+/// PBXGroup data.
+///
+/// PBXGroupのデータ。
 class PBXGroup {
+  /// PBXGroup data.
+  ///
+  /// PBXGroupのデータ。
   factory PBXGroup({
     String? id,
     String? comment,
@@ -250,7 +356,7 @@ class PBXGroup {
         name: e.namedGroup("name"),
         path: e.namedGroup("path"),
         sourceTree: e.namedGroup("sourceTree") ?? "",
-        children: PBXGroupChild.parse(e.namedGroup("children") ?? ""),
+        children: PBXGroupChild._parse(e.namedGroup("children") ?? ""),
       );
     });
   }
@@ -265,12 +371,39 @@ class PBXGroup {
     );
   }
 
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
   final String isa = "PBXGroup";
+
+  /// ID of the section.
+  ///
+  /// セクションのID。
   final String id;
+
+  /// Comment Data.
+  ///
+  /// コメントデータ。
   final String? comment;
+
+  /// Data for [PBXGroupChild].
+  ///
+  /// [PBXGroupChild]のデータ。
   final List<PBXGroupChild> children;
+
+  /// Group Name.
+  ///
+  /// グループ名。
   final String? name;
+
+  /// Group Pass.
+  ///
+  /// グループパス。
   final String? path;
+
+  /// `soruceTree` data.
+  ///
+  /// `soruceTree`のデータ。
   final String sourceTree;
 
   @override
@@ -279,7 +412,13 @@ class PBXGroup {
   }
 }
 
+/// Class for `children` of [PBXGroup].
+///
+/// [PBXGroup]の`children`用のクラス。
 class PBXGroupChild {
+  /// Class for `children` of [PBXGroup].
+  ///
+  /// [PBXGroup]の`children`用のクラス。
   factory PBXGroupChild({
     String? id,
     required String comment,
@@ -294,7 +433,7 @@ class PBXGroupChild {
     required this.comment,
   });
 
-  static List<PBXGroupChild> parse(String text) {
+  static List<PBXGroupChild> _parse(String text) {
     return RegExp(
       r'(?<id>[0-9A-Z]{24}) /\* (?<comment>[a-zA-Z_.-]+) \*/,',
     ).allMatches(text).mapAndRemoveEmpty((e) {
@@ -305,7 +444,14 @@ class PBXGroupChild {
     });
   }
 
+  /// ID of the element.
+  ///
+  /// 要素のID。
   final String id;
+
+  /// Comment Data.
+  ///
+  /// コメントデータ。
   final String comment;
 
   @override
@@ -314,7 +460,13 @@ class PBXGroupChild {
   }
 }
 
+/// ResourcesBuildPhase data.
+///
+/// ResourcesBuildPhaseのデータ。
 class PBXResourcesBuildPhase {
+  /// ResourcesBuildPhase data.
+  ///
+  /// ResourcesBuildPhaseのデータ。
   factory PBXResourcesBuildPhase({
     String? id,
     String? comment,
@@ -357,7 +509,7 @@ class PBXResourcesBuildPhase {
               e.namedGroup("runOnlyForDeploymentPostprocessing") ?? "",
             ) ??
             0,
-        files: PBXResourcesBuildPhaseFile.parse(e.namedGroup("files") ?? ""),
+        files: PBXResourcesBuildPhaseFile._parse(e.namedGroup("files") ?? ""),
       );
     });
   }
@@ -372,11 +524,34 @@ class PBXResourcesBuildPhase {
     );
   }
 
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
   final String isa = "PBXResourcesBuildPhase";
+
+  /// ID of the section.
+  ///
+  /// セクションのID。
   final String id;
+
+  /// Comment file.
+  ///
+  /// コメントファイル。
   final String? comment;
+
+  /// List of files in [PBXResourcesBuildPhase].
+  ///
+  /// [PBXResourcesBuildPhase]のファイル一覧。
   final List<PBXResourcesBuildPhaseFile> files;
+
+  /// Data for `buildActionMask`.
+  ///
+  /// `buildActionMask`のデータ。
   final int buildActionMask;
+
+  /// Data for `runOnlyForDeploymentPostprocessing`.
+  ///
+  /// `runOnlyForDeploymentPostprocessing`のデータ。
   final int runOnlyForDeploymentPostprocessing;
 
   @override
@@ -385,7 +560,13 @@ class PBXResourcesBuildPhase {
   }
 }
 
+/// Class for [PBXResourcesBuildPhase] files.
+///
+/// [PBXResourcesBuildPhase]のファイル用のクラス。
 class PBXResourcesBuildPhaseFile {
+  /// Class for [PBXResourcesBuildPhase] files.
+  ///
+  /// [PBXResourcesBuildPhase]のファイル用のクラス。
   factory PBXResourcesBuildPhaseFile({
     String? id,
     required String fileName,
@@ -403,7 +584,7 @@ class PBXResourcesBuildPhaseFile {
     required this.fileDir,
   });
 
-  static List<PBXResourcesBuildPhaseFile> parse(String text) {
+  static List<PBXResourcesBuildPhaseFile> _parse(String text) {
     return RegExp(
       r'(?<id>[0-9A-Z]{24}) /\* (?<fileName>[a-zA-Z_.-]+) in (?<fileDir>[a-zA-Z_.-]+) \*/,',
     ).allMatches(text).mapAndRemoveEmpty((e) {
@@ -415,8 +596,19 @@ class PBXResourcesBuildPhaseFile {
     });
   }
 
+  /// ID of the element.
+  ///
+  /// 要素のID。
   final String id;
+
+  /// File name for comments.
+  ///
+  /// コメント用のファイル名。
   final String fileName;
+
+  /// Name of file folder for comments.
+  ///
+  /// コメント用のファイルフォルダ名。
   final String fileDir;
 
   @override
@@ -425,7 +617,13 @@ class PBXResourcesBuildPhaseFile {
   }
 }
 
+/// VariantGroup data.
+///
+/// VariantGroupのデータ。
 class PBXVariantGroup {
+  /// VariantGroup data.
+  ///
+  /// VariantGroupのデータ。
   factory PBXVariantGroup({
     String? id,
     String? comment,
@@ -479,11 +677,34 @@ class PBXVariantGroup {
     );
   }
 
-  final String isa = "PBXResourcesBuildPhase";
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
+  final String isa = "PBXVariantGroup";
+
+  /// ID of the section.
+  ///
+  /// セクションのID。
   final String id;
+
+  /// Comment Data.
+  ///
+  /// コメントデータ。
   final String? comment;
+
+  /// List of data in the group.
+  ///
+  /// グループ内のデータ一覧。
   final List<PBXVariantGroupChild> children;
+
+  /// Group Name.
+  ///
+  /// グループ名。
   final String name;
+
+  /// Data from `sourceTree`.
+  ///
+  /// `sourceTree`のデータ。
   final String sourceTree;
 
   @override
@@ -492,7 +713,13 @@ class PBXVariantGroup {
   }
 }
 
+/// Data for `children` in [PBXVariantGroup].
+///
+/// [PBXVariantGroup]の`children`のデータ。
 class PBXVariantGroupChild {
+  /// Data for `children` in [PBXVariantGroup].
+  ///
+  /// [PBXVariantGroup]の`children`のデータ。
   factory PBXVariantGroupChild({
     String? id,
     required String comment,
@@ -518,7 +745,14 @@ class PBXVariantGroupChild {
     });
   }
 
+  /// ID of the element.
+  ///
+  /// 要素のID。
   final String id;
+
+  /// Comment Data.
+  ///
+  /// コメントデータ。
   final String comment;
 
   @override
