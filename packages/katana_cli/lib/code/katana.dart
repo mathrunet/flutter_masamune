@@ -47,7 +47,23 @@ app:
     url:
     email:
 
+  # Create a `CertificateSigningRequest.certSigningRequest` for iOS.
+  # Please include your support email address in [email].
+  # iOS用の`CertificateSigningRequest.certSigningRequest`を作成します。
+  # [email]にサポート用のEmailアドレスを記載してください。
+  csr: 
+    email:
 
+  # Create a keystore for Android.
+  # Enter the alias of the keystore in [alias], the common name in [name], the organization name in [organization], the state or province in [state], and the country in [country].
+  # Android用のkeystoreを作成します。
+  # [alias]にkeystoreのエイリアス、[name]に共通名、[organization]に組織名、[state]に州や都道府県、[country]に国名を入力してください。
+  keystore: 
+    alias: 
+    name: 
+    organization: 
+    state: Tokyo
+    country: Japan
 """;
   }
 }

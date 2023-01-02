@@ -26,6 +26,8 @@ part 'code/controller.dart';
 part 'code/controller_group.dart';
 part 'code/document_model.dart';
 part 'code/katana.dart';
+part 'code/katana_secrets.dart';
+part 'code/pubspec_overrides.dart';
 part 'code/launch.dart';
 part 'code/main.dart';
 part 'code/page.dart';

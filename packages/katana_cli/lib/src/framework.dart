@@ -206,9 +206,11 @@ abstract class CliCode {
   ///
   /// [directory]/[name].code-snippetsにVSCode用のコードスニペットファイルを作成します。
   Future<void> generateCodeSnippet(String directory) async {
-    final dir = Directory(directory);
-    if (!dir.existsSync()) {
-      await dir.create(recursive: true);
+    if (directory.isNotEmpty) {
+      final dir = Directory(directory);
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
     }
     final fileName = name.toSnakeCase();
     final json = {
@@ -246,7 +248,9 @@ abstract class CliCode {
             .split("\n")
       }
     };
-    await File("$directory/$fileName.code-snippets").writeAsString(
+    await File(
+            "${directory.isNotEmpty ? "$directory/" : ""}$fileName.code-snippets")
+        .writeAsString(
       jsonEncode(json),
     );
   }
@@ -255,11 +259,14 @@ abstract class CliCode {
   ///
   /// [directory]/[fileName]に特定のファイルを作成します。
   Future<void> generateFile(String fileName) async {
-    final dir = Directory(directory);
-    if (!dir.existsSync()) {
-      await dir.create(recursive: true);
+    if (directory.isNotEmpty) {
+      final dir = Directory(directory);
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
     }
-    await File("$directory/$fileName").writeAsString(
+    await File("${directory.isNotEmpty ? "$directory/" : ""}$fileName")
+        .writeAsString(
       "${import("", "", "")}${header("", "", "")}${body("", "", "")}",
     );
   }

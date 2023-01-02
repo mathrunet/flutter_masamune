@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:katana_cli/katana_cli.dart';
 
 /// Package to import.
@@ -56,7 +58,7 @@ class CreateCliCommand extends CliCommand {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
-    final packageName = context.args.get(2, "");
+    final packageName = context.args.get(1, "");
     if (packageName.isEmpty) {
       print(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
@@ -116,6 +118,25 @@ class CreateCliCommand extends CliCommand {
     }
     label("Create a katana.yaml");
     await const KatanaCliCode().generateFile("katana.yaml");
+    label("Create a katana_secrets.yaml");
+    await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
+    label("Create a pubspec_overrides.yaml");
+    await const PubspecOverridesCliCode()
+        .generateFile("pubspec_overrides.yaml");
+    label("Rewrite `.gitignore`.");
+    final gitignore = File(".gitignore");
+    if (!gitignore.existsSync()) {
+      print("Cannot find `.gitignore`. Project is broken.");
+      return;
+    }
+    final gitignores = await gitignore.readAsLines();
+    if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
+      gitignores.add("pubspec_overrides.yaml");
+    }
+    if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
+      gitignores.add("katana_secrets.yaml");
+    }
+    await gitignore.writeAsString(gitignores.join("\n"));
     await command(
       "Run the project's build_runner to generate code.",
       [
