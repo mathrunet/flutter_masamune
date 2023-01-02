@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.1.1`](#katana_cli---v111)
+
+---
+
+#### `katana_cli` - `v1.1.1`
+
+ - **FIX**: Add files to be created by create. ([13fddc0a](https://github.com/mathrunet/flutter_masamune/commit/13fddc0a4a30dbf595825fc49e3aadf8d3ef2f3c))
+
+
 ## 2023-01-01
 
 ### Changes

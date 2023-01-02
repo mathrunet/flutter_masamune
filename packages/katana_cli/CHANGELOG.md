@@ -1,3 +1,7 @@
+## 1.1.1
+
+ - **FIX**: Add files to be created by create. ([13fddc0a](https://github.com/mathrunet/flutter_masamune/commit/13fddc0a4a30dbf595825fc49e3aadf8d3ef2f3c))
+
 ## 1.1.0
 
  - **FIX**: Modify the main code to match the actual situation. ([6f1168be](https://github.com/mathrunet/flutter_masamune/commit/6f1168be12a664b0cada41683dc6646ba2ade228))
