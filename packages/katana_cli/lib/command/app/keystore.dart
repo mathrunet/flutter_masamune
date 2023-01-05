@@ -216,6 +216,9 @@ class AppKeystoreCliCommand extends CliCommand {
     if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
       gitignores.add("**/*.p12");
     }
+    if (!gitignores.any((e) => e.startsWith("*.json"))) {
+      gitignores.add("*.json");
+    }
     if (!gitignores.any((e) => e.startsWith("**/appkey_fingerprint.txt"))) {
       gitignores.add("**/appkey_fingerprint.txt");
     }

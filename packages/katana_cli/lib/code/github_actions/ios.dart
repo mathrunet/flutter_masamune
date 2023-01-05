@@ -35,7 +35,7 @@ class GithubActionsIOSCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return r"""
-name: Production Workflow
+name: IOS Production Workflow
 
 on:
   # This workflow runs when there is a push on the publish branch.

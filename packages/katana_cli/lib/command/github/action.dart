@@ -93,6 +93,27 @@ class GithubActionCliCommand extends CliCommand {
           );
           await const GithubActionsAndroidCliCode()
               .generateFile("build_android.yaml");
+          label("Rewrite `.gitignore`.");
+          final gitignore = File("android/.gitignore");
+          if (!gitignore.existsSync()) {
+            print("Cannot find `android/.gitignore`. Project is broken.");
+            return;
+          }
+          final gitignores = await gitignore.readAsLines();
+          if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
+            gitignores.add("**/*.p12");
+          }
+          if (!gitignores.any((e) => e.startsWith("*.json"))) {
+            gitignores.add("*.json");
+          }
+          if (!gitignores
+              .any((e) => e.startsWith("**/appkey_fingerprint.txt"))) {
+            gitignores.add("**/appkey_fingerprint.txt");
+          }
+          if (!gitignores.any((e) => e.startsWith("**/appkey_password.key"))) {
+            gitignores.add("**/appkey_password.key");
+          }
+          await gitignore.writeAsString(gitignores.join("\n"));
           break;
         // IOS.
         case "ios":
@@ -249,6 +270,38 @@ class GithubActionCliCommand extends CliCommand {
             ],
           );
           await const GithubActionsIOSCliCode().generateFile("build_ios.yaml");
+          label("Rewrite `.gitignore`.");
+          final gitignore = File("ios/.gitignore");
+          if (!gitignore.existsSync()) {
+            print("Cannot find `ios/.gitignore`. Project is broken.");
+            return;
+          }
+          final gitignores = await gitignore.readAsLines();
+          if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
+            gitignores.add("**/*.p12");
+          }
+          if (!gitignores.any((e) => e.startsWith("**/*.p8"))) {
+            gitignores.add("**/*.p8");
+          }
+          if (!gitignores.any((e) => e.startsWith("**/*.mobileprovision"))) {
+            gitignores.add("**/*.mobileprovision");
+          }
+          if (!gitignores.any((e) => e.startsWith("**/*.pem"))) {
+            gitignores.add("**/*.pem");
+          }
+          if (!gitignores.any((e) => e.startsWith("**/*.cer"))) {
+            gitignores.add("**/*.cer");
+          }
+          if (!gitignores.any((e) => e.startsWith("**/*.certSigningRequest"))) {
+            gitignores.add("**/*.certSigningRequest");
+          }
+          if (!gitignores
+              .any((e) => e.startsWith("**/ios_certificate_password.key"))) {
+            gitignores.add("**/ios_certificate_password.key");
+          }
+          if (!gitignores.any((e) => e.startsWith("**/ios_enterprise.key"))) {
+            gitignores.add("**/ios_enterprise.key");
+          }
           break;
       }
     }
