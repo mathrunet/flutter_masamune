@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Added settings for Github Actions. ([27a60d95](https://github.com/mathrunet/flutter_masamune/commit/27a60d959d9c427c30fe94793b00ee7fe20677eb))
+
 ## 1.1.1
 
  - **FIX**: Add files to be created by create. ([13fddc0a](https://github.com/mathrunet/flutter_masamune/commit/13fddc0a4a30dbf595825fc49e3aadf8d3ef2f3c))
