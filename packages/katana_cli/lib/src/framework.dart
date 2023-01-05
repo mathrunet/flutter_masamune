@@ -350,6 +350,22 @@ Future<String> command(
   ).print();
 }
 
+/// Get the first file that matches [pattern] in [root].
+///
+/// [root]の中にある[pattern]に最初に当てはまるファイルを取得します。
+Future<File?> find(Directory root, Pattern pattern) async {
+  final files = root.list(recursive: true);
+  await for (final file in files) {
+    final name = file.path.trimQuery().last();
+    final match = pattern.allMatches(name);
+    if (match.isEmpty) {
+      continue;
+    }
+    return File(file.path);
+  }
+  return null;
+}
+
 /// Extended methods to make [Process] easier to use.
 ///
 /// [Process]を使いやすくするための拡張メソッド。

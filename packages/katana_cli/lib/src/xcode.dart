@@ -47,6 +47,13 @@ class XCode {
   List<PBXVariantGroup> get pbxVariantGroup => _pbxVariantGroup;
   late List<PBXVariantGroup> _pbxVariantGroup;
 
+  /// BuildConfiguration data.
+  ///
+  /// BuildConfigurationのデータ。
+  List<PBXBuildConfiguration> get pbxBuildConfiguration =>
+      _pbxBuildConfiguration;
+  late List<PBXBuildConfiguration> _pbxBuildConfiguration;
+
   /// Data loading.
   ///
   /// データの読み込み。
@@ -58,6 +65,7 @@ class XCode {
     _pbxGroup = PBXGroup._load(_rawData);
     _pbxResourcesBuildPhase = PBXResourcesBuildPhase._load(_rawData);
     _pbxVariantGroup = PBXVariantGroup._load(_rawData);
+    _pbxBuildConfiguration = PBXBuildConfiguration._load(_rawData);
   }
 
   /// Data storage.
@@ -72,6 +80,7 @@ class XCode {
     _rawData = PBXGroup._save(_rawData, _pbxGroup);
     _rawData = PBXFileReference._save(_rawData, _pbxFileReference);
     _rawData = PBXBuildFile._save(_rawData, _pbxBuildFile);
+    _rawData = PBXBuildConfiguration._save(_rawData, _pbxBuildConfiguration);
     _rawData = _rawData.replaceFirstMapped(
       RegExp(r"objectVersion = ([0-9]+);"),
       (m) => "objectVersion = ${(int.tryParse(m.group(1) ?? "") ?? 0) + 1};",
@@ -758,5 +767,152 @@ class PBXVariantGroupChild {
   @override
   String toString() {
     return "\t\t\t\t$id /* $comment */";
+  }
+}
+
+/// BuildConfiguration data.
+///
+/// BuildConfigurationのデータ。
+class PBXBuildConfiguration {
+  /// BuildConfiguration data.
+  ///
+  /// BuildConfigurationのデータ。
+  factory PBXBuildConfiguration({
+    String? id,
+    String? comment,
+    required List<PBXBuildConfigurationSettings> buildSettings,
+    required String name,
+    required String baseConfigurationReference,
+  }) {
+    return PBXBuildConfiguration._(
+      name: name,
+      comment: comment,
+      buildSettings: buildSettings,
+      baseConfigurationReference: baseConfigurationReference,
+      id: id ?? XCode.generateId(),
+    );
+  }
+  PBXBuildConfiguration._({
+    required this.id,
+    this.comment,
+    required this.name,
+    required this.buildSettings,
+    this.baseConfigurationReference,
+  });
+
+  static List<PBXBuildConfiguration> _load(String content) {
+    final region = RegExp(
+      r"/\* Begin XCBuildConfiguration section \*/([\s\S]+)/\* End XCBuildConfiguration section \*/",
+    ).firstMatch(content);
+    if (region == null) {
+      return [];
+    }
+    return RegExp(
+      r'(?<id>[0-9A-Z]{24}) (/\* (?<comment>[a-zA-Z_.-]+) \*/ )?= {[\s\t\n]+isa = XCBuildConfiguration;[\s\t\n]+(baseConfigurationReference = (?<baseConfigurationReference>[^;]+);[\s\t\n]+)?buildSettings = \{(?<buildSettings>[^\}]+)\};[\s\t\n]+name = (?<name>[a-zA-Z_."-]+);[\s\t\n]+};',
+    ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
+      return PBXBuildConfiguration._(
+        id: e.namedGroup("id") ?? "",
+        comment: e.namedGroup("comment"),
+        name: e.namedGroup("name") ?? "",
+        baseConfigurationReference:
+            e.namedGroup("baseConfigurationReference") ?? "",
+        buildSettings: PBXBuildConfigurationSettings.parse(
+          e.namedGroup("buildSettings") ?? "",
+        ),
+      );
+    });
+  }
+
+  static String _save(String content, List<PBXBuildConfiguration> list) {
+    final code = list.map((e) => e.toString()).join("\n");
+    return content.replaceAll(
+      RegExp(
+        r"/\* Begin XCBuildConfiguration section \*/([\s\S]+)/\* End XCBuildConfiguration section \*/",
+      ),
+      "/* Begin XCBuildConfiguration section */\n$code\n/* End XCBuildConfiguration section */",
+    );
+  }
+
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
+  final String isa = "XCBuildConfiguration";
+
+  /// ID of the section.
+  ///
+  /// セクションのID。
+  final String id;
+
+  /// Comment Data.
+  ///
+  /// コメントデータ。
+  final String? comment;
+
+  /// List of data in the group.
+  ///
+  /// 設定内のデータ一覧。
+  final List<PBXBuildConfigurationSettings> buildSettings;
+
+  /// Setting Name.
+  ///
+  /// 設定名。
+  final String name;
+
+  /// Data from `baseConfigurationReference`.
+  ///
+  /// `baseConfigurationReference`のデータ。
+  final String? baseConfigurationReference;
+
+  @override
+  String toString() {
+    return "\t\t$id ${comment != null ? "/* $comment */ " : ""}= {\n\t\t\tisa = XCBuildConfiguration;\n\t\t\t${baseConfigurationReference.isNotEmpty ? "baseConfigurationReference = $baseConfigurationReference;\n\t\t\t" : ""}buildSettings = {\n${buildSettings.map((e) => e.toString()).join(";\n")};\n\t\t\t};\n\t\t\tname = $name;\n\t\t};";
+  }
+}
+
+/// Data from `buildSettings` in [PBXBuildConfiguration].
+///
+/// [PBXBuildConfiguration]の`buildSettings`のデータ。
+class PBXBuildConfigurationSettings {
+  /// Data from `buildSettings` in [PBXBuildConfiguration].
+  ///
+  /// [PBXBuildConfiguration]の`buildSettings`のデータ。
+  factory PBXBuildConfigurationSettings({
+    required String key,
+    required String value,
+  }) {
+    return PBXBuildConfigurationSettings._(
+      key: key,
+      value: value,
+    );
+  }
+  PBXBuildConfigurationSettings._({
+    required this.key,
+    required this.value,
+  });
+
+  static List<PBXBuildConfigurationSettings> parse(String text) {
+    return RegExp(
+      r'(?<key>[a-z0-9A-Z\[\]=\*"_]+) = (?<value>[^;]+);',
+    ).allMatches(text).mapAndRemoveEmpty((e) {
+      return PBXBuildConfigurationSettings._(
+        key: e.namedGroup("key") ?? "",
+        value: e.namedGroup("value") ?? "",
+      );
+    });
+  }
+
+  /// Key of the element.
+  ///
+  /// 要素のKey。
+  final String key;
+
+  /// Value of the element.
+  ///
+  /// 要素の値。
+  final String value;
+
+  @override
+  String toString() {
+    return "\t\t\t\t$key = $value";
   }
 }

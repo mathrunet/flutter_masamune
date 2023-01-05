@@ -1,12 +1,12 @@
 part of katana_cli.app;
 
-/// Automatically outputs `CertificateSigningRequest.certSigningRequest`.
+/// Generate a keystore for Android and use it only for release builds.
 ///
-/// `CertificateSigningRequest.certSigningRequest`を自動出力します。
+/// Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。
 class AppKeystoreCliCommand extends CliCommand {
-  /// Automatically outputs `CertificateSigningRequest.certSigningRequest`.
+  /// Generate a keystore for Android and use it only for release builds.
   ///
-  /// `CertificateSigningRequest.certSigningRequest`を自動出力します。
+  /// Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。
   const AppKeystoreCliCommand();
 
   @override
@@ -180,7 +180,7 @@ class AppKeystoreCliCommand extends CliCommand {
       release: GradleAndroidSigningConfig(
         keyAlias: "keyProperties['keyAlias']",
         keyPassword: "keyProperties['keyPassword']",
-        storeFile: "keyProperties['storeFile']",
+        storeFile: "file(keyProperties['storeFile'])",
         storePassword: "keyProperties['storePassword']",
       ),
     );

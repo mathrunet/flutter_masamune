@@ -123,6 +123,10 @@ class CreateCliCommand extends CliCommand {
     label("Create a pubspec_overrides.yaml");
     await const PubspecOverridesCliCode()
         .generateFile("pubspec_overrides.yaml");
+    label("Edit a analysis_options.yaml");
+    await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
+    label("Edit a widget_test.dart");
+    await const WidgetTestCliCode().generateFile("widget_test.dart");
     label("Rewrite `.gitignore`.");
     final gitignore = File(".gitignore");
     if (!gitignore.existsSync()) {

@@ -10,6 +10,7 @@ import 'package:xml/xml.dart';
 part 'info.dart';
 part 'csr.dart';
 part 'keystore.dart';
+part 'p12.dart';
 
 class AppCliCommand extends CliCommandGroup {
   const AppCliCommand();
@@ -23,5 +24,6 @@ class AppCliCommand extends CliCommandGroup {
         "info": AppInfoCliCommand(),
         "csr": AppCsrCliCommand(),
         "keystore": AppKeystoreCliCommand(),
+        "p12": AppP12CliCommand(),
       };
 }

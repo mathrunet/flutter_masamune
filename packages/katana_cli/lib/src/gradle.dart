@@ -220,7 +220,7 @@ class GradleAndroid {
 
   @override
   String toString() {
-    return "    compileSdkVersion $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n$buildTypes\n${signingConfigs != null ? "$signingConfigs\n" : ""}";
+    return "    compileSdkVersion $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
   }
 }
 

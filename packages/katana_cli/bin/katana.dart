@@ -12,6 +12,7 @@ const commands = <String, CliCommand>{
   "app": AppCliCommand(),
   "pub": PubCliCommand(),
   "code": CodeCliCommand(),
+  "github": GithubCliCommand(),
   "create": CreateCliCommand(),
   "submodule": SubmoduleCliCommand(),
 };
