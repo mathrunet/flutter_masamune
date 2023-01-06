@@ -153,5 +153,13 @@ class CreateCliCommand extends CliCommand {
         "--delete-conflicting-outputs",
       ],
     );
+    await command(
+      "Run `pod install`.",
+      [
+        "pod",
+        "install",
+      ],
+      workingDirectory: "ios",
+    );
   }
 }

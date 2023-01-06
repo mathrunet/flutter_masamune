@@ -41,12 +41,6 @@ Future<void> buildIOS(
     Directory("ios"),
     RegExp("([^/.]+).mobileprovision"),
   );
-  if (mobileProvisionFile == null) {
-    print(
-      "mobileprovision file not found, please create and download from AppleDeveloperProgram. mobileprovisionファイルが見つかりません。AppleDeveloperProgramから作成しダウンロードしてください。",
-    );
-    return;
-  }
   final passwordFile = File("ios/ios_certificate_password.key");
   if (!passwordFile.existsSync()) {
     print(
@@ -90,20 +84,22 @@ Future<void> buildIOS(
   final p8Key =
       RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$").firstMatch(p8File.path)!.group(1)!;
   final p12 = base64.encode(await p12File.readAsBytes());
-  final mobileProvision =
-      base64.encode(await mobileProvisionFile.readAsBytes());
   final password = await passwordFile.readAsString();
-  await command(
-    "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE`.",
-    [
-      gh,
-      "secret",
-      "set",
-      "IOS_PROVISIONING_PROFILE",
-      "--body",
-      mobileProvision,
-    ],
-  );
+  if (mobileProvisionFile != null) {
+    final mobileProvision =
+        base64.encode(await mobileProvisionFile.readAsBytes());
+    await command(
+      "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE`.",
+      [
+        gh,
+        "secret",
+        "set",
+        "IOS_PROVISIONING_PROFILE",
+        "--body",
+        mobileProvision,
+      ],
+    );
+  }
   await command(
     "Store `${p12File.path.last()}` in `secrets.IOS_CERTIFICATES_P12`.",
     [
