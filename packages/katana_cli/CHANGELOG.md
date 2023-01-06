@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **FIX**: Removed MobileProvision as it is not needed. ([c5697213](https://github.com/mathrunet/flutter_masamune/commit/c5697213523aebe13733af58b796e8b95f0b502b))
+
 ## 1.2.1
 
  - **FIX**: Add web to GithubActions. ([e20a50d2](https://github.com/mathrunet/flutter_masamune/commit/e20a50d2c399da223a4cf083c1b57c1c8c68d9be))

@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.2.2`](#katana_cli---v122)
+
+---
+
+#### `katana_cli` - `v1.2.2`
+
+ - **FIX**: Removed MobileProvision as it is not needed. ([c5697213](https://github.com/mathrunet/flutter_masamune/commit/c5697213523aebe13733af58b796e8b95f0b502b))
+
+
+## 2023-01-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.2.1`](#katana_cli---v121)
 
 ---
