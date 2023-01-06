@@ -1,3 +1,8 @@
+## 1.2.1
+
+ - **FIX**: Add web to GithubActions. ([e20a50d2](https://github.com/mathrunet/flutter_masamune/commit/e20a50d2c399da223a4cf083c1b57c1c8c68d9be))
+ - **FIX**: Addition of .gitignore. ([3ff816c5](https://github.com/mathrunet/flutter_masamune/commit/3ff816c5660f76551718ace9e45283e63c3392d6))
+
 ## 1.2.0
 
  - **FEAT**: Added settings for Github Actions. ([27a60d95](https://github.com/mathrunet/flutter_masamune/commit/27a60d959d9c427c30fe94793b00ee7fe20677eb))

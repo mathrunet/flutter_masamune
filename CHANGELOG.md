@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.2.1`](#katana_cli---v121)
+
+---
+
+#### `katana_cli` - `v1.2.1`
+
+ - **FIX**: Add web to GithubActions. ([e20a50d2](https://github.com/mathrunet/flutter_masamune/commit/e20a50d2c399da223a4cf083c1b57c1c8c68d9be))
+ - **FIX**: Addition of .gitignore. ([3ff816c5](https://github.com/mathrunet/flutter_masamune/commit/3ff816c5660f76551718ace9e45283e63c3392d6))
+
+
 ## 2023-01-05
 
 ### Changes
