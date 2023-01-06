@@ -3,7 +3,10 @@ library katana_cli.github;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:katana_cli/command/github/platform/ios.dart';
 import 'package:katana_cli/katana_cli.dart';
+import 'platform/android.dart';
+import 'platform/web.dart';
 
 part 'action.dart';
 

@@ -186,8 +186,15 @@ abstract class CliCode {
 
   /// Generate Dart code in [path].
   ///
+  /// You can edit the data inside with [filter].
+  ///
   /// [path]にDartコードを生成します。
-  Future<void> generateDartCode(String path) async {
+  ///
+  /// [filter]で中身のデータを編集することができます。
+  Future<void> generateDartCode(
+    String path, {
+    String Function(String value)? filter,
+  }) async {
     final baseName = path.last();
     final trimedPath = _trimPathPrefix(path);
     final className = baseName.toPascalCase();
@@ -195,17 +202,23 @@ abstract class CliCode {
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }
-    await File("$path.dart").writeAsString(
-      _removeCodeSnippetValue(
-        "${import(trimedPath, baseName, className)}\n${header(trimedPath, baseName, className)}\n${body(trimedPath, baseName, className)}",
-      ),
+    final output = _removeCodeSnippetValue(
+      "${import(trimedPath, baseName, className)}\n${header(trimedPath, baseName, className)}\n${body(trimedPath, baseName, className)}",
     );
+    await File("$path.dart").writeAsString(filter?.call(output) ?? output);
   }
 
   /// Create a code snippet file for VSCode in [directory]/[name].code-snippets.
   ///
+  /// You can edit the data inside with [filter].
+  ///
   /// [directory]/[name].code-snippetsにVSCode用のコードスニペットファイルを作成します。
-  Future<void> generateCodeSnippet(String directory) async {
+  ///
+  /// [filter]で中身のデータを編集することができます。
+  Future<void> generateCodeSnippet(
+    String directory, {
+    String Function(String value)? filter,
+  }) async {
     if (directory.isNotEmpty) {
       final dir = Directory(directory);
       if (!dir.existsSync()) {
@@ -248,27 +261,33 @@ abstract class CliCode {
             .split("\n")
       }
     };
+    final output = jsonEncode(json);
     await File(
-            "${directory.isNotEmpty ? "$directory/" : ""}$fileName.code-snippets")
-        .writeAsString(
-      jsonEncode(json),
-    );
+      "${directory.isNotEmpty ? "$directory/" : ""}$fileName.code-snippets",
+    ).writeAsString(filter?.call(output) ?? output);
   }
 
   /// Create a specific file in [directory]/[fileName].
   ///
+  /// You can edit the data inside with [filter].
+  ///
   /// [directory]/[fileName]に特定のファイルを作成します。
-  Future<void> generateFile(String fileName) async {
+  ///
+  /// [filter]で中身のデータを編集することができます。
+  Future<void> generateFile(
+    String fileName, {
+    String Function(String value)? filter,
+  }) async {
     if (directory.isNotEmpty) {
       final dir = Directory(directory);
       if (!dir.existsSync()) {
         await dir.create(recursive: true);
       }
     }
+    final output =
+        "${import("", "", "")}${header("", "", "")}${body("", "", "")}";
     await File("${directory.isNotEmpty ? "$directory/" : ""}$fileName")
-        .writeAsString(
-      "${import("", "", "")}${header("", "", "")}${body("", "", "")}",
-    );
+        .writeAsString(filter?.call(output) ?? output);
   }
 
   static String _trimPathPrefix(String path) {

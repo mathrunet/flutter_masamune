@@ -35,7 +35,28 @@ class GithubActionsIOSCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return r"""
-name: IOS Production Workflow
+# Build and upload a Flutter IOS app.
+# 
+# Nothing is stored in Github storage.
+#
+# Create a `CertificateSigningRequest.certSigningRequest` with `katana app csr` in advance and download the Apple Development Certificate.
+#
+# Create an AuthKey in AppStoreConnect and put the Issuer ID and Team ID in katana.yaml.
+#
+# Also, please make sure you have created your app in AppStoreConnect.
+# 
+# FlutterのIOSアプリをビルドしアップロードします。
+#
+# Githubのストレージにはなにも保管されません。
+# 
+# AppStoreConnectへアプリがアップロードされます。
+#
+# 事前に`katana app csr`で`CertificateSigningRequest.certSigningRequest`を作成し、Apple DevelopmentのCertificateをダウンロードしてください。
+#
+# AppStoreConnectでAuthKeyを作成し、Issuer IDとチームIDをkatana.yamlに記載しておきます。
+# 
+# また、AppStoreConnectでアプリを作成しておいてください。
+name: IOSProductionWorkflow
 
 on:
   # This workflow runs when there is a push on the publish branch.

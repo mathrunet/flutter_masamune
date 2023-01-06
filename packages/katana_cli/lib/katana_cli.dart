@@ -42,3 +42,4 @@ part 'code/export_options.dart';
 
 part 'code/github_actions/android.dart';
 part 'code/github_actions/ios.dart';
+part 'code/github_actions/web.dart';

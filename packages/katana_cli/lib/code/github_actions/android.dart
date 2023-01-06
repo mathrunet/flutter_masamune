@@ -20,7 +20,7 @@ class GithubActionsAndroidCliCode extends CliCode {
 
   @override
   String get description =>
-      "Create buiod.yaml for Android in Github Actions. Please set up your keystore in advance with the katana app keystore. Github ActionsのAndroid用のbuiod.yamlを作成します。事前にkatana app keystoreでキーストアの設定を行ってください。";
+      "Create buiod.yaml for Android in Github Actions. Please set up your keystore in the katana app keystore beforehand. Also, create the app in Google Play Console, upload the aab file for the first time, and complete the app settings except for the store listing information settings. Github ActionsのAndroid用のbuiod.yamlを作成します。事前にkatana app keystoreでキーストアの設定を行ってください。また、GooglePlayConsoleでアプリを作成し、aabファイルの初回アップロード、アプリの設定でストア掲載情報設定以外を済ませておいてください。";
 
   @override
   String import(String path, String baseName, String className) {
@@ -35,7 +35,26 @@ class GithubActionsAndroidCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return r"""
-name: Android Production Workflow
+# Build and upload your Flutter Android app.
+# 
+# apk and aab files will be stored in Github storage. (Storage period is 1 day)
+#
+# The app is uploaded to GooglePlayConsole in an internal test draft.
+#
+# Please create a keystore for your app in advance with `katana app keystore`.
+#
+# Also, please create your app in Google PlayConsole, upload the aab file for the first time, and complete the app settings except for the store listing information settings.
+# 
+# FlutterのAndroidアプリをビルドしアップロードします。
+#
+# apkファイルとaabファイルがGithubのストレージに保管されます。（保管期限1日）
+# 
+# GooglePlayConsoleへアプリが内部テストのドラフトでアップロードされます。
+#
+# 事前に`katana app keystore`でアプリ用のキーストアを作成しておいてください。
+# 
+# また、GooglePlayConsoleでアプリを作成し、aabファイルの初回アップロード、アプリの設定でストア掲載情報設定以外を済ませておいてください。
+name: AndroidProductionWorkflow
 
 on:
   # This workflow runs when there is a push on the publish branch.
@@ -113,7 +132,7 @@ jobs:
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload apk artifacts
-        uses: actions/upload-artifact@v2.2.0
+        uses: actions/upload-artifact@v2
         with:
           name: andoroid_apk_release
           path: ./build/app/outputs/apk/release
@@ -122,19 +141,23 @@ jobs:
       # Upload the generated files.
       # 生成されたファイルのアップロード。
       - name: Upload aab artifacts
-        uses: actions/upload-artifact@v2.2.0
+        uses: actions/upload-artifact@v2
         with:
           name: andoroid_aab_release
           path: ./build/app/outputs/bundle/release
           retention-days: 1
 
-      # Uploaded by `gradle-play-publisher`.
-      # https://github.com/Triple-T/gradle-play-publisher Use this external package.
-      # `gradle-play-publisher`でアップロード。
-      # https://github.com/Triple-T/gradle-play-publisher この外部パッケージを利用。
-      - name: Upload to GooglePlayStore
-        run: ./gradlew publishReleaseBundle
-        working-directory: ./android
+      # Upload to Google Play Store.
+      # Google Play Storeにアップロード。
+      - name: Deploy to Google Play Store
+        id: deploy
+        uses: r0adkll/upload-google-play@v1
+        with:
+          track: internal
+          status: draft
+          serviceAccountJson: android/service_account_key.json
+          packageName: #### REPLACE_ANDROID_PACKAGE_NAME ####
+          releaseFiles: ./build/app/outputs/bundle/release/*.aab
 """;
   }
 }
