@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v1.2.0`](#masamune---v120)
+ - [`masamune_picker` - `v1.3.0`](#masamune_picker---v130)
+ - [`masamune_picker_mobile` - `v1.3.0`](#masamune_picker_mobile---v130)
+ - [`masamune_agora` - `v0.15.0+59`](#masamune_agora---v015059)
+ - [`masamune_wordpress` - `v0.15.0+57`](#masamune_wordpress---v015057)
+ - [`masamune_location` - `v0.15.0+57`](#masamune_location---v015057)
+ - [`masamune_local_messaging` - `v0.15.0+57`](#masamune_local_messaging---v015057)
+ - [`masamune_media` - `v0.15.0+57`](#masamune_media---v015057)
+ - [`masamune_purchase` - `v0.15.0+57`](#masamune_purchase---v015057)
+ - [`masamune_firebase` - `v0.15.0+58`](#masamune_firebase---v015058)
+ - [`masamune_ads` - `v0.15.0+57`](#masamune_ads---v015057)
+ - [`masamune_ui` - `v0.15.0+57`](#masamune_ui---v015057)
+ - [`masamune_purchase_firebase` - `v0.15.0+58`](#masamune_purchase_firebase---v015058)
+ - [`masamune_firebase_messaging` - `v0.15.0+58`](#masamune_firebase_messaging---v015058)
+ - [`masamune_signin_google` - `v0.15.0+58`](#masamune_signin_google---v015058)
+ - [`masamune_signin_facebook` - `v0.15.0+58`](#masamune_signin_facebook---v015058)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+58`](#masamune_firebase_dynamic_links---v015058)
+ - [`masamune_signin_twitter` - `v0.15.0+58`](#masamune_signin_twitter---v015058)
+ - [`masamune_notion` - `v0.15.0+58`](#masamune_notion---v015058)
+ - [`masamune_purchase_stripe` - `v0.15.0+58`](#masamune_purchase_stripe---v015058)
+ - [`masamune_signin_apple` - `v0.15.0+58`](#masamune_signin_apple---v015058)
+ - [`masamune_module` - `v0.15.0+57`](#masamune_module---v015057)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+59`
+ - `masamune_wordpress` - `v0.15.0+57`
+ - `masamune_location` - `v0.15.0+57`
+ - `masamune_local_messaging` - `v0.15.0+57`
+ - `masamune_media` - `v0.15.0+57`
+ - `masamune_purchase` - `v0.15.0+57`
+ - `masamune_firebase` - `v0.15.0+58`
+ - `masamune_ads` - `v0.15.0+57`
+ - `masamune_ui` - `v0.15.0+57`
+ - `masamune_purchase_firebase` - `v0.15.0+58`
+ - `masamune_firebase_messaging` - `v0.15.0+58`
+ - `masamune_signin_google` - `v0.15.0+58`
+ - `masamune_signin_facebook` - `v0.15.0+58`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+58`
+ - `masamune_signin_twitter` - `v0.15.0+58`
+ - `masamune_notion` - `v0.15.0+58`
+ - `masamune_purchase_stripe` - `v0.15.0+58`
+ - `masamune_signin_apple` - `v0.15.0+58`
+ - `masamune_module` - `v0.15.0+57`
+
+---
+
+#### `masamune` - `v1.2.0`
+
+ - **FEAT**: Katana picker changed to Masamune Picker. ([a2f8f4dc](https://github.com/mathrunet/flutter_masamune/commit/a2f8f4dc78ab2fa0772b5e6af6cec4fd0b14d9a9))
+
+#### `masamune_picker` - `v1.3.0`
+
+ - **FEAT**: Katana picker changed to Masamune Picker. ([a2f8f4dc](https://github.com/mathrunet/flutter_masamune/commit/a2f8f4dc78ab2fa0772b5e6af6cec4fd0b14d9a9))
+
+#### `masamune_picker_mobile` - `v1.3.0`
+
+ - **FEAT**: Katana picker changed to Masamune Picker. ([a2f8f4dc](https://github.com/mathrunet/flutter_masamune/commit/a2f8f4dc78ab2fa0772b5e6af6cec4fd0b14d9a9))
+
+
 ## 2023-01-06
 
 ### Changes

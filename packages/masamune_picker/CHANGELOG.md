@@ -1,6 +1,4 @@
-## 1.2.0
+## 1.3.0
 
- - **FIX**: Add comments & refactoring. ([a5dd77c5](https://github.com/mathrunet/flutter_masamune/commit/a5dd77c5edef21ac13492744e5d825e5c2d00423))
- - **FIX**: Bug fixes. ([43f208a8](https://github.com/mathrunet/flutter_masamune/commit/43f208a878472f81dbc4e71fdbbca73aa5cb3adf))
- - **FEAT**: Changed katana_media to katana_picker. ([c3b787df](https://github.com/mathrunet/flutter_masamune/commit/c3b787df45d0291f4180aa3ddbce2b854851740d))
+ - **FEAT**: Katana picker changed to Masamune Picker. ([a2f8f4dc](https://github.com/mathrunet/flutter_masamune/commit/a2f8f4dc78ab2fa0772b5e6af6cec4fd0b14d9a9))
 

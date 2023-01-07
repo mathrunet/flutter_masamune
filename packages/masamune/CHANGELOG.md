@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Katana picker changed to Masamune Picker. ([a2f8f4dc](https://github.com/mathrunet/flutter_masamune/commit/a2f8f4dc78ab2fa0772b5e6af6cec4fd0b14d9a9))
+
 ## 1.1.0
 
  - **FIX**: Public process. ([07c8d420](https://github.com/mathrunet/flutter_masamune/commit/07c8d420cf6a3a187d9ab907774f0b6272d58b3f))
