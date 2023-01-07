@@ -12,9 +12,8 @@ const commands = <String, CliCommand>{
   "app": AppCliCommand(),
   "pub": PubCliCommand(),
   "code": CodeCliCommand(),
-  "github": GithubCliCommand(),
+  "git": GitCliCommand(),
   "create": CreateCliCommand(),
-  "submodule": SubmoduleCliCommand(),
 };
 
 Future<void> main(List<String> args) async {

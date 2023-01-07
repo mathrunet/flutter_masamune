@@ -1,13 +1,13 @@
-import 'package:katana_cli/katana_cli.dart';
+part of katana_cli.github;
 
 /// Recursively clone submodules.
 ///
 /// サブモジュールを再帰的にクローンします。
-class SubmoduleCliCommand extends CliCommand {
+class GitSubmoduleCliCommand extends CliCommand {
   /// Recursively clone submodules.
   ///
   /// サブモジュールを再帰的にクローンします。
-  const SubmoduleCliCommand();
+  const GitSubmoduleCliCommand();
 
   @override
   String get description =>

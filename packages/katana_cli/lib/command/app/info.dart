@@ -37,22 +37,6 @@ class AppInfoCliCommand extends CliCommand {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final command = context.args.get(2, "");
-    if (command == "init") {
-      label("Add initial information in `katana.yaml`.");
-      if (!context.yaml.containsKey("app")) {
-        context.yaml["app"] = {};
-      }
-      final app = context.yaml.getAsMap("app");
-      if (!app.containsKey("spread_sheet")) {
-        app["spread_sheet"] = {};
-      }
-      final spreadSheet = app.getAsMap("spread_sheet");
-      spreadSheet["url"] = "";
-      spreadSheet["email"] = "";
-      await context.save();
-      return;
-    }
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
       print("The item [app] is missing. Please add an item.");

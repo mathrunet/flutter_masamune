@@ -3,11 +3,11 @@ part of katana_cli.github;
 /// Output yaml for Github Actions.
 ///
 /// Github Actions用のyamlを出力します。
-class GithubActionCliCommand extends CliCommand {
+class GitActionCliCommand extends CliCommand {
   /// Output yaml for Github Actions.
   ///
   /// Github Actions用のyamlを出力します。
-  const GithubActionCliCommand();
+  const GitActionCliCommand();
 
   @override
   String get description =>

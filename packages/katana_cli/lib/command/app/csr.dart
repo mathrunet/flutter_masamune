@@ -15,21 +15,6 @@ class AppCsrCliCommand extends CliCommand {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final command = context.args.get(2, "");
-    if (command == "init") {
-      label("Add initial information in `katana.yaml`.");
-      if (!context.yaml.containsKey("app")) {
-        context.yaml["app"] = {};
-      }
-      final app = context.yaml.getAsMap("app");
-      if (!app.containsKey("csr")) {
-        app["csr"] = {};
-      }
-      final csr = app.getAsMap("csr");
-      csr["email"] = "";
-      await context.save();
-      return;
-    }
     final bin = context.yaml.getAsMap("bin");
     final openssl = bin.get("openssl", "openssl");
     final app = context.yaml.getAsMap("app");

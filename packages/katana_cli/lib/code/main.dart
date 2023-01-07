@@ -130,6 +130,8 @@ final appRef = AppRef();
 /// ```
 final appAuth = Authentication();
 
+
+
 /// App Flavor.
 const flavor = String.fromEnvironment("FLAVOR");
 

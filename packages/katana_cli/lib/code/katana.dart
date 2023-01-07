@@ -64,7 +64,14 @@ app:
     organization: 
     state: Tokyo
     country: Japan
-  
+
+# This section contains information related to Firebase.
+# Firebase関連の情報を記載します。
+firebase:
+  # Set the Firebase project ID.
+  # FirebaseのプロジェクトIDを設定します。
+  project_id:
+
 # Github-related information will be described.
 # Github関連の情報を記載します。
 github:
@@ -72,10 +79,10 @@ github:
     ios:
       # Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.
       # https://appstoreconnect.apple.com/access/api のページに記載されているIssuer IDをコピーしてください。
-      issuer_id:
+      issuer_id: 
       # Please copy and include your team ID from https://developer.apple.com/account.
       # https://developer.apple.com/account のチームIDをコピーして記載してください。
-      team_id:  
+      team_id: 
 """;
   }
 }
