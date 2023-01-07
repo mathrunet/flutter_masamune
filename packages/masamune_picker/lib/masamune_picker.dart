@@ -23,3 +23,4 @@ part 'src/picker.dart';
 part 'src/picker_file_type.dart';
 part 'src/picker_value.dart';
 part 'src/picker_adapter.dart';
+part 'storage/storage.dart';

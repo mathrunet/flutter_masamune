@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
       child: MasamuneApp(
         home: const PickerPage(),
         title: "Flutter Demo",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        theme: AppThemeData(
+          primary: Colors.blue,
         ),
       ),
     );

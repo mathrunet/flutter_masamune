@@ -29,6 +29,5 @@ export 'package:meta/meta.dart' show useResult;
 
 part 'form/form_scoped_widget.dart';
 part 'model/model.dart';
-part 'storage/storage.dart';
 part 'scoped/controller.dart';
 part 'src/masamune_app.dart';
