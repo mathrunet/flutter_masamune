@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.3.0`](#katana_cli---v130)
+
+---
+
+#### `katana_cli` - `v1.3.0`
+
+ - **FEAT**: Add githook. ([58200ee8](https://github.com/mathrunet/flutter_masamune/commit/58200ee8b9999661e81e9b160b27648345e26131))
+
+
+## 2023-01-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.2.1`](#masamune---v121)
  - [`masamune_picker` - `v1.3.1`](#masamune_picker---v131)
  - [`masamune_picker_mobile` - `v1.3.1`](#masamune_picker_mobile---v131)

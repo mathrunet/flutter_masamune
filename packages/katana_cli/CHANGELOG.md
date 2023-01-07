@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Add githook. ([58200ee8](https://github.com/mathrunet/flutter_masamune/commit/58200ee8b9999661e81e9b160b27648345e26131))
+
 ## 1.2.2
 
  - **FIX**: Removed MobileProvision as it is not needed. ([c5697213](https://github.com/mathrunet/flutter_masamune/commit/c5697213523aebe13733af58b796e8b95f0b502b))
