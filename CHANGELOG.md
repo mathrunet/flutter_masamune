@@ -15,6 +15,80 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.2.1`](#masamune---v121)
+ - [`masamune_picker` - `v1.3.1`](#masamune_picker---v131)
+ - [`masamune_picker_mobile` - `v1.3.1`](#masamune_picker_mobile---v131)
+ - [`masamune_agora` - `v0.15.0+60`](#masamune_agora---v015060)
+ - [`masamune_wordpress` - `v0.15.0+58`](#masamune_wordpress---v015058)
+ - [`masamune_location` - `v0.15.0+58`](#masamune_location---v015058)
+ - [`masamune_local_messaging` - `v0.15.0+58`](#masamune_local_messaging---v015058)
+ - [`masamune_media` - `v0.15.0+58`](#masamune_media---v015058)
+ - [`masamune_purchase` - `v0.15.0+58`](#masamune_purchase---v015058)
+ - [`masamune_firebase` - `v0.15.0+59`](#masamune_firebase---v015059)
+ - [`masamune_ads` - `v0.15.0+58`](#masamune_ads---v015058)
+ - [`masamune_ui` - `v0.15.0+58`](#masamune_ui---v015058)
+ - [`masamune_purchase_firebase` - `v0.15.0+59`](#masamune_purchase_firebase---v015059)
+ - [`masamune_firebase_messaging` - `v0.15.0+59`](#masamune_firebase_messaging---v015059)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+59`](#masamune_firebase_dynamic_links---v015059)
+ - [`masamune_signin_facebook` - `v0.15.0+59`](#masamune_signin_facebook---v015059)
+ - [`masamune_signin_google` - `v0.15.0+59`](#masamune_signin_google---v015059)
+ - [`masamune_signin_twitter` - `v0.15.0+59`](#masamune_signin_twitter---v015059)
+ - [`masamune_purchase_stripe` - `v0.15.0+59`](#masamune_purchase_stripe---v015059)
+ - [`masamune_notion` - `v0.15.0+59`](#masamune_notion---v015059)
+ - [`masamune_signin_apple` - `v0.15.0+59`](#masamune_signin_apple---v015059)
+ - [`masamune_module` - `v0.15.0+58`](#masamune_module---v015058)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_agora` - `v0.15.0+60`
+ - `masamune_wordpress` - `v0.15.0+58`
+ - `masamune_location` - `v0.15.0+58`
+ - `masamune_local_messaging` - `v0.15.0+58`
+ - `masamune_media` - `v0.15.0+58`
+ - `masamune_purchase` - `v0.15.0+58`
+ - `masamune_firebase` - `v0.15.0+59`
+ - `masamune_ads` - `v0.15.0+58`
+ - `masamune_ui` - `v0.15.0+58`
+ - `masamune_purchase_firebase` - `v0.15.0+59`
+ - `masamune_firebase_messaging` - `v0.15.0+59`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+59`
+ - `masamune_signin_facebook` - `v0.15.0+59`
+ - `masamune_signin_google` - `v0.15.0+59`
+ - `masamune_signin_twitter` - `v0.15.0+59`
+ - `masamune_purchase_stripe` - `v0.15.0+59`
+ - `masamune_notion` - `v0.15.0+59`
+ - `masamune_signin_apple` - `v0.15.0+59`
+ - `masamune_module` - `v0.15.0+58`
+
+---
+
+#### `masamune` - `v1.2.1`
+
+ - **FIX**: Moved the upload function from Piker to Storage to masamune_picker. ([d431e732](https://github.com/mathrunet/flutter_masamune/commit/d431e732bae9778045482c617dc169addc148295))
+
+#### `masamune_picker` - `v1.3.1`
+
+ - **FIX**: Moved the upload function from Piker to Storage to masamune_picker. ([d431e732](https://github.com/mathrunet/flutter_masamune/commit/d431e732bae9778045482c617dc169addc148295))
+
+#### `masamune_picker_mobile` - `v1.3.1`
+
+ - **FIX**: Moved the upload function from Piker to Storage to masamune_picker. ([d431e732](https://github.com/mathrunet/flutter_masamune/commit/d431e732bae9778045482c617dc169addc148295))
+
+
+## 2023-01-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.2.0`](#masamune---v120)
  - [`masamune_picker` - `v1.3.0`](#masamune_picker---v130)
  - [`masamune_picker_mobile` - `v1.3.0`](#masamune_picker_mobile---v130)
