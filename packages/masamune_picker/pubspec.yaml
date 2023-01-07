@@ -1,8 +1,8 @@
-name: katana_picker
+name: masamune_picker
 description: Base package for retrieving files such as images and videos from terminal storage, cameras, etc.
 version: 1.2.0
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_picker
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_picker
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^0.15.0
+  masamune: ^1.1.0
   file_picker: ^5.2.3
 dev_dependencies:
   flutter_test:

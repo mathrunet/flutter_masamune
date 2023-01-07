@@ -1,4 +1,4 @@
-part of katana_picker;
+part of masamune_picker;
 
 /// Adapter for defining the internal process for file picks in [Picker].
 ///

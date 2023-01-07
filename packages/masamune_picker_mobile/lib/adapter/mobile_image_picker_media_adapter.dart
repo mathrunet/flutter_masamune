@@ -1,4 +1,4 @@
-part of katana_picker_mobile;
+part of masamune_picker_mobile;
 
 /// Adapter to use mobile and other camera-enabled file pickers.
 ///

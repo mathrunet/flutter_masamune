@@ -97,7 +97,6 @@ class MasamuneApp extends StatelessWidget {
     super.key,
     this.appRef,
     this.authAdapter,
-    this.pickerAdapter,
     this.storageAdapter,
     this.theme,
     this.localize,
@@ -143,11 +142,6 @@ class MasamuneApp extends StatelessWidget {
   ///
   /// `katana_model`で利用されるデータベース用のアダプター。
   final ModelAdapter? modelAdapter;
-
-  /// Adapter for file pickers used by `katana_picker`.
-  ///
-  /// `katana_picker`で利用されるファイルピッカー用のアダプター。
-  final PickerAdapter? pickerAdapter;
 
   /// Adapter for file storage used by `katana_storage`.
   ///
@@ -296,22 +290,19 @@ class MasamuneApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildAppPicker(
+    return _buildAppStorage(
       context,
-      _buildAppStorage(
+      _buildAppAuth(
         context,
-        _buildAppAuth(
+        _buildModelAdapter(
           context,
-          _buildModelAdapter(
+          _buildAppScoped(
             context,
-            _buildAppScoped(
+            _buildAppTheme(
               context,
-              _buildAppTheme(
+              _buildAppLocalize(
                 context,
-                _buildAppLocalize(
-                  context,
-                  _buildAppRouter(context),
-                ),
+                _buildAppRouter(context),
               ),
             ),
           ),
@@ -374,16 +365,6 @@ class MasamuneApp extends StatelessWidget {
     if (storageAdapter != null) {
       return StorageAdapterScope(
         adapter: storageAdapter!,
-        child: child,
-      );
-    }
-    return child;
-  }
-
-  Widget _buildAppPicker(BuildContext context, Widget child) {
-    if (pickerAdapter != null) {
-      return PickerAdapterScope(
-        adapter: pickerAdapter!,
         child: child,
       );
     }

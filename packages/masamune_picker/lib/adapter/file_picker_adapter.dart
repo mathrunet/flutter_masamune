@@ -1,4 +1,4 @@
-part of katana_picker;
+part of masamune_picker;
 
 /// Adapter to use the file picker available on all platforms.
 ///

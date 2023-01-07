@@ -1,4 +1,4 @@
-# katana_picker_example
+# masamune_picker_example
 
 A new Flutter project.
 

@@ -1,4 +1,4 @@
-part of katana_picker;
+part of masamune_picker;
 
 /// Data of the picked up files.
 ///

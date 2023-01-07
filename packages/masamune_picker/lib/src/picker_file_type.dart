@@ -1,4 +1,4 @@
-part of katana_picker;
+part of masamune_picker;
 
 /// The type of file to pick up.
 ///

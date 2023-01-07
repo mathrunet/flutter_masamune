@@ -112,7 +112,7 @@ packages:
       name: checked_yaml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   clock:
     dependency: transitive
     description:
@@ -412,14 +412,14 @@ packages:
       name: katana_router
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.7"
+    version: "1.10.8"
   katana_router_annotation:
     dependency: transitive
     description:
       name: katana_router_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.4"
+    version: "1.10.5"
   katana_scoped:
     dependency: transitive
     description:
@@ -437,10 +437,10 @@ packages:
   katana_storage:
     dependency: transitive
     description:
-      path: "../../katana_storage"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: katana_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   katana_theme:
     dependency: transitive
     description:
@@ -458,10 +458,10 @@ packages:
   katana_ui:
     dependency: transitive
     description:
-      path: "../../katana_ui"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: katana_ui
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   lints:
     dependency: transitive
     description:
@@ -482,14 +482,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.1.0"
   masamune_annotation:
     dependency: transitive
     description:
-      path: "../../masamune_annotation"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: masamune_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   matcher:
     dependency: transitive
     description:

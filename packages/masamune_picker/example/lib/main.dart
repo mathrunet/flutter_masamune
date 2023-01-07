@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:katana_picker/katana_picker.dart';
+import 'package:masamune_picker/masamune_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return PickerAdapterScope(
       adapter: const FilePickerAdapter(),
-      child: MaterialApp(
+      child: MasamuneApp(
         home: const PickerPage(),
         title: "Flutter Demo",
         theme: ThemeData(

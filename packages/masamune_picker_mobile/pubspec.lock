@@ -162,7 +162,7 @@ packages:
       name: image_picker_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.6+3"
+    version: "0.8.6+5"
   image_picker_platform_interface:
     dependency: transitive
     description:
@@ -194,10 +194,10 @@ packages:
   katana_picker:
     dependency: "direct main"
     description:
-      path: "../katana_picker"
-      relative: true
-    source: path
-    version: "1.1.0"
+      name: katana_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
