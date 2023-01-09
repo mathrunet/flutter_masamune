@@ -82,10 +82,10 @@ class XCode {
     _rawData = PBXFileReference._save(_rawData, _pbxFileReference);
     _rawData = PBXBuildFile._save(_rawData, _pbxBuildFile);
     _rawData = PBXBuildConfiguration._save(_rawData, _pbxBuildConfiguration);
-    _rawData = _rawData.replaceFirstMapped(
-      RegExp(r"objectVersion = ([0-9]+);"),
-      (m) => "objectVersion = ${(int.tryParse(m.group(1) ?? "") ?? 0) + 1};",
-    );
+    // _rawData = _rawData.replaceFirstMapped(
+    //   RegExp(r"objectVersion = ([0-9]+);"),
+    //   (m) => "objectVersion = ${(int.tryParse(m.group(1) ?? "") ?? 0) + 1};",
+    // );
     final pbx = File("ios/Runner.xcodeproj/project.pbxproj");
     await pbx.writeAsString(_rawData);
   }
