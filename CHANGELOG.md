@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.3.1`](#katana_cli---v131)
+
+---
+
+#### `katana_cli` - `v1.3.1`
+
+ - **FIX**: Fixed a problem with Xode versioning. ([d4a4c6bc](https://github.com/mathrunet/flutter_masamune/commit/d4a4c6bc190a0fda103a186517824e92f43e10ee))
+ - **FIX**: Picker additional features added. ([322b66f9](https://github.com/mathrunet/flutter_masamune/commit/322b66f999e690519bc65ab1b5bad6fc3a312fe2))
+
+
 ## 2023-01-07
 
 ### Changes

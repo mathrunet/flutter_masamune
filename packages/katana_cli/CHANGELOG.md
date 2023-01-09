@@ -1,3 +1,8 @@
+## 1.3.1
+
+ - **FIX**: Fixed a problem with Xode versioning. ([d4a4c6bc](https://github.com/mathrunet/flutter_masamune/commit/d4a4c6bc190a0fda103a186517824e92f43e10ee))
+ - **FIX**: Picker additional features added. ([322b66f9](https://github.com/mathrunet/flutter_masamune/commit/322b66f999e690519bc65ab1b5bad6fc3a312fe2))
+
 ## 1.3.0
 
  - **FEAT**: Add githook. ([58200ee8](https://github.com/mathrunet/flutter_masamune/commit/58200ee8b9999661e81e9b160b27648345e26131))
