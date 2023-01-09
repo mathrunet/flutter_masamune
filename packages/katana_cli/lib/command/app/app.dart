@@ -11,6 +11,7 @@ part 'info.dart';
 part 'csr.dart';
 part 'keystore.dart';
 part 'p12.dart';
+part 'picker.dart';
 
 class AppCliCommand extends CliCommandGroup {
   const AppCliCommand();
@@ -25,5 +26,6 @@ class AppCliCommand extends CliCommandGroup {
         "csr": AppCsrCliCommand(),
         "keystore": AppKeystoreCliCommand(),
         "p12": AppP12CliCommand(),
+        "picker": AppPickerCliCommand(),
       };
 }

@@ -11,7 +11,7 @@ class AppKeystoreCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Generate a keystore for Android and use it only at release build time. Save the password for keystore generation in `android/app/appkey_password.key`. Store the keystore in `android/app/appkey.keystore` and `android/app/appkey.p12`. Save the keystore information in `android/key.properties` so that it can be read by build.gradle. Save fingerprint information in `android/app/appkey_fingerprint.txt`. you can add initial information in `katana.yaml` with `init` option. Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。`android/app/appkey_password.key`にkeystoreの生成時のパスワードを保存します。`android/app/appkey.keystore`と`android/app/appkey.p12`にキーストアが保存されます。`android/key.properties`にキーストアの情報を保存し、build.gradleで読み込めるようにします。`android/app/appkey_fingerprint.txt`にフィンガープリント情報を保存します。initオプションで`katana.yaml`の初期情報を追加できます。";
+      "Generate a keystore for Android and use it only at release build time. Save the password for keystore generation in `android/app/appkey_password.key`. Store the keystore in `android/app/appkey.keystore` and `android/app/appkey.p12`. Save the keystore information in `android/key.properties` so that it can be read by build.gradle. Save fingerprint information in `android/app/appkey_fingerprint.txt`. Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。`android/app/appkey_password.key`にkeystoreの生成時のパスワードを保存します。`android/app/appkey.keystore`と`android/app/appkey.p12`にキーストアが保存されます。`android/key.properties`にキーストアの情報を保存し、build.gradleで読み込めるようにします。`android/app/appkey_fingerprint.txt`にフィンガープリント情報を保存します。";
 
   @override
   Future<void> exec(ExecContext context) async {

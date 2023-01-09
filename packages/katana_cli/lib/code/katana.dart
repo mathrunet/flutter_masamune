@@ -64,6 +64,19 @@ app:
     organization: 
     state: Tokyo
     country: Japan
+  
+  # Describe the settings for using the file picker.
+  # Describe the platform for using the picker in [platform]. Specify `any` or `mobile`. Import the picker package for that platform.
+  # Specify the permission message to use the library in IOS in [permission].
+  # Please include `en`, `ja`, etc. and write the message in that language there.
+  # ファイルピッカーを利用するための設定を記述します。
+  # [platform]にピッカーを利用するためのプラットフォームを記述します。`any`もしくは`mobile`を指定してください。そのプラットフォーム用のピッカーパッケージをインポートします。
+  # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+  # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+  picker:
+    platform: any
+    permission:
+      en: Use the library for profile images.
 
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。

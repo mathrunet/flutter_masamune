@@ -33,7 +33,7 @@ class AppInfoCliCommand extends CliCommand {
 
   @override
   String get description =>
-      "Set the application title, icon, and other information based on the information in `katana.yaml`. You can add initial information in `katana.yaml` with the `init` option. `katana.yaml`の情報を元にアプリケーションのタイトルやアイコンなどの情報を設定します。initオプションで`katana.yaml`の初期情報を追加できます。";
+      "Set the application title, icon, and other information based on the information in `katana.yaml`. `katana.yaml`の情報を元にアプリケーションのタイトルやアイコンなどの情報を設定します。";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -111,11 +111,11 @@ class AppInfoCliCommand extends CliCommand {
     await _removeAndroidResValues(data);
     await _replaceAndroidManifest();
     label("Replace ios information");
+    await XCode.createIOSInfoPlistStrings(data.keys.toList());
     await _createIOSInfoPlistStrings({
       if (defaultLocale.isNotEmpty) "": data[defaultLocale!]!,
       ...data,
     });
-    await _attachInfoPlistStringsToXCode(data);
   }
 
   Future<void> _createAndroidResValues(
@@ -278,7 +278,8 @@ class AppInfoCliCommand extends CliCommand {
         }
       }
     }
-    final base = data.entries.firstWhereOrNull((item) => item.key == "");
+    final base = data.entries.firstWhereOrNull((item) => item.key == "") ??
+        data.entries.firstOrNull;
     if (base != null) {
       final dir = Directory("ios/Runner/Base.lproj");
       if (!dir.existsSync()) {
@@ -299,104 +300,5 @@ class AppInfoCliCommand extends CliCommand {
         }
       }
     }
-  }
-
-  Future<void> _attachInfoPlistStringsToXCode(
-    Map<String, Map<String, String>> data,
-  ) async {
-    final xcode = XCode();
-    await xcode.load();
-    late String variantGroupId;
-    late String buildFileId;
-    final fileIds = <String, String>{};
-    for (final tmp in data.entries) {
-      if (tmp.key.isEmpty) {
-        continue;
-      }
-      final ref =
-          xcode.pbxFileReference.firstWhereOrNull((e) => e.name == tmp.key);
-      if (ref == null) {
-        final id = XCode.generateId();
-        fileIds[tmp.key] = id;
-        xcode.pbxFileReference.add(
-          PBXFileReference(
-            id: id,
-            name: tmp.key,
-            path: "${tmp.key}.lproj/InfoPlist.strings",
-            comment: tmp.key,
-            sourceTree: '"<group>"',
-            lastKnownFileType: "text.plist.strings",
-          ),
-        );
-      } else {
-        fileIds[tmp.key] = ref.id;
-      }
-    }
-    final variantGroup = xcode.pbxVariantGroup
-        .firstWhereOrNull((e) => e.name == "InfoPlist.strings");
-    if (variantGroup != null) {
-      variantGroupId = variantGroup.id;
-      variantGroup.children.clear();
-      variantGroup.children.addAll(
-        fileIds.toList(
-          (key, value) => PBXVariantGroupChild(
-            id: value,
-            comment: key,
-          ),
-        ),
-      );
-    } else {
-      variantGroupId = XCode.generateId();
-      xcode.pbxVariantGroup.add(
-        PBXVariantGroup(
-          id: variantGroupId,
-          children: fileIds
-              .toList(
-                (key, value) => PBXVariantGroupChild(
-                  id: value,
-                  comment: key,
-                ),
-              )
-              .toList(),
-          name: "InfoPlist.strings",
-          sourceTree: '"<group>"',
-        ),
-      );
-    }
-    final runner = xcode.pbxGroup.firstWhereOrNull((e) => e.path == "Runner");
-    if (runner == null) {
-      throw Exception("Runner is not associated with XCode.");
-    }
-    if (!runner.children.any((e) => e.id == variantGroupId)) {
-      runner.children.add(
-        PBXGroupChild(id: variantGroupId, comment: "InfoPlist.strings"),
-      );
-    }
-    final buildFile =
-        xcode.pbxBuildFile.firstWhereOrNull((e) => e.fileRef == variantGroupId);
-    if (buildFile != null) {
-      buildFileId = buildFile.id;
-    } else {
-      buildFileId = XCode.generateId();
-      xcode.pbxBuildFile.add(
-        PBXBuildFile(
-          id: buildFileId,
-          fileRef: variantGroupId,
-          fileName: "InfoPlist.strings",
-          fileDir: "Resources",
-        ),
-      );
-    }
-    final buildPhase = xcode.pbxResourcesBuildPhase.first;
-    if (!buildPhase.files.any((e) => e.id == buildFileId)) {
-      buildPhase.files.add(
-        PBXResourcesBuildPhaseFile(
-          id: buildFileId,
-          fileDir: "InfoPlist.strings",
-          fileName: "Resources",
-        ),
-      );
-    }
-    await xcode.save();
   }
 }

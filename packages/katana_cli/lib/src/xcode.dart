@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:katana/katana.dart';
+import 'package:xml/xml.dart';
 
 /// Utility to edit XCode's project.pbxproj.
 ///
@@ -94,6 +95,315 @@ class XCode {
   /// XCode用のIDを作成します。
   static String generateId() {
     return generateCode(24, charSet: "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  }
+
+  /// Create InfoPlist.strings in the language given in [locales] and update project.pbxproj.
+  ///
+  /// [locales]で与えた言語でInfoPlist.stringsを作成し、project.pbxprojを更新します。
+  static Future<void> createIOSInfoPlistStrings(
+    List<String> locales,
+  ) async {
+    for (final tmp in locales) {
+      final dir = Directory(
+        "ios/Runner/$tmp.lproj",
+      );
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+      final file = File("${dir.path}/InfoPlist.strings");
+      if (!file.existsSync()) {
+        await file.writeAsString("");
+      }
+    }
+    final dir = Directory("ios/Runner/Base.lproj");
+    if (!dir.existsSync()) {
+      await dir.create(recursive: true);
+    }
+    final file = File("${dir.path}/InfoPlist.strings");
+    if (!file.existsSync()) {
+      await file.writeAsString("");
+    }
+    final xcode = XCode();
+    await xcode.load();
+    late String variantGroupId;
+    late String buildFileId;
+    final fileIds = <String, String>{};
+    for (final tmp in locales) {
+      if (tmp.isEmpty) {
+        continue;
+      }
+      final ref = xcode.pbxFileReference.firstWhereOrNull((e) => e.name == tmp);
+      if (ref == null) {
+        final id = XCode.generateId();
+        fileIds[tmp] = id;
+        xcode.pbxFileReference.add(
+          PBXFileReference(
+            id: id,
+            name: tmp,
+            path: "$tmp.lproj/InfoPlist.strings",
+            comment: tmp,
+            sourceTree: '"<group>"',
+            lastKnownFileType: "text.plist.strings",
+          ),
+        );
+      } else {
+        fileIds[tmp] = ref.id;
+      }
+    }
+    final variantGroup = xcode.pbxVariantGroup
+        .firstWhereOrNull((e) => e.name == "InfoPlist.strings");
+    if (variantGroup != null) {
+      variantGroupId = variantGroup.id;
+      variantGroup.children.clear();
+      variantGroup.children.addAll(
+        fileIds.toList(
+          (key, value) => PBXVariantGroupChild(
+            id: value,
+            comment: key,
+          ),
+        ),
+      );
+    } else {
+      variantGroupId = XCode.generateId();
+      xcode.pbxVariantGroup.add(
+        PBXVariantGroup(
+          id: variantGroupId,
+          children: fileIds
+              .toList(
+                (key, value) => PBXVariantGroupChild(
+                  id: value,
+                  comment: key,
+                ),
+              )
+              .toList(),
+          name: "InfoPlist.strings",
+          sourceTree: '"<group>"',
+        ),
+      );
+    }
+    final runner = xcode.pbxGroup.firstWhereOrNull((e) => e.path == "Runner");
+    if (runner == null) {
+      throw Exception("Runner is not associated with XCode.");
+    }
+    if (!runner.children.any((e) => e.id == variantGroupId)) {
+      runner.children.add(
+        PBXGroupChild(id: variantGroupId, comment: "InfoPlist.strings"),
+      );
+    }
+    final buildFile =
+        xcode.pbxBuildFile.firstWhereOrNull((e) => e.fileRef == variantGroupId);
+    if (buildFile != null) {
+      buildFileId = buildFile.id;
+    } else {
+      buildFileId = XCode.generateId();
+      xcode.pbxBuildFile.add(
+        PBXBuildFile(
+          id: buildFileId,
+          fileRef: variantGroupId,
+          fileName: "InfoPlist.strings",
+          fileDir: "Resources",
+        ),
+      );
+    }
+    final buildPhase = xcode.pbxResourcesBuildPhase.first;
+    if (!buildPhase.files.any((e) => e.id == buildFileId)) {
+      buildPhase.files.add(
+        PBXResourcesBuildPhaseFile(
+          id: buildFileId,
+          fileDir: "InfoPlist.strings",
+          fileName: "Resources",
+        ),
+      );
+    }
+    await xcode.save();
+  }
+}
+
+/// Permission message type for XCode.
+///
+/// XCode用のパーミッションメッセージタイプ。
+enum XCodePermissionType {
+  /// Permissions for camera use.
+  ///
+  /// カメラ利用時のパーミッション。
+  cameraUsage("NSCameraUsageDescription"),
+
+  /// Permissions for microphone use.
+  ///
+  /// マイク利用時のパーミッション。
+  microphoneUsage("NSMicrophoneUsageDescription"),
+
+  /// Permissions when using location information.
+  ///
+  /// 位置情報利用時のパーミッション。
+  locationWhenInUseUsage("NSLocationWhenInUseUsageDescription"),
+
+  /// Permission for constant use of location information.
+  ///
+  /// 位置情報常時利用時のパーミッション。
+  locationAlwaysAndWhenInUseUsage(
+    "NSLocationAlwaysAndWhenInUseUsageDescription",
+  ),
+
+  /// Permission for constant use of location information.
+  ///
+  /// 位置情報常時利用時のパーミッション。
+  locationAlwaysUsage("NSLocationAlwaysUsageDescription"),
+
+  /// Permissions for motion sensor use.
+  ///
+  /// モーションセンサー利用時のパーミッション。
+  motionUsageDescription("NSMotionUsageDescription"),
+
+  /// Permissions when using media services.
+  ///
+  /// メディアサービス利用時のパーミッション。
+  serviceMediaLibrary("kTCCServiceMediaLibrary"),
+
+  /// Permissions for photo library use.
+  ///
+  /// フォトライブラリ利用時のパーミッション。
+  photoLibraryUsage("NSPhotoLibraryUsageDescription"),
+
+  /// Permissions when using the Add to Photo Library feature.
+  ///
+  /// フォトライブラリへの追加機能利用時のパーミッション。
+  photoLibraryAddUsage("NSPhotoLibraryAddUsageDescription"),
+
+  /// Permissions when using contacts.
+  ///
+  /// 連絡先利用時のパーミッション。
+  contactsUsage("NSContactsUsageDescription"),
+
+  /// Permissions for calendar use.
+  ///
+  /// カレンダー利用時のパーミッション。
+  calendarsUsage("NSCalendarsUsageDescription"),
+
+  /// Permissions for reminder use.
+  ///
+  /// リマインダー利用時のパーミッション。
+  remindersUsage("NSRemindersUsageDescription"),
+
+  /// Permissions for Bluetooth use.
+  ///
+  /// Bluetooth利用時のパーミッション。
+  bluetoothPeripheralUsage("NSBluetoothPeripheralUsageDescription"),
+
+  /// Permissions when using Apple Music.
+  ///
+  /// Apple Music利用時のパーミッション。
+  appleMusicUsage("NSAppleMusicUsageDescription"),
+
+  /// Permissions when using voice recognition.
+  ///
+  /// 音声認識利用時のパーミッション。
+  speechRecognitionUsage("NSSpeechRecognitionUsageDescription"),
+
+  /// Permissions when using user tracking.
+  ///
+  /// ユーザートラッキング利用時のパーミッション。
+  userTrackingUsage("NSUserTrackingUsageDescription");
+
+  /// Permission message type for XCode.
+  ///
+  /// XCode用のパーミッションメッセージタイプ。
+  const XCodePermissionType(this.id);
+
+  /// Permission ID.
+  ///
+  /// パーミッションのID。
+  final String id;
+
+  /// Add a message for authorization permission based on the language (key) and message (value) given in [messages].
+  ///
+  /// [messages]で与えた言語（キー）とメッセージ（値）を元に権限許可用のメッセージを追加します。
+  Future<void> setMessageToXCode(Map<String, String> messages) async {
+    await XCode.createIOSInfoPlistStrings(messages.keys.toList());
+    for (final tmp in messages.entries) {
+      if (tmp.key.isEmpty) {
+        continue;
+      }
+      final dir = Directory(
+        "ios/Runner/${tmp.key}.lproj",
+      );
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+      final text = '$id = "${tmp.value}";';
+      final file = File("${dir.path}/InfoPlist.strings");
+      if (!file.existsSync()) {
+        await file.writeAsString(text);
+      } else {
+        final data = await file.readAsString();
+        final regExp = RegExp(id + r'[\s]*=[\s]*"([^"]+)";');
+        if (regExp.hasMatch(data)) {
+          await file.writeAsString(data.replaceAll(regExp, text));
+        } else {
+          await file.writeAsString("$data\n$text");
+        }
+      }
+    }
+    final base = messages.entries.firstWhereOrNull((item) => item.key == "") ??
+        messages.entries.firstOrNull;
+    if (base != null) {
+      final dir = Directory("ios/Runner/Base.lproj");
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+      final text = '$id = "${base.value}";';
+      final file = File("${dir.path}/InfoPlist.strings");
+      if (!file.existsSync()) {
+        await file.writeAsString(text);
+      } else {
+        final data = await file.readAsString();
+        final regExp = RegExp(id + r'[\s]*=[\s]*"([^"]+)";');
+        if (regExp.hasMatch(data)) {
+          await file.writeAsString(data.replaceAll(regExp, text));
+        } else {
+          await file.writeAsString("$data\n$text");
+        }
+      }
+      final plist = File("ios/Runner/Info.plist");
+      final document = XmlDocument.parse(await plist.readAsString());
+      final dict = document.findAllElements("dict").firstOrNull;
+      if (dict == null) {
+        throw Exception(
+          "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
+        );
+      }
+      final node = dict.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "key" &&
+            p0.innerText == id;
+      });
+      if (node == null) {
+        dict.children.addAll(
+          [
+            XmlElement(
+              XmlName("key"),
+              [],
+              [XmlText(id)],
+            ),
+            XmlElement(
+              XmlName("string"),
+              [],
+              [XmlText(base.value)],
+            ),
+          ],
+        );
+      } else {
+        final value = node.nextElementSibling;
+        if (value != null) {
+          final text = value.children
+              .firstWhereOrNull((item) => item is XmlText) as XmlText?;
+          text?.text = base.value;
+        }
+      }
+      await plist.writeAsString(
+        document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+      );
+    }
   }
 }
 
