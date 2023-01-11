@@ -61,6 +61,16 @@ final modelAdapter = RuntimeModelAdapter();
 // TODO: Change the authentication.
 const authAdapter = RuntimeAuthAdapter();
 
+/// App Storage.
+/// 
+/// Changing to another adapter allows you to change to another storage mechanism.
+const storageAdapter = LocalStorageAdapter();
+
+/// App Functions.
+/// 
+/// Changing to another adapter allows you to change to another functions mechanism.
+const functionsAdapter = RuntimeFunctionsAdapter();
+
 /// App Theme.
 ///
 /// ```dart
@@ -130,8 +140,6 @@ final appRef = AppRef();
 /// ```
 final appAuth = Authentication();
 
-
-
 /// App Flavor.
 const flavor = String.fromEnvironment("FLAVOR");
 
@@ -147,6 +155,8 @@ void main() {
       localize: l,
       authAdapter: authAdapter,
       modelAdapter: modelAdapter,
+      storageAdapter: storageAdapter,
+      functionsAdapter: functionsAdapter,
     ),
   );
 }
