@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.3.3`](#katana_cli---v133)
+ - [`katana_functions_firebase` - `v1.1.1`](#katana_functions_firebase---v111)
+
+---
+
+#### `katana_cli` - `v1.3.3`
+
+ - **FIX**: Add main code. ([bc0ff74f](https://github.com/mathrunet/flutter_masamune/commit/bc0ff74fc12a63cb8ff336fcaacb86353786a521))
+
+#### `katana_functions_firebase` - `v1.1.1`
+
+ - **FIX**: Added initial values for Adapter. ([14b76dfa](https://github.com/mathrunet/flutter_masamune/commit/14b76dfad48c352504a6ad92cab42a4b1acd9eee))
+
+
 ## 2023-01-11
 
 ### Changes

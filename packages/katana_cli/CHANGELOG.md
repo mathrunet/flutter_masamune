@@ -1,3 +1,7 @@
+## 1.3.3
+
+ - **FIX**: Add main code. ([bc0ff74f](https://github.com/mathrunet/flutter_masamune/commit/bc0ff74fc12a63cb8ff336fcaacb86353786a521))
+
 ## 1.3.2
 
  - **FIX**: Addition of Functions side functionality to firebase init. ([192b263c](https://github.com/mathrunet/flutter_masamune/commit/192b263cbe9498b76f2aa56d4ba1b2e7739799e5))
