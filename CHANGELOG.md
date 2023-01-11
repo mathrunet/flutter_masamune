@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_picker` - `v1.4.0`](#masamune_picker---v140)
+ - [`masamune_picker_file` - `v1.4.0`](#masamune_picker_file---v140)
+ - [`masamune_picker_mobile` - `v1.4.0`](#masamune_picker_mobile---v140)
+
+---
+
+#### `masamune_picker` - `v1.4.0`
+
+ - **FEAT**: Separate masamune_picker into masamune_picker_file with only the interface and the actual state of masamune_picker_file. ([da1e618b](https://github.com/mathrunet/flutter_masamune/commit/da1e618bf5335cc7bd1cd5ab2df972e48a806a77))
+
+#### `masamune_picker_file` - `v1.4.0`
+
+ - **FEAT**: Separate masamune_picker into masamune_picker_file with only the interface and the actual state of masamune_picker_file. ([da1e618b](https://github.com/mathrunet/flutter_masamune/commit/da1e618bf5335cc7bd1cd5ab2df972e48a806a77))
+
+#### `masamune_picker_mobile` - `v1.4.0`
+
+ - **FEAT**: Separate masamune_picker into masamune_picker_file with only the interface and the actual state of masamune_picker_file. ([da1e618b](https://github.com/mathrunet/flutter_masamune/commit/da1e618bf5335cc7bd1cd5ab2df972e48a806a77))
+
+
+## 2023-01-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_storage` - `v1.1.1`](#katana_storage---v111)
  - [`katana_storage_firebase` - `v1.1.1`](#katana_storage_firebase---v111)
  - [`masamune` - `v1.2.2`](#masamune---v122)
