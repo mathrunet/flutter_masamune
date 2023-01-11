@@ -1,3 +1,7 @@
+## 1.2.5
+
+ - **FIX**: Added Functions. ([18590d22](https://github.com/mathrunet/flutter_masamune/commit/18590d22d19054eb710dcb33f5f061ccf0559025))
+
 ## 1.2.4
 
  - **FIX**: Compatible with DarkTheme. ([ce6669fb](https://github.com/mathrunet/flutter_masamune/commit/ce6669fbf8279f35d76575d9fa3f76402d827ae4))
