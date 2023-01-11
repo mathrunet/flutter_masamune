@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Base package to facilitate switching between Local and Firebase storage implementations.
+/// Provides an interface to execute server-side processing in a type-safe manner. Actual processing on the server side is done by importing a separate adapter.
 ///
 /// To use, import `package:katana_functions/katana_functions.dart`.
 ///
