@@ -1,0 +1,3 @@
+# See https://dart.dev/tools/pub/publishing#what-files-are-published
+
+/pubspec_overrides.yaml
