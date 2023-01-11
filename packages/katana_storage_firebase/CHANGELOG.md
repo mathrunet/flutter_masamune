@@ -1,3 +1,7 @@
+## 1.1.1
+
+ - **FIX**: Fixed a path bug. ([e744799d](https://github.com/mathrunet/flutter_masamune/commit/e744799d14059cb2b77bb7166edcec178490b36e))
+
 ## 1.1.0
 
  - **FIX**: Support for interface changes. ([1185ad1a](https://github.com/mathrunet/flutter_masamune/commit/1185ad1a5c792408cc770f75b7f7090d89fed3bd))
