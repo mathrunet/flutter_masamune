@@ -127,6 +127,22 @@ class CreateCliCommand extends CliCommand {
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
     label("Edit a widget_test.dart");
     await const WidgetTestCliCode().generateFile("widget_test.dart");
+    label("Create a assets directory");
+    final assetsDirectory = Directory("assets");
+    if (!assetsDirectory.existsSync()) {
+      await assetsDirectory.create();
+    }
+    label("Replace pubspec.yaml");
+    final pubspecFile = File("pubspec.yaml");
+    final pubspec = await pubspecFile.readAsString();
+    await pubspecFile.writeAsString(
+      pubspec.replaceAll(
+        RegExp(
+          r"# assets:[\s\S]+#   - images/a_dot_burr.jpeg[\s\S]+#   - images/a_dot_ham.jpeg",
+        ),
+        "assets:\n    - assets/\n",
+      ),
+    );
     label("Rewrite `.gitignore`.");
     final gitignore = File(".gitignore");
     if (!gitignore.existsSync()) {

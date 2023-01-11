@@ -15,6 +15,7 @@ part 'page.dart';
 part 'watch.dart';
 part 'value.dart';
 part 'redirect_query.dart';
+part 'boot.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();

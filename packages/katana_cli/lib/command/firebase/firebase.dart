@@ -1,5 +1,6 @@
 library katana_cli.firebase;
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:katana_cli/katana_cli.dart';

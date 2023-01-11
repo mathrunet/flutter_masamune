@@ -85,6 +85,13 @@ firebase:
   # FirebaseのプロジェクトIDを設定します。
   project_id:
 
+  # Configure Firebase Hosting settings.
+  # Set [use_flutter] to `true` so that all routes point to index.html, and set it to `true` when using Flutter Web.
+  # Firebase Hostingの設定を行います。
+  # [use_flutter]を`true`にするとすべてのルートがindex.htmlを向くようになります。Flutter Webを利用する際に`true`にしてください。
+  hosting:
+    use_flutter: false
+
 # Github-related information will be described.
 # Github関連の情報を記載します。
 github:

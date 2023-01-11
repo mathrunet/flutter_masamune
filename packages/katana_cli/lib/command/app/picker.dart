@@ -60,7 +60,7 @@ class AppPickerCliCommand extends CliCommand {
             flutter,
             "pub",
             "add",
-            "masamune_picker",
+            "masamune_picker_file",
           ],
         );
         break;

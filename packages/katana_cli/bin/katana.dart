@@ -13,6 +13,7 @@ const commands = <String, CliCommand>{
   "pub": PubCliCommand(),
   "code": CodeCliCommand(),
   "git": GitCliCommand(),
+  "firebase": FirebaseCliCommand(),
   "create": CreateCliCommand(),
 };
 
