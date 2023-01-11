@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **FIX**: Addition of Functions side functionality to firebase init. ([192b263c](https://github.com/mathrunet/flutter_masamune/commit/192b263cbe9498b76f2aa56d4ba1b2e7739799e5))
+
 ## 1.3.1
 
  - **FIX**: Fixed a problem with Xode versioning. ([d4a4c6bc](https://github.com/mathrunet/flutter_masamune/commit/d4a4c6bc190a0fda103a186517824e92f43e10ee))

@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.3.2`](#katana_cli---v132)
+
+---
+
+#### `katana_cli` - `v1.3.2`
+
+ - **FIX**: Addition of Functions side functionality to firebase init. ([192b263c](https://github.com/mathrunet/flutter_masamune/commit/192b263cbe9498b76f2aa56d4ba1b2e7739799e5))
+
+
+## 2023-01-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_picker` - `v1.4.0`](#masamune_picker---v140)
  - [`masamune_picker_file` - `v1.4.0`](#masamune_picker_file---v140)
  - [`masamune_picker_mobile` - `v1.4.0`](#masamune_picker_mobile---v140)
