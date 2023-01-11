@@ -85,10 +85,11 @@ class LocalStorageAdapter extends StorageAdapter {
       throw Exception("File could not be found: $localFullPath");
     }
     final bytes = await localStorage.read(localFullPath);
-    if (await remoteStorage.exists(remoteRelativePath)) {
-      await remoteStorage.delete(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    if (await remoteStorage.exists(remoteFullPath)) {
+      await remoteStorage.delete(remoteFullPath);
     }
-    await remoteStorage.write(remoteRelativePath, bytes);
+    await remoteStorage.write(remoteFullPath, bytes);
     return RemoteFile(
       path: await fetchPublicURI(remoteRelativePath),
       bytes: bytes,

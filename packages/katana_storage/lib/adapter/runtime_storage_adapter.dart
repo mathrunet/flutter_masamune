@@ -116,10 +116,11 @@ class RuntimeStorageAdapter extends StorageAdapter {
       throw Exception("File could not be found: $localFullPath");
     }
     final bytes = await localStorage.read(localFullPath);
-    if (await remoteStorage.exists(remoteRelativePath)) {
-      await remoteStorage.delete(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    if (await remoteStorage.exists(remoteFullPath)) {
+      await remoteStorage.delete(remoteFullPath);
     }
-    await remoteStorage.write(remoteRelativePath, bytes);
+    await remoteStorage.write(remoteFullPath, bytes);
     return RemoteFile(
       path: await fetchPublicURI(remoteRelativePath),
       bytes: bytes,
@@ -131,10 +132,11 @@ class RuntimeStorageAdapter extends StorageAdapter {
     Uint8List uploadFileByte,
     String remoteRelativePath,
   ) async {
-    if (await remoteStorage.exists(remoteRelativePath)) {
-      await remoteStorage.delete(remoteRelativePath);
+    final remoteFullPath = await remoteStorage.fetchURI(remoteRelativePath);
+    if (await remoteStorage.exists(remoteFullPath)) {
+      await remoteStorage.delete(remoteFullPath);
     }
-    await remoteStorage.write(remoteRelativePath, uploadFileByte);
+    await remoteStorage.write(remoteFullPath, uploadFileByte);
     return RemoteFile(
       path: await fetchPublicURI(remoteRelativePath),
       bytes: uploadFileByte,
