@@ -109,6 +109,17 @@ abstract class StorageAdapter {
     String remoteRelativePath,
   );
 
+  /// Uploads the data specified in [uploadFileByte] to [remoteRelativePath], which is the location on the remote side.
+  ///
+  /// The byte data of the file is passed to [uploadFileByte] and the relative path is passed to [remoteRelativePath].
+  ///
+  /// Return [RemoteFile] containing the full path of the upload destination and the actual data as the return value.
+  ///
+  /// [uploadFileByte]で指定されたデータをリモート側の位置であるの[remoteRelativePath]にアップロードします。
+  ///
+  /// [uploadFileByte]にファイルのバイトデータが渡され[remoteRelativePath]に相対パスが渡されます。
+  ///
+  /// 戻り値としてアップロード先のフルパスと実データを格納した[RemoteFile]を返してください。
   Future<RemoteFile> uploadWithBytes(
     Uint8List uploadFileByte,
     String remoteRelativePath,
