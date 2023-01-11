@@ -1,3 +1,7 @@
+## 1.2.9
+
+ - **FIX**: Added a method to invert Brightness. ([a4538c6e](https://github.com/mathrunet/flutter_masamune/commit/a4538c6ee34a361262ea0d7358bf271d13472171))
+
 ## 1.2.8
 
  - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))

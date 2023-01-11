@@ -1,3 +1,7 @@
+## 1.1.1
+
+ - Update a dependency to the latest release.
+
 ## 1.1.0
 
  - **FIX**: Public process. ([07c8d420](https://github.com/mathrunet/flutter_masamune/commit/07c8d420cf6a3a187d9ab907774f0b6272d58b3f))

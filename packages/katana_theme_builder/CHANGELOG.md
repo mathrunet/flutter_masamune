@@ -1,3 +1,7 @@
+## 1.2.7
+
+ - **FIX**: Added a method to invert Brightness. ([a4538c6e](https://github.com/mathrunet/flutter_masamune/commit/a4538c6ee34a361262ea0d7358bf271d13472171))
+
 ## 1.2.6
 
  - **FIX**: Fixed a bug with MaterialDesign3 support. ([0390bcdb](https://github.com/mathrunet/flutter_masamune/commit/0390bcdbc87f96af2ee04cd48ba1587e2a55aaae))

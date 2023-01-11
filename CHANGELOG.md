@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v1.2.9`](#katana_theme---v129)
+ - [`katana_theme_annotation` - `v1.2.6`](#katana_theme_annotation---v126)
+ - [`katana_theme_builder` - `v1.2.7`](#katana_theme_builder---v127)
+ - [`masamune` - `v1.2.3`](#masamune---v123)
+ - [`masamune_picker` - `v1.4.1`](#masamune_picker---v141)
+ - [`masamune_agora` - `v0.15.0+62`](#masamune_agora---v015062)
+ - [`masamune_wordpress` - `v0.15.0+60`](#masamune_wordpress---v015060)
+ - [`masamune_purchase` - `v0.15.0+60`](#masamune_purchase---v015060)
+ - [`masamune_location` - `v0.15.0+60`](#masamune_location---v015060)
+ - [`masamune_media` - `v0.15.0+60`](#masamune_media---v015060)
+ - [`masamune_local_messaging` - `v0.15.0+60`](#masamune_local_messaging---v015060)
+ - [`masamune_firebase` - `v0.15.0+61`](#masamune_firebase---v015061)
+ - [`masamune_ads` - `v0.15.0+60`](#masamune_ads---v015060)
+ - [`masamune_ui` - `v0.15.0+60`](#masamune_ui---v015060)
+ - [`masamune_picker_mobile` - `v1.4.1`](#masamune_picker_mobile---v141)
+ - [`masamune_picker_file` - `v1.4.1`](#masamune_picker_file---v141)
+ - [`masamune_purchase_firebase` - `v0.15.0+61`](#masamune_purchase_firebase---v015061)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+61`](#masamune_firebase_dynamic_links---v015061)
+ - [`masamune_firebase_messaging` - `v0.15.0+61`](#masamune_firebase_messaging---v015061)
+ - [`masamune_signin_facebook` - `v0.15.0+61`](#masamune_signin_facebook---v015061)
+ - [`masamune_signin_google` - `v0.15.0+61`](#masamune_signin_google---v015061)
+ - [`masamune_signin_twitter` - `v0.15.0+61`](#masamune_signin_twitter---v015061)
+ - [`masamune_purchase_stripe` - `v0.15.0+61`](#masamune_purchase_stripe---v015061)
+ - [`masamune_signin_apple` - `v0.15.0+61`](#masamune_signin_apple---v015061)
+ - [`masamune_notion` - `v0.15.0+61`](#masamune_notion---v015061)
+ - [`masamune_module` - `v0.15.0+60`](#masamune_module---v015060)
+ - [`masamune_builder` - `v1.1.1`](#masamune_builder---v111)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.2.3`
+ - `masamune_picker` - `v1.4.1`
+ - `masamune_agora` - `v0.15.0+62`
+ - `masamune_wordpress` - `v0.15.0+60`
+ - `masamune_purchase` - `v0.15.0+60`
+ - `masamune_location` - `v0.15.0+60`
+ - `masamune_media` - `v0.15.0+60`
+ - `masamune_local_messaging` - `v0.15.0+60`
+ - `masamune_firebase` - `v0.15.0+61`
+ - `masamune_ads` - `v0.15.0+60`
+ - `masamune_ui` - `v0.15.0+60`
+ - `masamune_picker_mobile` - `v1.4.1`
+ - `masamune_picker_file` - `v1.4.1`
+ - `masamune_purchase_firebase` - `v0.15.0+61`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+61`
+ - `masamune_firebase_messaging` - `v0.15.0+61`
+ - `masamune_signin_facebook` - `v0.15.0+61`
+ - `masamune_signin_google` - `v0.15.0+61`
+ - `masamune_signin_twitter` - `v0.15.0+61`
+ - `masamune_purchase_stripe` - `v0.15.0+61`
+ - `masamune_signin_apple` - `v0.15.0+61`
+ - `masamune_notion` - `v0.15.0+61`
+ - `masamune_module` - `v0.15.0+60`
+ - `masamune_builder` - `v1.1.1`
+
+---
+
+#### `katana_theme` - `v1.2.9`
+
+ - **FIX**: Added a method to invert Brightness. ([a4538c6e](https://github.com/mathrunet/flutter_masamune/commit/a4538c6ee34a361262ea0d7358bf271d13472171))
+
+#### `katana_theme_annotation` - `v1.2.6`
+
+ - **FIX**: Added a method to invert Brightness. ([a4538c6e](https://github.com/mathrunet/flutter_masamune/commit/a4538c6ee34a361262ea0d7358bf271d13472171))
+
+#### `katana_theme_builder` - `v1.2.7`
+
+ - **FIX**: Added a method to invert Brightness. ([a4538c6e](https://github.com/mathrunet/flutter_masamune/commit/a4538c6ee34a361262ea0d7358bf271d13472171))
+
+
+## 2023-01-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.3.2`](#katana_cli---v132)
 
 ---
