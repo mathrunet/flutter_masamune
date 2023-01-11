@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PickerAdapterScope(
-      adapter: const FilePickerAdapter(),
+      adapter: const TestPickerAdapter(),
       child: MasamuneApp(
         home: const PickerPage(),
         title: "Flutter Demo",

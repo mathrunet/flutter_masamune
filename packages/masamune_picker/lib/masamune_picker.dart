@@ -10,14 +10,13 @@ library masamune_picker;
 
 import 'dart:async';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:masamune/masamune.dart';
 
 export 'package:masamune/masamune.dart';
 
-part 'adapter/file_picker_adapter.dart';
+part 'adapter/test_picker_adapter.dart';
 
 part 'src/picker.dart';
 part 'src/picker_file_type.dart';

@@ -105,7 +105,7 @@ packages:
       name: file_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.2.4"
+    version: "5.2.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -206,143 +206,143 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.10+1"
   katana_auth:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_auth
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_auth"
+      relative: true
+    source: path
     version: "1.1.4"
   katana_form:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_form
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_form"
+      relative: true
+    source: path
     version: "1.3.1"
   katana_indicator:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_indicator"
+      relative: true
+    source: path
     version: "1.1.4"
   katana_listenables:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_listenables
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_listenables"
+      relative: true
+    source: path
     version: "1.2.10"
   katana_listenables_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_listenables_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_listenables_annotation"
+      relative: true
+    source: path
     version: "1.2.8"
   katana_localization:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_localization
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_localization"
+      relative: true
+    source: path
     version: "1.1.20"
   katana_localization_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_localization_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_localization_annotation"
+      relative: true
+    source: path
     version: "1.1.18"
   katana_model:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_model
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_model"
+      relative: true
+    source: path
     version: "1.3.17"
   katana_router:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_router
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_router"
+      relative: true
+    source: path
     version: "1.10.8"
   katana_router_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_router_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_router_annotation"
+      relative: true
+    source: path
     version: "1.10.5"
   katana_scoped:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_scoped
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_scoped"
+      relative: true
+    source: path
     version: "1.7.0"
   katana_shorten:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_shorten
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_shorten"
+      relative: true
+    source: path
     version: "1.2.0"
   katana_storage:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_storage
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
+      path: "../katana_storage"
+      relative: true
+    source: path
+    version: "1.1.1"
   katana_theme:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_theme
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_theme"
+      relative: true
+    source: path
     version: "1.2.8"
   katana_theme_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_theme_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_theme_annotation"
+      relative: true
+    source: path
     version: "1.2.5"
   katana_ui:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_ui"
+      relative: true
+    source: path
     version: "1.1.0"
   masamune:
     dependency: "direct main"
     description:
-      name: masamune
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.1"
+      path: "../masamune"
+      relative: true
+    source: path
+    version: "1.2.2"
   masamune_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: masamune_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../masamune_annotation"
+      relative: true
+    source: path
     version: "1.1.0"
   masamune_picker:
     dependency: "direct main"
     description:
-      name: masamune_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.3.1"
+      path: "../masamune_picker"
+      relative: true
+    source: path
+    version: "1.3.2"
   matcher:
     dependency: transitive
     description:
@@ -606,7 +606,7 @@ packages:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0+2"
+    version: "0.2.0+3"
 sdks:
   dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.0.0"

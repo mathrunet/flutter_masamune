@@ -33,7 +33,7 @@ abstract class PickerAdapter {
       _primary != null,
       "MediaAdapter is not set. Place [MediaAdapterScope] widget closer to the root.",
     );
-    return _primary ?? const FilePickerAdapter();
+    return _primary ?? const TestPickerAdapter();
   }
 
   static PickerAdapter? _primary;

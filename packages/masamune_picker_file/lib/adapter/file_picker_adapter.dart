@@ -1,4 +1,4 @@
-part of masamune_picker;
+part of masamune_picker_file;
 
 /// Adapter to use the file picker available on all platforms.
 ///

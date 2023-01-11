@@ -16,4 +16,4 @@ import 'package:masamune_picker/masamune_picker.dart';
 
 export 'package:masamune_picker/masamune_picker.dart';
 
-part 'adapter/mobile_image_picker_media_adapter.dart';
+part 'adapter/mobile_image_picker_adapter.dart';

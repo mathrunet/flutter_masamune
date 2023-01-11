@@ -14,7 +14,6 @@ dependencies:
     
   katana: ^0.15.0
   masamune: ^1.2.2
-  file_picker: ^5.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
