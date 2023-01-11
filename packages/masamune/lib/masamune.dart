@@ -14,6 +14,7 @@ import 'package:masamune/masamune.dart';
 export 'package:katana/katana.dart';
 export 'package:katana_auth/katana_auth.dart';
 export 'package:katana_form/katana_form.dart';
+export 'package:katana_functions/katana_functions.dart';
 export 'package:katana_indicator/katana_indicator.dart';
 export 'package:katana_listenables/katana_listenables.dart';
 export 'package:katana_localization/katana_localization.dart';

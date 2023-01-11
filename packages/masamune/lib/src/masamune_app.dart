@@ -98,6 +98,7 @@ class MasamuneApp extends StatelessWidget {
     this.appRef,
     this.authAdapter,
     this.storageAdapter,
+    this.functionsAdapter,
     this.theme,
     this.localize,
     this.routerConfig,
@@ -147,6 +148,11 @@ class MasamuneApp extends StatelessWidget {
   ///
   /// `katana_storage`で利用されるファイルストレージ用のアダプター。
   final StorageAdapter? storageAdapter;
+
+  /// Adapter for server processing used by `katana_functions`.
+  ///
+  /// `katana_functions`で利用されるサーバー処理用のアダプター。
+  final FunctionsAdapter? functionsAdapter;
 
   /// Config for router used by `katana_router`.
   ///
@@ -290,19 +296,22 @@ class MasamuneApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildAppStorage(
+    return _buildAppFunctions(
       context,
-      _buildAppAuth(
+      _buildAppStorage(
         context,
-        _buildModelAdapter(
+        _buildAppAuth(
           context,
-          _buildAppScoped(
+          _buildAppModel(
             context,
-            _buildAppTheme(
+            _buildAppScoped(
               context,
-              _buildAppLocalize(
+              _buildAppTheme(
                 context,
-                _buildAppRouter(context),
+                _buildAppLocalize(
+                  context,
+                  _buildAppRouter(context),
+                ),
               ),
             ),
           ),
@@ -311,10 +320,20 @@ class MasamuneApp extends StatelessWidget {
     );
   }
 
-  Widget _buildModelAdapter(BuildContext context, Widget child) {
+  Widget _buildAppModel(BuildContext context, Widget child) {
     if (modelAdapter != null) {
       return ModelAdapterScope(
         adapter: modelAdapter!,
+        child: child,
+      );
+    }
+    return child;
+  }
+
+  Widget _buildAppFunctions(BuildContext context, Widget child) {
+    if (functionsAdapter != null) {
+      return FunctionsAdapterScope(
+        adapter: functionsAdapter!,
         child: child,
       );
     }
