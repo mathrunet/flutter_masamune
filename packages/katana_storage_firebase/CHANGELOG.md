@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **DOCS**: Additional Comments. ([2ae6d6a1](https://github.com/mathrunet/flutter_masamune/commit/2ae6d6a11026007551cb1ba9ca278111224731ff))
+
 ## 1.1.1
 
  - **FIX**: Fixed a path bug. ([e744799d](https://github.com/mathrunet/flutter_masamune/commit/e744799d14059cb2b77bb7166edcec178490b36e))

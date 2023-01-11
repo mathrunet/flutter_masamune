@@ -1,3 +1,7 @@
+## 1.2.4
+
+ - **FIX**: Compatible with DarkTheme. ([ce6669fb](https://github.com/mathrunet/flutter_masamune/commit/ce6669fbf8279f35d76575d9fa3f76402d827ae4))
+
 ## 1.2.3
 
  - Update a dependency to the latest release.
