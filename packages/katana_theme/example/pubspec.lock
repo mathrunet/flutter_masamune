@@ -112,7 +112,7 @@ packages:
       name: checked_yaml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   clock:
     dependency: transitive
     description:
@@ -126,7 +126,7 @@ packages:
       name: code_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.0"
   collection:
     dependency: transitive
     description:
@@ -285,11 +285,11 @@ packages:
     source: hosted
     version: "4.7.0"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana"
+      relative: true
+    source: path
     version: "0.15.10+1"
   katana_theme:
     dependency: "direct main"
@@ -297,13 +297,13 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.2.7"
+    version: "1.2.8"
   katana_theme_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_theme_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana_theme_annotation"
+      relative: true
+    source: path
     version: "1.2.5"
   katana_theme_builder:
     dependency: "direct dev"

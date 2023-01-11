@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "51.0.0"
+    version: "52.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.1"
+    version: "5.4.0"
   args:
     dependency: transitive
     description:
@@ -70,7 +70,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.1"
+    version: "1.6.0"
   crypto:
     dependency: transitive
     description:
@@ -151,9 +151,9 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.10+1"
   logging:
     dependency: transitive
