@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - Update a dependency to the latest release.
+
 ## 1.1.1
 
  - **FIX**: Added initial values for Adapter. ([14b76dfa](https://github.com/mathrunet/flutter_masamune/commit/14b76dfad48c352504a6ad92cab42a4b1acd9eee))
