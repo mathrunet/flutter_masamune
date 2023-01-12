@@ -23,8 +23,32 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class FunctionsPage extends StatelessWidget {
+class FunctionsPage extends StatefulWidget {
   const FunctionsPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => FunctionsPageState();
+}
+
+class FunctionsPageState extends State<FunctionsPage> {
+  final functions = Functions();
+
+  @override
+  void initState() {
+    super.initState();
+    functions.addListener(_handledOnUpdate);
+  }
+
+  void _handledOnUpdate() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    functions.removeListener(_handledOnUpdate);
+    functions.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +59,7 @@ class FunctionsPage extends StatelessWidget {
           ListTile(
             title: const Text("Send Notification"),
             onTap: () async {
-              await Functions.sendNotification(
+              await functions.sendNotification(
                 title: "Title",
                 text: "Push Notifications",
                 target: "TopicName",
