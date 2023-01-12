@@ -3,20 +3,24 @@ part of katana_cli.code;
 /// Create a base class for the document model.
 ///
 /// ドキュメントモデルのベースクラスを作成します。
-class CodeDocumentCliCommand extends CliCommand {
+class CodeDocumentCliCommand extends CliCodeCommand {
   /// Create a base class for the document model.
   ///
   /// ドキュメントモデルのベースクラスを作成します。
   const CodeDocumentCliCommand();
 
-  /// Code data.
-  ///
-  /// コードデータ。
-  static const code = DocumentModelCliCode();
+  @override
+  String get name => "document_model";
+
+  @override
+  String get prefix => "documentModel";
+
+  @override
+  String get directory => "lib/models";
 
   @override
   String get description =>
-      "Create a base class for the document model in `${code.directory}/(filepath).dart`. ドキュメントモデルのベースクラスを`${code.directory}/(filepath).dart`に作成します。";
+      "Create a base class for the document model in `$directory/(filepath).dart`. ドキュメントモデルのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -27,7 +31,76 @@ class CodeDocumentCliCommand extends CliCommand {
       );
       return;
     }
-    label("Create a document class in `${code.directory}/$path.dart`.");
-    await code.generateDartCode("${code.directory}/$path");
+    label("Create a document class in `$directory/$path.dart`.");
+    await generateDartCode("$directory/$path");
+  }
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+// ignore: unused_import, unnecessary_import
+import 'package:flutter/material.dart';
+// ignore: unused_import, unnecessary_import
+import 'package:masamune/masamune.dart';
+
+// ignore: unused_import, unnecessary_import
+import '/main.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part '$baseName.m.dart';
+part '$baseName.g.dart';
+part '$baseName.freezed.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Alias for ModelRef<${className}Model>.
+/// 
+/// When defining parameters for other Models, you can define them as follows
+/// 
+/// ```dart
+/// @refParam ${className}ModelRef $baseName
+/// ```
+typedef ${className}ModelRef = ModelRef<${className}Model>?;
+
+/// Value for model.
+@freezed
+@formValue
+@immutable
+// TODO: Set the path for the document.
+@DocumentModelPath("\${1:$path}")
+class ${className}Model with _\$${className}Model {
+  const factory ${className}Model({
+     // TODO: Set the data schema.
+     \${2}
+  }) = _${className}Model;
+  const ${className}Model._();
+
+  factory ${className}Model.fromJson(Map<String, Object?> json) => _\$${className}ModelFromJson(json);
+
+  /// Query for document.
+  ///
+  /// ```dart
+  /// appRef.model(${className}Model.document());      // Get the document.
+  /// ref.model(${className}Model.document())..load(); // Load the document.
+  /// ```
+  static const document = _\$${className}ModelDocumentQuery();
+
+  /// Query for form value.
+  ///
+  /// ```dart
+  /// ref.page.controller(${className}Model.form());     // Get the form controller.
+  /// ```
+  static const form = _\$${className}ModelFormQuery();
+}
+""";
   }
 }

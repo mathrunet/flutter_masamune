@@ -21,19 +21,6 @@ final importDevPackages = [
   "json_serializable",
 ];
 
-/// List of code snippets to be generated.
-///
-/// 生成するコードスニペットのリスト。
-const codeSnippets = [
-  PageCliCode(),
-  CollectionModelCliCode(),
-  DocumentModelCliCode(),
-  ControllerCliCode(),
-  ControllerGroupCliCode(),
-  ValueCliCode(),
-  RedirectQueryCliCode(),
-];
-
 /// Other generated files.
 ///
 /// その他の生成ファイル。
@@ -109,10 +96,7 @@ class CreateCliCommand extends CliCommand {
     );
     label("Replace lib/main.dart");
     await const MainCliCode().generateDartCode("lib/main");
-    label("Generate code-snippets for VSCode");
-    for (final code in codeSnippets) {
-      await code.generateCodeSnippet(".vscode");
-    }
+    label("Generate file for VSCode");
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
     }
@@ -177,5 +161,564 @@ class CreateCliCommand extends CliCommand {
       ],
       workingDirectory: "ios",
     );
+  }
+}
+
+/// Contents of katana.yaml.
+///
+/// katana.yamlの中身。
+class KatanaCliCode extends CliCode {
+  /// Contents of katana.yaml.
+  ///
+  /// katana.yamlの中身。
+  const KatanaCliCode();
+
+  @override
+  String get name => "katana";
+
+  @override
+  String get prefix => "katana";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Create katana.yaml for katana_cli. katana_cli用のkatana.yamlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+# Describe the application information.
+# アプリケーション情報を記載します。
+app:
+
+  # Retrieve data from a spreadsheet retrieved by a specific Google Form.
+  # Please include the URL of the spreadsheet in [url] and the email address you collected in [email].
+  # 特定のGoogleフォームで取得したスプレッドシートからデータを取得します。
+  # [url]にスプレッドシートのURL、[email]に収集したメールアドレスを記載してください。
+  spread_sheet:
+    url:
+    email:
+
+  # Create a `CertificateSigningRequest.certSigningRequest` for iOS.
+  # Please include your support email address in [email].
+  # iOS用の`CertificateSigningRequest.certSigningRequest`を作成します。
+  # [email]にサポート用のEmailアドレスを記載してください。
+  csr: 
+    email:
+
+  # Create a keystore for Android.
+  # Enter the alias of the keystore in [alias], the common name in [name], the organization name in [organization], the state or province in [state], and the country in [country].
+  # Android用のkeystoreを作成します。
+  # [alias]にkeystoreのエイリアス、[name]に共通名、[organization]に組織名、[state]に州や都道府県、[country]に国名を入力してください。
+  keystore: 
+    alias: 
+    name: 
+    organization: 
+    state: Tokyo
+    country: Japan
+  
+  # Describe the settings for using the file picker.
+  # Describe the platform for using the picker in [platform]. Specify `any` or `mobile`. Import the picker package for that platform.
+  # Specify the permission message to use the library in IOS in [permission].
+  # Please include `en`, `ja`, etc. and write the message in that language there.
+  # ファイルピッカーを利用するための設定を記述します。
+  # [platform]にピッカーを利用するためのプラットフォームを記述します。`any`もしくは`mobile`を指定してください。そのプラットフォーム用のピッカーパッケージをインポートします。
+  # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+  # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+  picker:
+    platform: any
+    permission:
+      en: Use the library for profile images.
+
+# This section contains information related to Firebase.
+# Firebase関連の情報を記載します。
+firebase:
+  # Set the Firebase project ID.
+  # FirebaseのプロジェクトIDを設定します。
+  project_id:
+
+  # Configure Firebase Hosting settings.
+  # Set [use_flutter] to `true` so that all routes point to index.html, and set it to `true` when using Flutter Web.
+  # Firebase Hostingの設定を行います。
+  # [use_flutter]を`true`にするとすべてのルートがindex.htmlを向くようになります。Flutter Webを利用する際に`true`にしてください。
+  hosting:
+    use_flutter: false
+
+# Github-related information will be described.
+# Github関連の情報を記載します。
+github:
+  action:
+    ios:
+      # Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.
+      # https://appstoreconnect.apple.com/access/api のページに記載されているIssuer IDをコピーしてください。
+      issuer_id: 
+      # Please copy and include your team ID from https://developer.apple.com/account.
+      # https://developer.apple.com/account のチームIDをコピーして記載してください。
+      team_id: 
+""";
+  }
+}
+
+/// Contents of katana.yaml.
+///
+/// katana_secrets.yamlの中身。
+class KatanaSecretsCliCode extends CliCode {
+  /// Contents of katana.yaml.
+  ///
+  /// katana_secrets.yamlの中身。
+  const KatanaSecretsCliCode();
+
+  @override
+  String get name => "katana_secrets";
+
+  @override
+  String get prefix => "katana_secrets";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Create katana_secrets.yaml for katana_cli. katana_cli用のkatana_secrets.yamlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+# Describe Github secret information.
+# Githubのシークレット情報を記述します。
+github:
+  # Please describe the Github token.
+  # Githubのトークンを記載してください。
+  token:
+""";
+  }
+}
+
+/// Contents of main.dart.
+///
+/// main.dartの中身。
+class MainCliCode extends CliCode {
+  /// Contents of main.dart.
+  ///
+  /// main.dartの中身。
+  const MainCliCode();
+
+  @override
+  String get name => "main";
+
+  @override
+  String get prefix => "main";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a main.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したmain.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+import 'package:flutter/material.dart';
+import 'package:masamune/masamune.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+part '$baseName.theme.dart';
+part '$baseName.localize.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+/// App Title.
+// TODO: Define the title of the application.
+const title = "${1}";
+
+/// Initial page query.
+// TODO: Define the initial page query of the application.
+final initialQuery = ${2:null};
+
+/// App Model.
+///
+/// By replacing this with another adapter, the data storage location can be changed.
+// TODO: Change the database.
+final modelAdapter = RuntimeModelAdapter();
+
+/// App Auth.
+/// 
+/// Changing to another adapter allows you to change to another authentication mechanism.
+// TODO: Change the authentication.
+const authAdapter = RuntimeAuthAdapter();
+
+/// App Storage.
+/// 
+/// Changing to another adapter allows you to change to another storage mechanism.
+const storageAdapter = LocalStorageAdapter();
+
+/// App Functions.
+/// 
+/// Changing to another adapter allows you to change to another functions mechanism.
+const functionsAdapter = RuntimeFunctionsAdapter();
+
+/// App Theme.
+///
+/// ```dart
+/// theme.color.primary   // Primary color.
+/// theme.text.bodyMedium // Medium body text style.
+/// theme.asset.xxx       // xxx image.
+/// theme.font.xxx        // xxx font.
+/// ```
+@appTheme
+final theme = AppThemeData(
+  // TODO: Set the design.
+  primary: Colors.blue,
+  secondary: Colors.cyan,
+  onPrimary: Colors.white,
+  onSecondary: Colors.white,
+  ${3}
+);
+
+/// App Router.
+///
+/// ```dart
+/// router.push(Page.query());  // Push page to Page.
+/// router.pop();               // Pop page.
+/// ```
+final router = AppRouter(
+  // TODO: Please configure the initial routing and redirection settings.
+  boot: ${4:null},
+  initialQuery: initialQuery,
+  redirect: [],
+  pages: [
+    // TODO: Add the page query to be used for routing.
+    ${5}
+  ],
+);
+
+/// App Localization.
+///
+/// ```dart
+/// l().xxx  // Localization for xxx.
+/// ```
+final l = AppLocalize();
+
+// TODO: Set the Google Spreadsheet URL for the translation.
+@GoogleSpreadSheetLocalize(
+  "${6:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
+  version: 1,
+)
+class AppLocalize extends _$AppLocalize {}
+
+/// App Ref.
+///
+/// ```dart
+/// appRef.controller(Controller.query()); // Get a controller.
+/// appRef.model(Model.query());           // Get a model.
+/// ```
+final appRef = AppRef();
+
+/// App authentication.
+///
+/// ```dart
+/// appAuth.signIn(
+///   EmailAndPasswordSignInAuthProvider(
+///     email: email,
+///     password: password,
+///   ),
+/// );
+/// ```
+final appAuth = Authentication();
+
+/// App server functions.
+/// 
+/// It is used in conjunction with the server side.
+///
+/// ```dart
+/// appFunction.notification(
+///   title: "Notification",
+///   text: "Notification text",
+///   target: "Topic",
+/// );
+/// ```
+final appFunction = Functions();
+
+/// App Flavor.
+const flavor = String.fromEnvironment("FLAVOR");
+
+/// App.
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    MasamuneApp(
+      title: title,
+      appRef: appRef,
+      theme: theme,
+      routerConfig: router,
+      localize: l,
+      authAdapter: authAdapter,
+      modelAdapter: modelAdapter,
+      storageAdapter: storageAdapter,
+      functionsAdapter: functionsAdapter,
+    ),
+  );
+}
+""";
+  }
+}
+
+/// Contents of katana.yaml.
+///
+/// analysis_options.yamlの中身。
+class AnalysisOptionsCliCode extends CliCode {
+  /// Contents of katana.yaml.
+  ///
+  /// analysis_options.yamlの中身。
+  const AnalysisOptionsCliCode();
+
+  @override
+  String get name => "analysis_options";
+
+  @override
+  String get prefix => "analysis_options";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Define `analysis_options.yaml` with additional settings. `analysis_options.yaml`を追加設定込で定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+# The following line activates a set of recommended lints for Flutter apps,
+# packages, and plugins designed to encourage good coding practices.
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  # The lint rules applied to this project can be customized in the
+  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
+  # included above or to enable additional rules. A list of all available lints
+  # and their documentation is published at
+  # https://dart-lang.github.io/linter/lints/index.html.
+  #
+  # Instead of disabling a lint rule for the entire project in the
+  # section below, it can also be suppressed for a single line of code
+  # or a specific dart file by using the `// ignore: name_of_lint` and
+  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
+  # producing the lint.
+  rules:
+    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
+    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
+
+# Set to exclude json_serializable files.
+# json_serializableのファイルを除外するための設定。
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+""";
+  }
+}
+
+/// Contents of launch.json.
+///
+/// launch.jsonの中身。
+class LaunchCliCode extends CliCode {
+  /// Contents of launch.json.
+  ///
+  /// launch.jsonの中身。
+  const LaunchCliCode();
+
+  @override
+  String get name => "launch";
+
+  @override
+  String get prefix => "launch";
+
+  @override
+  String get directory => ".vscode";
+
+  @override
+  String get description =>
+      "Create launch.json for VSCode. VSCode用のlaunch.jsonを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Development",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--dart-define=FLAVOR=dev", "--web-renderer", "html", "--web-port=5555"]
+    },
+    {
+      "name": "Staging",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--dart-define=FLAVOR=stg", "--web-renderer", "html", "--web-port=5555"]
+    },
+    {
+      "name": "Production",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--dart-define=FLAVOR=prod", "--web-renderer", "html", "--web-port=5555", "--release"]
+    }
+  ]
+}
+""";
+  }
+}
+
+/// Contents of widget_test.dart.
+///
+/// widget_test.dartの中身。
+class WidgetTestCliCode extends CliCode {
+  /// Contents of widget_test.dart.
+  ///
+  /// widget_test.dartの中身。
+  const WidgetTestCliCode();
+
+  @override
+  String get name => "widget_test";
+
+  @override
+  String get prefix => "widget_test";
+
+  @override
+  String get directory => "test";
+
+  @override
+  String get description =>
+      "Create an error-free widget_test.dart. エラーのでないwidget_test.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+// This is a basic Flutter widget test.
+//
+// To perform an interaction with a widget in your test, use the WidgetTester
+// utility in the flutter_test package. For example, you can send tap and scroll
+// gestures. You can also use WidgetTester to find child widgets in the widget
+// tree, read text, and verify that the values of widget properties are correct.
+
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  test("Test", () {});
+}
+""";
+  }
+}
+
+/// Contents of katana.yaml.
+///
+/// pubspec_overrides.yamlの中身。
+class PubspecOverridesCliCode extends CliCode {
+  /// Contents of katana.yaml.
+  ///
+  /// pubspec_overrides.yamlの中身。
+  const PubspecOverridesCliCode();
+
+  @override
+  String get name => "pubspec_overrides";
+
+  @override
+  String get prefix => "kapubspec_overridestana";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Create pubspec_overrides.yaml for katana_cli. katana_cli用のpubspec_overrides.yamlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+dependency_overrides:
+""";
   }
 }

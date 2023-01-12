@@ -308,6 +308,16 @@ abstract class CliCode {
   }
 }
 
+/// Abstract class for creating a code-based command template.
+///
+/// コードベースのコマンドの雛形を作成するための抽象クラス。
+abstract class CliCodeCommand extends CliCode implements CliCommand {
+  /// Abstract class for creating a code-based command template.
+  ///
+  /// コードベースのコマンドの雛形を作成するための抽象クラス。
+  const CliCodeCommand();
+}
+
 /// Make an Unmodifidable map or listing Modifidable.
 ///
 /// UnmodifidableなマップやリストをModifidableにします。

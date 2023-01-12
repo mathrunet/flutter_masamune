@@ -3,20 +3,24 @@ part of katana_cli.code.tmp;
 /// Create a template for the form page.
 ///
 /// フォームページのテンプレートを作成します。
-class CodeTmpFormCliCommand extends CliCommand {
+class CodeTmpFormCliCommand extends CliCodeCommand {
   /// Create a template for the form page.
   ///
   /// フォームページのテンプレートを作成します。
   const CodeTmpFormCliCommand();
 
-  /// Code data.
-  ///
-  /// コードデータ。
-  static const code = TmpFormCliCode();
+  @override
+  String get name => "template_form";
+
+  @override
+  String get prefix => "templateForm";
+
+  @override
+  String get directory => "lib/pages";
 
   @override
   String get description =>
-      "Create a template for the form page in `${code.directory}/(filepath).dart`. フォームページのテンプレートを`${code.directory}/(filepath).dart`に作成します。";
+      "Create a template for the form page in `$directory/(filepath).dart`. フォームページのテンプレートを`$directory/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -27,7 +31,115 @@ class CodeTmpFormCliCommand extends CliCommand {
       );
       return;
     }
-    label("Create a form template in `${code.directory}/$path.dart`.");
-    await code.generateDartCode("${code.directory}/$path");
+    label("Create a form template in `$directory/$path.dart`.");
+    await generateDartCode("$directory/$path");
+  }
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+// ignore: unused_import, unnecessary_import
+import 'package:flutter/material.dart';
+// ignore: unused_import, unnecessary_import
+import 'package:masamune/masamune.dart';
+
+// ignore: unused_import, unnecessary_import
+import '/main.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+part '$baseName.page.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Page for forms to add data.
+@immutable
+@PagePath("\${2:$path}/add")
+class ${className}AddPage extends FormAddPageScopedWidget {
+  const ${className}AddPage({
+    super.key,
+  });
+
+  /// Used to transition to the ${className}AddPage screen.
+  ///
+  /// ```dart
+  /// router.push(${className}AddPage.query(parameters));    // Push page to ${className}AddPage.
+  /// router.replace(${className}AddPage.query(parameters)); // Push page to ${className}AddPage.
+  /// ```
+  @pageRouteQuery
+  static const query = _\$${className}AddPageQuery();
+
+  @override
+  FormScopedWidget build(BuildContext context, PageRef ref) =>
+      const ${className}Form();
+}
+
+/// Page for forms to edit data.
+@immutable
+@PagePath("\${3:$path}/{edit_id}/edit")
+class ${className}EditPage extends FormEditPageScopedWidget {
+  const ${className}EditPage({
+    super.key,
+    @PageParam("edit_id") required super.editId,
+  });
+
+  /// Used to transition to the ${className}EditPage screen.
+  ///
+  /// ```dart
+  /// router.push(${className}EditPage.query(parameters));    // Push page to ${className}EditPage.
+  /// router.replace(${className}EditPage.query(parameters)); // Push page to ${className}EditPage.
+  /// ```
+  @pageRouteQuery
+  static const query = _\$${className}EditPageQuery();
+
+  @override
+  FormScopedWidget build(BuildContext context, PageRef ref) =>
+      const ${className}Form();
+}
+
+/// Widgets for form views.
+@immutable
+class ${className}Form extends FormScopedWidget {
+  const ${className}Form({super.key});
+
+  /// Used to transition to the ${className}AddPage screen.
+  ///
+  /// ```dart
+  /// router.push(${className}Form.addQuery(parameters));    // Push page to ${className}AddPage.
+  /// router.replace(${className}Form.addQuery(parameters)); // Push page to ${className}AddPage.
+  /// ```
+  static const addQuery = ${className}AddPage.query;
+
+  /// Used to transition to the ${className}EditPage screen.
+  ///
+  /// ```dart
+  /// router.push(${className}Form.editQuery(parameters));    // Push page to ${className}EditPage.
+  /// router.replace(${className}Form.editQuery(parameters)); // Push page to ${className}EditPage.
+  /// ```
+  static const editQuery = ${className}EditPage.query;
+
+  @override
+  Widget build(BuildContext context, FormRef ref) {
+    // Describes the process of loading
+    // and defining variables required for the page.
+    // 
+    // You can use [ref.isAdding] or [ref.isEditing] to determine if the form is currently adding new data or editing data.
+    //
+    // If editing is in progress, it is possible to get the ID of the item being edited with [ref.editId].
+    // TODO: Implement the variable loading process.
+    \${4}
+
+    // Describes the structure of the page.
+    // TODO: Implement the view.
+    return \${5:Scaffold()};
+  }
+}
+""";
   }
 }
