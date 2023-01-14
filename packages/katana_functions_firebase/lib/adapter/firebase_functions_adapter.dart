@@ -15,14 +15,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Firebase Functionsを利用してサーバー側の処理を返すためのアダプター。
   ///
   /// npmの`@mathrunet/masamune`を利用することでサーバー側の実装を簡略化することができます。
-  const FirebaseFunctionsAdapter({
-    required this.defaultAndroidNotificationChannelId,
-  });
-
-  /// Default AndroidNotificationChannelId.
-  ///
-  /// デフォルトのAndroidNotificationChannelId。
-  final String defaultAndroidNotificationChannelId;
+  const FirebaseFunctionsAdapter();
 
   /// Instances of Firebase Functions.
   ///
@@ -47,7 +40,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
         {
           "title": title,
           "text": text,
-          "channel_id": channel ?? defaultAndroidNotificationChannelId,
+          if (channel != null) "channel_id": channel,
           if (data != null) "data": data,
           if (isToken) "token": target else "topic": target,
         },

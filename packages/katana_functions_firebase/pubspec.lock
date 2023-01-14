@@ -211,7 +211,7 @@ packages:
       name: katana_functions
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.2"
   matcher:
     dependency: transitive
     description:
