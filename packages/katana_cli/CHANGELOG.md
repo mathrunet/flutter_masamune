@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: Consolidate commands such as APP into APPLY. ([da3e54ce](https://github.com/mathrunet/flutter_masamune/commit/da3e54cece28f9439a6558cc05d52269340d5dee))
+
 ## 1.3.3
 
  - **FIX**: Add main code. ([bc0ff74f](https://github.com/mathrunet/flutter_masamune/commit/bc0ff74fc12a63cb8ff336fcaacb86353786a521))

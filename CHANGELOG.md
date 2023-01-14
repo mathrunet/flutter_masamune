@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.4.0`](#katana_cli---v140)
+
+---
+
+#### `katana_cli` - `v1.4.0`
+
+ - **FEAT**: Consolidate commands such as APP into APPLY. ([da3e54ce](https://github.com/mathrunet/flutter_masamune/commit/da3e54cece28f9439a6558cc05d52269340d5dee))
+
+
 ## 2023-01-12
 
 ### Changes
