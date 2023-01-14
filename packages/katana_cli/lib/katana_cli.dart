@@ -10,10 +10,8 @@ library katana_cli;
 
 export 'package:katana/katana.dart';
 
-export 'command/app/app.dart';
 export 'command/code/code.dart';
 export 'command/create.dart';
-export 'command/firebase/firebase.dart';
 export 'command/git/git.dart';
 export 'command/pub/pub.dart';
 export 'src/framework.dart';

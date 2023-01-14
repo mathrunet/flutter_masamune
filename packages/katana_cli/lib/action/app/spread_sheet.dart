@@ -1,4 +1,9 @@
-part of katana_cli.app;
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:csv/csv.dart';
+import 'package:katana_cli/katana_cli.dart';
+import 'package:xml/xml.dart';
 
 final _mapping = [
   "timestamp",
@@ -22,18 +27,28 @@ final _mapping = [
   "screenshot_tablet",
 ];
 
-/// Set the application information.
+/// Set the application information from the spreadsheet.
 ///
-/// アプリケーションの情報を設定します。
-class AppInfoCliCommand extends CliCommand {
-  /// Set the application information.
+/// スプレッドシートからのアプリケーションの情報を設定します。
+class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
+  /// Set the application information from the spreadsheet.
   ///
-  /// アプリケーションの情報を設定します。
-  const AppInfoCliCommand();
+  /// スプレッドシートからのアプリケーションの情報を設定します。
+  const AppSpreadSheetCliAction();
 
   @override
   String get description =>
       "Set the application title, icon, and other information based on the information in `katana.yaml`. `katana.yaml`の情報を元にアプリケーションのタイトルやアイコンなどの情報を設定します。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final value = context.yaml.getAsMap("app").getAsMap("spread_sheet");
+    final enabled = value.get("enable", false);
+    if (!enabled) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Future<void> exec(ExecContext context) async {

@@ -308,6 +308,20 @@ abstract class CliCode {
   }
 }
 
+/// Mixin for setting up internal actions to be executed by the `apply` command.
+///
+/// `apply`コマンドで実行するための内部アクションを設定するためのMixin。
+mixin CliActionMixin on CliCommand {
+  /// Decide whether to apply this action based on the contents of [context].
+  ///
+  /// Return `true` if applicable.
+  ///
+  /// [context]の内容を元にこのアクションを適用するかどうかを決定する。
+  ///
+  /// 適用する場合`true`を返す。
+  bool checkEnabled(ExecContext context);
+}
+
 /// Abstract class for creating a code-based command template.
 ///
 /// コードベースのコマンドの雛形を作成するための抽象クラス。

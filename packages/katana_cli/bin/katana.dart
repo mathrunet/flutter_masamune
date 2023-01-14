@@ -2,6 +2,7 @@ library katana_cli;
 
 import 'dart:io';
 
+import 'package:katana_cli/command/apply.dart';
 import 'package:katana_cli/katana_cli.dart';
 import 'package:yaml/yaml.dart';
 
@@ -9,11 +10,10 @@ import 'package:yaml/yaml.dart';
 ///
 /// コマンドの一覧を定義します。
 const commands = <String, CliCommand>{
-  "app": AppCliCommand(),
   "pub": PubCliCommand(),
   "code": CodeCliCommand(),
   "git": GitCliCommand(),
-  "firebase": FirebaseCliCommand(),
+  "apply": ApplyCliCommand(),
   "create": CreateCliCommand(),
 };
 

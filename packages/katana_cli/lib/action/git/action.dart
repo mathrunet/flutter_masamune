@@ -1,21 +1,37 @@
-part of katana_cli.github;
+import 'package:katana_cli/katana_cli.dart';
+
+import 'platform/android.dart';
+import 'platform/ios.dart';
+import 'platform/web.dart';
 
 /// Output yaml for Github Actions.
 ///
 /// Github Actions用のyamlを出力します。
-class GitActionCliCommand extends CliCommand {
+class GitActionCliAction extends CliCommand with CliActionMixin {
   /// Output yaml for Github Actions.
   ///
   /// Github Actions用のyamlを出力します。
-  const GitActionCliCommand();
+  const GitActionCliAction();
 
   @override
   String get description =>
-      "Output yaml for Github Actions. Pass the platform you want to support as a parameter, like `katana github action android ios web`. Available platforms are `android`, `ios`, `web`, `windows`, `macos`, and `linux`. Github Actions用のyamlを出力します。`katana github action android ios web`のように対応したいプラットフォームをパラメーターとして渡してください。使用できるプラットフォームは`android`、`ios`、`web`、`windows`、`macos`、`linux`です。";
+      "Output yaml for Github Actions. Available platforms are `android`, `ios`, `web`, `windows`, `macos`, and `linux`. Github Actions用のyamlを出力します。使用できるプラットフォームは`android`、`ios`、`web`、`windows`、`macos`、`linux`です。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final value = context.yaml.getAsMap("github").getAsMap("action");
+    final enabled = value.get("enable", false);
+    if (!enabled) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Future<void> exec(ExecContext context) async {
-    final platforms = context.args.sublist(2);
+    final github = context.yaml.getAsMap("github");
+    final action = github.getAsMap("action");
+    final platforms = action.get("platform", "").trimString(" ").split(" ");
     if (platforms.isEmpty) {
       print(
         "Platform is not specified. Please pass the platform you want to support as a parameter, like `katana github action android ios web`. Supported platforms are `android`, `ios`, `web`, `windows`, `macos`, and `linux`.",

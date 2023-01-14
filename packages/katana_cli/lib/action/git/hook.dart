@@ -1,17 +1,27 @@
-part of katana_cli.github;
+import 'package:katana_cli/katana_cli.dart';
 
 /// Add a Git hook for Flutter using Lefthook.
 ///
 /// Lefthookを用いてFlutter用のGit hookを追加します。
-class GitHookCliCommand extends CliCommand {
+class GitPreCommitCliAction extends CliCommand with CliActionMixin {
   /// Add a Git hook for Flutter using Lefthook.
   ///
   /// Lefthookを用いてFlutter用のGit hookを追加します。
-  const GitHookCliCommand();
+  const GitPreCommitCliAction();
 
   @override
   String get description =>
       "Add a Git hook for Flutter using Lefthook. Check for Linter, sort imports, and run the formatter when staging. Please install lefthook beforehand. Lefthookを用いてFlutter用のGit hookを追加します。ステージング時にLinterのチェックとインポートのソート、フォーマッターの実行を行うようにします。事前にlefthookをインストールしておいてください。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final value = context.yaml.getAsMap("git").getAsMap("pre_commit");
+    final enabled = value.get("enable", false);
+    if (!enabled) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Future<void> exec(ExecContext context) async {

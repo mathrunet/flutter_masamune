@@ -1,17 +1,30 @@
-part of katana_cli.firebase;
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:katana_cli/katana_cli.dart';
 
 /// Firebase initial configuration.
 ///
 /// Firebaseの初期設定を行います。
-class FirebaseInitCliCommand extends CliCommand {
+class FirebaseInitCliAction extends CliCommand with CliActionMixin {
   /// Firebase initial configuration.
   ///
   /// Firebaseの初期設定を行います。
-  const FirebaseInitCliCommand();
+  const FirebaseInitCliAction();
 
   @override
   String get description =>
       "Initialize Firebase based on the information in `katana.yaml`. Please create a Firebase project beforehand. Also, make `firebase` and `flutterfire` commands available. `katana.yaml`の情報を元にFirebaseの初期設定を行います。予めFirebaseのプロジェクトを作成しておいてください。また、`firebase`と`flutterfire`のコマンドを利用可能にしてください。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final firebase = context.yaml.getAsMap("firebase");
+    final projectId = firebase.get("project_id", "");
+    final functions = firebase.getAsMap("functions").get("enable", false);
+    final hosting = firebase.getAsMap("hosting").get("enable", false);
+    final messaging = firebase.getAsMap("messaging").get("enable", false);
+    return projectId.isNotEmpty && (functions || hosting || messaging);
+  }
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -24,6 +37,9 @@ class FirebaseInitCliCommand extends CliCommand {
     final projectId = firebase.get("project_id", "");
     final hosting = firebase.getAsMap("hosting");
     final useFlutter = hosting.get("use_flutter", false);
+    final enabledFunctions =
+        firebase.getAsMap("functions").get("enable", false);
+    final enabledHosting = hosting.get("enable", false);
     if (projectId.isEmpty) {
       print(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -89,90 +105,96 @@ class FirebaseInitCliCommand extends CliCommand {
         "firebase_core",
         "firebase_auth",
         "cloud_firestore",
-        "firebase_storage",
         "katana_auth_firebase",
         "katana_model_firestore",
-        "katana_storage_firebase",
+        if (enabledFunctions) ...[
+          "firebase_storage",
+          "katana_storage_firebase",
+        ],
       ],
     );
-    final functionsProcess = await Process.start(
-      firebaseCommand,
-      [
-        "init",
-        "functions",
-        "--project",
-        projectId,
-      ],
-      runInShell: true,
-      workingDirectory: "firebase",
-      mode: ProcessStartMode.normal,
-    );
-    functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
-      print(line);
-      if (line.startsWith(
-        "? What language would you like to use to write Cloud Functions?",
-      )) {
-        functionsProcess.stdin.write("k\n");
-      }
-      if (line.startsWith(
-        "? Do you want to use ESLint to catch probable bugs and enforce style?",
-      )) {
-        functionsProcess.stdin.write("y\n");
-      }
-      if (line.startsWith(
-        "? Do you want to install dependencies with npm now?",
-      )) {
-        functionsProcess.stdin.write("Y\n");
-      }
-    });
-    await functionsProcess.exitCode;
-    final hostingProcess = await Process.start(
-      firebaseCommand,
-      [
-        "init",
-        "hosting",
-        "--project",
-        projectId,
-      ],
-      runInShell: true,
-      workingDirectory: "firebase",
-      mode: ProcessStartMode.normal,
-    );
-    hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
-      print(line);
-      if (line.startsWith(
-        "? What do you want to use as your public directory?",
-      )) {
-        hostingProcess.stdin.write("hosting\n");
-      }
-      if (line.startsWith(
-        "? Configure as a single-page app (rewrite all urls to /index.html)?",
-      )) {
-        if (useFlutter) {
-          hostingProcess.stdin.write("y\n");
-        } else {
+    if (enabledHosting) {
+      final hostingProcess = await Process.start(
+        firebaseCommand,
+        [
+          "init",
+          "hosting",
+          "--project",
+          projectId,
+        ],
+        runInShell: true,
+        workingDirectory: "firebase",
+        mode: ProcessStartMode.normal,
+      );
+      hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
+        print(line);
+        if (line.startsWith(
+          "? What do you want to use as your public directory?",
+        )) {
+          hostingProcess.stdin.write("hosting\n");
+        }
+        if (line.startsWith(
+          "? Configure as a single-page app (rewrite all urls to /index.html)?",
+        )) {
+          if (useFlutter) {
+            hostingProcess.stdin.write("y\n");
+          } else {
+            hostingProcess.stdin.write("n\n");
+          }
+        }
+        if (line.startsWith(
+          "? File public/index.html already exists. Overwrite?",
+        )) {
           hostingProcess.stdin.write("n\n");
         }
+      });
+      await hostingProcess.exitCode;
+    }
+    if (enabledFunctions) {
+      final functionsProcess = await Process.start(
+        firebaseCommand,
+        [
+          "init",
+          "functions",
+          "--project",
+          projectId,
+        ],
+        runInShell: true,
+        workingDirectory: "firebase",
+        mode: ProcessStartMode.normal,
+      );
+      functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
+        print(line);
+        if (line.startsWith(
+          "? What language would you like to use to write Cloud Functions?",
+        )) {
+          functionsProcess.stdin.write("k\n");
+        }
+        if (line.startsWith(
+          "? Do you want to use ESLint to catch probable bugs and enforce style?",
+        )) {
+          functionsProcess.stdin.write("y\n");
+        }
+        if (line.startsWith(
+          "? Do you want to install dependencies with npm now?",
+        )) {
+          functionsProcess.stdin.write("Y\n");
+        }
+      });
+      await functionsProcess.exitCode;
+      await command(
+        "Package installation.",
+        [
+          npm,
+          "install",
+          "@mathrunet/masamune",
+        ],
+        workingDirectory: "firebase/functions",
+      );
+      if (!firebaseFunctionsIndexExists) {
+        label("Data replacement for Firebase Functions.");
+        await const FirebaseFunctionsIndexCliCode().generateFile("index.ts");
       }
-      if (line.startsWith(
-        "? File public/index.html already exists. Overwrite?",
-      )) {
-        hostingProcess.stdin.write("n\n");
-      }
-    });
-    await hostingProcess.exitCode;
-    await command(
-      "Package installation.",
-      [
-        npm,
-        "install",
-        "@mathrunet/masamune",
-      ],
-      workingDirectory: "firebase/functions",
-    );
-    if (!firebaseFunctionsIndexExists) {
-      label("Data replacement for Firebase Functions.");
-      await const FirebaseFunctionsIndexCliCode().generateFile("index.ts");
     }
   }
 }

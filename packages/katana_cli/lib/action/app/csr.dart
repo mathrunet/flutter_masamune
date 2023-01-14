@@ -1,17 +1,30 @@
-part of katana_cli.app;
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:katana_cli/katana_cli.dart';
 
 /// Automatically outputs `CertificateSigningRequest.certSigningRequest`.
 ///
 /// `CertificateSigningRequest.certSigningRequest`を自動出力します。
-class AppCsrCliCommand extends CliCommand {
+class AppCsrCliAction extends CliCommand with CliActionMixin {
   /// Automatically outputs `CertificateSigningRequest.certSigningRequest`.
   ///
   /// `CertificateSigningRequest.certSigningRequest`を自動出力します。
-  const AppCsrCliCommand();
+  const AppCsrCliAction();
 
   @override
   String get description =>
       "Automatically outputs `CertificateSigningRequest.certSigningRequest` for authentication at AppStore. The key is stored in `ios/ios_enterprise.key` and the CertificateSigningRequest is output to `ios/CertificateSigningRequest.certSigningRequest`. AppStoreでの認証を行うための`CertificateSigningRequest.certSigningRequest`を自動出力します。`ios/ios_enterprise.key`にキーが保存され、`ios/CertificateSigningRequest.certSigningRequest`にCertificateSigningRequestが出力されます。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final value = context.yaml.getAsMap("app").getAsMap("csr");
+    final enabled = value.get("enable", false);
+    if (!enabled) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Future<void> exec(ExecContext context) async {

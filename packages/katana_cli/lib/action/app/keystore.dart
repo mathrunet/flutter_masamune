@@ -1,17 +1,29 @@
-part of katana_cli.app;
+import 'dart:io';
+
+import 'package:katana_cli/katana_cli.dart';
 
 /// Generate a keystore for Android and use it only for release builds.
 ///
 /// Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。
-class AppKeystoreCliCommand extends CliCommand {
+class AppKeystoreCliAction extends CliCommand with CliActionMixin {
   /// Generate a keystore for Android and use it only for release builds.
   ///
   /// Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。
-  const AppKeystoreCliCommand();
+  const AppKeystoreCliAction();
 
   @override
   String get description =>
       "Generate a keystore for Android and use it only at release build time. Save the password for keystore generation in `android/app/appkey_password.key`. Store the keystore in `android/app/appkey.keystore` and `android/app/appkey.p12`. Save the keystore information in `android/key.properties` so that it can be read by build.gradle. Save fingerprint information in `android/app/appkey_fingerprint.txt`. Android用のkeystoreを生成しリリースビルド時のみ利用するようにします。`android/app/appkey_password.key`にkeystoreの生成時のパスワードを保存します。`android/app/appkey.keystore`と`android/app/appkey.p12`にキーストアが保存されます。`android/key.properties`にキーストアの情報を保存し、build.gradleで読み込めるようにします。`android/app/appkey_fingerprint.txt`にフィンガープリント情報を保存します。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final value = context.yaml.getAsMap("app").getAsMap("keystore");
+    final enabled = value.get("enable", false);
+    if (!enabled) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Future<void> exec(ExecContext context) async {

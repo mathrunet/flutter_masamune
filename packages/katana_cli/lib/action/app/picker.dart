@@ -1,17 +1,27 @@
-part of katana_cli.app;
+import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to pick up images.
 ///
 /// 画像のピックアップを行うためのモジュールを追加します。
-class AppPickerCliCommand extends CliCommand {
+class AppPickerCliAction extends CliCommand with CliActionMixin {
   /// Add a module to pick up images.
   ///
   /// 画像のピックアップを行うためのモジュールを追加します。
-  const AppPickerCliCommand();
+  const AppPickerCliAction();
 
   @override
   String get description =>
       "Add a module to pick up images. 画像のピックアップを行うためのモジュールを追加します。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final value = context.yaml.getAsMap("app").getAsMap("picker");
+    final enabled = value.get("enable", false);
+    if (!enabled) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Future<void> exec(ExecContext context) async {

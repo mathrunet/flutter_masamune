@@ -1,17 +1,29 @@
-part of katana_cli.app;
+import 'dart:io';
+
+import 'package:katana_cli/katana_cli.dart';
 
 /// Convert the cer file created by Certificate in AppleDeveloperProgram from `CertificateSigningRequest.certSigningRequest` to a p12 file.
 ///
 /// `CertificateSigningRequest.certSigningRequest`からAppleDeveloperProgramのCertificateにて作成されたcerファイルをp12ファイルに変換します。
-class AppP12CliCommand extends CliCommand {
+class AppP12CliAction extends CliCommand with CliActionMixin {
   /// Convert the cer file created by Certificate in AppleDeveloperProgram from `CertificateSigningRequest.certSigningRequest` to a p12 file.
   ///
   /// `CertificateSigningRequest.certSigningRequest`からAppleDeveloperProgramのCertificateにて作成されたcerファイルをp12ファイルに変換します。
-  const AppP12CliCommand();
+  const AppP12CliAction();
 
   @override
   String get description =>
       "Convert the cer file created by Certificate in AppleDeveloperProgram from `CertificateSigningRequest.certSigningRequest` to a p12 file. First create a `CertificateSigningRequest.certSigningRequest` from `katana app csr`, then go to https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146 f69acd6780fbcf20fe to download the cer file. `CertificateSigningRequest.certSigningRequest`からAppleDeveloperProgramのCertificateにて作成されたcerファイルをp12ファイルに変換します。最初に`katana app csr`から`CertificateSigningRequest.certSigningRequest`を作成し、https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20fe を参考にcerファイルをダウンロードしてください。";
+
+  @override
+  bool checkEnabled(ExecContext context) {
+    final value = context.yaml.getAsMap("app").getAsMap("p12");
+    final enabled = value.get("enable", false);
+    if (!enabled) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Future<void> exec(ExecContext context) async {
@@ -43,37 +55,39 @@ class AppP12CliCommand extends CliCommand {
       print("Password is missing in `ios/ios_certificate_password.key`.");
       return;
     }
-    await command(
-      "Converts a cer file to a pem file.",
-      [
-        openssl,
-        "x509",
-        "-in",
-        cer.path,
-        "-inform",
-        "DER",
-        "-out",
-        cer.path.replaceAll(regExp, ".pem"),
-        "-outform",
-        "PEM"
-      ],
-    );
-    await command(
-      "Converts a pem file to a p12 file.",
-      [
-        openssl,
-        "pkcs12",
-        "-export",
-        "-in",
-        cer.path.replaceAll(regExp, ".pem"),
-        "-out",
-        cer.path.replaceAll(regExp, ".p12"),
-        "-inkey",
-        "ios/ios_enterprise.key",
-        "-password",
-        "pass:$password",
-      ],
-    );
+    if (!File(cer.path.replaceAll(regExp, ".p12")).existsSync()) {
+      await command(
+        "Converts a cer file to a pem file.",
+        [
+          openssl,
+          "x509",
+          "-in",
+          cer.path,
+          "-inform",
+          "DER",
+          "-out",
+          cer.path.replaceAll(regExp, ".pem"),
+          "-outform",
+          "PEM"
+        ],
+      );
+      await command(
+        "Converts a pem file to a p12 file.",
+        [
+          openssl,
+          "pkcs12",
+          "-export",
+          "-in",
+          cer.path.replaceAll(regExp, ".pem"),
+          "-out",
+          cer.path.replaceAll(regExp, ".p12"),
+          "-inkey",
+          "ios/ios_enterprise.key",
+          "-password",
+          "pass:$password",
+        ],
+      );
+    }
     label("Rewrite `.gitignore`.");
     final gitignore = File("ios/.gitignore");
     if (!gitignore.existsSync()) {
