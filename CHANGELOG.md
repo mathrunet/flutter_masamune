@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_notification_firebase` - `v1.1.1`](#masamune_notification_firebase---v111)
+
+---
+
+#### `masamune_notification_firebase` - `v1.1.1`
+
+ - **FIX**: Class name change. ([7370f3ec](https://github.com/mathrunet/flutter_masamune/commit/7370f3ecc6dc314617cabbd4a77ca40d40bddd34))
+
+
+## 2023-01-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_functions` - `v1.1.3`](#katana_functions---v113)
  - [`katana_functions_firebase` - `v1.1.3`](#katana_functions_firebase---v113)
  - [`masamune_notification_firebase` - `v1.1.0`](#masamune_notification_firebase---v110)
