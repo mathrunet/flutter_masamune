@@ -28,5 +28,8 @@ scripts:
 
   readme: >
     dart util.dart
+
+  analyze: >
+    melos exec -- "flutter analyze"
     
   
