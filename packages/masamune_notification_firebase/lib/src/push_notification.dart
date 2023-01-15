@@ -27,8 +27,8 @@ part of masamune_notification_firebase;
 /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
 ///
 /// Android用の通知設定[androidNotificationChannelTitle]、[androidNotificationChannelDescription]を必ず指定してください。[androidNotificationChannelId]を合わせることでAndroidでも通知の受け取りが可能になります。
-class Notification extends ChangeNotifier
-    implements ValueListenable<NotificationValue?> {
+class PushNotification extends ChangeNotifier
+    implements ValueListenable<PushNotificationValue?> {
   /// Class for handling FirebaseMessaging.
   ///
   /// First, monitor notifications with [listen]. Notifications can be received after this method is executed.
@@ -56,7 +56,7 @@ class Notification extends ChangeNotifier
   /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
   ///
   /// Android用の通知設定[androidNotificationChannelTitle]、[androidNotificationChannelDescription]を必ず指定してください。[androidNotificationChannelId]を合わせることでAndroidでも通知の受け取りが可能になります。
-  Notification({
+  PushNotification({
     Functions? functions,
     required String androidNotificationChannelDescription,
     required String androidNotificationChannelTitle,
@@ -67,7 +67,6 @@ class Notification extends ChangeNotifier
         _androidNotificationChannelDescription =
             androidNotificationChannelDescription;
 
-  /// []
   final Functions? _functions;
   final String _androidNotificationChannelId;
   final String _androidNotificationChannelTitle;
@@ -92,8 +91,8 @@ class Notification extends ChangeNotifier
   ///
   /// 受け取った最新の通知の内容。
   @override
-  NotificationValue? get value => _value;
-  NotificationValue? _value;
+  PushNotificationValue? get value => _value;
+  PushNotificationValue? _value;
 
   /// Returns `true` if notification receipt has been initiated.
   ///
@@ -218,7 +217,7 @@ class Notification extends ChangeNotifier
 
   Future<void> _onMessage(RemoteMessage message) async {
     final data = message.data;
-    _value = NotificationValue(
+    _value = PushNotificationValue(
       title: message.notification?.title ?? "",
       text: message.notification?.body ?? "",
       data: data,
@@ -230,7 +229,7 @@ class Notification extends ChangeNotifier
 
   Future<void> _onMessageOpenedApp(RemoteMessage message) async {
     final data = message.data;
-    _value = NotificationValue(
+    _value = PushNotificationValue(
       title: message.notification?.title ?? "",
       text: message.notification?.body ?? "",
       data: data,

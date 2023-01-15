@@ -17,5 +17,5 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
 
-part 'src/notification.dart';
-part 'src/notification_value.dart';
+part 'src/push_notification.dart';
+part 'src/push_notification_value.dart';
