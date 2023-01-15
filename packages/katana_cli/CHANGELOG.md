@@ -1,3 +1,7 @@
+## 1.4.2
+
+ - **FIX**: Initial configuration of Firebase Messaging is now possible. ([f5cf4317](https://github.com/mathrunet/flutter_masamune/commit/f5cf43177a6e2dce7c4f6cf9239450d1a3562974))
+
 ## 1.4.1
 
  - **FIX**: Add FirebaseMessaging. ([18612788](https://github.com/mathrunet/flutter_masamune/commit/18612788a441733b9ea0627e220fbe9e8cfb12b4))

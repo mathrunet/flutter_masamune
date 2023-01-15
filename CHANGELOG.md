@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.4.2`](#katana_cli---v142)
+
+---
+
+#### `katana_cli` - `v1.4.2`
+
+ - **FIX**: Initial configuration of Firebase Messaging is now possible. ([f5cf4317](https://github.com/mathrunet/flutter_masamune/commit/f5cf43177a6e2dce7c4f6cf9239450d1a3562974))
+
+
+## 2023-01-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.4.1`](#katana_cli---v141)
 
 ---
