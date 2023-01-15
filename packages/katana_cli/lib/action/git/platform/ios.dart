@@ -195,30 +195,44 @@ Future<void> buildIOS(
     return;
   }
   final gitignores = await gitignore.readAsLines();
-  if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
-    gitignores.add("**/*.p12");
+  if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+    if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
+      gitignores.add("**/*.p12");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/*.p8"))) {
+      gitignores.add("**/*.p8");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/*.mobileprovision"))) {
+      gitignores.add("**/*.mobileprovision");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/*.pem"))) {
+      gitignores.add("**/*.pem");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/*.cer"))) {
+      gitignores.add("**/*.cer");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/*.certSigningRequest"))) {
+      gitignores.add("**/*.certSigningRequest");
+    }
+    if (!gitignores
+        .any((e) => e.startsWith("**/ios_certificate_password.key"))) {
+      gitignores.add("**/ios_certificate_password.key");
+    }
+    if (!gitignores.any((e) => e.startsWith("**/ios_enterprise.key"))) {
+      gitignores.add("**/ios_enterprise.key");
+    }
+  } else {
+    gitignores.removeWhere((e) => e.startsWith("**/*.p12"));
+    gitignores.removeWhere((e) => e.startsWith("**/*.p8"));
+    gitignores.removeWhere((e) => e.startsWith("**/*.mobileprovision"));
+    gitignores.removeWhere((e) => e.startsWith("**/*.pem"));
+    gitignores.removeWhere((e) => e.startsWith("**/*.cer"));
+    gitignores.removeWhere((e) => e.startsWith("**/*.certSigningRequest"));
+    gitignores
+        .removeWhere((e) => e.startsWith("**/ios_certificate_password.key"));
+    gitignores.removeWhere((e) => e.startsWith("**/ios_enterprise.key"));
   }
-  if (!gitignores.any((e) => e.startsWith("**/*.p8"))) {
-    gitignores.add("**/*.p8");
-  }
-  if (!gitignores.any((e) => e.startsWith("**/*.mobileprovision"))) {
-    gitignores.add("**/*.mobileprovision");
-  }
-  if (!gitignores.any((e) => e.startsWith("**/*.pem"))) {
-    gitignores.add("**/*.pem");
-  }
-  if (!gitignores.any((e) => e.startsWith("**/*.cer"))) {
-    gitignores.add("**/*.cer");
-  }
-  if (!gitignores.any((e) => e.startsWith("**/*.certSigningRequest"))) {
-    gitignores.add("**/*.certSigningRequest");
-  }
-  if (!gitignores.any((e) => e.startsWith("**/ios_certificate_password.key"))) {
-    gitignores.add("**/ios_certificate_password.key");
-  }
-  if (!gitignores.any((e) => e.startsWith("**/ios_enterprise.key"))) {
-    gitignores.add("**/ios_enterprise.key");
-  }
+  await gitignore.writeAsString(gitignores.join("\n"));
 }
 
 /// Contents of buiod.yaml for IOS in Github Actions.

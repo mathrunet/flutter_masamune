@@ -225,17 +225,36 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
       return;
     }
     final gitignores = await gitignore.readAsLines();
-    if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
-      gitignores.add("**/*.p12");
-    }
-    if (!gitignores.any((e) => e.startsWith("*.json"))) {
-      gitignores.add("*.json");
-    }
-    if (!gitignores.any((e) => e.startsWith("**/appkey_fingerprint.txt"))) {
-      gitignores.add("**/appkey_fingerprint.txt");
-    }
-    if (!gitignores.any((e) => e.startsWith("**/appkey_password.key"))) {
-      gitignores.add("**/appkey_password.key");
+    if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+      if (!gitignores.any((e) => e.startsWith("key.properties"))) {
+        gitignores.add("key.properties");
+      }
+      if (!gitignores.any((e) => e.startsWith("**/*.keystore"))) {
+        gitignores.add("**/*.keystore");
+      }
+      if (!gitignores.any((e) => e.startsWith("**/*.jks"))) {
+        gitignores.add("**/*.jks");
+      }
+      if (!gitignores.any((e) => e.startsWith("**/*.p12"))) {
+        gitignores.add("**/*.p12");
+      }
+      if (!gitignores.any((e) => e.startsWith("*.json"))) {
+        gitignores.add("*.json");
+      }
+      if (!gitignores.any((e) => e.startsWith("**/appkey_fingerprint.txt"))) {
+        gitignores.add("**/appkey_fingerprint.txt");
+      }
+      if (!gitignores.any((e) => e.startsWith("**/appkey_password.key"))) {
+        gitignores.add("**/appkey_password.key");
+      }
+    } else {
+      gitignores.removeWhere((e) => e.startsWith("**/*.p12"));
+      gitignores.removeWhere((e) => e.startsWith("*.json"));
+      gitignores.removeWhere((e) => e.startsWith("**/appkey_fingerprint.txt"));
+      gitignores.removeWhere((e) => e.startsWith("**/appkey_password.key"));
+      gitignores.removeWhere((e) => e.startsWith("key.properties"));
+      gitignores.removeWhere((e) => e.startsWith("**/*.keystore"));
+      gitignores.removeWhere((e) => e.startsWith("**/*.jks"));
     }
     await gitignore.writeAsString(gitignores.join("\n"));
   }

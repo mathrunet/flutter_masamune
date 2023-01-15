@@ -137,8 +137,12 @@ class CreateCliCommand extends CliCommand {
     if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
       gitignores.add("pubspec_overrides.yaml");
     }
-    if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
-      gitignores.add("katana_secrets.yaml");
+    if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+      if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
+        gitignores.add("katana_secrets.yaml");
+      }
+    } else {
+      gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
     }
     await gitignore.writeAsString(gitignores.join("\n"));
     await command(
@@ -279,6 +283,14 @@ firebase:
 # This section contains information related to Git.
 # Git関連の情報を記載します。
 git:
+  # Add secure files to .gitignore.
+  # If `false`, password files, etc. will be uploaded to Git.
+  # Please limit your use to private repositories only.
+  # セキュアなファイルを.gitignoreに追加します。
+  # `false`にした場合、パスワードファイルなどがGitにアップロードされることになります。
+  # プライベートレポジトリのみでの利用に限定してください。
+  ignore_secure_file: true
+
   # Ensure that the dart code is modified and verified before committing.
   # lefthand installation is required.
   # コミット前にdartコードの修正や確認を行うようにします。
