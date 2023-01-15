@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.4.1`](#katana_cli---v141)
+
+---
+
+#### `katana_cli` - `v1.4.1`
+
+ - **FIX**: Add FirebaseMessaging. ([18612788](https://github.com/mathrunet/flutter_masamune/commit/18612788a441733b9ea0627e220fbe9e8cfb12b4))
+ - **FIX**: Enable git->ignore_secure_file. ([afd66698](https://github.com/mathrunet/flutter_masamune/commit/afd666986beef3a93b398447c7eb512c8bee1de1))
+
+
+## 2023-01-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_notification_firebase` - `v1.1.1`](#masamune_notification_firebase---v111)
 
 ---

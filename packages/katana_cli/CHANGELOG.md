@@ -1,3 +1,8 @@
+## 1.4.1
+
+ - **FIX**: Add FirebaseMessaging. ([18612788](https://github.com/mathrunet/flutter_masamune/commit/18612788a441733b9ea0627e220fbe9e8cfb12b4))
+ - **FIX**: Enable git->ignore_secure_file. ([afd66698](https://github.com/mathrunet/flutter_masamune/commit/afd666986beef3a93b398447c7eb512c8bee1de1))
+
 ## 1.4.0
 
  - **FEAT**: Consolidate commands such as APP into APPLY. ([da3e54ce](https://github.com/mathrunet/flutter_masamune/commit/da3e54cece28f9439a6558cc05d52269340d5dee))
