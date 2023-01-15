@@ -276,9 +276,12 @@ firebase:
     use_flutter: false
   
   # Enable Firebase Messaging.
+  # Specify ChannelNotificationId for Android in [channel_id].
   # Firebase Messagingを有効にします。
+  # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
   messaging:
     enable: false
+    channel_id: 
 
 # This section contains information related to Git.
 # Git関連の情報を記載します。

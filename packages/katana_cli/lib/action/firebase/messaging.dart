@@ -26,6 +26,8 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
 
   @override
   Future<void> exec(ExecContext context) async {
+    final bin = context.yaml.getAsMap("bin");
+    final flutter = bin.get("flutter", "flutter");
     final firebase = context.yaml.getAsMap("firebase");
     final messaging = firebase.getAsMap("messaging");
     final channelId = messaging.get("channel_id", "");
@@ -150,5 +152,14 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
       );
     }
+    await command(
+      "Import packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        "masamune_notification_firebase",
+      ],
+    );
   }
 }
