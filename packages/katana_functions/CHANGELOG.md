@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: Remove default ChannelID. ([c99b248f](https://github.com/mathrunet/flutter_masamune/commit/c99b248f505dda8f561cf841e39f9bca110f796e))
+
 ## 1.1.2
 
  - **FIX**: Changed Functions to ChnageNotifier. ([b4464420](https://github.com/mathrunet/flutter_masamune/commit/b4464420f6637d9155b07d0aff11ed859804d37f))

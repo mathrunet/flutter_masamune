@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: Remove default ChannelID. ([c99b248f](https://github.com/mathrunet/flutter_masamune/commit/c99b248f505dda8f561cf841e39f9bca110f796e))
+
 ## 1.1.2
 
  - Update a dependency to the latest release.
