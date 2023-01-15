@@ -1,15 +1,13 @@
-import 'dart:io';
-
 import 'package:katana_cli/action/app/csr.dart';
 import 'package:katana_cli/action/app/keystore.dart';
 import 'package:katana_cli/action/app/p12.dart';
 import 'package:katana_cli/action/app/picker.dart';
 import 'package:katana_cli/action/app/spread_sheet.dart';
 import 'package:katana_cli/action/firebase/init.dart';
+import 'package:katana_cli/action/firebase/messaging.dart';
 import 'package:katana_cli/action/git/action.dart';
 import 'package:katana_cli/action/git/hook.dart';
 import 'package:katana_cli/katana_cli.dart';
-import 'package:yaml/yaml.dart';
 
 /// Action to be performed.
 ///
@@ -25,6 +23,7 @@ const _actions = <CliActionMixin>[
   AppKeystoreCliAction(),
   AppPickerCliAction(),
   FirebaseInitCliAction(),
+  FirebaseMessagingCliAction(),
   GitActionCliAction(),
   GitPreCommitCliAction(),
 ];

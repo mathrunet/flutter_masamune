@@ -217,6 +217,67 @@ class XCode {
     }
     await xcode.save();
   }
+
+  /// Create an empty Runner.entitlements and update project.pbxproj.
+  ///
+  /// 空のRunner.entitlementsを作成し、project.pbxprojを更新します。
+  static Future<void> createRunnerEntitlements() async {
+    final entitlements = File("ios/Runner/Runner.entitlements");
+    if (!entitlements.existsSync()) {
+      await entitlements.writeAsString(
+        """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+</dict>
+</plist>""",
+      );
+    }
+    final xcode = XCode();
+    await xcode.load();
+    late String fileId;
+    final ref = xcode.pbxFileReference
+        .firstWhereOrNull((e) => e.path == "Runner.entitlements");
+    if (ref == null) {
+      final id = XCode.generateId();
+      fileId = id;
+      xcode.pbxFileReference.add(
+        PBXFileReference(
+          id: id,
+          path: "Runner.entitlements",
+          comment: "Runner.entitlements",
+          sourceTree: '"<group>"',
+          lastKnownFileType: "text.plist.entitlements",
+        ),
+      );
+    } else {
+      fileId = ref.id;
+    }
+    final runner = xcode.pbxGroup.firstWhereOrNull((e) => e.path == "Runner");
+    if (runner == null) {
+      throw Exception("Runner is not associated with XCode.");
+    }
+    if (!runner.children.any((e) => e.id == fileId)) {
+      runner.children.add(
+        PBXGroupChild(id: fileId, comment: "Runner.entitlements"),
+      );
+    }
+    final buildConfigurations = xcode.pbxBuildConfiguration
+        .where((element) => element.baseConfigurationReference.isNotEmpty);
+    for (final buildConfiguration in buildConfigurations) {
+      final buildSetting = buildConfiguration.buildSettings;
+      if (!buildSetting.any((e) => e.key == "CODE_SIGN_ENTITLEMENTS")) {
+        buildConfiguration.buildSettings.add(
+          PBXBuildConfigurationSettings(
+            key: "CODE_SIGN_ENTITLEMENTS",
+            value: "Runner/Runner.entitlements",
+          ),
+        );
+      }
+    }
+    await xcode.save();
+  }
 }
 
 /// Permission message type for XCode.
