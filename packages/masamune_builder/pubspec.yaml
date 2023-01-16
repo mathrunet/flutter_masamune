@@ -6,12 +6,8 @@ repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/m
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
-  flutter: ">=2.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-
   katana: ^0.15.0
   build: ^2.3.0
   dart_style: ^2.2.3
@@ -29,5 +25,4 @@ dependencies:
   katana_listenables_builder: ^1.2.9
   masamune_annotation: ^1.1.0
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3

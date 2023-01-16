@@ -63,7 +63,7 @@ packages:
       name: built_value
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.4.2"
+    version: "8.4.3"
   characters:
     dependency: transitive
     description:
@@ -262,14 +262,14 @@ packages:
       name: katana_theme_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   katana_theme_builder:
     dependency: "direct main"
     description:
       name: katana_theme_builder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.6"
+    version: "1.2.7"
   logging:
     dependency: transitive
     description:
@@ -280,10 +280,10 @@ packages:
   masamune_annotation:
     dependency: "direct main"
     description:
-      path: "../masamune_annotation"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: masamune_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   matcher:
     dependency: transitive
     description:
