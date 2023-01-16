@@ -192,8 +192,10 @@ class AuthControlPage extends StatelessWidget {
               ListTile(
                 title: const Text("Change email"),
                 onTap: () async {
-                  await auth.change(EmailAndPasswordAuthQuery.changeEmail(
-                      email: "changed@email.com"));
+                  await auth.change(
+                    EmailAndPasswordAuthQuery.changeEmail(
+                        email: "changed@email.com"),
+                  );
                   navigator.pop();
                 },
               ),
@@ -201,15 +203,17 @@ class AuthControlPage extends StatelessWidget {
                 title: const Text("Change password"),
                 onTap: () async {
                   await auth.change(
-                      EmailAndPasswordAuthQuery.changePassword(password: ""));
+                    EmailAndPasswordAuthQuery.changePassword(password: ""),
+                  );
                   navigator.pop();
                 },
               ),
               ListTile(
                 title: const Text("Change phoneNumber"),
                 onTap: () async {
-                  await auth.change(SmsAuthQuery.changePhoneNumber(
-                      phoneNumber: "1234567890"));
+                  await auth.change(
+                    SmsAuthQuery.changePhoneNumber(phoneNumber: "1234567890"),
+                  );
                   navigator.pop();
                 },
               ),

@@ -26,11 +26,11 @@ export 'src/others/others.dart'
 part 'adapter/runtime_auth_adapter.dart';
 part 'adapter/local_auth_adapter.dart';
 
-part 'provider/anonymously_auth_provider.dart';
-part 'provider/email_and_password_auth_provider.dart';
-part 'provider/email_link_auth_provider.dart';
-part 'provider/sms_auth_provider.dart';
-part 'provider/sns_auth_provider.dart';
+part 'provider/anonymously_auth_query.dart';
+part 'provider/email_and_password_auth_query.dart';
+part 'provider/email_link_auth_query.dart';
+part 'provider/sms_auth_query.dart';
+part 'provider/sns_sign_in_auth_provider.dart';
 
 part 'src/auth_adapter.dart';
 part 'src/authentication.dart';
