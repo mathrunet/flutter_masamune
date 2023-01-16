@@ -1,3 +1,7 @@
+## 1.1.5
+
+ - **DOCS**: ReadMe changes. ([c5a77945](https://github.com/mathrunet/flutter_masamune/commit/c5a77945439db2439ead01b99e58e6cb15c3fa70))
+
 ## 1.1.4
 
  - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))

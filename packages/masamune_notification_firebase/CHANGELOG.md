@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - Update a dependency to the latest release.
+
 ## 1.1.1
 
  - **FIX**: Class name change. ([7370f3ec](https://github.com/mathrunet/flutter_masamune/commit/7370f3ecc6dc314617cabbd4a77ca40d40bddd34))

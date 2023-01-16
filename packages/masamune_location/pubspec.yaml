@@ -1,6 +1,6 @@
 name: masamune_location
 description: Library that provides location information / map related functions of Masamune framework. Use Google Map.
-version: 0.15.0+64
+version: 0.15.0+65
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_location
 
