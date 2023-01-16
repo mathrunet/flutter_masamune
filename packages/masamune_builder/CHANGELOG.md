@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: Flutter packages are no longer loaded. ([860b7ea8](https://github.com/mathrunet/flutter_masamune/commit/860b7ea81cdfaed6f684f2bf5f00032e24441d72))
+
 ## 1.1.1
 
  - Update a dependency to the latest release.

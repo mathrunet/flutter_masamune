@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth` - `v1.1.6`](#katana_auth---v116)
+ - [`katana_auth_firebase` - `v1.1.6`](#katana_auth_firebase---v116)
+ - [`masamune_builder` - `v1.1.2`](#masamune_builder---v112)
+ - [`masamune` - `v1.2.9`](#masamune---v129)
+ - [`masamune_picker` - `v1.4.7`](#masamune_picker---v147)
+ - [`masamune_agora` - `v0.15.0+68`](#masamune_agora---v015068)
+ - [`masamune_notification_firebase` - `v1.1.3`](#masamune_notification_firebase---v113)
+ - [`masamune_wordpress` - `v0.15.0+66`](#masamune_wordpress---v015066)
+ - [`masamune_location` - `v0.15.0+66`](#masamune_location---v015066)
+ - [`masamune_local_messaging` - `v0.15.0+66`](#masamune_local_messaging---v015066)
+ - [`masamune_media` - `v0.15.0+66`](#masamune_media---v015066)
+ - [`masamune_purchase` - `v0.15.0+66`](#masamune_purchase---v015066)
+ - [`masamune_firebase` - `v0.15.0+67`](#masamune_firebase---v015067)
+ - [`masamune_ads` - `v0.15.0+66`](#masamune_ads---v015066)
+ - [`masamune_picker_mobile` - `v1.4.7`](#masamune_picker_mobile---v147)
+ - [`masamune_ui` - `v0.15.0+66`](#masamune_ui---v015066)
+ - [`masamune_picker_file` - `v1.4.7`](#masamune_picker_file---v147)
+ - [`masamune_purchase_firebase` - `v0.15.0+67`](#masamune_purchase_firebase---v015067)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+67`](#masamune_firebase_dynamic_links---v015067)
+ - [`masamune_firebase_messaging` - `v0.15.0+67`](#masamune_firebase_messaging---v015067)
+ - [`masamune_signin_facebook` - `v0.15.0+67`](#masamune_signin_facebook---v015067)
+ - [`masamune_signin_google` - `v0.15.0+67`](#masamune_signin_google---v015067)
+ - [`masamune_signin_twitter` - `v0.15.0+67`](#masamune_signin_twitter---v015067)
+ - [`masamune_purchase_stripe` - `v0.15.0+67`](#masamune_purchase_stripe---v015067)
+ - [`masamune_notion` - `v0.15.0+67`](#masamune_notion---v015067)
+ - [`masamune_signin_apple` - `v0.15.0+67`](#masamune_signin_apple---v015067)
+ - [`masamune_module` - `v0.15.0+66`](#masamune_module---v015066)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.2.9`
+ - `masamune_picker` - `v1.4.7`
+ - `masamune_agora` - `v0.15.0+68`
+ - `masamune_notification_firebase` - `v1.1.3`
+ - `masamune_wordpress` - `v0.15.0+66`
+ - `masamune_location` - `v0.15.0+66`
+ - `masamune_local_messaging` - `v0.15.0+66`
+ - `masamune_media` - `v0.15.0+66`
+ - `masamune_purchase` - `v0.15.0+66`
+ - `masamune_firebase` - `v0.15.0+67`
+ - `masamune_ads` - `v0.15.0+66`
+ - `masamune_picker_mobile` - `v1.4.7`
+ - `masamune_ui` - `v0.15.0+66`
+ - `masamune_picker_file` - `v1.4.7`
+ - `masamune_purchase_firebase` - `v0.15.0+67`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+67`
+ - `masamune_firebase_messaging` - `v0.15.0+67`
+ - `masamune_signin_facebook` - `v0.15.0+67`
+ - `masamune_signin_google` - `v0.15.0+67`
+ - `masamune_signin_twitter` - `v0.15.0+67`
+ - `masamune_purchase_stripe` - `v0.15.0+67`
+ - `masamune_notion` - `v0.15.0+67`
+ - `masamune_signin_apple` - `v0.15.0+67`
+ - `masamune_module` - `v0.15.0+66`
+
+---
+
+#### `katana_auth` - `v1.1.6`
+
+ - **DOCS**: ReadMe Correction. ([e754bb90](https://github.com/mathrunet/flutter_masamune/commit/e754bb90f1a3481f2cea2b8210cec93daaf60b29))
+
+#### `katana_auth_firebase` - `v1.1.6`
+
+ - **DOCS**: ReadMe Correction. ([e754bb90](https://github.com/mathrunet/flutter_masamune/commit/e754bb90f1a3481f2cea2b8210cec93daaf60b29))
+
+#### `masamune_builder` - `v1.1.2`
+
+ - **FIX**: Flutter packages are no longer loaded. ([860b7ea8](https://github.com/mathrunet/flutter_masamune/commit/860b7ea81cdfaed6f684f2bf5f00032e24441d72))
+
+
+## 2023-01-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v1.1.5`](#katana_auth---v115)
  - [`katana_auth_firebase` - `v1.1.5`](#katana_auth_firebase---v115)
  - [`masamune` - `v1.2.8`](#masamune---v128)
