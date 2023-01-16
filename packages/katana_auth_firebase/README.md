@@ -47,7 +47,7 @@ flutter pub add katana_auth
 If you use Firestore, import the following packages together.
 
 ```dart
-flutter pub add katana_auth_firestore
+flutter pub add katana_auth_firebase
 ```
 
 # Implementation
