@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.4.3`](#katana_cli---v143)
+ - [`katana_functions` - `v1.1.5`](#katana_functions---v115)
+ - [`katana_functions_firebase` - `v1.1.5`](#katana_functions_firebase---v115)
+ - [`masamune` - `v1.2.12`](#masamune---v1212)
+ - [`masamune_picker` - `v1.4.10`](#masamune_picker---v1410)
+ - [`masamune_agora` - `v0.15.0+71`](#masamune_agora---v015071)
+ - [`masamune_notification_firebase` - `v1.1.6`](#masamune_notification_firebase---v116)
+ - [`masamune_wordpress` - `v0.15.0+69`](#masamune_wordpress---v015069)
+ - [`masamune_local_messaging` - `v0.15.0+69`](#masamune_local_messaging---v015069)
+ - [`masamune_location` - `v0.15.0+69`](#masamune_location---v015069)
+ - [`masamune_media` - `v0.15.0+69`](#masamune_media---v015069)
+ - [`masamune_purchase` - `v0.15.0+69`](#masamune_purchase---v015069)
+ - [`masamune_firebase` - `v0.15.0+70`](#masamune_firebase---v015070)
+ - [`masamune_ui` - `v0.15.0+69`](#masamune_ui---v015069)
+ - [`masamune_ads` - `v0.15.0+69`](#masamune_ads---v015069)
+ - [`masamune_picker_mobile` - `v1.4.10`](#masamune_picker_mobile---v1410)
+ - [`masamune_picker_file` - `v1.4.10`](#masamune_picker_file---v1410)
+ - [`masamune_purchase_firebase` - `v0.15.0+70`](#masamune_purchase_firebase---v015070)
+ - [`masamune_signin_facebook` - `v0.15.0+70`](#masamune_signin_facebook---v015070)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+70`](#masamune_firebase_dynamic_links---v015070)
+ - [`masamune_firebase_messaging` - `v0.15.0+70`](#masamune_firebase_messaging---v015070)
+ - [`masamune_signin_google` - `v0.15.0+70`](#masamune_signin_google---v015070)
+ - [`masamune_signin_twitter` - `v0.15.0+70`](#masamune_signin_twitter---v015070)
+ - [`masamune_purchase_stripe` - `v0.15.0+70`](#masamune_purchase_stripe---v015070)
+ - [`masamune_signin_apple` - `v0.15.0+70`](#masamune_signin_apple---v015070)
+ - [`masamune_notion` - `v0.15.0+70`](#masamune_notion---v015070)
+ - [`masamune_module` - `v0.15.0+69`](#masamune_module---v015069)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.2.12`
+ - `masamune_picker` - `v1.4.10`
+ - `masamune_agora` - `v0.15.0+71`
+ - `masamune_notification_firebase` - `v1.1.6`
+ - `masamune_wordpress` - `v0.15.0+69`
+ - `masamune_local_messaging` - `v0.15.0+69`
+ - `masamune_location` - `v0.15.0+69`
+ - `masamune_media` - `v0.15.0+69`
+ - `masamune_purchase` - `v0.15.0+69`
+ - `masamune_firebase` - `v0.15.0+70`
+ - `masamune_ui` - `v0.15.0+69`
+ - `masamune_ads` - `v0.15.0+69`
+ - `masamune_picker_mobile` - `v1.4.10`
+ - `masamune_picker_file` - `v1.4.10`
+ - `masamune_purchase_firebase` - `v0.15.0+70`
+ - `masamune_signin_facebook` - `v0.15.0+70`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+70`
+ - `masamune_firebase_messaging` - `v0.15.0+70`
+ - `masamune_signin_google` - `v0.15.0+70`
+ - `masamune_signin_twitter` - `v0.15.0+70`
+ - `masamune_purchase_stripe` - `v0.15.0+70`
+ - `masamune_signin_apple` - `v0.15.0+70`
+ - `masamune_notion` - `v0.15.0+70`
+ - `masamune_module` - `v0.15.0+69`
+
+---
+
+#### `katana_cli` - `v1.4.3`
+
+ - **FIX**: Correction of index.ts in Functions. ([9c320175](https://github.com/mathrunet/flutter_masamune/commit/9c320175dba13ed26c5abd64be787b67948c0b97))
+
+#### `katana_functions` - `v1.1.5`
+
+ - **DOCS**: ReadMe Correction. ([4296ed7a](https://github.com/mathrunet/flutter_masamune/commit/4296ed7ac652d7c257d314710d40ae7b2724afe6))
+
+#### `katana_functions_firebase` - `v1.1.5`
+
+ - **DOCS**: ReadMe Correction. ([4296ed7a](https://github.com/mathrunet/flutter_masamune/commit/4296ed7ac652d7c257d314710d40ae7b2724afe6))
+
+
+## 2023-01-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_functions` - `v1.1.4`](#katana_functions---v114)
  - [`katana_functions_firebase` - `v1.1.4`](#katana_functions_firebase---v114)
  - [`masamune` - `v1.2.11`](#masamune---v1211)

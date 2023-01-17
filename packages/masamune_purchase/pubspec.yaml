@@ -1,6 +1,6 @@
 name: masamune_purchase
 description: Package to provide mobile billing functionality. It is equipped with functions to perform all billing on the client without server verification, etc.
-version: 0.15.0+68
+version: 0.15.0+69
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_purchase
 

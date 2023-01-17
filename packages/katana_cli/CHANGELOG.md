@@ -1,3 +1,7 @@
+## 1.4.3
+
+ - **FIX**: Correction of index.ts in Functions. ([9c320175](https://github.com/mathrunet/flutter_masamune/commit/9c320175dba13ed26c5abd64be787b67948c0b97))
+
 ## 1.4.2
 
  - **FIX**: Initial configuration of Firebase Messaging is now possible. ([f5cf4317](https://github.com/mathrunet/flutter_masamune/commit/f5cf43177a6e2dce7c4f6cf9239450d1a3562974))
