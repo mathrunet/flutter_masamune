@@ -1,14 +1,29 @@
 part of katana_theme_builder;
 
+/// Node data for fonts.
+///
+/// フォント用のノードデータ。
 class FontNode {
+  /// Node data for fonts.
+  ///
+  /// フォント用のノードデータ。
   FontNode(this.value);
 
+  /// Font data.
+  ///
+  /// フォントデータ。
   final FontValue value;
 
+  /// Parses to a list of [FontNode] by passing [values].
+  ///
+  /// [values]を渡して[FontNode]のリストにパースします。
   static List<FontNode> parse(Map<String, dynamic> values) {
     return values.values.map((e) => FontNode(e)).toList();
   }
 
+  /// Create an extension method by passing [config].
+  ///
+  /// [config]を渡して拡張メソッドを作成します。
   Method toExtensionSpec(AssetConfig config) {
     return Method(
       (m) => m
@@ -20,6 +35,9 @@ class FontNode {
     );
   }
 
+  /// Pass [config] to create a text style.
+  ///
+  /// [config]を渡してテキストスタイルを作成します。
   Method toTextStyleSpec(AssetConfig config) {
     return Method(
       (m) => m

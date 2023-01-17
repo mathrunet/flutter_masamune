@@ -1,5 +1,12 @@
 part of katana_theme_builder;
 
+/// Create an extension method.
+///
+/// Pass [assets] a node for assets, [fonts] a node for fonts, and [config] an asset config.
+///
+/// 拡張メソッドを作成します。
+///
+/// [assets]にアセット用のノード、[fonts]にフォント用のノード、[config]にアセットコンフィグを渡します。
 List<Spec> extension(
   List<AssetNode> assets,
   List<FontNode> fonts,

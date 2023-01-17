@@ -1,5 +1,8 @@
 part of katana_theme_builder;
 
+/// Nodes for assets.
+///
+/// アセット用のノード。
 class AssetNode {
   AssetNode._withNode({
     required this.name,
@@ -12,12 +15,29 @@ class AssetNode {
     required this.children,
   }) : value = null;
 
+  /// Asset Data.
+  ///
+  /// アセットデータ。
   final AssetValue? value;
+
+  /// Path of the asset node.
+  ///
+  /// アセットノードのパス。
   final String path;
+
+  /// Asset Name.
+  ///
+  /// アセットの名前。
   final String name;
 
+  /// List of children of the asset.
+  ///
+  /// アセットの子供の一覧。
   final List<AssetNode> children;
 
+  /// Parses the list of [AssetNode] from [values] and [path].
+  ///
+  /// [values]と[path]から[AssetNode]の一覧のパースします。
   static List<AssetNode> parse(
     Map<String, dynamic> values, [
     String path = "",
@@ -46,6 +66,9 @@ class AssetNode {
     return res;
   }
 
+  /// Build methods to create `ImageProvider`.
+  ///
+  /// `ImageProvider`を作成するためのメソッドをビルドします。
   Method? buildProvider() {
     if (value == null) {
       return null;
@@ -94,6 +117,9 @@ class AssetNode {
     }
   }
 
+  /// Create an extension method by passing [config].
+  ///
+  /// [config]を渡して拡張メソッドを作成します。
   Method toExtensionSpec(AssetConfig config) {
     return Method(
       (m) => m
@@ -105,6 +131,9 @@ class AssetNode {
     );
   }
 
+  /// Create a class by passing [config].
+  ///
+  /// [config]を渡してクラスを作成します。
   List<Spec> toClassSpec(AssetConfig config) {
     if (value != null) {
       if (!config.checkEnabled(value!.type)) {

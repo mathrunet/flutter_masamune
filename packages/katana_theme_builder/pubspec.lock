@@ -63,7 +63,7 @@ packages:
       name: built_value
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.4.2"
+    version: "8.4.3"
   clock:
     dependency: transitive
     description:
@@ -98,7 +98,7 @@ packages:
       name: coverage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.0"
+    version: "1.6.2"
   crypto:
     dependency: transitive
     description:
@@ -193,17 +193,17 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10+1"
   katana_theme_annotation:
     dependency: "direct main"
     description:
-      path: "../katana_theme_annotation"
-      relative: true
-    source: path
-    version: "1.2.5"
+      name: katana_theme_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.6"
   logging:
     dependency: transitive
     description:
@@ -231,7 +231,7 @@ packages:
       name: mime
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   node_preamble:
     dependency: transitive
     description:
@@ -378,21 +378,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.22.1"
+    version: "1.22.2"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.17"
+    version: "0.4.18"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.21"
+    version: "0.4.22"
   typed_data:
     dependency: transitive
     description:
@@ -413,7 +413,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.4.0"
+    version: "10.0.0"
   watcher:
     dependency: transitive
     description:
@@ -427,7 +427,7 @@ packages:
       name: web_socket_channel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   webkit_inspection_protocol:
     dependency: transitive
     description:

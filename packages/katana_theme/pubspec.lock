@@ -119,17 +119,17 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10+1"
   katana_theme_annotation:
     dependency: "direct main"
     description:
-      path: "../katana_theme_annotation"
-      relative: true
-    source: path
-    version: "1.2.5"
+      name: katana_theme_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.6"
   matcher:
     dependency: transitive
     description:
