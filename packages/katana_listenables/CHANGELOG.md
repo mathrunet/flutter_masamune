@@ -1,3 +1,7 @@
+## 1.2.11
+
+ - Update a dependency to the latest release.
+
 ## 1.2.10
 
  - **FIX**: Addition of Export package. ([0c06923e](https://github.com/mathrunet/flutter_masamune/commit/0c06923e99ae2b31001dea33ef2a99481820f734))

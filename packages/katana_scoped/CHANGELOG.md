@@ -1,3 +1,7 @@
+## 1.7.2
+
+ - Update a dependency to the latest release.
+
 ## 1.7.1
 
  - **FIX**: Delete unneeded imports. ([541b49c6](https://github.com/mathrunet/flutter_masamune/commit/541b49c65fb708d7a9c49e57a4680f2281c98bbf))

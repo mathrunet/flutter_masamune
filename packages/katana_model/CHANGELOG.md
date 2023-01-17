@@ -1,3 +1,7 @@
+## 1.3.18
+
+ - Update a dependency to the latest release.
+
 ## 1.3.17
 
  - **FIX**: Fixed compilation errors. ([c24de79a](https://github.com/mathrunet/flutter_masamune/commit/c24de79aa303fe7b032dabee0260d80c601cd677))

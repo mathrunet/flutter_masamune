@@ -1,3 +1,7 @@
+## 1.4.4
+
+ - Update a dependency to the latest release.
+
 ## 1.4.3
 
  - **FIX**: Correction of index.ts in Functions. ([9c320175](https://github.com/mathrunet/flutter_masamune/commit/9c320175dba13ed26c5abd64be787b67948c0b97))

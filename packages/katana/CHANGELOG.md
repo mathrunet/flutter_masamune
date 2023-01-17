@@ -1,3 +1,7 @@
+## 0.15.10+2
+
+ - **DOCS**: ReadMe maintenance. ([a982d201](https://github.com/mathrunet/flutter_masamune/commit/a982d201762b95aa3f48ea3aefb8f24ac670b876))
+
 ## 0.15.10+1
 
  - **FIX**: Add yyyyMMddHHmm. ([d88bf722](https://github.com/mathrunet/flutter_masamune/commit/d88bf72256162ab6e2a186eadf49f97280f774fa))

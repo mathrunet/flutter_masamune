@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - Update a dependency to the latest release.
+
 ## 1.3.1
 
  - **FIX**: Fixed the problem with Material3, as the shape is not correct. ([9cefae39](https://github.com/mathrunet/flutter_masamune/commit/9cefae39f085734a9cda926c206c005d83fed9fb))

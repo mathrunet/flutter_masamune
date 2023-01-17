@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - Update a dependency to the latest release.
+
 ## 1.2.0
 
  - **FEAT**: Added BorderRadius. ([c6775615](https://github.com/mathrunet/flutter_masamune/commit/c6775615a133bfdd2ba651ded74d99756bd30471))
