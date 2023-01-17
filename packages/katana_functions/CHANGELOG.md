@@ -1,3 +1,7 @@
+## 1.1.4
+
+ - **DOCS**: ReadMe creation. ([09a49ab7](https://github.com/mathrunet/flutter_masamune/commit/09a49ab7420758b0a483e5d903c92fe1bc2aa170))
+
 ## 1.1.3
 
  - **FIX**: Remove default ChannelID. ([c99b248f](https://github.com/mathrunet/flutter_masamune/commit/c99b248f505dda8f561cf841e39f9bca110f796e))
