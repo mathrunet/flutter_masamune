@@ -24,7 +24,7 @@
 
 ---
 
-Adapter plug-ins for server integration such as Firebase Functions.
+Adapter plug-ins for server integration such as Cloud Functions for Firebase.
 
 It is possible to work with [@mathrunet/masamune](https://www.npmjs.com/package/@mathrunet/masamune) to secure client-side implementations.
 
@@ -36,7 +36,7 @@ Import the following packages
 flutter pub add katana_functions
 ```
 
-If you use Firebase Functions, import the following packages as well.
+If you use Cloud Functions for Firebase, import the following packages as well.
 
 ```dart
 flutter pub add katana_functions_firebase
