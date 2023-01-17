@@ -153,7 +153,6 @@ class _ScopedWidgetState extends State<ScopedWidget> {
     return ScopedWidgetScope(
       widget: widget,
       child: Scoped(
-        page: widget.page,
         builder: widget.build,
       ),
     );
