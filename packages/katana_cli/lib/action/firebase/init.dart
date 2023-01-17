@@ -225,6 +225,7 @@ class FirebaseFunctionsIndexCliCode extends CliCode {
   String import(String path, String baseName, String className) {
     return """
 import * as m from "@mathrunet/masamune";
+
 """;
   }
 
