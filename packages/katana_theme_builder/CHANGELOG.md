@@ -1,3 +1,7 @@
+## 1.2.9
+
+ - **DOCS**: Additional Comments. ([91ac4d68](https://github.com/mathrunet/flutter_masamune/commit/91ac4d68f4097d7a0a2cde44eaf7f82391c1461b))
+
 ## 1.2.8
 
  - Update a dependency to the latest release.
