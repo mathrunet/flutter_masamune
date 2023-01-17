@@ -1,3 +1,7 @@
+## 0.15.0+67
+
+ - Update a dependency to the latest release.
+
 ## 0.15.0+66
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **DOCS**: ReadMe creation. ([d23a473a](https://github.com/mathrunet/flutter_masamune/commit/d23a473a6c141851d7b18b50df75761a14ad172f))
+
 ## 1.1.2
 
  - **DOCS**: Additional Comments. ([2ae6d6a1](https://github.com/mathrunet/flutter_masamune/commit/2ae6d6a11026007551cb1ba9ca278111224731ff))
