@@ -33,7 +33,7 @@ class StoragePage extends StatefulWidget {
 }
 
 class StoragePageState extends State<StoragePage> {
-  final storage = Storage(const StorageQuery("/test/file"));
+  final storage = Storage(const StorageQuery("test/file"));
   final controller = TextEditingController();
 
   @override
@@ -51,11 +51,6 @@ class StoragePageState extends State<StoragePage> {
     super.dispose();
     storage.removeListener(_handledOnUpdate);
     storage.dispose();
-  }
-
-  Future<void> _onInit() async {
-    await storage.download();
-
   }
 
   @override

@@ -88,7 +88,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
   ///
   /// 公開可能なURLを取得します。画像等を`Image.network`などで取得したい場合このURIを利用します。
   Future<Uri> fetchPublicURI() => storageQuery.adapter.fetchPublicURI(
-        storageQuery.relativePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
       );
 
   /// Get the URI to download the file.
@@ -96,7 +96,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
   /// ファイルをダウンロードするためのURIを取得します。
   Future<Uri> fetchDownloadURI() async {
     final path = await storageQuery.adapter.fetchDownloadURI(
-      storageQuery.relativePath.trimQuery().trimStringRight("/"),
+      storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
     );
     notifyListeners();
     return path;
@@ -121,7 +121,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     _downloadCompleter = Completer();
     try {
       final localFile = await storageQuery.adapter.download(
-        storageQuery.relativePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
         localRelativePath?.trimQuery().trimStringRight("/"),
       );
       _value = _value?._copyWith(
@@ -164,7 +164,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     try {
       final remoteFile = await storageQuery.adapter.upload(
         localFullPath.trimQuery().trimStringRight("/"),
-        storageQuery.relativePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
       );
       _value = _value?._copyWith(
             remote: remoteFile,
@@ -206,7 +206,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     try {
       final remoteFile = await storageQuery.adapter.uploadWithBytes(
         uploadFileByte,
-        storageQuery.relativePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
       );
       _value = _value?._copyWith(
             remote: remoteFile,
@@ -243,7 +243,7 @@ class Storage extends ChangeNotifier implements ValueListenable<StorageValue?> {
     _deleteCompleter = Completer();
     try {
       await storageQuery.adapter.delete(
-        storageQuery.relativePath.trimQuery().trimStringRight("/"),
+        storageQuery.relativeRemotePath.trimQuery().trimStringRight("/"),
       );
       _value = null;
       notifyListeners();
