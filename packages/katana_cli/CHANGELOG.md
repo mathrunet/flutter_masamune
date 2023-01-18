@@ -1,3 +1,7 @@
+## 1.4.5
+
+ - **FIX**: Add Icon. ([f3d62ab3](https://github.com/mathrunet/flutter_masamune/commit/f3d62ab36f83bc206115a041da77daa8505c50ee))
+
 ## 1.4.4
 
  - Update a dependency to the latest release.
