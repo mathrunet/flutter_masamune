@@ -91,7 +91,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.0"
+    version: "4.0.10"
   intl:
     dependency: transitive
     description:
@@ -112,7 +112,7 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10+1"
+    version: "0.15.10+2"
   lints:
     dependency: "direct main"
     description:
