@@ -16,7 +16,7 @@ class CodePrefsCliCommand extends CliCodeCommand {
   String get prefix => "prefs";
 
   @override
-  String get directory => "prefs";
+  String get directory => "lib";
 
   @override
   String get description =>
@@ -25,7 +25,7 @@ class CodePrefsCliCommand extends CliCodeCommand {
   @override
   Future<void> exec(ExecContext context) async {
     label("Create a controller group class in `$directory/prefs.dart`.");
-    await generateDartCode("$directory/prefs.dart");
+    await generateDartCode("$directory/prefs");
   }
 
   @override
@@ -44,7 +44,7 @@ import '/main.dart';
   @override
   String header(String path, String baseName, String className) {
     return """
-part '$baseName.prefs.dart';
+part 'prefs.prefs.dart';
 """;
   }
 
@@ -59,15 +59,15 @@ part '$baseName.prefs.dart';
 /// ```
 final appPrefs = Prefs(
   // TODO: Initial values defined in Prefs are listed here.
-  \${2}
+  ${2}
 );
 
 /// Shared Preferences.
 @prefs
-class Prefs with _\$Prefs, ChangeNotifier {
+class Prefs with _$Prefs, ChangeNotifier {
   factory Prefs({
     // TODO: Define here the values to be managed in Shared Preferences.
-    \${1}
+    ${1}
   }) = _Prefs;
   Prefs._();
 }
