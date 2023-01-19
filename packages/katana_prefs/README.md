@@ -127,7 +127,7 @@ import 'package:katana_prefs/katana_prefs.dart';
 
 part 'prefs_value.prefs.dart';
 
-@listenables
+@prefs
 class PrefsValue with _$PrefsValue, ChangeNotifier {
   factory PrefsValue({
     String? userToken,
