@@ -8,6 +8,8 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_prefs;
 
+export 'dart:async' show Completer;
+
 export 'package:katana/katana.dart';
 export 'package:katana_prefs_annotation/katana_prefs_annotation.dart';
 export 'package:shared_preferences/shared_preferences.dart'

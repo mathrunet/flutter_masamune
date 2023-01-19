@@ -47,7 +47,7 @@ List<Spec> baseClass(
           Field(
             (f) => f
               ..name = "_ref"
-              ..type = Reference("_\$${model.name}")
+              ..type = Reference("_${model.name}")
               ..modifier = FieldModifier.final$,
           ),
           Field(
@@ -63,7 +63,7 @@ List<Spec> baseClass(
               ..name = "get"
               ..returns = const Reference("T")
               ..body = const Code(
-                "final o = _ref._prefs?.get(_key);if (o is! T) { return _def; } return o;",
+                "assert(_ref._prefs != null, \"SharedPreference has not finished loading. Please execute [load()] to complete loading.\", ); final o = _ref._prefs?.get(_key);if (o is! T) { return _def; } return o;",
               ),
           ),
           Method(
@@ -101,14 +101,6 @@ List<Spec> baseClass(
           const Reference("ChangeNotifier"),
         ])
         ..methods.addAll([
-          Method(
-            (m) => m
-              ..name = "_prefs"
-              ..returns = const Reference("SharedPreferences?")
-              ..type = MethodType.getter
-              ..lambda = true
-              ..body = const Code("throw UnimplementedError()"),
-          ),
           ...model.parameters.map((param) {
             return Method(
               (m) => m
@@ -185,6 +177,21 @@ List<Spec> baseClass(
                 "return \"\$runtimeType(${model.parameters.map((e) => "${e.name}: \$${e.name}").join(", ")})\";",
               ),
           ),
+          Method(
+            (m) => m
+              ..name = "load"
+              ..returns = const Reference("Future<void>")
+              ..lambda = true
+              ..body = const Code("throw UnimplementedError()"),
+          ),
+          Method(
+            (m) => m
+              ..name = "loading"
+              ..type = MethodType.getter
+              ..returns = const Reference("Future<void>?")
+              ..lambda = true
+              ..body = const Code("throw UnimplementedError()"),
+          ),
         ]),
     ),
     if (model.existUnderbarConstructor) ...[
@@ -218,13 +225,29 @@ List<Spec> baseClass(
                     return Code("_${param.name} = ${param.name}");
                   }),
                   const Code("super._()"),
-                ])
-                ..body = const Code(
-                  "SharedPreferences.getInstance().then((value) { _prefs = value; notifyListeners(); });",
-                ),
+                ]),
             ),
           ])
           ..methods.addAll([
+            Method(
+              (m) => m
+                ..name = "load"
+                ..returns = const Reference("Future<void>")
+                ..modifier = MethodModifier.async
+                ..annotations.addAll([const Reference("override")])
+                ..body = const Code(
+                  "try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
+                ),
+            ),
+            Method(
+              (m) => m
+                ..name = "loading"
+                ..type = MethodType.getter
+                ..returns = const Reference("Future<void>?")
+                ..annotations.addAll([const Reference("override")])
+                ..lambda = true
+                ..body = const Code("_completer?.future"),
+            ),
             ...model.parameters.map((param) {
               return Method(
                 (m) => m
@@ -247,6 +270,11 @@ List<Spec> baseClass(
                 ..name = "_prefs"
                 ..annotations.addAll([const Reference("override")])
                 ..type = const Reference("SharedPreferences?"),
+            ),
+            Field(
+              (f) => f
+                ..name = "_completer"
+                ..type = const Reference("Completer<void>?"),
             ),
             ...model.parameters.map((param) {
               return Field(
@@ -289,13 +317,29 @@ List<Spec> baseClass(
                   ...model.parameters.map((param) {
                     return Code("_${param.name} = ${param.name}");
                   }),
-                ])
-                ..body = const Code(
-                  "SharedPreferences.getInstance().then((value) { _prefs = value; notifyListeners(); });",
-                ),
+                ]),
             ),
           ])
           ..methods.addAll([
+            Method(
+              (m) => m
+                ..name = "load"
+                ..returns = const Reference("Future<void>")
+                ..modifier = MethodModifier.async
+                ..annotations.addAll([const Reference("override")])
+                ..body = const Code(
+                  "try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
+                ),
+            ),
+            Method(
+              (m) => m
+                ..name = "loading"
+                ..type = MethodType.getter
+                ..returns = const Reference("Future<void>?")
+                ..annotations.addAll([const Reference("override")])
+                ..lambda = true
+                ..body = const Code("_completer?.future"),
+            ),
             ...model.parameters.map((param) {
               return Method(
                 (m) => m
@@ -316,8 +360,12 @@ List<Spec> baseClass(
             Field(
               (f) => f
                 ..name = "_prefs"
-                ..annotations.addAll([const Reference("override")])
                 ..type = const Reference("SharedPreferences?"),
+            ),
+            Field(
+              (f) => f
+                ..name = "_completer"
+                ..type = const Reference("Completer<void>?"),
             ),
             ...model.parameters.map((param) {
               return Field(
