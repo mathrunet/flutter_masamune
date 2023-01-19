@@ -1,3 +1,7 @@
+## 1.1.4
+
+ - **FIX**: Reading of the problem of not being able to retrieve data. ([e755ea7f](https://github.com/mathrunet/flutter_masamune/commit/e755ea7fa840d6de702aa10d637e2fd357742c07))
+
 ## 1.1.3
 
  - **FIX**: Add the function of load. ([4058e01a](https://github.com/mathrunet/flutter_masamune/commit/4058e01a5de0ec0a2afd5709d5275042b8c57dc7))

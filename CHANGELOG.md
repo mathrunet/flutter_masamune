@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_prefs_builder` - `v1.1.4`](#katana_prefs_builder---v114)
+ - [`masamune_builder` - `v1.1.10`](#masamune_builder---v1110)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v1.1.10`
+
+---
+
+#### `katana_prefs_builder` - `v1.1.4`
+
+ - **FIX**: Reading of the problem of not being able to retrieve data. ([e755ea7f](https://github.com/mathrunet/flutter_masamune/commit/e755ea7fa840d6de702aa10d637e2fd357742c07))
+
+
+## 2023-01-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v1.1.3`](#katana_prefs---v113)
  - [`katana_prefs_builder` - `v1.1.3`](#katana_prefs_builder---v113)
  - [`masamune` - `v1.2.21`](#masamune---v1221)
