@@ -8,7 +8,6 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_prefs_annotation;
 
-export 'package:freezed_annotation/freezed_annotation.dart' show Default;
 export 'package:katana/katana.dart';
 
 part 'src/prefs.dart';
