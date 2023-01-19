@@ -10,7 +10,6 @@ library masamune;
 
 import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 export 'package:katana/katana.dart';
 export 'package:katana_auth/katana_auth.dart';
