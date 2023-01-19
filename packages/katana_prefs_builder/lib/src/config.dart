@@ -6,4 +6,6 @@ final _ignoreWords = <String>[
   "removeListener",
   "hasListeners",
   "notifyListeners",
+  "load",
+  "loading"
 ];
