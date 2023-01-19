@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Provides an adapter for use with Firebase Functions. Provides an interface to execute server-side processing in a type-safe manner. Actual processing on the server side is done by importing a separate adapter.
+/// Provides an adapter for use with Firebase Functions. Provides an interface to execute server-side processing in a type-safe manner.
 ///
 /// To use, import `package:katana_functions_firebase/katana_functions_firebase.dart`.
 ///
