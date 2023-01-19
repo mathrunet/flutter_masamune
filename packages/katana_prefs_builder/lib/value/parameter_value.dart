@@ -2,6 +2,8 @@ part of katana_prefs_builder;
 
 final _regexp = RegExp(r"@Default\(([^\)]+)\)");
 final _classRegExp = RegExp(r"[a-zA-Z0-9_$-]+\(([^\)]+)\)");
+final _listRegExp = RegExp(r"(<[^>]+>)?\[([^\]]*)\]");
+final _mapRegExp = RegExp(r"(<[^>]+>)?\{([^\}]*)\}");
 
 /// Parameter Value.
 ///
@@ -34,8 +36,10 @@ class ParamaterValue {
         continue;
       }
       exists = true;
-      final code = match.group(1);
-      if (_classRegExp.hasMatch(code ?? "")) {
+      final code = match.group(1)?.trim();
+      if (_classRegExp.hasMatch(code ?? "") ||
+          _listRegExp.hasMatch(code ?? "") ||
+          _mapRegExp.hasMatch(code ?? "")) {
         defaultValueCode = "const $code";
       } else {
         defaultValueCode = code;

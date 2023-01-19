@@ -116,7 +116,7 @@ List<Spec> baseClass(
                 ..type = MethodType.getter
                 ..lambda = true
                 ..returns = Reference(
-                  "_\$_PrefsValue<${param.type.toString()}>",
+                  "_\$_${model.name}<${param.type.toString()}>",
                 )
                 ..body = const Code("throw UnimplementedError()"),
             );
@@ -230,7 +230,7 @@ List<Spec> baseClass(
                 (m) => m
                   ..name = param.name
                   ..returns = Reference(
-                    "_\$_PrefsValue<${param.type.toString()}>",
+                    "_\$_${model.name}<${param.type.toString()}>",
                   )
                   ..lambda = true
                   ..type = MethodType.getter
@@ -301,7 +301,7 @@ List<Spec> baseClass(
                 (m) => m
                   ..name = param.name
                   ..returns = Reference(
-                    "_\$_PrefsValue<${param.type.toString()}>",
+                    "_\$_${model.name}<${param.type.toString()}>",
                   )
                   ..lambda = true
                   ..type = MethodType.getter
