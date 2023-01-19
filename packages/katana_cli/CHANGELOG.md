@@ -1,3 +1,7 @@
+## 1.4.6
+
+ - **FIX**: Addition of Prefs code. ([f2d8223f](https://github.com/mathrunet/flutter_masamune/commit/f2d8223f4dea7f0b1357a0fba0023d0825ad0ac0))
+
 ## 1.4.5
 
  - **FIX**: Add Icon. ([f3d62ab3](https://github.com/mathrunet/flutter_masamune/commit/f3d62ab36f83bc206115a041da77daa8505c50ee))

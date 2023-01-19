@@ -1,3 +1,7 @@
+## 1.2.16
+
+ - **FIX**: Reflecting the addition of Prefs. ([e158d8b2](https://github.com/mathrunet/flutter_masamune/commit/e158d8b2692cc367191680c370652c5b42449ab3))
+
 ## 1.2.15
 
  - Update a dependency to the latest release.
