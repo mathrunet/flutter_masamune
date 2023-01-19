@@ -16,6 +16,7 @@ part 'watch.dart';
 part 'value.dart';
 part 'redirect_query.dart';
 part 'boot.dart';
+part 'prefs.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -37,5 +38,6 @@ class CodeCliCommand extends CliCommandGroup {
         "document": CodeDocumentCliCommand(),
         "value": CodeValueCliCommand(),
         "redirect": CodeRedirectQueryCliCommand(),
+        "prefs": CodePrefsCliCommand(),
       };
 }

@@ -20,7 +20,7 @@ class CodeGroupCliCommand extends CliCodeCommand {
 
   @override
   String get description =>
-      "Create a base class for the controller group in `$directory/(filepath).dart`. Create a base class for the controller group in `$directory/(filepath).dart`.";
+      "Create a base class for the controller group in `$directory/(filepath).dart`. コントローラーグループのベースクラスを`$directory/(filepath).dart`に作成します。";
 
   @override
   Future<void> exec(ExecContext context) async {
