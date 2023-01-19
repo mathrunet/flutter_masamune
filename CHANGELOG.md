@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.4.9`](#katana_cli---v149)
+ - [`katana_prefs_builder` - `v1.1.7`](#katana_prefs_builder---v117)
+ - [`masamune_builder` - `v1.1.13`](#masamune_builder---v1113)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v1.1.13`
+
+---
+
+#### `katana_cli` - `v1.4.9`
+
+ - **FIX**: ReadMe maintenance. ([ab6fb620](https://github.com/mathrunet/flutter_masamune/commit/ab6fb6204d6c497321c034e0b724b900ce4dbc66))
+
+#### `katana_prefs_builder` - `v1.1.7`
+
+ - **FIX**: Added to ignoreWords. ([7bd9eee2](https://github.com/mathrunet/flutter_masamune/commit/7bd9eee2a20d9fb4c4274649123edc1df8926647))
+
+
+## 2023-01-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.4.8`](#katana_cli---v148)
  - [`katana_functions` - `v1.1.7`](#katana_functions---v117)
  - [`katana_functions_firebase` - `v1.1.8`](#katana_functions_firebase---v118)

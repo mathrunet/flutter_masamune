@@ -1,3 +1,7 @@
+## 1.1.7
+
+ - **FIX**: Added to ignoreWords. ([7bd9eee2](https://github.com/mathrunet/flutter_masamune/commit/7bd9eee2a20d9fb4c4274649123edc1df8926647))
+
 ## 1.1.6
 
  - **DOCS**: ReadMe Correction. ([503febaa](https://github.com/mathrunet/flutter_masamune/commit/503febaab5a81082ba027eb10319a1e2f7a891aa))
