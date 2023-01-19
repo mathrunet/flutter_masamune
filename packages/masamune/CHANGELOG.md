@@ -1,3 +1,7 @@
+## 1.2.18
+
+ - Update a dependency to the latest release.
+
 ## 1.2.17
 
  - **FIX**: Export prefs. ([12cfcb71](https://github.com/mathrunet/flutter_masamune/commit/12cfcb71c23c211269d7e1f3dedd7ed48a6e9fb1))
