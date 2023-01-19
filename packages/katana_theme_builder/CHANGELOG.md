@@ -1,3 +1,7 @@
+## 1.2.10
+
+ - **FIX**: Fixed text color in DarkTheme. ([79272447](https://github.com/mathrunet/flutter_masamune/commit/79272447123bd6eea22677f1bdc04d9152df9de7))
+
 ## 1.2.9
 
  - **DOCS**: Additional Comments. ([91ac4d68](https://github.com/mathrunet/flutter_masamune/commit/91ac4d68f4097d7a0a2cde44eaf7f82391c1461b))
