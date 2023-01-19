@@ -1,3 +1,7 @@
+## 1.4.7
+
+ - **FIX**: Fixed a bug in the code. ([12579ce7](https://github.com/mathrunet/flutter_masamune/commit/12579ce7c49856e801c549e1a447a2ce5267eeff))
+
 ## 1.4.6
 
  - **FIX**: Addition of Prefs code. ([f2d8223f](https://github.com/mathrunet/flutter_masamune/commit/f2d8223f4dea7f0b1357a0fba0023d0825ad0ac0))
