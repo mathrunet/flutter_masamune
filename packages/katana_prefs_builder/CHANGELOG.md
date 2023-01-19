@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: Add the function of load. ([4058e01a](https://github.com/mathrunet/flutter_masamune/commit/4058e01a5de0ec0a2afd5709d5275042b8c57dc7))
+
 ## 1.1.2
 
  - Update a dependency to the latest release.
