@@ -290,28 +290,28 @@ packages:
       name: katana
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.10+1"
+    version: "0.15.10+2"
   katana_theme:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.2.9"
+    version: "1.2.11"
   katana_theme_annotation:
     dependency: transitive
     description:
       name: katana_theme_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.6"
+    version: "1.2.8"
   katana_theme_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "1.2.7"
+    version: "1.2.9"
   lints:
     dependency: transitive
     description:
