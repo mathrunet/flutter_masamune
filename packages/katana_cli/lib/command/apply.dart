@@ -18,16 +18,16 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// 実行する順番で並べてください。
 const _actions = <CliActionMixin>[
-  // AppSpreadSheetCliAction(),
-  // AppCsrCliAction(),
-  // AppP12CliAction(),
-  // AppKeystoreCliAction(),
-  // AppPickerCliAction(),
+  AppSpreadSheetCliAction(),
+  AppCsrCliAction(),
+  AppP12CliAction(),
+  AppKeystoreCliAction(),
+  AppPickerCliAction(),
   AppIconCliAction(),
-  // FirebaseInitCliAction(),
-  // FirebaseMessagingCliAction(),
-  // GitActionCliAction(),
-  // GitPreCommitCliAction(),
+  FirebaseInitCliAction(),
+  FirebaseMessagingCliAction(),
+  GitActionCliAction(),
+  GitPreCommitCliAction(),
 ];
 
 /// Reflect the settings in katana.yaml in the application project.
