@@ -63,7 +63,7 @@ List<Spec> baseClass(
               ..name = "get"
               ..returns = const Reference("T")
               ..body = const Code(
-                "assert(_ref._prefs != null, \"SharedPreference has not finished loading. Please execute [load()] to complete loading.\", ); final o = _ref._prefs?.get(_key);if (o is! T) { return _def; } return o;",
+                "assert(_ref._prefs != null, \"SharedPreference has not finished loading. Please execute [load()] to complete loading.\", ); final o = _ref._prefs?.get(_key); if (o is List) { return o.cast<String>() as T; } return o as T;",
               ),
           ),
           Method(
@@ -236,7 +236,7 @@ List<Spec> baseClass(
                 ..modifier = MethodModifier.async
                 ..annotations.addAll([const Reference("override")])
                 ..body = const Code(
-                  "try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
+                  "if (_prefs != null) { return; } try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
                 ),
             ),
             Method(
@@ -268,7 +268,6 @@ List<Spec> baseClass(
             Field(
               (f) => f
                 ..name = "_prefs"
-                ..annotations.addAll([const Reference("override")])
                 ..type = const Reference("SharedPreferences?"),
             ),
             Field(
@@ -328,7 +327,7 @@ List<Spec> baseClass(
                 ..modifier = MethodModifier.async
                 ..annotations.addAll([const Reference("override")])
                 ..body = const Code(
-                  "try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
+                  "if (_prefs != null) { return; } try { _completer = Completer(); _prefs = await SharedPreferences.getInstance(); notifyListeners(); _completer?.complete(); _completer = null; } catch (e) { _completer?.completeError(e); _completer = null; } finally { _completer?.complete(); }",
                 ),
             ),
             Method(
