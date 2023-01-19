@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_prefs` - `v1.1.0`](#katana_prefs---v110)
+ - [`katana_prefs_annotation` - `v1.1.0`](#katana_prefs_annotation---v110)
+ - [`katana_prefs_builder` - `v1.1.0`](#katana_prefs_builder---v110)
+
+---
+
+#### `katana_prefs` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([495dddfa](https://github.com/mathrunet/flutter_masamune/commit/495dddfa0445e6441fa3367c04f7898295e42589))
+
+#### `katana_prefs_annotation` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([495dddfa](https://github.com/mathrunet/flutter_masamune/commit/495dddfa0445e6441fa3367c04f7898295e42589))
+
+#### `katana_prefs_builder` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([495dddfa](https://github.com/mathrunet/flutter_masamune/commit/495dddfa0445e6441fa3367c04f7898295e42589))
+
+
 ## 2023-01-18
 
 ### Changes
