@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **DOCS**: ReadMe maintenance. ([630da440](https://github.com/mathrunet/flutter_masamune/commit/630da440c75e96ef65f72ba198d76412911afbdb))
+
 ## 1.1.2
 
  - **FIX**: Remove Default from freezed. ([ddf28aaf](https://github.com/mathrunet/flutter_masamune/commit/ddf28aaf260a7d1dbe5c5fad72bdc04407bfb46f))

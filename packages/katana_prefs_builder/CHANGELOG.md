@@ -1,3 +1,7 @@
+## 1.1.5
+
+ - **DOCS**: ReadMe maintenance. ([630da440](https://github.com/mathrunet/flutter_masamune/commit/630da440c75e96ef65f72ba198d76412911afbdb))
+
 ## 1.1.4
 
  - **FIX**: Reading of the problem of not being able to retrieve data. ([e755ea7f](https://github.com/mathrunet/flutter_masamune/commit/e755ea7fa840d6de702aa10d637e2fd357742c07))
