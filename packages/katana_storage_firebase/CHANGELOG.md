@@ -1,3 +1,7 @@
+## 1.1.6
+
+ - **FIX**: Remove unnecessary imports. ([0cb557fd](https://github.com/mathrunet/flutter_masamune/commit/0cb557fda2580cbf666279516ffdb380ff7f50de))
+
 ## 1.1.5
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 1.4.8
+
+ - **FIX**: Fixed invalid command. ([7fb713ff](https://github.com/mathrunet/flutter_masamune/commit/7fb713fffdfa5eeb857eb782ae7aeae5f36a7e06))
+
 ## 1.4.7
 
  - **FIX**: Fixed a bug in the code. ([12579ce7](https://github.com/mathrunet/flutter_masamune/commit/12579ce7c49856e801c549e1a447a2ce5267eeff))
