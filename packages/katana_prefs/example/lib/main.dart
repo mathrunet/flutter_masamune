@@ -8,7 +8,7 @@ part 'main.prefs.dart';
 class PrefsValue with _$PrefsValue, ChangeNotifier {
   factory PrefsValue({
     String? userToken,
-    @Default(1.0) double volumeSetting,
+    required double volumeSetting,
   }) = _PrefsValue;
   PrefsValue._();
 }
@@ -40,7 +40,7 @@ class PrefsPage extends StatefulWidget {
 }
 
 class PrefsPageState extends State<PrefsPage> {
-  final prefs = PrefsValue();
+  final prefs = PrefsValue(volumeSetting: 0.5);
 
   @override
   void initState() {
@@ -48,6 +48,7 @@ class PrefsPageState extends State<PrefsPage> {
     prefs.addListener(() {
       setState(() {});
     });
+    prefs.load();
   }
 
   @override
