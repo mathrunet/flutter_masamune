@@ -24,6 +24,8 @@ export 'package:katana_listenables_builder/katana_listenables_builder.dart'
     show katanaListenablesBuilderFactory;
 export 'package:katana_localization_builder/katana_localization_builder.dart'
     show katanaLocalizationBuilderFactory;
+export 'package:katana_prefs_builder/katana_prefs_builder.dart'
+    show katanaPrefsBuilderFactory;
 export 'package:katana_router_builder/katana_router_builder.dart'
     show katanaRouterPageBuilderFactory, katanaRouterRouterBuilderFactory;
 export 'package:katana_theme_builder/katana_theme_builder.dart'

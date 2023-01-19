@@ -23,6 +23,8 @@ dependencies:
   katana_router_annotation: ^1.10.0
   katana_listenables_annotation: ^1.2.9
   katana_listenables_builder: ^1.2.10
+  katana_prefs_annotation: ^1.1.0
+  katana_prefs_builder: ^1.1.0
   masamune_annotation: ^1.1.1
 dev_dependencies:
   test: ^1.21.3

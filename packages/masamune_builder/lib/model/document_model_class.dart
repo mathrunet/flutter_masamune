@@ -23,9 +23,20 @@ List<Spec> documentModelClass(
             (m) => m
               ..name = "call"
               ..annotations.addAll([const Reference("useResult")])
+              ..optionalParameters.addAll([
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
+              ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path}\"));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\"));",
               ),
           )
         ]),

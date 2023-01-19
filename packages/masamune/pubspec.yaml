@@ -26,9 +26,10 @@ dependencies:
   katana_form: ^1.3.2
   katana_auth: ^1.1.7
   katana_ui: ^1.1.1
-  masamune_annotation: ^1.1.1
+  katana_prefs: ^1.1.0
   katana_storage:  ^1.1.2
   katana_functions: ^1.1.6
+  masamune_annotation: ^1.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

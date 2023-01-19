@@ -127,16 +127,27 @@ List<Spec> collectionModelClass(
             (m) => m
               ..name = "call"
               ..annotations.addAll([const Reference("useResult")])
+              ..optionalParameters.addAll([
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
+              ])
               ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
-                    ..name = "id"
+                    ..name = "_id"
                     ..type = const Reference("Object"),
                 ),
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path}/\$id\"));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\"));",
               ),
           )
         ]),
@@ -204,6 +215,15 @@ List<Spec> collectionModelClass(
               ..name = "call"
               ..annotations.addAll([const Reference("useResult")])
               ..optionalParameters.addAll([
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
                 ...CollectionQueryKey.values.map((key) {
                   return Parameter(
                     (p) => p
@@ -219,7 +239,7 @@ List<Spec> collectionModelClass(
               ])
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path}\", ${CollectionQueryKey.values.map((key) => "${key.name}:${key.type == null ? "${key.name}?.name" : key.name}").join(",")}));",
+                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", ${CollectionQueryKey.values.map((key) => "${key.name}:${key.type == null ? "${key.name}?.name" : key.name}").join(",")}));",
               ),
           )
         ]),
