@@ -23,3 +23,45 @@
 [[YouTube]](https://www.youtube.com/c/mathrunetchannel) | [[Packages]](https://pub.dev/publishers/mathru.net/packages) | [[Twitter]](https://twitter.com/mathru) | [[LinkedIn]](https://www.linkedin.com/in/mathrunet/)
 
 ---
+
+This package is a collection of additional features around the UI available in the Katana/Masamune framework.
+
+# Installation
+
+Import the following packages
+
+```dart
+flutter pub add katana_ui
+```
+
+# How to use
+
+## Modal dialog
+
+Alert and confirmation dialogs can be displayed.
+
+```dart
+// Alert dialog.
+Modal.alert(
+  title: "Title",
+  text: "Contents text",
+  submitText: "OK",
+  onSubmit: () {
+    // Processing when the OK button is pressed
+  },
+);
+
+// Confirmation dialog.
+Modal.confirm(
+  title: "Title",
+  text: "Contents text",
+  submitText: "Yes",
+  cancelText: "No",
+  onSubmit: () {
+    // Processing when the Yes button is pressed    
+  },
+  onCancel: () {
+    // Processing when the No button is pressed
+  }
+);
+```
