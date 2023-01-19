@@ -15,6 +15,86 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_prefs_annotation` - `v1.1.2`](#katana_prefs_annotation---v112)
+ - [`masamune_builder` - `v1.1.7`](#masamune_builder---v117)
+ - [`katana_prefs` - `v1.1.2`](#katana_prefs---v112)
+ - [`katana_prefs_builder` - `v1.1.2`](#katana_prefs_builder---v112)
+ - [`masamune` - `v1.2.19`](#masamune---v1219)
+ - [`masamune_picker` - `v1.4.17`](#masamune_picker---v1417)
+ - [`masamune_notification_firebase` - `v1.1.13`](#masamune_notification_firebase---v1113)
+ - [`masamune_agora` - `v0.15.0+78`](#masamune_agora---v015078)
+ - [`masamune_wordpress` - `v0.15.0+76`](#masamune_wordpress---v015076)
+ - [`masamune_local_messaging` - `v0.15.0+76`](#masamune_local_messaging---v015076)
+ - [`masamune_location` - `v0.15.0+76`](#masamune_location---v015076)
+ - [`masamune_media` - `v0.15.0+76`](#masamune_media---v015076)
+ - [`masamune_purchase` - `v0.15.0+76`](#masamune_purchase---v015076)
+ - [`masamune_firebase` - `v0.15.0+77`](#masamune_firebase---v015077)
+ - [`masamune_ads` - `v0.15.0+76`](#masamune_ads---v015076)
+ - [`masamune_picker_mobile` - `v1.4.17`](#masamune_picker_mobile---v1417)
+ - [`masamune_ui` - `v0.15.0+76`](#masamune_ui---v015076)
+ - [`masamune_picker_file` - `v1.4.17`](#masamune_picker_file---v1417)
+ - [`masamune_purchase_firebase` - `v0.15.0+77`](#masamune_purchase_firebase---v015077)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+77`](#masamune_firebase_dynamic_links---v015077)
+ - [`masamune_firebase_messaging` - `v0.15.0+77`](#masamune_firebase_messaging---v015077)
+ - [`masamune_signin_facebook` - `v0.15.0+77`](#masamune_signin_facebook---v015077)
+ - [`masamune_signin_google` - `v0.15.0+77`](#masamune_signin_google---v015077)
+ - [`masamune_signin_twitter` - `v0.15.0+77`](#masamune_signin_twitter---v015077)
+ - [`masamune_purchase_stripe` - `v0.15.0+77`](#masamune_purchase_stripe---v015077)
+ - [`masamune_notion` - `v0.15.0+77`](#masamune_notion---v015077)
+ - [`masamune_signin_apple` - `v0.15.0+77`](#masamune_signin_apple---v015077)
+ - [`masamune_module` - `v0.15.0+76`](#masamune_module---v015076)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v1.1.7`
+ - `katana_prefs` - `v1.1.2`
+ - `katana_prefs_builder` - `v1.1.2`
+ - `masamune` - `v1.2.19`
+ - `masamune_picker` - `v1.4.17`
+ - `masamune_notification_firebase` - `v1.1.13`
+ - `masamune_agora` - `v0.15.0+78`
+ - `masamune_wordpress` - `v0.15.0+76`
+ - `masamune_local_messaging` - `v0.15.0+76`
+ - `masamune_location` - `v0.15.0+76`
+ - `masamune_media` - `v0.15.0+76`
+ - `masamune_purchase` - `v0.15.0+76`
+ - `masamune_firebase` - `v0.15.0+77`
+ - `masamune_ads` - `v0.15.0+76`
+ - `masamune_picker_mobile` - `v1.4.17`
+ - `masamune_ui` - `v0.15.0+76`
+ - `masamune_picker_file` - `v1.4.17`
+ - `masamune_purchase_firebase` - `v0.15.0+77`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+77`
+ - `masamune_firebase_messaging` - `v0.15.0+77`
+ - `masamune_signin_facebook` - `v0.15.0+77`
+ - `masamune_signin_google` - `v0.15.0+77`
+ - `masamune_signin_twitter` - `v0.15.0+77`
+ - `masamune_purchase_stripe` - `v0.15.0+77`
+ - `masamune_notion` - `v0.15.0+77`
+ - `masamune_signin_apple` - `v0.15.0+77`
+ - `masamune_module` - `v0.15.0+76`
+
+---
+
+#### `katana_prefs_annotation` - `v1.1.2`
+
+ - **FIX**: Remove Default from freezed. ([ddf28aaf](https://github.com/mathrunet/flutter_masamune/commit/ddf28aaf260a7d1dbe5c5fad72bdc04407bfb46f))
+
+
+## 2023-01-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v1.1.1`](#katana_prefs---v111)
  - [`katana_prefs_annotation` - `v1.1.1`](#katana_prefs_annotation---v111)
  - [`katana_prefs_builder` - `v1.1.1`](#katana_prefs_builder---v111)
