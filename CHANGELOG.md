@@ -15,6 +15,92 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_prefs` - `v1.1.5`](#katana_prefs---v115)
+ - [`katana_prefs_annotation` - `v1.1.4`](#katana_prefs_annotation---v114)
+ - [`katana_prefs_builder` - `v1.1.6`](#katana_prefs_builder---v116)
+ - [`masamune` - `v1.2.23`](#masamune---v1223)
+ - [`masamune_picker` - `v1.4.21`](#masamune_picker---v1421)
+ - [`masamune_agora` - `v0.15.0+82`](#masamune_agora---v015082)
+ - [`masamune_notification_firebase` - `v1.1.17`](#masamune_notification_firebase---v1117)
+ - [`masamune_wordpress` - `v0.15.0+80`](#masamune_wordpress---v015080)
+ - [`masamune_location` - `v0.15.0+80`](#masamune_location---v015080)
+ - [`masamune_local_messaging` - `v0.15.0+80`](#masamune_local_messaging---v015080)
+ - [`masamune_media` - `v0.15.0+80`](#masamune_media---v015080)
+ - [`masamune_purchase` - `v0.15.0+80`](#masamune_purchase---v015080)
+ - [`masamune_firebase` - `v0.15.0+81`](#masamune_firebase---v015081)
+ - [`masamune_ads` - `v0.15.0+80`](#masamune_ads---v015080)
+ - [`masamune_picker_mobile` - `v1.4.21`](#masamune_picker_mobile---v1421)
+ - [`masamune_ui` - `v0.15.0+80`](#masamune_ui---v015080)
+ - [`masamune_picker_file` - `v1.4.21`](#masamune_picker_file---v1421)
+ - [`masamune_purchase_firebase` - `v0.15.0+81`](#masamune_purchase_firebase---v015081)
+ - [`masamune_firebase_dynamic_links` - `v0.15.0+81`](#masamune_firebase_dynamic_links---v015081)
+ - [`masamune_firebase_messaging` - `v0.15.0+81`](#masamune_firebase_messaging---v015081)
+ - [`masamune_signin_facebook` - `v0.15.0+81`](#masamune_signin_facebook---v015081)
+ - [`masamune_signin_google` - `v0.15.0+81`](#masamune_signin_google---v015081)
+ - [`masamune_signin_twitter` - `v0.15.0+81`](#masamune_signin_twitter---v015081)
+ - [`masamune_purchase_stripe` - `v0.15.0+81`](#masamune_purchase_stripe---v015081)
+ - [`masamune_notion` - `v0.15.0+81`](#masamune_notion---v015081)
+ - [`masamune_signin_apple` - `v0.15.0+81`](#masamune_signin_apple---v015081)
+ - [`masamune_module` - `v0.15.0+80`](#masamune_module---v015080)
+ - [`masamune_builder` - `v1.1.12`](#masamune_builder---v1112)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.2.23`
+ - `masamune_picker` - `v1.4.21`
+ - `masamune_agora` - `v0.15.0+82`
+ - `masamune_notification_firebase` - `v1.1.17`
+ - `masamune_wordpress` - `v0.15.0+80`
+ - `masamune_location` - `v0.15.0+80`
+ - `masamune_local_messaging` - `v0.15.0+80`
+ - `masamune_media` - `v0.15.0+80`
+ - `masamune_purchase` - `v0.15.0+80`
+ - `masamune_firebase` - `v0.15.0+81`
+ - `masamune_ads` - `v0.15.0+80`
+ - `masamune_picker_mobile` - `v1.4.21`
+ - `masamune_ui` - `v0.15.0+80`
+ - `masamune_picker_file` - `v1.4.21`
+ - `masamune_purchase_firebase` - `v0.15.0+81`
+ - `masamune_firebase_dynamic_links` - `v0.15.0+81`
+ - `masamune_firebase_messaging` - `v0.15.0+81`
+ - `masamune_signin_facebook` - `v0.15.0+81`
+ - `masamune_signin_google` - `v0.15.0+81`
+ - `masamune_signin_twitter` - `v0.15.0+81`
+ - `masamune_purchase_stripe` - `v0.15.0+81`
+ - `masamune_notion` - `v0.15.0+81`
+ - `masamune_signin_apple` - `v0.15.0+81`
+ - `masamune_module` - `v0.15.0+80`
+ - `masamune_builder` - `v1.1.12`
+
+---
+
+#### `katana_prefs` - `v1.1.5`
+
+ - **DOCS**: ReadMe Correction. ([503febaa](https://github.com/mathrunet/flutter_masamune/commit/503febaab5a81082ba027eb10319a1e2f7a891aa))
+
+#### `katana_prefs_annotation` - `v1.1.4`
+
+ - **DOCS**: ReadMe Correction. ([503febaa](https://github.com/mathrunet/flutter_masamune/commit/503febaab5a81082ba027eb10319a1e2f7a891aa))
+
+#### `katana_prefs_builder` - `v1.1.6`
+
+ - **DOCS**: ReadMe Correction. ([503febaa](https://github.com/mathrunet/flutter_masamune/commit/503febaab5a81082ba027eb10319a1e2f7a891aa))
+
+
+## 2023-01-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v1.1.4`](#katana_prefs---v114)
  - [`katana_prefs_annotation` - `v1.1.3`](#katana_prefs_annotation---v113)
  - [`katana_prefs_builder` - `v1.1.5`](#katana_prefs_builder---v115)
