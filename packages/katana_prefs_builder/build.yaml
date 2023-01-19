@@ -1,0 +1,20 @@
+builders:
+  katana_prefs_builder:
+    import: 'package:katana_prefs_builder/katana_prefs_builder.dart'
+    builder_factories: ['katanaPrefsBuilderFactory']
+    build_extensions: {'.dart': ['.prefs.dart']}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+targets:
+  $default:
+    builders:
+      katana_prefs_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+          include:
+            - test/integration/*
+            - test/integration/**/*
