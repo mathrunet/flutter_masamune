@@ -14,3 +14,4 @@ import 'package:flutter/material.dart' hide Scaffold;
 export 'package:katana/katana.dart';
 
 part 'modal/modal.dart';
+part 'ui/loading_builder.dart';
