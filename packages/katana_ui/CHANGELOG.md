@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: Addition of LoadingBuilder. ([09131f86](https://github.com/mathrunet/flutter_masamune/commit/09131f8652f1b61bdc974436c537bceb0de2b52c))
+
 ## 1.1.2
 
  - **DOCS**: ReadMe maintenance. ([616c55e9](https://github.com/mathrunet/flutter_masamune/commit/616c55e9ddbbd1fa48cee75c530c9b4e53305853))
