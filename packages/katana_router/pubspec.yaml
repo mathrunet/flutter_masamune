@@ -17,5 +17,4 @@ dependencies:
   url_strategy: ^0.2.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3

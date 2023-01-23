@@ -18,5 +18,4 @@ dependencies:
   firebase_core: ^2.1.1
   cloud_functions: ^4.0.7
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3

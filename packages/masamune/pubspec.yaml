@@ -31,6 +31,5 @@ dependencies:
   katana_functions: ^1.1.7
   masamune_annotation: ^1.1.2
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3
   

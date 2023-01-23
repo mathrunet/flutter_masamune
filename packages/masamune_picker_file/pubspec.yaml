@@ -15,5 +15,4 @@ dependencies:
   masamune_picker: ^1.4.23
   file_picker: ^5.2.3
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3
