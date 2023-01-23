@@ -165,6 +165,7 @@ abstract class ScopedValueState<TResult,
   /// 値が破棄される際に実行されます。
   @mustCallSuper
   void dispose() {
+    assert(!disposed, "Value is already disposed.");
     _disposed = true;
     _listeners.clear();
   }
