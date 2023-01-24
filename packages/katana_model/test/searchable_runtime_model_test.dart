@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:katana_model/katana_model.dart';
+import 'package:test/test.dart';
 
 part 'searchable_runtime_model_test.freezed.dart';
 part 'searchable_runtime_model_test.g.dart';

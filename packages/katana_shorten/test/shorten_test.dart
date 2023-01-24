@@ -1,6 +1,6 @@
-import 'package:katana_shorten/katana_shorten.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:katana_shorten/katana_shorten.dart';
+import 'package:test/test.dart';
 
 void main() {
   test("Duration", () {
