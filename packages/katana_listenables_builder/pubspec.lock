@@ -193,16 +193,16 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.10+2"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
-      name: katana_listenables_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_listenables_annotation"
+      relative: true
+    source: path
     version: "1.2.9"
   logging:
     dependency: transitive

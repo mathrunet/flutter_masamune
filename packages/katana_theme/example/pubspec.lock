@@ -285,11 +285,11 @@ packages:
     source: hosted
     version: "4.8.0"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana"
+      relative: true
+    source: path
     version: "0.15.10+2"
   katana_theme:
     dependency: "direct main"
@@ -299,11 +299,11 @@ packages:
     source: path
     version: "1.2.12"
   katana_theme_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_theme_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../../katana_theme_annotation"
+      relative: true
+    source: path
     version: "1.2.9"
   katana_theme_builder:
     dependency: "direct dev"

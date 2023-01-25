@@ -26,9 +26,6 @@ scripts:
   upgrade: >
     melos exec -- "flutter pub upgrade"
 
-  readme: >
-    dart util.dart
-
   analyze: >
     melos exec -- "flutter analyze"
     

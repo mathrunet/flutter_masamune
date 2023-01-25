@@ -200,16 +200,16 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.10+2"
   katana_localization_annotation:
     dependency: "direct main"
     description:
-      name: katana_localization_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_localization_annotation"
+      relative: true
+    source: path
     version: "1.1.19"
   logging:
     dependency: transitive

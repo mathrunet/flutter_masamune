@@ -21,7 +21,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.2"
   asn1lib:
     dependency: transitive
     description:
@@ -196,7 +196,7 @@ packages:
       name: io
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   js:
     dependency: transitive
     description:
@@ -210,84 +210,84 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.7.0"
+    version: "4.8.0"
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.10+2"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
-      name: katana_listenables_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_listenables_annotation"
+      relative: true
+    source: path
     version: "1.2.9"
   katana_listenables_builder:
     dependency: "direct main"
     description:
-      name: katana_listenables_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_listenables_builder"
+      relative: true
+    source: path
     version: "1.2.10"
   katana_localization_annotation:
     dependency: "direct main"
     description:
-      name: katana_localization_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_localization_annotation"
+      relative: true
+    source: path
     version: "1.1.19"
   katana_localization_builder:
     dependency: "direct main"
     description:
-      name: katana_localization_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_localization_builder"
+      relative: true
+    source: path
     version: "1.1.21"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
-      name: katana_prefs_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
+      path: "../katana_prefs_annotation"
+      relative: true
+    source: path
+    version: "1.1.4"
   katana_prefs_builder:
     dependency: "direct main"
     description:
-      name: katana_prefs_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
+      path: "../katana_prefs_builder"
+      relative: true
+    source: path
+    version: "1.1.8"
   katana_router_annotation:
     dependency: "direct main"
     description:
-      name: katana_router_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_router_annotation"
+      relative: true
+    source: path
     version: "1.10.6"
   katana_router_builder:
     dependency: "direct main"
     description:
-      name: katana_router_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_router_builder"
+      relative: true
+    source: path
     version: "1.10.8"
   katana_theme_annotation:
     dependency: "direct main"
     description:
-      name: katana_theme_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.8"
+      path: "../katana_theme_annotation"
+      relative: true
+    source: path
+    version: "1.2.9"
   katana_theme_builder:
     dependency: "direct main"
     description:
-      name: katana_theme_builder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.9"
+      path: "../katana_theme_builder"
+      relative: true
+    source: path
+    version: "1.2.10"
   logging:
     dependency: transitive
     description:
@@ -298,10 +298,10 @@ packages:
   masamune_annotation:
     dependency: "direct main"
     description:
-      name: masamune_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
+      path: "../masamune_annotation"
+      relative: true
+    source: path
+    version: "1.1.2"
   matcher:
     dependency: transitive
     description:
@@ -504,7 +504,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "10.0.0"
+    version: "10.1.0"
   watcher:
     dependency: transitive
     description:

@@ -175,16 +175,16 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "0.15.10+2"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
-      name: katana_prefs_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "../katana_prefs_annotation"
+      relative: true
+    source: path
     version: "1.1.4"
   logging:
     dependency: transitive
