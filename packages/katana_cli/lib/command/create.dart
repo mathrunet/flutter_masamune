@@ -490,6 +490,7 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    use_build_context_synchronously: false
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
@@ -501,6 +502,14 @@ linter:
 analyzer:
   exclude:
     - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.theme.dart"
+    - "**/*.localize.dart"
+    - "**/*.listenable.dart"
+    - "**/*.page.dart"
+    - "**/*.router.dart"
+    - "**/*.prefs.dart"
+    - "**/*.m.dart"
 """;
   }
 }
