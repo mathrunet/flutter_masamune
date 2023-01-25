@@ -1,3 +1,7 @@
+## 1.1.9
+
+ - **FIX**: Firebase options can be passed. ([f61c3366](https://github.com/mathrunet/flutter_masamune/commit/f61c3366606a5f978be75b43c98651bc4d023b50))
+
 ## 1.1.8
 
  - **DOCS**: Set the description short. ([9bc17f6e](https://github.com/mathrunet/flutter_masamune/commit/9bc17f6e997ce28526bda82fc5dda5eb39587c2c))

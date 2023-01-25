@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth_firebase` - `v1.1.8`](#katana_auth_firebase---v118)
+ - [`katana_functions_firebase` - `v1.1.9`](#katana_functions_firebase---v119)
+ - [`katana_model_firestore` - `v1.3.21`](#katana_model_firestore---v1321)
+ - [`katana_storage_firebase` - `v1.1.7`](#katana_storage_firebase---v117)
+
+---
+
+#### `katana_auth_firebase` - `v1.1.8`
+
+ - **FIX**: Firebase options can be passed. ([f61c3366](https://github.com/mathrunet/flutter_masamune/commit/f61c3366606a5f978be75b43c98651bc4d023b50))
+
+#### `katana_functions_firebase` - `v1.1.9`
+
+ - **FIX**: Firebase options can be passed. ([f61c3366](https://github.com/mathrunet/flutter_masamune/commit/f61c3366606a5f978be75b43c98651bc4d023b50))
+
+#### `katana_model_firestore` - `v1.3.21`
+
+ - **FIX**: Firebase options can be passed. ([f61c3366](https://github.com/mathrunet/flutter_masamune/commit/f61c3366606a5f978be75b43c98651bc4d023b50))
+
+#### `katana_storage_firebase` - `v1.1.7`
+
+ - **FIX**: Firebase options can be passed. ([f61c3366](https://github.com/mathrunet/flutter_masamune/commit/f61c3366606a5f978be75b43c98651bc4d023b50))
+
+
+## 2023-01-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.3.19`](#katana_model---v1319)
  - [`katana_prefs_builder` - `v1.1.8`](#katana_prefs_builder---v118)
  - [`katana_scoped` - `v1.7.3`](#katana_scoped---v173)

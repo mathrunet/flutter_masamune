@@ -1,3 +1,7 @@
+## 1.1.7
+
+ - **FIX**: Firebase options can be passed. ([f61c3366](https://github.com/mathrunet/flutter_masamune/commit/f61c3366606a5f978be75b43c98651bc4d023b50))
+
 ## 1.1.6
 
  - **FIX**: Remove unnecessary imports. ([0cb557fd](https://github.com/mathrunet/flutter_masamune/commit/0cb557fda2580cbf666279516ffdb380ff7f50de))
