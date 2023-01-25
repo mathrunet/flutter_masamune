@@ -19,7 +19,3 @@ enum FormMediaType {
   /// その他。
   others;
 }
-
-
-
-

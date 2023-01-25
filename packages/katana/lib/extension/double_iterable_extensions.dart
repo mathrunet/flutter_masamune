@@ -1,7 +1,7 @@
 part of katana;
 
 /// Provides extended methods for [double] arrays.
-/// 
+///
 /// [double]の配列用の拡張メソッドを提供します。
 extension DoubleIterableExtensions on Iterable<double> {
   /// Get the closest [double] to [point] in the [double] array.

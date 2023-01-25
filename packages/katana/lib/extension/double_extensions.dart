@@ -1,21 +1,21 @@
 part of katana;
 
 /// Provides extended methods for [double].
-/// 
+///
 /// [double]用の拡張メソッドを提供します。
 extension DoubleExtensions on double {
   /// Returns `true` if [double] is `0`.
-  /// 
+  ///
   /// [double]が`0`の場合`true`を返します。
   bool get isEmpty => this == 0.0;
 
   /// Returns `true` if [double] is not `0`.
-  /// 
+  ///
   /// [double]が`0`でない場合`true`を返します。
   bool get isNotEmpty => this != 0.0;
 
   /// If [double] is [double.nan], [double.infinity], or [double.negativeInfinity], replace it with [replace].
-  /// 
+  ///
   /// [double]が[double.nan]か[double.infinity]、[double.negativeInfinity]の場合[replace]に置き換えます。
   double replaceNanOrInfinite([double replace = 0.0]) {
     if (isNaN || isInfinite) {
@@ -102,7 +102,7 @@ extension DoubleExtensions on double {
   /// ```
   ///
   /// Please note that decimal points will be **rounded**.
-  /// 
+  ///
   /// 小数点を丸めるときは**四捨五入**されますのでご注意ください。
   String format(String format) {
     assert(format.isNotEmpty, "The format is empty.");

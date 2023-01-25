@@ -1,7 +1,7 @@
 part of katana;
 
 /// Provides extended methods for [Duration].
-/// 
+///
 /// [Duration]用の拡張メソッドを提供します。
 extension DurationExtensions on Duration {
   /// Parses [Duration] to [String] according to the definition given in [format].

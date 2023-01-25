@@ -1,7 +1,7 @@
 part of katana;
 
 /// Provides extended methods for [DateTime] arrays.
-/// 
+///
 /// [DateTime]の配列用の拡張メソッドを提供します。
 extension DateTimeIterableExtensions on Iterable<DateTime> {
   /// Get the closest [DateTime] to [point] in the [DateTime] array.

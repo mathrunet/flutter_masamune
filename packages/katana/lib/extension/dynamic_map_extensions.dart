@@ -31,7 +31,7 @@ extension DynamicMapExtensions on Map<String, dynamic> {
   /// ```dart
   /// "/aaa//ccc" => "/aaa/ccc"
   /// ```
-  /// 
+  ///
   ///
   /// ```dart
   /// final test = {

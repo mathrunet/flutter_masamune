@@ -1,7 +1,7 @@
 part of katana;
 
 /// Provides extended methods for [int] arrays.
-/// 
+///
 /// [int]の配列用の拡張メソッドを提供します。
 extension IntIterableExtensions on Iterable<int> {
   /// Get the closest [int] to [point] in the [int] array.
