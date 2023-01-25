@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
 /// Add a Git hook for Flutter using Lefthook.

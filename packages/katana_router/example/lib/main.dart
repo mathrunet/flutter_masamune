@@ -1,8 +1,13 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:katana_router/katana_router.dart';
 
+// Project imports:
 import 'main.router.dart';
 
 part 'main.page.dart';

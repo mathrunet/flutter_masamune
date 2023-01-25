@@ -1,9 +1,13 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 
+// Package imports:
 import 'package:csv/csv.dart';
-import 'package:katana_cli/katana_cli.dart';
 import 'package:xml/xml.dart';
+
+// Project imports:
+import 'package:katana_cli/katana_cli.dart';
 
 final _mapping = [
   "timestamp",

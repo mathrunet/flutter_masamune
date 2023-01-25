@@ -1,8 +1,11 @@
+// Dart imports:
 import 'dart:math';
 
-import 'package:katana_listenables/katana_listenables.dart';
-
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:katana_listenables/katana_listenables.dart';
 
 part 'main.listenable.dart';
 

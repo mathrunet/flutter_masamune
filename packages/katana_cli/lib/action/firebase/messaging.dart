@@ -1,7 +1,11 @@
+// Dart imports:
 import 'dart:io';
 
-import 'package:katana_cli/katana_cli.dart';
+// Package imports:
 import 'package:xml/xml.dart';
+
+// Project imports:
+import 'package:katana_cli/katana_cli.dart';
 
 /// Initialize FirebaseMessaging settings.
 ///

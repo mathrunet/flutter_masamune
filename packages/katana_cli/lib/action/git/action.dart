@@ -1,5 +1,5 @@
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
-
 import 'platform/android.dart';
 import 'platform/ios.dart';
 import 'platform/web.dart';

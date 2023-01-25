@@ -8,9 +8,13 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_indicator;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:katana/katana.dart';
 
 export 'package:katana/katana.dart';

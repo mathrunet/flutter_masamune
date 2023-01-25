@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:katana_model/katana_model.dart';
+// Package imports:
 import 'package:test/test.dart';
+
+// Project imports:
+import 'package:katana_model/katana_model.dart';
 
 void main() {
   test("NoSqlDatabase.document", () async {

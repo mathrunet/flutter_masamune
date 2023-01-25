@@ -20,3 +20,4 @@ dependencies:
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0
+  import_sorter: ^4.6.0

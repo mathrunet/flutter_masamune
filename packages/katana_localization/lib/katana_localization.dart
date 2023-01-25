@@ -8,10 +8,14 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_localization;
 
+// Dart imports:
 import 'dart:ui' as ui;
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 export 'package:flutter/foundation.dart' show SynchronousFuture;

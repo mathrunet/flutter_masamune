@@ -8,10 +8,14 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:masamune/masamune.dart';
 
 export 'package:katana/katana.dart';

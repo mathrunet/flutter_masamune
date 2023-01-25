@@ -1,6 +1,8 @@
-import 'package:katana_prefs/katana_prefs.dart';
-
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:katana_prefs/katana_prefs.dart';
 
 part 'main.prefs.dart';
 

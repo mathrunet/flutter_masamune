@@ -263,6 +263,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.2"
+  import_sorter:
+    dependency: "direct dev"
+    description:
+      name: import_sorter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.6.0"
   intl:
     dependency: transitive
     description:
@@ -311,7 +318,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.7.3"
+    version: "1.7.4"
   lints:
     dependency: transitive
     description:
@@ -499,6 +506,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  tint:
+    dependency: transitive
+    description:
+      name: tint
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:

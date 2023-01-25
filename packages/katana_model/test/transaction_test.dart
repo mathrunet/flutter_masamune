@@ -1,8 +1,11 @@
 // ignore_for_file: avoid_print
 
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:katana_model/katana_model.dart';
 import 'package:test/test.dart';
+
+// Project imports:
+import 'package:katana_model/katana_model.dart';
 
 part 'transaction_test.freezed.dart';
 part 'transaction_test.g.dart';

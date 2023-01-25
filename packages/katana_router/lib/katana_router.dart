@@ -8,11 +8,15 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_router;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:katana/katana.dart';
 import 'package:url_strategy/url_strategy.dart' as url_strategy;
 

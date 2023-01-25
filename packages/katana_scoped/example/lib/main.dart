@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:katana_scoped/katana_scoped.dart';
 
 void main() {

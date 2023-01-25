@@ -8,10 +8,15 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_auth;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:katana/katana.dart';
+
 import 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'

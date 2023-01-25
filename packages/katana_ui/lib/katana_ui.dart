@@ -8,9 +8,12 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_ui;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/material.dart' hide Scaffold;
+
 export 'package:katana/katana.dart';
 
 part 'modal/modal.dart';

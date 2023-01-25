@@ -8,12 +8,16 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_model;
 
+// Dart imports:
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+
+// Package imports:
 import 'package:katana/katana.dart';
 
 import 'src/others/others.dart'

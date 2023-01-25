@@ -1,6 +1,10 @@
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:image/image.dart';
+
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
 final _sizeList = {

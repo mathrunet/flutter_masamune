@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:katana_localization/katana_localization.dart';
 
 part 'main.localize.dart';

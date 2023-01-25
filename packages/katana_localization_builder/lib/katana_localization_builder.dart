@@ -8,11 +8,13 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_localization_builder;
 
+// Dart imports:
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+// Package imports:
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';

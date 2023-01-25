@@ -28,5 +28,12 @@ scripts:
 
   analyze: >
     melos exec -- "flutter analyze"
+
+  fix: >
+    melos exec -- "dart fix --apply lib"
+
+  import_sorter: >
+    melos exec -- "flutter pub run import_sorter:main ."
+
     
   

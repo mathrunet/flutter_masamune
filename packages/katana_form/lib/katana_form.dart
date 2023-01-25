@@ -8,11 +8,15 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_form;
 
+// Dart imports:
 import 'dart:collection';
 import 'dart:math';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Package imports:
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:katana/katana.dart';
 

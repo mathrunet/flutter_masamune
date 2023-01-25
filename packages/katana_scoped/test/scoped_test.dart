@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:katana_scoped/katana_scoped.dart';
+
+// Package imports:
 import 'package:test/test.dart';
+
+// Project imports:
+import 'package:katana_scoped/katana_scoped.dart';
 
 void main() {
   test("Dispose Test", () async {

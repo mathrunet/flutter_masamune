@@ -8,8 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_theme;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

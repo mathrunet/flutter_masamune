@@ -270,6 +270,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.2"
+  import_sorter:
+    dependency: "direct dev"
+    description:
+      name: import_sorter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.6.0"
   intl:
     dependency: transitive
     description:
@@ -318,14 +325,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.2.2"
+    version: "1.2.3"
   katana_model_openapi_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_model_openapi_builder"
       relative: true
     source: path
-    version: "1.2.2"
+    version: "1.2.3"
   lints:
     dependency: transitive
     description:
@@ -520,6 +527,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  tint:
+    dependency: transitive
+    description:
+      name: tint
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   typed_data:
     dependency: transitive
     description:

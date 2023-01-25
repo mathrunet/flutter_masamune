@@ -1,8 +1,12 @@
+// Dart imports:
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:katana_cli/katana_cli.dart';
+// Package imports:
 import 'package:xml/xml.dart';
+
+// Project imports:
+import 'package:katana_cli/katana_cli.dart';
 
 /// Gibhut Actions build for IOS.
 ///

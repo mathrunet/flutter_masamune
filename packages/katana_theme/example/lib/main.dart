@@ -1,6 +1,8 @@
-import 'package:katana_theme/katana_theme.dart';
-
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:katana_theme/katana_theme.dart';
 
 part 'main.theme.dart';
 

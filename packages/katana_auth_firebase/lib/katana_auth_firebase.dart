@@ -8,10 +8,14 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library katana_auth_firebase;
 
+// Dart imports:
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:katana_auth/katana_auth.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
