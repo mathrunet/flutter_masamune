@@ -16,3 +16,4 @@ dependencies:
   path_provider: ^2.0.11
 dev_dependencies:
   test: ^1.21.3
+  flutter_lints: ^2.0.0

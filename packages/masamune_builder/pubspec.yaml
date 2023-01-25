@@ -28,3 +28,4 @@ dependencies:
   masamune_annotation: ^1.1.2
 dev_dependencies:
   test: ^1.21.3
+  flutter_lints: ^2.0.0

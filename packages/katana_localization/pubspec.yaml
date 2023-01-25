@@ -18,3 +18,4 @@ dependencies:
   katana_localization_annotation: ^1.1.19
 dev_dependencies:
   test: ^1.21.3
+  flutter_lints: ^2.0.0

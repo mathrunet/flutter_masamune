@@ -13,3 +13,4 @@ dependencies:
     
 dev_dependencies:
   test: ^1.21.3
+  flutter_lints: ^2.0.0

@@ -290,17 +290,17 @@ packages:
     source: hosted
     version: "4.8.0"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10+2"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
-      path: "/Users/mathru/Documents/github/flutter_masamune/packages/katana_prefs/example/../../katana_listenables_annotation"
-      relative: false
+      path: "../../katana_listenables_annotation"
+      relative: true
     source: path
     version: "1.2.9"
   katana_prefs:
@@ -311,11 +311,11 @@ packages:
     source: path
     version: "1.1.5"
   katana_prefs_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana_prefs_annotation"
-      relative: true
-    source: path
+      name: katana_prefs_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.1.4"
   katana_prefs_builder:
     dependency: "direct dev"

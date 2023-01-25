@@ -181,6 +181,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_lints:
+    dependency: "direct dev"
+    description:
+      name: flutter_lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   flutter_test:
     dependency: transitive
     description: flutter
@@ -250,24 +257,31 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10+2"
   katana_firebase:
     dependency: "direct main"
     description:
-      path: "../katana_firebase"
-      relative: true
-    source: path
+      name: katana_firebase
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.1.5"
   katana_functions:
     dependency: "direct main"
     description:
-      path: "../katana_functions"
-      relative: true
-    source: path
+      name: katana_functions
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.1.7"
+  lints:
+    dependency: transitive
+    description:
+      name: lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:

@@ -16,3 +16,4 @@ dependencies:
   file_picker: ^5.2.3
 dev_dependencies:
   test: ^1.21.3
+  flutter_lints: ^2.0.0

@@ -134,6 +134,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  flutter_lints:
+    dependency: "direct dev"
+    description:
+      name: flutter_lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   frontend_server_client:
     dependency: transitive
     description:
@@ -193,17 +200,24 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
+      name: katana
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.15.10+2"
   katana_router_annotation:
     dependency: "direct main"
     description:
-      path: "../katana_router_annotation"
-      relative: true
-    source: path
+      name: katana_router_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.10.6"
+  lints:
+    dependency: transitive
+    description:
+      name: lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:

@@ -17,5 +17,5 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   katana_firebase: ^1.1.5
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.21.3
+  flutter_lints: ^2.0.0

@@ -145,7 +145,6 @@ class FormPageState extends State<FormPage> {
               if (!form.validateAndSave()) {
                 return;
               }
-              print(form.value);
             },
           ),
         ],
