@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - Update a dependency to the latest release.
+
 ## 1.3.0
 
  - **FEAT**: Added List-type UI. ([490ceece](https://github.com/mathrunet/flutter_masamune/commit/490ceece6b0c6a571a98217b6598b6345473ccbc))

@@ -1,6 +1,6 @@
 name: masamune_notion
 description: Masamune framework plugin to connect to Notion's API. Basically, FirebaseFirestore and FirebaseFunctions are used in conjunction.
-version: 0.15.0+83
+version: 0.15.0+84
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_notion
 
