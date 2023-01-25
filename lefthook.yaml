@@ -1,0 +1,13 @@
+pre-commit:
+  parallel: false
+  commands:
+    linter:
+      run: melos run fix && git add {staged_files}
+    import_sorter:
+      glob: "*.dart"
+      run: melos run import_sorter && git add {staged_files}
+    formatter:
+      glob: "*.dart"
+      run: melos format && git add {staged_files}
+    analyzer:
+      run: melos analyze
