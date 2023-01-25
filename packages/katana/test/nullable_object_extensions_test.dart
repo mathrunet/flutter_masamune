@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:katana/katana.dart';
 import 'package:test/test.dart';
 

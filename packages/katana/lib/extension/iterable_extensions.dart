@@ -406,6 +406,7 @@ extension IterableExtensions<T> on Iterable<T> {
   /// [List]の中身をすべて[print]します。
   void print() {
     for (final tmp in this) {
+      // ignore: avoid_print
       core.print(tmp.toString());
     }
   }

@@ -22,18 +22,18 @@ extension IntIterableExtensions on Iterable<int> {
     if (isEmpty || point.isNaN) {
       return null;
     }
-    int? _res;
-    int? _point;
+    int? res;
+    int? tmpPoint;
     for (final tmp in this) {
       if (tmp == point) {
         return tmp;
       }
       final p = (point - tmp).abs().toInt();
-      if (_point == null || p < _point) {
-        _res = tmp;
-        _point = p;
+      if (tmpPoint == null || p < tmpPoint) {
+        res = tmp;
+        tmpPoint = p;
       }
     }
-    return _res;
+    return res;
   }
 }

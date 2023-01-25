@@ -24,8 +24,8 @@ extension DateTimeIterableExtensions on Iterable<DateTime> {
     if (isEmpty) {
       return null;
     }
-    DateTime? _res;
-    int? _point;
+    DateTime? res;
+    int? tmpPoint;
     final pointMilliseconds = point.millisecondsSinceEpoch;
     for (final tmp in this) {
       final tmpMilliseconds = tmp.millisecondsSinceEpoch;
@@ -33,11 +33,11 @@ extension DateTimeIterableExtensions on Iterable<DateTime> {
         return tmp;
       }
       final p = (pointMilliseconds - tmpMilliseconds).abs();
-      if (_point == null || p < _point) {
-        _res = tmp;
-        _point = p;
+      if (tmpPoint == null || p < tmpPoint) {
+        res = tmp;
+        tmpPoint = p;
       }
     }
-    return _res;
+    return res;
   }
 }

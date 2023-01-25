@@ -39,12 +39,12 @@ String generateCode(
   int seed = 0,
   String charSet = "23456789abcdefghjkmnpqrstuvwxy",
 }) {
-  final _length = charSet.length;
+  final tmpLength = charSet.length;
   final rand = seed != 0 ? Random(seed) : Random();
   final codeUnits = List.generate(
     length,
     (index) {
-      final n = rand.nextInt(_length);
+      final n = rand.nextInt(tmpLength);
       return charSet.codeUnitAt(n);
     },
   );

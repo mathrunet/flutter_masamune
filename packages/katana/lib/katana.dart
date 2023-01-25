@@ -57,4 +57,3 @@ part 'src/date_duration.dart';
 part "src/api.dart";
 part "src/functions.dart";
 part "src/typedef.dart";
-part 'deprecated/const.dart';

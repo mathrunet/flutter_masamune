@@ -22,18 +22,18 @@ extension DoubleIterableExtensions on Iterable<double> {
     if (isEmpty || point.isNaN) {
       return null;
     }
-    double? _res;
-    double? _point;
+    double? res;
+    double? tmpPoint;
     for (final tmp in this) {
       if (tmp == point) {
         return tmp;
       }
       final p = (point - tmp).abs();
-      if (_point == null || p < _point) {
-        _res = tmp;
-        _point = p;
+      if (tmpPoint == null || p < tmpPoint) {
+        res = tmp;
+        tmpPoint = p;
       }
     }
-    return _res;
+    return res;
   }
 }
