@@ -31,21 +31,22 @@ class GoogleSpreadSheetLocalizeGenerator
       );
     }
 
-    final _path = PathValue(
+    final pathValue = PathValue(
       annotation.read("url").stringValue.trimString("/"),
       annotation.read("version").intValue,
     );
-    final _class = ClassValue(element);
-    final _loader = LocalizeLoader(_path);
+    final classValue = ClassValue(element);
+    final loader = LocalizeLoader(pathValue);
 
-    await _loader.load();
+    await loader.load();
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...baseClass(_class, _path, _loader.locales),
-            ...localizeClass(_class, _path, _loader.localized, _loader.locales),
+            ...baseClass(classValue, pathValue, loader.locales),
+            ...localizeClass(
+                classValue, pathValue, loader.localized, loader.locales),
           ],
         ),
     );

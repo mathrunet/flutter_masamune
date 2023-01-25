@@ -152,7 +152,10 @@ class _FunctionsAdapterScopeState extends State<FunctionsAdapterScope> {
 
   @override
   Widget build(BuildContext context) {
-    return _FunctionsAdapterScope(child: widget.child, adapter: widget.adapter);
+    return _FunctionsAdapterScope(
+      adapter: widget.adapter,
+      child: widget.child,
+    );
   }
 }
 

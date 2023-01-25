@@ -173,13 +173,13 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
   @mustCallSuper
   Future<T?> filterOnDidLoad(T? value, [bool listenWhenPossible = true]) async {
     final builderList = builder;
-    var _value = value;
+    var tmpValue = value;
     for (final build in builderList) {
-      if (_value == null) {
+      if (tmpValue == null) {
         continue;
       }
-      _value = await build._build(
-        val: _value,
+      tmpValue = await build._build(
+        val: tmpValue,
         listenWhenPossible: listenWhenPossible,
         cacheList: _modelRefBuilderCache,
         onDidLoad: (query, document) {
@@ -189,7 +189,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
         loaderModelQuery: modelQuery,
       );
     }
-    return _value;
+    return tmpValue;
   }
 
   @override

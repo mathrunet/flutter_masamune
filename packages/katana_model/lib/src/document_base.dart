@@ -505,7 +505,9 @@ abstract class DocumentBase<T> extends ChangeNotifier
   void dispose() {
     super.dispose();
     modelQuery.adapter.disposeDocument(databaseQuery);
-    subscriptions.forEach((subscription) => subscription.cancel());
+    for (final subscription in subscriptions) {
+      subscription.cancel();
+    }
     subscriptions.clear();
   }
 

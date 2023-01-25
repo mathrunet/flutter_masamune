@@ -612,8 +612,9 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 
   void _handleControllerChanged() {
-    if (_effectiveController?.text != format(value))
+    if (_effectiveController?.text != format(value)) {
       didChange(parse(_effectiveController?.text));
+    }
   }
 
   String? format(num? value) => value?.toString();

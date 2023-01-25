@@ -62,7 +62,7 @@ class Functions extends ChangeNotifier {
       );
       notifyListeners();
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       rethrow;
     }
   }

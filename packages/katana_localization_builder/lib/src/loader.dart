@@ -36,6 +36,7 @@ class LocalizeLoader {
         }
         return "/export?format=csv&gid=$gid";
       });
+      // ignore: avoid_print
       print("Load from $endpoint");
       final res = await http.get(Uri.parse(endpoint));
       if (res.statusCode != 200) {
@@ -57,7 +58,7 @@ class LocalizeLoader {
 
     final sourceValues = <String, LocalizeSourceValue>{};
     final destValues = <LocalizeValue>[];
-    final _locales = <String>{};
+    final localeSet = <String>{};
     final num2lang = <int, String>{};
     final csv =
         utf8.decode(bytes).replaceAll("\r\n", "\n").replaceAll("\r", "\n");
@@ -85,7 +86,7 @@ class LocalizeLoader {
           if (locale == _kBaseName) {
             continue;
           }
-          _locales.add(locale);
+          localeSet.add(locale);
           if (sourceValues.containsKey(key)) {
             sourceValues[key]?.addLocalize({locale: val});
           } else {
@@ -104,7 +105,7 @@ class LocalizeLoader {
       final words = tmp.value.words;
       LocalizeValue.add(destValues, words, 0);
     }
-    locales = _locales.toList();
+    locales = localeSet.toList();
     localized = destValues;
   }
 }

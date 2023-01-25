@@ -244,6 +244,7 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
   final bool readOnly;
 
   @override
+  // ignore: library_private_types_in_public_api
   _FormMediaState<TValue> createState() => _FormMediaState<TValue>();
 }
 
@@ -308,11 +309,11 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue> {
           if (errorText.isNotEmpty)
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
+              height: errorText.isNotEmpty ? _kErrorTextHeight : 0,
               child: Text(
                 errorText ?? "",
                 style: Theme.of(context).inputDecorationTheme.errorStyle,
               ),
-              height: errorText.isNotEmpty ? _kErrorTextHeight : 0,
             )
         ],
       ),

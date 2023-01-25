@@ -681,9 +681,10 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
       oldWidget.controller?.removeListener(_listener);
       widget.controller?.addListener(_listener);
 
-      if (oldWidget.controller != null && widget.controller == null)
+      if (oldWidget.controller != null && widget.controller == null) {
         _controller =
             TextEditingController.fromValue(oldWidget.controller?.value);
+      }
       if (widget.controller != null) {
         if (oldWidget.controller == null) {
           _controller = null;
@@ -887,9 +888,10 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
       oldWidget.controller?.removeListener(_listener);
       widget.controller?.addListener(_listener);
 
-      if (oldWidget.controller != null && widget.controller == null)
+      if (oldWidget.controller != null && widget.controller == null) {
         _controller =
             TextEditingController.fromValue(oldWidget.controller?.value);
+      }
       if (widget.controller != null) {
         if (oldWidget.controller == null) {
           _controller = null;

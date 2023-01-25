@@ -603,8 +603,9 @@ class _EnumTextFieldState<TEnum extends Enum, TValue>
   }
 
   void _handleControllerChanged() {
-    if (_effectiveController?.text != format(value))
+    if (_effectiveController?.text != format(value)) {
       didChange(parse(_effectiveController?.text));
+    }
   }
 
   String? format(TEnum? value) {

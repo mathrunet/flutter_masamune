@@ -222,7 +222,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       return loading!;
     }
     try {
-      final __value = _value;
+      final tmpValue = _value;
       _loadCompleter = Completer<CollectionBase<TModel>>();
       if (!loaded) {
         final res = await loadRequest(listenWhenPossible);
@@ -239,7 +239,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         _loaded = true;
       }
-      if (__value != _value) {
+      if (tmpValue != _value) {
         notifyListeners();
       }
       _loadCompleter?.complete(this);
@@ -293,9 +293,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ]) async {
     _loaded = false;
     _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
-    final _prevLength = length;
+    final prevLength = length;
     final loaded = await load(listenWhenPossible);
-    if (length == _prevLength) {
+    if (length == prevLength) {
       _canNext = false;
       _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
     }
@@ -470,7 +470,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
     super.dispose();
     _value.clear();
     modelQuery.adapter.disposeCollection(databaseQuery);
-    subscriptions.forEach((subscription) => subscription.cancel());
+    for (final subscription in subscriptions) {
+      subscription.cancel();
+    }
     subscriptions.clear();
   }
 
@@ -652,7 +654,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   Iterable<TModel> get reversed => _value.reversed;
 
   @override
-  bool any(bool test(TModel element)) => _value.any(test);
+  bool any(bool Function(TModel element) test) => _value.any(test);
 
   @override
   List<E> cast<E>() => _value.cast<E>();
@@ -664,10 +666,11 @@ abstract class CollectionBase<TModel extends DocumentBase>
   TModel elementAt(int index) => _value.elementAt(index);
 
   @override
-  bool every(bool test(TModel element)) => _value.every(test);
+  bool every(bool Function(TModel element) test) => _value.every(test);
 
   @override
-  Iterable<E> expand<E>(Iterable<E> f(TModel element)) => _value.expand(f);
+  Iterable<E> expand<E>(Iterable<E> Function(TModel element) f) =>
+      _value.expand(f);
 
   @override
   TModel get first => _value.first;
@@ -681,11 +684,13 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   @override
-  TModel firstWhere(bool test(TModel element), {TModel Function()? orElse}) =>
+  TModel firstWhere(bool Function(TModel element) test,
+          {TModel Function()? orElse}) =>
       _value.firstWhere(test, orElse: orElse);
 
   @override
-  E fold<E>(E initialValue, E combine(E previousValue, TModel element)) =>
+  E fold<E>(E initialValue,
+          E Function(E previousValue, TModel element) combine) =>
       _value.fold(initialValue, combine);
 
   @override
@@ -693,7 +698,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       _value.followedBy(other);
 
   @override
-  void forEach(void f(TModel element)) => _value.forEach(f);
+  void forEach(void Function(TModel element) f) => _value.forEach(f);
 
   @override
   bool get isEmpty => _value.isEmpty;
@@ -719,37 +724,41 @@ abstract class CollectionBase<TModel extends DocumentBase>
   }
 
   @override
-  TModel lastWhere(bool test(TModel element), {TModel Function()? orElse}) =>
+  TModel lastWhere(bool Function(TModel element) test,
+          {TModel Function()? orElse}) =>
       _value.lastWhere(test, orElse: orElse);
 
   @override
   int get length => _value.length;
 
   @override
-  Iterable<E> map<E>(E f(TModel e)) => _value.map(f);
+  Iterable<E> map<E>(E Function(TModel e) f) => _value.map(f);
 
   @override
-  TModel reduce(TModel combine(TModel value, TModel element)) =>
+  TModel reduce(TModel Function(TModel value, TModel element) combine) =>
       _value.reduce(combine);
 
   @override
   TModel get single => _value.single;
 
   @override
-  TModel singleWhere(bool test(TModel element), {TModel Function()? orElse}) =>
+  TModel singleWhere(bool Function(TModel element) test,
+          {TModel Function()? orElse}) =>
       _value.singleWhere(test, orElse: orElse);
 
   @override
   Iterable<TModel> skip(int n) => _value.skip(n);
 
   @override
-  Iterable<TModel> skipWhile(bool test(TModel value)) => _value.skipWhile(test);
+  Iterable<TModel> skipWhile(bool Function(TModel value) test) =>
+      _value.skipWhile(test);
 
   @override
   Iterable<TModel> take(int n) => _value.take(n);
 
   @override
-  Iterable<TModel> takeWhile(bool test(TModel value)) => _value.takeWhile(test);
+  Iterable<TModel> takeWhile(bool Function(TModel value) test) =>
+      _value.takeWhile(test);
 
   @override
   List<TModel> toList({bool growable = true}) =>
@@ -759,7 +768,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
   Set<TModel> toSet() => _value.toSet();
 
   @override
-  Iterable<TModel> where(bool test(TModel element)) => _value.where(test);
+  Iterable<TModel> where(bool Function(TModel element) test) =>
+      _value.where(test);
 
   @override
   Iterable<E> whereType<E>() => _value.whereType<E>();
@@ -775,11 +785,11 @@ abstract class CollectionBase<TModel extends DocumentBase>
       _value.indexOf(element, start);
 
   @override
-  int indexWhere(bool test(TModel element), [int start = 0]) =>
+  int indexWhere(bool Function(TModel element) test, [int start = 0]) =>
       _value.indexWhere(test, start);
 
   @override
-  int lastIndexWhere(bool test(TModel element), [int? start]) =>
+  int lastIndexWhere(bool Function(TModel element) test, [int? start]) =>
       _value.lastIndexWhere(test, start);
 
   @override

@@ -666,12 +666,12 @@ class _DateTextFieldState<TValue> extends FormFieldState<DateTime> {
   }
 
   void _handleControllerChanged() {
-    if (_effectiveController?.text != format(value))
+    if (_effectiveController?.text != format(value)) {
       didChange(parse(_effectiveController?.text));
+    }
   }
 
-  String? format(DateTime? value) =>
-      value == null ? null : value.format(widget.format);
+  String? format(DateTime? value) => value?.format(widget.format);
   DateTime? parse(String? text) {
     try {
       return text.isEmpty ? null : _parseLoose(text!);

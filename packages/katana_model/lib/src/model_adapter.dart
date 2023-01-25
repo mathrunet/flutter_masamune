@@ -291,6 +291,7 @@ class ModelAdapterScope extends StatefulWidget {
   /// 近い先祖の[adapter]を取得することができます。
   ///
   /// ここで取得した[adapter]を[CollectionModelQuery]や[DocumentModelQuery]に渡すことでモデルの内部処理を変更することが可能です。
+  // ignore: library_private_types_in_public_api
   static _ModelAdapterScope? of(BuildContext context) {
     final scope =
         context.getElementForInheritedWidgetOfExactType<_ModelAdapterScope>();
@@ -314,7 +315,7 @@ class _ModelAdapterScopeState extends State<ModelAdapterScope> {
 
   @override
   Widget build(BuildContext context) {
-    return _ModelAdapterScope(child: widget.child, adapter: widget.adapter);
+    return _ModelAdapterScope(adapter: widget.adapter, child: widget.child);
   }
 }
 

@@ -73,7 +73,7 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
         },
       );
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       rethrow;
     }
   }

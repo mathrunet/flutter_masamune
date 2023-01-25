@@ -206,7 +206,7 @@ abstract class ModelFieldValueAsMapMixin<T>
   @override
   Map<RK, RV> cast<RK, RV>() => Map.castFrom<String, Object?, RK, RV>(this);
   @override
-  void forEach(void action(String key, Object? value)) {
+  void forEach(void Function(String key, Object? value) action) {
     for (final key in keys) {
       action(key, this[key]);
     }
@@ -230,7 +230,7 @@ abstract class ModelFieldValueAsMapMixin<T>
   }
 
   @override
-  Object? putIfAbsent(String key, Object? ifAbsent()) {
+  Object? putIfAbsent(String key, Object? Function() ifAbsent) {
     if (containsKey(key)) {
       return this[key];
     }
@@ -240,7 +240,7 @@ abstract class ModelFieldValueAsMapMixin<T>
   @override
   Object? update(
     String key,
-    Object? update(Object? value), {
+    Object? Function(Object? value) update, {
     Object? Function()? ifAbsent,
   }) {
     if (containsKey(key)) {
@@ -253,7 +253,7 @@ abstract class ModelFieldValueAsMapMixin<T>
   }
 
   @override
-  void updateAll(Object? update(String key, Object? value)) {
+  void updateAll(Object? Function(String key, Object? value) update) {
     for (final key in keys) {
       this[key] = update(key, this[key]);
     }
@@ -266,7 +266,7 @@ abstract class ModelFieldValueAsMapMixin<T>
 
   @override
   Map<K2, V2> map<K2, V2>(
-    MapEntry<K2, V2> transform(String key, Object? value),
+    MapEntry<K2, V2> Function(String key, Object? value) transform,
   ) {
     final result = <K2, V2>{};
     for (final key in keys) {
@@ -284,14 +284,16 @@ abstract class ModelFieldValueAsMapMixin<T>
   }
 
   @override
-  void removeWhere(bool test(String key, Object? value)) {
+  void removeWhere(bool Function(String key, Object? value) test) {
     final keysToRemove = <String>[];
     for (final key in keys) {
       if (test(key, this[key])) {
         keysToRemove.add(key);
       }
     }
-    keysToRemove.forEach((key) => remove(key));
+    for (final key in keysToRemove) {
+      remove(key);
+    }
   }
 
   @override

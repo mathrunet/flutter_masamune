@@ -271,6 +271,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   final bool readOnly;
 
   @override
+  // ignore: library_private_types_in_public_api
   _FormMultiMediaState<TValue> createState() => _FormMultiMediaState<TValue>();
 }
 
@@ -545,6 +546,11 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
                     ),
                     borderRadius: BorderRadius.circular(4.0),
                   )),
+                  onPressed: widget.readOnly || !widget.enabled
+                      ? null
+                      : () {
+                          widget.onTap.call(onUpdate);
+                        },
                   child: Icon(
                     addIcon,
                     color:
@@ -553,11 +559,6 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
                         (widget.style?.height ?? kFormMultiMediaInlineHeight) /
                             3.0,
                   ),
-                  onPressed: widget.readOnly || !widget.enabled
-                      ? null
-                      : () {
-                          widget.onTap.call(onUpdate);
-                        },
                 ),
               ),
             ...values.mapAndRemoveEmpty(

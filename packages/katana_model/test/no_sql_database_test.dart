@@ -10,7 +10,7 @@ void main() {
     var status;
     var updateValue;
     final origin = <String, dynamic>{};
-    final callback = (ModelUpdateNotification update) {
+    callback(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin.hashCode);
       switch (status) {
         case "add":
@@ -29,7 +29,7 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     final query = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/doc"),
       callback: callback,
@@ -66,7 +66,7 @@ void main() {
     var collectionOrigin;
     var collectionOldPos;
     var collectionNewPos;
-    final collectionCallback = (ModelUpdateNotification update) {
+    collectionCallback(ModelUpdateNotification update) {
       expect(update.origin.hashCode, collectionOrigin.hashCode);
       switch (collectionStatus) {
         case "add":
@@ -91,7 +91,7 @@ void main() {
           expect(update.newIndex, collectionNewPos);
           break;
       }
-    };
+    }
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery("test"),
       callback: collectionCallback,
@@ -99,7 +99,7 @@ void main() {
     );
     var status1;
     final origin1 = <String, dynamic>{};
-    final callback1 = (ModelUpdateNotification update) {
+    callback1(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin1.hashCode);
       switch (status1) {
         case "add":
@@ -118,10 +118,10 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     var status2;
     final origin2 = <String, dynamic>{};
-    final callback2 = (ModelUpdateNotification update) {
+    callback2(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin2.hashCode);
       switch (status2) {
         case "add":
@@ -140,7 +140,7 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     final documentQuery1 = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/0001"),
       callback: callback1,
@@ -265,7 +265,7 @@ void main() {
     var collectionOrigin;
     var collectionOldPos;
     var collectionNewPos;
-    final collectionCallback = (ModelUpdateNotification update) {
+    collectionCallback(ModelUpdateNotification update) {
       expect(update.origin.hashCode, collectionOrigin.hashCode);
       switch (collectionStatus) {
         case "add":
@@ -290,7 +290,7 @@ void main() {
           expect(update.newIndex, collectionNewPos);
           break;
       }
-    };
+    }
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery(
         "test",
@@ -302,7 +302,7 @@ void main() {
     );
     var status1;
     final origin1 = <String, dynamic>{};
-    final callback1 = (ModelUpdateNotification update) {
+    callback1(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin1.hashCode);
       switch (status1) {
         case "add":
@@ -321,10 +321,10 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     var status2;
     final origin2 = <String, dynamic>{};
-    final callback2 = (ModelUpdateNotification update) {
+    callback2(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin2.hashCode);
       switch (status2) {
         case "add":
@@ -343,10 +343,10 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     var status3;
     final origin3 = <String, dynamic>{};
-    final callback3 = (ModelUpdateNotification update) {
+    callback3(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin3.hashCode);
       switch (status3) {
         case "add":
@@ -365,7 +365,7 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     final documentQuery1 = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/0001"),
       callback: callback1,
@@ -553,7 +553,7 @@ void main() {
     var collectionOrigin;
     var collectionOldPos;
     var collectionNewPos;
-    final collectionCallback = (ModelUpdateNotification update) {
+    collectionCallback(ModelUpdateNotification update) {
       expect(update.origin.hashCode, collectionOrigin.hashCode);
       switch (collectionStatus) {
         case "add":
@@ -578,7 +578,7 @@ void main() {
           expect(update.newIndex, collectionNewPos);
           break;
       }
-    };
+    }
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery(
         "test",
@@ -592,7 +592,7 @@ void main() {
     );
     var status1;
     final origin1 = <String, dynamic>{};
-    final callback1 = (ModelUpdateNotification update) {
+    callback1(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin1.hashCode);
       switch (status1) {
         case "add":
@@ -611,10 +611,10 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     var status2;
     final origin2 = <String, dynamic>{};
-    final callback2 = (ModelUpdateNotification update) {
+    callback2(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin2.hashCode);
       switch (status2) {
         case "add":
@@ -633,10 +633,10 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     var status3;
     final origin3 = <String, dynamic>{};
-    final callback3 = (ModelUpdateNotification update) {
+    callback3(ModelUpdateNotification update) {
       expect(update.origin.hashCode, origin3.hashCode);
       switch (status3) {
         case "add":
@@ -655,7 +655,7 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     final documentQuery1 = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/0001"),
       callback: callback1,
@@ -830,7 +830,7 @@ void main() {
     var updateValue;
     var collectionOrigin;
     var collectionStatus;
-    final collectionCallback = (ModelUpdateNotification update) {
+    collectionCallback(ModelUpdateNotification update) {
       expect(update.origin.hashCode, collectionOrigin.hashCode);
       switch (collectionStatus) {
         case "add":
@@ -846,7 +846,7 @@ void main() {
           expect(update.status, ModelUpdateNotificationStatus.removed);
           break;
       }
-    };
+    }
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery("test"),
       callback: collectionCallback,
@@ -884,7 +884,7 @@ void main() {
     final db = NoSqlDatabase();
     final callbackCheckCollection = [];
     final collectionOrigin = <String, dynamic>{};
-    final collectionCallback = (ModelUpdateNotification update) {
+    collectionCallback(ModelUpdateNotification update) {
       switch (update.path) {
         case "test/0001":
           callbackCheckCollection.add("remove");
@@ -918,7 +918,7 @@ void main() {
           expect(update.newIndex, 1);
           break;
       }
-    };
+    }
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery("test"),
       callback: collectionCallback,

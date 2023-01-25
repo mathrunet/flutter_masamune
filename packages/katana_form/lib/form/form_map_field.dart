@@ -600,8 +600,9 @@ class _SelectTextFieldState<TValue> extends FormFieldState<String> {
   }
 
   void _handleControllerChanged() {
-    if (_effectiveController?.text != format(value))
+    if (_effectiveController?.text != format(value)) {
       didChange(parse(_effectiveController?.text));
+    }
   }
 
   String? format(String? value) => value?.toString();
