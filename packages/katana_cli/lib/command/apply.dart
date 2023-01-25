@@ -48,6 +48,7 @@ class ApplyCliCommand extends CliCommand {
     final enabled =
         _actions.where((element) => element.checkEnabled(context)).toList();
     for (final action in enabled) {
+      // ignore: avoid_print
       print(
         """
 

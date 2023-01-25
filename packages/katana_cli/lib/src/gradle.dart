@@ -336,7 +336,6 @@ class GradleAndroidSourceSet {
 
   static List<GradleAndroidSourceSet> _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    print(region);
     return RegExp(
       "(?<target>[a-zA-Z_.-]+) (?<symbol>[+=]+) (?<source>[a-zA-Z0-9_/\"'.-]+)",
     ).allMatches(region).mapAndRemoveEmpty((e) {
@@ -415,7 +414,6 @@ class GradleAndroidDefaultConfig {
 
   static GradleAndroidDefaultConfig _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
-    print(region);
     final applicationId =
         RegExp("applicationId (.+)").firstMatch(region)?.group(1) ?? "";
     final minSdkVersion =

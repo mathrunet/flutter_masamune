@@ -409,7 +409,10 @@ class _AuthAdapterScopeState extends State<AuthAdapterScope> {
 
   @override
   Widget build(BuildContext context) {
-    return _AuthAdapterScope(child: widget.child, adapter: widget.adapter);
+    return _AuthAdapterScope(
+      adapter: widget.adapter,
+      child: widget.child,
+    );
   }
 }
 

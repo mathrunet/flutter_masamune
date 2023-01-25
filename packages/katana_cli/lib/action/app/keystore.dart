@@ -50,45 +50,45 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
     final keytool = bin.get("keytool", "keytool");
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
-      print("The item [app] is missing. Please add an item.");
+      error("The item [app] is missing. Please add an item.");
       return;
     }
     final keystore = app.getAsMap("keystore");
     if (keystore.isEmpty) {
-      print("The item [app]->[keystore] is missing. Please add an item.");
+      error("The item [app]->[keystore] is missing. Please add an item.");
       return;
     }
     final alias = keystore.get("alias", "");
     if (alias.isEmpty) {
-      print(
+      error(
         "The item [app]->[keystore]->[alias] is missing. Please describe the alias of the keystore.",
       );
       return;
     }
     final name = keystore.get("name", "");
     if (name.isEmpty) {
-      print(
+      error(
         "The item [app]->[keystore]->[name] is missing. Describe the common name of the keytool.",
       );
       return;
     }
     final organization = keystore.get("organization", "");
     if (organization.isEmpty) {
-      print(
+      error(
         "The item [app]->[keystore]->[organization] is missing. Describe the organization of the keytool.",
       );
       return;
     }
     final state = keystore.get("state", "");
     if (state.isEmpty) {
-      print(
+      error(
         "The item [app]->[keystore]->[state] is missing. Describe the state of the keytool.",
       );
       return;
     }
     final country = keystore.get("country", "");
     if (country.isEmpty) {
-      print(
+      error(
         "The item [app]->[keystore]->[country] is missing. Describe the country of the keytool.",
       );
       return;
@@ -221,7 +221,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
     label("Rewrite `.gitignore`.");
     final gitignore = File("android/.gitignore");
     if (!gitignore.existsSync()) {
-      print("Cannot find `android/.gitignore`. Project is broken.");
+      error("Cannot find `android/.gitignore`. Project is broken.");
       return;
     }
     final gitignores = await gitignore.readAsLines();

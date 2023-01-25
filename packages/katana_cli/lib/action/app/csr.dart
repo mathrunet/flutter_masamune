@@ -32,17 +32,17 @@ class AppCsrCliAction extends CliCommand with CliActionMixin {
     final openssl = bin.get("openssl", "openssl");
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
-      print("The item [app] is missing. Please add an item.");
+      error("The item [app] is missing. Please add an item.");
       return;
     }
     final csr = app.getAsMap("csr");
     if (csr.isEmpty) {
-      print("The item [app]->[csr] is missing. Please add an item.");
+      error("The item [app]->[csr] is missing. Please add an item.");
       return;
     }
     final email = csr.get("email", "");
     if (email.isEmpty) {
-      print(
+      error(
         "The item [app]->[csr]->[email] is missing. Please provide an email address to create a CertificateSigningRequest.",
       );
       return;
@@ -65,6 +65,7 @@ class AppCsrCliAction extends CliCommand with CliActionMixin {
         runInShell: true,
         mode: ProcessStartMode.normal,
       );
+      // ignore: avoid_print
       process.stdout.transform(utf8.decoder).forEach(print);
       process.stdin.write(".\n");
       process.stdin.write(".\n");
@@ -80,7 +81,7 @@ class AppCsrCliAction extends CliCommand with CliActionMixin {
     label("Rewrite `.gitignore`.");
     final gitignore = File("ios/.gitignore");
     if (!gitignore.existsSync()) {
-      print("Cannot find `ios/.gitignore`. Project is broken.");
+      error("Cannot find `ios/.gitignore`. Project is broken.");
       return;
     }
     final gitignores = await gitignore.readAsLines();

@@ -41,7 +41,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         firebase.getAsMap("functions").get("enable", false);
     final enabledHosting = hosting.get("enable", false);
     if (projectId.isEmpty) {
-      print(
+      error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
       );
       return;
@@ -61,7 +61,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         .replaceAll('"', "")
         .replaceAll("'", "");
     if (androidApplicationId.isEmpty) {
-      print(
+      error(
         "Application ID is not set in [android]->[defaultConfig]->[applicationId] in `android/app/build.gradle`.",
       );
       return;
@@ -78,7 +78,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ?.replaceAll('"', "")
         .replaceAll("'", "");
     if (bundleId.isEmpty) {
-      print(
+      error(
         "Bundle ID is not set in your XCode project. Please open `ios/Runner.xcodeproj` and check the settings.",
       );
       return;
@@ -127,6 +127,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         mode: ProcessStartMode.normal,
       );
       hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
+        // ignore: avoid_print
         print(line);
         if (line.startsWith(
           "? What do you want to use as your public directory?",
@@ -164,6 +165,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         mode: ProcessStartMode.normal,
       );
       functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
+        // ignore: avoid_print
         print(line);
         if (line.startsWith(
           "? What language would you like to use to write Cloud Functions?",

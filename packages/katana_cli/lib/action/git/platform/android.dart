@@ -12,14 +12,14 @@ Future<void> buildAndroid(
 }) async {
   final keystoreFile = File("android/app/appkey.keystore");
   if (!keystoreFile.existsSync()) {
-    print(
+    error(
       "Cannot find `android/app/appkey.keystore`. Run `katana app keystore` to create the keystore file. `android/app/appkey.keystore`が見つかりません。`katana app keystore`を実行しキーストアのファイルを作成してください。",
     );
     return;
   }
   final keyPropertiesFile = File("android/key.properties");
   if (!keyPropertiesFile.existsSync()) {
-    print(
+    error(
       "Cannot find `android/key.properties`. Run `katana app keystore` to create the keystore file. `android/key.properties`が見つかりません。`katana app keystore`を実行しキーストアのファイルを作成してください。",
     );
     return;
@@ -29,7 +29,7 @@ Future<void> buildAndroid(
     RegExp("([a-z]+)-([a-z]+)-([0-9]+)-([0-9]+)-([a-z0-9]+).json"),
   );
   if (serviceAccountFile == null) {
-    print(
+    error(
       "Json for service account not found, please refer to https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b to set it up. サービスアカウント用のJsonが見つかりません。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b を参考に設定してください。",
     );
     return;
@@ -38,7 +38,7 @@ Future<void> buildAndroid(
   await gradle.load();
   final packageName = gradle.android?.defaultConfig.applicationId;
   if (packageName == null) {
-    print(
+    error(
       "Cannot find [android]->[defaultConfig]->[applicationId] in `android/app/build.gradle`.",
     );
     return;
@@ -91,7 +91,7 @@ Future<void> buildAndroid(
   label("Rewrite `.gitignore`.");
   final gitignore = File("android/.gitignore");
   if (!gitignore.existsSync()) {
-    print("Cannot find `android/.gitignore`. Project is broken.");
+    error("Cannot find `android/.gitignore`. Project is broken.");
     return;
   }
   final gitignores = await gitignore.readAsLines();

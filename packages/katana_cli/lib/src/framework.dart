@@ -116,11 +116,13 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
   @override
   Future<void> exec(ExecContext context) async {
     if (context.args.length <= context._index) {
+      // ignore: avoid_print
       print(description);
       return;
     }
     final mode = context.args[context._index];
     if (mode.isEmpty) {
+      // ignore: avoid_print
       print(description);
       return;
     }
@@ -131,6 +133,7 @@ ${commands.toList((key, value) => "    $key:\r\n        - ${value.description}")
       await tmp.value.exec(context._copyToChild());
       return;
     }
+    // ignore: avoid_print
     print(description);
   }
 }
@@ -357,7 +360,16 @@ dynamic modifize(dynamic object) {
 ///
 /// ラベルを表示します。
 void label(String title) {
+  // ignore: avoid_print
   print("\r\n#### $title");
+}
+
+/// Display errors.
+///
+/// エラーを表示します。
+void error(String message) {
+  // ignore: avoid_print
+  print(message);
 }
 
 /// Run command.
@@ -381,6 +393,7 @@ Future<String> command(
   String? workingDirectory,
   bool runInShell = true,
 }) {
+  // ignore: avoid_print, prefer_interpolation_to_compose_strings
   print("\r\n#### " + title);
   if (commands.isEmpty) {
     throw Exception("At least one command is required.");
@@ -422,6 +435,7 @@ extension _ProcessExtensions on Future<Process> {
     process.stderr.transform(utf8.decoder).forEach(core.print);
     process.stdout.transform(utf8.decoder).forEach((e) {
       res += e;
+      // ignore: avoid_print
       core.print(e);
     });
     await process.exitCode;

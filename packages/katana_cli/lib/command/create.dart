@@ -48,7 +48,7 @@ class CreateCliCommand extends CliCommand {
     final flutter = bin.get("flutter", "flutter");
     final packageName = context.args.get(1, "");
     if (packageName.isEmpty) {
-      print(
+      error(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
       );
       return;
@@ -59,7 +59,7 @@ class CreateCliCommand extends CliCommand {
         .sublist(0, packageName.split(".").length - 1)
         .join(".");
     if (projectName.isEmpty || domain.isEmpty) {
-      print(
+      error(
         "The format of the package name should be specified in the following format.\r\nパッケージ名の形式は下記の形式で指定してください。\r\n\r\n[Domain].[ProjectName]\r\ne.g. net.mathru.website",
       );
       return;
@@ -131,7 +131,7 @@ class CreateCliCommand extends CliCommand {
     label("Rewrite `.gitignore`.");
     final gitignore = File(".gitignore");
     if (!gitignore.existsSync()) {
-      print("Cannot find `.gitignore`. Project is broken.");
+      error("Cannot find `.gitignore`. Project is broken.");
       return;
     }
     final gitignores = await gitignore.readAsLines();

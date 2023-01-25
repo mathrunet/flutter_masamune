@@ -54,24 +54,24 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
-      print("The item [app] is missing. Please add an item.");
+      error("The item [app] is missing. Please add an item.");
       return;
     }
     final spreadSheet = app.getAsMap("spread_sheet");
     if (spreadSheet.isEmpty) {
-      print("The item [app]->[spread_sheet] is missing. Please add an item.");
+      error("The item [app]->[spread_sheet] is missing. Please add an item.");
       return;
     }
     final url = spreadSheet.get("url", "");
     if (url.isEmpty) {
-      print(
+      error(
         "The item [app]->[spread_sheet]->[url] is missing. Please include the URL of the spreadsheet here.",
       );
       return;
     }
     final email = spreadSheet.get("email", "");
     if (email.isEmpty) {
-      print(
+      error(
         "The item [app]->[spread_sheet]->[email] is missing. Include here the email address of the collection account to be retrieved in the spreadsheet.",
       );
       return;
@@ -114,7 +114,7 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
       }
       defaultLocale ??= locale;
       data[locale] = mapped;
-      print(
+      error(
         "[${mapped.get("email", "")}] ${mapped.get("short_title", "")} (${mapped.get("locale", "")})",
       );
     }
@@ -232,7 +232,7 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
       }
       final locale = match.group(1);
       if (!data.containsKey(locale)) {
-        print("Remove at `android/app/src/main/res/values-$locale`");
+        error("Remove at `android/app/src/main/res/values-$locale`");
         await tmp.delete(recursive: true);
       }
     }

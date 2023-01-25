@@ -32,7 +32,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     final messaging = firebase.getAsMap("messaging");
     final channelId = messaging.get("channel_id", "");
     if (channelId.isEmpty) {
-      print(
+      error(
         "Channel ID is not specified in [firebase]->[messaging]->[channel_id]. Please specify any ID.",
       );
       return;

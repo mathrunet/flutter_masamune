@@ -17,13 +17,13 @@ Future<void> buildIOS(
   final issuerId = ios.get("issuer_id", "");
   final teamId = ios.get("team_id", "");
   if (issuerId.isEmpty) {
-    print(
+    error(
       "The item [github]->[action]->[ios]->[issuer_id] is missing. Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.",
     );
     return;
   }
   if (teamId.isEmpty) {
-    print(
+    error(
       "The item [github]->[action]->[ios]->[team_id] is missing. Copy and include your team ID from https://developer.apple.com/account.",
     );
     return;
@@ -33,7 +33,7 @@ Future<void> buildIOS(
     RegExp(r".p12$"),
   );
   if (p12File == null) {
-    print(
+    error(
       "Cannot find the `distribution/development.p12` file, download the cer file from AppleDeveloperProgram and create a p12 file with `katana app p12`. `distribution/development.p12`ファイルが見つかりません。cerファイルをAppleDeveloperProgramからダウンロードし、`katana app p12`でp12ファイルを作成してください。",
     );
     return;
@@ -44,7 +44,7 @@ Future<void> buildIOS(
   );
   final passwordFile = File("ios/ios_certificate_password.key");
   if (!passwordFile.existsSync()) {
-    print(
+    error(
       "Cannot find password file for Certificate. Please create a p12 file with `katana app p12`. Certificate用のパスワードファイルが見つかりません。`katana app p12`でp12ファイルを作成してください。",
     );
     return;
@@ -54,7 +54,7 @@ Future<void> buildIOS(
     RegExp(r"AuthKey_([a-zA-Z0-9]+).p8$"),
   );
   if (p8File == null) {
-    print(
+    error(
       "Cannot find the `AuthKey` file, please download the file from AppStoreConnect and place it under the IOS folder. `AuthKey`ファイルが見つかりません。AppStoreConnectからファイルをダウンロードしiosフォルダ以下に配置してください。",
     );
     return;
@@ -69,7 +69,7 @@ Future<void> buildIOS(
   label("Edit Release.xcconfig");
   final xcconfigFile = File("ios/Flutter/Release.xcconfig");
   if (!xcconfigFile.existsSync()) {
-    print(
+    error(
       "Cannot find `ios/Flutter/Release.xcconfig`. Project is broken.",
     );
     return;
@@ -191,7 +191,7 @@ Future<void> buildIOS(
   label("Rewrite `.gitignore`.");
   final gitignore = File("ios/.gitignore");
   if (!gitignore.existsSync()) {
-    print("Cannot find `ios/.gitignore`. Project is broken.");
+    error("Cannot find `ios/.gitignore`. Project is broken.");
     return;
   }
   final gitignores = await gitignore.readAsLines();

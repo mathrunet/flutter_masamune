@@ -29,17 +29,17 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
     final flutter = bin.get("flutter", "flutter");
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
-      print("The item [app] is missing. Please add an item.");
+      error("The item [app] is missing. Please add an item.");
       return;
     }
     final picker = app.getAsMap("picker");
     if (picker.isEmpty) {
-      print("The item [app]->[picker] is missing. Please add an item.");
+      error("The item [app]->[picker] is missing. Please add an item.");
       return;
     }
     final permission = picker.getAsMap("permission");
     if (permission.isEmpty) {
-      print(
+      error(
         "The item [app]->[picker]->[permission] is missing. Please include the language code and the message when authorization is granted here.",
       );
       return;
@@ -75,7 +75,7 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
         );
         break;
       default:
-        print(
+        error(
           "The item [app]->[picker]->[platform] is missing. Write `any` or `mobile`.",
         );
         return;

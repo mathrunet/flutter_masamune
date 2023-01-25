@@ -44,7 +44,7 @@ Future<void> main(List<String> args) async {
   } else {
     final yaml = modifize(loadYaml(await katana.readAsString()));
     if (yaml.isEmpty) {
-      print(
+      error(
         "katana.yaml file could not be found. Place it in the root of the project.",
       );
       return;
@@ -70,6 +70,7 @@ Future<void> main(List<String> args) async {
 ///
 /// コマンドの説明を表示します。
 void showReadme() {
+  // ignore: avoid_print
   print(
     """
 Katana command line interfaces.

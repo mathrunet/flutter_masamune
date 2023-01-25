@@ -57,17 +57,17 @@ class AppIconCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
-      print("The item [app] is missing. Please add an item.");
+      error("The item [app] is missing. Please add an item.");
       return;
     }
     final icon = app.getAsMap("icon");
     if (icon.isEmpty) {
-      print("The item [app]->[icon] is missing. Please add an item.");
+      error("The item [app]->[icon] is missing. Please add an item.");
       return;
     }
     final path = icon.get("path", "");
     if (path.isEmpty) {
-      print(
+      error(
         "The item [app]->[icon]->[path] is missing. Please provide the path to the original icon.",
       );
       return;
@@ -75,12 +75,12 @@ class AppIconCliAction extends CliCommand with CliActionMixin {
     label("Load a file from $path");
     final iconFile = File(path);
     if (!iconFile.existsSync()) {
-      print("Icon file not found in $path.");
+      error("Icon file not found in $path.");
       return;
     }
     final iconImage = decodeImage(iconFile.readAsBytesSync())!;
     if (iconImage.width != 1024 || iconImage.height != 1024) {
-      print("Icon files should be 1024 x 1024.");
+      error("Icon files should be 1024 x 1024.");
       return;
     }
     for (final tmp in _sizeList.entries) {

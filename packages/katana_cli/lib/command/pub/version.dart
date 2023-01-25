@@ -21,7 +21,7 @@ class PubVersionCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final melos = bin.get("melos", "melos");
     if (!File("melos.yaml").existsSync()) {
-      print("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");
+      error("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");
       return;
     }
     final mode = context.args.get(2, "");
@@ -111,13 +111,14 @@ class PubVersionCliCommand extends CliCommand {
             if (latestMajor <= tmp.major && latestPatch <= tmp.patch) {
               continue;
             }
-            print("--manual-version=${tmp.name}:$latestMajor.$latestPatch.0");
+            error("--manual-version=${tmp.name}:$latestMajor.$latestPatch.0");
             final processVersionUp = await Process.start(melos, [
               "version",
               "--manual-version=${tmp.name}:$latestMajor.$latestPatch.0",
               "--message=\"chore: Fit versions with other packages.\"",
               "--yes"
             ]);
+            // ignore: avoid_print
             processVersionUp.stdout.transform(utf8.decoder).forEach(print);
             processVersionUp.stdin
                 .write("chore: Fit versions with other packages.");
@@ -125,9 +126,11 @@ class PubVersionCliCommand extends CliCommand {
           }
           break;
         default:
+          // ignore: avoid_print
           print(
             "fit: Match the version with other packages. バージョンを他のパッケージと合わせます。",
           );
+          // ignore: avoid_print
           print(
             "import: Bring the import version up to date. インポートバージョンを最新にします。",
           );

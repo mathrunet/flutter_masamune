@@ -274,14 +274,14 @@ packages:
       name: katana_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.7"
+    version: "1.1.8"
   katana_firebase:
     dependency: "direct main"
     description:
       name: katana_firebase
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.5"
+    version: "1.1.6"
   lints:
     dependency: transitive
     description:

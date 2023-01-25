@@ -33,14 +33,14 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
     label("Find cer file");
     final cer = await find(Directory("ios"), regExp);
     if (cer == null) {
-      print(
+      error(
         "Could not find the cer file in the IOS folder. First create a `CertificateSigningRequest.certSigningRequest` from `katana app csr` and download it from https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146 f69acd6780fbcf20fe to download the cer file to your IOS folder.",
       );
       return;
     }
     final key = File("ios/ios_enterprise.key");
     if (!key.existsSync()) {
-      print(
+      error(
         "Could not find `ios/ios_enterprise.key`. Please run `katana app csr` first.",
       );
       return;
@@ -52,7 +52,7 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
     }
     final password = await passwordFile.readAsString();
     if (password.isEmpty) {
-      print("Password is missing in `ios/ios_certificate_password.key`.");
+      error("Password is missing in `ios/ios_certificate_password.key`.");
       return;
     }
     if (!File(cer.path.replaceAll(regExp, ".p12")).existsSync()) {
@@ -91,7 +91,7 @@ class AppP12CliAction extends CliCommand with CliActionMixin {
     label("Rewrite `.gitignore`.");
     final gitignore = File("ios/.gitignore");
     if (!gitignore.existsSync()) {
-      print("Cannot find `ios/.gitignore`. Project is broken.");
+      error("Cannot find `ios/.gitignore`. Project is broken.");
       return;
     }
     final gitignores = await gitignore.readAsLines();

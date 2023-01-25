@@ -26,7 +26,7 @@ class CodeTmpFormCliCommand extends CliCodeCommand {
   Future<void> exec(ExecContext context) async {
     final path = context.args.get(3, "");
     if (path.isEmpty) {
-      print(
+      error(
         "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code tmp form [path]\r\n",
       );
       return;

@@ -18,7 +18,7 @@ class PubPublishCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final melos = bin.get("melos", "melos");
     if (!File("melos.yaml").existsSync()) {
-      print("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");
+      error("The melos.yaml file does not exist.\r\nmelos.yamlのファイルが存在しません。");
       return;
     }
     await command(
