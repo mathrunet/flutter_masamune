@@ -10,11 +10,15 @@ const _kSmsCodeKey = "smsCode";
 ///
 /// Basically, the default [FirebaseAuth.instance] is used, but it is possible to use a specified authentication database by passing [database] when creating the adapter.
 ///
+/// You can initialize Firebase by passing [options].
+///
 /// FirebaseAuthを利用できるようにしたモデルアダプター。
 ///
 /// 事前にFirebaseのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
 ///
 /// 基本的にデフォルトの[FirebaseAuth.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定された認証データベースを利用することが可能です。
+///
+/// [options]を渡すことでFirebaseの初期化を行うことができます。
 class FirebaseAuthAdapter extends AuthAdapter {
   /// Model adapter with FirebaseAuth available.
   ///
@@ -22,12 +26,17 @@ class FirebaseAuthAdapter extends AuthAdapter {
   ///
   /// Basically, the default [FirebaseAuth.instance] is used, but it is possible to use a specified authentication database by passing [database] when creating the adapter.
   ///
+  /// You can initialize Firebase by passing [options].
+  ///
   /// FirebaseAuthを利用できるようにしたモデルアダプター。
   ///
   /// 事前にFirebaseのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
   ///
   /// 基本的にデフォルトの[FirebaseAuth.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定された認証データベースを利用することが可能です。
+  ///
+  /// [options]を渡すことでFirebaseの初期化を行うことができます。
   const FirebaseAuthAdapter({
+    this.options,
     this.androidPackageName,
     this.iOSBundleId,
     this.androidMinimumVersion,
@@ -58,6 +67,11 @@ class FirebaseAuthAdapter extends AuthAdapter {
   ///
   /// `en_US`がデフォルトとして設定されています。
   final Locale defaultLocale;
+
+  /// Options for initializing Firebase.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  final FirebaseOptions? options;
 
   /// The instance of FirebaseAuth used within the adapter.
   ///
@@ -200,6 +214,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }) async {
     try {
       await _initialize();
+      await FirebaseCore.initialize(options: options);
       User? user = database.currentUser;
       user ??= await database.idTokenChanges().first;
       if (user != null) {
@@ -614,6 +629,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
       );
     }
     await _initialize();
+    await FirebaseCore.initialize(options: options);
     await database.signOut();
     onUserStateChanged.call();
   }
@@ -628,12 +644,14 @@ class FirebaseAuthAdapter extends AuthAdapter {
       );
     }
     await _initialize();
+    await FirebaseCore.initialize(options: options);
     await _user!.delete();
     onUserStateChanged.call();
   }
 
   Future<void> _prepareProcessInternal() async {
     await _initialize();
+    await FirebaseCore.initialize(options: options);
     final user = database.currentUser;
     if (user == null) {
       return;

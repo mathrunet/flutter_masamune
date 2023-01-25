@@ -9,11 +9,15 @@ const _kTargetKey = "@target";
 ///
 /// Basically, the default [FirebaseFirestore.instance] is used, but it is possible to use a specified database by passing [database] when creating the adapter.
 ///
+/// You can initialize Firebase by passing [options].
+///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
 /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
 ///
 /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
+///
+/// [options]を渡すことでFirebaseの初期化を行うことができます。
 class FirestoreModelAdapter extends ModelAdapter {
   /// Model adapter with Firebase Firestore available.
   ///
@@ -21,13 +25,19 @@ class FirestoreModelAdapter extends ModelAdapter {
   ///
   /// Basically, the default [FirebaseFirestore.instance] is used, but it is possible to use a specified database by passing [database] when creating the adapter.
   ///
+  /// You can initialize Firebase by passing [options].
+  ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
   ///
   /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
   ///
   /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
-  const FirestoreModelAdapter({FirebaseFirestore? database})
-      : _database = database;
+  ///
+  /// [options]を渡すことでFirebaseの初期化を行うことができます。
+  const FirestoreModelAdapter({
+    FirebaseFirestore? database,
+    this.options,
+  }) : _database = database;
 
   /// The Firestore database instance used in the adapter.
   ///
@@ -35,21 +45,20 @@ class FirestoreModelAdapter extends ModelAdapter {
   FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
   final FirebaseFirestore? _database;
 
+  /// Options for initializing Firebase.
+  ///
+  /// Firebaseを初期化する際のオプション。
+  final FirebaseOptions? options;
+
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
-    assert(
-      FirebaseCore.initialized,
-      "Firebase is not initialized. Please run [FirebaseCore.initialize].",
-    );
+    await FirebaseCore.initialize(options: options);
     return _documentReference(query).delete();
   }
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
-    assert(
-      FirebaseCore.initialized,
-      "Firebase is not initialized. Please run [FirebaseCore.initialize].",
-    );
+    await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
     return _convertFrom(snapshot.data()?.cast() ?? {});
   }
@@ -64,10 +73,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
-    assert(
-      FirebaseCore.initialized,
-      "Firebase is not initialized. Please run [FirebaseCore.initialize].",
-    );
+    await FirebaseCore.initialize(options: options);
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
@@ -81,10 +87,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) async {
-    assert(
-      FirebaseCore.initialized,
-      "Firebase is not initialized. Please run [FirebaseCore.initialize].",
-    );
+    await FirebaseCore.initialize(options: options);
 
     return _documentReference(query).set(
       _convertTo(value),
@@ -99,10 +102,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   Future<List<StreamSubscription>> listenCollection(
     ModelAdapterCollectionQuery query,
   ) async {
-    assert(
-      FirebaseCore.initialized,
-      "Firebase is not initialized. Please run [FirebaseCore.initialize].",
-    );
+    await FirebaseCore.initialize(options: options);
     final streams =
         _collectionReference(query).map((reference) => reference.snapshots());
     final subscriptions = streams.map((e) {
@@ -131,10 +131,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   Future<List<StreamSubscription>> listenDocument(
     ModelAdapterDocumentQuery query,
   ) async {
-    assert(
-      FirebaseCore.initialized,
-      "Firebase is not initialized. Please run [FirebaseCore.initialize].",
-    );
+    await FirebaseCore.initialize(options: options);
     final stream = _documentReference(query).snapshots();
     // ignore: cancel_subscriptions
     final subscription = stream.listen((doc) {
@@ -201,6 +198,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     )
         transaction,
   ) async {
+    await FirebaseCore.initialize(options: options);
     database.runTransaction((handler) async {
       final ref = FirestoreModelTransactionRef._(handler);
       await transaction.call(ref, ref.read(doc));
