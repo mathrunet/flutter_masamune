@@ -29,6 +29,7 @@ class PathValue {
   /// Parameters specified in the path.
   ///
   /// パスに指定されたパラメーター。
+  // ignore: library_private_types_in_public_api
   late final List<_PathValue> parameters;
 
   @override

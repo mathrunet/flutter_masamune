@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:katana_auth/katana_auth.dart';
+import 'package:masamune/masamune.dart';
 
 void main() {
   runApp(const MyApp());

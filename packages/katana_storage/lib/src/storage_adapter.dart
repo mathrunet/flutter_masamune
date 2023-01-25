@@ -236,7 +236,7 @@ class _StorageAdapterScopeState extends State<StorageAdapterScope> {
 
   @override
   Widget build(BuildContext context) {
-    return _StorageAdapterScope(child: widget.child, adapter: widget.adapter);
+    return _StorageAdapterScope(adapter: widget.adapter, child: widget.child);
   }
 }
 

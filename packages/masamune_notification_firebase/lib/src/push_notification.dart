@@ -159,7 +159,7 @@ class PushNotification extends ChangeNotifier
       );
       _listening = true;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       rethrow;
     }
   }

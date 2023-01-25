@@ -69,13 +69,13 @@ class LoadingBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _futures = futures.whereType<Future>();
-    final _wait = _futures.isNotEmpty ? Future.wait(_futures) : null;
-    if (_wait == null) {
+    final futureList = futures.whereType<Future>();
+    final waitList = futureList.isNotEmpty ? Future.wait(futureList) : null;
+    if (waitList == null) {
       return builder(context);
     }
     return FutureBuilder(
-      future: _wait,
+      future: waitList,
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return Center(

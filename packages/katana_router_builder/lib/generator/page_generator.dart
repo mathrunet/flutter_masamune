@@ -30,13 +30,13 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
       );
     }
 
-    final _annotation = AnnotationValue(element, PagePath);
-    final _path =
+    final annotationValue = AnnotationValue(element, PagePath);
+    final pathValue =
         PathValue("/${annotation.read("path").stringValue.trimString("/")}");
-    final _class = ClassValue(element);
+    final classValue = ClassValue(element);
 
-    for (final param in _path.parameters) {
-      if (!_class.parameters.any((e) => e.name == param.camelCase)) {
+    for (final param in pathValue.parameters) {
+      if (!classValue.parameters.any((e) => e.name == param.camelCase)) {
         throw InvalidGenerationSourceError(
           "A path variable is defined in {${param.snakeCase}}, but `${param.camelCase}` is not defined as a page argument.\n"
           "Add the following arguments\n"
@@ -47,7 +47,7 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
           element: element,
         );
       }
-      if (!_class.parameters.any(
+      if (!classValue.parameters.any(
         (e) => e.name == param.camelCase && e.type.toString() == "String",
       )) {
         throw InvalidGenerationSourceError(
@@ -59,7 +59,7 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
           element: element,
         );
       }
-      if (!_class.parameters.any(
+      if (!classValue.parameters.any(
         (e) =>
             e.name == param.camelCase &&
             (e.element.isRequired || e.defaultValue != null),
@@ -80,7 +80,7 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
       (l) => l
         ..body.addAll(
           [
-            ...queryClass(_class, _path, _annotation),
+            ...queryClass(classValue, pathValue, annotationValue),
           ],
         ),
     );

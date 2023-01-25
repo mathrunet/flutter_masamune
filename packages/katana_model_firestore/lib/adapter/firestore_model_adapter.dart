@@ -468,6 +468,7 @@ class FirestoreModelAdapter extends ModelAdapter {
                   .orderBy(
                 query.query.key!,
               )
+                  // ignore: prefer_interpolation_to_compose_strings
                   .startAt([hash]).endAt([hash + "\uf8ff"]),
             );
           }

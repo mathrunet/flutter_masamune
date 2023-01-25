@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -84,7 +84,6 @@ class HomePage extends PageScopedWidget {
   Widget build(BuildContext context, PageRef ref) {
     final val = ref.app.watch((ref) => ValueNotifier(0));
     final test = ref.page.watch((ref) => TestNotifier());
-    print(val.hashCode);
     ref.page.on(
       initOrUpdate: () {
         print("init at home");
@@ -98,9 +97,9 @@ class HomePage extends PageScopedWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("HomePage"),
+        title: const Text("HomePage"),
       ),
-      body: Center(
+      body: const Center(
         child: Text("HomePage"),
       ),
       floatingActionButton: FloatingActionButton(
@@ -111,8 +110,8 @@ class HomePage extends PageScopedWidget {
             ),
           ));
         },
-        key: ValueKey("home"),
-        child: Icon(Icons.skip_next),
+        key: const ValueKey("home"),
+        child: const Icon(Icons.skip_next),
       ),
     );
   }
@@ -125,7 +124,6 @@ class NextPage extends PageScopedWidget {
   Widget build(BuildContext context, PageRef ref) {
     final val = ref.app.watch((ref) => ValueNotifier(0));
     final test = ref.app.watch((ref) => TestNotifier());
-    print(val.hashCode);
     ref.page.on(
       initOrUpdate: () {
         print("init at next");
@@ -139,17 +137,17 @@ class NextPage extends PageScopedWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("NextPage"),
+        title: const Text("NextPage"),
       ),
-      body: Center(
+      body: const Center(
         child: Text("NextPage"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           val.value = 1;
         },
-        key: ValueKey("next"),
-        child: Icon(Icons.add),
+        key: const ValueKey("next"),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -197,7 +195,7 @@ class ParentPage extends PageScopedWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("HomePage"),
+        title: const Text("HomePage"),
       ),
       body: Center(
         child: value.value
@@ -215,8 +213,8 @@ class ParentPage extends PageScopedWidget {
           //   ),
           // ));
         },
-        key: ValueKey("home"),
-        child: Icon(Icons.skip_next),
+        key: const ValueKey("home"),
+        child: const Icon(Icons.skip_next),
       ),
     );
   }
@@ -251,6 +249,6 @@ class ChildPage extends ScopedWidget {
       },
     );
 
-    return Text("child");
+    return const Text("child");
   }
 }

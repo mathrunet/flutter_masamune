@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 part of katana_model_openapi_builder;
 
 /// Builder factory for automatic OpenAPI generation.

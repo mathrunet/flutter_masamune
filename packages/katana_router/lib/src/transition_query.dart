@@ -20,12 +20,14 @@ class TransitionQuery {
   /// Page transitions.
   ///
   /// ページのトランジション。
+  // ignore: library_private_types_in_public_api
   final _TransitionQueryType transition;
 
   /// Create a new [TransitionQuery] with parameters.
   ///
   /// パラメーターを与えて新しい[TransitionQuery]を作成します。
   TransitionQuery copyWith({
+    // ignore: library_private_types_in_public_api
     _TransitionQueryType? transition,
   }) {
     return TransitionQuery._(

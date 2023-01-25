@@ -30,14 +30,14 @@ class NestedPageGenerator extends GeneratorForAnnotation<NestedPage> {
       );
     }
 
-    final _annotation = AnnotationValue(element, NestedPage);
-    final _class = ClassValue(element);
+    final annotationValue = AnnotationValue(element, NestedPage);
+    final classValue = ClassValue(element);
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...queryClass(_class, null, _annotation),
+            ...queryClass(classValue, null, annotationValue),
           ],
         ),
     );

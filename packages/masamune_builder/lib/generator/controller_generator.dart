@@ -30,13 +30,13 @@ class ControllerGenerator extends GeneratorForAnnotation<Controller> {
       );
     }
 
-    final _class = ClassValue(element);
+    final classValue = ClassValue(element);
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...controllerClass(_class),
+            ...controllerClass(classValue),
           ],
         ),
     );

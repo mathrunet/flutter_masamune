@@ -30,13 +30,13 @@ class PrefsGenerator extends GeneratorForAnnotation<Prefs> {
       );
     }
 
-    final _class = ClassValue(element);
+    final classValue = ClassValue(element);
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...baseClass(_class),
+            ...baseClass(classValue),
           ],
         ),
     );

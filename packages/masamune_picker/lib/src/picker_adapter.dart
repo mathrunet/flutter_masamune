@@ -188,7 +188,7 @@ class _PickerAdapterScopeState extends State<PickerAdapterScope> {
 
   @override
   Widget build(BuildContext context) {
-    return _PickerAdapterScope(child: widget.child, adapter: widget.adapter);
+    return _PickerAdapterScope(adapter: widget.adapter, child: widget.child);
   }
 }
 

@@ -5,12 +5,9 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:katana/katana.dart';
-import 'package:analyzer/dart/constant/value.dart';
-
-import 'package:katana_router_example/main.dart';
+import 'package:katana_router/katana_router.dart';
 
 void main() {
   test("regexsplit", () {
@@ -63,8 +60,8 @@ void main() {
     for (final tmp in testList.entries) {
       final res = regExpList.firstMatch(tmp.value);
       final redirect = redirectExp.firstMatch(tmp.value);
-      print(res?.group(1));
-      print(redirect?.group(0));
+      debugPrint(res?.group(1));
+      debugPrint(redirect?.group(0));
       expect(
           res
               ?.group(1)

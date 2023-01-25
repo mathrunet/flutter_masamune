@@ -44,10 +44,10 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
       );
     }
 
-    final _class = ClassValue(element);
-    final _path =
+    final classValue = ClassValue(element);
+    final pathValue =
         PathValue(annotation.read("path").stringValue.trimString("/"));
-    final path = _path.path;
+    final path = pathValue.path;
 
     if (path.splitLength() <= 0 || path.splitLength() % 2 != 0) {
       throw InvalidGenerationSourceError(
@@ -60,7 +60,7 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
       (l) => l
         ..body.addAll(
           [
-            ...documentModelClass(_class, _path),
+            ...documentModelClass(classValue, pathValue),
           ],
         ),
     );

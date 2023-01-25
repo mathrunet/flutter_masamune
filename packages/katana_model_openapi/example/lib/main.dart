@@ -32,7 +32,7 @@ class ListenablePageState extends State<ListenablePage> {
     return Scaffold(
       appBar: AppBar(title: const Text("Flutter Demo")),
       body: ListView(
-        children: [],
+        children: const [],
       ),
     );
   }

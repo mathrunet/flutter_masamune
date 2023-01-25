@@ -37,13 +37,13 @@ class FormValueGenerator extends GeneratorForAnnotation<FormValue> {
       );
     }
 
-    final _class = ClassValue(element);
+    final classValue = ClassValue(element);
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...formValueClass(_class),
+            ...formValueClass(classValue),
           ],
         ),
     );

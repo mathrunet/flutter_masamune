@@ -45,10 +45,10 @@ class CollectionModelGenerator
       );
     }
 
-    final _class = ClassValue(element);
-    final _path =
+    final classValue = ClassValue(element);
+    final pathValue =
         PathValue(annotation.read("path").stringValue.trimString("/"));
-    final path = _path.path;
+    final path = pathValue.path;
 
     if (path.splitLength() <= 0 || path.splitLength() % 2 != 1) {
       throw InvalidGenerationSourceError(
@@ -61,7 +61,7 @@ class CollectionModelGenerator
       (l) => l
         ..body.addAll(
           [
-            ...collectionModelClass(_class, _path),
+            ...collectionModelClass(classValue, pathValue),
           ],
         ),
     );
