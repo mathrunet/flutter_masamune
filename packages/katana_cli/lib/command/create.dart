@@ -311,17 +311,19 @@ final modelAdapter = RuntimeModelAdapter();
 /// 
 /// Changing to another adapter allows you to change to another authentication mechanism.
 // TODO: Change the authentication.
-const authAdapter = RuntimeAuthAdapter();
+final authAdapter = RuntimeAuthAdapter();
 
 /// App Storage.
 /// 
 /// Changing to another adapter allows you to change to another storage mechanism.
-const storageAdapter = LocalStorageAdapter();
+// TODO: Change the storage.
+final storageAdapter = LocalStorageAdapter();
 
 /// App Functions.
 /// 
 /// Changing to another adapter allows you to change to another functions mechanism.
-const functionsAdapter = RuntimeFunctionsAdapter();
+// TODO: Change the functions.
+final functionsAdapter = RuntimeFunctionsAdapter();
 
 /// App Theme.
 ///
