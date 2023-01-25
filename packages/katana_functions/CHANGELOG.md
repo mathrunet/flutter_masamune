@@ -1,3 +1,7 @@
+## 1.1.8
+
+ - Update a dependency to the latest release.
+
 ## 1.1.7
 
  - **DOCS**: Set the description short. ([9bc17f6e](https://github.com/mathrunet/flutter_masamune/commit/9bc17f6e997ce28526bda82fc5dda5eb39587c2c))

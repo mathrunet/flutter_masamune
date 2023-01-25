@@ -1,3 +1,7 @@
+## 1.3.20
+
+ - Update a dependency to the latest release.
+
 ## 1.3.19
 
  - **FIX**: Fixed a bug in the Test code. ([ee3c80a0](https://github.com/mathrunet/flutter_masamune/commit/ee3c80a00b0c72344aa394d9601c8ec529d9eae5))

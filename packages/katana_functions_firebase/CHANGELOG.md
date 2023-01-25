@@ -1,3 +1,7 @@
+## 1.1.10
+
+ - Update a dependency to the latest release.
+
 ## 1.1.9
 
  - **FIX**: Firebase options can be passed. ([f61c3366](https://github.com/mathrunet/flutter_masamune/commit/f61c3366606a5f978be75b43c98651bc4d023b50))

@@ -1,3 +1,8 @@
+## 1.4.10
+
+ - **FIX**: Correction of files at create. ([2a5944f2](https://github.com/mathrunet/flutter_masamune/commit/2a5944f2527542012ca199fe0505b31acae6a412))
+ - **FIX**: Fixing the create code. ([8f34fd01](https://github.com/mathrunet/flutter_masamune/commit/8f34fd012bebe25aea995b834ebf0d1dbbef38b6))
+
 ## 1.4.9
 
  - **FIX**: ReadMe maintenance. ([ab6fb620](https://github.com/mathrunet/flutter_masamune/commit/ab6fb6204d6c497321c034e0b724b900ce4dbc66))

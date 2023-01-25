@@ -1,3 +1,7 @@
+## 1.2.10
+
+ - Update a dependency to the latest release.
+
 ## 1.2.9
 
  - **FIX**: Fixed text color in DarkTheme. ([79272447](https://github.com/mathrunet/flutter_masamune/commit/79272447123bd6eea22677f1bdc04d9152df9de7))

@@ -1,3 +1,7 @@
+## 1.1.9
+
+ - Update a dependency to the latest release.
+
 ## 1.1.8
 
  - **FIX**: Fixed a bug that prevented casting properly. ([2eb8d8d8](https://github.com/mathrunet/flutter_masamune/commit/2eb8d8d864790b03e3977ee50c80002342bda690))

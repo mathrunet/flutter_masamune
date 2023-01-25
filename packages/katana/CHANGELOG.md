@@ -1,3 +1,7 @@
+## 1.0.1
+
+ - **FIX**: Correction to analyze. ([8ea87e1d](https://github.com/mathrunet/flutter_masamune/commit/8ea87e1ddbe40acf715b58b865a51568acb3c2fe))
+
 ## 0.15.10+2
 
  - **DOCS**: ReadMe maintenance. ([a982d201](https://github.com/mathrunet/flutter_masamune/commit/a982d201762b95aa3f48ea3aefb8f24ac670b876))

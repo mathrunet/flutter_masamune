@@ -1,3 +1,7 @@
+## 1.7.4
+
+ - Update a dependency to the latest release.
+
 ## 1.7.3
 
  - **FIX**: Test the processing of appRef.dispose. ([f7c28128](https://github.com/mathrunet/flutter_masamune/commit/f7c281286eb115638e7eaa7fdeaaea843e3d457b))
