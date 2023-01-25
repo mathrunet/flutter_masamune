@@ -63,7 +63,7 @@ List<Spec> baseClass(
               ..name = "get"
               ..returns = const Reference("T")
               ..body = const Code(
-                "assert(_ref._prefs != null, \"SharedPreference has not finished loading. Please execute [load()] to complete loading.\", ); final o = _ref._prefs?.get(_key); if (o is List) { return o.cast<String>() as T; } return o as T;",
+                "assert(_ref._prefs != null, \"SharedPreference has not finished loading. Please execute [load()] to complete loading.\", ); final o = _ref._prefs?.get(_key); if (o is List && T == List<String>) { return o.map((e) => e.toString()).toList() as T; } else if (o is! T) { return _def; } return o;",
               ),
           ),
           Method(
