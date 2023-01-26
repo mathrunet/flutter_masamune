@@ -1,3 +1,7 @@
+## 1.3.24
+
+ - **FIX**: Fix to touch NoSQLDatabase data directly. ([c4c56a8b](https://github.com/mathrunet/flutter_masamune/commit/c4c56a8bf96fb5719091b8e0317292bdc8c45d74))
+
 ## 1.3.23
 
  - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
