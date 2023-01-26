@@ -1,3 +1,7 @@
+## 1.3.9
+
+ - **DOCS**: Corrected Example. ([a0209208](https://github.com/mathrunet/flutter_masamune/commit/a0209208ce2b3a102c2c682347ec753a5a0fe914))
+
 ## 1.3.8
 
  - Update a dependency to the latest release.

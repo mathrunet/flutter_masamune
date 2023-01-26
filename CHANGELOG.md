@@ -15,6 +15,47 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.3.9`](#masamune---v139)
+ - [`masamune_notification_firebase` - `v1.1.28`](#masamune_notification_firebase---v1128)
+ - [`masamune_picker` - `v1.4.32`](#masamune_picker---v1432)
+ - [`masamune_picker_file` - `v1.4.32`](#masamune_picker_file---v1432)
+ - [`masamune_picker_mobile` - `v1.4.32`](#masamune_picker_mobile---v1432)
+
+---
+
+#### `masamune` - `v1.3.9`
+
+ - **DOCS**: Corrected Example. ([a0209208](https://github.com/mathrunet/flutter_masamune/commit/a0209208ce2b3a102c2c682347ec753a5a0fe914))
+
+#### `masamune_notification_firebase` - `v1.1.28`
+
+ - **FIX**: Readme maintenance. ([c15c5755](https://github.com/mathrunet/flutter_masamune/commit/c15c57554b5544032ff7ab33b27c78b47b3e852e))
+
+#### `masamune_picker` - `v1.4.32`
+
+ - **FIX**: Readme maintenance. ([c15c5755](https://github.com/mathrunet/flutter_masamune/commit/c15c57554b5544032ff7ab33b27c78b47b3e852e))
+
+#### `masamune_picker_file` - `v1.4.32`
+
+ - **FIX**: Readme maintenance. ([c15c5755](https://github.com/mathrunet/flutter_masamune/commit/c15c57554b5544032ff7ab33b27c78b47b3e852e))
+
+#### `masamune_picker_mobile` - `v1.4.32`
+
+ - **FIX**: Readme maintenance. ([c15c5755](https://github.com/mathrunet/flutter_masamune/commit/c15c57554b5544032ff7ab33b27c78b47b3e852e))
+
+
+## 2023-01-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v1.0.5`](#katana---v105)
  - [`katana_ui` - `v1.1.8`](#katana_ui---v118)
  - [`masamune_annotation` - `v1.1.7`](#masamune_annotation---v117)
