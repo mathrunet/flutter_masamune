@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter 
     
-  katana: ^0.15.0
+  katana: ^1.0.2
   katana_localization_annotation: ^1.1.21
 dev_dependencies:
   test: ^1.21.3

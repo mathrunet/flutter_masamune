@@ -14,7 +14,7 @@ dependencies:
 
   meta: ^1.8.0
 
-  katana: ^0.15.0
+  katana: ^1.0.2
   katana_shorten: ^1.2.4
   katana_indicator: ^1.1.7
   katana_scoped: ^1.7.5

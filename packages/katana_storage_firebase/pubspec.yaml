@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^0.15.0
+  katana: ^1.0.2
   katana_storage: ^1.1.8
   katana_firebase: ^1.1.7
   firebase_core: ^2.2.0

@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^0.15.0
+  katana: ^1.0.2
   katana_prefs_annotation: ^1.1.6
   shared_preferences: ^2.0.16
 dev_dependencies:

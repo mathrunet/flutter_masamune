@@ -308,18 +308,18 @@ packages:
     dependency: "direct main"
     description:
       name: katana_firebase
-      sha256: f682df4e52fe8e50ce46bc684cfe15d09a0a184130f9a4f4177cf9d3f538df8b
+      sha256: c013e01699f885d1e6cc413802b2d424908e86d524b1115c47d584e41d8db976
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.6"
+    version: "1.1.7"
   katana_functions:
     dependency: "direct main"
     description:
       name: katana_functions
-      sha256: "748d904102658763d4e47b14676f2883080220991dae44e44850993216d6102e"
+      sha256: ac0d2ef189ea231ea6bcc76de6df74f98270ab8d684a019e245d42a10469627d
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.8"
+    version: "1.1.9"
   lints:
     dependency: transitive
     description:

@@ -253,10 +253,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_localization_annotation
-      sha256: "1177b16524db4d556134de821af4daea616d3b29e78deac45fabd32662757733"
+      sha256: "0962a0b00099edb8d90568c75ff5396cc9b9068661d651894417078976361279"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.20"
+    version: "1.1.21"
   lints:
     dependency: transitive
     description:

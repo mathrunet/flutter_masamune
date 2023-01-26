@@ -210,10 +210,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_listenables_annotation
-      sha256: "31ebf1a756e75bedfe667da500bce2d2052da7d0a78413ee7d31c5f2b77bc54f"
+      sha256: efc38131a2ecb4ec1703177b96925f2b40c40805d7379a2fe7bf3f3719044a67
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.10"
+    version: "1.2.11"
   lints:
     dependency: transitive
     description:

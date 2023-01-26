@@ -350,29 +350,29 @@ packages:
       path: "../../katana_listenables_annotation"
       relative: true
     source: path
-    version: "1.2.10"
+    version: "1.2.11"
   katana_prefs:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.1.6"
+    version: "1.1.7"
   katana_prefs_annotation:
     dependency: transitive
     description:
       name: katana_prefs_annotation
-      sha256: "4eb6037d023d816b4d423743ac31ff3f943e492780c5265480f2476c59829d0a"
+      sha256: "93347a63a532e8553c05714a06ca41be86ba0048a4d0989201a72fb6e9fbde9e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.5"
+    version: "1.1.6"
   katana_prefs_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_prefs_builder"
       relative: true
     source: path
-    version: "1.1.9"
+    version: "1.1.10"
   lints:
     dependency: transitive
     description:

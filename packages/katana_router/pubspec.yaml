@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^0.15.0
+  katana: ^1.0.2
   katana_router_annotation: ^1.10.0
   url_strategy: ^0.2.0
 
