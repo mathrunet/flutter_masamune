@@ -92,7 +92,7 @@ By using this framework, for example, a simple CRUD application requires only th
 Install the `CLI` with the following command.
 
 ```bash
-flutter pub global activate katana
+flutter pub global activate katana_cli
 ```
 
 To install Masamune Framework in an existing project, add the package with the following command.

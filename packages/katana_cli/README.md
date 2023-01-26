@@ -38,7 +38,7 @@ The following features are available
 Install with the following command.
 
 ```bash
-flutter pub global activate katana
+flutter pub global activate katana_cli
 ```
 
 # How to use

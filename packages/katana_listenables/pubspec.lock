@@ -202,18 +202,18 @@ packages:
     dependency: "direct main"
     description:
       name: katana
-      sha256: ac9f7d742fa6b41e90a9c269d42d87f43f3ff112178ba446fb985a988da299be
+      sha256: fc59c8fd5c5eaeff569bff1bf37933ca9b2e69739c85dd3b6abffa63567a7cd4
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.10+2"
+    version: "1.0.3"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
       name: katana_listenables_annotation
-      sha256: efc38131a2ecb4ec1703177b96925f2b40c40805d7379a2fe7bf3f3719044a67
+      sha256: "567c7082a65eb8a202dbb3b34639f554d73ecbfd75d2cbdb58503983b4796e36"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.11"
+    version: "1.2.12"
   lints:
     dependency: transitive
     description:

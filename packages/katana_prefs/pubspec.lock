@@ -215,18 +215,18 @@ packages:
     dependency: "direct main"
     description:
       name: katana
-      sha256: ac9f7d742fa6b41e90a9c269d42d87f43f3ff112178ba446fb985a988da299be
+      sha256: fc59c8fd5c5eaeff569bff1bf37933ca9b2e69739c85dd3b6abffa63567a7cd4
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.10+2"
+    version: "1.0.3"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
       name: katana_prefs_annotation
-      sha256: "93347a63a532e8553c05714a06ca41be86ba0048a4d0989201a72fb6e9fbde9e"
+      sha256: "4be5585cf12e5692cab672e46658c8eae7d40587b12aedc45e99e91582f11d0b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.6"
+    version: "1.1.7"
   lints:
     dependency: transitive
     description:

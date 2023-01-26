@@ -332,13 +332,12 @@ packages:
     source: hosted
     version: "4.8.0"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      sha256: ac9f7d742fa6b41e90a9c269d42d87f43f3ff112178ba446fb985a988da299be
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.15.10+2"
+      path: "../../katana"
+      relative: true
+    source: path
+    version: "1.0.2"
   katana_theme:
     dependency: "direct main"
     description:
@@ -347,12 +346,11 @@ packages:
     source: path
     version: "1.2.14"
   katana_theme_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_theme_annotation
-      sha256: e1460ef38221c690b6dd59ce7efaf4356ae7285e48c74fd1818d890f9ebade88
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../katana_theme_annotation"
+      relative: true
+    source: path
     version: "1.2.11"
   katana_theme_builder:
     dependency: "direct dev"
