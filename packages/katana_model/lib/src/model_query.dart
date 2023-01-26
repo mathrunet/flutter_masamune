@@ -358,28 +358,28 @@ class ModelQuery {
       return "$path?${_limit(_order("$tmp&contains=$arrayContains")).trimString("&")}";
     } else if (arrayContainsAny != null) {
       return "$path?${_limit(
-            _order(
-              "$tmp&containsAny=${arrayContainsAny!.map((e) => e.toString()).join(",")}",
-            ),
-          ).trimString("&")}";
+        _order(
+          "$tmp&containsAny=${arrayContainsAny!.map((e) => e.toString()).join(",")}",
+        ),
+      ).trimString("&")}";
     } else if (whereIn != null) {
       return "$path?${_limit(
-            _order(
-              "$tmp&whereIn=${whereIn!.map((e) => e.toString()).join(",")}",
-            ),
-          ).trimString("&")}";
+        _order(
+          "$tmp&whereIn=${whereIn!.map((e) => e.toString()).join(",")}",
+        ),
+      ).trimString("&")}";
     } else if (whereNotIn != null) {
       return "$path?${_limit(
-            _order(
-              "$tmp&whereNotIn=${whereNotIn!.map((e) => e.toString()).join(",")}",
-            ),
-          ).trimString("&")}";
+        _order(
+          "$tmp&whereNotIn=${whereNotIn!.map((e) => e.toString()).join(",")}",
+        ),
+      ).trimString("&")}";
     } else if (geoHash != null) {
       return "$path?${_limit(
-            _order(
-              "$tmp&geoHash=${geoHash!.map((e) => e.toString()).join(",")}",
-            ),
-          ).trimString("&")}";
+        _order(
+          "$tmp&geoHash=${geoHash!.map((e) => e.toString()).join(",")}",
+        ),
+      ).trimString("&")}";
     } else if (searchText.isNotEmpty) {
       return "$path?${_limit("key=$key&search=$searchText").trimString("&")}";
     }

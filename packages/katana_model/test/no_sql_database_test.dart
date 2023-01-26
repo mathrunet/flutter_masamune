@@ -33,6 +33,7 @@ void main() {
           break;
       }
     }
+
     final query = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/doc"),
       callback: callback,
@@ -95,6 +96,7 @@ void main() {
           break;
       }
     }
+
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery("test"),
       callback: collectionCallback,
@@ -122,6 +124,7 @@ void main() {
           break;
       }
     }
+
     var status2;
     final origin2 = <String, dynamic>{};
     callback2(ModelUpdateNotification update) {
@@ -144,6 +147,7 @@ void main() {
           break;
       }
     }
+
     final documentQuery1 = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/0001"),
       callback: callback1,
@@ -294,6 +298,7 @@ void main() {
           break;
       }
     }
+
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery(
         "test",
@@ -325,6 +330,7 @@ void main() {
           break;
       }
     }
+
     var status2;
     final origin2 = <String, dynamic>{};
     callback2(ModelUpdateNotification update) {
@@ -347,6 +353,7 @@ void main() {
           break;
       }
     }
+
     var status3;
     final origin3 = <String, dynamic>{};
     callback3(ModelUpdateNotification update) {
@@ -369,6 +376,7 @@ void main() {
           break;
       }
     }
+
     final documentQuery1 = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/0001"),
       callback: callback1,
@@ -582,6 +590,7 @@ void main() {
           break;
       }
     }
+
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery(
         "test",
@@ -615,6 +624,7 @@ void main() {
           break;
       }
     }
+
     var status2;
     final origin2 = <String, dynamic>{};
     callback2(ModelUpdateNotification update) {
@@ -637,6 +647,7 @@ void main() {
           break;
       }
     }
+
     var status3;
     final origin3 = <String, dynamic>{};
     callback3(ModelUpdateNotification update) {
@@ -659,6 +670,7 @@ void main() {
           break;
       }
     }
+
     final documentQuery1 = ModelAdapterDocumentQuery(
       query: const DocumentModelQuery("test/0001"),
       callback: callback1,
@@ -850,6 +862,7 @@ void main() {
           break;
       }
     }
+
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery("test"),
       callback: collectionCallback,
@@ -922,6 +935,7 @@ void main() {
           break;
       }
     }
+
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery("test"),
       callback: collectionCallback,

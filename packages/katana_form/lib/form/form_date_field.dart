@@ -351,7 +351,7 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>> {
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.subtitle1?.color ??
+              Theme.of(context).textTheme.titleMedium?.color ??
               Theme.of(context).colorScheme.onBackground,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
@@ -360,7 +360,11 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>> {
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              Theme.of(context).textTheme.subtitle1?.color?.withOpacity(0.5) ??
+              Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.color
+                  ?.withOpacity(0.5) ??
               Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.textStyle?.copyWith(

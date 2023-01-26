@@ -436,7 +436,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
         ) ??
         TextStyle(
           color: widget.style?.color ??
-              Theme.of(context).textTheme.subtitle1?.color ??
+              Theme.of(context).textTheme.titleMedium?.color ??
               Theme.of(context).colorScheme.onBackground,
         );
     final subTextStyle = widget.style?.textStyle?.copyWith(
@@ -445,7 +445,11 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
         TextStyle(
           color: widget.style?.subColor ??
               widget.style?.color?.withOpacity(0.5) ??
-              Theme.of(context).textTheme.subtitle1?.color?.withOpacity(0.5) ??
+              Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.color
+                  ?.withOpacity(0.5) ??
               Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
         );
     final errorTextStyle = widget.style?.textStyle?.copyWith(
@@ -1021,7 +1025,6 @@ class _TextFormField<TValue> extends FormField<String> {
     TextAlignVertical? textAlignVertical,
     bool autofocus = false,
     bool readOnly = false,
-    ToolbarOptions? toolbarOptions,
     bool? showCursor,
     String obscuringCharacter = "•",
     bool obscureText = false,
@@ -1112,7 +1115,6 @@ class _TextFormField<TValue> extends FormField<String> {
                 textDirection: textDirection,
                 textCapitalization: textCapitalization,
                 autofocus: autofocus,
-                toolbarOptions: toolbarOptions,
                 readOnly: readOnly,
                 showCursor: showCursor,
                 obscuringCharacter: obscuringCharacter,

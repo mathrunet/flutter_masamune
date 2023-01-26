@@ -296,10 +296,10 @@ abstract class CliCode {
   }
 
   static String _trimPathPrefix(String path) {
-    path = path.trimStringLeft("lib/");
+    path = path.replaceAll(RegExp("^lib/"), "");
     for (final prefix in _trimPrefixes) {
       if (path.startsWith("$prefix/")) {
-        path = path.trimStringLeft("$prefix/");
+        path = path.replaceAll(RegExp("^$prefix/"), "");
         break;
       }
     }

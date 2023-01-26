@@ -797,7 +797,6 @@ class AppThemeData {
           fontFamily: defaultFontFamily,
           useMaterial3: useMaterial3,
           platform: platform,
-          colorScheme: colorScheme,
           splashColor: color.splashColor,
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
@@ -875,8 +874,9 @@ class AppThemeData {
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
-          errorColor: color.error,
-          backgroundColor: color.background,
+          colorScheme: colorScheme
+              .copyWith(background: color.background)
+              .copyWith(error: color.error),
         );
       default:
         final theme = ThemeData.light();
@@ -944,7 +944,6 @@ class AppThemeData {
           fontFamily: defaultFontFamily,
           useMaterial3: useMaterial3,
           platform: platform,
-          colorScheme: colorScheme,
           splashColor: color.splashColor,
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
@@ -1021,8 +1020,9 @@ class AppThemeData {
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
-          errorColor: color.error,
-          backgroundColor: color.background,
+          colorScheme: colorScheme
+              .copyWith(background: color.background)
+              .copyWith(error: color.error),
         );
     }
   }

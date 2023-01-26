@@ -622,7 +622,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
                   child: Icon(
                     Icons.remove_circle,
                     size: 24,
-                    color: Theme.of(context).errorColor,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                 ),
               ),
