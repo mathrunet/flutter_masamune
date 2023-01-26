@@ -39,23 +39,23 @@ class LocalModelAdapter extends ModelAdapter {
   static final NoSqlDatabase sharedDatabase = NoSqlDatabase(
     onInitialize: (database) async {
       try {
-        database._data = await DatabaseExporter.import(
+        database.data = await DatabaseExporter.import(
           "${DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         );
       } catch (e) {
-        database._data = {};
+        database.data = {};
       }
     },
     onSaved: (database) async {
       await DatabaseExporter.export(
         "${DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
-        database._data,
+        database.data,
       );
     },
     onDeleted: (database) async {
       await DatabaseExporter.export(
         "${DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
-        database._data,
+        database.data,
       );
     },
   );

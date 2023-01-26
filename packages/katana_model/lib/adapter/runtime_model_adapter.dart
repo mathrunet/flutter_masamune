@@ -46,7 +46,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// 指定のデータベース。テスト用途などにご利用ください。
   NoSqlDatabase get database {
     final database = _database ?? sharedDatabase;
-    if (rawData.isNotEmpty && database._data.isEmpty) {
+    if (rawData.isNotEmpty && database.data.isEmpty) {
       for (final tmp in rawData!.entries) {
         database.setRawData(tmp.key, tmp.value);
       }

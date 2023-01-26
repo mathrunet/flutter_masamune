@@ -79,8 +79,15 @@ class NoSqlDatabase {
   }) {
     onInitialize?.call(this);
   }
-  // ignore: prefer_final_fields
-  DynamicMap _data = {};
+
+  /// Location where real data is stored.
+  ///
+  /// If you rewrite this section, the entire database will be rewritten.
+  ///
+  /// 実データが格納されている場所。
+  ///
+  /// ここを書き換えるとデータベースがすべて書き変わります。
+  DynamicMap data = {};
 
   /// Executed at Database initialization time.
   ///
@@ -179,7 +186,7 @@ class NoSqlDatabase {
     if (paths.isEmpty) {
       return null;
     }
-    final value = _data._readFromPath(paths, 0);
+    final value = data._readFromPath(paths, 0);
     if (value is! Map) {
       return null;
     }
@@ -211,7 +218,7 @@ class NoSqlDatabase {
     if (paths.isEmpty) {
       return null;
     }
-    final value = _data._readFromPath(paths, 0);
+    final value = data._readFromPath(paths, 0);
     if (value is! DynamicMap) {
       return null;
     }
@@ -264,7 +271,7 @@ class NoSqlDatabase {
       return;
     }
     _registeredRawDataPath.add(path);
-    _data._writeToPath(paths, 0, Map.from(value));
+    data._writeToPath(paths, 0, Map.from(value));
   }
 
   /// Update and add data to [value] by passing [query] and the data in the document corresponding to [query].
@@ -296,7 +303,7 @@ class NoSqlDatabase {
     if (value.isEmpty) {
       return deleteDocument(query);
     }
-    final isAdd = _data._writeToPath(paths, 0, value);
+    final isAdd = data._writeToPath(paths, 0, value);
     if (isAdd == null) {
       return;
     }
@@ -330,7 +337,7 @@ class NoSqlDatabase {
     if (paths.isEmpty) {
       return;
     }
-    _data._deleteFromPath(paths, 0);
+    data._deleteFromPath(paths, 0);
     notifyDocuments(
       trimPath,
       paths.last,
@@ -364,7 +371,7 @@ class NoSqlDatabase {
       if (paths.isEmpty) {
         continue;
       }
-      final value = _data._readFromPath(paths, 0);
+      final value = data._readFromPath(paths, 0);
       if (value is! Map) {
         continue;
       }
@@ -377,7 +384,7 @@ class NoSqlDatabase {
       if (paths.isEmpty) {
         continue;
       }
-      final value = _data._readFromPath(paths, 0);
+      final value = data._readFromPath(paths, 0);
       if (value is! DynamicMap) {
         continue;
       }
@@ -401,14 +408,14 @@ class NoSqlDatabase {
       }
     }
     // 置き換え
-    _data = replaceData;
+    data = replaceData;
     // キャッシュから
     // 以前存在していたもの→存在しなくなった→removed
     // 以前存在していたもの→まだある→modified
     for (final tmp in cache.entries) {
       final trimPath = tmp.key;
       final paths = trimPath.split("/");
-      final value = _data._readFromPath(paths, 0);
+      final value = data._readFromPath(paths, 0);
       if (value is! Map) {
         // Removed.
         notifyDocuments(
@@ -437,7 +444,7 @@ class NoSqlDatabase {
       if (paths.isEmpty) {
         continue;
       }
-      final value = _data._readFromPath(paths, 0);
+      final value = data._readFromPath(paths, 0);
       if (value is! DynamicMap) {
         continue;
       }
