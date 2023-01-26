@@ -1,3 +1,7 @@
+## 1.4.11
+
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+
 ## 1.4.10
 
  - **FIX**: Correction of files at create. ([2a5944f2](https://github.com/mathrunet/flutter_masamune/commit/2a5944f2527542012ca199fe0505b31acae6a412))

@@ -1,3 +1,7 @@
+## 1.7.5
+
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
 ## 1.7.4
 
  - Update a dependency to the latest release.

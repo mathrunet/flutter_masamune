@@ -1,3 +1,8 @@
+## 1.3.21
+
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
 ## 1.3.20
 
  - Update a dependency to the latest release.
