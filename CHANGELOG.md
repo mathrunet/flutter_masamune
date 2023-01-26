@@ -15,6 +15,267 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v1.0.3`](#katana---v103)
+ - [`katana_auth` - `v1.1.10`](#katana_auth---v1110)
+ - [`katana_auth_firebase` - `v1.1.11`](#katana_auth_firebase---v1111)
+ - [`katana_cli` - `v1.4.12`](#katana_cli---v1412)
+ - [`katana_firebase` - `v1.1.8`](#katana_firebase---v118)
+ - [`katana_form` - `v1.3.5`](#katana_form---v135)
+ - [`katana_functions` - `v1.1.10`](#katana_functions---v1110)
+ - [`katana_functions_firebase` - `v1.1.12`](#katana_functions_firebase---v1112)
+ - [`katana_indicator` - `v1.1.8`](#katana_indicator---v118)
+ - [`katana_listenables` - `v1.2.14`](#katana_listenables---v1214)
+ - [`katana_listenables_annotation` - `v1.2.12`](#katana_listenables_annotation---v1212)
+ - [`katana_listenables_builder` - `v1.2.13`](#katana_listenables_builder---v1213)
+ - [`katana_localization` - `v1.1.24`](#katana_localization---v1124)
+ - [`katana_localization_annotation` - `v1.1.22`](#katana_localization_annotation---v1122)
+ - [`katana_localization_builder` - `v1.1.24`](#katana_localization_builder---v1124)
+ - [`katana_model` - `v1.3.22`](#katana_model---v1322)
+ - [`katana_model_firestore` - `v1.3.24`](#katana_model_firestore---v1324)
+ - [`katana_model_openapi` - `v1.2.5`](#katana_model_openapi---v125)
+ - [`katana_model_openapi_builder` - `v1.2.5`](#katana_model_openapi_builder---v125)
+ - [`katana_prefs` - `v1.1.8`](#katana_prefs---v118)
+ - [`katana_prefs_annotation` - `v1.1.7`](#katana_prefs_annotation---v117)
+ - [`katana_prefs_builder` - `v1.1.11`](#katana_prefs_builder---v1111)
+ - [`katana_router` - `v1.10.12`](#katana_router---v11012)
+ - [`katana_router_annotation` - `v1.10.9`](#katana_router_annotation---v1109)
+ - [`katana_router_builder` - `v1.10.11`](#katana_router_builder---v11011)
+ - [`katana_scoped` - `v1.7.6`](#katana_scoped---v176)
+ - [`katana_shorten` - `v1.2.5`](#katana_shorten---v125)
+ - [`katana_storage` - `v1.1.9`](#katana_storage---v119)
+ - [`katana_storage_firebase` - `v1.1.10`](#katana_storage_firebase---v1110)
+ - [`katana_theme` - `v1.2.15`](#katana_theme---v1215)
+ - [`katana_theme_annotation` - `v1.2.12`](#katana_theme_annotation---v1212)
+ - [`katana_theme_builder` - `v1.2.13`](#katana_theme_builder---v1213)
+ - [`katana_ui` - `v1.1.6`](#katana_ui---v116)
+ - [`masamune` - `v1.3.4`](#masamune---v134)
+ - [`masamune_annotation` - `v1.1.5`](#masamune_annotation---v115)
+ - [`masamune_builder` - `v1.1.17`](#masamune_builder---v1117)
+ - [`masamune_notification_firebase` - `v1.1.23`](#masamune_notification_firebase---v1123)
+ - [`masamune_picker` - `v1.4.27`](#masamune_picker---v1427)
+ - [`masamune_picker_file` - `v1.4.27`](#masamune_picker_file---v1427)
+ - [`masamune_picker_mobile` - `v1.4.27`](#masamune_picker_mobile---v1427)
+
+---
+
+#### `katana` - `v1.0.3`
+
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_auth` - `v1.1.10`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_auth_firebase` - `v1.1.11`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_cli` - `v1.4.12`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+
+#### `katana_firebase` - `v1.1.8`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_form` - `v1.3.5`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_functions` - `v1.1.10`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_functions_firebase` - `v1.1.12`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_indicator` - `v1.1.8`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_listenables` - `v1.2.14`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_listenables_annotation` - `v1.2.12`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_listenables_builder` - `v1.2.13`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_localization` - `v1.1.24`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_localization_annotation` - `v1.1.22`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_localization_builder` - `v1.1.24`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_model` - `v1.3.22`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_model_firestore` - `v1.3.24`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_model_openapi` - `v1.2.5`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_model_openapi_builder` - `v1.2.5`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_prefs` - `v1.1.8`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_prefs_annotation` - `v1.1.7`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_prefs_builder` - `v1.1.11`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_router` - `v1.10.12`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_router_annotation` - `v1.10.9`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_router_builder` - `v1.10.11`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_scoped` - `v1.7.6`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_shorten` - `v1.2.5`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_storage` - `v1.1.9`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_storage_firebase` - `v1.1.10`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_theme` - `v1.2.15`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_theme_annotation` - `v1.2.12`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_theme_builder` - `v1.2.13`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `katana_ui` - `v1.1.6`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `masamune` - `v1.3.4`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Maintained ReadMe for Masamune. ([ca1bf9ab](https://github.com/mathrunet/flutter_masamune/commit/ca1bf9ab5486b9633b2da1aa1a9ef0587e4e2631))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `masamune_annotation` - `v1.1.5`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Maintained ReadMe for Masamune. ([ca1bf9ab](https://github.com/mathrunet/flutter_masamune/commit/ca1bf9ab5486b9633b2da1aa1a9ef0587e4e2631))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `masamune_builder` - `v1.1.17`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Maintained ReadMe for Masamune. ([ca1bf9ab](https://github.com/mathrunet/flutter_masamune/commit/ca1bf9ab5486b9633b2da1aa1a9ef0587e4e2631))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `masamune_notification_firebase` - `v1.1.23`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `masamune_picker` - `v1.4.27`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `masamune_picker_file` - `v1.4.27`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+#### `masamune_picker_mobile` - `v1.4.27`
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
+
+## 2023-01-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v1.0.2`](#katana---v102)
  - [`katana_auth` - `v1.1.9`](#katana_auth---v119)
  - [`katana_auth_firebase` - `v1.1.10`](#katana_auth_firebase---v1110)

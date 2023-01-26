@@ -1,3 +1,8 @@
+## 1.4.12
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+
 ## 1.4.11
 
  - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))

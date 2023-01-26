@@ -1,3 +1,8 @@
+## 1.1.10
+
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+
 ## 1.1.9
 
  - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
