@@ -2,7 +2,7 @@
   <a href="https://mathru.net">
     <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
   </a>
-  <h1 align="center">Katana Picker</h1>
+  <h1 align="center">Masamune Picker</h1>
 </p>
 
 <p align="center">
@@ -23,3 +23,9 @@
 [[YouTube]](https://www.youtube.com/c/mathrunetchannel) | [[Packages]](https://pub.dev/publishers/mathru.net/packages) | [[Twitter]](https://twitter.com/mathru) | [[LinkedIn]](https://www.linkedin.com/in/mathrunet/)
 
 ---
+
+Plug-in packages that add functionality to the Masamune Framework.
+
+For more information about Masamune Framework, please click here.
+
+[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
