@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.3.25`](#katana_model---v1325)
+ - [`masamune` - `v1.3.7`](#masamune---v137)
+ - [`katana_model_firestore` - `v1.3.27`](#katana_model_firestore---v1327)
+ - [`masamune_picker` - `v1.4.30`](#masamune_picker---v1430)
+ - [`masamune_notification_firebase` - `v1.1.26`](#masamune_notification_firebase---v1126)
+ - [`masamune_picker_mobile` - `v1.4.30`](#masamune_picker_mobile---v1430)
+ - [`masamune_picker_file` - `v1.4.30`](#masamune_picker_file---v1430)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.3.7`
+ - `katana_model_firestore` - `v1.3.27`
+ - `masamune_picker` - `v1.4.30`
+ - `masamune_notification_firebase` - `v1.1.26`
+ - `masamune_picker_mobile` - `v1.4.30`
+ - `masamune_picker_file` - `v1.4.30`
+
+---
+
+#### `katana_model` - `v1.3.25`
+
+ - **FIX**: Fix to touch NoSQLDatabase data directly. ([c4c56a8b](https://github.com/mathrunet/flutter_masamune/commit/c4c56a8bf96fb5719091b8e0317292bdc8c45d74))
+
+
+## 2023-01-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.3.24`](#katana_model---v1324)
  - [`katana_model_firestore` - `v1.3.26`](#katana_model_firestore---v1326)
  - [`masamune` - `v1.3.6`](#masamune---v136)
