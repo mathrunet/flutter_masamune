@@ -10,31 +10,31 @@ const title = "";
 
 /// Initial page query.
 // TODO: Define the initial page query of the application.
-final initialQuery = null;
+const initialQuery = null;
 
 /// App Model.
 ///
 /// By replacing this with another adapter, the data storage location can be changed.
 // TODO: Change the database.
-final modelAdapter = RuntimeModelAdapter();
+const modelAdapter = RuntimeModelAdapter();
 
 /// App Auth.
 ///
 /// Changing to another adapter allows you to change to another authentication mechanism.
 // TODO: Change the authentication.
-final authAdapter = RuntimeAuthAdapter();
+const authAdapter = RuntimeAuthAdapter();
 
 /// App Storage.
 ///
 /// Changing to another adapter allows you to change to another storage mechanism.
 // TODO: Change the storage.
-final storageAdapter = LocalStorageAdapter();
+const storageAdapter = LocalStorageAdapter();
 
 /// App Functions.
 ///
 /// Changing to another adapter allows you to change to another functions mechanism.
 // TODO: Change the functions.
-final functionsAdapter = RuntimeFunctionsAdapter();
+const functionsAdapter = RuntimeFunctionsAdapter();
 
 /// App Theme.
 ///
