@@ -15,6 +15,222 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v1.0.4`](#katana---v104)
+ - [`katana_auth` - `v1.1.11`](#katana_auth---v1111)
+ - [`katana_auth_firebase` - `v1.1.12`](#katana_auth_firebase---v1112)
+ - [`katana_cli` - `v1.4.13`](#katana_cli---v1413)
+ - [`katana_firebase` - `v1.1.9`](#katana_firebase---v119)
+ - [`katana_form` - `v1.3.6`](#katana_form---v136)
+ - [`katana_functions` - `v1.1.11`](#katana_functions---v1111)
+ - [`katana_functions_firebase` - `v1.1.13`](#katana_functions_firebase---v1113)
+ - [`katana_indicator` - `v1.1.9`](#katana_indicator---v119)
+ - [`katana_listenables` - `v1.2.15`](#katana_listenables---v1215)
+ - [`katana_listenables_annotation` - `v1.2.13`](#katana_listenables_annotation---v1213)
+ - [`katana_listenables_builder` - `v1.2.14`](#katana_listenables_builder---v1214)
+ - [`katana_localization` - `v1.1.25`](#katana_localization---v1125)
+ - [`katana_localization_annotation` - `v1.1.23`](#katana_localization_annotation---v1123)
+ - [`katana_localization_builder` - `v1.1.25`](#katana_localization_builder---v1125)
+ - [`katana_model` - `v1.3.23`](#katana_model---v1323)
+ - [`katana_model_firestore` - `v1.3.25`](#katana_model_firestore---v1325)
+ - [`katana_model_openapi` - `v1.2.6`](#katana_model_openapi---v126)
+ - [`katana_model_openapi_builder` - `v1.2.6`](#katana_model_openapi_builder---v126)
+ - [`katana_prefs` - `v1.1.9`](#katana_prefs---v119)
+ - [`katana_prefs_annotation` - `v1.1.8`](#katana_prefs_annotation---v118)
+ - [`katana_prefs_builder` - `v1.1.12`](#katana_prefs_builder---v1112)
+ - [`katana_router` - `v1.10.13`](#katana_router---v11013)
+ - [`katana_router_annotation` - `v1.10.10`](#katana_router_annotation---v11010)
+ - [`katana_router_builder` - `v1.10.12`](#katana_router_builder---v11012)
+ - [`katana_scoped` - `v1.7.7`](#katana_scoped---v177)
+ - [`katana_shorten` - `v1.2.6`](#katana_shorten---v126)
+ - [`katana_storage` - `v1.1.10`](#katana_storage---v1110)
+ - [`katana_storage_firebase` - `v1.1.11`](#katana_storage_firebase---v1111)
+ - [`katana_theme` - `v1.2.16`](#katana_theme---v1216)
+ - [`katana_theme_annotation` - `v1.2.13`](#katana_theme_annotation---v1213)
+ - [`katana_theme_builder` - `v1.2.14`](#katana_theme_builder---v1214)
+ - [`katana_ui` - `v1.1.7`](#katana_ui---v117)
+ - [`masamune` - `v1.3.5`](#masamune---v135)
+ - [`masamune_annotation` - `v1.1.6`](#masamune_annotation---v116)
+ - [`masamune_builder` - `v1.1.18`](#masamune_builder---v1118)
+ - [`masamune_notification_firebase` - `v1.1.24`](#masamune_notification_firebase---v1124)
+ - [`masamune_picker` - `v1.4.28`](#masamune_picker---v1428)
+ - [`masamune_picker_file` - `v1.4.28`](#masamune_picker_file---v1428)
+ - [`masamune_picker_mobile` - `v1.4.28`](#masamune_picker_mobile---v1428)
+
+---
+
+#### `katana` - `v1.0.4`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_auth` - `v1.1.11`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_auth_firebase` - `v1.1.12`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_cli` - `v1.4.13`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_firebase` - `v1.1.9`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_form` - `v1.3.6`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_functions` - `v1.1.11`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_functions_firebase` - `v1.1.13`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_indicator` - `v1.1.9`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_listenables` - `v1.2.15`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_listenables_annotation` - `v1.2.13`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_listenables_builder` - `v1.2.14`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_localization` - `v1.1.25`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_localization_annotation` - `v1.1.23`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_localization_builder` - `v1.1.25`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_model` - `v1.3.23`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_model_firestore` - `v1.3.25`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_model_openapi` - `v1.2.6`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_model_openapi_builder` - `v1.2.6`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_prefs` - `v1.1.9`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_prefs_annotation` - `v1.1.8`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_prefs_builder` - `v1.1.12`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_router` - `v1.10.13`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_router_annotation` - `v1.10.10`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_router_builder` - `v1.10.12`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_scoped` - `v1.7.7`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_shorten` - `v1.2.6`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_storage` - `v1.1.10`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_storage_firebase` - `v1.1.11`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_theme` - `v1.2.16`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_theme_annotation` - `v1.2.13`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_theme_builder` - `v1.2.14`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `katana_ui` - `v1.1.7`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `masamune` - `v1.3.5`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `masamune_annotation` - `v1.1.6`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `masamune_builder` - `v1.1.18`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `masamune_notification_firebase` - `v1.1.24`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `masamune_picker` - `v1.4.28`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `masamune_picker_file` - `v1.4.28`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+#### `masamune_picker_mobile` - `v1.4.28`
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
+
+## 2023-01-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v1.0.3`](#katana---v103)
  - [`katana_auth` - `v1.1.10`](#katana_auth---v1110)
  - [`katana_auth_firebase` - `v1.1.11`](#katana_auth_firebase---v1111)

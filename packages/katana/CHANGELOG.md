@@ -1,3 +1,7 @@
+## 1.0.4
+
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+
 ## 1.0.3
 
  - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
