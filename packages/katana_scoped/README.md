@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 Flutter's status is divided into the following two categories as officially described.
 

@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 FirebaseAuthentication for use around authentication is useful.
 

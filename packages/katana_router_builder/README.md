@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 Flutter's Routing and Navigator are easy to use, and you can take advantage of great packages like [go_router](https://pub.dev/packages/go_router) and [auto_route](https://pub.dev/packages/auto_route), but each has some inconveniences.
 

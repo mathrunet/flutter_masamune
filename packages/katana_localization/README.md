@@ -25,7 +25,7 @@
 ---
 
 
-# Motivation
+# Introduction
 
 The localization package would basically have the following features
 
@@ -93,7 +93,7 @@ Google Spreadsheets will be made available in advance.
 
 The leftmost column of the Google spreadsheet is `the key`, and the translated text corresponding to the key in each row is described according to the locale in the second row.
 
-![Untitled](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss01.png)
+![Google SpreadSheet](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss01.png)
 
 If you prefix a key with `#`, the line will not be read. Please use this for comments, etc.
 
@@ -103,7 +103,7 @@ You can embed variables there by entering `{variable name}` in the key.
 
 The same `{variable name}` can be included in the translation text so that the value corresponding to the same variable name will be embedded and displayed.
 
-![Untitled](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss02.png)
+![Variable name assignment](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/katana_localization/.github/images/gss02.png)
 
 # Implementation
 

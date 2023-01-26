@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 Flutter's handling of themes is complex and monstrous.
 

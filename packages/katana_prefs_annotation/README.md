@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 [Shared Preferences](https://pub.dev/packages/shared_preferences) is a useful plugin.
 

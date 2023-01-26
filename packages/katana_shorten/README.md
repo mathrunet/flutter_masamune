@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 `Duration` and `EdgeInsets` are classes that are often used to implement Flutter.
 

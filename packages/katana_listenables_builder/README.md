@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 You may want to manage multiple TextEditingControllers, ValueNotifiers, and other controllers that inherit these ChangeNotifiers when creating widgets.
 

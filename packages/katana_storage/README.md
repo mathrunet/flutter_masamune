@@ -24,7 +24,7 @@
 
 ---
 
-# Motivation
+# Introduction
 
 The ability to upload files representing image files is used by a variety of applications.
 
