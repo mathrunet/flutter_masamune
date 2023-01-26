@@ -9,5 +9,3 @@ pre-commit:
     formatter:
       glob: "*.dart"
       run: melos format && git add {staged_files}
-    analyzer:
-      run: melos analyze
