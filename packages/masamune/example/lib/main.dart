@@ -1,244 +1,138 @@
-// Flutter imports:
 import 'package:flutter/material.dart';
-
-// Package imports:
 import 'package:masamune/masamune.dart';
 
+part 'main.theme.dart';
+part 'main.localize.dart';
+
+/// App Title.
+// TODO: Define the title of the application.
+const title = "";
+
+/// Initial page query.
+// TODO: Define the initial page query of the application.
+final initialQuery = null;
+
+/// App Model.
+///
+/// By replacing this with another adapter, the data storage location can be changed.
+// TODO: Change the database.
+final modelAdapter = RuntimeModelAdapter();
+
+/// App Auth.
+///
+/// Changing to another adapter allows you to change to another authentication mechanism.
+// TODO: Change the authentication.
+final authAdapter = RuntimeAuthAdapter();
+
+/// App Storage.
+///
+/// Changing to another adapter allows you to change to another storage mechanism.
+// TODO: Change the storage.
+final storageAdapter = LocalStorageAdapter();
+
+/// App Functions.
+///
+/// Changing to another adapter allows you to change to another functions mechanism.
+// TODO: Change the functions.
+final functionsAdapter = RuntimeFunctionsAdapter();
+
+/// App Theme.
+///
+/// ```dart
+/// theme.color.primary   // Primary color.
+/// theme.text.bodyMedium // Medium body text style.
+/// theme.asset.xxx       // xxx image.
+/// theme.font.xxx        // xxx font.
+/// ```
+@appTheme
+final theme = AppThemeData(
+  // TODO: Set the design.
+  primary: Colors.blue,
+  secondary: Colors.cyan,
+  onPrimary: Colors.white,
+  onSecondary: Colors.white,
+);
+
+/// App Router.
+///
+/// ```dart
+/// router.push(Page.query());  // Push page to Page.
+/// router.pop();               // Pop page.
+/// ```
+final router = AppRouter(
+  // TODO: Please configure the initial routing and redirection settings.
+  boot: null,
+  initialQuery: initialQuery,
+  redirect: [],
+  pages: [
+    // TODO: Add the page query to be used for routing.
+  ],
+);
+
+/// App Localization.
+///
+/// ```dart
+/// l().xxx  // Localization for xxx.
+/// ```
+final l = AppLocalize();
+
+// TODO: Set the Google Spreadsheet URL for the translation.
+@GoogleSpreadSheetLocalize(
+  "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+  version: 1,
+)
+class AppLocalize extends _$AppLocalize {}
+
+/// App Ref.
+///
+/// ```dart
+/// appRef.controller(Controller.query()); // Get a controller.
+/// appRef.model(Model.query());           // Get a model.
+/// ```
+final appRef = AppRef();
+
+/// App authentication.
+///
+/// ```dart
+/// appAuth.signIn(
+///   EmailAndPasswordSignInAuthProvider(
+///     email: email,
+///     password: password,
+///   ),
+/// );
+/// ```
+final appAuth = Authentication();
+
+/// App server functions.
+///
+/// It is used in conjunction with the server side.
+///
+/// ```dart
+/// appFunction.notification(
+///   title: "Notification",
+///   text: "Notification text",
+///   target: "Topic",
+/// );
+/// ```
+final appFunction = Functions();
+
+/// App Flavor.
+const flavor = String.fromEnvironment("FLAVOR");
+
+/// App.
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AuthAdapterScope(
-      adapter: const RuntimeAuthAdapter(),
-      child: MaterialApp(
-        home: const AuthPage(),
-        title: "Flutter Demo",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-      ),
-    );
-  }
-}
-
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
-
-  @override
-  State<StatefulWidget> createState() => AuthPageState();
-}
-
-class AuthPageState extends State<AuthPage> {
-  final auth = Authentication();
-
-  @override
-  void initState() {
-    super.initState();
-    auth.addListener(_handledOnUpdate);
-  }
-
-  void _handledOnUpdate() {
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    auth.removeListener(_handledOnUpdate);
-    auth.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("App Demo")),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text("SignedIn: ${auth.isSignedIn}"),
-          ),
-          ListTile(
-            title: Text("Anonymously: ${auth.isAnonymously}"),
-          ),
-          ListTile(
-            title: Text("ID: ${auth.userId}"),
-          ),
-          ListTile(
-            title: Text("Email: ${auth.userEmail}"),
-          ),
-          ListTile(
-            title: Text("Phone: ${auth.userPhoneNumber}"),
-          ),
-          ListTile(
-            title: Text("Providers: ${auth.activeProviderIds.join("\n")}"),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) {
-              return AuthControlPage(auth: auth);
-            },
-          ));
-        },
-        child: const Icon(Icons.person),
-      ),
-    );
-  }
-}
-
-class AuthControlPage extends StatelessWidget {
-  const AuthControlPage({
-    required this.auth,
-    super.key,
-  });
-
-  final Authentication auth;
-
-  @override
-  Widget build(BuildContext context) {
-    final navigator = Navigator.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Auth Control"),
-      ),
-      body: ListView(
-        children: [
-          if (!auth.isSignedIn) ...[
-            if (!auth.isWaitingConfirmation) ...[
-              ListTile(
-                title: const Text("SignIn anonymously"),
-                onTap: () async {
-                  await auth.signIn(AnonymouslyAuthQuery.signIn());
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("Register with email and password"),
-                onTap: () async {
-                  await auth.register(
-                    EmailAndPasswordAuthQuery.register(
-                      email: "test@email.com",
-                      password: "12345678",
-                    ),
-                  );
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("SignIn with email and password"),
-                onTap: () async {
-                  await auth.signIn(
-                    EmailAndPasswordAuthQuery.signIn(
-                      email: "test@email.com",
-                      password: "12345678",
-                    ),
-                  );
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("SignIn with email link"),
-                onTap: () async {
-                  await auth.signIn(
-                    EmailLinkAuthQuery.signIn(
-                      email: "test@email.com",
-                      url: "https://test.com",
-                    ),
-                  );
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("SignIn with sms"),
-                onTap: () async {
-                  await auth.signIn(
-                    SmsAuthQuery.signIn(
-                      phoneNumber: "01234567890",
-                    ),
-                  );
-                  navigator.pop();
-                },
-              ),
-            ] else ...[
-              ListTile(
-                title: const Text("Confirm signIn with email link"),
-                onTap: () async {
-                  await auth.confirmSignIn(
-                    EmailLinkAuthQuery.confirmSignIn(
-                      url: "https://test.com",
-                    ),
-                  );
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("Confirm signIn with sms"),
-                onTap: () async {
-                  await auth.confirmSignIn(
-                    SmsAuthQuery.confirmSignIn(
-                      code: "012345",
-                    ),
-                  );
-                  navigator.pop();
-                },
-              ),
-            ],
-          ] else ...[
-            if (!auth.isWaitingConfirmation) ...[
-              ListTile(
-                title: const Text("Change email"),
-                onTap: () async {
-                  await auth.change(EmailAndPasswordAuthQuery.changeEmail(
-                      email: "changed@email.com"));
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("Change password"),
-                onTap: () async {
-                  await auth.change(
-                      EmailAndPasswordAuthQuery.changePassword(password: ""));
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("Change phoneNumber"),
-                onTap: () async {
-                  await auth.change(SmsAuthQuery.changePhoneNumber(
-                      phoneNumber: "1234567890"));
-                  navigator.pop();
-                },
-              ),
-              ListTile(
-                title: const Text("SignOut"),
-                onTap: () async {
-                  await auth.signOut();
-                  navigator.pop();
-                },
-              ),
-            ] else ...[
-              ListTile(
-                title: const Text("Confirm changing Phone number with sms"),
-                onTap: () async {
-                  await auth.confirmChange(
-                    SmsAuthQuery.confirmChangePhoneNumber(
-                      code: "012345",
-                    ),
-                  );
-                  navigator.pop();
-                },
-              ),
-            ],
-          ],
-        ],
-      ),
-    );
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    MasamuneApp(
+      title: title,
+      appRef: appRef,
+      theme: theme,
+      routerConfig: router,
+      localize: l,
+      authAdapter: authAdapter,
+      modelAdapter: modelAdapter,
+      storageAdapter: storageAdapter,
+      functionsAdapter: functionsAdapter,
+    ),
+  );
 }
