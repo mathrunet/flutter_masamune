@@ -437,13 +437,13 @@ void main() {
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);
     final model1 = RuntimeMTestValueDocumentModel(query1);
     await model1.save(
-      model1.value?.copyWith(name: "aaaa", text: "bbbb", ids: [1, 2, 3]),
+      const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 3]),
     );
     expect(collection.map((e) => e.value), []);
     final query2 = DocumentModelQuery("test/bbb", adapter: adapter);
     final model2 = RuntimeMTestValueDocumentModel(query2);
     await model2.save(
-      model2.value?.copyWith(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
+      const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
     );
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
@@ -451,7 +451,7 @@ void main() {
     final query3 = DocumentModelQuery("test/ccc", adapter: adapter);
     final model3 = RuntimeMTestValueDocumentModel(query3);
     await model3.save(
-      model3.value?.copyWith(name: "eee", text: "fff", ids: [5, 6, 10]),
+      const TestValue(name: "eee", text: "fff", ids: [5, 6, 10]),
     );
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
@@ -460,7 +460,7 @@ void main() {
     final query4 = DocumentModelQuery("test/ddd", adapter: adapter);
     final model4 = RuntimeMTestValueDocumentModel(query4);
     await model4.save(
-      model4.value?.copyWith(name: "ggg", text: "hhh"),
+      const TestValue(name: "ggg", text: "hhh"),
     );
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
@@ -469,7 +469,7 @@ void main() {
     final query5 = DocumentModelQuery("test/eee", adapter: adapter);
     final model5 = RuntimeMTestValueDocumentModel(query5);
     await model5.save(
-      model5.value?.copyWith(name: "iii", text: "jjj", ids: [9, 10, 11]),
+      const TestValue(name: "iii", text: "jjj", ids: [9, 10, 11]),
     );
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
@@ -479,7 +479,7 @@ void main() {
     final query6 = DocumentModelQuery("test/fff", adapter: adapter);
     final model6 = RuntimeMTestValueDocumentModel(query6);
     await model6.save(
-      model6.value?.copyWith(name: "kkk", text: "lll"),
+      const TestValue(name: "kkk", text: "lll"),
     );
     expect(collection.map((e) => e.value), [
       const TestValue(name: "aaaa", text: "bbbb", ids: [1, 2, 10]),
