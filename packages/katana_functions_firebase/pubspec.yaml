@@ -1,6 +1,6 @@
 name: katana_functions_firebase
 description: Provides an adapter for use with Firebase Functions. Provides an interface to execute server-side processing in a type-safe manner.
-version: 1.1.13
+version: 1.1.14
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_functions_firebase
 
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^1.0.4
-  katana_functions: ^1.1.11
-  katana_firebase: ^1.1.9
+  katana: ^1.0.5
+  katana_functions: ^1.1.12
+  katana_firebase: ^1.1.10
   firebase_core: ^2.1.1
   cloud_functions: ^4.0.7
 dev_dependencies:

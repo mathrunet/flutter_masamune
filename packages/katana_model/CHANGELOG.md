@@ -1,3 +1,7 @@
+## 1.3.26
+
+ - Update a dependency to the latest release.
+
 ## 1.3.25
 
  - **FIX**: Fix to touch NoSQLDatabase data directly. ([c4c56a8b](https://github.com/mathrunet/flutter_masamune/commit/c4c56a8bf96fb5719091b8e0317292bdc8c45d74))

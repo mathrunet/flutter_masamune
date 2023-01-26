@@ -1,3 +1,7 @@
+## 1.2.7
+
+ - Update a dependency to the latest release.
+
 ## 1.2.6
 
  - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))

@@ -1,3 +1,7 @@
+## 1.0.5
+
+ - **FIX**: Revert flutter_localizations because they are not compatible with the intl version upgrade. ([69221e56](https://github.com/mathrunet/flutter_masamune/commit/69221e563405c9056ea940d69ce75f571dff29f0))
+
 ## 1.0.4
 
  - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
