@@ -1,3 +1,7 @@
+## 1.1.29
+
+ - Update a dependency to the latest release.
+
 ## 1.1.28
 
  - **FIX**: Readme maintenance. ([c15c5755](https://github.com/mathrunet/flutter_masamune/commit/c15c57554b5544032ff7ab33b27c78b47b3e852e))

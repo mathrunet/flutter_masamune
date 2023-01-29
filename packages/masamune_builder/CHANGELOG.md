@@ -1,3 +1,7 @@
+## 1.1.20
+
+ - **DOCS**: Added sample code URL to ReadMe. ([f0421ba5](https://github.com/mathrunet/flutter_masamune/commit/f0421ba5b91be91c27748da5db71860f49884425))
+
 ## 1.1.19
 
  - Update a dependency to the latest release.

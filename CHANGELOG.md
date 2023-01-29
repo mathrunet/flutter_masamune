@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v1.3.10`](#masamune---v1310)
+ - [`masamune_annotation` - `v1.1.8`](#masamune_annotation---v118)
+ - [`masamune_builder` - `v1.1.20`](#masamune_builder---v1120)
+ - [`masamune_picker` - `v1.4.33`](#masamune_picker---v1433)
+ - [`masamune_notification_firebase` - `v1.1.29`](#masamune_notification_firebase---v1129)
+ - [`masamune_picker_mobile` - `v1.4.33`](#masamune_picker_mobile---v1433)
+ - [`masamune_picker_file` - `v1.4.33`](#masamune_picker_file---v1433)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.4.33`
+ - `masamune_notification_firebase` - `v1.1.29`
+ - `masamune_picker_mobile` - `v1.4.33`
+ - `masamune_picker_file` - `v1.4.33`
+
+---
+
+#### `masamune` - `v1.3.10`
+
+ - **DOCS**: Added sample code URL to ReadMe. ([f0421ba5](https://github.com/mathrunet/flutter_masamune/commit/f0421ba5b91be91c27748da5db71860f49884425))
+
+#### `masamune_annotation` - `v1.1.8`
+
+ - **DOCS**: Added sample code URL to ReadMe. ([f0421ba5](https://github.com/mathrunet/flutter_masamune/commit/f0421ba5b91be91c27748da5db71860f49884425))
+
+#### `masamune_builder` - `v1.1.20`
+
+ - **DOCS**: Added sample code URL to ReadMe. ([f0421ba5](https://github.com/mathrunet/flutter_masamune/commit/f0421ba5b91be91c27748da5db71860f49884425))
+
+
 ## 2023-01-26
 
 ### Changes
