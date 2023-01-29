@@ -30,6 +30,8 @@ Please see here first.
 
 ![Implementation sample](https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/packages/masamune/.github/images/sample.gif)
 
+- Sample code for the video is available [here](https://github.com/mathrunet/flutter_sample_memo_test).
+
 Here is a video of a notepad application being completed in just 5 minutes from a completely empty state.
 
 By using the `Masamune framework`, it is possible to reduce most of the coding that is done in application development.
