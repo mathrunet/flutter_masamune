@@ -284,26 +284,25 @@ packages:
     dependency: "direct main"
     description:
       name: katana
-      sha256: fc59c8fd5c5eaeff569bff1bf37933ca9b2e69739c85dd3b6abffa63567a7cd4
+      sha256: "9a3ec047c35ec88e027139e88ce45202b022dd2111b38848c85159101b0028ce"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.5"
   katana_firebase:
     dependency: "direct main"
     description:
       name: katana_firebase
-      sha256: e2cdcc38262e61b1d74fa8bbd86c42ab4ee0abc84ae1091df0ddddd39c7835ed
+      sha256: "6f3287c8bfe9dc785eadbf297306b05adf677185ac7a9d0e8b3fe0515a890444"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.8"
+    version: "1.1.10"
   katana_model:
     dependency: "direct main"
     description:
-      name: katana_model
-      sha256: caef2d5533bb2655fd10160717d37cccfc4fdabcc66b9b731236914f62e5bfb0
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.22"
+      path: "../katana_model"
+      relative: true
+    source: path
+    version: "1.3.26"
   lints:
     dependency: transitive
     description:
@@ -316,10 +315,10 @@ packages:
     dependency: transitive
     description:
       name: logging
-      sha256: c0bbfe94d46aedf9b8b3e695cf3bd48c8e14b35e3b2c639e0aa7755d589ba946
+      sha256: "04094f2eb032cbb06c6f6e8d3607edcfcb0455e2bb6cbc010cb01171dcb64e6d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   matcher:
     dependency: transitive
     description:
@@ -601,10 +600,10 @@ packages:
     dependency: transitive
     description:
       name: sprintf
-      sha256: ec76d38910b6f1c854ce1353c62d37e7ef82b53dc5ab048c25400d35970776d1
+      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.2"
+    version: "7.0.0"
   stack_trace:
     dependency: transitive
     description:

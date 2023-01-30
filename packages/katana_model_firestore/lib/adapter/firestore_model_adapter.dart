@@ -285,93 +285,161 @@ class FirestoreModelAdapter extends ModelAdapter {
     return res;
   }
 
+  @Deprecated("This is an implementation that is not necessary.")
+  List<ModelQueryFilter> _addOldFilter(
+    ModelAdapterCollectionQuery query,
+  ) {
+    final res = <ModelQueryFilter>[];
+    if (query.query.key.isNotEmpty) {
+      if (query.query.isEqualTo != null) {
+        res.add(ModelQueryFilter.equal(
+            key: query.query.key!, value: query.query.isEqualTo));
+      } else if (query.query.isNotEqualTo != null) {
+        res.add(ModelQueryFilter.notEqual(
+            key: query.query.key!, value: query.query.isNotEqualTo));
+      } else if (query.query.isLessThanOrEqualTo != null) {
+        res.add(ModelQueryFilter.lessThanOrEqual(
+            key: query.query.key!, value: query.query.isLessThanOrEqualTo));
+      } else if (query.query.isGreaterThanOrEqualTo != null) {
+        res.add(ModelQueryFilter.greaterThanOrEqual(
+            key: query.query.key!, value: query.query.isGreaterThanOrEqualTo));
+      } else if (query.query.arrayContains != null) {
+        res.add(ModelQueryFilter.contains(
+            key: query.query.key!, value: query.query.arrayContains));
+      } else if (query.query.arrayContainsAny != null) {
+        res.add(ModelQueryFilter.containsAny(
+            key: query.query.key!,
+            values: query.query.arrayContainsAny!.cast<Object>()));
+      } else if (query.query.whereIn != null) {
+        res.add(ModelQueryFilter.where(
+            key: query.query.key!,
+            values: query.query.whereIn!.cast<Object>()));
+      } else if (query.query.whereNotIn != null) {
+        res.add(ModelQueryFilter.notWhere(
+            key: query.query.key!,
+            values: query.query.whereNotIn!.cast<Object>()));
+      } else if (query.query.geoHash != null) {
+        res.add(ModelQueryFilter.geo(
+            key: query.query.key!, geoHash: query.query.geoHash!));
+      } else if (query.query.searchText.isNotEmpty) {
+        res.add(ModelQueryFilter.like(
+            key: query.query.key!, text: query.query.searchText!));
+      }
+    }
+    if (query.query.orderBy.isNotEmpty) {
+      if (query.query.order == ModelQueryOrder.asc) {
+        res.add(ModelQueryFilter.orderByAsc(key: query.query.orderBy!));
+      } else {
+        res.add(ModelQueryFilter.orderByDesc(key: query.query.orderBy!));
+      }
+    }
+    if (query.query.limit != null) {
+      res.add(ModelQueryFilter.limitTo(value: query.query.limit!));
+    }
+    return res;
+  }
+
   Query<DynamicMap> _query(
     Query<DynamicMap> firestoreQuery,
     ModelAdapterCollectionQuery query,
   ) {
-    if (query.query.key.isNotEmpty) {
-      if (query.query.isEqualTo != null) {
-        firestoreQuery = firestoreQuery.where(
-          query.query.key!,
-          isEqualTo: query.query.isEqualTo,
-        );
+    // TODO: Deprecatedが取れればここを修正
+    final filters = [
+      ...query.query.filters,
+      ..._addOldFilter(query),
+    ];
+    for (final filter in filters) {
+      switch (filter.type) {
+        case ModelQueryFilterType.equalTo:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isEqualTo: filter.value,
+          );
+          break;
+        case ModelQueryFilterType.notEqualTo:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isNotEqualTo: filter.value,
+          );
+          break;
+        case ModelQueryFilterType.lessThan:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isLessThan: filter.value,
+          );
+          break;
+        case ModelQueryFilterType.greaterThan:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isGreaterThan: filter.value,
+          );
+          break;
+        case ModelQueryFilterType.lessThanOrEqualTo:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isLessThanOrEqualTo: filter.value,
+          );
+          break;
+        case ModelQueryFilterType.greaterThanOrEqualTo:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isGreaterThanOrEqualTo: filter.value,
+          );
+          break;
+        case ModelQueryFilterType.arrayContains:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            arrayContains: filter.value,
+          );
+          break;
+        case ModelQueryFilterType.like:
+          final texts =
+              filter.value.toString().toLowerCase().splitByBigram().distinct();
+          for (final text in texts) {
+            firestoreQuery = firestoreQuery.where(
+              "${filter.key!}.$text",
+              isEqualTo: true,
+            );
+          }
+          break;
+        case ModelQueryFilterType.isNull:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isNull: true,
+          );
+          break;
+        case ModelQueryFilterType.isNotNull:
+          firestoreQuery = firestoreQuery.where(
+            filter.key!,
+            isNull: false,
+          );
+          break;
+        default:
+          break;
       }
-      if (query.query.isNotEqualTo != null) {
-        firestoreQuery = firestoreQuery.where(
-          query.query.key!,
-          isNotEqualTo: query.query.isNotEqualTo,
-        );
-      }
-      if (query.query.isGreaterThanOrEqualTo != null) {
-        firestoreQuery = firestoreQuery.where(
-          query.query.key!,
-          isGreaterThanOrEqualTo: query.query.isGreaterThanOrEqualTo,
-        );
-      }
-      if (query.query.isLessThanOrEqualTo != null) {
-        firestoreQuery = firestoreQuery.where(
-          query.query.key!,
-          isLessThanOrEqualTo: query.query.isLessThanOrEqualTo,
-        );
-      }
-      if (query.query.arrayContains != null) {
-        firestoreQuery = firestoreQuery.where(
-          query.query.key!,
-          arrayContains: query.query.arrayContains,
-        );
-      }
-      if (query.query.searchText != null) {
-        query.query.searchText
-            ?.toLowerCase()
-            .splitByBigram()
-            .distinct()
-            .forEach((text) {
+    }
+    for (final filter in filters) {
+      switch (filter.type) {
+        case ModelQueryFilterType.orderByAsc:
+          firestoreQuery = firestoreQuery.orderBy(filter.key!);
+          break;
+        case ModelQueryFilterType.orderByDesc:
           firestoreQuery =
-              firestoreQuery.where("${query.query.key}.$text", isEqualTo: true);
-        });
-      }
-    }
-    if (query.query.limit != null) {
-      firestoreQuery = firestoreQuery.limit(
-        query.query.limit! * query.page,
-      );
-    }
-    if (query.query.orderBy.isNotEmpty) {
-      switch (query.query.order) {
-        case ModelQueryOrder.asc:
-          if (!(query.query.key.isNotEmpty &&
-              query.query.key == query.query.orderBy &&
-              (query.query.isEqualTo != null ||
-                  query.query.isNotEqualTo != null ||
-                  query.query.arrayContainsAny != null ||
-                  query.query.whereIn != null ||
-                  query.query.whereNotIn != null ||
-                  query.query.searchText != null))) {
-            firestoreQuery = firestoreQuery.orderBy(query.query.orderBy!);
-          }
+              firestoreQuery.orderBy(filter.key!, descending: true);
           break;
-        case ModelQueryOrder.desc:
-          if (!(query.query.key.isNotEmpty &&
-              query.query.key == query.query.orderBy &&
-              (query.query.isEqualTo ||
-                  query.query.isNotEqualTo != null ||
-                  query.query.arrayContainsAny != null ||
-                  query.query.whereIn != null ||
-                  query.query.whereNotIn != null ||
-                  query.query.searchText != null))) {
-            firestoreQuery =
-                firestoreQuery.orderBy(query.query.orderBy!, descending: true);
+        case ModelQueryFilterType.limit:
+          final val = filter.value;
+          if (val is! num) {
+            continue;
           }
+          firestoreQuery = firestoreQuery.limit(
+            val.toInt() * query.page,
+          );
+          break;
+        default:
           break;
       }
-    } else {
-      if (query.query.isGreaterThanOrEqualTo != null) {
-        firestoreQuery = firestoreQuery.orderBy(query.query.key!);
-      } else if (query.query.isLessThanOrEqualTo != null) {
-        firestoreQuery = firestoreQuery.orderBy(query.query.key!);
-      }
     }
-
     return firestoreQuery;
   }
 
@@ -383,97 +451,134 @@ class FirestoreModelAdapter extends ModelAdapter {
   List<Query<DynamicMap>> _collectionReference(
     ModelAdapterCollectionQuery query,
   ) {
-    if (query.query.key.isNotEmpty) {
-      if (query.query.arrayContainsAny != null) {
-        final items = query.query.arrayContainsAny!;
-        if (items.isNotEmpty) {
-          final queries = <Query<DynamicMap>>[];
-          for (var i = 0; i < items.length; i += 10) {
-            queries.add(
-              _query(
-                database
-                    .collection(query.query.path.trimQuery().trimString("/")),
-                query,
-              ).where(
-                query.query.key!,
-                arrayContainsAny: items
-                    .sublist(
-                      i,
-                      min(i + 10, items.length),
-                    )
-                    .toList(),
-              ),
-            );
-          }
-          return queries;
+    // TODO: Deprecatedが取れればここを修正
+    final filters = [
+      ...query.query.filters,
+      ..._addOldFilter(query),
+    ];
+    final containsAny = filters
+        .where((e) => e.type == ModelQueryFilterType.arrayContainsAny)
+        .toList();
+    final whereIn =
+        filters.where((e) => e.type == ModelQueryFilterType.whereIn).toList();
+    final whereNotIn = filters
+        .where((e) => e.type == ModelQueryFilterType.whereNotIn)
+        .toList();
+    final geoHash =
+        filters.where((e) => e.type == ModelQueryFilterType.geoHash).toList();
+    assert(
+      containsAny.length <= 1,
+      "Multiple conditions cannot be defined for `containsAny`.",
+    );
+    assert(
+      whereIn.length <= 1,
+      "Multiple conditions cannot be defined for `where`.",
+    );
+    assert(
+      whereNotIn.length <= 1,
+      "Multiple conditions cannot be defined for `notWhere`.",
+    );
+    assert(
+      geoHash.length <= 1,
+      "Multiple conditions cannot be defined for `geo`.",
+    );
+    assert(
+      containsAny.length +
+              whereNotIn.length +
+              whereIn.length +
+              geoHash.length <=
+          1,
+      "Only one of `containsAny`, `where`, `notWhere`, or `geo` may be specified. Duplicate conditions cannot be given.",
+    );
+    if (containsAny.isNotEmpty) {
+      final filter = containsAny.first;
+      final items = filter.value;
+      if (items is List && items.isNotEmpty) {
+        final queries = <Query<DynamicMap>>[];
+        for (var i = 0; i < items.length; i += 10) {
+          queries.add(
+            _query(
+              database.collection(query.query.path.trimQuery().trimString("/")),
+              query,
+            ).where(
+              filter.key!,
+              arrayContainsAny: items
+                  .sublist(
+                    i,
+                    min(i + 10, items.length),
+                  )
+                  .toList(),
+            ),
+          );
         }
-      } else if (query.query.whereIn != null) {
-        final items = query.query.whereIn!;
-        if (items.isNotEmpty) {
-          final queries = <Query<DynamicMap>>[];
-          for (var i = 0; i < items.length; i += 10) {
-            queries.add(
-              _query(
-                database
-                    .collection(query.query.path.trimQuery().trimString("/")),
-                query,
-              ).where(
-                query.query.key!,
-                whereIn: items
-                    .sublist(
-                      i,
-                      min(i + 10, items.length),
-                    )
-                    .toList(),
-              ),
-            );
-          }
-          return queries;
+        return queries;
+      }
+    } else if (whereIn.isNotEmpty) {
+      final filter = whereIn.first;
+      final items = filter.value;
+      if (items is List && items.isNotEmpty) {
+        final queries = <Query<DynamicMap>>[];
+        for (var i = 0; i < items.length; i += 10) {
+          queries.add(
+            _query(
+              database.collection(query.query.path.trimQuery().trimString("/")),
+              query,
+            ).where(
+              filter.key!,
+              whereIn: items
+                  .sublist(
+                    i,
+                    min(i + 10, items.length),
+                  )
+                  .toList(),
+            ),
+          );
         }
-      } else if (query.query.whereNotIn != null) {
-        final items = query.query.whereNotIn!;
-        if (items.isNotEmpty) {
-          final queries = <Query<DynamicMap>>[];
-          for (var i = 0; i < items.length; i += 10) {
-            queries.add(
-              _query(
-                database
-                    .collection(query.query.path.trimQuery().trimString("/")),
-                query,
-              ).where(
-                query.query.key!,
-                whereIn: items
-                    .sublist(
-                      i,
-                      min(i + 10, items.length),
-                    )
-                    .toList(),
-              ),
-            );
-          }
-          return queries;
+        return queries;
+      }
+    } else if (whereNotIn.isNotEmpty) {
+      final filter = whereNotIn.first;
+      final items = filter.value;
+      if (items is List && items.isNotEmpty) {
+        final queries = <Query<DynamicMap>>[];
+        for (var i = 0; i < items.length; i += 10) {
+          queries.add(
+            _query(
+              database.collection(query.query.path.trimQuery().trimString("/")),
+              query,
+            ).where(
+              filter.key!,
+              whereNotIn: items
+                  .sublist(
+                    i,
+                    min(i + 10, items.length),
+                  )
+                  .toList(),
+            ),
+          );
         }
-      } else if (query.query.geoHash != null) {
-        final items = query.query.geoHash!;
-        if (items.isNotEmpty) {
-          final queries = <Query<DynamicMap>>[];
-          for (var i = 0; i < items.length; i++) {
-            final hash = items[i];
-            queries.add(
-              _query(
-                database
-                    .collection(query.query.path.trimQuery().trimString("/")),
-                query,
-              )
-                  .orderBy(
-                query.query.key!,
-              )
-                  // ignore: prefer_interpolation_to_compose_strings
-                  .startAt([hash]).endAt([hash + "\uf8ff"]),
-            );
-          }
-          return queries;
+        return queries;
+      }
+    } else if (geoHash.isNotEmpty) {
+      final filter = geoHash.first;
+      final items = filter.value;
+      if (items is List<String> && items.isNotEmpty) {
+        final queries = <Query<DynamicMap>>[];
+        for (var i = 0; i < items.length; i++) {
+          final hash = items[i];
+          queries.add(
+            _query(
+              database.collection(query.query.path.trimQuery().trimString("/")),
+              query,
+            )
+                .orderBy(
+              filter.key!,
+            )
+                // ignore: prefer_interpolation_to_compose_strings
+                .startAt([hash]).endAt([hash + "\uf8ff"]),
+          );
         }
+        return queries;
       }
     }
     return [

@@ -167,9 +167,7 @@ void main() {
     final query = CollectionModelQuery(
       "test",
       adapter: adapter,
-      key: "ids",
-      arrayContains: 10,
-    );
+    ).contains("ids", 10);
     final collection = RuntimeCollectionModel(query);
     collection.load();
     await collection.loading;
@@ -427,9 +425,7 @@ void main() {
     final query = CollectionModelQuery(
       "test",
       adapter: adapter,
-      key: "ids",
-      arrayContains: 10,
-    );
+    ).contains("ids", 10);
     final collection = RuntimeTestValueCollectionModel(query);
     collection.load();
     await collection.loading;

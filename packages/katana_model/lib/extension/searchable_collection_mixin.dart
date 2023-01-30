@@ -102,11 +102,16 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
           modelQuery.orderBy == null,
       "Filtering and sorting conditions are passed to [CollectionModelQuery]. These conditions cannot be used in a search. Please remove the conditions.",
     );
-    return _modelQuery = _SearchableCollectionModelQuery(
+    return _modelQuery = CollectionModelQuery._(
       modelQuery.path,
-      key: searchValueFieldKey,
-      searchText: "",
-      limit: modelQuery.limit,
+      filters: [
+        ...modelQuery.filters.where((e) => e.type != ModelQueryFilterType.like),
+        ModelQueryFilter._(
+          type: ModelQueryFilterType.like,
+          key: searchValueFieldKey,
+          value: "",
+        ),
+      ],
       adapter: modelQuery.adapter,
     );
   }
@@ -135,43 +140,19 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
   ///
   /// ソートなどは検索結果をクライアント側でソートしてから返してください。
   Future<CollectionBase<TModel>> search(String searchText) async {
-    _modelQuery = _SearchableCollectionModelQuery(
+    _databaseQuery = null;
+    _modelQuery = CollectionModelQuery._(
       modelQuery.path,
-      key: searchValueFieldKey,
-      searchText: searchText,
-      limit: modelQuery.limit,
+      filters: [
+        ...modelQuery.filters.where((e) => e.type != ModelQueryFilterType.like),
+        ModelQueryFilter._(
+          type: ModelQueryFilterType.like,
+          key: searchValueFieldKey,
+          value: searchText,
+        ),
+      ],
       adapter: modelQuery.adapter,
     );
     return await reload();
-  }
-}
-
-class _SearchableCollectionModelQuery extends ModelQuery
-    implements CollectionModelQuery {
-  const _SearchableCollectionModelQuery(
-    super.path, {
-    super.key = SearchableDocumentMixin.defaultSearchValueFieldKey,
-    String searchText = "",
-    super.limit,
-    ModelAdapter? adapter,
-  })  : _adapter = adapter,
-        super(searchText: searchText);
-
-  @override
-  ModelAdapter get adapter {
-    return _adapter ?? ModelAdapter.primary;
-  }
-
-  @override
-  final ModelAdapter? _adapter;
-
-  @override
-  DocumentModelQuery create<T>([
-    String? id,
-  ]) {
-    return DocumentModelQuery(
-      "${path.trimQuery().trimString("/")}/${id ?? uuid}",
-      adapter: adapter,
-    );
   }
 }

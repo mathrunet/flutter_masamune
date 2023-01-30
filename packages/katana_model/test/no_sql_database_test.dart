@@ -302,9 +302,7 @@ void main() {
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery(
         "test",
-        orderBy: "num",
-        order: ModelQueryOrder.asc,
-      ),
+      ).orderByAsc("num"),
       callback: collectionCallback,
       origin: collectionOrigin,
     );
@@ -594,11 +592,7 @@ void main() {
     final collectionQuery = ModelAdapterCollectionQuery(
       query: const CollectionModelQuery(
         "test",
-        orderBy: "num",
-        order: ModelQueryOrder.asc,
-        key: "num",
-        isLessThanOrEqualTo: 100,
-      ),
+      ).lessThanOrEqual("num", 100).orderByAsc("num"),
       callback: collectionCallback,
       origin: collectionOrigin,
     );

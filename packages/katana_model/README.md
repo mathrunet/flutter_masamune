@@ -517,36 +517,40 @@ ModelAdapterScope(
 
 You can filter elements in a `collection query` in a similar fashion to Firestore.
 
-Filtering can be specified in the `CollectionModelQuery` that is passed when creating the objects in the collection.
+Filtering conditions can be specified by connecting the `CollectionModelQuery` passed when creating a collection object with various methods.
 
 ```dart
 final collection = ModelCollection(
   const CollectionModelQuery(
     "/user",
-    key: "born",
-    isGreaterThanOrEqualTo: 1900,
-  )
+  ).greaterThanOrEqual("born", 1900)
 );
 ```
 
-`key` is the name of the target field (**stored on the DB, key of Map<String, dynamic> converted after toMap**).
+Specify the target field name (**stored on DB; key of Map<String, dynamic> converted after toMap**) in `key` of each method.
 
-`One of the following conditions` can be specified for filtering
+The following filtering conditions can be specified
 
-- `isEqualTo`：Returns only documents with values that equal the specified value.
-- `isNotEqualTo`：Returns a document with a value not equal to the specified value.
-- `isLessThanOrEqualTo`：Returns a document with a value equal to or lower than the specified value.
-- `isGreaterThanOrEqualTo`：Returns a document with a value equal to or higher than the specified value.
-- `arrayContains`：If the target value is in list format, it returns the document containing the specified value.
-- `arrayContainsAny`：If the target value is in list format, it returns a document containing one of the specified lists.
-- `whereIn`：Returns documents whose target value is contained in the given list.
-- `whereNotIn`：Returns documents whose target value is not included in the specified list.
+Multiple methods can be specified by connecting them, but **some combinations may not be available depending on the Adapter**.
+
+- `equal(key, value)`：Returns only documents with values that equal the specified value.
+- `notEqual(key, value)`：Returns a document with a value not equal to the specified value.
+- `lessThan(key, value)`：Returns a document with a value lower than the specified value.
+- `lessThanOrEqual(key, value)`：Returns a document with a value equal to or lower than the specified value.
+- `greaterThan(key, value)`：Returns a document with a value higher than the specified value.
+- `greaterThanOrEqual(key, value)`：Returns a document with a value equal to or higher than the specified value.
+- `contains(key, value)`：If the target value is in list format, it returns the document containing the specified value.
+- `containsAny(key, values)`：If the target value is in list format, it returns a document containing one of the specified lists.
+- `where(key, values)`：Returns documents whose target value is contained in the given list.
+- `notWhere(key, values)`：Returns documents whose target value is not included in the specified list.
+- `isNull(key)`：Returns a document whose target value is null.
+- `isNotNull(key)`：Returns a document whose target value is not null.
 
 It is also possible to sort the values and limit the number of acquisitions.
 
-- `orderBy`：Key of the value to be sorted.
-- `order`：Ascending or descending order can be specified.
-- `limit`：If a number is specified, it will limit the number of documents in the collection to the specified number, even if there are more documents in the collection.
+- `orderByAsc(key)`：Sorts the values for the specified key in ascending order.
+- `orderByDesc(key)`：Sorts the values for the specified key in descending order.
+- `limitTo(value)`：If a number is specified, it will limit the number of documents in the collection to the specified number, even if there are more documents in the collection.
 
 ## Text search
 
