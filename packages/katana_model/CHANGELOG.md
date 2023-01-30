@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: Changed collection query specification. ([399c9fbd](https://github.com/mathrunet/flutter_masamune/commit/399c9fbd07598126d537ae72a0c95b6d3b94622b))
+
 ## 1.3.26
 
  - Update a dependency to the latest release.

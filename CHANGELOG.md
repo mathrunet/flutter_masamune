@@ -15,6 +15,57 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.4.0`](#katana_model---v140)
+ - [`katana_model_firestore` - `v1.4.0`](#katana_model_firestore---v140)
+ - [`katana_model_openapi` - `v1.3.0`](#katana_model_openapi---v130)
+ - [`katana_model_openapi_builder` - `v1.3.0`](#katana_model_openapi_builder---v130)
+ - [`masamune` - `v1.3.11`](#masamune---v1311)
+ - [`masamune_picker` - `v1.4.34`](#masamune_picker---v1434)
+ - [`masamune_notification_firebase` - `v1.1.30`](#masamune_notification_firebase---v1130)
+ - [`masamune_picker_mobile` - `v1.4.34`](#masamune_picker_mobile---v1434)
+ - [`masamune_picker_file` - `v1.4.34`](#masamune_picker_file---v1434)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.3.11`
+ - `masamune_picker` - `v1.4.34`
+ - `masamune_notification_firebase` - `v1.1.30`
+ - `masamune_picker_mobile` - `v1.4.34`
+ - `masamune_picker_file` - `v1.4.34`
+
+---
+
+#### `katana_model` - `v1.4.0`
+
+ - **FEAT**: Changed collection query specification. ([399c9fbd](https://github.com/mathrunet/flutter_masamune/commit/399c9fbd07598126d537ae72a0c95b6d3b94622b))
+
+#### `katana_model_firestore` - `v1.4.0`
+
+ - **FEAT**: Changed collection query specification. ([399c9fbd](https://github.com/mathrunet/flutter_masamune/commit/399c9fbd07598126d537ae72a0c95b6d3b94622b))
+
+#### `katana_model_openapi` - `v1.3.0`
+
+ - **FEAT**: Changed collection query specification. ([399c9fbd](https://github.com/mathrunet/flutter_masamune/commit/399c9fbd07598126d537ae72a0c95b6d3b94622b))
+
+#### `katana_model_openapi_builder` - `v1.3.0`
+
+ - **FEAT**: Changed collection query specification. ([399c9fbd](https://github.com/mathrunet/flutter_masamune/commit/399c9fbd07598126d537ae72a0c95b6d3b94622b))
+
+
+## 2023-01-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.4.15`](#katana_cli---v1415)
 
 ---
