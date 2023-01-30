@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.4.15`](#katana_cli---v1415)
+
+---
+
+#### `katana_cli` - `v1.4.15`
+
+ - **FIX**: Add firestore and firebase auth to the flags for deploy. ([452d9657](https://github.com/mathrunet/flutter_masamune/commit/452d9657de6fc82a20b2e5d88d12ddb4012ab425))
+
+
 ## 2023-01-29
 
 ### Changes
