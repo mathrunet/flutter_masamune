@@ -22,10 +22,14 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
   bool checkEnabled(ExecContext context) {
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
+    final firestore = firebase.getAsMap("firestore").get("enable", false);
+    final authentication =
+        firebase.getAsMap("authentication").get("enable", false);
     final functions = firebase.getAsMap("functions").get("enable", false);
     final hosting = firebase.getAsMap("hosting").get("enable", false);
     final messaging = firebase.getAsMap("messaging").get("enable", false);
-    return projectId.isNotEmpty && (functions || hosting || messaging);
+    return projectId.isNotEmpty &&
+        (firestore || authentication || functions || hosting || messaging);
   }
 
   @override
@@ -39,6 +43,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final projectId = firebase.get("project_id", "");
     final hosting = firebase.getAsMap("hosting");
     final useFlutter = hosting.get("use_flutter", false);
+    final enabledFirestore =
+        firebase.getAsMap("firestore").get("enable", false);
+    final enabledAuthentication =
+        firebase.getAsMap("authentication").get("enable", false);
     final enabledFunctions =
         firebase.getAsMap("functions").get("enable", false);
     final enabledHosting = hosting.get("enable", false);
@@ -105,10 +113,14 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         "pub",
         "add",
         "firebase_core",
-        "firebase_auth",
-        "cloud_firestore",
-        "katana_auth_firebase",
-        "katana_model_firestore",
+        if (enabledAuthentication) ...[
+          "firebase_auth",
+          "katana_auth_firebase",
+        ],
+        if (enabledFirestore) ...[
+          "cloud_firestore",
+          "katana_model_firestore",
+        ],
         if (enabledFunctions) ...[
           "firebase_storage",
           "katana_storage_firebase",

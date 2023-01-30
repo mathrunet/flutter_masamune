@@ -75,6 +75,16 @@ firebase:
   # FirebaseのプロジェクトIDを設定します。
   project_id:
 
+  # Enable Firebase Firestore.
+  # Firebase Firestoreを有効にします。
+  firestore:
+    enable: false
+
+  # Enable Firebase Authentication.
+  # Firebase Authenticationを有効にします。
+  authentication:
+    enable: false
+
   # Enable Firebase Functions.
   # Firebase Functionsを有効にします。
   functions:

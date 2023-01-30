@@ -138,6 +138,30 @@ class PubVersionCliCommand extends CliCommand {
       }
     } else {
       await command(
+        "Run dart fix",
+        [
+          melos,
+          "run",
+          "fix",
+        ],
+      );
+      await command(
+        "Run dart format",
+        [
+          melos,
+          "run",
+          "format",
+        ],
+      );
+      await command(
+        "Run import_sorter",
+        [
+          melos,
+          "run",
+          "import_sorter",
+        ],
+      );
+      await command(
         "Update the version of the management package according to the Git log.",
         [
           melos,
