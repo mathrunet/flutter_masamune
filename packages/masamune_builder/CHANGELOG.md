@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Support for new collection queries. ([7e308916](https://github.com/mathrunet/flutter_masamune/commit/7e308916db20f8e73c3a16ad36846553b1a9cb3d))
+
 ## 1.1.20
 
  - **DOCS**: Added sample code URL to ReadMe. ([f0421ba5](https://github.com/mathrunet/flutter_masamune/commit/f0421ba5b91be91c27748da5db71860f49884425))

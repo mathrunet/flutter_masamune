@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: Support for new collection queries. ([7e308916](https://github.com/mathrunet/flutter_masamune/commit/7e308916db20f8e73c3a16ad36846553b1a9cb3d))
+
 ## 1.3.11
 
  - Update a dependency to the latest release.

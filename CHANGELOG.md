@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-01-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.4.16`](#katana_cli---v1416)
+ - [`katana_model` - `v1.4.1`](#katana_model---v141)
+ - [`katana_model_firestore` - `v1.4.1`](#katana_model_firestore---v141)
+ - [`masamune` - `v1.4.0`](#masamune---v140)
+ - [`masamune_annotation` - `v1.2.0`](#masamune_annotation---v120)
+ - [`masamune_builder` - `v1.2.0`](#masamune_builder---v120)
+ - [`masamune_picker` - `v1.4.35`](#masamune_picker---v1435)
+ - [`masamune_notification_firebase` - `v1.1.31`](#masamune_notification_firebase---v1131)
+ - [`masamune_picker_mobile` - `v1.4.35`](#masamune_picker_mobile---v1435)
+ - [`masamune_picker_file` - `v1.4.35`](#masamune_picker_file---v1435)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.4.35`
+ - `masamune_notification_firebase` - `v1.1.31`
+ - `masamune_picker_mobile` - `v1.4.35`
+ - `masamune_picker_file` - `v1.4.35`
+
+---
+
+#### `katana_cli` - `v1.4.16`
+
+ - **FIX**: Minor fixes to accommodate new collection queries. ([5378525d](https://github.com/mathrunet/flutter_masamune/commit/5378525da200d6e4139c7e89f6e5c41cce574753))
+
+#### `katana_model` - `v1.4.1`
+
+ - **FIX**: Minor fixes to accommodate new collection queries. ([5378525d](https://github.com/mathrunet/flutter_masamune/commit/5378525da200d6e4139c7e89f6e5c41cce574753))
+
+#### `katana_model_firestore` - `v1.4.1`
+
+ - **FIX**: Minor fixes to accommodate new collection queries. ([5378525d](https://github.com/mathrunet/flutter_masamune/commit/5378525da200d6e4139c7e89f6e5c41cce574753))
+
+#### `masamune` - `v1.4.0`
+
+ - **FEAT**: Support for new collection queries. ([7e308916](https://github.com/mathrunet/flutter_masamune/commit/7e308916db20f8e73c3a16ad36846553b1a9cb3d))
+
+#### `masamune_annotation` - `v1.2.0`
+
+ - **FEAT**: Support for new collection queries. ([7e308916](https://github.com/mathrunet/flutter_masamune/commit/7e308916db20f8e73c3a16ad36846553b1a9cb3d))
+
+#### `masamune_builder` - `v1.2.0`
+
+ - **FEAT**: Support for new collection queries. ([7e308916](https://github.com/mathrunet/flutter_masamune/commit/7e308916db20f8e73c3a16ad36846553b1a9cb3d))
+
+
 ## 2023-01-30
 
 ### Changes

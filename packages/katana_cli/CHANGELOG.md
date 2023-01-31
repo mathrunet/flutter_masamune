@@ -1,3 +1,7 @@
+## 1.4.16
+
+ - **FIX**: Minor fixes to accommodate new collection queries. ([5378525d](https://github.com/mathrunet/flutter_masamune/commit/5378525da200d6e4139c7e89f6e5c41cce574753))
+
 ## 1.4.15
 
  - **FIX**: Add firestore and firebase auth to the flags for deploy. ([452d9657](https://github.com/mathrunet/flutter_masamune/commit/452d9657de6fc82a20b2e5d88d12ddb4012ab425))

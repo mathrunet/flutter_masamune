@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **FIX**: Minor fixes to accommodate new collection queries. ([5378525d](https://github.com/mathrunet/flutter_masamune/commit/5378525da200d6e4139c7e89f6e5c41cce574753))
+
 ## 1.4.0
 
  - **FEAT**: Changed collection query specification. ([399c9fbd](https://github.com/mathrunet/flutter_masamune/commit/399c9fbd07598126d537ae72a0c95b6d3b94622b))
