@@ -11,6 +11,8 @@ const _kTargetKey = "@target";
 ///
 /// You can initialize Firebase by passing [options].
 ///
+/// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
+///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
 ///
 /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
@@ -18,6 +20,8 @@ const _kTargetKey = "@target";
 /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
 ///
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
+///
+/// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 class FirestoreModelAdapter extends ModelAdapter {
   /// Model adapter with Firebase Firestore available.
   ///
@@ -27,6 +31,8 @@ class FirestoreModelAdapter extends ModelAdapter {
   ///
   /// You can initialize Firebase by passing [options].
   ///
+  /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
+  ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
   ///
   /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
@@ -34,9 +40,12 @@ class FirestoreModelAdapter extends ModelAdapter {
   /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
   ///
   /// [options]を渡すことでFirebaseの初期化を行うことができます。
+  ///
+  /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const FirestoreModelAdapter({
     FirebaseFirestore? database,
     this.options,
+    this.prefix,
   }) : _database = database;
 
   /// The Firestore database instance used in the adapter.
@@ -49,6 +58,11 @@ class FirestoreModelAdapter extends ModelAdapter {
   ///
   /// Firebaseを初期化する際のオプション。
   final FirebaseOptions? options;
+
+  /// Path prefix.
+  ///
+  /// パスのプレフィックス。
+  final String? prefix;
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
@@ -158,7 +172,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     if (ref is! FirestoreModelTransactionRef) {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
-    ref.transaction.delete(database.doc(query.query.path));
+    ref.transaction.delete(database.doc(_path(query.query.path)));
   }
 
   @override
@@ -169,7 +183,8 @@ class FirestoreModelAdapter extends ModelAdapter {
     if (ref is! FirestoreModelTransactionRef) {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
-    final snapshot = await ref.transaction.get(database.doc(query.query.path));
+    final snapshot =
+        await ref.transaction.get(database.doc(_path(query.query.path)));
     return _convertFrom(snapshot.data() ?? {});
   }
 
@@ -183,7 +198,7 @@ class FirestoreModelAdapter extends ModelAdapter {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
     ref.transaction.set(
-      database.doc(query.query.path),
+      database.doc(_path(query.query.path)),
       _convertTo(value),
       SetOptions(merge: true),
     );
@@ -237,8 +252,14 @@ class FirestoreModelAdapter extends ModelAdapter {
           res[key] = val;
         }
       } else if (val is DocumentReference<DynamicMap>) {
+        final path = prefix.isEmpty
+            ? val.path
+            : val.path.replaceAll(
+                RegExp("^${prefix!.trimQuery().trimString("/")}/"),
+                "",
+              );
         res[key] = ModelRefBase.fromPath(
-          val.path,
+          path,
         ).toJson();
       } else {
         res[key] = val;
@@ -272,7 +293,7 @@ class FirestoreModelAdapter extends ModelAdapter {
           res[targetKey] = FieldValue.serverTimestamp();
         } else if (type.startsWith((ModelRefBase).toString())) {
           final ref = ModelRefBase.fromJson(val);
-          res[key] = database.doc(ref.modelQuery.path);
+          res[key] = database.doc(_path(ref.modelQuery.path));
         } else {
           res[key] = val;
         }
@@ -443,10 +464,19 @@ class FirestoreModelAdapter extends ModelAdapter {
     return firestoreQuery;
   }
 
+  String _path(String original) {
+    if (prefix.isEmpty) {
+      return original;
+    }
+    final p = prefix!.trimQuery().trimString("/");
+    final o = original.trimQuery().trimString("/");
+    return "$p/$o";
+  }
+
   DocumentReference<DynamicMap> _documentReference(
     ModelAdapterDocumentQuery query,
   ) =>
-      database.doc(query.query.path);
+      database.doc(_path(query.query.path));
 
   List<Query<DynamicMap>> _collectionReference(
     ModelAdapterCollectionQuery query,
@@ -498,7 +528,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         for (var i = 0; i < items.length; i += 10) {
           queries.add(
             _query(
-              database.collection(query.query.path.trimQuery().trimString("/")),
+              database.collection(_path(query.query.path)),
               query,
             ).where(
               filter.key!,
@@ -521,7 +551,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         for (var i = 0; i < items.length; i += 10) {
           queries.add(
             _query(
-              database.collection(query.query.path.trimQuery().trimString("/")),
+              database.collection(_path(query.query.path)),
               query,
             ).where(
               filter.key!,
@@ -544,7 +574,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         for (var i = 0; i < items.length; i += 10) {
           queries.add(
             _query(
-              database.collection(query.query.path.trimQuery().trimString("/")),
+              database.collection(_path(query.query.path)),
               query,
             ).where(
               filter.key!,
@@ -568,7 +598,7 @@ class FirestoreModelAdapter extends ModelAdapter {
           final hash = items[i];
           queries.add(
             _query(
-              database.collection(query.query.path.trimQuery().trimString("/")),
+              database.collection(_path(query.query.path)),
               query,
             )
                 .orderBy(
@@ -583,7 +613,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     }
     return [
       _query(
-        database.collection(query.query.path.trimQuery().trimString("/")),
+        database.collection(_path(query.query.path)),
         query,
       )
     ];

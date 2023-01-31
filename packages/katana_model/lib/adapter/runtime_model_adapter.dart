@@ -9,6 +9,8 @@ part of katana_model;
 ///
 /// By passing data to [rawData], the database can be used as a data mockup since it contains data in advance.
 ///
+/// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
+///
 /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
 ///
 /// アプリを立ち上げ直すとデータはすべてリセットされます。
@@ -18,6 +20,8 @@ part of katana_model;
 /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
 ///
 /// [rawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+///
+/// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 @immutable
 class RuntimeModelAdapter extends ModelAdapter {
   /// Model adapter that uses a database that runs only in the memory of the application.
@@ -29,6 +33,8 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// By passing data to [rawData], the database can be used as a data mockup since it contains data in advance.
   ///
+  /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
+  ///
   /// アプリのメモリ上でのみ動作するデータベースを利用したモデルアダプター。
   ///
   /// アプリを立ち上げ直すとデータはすべてリセットされます。
@@ -38,8 +44,13 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
   ///
   /// [rawData]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
-  const RuntimeModelAdapter({NoSqlDatabase? database, this.rawData})
-      : _database = database;
+  ///
+  /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  const RuntimeModelAdapter({
+    NoSqlDatabase? database,
+    this.rawData,
+    this.prefix,
+  }) : _database = database;
 
   /// Designated database. Please use for testing purposes, etc.
   ///
@@ -66,9 +77,14 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// モックアップとして利用する際の実データ。
   final Map<String, DynamicMap>? rawData;
 
+  /// Path prefix.
+  ///
+  /// パスのプレフィックス。
+  final String? prefix;
+
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
-    final data = await database.loadDocument(query);
+    final data = await database.loadDocument(query, prefix: prefix);
     return data != null ? Map.from(data) : {};
   }
 
@@ -76,7 +92,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
-    final data = await database.loadCollection(query);
+    final data = await database.loadCollection(query, prefix: prefix);
     return data != null
         ? data.map((key, value) => MapEntry(key, Map.from(value)))
         : {};
@@ -84,7 +100,7 @@ class RuntimeModelAdapter extends ModelAdapter {
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
-    await database.deleteDocument(query);
+    await database.deleteDocument(query, prefix: prefix);
   }
 
   @override
@@ -92,17 +108,17 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) async {
-    await database.saveDocument(query, value);
+    await database.saveDocument(query, value, prefix: prefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    database.removeDocumentListener(query);
+    database.removeDocumentListener(query, prefix: prefix);
   }
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
-    database.removeCollectionListener(query);
+    database.removeCollectionListener(query, prefix: prefix);
   }
 
   @override

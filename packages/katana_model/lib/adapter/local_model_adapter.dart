@@ -8,11 +8,15 @@ const _kLocalDatabaseId = "local://";
 ///
 /// For mobile and desktop, data is encrypted and stored in external files, and for the Web, data is encrypted and stored in LocalStorage.
 ///
+/// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
+///
 /// ローカル端末にデータを保存するデータベースアダプター。
 ///
 /// 外部に値を保存する必要のないアプリ開発に利用します。
 ///
 /// モバイルやデスクトップは外部ファイルに暗号化してデータが保存されWebの場合はLocalStorageに暗号化されデータが保存されます。
+///
+/// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 @immutable
 class LocalModelAdapter extends ModelAdapter {
   /// A database adapter that stores data on a local terminal.
@@ -21,12 +25,16 @@ class LocalModelAdapter extends ModelAdapter {
   ///
   /// For mobile and desktop, data is encrypted and stored in external files, and for the Web, data is encrypted and stored in LocalStorage.
   ///
+  /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
+  ///
   /// ローカル端末にデータを保存するデータベースアダプター。
   ///
   /// 外部に値を保存する必要のないアプリ開発に利用します。
   ///
   /// モバイルやデスクトップは外部ファイルに暗号化してデータが保存されWebの場合はLocalStorageに暗号化されデータが保存されます。
-  const LocalModelAdapter();
+  ///
+  /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
+  const LocalModelAdapter({this.prefix});
 
   /// Designated database.
   ///
@@ -60,9 +68,14 @@ class LocalModelAdapter extends ModelAdapter {
     },
   );
 
+  /// Path prefix.
+  ///
+  /// パスのプレフィックス。
+  final String? prefix;
+
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
-    final data = await database.loadDocument(query);
+    final data = await database.loadDocument(query, prefix: prefix);
     return data != null ? Map.from(data) : {};
   }
 
@@ -70,7 +83,7 @@ class LocalModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
-    final data = await database.loadCollection(query);
+    final data = await database.loadCollection(query, prefix: prefix);
     return data != null
         ? data.map((key, value) => MapEntry(key, Map.from(value)))
         : {};
@@ -78,7 +91,7 @@ class LocalModelAdapter extends ModelAdapter {
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
-    await database.deleteDocument(query);
+    await database.deleteDocument(query, prefix: prefix);
   }
 
   @override
@@ -86,17 +99,17 @@ class LocalModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) async {
-    await database.saveDocument(query, value);
+    await database.saveDocument(query, value, prefix: prefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
-    database.removeDocumentListener(query);
+    database.removeDocumentListener(query, prefix: prefix);
   }
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
-    database.removeCollectionListener(query);
+    database.removeCollectionListener(query, prefix: prefix);
   }
 
   @override

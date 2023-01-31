@@ -115,8 +115,20 @@ class NoSqlDatabase {
   final Map<ModelAdapterCollectionQuery, List<MapEntry<String, DynamicMap>>>
       _collectionEntries = {};
 
-  void _addDocumentListener(ModelAdapterDocumentQuery query) {
-    final trimPath = query.query.path.trimQuery().trimString("/");
+  String _path(String original, String? prefix) {
+    if (prefix.isEmpty) {
+      return original;
+    }
+    final p = prefix!.trimQuery().trimString("/");
+    final o = original.trimQuery().trimString("/");
+    return "$p/$o";
+  }
+
+  void _addDocumentListener(
+    ModelAdapterDocumentQuery query, {
+    String? prefix,
+  }) {
+    final trimPath = _path(query.query.path, prefix);
     if (_documentListeners.containsKey(trimPath)) {
       final listener = _documentListeners[trimPath]!;
       if (listener.contains(query)) {
@@ -128,8 +140,11 @@ class NoSqlDatabase {
     }
   }
 
-  void _addCollectionListener(ModelAdapterCollectionQuery query) {
-    final trimPath = query.query.path.trimQuery().trimString("/");
+  void _addCollectionListener(
+    ModelAdapterCollectionQuery query, {
+    String? prefix,
+  }) {
+    final trimPath = _path(query.query.path, prefix);
     if (_collectionListeners.containsKey(trimPath)) {
       final listener = _collectionListeners[trimPath]!;
       if (listener.contains(query)) {
@@ -143,12 +158,19 @@ class NoSqlDatabase {
 
   /// Pass [query] to remove the document corresponding to [query] from the monitored list.
   ///
+  /// [prefix] can be specified to prefix the path.
+  ///
   /// [query]を渡して[query]に対応するドキュメントを監視対象から外します。
-  void removeDocumentListener(ModelAdapterDocumentQuery? query) {
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  void removeDocumentListener(
+    ModelAdapterDocumentQuery? query, {
+    String? prefix,
+  }) {
     if (query == null) {
       return;
     }
-    final trimPath = query.query.path.trimQuery().trimString("/");
+    final trimPath = _path(query.query.path, prefix);
     if (_documentListeners.containsKey(trimPath)) {
       _documentListeners[trimPath]!.remove(query);
     }
@@ -156,12 +178,19 @@ class NoSqlDatabase {
 
   /// Pass [query] to remove the collection corresponding to [query] from the monitored list.
   ///
+  /// [prefix] can be specified to prefix the path.
+  ///
   /// [query]を渡して[query]に対応するコレクションを監視対象から外します。
-  void removeCollectionListener(ModelAdapterCollectionQuery? query) {
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  void removeCollectionListener(
+    ModelAdapterCollectionQuery? query, {
+    String? prefix,
+  }) {
     if (query == null) {
       return;
     }
-    final trimPath = query.query.path.trimQuery().trimString("/");
+    final trimPath = _path(query.query.path, prefix);
     if (_collectionListeners.containsKey(trimPath)) {
       _collectionListeners[trimPath]!.remove(query);
     }
@@ -173,15 +202,22 @@ class NoSqlDatabase {
   ///
   /// If no data is found or the path is invalid, [Null] is returned.
   ///
+  /// [prefix] can be specified to prefix the path.
+  ///
   /// [query]を渡して[query]に対応するドキュメントを読み込みます。
   ///
   /// データが見つかった場合は[DynamicMap]で返されます。
   ///
   /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
-  Future<DynamicMap?> loadDocument(ModelAdapterDocumentQuery query) async {
-    _addDocumentListener(query);
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  Future<DynamicMap?> loadDocument(
+    ModelAdapterDocumentQuery query, {
+    String? prefix,
+  }) async {
+    _addDocumentListener(query, prefix: prefix);
     await onLoad?.call(this);
-    final trimPath = query.query.path.trimQuery().trimString("/");
+    final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
       return null;
@@ -203,17 +239,22 @@ class NoSqlDatabase {
   ///
   /// [query]を渡して[query]に対応するコレクションを読み込みます。
   ///
+  /// [prefix] can be specified to prefix the path.
+  ///
   /// データが見つかった場合は[Map<String, DynamicMap>]で返されます。
   ///
   /// [String]にはそれぞれのドキュメントのID（パスが`aaaa/bbbb/cccc/dddd`の場合IDは`dddd`になります）が含まれています。
   ///
   /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
   Future<Map<String, DynamicMap>?> loadCollection(
-    ModelAdapterCollectionQuery query,
-  ) async {
-    _addCollectionListener(query);
+    ModelAdapterCollectionQuery query, {
+    String? prefix,
+  }) async {
+    _addCollectionListener(query, prefix: prefix);
     await onLoad?.call(this);
-    final trimPath = query.query.path.trimQuery().trimString("/");
+    final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
       return null;
@@ -222,6 +263,9 @@ class NoSqlDatabase {
     if (value is! DynamicMap) {
       return null;
     }
+    final limitValue = query.query.filters
+        .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
+        ?.value as int?;
     final entries = query.query
         .sort(
           value
@@ -242,7 +286,7 @@ class NoSqlDatabase {
               )
               .removeEmpty(),
         )
-        .sublist(0, query.query.limit);
+        .sublist(0, limitValue);
     _collectionEntries[query] = entries;
     return Map<String, DynamicMap>.fromEntries(entries);
   }
@@ -282,6 +326,8 @@ class NoSqlDatabase {
   ///
   /// Keys with [value] value of [Null] will be deleted. If all keys are deleted, the document itself will be deleted.
   ///
+  /// [prefix] can be specified to prefix the path.
+  ///
   /// [query]を渡して[query]に対応するドキュメントのデータを[value]に更新・追加します。
   ///
   /// 変更点があった場合、[query]のデータに応じてすでに監視対象に登録されているドキュメントやコレクションに通知を送信します。
@@ -289,19 +335,22 @@ class NoSqlDatabase {
   /// また、[NoSqlDatabase.onSaved]のコールバックを登録しておくことで保存後にファイルとして書き出すなどの処理を追加することができます。
   ///
   /// [value]の値に[Null]が入っているキーは削除されます。すべてのキーが削除された場合、ドキュメント自体が削除されます。
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
   Future<void> saveDocument(
     ModelAdapterDocumentQuery query,
-    DynamicMap value,
-  ) async {
-    _addDocumentListener(query);
-    final trimPath = query.query.path.trimQuery().trimString("/");
+    DynamicMap value, {
+    String? prefix,
+  }) async {
+    _addDocumentListener(query, prefix: prefix);
+    final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
       return;
     }
     value = Map.from(value)..removeWhere((key, value) => value == null);
     if (value.isEmpty) {
-      return deleteDocument(query);
+      return deleteDocument(query, prefix: prefix);
     }
     final isAdd = data._writeToPath(paths, 0, value);
     if (isAdd == null) {
@@ -325,14 +374,21 @@ class NoSqlDatabase {
   ///
   /// You can also register a callback for [NoSqlDatabase.onDeleted] to add processing such as writing out as a file after saving.
   ///
+  /// [prefix] can be specified to prefix the path.
+  ///
   /// [query]を渡して[query]に対応するドキュメントのデータを削除します。
   ///
   /// 削除された場合、[query]のデータに応じてすでに監視対象に登録されているドキュメントやコレクションに通知を送信します。
   ///
   /// また、[NoSqlDatabase.onDeleted]のコールバックを登録しておくことで保存後にファイルとして書き出すなどの処理を追加することができます。
-  Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
-    _addDocumentListener(query);
-    final trimPath = query.query.path.trimQuery().trimString("/");
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  Future<void> deleteDocument(
+    ModelAdapterDocumentQuery query, {
+    String? prefix,
+  }) async {
+    _addDocumentListener(query, prefix: prefix);
+    final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
       return;
