@@ -15,6 +15,47 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.5.0`](#katana_model---v150)
+ - [`katana_model_firestore` - `v1.5.0`](#katana_model_firestore---v150)
+ - [`masamune` - `v1.4.1`](#masamune---v141)
+ - [`masamune_picker` - `v1.4.36`](#masamune_picker---v1436)
+ - [`masamune_notification_firebase` - `v1.1.32`](#masamune_notification_firebase---v1132)
+ - [`masamune_picker_mobile` - `v1.4.36`](#masamune_picker_mobile---v1436)
+ - [`masamune_picker_file` - `v1.4.36`](#masamune_picker_file---v1436)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.1`
+ - `masamune_picker` - `v1.4.36`
+ - `masamune_notification_firebase` - `v1.1.32`
+ - `masamune_picker_mobile` - `v1.4.36`
+ - `masamune_picker_file` - `v1.4.36`
+
+---
+
+#### `katana_model` - `v1.5.0`
+
+ - **FEAT**: Prefixes can now be assigned to paths. ([c87cac82](https://github.com/mathrunet/flutter_masamune/commit/c87cac82375313d32f2ef9b60817e6ea9871f792))
+
+#### `katana_model_firestore` - `v1.5.0`
+
+ - **FEAT**: Prefixes can now be assigned to paths. ([c87cac82](https://github.com/mathrunet/flutter_masamune/commit/c87cac82375313d32f2ef9b60817e6ea9871f792))
+
+
+## 2023-01-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.4.16`](#katana_cli---v1416)
  - [`katana_model` - `v1.4.1`](#katana_model---v141)
  - [`katana_model_firestore` - `v1.4.1`](#katana_model_firestore---v141)

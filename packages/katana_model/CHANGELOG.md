@@ -1,3 +1,7 @@
+## 1.5.0
+
+ - **FEAT**: Prefixes can now be assigned to paths. ([c87cac82](https://github.com/mathrunet/flutter_masamune/commit/c87cac82375313d32f2ef9b60817e6ea9871f792))
+
 ## 1.4.1
 
  - **FIX**: Minor fixes to accommodate new collection queries. ([5378525d](https://github.com/mathrunet/flutter_masamune/commit/5378525da200d6e4139c7e89f6e5c41cce574753))
