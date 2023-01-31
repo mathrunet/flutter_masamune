@@ -255,10 +255,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_picker
-      sha256: "2b4b766fa781d8557b5b463e075aaadb7d65e941a39652037eee52ba82370c2d"
+      sha256: "2f94c6eefba8697b07e3cd008b75f06b4ba7053cb26d23ae0fcd5932b7dc75af"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "2.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -593,32 +593,32 @@ packages:
     dependency: transitive
     description:
       name: logging
-      sha256: c0bbfe94d46aedf9b8b3e695cf3bd48c8e14b35e3b2c639e0aa7755d589ba946
+      sha256: "04094f2eb032cbb06c6f6e8d3607edcfcb0455e2bb6cbc010cb01171dcb64e6d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   masamune:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.3.9"
+    version: "1.3.10"
   masamune_annotation:
     dependency: transitive
     description:
       name: masamune_annotation
-      sha256: "6f1c70ae067abdf37ff440286c57d6ee7c4eb0b61a01858344f7d2b6e1ce4ce8"
+      sha256: fdc7068cbffafd00756f85682100456e65f6038da97bf309c78471474d2ed7d2
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.7"
+    version: "1.1.8"
   masamune_builder:
     dependency: "direct dev"
     description:
       path: "../../masamune_builder"
       relative: true
     source: path
-    version: "1.1.19"
+    version: "1.1.20"
   matcher:
     dependency: transitive
     description:

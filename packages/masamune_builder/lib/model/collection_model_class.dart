@@ -1,96 +1,207 @@
 part of masamune_builder;
 
-/// Keys for querying the collection.
+/// The type of query method for the collection.
 ///
-/// The type of the key in [type]. [defaultValue] is the initial value of the key.
-///
-/// コレクションのクエリー用のキー。
-///
-/// [type]にキーのタイプ。[defaultValue]にキーの初期値を記述します。
-enum CollectionQueryKey {
-  /// Query Key.
+/// コレクションのクエリーメソッドのタイプ。
+enum CollectionQueryType {
+  /// The method of `equal`.
   ///
-  /// クエリーキー。
-  key(),
+  /// `equal`のメソッド。
+  equal,
 
-  /// The key of `equalTo`.
+  /// The method for `notEqual`.
   ///
-  /// `equalTo`のキー。
-  isEqualTo("dynamic"),
+  /// `notEqual`のメソッド。
+  notEqual,
 
-  /// Key for `notEqualTo`.
+  /// The method  for `lessThan`.
   ///
-  /// `notEqualTo`のキー。
-  isNotEqualTo("dynamic"),
+  /// `lessThan`のメソッド。
+  lessThan,
 
-  /// Key for `lessThanOrEqualTo`.
+  /// The method  for `greaterThan`.
   ///
-  /// `lessThanOrEqualTo`のキー。
-  isLessThanOrEqualTo("dynamic"),
+  /// `greaterThan`のメソッド。
+  greaterThan,
 
-  /// Key for `greaterThanOrEqualTo`.
+  /// The method  for `lessThanOrEqual`.
   ///
-  /// `greaterThanOrEqualTo`のキー。
-  isGreaterThanOrEqualTo("dynamic"),
+  /// `lessThanOrEqual`のメソッド。
+  lessThanOrEqual,
 
-  /// Key for `arrayContains`.
+  /// The method  for `greaterThanOrEqual`.
   ///
-  /// `arrayContains`のキー。
-  arrayContains("dynamic"),
+  /// `greaterThanOrEqual`のメソッド。
+  greaterThanOrEqual,
 
-  /// Key for `arrayContainsAny`.
+  /// The method  for `contains`.
   ///
-  /// `arrayContainsAny`のキー。
-  arrayContainsAny("List<dynamic>?"),
+  /// `contains`のメソッド。
+  contains,
 
-  /// Key for `whereIn`.
+  /// The method  for `containsAny`.
   ///
-  /// `whereIn`のキー。
-  whereIn("List<dynamic>?"),
+  /// `containsAny`のメソッド。
+  containsAny,
 
-  /// Key for `whereNotIn`.
+  /// The method  for `where`.
   ///
-  /// `whereNotIn`のキー。
-  whereNotIn("List<dynamic>?"),
+  /// `where`のメソッド。
+  where,
 
-  /// Key for `geoHash`.
+  /// The method  for `notWhere`.
   ///
-  /// `geoHash`のキー。
-  geoHash("List<String>?"),
+  /// `notWhere`のメソッド。
+  notWhere,
 
-  /// Key for `order`.
+  /// The method  for `isNull`.
   ///
-  /// `order`のキー。
-  order("ModelQueryOrder", "ModelQueryOrder.asc"),
+  /// `isNull`のメソッド。
+  isNull,
 
-  /// Key for `limit`.
+  /// The method  for `isNotNull`.
   ///
-  /// `limit`のキー。
-  limit("int?"),
+  /// `isNotNull`のメソッド。
+  isNotNull,
 
-  /// Key for `orderBy`.
+  /// The method  for `geo`.
   ///
-  /// `orderBy`のキー。
-  orderBy("String?");
+  /// `geo`のメソッド。
+  geo,
 
-  /// Keys for querying the collection.
+  /// The method  for `orderByAsc`.
   ///
-  /// The type of the key in [type]. [defaultValue] is the initial value of the key.
-  ///
-  /// コレクションのクエリー用のキー。
-  ///
-  /// [type]にキーのタイプ。[defaultValue]にキーの初期値を記述します。
-  const CollectionQueryKey([this.type, this.defaultValue]);
+  /// `orderByAsc`のメソッド。
+  orderByAsc,
 
-  /// Key Type.
+  /// The method  for `orderByDesc`.
   ///
-  /// キーのタイプ。
-  final String? type;
+  /// `orderByDesc`のメソッド。
+  orderByDesc,
 
-  /// Initial value of the key.
+  /// The method  for `limitTo`.
   ///
-  /// キーの初期値。
-  final String? defaultValue;
+  /// `limitTo`のメソッド。
+  limitTo;
+
+  /// Gets the parameters for the input of the method.
+  ///
+  /// Specify the name of the key in [keyName].
+  ///
+  /// メソッドの入力用のパラメーターを取得します。
+  ///
+  /// [keyName]でキーの名前を指定してください。
+  List<Parameter> parameters(String keyName) {
+    switch (this) {
+      case CollectionQueryType.equal:
+      case CollectionQueryType.notEqual:
+      case CollectionQueryType.contains:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "key"
+              ..type = Reference(keyName),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "value"
+              ..type = const Reference("Object"),
+          ),
+        ];
+      case CollectionQueryType.lessThan:
+      case CollectionQueryType.greaterThan:
+      case CollectionQueryType.lessThanOrEqual:
+      case CollectionQueryType.greaterThanOrEqual:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "key"
+              ..type = Reference(keyName),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "value"
+              ..type = const Reference("num"),
+          ),
+        ];
+      case CollectionQueryType.containsAny:
+      case CollectionQueryType.where:
+      case CollectionQueryType.notWhere:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "key"
+              ..type = Reference(keyName),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "values"
+              ..type = const Reference("List<Object>"),
+          ),
+        ];
+      case CollectionQueryType.geo:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "key"
+              ..type = Reference(keyName),
+          ),
+          Parameter(
+            (p) => p
+              ..name = "geoHash"
+              ..type = const Reference("List<String>"),
+          ),
+        ];
+      case CollectionQueryType.isNull:
+      case CollectionQueryType.isNotNull:
+      case CollectionQueryType.orderByAsc:
+      case CollectionQueryType.orderByDesc:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "key"
+              ..type = Reference(keyName),
+          ),
+        ];
+      case CollectionQueryType.limitTo:
+        return [
+          Parameter(
+            (p) => p
+              ..name = "value"
+              ..type = const Reference("int"),
+          ),
+        ];
+    }
+  }
+
+  /// Outputs the code for the method.
+  ///
+  /// メソッド用のコードを出力します。
+  String get methodCode {
+    switch (this) {
+      case CollectionQueryType.equal:
+      case CollectionQueryType.notEqual:
+      case CollectionQueryType.contains:
+      case CollectionQueryType.lessThan:
+      case CollectionQueryType.greaterThan:
+      case CollectionQueryType.lessThanOrEqual:
+      case CollectionQueryType.greaterThanOrEqual:
+        return "$name(key.name, value)";
+      case CollectionQueryType.containsAny:
+      case CollectionQueryType.where:
+      case CollectionQueryType.notWhere:
+        return "$name(key.name, values)";
+      case CollectionQueryType.geo:
+        return "$name(key.name, geoHash)";
+      case CollectionQueryType.isNull:
+      case CollectionQueryType.isNotNull:
+      case CollectionQueryType.orderByAsc:
+      case CollectionQueryType.orderByDesc:
+        return "$name(key.name)";
+      case CollectionQueryType.limitTo:
+        return "$name(value)";
+    }
+  }
 }
 
 /// Create a class to automatically create a collection model.
@@ -224,22 +335,10 @@ List<Spec> collectionModelClass(
                       ..type = const Reference("String"),
                   );
                 }),
-                ...CollectionQueryKey.values.map((key) {
-                  return Parameter(
-                    (p) => p
-                      ..name = key.name
-                      ..named = true
-                      ..type =
-                          Reference(key.type ?? "${model.name}CollectionKey?")
-                      ..defaultTo = key.defaultValue == null
-                          ? null
-                          : Code(key.defaultValue!),
-                  );
-                })
               ])
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", ${CollectionQueryKey.values.map((key) => "${key.name}:${key.type == null ? "${key.name}?.name" : key.name}").join(",")}));",
+                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\"));",
               ),
           )
         ]),
@@ -291,6 +390,18 @@ List<Spec> collectionModelClass(
               ..returns = const Reference("String")
               ..body = const Code("modelQuery.toString()"),
           ),
+          ...CollectionQueryType.values.map((queryType) {
+            return Method(
+              (m) => m
+                ..name = queryType.name
+                ..returns = Reference("_\$_${model.name}CollectionQuery")
+                ..requiredParameters.addAll(
+                    [...queryType.parameters("${model.name}CollectionKey")])
+                ..body = Code(
+                  "return _\$_${model.name}CollectionQuery(modelQuery.${queryType.methodCode});",
+                ),
+            );
+          }),
         ]),
     )
   ];
