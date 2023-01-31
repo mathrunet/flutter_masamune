@@ -727,67 +727,17 @@ class ModelQuery {
 
   @override
   String toString() {
-    _assert();
-    if (key.isEmpty) {
-      final parameters = _limit(_order()).trimString("&");
-      if (parameters.isEmpty) {
-        return path;
-      } else {
-        return "$path?$parameters";
-      }
+    // TODO: Deprecatedが取れればここを修正
+    final additionalFilter = _addOldFilter();
+    final filters = [
+      ...this.filters,
+      ...additionalFilter,
+    ];
+    if (filters.isEmpty) {
+      return path;
     }
-    final tmp = "key=$key";
-    if (isEqualTo != null) {
-      return "$path?${_limit(_order("$tmp&equalTo=$isEqualTo")).trimString("&")}";
-    } else if (isNotEqualTo != null) {
-      return "$path?${_limit(_order("$tmp&notEqualTo=$isNotEqualTo")).trimString("&")}";
-    } else if (isLessThanOrEqualTo != null) {
-      if (isGreaterThanOrEqualTo != null) {
-        return "$path?${_limit(_order("$tmp&startAt=$isGreaterThanOrEqualTo&endAt=$isLessThanOrEqualTo")).trimString("&")}";
-      }
-      return "$path?${_limit(_order("$tmp&endAt=$isLessThanOrEqualTo")).trimString("&")}";
-    } else if (isGreaterThanOrEqualTo != null) {
-      if (isLessThanOrEqualTo != null) {
-        return "$path?${_limit(_order("$tmp&startAt=$isGreaterThanOrEqualTo&endAt=$isLessThanOrEqualTo")).trimString("&")}";
-      }
-      return "$path?${_limit(_order("$tmp&startAt=$isGreaterThanOrEqualTo")).trimString("&")}";
-    } else if (arrayContains != null) {
-      return "$path?${_limit(_order("$tmp&contains=$arrayContains")).trimString("&")}";
-    } else if (arrayContainsAny != null) {
-      return "$path?${_limit(
-        _order(
-          "$tmp&containsAny=${arrayContainsAny!.map((e) => e.toString()).join(",")}",
-        ),
-      ).trimString("&")}";
-    } else if (whereIn != null) {
-      return "$path?${_limit(
-        _order(
-          "$tmp&whereIn=${whereIn!.map((e) => e.toString()).join(",")}",
-        ),
-      ).trimString("&")}";
-    } else if (whereNotIn != null) {
-      return "$path?${_limit(
-        _order(
-          "$tmp&whereNotIn=${whereNotIn!.map((e) => e.toString()).join(",")}",
-        ),
-      ).trimString("&")}";
-    } else if (geoHash != null) {
-      return "$path?${_limit(
-        _order(
-          "$tmp&geoHash=${geoHash!.map((e) => e.toString()).join(",")}",
-        ),
-      ).trimString("&")}";
-    } else if (searchText.isNotEmpty) {
-      return "$path?${_limit("key=$key&search=$searchText").trimString("&")}";
-    }
-    return "$path?${tmp.trimString("&")}";
+    return "$path?${filters.sortTo((a, b) => a.type.index - b.type.index).map((e) => e.toString()).join("&")}";
   }
-  // TODO: Deprecatedが取れればここを有効化
-  // @override
-  // String toString() {
-  //   _assert();
-  //   return "ModelQuery(Path: $path, Filters[${filters.map((e) => e.toString()).join(",")}])";
-  // }
 
   @Deprecated("This is an implementation that is not necessary.")
   List<ModelQueryFilter> _addOldFilter() {
@@ -1775,7 +1725,7 @@ class ModelQueryFilter {
 
   @override
   String toString() {
-    return "(type: ${type.name}, key: $key, value: $value)";
+    return "${type.name}=$key:$value";
   }
 
   @override

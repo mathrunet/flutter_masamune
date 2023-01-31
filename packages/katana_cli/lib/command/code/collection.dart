@@ -99,6 +99,12 @@ class ${className}Model with _\$${className}Model {
   /// ```dart
   /// appRef.model(${className}Model.collectoin());      // Get the collection.
   /// ref.model(${className}Model.collection())..load(); // Load the collection.
+  /// ref.model(
+  ///   ${className}Model.collection().equal(
+  ///     ${className}ModelCollectionKey.xxx,
+  ///     "data",
+  ///   ),
+  /// )..load(); // Load the collection with filter.
   /// ```
   static const collection = _\$${className}ModelCollectionQuery();
 
