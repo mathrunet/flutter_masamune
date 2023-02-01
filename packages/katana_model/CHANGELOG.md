@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Fixed a bug that prevented data from updating properly. ([9c008f95](https://github.com/mathrunet/flutter_masamune/commit/9c008f957c20daa50213a0dd0fe08b8d6811cb39))
+
 ## 1.5.1
 
  - **FIX**: Separate into ListenableFirestoreModelAdapter and FirestoreModelAdapter. ([a7a1c988](https://github.com/mathrunet/flutter_masamune/commit/a7a1c98875cd549e80c6bb2e239a89daa654c460))
