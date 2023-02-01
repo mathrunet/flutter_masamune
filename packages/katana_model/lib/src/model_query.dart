@@ -59,7 +59,7 @@ class DocumentModelQuery extends ModelQuery {
 
   @override
   int get hashCode {
-    return super.hashCode ^ adapter.hashCode;
+    return super.hashCode ^ _adapter.hashCode;
   }
 }
 
@@ -460,7 +460,7 @@ class CollectionModelQuery extends ModelQuery {
 
   @override
   int get hashCode {
-    return super.hashCode ^ adapter.hashCode;
+    return super.hashCode ^ _adapter.hashCode;
   }
 }
 
