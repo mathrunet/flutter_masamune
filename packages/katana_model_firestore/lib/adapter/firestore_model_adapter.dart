@@ -149,7 +149,7 @@ class FirestoreModelAdapter extends ModelAdapter {
       _convertTo(value),
       SetOptions(merge: true),
     );
-    await localDatabase.saveDocument(query, _convertTo(value), prefix: prefix);
+    await localDatabase.saveDocument(query, value, prefix: prefix);
   }
 
   @override
@@ -213,8 +213,7 @@ class FirestoreModelAdapter extends ModelAdapter {
       SetOptions(merge: true),
     );
     ref.localTransaction.add(
-      () =>
-          localDatabase.saveDocument(query, _convertTo(value), prefix: prefix),
+      () => localDatabase.saveDocument(query, value, prefix: prefix),
     );
   }
 

@@ -83,7 +83,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
 
   @override
   Map<String, dynamic> toJson() => {
-        kTypeFieldKey: runtimeType.toString(),
+        kTypeFieldKey: (ModelRefBase).toString(),
         ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 
@@ -136,7 +136,7 @@ class ModelRefConverter extends ModelFieldValueConverter<ModelRefBase> {
 abstract class ModelRefMixin<T> implements ModelRefBase<T>, DocumentBase<T> {
   @override
   Map<String, dynamic> toJson() => {
-        kTypeFieldKey: runtimeType.toString(),
+        kTypeFieldKey: (ModelRefBase).toString(),
         ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 }

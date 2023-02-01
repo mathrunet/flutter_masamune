@@ -147,8 +147,7 @@ abstract class ModelFieldValue<T> {
     for (final tmp in value.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      final conveter =
-          _converters.firstWhereOrNull((e) => e.type == val.runtimeType);
+      final conveter = _converters.firstWhereOrNull((e) => e.check(val));
       if (conveter != null) {
         res[key] = conveter.toJson(val);
       } else {
@@ -423,7 +422,7 @@ class ModelCounter extends ModelFieldValue<int> {
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: runtimeType.toString(),
+        kTypeFieldKey: (ModelCounter).toString(),
         _kValueKey: value,
         _kIncrementKey: incrementValue,
       };
@@ -513,7 +512,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: runtimeType.toString(),
+        kTypeFieldKey: (ModelTimestamp).toString(),
         _kTimeKey: value.millisecondsSinceEpoch,
       };
 
