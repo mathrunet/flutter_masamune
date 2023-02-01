@@ -1,3 +1,7 @@
+## 1.1.11
+
+ - **FIX**: Fixed a bug when Initialize is done at the same time. ([511fee92](https://github.com/mathrunet/flutter_masamune/commit/511fee92139a18d6be69ec1b2718e840a09c4560))
+
 ## 1.1.10
 
  - Update a dependency to the latest release.

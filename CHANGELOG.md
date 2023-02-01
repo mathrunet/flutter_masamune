@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_firebase` - `v1.1.11`](#katana_firebase---v1111)
+ - [`masamune_notification_firebase` - `v1.1.36`](#masamune_notification_firebase---v1136)
+ - [`katana_auth_firebase` - `v1.1.14`](#katana_auth_firebase---v1114)
+ - [`katana_functions_firebase` - `v1.1.15`](#katana_functions_firebase---v1115)
+ - [`katana_model_firestore` - `v1.5.4`](#katana_model_firestore---v154)
+ - [`katana_storage_firebase` - `v1.1.13`](#katana_storage_firebase---v1113)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_firebase` - `v1.1.36`
+ - `katana_auth_firebase` - `v1.1.14`
+ - `katana_functions_firebase` - `v1.1.15`
+ - `katana_model_firestore` - `v1.5.4`
+ - `katana_storage_firebase` - `v1.1.13`
+
+---
+
+#### `katana_firebase` - `v1.1.11`
+
+ - **FIX**: Fixed a bug when Initialize is done at the same time. ([511fee92](https://github.com/mathrunet/flutter_masamune/commit/511fee92139a18d6be69ec1b2718e840a09c4560))
+
+
+## 2023-02-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.5.3`](#katana_model---v153)
  - [`katana_model_firestore` - `v1.5.3`](#katana_model_firestore---v153)
  - [`masamune` - `v1.4.4`](#masamune---v144)

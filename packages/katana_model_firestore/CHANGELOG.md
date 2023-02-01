@@ -1,3 +1,7 @@
+## 1.5.4
+
+ - Update a dependency to the latest release.
+
 ## 1.5.3
 
  - **FIX**: Fixed a bug when using multiple Adapters. ([363f4048](https://github.com/mathrunet/flutter_masamune/commit/363f4048a5c67308aa202682fa58f0c9c7198df5))
