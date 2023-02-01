@@ -11,7 +11,7 @@ List<Spec> modelClass(
   PathValue path,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
-  final referencable = model.parameters.where((e) => e.isReference).toList();
+  final referenceable = model.parameters.where((e) => e.isReference).toList();
   return [
     Class(
       (c) => c
@@ -21,7 +21,7 @@ List<Spec> modelClass(
           Reference("ModelRefMixin<${model.name}>"),
           if (searchable.isNotEmpty)
             Reference("SearchableDocumentMixin<${model.name}>"),
-          if (referencable.isNotEmpty)
+          if (referenceable.isNotEmpty)
             Reference("ModelRefLoaderMixin<${model.name}>")
         ])
         ..constructors.addAll([
@@ -91,7 +91,7 @@ List<Spec> modelClass(
                   }).join(" + "),
                 ),
             ),
-          if (referencable.isNotEmpty)
+          if (referenceable.isNotEmpty)
             Method(
               (m) => m
                 ..name = "builder"
@@ -100,7 +100,7 @@ List<Spec> modelClass(
                 ..returns =
                     Reference("List<ModelRefBuilderBase<${model.name}>>")
                 ..annotations.addAll([const Reference("override")])
-                ..body = Code("[${referencable.map((e) {
+                ..body = Code("[${referenceable.map((e) {
                   if (e.type.toString().endsWith("Ref")) {
                     final match = _regExpRef.firstMatch(e.type.toString());
                     if (match == null) {
