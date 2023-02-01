@@ -1,3 +1,7 @@
+## 1.5.1
+
+ - **FIX**: Separate into ListenableFirestoreModelAdapter and FirestoreModelAdapter. ([a7a1c988](https://github.com/mathrunet/flutter_masamune/commit/a7a1c98875cd549e80c6bb2e239a89daa654c460))
+
 ## 1.5.0
 
  - **FEAT**: Prefixes can now be assigned to paths. ([c87cac82](https://github.com/mathrunet/flutter_masamune/commit/c87cac82375313d32f2ef9b60817e6ea9871f792))
