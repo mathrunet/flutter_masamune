@@ -370,7 +370,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         final value = create(update.id.trimQuery().trimString("?"));
         final val = value.value;
-        final filtered = value.filterOnLoad(update.value);
+        final filtered = value._filterOnLoad(update.value);
         if (filtered.isEmpty) {
           value._value = null;
         } else {
@@ -388,12 +388,13 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         final found = _value.removeAt(update.oldIndex!);
         final val = found.value;
-        final filtered = found.filterOnLoad(update.value);
+        final filtered = found._filterOnLoad(update.value);
         if (filtered.isEmpty) {
           found._value = null;
         } else {
-          found._value = await found
-              .filterOnDidLoad(found.fromMap(found.filterOnLoad(update.value)));
+          found._value = await found.filterOnDidLoad(
+            found.fromMap(found._filterOnLoad(update.value)),
+          );
         }
         if (val != found.value) {
           found.notifyListeners();
@@ -434,8 +435,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
         continue;
       }
       final value = create(key);
-      final filtered = value.filterOnLoad(
-        Map<String, dynamic>.from(tmp.value),
+      final filtered = value._filterOnLoad(
+        Map<String, dynamic>.unmodifiable(tmp.value),
       );
       if (filtered.isEmpty) {
         value._value = null;

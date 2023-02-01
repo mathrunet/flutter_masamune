@@ -144,7 +144,7 @@ class ModelTransactionDocument<T> {
   FutureOr<T?> load() async {
     final document = _document;
     final res = await _ref._load(document);
-    document._value = document.fromMap(document.filterOnLoad(res));
+    document._value = document.fromMap(document._filterOnLoad(res));
     return value;
   }
 
@@ -170,7 +170,7 @@ class ModelTransactionDocument<T> {
     final document = _document;
     _ref._save(
       document,
-      document.filterOnSave(document.toMap(newValue)),
+      document._filterOnSave(document.toMap(newValue)),
     );
     document._value = newValue;
   }

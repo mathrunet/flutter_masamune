@@ -216,7 +216,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       if (!loaded) {
         final res = await loadRequest();
         if (res != null) {
-          final filtered = filterOnLoad(res);
+          final filtered = _filterOnLoad(res);
           if (filtered.isEmpty) {
             _value = null;
           } else {
@@ -262,21 +262,6 @@ abstract class DocumentBase<T> extends ChangeNotifier
     return load();
   }
 
-  /// Callback called after loading.
-  ///
-  /// If [loaded] is `true`, it will not be executed.
-  ///
-  /// If [value] is passed and a modified version of it is returned, it becomes the [value] of [DocumentBase].
-  ///
-  /// ロード後に呼ばれるコールバック。
-  ///
-  /// [loaded]が`true`の場合は実行されません。
-  ///
-  /// [value]が渡されそれを加工したものを返すとそれが[DocumentBase]の[value]となります。
-  @protected
-  @mustCallSuper
-  Future<T?> filterOnDidLoad(T? value) => Future.value(value);
-
   /// Data can be saved.
   ///
   /// The [newValue] is saved as it is as data. If [Null] is given, it is not executed.
@@ -305,7 +290,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
     }
     try {
       _saveCompleter = Completer<T?>();
-      await saveRequest(filterOnSave(toMap(newValue)));
+      await saveRequest(_filterOnSave(toMap(newValue)));
       _value = newValue;
       _saveCompleter?.complete(value);
       _saveCompleter = null;
@@ -440,9 +425,27 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// 戻り値に変換した[DynamicMap]の値を戻すことでその値が[fromMap]のパラメータとして渡されます。
   @protected
   @mustCallSuper
-  DynamicMap filterOnLoad(DynamicMap rawData) {
-    return ModelFieldValue.fromMap(rawData);
+  DynamicMap filterOnLoad(DynamicMap rawData) => rawData;
+
+  // 内部処理を加えるために内部ではこちらを使用。
+  DynamicMap _filterOnLoad(DynamicMap rawData) {
+    return filterOnLoad(ModelFieldValue.fromMap(rawData));
   }
+
+  /// Callback called after loading.
+  ///
+  /// If [loaded] is `true`, it will not be executed.
+  ///
+  /// If [value] is passed and a modified version of it is returned, it becomes the [value] of [DocumentBase].
+  ///
+  /// ロード後に呼ばれるコールバック。
+  ///
+  /// [loaded]が`true`の場合は実行されません。
+  ///
+  /// [value]が渡されそれを加工したものを返すとそれが[DocumentBase]の[value]となります。
+  @protected
+  @mustCallSuper
+  Future<T?> filterOnDidLoad(T? value) => Future.value(value);
 
   /// You can filter the data to be saved.
   ///
@@ -457,11 +460,17 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// 戻り値に返した値がデータとして保存されます。
   @protected
   @mustCallSuper
-  DynamicMap filterOnSave(DynamicMap rawData) {
-    return {
-      ...ModelFieldValue.toMap(rawData),
-      kUidFieldKey: modelQuery.path.trimQuery().last(),
-    };
+  DynamicMap filterOnSave(DynamicMap rawData) => rawData;
+
+  // 内部処理を加えるために内部ではこちらを使用。
+  @protected
+  DynamicMap _filterOnSave(DynamicMap rawData) {
+    return filterOnSave(
+      Map.unmodifiable({
+        ...ModelFieldValue.toMap(rawData),
+        kUidFieldKey: modelQuery.path.trimQuery().last(),
+      }),
+    );
   }
 
   /// Describe the callback process to be passed to [ModelAdapterDocumentQuery.callback].
@@ -478,7 +487,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
     final val = value;
-    final filtered = filterOnLoad(update.value);
+    final filtered = _filterOnLoad(update.value);
     if (filtered.isEmpty) {
       _value = null;
     } else {
