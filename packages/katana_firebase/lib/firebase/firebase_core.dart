@@ -34,7 +34,8 @@ class FirebaseCore {
   /// Returns `true` if Firebase is initialized.
   ///
   /// Firebaseが初期化されている場合`true`を返します。
-  static bool get initialized => _app != null;
+  static bool get initialized => _initialized;
+  static bool _initialized = false;
 
   /// Returns the Firebase region.
   ///
@@ -80,16 +81,22 @@ class FirebaseCore {
     String region = "asia-northeast1",
     FirebaseOptions? options,
   }) async {
-    if (_app != null) {
+    if (initialized) {
       return;
     }
     if (kIsWeb) {
       assert(options != null, "For the Web, Options is always required.");
     }
-    FirebaseCore.region = region;
-    _app = await Firebase.initializeApp(options: options);
-    if (!kIsWeb) {
-      FirebaseFirestore.instance.settings = const Settings();
+    _initialized = true;
+    try {
+      FirebaseCore.region = region;
+      _app = await Firebase.initializeApp(options: options);
+      if (!kIsWeb) {
+        FirebaseFirestore.instance.settings = const Settings();
+      }
+    } catch (e) {
+      _initialized = false;
+      rethrow;
     }
   }
 
