@@ -45,6 +45,22 @@ class DocumentModelQuery extends ModelQuery {
   }
 
   final ModelAdapter? _adapter;
+
+  @override
+  String toString() {
+    if (_adapter == null) {
+      return super.toString();
+    }
+    return "${super.toString()}@${_adapter.runtimeType}";
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    return super.hashCode ^ adapter.hashCode;
+  }
 }
 
 /// Query class for defining Model.
@@ -429,6 +445,22 @@ class CollectionModelQuery extends ModelQuery {
       filters: filters ?? this.filters,
       adapter: _adapter,
     );
+  }
+
+  @override
+  String toString() {
+    if (_adapter == null) {
+      return super.toString();
+    }
+    return "${super.toString()}@${_adapter.runtimeType}";
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    return super.hashCode ^ adapter.hashCode;
   }
 }
 

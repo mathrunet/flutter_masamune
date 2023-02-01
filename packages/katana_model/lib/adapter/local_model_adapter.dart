@@ -175,6 +175,14 @@ class LocalModelAdapter extends ModelAdapter {
       await tmp.call();
     }
   }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    return prefix.hashCode;
+  }
 }
 
 /// [ModelTransactionRef] for [LocalModelAdapter].
