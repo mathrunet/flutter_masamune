@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **FIX**: Adapter can be specified. ([38ae6476](https://github.com/mathrunet/flutter_masamune/commit/38ae6476cbc71123564196c97546b3d4374ad7c7))
+
 ## 1.2.0
 
  - **FEAT**: Support for new collection queries. ([7e308916](https://github.com/mathrunet/flutter_masamune/commit/7e308916db20f8e73c3a16ad36846553b1a9cb3d))

@@ -1,3 +1,7 @@
+## 1.5.3
+
+ - **FIX**: Fixed a bug when using multiple Adapters. ([363f4048](https://github.com/mathrunet/flutter_masamune/commit/363f4048a5c67308aa202682fa58f0c9c7198df5))
+
 ## 1.5.2
 
  - **FIX**: Fixed a bug that prevented data from updating properly. ([9c008f95](https://github.com/mathrunet/flutter_masamune/commit/9c008f957c20daa50213a0dd0fe08b8d6811cb39))
