@@ -1,3 +1,7 @@
+## 1.1.12
+
+ - **FIX**: Fixed a bug that initialization could not wait when executed at the same time. ([dd38e9a2](https://github.com/mathrunet/flutter_masamune/commit/dd38e9a2edd8147c2ece71af7e9314c3d3a140d0))
+
 ## 1.1.11
 
  - **FIX**: Fixed a bug when Initialize is done at the same time. ([511fee92](https://github.com/mathrunet/flutter_masamune/commit/511fee92139a18d6be69ec1b2718e840a09c4560))
