@@ -171,7 +171,7 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
   @override
   @protected
   @mustCallSuper
-  Future<T?> filterOnDidLoad(T? value, [bool listenWhenPossible = true]) async {
+  Future<T?> filterOnDidLoad(T? value) async {
     final builderList = builder;
     var tmpValue = value;
     for (final build in builderList) {
@@ -180,7 +180,6 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
       }
       tmpValue = await build._build(
         val: tmpValue,
-        listenWhenPossible: listenWhenPossible,
         cacheList: _modelRefBuilderCache,
         onDidLoad: (query, document) {
           document.addListener(notifyListeners);
@@ -296,7 +295,6 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   @override
   Future<TSource?> _build({
     required TSource? val,
-    required bool listenWhenPossible,
     required Map<DocumentModelQuery, DocumentBase> cacheList,
     required void Function(DocumentModelQuery query, DocumentBase document)
         onDidLoad,
@@ -321,7 +319,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
       doc.modelQuery == modelQuery,
       "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
     );
-    await doc.load(listenWhenPossible);
+    await doc.load();
     onDidLoad(modelQuery, doc);
     return value(val, doc);
   }
@@ -347,7 +345,6 @@ abstract class ModelRefBuilderBase<TSource> {
 
   Future<TSource?> _build({
     required TSource? val,
-    required bool listenWhenPossible,
     required Map<DocumentModelQuery, DocumentBase> cacheList,
     required void Function(DocumentModelQuery query, DocumentBase document)
         onDidLoad,

@@ -1,9 +1,8 @@
 part of katana_model_firestore;
 
-const _kTypeKey = "@type";
-const _kTargetKey = "@target";
-
 /// Model adapter with Firebase Firestore available.
+///
+/// It monitors all documents in Firestore for changes and notifies you of any changes on the remote side.
 ///
 /// Firestore application settings must be completed in advance and [FirebaseCore.initialize] must be executed.
 ///
@@ -11,13 +10,11 @@ const _kTargetKey = "@target";
 ///
 /// You can initialize Firebase by passing [options].
 ///
-/// In addition, internally retrieved data can be cached, and notifications can be sent to the relevant data for internal changes that occur in [DocumentBase.save], [DocumentBase.delete], etc., so that changes can be reflected.
-///
-/// The internal database can be specified in [localDatabase].
-///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
+///
+/// Firestoreのすべてのドキュメントの変更を監視し、リモート側で変更があればそれを通知します。
 ///
 /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
 ///
@@ -25,13 +22,11 @@ const _kTargetKey = "@target";
 ///
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
 ///
-/// また、内部で取得したデータをキャッシュしておき、[DocumentBase.save]や[DocumentBase.delete]などで発生した内部的な変更については関連するデータに通知を送ることができ変更を反映することができます。
-///
-/// 内部データベースは[localDatabase]で指定することができます。
-///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
-class FirestoreModelAdapter extends ModelAdapter {
+class ListenableFirestoreModelAdapter extends ModelAdapter {
   /// Model adapter with Firebase Firestore available.
+  ///
+  /// It monitors all documents in Firestore for changes and notifies you of any changes on the remote side.
   ///
   /// Firestore application settings must be completed in advance and [FirebaseCore.initialize] must be executed.
   ///
@@ -39,13 +34,11 @@ class FirestoreModelAdapter extends ModelAdapter {
   ///
   /// You can initialize Firebase by passing [options].
   ///
-  /// In addition, internally retrieved data can be cached, and notifications can be sent to the relevant data for internal changes that occur in [DocumentBase.save], [DocumentBase.delete], etc., so that changes can be reflected.
-  ///
-  /// The internal database can be specified in [localDatabase].
-  ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
+  ///
+  /// Firestoreのすべてのドキュメントの変更を監視し、リモート側で変更があればそれを通知します。
   ///
   /// 事前にFirestoreのアプリ設定を済ませておくことと[FirebaseCore.initialize]を実行しておきます。
   ///
@@ -53,39 +46,18 @@ class FirestoreModelAdapter extends ModelAdapter {
   ///
   /// [options]を渡すことでFirebaseの初期化を行うことができます。
   ///
-  /// また、内部で取得したデータをキャッシュしておき、[DocumentBase.save]や[DocumentBase.delete]などで発生した内部的な変更については関連するデータに通知を送ることができ変更を反映することができます。
-  ///
-  /// 内部データベースは[localDatabase]で指定することができます。
-  ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
-  const FirestoreModelAdapter({
+  const ListenableFirestoreModelAdapter({
     FirebaseFirestore? database,
-    NoSqlDatabase? localDatabase,
     this.options,
     this.prefix,
-  })  : _database = database,
-        _localDatabase = localDatabase;
+  }) : _database = database;
 
   /// The Firestore database instance used in the adapter.
   ///
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。
   FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
   final FirebaseFirestore? _database;
-
-  /// Caches data retrieved from the specified internal database, Firestore.
-  ///
-  /// 指定の内部データベース。Firestoreから取得したデータをキャッシュします。
-  NoSqlDatabase get localDatabase {
-    final database = _localDatabase ?? sharedLocalDatabase;
-    return database;
-  }
-
-  final NoSqlDatabase? _localDatabase;
-
-  /// A common internal database throughout the app.
-  ///
-  /// アプリ内全体での共通の内部データベース。
-  static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
 
   /// Options for initializing Firebase.
   ///
@@ -100,28 +72,21 @@ class FirestoreModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     await FirebaseCore.initialize(options: options);
-    await _documentReference(query).delete();
-    await localDatabase.deleteDocument(query, prefix: prefix);
+    return _documentReference(query).delete();
   }
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
-    final res = _convertFrom(snapshot.data()?.cast() ?? {});
-    await localDatabase.syncDocument(query, res, prefix: prefix);
-    return res;
+    return _convertFrom(snapshot.data()?.cast() ?? {});
   }
 
   @override
-  void disposeCollection(ModelAdapterCollectionQuery query) {
-    localDatabase.removeCollectionListener(query, prefix: prefix);
-  }
+  void disposeCollection(ModelAdapterCollectionQuery query) {}
 
   @override
-  void disposeDocument(ModelAdapterDocumentQuery query) {
-    localDatabase.removeDocumentListener(query, prefix: prefix);
-  }
+  void disposeDocument(ModelAdapterDocumentQuery query) {}
 
   @override
   Future<Map<String, DynamicMap>> loadCollection(
@@ -131,11 +96,9 @@ class FirestoreModelAdapter extends ModelAdapter {
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
-    final res = snapshot.expand((e) => e.docChanges).toMap(
+    return snapshot.expand((e) => e.docChanges).toMap(
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
-    await localDatabase.syncCollection(query, res, prefix: prefix);
-    return res;
   }
 
   @override
@@ -145,28 +108,65 @@ class FirestoreModelAdapter extends ModelAdapter {
   ) async {
     await FirebaseCore.initialize(options: options);
 
-    await _documentReference(query).set(
+    return _documentReference(query).set(
       _convertTo(value),
       SetOptions(merge: true),
     );
-    await localDatabase.saveDocument(query, _convertTo(value), prefix: prefix);
   }
 
   @override
-  bool get availableListen => false;
+  bool get availableListen => true;
 
   @override
   Future<List<StreamSubscription>> listenCollection(
     ModelAdapterCollectionQuery query,
-  ) {
-    throw UnsupportedError("This adapter cannot listen.");
+  ) async {
+    await FirebaseCore.initialize(options: options);
+    final streams =
+        _collectionReference(query).map((reference) => reference.snapshots());
+    final subscriptions = streams.map((e) {
+      return e.listen((event) {
+        for (final doc in event.docChanges) {
+          query.callback?.call(
+            ModelUpdateNotification(
+              path: doc.doc.reference.path,
+              id: doc.doc.id,
+              status: _status(doc.type),
+              value: _convertFrom(doc.doc.data()?.cast() ?? {}),
+              oldIndex: doc.oldIndex,
+              newIndex: doc.newIndex,
+              origin: query.origin,
+              listen: availableListen,
+            ),
+          );
+        }
+      });
+    }).toList();
+    await Future.wait(streams.map((stream) => stream.first));
+    return subscriptions;
   }
 
   @override
   Future<List<StreamSubscription>> listenDocument(
     ModelAdapterDocumentQuery query,
-  ) {
-    throw UnsupportedError("This adapter cannot listen.");
+  ) async {
+    await FirebaseCore.initialize(options: options);
+    final stream = _documentReference(query).snapshots();
+    // ignore: cancel_subscriptions
+    final subscription = stream.listen((doc) {
+      query.callback?.call(
+        ModelUpdateNotification(
+          path: doc.reference.path,
+          id: doc.id,
+          status: ModelUpdateNotificationStatus.modified,
+          value: _convertFrom(doc.data()?.cast() ?? {}),
+          origin: query.origin,
+          listen: availableListen,
+        ),
+      );
+    });
+    await stream.first;
+    return [subscription];
   }
 
   @override
@@ -174,13 +174,10 @@ class FirestoreModelAdapter extends ModelAdapter {
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
-    if (ref is! FirestoreModelTransactionRef) {
-      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
+    if (ref is! ListenableFirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
     ref.transaction.delete(database.doc(_path(query.query.path)));
-    ref.localTransaction.add(
-      () => localDatabase.deleteDocument(query, prefix: prefix),
-    );
   }
 
   @override
@@ -188,14 +185,12 @@ class FirestoreModelAdapter extends ModelAdapter {
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) async {
-    if (ref is! FirestoreModelTransactionRef) {
-      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
+    if (ref is! ListenableFirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
     final snapshot =
         await ref.transaction.get(database.doc(_path(query.query.path)));
-    final res = _convertFrom(snapshot.data() ?? {});
-    await localDatabase.syncDocument(query, res, prefix: prefix);
-    return res;
+    return _convertFrom(snapshot.data() ?? {});
   }
 
   @override
@@ -204,17 +199,13 @@ class FirestoreModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
-    if (ref is! FirestoreModelTransactionRef) {
-      throw Exception("[ref] is not [FirestoreModelTransactionRef].");
+    if (ref is! ListenableFirestoreModelTransactionRef) {
+      throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
     ref.transaction.set(
       database.doc(_path(query.query.path)),
       _convertTo(value),
       SetOptions(merge: true),
-    );
-    ref.localTransaction.add(
-      () =>
-          localDatabase.saveDocument(query, _convertTo(value), prefix: prefix),
     );
   }
 
@@ -229,11 +220,8 @@ class FirestoreModelAdapter extends ModelAdapter {
   ) async {
     await FirebaseCore.initialize(options: options);
     await database.runTransaction((handler) async {
-      final ref = FirestoreModelTransactionRef._(handler);
+      final ref = ListenableFirestoreModelTransactionRef._(handler);
       await transaction.call(ref, ref.read(doc));
-      for (final tr in ref.localTransaction) {
-        await tr.call();
-      }
     });
   }
 
@@ -649,10 +637,7 @@ class FirestoreModelAdapter extends ModelAdapter {
 }
 
 @immutable
-class FirestoreModelTransactionRef extends ModelTransactionRef {
-  FirestoreModelTransactionRef._(
-    this.transaction,
-  );
+class ListenableFirestoreModelTransactionRef extends ModelTransactionRef {
+  const ListenableFirestoreModelTransactionRef._(this.transaction);
   final Transaction transaction;
-  final List<Future<void> Function()> localTransaction = [];
 }

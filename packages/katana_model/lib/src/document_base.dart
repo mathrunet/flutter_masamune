@@ -192,8 +192,6 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// The return value is a [T] object, and the loaded data is available as is.
   ///
-  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
-  ///
   /// Once content is loaded, no new loading is performed. Therefore, it can be used in a method that is read any number of times, such as in the `build` method of a `widget`.
   ///
   /// If you wish to reload the file, use the [reload] method.
@@ -202,12 +200,13 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
   ///
-  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
-  ///
   /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
   ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
-  Future<T?> load([bool listenWhenPossible = true]) async {
+  Future<T?> load([
+    @Deprecated("Deprecated. Please change the Adapter instead.")
+        bool listenWhenPossible = true,
+  ]) async {
     if (_loadCompleter != null) {
       return loading!;
     }
@@ -215,7 +214,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       final val = value;
       _loadCompleter = Completer<T?>();
       if (!loaded) {
-        final res = await loadRequest(listenWhenPossible);
+        final res = await loadRequest();
         if (res != null) {
           final filtered = filterOnLoad(res);
           if (filtered.isEmpty) {
@@ -223,7 +222,6 @@ abstract class DocumentBase<T> extends ChangeNotifier
           } else {
             _value = await filterOnDidLoad(
               fromMap(filtered),
-              listenWhenPossible,
             );
           }
         }
@@ -249,20 +247,19 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// The return value is a [T] object, and the loaded data is available as is.
   ///
-  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
-  ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
   ///
   /// [modelQuery]に対応したドキュメントの再読込を行います。
   ///
   /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
   ///
-  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
-  ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<T?> reload([bool listenWhenPossible = true]) {
+  Future<T?> reload([
+    @Deprecated("Deprecated. Please change the Adapter instead.")
+        bool listenWhenPossible = true,
+  ]) {
     _loaded = false;
-    return load(listenWhenPossible);
+    return load();
   }
 
   /// Callback called after loading.
@@ -278,8 +275,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// [value]が渡されそれを加工したものを返すとそれが[DocumentBase]の[value]となります。
   @protected
   @mustCallSuper
-  Future<T?> filterOnDidLoad(T? value, [bool listenWhenPossible = true]) =>
-      Future.value(value);
+  Future<T?> filterOnDidLoad(T? value) => Future.value(value);
 
   /// Data can be saved.
   ///
@@ -382,14 +378,10 @@ abstract class DocumentBase<T> extends ChangeNotifier
 
   /// Implement internal processing when [load] or [reload] is executed.
   ///
-  /// If [listenWhenPossible] is `true`, set the database to monitor changes against change-monitorable databases.
-  ///
   /// [load]や[reload]を実行した際の内部処理を実装します。
-  ///
-  /// [listenWhenPossible]が`true`な場合、変更監視可能なデータベースに対して変更を監視するように設定します。
   @protected
   @mustCallSuper
-  Future<DynamicMap?> loadRequest(bool listenWhenPossible) async {
+  Future<DynamicMap?> loadRequest() async {
     if (subscriptions.isNotEmpty) {
       await Future.forEach<StreamSubscription>(
         subscriptions,
@@ -397,7 +389,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
       );
       subscriptions.clear();
     }
-    if (listenWhenPossible && modelQuery.adapter.availableListen) {
+    if (modelQuery.adapter.availableListen) {
       subscriptions.addAll(
         await modelQuery.adapter.listenDocument(databaseQuery),
       );
@@ -490,10 +482,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
     if (filtered.isEmpty) {
       _value = null;
     } else {
-      _value = await filterOnDidLoad(
-        fromMap(filtered),
-        update.listen,
-      );
+      _value = await filterOnDidLoad(fromMap(filtered));
     }
     if (val != value) {
       notifyListeners();

@@ -186,11 +186,11 @@ abstract class CollectionBase<TModel extends DocumentBase>
   Future<CollectionBase<TModel>>? get loading => _loadCompleter?.future;
   Completer<CollectionBase<TModel>>? _loadCompleter;
 
-  /// If the number of elements is limited by [ModelQuery.limit], returns `true` if the next element can be added.
+  /// If the number of elements is limited by [ModelQueryFilterType.limit], returns `true` if the next element can be added.
   ///
   /// If the number of elements does not change when the [next] method is executed, [canNext] will be `false`.
   ///
-  /// [ModelQuery.limit]で要素数を制限されている場合、次の要素が追加可能な場合`true`を返します。
+  /// [ModelQueryFilterType.limit]で要素数を制限されている場合、次の要素が追加可能な場合`true`を返します。
   ///
   /// [next]メソッドを実行した際に要素数が変わらなかった場合、[canNext]は`false`になります。
   bool get canNext => _canNext;
@@ -200,8 +200,6 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
   ///
-  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
-  ///
   /// Once content is loaded, no new loading is performed. Therefore, it can be used in a method that is read any number of times, such as in the `build` method of a `widget`.
   ///
   /// If you wish to reload the file, use the [reload] method.
@@ -210,13 +208,12 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
-  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
-  ///
   /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
   ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
   Future<CollectionBase<TModel>> load([
-    bool listenWhenPossible = true,
+    @Deprecated("Deprecated. Please change the Adapter instead.")
+        bool listenWhenPossible = true,
   ]) async {
     if (_loadCompleter != null) {
       return loading!;
@@ -225,16 +222,16 @@ abstract class CollectionBase<TModel extends DocumentBase>
       final tmpValue = _value;
       _loadCompleter = Completer<CollectionBase<TModel>>();
       if (!loaded) {
-        final res = await loadRequest(listenWhenPossible);
+        final res = await loadRequest();
+        final limitValue = modelQuery.filters
+            .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
+            ?.value as int?;
         if (res != null) {
           _value = await filterOnDidLoad(
             await fromMap(
               res,
-              modelQuery.limit != null
-                  ? (modelQuery.limit! * databaseQuery.page)
-                  : null,
+              limitValue != null ? (limitValue * databaseQuery.page) : null,
             ),
-            listenWhenPossible,
           );
         }
         _loaded = true;
@@ -259,42 +256,40 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// The return value is the [CollectionBase] itself, and the loaded data is available as is.
   ///
-  /// Set [listenWhenPossible] to `true` to monitor changes against change monitorable databases.
-  ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
   ///
   /// [modelQuery]に対応したコレクションの再読込を行います。
   ///
   /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
-  /// [listenWhenPossible]を`true`にすると変更監視可能なデータベースに対して変更を監視するように設定します。
-  ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> reload([
-    bool listenWhenPossible = true,
+    @Deprecated("Deprecated. Please change the Adapter instead.")
+        bool listenWhenPossible = true,
   ]) {
     _loaded = false;
-    return load(listenWhenPossible);
+    return load();
   }
 
-  /// If the number of elements is limited by [ModelQuery.limit], additional elements are loaded for the next [ModelQuery.limit] number of elements.
+  /// If the number of elements is limited by [ModelQueryFilterType.limit], additional elements are loaded for the next limited number.
   ///
   /// If the number of elements does not change when executed, [canNext] will be `false`, but this method will be executed even if [canNext] is `false`.
   ///
   /// Unlike the [load] method, this method performs a new load each time it is executed. Therefore, do not use this method in a method that is read repeatedly, such as in the `build` method of a `widget`.
   ///
-  /// [ModelQuery.limit]で要素数を制限されている場合、次の[ModelQuery.limit]個数分だけ追加要素を読み込みます。
+  /// [ModelQueryFilterType.limit]で要素数を制限されている場合、次の制限個数分だけ追加要素を読み込みます。
   ///
   /// 実行した際に要素数が変わらなかった場合、[canNext]は`false`になりますがこのメソッドは[canNext]が`false`でも実行されます。
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
   Future<CollectionBase<TModel>> next([
-    bool listenWhenPossible = true,
+    @Deprecated("Deprecated. Please change the Adapter instead.")
+        bool listenWhenPossible = true,
   ]) async {
     _loaded = false;
     _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
     final prevLength = length;
-    final loaded = await load(listenWhenPossible);
+    final loaded = await load();
     if (length == prevLength) {
       _canNext = false;
       _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
@@ -315,13 +310,10 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// リストの中の[DocumentBase]が
   @protected
   @mustCallSuper
-  Future<List<TModel>> filterOnDidLoad(
-    List<TModel> value, [
-    bool listenWhenPossible = true,
-  ]) async {
+  Future<List<TModel>> filterOnDidLoad(List<TModel> value) async {
     return await Future.wait(
       value.map((e) async {
-        final res = await e.filterOnDidLoad(e.value, listenWhenPossible);
+        final res = await e.filterOnDidLoad(e.value);
         if (res != e.value) {
           e._value = res;
         }
@@ -332,18 +324,14 @@ abstract class CollectionBase<TModel extends DocumentBase>
 
   /// Implement internal processing when [load], [reload], or [next] is executed.
   ///
-  /// If [listenWhenPossible] is `true`, set the database to monitor changes against change-monitorable databases.
-  ///
   /// If [Null] is returned, the value is not updated.
   ///
   /// [load]や[reload]、[next]を実行した際の内部処理を実装します。
   ///
-  /// [listenWhenPossible]が`true`な場合、変更監視可能なデータベースに対して変更を監視するように設定します。
-  ///
   /// [Null]が返された場合は値をアップデートしません。
   @protected
   @mustCallSuper
-  Future<Map<String, DynamicMap>?> loadRequest(bool listenWhenPossible) async {
+  Future<Map<String, DynamicMap>?> loadRequest() async {
     if (subscriptions.isNotEmpty) {
       await Future.forEach<StreamSubscription>(
         subscriptions,
@@ -351,7 +339,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       );
       subscriptions.clear();
     }
-    if (listenWhenPossible && modelQuery.adapter.availableListen) {
+    if (modelQuery.adapter.availableListen) {
       subscriptions.addAll(
         await modelQuery.adapter.listenCollection(databaseQuery),
       );
@@ -386,10 +374,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (filtered.isEmpty) {
           value._value = null;
         } else {
-          value._value = await value.filterOnDidLoad(
-            value.fromMap(filtered),
-            update.listen,
-          );
+          value._value = await value.filterOnDidLoad(value.fromMap(filtered));
         }
         if (val != value.value) {
           value.notifyListeners();
@@ -407,10 +392,8 @@ abstract class CollectionBase<TModel extends DocumentBase>
         if (filtered.isEmpty) {
           found._value = null;
         } else {
-          found._value = await found.filterOnDidLoad(
-            found.fromMap(found.filterOnLoad(update.value)),
-            update.listen,
-          );
+          found._value = await found
+              .filterOnDidLoad(found.fromMap(found.filterOnLoad(update.value)));
         }
         if (val != found.value) {
           found.notifyListeners();

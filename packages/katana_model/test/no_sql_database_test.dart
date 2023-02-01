@@ -997,4 +997,165 @@ void main() {
       true,
     );
   });
+
+  test("NoSqlDatabase.syncDocument", () async {
+    final db = NoSqlDatabase();
+    final origin = <String, dynamic>{};
+    callback(ModelUpdateNotification update) {
+      throw Exception("Error");
+    }
+
+    final query = ModelAdapterDocumentQuery(
+      query: const DocumentModelQuery("test/doc"),
+      callback: callback,
+      origin: origin,
+    );
+    expect(await db.loadDocument(query), null);
+    final updateValue1 = {
+      "name": "aaa",
+      "text": "bbb",
+      "image": "ccc",
+    };
+    final syncedValue1 = await db.syncDocument(query, updateValue1);
+    expect(syncedValue1, updateValue1);
+    expect(await db.loadDocument(query), syncedValue1);
+    final updateValue2 = {
+      "name": "ddd",
+      "text": "bbb",
+      "image": "ccc",
+    };
+    final syncedValue2 = await db.syncDocument(query, updateValue2);
+    expect(syncedValue2, updateValue2);
+    expect(await db.loadDocument(query), syncedValue2);
+  });
+  test("NoSqlDatabase.syncCollection", () async {
+    final db = NoSqlDatabase();
+    var collectionOrigin;
+    collectionCallback(ModelUpdateNotification update) {
+      throw Exception("Error");
+    }
+
+    final collectionQuery = ModelAdapterCollectionQuery(
+      query: const CollectionModelQuery("test"),
+      callback: collectionCallback,
+      origin: collectionOrigin,
+    );
+    final origin1 = <String, dynamic>{};
+    callback1(ModelUpdateNotification update) {
+      throw Exception("Error");
+    }
+
+    final origin2 = <String, dynamic>{};
+    callback2(ModelUpdateNotification update) {
+      throw Exception("Error");
+    }
+
+    final origin3 = <String, dynamic>{};
+    callback3(ModelUpdateNotification update) {
+      throw Exception("Error");
+    }
+
+    final documentQuery1 = ModelAdapterDocumentQuery(
+      query: const DocumentModelQuery("test/0001"),
+      callback: callback1,
+      origin: origin1,
+    );
+    final documentQuery2 = ModelAdapterDocumentQuery(
+      query: const DocumentModelQuery("test/0002"),
+      callback: callback2,
+      origin: origin2,
+    );
+    final documentQuery3 = ModelAdapterDocumentQuery(
+      query: const DocumentModelQuery("test/0003"),
+      callback: callback3,
+      origin: origin3,
+    );
+    expect(await db.loadCollection(collectionQuery), null);
+    expect(await db.loadDocument(documentQuery1), null);
+    expect(await db.loadDocument(documentQuery2), null);
+    expect(await db.loadDocument(documentQuery3), null);
+    final updatedValue1 = {
+      "0001": {
+        "num": 1,
+        "name": "aaa",
+        "text": "bbb",
+        "image": "ccc",
+      },
+      "0002": {
+        "num": 2,
+        "name": "ddd",
+        "text": "eee",
+        "image": "fff",
+      }
+    };
+    final syncedValue1 =
+        await db.syncCollection(collectionQuery, updatedValue1);
+    expect(await db.loadCollection(collectionQuery), syncedValue1);
+    expect(await db.loadDocument(documentQuery1), {
+      "num": 1,
+      "name": "aaa",
+      "text": "bbb",
+      "image": "ccc",
+    });
+    expect(await db.loadDocument(documentQuery2), {
+      "num": 2,
+      "name": "ddd",
+      "text": "eee",
+      "image": "fff",
+    });
+    expect(await db.loadDocument(documentQuery3), null);
+    final updatedValue2 = {
+      "0001": {
+        "num": 1,
+        "name": "iii",
+        "text": "jjj",
+        "image": "kkk",
+      },
+      "0003": {
+        "num": 3,
+        "name": "lll",
+        "text": "mmm",
+        "image": "nnn",
+      }
+    };
+    await db.syncCollection(collectionQuery, updatedValue2);
+    expect(await db.loadCollection(collectionQuery), {
+      "0001": {
+        "num": 1,
+        "name": "iii",
+        "text": "jjj",
+        "image": "kkk",
+      },
+      "0002": {
+        "num": 2,
+        "name": "ddd",
+        "text": "eee",
+        "image": "fff",
+      },
+      "0003": {
+        "num": 3,
+        "name": "lll",
+        "text": "mmm",
+        "image": "nnn",
+      }
+    });
+    expect(await db.loadDocument(documentQuery1), {
+      "num": 1,
+      "name": "iii",
+      "text": "jjj",
+      "image": "kkk",
+    });
+    expect(await db.loadDocument(documentQuery2), {
+      "num": 2,
+      "name": "ddd",
+      "text": "eee",
+      "image": "fff",
+    });
+    expect(await db.loadDocument(documentQuery3), {
+      "num": 3,
+      "name": "lll",
+      "text": "mmm",
+      "image": "nnn",
+    });
+  });
 }

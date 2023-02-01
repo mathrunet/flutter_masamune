@@ -229,6 +229,39 @@ class NoSqlDatabase {
     return Map<String, dynamic>.from(value);
   }
 
+  /// Stores [value] in the path corresponding to [query] and then returns [value].
+  ///
+  /// Used to synchronize [NoSqlDatabase] with other databases.
+  ///
+  /// [prefix] can be specified to prefix the path.
+  ///
+  /// [query]に対応するパスに[value]を格納してから[value]を返します。
+  ///
+  /// 他のデータベースと[NoSqlDatabase]を同期するために利用します。
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  Future<DynamicMap?> syncDocument(
+    ModelAdapterDocumentQuery query,
+    DynamicMap? value, {
+    String? prefix,
+  }) async {
+    _addDocumentListener(query, prefix: prefix);
+    final trimPath = _path(query.query.path, prefix);
+    final paths = trimPath.split("/");
+    if (paths.isEmpty) {
+      return value;
+    }
+    value = Map.from(value ?? {})..removeWhere((key, value) => value == null);
+    if (value.isEmpty) {
+      data._deleteFromPath(paths, 0);
+      onDeleted?.call(this);
+      return null;
+    }
+    data._writeToPath(paths, 0, value);
+    await onSaved?.call(this);
+    return value;
+  }
+
   /// Pass [query] and load the collection corresponding to [query].
   ///
   /// If data is found, it will be returned in [Map<String, DynamicMap>].
@@ -289,6 +322,64 @@ class NoSqlDatabase {
         .sublist(0, limitValue);
     _collectionEntries[query] = entries;
     return Map<String, DynamicMap>.fromEntries(entries);
+  }
+
+  /// Stores [value] in the path corresponding to [query] and then returns [value].
+  ///
+  /// Used to synchronize [NoSqlDatabase] with other databases.
+  /// (Strictly speaking, the given value is stocked, not synchronized.)
+  ///
+  /// [prefix] can be specified to prefix the path.
+  ///
+  /// [query]に対応するパスに[value]を格納してから[value]を返します。
+  ///
+  /// 他のデータベースと[NoSqlDatabase]を同期するために利用します。
+  /// （厳密には同期ではなく与えられた値をストックしていきます。）
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  Future<Map<String, DynamicMap>?> syncCollection(
+    ModelAdapterCollectionQuery query,
+    Map<String, DynamicMap>? value, {
+    String? prefix,
+  }) async {
+    _addCollectionListener(query, prefix: prefix);
+    final trimPath = _path(query.query.path, prefix);
+    final paths = trimPath.split("/");
+    if (paths.isEmpty || value == null) {
+      return value;
+    }
+    for (final tmp in value.entries) {
+      final key = tmp.key;
+      final val = Map<String, dynamic>.from(tmp.value);
+      data._writeToPath([...paths, key], 0, val);
+    }
+    final limitValue = query.query.filters
+        .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
+        ?.value as int?;
+    final entries = query.query
+        .sort(
+          value
+              .toList(
+                (key, value) {
+                  if (value is! Map) {
+                    return null;
+                  }
+                  return MapEntry(
+                    key,
+                    Map<String, dynamic>.from(value),
+                  );
+                },
+              )
+              .where(
+                (element) =>
+                    element != null && query.query.hasMatchAsMap(element.value),
+              )
+              .removeEmpty(),
+        )
+        .sublist(0, limitValue);
+    _collectionEntries[query] = entries;
+    await onSaved?.call(this);
+    return value;
   }
 
   /// Add/update the data of [value] at the position of [path].
