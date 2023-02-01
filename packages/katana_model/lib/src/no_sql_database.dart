@@ -733,19 +733,21 @@ class NoSqlDatabase {
                 final oldIndex = entries.indexWhere(
                   (e) => e.key.trimQuery().trimString("/") == documentId,
                 );
-                _collectionEntries[element] = entries..removeAt(oldIndex);
-                element.callback?.call(
-                  ModelUpdateNotification(
-                    path: documentPath,
-                    id: documentId,
-                    status: ModelUpdateNotificationStatus.removed,
-                    value: const {},
-                    origin: query.origin,
-                    oldIndex: oldIndex < 0 ? null : oldIndex,
-                    newIndex: null,
-                    listen: query.listen,
-                  ),
-                );
+                if (oldIndex >= 0) {
+                  _collectionEntries[element] = entries..removeAt(oldIndex);
+                  element.callback?.call(
+                    ModelUpdateNotification(
+                      path: documentPath,
+                      id: documentId,
+                      status: ModelUpdateNotificationStatus.removed,
+                      value: const {},
+                      origin: query.origin,
+                      oldIndex: oldIndex < 0 ? null : oldIndex,
+                      newIndex: null,
+                      listen: query.listen,
+                    ),
+                  );
+                }
               }
               break;
             case ModelUpdateNotificationStatus.removed:

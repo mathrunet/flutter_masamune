@@ -420,7 +420,12 @@ class ModelAdapterDocumentQuery {
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
-  int get hashCode => query.hashCode ^ origin.hashCode;
+  int get hashCode {
+    if (origin != null) {
+      return origin.hashCode;
+    }
+    return query.hashCode;
+  }
 }
 
 /// Query class to be passed when executing each function of [ModelAdapter].
@@ -474,9 +479,9 @@ class ModelAdapterCollectionQuery {
   /// リクエストを送る際のメソッド。
   final String? method;
 
-  /// Page number to be read. If [ModelQuery.limit] is set, additional reading is performed according to this page number.
+  /// Page number to be read. If [ModelQueryFilterType.limit] is set, additional reading is performed according to this page number.
   ///
-  /// 読込のページ番号。[ModelQuery.limit]が設定されている場合、こちらのページ番号に応じて追加読込を行います。
+  /// 読込のページ番号。[ModelQueryFilterType.limit]が設定されている場合、こちらのページ番号に応じて追加読込を行います。
   final int page;
 
   /// A callback that is notified when there is a change in the corresponding collection.
@@ -520,5 +525,10 @@ class ModelAdapterCollectionQuery {
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
-  int get hashCode => query.hashCode ^ origin.hashCode;
+  int get hashCode {
+    if (origin != null) {
+      return origin.hashCode;
+    }
+    return query.hashCode;
+  }
 }

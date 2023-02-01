@@ -1161,25 +1161,30 @@ class ModelQuery {
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   @override
-  int get hashCode =>
-      filters.fold<int>(
-        path.trimQuery().trimString("/").hashCode,
-        (p, e) => p ^ e.hashCode,
-      ) ^
-      key.hashCode ^
-      isEqualTo.hashCode ^
-      isNotEqualTo.hashCode ^
-      isLessThanOrEqualTo.hashCode ^
-      isGreaterThanOrEqualTo.hashCode ^
-      arrayContains.hashCode ^
-      arrayContainsAny.hashCode ^
-      whereIn.hashCode ^
-      whereNotIn.hashCode ^
-      geoHash.hashCode ^
-      order.hashCode ^
-      limit.hashCode ^
-      orderBy.hashCode ^
-      searchText.hashCode;
+  int get hashCode {
+    final p = path.trimQuery().trimString("/").hashCode;
+    if (filters.isNotEmpty) {
+      return filters.sortTo((a, b) => a.hashCode - b.hashCode).fold<int>(
+            p,
+            (p, e) => p ^ e.hashCode,
+          );
+    }
+    return p ^
+        key.hashCode ^
+        isEqualTo.hashCode ^
+        isNotEqualTo.hashCode ^
+        isLessThanOrEqualTo.hashCode ^
+        isGreaterThanOrEqualTo.hashCode ^
+        arrayContains.hashCode ^
+        arrayContainsAny.hashCode ^
+        whereIn.hashCode ^
+        whereNotIn.hashCode ^
+        geoHash.hashCode ^
+        order.hashCode ^
+        limit.hashCode ^
+        orderBy.hashCode ^
+        searchText.hashCode;
+  }
 
   @protected
   String _limit([String path = ""]) {
@@ -1734,7 +1739,7 @@ class ModelQueryFilter {
   @override
   int get hashCode {
     final val = value;
-    if (val is List) {
+    if (val is List && val.isNotEmpty) {
       return val
           .sortTo()
           .fold(type.hashCode ^ key.hashCode, (p, e) => p ^ e.hashCode);
