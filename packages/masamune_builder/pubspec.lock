@@ -365,10 +365,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_annotation
-      sha256: fdc7068cbffafd00756f85682100456e65f6038da97bf309c78471474d2ed7d2
+      sha256: "10366db8d1a6f8745b9b02bbce249b12d4e96dd11e6021c8756359974bf1f260"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.8"
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:

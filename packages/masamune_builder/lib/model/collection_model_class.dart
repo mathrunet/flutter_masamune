@@ -248,6 +248,12 @@ List<Spec> collectionModelClass(
                       ..type = const Reference("String"),
                   );
                 }),
+                Parameter(
+                  (p) => p
+                    ..name = "adapter"
+                    ..named = true
+                    ..type = const Reference("ModelAdapter?"),
+                ),
               ])
               ..requiredParameters.addAll([
                 Parameter(
@@ -258,7 +264,7 @@ List<Spec> collectionModelClass(
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\"));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter,));",
               ),
           )
         ]),
@@ -335,10 +341,16 @@ List<Spec> collectionModelClass(
                       ..type = const Reference("String"),
                   );
                 }),
+                Parameter(
+                  (p) => p
+                    ..name = "adapter"
+                    ..named = true
+                    ..type = const Reference("ModelAdapter?"),
+                ),
               ])
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\"));",
+                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter,));",
               ),
           )
         ]),

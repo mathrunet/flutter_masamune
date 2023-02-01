@@ -33,10 +33,16 @@ List<Spec> documentModelClass(
                       ..type = const Reference("String"),
                   );
                 }),
+                Parameter(
+                  (p) => p
+                    ..name = "adapter"
+                    ..named = true
+                    ..type = const Reference("ModelAdapter?"),
+                ),
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\"));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter,));",
               ),
           )
         ]),

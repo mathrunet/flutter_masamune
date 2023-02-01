@@ -300,10 +300,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_model
-      sha256: "7a5b01a9277c5189c9cd0798d2d99ade0508b14216586c5d692ce99977a0b312"
+      sha256: a6226f494f23ca3a80e7e6317cf9997ce02b8797096bff706ade56b61b141fd9
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.5.2"
   katana_prefs:
     dependency: "direct main"
     description:
@@ -404,10 +404,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_annotation
-      sha256: fdc7068cbffafd00756f85682100456e65f6038da97bf309c78471474d2ed7d2
+      sha256: "10366db8d1a6f8745b9b02bbce249b12d4e96dd11e6021c8756359974bf1f260"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.8"
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
