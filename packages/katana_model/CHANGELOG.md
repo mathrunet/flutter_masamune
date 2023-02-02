@@ -1,3 +1,7 @@
+## 1.5.5
+
+ - **FIX**: Modified to allow ModelTimestamp to be specified. ([eeab90f7](https://github.com/mathrunet/flutter_masamune/commit/eeab90f7a5232ac478ad2588ee79fc4b5acb5d29))
+
 ## 1.5.4
 
  - **FIX**: Fixed a bug that prevented ModelCounter from working properly. ([1f9bfa77](https://github.com/mathrunet/flutter_masamune/commit/1f9bfa7733a1cdfc1aecaa1ae5ebe5059e54fe6f))

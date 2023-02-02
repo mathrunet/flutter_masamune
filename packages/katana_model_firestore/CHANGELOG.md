@@ -1,5 +1,11 @@
 ## 1.5.6
 
+ - **FIX**: Modified to allow ModelTimestamp to be specified. ([eeab90f7](https://github.com/mathrunet/flutter_masamune/commit/eeab90f7a5232ac478ad2588ee79fc4b5acb5d29))
+ - **FIX**: Fixed a bug that prevented ModelCounter from working properly. ([1f9bfa77](https://github.com/mathrunet/flutter_masamune/commit/1f9bfa7733a1cdfc1aecaa1ae5ebe5059e54fe6f))
+ - **FIX**: Fixed a bug that prevented ModelRef from working properly. ([79bf202f](https://github.com/mathrunet/flutter_masamune/commit/79bf202f8baf2bdd65969c24fbe9b7493108565d))
+
+## 1.5.6
+
  - **FIX**: Fixed a bug that prevented ModelCounter from working properly. ([1f9bfa77](https://github.com/mathrunet/flutter_masamune/commit/1f9bfa7733a1cdfc1aecaa1ae5ebe5059e54fe6f))
  - **FIX**: Fixed a bug that prevented ModelRef from working properly. ([79bf202f](https://github.com/mathrunet/flutter_masamune/commit/79bf202f8baf2bdd65969c24fbe9b7493108565d))
 

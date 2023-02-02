@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.5.5`](#katana_model---v155)
+ - [`katana_model_firestore` - `v1.5.6`](#katana_model_firestore---v156)
+ - [`masamune` - `v1.4.6`](#masamune---v146)
+ - [`masamune_picker` - `v1.4.41`](#masamune_picker---v1441)
+ - [`masamune_notification_firebase` - `v1.1.39`](#masamune_notification_firebase---v1139)
+ - [`masamune_picker_mobile` - `v1.4.41`](#masamune_picker_mobile---v1441)
+ - [`masamune_picker_file` - `v1.4.41`](#masamune_picker_file---v1441)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.6`
+ - `masamune_picker` - `v1.4.41`
+ - `masamune_notification_firebase` - `v1.1.39`
+ - `masamune_picker_mobile` - `v1.4.41`
+ - `masamune_picker_file` - `v1.4.41`
+
+---
+
+#### `katana_model` - `v1.5.5`
+
+ - **FIX**: Modified to allow ModelTimestamp to be specified. ([eeab90f7](https://github.com/mathrunet/flutter_masamune/commit/eeab90f7a5232ac478ad2588ee79fc4b5acb5d29))
+
+#### `katana_model_firestore` - `v1.5.6`
+
+ - **FIX**: Modified to allow ModelTimestamp to be specified. ([eeab90f7](https://github.com/mathrunet/flutter_masamune/commit/eeab90f7a5232ac478ad2588ee79fc4b5acb5d29))
+ - **FIX**: Fixed a bug that prevented ModelCounter from working properly. ([1f9bfa77](https://github.com/mathrunet/flutter_masamune/commit/1f9bfa7733a1cdfc1aecaa1ae5ebe5059e54fe6f))
+ - **FIX**: Fixed a bug that prevented ModelRef from working properly. ([79bf202f](https://github.com/mathrunet/flutter_masamune/commit/79bf202f8baf2bdd65969c24fbe9b7493108565d))
+
+
+## 2023-02-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.5.0`](#katana_cli---v150)
  - [`katana_model` - `v1.5.4`](#katana_model---v154)
  - [`katana_model_firestore` - `v1.5.6`](#katana_model_firestore---v156)
