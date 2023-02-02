@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: URI can now be specified even if null. ([7139b8d6](https://github.com/mathrunet/flutter_masamune/commit/7139b8d6318a93cbd771ed9f5ebc2d6438ef51f0))
+
 ## 1.3.0
 
  - **FEAT**: Added Asset class. ([0f4972dd](https://github.com/mathrunet/flutter_masamune/commit/0f4972dd350fdd4a64d9c9467d6c786f09b84ed7))

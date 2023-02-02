@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v1.3.1`](#katana_theme---v131)
+ - [`masamune` - `v1.4.9`](#masamune---v149)
+ - [`masamune_picker` - `v1.4.44`](#masamune_picker---v1444)
+ - [`masamune_notification_firebase` - `v1.1.42`](#masamune_notification_firebase---v1142)
+ - [`masamune_picker_mobile` - `v1.4.44`](#masamune_picker_mobile---v1444)
+ - [`masamune_picker_file` - `v1.4.44`](#masamune_picker_file---v1444)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.9`
+ - `masamune_picker` - `v1.4.44`
+ - `masamune_notification_firebase` - `v1.1.42`
+ - `masamune_picker_mobile` - `v1.4.44`
+ - `masamune_picker_file` - `v1.4.44`
+
+---
+
+#### `katana_theme` - `v1.3.1`
+
+ - **FIX**: URI can now be specified even if null. ([7139b8d6](https://github.com/mathrunet/flutter_masamune/commit/7139b8d6318a93cbd771ed9f5ebc2d6438ef51f0))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v1.3.0`](#katana_theme---v130)
  - [`katana_theme_annotation` - `v1.3.0`](#katana_theme_annotation---v130)
  - [`katana_theme_builder` - `v1.3.0`](#katana_theme_builder---v130)
