@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - Update a dependency to the latest release.
+
 ## 1.2.1
 
  - **FIX**: Adapter can be specified. ([38ae6476](https://github.com/mathrunet/flutter_masamune/commit/38ae6476cbc71123564196c97546b3d4374ad7c7))

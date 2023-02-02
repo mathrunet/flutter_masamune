@@ -1,3 +1,7 @@
+## 1.5.0
+
+ - **FEAT**: Added Widget system. ([8bf49ffa](https://github.com/mathrunet/flutter_masamune/commit/8bf49ffaaa87237a6f06b7a501a4906cc7a5f576))
+
 ## 1.4.16
 
  - **FIX**: Minor fixes to accommodate new collection queries. ([5378525d](https://github.com/mathrunet/flutter_masamune/commit/5378525da200d6e4139c7e89f6e5c41cce574753))

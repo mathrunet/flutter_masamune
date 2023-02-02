@@ -1,3 +1,11 @@
+## 1.5.4
+
+ - **FIX**: Fixed a bug that prevented ModelCounter from working properly. ([1f9bfa77](https://github.com/mathrunet/flutter_masamune/commit/1f9bfa7733a1cdfc1aecaa1ae5ebe5059e54fe6f))
+ - **FIX**: Fixed a bug that prevented local database values from being read properly. ([c299682c](https://github.com/mathrunet/flutter_masamune/commit/c299682c9e17f41669dba988201754d2c5243628))
+ - **FIX**: Fixed a bug that caused an error when using Searchable objects together. ([cde8c95a](https://github.com/mathrunet/flutter_masamune/commit/cde8c95afcdbd578eb83f7c64e3ad66e15f2bc12))
+ - **FIX**: Fixed a bug that caused an error if there was no adapter when testing. ([43c34c90](https://github.com/mathrunet/flutter_masamune/commit/43c34c9099e058ffdb8f3c88f8aa0981184829f7))
+ - **FIX**: Fixed a bug that prevented ModelRef from working properly. ([79bf202f](https://github.com/mathrunet/flutter_masamune/commit/79bf202f8baf2bdd65969c24fbe9b7493108565d))
+
 ## 1.5.3
 
  - **FIX**: Fixed a bug when using multiple Adapters. ([363f4048](https://github.com/mathrunet/flutter_masamune/commit/363f4048a5c67308aa202682fa58f0c9c7198df5))

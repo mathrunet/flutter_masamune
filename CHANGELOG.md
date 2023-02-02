@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.5.0`](#katana_cli---v150)
+ - [`katana_model` - `v1.5.4`](#katana_model---v154)
+ - [`katana_model_firestore` - `v1.5.6`](#katana_model_firestore---v156)
+ - [`katana_router` - `v1.10.15`](#katana_router---v11015)
+ - [`katana_router_annotation` - `v1.10.12`](#katana_router_annotation---v11012)
+ - [`katana_router_builder` - `v1.10.14`](#katana_router_builder---v11014)
+ - [`masamune` - `v1.4.5`](#masamune---v145)
+ - [`masamune_picker` - `v1.4.40`](#masamune_picker---v1440)
+ - [`masamune_notification_firebase` - `v1.1.38`](#masamune_notification_firebase---v1138)
+ - [`masamune_picker_mobile` - `v1.4.40`](#masamune_picker_mobile---v1440)
+ - [`masamune_picker_file` - `v1.4.40`](#masamune_picker_file---v1440)
+ - [`masamune_builder` - `v1.2.2`](#masamune_builder---v122)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.5`
+ - `masamune_picker` - `v1.4.40`
+ - `masamune_notification_firebase` - `v1.1.38`
+ - `masamune_picker_mobile` - `v1.4.40`
+ - `masamune_picker_file` - `v1.4.40`
+ - `masamune_builder` - `v1.2.2`
+
+---
+
+#### `katana_cli` - `v1.5.0`
+
+ - **FEAT**: Added Widget system. ([8bf49ffa](https://github.com/mathrunet/flutter_masamune/commit/8bf49ffaaa87237a6f06b7a501a4906cc7a5f576))
+
+#### `katana_model` - `v1.5.4`
+
+ - **FIX**: Fixed a bug that prevented ModelCounter from working properly. ([1f9bfa77](https://github.com/mathrunet/flutter_masamune/commit/1f9bfa7733a1cdfc1aecaa1ae5ebe5059e54fe6f))
+ - **FIX**: Fixed a bug that prevented local database values from being read properly. ([c299682c](https://github.com/mathrunet/flutter_masamune/commit/c299682c9e17f41669dba988201754d2c5243628))
+ - **FIX**: Fixed a bug that caused an error when using Searchable objects together. ([cde8c95a](https://github.com/mathrunet/flutter_masamune/commit/cde8c95afcdbd578eb83f7c64e3ad66e15f2bc12))
+ - **FIX**: Fixed a bug that caused an error if there was no adapter when testing. ([43c34c90](https://github.com/mathrunet/flutter_masamune/commit/43c34c9099e058ffdb8f3c88f8aa0981184829f7))
+ - **FIX**: Fixed a bug that prevented ModelRef from working properly. ([79bf202f](https://github.com/mathrunet/flutter_masamune/commit/79bf202f8baf2bdd65969c24fbe9b7493108565d))
+
+#### `katana_model_firestore` - `v1.5.6`
+
+ - **FIX**: Fixed a bug that prevented ModelCounter from working properly. ([1f9bfa77](https://github.com/mathrunet/flutter_masamune/commit/1f9bfa7733a1cdfc1aecaa1ae5ebe5059e54fe6f))
+ - **FIX**: Fixed a bug that prevented ModelRef from working properly. ([79bf202f](https://github.com/mathrunet/flutter_masamune/commit/79bf202f8baf2bdd65969c24fbe9b7493108565d))
+
+#### `katana_router` - `v1.10.15`
+
+ - **FIX**: Fixed to be able to display a list of pages. ([d3f69fd9](https://github.com/mathrunet/flutter_masamune/commit/d3f69fd99926d519d8c3e131b1486856668a8ee6))
+
+#### `katana_router_annotation` - `v1.10.12`
+
+ - **FIX**: Fixed to be able to display a list of pages. ([d3f69fd9](https://github.com/mathrunet/flutter_masamune/commit/d3f69fd99926d519d8c3e131b1486856668a8ee6))
+
+#### `katana_router_builder` - `v1.10.14`
+
+ - **FIX**: Fixed to be able to display a list of pages. ([d3f69fd9](https://github.com/mathrunet/flutter_masamune/commit/d3f69fd99926d519d8c3e131b1486856668a8ee6))
+
+
 ## 2023-02-01
 
 ### Changes

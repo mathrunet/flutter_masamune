@@ -1,3 +1,7 @@
+## 1.10.15
+
+ - **FIX**: Fixed to be able to display a list of pages. ([d3f69fd9](https://github.com/mathrunet/flutter_masamune/commit/d3f69fd99926d519d8c3e131b1486856668a8ee6))
+
 ## 1.10.14
 
  - Update a dependency to the latest release.
