@@ -408,9 +408,8 @@ class ModelCounter extends ModelFieldValue<int> {
   ///
   /// [json]のマップから[ModelCounter]に変換します。
   factory ModelCounter.fromJson(DynamicMap json) {
-    return _ModelCounter(
+    return ModelCounter.fromServer(
       json.getAsInt(kValueKey),
-      ModelFieldValueSource.server,
     );
   }
 
@@ -535,6 +534,16 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
   /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
   const factory ModelTimestamp([DateTime? value]) = _ModelTimestamp;
 
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelTimestamp.fromServer([DateTime? value]) =
+      _ModelTimestamp.fromServer;
+
   /// Convert from [json] map to [ModelTimestamp].
   ///
   /// [json]のマップから[ModelTimestamp]に変換します。
@@ -543,19 +552,37 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
       kTimeKey,
       DateTime.now().millisecondsSinceEpoch,
     );
-    return ModelTimestamp(DateTime.fromMillisecondsSinceEpoch(timestamp));
+    return ModelTimestamp.fromServer(
+      DateTime.fromMillisecondsSinceEpoch(timestamp),
+    );
   }
 
-  const ModelTimestamp._([DateTime? value]) : _value = value;
+  const ModelTimestamp._([
+    DateTime? value,
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _source = source;
 
   /// Key to save time.
   ///
   /// 時間を保存しておくキー。
   static const kTimeKey = "@time";
 
+  /// A value key that should be set to `true` if the current time is used.
+  ///
+  /// 現在時間を利用する場合`true`にしておく値のキー。
+  static const kNowKey = "@now";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
+
   @override
   DateTime get value => _value ?? DateTime.now();
   final DateTime? _value;
+
+  final ModelFieldValueSource _source;
 
   @override
   String toString() {
@@ -566,6 +593,8 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
   DynamicMap toJson() => {
         kTypeFieldKey: (ModelTimestamp).toString(),
         kTimeKey: value.millisecondsSinceEpoch,
+        kNowKey: _value == null,
+        kSourceKey: _source.name,
       };
 
   @override
@@ -578,7 +607,12 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 @immutable
 class _ModelTimestamp extends ModelTimestamp
     with ModelFieldValueAsMapMixin<DateTime> {
-  const _ModelTimestamp([DateTime? value]) : super._(value);
+  const _ModelTimestamp([
+    DateTime? value,
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ]) : super._(value, source);
+  const _ModelTimestamp.fromServer([DateTime? value])
+      : super._(value, ModelFieldValueSource.server);
 }
 
 /// [ModelFieldValueConverter] to enable automatic conversion of [ModelTimestamp] as [ModelFieldValue].

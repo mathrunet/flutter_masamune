@@ -309,13 +309,23 @@ class FirestoreModelAdapter extends ModelAdapter {
             res[targetKey] = FieldValue.increment(increment);
           }
         } else if (type == (ModelTimestamp).toString()) {
-          final timestamp = ModelTimestamp.fromJson(val);
+          final fromUser = val.get(ModelTimestamp.kSourceKey, "") ==
+              ModelFieldValueSource.user.name;
+          final value = val.get(ModelTimestamp.kTimeKey, 0);
+          final useNow = val.get(ModelTimestamp.kNowKey, false);
           final targetKey = "#$key";
           res[key] = {
-            ...timestamp.toJson(),
+            kTypeFieldKey: (ModelTimestamp).toString(),
+            ModelTimestamp.kTimeKey: value,
             _kTargetKey: targetKey,
           };
-          res[targetKey] = FieldValue.serverTimestamp();
+          if (fromUser) {
+            if (useNow) {
+              res[targetKey] = FieldValue.serverTimestamp();
+            } else {
+              res[targetKey] = Timestamp.fromMillisecondsSinceEpoch(value);
+            }
+          }
         } else if (type.startsWith((ModelRefBase).toString())) {
           final ref = ModelRefBase.fromJson(val);
           res[key] = database.doc(_path(ref.modelQuery.path));
