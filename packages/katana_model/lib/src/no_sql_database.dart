@@ -109,6 +109,8 @@ class NoSqlDatabase {
   /// Databaseの削除時に実行されます。
   final Future<void> Function(NoSqlDatabase database)? onDeleted;
 
+  bool _initialized = false;
+  Completer<void>? _completer;
   final List<String> _registeredRawDataPath = [];
   final Map<String, Set<ModelAdapterDocumentQuery>> _documentListeners = {};
   final Map<String, Set<ModelAdapterCollectionQuery>> _collectionListeners = {};
@@ -122,6 +124,28 @@ class NoSqlDatabase {
     final p = prefix!.trimQuery().trimString("/");
     final o = original.trimQuery().trimString("/");
     return "$p/$o";
+  }
+
+  Future<void> _initialize() async {
+    if (_completer != null) {
+      return _completer?.future;
+    }
+    if (_initialized) {
+      return;
+    }
+    _completer = Completer();
+    try {
+      _initialized = true;
+      await onInitialize?.call(this);
+      _completer?.complete(e);
+      _completer = null;
+    } catch (e) {
+      _completer?.completeError(e);
+      _completer = null;
+    } finally {
+      _completer?.complete(e);
+      _completer = null;
+    }
   }
 
   void _addDocumentListener(
@@ -216,6 +240,7 @@ class NoSqlDatabase {
     String? prefix,
   }) async {
     _addDocumentListener(query, prefix: prefix);
+    await _initialize();
     await onLoad?.call(this);
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
@@ -246,6 +271,7 @@ class NoSqlDatabase {
     String? prefix,
   }) async {
     _addDocumentListener(query, prefix: prefix);
+    await _initialize();
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
@@ -286,6 +312,7 @@ class NoSqlDatabase {
     String? prefix,
   }) async {
     _addCollectionListener(query, prefix: prefix);
+    await _initialize();
     await onLoad?.call(this);
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
@@ -343,6 +370,7 @@ class NoSqlDatabase {
     String? prefix,
   }) async {
     _addCollectionListener(query, prefix: prefix);
+    await _initialize();
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty || value == null) {
@@ -434,6 +462,7 @@ class NoSqlDatabase {
     String? prefix,
   }) async {
     _addDocumentListener(query, prefix: prefix);
+    await _initialize();
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
@@ -479,6 +508,7 @@ class NoSqlDatabase {
     String? prefix,
   }) async {
     _addDocumentListener(query, prefix: prefix);
+    await _initialize();
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
     if (paths.isEmpty) {
@@ -507,6 +537,7 @@ class NoSqlDatabase {
   ///
   /// すべてのデータの置き換えが終わったあと、[NoSqlDatabase.onSaved]のコールバックを登録しておくことで保存後にファイルとして書き出すなどの処理を追加することができます。
   Future<void> replace(DynamicMap replaceData) async {
+    await _initialize();
     // ドキュメントリスナーから現在のパスを取得。
     final cache = <String, DynamicMap>{};
     for (final tmp in _documentListeners.entries) {

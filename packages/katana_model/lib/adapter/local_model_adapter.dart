@@ -48,7 +48,7 @@ class LocalModelAdapter extends ModelAdapter {
     onInitialize: (database) async {
       try {
         database.data = await DatabaseExporter.import(
-          "${DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+          "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         );
       } catch (e) {
         database.data = {};
@@ -56,13 +56,13 @@ class LocalModelAdapter extends ModelAdapter {
     },
     onSaved: (database) async {
       await DatabaseExporter.export(
-        "${DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         database.data,
       );
     },
     onDeleted: (database) async {
       await DatabaseExporter.export(
-        "${DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
+        "${await DatabaseExporter.documentDirectory}/${_kLocalDatabaseId.toSHA1()}",
         database.data,
       );
     },
