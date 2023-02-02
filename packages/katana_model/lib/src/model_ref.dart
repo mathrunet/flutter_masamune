@@ -157,7 +157,7 @@ abstract class ModelRefMixin<T> implements ModelRefBase<T>, DocumentBase<T> {
 ///
 /// リレーション元のドキュメントにミックスインしてください。
 abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
-  final _modelRefBuilderCache = <DocumentModelQuery, DocumentBase>{};
+  final _modelRefBuilderCache = <DocumentModelQuery, ModelRefMixin>{};
 
   /// ModelRefBuilder], which implements the definition of the loading method.
   ///
@@ -181,9 +181,9 @@ abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
       tmpValue = await build._build(
         val: tmpValue,
         cacheList: _modelRefBuilderCache,
-        onDidLoad: (query, document) {
-          document.addListener(notifyListeners);
-          _modelRefBuilderCache[query] = document;
+        onDidLoad: (query, modelRefMixin) {
+          modelRefMixin.addListener(notifyListeners);
+          _modelRefBuilderCache[query] = modelRefMixin;
         },
         loaderModelQuery: modelQuery,
       );
@@ -295,8 +295,9 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   @override
   Future<TSource?> _build({
     required TSource? val,
-    required Map<DocumentModelQuery, DocumentBase> cacheList,
-    required void Function(DocumentModelQuery query, DocumentBase document)
+    required Map<DocumentModelQuery, ModelRefMixin> cacheList,
+    required void Function(
+            DocumentModelQuery query, ModelRefMixin modelRefMixin)
         onDidLoad,
     required DocumentModelQuery loaderModelQuery,
   }) async {
@@ -312,7 +313,10 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
       adapter: loaderModelQuery.adapter,
     );
     if (cacheList.containsKey(modelQuery)) {
-      return val;
+      final doc = cacheList[modelQuery];
+      if (doc is ModelRefMixin<TResult>) {
+        return value(val, doc);
+      }
     }
     final doc = document(modelQuery);
     assert(
@@ -345,8 +349,9 @@ abstract class ModelRefBuilderBase<TSource> {
 
   Future<TSource?> _build({
     required TSource? val,
-    required Map<DocumentModelQuery, DocumentBase> cacheList,
-    required void Function(DocumentModelQuery query, DocumentBase document)
+    required Map<DocumentModelQuery, ModelRefMixin> cacheList,
+    required void Function(
+            DocumentModelQuery query, ModelRefMixin modelRefMixin)
         onDidLoad,
     required DocumentModelQuery loaderModelQuery,
   });

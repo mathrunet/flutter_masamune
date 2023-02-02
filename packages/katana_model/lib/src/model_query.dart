@@ -1748,6 +1748,9 @@ class ModelQueryFilter {
         if (source is! Map || target is! String) {
           return false;
         }
+        if (target.isEmpty) {
+          return true;
+        }
         final splitBygram = target.toLowerCase().splitByBigram();
         for (final text in splitBygram) {
           if (source.get(text, false)) {
