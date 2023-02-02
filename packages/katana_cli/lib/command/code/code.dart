@@ -19,6 +19,9 @@ part 'value.dart';
 part 'redirect_query.dart';
 part 'boot.dart';
 part 'prefs.dart';
+part 'widget.dart';
+part 'stateless.dart';
+part 'stateful.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -41,5 +44,8 @@ class CodeCliCommand extends CliCommandGroup {
         "value": CodeValueCliCommand(),
         "redirect": CodeRedirectQueryCliCommand(),
         "prefs": CodePrefsCliCommand(),
+        "widget": CodeWidgetCliCommand(),
+        "stateless": CodeStatelessCliCommand(),
+        "stateful": CodeStatefulCliCommand(),
       };
 }

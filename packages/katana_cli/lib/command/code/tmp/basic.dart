@@ -27,7 +27,7 @@ class CodeTmpBasicCliCommand extends CliCodeCommand {
     final path = context.args.get(3, "");
     if (path.isEmpty) {
       error(
-        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code tmp form [path]\r\n",
+        "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code tmp basic [path]\r\n",
       );
       return;
     }
