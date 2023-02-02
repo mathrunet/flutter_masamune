@@ -167,6 +167,11 @@ class AppRouter extends ChangeNotifier
       _routeInformationProvider;
   late final _AppRouteInformationProvider _routeInformationProvider;
 
+  /// List of pages currently passed to [AppRouter].
+  ///
+  /// 現在[AppRouter]に渡されているページのリスト。
+  List<RouteQueryBuilder> get pages => _config.pages;
+
   /// You can check the current [RouteQuery].
   ///
   /// 現在の[RouteQuery]を確認することができます。
