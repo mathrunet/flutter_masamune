@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Added Asset class. ([0f4972dd](https://github.com/mathrunet/flutter_masamune/commit/0f4972dd350fdd4a64d9c9467d6c786f09b84ed7))
+
 ## 1.2.17
 
  - Update a dependency to the latest release.

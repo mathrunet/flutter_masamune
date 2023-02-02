@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_theme` - `v1.3.0`](#katana_theme---v130)
+ - [`katana_theme_annotation` - `v1.3.0`](#katana_theme_annotation---v130)
+ - [`katana_theme_builder` - `v1.3.0`](#katana_theme_builder---v130)
+ - [`masamune` - `v1.4.8`](#masamune---v148)
+ - [`masamune_picker` - `v1.4.43`](#masamune_picker---v1443)
+ - [`masamune_notification_firebase` - `v1.1.41`](#masamune_notification_firebase---v1141)
+ - [`masamune_picker_mobile` - `v1.4.43`](#masamune_picker_mobile---v1443)
+ - [`masamune_picker_file` - `v1.4.43`](#masamune_picker_file---v1443)
+ - [`masamune_builder` - `v1.2.3`](#masamune_builder---v123)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.8`
+ - `masamune_picker` - `v1.4.43`
+ - `masamune_notification_firebase` - `v1.1.41`
+ - `masamune_picker_mobile` - `v1.4.43`
+ - `masamune_picker_file` - `v1.4.43`
+ - `masamune_builder` - `v1.2.3`
+
+---
+
+#### `katana_theme` - `v1.3.0`
+
+ - **FEAT**: Added Asset class. ([0f4972dd](https://github.com/mathrunet/flutter_masamune/commit/0f4972dd350fdd4a64d9c9467d6c786f09b84ed7))
+
+#### `katana_theme_annotation` - `v1.3.0`
+
+ - **FEAT**: Added Asset class. ([0f4972dd](https://github.com/mathrunet/flutter_masamune/commit/0f4972dd350fdd4a64d9c9467d6c786f09b84ed7))
+
+#### `katana_theme_builder` - `v1.3.0`
+
+ - **FEAT**: Added Asset class. ([0f4972dd](https://github.com/mathrunet/flutter_masamune/commit/0f4972dd350fdd4a64d9c9467d6c786f09b84ed7))
+
+
 ## 2023-02-02
 
 ### Changes
