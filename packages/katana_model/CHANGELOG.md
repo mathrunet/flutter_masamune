@@ -1,3 +1,7 @@
+## 1.5.6
+
+ - **FIX**: Fixed a bug that did not work well in combination with SearchableCollection and ModelRef on reload. ([948c6ce5](https://github.com/mathrunet/flutter_masamune/commit/948c6ce5db74a08db391c02570ab5b7e346886d8))
+
 ## 1.5.5
 
  - **FIX**: Modified to allow ModelTimestamp to be specified. ([eeab90f7](https://github.com/mathrunet/flutter_masamune/commit/eeab90f7a5232ac478ad2588ee79fc4b5acb5d29))

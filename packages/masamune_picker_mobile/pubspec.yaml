@@ -1,6 +1,6 @@
 name: masamune_picker_mobile
 description: Mobile plugin for masamune_picker. Base package for retrieving files such as images and videos from terminal storage, cameras, etc.
-version: 1.4.41
+version: 1.4.42
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_picker_mobile
 
@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
     
   katana: ^1.0.5
-  masamune: ^1.4.6
-  masamune_picker: ^1.4.41
+  masamune: ^1.4.7
+  masamune_picker: ^1.4.42
   file_picker: ^5.2.3
   image_picker: ^0.8.6
 dev_dependencies:
