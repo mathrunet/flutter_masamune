@@ -291,7 +291,11 @@ abstract class DocumentBase<T> extends ChangeNotifier
     try {
       _saveCompleter = Completer<T?>();
       await saveRequest(_filterOnSave(toMap(newValue)));
-      _value = newValue;
+      // TODO: とりあえず消したがうまくいかないようであればまた考える
+      // if (value != newValue) {
+      //   _value = newValue;
+      //   notifyListeners();
+      // }
       _saveCompleter?.complete(value);
       _saveCompleter = null;
     } catch (e) {

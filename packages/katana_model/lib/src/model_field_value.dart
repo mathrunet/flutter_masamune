@@ -354,6 +354,21 @@ extension DynamicMapModelFieldValueExtensions on DynamicMap {
   }
 }
 
+/// Defines where the source of the ModelFieldValue is located.
+///
+/// ModelFieldValueのソースがどこにあるかを定義します。
+enum ModelFieldValueSource {
+  /// User-defined.
+  ///
+  /// ユーザー定義。
+  user,
+
+  /// Server Definition.
+  ///
+  /// サーバー定義。
+  server,
+}
+
 /// Define the field as a counter.
 ///
 /// The base value is given as [value], and the value is increased or decreased by [increment].
@@ -380,25 +395,53 @@ class ModelCounter extends ModelFieldValue<int> {
   /// これをサーバーに渡すことで安定して値の増減を行うことができます。
   const factory ModelCounter(int value) = _ModelCounter;
 
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelCounter.fromServer(int value) = _ModelCounter.fromServer;
+
   /// Convert from [json] map to [ModelCounter].
   ///
   /// [json]のマップから[ModelCounter]に変換します。
   factory ModelCounter.fromJson(DynamicMap json) {
-    return ModelCounter(
-      json.getAsInt(_kValueKey),
+    return _ModelCounter(
+      json.getAsInt(kValueKey),
+      ModelFieldValueSource.server,
     );
   }
 
-  const ModelCounter._(int value, int increment)
-      : _value = value,
-        _increment = increment;
+  const ModelCounter._(
+    int value,
+    int increment, [
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _increment = increment,
+        _source = source;
 
-  static const _kValueKey = "@value";
-  static const _kIncrementKey = "@increment";
+  /// Key to store the value.
+  ///
+  /// 値を保存しておくキー。
+  static const kValueKey = "@value";
+
+  /// Key to store the increase/decrease value.
+  ///
+  /// 増減値を保存しておくキー。
+  static const kIncrementKey = "@increment";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
 
   final int _value;
 
   final int _increment;
+
+  final ModelFieldValueSource _source;
 
   /// Obtains the increase/decrease value.
   ///
@@ -409,7 +452,7 @@ class ModelCounter extends ModelFieldValue<int> {
   ///
   /// 値を[val]で増減します。
   ModelCounter increment(int val) {
-    return ModelCounter._(_value, val);
+    return ModelCounter._(_value, _increment + val, _source);
   }
 
   @override
@@ -423,8 +466,9 @@ class ModelCounter extends ModelFieldValue<int> {
   @override
   DynamicMap toJson() => {
         kTypeFieldKey: (ModelCounter).toString(),
-        _kValueKey: value,
-        _kIncrementKey: incrementValue,
+        kValueKey: value,
+        kIncrementKey: incrementValue,
+        kSourceKey: _source.name,
       };
 
   @override
@@ -436,7 +480,12 @@ class ModelCounter extends ModelFieldValue<int> {
 
 @immutable
 class _ModelCounter extends ModelCounter with ModelFieldValueAsMapMixin<int> {
-  const _ModelCounter(int value) : super._(value, 0);
+  const _ModelCounter(
+    int value, [
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ]) : super._(value, 0, source);
+  const _ModelCounter.fromServer(int value)
+      : super._(value, 0, ModelFieldValueSource.server);
 }
 
 /// [ModelFieldValueConverter] to enable automatic conversion of [ModelCounter] as [ModelFieldValue].
@@ -491,7 +540,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
   /// [json]のマップから[ModelTimestamp]に変換します。
   factory ModelTimestamp.fromJson(DynamicMap json) {
     final timestamp = json.get(
-      _kTimeKey,
+      kTimeKey,
       DateTime.now().millisecondsSinceEpoch,
     );
     return ModelTimestamp(DateTime.fromMillisecondsSinceEpoch(timestamp));
@@ -499,7 +548,10 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 
   const ModelTimestamp._([DateTime? value]) : _value = value;
 
-  static const _kTimeKey = "@time";
+  /// Key to save time.
+  ///
+  /// 時間を保存しておくキー。
+  static const kTimeKey = "@time";
 
   @override
   DateTime get value => _value ?? DateTime.now();
@@ -513,7 +565,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
   @override
   DynamicMap toJson() => {
         kTypeFieldKey: (ModelTimestamp).toString(),
-        _kTimeKey: value.millisecondsSinceEpoch,
+        kTimeKey: value.millisecondsSinceEpoch,
       };
 
   @override

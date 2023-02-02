@@ -73,7 +73,7 @@ void main() {
     expect(
       model.value,
       {
-        "counter": const ModelCounter(0),
+        "counter": const ModelCounter.fromServer(0),
         "time": ModelTimestamp(DateTime(2022, 1, 1))
       },
     );
@@ -81,7 +81,7 @@ void main() {
     expect(
       model2.value,
       {
-        "counter": const ModelCounter(0),
+        "counter": const ModelCounter.fromServer(0),
         "time": ModelTimestamp(DateTime(2022, 1, 1))
       },
     );
@@ -96,7 +96,7 @@ void main() {
     expect(
       model.value,
       {
-        "counter": const ModelCounter(0).increment(1),
+        "counter": const ModelCounter.fromServer(1),
         "time": ModelTimestamp(DateTime(2022, 1, 2))
       },
     );
@@ -115,7 +115,7 @@ void main() {
     expect(
       model.value,
       TestValue(
-        counter: const ModelCounter(0),
+        counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
       ),
     );
@@ -123,7 +123,7 @@ void main() {
     expect(
       model2.value,
       TestValue(
-        counter: const ModelCounter(0),
+        counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
       ),
     );
@@ -136,11 +136,11 @@ void main() {
       ),
     );
     expect(
-      model.value.hashCode,
+      model.value,
       TestValue(
-        counter: const ModelCounter(0).increment(1),
+        counter: const ModelCounter.fromServer(1),
         time: ModelTimestamp(DateTime(2022, 1, 2)),
-      ).hashCode,
+      ),
     );
   });
 }
