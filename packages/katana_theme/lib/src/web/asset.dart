@@ -38,7 +38,7 @@ class Asset {
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合は[defaultValue]が返されます。
   static Future<String> text(
-    String uri, {
+    String? uri, {
     Map<String, String>? headers,
     String defaultValue = "",
   }) async {
@@ -46,7 +46,7 @@ class Asset {
       return defaultValue;
     }
     try {
-      if (uri.startsWith("http")) {
+      if (uri!.startsWith("http")) {
         final res = await Api.get(uri, headers: headers);
         if (res.statusCode != 200) {
           return defaultValue;
@@ -88,14 +88,14 @@ class Asset {
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合はFlutterのアセットフォルダ内の[defaultAssetURI]に存在する画像ファイルが返されます。デフォルトは`assets/default.png`。
   static ImageProvider image(
-    String uri, [
+    String? uri, [
     String defaultAssetURI = "assets/default.png",
   ]) {
     if (uri.isEmpty) {
       return _MemoizedAssetImage(defaultAssetURI);
     }
     try {
-      if (uri.startsWith("http") || uri.startsWith("blob:")) {
+      if (uri!.startsWith("http") || uri.startsWith("blob:")) {
         return _MemoizedNetworkImage(uri);
       } else if (uri.startsWith("resource:")) {
         return _MemoizedAssetImage(
