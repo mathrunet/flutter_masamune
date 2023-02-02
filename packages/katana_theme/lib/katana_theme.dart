@@ -19,6 +19,11 @@ import 'package:flutter/services.dart';
 export 'package:katana/katana.dart';
 export 'package:katana_theme_annotation/katana_theme_annotation.dart';
 
+export 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
+
 part 'src/app_theme_data.dart';
 part 'src/theme_scope.dart';
 part 'src/extensions.dart';
