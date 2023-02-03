@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **FIX**: Fixed defaultURL in Asset.image that cannot be generated. ([61ef6a2d](https://github.com/mathrunet/flutter_masamune/commit/61ef6a2df5381cc48172aaeee49141db91d9ea31))
+
 ## 1.3.1
 
  - **FIX**: URI can now be specified even if null. ([7139b8d6](https://github.com/mathrunet/flutter_masamune/commit/7139b8d6318a93cbd771ed9f5ebc2d6438ef51f0))

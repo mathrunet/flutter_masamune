@@ -1,3 +1,7 @@
+## 1.5.9
+
+ - **FIX**: Fixed a bug that caused Firestore's Bigram to keep overwriting the old one. ([42e0ef60](https://github.com/mathrunet/flutter_masamune/commit/42e0ef60f22d2143c7e1de5471a1bad84da0f472))
+
 ## 1.5.8
 
  - **FIX**: Fixed a bug that occurred when changing the value when searching. ([c4c01bb6](https://github.com/mathrunet/flutter_masamune/commit/c4c01bb6194832dc4533e644e15777933ac8fd53))

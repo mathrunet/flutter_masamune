@@ -15,6 +15,69 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.5.8`](#katana_model---v158)
+ - [`katana_model_firestore` - `v1.5.9`](#katana_model_firestore---v159)
+ - [`katana_prefs` - `v1.1.11`](#katana_prefs---v1111)
+ - [`katana_prefs_annotation` - `v1.1.10`](#katana_prefs_annotation---v1110)
+ - [`katana_prefs_builder` - `v1.1.14`](#katana_prefs_builder---v1114)
+ - [`katana_theme` - `v1.3.2`](#katana_theme---v132)
+ - [`masamune` - `v1.4.11`](#masamune---v1411)
+ - [`masamune_picker` - `v1.4.46`](#masamune_picker---v1446)
+ - [`masamune_notification_firebase` - `v1.1.44`](#masamune_notification_firebase---v1144)
+ - [`masamune_picker_mobile` - `v1.4.46`](#masamune_picker_mobile---v1446)
+ - [`masamune_picker_file` - `v1.4.46`](#masamune_picker_file---v1446)
+ - [`masamune_builder` - `v1.2.4`](#masamune_builder---v124)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.11`
+ - `masamune_picker` - `v1.4.46`
+ - `masamune_notification_firebase` - `v1.1.44`
+ - `masamune_picker_mobile` - `v1.4.46`
+ - `masamune_picker_file` - `v1.4.46`
+ - `masamune_builder` - `v1.2.4`
+
+---
+
+#### `katana_model` - `v1.5.8`
+
+ - **FIX**: Fixed a bug that caused Firestore's Bigram to keep overwriting the old one. ([42e0ef60](https://github.com/mathrunet/flutter_masamune/commit/42e0ef60f22d2143c7e1de5471a1bad84da0f472))
+
+#### `katana_model_firestore` - `v1.5.9`
+
+ - **FIX**: Fixed a bug that caused Firestore's Bigram to keep overwriting the old one. ([42e0ef60](https://github.com/mathrunet/flutter_masamune/commit/42e0ef60f22d2143c7e1de5471a1bad84da0f472))
+
+#### `katana_prefs` - `v1.1.11`
+
+ - **FIX**: Fixes in the build_runner of Sample. ([be65488f](https://github.com/mathrunet/flutter_masamune/commit/be65488fd1ddf2aeabe0949b5708042f7c0e7bf9))
+
+#### `katana_prefs_annotation` - `v1.1.10`
+
+ - **FIX**: Fixes in the build_runner of Sample. ([be65488f](https://github.com/mathrunet/flutter_masamune/commit/be65488fd1ddf2aeabe0949b5708042f7c0e7bf9))
+
+#### `katana_prefs_builder` - `v1.1.14`
+
+ - **FIX**: Fixes in the build_runner of Sample. ([be65488f](https://github.com/mathrunet/flutter_masamune/commit/be65488fd1ddf2aeabe0949b5708042f7c0e7bf9))
+
+#### `katana_theme` - `v1.3.2`
+
+ - **FIX**: Fixed defaultURL in Asset.image that cannot be generated. ([61ef6a2d](https://github.com/mathrunet/flutter_masamune/commit/61ef6a2df5381cc48172aaeee49141db91d9ea31))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.3.8`](#katana_form---v138)
  - [`katana_model` - `v1.5.7`](#katana_model---v157)
  - [`katana_model_firestore` - `v1.5.8`](#katana_model_firestore---v158)

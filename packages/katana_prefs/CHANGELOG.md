@@ -1,3 +1,7 @@
+## 1.1.11
+
+ - **FIX**: Fixes in the build_runner of Sample. ([be65488f](https://github.com/mathrunet/flutter_masamune/commit/be65488fd1ddf2aeabe0949b5708042f7c0e7bf9))
+
 ## 1.1.10
 
  - Update a dependency to the latest release.
