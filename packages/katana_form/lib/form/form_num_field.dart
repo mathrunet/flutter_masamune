@@ -295,7 +295,9 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
     }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
+      widget.controller?.text = widget.initialValue!.toString();
       _controller?.text = widget.initialValue!.toString();
+      setState(() {});
     }
   }
 
@@ -460,7 +462,7 @@ class _NumTextField<TValue> extends FormField<num> {
     bool autocorrect = true,
     bool expands = false,
     VoidCallback? onEditingComplete,
-    ValueChanged<num?>? onSubmitted,
+    this.onSubmitted,
     List<TextInputFormatter>? inputFormatters,
     double cursorWidth = 2.0,
     Radius? cursorRadius,
@@ -526,6 +528,7 @@ class _NumTextField<TValue> extends FormField<num> {
   final FocusNode? focusNode;
   final bool readOnly;
   final void Function(num? value)? onChanged;
+  final void Function(num? value)? onSubmitted;
 
   @override
   _NumTextFieldState<TValue> createState() => _NumTextFieldState<TValue>();
@@ -604,11 +607,16 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override
   void didChange(num? value) {
     widget.onChanged?.call(value);
+    widget.onSubmitted?.call(value);
     super.didChange(value);
   }
 

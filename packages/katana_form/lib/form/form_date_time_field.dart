@@ -300,7 +300,9 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>> {
     }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
-      _controller?.text = widget.initialValue!.toIso8601String();
+      widget.controller?.text = widget.initialValue!.toString();
+      _controller?.text = widget.initialValue!.toString();
+      setState(() {});
     }
   }
 
@@ -466,7 +468,7 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
     bool autocorrect = true,
     bool expands = false,
     VoidCallback? onEditingComplete,
-    ValueChanged<DateTime?>? onSubmitted,
+    this.onSubmitted,
     List<TextInputFormatter>? inputFormatters,
     double cursorWidth = 2.0,
     Radius? cursorRadius,
@@ -537,6 +539,7 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
   final FocusNode? focusNode;
   final bool readOnly;
   final void Function(DateTime? value)? onChanged;
+  final void Function(DateTime? value)? onSubmitted;
 
   @override
   _DateTimeTextFieldState<TValue> createState() =>
@@ -625,11 +628,16 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override
   void didChange(DateTime? value) {
     widget.onChanged?.call(value);
+    widget.onSubmitted?.call(value);
     super.didChange(value);
   }
 

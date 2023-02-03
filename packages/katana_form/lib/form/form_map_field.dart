@@ -283,7 +283,9 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>> {
     }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
+      widget.controller?.text = widget.initialValue!.toString();
       _controller?.text = widget.initialValue!.toString();
+      setState(() {});
     }
   }
 
@@ -447,7 +449,7 @@ class _MapTextField<TValue> extends FormField<String> {
     bool autocorrect = true,
     bool expands = false,
     VoidCallback? onEditingComplete,
-    ValueChanged<String?>? onSubmitted,
+    this.onSubmitted,
     List<TextInputFormatter>? inputFormatters,
     double cursorWidth = 2.0,
     Radius? cursorRadius,
@@ -513,6 +515,7 @@ class _MapTextField<TValue> extends FormField<String> {
   final FocusNode? focusNode;
   final bool readOnly;
   final void Function(String? value)? onChanged;
+  final void Function(String? value)? onSubmitted;
 
   @override
   _SelectTextFieldState<TValue> createState() =>
@@ -592,11 +595,16 @@ class _SelectTextFieldState<TValue> extends FormFieldState<String> {
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override
   void didChange(String? value) {
     widget.onChanged?.call(value);
+    widget.onSubmitted?.call(value);
     super.didChange(value);
   }
 

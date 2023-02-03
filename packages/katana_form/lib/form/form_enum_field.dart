@@ -284,7 +284,9 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
     }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
+      widget.controller?.text = widget.initialValue!.toString();
       _controller?.text = widget.initialValue!.toString();
+      setState(() {});
     }
   }
 
@@ -448,7 +450,7 @@ class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {
     bool autocorrect = true,
     bool expands = false,
     VoidCallback? onEditingComplete,
-    ValueChanged<TEnum?>? onSubmitted,
+    this.onSubmitted,
     List<TextInputFormatter>? inputFormatters,
     double cursorWidth = 2.0,
     Radius? cursorRadius,
@@ -514,6 +516,7 @@ class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {
   final FocusNode? focusNode;
   final bool readOnly;
   final void Function(TEnum? value)? onChanged;
+  final void Function(TEnum? value)? onSubmitted;
 
   @override
   _EnumTextFieldState<TEnum, TValue> createState() =>
@@ -595,11 +598,16 @@ class _EnumTextFieldState<TEnum extends Enum, TValue>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override
   void didChange(TEnum? value) {
     widget.onChanged?.call(value);
+    widget.onSubmitted?.call(value);
     super.didChange(value);
   }
 
