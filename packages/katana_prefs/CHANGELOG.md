@@ -1,3 +1,7 @@
+## 1.1.16
+
+ - **FIX**: Bug fixes. ([20427760](https://github.com/mathrunet/flutter_masamune/commit/204277608103a84bac1c5a9a089e3532861df80a))
+
 ## 1.1.15
 
  - **FIX**: Fixed a bug where the original method was not created. ([fcc1f8f7](https://github.com/mathrunet/flutter_masamune/commit/fcc1f8f7dde12c2c41e022d18a09b2d792c8af74))
