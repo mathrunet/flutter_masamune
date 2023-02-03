@@ -1,3 +1,7 @@
+## 1.1.16
+
+ - **FIX**: Change the contents of Prefs. ([02854738](https://github.com/mathrunet/flutter_masamune/commit/02854738d43c56ae554b2a7fc094c97c14bfbbe1))
+
 ## 1.1.15
 
  - **FIX**: Fixed to be able to load at any time. ([f60f3d34](https://github.com/mathrunet/flutter_masamune/commit/f60f3d34bffac2aa8be3628c7ec8c96e552837f4))

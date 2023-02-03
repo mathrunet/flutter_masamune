@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_prefs` - `v1.1.13`](#katana_prefs---v1113)
+ - [`katana_prefs_builder` - `v1.1.16`](#katana_prefs_builder---v1116)
+ - [`masamune` - `v1.4.13`](#masamune---v1413)
+ - [`masamune_picker` - `v1.4.48`](#masamune_picker---v1448)
+ - [`masamune_notification_firebase` - `v1.1.46`](#masamune_notification_firebase---v1146)
+ - [`masamune_picker_mobile` - `v1.4.48`](#masamune_picker_mobile---v1448)
+ - [`masamune_picker_file` - `v1.4.48`](#masamune_picker_file---v1448)
+ - [`masamune_builder` - `v1.2.6`](#masamune_builder---v126)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.13`
+ - `masamune_picker` - `v1.4.48`
+ - `masamune_notification_firebase` - `v1.1.46`
+ - `masamune_picker_mobile` - `v1.4.48`
+ - `masamune_picker_file` - `v1.4.48`
+ - `masamune_builder` - `v1.2.6`
+
+---
+
+#### `katana_prefs` - `v1.1.13`
+
+ - **FIX**: Change the contents of Prefs. ([02854738](https://github.com/mathrunet/flutter_masamune/commit/02854738d43c56ae554b2a7fc094c97c14bfbbe1))
+
+#### `katana_prefs_builder` - `v1.1.16`
+
+ - **FIX**: Change the contents of Prefs. ([02854738](https://github.com/mathrunet/flutter_masamune/commit/02854738d43c56ae554b2a7fc094c97c14bfbbe1))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v1.1.12`](#katana_prefs---v1112)
  - [`katana_prefs_builder` - `v1.1.15`](#katana_prefs_builder---v1115)
  - [`masamune` - `v1.4.12`](#masamune---v1412)
