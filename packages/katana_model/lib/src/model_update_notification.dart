@@ -38,6 +38,7 @@ class ModelUpdateNotification {
     required this.status,
     required this.value,
     required this.listen,
+    required this.query,
     this.origin,
     this.oldIndex,
     this.newIndex,
@@ -86,6 +87,11 @@ class ModelUpdateNotification {
   ///
   /// クエリーを監視中の場合は`true`.
   final bool listen;
+
+  /// [ModelQuery] to be updated.
+  ///
+  /// アップデート対象の[ModelQuery]。
+  final ModelQuery query;
 
   @override
   String toString() {

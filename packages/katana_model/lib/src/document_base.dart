@@ -490,6 +490,9 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
+    if (update.query != modelQuery) {
+      return;
+    }
     final val = value;
     final filtered = _filterOnLoad(update.value);
     if (filtered.isEmpty) {

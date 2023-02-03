@@ -347,7 +347,7 @@ class NoSqlDatabase {
               .removeEmpty(),
         )
         .sublist(0, limitValue);
-    _collectionEntries[query] = entries;
+    _collectionEntries[query] = List.from(entries);
     return Map<String, DynamicMap>.fromEntries(entries);
   }
 
@@ -405,7 +405,7 @@ class NoSqlDatabase {
               .removeEmpty(),
         )
         .sublist(0, limitValue);
-    _collectionEntries[query] = entries;
+    _collectionEntries[query] = List.from(entries);
     await onSaved?.call(this);
     return value;
   }
@@ -685,6 +685,7 @@ class NoSqlDatabase {
             value: Map.from(value),
             origin: query.origin,
             listen: query.listen,
+            query: element.query,
           ),
         ),
       );
@@ -712,6 +713,7 @@ class NoSqlDatabase {
                   oldIndex: null,
                   newIndex: newIndex,
                   listen: query.listen,
+                  query: element.query,
                 ),
               );
               break;
@@ -736,6 +738,7 @@ class NoSqlDatabase {
                       oldIndex: null,
                       newIndex: newIndex,
                       listen: query.listen,
+                      query: element.query,
                     ),
                   );
                 } else {
@@ -757,6 +760,7 @@ class NoSqlDatabase {
                       oldIndex: oldIndex < 0 ? null : oldIndex,
                       newIndex: newIndex,
                       listen: query.listen,
+                      query: element.query,
                     ),
                   );
                 }
@@ -776,6 +780,7 @@ class NoSqlDatabase {
                       oldIndex: oldIndex < 0 ? null : oldIndex,
                       newIndex: null,
                       listen: query.listen,
+                      query: element.query,
                     ),
                   );
                 }
@@ -796,6 +801,7 @@ class NoSqlDatabase {
                   oldIndex: oldIndex < 0 ? null : oldIndex,
                   newIndex: null,
                   listen: query.listen,
+                  query: element.query,
                 ),
               );
               break;

@@ -526,9 +526,6 @@ class ModelAdapterCollectionQuery {
 
   @override
   int get hashCode {
-    if (origin != null) {
-      return origin.hashCode;
-    }
     return query.hashCode;
   }
 }

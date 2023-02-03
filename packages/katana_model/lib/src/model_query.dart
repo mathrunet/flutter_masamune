@@ -1753,11 +1753,11 @@ class ModelQueryFilter {
         }
         final splitBygram = target.toLowerCase().splitByBigram();
         for (final text in splitBygram) {
-          if (source.get(text, false)) {
-            return true;
+          if (!source.get(text, false)) {
+            return false;
           }
         }
-        return false;
+        return true;
       default:
         return true;
     }

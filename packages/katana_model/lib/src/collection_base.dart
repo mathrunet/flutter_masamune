@@ -362,6 +362,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// [update]の内容に応じて適切な処理を行ってください。
   @protected
   Future<void> handledOnUpdate(ModelUpdateNotification update) async {
+    if (update.query != modelQuery) {
+      return;
+    }
     var notify = false;
     switch (update.status) {
       case ModelUpdateNotificationStatus.added:

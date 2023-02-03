@@ -137,6 +137,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
               newIndex: doc.newIndex,
               origin: query.origin,
               listen: availableListen,
+              query: query.query,
             ),
           );
         }
@@ -162,6 +163,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
           value: _convertFrom(doc.data()?.cast() ?? {}),
           origin: query.origin,
           listen: availableListen,
+          query: query.query,
         ),
       );
     });
