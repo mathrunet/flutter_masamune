@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.3.8`](#katana_form---v138)
+ - [`katana_model` - `v1.5.7`](#katana_model---v157)
+ - [`katana_model_firestore` - `v1.5.8`](#katana_model_firestore---v158)
+ - [`masamune` - `v1.4.10`](#masamune---v1410)
+ - [`masamune_picker` - `v1.4.45`](#masamune_picker---v1445)
+ - [`masamune_notification_firebase` - `v1.1.43`](#masamune_notification_firebase---v1143)
+ - [`masamune_picker_mobile` - `v1.4.45`](#masamune_picker_mobile---v1445)
+ - [`masamune_picker_file` - `v1.4.45`](#masamune_picker_file---v1445)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.10`
+ - `masamune_picker` - `v1.4.45`
+ - `masamune_notification_firebase` - `v1.1.43`
+ - `masamune_picker_mobile` - `v1.4.45`
+ - `masamune_picker_file` - `v1.4.45`
+
+---
+
+#### `katana_form` - `v1.3.8`
+
+ - **FIX**: Remove ResetIcon from FormDateTime. ([11543b32](https://github.com/mathrunet/flutter_masamune/commit/11543b32f402360e731d13074ee0c6d24017bac0))
+
+#### `katana_model` - `v1.5.7`
+
+ - **FIX**: Fixed a bug that occurred when changing the value when searching. ([c4c01bb6](https://github.com/mathrunet/flutter_masamune/commit/c4c01bb6194832dc4533e644e15777933ac8fd53))
+
+#### `katana_model_firestore` - `v1.5.8`
+
+ - **FIX**: Fixed a bug that occurred when changing the value when searching. ([c4c01bb6](https://github.com/mathrunet/flutter_masamune/commit/c4c01bb6194832dc4533e644e15777933ac8fd53))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v1.3.1`](#katana_theme---v131)
  - [`masamune` - `v1.4.9`](#masamune---v149)
  - [`masamune_picker` - `v1.4.44`](#masamune_picker---v1444)

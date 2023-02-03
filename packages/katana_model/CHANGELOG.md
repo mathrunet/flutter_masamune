@@ -1,3 +1,7 @@
+## 1.5.7
+
+ - **FIX**: Fixed a bug that occurred when changing the value when searching. ([c4c01bb6](https://github.com/mathrunet/flutter_masamune/commit/c4c01bb6194832dc4533e644e15777933ac8fd53))
+
 ## 1.5.6
 
  - **FIX**: Fixed a bug that did not work well in combination with SearchableCollection and ModelRef on reload. ([948c6ce5](https://github.com/mathrunet/flutter_masamune/commit/948c6ce5db74a08db391c02570ab5b7e346886d8))

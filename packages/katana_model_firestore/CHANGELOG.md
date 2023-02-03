@@ -1,3 +1,7 @@
+## 1.5.8
+
+ - **FIX**: Fixed a bug that occurred when changing the value when searching. ([c4c01bb6](https://github.com/mathrunet/flutter_masamune/commit/c4c01bb6194832dc4533e644e15777933ac8fd53))
+
 ## 1.5.7
 
  - **FIX**: Modified to allow ModelTimestamp to be specified. ([eeab90f7](https://github.com/mathrunet/flutter_masamune/commit/eeab90f7a5232ac478ad2588ee79fc4b5acb5d29))

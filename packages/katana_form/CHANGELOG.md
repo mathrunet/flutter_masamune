@@ -1,3 +1,7 @@
+## 1.3.8
+
+ - **FIX**: Remove ResetIcon from FormDateTime. ([11543b32](https://github.com/mathrunet/flutter_masamune/commit/11543b32f402360e731d13074ee0c6d24017bac0))
+
 ## 1.3.7
 
  - Update a dependency to the latest release.
