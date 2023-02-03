@@ -201,6 +201,14 @@ List<Spec> baseClass(
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
           ),
+          Method(
+            (m) => m
+              ..name = "clear"
+              ..type = MethodType.getter
+              ..returns = const Reference("Future<bool>")
+              ..lambda = true
+              ..body = const Code("throw UnimplementedError()"),
+          ),
         ]),
     ),
     if (model.existUnderbarConstructor) ...[
