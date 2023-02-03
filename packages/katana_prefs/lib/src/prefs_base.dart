@@ -18,6 +18,11 @@ abstract class PrefsBase implements ChangeNotifier {
   /// [load]を実行した場合にそれが終わるまで待つことができます。
   Future<void>? get loading => throw UnimplementedError();
 
+  /// Delete all data in `SharedPreferences`.
+  ///
+  /// `SharedPreferences`内のデータをすべて削除します。
+  Future<bool> clear() => throw UnimplementedError();
+
   @override
   void addListener(VoidCallback listener) => throw UnimplementedError();
   @override
