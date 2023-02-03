@@ -140,6 +140,11 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
   ///
   /// ソートなどは検索結果をクライアント側でソートしてから返してください。
   Future<CollectionBase<TModel>> search(String searchText) async {
+    final existsFilter = _modelQuery?.filters
+        .firstWhereOrNull((item) => item.type == ModelQueryFilterType.like);
+    if (existsFilter?.value?.toString() == searchText) {
+      return this;
+    }
     _databaseQuery = null;
     _modelQuery = CollectionModelQuery._(
       modelQuery.path,
