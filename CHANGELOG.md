@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.3.9`](#katana_form---v139)
+ - [`masamune` - `v1.4.18`](#masamune---v1418)
+ - [`masamune_picker` - `v1.4.53`](#masamune_picker---v1453)
+ - [`masamune_notification_firebase` - `v1.1.51`](#masamune_notification_firebase---v1151)
+ - [`masamune_picker_mobile` - `v1.4.53`](#masamune_picker_mobile---v1453)
+ - [`masamune_picker_file` - `v1.4.53`](#masamune_picker_file---v1453)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.18`
+ - `masamune_picker` - `v1.4.53`
+ - `masamune_notification_firebase` - `v1.1.51`
+ - `masamune_picker_mobile` - `v1.4.53`
+ - `masamune_picker_file` - `v1.4.53`
+
+---
+
+#### `katana_form` - `v1.3.9`
+
+ - **FIX**: Fixed a bug that initial values were not updated when they were changed. ([0f2ccdd0](https://github.com/mathrunet/flutter_masamune/commit/0f2ccdd064cc1910729ee1b6995e4210e552f6ea))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v1.1.16`](#katana_prefs---v1116)
  - [`katana_prefs_builder` - `v1.1.19`](#katana_prefs_builder---v1119)
  - [`masamune` - `v1.4.17`](#masamune---v1417)

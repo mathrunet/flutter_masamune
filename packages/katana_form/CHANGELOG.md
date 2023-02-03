@@ -1,3 +1,7 @@
+## 1.3.9
+
+ - **FIX**: Fixed a bug that initial values were not updated when they were changed. ([0f2ccdd0](https://github.com/mathrunet/flutter_masamune/commit/0f2ccdd064cc1910729ee1b6995e4210e552f6ea))
+
 ## 1.3.8
 
  - **FIX**: Remove ResetIcon from FormDateTime. ([11543b32](https://github.com/mathrunet/flutter_masamune/commit/11543b32f402360e731d13074ee0c6d24017bac0))
