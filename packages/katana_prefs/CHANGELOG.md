@@ -1,3 +1,7 @@
+## 1.1.12
+
+ - **FIX**: Fixed to be able to load at any time. ([f60f3d34](https://github.com/mathrunet/flutter_masamune/commit/f60f3d34bffac2aa8be3628c7ec8c96e552837f4))
+
 ## 1.1.11
 
  - **FIX**: Fixes in the build_runner of Sample. ([be65488f](https://github.com/mathrunet/flutter_masamune/commit/be65488fd1ddf2aeabe0949b5708042f7c0e7bf9))
