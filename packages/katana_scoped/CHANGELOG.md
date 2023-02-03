@@ -1,3 +1,7 @@
+## 1.7.9
+
+ - **FIX**: Add a flag for disposal to watch. ([27dcba68](https://github.com/mathrunet/flutter_masamune/commit/27dcba68d7fd7fe98646c12f93d33b4f8741f141))
+
 ## 1.7.8
 
  - Update a dependency to the latest release.

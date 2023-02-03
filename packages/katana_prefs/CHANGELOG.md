@@ -1,3 +1,7 @@
+## 1.1.14
+
+ - **FIX**: Added delete and clear functions. ([f5a19e72](https://github.com/mathrunet/flutter_masamune/commit/f5a19e7273e5e86d0a0db6b11de768558aa20de5))
+
 ## 1.1.13
 
  - **FIX**: Change the contents of Prefs. ([02854738](https://github.com/mathrunet/flutter_masamune/commit/02854738d43c56ae554b2a7fc094c97c14bfbbe1))

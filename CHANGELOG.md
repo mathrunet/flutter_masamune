@@ -15,6 +15,54 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_prefs` - `v1.1.14`](#katana_prefs---v1114)
+ - [`katana_prefs_builder` - `v1.1.17`](#katana_prefs_builder---v1117)
+ - [`katana_scoped` - `v1.7.9`](#katana_scoped---v179)
+ - [`masamune` - `v1.4.14`](#masamune---v1414)
+ - [`masamune_picker` - `v1.4.49`](#masamune_picker---v1449)
+ - [`masamune_notification_firebase` - `v1.1.47`](#masamune_notification_firebase---v1147)
+ - [`masamune_picker_mobile` - `v1.4.49`](#masamune_picker_mobile---v1449)
+ - [`masamune_picker_file` - `v1.4.49`](#masamune_picker_file---v1449)
+ - [`masamune_builder` - `v1.2.7`](#masamune_builder---v127)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.14`
+ - `masamune_picker` - `v1.4.49`
+ - `masamune_notification_firebase` - `v1.1.47`
+ - `masamune_picker_mobile` - `v1.4.49`
+ - `masamune_picker_file` - `v1.4.49`
+ - `masamune_builder` - `v1.2.7`
+
+---
+
+#### `katana_prefs` - `v1.1.14`
+
+ - **FIX**: Added delete and clear functions. ([f5a19e72](https://github.com/mathrunet/flutter_masamune/commit/f5a19e7273e5e86d0a0db6b11de768558aa20de5))
+
+#### `katana_prefs_builder` - `v1.1.17`
+
+ - **FIX**: Added delete and clear functions. ([f5a19e72](https://github.com/mathrunet/flutter_masamune/commit/f5a19e7273e5e86d0a0db6b11de768558aa20de5))
+
+#### `katana_scoped` - `v1.7.9`
+
+ - **FIX**: Add a flag for disposal to watch. ([27dcba68](https://github.com/mathrunet/flutter_masamune/commit/27dcba68d7fd7fe98646c12f93d33b4f8741f141))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v1.1.13`](#katana_prefs---v1113)
  - [`katana_prefs_builder` - `v1.1.16`](#katana_prefs_builder---v1116)
  - [`masamune` - `v1.4.13`](#masamune---v1413)
