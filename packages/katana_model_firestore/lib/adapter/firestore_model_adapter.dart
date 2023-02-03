@@ -102,6 +102,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     await FirebaseCore.initialize(options: options);
     await _documentReference(query).delete();
     await localDatabase.deleteDocument(query, prefix: prefix);
+    _FirestoreCache.getCache(options).set(_path(query.query.path));
   }
 
   @override
@@ -110,6 +111,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     final snapshot = await _documentReference(query).get();
     final res = _convertFrom(snapshot.data()?.cast() ?? {});
     await localDatabase.syncDocument(query, res, prefix: prefix);
+    _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
   }
 
@@ -135,6 +137,12 @@ class FirestoreModelAdapter extends ModelAdapter {
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
     await localDatabase.syncCollection(query, res, prefix: prefix);
+    for (final doc in res.entries) {
+      _FirestoreCache.getCache(options).set(
+        "${_path(query.query.path)}/${doc.key}",
+        doc.value,
+      );
+    }
     return res;
   }
 
@@ -145,11 +153,19 @@ class FirestoreModelAdapter extends ModelAdapter {
   ) async {
     await FirebaseCore.initialize(options: options);
 
+    final converted = _convertTo(
+      value,
+      _FirestoreCache.getCache(options).get(_path(query.query.path)) ?? {},
+    );
     await _documentReference(query).set(
-      _convertTo(value),
+      converted,
       SetOptions(merge: true),
     );
     await localDatabase.saveDocument(query, value, prefix: prefix);
+    _FirestoreCache.getCache(options).set(
+      _path(query.query.path),
+      value,
+    );
   }
 
   @override
@@ -178,9 +194,10 @@ class FirestoreModelAdapter extends ModelAdapter {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
     ref.transaction.delete(database.doc(_path(query.query.path)));
-    ref.localTransaction.add(
-      () => localDatabase.deleteDocument(query, prefix: prefix),
-    );
+    ref.localTransaction.add(() async {
+      await localDatabase.deleteDocument(query, prefix: prefix);
+      _FirestoreCache.getCache(options).set(_path(query.query.path));
+    });
   }
 
   @override
@@ -195,6 +212,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         await ref.transaction.get(database.doc(_path(query.query.path)));
     final res = _convertFrom(snapshot.data() ?? {});
     await localDatabase.syncDocument(query, res, prefix: prefix);
+    _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
   }
 
@@ -207,14 +225,19 @@ class FirestoreModelAdapter extends ModelAdapter {
     if (ref is! FirestoreModelTransactionRef) {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
+    final converted = _convertTo(
+      value,
+      _FirestoreCache.getCache(options).get(_path(query.query.path)) ?? {},
+    );
     ref.transaction.set(
       database.doc(_path(query.query.path)),
-      _convertTo(value),
+      converted,
       SetOptions(merge: true),
     );
-    ref.localTransaction.add(
-      () => localDatabase.saveDocument(query, value, prefix: prefix),
-    );
+    ref.localTransaction.add(() async {
+      await localDatabase.saveDocument(query, value, prefix: prefix);
+      _FirestoreCache.getCache(options).set(_path(query.query.path), value);
+    });
   }
 
   @override
@@ -284,7 +307,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     return res;
   }
 
-  DynamicMap _convertTo(DynamicMap map) {
+  DynamicMap _convertTo(DynamicMap map, DynamicMap original) {
     final res = <String, dynamic>{};
     for (final tmp in map.entries) {
       final key = tmp.key;
@@ -331,6 +354,17 @@ class FirestoreModelAdapter extends ModelAdapter {
           res[key] = database.doc(_path(ref.modelQuery.path));
         } else {
           res[key] = val;
+        }
+      } else if (val is DynamicMap && original.containsKey(key)) {
+        final originalMap = original[key];
+        if (originalMap is Map) {
+          final newRes = Map<String, dynamic>.from(val);
+          for (final o in originalMap.entries) {
+            if (!val.containsKey(o.key)) {
+              newRes[o.key] = FieldValue.delete();
+            }
+          }
+          res[key] = newRes;
         }
       } else if (val == null) {
         res[key] = FieldValue.delete();
@@ -652,17 +686,6 @@ class FirestoreModelAdapter extends ModelAdapter {
         query,
       )
     ];
-  }
-
-  ModelUpdateNotificationStatus _status(DocumentChangeType type) {
-    switch (type) {
-      case DocumentChangeType.added:
-        return ModelUpdateNotificationStatus.added;
-      case DocumentChangeType.modified:
-        return ModelUpdateNotificationStatus.modified;
-      case DocumentChangeType.removed:
-        return ModelUpdateNotificationStatus.removed;
-    }
   }
 }
 

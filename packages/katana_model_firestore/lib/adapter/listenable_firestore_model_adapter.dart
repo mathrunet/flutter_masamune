@@ -72,14 +72,17 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     await FirebaseCore.initialize(options: options);
-    return _documentReference(query).delete();
+    await _documentReference(query).delete();
+    _FirestoreCache.getCache(options).set(_path(query.query.path));
   }
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
-    return _convertFrom(snapshot.data()?.cast() ?? {});
+    final res = _convertFrom(snapshot.data()?.cast() ?? {});
+    _FirestoreCache.getCache(options).set(_path(query.query.path), res);
+    return res;
   }
 
   @override
@@ -96,9 +99,16 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
-    return snapshot.expand((e) => e.docChanges).toMap(
+    final res = snapshot.expand((e) => e.docChanges).toMap(
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
+    for (final doc in res.entries) {
+      _FirestoreCache.getCache(options).set(
+        "${_path(query.query.path)}/${doc.key}",
+        doc.value,
+      );
+    }
+    return res;
   }
 
   @override
@@ -108,9 +118,17 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
   ) async {
     await FirebaseCore.initialize(options: options);
 
-    return _documentReference(query).set(
-      _convertTo(value),
+    final converted = _convertTo(
+      value,
+      _FirestoreCache.getCache(options).get(_path(query.query.path)) ?? {},
+    );
+    await _documentReference(query).set(
+      converted,
       SetOptions(merge: true),
+    );
+    _FirestoreCache.getCache(options).set(
+      _path(query.query.path),
+      value,
     );
   }
 
@@ -127,18 +145,23 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     final subscriptions = streams.map((e) {
       return e.listen((event) {
         for (final doc in event.docChanges) {
+          final converted = _convertFrom(doc.doc.data()?.cast() ?? {});
           query.callback?.call(
             ModelUpdateNotification(
               path: doc.doc.reference.path,
               id: doc.doc.id,
               status: _status(doc.type),
-              value: _convertFrom(doc.doc.data()?.cast() ?? {}),
+              value: converted,
               oldIndex: doc.oldIndex,
               newIndex: doc.newIndex,
               origin: query.origin,
               listen: availableListen,
               query: query.query,
             ),
+          );
+          _FirestoreCache.getCache(options).set(
+            _path(query.query.path),
+            converted,
           );
         }
       });
@@ -155,16 +178,21 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     final stream = _documentReference(query).snapshots();
     // ignore: cancel_subscriptions
     final subscription = stream.listen((doc) {
+      final converted = _convertFrom(doc.data()?.cast() ?? {});
       query.callback?.call(
         ModelUpdateNotification(
           path: doc.reference.path,
           id: doc.id,
           status: ModelUpdateNotificationStatus.modified,
-          value: _convertFrom(doc.data()?.cast() ?? {}),
+          value: converted,
           origin: query.origin,
           listen: availableListen,
           query: query.query,
         ),
+      );
+      _FirestoreCache.getCache(options).set(
+        _path(query.query.path),
+        converted,
       );
     });
     await stream.first;
@@ -180,6 +208,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
       throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
     ref.transaction.delete(database.doc(_path(query.query.path)));
+    ref.localTransaction.add(() async {
+      _FirestoreCache.getCache(options).set(_path(query.query.path));
+    });
   }
 
   @override
@@ -192,7 +223,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     }
     final snapshot =
         await ref.transaction.get(database.doc(_path(query.query.path)));
-    return _convertFrom(snapshot.data() ?? {});
+    final res = _convertFrom(snapshot.data() ?? {});
+    _FirestoreCache.getCache(options).set(_path(query.query.path), res);
+    return res;
   }
 
   @override
@@ -204,11 +237,18 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     if (ref is! ListenableFirestoreModelTransactionRef) {
       throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
+    final converted = _convertTo(
+      value,
+      _FirestoreCache.getCache(options).get(_path(query.query.path)) ?? {},
+    );
     ref.transaction.set(
       database.doc(_path(query.query.path)),
-      _convertTo(value),
+      converted,
       SetOptions(merge: true),
     );
+    ref.localTransaction.add(() async {
+      _FirestoreCache.getCache(options).set(_path(query.query.path), value);
+    });
   }
 
   @override
@@ -224,6 +264,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     await database.runTransaction((handler) async {
       final ref = ListenableFirestoreModelTransactionRef._(handler);
       await transaction.call(ref, ref.read(doc));
+      for (final tr in ref.localTransaction) {
+        await tr.call();
+      }
     });
   }
 
@@ -275,7 +318,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     return res;
   }
 
-  DynamicMap _convertTo(DynamicMap map) {
+  DynamicMap _convertTo(DynamicMap map, DynamicMap original) {
     final res = <String, dynamic>{};
     for (final tmp in map.entries) {
       final key = tmp.key;
@@ -322,6 +365,17 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
           res[key] = database.doc(_path(ref.modelQuery.path));
         } else {
           res[key] = val;
+        }
+      } else if (val is DynamicMap && original.containsKey(key)) {
+        final originalMap = original[key];
+        if (originalMap is Map) {
+          final newRes = Map<String, dynamic>.from(val);
+          for (final o in originalMap.entries) {
+            if (!val.containsKey(o.key)) {
+              newRes[o.key] = FieldValue.delete();
+            }
+          }
+          res[key] = newRes;
         }
       } else if (val == null) {
         res[key] = FieldValue.delete();
@@ -659,6 +713,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
 
 @immutable
 class ListenableFirestoreModelTransactionRef extends ModelTransactionRef {
-  const ListenableFirestoreModelTransactionRef._(this.transaction);
+  ListenableFirestoreModelTransactionRef._(this.transaction);
   final Transaction transaction;
+  final List<Future<void> Function()> localTransaction = [];
 }

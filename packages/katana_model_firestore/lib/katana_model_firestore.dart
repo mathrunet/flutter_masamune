@@ -23,5 +23,7 @@ import 'package:katana_model/katana_model.dart';
 export 'package:katana_firebase/katana_firebase.dart';
 export 'package:katana_model/katana_model.dart';
 
+part 'src/firestore_cache.dart';
+
 part 'adapter/listenable_firestore_model_adapter.dart';
 part 'adapter/firestore_model_adapter.dart';

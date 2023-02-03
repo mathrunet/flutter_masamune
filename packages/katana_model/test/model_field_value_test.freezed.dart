@@ -130,16 +130,13 @@ class _$_TestValue implements _TestValue {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TestValue &&
-            const DeepCollectionEquality().equals(other.time, time) &&
-            const DeepCollectionEquality().equals(other.counter, counter));
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.counter, counter) || other.counter == counter));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(time),
-      const DeepCollectionEquality().hash(counter));
+  int get hashCode => Object.hash(runtimeType, time, counter);
 
   @JsonKey(ignore: true)
   @override
