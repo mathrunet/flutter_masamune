@@ -12,6 +12,8 @@ extension RefWatchExtensions on Ref {
   ///
   /// If [name] is specified, it is saved as a separate type. If [keys] is changed, the previous state is discarded, but if [name] is changed, it is kept as a separate state.
   ///
+  /// If [disposal] is set to `false`, when [ScopedValue] is destroyed, the content [T] is not destroyed.
+  ///
   /// [ChangeNotifier]を返す[callback]を渡すとそれを監視することができます。
   ///
   /// [ChangeNotifier.notifyListeners]が実行されると更新が通知され、関連するウィジェットが再描画されます。
@@ -19,13 +21,20 @@ extension RefWatchExtensions on Ref {
   /// [keys]が前の値と違う場合再度[callback]が実行され、新しい[ChangeNotifier]が保存されます。
   ///
   /// [name]を指定すると別のタイプとして保存されます。[keys]を変えた場合は以前の状態は破棄されますが、[name]を変えた場合は別々の状態として保持されます。
+  ///
+  /// [disposal]を`false`にすると[ScopedValue]破棄時、中身の[T]は破棄されません。
   T watch<T extends Listenable?>(
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
     String? name,
+    bool disposal = true,
   }) {
     return getScopedValue<T, _WatchValue<T>>(
-      (ref) => _WatchValue<T>(callback: () => callback(ref), keys: keys),
+      (ref) => _WatchValue<T>(
+        callback: () => callback(ref),
+        keys: keys,
+        disposal: disposal,
+      ),
       listen: true,
       name: name,
     );
@@ -37,10 +46,12 @@ class _WatchValue<T> extends ScopedValue<T> {
   const _WatchValue({
     required this.callback,
     required this.keys,
+    this.disposal = true,
   });
 
   final T Function() callback;
   final List<Object> keys;
+  final bool disposal;
 
   @override
   ScopedValueState<T, ScopedValue<T>> createState() => _WatchValueState<T>();
@@ -87,7 +98,7 @@ class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
     final val = _value;
     if (val is Listenable) {
       val.removeListener(_handledOnUpdate);
-      if (val is ChangeNotifier) {
+      if (value.disposal && val is ChangeNotifier) {
         val.dispose();
       }
     }
