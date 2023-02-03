@@ -27,10 +27,12 @@ class _$_PrefsValue<T> {
       "SharedPreference has not finished loading. Please execute [load()] to complete loading.",
     );
     final o = _ref._prefs?.get(_key);
-    if (o is List) {
-      return o.cast<String>() as T;
+    if (o is List && T == List<String>) {
+      return o.map((e) => e.toString()).toList() as T;
+    } else if (o is! T) {
+      return _def;
     }
-    return o as T;
+    return o;
   }
 
   Future<void> set(T value) async {
@@ -79,7 +81,7 @@ abstract class _$PrefsValue implements ChangeNotifier {
 class _PrefsValue extends PrefsValue {
   _PrefsValue({
     String? userToken,
-    double volumeSetting = 1.0,
+    required double volumeSetting,
   })  : _userToken = userToken,
         _volumeSetting = volumeSetting,
         super._();
