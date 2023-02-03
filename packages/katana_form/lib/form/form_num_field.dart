@@ -286,6 +286,20 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
   }
 
   @override
+  void didUpdateWidget(FormNumField<TValue> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?.removeListener(_listenerInside);
+      widget.controller?.addListener(_listenerInside);
+    }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      _controller?.text = widget.initialValue!.toString();
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _controller?.removeListener(_listenerInside);

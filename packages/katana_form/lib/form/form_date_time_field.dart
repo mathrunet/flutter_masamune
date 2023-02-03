@@ -291,6 +291,20 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>> {
   }
 
   @override
+  void didUpdateWidget(FormDateTimeField<TValue> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?.removeListener(_listenerInside);
+      widget.controller?.addListener(_listenerInside);
+    }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      _controller?.text = widget.initialValue!.toIso8601String();
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _controller?.removeListener(_listenerInside);

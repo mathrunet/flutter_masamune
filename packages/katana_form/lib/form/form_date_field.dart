@@ -324,6 +324,20 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>> {
   }
 
   @override
+  void didUpdateWidget(FormDateField<TValue> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller?.removeListener(_listenerInside);
+      widget.controller?.addListener(_listenerInside);
+    }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      _controller?.text = widget.initialValue!.format(widget.format);
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _controller?.removeListener(_listenerInside);
