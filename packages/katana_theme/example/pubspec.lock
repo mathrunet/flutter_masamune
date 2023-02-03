@@ -345,22 +345,22 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.2.17"
+    version: "1.3.1"
   katana_theme_annotation:
     dependency: transitive
     description:
       name: katana_theme_annotation
-      sha256: "65a2dcf4432b712582bb3bce3ebde0f54ca1c52f37c5c06bebc8b99e2cd59b48"
+      sha256: "69f27524404d3a5d78a19f4b0d9035aeb37bd2218156f3bbe2746a656361ad1f"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.14"
+    version: "1.3.0"
   katana_theme_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "1.2.15"
+    version: "1.3.0"
   lints:
     dependency: transitive
     description:

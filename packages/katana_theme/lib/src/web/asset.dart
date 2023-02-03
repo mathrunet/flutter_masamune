@@ -74,7 +74,7 @@ class Asset {
   ///
   /// If the file is not found, or [uri] starts with `resource://`, search for the file in Flutter's assets folder and retrieve the image file.
   ///
-  /// If [uri] is empty, or the text cannot be retrieved for some reason, the image file located at [defaultAssetURI] in Flutter's assets folder will be returned. The default is `assets/default.png`.
+  /// If [uri] is empty, or the text cannot be retrieved for some reason, the image file located at [defaultAssetURI] in Flutter's assets folder will be returned. The default is `assets/image.png`.
   ///
   /// [uri]に存在する画像ファイルから[ImageProvider]を取得します。
   ///
@@ -86,10 +86,10 @@ class Asset {
   ///
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、その画像ファイルを取得します。
   ///
-  /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合はFlutterのアセットフォルダ内の[defaultAssetURI]に存在する画像ファイルが返されます。デフォルトは`assets/default.png`。
+  /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合はFlutterのアセットフォルダ内の[defaultAssetURI]に存在する画像ファイルが返されます。デフォルトは`assets/image.png`。
   static ImageProvider image(
     String? uri, [
-    String defaultAssetURI = "assets/default.png",
+    String defaultAssetURI = "assets/image.png",
   ]) {
     if (uri.isEmpty) {
       return _MemoizedAssetImage(defaultAssetURI);
