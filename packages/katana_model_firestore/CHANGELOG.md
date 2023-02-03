@@ -1,3 +1,7 @@
+## 1.5.10
+
+ - **FIX**: Fixed a bug in Search & Delete. ([be108f18](https://github.com/mathrunet/flutter_masamune/commit/be108f182e215d918018541f2997541d646bf9f0))
+
 ## 1.5.9
 
  - **FIX**: Fixed a bug that caused Firestore's Bigram to keep overwriting the old one. ([42e0ef60](https://github.com/mathrunet/flutter_masamune/commit/42e0ef60f22d2143c7e1de5471a1bad84da0f472))

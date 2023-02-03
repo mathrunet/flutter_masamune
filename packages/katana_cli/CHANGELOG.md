@@ -1,3 +1,7 @@
+## 1.5.1
+
+ - **FIX**: Fixed a bug that prevented Android build when Firebase is applied. ([56d6cd3f](https://github.com/mathrunet/flutter_masamune/commit/56d6cd3f318dfff5a9b86ab5b75544b6ed20ba3b))
+
 ## 1.5.0
 
  - **FEAT**: Added Widget system. ([8bf49ffa](https://github.com/mathrunet/flutter_masamune/commit/8bf49ffaaa87237a6f06b7a501a4906cc7a5f576))

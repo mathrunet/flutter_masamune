@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.5.1`](#katana_cli---v151)
+ - [`katana_model` - `v1.5.9`](#katana_model---v159)
+ - [`katana_model_firestore` - `v1.5.10`](#katana_model_firestore---v1510)
+ - [`masamune` - `v1.4.20`](#masamune---v1420)
+ - [`masamune_picker` - `v1.4.55`](#masamune_picker---v1455)
+ - [`masamune_notification_firebase` - `v1.1.53`](#masamune_notification_firebase---v1153)
+ - [`masamune_picker_mobile` - `v1.4.55`](#masamune_picker_mobile---v1455)
+ - [`masamune_picker_file` - `v1.4.55`](#masamune_picker_file---v1455)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.20`
+ - `masamune_picker` - `v1.4.55`
+ - `masamune_notification_firebase` - `v1.1.53`
+ - `masamune_picker_mobile` - `v1.4.55`
+ - `masamune_picker_file` - `v1.4.55`
+
+---
+
+#### `katana_cli` - `v1.5.1`
+
+ - **FIX**: Fixed a bug that prevented Android build when Firebase is applied. ([56d6cd3f](https://github.com/mathrunet/flutter_masamune/commit/56d6cd3f318dfff5a9b86ab5b75544b6ed20ba3b))
+
+#### `katana_model` - `v1.5.9`
+
+ - **FIX**: Fixed a bug in Search & Delete. ([be108f18](https://github.com/mathrunet/flutter_masamune/commit/be108f182e215d918018541f2997541d646bf9f0))
+
+#### `katana_model_firestore` - `v1.5.10`
+
+ - **FIX**: Fixed a bug in Search & Delete. ([be108f18](https://github.com/mathrunet/flutter_masamune/commit/be108f182e215d918018541f2997541d646bf9f0))
+
+
 ## 2023-02-03
 
 ### Changes
