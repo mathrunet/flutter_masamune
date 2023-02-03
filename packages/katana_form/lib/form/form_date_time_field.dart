@@ -116,7 +116,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
     this.focusNode,
     this.onChanged,
     this.onSubmitted,
-    this.showResetButton = true,
+    @Deprecated("Please add suffixes directly.") this.showResetButton = true,
     this.initialValue,
     this.delegate = const FormDateTimeFieldDateTimeDelegate(),
     this.onSaved,
@@ -258,6 +258,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   /// `true` to display the reset button.
   ///
   /// リセットボタンを表示する場合は`true`。
+  @Deprecated("Please add suffixes directly.")
   final bool showResetButton;
 
   /// A delegate where the form picker and formatter are defined.
@@ -352,7 +353,6 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>> {
         controller: _controller,
         keyboardType: TextInputType.text,
         initialValue: widget.initialValue,
-        showResetButton: widget.showResetButton,
         enabled: widget.enabled,
         decoration: InputDecoration(
           contentPadding: widget.style?.contentPadding ??
@@ -434,7 +434,6 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
     FormFieldValidator<DateTime?>? validator,
     DateTime? initialValue,
     bool enabled = true,
-    this.resetIcon = const Icon(Icons.close),
     this.onChanged,
     this.controller,
     this.focusNode,
@@ -443,7 +442,6 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
     TextCapitalization textCapitalization = TextCapitalization.none,
     TextInputAction? textInputAction,
     TextStyle? style,
-    bool showResetButton = true,
     StrutStyle? strutStyle,
     TextAlign textAlign = TextAlign.start,
     TextAlignVertical? textAlignVertical,
@@ -485,24 +483,6 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
               focusNode: state._effectiveFocusNode,
               decoration: effectiveDecoration.copyWith(
                 errorText: field.errorText,
-                suffix: showResetButton &&
-                        state.shouldShowClearIcon(effectiveDecoration)
-                    ? IconButton(
-                        icon: resetIcon,
-                        iconSize: 16,
-                        constraints: const BoxConstraints(),
-                        visualDensity: VisualDensity.compact,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        color: style?.color ??
-                            Theme.of(field.context)
-                                .textTheme
-                                .titleMedium
-                                ?.color ??
-                            Theme.of(field.context).colorScheme.onBackground,
-                        onPressed: state.clear,
-                      )
-                    : null,
-                suffixIconConstraints: const BoxConstraints(),
               ),
               keyboardType: keyboardType,
               textInputAction: textInputAction,
@@ -538,8 +518,6 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
 
   final Future<DateTime> Function(BuildContext context, DateTime currentValue)?
       onShowPicker;
-
-  final Icon resetIcon;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
