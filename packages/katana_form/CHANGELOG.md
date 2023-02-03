@@ -1,3 +1,7 @@
+## 1.3.10
+
+ - **FIX**: Fixed a bug that prevented it from updating properly. ([6c1ce8de](https://github.com/mathrunet/flutter_masamune/commit/6c1ce8de4b183e874238e4ae1fbade2748459476))
+
 ## 1.3.9
 
  - **FIX**: Fixed a bug that initial values were not updated when they were changed. ([0f2ccdd0](https://github.com/mathrunet/flutter_masamune/commit/0f2ccdd064cc1910729ee1b6995e4210e552f6ea))
