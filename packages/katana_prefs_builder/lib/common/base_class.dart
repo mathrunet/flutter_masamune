@@ -63,7 +63,7 @@ List<Spec> baseClass(
               ..name = "get"
               ..returns = const Reference("T")
               ..body = const Code(
-                "assert(_ref._prefs != null, \"SharedPreference has not finished loading. Please execute [load()] to complete loading.\", ); final o = _ref._prefs?.get(_key); if (o is List && T == List<String>) { return o.map((e) => e.toString()).toList() as T; } else if (o is! T) { return _def; } return o;",
+                "if(_ref._prefs == null) { return _def; } final o = _ref._prefs?.get(_key); if (o is List && T == List<String>) { return o.map((e) => e.toString()).toList() as T; } else if (o is! T) { return _def; } return o;",
               ),
           ),
           Method(
@@ -79,7 +79,7 @@ List<Spec> baseClass(
                 ),
               ])
               ..body = const Code(
-                "if (value is bool) { await _ref._prefs?.setBool(_key, value); } else if (value is int) { await _ref._prefs?.setInt(_key, value); } else if (value is double) { await _ref._prefs?.setDouble(_key, value); } else if (value is String) { await _ref._prefs?.setString(_key, value); } else if (value is List<String>) { await _ref._prefs?.setStringList(_key, value); } _ref.notifyListeners();",
+                "if(_ref._prefs == null) { return; }if (value is bool) { await _ref._prefs?.setBool(_key, value); } else if (value is int) { await _ref._prefs?.setInt(_key, value); } else if (value is double) { await _ref._prefs?.setDouble(_key, value); } else if (value is String) { await _ref._prefs?.setString(_key, value); } else if (value is List<String>) { await _ref._prefs?.setStringList(_key, value); } _ref.notifyListeners();",
               ),
           ),
           Method(
@@ -97,9 +97,7 @@ List<Spec> baseClass(
       (c) => c
         ..name = "_\$${model.name}"
         ..abstract = true
-        ..implements.addAll([
-          const Reference("ChangeNotifier"),
-        ])
+        ..extend = const Reference("PrefsBase")
         ..methods.addAll([
           ...model.parameters.map((param) {
             return Method(
@@ -115,82 +113,12 @@ List<Spec> baseClass(
           }),
           Method(
             (m) => m
-              ..name = "addListener"
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("void")
-              ..lambda = true
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "listener"
-                    ..type = const Reference("VoidCallback"),
-                )
-              ])
-              ..body = const Code("throw UnimplementedError()"),
-          ),
-          Method(
-            (m) => m
-              ..name = "removeListener"
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("void")
-              ..lambda = true
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "listener"
-                    ..type = const Reference("VoidCallback"),
-                )
-              ])
-              ..body = const Code("throw UnimplementedError()"),
-          ),
-          Method(
-            (m) => m
-              ..name = "notifyListeners"
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("void")
-              ..lambda = true
-              ..body = const Code("throw UnimplementedError()"),
-          ),
-          Method(
-            (m) => m
-              ..name = "dispose"
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("void")
-              ..lambda = true
-              ..body = const Code("throw UnimplementedError()"),
-          ),
-          Method(
-            (m) => m
-              ..name = "hasListeners"
-              ..type = MethodType.getter
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("bool")
-              ..lambda = true
-              ..body = const Code("throw UnimplementedError()"),
-          ),
-          Method(
-            (m) => m
               ..name = "toString"
               ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("String")
               ..body = Code(
                 "return \"\$runtimeType(${model.parameters.map((e) => "${e.name}: \$${e.name}").join(", ")})\";",
               ),
-          ),
-          Method(
-            (m) => m
-              ..name = "load"
-              ..returns = const Reference("Future<void>")
-              ..lambda = true
-              ..body = const Code("throw UnimplementedError()"),
-          ),
-          Method(
-            (m) => m
-              ..name = "loading"
-              ..type = MethodType.getter
-              ..returns = const Reference("Future<void>?")
-              ..lambda = true
-              ..body = const Code("throw UnimplementedError()"),
           ),
         ]),
     ),
