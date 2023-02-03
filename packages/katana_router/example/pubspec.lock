@@ -342,21 +342,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.10.14"
+    version: "1.10.15"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_router_annotation"
       relative: true
     source: path
-    version: "1.10.11"
+    version: "1.10.12"
   katana_router_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "1.10.13"
+    version: "1.10.14"
   lints:
     dependency: transitive
     description:
