@@ -223,10 +223,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_prefs_annotation
-      sha256: "4e0adfa1aa1e2282c35aabbc70707ce640ffcac812096333e7adbc497f393275"
+      sha256: f701fa3be958c6c218c3bdaefc3ff03881e572aaad1c860f76dfbd5f8acec138
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9"
+    version: "1.1.10"
   lints:
     dependency: transitive
     description:
