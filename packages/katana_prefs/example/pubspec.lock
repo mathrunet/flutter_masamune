@@ -357,7 +357,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.14"
+    version: "1.1.15"
   katana_prefs_annotation:
     dependency: transitive
     description:
@@ -372,7 +372,7 @@ packages:
       path: "../../katana_prefs_builder"
       relative: true
     source: path
-    version: "1.1.17"
+    version: "1.1.18"
   lints:
     dependency: transitive
     description:

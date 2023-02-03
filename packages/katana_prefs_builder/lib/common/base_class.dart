@@ -88,7 +88,7 @@ List<Spec> baseClass(
               ..returns = const Reference("Future<bool>")
               ..modifier = MethodModifier.async
               ..body = const Code(
-                "if (_ref._prefs == null) { return; } return await _ref._prefs?.remove(_key);",
+                "if (_ref._prefs == null) { return false; } return await _ref._prefs?.remove(_key) ?? false;",
               ),
           ),
           Method(
@@ -204,7 +204,6 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "clear"
-              ..type = MethodType.getter
               ..returns = const Reference("Future<bool>")
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
@@ -268,11 +267,10 @@ List<Spec> baseClass(
             Method(
               (m) => m
                 ..name = "clear"
-                ..type = MethodType.getter
                 ..returns = const Reference("Future<bool>")
                 ..annotations.addAll([const Reference("override")])
                 ..lambda = true
-                ..body = const Code("_prefs?.clear()"),
+                ..body = const Code("_prefs?.clear() ?? Future.value(false)"),
             ),
             ...model.parameters.map((param) {
               return Method(
@@ -368,11 +366,10 @@ List<Spec> baseClass(
             Method(
               (m) => m
                 ..name = "clear"
-                ..type = MethodType.getter
                 ..returns = const Reference("Future<bool>")
                 ..annotations.addAll([const Reference("override")])
                 ..lambda = true
-                ..body = const Code("_prefs?.clear()"),
+                ..body = const Code("_prefs?.clear() ?? Future.value(false)"),
             ),
             ...model.parameters.map((param) {
               return Method(
