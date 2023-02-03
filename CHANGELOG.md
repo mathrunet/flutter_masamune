@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_prefs` - `v1.1.15`](#katana_prefs---v1115)
+ - [`katana_prefs_builder` - `v1.1.18`](#katana_prefs_builder---v1118)
+ - [`masamune` - `v1.4.16`](#masamune---v1416)
+ - [`masamune_picker` - `v1.4.51`](#masamune_picker---v1451)
+ - [`masamune_notification_firebase` - `v1.1.49`](#masamune_notification_firebase---v1149)
+ - [`masamune_picker_mobile` - `v1.4.51`](#masamune_picker_mobile---v1451)
+ - [`masamune_picker_file` - `v1.4.51`](#masamune_picker_file---v1451)
+ - [`masamune_builder` - `v1.2.9`](#masamune_builder---v129)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.4.16`
+ - `masamune_picker` - `v1.4.51`
+ - `masamune_notification_firebase` - `v1.1.49`
+ - `masamune_picker_mobile` - `v1.4.51`
+ - `masamune_picker_file` - `v1.4.51`
+ - `masamune_builder` - `v1.2.9`
+
+---
+
+#### `katana_prefs` - `v1.1.15`
+
+ - **FIX**: Fixed a bug where the original method was not created. ([fcc1f8f7](https://github.com/mathrunet/flutter_masamune/commit/fcc1f8f7dde12c2c41e022d18a09b2d792c8af74))
+
+#### `katana_prefs_builder` - `v1.1.18`
+
+ - **FIX**: Fixed a bug where the original method was not created. ([fcc1f8f7](https://github.com/mathrunet/flutter_masamune/commit/fcc1f8f7dde12c2c41e022d18a09b2d792c8af74))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.4.15`](#masamune---v1415)
  - [`masamune_annotation` - `v1.2.1`](#masamune_annotation---v121)
  - [`masamune_builder` - `v1.2.8`](#masamune_builder---v128)

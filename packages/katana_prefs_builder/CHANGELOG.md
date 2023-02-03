@@ -1,3 +1,7 @@
+## 1.1.18
+
+ - **FIX**: Fixed a bug where the original method was not created. ([fcc1f8f7](https://github.com/mathrunet/flutter_masamune/commit/fcc1f8f7dde12c2c41e022d18a09b2d792c8af74))
+
 ## 1.1.17
 
  - **FIX**: Added delete and clear functions. ([f5a19e72](https://github.com/mathrunet/flutter_masamune/commit/f5a19e7273e5e86d0a0db6b11de768558aa20de5))

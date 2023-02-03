@@ -1,3 +1,7 @@
+## 1.4.16
+
+ - Update a dependency to the latest release.
+
 ## 1.4.15
 
  - **FIX**: Added Watch method for Prefs. ([95aca29c](https://github.com/mathrunet/flutter_masamune/commit/95aca29cdc93bb27af6f0c4d77782516c12529d4))
