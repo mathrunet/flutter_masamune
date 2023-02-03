@@ -15,6 +15,50 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.4.15`](#masamune---v1415)
+ - [`masamune_annotation` - `v1.2.1`](#masamune_annotation---v121)
+ - [`masamune_builder` - `v1.2.8`](#masamune_builder---v128)
+ - [`masamune_picker` - `v1.4.50`](#masamune_picker---v1450)
+ - [`masamune_notification_firebase` - `v1.1.48`](#masamune_notification_firebase---v1148)
+ - [`masamune_picker_mobile` - `v1.4.50`](#masamune_picker_mobile---v1450)
+ - [`masamune_picker_file` - `v1.4.50`](#masamune_picker_file---v1450)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.4.50`
+ - `masamune_notification_firebase` - `v1.1.48`
+ - `masamune_picker_mobile` - `v1.4.50`
+ - `masamune_picker_file` - `v1.4.50`
+
+---
+
+#### `masamune` - `v1.4.15`
+
+ - **FIX**: Added Watch method for Prefs. ([95aca29c](https://github.com/mathrunet/flutter_masamune/commit/95aca29cdc93bb27af6f0c4d77782516c12529d4))
+
+#### `masamune_annotation` - `v1.2.1`
+
+ - **FIX**: Added Watch method for Prefs. ([95aca29c](https://github.com/mathrunet/flutter_masamune/commit/95aca29cdc93bb27af6f0c4d77782516c12529d4))
+
+#### `masamune_builder` - `v1.2.8`
+
+ - **FIX**: Added Watch method for Prefs. ([95aca29c](https://github.com/mathrunet/flutter_masamune/commit/95aca29cdc93bb27af6f0c4d77782516c12529d4))
+
+
+## 2023-02-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v1.1.14`](#katana_prefs---v1114)
  - [`katana_prefs_builder` - `v1.1.17`](#katana_prefs_builder---v1117)
  - [`katana_scoped` - `v1.7.9`](#katana_scoped---v179)

@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **FIX**: Added Watch method for Prefs. ([95aca29c](https://github.com/mathrunet/flutter_masamune/commit/95aca29cdc93bb27af6f0c4d77782516c12529d4))
+
 ## 1.2.0
 
  - **FEAT**: Support for new collection queries. ([7e308916](https://github.com/mathrunet/flutter_masamune/commit/7e308916db20f8e73c3a16ad36846553b1a9cb3d))
