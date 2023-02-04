@@ -338,6 +338,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
         (subscription) => subscription.cancel(),
       );
       subscriptions.clear();
+      _value.clear();
     }
     if (modelQuery.adapter.availableListen) {
       subscriptions.addAll(

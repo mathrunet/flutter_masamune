@@ -300,10 +300,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_model
-      sha256: "4d5db5f025bed98460e0deea908b56f10d65415a98ac58354f01baf85f2bb3c6"
+      sha256: aeabf0992fa9a35408f3fd10b6a9411d2f409eadb97d426164af7866eca27915
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.8"
+    version: "1.5.9"
   lints:
     dependency: transitive
     description:
@@ -665,10 +665,10 @@ packages:
     dependency: transitive
     description:
       name: tint
-      sha256: d856019547532d4ea24171f554b319081c004c37741e7946eae30cb09f24e1c7
+      sha256: "9652d9a589f4536d5e392cf790263d120474f15da3cf1bee7f1fdb31b4de5f46"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
