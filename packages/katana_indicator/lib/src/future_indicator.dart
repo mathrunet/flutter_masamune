@@ -34,6 +34,7 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
   }) async {
     final futureOr = this;
     if (futureOr is Future<T>) {
+      final navigator = Navigator.of(context, rootNavigator: true);
       final dialog = showDialog(
         context: context,
         barrierColor: barrierColor,
@@ -54,7 +55,7 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
       );
       futureOr.whenComplete(
         () async {
-          Navigator.of(context, rootNavigator: true).pop();
+          navigator.pop();
         },
       );
       await dialog;
