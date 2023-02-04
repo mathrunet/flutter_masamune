@@ -1,3 +1,7 @@
+## 1.5.11
+
+ - **FIX**: Fixed a bug when searching during Listen. ([274ea7d3](https://github.com/mathrunet/flutter_masamune/commit/274ea7d38bd83ad1771bddbde29cff59686f5381))
+
 ## 1.5.10
 
  - **FIX**: Fixed a bug in Search & Delete. ([be108f18](https://github.com/mathrunet/flutter_masamune/commit/be108f182e215d918018541f2997541d646bf9f0))
