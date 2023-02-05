@@ -10,7 +10,7 @@ part of masamune_logger_firebase;
 ///
 /// Firebase settings can be specified by passing [options].
 ///
-/// Passing [analytics] or [crashlytics] allows you to specify instances of [FirebaseAnalytics] or [FirebaseCrashlytics].
+/// You can specify instances of [FirebaseAnalytics], [FirebaseCrashlytics] or [FirebasePerformance] by passing [analytics], [crashlytics] or [performance].
 ///
 /// Firebase CrashlyticsとFirebase Analyticsを利用するための[MasamuneAdapter]。
 ///
@@ -22,7 +22,7 @@ part of masamune_logger_firebase;
 ///
 /// [options]を渡すとFirebaseの設定を指定することが可能です。
 ///
-/// [analytics]や[crashlytics]を渡すと[FirebaseAnalytics]や[FirebaseCrashlytics]のインスタンスを指定可能です。
+/// [analytics]や[crashlytics]、[performance]を渡すと[FirebaseAnalytics]や[FirebaseCrashlytics]、[FirebasePerformance]のインスタンスを指定可能です。
 class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   /// [MasamuneAdapter] for using Firebase Crashlytics and Firebase Analytics.
   ///
@@ -34,7 +34,7 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   ///
   /// Firebase settings can be specified by passing [options].
   ///
-  /// Passing [analytics] or [crashlytics] allows you to specify instances of [FirebaseAnalytics] or [FirebaseCrashlytics].
+  /// You can specify instances of [FirebaseAnalytics], [FirebaseCrashlytics] or [FirebasePerformance] by passing [analytics], [crashlytics] or [performance].
   ///
   /// Firebase CrashlyticsとFirebase Analyticsを利用するための[MasamuneAdapter]。
   ///
@@ -46,13 +46,15 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [options]を渡すとFirebaseの設定を指定することが可能です。
   ///
-  /// [analytics]や[crashlytics]を渡すと[FirebaseAnalytics]や[FirebaseCrashlytics]のインスタンスを指定可能です。
+  /// [analytics]や[crashlytics]、[performance]を渡すと[FirebaseAnalytics]や[FirebaseCrashlytics]、[FirebasePerformance]のインスタンスを指定可能です。
   const FirebaseLoggerMasamuneAdapter({
     this.options,
     FirebaseAnalytics? analytics,
     FirebaseCrashlytics? crashlytics,
+    FirebasePerformance? performance,
   })  : _analytics = analytics,
-        _crashlytics = crashlytics;
+        _crashlytics = crashlytics,
+        _performance = performance;
 
   /// You can retrieve the [FirebaseLoggerMasamuneAdapter] first given by [FirebaseLoggerMasamuneAdapterScope].
   ///
@@ -84,6 +86,15 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   }
 
   final FirebaseCrashlytics? _crashlytics;
+
+  /// The instance of [FirebaseCrashlytics] to be used.
+  ///
+  /// 使用する[FirebasePerformance]のインスタンス。
+  FirebasePerformance get performance {
+    return _performance ?? FirebasePerformance.instance;
+  }
+
+  final FirebasePerformance? _performance;
 
   /// [FirebaseOptions] set.
   ///

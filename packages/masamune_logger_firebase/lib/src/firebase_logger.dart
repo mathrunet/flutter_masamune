@@ -54,6 +54,11 @@ class FirebaseLogger extends ChangeNotifier {
   /// 使用する[FirebaseCrashlytics]のインスタンス。
   FirebaseCrashlytics get crashlytics => adapter.crashlytics;
 
+  /// The instance of [FirebasePerformance] to be used.
+  ///
+  /// 使用する[FirebasePerformance]のインスタンス。
+  FirebasePerformance get performance => adapter.performance;
+
   /// [event] to FirebaseAnalytics.
   ///
   /// The class name of [event] is passed as the event name and the value output by [event.toJson] is passed as a parameter.
