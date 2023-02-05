@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Added MasamuneAdapter. ([4c8d61ab](https://github.com/mathrunet/flutter_masamune/commit/4c8d61ab8c5c110cf50e66a951d9b3ae8890a6b6))
+
 ## 1.2.1
 
  - **FIX**: Added Watch method for Prefs. ([95aca29c](https://github.com/mathrunet/flutter_masamune/commit/95aca29cdc93bb27af6f0c4d77782516c12529d4))
