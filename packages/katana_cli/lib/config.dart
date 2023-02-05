@@ -89,6 +89,11 @@ firebase:
   # Firebase Functionsを有効にします。
   functions:
     enable: false
+  
+  # Enable Firebase Analytics and Firebase Crashlytics.
+  # Firebase AnalyticsとFirebase Crashlyticsを有効にします。
+  logger:
+    enable: false
 
   # Configure Firebase Hosting settings.
   # Set [use_flutter] to `true` so that all routes point to index.html, and set it to `true` when using Flutter Web.
