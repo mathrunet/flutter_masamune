@@ -32,6 +32,8 @@ const kDefaultLocales = [Locale("en", "US")];
 ///
 /// The debug banner can be displayed with [debugShowCheckedModeBanner] and the performance overlay can be displayed with [showPerformanceOverlay].
 ///
+/// Set [setPathUrlStrategy] to `true` to remove `#` in the web path.
+///
 /// Masamune Framework用の[MaterialApp]を[runApp]で実行するためのファンクション。
 /// [runApp]の代わりにこちらを用いても構いません。
 ///
@@ -58,6 +60,8 @@ const kDefaultLocales = [Locale("en", "US")];
 /// [title]、[onGenerateTitle]でアプリタイトルを設定することが可能です。
 ///
 /// [debugShowCheckedModeBanner]でデバッグ用のバナーを表示することができ、[showPerformanceOverlay]でパフォーマンスのオーバーレイを表示することができます。
+///
+/// [setPathUrlStrategy]を`true`にするとWebのパス中の`#`を取り除くことができます。
 Future<void> runMasamuneApp({
   Key? key,
   List<MasamuneAdapter> masamuneAdapters = const [],
@@ -69,6 +73,7 @@ Future<void> runMasamuneApp({
   StorageAdapter? storageAdapter,
   FunctionsAdapter? functionsAdapter,
   RouterConfig<Object>? routerConfig,
+  bool setPathUrlStrategy = true,
   GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey,
   bool debugShowCheckedModeBanner = true,
   bool showPerformanceOverlay = false,
@@ -87,6 +92,9 @@ Future<void> runMasamuneApp({
   List<Widget Function(BuildContext context, Widget app)>? onBuildAppFilters,
 }) async {
   final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
+  if (setPathUrlStrategy) {
+    AppRouter.setPathUrlStrategy();
+  }
   if (useRunZonedGuarded) {
     runZonedGuarded(() async {
       for (final adapter in masamuneAdapters) {
