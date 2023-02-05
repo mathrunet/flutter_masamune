@@ -7,7 +7,7 @@ part of masamune_picker;
 /// テスト用のファイルピッカーを利用するためのアダプター。
 ///
 /// [defaultFilePath]、もしくは[defaultFileBytes]を指定して返すファイルのデータを定義してください。
-class TestPickerAdapter extends MasamunePickerAdapter {
+class TestPickerMasamuneAdapter extends PickerMasamuneAdapter {
   /// Adapter to use the file picker available on all platforms.
   ///
   /// Define the data for the file to be returned by specifying [defaultFilePath] or [defaultFileBytes].
@@ -15,7 +15,7 @@ class TestPickerAdapter extends MasamunePickerAdapter {
   /// テスト用のファイルピッカーを利用するためのアダプター。
   ///
   /// [defaultFilePath]、もしくは[defaultFileBytes]を指定して返すファイルのデータを定義してください。
-  const TestPickerAdapter({
+  const TestPickerMasamuneAdapter({
     this.defaultFilePath,
     this.defaultFileBytes,
   });

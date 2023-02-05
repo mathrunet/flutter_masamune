@@ -2,7 +2,7 @@ part of masamune_picker;
 
 /// Provides a file picker function.
 ///
-/// The file picker function defined in [MasamunePickerAdapter] is available.
+/// The file picker function defined in [PickerMasamuneAdapter] is available.
 ///
 /// By default, a [FilePickerAdapter] is used, which can utilize the functionality of the `file_picker` package.
 ///
@@ -13,7 +13,7 @@ part of masamune_picker;
 ///
 /// ファイルピッカー機能を提供します。
 ///
-/// [MasamunePickerAdapter]で定義されたファイルピッカー機能を利用可能です。
+/// [PickerMasamuneAdapter]で定義されたファイルピッカー機能を利用可能です。
 ///
 /// デフォルトの場合、`file_picker`パッケージの機能を利用できる[FilePickerAdapter]が使用されます。
 ///
@@ -24,7 +24,7 @@ part of masamune_picker;
 class Picker extends ChangeNotifier {
   /// Provides a file picker function.
   ///
-  /// The file picker function defined in [MasamunePickerAdapter] is available.
+  /// The file picker function defined in [PickerMasamuneAdapter] is available.
   ///
   /// By default, a [FilePickerAdapter] is used, which can utilize the functionality of the `file_picker` package.
   ///
@@ -35,7 +35,7 @@ class Picker extends ChangeNotifier {
   ///
   /// ファイルピッカー機能を提供します。
   ///
-  /// [MasamunePickerAdapter]で定義されたファイルピッカー機能を利用可能です。
+  /// [PickerMasamuneAdapter]で定義されたファイルピッカー機能を利用可能です。
   ///
   /// デフォルトの場合、`file_picker`パッケージの機能を利用できる[FilePickerAdapter]が使用されます。
   ///
@@ -43,20 +43,20 @@ class Picker extends ChangeNotifier {
   ///
   /// [pickCamera]でモバイルのカメラを起動し撮影したメディアファイルをピックアップすることができます。
   /// （対応アダプターのみ）
-  Picker({MasamunePickerAdapter? adapter}) : _adapter = adapter;
+  Picker({PickerMasamuneAdapter? adapter}) : _adapter = adapter;
 
-  /// [MasamunePickerAdapter] to be used.
+  /// [PickerMasamuneAdapter] to be used.
   ///
-  /// If not specified, [MasamunePickerAdapter.primary] is used.
+  /// If not specified, [PickerMasamuneAdapter.primary] is used.
   ///
-  /// 使用する[MasamunePickerAdapter]。
+  /// 使用する[PickerMasamuneAdapter]。
   ///
-  /// 指定されない場合は[MasamunePickerAdapter.primary]が利用されます。
-  MasamunePickerAdapter get adapter {
-    return _adapter ?? MasamunePickerAdapter.primary;
+  /// 指定されない場合は[PickerMasamuneAdapter.primary]が利用されます。
+  PickerMasamuneAdapter get adapter {
+    return _adapter ?? PickerMasamuneAdapter.primary;
   }
 
-  final MasamunePickerAdapter? _adapter;
+  final PickerMasamuneAdapter? _adapter;
 
   /// It is possible to wait while the file is being picked up.
   ///

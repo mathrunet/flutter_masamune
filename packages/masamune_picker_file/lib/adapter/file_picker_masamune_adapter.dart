@@ -1,5 +1,8 @@
 part of masamune_picker_file;
 
+@Deprecated("This type is deprecated. Please use [FilePickerMasamuneAdapter].")
+typedef FilePickerAdapter = FilePickerMasamuneAdapter;
+
 /// Adapter to use the file picker available on all platforms.
 ///
 /// Internally, the `file_picker` package is used.
@@ -11,7 +14,7 @@ part of masamune_picker_file;
 /// 内部的には`file_picker`のパッケージが利用されています。
 ///
 /// [pickCamera]の機能は利用できません。
-class FilePickerAdapter extends MasamunePickerAdapter {
+class FilePickerMasamuneAdapter extends PickerMasamuneAdapter {
   /// Adapter to use the file picker available on all platforms.
   ///
   /// Internally, the `file_picker` package is used.
@@ -23,7 +26,7 @@ class FilePickerAdapter extends MasamunePickerAdapter {
   /// 内部的には`file_picker`のパッケージが利用されています。
   ///
   /// [pickCamera]の機能は利用できません。
-  const FilePickerAdapter();
+  const FilePickerMasamuneAdapter();
 
   @override
   Future<List<PickerValue>> pickMultiple({

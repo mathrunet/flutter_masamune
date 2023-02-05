@@ -20,10 +20,10 @@ import 'package:masamune/masamune.dart';
 
 export 'package:masamune/masamune.dart';
 
-part 'adapter/test_picker_adapter.dart';
+part 'adapter/test_picker_masamune_adapter.dart';
 
 part 'src/picker.dart';
 part 'src/picker_file_type.dart';
 part 'src/picker_value.dart';
-part 'src/picker_adapter.dart';
+part 'src/picker_masamune_adapter.dart';
 part 'storage/storage.dart';

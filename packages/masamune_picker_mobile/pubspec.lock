@@ -468,10 +468,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune
-      sha256: d7f36b4d1e4bf8b35a75573094aa7de161488cd48ae1f0c4c1a73dd7146f2643
+      sha256: "1f57301aca434bdf01deaae800cd06293a27b5422d75a02d0f7f0d9fffa41637"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   masamune_annotation:
     dependency: transitive
     description:
@@ -484,10 +484,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_picker
-      sha256: afd6f948dbcad791315f8a8911f0afd796f5e2d8ed54d72d8ec9a4ef6d391dea
+      sha256: a533c4acc19a2c350f318a03d85d2003640857fd7bf4948d92839e3539772e90
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.57"
+    version: "1.5.0"
   matcher:
     dependency: transitive
     description:

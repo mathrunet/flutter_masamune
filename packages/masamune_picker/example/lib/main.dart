@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PickerAdapterScope(
-      adapter: const TestPickerAdapter(),
+      adapter: const TestPickerMasamuneAdapter(),
       child: MasamuneApp(
         home: const PickerPage(),
         title: "Flutter Demo",

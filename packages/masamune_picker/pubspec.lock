@@ -404,10 +404,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune
-      sha256: d7f36b4d1e4bf8b35a75573094aa7de161488cd48ae1f0c4c1a73dd7146f2643
+      sha256: "1f57301aca434bdf01deaae800cd06293a27b5422d75a02d0f7f0d9fffa41637"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.5.1"
   masamune_annotation:
     dependency: transitive
     description:

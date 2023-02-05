@@ -4,7 +4,7 @@ part of masamune_picker;
 ///
 /// Some file pick functions restrict the platform (e.g., camera functions), so if necessary, an adapter can be defined and used.
 ///
-/// If you have a [MasamunePickerAdapter] that you want to use, define it in advance in [PickerAdapterScope] or pass it directly when creating a [Picker] object.
+/// If you have a [PickerMasamuneAdapter] that you want to use, define it in advance in [PickerAdapterScope] or pass it directly when creating a [Picker] object.
 ///
 /// It is also possible to pass it as [MasamuneAdapter] in [runMasamuneApp].
 ///
@@ -12,15 +12,15 @@ part of masamune_picker;
 ///
 /// ファイルピックの機能によってはプラットフォームを制限するものがある（カメラ機能など）ため必要であればアダプターを定義して利用します。
 ///
-/// 利用したい[MasamunePickerAdapter]がある場合は、[PickerAdapterScope]で予め定義するか[Picker]のオブジェクト作成時に直接渡してください。
+/// 利用したい[PickerMasamuneAdapter]がある場合は、[PickerAdapterScope]で予め定義するか[Picker]のオブジェクト作成時に直接渡してください。
 ///
 /// [runMasamuneApp]で[MasamuneAdapter]として渡すことも可能です。
-abstract class MasamunePickerAdapter extends MasamuneAdapter {
+abstract class PickerMasamuneAdapter extends MasamuneAdapter {
   /// Adapter for defining the internal process for file picks in [Picker].
   ///
   /// Some file pick functions restrict the platform (e.g., camera functions), so if necessary, an adapter can be defined and used.
   ///
-  /// If you have a [MasamunePickerAdapter] that you want to use, define it in advance in [PickerAdapterScope] or pass it directly when creating a [Picker] object.
+  /// If you have a [PickerMasamuneAdapter] that you want to use, define it in advance in [PickerAdapterScope] or pass it directly when creating a [Picker] object.
   ///
   /// It is also possible to pass it as [MasamuneAdapter] in [runMasamuneApp].
   ///
@@ -28,23 +28,23 @@ abstract class MasamunePickerAdapter extends MasamuneAdapter {
   ///
   /// ファイルピックの機能によってはプラットフォームを制限するものがある（カメラ機能など）ため必要であればアダプターを定義して利用します。
   ///
-  /// 利用したい[MasamunePickerAdapter]がある場合は、[PickerAdapterScope]で予め定義するか[Picker]のオブジェクト作成時に直接渡してください。
+  /// 利用したい[PickerMasamuneAdapter]がある場合は、[PickerAdapterScope]で予め定義するか[Picker]のオブジェクト作成時に直接渡してください。
   ///
   /// [runMasamuneApp]で[MasamuneAdapter]として渡すことも可能です。
-  const MasamunePickerAdapter();
+  const PickerMasamuneAdapter();
 
-  /// You can retrieve the [MasamunePickerAdapter] first given by [PickerAdapterScope].
+  /// You can retrieve the [PickerMasamuneAdapter] first given by [PickerAdapterScope].
   ///
-  /// 最初に[PickerAdapterScope]で与えた[MasamunePickerAdapter]を取得することができます。
-  static MasamunePickerAdapter get primary {
+  /// 最初に[PickerAdapterScope]で与えた[PickerMasamuneAdapter]を取得することができます。
+  static PickerMasamuneAdapter get primary {
     assert(
       _primary != null,
       "MediaAdapter is not set. Place [MediaAdapterScope] widget closer to the root.",
     );
-    return _primary ?? const TestPickerAdapter();
+    return _primary ?? const TestPickerMasamuneAdapter();
   }
 
-  static MasamunePickerAdapter? _primary;
+  static PickerMasamuneAdapter? _primary;
 
   /// Implement a process to pick up single files.
   ///
@@ -106,23 +106,23 @@ abstract class MasamunePickerAdapter extends MasamuneAdapter {
   }
 
   @override
-  FutureOr<void>? onPreRunApp() {}
+  FutureOr<void> onPreRunApp() {}
 
   @override
   void onError(Object error, StackTrace stackTrace) {}
 }
 
-/// [MasamunePickerAdapter] for the entire app by placing it on top of [MaterialApp], etc.
+/// [PickerMasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.
 ///
-/// Pass [MasamunePickerAdapter] to [adapter].
+/// Pass [PickerMasamuneAdapter] to [adapter].
 ///
-/// Also, by using [PickerAdapterScope.of] in a descendant widget, you can retrieve the [MasamunePickerAdapter] set in the [PickerAdapterScope].
+/// Also, by using [PickerAdapterScope.of] in a descendant widget, you can retrieve the [PickerMasamuneAdapter] set in the [PickerAdapterScope].
 ///
-/// [MaterialApp]などの上に配置して、アプリ全体に[MasamunePickerAdapter]を設定します。
+/// [MaterialApp]などの上に配置して、アプリ全体に[PickerMasamuneAdapter]を設定します。
 ///
-/// [adapter]に[MasamunePickerAdapter]を渡してください。
+/// [adapter]に[PickerMasamuneAdapter]を渡してください。
 ///
-/// また[PickerAdapterScope.of]を子孫のウィジェット内で利用することにより[PickerAdapterScope]で設定された[MasamunePickerAdapter]を取得することができます。
+/// また[PickerAdapterScope.of]を子孫のウィジェット内で利用することにより[PickerAdapterScope]で設定された[PickerMasamuneAdapter]を取得することができます。
 ///
 /// ```dart
 /// class MyApp extends StatelessWidget {
@@ -140,17 +140,17 @@ abstract class MasamunePickerAdapter extends MasamuneAdapter {
 /// }
 /// ```
 class PickerAdapterScope extends StatefulWidget {
-  /// [MasamunePickerAdapter] for the entire app by placing it on top of [MaterialApp], etc.
+  /// [PickerMasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.
   ///
-  /// Pass [MasamunePickerAdapter] to [adapter].
+  /// Pass [PickerMasamuneAdapter] to [adapter].
   ///
-  /// Also, by using [PickerAdapterScope.of] in a descendant widget, you can retrieve the [MasamunePickerAdapter] set in the [PickerAdapterScope].
+  /// Also, by using [PickerAdapterScope.of] in a descendant widget, you can retrieve the [PickerMasamuneAdapter] set in the [PickerAdapterScope].
   ///
-  /// [MaterialApp]などの上に配置して、アプリ全体に[MasamunePickerAdapter]を設定します。
+  /// [MaterialApp]などの上に配置して、アプリ全体に[PickerMasamuneAdapter]を設定します。
   ///
-  /// [adapter]に[MasamunePickerAdapter]を渡してください。
+  /// [adapter]に[PickerMasamuneAdapter]を渡してください。
   ///
-  /// また[PickerAdapterScope.of]を子孫のウィジェット内で利用することにより[PickerAdapterScope]で設定された[MasamunePickerAdapter]を取得することができます。
+  /// また[PickerAdapterScope.of]を子孫のウィジェット内で利用することにより[PickerAdapterScope]で設定された[PickerMasamuneAdapter]を取得することができます。
   ///
   /// ```dart
   /// class MyApp extends StatelessWidget {
@@ -178,19 +178,19 @@ class PickerAdapterScope extends StatefulWidget {
   /// 子供のウィジェット。
   final Widget child;
 
-  /// [MasamunePickerAdapter] to be configured for the entire app.
+  /// [PickerMasamuneAdapter] to be configured for the entire app.
   ///
-  /// アプリ全体に設定する[MasamunePickerAdapter]。
-  final MasamunePickerAdapter adapter;
+  /// アプリ全体に設定する[PickerMasamuneAdapter]。
+  final PickerMasamuneAdapter adapter;
 
-  /// By passing [context], the [MasamunePickerAdapter] set in [PickerAdapterScope] can be obtained.
+  /// By passing [context], the [PickerMasamuneAdapter] set in [PickerAdapterScope] can be obtained.
   ///
   /// If the ancestor does not have [PickerAdapterScope], an error will occur.
   ///
-  /// [context]を渡すことにより[PickerAdapterScope]で設定された[MasamunePickerAdapter]を取得することができます。
+  /// [context]を渡すことにより[PickerAdapterScope]で設定された[PickerMasamuneAdapter]を取得することができます。
   ///
   /// 祖先に[PickerAdapterScope]がない場合はエラーになります。
-  static MasamunePickerAdapter? of(BuildContext context) {
+  static PickerMasamuneAdapter? of(BuildContext context) {
     final scope =
         context.getElementForInheritedWidgetOfExactType<_PickerAdapterScope>();
     assert(
@@ -208,7 +208,7 @@ class _PickerAdapterScopeState extends State<PickerAdapterScope> {
   @override
   void initState() {
     super.initState();
-    MasamunePickerAdapter._primary ??= widget.adapter;
+    PickerMasamuneAdapter._primary ??= widget.adapter;
   }
 
   @override
@@ -223,7 +223,7 @@ class _PickerAdapterScope extends InheritedWidget {
     required this.adapter,
   });
 
-  final MasamunePickerAdapter adapter;
+  final PickerMasamuneAdapter adapter;
 
   @override
   bool updateShouldNotify(covariant _PickerAdapterScope oldWidget) => false;
