@@ -41,6 +41,7 @@ part 'model/model.dart';
 part 'prefs/prefs.dart';
 part 'scoped/controller.dart';
 part 'src/masamune_app.dart';
+part 'src/masamune_adapter.dart';
 
 part 'ui/grid_builder.dart';
 part 'ui/list_builder.dart';

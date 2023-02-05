@@ -309,10 +309,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_prefs_builder
-      sha256: "9180b29391a808cb7902f48769b1e4eb15f6b7f3d0ca48f3623dbac4e4b630ee"
+      sha256: "1876a45f1ce7f90d3f92d5bb8bf8f70861ad239371d9aa89f8d79d90c0d62807"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.17"
+    version: "1.1.19"
   katana_router_annotation:
     dependency: "direct main"
     description:
@@ -365,10 +365,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_annotation
-      sha256: "10366db8d1a6f8745b9b02bbce249b12d4e96dd11e6021c8756359974bf1f260"
+      sha256: deeab4150a3ceb2fac1005df4811112e68ad10ceada5457bccb602a289688def
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   matcher:
     dependency: transitive
     description:
@@ -581,10 +581,10 @@ packages:
     dependency: transitive
     description:
       name: tint
-      sha256: d856019547532d4ea24171f554b319081c004c37741e7946eae30cb09f24e1c7
+      sha256: "9652d9a589f4536d5e392cf790263d120474f15da3cf1bee7f1fdb31b4de5f46"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:

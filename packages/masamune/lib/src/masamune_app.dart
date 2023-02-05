@@ -5,9 +5,142 @@ part of masamune;
 /// デフォルトのロケール。
 const kDefaultLocales = [Locale("en", "US")];
 
-/// MaterialApp] for Masamune Framework.
+/// Function to run [MaterialApp] for Masamune Framework with [runApp].
+/// You may use this instead of [runApp].
 ///
-/// It encompasses the XXScope widget used in a series of katana packages.
+/// Passing [masamuneAdapter] makes it easy to use additional plug-ins for the Masamune Framework.
+///
+/// Wraps [runApp] with [runZonedGuarded] if [MasamuneAdapter.runZonedGuarded] is specified as `true` in [MasamuneAdapter].
+///
+/// It encapsulates the XXScope widget used in a series of katana packages. In addition, XXXScope can be specified by adding [onBuildAppFilters].
+///
+/// You can pass the [AppRef] used in `katana_scoped` in [appRef].
+///
+/// You can pass [AppThemeData] used in `katana_theme` in [theme]. You can also specify [ThemeMode] in [themeMode].
+///
+/// You can pass [AppLocalizeBase] used by `katana_localize` in [localize].
+///
+/// Other adapters for data and authentication such as [modelAdapter] and [authAdapter] can be passed.
+///
+/// You can pass the [AppRouter] used by `katana_router` in [routerConfig].
+///
+/// If you do not pass [routerConfig], you can also use Flutter"s native routing functionality as you normally would with [MaterialApp], using [routes], [initialRoute], [onGenerateRoute], [onGenerateInitialRoutes], [onUnknownRoute ], [builder], [navigatorObservers], and [scaffoldMessengerKey] to take advantage of Flutter"s native routing capabilities.
+///
+/// You can also use [home] to display a single widget. (available in Example, for example).
+///
+/// The application title can be set with [title] and [onGenerateTitle].
+///
+/// The debug banner can be displayed with [debugShowCheckedModeBanner] and the performance overlay can be displayed with [showPerformanceOverlay].
+///
+/// Masamune Framework用の[MaterialApp]を[runApp]で実行するためのファンクション。
+/// [runApp]の代わりにこちらを用いても構いません。
+///
+/// [masamuneAdapter]を渡すことでMasamune Frameworkの追加プラグインを楽に利用することができます。
+///
+/// [MasamuneAdapter]内で[MasamuneAdapter.runZonedGuarded]が`true`で指定されていれば[runApp]を[runZonedGuarded]でラッピングします。
+///
+/// 一連のkatanaのパッケージで利用されているXXScopeのウィジェットを内包しています。さらに[onBuildAppFilters]を追加することでXXXScopeを指定することも可能です。
+///
+/// [appRef]で`katana_scoped`で使われている[AppRef]を渡すことができます。
+///
+/// [theme]で`katana_theme`で使われている[AppThemeData]を渡すことができます。また、[themeMode]で[ThemeMode]をあわせて指定できます。
+///
+/// [localize]で`katana_localize`で利用されている[AppLocalizeBase]を渡すことができます。
+///
+/// その他、[modelAdapter]や[authAdapter]といったデータや認証用のアダプターを渡すことが可能です。
+///
+/// [routerConfig]で`katana_router`で使われている[AppRouter]を渡すことができます。
+///
+/// [routerConfig]を渡さなかった場合、通常の[MaterialApp]と同じ様に[routes]や[initialRoute]、[onGenerateRoute]、[onGenerateInitialRoutes]、[onUnknownRoute]、[builder]、[navigatorObservers]、[scaffoldMessengerKey]を用いてFlutterネイティブのルーティング機能を利用することも可能です。
+///
+/// また、[home]を用いて単一のウィジェットを表示することができます。（Exampleなどで利用可能です）
+///
+/// [title]、[onGenerateTitle]でアプリタイトルを設定することが可能です。
+///
+/// [debugShowCheckedModeBanner]でデバッグ用のバナーを表示することができ、[showPerformanceOverlay]でパフォーマンスのオーバーレイを表示することができます。
+Future<void> runMasamuneApp({
+  Key? key,
+  List<MasamuneAdapter> masamuneAdapters = const [],
+  AppThemeData? theme,
+  AppLocalizeBase? localize,
+  AppRef? appRef,
+  AuthAdapter? authAdapter,
+  ModelAdapter? modelAdapter = const RuntimeModelAdapter(),
+  StorageAdapter? storageAdapter,
+  FunctionsAdapter? functionsAdapter,
+  RouterConfig<Object>? routerConfig,
+  GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey,
+  bool debugShowCheckedModeBanner = true,
+  bool showPerformanceOverlay = false,
+  String title = "",
+  String Function(BuildContext)? onGenerateTitle,
+  ThemeMode? themeMode = ThemeMode.system,
+  Widget? home,
+  Map<String, Widget Function(BuildContext)> routes =
+      const <String, WidgetBuilder>{},
+  String? initialRoute,
+  Route<dynamic>? Function(RouteSettings routeSettings)? onGenerateRoute,
+  List<Route<dynamic>> Function(String routePath)? onGenerateInitialRoutes,
+  Route<dynamic>? Function(RouteSettings routeSettings)? onUnknownRoute,
+  List<NavigatorObserver> navigatorObservers = const <NavigatorObserver>[],
+  Widget Function(BuildContext context, Widget? child)? builder,
+  List<Widget Function(BuildContext context, Widget app)>? onBuildAppFilters,
+}) async {
+  final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
+  final app = MasamuneApp(
+    key: key,
+    theme: theme,
+    localize: localize,
+    appRef: appRef,
+    authAdapter: authAdapter,
+    modelAdapter: modelAdapter,
+    storageAdapter: storageAdapter,
+    functionsAdapter: functionsAdapter,
+    routerConfig: routerConfig,
+    scaffoldMessengerKey: scaffoldMessengerKey,
+    debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+    showPerformanceOverlay: showPerformanceOverlay,
+    title: title,
+    onGenerateTitle: onGenerateTitle,
+    themeMode: themeMode,
+    home: home,
+    routes: routes,
+    initialRoute: initialRoute,
+    onGenerateRoute: onGenerateRoute,
+    onGenerateInitialRoutes: onGenerateInitialRoutes,
+    onUnknownRoute: onUnknownRoute,
+    navigatorObservers: [
+      ...masamuneAdapters.expand((e) => e.navigatorObservers),
+      ...navigatorObservers,
+    ],
+    builder: builder,
+    onBuildAppFilters: [
+      ...masamuneAdapters.map((e) => e.onBuildApp),
+      if (onBuildAppFilters != null) ...onBuildAppFilters,
+    ],
+  );
+  if (useRunZonedGuarded) {
+    runZonedGuarded(() async {
+      for (final adapter in masamuneAdapters) {
+        await adapter.onPreRunApp();
+      }
+      runApp(app);
+    }, (error, stack) {
+      for (final adapter in masamuneAdapters) {
+        adapter.onError(error, stack);
+      }
+    });
+  } else {
+    for (final adapter in masamuneAdapters) {
+      await adapter.onPreRunApp();
+    }
+    runApp(app);
+  }
+}
+
+/// [MaterialApp] for Masamune Framework.
+///
+/// It encapsulates the XXScope widget used in a series of katana packages. In addition, XXXScope can be specified by adding [onBuildAppFilters].
 ///
 /// You can pass the [AppRef] used in `katana_scoped` in [appRef].
 ///
@@ -29,7 +162,7 @@ const kDefaultLocales = [Locale("en", "US")];
 ///
 /// Masamune Framework用の[MaterialApp]。
 ///
-/// 一連のkatanaのパッケージで利用されているXXScopeのウィジェットを内包しています。
+/// 一連のkatanaのパッケージで利用されているXXScopeのウィジェットを内包しています。さらに[onBuildAppFilters]を追加することでXXXScopeを指定することも可能です。
 ///
 /// [appRef]で`katana_scoped`で使われている[AppRef]を渡すことができます。
 ///
@@ -50,9 +183,9 @@ const kDefaultLocales = [Locale("en", "US")];
 /// [debugShowCheckedModeBanner]でデバッグ用のバナーを表示することができ、[showPerformanceOverlay]でパフォーマンスのオーバーレイを表示することができます。
 @immutable
 class MasamuneApp extends StatelessWidget {
-  /// MaterialApp] for Masamune Framework.
+  /// [MaterialApp] for Masamune Framework.
   ///
-  /// It encompasses the XXScope widget used in a series of katana packages.
+  /// It encapsulates the XXScope widget used in a series of katana packages. In addition, XXXScope can be specified by adding [onBuildAppFilters].
   ///
   /// You can pass the [AppRef] used in `katana_scoped` in [appRef].
   ///
@@ -74,7 +207,7 @@ class MasamuneApp extends StatelessWidget {
   ///
   /// Masamune Framework用の[MaterialApp]。
   ///
-  /// 一連のkatanaのパッケージで利用されているXXScopeのウィジェットを内包しています。
+  /// 一連のkatanaのパッケージで利用されているXXScopeのウィジェットを内包しています。さらに[onBuildAppFilters]を追加することでXXXScopeを指定することも可能です。
   ///
   /// [appRef]で`katana_scoped`で使われている[AppRef]を渡すことができます。
   ///
@@ -117,6 +250,7 @@ class MasamuneApp extends StatelessWidget {
     this.onGenerateInitialRoutes,
     this.onUnknownRoute,
     this.builder,
+    this.onBuildAppFilters,
   });
 
   /// Theme data used by `katana_theme`.
@@ -294,9 +428,25 @@ class MasamuneApp extends StatelessWidget {
   /// 戻り値に[child]をラッピングしたウィジェットを返してください。
   final Widget Function(BuildContext context, Widget? child)? builder;
 
+  /// It is executed when the application is built.
+  ///
+  /// The widget generated by [build] of [MasamuneApp] is passed to [app].
+  /// Wrap widgets to add functionality.
+  ///
+  /// Use it to add `Scope` widgets for other plug-ins, for example.
+  ///
+  /// アプリケーションをビルドする際に実行されます。
+  ///
+  /// [app]に[MasamuneApp]の[build]で生成されたウィジェットが渡されます。
+  /// ウィジェットをラップして機能を追加してください。
+  ///
+  /// 他プラグインの`Scope`ウィジェットを追加する際などに用いてください。
+  final List<Widget Function(BuildContext context, Widget app)>?
+      onBuildAppFilters;
+
   @override
   Widget build(BuildContext context) {
-    return _buildAppFunctions(
+    var child = _buildAppFunctions(
       context,
       _buildAppStorage(
         context,
@@ -318,6 +468,13 @@ class MasamuneApp extends StatelessWidget {
         ),
       ),
     );
+    if (onBuildAppFilters == null) {
+      return child;
+    }
+    for (final builder in onBuildAppFilters!) {
+      child = builder.call(context, child);
+    }
+    return child;
   }
 
   Widget _buildAppModel(BuildContext context, Widget child) {
