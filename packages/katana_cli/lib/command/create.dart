@@ -327,6 +327,12 @@ final storageAdapter = LocalStorageAdapter();
 // TODO: Change the functions.
 final functionsAdapter = RuntimeFunctionsAdapter();
 
+/// Masamune adapter.
+/// 
+/// The Masamune framework plugin functions can be defined together.
+// TODO: Add the adapters.
+final masamuneAdapters = <MasamuneAdapter>[];
+
 /// App Theme.
 ///
 /// ```dart
@@ -415,18 +421,17 @@ const flavor = String.fromEnvironment("FLAVOR");
 /// App.
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    MasamuneApp(
-      title: title,
-      appRef: appRef,
-      theme: theme,
-      routerConfig: router,
-      localize: l,
-      authAdapter: authAdapter,
-      modelAdapter: modelAdapter,
-      storageAdapter: storageAdapter,
-      functionsAdapter: functionsAdapter,
-    ),
+  runMasamuneApp(
+    title: title,
+    appRef: appRef,
+    theme: theme,
+    routerConfig: router,
+    localize: l,
+    authAdapter: authAdapter,
+    modelAdapter: modelAdapter,
+    storageAdapter: storageAdapter,
+    functionsAdapter: functionsAdapter,
+    masamuneAdapters: masamuneAdapters,
   );
 }
 """;
