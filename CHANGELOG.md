@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_logger_firebase` - `v1.1.2`](#masamune_logger_firebase---v112)
+
+---
+
+#### `masamune_logger_firebase` - `v1.1.2`
+
+ - **FIX**: Added Firebase Performance. ([b3dabd28](https://github.com/mathrunet/flutter_masamune/commit/b3dabd28ce7658af4f2de4dd85d09c48a2c0a93a))
+
+
+## 2023-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.5.3`](#katana_cli---v153)
  - [`masamune` - `v1.5.2`](#masamune---v152)
  - [`masamune_picker` - `v1.5.3`](#masamune_picker---v153)

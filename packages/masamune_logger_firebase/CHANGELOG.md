@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: Added Firebase Performance. ([b3dabd28](https://github.com/mathrunet/flutter_masamune/commit/b3dabd28ce7658af4f2de4dd85d09c48a2c0a93a))
+
 ## 1.1.1
 
  - Update a dependency to the latest release.
