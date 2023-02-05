@@ -8,17 +8,17 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_logger_firebase;
 
-// Flutter imports:
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:masamune/masamune.dart';
-import 'package:katana_firebase/katana_firebase.dart';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:katana_firebase/katana_firebase.dart';
+import 'package:masamune/masamune.dart';
 
 export 'package:masamune/masamune.dart';
 export 'package:katana_firebase/katana_firebase.dart';
