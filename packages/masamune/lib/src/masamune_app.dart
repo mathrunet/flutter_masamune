@@ -87,44 +87,45 @@ Future<void> runMasamuneApp({
   List<Widget Function(BuildContext context, Widget app)>? onBuildAppFilters,
 }) async {
   final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
-  final app = MasamuneApp(
-    key: key,
-    theme: theme,
-    localize: localize,
-    appRef: appRef,
-    authAdapter: authAdapter,
-    modelAdapter: modelAdapter,
-    storageAdapter: storageAdapter,
-    functionsAdapter: functionsAdapter,
-    routerConfig: routerConfig,
-    scaffoldMessengerKey: scaffoldMessengerKey,
-    debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-    showPerformanceOverlay: showPerformanceOverlay,
-    title: title,
-    onGenerateTitle: onGenerateTitle,
-    themeMode: themeMode,
-    home: home,
-    routes: routes,
-    initialRoute: initialRoute,
-    onGenerateRoute: onGenerateRoute,
-    onGenerateInitialRoutes: onGenerateInitialRoutes,
-    onUnknownRoute: onUnknownRoute,
-    navigatorObservers: [
-      ...masamuneAdapters.expand((e) => e.navigatorObservers),
-      ...navigatorObservers,
-    ],
-    builder: builder,
-    onBuildAppFilters: [
-      ...masamuneAdapters.map((e) => e.onBuildApp),
-      if (onBuildAppFilters != null) ...onBuildAppFilters,
-    ],
-  );
   if (useRunZonedGuarded) {
     runZonedGuarded(() async {
       for (final adapter in masamuneAdapters) {
         await adapter.onPreRunApp();
       }
-      runApp(app);
+      runApp(
+        MasamuneApp(
+          key: key,
+          theme: theme,
+          localize: localize,
+          appRef: appRef,
+          authAdapter: authAdapter,
+          modelAdapter: modelAdapter,
+          storageAdapter: storageAdapter,
+          functionsAdapter: functionsAdapter,
+          routerConfig: routerConfig,
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+          showPerformanceOverlay: showPerformanceOverlay,
+          title: title,
+          onGenerateTitle: onGenerateTitle,
+          themeMode: themeMode,
+          home: home,
+          routes: routes,
+          initialRoute: initialRoute,
+          onGenerateRoute: onGenerateRoute,
+          onGenerateInitialRoutes: onGenerateInitialRoutes,
+          onUnknownRoute: onUnknownRoute,
+          navigatorObservers: [
+            ...masamuneAdapters.expand((e) => e.navigatorObservers),
+            ...navigatorObservers,
+          ],
+          builder: builder,
+          onBuildAppFilters: [
+            ...masamuneAdapters.map((e) => e.onBuildApp),
+            if (onBuildAppFilters != null) ...onBuildAppFilters,
+          ],
+        ),
+      );
     }, (error, stack) {
       for (final adapter in masamuneAdapters) {
         adapter.onError(error, stack);
@@ -134,7 +135,40 @@ Future<void> runMasamuneApp({
     for (final adapter in masamuneAdapters) {
       await adapter.onPreRunApp();
     }
-    runApp(app);
+    runApp(
+      MasamuneApp(
+        key: key,
+        theme: theme,
+        localize: localize,
+        appRef: appRef,
+        authAdapter: authAdapter,
+        modelAdapter: modelAdapter,
+        storageAdapter: storageAdapter,
+        functionsAdapter: functionsAdapter,
+        routerConfig: routerConfig,
+        scaffoldMessengerKey: scaffoldMessengerKey,
+        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
+        showPerformanceOverlay: showPerformanceOverlay,
+        title: title,
+        onGenerateTitle: onGenerateTitle,
+        themeMode: themeMode,
+        home: home,
+        routes: routes,
+        initialRoute: initialRoute,
+        onGenerateRoute: onGenerateRoute,
+        onGenerateInitialRoutes: onGenerateInitialRoutes,
+        onUnknownRoute: onUnknownRoute,
+        navigatorObservers: [
+          ...masamuneAdapters.expand((e) => e.navigatorObservers),
+          ...navigatorObservers,
+        ],
+        builder: builder,
+        onBuildAppFilters: [
+          ...masamuneAdapters.map((e) => e.onBuildApp),
+          if (onBuildAppFilters != null) ...onBuildAppFilters,
+        ],
+      ),
+    );
   }
 }
 
