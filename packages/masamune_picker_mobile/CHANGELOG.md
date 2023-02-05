@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Rename PickerAdapterScoped. ([ebffd2f2](https://github.com/mathrunet/flutter_masamune/commit/ebffd2f23a96b5afeb6dc7edd371749b8d915de5))
+
 ## 1.5.1
 
  - **FIX**: Rename type. ([50368b48](https://github.com/mathrunet/flutter_masamune/commit/50368b4892fa619311abbcab0aed8ff5d50f2f1e))

@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_logger_firebase` - `v1.1.0`](#masamune_logger_firebase---v110)
+ - [`masamune_picker` - `v1.5.2`](#masamune_picker---v152)
+ - [`masamune_picker_file` - `v1.5.2`](#masamune_picker_file---v152)
+ - [`masamune_picker_mobile` - `v1.5.2`](#masamune_picker_mobile---v152)
+
+---
+
+#### `masamune_logger_firebase` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([d0920b79](https://github.com/mathrunet/flutter_masamune/commit/d0920b794d6dad4caf75d1a9eb0149d138c58e87))
+
+#### `masamune_picker` - `v1.5.2`
+
+ - **FIX**: Rename PickerAdapterScoped. ([ebffd2f2](https://github.com/mathrunet/flutter_masamune/commit/ebffd2f23a96b5afeb6dc7edd371749b8d915de5))
+
+#### `masamune_picker_file` - `v1.5.2`
+
+ - **FIX**: Rename PickerAdapterScoped. ([ebffd2f2](https://github.com/mathrunet/flutter_masamune/commit/ebffd2f23a96b5afeb6dc7edd371749b8d915de5))
+
+#### `masamune_picker_mobile` - `v1.5.2`
+
+ - **FIX**: Rename PickerAdapterScoped. ([ebffd2f2](https://github.com/mathrunet/flutter_masamune/commit/ebffd2f23a96b5afeb6dc7edd371749b8d915de5))
+
+
+## 2023-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.5.2`](#katana_cli---v152)
 
 ---
