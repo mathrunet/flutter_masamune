@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: Slightly modified MasamuneAdapter specifications. ([b9b61bdc](https://github.com/mathrunet/flutter_masamune/commit/b9b61bdc16f04ccc92cf3a0e5df5ed47c7570039))
+
 ## 1.3.0
 
  - **FEAT**: Added MasamuneAdapter. ([4c8d61ab](https://github.com/mathrunet/flutter_masamune/commit/4c8d61ab8c5c110cf50e66a951d9b3ae8890a6b6))

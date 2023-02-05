@@ -15,6 +15,54 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.5.1`](#masamune---v151)
+ - [`masamune_builder` - `v1.3.1`](#masamune_builder---v131)
+ - [`masamune_picker` - `v1.5.0`](#masamune_picker---v150)
+ - [`masamune_picker_file` - `v1.5.0`](#masamune_picker_file---v150)
+ - [`masamune_picker_mobile` - `v1.5.0`](#masamune_picker_mobile---v150)
+ - [`masamune_notification_firebase` - `v1.1.56`](#masamune_notification_firebase---v1156)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_firebase` - `v1.1.56`
+
+---
+
+#### `masamune` - `v1.5.1`
+
+ - **FIX**: Slightly modified MasamuneAdapter specifications. ([b9b61bdc](https://github.com/mathrunet/flutter_masamune/commit/b9b61bdc16f04ccc92cf3a0e5df5ed47c7570039))
+
+#### `masamune_builder` - `v1.3.1`
+
+ - **FIX**: Slightly modified MasamuneAdapter specifications. ([b9b61bdc](https://github.com/mathrunet/flutter_masamune/commit/b9b61bdc16f04ccc92cf3a0e5df5ed47c7570039))
+
+#### `masamune_picker` - `v1.5.0`
+
+ - **FEAT**: Adapter to MasamuneAdapter. ([bcb83efc](https://github.com/mathrunet/flutter_masamune/commit/bcb83efc5ce2ef953d7bcfb4db85a2b7b764f44e))
+
+#### `masamune_picker_file` - `v1.5.0`
+
+ - **FEAT**: Adapter to MasamuneAdapter. ([bcb83efc](https://github.com/mathrunet/flutter_masamune/commit/bcb83efc5ce2ef953d7bcfb4db85a2b7b764f44e))
+
+#### `masamune_picker_mobile` - `v1.5.0`
+
+ - **FEAT**: Adapter to MasamuneAdapter. ([bcb83efc](https://github.com/mathrunet/flutter_masamune/commit/bcb83efc5ce2ef953d7bcfb4db85a2b7b764f44e))
+
+
+## 2023-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.5.0`](#masamune---v150)
  - [`masamune_annotation` - `v1.3.0`](#masamune_annotation---v130)
  - [`masamune_builder` - `v1.3.0`](#masamune_builder---v130)

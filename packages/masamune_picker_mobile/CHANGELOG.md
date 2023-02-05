@@ -1,3 +1,7 @@
+## 1.5.0
+
+ - **FEAT**: Adapter to MasamuneAdapter. ([bcb83efc](https://github.com/mathrunet/flutter_masamune/commit/bcb83efc5ce2ef953d7bcfb4db85a2b7b764f44e))
+
 ## 1.4.57
 
  - Update a dependency to the latest release.
