@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Fixed a bug that caused NavigatorObserver to be created before onPreRunApp. ([1fb2309f](https://github.com/mathrunet/flutter_masamune/commit/1fb2309f71e01097cad230463b52ed93b7c60579))
+
 ## 1.5.1
 
  - **FIX**: Slightly modified MasamuneAdapter specifications. ([b9b61bdc](https://github.com/mathrunet/flutter_masamune/commit/b9b61bdc16f04ccc92cf3a0e5df5ed47c7570039))

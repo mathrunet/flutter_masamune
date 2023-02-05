@@ -1,3 +1,7 @@
+## 1.5.3
+
+ - Update a dependency to the latest release.
+
 ## 1.5.2
 
  - **FIX**: Rename PickerAdapterScoped. ([ebffd2f2](https://github.com/mathrunet/flutter_masamune/commit/ebffd2f23a96b5afeb6dc7edd371749b8d915de5))

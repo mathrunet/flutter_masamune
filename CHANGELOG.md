@@ -15,6 +15,47 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.5.3`](#katana_cli---v153)
+ - [`masamune` - `v1.5.2`](#masamune---v152)
+ - [`masamune_picker` - `v1.5.3`](#masamune_picker---v153)
+ - [`masamune_notification_firebase` - `v1.1.57`](#masamune_notification_firebase---v1157)
+ - [`masamune_logger_firebase` - `v1.1.1`](#masamune_logger_firebase---v111)
+ - [`masamune_picker_mobile` - `v1.5.3`](#masamune_picker_mobile---v153)
+ - [`masamune_picker_file` - `v1.5.3`](#masamune_picker_file---v153)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.3`
+ - `masamune_notification_firebase` - `v1.1.57`
+ - `masamune_logger_firebase` - `v1.1.1`
+ - `masamune_picker_mobile` - `v1.5.3`
+ - `masamune_picker_file` - `v1.5.3`
+
+---
+
+#### `katana_cli` - `v1.5.3`
+
+ - **FIX**: Introduction of Logger. ([b1b33a1a](https://github.com/mathrunet/flutter_masamune/commit/b1b33a1a48bf63fd21f4b3d3b088da91642fc15e))
+
+#### `masamune` - `v1.5.2`
+
+ - **FIX**: Fixed a bug that caused NavigatorObserver to be created before onPreRunApp. ([1fb2309f](https://github.com/mathrunet/flutter_masamune/commit/1fb2309f71e01097cad230463b52ed93b7c60579))
+
+
+## 2023-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_logger_firebase` - `v1.1.0`](#masamune_logger_firebase---v110)
  - [`masamune_picker` - `v1.5.2`](#masamune_picker---v152)
  - [`masamune_picker_file` - `v1.5.2`](#masamune_picker_file---v152)

@@ -1,3 +1,7 @@
+## 1.5.3
+
+ - **FIX**: Introduction of Logger. ([b1b33a1a](https://github.com/mathrunet/flutter_masamune/commit/b1b33a1a48bf63fd21f4b3d3b088da91642fc15e))
+
 ## 1.5.2
 
  - **FIX**: Compatible with runMasamuneApp. ([f65c74ea](https://github.com/mathrunet/flutter_masamune/commit/f65c74eaf0c9f8fd62e186b4ef813632e8f9227c))
