@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Plug-in package to easily add Firebase Analytics and Crashlytics on Masamune Framework. The functionality is available by simply adding an Adapter.
+/// Plug-in package to easily add Firebase Analytics, Performance and Crashlytics on Masamune Framework. The functionality is available by simply adding an Adapter.
 ///
 /// To use, import `package:masamune_logger_firebase/masamune_logger_firebase.dart`.
 ///
