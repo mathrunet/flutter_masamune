@@ -1,3 +1,7 @@
+## 1.5.1
+
+ - **FIX**: Rename type. ([50368b48](https://github.com/mathrunet/flutter_masamune/commit/50368b4892fa619311abbcab0aed8ff5d50f2f1e))
+
 ## 1.5.0
 
  - **FEAT**: Adapter to MasamuneAdapter. ([bcb83efc](https://github.com/mathrunet/flutter_masamune/commit/bcb83efc5ce2ef953d7bcfb4db85a2b7b764f44e))

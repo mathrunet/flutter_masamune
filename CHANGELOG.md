@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_picker` - `v1.5.1`](#masamune_picker---v151)
+ - [`masamune_picker_file` - `v1.5.1`](#masamune_picker_file---v151)
+ - [`masamune_picker_mobile` - `v1.5.1`](#masamune_picker_mobile---v151)
+
+---
+
+#### `masamune_picker` - `v1.5.1`
+
+ - **FIX**: Rename type. ([50368b48](https://github.com/mathrunet/flutter_masamune/commit/50368b4892fa619311abbcab0aed8ff5d50f2f1e))
+
+#### `masamune_picker_file` - `v1.5.1`
+
+ - **FIX**: Rename type. ([50368b48](https://github.com/mathrunet/flutter_masamune/commit/50368b4892fa619311abbcab0aed8ff5d50f2f1e))
+
+#### `masamune_picker_mobile` - `v1.5.1`
+
+ - **FIX**: Rename type. ([50368b48](https://github.com/mathrunet/flutter_masamune/commit/50368b4892fa619311abbcab0aed8ff5d50f2f1e))
+
+
+## 2023-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.5.1`](#masamune---v151)
  - [`masamune_builder` - `v1.3.1`](#masamune_builder---v131)
  - [`masamune_picker` - `v1.5.0`](#masamune_picker---v150)
