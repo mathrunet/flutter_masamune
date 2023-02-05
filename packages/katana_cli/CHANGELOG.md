@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Compatible with runMasamuneApp. ([f65c74ea](https://github.com/mathrunet/flutter_masamune/commit/f65c74eaf0c9f8fd62e186b4ef813632e8f9227c))
+
 ## 1.5.1
 
  - **FIX**: Fixed a bug that prevented Android build when Firebase is applied. ([56d6cd3f](https://github.com/mathrunet/flutter_masamune/commit/56d6cd3f318dfff5a9b86ab5b75544b6ed20ba3b))

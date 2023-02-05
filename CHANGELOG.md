@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.5.2`](#katana_cli---v152)
+
+---
+
+#### `katana_cli` - `v1.5.2`
+
+ - **FIX**: Compatible with runMasamuneApp. ([f65c74ea](https://github.com/mathrunet/flutter_masamune/commit/f65c74eaf0c9f8fd62e186b4ef813632e8f9227c))
+
+
+## 2023-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_picker` - `v1.5.1`](#masamune_picker---v151)
  - [`masamune_picker_file` - `v1.5.1`](#masamune_picker_file---v151)
  - [`masamune_picker_mobile` - `v1.5.1`](#masamune_picker_mobile---v151)
