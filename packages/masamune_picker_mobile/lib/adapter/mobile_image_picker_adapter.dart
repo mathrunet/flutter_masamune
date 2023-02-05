@@ -11,7 +11,7 @@ part of masamune_picker_mobile;
 /// 内部的には`image_picker`のパッケージを利用しています。
 ///
 /// [pickCamera]でカメラ撮影したメディアファイルをピックアップすることができます。
-class MobileImagePickerAdapter extends PickerAdapter {
+class MobileImagePickerAdapter extends MasamunePickerAdapter {
   /// Adapter to use mobile and other camera-enabled file pickers.
   ///
   /// Internally, the `image_picker` package is used.

@@ -11,7 +11,7 @@ part of masamune_picker_file;
 /// 内部的には`file_picker`のパッケージが利用されています。
 ///
 /// [pickCamera]の機能は利用できません。
-class FilePickerAdapter extends PickerAdapter {
+class FilePickerAdapter extends MasamunePickerAdapter {
   /// Adapter to use the file picker available on all platforms.
   ///
   /// Internally, the `file_picker` package is used.

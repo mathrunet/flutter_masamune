@@ -221,10 +221,10 @@ packages:
     dependency: transitive
     description:
       name: fixnum
-      sha256: "04be3e934c52e082558cc9ee21f42f5c1cd7a1262f4c63cd0357c08d5bba81ec"
+      sha256: "25517a4deb0c03aa0f32fd12db525856438902d9c16536311e76cdc57b31d7d1"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.1.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -247,10 +247,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_picker
-      sha256: "2b4b766fa781d8557b5b463e075aaadb7d65e941a39652037eee52ba82370c2d"
+      sha256: "2f94c6eefba8697b07e3cd008b75f06b4ba7053cb26d23ae0fcd5932b7dc75af"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "2.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -369,10 +369,10 @@ packages:
     dependency: "direct dev"
     description:
       name: json_serializable
-      sha256: "040088d9eb2337f3a51ddabe35261e2fea1c351e3dd29d755ed1290b6b700a75"
+      sha256: dadc08bd61f72559f938dd08ec20dbfec6c709bba83515085ea943d2078d187a
       url: "https://pub.dev"
     source: hosted
-    version: "6.6.0"
+    version: "6.6.1"
   katana:
     dependency: transitive
     description:
@@ -393,10 +393,10 @@ packages:
     dependency: transitive
     description:
       name: katana_form
-      sha256: f6e9befa6d96a9d89e6fcddb0b818717589f0f65488408eade35b8d3d62ec998
+      sha256: "0a9cf858d76331765ee6ca03a0a7e1c4b927da9ea21eb9944a4ff4b7222df402"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.7"
+    version: "1.3.10"
   katana_functions:
     dependency: transitive
     description:
@@ -449,50 +449,50 @@ packages:
     dependency: transitive
     description:
       name: katana_model
-      sha256: "7d2e9f35580463ad6938bfaa56e40422cd0adbffc038beff8e2a760cf0807637"
+      sha256: aeabf0992fa9a35408f3fd10b6a9411d2f409eadb97d426164af7866eca27915
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.26"
+    version: "1.5.9"
   katana_prefs:
     dependency: transitive
     description:
       name: katana_prefs
-      sha256: "628e8cb71bd585890f75fe0cbde008ed7305ce5ec980ff710547f8de7152fc7e"
+      sha256: d67a1d185d72ebab7a21f78c71d16559c982034115266871cd13813914349dd9
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.10"
+    version: "1.1.16"
   katana_prefs_annotation:
     dependency: transitive
     description:
       name: katana_prefs_annotation
-      sha256: "4e0adfa1aa1e2282c35aabbc70707ce640ffcac812096333e7adbc497f393275"
+      sha256: f701fa3be958c6c218c3bdaefc3ff03881e572aaad1c860f76dfbd5f8acec138
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9"
+    version: "1.1.10"
   katana_router:
     dependency: transitive
     description:
       name: katana_router
-      sha256: "0c5e35ef67e42932c39aa8cc93082ae0da77252b3bf01f82041d607932392f07"
+      sha256: d4aa588e6a4a9936f9e3b10ea4c2ae6fa1202aa062ec8013da2d1f1417cfa1a0
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.14"
+    version: "1.10.15"
   katana_router_annotation:
     dependency: transitive
     description:
       name: katana_router_annotation
-      sha256: "20a0ea9b5d382f3bb81892bb1477c669bfb925ef0925e15524a823a671de6f4c"
+      sha256: "4aba7a8ece0d320c38021bd50206e43de4ed4e2f9115d65da2f72513da73d7c5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.11"
+    version: "1.10.12"
   katana_scoped:
     dependency: transitive
     description:
       name: katana_scoped
-      sha256: a6dfb8d9192a918e8d17ca4818ec27df505886a94a6ecebc65669033e41b9608
+      sha256: b90944aef5e912a230619fb5a5bb3cf71d8ebd5fde36574cf978bbf3fa1f6c2f
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.8"
+    version: "1.7.9"
   katana_shorten:
     dependency: transitive
     description:
@@ -513,18 +513,18 @@ packages:
     dependency: transitive
     description:
       name: katana_theme
-      sha256: "748c34f589ca978b22a0a6bbd3de3636a989b01b4ff8f55de0e6d0479fdf1cd3"
+      sha256: "4e58c8c54fe3fb467ef0e09b7059fad52f739c8c2726746f386d6c59eb57fcc6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.17"
+    version: "1.3.2"
   katana_theme_annotation:
     dependency: transitive
     description:
       name: katana_theme_annotation
-      sha256: "65a2dcf4432b712582bb3bce3ebde0f54ca1c52f37c5c06bebc8b99e2cd59b48"
+      sha256: "69f27524404d3a5d78a19f4b0d9035aeb37bd2218156f3bbe2746a656361ad1f"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.14"
+    version: "1.3.0"
   katana_ui:
     dependency: transitive
     description:
@@ -545,33 +545,33 @@ packages:
     dependency: transitive
     description:
       name: logging
-      sha256: c0bbfe94d46aedf9b8b3e695cf3bd48c8e14b35e3b2c639e0aa7755d589ba946
+      sha256: "04094f2eb032cbb06c6f6e8d3607edcfcb0455e2bb6cbc010cb01171dcb64e6d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   masamune:
     dependency: transitive
     description:
       name: masamune
-      sha256: "69464bee03140f50e998d8e8a42f058e9bedd18d2fb163d1165182bd5919f83c"
+      sha256: c5db137ba1cf8ef00d65b97b3324be5a9d09f585c1532c9addae356e6c7fd727
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.8"
+    version: "1.4.20"
   masamune_annotation:
     dependency: transitive
     description:
       name: masamune_annotation
-      sha256: "6f1c70ae067abdf37ff440286c57d6ee7c4eb0b61a01858344f7d2b6e1ce4ce8"
+      sha256: deeab4150a3ceb2fac1005df4811112e68ad10ceada5457bccb602a289688def
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.7"
+    version: "1.2.1"
   masamune_picker:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.4.31"
+    version: "1.4.55"
   matcher:
     dependency: transitive
     description:
@@ -752,10 +752,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "1ffa239043ab8baf881ec3094a3c767af9d10399b2839020b9e4d44c0bb23951"
+      sha256: "2b55c18636a4edc529fa5cd44c03d3f3100c00513f518c5127c951978efcccd0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -813,10 +813,10 @@ packages:
     dependency: transitive
     description:
       name: source_gen
-      sha256: "2d79738b6bbf38a43920e2b8d189e9a3ce6cc201f4b8fc76be5e4fe377b1c38d"
+      sha256: c2bea18c95cfa0276a366270afaa2850b09b4a76db95d546f3d003dcc7011298
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.6"
+    version: "1.2.7"
   source_helper:
     dependency: transitive
     description:
@@ -901,10 +901,10 @@ packages:
     dependency: transitive
     description:
       name: tint
-      sha256: d856019547532d4ea24171f554b319081c004c37741e7946eae30cb09f24e1c7
+      sha256: "9652d9a589f4536d5e392cf790263d120474f15da3cf1bee7f1fdb31b4de5f46"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -978,5 +978,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.1 <4.0.0"
+  dart: ">=2.19.0 <4.0.0"
   flutter: ">=3.0.0"
