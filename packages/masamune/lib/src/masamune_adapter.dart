@@ -67,7 +67,7 @@ abstract class MasamuneAdapter {
   /// You can describe the process before [runApp].
   ///
   /// [runApp]前の処理を記述することができます。
-  FutureOr<void>? onPreRunApp();
+  FutureOr<void> onPreRunApp();
 
   /// You can describe the process when [runZonedGuarded] is set to `true`.
   ///
