@@ -1,3 +1,7 @@
+## 1.5.3
+
+ - **FIX**: Added the ability to setPathUrlStrategy to Masamune. ([bad12a10](https://github.com/mathrunet/flutter_masamune/commit/bad12a100e74eb894a67a3a3aa768d7e17d06fde))
+
 ## 1.5.2
 
  - **FIX**: Fixed a bug that caused NavigatorObserver to be created before onPreRunApp. ([1fb2309f](https://github.com/mathrunet/flutter_masamune/commit/1fb2309f71e01097cad230463b52ed93b7c60579))

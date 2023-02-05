@@ -15,6 +15,45 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.5.3`](#masamune---v153)
+ - [`masamune_logger_firebase` - `v1.1.3`](#masamune_logger_firebase---v113)
+ - [`masamune_picker` - `v1.5.4`](#masamune_picker---v154)
+ - [`masamune_notification_firebase` - `v1.1.58`](#masamune_notification_firebase---v1158)
+ - [`masamune_picker_mobile` - `v1.5.4`](#masamune_picker_mobile---v154)
+ - [`masamune_picker_file` - `v1.5.4`](#masamune_picker_file---v154)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.4`
+ - `masamune_notification_firebase` - `v1.1.58`
+ - `masamune_picker_mobile` - `v1.5.4`
+ - `masamune_picker_file` - `v1.5.4`
+
+---
+
+#### `masamune` - `v1.5.3`
+
+ - **FIX**: Added the ability to setPathUrlStrategy to Masamune. ([bad12a10](https://github.com/mathrunet/flutter_masamune/commit/bad12a100e74eb894a67a3a3aa768d7e17d06fde))
+
+#### `masamune_logger_firebase` - `v1.1.3`
+
+ - **FIX**: FirebasePerformance instances can be obtained. ([1622194e](https://github.com/mathrunet/flutter_masamune/commit/1622194ed7fc4499cc2e215c4dbdb08897f06665))
+
+
+## 2023-02-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_logger_firebase` - `v1.1.2`](#masamune_logger_firebase---v112)
 
 ---
