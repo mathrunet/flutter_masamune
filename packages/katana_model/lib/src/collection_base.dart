@@ -467,14 +467,6 @@ abstract class CollectionBase<TModel extends DocumentBase>
   @override
   String toString() => IterableBase.iterableToShortString(this, "(", ")");
 
-  @override
-  // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  bool operator ==(Object other) => hashCode == other.hashCode;
-
-  @override
-  // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => modelQuery.hashCode;
-
   /// This operation is not supported by an model collection.
   ///
   /// Model Collectionではこの操作はサポートされていません。

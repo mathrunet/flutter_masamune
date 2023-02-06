@@ -518,12 +518,4 @@ abstract class DocumentBase<T> extends ChangeNotifier
 
   @override
   String toString() => "$runtimeType($value)";
-
-  @override
-  // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  bool operator ==(Object other) => hashCode == other.hashCode;
-
-  @override
-  // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => modelQuery.hashCode ^ value.hashCode;
 }
