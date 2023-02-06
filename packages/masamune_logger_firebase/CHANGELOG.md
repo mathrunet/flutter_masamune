@@ -1,3 +1,7 @@
+## 1.1.4
+
+ - Update a dependency to the latest release.
+
 ## 1.1.3
 
  - **FIX**: FirebasePerformance instances can be obtained. ([1622194e](https://github.com/mathrunet/flutter_masamune/commit/1622194ed7fc4499cc2e215c4dbdb08897f06665))

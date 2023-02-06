@@ -1,3 +1,7 @@
+## 1.5.4
+
+ - Update a dependency to the latest release.
+
 ## 1.5.3
 
  - **FIX**: Added the ability to setPathUrlStrategy to Masamune. ([bad12a10](https://github.com/mathrunet/flutter_masamune/commit/bad12a100e74eb894a67a3a3aa768d7e17d06fde))

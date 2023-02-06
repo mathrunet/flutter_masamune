@@ -1,3 +1,7 @@
+## 1.5.11
+
+ - **FIX**: Fixed a bug that values were not reflected when reloading. ([0a3a4d26](https://github.com/mathrunet/flutter_masamune/commit/0a3a4d26c1cf91da1290cbe0c34d367136a81350))
+
 ## 1.5.10
 
  - **FIX**: Fixed a bug when searching during Listen. ([274ea7d3](https://github.com/mathrunet/flutter_masamune/commit/274ea7d38bd83ad1771bddbde29cff59686f5381))

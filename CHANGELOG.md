@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v1.5.11`](#katana_model---v1511)
+ - [`katana_model_firestore` - `v1.5.12`](#katana_model_firestore---v1512)
+ - [`masamune` - `v1.5.4`](#masamune---v154)
+ - [`masamune_picker` - `v1.5.5`](#masamune_picker---v155)
+ - [`masamune_notification_firebase` - `v1.1.59`](#masamune_notification_firebase---v1159)
+ - [`masamune_logger_firebase` - `v1.1.4`](#masamune_logger_firebase---v114)
+ - [`masamune_picker_mobile` - `v1.5.5`](#masamune_picker_mobile---v155)
+ - [`masamune_picker_file` - `v1.5.5`](#masamune_picker_file---v155)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.5.4`
+ - `masamune_picker` - `v1.5.5`
+ - `masamune_notification_firebase` - `v1.1.59`
+ - `masamune_logger_firebase` - `v1.1.4`
+ - `masamune_picker_mobile` - `v1.5.5`
+ - `masamune_picker_file` - `v1.5.5`
+
+---
+
+#### `katana_model` - `v1.5.11`
+
+ - **FIX**: Fixed a bug that values were not reflected when reloading. ([0a3a4d26](https://github.com/mathrunet/flutter_masamune/commit/0a3a4d26c1cf91da1290cbe0c34d367136a81350))
+
+#### `katana_model_firestore` - `v1.5.12`
+
+ - **FIX**: Fixed a bug that values were not reflected when reloading. ([0a3a4d26](https://github.com/mathrunet/flutter_masamune/commit/0a3a4d26c1cf91da1290cbe0c34d367136a81350))
+
+
 ## 2023-02-05
 
 ### Changes
