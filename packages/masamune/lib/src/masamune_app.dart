@@ -5,135 +5,44 @@ part of masamune;
 /// デフォルトのロケール。
 const kDefaultLocales = [Locale("en", "US")];
 
-/// Function to run [MaterialApp] for Masamune Framework with [runApp].
-/// You may use this instead of [runApp].
+/// Function to apply [MasamuneAdapter] for Masamune Framework just before [runApp], etc.
 ///
-/// Passing [masamuneAdapter] makes it easy to use additional plug-ins for the Masamune Framework.
+/// Runs instead of [runApp].
 ///
-/// Wraps [runApp] with [runZonedGuarded] if [MasamuneAdapter.runZonedGuarded] is specified as `true` in [MasamuneAdapter].
+/// [runApp] internally by passing [masamuneApp] to [masamuneApp].
 ///
-/// It encapsulates the XXScope widget used in a series of katana packages. In addition, XXXScope can be specified by adding [onBuildAppFilters].
+/// Passing [masamuneAdapters] makes it easy to use additional plug-ins for the Masamune Framework.
 ///
-/// You can pass the [AppRef] used in `katana_scoped` in [appRef].
-///
-/// You can pass [AppThemeData] used in `katana_theme` in [theme]. You can also specify [ThemeMode] in [themeMode].
-///
-/// You can pass [AppLocalizeBase] used by `katana_localize` in [localize].
-///
-/// Other adapters for data and authentication such as [modelAdapter] and [authAdapter] can be passed.
-///
-/// You can pass the [AppRouter] used by `katana_router` in [routerConfig].
-///
-/// If you do not pass [routerConfig], you can also use Flutter"s native routing functionality as you normally would with [MaterialApp], using [routes], [initialRoute], [onGenerateRoute], [onGenerateInitialRoutes], [onUnknownRoute ], [builder], [navigatorObservers], and [scaffoldMessengerKey] to take advantage of Flutter"s native routing capabilities.
-///
-/// You can also use [home] to display a single widget. (available in Example, for example).
-///
-/// The application title can be set with [title] and [onGenerateTitle].
-///
-/// The debug banner can be displayed with [debugShowCheckedModeBanner] and the performance overlay can be displayed with [showPerformanceOverlay].
+/// (If [masamuneAdapters] is specified, [masamuneAdapters] must also be passed in [MasamuneApp].
 ///
 /// Set [setPathUrlStrategy] to `true` to remove `#` in the web path.
 ///
-/// Masamune Framework用の[MaterialApp]を[runApp]で実行するためのファンクション。
-/// [runApp]の代わりにこちらを用いても構いません。
+/// Masamune Framework用の[MasamuneAdapter]を[runApp]の直前などに適用するためのファンクション。
 ///
-/// [masamuneAdapter]を渡すことでMasamune Frameworkの追加プラグインを楽に利用することができます。
+/// [runApp]の代わりに実行します。
 ///
-/// [MasamuneAdapter]内で[MasamuneAdapter.runZonedGuarded]が`true`で指定されていれば[runApp]を[runZonedGuarded]でラッピングします。
+/// [masamuneApp]に[MasamuneApp]を渡すことで内部で[runApp]を実行します。
 ///
-/// 一連のkatanaのパッケージで利用されているXXScopeのウィジェットを内包しています。さらに[onBuildAppFilters]を追加することでXXXScopeを指定することも可能です。
-///
-/// [appRef]で`katana_scoped`で使われている[AppRef]を渡すことができます。
-///
-/// [theme]で`katana_theme`で使われている[AppThemeData]を渡すことができます。また、[themeMode]で[ThemeMode]をあわせて指定できます。
-///
-/// [localize]で`katana_localize`で利用されている[AppLocalizeBase]を渡すことができます。
-///
-/// その他、[modelAdapter]や[authAdapter]といったデータや認証用のアダプターを渡すことが可能です。
-///
-/// [routerConfig]で`katana_router`で使われている[AppRouter]を渡すことができます。
-///
-/// [routerConfig]を渡さなかった場合、通常の[MaterialApp]と同じ様に[routes]や[initialRoute]、[onGenerateRoute]、[onGenerateInitialRoutes]、[onUnknownRoute]、[builder]、[navigatorObservers]、[scaffoldMessengerKey]を用いてFlutterネイティブのルーティング機能を利用することも可能です。
-///
-/// また、[home]を用いて単一のウィジェットを表示することができます。（Exampleなどで利用可能です）
-///
-/// [title]、[onGenerateTitle]でアプリタイトルを設定することが可能です。
-///
-/// [debugShowCheckedModeBanner]でデバッグ用のバナーを表示することができ、[showPerformanceOverlay]でパフォーマンスのオーバーレイを表示することができます。
+/// [masamuneAdapters]を渡すことでMasamune Frameworkの追加プラグインを楽に利用することができます。
+/// （[masamuneAdapters]を指定する場合は[MasamuneApp]内でも[masamuneAdapters]を渡してください。）
 ///
 /// [setPathUrlStrategy]を`true`にするとWebのパス中の`#`を取り除くことができます。
-Future<void> runMasamuneApp({
-  Key? key,
-  List<MasamuneAdapter> masamuneAdapters = const [],
-  AppThemeData? theme,
-  AppLocalizeBase? localize,
-  AppRef? appRef,
-  AuthAdapter? authAdapter,
-  ModelAdapter? modelAdapter = const RuntimeModelAdapter(),
-  StorageAdapter? storageAdapter,
-  FunctionsAdapter? functionsAdapter,
-  RouterConfig<Object>? routerConfig,
+Future<void> runMasamuneApp(
+  MasamuneApp Function() masamuneApp, {
   bool setPathUrlStrategy = true,
-  GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey,
-  bool debugShowCheckedModeBanner = true,
-  bool showPerformanceOverlay = false,
-  String title = "",
-  String Function(BuildContext)? onGenerateTitle,
-  ThemeMode? themeMode = ThemeMode.system,
-  Widget? home,
-  Map<String, Widget Function(BuildContext)> routes =
-      const <String, WidgetBuilder>{},
-  String? initialRoute,
-  Route<dynamic>? Function(RouteSettings routeSettings)? onGenerateRoute,
-  List<Route<dynamic>> Function(String routePath)? onGenerateInitialRoutes,
-  Route<dynamic>? Function(RouteSettings routeSettings)? onUnknownRoute,
-  List<NavigatorObserver> navigatorObservers = const <NavigatorObserver>[],
-  Widget Function(BuildContext context, Widget? child)? builder,
-  List<Widget Function(BuildContext context, Widget app)>? onBuildAppFilters,
+  List<MasamuneAdapter> masamuneAdapters = const [],
 }) async {
-  final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
   if (setPathUrlStrategy) {
     AppRouter.setPathUrlStrategy();
   }
+  WidgetsFlutterBinding.ensureInitialized();
+  final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
   if (useRunZonedGuarded) {
     runZonedGuarded(() async {
       for (final adapter in masamuneAdapters) {
         await adapter.onPreRunApp();
       }
-      runApp(
-        MasamuneApp(
-          key: key,
-          theme: theme,
-          localize: localize,
-          appRef: appRef,
-          authAdapter: authAdapter,
-          modelAdapter: modelAdapter,
-          storageAdapter: storageAdapter,
-          functionsAdapter: functionsAdapter,
-          routerConfig: routerConfig,
-          scaffoldMessengerKey: scaffoldMessengerKey,
-          debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-          showPerformanceOverlay: showPerformanceOverlay,
-          title: title,
-          onGenerateTitle: onGenerateTitle,
-          themeMode: themeMode,
-          home: home,
-          routes: routes,
-          initialRoute: initialRoute,
-          onGenerateRoute: onGenerateRoute,
-          onGenerateInitialRoutes: onGenerateInitialRoutes,
-          onUnknownRoute: onUnknownRoute,
-          navigatorObservers: [
-            ...masamuneAdapters.expand((e) => e.navigatorObservers),
-            ...navigatorObservers,
-          ],
-          builder: builder,
-          onBuildAppFilters: [
-            ...masamuneAdapters.map((e) => e.onBuildApp),
-            if (onBuildAppFilters != null) ...onBuildAppFilters,
-          ],
-        ),
-      );
+      runApp(masamuneApp.call());
     }, (error, stack) {
       for (final adapter in masamuneAdapters) {
         adapter.onError(error, stack);
@@ -143,40 +52,7 @@ Future<void> runMasamuneApp({
     for (final adapter in masamuneAdapters) {
       await adapter.onPreRunApp();
     }
-    runApp(
-      MasamuneApp(
-        key: key,
-        theme: theme,
-        localize: localize,
-        appRef: appRef,
-        authAdapter: authAdapter,
-        modelAdapter: modelAdapter,
-        storageAdapter: storageAdapter,
-        functionsAdapter: functionsAdapter,
-        routerConfig: routerConfig,
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        debugShowCheckedModeBanner: debugShowCheckedModeBanner,
-        showPerformanceOverlay: showPerformanceOverlay,
-        title: title,
-        onGenerateTitle: onGenerateTitle,
-        themeMode: themeMode,
-        home: home,
-        routes: routes,
-        initialRoute: initialRoute,
-        onGenerateRoute: onGenerateRoute,
-        onGenerateInitialRoutes: onGenerateInitialRoutes,
-        onUnknownRoute: onUnknownRoute,
-        navigatorObservers: [
-          ...masamuneAdapters.expand((e) => e.navigatorObservers),
-          ...navigatorObservers,
-        ],
-        builder: builder,
-        onBuildAppFilters: [
-          ...masamuneAdapters.map((e) => e.onBuildApp),
-          if (onBuildAppFilters != null) ...onBuildAppFilters,
-        ],
-      ),
-    );
+    runApp(masamuneApp.call());
   }
 }
 
@@ -191,6 +67,8 @@ Future<void> runMasamuneApp({
 /// You can pass [AppLocalizeBase] used by `katana_localize` in [localize].
 ///
 /// Other adapters for data and authentication such as [modelAdapter] and [authAdapter] can be passed.
+///
+/// It is also possible to install additional plug-in adapters for the Masamune Framework in [masamuneAdapters].
 ///
 /// You can pass the [AppRouter] used by `katana_router` in [routerConfig].
 ///
@@ -213,6 +91,7 @@ Future<void> runMasamuneApp({
 /// [localize]で`katana_localize`で利用されている[AppLocalizeBase]を渡すことができます。
 ///
 /// その他、[modelAdapter]や[authAdapter]といったデータや認証用のアダプターを渡すことが可能です。
+/// また、[masamuneAdapters]でMasamune Frameworkの追加プラグインアダプターを導入することが可能です。
 ///
 /// [routerConfig]で`katana_router`で使われている[AppRouter]を渡すことができます。
 ///
@@ -237,6 +116,8 @@ class MasamuneApp extends StatelessWidget {
   ///
   /// Other adapters for data and authentication such as [modelAdapter] and [authAdapter] can be passed.
   ///
+  /// It is also possible to install additional plug-in adapters for the Masamune Framework in [masamuneAdapters].
+  ///
   /// You can pass the [AppRouter] used by `katana_router` in [routerConfig].
   ///
   /// If you do not pass [routerConfig], you can also use Flutter"s native routing functionality as you normally would with [MaterialApp], using [routes], [initialRoute], [onGenerateRoute], [onGenerateInitialRoutes], [onUnknownRoute ], [builder], [navigatorObservers], and [scaffoldMessengerKey] to take advantage of Flutter"s native routing capabilities.
@@ -258,6 +139,7 @@ class MasamuneApp extends StatelessWidget {
   /// [localize]で`katana_localize`で利用されている[AppLocalizeBase]を渡すことができます。
   ///
   /// その他、[modelAdapter]や[authAdapter]といったデータや認証用のアダプターを渡すことが可能です。
+  /// また、[masamuneAdapters]でMasamune Frameworkの追加プラグインアダプターを導入することが可能です。
   ///
   /// [routerConfig]で`katana_router`で使われている[AppRouter]を渡すことができます。
   ///
@@ -293,7 +175,13 @@ class MasamuneApp extends StatelessWidget {
     this.onUnknownRoute,
     this.builder,
     this.onBuildAppFilters,
+    this.masamuneAdapters = const <MasamuneAdapter>[],
   });
+
+  /// You can specify the plug-in adapter used by Masamune Framework.
+  ///
+  /// Masamune Frameworkで用いられるプラグインアダプターを指定することができます。
+  final List<MasamuneAdapter> masamuneAdapters;
 
   /// Theme data used by `katana_theme`.
   ///
@@ -510,10 +398,14 @@ class MasamuneApp extends StatelessWidget {
         ),
       ),
     );
-    if (onBuildAppFilters == null) {
+    final filters = [
+      ...masamuneAdapters.map((e) => e.onBuildApp),
+      if (onBuildAppFilters != null) ...onBuildAppFilters!,
+    ];
+    if (filters.isEmpty) {
       return child;
     }
-    for (final builder in onBuildAppFilters!) {
+    for (final builder in filters) {
       child = builder.call(context, child);
     }
     return child;
@@ -590,6 +482,10 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppRouter(BuildContext context) {
+    final observers = [
+      ...masamuneAdapters.expand((e) => e.navigatorObservers),
+      ...navigatorObservers,
+    ];
     if (home != null || routerConfig == null) {
       return MaterialApp(
         locale: localize?.locale,
@@ -608,10 +504,20 @@ class MasamuneApp extends StatelessWidget {
         onGenerateRoute: onGenerateRoute,
         onGenerateInitialRoutes: onGenerateInitialRoutes,
         onUnknownRoute: onUnknownRoute,
-        navigatorObservers: navigatorObservers,
+        navigatorObservers: observers,
         builder: builder,
       );
     } else {
+      if (routerConfig is AppRouter) {
+        final navigatorObservers =
+            (routerConfig as AppRouter).navigatorObservers;
+        for (final observer in observers) {
+          if (navigatorObservers.contains(observer)) {
+            continue;
+          }
+          navigatorObservers.add(observer);
+        }
+      }
       return MaterialApp.router(
         routerConfig: routerConfig,
         locale: localize?.locale,

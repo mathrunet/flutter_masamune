@@ -420,17 +420,19 @@ const flavor = String.fromEnvironment("FLAVOR");
 
 /// App.
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   runMasamuneApp(
-    title: title,
-    appRef: appRef,
-    theme: theme,
-    routerConfig: router,
-    localize: l,
-    authAdapter: authAdapter,
-    modelAdapter: modelAdapter,
-    storageAdapter: storageAdapter,
-    functionsAdapter: functionsAdapter,
+    () => MasamuneApp(
+      title: title,
+      appRef: appRef,
+      theme: theme,
+      routerConfig: router,
+      localize: l,
+      authAdapter: authAdapter,
+      modelAdapter: runtimeModelAdapter,
+      storageAdapter: storageAdapter,
+      functionsAdapter: functionsAdapter,
+      masamuneAdapters: masamuneAdapters,
+    ),
     masamuneAdapters: masamuneAdapters,
   );
 }

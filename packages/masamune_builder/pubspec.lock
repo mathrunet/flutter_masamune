@@ -317,18 +317,18 @@ packages:
     dependency: "direct main"
     description:
       name: katana_router_annotation
-      sha256: "4aba7a8ece0d320c38021bd50206e43de4ed4e2f9115d65da2f72513da73d7c5"
+      sha256: "115e967c4041748d5e00c7d39ade5243830972729c8d793bce514a6beeb88ed7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.12"
+    version: "1.10.13"
   katana_router_builder:
     dependency: "direct main"
     description:
       name: katana_router_builder
-      sha256: "24e2ad897ed85d45f6863de86605bc13a218cb176e0ce9dfc2822953b2788b32"
+      sha256: "072980c76b711f03b5b6d1946c4b13b2bb03b2d20419d41f364bee72eafabae6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.14"
+    version: "1.10.15"
   katana_theme_annotation:
     dependency: "direct main"
     description:
