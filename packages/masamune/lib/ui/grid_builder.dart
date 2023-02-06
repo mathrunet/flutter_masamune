@@ -262,15 +262,15 @@ class GridBuilder<T> extends StatelessWidget {
       shrinkWrap: shrinkWrap,
       padding: padding,
       gridDelegate: crossAxisCount == 0
-          ? SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
+          ? SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: maxCrossAxisExtent,
               mainAxisSpacing: mainAxisSpacing,
               crossAxisSpacing: crossAxisSpacing,
               childAspectRatio: childAspectRatio,
               mainAxisExtent: mainAxisExtent,
             )
-          : SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: maxCrossAxisExtent,
+          : SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
               mainAxisSpacing: mainAxisSpacing,
               crossAxisSpacing: crossAxisSpacing,
               childAspectRatio: childAspectRatio,
