@@ -1,3 +1,7 @@
+## 1.5.7
+
+ - **FIX**: GridBuilder doesn't work. [#5](https://github.com/mathrunet/flutter_masamune/issues/5). ([3c5962fd](https://github.com/mathrunet/flutter_masamune/commit/3c5962fd047062c2c53c99948b85961acd1b004e))
+
 ## 1.5.6
 
  - **FIX**: Changed the specification of runMasamuneApp due to a glitch. ([464559cb](https://github.com/mathrunet/flutter_masamune/commit/464559cb3c2e31dd1d2ff8e4a9e8e167716450c1))

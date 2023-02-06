@@ -1,3 +1,7 @@
+## 1.5.5
+
+ - **FIX**: Fixed a bug in the Create code. ([a9e4c43c](https://github.com/mathrunet/flutter_masamune/commit/a9e4c43ca943ed977d1b22138a83866c7a4a8434))
+
 ## 1.5.4
 
  - **FIX**: Changed the specification of runMasamuneApp due to a glitch. ([464559cb](https://github.com/mathrunet/flutter_masamune/commit/464559cb3c2e31dd1d2ff8e4a9e8e167716450c1))

@@ -15,6 +15,47 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.5.5`](#katana_cli---v155)
+ - [`masamune` - `v1.5.7`](#masamune---v157)
+ - [`masamune_picker` - `v1.5.8`](#masamune_picker---v158)
+ - [`masamune_notification_firebase` - `v1.1.62`](#masamune_notification_firebase---v1162)
+ - [`masamune_logger_firebase` - `v1.1.7`](#masamune_logger_firebase---v117)
+ - [`masamune_picker_mobile` - `v1.5.8`](#masamune_picker_mobile---v158)
+ - [`masamune_picker_file` - `v1.5.8`](#masamune_picker_file---v158)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.8`
+ - `masamune_notification_firebase` - `v1.1.62`
+ - `masamune_logger_firebase` - `v1.1.7`
+ - `masamune_picker_mobile` - `v1.5.8`
+ - `masamune_picker_file` - `v1.5.8`
+
+---
+
+#### `katana_cli` - `v1.5.5`
+
+ - **FIX**: Fixed a bug in the Create code. ([a9e4c43c](https://github.com/mathrunet/flutter_masamune/commit/a9e4c43ca943ed977d1b22138a83866c7a4a8434))
+
+#### `masamune` - `v1.5.7`
+
+ - **FIX**: GridBuilder doesn't work. [#5](https://github.com/mathrunet/flutter_masamune/issues/5). ([3c5962fd](https://github.com/mathrunet/flutter_masamune/commit/3c5962fd047062c2c53c99948b85961acd1b004e))
+
+
+## 2023-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.5.4`](#katana_cli---v154)
  - [`masamune` - `v1.5.6`](#masamune---v156)
  - [`masamune_builder` - `v1.3.3`](#masamune_builder---v133)
