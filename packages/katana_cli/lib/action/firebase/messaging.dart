@@ -32,6 +32,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
+    final firebaseCommand = bin.get("firebase", "firebase");
     final firebase = context.yaml.getAsMap("firebase");
     final messaging = firebase.getAsMap("messaging");
     final channelId = messaging.get("channel_id", "");
@@ -164,6 +165,23 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         "add",
         "masamune_notification_firebase",
       ],
+    );
+    label("Add firebase functions");
+    final functions = Fuctions();
+    await functions.load();
+    if (!functions.functions.any((e) => e == "sendNotification")) {
+      functions.functions.add("sendNotification");
+    }
+    await functions.save();
+    await command(
+      "Deploy firebase functions.",
+      [
+        firebaseCommand,
+        "deploy",
+        "--only",
+        "functions",
+      ],
+      workingDirectory: "firebase",
     );
   }
 }
