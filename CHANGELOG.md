@@ -15,6 +15,56 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v1.10.16`](#katana_router---v11016)
+ - [`katana_router_annotation` - `v1.10.13`](#katana_router_annotation---v11013)
+ - [`katana_router_builder` - `v1.10.15`](#katana_router_builder---v11015)
+ - [`masamune` - `v1.5.5`](#masamune---v155)
+ - [`masamune_picker` - `v1.5.6`](#masamune_picker---v156)
+ - [`masamune_notification_firebase` - `v1.1.60`](#masamune_notification_firebase---v1160)
+ - [`masamune_logger_firebase` - `v1.1.5`](#masamune_logger_firebase---v115)
+ - [`masamune_picker_mobile` - `v1.5.6`](#masamune_picker_mobile---v156)
+ - [`masamune_picker_file` - `v1.5.6`](#masamune_picker_file---v156)
+ - [`masamune_builder` - `v1.3.2`](#masamune_builder---v132)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.5.5`
+ - `masamune_picker` - `v1.5.6`
+ - `masamune_notification_firebase` - `v1.1.60`
+ - `masamune_logger_firebase` - `v1.1.5`
+ - `masamune_picker_mobile` - `v1.5.6`
+ - `masamune_picker_file` - `v1.5.6`
+ - `masamune_builder` - `v1.3.2`
+
+---
+
+#### `katana_router` - `v1.10.16`
+
+ - **FIX**: NavigationObserver can now be monitored from AppRouter. ([f1e07da0](https://github.com/mathrunet/flutter_masamune/commit/f1e07da0f4a19fa38a24d77e1a8a582dbfcda0d6))
+
+#### `katana_router_annotation` - `v1.10.13`
+
+ - **FIX**: NavigationObserver can now be monitored from AppRouter. ([f1e07da0](https://github.com/mathrunet/flutter_masamune/commit/f1e07da0f4a19fa38a24d77e1a8a582dbfcda0d6))
+
+#### `katana_router_builder` - `v1.10.15`
+
+ - **FIX**: NavigationObserver can now be monitored from AppRouter. ([f1e07da0](https://github.com/mathrunet/flutter_masamune/commit/f1e07da0f4a19fa38a24d77e1a8a582dbfcda0d6))
+
+
+## 2023-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.5.11`](#katana_model---v1511)
  - [`katana_model_firestore` - `v1.5.12`](#katana_model_firestore---v1512)
  - [`masamune` - `v1.5.4`](#masamune---v154)

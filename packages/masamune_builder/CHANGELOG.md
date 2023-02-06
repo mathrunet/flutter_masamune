@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - Update a dependency to the latest release.
+
 ## 1.3.1
 
  - **FIX**: Slightly modified MasamuneAdapter specifications. ([b9b61bdc](https://github.com/mathrunet/flutter_masamune/commit/b9b61bdc16f04ccc92cf3a0e5df5ed47c7570039))

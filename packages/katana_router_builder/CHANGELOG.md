@@ -1,3 +1,7 @@
+## 1.10.15
+
+ - **FIX**: NavigationObserver can now be monitored from AppRouter. ([f1e07da0](https://github.com/mathrunet/flutter_masamune/commit/f1e07da0f4a19fa38a24d77e1a8a582dbfcda0d6))
+
 ## 1.10.14
 
  - **FIX**: Fixed to be able to display a list of pages. ([d3f69fd9](https://github.com/mathrunet/flutter_masamune/commit/d3f69fd99926d519d8c3e131b1486856668a8ee6))
