@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.5.6`](#katana_cli---v156)
+ - [`masamune_notification_firebase` - `v1.1.63`](#masamune_notification_firebase---v1163)
+
+---
+
+#### `katana_cli` - `v1.5.6`
+
+ - **FIX**: Implemented automatic addition of Firebase Functions in Messaging. ([9635ab15](https://github.com/mathrunet/flutter_masamune/commit/9635ab157175edef44f275ab40b950f975aecdab))
+
+#### `masamune_notification_firebase` - `v1.1.63`
+
+ - **FIX**: Fixed a bug that allows listen to be performed as many times as possible. ([19bcc818](https://github.com/mathrunet/flutter_masamune/commit/19bcc818d78a97dd1bb056be9d2a59da79a41424))
+
+
+## 2023-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.5.5`](#katana_cli---v155)
  - [`masamune` - `v1.5.7`](#masamune---v157)
  - [`masamune_picker` - `v1.5.8`](#masamune_picker---v158)

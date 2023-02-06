@@ -1,3 +1,7 @@
+## 1.1.63
+
+ - **FIX**: Fixed a bug that allows listen to be performed as many times as possible. ([19bcc818](https://github.com/mathrunet/flutter_masamune/commit/19bcc818d78a97dd1bb056be9d2a59da79a41424))
+
 ## 1.1.62
 
  - Update a dependency to the latest release.

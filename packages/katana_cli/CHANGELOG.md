@@ -1,3 +1,7 @@
+## 1.5.6
+
+ - **FIX**: Implemented automatic addition of Firebase Functions in Messaging. ([9635ab15](https://github.com/mathrunet/flutter_masamune/commit/9635ab157175edef44f275ab40b950f975aecdab))
+
 ## 1.5.5
 
  - **FIX**: Fixed a bug in the Create code. ([a9e4c43c](https://github.com/mathrunet/flutter_masamune/commit/a9e4c43ca943ed977d1b22138a83866c7a4a8434))
