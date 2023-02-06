@@ -1,3 +1,7 @@
+## 1.5.4
+
+ - **FIX**: Changed the specification of runMasamuneApp due to a glitch. ([464559cb](https://github.com/mathrunet/flutter_masamune/commit/464559cb3c2e31dd1d2ff8e4a9e8e167716450c1))
+
 ## 1.5.3
 
  - **FIX**: Introduction of Logger. ([b1b33a1a](https://github.com/mathrunet/flutter_masamune/commit/b1b33a1a48bf63fd21f4b3d3b088da91642fc15e))

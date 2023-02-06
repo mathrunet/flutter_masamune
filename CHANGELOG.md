@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.5.4`](#katana_cli---v154)
+ - [`masamune` - `v1.5.6`](#masamune---v156)
+ - [`masamune_builder` - `v1.3.3`](#masamune_builder---v133)
+ - [`masamune_picker` - `v1.5.7`](#masamune_picker---v157)
+ - [`masamune_notification_firebase` - `v1.1.61`](#masamune_notification_firebase---v1161)
+ - [`masamune_logger_firebase` - `v1.1.6`](#masamune_logger_firebase---v116)
+ - [`masamune_picker_mobile` - `v1.5.7`](#masamune_picker_mobile---v157)
+ - [`masamune_picker_file` - `v1.5.7`](#masamune_picker_file---v157)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.7`
+ - `masamune_notification_firebase` - `v1.1.61`
+ - `masamune_logger_firebase` - `v1.1.6`
+ - `masamune_picker_mobile` - `v1.5.7`
+ - `masamune_picker_file` - `v1.5.7`
+
+---
+
+#### `katana_cli` - `v1.5.4`
+
+ - **FIX**: Changed the specification of runMasamuneApp due to a glitch. ([464559cb](https://github.com/mathrunet/flutter_masamune/commit/464559cb3c2e31dd1d2ff8e4a9e8e167716450c1))
+
+#### `masamune` - `v1.5.6`
+
+ - **FIX**: Changed the specification of runMasamuneApp due to a glitch. ([464559cb](https://github.com/mathrunet/flutter_masamune/commit/464559cb3c2e31dd1d2ff8e4a9e8e167716450c1))
+
+#### `masamune_builder` - `v1.3.3`
+
+ - **FIX**: Changed the specification of runMasamuneApp due to a glitch. ([464559cb](https://github.com/mathrunet/flutter_masamune/commit/464559cb3c2e31dd1d2ff8e4a9e8e167716450c1))
+
+
+## 2023-02-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.10.16`](#katana_router---v11016)
  - [`katana_router_annotation` - `v1.10.13`](#katana_router_annotation---v11013)
  - [`katana_router_builder` - `v1.10.15`](#katana_router_builder---v11015)

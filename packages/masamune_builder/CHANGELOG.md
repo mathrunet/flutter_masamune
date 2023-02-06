@@ -1,3 +1,7 @@
+## 1.3.3
+
+ - **FIX**: Changed the specification of runMasamuneApp due to a glitch. ([464559cb](https://github.com/mathrunet/flutter_masamune/commit/464559cb3c2e31dd1d2ff8e4a9e8e167716450c1))
+
 ## 1.3.2
 
  - Update a dependency to the latest release.
