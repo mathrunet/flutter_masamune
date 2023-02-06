@@ -428,7 +428,7 @@ void main() {
       routerConfig: router,
       localize: l,
       authAdapter: authAdapter,
-      modelAdapter: runtimeModelAdapter,
+      modelAdapter: modelAdapter,
       storageAdapter: storageAdapter,
       functionsAdapter: functionsAdapter,
       masamuneAdapters: masamuneAdapters,
