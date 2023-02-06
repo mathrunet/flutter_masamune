@@ -72,6 +72,7 @@ class PushNotification extends ChangeNotifier
   final String _androidNotificationChannelTitle;
   final String _androidNotificationChannelDescription;
 
+  Completer<void>? _completer;
   StreamSubscription<RemoteMessage>? _onMessageSubscription;
   StreamSubscription<RemoteMessage>? _onMessageOpenedAppSubscription;
 
@@ -119,9 +120,13 @@ class PushNotification extends ChangeNotifier
   ///
   /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
   Future<void> listen() async {
+    if (_completer != null) {
+      return _completer?.future;
+    }
     if (listening) {
       return;
     }
+    _completer = Completer();
     try {
       await FirebaseCore.initialize();
       await _messaging.setAutoInitEnabled(true);
@@ -158,9 +163,16 @@ class PushNotification extends ChangeNotifier
         sound: true,
       );
       _listening = true;
+      _completer?.complete();
+      _completer = null;
     } catch (e) {
       debugPrint(e.toString());
+      _completer?.completeError(e);
+      _completer = null;
       rethrow;
+    } finally {
+      _completer?.complete();
+      _completer = null;
     }
   }
 
