@@ -150,6 +150,11 @@ class AppRouter extends ChangeNotifier
 
   BuildContext? get _context => _config.navigatorKey.currentContext;
 
+  /// List of [NavigatorObserver] currently owned by [AppRouter].
+  ///
+  /// [AppRouter]が現在持っている[NavigatorObserver]の一覧。
+  List<NavigatorObserver> get navigatorObservers => _routerDelegate.observers;
+
   @override
   RouterDelegate<RouteQuery> get routerDelegate => _routerDelegate;
   late final _AppRouterDelegate _routerDelegate;
