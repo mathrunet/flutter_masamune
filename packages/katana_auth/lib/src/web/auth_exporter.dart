@@ -64,7 +64,7 @@ class AuthExporter {
   ///
   /// [fileName]に保存されているデータをインポートします。
   ///
-  /// Webの場合は[fileName]をキーにした状態でLocalStorage`から取得します。
+  /// Webの場合は[fileName]をキーにした状態で`LocalStorage`から取得します。
   ///
   /// [fileName]に基づく復号化を行ないます。エクスポート時と[fileName]が異なる場合インポートできません。
   static Future<DynamicMap> import(String fileName) async {

@@ -83,10 +83,11 @@ class AuthDatabase {
     this.onSendVerificationEmail,
     this.resetPassword = "01234567",
     this.defaultLocale = const Locale("en", "US"),
-  }) {
-    onInitialize?.call(this);
-  }
+  });
+
   DynamicMap _data = {};
+  bool _initialized = false;
+  Completer<void>? _completer;
 
   /// Default locale when [Locale] is not set.
   ///
@@ -174,6 +175,28 @@ class AuthDatabase {
   /// 実際に変更されるパスワードを返します。
   final Future<String> Function(String newPassword, Locale locale)?
       onResetPassword;
+
+  Future<void> _initialize() async {
+    if (_completer != null) {
+      return _completer?.future;
+    }
+    if (_initialized) {
+      return;
+    }
+    _completer = Completer();
+    try {
+      _initialized = true;
+      await onInitialize?.call(this);
+      _completer?.complete();
+      _completer = null;
+    } catch (e) {
+      _completer?.completeError(e);
+      _completer = null;
+    } finally {
+      _completer?.complete();
+      _completer = null;
+    }
+  }
 
   /// If you are signed in, `true` is returned.
   ///
@@ -281,6 +304,7 @@ class AuthDatabase {
   /// [onLoad]が実行され、[isSignedIn]が返されます。
   /// そのため読み込んだ認証情報でサインインされていれば`true`を返します。
   Future<bool> tryRestoreAuth() async {
+    await _initialize();
     await onLoad?.call(this);
     return isSignedIn;
   }
@@ -291,6 +315,7 @@ class AuthDatabase {
   Future<void> register({
     required RegisterAuthProvider provider,
   }) async {
+    await _initialize();
     await signOut();
     if (provider is EmailAndPasswordRegisterAuthProvider) {
       if (_data.containsKey(_kUserEmailKey)) {
@@ -320,6 +345,7 @@ class AuthDatabase {
   Future<void> signIn({
     required SignInAuthProvider provider,
   }) async {
+    await _initialize();
     await signOut();
     if (provider is AnonymouslySignInAuthProvider ||
         provider is SnsSignInAuthProvider) {
@@ -372,6 +398,7 @@ class AuthDatabase {
   Future<void> confirmSignIn({
     required ConfirmSignInAuthProvider provider,
   }) async {
+    await _initialize();
     if (provider is EmailLinkConfirmSignInAuthProvider) {
       final emailLink = _data.get(_kEmailLinkUrlKey, "");
       final email = _data.get(_kTempUserEmailKey, "");
@@ -417,6 +444,7 @@ class AuthDatabase {
   Future<bool> reauth({
     required ReAuthProvider provider,
   }) async {
+    await _initialize();
     if (provider is EmailAndPasswordReAuthProvider) {
       return _data[_kUserPasswordKey] == provider.password;
     } else {
@@ -436,6 +464,7 @@ class AuthDatabase {
   Future<void> reset({
     required ResetAuthProvider provider,
   }) async {
+    await _initialize();
     if (provider is EmailAndPasswordResetAuthProvider) {
       final password = await onResetPassword?.call(
         resetPassword,
@@ -464,6 +493,7 @@ class AuthDatabase {
   Future<void> verify({
     required VerifyAuthProvider provider,
   }) async {
+    await _initialize();
     if (provider is EmailAndPasswordVerifyAuthProvider) {
       await onSendVerificationEmail?.call(
         userEmail,
@@ -490,6 +520,7 @@ class AuthDatabase {
   Future<void> change({
     required ChangeAuthProvider provider,
   }) async {
+    await _initialize();
     if (provider is ChangeEmailAuthProvider) {
       _data[_kUserEmailKey] = provider.email;
     } else if (provider is ChangePasswordAuthProvider) {
@@ -519,6 +550,7 @@ class AuthDatabase {
   Future<void> confirmChange({
     required ConfirmChangeAuthProvider provider,
   }) async {
+    await _initialize();
     if (provider is ConfirmChangePhoneNumberAuthProvider) {
       final phoenNumber = _data.get(_kTempUserPhoneNumberKey, "");
       if (phoenNumber.isEmpty) {
@@ -537,6 +569,7 @@ class AuthDatabase {
   ///
   /// すでにサインインしている場合サインアウトします。
   Future<void> signOut() async {
+    await _initialize();
     _data.remove(_kIsVerifiedKey);
     _data.remove(_kIsAnonymouslyKey);
     _data.remove(_kUserIdKey);
@@ -553,6 +586,7 @@ class AuthDatabase {
   ///
   /// [register]が実行されていない場合でも[signIn]で合わせて登録が行われる[AuthProvider]で作成されたユーザーも対象となります。
   Future<void> delete() async {
+    await _initialize();
     _data.clear();
     await signOut();
   }
