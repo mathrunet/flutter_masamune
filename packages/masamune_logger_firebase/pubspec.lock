@@ -441,10 +441,10 @@ packages:
     dependency: transitive
     description:
       name: katana_model
-      sha256: "10fa4f40f70d9e3dbadc3fd57987087ce175ee6cfd5e22c9dfc95e0fa3393cdb"
+      sha256: "296b5fbc2c987f8dfa0312c7448739470b3e5487c3b3906518850103246bc533"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.10"
+    version: "1.5.11"
   katana_prefs:
     dependency: transitive
     description:
@@ -465,18 +465,18 @@ packages:
     dependency: transitive
     description:
       name: katana_router
-      sha256: d4aa588e6a4a9936f9e3b10ea4c2ae6fa1202aa062ec8013da2d1f1417cfa1a0
+      sha256: "5fd0045454e61be719c96c7cfd3d1418441e528fd6c85ca13aa5f7973cf63613"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.15"
+    version: "1.10.16"
   katana_router_annotation:
     dependency: transitive
     description:
       name: katana_router_annotation
-      sha256: "4aba7a8ece0d320c38021bd50206e43de4ed4e2f9115d65da2f72513da73d7c5"
+      sha256: "115e967c4041748d5e00c7d39ade5243830972729c8d793bce514a6beeb88ed7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.12"
+    version: "1.10.13"
   katana_scoped:
     dependency: transitive
     description:
@@ -545,10 +545,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune
-      sha256: fabcd83af3547214a5889cfd6d95a726b8faa01f7b213496d6dea0cb65423660
+      sha256: "945ecf5b1ee4a74f4cc6f174237d1964c5d08872345cecfa8c68e86764ff6c08"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.2"
+    version: "1.5.7"
   masamune_annotation:
     dependency: transitive
     description:
