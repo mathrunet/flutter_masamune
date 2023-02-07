@@ -6,24 +6,47 @@ part of katana_scoped;
 ///
 /// A database of [ScopedValue] is maintained internally, and the corresponding [ScopedValueState] can be read and edited by [getScopedValueState].
 ///
+/// It inherits from [ChangeNotifier] and can monitor changes in its contents.
+///
+/// The contents cannot be changed directly, but can be viewed at [data].
+///
 /// [ScopedValue]を保存するためのコンテナオブジェクト。
 ///
 /// 通常は[ScopedValueListener]を介して呼び出されます。
 ///
 /// 内部に[ScopedValue]のデータベースを保持しており、[getScopedValueState]で[ScopedValue]に対応する[ScopedValueState]を読込み編集を加えることが可能です。
-class ScopedValueContainer {
+///
+/// [ChangeNotifier]を継承しており、中身の変更を監視できます。
+///
+/// 中身は直接変更することができませんが[data]で中身を確認することが可能です。
+class ScopedValueContainer extends ChangeNotifier {
   /// Container object for storing [ScopedValue].
   ///
   /// It is usually called via [ScopedValueListener].
   ///
   /// A database of [ScopedValue] is maintained internally, and the corresponding [ScopedValueState] can be read and edited by [getScopedValueState].
   ///
+  /// It inherits from [ChangeNotifier] and can monitor changes in its contents.
+  ///
+  /// The contents cannot be changed directly, but can be viewed at [data].
+  ///
   /// [ScopedValue]を保存するためのコンテナオブジェクト。
   ///
   /// 通常は[ScopedValueListener]を介して呼び出されます。
   ///
   /// 内部に[ScopedValue]のデータベースを保持しており、[getScopedValueState]で[ScopedValue]に対応する[ScopedValueState]を読込み編集を加えることが可能です。
+  ///
+  /// [ChangeNotifier]を継承しており、中身の変更を監視できます。
+  ///
+  /// 中身は直接変更することができませんが[data]で中身を確認することが可能です。
   ScopedValueContainer();
+
+  /// It is possible to check the contents of [ScopedValueContainer].
+  ///
+  /// [ScopedValueContainer]の中身を確認することが可能です。
+  Map<String, ScopedValueState> get data {
+    return Map.from(_data);
+  }
 
   final Map<String, ScopedValueState> _data = {};
 
@@ -65,6 +88,7 @@ class ScopedValueContainer {
       state._setValue(provider.call());
       onInitOrUpdate?.call(state);
       found.didUpdateValue(oldValue);
+      notifyListeners();
       return state;
     } else {
       final value = provider.call();
@@ -74,6 +98,7 @@ class ScopedValueContainer {
       onInitOrUpdate?.call(state);
       state.initValue();
       _data[key] = state;
+      notifyListeners();
       return state;
     }
   }
@@ -119,6 +144,20 @@ class ScopedValueContainer {
     }
   }
 
+  /// The contents of [ScopedValueContainer] are discarded and reset once.
+  ///
+  /// ScopedValueState.dispose] of the retained state is executed.
+  ///
+  /// [ScopedValueContainer]の中身を破棄し一旦リセットします。
+  ///
+  /// 保持している状態の[ScopedValueState.dispose]が実行されます。
+  void reset() {
+    for (final val in _data.values) {
+      val.dispose();
+    }
+    _data.clear();
+  }
+
   /// Called when [ScopedValueContainer] is destroyed.
   ///
   /// ScopedValueState.dispose] of the retained state is executed.
@@ -126,10 +165,9 @@ class ScopedValueContainer {
   /// [ScopedValueContainer]が破棄される歳に呼ばれます。
   ///
   /// 保持している状態の[ScopedValueState.dispose]が実行されます。
+  @override
   void dispose() {
-    for (final val in _data.values) {
-      val.dispose();
-    }
-    _data.clear();
+    super.dispose();
+    reset();
   }
 }

@@ -1,6 +1,6 @@
 part of katana_scoped;
 
-/// ScopedValue] in the scope of the application.
+/// [ScopedValue] in the scope of the application.
 ///
 /// Since there is no object to monitor the status, we only read [ScopedValue], but if we define the value globally, we can call it from any timing.
 ///
@@ -17,7 +17,7 @@ part of katana_scoped;
 /// [scopedValueContainer]を指定すると独自の[ScopedValueContainer]を利用可能です。テスト等でご利用ください。
 @immutable
 class AppRef implements Ref {
-  /// ScopedValue] in the scope of the application.
+  /// [ScopedValue] in the scope of the application.
   ///
   /// Since there is no object to monitor the status, we only read [ScopedValue], but if we define the value globally, we can call it from any timing.
   ///
@@ -79,8 +79,8 @@ class AppRef implements Ref {
   /// すべてのアプリスコープの状態を破棄してクリアします。
   ///
   /// ログアウト時など一旦アプリをリセットする場合にご利用ください。
-  void dispose() {
-    _scopedValueContainer.dispose();
+  void reset() {
+    _scopedValueContainer.reset();
   }
 }
 

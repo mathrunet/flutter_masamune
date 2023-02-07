@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 import 'package:katana_scoped/katana_scoped.dart';
 
 void main() {
-  test("Dispose Test", () async {
+  test("Reset Test", () async {
     WidgetsFlutterBinding.ensureInitialized();
     final container = ScopedValueContainer();
     final appRef = AppRef(scopedValueContainer: container);
@@ -18,7 +18,7 @@ void main() {
     final n2 = appRef.watch((ref) => ValueNotifier(0));
     expect(n2.value, 1);
     expect(n1 == n2, true);
-    appRef.dispose();
+    appRef.reset();
     final n3 = appRef.watch((ref) => ValueNotifier(2));
     expect(n3.value, 2);
     expect(n1 != n3, true);
