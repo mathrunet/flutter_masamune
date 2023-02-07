@@ -91,7 +91,9 @@ firebase:
     enable: false
   
   # Enable Firebase Analytics and Firebase Crashlytics.
+  # If you are unable to activate Analytics, please check if the "Project Settings" -> "Integration" -> "GoogleAnalytics" application is successfully linked.
   # Firebase AnalyticsとFirebase Crashlyticsを有効にします。
+  # Analyticsの有効化が出来ない場合は、「プロジェクトの設定」→「統合」→「GoogleAnalytics」のアプリが正常に連携されているかを確認してください。
   logger:
     enable: false
 
