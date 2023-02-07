@@ -77,7 +77,7 @@ In addition, this framework provides the following functions to support applicat
 - `Form building`
     - Support data input from users, mainly forms, from the UI level.
 - `UI support`
-    - Provides functions to implement list widgets and simple modals that can update widgets with less impossibility when data is updated.
+    - It provides functions to implement list widgets and simple modals that can update widgets with less load when data is updated.
 - `Firebase/Firestore support`
     - Provides the ability to easily switch to Firebase features such as `Authentication`, `Cloud Firestore`, and `Cloud Storage`.
 
@@ -256,6 +256,16 @@ router.replace(TestPage.query());
 
 // Back to Previous Page
 router.pop();
+```
+
+## Initial Page Setup
+
+You can set the page when the application is launched by passing the query you want to set for the initial page to the `initialQuery` defined in main.dart.
+
+```bash
+/// Initial page query.
+// TODO: Define the initial page query of the application.
+final initialQuery = TestPage.query();
 ```
 
 To learn more about the other features listed below, please visit the package details page.
