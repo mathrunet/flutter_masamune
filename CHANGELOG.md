@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth` - `v1.1.14`](#katana_auth---v1114)
+ - [`katana_auth_firebase` - `v1.1.17`](#katana_auth_firebase---v1117)
+ - [`katana_model` - `v1.5.12`](#katana_model---v1512)
+ - [`katana_model_firestore` - `v1.5.13`](#katana_model_firestore---v1513)
+ - [`katana_scoped` - `v1.7.10`](#katana_scoped---v1710)
+ - [`masamune` - `v1.5.9`](#masamune---v159)
+ - [`masamune_picker` - `v1.5.10`](#masamune_picker---v1510)
+ - [`masamune_notification_firebase` - `v1.1.65`](#masamune_notification_firebase---v1165)
+ - [`masamune_logger_firebase` - `v1.1.9`](#masamune_logger_firebase---v119)
+ - [`masamune_picker_mobile` - `v1.5.10`](#masamune_picker_mobile---v1510)
+ - [`masamune_picker_file` - `v1.5.10`](#masamune_picker_file---v1510)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.5.9`
+ - `masamune_picker` - `v1.5.10`
+ - `masamune_notification_firebase` - `v1.1.65`
+ - `masamune_logger_firebase` - `v1.1.9`
+ - `masamune_picker_mobile` - `v1.5.10`
+ - `masamune_picker_file` - `v1.5.10`
+
+---
+
+#### `katana_auth` - `v1.1.14`
+
+ - **FIX**: Fixed onIntialize bug in auth_database. ([30b0fee2](https://github.com/mathrunet/flutter_masamune/commit/30b0fee2b5f60fd1105e7427557720ef6cd170af))
+
+#### `katana_auth_firebase` - `v1.1.17`
+
+ - **FIX**: Fixed onIntialize bug in auth_database. ([30b0fee2](https://github.com/mathrunet/flutter_masamune/commit/30b0fee2b5f60fd1105e7427557720ef6cd170af))
+
+#### `katana_model` - `v1.5.12`
+
+ - **FIX**: Fixed onInitialize being called twice. ([eb671ff9](https://github.com/mathrunet/flutter_masamune/commit/eb671ff99e93255e5b12b13d6a7a0c5ab196215d))
+
+#### `katana_model_firestore` - `v1.5.13`
+
+ - **FIX**: Fixed onInitialize being called twice. ([eb671ff9](https://github.com/mathrunet/flutter_masamune/commit/eb671ff99e93255e5b12b13d6a7a0c5ab196215d))
+
+#### `katana_scoped` - `v1.7.10`
+
+ - **FIX**: Changed to be able to track states managed by ScopedValueContainer. ([559179fc](https://github.com/mathrunet/flutter_masamune/commit/559179fc0c16c8a2d74423ba7be08955554dcd81))
+
+
+## 2023-02-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_logger` - `v1.1.0`](#katana_logger---v110)
  - [`masamune` - `v1.5.8`](#masamune---v158)
  - [`masamune_annotation` - `v1.3.1`](#masamune_annotation---v131)

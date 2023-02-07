@@ -1,3 +1,7 @@
+## 1.5.13
+
+ - **FIX**: Fixed onInitialize being called twice. ([eb671ff9](https://github.com/mathrunet/flutter_masamune/commit/eb671ff99e93255e5b12b13d6a7a0c5ab196215d))
+
 ## 1.5.12
 
  - **FIX**: Fixed a bug that values were not reflected when reloading. ([0a3a4d26](https://github.com/mathrunet/flutter_masamune/commit/0a3a4d26c1cf91da1290cbe0c34d367136a81350))
