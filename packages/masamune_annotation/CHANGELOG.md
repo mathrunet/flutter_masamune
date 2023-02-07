@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **DOCS**: Additional article content. ([468267cf](https://github.com/mathrunet/flutter_masamune/commit/468267cf35150e80d72faeaf4ca6766de959b069))
+
 ## 1.3.0
 
  - **FEAT**: Added MasamuneAdapter. ([4c8d61ab](https://github.com/mathrunet/flutter_masamune/commit/4c8d61ab8c5c110cf50e66a951d9b3ae8890a6b6))

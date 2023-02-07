@@ -1,3 +1,7 @@
+## 1.5.8
+
+ - **DOCS**: Additional article content. ([468267cf](https://github.com/mathrunet/flutter_masamune/commit/468267cf35150e80d72faeaf4ca6766de959b069))
+
 ## 1.5.7
 
  - **FIX**: GridBuilder doesn't work. [#5](https://github.com/mathrunet/flutter_masamune/issues/5). ([3c5962fd](https://github.com/mathrunet/flutter_masamune/commit/3c5962fd047062c2c53c99948b85961acd1b004e))

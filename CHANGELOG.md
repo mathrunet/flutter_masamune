@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_logger` - `v1.1.0`](#katana_logger---v110)
+ - [`masamune` - `v1.5.8`](#masamune---v158)
+ - [`masamune_annotation` - `v1.3.1`](#masamune_annotation---v131)
+ - [`masamune_builder` - `v1.3.4`](#masamune_builder---v134)
+ - [`katana_auth` - `v1.1.13`](#katana_auth---v1113)
+ - [`katana_auth_firebase` - `v1.1.16`](#katana_auth_firebase---v1116)
+ - [`masamune_picker` - `v1.5.9`](#masamune_picker---v159)
+ - [`masamune_notification_firebase` - `v1.1.64`](#masamune_notification_firebase---v1164)
+ - [`masamune_logger_firebase` - `v1.1.8`](#masamune_logger_firebase---v118)
+ - [`masamune_picker_mobile` - `v1.5.9`](#masamune_picker_mobile---v159)
+ - [`masamune_picker_file` - `v1.5.9`](#masamune_picker_file---v159)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth` - `v1.1.13`
+ - `katana_auth_firebase` - `v1.1.16`
+ - `masamune_picker` - `v1.5.9`
+ - `masamune_notification_firebase` - `v1.1.64`
+ - `masamune_logger_firebase` - `v1.1.8`
+ - `masamune_picker_mobile` - `v1.5.9`
+ - `masamune_picker_file` - `v1.5.9`
+
+---
+
+#### `katana_logger` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([28e3abde](https://github.com/mathrunet/flutter_masamune/commit/28e3abde3f73fc923564e3d81da9a598b6845236))
+
+#### `masamune` - `v1.5.8`
+
+ - **DOCS**: Additional article content. ([468267cf](https://github.com/mathrunet/flutter_masamune/commit/468267cf35150e80d72faeaf4ca6766de959b069))
+
+#### `masamune_annotation` - `v1.3.1`
+
+ - **DOCS**: Additional article content. ([468267cf](https://github.com/mathrunet/flutter_masamune/commit/468267cf35150e80d72faeaf4ca6766de959b069))
+
+#### `masamune_builder` - `v1.3.4`
+
+ - **DOCS**: Additional article content. ([468267cf](https://github.com/mathrunet/flutter_masamune/commit/468267cf35150e80d72faeaf4ca6766de959b069))
+
+
 ## 2023-02-06
 
 ### Changes
