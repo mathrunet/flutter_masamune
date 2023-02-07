@@ -76,9 +76,7 @@ class NoSqlDatabase {
     this.onLoad,
     this.onSaved,
     this.onDeleted,
-  }) {
-    onInitialize?.call(this);
-  }
+  });
 
   /// Location where real data is stored.
   ///
@@ -137,13 +135,13 @@ class NoSqlDatabase {
     try {
       _initialized = true;
       await onInitialize?.call(this);
-      _completer?.complete(e);
+      _completer?.complete();
       _completer = null;
     } catch (e) {
       _completer?.completeError(e);
       _completer = null;
     } finally {
-      _completer?.complete(e);
+      _completer?.complete();
       _completer = null;
     }
   }
@@ -389,6 +387,7 @@ class NoSqlDatabase {
           value
               .toList(
                 (key, value) {
+                  // ignore: unnecessary_type_check
                   if (value is! Map) {
                     return null;
                   }

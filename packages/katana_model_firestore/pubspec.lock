@@ -117,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: coverage
-      sha256: "961c4aebd27917269b1896382c7cb1b1ba81629ba669ba09c27a7e5710ec9040"
+      sha256: "2fb815080e44a09b85e0f2ca8a820b15053982b2e714b59267719e8a9ff17097"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.2"
+    version: "1.6.3"
   crypto:
     dependency: transitive
     description:
@@ -283,27 +283,24 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      sha256: "9a3ec047c35ec88e027139e88ce45202b022dd2111b38848c85159101b0028ce"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../katana"
+      relative: true
+    source: path
     version: "1.0.5"
   katana_firebase:
     dependency: "direct main"
     description:
-      name: katana_firebase
-      sha256: "8294c984f0c13d5dd2950694279242e7b8b167493ecd0f0f7a82bf3384da2b4d"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../katana_firebase"
+      relative: true
+    source: path
     version: "1.1.12"
   katana_model:
     dependency: "direct main"
     description:
-      name: katana_model
-      sha256: "10fa4f40f70d9e3dbadc3fd57987087ce175ee6cfd5e22c9dfc95e0fa3393cdb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.10"
+      path: "../katana_model"
+      relative: true
+    source: path
+    version: "1.5.11"
   lints:
     dependency: transitive
     description:
