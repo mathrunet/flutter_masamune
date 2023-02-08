@@ -1,3 +1,7 @@
+## 1.1.18
+
+ - Update a dependency to the latest release.
+
 ## 1.1.17
 
  - **FIX**: Fixed onIntialize bug in auth_database. ([30b0fee2](https://github.com/mathrunet/flutter_masamune/commit/30b0fee2b5f60fd1105e7427557720ef6cd170af))

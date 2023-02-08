@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_logger` - `v1.1.1`](#katana_logger---v111)
+ - [`katana_auth` - `v1.1.15`](#katana_auth---v1115)
+ - [`masamune` - `v1.5.10`](#masamune---v1510)
+ - [`katana_auth_firebase` - `v1.1.18`](#katana_auth_firebase---v1118)
+ - [`masamune_picker` - `v1.5.11`](#masamune_picker---v1511)
+ - [`masamune_notification_firebase` - `v1.1.66`](#masamune_notification_firebase---v1166)
+ - [`masamune_logger_firebase` - `v1.1.10`](#masamune_logger_firebase---v1110)
+ - [`masamune_picker_mobile` - `v1.5.11`](#masamune_picker_mobile---v1511)
+ - [`masamune_picker_file` - `v1.5.11`](#masamune_picker_file---v1511)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth` - `v1.1.15`
+ - `masamune` - `v1.5.10`
+ - `katana_auth_firebase` - `v1.1.18`
+ - `masamune_picker` - `v1.5.11`
+ - `masamune_notification_firebase` - `v1.1.66`
+ - `masamune_logger_firebase` - `v1.1.10`
+ - `masamune_picker_mobile` - `v1.5.11`
+ - `masamune_picker_file` - `v1.5.11`
+
+---
+
+#### `katana_logger` - `v1.1.1`
+
+ - **FIX**: Change LoggerAdapter.primary to nullable. ([1586c368](https://github.com/mathrunet/flutter_masamune/commit/1586c3680ffe0b4f22c195c213a04ba92c27087c))
+
+
 ## 2023-02-07
 
 ### Changes
