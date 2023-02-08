@@ -1,3 +1,7 @@
+## 1.8.1
+
+ - Update a dependency to the latest release.
+
 ## 1.8.0
 
  - **FIX**: Logger package is now exported. ([43b7d008](https://github.com/mathrunet/flutter_masamune/commit/43b7d00891d564851061c3d9284b896e6e7a8a5a))

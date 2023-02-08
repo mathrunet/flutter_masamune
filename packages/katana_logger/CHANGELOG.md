@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **FIX**: Changed the interface of LoggerAdapter. ([6efb95d9](https://github.com/mathrunet/flutter_masamune/commit/6efb95d99e92b7327620f1b0225651f3097b5ec3))
+
 ## 1.2.0
 
  - **FIX**: Multiple LoggerAdapters can be specified. ([9212f559](https://github.com/mathrunet/flutter_masamune/commit/9212f559d29e915a6b712bd2be8e4e84baf97502))
