@@ -245,10 +245,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_router_annotation
-      sha256: "115e967c4041748d5e00c7d39ade5243830972729c8d793bce514a6beeb88ed7"
+      sha256: "52daf808cdeccf56586c26287784b8365897dac33d52e4cd00738f7cbcedff52"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.13"
+    version: "1.11.0"
   lints:
     dependency: transitive
     description:
