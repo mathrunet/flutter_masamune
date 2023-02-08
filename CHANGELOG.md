@@ -15,6 +15,41 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_logger_firebase` - `v1.2.0`](#masamune_logger_firebase---v120)
+ - [`masamune_picker` - `v1.5.17`](#masamune_picker---v1517)
+ - [`masamune_picker_file` - `v1.5.17`](#masamune_picker_file---v1517)
+ - [`masamune_picker_mobile` - `v1.5.17`](#masamune_picker_mobile---v1517)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v1.5.17`
+ - `masamune_picker_mobile` - `v1.5.17`
+
+---
+
+#### `masamune_logger_firebase` - `v1.2.0`
+
+ - **FEAT**: Support for katana_logger. ([6485efcd](https://github.com/mathrunet/flutter_masamune/commit/6485efcd7f8e8f39ca29db5faae5a2867b6f11a2))
+
+#### `masamune_picker` - `v1.5.17`
+
+ - **FIX**: Support for MasamuneAdapter changes. ([76f50e5a](https://github.com/mathrunet/flutter_masamune/commit/76f50e5a23ef3844acd5b5ea5dc8d0538cf2ab21))
+
+
+## 2023-02-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_logger` - `v1.2.1`](#katana_logger---v121)
  - [`katana_auth` - `v1.2.4`](#katana_auth---v124)
  - [`katana_scoped` - `v1.8.1`](#katana_scoped---v181)

@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Support for katana_logger. ([6485efcd](https://github.com/mathrunet/flutter_masamune/commit/6485efcd7f8e8f39ca29db5faae5a2867b6f11a2))
+
 ## 1.1.15
 
  - Update a dependency to the latest release.

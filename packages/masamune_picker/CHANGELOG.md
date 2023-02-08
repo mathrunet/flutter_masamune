@@ -1,3 +1,7 @@
+## 1.5.17
+
+ - **FIX**: Support for MasamuneAdapter changes. ([76f50e5a](https://github.com/mathrunet/flutter_masamune/commit/76f50e5a23ef3844acd5b5ea5dc8d0538cf2ab21))
+
 ## 1.5.16
 
  - Update a dependency to the latest release.
