@@ -15,6 +15,65 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth` - `v1.2.1`](#katana_auth---v121)
+ - [`katana_auth_firebase` - `v1.2.1`](#katana_auth_firebase---v121)
+ - [`katana_cli` - `v1.5.7`](#katana_cli---v157)
+ - [`katana_functions` - `v1.1.13`](#katana_functions---v1113)
+ - [`katana_functions_firebase` - `v1.1.17`](#katana_functions_firebase---v1117)
+ - [`masamune` - `v1.5.12`](#masamune---v1512)
+ - [`masamune_picker` - `v1.5.13`](#masamune_picker---v1513)
+ - [`masamune_notification_firebase` - `v1.1.68`](#masamune_notification_firebase---v1168)
+ - [`masamune_logger_firebase` - `v1.1.12`](#masamune_logger_firebase---v1112)
+ - [`masamune_picker_mobile` - `v1.5.13`](#masamune_picker_mobile---v1513)
+ - [`masamune_picker_file` - `v1.5.13`](#masamune_picker_file---v1513)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.5.12`
+ - `masamune_picker` - `v1.5.13`
+ - `masamune_notification_firebase` - `v1.1.68`
+ - `masamune_logger_firebase` - `v1.1.12`
+ - `masamune_picker_mobile` - `v1.5.13`
+ - `masamune_picker_file` - `v1.5.13`
+
+---
+
+#### `katana_auth` - `v1.2.1`
+
+ - **FIX**: The name of the log now includes the Enum itself. ([bcadf28c](https://github.com/mathrunet/flutter_masamune/commit/bcadf28ca03dc92a228a3c516b53742d8715e1b2))
+
+#### `katana_auth_firebase` - `v1.2.1`
+
+ - **FIX**: The name of the log now includes the Enum itself. ([bcadf28c](https://github.com/mathrunet/flutter_masamune/commit/bcadf28ca03dc92a228a3c516b53742d8715e1b2))
+
+#### `katana_cli` - `v1.5.7`
+
+ - **FIX**: Support for Region of Functions. ([68c0ee24](https://github.com/mathrunet/flutter_masamune/commit/68c0ee24d8fd22b0c893ff9a27d1487a700425f4))
+ - **FIX**: Fixes around Firebase. ([dd1a0bc5](https://github.com/mathrunet/flutter_masamune/commit/dd1a0bc5f5c9c4b7212c703523aa0c2b59eb0886))
+
+#### `katana_functions` - `v1.1.13`
+
+ - **FIX**: Region can now be specified. ([72e0ed88](https://github.com/mathrunet/flutter_masamune/commit/72e0ed88077d5e2ff7febeec31fbe197bb014d6d))
+
+#### `katana_functions_firebase` - `v1.1.17`
+
+ - **FIX**: Region can now be specified. ([72e0ed88](https://github.com/mathrunet/flutter_masamune/commit/72e0ed88077d5e2ff7febeec31fbe197bb014d6d))
+
+
+## 2023-02-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v1.2.0`](#katana_auth---v120)
  - [`katana_auth_firebase` - `v1.2.0`](#katana_auth_firebase---v120)
  - [`masamune` - `v1.5.11`](#masamune---v1511)

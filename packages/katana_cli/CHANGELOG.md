@@ -1,3 +1,8 @@
+## 1.5.7
+
+ - **FIX**: Support for Region of Functions. ([68c0ee24](https://github.com/mathrunet/flutter_masamune/commit/68c0ee24d8fd22b0c893ff9a27d1487a700425f4))
+ - **FIX**: Fixes around Firebase. ([dd1a0bc5](https://github.com/mathrunet/flutter_masamune/commit/dd1a0bc5f5c9c4b7212c703523aa0c2b59eb0886))
+
 ## 1.5.6
 
  - **FIX**: Implemented automatic addition of Firebase Functions in Messaging. ([9635ab15](https://github.com/mathrunet/flutter_masamune/commit/9635ab157175edef44f275ab40b950f975aecdab))

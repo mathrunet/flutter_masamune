@@ -1,3 +1,7 @@
+## 1.1.17
+
+ - **FIX**: Region can now be specified. ([72e0ed88](https://github.com/mathrunet/flutter_masamune/commit/72e0ed88077d5e2ff7febeec31fbe197bb014d6d))
+
 ## 1.1.16
 
  - Update a dependency to the latest release.
