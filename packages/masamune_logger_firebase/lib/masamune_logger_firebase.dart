@@ -24,6 +24,7 @@ import 'package:masamune/masamune.dart';
 export 'package:masamune/masamune.dart';
 export 'package:katana_firebase/katana_firebase.dart';
 
+part 'adapter/firebase_logger_adapter.dart';
 part 'adapter/firebase_logger_masamune_adapter.dart';
 part 'src/firebase_logger_adapter_scope.dart';
 part 'src/firebase_logger.dart';

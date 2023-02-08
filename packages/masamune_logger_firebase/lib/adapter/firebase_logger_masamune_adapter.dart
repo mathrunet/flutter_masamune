@@ -52,6 +52,7 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
     FirebaseAnalytics? analytics,
     FirebaseCrashlytics? crashlytics,
     FirebasePerformance? performance,
+    List<LoggerAdapter> loggerAdapters = const [],
   })  : _analytics = analytics,
         _crashlytics = crashlytics,
         _performance = performance;
@@ -126,5 +127,15 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   @override
   List<NavigatorObserver> get navigatorObservers => [
         FirebaseAnalyticsObserver(analytics: analytics),
+      ];
+
+  @override
+  List<LoggerAdapter> get loggerAdapters => [
+        FirebaseLoggerAdapter(
+          options: options,
+          analytics: analytics,
+          crashlytics: crashlytics,
+          performance: performance,
+        ),
       ];
 }
