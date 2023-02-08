@@ -13,7 +13,6 @@ import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 // Package imports:
 import 'package:katana_logger/katana_logger.dart';

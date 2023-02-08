@@ -435,6 +435,6 @@ class Authentication extends ChangeNotifier {
   }
 
   void _sendLog(AuthLoggerEvent event, {DynamicMap? parameters}) {
-    loggerAdapter?.send(event.name, parameters: parameters);
+    loggerAdapter?.send(event.toString(), parameters: parameters);
   }
 }
