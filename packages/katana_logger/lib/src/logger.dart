@@ -67,23 +67,27 @@ class Logger extends ChangeNotifier {
   /// [loggable]を渡すことにより、ログを記録します。
   ///
   /// [loggable]の型[T]がログの名前、[Loggable.toJson]がパラメーターとなります。
-  void send<T extends Loggable>(T loggable) {
-    for (final adapter in adapters) {
-      adapter.send(
-        loggable.runtimeType.toString(),
-        parameters: loggable.toJson(),
-      );
-    }
+  Future<void> send<T extends Loggable>(T loggable) async {
+    await Future.wait(
+      adapters.map(
+        (adapter) => adapter.send(
+          loggable.runtimeType.toString(),
+          parameters: loggable.toJson(),
+        ),
+      ),
+    );
     notifyListeners();
   }
 
   /// Logs by specifying [name] and [parameters] directly.
   ///
   /// [name]と[parameters]を直接指定してログを記録します。
-  void sendRawData(String name, {DynamicMap? parameters}) {
-    for (final adapter in adapters) {
-      adapter.send(name, parameters: parameters);
-    }
+  Future<void> sendRawData(String name, {DynamicMap? parameters}) async {
+    await Future.wait(
+      adapters.map(
+        (adapter) => adapter.send(name, parameters: parameters),
+      ),
+    );
     notifyListeners();
   }
 
