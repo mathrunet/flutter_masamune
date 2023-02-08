@@ -361,6 +361,7 @@ import * as m from "@mathrunet/masamune";
 // Functionsに追加する機能を[m.Functions.xxxx]を定義してください。
 m.deploy(
     exports,
+    ["us-central1", "asia-northeast1"],
     [],
 );
 """;

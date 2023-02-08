@@ -1,6 +1,8 @@
 // Dart imports:
 import 'dart:io';
 
+import 'package:katana_cli/katana_cli.dart';
+
 /// Class for specifying Functions of Firebase Functions.
 ///
 /// Firebase FunctionsのFunctionを指定するためのクラス。
@@ -8,7 +10,7 @@ class Fuctions {
   Fuctions();
 
   static final _regExp = RegExp(
-    r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<functions>[^\]]*?)\],?[\s\S]*\);",
+    r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?[\s\S]*\);",
   );
 
   /// Original text data.
@@ -23,6 +25,12 @@ class Fuctions {
   List<String> get functions => _functions;
   late List<String> _functions;
 
+  /// List of Regions.
+  ///
+  /// Regionの一覧。
+  List<String> get regions => _regions;
+  late List<String> _regions;
+
   /// Data loading.
   ///
   /// データの読み込み。
@@ -33,6 +41,13 @@ class Fuctions {
     if (region == null) {
       return;
     }
+    _regions = region
+            .namedGroup("regions")
+            ?.split(",")
+            .map((e) => e.trim().trimString('"').trimString("'"))
+            .where((e) => e.isNotEmpty)
+            .toList() ??
+        [];
     _functions = region
             .namedGroup("functions")
             ?.split(",")
@@ -52,6 +67,7 @@ class Fuctions {
     _rawData = _rawData.replaceAll(_regExp, """
 m.deploy(
     exports,
+    [${regions.map((e) => '"$e"').join(",")}],
     [
 ${functions.map((e) => "        m.Functions.$e").join(",")}
     ],
