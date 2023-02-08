@@ -23,6 +23,7 @@ import 'src/others/others.dart'
     if (dart.library.html) 'src/web/web.dart';
 
 export 'package:katana/katana.dart';
+export 'package:katana_logger/katana_logger.dart';
 export 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'

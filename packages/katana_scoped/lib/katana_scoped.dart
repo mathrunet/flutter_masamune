@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:katana_logger/katana_logger.dart';
 
 export 'package:katana/katana.dart';
+export 'package:katana_logger/katana_logger.dart';
 export 'value/value.dart';
 
 part 'src/app_scoped.dart';

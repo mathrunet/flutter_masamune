@@ -21,6 +21,7 @@ import 'package:katana_logger/katana_logger.dart';
 import 'package:url_strategy/url_strategy.dart' as url_strategy;
 
 export 'package:katana/katana.dart';
+export 'package:katana_logger/katana_logger.dart';
 export 'package:katana_router_annotation/katana_router_annotation.dart';
 
 part "src/extensions.dart";
