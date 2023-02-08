@@ -15,6 +15,72 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth` - `v1.2.3`](#katana_auth---v123)
+ - [`katana_auth_firebase` - `v1.2.3`](#katana_auth_firebase---v123)
+ - [`katana_router` - `v1.11.1`](#katana_router---v1111)
+ - [`katana_router_builder` - `v1.11.1`](#katana_router_builder---v1111)
+ - [`katana_scoped` - `v1.8.0`](#katana_scoped---v180)
+ - [`masamune` - `v1.6.0`](#masamune---v160)
+ - [`masamune_picker` - `v1.5.15`](#masamune_picker---v1515)
+ - [`masamune_notification_firebase` - `v1.1.70`](#masamune_notification_firebase---v1170)
+ - [`masamune_logger_firebase` - `v1.1.14`](#masamune_logger_firebase---v1114)
+ - [`masamune_picker_mobile` - `v1.5.15`](#masamune_picker_mobile---v1515)
+ - [`masamune_picker_file` - `v1.5.15`](#masamune_picker_file---v1515)
+ - [`masamune_builder` - `v1.3.6`](#masamune_builder---v136)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.15`
+ - `masamune_notification_firebase` - `v1.1.70`
+ - `masamune_logger_firebase` - `v1.1.14`
+ - `masamune_picker_mobile` - `v1.5.15`
+ - `masamune_picker_file` - `v1.5.15`
+ - `masamune_builder` - `v1.3.6`
+
+---
+
+#### `katana_auth` - `v1.2.3`
+
+ - **FIX**: Logger package is now exported. ([43b7d008](https://github.com/mathrunet/flutter_masamune/commit/43b7d00891d564851061c3d9284b896e6e7a8a5a))
+ - **FIX**: Compatible with multiple logger adapters. ([6cb04654](https://github.com/mathrunet/flutter_masamune/commit/6cb04654c736ebdd708f6b725d69e404b3ae93af))
+
+#### `katana_auth_firebase` - `v1.2.3`
+
+ - **FIX**: Logger package is now exported. ([43b7d008](https://github.com/mathrunet/flutter_masamune/commit/43b7d00891d564851061c3d9284b896e6e7a8a5a))
+
+#### `katana_router` - `v1.11.1`
+
+ - **FIX**: Logger package is now exported. ([43b7d008](https://github.com/mathrunet/flutter_masamune/commit/43b7d00891d564851061c3d9284b896e6e7a8a5a))
+ - **FIX**: Compatible with multiple logger adapters. ([e644b873](https://github.com/mathrunet/flutter_masamune/commit/e644b8732a7019a547ae673455ede87f812d7325))
+
+#### `katana_router_builder` - `v1.11.1`
+
+ - **FIX**: Compatible with multiple logger adapters. ([e644b873](https://github.com/mathrunet/flutter_masamune/commit/e644b8732a7019a547ae673455ede87f812d7325))
+
+#### `katana_scoped` - `v1.8.0`
+
+ - **FIX**: Logger package is now exported. ([43b7d008](https://github.com/mathrunet/flutter_masamune/commit/43b7d00891d564851061c3d9284b896e6e7a8a5a))
+ - **FEAT**: Logger support. ([6ae52b64](https://github.com/mathrunet/flutter_masamune/commit/6ae52b642d72ce5b2207232938c93b16cdf3b397))
+
+#### `masamune` - `v1.6.0`
+
+ - **FEAT**: Logger support. ([7f174a26](https://github.com/mathrunet/flutter_masamune/commit/7f174a26eb3e02f1dbd1e126e203cc71a73dc327))
+
+
+## 2023-02-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_logger` - `v1.2.0`](#katana_logger---v120)
  - [`katana_router` - `v1.11.0`](#katana_router---v1110)
  - [`katana_router_annotation` - `v1.11.0`](#katana_router_annotation---v1110)

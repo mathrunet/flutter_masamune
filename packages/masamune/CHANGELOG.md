@@ -1,3 +1,7 @@
+## 1.6.0
+
+ - **FEAT**: Logger support. ([7f174a26](https://github.com/mathrunet/flutter_masamune/commit/7f174a26eb3e02f1dbd1e126e203cc71a73dc327))
+
 ## 1.5.13
 
  - Update a dependency to the latest release.

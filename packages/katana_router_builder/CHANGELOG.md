@@ -1,3 +1,7 @@
+## 1.11.1
+
+ - **FIX**: Compatible with multiple logger adapters. ([e644b873](https://github.com/mathrunet/flutter_masamune/commit/e644b8732a7019a547ae673455ede87f812d7325))
+
 ## 1.11.0
 
  - **FEAT**: Logger support. ([0d3f18c7](https://github.com/mathrunet/flutter_masamune/commit/0d3f18c7da51d982fe29f617739d28ce24f54017))

@@ -1,3 +1,8 @@
+## 1.8.0
+
+ - **FIX**: Logger package is now exported. ([43b7d008](https://github.com/mathrunet/flutter_masamune/commit/43b7d00891d564851061c3d9284b896e6e7a8a5a))
+ - **FEAT**: Logger support. ([6ae52b64](https://github.com/mathrunet/flutter_masamune/commit/6ae52b642d72ce5b2207232938c93b16cdf3b397))
+
 ## 1.7.10
 
  - **FIX**: Changed to be able to track states managed by ScopedValueContainer. ([559179fc](https://github.com/mathrunet/flutter_masamune/commit/559179fc0c16c8a2d74423ba7be08955554dcd81))

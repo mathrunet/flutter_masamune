@@ -1,3 +1,8 @@
+## 1.2.3
+
+ - **FIX**: Logger package is now exported. ([43b7d008](https://github.com/mathrunet/flutter_masamune/commit/43b7d00891d564851061c3d9284b896e6e7a8a5a))
+ - **FIX**: Compatible with multiple logger adapters. ([6cb04654](https://github.com/mathrunet/flutter_masamune/commit/6cb04654c736ebdd708f6b725d69e404b3ae93af))
+
 ## 1.2.2
 
  - Update a dependency to the latest release.
