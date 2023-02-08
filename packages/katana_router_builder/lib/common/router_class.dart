@@ -102,6 +102,12 @@ List<Class> routerClass(
                     ..toSuper = true
                     ..defaultTo = const Code("const Scaffold()"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "loggerAdapter"
+                    ..named = true
+                    ..toSuper = true,
+                ),
               ])
               ..initializers.addAll([
                 Code(

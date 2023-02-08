@@ -111,7 +111,8 @@ class AppRouter extends ChangeNotifier
     TransitionQuery? defaultTransitionQuery,
     bool reportsRouteUpdateToEngine = true,
     Widget backgroundWidget = const Scaffold(),
-  }) {
+    LoggerAdapter? loggerAdapter,
+  }) : _loggerAdapter = loggerAdapter {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
     _config = _AppRouterConfig(
@@ -147,6 +148,15 @@ class AppRouter extends ChangeNotifier
 
   late final _AppRouterConfig _config;
   final List<_PageStackContainer> _pageStack = [];
+
+  /// Adapter for logging.
+  ///
+  /// ロギングを行うためのアダプター。
+  LoggerAdapter? get loggerAdapter {
+    return _loggerAdapter ?? LoggerAdapter.primary;
+  }
+
+  final LoggerAdapter? _loggerAdapter;
 
   BuildContext? get _context => _config.navigatorKey.currentContext;
 
@@ -374,6 +384,10 @@ class AppRouter extends ChangeNotifier
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _sendLog(RouteLoggerEvent.push, parameters: {
+        RouteLoggerEvent.newRouteKey: route.settings.name,
+        RouteLoggerEvent.prevRouteKey: previousRoute?.settings.name,
+      });
       notifyListeners();
     });
   }
@@ -381,6 +395,10 @@ class AppRouter extends ChangeNotifier
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _sendLog(RouteLoggerEvent.pop, parameters: {
+        RouteLoggerEvent.newRouteKey: route.settings.name,
+        RouteLoggerEvent.prevRouteKey: previousRoute?.settings.name,
+      });
       notifyListeners();
     });
   }
@@ -395,6 +413,10 @@ class AppRouter extends ChangeNotifier
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _sendLog(RouteLoggerEvent.pop, parameters: {
+        RouteLoggerEvent.newRouteKey: newRoute?.settings.name,
+        RouteLoggerEvent.prevRouteKey: oldRoute?.settings.name,
+      });
       notifyListeners();
     });
   }
@@ -404,6 +426,10 @@ class AppRouter extends ChangeNotifier
     _routeInformationProvider.dispose();
     _routerDelegate.dispose();
     super.dispose();
+  }
+
+  void _sendLog(RouteLoggerEvent event, {DynamicMap? parameters}) {
+    loggerAdapter?.send(event.toString(), parameters: parameters);
   }
 
   String _effectiveInitialLocation(String? initialLocation) {

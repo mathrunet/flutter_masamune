@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
-import 'package:katana/katana.dart';
+import 'package:katana_logger/katana_logger.dart';
 import 'package:url_strategy/url_strategy.dart' as url_strategy;
 
 export 'package:katana/katana.dart';
@@ -34,3 +34,4 @@ part 'src/app_router.dart';
 part 'src/app_route_information_parser.dart';
 part 'src/app_router_delegate.dart';
 part 'src/app_route_information_provider.dart';
+part 'src/route_logger_event.dart';
