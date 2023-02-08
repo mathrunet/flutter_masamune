@@ -12,12 +12,8 @@ abstract class LoggerAdapter {
   /// You can retrieve the [LoggerAdapter] first given by [LoggerAdapterScope].
   ///
   /// 最初に[LoggerAdapterScope]で与えた[LoggerAdapter]を取得することができます。
-  static LoggerAdapter get primary {
-    assert(
-      _primary != null,
-      "LoggerAdapter is not set. Place [LoggerAdapterScope] widget closer to the root.",
-    );
-    return _primary ?? const RuntimeLoggerAdapter();
+  static LoggerAdapter? get primary {
+    return _primary;
   }
 
   static LoggerAdapter? _primary;

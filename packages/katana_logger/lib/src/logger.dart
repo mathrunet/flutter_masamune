@@ -37,7 +37,12 @@ class Logger extends ChangeNotifier {
   ///
   /// ロガーを定義するアダプター。
   LoggerAdapter get adapter {
-    return _adapter ?? LoggerAdapter.primary;
+    final adapter = _adapter ?? LoggerAdapter.primary;
+    assert(
+      adapter != null,
+      "LoggerAdapter is not set. Place [LoggerAdapterScope] widget closer to the root.",
+    );
+    return adapter!;
   }
 
   final LoggerAdapter? _adapter;
