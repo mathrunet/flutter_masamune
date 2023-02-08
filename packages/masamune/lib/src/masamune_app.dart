@@ -481,6 +481,20 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppLogger(BuildContext context, Widget child) {
+    final loggerAdapters = <LoggerAdapter>[];
+    for (final adapter in this.loggerAdapters) {
+      if (loggerAdapters.contains(adapter)) {
+        continue;
+      }
+      loggerAdapters.add(adapter);
+    }
+    for (final adapter in masamuneAdapters.expand((e) => e.loggerAdapters)) {
+      if (loggerAdapters.contains(adapter)) {
+        continue;
+      }
+      loggerAdapters.add(adapter);
+    }
+
     if (loggerAdapters.isNotEmpty) {
       return LoggerAdapterScope(
         adapters: loggerAdapters,

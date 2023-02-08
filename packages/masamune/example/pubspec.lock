@@ -393,10 +393,10 @@ packages:
     dependency: transitive
     description:
       name: katana_auth
-      sha256: f650642cdc0300b591a4460d082fd493fdce0614a6ba3860842aa162cc96575a
+      sha256: "880c1dde0d7c610635c573537f216564634439b1a46d95e5ab44aef68b67525b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.2"
+    version: "1.2.5"
   katana_form:
     dependency: transitive
     description:
@@ -473,10 +473,10 @@ packages:
     dependency: transitive
     description:
       name: katana_logger
-      sha256: "011c60d70c66a7d1e318999b951bf37ee02fe59d9283264714543c66993fbffd"
+      sha256: "38231bb682d13d3570eef440689f9fc7976c66f68c55f58a7f5c3ec378e32837"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.2"
   katana_model:
     dependency: transitive
     description:
@@ -513,10 +513,10 @@ packages:
     dependency: transitive
     description:
       name: katana_router
-      sha256: "76248c6567c827e012464ee9403273351e7900478898ea1e89d74ac0254d8854"
+      sha256: "8575d8bcc16a9ce3c1000499f40034c8c930b2d8b03388f30a1bad454fa1a259"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.3"
   katana_router_annotation:
     dependency: transitive
     description:
@@ -529,18 +529,18 @@ packages:
     dependency: transitive
     description:
       name: katana_router_builder
-      sha256: cedaa92bbcebdb4763b505c4c0105fb1584d6e5f88e48585cfc1ae76ec483180
+      sha256: "0cf91bde122380a2f19502ce1f2e00f42d25be6f48ede1b574480419b5875f42"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   katana_scoped:
     dependency: transitive
     description:
       name: katana_scoped
-      sha256: d0796fb403b78557f09fe18d12afa97bf140c0f60e94677e48723a07ed754643
+      sha256: "734872e949962424a408847f81668ced85bac6914b4ac7db475e40a5ad65dcb6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.10"
+    version: "1.8.2"
   katana_shorten:
     dependency: transitive
     description:
@@ -611,7 +611,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.5.13"
+    version: "1.6.2"
   masamune_annotation:
     dependency: transitive
     description:
@@ -626,7 +626,7 @@ packages:
       path: "../../masamune_builder"
       relative: true
     source: path
-    version: "1.3.5"
+    version: "1.3.6"
   matcher:
     dependency: transitive
     description:
