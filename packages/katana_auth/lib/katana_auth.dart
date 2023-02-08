@@ -13,9 +13,10 @@ import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 // Package imports:
-import 'package:katana/katana.dart';
+import 'package:katana_logger/katana_logger.dart';
 
 import 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
@@ -42,3 +43,4 @@ part 'src/authentication.dart';
 part 'src/auth_provider.dart';
 part 'src/auth_database.dart';
 part 'src/auth_credential.dart';
+part 'src/auth_logger_event.dart';

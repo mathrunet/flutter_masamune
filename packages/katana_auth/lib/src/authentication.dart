@@ -18,6 +18,8 @@ part of katana_auth;
 ///
 /// It is possible to change the authentication platform used by specifying [adapter].
 ///
+/// You can log authentication events by specifying [loggerAdapter].
+///
 /// [AuthAdapter]で実装された認証を行います。
 ///
 /// [register]でユーザーの登録を行ない、[signIn]でサインインを行ないます。
@@ -35,6 +37,8 @@ part of katana_auth;
 /// [signOut]でサインアウトし、[delete]で認証を削除することができます。
 ///
 /// [adapter]を指定することで利用する認証プラットフォームを変更することが可能です。
+///
+/// [loggerAdapter]を指定することによって認証イベントのログを取得することができます。
 class Authentication extends ChangeNotifier {
   /// Authentication implemented by [AuthAdapter].
   ///
@@ -54,6 +58,8 @@ class Authentication extends ChangeNotifier {
   ///
   /// It is possible to change the authentication platform used by specifying [adapter].
   ///
+  /// You can log authentication events by specifying [loggerAdapter].
+  ///
   /// [AuthAdapter]で実装された認証を行います。
   ///
   /// [register]でユーザーの登録を行ない、[signIn]でサインインを行ないます。
@@ -71,7 +77,13 @@ class Authentication extends ChangeNotifier {
   /// [signOut]でサインアウトし、[delete]で認証を削除することができます。
   ///
   /// [adapter]を指定することで利用する認証プラットフォームを変更することが可能です。
-  Authentication({AuthAdapter? adapter}) : _adapter = adapter;
+  ///
+  /// [loggerAdapter]を指定することによって認証イベントのログを取得することができます。
+  Authentication({
+    AuthAdapter? adapter,
+    LoggerAdapter? loggerAdapter,
+  })  : _adapter = adapter,
+        _loggerAdapter = loggerAdapter;
 
   /// An adapter that defines the authentication platform.
   ///
@@ -81,6 +93,15 @@ class Authentication extends ChangeNotifier {
   }
 
   final AuthAdapter? _adapter;
+
+  /// Adapter to define loggers.
+  ///
+  /// ロガーを定義するアダプター。
+  LoggerAdapter? get loggerAdapter {
+    return _loggerAdapter ?? LoggerAdapter.primary;
+  }
+
+  final LoggerAdapter? _loggerAdapter;
 
   /// If you are signed in, `true` is returned.
   ///
@@ -193,6 +214,10 @@ class Authentication extends ChangeNotifier {
       provider: provider,
       onUserStateChanged: notifyListeners,
     );
+    _sendLog(AuthLoggerEvent.register, parameters: {
+      AuthLoggerEvent.userIdKey: userId,
+      AuthLoggerEvent.providerKey: provider.providerId,
+    });
     return this;
   }
 
@@ -211,6 +236,10 @@ class Authentication extends ChangeNotifier {
       provider: provider,
       onUserStateChanged: notifyListeners,
     );
+    _sendLog(AuthLoggerEvent.registerOrSignIn, parameters: {
+      AuthLoggerEvent.userIdKey: userId,
+      AuthLoggerEvent.providerKey: provider.providerId,
+    });
     return this;
   }
 
@@ -379,7 +408,11 @@ class Authentication extends ChangeNotifier {
     if (!isSignedIn) {
       throw Exception("Not yet signed in.");
     }
+    final userId = this.userId;
     await adapter.signOut(onUserStateChanged: notifyListeners);
+    _sendLog(AuthLoggerEvent.signOut, parameters: {
+      _kUserIdKey: userId,
+    });
     return this;
   }
 
@@ -399,5 +432,9 @@ class Authentication extends ChangeNotifier {
   @mustCallSuper
   void dispose() {
     super.dispose();
+  }
+
+  void _sendLog(AuthLoggerEvent event, {DynamicMap? parameters}) {
+    loggerAdapter?.send(event.name, parameters: parameters);
   }
 }

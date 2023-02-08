@@ -316,10 +316,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_auth
-      sha256: "7ea8d8b96df276b32e0cb4a477e14777e9d4f1c895b38e1c6c87ff5914a384cb"
+      sha256: c47fdcf671ba3447b8bee9cfdffc7574e7477aa757a73c326b34e081951f84ea
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.13"
+    version: "1.1.14"
   katana_firebase:
     dependency: "direct main"
     description:
