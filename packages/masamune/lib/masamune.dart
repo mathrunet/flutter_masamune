@@ -25,6 +25,7 @@ export 'package:katana_functions/katana_functions.dart';
 export 'package:katana_indicator/katana_indicator.dart';
 export 'package:katana_listenables/katana_listenables.dart';
 export 'package:katana_localization/katana_localization.dart';
+export 'package:katana_logger/katana_logger.dart';
 export 'package:katana_model/katana_model.dart';
 export 'package:katana_prefs/katana_prefs.dart';
 export 'package:katana_router/katana_router.dart';

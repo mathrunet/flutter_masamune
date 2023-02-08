@@ -7,6 +7,8 @@ part of masamune;
 ///
 /// You can set up observers to monitor transitions between pages at [navigatorObservers].
 ///
+/// Various adapters for the katana package are available at [loggerAdapters], etc.
+///
 /// Widgets can be added during the build of [MasamuneApp] with [onBuildApp].
 ///
 /// Masamune Frameworkに機能を手軽に追加するためのアダプター。
@@ -18,6 +20,8 @@ part of masamune;
 ///
 /// [navigatorObservers]でページ間の遷移を監視するためのオブザーバーを設置することができます。
 ///
+/// [loggerAdapters]などでkatanaパッケージの各種アダプターを利用することが可能です。
+///
 /// [onBuildApp]で[MasamuneApp]のビルド時にウィジェットを追加することが可能です。
 abstract class MasamuneAdapter {
   /// Adapter for easily adding functions to Masamune Framework.
@@ -26,6 +30,8 @@ abstract class MasamuneAdapter {
   /// At that time, [onPreRunApp] can be used to execute the process before [runApp], and [onError] can be used to describe the process in case of an error.
   ///
   /// You can set up observers to monitor transitions between pages at [navigatorObservers].
+  ///
+  /// Various adapters for the katana package are available at [loggerAdapters], etc.
   ///
   /// Widgets can be added during the build of [MasamuneApp] with [onBuildApp].
   ///
@@ -37,6 +43,8 @@ abstract class MasamuneAdapter {
   /// その際、[onPreRunApp]で[runApp]前の処理を実行することができ、[onError]でエラー時の処理を記述することができます。
   ///
   /// [navigatorObservers]でページ間の遷移を監視するためのオブザーバーを設置することができます。
+  ///
+  /// [loggerAdapters]などでkatanaパッケージの各種アダプターを利用することが可能です。
   ///
   /// [onBuildApp]で[MasamuneApp]のビルド時にウィジェットを追加することが可能です。
   const MasamuneAdapter();
@@ -50,6 +58,11 @@ abstract class MasamuneAdapter {
   ///
   /// ページ間の遷移を監視するためのオブザーバーを設置することができます。
   List<NavigatorObserver> get navigatorObservers;
+
+  /// Adapters can be defined to add logger functionality.
+  ///
+  /// ロガー機能を追加するためのアダプターを定義することができます。
+  List<LoggerAdapter> get loggerAdapters;
 
   /// Widgets can be added during the build of [MasamuneApp].
   ///

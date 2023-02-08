@@ -156,6 +156,7 @@ class MasamuneApp extends StatelessWidget {
     this.authAdapter,
     this.storageAdapter,
     this.functionsAdapter,
+    this.loggerAdapters = const [],
     this.theme,
     this.localize,
     this.routerConfig,
@@ -217,6 +218,11 @@ class MasamuneApp extends StatelessWidget {
   ///
   /// `katana_functions`で利用されるサーバー処理用のアダプター。
   final FunctionsAdapter? functionsAdapter;
+
+  /// Adapter for logging used by `katana_logger`.
+  ///
+  /// `katana_logger`で利用されるロギング用のアダプター。
+  final List<LoggerAdapter> loggerAdapters;
 
   /// Config for router used by `katana_router`.
   ///
@@ -382,15 +388,18 @@ class MasamuneApp extends StatelessWidget {
         context,
         _buildAppAuth(
           context,
-          _buildAppModel(
+          _buildAppLogger(
             context,
-            _buildAppScoped(
+            _buildAppModel(
               context,
-              _buildAppTheme(
+              _buildAppScoped(
                 context,
-                _buildAppLocalize(
+                _buildAppTheme(
                   context,
-                  _buildAppRouter(context),
+                  _buildAppLocalize(
+                    context,
+                    _buildAppRouter(context),
+                  ),
                 ),
               ),
             ),
@@ -471,6 +480,16 @@ class MasamuneApp extends StatelessWidget {
     return child;
   }
 
+  Widget _buildAppLogger(BuildContext context, Widget child) {
+    if (loggerAdapters.isNotEmpty) {
+      return LoggerAdapterScope(
+        adapters: loggerAdapters,
+        child: child,
+      );
+    }
+    return child;
+  }
+
   Widget _buildAppStorage(BuildContext context, Widget child) {
     if (storageAdapter != null) {
       return StorageAdapterScope(
@@ -482,10 +501,21 @@ class MasamuneApp extends StatelessWidget {
   }
 
   Widget _buildAppRouter(BuildContext context) {
-    final observers = [
-      ...masamuneAdapters.expand((e) => e.navigatorObservers),
-      ...navigatorObservers,
-    ];
+    final observers = <NavigatorObserver>[];
+    for (final observer in navigatorObservers) {
+      if (observers.contains(observer)) {
+        continue;
+      }
+      observers.add(observer);
+    }
+    for (final observer
+        in masamuneAdapters.expand((e) => e.navigatorObservers)) {
+      if (observers.contains(observer)) {
+        continue;
+      }
+      observers.add(observer);
+    }
+    
     if (home != null || routerConfig == null) {
       return MaterialApp(
         locale: localize?.locale,
