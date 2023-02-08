@@ -10,6 +10,7 @@ library katana_logger;
 
 // Dart imports:
 import 'dart:async';
+import 'dart:developer' as developer;
 
 // Flutter imports:
 import 'package:flutter/widgets.dart';
@@ -28,6 +29,7 @@ export 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
 
+part 'adapter/console_logger_adapter.dart';
 part 'adapter/local_logger_adapter.dart';
 part 'adapter/runtime_logger_adapter.dart';
 
