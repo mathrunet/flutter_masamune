@@ -1,3 +1,8 @@
+## 1.2.0
+
+ - **FIX**: Multiple LoggerAdapters can be specified. ([9212f559](https://github.com/mathrunet/flutter_masamune/commit/9212f559d29e915a6b712bd2be8e4e84baf97502))
+ - **FEAT**: Add ConsoleLoggerAdapter. ([50e0123b](https://github.com/mathrunet/flutter_masamune/commit/50e0123b9fb43a7299da266c0cfed13049e7fc1c))
+
 ## 1.1.1
 
  - **FIX**: Change LoggerAdapter.primary to nullable. ([1586c368](https://github.com/mathrunet/flutter_masamune/commit/1586c3680ffe0b4f22c195c213a04ba92c27087c))

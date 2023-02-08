@@ -1,3 +1,7 @@
+## 1.3.5
+
+ - Update a dependency to the latest release.
+
 ## 1.3.4
 
  - **DOCS**: Additional article content. ([468267cf](https://github.com/mathrunet/flutter_masamune/commit/468267cf35150e80d72faeaf4ca6766de959b069))

@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - Update a dependency to the latest release.
+
 ## 1.2.1
 
  - **FIX**: The name of the log now includes the Enum itself. ([bcadf28c](https://github.com/mathrunet/flutter_masamune/commit/bcadf28ca03dc92a228a3c516b53742d8715e1b2))

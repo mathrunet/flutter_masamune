@@ -1,3 +1,7 @@
+## 1.11.0
+
+ - **FEAT**: Logger support. ([0d3f18c7](https://github.com/mathrunet/flutter_masamune/commit/0d3f18c7da51d982fe29f617739d28ce24f54017))
+
 ## 1.10.16
 
  - **FIX**: NavigationObserver can now be monitored from AppRouter. ([f1e07da0](https://github.com/mathrunet/flutter_masamune/commit/f1e07da0f4a19fa38a24d77e1a8a582dbfcda0d6))
