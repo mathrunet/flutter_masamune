@@ -4,7 +4,7 @@ part of masamune_picker;
 ///
 /// The file picker function defined in [PickerMasamuneAdapter] is available.
 ///
-/// By default, a [FilePickerAdapter] is used, which can utilize the functionality of the `file_picker` package.
+/// By default, a [TestPickerMasamuneAdapter] is used, which can utilize the functionality of the `file_picker` package.
 ///
 /// You can pick up a single file with [pickSingle] and multiple files with [pickMultiple].
 ///
@@ -15,7 +15,7 @@ part of masamune_picker;
 ///
 /// [PickerMasamuneAdapter]で定義されたファイルピッカー機能を利用可能です。
 ///
-/// デフォルトの場合、`file_picker`パッケージの機能を利用できる[FilePickerAdapter]が使用されます。
+/// デフォルトの場合、テストで利用できる[TestPickerMasamuneAdapter]が使用されます。
 ///
 /// [pickSingle]で単数のファイルをピックアップでき、[pickMultiple]で複数ファイルをピックアップできます。
 ///
@@ -26,7 +26,7 @@ class Picker extends ChangeNotifier {
   ///
   /// The file picker function defined in [PickerMasamuneAdapter] is available.
   ///
-  /// By default, a [FilePickerAdapter] is used, which can utilize the functionality of the `file_picker` package.
+  /// By default, a [TestPickerMasamuneAdapter] is used, which can utilize the functionality of the `file_picker` package.
   ///
   /// You can pick up a single file with [pickSingle] and multiple files with [pickMultiple].
   ///
@@ -37,7 +37,7 @@ class Picker extends ChangeNotifier {
   ///
   /// [PickerMasamuneAdapter]で定義されたファイルピッカー機能を利用可能です。
   ///
-  /// デフォルトの場合、`file_picker`パッケージの機能を利用できる[FilePickerAdapter]が使用されます。
+  /// デフォルトの場合、`file_picker`パッケージの機能を利用できる[TestPickerMasamuneAdapter]が使用されます。
   ///
   /// [pickSingle]で単数のファイルをピックアップでき、[pickMultiple]で複数ファイルをピックアップできます。
   ///
