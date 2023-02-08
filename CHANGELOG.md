@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_logger_firebase` - `v1.2.2`](#masamune_logger_firebase---v122)
+
+---
+
+#### `masamune_logger_firebase` - `v1.2.2`
+
+ - **FIX**: Maintenance of MasamuneAdapter. ([79952ea5](https://github.com/mathrunet/flutter_masamune/commit/79952ea5b8c0a96a6e1269cdcb118d23a5192f0d))
+
+
+## 2023-02-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_logger` - `v1.2.2`](#katana_logger---v122)
  - [`katana_scoped` - `v1.8.2`](#katana_scoped---v182)
  - [`katana_auth` - `v1.2.5`](#katana_auth---v125)
