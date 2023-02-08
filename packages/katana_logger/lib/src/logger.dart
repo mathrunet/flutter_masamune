@@ -31,27 +31,33 @@ class Logger extends ChangeNotifier {
   /// [trace]でパフォーマンスをトレースできます。
   ///
   /// [adapter]を指定することにより様々なプラットフォームでログを記録することができます。
-  Logger({LoggerAdapter? adapter}) : _adapter = adapter;
+  Logger({List<LoggerAdapter> adapters = const []}) : _adapters = adapters;
 
-  /// Adapter to define loggers.
+  /// List of adapters that define loggers.
   ///
-  /// ロガーを定義するアダプター。
-  LoggerAdapter get adapter {
-    final adapter = _adapter ?? LoggerAdapter.primary;
+  /// ロガーを定義するアダプターのリスト。
+  List<LoggerAdapter> get adapters {
+    final adapters = [
+      ...LoggerAdapter.primary,
+      ..._adapters,
+    ];
     assert(
-      adapter != null,
+      adapters.isNotEmpty,
       "LoggerAdapter is not set. Place [LoggerAdapterScope] widget closer to the root.",
     );
-    return adapter!;
+    return adapters;
   }
 
-  final LoggerAdapter? _adapter;
+  final List<LoggerAdapter> _adapters;
 
   /// Get a list of logs recorded.
   ///
   /// 記録されたログの一覧を取得します。
-  Future<List<LogValue>> logList() {
-    return adapter.logList();
+  Future<List<LogValue>> logList() async {
+    final list = await Future.wait(
+      adapters.map((e) => e.logList()),
+    );
+    return list.expand((e) => e).toList(growable: false);
   }
 
   /// Logs by passing [loggable].
@@ -62,10 +68,12 @@ class Logger extends ChangeNotifier {
   ///
   /// [loggable]の型[T]がログの名前、[Loggable.toJson]がパラメーターとなります。
   void send<T extends Loggable>(T loggable) {
-    adapter.send(
-      loggable.runtimeType.toString(),
-      parameters: loggable.toJson(),
-    );
+    for (final adapter in adapters) {
+      adapter.send(
+        loggable.runtimeType.toString(),
+        parameters: loggable.toJson(),
+      );
+    }
     notifyListeners();
   }
 
@@ -73,18 +81,24 @@ class Logger extends ChangeNotifier {
   ///
   /// [name]と[parameters]を直接指定してログを記録します。
   void sendRawData(String name, {DynamicMap? parameters}) {
-    adapter.send(name, parameters: parameters);
+    for (final adapter in adapters) {
+      adapter.send(name, parameters: parameters);
+    }
     notifyListeners();
   }
 
-  /// Get [LoggerTracer] to record performance.
+  /// Get [LoggerTrace] to record performance.
   ///
-  /// [LoggerTracer.start] starts recording and [LoggerTracer.stop] completes and saves the recording.
+  /// [LoggerTrace.start] starts recording and [LoggerTrace.stop] completes and saves the recording.
   ///
-  /// パフォーマンスを記録する[LoggerTracer]を取得します。
+  /// パフォーマンスを記録する[LoggerTrace]を取得します。
   ///
-  /// [LoggerTracer.start]で記録を開始し、[LoggerTracer.stop]で記録を完了、保存します。
-  LoggerTracer trace(String name) {
-    return adapter.trace(name, onStop: notifyListeners);
+  /// [LoggerTrace.start]で記録を開始し、[LoggerTrace.stop]で記録を完了、保存します。
+  LoggerTrace trace(String name) {
+    return LoggerTrace._(
+      adapters.map((e) => e.trace(name)).toList(),
+      notifyListeners,
+      notifyListeners,
+    );
   }
 }

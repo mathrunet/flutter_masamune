@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LoggerAdapterScope(
-      adapter: const RuntimeLoggerAdapter(),
+      adapters: const [RuntimeLoggerAdapter()],
       child: MaterialApp(
         home: const LoggerPage(),
         title: "Flutter Demo",

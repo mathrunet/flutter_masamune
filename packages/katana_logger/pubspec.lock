@@ -556,10 +556,10 @@ packages:
     dependency: "direct dev"
     description:
       name: test
-      sha256: b54d427664c00f2013ffb87797a698883c46aee9288e027a50b46eaee7486fa2
+      sha256: fad866af0eab867e2c96623e25fe9f7e4d598a1f19e3da3a70b52fe4083cb145
       url: "https://pub.dev"
     source: hosted
-    version: "1.22.2"
+    version: "1.23.0"
   test_api:
     dependency: transitive
     description:
@@ -572,10 +572,10 @@ packages:
     dependency: transitive
     description:
       name: test_core
-      sha256: "95ecc12692d0dd59080ab2d38d9cf32c7e9844caba23ff6cd285690398ee8ef4"
+      sha256: d345256d1f4a63c8193ba40e4657dea57c2f92a6b7501657ec7f3f57dd26769d
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.22"
+    version: "0.4.23"
   tint:
     dependency: transitive
     description:
@@ -612,10 +612,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "2277c73618916ae3c2082b6df67b6ebb64b4c69d9bf23b23700707952ac30e60"
+      sha256: a4040e9852e56bf8a3c5a2e08a56f6facd76e75500cf2a922ce5d52394c4998a
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.2"
+    version: "11.0.1"
   watcher:
     dependency: transitive
     description:

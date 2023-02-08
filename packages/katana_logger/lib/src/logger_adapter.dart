@@ -9,14 +9,14 @@ abstract class LoggerAdapter {
   /// ログを保存するためのプラットフォームアダプターを定義するためのベースクラス。
   const LoggerAdapter();
 
-  /// You can retrieve the [LoggerAdapter] first given by [LoggerAdapterScope].
+  /// You can retrieve the list of [LoggerAdapter] given in [LoggerAdapterScope] first.
   ///
-  /// 最初に[LoggerAdapterScope]で与えた[LoggerAdapter]を取得することができます。
-  static LoggerAdapter? get primary {
-    return _primary;
+  /// 最初に[LoggerAdapterScope]で与えた[LoggerAdapter]のリストを取得することができます。
+  static List<LoggerAdapter> get primary {
+    return _primary ?? [];
   }
 
-  static LoggerAdapter? _primary;
+  static List<LoggerAdapter>? _primary;
 
   /// Get a list of logs recorded.
   ///
@@ -28,33 +28,25 @@ abstract class LoggerAdapter {
   /// ログの名前である[name]と[parameters]を渡してログを保存する処理を実行してください。
   void send(String name, {DynamicMap? parameters});
 
-  /// Create [LoggerTracer] by passing [name], the name of the log.
+  /// Create [LoggerTraceValue] by passing [name], the name of the log.
   ///
-  /// [LoggerTracer.start] to start tracking logs, [LoggerTracer.stop] to complete and save.
+  /// [LoggerTraceValue.start] to start tracking logs, [LoggerTraceValue.stop] to complete and save.
   ///
-  /// Write callbacks for [LoggerTracer.start] and [LoggerTracer.stop] in [onStart] and [onStop].
+  /// ログの名前である[name]を渡して[LoggerTraceValue]を作成してください。
   ///
-  /// ログの名前である[name]を渡して[LoggerTracer]を作成してください。
-  ///
-  /// [LoggerTracer.start]でログの追跡を開始して、[LoggerTracer.stop]で完了、保存します。
-  ///
-  /// [onStart]、[onStop]で[LoggerTracer.start]、[LoggerTracer.stop]の際のコールバックを記述します。
-  LoggerTracer trace(
-    String name, {
-    VoidCallback? onStart,
-    VoidCallback? onStop,
-  });
+  /// [LoggerTraceValue.start]でログの追跡を開始して、[LoggerTraceValue.stop]で完了、保存します。
+  LoggerTraceValue trace(String name);
 }
 
 /// Place it on top of [MaterialApp], etc., and set [LoggerAdapter] for the entire app.
 ///
-/// Pass [LoggerAdapter] to [adapter].
+/// Pass the list of [LoggerAdapter] to [adapters].
 ///
 /// Also, by using [LoggerAdapterScope.of] in a descendant widget, you can retrieve the [LoggerAdapter] set in the [LoggerAdapterScope].
 ///
 /// [MaterialApp]などの上に配置して、アプリ全体に[LoggerAdapter]を設定します。
 ///
-/// [adapter]に[LoggerAdapter]を渡してください。
+/// [adapters]に[LoggerAdapter]のリストを渡してください。
 ///
 /// また[LoggerAdapterScope.of]を子孫のウィジェット内で利用することにより[LoggerAdapterScope]で設定された[LoggerAdapter]を取得することができます。
 ///
@@ -65,7 +57,7 @@ abstract class LoggerAdapter {
 ///   @override
 ///   Widget build(BuildContext context) {
 ///     return LoggerAdapterScope(
-///       adapter: const RuntimeLoggerAdapter(),
+///       adapters: [const RuntimeLoggerAdapter()],
 ///       child: MaterialApp(
 ///         home: const AuthPage(),
 ///       ),
@@ -76,13 +68,13 @@ abstract class LoggerAdapter {
 class LoggerAdapterScope extends StatefulWidget {
   /// Place it on top of [MaterialApp], etc., and set [LoggerAdapter] for the entire app.
   ///
-  /// Pass [LoggerAdapter] to [adapter].
+  /// Pass the list of [LoggerAdapter] to [adapters].
   ///
   /// Also, by using [LoggerAdapterScope.of] in a descendant widget, you can retrieve the [LoggerAdapter] set in the [LoggerAdapterScope].
   ///
   /// [MaterialApp]などの上に配置して、アプリ全体に[LoggerAdapter]を設定します。
   ///
-  /// [adapter]に[LoggerAdapter]を渡してください。
+  /// [adapters]に[LoggerAdapter]のリストを渡してください。
   ///
   /// また[LoggerAdapterScope.of]を子孫のウィジェット内で利用することにより[LoggerAdapterScope]で設定された[LoggerAdapter]を取得することができます。
   ///
@@ -93,7 +85,7 @@ class LoggerAdapterScope extends StatefulWidget {
   ///   @override
   ///   Widget build(BuildContext context) {
   ///     return LoggerAdapterScope(
-  ///       adapter: const RuntimeLoggerAdapter(),
+  ///       adapters: [const RuntimeLoggerAdapter()],
   ///       child: MaterialApp(
   ///         home: const AuthPage(),
   ///       ),
@@ -104,7 +96,7 @@ class LoggerAdapterScope extends StatefulWidget {
   const LoggerAdapterScope({
     super.key,
     required this.child,
-    required this.adapter,
+    required this.adapters,
   });
 
   /// Children's widget.
@@ -112,26 +104,26 @@ class LoggerAdapterScope extends StatefulWidget {
   /// 子供のウィジェット。
   final Widget child;
 
-  /// [LoggerAdapter] to be configured for the entire app.
+  /// A list of [LoggerAdapter] to be configured for the entire app.
   ///
-  /// アプリ全体に設定する[LoggerAdapter]。
-  final LoggerAdapter adapter;
+  /// アプリ全体に設定する[LoggerAdapter]のリスト。
+  final List<LoggerAdapter> adapters;
 
-  /// By passing [context], the [LoggerAdapter] set in [LoggerAdapterScope] can be obtained.
+  /// A list of [LoggerAdapter] set in [LoggerAdapterScope] can be obtained by passing [context].
   ///
   /// If the ancestor does not have [LoggerAdapterScope], an error will occur.
   ///
-  /// [context]を渡すことにより[LoggerAdapterScope]で設定された[LoggerAdapter]を取得することができます。
+  /// [context]を渡すことにより[LoggerAdapterScope]で設定された[LoggerAdapter]のリストを取得することができます。
   ///
   /// 祖先に[LoggerAdapterScope]がない場合はエラーになります。
-  static LoggerAdapter? of(BuildContext context) {
+  static List<LoggerAdapter> of(BuildContext context) {
     final scope =
         context.getElementForInheritedWidgetOfExactType<_LoggerAdapterScope>();
     assert(
       scope != null,
       "LoggerAdapterScope is not found. Place [LoggerAdapterScope] widget closer to the root.",
     );
-    return (scope?.widget as _LoggerAdapterScope?)?.adapter;
+    return (scope?.widget as _LoggerAdapterScope?)?.adapters ?? [];
   }
 
   @override
@@ -142,13 +134,13 @@ class _LoggerAdapterScopeState extends State<LoggerAdapterScope> {
   @override
   void initState() {
     super.initState();
-    LoggerAdapter._primary ??= widget.adapter;
+    LoggerAdapter._primary ??= widget.adapters;
   }
 
   @override
   Widget build(BuildContext context) {
     return _LoggerAdapterScope(
-      adapter: widget.adapter,
+      adapters: widget.adapters,
       child: widget.child,
     );
   }
@@ -157,10 +149,10 @@ class _LoggerAdapterScopeState extends State<LoggerAdapterScope> {
 class _LoggerAdapterScope extends InheritedWidget {
   const _LoggerAdapterScope({
     required super.child,
-    required this.adapter,
+    required this.adapters,
   });
 
-  final LoggerAdapter adapter;
+  final List<LoggerAdapter> adapters;
 
   @override
   bool updateShouldNotify(covariant _LoggerAdapterScope oldWidget) => false;

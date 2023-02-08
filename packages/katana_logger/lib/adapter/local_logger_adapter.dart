@@ -51,12 +51,8 @@ class LocalLoggerAdapter extends LoggerAdapter {
   }
 
   @override
-  LoggerTracer trace(
-    String name, {
-    VoidCallback? onStart,
-    VoidCallback? onStop,
-  }) {
-    return _LocalLoggerTracer._(name, this, onStart: onStart, onStop: onStop);
+  LoggerTraceValue trace(String name) {
+    return _LocalLoggerTraceValue._(name, this);
   }
 
   @override
@@ -76,39 +72,18 @@ class LocalLoggerAdapter extends LoggerAdapter {
   }
 }
 
-class _LocalLoggerTracer extends LoggerTracer {
-  _LocalLoggerTracer._(
-    super.name,
-    super.adapter, {
-    this.onStart,
-    this.onStop,
-  });
-
-  final VoidCallback? onStart;
-  final VoidCallback? onStop;
-  DateTime? _startTime;
+class _LocalLoggerTraceValue extends LoggerTraceValue {
+  const _LocalLoggerTraceValue._(super.name, super.adapter);
 
   @override
-  Future<void> start() async {
-    assert(
-      _startTime == null,
-      "You have already started. Please execute [stop] before starting.",
-    );
-    _startTime = DateTime.now();
-    onStart?.call();
-  }
+  Future<void> start(DateTime startTime) => Future.value();
 
   @override
-  Future<void> stop() async {
-    assert(
-      _startTime != null,
-      "It has not started yet. Please execute [start] first.",
-    );
-    final diff = DateTime.now().difference(_startTime!);
+  Future<void> stop(DateTime startTime, DateTime endTime) async {
+    final diff = endTime.difference(startTime);
     adapter.send(
       name,
       parameters: {"duration": diff.inMilliseconds},
     );
-    onStop?.call();
   }
 }
