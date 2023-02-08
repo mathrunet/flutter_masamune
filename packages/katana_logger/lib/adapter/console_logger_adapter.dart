@@ -20,7 +20,7 @@ class ConsoleLoggerAdapter extends LoggerAdapter {
   const ConsoleLoggerAdapter();
 
   @override
-  void send(String name, {DynamicMap? parameters}) {
+  Future<void> send(String name, {DynamicMap? parameters}) async {
     developer.log("$name: $parameters", name: _kLogName);
   }
 

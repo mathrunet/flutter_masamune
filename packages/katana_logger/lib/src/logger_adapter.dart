@@ -26,7 +26,7 @@ abstract class LoggerAdapter {
   /// Execute the process of saving the log by passing [name] and [parameters], which is the name of the log.
   ///
   /// ログの名前である[name]と[parameters]を渡してログを保存する処理を実行してください。
-  void send(String name, {DynamicMap? parameters});
+  Future<void> send(String name, {DynamicMap? parameters});
 
   /// Create [LoggerTraceValue] by passing [name], the name of the log.
   ///

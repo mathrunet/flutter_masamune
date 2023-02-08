@@ -46,7 +46,7 @@ class LocalLoggerAdapter extends LoggerAdapter {
   );
 
   @override
-  void send(String name, {DynamicMap? parameters}) {
+  Future<void> send(String name, {DynamicMap? parameters}) async {
     database.write(name, parameters: parameters);
   }
 
