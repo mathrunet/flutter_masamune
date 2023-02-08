@@ -18,7 +18,7 @@ part of katana_auth;
 ///
 /// It is possible to change the authentication platform used by specifying [adapter].
 ///
-/// You can log authentication events by specifying [loggerAdapter].
+/// You can log authentication events by specifying [loggerAdapters].
 ///
 /// [AuthAdapter]で実装された認証を行います。
 ///
@@ -38,7 +38,7 @@ part of katana_auth;
 ///
 /// [adapter]を指定することで利用する認証プラットフォームを変更することが可能です。
 ///
-/// [loggerAdapter]を指定することによって認証イベントのログを取得することができます。
+/// [loggerAdapters]を指定することによって認証イベントのログを取得することができます。
 class Authentication extends ChangeNotifier {
   /// Authentication implemented by [AuthAdapter].
   ///
@@ -58,7 +58,7 @@ class Authentication extends ChangeNotifier {
   ///
   /// It is possible to change the authentication platform used by specifying [adapter].
   ///
-  /// You can log authentication events by specifying [loggerAdapter].
+  /// You can log authentication events by specifying [loggerAdapters].
   ///
   /// [AuthAdapter]で実装された認証を行います。
   ///
@@ -78,12 +78,12 @@ class Authentication extends ChangeNotifier {
   ///
   /// [adapter]を指定することで利用する認証プラットフォームを変更することが可能です。
   ///
-  /// [loggerAdapter]を指定することによって認証イベントのログを取得することができます。
+  /// [loggerAdapters]を指定することによって認証イベントのログを取得することができます。
   Authentication({
     AuthAdapter? adapter,
-    LoggerAdapter? loggerAdapter,
+    List<LoggerAdapter> loggerAdapters = const [],
   })  : _adapter = adapter,
-        _loggerAdapter = loggerAdapter;
+        _loggerAdapters = loggerAdapters;
 
   /// An adapter that defines the authentication platform.
   ///
@@ -97,11 +97,11 @@ class Authentication extends ChangeNotifier {
   /// Adapter to define loggers.
   ///
   /// ロガーを定義するアダプター。
-  LoggerAdapter? get loggerAdapter {
-    return _loggerAdapter ?? LoggerAdapter.primary;
+  List<LoggerAdapter> get loggerAdapters {
+    return [...LoggerAdapter.primary, ..._loggerAdapters];
   }
 
-  final LoggerAdapter? _loggerAdapter;
+  final List<LoggerAdapter> _loggerAdapters;
 
   /// If you are signed in, `true` is returned.
   ///
@@ -435,6 +435,8 @@ class Authentication extends ChangeNotifier {
   }
 
   void _sendLog(AuthLoggerEvent event, {DynamicMap? parameters}) {
-    loggerAdapter?.send(event.toString(), parameters: parameters);
+    for (final loggerAdapter in loggerAdapters) {
+      loggerAdapter.send(event.toString(), parameters: parameters);
+    }
   }
 }

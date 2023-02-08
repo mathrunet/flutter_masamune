@@ -223,10 +223,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_logger
-      sha256: "7898896891d7a772ad82a6b49277abb39624eb922ecbed0fb713d489766f820b"
+      sha256: "011c60d70c66a7d1e318999b951bf37ee02fe59d9283264714543c66993fbffd"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.0"
   lints:
     dependency: transitive
     description:
