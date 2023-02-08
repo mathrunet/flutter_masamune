@@ -85,8 +85,13 @@ firebase:
   authentication:
     enable: false
 
-  # Enable Firebase Functions.
-  # Firebase Functionsを有効にします。
+  # Enable Cloud Storage for Firebase.
+  # Cloud Storage for Firebaseを有効にします。
+  storage:
+    enable: false
+
+  # Enable Cloud Functions for Firebase.
+  # Cloud Functions for Firebaseを有効にします。
   functions:
     enable: false
   

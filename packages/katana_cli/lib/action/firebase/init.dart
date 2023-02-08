@@ -27,10 +27,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         firebase.getAsMap("authentication").get("enable", false);
     final logger = firebase.getAsMap("logger").get("enable", false);
     final functions = firebase.getAsMap("functions").get("enable", false);
+    final storage = firebase.getAsMap("storage").get("enable", false);
     final hosting = firebase.getAsMap("hosting").get("enable", false);
     final messaging = firebase.getAsMap("messaging").get("enable", false);
     return projectId.isNotEmpty &&
         (firestore ||
+            storage ||
             authentication ||
             logger ||
             functions ||
@@ -55,6 +57,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         firebase.getAsMap("authentication").get("enable", false);
     final enabledFunctions =
         firebase.getAsMap("functions").get("enable", false);
+    final enabledStorage = firebase.getAsMap("storage").get("enable", false);
     final enabledHosting = hosting.get("enable", false);
     final enabledLogger = firebase.getAsMap("logger").get("enable", false);
     if (projectId.isEmpty) {
@@ -68,6 +71,11 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     if (!firebaseDir.existsSync()) {
       await firebaseDir.create();
     }
+    label("Check firebase.json");
+    final firebaseJsonFile = File("firebase/firebase.json");
+    final firebaseJson = firebaseJsonFile.existsSync()
+        ? jsonDecodeAsMap(await firebaseJsonFile.readAsString())
+        : <String, dynamic>{};
     label("Check status");
     final firebaseFunctionsIndex = File("firebase/functions/src/index.ts");
     final firebaseFunctionsIndexExists = firebaseFunctionsIndex.existsSync();
@@ -128,88 +136,153 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "cloud_firestore",
           "katana_model_firestore",
         ],
-        if (enabledFunctions) ...[
+        if (enabledStorage) ...[
           "firebase_storage",
           "katana_storage_firebase",
+        ],
+        if (enabledFunctions) ...[
+          "katana_functions_firebase",
         ],
         if (enabledLogger) ...[
           "firebase_analytics",
           "firebase_crashlytics",
+          "firebase_performance",
           "masamune_logger_firebase",
         ]
       ],
     );
+    if (enabledFirestore) {
+      if (!firebaseJson.containsKey("firestore")) {
+        final firestoreProcess = await Process.start(
+          firebaseCommand,
+          [
+            "init",
+            "firestore",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          mode: ProcessStartMode.normal,
+        );
+        firestoreProcess.stdout.transform(utf8.decoder).forEach((line) {
+          // ignore: avoid_print
+          print(line);
+          if (line.startsWith(
+            "? What file should be used for Firestore Rules?",
+          )) {
+            firestoreProcess.stdin.write("\n");
+          }
+          if (line.startsWith(
+            "? What file should be used for Firestore indexes?",
+          )) {
+            firestoreProcess.stdin.write("\n");
+          }
+        });
+        await firestoreProcess.exitCode;
+      }
+    }
+    if (enabledStorage) {
+      if (!firebaseJson.containsKey("storage")) {
+        final storageProcess = await Process.start(
+          firebaseCommand,
+          [
+            "init",
+            "storage",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          mode: ProcessStartMode.normal,
+        );
+        storageProcess.stdout.transform(utf8.decoder).forEach((line) {
+          // ignore: avoid_print
+          print(line);
+          if (line.startsWith(
+            "? What file should be used for Storage Rules?",
+          )) {
+            storageProcess.stdin.write("\n");
+          }
+        });
+        await storageProcess.exitCode;
+      }
+    }
     if (enabledHosting) {
-      final hostingProcess = await Process.start(
-        firebaseCommand,
-        [
-          "init",
-          "hosting",
-          "--project",
-          projectId,
-        ],
-        runInShell: true,
-        workingDirectory: "firebase",
-        mode: ProcessStartMode.normal,
-      );
-      hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
-        // ignore: avoid_print
-        print(line);
-        if (line.startsWith(
-          "? What do you want to use as your public directory?",
-        )) {
-          hostingProcess.stdin.write("hosting\n");
-        }
-        if (line.startsWith(
-          "? Configure as a single-page app (rewrite all urls to /index.html)?",
-        )) {
-          if (useFlutter) {
-            hostingProcess.stdin.write("y\n");
-          } else {
+      if (!firebaseJson.containsKey("hosting")) {
+        final hostingProcess = await Process.start(
+          firebaseCommand,
+          [
+            "init",
+            "hosting",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          mode: ProcessStartMode.normal,
+        );
+        hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
+          // ignore: avoid_print
+          print(line);
+          if (line.startsWith(
+            "? What do you want to use as your public directory?",
+          )) {
+            hostingProcess.stdin.write("hosting\n");
+          }
+          if (line.startsWith(
+            "? Configure as a single-page app (rewrite all urls to /index.html)?",
+          )) {
+            if (useFlutter) {
+              hostingProcess.stdin.write("y\n");
+            } else {
+              hostingProcess.stdin.write("n\n");
+            }
+          }
+          if (line.startsWith(
+            "? File public/index.html already exists. Overwrite?",
+          )) {
             hostingProcess.stdin.write("n\n");
           }
-        }
-        if (line.startsWith(
-          "? File public/index.html already exists. Overwrite?",
-        )) {
-          hostingProcess.stdin.write("n\n");
-        }
-      });
-      await hostingProcess.exitCode;
+        });
+        await hostingProcess.exitCode;
+      }
     }
     if (enabledFunctions) {
-      final functionsProcess = await Process.start(
-        firebaseCommand,
-        [
-          "init",
-          "functions",
-          "--project",
-          projectId,
-        ],
-        runInShell: true,
-        workingDirectory: "firebase",
-        mode: ProcessStartMode.normal,
-      );
-      functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
-        // ignore: avoid_print
-        print(line);
-        if (line.startsWith(
-          "? What language would you like to use to write Cloud Functions?",
-        )) {
-          functionsProcess.stdin.write("k\n");
-        }
-        if (line.startsWith(
-          "? Do you want to use ESLint to catch probable bugs and enforce style?",
-        )) {
-          functionsProcess.stdin.write("y\n");
-        }
-        if (line.startsWith(
-          "? Do you want to install dependencies with npm now?",
-        )) {
-          functionsProcess.stdin.write("Y\n");
-        }
-      });
-      await functionsProcess.exitCode;
+      if (!firebaseJson.containsKey("functions")) {
+        final functionsProcess = await Process.start(
+          firebaseCommand,
+          [
+            "init",
+            "functions",
+            "--project",
+            projectId,
+          ],
+          runInShell: true,
+          workingDirectory: "firebase",
+          mode: ProcessStartMode.normal,
+        );
+        functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
+          // ignore: avoid_print
+          print(line);
+          if (line.startsWith(
+            "? What language would you like to use to write Cloud Functions?",
+          )) {
+            functionsProcess.stdin.write("k\n");
+          }
+          if (line.startsWith(
+            "? Do you want to use ESLint to catch probable bugs and enforce style?",
+          )) {
+            functionsProcess.stdin.write("y\n");
+          }
+          if (line.startsWith(
+            "? Do you want to install dependencies with npm now?",
+          )) {
+            functionsProcess.stdin.write("Y\n");
+          }
+        });
+        await functionsProcess.exitCode;
+      }
       await command(
         "Package installation.",
         [
