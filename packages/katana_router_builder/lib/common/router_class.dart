@@ -104,7 +104,7 @@ List<Class> routerClass(
                 ),
                 Parameter(
                   (p) => p
-                    ..name = "loggerAdapter"
+                    ..name = "loggerAdapters"
                     ..named = true
                     ..toSuper = true,
                 ),

@@ -10,6 +10,8 @@ part of katana_router;
 ///
 /// By executing [setPathUrlStrategy], it is possible to use URLs with the web hash (#) removed.
 ///
+/// Adapters for loggers can be applied to routing in [loggerAdapters].
+///
 /// アプリ全体のルーティングを定義するためのコントローラー。
 ///
 /// [MaterialApp.router]の`routerConfig`に渡すことでアプリ全体のルーティングを定義することができます。
@@ -19,6 +21,8 @@ part of katana_router;
 /// また、[AppRouter.of]で[AppRouter]のオブジェクト自体を取得することも可能です。
 ///
 /// [setPathUrlStrategy]を実行することでWebのハッシュ（#）を消したURLを利用することが可能になります。
+///
+/// [loggerAdapters]でロガー用のアダプターをルーティングに適用することができます。
 ///
 /// ```dart
 /// final appRouter = AppRouter(
@@ -60,6 +64,8 @@ class AppRouter extends ChangeNotifier
   ///
   /// By executing [setPathUrlStrategy], it is possible to use URLs with the web hash (#) removed.
   ///
+  /// Adapters for loggers can be applied to routing in [loggerAdapters].
+  ///
   /// アプリ全体のルーティングを定義するためのコントローラー。
   ///
   /// [MaterialApp.router]の`routerConfig`に渡すことでアプリ全体のルーティングを定義することができます。
@@ -69,6 +75,8 @@ class AppRouter extends ChangeNotifier
   /// また、[AppRouter.of]で[AppRouter]のオブジェクト自体を取得することも可能です。
   ///
   /// [setPathUrlStrategy]を実行することでWebのハッシュ（#）を消したURLを利用することが可能になります。
+  ///
+  /// [loggerAdapters]でロガー用のアダプターをルーティングに適用することができます。
   ///
   /// ```dart
   /// final appRouter = AppRouter(
@@ -111,8 +119,8 @@ class AppRouter extends ChangeNotifier
     TransitionQuery? defaultTransitionQuery,
     bool reportsRouteUpdateToEngine = true,
     Widget backgroundWidget = const Scaffold(),
-    LoggerAdapter? loggerAdapter,
-  }) : _loggerAdapter = loggerAdapter {
+    List<LoggerAdapter> loggerAdapters = const [],
+  }) : _loggerAdapters = loggerAdapters {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
     _config = _AppRouterConfig(
@@ -149,14 +157,14 @@ class AppRouter extends ChangeNotifier
   late final _AppRouterConfig _config;
   final List<_PageStackContainer> _pageStack = [];
 
-  /// Adapter for logging.
+  /// Adapter to define loggers.
   ///
-  /// ロギングを行うためのアダプター。
-  LoggerAdapter? get loggerAdapter {
-    return _loggerAdapter ?? LoggerAdapter.primary;
+  /// ロガーを定義するアダプター。
+  List<LoggerAdapter> get loggerAdapters {
+    return [...LoggerAdapter.primary, ..._loggerAdapters];
   }
 
-  final LoggerAdapter? _loggerAdapter;
+  final List<LoggerAdapter> _loggerAdapters;
 
   BuildContext? get _context => _config.navigatorKey.currentContext;
 
@@ -429,7 +437,9 @@ class AppRouter extends ChangeNotifier
   }
 
   void _sendLog(RouteLoggerEvent event, {DynamicMap? parameters}) {
-    loggerAdapter?.send(event.toString(), parameters: parameters);
+    for (final loggerAdapter in loggerAdapters) {
+      loggerAdapter.send(event.toString(), parameters: parameters);
+    }
   }
 
   String _effectiveInitialLocation(String? initialLocation) {
