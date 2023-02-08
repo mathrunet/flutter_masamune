@@ -236,10 +236,10 @@ packages:
     dependency: transitive
     description:
       name: katana_auth
-      sha256: eb1ba0c8c2f8df313338a57cd94398e3ad62b09b1ca184c301a5b66c6521f861
+      sha256: c51ff3871e81b55438f0b64426af8cfdfcca51b8ff9274a51425499657b64b97
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.4"
   katana_form:
     dependency: transitive
     description:
@@ -300,10 +300,10 @@ packages:
     dependency: transitive
     description:
       name: katana_logger
-      sha256: "011c60d70c66a7d1e318999b951bf37ee02fe59d9283264714543c66993fbffd"
+      sha256: dfe93fef502aa4a654915751ea441ca16bbc1c468baef9b88d4bb8c5f85ec64a
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   katana_model:
     dependency: transitive
     description:
@@ -332,10 +332,10 @@ packages:
     dependency: transitive
     description:
       name: katana_router
-      sha256: "76248c6567c827e012464ee9403273351e7900478898ea1e89d74ac0254d8854"
+      sha256: "49045bc1846d85e1c2deb309ecaba3ea5707b32c28cb09b7c48853d68a1d7873"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.2"
   katana_router_annotation:
     dependency: transitive
     description:
@@ -348,10 +348,10 @@ packages:
     dependency: transitive
     description:
       name: katana_scoped
-      sha256: "328c7a47a5bba23a4a6f9813072ba76565571632e3bc5f26569f2a3ffa1d50a2"
+      sha256: "005ab2c71861c3232ceff086dfa54d772e22b105f1ab5c71909435e3859f07d7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   katana_shorten:
     dependency: transitive
     description:
@@ -412,10 +412,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune
-      sha256: "6d93cfb5c2ff8d0d596fd4b5a8aa6383a66e5e2db3f7c0ea6bc7ce472ad8c552"
+      sha256: "32c2fe4e9fcb1d7a0f6668af15023cd650cb9e5a8bbff3c073fb4fb9108a9021"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.0"
+    version: "1.6.1"
   masamune_annotation:
     dependency: transitive
     description:

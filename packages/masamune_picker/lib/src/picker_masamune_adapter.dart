@@ -113,6 +113,9 @@ abstract class PickerMasamuneAdapter extends MasamuneAdapter {
 
   @override
   void onError(Object error, StackTrace stackTrace) {}
+
+  @override
+  List<LoggerAdapter> get loggerAdapters => const [];
 }
 
 /// [PickerMasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.

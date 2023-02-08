@@ -64,7 +64,4 @@ class TestPickerMasamuneAdapter extends PickerMasamuneAdapter {
     }
     return PickerValue(path: defaultFilePath, bytes: defaultFileBytes);
   }
-
-  @override
-  List<LoggerAdapter> get loggerAdapters => const [];
 }
