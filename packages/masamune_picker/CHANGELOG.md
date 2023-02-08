@@ -1,3 +1,7 @@
+## 1.5.19
+
+ - Update a dependency to the latest release.
+
 ## 1.5.18
 
  - **FIX**: Changed the definition location of loggerAdapters. ([53a9070d](https://github.com/mathrunet/flutter_masamune/commit/53a9070df2697ce7f2957d9b3c72a8abaabc8b17))

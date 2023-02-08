@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **FIX**: Change send method to Future. ([779300d0](https://github.com/mathrunet/flutter_masamune/commit/779300d0f0337c45e079b00788c086f0fe609bec))
+
 ## 1.2.1
 
  - **FIX**: Changed the interface of LoggerAdapter. ([6efb95d9](https://github.com/mathrunet/flutter_masamune/commit/6efb95d99e92b7327620f1b0225651f3097b5ec3))
