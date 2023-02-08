@@ -4,9 +4,7 @@ part of masamune_logger_firebase;
 ///
 /// As for Firebase Crashlytics, it is configured to supplement errors during app crashes (including in and out of Flutter).
 ///
-/// For Firebase Analytics, make sure to pass [FirebaseAnalyticsObserver] and log screen transitions.
-///
-/// Otherwise, please use [FirebaseLogger.send].
+/// As for Firebase Analytics, we will pass a [FirebaseLoggerAdapter] to log screen transitions and events.
 ///
 /// Firebase settings can be specified by passing [options].
 ///
@@ -16,9 +14,7 @@ part of masamune_logger_firebase;
 ///
 /// Firebase Crashlyticsに関してはアプリクラッシュ時（Flutter内外含む）のエラーを補足するように設定を行います。
 ///
-/// Firebase Analyticsに関しては、[FirebaseAnalyticsObserver]を渡すようにし、画面遷移をロギングします。
-///
-/// それ以外は[FirebaseLogger.send]をお使いください。
+/// Firebase Analyticsに関しては、[FirebaseLoggerAdapter]を渡すようにし、画面遷移やイベントをロギングします。
 ///
 /// [options]を渡すとFirebaseの設定を指定することが可能です。
 ///
@@ -28,9 +24,7 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   ///
   /// As for Firebase Crashlytics, it is configured to supplement errors during app crashes (including in and out of Flutter).
   ///
-  /// For Firebase Analytics, make sure to pass [FirebaseAnalyticsObserver] and log screen transitions.
-  ///
-  /// Otherwise, please use [FirebaseLogger.send].
+  /// As for Firebase Analytics, we will pass a [FirebaseLoggerAdapter] to log screen transitions and events.
   ///
   /// Firebase settings can be specified by passing [options].
   ///
@@ -40,9 +34,7 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   ///
   /// Firebase Crashlyticsに関してはアプリクラッシュ時（Flutter内外含む）のエラーを補足するように設定を行います。
   ///
-  /// Firebase Analyticsに関しては、[FirebaseAnalyticsObserver]を渡すようにし、画面遷移をロギングします。
-  ///
-  /// それ以外は[FirebaseLogger.send]をお使いください。
+  /// Firebase Analyticsに関しては、[FirebaseLoggerAdapter]を渡すようにし、画面遷移やイベントをロギングします。
   ///
   /// [options]を渡すとFirebaseの設定を指定することが可能です。
   ///
@@ -56,19 +48,6 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   })  : _analytics = analytics,
         _crashlytics = crashlytics,
         _performance = performance;
-
-  /// You can retrieve the [FirebaseLoggerMasamuneAdapter] first given by [FirebaseLoggerMasamuneAdapterScope].
-  ///
-  /// 最初に[FirebaseLoggerMasamuneAdapterScope]で与えた[FirebaseLoggerMasamuneAdapter]を取得することができます。
-  static FirebaseLoggerMasamuneAdapter get primary {
-    assert(
-      _primary != null,
-      "FirebaseLoggerMasamuneAdapter is not set. Place [FirebaseLoggerMasamuneAdapterScope] widget closer to the root.",
-    );
-    return _primary ?? const FirebaseLoggerMasamuneAdapter();
-  }
-
-  static FirebaseLoggerMasamuneAdapter? _primary;
 
   /// The instance of [FirebaseAnalytics] to be used.
   ///
@@ -117,17 +96,10 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  Widget onBuildApp(BuildContext context, Widget app) {
-    return FirebaseLoggerMasamuneAdapterScope(
-      adapter: this,
-      child: app,
-    );
-  }
+  Widget onBuildApp(BuildContext context, Widget app) => app;
 
   @override
-  List<NavigatorObserver> get navigatorObservers => [
-        FirebaseAnalyticsObserver(analytics: analytics),
-      ];
+  List<NavigatorObserver> get navigatorObservers => const [];
 
   @override
   List<LoggerAdapter> get loggerAdapters => [

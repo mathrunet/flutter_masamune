@@ -10,9 +10,7 @@ part 'main.g.dart';
 
 @freezed
 @immutable
-class AnalyticsValue
-    with _$AnalyticsValue
-    implements FirebaseLoggerAnalyticsValue {
+class AnalyticsValue with _$AnalyticsValue implements Loggable {
   const factory AnalyticsValue({
     required String userId,
   }) = _AnalyticsValue;
@@ -31,15 +29,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FirebaseLoggerMasamuneAdapterScope(
-      adapter: const FirebaseLoggerMasamuneAdapter(),
-      child: MasamuneApp(
-        home: const PickerPage(),
-        title: "Flutter Demo",
-        theme: AppThemeData(
-          primary: Colors.blue,
-        ),
+    return MasamuneApp(
+      home: const PickerPage(),
+      title: "Flutter Demo",
+      theme: AppThemeData(
+        primary: Colors.blue,
       ),
+      masamuneAdapters: const [FirebaseLoggerMasamuneAdapter()],
     );
   }
 }
@@ -52,7 +48,7 @@ class PickerPage extends StatefulWidget {
 }
 
 class PickerPageState extends State<PickerPage> {
-  final logger = FirebaseLogger();
+  final logger = Logger();
 
   @override
   void initState() {

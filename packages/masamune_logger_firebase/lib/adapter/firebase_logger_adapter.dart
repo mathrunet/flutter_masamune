@@ -64,6 +64,17 @@ class FirebaseLoggerAdapter extends LoggerAdapter {
 
   final FirebasePerformance? _performance;
 
+  /// Intentionally crashes.
+  ///
+  /// Please use it to send events to FirebaseCrashlytics.
+  ///
+  /// 意図的にクラッシュさせます。
+  ///
+  /// FirebaseCrashlyticsにイベントを送る際にご利用ください。
+  void crash() {
+    crashlytics.crash();
+  }
+
   @override
   Future<List<LogValue>> logList() => Future.value([]);
 
