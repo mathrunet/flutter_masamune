@@ -8,6 +8,8 @@ part of katana_functions_firebase;
 ///
 /// You can initialize Firebase by passing [options].
 ///
+/// The region of the instance can be changed by passing [region].
+///
 /// Firebase Functionsを利用してサーバー側の処理を返すためのアダプター。
 ///
 /// npmの`@mathrunet/masamune`を利用することでサーバー側の実装を簡略化することができます。
@@ -15,6 +17,8 @@ part of katana_functions_firebase;
 /// 基本的にデフォルトの[FirebaseFunctions.instance]が利用されますが、アダプターの作成時に[functions]を渡すことで指定された認証データベースを利用することが可能です。
 ///
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
+///
+/// [region]を渡すことでインスタンスのリージョンを変更することが可能です。
 class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// Adapter to return server-side processing using Firebase Functions.
   ///
@@ -24,6 +28,8 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   ///
   /// You can initialize Firebase by passing [options].
   ///
+  /// The region of the instance can be changed by passing [region].
+  ///
   /// Firebase Functionsを利用してサーバー側の処理を返すためのアダプター。
   ///
   /// npmの`@mathrunet/masamune`を利用することでサーバー側の実装を簡略化することができます。
@@ -31,8 +37,11 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   /// 基本的にデフォルトの[FirebaseFunctions.instance]が利用されますが、アダプターの作成時に[functions]を渡すことで指定された認証データベースを利用することが可能です。
   ///
   /// [options]を渡すことでFirebaseの初期化を行うことができます。
+  ///
+  /// [region]を渡すことでインスタンスのリージョンを変更することが可能です。
   const FirebaseFunctionsAdapter({
     this.options,
+    this.region,
     FirebaseFunctions? functions,
   }) : _functions = functions;
 
@@ -40,7 +49,14 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   ///
   /// Firebase Functionsのインスタンス。
   FirebaseFunctions get functions {
-    return _functions ?? FirebaseFunctions.instance;
+    if (_functions != null) {
+      return _functions!;
+    }
+    if (region.isEmpty) {
+      return FirebaseFunctions.instance;
+    } else {
+      return FirebaseFunctions.instanceFor(region: region);
+    }
   }
 
   final FirebaseFunctions? _functions;
@@ -49,6 +65,11 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   ///
   /// Firebaseを初期化する際のオプション。
   final FirebaseOptions? options;
+
+  /// Firebase Functions Region.
+  ///
+  /// Firebase Functionsのリージョン。
+  final String? region;
 
   @override
   Future<void> sendNotification({
@@ -62,7 +83,6 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
     try {
       final regExp = RegExp(r"[a-zA-Z0-9]{11}:[0-9a-zA-Z_-]+");
       final isToken = regExp.hasMatch(target);
-      await FirebaseCore.initialize();
       await functions.httpsCallable("send_notification").call(
         {
           "title": title,
