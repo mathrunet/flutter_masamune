@@ -236,10 +236,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_auth
-      sha256: f650642cdc0300b591a4460d082fd493fdce0614a6ba3860842aa162cc96575a
+      sha256: eb1ba0c8c2f8df313338a57cd94398e3ad62b09b1ca184c301a5b66c6521f861
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.2"
+    version: "1.2.3"
   katana_form:
     dependency: "direct main"
     description:
@@ -348,10 +348,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_scoped
-      sha256: d0796fb403b78557f09fe18d12afa97bf140c0f60e94677e48723a07ed754643
+      sha256: "328c7a47a5bba23a4a6f9813072ba76565571632e3bc5f26569f2a3ffa1d50a2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.10"
+    version: "1.8.0"
   katana_shorten:
     dependency: "direct main"
     description:

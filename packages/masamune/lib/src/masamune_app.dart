@@ -515,7 +515,7 @@ class MasamuneApp extends StatelessWidget {
       }
       observers.add(observer);
     }
-    
+
     if (home != null || routerConfig == null) {
       return MaterialApp(
         locale: localize?.locale,
