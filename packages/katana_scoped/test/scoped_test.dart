@@ -1,6 +1,5 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:katana_logger/katana_logger.dart';
 
 // Package imports:
 import 'package:test/test.dart';

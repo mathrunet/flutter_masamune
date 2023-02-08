@@ -10,6 +10,8 @@ library katana_scoped;
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:katana_logger/katana_logger.dart';
 
 export 'package:katana/katana.dart';
