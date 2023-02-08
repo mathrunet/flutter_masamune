@@ -10,6 +10,7 @@ library katana_scoped;
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:katana_logger/katana_logger.dart';
 
 export 'package:katana/katana.dart';
 export 'value/value.dart';
@@ -25,3 +26,4 @@ part 'src/scoped_value_container.dart';
 part 'src/scoped_value_listener.dart';
 part 'src/scoped_value_ref.dart';
 part 'src/scoped_query.dart';
+part 'src/scoped_logger_event.dart';

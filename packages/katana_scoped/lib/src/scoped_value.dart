@@ -53,6 +53,8 @@ abstract class ScopedValueState<TResult,
   bool _disposed = false;
   late TScopedValue? _value;
   final Set<VoidCallback> _listeners = {};
+  late final DynamicMap _baseParameters;
+  late final List<LoggerAdapter> _loggerAdapters;
 
   void _addListener(VoidCallback callback) {
     _listeners.add(callback);
@@ -71,6 +73,15 @@ abstract class ScopedValueState<TResult,
 
   void _setValue(TScopedValue value) {
     _value = value;
+  }
+
+  void _setLoggers({
+    required List<LoggerAdapter> loggerAdapters,
+    required DynamicMap baseParameters,
+  }) {
+    _loggerAdapters = loggerAdapters;
+    _baseParameters = baseParameters;
+    _sendLog(ScopedLoggerEvent.init);
   }
 
   /// Used to check for updates with `keys` when trying to update with [setState] in [didUpdateValue].
@@ -168,10 +179,26 @@ abstract class ScopedValueState<TResult,
     assert(!disposed, "Value is already disposed.");
     _disposed = true;
     _listeners.clear();
+    _sendLog(ScopedLoggerEvent.dispose);
   }
 
   /// Builder to return [TResult].
   ///
   /// [TResult]を返すためのビルダー。
   TResult build();
+
+  void _sendLog(
+    ScopedLoggerEvent event, {
+    DynamicMap? additionalParameter,
+  }) {
+    for (final loggerAdapter in _loggerAdapters) {
+      loggerAdapter.send(
+        event.toString(),
+        parameters: {
+          ..._baseParameters,
+          if (additionalParameter != null) ...additionalParameter,
+        },
+      );
+    }
+  }
 }

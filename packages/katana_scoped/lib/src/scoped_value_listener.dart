@@ -14,6 +14,18 @@ class AppScopedValueListener extends ScopedValueListener {
     final appRef = _AppScopedScope.of(_context).widget.appRef;
     return appRef._scopedValueContainer;
   }
+
+  @override
+  @protected
+  ScopedLoggerScope get _scope {
+    return ScopedLoggerScope.app;
+  }
+
+  @override
+  @protected
+  String? get _managedBy {
+    return _appRef.toString();
+  }
 }
 
 /// [ScopedValueListener] that targets the page.
@@ -28,6 +40,18 @@ class PageScopedValueListener extends ScopedValueListener {
   @override
   ScopedValueContainer get container {
     return _PageScopedScope.of(_context)._container;
+  }
+
+  @override
+  @protected
+  ScopedLoggerScope get _scope {
+    return ScopedLoggerScope.page;
+  }
+
+  @override
+  @protected
+  String? get _managedBy {
+    return _PageScopedScope.of(_context).widget.toString();
   }
 }
 
@@ -55,6 +79,25 @@ class ScopedValueListener {
   final VoidCallback _callback;
   final ScopedValueContainer? _container;
   final Set<ScopedValueState> _watched = {};
+
+  AppRef get _appRef {
+    return _AppScopedScope.of(_context).widget.appRef;
+  }
+
+  @protected
+  ScopedLoggerScope get _scope {
+    return ScopedLoggerScope.widget;
+  }
+
+  @protected
+  String? get _managedBy {
+    return _context.widget.toString();
+  }
+
+  @protected
+  String get _listenedBy {
+    return _context.widget.toString();
+  }
 
   /// [ScopedValueContainer] that stores [ScopedValue].
   ///
@@ -87,9 +130,15 @@ class ScopedValueListener {
         if (listen) {
           _watched.add(state);
           state._addListener(_callback);
+          state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
+            ScopedLoggerEvent.listenedKey: _listenedBy,
+          });
         }
       },
       name: name,
+      scope: _scope,
+      managedBy: _managedBy,
+      loggerAdapters: _appRef.loggerAdapters,
     );
     return state.build();
   }
@@ -141,6 +190,9 @@ class ScopedValueListener {
   void dispose() {
     for (final watched in _watched) {
       watched._removeListener(_callback);
+      watched._sendLog(ScopedLoggerEvent.unlisten, additionalParameter: {
+        ScopedLoggerEvent.listenedKey: _listenedBy,
+      });
       watched.deactivate();
     }
     _watched.clear();

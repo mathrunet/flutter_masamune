@@ -75,6 +75,9 @@ class ScopedValueContainer extends ChangeNotifier {
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
     String? name,
+    ScopedLoggerScope? scope,
+    String? managedBy,
+    List<LoggerAdapter> loggerAdapters = const [],
   }) {
     final key = "$TScopedValue/$name";
     final found = _data[key];
@@ -95,6 +98,15 @@ class ScopedValueContainer extends ChangeNotifier {
       final state =
           value.createState() as ScopedValueState<TResult, TScopedValue>;
       state._setValue(value);
+      state._setLoggers(
+        loggerAdapters: loggerAdapters,
+        baseParameters: {
+          if (scope != null) ScopedLoggerEvent.scopeKey: scope.name,
+          ScopedLoggerEvent.typeKey: TScopedValue.toString(),
+          ScopedLoggerEvent.nameKey: name,
+          if (managedBy != null) ScopedLoggerEvent.managedKey: managedBy,
+        },
+      );
       onInitOrUpdate?.call(state);
       state.initValue();
       _data[key] = state;

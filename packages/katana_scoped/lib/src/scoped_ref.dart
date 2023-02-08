@@ -34,9 +34,20 @@ class AppRef implements Ref {
   /// [scopedValueContainer]を指定すると独自の[ScopedValueContainer]を利用可能です。テスト等でご利用ください。
   AppRef({
     ScopedValueContainer? scopedValueContainer,
-  }) : _scopedValueContainer = scopedValueContainer ?? ScopedValueContainer();
+    List<LoggerAdapter> loggerAdapters = const [],
+  })  : _scopedValueContainer = scopedValueContainer ?? ScopedValueContainer(),
+        _loggerAdapters = loggerAdapters;
 
   final ScopedValueContainer _scopedValueContainer;
+
+  /// Adapter to define loggers.
+  ///
+  /// ロガーを定義するアダプター。
+  List<LoggerAdapter> get loggerAdapters {
+    return [...LoggerAdapter.primary, ..._loggerAdapters];
+  }
+
+  final List<LoggerAdapter> _loggerAdapters;
 
   /// [listen] does not work only for [AppRef.getScopedValue].
   /// (setting [listen] to `true' does not redraw the monitored object)
@@ -55,6 +66,9 @@ class AppRef implements Ref {
         .getScopedValueState<TResult, TScopedValue>(
           () => provider(this),
           name: name,
+          scope: ScopedLoggerScope.app,
+          managedBy: toString(),
+          loggerAdapters: loggerAdapters,
         )
         .build();
   }
