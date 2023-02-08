@@ -15,6 +15,36 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_picker` - `v1.5.18`](#masamune_picker---v1518)
+ - [`masamune_picker_file` - `v1.5.18`](#masamune_picker_file---v1518)
+ - [`masamune_picker_mobile` - `v1.5.18`](#masamune_picker_mobile---v1518)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v1.5.18`
+ - `masamune_picker_mobile` - `v1.5.18`
+
+---
+
+#### `masamune_picker` - `v1.5.18`
+
+ - **FIX**: Changed the definition location of loggerAdapters. ([53a9070d](https://github.com/mathrunet/flutter_masamune/commit/53a9070df2697ce7f2957d9b3c72a8abaabc8b17))
+
+
+## 2023-02-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_logger_firebase` - `v1.2.0`](#masamune_logger_firebase---v120)
  - [`masamune_picker` - `v1.5.17`](#masamune_picker---v1517)
  - [`masamune_picker_file` - `v1.5.17`](#masamune_picker_file---v1517)

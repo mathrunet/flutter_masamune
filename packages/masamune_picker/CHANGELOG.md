@@ -1,3 +1,7 @@
+## 1.5.18
+
+ - **FIX**: Changed the definition location of loggerAdapters. ([53a9070d](https://github.com/mathrunet/flutter_masamune/commit/53a9070df2697ce7f2957d9b3c72a8abaabc8b17))
+
 ## 1.5.17
 
  - **FIX**: Support for MasamuneAdapter changes. ([76f50e5a](https://github.com/mathrunet/flutter_masamune/commit/76f50e5a23ef3844acd5b5ea5dc8d0538cf2ab21))
