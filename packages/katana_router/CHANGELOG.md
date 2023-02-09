@@ -1,3 +1,7 @@
+## 1.11.4
+
+ - **FIX**: Fixed a bug in which the route names were reversed when didPop was used. ([75a12d05](https://github.com/mathrunet/flutter_masamune/commit/75a12d0553dca1854e81844826eebe4ff4edcd2d))
+
 ## 1.11.3
 
  - Update a dependency to the latest release.

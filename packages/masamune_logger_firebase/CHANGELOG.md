@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - Update a dependency to the latest release.
+
 ## 1.2.2
 
  - **FIX**: Maintenance of MasamuneAdapter. ([79952ea5](https://github.com/mathrunet/flutter_masamune/commit/79952ea5b8c0a96a6e1269cdcb118d23a5192f0d))

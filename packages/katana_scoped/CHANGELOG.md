@@ -1,3 +1,7 @@
+## 1.8.3
+
+ - **FIX**: Fixed a bug that prevented proper logging. ([8f11436f](https://github.com/mathrunet/flutter_masamune/commit/8f11436f46a27df5d44cc02b8dde072842595aab))
+
 ## 1.8.2
 
  - Update a dependency to the latest release.

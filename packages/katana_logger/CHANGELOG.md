@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Added restrictions and filtering capabilities to various Adapters. ([d235aebb](https://github.com/mathrunet/flutter_masamune/commit/d235aebb777c13d14158dc26695e56e646242193))
+
 ## 1.2.2
 
  - **FIX**: Change send method to Future. ([779300d0](https://github.com/mathrunet/flutter_masamune/commit/779300d0f0337c45e079b00788c086f0fe609bec))

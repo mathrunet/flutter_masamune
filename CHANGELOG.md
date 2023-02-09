@@ -15,6 +15,58 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_logger` - `v1.2.3`](#katana_logger---v123)
+ - [`katana_router` - `v1.11.4`](#katana_router---v1114)
+ - [`katana_scoped` - `v1.8.3`](#katana_scoped---v183)
+ - [`katana_auth` - `v1.2.6`](#katana_auth---v126)
+ - [`masamune` - `v1.6.3`](#masamune---v163)
+ - [`katana_auth_firebase` - `v1.2.6`](#katana_auth_firebase---v126)
+ - [`masamune_picker` - `v1.5.21`](#masamune_picker---v1521)
+ - [`masamune_notification_firebase` - `v1.1.73`](#masamune_notification_firebase---v1173)
+ - [`masamune_logger_firebase` - `v1.2.3`](#masamune_logger_firebase---v123)
+ - [`masamune_picker_mobile` - `v1.5.21`](#masamune_picker_mobile---v1521)
+ - [`masamune_picker_file` - `v1.5.21`](#masamune_picker_file---v1521)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth` - `v1.2.6`
+ - `masamune` - `v1.6.3`
+ - `katana_auth_firebase` - `v1.2.6`
+ - `masamune_picker` - `v1.5.21`
+ - `masamune_notification_firebase` - `v1.1.73`
+ - `masamune_logger_firebase` - `v1.2.3`
+ - `masamune_picker_mobile` - `v1.5.21`
+ - `masamune_picker_file` - `v1.5.21`
+
+---
+
+#### `katana_logger` - `v1.2.3`
+
+ - **FIX**: Added restrictions and filtering capabilities to various Adapters. ([d235aebb](https://github.com/mathrunet/flutter_masamune/commit/d235aebb777c13d14158dc26695e56e646242193))
+
+#### `katana_router` - `v1.11.4`
+
+ - **FIX**: Fixed a bug in which the route names were reversed when didPop was used. ([75a12d05](https://github.com/mathrunet/flutter_masamune/commit/75a12d0553dca1854e81844826eebe4ff4edcd2d))
+
+#### `katana_scoped` - `v1.8.3`
+
+ - **FIX**: Fixed a bug that prevented proper logging. ([8f11436f](https://github.com/mathrunet/flutter_masamune/commit/8f11436f46a27df5d44cc02b8dde072842595aab))
+
+
+## 2023-02-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_picker` - `v1.5.20`](#masamune_picker---v1520)
  - [`masamune_picker_file` - `v1.5.20`](#masamune_picker_file---v1520)
  - [`masamune_picker_mobile` - `v1.5.20`](#masamune_picker_mobile---v1520)
