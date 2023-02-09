@@ -327,6 +327,12 @@ final storageAdapter = LocalStorageAdapter();
 // TODO: Change the functions.
 final functionsAdapter = RuntimeFunctionsAdapter();
 
+/// Logger adapter list.
+/// 
+/// Adapters for logging can be defined here.
+// TODO: Change the loggers.
+final loggerAdapters = <LoggerAdapter>[];
+
 /// Masamune adapter.
 /// 
 /// The Masamune framework plugin functions can be defined together.
@@ -415,6 +421,19 @@ final appAuth = Authentication();
 /// ```
 final appFunction = Functions();
 
+/// App logger.
+/// 
+/// Used to obtain and send logs.
+/// 
+/// ```
+/// appLogger.send(
+///   AnalyticsValue(
+///     userId: "user id",
+///   )
+/// );
+/// ```
+final appLogger = Logger();
+
 /// App Flavor.
 const flavor = String.fromEnvironment("FLAVOR");
 
@@ -431,6 +450,7 @@ void main() {
       modelAdapter: modelAdapter,
       storageAdapter: storageAdapter,
       functionsAdapter: functionsAdapter,
+      loggerAdapters: loggerAdapters,
       masamuneAdapters: masamuneAdapters,
     ),
     masamuneAdapters: masamuneAdapters,

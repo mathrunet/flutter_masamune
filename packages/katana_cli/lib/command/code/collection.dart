@@ -77,7 +77,7 @@ typedef ${className}ModelRef = ModelRef<${className}Model>?;
 @immutable
 // TODO: Set the path for the collection.
 @CollectionModelPath("\${1:$path}")
-class ${className}Model with _\$${className}Model {
+class ${className}Model with _\$${className}Model implements Logger {
   const factory ${className}Model({
      // TODO: Set the data schema.
      \${2}

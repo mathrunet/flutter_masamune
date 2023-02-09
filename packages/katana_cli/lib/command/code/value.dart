@@ -66,7 +66,7 @@ part '$baseName.freezed.dart';
 @freezed
 @formValue
 @immutable
-class ${className}Value with _\$${className}Value {
+class ${className}Value with _\$${className}Value implements Logger {
   const factory ${className}Value({
      // TODO: Set the data schema.
      \${2}
