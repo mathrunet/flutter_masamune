@@ -45,6 +45,7 @@ class LoggerDatabase {
   // ignore: prefer_final_fields
   Map<String, DynamicMap> _data = {};
   bool _initialized = false;
+  int _limit = 100;
   Completer<void>? _completer;
 
   /// Executed at Database initialization time.
@@ -84,6 +85,17 @@ class LoggerDatabase {
     }
   }
 
+  /// Set the log limit to [limit].
+  ///
+  /// ログの上限を[limit]に設定します。
+  void setLimit(int limit) {
+    if (limit == _limit) {
+      return;
+    }
+    assert(limit >= 0, "Set [limit] to 0 or more.");
+    _limit = limit;
+  }
+
   /// Each log data can be entered directly.
   ///
   /// それぞれのログデータを直接入力することができます。
@@ -91,6 +103,10 @@ class LoggerDatabase {
     _data.addAll(
       data.map((key, value) => MapEntry(key.toIso8601String(), value)),
     );
+    final entries =
+        _data.entries.toList().sortTo((a, b) => b.key.compareTo(a.key));
+    _data = Map.fromEntries(
+        entries.sublist(0, min(_limit, entries.length)).reversed);
   }
 
   /// Reads values from the database.
@@ -120,6 +136,10 @@ class LoggerDatabase {
       if (parameters != null) ...parameters,
       nameKey: name,
     };
+    final entries =
+        _data.entries.toList().sortTo((a, b) => b.key.compareTo(a.key));
+    _data = Map.fromEntries(
+        entries.sublist(0, min(_limit, entries.length)).reversed);
     await onSaved?.call(this);
   }
 }

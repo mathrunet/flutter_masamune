@@ -7,7 +7,9 @@ part of katana_logger;
 /// [LoggerDatabase] specified in [database].
 /// Please use for testing purposes.
 ///
-/// You can check the logs recorded at [logs].
+/// You can check the logs recorded at [logList].
+///
+/// The log limit can be set with [limit]. The default value is `100`.
 ///
 /// メモリ上でログを記録する[LoggerAdapter]。
 ///
@@ -17,6 +19,8 @@ part of katana_logger;
 /// テスト用にお使いください。
 ///
 /// [logList]で記録されたログを確認することができます。
+///
+/// [limit]でログの上限を設定可能です。初期値は`100`です。
 class RuntimeLoggerAdapter extends LoggerAdapter {
   /// Logging in memory [LoggerAdapter].
   ///
@@ -25,7 +29,9 @@ class RuntimeLoggerAdapter extends LoggerAdapter {
   /// [LoggerDatabase] specified in [database].
   /// Please use for testing purposes.
   ///
-  /// You can check the logs recorded at [logs].
+  /// You can check the logs recorded at [logList].
+  ///
+  /// The log limit can be set with [limit]. The default value is `100`.
   ///
   /// メモリ上でログを記録する[LoggerAdapter]。
   ///
@@ -35,9 +41,12 @@ class RuntimeLoggerAdapter extends LoggerAdapter {
   /// テスト用にお使いください。
   ///
   /// [logList]で記録されたログを確認することができます。
+  ///
+  /// [limit]でログの上限を設定可能です。初期値は`100`です。
   const RuntimeLoggerAdapter({
     this.rawData = const {},
     LoggerDatabase? database,
+    this.limit = 100,
   }) : _database = database;
 
   /// Actual log data when used as a mock-up.
@@ -45,11 +54,17 @@ class RuntimeLoggerAdapter extends LoggerAdapter {
   /// モックアップとして利用する際の実ログデータ。
   final Map<DateTime, DynamicMap> rawData;
 
+  /// Log limit.
+  ///
+  /// ログの上限。
+  final int limit;
+
   /// Designated database. Please use for testing purposes, etc.
   ///
   /// 指定のデータベース。テスト用途などにご利用ください。
   LoggerDatabase get database {
     final database = _database ?? sharedDatabase;
+    database.setLimit(limit);
     if (database._data.isEmpty) {
       database.setRawData(rawData);
     }

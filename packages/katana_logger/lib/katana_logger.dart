@@ -11,6 +11,7 @@ library katana_logger;
 // Dart imports:
 import 'dart:async';
 import 'dart:developer' as developer;
+import 'dart:math';
 
 // Flutter imports:
 import 'package:flutter/widgets.dart';

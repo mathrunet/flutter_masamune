@@ -4,25 +4,44 @@ const _kLocalDatabaseId = "logger://";
 
 /// Logging can be done locally on the terminal [LoggerAdapter].
 ///
-/// You can check the logs recorded at [logs].
+/// You can check the logs recorded at [logList].
+///
+/// The log limit can be set with [limit]. The default value is `100`.
 ///
 /// 端末ローカル上にログを記録することができる[LoggerAdapter]。
 ///
 /// [logList]で記録されたログを確認することができます。
+///
+/// [limit]でログの上限を設定可能です。初期値は`100`です。
 class LocalLoggerAdapter extends LoggerAdapter {
   /// Logging can be done locally on the terminal [LoggerAdapter].
   ///
-  /// You can check the logs recorded at [logs].
+  /// You can check the logs recorded at [logList].
+  ///
+  /// The log limit can be set with [limit]. The default value is `100`.
   ///
   /// 端末ローカル上にログを記録することができる[LoggerAdapter]。
   ///
   /// [logList]で記録されたログを確認することができます。
-  const LocalLoggerAdapter();
+  ///
+  /// [limit]でログの上限を設定可能です。初期値は`100`です。
+  const LocalLoggerAdapter({
+    this.limit = 100,
+  });
+
+  /// Log limit.
+  ///
+  /// ログの上限。
+  final int limit;
 
   /// Designated database.
   ///
   /// 指定のデータベース。
-  LoggerDatabase get database => sharedDatabase;
+  LoggerDatabase get database {
+    final database = sharedDatabase;
+    database.setLimit(limit);
+    return database;
+  }
 
   /// A common database throughout the application.
   ///
