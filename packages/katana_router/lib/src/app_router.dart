@@ -404,8 +404,8 @@ class AppRouter extends ChangeNotifier
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _sendLog(RouteLoggerEvent.pop, parameters: {
-        RouteLoggerEvent.newRouteKey: route.settings.name,
-        RouteLoggerEvent.prevRouteKey: previousRoute?.settings.name,
+        RouteLoggerEvent.newRouteKey: previousRoute?.settings.name,
+        RouteLoggerEvent.prevRouteKey: route.settings.name,
       });
       notifyListeners();
     });

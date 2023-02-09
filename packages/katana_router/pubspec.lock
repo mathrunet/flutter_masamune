@@ -223,10 +223,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_logger
-      sha256: "011c60d70c66a7d1e318999b951bf37ee02fe59d9283264714543c66993fbffd"
+      sha256: "38231bb682d13d3570eef440689f9fc7976c66f68c55f58a7f5c3ec378e32837"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.2"
   katana_router_annotation:
     dependency: "direct main"
     description:
