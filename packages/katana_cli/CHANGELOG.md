@@ -1,3 +1,7 @@
+## 1.5.8
+
+ - **FIX**: Support for katana_logger. ([a8d1b114](https://github.com/mathrunet/flutter_masamune/commit/a8d1b1140a319d5122f09fe641d98c6435788ec7))
+
 ## 1.5.7
 
  - **FIX**: Support for Region of Functions. ([68c0ee24](https://github.com/mathrunet/flutter_masamune/commit/68c0ee24d8fd22b0c893ff9a27d1487a700425f4))

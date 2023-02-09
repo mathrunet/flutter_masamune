@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.5.8`](#katana_cli---v158)
+
+---
+
+#### `katana_cli` - `v1.5.8`
+
+ - **FIX**: Support for katana_logger. ([a8d1b114](https://github.com/mathrunet/flutter_masamune/commit/a8d1b1140a319d5122f09fe641d98c6435788ec7))
+
+
+## 2023-02-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_logger` - `v1.2.3`](#katana_logger---v123)
  - [`katana_router` - `v1.11.4`](#katana_router---v1114)
  - [`katana_scoped` - `v1.8.3`](#katana_scoped---v183)
