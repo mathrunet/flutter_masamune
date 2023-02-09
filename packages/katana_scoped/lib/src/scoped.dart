@@ -60,15 +60,18 @@ class _ScopedState extends State<Scoped> {
     _appListener = AppScopedValueListener._(
       context: context,
       callback: _handledOnRebuild,
+      scope: ScopedLoggerScope.app,
     );
     _pageListener = PageScopedValueListener._(
       context: context,
       callback: _handledOnRebuild,
+      scope: ScopedLoggerScope.page,
     );
     _widgetListener = ScopedValueListener._(
       context: context,
       callback: _handledOnRebuild,
       container: _container,
+      scope: ScopedLoggerScope.widget,
     );
     _ref = WidgetRef._(
       appListener: _appListener,
@@ -215,11 +218,13 @@ class _PageScopedWidgetState extends State<PageScopedWidget> {
     _appListener = AppScopedValueListener._(
       context: context,
       callback: _handledOnRebuild,
+      scope: ScopedLoggerScope.app,
     );
     _pageListener = ScopedValueListener._(
       context: context,
       callback: _handledOnRebuild,
       container: _container,
+      scope: ScopedLoggerScope.page,
     );
     _ref = PageRef._(
       appListener: _appListener,

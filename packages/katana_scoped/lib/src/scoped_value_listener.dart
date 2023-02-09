@@ -7,6 +7,7 @@ class AppScopedValueListener extends ScopedValueListener {
   AppScopedValueListener._({
     required BuildContext context,
     required VoidCallback callback,
+    required super.scope,
   }) : super._(context: context, callback: callback);
 
   @override
@@ -17,14 +18,8 @@ class AppScopedValueListener extends ScopedValueListener {
 
   @override
   @protected
-  ScopedLoggerScope get _scope {
-    return ScopedLoggerScope.app;
-  }
-
-  @override
-  @protected
   String? get _managedBy {
-    return _appRef.toString();
+    return _appRef.runtimeType.toString();
   }
 }
 
@@ -35,17 +30,12 @@ class PageScopedValueListener extends ScopedValueListener {
   PageScopedValueListener._({
     required BuildContext context,
     required VoidCallback callback,
+    required super.scope,
   }) : super._(context: context, callback: callback);
 
   @override
   ScopedValueContainer get container {
     return _PageScopedScope.of(_context)._container;
-  }
-
-  @override
-  @protected
-  ScopedLoggerScope get _scope {
-    return ScopedLoggerScope.page;
   }
 
   @override
@@ -71,7 +61,9 @@ class ScopedValueListener {
     required BuildContext context,
     required VoidCallback callback,
     ScopedValueContainer? container,
-  })  : _context = context,
+    ScopedLoggerScope scope = ScopedLoggerScope.widget,
+  })  : _scope = scope,
+        _context = context,
         _callback = callback,
         _container = container;
 
@@ -85,19 +77,21 @@ class ScopedValueListener {
   }
 
   @protected
-  ScopedLoggerScope get _scope {
-    return ScopedLoggerScope.widget;
-  }
+  final ScopedLoggerScope _scope;
 
   @protected
   String? get _managedBy {
     return _context.widget.toString();
   }
 
+  String? __managedBy;
+
   @protected
   String get _listenedBy {
     return _context.widget.toString();
   }
+
+  String? __listendBy;
 
   /// [ScopedValueContainer] that stores [ScopedValue].
   ///
@@ -124,6 +118,8 @@ class ScopedValueListener {
     bool listen = false,
     String? name,
   }) {
+    __listendBy ??= _listenedBy;
+    __managedBy ??= _managedBy;
     final state = container.getScopedValueState<TResult, TScopedValue>(
       provider,
       onInitOrUpdate: (state) {
@@ -131,13 +127,13 @@ class ScopedValueListener {
           _watched.add(state);
           state._addListener(_callback);
           state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
-            ScopedLoggerEvent.listenedKey: _listenedBy,
+            ScopedLoggerEvent.listenedKey: __listendBy,
           });
         }
       },
       name: name,
       scope: _scope,
-      managedBy: _managedBy,
+      managedBy: __managedBy,
       loggerAdapters: _appRef.loggerAdapters,
     );
     return state.build();
@@ -191,7 +187,7 @@ class ScopedValueListener {
     for (final watched in _watched) {
       watched._removeListener(_callback);
       watched._sendLog(ScopedLoggerEvent.unlisten, additionalParameter: {
-        ScopedLoggerEvent.listenedKey: _listenedBy,
+        ScopedLoggerEvent.listenedKey: __listendBy,
       });
       watched.deactivate();
     }
