@@ -85,9 +85,46 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     }
     final document = XmlDocument.parse(await file.readAsString());
     final application = document.findAllElements("application");
+    final activity = document.findAllElements("activity");
     if (application.isEmpty) {
       throw Exception(
         "The structure of AndroidManifest.xml is broken. Do `katana create` to complete the initial setup of the project.",
+      );
+    }
+    if (!activity.first.children.any((p0) =>
+        p0 is XmlElement &&
+        p0.name.toString() == "intent-filter" &&
+        (p0.findElements("action").firstOrNull?.attributes.any((item) =>
+                item.name.toString() == "android:name" &&
+                item.value == "FLUTTER_NOTIFICATION_CLICK") ??
+            false))) {
+      activity.first.children.add(
+        XmlElement(
+          XmlName("intent-filter"),
+          [],
+          [
+            XmlElement(
+              XmlName("action"),
+              [
+                XmlAttribute(
+                  XmlName("android:name"),
+                  "FLUTTER_NOTIFICATION_CLICK",
+                ),
+              ],
+              [],
+            ),
+            XmlElement(
+              XmlName("category"),
+              [
+                XmlAttribute(
+                  XmlName("android:name"),
+                  "android.intent.category.DEFAULT",
+                ),
+              ],
+              [],
+            ),
+          ],
+        ),
       );
     }
     if (!application.first.children.any(

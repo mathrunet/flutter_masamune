@@ -447,7 +447,7 @@ class GradleAndroidDefaultConfig {
 
   @override
   String toString() {
-    return "    defaultConfig {\n        applicationId $applicationId\n        minSdkVersion $minSdkVersion\n        targetSdkVersion $targetSdkVersion\n        versionCode $versionCode\n        versionName $versionName\n${testInstrumentationRunner.isNotEmpty ? "        testInstrumentationRunner $testInstrumentationRunner\n" : ""}${multiDexEnabled.isNotEmpty ? "        multiDexEnabled $multiDexEnabled\n" : ""}${resValues.isNotEmpty ? "${resValues.map((e) => "        resValue $e").join("\n")}\n" : ""}    }\n";
+    return "    defaultConfig {\n        applicationId $applicationId\n        minSdkVersion $minSdkVersion\n        targetSdkVersion $targetSdkVersion\n        versionCode $versionCode\n        versionName $versionName\n${testInstrumentationRunner.isNotEmpty ? "        testInstrumentationRunner $testInstrumentationRunner\n" : ""}${multiDexEnabled.isNotEmpty ? "        multiDexEnabled $multiDexEnabled\n" : ""}${resValues.isNotEmpty ? "${resValues.map((e) => "        resValue ${e.replaceAll(RegExp(r"^resValue\s*"), "")}").join("\n")}\n" : ""}    }\n";
   }
 }
 
