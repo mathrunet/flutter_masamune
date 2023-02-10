@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.5.9`](#katana_cli---v159)
+
+---
+
+#### `katana_cli` - `v1.5.9`
+
+ - **FIX**: Fixed a bug that prevented CI from working properly with Android side settings. ([862c25a2](https://github.com/mathrunet/flutter_masamune/commit/862c25a2b18dbe4cf848d7a5c51453b95a5778f3))
+ - **FIX**: Android support for Messaging. ([064eba2f](https://github.com/mathrunet/flutter_masamune/commit/064eba2f0542c7b0b116736dc2ab118539704abb))
+
+
 ## 2023-02-09
 
 ### Changes

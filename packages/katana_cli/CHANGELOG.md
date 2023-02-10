@@ -1,3 +1,8 @@
+## 1.5.9
+
+ - **FIX**: Fixed a bug that prevented CI from working properly with Android side settings. ([862c25a2](https://github.com/mathrunet/flutter_masamune/commit/862c25a2b18dbe4cf848d7a5c51453b95a5778f3))
+ - **FIX**: Android support for Messaging. ([064eba2f](https://github.com/mathrunet/flutter_masamune/commit/064eba2f0542c7b0b116736dc2ab118539704abb))
+
 ## 1.5.8
 
  - **FIX**: Support for katana_logger. ([a8d1b114](https://github.com/mathrunet/flutter_masamune/commit/a8d1b1140a319d5122f09fe641d98c6435788ec7))
