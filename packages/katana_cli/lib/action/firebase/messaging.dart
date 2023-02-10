@@ -55,11 +55,11 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       );
     }
     if (!(gradle.android?.defaultConfig.resValues.any(
-          (e) => e.startsWith("resValue 'string', 'notification_channel_id'"),
+          (e) => e.startsWith("'string', 'notification_channel_id'"),
         ) ??
         false)) {
       gradle.android?.defaultConfig.resValues.add(
-        "resValue 'string', 'notification_channel_id', configProperties['notificationChannelId']",
+        "'string', 'notification_channel_id', configProperties['notificationChannelId']",
       );
     }
     await gradle.save();

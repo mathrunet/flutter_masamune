@@ -297,23 +297,23 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         await const FirebaseFunctionsIndexCliCode().generateFile("index.ts");
       }
     }
-    label("Edit local.properties");
-    final localPropertiesFile = File("android/local.properties");
-    if (!localPropertiesFile.existsSync()) {
-      error("`android/local.properties` is not found.");
+    label("Edit config.properties");
+    final configPropertiesFile = File("android/config.properties");
+    if (!configPropertiesFile.existsSync()) {
+      error("`android/config.properties` is not found.");
       return;
     }
-    final localProperteis = await localPropertiesFile.readAsLines();
-    if (!localProperteis
+    final configProperties = await configPropertiesFile.readAsLines();
+    if (!configProperties
         .any((element) => element.startsWith("flutter.minSdkVersion"))) {
-      await localPropertiesFile.writeAsString([
-        ...localProperteis,
+      await configPropertiesFile.writeAsString([
+        ...configProperties,
         "flutter.minSdkVersion=21",
       ].join("\n"));
     }
     label("Edit build.gradle");
     gradle.android?.defaultConfig.minSdkVersion =
-        "localProperties.getProperty(\"flutter.minSdkVersion\")";
+        "configProperties[\"flutter.minSdkVersion\"]";
     await gradle.save();
   }
 }
