@@ -1,3 +1,7 @@
+## 1.1.27
+
+ - **FIX**: Fixed a bug that caused an error when the cell value was only numeric. ([e5482514](https://github.com/mathrunet/flutter_masamune/commit/e5482514ddb8fc522359c397d083a52e5b7bb71a))
+
 ## 1.1.26
 
  - Update a dependency to the latest release.
