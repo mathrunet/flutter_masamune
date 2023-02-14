@@ -70,15 +70,15 @@ class LocalizeLoader {
         continue;
       }
       for (int x = 1; x < line.length; x++) {
-        final cell = line[x];
+        final cell = line[x]?.toString();
         if (cell.isEmpty) {
           continue;
         }
         if (y == 1) {
-          num2lang[x - 1] = cell;
+          num2lang[x - 1] = cell!;
         } else {
           final key = line.first;
-          final val = line[x];
+          final val = line[x]?.toString();
           if (val.isEmpty || key.isEmpty || key.startsWith("#")) {
             continue;
           }
@@ -88,10 +88,10 @@ class LocalizeLoader {
           }
           localeSet.add(locale);
           if (sourceValues.containsKey(key)) {
-            sourceValues[key]?.addLocalize({locale: val});
+            sourceValues[key]?.addLocalize({locale: val!});
           } else {
             sourceValues[key] = LocalizeSourceValue(key: key)
-              ..addLocalize({locale: val});
+              ..addLocalize({locale: val!});
           }
         }
       }

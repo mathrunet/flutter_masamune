@@ -16,44 +16,50 @@ class GoogleSpreadSheetLocalizeGenerator
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
-    if (!element.library!.isNonNullableByDefault) {
-      throw InvalidGenerationSourceError(
-        "Generator cannot target libraries that have not been migrated to "
-        "null-safety.",
-        element: element,
+    try {
+      if (!element.library!.isNonNullableByDefault) {
+        throw InvalidGenerationSourceError(
+          "Generator cannot target libraries that have not been migrated to "
+          "null-safety.",
+          element: element,
+        );
+      }
+
+      if (element is! ClassElement) {
+        throw InvalidGenerationSourceError(
+          "`@GoogleSpreadSheetLocalize()` can only be used on classes.",
+          element: element,
+        );
+      }
+
+      final pathValue = PathValue(
+        annotation.read("url").stringValue.trimString("/"),
+        annotation.read("version").intValue,
       );
-    }
+      final classValue = ClassValue(element);
+      final loader = LocalizeLoader(pathValue);
 
-    if (element is! ClassElement) {
-      throw InvalidGenerationSourceError(
-        "`@GoogleSpreadSheetLocalize()` can only be used on classes.",
-        element: element,
+      await loader.load();
+
+      final generated = Library(
+        (l) => l
+          ..body.addAll(
+            [
+              ...baseClass(classValue, pathValue, loader.locales),
+              ...localizeClass(
+                  classValue, pathValue, loader.localized, loader.locales),
+            ],
+          ),
       );
+      final emitter = DartEmitter();
+      final code = generated.accept(emitter).toString();
+      return DartFormatter().format(
+        code.isEmpty ? "// no code." : code,
+      );
+    } catch (e, stack) {
+      // ignore: avoid_print
+      print("${e.toString()}: ${stack.toString()}");
     }
-
-    final pathValue = PathValue(
-      annotation.read("url").stringValue.trimString("/"),
-      annotation.read("version").intValue,
-    );
-    final classValue = ClassValue(element);
-    final loader = LocalizeLoader(pathValue);
-
-    await loader.load();
-
-    final generated = Library(
-      (l) => l
-        ..body.addAll(
-          [
-            ...baseClass(classValue, pathValue, loader.locales),
-            ...localizeClass(
-                classValue, pathValue, loader.localized, loader.locales),
-          ],
-        ),
-    );
-    final emitter = DartEmitter();
-    final code = generated.accept(emitter).toString();
-    return DartFormatter().format(
-      code.isEmpty ? "// no code." : code,
-    );
+    return "";
   }
 }
