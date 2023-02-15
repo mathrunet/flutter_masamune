@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.7.1`](#katana_cli---v171)
+
+---
+
+#### `katana_cli` - `v1.7.1`
+
+ - **FIX**: Fixed a bug that terminated with an error when config.properties was not available. ([42e2dc63](https://github.com/mathrunet/flutter_masamune/commit/42e2dc639de8024d3fe531b7d7ff819a64eaa750))
+
+
+## 2023-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.7.0`](#katana_cli---v170)
 
 ---

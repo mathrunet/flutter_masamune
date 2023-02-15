@@ -1,3 +1,7 @@
+## 1.7.1
+
+ - **FIX**: Fixed a bug that terminated with an error when config.properties was not available. ([42e2dc63](https://github.com/mathrunet/flutter_masamune/commit/42e2dc639de8024d3fe531b7d7ff819a64eaa750))
+
 ## 1.7.0
 
  - **FEAT**: Added "deploy" command. ([8e0be040](https://github.com/mathrunet/flutter_masamune/commit/8e0be0401b30e41de3b6890cb2201aff93c4114e))
