@@ -1,3 +1,7 @@
+## 1.6.0
+
+ - **FEAT**: store screenshot added. ([9d7171a0](https://github.com/mathrunet/flutter_masamune/commit/9d7171a0e918766c88d86383d224ff91836fb240))
+
 ## 1.5.9
 
  - **FIX**: Fixed a bug that prevented CI from working properly with Android side settings. ([862c25a2](https://github.com/mathrunet/flutter_masamune/commit/862c25a2b18dbe4cf848d7a5c51453b95a5778f3))
