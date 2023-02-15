@@ -4,11 +4,12 @@ library katana_cli;
 import 'dart:io';
 
 // Package imports:
-import 'package:katana_cli/command/store/store.dart';
+import 'package:katana_cli/command/deploy.dart';
 import 'package:yaml/yaml.dart';
 
 // Project imports:
 import 'package:katana_cli/command/apply.dart';
+import 'package:katana_cli/command/store/store.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Defines a list of commands.
@@ -20,6 +21,7 @@ const commands = <String, CliCommand>{
   "git": GitCliCommand(),
   "apply": ApplyCliCommand(),
   "create": CreateCliCommand(),
+  "deploy": DeployCliCommand(),
   "store": StoreCliCommand(),
 };
 

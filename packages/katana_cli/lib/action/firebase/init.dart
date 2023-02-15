@@ -151,6 +151,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ]
       ],
     );
+    final commandStack = <String>[];
     if (enabledFirestore) {
       if (!firebaseJson.containsKey("firestore")) {
         final firestoreProcess = await Process.start(
@@ -168,16 +169,18 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         firestoreProcess.stdout.transform(utf8.decoder).forEach((line) {
           // ignore: avoid_print
           print(line);
-          if (line.startsWith(
+          _runCommandStack(
+            line,
             "? What file should be used for Firestore Rules?",
-          )) {
-            firestoreProcess.stdin.write("\n");
-          }
-          if (line.startsWith(
+            commandStack,
+            () => firestoreProcess.stdin.write("\n"),
+          );
+          _runCommandStack(
+            line,
             "? What file should be used for Firestore indexes?",
-          )) {
-            firestoreProcess.stdin.write("\n");
-          }
+            commandStack,
+            () => firestoreProcess.stdin.write("\n"),
+          );
         });
         await firestoreProcess.exitCode;
       }
@@ -199,11 +202,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         storageProcess.stdout.transform(utf8.decoder).forEach((line) {
           // ignore: avoid_print
           print(line);
-          if (line.startsWith(
+          _runCommandStack(
+            line,
             "? What file should be used for Storage Rules?",
-          )) {
-            storageProcess.stdin.write("\n");
-          }
+            commandStack,
+            () => storageProcess.stdin.write("\n"),
+          );
         });
         await storageProcess.exitCode;
       }
@@ -225,25 +229,42 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
           // ignore: avoid_print
           print(line);
-          if (line.startsWith(
+          _runCommandStack(
+            line,
             "? What do you want to use as your public directory?",
-          )) {
-            hostingProcess.stdin.write("hosting\n");
-          }
-          if (line.startsWith(
+            commandStack,
+            () => hostingProcess.stdin.write("hosting\n"),
+          );
+          _runCommandStack(
+            line,
             "? Configure as a single-page app (rewrite all urls to /index.html)?",
-          )) {
-            if (useFlutter) {
-              hostingProcess.stdin.write("y\n");
-            } else {
-              hostingProcess.stdin.write("n\n");
-            }
-          }
-          if (line.startsWith(
-            "? File public/index.html already exists. Overwrite?",
-          )) {
-            hostingProcess.stdin.write("n\n");
-          }
+            commandStack,
+            () {
+              if (useFlutter) {
+                hostingProcess.stdin.write("y\n");
+              } else {
+                hostingProcess.stdin.write("n\n");
+              }
+            },
+          );
+          _runCommandStack(
+            line,
+            "? Set up automatic builds and deploys with GitHub?",
+            commandStack,
+            () => hostingProcess.stdin.write("n\n"),
+          );
+          _runCommandStack(
+            line,
+            "? File hosting/index.html already exists. Overwrite?",
+            commandStack,
+            () => hostingProcess.stdin.write("n\n"),
+          );
+          _runCommandStack(
+            line,
+            "? File hosting/404.html already exists. Overwrite?",
+            commandStack,
+            () => hostingProcess.stdin.write("n\n"),
+          );
         });
         await hostingProcess.exitCode;
       }
@@ -265,21 +286,24 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
           // ignore: avoid_print
           print(line);
-          if (line.startsWith(
-            "? What language would you like to use to write Cloud Functions?",
-          )) {
-            functionsProcess.stdin.write("k\n");
-          }
-          if (line.startsWith(
-            "? Do you want to use ESLint to catch probable bugs and enforce style?",
-          )) {
-            functionsProcess.stdin.write("y\n");
-          }
-          if (line.startsWith(
-            "? Do you want to install dependencies with npm now?",
-          )) {
-            functionsProcess.stdin.write("Y\n");
-          }
+          _runCommandStack(
+            line,
+            "? what language would you like to use to write Cloud Functions?",
+            commandStack,
+            () => functionsProcess.stdin.write("k\n"),
+          );
+          _runCommandStack(
+            line,
+            "? do you want to use ESLint to catch probable bugs and enforce style?",
+            commandStack,
+            () => functionsProcess.stdin.write("y\n"),
+          );
+          _runCommandStack(
+            line,
+            "? do you want to install dependencies with npm now?",
+            commandStack,
+            () => functionsProcess.stdin.write("y\n"),
+          );
         });
         await functionsProcess.exitCode;
       }
@@ -315,6 +339,19 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     gradle.android?.defaultConfig.minSdkVersion =
         "configProperties[\"flutter.minSdkVersion\"]";
     await gradle.save();
+  }
+
+  void _runCommandStack(
+    String line,
+    String command,
+    List<String> stack,
+    void Function() callback,
+  ) {
+    if (!line.startsWith(command) || stack.contains(command)) {
+      return;
+    }
+    stack.add(command);
+    callback.call();
   }
 }
 
