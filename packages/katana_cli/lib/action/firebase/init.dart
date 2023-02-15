@@ -324,8 +324,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     label("Edit config.properties");
     final configPropertiesFile = File("android/config.properties");
     if (!configPropertiesFile.existsSync()) {
-      error("`android/config.properties` is not found.");
-      return;
+      await configPropertiesFile.writeAsString("");
     }
     final configProperties = await configPropertiesFile.readAsLines();
     if (!configProperties
