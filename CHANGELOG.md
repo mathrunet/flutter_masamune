@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.7.0`](#katana_cli---v170)
+
+---
+
+#### `katana_cli` - `v1.7.0`
+
+ - **FEAT**: Added "deploy" command. ([8e0be040](https://github.com/mathrunet/flutter_masamune/commit/8e0be0401b30e41de3b6890cb2201aff93c4114e))
+
+
+## 2023-02-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.6.0`](#katana_cli---v160)
 
 ---

@@ -1,3 +1,7 @@
+## 1.7.0
+
+ - **FEAT**: Added "deploy" command. ([8e0be040](https://github.com/mathrunet/flutter_masamune/commit/8e0be0401b30e41de3b6890cb2201aff93c4114e))
+
 ## 1.6.0
 
  - **FEAT**: store screenshot added. ([9d7171a0](https://github.com/mathrunet/flutter_masamune/commit/9d7171a0e918766c88d86383d224ff91836fb240))
