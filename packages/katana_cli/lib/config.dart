@@ -155,5 +155,22 @@ github:
       # Please copy and include your team ID from https://developer.apple.com/account.
       # https://developer.apple.com/account のチームIDをコピーして記載してください。
       team_id: 
+
+# Store-related information.
+# ストア関連の情報を記載します。
+store:
+  # Create a simple screenshot to be posted in the store. It can be executed with the following command.
+  # ストアに掲載する簡易的なスクリーンショットの作成を行います。下記コマンドで実行可能です。
+  # `katana store screenshot`
+  # 
+  # Generate images for screenshots in [export_dir] based on the list of images in [source_dir].
+  # You can specify the orientation (`portrait` or `landscape`) with [orientation] and the background color with [color].
+  # [source_dir]にある画像一覧を元に[export_dir]にスクリーンショット用の画像を生成します。
+  # [orientation]で(`portrait` or `landscape`)向きを指定でき、[color]を指定すると背景色を指定できます。
+  screenshot:
+    source_dir: document/screenshot
+    export_dir: document/store
+    orientation: portrait
+    color: ffffff
 """;
 }

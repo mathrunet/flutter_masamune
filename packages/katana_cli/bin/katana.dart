@@ -4,6 +4,7 @@ library katana_cli;
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/command/store/store.dart';
 import 'package:yaml/yaml.dart';
 
 // Project imports:
@@ -19,6 +20,7 @@ const commands = <String, CliCommand>{
   "git": GitCliCommand(),
   "apply": ApplyCliCommand(),
   "create": CreateCliCommand(),
+  "store": StoreCliCommand(),
 };
 
 Future<void> main(List<String> args) async {
