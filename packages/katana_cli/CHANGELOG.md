@@ -1,3 +1,7 @@
+## 1.7.2
+
+ - **FIX**: Fixed to keep the order of screenshots. ([5698ff62](https://github.com/mathrunet/flutter_masamune/commit/5698ff621fc4d8a70031ef043ddfdfd2c569543c))
+
 ## 1.7.1
 
  - **FIX**: Fixed a bug that terminated with an error when config.properties was not available. ([42e2dc63](https://github.com/mathrunet/flutter_masamune/commit/42e2dc639de8024d3fe531b7d7ff819a64eaa750))
