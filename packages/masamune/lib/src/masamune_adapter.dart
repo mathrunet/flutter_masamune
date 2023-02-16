@@ -75,7 +75,18 @@ abstract class MasamuneAdapter {
   /// [app]に[MasamuneApp]内で生成されたウィジェットが渡されます。
   ///
   /// [Widget]を返すとそのウィジェットがビルドされます。
-  Widget onBuildApp(BuildContext context, Widget app);
+  Widget onBuildApp(BuildContext context, Widget app) {
+    return MasamuneAdapterScope(adapter: this, onInit: onInitScope, child: app);
+  }
+
+  /// Called when initializing [MasamuneAdapterScope].
+  ///
+  /// It is possible to describe processes such as receiving an `[adapter]' and making it a `primary` adapter.
+  ///
+  /// [MasamuneAdapterScope]を初期化するときに呼ばれます。
+  ///
+  /// [adapter]を受け取って`primary`のアダプターにするなどの処理を記述することができます。
+  void onInitScope(MasamuneAdapter adapter) {}
 
   /// You can describe the process before [runApp].
   ///
@@ -90,4 +101,139 @@ abstract class MasamuneAdapter {
   ///
   /// [error]と[stackTrace]にエラーが起きた際のオブジェクトが渡されます。
   void onError(Object error, StackTrace stackTrace);
+}
+
+/// [MasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.
+///
+/// Pass [MasamuneAdapter] to [adapter].
+///
+/// Also, by using [MasamuneAdapterScope.of] in a descendant widget, you can retrieve the [MasamuneAdapter] set in the [MasamuneAdapterScope].
+///
+/// [MaterialApp]などの上に配置して、アプリ全体に[MasamuneAdapter]を設定します。
+///
+/// [adapter]に[MasamuneAdapter]を渡してください。
+///
+/// また[MasamuneAdapterScope.of]を子孫のウィジェット内で利用することにより[MasamuneAdapterScope]で設定された[MasamuneAdapter]を取得することができます。
+///
+/// ```dart
+/// class MyApp extends StatelessWidget {
+///   const MyApp({super.key});
+///
+///   @override
+///   Widget build(BuildContext context) {
+///     return MasamuneAdapterScope(
+///       adapter: const FileMasamuneAdapter(),
+///       child: MaterialApp(
+///         home: const PickerPage(),
+///       ),
+///     );
+///   }
+/// }
+/// ```
+class MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
+    extends StatefulWidget {
+  /// [MasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.
+  ///
+  /// Pass [MasamuneAdapter] to [adapter].
+  ///
+  /// Also, by using [MasamuneAdapterScope.of] in a descendant widget, you can retrieve the [MasamuneAdapter] set in the [MasamuneAdapterScope].
+  ///
+  /// [MaterialApp]などの上に配置して、アプリ全体に[MasamuneAdapter]を設定します。
+  ///
+  /// [adapter]に[MasamuneAdapter]を渡してください。
+  ///
+  /// また[MasamuneAdapterScope.of]を子孫のウィジェット内で利用することにより[MasamuneAdapterScope]で設定された[MasamuneAdapter]を取得することができます。
+  ///
+  /// ```dart
+  /// class MyApp extends StatelessWidget {
+  ///   const MyApp({super.key});
+  ///
+  ///   @override
+  ///   Widget build(BuildContext context) {
+  ///     return MasamuneAdapterScope(
+  ///       adapter: const FileMasamuneAdapter(),
+  ///       child: MaterialApp(
+  ///         home: const PickerPage(),
+  ///       ),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  const MasamuneAdapterScope({
+    super.key,
+    this.onInit,
+    required this.child,
+    required this.adapter,
+  });
+
+  /// Children's widget.
+  ///
+  /// 子供のウィジェット。
+  final Widget child;
+
+  /// [MasamuneAdapter] to be configured for the entire app.
+  ///
+  /// アプリ全体に設定する[MasamuneAdapter]。
+  final TAdapter adapter;
+
+  /// Describe the process when this widget is initialized.
+  ///
+  /// [MasamuneAdapter] is passed to [adapter].
+  ///
+  /// このウィジェットが初期化されたときの処理を記述します。
+  ///
+  /// [adapter]に[MasamuneAdapter]が渡されます。
+  final void Function(TAdapter adapter)? onInit;
+
+  /// By passing [context], the [MasamuneAdapter] set in [MasamuneAdapterScope] can be obtained.
+  ///
+  /// If the ancestor does not have [MasamuneAdapterScope], an error will occur.
+  ///
+  /// [context]を渡すことにより[MasamuneAdapterScope]で設定された[MasamuneAdapter]を取得することができます。
+  ///
+  /// 祖先に[MasamuneAdapterScope]がない場合はエラーになります。
+  static TAdapter? of<TAdapter extends MasamuneAdapter>(BuildContext context) {
+    final scope = context.getElementForInheritedWidgetOfExactType<
+        _MasamuneAdapterScope<TAdapter>>();
+    assert(
+      scope != null,
+      "MasamuneAdapterScope<TAdapter> is not found. Place [MasamuneAdapterScope<TAdapter>] widget closer to the root.",
+    );
+    return (scope?.widget as _MasamuneAdapterScope<TAdapter>?)?.adapter;
+  }
+
+  @override
+  State<StatefulWidget> createState() => _MasamuneAdapterScopeState();
+}
+
+class _MasamuneAdapterScopeState<TAdapter extends MasamuneAdapter>
+    extends State<MasamuneAdapterScope<TAdapter>> {
+  @override
+  void initState() {
+    super.initState();
+    widget.onInit?.call(widget.adapter);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _MasamuneAdapterScope<TAdapter>(
+      adapter: widget.adapter,
+      child: widget.child,
+    );
+  }
+}
+
+class _MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
+    extends InheritedWidget {
+  const _MasamuneAdapterScope({
+    required super.child,
+    required this.adapter,
+  });
+
+  final TAdapter adapter;
+
+  @override
+  bool updateShouldNotify(
+          covariant _MasamuneAdapterScope<TAdapter> oldWidget) =>
+      false;
 }
