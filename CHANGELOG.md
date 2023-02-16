@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.6.5`](#masamune---v165)
+ - [`masamune_annotation` - `v1.3.2`](#masamune_annotation---v132)
+ - [`masamune_builder` - `v1.3.8`](#masamune_builder---v138)
+ - [`masamune_picker` - `v1.5.23`](#masamune_picker---v1523)
+ - [`masamune_notification_firebase` - `v1.1.75`](#masamune_notification_firebase---v1175)
+ - [`masamune_logger_firebase` - `v1.2.5`](#masamune_logger_firebase---v125)
+ - [`masamune_picker_mobile` - `v1.5.23`](#masamune_picker_mobile---v1523)
+ - [`masamune_picker_file` - `v1.5.23`](#masamune_picker_file---v1523)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.23`
+ - `masamune_notification_firebase` - `v1.1.75`
+ - `masamune_logger_firebase` - `v1.2.5`
+ - `masamune_picker_mobile` - `v1.5.23`
+ - `masamune_picker_file` - `v1.5.23`
+
+---
+
+#### `masamune` - `v1.6.5`
+
+ - **FIX**: Added MasamuneAdapterScope. ([24ec91e0](https://github.com/mathrunet/flutter_masamune/commit/24ec91e06ef74ab468e3556f3d97414c93e1454c))
+
+#### `masamune_annotation` - `v1.3.2`
+
+ - **FIX**: Added MasamuneAdapterScope. ([24ec91e0](https://github.com/mathrunet/flutter_masamune/commit/24ec91e06ef74ab468e3556f3d97414c93e1454c))
+
+#### `masamune_builder` - `v1.3.8`
+
+ - **FIX**: Added MasamuneAdapterScope. ([24ec91e0](https://github.com/mathrunet/flutter_masamune/commit/24ec91e06ef74ab468e3556f3d97414c93e1454c))
+
+
+## 2023-02-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.7.2`](#katana_cli---v172)
 
 ---

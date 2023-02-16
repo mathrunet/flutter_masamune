@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **FIX**: Added MasamuneAdapterScope. ([24ec91e0](https://github.com/mathrunet/flutter_masamune/commit/24ec91e06ef74ab468e3556f3d97414c93e1454c))
+
 ## 1.3.1
 
  - **DOCS**: Additional article content. ([468267cf](https://github.com/mathrunet/flutter_masamune/commit/468267cf35150e80d72faeaf4ca6766de959b069))
