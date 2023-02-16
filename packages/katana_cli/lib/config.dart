@@ -171,6 +171,6 @@ store:
     source_dir: document/screenshot
     export_dir: document/store
     orientation: portrait
-    color: ffffff
+    color: '000000'
 """;
 }

@@ -148,6 +148,9 @@ class StoreScreenshotCliCommand extends CliCommand {
         }
       }
     } else {
+      sources.sort((a, b) {
+        return a.path.compareTo(b.path);
+      });
       for (final tmp in _resolution.entries) {
         if (tmp.key != orientation) {
           continue;
