@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.6.8`](#masamune---v168)
+ - [`masamune_annotation` - `v1.3.3`](#masamune_annotation---v133)
+ - [`masamune_builder` - `v1.3.10`](#masamune_builder---v1310)
+ - [`masamune_picker` - `v1.5.27`](#masamune_picker---v1527)
+ - [`masamune_notification_firebase` - `v1.1.78`](#masamune_notification_firebase---v1178)
+ - [`masamune_logger_firebase` - `v1.2.9`](#masamune_logger_firebase---v129)
+ - [`masamune_picker_mobile` - `v1.5.27`](#masamune_picker_mobile---v1527)
+ - [`masamune_picker_file` - `v1.5.27`](#masamune_picker_file---v1527)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.27`
+ - `masamune_notification_firebase` - `v1.1.78`
+ - `masamune_logger_firebase` - `v1.2.9`
+ - `masamune_picker_mobile` - `v1.5.27`
+ - `masamune_picker_file` - `v1.5.27`
+
+---
+
+#### `masamune` - `v1.6.8`
+
+ - **FIX**: Add global method. ([4add8b02](https://github.com/mathrunet/flutter_masamune/commit/4add8b027dbc16487de5a4a9c126c2de03dde474))
+
+#### `masamune_annotation` - `v1.3.3`
+
+ - **FIX**: Add global method. ([4add8b02](https://github.com/mathrunet/flutter_masamune/commit/4add8b027dbc16487de5a4a9c126c2de03dde474))
+
+#### `masamune_builder` - `v1.3.10`
+
+ - **FIX**: Add global method. ([4add8b02](https://github.com/mathrunet/flutter_masamune/commit/4add8b027dbc16487de5a4a9c126c2de03dde474))
+
+
+## 2023-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_scoped` - `v1.8.4`](#katana_scoped---v184)
  - [`masamune` - `v1.6.7`](#masamune---v167)
  - [`masamune_picker` - `v1.5.26`](#masamune_picker---v1526)

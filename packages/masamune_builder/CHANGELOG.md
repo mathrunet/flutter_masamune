@@ -1,3 +1,7 @@
+## 1.3.10
+
+ - **FIX**: Add global method. ([4add8b02](https://github.com/mathrunet/flutter_masamune/commit/4add8b027dbc16487de5a4a9c126c2de03dde474))
+
 ## 1.3.9
 
  - **FIX**: MasamuneAdapter methods are now predefined. ([d2209a68](https://github.com/mathrunet/flutter_masamune/commit/d2209a68a65c07e70eaddede41bd022057031beb))

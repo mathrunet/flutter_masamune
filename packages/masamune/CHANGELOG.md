@@ -1,3 +1,7 @@
+## 1.6.8
+
+ - **FIX**: Add global method. ([4add8b02](https://github.com/mathrunet/flutter_masamune/commit/4add8b027dbc16487de5a4a9c126c2de03dde474))
+
 ## 1.6.7
 
  - Update a dependency to the latest release.
