@@ -41,6 +41,7 @@ part 'form/form_scoped_widget.dart';
 part 'model/model.dart';
 part 'prefs/prefs.dart';
 part 'scoped/controller.dart';
+part 'scoped/global.dart';
 part 'src/masamune_app.dart';
 part 'src/masamune_adapter.dart';
 
