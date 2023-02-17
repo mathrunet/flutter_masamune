@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_notification_firebase` - `v1.2.0`](#masamune_notification_firebase---v120)
+ - [`masamune_picker` - `v1.5.30`](#masamune_picker---v1530)
+ - [`masamune_picker_file` - `v1.5.30`](#masamune_picker_file---v1530)
+ - [`masamune_picker_mobile` - `v1.5.30`](#masamune_picker_mobile---v1530)
+
+---
+
+#### `masamune_notification_firebase` - `v1.2.0`
+
+ - **FEAT**: Support for MasamuneController and MasamuneAdapter. ([1dcf2401](https://github.com/mathrunet/flutter_masamune/commit/1dcf2401b4a11807d15d8af4f44af821d8d0ae3a))
+
+#### `masamune_picker` - `v1.5.30`
+
+ - **FIX**: Support for MasamuneControllerBase. ([803574d1](https://github.com/mathrunet/flutter_masamune/commit/803574d116ab59d4650bce85e80670f1019b8bab))
+
+#### `masamune_picker_file` - `v1.5.30`
+
+ - **FIX**: Support for MasamuneControllerBase. ([803574d1](https://github.com/mathrunet/flutter_masamune/commit/803574d116ab59d4650bce85e80670f1019b8bab))
+
+#### `masamune_picker_mobile` - `v1.5.30`
+
+ - **FIX**: Support for MasamuneControllerBase. ([803574d1](https://github.com/mathrunet/flutter_masamune/commit/803574d116ab59d4650bce85e80670f1019b8bab))
+
+
+## 2023-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.6.10`](#masamune---v1610)
  - [`masamune_picker` - `v1.5.29`](#masamune_picker---v1529)
  - [`masamune_notification_firebase` - `v1.1.80`](#masamune_notification_firebase---v1180)

@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Support for MasamuneController and MasamuneAdapter. ([1dcf2401](https://github.com/mathrunet/flutter_masamune/commit/1dcf2401b4a11807d15d8af4f44af821d8d0ae3a))
+
 ## 1.1.80
 
  - Update a dependency to the latest release.
