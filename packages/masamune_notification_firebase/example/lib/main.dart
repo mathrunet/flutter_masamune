@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:masamune_notification_firebase/masamune_notification_firebase.dart';
 
+const pushNotificationAdapter = PushNotificationMasamuneAdapter(
+  androidNotificationChannelId: "masamune_firebase_messaging_channel",
+  androidNotificationChannelTitle: "Important Notification",
+  androidNotificationChannelDescription:
+      "This notification channel is used for important notifications.",
+);
+
 void main() {
   runApp(const MyApp());
 }
@@ -13,11 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MasamuneApp(
       home: const NotificationPage(),
       title: "Flutter Demo",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      masamuneAdapters: const [pushNotificationAdapter],
+      theme: AppThemeData(
+        primary: Colors.blue,
       ),
     );
   }
@@ -31,12 +39,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class NotificationPageState extends State<NotificationPage> {
-  final notification = PushNotification(
-    androidNotificationChannelId: "masamune_firebase_messaging_channel",
-    androidNotificationChannelTitle: "Important Notification",
-    androidNotificationChannelDescription:
-        "This notification channel is used for important notifications.",
-  );
+  final notification = PushNotification();
 
   @override
   void initState() {

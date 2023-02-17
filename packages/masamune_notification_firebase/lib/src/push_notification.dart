@@ -27,8 +27,8 @@ part of masamune_notification_firebase;
 /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
 ///
 /// Android用の通知設定[androidNotificationChannelTitle]、[androidNotificationChannelDescription]を必ず指定してください。[androidNotificationChannelId]を合わせることでAndroidでも通知の受け取りが可能になります。
-class PushNotification extends ChangeNotifier
-    implements ValueListenable<PushNotificationValue?> {
+class PushNotification extends MasamuneControllerBase<PushNotificationValue,
+    PushNotificationMasamuneAdapter> {
   /// Class for handling FirebaseMessaging.
   ///
   /// First, monitor notifications with [listen]. Notifications can be received after this method is executed.
@@ -41,7 +41,7 @@ class PushNotification extends ChangeNotifier
   ///
   /// By monitoring the status with [addListener], it is possible to do something when a notification comes in.
   ///
-  /// Be sure to specify the notification settings [androidNotificationChannelTitle] and [androidNotificationChannelDescription] for Android. Matching [androidNotificationChannelId] will enable Android to receive notifications as well.
+  /// Various settings can be overridden by passing [adapter]. If this is not used, [PushNotificationMasamuneAdapter.primary] is used.
   ///
   /// FirebaseMessagingを取り扱うためのクラス。
   ///
@@ -55,22 +55,12 @@ class PushNotification extends ChangeNotifier
   ///
   /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
   ///
-  /// Android用の通知設定[androidNotificationChannelTitle]、[androidNotificationChannelDescription]を必ず指定してください。[androidNotificationChannelId]を合わせることでAndroidでも通知の受け取りが可能になります。
-  PushNotification({
-    Functions? functions,
-    required String androidNotificationChannelDescription,
-    required String androidNotificationChannelTitle,
-    required String androidNotificationChannelId,
-  })  : _functions = functions,
-        _androidNotificationChannelId = androidNotificationChannelId,
-        _androidNotificationChannelTitle = androidNotificationChannelTitle,
-        _androidNotificationChannelDescription =
-            androidNotificationChannelDescription;
+  /// [adapter]を渡すことで各種設定を上書きすることができます。これが利用されない場合は[PushNotificationMasamuneAdapter.primary]が利用されます。
+  PushNotification({super.adapter});
 
-  final Functions? _functions;
-  final String _androidNotificationChannelId;
-  final String _androidNotificationChannelTitle;
-  final String _androidNotificationChannelDescription;
+  @override
+  PushNotificationMasamuneAdapter get primaryAdapter =>
+      PushNotificationMasamuneAdapter.primary;
 
   Completer<void>? _completer;
   StreamSubscription<RemoteMessage>? _onMessageSubscription;
@@ -140,9 +130,9 @@ class PushNotification extends ChangeNotifier
                 AndroidFlutterLocalNotificationsPlugin>()
             ?.createNotificationChannel(
               AndroidNotificationChannel(
-                _androidNotificationChannelId,
-                _androidNotificationChannelTitle,
-                description: _androidNotificationChannelDescription,
+                adapter.androidNotificationChannelId,
+                adapter.androidNotificationChannelTitle,
+                description: adapter.androidNotificationChannelDescription,
                 importance: Importance.max,
               ),
             );
@@ -195,12 +185,12 @@ class PushNotification extends ChangeNotifier
     required String target,
   }) async {
     await listen();
-    final f = _functions ?? Functions();
+    final f = adapter.functions ?? Functions();
     await f.sendNotification(
       title: title,
       text: text,
       target: target,
-      channel: _androidNotificationChannelId,
+      channel: adapter.androidNotificationChannelId,
       data: data,
     );
   }
