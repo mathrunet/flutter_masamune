@@ -1,3 +1,7 @@
+## 1.6.7
+
+ - Update a dependency to the latest release.
+
 ## 1.6.6
 
  - **FIX**: MasamuneAdapter methods are now predefined. ([d2209a68](https://github.com/mathrunet/flutter_masamune/commit/d2209a68a65c07e70eaddede41bd022057031beb))

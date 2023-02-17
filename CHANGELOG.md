@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v1.8.4`](#katana_scoped---v184)
+ - [`masamune` - `v1.6.7`](#masamune---v167)
+ - [`masamune_picker` - `v1.5.26`](#masamune_picker---v1526)
+ - [`masamune_notification_firebase` - `v1.1.77`](#masamune_notification_firebase---v1177)
+ - [`masamune_logger_firebase` - `v1.2.8`](#masamune_logger_firebase---v128)
+ - [`masamune_picker_mobile` - `v1.5.26`](#masamune_picker_mobile---v1526)
+ - [`masamune_picker_file` - `v1.5.26`](#masamune_picker_file---v1526)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.6.7`
+ - `masamune_picker` - `v1.5.26`
+ - `masamune_notification_firebase` - `v1.1.77`
+ - `masamune_logger_firebase` - `v1.2.8`
+ - `masamune_picker_mobile` - `v1.5.26`
+ - `masamune_picker_file` - `v1.5.26`
+
+---
+
+#### `katana_scoped` - `v1.8.4`
+
+ - **FIX**: Fixed to not dispose values that have already been disposed. ([774ae172](https://github.com/mathrunet/flutter_masamune/commit/774ae1722e6403a35221293b88f28b2c86586dd3))
+
+
+## 2023-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_logger_firebase` - `v1.2.7`](#masamune_logger_firebase---v127)
  - [`masamune_picker` - `v1.5.25`](#masamune_picker---v1525)
  - [`masamune_picker_file` - `v1.5.25`](#masamune_picker_file---v1525)

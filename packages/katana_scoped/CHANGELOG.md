@@ -1,3 +1,7 @@
+## 1.8.4
+
+ - **FIX**: Fixed to not dispose values that have already been disposed. ([774ae172](https://github.com/mathrunet/flutter_masamune/commit/774ae1722e6403a35221293b88f28b2c86586dd3))
+
 ## 1.8.3
 
  - **FIX**: Fixed a bug that prevented proper logging. ([8f11436f](https://github.com/mathrunet/flutter_masamune/commit/8f11436f46a27df5d44cc02b8dde072842595aab))
