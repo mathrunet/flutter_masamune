@@ -21,7 +21,8 @@ part of masamune_picker;
 ///
 /// [pickCamera]でモバイルのカメラを起動し撮影したメディアファイルをピックアップすることができます。
 /// （対応アダプターのみ）
-class Picker extends ChangeNotifier {
+class Picker
+    extends MasamuneControllerBase<List<PickerValue>, PickerMasamuneAdapter> {
   /// Provides a file picker function.
   ///
   /// The file picker function defined in [PickerMasamuneAdapter] is available.
@@ -43,20 +44,10 @@ class Picker extends ChangeNotifier {
   ///
   /// [pickCamera]でモバイルのカメラを起動し撮影したメディアファイルをピックアップすることができます。
   /// （対応アダプターのみ）
-  Picker({PickerMasamuneAdapter? adapter}) : _adapter = adapter;
+  Picker({super.adapter});
 
-  /// [PickerMasamuneAdapter] to be used.
-  ///
-  /// If not specified, [PickerMasamuneAdapter.primary] is used.
-  ///
-  /// 使用する[PickerMasamuneAdapter]。
-  ///
-  /// 指定されない場合は[PickerMasamuneAdapter.primary]が利用されます。
-  PickerMasamuneAdapter get adapter {
-    return _adapter ?? PickerMasamuneAdapter.primary;
-  }
-
-  final PickerMasamuneAdapter? _adapter;
+  @override
+  PickerMasamuneAdapter get primaryAdapter => PickerMasamuneAdapter.primary;
 
   /// It is possible to wait while the file is being picked up.
   ///
@@ -86,6 +77,7 @@ class Picker extends ChangeNotifier {
         dialogTitle: dialogTitle,
         type: type,
       );
+      setValueInternal([res]);
       notifyListeners();
       _completer?.complete();
       _completer = null;
@@ -121,6 +113,7 @@ class Picker extends ChangeNotifier {
         dialogTitle: dialogTitle,
         type: type,
       );
+      setValueInternal(res);
       notifyListeners();
       _completer?.complete();
       _completer = null;
@@ -156,6 +149,7 @@ class Picker extends ChangeNotifier {
         dialogTitle: dialogTitle,
         type: type,
       );
+      setValueInternal([res]);
       notifyListeners();
       _completer?.complete();
       _completer = null;
