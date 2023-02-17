@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v1.6.6`](#masamune---v166)
+ - [`masamune_builder` - `v1.3.9`](#masamune_builder---v139)
+ - [`masamune_picker` - `v1.5.24`](#masamune_picker---v1524)
+ - [`masamune_notification_firebase` - `v1.1.76`](#masamune_notification_firebase---v1176)
+ - [`masamune_logger_firebase` - `v1.2.6`](#masamune_logger_firebase---v126)
+ - [`masamune_picker_mobile` - `v1.5.24`](#masamune_picker_mobile---v1524)
+ - [`masamune_picker_file` - `v1.5.24`](#masamune_picker_file---v1524)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.24`
+ - `masamune_notification_firebase` - `v1.1.76`
+ - `masamune_logger_firebase` - `v1.2.6`
+ - `masamune_picker_mobile` - `v1.5.24`
+ - `masamune_picker_file` - `v1.5.24`
+
+---
+
+#### `masamune` - `v1.6.6`
+
+ - **FIX**: MasamuneAdapter methods are now predefined. ([d2209a68](https://github.com/mathrunet/flutter_masamune/commit/d2209a68a65c07e70eaddede41bd022057031beb))
+
+#### `masamune_builder` - `v1.3.9`
+
+ - **FIX**: MasamuneAdapter methods are now predefined. ([d2209a68](https://github.com/mathrunet/flutter_masamune/commit/d2209a68a65c07e70eaddede41bd022057031beb))
+
+
 ## 2023-02-16
 
 ### Changes
