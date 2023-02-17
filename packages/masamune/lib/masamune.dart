@@ -12,6 +12,7 @@ library masamune;
 import 'dart:async';
 
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +45,7 @@ part 'scoped/controller.dart';
 part 'scoped/global.dart';
 part 'src/masamune_app.dart';
 part 'src/masamune_adapter.dart';
+part 'src/masamune_controller.dart';
 
 part 'ui/grid_builder.dart';
 part 'ui/list_builder.dart';
