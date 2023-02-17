@@ -52,17 +52,17 @@ abstract class MasamuneAdapter {
   /// If you set this to `true`, you can wrap [runApp] with [runZonedGuarded].
   ///
   /// これを`true`にした場合、[runApp]を[runZonedGuarded]でラッピングすることができます。
-  bool get runZonedGuarded;
+  bool get runZonedGuarded => false;
 
   /// Observers can be set up to monitor transitions between pages.
   ///
   /// ページ間の遷移を監視するためのオブザーバーを設置することができます。
-  List<NavigatorObserver> get navigatorObservers;
+  List<NavigatorObserver> get navigatorObservers => const [];
 
   /// Adapters can be defined to add logger functionality.
   ///
   /// ロガー機能を追加するためのアダプターを定義することができます。
-  List<LoggerAdapter> get loggerAdapters;
+  List<LoggerAdapter> get loggerAdapters => const [];
 
   /// Widgets can be added during the build of [MasamuneApp].
   ///
@@ -91,7 +91,7 @@ abstract class MasamuneAdapter {
   /// You can describe the process before [runApp].
   ///
   /// [runApp]前の処理を記述することができます。
-  FutureOr<void> onPreRunApp();
+  FutureOr<void> onPreRunApp() {}
 
   /// You can describe the process when [runZonedGuarded] is set to `true`.
   ///
@@ -100,7 +100,7 @@ abstract class MasamuneAdapter {
   /// [runZonedGuarded]を`true`にした場合の処理を記述することができます。
   ///
   /// [error]と[stackTrace]にエラーが起きた際のオブジェクトが渡されます。
-  void onError(Object error, StackTrace stackTrace);
+  void onError(Object error, StackTrace stackTrace) {}
 }
 
 /// [MasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.
