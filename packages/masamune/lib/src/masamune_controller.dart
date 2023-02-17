@@ -65,7 +65,7 @@ abstract class MasamuneControllerBase<TValue, TAdapter extends MasamuneAdapter>
   /// 引数 [value] は、新しいステートの値です。
   /// 既存の値と一致する場合は何も行われず、処理が終了します。
   @protected
-  void set(TValue? value) {
+  void setValueInternal(TValue? value) {
     if (_value == value) {
       return;
     }
