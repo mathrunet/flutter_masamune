@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.6.10`](#masamune---v1610)
+ - [`masamune_picker` - `v1.5.29`](#masamune_picker---v1529)
+ - [`masamune_notification_firebase` - `v1.1.80`](#masamune_notification_firebase---v1180)
+ - [`masamune_logger_firebase` - `v1.2.11`](#masamune_logger_firebase---v1211)
+ - [`masamune_picker_mobile` - `v1.5.29`](#masamune_picker_mobile---v1529)
+ - [`masamune_picker_file` - `v1.5.29`](#masamune_picker_file---v1529)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.29`
+ - `masamune_notification_firebase` - `v1.1.80`
+ - `masamune_logger_firebase` - `v1.2.11`
+ - `masamune_picker_mobile` - `v1.5.29`
+ - `masamune_picker_file` - `v1.5.29`
+
+---
+
+#### `masamune` - `v1.6.10`
+
+ - **FIX**: Changed the method name of MasamuneControllerBase's set. ([d54093b1](https://github.com/mathrunet/flutter_masamune/commit/d54093b1cbad4efb5297e81acf423cca3b2f534d))
+
+
+## 2023-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.6.9`](#masamune---v169)
  - [`masamune_builder` - `v1.3.11`](#masamune_builder---v1311)
  - [`masamune_picker` - `v1.5.28`](#masamune_picker---v1528)
