@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_logger_firebase` - `v1.2.7`](#masamune_logger_firebase---v127)
+ - [`masamune_picker` - `v1.5.25`](#masamune_picker---v1525)
+ - [`masamune_picker_file` - `v1.5.25`](#masamune_picker_file---v1525)
+ - [`masamune_picker_mobile` - `v1.5.25`](#masamune_picker_mobile---v1525)
+
+---
+
+#### `masamune_logger_firebase` - `v1.2.7`
+
+ - **FIX**: Support for MasamuneAdapterScope. ([ff550a64](https://github.com/mathrunet/flutter_masamune/commit/ff550a64febbc38127f963e7693f89b43e921220))
+
+#### `masamune_picker` - `v1.5.25`
+
+ - **FIX**: Support for MasamuneAdapterScope. ([ff550a64](https://github.com/mathrunet/flutter_masamune/commit/ff550a64febbc38127f963e7693f89b43e921220))
+
+#### `masamune_picker_file` - `v1.5.25`
+
+ - **FIX**: Support for MasamuneAdapterScope. ([ff550a64](https://github.com/mathrunet/flutter_masamune/commit/ff550a64febbc38127f963e7693f89b43e921220))
+
+#### `masamune_picker_mobile` - `v1.5.25`
+
+ - **FIX**: Support for MasamuneAdapterScope. ([ff550a64](https://github.com/mathrunet/flutter_masamune/commit/ff550a64febbc38127f963e7693f89b43e921220))
+
+
+## 2023-02-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.6.6`](#masamune---v166)
  - [`masamune_builder` - `v1.3.9`](#masamune_builder---v139)
  - [`masamune_picker` - `v1.5.24`](#masamune_picker---v1524)

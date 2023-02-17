@@ -1,3 +1,7 @@
+## 1.5.25
+
+ - **FIX**: Support for MasamuneAdapterScope. ([ff550a64](https://github.com/mathrunet/flutter_masamune/commit/ff550a64febbc38127f963e7693f89b43e921220))
+
 ## 1.5.24
 
  - Update a dependency to the latest release.
