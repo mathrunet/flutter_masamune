@@ -1,8 +1,5 @@
 part of masamune_picker;
 
-@Deprecated("Deprecated. Please use [PickerMasamuneAdapterScope].")
-typedef PickerAdapterScope = PickerMasamuneAdapterScope;
-
 /// Adapter for defining the internal process for file picks in [Picker].
 ///
 /// Some file pick functions restrict the platform (e.g., camera functions), so if necessary, an adapter can be defined and used.
@@ -98,142 +95,10 @@ abstract class PickerMasamuneAdapter extends MasamuneAdapter {
   });
 
   @override
-  final bool runZonedGuarded = false;
-
-  @override
-  final List<NavigatorObserver> navigatorObservers = const [];
-
-  @override
-  Widget onBuildApp(BuildContext context, Widget app) {
-    return PickerMasamuneAdapterScope(adapter: this, child: app);
+  void onInitScope(MasamuneAdapter adapter) {
+    super.onInitScope(adapter);
+    if (adapter is PickerMasamuneAdapter) {
+      PickerMasamuneAdapter._primary ??= adapter;
+    }
   }
-
-  @override
-  FutureOr<void> onPreRunApp() {}
-
-  @override
-  void onError(Object error, StackTrace stackTrace) {}
-
-  @override
-  List<LoggerAdapter> get loggerAdapters => const [];
-}
-
-/// [PickerMasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.
-///
-/// Pass [PickerMasamuneAdapter] to [adapter].
-///
-/// Also, by using [PickerMasamuneAdapterScope.of] in a descendant widget, you can retrieve the [PickerMasamuneAdapter] set in the [PickerMasamuneAdapterScope].
-///
-/// [MaterialApp]などの上に配置して、アプリ全体に[PickerMasamuneAdapter]を設定します。
-///
-/// [adapter]に[PickerMasamuneAdapter]を渡してください。
-///
-/// また[PickerMasamuneAdapterScope.of]を子孫のウィジェット内で利用することにより[PickerMasamuneAdapterScope]で設定された[PickerMasamuneAdapter]を取得することができます。
-///
-/// ```dart
-/// class MyApp extends StatelessWidget {
-///   const MyApp({super.key});
-///
-///   @override
-///   Widget build(BuildContext context) {
-///     return PickerMasamuneAdapterScope(
-///       adapter: const FilePickerMasamuneAdapter(),
-///       child: MaterialApp(
-///         home: const PickerPage(),
-///       ),
-///     );
-///   }
-/// }
-/// ```
-class PickerMasamuneAdapterScope extends StatefulWidget {
-  /// [PickerMasamuneAdapter] for the entire app by placing it on top of [MaterialApp], etc.
-  ///
-  /// Pass [PickerMasamuneAdapter] to [adapter].
-  ///
-  /// Also, by using [PickerMasamuneAdapterScope.of] in a descendant widget, you can retrieve the [PickerMasamuneAdapter] set in the [PickerMasamuneAdapterScope].
-  ///
-  /// [MaterialApp]などの上に配置して、アプリ全体に[PickerMasamuneAdapter]を設定します。
-  ///
-  /// [adapter]に[PickerMasamuneAdapter]を渡してください。
-  ///
-  /// また[PickerMasamuneAdapterScope.of]を子孫のウィジェット内で利用することにより[PickerMasamuneAdapterScope]で設定された[PickerMasamuneAdapter]を取得することができます。
-  ///
-  /// ```dart
-  /// class MyApp extends StatelessWidget {
-  ///   const MyApp({super.key});
-  ///
-  ///   @override
-  ///   Widget build(BuildContext context) {
-  ///     return PickerMasamuneAdapterScope(
-  ///       adapter: const FilePickerMasamuneAdapter(),
-  ///       child: MaterialApp(
-  ///         home: const PickerPage(),
-  ///       ),
-  ///     );
-  ///   }
-  /// }
-  /// ```
-  const PickerMasamuneAdapterScope({
-    super.key,
-    required this.child,
-    required this.adapter,
-  });
-
-  /// Children's widget.
-  ///
-  /// 子供のウィジェット。
-  final Widget child;
-
-  /// [PickerMasamuneAdapter] to be configured for the entire app.
-  ///
-  /// アプリ全体に設定する[PickerMasamuneAdapter]。
-  final PickerMasamuneAdapter adapter;
-
-  /// By passing [context], the [PickerMasamuneAdapter] set in [PickerMasamuneAdapterScope] can be obtained.
-  ///
-  /// If the ancestor does not have [PickerMasamuneAdapterScope], an error will occur.
-  ///
-  /// [context]を渡すことにより[PickerMasamuneAdapterScope]で設定された[PickerMasamuneAdapter]を取得することができます。
-  ///
-  /// 祖先に[PickerMasamuneAdapterScope]がない場合はエラーになります。
-  static PickerMasamuneAdapter? of(BuildContext context) {
-    final scope = context
-        .getElementForInheritedWidgetOfExactType<_PickerMasamuneAdapterScope>();
-    assert(
-      scope != null,
-      "PickerAdapterScope is not found. Place [PickerMasamuneAdapterScope] widget closer to the root.",
-    );
-    return (scope?.widget as _PickerMasamuneAdapterScope?)?.adapter;
-  }
-
-  @override
-  State<StatefulWidget> createState() => _PickerMasamuneAdapterScopeState();
-}
-
-class _PickerMasamuneAdapterScopeState
-    extends State<PickerMasamuneAdapterScope> {
-  @override
-  void initState() {
-    super.initState();
-    PickerMasamuneAdapter._primary ??= widget.adapter;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _PickerMasamuneAdapterScope(
-        adapter: widget.adapter, child: widget.child);
-  }
-}
-
-class _PickerMasamuneAdapterScope extends InheritedWidget {
-  const _PickerMasamuneAdapterScope({
-    required super.child,
-    required this.adapter,
-  });
-
-  final PickerMasamuneAdapter adapter;
-
-  @override
-  bool updateShouldNotify(covariant _PickerMasamuneAdapterScope oldWidget) =>
-      false;
 }

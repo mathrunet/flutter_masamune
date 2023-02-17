@@ -16,14 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PickerMasamuneAdapterScope(
-      adapter: const TestPickerMasamuneAdapter(),
-      child: MasamuneApp(
-        home: const PickerPage(),
-        title: "Flutter Demo",
-        theme: AppThemeData(
-          primary: Colors.blue,
-        ),
+    return MasamuneApp(
+      home: const PickerPage(),
+      title: "Flutter Demo",
+      masamuneAdapters: const [TestPickerMasamuneAdapter()],
+      theme: AppThemeData(
+        primary: Colors.blue,
       ),
     );
   }

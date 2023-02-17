@@ -96,12 +96,6 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
-  Widget onBuildApp(BuildContext context, Widget app) => app;
-
-  @override
-  List<NavigatorObserver> get navigatorObservers => const [];
-
-  @override
   List<LoggerAdapter> get loggerAdapters => [
         FirebaseLoggerAdapter(
           options: options,
