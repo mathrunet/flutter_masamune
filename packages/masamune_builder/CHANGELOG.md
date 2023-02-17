@@ -1,3 +1,7 @@
+## 1.3.11
+
+ - **FIX**: Added MasamuneControllerBase. ([40c050bf](https://github.com/mathrunet/flutter_masamune/commit/40c050bfca3c45dbd11d908c0106c8ca9f4c6a33))
+
 ## 1.3.10
 
  - **FIX**: Add global method. ([4add8b02](https://github.com/mathrunet/flutter_masamune/commit/4add8b027dbc16487de5a4a9c126c2de03dde474))
