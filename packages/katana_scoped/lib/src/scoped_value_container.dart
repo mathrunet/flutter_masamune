@@ -165,6 +165,9 @@ class ScopedValueContainer extends ChangeNotifier {
   /// 保持している状態の[ScopedValueState.dispose]が実行されます。
   void reset() {
     for (final val in _data.values) {
+      if (val.disposed) {
+        continue;
+      }
       val.dispose();
     }
     _data.clear();

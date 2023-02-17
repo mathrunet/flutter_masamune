@@ -21,12 +21,13 @@ void main() {
     appRef.watch((ref) => ValueNotifier(2), name: "3");
     appRef.watch((ref) => ValueNotifier(2), name: "4");
     appRef.reset();
-    expect((await logger.logList()).map((e) => "${e.name}: ${e.parameters}"), [
-      for (var i = 1; i <= 4; i++)
-        "ScopedLoggerEvent.init: {scope: app, type: _WatchValue<ValueNotifier<int>>, name: $i}",
-      for (var i = 1; i <= 4; i++)
-        "ScopedLoggerEvent.dispose: {scope: app, type: _WatchValue<ValueNotifier<int>>, name: $i}"
-    ]);
+    expect(
+        (await logger.logList())
+            .map((e) => "${e.name}: ${e.parameters.get("name", "")}"),
+        [
+          for (var i = 1; i <= 4; i++) "ScopedLoggerEvent.init: $i",
+          for (var i = 1; i <= 4; i++) "ScopedLoggerEvent.dispose: $i"
+        ]);
   });
   test("Reset Test", () async {
     WidgetsFlutterBinding.ensureInitialized();

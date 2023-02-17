@@ -124,6 +124,9 @@ class ScopedValueListener {
       provider,
       onInitOrUpdate: (state) {
         if (listen) {
+          if (state.disposed) {
+            return;
+          }
           _watched.add(state);
           state._addListener(_callback);
           state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
@@ -167,6 +170,9 @@ class ScopedValueListener {
         container.getAlreadyExistsScopedValueState<TResult, TScopedValue>(
       onInitOrUpdate: (state) {
         if (listen) {
+          if (state.disposed) {
+            return;
+          }
           _watched.add(state);
           state._addListener(_callback);
         }
@@ -185,6 +191,9 @@ class ScopedValueListener {
   /// 監視している[ScopedValue]と保持している[ScopedValueContainer]を対象に[ScopedValueState.dispose]が実行されます。
   void dispose() {
     for (final watched in _watched) {
+      if (watched.disposed) {
+        continue;
+      }
       watched._removeListener(_callback);
       watched._sendLog(ScopedLoggerEvent.unlisten, additionalParameter: {
         ScopedLoggerEvent.listenedKey: __listendBy,
