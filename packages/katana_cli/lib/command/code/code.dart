@@ -22,6 +22,8 @@ part 'prefs.dart';
 part 'widget.dart';
 part 'stateless.dart';
 part 'stateful.dart';
+part 'query.dart';
+part 'cache.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -47,5 +49,7 @@ class CodeCliCommand extends CliCommandGroup {
         "widget": CodeWidgetCliCommand(),
         "stateless": CodeStatelessCliCommand(),
         "stateful": CodeStatefulCliCommand(),
+        "query": CodeQueryCliCommand(),
+        "cache": CodeCacheCliCommand(),
       };
 }
