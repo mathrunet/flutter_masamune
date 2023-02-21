@@ -15,6 +15,57 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.2`](#katana_cli---v182)
+ - [`masamune` - `v1.7.1`](#masamune---v171)
+ - [`masamune_annotation` - `v1.4.1`](#masamune_annotation---v141)
+ - [`masamune_builder` - `v1.4.1`](#masamune_builder---v141)
+ - [`masamune_picker` - `v1.5.34`](#masamune_picker---v1534)
+ - [`masamune_notification_firebase` - `v1.2.4`](#masamune_notification_firebase---v124)
+ - [`masamune_logger_firebase` - `v1.2.15`](#masamune_logger_firebase---v1215)
+ - [`masamune_picker_mobile` - `v1.5.34`](#masamune_picker_mobile---v1534)
+ - [`masamune_picker_file` - `v1.5.34`](#masamune_picker_file---v1534)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.34`
+ - `masamune_notification_firebase` - `v1.2.4`
+ - `masamune_logger_firebase` - `v1.2.15`
+ - `masamune_picker_mobile` - `v1.5.34`
+ - `masamune_picker_file` - `v1.5.34`
+
+---
+
+#### `katana_cli` - `v1.8.2`
+
+ - **FIX**: Query system code generation. ([8a5c7933](https://github.com/mathrunet/flutter_masamune/commit/8a5c793355f727f773b679f0180a5b625e440dd0))
+
+#### `masamune` - `v1.7.1`
+
+ - **FIX**: Maintenance around Query. ([55ab4e97](https://github.com/mathrunet/flutter_masamune/commit/55ab4e97d5ca706991b91cc20545de0d2b8568cf))
+
+#### `masamune_annotation` - `v1.4.1`
+
+ - **FIX**: Maintenance around Query. ([55ab4e97](https://github.com/mathrunet/flutter_masamune/commit/55ab4e97d5ca706991b91cc20545de0d2b8568cf))
+
+#### `masamune_builder` - `v1.4.1`
+
+ - **FIX**: Maintenance around Query. ([55ab4e97](https://github.com/mathrunet/flutter_masamune/commit/55ab4e97d5ca706991b91cc20545de0d2b8568cf))
+
+
+## 2023-02-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.1`](#katana_cli---v181)
 
 ---

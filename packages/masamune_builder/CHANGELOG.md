@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **FIX**: Maintenance around Query. ([55ab4e97](https://github.com/mathrunet/flutter_masamune/commit/55ab4e97d5ca706991b91cc20545de0d2b8568cf))
+
 ## 1.4.0
 
  - **FEAT**: Support for additional AutoDisposal functionality. ([ddb37d23](https://github.com/mathrunet/flutter_masamune/commit/ddb37d23302bd97d162c0aa22604f385a8c14c7f))

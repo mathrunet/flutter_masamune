@@ -1,3 +1,7 @@
+## 1.8.2
+
+ - **FIX**: Query system code generation. ([8a5c7933](https://github.com/mathrunet/flutter_masamune/commit/8a5c793355f727f773b679f0180a5b625e440dd0))
+
 ## 1.8.1
 
  - **FIX**: Various codes can be generated even in subfolders. ([12b81e5c](https://github.com/mathrunet/flutter_masamune/commit/12b81e5c1361276bd2d7662c324ce4ffa093a2ca))
