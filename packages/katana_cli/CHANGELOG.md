@@ -1,3 +1,7 @@
+## 1.8.0
+
+ - **FEAT**: Support for additional AutoDisposal functionality. ([ddb37d23](https://github.com/mathrunet/flutter_masamune/commit/ddb37d23302bd97d162c0aa22604f385a8c14c7f))
+
 ## 1.7.3
 
  - **FIX**: Added TermsAndPrivacy action. ([73d2879f](https://github.com/mathrunet/flutter_masamune/commit/73d2879fceacdbf83545620d96e6967c86e0dca8))

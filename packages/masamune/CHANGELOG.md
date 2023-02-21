@@ -1,3 +1,7 @@
+## 1.7.0
+
+ - **FEAT**: Support for additional AutoDisposal functionality. ([ddb37d23](https://github.com/mathrunet/flutter_masamune/commit/ddb37d23302bd97d162c0aa22604f385a8c14c7f))
+
 ## 1.6.12
 
  - Update a dependency to the latest release.

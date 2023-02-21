@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: Support for additional AutoDisposal functionality. ([ddb37d23](https://github.com/mathrunet/flutter_masamune/commit/ddb37d23302bd97d162c0aa22604f385a8c14c7f))
+
 ## 1.3.11
 
  - **FIX**: Added MasamuneControllerBase. ([40c050bf](https://github.com/mathrunet/flutter_masamune/commit/40c050bfca3c45dbd11d908c0106c8ca9f4c6a33))

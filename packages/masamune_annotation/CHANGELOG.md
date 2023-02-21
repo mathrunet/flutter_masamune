@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: Support for additional AutoDisposal functionality. ([ddb37d23](https://github.com/mathrunet/flutter_masamune/commit/ddb37d23302bd97d162c0aa22604f385a8c14c7f))
+
 ## 1.3.3
 
  - **FIX**: Add global method. ([4add8b02](https://github.com/mathrunet/flutter_masamune/commit/4add8b027dbc16487de5a4a9c126c2de03dde474))
