@@ -60,6 +60,8 @@ class ScopedValueContainer extends ChangeNotifier {
   ///
   /// [onInitOrUpdate] is executed just before [ScopedValueState.initValue] or [ScopedValueState.didUpdateValue] is executed.
   ///
+  /// [onInitOrUpdate] is executed just before [ScopedValueState.initValue] or [ScopedValueState.didUpdateValue] is executed.
+  ///
   /// [provider]に[TScopedValue]を返すコールバックを渡すことでその[ScopedValue]のステートを作成しつつ適切な処理を行い[ScopedValueState]を返します。
   ///
   /// `TScopedValue/name`でキーが保存されており、そのキーごとに状態が保持されます。
@@ -171,6 +173,21 @@ class ScopedValueContainer extends ChangeNotifier {
       val.dispose();
     }
     _data.clear();
+  }
+
+  /// If [state] exists in [ScopedValueContainer], it is discarded and deleted.
+  ///
+  /// [ScopedValueContainer]の中に[state]が存在する場合、その[state]を破棄し削除します。
+  void remove(ScopedValueState state) {
+    _data.removeWhere((key, value) {
+      if (value == state) {
+        if (!value.disposed) {
+          value.dispose();
+        }
+        return true;
+      }
+      return false;
+    });
   }
 
   /// Called when [ScopedValueContainer] is destroyed.

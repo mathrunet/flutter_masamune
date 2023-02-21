@@ -34,7 +34,10 @@ extension RefQueryExtensions on Ref {
   /// ```
   T query<T>(ScopedQuery<T> query) {
     return getScopedValue<T, _QueryValue<T>>(
-      (ref) => _QueryValue<T>(callback: query.call(ref)),
+      (ref) => _QueryValue<T>(
+        callback: query.call(ref),
+        autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+      ),
       listen: query.listen,
       name: query.name,
     );
@@ -45,9 +48,11 @@ extension RefQueryExtensions on Ref {
 class _QueryValue<T> extends ScopedValue<T> {
   const _QueryValue({
     required this.callback,
+    this.autoDisposeWhenUnreferenced = false,
   });
 
   final T Function() callback;
+  final bool autoDisposeWhenUnreferenced;
 
   @override
   ScopedValueState<T, ScopedValue<T>> createState() => _QueryValueState<T>();
@@ -57,6 +62,9 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
   _QueryValueState();
 
   late T _value;
+
+  @override
+  bool get autoDisposeWhenUnreferenced => value.autoDisposeWhenUnreferenced;
 
   @override
   void initValue() {

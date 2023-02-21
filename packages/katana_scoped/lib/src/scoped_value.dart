@@ -52,22 +52,37 @@ abstract class ScopedValueState<TResult,
     TScopedValue extends ScopedValue<TResult>> {
   bool _disposed = false;
   late TScopedValue? _value;
-  final Set<VoidCallback> _listeners = {};
+  final Set<ScopedValueListener> _listeners = {};
+  final Set<VoidCallback> _callbacks = {};
   late final DynamicMap _baseParameters;
   late final List<LoggerAdapter> _loggerAdapters;
 
-  void _addListener(VoidCallback callback) {
-    _listeners.add(callback);
+  /// Returns `true` if [ScopedValue] should be automatically discarded when it is no longer referenced by any widget.
+  ///
+  /// [ScopedValue]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
+  bool get autoDisposeWhenUnreferenced => false;
+
+  void _addListener(ScopedValueListener listener, [VoidCallback? callback]) {
+    if (_listeners.contains(listener)) {
+      return;
+    }
+    _listeners.add(listener);
+    if (callback != null) {
+      _callbacks.add(callback);
+    }
   }
 
-  void _removeListener(VoidCallback callback) {
-    _listeners.remove(callback);
+  void _removeListener(ScopedValueListener listener, [VoidCallback? callback]) {
+    _listeners.remove(listener);
+    if (callback != null) {
+      _callbacks.remove(callback);
+    }
   }
 
   void _notifyListeners() {
     assert(!disposed, "Value is already disposed.");
-    for (final listener in _listeners) {
-      listener.call();
+    for (final callback in _callbacks) {
+      callback.call();
     }
   }
 

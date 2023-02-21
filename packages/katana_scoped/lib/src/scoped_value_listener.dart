@@ -12,8 +12,11 @@ class AppScopedValueListener extends ScopedValueListener {
 
   @override
   ScopedValueContainer get container {
+    if (_containerCache != null) {
+      return _containerCache!;
+    }
     final appRef = _AppScopedScope.of(_context).widget.appRef;
-    return appRef._scopedValueContainer;
+    return _containerCache = appRef._scopedValueContainer;
   }
 
   @override
@@ -35,7 +38,10 @@ class PageScopedValueListener extends ScopedValueListener {
 
   @override
   ScopedValueContainer get container {
-    return _PageScopedScope.of(_context)._container;
+    if (_containerCache != null) {
+      return _containerCache!;
+    }
+    return _containerCache = _PageScopedScope.of(_context)._container;
   }
 
   @override
@@ -70,6 +76,7 @@ class ScopedValueListener {
   final BuildContext _context;
   final VoidCallback _callback;
   final ScopedValueContainer? _container;
+  ScopedValueContainer? _containerCache;
   final Set<ScopedValueState> _watched = {};
 
   AppRef get _appRef {
@@ -97,8 +104,11 @@ class ScopedValueListener {
   ///
   /// [ScopedValue]を保存している[ScopedValueContainer]。
   ScopedValueContainer get container {
+    if (_containerCache != null) {
+      return _containerCache!;
+    }
     assert(_container != null, "[ScopedValueContainer] is not passed.");
-    return _container!;
+    return _containerCache = _container!;
   }
 
   /// [TScopedValue] by passing [provider] and returns the result.
@@ -123,16 +133,14 @@ class ScopedValueListener {
     final state = container.getScopedValueState<TResult, TScopedValue>(
       provider,
       onInitOrUpdate: (state) {
-        if (listen) {
-          if (state.disposed) {
-            return;
-          }
-          _watched.add(state);
-          state._addListener(_callback);
-          state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
-            ScopedLoggerEvent.listenedKey: __listendBy,
-          });
+        if (state.disposed) {
+          return;
         }
+        _watched.add(state);
+        state._addListener(this, listen ? _callback : null);
+        state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
+          ScopedLoggerEvent.listenedKey: __listendBy,
+        });
       },
       name: name,
       scope: _scope,
@@ -169,13 +177,11 @@ class ScopedValueListener {
     final state =
         container.getAlreadyExistsScopedValueState<TResult, TScopedValue>(
       onInitOrUpdate: (state) {
-        if (listen) {
-          if (state.disposed) {
-            return;
-          }
-          _watched.add(state);
-          state._addListener(_callback);
+        if (state.disposed) {
+          return;
         }
+        _watched.add(state);
+        state._addListener(this, listen ? _callback : null);
       },
       name: name,
     );
@@ -194,11 +200,14 @@ class ScopedValueListener {
       if (watched.disposed) {
         continue;
       }
-      watched._removeListener(_callback);
+      watched._removeListener(this, _callback);
       watched._sendLog(ScopedLoggerEvent.unlisten, additionalParameter: {
         ScopedLoggerEvent.listenedKey: __listendBy,
       });
       watched.deactivate();
+      if (watched.autoDisposeWhenUnreferenced && watched._listeners.isEmpty) {
+        container.remove(watched);
+      }
     }
     _watched.clear();
     if (_container != null) {

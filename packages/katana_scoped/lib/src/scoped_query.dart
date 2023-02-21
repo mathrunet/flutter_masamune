@@ -7,11 +7,15 @@ part of katana_scoped;
 ///
 /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
 ///
+/// If [autoDisposeWhenUnreferenced] is set to `true`, [ScopedQuery] will be automatically disposed of when it is no longer referenced by any widget.
+///
 /// [ScopedQuery]を利用してグローバルに値を定義して個別に安全に状態を管理することが可能になります。
 ///
 /// [provider]に管理したい値を返すコールバックを指定してください。
 ///
 /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
+///
+/// [autoDisposeWhenUnreferenced]を`true`にすると、[ScopedQuery]がどのウィジェットからも参照されなくなった時に自動的に破棄されます。
 ///
 /// ```dart
 /// final stateQuery = ScopedQuery(
@@ -39,11 +43,15 @@ class ScopedQuery<Result> {
   ///
   /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
   ///
+  /// If [autoDisposeWhenUnreferenced] is set to `true`, [ScopedQuery] will be automatically disposed of when it is no longer referenced by any widget.
+  ///
   /// [ScopedQuery]を利用してグローバルに値を定義して個別に安全に状態を管理することが可能になります。
   ///
   /// [provider]に管理したい値を返すコールバックを指定してください。
   ///
   /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
+  ///
+  /// [autoDisposeWhenUnreferenced]を`true`にすると、[ScopedQuery]がどのウィジェットからも参照されなくなった時に自動的に破棄されます。
   ///
   /// ```dart
   /// final stateQuery = ScopedQuery(
@@ -65,6 +73,7 @@ class ScopedQuery<Result> {
   const ScopedQuery(
     this.provider, {
     String? name,
+    this.autoDisposeWhenUnreferenced = false,
   }) : _name = name;
 
   final String? _name;
@@ -92,6 +101,11 @@ class ScopedQuery<Result> {
   ///
   /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
   String get name => _name ?? hashCode.toString();
+
+  /// Returns `true` if [ScopedQuery] should be automatically discarded when it is no longer referenced by any widget.
+  ///
+  /// [ScopedQuery]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
+  final bool autoDisposeWhenUnreferenced;
 }
 
 /// {@template change_notifier_scoped_query}
@@ -103,6 +117,8 @@ class ScopedQuery<Result> {
 ///
 /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
 ///
+/// If [autoDisposeWhenUnreferenced] is set to `true`, [ScopedQuery] will be automatically disposed of when it is no longer referenced by any widget.
+///
 /// [ChangeNotifierScopedQuery]を利用してグローバルに値を定義して個別に安全に状態を管理することが可能になります。
 ///
 /// [ChangeNotifier]のみを値として管理できます。状態を監視し、変更通知をウィジェットに送信することが可能です。
@@ -110,6 +126,8 @@ class ScopedQuery<Result> {
 /// [provider]に管理したい値を返すコールバックを指定してください。
 ///
 /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
+///
+/// [autoDisposeWhenUnreferenced]を`true`にすると、[ScopedQuery]がどのウィジェットからも参照されなくなった時に自動的に破棄されます。
 ///
 /// ```dart
 /// final valueNotifierQuery = ChangeNotifierScopedQuery(
@@ -140,6 +158,8 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   ///
   /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
   ///
+  /// If [autoDisposeWhenUnreferenced] is set to `true`, [ScopedQuery] will be automatically disposed of when it is no longer referenced by any widget.
+  ///
   /// [ChangeNotifierScopedQuery]を利用してグローバルに値を定義して個別に安全に状態を管理することが可能になります。
   ///
   /// [ChangeNotifier]のみを値として管理できます。状態を監視し、変更通知をウィジェットに送信することが可能です。
@@ -147,6 +167,8 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   /// [provider]に管理したい値を返すコールバックを指定してください。
   ///
   /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
+  ///
+  /// [autoDisposeWhenUnreferenced]を`true`にすると、[ScopedQuery]がどのウィジェットからも参照されなくなった時に自動的に破棄されます。
   ///
   /// ```dart
   /// final valueNotifierQuery = ChangeNotifierScopedQuery(
@@ -168,6 +190,7 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   const ChangeNotifierScopedQuery(
     super.provider, {
     super.name,
+    super.autoDisposeWhenUnreferenced,
   });
 
   @override
@@ -192,6 +215,7 @@ class ScopedQueryFamily<Result, Param> {
   const ScopedQueryFamily(
     this.provider, {
     String? name,
+    this.autoDisposeWhenUnreferenced = false,
   }) : _name = name;
 
   final String? _name;
@@ -207,7 +231,13 @@ class ScopedQueryFamily<Result, Param> {
   ScopedQuery<Result> call(Param param) => ScopedQuery(
         (ref) => provider(ref, param),
         name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       );
+
+  /// Returns `true` if [ScopedQueryFamily] should be automatically discarded when it is no longer referenced by any widget.
+  ///
+  /// [ScopedQueryFamily]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
+  final bool autoDisposeWhenUnreferenced;
 }
 
 /// You can pass one parameter [ChangeNotifierScopedQuery].
@@ -226,6 +256,7 @@ class ChangeNotifierScopedQueryFamily<Result extends Listenable?, Param>
   const ChangeNotifierScopedQueryFamily(
     super.provider, {
     super.name,
+    super.autoDisposeWhenUnreferenced,
   });
 
   @override
@@ -233,5 +264,6 @@ class ChangeNotifierScopedQueryFamily<Result extends Listenable?, Param>
       ChangeNotifierScopedQuery<Result>(
         (ref) => provider(ref, param),
         name: "${_name ?? hashCode}#${param.hashCode}",
+        autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       );
 }
