@@ -7,6 +7,7 @@ import 'package:katana_cli/action/app/picker.dart';
 import 'package:katana_cli/action/app/spread_sheet.dart';
 import 'package:katana_cli/action/firebase/init.dart';
 import 'package:katana_cli/action/firebase/messaging.dart';
+import 'package:katana_cli/action/firebase/terms_and_privacy.dart';
 import 'package:katana_cli/action/git/action.dart';
 import 'package:katana_cli/action/git/hook.dart';
 import 'package:katana_cli/katana_cli.dart';
@@ -27,6 +28,7 @@ const _actions = <CliActionMixin>[
   AppIconCliAction(),
   FirebaseInitCliAction(),
   FirebaseMessagingCliAction(),
+  FirebaseTermsAndPrivacyCliAction(),
   GitActionCliAction(),
   GitPreCommitCliAction(),
 ];

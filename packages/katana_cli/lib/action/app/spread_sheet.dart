@@ -9,6 +9,11 @@ import 'package:xml/xml.dart';
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
+/// Spreadsheet cache path.
+///
+/// スプレッドシートのキャッシュパス。
+const kGoogleSpreadSheetPath = ".dart_tool/katana/google_spread_sheet.json";
+
 final _mapping = [
   "timestamp",
   "email",
@@ -122,6 +127,13 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
         "[${mapped.get("email", "")}] ${mapped.get("short_title", "")} (${mapped.get("locale", "")})",
       );
     }
+    label("Cache the information");
+    final cacheDir = Directory(".dart_tool/katana");
+    if (!cacheDir.existsSync()) {
+      await cacheDir.create(recursive: true);
+    }
+    final cacheFile = File(kGoogleSpreadSheetPath);
+    await cacheFile.writeAsString(jsonEncode(data));
     label("Replace android information");
     await _createAndroidResValues({
       if (defaultLocale.isNotEmpty) "": data[defaultLocale!]!,
