@@ -202,7 +202,7 @@ abstract class CliCode {
   }) async {
     final baseName = path.last();
     final trimedPath = _trimPathPrefix(path);
-    final className = baseName.toPascalCase();
+    final className = trimedPath.replaceAll("/", "_").toPascalCase();
     final dir = Directory(path.replaceAll("/$baseName", ""));
     if (!dir.existsSync()) {
       await dir.create(recursive: true);

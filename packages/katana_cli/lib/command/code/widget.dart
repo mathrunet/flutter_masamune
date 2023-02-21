@@ -32,6 +32,13 @@ class CodeWidgetCliCommand extends CliCodeCommand {
       return;
     }
     label("Create a ScopedWidget class in `$directory/$path.dart`.");
+    final parentPath = path.parentPath();
+    if (parentPath.isNotEmpty) {
+      final parentDir = Directory("$directory/$parentPath");
+      if (!parentDir.existsSync()) {
+        await parentDir.create(recursive: true);
+      }
+    }
     await generateDartCode("$directory/$path");
   }
 
