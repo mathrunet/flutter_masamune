@@ -1,3 +1,7 @@
+## 1.5.13
+
+ - **FIX**: Remove mustCallSuper annotation. ([4b4db224](https://github.com/mathrunet/flutter_masamune/commit/4b4db224ca04bc1844da11c74da0d5dd95bff687))
+
 ## 1.5.12
 
  - **FIX**: Fixed onInitialize being called twice. ([eb671ff9](https://github.com/mathrunet/flutter_masamune/commit/eb671ff99e93255e5b12b13d6a7a0c5ab196215d))

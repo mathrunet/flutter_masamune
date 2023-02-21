@@ -1,3 +1,7 @@
+## 1.6.11
+
+ - Update a dependency to the latest release.
+
 ## 1.6.10
 
  - **FIX**: Changed the method name of MasamuneControllerBase's set. ([d54093b1](https://github.com/mathrunet/flutter_masamune/commit/d54093b1cbad4efb5297e81acf423cca3b2f534d))

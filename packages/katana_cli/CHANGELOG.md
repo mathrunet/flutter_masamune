@@ -1,3 +1,7 @@
+## 1.7.3
+
+ - **FIX**: Added TermsAndPrivacy action. ([73d2879f](https://github.com/mathrunet/flutter_masamune/commit/73d2879fceacdbf83545620d96e6967c86e0dca8))
+
 ## 1.7.2
 
  - **FIX**: Fixed to keep the order of screenshots. ([5698ff62](https://github.com/mathrunet/flutter_masamune/commit/5698ff621fc4d8a70031ef043ddfdfd2c569543c))

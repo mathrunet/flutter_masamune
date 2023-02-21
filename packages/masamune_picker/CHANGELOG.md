@@ -1,3 +1,7 @@
+## 1.5.31
+
+ - Update a dependency to the latest release.
+
 ## 1.5.30
 
  - **FIX**: Support for MasamuneControllerBase. ([803574d1](https://github.com/mathrunet/flutter_masamune/commit/803574d116ab59d4650bce85e80670f1019b8bab))

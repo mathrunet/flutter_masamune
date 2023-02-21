@@ -1,3 +1,7 @@
+## 1.5.14
+
+ - Update a dependency to the latest release.
+
 ## 1.5.13
 
  - **FIX**: Fixed onInitialize being called twice. ([eb671ff9](https://github.com/mathrunet/flutter_masamune/commit/eb671ff99e93255e5b12b13d6a7a0c5ab196215d))
