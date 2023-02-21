@@ -6,11 +6,15 @@ part of masamune_annotation;
 ///
 /// Multiple `ChangeNotifier`s can be grouped together in `katana_listenables` and used as a controller group.
 ///
+/// If [autoDisposeWhenUnreferenced] is set to `true`, [ControllerGroup] will be automatically disposed of when it is no longer referenced by any widget.
+///
 /// コントローラーグループ用のクエリを作成するためのアノテーション。
 ///
 /// `static const query = _$(クラス名)ControllerGroupQuery()`にコントローラーを取得するためのクエリを定義できます。
 ///
 /// `katana_listenables`で複数の`ChangeNotifier`をまとめた上でコントローラーグループとして利用することが可能です。
+///
+/// [autoDisposeWhenUnreferenced]を`true`にした場合、[ControllerGroup]がどのウィジェットにも参照されなくなったときに自動的に破棄します。
 ///
 /// ```dart
 /// @listenables
@@ -35,11 +39,15 @@ const controllerGroup = ControllerGroup();
 ///
 /// Multiple `ChangeNotifier`s can be grouped together in `katana_listenables` and used as a controller group.
 ///
+/// If [autoDisposeWhenUnreferenced] is set to `true`, [ControllerGroup] will be automatically disposed of when it is no longer referenced by any widget.
+///
 /// コントローラーグループ用のクエリを作成するためのアノテーション。
 ///
 /// `static const query = _$(クラス名)ControllerGroupQuery()`にコントローラーを取得するためのクエリを定義できます。
 ///
 /// `katana_listenables`で複数の`ChangeNotifier`をまとめた上でコントローラーグループとして利用することが可能です。
+///
+/// [autoDisposeWhenUnreferenced]を`true`にした場合、[ControllerGroup]がどのウィジェットにも参照されなくなったときに自動的に破棄します。
 ///
 /// ```dart
 /// @listenables
@@ -63,11 +71,15 @@ class ControllerGroup {
   ///
   /// Multiple `ChangeNotifier`s can be grouped together in `katana_listenables` and used as a controller group.
   ///
+  /// If [autoDisposeWhenUnreferenced] is set to `true`, [ControllerGroup] will be automatically disposed of when it is no longer referenced by any widget.
+  ///
   /// コントローラーグループ用のクエリを作成するためのアノテーション。
   ///
   /// `static const query = _$(クラス名)ControllerGroupQuery()`にコントローラーを取得するためのクエリを定義できます。
   ///
   /// `katana_listenables`で複数の`ChangeNotifier`をまとめた上でコントローラーグループとして利用することが可能です。
+  ///
+  /// [autoDisposeWhenUnreferenced]を`true`にした場合、[ControllerGroup]がどのウィジェットにも参照されなくなったときに自動的に破棄します。
   ///
   /// ```dart
   /// @listenables
@@ -84,5 +96,12 @@ class ControllerGroup {
   /// ```
   ///
   /// * see https://pub.dev/packages/katana_listenables
-  const ControllerGroup();
+  const ControllerGroup({
+    this.autoDisposeWhenUnreferenced = true,
+  });
+
+  /// Returns `true` if [ControllerGroup] should be automatically destroyed when it is no longer referenced by any widget.
+  ///
+  /// [ControllerGroup]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
+  final bool autoDisposeWhenUnreferenced;
 }

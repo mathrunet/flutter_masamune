@@ -5,6 +5,7 @@ part of masamune_builder;
 /// `ref.page.controller`で使えるようにするためのFormControllerクエリーのクラスを作成します。
 List<Spec> formValueClass(
   ClassValue model,
+  bool autoDisposeWhenUnreferenced,
 ) {
   return [
     Class(
@@ -82,6 +83,15 @@ List<Spec> formValueClass(
               ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("String")
               ..body = const Code("value.hashCode.toString()"),
+          ),
+          Method(
+            (m) => m
+              ..name = "autoDisposeWhenUnreferenced"
+              ..lambda = true
+              ..type = MethodType.getter
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("bool")
+              ..body = Code(autoDisposeWhenUnreferenced ? "true" : "false"),
           ),
         ]),
     ),

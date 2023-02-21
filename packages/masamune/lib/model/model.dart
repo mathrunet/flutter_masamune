@@ -68,4 +68,9 @@ abstract class ModelQueryBase<TModel extends ChangeNotifier> {
   ///
   /// [ScopedValue]に渡すための名前を返します。
   String get name => hashCode.toString();
+
+  /// Returns `true` if [ScopedValue] should be automatically discarded when it is no longer referenced by any widget.
+  ///
+  /// [ScopedValue]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
+  bool get autoDisposeWhenUnreferenced => false;
 }

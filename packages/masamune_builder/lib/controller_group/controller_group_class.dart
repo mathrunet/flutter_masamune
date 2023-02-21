@@ -5,6 +5,7 @@ part of masamune_builder;
 /// `ref.page.controller`で使えるようにするためのコントローラーグループクエリーのクラスを作成します。
 List<Spec> controllerGroupClass(
   ClassValue model,
+  bool autoDisposeWhenUnreferenced,
 ) {
   return [
     Class(
@@ -113,6 +114,15 @@ List<Spec> controllerGroupClass(
               ..type = MethodType.getter
               ..returns = const Reference("String")
               ..body = const Code("_name"),
+          ),
+          Method(
+            (m) => m
+              ..name = "autoDisposeWhenUnreferenced"
+              ..lambda = true
+              ..type = MethodType.getter
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("bool")
+              ..body = Code(autoDisposeWhenUnreferenced ? "true" : "false"),
           ),
         ]),
     ),

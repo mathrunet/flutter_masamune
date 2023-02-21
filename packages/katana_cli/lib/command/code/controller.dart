@@ -59,7 +59,7 @@ part '$baseName.m.dart';
   String body(String path, String baseName, String className) {
     return """
 /// Controller.
-@controller
+@Controller(autoDisposeWhenUnreferenced: true)
 class ${className}Controller extends ChangeNotifier {
   ${className}Controller(
     // TODO: Define some arguments.

@@ -15,7 +15,11 @@ extension MasamuneControllerAppRefExtensions on AppRef {
   TController controller<TController extends ChangeNotifier>(
     ControllerQueryBase<TController> query,
   ) {
-    return watch(query.call(), name: query.name);
+    return watch(
+      query.call(),
+      name: query.name,
+      autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -42,7 +46,11 @@ extension MasamuneControllerAppScopedValueRefExtensions on AppScopedValueRef {
   TController controller<TController extends ChangeNotifier>(
     ControllerQueryBase<TController> query,
   ) {
-    return watch(query.call(), name: query.name);
+    return watch(
+      query.call(),
+      name: query.name,
+      autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -69,7 +77,11 @@ extension MasamuneControllerPageScopedValueRefExtensions on PageScopedValueRef {
   TController controller<TController extends ChangeNotifier>(
     ControllerQueryBase<TController> query,
   ) {
-    return watch(query.call(), name: query.name);
+    return watch(
+      query.call(),
+      name: query.name,
+      autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
+    );
   }
 }
 
@@ -99,4 +111,9 @@ abstract class ControllerQueryBase<TController extends ChangeNotifier> {
   ///
   /// [ScopedValue]に渡すための名前を返します。
   String get name => hashCode.toString();
+
+  /// Returns `true` if [ScopedValue] should be automatically discarded when it is no longer referenced by any widget.
+  ///
+  /// [ScopedValue]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
+  bool get autoDisposeWhenUnreferenced => false;
 }

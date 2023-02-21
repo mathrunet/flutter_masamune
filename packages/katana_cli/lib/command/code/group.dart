@@ -61,7 +61,7 @@ part '$baseName.m.dart';
     return """
 /// Controller Group.
 @listenables
-@controllerGroup
+@ControllerGroup(autoDisposeWhenUnreferenced: true)
 class ${className}ControllerGroup with _\$${className}ControllerGroup, ChangeNotifier {
   factory ${className}ControllerGroup({
     // TODO: Define the ChangeNotifier field here.

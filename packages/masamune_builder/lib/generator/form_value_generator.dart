@@ -38,12 +38,17 @@ class FormValueGenerator extends GeneratorForAnnotation<FormValue> {
     }
 
     final classValue = ClassValue(element);
+    final autoDisposeWhenUnreferenced =
+        annotation.read("autoDisposeWhenUnreferenced").boolValue;
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...formValueClass(classValue),
+            ...formValueClass(
+              classValue,
+              autoDisposeWhenUnreferenced,
+            ),
           ],
         ),
     );

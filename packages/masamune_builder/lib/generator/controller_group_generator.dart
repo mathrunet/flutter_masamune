@@ -31,12 +31,17 @@ class ControllerGroupGenerator extends GeneratorForAnnotation<ControllerGroup> {
     }
 
     final classValue = ClassValue(element);
+    final autoDisposeWhenUnreferenced =
+        annotation.read("autoDisposeWhenUnreferenced").boolValue;
 
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...controllerGroupClass(classValue),
+            ...controllerGroupClass(
+              classValue,
+              autoDisposeWhenUnreferenced,
+            ),
           ],
         ),
     );
