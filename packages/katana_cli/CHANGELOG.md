@@ -1,3 +1,7 @@
+## 1.8.1
+
+ - **FIX**: Various codes can be generated even in subfolders. ([12b81e5c](https://github.com/mathrunet/flutter_masamune/commit/12b81e5c1361276bd2d7662c324ce4ffa093a2ca))
+
 ## 1.8.0
 
  - **FEAT**: Support for additional AutoDisposal functionality. ([ddb37d23](https://github.com/mathrunet/flutter_masamune/commit/ddb37d23302bd97d162c0aa22604f385a8c14c7f))

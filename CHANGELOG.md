@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.1`](#katana_cli---v181)
+
+---
+
+#### `katana_cli` - `v1.8.1`
+
+ - **FIX**: Various codes can be generated even in subfolders. ([12b81e5c](https://github.com/mathrunet/flutter_masamune/commit/12b81e5c1361276bd2d7662c324ce4ffa093a2ca))
+
+
+## 2023-02-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.0`](#katana_cli---v180)
  - [`masamune` - `v1.7.0`](#masamune---v170)
  - [`masamune_annotation` - `v1.4.0`](#masamune_annotation---v140)
