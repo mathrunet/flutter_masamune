@@ -1,3 +1,7 @@
+## 1.9.0
+
+ - **FEAT**: AutoDispose enabled. ([6975d4c4](https://github.com/mathrunet/flutter_masamune/commit/6975d4c4f16bb33aeee83c2b7724a73578fffc30))
+
 ## 1.8.4
 
  - **FIX**: Fixed to not dispose values that have already been disposed. ([774ae172](https://github.com/mathrunet/flutter_masamune/commit/774ae1722e6403a35221293b88f28b2c86586dd3))

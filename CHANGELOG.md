@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v1.9.0`](#katana_scoped---v190)
+ - [`masamune` - `v1.6.12`](#masamune---v1612)
+ - [`masamune_picker` - `v1.5.32`](#masamune_picker---v1532)
+ - [`masamune_notification_firebase` - `v1.2.2`](#masamune_notification_firebase---v122)
+ - [`masamune_logger_firebase` - `v1.2.13`](#masamune_logger_firebase---v1213)
+ - [`masamune_picker_mobile` - `v1.5.32`](#masamune_picker_mobile---v1532)
+ - [`masamune_picker_file` - `v1.5.32`](#masamune_picker_file---v1532)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.6.12`
+ - `masamune_picker` - `v1.5.32`
+ - `masamune_notification_firebase` - `v1.2.2`
+ - `masamune_logger_firebase` - `v1.2.13`
+ - `masamune_picker_mobile` - `v1.5.32`
+ - `masamune_picker_file` - `v1.5.32`
+
+---
+
+#### `katana_scoped` - `v1.9.0`
+
+ - **FEAT**: AutoDispose enabled. ([6975d4c4](https://github.com/mathrunet/flutter_masamune/commit/6975d4c4f16bb33aeee83c2b7724a73578fffc30))
+
+
+## 2023-02-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.7.3`](#katana_cli---v173)
  - [`katana_model` - `v1.5.13`](#katana_model---v1513)
  - [`katana_model_firestore` - `v1.5.14`](#katana_model_firestore---v1514)
