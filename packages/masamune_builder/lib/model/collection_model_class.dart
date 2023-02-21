@@ -301,9 +301,16 @@ List<Spec> collectionModelClass(
               ..name = "call"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("\$${model.name}Document Function(Ref ref)")
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "ref"
+                    ..type = const Reference("Ref"),
+                )
+              ])
+              ..returns = Reference("\$${model.name}Document Function()")
               ..body = Code(
-                "(ref) => \$${model.name}Document(modelQuery)",
+                "() => \$${model.name}Document(modelQuery)",
               ),
           ),
           Method(
@@ -387,10 +394,16 @@ List<Spec> collectionModelClass(
               ..name = "call"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
-              ..returns =
-                  Reference("_\$${model.name}Collection Function(Ref ref)")
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "ref"
+                    ..type = const Reference("Ref"),
+                )
+              ])
+              ..returns = Reference("_\$${model.name}Collection Function()")
               ..body = Code(
-                "(ref) => _\$${model.name}Collection(modelQuery)",
+                "() => _\$${model.name}Collection(modelQuery)",
               ),
           ),
           Method(

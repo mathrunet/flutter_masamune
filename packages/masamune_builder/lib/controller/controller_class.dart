@@ -91,9 +91,16 @@ List<Spec> controllerClass(
             (m) => m
               ..name = "call"
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("${model.name} Function(Ref ref)")
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "ref"
+                    ..type = const Reference("Ref"),
+                )
+              ])
+              ..returns = Reference("${model.name} Function()")
               ..body = Code(
-                "return (ref) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")});",
+                "return () => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")});",
               ),
           ),
           Method(

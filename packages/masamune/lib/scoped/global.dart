@@ -3,7 +3,7 @@ part of masamune;
 /// Create an **application scope** extension method to handle the globally defined [ChangeNotifier].
 ///
 /// グローバル定義されている[ChangeNotifier]を処理するための**アプリケーションスコープ**の拡張メソッドを作成します。
-extension MasamuneChangeNotifierScopedValueRefExtensions on ScopedValueRef {
+extension MasamuneChangeNotifierScopedValueRefExtensions on RefHasApp {
   /// Used to monitor [globalChangeNotifier], a globally defined [ChangeNotifier], within a Widget.
   ///
   /// State is managed in the application scope, but state is not destroyed.
@@ -34,7 +34,7 @@ extension MasamuneChangeNotifierScopedValueRefExtensions on ScopedValueRef {
     TController globalChangeNotifier, {
     String? name,
   }) {
-    return watch(
+    return app.watch(
       (ref) => globalChangeNotifier,
       name: name,
       disposal: false,

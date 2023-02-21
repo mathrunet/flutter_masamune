@@ -462,7 +462,7 @@ import '/main.dart';
 part 'test.m.dart';
 
 /// Controller.
-@controller
+@Controller(autoDisposeWhenUnreferenced: true)
 class TestController extends ChangeNotifier {
   TestController(
     // TODO: Define some arguments.
@@ -485,7 +485,9 @@ class TestController extends ChangeNotifier {
 
 When using `PageRef (WidgetRef)`, you can obtain the actual object by passing `query` to `ref.(page/app).controller()`.
 
-In the case of `ref.app.controller`, the controller is managed across pages, and in the case of `ref.page.controller`, the controller is managed only on that page. (If a page is defined with `ref.page.controller`, the controller is also destroyed when the page is destroyed.)
+If defined in `ref.app.controller`, the controller is destroyed when the referenced widget reaches 0.
+
+If defined in `ref.page.controller`, the controller will also be destroyed when the page is destroyed.
 
 ```dart
 @override

@@ -124,9 +124,8 @@ const flavor = String.fromEnvironment("FLAVOR");
 
 /// App.
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    MasamuneApp(
+  runMasamuneApp(
+    () => MasamuneApp(
       title: title,
       appRef: appRef,
       theme: theme,
