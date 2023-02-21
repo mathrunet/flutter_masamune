@@ -369,7 +369,6 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// [load]や[reload]を実行した際の内部処理を実装します。
   @protected
-  @mustCallSuper
   Future<DynamicMap?> loadRequest() async {
     if (subscriptions.isNotEmpty) {
       await Future.forEach<StreamSubscription>(

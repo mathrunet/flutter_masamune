@@ -330,7 +330,6 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// [Null]が返された場合は値をアップデートしません。
   @protected
-  @mustCallSuper
   Future<Map<String, DynamicMap>?> loadRequest() async {
     if (subscriptions.isNotEmpty) {
       await Future.forEach<StreamSubscription>(
