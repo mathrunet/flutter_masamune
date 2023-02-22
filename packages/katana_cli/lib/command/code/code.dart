@@ -4,6 +4,7 @@ library katana_cli.code;
 import 'dart:io';
 
 // Project imports:
+import 'package:archive/archive_io.dart';
 import 'package:katana_cli/katana_cli.dart';
 import 'tmp/tmp.dart';
 
@@ -24,6 +25,7 @@ part 'stateless.dart';
 part 'stateful.dart';
 part 'query.dart';
 part 'cache.dart';
+part 'zip.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -51,5 +53,6 @@ class CodeCliCommand extends CliCommandGroup {
         "stateful": CodeStatefulCliCommand(),
         "query": CodeQueryCliCommand(),
         "cache": CodeCacheCliCommand(),
+        "zip": CodeZipCliCommand(),
       };
 }
