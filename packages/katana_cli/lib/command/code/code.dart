@@ -26,6 +26,7 @@ part 'stateful.dart';
 part 'query.dart';
 part 'cache.dart';
 part 'zip.dart';
+part 'enum.dart';
 
 class CodeCliCommand extends CliCommandGroup {
   const CodeCliCommand();
@@ -54,5 +55,6 @@ class CodeCliCommand extends CliCommandGroup {
         "query": CodeQueryCliCommand(),
         "cache": CodeCacheCliCommand(),
         "zip": CodeZipCliCommand(),
+        "enum": CodeEnumCliCommand(),
       };
 }
