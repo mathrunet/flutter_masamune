@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.8.3`](#katana_cli---v183)
+
+---
+
+#### `katana_cli` - `v1.8.3`
+
+ - **FIX**: Added Enum command. ([984e6857](https://github.com/mathrunet/flutter_masamune/commit/984e6857be8c1d9cb1947f658f0fa4eb34f1fa95))
+ - **FIX**: Added code zip functionality. ([eb713db1](https://github.com/mathrunet/flutter_masamune/commit/eb713db1350c83f22f724da025dc0adb06d7c8d7))
+
+
 ## 2023-02-21
 
 ### Changes
