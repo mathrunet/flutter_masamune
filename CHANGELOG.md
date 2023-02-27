@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.8.4`](#katana_cli---v184)
+ - [`katana_responsive` - `v1.1.0`](#katana_responsive---v110)
+
+---
+
+#### `katana_cli` - `v1.8.4`
+
+ - **FIX**: Class names were not output properly. ([006a1566](https://github.com/mathrunet/flutter_masamune/commit/006a156687cf3c48b5d0acba67caedacde8bafd2))
+
+#### `katana_responsive` - `v1.1.0`
+
+ - **FEAT**: Initial commitments. ([d6399878](https://github.com/mathrunet/flutter_masamune/commit/d6399878cdcfbb319d907121dd46a7496d68e582))
+
+
 ## 2023-02-24
 
 ### Changes

@@ -1,3 +1,7 @@
+## 1.8.4
+
+ - **FIX**: Class names were not output properly. ([006a1566](https://github.com/mathrunet/flutter_masamune/commit/006a156687cf3c48b5d0acba67caedacde8bafd2))
+
 ## 1.8.3
 
  - **FIX**: Added Enum command. ([984e6857](https://github.com/mathrunet/flutter_masamune/commit/984e6857be8c1d9cb1947f658f0fa4eb34f1fa95))
