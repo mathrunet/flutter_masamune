@@ -1,6 +1,6 @@
 name: katana_responsive
 description: A package that enables the implementation of responsive grid layouts based on Bootstrap.
-version: 1.1.0
+version: 1.1.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_responsive
 

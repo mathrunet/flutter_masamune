@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_responsive` - `v1.1.1`](#katana_responsive---v111)
+ - [`masamune` - `v1.7.2`](#masamune---v172)
+ - [`masamune_annotation` - `v1.4.2`](#masamune_annotation---v142)
+ - [`masamune_builder` - `v1.4.2`](#masamune_builder---v142)
+ - [`masamune_picker` - `v1.5.35`](#masamune_picker---v1535)
+ - [`masamune_notification_firebase` - `v1.2.5`](#masamune_notification_firebase---v125)
+ - [`masamune_logger_firebase` - `v1.2.16`](#masamune_logger_firebase---v1216)
+ - [`masamune_picker_mobile` - `v1.5.35`](#masamune_picker_mobile---v1535)
+ - [`masamune_picker_file` - `v1.5.35`](#masamune_picker_file---v1535)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.35`
+ - `masamune_notification_firebase` - `v1.2.5`
+ - `masamune_logger_firebase` - `v1.2.16`
+ - `masamune_picker_mobile` - `v1.5.35`
+ - `masamune_picker_file` - `v1.5.35`
+
+---
+
+#### `katana_responsive` - `v1.1.1`
+
+ - **DOCS**: ReadMe Correction. ([4aff41cd](https://github.com/mathrunet/flutter_masamune/commit/4aff41cdde475211fcaecf8f7ee8cb58d1cc46d1))
+
+#### `masamune` - `v1.7.2`
+
+ - **FIX**: katana_responsive available. ([b51cc2d8](https://github.com/mathrunet/flutter_masamune/commit/b51cc2d8b0d82d8ce76c309bc5d362bb7f82e5f9))
+ - **DOCS**: ReadMe Correction. ([4aff41cd](https://github.com/mathrunet/flutter_masamune/commit/4aff41cdde475211fcaecf8f7ee8cb58d1cc46d1))
+
+#### `masamune_annotation` - `v1.4.2`
+
+ - **DOCS**: ReadMe Correction. ([4aff41cd](https://github.com/mathrunet/flutter_masamune/commit/4aff41cdde475211fcaecf8f7ee8cb58d1cc46d1))
+
+#### `masamune_builder` - `v1.4.2`
+
+ - **DOCS**: ReadMe Correction. ([4aff41cd](https://github.com/mathrunet/flutter_masamune/commit/4aff41cdde475211fcaecf8f7ee8cb58d1cc46d1))
+
+
 ## 2023-02-27
 
 ### Changes

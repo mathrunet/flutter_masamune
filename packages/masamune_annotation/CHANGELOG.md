@@ -1,3 +1,7 @@
+## 1.4.2
+
+ - **DOCS**: ReadMe Correction. ([4aff41cd](https://github.com/mathrunet/flutter_masamune/commit/4aff41cdde475211fcaecf8f7ee8cb58d1cc46d1))
+
 ## 1.4.1
 
  - **FIX**: Maintenance around Query. ([55ab4e97](https://github.com/mathrunet/flutter_masamune/commit/55ab4e97d5ca706991b91cc20545de0d2b8568cf))
