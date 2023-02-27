@@ -923,11 +923,55 @@ Modal.confirm(
 );
 ```
 
+## Responsive layout
+
+It is possible to implement a responsive grid layout as follows.
+
+```dart
+ResponsiveBuilder(
+  builder: (context) => [
+    ResponsiveRow(
+      children: [
+        ResponsiveCol(
+          lg: 12,
+          child: Container(
+            color: Colors.red,
+            height: 100,
+          ),
+        ),
+      ],
+    ),
+    ResponsiveRow(
+      children: [
+        ResponsiveCol(
+          sm: 6,
+          child: Container(
+            color: Colors.green,
+            height: 100,
+          ),
+        ),
+        ResponsiveCol(
+          sm: 6,
+          child: Container(
+            color: Colors.blue,
+            height: 100,
+          ),
+        ),
+      ],
+    ),
+  ],
+);
+```
+
 For other details, please see the package details page.
 
 katana_ui
 
 [https://pub.dev/packages/katana_ui](https://pub.dev/packages/katana_ui)
+
+katana_responsive
+
+[https://pub.dev/packages/katana_responsive](https://pub.dev/packages/katana_responsive)
 
 ## Authentication
 
