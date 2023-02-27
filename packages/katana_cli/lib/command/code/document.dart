@@ -39,7 +39,7 @@ class CodeDocumentCliCommand extends CliCodeCommand {
         await parentDir.create(recursive: true);
       }
     }
-    await generateDartCode("$directory/$path");
+    await generateDartCode("$directory/$path", path);
   }
 
   @override
@@ -68,6 +68,10 @@ part '$baseName.freezed.dart';
 
   @override
   String body(String path, String baseName, String className) {
+    final paths = path.split("/");
+    if (paths.length.isOdd) {
+      path = paths.sublist(0, paths.length - 1).join("/");
+    }
     return """
 /// Alias for ModelRef<${className}Model>.
 /// 
@@ -84,7 +88,7 @@ typedef ${className}ModelRef = ModelRef<${className}Model>?;
 @immutable
 // TODO: Set the path for the document.
 @DocumentModelPath("\${1:$path}")
-class ${className}Model with _\$${className}Model implements Logger {
+class ${className}Model with _\$${className}Model {
   const factory ${className}Model({
      // TODO: Set the data schema.
      \${2}

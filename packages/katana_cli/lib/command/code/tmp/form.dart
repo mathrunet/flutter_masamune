@@ -32,7 +32,7 @@ class CodeTmpFormCliCommand extends CliCodeCommand {
       return;
     }
     label("Create a form template in `$directory/$path.dart`.");
-    await generateDartCode("$directory/$path");
+    await generateDartCode("$directory/$path", path);
   }
 
   @override

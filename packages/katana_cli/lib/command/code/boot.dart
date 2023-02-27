@@ -25,7 +25,7 @@ class CodeBootCliCommand extends CliCodeCommand {
   @override
   Future<void> exec(ExecContext context) async {
     label("Create a Boot class in `$directory/boot.dart`.");
-    await generateDartCode("$directory/boot.dart");
+    await generateDartCode("$directory/boot", "boot");
   }
 
   @override

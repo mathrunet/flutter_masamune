@@ -39,7 +39,7 @@ class CodeStatelessCliCommand extends CliCodeCommand {
         await parentDir.create(recursive: true);
       }
     }
-    await generateDartCode("$directory/$path");
+    await generateDartCode("$directory/$path", path);
   }
 
   @override

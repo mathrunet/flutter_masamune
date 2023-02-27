@@ -3,8 +3,10 @@ library katana_cli.code;
 // Dart imports:
 import 'dart:io';
 
-// Project imports:
+// Package imports:
 import 'package:archive/archive_io.dart';
+
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 import 'tmp/tmp.dart';
 

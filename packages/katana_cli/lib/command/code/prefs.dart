@@ -25,7 +25,7 @@ class CodePrefsCliCommand extends CliCodeCommand {
   @override
   Future<void> exec(ExecContext context) async {
     label("Create a controller group class in `$directory/prefs.dart`.");
-    await generateDartCode("$directory/prefs");
+    await generateDartCode("$directory/prefs", "prefs");
   }
 
   @override

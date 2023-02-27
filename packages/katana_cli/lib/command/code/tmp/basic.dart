@@ -32,7 +32,7 @@ class CodeTmpBasicCliCommand extends CliCodeCommand {
       return;
     }
     label("Create a basic template in `$directory/$path.dart`.");
-    await generateDartCode("$directory/$path");
+    await generateDartCode("$directory/$path", path);
   }
 
   @override

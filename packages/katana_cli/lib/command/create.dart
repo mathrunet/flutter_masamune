@@ -98,7 +98,7 @@ class CreateCliCommand extends CliCommand {
       ],
     );
     label("Replace lib/main.dart");
-    await const MainCliCode().generateDartCode("lib/main");
+    await const MainCliCode().generateDartCode("lib/main", "main");
     label("Generate file for VSCode");
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);

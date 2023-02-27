@@ -197,18 +197,20 @@ abstract class CliCode {
   ///
   /// [filter]で中身のデータを編集することができます。
   Future<void> generateDartCode(
-    String path, {
+    String path,
+    String className, {
     String Function(String value)? filter,
   }) async {
     final baseName = path.last();
     final trimedPath = _trimPathPrefix(path);
-    final className = trimedPath.replaceAll("/", "_").toPascalCase();
+    final editClassName =
+        className.split("/").distinct().join("_").toPascalCase();
     final dir = Directory(path.replaceAll("/$baseName", ""));
     if (!dir.existsSync()) {
       await dir.create(recursive: true);
     }
     final output = _removeCodeSnippetValue(
-      "${import(trimedPath, baseName, className)}\n${header(trimedPath, baseName, className)}\n${body(trimedPath, baseName, className)}",
+      "${import(trimedPath, baseName, editClassName)}\n${header(trimedPath, baseName, editClassName)}\n${body(trimedPath, baseName, editClassName)}",
     );
     await File("$path.dart").writeAsString(filter?.call(output) ?? output);
   }
