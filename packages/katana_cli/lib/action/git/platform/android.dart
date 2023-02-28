@@ -224,6 +224,11 @@ jobs:
       # パッケージのダウンロード。
       - name: Download flutter packages
         run: flutter pub get
+      
+      # Creation of the Assets folder.
+      # Assetsフォルダの作成。
+      - name: Create assets folder
+        run: mkdir -p assets
 
       # Running flutter analyze.
       # Flutter analyzeの実行。
