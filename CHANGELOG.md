@@ -15,6 +15,29 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.6`](#katana_cli---v186)
+
+---
+
+#### `katana_cli` - `v1.8.6`
+
+ - **FIX**: Fixed a bug that build failed if there was nothing in the assets folder. ([970ab2cf](https://github.com/mathrunet/flutter_masamune/commit/970ab2cf2a50440b2216c551c5ef6abf0f69dcb6))
+ - **FIX**: Messaging to create the necessary files on the Web. ([f25b6776](https://github.com/mathrunet/flutter_masamune/commit/f25b67761d93f84845c3935c831b4fd4bfc0d33f))
+ - **FIX**: Fixed a bug in the page path. ([c1ab4d8a](https://github.com/mathrunet/flutter_masamune/commit/c1ab4d8a17d5059ebda8ea689c2c78acf5e7ad5d))
+
+
+## 2023-02-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_logger_firebase` - `v1.2.17`](#masamune_logger_firebase---v1217)
  - [`masamune_notification_firebase` - `v1.2.6`](#masamune_notification_firebase---v126)
 

@@ -1,3 +1,9 @@
+## 1.8.6
+
+ - **FIX**: Fixed a bug that build failed if there was nothing in the assets folder. ([970ab2cf](https://github.com/mathrunet/flutter_masamune/commit/970ab2cf2a50440b2216c551c5ef6abf0f69dcb6))
+ - **FIX**: Messaging to create the necessary files on the Web. ([f25b6776](https://github.com/mathrunet/flutter_masamune/commit/f25b67761d93f84845c3935c831b4fd4bfc0d33f))
+ - **FIX**: Fixed a bug in the page path. ([c1ab4d8a](https://github.com/mathrunet/flutter_masamune/commit/c1ab4d8a17d5059ebda8ea689c2c78acf5e7ad5d))
+
 ## 1.8.5
 
  - **FIX**: Added the ability to deploy FirebaseHosting on the web. ([090ceadb](https://github.com/mathrunet/flutter_masamune/commit/090ceadb44b3ea013cdd0da3316d2c196407daf2))
