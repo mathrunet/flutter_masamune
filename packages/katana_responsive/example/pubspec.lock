@@ -348,11 +348,12 @@ packages:
     source: hosted
     version: "6.6.1"
   katana:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../../katana"
-      relative: true
-    source: path
+      name: katana
+      sha256: "9a3ec047c35ec88e027139e88ce45202b022dd2111b38848c85159101b0028ce"
+      url: "https://pub.dev"
+    source: hosted
     version: "1.0.5"
   katana_responsive:
     dependency: "direct main"
@@ -360,7 +361,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.1.1"
   lints:
     dependency: transitive
     description:
@@ -632,3 +633,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.19.0 <3.0.0"
+  flutter: ">=2.0.0"
