@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_logger_firebase` - `v1.2.17`](#masamune_logger_firebase---v1217)
+ - [`masamune_notification_firebase` - `v1.2.6`](#masamune_notification_firebase---v126)
+
+---
+
+#### `masamune_logger_firebase` - `v1.2.17`
+
+ - **FIX**: Fixed a problem with the web. ([f7a186fc](https://github.com/mathrunet/flutter_masamune/commit/f7a186fcffb1a3420a4f829a6dc927548f2d1003))
+
+#### `masamune_notification_firebase` - `v1.2.6`
+
+ - **FIX**: Fixed a problem with the web. ([f7a186fc](https://github.com/mathrunet/flutter_masamune/commit/f7a186fcffb1a3420a4f829a6dc927548f2d1003))
+
+
+## 2023-02-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.5`](#katana_cli---v185)
 
 ---
