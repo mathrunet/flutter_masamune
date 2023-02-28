@@ -122,11 +122,11 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       final supportEmail =
           entryValue.get("support_email", entryValue.get("email", ""));
       final termsContent = termsResponse.body
-          .replaceAll(r"${ApplicationName}", applicationName)
-          .replaceAll(r"${SupportEmail}", supportEmail);
+          .replaceAll(kApplicationNameKey, applicationName)
+          .replaceAll(kSuuportEmailKey, "mailto:$supportEmail");
       final privacyContent = privacyResponse.body
-          .replaceAll(r"${ApplicationName}", applicationName)
-          .replaceAll(r"${SupportEmail}", supportEmail);
+          .replaceAll(kApplicationNameKey, applicationName)
+          .replaceAll(kSuuportEmailKey, "mailto:$supportEmail");
       final dir = Directory("firebase/hosting/${locale.key}");
       if (!dir.existsSync()) {
         await dir.create(recursive: true);

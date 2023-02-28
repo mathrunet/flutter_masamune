@@ -48,6 +48,15 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final firebaseCommand = bin.get("firebase", "firebase");
     final flutterfireCommand = bin.get("flutterfire", "flutterfire");
     final firebase = context.yaml.getAsMap("firebase");
+    final github = context.yaml.getAsMap("github");
+    final action = github.getAsMap("action");
+    final enableGithubAction = action.get("enable", false);
+    final platformGithubAction = action.get("platform", "");
+    final webGithubAction = action.getAsMap("web");
+    final enableFirebaseWebGithubAction =
+        webGithubAction.get("firebase", false);
+    final repositoryFirebaseWebGithubAction =
+        webGithubAction.get("repository", "");
     final projectId = firebase.get("project_id", "");
     final hosting = firebase.getAsMap("hosting");
     final useFlutter = hosting.get("use_flutter", false);
@@ -60,9 +69,18 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final enabledStorage = firebase.getAsMap("storage").get("enable", false);
     final enabledHosting = hosting.get("enable", false);
     final enabledLogger = firebase.getAsMap("logger").get("enable", false);
+    final enableActions = enableGithubAction &&
+        platformGithubAction.contains("web") &&
+        enableFirebaseWebGithubAction;
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
+      );
+      return;
+    }
+    if (enableActions && repositoryFirebaseWebGithubAction.isEmpty) {
+      error(
+        "The item [github]->[action]->[web]->[repository] is missing. Please provide the repository name for the Firebase Web configuration.",
       );
       return;
     }
@@ -251,7 +269,9 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             line,
             "? Set up automatic builds and deploys with GitHub?",
             commandStack,
-            () => hostingProcess.stdin.write("n\n"),
+            () => hostingProcess.stdin.write(
+              enableActions ? "y\n" : "n\n",
+            ),
           );
           _runCommandStack(
             line,
@@ -262,6 +282,31 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           _runCommandStack(
             line,
             "? File hosting/404.html already exists. Overwrite?",
+            commandStack,
+            () => hostingProcess.stdin.write("n\n"),
+          );
+          _runCommandStack(
+            line,
+            "? For which GitHub repository would you like to set up a GitHub workflow?",
+            commandStack,
+            () => hostingProcess.stdin
+                .write("$repositoryFirebaseWebGithubAction\n"),
+          );
+          _runCommandStack(
+            line,
+            "? Set up the workflow to run a build script before every deploy?",
+            commandStack,
+            () => hostingProcess.stdin.write("y\n"),
+          );
+          _runCommandStack(
+            line,
+            "? What script should be run before every deploy?",
+            commandStack,
+            () => hostingProcess.stdin.write("\n"),
+          );
+          _runCommandStack(
+            line,
+            "? Set up automatic deployment to your site's live channel when a PR is merged?",
             commandStack,
             () => hostingProcess.stdin.write("n\n"),
           );

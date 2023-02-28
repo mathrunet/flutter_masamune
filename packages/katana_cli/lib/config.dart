@@ -104,11 +104,13 @@ firebase:
 
   # Configure Firebase Hosting settings.
   # Set [use_flutter] to `true` so that all routes point to index.html, and set it to `true` when using Flutter Web.
+  # Even in the above case, /**/terms.html and /**/privacy.html will not be directed to the root.
   # Firebase Hostingの設定を行います。
   # [use_flutter]を`true`にするとすべてのルートがindex.htmlを向くようになります。Flutter Webを利用する際に`true`にしてください。
+  # 上記の場合でも/**/terms.html、/**/privacy.htmlはルートに向かないようになります。
   hosting:
     enable: false
-    use_flutter: false
+    use_flutter: true
 
   # Deploy Terms of Use and Privacy Policy data to Firebase Hosting.
   # Specify the URL of the Terms of Use and Privacy Policy in [terms_of_use] and [privacy_policy] under each language code.
@@ -165,6 +167,15 @@ github:
   action:
     enable: false
     platform: android ios web
+    web:
+      # Configure to deploy to Firebase Hosting. Set to `true` to deploy to FirebaseHosting.
+      # Firebase Hostingへデプロイするための設定を行います。FirebaseHostingにデプロイする場合は`true`にしてください。
+      firebase: false
+
+      # Please include the path to your current repository on Github in the format `user/repository name`.
+      # Githubの現在のリポジトリのパスを`ユーザー/レポジトリ名`のフォーマットで記載してください。
+      repository: 
+
     ios:
       # Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.
       # https://appstoreconnect.apple.com/access/api のページに記載されているIssuer IDをコピーしてください。

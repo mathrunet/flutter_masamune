@@ -1,5 +1,8 @@
 // Project imports:
+import 'dart:io';
+
 import 'package:katana_cli/katana_cli.dart';
+import 'package:yaml/yaml.dart';
 
 /// Gibhut Actions build for Web.
 ///
@@ -8,7 +11,22 @@ Future<void> buildWeb(
   ExecContext context, {
   required String gh,
 }) async {
-  await const GithubActionsWebCliCode().generateFile("build_web.yaml");
+  const webCode = GithubActionsWebCliCode();
+  var hostingYamlFile =
+      File("${webCode.directory}/firebase-hosting-pull-request.yml");
+  if (!hostingYamlFile.existsSync()) {
+    hostingYamlFile =
+        File(".dart_tool/katana/firebase-hosting-pull-request.yml");
+  }
+  final yaml = hostingYamlFile.existsSync()
+      ? loadYaml(await hostingYamlFile.readAsString())
+      : {};
+  await webCode.generateFile(
+    "build_web.yaml",
+    filter: (source) => webCode._additionalFilter(yaml, source),
+  );
+  await hostingYamlFile
+      .rename(".dart_tool/katana/firebase-hosting-pull-request.yml");
 }
 
 /// Contents of buiod.yaml for Github Actions web.
@@ -110,12 +128,61 @@ jobs:
 
       # Upload the generated files.
       # 生成されたファイルのアップロード。
-      - name: Upload aab artifacts
+      - name: Upload web artifacts
         uses: actions/upload-artifact@v2
         with:
           name: web_release
           path: ./build/web
           retention-days: 1
 """;
+  }
+
+  String _additionalFilter(Map yaml, String source) {
+    if (yaml.isEmpty) {
+      return source;
+    }
+    final jobs = yaml.getAsMap("jobs");
+    final buildAndPreview = jobs.getAsMap("build_and_preview");
+    final steps = buildAndPreview.getAsList("steps");
+    var repoToken = "";
+    var firebaseServiceAccount = "";
+    var projectId = "";
+    for (final step in steps) {
+      if (step is! Map) {
+        continue;
+      }
+      final uses = step.get("uses", "");
+      if (!uses.startsWith("FirebaseExtended")) {
+        continue;
+      }
+      final withs = step.getAsMap("with");
+      repoToken = withs.get("repoToken", "");
+      firebaseServiceAccount = withs.get("firebaseServiceAccount", "");
+      projectId = withs.get("projectId", "");
+    }
+    if (repoToken.isEmpty ||
+        firebaseServiceAccount.isEmpty ||
+        projectId.isEmpty) {
+      return source;
+    }
+    source += """
+
+      # A copy of the generated file.
+      # 生成されたファイルのコピー。
+      - name: Copy file to firebase hosting
+        run: |
+          cp -r ./build/web/* ./firebase/hosting
+
+      # Deploy to Firebase Hosting.
+      # Firebase Hostingへのデプロイ。
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          entryPoint: firebase
+          repoToken: $repoToken
+          firebaseServiceAccount: $firebaseServiceAccount
+          channelId: live
+""";
+    return source;
   }
 }
