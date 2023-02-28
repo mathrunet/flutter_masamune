@@ -203,6 +203,11 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         "masamune_notification_firebase",
       ],
     );
+    label("Add firebase-messaging-sw.js");
+    final swFile = File("web/firebase-messaging-sw.js");
+    if (!swFile.existsSync()) {
+      await swFile.writeAsString("console.log('Empty');");
+    }
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
