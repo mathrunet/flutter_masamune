@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.5`](#katana_cli---v185)
+
+---
+
+#### `katana_cli` - `v1.8.5`
+
+ - **FIX**: Added the ability to deploy FirebaseHosting on the web. ([090ceadb](https://github.com/mathrunet/flutter_masamune/commit/090ceadb44b3ea013cdd0da3316d2c196407daf2))
+
+
+## 2023-02-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_responsive` - `v1.1.1`](#katana_responsive---v111)
  - [`masamune` - `v1.7.2`](#masamune---v172)
  - [`masamune_annotation` - `v1.4.2`](#masamune_annotation---v142)

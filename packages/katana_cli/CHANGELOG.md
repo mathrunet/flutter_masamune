@@ -1,3 +1,7 @@
+## 1.8.5
+
+ - **FIX**: Added the ability to deploy FirebaseHosting on the web. ([090ceadb](https://github.com/mathrunet/flutter_masamune/commit/090ceadb44b3ea013cdd0da3316d2c196407daf2))
+
 ## 1.8.4
 
  - **FIX**: Class names were not output properly. ([006a1566](https://github.com/mathrunet/flutter_masamune/commit/006a156687cf3c48b5d0acba67caedacde8bafd2))
