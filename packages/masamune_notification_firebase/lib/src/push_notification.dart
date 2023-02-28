@@ -203,6 +203,10 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// このトピック名で送られた通知を取得することができるようになります。
   Future<void> subscribe(String topic) async {
+    if (kIsWeb) {
+      debugPrint("You cannot subscribe to topic messages on the Web.");
+      return;
+    }
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
     _messaging.subscribeToTopic(topic);
@@ -212,6 +216,10 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [topic]の名前のトピック名の購読を解除します。
   Future<void> unsubscribe(String topic) async {
+    if (kIsWeb) {
+      debugPrint("You cannot subscribe to topic messages on the Web.");
+      return;
+    }
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
     _messaging.unsubscribeFromTopic(topic);

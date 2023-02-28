@@ -12,7 +12,7 @@ library masamune_logger_firebase;
 import 'dart:async';
 
 // Flutter imports:
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 
 // Package imports:
 import 'package:firebase_analytics/firebase_analytics.dart';

@@ -87,12 +87,16 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   @override
   FutureOr<void> onPreRunApp() async {
     await FirebaseCore.initialize(options: options);
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    if (!kIsWeb) {
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    }
   }
 
   @override
   void onError(Object error, StackTrace stackTrace) {
-    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    if (!kIsWeb) {
+      FirebaseCrashlytics.instance.recordError(error, stackTrace);
+    }
   }
 
   @override
