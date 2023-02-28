@@ -82,7 +82,7 @@ class ${className}AddPage extends FormAddPageScopedWidget {
 
 /// Page for forms to edit data.
 @immutable
-@PagePath("\${3:$path}/{edit_id}/edit")
+@PagePath("\${3:$path}/:edit_id/edit")
 class ${className}EditPage extends FormEditPageScopedWidget {
   const ${className}EditPage({
     super.key,

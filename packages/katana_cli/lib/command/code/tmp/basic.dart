@@ -117,7 +117,7 @@ class ${className}Page extends PageScopedWidget {
 
 @immutable
 // TODO: Set the path for the page.
-@PagePath("\${4:$path}/{view_id}")
+@PagePath("\${4:$path}/:view_id")
 class ${className}DetailPage extends PageScopedWidget {
   const ${className}DetailPage({
     super.key,
@@ -178,7 +178,7 @@ class ${className}AddPage extends FormAddPageScopedWidget {
 
 /// Page for forms to edit data.
 @immutable
-@PagePath("\${8:$path}/{edit_id}/edit")
+@PagePath("\${8:$path}/:edit_id/edit")
 class ${className}EditPage extends FormEditPageScopedWidget {
   const ${className}EditPage({
     super.key,
