@@ -1,5 +1,44 @@
 part of katana_responsive;
 
+/// Provides an extension method for [Iterable] that includes [Widget] as an element.
+///
+/// [Widget]を要素に含んだ[Iterable]の拡張メソッドを提供します。
+extension ResponsiveColExtensions on Iterable<Widget> {
+  /// Wrap each [Widget] element with [ResponsiveCol] and transform.
+  ///
+  /// Each [ResponsiveCol] can be given a size from [xs] to [xxl], all set to the same size.
+  ///
+  /// You can use [filter] to convert one [Widget] to another [Widget] before conversion.
+  ///
+  /// 各[Widget]要素を[ResponsiveCol]でラップして変換します。
+  ///
+  /// 各[ResponsiveCol]は[xs]〜[xxl]までのサイズを与えることができ、すべて同じサイズで設定されます。
+  ///
+  /// [filter]を用いることで変換前の[Widget]を別の[Widget]に変換することができます。
+  List<ResponsiveCol> mapResponsiveCol({
+    int xs = 12,
+    int? sm,
+    int? md,
+    int? lg,
+    int? xl,
+    int? xxl,
+    Widget Function(Widget item)? filter,
+  }) {
+    return map((item) {
+      final child = filter?.call(item) ?? item;
+      return ResponsiveCol(
+        xs: xs,
+        sm: sm,
+        md: md,
+        lg: lg,
+        xl: xl,
+        xxl: xxl,
+        child: child,
+      );
+    }).toList();
+  }
+}
+
 /// Specify responsive columns.
 ///
 /// Be sure to place it under [ResponsiveRow].

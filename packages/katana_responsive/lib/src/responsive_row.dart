@@ -71,7 +71,12 @@ class _ResponsiveRowState extends State<ResponsiveRow> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    rows.addAll(_updateRows());
+    final rows = _updateRows();
+    if (rows.length != this.rows.length) {
+      this.rows.clear();
+      this.rows.addAll(rows);
+      setState(() {});
+    }
   }
 
   List<Widget> _updateRows() {

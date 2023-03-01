@@ -9,13 +9,15 @@
 library katana_responsive;
 
 // Flutter imports:
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 export 'package:katana/katana.dart';
 
-part 'src/responsive_builder.dart';
+part 'src/responsive_container.dart';
 part 'src/responsive_row.dart';
 part 'src/responsive_col.dart';
 part 'src/responsive_break_points.dart';
 part 'src/responsive_grid_tier.dart';
 part 'src/responsive_visibility.dart';
+part 'src/responsive_list_view.dart';

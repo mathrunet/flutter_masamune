@@ -114,14 +114,14 @@ enum ResponsiveContainerType {
 
 /// [Container] Responsive container that can be used as a replacement for [Container].
 ///
-/// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [builder].
+/// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [children].
 ///
 /// Arguments of [Container] can be passed as is.
 /// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [type].
 ///
 /// [Container]代わりとして利用可能なレスポンシブ対応のコンテナです。
 ///
-/// [builder]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
+/// [children]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
 ///
 /// [Container]の引数をそのまま渡すことができます。
 /// [alignment]はデフォルトで[Alignment.center]になっており、[type]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
@@ -136,8 +136,8 @@ enum ResponsiveContainerType {
 ///       appBar: AppBar(
 ///         title: const Text("Grid"),
 ///       ),
-///       body: ResponsiveBuilder(
-///         builder: (context) => [
+///       body: ResponsiveContainer(
+///         children: [
 ///           ResponsiveRow(
 ///             children: [
 ///               ResponsiveCol(
@@ -173,17 +173,17 @@ enum ResponsiveContainerType {
 ///   }
 /// }
 /// ```
-class ResponsiveBuilder extends StatelessWidget {
+class ResponsiveContainer extends StatelessWidget {
   /// [Container] Responsive container that can be used as a replacement for [Container].
   ///
-  /// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [builder].
+  /// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [children].
   ///
   /// Arguments of [Container] can be passed as is.
   /// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [type].
   ///
   /// [Container]代わりとして利用可能なレスポンシブ対応のコンテナです。
   ///
-  /// [builder]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
+  /// [children]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
   ///
   /// [Container]の引数をそのまま渡すことができます。
   /// [alignment]はデフォルトで[Alignment.center]になっており、[type]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
@@ -198,8 +198,8 @@ class ResponsiveBuilder extends StatelessWidget {
   ///       appBar: AppBar(
   ///         title: const Text("Grid"),
   ///       ),
-  ///       body: ResponsiveBuilder(
-  ///         builder: (context) => [
+  ///       body: ResponsiveContainer(
+  ///         children: [
   ///           ResponsiveRow(
   ///             children: [
   ///               ResponsiveCol(
@@ -235,7 +235,7 @@ class ResponsiveBuilder extends StatelessWidget {
   ///   }
   /// }
   /// ```
-  const ResponsiveBuilder({
+  const ResponsiveContainer({
     super.key,
     this.type,
     this.alignment = Alignment.center,
@@ -249,7 +249,7 @@ class ResponsiveBuilder extends StatelessWidget {
     this.margin,
     this.transform,
     this.transformAlignment,
-    required this.builder,
+    required this.children,
     this.clipBehavior = Clip.none,
   });
 
@@ -337,14 +337,14 @@ class ResponsiveBuilder extends StatelessWidget {
   ///  * [Transform.alignment], which is set by this property.
   final AlignmentGeometry? transformAlignment;
 
-  /// Builder for specifying the inside of a container.
+  /// Element for specifying the interior of a container.
   ///
   /// A list of [ResponsiveRow] should be returned.
   ///
-  /// コンテナの内部を指定するためのビルダー。
+  /// コンテナの内部を指定するための要素。
   ///
   /// [ResponsiveRow]のリストを返す必要があります。
-  final List<ResponsiveRow> Function(BuildContext context) builder;
+  final List<ResponsiveRow> children;
 
   /// The clip behavior when [Container.decoration] is not null.
   ///
@@ -384,7 +384,6 @@ class ResponsiveBuilder extends StatelessWidget {
         clipBehavior: clipBehavior,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final children = builder.call(context);
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -42,38 +42,86 @@ class GridPage extends StatelessWidget {
           ),
         ],
       ),
-      body: ResponsiveBuilder(
-        builder: (context) => [
-          ResponsiveRow(
-            children: [
-              ResponsiveCol(
-                lg: 12,
-                child: Container(
-                  color: Colors.red,
-                  height: 100,
+      body: Scrollbar(
+        interactive: true,
+        trackVisibility: true,
+        thumbVisibility: true,
+        child: ResponsiveListView(
+          primary: true,
+          children: [
+            ResponsiveRow(
+              children: [
+                ResponsiveCol(
+                  lg: 12,
+                  child: Container(
+                    color: Colors.red,
+                    height: 100,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          ResponsiveRow(
-            children: [
-              ResponsiveCol(
-                sm: 6,
-                child: Container(
-                  color: Colors.green,
-                  height: 100,
+              ],
+            ),
+            ResponsiveRow(
+              children: [
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.red,
+                    height: 100,
+                  ),
                 ),
-              ),
-              ResponsiveCol(
-                sm: 6,
-                child: Container(
-                  color: Colors.blue,
-                  height: 100,
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.green,
+                    height: 100,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.blue,
+                    height: 100,
+                  ),
+                ),
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.yellow,
+                    height: 100,
+                  ),
+                ),
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.red,
+                    height: 100,
+                  ),
+                ),
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.green,
+                    height: 100,
+                  ),
+                ),
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.blue,
+                    height: 100,
+                  ),
+                ),
+                ResponsiveCol(
+                  sm: 6,
+                  child: Container(
+                    color: Colors.yellow,
+                    height: 100,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
