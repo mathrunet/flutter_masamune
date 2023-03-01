@@ -164,6 +164,7 @@ class AppThemeData {
     String? defaultFontFamily,
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
+    this.centerTitleOnAppBar,
     Brightness brightness = Brightness.light,
   })  : color = ColorThemeData._(
           brightness: brightness,
@@ -352,6 +353,7 @@ class AppThemeData {
     String? defaultFontFamily,
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
+    this.centerTitleOnAppBar,
   })  : color = ColorThemeData._(
           brightness: Brightness.light,
           primary: primary,
@@ -539,6 +541,7 @@ class AppThemeData {
     String? defaultFontFamily,
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
+    this.centerTitleOnAppBar,
   })  : color = ColorThemeData._(
           brightness: Brightness.dark,
           primary: primary,
@@ -699,6 +702,15 @@ class AppThemeData {
   /// このプラットフォームに合わせたデザインになります。
   final TargetPlatform platform;
 
+  /// Specify whether to center the title of [AppBar].
+  ///
+  /// If `true`, it will be centered, if `false`, it will be left-aligned, and if [null], it will be default alignment for the platform.
+  ///
+  /// [AppBar]のタイトルを中央寄せするかどうかを指定します。
+  ///
+  /// `true`の場合中央寄せ、`false`の場合左寄せ、[Null]の場合はプラットフォームに合わせたデフォルトの寄せ方になります。
+  final bool? centerTitleOnAppBar;
+
   /// Get [AppThemeData] placed on the widget tree.
   ///
   /// ウィジェットツリー上に配置されている[AppThemeData]を取得します。
@@ -808,6 +820,7 @@ class AppThemeData {
             fontSizeDelta: text.fontSizeDelta,
           ),
           appBarTheme: theme.appBarTheme.copyWith(
+            centerTitle: centerTitleOnAppBar,
             backgroundColor: color.appBarColor,
             elevation: color.appBarColor == Colors.transparent ? 0 : null,
             foregroundColor: appBarForegroundColor,
@@ -948,6 +961,7 @@ class AppThemeData {
           canvasColor: color.canvas,
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
           appBarTheme: theme.appBarTheme.copyWith(
+            centerTitle: centerTitleOnAppBar,
             backgroundColor: color.appBarColor,
             elevation: color.appBarColor == Colors.transparent ? 0 : null,
             foregroundColor: appBarForegroundColor,
