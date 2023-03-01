@@ -2,8 +2,13 @@
 import 'dart:io';
 
 // Project imports:
+import 'package:html/dom.dart';
+import 'package:html/parser.dart';
 import 'package:katana_cli/config.dart';
 import 'package:katana_cli/katana_cli.dart';
+import 'package:image/image.dart';
+// ignore: implementation_imports
+import 'package:image/src/formats/ico_encoder.dart';
 
 /// Package to import.
 ///
@@ -30,6 +35,12 @@ final importDevPackages = [
 const otherFiles = {
   "launch.json": LaunchCliCode(),
 };
+
+final _faviconSize = [
+  16,
+  32,
+  192,
+];
 
 /// Create a new Flutter project.
 ///
@@ -114,6 +125,92 @@ class CreateCliCommand extends CliCommand {
     await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
     label("Edit a widget_test.dart");
     await const WidgetTestCliCode().generateFile("widget_test.dart");
+    label("Create a loader.css");
+    await const LoaderCssCliCode().generateFile("loader.css");
+    label("Edit as index.html");
+    final indexHtmlFile = File("web/index.html");
+    final htmlDocument = parse(await indexHtmlFile.readAsString());
+    final body = htmlDocument.body;
+    final head = htmlDocument.head;
+    if (body != null) {
+      if (!body.children.any((element) =>
+          element.localName == "div" && element.classes.contains("loading"))) {
+        body.children.insertFirst(
+          Element.tag("div")
+            ..classes.add("loading")
+            ..children.add(
+              Element.tag("div")
+                ..children.addAll(
+                  [
+                    Element.tag("img")
+                      ..attributes["src"] = "icons/icon-192.png"
+                      ..classes.add("logo"),
+                    Element.tag("div")..classes.add("loader-bar")
+                  ],
+                ),
+            ),
+        );
+      }
+    }
+    if (head != null) {
+      if (!head.children.any((element) =>
+          element.localName == "link" &&
+          element.attributes["rel"] == "stylesheet" &&
+          element.attributes["href"] == "loader.css")) {
+        head.children.add(Element.tag("link")
+          ..attributes["rel"] = "stylesheet"
+          ..attributes["href"] = "loader.css"
+          ..attributes["type"] = "text/css"
+          ..attributes["media"] = "all");
+      }
+      final icon = head.children.firstWhereOrNull((item) =>
+          item.localName == "link" && item.attributes["rel"] == "icon");
+      if (icon == null) {
+        head.children.add(Element.tag("link")
+          ..attributes["rel"] = "icon"
+          ..attributes["href"] = "favicon.ico");
+      } else if (icon.attributes["href"] != "favicon.ico") {
+        icon.attributes["href"] = "favicon.ico";
+        icon.attributes.remove("type");
+      }
+    }
+    await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
+    label("Create a favicon.ico");
+    final iconFile = File("web/icons/icon-512.png");
+    final iconImage = decodeImage(iconFile.readAsBytesSync())!;
+    final icoPngFile = File("web/favicon.png");
+    if (icoPngFile.existsSync()) {
+      await icoPngFile.delete();
+    }
+    final icoFile = File("web/favicon.ico");
+    if (icoFile.existsSync()) {
+      await icoFile.delete();
+    }
+    final ico = IcoEncoder();
+    await icoFile.writeAsBytes(
+      ico.encodeImages(_faviconSize.map((e) {
+        return copyResize(
+          iconImage,
+          height: e,
+          width: e,
+          interpolation: Interpolation.average,
+        );
+      }).toList()),
+    );
+    label("Create a feature.png");
+    final featurePngFile = File("web/feature.png");
+    if (!featurePngFile.existsSync()) {
+      await featurePngFile.writeAsBytes(
+        encodePng(
+          copyResize(
+            iconImage,
+            height: 512,
+            width: 512,
+            interpolation: Interpolation.average,
+          ),
+        ),
+      );
+    }
     label("Create a assets directory");
     final assetsDirectory = Directory("assets");
     if (!assetsDirectory.existsSync()) {
@@ -659,11 +756,11 @@ void main() {
   }
 }
 
-/// Contents of katana.yaml.
+/// Contents of pubspec_overrides.yaml.
 ///
 /// pubspec_overrides.yamlの中身。
 class PubspecOverridesCliCode extends CliCode {
-  /// Contents of katana.yaml.
+  /// Contents of pubspec_overrides.yaml.
   ///
   /// pubspec_overrides.yamlの中身。
   const PubspecOverridesCliCode();
@@ -672,7 +769,7 @@ class PubspecOverridesCliCode extends CliCode {
   String get name => "pubspec_overrides";
 
   @override
-  String get prefix => "kapubspec_overridestana";
+  String get prefix => "pubspec_overrides";
 
   @override
   String get directory => "";
@@ -695,6 +792,144 @@ class PubspecOverridesCliCode extends CliCode {
   String body(String path, String baseName, String className) {
     return r"""
 dependency_overrides:
+""";
+  }
+}
+
+/// Contents of loader.css.
+///
+/// loader.cssの中身。
+class LoaderCssCliCode extends CliCode {
+  /// Contents of loader.css.
+  ///
+  /// loader.cssの中身。
+  const LoaderCssCliCode();
+
+  @override
+  String get name => "loader";
+
+  @override
+  String get prefix => "loader";
+
+  @override
+  String get directory => "web";
+
+  @override
+  String get description =>
+      "Create loader.css for katana_cli. katana_cli用のloader.cssを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+@media (prefers-color-scheme: light) {
+  html {
+    --text-color: #666666;
+    --bar-background-color: rgba(33, 33, 33, 0.1);
+    --background-color: #f7f7f7;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    --text-color: #aaaaaa;
+    --bar-background-color: rgba(247, 247, 247, 0.1);
+    --background-color: #212121;
+  }
+}
+
+body {
+    background-color: var(--background-color);
+}
+.loading {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.loader {
+    border: 0.3rem solid var(--background-color);
+    border-radius: 50%;
+    border-top: 0.3rem solid var(--text-color);
+    border-right: 0.3rem solid var(--text-color);
+    border-bottom: 0.3rem solid var(--text-color);
+    width: 6rem;
+    height: 6rem;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+.loader-bar {
+    width: 8rem;
+    background-color: var(--bar-background-color);
+    height: 0.3rem;
+    border-radius: 0.06rem;
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loader-bar:after {
+    position: absolute;
+    content: '';
+    left:-25%;
+    width: 50%;
+    height: 0.3rem;
+    background-color: var(--text-color);
+    border-radius: 0.06rem;
+    animation: bar linear 1s infinite;
+}
+.logo {
+    width: 6rem;
+    height: 6rem;
+    margin-bottom: 0.8rem;
+    border-radius: 0.8rem;
+}
+.fade{
+    animation: fadeIn 0.2s ease 0.3s 1 normal;
+}
+@keyframes fadeIn {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+@-webkit-keyframes spin {
+    0% {
+    -webkit-transform: rotate(0deg);
+    }
+    100% {
+    -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
+}
+@keyframes bar {
+    0% {
+        left: -25%;
+    }
+    100% {
+        left: 100%;
+    }
+}
 """;
   }
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 
 // Package imports:
 import 'package:image/image.dart';
+// ignore: implementation_imports
+import 'package:image/src/formats/ico_encoder.dart';
 
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
@@ -31,7 +33,18 @@ final _sizeList = {
       167,
   "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png":
       1024,
+  "web/feature.png": 1024,
+  "web/icons/Icon-192.png": 192,
+  "web/icons/Icon-512.png": 512,
+  "web/icons/Icon-maskable-192.png": 192,
+  "web/icons/Icon-maskable-512.png": 512,
 };
+
+final _faviconSize = [
+  16,
+  32,
+  192,
+];
 
 /// Automatically creates icon files for applications.
 ///
@@ -105,5 +118,20 @@ class AppIconCliAction extends CliCommand with CliActionMixin {
       );
       await file.writeAsBytes(encodePng(resized, level: 9));
     }
+    final icoFile = File("web/favicon.ico");
+    if (icoFile.existsSync()) {
+      await icoFile.delete();
+    }
+    final ico = IcoEncoder();
+    await icoFile.writeAsBytes(
+      ico.encodeImages(_faviconSize.map((e) {
+        return copyResize(
+          iconImage,
+          height: e,
+          width: e,
+          interpolation: Interpolation.average,
+        );
+      }).toList()),
+    );
   }
 }

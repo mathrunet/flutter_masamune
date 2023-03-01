@@ -22,12 +22,15 @@ app:
 
   # Retrieve data from a spreadsheet retrieved by a specific Google Form.
   # Please include the URL of the spreadsheet in [url] and the email address you collected in [email].
+  # If [domain] is specified, og tags for the Web are generated for that domain.
   # 特定のGoogleフォームで取得したスプレッドシートからデータを取得します。
   # [url]にスプレッドシートのURL、[email]に収集したメールアドレスを記載してください。
+  # [domain]を指定するとそのドメインに応じたWeb用のogタグを生成します。
   spread_sheet:
     enable: false
     url:
     email:
+    domain: 
 
   # Create a `CertificateSigningRequest.certSigningRequest` for iOS.
   # Please include your support email address in [email].

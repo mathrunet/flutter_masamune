@@ -17,6 +17,7 @@ dependencies:
   image: ^4.0.10
   xml: ^6.2.2
   flutter_lints: ^2.0.0
+  html: ^0.15.1
 
 executables:
   katana:

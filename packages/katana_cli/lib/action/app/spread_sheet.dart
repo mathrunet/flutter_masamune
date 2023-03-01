@@ -4,6 +4,8 @@ import 'dart:io';
 
 // Package imports:
 import 'package:csv/csv.dart';
+import 'package:html/dom.dart';
+import 'package:html/parser.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -85,6 +87,7 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final domain = spreadSheet.get("domain", "");
     final endpoint =
         url.replaceAllMapped(RegExp(r"/edit(#gid=([0-9]+))?$"), (match) {
       final gid = match.group(2);
@@ -123,7 +126,7 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
       }
       defaultLocale ??= locale;
       data[locale] = mapped;
-      error(
+      label(
         "[${mapped.get("email", "")}] ${mapped.get("short_title", "")} (${mapped.get("locale", "")})",
       );
     }
@@ -134,6 +137,136 @@ class AppSpreadSheetCliAction extends CliCommand with CliActionMixin {
     }
     final cacheFile = File(kGoogleSpreadSheetPath);
     await cacheFile.writeAsString(jsonEncode(data));
+    label("Replace web information");
+    if (defaultLocale != null) {
+      final localizedData = data[defaultLocale];
+      final indexHtmlFile = File("web/index.html");
+      final htmlDocument = parse(await indexHtmlFile.readAsString());
+      final head = htmlDocument.head;
+      final title =
+          head?.children.firstWhereOrNull((item) => item.localName == "title");
+      if (title == null) {
+        head?.children.add(
+            Element.tag("title")..innerHtml = localizedData.get("title", ""));
+      } else {
+        title.innerHtml = localizedData.get("title", "");
+      }
+      final description = head?.children.firstWhereOrNull(
+        (item) =>
+            item.localName == "meta" &&
+            item.attributes["name"] == "description",
+      );
+      if (description == null) {
+        head?.children.add(
+          Element.tag("meta")
+            ..attributes["name"] = "description"
+            ..attributes["content"] = localizedData.get("overview", ""),
+        );
+      } else {
+        description.attributes["content"] = localizedData.get("overview", "");
+      }
+      final ogTitle = head?.children.firstWhereOrNull(
+        (item) =>
+            item.localName == "meta" &&
+            item.attributes["property"] == "og:title",
+      );
+      if (ogTitle == null) {
+        head?.children.add(
+          Element.tag("meta")
+            ..attributes["property"] = "og:title"
+            ..attributes["content"] = localizedData.get("title", ""),
+        );
+      } else {
+        ogTitle.attributes["content"] = localizedData.get("title", "");
+      }
+      final ogDescription = head?.children.firstWhereOrNull(
+        (item) =>
+            item.localName == "meta" &&
+            item.attributes["property"] == "og:description",
+      );
+      if (ogDescription == null) {
+        head?.children.add(
+          Element.tag("meta")
+            ..attributes["property"] = "og:description"
+            ..attributes["content"] = localizedData.get("overview", ""),
+        );
+      } else {
+        ogDescription.attributes["content"] = localizedData.get("overview", "");
+      }
+      if (domain.isNotEmpty) {
+        final ogImage = head?.children.firstWhereOrNull(
+          (item) =>
+              item.localName == "meta" &&
+              item.attributes["property"] == "og:image",
+        );
+        if (ogImage == null) {
+          head?.children.add(
+            Element.tag("meta")
+              ..attributes["property"] = "og:image"
+              ..attributes["content"] = "https://$domain/feature.png",
+          );
+        } else {
+          ogImage.attributes["content"] = "https://$domain/feature.png";
+        }
+        final ogUrl = head?.children.firstWhereOrNull(
+          (item) =>
+              item.localName == "meta" &&
+              item.attributes["property"] == "og:url",
+        );
+        if (ogUrl == null) {
+          head?.children.add(
+            Element.tag("meta")
+              ..attributes["property"] = "og:url"
+              ..attributes["content"] = "https://$domain",
+          );
+        } else {
+          ogUrl.attributes["content"] = "https://$domain";
+        }
+      }
+      final ogSiteName = head?.children.firstWhereOrNull(
+        (item) =>
+            item.localName == "meta" &&
+            item.attributes["property"] == "og:site_name",
+      );
+      if (ogSiteName == null) {
+        head?.children.add(
+          Element.tag("meta")
+            ..attributes["property"] = "og:site_name"
+            ..attributes["content"] = localizedData.get("title", ""),
+        );
+      } else {
+        ogSiteName.attributes["content"] = localizedData.get("title", "");
+      }
+      final ogType = head?.children.firstWhereOrNull(
+        (item) =>
+            item.localName == "meta" &&
+            item.attributes["property"] == "og:type",
+      );
+      if (ogType == null) {
+        head?.children.add(
+          Element.tag("meta")
+            ..attributes["property"] = "og:type"
+            ..attributes["content"] = "website",
+        );
+      } else {
+        ogType.attributes["content"] = "website";
+      }
+      final ogLocale = head?.children.firstWhereOrNull(
+        (item) =>
+            item.localName == "meta" &&
+            item.attributes["property"] == "og:locale",
+      );
+      if (ogLocale == null) {
+        head?.children.add(
+          Element.tag("meta")
+            ..attributes["property"] = "og:locale"
+            ..attributes["content"] = defaultLocale,
+        );
+      } else {
+        ogLocale.attributes["content"] = defaultLocale;
+      }
+      await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
+    }
     label("Replace android information");
     await _createAndroidResValues({
       if (defaultLocale.isNotEmpty) "": data[defaultLocale!]!,
