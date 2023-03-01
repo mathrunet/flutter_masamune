@@ -12,8 +12,9 @@ library katana_ui;
 import 'dart:async';
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Scaffold;
+
+// Package imports:
 import 'package:universal_platform/universal_platform.dart';
 
 export 'package:katana/katana.dart';
