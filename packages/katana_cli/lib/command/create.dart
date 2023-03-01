@@ -1,14 +1,18 @@
 // Dart imports:
 import 'dart:io';
 
-// Project imports:
+// Package imports:
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:katana_cli/config.dart';
-import 'package:katana_cli/katana_cli.dart';
 import 'package:image/image.dart';
 // ignore: implementation_imports
 import 'package:image/src/formats/ico_encoder.dart';
+
+// Project imports:
+import 'package:katana_cli/config.dart';
+import 'package:katana_cli/katana_cli.dart';
+
+// ignore: implementation_imports
 
 /// Package to import.
 ///
