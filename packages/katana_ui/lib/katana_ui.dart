@@ -12,9 +12,12 @@ library katana_ui;
 import 'dart:async';
 
 // Flutter imports:
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Scaffold;
+import 'package:universal_platform/universal_platform.dart';
 
 export 'package:katana/katana.dart';
 
 part 'modal/modal.dart';
 part 'ui/loading_builder.dart';
+part 'ui/scroll_builder.dart';
