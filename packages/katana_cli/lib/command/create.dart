@@ -1,3 +1,5 @@
+// ignore_for_file: implementation_imports
+
 // Dart imports:
 import 'dart:io';
 
@@ -5,14 +7,11 @@ import 'dart:io';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:image/image.dart';
-// ignore: implementation_imports
 import 'package:image/src/formats/ico_encoder.dart';
 
 // Project imports:
 import 'package:katana_cli/config.dart';
 import 'package:katana_cli/katana_cli.dart';
-
-// ignore: implementation_imports
 
 /// Package to import.
 ///
@@ -147,7 +146,7 @@ class CreateCliCommand extends CliCommand {
                 ..children.addAll(
                   [
                     Element.tag("img")
-                      ..attributes["src"] = "icons/icon-192.png"
+                      ..attributes["src"] = "icons/Icon-192.png"
                       ..classes.add("logo"),
                     Element.tag("div")..classes.add("loader-bar")
                   ],
@@ -180,7 +179,7 @@ class CreateCliCommand extends CliCommand {
     }
     await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
     label("Create a favicon.ico");
-    final iconFile = File("web/icons/icon-512.png");
+    final iconFile = File("web/icons/Icon-512.png");
     final iconImage = decodeImage(iconFile.readAsBytesSync())!;
     final icoPngFile = File("web/favicon.png");
     if (icoPngFile.existsSync()) {

@@ -1,9 +1,10 @@
+// ignore_for_file: implementation_imports
+
 // Dart imports:
 import 'dart:io';
 
 // Package imports:
 import 'package:image/image.dart';
-// ignore: implementation_imports
 import 'package:image/src/formats/ico_encoder.dart';
 
 // Project imports:
