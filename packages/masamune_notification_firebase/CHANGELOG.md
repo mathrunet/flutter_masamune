@@ -1,3 +1,7 @@
+## 1.2.7
+
+ - Update a dependency to the latest release.
+
 ## 1.2.6
 
  - **FIX**: Fixed a problem with the web. ([f7a186fc](https://github.com/mathrunet/flutter_masamune/commit/f7a186fcffb1a3420a4f829a6dc927548f2d1003))

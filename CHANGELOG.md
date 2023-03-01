@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_responsive` - `v1.2.0`](#katana_responsive---v120)
+ - [`katana_ui` - `v1.1.9`](#katana_ui---v119)
+ - [`masamune` - `v1.7.3`](#masamune---v173)
+ - [`masamune_picker` - `v1.5.36`](#masamune_picker---v1536)
+ - [`masamune_notification_firebase` - `v1.2.7`](#masamune_notification_firebase---v127)
+ - [`masamune_logger_firebase` - `v1.2.18`](#masamune_logger_firebase---v1218)
+ - [`masamune_picker_mobile` - `v1.5.36`](#masamune_picker_mobile---v1536)
+ - [`masamune_picker_file` - `v1.5.36`](#masamune_picker_file---v1536)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.7.3`
+ - `masamune_picker` - `v1.5.36`
+ - `masamune_notification_firebase` - `v1.2.7`
+ - `masamune_logger_firebase` - `v1.2.18`
+ - `masamune_picker_mobile` - `v1.5.36`
+ - `masamune_picker_file` - `v1.5.36`
+
+---
+
+#### `katana_responsive` - `v1.2.0`
+
+ - **FEAT**: Create ResponsiveListView and change to Container. ([12c1a681](https://github.com/mathrunet/flutter_masamune/commit/12c1a68118a0a0165910b9a0a9d3454c8bd1b92e))
+
+#### `katana_ui` - `v1.1.9`
+
+ - **FIX**: Creation of ScrollBuilder. ([515f6148](https://github.com/mathrunet/flutter_masamune/commit/515f61480c14ba8d7d8066f85f866e2b227c47bd))
+
+
+## 2023-03-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.7`](#katana_cli---v187)
 
 ---

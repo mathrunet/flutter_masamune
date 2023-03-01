@@ -1,3 +1,7 @@
+## 1.7.3
+
+ - Update a dependency to the latest release.
+
 ## 1.7.2
 
  - **FIX**: katana_responsive available. ([b51cc2d8](https://github.com/mathrunet/flutter_masamune/commit/b51cc2d8b0d82d8ce76c309bc5d362bb7f82e5f9))

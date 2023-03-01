@@ -1,3 +1,7 @@
+## 1.1.9
+
+ - **FIX**: Creation of ScrollBuilder. ([515f6148](https://github.com/mathrunet/flutter_masamune/commit/515f61480c14ba8d7d8066f85f866e2b227c47bd))
+
 ## 1.1.8
 
  - Update a dependency to the latest release.
