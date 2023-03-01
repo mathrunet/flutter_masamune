@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: Add centerTitleOnAppBar. ([938d2bcb](https://github.com/mathrunet/flutter_masamune/commit/938d2bcb6b0f71bf3c6b7f02b4f8f17e880a5477))
+
 ## 1.3.0
 
  - **FEAT**: Added Asset class. ([0f4972dd](https://github.com/mathrunet/flutter_masamune/commit/0f4972dd350fdd4a64d9c9467d6c786f09b84ed7))

@@ -1,3 +1,7 @@
+## 1.3.3
+
+ - **FIX**: Add centerTitleOnAppBar. ([938d2bcb](https://github.com/mathrunet/flutter_masamune/commit/938d2bcb6b0f71bf3c6b7f02b4f8f17e880a5477))
+
 ## 1.3.2
 
  - **FIX**: Fixed defaultURL in Asset.image that cannot be generated. ([61ef6a2d](https://github.com/mathrunet/flutter_masamune/commit/61ef6a2df5381cc48172aaeee49141db91d9ea31))

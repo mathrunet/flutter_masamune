@@ -15,6 +15,56 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v1.3.3`](#katana_theme---v133)
+ - [`katana_theme_annotation` - `v1.3.1`](#katana_theme_annotation---v131)
+ - [`katana_theme_builder` - `v1.3.1`](#katana_theme_builder---v131)
+ - [`masamune` - `v1.7.4`](#masamune---v174)
+ - [`masamune_picker` - `v1.5.37`](#masamune_picker---v1537)
+ - [`masamune_notification_firebase` - `v1.2.8`](#masamune_notification_firebase---v128)
+ - [`masamune_logger_firebase` - `v1.2.19`](#masamune_logger_firebase---v1219)
+ - [`masamune_picker_mobile` - `v1.5.37`](#masamune_picker_mobile---v1537)
+ - [`masamune_picker_file` - `v1.5.37`](#masamune_picker_file---v1537)
+ - [`masamune_builder` - `v1.4.3`](#masamune_builder---v143)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.7.4`
+ - `masamune_picker` - `v1.5.37`
+ - `masamune_notification_firebase` - `v1.2.8`
+ - `masamune_logger_firebase` - `v1.2.19`
+ - `masamune_picker_mobile` - `v1.5.37`
+ - `masamune_picker_file` - `v1.5.37`
+ - `masamune_builder` - `v1.4.3`
+
+---
+
+#### `katana_theme` - `v1.3.3`
+
+ - **FIX**: Add centerTitleOnAppBar. ([938d2bcb](https://github.com/mathrunet/flutter_masamune/commit/938d2bcb6b0f71bf3c6b7f02b4f8f17e880a5477))
+
+#### `katana_theme_annotation` - `v1.3.1`
+
+ - **FIX**: Add centerTitleOnAppBar. ([938d2bcb](https://github.com/mathrunet/flutter_masamune/commit/938d2bcb6b0f71bf3c6b7f02b4f8f17e880a5477))
+
+#### `katana_theme_builder` - `v1.3.1`
+
+ - **FIX**: Add centerTitleOnAppBar. ([938d2bcb](https://github.com/mathrunet/flutter_masamune/commit/938d2bcb6b0f71bf3c6b7f02b4f8f17e880a5477))
+
+
+## 2023-03-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_responsive` - `v1.2.0`](#katana_responsive---v120)
  - [`katana_ui` - `v1.1.9`](#katana_ui---v119)
  - [`masamune` - `v1.7.3`](#masamune---v173)
