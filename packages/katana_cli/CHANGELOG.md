@@ -1,3 +1,7 @@
+## 1.8.7
+
+ - **FIX**: Fixed a bug that caused Icon to be 404. ([0be9b1d8](https://github.com/mathrunet/flutter_masamune/commit/0be9b1d82eb6399d03061503c1e13b93d585e990))
+
 ## 1.8.6
 
  - **FIX**: Fixed a bug that build failed if there was nothing in the assets folder. ([970ab2cf](https://github.com/mathrunet/flutter_masamune/commit/970ab2cf2a50440b2216c551c5ef6abf0f69dcb6))

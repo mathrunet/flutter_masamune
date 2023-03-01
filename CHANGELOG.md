@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.8.7`](#katana_cli---v187)
+
+---
+
+#### `katana_cli` - `v1.8.7`
+
+ - **FIX**: Fixed a bug that caused Icon to be 404. ([0be9b1d8](https://github.com/mathrunet/flutter_masamune/commit/0be9b1d82eb6399d03061503c1e13b93d585e990))
+
+
 ## 2023-02-28
 
 ### Changes
