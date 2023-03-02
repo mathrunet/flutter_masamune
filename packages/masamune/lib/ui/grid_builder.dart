@@ -157,12 +157,13 @@ class GridBuilder<T> extends StatelessWidget {
 
   /// Builder for display on a grid.
   ///
-  /// [Context] is passed as [BuildContext] and [item] as each element.
+  /// [context] is passed as [BuildContext], [item] as each element, and [index] as each element number.
   ///
   /// グリッドに表示するためのビルダー。
   ///
-  /// [context]に[BuildContext]、[item]に各要素が渡されます。
-  final Widget Function(BuildContext context, T item) builder;
+  /// [context]に[BuildContext]、[item]に各要素、[index]に各要素番号が渡されます。
+  ///
+  final Widget Function(BuildContext context, T item, int index) builder;
 
   /// If this is set to `true`, it will prevent a rebuild if [AutomaticKeepAliveClientMixin] is mixdrunk in the Widget in the List and is shown or hidden in the List.
   ///
@@ -291,20 +292,21 @@ class GridBuilder<T> extends StatelessWidget {
   }
 
   Widget _builder(BuildContext context, int i) {
-    return _listenableBuilder(context: context, item: source[i]);
+    return _listenableBuilder(context: context, item: source[i], index: i);
   }
 
   Widget _listenableBuilder({
     required BuildContext context,
     required T item,
+    required int index,
   }) {
     if (!listenWhenListenable || item is! Listenable) {
-      return builder.call(context, item);
+      return builder.call(context, item, index);
     }
     return ListenableListener<Listenable>(
       listenable: item,
       builder: (context, listenable) {
-        return builder.call(context, item);
+        return builder.call(context, item, index);
       },
     );
   }

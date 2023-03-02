@@ -32,6 +32,8 @@ dependencies:
   katana_storage:  ^1.1.2
   katana_functions: ^1.1.13
   masamune_annotation: ^1.4.2
+
+  universal_platform: ^1.0.0+1
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0
