@@ -2,7 +2,7 @@ part of katana_ui;
 
 /// This widget can be placed on top of a [ListView] or [SingleChildScrollView] to easily add a [RefreshIndicator] or [Scrollbar].
 ///
-/// If [showScrollbarWhenPCorWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
+/// If [showScrollbarWhenDesktopOrWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
 ///
 /// If [onRefresh] is not [null], a [RefreshIndicator] will be placed and Pull to Refresh will be enabled.
 ///
@@ -12,7 +12,7 @@ part of katana_ui;
 ///
 /// [ListView]や[SingleChildScrollView]の上に配置することで、[RefreshIndicator]や[Scrollbar]を簡単に追加できるようにするためのウィジェットです。
 ///
-/// [showScrollbarWhenPCorWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
+/// [showScrollbarWhenDesktopOrWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
 ///
 /// [onRefresh]が[null]でない場合、[RefreshIndicator]を配置し、Pull to Refreshを有効にします。
 ///
@@ -22,7 +22,7 @@ part of katana_ui;
 class ScrollBuilder extends StatefulWidget {
   /// This widget can be placed on top of a [ListView] or [SingleChildScrollView] to easily add a [RefreshIndicator] or [Scrollbar].
   ///
-  /// If [showScrollbarWhenPCorWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
+  /// If [showScrollbarWhenDesktopOrWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
   ///
   /// If [onRefresh] is not [null], a [RefreshIndicator] will be placed and Pull to Refresh will be enabled.
   ///
@@ -32,7 +32,7 @@ class ScrollBuilder extends StatefulWidget {
   ///
   /// [ListView]や[SingleChildScrollView]の上に配置することで、[RefreshIndicator]や[Scrollbar]を簡単に追加できるようにするためのウィジェットです。
   ///
-  /// [showScrollbarWhenPCorWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
+  /// [showScrollbarWhenDesktopOrWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
   ///
   /// [onRefresh]が[null]でない場合、[RefreshIndicator]を配置し、Pull to Refreshを有効にします。
   ///
@@ -43,7 +43,7 @@ class ScrollBuilder extends StatefulWidget {
     super.key,
     this.onRefresh,
     this.controller,
-    this.showScrollbarWhenPCorWeb = true,
+    this.showScrollbarWhenDesktopOrWeb = true,
     required this.builder,
   });
 
@@ -52,10 +52,10 @@ class ScrollBuilder extends StatefulWidget {
   /// [onRefresh]が[null]でない場合、[RefreshIndicator]を配置し、Pull to Refreshを有効にします。
   final Future<void> Function()? onRefresh;
 
-  /// If [showScrollbarWhenPCorWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
+  /// If [showScrollbarWhenDesktopOrWeb] is `true`, a mouse scrollable scrollbar will be displayed only on PC or Web.
   ///
-  /// [showScrollbarWhenPCorWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
-  final bool showScrollbarWhenPCorWeb;
+  /// [showScrollbarWhenDesktopOrWeb]を`true`にすると、PCやWebでのみマウスでドラッグ可能なスクロールバーを表示します。
+  final bool showScrollbarWhenDesktopOrWeb;
 
   /// An internal [ScrollController] is created and passed to [builder]. If you want to specify your own [ScrollController], pass it to [controller].
   ///
@@ -98,7 +98,7 @@ class _ScrollBuilderState extends State<ScrollBuilder> {
   }
 
   Widget _buildScrollbar(BuildContext context, Widget child) {
-    if (widget.showScrollbarWhenPCorWeb &&
+    if (widget.showScrollbarWhenDesktopOrWeb &&
         (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
       return Scrollbar(
         interactive: true,
