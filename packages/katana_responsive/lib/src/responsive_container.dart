@@ -54,60 +54,107 @@ enum ResponsiveContainerType {
   /// [context]を与えることで実際の最大横幅を取得します。
   double width(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final sideBarWidth = ResponsiveScaffold.of(context)?.sideBarWidth ?? 0.0;
 
     switch (this) {
       case ResponsiveContainerType.sm:
         if (screenWidth < ResponsiveBreakpoints.value.xs) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.sm) {
-          return ResponsiveBreakpoints.value.xsContainerWidth;
+          return ResponsiveBreakpoints.value.xsContainerWidth - sideBarWidth;
         } else if (screenWidth < ResponsiveBreakpoints.value.md) {
-          return ResponsiveBreakpoints.value.smContainerWidth;
+          return ResponsiveBreakpoints.value.smContainerWidth - sideBarWidth;
         } else if (screenWidth < ResponsiveBreakpoints.value.lg) {
-          return ResponsiveBreakpoints.value.mdContainerWidth;
+          return ResponsiveBreakpoints.value.mdContainerWidth - sideBarWidth;
         } else if (screenWidth < ResponsiveBreakpoints.value.xl) {
-          return ResponsiveBreakpoints.value.lgContainerWidth;
+          return ResponsiveBreakpoints.value.lgContainerWidth - sideBarWidth;
         } else {
-          return ResponsiveBreakpoints.value.xlContainerWidth;
+          return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
       case ResponsiveContainerType.md:
         if (screenWidth < ResponsiveBreakpoints.value.sm) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.md) {
-          return ResponsiveBreakpoints.value.smContainerWidth;
+          return ResponsiveBreakpoints.value.smContainerWidth - sideBarWidth;
         } else if (screenWidth < ResponsiveBreakpoints.value.lg) {
-          return ResponsiveBreakpoints.value.mdContainerWidth;
+          return ResponsiveBreakpoints.value.mdContainerWidth - sideBarWidth;
         } else if (screenWidth < ResponsiveBreakpoints.value.xl) {
-          return ResponsiveBreakpoints.value.lgContainerWidth;
+          return ResponsiveBreakpoints.value.lgContainerWidth - sideBarWidth;
         } else {
-          return ResponsiveBreakpoints.value.xlContainerWidth;
+          return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
       case ResponsiveContainerType.lg:
         if (screenWidth < ResponsiveBreakpoints.value.md) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.lg) {
-          return ResponsiveBreakpoints.value.mdContainerWidth;
+          return ResponsiveBreakpoints.value.mdContainerWidth - sideBarWidth;
         } else if (screenWidth < ResponsiveBreakpoints.value.xl) {
-          return ResponsiveBreakpoints.value.lgContainerWidth;
+          return ResponsiveBreakpoints.value.lgContainerWidth - sideBarWidth;
         } else {
-          return ResponsiveBreakpoints.value.xlContainerWidth;
+          return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
       case ResponsiveContainerType.xl:
         if (screenWidth < ResponsiveBreakpoints.value.lg) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.xl) {
-          return ResponsiveBreakpoints.value.lgContainerWidth;
+          return ResponsiveBreakpoints.value.lgContainerWidth - sideBarWidth;
         } else {
-          return ResponsiveBreakpoints.value.xlContainerWidth;
+          return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
       case ResponsiveContainerType.xxl:
         if (screenWidth < ResponsiveBreakpoints.value.xl) {
           return double.infinity;
         } else {
-          return ResponsiveBreakpoints.value.xlContainerWidth;
+          return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
       case ResponsiveContainerType.fluid:
         return double.infinity;
+    }
+  }
+
+  /// Pass [context] to get whether the sidebar should be displayed at the current screen size.
+  ///
+  /// If `true`, show the sidebar.
+  ///
+  /// [context]を渡して現在のスクリーンサイズでサイドバーを表示すべきかどうかを取得します。
+  ///
+  /// `true`ならばサイドバーを表示します。
+  bool shouldShowSideBar(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    switch (this) {
+      case ResponsiveContainerType.sm:
+        if (screenWidth < ResponsiveBreakpoints.value.xs) {
+          return false;
+        } else {
+          return true;
+        }
+      case ResponsiveContainerType.md:
+        if (screenWidth < ResponsiveBreakpoints.value.sm) {
+          return false;
+        } else {
+          return true;
+        }
+      case ResponsiveContainerType.lg:
+        if (screenWidth < ResponsiveBreakpoints.value.md) {
+          return false;
+        } else {
+          return true;
+        }
+      case ResponsiveContainerType.xl:
+        if (screenWidth < ResponsiveBreakpoints.value.lg) {
+          return false;
+        } else {
+          return true;
+        }
+      case ResponsiveContainerType.xxl:
+        if (screenWidth < ResponsiveBreakpoints.value.xl) {
+          return false;
+        } else {
+          return true;
+        }
+      case ResponsiveContainerType.fluid:
+        return false;
     }
   }
 }
@@ -117,14 +164,14 @@ enum ResponsiveContainerType {
 /// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [children].
 ///
 /// Arguments of [Container] can be passed as is.
-/// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [type].
+/// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [breakpoint].
 ///
 /// [Container]代わりとして利用可能なレスポンシブ対応のコンテナです。
 ///
 /// [children]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
 ///
 /// [Container]の引数をそのまま渡すことができます。
-/// [alignment]はデフォルトで[Alignment.center]になっており、[type]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
+/// [alignment]はデフォルトで[Alignment.center]になっており、[breakpoint]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
 ///
 /// ```dart
 /// class GridPage extends StatelessWidget {
@@ -179,14 +226,14 @@ class ResponsiveContainer extends StatelessWidget {
   /// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [children].
   ///
   /// Arguments of [Container] can be passed as is.
-  /// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [type].
+  /// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [breakpoint].
   ///
   /// [Container]代わりとして利用可能なレスポンシブ対応のコンテナです。
   ///
   /// [children]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
   ///
   /// [Container]の引数をそのまま渡すことができます。
-  /// [alignment]はデフォルトで[Alignment.center]になっており、[type]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
+  /// [alignment]はデフォルトで[Alignment.center]になっており、[breakpoint]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
   ///
   /// ```dart
   /// class GridPage extends StatelessWidget {
@@ -237,7 +284,7 @@ class ResponsiveContainer extends StatelessWidget {
   /// ```
   const ResponsiveContainer({
     super.key,
-    this.type,
+    this.breakpoint,
     this.alignment = Alignment.center,
     this.padding,
     this.color,
@@ -253,10 +300,10 @@ class ResponsiveContainer extends StatelessWidget {
     this.clipBehavior = Clip.none,
   });
 
-  /// Describes the type of a ResponsiveContainer.
+  /// Describe breakpoints for responsive containers.
   ///
-  /// レスポンシブコンテナの型を記述します。
-  final ResponsiveContainerType? type;
+  /// レスポンシブコンテナのブレークポイントを記述します。
+  final ResponsiveContainerType? breakpoint;
 
   /// This value holds the alignment to be used by the container.
   ///
@@ -289,29 +336,29 @@ class ResponsiveContainer extends StatelessWidget {
 
   /// Sets the width of the container.
   ///
-  /// Takes precedence over [type] and [constraints].
+  /// Takes precedence over [breakpoint] and [constraints].
   ///
   /// コンテナの横幅を設定します。
   ///
-  /// [type]や[constraints]より優先されます。
+  /// [breakpoint]や[constraints]より優先されます。
   final double? width;
 
   /// Sets the height of the container.
   ///
-  /// Takes precedence over [type] and [constraints].
+  /// Takes precedence over [breakpoint] and [constraints].
   ///
   /// コンテナの縦幅を設定します。
   ///
-  /// [type]や[constraints]より優先されます。
+  /// [breakpoint]や[constraints]より優先されます。
   final double? height;
 
   /// Sets size constraints for containers.
   ///
-  /// If [type] is set, it takes precedence.
+  /// If [breakpoint] is set, it takes precedence.
   ///
   /// コンテナのサイズ制約を設定します。
   ///
-  /// [type]が設定されている場合はそれが優先されます。
+  /// [breakpoint]が設定されている場合はそれが優先されます。
   final BoxConstraints? constraints;
 
   /// Sets the margin of the container.
@@ -365,15 +412,17 @@ class ResponsiveContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final type = this.type ?? _ResponsiveScaffoldScope.of(context);
+    final breakpoint =
+        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
 
     return Align(
       alignment: alignment,
       child: Container(
-        constraints: constraints?.copyWith(maxWidth: type?.width(context)) ??
-            BoxConstraints(
-              maxWidth: type?.width(context) ?? double.infinity,
-            ),
+        constraints:
+            constraints?.copyWith(maxWidth: breakpoint?.width(context)) ??
+                BoxConstraints(
+                  maxWidth: breakpoint?.width(context) ?? double.infinity,
+                ),
         padding: padding,
         color: color,
         decoration: decoration,

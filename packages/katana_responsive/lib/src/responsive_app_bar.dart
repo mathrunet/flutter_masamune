@@ -4,7 +4,7 @@ const _kLeadingWidth = kToolbarHeight;
 
 /// Responsive support [AppBar].
 ///
-/// The appropriate width is obtained by [type], and the position of [title] and [actions] are adjusted.
+/// The appropriate width is obtained by [breakpoint], and the position of [title] and [actions] are adjusted.
 ///
 /// When the screen size is updated, it is automatically redrawn.
 ///
@@ -12,7 +12,7 @@ const _kLeadingWidth = kToolbarHeight;
 ///
 /// レスポンシブ対応した[AppBar]。
 ///
-/// [type]によって適切な横幅を取得し、[title]の位置や[actions]の位置を調節します。
+/// [breakpoint]によって適切な横幅を取得し、[title]の位置や[actions]の位置を調節します。
 ///
 /// 画面サイズが更新されると自動で再描画されます。
 ///
@@ -20,7 +20,7 @@ const _kLeadingWidth = kToolbarHeight;
 class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
   /// Responsive support [AppBar].
   ///
-  /// The appropriate width is obtained by [type], and the position of [title] and [actions] are adjusted.
+  /// The appropriate width is obtained by [breakpoint], and the position of [title] and [actions] are adjusted.
   ///
   /// When the screen size is updated, it is automatically redrawn.
   ///
@@ -28,14 +28,14 @@ class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
   ///
   /// レスポンシブ対応した[AppBar]。
   ///
-  /// [type]によって適切な横幅を取得し、[title]の位置や[actions]の位置を調節します。
+  /// [breakpoint]によって適切な横幅を取得し、[title]の位置や[actions]の位置を調節します。
   ///
   /// 画面サイズが更新されると自動で再描画されます。
   ///
   /// その他は[AppBar]と同じように利用可能です。
   ResponsiveAppBar({
     super.key,
-    this.type,
+    this.breakpoint,
     this.notificationPredicate = defaultScrollNotificationPredicate,
     this.automaticallyImplyLeading = true,
     this.primary = true,
@@ -66,10 +66,10 @@ class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
   }) : preferredSize =
             _PreferredAppBarSize(toolbarHeight, bottom?.preferredSize.height);
 
-  /// Describes the type of a ResponsiveContainer.
+  /// Describe breakpoints for responsive containers.
   ///
-  /// レスポンシブコンテナの型を記述します。
-  final ResponsiveContainerType? type;
+  /// レスポンシブコンテナのブレークポイントを記述します。
+  final ResponsiveContainerType? breakpoint;
 
   /// {@macro flutter.material.appbar.leading}
   final Widget? leading;
@@ -206,11 +206,12 @@ class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
       return titleSpacing;
     }
     final width = MediaQuery.of(context).size.width;
-    final type = this.type ?? _ResponsiveScaffoldScope.of(context);
-    if (type == null) {
+    final breakpoint =
+        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
+    if (breakpoint == null) {
       return null;
     }
-    double spacing = (width - type.width(context)) / 2.0;
+    double spacing = (width - breakpoint.width(context)) / 2.0;
     if (showLeading) {
       spacing -= leadingWidth ?? _kLeadingWidth;
     } else {
@@ -224,11 +225,12 @@ class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
       return 0.0;
     }
     final width = MediaQuery.of(context).size.width;
-    final type = this.type ?? _ResponsiveScaffoldScope.of(context);
-    if (type == null) {
+    final breakpoint =
+        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
+    if (breakpoint == null) {
       return null;
     }
-    double spacing = (width - type.width(context)) / 2.0;
+    double spacing = (width - breakpoint.width(context)) / 2.0;
     return spacing.limitLow(0.0);
   }
 

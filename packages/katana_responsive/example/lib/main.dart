@@ -30,7 +30,7 @@ class GridPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveScaffold(
-      type: ResponsiveContainerType.sm,
+      breakpoint: ResponsiveContainerType.sm,
       appBar: ResponsiveAppBar(
         // leading: IconButton(
         //   icon: const Icon(Icons.menu),
@@ -51,12 +51,6 @@ class GridPage extends StatelessWidget {
         thumbVisibility: true,
         child: ResponsiveListView(
           primary: true,
-          top: [
-            Container(
-              color: Colors.black,
-              height: 100,
-            ),
-          ],
           children: [
             ResponsiveRow(
               children: [

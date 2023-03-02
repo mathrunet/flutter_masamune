@@ -5,14 +5,14 @@ part of katana_responsive;
 /// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [children].
 ///
 /// Arguments of [Container] can be passed as is.
-/// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [type].
+/// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [breakpoint].
 ///
 /// [Container]代わりとして利用可能なレスポンシブ対応のコンテナです。
 ///
 /// [children]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
 ///
 /// [Container]の引数をそのまま渡すことができます。
-/// [alignment]はデフォルトで[Alignment.center]になっており、[type]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
+/// [alignment]はデフォルトで[Alignment.center]になっており、[breakpoint]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
 ///
 /// ```dart
 /// class GridPage extends StatelessWidget {
@@ -67,14 +67,14 @@ class ResponsiveListView extends StatelessWidget {
   /// You can build a responsive grid layout by returning a list of [ResponsiveRow] in [children].
   ///
   /// Arguments of [Container] can be passed as is.
-  /// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [type].
+  /// The [alignment] is [Alignment.center] by default, which means that there will always be left and right margins when the maximum width is specified by [breakpoint].
   ///
   /// [Container]代わりとして利用可能なレスポンシブ対応のコンテナです。
   ///
   /// [children]で[ResponsiveRow]のリストを返すことで、レスポンシブ対応のグリッドレイアウトを構築できます。
   ///
   /// [Container]の引数をそのまま渡すことができます。
-  /// [alignment]はデフォルトで[Alignment.center]になっており、[type]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
+  /// [alignment]はデフォルトで[Alignment.center]になっており、[breakpoint]によって最大の横幅が指定されているときは常に左右に余白が出るようになっています。
   ///
   /// ```dart
   /// class GridPage extends StatelessWidget {
@@ -125,20 +125,9 @@ class ResponsiveListView extends StatelessWidget {
   /// ```
   const ResponsiveListView({
     super.key,
-    this.type,
-    this.top = const [],
-    this.bottom = const [],
+    this.breakpoint,
     this.alignment = Alignment.center,
     this.padding,
-    this.color,
-    this.decoration,
-    this.foregroundDecoration,
-    this.width,
-    this.height,
-    this.constraints,
-    this.margin,
-    this.transform,
-    this.transformAlignment,
     required this.children,
     this.clipBehavior = Clip.hardEdge,
     this.scrollDirection = Axis.vertical,
@@ -151,10 +140,10 @@ class ResponsiveListView extends StatelessWidget {
     this.restorationId,
   });
 
-  /// Describes the type of a ResponsiveContainer
+  /// Describe breakpoints for responsive containers.
   ///
-  /// レスポンシブコンテナの型を記述します
-  final ResponsiveContainerType? type;
+  /// レスポンシブコンテナのブレークポイントを記述します。
+  final ResponsiveContainerType? breakpoint;
 
   /// This value holds the alignment to be used by the container.
   ///
@@ -165,75 +154,6 @@ class ResponsiveListView extends StatelessWidget {
   ///
   /// 親要素に対してウィジェットを配置する位置を定義します。
   final EdgeInsetsGeometry? padding;
-
-  /// Sets the background color of the container.
-  ///
-  /// If [decoration] is specified, set the background color within [decoration].
-  ///
-  /// コンテナの背景色を設定します。
-  ///
-  /// [decoration]が指定されている場合は、[decoration]内で背景色を設定してください。
-  final Color? color;
-
-  /// Sets the container background decoration.
-  ///
-  /// コンテナの背景の装飾を設定します。
-  final Decoration? decoration;
-
-  /// Sets the decorations to be drawn before the container's [children].
-  ///
-  /// コンテナの[children]より前に描画される装飾を設定します。
-  final Decoration? foregroundDecoration;
-
-  /// Sets the width of the container.
-  ///
-  /// Takes precedence over [type] and [constraints].
-  ///
-  /// コンテナの横幅を設定します。
-  ///
-  /// [type]や[constraints]より優先されます。
-  final double? width;
-
-  /// Sets the height of the container.
-  ///
-  /// Takes precedence over [type] and [constraints].
-  ///
-  /// コンテナの縦幅を設定します。
-  ///
-  /// [type]や[constraints]より優先されます。
-  final double? height;
-
-  /// Sets size constraints for containers.
-  ///
-  /// If [type] is set, it takes precedence.
-  ///
-  /// コンテナのサイズ制約を設定します。
-  ///
-  /// [type]が設定されている場合はそれが優先されます。
-  final BoxConstraints? constraints;
-
-  /// Sets the margin of the container.
-  ///
-  /// コンテナのマージンを設定します。
-  final EdgeInsetsGeometry? margin;
-
-  /// The transformation matrix to apply before painting the container.
-  ///
-  /// コンテナの描画前に適用する変換行列。
-  final Matrix4? transform;
-
-  /// The alignment of the origin, relative to the size of the container, if [transform] is specified.
-  ///
-  /// When [transform] is null, the value of this property is ignored.
-  ///
-  /// [transform]が指定されている場合、コンテナのサイズに対する原点の配置を設定します。
-  ///
-  /// [transform]がnullの場合、このプロパティの値は無視されます。
-  ///
-  /// See also:
-  ///
-  ///  * [Transform.alignment], which is set by this property.
-  final AlignmentGeometry? transformAlignment;
 
   /// Builder for specifying the inside of a container.
   ///
@@ -326,41 +246,34 @@ class ResponsiveListView extends StatelessWidget {
   /// デフォルトは[ScrollViewKeyboardDismissBehavior.manual]です。
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
 
-  final List<Widget> top;
-
-  final List<Widget> bottom;
-
   @override
   Widget build(BuildContext context) {
-    final type = this.type ?? _ResponsiveScaffoldScope.of(context);
+    final breakpoint = this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
 
-    return ListView(
-      scrollDirection: scrollDirection,
-      reverse: reverse,
-      primary: primary,
-      physics: physics,
-      controller: controller,
-      dragStartBehavior: dragStartBehavior,
-      restorationId: restorationId,
-      keyboardDismissBehavior: keyboardDismissBehavior,
-      clipBehavior: clipBehavior,
-      children: [
-        ...top,
-        ResponsiveContainer(
-          type: type,
-          padding: padding,
-          color: color,
-          decoration: decoration,
-          foregroundDecoration: foregroundDecoration,
-          width: width,
-          height: height,
-          margin: margin,
-          transform: transform,
-          transformAlignment: transformAlignment,
-          children: children,
+    return Align(
+      alignment: alignment,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: breakpoint?.width(context) ?? double.infinity,
         ),
-        ...bottom,
-      ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return ListView(
+              scrollDirection: scrollDirection,
+              reverse: reverse,
+              primary: primary,
+              physics: physics,
+              controller: controller,
+              padding: padding,
+              dragStartBehavior: dragStartBehavior,
+              restorationId: restorationId,
+              keyboardDismissBehavior: keyboardDismissBehavior,
+              clipBehavior: clipBehavior,
+              children: children,
+            );
+          },
+        ),
+      ),
     );
   }
 }

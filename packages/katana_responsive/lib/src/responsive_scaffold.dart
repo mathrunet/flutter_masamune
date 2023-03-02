@@ -1,39 +1,41 @@
 part of katana_responsive;
 
+const kSideBarWidth = 160.0;
+
 /// Responsive [Scaffold].
 ///
 /// The basic functions are the same as those of [Scaffold].
 ///
-/// By specifying [type], the width of [ResponsiveAppBar], [ResponsiveContainer], [ResponsiveListView], etc. under it are automatically adjusted.
-/// It is not necessary to specify the [type] of each widget.
-/// If specified, [type] such as [ResponsiveAppBar], [ResponsiveContainer], or [ResponsiveListView] will take precedence.
+/// By specifying [breakpoint], the width of [ResponsiveAppBar], [ResponsiveContainer], [ResponsiveListView], etc. under it are automatically adjusted.
+/// It is not necessary to specify the [breakpoint] of each widget.
+/// If specified, [breakpoint] such as [ResponsiveAppBar], [ResponsiveContainer], or [ResponsiveListView] will take precedence.
 ///
 /// レスポンシブ対応した[Scaffold]。
 ///
 /// 基本的な機能は[Scaffold]と同じです。
 ///
-/// [type]を指定することにより、その配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
-/// その際各ウィジェットの[type]を指定する必要はありません。
-/// 指定した場合は、[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの[type]が優先されます。
+/// [breakpoint]を指定することにより、その配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
+/// その際各ウィジェットの[breakpoint]を指定する必要はありません。
+/// 指定した場合は、[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの[breakpoint]が優先されます。
 class ResponsiveScaffold extends StatelessWidget {
   /// Responsive [Scaffold].
   ///
   /// The basic functions are the same as those of [Scaffold].
   ///
-  /// By specifying [type], the width of [ResponsiveAppBar], [ResponsiveContainer], [ResponsiveListView], etc. under it are automatically adjusted.
-  /// It is not necessary to specify the [type] of each widget.
-  /// If specified, [type] such as [ResponsiveAppBar], [ResponsiveContainer], or [ResponsiveListView] will take precedence.
+  /// By specifying [breakpoint], the width of [ResponsiveAppBar], [ResponsiveContainer], [ResponsiveListView], etc. under it are automatically adjusted.
+  /// It is not necessary to specify the [breakpoint] of each widget.
+  /// If specified, [breakpoint] such as [ResponsiveAppBar], [ResponsiveContainer], or [ResponsiveListView] will take precedence.
   ///
   /// レスポンシブ対応した[Scaffold]。
   ///
   /// 基本的な機能は[Scaffold]と同じです。
   ///
-  /// [type]を指定することにより、その配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
-  /// その際各ウィジェットの[type]を指定する必要はありません。
-  /// 指定した場合は、[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの[type]が優先されます。
+  /// [breakpoint]を指定することにより、その配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
+  /// その際各ウィジェットの[breakpoint]を指定する必要はありません。
+  /// 指定した場合は、[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの[breakpoint]が優先されます。
   const ResponsiveScaffold({
     super.key,
-    this.type,
+    this.breakpoint,
     this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
     this.primary = true,
     this.drawerDragStartBehavior = DragStartBehavior.start,
@@ -58,16 +60,27 @@ class ResponsiveScaffold extends StatelessWidget {
     this.bottomSheet,
     this.backgroundColor,
     this.resizeToAvoidBottomInset,
-  });
+    this.sideBar,
+    this.sideBarWidth = kSideBarWidth,
+  }) : assert(sideBarWidth > 0, "[sideBarWidth] must be greater than 0.");
 
-  /// Describes the type of a ResponsiveContainer.
+  /// Pass [context] to get [ResponsiveContainerType] set by [ResponsiveScaffold] at the top.
+  ///
+  /// [context]を渡して上部にある[ResponsiveScaffold]で設定されている[ResponsiveContainerType]を取得します。
+  static ResponsiveScaffoldScope? of(BuildContext context) {
+    final ResponsiveScaffoldScope? scope =
+        context.dependOnInheritedWidgetOfExactType<ResponsiveScaffoldScope>();
+    return scope;
+  }
+
+  /// Describe breakpoints for responsive containers.
   ///
   /// The width of [ResponsiveAppBar], [ResponsiveContainer], [ResponsiveListView], etc., under the control of [ResponsiveAppBar] are automatically adjusted.
   ///
-  /// レスポンシブコンテナの型を記述します。
+  /// レスポンシブコンテナのブレークポイントを記述します。
   ///
   /// 配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
-  final ResponsiveContainerType? type;
+  final ResponsiveContainerType? breakpoint;
 
   /// {@template flutter.material.scaffold.appBar}
   /// The [AppBar] to display at the top of the scaffold.
@@ -253,10 +266,32 @@ class ResponsiveScaffold extends StatelessWidget {
   /// {@endtemplate}
   final String? restorationId;
 
+  /// Create a sidebar.
+  ///
+  /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. At that time, [sideBar] will be placed on [drawer] and the width will be maximized.
+  ///
+  /// If [sideBarWidth] is specified, you can specify the width of [sideBar].
+  ///
+  /// サイドバーを作成します。
+  ///
+  /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
+  /// [sideBarWidth]を指定している場合は、[sideBar]の横幅を指定できます。
+  final List<Widget>? sideBar;
+
+  /// Width of sidebar.
+  ///
+  /// If the sidebar does not exist, it is set to 0.
+  ///
+  /// サイドバーの横幅。
+  ///
+  /// サイドバーが存在しない場合は0になります。
+  final double sideBarWidth;
+
   @override
   Widget build(BuildContext context) {
-    return _ResponsiveScaffoldScope(
-      type: type,
+    return ResponsiveScaffoldScope(
+      breakpoint: breakpoint,
+      sideBarWidth: sideBar != null ? sideBarWidth : 0.0,
       child: Scaffold(
         key: key,
         primary: primary,
@@ -269,13 +304,13 @@ class ResponsiveScaffold extends StatelessWidget {
         endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture,
         restorationId: restorationId,
         appBar: appBar,
-        body: body,
+        body: _buildBody(context),
         floatingActionButton: floatingActionButton,
         floatingActionButtonLocation: floatingActionButtonLocation,
         floatingActionButtonAnimator: floatingActionButtonAnimator,
         persistentFooterButtons: persistentFooterButtons,
         persistentFooterAlignment: persistentFooterAlignment,
-        drawer: drawer,
+        drawer: _buildDrawer(context),
         onDrawerChanged: onDrawerChanged,
         endDrawer: endDrawer,
         onEndDrawerChanged: onEndDrawerChanged,
@@ -286,23 +321,97 @@ class ResponsiveScaffold extends StatelessWidget {
       ),
     );
   }
-}
 
-class _ResponsiveScaffoldScope extends InheritedWidget {
-  const _ResponsiveScaffoldScope({
-    required super.child,
-    required this.type,
-  });
-
-  final ResponsiveContainerType? type;
-
-  static ResponsiveContainerType? of(BuildContext context) {
-    final _ResponsiveScaffoldScope? scope =
-        context.dependOnInheritedWidgetOfExactType<_ResponsiveScaffoldScope>();
-    return scope?.type;
+  Widget? _buildDrawer(BuildContext context) {
+    if (drawer != null || sideBar == null) {
+      return drawer;
+    }
+    final shouldShowSideBar = breakpoint?.shouldShowSideBar(context) ?? true;
+    if (shouldShowSideBar) {
+      return null;
+    }
+    return Drawer(
+      width: sideBarWidth,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: sideBar!,
+      ),
+    );
   }
 
+  Widget? _buildBody(BuildContext context) {
+    if (sideBar == null) {
+      return body;
+    }
+    final shouldShowSideBar = breakpoint?.shouldShowSideBar(context) ?? true;
+    if (!shouldShowSideBar) {
+      return body;
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: sideBarWidth,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: sideBar!,
+          ),
+        ),
+        if (body != null)
+          Expanded(
+            child: body!,
+          ),
+      ],
+    );
+  }
+}
+
+/// Scope for retrieving information in [ResponsiveScaffold].
+///
+/// It can be obtained at [ResponsiveScaffold.of].
+///
+/// [ResponsiveScaffold]の中の情報を取得するためのスコープ。
+///
+/// [ResponsiveScaffold.of]で取得できます。
+class ResponsiveScaffoldScope extends InheritedWidget {
+  /// Scope for retrieving information in [ResponsiveScaffold].
+  ///
+  /// It can be obtained at [ResponsiveScaffold.of].
+  ///
+  /// [ResponsiveScaffold]の中の情報を取得するためのスコープ。
+  ///
+  /// [ResponsiveScaffold.of]で取得できます。
+  const ResponsiveScaffoldScope({
+    super.key,
+    required super.child,
+    required this.breakpoint,
+    required this.sideBarWidth,
+  });
+
+  /// Describe breakpoints for responsive containers.
+  ///
+  /// The width of [ResponsiveAppBar], [ResponsiveContainer], [ResponsiveListView], etc., under the control of [ResponsiveAppBar] are automatically adjusted.
+  ///
+  /// レスポンシブコンテナのブレークポイントを記述します。
+  ///
+  /// 配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
+  final ResponsiveContainerType? breakpoint;
+
+  /// Width of sidebar.
+  ///
+  /// If the sidebar does not exist, it is set to 0.
+  ///
+  /// サイドバーの横幅。
+  ///
+  /// サイドバーが存在しない場合は0になります。
+  final double sideBarWidth;
+
   @override
-  bool updateShouldNotify(covariant _ResponsiveScaffoldScope oldWidget) =>
-      false;
+  bool updateShouldNotify(covariant ResponsiveScaffoldScope oldWidget) => false;
 }
