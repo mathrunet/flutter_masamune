@@ -30,7 +30,7 @@ class GridPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveScaffold(
-      breakpoint: ResponsiveContainerType.sm,
+      breakpoint: ResponsiveBreakpoint.sm,
       appBar: ResponsiveAppBar(
         // leading: IconButton(
         //   icon: const Icon(Icons.menu),

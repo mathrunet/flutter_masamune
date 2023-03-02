@@ -69,7 +69,7 @@ class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
   /// Describe breakpoints for responsive containers.
   ///
   /// レスポンシブコンテナのブレークポイントを記述します。
-  final ResponsiveContainerType? breakpoint;
+  final ResponsiveBreakpoint? breakpoint;
 
   /// {@macro flutter.material.appbar.leading}
   final Widget? leading;

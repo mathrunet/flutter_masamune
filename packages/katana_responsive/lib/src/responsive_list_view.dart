@@ -143,7 +143,7 @@ class ResponsiveListView extends StatelessWidget {
   /// Describe breakpoints for responsive containers.
   ///
   /// レスポンシブコンテナのブレークポイントを記述します。
-  final ResponsiveContainerType? breakpoint;
+  final ResponsiveBreakpoint? breakpoint;
 
   /// This value holds the alignment to be used by the container.
   ///
@@ -248,7 +248,8 @@ class ResponsiveListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final breakpoint = this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
+    final breakpoint =
+        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
 
     return Align(
       alignment: alignment,

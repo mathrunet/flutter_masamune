@@ -64,9 +64,9 @@ class ResponsiveScaffold extends StatelessWidget {
     this.sideBarWidth = kSideBarWidth,
   }) : assert(sideBarWidth > 0, "[sideBarWidth] must be greater than 0.");
 
-  /// Pass [context] to get [ResponsiveContainerType] set by [ResponsiveScaffold] at the top.
+  /// Pass [context] to get [ResponsiveBreakpoint] set by [ResponsiveScaffold] at the top.
   ///
-  /// [context]を渡して上部にある[ResponsiveScaffold]で設定されている[ResponsiveContainerType]を取得します。
+  /// [context]を渡して上部にある[ResponsiveScaffold]で設定されている[ResponsiveBreakpoint]を取得します。
   static ResponsiveScaffoldScope? of(BuildContext context) {
     final ResponsiveScaffoldScope? scope =
         context.dependOnInheritedWidgetOfExactType<ResponsiveScaffoldScope>();
@@ -80,7 +80,7 @@ class ResponsiveScaffold extends StatelessWidget {
   /// レスポンシブコンテナのブレークポイントを記述します。
   ///
   /// 配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
-  final ResponsiveContainerType? breakpoint;
+  final ResponsiveBreakpoint? breakpoint;
 
   /// {@template flutter.material.scaffold.appBar}
   /// The [AppBar] to display at the top of the scaffold.
@@ -401,7 +401,7 @@ class ResponsiveScaffoldScope extends InheritedWidget {
   /// レスポンシブコンテナのブレークポイントを記述します。
   ///
   /// 配下にある[ResponsiveAppBar]や[ResponsiveContainer]、[ResponsiveListView]などの横幅が自動で調整されます。
-  final ResponsiveContainerType? breakpoint;
+  final ResponsiveBreakpoint? breakpoint;
 
   /// Width of sidebar.
   ///

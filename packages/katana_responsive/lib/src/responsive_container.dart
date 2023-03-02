@@ -18,7 +18,7 @@ part of katana_responsive;
 ///
 /// See also:
 ///  * https://getbootstrap.jp/docs/5.0/layout/containers/
-enum ResponsiveContainerType {
+enum ResponsiveBreakpoint {
   /// Define as sm size container.
   ///
   /// smサイズのコンテナとして定義します。
@@ -57,7 +57,7 @@ enum ResponsiveContainerType {
     final sideBarWidth = ResponsiveScaffold.of(context)?.sideBarWidth ?? 0.0;
 
     switch (this) {
-      case ResponsiveContainerType.sm:
+      case ResponsiveBreakpoint.sm:
         if (screenWidth < ResponsiveBreakpoints.value.xs) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.sm) {
@@ -71,7 +71,7 @@ enum ResponsiveContainerType {
         } else {
           return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
-      case ResponsiveContainerType.md:
+      case ResponsiveBreakpoint.md:
         if (screenWidth < ResponsiveBreakpoints.value.sm) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.md) {
@@ -83,7 +83,7 @@ enum ResponsiveContainerType {
         } else {
           return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
-      case ResponsiveContainerType.lg:
+      case ResponsiveBreakpoint.lg:
         if (screenWidth < ResponsiveBreakpoints.value.md) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.lg) {
@@ -93,7 +93,7 @@ enum ResponsiveContainerType {
         } else {
           return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
-      case ResponsiveContainerType.xl:
+      case ResponsiveBreakpoint.xl:
         if (screenWidth < ResponsiveBreakpoints.value.lg) {
           return double.infinity;
         } else if (screenWidth < ResponsiveBreakpoints.value.xl) {
@@ -101,13 +101,13 @@ enum ResponsiveContainerType {
         } else {
           return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
-      case ResponsiveContainerType.xxl:
+      case ResponsiveBreakpoint.xxl:
         if (screenWidth < ResponsiveBreakpoints.value.xl) {
           return double.infinity;
         } else {
           return ResponsiveBreakpoints.value.xlContainerWidth - sideBarWidth;
         }
-      case ResponsiveContainerType.fluid:
+      case ResponsiveBreakpoint.fluid:
         return double.infinity;
     }
   }
@@ -123,37 +123,37 @@ enum ResponsiveContainerType {
     final screenWidth = MediaQuery.of(context).size.width;
 
     switch (this) {
-      case ResponsiveContainerType.sm:
+      case ResponsiveBreakpoint.sm:
         if (screenWidth < ResponsiveBreakpoints.value.xs) {
           return false;
         } else {
           return true;
         }
-      case ResponsiveContainerType.md:
+      case ResponsiveBreakpoint.md:
         if (screenWidth < ResponsiveBreakpoints.value.sm) {
           return false;
         } else {
           return true;
         }
-      case ResponsiveContainerType.lg:
+      case ResponsiveBreakpoint.lg:
         if (screenWidth < ResponsiveBreakpoints.value.md) {
           return false;
         } else {
           return true;
         }
-      case ResponsiveContainerType.xl:
+      case ResponsiveBreakpoint.xl:
         if (screenWidth < ResponsiveBreakpoints.value.lg) {
           return false;
         } else {
           return true;
         }
-      case ResponsiveContainerType.xxl:
+      case ResponsiveBreakpoint.xxl:
         if (screenWidth < ResponsiveBreakpoints.value.xl) {
           return false;
         } else {
           return true;
         }
-      case ResponsiveContainerType.fluid:
+      case ResponsiveBreakpoint.fluid:
         return false;
     }
   }
@@ -303,7 +303,7 @@ class ResponsiveContainer extends StatelessWidget {
   /// Describe breakpoints for responsive containers.
   ///
   /// レスポンシブコンテナのブレークポイントを記述します。
-  final ResponsiveContainerType? breakpoint;
+  final ResponsiveBreakpoint? breakpoint;
 
   /// This value holds the alignment to be used by the container.
   ///
