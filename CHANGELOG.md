@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_responsive` - `v1.3.1`](#katana_responsive---v131)
+ - [`katana_ui` - `v1.1.10`](#katana_ui---v1110)
+ - [`masamune` - `v1.8.0`](#masamune---v180)
+ - [`masamune_picker` - `v1.5.39`](#masamune_picker---v1539)
+ - [`masamune_notification_firebase` - `v1.2.10`](#masamune_notification_firebase---v1210)
+ - [`masamune_logger_firebase` - `v1.2.21`](#masamune_logger_firebase---v1221)
+ - [`masamune_picker_mobile` - `v1.5.39`](#masamune_picker_mobile---v1539)
+ - [`masamune_picker_file` - `v1.5.39`](#masamune_picker_file---v1539)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.39`
+ - `masamune_notification_firebase` - `v1.2.10`
+ - `masamune_logger_firebase` - `v1.2.21`
+ - `masamune_picker_mobile` - `v1.5.39`
+ - `masamune_picker_file` - `v1.5.39`
+
+---
+
+#### `katana_responsive` - `v1.3.1`
+
+ - **FIX**: Change of mechanism to support UniversalUI. ([a4e6ecc2](https://github.com/mathrunet/flutter_masamune/commit/a4e6ecc2abfb270436ca00ae4a934bcf9013448a))
+
+#### `katana_ui` - `v1.1.10`
+
+ - **FIX**: Fixed a problem with desktop and web not being determined properly. ([6ba00934](https://github.com/mathrunet/flutter_masamune/commit/6ba00934b22cfe7e02e8fc526dfaa98d421b3d46))
+
+#### `masamune` - `v1.8.0`
+
+ - **FEAT**: Addition of UniversalUI. ([9ab41c43](https://github.com/mathrunet/flutter_masamune/commit/9ab41c430f5cf4fe54589377323191f1d41ede2f))
+
+
+## 2023-03-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_responsive` - `v1.3.0`](#katana_responsive---v130)
  - [`masamune` - `v1.7.5`](#masamune---v175)
  - [`masamune_picker` - `v1.5.38`](#masamune_picker---v1538)

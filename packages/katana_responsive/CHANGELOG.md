@@ -1,3 +1,7 @@
+## 1.3.1
+
+ - **FIX**: Change of mechanism to support UniversalUI. ([a4e6ecc2](https://github.com/mathrunet/flutter_masamune/commit/a4e6ecc2abfb270436ca00ae4a934bcf9013448a))
+
 ## 1.3.0
 
  - **FEAT**: Added Scaffold and AppBar. ([ef07a9ef](https://github.com/mathrunet/flutter_masamune/commit/ef07a9ef3d1d9a0ddfa30a770c51890a7d3a6782))

@@ -1,3 +1,7 @@
+## 1.8.0
+
+ - **FEAT**: Addition of UniversalUI. ([9ab41c43](https://github.com/mathrunet/flutter_masamune/commit/9ab41c430f5cf4fe54589377323191f1d41ede2f))
+
 ## 1.7.5
 
  - Update a dependency to the latest release.

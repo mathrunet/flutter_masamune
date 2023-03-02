@@ -1,3 +1,7 @@
+## 1.1.10
+
+ - **FIX**: Fixed a problem with desktop and web not being determined properly. ([6ba00934](https://github.com/mathrunet/flutter_masamune/commit/6ba00934b22cfe7e02e8fc526dfaa98d421b3d46))
+
 ## 1.1.9
 
  - **FIX**: Creation of ScrollBuilder. ([515f6148](https://github.com/mathrunet/flutter_masamune/commit/515f61480c14ba8d7d8066f85f866e2b227c47bd))
