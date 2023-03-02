@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.8.2`](#masamune---v182)
+ - [`masamune_picker` - `v1.5.41`](#masamune_picker---v1541)
+ - [`masamune_notification_firebase` - `v1.2.12`](#masamune_notification_firebase---v1212)
+ - [`masamune_logger_firebase` - `v1.2.23`](#masamune_logger_firebase---v1223)
+ - [`masamune_picker_mobile` - `v1.5.41`](#masamune_picker_mobile---v1541)
+ - [`masamune_picker_file` - `v1.5.41`](#masamune_picker_file---v1541)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.41`
+ - `masamune_notification_firebase` - `v1.2.12`
+ - `masamune_logger_firebase` - `v1.2.23`
+ - `masamune_picker_mobile` - `v1.5.41`
+ - `masamune_picker_file` - `v1.5.41`
+
+---
+
+#### `masamune` - `v1.8.2`
+
+ - **FIX**: Added UniversalContainer. ([beae523a](https://github.com/mathrunet/flutter_masamune/commit/beae523a990df7832a459ad0680ad918993ef3a4))
+
+
+## 2023-03-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_responsive` - `v1.3.2`](#katana_responsive---v132)
  - [`katana_ui` - `v1.1.11`](#katana_ui---v1111)
  - [`masamune` - `v1.8.1`](#masamune---v181)

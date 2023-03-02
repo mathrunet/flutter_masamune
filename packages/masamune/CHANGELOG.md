@@ -1,3 +1,7 @@
+## 1.8.2
+
+ - **FIX**: Added UniversalContainer. ([beae523a](https://github.com/mathrunet/flutter_masamune/commit/beae523a990df7832a459ad0680ad918993ef3a4))
+
 ## 1.8.1
 
  - **FIX**: Add paddingWhenNotFullWidth. ([90aee160](https://github.com/mathrunet/flutter_masamune/commit/90aee160450f203ea04b31a0b3c581eb71ecd461))
