@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_responsive` - `v1.3.2`](#katana_responsive---v132)
+ - [`katana_ui` - `v1.1.11`](#katana_ui---v1111)
+ - [`masamune` - `v1.8.1`](#masamune---v181)
+ - [`masamune_picker` - `v1.5.40`](#masamune_picker---v1540)
+ - [`masamune_notification_firebase` - `v1.2.11`](#masamune_notification_firebase---v1211)
+ - [`masamune_logger_firebase` - `v1.2.22`](#masamune_logger_firebase---v1222)
+ - [`masamune_picker_mobile` - `v1.5.40`](#masamune_picker_mobile---v1540)
+ - [`masamune_picker_file` - `v1.5.40`](#masamune_picker_file---v1540)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.40`
+ - `masamune_notification_firebase` - `v1.2.11`
+ - `masamune_logger_firebase` - `v1.2.22`
+ - `masamune_picker_mobile` - `v1.5.40`
+ - `masamune_picker_file` - `v1.5.40`
+
+---
+
+#### `katana_responsive` - `v1.3.2`
+
+ - **FIX**: Change ResponsiveContainerType to ResponsiveBreakpoint. ([f57a5d7f](https://github.com/mathrunet/flutter_masamune/commit/f57a5d7f5454a4dbbe8a5893b8ebeb94a68fa048))
+
+#### `katana_ui` - `v1.1.11`
+
+ - **FIX**: Rename showScrollbarWhenPCorWeb. ([d13616cb](https://github.com/mathrunet/flutter_masamune/commit/d13616cbe7ee3f3611cf233d7e263fcc753f1d06))
+
+#### `masamune` - `v1.8.1`
+
+ - **FIX**: Add paddingWhenNotFullWidth. ([90aee160](https://github.com/mathrunet/flutter_masamune/commit/90aee160450f203ea04b31a0b3c581eb71ecd461))
+
+
+## 2023-03-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_responsive` - `v1.3.1`](#katana_responsive---v131)
  - [`katana_ui` - `v1.1.10`](#katana_ui---v1110)
  - [`masamune` - `v1.8.0`](#masamune---v180)

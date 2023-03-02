@@ -1,3 +1,7 @@
+## 1.1.11
+
+ - **FIX**: Rename showScrollbarWhenPCorWeb. ([d13616cb](https://github.com/mathrunet/flutter_masamune/commit/d13616cbe7ee3f3611cf233d7e263fcc753f1d06))
+
 ## 1.1.10
 
  - **FIX**: Fixed a problem with desktop and web not being determined properly. ([6ba00934](https://github.com/mathrunet/flutter_masamune/commit/6ba00934b22cfe7e02e8fc526dfaa98d421b3d46))

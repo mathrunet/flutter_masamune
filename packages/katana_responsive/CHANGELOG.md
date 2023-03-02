@@ -1,3 +1,7 @@
+## 1.3.2
+
+ - **FIX**: Change ResponsiveContainerType to ResponsiveBreakpoint. ([f57a5d7f](https://github.com/mathrunet/flutter_masamune/commit/f57a5d7f5454a4dbbe8a5893b8ebeb94a68fa048))
+
 ## 1.3.1
 
  - **FIX**: Change of mechanism to support UniversalUI. ([a4e6ecc2](https://github.com/mathrunet/flutter_masamune/commit/a4e6ecc2abfb270436ca00ae4a934bcf9013448a))
