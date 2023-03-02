@@ -98,7 +98,8 @@ class _ScrollBuilderState extends State<ScrollBuilder> {
   }
 
   Widget _buildScrollbar(BuildContext context, Widget child) {
-    if (widget.showScrollbarWhenPCorWeb && UniversalPlatform.isDesktopOrWeb) {
+    if (widget.showScrollbarWhenPCorWeb &&
+        (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
       return Scrollbar(
         interactive: true,
         trackVisibility: true,
