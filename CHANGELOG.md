@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_responsive` - `v1.3.0`](#katana_responsive---v130)
+ - [`masamune` - `v1.7.5`](#masamune---v175)
+ - [`masamune_picker` - `v1.5.38`](#masamune_picker---v1538)
+ - [`masamune_notification_firebase` - `v1.2.9`](#masamune_notification_firebase---v129)
+ - [`masamune_logger_firebase` - `v1.2.20`](#masamune_logger_firebase---v1220)
+ - [`masamune_picker_mobile` - `v1.5.38`](#masamune_picker_mobile---v1538)
+ - [`masamune_picker_file` - `v1.5.38`](#masamune_picker_file---v1538)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.7.5`
+ - `masamune_picker` - `v1.5.38`
+ - `masamune_notification_firebase` - `v1.2.9`
+ - `masamune_logger_firebase` - `v1.2.20`
+ - `masamune_picker_mobile` - `v1.5.38`
+ - `masamune_picker_file` - `v1.5.38`
+
+---
+
+#### `katana_responsive` - `v1.3.0`
+
+ - **FEAT**: Added Scaffold and AppBar. ([ef07a9ef](https://github.com/mathrunet/flutter_masamune/commit/ef07a9ef3d1d9a0ddfa30a770c51890a7d3a6782))
+
+
 ## 2023-03-01
 
 ### Changes

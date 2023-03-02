@@ -1,3 +1,7 @@
+## 1.3.0
+
+ - **FEAT**: Added Scaffold and AppBar. ([ef07a9ef](https://github.com/mathrunet/flutter_masamune/commit/ef07a9ef3d1d9a0ddfa30a770c51890a7d3a6782))
+
 ## 1.2.0
 
  - **FEAT**: Create ResponsiveListView and change to Container. ([12c1a681](https://github.com/mathrunet/flutter_masamune/commit/12c1a68118a0a0165910b9a0a9d3454c8bd1b92e))
