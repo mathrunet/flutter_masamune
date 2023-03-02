@@ -253,9 +253,9 @@ class ResponsiveContainer extends StatelessWidget {
     this.clipBehavior = Clip.none,
   });
 
-  /// Describes the type of a ResponsiveContainer
+  /// Describes the type of a ResponsiveContainer.
   ///
-  /// レスポンシブコンテナの型を記述します
+  /// レスポンシブコンテナの型を記述します。
   final ResponsiveContainerType? type;
 
   /// This value holds the alignment to be used by the container.
@@ -365,6 +365,8 @@ class ResponsiveContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final type = this.type ?? _ResponsiveScaffoldScope.of(context);
+
     return Align(
       alignment: alignment,
       child: Container(

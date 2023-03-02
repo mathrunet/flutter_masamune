@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       home: const GridPage(),
       title: "Flutter Demo",
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
     );
@@ -28,17 +29,19 @@ class GridPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return ResponsiveScaffold(
+      type: ResponsiveContainerType.sm,
+      appBar: ResponsiveAppBar(
+        // leading: IconButton(
+        //   icon: const Icon(Icons.menu),
+        //   onPressed: () {},
+        // ),
+        centerTitle: false,
         title: const Text("Grid"),
         actions: [
-          ResponsiveVisibility(
-            visible: (tier) => tier <= ResponsiveGridTier.xs,
-            child: IconButton(
-              color: Colors.white,
-              icon: const Icon(Icons.add),
-              onPressed: () {},
-            ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {},
           ),
         ],
       ),
@@ -48,6 +51,12 @@ class GridPage extends StatelessWidget {
         thumbVisibility: true,
         child: ResponsiveListView(
           primary: true,
+          top: [
+            Container(
+              color: Colors.black,
+              height: 100,
+            ),
+          ],
           children: [
             ResponsiveRow(
               children: [

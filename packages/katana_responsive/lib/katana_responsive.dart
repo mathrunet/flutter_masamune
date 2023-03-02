@@ -11,6 +11,8 @@ library katana_responsive;
 // Flutter imports:
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:katana/katana.dart';
 
 export 'package:katana/katana.dart';
 
@@ -21,3 +23,5 @@ part 'src/responsive_break_points.dart';
 part 'src/responsive_grid_tier.dart';
 part 'src/responsive_visibility.dart';
 part 'src/responsive_list_view.dart';
+part 'src/responsive_scaffold.dart';
+part 'src/responsive_app_bar.dart';

@@ -126,6 +126,8 @@ class ResponsiveListView extends StatelessWidget {
   const ResponsiveListView({
     super.key,
     this.type,
+    this.top = const [],
+    this.bottom = const [],
     this.alignment = Alignment.center,
     this.padding,
     this.color,
@@ -324,9 +326,15 @@ class ResponsiveListView extends StatelessWidget {
   /// デフォルトは[ScrollViewKeyboardDismissBehavior.manual]です。
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
 
+  final List<Widget> top;
+
+  final List<Widget> bottom;
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    final type = this.type ?? _ResponsiveScaffoldScope.of(context);
+
+    return ListView(
       scrollDirection: scrollDirection,
       reverse: reverse,
       primary: primary,
@@ -336,13 +344,10 @@ class ResponsiveListView extends StatelessWidget {
       restorationId: restorationId,
       keyboardDismissBehavior: keyboardDismissBehavior,
       clipBehavior: clipBehavior,
-      child: Align(
-        alignment: alignment,
-        child: Container(
-          constraints: constraints?.copyWith(maxWidth: type?.width(context)) ??
-              BoxConstraints(
-                maxWidth: type?.width(context) ?? double.infinity,
-              ),
+      children: [
+        ...top,
+        ResponsiveContainer(
+          type: type,
           padding: padding,
           color: color,
           decoration: decoration,
@@ -352,17 +357,10 @@ class ResponsiveListView extends StatelessWidget {
           margin: margin,
           transform: transform,
           transformAlignment: transformAlignment,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: children,
-              );
-            },
-          ),
+          children: children,
         ),
-      ),
+        ...bottom,
+      ],
     );
   }
 }
