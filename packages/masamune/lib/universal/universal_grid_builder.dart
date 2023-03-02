@@ -101,6 +101,7 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
     this.scrollBehavior,
     this.onRefresh,
     this.showScrollbarWhenDesktopOrWeb = true,
+    this.paddingWhenNotFullWidth,
   }) : super.count(
           key: key,
           scrollDirection: scrollDirection,
@@ -195,6 +196,7 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
     this.scrollBehavior,
     this.onRefresh,
     this.showScrollbarWhenDesktopOrWeb = true,
+    this.paddingWhenNotFullWidth,
   }) : super.extent(
           key: key,
           scrollDirection: scrollDirection,
@@ -222,6 +224,11 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
           childAspectRatio: childAspectRatio,
           mainAxisExtent: mainAxisExtent,
         );
+
+  /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
+  ///
+  /// 横幅が[UniversalScaffold.breakpoint]を超えない場合、横幅が固定されているときの[padding]。[Null]の場合は[padding]が利用されます。
+  final EdgeInsetsGeometry? paddingWhenNotFullWidth;
 
   /// Method called by [RefreshIndicator].
   ///
@@ -360,7 +367,8 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
     final breakpoint = ResponsiveScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
     final responsivePadding = (width - maxWidth) / 2.0;
-    final resolvedPadding = padding?.resolve(TextDirection.ltr);
+    final resolvedPadding =
+        _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(
       (resolvedPadding?.left ?? 0.0) + responsivePadding,
       resolvedPadding?.top ?? 0.0,
@@ -372,5 +380,16 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
       padding: generatedPadding,
       sliver: sliver,
     );
+  }
+
+  EdgeInsetsGeometry? _effectivePadding(
+    BuildContext context,
+    ResponsiveBreakpoint? breakpoint,
+  ) {
+    if (breakpoint?.width(context) == double.infinity) {
+      return padding;
+    } else {
+      return paddingWhenNotFullWidth ?? padding;
+    }
   }
 }

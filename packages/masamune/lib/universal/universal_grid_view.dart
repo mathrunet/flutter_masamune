@@ -81,6 +81,7 @@ class UniversalGridView extends StatelessWidget {
     this.onRefresh,
     this.showScrollbarWhenDesktopOrWeb = true,
     this.padding,
+    this.paddingWhenNotFullWidth,
   })  : assert(
           !(controller != null && primary == true),
           'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
@@ -151,6 +152,7 @@ class UniversalGridView extends StatelessWidget {
     this.childAspectRatio = 1.0,
     this.mainAxisExtent,
     this.padding,
+    this.paddingWhenNotFullWidth,
     this.onRefresh,
     this.showScrollbarWhenDesktopOrWeb = true,
   })  : assert(
@@ -220,6 +222,11 @@ class UniversalGridView extends StatelessWidget {
   ///
   /// グリッドの横方向の要素数。
   final int crossAxisCount;
+
+  /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
+  ///
+  /// 横幅が[UniversalScaffold.breakpoint]を超えない場合、横幅が固定されているときの[padding]。[Null]の場合は[padding]が利用されます。
+  final EdgeInsetsGeometry? paddingWhenNotFullWidth;
 
   /// {@macro flutter.widgets.scroll_view.padding}
   final EdgeInsetsGeometry? padding;
@@ -350,7 +357,8 @@ class UniversalGridView extends StatelessWidget {
     final breakpoint = ResponsiveScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
     final responsivePadding = (width - maxWidth) / 2.0;
-    final resolvedPadding = padding?.resolve(TextDirection.ltr);
+    final resolvedPadding =
+        _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(
       (resolvedPadding?.left ?? 0.0) + responsivePadding,
       resolvedPadding?.top ?? 0.0,
@@ -362,5 +370,16 @@ class UniversalGridView extends StatelessWidget {
       padding: generatedPadding,
       sliver: sliver,
     );
+  }
+
+  EdgeInsetsGeometry? _effectivePadding(
+    BuildContext context,
+    ResponsiveBreakpoint? breakpoint,
+  ) {
+    if (breakpoint?.width(context) == double.infinity) {
+      return padding;
+    } else {
+      return paddingWhenNotFullWidth ?? padding;
+    }
   }
 }
