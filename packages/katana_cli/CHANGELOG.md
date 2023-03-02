@@ -1,3 +1,7 @@
+## 1.8.8
+
+ - **FIX**: Templates are now compatible with UniversalScaffold. ([6ebfa663](https://github.com/mathrunet/flutter_masamune/commit/6ebfa66383e114d8babedb8e8e6b1b974fb0650d))
+
 ## 1.8.7
 
  - **FIX**: Fixed a bug that caused Icon to be 404. ([0be9b1d8](https://github.com/mathrunet/flutter_masamune/commit/0be9b1d82eb6399d03061503c1e13b93d585e990))

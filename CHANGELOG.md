@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.8`](#katana_cli---v188)
+
+---
+
+#### `katana_cli` - `v1.8.8`
+
+ - **FIX**: Templates are now compatible with UniversalScaffold. ([6ebfa663](https://github.com/mathrunet/flutter_masamune/commit/6ebfa66383e114d8babedb8e8e6b1b974fb0650d))
+
+
+## 2023-03-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.8.2`](#masamune---v182)
  - [`masamune_picker` - `v1.5.41`](#masamune_picker---v1541)
  - [`masamune_notification_firebase` - `v1.2.12`](#masamune_notification_firebase---v1212)
