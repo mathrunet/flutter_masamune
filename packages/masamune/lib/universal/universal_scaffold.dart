@@ -413,6 +413,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final universalScope = UniversalScope.of(context);
     final appBar = widget.appBar;
     final useSliver = !(appBar == null ||
             appBar is! UniversalAppBar ||
@@ -421,7 +422,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (useSliver) {
       return ResponsiveScaffold(
         key: widget.key,
-        breakpoint: widget.breakpoint,
+        breakpoint: universalScope?.breakpoint ?? widget.breakpoint,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -455,7 +456,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     } else {
       return ResponsiveScaffold(
         key: widget.key,
-        breakpoint: widget.breakpoint,
+        breakpoint: universalScope?.breakpoint ?? widget.breakpoint,
         appBar: _toMobileAppBar(context),
         body: _buildBody(context, _loading(context)),
         floatingActionButton: widget.floatingActionButton,

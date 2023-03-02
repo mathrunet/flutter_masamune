@@ -177,7 +177,13 @@ class MasamuneApp extends StatelessWidget {
     this.builder,
     this.onBuildAppFilters,
     this.masamuneAdapters = const <MasamuneAdapter>[],
+    this.breakpoint,
   });
+
+  /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
+  ///
+  /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
+  final ResponsiveBreakpoint? breakpoint;
 
   /// You can specify the plug-in adapter used by Masamune Framework.
   ///
@@ -384,21 +390,24 @@ class MasamuneApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var child = _buildAppFunctions(
       context,
-      _buildAppStorage(
+      _buildUniversal(
         context,
-        _buildAppAuth(
+        _buildAppStorage(
           context,
-          _buildAppLogger(
+          _buildAppAuth(
             context,
-            _buildAppModel(
+            _buildAppLogger(
               context,
-              _buildAppScoped(
+              _buildAppModel(
                 context,
-                _buildAppTheme(
+                _buildAppScoped(
                   context,
-                  _buildAppLocalize(
+                  _buildAppTheme(
                     context,
-                    _buildAppRouter(context),
+                    _buildAppLocalize(
+                      context,
+                      _buildAppRouter(context),
+                    ),
                   ),
                 ),
               ),
@@ -416,6 +425,16 @@ class MasamuneApp extends StatelessWidget {
     }
     for (final builder in filters) {
       child = builder.call(context, child);
+    }
+    return child;
+  }
+
+  Widget _buildUniversal(BuildContext context, Widget child) {
+    if (breakpoint != null) {
+      return UniversalScope(
+        breakpoint: breakpoint,
+        child: child,
+      );
     }
     return child;
   }
