@@ -1745,11 +1745,14 @@ class ModelQueryFilter {
         }
         return target.any((e) => RegExp("^$e").hasMatch(source));
       case ModelQueryFilterType.like:
-        if (source is! Map || target is! String) {
+        if (target is! String) {
           return false;
         }
         if (target.isEmpty) {
           return true;
+        }
+        if (source is! Map) {
+          return false;
         }
         final splitBygram = target.toLowerCase().splitByBigram();
         for (final text in splitBygram) {
