@@ -1,6 +1,9 @@
 part of katana_responsive;
 
-const kSideBarWidth = 160.0;
+/// Default width of the sidebar.
+///
+/// サイドバーのデフォルトの横幅。
+const kSideBarWidth = 240.0;
 
 /// Responsive [Scaffold].
 ///
@@ -61,8 +64,7 @@ class ResponsiveScaffold extends StatelessWidget {
     this.backgroundColor,
     this.resizeToAvoidBottomInset,
     this.sideBar,
-    this.sideBarWidth = kSideBarWidth,
-  }) : assert(sideBarWidth > 0, "[sideBarWidth] must be greater than 0.");
+  });
 
   /// Pass [context] to get [ResponsiveBreakpoint] set by [ResponsiveScaffold] at the top.
   ///
@@ -270,28 +272,16 @@ class ResponsiveScaffold extends StatelessWidget {
   ///
   /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. At that time, [sideBar] will be placed on [drawer] and the width will be maximized.
   ///
-  /// If [sideBarWidth] is specified, you can specify the width of [sideBar].
-  ///
   /// サイドバーを作成します。
   ///
   /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
-  /// [sideBarWidth]を指定している場合は、[sideBar]の横幅を指定できます。
-  final List<Widget>? sideBar;
-
-  /// Width of sidebar.
-  ///
-  /// If the sidebar does not exist, it is set to 0.
-  ///
-  /// サイドバーの横幅。
-  ///
-  /// サイドバーが存在しない場合は0になります。
-  final double sideBarWidth;
+  final PreferredSizeWidget? sideBar;
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveScaffoldScope(
       breakpoint: breakpoint,
-      sideBarWidth: sideBar != null ? sideBarWidth : 0.0,
+      sideBarWidth: sideBar?.preferredSize.width ?? 0.0,
       child: Scaffold(
         key: key,
         primary: primary,
@@ -331,13 +321,8 @@ class ResponsiveScaffold extends StatelessWidget {
       return null;
     }
     return Drawer(
-      width: sideBarWidth,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: sideBar!,
-      ),
+      width: sideBar!.preferredSize.width,
+      child: sideBar,
     );
   }
 
@@ -355,13 +340,8 @@ class ResponsiveScaffold extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
-          width: sideBarWidth,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: sideBar!,
-          ),
+          width: sideBar!.preferredSize.width,
+          child: sideBar,
         ),
         if (body != null)
           Expanded(
