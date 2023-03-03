@@ -1,3 +1,7 @@
+## 1.8.4
+
+ - Update a dependency to the latest release.
+
 ## 1.8.3
 
  - **FIX**: Changed interface for UniversalUI. ([32f571e5](https://github.com/mathrunet/flutter_masamune/commit/32f571e5727e35f6216e1ceb44aafb9c0f97d49d))

@@ -1,3 +1,7 @@
+## 1.3.3
+
+ - **FIX**: Change ResponsiveRow and ResponsiveCol to StatelessWidget. ([e65f5cc4](https://github.com/mathrunet/flutter_masamune/commit/e65f5cc45e9b29f834de9d85533cfa955c95135a))
+
 ## 1.3.2
 
  - **FIX**: Change ResponsiveContainerType to ResponsiveBreakpoint. ([f57a5d7f](https://github.com/mathrunet/flutter_masamune/commit/f57a5d7f5454a4dbbe8a5893b8ebeb94a68fa048))

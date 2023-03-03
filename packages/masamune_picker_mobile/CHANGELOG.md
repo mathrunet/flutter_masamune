@@ -1,3 +1,7 @@
+## 1.5.44
+
+ - Update a dependency to the latest release.
+
 ## 1.5.43
 
  - **FIX**: Fixed a bug that prevented it from working on the Web. ([1aa86d37](https://github.com/mathrunet/flutter_masamune/commit/1aa86d3712a10b1ec47c965e8c2a39fe2a23aca8))

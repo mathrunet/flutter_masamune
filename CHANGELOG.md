@@ -15,6 +15,51 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.5.14`](#katana_model---v1514)
+ - [`katana_responsive` - `v1.3.3`](#katana_responsive---v133)
+ - [`katana_model_firestore` - `v1.5.15`](#katana_model_firestore---v1515)
+ - [`masamune` - `v1.8.4`](#masamune---v184)
+ - [`masamune_picker` - `v1.5.44`](#masamune_picker---v1544)
+ - [`masamune_notification_firebase` - `v1.2.14`](#masamune_notification_firebase---v1214)
+ - [`masamune_logger_firebase` - `v1.2.25`](#masamune_logger_firebase---v1225)
+ - [`masamune_picker_mobile` - `v1.5.44`](#masamune_picker_mobile---v1544)
+ - [`masamune_picker_file` - `v1.5.44`](#masamune_picker_file---v1544)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v1.5.15`
+ - `masamune` - `v1.8.4`
+ - `masamune_picker` - `v1.5.44`
+ - `masamune_notification_firebase` - `v1.2.14`
+ - `masamune_logger_firebase` - `v1.2.25`
+ - `masamune_picker_mobile` - `v1.5.44`
+ - `masamune_picker_file` - `v1.5.44`
+
+---
+
+#### `katana_model` - `v1.5.14`
+
+ - **FIX**: Fixed a bug that prevented data from being taken when the search function was enabled. ([4428aa1a](https://github.com/mathrunet/flutter_masamune/commit/4428aa1a32f336c93a32576a5da4c8a6ba86afca))
+
+#### `katana_responsive` - `v1.3.3`
+
+ - **FIX**: Change ResponsiveRow and ResponsiveCol to StatelessWidget. ([e65f5cc4](https://github.com/mathrunet/flutter_masamune/commit/e65f5cc45e9b29f834de9d85533cfa955c95135a))
+
+
+## 2023-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.9`](#katana_cli---v189)
  - [`masamune_picker` - `v1.5.43`](#masamune_picker---v1543)
  - [`masamune_picker_file` - `v1.5.43`](#masamune_picker_file---v1543)
