@@ -101,4 +101,13 @@ abstract class PickerMasamuneAdapter extends MasamuneAdapter {
       PickerMasamuneAdapter._primary ??= adapter;
     }
   }
+
+  @override
+  Widget onBuildApp(BuildContext context, Widget app) {
+    return MasamuneAdapterScope<PickerMasamuneAdapter>(
+      adapter: this,
+      onInit: onInitScope,
+      child: app,
+    );
+  }
 }

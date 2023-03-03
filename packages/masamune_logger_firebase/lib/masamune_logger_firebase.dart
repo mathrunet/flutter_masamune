@@ -18,6 +18,7 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_performance/firebase_performance.dart';
+import 'package:flutter/widgets.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
 

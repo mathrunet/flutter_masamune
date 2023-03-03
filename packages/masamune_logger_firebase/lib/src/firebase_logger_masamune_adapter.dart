@@ -93,6 +93,15 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   }
 
   @override
+  Widget onBuildApp(BuildContext context, Widget app) {
+    return MasamuneAdapterScope<FirebaseLoggerMasamuneAdapter>(
+      adapter: this,
+      onInit: onInitScope,
+      child: app,
+    );
+  }
+
+  @override
   void onError(Object error, StackTrace stackTrace) {
     if (!kIsWeb) {
       FirebaseCrashlytics.instance.recordError(error, stackTrace);

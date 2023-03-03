@@ -55,4 +55,13 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
     }
     _primary = adapter;
   }
+
+  @override
+  Widget onBuildApp(BuildContext context, Widget app) {
+    return MasamuneAdapterScope<PushNotificationMasamuneAdapter>(
+      adapter: this,
+      onInit: onInitScope,
+      child: app,
+    );
+  }
 }
