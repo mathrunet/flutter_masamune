@@ -431,13 +431,17 @@ final functionsAdapter = RuntimeFunctionsAdapter();
 /// 
 /// Adapters for logging can be defined here.
 // TODO: Change the loggers.
-final loggerAdapters = <LoggerAdapter>[];
+final loggerAdapters = <LoggerAdapter>[
+  const ConsoleLoggerAdapter(),
+];
 
 /// Masamune adapter.
 /// 
 /// The Masamune framework plugin functions can be defined together.
 // TODO: Add the adapters.
-final masamuneAdapters = <MasamuneAdapter>[];
+final masamuneAdapters = <MasamuneAdapter>[
+  const UniversalMasamuneAdapter(),
+];
 
 /// App Theme.
 ///
