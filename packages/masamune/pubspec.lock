@@ -244,10 +244,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_form
-      sha256: "0a9cf858d76331765ee6ca03a0a7e1c4b927da9ea21eb9944a4ff4b7222df402"
+      sha256: c18af86f0999c655cce88f40e279650e138db30b2fdbcaed05b6aa6bd9203ab8
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.10"
+    version: "1.3.11"
   katana_functions:
     dependency: "direct main"
     description:
@@ -364,10 +364,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_shorten
-      sha256: dc6ab6ac98845fdf5872ab226dd3afc0b5a4e4a84b09af7aca720eefd76f5a08
+      sha256: f65fc3528c5801723b9c9cd2202173a2bf0a38f0cd74ee40173a59c322ad38e7
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.7"
+    version: "1.2.8"
   katana_storage:
     dependency: "direct main"
     description:
@@ -396,10 +396,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_ui
-      sha256: "092af39eca3ba0b7ea6152e80c5d5a39d064002987ec5d839eaf6f928a9eaf81"
+      sha256: d9a08189d3bbb4dc66b485985f203478c4e606ce8da55e04898a4f9a3c0d196c
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.11"
+    version: "1.2.0"
   lints:
     dependency: transitive
     description:

@@ -411,9 +411,10 @@ class UniversalAppBar extends StatelessWidget {
               (hasDrawer || (!hasEndDrawer && canPop))) ||
           leading != null;
       final showLeading = leading != null ||
-          hasDrawer ||
-          (!hasEndDrawer && canPop) ||
-          (parentRoute?.impliesAppBarDismissal ?? false);
+          (automaticallyImplyLeading &&
+              (hasDrawer ||
+                  (!hasEndDrawer && canPop) ||
+                  (parentRoute?.impliesAppBarDismissal ?? false)));
       final titleSpacing = _leadingSpace(context, showLeading);
       final trailingSpacing = _trailingSpace(context, showLeading);
       final optimizedTitlePadding = EdgeInsets.fromLTRB(

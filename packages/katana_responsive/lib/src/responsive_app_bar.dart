@@ -163,9 +163,10 @@ class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
         final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
         final canPop = parentRoute?.canPop ?? false;
         final showLeading = leading != null ||
-            hasDrawer ||
-            (!hasEndDrawer && canPop) ||
-            (parentRoute?.impliesAppBarDismissal ?? false);
+            (automaticallyImplyLeading &&
+                (hasDrawer ||
+                    (!hasEndDrawer && canPop) ||
+                    (parentRoute?.impliesAppBarDismissal ?? false)));
         final titleSpacing = _leadingSpace(context, showLeading);
         final trailingSpacing = _trailingSpace(context, showLeading);
         return AppBar(
