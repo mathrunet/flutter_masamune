@@ -143,13 +143,18 @@ class AppRouter extends ChangeNotifier
 
     _routeInformationParser = _AppRouteInformationParser(this);
 
+    final effectiveInitialLocation = _effectiveInitialLocation(
+      initialPath ?? "/",
+    );
+
     _routeInformationProvider = _AppRouteInformationProvider(
       router: this,
       initialRouteInformation: InitialRouteInformation(
-        query: initialQuery,
-        location: _effectiveInitialLocation(
-          initialPath ?? "/",
+        query: _effectiveInitialQuery(
+          effectiveInitialLocation,
+          initialQuery,
         ),
+        location: effectiveInitialLocation,
       ),
     );
   }
@@ -452,6 +457,19 @@ class AppRouter extends ChangeNotifier
     } else {
       return platformDefault;
     }
+  }
+
+  RouteQuery? _effectiveInitialQuery(
+    String initialLocation,
+    RouteQuery? initialQuery,
+  ) {
+    for (final page in _config.pages) {
+      final query = page.resolve(initialLocation);
+      if (query != null) {
+        return query;
+      }
+    }
+    return initialQuery;
   }
 }
 
