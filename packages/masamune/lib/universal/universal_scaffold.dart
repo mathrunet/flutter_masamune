@@ -9,11 +9,9 @@ part of masamune;
 /// You can specify [UniversalAppBar], [SliverAppBar], [AppBar] or [PreferredSizeWidget] for [appBar]. If you specify a Sliver-compatible widget, the whole page will scroll Sliver-compatible.
 ///
 /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. In this case, [sideBar] will be placed on [drawer] and the width will be maximized.
-/// If [sideBarWidth] is specified, you can specify the width of [sideBar].
 ///
 /// If [loadingFutures] is specified, the loading widget will be displayed until the specified [Future] is completed.
 /// [loadingWidget] to change the loading widget.
-/// [loadingIndicatorColor] allows you to change the color of the loading indicator.
 ///
 /// Setting [waitTransition] to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
 ///
@@ -26,11 +24,9 @@ part of masamune;
 /// [appBar]に[UniversalAppBar]、[SliverAppBar]、[AppBar]や[PreferredSizeWidget]を指定できます。Sliver対応のウィジェットを指定すると、ページ全体がSliver対応のスクロールになります。
 ///
 /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
-/// [sideBarWidth]を指定している場合は、[sideBar]の横幅を指定できます。
 ///
 /// [loadingFutures]を指定すると、指定した[Future]が完了するまでローディングウィジェットを表示します。
 /// [loadingWidget]を指定すると、ローディングウィジェットを変更できます。
-/// [loadingIndicatorColor]を指定すると、ローディングインジケーターの色を変更できます。
 ///
 /// [waitTransition]を`true`にするとトランジションアニメーションの間に[body]を表示しないようにすることができ、スムーズなアニメーションを実現できます。
 ///
@@ -71,11 +67,9 @@ class UniversalScaffold extends StatefulWidget {
   /// You can specify [UniversalAppBar], [SliverAppBar], [AppBar] or [PreferredSizeWidget] for [appBar]. If you specify a Sliver-compatible widget, the whole page will scroll Sliver-compatible.
   ///
   /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. In this case, [sideBar] will be placed on [drawer] and the width will be maximized.
-  /// If [sideBarWidth] is specified, you can specify the width of [sideBar].
   ///
   /// If [loadingFutures] is specified, the loading widget will be displayed until the specified [Future] is completed.
   /// [loadingWidget] to change the loading widget.
-  /// [loadingIndicatorColor] allows you to change the color of the loading indicator.
   ///
   /// Setting [waitTransition] to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
   ///
@@ -88,11 +82,9 @@ class UniversalScaffold extends StatefulWidget {
   /// [appBar]に[UniversalAppBar]、[SliverAppBar]、[AppBar]や[PreferredSizeWidget]を指定できます。Sliver対応のウィジェットを指定すると、ページ全体がSliver対応のスクロールになります。
   ///
   /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
-  /// [sideBarWidth]を指定している場合は、[sideBar]の横幅を指定できます。
   ///
   /// [loadingFutures]を指定すると、指定した[Future]が完了するまでローディングウィジェットを表示します。
   /// [loadingWidget]を指定すると、ローディングウィジェットを変更できます。
-  /// [loadingIndicatorColor]を指定すると、ローディングインジケーターの色を変更できます。
   ///
   /// [waitTransition]を`true`にするとトランジションアニメーションの間に[body]を表示しないようにすることができ、スムーズなアニメーションを実現できます。
   ///
@@ -127,8 +119,6 @@ class UniversalScaffold extends StatefulWidget {
     super.key,
     this.appBar,
     this.body,
-    this.sideBarPrefixOnBody,
-    this.sideBarPrefixOnDrawer,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
@@ -152,7 +142,6 @@ class UniversalScaffold extends StatefulWidget {
     this.restorationId,
     this.loadingFutures,
     this.loadingWidget,
-    this.loadingIndicatorColor,
     this.waitTransition = false,
     this.breakpoint,
     this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
@@ -167,25 +156,14 @@ class UniversalScaffold extends StatefulWidget {
 
   /// Create a sidebar.
   ///
-  /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. At that time, [sideBar] will be placed on [drawer] and the width will be maximized.
+  /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. At that time, [sideBar] will be placed on [drawer], and the width will be maximized.
   ///
   /// If [sideBarWidth] is specified, you can specify the width of [sideBar].
   ///
   /// サイドバーを作成します。
   ///
   /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
-  /// [sideBarWidth]を指定している場合は、[sideBar]の横幅を指定できます。
-  final List<Widget>? sideBar;
-
-  /// If [sideBar] is specified, you can specify a widget that will be placed before [drawer] when placed on [drawer] by [breakpoint].
-  ///
-  /// [sideBar]が指定されている場合、[breakpoint]によって[drawer]に配置された場合に、[drawer]の前に配置されるウィジェットを指定できます。
-  final List<Widget>? sideBarPrefixOnDrawer;
-
-  /// If [sideBar] is specified, you can specify a widget that will be placed before [body] when placed on [body] by [breakpoint].
-  ///
-  /// [sideBar]が指定されている場合、[breakpoint]によって[body]に配置された場合に、[body]の前に配置されるウィジェットを指定できます。
-  final List<Widget>? sideBarPrefixOnBody;
+  final PreferredSizeWidget? sideBar;
 
   /// If [sideBar] is specified, you can specify the width of [sideBar].
   ///
@@ -201,11 +179,6 @@ class UniversalScaffold extends StatefulWidget {
   ///
   /// [loadingFutures]が指定されている場合に表示するウィジェットを指定できます。
   final Widget? loadingWidget;
-
-  /// You can specify the color of the loading widget to be displayed when [loadingFutures] is specified.
-  ///
-  /// [loadingFutures]が指定されている場合に表示するローディングウィジェットの色を指定できます。
-  final Color? loadingIndicatorColor;
 
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
   ///
@@ -413,7 +386,8 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    final universalScope = UniversalScope.of(context);
+    final universalScope =
+        MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final appBar = widget.appBar;
     final useSliver = !(appBar == null ||
             appBar is! UniversalAppBar ||
@@ -422,7 +396,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (useSliver) {
       return ResponsiveScaffold(
         key: widget.key,
-        breakpoint: universalScope?.breakpoint ?? widget.breakpoint,
+        breakpoint: universalScope?.defaultBreakpoint ?? widget.breakpoint,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
@@ -456,7 +430,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     } else {
       return ResponsiveScaffold(
         key: widget.key,
-        breakpoint: universalScope?.breakpoint ?? widget.breakpoint,
+        breakpoint: universalScope?.defaultBreakpoint ?? widget.breakpoint,
         appBar: _toMobileAppBar(context),
         body: _buildBody(context, _loading(context)),
         floatingActionButton: widget.floatingActionButton,
@@ -492,7 +466,6 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
           if (widget.loadingFutures.isNotEmpty) widget.loadingFutures!
         ],
         loading: widget.loadingWidget,
-        indicatorColor: widget.loadingIndicatorColor,
         builder: (context) => widget.body ?? const SizedBox.shrink(),
       );
     } else {
@@ -502,7 +475,6 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
       return LoadingBuilder(
         futures: widget.loadingFutures!,
         loading: widget.loadingWidget,
-        indicatorColor: widget.loadingIndicatorColor,
         builder: (context) => widget.body ?? const SizedBox.shrink(),
       );
     }
@@ -560,17 +532,8 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
       return null;
     }
     return Drawer(
-      width: widget.sideBarWidth,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (widget.sideBarPrefixOnDrawer != null)
-            ...widget.sideBarPrefixOnDrawer!,
-          ...widget.sideBar!,
-        ],
-      ),
+      width: widget.sideBar!.preferredSize.width,
+      child: widget.sideBar!,
     );
   }
 
@@ -585,21 +548,12 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     }
     return Row(
       mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
-          width: widget.sideBarWidth,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (widget.sideBarPrefixOnBody != null)
-                ...widget.sideBarPrefixOnBody!,
-              ...widget.sideBar!,
-            ],
-          ),
+          width: widget.sideBar!.preferredSize.width,
+          child: widget.sideBar,
         ),
         Expanded(
           child: body,

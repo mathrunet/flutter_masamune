@@ -390,24 +390,21 @@ class MasamuneApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var child = _buildAppFunctions(
       context,
-      _buildUniversal(
+      _buildAppStorage(
         context,
-        _buildAppStorage(
+        _buildAppAuth(
           context,
-          _buildAppAuth(
+          _buildAppLogger(
             context,
-            _buildAppLogger(
+            _buildAppModel(
               context,
-              _buildAppModel(
+              _buildAppScoped(
                 context,
-                _buildAppScoped(
+                _buildAppTheme(
                   context,
-                  _buildAppTheme(
+                  _buildAppLocalize(
                     context,
-                    _buildAppLocalize(
-                      context,
-                      _buildAppRouter(context),
-                    ),
+                    _buildAppRouter(context),
                   ),
                 ),
               ),
@@ -425,16 +422,6 @@ class MasamuneApp extends StatelessWidget {
     }
     for (final builder in filters) {
       child = builder.call(context, child);
-    }
-    return child;
-  }
-
-  Widget _buildUniversal(BuildContext context, Widget child) {
-    if (breakpoint != null) {
-      return UniversalScope(
-        breakpoint: breakpoint,
-        child: child,
-      );
     }
     return child;
   }

@@ -65,3 +65,6 @@ part 'universal/universal_grid_view.dart';
 part 'universal/universal_list_builder.dart';
 part 'universal/universal_grid_builder.dart';
 part 'universal/universal_container.dart';
+part 'universal/universal_masamune_adapter.dart';
+part 'universal/universal_side_bar.dart';
+part 'universal/extensions.dart';

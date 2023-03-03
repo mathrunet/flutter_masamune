@@ -193,7 +193,11 @@ class UniversalContainer extends StatelessWidget {
     if (breakpoint?.width(context) == double.infinity) {
       return padding;
     } else {
-      return paddingWhenNotFullWidth ?? padding;
+      final universal =
+          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+      return paddingWhenNotFullWidth ??
+          universal?.defaultBodyPaddingWhenNotFullWidth ??
+          padding;
     }
   }
 }

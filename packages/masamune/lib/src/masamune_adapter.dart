@@ -76,7 +76,7 @@ abstract class MasamuneAdapter {
   ///
   /// [Widget]を返すとそのウィジェットがビルドされます。
   Widget onBuildApp(BuildContext context, Widget app) {
-    return MasamuneAdapterScope(adapter: this, onInit: onInitScope, child: app);
+    return app;
   }
 
   /// Called when initializing [MasamuneAdapterScope].
@@ -203,7 +203,7 @@ class MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
   }
 
   @override
-  State<StatefulWidget> createState() => _MasamuneAdapterScopeState();
+  State<StatefulWidget> createState() => _MasamuneAdapterScopeState<TAdapter>();
 }
 
 class _MasamuneAdapterScopeState<TAdapter extends MasamuneAdapter>

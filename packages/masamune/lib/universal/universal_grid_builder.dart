@@ -102,6 +102,7 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
     this.onRefresh,
     this.showScrollbarWhenDesktopOrWeb = true,
     this.paddingWhenNotFullWidth,
+    this.decoration,
   }) : super.count(
           key: key,
           scrollDirection: scrollDirection,
@@ -197,6 +198,7 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
     this.onRefresh,
     this.showScrollbarWhenDesktopOrWeb = true,
     this.paddingWhenNotFullWidth,
+    this.decoration,
   }) : super.extent(
           key: key,
           scrollDirection: scrollDirection,
@@ -244,6 +246,11 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
   /// これを`true`にするとデスクトップとWebでスクロールバーを表示します。
   final bool showScrollbarWhenDesktopOrWeb;
 
+  /// Sets the container background decoration.
+  ///
+  /// コンテナの背景の装飾を設定します。
+  final Decoration? decoration;
+
   /// The first child in the [GrowthDirection.forward] growth direction.
   ///
   /// Children after [center] will be placed in the [AxisDirection] determined
@@ -289,49 +296,52 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
       context,
       _buildScrollbar(
         context,
-        CustomScrollView(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: this.controller,
-          primary: primary,
-          physics: physics,
-          scrollBehavior: scrollBehavior,
-          shrinkWrap: shrinkWrap,
-          center: center,
-          anchor: anchor,
-          cacheExtent: cacheExtent,
-          semanticChildCount: semanticChildCount,
-          dragStartBehavior: dragStartBehavior,
-          keyboardDismissBehavior: keyboardDismissBehavior,
-          restorationId: restorationId,
-          clipBehavior: clipBehavior,
-          slivers: [
-            _padding(
-              context,
-              SliverGrid(
-                gridDelegate: crossAxisCount == 0
-                    ? SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: maxCrossAxisExtent,
-                        mainAxisSpacing: mainAxisSpacing,
-                        crossAxisSpacing: crossAxisSpacing,
-                        childAspectRatio: childAspectRatio,
-                        mainAxisExtent: mainAxisExtent,
-                      )
-                    : SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        mainAxisSpacing: mainAxisSpacing,
-                        crossAxisSpacing: crossAxisSpacing,
-                        childAspectRatio: childAspectRatio,
-                        mainAxisExtent: mainAxisExtent,
-                      ),
-                delegate: SliverChildBuilderDelegate(
-                  _builder,
-                  childCount: source.length,
+        _buildDecoratedBox(
+          context,
+          CustomScrollView(
+            key: key,
+            scrollDirection: scrollDirection,
+            reverse: reverse,
+            controller: this.controller,
+            primary: primary,
+            physics: physics,
+            scrollBehavior: scrollBehavior,
+            shrinkWrap: shrinkWrap,
+            center: center,
+            anchor: anchor,
+            cacheExtent: cacheExtent,
+            semanticChildCount: semanticChildCount,
+            dragStartBehavior: dragStartBehavior,
+            keyboardDismissBehavior: keyboardDismissBehavior,
+            restorationId: restorationId,
+            clipBehavior: clipBehavior,
+            slivers: [
+              _padding(
+                context,
+                SliverGrid(
+                  gridDelegate: crossAxisCount == 0
+                      ? SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: maxCrossAxisExtent,
+                          mainAxisSpacing: mainAxisSpacing,
+                          crossAxisSpacing: crossAxisSpacing,
+                          childAspectRatio: childAspectRatio,
+                          mainAxisExtent: mainAxisExtent,
+                        )
+                      : SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: crossAxisCount,
+                          mainAxisSpacing: mainAxisSpacing,
+                          crossAxisSpacing: crossAxisSpacing,
+                          childAspectRatio: childAspectRatio,
+                          mainAxisExtent: mainAxisExtent,
+                        ),
+                  delegate: SliverChildBuilderDelegate(
+                    _builder,
+                    childCount: source.length,
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -355,6 +365,17 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
         interactive: true,
         trackVisibility: true,
         thumbVisibility: true,
+        child: child,
+      );
+    } else {
+      return child;
+    }
+  }
+
+  Widget _buildDecoratedBox(BuildContext context, Widget child) {
+    if (decoration != null) {
+      return DecoratedBox(
+        decoration: decoration!,
         child: child,
       );
     } else {
@@ -389,7 +410,11 @@ class UniversalGridBuilder<T> extends GridBuilder<T> {
     if (breakpoint?.width(context) == double.infinity) {
       return padding;
     } else {
-      return paddingWhenNotFullWidth ?? padding;
+      final universal =
+          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+      return paddingWhenNotFullWidth ??
+          universal?.defaultBodyPaddingWhenNotFullWidth ??
+          padding;
     }
   }
 }

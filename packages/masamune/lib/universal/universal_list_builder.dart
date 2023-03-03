@@ -119,6 +119,7 @@ class UniversalListBuilder<T> extends ListBuilder<T> {
     this.paddingWhenNotFullWidth,
     this.onRefresh,
     this.showScrollbarWhenDesktopOrWeb = true,
+    this.decoration,
   });
 
   /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
@@ -139,6 +140,11 @@ class UniversalListBuilder<T> extends ListBuilder<T> {
   ///
   /// これを`true`にするとデスクトップとWebでスクロールバーを表示します。
   final bool showScrollbarWhenDesktopOrWeb;
+
+  /// Sets the container background decoration.
+  ///
+  /// コンテナの背景の装飾を設定します。
+  final Decoration? decoration;
 
   /// The first child in the [GrowthDirection.forward] growth direction.
   ///
@@ -185,34 +191,37 @@ class UniversalListBuilder<T> extends ListBuilder<T> {
       context,
       _buildScrollbar(
         context,
-        CustomScrollView(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: this.controller,
-          primary: primary,
-          physics: physics,
-          scrollBehavior: scrollBehavior,
-          shrinkWrap: shrinkWrap,
-          center: center,
-          anchor: anchor,
-          cacheExtent: cacheExtent,
-          semanticChildCount: semanticChildCount,
-          dragStartBehavior: dragStartBehavior,
-          keyboardDismissBehavior: keyboardDismissBehavior,
-          restorationId: restorationId,
-          clipBehavior: clipBehavior,
-          slivers: [
-            _padding(
-              context,
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  _builder,
-                  childCount: _length,
+        _buildDecoratedBox(
+          context,
+          CustomScrollView(
+            key: key,
+            scrollDirection: scrollDirection,
+            reverse: reverse,
+            controller: this.controller,
+            primary: primary,
+            physics: physics,
+            scrollBehavior: scrollBehavior,
+            shrinkWrap: shrinkWrap,
+            center: center,
+            anchor: anchor,
+            cacheExtent: cacheExtent,
+            semanticChildCount: semanticChildCount,
+            dragStartBehavior: dragStartBehavior,
+            keyboardDismissBehavior: keyboardDismissBehavior,
+            restorationId: restorationId,
+            clipBehavior: clipBehavior,
+            slivers: [
+              _padding(
+                context,
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    _builder,
+                    childCount: _length,
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -236,6 +245,17 @@ class UniversalListBuilder<T> extends ListBuilder<T> {
         interactive: true,
         trackVisibility: true,
         thumbVisibility: true,
+        child: child,
+      );
+    } else {
+      return child;
+    }
+  }
+
+  Widget _buildDecoratedBox(BuildContext context, Widget child) {
+    if (decoration != null) {
+      return DecoratedBox(
+        decoration: decoration!,
         child: child,
       );
     } else {
@@ -270,7 +290,11 @@ class UniversalListBuilder<T> extends ListBuilder<T> {
     if (breakpoint?.width(context) == double.infinity) {
       return padding;
     } else {
-      return paddingWhenNotFullWidth ?? padding;
+      final universal =
+          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+      return paddingWhenNotFullWidth ??
+          universal?.defaultBodyPaddingWhenNotFullWidth ??
+          padding;
     }
   }
 }

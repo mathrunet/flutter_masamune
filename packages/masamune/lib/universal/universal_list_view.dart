@@ -50,6 +50,7 @@ class UniversalListView extends StatelessWidget {
   const UniversalListView({
     super.key,
     required this.children,
+    this.decoration,
     this.showScrollbarWhenDesktopOrWeb = true,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
@@ -114,6 +115,11 @@ class UniversalListView extends StatelessWidget {
   /// {@macro flutter.widgets.scroll_view.padding}
   final EdgeInsetsGeometry? padding;
 
+  /// Sets the container background decoration.
+  ///
+  /// コンテナの背景の装飾を設定します。
+  final Decoration? decoration;
+
   /// {@macro flutter.widgets.scroll_view.scrollDirection}
   final Axis scrollDirection;
 
@@ -165,29 +171,32 @@ class UniversalListView extends StatelessWidget {
       context,
       _buildScrollbar(
         context,
-        CustomScrollView(
-          key: key,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          controller: controller,
-          primary: primary,
-          physics: physics,
-          scrollBehavior: scrollBehavior,
-          shrinkWrap: shrinkWrap,
-          center: center,
-          anchor: anchor,
-          cacheExtent: cacheExtent,
-          semanticChildCount: semanticChildCount,
-          dragStartBehavior: dragStartBehavior,
-          keyboardDismissBehavior: keyboardDismissBehavior,
-          restorationId: restorationId,
-          clipBehavior: clipBehavior,
-          slivers: [
-            _padding(
-              context,
-              SliverList(delegate: SliverChildListDelegate(children)),
-            )
-          ],
+        _buildDecoratedBox(
+          context,
+          CustomScrollView(
+            key: key,
+            scrollDirection: scrollDirection,
+            reverse: reverse,
+            controller: controller,
+            primary: primary,
+            physics: physics,
+            scrollBehavior: scrollBehavior,
+            shrinkWrap: shrinkWrap,
+            center: center,
+            anchor: anchor,
+            cacheExtent: cacheExtent,
+            semanticChildCount: semanticChildCount,
+            dragStartBehavior: dragStartBehavior,
+            keyboardDismissBehavior: keyboardDismissBehavior,
+            restorationId: restorationId,
+            clipBehavior: clipBehavior,
+            slivers: [
+              _padding(
+                context,
+                SliverList(delegate: SliverChildListDelegate(children)),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -211,6 +220,17 @@ class UniversalListView extends StatelessWidget {
         interactive: true,
         trackVisibility: true,
         thumbVisibility: true,
+        child: child,
+      );
+    } else {
+      return child;
+    }
+  }
+
+  Widget _buildDecoratedBox(BuildContext context, Widget child) {
+    if (decoration != null) {
+      return DecoratedBox(
+        decoration: decoration!,
         child: child,
       );
     } else {
@@ -245,7 +265,11 @@ class UniversalListView extends StatelessWidget {
     if (breakpoint?.width(context) == double.infinity) {
       return padding;
     } else {
-      return paddingWhenNotFullWidth ?? padding;
+      final universal =
+          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+      return paddingWhenNotFullWidth ??
+          universal?.defaultBodyPaddingWhenNotFullWidth ??
+          padding;
     }
   }
 }
