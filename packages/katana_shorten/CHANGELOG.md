@@ -1,3 +1,7 @@
+## 1.2.8
+
+ - **FIX**: Added direction to Padding. ([445102a4](https://github.com/mathrunet/flutter_masamune/commit/445102a439bc0773ed3e182746ffaef4970efe20))
+
 ## 1.2.7
 
  - Update a dependency to the latest release.

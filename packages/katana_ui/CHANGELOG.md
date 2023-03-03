@@ -1,3 +1,7 @@
+## 1.2.0
+
+ - **FEAT**: Add card tiles and labels. ([75da7988](https://github.com/mathrunet/flutter_masamune/commit/75da7988a11b2a8fae413039d5eabc2804bfa5af))
+
 ## 1.1.12
 
  - **FIX**: Added some widgets. ([772991d8](https://github.com/mathrunet/flutter_masamune/commit/772991d8cfa4b56056bed3a6dbf5e02b53d43a89))

@@ -1,3 +1,7 @@
+## 1.9.1
+
+ - **FIX**: Fixed a bug where the background was not displayed. ([500bdc2d](https://github.com/mathrunet/flutter_masamune/commit/500bdc2db95c6d203b856d4a9cf69b899c68a4e6))
+
 ## 1.9.0
 
  - **FEAT**: Aggregate all dynamic listings into a UniversalListView. ([5a755823](https://github.com/mathrunet/flutter_masamune/commit/5a755823a5931983335a9065b8e5b28aeb4afcb7))

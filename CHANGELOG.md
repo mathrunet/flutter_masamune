@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_shorten` - `v1.2.8`](#katana_shorten---v128)
+ - [`katana_ui` - `v1.2.0`](#katana_ui---v120)
+ - [`masamune` - `v1.9.1`](#masamune---v191)
+ - [`masamune_picker` - `v1.5.46`](#masamune_picker---v1546)
+ - [`masamune_notification_firebase` - `v1.2.16`](#masamune_notification_firebase---v1216)
+ - [`masamune_logger_firebase` - `v1.2.27`](#masamune_logger_firebase---v1227)
+ - [`masamune_picker_mobile` - `v1.5.46`](#masamune_picker_mobile---v1546)
+ - [`masamune_picker_file` - `v1.5.46`](#masamune_picker_file---v1546)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.46`
+ - `masamune_notification_firebase` - `v1.2.16`
+ - `masamune_logger_firebase` - `v1.2.27`
+ - `masamune_picker_mobile` - `v1.5.46`
+ - `masamune_picker_file` - `v1.5.46`
+
+---
+
+#### `katana_shorten` - `v1.2.8`
+
+ - **FIX**: Added direction to Padding. ([445102a4](https://github.com/mathrunet/flutter_masamune/commit/445102a439bc0773ed3e182746ffaef4970efe20))
+
+#### `katana_ui` - `v1.2.0`
+
+ - **FEAT**: Add card tiles and labels. ([75da7988](https://github.com/mathrunet/flutter_masamune/commit/75da7988a11b2a8fae413039d5eabc2804bfa5af))
+
+#### `masamune` - `v1.9.1`
+
+ - **FIX**: Fixed a bug where the background was not displayed. ([500bdc2d](https://github.com/mathrunet/flutter_masamune/commit/500bdc2db95c6d203b856d4a9cf69b899c68a4e6))
+
+
+## 2023-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.3.11`](#katana_form---v1311)
  - [`katana_ui` - `v1.1.12`](#katana_ui---v1112)
  - [`masamune` - `v1.9.0`](#masamune---v190)
