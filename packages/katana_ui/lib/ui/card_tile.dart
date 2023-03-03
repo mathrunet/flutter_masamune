@@ -1,6 +1,6 @@
 part of katana_ui;
 
-const kCardHeight = 240.0;
+const kCardHeight = 196.0;
 
 /// A widget for displaying an image or text over a card widget.
 ///
@@ -155,6 +155,7 @@ class CardTile extends StatelessWidget {
         elevation: elevation,
         surfaceTintColor: surfaceTintColor,
         shape: shape,
+        margin: EdgeInsets.zero,
         borderOnForeground: borderOnForeground,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: InkWell(
@@ -166,7 +167,7 @@ class CardTile extends StatelessWidget {
             children: [
               if (image != null)
                 Expanded(
-                  child: Image(
+                  child: Ink.image(
                     image: image!,
                     fit: fit,
                   ),
