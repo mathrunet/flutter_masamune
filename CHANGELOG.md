@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.3.11`](#katana_form---v1311)
+ - [`katana_ui` - `v1.1.12`](#katana_ui---v1112)
+ - [`masamune` - `v1.9.0`](#masamune---v190)
+ - [`masamune_picker` - `v1.5.45`](#masamune_picker---v1545)
+ - [`masamune_notification_firebase` - `v1.2.15`](#masamune_notification_firebase---v1215)
+ - [`masamune_logger_firebase` - `v1.2.26`](#masamune_logger_firebase---v1226)
+ - [`masamune_picker_mobile` - `v1.5.45`](#masamune_picker_mobile---v1545)
+ - [`masamune_picker_file` - `v1.5.45`](#masamune_picker_file---v1545)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.45`
+ - `masamune_notification_firebase` - `v1.2.15`
+ - `masamune_logger_firebase` - `v1.2.26`
+ - `masamune_picker_mobile` - `v1.5.45`
+ - `masamune_picker_file` - `v1.5.45`
+
+---
+
+#### `katana_form` - `v1.3.11`
+
+ - **FIX**: Added keepAlive item to widget. ([6bcad2f4](https://github.com/mathrunet/flutter_masamune/commit/6bcad2f4bdc1c1a7c2fe308364d29518796e7fed))
+
+#### `katana_ui` - `v1.1.12`
+
+ - **FIX**: Added some widgets. ([772991d8](https://github.com/mathrunet/flutter_masamune/commit/772991d8cfa4b56056bed3a6dbf5e02b53d43a89))
+
+#### `masamune` - `v1.9.0`
+
+ - **FEAT**: Aggregate all dynamic listings into a UniversalListView. ([5a755823](https://github.com/mathrunet/flutter_masamune/commit/5a755823a5931983335a9065b8e5b28aeb4afcb7))
+
+
+## 2023-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.5.14`](#katana_model---v1514)
  - [`katana_responsive` - `v1.3.3`](#katana_responsive---v133)
  - [`katana_model_firestore` - `v1.5.15`](#katana_model_firestore---v1515)

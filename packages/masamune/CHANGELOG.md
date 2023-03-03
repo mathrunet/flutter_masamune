@@ -1,3 +1,7 @@
+## 1.9.0
+
+ - **FEAT**: Aggregate all dynamic listings into a UniversalListView. ([5a755823](https://github.com/mathrunet/flutter_masamune/commit/5a755823a5931983335a9065b8e5b28aeb4afcb7))
+
 ## 1.8.4
 
  - Update a dependency to the latest release.

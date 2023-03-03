@@ -1,3 +1,7 @@
+## 1.1.12
+
+ - **FIX**: Added some widgets. ([772991d8](https://github.com/mathrunet/flutter_masamune/commit/772991d8cfa4b56056bed3a6dbf5e02b53d43a89))
+
 ## 1.1.11
 
  - **FIX**: Rename showScrollbarWhenPCorWeb. ([d13616cb](https://github.com/mathrunet/flutter_masamune/commit/d13616cbe7ee3f3611cf233d7e263fcc753f1d06))

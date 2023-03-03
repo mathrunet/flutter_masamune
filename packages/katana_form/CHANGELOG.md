@@ -1,3 +1,7 @@
+## 1.3.11
+
+ - **FIX**: Added keepAlive item to widget. ([6bcad2f4](https://github.com/mathrunet/flutter_masamune/commit/6bcad2f4bdc1c1a7c2fe308364d29518796e7fed))
+
 ## 1.3.10
 
  - **FIX**: Fixed a bug that prevented it from updating properly. ([6c1ce8de](https://github.com/mathrunet/flutter_masamune/commit/6c1ce8de4b183e874238e4ae1fbade2748459476))
