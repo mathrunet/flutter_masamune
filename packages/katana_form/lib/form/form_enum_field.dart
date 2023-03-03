@@ -118,6 +118,7 @@ class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
     required this.picker,
     this.onSaved,
     this.focusNode,
+    this.keepAlive = true,
   }) : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -253,12 +254,22 @@ class FormEnumField<TEnum extends Enum, TValue> extends StatefulWidget {
   /// [TEnum]を選択するためのピッカーオブジェクト。
   final FormEnumFieldPicker<TEnum> picker;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   State<StatefulWidget> createState() => _FormEnumFieldState<TEnum, TValue>();
 }
 
 class _FormEnumFieldState<TEnum extends Enum, TValue>
-    extends State<FormEnumField<TEnum, TValue>> {
+    extends State<FormEnumField<TEnum, TValue>>
+    with AutomaticKeepAliveClientMixin<FormEnumField<TEnum, TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -313,6 +324,7 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
@@ -421,6 +433,9 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {

@@ -140,6 +140,7 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
     String Function(FormMediaValue? value)? validator,
     FormMediaValue? initialValue,
     bool enabled = true,
+    this.keepAlive = true,
   })  : _builder = builder,
         super(
           key: key,
@@ -243,12 +244,22 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
   /// これが`true`の場合、フォームの入力が行えずに初期値から変更することができなくなります。
   final bool readOnly;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   // ignore: library_private_types_in_public_api
   _FormMediaState<TValue> createState() => _FormMediaState<TValue>();
 }
 
-class _FormMediaState<TValue> extends FormFieldState<FormMediaValue> {
+class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
+    with AutomaticKeepAliveClientMixin<FormField<FormMediaValue>> {
   @override
   FormMedia<TValue> get widget => super.widget as FormMedia<TValue>;
 
@@ -382,4 +393,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue> {
       );
     }
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }

@@ -120,6 +120,7 @@ class FormDateField<TValue> extends StatefulWidget {
     String? format,
     this.picker = const FormDateFieldPicker(),
     this.onSaved,
+    this.keepAlive = true,
   })  : _format = format,
         assert(
           (form == null && onSaved == null) ||
@@ -303,11 +304,21 @@ class FormDateField<TValue> extends StatefulWidget {
 
   final String? _format;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   State<StatefulWidget> createState() => _FormDateFieldState<TValue>();
 }
 
-class _FormDateFieldState<TValue> extends State<FormDateField<TValue>> {
+class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormDateField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -362,6 +373,7 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
@@ -471,6 +483,9 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 class _DateTextField<TValue> extends FormField<DateTime> {

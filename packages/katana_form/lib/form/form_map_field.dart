@@ -118,6 +118,7 @@ class FormMapField<TValue> extends StatefulWidget {
     this.focusNode,
     this.emptyErrorText,
     this.onSubmitted,
+    this.keepAlive = true,
   }) : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -253,11 +254,21 @@ class FormMapField<TValue> extends StatefulWidget {
   /// [Map]からを選択するためのピッカーオブジェクト。
   final FormMapFieldPicker picker;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   State<StatefulWidget> createState() => _FormMapFieldState<TValue>();
 }
 
-class _FormMapFieldState<TValue> extends State<FormMapField<TValue>> {
+class _FormMapFieldState<TValue> extends State<FormMapField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormMapField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -312,6 +323,7 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
@@ -420,6 +432,9 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 class _MapTextField<TValue> extends FormField<String> {

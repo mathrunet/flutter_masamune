@@ -164,6 +164,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
     String Function(List<FormMediaValue> value)? validator,
     this.delegate = const FormMultiMediaInlineDelegate(),
     bool enabled = true,
+    this.keepAlive = true,
   })  : _builder = builder,
         assert(
           (form == null && onSaved == null) ||
@@ -270,13 +271,22 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   /// これが`true`の場合、フォームの入力が行えずに初期値から変更することができなくなります。
   final bool readOnly;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   // ignore: library_private_types_in_public_api
   _FormMultiMediaState<TValue> createState() => _FormMultiMediaState<TValue>();
 }
 
-class _FormMultiMediaState<TValue>
-    extends FormFieldState<List<FormMediaValue>> {
+class _FormMultiMediaState<TValue> extends FormFieldState<List<FormMediaValue>>
+    with AutomaticKeepAliveClientMixin<FormField<List<FormMediaValue>>> {
   @override
   FormMultiMedia<TValue> get widget => super.widget as FormMultiMedia<TValue>;
   @override
@@ -357,6 +367,9 @@ class _FormMultiMediaState<TValue>
       _onRemove,
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 /// A delegate to build a [FormMultiMedia] with a design of the type arranged in a list.

@@ -118,6 +118,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
     this.onSubmitted,
     @Deprecated("Please add suffixes directly.") this.showResetButton = true,
     this.initialValue,
+    this.keepAlive = true,
     this.delegate = const FormDateTimeFieldDateTimeDelegate(),
     this.onSaved,
   }) : assert(
@@ -270,11 +271,21 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimeDelegate]と日付のみを選択できる[FormDateTimeFieldDateDelegate]があります。
   final FormDateTimeFieldDelegate delegate;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   State<StatefulWidget> createState() => _FormDateTimeFieldState<TValue>();
 }
 
-class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>> {
+class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormDateTimeField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -329,6 +340,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
@@ -438,6 +450,9 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 class _DateTimeTextField<TValue> extends FormField<DateTime> {

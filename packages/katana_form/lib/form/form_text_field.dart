@@ -161,6 +161,7 @@ class FormTextField<TValue> extends StatefulWidget {
     this.initialValue,
     this.onTapSuggestion,
     this.suggestionStyle,
+    this.keepAlive = true,
   }) : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -383,11 +384,21 @@ class FormTextField<TValue> extends StatefulWidget {
   /// [TextInputFormatter]を指定することで入力するテキストを制限することが可能になります。
   final List<TextInputFormatter>? inputFormatters;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   State<StatefulWidget> createState() => _FormTextFieldState<TValue>();
 }
 
-class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
+class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormTextField<TValue>> {
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
   TextEditingController? _controller;
@@ -431,6 +442,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
@@ -576,6 +588,9 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 /// Class that defines the design for suggestions.

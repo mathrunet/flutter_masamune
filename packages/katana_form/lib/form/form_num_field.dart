@@ -118,6 +118,7 @@ class FormNumField<TValue> extends StatefulWidget {
     this.onChanged,
     this.onSubmitted,
     this.initialValue,
+    this.keepAlive = true,
     this.picker = const FormNumFieldPicker(),
     this.onSaved,
   }) : assert(
@@ -265,11 +266,21 @@ class FormNumField<TValue> extends StatefulWidget {
   /// 数値を選択するためのピッカーオブジェクト。
   final FormNumFieldPicker picker;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   @override
   State<StatefulWidget> createState() => _FormNumFieldState<TValue>();
 }
 
-class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
+class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormNumField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -324,6 +335,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final mainTextStyle = widget.style?.textStyle?.copyWith(
           color: widget.style?.color,
         ) ??
@@ -433,6 +445,9 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 class _NumTextField<TValue> extends FormField<num> {
