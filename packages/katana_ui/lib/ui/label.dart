@@ -97,7 +97,7 @@ class Label extends StatelessWidget {
           if (leading != null) ...[
             IconTheme(
               data: IconThemeData(
-                color: color,
+                color: color ?? textTheme?.color,
                 size: iconSize ?? textTheme?.fontSize,
               ),
               child: leading!,
