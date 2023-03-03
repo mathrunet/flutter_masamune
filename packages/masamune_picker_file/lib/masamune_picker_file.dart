@@ -13,6 +13,7 @@ import 'dart:async';
 
 // Package imports:
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:masamune_picker/masamune_picker.dart';
 
 export 'package:masamune_picker/masamune_picker.dart';
