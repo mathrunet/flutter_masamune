@@ -1,3 +1,7 @@
+## 1.9.2
+
+ - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
+
 ## 1.9.1
 
  - **FIX**: Fixed a bug where the background was not displayed. ([500bdc2d](https://github.com/mathrunet/flutter_masamune/commit/500bdc2db95c6d203b856d4a9cf69b899c68a4e6))

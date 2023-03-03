@@ -1,3 +1,7 @@
+## 1.4.3
+
+ - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
+
 ## 1.4.2
 
  - **DOCS**: ReadMe Correction. ([4aff41cd](https://github.com/mathrunet/flutter_masamune/commit/4aff41cdde475211fcaecf8f7ee8cb58d1cc46d1))

@@ -1,3 +1,7 @@
+## 1.3.12
+
+ - **FIX**: Added AutoFocus function. ([8a6c7375](https://github.com/mathrunet/flutter_masamune/commit/8a6c7375cf5dbc5fbb73e6cb758222049e4d7f21))
+
 ## 1.3.11
 
  - **FIX**: Added keepAlive item to widget. ([6bcad2f4](https://github.com/mathrunet/flutter_masamune/commit/6bcad2f4bdc1c1a7c2fe308364d29518796e7fed))

@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.3.12`](#katana_form---v1312)
+ - [`katana_responsive` - `v1.3.4`](#katana_responsive---v134)
+ - [`katana_ui` - `v1.2.1`](#katana_ui---v121)
+ - [`masamune` - `v1.9.2`](#masamune---v192)
+ - [`masamune_annotation` - `v1.4.3`](#masamune_annotation---v143)
+ - [`masamune_builder` - `v1.4.4`](#masamune_builder---v144)
+ - [`masamune_picker` - `v1.5.47`](#masamune_picker---v1547)
+ - [`masamune_notification_firebase` - `v1.2.17`](#masamune_notification_firebase---v1217)
+ - [`masamune_logger_firebase` - `v1.2.28`](#masamune_logger_firebase---v1228)
+ - [`masamune_picker_mobile` - `v1.5.47`](#masamune_picker_mobile---v1547)
+ - [`masamune_picker_file` - `v1.5.47`](#masamune_picker_file---v1547)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.47`
+ - `masamune_notification_firebase` - `v1.2.17`
+ - `masamune_logger_firebase` - `v1.2.28`
+ - `masamune_picker_mobile` - `v1.5.47`
+ - `masamune_picker_file` - `v1.5.47`
+
+---
+
+#### `katana_form` - `v1.3.12`
+
+ - **FIX**: Added AutoFocus function. ([8a6c7375](https://github.com/mathrunet/flutter_masamune/commit/8a6c7375cf5dbc5fbb73e6cb758222049e4d7f21))
+
+#### `katana_responsive` - `v1.3.4`
+
+ - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
+
+#### `katana_ui` - `v1.2.1`
+
+ - **FIX**: Correction of label icon colors. ([45d75bc6](https://github.com/mathrunet/flutter_masamune/commit/45d75bc6696a449cac59d169d72506b60f46556c))
+
+#### `masamune` - `v1.9.2`
+
+ - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
+
+#### `masamune_annotation` - `v1.4.3`
+
+ - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
+
+#### `masamune_builder` - `v1.4.4`
+
+ - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
+
+
 ## 2023-03-03
 
 ### Changes

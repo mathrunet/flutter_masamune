@@ -1,3 +1,7 @@
+## 1.3.4
+
+ - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
+
 ## 1.3.3
 
  - **FIX**: Change ResponsiveRow and ResponsiveCol to StatelessWidget. ([e65f5cc4](https://github.com/mathrunet/flutter_masamune/commit/e65f5cc45e9b29f834de9d85533cfa955c95135a))
