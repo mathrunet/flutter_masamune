@@ -452,10 +452,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_picker
-      sha256: "8050c15a9e8863fe882ff1e73f12ad70da93e5a3ccdafb7522d9d5080a17720b"
+      sha256: "76b2b253f201fde011973ed303d5e547842c255a501de8d1b8a63e9a4968c6c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.42"
+    version: "1.5.43"
   matcher:
     dependency: transitive
     description:

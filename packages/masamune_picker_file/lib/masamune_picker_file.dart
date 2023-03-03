@@ -11,9 +11,11 @@ library masamune_picker_file;
 // Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
 // Package imports:
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:masamune_picker/masamune_picker.dart';
 
 export 'package:masamune_picker/masamune_picker.dart';
