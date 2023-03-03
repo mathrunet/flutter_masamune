@@ -23,14 +23,20 @@ class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
   /// [UniversalScaffold]の[UniversalScaffold.sidebar]に設定してください。
   ///
   /// [breakpoint]を設定すると、その[ResponsiveBreakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
-  const UniversalSideBar({
+  UniversalSideBar({
     super.key,
     this.breakpoint,
     this.decoration,
     this.padding,
-    this.child,
+    required this.children,
     this.paddingWhenNotFullWidth,
-  }) : preferredSize = const Size.fromWidth(kSideBarWidth);
+    this.width = kSideBarWidth,
+  }) : preferredSize = Size.fromWidth(width);
+
+  /// Width of sidebar.
+  ///
+  /// サイドバーの横幅。
+  final double width;
 
   /// Decoration] in the sidebar.
   ///
@@ -45,7 +51,7 @@ class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
   /// Widget for the contents of the sidebar.
   ///
   /// サイドバーの中身のウィジェット。
-  final Widget? child;
+  final List<Widget> children;
 
   /// Normal padding.
   ///
@@ -70,7 +76,13 @@ class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
               : (paddingWhenNotFullWidth ??
                   universal?.defaultSidebarPaddingWhenNotFullWidth)),
       decoration: decoration,
-      child: child,
+      child: ListView.builder(
+        primary: false,
+        itemCount: children.length,
+        itemBuilder: (context, index) {
+          return children[index];
+        },
+      ),
     );
   }
 

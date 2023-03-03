@@ -69,6 +69,8 @@ class UniversalListView extends StatelessWidget {
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
     this.paddingWhenNotFullWidth,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.rowSegments = 12,
     this.padding,
   })  : assert(
           !(controller != null && primary == true),
@@ -165,8 +167,20 @@ class UniversalListView extends StatelessWidget {
   /// {@macro flutter.material.Material.clipBehavior}
   final Clip clipBehavior;
 
+  /// You can change the placement of [ResponsiveCol].
+  ///
+  /// [ResponsiveCol]の配置を変更することができます。
+  final CrossAxisAlignment crossAxisAlignment;
+
+  /// The number of segments in the horizontal direction.
+  ///
+  /// 横方向のセグメントの数です。
+  final int rowSegments;
+
   @override
   Widget build(BuildContext context) {
+    final rows = _createRows(context, children);
+
     return _buildRefreshIndicator(
       context,
       _buildScrollbar(
@@ -193,13 +207,68 @@ class UniversalListView extends StatelessWidget {
             slivers: [
               _padding(
                 context,
-                SliverList(delegate: SliverChildListDelegate(children)),
-              )
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) => rows[i],
+                    childCount: rows.length,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _createRows(BuildContext context, List<Widget> children) {
+    int accumulatedWidth = 0;
+    var cols = <Widget>[];
+    final rows = <Widget>[];
+
+    for (final col in children) {
+      if (col is ResponsiveCol) {
+        final colWidth = col.currentConfig(context) ?? 12;
+        if (accumulatedWidth + colWidth > rowSegments) {
+          if (accumulatedWidth < rowSegments) {
+            cols.add(Spacer(
+              flex: rowSegments - accumulatedWidth,
+            ));
+          }
+          rows.add(Row(
+            crossAxisAlignment: crossAxisAlignment,
+            children: cols,
+          ));
+          cols = <Widget>[];
+          accumulatedWidth = 0;
+        }
+        cols.add(col);
+        accumulatedWidth += colWidth;
+      } else {
+        if (cols.isNotEmpty) {
+          rows.add(Row(
+            crossAxisAlignment: crossAxisAlignment,
+            children: cols,
+          ));
+          cols = <Widget>[];
+          accumulatedWidth = 0;
+        }
+        rows.add(col);
+      }
+    }
+
+    if (accumulatedWidth >= 0) {
+      if (accumulatedWidth < rowSegments) {
+        cols.add(Spacer(
+          flex: rowSegments - accumulatedWidth,
+        ));
+      }
+      rows.add(Row(
+        crossAxisAlignment: crossAxisAlignment,
+        children: cols,
+      ));
+    }
+    return rows;
   }
 
   Widget _buildRefreshIndicator(BuildContext context, Widget child) {

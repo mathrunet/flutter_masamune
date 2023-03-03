@@ -146,7 +146,6 @@ class UniversalScaffold extends StatefulWidget {
     this.breakpoint,
     this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
     this.sideBar,
-    this.sideBarWidth = kSideBarWidth,
   });
 
   /// Setting this to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
@@ -158,17 +157,10 @@ class UniversalScaffold extends StatefulWidget {
   ///
   /// If [breakpoint] is specified, the UI will change to a mobile-oriented UI when the window size becomes smaller than the breakpoint. At that time, [sideBar] will be placed on [drawer], and the width will be maximized.
   ///
-  /// If [sideBarWidth] is specified, you can specify the width of [sideBar].
-  ///
   /// サイドバーを作成します。
   ///
   /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
   final PreferredSizeWidget? sideBar;
-
-  /// If [sideBar] is specified, you can specify the width of [sideBar].
-  ///
-  /// [sideBar]が指定されている場合、[sideBar]の横幅を指定できます。
-  final double sideBarWidth;
 
   /// The loading widget will now be displayed until the specified [Future] is completed.
   ///
@@ -526,14 +518,16 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (widget.drawer != null || widget.sideBar == null) {
       return widget.drawer;
     }
-    final shouldShowSideBar =
-        widget.breakpoint?.shouldShowSideBar(context) ?? true;
+    final universalScope =
+        MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+    final breakpoint = universalScope?.defaultBreakpoint ?? widget.breakpoint;
+    final shouldShowSideBar = breakpoint?.shouldShowSideBar(context) ?? true;
     if (shouldShowSideBar) {
       return null;
     }
     return Drawer(
       width: widget.sideBar!.preferredSize.width,
-      child: widget.sideBar!,
+      child: widget.sideBar,
     );
   }
 
@@ -541,8 +535,10 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (widget.sideBar == null) {
       return body;
     }
-    final shouldShowSideBar =
-        widget.breakpoint?.shouldShowSideBar(context) ?? true;
+    final universalScope =
+        MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+    final breakpoint = universalScope?.defaultBreakpoint ?? widget.breakpoint;
+    final shouldShowSideBar = breakpoint?.shouldShowSideBar(context) ?? true;
     if (!shouldShowSideBar) {
       return body;
     }
