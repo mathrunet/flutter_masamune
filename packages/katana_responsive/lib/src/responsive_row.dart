@@ -19,7 +19,7 @@ part of katana_responsive;
 /// [ResponsiveCol]の数が[ResponsiveRow.rowSegments]より少ない場合は、[ResponsiveRow.rowSegments]の値に応じてスペーサーが挿入されます。
 ///
 /// [crossAxisAlignment]を指定することにより、[ResponsiveCol]の配置を変更することができます。
-class ResponsiveRow extends StatefulWidget {
+class ResponsiveRow extends StatelessWidget {
   /// Widget for responsive grid layout.
   ///
   /// It has [ResponsiveCol] as a child element and is arranged horizontally by the number of [ResponsiveCol].
@@ -62,38 +62,27 @@ class ResponsiveRow extends StatefulWidget {
   final int rowSegments;
 
   @override
-  State<StatefulWidget> createState() => _ResponsiveRowState();
-}
-
-class _ResponsiveRowState extends State<ResponsiveRow> {
-  final List<Widget> rows = [];
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final rows = _updateRows();
-    if (rows.length != this.rows.length) {
-      this.rows.clear();
-      this.rows.addAll(rows);
-      setState(() {});
-    }
+  Widget build(BuildContext context) {
+    return Column(
+      children: _createRows(context),
+    );
   }
 
-  List<Widget> _updateRows() {
+  List<Widget> _createRows(BuildContext context) {
     int accumulatedWidth = 0;
     var cols = <Widget>[];
     final rows = <Widget>[];
 
-    for (final col in widget.children) {
-      final colWidth = col._currentConfig(context) ?? 1;
-      if (accumulatedWidth + colWidth > widget.rowSegments) {
-        if (accumulatedWidth < widget.rowSegments) {
+    for (final col in children) {
+      final colWidth = col.currentConfig(context) ?? 1;
+      if (accumulatedWidth + colWidth > rowSegments) {
+        if (accumulatedWidth < rowSegments) {
           cols.add(Spacer(
-            flex: widget.rowSegments - accumulatedWidth,
+            flex: rowSegments - accumulatedWidth,
           ));
         }
         rows.add(Row(
-          crossAxisAlignment: widget.crossAxisAlignment,
+          crossAxisAlignment: crossAxisAlignment,
           children: cols,
         ));
         cols = <Widget>[];
@@ -104,37 +93,16 @@ class _ResponsiveRowState extends State<ResponsiveRow> {
     }
 
     if (accumulatedWidth >= 0) {
-      if (accumulatedWidth < widget.rowSegments) {
+      if (accumulatedWidth < rowSegments) {
         cols.add(Spacer(
-          flex: widget.rowSegments - accumulatedWidth,
+          flex: rowSegments - accumulatedWidth,
         ));
       }
       rows.add(Row(
-        crossAxisAlignment: widget.crossAxisAlignment,
+        crossAxisAlignment: crossAxisAlignment,
         children: cols,
       ));
     }
     return rows;
-  }
-
-  @override
-  void didUpdateWidget(ResponsiveRow oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    final rows = _updateRows();
-    if (widget.crossAxisAlignment != oldWidget.crossAxisAlignment ||
-        widget.children.length != oldWidget.children.length ||
-        rows.length != this.rows.length) {
-      this.rows.clear();
-      this.rows.addAll(rows);
-      setState(() {});
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: rows,
-    );
   }
 }

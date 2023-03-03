@@ -60,7 +60,7 @@ extension ResponsiveColExtensions on Iterable<Widget> {
 /// 各値の最大値は[ResponsiveRow.rowSegments]の値になります。
 ///
 /// [child]には、カラムの中に配置するウィジェットを指定します。
-class ResponsiveCol extends StatefulWidget {
+class ResponsiveCol extends StatelessWidget {
   /// Specify responsive columns.
   ///
   /// Be sure to place it under [ResponsiveRow].
@@ -139,34 +139,18 @@ class ResponsiveCol extends StatefulWidget {
     return config;
   }
 
-  int? _currentConfig(BuildContext context) {
+  /// Get the value for the current size.
+  ///
+  /// 現在のサイズに応じた値を取得します。
+  int? currentConfig(BuildContext context) {
     return _updateConfig()[ResponsiveGridTier._currentSize(context)];
   }
 
   @override
-  State<StatefulWidget> createState() => _ResponsiveColState();
-}
-
-class _ResponsiveColState extends State<ResponsiveCol> {
-  @override
-  void didUpdateWidget(covariant ResponsiveCol oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.xs != oldWidget.xs ||
-        widget.sm != oldWidget.sm ||
-        widget.md != oldWidget.md ||
-        widget.lg != oldWidget.lg ||
-        widget.xl != oldWidget.xl ||
-        widget.xxl != oldWidget.xxl) {
-      setState(() {});
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final flex = widget._currentConfig(context) ?? 1;
     return Expanded(
-      flex: flex,
-      child: widget.child,
+      flex: currentConfig(context) ?? 1,
+      child: child,
     );
   }
 }
