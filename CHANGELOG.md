@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.9`](#katana_cli---v189)
+ - [`masamune_picker` - `v1.5.43`](#masamune_picker---v1543)
+ - [`masamune_picker_file` - `v1.5.43`](#masamune_picker_file---v1543)
+ - [`masamune_picker_mobile` - `v1.5.43`](#masamune_picker_mobile---v1543)
+
+---
+
+#### `katana_cli` - `v1.8.9`
+
+ - **FIX**: Add UniversalUI to create in katana_cli. ([12a55c59](https://github.com/mathrunet/flutter_masamune/commit/12a55c59a7aa7e98cedbfa3cc658ec1c12e758b3))
+
+#### `masamune_picker` - `v1.5.43`
+
+ - **FIX**: Fixed a bug that prevented it from working on the Web. ([1aa86d37](https://github.com/mathrunet/flutter_masamune/commit/1aa86d3712a10b1ec47c965e8c2a39fe2a23aca8))
+
+#### `masamune_picker_file` - `v1.5.43`
+
+ - **FIX**: Fixed a bug that prevented it from working on the Web. ([1aa86d37](https://github.com/mathrunet/flutter_masamune/commit/1aa86d3712a10b1ec47c965e8c2a39fe2a23aca8))
+
+#### `masamune_picker_mobile` - `v1.5.43`
+
+ - **FIX**: Fixed a bug that prevented it from working on the Web. ([1aa86d37](https://github.com/mathrunet/flutter_masamune/commit/1aa86d3712a10b1ec47c965e8c2a39fe2a23aca8))
+
+
+## 2023-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.8.3`](#masamune---v183)
  - [`masamune_logger_firebase` - `v1.2.24`](#masamune_logger_firebase---v1224)
  - [`masamune_notification_firebase` - `v1.2.13`](#masamune_notification_firebase---v1213)

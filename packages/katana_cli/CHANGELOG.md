@@ -1,3 +1,7 @@
+## 1.8.9
+
+ - **FIX**: Add UniversalUI to create in katana_cli. ([12a55c59](https://github.com/mathrunet/flutter_masamune/commit/12a55c59a7aa7e98cedbfa3cc658ec1c12e758b3))
+
 ## 1.8.8
 
  - **FIX**: Templates are now compatible with UniversalScaffold. ([6ebfa663](https://github.com/mathrunet/flutter_masamune/commit/6ebfa66383e114d8babedb8e8e6b1b974fb0650d))

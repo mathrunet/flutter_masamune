@@ -1,3 +1,7 @@
+## 1.5.43
+
+ - **FIX**: Fixed a bug that prevented it from working on the Web. ([1aa86d37](https://github.com/mathrunet/flutter_masamune/commit/1aa86d3712a10b1ec47c965e8c2a39fe2a23aca8))
+
 ## 1.5.42
 
  - **FIX**: Fixed a bug that prevented getting MasamuneAdapterScope.of properly. ([5f599650](https://github.com/mathrunet/flutter_masamune/commit/5f59965020e46b1478f420f9fb82448b11b15ae0))
