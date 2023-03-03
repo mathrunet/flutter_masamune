@@ -38,4 +38,24 @@ extension EdgeInsetsShortenExtensions on num {
   ///
   /// [num]を右方向のパディングとして変換します。
   EdgeInsets get pr => EdgeInsets.only(right: toDouble());
+
+  /// Converts [num] as padding in the upper left direction.
+  ///
+  /// [num]を左上方向のパディングとして変換します。
+  EdgeInsets get ptl => EdgeInsets.only(top: toDouble(), left: toDouble());
+
+  /// Converts [num] as padding in the upper right direction.
+  ///
+  /// [num]を右上方向のパディングとして変換します。
+  EdgeInsets get ptr => EdgeInsets.only(top: toDouble(), right: toDouble());
+
+  /// Converts [num] as padding in the lower left direction.
+  ///
+  /// [num]を左下方向のパディングとして変換します。
+  EdgeInsets get pbl => EdgeInsets.only(bottom: toDouble(), left: toDouble());
+
+  /// Convert [num] as padding in the lower right direction.
+  ///
+  /// [num]を右下方向のパディングとして変換します。
+  EdgeInsets get pbr => EdgeInsets.only(bottom: toDouble(), right: toDouble());
 }
