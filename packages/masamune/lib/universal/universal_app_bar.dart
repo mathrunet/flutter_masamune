@@ -435,9 +435,9 @@ class UniversalAppBar extends StatelessWidget {
             ? [...actions!, SizedBox(width: trailingSpacing)]
             : null,
         flexibleSpace: flexibleSpace ??
-            (_titlePosition == UniversalAppBarTitlePosition.bottom
-                ? FlexibleSpaceBar(
-                    title: SingleChildScrollView(
+            FlexibleSpaceBar(
+              title: _titlePosition == UniversalAppBarTitlePosition.bottom
+                  ? SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -459,12 +459,12 @@ class UniversalAppBar extends StatelessWidget {
                             ),
                         ],
                       ),
-                    ),
-                    background: background,
-                    titlePadding: optimizedTitlePadding,
-                    centerTitle: centerTitle,
-                  )
-                : null),
+                    )
+                  : null,
+              background: background,
+              titlePadding: optimizedTitlePadding,
+              centerTitle: centerTitle,
+            ),
         bottom: bottom,
         elevation: elevation,
         shadowColor: shadowColor,
@@ -777,6 +777,7 @@ class UniversalAppBarBackground extends StatelessWidget {
     super.key,
     this.filterColor = Colors.black87,
     this.fit = BoxFit.cover,
+    this.backgroundColor,
   });
 
   /// Specifies a background image.
@@ -794,13 +795,21 @@ class UniversalAppBarBackground extends StatelessWidget {
   /// フィルターの色を指定します。
   final Color filterColor;
 
+  /// Specifies the background color.
+  ///
+  /// 背景色を指定します。
+  final Color? backgroundColor;
+
   @override
   Widget build(BuildContext context) {
-    return Image(
-      image: image,
-      fit: fit,
-      color: filterColor,
-      colorBlendMode: BlendMode.multiply,
+    return Container(
+      color: backgroundColor,
+      child: Image(
+        image: image,
+        fit: fit,
+        color: filterColor,
+        colorBlendMode: BlendMode.multiply,
+      ),
     );
   }
 }
