@@ -14,10 +14,10 @@ import 'dart:io';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
