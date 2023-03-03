@@ -1,3 +1,7 @@
+## 1.2.24
+
+ - **FIX**: Fixed a bug that prevented getting MasamuneAdapterScope.of properly. ([5f599650](https://github.com/mathrunet/flutter_masamune/commit/5f59965020e46b1478f420f9fb82448b11b15ae0))
+
 ## 1.2.23
 
  - Update a dependency to the latest release.

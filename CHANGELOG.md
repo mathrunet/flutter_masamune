@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v1.8.3`](#masamune---v183)
+ - [`masamune_logger_firebase` - `v1.2.24`](#masamune_logger_firebase---v1224)
+ - [`masamune_notification_firebase` - `v1.2.13`](#masamune_notification_firebase---v1213)
+ - [`masamune_picker` - `v1.5.42`](#masamune_picker---v1542)
+ - [`masamune_picker_file` - `v1.5.42`](#masamune_picker_file---v1542)
+ - [`masamune_picker_mobile` - `v1.5.42`](#masamune_picker_mobile---v1542)
+
+---
+
+#### `masamune` - `v1.8.3`
+
+ - **FIX**: Changed interface for UniversalUI. ([32f571e5](https://github.com/mathrunet/flutter_masamune/commit/32f571e5727e35f6216e1ceb44aafb9c0f97d49d))
+
+#### `masamune_logger_firebase` - `v1.2.24`
+
+ - **FIX**: Fixed a bug that prevented getting MasamuneAdapterScope.of properly. ([5f599650](https://github.com/mathrunet/flutter_masamune/commit/5f59965020e46b1478f420f9fb82448b11b15ae0))
+
+#### `masamune_notification_firebase` - `v1.2.13`
+
+ - **FIX**: Fixed a bug that prevented getting MasamuneAdapterScope.of properly. ([5f599650](https://github.com/mathrunet/flutter_masamune/commit/5f59965020e46b1478f420f9fb82448b11b15ae0))
+
+#### `masamune_picker` - `v1.5.42`
+
+ - **FIX**: Fixed a bug that prevented getting MasamuneAdapterScope.of properly. ([5f599650](https://github.com/mathrunet/flutter_masamune/commit/5f59965020e46b1478f420f9fb82448b11b15ae0))
+
+#### `masamune_picker_file` - `v1.5.42`
+
+ - **FIX**: Fixed a bug that prevented getting MasamuneAdapterScope.of properly. ([5f599650](https://github.com/mathrunet/flutter_masamune/commit/5f59965020e46b1478f420f9fb82448b11b15ae0))
+
+#### `masamune_picker_mobile` - `v1.5.42`
+
+ - **FIX**: Fixed a bug that prevented getting MasamuneAdapterScope.of properly. ([5f599650](https://github.com/mathrunet/flutter_masamune/commit/5f59965020e46b1478f420f9fb82448b11b15ae0))
+
+
 ## 2023-03-02
 
 ### Changes

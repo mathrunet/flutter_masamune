@@ -1,3 +1,7 @@
+## 1.8.3
+
+ - **FIX**: Changed interface for UniversalUI. ([32f571e5](https://github.com/mathrunet/flutter_masamune/commit/32f571e5727e35f6216e1ceb44aafb9c0f97d49d))
+
 ## 1.8.2
 
  - **FIX**: Added UniversalContainer. ([beae523a](https://github.com/mathrunet/flutter_masamune/commit/beae523a990df7832a459ad0680ad918993ef3a4))
