@@ -156,6 +156,7 @@ class FormTextField<TValue> extends StatefulWidget {
     this.onSubmitted,
     this.onChanged,
     this.showCursor,
+    this.autofocus = false,
     this.focusNode,
     this.emptyErrorText,
     this.initialValue,
@@ -393,6 +394,11 @@ class FormTextField<TValue> extends StatefulWidget {
   /// `true`の場合、破棄されず保持され続けます。
   final bool keepAlive;
 
+  /// If `true`, focus is automatically applied.
+  ///
+  /// `true`の場合、自動でフォーカスが当たります。
+  final bool autofocus;
+
   @override
   State<StatefulWidget> createState() => _FormTextFieldState<TValue>();
 }
@@ -498,6 +504,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
           showCursor: widget.showCursor,
           enabled: widget.enabled,
           controller: controller,
+          autofocus: widget.autofocus,
           keyboardType: widget.keyboardType,
           maxLength: widget.maxLength,
           maxLines: widget.obscureText
