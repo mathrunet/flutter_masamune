@@ -62,7 +62,8 @@ class _AppRouteInformationProvider extends RouteInformationProvider
     }
     final bool replace = type == RouteInformationReportingType.neglect ||
         (type == RouteInformationReportingType.none &&
-            _valueInEngine.location == routeInformation.location);
+            _valueInEngine.location?.trimString("/") ==
+                routeInformation.location?.trimString("/"));
     SystemNavigator.selectMultiEntryHistory();
     SystemNavigator.routeInformationUpdated(
       location: routeInformation.location!,
