@@ -1,3 +1,7 @@
+## 1.3.5
+
+ - **FIX**: Fixed a bug in applying the theme when a text button is placed in Actions. ([5c925276](https://github.com/mathrunet/flutter_masamune/commit/5c9252764adaa740a34e17412665fe0d7912bcd6))
+
 ## 1.3.4
 
  - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))

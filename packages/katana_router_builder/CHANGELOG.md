@@ -1,3 +1,7 @@
+## 1.11.2
+
+ - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))
+
 ## 1.11.1
 
  - **FIX**: Compatible with multiple logger adapters. ([e644b873](https://github.com/mathrunet/flutter_masamune/commit/e644b8732a7019a547ae673455ede87f812d7325))

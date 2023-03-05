@@ -1,3 +1,8 @@
+## 1.11.5
+
+ - **FIX**: Fixed a bug that prevented users from using the browser's back button to return to the previous page on the Web. ([21d7b8e3](https://github.com/mathrunet/flutter_masamune/commit/21d7b8e307803a8868cc4054b2702b21860ece56))
+ - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))
+
 ## 1.11.4
 
  - **FIX**: Fixed a bug in which the route names were reversed when didPop was used. ([75a12d05](https://github.com/mathrunet/flutter_masamune/commit/75a12d0553dca1854e81844826eebe4ff4edcd2d))

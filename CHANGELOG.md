@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_responsive` - `v1.3.5`](#katana_responsive---v135)
+ - [`katana_router` - `v1.11.5`](#katana_router---v1115)
+ - [`katana_router_annotation` - `v1.11.1`](#katana_router_annotation---v1111)
+ - [`katana_router_builder` - `v1.11.2`](#katana_router_builder---v1112)
+ - [`katana_theme` - `v1.4.0`](#katana_theme---v140)
+ - [`katana_theme_annotation` - `v1.4.0`](#katana_theme_annotation---v140)
+ - [`katana_theme_builder` - `v1.4.0`](#katana_theme_builder---v140)
+ - [`masamune` - `v1.9.3`](#masamune---v193)
+ - [`masamune_picker` - `v1.5.48`](#masamune_picker---v1548)
+ - [`masamune_notification_firebase` - `v1.2.18`](#masamune_notification_firebase---v1218)
+ - [`masamune_logger_firebase` - `v1.2.29`](#masamune_logger_firebase---v1229)
+ - [`masamune_picker_mobile` - `v1.5.48`](#masamune_picker_mobile---v1548)
+ - [`masamune_picker_file` - `v1.5.48`](#masamune_picker_file---v1548)
+ - [`masamune_builder` - `v1.4.5`](#masamune_builder---v145)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.48`
+ - `masamune_notification_firebase` - `v1.2.18`
+ - `masamune_logger_firebase` - `v1.2.29`
+ - `masamune_picker_mobile` - `v1.5.48`
+ - `masamune_picker_file` - `v1.5.48`
+ - `masamune_builder` - `v1.4.5`
+
+---
+
+#### `katana_responsive` - `v1.3.5`
+
+ - **FIX**: Fixed a bug in applying the theme when a text button is placed in Actions. ([5c925276](https://github.com/mathrunet/flutter_masamune/commit/5c9252764adaa740a34e17412665fe0d7912bcd6))
+
+#### `katana_router` - `v1.11.5`
+
+ - **FIX**: Fixed a bug that prevented users from using the browser's back button to return to the previous page on the Web. ([21d7b8e3](https://github.com/mathrunet/flutter_masamune/commit/21d7b8e307803a8868cc4054b2702b21860ece56))
+ - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))
+
+#### `katana_router_annotation` - `v1.11.1`
+
+ - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))
+
+#### `katana_router_builder` - `v1.11.2`
+
+ - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))
+
+#### `katana_theme` - `v1.4.0`
+
+ - **FEAT**: The color of Theme is now explicitly divided between light mode and dark mode. ([8d87118b](https://github.com/mathrunet/flutter_masamune/commit/8d87118ba938bf5a419029f8893fab664d938a3e))
+
+#### `katana_theme_annotation` - `v1.4.0`
+
+ - **FEAT**: The color of Theme is now explicitly divided between light mode and dark mode. ([8d87118b](https://github.com/mathrunet/flutter_masamune/commit/8d87118ba938bf5a419029f8893fab664d938a3e))
+
+#### `katana_theme_builder` - `v1.4.0`
+
+ - **FEAT**: The color of Theme is now explicitly divided between light mode and dark mode. ([8d87118b](https://github.com/mathrunet/flutter_masamune/commit/8d87118ba938bf5a419029f8893fab664d938a3e))
+
+#### `masamune` - `v1.9.3`
+
+ - **FIX**: Enabled to change the color of AppBar when scrolling. ([aac1ccef](https://github.com/mathrunet/flutter_masamune/commit/aac1ccefb6145ad137885ee562fb9bd938f9dbf8))
+
+
 ## 2023-03-04
 
 ### Changes

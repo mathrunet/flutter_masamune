@@ -1,3 +1,7 @@
+## 1.11.1
+
+ - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))
+
 ## 1.11.0
 
  - **FEAT**: Logger support. ([0d3f18c7](https://github.com/mathrunet/flutter_masamune/commit/0d3f18c7da51d982fe29f617739d28ce24f54017))

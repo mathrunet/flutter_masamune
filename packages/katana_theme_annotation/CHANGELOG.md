@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: The color of Theme is now explicitly divided between light mode and dark mode. ([8d87118b](https://github.com/mathrunet/flutter_masamune/commit/8d87118ba938bf5a419029f8893fab664d938a3e))
+
 ## 1.3.1
 
  - **FIX**: Add centerTitleOnAppBar. ([938d2bcb](https://github.com/mathrunet/flutter_masamune/commit/938d2bcb6b0f71bf3c6b7f02b4f8f17e880a5477))

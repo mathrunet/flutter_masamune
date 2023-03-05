@@ -1,3 +1,7 @@
+## 1.9.3
+
+ - **FIX**: Enabled to change the color of AppBar when scrolling. ([aac1ccef](https://github.com/mathrunet/flutter_masamune/commit/aac1ccefb6145ad137885ee562fb9bd938f9dbf8))
+
 ## 1.9.2
 
  - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))
