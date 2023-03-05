@@ -188,29 +188,31 @@ class UniversalColumn extends StatelessWidget {
 
     return Align(
       alignment: alignment,
-      child: Container(
-        constraints:
-            constraints?.copyWith(maxWidth: breakpoint?.width(context)) ??
-                BoxConstraints(
-                  maxWidth: breakpoint?.width(context) ?? double.infinity,
-                ),
-        padding: _effectivePadding(context, breakpoint),
-        margin: margin,
-        color: color,
-        decoration: decoration,
-        foregroundDecoration: foregroundDecoration,
-        width: width,
-        height: height,
-        alignment: alignment,
-        transform: transform,
-        transformAlignment: transformAlignment,
-        clipBehavior: clipBehavior,
-        child: Column(
-          verticalDirection: verticalDirection,
-          mainAxisAlignment: mainAxisAlignment,
-          crossAxisAlignment: crossAxisAlignment,
-          mainAxisSize: mainAxisSize,
-          children: children,
+      child: SingleChildScrollView(
+        child: Container(
+          constraints:
+              constraints?.copyWith(maxWidth: breakpoint?.width(context)) ??
+                  BoxConstraints(
+                    maxWidth: breakpoint?.width(context) ?? double.infinity,
+                  ),
+          padding: _effectivePadding(context, breakpoint),
+          margin: margin,
+          color: color,
+          decoration: decoration,
+          foregroundDecoration: foregroundDecoration,
+          width: width,
+          height: height,
+          alignment: alignment,
+          transform: transform,
+          transformAlignment: transformAlignment,
+          clipBehavior: clipBehavior,
+          child: Column(
+            verticalDirection: verticalDirection,
+            mainAxisAlignment: mainAxisAlignment,
+            crossAxisAlignment: crossAxisAlignment,
+            mainAxisSize: mainAxisSize,
+            children: children,
+          ),
         ),
       ),
     );

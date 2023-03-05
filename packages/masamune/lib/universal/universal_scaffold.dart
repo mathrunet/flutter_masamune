@@ -382,9 +382,10 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
         MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final appBar = widget.appBar;
     final useSliver = !(appBar == null ||
-            appBar is! UniversalAppBar ||
-            !appBar._useSliverAppBar(context)) ||
-        appBar is SliverAppBar;
+            appBar is! UniversalAppBarMixin ||
+            !appBar.useSliver(context)) ||
+        appBar is SliverAppBar ||
+        appBar is SliverAppBarMixin;
     if (useSliver) {
       return ResponsiveScaffold(
         key: widget.key,
@@ -506,8 +507,8 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
       //     titleTextStyle: appBar.titleTextStyle,
       //     systemOverlayStyle: appBar.systemOverlayStyle,
       //   );
-    } else if (appBar is UniversalAppBar) {
-      return appBar._buildUnsliverAppBar(context);
+    } else if (appBar is UniversalAppBarMixin) {
+      return appBar.buildUnsliverAppBar(context);
     } else if (appBar is PreferredSizeWidget) {
       return appBar;
     }
@@ -525,9 +526,13 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (shouldShowSideBar) {
       return null;
     }
-    return Drawer(
-      width: widget.sideBar!.preferredSize.width,
-      child: widget.sideBar,
+    return AutoDrawerSettings(
+      child: Drawer(
+        width: widget.sideBar!.preferredSize.width,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        surfaceTintColor: Theme.of(context).colorScheme.surface,
+        child: widget.sideBar,
+      ),
     );
   }
 
@@ -557,4 +562,41 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
       ],
     );
   }
+}
+
+/// This is given when generating a [Drawer] within [UniversalScaffold].
+///
+/// Please use this option if you want to check whether the file is in the automatically generated [Drawer] in [UniversalScaffold] or not.
+///
+/// [UniversalScaffold]内で[Drawer]を生成する際に付与されます。
+///
+/// [UniversalScaffold]内で自動生成された[Drawer]内であるかどうかを確認したい場合ご利用ください。
+class AutoDrawerSettings extends InheritedWidget {
+  /// This is given when generating a [Drawer] within [UniversalScaffold].
+  ///
+  /// Please use this option if you want to check whether the file is in the automatically generated [Drawer] in [UniversalScaffold] or not.
+  ///
+  /// [UniversalScaffold]内で[Drawer]を生成する際に付与されます。
+  ///
+  /// [UniversalScaffold]内で自動生成された[Drawer]内であるかどうかを確認したい場合ご利用ください。
+  const AutoDrawerSettings({
+    super.key,
+    required super.child,
+  });
+
+  /// Get [AutoDrawerSettings] if the ancestor has [AutoDrawerSettings].
+  ///
+  /// Please use this option if you want to check whether the file is in the automatically generated [Drawer] in [UniversalScaffold] or not.
+  ///
+  /// 祖先に[AutoDrawerSettings]を持っていれば[AutoDrawerSettings]を取得します。
+  ///
+  /// [UniversalScaffold]内で自動生成された[Drawer]内であるかどうかを確認したい場合ご利用ください。
+  static AutoDrawerSettings? maybeOf(BuildContext context) {
+    return context
+        .getElementForInheritedWidgetOfExactType<AutoDrawerSettings>()
+        ?.widget as AutoDrawerSettings?;
+  }
+
+  @override
+  bool updateShouldNotify(covariant AutoDrawerSettings oldWidget) => false;
 }

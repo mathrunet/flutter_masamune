@@ -21,7 +21,7 @@ const _kLeadingWidth = kToolbarHeight;
 /// レスポンシブ対応しており、[UniversalScaffold]の[breakpoint]によって、設定された画面サイズに応じて、[title]が移動します。
 ///
 /// [subtitle]を指定することで、[title]の下にサブタイトルを表示することができます。
-class UniversalAppBar extends StatelessWidget {
+class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
   /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
   ///
   /// [UniversalScaffold] can be used with [UniversalAppBar] and [UniversalListView] to create a responsive modern UI.
@@ -44,7 +44,8 @@ class UniversalAppBar extends StatelessWidget {
   const UniversalAppBar({
     super.key,
     this.leading,
-    this.automaticallyImplyLeading = true,
+    this.automaticallyImplyLeading =
+        AutomaticallyImplyLeadingType.drawerAndBack,
     this.title,
     this.subtitle,
     this.actions,
@@ -94,7 +95,8 @@ class UniversalAppBar extends StatelessWidget {
   const UniversalAppBar._({
     super.key,
     this.leading,
-    this.automaticallyImplyLeading = true,
+    this.automaticallyImplyLeading =
+        AutomaticallyImplyLeadingType.drawerAndBack,
     this.title,
     this.subtitle,
     this.actions,
@@ -179,8 +181,14 @@ class UniversalAppBar extends StatelessWidget {
   /// {@macro flutter.material.appbar.leading}
   final Widget? leading;
 
-  /// {@macro flutter.material.appbar.automaticallyImplyLeading}
-  final bool automaticallyImplyLeading;
+  /// Specifies whether [leading] is set automatically.
+  ///
+  /// You can choose the type of setting under [AutomaticallyImplyLeadingType].
+  ///
+  /// 自動で[leading]を設定するかどうかを指定します。
+  ///
+  /// [AutomaticallyImplyLeadingType]で設定のタイプを選ぶことができます。
+  final AutomaticallyImplyLeadingType automaticallyImplyLeading;
 
   /// {@macro flutter.material.appbar.title}
   final Widget? title;
@@ -355,7 +363,59 @@ class UniversalAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).appBarTheme;
+    final appBarTheme = Theme.of(context).appBarTheme;
     final centerTitle = this.centerTitle;
+
+    final scaffold = Scaffold.maybeOf(context);
+    final parentRoute = ModalRoute.of(context);
+    final hasDrawer = scaffold?.hasDrawer ?? false;
+    final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
+    final canPop = parentRoute?.canPop ?? false;
+    final bool useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final hasLeading = ((automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.onlyDrawer ||
+                automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.drawerAndBack) &&
+            hasDrawer) ||
+        (automaticallyImplyLeading ==
+                AutomaticallyImplyLeadingType.drawerAndBack &&
+            (!hasEndDrawer && canPop)) ||
+        this.leading != null;
+    final showLeading = this.leading != null ||
+        ((automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.onlyDrawer ||
+                automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.drawerAndBack) &&
+            hasDrawer) ||
+        (automaticallyImplyLeading ==
+                AutomaticallyImplyLeadingType.drawerAndBack &&
+            ((!hasEndDrawer && canPop) ||
+                (parentRoute?.impliesAppBarDismissal ?? false)));
+    final overallIconTheme = iconTheme ?? appBarTheme.iconTheme;
+    Widget? leading = this.leading;
+    if (leading == null) {
+      if ((automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.onlyDrawer ||
+              automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.drawerAndBack) &&
+          hasDrawer) {
+        leading = IconButton(
+          icon: const Icon(Icons.menu),
+          iconSize: overallIconTheme?.size ?? 24,
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        );
+      } else if (automaticallyImplyLeading ==
+              AutomaticallyImplyLeadingType.drawerAndBack &&
+          ((!hasEndDrawer && canPop) ||
+              (parentRoute?.impliesAppBarDismissal ?? false))) {
+        leading = useCloseButton ? const CloseButton() : const BackButton();
+      }
+    }
+
     if (!sliver) {
       final mergedTitle = subtitle == null
           ? title
@@ -367,7 +427,7 @@ class UniversalAppBar extends StatelessWidget {
                   : CrossAxisAlignment.start,
               children: [
                 if (title != null) title!,
-                DefaultTextStyle(
+                DefaultTextStyle.merge(
                   style: Theme.of(context).textTheme.labelSmall ??
                       const TextStyle(),
                   child: subtitle!,
@@ -385,7 +445,7 @@ class UniversalAppBar extends StatelessWidget {
           key: key,
           breakpoint: breakpoint,
           leading: leading,
-          automaticallyImplyLeading: automaticallyImplyLeading,
+          automaticallyImplyLeading: false,
           title: mergedTitle,
           actions: actions,
           flexibleSpace: flexibleSpace,
@@ -418,19 +478,6 @@ class UniversalAppBar extends StatelessWidget {
       final height =
           max(context.mediaQuery.size.height / 5, 120.0) + bottomHeight;
       final padding = titlePadding.resolve(TextDirection.ltr);
-      final scaffold = Scaffold.maybeOf(context);
-      final parentRoute = ModalRoute.of(context);
-      final hasDrawer = scaffold?.hasDrawer ?? false;
-      final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
-      final canPop = parentRoute?.canPop ?? false;
-      final hasLeading = (automaticallyImplyLeading &&
-              (hasDrawer || (!hasEndDrawer && canPop))) ||
-          leading != null;
-      final showLeading = leading != null ||
-          (automaticallyImplyLeading &&
-              (hasDrawer ||
-                  (!hasEndDrawer && canPop) ||
-                  (parentRoute?.impliesAppBarDismissal ?? false)));
       final titleSpacing = _leadingSpace(context, showLeading);
       final trailingSpacing = _trailingSpace(context, showLeading);
       final optimizedTitlePadding = EdgeInsets.fromLTRB(
@@ -466,7 +513,7 @@ class UniversalAppBar extends StatelessWidget {
                   : CrossAxisAlignment.start,
               children: [
                 if (title != null) title!,
-                DefaultTextStyle(
+                DefaultTextStyle.merge(
                   style: Theme.of(context).textTheme.labelSmall ??
                       const TextStyle(),
                   child: _DynamicExtentForegroundColor(
@@ -488,10 +535,10 @@ class UniversalAppBar extends StatelessWidget {
               ? _DynamicExtentForegroundColor(
                   startForegroundColor: foregroundColor,
                   endForegroundColor: expandedForegroundColor,
-                  child: leading!,
+                  child: leading,
                 )
               : null,
-          automaticallyImplyLeading: automaticallyImplyLeading,
+          automaticallyImplyLeading: false,
           title: mergedTitle != null &&
                   _titlePosition == UniversalAppBarTitlePosition.top
               ? _DynamicExtentForegroundColor(
@@ -528,14 +575,14 @@ class UniversalAppBar extends StatelessWidget {
                                 : CrossAxisAlignment.start,
                             children: [
                               if (title != null)
-                                DefaultTextStyle(
+                                DefaultTextStyle.merge(
                                   style:
                                       Theme.of(context).textTheme.titleLarge ??
                                           const TextStyle(),
                                   child: title!,
                                 ),
                               if (subtitle != null)
-                                DefaultTextStyle(
+                                DefaultTextStyle.merge(
                                   style:
                                       Theme.of(context).textTheme.labelSmall ??
                                           const TextStyle(),
@@ -634,7 +681,8 @@ class UniversalAppBar extends StatelessWidget {
     }
   }
 
-  bool _useSliverAppBar(BuildContext context) {
+  @override
+  bool useSliver(BuildContext context) {
     return sliver;
   }
 
@@ -671,10 +719,45 @@ class UniversalAppBar extends StatelessWidget {
     return spacing.limitLow(0.0);
   }
 
-  PreferredSizeWidget _buildUnsliverAppBar(BuildContext context) {
+  @override
+  PreferredSizeWidget buildUnsliverAppBar(BuildContext context) {
+    final appBarTheme = Theme.of(context).appBarTheme;
+    final centerTitle = this.centerTitle;
+
+    final scaffold = Scaffold.maybeOf(context);
+    final parentRoute = ModalRoute.of(context);
+    final hasDrawer = scaffold?.hasDrawer ?? false;
+    final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
+    final canPop = parentRoute?.canPop ?? false;
+    final bool useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final overallIconTheme = iconTheme ?? appBarTheme.iconTheme;
+    Widget? leading = this.leading;
+    if (leading == null) {
+      if ((automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.onlyDrawer ||
+              automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.drawerAndBack) &&
+          hasDrawer) {
+        leading = IconButton(
+          icon: const Icon(Icons.menu),
+          iconSize: overallIconTheme?.size ?? 24,
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        );
+      } else if (automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.drawerAndBack &&
+              (!hasEndDrawer && canPop) ||
+          (parentRoute?.impliesAppBarDismissal ?? false)) {
+        leading = useCloseButton ? const CloseButton() : const BackButton();
+      }
+    }
+
     return ResponsiveAppBar(
       leading: leading,
-      automaticallyImplyLeading: automaticallyImplyLeading,
+      automaticallyImplyLeading: false,
       title: _mobileAppBarTitle(
         context,
         title: title,
@@ -719,7 +802,7 @@ class UniversalAppBar extends StatelessWidget {
                 : CrossAxisAlignment.start,
             children: [
               if (title != null) title,
-              DefaultTextStyle(
+              DefaultTextStyle.merge(
                 style:
                     Theme.of(context).textTheme.labelSmall ?? const TextStyle(),
                 child: subtitle,
@@ -728,6 +811,46 @@ class UniversalAppBar extends StatelessWidget {
           );
   }
 }
+
+/// Mix-in to be used as [UniversalAppBar].
+///
+/// By mixing in against [Widget], it will be used as a [UniversalAppBar] when passed to [UniversalScaffold].
+///
+/// By properly processing the value of [useSliver], it can be used as a Sliver-like [AppBar].
+///
+/// It is possible to create a non-Sliver AppBar with [buildUnsliverAppBar].
+///
+/// [UniversalAppBar]として利用するためのミックスイン。
+///
+/// [Widget]に対してミックスインすることで、[UniversalScaffold]に渡した場合、[UniversalAppBar]として利用されます。
+///
+/// [useSliver]の値を適切に処理することにより、Sliverな[AppBar]として利用することが可能です。
+///
+/// [buildUnsliverAppBar]でSliverでないAppBarを作成することが可能です。
+mixin UniversalAppBarMixin on Widget {
+  /// By properly processing this value, it can be used as a Sliver [AppBar] within [UniversalScaffold].
+  ///
+  /// If `true` is returned, it will be used as a Sliver [AppBar] in [UniversalScaffold].
+  ///
+  /// この値を適切に処理することにより、[UniversalScaffold]内でSliverな[AppBar]として利用することが可能です。
+  ///
+  /// `true`を返すと、[UniversalScaffold]内でSliverな[AppBar]として利用されます。
+  bool useSliver(BuildContext context);
+
+  /// It is used to create an AppBar that is not a Sliver.
+  ///
+  /// SliverでないAppBarを作成するときに利用されます。
+  PreferredSizeWidget buildUnsliverAppBar(BuildContext context);
+}
+
+/// Mix-in to be used as a Sliver-like [AppBar].
+///
+/// By mixing in against [Widget], when passed to [UniversalScaffold], it will be used as a [UniversalAppBar] with the Sliver usage flag set to `true`.
+///
+/// Sliverな[AppBar]として利用するためのミックスイン。
+///
+/// [Widget]に対してミックスインすることで、[UniversalScaffold]に渡した場合、Sliverの利用フラグを`true`にした[UniversalAppBar]として利用されます。
+mixin SliverAppBarMixin on Widget {}
 
 class _DynamicExtentForegroundColorPreferredSizeWidget extends StatelessWidget
     with PreferredSizeWidget {
@@ -773,7 +896,7 @@ class _DynamicExtentForegroundColor extends StatelessWidget {
       return child;
     }
     if (settings == null || endColor == null) {
-      return DefaultTextStyle(
+      return DefaultTextStyle.merge(
         style: TextStyle(color: startColor),
         child: TextButtonTheme(
           data: TextButtonThemeData(
@@ -781,7 +904,11 @@ class _DynamicExtentForegroundColor extends StatelessWidget {
           ),
           child: IconTheme(
             data: IconThemeData(color: startColor),
-            child: child,
+            child: IconButtonTheme(
+              data: IconButtonThemeData(
+                  style: IconButton.styleFrom(foregroundColor: startColor)),
+              child: child,
+            ),
           ),
         ),
       );
@@ -790,7 +917,7 @@ class _DynamicExtentForegroundColor extends StatelessWidget {
     final lerp =
         settings.currentExtent / (settings.maxExtent - settings.minExtent);
     final color = Color.lerp(startColor, endColor, lerp);
-    return DefaultTextStyle(
+    return DefaultTextStyle.merge(
       style: TextStyle(color: color),
       child: TextButtonTheme(
         data: TextButtonThemeData(
@@ -798,7 +925,11 @@ class _DynamicExtentForegroundColor extends StatelessWidget {
         ),
         child: IconTheme(
           data: IconThemeData(color: color),
-          child: child,
+          child: IconButtonTheme(
+            data: IconButtonThemeData(
+                style: IconButton.styleFrom(foregroundColor: color)),
+            child: child,
+          ),
         ),
       ),
     );
@@ -871,7 +1002,8 @@ class UniversalSliverAppBar extends UniversalAppBar {
   const UniversalSliverAppBar({
     super.key,
     super.leading,
-    super.automaticallyImplyLeading = true,
+    super.automaticallyImplyLeading =
+        AutomaticallyImplyLeadingType.drawerAndBack,
     super.title,
     super.subtitle,
     super.actions,
@@ -1061,4 +1193,24 @@ enum UniversalAppBarScrollStyle {
   ///
   /// スクロール時に画面の一番上に[AppBar]が固定されるようになります。
   pinned,
+}
+
+/// Specify whether to automatically set [IconButton] to `leading` of [AppBar].
+///
+/// 自動で[AppBar]の`leading`に[IconButton]を設定するかどうかを指定します。
+enum AutomaticallyImplyLeadingType {
+  /// Not set automatically.
+  ///
+  /// 自動で設定しません。
+  none,
+
+  /// Set only [Drawer]. Do not set [BackButton] or [CloseButton].
+  ///
+  /// [Drawer]のみを設定します。[BackButton]や[CloseButton]は設定しません。
+  onlyDrawer,
+
+  /// Set [Drawer], [BackButton] and [CloseButton].
+  ///
+  /// [Drawer]と[BackButton]、[CloseButton]を設定します。
+  drawerAndBack,
 }

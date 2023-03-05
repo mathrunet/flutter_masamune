@@ -244,10 +244,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_form
-      sha256: c18af86f0999c655cce88f40e279650e138db30b2fdbcaed05b6aa6bd9203ab8
+      sha256: "1187bd8893eafea234222b79ca5d46dee53788356aeb7ae1cde7ccec7ade1f64"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.11"
+    version: "1.3.12"
   katana_functions:
     dependency: "direct main"
     description:
@@ -332,10 +332,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_responsive
-      sha256: "961ebe2d9153264c57cd3ed3a88776aab8129711427b01bb53c1841cea76df76"
+      sha256: ce17c2d28dd22bce39f6520400d3ff069bdb3857246706251544be561b1de39a
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.3"
+    version: "1.3.5"
   katana_router:
     dependency: "direct main"
     description:
@@ -380,26 +380,26 @@ packages:
     dependency: "direct main"
     description:
       name: katana_theme
-      sha256: "54fe77f312f13d8d062b5372e3afe1fdc60692607d6a5c4db89e5200ff59321d"
+      sha256: a82fbf1d6bbd1b53b4fe15b2e5fe63677bfef29a5fb0a5d0826076f13a2d64f9
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.3"
+    version: "1.4.0"
   katana_theme_annotation:
     dependency: transitive
     description:
       name: katana_theme_annotation
-      sha256: bfa97dd576edbbc2736cb18941bd0fed0a3e8d73318ae947d03dfcca28c19801
+      sha256: "01073043410a76a19c627a0b6d722cfa7eaad9a09c6147f87f35f92ce5adbe93"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.1"
+    version: "1.4.0"
   katana_ui:
     dependency: "direct main"
     description:
       name: katana_ui
-      sha256: d9a08189d3bbb4dc66b485985f203478c4e606ce8da55e04898a4f9a3c0d196c
+      sha256: "367a09b85e4b495538fcf3c9397cfbe0580faa5483ceb9b5c2b3f15c2a4e4ba8"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   lints:
     dependency: transitive
     description:
@@ -420,10 +420,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_annotation
-      sha256: "6690a628ac5a181ac85253a173b9163d4f122ef85761e9be05c21662493bb573"
+      sha256: b65df608fd4c93b96a63df92e0a8af8c3d84adb6730744eab771717a2851af43
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.2"
+    version: "1.4.3"
   matcher:
     dependency: transitive
     description:
