@@ -1,3 +1,7 @@
+## 1.9.4
+
+ - **FIX**: Adjustment of colors and icons by applying themes. ([27c65c1e](https://github.com/mathrunet/flutter_masamune/commit/27c65c1e502b3101a1d02482bf5ef51cd4bf0b98))
+
 ## 1.9.3
 
  - **FIX**: Enabled to change the color of AppBar when scrolling. ([aac1ccef](https://github.com/mathrunet/flutter_masamune/commit/aac1ccefb6145ad137885ee562fb9bd938f9dbf8))

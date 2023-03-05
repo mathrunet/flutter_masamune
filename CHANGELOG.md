@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.3.13`](#katana_form---v1313)
+ - [`masamune` - `v1.9.4`](#masamune---v194)
+ - [`masamune_builder` - `v1.4.6`](#masamune_builder---v146)
+ - [`masamune_picker` - `v1.5.49`](#masamune_picker---v1549)
+ - [`masamune_notification_firebase` - `v1.2.19`](#masamune_notification_firebase---v1219)
+ - [`masamune_logger_firebase` - `v1.2.30`](#masamune_logger_firebase---v1230)
+ - [`masamune_picker_mobile` - `v1.5.49`](#masamune_picker_mobile---v1549)
+ - [`masamune_picker_file` - `v1.5.49`](#masamune_picker_file---v1549)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.49`
+ - `masamune_notification_firebase` - `v1.2.19`
+ - `masamune_logger_firebase` - `v1.2.30`
+ - `masamune_picker_mobile` - `v1.5.49`
+ - `masamune_picker_file` - `v1.5.49`
+
+---
+
+#### `katana_form` - `v1.3.13`
+
+ - **FIX**: Adjust padding of FormTextField. ([14dc1b8a](https://github.com/mathrunet/flutter_masamune/commit/14dc1b8aede2a5e4be706145b42134a1e868cddf))
+
+#### `masamune` - `v1.9.4`
+
+ - **FIX**: Adjustment of colors and icons by applying themes. ([27c65c1e](https://github.com/mathrunet/flutter_masamune/commit/27c65c1e502b3101a1d02482bf5ef51cd4bf0b98))
+
+#### `masamune_builder` - `v1.4.6`
+
+ - **FIX**: Adjustment of colors and icons by applying themes. ([27c65c1e](https://github.com/mathrunet/flutter_masamune/commit/27c65c1e502b3101a1d02482bf5ef51cd4bf0b98))
+
+
 ## 2023-03-05
 
 ### Changes

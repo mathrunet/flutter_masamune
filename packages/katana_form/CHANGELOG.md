@@ -1,3 +1,7 @@
+## 1.3.13
+
+ - **FIX**: Adjust padding of FormTextField. ([14dc1b8a](https://github.com/mathrunet/flutter_masamune/commit/14dc1b8aede2a5e4be706145b42134a1e868cddf))
+
 ## 1.3.12
 
  - **FIX**: Added AutoFocus function. ([8a6c7375](https://github.com/mathrunet/flutter_masamune/commit/8a6c7375cf5dbc5fbb73e6cb758222049e4d7f21))
