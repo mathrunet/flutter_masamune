@@ -54,6 +54,7 @@ class UniversalAppBar extends StatelessWidget {
     this.shadowColor,
     this.backgroundColor,
     this.foregroundColor,
+    this.expandedForegroundColor,
     this.iconTheme,
     this.actionsIconTheme,
     this.primary = true,
@@ -104,6 +105,7 @@ class UniversalAppBar extends StatelessWidget {
     this.shadowColor,
     this.backgroundColor,
     this.foregroundColor,
+    this.expandedForegroundColor,
     this.iconTheme,
     this.actionsIconTheme,
     this.primary = true,
@@ -215,6 +217,11 @@ class UniversalAppBar extends StatelessWidget {
 
   /// {@macro flutter.material.appbar.foregroundColor}
   final Color? foregroundColor;
+
+  /// Foreground color after expansion. If not specified, [foregroundColor] is used.
+  ///
+  /// 拡張後の前景色。指定されない場合は[foregroundColor]が使用されます。
+  final Color? expandedForegroundColor;
 
   /// {@macro flutter.material.appbar.iconTheme}
   final IconThemeData? iconTheme;
@@ -347,55 +354,64 @@ class UniversalAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).appBarTheme;
     final centerTitle = this.centerTitle;
-    final mergedTitle = subtitle == null
-        ? title
-        : Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: centerTitle
-                ? CrossAxisAlignment.center
-                : CrossAxisAlignment.start,
-            children: [
-              if (title != null) title!,
-              DefaultTextStyle(
-                style:
-                    Theme.of(context).textTheme.labelSmall ?? const TextStyle(),
-                child: subtitle!,
-              ),
-            ],
-          );
     if (!sliver) {
-      return ResponsiveAppBar(
-        key: key,
-        breakpoint: breakpoint,
-        leading: leading,
-        automaticallyImplyLeading: automaticallyImplyLeading,
-        title: mergedTitle,
-        actions: actions,
-        flexibleSpace: flexibleSpace,
-        bottom: bottom,
-        elevation: elevation,
-        shadowColor: shadowColor,
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        iconTheme: iconTheme,
-        actionsIconTheme: actionsIconTheme,
-        primary: primary,
-        centerTitle: centerTitle,
-        excludeHeaderSemantics: excludeHeaderSemantics,
-        titleSpacing: titleSpacing,
-        shape: shape,
-        toolbarHeight: toolbarHeight,
-        leadingWidth: leadingWidth,
-        toolbarTextStyle: toolbarTextStyle,
-        titleTextStyle: titleTextStyle,
-        systemOverlayStyle: systemOverlayStyle,
-        scrolledUnderElevation: scrolledUnderElevation,
-        notificationPredicate: notificationPredicate,
-        surfaceTintColor: surfaceTintColor,
-        toolbarOpacity: toolbarOpacity,
-        bottomOpacity: bottomOpacity,
+      final mergedTitle = subtitle == null
+          ? title
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: centerTitle
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
+              children: [
+                if (title != null) title!,
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.labelSmall ??
+                      const TextStyle(),
+                  child: subtitle!,
+                ),
+              ],
+            );
+      return TextButtonTheme(
+        data: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor:
+                theme.actionsIconTheme?.color ?? theme.foregroundColor,
+          ),
+        ),
+        child: ResponsiveAppBar(
+          key: key,
+          breakpoint: breakpoint,
+          leading: leading,
+          automaticallyImplyLeading: automaticallyImplyLeading,
+          title: mergedTitle,
+          actions: actions,
+          flexibleSpace: flexibleSpace,
+          bottom: bottom,
+          elevation: elevation,
+          shadowColor: shadowColor,
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          iconTheme: iconTheme,
+          actionsIconTheme: actionsIconTheme,
+          primary: primary,
+          centerTitle: centerTitle,
+          excludeHeaderSemantics: excludeHeaderSemantics,
+          titleSpacing: titleSpacing,
+          shape: shape,
+          toolbarHeight: toolbarHeight,
+          leadingWidth: leadingWidth,
+          toolbarTextStyle: toolbarTextStyle,
+          titleTextStyle: titleTextStyle,
+          systemOverlayStyle: systemOverlayStyle,
+          scrolledUnderElevation: scrolledUnderElevation,
+          notificationPredicate: notificationPredicate,
+          surfaceTintColor: surfaceTintColor,
+          toolbarOpacity: toolbarOpacity,
+          bottomOpacity: bottomOpacity,
+        ),
       );
     } else {
       final bottomHeight = bottom?.preferredSize.height ?? 0;
@@ -425,74 +441,149 @@ class UniversalAppBar extends StatelessWidget {
         padding.right,
         padding.bottom + (subtitle != null ? 8 : 16) + bottomHeight,
       );
-      return SliverAppBar(
-        key: key,
-        leading: leading,
-        automaticallyImplyLeading: automaticallyImplyLeading,
-        title: _titlePosition == UniversalAppBarTitlePosition.top
-            ? mergedTitle
-            : null,
-        actions: actions.isNotEmpty
-            ? [...actions!, SizedBox(width: trailingSpacing)]
-            : null,
-        flexibleSpace: flexibleSpace ??
-            FlexibleSpaceBar(
-              title: _titlePosition == UniversalAppBarTitlePosition.bottom
-                  ? SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: centerTitle
-                            ? CrossAxisAlignment.center
-                            : CrossAxisAlignment.start,
-                        children: [
-                          if (title != null)
-                            DefaultTextStyle(
-                              style: Theme.of(context).textTheme.titleLarge ??
-                                  const TextStyle(),
-                              child: title!,
-                            ),
-                          if (subtitle != null)
-                            DefaultTextStyle(
-                              style: Theme.of(context).textTheme.labelSmall ??
-                                  const TextStyle(),
-                              child: subtitle!,
-                            ),
-                        ],
-                      ),
-                    )
-                  : null,
-              background: background,
-              titlePadding: optimizedTitlePadding,
-              centerTitle: centerTitle,
-            ),
-        bottom: bottom,
-        elevation: elevation,
-        shadowColor: shadowColor,
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        iconTheme: iconTheme,
-        actionsIconTheme: actionsIconTheme,
-        primary: primary,
-        centerTitle: centerTitle,
-        excludeHeaderSemantics: excludeHeaderSemantics,
-        titleSpacing: this.titleSpacing ?? titleSpacing,
-        collapsedHeight: _collapsedHeightFromStyle,
-        expandedHeight: expandedHeight ?? height,
-        floating: _floatingFromStyle,
-        pinned: _pinnedFromStyle,
-        snap: snap,
-        stretch: stretch,
-        stretchTriggerOffset: stretchTriggerOffset,
-        onStretchTrigger: onStretchTrigger,
-        shape: shape,
-        toolbarHeight: toolbarHeight,
-        leadingWidth: leadingWidth,
-        toolbarTextStyle: toolbarTextStyle,
-        titleTextStyle: titleTextStyle,
-        systemOverlayStyle: systemOverlayStyle,
-        scrolledUnderElevation: scrolledUnderElevation,
-        surfaceTintColor: surfaceTintColor,
+
+      final extensions = Theme.of(context)
+              .extensions
+              .values
+              .firstWhereOrNull((item) => item is AppBarThemeExtension)
+          as AppBarThemeExtension?;
+
+      final foregroundColor = this.foregroundColor ??
+          extensions?.collapsedForegroundColor ??
+          theme.actionsIconTheme?.color ??
+          theme.foregroundColor;
+      final expandedForegroundColor = this.expandedForegroundColor ??
+          extensions?.expandedForegroundColor ??
+          foregroundColor;
+
+      final mergedTitle = subtitle == null
+          ? title
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: centerTitle
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
+              children: [
+                if (title != null) title!,
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.labelSmall ??
+                      const TextStyle(),
+                  child: _DynamicExtentForegroundColor(
+                    startForegroundColor: foregroundColor,
+                    endForegroundColor: expandedForegroundColor,
+                    child: subtitle!,
+                  ),
+                ),
+              ],
+            );
+
+      return TextButtonTheme(
+        data: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: foregroundColor),
+        ),
+        child: SliverAppBar(
+          key: key,
+          leading: leading != null
+              ? _DynamicExtentForegroundColor(
+                  startForegroundColor: foregroundColor,
+                  endForegroundColor: expandedForegroundColor,
+                  child: leading!,
+                )
+              : null,
+          automaticallyImplyLeading: automaticallyImplyLeading,
+          title: mergedTitle != null &&
+                  _titlePosition == UniversalAppBarTitlePosition.top
+              ? _DynamicExtentForegroundColor(
+                  startForegroundColor: foregroundColor,
+                  endForegroundColor: expandedForegroundColor,
+                  child: mergedTitle,
+                )
+              : null,
+          actions: actions.isNotEmpty
+              ? [
+                  ...actions?.map((e) {
+                        return _DynamicExtentForegroundColor(
+                          startForegroundColor: foregroundColor,
+                          endForegroundColor: expandedForegroundColor,
+                          child: e,
+                        );
+                      }) ??
+                      [],
+                  SizedBox(width: trailingSpacing)
+                ]
+              : null,
+          flexibleSpace: _DynamicExtentForegroundColor(
+            startForegroundColor: foregroundColor,
+            endForegroundColor: expandedForegroundColor,
+            child: flexibleSpace ??
+                FlexibleSpaceBar(
+                  title: _titlePosition == UniversalAppBarTitlePosition.bottom
+                      ? SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: centerTitle
+                                ? CrossAxisAlignment.center
+                                : CrossAxisAlignment.start,
+                            children: [
+                              if (title != null)
+                                DefaultTextStyle(
+                                  style:
+                                      Theme.of(context).textTheme.titleLarge ??
+                                          const TextStyle(),
+                                  child: title!,
+                                ),
+                              if (subtitle != null)
+                                DefaultTextStyle(
+                                  style:
+                                      Theme.of(context).textTheme.labelSmall ??
+                                          const TextStyle(),
+                                  child: subtitle!,
+                                ),
+                            ],
+                          ),
+                        )
+                      : null,
+                  background: background,
+                  titlePadding: optimizedTitlePadding,
+                  centerTitle: centerTitle,
+                ),
+          ),
+          bottom: bottom != null
+              ? _DynamicExtentForegroundColorPreferredSizeWidget(
+                  startForegroundColor: foregroundColor,
+                  endForegroundColor: expandedForegroundColor,
+                  child: bottom!,
+                )
+              : null,
+          elevation: elevation,
+          shadowColor: shadowColor,
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          iconTheme: iconTheme,
+          actionsIconTheme: actionsIconTheme,
+          primary: primary,
+          centerTitle: centerTitle,
+          excludeHeaderSemantics: excludeHeaderSemantics,
+          titleSpacing: this.titleSpacing ?? titleSpacing,
+          collapsedHeight: _collapsedHeightFromStyle,
+          expandedHeight: expandedHeight ?? height,
+          floating: _floatingFromStyle,
+          pinned: _pinnedFromStyle,
+          snap: snap,
+          stretch: stretch,
+          stretchTriggerOffset: stretchTriggerOffset,
+          onStretchTrigger: onStretchTrigger,
+          shape: shape,
+          toolbarHeight: toolbarHeight,
+          leadingWidth: leadingWidth,
+          toolbarTextStyle: toolbarTextStyle,
+          titleTextStyle: titleTextStyle,
+          systemOverlayStyle: systemOverlayStyle,
+          scrolledUnderElevation: scrolledUnderElevation,
+          surfaceTintColor: surfaceTintColor,
+        ),
       );
     }
   }
@@ -635,6 +726,82 @@ class UniversalAppBar extends StatelessWidget {
               ),
             ],
           );
+  }
+}
+
+class _DynamicExtentForegroundColorPreferredSizeWidget extends StatelessWidget
+    with PreferredSizeWidget {
+  _DynamicExtentForegroundColorPreferredSizeWidget({
+    this.startForegroundColor,
+    this.endForegroundColor,
+    required this.child,
+  });
+  final PreferredSizeWidget child;
+
+  final Color? startForegroundColor;
+  final Color? endForegroundColor;
+  @override
+  Widget build(BuildContext context) {
+    return _DynamicExtentForegroundColor(
+      startForegroundColor: startForegroundColor,
+      endForegroundColor: endForegroundColor,
+      child: child,
+    );
+  }
+
+  @override
+  Size get preferredSize => child.preferredSize;
+}
+
+class _DynamicExtentForegroundColor extends StatelessWidget {
+  const _DynamicExtentForegroundColor({
+    this.startForegroundColor,
+    this.endForegroundColor,
+    required this.child,
+  });
+  final Widget child;
+
+  final Color? startForegroundColor;
+  final Color? endForegroundColor;
+  @override
+  Widget build(BuildContext context) {
+    final settings =
+        context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
+    final startColor = startForegroundColor ?? endForegroundColor;
+    final endColor = endForegroundColor;
+    if (startColor == null) {
+      return child;
+    }
+    if (settings == null || endColor == null) {
+      return DefaultTextStyle(
+        style: TextStyle(color: startColor),
+        child: TextButtonTheme(
+          data: TextButtonThemeData(
+            style: TextButton.styleFrom(foregroundColor: startColor),
+          ),
+          child: IconTheme(
+            data: IconThemeData(color: startColor),
+            child: child,
+          ),
+        ),
+      );
+    }
+
+    final lerp =
+        settings.currentExtent / (settings.maxExtent - settings.minExtent);
+    final color = Color.lerp(startColor, endColor, lerp);
+    return DefaultTextStyle(
+      style: TextStyle(color: color),
+      child: TextButtonTheme(
+        data: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: color),
+        ),
+        child: IconTheme(
+          data: IconThemeData(color: color),
+          child: child,
+        ),
+      ),
+    );
   }
 }
 
