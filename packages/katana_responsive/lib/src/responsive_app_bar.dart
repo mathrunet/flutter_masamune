@@ -154,51 +154,60 @@ class ResponsiveAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).appBarTheme;
     final scaffold = Scaffold.maybeOf(context);
     final parentRoute = ModalRoute.of(context);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final hasDrawer = scaffold?.hasDrawer ?? false;
-        final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
-        final canPop = parentRoute?.canPop ?? false;
-        final showLeading = leading != null ||
-            (automaticallyImplyLeading &&
-                (hasDrawer ||
-                    (!hasEndDrawer && canPop) ||
-                    (parentRoute?.impliesAppBarDismissal ?? false)));
-        final titleSpacing = _leadingSpace(context, showLeading);
-        final trailingSpacing = _trailingSpace(context, showLeading);
-        return AppBar(
-          leading: leading,
-          automaticallyImplyLeading: automaticallyImplyLeading,
-          title: title,
-          actions: actions.isNotEmpty
-              ? [...actions!, SizedBox(width: trailingSpacing)]
-              : null,
-          flexibleSpace: flexibleSpace,
-          bottom: bottom,
-          elevation: elevation,
-          shadowColor: shadowColor,
-          shape: shape,
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-          iconTheme: iconTheme,
-          actionsIconTheme: actionsIconTheme,
-          primary: primary,
-          centerTitle: centerTitle,
-          excludeHeaderSemantics: excludeHeaderSemantics,
-          titleSpacing: titleSpacing,
-          toolbarOpacity: toolbarOpacity,
-          bottomOpacity: bottomOpacity,
-          toolbarHeight: toolbarHeight,
-          leadingWidth: leadingWidth,
-          toolbarTextStyle: toolbarTextStyle,
-          titleTextStyle: titleTextStyle,
-          systemOverlayStyle: systemOverlayStyle,
-          notificationPredicate: notificationPredicate,
-        );
-      },
+    return TextButtonTheme(
+      data: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor:
+              theme.actionsIconTheme?.color ?? theme.foregroundColor,
+        ),
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final hasDrawer = scaffold?.hasDrawer ?? false;
+          final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
+          final canPop = parentRoute?.canPop ?? false;
+          final showLeading = leading != null ||
+              (automaticallyImplyLeading &&
+                  (hasDrawer ||
+                      (!hasEndDrawer && canPop) ||
+                      (parentRoute?.impliesAppBarDismissal ?? false)));
+          final titleSpacing = _leadingSpace(context, showLeading);
+          final trailingSpacing = _trailingSpace(context, showLeading);
+          return AppBar(
+            leading: leading,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            title: title,
+            actions: actions.isNotEmpty
+                ? [...actions!, SizedBox(width: trailingSpacing)]
+                : null,
+            flexibleSpace: flexibleSpace,
+            bottom: bottom,
+            elevation: elevation,
+            shadowColor: shadowColor,
+            shape: shape,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            iconTheme: iconTheme,
+            actionsIconTheme: actionsIconTheme,
+            primary: primary,
+            centerTitle: centerTitle,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            titleSpacing: titleSpacing,
+            toolbarOpacity: toolbarOpacity,
+            bottomOpacity: bottomOpacity,
+            toolbarHeight: toolbarHeight,
+            leadingWidth: leadingWidth,
+            toolbarTextStyle: toolbarTextStyle,
+            titleTextStyle: titleTextStyle,
+            systemOverlayStyle: systemOverlayStyle,
+            notificationPredicate: notificationPredicate,
+          );
+        },
+      ),
     );
   }
 
