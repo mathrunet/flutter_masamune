@@ -5,10 +5,25 @@ part of katana_theme;
 /// デザイン用の白色。
 const kWhiteColor = Color(0xFFF7F7F7);
 
+/// Dark white for design.
+///
+/// デザイン用の暗い白色。
+const kWhiteSurfaceColor = Color(0xFFD1D1D1);
+
 /// Black for design.
 ///
 /// デザイン用の黒色。
 const kBlackColor = Color(0xFF212121);
+
+/// Bright black color for design.
+///
+/// デザイン用の明るい黒色。
+const kBlackSurfaceColor = Color(0xFF474747);
+
+/// Splash color.
+///
+/// スプラッシュカラー。
+const kSplashColor = Color(0xaaFFFFFF);
 
 /// {@template app_theme_data}
 /// Set the theme of the application.
@@ -57,8 +72,8 @@ class AppThemeData {
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
-    Color surface = kWhiteColor,
-    Color background = kWhiteColor,
+    Color? surface,
+    Color? background,
     Color onPrimary = kWhiteColor,
     Color onSecondary = kWhiteColor,
     Color onTertiary = kWhiteColor,
@@ -66,21 +81,54 @@ class AppThemeData {
     Color onSecondaryContainer = kWhiteColor,
     Color onTertiaryContainer = kWhiteColor,
     Color onDisabled = kWhiteColor,
-    Color onSurface = kBlackColor,
-    Color onBackground = kBlackColor,
+    Color? onSurface,
+    Color? onBackground,
     Color onWeak = kWhiteColor,
     Color onError = kWhiteColor,
     Color onInfo = kWhiteColor,
-    Color onSuccess = kBlackColor,
+    Color onSuccess = kWhiteColor,
     Color onWarning = kWhiteColor,
-    Color splashColor = const Color(0xaaFFFFFF),
+    Color splashColor = kSplashColor,
     Color shadow = Colors.black,
-    Color inverseSurface = kBlackColor,
-    Color onInverseSurface = kWhiteColor,
-    Color inversePrimary = kWhiteColor,
     Color? appBarColor,
     Color? onAppBarColor,
-    Color scaffoldBackgroundColor = kWhiteColor,
+    Color? onExpandedAppBarColor,
+    Color? scaffoldBackgroundColor,
+    Color? inversePrimary,
+    Color? inverseSecondary,
+    Color? inverseTertiary,
+    Color? inversePrimaryContainer,
+    Color? inverseSecondaryContainer,
+    Color? inverseTertiaryContainer,
+    Color? inverseDisabled,
+    Color? inverseWeak,
+    Color? inverseOutline,
+    Color? inverseError,
+    Color? inverseWarning,
+    Color? inverseInfo,
+    Color? inverseSuccess,
+    Color? inverseSurface,
+    Color? inverseBackground,
+    Color? onInversePrimary,
+    Color? onInverseSecondary,
+    Color? onInverseTertiary,
+    Color? onInversePrimaryContainer,
+    Color? onInverseSecondaryContainer,
+    Color? onInverseTertiaryContainer,
+    Color? onInverseDisabled,
+    Color? onInverseSurface,
+    Color? onInverseBackground,
+    Color? onInverseWeak,
+    Color? onInverseError,
+    Color? onInverseInfo,
+    Color? onInverseSuccess,
+    Color? onInverseWarning,
+    Color? inverseSplashColor,
+    Color? inverseShadow,
+    Color? inverseAppBarColor,
+    Color? onInverseAppBarColor,
+    Color? onInverseExpandedAppBarColor,
+    Color? inverseScaffoldBackgroundColor,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -165,47 +213,219 @@ class AppThemeData {
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
     this.centerTitleOnAppBar,
-    Brightness brightness = Brightness.light,
-  })  : color = ColorThemeData._(
-          brightness: brightness,
-          primary: primary,
-          secondary: secondary,
-          tertiary: tertiary,
-          primaryContainer: primaryContainer,
-          secondaryContainer: secondaryContainer,
-          tertiaryContainer: tertiaryContainer,
-          disabled: disabled,
-          weak: weak,
-          outline: outline,
-          error: error,
-          warning: warning,
-          info: info,
-          success: success,
-          surface: surface,
-          background: background,
-          onPrimary: onPrimary,
-          onSecondary: onSecondary,
-          onTertiary: onTertiary,
-          onPrimaryContainer: onPrimaryContainer,
-          onSecondaryContainer: onSecondaryContainer,
-          onTertiaryContainer: onTertiaryContainer,
-          onDisabled: onDisabled,
-          onSurface: onSurface,
-          onBackground: onBackground,
-          onWeak: onWeak,
-          onError: onError,
-          onInfo: onInfo,
-          onSuccess: onSuccess,
-          onWarning: onWarning,
-          splashColor: splashColor,
-          shadow: shadow,
-          inverseSurface: inverseSurface,
-          onInverseSurface: onInverseSurface,
-          inversePrimary: inversePrimary,
-          appBarColor: appBarColor,
-          onAppBarColor: onAppBarColor,
-          scaffoldBackgroundColor: scaffoldBackgroundColor,
-        ),
+    this.brightness = Brightness.light,
+  })  : _lightColor = brightness == Brightness.light
+            ? ColorThemeData._(
+                brightness: brightness,
+                primary: primary,
+                secondary: secondary,
+                tertiary: tertiary,
+                primaryContainer: primaryContainer,
+                secondaryContainer: secondaryContainer,
+                tertiaryContainer: tertiaryContainer,
+                disabled: disabled,
+                weak: weak,
+                outline: outline,
+                error: error,
+                warning: warning,
+                info: info,
+                success: success,
+                surface: surface ?? _surface(brightness),
+                background: background ?? _background(brightness),
+                onPrimary: onPrimary,
+                onSecondary: onSecondary,
+                onTertiary: onTertiary,
+                onPrimaryContainer: onPrimaryContainer,
+                onSecondaryContainer: onSecondaryContainer,
+                onTertiaryContainer: onTertiaryContainer,
+                onDisabled: onDisabled,
+                onSurface: onSurface ?? _onBackgroundOrSurface(brightness),
+                onBackground:
+                    onBackground ?? _onBackgroundOrSurface(brightness),
+                onWeak: onWeak,
+                onError: onError,
+                onInfo: onInfo,
+                onSuccess: onSuccess,
+                onWarning: onWarning,
+                splashColor: splashColor,
+                shadow: shadow,
+                inverseSurface:
+                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                onInverseSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(_inverse(brightness)),
+                inversePrimary: inversePrimary ?? primary,
+                appBarColor: appBarColor,
+                onAppBarColor: onAppBarColor,
+                onExpandedAppBarColor: onExpandedAppBarColor,
+                scaffoldBackgroundColor:
+                    scaffoldBackgroundColor ?? _background(brightness),
+              )
+            : ColorThemeData._(
+                brightness: Brightness.dark,
+                primary: inversePrimary ?? primary,
+                secondary: inverseSecondary ?? secondary,
+                tertiary: inverseTertiary ?? tertiary,
+                primaryContainer: inversePrimaryContainer ?? primaryContainer,
+                secondaryContainer:
+                    inverseSecondaryContainer ?? secondaryContainer,
+                tertiaryContainer:
+                    inverseTertiaryContainer ?? tertiaryContainer,
+                disabled: inverseDisabled ?? disabled,
+                weak: inverseWeak ?? weak,
+                outline: inverseOutline ?? outline,
+                error: inverseError ?? error,
+                warning: inverseWarning ?? warning,
+                info: inverseInfo ?? info,
+                success: inverseSuccess ?? success,
+                surface:
+                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                background: inverseBackground ??
+                    background ??
+                    _background(_inverse(brightness)),
+                onPrimary: onInversePrimary ?? onPrimary,
+                onSecondary: onInverseSecondary ?? onSecondary,
+                onTertiary: onInverseTertiary ?? onTertiary,
+                onPrimaryContainer:
+                    onInversePrimaryContainer ?? onPrimaryContainer,
+                onSecondaryContainer:
+                    onInverseSecondaryContainer ?? onSecondaryContainer,
+                onTertiaryContainer:
+                    onInverseTertiaryContainer ?? onTertiaryContainer,
+                onDisabled: onInverseDisabled ?? onDisabled,
+                onSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(_inverse(brightness)),
+                onBackground: onInverseBackground ??
+                    onBackground ??
+                    _onBackgroundOrSurface(_inverse(brightness)),
+                onWeak: onInverseWeak ?? onWeak,
+                onError: onInverseError ?? onError,
+                onInfo: onInverseInfo ?? onInfo,
+                onSuccess: onInverseSuccess ?? onSuccess,
+                onWarning: onInverseWarning ?? onWarning,
+                splashColor: inverseSplashColor ?? splashColor,
+                shadow: inverseShadow ?? shadow,
+                inverseSurface:
+                    surface ?? inverseSurface ?? _surface(brightness),
+                onInverseSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
+                inversePrimary: primary,
+                appBarColor: inverseAppBarColor ?? appBarColor,
+                onAppBarColor: onInverseAppBarColor ?? onAppBarColor,
+                onExpandedAppBarColor:
+                    onInverseExpandedAppBarColor ?? onExpandedAppBarColor,
+                scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
+                    scaffoldBackgroundColor ??
+                    _background(_inverse(brightness)),
+              ),
+        _darkColor = brightness == Brightness.dark
+            ? ColorThemeData._(
+                brightness: brightness,
+                primary: primary,
+                secondary: secondary,
+                tertiary: tertiary,
+                primaryContainer: primaryContainer,
+                secondaryContainer: secondaryContainer,
+                tertiaryContainer: tertiaryContainer,
+                disabled: disabled,
+                weak: weak,
+                outline: outline,
+                error: error,
+                warning: warning,
+                info: info,
+                success: success,
+                surface: surface ?? _surface(brightness),
+                background: background ?? _background(brightness),
+                onPrimary: onPrimary,
+                onSecondary: onSecondary,
+                onTertiary: onTertiary,
+                onPrimaryContainer: onPrimaryContainer,
+                onSecondaryContainer: onSecondaryContainer,
+                onTertiaryContainer: onTertiaryContainer,
+                onDisabled: onDisabled,
+                onSurface: onSurface ?? _onBackgroundOrSurface(brightness),
+                onBackground:
+                    onBackground ?? _onBackgroundOrSurface(brightness),
+                onWeak: onWeak,
+                onError: onError,
+                onInfo: onInfo,
+                onSuccess: onSuccess,
+                onWarning: onWarning,
+                splashColor: splashColor,
+                shadow: shadow,
+                inverseSurface:
+                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                onInverseSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(_inverse(brightness)),
+                inversePrimary: inversePrimary ?? primary,
+                appBarColor: appBarColor,
+                onAppBarColor: onAppBarColor,
+                onExpandedAppBarColor: onExpandedAppBarColor,
+                scaffoldBackgroundColor:
+                    scaffoldBackgroundColor ?? _background(brightness),
+              )
+            : ColorThemeData._(
+                brightness: Brightness.light,
+                primary: inversePrimary ?? primary,
+                secondary: inverseSecondary ?? secondary,
+                tertiary: inverseTertiary ?? tertiary,
+                primaryContainer: inversePrimaryContainer ?? primaryContainer,
+                secondaryContainer:
+                    inverseSecondaryContainer ?? secondaryContainer,
+                tertiaryContainer:
+                    inverseTertiaryContainer ?? tertiaryContainer,
+                disabled: inverseDisabled ?? disabled,
+                weak: inverseWeak ?? weak,
+                outline: inverseOutline ?? outline,
+                error: inverseError ?? error,
+                warning: inverseWarning ?? warning,
+                info: inverseInfo ?? info,
+                success: inverseSuccess ?? success,
+                surface:
+                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                background: inverseBackground ??
+                    background ??
+                    _background(_inverse(brightness)),
+                onPrimary: onInversePrimary ?? onPrimary,
+                onSecondary: onInverseSecondary ?? onSecondary,
+                onTertiary: onInverseTertiary ?? onTertiary,
+                onPrimaryContainer:
+                    onInversePrimaryContainer ?? onPrimaryContainer,
+                onSecondaryContainer:
+                    onInverseSecondaryContainer ?? onSecondaryContainer,
+                onTertiaryContainer:
+                    onInverseTertiaryContainer ?? onTertiaryContainer,
+                onDisabled: onInverseDisabled ?? onDisabled,
+                onSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(_inverse(brightness)),
+                onBackground: onInverseBackground ??
+                    onBackground ??
+                    _onBackgroundOrSurface(_inverse(brightness)),
+                onWeak: onInverseWeak ?? onWeak,
+                onError: onInverseError ?? onError,
+                onInfo: onInverseInfo ?? onInfo,
+                onSuccess: onInverseSuccess ?? onSuccess,
+                onWarning: onInverseWarning ?? onWarning,
+                splashColor: inverseSplashColor ?? splashColor,
+                shadow: inverseShadow ?? shadow,
+                inverseSurface:
+                    surface ?? inverseSurface ?? _surface(brightness),
+                onInverseSurface: onInverseSurface ??
+                    onSurface ??
+                    _onBackgroundOrSurface(brightness),
+                inversePrimary: primary,
+                appBarColor: inverseAppBarColor ?? appBarColor,
+                onAppBarColor: onInverseAppBarColor ?? onAppBarColor,
+                onExpandedAppBarColor:
+                    onInverseExpandedAppBarColor ?? onExpandedAppBarColor,
+                scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
+                    scaffoldBackgroundColor ??
+                    _background(_inverse(brightness)),
+              ),
         text = TextThemeData._(
           displayLarge: displayLarge,
           displayMedium: displayMedium,
@@ -246,8 +466,8 @@ class AppThemeData {
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
-    Color surface = kWhiteColor,
-    Color background = kWhiteColor,
+    Color? surface,
+    Color? background,
     Color onPrimary = kWhiteColor,
     Color onSecondary = kWhiteColor,
     Color onTertiary = kWhiteColor,
@@ -255,21 +475,54 @@ class AppThemeData {
     Color onSecondaryContainer = kWhiteColor,
     Color onTertiaryContainer = kWhiteColor,
     Color onDisabled = kWhiteColor,
-    Color onSurface = kBlackColor,
-    Color onBackground = kBlackColor,
+    Color? onSurface,
+    Color? onBackground,
     Color onWeak = kWhiteColor,
     Color onError = kWhiteColor,
     Color onInfo = kWhiteColor,
-    Color onSuccess = kBlackColor,
+    Color onSuccess = kWhiteColor,
     Color onWarning = kWhiteColor,
-    Color splashColor = const Color(0xaaFFFFFF),
+    Color splashColor = kSplashColor,
     Color shadow = Colors.black,
-    Color inverseSurface = kBlackColor,
-    Color onInverseSurface = kWhiteColor,
-    Color inversePrimary = kWhiteColor,
     Color? appBarColor,
     Color? onAppBarColor,
-    Color scaffoldBackgroundColor = kWhiteColor,
+    Color? onExpandedAppBarColor,
+    Color? scaffoldBackgroundColor,
+    Color? inversePrimary,
+    Color? inverseSecondary,
+    Color? inverseTertiary,
+    Color? inversePrimaryContainer,
+    Color? inverseSecondaryContainer,
+    Color? inverseTertiaryContainer,
+    Color? inverseDisabled,
+    Color? inverseWeak,
+    Color? inverseOutline,
+    Color? inverseError,
+    Color? inverseWarning,
+    Color? inverseInfo,
+    Color? inverseSuccess,
+    Color? inverseSurface,
+    Color? inverseBackground,
+    Color? onInversePrimary,
+    Color? onInverseSecondary,
+    Color? onInverseTertiary,
+    Color? onInversePrimaryContainer,
+    Color? onInverseSecondaryContainer,
+    Color? onInverseTertiaryContainer,
+    Color? onInverseDisabled,
+    Color? onInverseSurface,
+    Color? onInverseBackground,
+    Color? onInverseWeak,
+    Color? onInverseError,
+    Color? onInverseInfo,
+    Color? onInverseSuccess,
+    Color? onInverseWarning,
+    Color? inverseSplashColor,
+    Color? inverseShadow,
+    Color? inverseAppBarColor,
+    Color? onInverseAppBarColor,
+    Color? onInverseExpandedAppBarColor,
+    Color? inverseScaffoldBackgroundColor,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -351,11 +604,10 @@ class AppThemeData {
     double fontSizeFactor = 1.0,
     double fontSizeDelta = 0.0,
     String? defaultFontFamily,
-    this.useMaterial3 = true,
-    this.platform = TargetPlatform.iOS,
-    this.centerTitleOnAppBar,
-  })  : color = ColorThemeData._(
-          brightness: Brightness.light,
+    bool useMaterial3 = true,
+    TargetPlatform platform = TargetPlatform.iOS,
+    bool? centerTitleOnAppBar,
+  }) : this(
           primary: primary,
           secondary: secondary,
           tertiary: tertiary,
@@ -387,14 +639,45 @@ class AppThemeData {
           onWarning: onWarning,
           splashColor: splashColor,
           shadow: shadow,
-          inverseSurface: inverseSurface,
-          onInverseSurface: onInverseSurface,
-          inversePrimary: inversePrimary,
           appBarColor: appBarColor,
           onAppBarColor: onAppBarColor,
+          onExpandedAppBarColor: onExpandedAppBarColor,
           scaffoldBackgroundColor: scaffoldBackgroundColor,
-        ),
-        text = TextThemeData._(
+          inversePrimary: inversePrimary,
+          inverseSecondary: inverseSecondary,
+          inverseTertiary: inverseTertiary,
+          inversePrimaryContainer: inversePrimaryContainer,
+          inverseSecondaryContainer: inverseSecondaryContainer,
+          inverseTertiaryContainer: inverseTertiaryContainer,
+          inverseDisabled: inverseDisabled,
+          inverseWeak: inverseWeak,
+          inverseOutline: inverseOutline,
+          inverseError: inverseError,
+          inverseWarning: inverseWarning,
+          inverseInfo: inverseInfo,
+          inverseSuccess: inverseSuccess,
+          inverseSurface: inverseSurface,
+          inverseBackground: inverseBackground,
+          onInversePrimary: onInversePrimary,
+          onInverseSecondary: onInverseSecondary,
+          onInverseTertiary: onInverseTertiary,
+          onInversePrimaryContainer: onInversePrimaryContainer,
+          onInverseSecondaryContainer: onInverseSecondaryContainer,
+          onInverseTertiaryContainer: onInverseTertiaryContainer,
+          onInverseDisabled: onInverseDisabled,
+          onInverseSurface: onInverseSurface,
+          onInverseBackground: onInverseBackground,
+          onInverseWeak: onInverseWeak,
+          onInverseError: onInverseError,
+          onInverseInfo: onInverseInfo,
+          onInverseSuccess: onInverseSuccess,
+          onInverseWarning: onInverseWarning,
+          inverseSplashColor: inverseSplashColor,
+          inverseShadow: inverseShadow,
+          inverseAppBarColor: inverseAppBarColor,
+          onInverseAppBarColor: onInverseAppBarColor,
+          onInverseExpandedAppBarColor: onInverseExpandedAppBarColor,
+          inverseScaffoldBackgroundColor: inverseScaffoldBackgroundColor,
           displayLarge: displayLarge,
           displayMedium: displayMedium,
           displaySmall: displaySmall,
@@ -413,6 +696,10 @@ class AppThemeData {
           fontSizeFactor: fontSizeFactor,
           fontSizeDelta: fontSizeDelta,
           defaultFontFamily: defaultFontFamily,
+          useMaterial3: useMaterial3,
+          platform: platform,
+          centerTitleOnAppBar: centerTitleOnAppBar,
+          brightness: Brightness.light,
         );
 
   /// The dark theme defines the initial color.
@@ -434,30 +721,63 @@ class AppThemeData {
     Color warning = Colors.amber,
     Color info = Colors.blue,
     Color success = Colors.green,
-    Color surface = kBlackColor,
-    Color background = kBlackColor,
-    Color onPrimary = kBlackColor,
-    Color onSecondary = kBlackColor,
-    Color onTertiary = kBlackColor,
-    Color onPrimaryContainer = kBlackColor,
-    Color onSecondaryContainer = kBlackColor,
-    Color onTertiaryContainer = kBlackColor,
+    Color? surface,
+    Color? background,
+    Color onPrimary = kWhiteColor,
+    Color onSecondary = kWhiteColor,
+    Color onTertiary = kWhiteColor,
+    Color onPrimaryContainer = kWhiteColor,
+    Color onSecondaryContainer = kWhiteColor,
+    Color onTertiaryContainer = kWhiteColor,
     Color onDisabled = kWhiteColor,
-    Color onSurface = kWhiteColor,
-    Color onBackground = kWhiteColor,
-    Color onWeak = kBlackColor,
-    Color onError = kBlackColor,
-    Color onInfo = kBlackColor,
+    Color? onSurface,
+    Color? onBackground,
+    Color onWeak = kWhiteColor,
+    Color onError = kWhiteColor,
+    Color onInfo = kWhiteColor,
     Color onSuccess = kWhiteColor,
-    Color onWarning = kBlackColor,
-    Color splashColor = const Color(0xaaFFFFFF),
+    Color onWarning = kWhiteColor,
+    Color splashColor = kSplashColor,
     Color shadow = Colors.black,
-    Color inverseSurface = kWhiteColor,
-    Color onInverseSurface = kBlackColor,
-    Color inversePrimary = kBlackColor,
     Color? appBarColor,
     Color? onAppBarColor,
-    Color scaffoldBackgroundColor = kBlackColor,
+    Color? onExpandedAppBarColor,
+    Color? scaffoldBackgroundColor,
+    Color? inversePrimary,
+    Color? inverseSecondary,
+    Color? inverseTertiary,
+    Color? inversePrimaryContainer,
+    Color? inverseSecondaryContainer,
+    Color? inverseTertiaryContainer,
+    Color? inverseDisabled,
+    Color? inverseWeak,
+    Color? inverseOutline,
+    Color? inverseError,
+    Color? inverseWarning,
+    Color? inverseInfo,
+    Color? inverseSuccess,
+    Color? inverseSurface,
+    Color? inverseBackground,
+    Color? onInversePrimary,
+    Color? onInverseSecondary,
+    Color? onInverseTertiary,
+    Color? onInversePrimaryContainer,
+    Color? onInverseSecondaryContainer,
+    Color? onInverseTertiaryContainer,
+    Color? onInverseDisabled,
+    Color? onInverseSurface,
+    Color? onInverseBackground,
+    Color? onInverseWeak,
+    Color? onInverseError,
+    Color? onInverseInfo,
+    Color? onInverseSuccess,
+    Color? onInverseWarning,
+    Color? inverseSplashColor,
+    Color? inverseShadow,
+    Color? inverseAppBarColor,
+    Color? onInverseAppBarColor,
+    Color? onInverseExpandedAppBarColor,
+    Color? inverseScaffoldBackgroundColor,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -539,11 +859,10 @@ class AppThemeData {
     double fontSizeFactor = 1.0,
     double fontSizeDelta = 0.0,
     String? defaultFontFamily,
-    this.useMaterial3 = true,
-    this.platform = TargetPlatform.iOS,
-    this.centerTitleOnAppBar,
-  })  : color = ColorThemeData._(
-          brightness: Brightness.dark,
+    bool useMaterial3 = true,
+    TargetPlatform platform = TargetPlatform.iOS,
+    bool? centerTitleOnAppBar,
+  }) : this(
           primary: primary,
           secondary: secondary,
           tertiary: tertiary,
@@ -575,14 +894,45 @@ class AppThemeData {
           onWarning: onWarning,
           splashColor: splashColor,
           shadow: shadow,
-          inverseSurface: inverseSurface,
-          onInverseSurface: onInverseSurface,
-          inversePrimary: inversePrimary,
           appBarColor: appBarColor,
           onAppBarColor: onAppBarColor,
+          onExpandedAppBarColor: onExpandedAppBarColor,
           scaffoldBackgroundColor: scaffoldBackgroundColor,
-        ),
-        text = TextThemeData._(
+          inversePrimary: inversePrimary,
+          inverseSecondary: inverseSecondary,
+          inverseTertiary: inverseTertiary,
+          inversePrimaryContainer: inversePrimaryContainer,
+          inverseSecondaryContainer: inverseSecondaryContainer,
+          inverseTertiaryContainer: inverseTertiaryContainer,
+          inverseDisabled: inverseDisabled,
+          inverseWeak: inverseWeak,
+          inverseOutline: inverseOutline,
+          inverseError: inverseError,
+          inverseWarning: inverseWarning,
+          inverseInfo: inverseInfo,
+          inverseSuccess: inverseSuccess,
+          inverseSurface: inverseSurface,
+          inverseBackground: inverseBackground,
+          onInversePrimary: onInversePrimary,
+          onInverseSecondary: onInverseSecondary,
+          onInverseTertiary: onInverseTertiary,
+          onInversePrimaryContainer: onInversePrimaryContainer,
+          onInverseSecondaryContainer: onInverseSecondaryContainer,
+          onInverseTertiaryContainer: onInverseTertiaryContainer,
+          onInverseDisabled: onInverseDisabled,
+          onInverseSurface: onInverseSurface,
+          onInverseBackground: onInverseBackground,
+          onInverseWeak: onInverseWeak,
+          onInverseError: onInverseError,
+          onInverseInfo: onInverseInfo,
+          onInverseSuccess: onInverseSuccess,
+          onInverseWarning: onInverseWarning,
+          inverseSplashColor: inverseSplashColor,
+          inverseShadow: inverseShadow,
+          inverseAppBarColor: inverseAppBarColor,
+          onInverseAppBarColor: onInverseAppBarColor,
+          onInverseExpandedAppBarColor: onInverseExpandedAppBarColor,
+          inverseScaffoldBackgroundColor: inverseScaffoldBackgroundColor,
           displayLarge: displayLarge,
           displayMedium: displayMedium,
           displaySmall: displaySmall,
@@ -601,6 +951,10 @@ class AppThemeData {
           fontSizeFactor: fontSizeFactor,
           fontSizeDelta: fontSizeDelta,
           defaultFontFamily: defaultFontFamily,
+          useMaterial3: useMaterial3,
+          platform: platform,
+          centerTitleOnAppBar: centerTitleOnAppBar,
+          brightness: Brightness.dark,
         );
 
   /// Retrieve the color scheme.
@@ -614,7 +968,19 @@ class AppThemeData {
   /// See also:
   ///
   ///   - https://m3.material.io/styles/color/the-color-system/color-roles
-  final ColorThemeData color;
+  ColorThemeData get color {
+    final brightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    if (brightness == Brightness.dark) {
+      return _darkColor;
+    } else {
+      return _lightColor;
+    }
+  }
+
+  final ColorThemeData _darkColor;
+
+  final ColorThemeData _lightColor;
 
   /// Retrieve the text theme.
   ///
@@ -711,6 +1077,11 @@ class AppThemeData {
   /// `true`の場合中央寄せ、`false`の場合左寄せ、[Null]の場合はプラットフォームに合わせたデフォルトの寄せ方になります。
   final bool? centerTitleOnAppBar;
 
+  /// Define [Brightness] for the application. [Brightness.dark] will set it to dark mode and [Brightness.light] will set it to light mode.
+  ///
+  /// アプリの[Brightness]を定義します。[Brightness.dark]でダークモードに、[Brightness.light]でライトモードになります。
+  final Brightness brightness;
+
   /// Get [AppThemeData] placed on the widget tree.
   ///
   /// ウィジェットツリー上に配置されている[AppThemeData]を取得します。
@@ -726,22 +1097,27 @@ class AppThemeData {
   ///
   /// Passing this to [MaterialApp] and others will change the Flutter widget to a design suitable for [AppThemeData].
   ///
+  /// If [brightness] is specified, it will change to that color theme.
+  ///
   /// [defaultFontFamily] allows you to specify the default font for the app.
   ///
   /// Flutterの[ThemeData]に変換します。
   ///
   /// これを[MaterialApp]などに渡すとFlutterのウィジェットが[AppThemeData]に適したデザインに変更されます。
   ///
+  /// [brightness]を指定するとそのカラーテーマに変更されます。
+  ///
   /// [defaultFontFamily]を指定するとアプリのデフォルトのフォントを指定することができます。
   ThemeData toThemeData({
+    Brightness? brightness,
     String? defaultFontFamily,
   }) {
-    final color = this.color;
     final text = this.text;
     defaultFontFamily ??= text.defaultFontFamily;
 
-    switch (color.brightness) {
+    switch (brightness ?? color.brightness) {
       case Brightness.dark:
+        final color = _darkColor;
         final theme = ThemeData.dark();
         final colorScheme = theme.colorScheme.copyWith(
           primary: color.primary,
@@ -802,9 +1178,7 @@ class AppThemeData {
           labelSmall:
               text.labelSmall.copyWith(fontFamily: text.defaultFontFamily),
         );
-        final appBarForegroundColor = color.appBarColor == Colors.transparent
-            ? color.onBackground
-            : color.onAppBarColor;
+        final appBarForegroundColor = color.onAppBarColor ?? color.onBackground;
         return ThemeData(
           fontFamily: defaultFontFamily,
           useMaterial3: useMaterial3,
@@ -821,33 +1195,26 @@ class AppThemeData {
           ),
           appBarTheme: theme.appBarTheme.copyWith(
             centerTitle: centerTitleOnAppBar,
-            backgroundColor: color.appBarColor,
+            backgroundColor: color.appBarColor ?? color.background,
+            surfaceTintColor: color.appBarColor ?? color.background,
             elevation: color.appBarColor == Colors.transparent ? 0 : null,
             foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? TextStyle(color: appBarForegroundColor)
-                    : null),
+                TextStyle(color: appBarForegroundColor),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? TextStyle(color: appBarForegroundColor)
-                    : null),
+                text.titleLarge.copyWith(color: appBarForegroundColor),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? IconThemeData(color: appBarForegroundColor)
-                    : null),
+                IconThemeData(color: appBarForegroundColor),
             actionsIconTheme: theme.appBarTheme.actionsIconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? IconThemeData(color: appBarForegroundColor)
-                    : null),
+                IconThemeData(color: appBarForegroundColor),
           ),
           buttonTheme: theme.buttonTheme.copyWith(
             textTheme: theme.buttonTheme.textTheme,
@@ -887,11 +1254,25 @@ class AppThemeData {
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
+          dividerTheme: DividerThemeData(
+            color: color.outline,
+          ),
           colorScheme: colorScheme
               .copyWith(background: color.background)
               .copyWith(error: color.error),
+          extensions: [
+            AppBarThemeExtension(
+              collapsedForegroundColor:
+                  color.onAppBarColor ?? color.onBackground,
+              expandedForegroundColor: color.onExpandedAppBarColor ??
+                  color.onAppBarColor ??
+                  color.onBackground,
+            ),
+            ...theme.extensions.values,
+          ],
         );
       default:
+        final color = _lightColor;
         final theme = ThemeData.light();
         final colorScheme = theme.colorScheme.copyWith(
           primary: color.primary,
@@ -950,9 +1331,7 @@ class AppThemeData {
           labelSmall:
               text.labelSmall.copyWith(fontFamily: text.defaultFontFamily),
         );
-        final appBarForegroundColor = color.appBarColor == Colors.transparent
-            ? color.onBackground
-            : color.onAppBarColor;
+        final appBarForegroundColor = color.onAppBarColor ?? color.onBackground;
         return ThemeData(
           fontFamily: defaultFontFamily,
           useMaterial3: useMaterial3,
@@ -962,33 +1341,26 @@ class AppThemeData {
           scaffoldBackgroundColor: color.scaffoldBackgroundColor,
           appBarTheme: theme.appBarTheme.copyWith(
             centerTitle: centerTitleOnAppBar,
-            backgroundColor: color.appBarColor,
+            backgroundColor: color.appBarColor ?? color.background,
+            surfaceTintColor: color.appBarColor ?? color.background,
             elevation: color.appBarColor == Colors.transparent ? 0 : null,
             foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? TextStyle(color: appBarForegroundColor)
-                    : null),
+                TextStyle(color: appBarForegroundColor),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? TextStyle(color: appBarForegroundColor)
-                    : null),
+                text.titleLarge.copyWith(color: appBarForegroundColor),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? IconThemeData(color: appBarForegroundColor)
-                    : null),
+                IconThemeData(color: appBarForegroundColor),
             actionsIconTheme: theme.appBarTheme.actionsIconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
-                (appBarForegroundColor != null
-                    ? IconThemeData(color: appBarForegroundColor)
-                    : null),
+                IconThemeData(color: appBarForegroundColor),
           ),
           textTheme: textTheme.apply(
             fontFamily: text.defaultFontFamily,
@@ -1034,367 +1406,55 @@ class AppThemeData {
           primaryColor: color.primary,
           disabledColor: color.disabled,
           dividerColor: color.outline,
+          dividerTheme: DividerThemeData(
+            color: color.outline,
+          ),
           colorScheme: colorScheme
               .copyWith(background: color.background)
               .copyWith(error: color.error),
+          extensions: [
+            AppBarThemeExtension(
+              collapsedForegroundColor:
+                  color.onAppBarColor ?? color.onBackground,
+              expandedForegroundColor: color.onExpandedAppBarColor ??
+                  color.onAppBarColor ??
+                  color.onBackground,
+            ),
+            ...theme.extensions.values,
+          ],
         );
     }
   }
 
-  /// Copy [AppThemeData] as LightTheme.
-  ///
-  /// Basically, text and background colors are replaced with LightTheme defaults unless specified otherwise.
-  ///
-  /// Text and other colors are copied as they are from the existing settings.
-  ///
-  /// [AppThemeData]をLightThemeとしてコピーします。
-  ///
-  /// 基本的に文字色や背景色は指定しない限りLightThemeのデフォルトに置き換えられます。
-  ///
-  /// 文字やその他の色は既存の設定がそのままコピーされます。
-  AppThemeData copyWithLight({
-    Color? primary,
-    Color? secondary,
-    Color? tertiary,
-    Color? primaryContainer,
-    Color? secondaryContainer,
-    Color? tertiaryContainer,
-    Color disabled = Colors.grey,
-    Color weak = Colors.grey,
-    Color outline = Colors.grey,
-    Color? error,
-    Color? warning,
-    Color? info,
-    Color? success,
-    Color surface = kWhiteColor,
-    Color background = kWhiteColor,
-    Color onPrimary = kWhiteColor,
-    Color onSecondary = kWhiteColor,
-    Color onTertiary = kWhiteColor,
-    Color onPrimaryContainer = kWhiteColor,
-    Color onSecondaryContainer = kWhiteColor,
-    Color onTertiaryContainer = kWhiteColor,
-    Color onDisabled = kWhiteColor,
-    Color onSurface = kBlackColor,
-    Color onBackground = kBlackColor,
-    Color onWeak = kWhiteColor,
-    Color onError = kWhiteColor,
-    Color onInfo = kWhiteColor,
-    Color onSuccess = kBlackColor,
-    Color onWarning = kWhiteColor,
-    Color splashColor = const Color(0xaaFFFFFF),
-    Color shadow = Colors.black,
-    Color inverseSurface = kBlackColor,
-    Color onInverseSurface = kWhiteColor,
-    Color inversePrimary = kWhiteColor,
-    Color? appBarColor,
-    Color? onAppBarColor,
-    Color scaffoldBackgroundColor = kWhiteColor,
-  }) {
-    return AppThemeData(
-      primary: primary ?? color.primary,
-      secondary: secondary ?? color.secondary,
-      tertiary: tertiary ?? color.tertiary,
-      primaryContainer: primaryContainer ?? color.primaryContainer,
-      secondaryContainer: secondaryContainer ?? color.secondaryContainer,
-      tertiaryContainer: tertiaryContainer ?? color.tertiaryContainer,
-      disabled: disabled,
-      weak: weak,
-      outline: outline,
-      error: error ?? color.error,
-      warning: warning ?? color.warning,
-      info: info ?? color.info,
-      success: success ?? color.success,
-      surface: surface,
-      background: background,
-      onPrimary: onPrimary,
-      onSecondary: onSecondary,
-      onTertiary: onTertiary,
-      onPrimaryContainer: onPrimaryContainer,
-      onSecondaryContainer: onSecondaryContainer,
-      onTertiaryContainer: onTertiaryContainer,
-      onDisabled: onDisabled,
-      onSurface: onSurface,
-      onBackground: onBackground,
-      onWeak: onWeak,
-      onError: onError,
-      onInfo: onInfo,
-      onSuccess: onSuccess,
-      onWarning: onWarning,
-      splashColor: splashColor,
-      shadow: shadow,
-      inverseSurface: inverseSurface,
-      onInverseSurface: onInverseSurface,
-      inversePrimary: inversePrimary,
-      appBarColor: appBarColor ?? color.appBarColor,
-      onAppBarColor: onAppBarColor ?? color.onAppBarColor,
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      displayLarge: text.displayLarge,
-      displayMedium: text.displayMedium,
-      displaySmall: text.displaySmall,
-      headlineLarge: text.headlineLarge,
-      headlineMedium: text.headlineMedium,
-      headlineSmall: text.headlineSmall,
-      titleLarge: text.titleLarge,
-      titleMedium: text.titleMedium,
-      titleSmall: text.titleSmall,
-      bodyLarge: text.bodyLarge,
-      bodyMedium: text.bodyMedium,
-      bodySmall: text.bodySmall,
-      labelLarge: text.labelLarge,
-      labelMedium: text.labelMedium,
-      labelSmall: text.labelSmall,
-      fontSizeFactor: text.fontSizeFactor,
-      fontSizeDelta: text.fontSizeDelta,
-      defaultFontFamily: text.defaultFontFamily,
-      useMaterial3: useMaterial3,
-      platform: platform,
-      brightness: Brightness.light,
-    );
-  }
-
-  /// Copy [AppThemeData] as DarkTheme.
-  ///
-  /// Basically, text and background colors are replaced with DarkTheme defaults unless specified otherwise.
-  ///
-  /// Text and other colors are copied as they are from the existing settings.
-  ///
-  /// [AppThemeData]をDarkThemeとしてコピーします。
-  ///
-  /// 基本的に文字色や背景色は指定しない限りDarkThemeのデフォルトに置き換えられます。
-  ///
-  /// 文字やその他の色は既存の設定がそのままコピーされます。
-  AppThemeData copyWithDark({
-    Color? primary,
-    Color? secondary,
-    Color? tertiary,
-    Color? primaryContainer,
-    Color? secondaryContainer,
-    Color? tertiaryContainer,
-    Color disabled = Colors.grey,
-    Color weak = Colors.grey,
-    Color outline = Colors.grey,
-    Color? error,
-    Color? warning,
-    Color? info,
-    Color? success,
-    Color surface = kBlackColor,
-    Color background = kBlackColor,
-    Color onPrimary = kBlackColor,
-    Color onSecondary = kBlackColor,
-    Color onTertiary = kBlackColor,
-    Color onPrimaryContainer = kBlackColor,
-    Color onSecondaryContainer = kBlackColor,
-    Color onTertiaryContainer = kBlackColor,
-    Color onDisabled = kWhiteColor,
-    Color onSurface = kWhiteColor,
-    Color onBackground = kWhiteColor,
-    Color onWeak = kBlackColor,
-    Color onError = kBlackColor,
-    Color onInfo = kBlackColor,
-    Color onSuccess = kWhiteColor,
-    Color onWarning = kBlackColor,
-    Color splashColor = const Color(0xaaFFFFFF),
-    Color shadow = Colors.black,
-    Color inverseSurface = kWhiteColor,
-    Color onInverseSurface = kBlackColor,
-    Color inversePrimary = kBlackColor,
-    Color? appBarColor,
-    Color? onAppBarColor,
-    Color scaffoldBackgroundColor = kBlackColor,
-  }) {
-    return AppThemeData(
-      primary: primary ?? color.primary,
-      secondary: secondary ?? color.secondary,
-      tertiary: tertiary ?? color.tertiary,
-      primaryContainer: primaryContainer ?? color.primaryContainer,
-      secondaryContainer: secondaryContainer ?? color.secondaryContainer,
-      tertiaryContainer: tertiaryContainer ?? color.tertiaryContainer,
-      disabled: disabled,
-      weak: weak,
-      outline: outline,
-      error: error ?? color.error,
-      warning: warning ?? color.warning,
-      info: info ?? color.info,
-      success: success ?? color.success,
-      surface: surface,
-      background: background,
-      onPrimary: onPrimary,
-      onSecondary: onSecondary,
-      onTertiary: onTertiary,
-      onPrimaryContainer: onPrimaryContainer,
-      onSecondaryContainer: onSecondaryContainer,
-      onTertiaryContainer: onTertiaryContainer,
-      onDisabled: onDisabled,
-      onSurface: onSurface,
-      onBackground: onBackground,
-      onWeak: onWeak,
-      onError: onError,
-      onInfo: onInfo,
-      onSuccess: onSuccess,
-      onWarning: onWarning,
-      splashColor: splashColor,
-      shadow: shadow,
-      inverseSurface: inverseSurface,
-      onInverseSurface: onInverseSurface,
-      inversePrimary: inversePrimary,
-      appBarColor: appBarColor ?? color.appBarColor,
-      onAppBarColor: onAppBarColor ?? color.onAppBarColor,
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      displayLarge: text.displayLarge,
-      displayMedium: text.displayMedium,
-      displaySmall: text.displaySmall,
-      headlineLarge: text.headlineLarge,
-      headlineMedium: text.headlineMedium,
-      headlineSmall: text.headlineSmall,
-      titleLarge: text.titleLarge,
-      titleMedium: text.titleMedium,
-      titleSmall: text.titleSmall,
-      bodyLarge: text.bodyLarge,
-      bodyMedium: text.bodyMedium,
-      bodySmall: text.bodySmall,
-      labelLarge: text.labelLarge,
-      labelMedium: text.labelMedium,
-      labelSmall: text.labelSmall,
-      fontSizeFactor: text.fontSizeFactor,
-      fontSizeDelta: text.fontSizeDelta,
-      defaultFontFamily: text.defaultFontFamily,
-      useMaterial3: useMaterial3,
-      platform: platform,
-      brightness: Brightness.dark,
-    );
-  }
-
-  /// Returns the inverted Brightness of [AppThemeData].
-  ///
-  /// Basically, text and background colors are replaced with the defaults of each theme unless specified otherwise.
-  ///
-  /// Text and other colors are copied as they are from the existing settings.
-  ///
-  /// [AppThemeData]のBrightnessを反転したものを返します。
-  ///
-  /// 基本的に文字色や背景色は指定しない限り各テーマのデフォルトに置き換えられます。
-  ///
-  /// 文字やその他の色は既存の設定がそのままコピーされます。
-  AppThemeData copyWithInvert({
-    Color? primary,
-    Color? secondary,
-    Color? tertiary,
-    Color? primaryContainer,
-    Color? secondaryContainer,
-    Color? tertiaryContainer,
-    Color? disabled,
-    Color? weak,
-    Color? outline,
-    Color? error,
-    Color? warning,
-    Color? info,
-    Color? success,
-    Color? surface,
-    Color? background,
-    Color? onPrimary,
-    Color? onSecondary,
-    Color? onTertiary,
-    Color? onPrimaryContainer,
-    Color? onSecondaryContainer,
-    Color? onTertiaryContainer,
-    Color? onDisabled,
-    Color? onSurface,
-    Color? onBackground,
-    Color? onWeak,
-    Color? onError,
-    Color? onInfo,
-    Color? onSuccess,
-    Color? onWarning,
-    Color? splashColor,
-    Color? shadow,
-    Color? inverseSurface,
-    Color? onInverseSurface,
-    Color? inversePrimary,
-    Color? appBarColor,
-    Color? onAppBarColor,
-    Color? scaffoldBackgroundColor,
-  }) {
-    if (color.brightness == Brightness.light) {
-      return copyWithDark(
-        primary: primary,
-        secondary: secondary,
-        tertiary: tertiary,
-        primaryContainer: primaryContainer,
-        secondaryContainer: secondaryContainer,
-        tertiaryContainer: tertiaryContainer,
-        disabled: disabled ?? Colors.grey,
-        weak: weak ?? Colors.grey,
-        outline: outline ?? Colors.grey,
-        error: error,
-        warning: warning,
-        info: info,
-        success: success,
-        surface: surface ?? kBlackColor,
-        background: background ?? kBlackColor,
-        onPrimary: onPrimary ?? kBlackColor,
-        onSecondary: onSecondary ?? kBlackColor,
-        onTertiary: onTertiary ?? kBlackColor,
-        onPrimaryContainer: onPrimaryContainer ?? kBlackColor,
-        onSecondaryContainer: onSecondaryContainer ?? kBlackColor,
-        onTertiaryContainer: onTertiaryContainer ?? kBlackColor,
-        onDisabled: onDisabled ?? kWhiteColor,
-        onSurface: onSurface ?? kWhiteColor,
-        onBackground: onBackground ?? kWhiteColor,
-        onWeak: onWeak ?? kBlackColor,
-        onError: onError ?? kBlackColor,
-        onInfo: onInfo ?? kBlackColor,
-        onSuccess: onSuccess ?? kWhiteColor,
-        onWarning: onWarning ?? kBlackColor,
-        splashColor: splashColor ?? const Color(0xaaFFFFFF),
-        shadow: shadow ?? Colors.black,
-        inverseSurface: inverseSurface ?? kWhiteColor,
-        onInverseSurface: onInverseSurface ?? kBlackColor,
-        inversePrimary: inversePrimary ?? kBlackColor,
-        appBarColor: appBarColor,
-        onAppBarColor: onAppBarColor,
-        scaffoldBackgroundColor: scaffoldBackgroundColor ?? kBlackColor,
-      );
+  static Brightness _inverse(Brightness brightness) {
+    if (brightness == Brightness.light) {
+      return Brightness.dark;
     } else {
-      return copyWithLight(
-        primary: primary,
-        secondary: secondary,
-        tertiary: tertiary,
-        primaryContainer: primaryContainer,
-        secondaryContainer: secondaryContainer,
-        tertiaryContainer: tertiaryContainer,
-        disabled: disabled ?? Colors.grey,
-        weak: weak ?? Colors.grey,
-        outline: outline ?? Colors.grey,
-        error: error,
-        warning: warning,
-        info: info,
-        success: success,
-        surface: surface ?? kWhiteColor,
-        background: background ?? kWhiteColor,
-        onPrimary: onPrimary ?? kWhiteColor,
-        onSecondary: onSecondary ?? kWhiteColor,
-        onTertiary: onTertiary ?? kWhiteColor,
-        onPrimaryContainer: onPrimaryContainer ?? kWhiteColor,
-        onSecondaryContainer: onSecondaryContainer ?? kWhiteColor,
-        onTertiaryContainer: onTertiaryContainer ?? kWhiteColor,
-        onDisabled: onDisabled ?? kWhiteColor,
-        onSurface: onSurface ?? kBlackColor,
-        onBackground: onBackground ?? kBlackColor,
-        onWeak: onWeak ?? kWhiteColor,
-        onError: onError ?? kWhiteColor,
-        onInfo: onInfo ?? kWhiteColor,
-        onSuccess: onSuccess ?? kBlackColor,
-        onWarning: onWarning ?? kWhiteColor,
-        splashColor: splashColor ?? const Color(0xaaFFFFFF),
-        shadow: shadow ?? Colors.black,
-        inverseSurface: inverseSurface ?? kBlackColor,
-        onInverseSurface: onInverseSurface ?? kWhiteColor,
-        inversePrimary: inversePrimary ?? kWhiteColor,
-        appBarColor: appBarColor,
-        onAppBarColor: onAppBarColor,
-        scaffoldBackgroundColor: scaffoldBackgroundColor ?? kWhiteColor,
-      );
+      return Brightness.light;
+    }
+  }
+
+  static Color _background(Brightness brightness) {
+    if (brightness == Brightness.light) {
+      return kWhiteColor;
+    } else {
+      return kBlackColor;
+    }
+  }
+
+  static Color _surface(Brightness brightness) {
+    if (brightness == Brightness.light) {
+      return kWhiteSurfaceColor;
+    } else {
+      return kBlackSurfaceColor;
+    }
+  }
+
+  static Color _onBackgroundOrSurface(Brightness brightness) {
+    if (brightness == Brightness.light) {
+      return kBlackColor;
+    } else {
+      return kWhiteColor;
     }
   }
 }
@@ -1450,6 +1510,7 @@ class ColorThemeData {
     required this.brightness,
     this.appBarColor,
     this.onAppBarColor,
+    this.onExpandedAppBarColor,
     Color? canvasColor,
     Color? scaffoldBackgroundColor,
   })  : _scaffoldBackgroundColor = scaffoldBackgroundColor,
@@ -1738,6 +1799,15 @@ class ColorThemeData {
   ///
   /// Material3のカラースキーム外のカラーです。
   final Color? onAppBarColor;
+
+  /// Color of text and icons when [AppBar] is open.
+  ///
+  /// These are colors outside of the Material3 color scheme.
+  ///
+  /// [AppBar]が開いているときのテキストやアイコンのカラー。
+  ///
+  /// Material3のカラースキーム外のカラーです。
+  final Color? onExpandedAppBarColor;
 
   /// Background color of [Scaffold].
   ///
@@ -2131,4 +2201,59 @@ class AssetThemeData {
 @immutable
 class FontThemeData {
   const FontThemeData._();
+}
+
+/// Extended theme to extend the AppBar theme.
+///
+/// AppBarのテーマを拡張するための拡張テーマ。
+class AppBarThemeExtension extends ThemeExtension<AppBarThemeExtension> {
+  AppBarThemeExtension({
+    this.collapsedForegroundColor,
+    this.expandedForegroundColor,
+  });
+
+  /// Text color when AppBar is open.
+  ///
+  /// AppBarが開いているときの文字色。
+  final Color? expandedForegroundColor;
+
+  /// Text color when AppBar is closed.
+  ///
+  /// AppBarが閉じているときの文字色。
+  final Color? collapsedForegroundColor;
+
+  @override
+  ThemeExtension<AppBarThemeExtension> copyWith({
+    Color? expandedForegroundColor,
+    Color? collapsedForegroundColor,
+  }) {
+    return AppBarThemeExtension(
+      expandedForegroundColor:
+          expandedForegroundColor ?? this.expandedForegroundColor,
+      collapsedForegroundColor:
+          collapsedForegroundColor ?? this.collapsedForegroundColor,
+    );
+  }
+
+  @override
+  ThemeExtension<AppBarThemeExtension> lerp(
+    AppBarThemeExtension? other,
+    double t,
+  ) {
+    if (other == null) {
+      return this;
+    }
+    return AppBarThemeExtension(
+      expandedForegroundColor: Color.lerp(
+        expandedForegroundColor,
+        other.expandedForegroundColor,
+        t,
+      ),
+      collapsedForegroundColor: Color.lerp(
+        collapsedForegroundColor,
+        other.collapsedForegroundColor,
+        t,
+      ),
+    );
+  }
 }
