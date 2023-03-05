@@ -492,7 +492,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
         height: widget.style?.height,
         width: widget.style?.width,
         padding:
-            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
+            widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
         child: _TextFormField<TValue>(
           key: widget.key,
           form: widget.form,
@@ -516,7 +516,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
           expands: !widget.obscureText && widget.expands,
           decoration: InputDecoration(
             contentPadding: widget.style?.contentPadding ??
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             fillColor: widget.style?.backgroundColor,
             filled: widget.style?.backgroundColor != null,
             isDense: true,
