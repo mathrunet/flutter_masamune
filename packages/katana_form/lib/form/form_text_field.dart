@@ -138,7 +138,7 @@ class FormTextField<TValue> extends StatefulWidget {
     this.maxLength,
     this.onTap,
     this.minLength,
-    this.maxLines,
+    this.maxLines = 1,
     this.minLines = 1,
     this.expands = false,
     this.hintText,
@@ -238,7 +238,7 @@ class FormTextField<TValue> extends StatefulWidget {
   /// Maximum number of lines. No more line breaks will be allowed.
   ///
   /// 最大のライン数。これ以上は改行できなくなります。
-  final int? maxLines;
+  final int maxLines;
 
   /// Minimum number of lines; if a number greater than 1 is specified, the initial display of the form extends to the specified number of lines.
   ///
@@ -505,11 +505,15 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
           enabled: widget.enabled,
           controller: controller,
           autofocus: widget.autofocus,
-          keyboardType: widget.keyboardType,
+          keyboardType: widget.expands || widget.minLines > 1
+              ? TextInputType.multiline
+              : widget.keyboardType,
           maxLength: widget.maxLength,
-          maxLines: widget.obscureText
+          maxLines: (widget.obscureText
               ? 1
-              : (widget.expands ? null : widget.maxLines),
+              : (widget.expands
+                  ? null
+                  : max(widget.maxLines, widget.minLines))),
           minLines: widget.obscureText
               ? 1
               : (widget.expands ? null : widget.minLines),
