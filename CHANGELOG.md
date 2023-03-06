@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.10.0`](#masamune---v1100)
+ - [`masamune_picker` - `v1.5.50`](#masamune_picker---v1550)
+ - [`masamune_notification_firebase` - `v1.2.20`](#masamune_notification_firebase---v1220)
+ - [`masamune_logger_firebase` - `v1.2.31`](#masamune_logger_firebase---v1231)
+ - [`masamune_picker_mobile` - `v1.5.50`](#masamune_picker_mobile---v1550)
+ - [`masamune_picker_file` - `v1.5.50`](#masamune_picker_file---v1550)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.50`
+ - `masamune_notification_firebase` - `v1.2.20`
+ - `masamune_logger_firebase` - `v1.2.31`
+ - `masamune_picker_mobile` - `v1.5.50`
+ - `masamune_picker_file` - `v1.5.50`
+
+---
+
+#### `masamune` - `v1.10.0`
+
+ - **FEAT**: Consolidate Responsive-related. ([ae97ade3](https://github.com/mathrunet/flutter_masamune/commit/ae97ade3a2272a41015b940982c2adf3211d6c19))
+
+
+## 2023-03-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.3.13`](#katana_form---v1313)
  - [`masamune` - `v1.9.4`](#masamune---v194)
  - [`masamune_builder` - `v1.4.6`](#masamune_builder---v146)

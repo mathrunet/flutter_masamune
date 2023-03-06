@@ -1,3 +1,7 @@
+## 1.10.0
+
+ - **FEAT**: Consolidate Responsive-related. ([ae97ade3](https://github.com/mathrunet/flutter_masamune/commit/ae97ade3a2272a41015b940982c2adf3211d6c19))
+
 ## 1.9.4
 
  - **FIX**: Adjustment of colors and icons by applying themes. ([27c65c1e](https://github.com/mathrunet/flutter_masamune/commit/27c65c1e502b3101a1d02482bf5ef51cd4bf0b98))
