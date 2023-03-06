@@ -48,12 +48,18 @@ class UniversalColumn extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.mainAxisSize = MainAxisSize.max,
     this.verticalDirection = VerticalDirection.down,
+    this.rowSegments = 12,
   });
 
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
   ///
   /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
-  final ResponsiveBreakpoint? breakpoint;
+  final Breakpoint? breakpoint;
+
+  /// Defines where to place the widget with respect to its parent.
+  ///
+  /// 親要素に対してウィジェットを配置する位置を定義します。
+  final EdgeInsetsGeometry? padding;
 
   /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
   ///
@@ -64,11 +70,6 @@ class UniversalColumn extends StatelessWidget {
   ///
   /// この値はコンテナに使用される配置を保持します。
   final AlignmentGeometry alignment;
-
-  /// Defines where to place the widget with respect to its parent.
-  ///
-  /// 親要素に対してウィジェットを配置する位置を定義します。
-  final EdgeInsetsGeometry? padding;
 
   /// Sets the background color of the container.
   ///
@@ -181,10 +182,15 @@ class UniversalColumn extends StatelessWidget {
   /// カラムの垂直方向の配置を設定します。
   final VerticalDirection verticalDirection;
 
+  /// The number of segments in the horizontal direction.
+  ///
+  /// 横方向のセグメントの数です。
+  final int rowSegments;
+
   @override
   Widget build(BuildContext context) {
     final breakpoint =
-        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
+        this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
 
     return Align(
       alignment: alignment,
@@ -211,16 +217,66 @@ class UniversalColumn extends StatelessWidget {
             mainAxisAlignment: mainAxisAlignment,
             crossAxisAlignment: crossAxisAlignment,
             mainAxisSize: mainAxisSize,
-            children: children,
+            children: _createRows(context, children),
           ),
         ),
       ),
     );
   }
 
+  List<Widget> _createRows(BuildContext context, List<Widget> children) {
+    int accumulatedWidth = 0;
+    var cols = <Widget>[];
+    final rows = <Widget>[];
+
+    for (final col in children) {
+      if (col is Responsive) {
+        final colWidth = col.currentConfig(context) ?? 12;
+        if (accumulatedWidth + colWidth > rowSegments) {
+          if (accumulatedWidth < rowSegments) {
+            cols.add(Spacer(
+              flex: rowSegments - accumulatedWidth,
+            ));
+          }
+          rows.add(Row(
+            crossAxisAlignment: crossAxisAlignment,
+            children: cols,
+          ));
+          cols = <Widget>[];
+          accumulatedWidth = 0;
+        }
+        cols.add(col);
+        accumulatedWidth += colWidth;
+      } else {
+        if (cols.isNotEmpty) {
+          rows.add(Row(
+            crossAxisAlignment: crossAxisAlignment,
+            children: cols,
+          ));
+          cols = <Widget>[];
+          accumulatedWidth = 0;
+        }
+        rows.add(col);
+      }
+    }
+
+    if (accumulatedWidth >= 0) {
+      if (accumulatedWidth < rowSegments) {
+        cols.add(Spacer(
+          flex: rowSegments - accumulatedWidth,
+        ));
+      }
+      rows.add(Row(
+        crossAxisAlignment: crossAxisAlignment,
+        children: cols,
+      ));
+    }
+    return rows;
+  }
+
   EdgeInsetsGeometry? _effectivePadding(
     BuildContext context,
-    ResponsiveBreakpoint? breakpoint,
+    Breakpoint? breakpoint,
   ) {
     if (breakpoint?.width(context) == double.infinity) {
       return padding;

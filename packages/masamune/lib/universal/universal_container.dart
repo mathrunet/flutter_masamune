@@ -49,7 +49,7 @@ class UniversalContainer extends StatelessWidget {
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
   ///
   /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
-  final ResponsiveBreakpoint? breakpoint;
+  final Breakpoint? breakpoint;
 
   /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
   ///
@@ -160,7 +160,7 @@ class UniversalContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final breakpoint =
-        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
+        this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
 
     return Align(
       alignment: alignment,
@@ -188,7 +188,7 @@ class UniversalContainer extends StatelessWidget {
 
   EdgeInsetsGeometry? _effectivePadding(
     BuildContext context,
-    ResponsiveBreakpoint? breakpoint,
+    Breakpoint? breakpoint,
   ) {
     if (breakpoint?.width(context) == double.infinity) {
       return padding;

@@ -183,7 +183,7 @@ class MasamuneApp extends StatelessWidget {
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
   ///
   /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
-  final ResponsiveBreakpoint? breakpoint;
+  final Breakpoint? breakpoint;
 
   /// You can specify the plug-in adapter used by Masamune Framework.
   ///

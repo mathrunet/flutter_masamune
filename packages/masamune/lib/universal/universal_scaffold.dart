@@ -148,6 +148,15 @@ class UniversalScaffold extends StatefulWidget {
     this.sideBar,
   });
 
+  /// Pass [context] to get [Breakpoint] set by [UniversalScaffold] at the top.
+  ///
+  /// [context]を渡して上部にある[UniversalScaffold]で設定されている[Breakpoint]を取得します。
+  static UniversalScaffoldScope? of(BuildContext context) {
+    final UniversalScaffoldScope? scope =
+        context.dependOnInheritedWidgetOfExactType<UniversalScaffoldScope>();
+    return scope;
+  }
+
   /// Setting this to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
   ///
   /// これを`true`にするとトランジションアニメーションの間に[body]を表示しないようにすることができ、スムーズなアニメーションを実現できます。
@@ -175,7 +184,7 @@ class UniversalScaffold extends StatefulWidget {
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
   ///
   /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
-  final ResponsiveBreakpoint? breakpoint;
+  final Breakpoint? breakpoint;
 
   /// {@template flutter.material.scaffold.appBar}
   /// The [AppBar] to display at the top of the scaffold.
@@ -378,75 +387,84 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
 
   @override
   Widget build(BuildContext context) {
-    final universalScope =
-        MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final appBar = widget.appBar;
     final useSliver = !(appBar == null ||
             appBar is! UniversalAppBarMixin ||
             !appBar.useSliver(context)) ||
         appBar is SliverAppBar ||
         appBar is SliverAppBarMixin;
+    final universalScope =
+        MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+    final breakpoint = universalScope?.defaultBreakpoint ?? widget.breakpoint;
+
     if (useSliver) {
-      return ResponsiveScaffold(
-        key: widget.key,
-        breakpoint: universalScope?.defaultBreakpoint ?? widget.breakpoint,
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              if (widget.appBar != null) widget.appBar!,
-            ];
-          },
-          body: _buildBody(context, _loading(context)),
+      return UniversalScaffoldScope(
+        breakpoint: breakpoint,
+        sideBarWidth: 0.0,
+        child: Scaffold(
+          key: widget.key,
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                if (widget.appBar != null) widget.appBar!,
+              ];
+            },
+            body: _buildBody(context, _loading(context)),
+          ),
+          floatingActionButton: widget.floatingActionButton,
+          floatingActionButtonLocation: widget.floatingActionButtonLocation,
+          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+          persistentFooterButtons: widget.persistentFooterButtons,
+          drawer: _buildDrawer(context),
+          onDrawerChanged: widget.onDrawerChanged,
+          endDrawer: widget.endDrawer,
+          onEndDrawerChanged: widget.onEndDrawerChanged,
+          bottomNavigationBar: widget.bottomNavigationBar,
+          bottomSheet: widget.bottomSheet,
+          backgroundColor: widget.backgroundColor,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+          primary: widget.primary,
+          drawerDragStartBehavior: widget.drawerDragStartBehavior,
+          extendBody: widget.extendBody,
+          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+          drawerScrimColor: widget.drawerScrimColor,
+          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+          endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+          restorationId: widget.restorationId,
         ),
-        floatingActionButton: widget.floatingActionButton,
-        floatingActionButtonLocation: widget.floatingActionButtonLocation,
-        floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-        persistentFooterButtons: widget.persistentFooterButtons,
-        drawer: _buildDrawer(context),
-        onDrawerChanged: widget.onDrawerChanged,
-        endDrawer: widget.endDrawer,
-        onEndDrawerChanged: widget.onEndDrawerChanged,
-        bottomNavigationBar: widget.bottomNavigationBar,
-        bottomSheet: widget.bottomSheet,
-        backgroundColor: widget.backgroundColor,
-        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-        primary: widget.primary,
-        drawerDragStartBehavior: widget.drawerDragStartBehavior,
-        extendBody: widget.extendBody,
-        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-        drawerScrimColor: widget.drawerScrimColor,
-        drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-        drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-        endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
-        restorationId: widget.restorationId,
       );
     } else {
-      return ResponsiveScaffold(
-        key: widget.key,
-        breakpoint: universalScope?.defaultBreakpoint ?? widget.breakpoint,
-        appBar: _toMobileAppBar(context),
-        body: _buildBody(context, _loading(context)),
-        floatingActionButton: widget.floatingActionButton,
-        floatingActionButtonLocation: widget.floatingActionButtonLocation,
-        floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-        persistentFooterButtons: widget.persistentFooterButtons,
-        drawer: _buildDrawer(context),
-        onDrawerChanged: widget.onDrawerChanged,
-        endDrawer: widget.endDrawer,
-        onEndDrawerChanged: widget.onEndDrawerChanged,
-        bottomNavigationBar: widget.bottomNavigationBar,
-        bottomSheet: widget.bottomSheet,
-        backgroundColor: widget.backgroundColor,
-        resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-        primary: widget.primary,
-        drawerDragStartBehavior: widget.drawerDragStartBehavior,
-        extendBody: widget.extendBody,
-        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-        drawerScrimColor: widget.drawerScrimColor,
-        drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-        drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-        endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
-        restorationId: widget.restorationId,
+      return UniversalScaffoldScope(
+        breakpoint: breakpoint,
+        sideBarWidth: 0.0,
+        child: Scaffold(
+          key: widget.key,
+          appBar: _toMobileAppBar(context),
+          body: _buildBody(context, _loading(context)),
+          floatingActionButton: widget.floatingActionButton,
+          floatingActionButtonLocation: widget.floatingActionButtonLocation,
+          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+          persistentFooterButtons: widget.persistentFooterButtons,
+          drawer: _buildDrawer(context),
+          onDrawerChanged: widget.onDrawerChanged,
+          endDrawer: widget.endDrawer,
+          onEndDrawerChanged: widget.onEndDrawerChanged,
+          bottomNavigationBar: widget.bottomNavigationBar,
+          bottomSheet: widget.bottomSheet,
+          backgroundColor: widget.backgroundColor,
+          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+          primary: widget.primary,
+          drawerDragStartBehavior: widget.drawerDragStartBehavior,
+          extendBody: widget.extendBody,
+          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+          drawerScrimColor: widget.drawerScrimColor,
+          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+          endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
+          restorationId: widget.restorationId,
+        ),
       );
     }
   }
@@ -480,33 +498,6 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     }
     if (appBar is AppBar) {
       return appBar;
-    } else if (appBar is ResponsiveAppBar) {
-      return appBar;
-      // } else if (appBar is SliverAppBar) {
-      //   return ResponsiveAppBar(
-      //     leading: appBar.leading,
-      //     automaticallyImplyLeading: appBar.automaticallyImplyLeading,
-      //     title: appBar.title,
-      //     actions: appBar.actions,
-      //     flexibleSpace: appBar.flexibleSpace,
-      //     bottom: appBar.bottom,
-      //     elevation: appBar.elevation,
-      //     shadowColor: appBar.shadowColor,
-      //     shape: appBar.shape,
-      //     backgroundColor: appBar.backgroundColor,
-      //     foregroundColor: appBar.foregroundColor,
-      //     iconTheme: appBar.iconTheme,
-      //     actionsIconTheme: appBar.actionsIconTheme,
-      //     primary: appBar.primary,
-      //     centerTitle: appBar.centerTitle ?? false,
-      //     excludeHeaderSemantics: appBar.excludeHeaderSemantics,
-      //     titleSpacing: appBar.titleSpacing,
-      //     toolbarHeight: appBar.toolbarHeight,
-      //     leadingWidth: appBar.leadingWidth,
-      //     toolbarTextStyle: appBar.toolbarTextStyle,
-      //     titleTextStyle: appBar.titleTextStyle,
-      //     systemOverlayStyle: appBar.systemOverlayStyle,
-      //   );
     } else if (appBar is UniversalAppBarMixin) {
       return appBar.buildUnsliverAppBar(context);
     } else if (appBar is PreferredSizeWidget) {
@@ -562,6 +553,50 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
       ],
     );
   }
+}
+
+/// Scope for retrieving information in [UniversalScaffold].
+///
+/// It can be obtained at [UniversalScaffold.of].
+///
+/// [UniversalScaffold]の中の情報を取得するためのスコープ。
+///
+/// [UniversalScaffold.of]で取得できます。
+class UniversalScaffoldScope extends InheritedWidget {
+  /// Scope for retrieving information in [UniversalScaffold].
+  ///
+  /// It can be obtained at [UniversalScaffold.of].
+  ///
+  /// [UniversalScaffold]の中の情報を取得するためのスコープ。
+  ///
+  /// [UniversalScaffold.of]で取得できます。
+  const UniversalScaffoldScope({
+    super.key,
+    required super.child,
+    required this.breakpoint,
+    required this.sideBarWidth,
+  });
+
+  /// Describe breakpoints for responsive containers.
+  ///
+  /// The width of the `UniversalUI` under the distribution is automatically adjusted.
+  ///
+  /// レスポンシブコンテナのブレークポイントを記述します。
+  ///
+  /// 配下にある`UniversalUI`の横幅が自動で調整されます。
+  final Breakpoint? breakpoint;
+
+  /// Width of sidebar.
+  ///
+  /// If the sidebar does not exist, it is set to 0.
+  ///
+  /// サイドバーの横幅。
+  ///
+  /// サイドバーが存在しない場合は0になります。
+  final double sideBarWidth;
+
+  @override
+  bool updateShouldNotify(covariant UniversalScaffoldScope oldWidget) => false;
 }
 
 /// This is given when generating a [Drawer] within [UniversalScaffold].

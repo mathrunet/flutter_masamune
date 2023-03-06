@@ -156,7 +156,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
   ///
   /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
-  final ResponsiveBreakpoint? breakpoint;
+  final Breakpoint? breakpoint;
 
   /// If this is enabled, it will appear as a sliver scroll view.
   ///
@@ -434,6 +434,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 ),
               ],
             );
+
       return TextButtonTheme(
         data: TextButtonThemeData(
           style: TextButton.styleFrom(
@@ -441,37 +442,43 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                 theme.actionsIconTheme?.color ?? theme.foregroundColor,
           ),
         ),
-        child: ResponsiveAppBar(
-          key: key,
-          breakpoint: breakpoint,
-          leading: leading,
-          automaticallyImplyLeading: false,
-          title: mergedTitle,
-          actions: actions,
-          flexibleSpace: flexibleSpace,
-          bottom: bottom,
-          elevation: elevation,
-          shadowColor: shadowColor,
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-          iconTheme: iconTheme,
-          actionsIconTheme: actionsIconTheme,
-          primary: primary,
-          centerTitle: centerTitle,
-          excludeHeaderSemantics: excludeHeaderSemantics,
-          titleSpacing: titleSpacing,
-          shape: shape,
-          toolbarHeight: toolbarHeight,
-          leadingWidth: leadingWidth,
-          toolbarTextStyle: toolbarTextStyle,
-          titleTextStyle: titleTextStyle,
-          systemOverlayStyle: systemOverlayStyle,
-          scrolledUnderElevation: scrolledUnderElevation,
-          notificationPredicate: notificationPredicate,
-          surfaceTintColor: surfaceTintColor,
-          toolbarOpacity: toolbarOpacity,
-          bottomOpacity: bottomOpacity,
-        ),
+        child: LayoutBuilder(builder: (context, constraints) {
+          final titleSpacing = _leadingSpace(context, showLeading);
+          final trailingSpacing = _trailingSpace(context, showLeading);
+
+          return AppBar(
+            key: key,
+            leading: leading,
+            automaticallyImplyLeading: false,
+            title: mergedTitle,
+            actions: actions.isNotEmpty
+                ? [...actions!, SizedBox(width: trailingSpacing)]
+                : null,
+            flexibleSpace: flexibleSpace,
+            bottom: bottom,
+            elevation: elevation,
+            shadowColor: shadowColor,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            iconTheme: iconTheme,
+            actionsIconTheme: actionsIconTheme,
+            primary: primary,
+            centerTitle: centerTitle,
+            excludeHeaderSemantics: excludeHeaderSemantics,
+            titleSpacing: titleSpacing,
+            shape: shape,
+            toolbarHeight: toolbarHeight,
+            leadingWidth: leadingWidth,
+            toolbarTextStyle: toolbarTextStyle,
+            titleTextStyle: titleTextStyle,
+            systemOverlayStyle: systemOverlayStyle,
+            scrolledUnderElevation: scrolledUnderElevation,
+            notificationPredicate: notificationPredicate,
+            surfaceTintColor: surfaceTintColor,
+            toolbarOpacity: toolbarOpacity,
+            bottomOpacity: bottomOpacity,
+          );
+        }),
       );
     } else {
       final bottomHeight = bottom?.preferredSize.height ?? 0;
@@ -692,7 +699,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     }
     final width = MediaQuery.of(context).size.width;
     final breakpoint =
-        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
+        this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
     if (breakpoint == null) {
       return null;
     }
@@ -711,7 +718,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     }
     final width = MediaQuery.of(context).size.width;
     final breakpoint =
-        this.breakpoint ?? ResponsiveScaffold.of(context)?.breakpoint;
+        this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
     if (breakpoint == null) {
       return null;
     }
@@ -729,6 +736,16 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     final hasDrawer = scaffold?.hasDrawer ?? false;
     final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
     final canPop = parentRoute?.canPop ?? false;
+    final showLeading = this.leading != null ||
+        ((automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.onlyDrawer ||
+                automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.drawerAndBack) &&
+            hasDrawer) ||
+        (automaticallyImplyLeading ==
+                AutomaticallyImplyLeadingType.drawerAndBack &&
+            ((!hasEndDrawer && canPop) ||
+                (parentRoute?.impliesAppBarDismissal ?? false)));
     final bool useCloseButton =
         parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
     final overallIconTheme = iconTheme ?? appBarTheme.iconTheme;
@@ -754,35 +771,55 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
         leading = useCloseButton ? const CloseButton() : const BackButton();
       }
     }
+    return PreferredSize(
+      preferredSize:
+          Size.fromHeight(toolbarHeight + (bottom?.preferredSize.height ?? 0)),
+      child: TextButtonTheme(
+        data: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: appBarTheme.actionsIconTheme?.color ??
+                appBarTheme.foregroundColor,
+          ),
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final titleSpacing = _leadingSpace(context, showLeading);
+            final trailingSpacing = _trailingSpace(context, showLeading);
 
-    return ResponsiveAppBar(
-      leading: leading,
-      automaticallyImplyLeading: false,
-      title: _mobileAppBarTitle(
-        context,
-        title: title,
-        subtitle: subtitle,
-        centerTitle: centerTitle,
+            return AppBar(
+              leading: leading,
+              automaticallyImplyLeading: false,
+              title: _mobileAppBarTitle(
+                context,
+                title: title,
+                subtitle: subtitle,
+                centerTitle: centerTitle,
+              ),
+              elevation: elevation,
+              shadowColor: shadowColor,
+              backgroundColor: backgroundColor,
+              foregroundColor: foregroundColor,
+              iconTheme: iconTheme,
+              actionsIconTheme: actionsIconTheme,
+              actions: actions.isNotEmpty
+                  ? [...actions!, SizedBox(width: trailingSpacing)]
+                  : null,
+              flexibleSpace: flexibleSpace,
+              bottom: bottom,
+              shape: shape,
+              primary: primary,
+              centerTitle: centerTitle,
+              excludeHeaderSemantics: excludeHeaderSemantics,
+              titleSpacing: titleSpacing,
+              toolbarHeight: toolbarHeight,
+              leadingWidth: leadingWidth,
+              toolbarTextStyle: toolbarTextStyle,
+              titleTextStyle: titleTextStyle,
+              systemOverlayStyle: systemOverlayStyle,
+            );
+          },
+        ),
       ),
-      elevation: elevation,
-      shadowColor: shadowColor,
-      backgroundColor: backgroundColor,
-      foregroundColor: foregroundColor,
-      iconTheme: iconTheme,
-      actionsIconTheme: actionsIconTheme,
-      actions: actions,
-      flexibleSpace: flexibleSpace,
-      bottom: bottom,
-      shape: shape,
-      primary: primary,
-      centerTitle: centerTitle,
-      excludeHeaderSemantics: excludeHeaderSemantics,
-      titleSpacing: titleSpacing,
-      toolbarHeight: toolbarHeight,
-      leadingWidth: leadingWidth,
-      toolbarTextStyle: toolbarTextStyle,
-      titleTextStyle: titleTextStyle,
-      systemOverlayStyle: systemOverlayStyle,
     );
   }
 

@@ -1,28 +1,33 @@
 part of masamune;
 
+/// Default width of the sidebar.
+///
+/// サイドバーのデフォルトの横幅。
+const kSideBarWidth = 240.0;
+
 /// Create a sidebar for Universal UI.
 ///
 /// Set to [UniversalScaffold.sidebar] in [UniversalScaffold].
 ///
-/// When a [breakpoint] is set, the sidebar padding is switched to match the width of that [ResponsiveBreakpoint].
+/// When a [breakpoint] is set, the sidebar padding is switched to match the width of that [Breakpoint].
 ///
 /// Universal UI用のサイドバーを作成します。
 ///
 /// [UniversalScaffold]の[UniversalScaffold.sidebar]に設定してください。
 ///
-/// [breakpoint]を設定すると、その[ResponsiveBreakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
+/// [breakpoint]を設定すると、その[Breakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
 class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
   /// Create a sidebar for Universal UI.
   ///
   /// Set to [UniversalScaffold.sidebar] in [UniversalScaffold].
   ///
-  /// When a [breakpoint] is set, the sidebar padding is switched to match the width of that [ResponsiveBreakpoint].
+  /// When a [breakpoint] is set, the sidebar padding is switched to match the width of that [Breakpoint].
   ///
   /// Universal UI用のサイドバーを作成します。
   ///
   /// [UniversalScaffold]の[UniversalScaffold.sidebar]に設定してください。
   ///
-  /// [breakpoint]を設定すると、その[ResponsiveBreakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
+  /// [breakpoint]を設定すると、その[Breakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
   UniversalSideBar({
     super.key,
     this.breakpoint,
@@ -43,10 +48,10 @@ class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
   /// サイドバーの[Decoration]。
   final Decoration? decoration;
 
-  /// The sidebar padding switches to match the width of this [ResponsiveBreakpoint].
+  /// The sidebar padding switches to match the width of this [Breakpoint].
   ///
-  /// この[ResponsiveBreakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
-  final ResponsiveBreakpoint? breakpoint;
+  /// この[Breakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
+  final Breakpoint? breakpoint;
 
   /// Widget for the contents of the sidebar.
   ///

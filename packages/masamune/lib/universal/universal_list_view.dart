@@ -227,7 +227,7 @@ class UniversalListView extends StatelessWidget {
     final rows = <Widget>[];
 
     for (final col in children) {
-      if (col is ResponsiveCol) {
+      if (col is Responsive) {
         final colWidth = col.currentConfig(context) ?? 12;
         if (accumulatedWidth + colWidth > rowSegments) {
           if (accumulatedWidth < rowSegments) {
@@ -309,7 +309,7 @@ class UniversalListView extends StatelessWidget {
 
   Widget _padding(BuildContext context, Widget sliver) {
     final width = MediaQuery.of(context).size.width;
-    final breakpoint = ResponsiveScaffold.of(context)?.breakpoint;
+    final breakpoint = UniversalScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
     final responsivePadding = (width - maxWidth) / 2.0;
     final resolvedPadding =
@@ -329,7 +329,7 @@ class UniversalListView extends StatelessWidget {
 
   EdgeInsetsGeometry? _effectivePadding(
     BuildContext context,
-    ResponsiveBreakpoint? breakpoint,
+    Breakpoint? breakpoint,
   ) {
     if (breakpoint?.width(context) == double.infinity) {
       return padding;

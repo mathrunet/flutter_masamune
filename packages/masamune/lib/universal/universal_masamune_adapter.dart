@@ -2,7 +2,7 @@ part of masamune;
 
 class UniversalMasamuneAdapter extends MasamuneAdapter {
   const UniversalMasamuneAdapter({
-    this.defaultBreakpoint = ResponsiveBreakpoint.sm,
+    this.defaultBreakpoint = Breakpoint.sm,
     this.defaultBodyPaddingWhenNotFullWidth =
         const EdgeInsets.symmetric(vertical: kToolbarHeight),
     this.defaultSidebarPaddingWhenNotFullWidth =
@@ -15,7 +15,7 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
         adapter: this, onInit: onInitScope, child: app);
   }
 
-  final ResponsiveBreakpoint defaultBreakpoint;
+  final Breakpoint defaultBreakpoint;
   final EdgeInsetsGeometry defaultBodyPaddingWhenNotFullWidth;
   final EdgeInsetsGeometry defaultSidebarPaddingWhenNotFullWidth;
 }
