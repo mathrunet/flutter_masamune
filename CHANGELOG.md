@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.3.15`](#katana_form---v1315)
+ - [`masamune` - `v1.10.2`](#masamune---v1102)
+ - [`masamune_picker` - `v1.5.52`](#masamune_picker---v1552)
+ - [`masamune_notification_firebase` - `v1.2.22`](#masamune_notification_firebase---v1222)
+ - [`masamune_logger_firebase` - `v1.2.33`](#masamune_logger_firebase---v1233)
+ - [`masamune_picker_mobile` - `v1.5.52`](#masamune_picker_mobile---v1552)
+ - [`masamune_picker_file` - `v1.5.52`](#masamune_picker_file---v1552)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.10.2`
+ - `masamune_picker` - `v1.5.52`
+ - `masamune_notification_firebase` - `v1.2.22`
+ - `masamune_logger_firebase` - `v1.2.33`
+ - `masamune_picker_mobile` - `v1.5.52`
+ - `masamune_picker_file` - `v1.5.52`
+
+---
+
+#### `katana_form` - `v1.3.15`
+
+ - **FIX**: Addition of FormFutureField and FormChipsField. ([25ae583a](https://github.com/mathrunet/flutter_masamune/commit/25ae583a81c578b96314a866a092d6097e41ebdb))
+
+
+## 2023-03-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.3.14`](#katana_form---v1314)
  - [`katana_router` - `v1.11.6`](#katana_router---v1116)
  - [`katana_router_builder` - `v1.11.3`](#katana_router_builder---v1113)

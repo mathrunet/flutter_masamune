@@ -1,3 +1,7 @@
+## 1.3.15
+
+ - **FIX**: Addition of FormFutureField and FormChipsField. ([25ae583a](https://github.com/mathrunet/flutter_masamune/commit/25ae583a81c578b96314a866a092d6097e41ebdb))
+
 ## 1.3.14
 
  - **FIX**: Fixed a bug that caused the TextField to widen when inputting Japanese. ([b7d653cd](https://github.com/mathrunet/flutter_masamune/commit/b7d653cdc96f8917c0f57de22d31da10fec60ace))
