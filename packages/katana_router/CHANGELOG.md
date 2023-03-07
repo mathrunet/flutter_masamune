@@ -1,3 +1,7 @@
+## 1.11.7
+
+ - **DOCS**: Apply to the latest version of Example. ([776625cb](https://github.com/mathrunet/flutter_masamune/commit/776625cb21c690872e3caa56acf04418439d7fac))
+
 ## 1.11.6
 
  - **FIX**: Fixed a bug that prevented the first page in nested navigation from working properly. ([b83468bf](https://github.com/mathrunet/flutter_masamune/commit/b83468bf7d0daa90a43310f29c94d01902502fdd))

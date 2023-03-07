@@ -1,3 +1,7 @@
+## 1.3.16
+
+ - **FIX**: Adjust the appearance of the FormChipsField. ([786a79de](https://github.com/mathrunet/flutter_masamune/commit/786a79de984c1eda737b4e954544fe476289e561))
+
 ## 1.3.15
 
  - **FIX**: Addition of FormFutureField and FormChipsField. ([25ae583a](https://github.com/mathrunet/flutter_masamune/commit/25ae583a81c578b96314a866a092d6097e41ebdb))

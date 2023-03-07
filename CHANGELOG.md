@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.3.16`](#katana_form---v1316)
+ - [`katana_router` - `v1.11.7`](#katana_router---v1117)
+ - [`masamune` - `v1.10.3`](#masamune---v1103)
+ - [`masamune_picker` - `v1.5.53`](#masamune_picker---v1553)
+ - [`masamune_notification_firebase` - `v1.2.23`](#masamune_notification_firebase---v1223)
+ - [`masamune_logger_firebase` - `v1.2.34`](#masamune_logger_firebase---v1234)
+ - [`masamune_picker_mobile` - `v1.5.53`](#masamune_picker_mobile---v1553)
+ - [`masamune_picker_file` - `v1.5.53`](#masamune_picker_file---v1553)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.10.3`
+ - `masamune_picker` - `v1.5.53`
+ - `masamune_notification_firebase` - `v1.2.23`
+ - `masamune_logger_firebase` - `v1.2.34`
+ - `masamune_picker_mobile` - `v1.5.53`
+ - `masamune_picker_file` - `v1.5.53`
+
+---
+
+#### `katana_form` - `v1.3.16`
+
+ - **FIX**: Adjust the appearance of the FormChipsField. ([786a79de](https://github.com/mathrunet/flutter_masamune/commit/786a79de984c1eda737b4e954544fe476289e561))
+
+#### `katana_router` - `v1.11.7`
+
+ - **DOCS**: Apply to the latest version of Example. ([776625cb](https://github.com/mathrunet/flutter_masamune/commit/776625cb21c690872e3caa56acf04418439d7fac))
+
+
+## 2023-03-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router_builder` - `v1.11.4`](#katana_router_builder---v1114)
  - [`masamune_builder` - `v1.4.8`](#masamune_builder---v148)
 
