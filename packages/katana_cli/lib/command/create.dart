@@ -440,7 +440,6 @@ final loggerAdapters = <LoggerAdapter>[
 /// The Masamune framework plugin functions can be defined together.
 // TODO: Add the adapters.
 final masamuneAdapters = <MasamuneAdapter>[
-  const UniversalMasamuneAdapter(),
 ];
 
 /// App Theme.

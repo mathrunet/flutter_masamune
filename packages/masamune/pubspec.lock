@@ -244,10 +244,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_form
-      sha256: e768bda226177935a13b89512388d5ffe8395081023a72330e2b4ec4b4bc0093
+      sha256: "33e7f18cafec0fc858f55eae81b460a5eee08b03d28490c4de676e14b7ccd98c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.13"
+    version: "1.3.16"
   katana_functions:
     dependency: "direct main"
     description:
@@ -332,10 +332,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_router
-      sha256: c18b7f346b374ad8f77bdae92a95910626d3622313fecaf1d261a4d37d6765c4
+      sha256: dc2aeff2b529fd4824042f6e71e84dd74e650fdc783d062126b2e4f01d176cc8
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.5"
+    version: "1.11.6"
   katana_router_annotation:
     dependency: transitive
     description:
@@ -372,10 +372,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_theme
-      sha256: a82fbf1d6bbd1b53b4fe15b2e5fe63677bfef29a5fb0a5d0826076f13a2d64f9
+      sha256: ebb1b744b7086a260310f93c36f428cf9bc399d7839b9740f1c48471093a9948
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   katana_theme_annotation:
     dependency: transitive
     description:
