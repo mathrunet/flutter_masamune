@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_builder` - `v1.11.4`](#katana_router_builder---v1114)
+ - [`masamune_builder` - `v1.4.8`](#masamune_builder---v148)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v1.4.8`
+
+---
+
+#### `katana_router_builder` - `v1.11.4`
+
+ - **FIX**: Fixed the value of nested. ([70f92fe6](https://github.com/mathrunet/flutter_masamune/commit/70f92fe653f25c066455be56cd56e4f65b8b02b8))
+
+
+## 2023-03-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.3.15`](#katana_form---v1315)
  - [`masamune` - `v1.10.2`](#masamune---v1102)
  - [`masamune_picker` - `v1.5.52`](#masamune_picker---v1552)

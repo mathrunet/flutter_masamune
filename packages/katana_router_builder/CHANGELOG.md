@@ -1,3 +1,7 @@
+## 1.11.4
+
+ - **FIX**: Fixed the value of nested. ([70f92fe6](https://github.com/mathrunet/flutter_masamune/commit/70f92fe653f25c066455be56cd56e4f65b8b02b8))
+
 ## 1.11.3
 
  - **FIX**: Fixed a bug that prevented the first page in nested navigation from working properly. ([b83468bf](https://github.com/mathrunet/flutter_masamune/commit/b83468bf7d0daa90a43310f29c94d01902502fdd))
