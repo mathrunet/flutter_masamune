@@ -214,6 +214,7 @@ class AppThemeData {
     this.platform = TargetPlatform.iOS,
     this.centerTitleOnAppBar,
     this.brightness = Brightness.light,
+    this.fixed = false,
   })  : _lightColor = brightness == Brightness.light
             ? ColorThemeData._(
                 brightness: brightness,
@@ -249,11 +250,12 @@ class AppThemeData {
                 onWarning: onWarning,
                 splashColor: splashColor,
                 shadow: shadow,
-                inverseSurface:
-                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                inverseSurface: inverseSurface ??
+                    surface ??
+                    _surface(_inverse(brightness, fixed)),
                 onInverseSurface: onInverseSurface ??
                     onSurface ??
-                    _onBackgroundOrSurface(_inverse(brightness)),
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
                 inversePrimary: inversePrimary ?? primary,
                 appBarColor: appBarColor,
                 onAppBarColor: onAppBarColor,
@@ -278,11 +280,12 @@ class AppThemeData {
                 warning: inverseWarning ?? warning,
                 info: inverseInfo ?? info,
                 success: inverseSuccess ?? success,
-                surface:
-                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                surface: inverseSurface ??
+                    surface ??
+                    _surface(_inverse(brightness, fixed)),
                 background: inverseBackground ??
                     background ??
-                    _background(_inverse(brightness)),
+                    _background(_inverse(brightness, fixed)),
                 onPrimary: onInversePrimary ?? onPrimary,
                 onSecondary: onInverseSecondary ?? onSecondary,
                 onTertiary: onInverseTertiary ?? onTertiary,
@@ -295,10 +298,10 @@ class AppThemeData {
                 onDisabled: onInverseDisabled ?? onDisabled,
                 onSurface: onInverseSurface ??
                     onSurface ??
-                    _onBackgroundOrSurface(_inverse(brightness)),
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
                 onBackground: onInverseBackground ??
                     onBackground ??
-                    _onBackgroundOrSurface(_inverse(brightness)),
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
                 onWeak: onInverseWeak ?? onWeak,
                 onError: onInverseError ?? onError,
                 onInfo: onInverseInfo ?? onInfo,
@@ -318,7 +321,7 @@ class AppThemeData {
                     onInverseExpandedAppBarColor ?? onExpandedAppBarColor,
                 scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
                     scaffoldBackgroundColor ??
-                    _background(_inverse(brightness)),
+                    _background(_inverse(brightness, fixed)),
               ),
         _darkColor = brightness == Brightness.dark
             ? ColorThemeData._(
@@ -355,11 +358,12 @@ class AppThemeData {
                 onWarning: onWarning,
                 splashColor: splashColor,
                 shadow: shadow,
-                inverseSurface:
-                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                inverseSurface: inverseSurface ??
+                    surface ??
+                    _surface(_inverse(brightness, fixed)),
                 onInverseSurface: onInverseSurface ??
                     onSurface ??
-                    _onBackgroundOrSurface(_inverse(brightness)),
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
                 inversePrimary: inversePrimary ?? primary,
                 appBarColor: appBarColor,
                 onAppBarColor: onAppBarColor,
@@ -384,11 +388,12 @@ class AppThemeData {
                 warning: inverseWarning ?? warning,
                 info: inverseInfo ?? info,
                 success: inverseSuccess ?? success,
-                surface:
-                    inverseSurface ?? surface ?? _surface(_inverse(brightness)),
+                surface: inverseSurface ??
+                    surface ??
+                    _surface(_inverse(brightness, fixed)),
                 background: inverseBackground ??
                     background ??
-                    _background(_inverse(brightness)),
+                    _background(_inverse(brightness, fixed)),
                 onPrimary: onInversePrimary ?? onPrimary,
                 onSecondary: onInverseSecondary ?? onSecondary,
                 onTertiary: onInverseTertiary ?? onTertiary,
@@ -401,10 +406,10 @@ class AppThemeData {
                 onDisabled: onInverseDisabled ?? onDisabled,
                 onSurface: onInverseSurface ??
                     onSurface ??
-                    _onBackgroundOrSurface(_inverse(brightness)),
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
                 onBackground: onInverseBackground ??
                     onBackground ??
-                    _onBackgroundOrSurface(_inverse(brightness)),
+                    _onBackgroundOrSurface(_inverse(brightness, fixed)),
                 onWeak: onInverseWeak ?? onWeak,
                 onError: onInverseError ?? onError,
                 onInfo: onInverseInfo ?? onInfo,
@@ -424,7 +429,7 @@ class AppThemeData {
                     onInverseExpandedAppBarColor ?? onExpandedAppBarColor,
                 scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
                     scaffoldBackgroundColor ??
-                    _background(_inverse(brightness)),
+                    _background(_inverse(brightness, fixed)),
               ),
         text = TextThemeData._(
           displayLarge: displayLarge,
@@ -607,6 +612,7 @@ class AppThemeData {
     bool useMaterial3 = true,
     TargetPlatform platform = TargetPlatform.iOS,
     bool? centerTitleOnAppBar,
+    bool fixed = false,
   }) : this(
           primary: primary,
           secondary: secondary,
@@ -700,6 +706,7 @@ class AppThemeData {
           platform: platform,
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.light,
+          fixed: fixed,
         );
 
   /// The dark theme defines the initial color.
@@ -862,6 +869,7 @@ class AppThemeData {
     bool useMaterial3 = true,
     TargetPlatform platform = TargetPlatform.iOS,
     bool? centerTitleOnAppBar,
+    bool fixed = false,
   }) : this(
           primary: primary,
           secondary: secondary,
@@ -955,6 +963,7 @@ class AppThemeData {
           platform: platform,
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.dark,
+          fixed: fixed,
         );
 
   /// Retrieve the color scheme.
@@ -1081,6 +1090,15 @@ class AppThemeData {
   ///
   /// アプリの[Brightness]を定義します。[Brightness.dark]でダークモードに、[Brightness.light]でライトモードになります。
   final Brightness brightness;
+
+  /// Specifies whether to always use the same theme instead of switching between light and dark modes.
+  ///
+  /// /// If `true`, the same theme is always used without switching between light and dark modes.
+  ///
+  /// ライトモードやダークモードの切り替えを行うのではなく、常に同じテーマを使用するかどうかを指定します。
+  ///
+  /// `true`の場合、ライトモードやダークモードの切り替えを行わず、常に同じテーマを使用します。
+  final bool fixed;
 
   /// Get [AppThemeData] placed on the widget tree.
   ///
@@ -1426,7 +1444,10 @@ class AppThemeData {
     }
   }
 
-  static Brightness _inverse(Brightness brightness) {
+  static Brightness _inverse(Brightness brightness, bool fixed) {
+    if (fixed) {
+      return brightness;
+    }
     if (brightness == Brightness.light) {
       return Brightness.dark;
     } else {
