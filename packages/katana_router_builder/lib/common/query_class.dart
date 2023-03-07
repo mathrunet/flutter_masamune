@@ -158,7 +158,7 @@ List<Class> queryClass(
               ..type = MethodType.getter
               ..lambda = true
               ..returns = const Reference("bool")
-              ..body = const Code("_path == null"),
+              ..body = Code(path == null ? "true" : "false"),
           ),
           Method(
             (m) => m
