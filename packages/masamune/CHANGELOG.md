@@ -1,3 +1,7 @@
+## 1.10.1
+
+ - **FIX**: Remove the Breakpoint item as it is not needed. ([93ee8bc7](https://github.com/mathrunet/flutter_masamune/commit/93ee8bc7b6feb334715a1af638920fb4c25c7ae1))
+
 ## 1.10.0
 
  - **FEAT**: Consolidate Responsive-related. ([ae97ade3](https://github.com/mathrunet/flutter_masamune/commit/ae97ade3a2272a41015b940982c2adf3211d6c19))

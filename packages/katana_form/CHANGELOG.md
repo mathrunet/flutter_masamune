@@ -1,3 +1,7 @@
+## 1.3.14
+
+ - **FIX**: Fixed a bug that caused the TextField to widen when inputting Japanese. ([b7d653cd](https://github.com/mathrunet/flutter_masamune/commit/b7d653cdc96f8917c0f57de22d31da10fec60ace))
+
 ## 1.3.13
 
  - **FIX**: Adjust padding of FormTextField. ([14dc1b8a](https://github.com/mathrunet/flutter_masamune/commit/14dc1b8aede2a5e4be706145b42134a1e868cddf))

@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.3.14`](#katana_form---v1314)
+ - [`katana_router` - `v1.11.6`](#katana_router---v1116)
+ - [`katana_router_builder` - `v1.11.3`](#katana_router_builder---v1113)
+ - [`katana_theme` - `v1.4.1`](#katana_theme---v141)
+ - [`katana_theme_builder` - `v1.4.1`](#katana_theme_builder---v141)
+ - [`masamune` - `v1.10.1`](#masamune---v1101)
+ - [`masamune_picker` - `v1.5.51`](#masamune_picker---v1551)
+ - [`masamune_notification_firebase` - `v1.2.21`](#masamune_notification_firebase---v1221)
+ - [`masamune_logger_firebase` - `v1.2.32`](#masamune_logger_firebase---v1232)
+ - [`masamune_picker_mobile` - `v1.5.51`](#masamune_picker_mobile---v1551)
+ - [`masamune_picker_file` - `v1.5.51`](#masamune_picker_file---v1551)
+ - [`masamune_builder` - `v1.4.7`](#masamune_builder---v147)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.51`
+ - `masamune_notification_firebase` - `v1.2.21`
+ - `masamune_logger_firebase` - `v1.2.32`
+ - `masamune_picker_mobile` - `v1.5.51`
+ - `masamune_picker_file` - `v1.5.51`
+ - `masamune_builder` - `v1.4.7`
+
+---
+
+#### `katana_form` - `v1.3.14`
+
+ - **FIX**: Fixed a bug that caused the TextField to widen when inputting Japanese. ([b7d653cd](https://github.com/mathrunet/flutter_masamune/commit/b7d653cdc96f8917c0f57de22d31da10fec60ace))
+
+#### `katana_router` - `v1.11.6`
+
+ - **FIX**: Fixed a bug that prevented the first page in nested navigation from working properly. ([b83468bf](https://github.com/mathrunet/flutter_masamune/commit/b83468bf7d0daa90a43310f29c94d01902502fdd))
+
+#### `katana_router_builder` - `v1.11.3`
+
+ - **FIX**: Fixed a bug that prevented the first page in nested navigation from working properly. ([b83468bf](https://github.com/mathrunet/flutter_masamune/commit/b83468bf7d0daa90a43310f29c94d01902502fdd))
+
+#### `katana_theme` - `v1.4.1`
+
+ - **FIX**: Added flag to fix theme. ([3e31542f](https://github.com/mathrunet/flutter_masamune/commit/3e31542f028ab7a00a7279d010c79601573de449))
+
+#### `katana_theme_builder` - `v1.4.1`
+
+ - **FIX**: Added flag to fix theme. ([3e31542f](https://github.com/mathrunet/flutter_masamune/commit/3e31542f028ab7a00a7279d010c79601573de449))
+
+#### `masamune` - `v1.10.1`
+
+ - **FIX**: Remove the Breakpoint item as it is not needed. ([93ee8bc7](https://github.com/mathrunet/flutter_masamune/commit/93ee8bc7b6feb334715a1af638920fb4c25c7ae1))
+
+
 ## 2023-03-06
 
 ### Changes

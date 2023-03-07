@@ -1,3 +1,7 @@
+## 1.11.3
+
+ - **FIX**: Fixed a bug that prevented the first page in nested navigation from working properly. ([b83468bf](https://github.com/mathrunet/flutter_masamune/commit/b83468bf7d0daa90a43310f29c94d01902502fdd))
+
 ## 1.11.2
 
  - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))

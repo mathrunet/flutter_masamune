@@ -1,3 +1,7 @@
+## 1.11.6
+
+ - **FIX**: Fixed a bug that prevented the first page in nested navigation from working properly. ([b83468bf](https://github.com/mathrunet/flutter_masamune/commit/b83468bf7d0daa90a43310f29c94d01902502fdd))
+
 ## 1.11.5
 
  - **FIX**: Fixed a bug that prevented users from using the browser's back button to return to the previous page on the Web. ([21d7b8e3](https://github.com/mathrunet/flutter_masamune/commit/21d7b8e307803a8868cc4054b2702b21860ece56))

@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **FIX**: Added flag to fix theme. ([3e31542f](https://github.com/mathrunet/flutter_masamune/commit/3e31542f028ab7a00a7279d010c79601573de449))
+
 ## 1.4.0
 
  - **FEAT**: The color of Theme is now explicitly divided between light mode and dark mode. ([8d87118b](https://github.com/mathrunet/flutter_masamune/commit/8d87118ba938bf5a419029f8893fab664d938a3e))

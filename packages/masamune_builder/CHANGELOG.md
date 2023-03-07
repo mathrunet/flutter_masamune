@@ -1,3 +1,7 @@
+## 1.4.7
+
+ - Update a dependency to the latest release.
+
 ## 1.4.6
 
  - **FIX**: Adjustment of colors and icons by applying themes. ([27c65c1e](https://github.com/mathrunet/flutter_masamune/commit/27c65c1e502b3101a1d02482bf5ef51cd4bf0b98))
