@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.8.10`](#katana_cli---v1810)
+ - [`masamune` - `v1.10.4`](#masamune---v1104)
+ - [`masamune_builder` - `v1.4.9`](#masamune_builder---v149)
+ - [`masamune_picker` - `v1.5.54`](#masamune_picker---v1554)
+ - [`masamune_notification_firebase` - `v1.2.24`](#masamune_notification_firebase---v1224)
+ - [`masamune_logger_firebase` - `v1.2.35`](#masamune_logger_firebase---v1235)
+ - [`masamune_picker_mobile` - `v1.5.54`](#masamune_picker_mobile---v1554)
+ - [`masamune_picker_file` - `v1.5.54`](#masamune_picker_file---v1554)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.54`
+ - `masamune_notification_firebase` - `v1.2.24`
+ - `masamune_logger_firebase` - `v1.2.35`
+ - `masamune_picker_mobile` - `v1.5.54`
+ - `masamune_picker_file` - `v1.5.54`
+
+---
+
+#### `katana_cli` - `v1.8.10`
+
+ - **FIX**: Allows Adapter for UniversalUI to be specified directly in MasamuneApp. ([54cf2856](https://github.com/mathrunet/flutter_masamune/commit/54cf28562aa1588d9e0262417143efd9bd9df841))
+
+#### `masamune` - `v1.10.4`
+
+ - **FIX**: Allows Adapter for UniversalUI to be specified directly in MasamuneApp. ([54cf2856](https://github.com/mathrunet/flutter_masamune/commit/54cf28562aa1588d9e0262417143efd9bd9df841))
+
+#### `masamune_builder` - `v1.4.9`
+
+ - **FIX**: Allows Adapter for UniversalUI to be specified directly in MasamuneApp. ([54cf2856](https://github.com/mathrunet/flutter_masamune/commit/54cf28562aa1588d9e0262417143efd9bd9df841))
+
+
 ## 2023-03-07
 
 ### Changes

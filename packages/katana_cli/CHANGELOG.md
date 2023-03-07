@@ -1,3 +1,7 @@
+## 1.8.10
+
+ - **FIX**: Allows Adapter for UniversalUI to be specified directly in MasamuneApp. ([54cf2856](https://github.com/mathrunet/flutter_masamune/commit/54cf28562aa1588d9e0262417143efd9bd9df841))
+
 ## 1.8.9
 
  - **FIX**: Add UniversalUI to create in katana_cli. ([12a55c59](https://github.com/mathrunet/flutter_masamune/commit/12a55c59a7aa7e98cedbfa3cc658ec1c12e758b3))
