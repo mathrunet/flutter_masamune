@@ -201,6 +201,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
       padding:
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
       child: TextFormField(
+        mouseCursor: SystemMouseCursors.click,
         enabled: widget.enabled,
         controller: _controller,
         decoration: InputDecoration(

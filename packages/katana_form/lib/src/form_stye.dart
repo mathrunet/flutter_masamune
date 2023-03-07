@@ -37,6 +37,8 @@ class FormStyle {
     this.disabledBackgroundColor,
     this.textAlign = TextAlign.start,
     this.textAlignVertical,
+    this.activeColor,
+    this.activeBackgroundColor,
     this.prefix,
     this.suffix,
   });
@@ -55,6 +57,16 @@ class FormStyle {
   ///
   /// テキストカーソルの色。
   final Color? cursorColor;
+
+  /// Color when the item is active.
+  ///
+  /// 項目がアクティブなときの色。
+  final Color? activeColor;
+
+  /// Background color when the item is active.
+  ///
+  /// 項目がアクティブなときの背景色。
+  final Color? activeBackgroundColor;
 
   /// Normal border of the form.
   ///

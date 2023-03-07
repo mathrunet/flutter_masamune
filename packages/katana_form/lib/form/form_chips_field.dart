@@ -216,88 +216,124 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
     final suggestionStyle = widget.suggestionStyle ?? const SuggestionStyle();
 
     return Padding(
-      padding:
-          widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-      child: _ChipsInput<String>(
-        initialValue: value ?? [],
-        decoration: InputDecoration(
-          contentPadding: widget.style?.contentPadding ??
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-          fillColor: widget.style?.backgroundColor,
-          filled: widget.style?.backgroundColor != null,
-          isDense: true,
-          border: widget.style?.border ?? borderSide,
-          enabledBorder: widget.style?.border ?? borderSide,
-          disabledBorder: widget.style?.disabledBorder ??
-              widget.style?.border ??
-              borderSide,
-          errorBorder:
-              widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
-          focusedBorder: widget.style?.border ?? borderSide,
-          focusedErrorBorder:
-              widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
-          hintText: widget.hintText,
-          labelText: widget.labelText,
-          prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-          suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-          prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-          suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-          prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-          suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-          prefixIconColor:
-              widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-          suffixIconColor:
-              widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-          prefixIconConstraints: widget.prefix?.iconConstraints ??
-              widget.style?.prefix?.iconConstraints,
-          suffixIconConstraints: widget.suffix?.iconConstraints ??
-              widget.style?.suffix?.iconConstraints,
-          labelStyle: mainTextStyle,
-          hintStyle: subTextStyle,
-          suffixStyle: subTextStyle,
-          prefixStyle: subTextStyle,
-          counterStyle: subTextStyle,
-          helperStyle: subTextStyle,
-          errorStyle: errorTextStyle,
+      padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        constraints: const BoxConstraints(minHeight: 32),
+        child: ChipTheme(
+          data: ChipThemeData(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+            labelPadding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+              side: BorderSide.none,
+            ),
+            side: BorderSide.none,
+            backgroundColor: widget.style?.activeBackgroundColor ??
+                Theme.of(context).colorScheme.primary,
+            disabledColor:
+                widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+            labelStyle: mainTextStyle.copyWith(
+              color: widget.style?.activeColor ??
+                  Theme.of(context).colorScheme.onPrimary,
+            ),
+            secondaryLabelStyle: subTextStyle.copyWith(
+              color: widget.style?.activeColor ??
+                  Theme.of(context).colorScheme.onPrimary,
+            ),
+            deleteIconColor: widget.style?.activeColor ??
+                Theme.of(context).colorScheme.onPrimary,
+          ),
+          child: MouseRegion(
+            cursor: SystemMouseCursors.text,
+            child: _ChipsInput<String>(
+              initialValue: value ?? [],
+              decoration: InputDecoration(
+                contentPadding: widget.style?.contentPadding ??
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                fillColor: widget.style?.backgroundColor,
+                filled: widget.style?.backgroundColor != null,
+                isDense: true,
+                border: widget.style?.border ?? borderSide,
+                enabledBorder: widget.style?.border ?? borderSide,
+                disabledBorder: widget.style?.disabledBorder ??
+                    widget.style?.border ??
+                    borderSide,
+                errorBorder: widget.style?.errorBorder ??
+                    widget.style?.border ??
+                    borderSide,
+                focusedBorder: widget.style?.border ?? borderSide,
+                focusedErrorBorder: widget.style?.errorBorder ??
+                    widget.style?.border ??
+                    borderSide,
+                hintText: widget.hintText,
+                labelText: widget.labelText,
+                prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+                suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+                prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+                suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+                prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+                suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+                prefixIconColor:
+                    widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+                suffixIconColor:
+                    widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+                prefixIconConstraints: widget.prefix?.iconConstraints ??
+                    widget.style?.prefix?.iconConstraints,
+                suffixIconConstraints: widget.suffix?.iconConstraints ??
+                    widget.style?.suffix?.iconConstraints,
+                labelStyle: mainTextStyle,
+                hintStyle: subTextStyle,
+                suffixStyle: subTextStyle,
+                prefixStyle: subTextStyle,
+                counterStyle: subTextStyle,
+                helperStyle: subTextStyle,
+                errorStyle: errorTextStyle,
+              ),
+              // style: mainTextStyle,
+              // textAlign: widget.style?.textAlign ?? TextAlign.left,
+              // textAlignVertical: widget.style?.textAlignVertical,
+              obscureText: widget.obscureText,
+              enabled: widget.enabled,
+              chipBuilder: (context, state, value) {
+                if (value.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+                return widget.chipBuilder.call(context, state, value);
+              },
+              suggestionBuilder: (context, state, value) {
+                return widget.suggestionBuilder?.call(context, state, value) ??
+                    const SizedBox.shrink();
+              },
+              findSuggestions: (value, chips) async {
+                final items = value.isNotEmpty ? [value] : <String>[];
+                for (var element in chips) {
+                  items.add(element);
+                }
+                items.addAll(
+                  widget.suggestion.where((element) => element.contains(value)),
+                );
+                return items;
+              },
+              onChanged: (values) {
+                setValue(values);
+                widget.onChanged?.call(values);
+              },
+              focusNode: _focusNode,
+              onChipTapped: widget.onChipTapped,
+              maxChips: widget.maxChips,
+              suggestionsBoxMaxHeight: suggestionStyle.maxHeight,
+              autocorrect: widget.autocorrect,
+              suggestionMargin: EdgeInsets.zero,
+              suggestionPadding: EdgeInsets.zero,
+              suggestionColor: suggestionStyle.color ??
+                  Theme.of(context).colorScheme.onSurface,
+              suggestionBackgroundColor: suggestionStyle.backgroundColor ??
+                  Theme.of(context).colorScheme.surface,
+            ),
+          ),
         ),
-        // style: mainTextStyle,
-        // textAlign: widget.style?.textAlign ?? TextAlign.left,
-        // textAlignVertical: widget.style?.textAlignVertical,
-        obscureText: widget.obscureText,
-        enabled: widget.enabled,
-        chipBuilder: (context, state, value) {
-          if (value.isEmpty) {
-            return const SizedBox.shrink();
-          }
-          return widget.chipBuilder.call(context, state, value);
-        },
-        suggestionBuilder: (context, state, value) {
-          return widget.suggestionBuilder?.call(context, state, value) ??
-              const SizedBox.shrink();
-        },
-        findSuggestions: (value, chips) async {
-          final items = value.isNotEmpty ? [value] : <String>[];
-          for (var element in chips) {
-            items.add(element);
-          }
-          items.addAll(
-            widget.suggestion.where((element) => element.contains(value)),
-          );
-          return items;
-        },
-        onChanged: (values) {
-          setValue(values);
-          widget.onChanged?.call(values);
-        },
-        focusNode: _focusNode,
-        onChipTapped: widget.onChipTapped,
-        maxChips: widget.maxChips,
-        suggestionsBoxMaxHeight: suggestionStyle.maxHeight,
-        autocorrect: widget.autocorrect,
-        suggestionMargin: EdgeInsets.zero,
-        suggestionPadding: EdgeInsets.zero,
-        suggestionColor: suggestionStyle.color,
-        suggestionBackgroundColor: suggestionStyle.backgroundColor,
       ),
     );
   }
@@ -609,7 +645,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
 
     chipsChildren.add(
       SizedBox(
-        height: 30.0,
+        height: 30,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -654,8 +690,8 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
                 isEmpty: _value.text.isEmpty && _chips.isEmpty,
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 4.0,
-                  runSpacing: 4.0,
+                  spacing: 8.0,
+                  runSpacing: 8.0,
                   children: chipsChildren,
                 ),
               ),

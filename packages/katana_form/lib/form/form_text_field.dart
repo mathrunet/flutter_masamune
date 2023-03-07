@@ -966,6 +966,7 @@ class _SuggestionOverlayState extends State<_SuggestionOverlay> {
         elevation: widget.elevation,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         color: widget.backgroundColor,
+        surfaceTintColor: widget.backgroundColor,
         child: SingleChildScrollView(
           reverse: widget.direction == VerticalDirection.up,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
