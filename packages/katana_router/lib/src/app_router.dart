@@ -1,5 +1,6 @@
 part of katana_router;
 
+/// {@template katana_router.app_router}
 /// Controller to define routing for the entire app.
 ///
 /// You can define the routing for the entire app by passing it to `routerConfig` in [MaterialApp.router].
@@ -51,9 +52,11 @@ part of katana_router;
 /// }
 ///
 /// ```
+/// {@endtemplate}
 class AppRouter extends ChangeNotifier
     with NavigatorObserver
     implements RouterConfig<RouteQuery> {
+  /// {@template katana_router.app_router}
   /// Controller to define routing for the entire app.
   ///
   /// You can define the routing for the entire app by passing it to `routerConfig` in [MaterialApp.router].
@@ -105,6 +108,7 @@ class AppRouter extends ChangeNotifier
   /// }
   ///
   /// ```
+  /// {@endtemplate}
   AppRouter({
     UnknownRouteQueryBuilder? unknown,
     BootRouteQueryBuilder? boot,
@@ -120,6 +124,7 @@ class AppRouter extends ChangeNotifier
     bool reportsRouteUpdateToEngine = true,
     Widget backgroundWidget = const Scaffold(),
     List<LoggerAdapter> loggerAdapters = const [],
+    bool nested = false,
   }) : _loggerAdapters = loggerAdapters {
     navigatorKey ??= GlobalKey<NavigatorState>();
 
@@ -133,6 +138,7 @@ class AppRouter extends ChangeNotifier
       defaultTransitionQuery: defaultTransitionQuery,
       reportsRouteUpdateToEngine: reportsRouteUpdateToEngine,
       backgroundWidget: backgroundWidget,
+      nested: nested,
     );
 
     _routerDelegate = _AppRouterDelegate(
@@ -143,17 +149,23 @@ class AppRouter extends ChangeNotifier
 
     _routeInformationParser = _AppRouteInformationParser(this);
 
-    final effectiveInitialLocation = _effectiveInitialLocation(
-      initialPath ?? "/",
-    );
+    nested = nested || initialQuery?.nested == true;
+
+    final effectiveInitialLocation = nested
+        ? null
+        : _effectiveInitialLocation(
+            initialPath,
+          );
 
     _routeInformationProvider = _AppRouteInformationProvider(
       router: this,
       initialRouteInformation: InitialRouteInformation(
-        query: _effectiveInitialQuery(
-          effectiveInitialLocation,
-          initialQuery,
-        ),
+        query: nested
+            ? initialQuery
+            : _effectiveInitialQuery(
+                effectiveInitialLocation,
+                initialQuery,
+              ),
         location: effectiveInitialLocation,
       ),
     );
@@ -447,12 +459,10 @@ class AppRouter extends ChangeNotifier
     }
   }
 
-  String _effectiveInitialLocation(String? initialLocation) {
+  String? _effectiveInitialLocation(String? initialLocation) {
     final String platformDefault =
         WidgetsBinding.instance.platformDispatcher.defaultRouteName;
-    if (initialLocation == null) {
-      return platformDefault;
-    } else if (platformDefault == "/") {
+    if (platformDefault == "/") {
       return initialLocation;
     } else {
       return platformDefault;
@@ -460,9 +470,12 @@ class AppRouter extends ChangeNotifier
   }
 
   RouteQuery? _effectiveInitialQuery(
-    String initialLocation,
+    String? initialLocation,
     RouteQuery? initialQuery,
   ) {
+    if (initialLocation.isEmpty) {
+      return initialQuery;
+    }
     for (final page in _config.pages) {
       final query = page.resolve(initialLocation);
       if (query != null) {
@@ -471,6 +484,35 @@ class AppRouter extends ChangeNotifier
     }
     return initialQuery;
   }
+}
+
+/// Class for creating nested [AppRouter].
+///
+/// ネストされた[AppRouter]を作成するためのクラスです。
+///
+/// {@macro katana_router.app_router}
+class NestedAppRouter extends AppRouter {
+  /// Class for creating nested [AppRouter].
+  ///
+  /// ネストされた[AppRouter]を作成するためのクラスです。
+  ///
+  /// {@macro katana_router.app_router}
+  NestedAppRouter({
+    super.unknown,
+    super.boot,
+    super.initialPath,
+    super.initialQuery,
+    required super.pages,
+    super.redirect = const [],
+    super.observers = const [],
+    super.redirectLimit = 5,
+    super.navigatorKey,
+    super.restorationScopeId,
+    super.defaultTransitionQuery,
+    super.reportsRouteUpdateToEngine = true,
+    super.backgroundWidget = const Scaffold(),
+    super.loggerAdapters = const [],
+  }) : super(nested: true);
 }
 
 /// [InheritedWidget] for placing [AppRouter] on the widget tree.
@@ -525,7 +567,9 @@ class _AppRouterConfig {
     this.defaultTransitionQuery,
     this.backgroundWidget = const Scaffold(),
     this.reportsRouteUpdateToEngine = true,
+    this.nested = false,
   });
+  final bool nested;
   final BootRouteQueryBuilder? boot;
   final UnknownRouteQueryBuilder? unknown;
   final List<RouteQueryBuilder> pages;

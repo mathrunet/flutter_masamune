@@ -153,6 +153,15 @@ List<Class> queryClass(
           ),
           Method(
             (m) => m
+              ..name = "nested"
+              ..annotations.addAll([const Reference("override")])
+              ..type = MethodType.getter
+              ..lambda = true
+              ..returns = const Reference("bool")
+              ..body = const Code("_path == null"),
+          ),
+          Method(
+            (m) => m
               ..name = "key<E>"
               ..annotations.addAll([const Reference("override")])
               ..lambda = true

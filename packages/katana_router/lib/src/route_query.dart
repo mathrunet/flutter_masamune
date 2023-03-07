@@ -40,6 +40,11 @@ abstract class RouteQuery {
   /// デフォルトは[path]と同じです。
   String get name => path;
 
+  /// Returns `true` for nested pages (i.e., pages with no path information).
+  ///
+  /// ネストされたページ（つまりパス情報が無いページ）の場合は`true`を返します。
+  bool get nested => false;
+
   /// A key to identify the query.
   ///
   /// It can be obtained as an object of [E] by specifying [E].
