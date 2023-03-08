@@ -2,12 +2,68 @@ part of katana_form;
 
 const _kObjectReplacementChar = 0xFFFD;
 
+/// Builder for use with [FormChipsField].
+///
+/// [FormChipsField]で利用するためのビルダー。
 typedef ChipBuilder<T> = Widget Function(
   BuildContext context,
   ChipsInputController<T> state,
   T data,
 );
 
+/// Form to allow text to be entered and saved separately as [Chip].
+///
+/// It can be used to create tags, etc.
+///
+/// Specify [builder] to create the actual [Chip].
+///
+/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+///
+/// When [FormController] is passed to [form], [onSaved] must be passed together with [form]. The contents of [onSaved] will be used to save the data.
+///
+/// Enter the initial value given by [FormController.value] in [initialValue].
+///
+/// Each time the content is changed, [onChanged] is executed.
+///
+/// If [suggestion] is specified, suggestions will be displayed according to what you have entered.
+///
+/// When [FormController.validateAndSave] is executed, validation and data saving are performed.
+///
+/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+///
+/// Other error checking is performed by specifying [validator].
+/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+///
+/// If [enabled] is `false`, the text is deactivated.
+///
+/// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
+///
+/// テキストを入力して[Chip]として分けて保存できるようにするためのフォーム。
+///
+/// タグの作成などに利用できます。
+///
+/// [builder]を指定して、実際の[Chip]を作成します。
+///
+/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+///
+/// [form]に[FormController]を渡した場合、[form]を渡した場合一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+///
+/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+///
+/// 内容が変更される度[onChanged]が実行されます。
+///
+/// [suggestion]が指定されている場合、入力した内容に応じてサジェストが表示されます。
+///
+/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+///
+/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
+///
+/// それ以外のエラーチェックは[validator]を指定することで行ないます。
+/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
+///
+/// [enabled]が`false`になるとテキストが非有効化されます。
+///
+/// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
 class FormChipsField<TValue> extends FormField<List<String>> {
   FormChipsField({
     Key? key,
@@ -19,7 +75,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
     this.prefix,
     this.suffix,
     this.readOnly = false,
-    required this.chipBuilder,
+    required ChipBuilder<String> builder,
     this.suggestionBuilder,
     this.suggestion = const [],
     this.onChanged,
@@ -27,15 +83,15 @@ class FormChipsField<TValue> extends FormField<List<String>> {
     this.maxChips,
     this.emptyErrorText,
     this.focusNode,
-    this.inputType = TextInputType.text,
+    this.keyboardType = TextInputType.text,
     this.obscureText = false,
-    this.autocorrect = false,
     this.suggestionStyle,
     this.keepAlive = true,
     TValue Function(List<String> value)? onSaved,
     String Function(List<String>? value)? validator,
     List<String> initialValue = const [],
-  }) : super(
+  })  : _builder = builder,
+        super(
           key: key,
           builder: (state) {
             return const SizedBox.shrink();
@@ -92,16 +148,58 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   /// 優先的にこちらが表示され、[Null]の要素がある場合は[FormStyle.suffix]が適用されます。
   final FormAffixStyle? suffix;
 
-  final ChipBuilder<String> chipBuilder;
+  /// Builder to generate [Chip].
+  ///
+  /// [Chip]を生成するためのビルダー。
+  final ChipBuilder<String> _builder;
+
+  /// Builder to generate a list of suggestions.
+  ///
+  /// サジェストの一覧を生成するためのビルダー。
   final ChipBuilder<String>? suggestionBuilder;
+
+  /// A list of suggestions.
+  ///
+  /// From here, the text is filtered and displayed according to the string entered.
+  ///
+  /// サジェストの候補一覧。
+  ///
+  /// ここから入力された文字列に対してフィルタリングされ表示されます。
   final List<String> suggestion;
+
+  /// Process when [Chip] is tapped.
+  ///
+  /// [Chip]をタップしたときの処理。
   final void Function(String value)? onChipTapped;
-  final TextInputType inputType;
+
+  /// Mobile software keyboard type.
+  ///
+  /// モバイルのソフトウェアキーボードタイプ。
+  final TextInputType keyboardType;
+
+  /// Maximum number of [Chip].
+  ///
+  /// 最大の[Chip]数。
   final int? maxChips;
+
+  /// If this is `true`, the input will be hidden. Use this to enter passwords, etc.
+  ///
+  /// これが`true`の場合、入力された内容が隠されます。パスワードの入力等にご利用ください。
   final bool obscureText;
-  final bool autocorrect;
+
+  /// Hint to be displayed on the form. Displayed when no text is entered.
+  ///
+  /// フォームに表示するヒント。文字が入力されていない場合表示されます。
   final String? hintText;
+
+  /// Label text for forms.
+  ///
+  /// フォーム用のラベルテキスト。
   final String? labelText;
+
+  /// If this is `true`, the form cannot be filled out and changed from its initial value.
+  ///
+  /// これが`true`の場合、フォームの入力が行えずに初期値から変更することができなくなります。
   final bool readOnly;
 
   /// Window style for suggestions.
@@ -293,16 +391,14 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
                 helperStyle: subTextStyle,
                 errorStyle: errorTextStyle,
               ),
-              // style: mainTextStyle,
-              // textAlign: widget.style?.textAlign ?? TextAlign.left,
-              // textAlignVertical: widget.style?.textAlignVertical,
               obscureText: widget.obscureText,
               enabled: widget.enabled,
+              inputType: widget.keyboardType,
               chipBuilder: (context, state, value) {
                 if (value.isEmpty) {
                   return const SizedBox.shrink();
                 }
-                return widget.chipBuilder.call(context, state, value);
+                return widget._builder.call(context, state, value);
               },
               suggestionBuilder: (context, state, value) {
                 return widget.suggestionBuilder?.call(context, state, value) ??
@@ -326,7 +422,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
               onChipTapped: widget.onChipTapped,
               maxChips: widget.maxChips,
               suggestionsBoxMaxHeight: suggestionStyle.maxHeight,
-              autocorrect: widget.autocorrect,
+              autocorrect: true,
               suggestionMargin: EdgeInsets.zero,
               suggestionPadding: EdgeInsets.zero,
               suggestionColor: suggestionStyle.color ??
@@ -410,11 +506,23 @@ class _ChipsInput<T> extends StatefulWidget {
   _ChipsInputState<T> createState() => _ChipsInputState<T>();
 }
 
+/// Controller for adding and removing [Chip].
+///
+/// [Chip]を追加したり削除したりするためのコントローラー。
 abstract class ChipsInputController<T> {
+  /// Requests keyboard display.
+  ///
+  /// キーボードの表示をリクエストします。
   void requestKeyboard();
 
-  void selectSuggestion(T data);
+  /// Add [Chip] for [data].
+  ///
+  /// [data]に対する[Chip]を追加します。
+  void addChip(T data);
 
+  /// Remove [Chip] for [data].
+  ///
+  /// [data]に対する[Chip]を削除します。
   void deleteChip(T data);
 }
 
@@ -466,7 +574,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   }
 
   @override
-  void selectSuggestion(T data) {
+  void addChip(T data) {
     if (!_hasReachedMaxChips) {
       setState(() => _chips = _chips..add(data));
       if (widget.allowChipEditing) {
@@ -744,7 +852,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
       case TextInputAction.search:
         final suggestion = _suggestions.firstOrNull;
         if (suggestion != null) {
-          selectSuggestion(suggestion);
+          addChip(suggestion);
         } else {
           _effectiveFocusNode.unfocus();
         }
