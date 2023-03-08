@@ -586,14 +586,22 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
                                   style:
                                       Theme.of(context).textTheme.titleLarge ??
                                           const TextStyle(),
-                                  child: title!,
+                                  child: _DynamicExtentForegroundColor(
+                                    startForegroundColor: foregroundColor,
+                                    endForegroundColor: expandedForegroundColor,
+                                    child: title!,
+                                  ),
                                 ),
                               if (subtitle != null)
                                 DefaultTextStyle.merge(
                                   style:
                                       Theme.of(context).textTheme.labelSmall ??
                                           const TextStyle(),
-                                  child: subtitle!,
+                                  child: _DynamicExtentForegroundColor(
+                                    startForegroundColor: foregroundColor,
+                                    endForegroundColor: expandedForegroundColor,
+                                    child: subtitle!,
+                                  ),
                                 ),
                             ],
                           ),
@@ -951,8 +959,8 @@ class _DynamicExtentForegroundColor extends StatelessWidget {
       );
     }
 
-    final lerp =
-        settings.currentExtent / (settings.maxExtent - settings.minExtent);
+    final lerp = (settings.currentExtent - settings.minExtent) /
+        (settings.maxExtent - settings.minExtent);
     final color = Color.lerp(startColor, endColor, lerp);
     return DefaultTextStyle.merge(
       style: TextStyle(color: color),
