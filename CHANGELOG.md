@@ -15,6 +15,46 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_functions` - `v1.1.14`](#katana_functions---v1114)
+ - [`katana_functions_firebase` - `v1.1.18`](#katana_functions_firebase---v1118)
+ - [`masamune` - `v1.10.5`](#masamune---v1105)
+ - [`masamune_picker` - `v1.5.55`](#masamune_picker---v1555)
+ - [`masamune_notification_firebase` - `v1.2.25`](#masamune_notification_firebase---v1225)
+ - [`masamune_logger_firebase` - `v1.2.36`](#masamune_logger_firebase---v1236)
+ - [`masamune_picker_mobile` - `v1.5.55`](#masamune_picker_mobile---v1555)
+ - [`masamune_picker_file` - `v1.5.55`](#masamune_picker_file---v1555)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_functions_firebase` - `v1.1.18`
+ - `masamune` - `v1.10.5`
+ - `masamune_picker` - `v1.5.55`
+ - `masamune_notification_firebase` - `v1.2.25`
+ - `masamune_logger_firebase` - `v1.2.36`
+ - `masamune_picker_mobile` - `v1.5.55`
+ - `masamune_picker_file` - `v1.5.55`
+
+---
+
+#### `katana_functions` - `v1.1.14`
+
+ - **FIX**: Added openAPIChatGPT Functions. ([c66c4d76](https://github.com/mathrunet/flutter_masamune/commit/c66c4d76c06768016cd43df062a12a8ef9aae40a))
+
+
+## 2023-03-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.10`](#katana_cli---v1810)
  - [`masamune` - `v1.10.4`](#masamune---v1104)
  - [`masamune_builder` - `v1.4.9`](#masamune_builder---v149)

@@ -1,3 +1,7 @@
+## 1.10.5
+
+ - Update a dependency to the latest release.
+
 ## 1.10.4
 
  - **FIX**: Allows Adapter for UniversalUI to be specified directly in MasamuneApp. ([54cf2856](https://github.com/mathrunet/flutter_masamune/commit/54cf28562aa1588d9e0262417143efd9bd9df841))

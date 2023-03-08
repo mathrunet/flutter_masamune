@@ -1,3 +1,7 @@
+## 1.1.14
+
+ - **FIX**: Added openAPIChatGPT Functions. ([c66c4d76](https://github.com/mathrunet/flutter_masamune/commit/c66c4d76c06768016cd43df062a12a8ef9aae40a))
+
 ## 1.1.13
 
  - **FIX**: Region can now be specified. ([72e0ed88](https://github.com/mathrunet/flutter_masamune/commit/72e0ed88077d5e2ff7febeec31fbe197bb014d6d))
