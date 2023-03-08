@@ -26,4 +26,10 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
     required String target,
   }) =>
       Future.value();
+
+  @override
+  Future<OpenAIChatGPTMessage?> openAIChatGPT(
+          {required List<OpenAIChatGPTMessage> messages,
+          OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo}) =>
+      Future.value();
 }

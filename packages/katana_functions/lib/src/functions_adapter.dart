@@ -49,6 +49,26 @@ abstract class FunctionsAdapter {
     DynamicMap? data,
     required String target,
   });
+
+  /// Chat using OpenAI's Chat GPT.
+  ///
+  /// Pass all previous correspondence to [messages].
+  ///
+  /// A new message, [OpenAIChatGPTMessage], is returned in the response.
+  ///
+  /// Pass the model to be used to [model].
+  ///
+  /// OpenAIのChat GPTを利用してチャットを行います。
+  ///
+  /// [messages]にそれまでのやりとりのすべてを渡してください。
+  ///
+  /// レスポンスに新しいメッセージの[OpenAIChatGPTMessage]を返ってきます。
+  ///
+  /// [model]には利用するモデルを渡してください。
+  Future<OpenAIChatGPTMessage?> openAIChatGPT({
+    required List<OpenAIChatGPTMessage> messages,
+    OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo,
+  });
 }
 
 /// [FunctionsAdapter] for the entire app by placing it on top of [MaterialApp], etc.

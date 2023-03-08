@@ -66,4 +66,42 @@ class Functions extends ChangeNotifier {
       rethrow;
     }
   }
+
+  /// Chat using OpenAI's Chat GPT.
+  ///
+  /// Pass all previous correspondence to [messages].
+  ///
+  /// Returns a list of [OpenAIChatGPTMessage] with new messages added to the response.
+  ///
+  /// Pass the model to be used to [model].
+  ///
+  /// OpenAIのChat GPTを利用してチャットを行います。
+  ///
+  /// [messages]にそれまでのやりとりのすべてを渡してください。
+  ///
+  /// レスポンスに新しいメッセージが追加された[OpenAIChatGPTMessage]のリストを返します。
+  ///
+  /// [model]には利用するモデルを渡してください。
+  Future<List<OpenAIChatGPTMessage>> openAIChatGPT({
+    required List<OpenAIChatGPTMessage> messages,
+    OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo,
+  }) async {
+    try {
+      final res = await FunctionsAdapter.primary.openAIChatGPT(
+        messages: messages,
+        model: model,
+      );
+      if (res == null) {
+        throw Exception("Failed to get response from OpenAI Chat GPT.");
+      }
+      notifyListeners();
+      return [
+        ...messages,
+        res,
+      ];
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }
