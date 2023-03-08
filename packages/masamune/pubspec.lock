@@ -252,10 +252,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_functions
-      sha256: eae09744bed433b4176bcaf63741c4824dfcc74fc1127fb9fd2beec679f2eeb7
+      sha256: "37a80e38df7babbcb6082f294334d54251d9c327d18ab09870c03e6715d56c7a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.13"
+    version: "1.1.14"
   katana_indicator:
     dependency: "direct main"
     description:
@@ -332,10 +332,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_router
-      sha256: dc2aeff2b529fd4824042f6e71e84dd74e650fdc783d062126b2e4f01d176cc8
+      sha256: "6a896bb3e9ebb90dc5ba46ce4ff4105598bfbed7be5c53ed5805d4117529b41a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.6"
+    version: "1.11.7"
   katana_router_annotation:
     dependency: transitive
     description:

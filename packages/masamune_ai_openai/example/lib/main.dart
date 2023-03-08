@@ -9,7 +9,7 @@ import 'package:masamune_ai_openai/masamune_ai_openai.dart';
 
 final List<MasamuneAdapter> masamuneAdapters = [
   OpenAIMasamuneAdapter(
-    apiKey: "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",
+    apiKey: "APIKEY",
   ),
 ];
 
@@ -75,7 +75,7 @@ class OpenAIPagePageState extends State<OpenAIPage> {
                 }
                 return ListTile(
                   title: Text(e.value),
-                  subtitle: Text(e.role),
+                  subtitle: Text(e.role.name),
                 );
               },
             )

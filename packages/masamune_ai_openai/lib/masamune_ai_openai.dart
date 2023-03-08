@@ -21,6 +21,5 @@ import 'package:masamune/masamune.dart';
 export 'package:masamune/masamune.dart';
 
 part 'adapter/openai_masamune_adapter.dart';
-part 'src/ai.dart';
 part 'src/openai_chat.dart';
 part 'src/openai_media.dart';
