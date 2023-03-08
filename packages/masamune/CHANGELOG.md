@@ -1,3 +1,7 @@
+## 1.10.6
+
+ - **DOCS**: Documentation maintenance. ([94ffa158](https://github.com/mathrunet/flutter_masamune/commit/94ffa158e49243a8fa418399bf2e246f7191aa24))
+
 ## 1.10.5
 
  - Update a dependency to the latest release.

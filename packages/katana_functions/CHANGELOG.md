@@ -1,3 +1,8 @@
+## 1.1.15
+
+ - **FIX**: Change the role of System. ([1d9413dd](https://github.com/mathrunet/flutter_masamune/commit/1d9413dd932ab90ac9619d1061086e6813e238d1))
+ - **FIX**: Applying openAIChatGPT in FirebaseFunctions. ([0de603c0](https://github.com/mathrunet/flutter_masamune/commit/0de603c0951f630166470797e800240c49498154))
+
 ## 1.1.14
 
  - **FIX**: Added openAPIChatGPT Functions. ([c66c4d76](https://github.com/mathrunet/flutter_masamune/commit/c66c4d76c06768016cd43df062a12a8ef9aae40a))

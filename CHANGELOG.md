@@ -15,6 +15,70 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.3.17`](#katana_form---v1317)
+ - [`katana_functions` - `v1.1.15`](#katana_functions---v1115)
+ - [`katana_functions_firebase` - `v1.1.19`](#katana_functions_firebase---v1119)
+ - [`katana_ui` - `v1.2.2`](#katana_ui---v122)
+ - [`masamune` - `v1.10.6`](#masamune---v1106)
+ - [`masamune_ai_openai` - `v1.1.0`](#masamune_ai_openai---v110)
+ - [`masamune_picker` - `v1.5.56`](#masamune_picker---v1556)
+ - [`masamune_notification_firebase` - `v1.2.26`](#masamune_notification_firebase---v1226)
+ - [`masamune_logger_firebase` - `v1.2.37`](#masamune_logger_firebase---v1237)
+ - [`masamune_picker_mobile` - `v1.5.56`](#masamune_picker_mobile---v1556)
+ - [`masamune_picker_file` - `v1.5.56`](#masamune_picker_file---v1556)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.56`
+ - `masamune_notification_firebase` - `v1.2.26`
+ - `masamune_logger_firebase` - `v1.2.37`
+ - `masamune_picker_mobile` - `v1.5.56`
+ - `masamune_picker_file` - `v1.5.56`
+
+---
+
+#### `katana_form` - `v1.3.17`
+
+ - **FIX**: Expanded the scope of application of the Style of Form. ([6b5a70c2](https://github.com/mathrunet/flutter_masamune/commit/6b5a70c2e0bef1361720d216dbf30b3c6794291a))
+ - **DOCS**: Additional Comments. ([893fe68a](https://github.com/mathrunet/flutter_masamune/commit/893fe68a6fa09b258a837ae83caeacdde08615d9))
+
+#### `katana_functions` - `v1.1.15`
+
+ - **FIX**: Change the role of System. ([1d9413dd](https://github.com/mathrunet/flutter_masamune/commit/1d9413dd932ab90ac9619d1061086e6813e238d1))
+ - **FIX**: Applying openAIChatGPT in FirebaseFunctions. ([0de603c0](https://github.com/mathrunet/flutter_masamune/commit/0de603c0951f630166470797e800240c49498154))
+
+#### `katana_functions_firebase` - `v1.1.19`
+
+ - **FIX**: Applying openAIChatGPT in FirebaseFunctions. ([0de603c0](https://github.com/mathrunet/flutter_masamune/commit/0de603c0951f630166470797e800240c49498154))
+
+#### `katana_ui` - `v1.2.2`
+
+ - **FIX**: Addition of parameters for each widget. ([bf77dc61](https://github.com/mathrunet/flutter_masamune/commit/bf77dc61ea0b44f6fb3edc9c13675b71fe1174f7))
+
+#### `masamune` - `v1.10.6`
+
+ - **DOCS**: Documentation maintenance. ([94ffa158](https://github.com/mathrunet/flutter_masamune/commit/94ffa158e49243a8fa418399bf2e246f7191aa24))
+
+#### `masamune_ai_openai` - `v1.1.0`
+
+ - **FEAT**: Initial commitments. ([0b41814b](https://github.com/mathrunet/flutter_masamune/commit/0b41814b3cbabdef0a95fcf7168bee4b0f2f5af4))
+ - **DOCS**: Documentation maintenance. ([94ffa158](https://github.com/mathrunet/flutter_masamune/commit/94ffa158e49243a8fa418399bf2e246f7191aa24))
+
+
+## 2023-03-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_functions` - `v1.1.14`](#katana_functions---v1114)
  - [`katana_functions_firebase` - `v1.1.18`](#katana_functions_firebase---v1118)
  - [`masamune` - `v1.10.5`](#masamune---v1105)

@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **FIX**: Addition of parameters for each widget. ([bf77dc61](https://github.com/mathrunet/flutter_masamune/commit/bf77dc61ea0b44f6fb3edc9c13675b71fe1174f7))
+
 ## 1.2.1
 
  - **FIX**: Correction of label icon colors. ([45d75bc6](https://github.com/mathrunet/flutter_masamune/commit/45d75bc6696a449cac59d169d72506b60f46556c))

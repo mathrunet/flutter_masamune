@@ -1,3 +1,7 @@
+## 1.1.19
+
+ - **FIX**: Applying openAIChatGPT in FirebaseFunctions. ([0de603c0](https://github.com/mathrunet/flutter_masamune/commit/0de603c0951f630166470797e800240c49498154))
+
 ## 1.1.18
 
  - Update a dependency to the latest release.

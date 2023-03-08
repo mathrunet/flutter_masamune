@@ -1,3 +1,8 @@
+## 1.3.17
+
+ - **FIX**: Expanded the scope of application of the Style of Form. ([6b5a70c2](https://github.com/mathrunet/flutter_masamune/commit/6b5a70c2e0bef1361720d216dbf30b3c6794291a))
+ - **DOCS**: Additional Comments. ([893fe68a](https://github.com/mathrunet/flutter_masamune/commit/893fe68a6fa09b258a837ae83caeacdde08615d9))
+
 ## 1.3.16
 
  - **FIX**: Adjust the appearance of the FormChipsField. ([786a79de](https://github.com/mathrunet/flutter_masamune/commit/786a79de984c1eda737b4e954544fe476289e561))
