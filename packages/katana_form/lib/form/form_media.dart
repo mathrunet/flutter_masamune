@@ -331,7 +331,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
     );
   }
 
-  Widget _buiildCover(BuildContext context, Widget child) {
+  Widget _buildCover(BuildContext context, Widget child) {
     if (!widget.showOverlayIcon) {
       return child;
     }
@@ -363,7 +363,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
         ),
         child: ClipRRect(
           borderRadius: widget.style?.borderRadius ?? BorderRadius.circular(0),
-          child: _buiildCover(
+          child: _buildCover(
             context,
             widget._builder(context, value!),
           ),

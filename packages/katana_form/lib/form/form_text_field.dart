@@ -163,6 +163,7 @@ class FormTextField<TValue> extends StatefulWidget {
     this.onTapSuggestion,
     this.suggestionStyle,
     this.keepAlive = true,
+    this.clearOnSubmitted = false,
   }) : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -398,6 +399,11 @@ class FormTextField<TValue> extends StatefulWidget {
   ///
   /// `true`の場合、自動でフォーカスが当たります。
   final bool autofocus;
+
+  /// If Submitted, the contents will be erased.
+  ///
+  /// Submitされた場合、中身を消去します。
+  final bool clearOnSubmitted;
 
   @override
   State<StatefulWidget> createState() => _FormTextFieldState<TValue>();

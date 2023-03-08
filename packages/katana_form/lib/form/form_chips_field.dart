@@ -215,7 +215,9 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
 
     final suggestionStyle = widget.suggestionStyle ?? const SuggestionStyle();
 
-    return Padding(
+    return Container(
+      width: widget.style?.width,
+      height: widget.style?.height,
       padding: widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
       child: Container(
         alignment: Alignment.centerLeft,

@@ -197,71 +197,92 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
       borderSide: BorderSide.none,
     );
 
-    return Padding(
+    return Container(
+      width: widget.style?.width,
+      height: widget.style?.height,
       padding:
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-      child: TextFormField(
-        mouseCursor: SystemMouseCursors.click,
-        enabled: widget.enabled,
-        controller: _controller,
-        decoration: InputDecoration(
-          contentPadding: widget.style?.contentPadding ??
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-          fillColor: widget.style?.backgroundColor,
-          filled: widget.style?.backgroundColor != null,
-          isDense: true,
-          border: widget.style?.border ?? borderSide,
-          enabledBorder: widget.style?.border ?? borderSide,
-          disabledBorder: widget.style?.disabledBorder ??
-              widget.style?.border ??
-              borderSide,
-          errorBorder:
-              widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
-          focusedBorder: widget.style?.border ?? borderSide,
-          focusedErrorBorder:
-              widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
-          hintText: widget.hintText,
-          labelText: widget.labelText,
-          prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-          suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-          prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-          suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-          prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-          suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-          prefixIconColor:
-              widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-          suffixIconColor:
-              widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-          prefixIconConstraints: widget.prefix?.iconConstraints ??
-              widget.style?.prefix?.iconConstraints,
-          suffixIconConstraints: widget.suffix?.iconConstraints ??
-              widget.style?.suffix?.iconConstraints,
-          labelStyle: mainTextStyle,
-          hintStyle: subTextStyle,
-          suffixStyle: subTextStyle,
-          prefixStyle: subTextStyle,
-          counterStyle: subTextStyle,
-          helperStyle: subTextStyle,
-          errorStyle: errorTextStyle,
-        ),
-        style: mainTextStyle,
-        textAlign: widget.style?.textAlign ?? TextAlign.left,
-        textAlignVertical: widget.style?.textAlignVertical,
-        readOnly: true,
-        obscureText: widget.obscureText,
-        onTap: widget.enabled && !widget.readOnly
-            ? () async {
-                final res = await widget._builder();
-                if (res == null) {
-                  return;
-                }
-                setState(() {
-                  _controller.text =
-                      widget.parseToString?.call(res) ?? res.toString();
-                  setValue(res);
-                });
-              }
-            : null,
+      child: Stack(
+        children: [
+          TextFormField(
+            mouseCursor: SystemMouseCursors.click,
+            enabled: widget.enabled,
+            controller: _controller,
+            decoration: InputDecoration(
+              contentPadding: widget.style?.contentPadding ??
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              fillColor: widget.style?.backgroundColor,
+              filled: widget.style?.backgroundColor != null,
+              isDense: true,
+              border: widget.style?.border ?? borderSide,
+              enabledBorder: widget.style?.border ?? borderSide,
+              disabledBorder: widget.style?.disabledBorder ??
+                  widget.style?.border ??
+                  borderSide,
+              errorBorder: widget.style?.errorBorder ??
+                  widget.style?.border ??
+                  borderSide,
+              focusedBorder: widget.style?.border ?? borderSide,
+              focusedErrorBorder: widget.style?.errorBorder ??
+                  widget.style?.border ??
+                  borderSide,
+              hintText: widget.hintText,
+              labelText: widget.labelText,
+              prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+              suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+              prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+              suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+              prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+              suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+              prefixIconColor:
+                  widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+              suffixIconColor:
+                  widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+              prefixIconConstraints: widget.prefix?.iconConstraints ??
+                  widget.style?.prefix?.iconConstraints,
+              suffixIconConstraints: widget.suffix?.iconConstraints ??
+                  widget.style?.suffix?.iconConstraints,
+              labelStyle: mainTextStyle,
+              hintStyle: subTextStyle,
+              suffixStyle: subTextStyle,
+              prefixStyle: subTextStyle,
+              counterStyle: subTextStyle,
+              helperStyle: subTextStyle,
+              errorStyle: errorTextStyle,
+            ),
+            style: mainTextStyle,
+            textAlign: widget.style?.textAlign ?? TextAlign.left,
+            textAlignVertical: widget.style?.textAlignVertical,
+            readOnly: true,
+            obscureText: widget.obscureText,
+            onTap: widget.enabled && !widget.readOnly
+                ? () async {
+                    final res = await widget._builder();
+                    if (res == null) {
+                      return;
+                    }
+                    setState(() {
+                      _controller.text =
+                          widget.parseToString?.call(res) ?? res.toString();
+                      setValue(res);
+                    });
+                  }
+                : null,
+          ),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: IgnorePointer(
+                  ignoring: true,
+                  child:
+                      Icon(Icons.arrow_drop_down, color: mainTextStyle.color),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
