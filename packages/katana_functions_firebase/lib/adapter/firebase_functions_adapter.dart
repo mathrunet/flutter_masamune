@@ -97,4 +97,49 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
       rethrow;
     }
   }
+
+  @override
+  Future<OpenAIChatGPTMessage?> openAIChatGPT({
+    required List<OpenAIChatGPTMessage> messages,
+    OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo,
+  }) async {
+    await FirebaseCore.initialize(options: options);
+    try {
+      final res =
+          await functions.httpsCallable("openai_chat_gpt").call<DynamicMap>(
+        {
+          "message": messages
+              .map((e) => {
+                    "role": e.role.name,
+                    "content": e.text,
+                  })
+              .toList(),
+          "model": model.name,
+        },
+      );
+      if (res.data.isEmpty) {
+        throw Exception("Failed to get response from openai_chat_gpt.");
+      }
+
+      final choices = res.data.getAsList<DynamicMap>("choices");
+      if (choices.isEmpty) {
+        throw Exception("Failed to get response from openai_chat_gpt.");
+      }
+
+      final token = res.data.getAsMap("usage").get("total_tokens", 0);
+      final message = choices.first.getAsMap("message");
+      final role = message.get("role", "");
+      final content = message.get("content", "");
+      return OpenAIChatGPTMessage(
+        role: OpenAIChatGPTRole.values
+                .firstWhereOrNull((item) => item.name == role) ??
+            OpenAIChatGPTRole.user,
+        text: content,
+        token: token,
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }
