@@ -1,5 +1,4 @@
 // Dart imports:
-import 'dart:io';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune_ai_openai/masamune_ai_openai.dart';
 
 final List<MasamuneAdapter> masamuneAdapters = [
-  OpenAIMasamuneAdapter(
+  const OpenAIMasamuneAdapter(
     apiKey: "APIKEY",
   ),
 ];
