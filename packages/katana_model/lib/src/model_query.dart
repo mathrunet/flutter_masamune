@@ -1186,7 +1186,7 @@ class ModelQuery {
     if (a is num && b is num) {
       return a.compareTo(b);
     }
-    return a.toString().compareTo(b);
+    return a.toString().compareTo(b.toString());
   }
 
   @override
