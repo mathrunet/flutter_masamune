@@ -1,3 +1,7 @@
+## 1.10.7
+
+ - **FIX**: Fixed a problem with color transitions. ([4d5511b5](https://github.com/mathrunet/flutter_masamune/commit/4d5511b52f620b1344c0c8f132dfa0f008f7357c))
+
 ## 1.10.6
 
  - **DOCS**: Documentation maintenance. ([94ffa158](https://github.com/mathrunet/flutter_masamune/commit/94ffa158e49243a8fa418399bf2e246f7191aa24))

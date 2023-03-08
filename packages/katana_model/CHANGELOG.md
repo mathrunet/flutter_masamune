@@ -1,3 +1,7 @@
+## 1.5.15
+
+ - **FIX**: Fixed a bug that caused sorting to fail. ([81ee609b](https://github.com/mathrunet/flutter_masamune/commit/81ee609b4765469f6438c3772bc6c1a11fe5b22d))
+
 ## 1.5.14
 
  - **FIX**: Fixed a bug that prevented data from being taken when the search function was enabled. ([4428aa1a](https://github.com/mathrunet/flutter_masamune/commit/4428aa1a32f336c93a32576a5da4c8a6ba86afca))

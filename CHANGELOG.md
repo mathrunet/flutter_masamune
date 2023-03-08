@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v1.5.15`](#katana_model---v1515)
+ - [`masamune` - `v1.10.7`](#masamune---v1107)
+ - [`katana_model_firestore` - `v1.5.16`](#katana_model_firestore---v1516)
+ - [`masamune_picker` - `v1.5.57`](#masamune_picker---v1557)
+ - [`masamune_ai_openai` - `v1.1.1`](#masamune_ai_openai---v111)
+ - [`masamune_notification_firebase` - `v1.2.27`](#masamune_notification_firebase---v1227)
+ - [`masamune_logger_firebase` - `v1.2.38`](#masamune_logger_firebase---v1238)
+ - [`masamune_picker_mobile` - `v1.5.57`](#masamune_picker_mobile---v1557)
+ - [`masamune_picker_file` - `v1.5.57`](#masamune_picker_file---v1557)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v1.5.16`
+ - `masamune_picker` - `v1.5.57`
+ - `masamune_ai_openai` - `v1.1.1`
+ - `masamune_notification_firebase` - `v1.2.27`
+ - `masamune_logger_firebase` - `v1.2.38`
+ - `masamune_picker_mobile` - `v1.5.57`
+ - `masamune_picker_file` - `v1.5.57`
+
+---
+
+#### `katana_model` - `v1.5.15`
+
+ - **FIX**: Fixed a bug that caused sorting to fail. ([81ee609b](https://github.com/mathrunet/flutter_masamune/commit/81ee609b4765469f6438c3772bc6c1a11fe5b22d))
+
+#### `masamune` - `v1.10.7`
+
+ - **FIX**: Fixed a problem with color transitions. ([4d5511b5](https://github.com/mathrunet/flutter_masamune/commit/4d5511b52f620b1344c0c8f132dfa0f008f7357c))
+
+
 ## 2023-03-08
 
 ### Changes
