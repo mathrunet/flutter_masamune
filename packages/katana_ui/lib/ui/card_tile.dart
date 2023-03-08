@@ -25,7 +25,6 @@ class CardTile extends StatelessWidget {
     this.image,
     this.backgroundColor,
     this.shadowColor,
-    this.surfaceTintColor,
     this.elevation,
     this.shape,
     this.margin,
@@ -68,11 +67,6 @@ class CardTile extends StatelessWidget {
   ///
   /// カードの影の色。
   final Color? shadowColor;
-
-  /// The color to apply to the image.
-  ///
-  /// 画像に適用する色。
-  final Color? surfaceTintColor;
 
   /// The z-coordinate at which to place this card.
   ///
@@ -145,6 +139,11 @@ class CardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final backgroundColor =
+        this.backgroundColor ?? Theme.of(context).colorScheme.surface;
+    final textColor = this.textColor ?? Theme.of(context).colorScheme.onSurface;
+    final iconColor = this.iconColor ?? Theme.of(context).colorScheme.onSurface;
+
     return Container(
       width: width,
       height: height,
@@ -153,7 +152,7 @@ class CardTile extends StatelessWidget {
         color: backgroundColor,
         shadowColor: shadowColor,
         elevation: elevation,
-        surfaceTintColor: surfaceTintColor,
+        surfaceTintColor: backgroundColor,
         shape: shape,
         margin: EdgeInsets.zero,
         borderOnForeground: borderOnForeground,
@@ -174,6 +173,7 @@ class CardTile extends StatelessWidget {
                 ),
               ListTile(
                 title: title,
+                mouseCursor: SystemMouseCursors.click,
                 subtitle: subtitle,
                 leading: leading,
                 trailing: trailing,
@@ -181,6 +181,7 @@ class CardTile extends StatelessWidget {
                 contentPadding: contentPadding,
                 iconColor: iconColor,
                 textColor: textColor,
+                tileColor: backgroundColor,
               ),
             ],
           ),

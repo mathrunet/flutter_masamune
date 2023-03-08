@@ -34,6 +34,8 @@ class Label extends StatelessWidget {
     this.textStyle,
     this.iconSize,
     this.leadingSpace,
+    this.alignment,
+    this.textAlign = TextAlign.start,
   });
 
   /// The text to display.
@@ -81,12 +83,23 @@ class Label extends StatelessWidget {
   /// アイコンとテキストの間のスペース。
   final double? leadingSpace;
 
+  /// Text position.
+  ///
+  /// テキストの位置。
+  final TextAlign textAlign;
+
+  /// Label Location.
+  ///
+  /// ラベルの位置。
+  final Alignment? alignment;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = textStyle ?? Theme.of(context).textTheme.titleLarge;
 
     return Container(
       padding: padding,
+      alignment: alignment,
       decoration: decoration,
       color: backgroundColor,
       child: Row(
@@ -104,7 +117,11 @@ class Label extends StatelessWidget {
             ),
             SizedBox(width: leadingSpace ?? 16),
           ],
-          Text(text, style: textTheme?.copyWith(color: color)),
+          Text(
+            text,
+            style: textTheme?.copyWith(color: color),
+            textAlign: textAlign,
+          ),
         ],
       ),
     );
