@@ -46,6 +46,11 @@ enum OpenAIChatGPTRole {
   ///
   /// アシスタント。ChatGPT。
   assistant,
+
+  /// System.
+  ///
+  /// システム。
+  system,
 }
 
 /// Available models of ChatGPT.
