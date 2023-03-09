@@ -1,3 +1,7 @@
+## 1.11.0
+
+ - **FEAT**: Changed the specification of runMasamuneApp. ([0f6d3cd9](https://github.com/mathrunet/flutter_masamune/commit/0f6d3cd9279c4ef94c701b485c35d80ab0e1e7c3))
+
 ## 1.10.7
 
  - **FIX**: Fixed a problem with color transitions. ([4d5511b5](https://github.com/mathrunet/flutter_masamune/commit/4d5511b52f620b1344c0c8f132dfa0f008f7357c))

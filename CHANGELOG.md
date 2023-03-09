@@ -15,6 +15,49 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v1.3.18`](#katana_form---v1318)
+ - [`masamune` - `v1.11.0`](#masamune---v1110)
+ - [`masamune_picker` - `v1.5.58`](#masamune_picker---v1558)
+ - [`masamune_ai_openai` - `v1.1.2`](#masamune_ai_openai---v112)
+ - [`masamune_notification_firebase` - `v1.2.28`](#masamune_notification_firebase---v1228)
+ - [`masamune_logger_firebase` - `v1.2.39`](#masamune_logger_firebase---v1239)
+ - [`masamune_picker_mobile` - `v1.5.58`](#masamune_picker_mobile---v1558)
+ - [`masamune_picker_file` - `v1.5.58`](#masamune_picker_file---v1558)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.5.58`
+ - `masamune_ai_openai` - `v1.1.2`
+ - `masamune_notification_firebase` - `v1.2.28`
+ - `masamune_logger_firebase` - `v1.2.39`
+ - `masamune_picker_mobile` - `v1.5.58`
+ - `masamune_picker_file` - `v1.5.58`
+
+---
+
+#### `katana_form` - `v1.3.18`
+
+ - **FIX**: Adjustment because the height changes. ([4334f5cf](https://github.com/mathrunet/flutter_masamune/commit/4334f5cfa766e8e0ca720afcd750079d9000bcf1))
+
+#### `masamune` - `v1.11.0`
+
+ - **FEAT**: Changed the specification of runMasamuneApp. ([0f6d3cd9](https://github.com/mathrunet/flutter_masamune/commit/0f6d3cd9279c4ef94c701b485c35d80ab0e1e7c3))
+
+
+## 2023-03-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.5.15`](#katana_model---v1515)
  - [`masamune` - `v1.10.7`](#masamune---v1107)
  - [`katana_model_firestore` - `v1.5.16`](#katana_model_firestore---v1516)

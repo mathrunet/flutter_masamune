@@ -1,3 +1,7 @@
+## 1.3.18
+
+ - **FIX**: Adjustment because the height changes. ([4334f5cf](https://github.com/mathrunet/flutter_masamune/commit/4334f5cfa766e8e0ca720afcd750079d9000bcf1))
+
 ## 1.3.17
 
  - **FIX**: Expanded the scope of application of the Style of Form. ([6b5a70c2](https://github.com/mathrunet/flutter_masamune/commit/6b5a70c2e0bef1361720d216dbf30b3c6794291a))
