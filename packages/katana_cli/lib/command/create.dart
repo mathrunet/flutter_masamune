@@ -543,7 +543,7 @@ const flavor = String.fromEnvironment("FLAVOR");
 /// App.
 void main() {
   runMasamuneApp(
-    () => MasamuneApp(
+    (adapters) => MasamuneApp(
       title: title,
       appRef: appRef,
       theme: theme,
@@ -554,7 +554,7 @@ void main() {
       storageAdapter: storageAdapter,
       functionsAdapter: functionsAdapter,
       loggerAdapters: loggerAdapters,
-      masamuneAdapters: masamuneAdapters,
+      masamuneAdapters: adapters,
     ),
     masamuneAdapters: masamuneAdapters,
   );
