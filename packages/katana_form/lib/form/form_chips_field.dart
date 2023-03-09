@@ -1,6 +1,7 @@
 part of katana_form;
 
 const _kObjectReplacementChar = 0xFFFD;
+const _kFormHeight = 40.0;
 
 /// Builder for use with [FormChipsField].
 ///
@@ -755,7 +756,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
 
     chipsChildren.add(
       SizedBox(
-        height: 30,
+        height: _kFormHeight,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -798,11 +799,16 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
                 decoration: widget.decoration,
                 isFocused: _effectiveFocusNode.hasFocus,
                 isEmpty: _value.text.isEmpty && _chips.isEmpty,
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 8.0,
-                  runSpacing: 8.0,
-                  children: chipsChildren,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minHeight: _kFormHeight,
+                  ),
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: chipsChildren,
+                  ),
                 ),
               ),
             ),
