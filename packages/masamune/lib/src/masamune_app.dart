@@ -13,7 +13,7 @@ const kDefaultLocales = [Locale("en", "US")];
 ///
 /// Passing [masamuneAdapters] makes it easy to use additional plug-ins for the Masamune Framework.
 ///
-/// (If [masamuneAdapters] is specified, [masamuneAdapters] must also be passed in [MasamuneApp].
+/// (If [masamuneAdapters] is specified, `adapters` must also be passed in [MasamuneApp].
 ///
 /// Set [setPathUrlStrategy] to `true` to remove `#` in the web path.
 ///
@@ -24,11 +24,11 @@ const kDefaultLocales = [Locale("en", "US")];
 /// [masamuneApp]に[MasamuneApp]を渡すことで内部で[runApp]を実行します。
 ///
 /// [masamuneAdapters]を渡すことでMasamune Frameworkの追加プラグインを楽に利用することができます。
-/// （[masamuneAdapters]を指定する場合は[MasamuneApp]内でも[masamuneAdapters]を渡してください。）
+/// （[masamuneAdapters]を指定する場合は[MasamuneApp]内でも`adapters`を渡してください。）
 ///
 /// [setPathUrlStrategy]を`true`にするとWebのパス中の`#`を取り除くことができます。
 Future<void> runMasamuneApp(
-  MasamuneApp Function() masamuneApp, {
+  MasamuneApp Function(List<MasamuneAdapter> adapters) masamuneApp, {
   bool setPathUrlStrategy = true,
   List<MasamuneAdapter> masamuneAdapters = const [],
 }) async {
@@ -42,7 +42,7 @@ Future<void> runMasamuneApp(
       for (final adapter in masamuneAdapters) {
         await adapter.onPreRunApp();
       }
-      runApp(masamuneApp.call());
+      runApp(masamuneApp.call(masamuneAdapters));
     }, (error, stack) {
       for (final adapter in masamuneAdapters) {
         adapter.onError(error, stack);
@@ -52,7 +52,7 @@ Future<void> runMasamuneApp(
     for (final adapter in masamuneAdapters) {
       await adapter.onPreRunApp();
     }
-    runApp(masamuneApp.call());
+    runApp(masamuneApp.call(masamuneAdapters));
   }
 }
 

@@ -308,10 +308,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana_model
-      sha256: "4f62900759b58c77bc8a8d33c65d6c9be35e97f7c9b152db016d55e0ebba9673"
+      sha256: f53f7e628729830f1bdf3761e2a439918dd4c797ac50c09cf7596bdf6b114254
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.14"
+    version: "1.5.15"
   katana_prefs:
     dependency: "direct main"
     description:
