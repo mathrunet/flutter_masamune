@@ -1,3 +1,7 @@
+## 1.8.11
+
+ - **FIX**: Support for Masamune interface changes. ([df95e26a](https://github.com/mathrunet/flutter_masamune/commit/df95e26a84f02f1a4211aa3db8350ee3aa29446d))
+
 ## 1.8.10
 
  - **FIX**: Allows Adapter for UniversalUI to be specified directly in MasamuneApp. ([54cf2856](https://github.com/mathrunet/flutter_masamune/commit/54cf28562aa1588d9e0262417143efd9bd9df841))

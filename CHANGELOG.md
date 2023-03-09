@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.11`](#katana_cli---v1811)
+
+---
+
+#### `katana_cli` - `v1.8.11`
+
+ - **FIX**: Support for Masamune interface changes. ([df95e26a](https://github.com/mathrunet/flutter_masamune/commit/df95e26a84f02f1a4211aa3db8350ee3aa29446d))
+
+
+## 2023-03-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v1.3.18`](#katana_form---v1318)
  - [`masamune` - `v1.11.0`](#masamune---v1110)
  - [`masamune_picker` - `v1.5.58`](#masamune_picker---v1558)
