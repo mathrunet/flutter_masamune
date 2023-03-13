@@ -12,6 +12,7 @@ import 'package:image/src/formats/ico_encoder.dart';
 // Project imports:
 import 'package:katana_cli/config.dart';
 import 'package:katana_cli/katana_cli.dart';
+import 'package:xml/xml.dart';
 
 /// Package to import.
 ///
@@ -218,6 +219,42 @@ class CreateCliCommand extends CliCommand {
     final assetsDirectory = Directory("assets");
     if (!assetsDirectory.existsSync()) {
       await assetsDirectory.create();
+    }
+    label("Edit DebugProfile.entitlements.");
+    final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
+    if (debugEntitlements.existsSync()) {
+      final document =
+          XmlDocument.parse(await debugEntitlements.readAsString());
+      final dict = document.findAllElements("dict").firstOrNull;
+      if (dict == null) {
+        throw Exception(
+          "Could not find `dict` element in `macos/Runner/DebugProfile.entitlements`. File is corrupt.",
+        );
+      }
+      final node = dict.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "key" &&
+            p0.innerText == "com.apple.security.network.client";
+      });
+      if (node == null) {
+        dict.children.addAll(
+          [
+            XmlElement(
+              XmlName("key"),
+              [],
+              [XmlText("com.apple.security.network.client")],
+            ),
+            XmlElement(
+              XmlName("true"),
+              [],
+              [],
+            ),
+          ],
+        );
+      }
+      await debugEntitlements.writeAsString(
+        document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+      );
     }
     label("Replace pubspec.yaml");
     final pubspecFile = File("pubspec.yaml");
