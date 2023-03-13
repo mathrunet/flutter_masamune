@@ -49,6 +49,7 @@ class CodeStatelessCliCommand extends CliCodeCommand {
 import 'package:flutter/material.dart';
 // ignore: unused_import, unnecessary_import
 import 'package:masamune/masamune.dart';
+import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
 // ignore: unused_import, unnecessary_import
 import '/main.dart';
