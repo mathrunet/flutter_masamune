@@ -36,6 +36,7 @@ class Label extends StatelessWidget {
     this.leadingSpace,
     this.alignment,
     this.textAlign = TextAlign.start,
+    this.actions = const [],
   });
 
   /// The text to display.
@@ -93,6 +94,11 @@ class Label extends StatelessWidget {
   /// ラベルの位置。
   final Alignment? alignment;
 
+  /// List of actions to be displayed on the right.
+  ///
+  /// 右側に表示するアクションのリスト。
+  final List<Widget> actions;
+
   @override
   Widget build(BuildContext context) {
     final textTheme = textStyle ?? Theme.of(context).textTheme.titleLarge;
@@ -122,6 +128,12 @@ class Label extends StatelessWidget {
             style: textTheme?.copyWith(color: color),
             textAlign: textAlign,
           ),
+          if (actions.isNotEmpty) ...[
+            const Spacer(),
+            ...actions.map(
+              (e) => Padding(padding: EdgeInsets.only(left: 8.0), child: e),
+            ),
+          ],
         ],
       ),
     );
