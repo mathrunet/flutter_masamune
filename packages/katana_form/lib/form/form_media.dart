@@ -355,7 +355,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
 
   Widget _buildMedia(BuildContext context) {
     final height = widget.style?.height ?? _kDefaultHeight;
-    if (value != null) {
+    if (value != null && value!.path.isNotEmpty) {
       return Container(
         padding: widget.style?.contentPadding,
         constraints: BoxConstraints.expand(
