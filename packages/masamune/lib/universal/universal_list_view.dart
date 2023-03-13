@@ -71,6 +71,7 @@ class UniversalListView extends StatelessWidget {
     this.paddingWhenNotFullWidth,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.rowSegments = 12,
+    this.maxWidth,
     this.padding,
   })  : assert(
           !(controller != null && primary == true),
@@ -89,6 +90,11 @@ class UniversalListView extends StatelessWidget {
                         identical(scrollDirection, Axis.vertical))
                 ? const AlwaysScrollableScrollPhysics()
                 : null);
+
+  /// Maximum width.
+  ///
+  /// 最大の横幅。
+  final double? maxWidth;
 
   /// Method called by [RefreshIndicator].
   ///
@@ -185,36 +191,39 @@ class UniversalListView extends StatelessWidget {
       context,
       _buildScrollbar(
         context,
-        _buildDecoratedBox(
+        _buildConstrainedBox(
           context,
-          CustomScrollView(
-            key: key,
-            scrollDirection: scrollDirection,
-            reverse: reverse,
-            controller: controller,
-            primary: primary,
-            physics: physics,
-            scrollBehavior: scrollBehavior,
-            shrinkWrap: shrinkWrap,
-            center: center,
-            anchor: anchor,
-            cacheExtent: cacheExtent,
-            semanticChildCount: semanticChildCount,
-            dragStartBehavior: dragStartBehavior,
-            keyboardDismissBehavior: keyboardDismissBehavior,
-            restorationId: restorationId,
-            clipBehavior: clipBehavior,
-            slivers: [
-              _padding(
-                context,
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, i) => rows[i],
-                    childCount: rows.length,
+          _buildDecoratedBox(
+            context,
+            CustomScrollView(
+              key: key,
+              scrollDirection: scrollDirection,
+              reverse: reverse,
+              controller: controller,
+              primary: primary,
+              physics: physics,
+              scrollBehavior: scrollBehavior,
+              shrinkWrap: shrinkWrap,
+              center: center,
+              anchor: anchor,
+              cacheExtent: cacheExtent,
+              semanticChildCount: semanticChildCount,
+              dragStartBehavior: dragStartBehavior,
+              keyboardDismissBehavior: keyboardDismissBehavior,
+              restorationId: restorationId,
+              clipBehavior: clipBehavior,
+              slivers: [
+                _padding(
+                  context,
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) => rows[i],
+                      childCount: rows.length,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -301,6 +310,20 @@ class UniversalListView extends StatelessWidget {
       return DecoratedBox(
         decoration: decoration!,
         child: child,
+      );
+    } else {
+      return child;
+    }
+  }
+
+  Widget _buildConstrainedBox(BuildContext context, Widget child) {
+    if (maxWidth != null) {
+      return Align(
+        alignment: Alignment.center,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxWidth!),
+          child: child,
+        ),
       );
     } else {
       return child;
