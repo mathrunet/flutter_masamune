@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.8.15`](#katana_cli---v1815)
+
+---
+
+#### `katana_cli` - `v1.8.15`
+
+ - **FIX**: UniversalMasamuneAdapterを最初から定義するように変更。. ([094e779c](https://github.com/mathrunet/flutter_masamune/commit/094e779ce96934f79fba451b64add0279fc71d76))
+
+
 ## 2023-03-13
 
 ### Changes
