@@ -19,6 +19,7 @@ import 'package:katana_cli/katana_cli.dart';
 /// インポートするパッケージ。
 final importPackages = [
   "masamune",
+  "masamune_universal_ui",
   "freezed_annotation",
   "json_annotation",
 ];
