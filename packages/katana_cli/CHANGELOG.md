@@ -1,3 +1,7 @@
+## 1.8.13
+
+ - **FIX**: Support for masamune_universal_ui. ([f6c313fe](https://github.com/mathrunet/flutter_masamune/commit/f6c313fee91e0a492fc1a97fecf2385995a05472))
+
 ## 1.8.12
 
  - **FIX**: Creation of DebugProfile.entitlements for MacOS. ([ed798ef3](https://github.com/mathrunet/flutter_masamune/commit/ed798ef328cc1ca93ad6410baff1f7a8c03e1d7e))

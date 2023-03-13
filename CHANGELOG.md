@@ -15,6 +15,62 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.13`](#katana_cli---v1813)
+ - [`masamune_ai_openai` - `v1.1.4`](#masamune_ai_openai---v114)
+ - [`masamune_logger_firebase` - `v1.2.41`](#masamune_logger_firebase---v1241)
+ - [`masamune_notification_firebase` - `v1.2.30`](#masamune_notification_firebase---v1230)
+ - [`masamune_picker` - `v1.5.60`](#masamune_picker---v1560)
+ - [`masamune_picker_file` - `v1.5.60`](#masamune_picker_file---v1560)
+ - [`masamune_picker_mobile` - `v1.5.60`](#masamune_picker_mobile---v1560)
+ - [`masamune_universal_ui` - `v1.1.0`](#masamune_universal_ui---v110)
+
+---
+
+#### `katana_cli` - `v1.8.13`
+
+ - **FIX**: Support for masamune_universal_ui. ([f6c313fe](https://github.com/mathrunet/flutter_masamune/commit/f6c313fee91e0a492fc1a97fecf2385995a05472))
+
+#### `masamune_ai_openai` - `v1.1.4`
+
+ - **FIX**: Import the Masamune package explicitly. ([d2f51bf8](https://github.com/mathrunet/flutter_masamune/commit/d2f51bf8d87ec37eb5ccf780f54b64e37f8ff4d4))
+
+#### `masamune_logger_firebase` - `v1.2.41`
+
+ - **FIX**: Import the Masamune package explicitly. ([d2f51bf8](https://github.com/mathrunet/flutter_masamune/commit/d2f51bf8d87ec37eb5ccf780f54b64e37f8ff4d4))
+
+#### `masamune_notification_firebase` - `v1.2.30`
+
+ - **FIX**: Import the Masamune package explicitly. ([d2f51bf8](https://github.com/mathrunet/flutter_masamune/commit/d2f51bf8d87ec37eb5ccf780f54b64e37f8ff4d4))
+
+#### `masamune_picker` - `v1.5.60`
+
+ - **FIX**: Import the Masamune package explicitly. ([d2f51bf8](https://github.com/mathrunet/flutter_masamune/commit/d2f51bf8d87ec37eb5ccf780f54b64e37f8ff4d4))
+
+#### `masamune_picker_file` - `v1.5.60`
+
+ - **FIX**: Import the Masamune package explicitly. ([d2f51bf8](https://github.com/mathrunet/flutter_masamune/commit/d2f51bf8d87ec37eb5ccf780f54b64e37f8ff4d4))
+
+#### `masamune_picker_mobile` - `v1.5.60`
+
+ - **FIX**: Import the Masamune package explicitly. ([d2f51bf8](https://github.com/mathrunet/flutter_masamune/commit/d2f51bf8d87ec37eb5ccf780f54b64e37f8ff4d4))
+
+#### `masamune_universal_ui` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([f178ad88](https://github.com/mathrunet/flutter_masamune/commit/f178ad8865fd71753beff7c0b7ad3c4cd7cafd83))
+
+
+## 2023-03-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.12`](#katana_cli---v1812)
  - [`katana_form` - `v1.3.19`](#katana_form---v1319)
  - [`katana_localization` - `v1.1.28`](#katana_localization---v1128)
