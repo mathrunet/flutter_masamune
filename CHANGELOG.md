@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.8.14`](#katana_cli---v1814)
+
+---
+
+#### `katana_cli` - `v1.8.14`
+
+ - **FIX**: Changed to add masamune_universal_ui on create. ([f3eed40b](https://github.com/mathrunet/flutter_masamune/commit/f3eed40b2fca9b5d9d45c4b4a993f1af0641ebe4))
+
+
+## 2023-03-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.13`](#katana_cli---v1813)
  - [`masamune_ai_openai` - `v1.1.4`](#masamune_ai_openai---v114)
  - [`masamune_logger_firebase` - `v1.2.41`](#masamune_logger_firebase---v1241)

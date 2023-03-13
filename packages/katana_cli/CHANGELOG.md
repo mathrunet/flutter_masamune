@@ -1,3 +1,7 @@
+## 1.8.14
+
+ - **FIX**: Changed to add masamune_universal_ui on create. ([f3eed40b](https://github.com/mathrunet/flutter_masamune/commit/f3eed40b2fca9b5d9d45c4b4a993f1af0641ebe4))
+
 ## 1.8.13
 
  - **FIX**: Support for masamune_universal_ui. ([f6c313fe](https://github.com/mathrunet/flutter_masamune/commit/f6c313fee91e0a492fc1a97fecf2385995a05472))
