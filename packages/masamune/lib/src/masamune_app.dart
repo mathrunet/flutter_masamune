@@ -176,7 +176,6 @@ class MasamuneApp extends StatelessWidget {
     this.onUnknownRoute,
     this.builder,
     this.onBuildAppFilters,
-    this.universalUIAdapter = const UniversalMasamuneAdapter(),
     this.masamuneAdapters = const <MasamuneAdapter>[],
   });
 
@@ -224,11 +223,6 @@ class MasamuneApp extends StatelessWidget {
   ///
   /// `katana_logger`で利用されるロギング用のアダプター。
   final List<LoggerAdapter> loggerAdapters;
-
-  /// Adapter for use with `Masamune Universal UI`.
-  ///
-  /// `Masamune Universal UI`で利用するアダプター。
-  final UniversalMasamuneAdapter universalUIAdapter;
 
   /// Config for router used by `katana_router`.
   ///
@@ -415,7 +409,6 @@ class MasamuneApp extends StatelessWidget {
     );
     final filters = [
       ...masamuneAdapters.map((e) => e.onBuildApp),
-      universalUIAdapter.onBuildApp,
       if (onBuildAppFilters != null) ...onBuildAppFilters!,
     ];
     if (filters.isEmpty) {
