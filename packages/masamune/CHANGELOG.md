@@ -1,3 +1,8 @@
+## 1.11.1
+
+ - **FIX**: Separate UniversalUI into a separate package. ([b7ffe81a](https://github.com/mathrunet/flutter_masamune/commit/b7ffe81a4654890496addb89d17d330007884c5a))
+ - **FIX**: Add maximum width to UniversalListView. ([a057c774](https://github.com/mathrunet/flutter_masamune/commit/a057c774cce3d95fa94c0230de0e295194672bd1))
+
 ## 1.11.0
 
  - **FEAT**: Changed the specification of runMasamuneApp. ([0f6d3cd9](https://github.com/mathrunet/flutter_masamune/commit/0f6d3cd9279c4ef94c701b485c35d80ab0e1e7c3))

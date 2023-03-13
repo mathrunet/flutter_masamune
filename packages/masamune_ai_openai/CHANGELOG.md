@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: Changed masamune not to export. ([9aa66375](https://github.com/mathrunet/flutter_masamune/commit/9aa663752fcca41266c09a99d9d37f1838acc216))
+
 ## 1.1.2
 
  - Update a dependency to the latest release.

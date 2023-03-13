@@ -1,3 +1,7 @@
+## 1.1.28
+
+ - **FIX**: Fixed a bug when $ was included in the value after translation. ([6993b0b5](https://github.com/mathrunet/flutter_masamune/commit/6993b0b5ce3458d4bd3f90850d3bc4a3ba07af77))
+
 ## 1.1.27
 
  - **FIX**: Fixed a bug that caused an error when the cell value was only numeric. ([e5482514](https://github.com/mathrunet/flutter_masamune/commit/e5482514ddb8fc522359c397d083a52e5b7bb71a))

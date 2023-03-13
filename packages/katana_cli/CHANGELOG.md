@@ -1,3 +1,7 @@
+## 1.8.12
+
+ - **FIX**: Creation of DebugProfile.entitlements for MacOS. ([ed798ef3](https://github.com/mathrunet/flutter_masamune/commit/ed798ef328cc1ca93ad6410baff1f7a8c03e1d7e))
+
 ## 1.8.11
 
  - **FIX**: Support for Masamune interface changes. ([df95e26a](https://github.com/mathrunet/flutter_masamune/commit/df95e26a84f02f1a4211aa3db8350ee3aa29446d))

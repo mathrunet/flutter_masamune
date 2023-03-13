@@ -1,3 +1,7 @@
+## 1.3.19
+
+ - **FIX**: Fixed a bug that caused incorrect display when the value path was empty. ([40fe176e](https://github.com/mathrunet/flutter_masamune/commit/40fe176e1be32329e489dfb929439cdc411fcd90))
+
 ## 1.3.18
 
  - **FIX**: Adjustment because the height changes. ([4334f5cf](https://github.com/mathrunet/flutter_masamune/commit/4334f5cfa766e8e0ca720afcd750079d9000bcf1))

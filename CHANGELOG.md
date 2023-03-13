@@ -3,6 +3,97 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.8.12`](#katana_cli---v1812)
+ - [`katana_form` - `v1.3.19`](#katana_form---v1319)
+ - [`katana_localization` - `v1.1.28`](#katana_localization---v1128)
+ - [`katana_localization_annotation` - `v1.1.26`](#katana_localization_annotation---v1126)
+ - [`katana_localization_builder` - `v1.1.28`](#katana_localization_builder---v1128)
+ - [`katana_ui` - `v1.2.3`](#katana_ui---v123)
+ - [`masamune` - `v1.11.1`](#masamune---v1111)
+ - [`masamune_ai_openai` - `v1.1.3`](#masamune_ai_openai---v113)
+ - [`masamune_logger_firebase` - `v1.2.40`](#masamune_logger_firebase---v1240)
+ - [`masamune_notification_firebase` - `v1.2.29`](#masamune_notification_firebase---v1229)
+ - [`masamune_picker` - `v1.5.59`](#masamune_picker---v1559)
+ - [`masamune_picker_file` - `v1.5.59`](#masamune_picker_file---v1559)
+ - [`masamune_picker_mobile` - `v1.5.59`](#masamune_picker_mobile---v1559)
+ - [`masamune_universal_ui` - `v1.0.1`](#masamune_universal_ui---v101)
+ - [`masamune_builder` - `v1.4.10`](#masamune_builder---v1410)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_universal_ui` - `v1.0.1`
+ - `masamune_builder` - `v1.4.10`
+
+---
+
+#### `katana_cli` - `v1.8.12`
+
+ - **FIX**: Creation of DebugProfile.entitlements for MacOS. ([ed798ef3](https://github.com/mathrunet/flutter_masamune/commit/ed798ef328cc1ca93ad6410baff1f7a8c03e1d7e))
+
+#### `katana_form` - `v1.3.19`
+
+ - **FIX**: Fixed a bug that caused incorrect display when the value path was empty. ([40fe176e](https://github.com/mathrunet/flutter_masamune/commit/40fe176e1be32329e489dfb929439cdc411fcd90))
+
+#### `katana_localization` - `v1.1.28`
+
+ - **FIX**: Fixed a bug when $ was included in the value after translation. ([6993b0b5](https://github.com/mathrunet/flutter_masamune/commit/6993b0b5ce3458d4bd3f90850d3bc4a3ba07af77))
+
+#### `katana_localization_annotation` - `v1.1.26`
+
+ - **FIX**: Fixed a bug when $ was included in the value after translation. ([6993b0b5](https://github.com/mathrunet/flutter_masamune/commit/6993b0b5ce3458d4bd3f90850d3bc4a3ba07af77))
+
+#### `katana_localization_builder` - `v1.1.28`
+
+ - **FIX**: Fixed a bug when $ was included in the value after translation. ([6993b0b5](https://github.com/mathrunet/flutter_masamune/commit/6993b0b5ce3458d4bd3f90850d3bc4a3ba07af77))
+
+#### `katana_ui` - `v1.2.3`
+
+ - **FIX**: Add Actions to Label. ([13a0d9cc](https://github.com/mathrunet/flutter_masamune/commit/13a0d9cc9a70141b388d5553d2fad74c526a0c14))
+
+#### `masamune` - `v1.11.1`
+
+ - **FIX**: Separate UniversalUI into a separate package. ([b7ffe81a](https://github.com/mathrunet/flutter_masamune/commit/b7ffe81a4654890496addb89d17d330007884c5a))
+ - **FIX**: Add maximum width to UniversalListView. ([a057c774](https://github.com/mathrunet/flutter_masamune/commit/a057c774cce3d95fa94c0230de0e295194672bd1))
+
+#### `masamune_ai_openai` - `v1.1.3`
+
+ - **FIX**: Changed masamune not to export. ([9aa66375](https://github.com/mathrunet/flutter_masamune/commit/9aa663752fcca41266c09a99d9d37f1838acc216))
+
+#### `masamune_logger_firebase` - `v1.2.40`
+
+ - **FIX**: Changed masamune not to export. ([9aa66375](https://github.com/mathrunet/flutter_masamune/commit/9aa663752fcca41266c09a99d9d37f1838acc216))
+
+#### `masamune_notification_firebase` - `v1.2.29`
+
+ - **FIX**: Changed masamune not to export. ([9aa66375](https://github.com/mathrunet/flutter_masamune/commit/9aa663752fcca41266c09a99d9d37f1838acc216))
+
+#### `masamune_picker` - `v1.5.59`
+
+ - **FIX**: Changed masamune not to export. ([9aa66375](https://github.com/mathrunet/flutter_masamune/commit/9aa663752fcca41266c09a99d9d37f1838acc216))
+
+#### `masamune_picker_file` - `v1.5.59`
+
+ - **FIX**: Changed masamune not to export. ([9aa66375](https://github.com/mathrunet/flutter_masamune/commit/9aa663752fcca41266c09a99d9d37f1838acc216))
+
+#### `masamune_picker_mobile` - `v1.5.59`
+
+ - **FIX**: Changed masamune not to export. ([9aa66375](https://github.com/mathrunet/flutter_masamune/commit/9aa663752fcca41266c09a99d9d37f1838acc216))
+
+
 ## 2023-03-09
 
 ### Changes

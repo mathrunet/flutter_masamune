@@ -1,3 +1,7 @@
+## 1.2.3
+
+ - **FIX**: Add Actions to Label. ([13a0d9cc](https://github.com/mathrunet/flutter_masamune/commit/13a0d9cc9a70141b388d5553d2fad74c526a0c14))
+
 ## 1.2.2
 
  - **FIX**: Addition of parameters for each widget. ([bf77dc61](https://github.com/mathrunet/flutter_masamune/commit/bf77dc61ea0b44f6fb3edc9c13675b71fe1174f7))
