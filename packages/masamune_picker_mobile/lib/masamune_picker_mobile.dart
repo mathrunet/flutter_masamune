@@ -14,6 +14,7 @@ import 'dart:async';
 // Package imports:
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:masamune/masamune.dart';
 import 'package:masamune_picker/masamune_picker.dart';
 
 export 'package:masamune_picker/masamune_picker.dart';

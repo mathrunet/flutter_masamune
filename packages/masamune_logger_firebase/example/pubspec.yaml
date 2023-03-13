@@ -33,6 +33,7 @@ dependencies:
     sdk: flutter
   json_annotation: ^4.8.0
   freezed_annotation: ^2.2.0
+  masamune: ^1.11.1
   masamune_logger_firebase:
     path: "../"
 
