@@ -18,6 +18,7 @@ import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:dart_openai/openai.dart';
 import 'package:masamune/masamune.dart';
+
 part 'adapter/openai_masamune_adapter.dart';
 part 'src/openai_chat.dart';
 part 'src/openai_media.dart';

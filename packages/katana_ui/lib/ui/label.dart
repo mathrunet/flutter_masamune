@@ -131,7 +131,10 @@ class Label extends StatelessWidget {
           if (actions.isNotEmpty) ...[
             const Spacer(),
             ...actions.map(
-              (e) => Padding(padding: EdgeInsets.only(left: 8.0), child: e),
+              (e) => Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: e,
+              ),
             ),
           ],
         ],

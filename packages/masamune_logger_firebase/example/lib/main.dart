@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:masamune/masamune.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:masamune/masamune.dart';
 import 'package:masamune_logger_firebase/masamune_logger_firebase.dart';
 
 part 'main.freezed.dart';
