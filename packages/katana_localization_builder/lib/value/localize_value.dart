@@ -1,5 +1,14 @@
 part of katana_localization_builder;
 
+String _replaceText(String text) {
+  text = text
+      .replaceAll('"', r'\"')
+      .replaceAll("\n", r"\n")
+      .replaceAll(r"$", r"\$")
+      .replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}");
+  return "\"$text\"";
+}
+
 /// Value to create a class for translation.
 ///
 /// Data is stored in a tree structure.
@@ -196,9 +205,7 @@ class LocalizeValue {
               const Reference("override"),
             ])
             ..lambda = true
-            ..body = Code(
-              "\"${(node.localize[locale] ?? "").replaceAll('"', r'\"').replaceAll("\n", r"\n").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
-            ),
+            ..body = Code(_replaceText(node.localize[locale] ?? "")),
         );
       } else {
         return Method(
@@ -210,9 +217,7 @@ class LocalizeValue {
             ])
             ..type = MethodType.getter
             ..lambda = true
-            ..body = Code(
-              "\"${(node.localize[locale] ?? "").replaceAll('"', r'\"').replaceAll("\n", r"\n").replaceAllMapped(_variableRegExp, (m) => "\${_${m.group(1)}}")}\"",
-            ),
+            ..body = Code(_replaceText(node.localize[locale] ?? "")),
         );
       }
     } else {
