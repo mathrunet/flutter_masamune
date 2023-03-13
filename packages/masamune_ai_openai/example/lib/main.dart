@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:masamune/masamune.dart';
 import 'package:masamune_ai_openai/masamune_ai_openai.dart';
 
 final List<MasamuneAdapter> masamuneAdapters = [
@@ -15,10 +16,10 @@ final List<MasamuneAdapter> masamuneAdapters = [
 void main() {
   runMasamuneApp(
     masamuneAdapters: masamuneAdapters,
-    () => MasamuneApp(
+    (adapters) => MasamuneApp(
       home: const OpenAIPage(),
       title: "Flutter Demo",
-      masamuneAdapters: masamuneAdapters,
+      masamuneAdapters: adapters,
       theme: AppThemeData(
         primary: Colors.blue,
       ),

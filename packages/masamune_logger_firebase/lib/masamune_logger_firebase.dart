@@ -22,7 +22,6 @@ import 'package:firebase_performance/firebase_performance.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
 
-export 'package:masamune/masamune.dart';
 export 'package:katana_firebase/katana_firebase.dart';
 
 part 'src/firebase_logger_adapter.dart';

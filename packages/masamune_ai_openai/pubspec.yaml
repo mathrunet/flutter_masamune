@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^1.0.5
-  masamune: ^1.10.0
+  masamune: ^1.11.0
   dart_openai: ^1.5.5
 dev_dependencies:
   test: ^1.21.3

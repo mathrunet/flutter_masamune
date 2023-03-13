@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:masamune/masamune.dart';
 import 'package:masamune_notification_firebase/masamune_notification_firebase.dart';
 
 const pushNotificationAdapter = PushNotificationMasamuneAdapter(

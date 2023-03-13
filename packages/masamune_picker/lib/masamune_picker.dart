@@ -18,8 +18,6 @@ import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:masamune/masamune.dart';
 
-export 'package:masamune/masamune.dart';
-
 part 'adapter/test_picker_masamune_adapter.dart';
 
 part 'src/picker.dart';
