@@ -1240,6 +1240,20 @@ class AppThemeData {
             disabledColor: color.disabled,
             colorScheme: colorScheme,
           ),
+          chipTheme: theme.chipTheme.copyWith(
+            side: BorderSide.none,
+            backgroundColor: color.surface,
+            disabledColor: color.disabled,
+            labelStyle: theme.chipTheme.labelStyle?.copyWith(
+                  color: color.onSurface,
+                ) ??
+                TextStyle(color: color.onPrimary),
+            secondaryLabelStyle: theme.chipTheme.secondaryLabelStyle?.copyWith(
+                  color: color.onSurface,
+                ) ??
+                TextStyle(color: color.onSurface),
+            deleteIconColor: color.onSurface,
+          ),
           inputDecorationTheme: theme.inputDecorationTheme.copyWith(
             labelStyle: TextStyle(color: color.weak),
             helperStyle: TextStyle(color: color.weak),
@@ -1391,6 +1405,20 @@ class AppThemeData {
             buttonColor: color.primary,
             disabledColor: color.disabled,
             colorScheme: colorScheme,
+          ),
+          chipTheme: theme.chipTheme.copyWith(
+            side: BorderSide.none,
+            backgroundColor: color.surface,
+            disabledColor: color.disabled,
+            labelStyle: theme.chipTheme.labelStyle?.copyWith(
+                  color: color.onSurface,
+                ) ??
+                TextStyle(color: color.onPrimary),
+            secondaryLabelStyle: theme.chipTheme.secondaryLabelStyle?.copyWith(
+                  color: color.onSurface,
+                ) ??
+                TextStyle(color: color.onSurface),
+            deleteIconColor: color.onSurface,
           ),
           inputDecorationTheme: theme.inputDecorationTheme.copyWith(
             labelStyle: TextStyle(color: color.weak),

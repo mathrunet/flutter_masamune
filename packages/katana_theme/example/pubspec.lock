@@ -345,7 +345,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.4.0"
+    version: "1.4.1"
   katana_theme_annotation:
     dependency: transitive
     description:
@@ -360,7 +360,7 @@ packages:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "1.4.0"
+    version: "1.4.1"
   lints:
     dependency: transitive
     description:
