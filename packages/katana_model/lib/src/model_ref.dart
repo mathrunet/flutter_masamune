@@ -99,6 +99,14 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
     return null;
   }
 
+  /// Returns the ID for the document path.
+  ///
+  /// ドキュメントのパス用のIDを返します。
+  String get uid {
+    return modelQuery.path.trimQuery().trimString("/").split("/").lastOrNull ??
+        "";
+  }
+
   @override
   String toString() {
     return modelQuery.path;
