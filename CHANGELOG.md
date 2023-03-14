@@ -15,6 +15,50 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth` - `v1.2.7`](#katana_auth---v127)
+ - [`katana_auth_firebase` - `v1.2.7`](#katana_auth_firebase---v127)
+ - [`masamune` - `v1.11.4`](#masamune---v1114)
+ - [`masamune_picker` - `v1.5.63`](#masamune_picker---v1563)
+ - [`masamune_ai_openai` - `v1.1.7`](#masamune_ai_openai---v117)
+ - [`masamune_universal_ui` - `v1.2.2`](#masamune_universal_ui---v122)
+ - [`masamune_notification_firebase` - `v1.2.33`](#masamune_notification_firebase---v1233)
+ - [`masamune_picker_file` - `v1.5.63`](#masamune_picker_file---v1563)
+ - [`masamune_logger_firebase` - `v1.2.44`](#masamune_logger_firebase---v1244)
+ - [`masamune_picker_mobile` - `v1.5.63`](#masamune_picker_mobile---v1563)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth_firebase` - `v1.2.7`
+ - `masamune` - `v1.11.4`
+ - `masamune_picker` - `v1.5.63`
+ - `masamune_ai_openai` - `v1.1.7`
+ - `masamune_universal_ui` - `v1.2.2`
+ - `masamune_notification_firebase` - `v1.2.33`
+ - `masamune_picker_file` - `v1.5.63`
+ - `masamune_logger_firebase` - `v1.2.44`
+ - `masamune_picker_mobile` - `v1.5.63`
+
+---
+
+#### `katana_auth` - `v1.2.7`
+
+ - **FIX**: Fixed a bug that prevented logout with RuntimeAuthAdapter. ([4d4113cb](https://github.com/mathrunet/flutter_masamune/commit/4d4113cbac5d143b137930992d4117c909babc88))
+
+
+## 2023-03-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.5.16`](#katana_model---v1516)
  - [`katana_model_firestore` - `v1.5.17`](#katana_model_firestore---v1517)
  - [`katana_ui` - `v1.2.4`](#katana_ui---v124)

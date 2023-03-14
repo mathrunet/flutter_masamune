@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - Update a dependency to the latest release.
+
 ## 1.2.1
 
  - **FIX**: Added Extensions for EdgeInsets. ([04e37246](https://github.com/mathrunet/flutter_masamune/commit/04e372463e0e18f8a5c0c1fadf216fb64f8624d6))
