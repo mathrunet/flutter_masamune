@@ -68,7 +68,6 @@ class UniversalListView extends StatelessWidget {
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
     this.clipBehavior = Clip.hardEdge,
-    this.paddingWhenNotFullWidth,
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.rowSegments = 12,
     this.maxWidth,
@@ -114,11 +113,6 @@ class UniversalListView extends StatelessWidget {
   ///
   /// [ListView]で表示するための子要素のリスト。
   final List<Widget> children;
-
-  /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
-  ///
-  /// 横幅が[UniversalScaffold.breakpoint]を超えない場合、横幅が固定されているときの[padding]。[Null]の場合は[padding]が利用されます。
-  final EdgeInsetsGeometry? paddingWhenNotFullWidth;
 
   /// {@macro flutter.widgets.scroll_view.padding}
   final EdgeInsetsGeometry? padding;
@@ -354,14 +348,12 @@ class UniversalListView extends StatelessWidget {
     BuildContext context,
     Breakpoint? breakpoint,
   ) {
-    if (breakpoint?.width(context) == double.infinity) {
-      return padding;
-    } else {
-      final universal =
-          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
-      return paddingWhenNotFullWidth ??
-          universal?.defaultBodyPaddingWhenNotFullWidth ??
-          padding;
-    }
+    final universal =
+        MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+    return ResponsiveEdgeInsets._responsive(
+      context,
+      padding ?? universal?.defaultBodyPadding,
+      breakpoint: breakpoint,
+    );
   }
 }

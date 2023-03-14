@@ -484,7 +484,12 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
       final bottomHeight = bottom?.preferredSize.height ?? 0;
       final height =
           max(context.mediaQuery.size.height / 5, 120.0) + bottomHeight;
-      final padding = titlePadding.resolve(TextDirection.ltr);
+      final padding = ResponsiveEdgeInsets._responsive(
+        context,
+        titlePadding,
+        breakpoint: breakpoint,
+      )!
+          .resolve(TextDirection.ltr);
       final titleSpacing = _leadingSpace(context, showLeading);
       final trailingSpacing = _trailingSpace(context, showLeading);
       final optimizedTitlePadding = EdgeInsets.fromLTRB(

@@ -34,7 +34,6 @@ class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
     this.decoration,
     this.padding,
     required this.children,
-    this.paddingWhenNotFullWidth,
     this.width = kSideBarWidth,
   }) : preferredSize = Size.fromWidth(width);
 
@@ -63,23 +62,16 @@ class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
   /// 通常時のパディング。
   final EdgeInsetsGeometry? padding;
 
-  /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
-  ///
-  /// 横幅が[UniversalScaffold.breakpoint]を超えない場合、横幅が固定されているときの[padding]。[Null]の場合は[padding]が利用されます。
-  final EdgeInsetsGeometry? paddingWhenNotFullWidth;
-
   @override
   Widget build(BuildContext context) {
     final universal =
         MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
-    final mainWidth =
-        (breakpoint ?? universal?.defaultBreakpoint)?.width(context);
     return Container(
-      padding: padding ??
-          (mainWidth == double.infinity
-              ? null
-              : (paddingWhenNotFullWidth ??
-                  universal?.defaultSidebarPaddingWhenNotFullWidth)),
+      padding: ResponsiveEdgeInsets._responsive(
+        context,
+        padding ?? universal?.defaultSidebarPadding,
+        breakpoint: breakpoint,
+      ),
       decoration: decoration,
       child: ListView.builder(
         primary: false,

@@ -42,7 +42,6 @@ class UniversalContainer extends StatelessWidget {
     this.transform,
     this.transformAlignment,
     this.clipBehavior = Clip.none,
-    this.paddingWhenNotFullWidth,
     this.breakpoint,
   });
 
@@ -50,11 +49,6 @@ class UniversalContainer extends StatelessWidget {
   ///
   /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
   final Breakpoint? breakpoint;
-
-  /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
-  ///
-  /// 横幅が[UniversalScaffold.breakpoint]を超えない場合、横幅が固定されているときの[padding]。[Null]の場合は[padding]が利用されます。
-  final EdgeInsetsGeometry? paddingWhenNotFullWidth;
 
   /// This value holds the alignment to be used by the container.
   ///
@@ -171,7 +165,11 @@ class UniversalContainer extends StatelessWidget {
                   maxWidth: breakpoint?.width(context) ?? double.infinity,
                 ),
         padding: _effectivePadding(context, breakpoint),
-        margin: margin,
+        margin: ResponsiveEdgeInsets._responsive(
+          context,
+          margin,
+          breakpoint: breakpoint,
+        ),
         color: color,
         decoration: decoration,
         foregroundDecoration: foregroundDecoration,
@@ -190,14 +188,12 @@ class UniversalContainer extends StatelessWidget {
     BuildContext context,
     Breakpoint? breakpoint,
   ) {
-    if (breakpoint?.width(context) == double.infinity) {
-      return padding;
-    } else {
-      final universal =
-          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
-      return paddingWhenNotFullWidth ??
-          universal?.defaultBodyPaddingWhenNotFullWidth ??
-          padding;
-    }
+    final universal =
+        MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+    return ResponsiveEdgeInsets._responsive(
+      context,
+      padding ?? universal?.defaultBodyPadding,
+      breakpoint: breakpoint,
+    );
   }
 }

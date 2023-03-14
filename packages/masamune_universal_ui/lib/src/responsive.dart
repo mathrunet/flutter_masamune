@@ -99,7 +99,6 @@ extension ResponsiveColExtensions on Iterable<Widget> {
     int? xxl,
     Widget Function(Widget item)? filter,
     EdgeInsetsGeometry? padding,
-    EdgeInsetsGeometry? paddingWhenNotFullWidth,
   }) {
     return map((item) {
       final child = filter?.call(item) ?? item;
@@ -111,7 +110,6 @@ extension ResponsiveColExtensions on Iterable<Widget> {
         xl: xl,
         xxl: xxl,
         padding: padding,
-        paddingWhenNotFullWidth: paddingWhenNotFullWidth,
         child: child,
       );
     }).toList();
@@ -170,7 +168,6 @@ class Responsive extends StatelessWidget {
     this.xxl,
     required this.child,
     this.padding,
-    this.paddingWhenNotFullWidth,
     super.key,
   });
 
@@ -211,13 +208,12 @@ class Responsive extends StatelessWidget {
 
   /// Defines where to place the widget with respect to its parent.
   ///
-  /// 親要素に対してウィジェットを配置する位置を定義します。
-  final EdgeInsetsGeometry? padding;
-
-  /// [padding] when the width does not exceed [UniversalScaffold.breakpoint] and the width is fixed.If [Null], [padding] is used.
+  /// [ResponsiveEdgeInsets] allows you to set responsive padding.
   ///
-  /// 横幅が[UniversalScaffold.breakpoint]を超えない場合、横幅が固定されているときの[padding]。[Null]の場合は[padding]が利用されます。
-  final EdgeInsetsGeometry? paddingWhenNotFullWidth;
+  /// 親要素に対してウィジェットを配置する位置を定義します。
+  ///
+  /// [ResponsiveEdgeInsets]を利用すると、レスポンシブなパディングを設定することができます。
+  final EdgeInsetsGeometry? padding;
 
   Map<ResponsiveGridTier, int?> _updateConfig() {
     final config = <ResponsiveGridTier, int?>{};
@@ -246,24 +242,13 @@ class Responsive extends StatelessWidget {
   }
 
   Widget _buildPadding(BuildContext context, Widget child) {
-    final breakpoint = UniversalScaffold.of(context)?.breakpoint;
-    if (breakpoint != null && breakpoint.width(context) == double.infinity) {
-      final padding = paddingWhenNotFullWidth ?? this.padding;
-      if (padding != null) {
-        return Padding(
-          padding: padding,
-          child: child,
-        );
-      }
-      return child;
-    } else {
-      if (padding != null) {
-        return Padding(
-          padding: padding!,
-          child: child,
-        );
-      }
-      return child;
+    final padding = ResponsiveEdgeInsets._responsive(context, this.padding);
+    if (padding != null) {
+      return Padding(
+        padding: padding,
+        child: child,
+      );
     }
+    return child;
   }
 }
