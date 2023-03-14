@@ -1,3 +1,7 @@
+## 1.5.16
+
+ - **FIX**: Added uid to ModelRef. ([8a29a689](https://github.com/mathrunet/flutter_masamune/commit/8a29a689a94502e4076a133570df3d0981bca3d7))
+
 ## 1.5.15
 
  - **FIX**: Fixed a bug that caused sorting to fail. ([81ee609b](https://github.com/mathrunet/flutter_masamune/commit/81ee609b4765469f6438c3772bc6c1a11fe5b22d))

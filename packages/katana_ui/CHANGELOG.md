@@ -1,3 +1,7 @@
+## 1.2.4
+
+ - **FIX**: Added Modal.show. ([4db68174](https://github.com/mathrunet/flutter_masamune/commit/4db68174c1f99adfb9ba9a659ee0732c81d22445))
+
 ## 1.2.3
 
  - **FIX**: Add Actions to Label. ([13a0d9cc](https://github.com/mathrunet/flutter_masamune/commit/13a0d9cc9a70141b388d5553d2fad74c526a0c14))

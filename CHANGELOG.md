@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v1.5.16`](#katana_model---v1516)
+ - [`katana_model_firestore` - `v1.5.17`](#katana_model_firestore---v1517)
+ - [`katana_ui` - `v1.2.4`](#katana_ui---v124)
+ - [`masamune_universal_ui` - `v1.2.1`](#masamune_universal_ui---v121)
+ - [`masamune` - `v1.11.3`](#masamune---v1113)
+ - [`masamune_picker` - `v1.5.62`](#masamune_picker---v1562)
+ - [`masamune_ai_openai` - `v1.1.6`](#masamune_ai_openai---v116)
+ - [`masamune_notification_firebase` - `v1.2.32`](#masamune_notification_firebase---v1232)
+ - [`masamune_picker_file` - `v1.5.62`](#masamune_picker_file---v1562)
+ - [`masamune_logger_firebase` - `v1.2.43`](#masamune_logger_firebase---v1243)
+ - [`masamune_picker_mobile` - `v1.5.62`](#masamune_picker_mobile---v1562)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.3`
+ - `masamune_picker` - `v1.5.62`
+ - `masamune_ai_openai` - `v1.1.6`
+ - `masamune_notification_firebase` - `v1.2.32`
+ - `masamune_picker_file` - `v1.5.62`
+ - `masamune_logger_firebase` - `v1.2.43`
+ - `masamune_picker_mobile` - `v1.5.62`
+
+---
+
+#### `katana_model` - `v1.5.16`
+
+ - **FIX**: Added uid to ModelRef. ([8a29a689](https://github.com/mathrunet/flutter_masamune/commit/8a29a689a94502e4076a133570df3d0981bca3d7))
+
+#### `katana_model_firestore` - `v1.5.17`
+
+ - **FIX**: Added uid to ModelRef. ([8a29a689](https://github.com/mathrunet/flutter_masamune/commit/8a29a689a94502e4076a133570df3d0981bca3d7))
+
+#### `katana_ui` - `v1.2.4`
+
+ - **FIX**: Added Modal.show. ([4db68174](https://github.com/mathrunet/flutter_masamune/commit/4db68174c1f99adfb9ba9a659ee0732c81d22445))
+
+#### `masamune_universal_ui` - `v1.2.1`
+
+ - **FIX**: Added Extensions for EdgeInsets. ([04e37246](https://github.com/mathrunet/flutter_masamune/commit/04e372463e0e18f8a5c0c1fadf216fb64f8624d6))
+
+
 ## 2023-03-14
 
 ### Changes

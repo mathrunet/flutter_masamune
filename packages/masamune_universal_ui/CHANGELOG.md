@@ -1,3 +1,7 @@
+## 1.2.1
+
+ - **FIX**: Added Extensions for EdgeInsets. ([04e37246](https://github.com/mathrunet/flutter_masamune/commit/04e372463e0e18f8a5c0c1fadf216fb64f8624d6))
+
 ## 1.2.0
 
  - **FEAT**: Create ResponsiveEdgeInsets and change it to allow padding to be set responsively. ([471e314d](https://github.com/mathrunet/flutter_masamune/commit/471e314d5e2c11321add9cdefe2031f15a163942))
