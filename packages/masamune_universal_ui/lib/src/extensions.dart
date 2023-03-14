@@ -13,3 +13,22 @@ extension MasamuneUniversalBuildContextExtensions on BuildContext {
     return mainWidth == double.infinity;
   }
 }
+
+/// Define extension methods for [EdgeInsets] in Universal UI.
+///
+/// Universal UIの[EdgeInsets]用の拡張メソッドを定義します。
+extension MasamuneUniversalEdgeInsetsExtensions on EdgeInsets {
+  /// Convert [EdgeInsets] to [ResponsiveEdgeInsets].
+  ///
+  /// [EdgeInsets]を[ResponsiveEdgeInsets]に変換します。
+  ResponsiveEdgeInsets toResponsive(
+    EdgeInsets greaterThanBreakpoint, {
+    Breakpoint? breakpoint,
+  }) {
+    return ResponsiveEdgeInsets(
+      this,
+      breakpoint: breakpoint,
+      greaterThanBreakpoint: greaterThanBreakpoint,
+    );
+  }
+}
