@@ -1,3 +1,7 @@
+## 1.2.31
+
+ - Update a dependency to the latest release.
+
 ## 1.2.30
 
  - **FIX**: Import the Masamune package explicitly. ([d2f51bf8](https://github.com/mathrunet/flutter_masamune/commit/d2f51bf8d87ec37eb5ccf780f54b64e37f8ff4d4))

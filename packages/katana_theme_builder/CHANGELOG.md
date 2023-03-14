@@ -1,3 +1,7 @@
+## 1.4.2
+
+ - **FIX**: Changed to apply to ChipTheme as well. ([42ac2ca1](https://github.com/mathrunet/flutter_masamune/commit/42ac2ca155c8c6e17110b446c43ed9ed2e0f52f6))
+
 ## 1.4.1
 
  - **FIX**: Added flag to fix theme. ([3e31542f](https://github.com/mathrunet/flutter_masamune/commit/3e31542f028ab7a00a7279d010c79601573de449))

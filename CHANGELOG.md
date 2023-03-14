@@ -15,6 +15,63 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v1.4.2`](#katana_theme---v142)
+ - [`katana_theme_annotation` - `v1.4.1`](#katana_theme_annotation---v141)
+ - [`katana_theme_builder` - `v1.4.2`](#katana_theme_builder---v142)
+ - [`masamune_universal_ui` - `v1.2.0`](#masamune_universal_ui---v120)
+ - [`masamune` - `v1.11.2`](#masamune---v1112)
+ - [`masamune_logger_firebase` - `v1.2.42`](#masamune_logger_firebase---v1242)
+ - [`masamune_picker_mobile` - `v1.5.61`](#masamune_picker_mobile---v1561)
+ - [`masamune_ai_openai` - `v1.1.5`](#masamune_ai_openai---v115)
+ - [`masamune_notification_firebase` - `v1.2.31`](#masamune_notification_firebase---v1231)
+ - [`masamune_picker` - `v1.5.61`](#masamune_picker---v1561)
+ - [`masamune_picker_file` - `v1.5.61`](#masamune_picker_file---v1561)
+ - [`masamune_builder` - `v1.4.11`](#masamune_builder---v1411)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.2`
+ - `masamune_logger_firebase` - `v1.2.42`
+ - `masamune_picker_mobile` - `v1.5.61`
+ - `masamune_ai_openai` - `v1.1.5`
+ - `masamune_notification_firebase` - `v1.2.31`
+ - `masamune_picker` - `v1.5.61`
+ - `masamune_picker_file` - `v1.5.61`
+ - `masamune_builder` - `v1.4.11`
+
+---
+
+#### `katana_theme` - `v1.4.2`
+
+ - **FIX**: Changed to apply to ChipTheme as well. ([42ac2ca1](https://github.com/mathrunet/flutter_masamune/commit/42ac2ca155c8c6e17110b446c43ed9ed2e0f52f6))
+
+#### `katana_theme_annotation` - `v1.4.1`
+
+ - **FIX**: Changed to apply to ChipTheme as well. ([42ac2ca1](https://github.com/mathrunet/flutter_masamune/commit/42ac2ca155c8c6e17110b446c43ed9ed2e0f52f6))
+
+#### `katana_theme_builder` - `v1.4.2`
+
+ - **FIX**: Changed to apply to ChipTheme as well. ([42ac2ca1](https://github.com/mathrunet/flutter_masamune/commit/42ac2ca155c8c6e17110b446c43ed9ed2e0f52f6))
+
+#### `masamune_universal_ui` - `v1.2.0`
+
+ - **FEAT**: Create ResponsiveEdgeInsets and change it to allow padding to be set responsively. ([471e314d](https://github.com/mathrunet/flutter_masamune/commit/471e314d5e2c11321add9cdefe2031f15a163942))
+
+
+## 2023-03-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.8.15`](#katana_cli---v1815)
 
 ---

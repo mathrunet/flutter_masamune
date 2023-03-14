@@ -1,3 +1,7 @@
+## 1.11.2
+
+ - Update a dependency to the latest release.
+
 ## 1.11.1
 
  - **FIX**: Separate UniversalUI into a separate package. ([b7ffe81a](https://github.com/mathrunet/flutter_masamune/commit/b7ffe81a4654890496addb89d17d330007884c5a))

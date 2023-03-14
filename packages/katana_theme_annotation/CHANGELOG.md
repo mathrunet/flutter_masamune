@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **FIX**: Changed to apply to ChipTheme as well. ([42ac2ca1](https://github.com/mathrunet/flutter_masamune/commit/42ac2ca155c8c6e17110b446c43ed9ed2e0f52f6))
+
 ## 1.4.0
 
  - **FEAT**: The color of Theme is now explicitly divided between light mode and dark mode. ([8d87118b](https://github.com/mathrunet/flutter_masamune/commit/8d87118ba938bf5a419029f8893fab664d938a3e))
