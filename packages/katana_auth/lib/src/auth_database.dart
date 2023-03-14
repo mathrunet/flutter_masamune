@@ -2,6 +2,7 @@
 
 part of katana_auth;
 
+const _kIsRawDataRegisteredKey = "isRawDataRegistered";
 const _kIsVerifiedKey = "isVerified";
 const _kIsAnonymouslyKey = "isAnonymously";
 const _kUserIdKey = "userId";
@@ -283,6 +284,7 @@ class AuthDatabase {
     String? userPassword,
   }) {
     _data.addAll({
+      _kIsRawDataRegisteredKey: true,
       if (isVerified != null) _kIsVerifiedKey: isVerified,
       if (isAnonymously != null) _kIsAnonymouslyKey: isAnonymously,
       if (userId != null) _kUserIdKey: userId,
