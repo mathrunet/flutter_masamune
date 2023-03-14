@@ -14,6 +14,88 @@ part of katana_ui;
 class Modal {
   const Modal._();
 
+  /// Give [builder] to display the modal.
+  ///
+  /// The dialog can be closed by executing `onClose` passed to [builder].
+  ///
+  /// Pass the currently available [BuildContext] in [context].
+  ///
+  /// Describe the title of the message in [title].
+  ///
+  /// Specify the background color with [backgroundColor] and the text color with [color].
+  ///
+  /// If [disableBackKey] is set to `true`, it is possible to disable the back button on Android devices.
+  ///
+  /// If [popOnPress] is `true`, the modal is automatically closed when the action is executed.
+  ///
+  /// If [willShowRepetition] is set to `true`, the modal is automatically redisplayed if `onClose` interrupts the process with an [Exception].
+  ///
+  /// It is possible to wait with `await` until the modal closes.
+  ///
+  /// [builder]を与えてモーダルを表示します。
+  ///
+  /// [builder]には`onClose`が渡されこれを実行することでダイアログを閉じることができます。
+  ///
+  /// [context]で現在利用可能な[BuildContext]を渡します。
+  ///
+  /// [title]でメッセージのタイトルを記述します。
+  ///
+  /// [backgroundColor]で背景色、[color]でテキストカラーを指定します。
+  ///
+  /// [disableBackKey]を`true`にした場合、Android端末での戻るボタンを無効化することが可能です。
+  ///
+  /// [popOnPress]が`true`の場合は、アクションを実行した際、モーダルを自動で閉じます。
+  ///
+  /// [willShowRepetition]を`true`にした場合、`onClose`が[Exception]で処理を中断した場合、自動でモーダルを再表示します。
+  ///
+  /// モーダルが閉じるまで`await`で待つことが可能です。
+  static Future<void> show(
+    BuildContext context, {
+    Color? backgroundColor,
+    Color? color,
+    required String title,
+    required List<Widget> Function(VoidCallback onClose) builder,
+    bool disableBackKey = false,
+    bool popOnPress = true,
+    bool willShowRepetition = false,
+  }) async {
+    bool clicked = false;
+    ScaffoldMessenger.of(context);
+    final overlay = Navigator.of(context).overlay;
+    if (overlay == null) {
+      return;
+    }
+    onClose() {
+      if (popOnPress) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+      clicked = true;
+    }
+
+    do {
+      await showDialog(
+        context: overlay.context,
+        barrierDismissible: false,
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: disableBackKey ? () async => true : null,
+            child: SimpleDialog(
+              title: Text(
+                title,
+                style: TextStyle(
+                  color: color ?? Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              backgroundColor:
+                  backgroundColor ?? Theme.of(context).colorScheme.surface,
+              children: builder.call(onClose),
+            ),
+          );
+        },
+      );
+    } while (willShowRepetition && !clicked);
+  }
+
   /// Displays a message modal with only one possible action.
   ///
   /// [context] to pass the currently available [BuildContext].
