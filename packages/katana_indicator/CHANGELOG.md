@@ -1,3 +1,7 @@
+## 1.1.12
+
+ - Update a dependency to the latest release.
+
 ## 1.1.11
 
  - **FIX**: Fixed a bug that caused a null check error. ([82df8dd9](https://github.com/mathrunet/flutter_masamune/commit/82df8dd9329165bf1fb2fbc4025b2ea9ef7dd470))

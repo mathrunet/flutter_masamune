@@ -1,3 +1,7 @@
+## 1.8.16
+
+ - Update a dependency to the latest release.
+
 ## 1.8.15
 
  - **FIX**: UniversalMasamuneAdapterを最初から定義するように変更。. ([094e779c](https://github.com/mathrunet/flutter_masamune/commit/094e779ce96934f79fba451b64add0279fc71d76))

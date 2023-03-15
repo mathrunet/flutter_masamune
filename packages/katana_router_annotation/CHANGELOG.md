@@ -1,3 +1,7 @@
+## 1.11.2
+
+ - Update a dependency to the latest release.
+
 ## 1.11.1
 
  - **FIX**: Fixed a bug that caused initial routing to be fixed. ([58bed967](https://github.com/mathrunet/flutter_masamune/commit/58bed967dd5023a8143cc793deb9718838b01bd1))

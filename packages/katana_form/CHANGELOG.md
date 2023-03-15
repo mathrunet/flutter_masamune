@@ -1,3 +1,7 @@
+## 1.3.20
+
+ - Update a dependency to the latest release.
+
 ## 1.3.19
 
  - **FIX**: Fixed a bug that caused incorrect display when the value path was empty. ([40fe176e](https://github.com/mathrunet/flutter_masamune/commit/40fe176e1be32329e489dfb929439cdc411fcd90))

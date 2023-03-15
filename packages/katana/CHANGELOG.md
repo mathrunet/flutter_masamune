@@ -1,3 +1,7 @@
+## 1.0.6
+
+ - **FIX**: Added HHMM to DateTimeExtension. ([a5c785ef](https://github.com/mathrunet/flutter_masamune/commit/a5c785ef13fa4a990bd6ec574ac0b40dbb035832))
+
 ## 1.0.5
 
  - **FIX**: Revert flutter_localizations because they are not compatible with the intl version upgrade. ([69221e56](https://github.com/mathrunet/flutter_masamune/commit/69221e563405c9056ea940d69ce75f571dff29f0))

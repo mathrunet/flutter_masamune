@@ -1,3 +1,7 @@
+## 1.2.8
+
+ - Update a dependency to the latest release.
+
 ## 1.2.7
 
  - **FIX**: Fixed a bug that prevented logout with RuntimeAuthAdapter. ([4d4113cb](https://github.com/mathrunet/flutter_masamune/commit/4d4113cbac5d143b137930992d4117c909babc88))

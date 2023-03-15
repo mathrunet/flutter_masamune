@@ -1,3 +1,7 @@
+## 1.2.4
+
+ - Update a dependency to the latest release.
+
 ## 1.2.3
 
  - **FIX**: Added restrictions and filtering capabilities to various Adapters. ([d235aebb](https://github.com/mathrunet/flutter_masamune/commit/d235aebb777c13d14158dc26695e56e646242193))

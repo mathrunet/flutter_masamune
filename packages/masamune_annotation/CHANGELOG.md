@@ -1,3 +1,7 @@
+## 1.4.4
+
+ - Update a dependency to the latest release.
+
 ## 1.4.3
 
  - **FIX**: Fixed a bug in the title space. ([c5bea6b7](https://github.com/mathrunet/flutter_masamune/commit/c5bea6b732ea450540916bfa9a0b626d72e0a260))

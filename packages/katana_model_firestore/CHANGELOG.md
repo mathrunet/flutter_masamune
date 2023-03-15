@@ -1,3 +1,7 @@
+## 1.5.18
+
+ - Update a dependency to the latest release.
+
 ## 1.5.17
 
  - **FIX**: Added uid to ModelRef. ([8a29a689](https://github.com/mathrunet/flutter_masamune/commit/8a29a689a94502e4076a133570df3d0981bca3d7))

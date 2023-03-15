@@ -1,3 +1,7 @@
+## 1.11.5
+
+ - Update a dependency to the latest release.
+
 ## 1.11.4
 
  - **FIX**: Fixed the value of nested. ([70f92fe6](https://github.com/mathrunet/flutter_masamune/commit/70f92fe653f25c066455be56cd56e4f65b8b02b8))

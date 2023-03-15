@@ -1,3 +1,7 @@
+## 1.9.1
+
+ - Update a dependency to the latest release.
+
 ## 1.9.0
 
  - **FEAT**: AutoDispose enabled. ([6975d4c4](https://github.com/mathrunet/flutter_masamune/commit/6975d4c4f16bb33aeee83c2b7724a73578fffc30))

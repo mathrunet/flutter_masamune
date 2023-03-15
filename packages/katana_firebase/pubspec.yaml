@@ -1,6 +1,6 @@
 name: katana_firebase
 description: Base package to handle firebase with Katana package. It performs initialization and other tasks.
-version: 1.1.12
+version: 1.1.13
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_firebase
 
@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  katana: ^1.0.5
+  katana: ^1.0.6
   firebase_core: ^2.1.1
   cloud_firestore: ^4.0.4
 

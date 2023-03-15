@@ -1,3 +1,7 @@
+## 1.4.3
+
+ - Update a dependency to the latest release.
+
 ## 1.4.2
 
  - **FIX**: Changed to apply to ChipTheme as well. ([42ac2ca1](https://github.com/mathrunet/flutter_masamune/commit/42ac2ca155c8c6e17110b446c43ed9ed2e0f52f6))

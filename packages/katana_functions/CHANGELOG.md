@@ -1,3 +1,7 @@
+## 1.1.16
+
+ - Update a dependency to the latest release.
+
 ## 1.1.15
 
  - **FIX**: Change the role of System. ([1d9413dd](https://github.com/mathrunet/flutter_masamune/commit/1d9413dd932ab90ac9619d1061086e6813e238d1))

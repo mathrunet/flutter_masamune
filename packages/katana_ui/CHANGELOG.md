@@ -1,3 +1,7 @@
+## 1.2.5
+
+ - Update a dependency to the latest release.
+
 ## 1.2.4
 
  - **FIX**: Added Modal.show. ([4db68174](https://github.com/mathrunet/flutter_masamune/commit/4db68174c1f99adfb9ba9a659ee0732c81d22445))

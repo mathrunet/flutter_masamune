@@ -1,3 +1,7 @@
+## 1.1.13
+
+ - Update a dependency to the latest release.
+
 ## 1.1.12
 
  - **FIX**: Fixed a bug that initialization could not wait when executed at the same time. ([dd38e9a2](https://github.com/mathrunet/flutter_masamune/commit/dd38e9a2edd8147c2ece71af7e9314c3d3a140d0))

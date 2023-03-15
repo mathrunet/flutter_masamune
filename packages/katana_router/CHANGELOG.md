@@ -1,3 +1,7 @@
+## 1.11.8
+
+ - Update a dependency to the latest release.
+
 ## 1.11.7
 
  - **DOCS**: Apply to the latest version of Example. ([776625cb](https://github.com/mathrunet/flutter_masamune/commit/776625cb21c690872e3caa56acf04418439d7fac))
