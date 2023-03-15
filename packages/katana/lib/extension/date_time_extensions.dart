@@ -225,6 +225,24 @@ extension DateTimeExtensions on DateTime {
 
   /// Parse from [DateTime] to [String] corresponding to an Intl DateFormat.
   ///
+  /// The output will be in the format `10:24`.
+  ///
+  /// [DateTime]からIntlのDateFormatに対応した[String]にパースします。
+  ///
+  /// `10:24`のような形式で出力されます。
+  ///
+  /// Please refer to the following page for details.
+  ///
+  /// 詳細は下記ページを参考にしてください。
+  ///
+  /// https://api.flutter.dev/flutter/intl/DateFormat-class.html
+  // ignore: non_constant_identifier_names
+  String HHmm() {
+    return format("HH:mm");
+  }
+
+  /// Parse from [DateTime] to [String] corresponding to an Intl DateFormat.
+  ///
   /// The output will be in the format `2022/12/21 10:24`.
   ///
   /// [DateTime]からIntlのDateFormatに対応した[String]にパースします。
