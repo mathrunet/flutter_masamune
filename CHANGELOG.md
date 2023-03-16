@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.11.9`](#katana_router---v1119)
+ - [`katana_router_annotation` - `v1.11.3`](#katana_router_annotation---v1113)
+ - [`katana_router_builder` - `v1.11.6`](#katana_router_builder---v1116)
+ - [`masamune_universal_ui` - `v1.2.4`](#masamune_universal_ui---v124)
+ - [`masamune` - `v1.11.6`](#masamune---v1116)
+ - [`masamune_picker` - `v1.5.65`](#masamune_picker---v1565)
+ - [`masamune_ai_openai` - `v1.1.9`](#masamune_ai_openai---v119)
+ - [`masamune_notification_firebase` - `v1.2.35`](#masamune_notification_firebase---v1235)
+ - [`masamune_picker_file` - `v1.5.65`](#masamune_picker_file---v1565)
+ - [`masamune_logger_firebase` - `v1.2.46`](#masamune_logger_firebase---v1246)
+ - [`masamune_picker_mobile` - `v1.5.65`](#masamune_picker_mobile---v1565)
+ - [`masamune_builder` - `v1.4.13`](#masamune_builder---v1413)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.6`
+ - `masamune_picker` - `v1.5.65`
+ - `masamune_ai_openai` - `v1.1.9`
+ - `masamune_notification_firebase` - `v1.2.35`
+ - `masamune_picker_file` - `v1.5.65`
+ - `masamune_logger_firebase` - `v1.2.46`
+ - `masamune_picker_mobile` - `v1.5.65`
+ - `masamune_builder` - `v1.4.13`
+
+---
+
+#### `katana_router` - `v1.11.9`
+
+ - **FIX**: Fixed a bug that caused build failure if the page parameter was an object. ([4f9cebbf](https://github.com/mathrunet/flutter_masamune/commit/4f9cebbfc02d5876c5d973841b63e02080916d04))
+
+#### `katana_router_annotation` - `v1.11.3`
+
+ - **FIX**: Fixed a bug that caused build failure if the page parameter was an object. ([4f9cebbf](https://github.com/mathrunet/flutter_masamune/commit/4f9cebbfc02d5876c5d973841b63e02080916d04))
+
+#### `katana_router_builder` - `v1.11.6`
+
+ - **FIX**: Fixed a bug that caused build failure if the page parameter was an object. ([4f9cebbf](https://github.com/mathrunet/flutter_masamune/commit/4f9cebbfc02d5876c5d973841b63e02080916d04))
+
+#### `masamune_universal_ui` - `v1.2.4`
+
+ - **FIX**: Added headers and footers to UniversalScaffold. ([b160735d](https://github.com/mathrunet/flutter_masamune/commit/b160735d5b9aacf23cdbebaef35e5dab515c6ae8))
+ - **FIX**: Changed the method of specifying padding for UniversalContainer. ([c365458c](https://github.com/mathrunet/flutter_masamune/commit/c365458c0ae9683e82af3ea9feba001a09487abf))
+
+
 ## 2023-03-15
 
 ### Changes

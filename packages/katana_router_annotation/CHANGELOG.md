@@ -1,3 +1,7 @@
+## 1.11.3
+
+ - **FIX**: Fixed a bug that caused build failure if the page parameter was an object. ([4f9cebbf](https://github.com/mathrunet/flutter_masamune/commit/4f9cebbfc02d5876c5d973841b63e02080916d04))
+
 ## 1.11.2
 
  - Update a dependency to the latest release.

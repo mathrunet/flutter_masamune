@@ -1,3 +1,8 @@
+## 1.2.4
+
+ - **FIX**: Added headers and footers to UniversalScaffold. ([b160735d](https://github.com/mathrunet/flutter_masamune/commit/b160735d5b9aacf23cdbebaef35e5dab515c6ae8))
+ - **FIX**: Changed the method of specifying padding for UniversalContainer. ([c365458c](https://github.com/mathrunet/flutter_masamune/commit/c365458c0ae9683e82af3ea9feba001a09487abf))
+
 ## 1.2.3
 
  - Update a dependency to the latest release.
