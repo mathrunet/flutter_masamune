@@ -126,6 +126,8 @@ class UniversalScaffold extends StatefulWidget {
     this.drawer,
     this.onDrawerChanged,
     this.endDrawer,
+    this.header,
+    this.footer,
     this.onEndDrawerChanged,
     this.bottomNavigationBar,
     this.bottomSheet,
@@ -170,6 +172,16 @@ class UniversalScaffold extends StatefulWidget {
   ///
   /// [breakpoint]を指定するとそのブレークポイント以下のウインドウサイズになると、モバイル向けのUIに変化します。その際[sideBar]は[drawer]に配置されるようになり、横幅は最大化されます。
   final PreferredSizeWidget? sideBar;
+
+  /// Specify the widget to be displayed at the top of [body].
+  ///
+  /// [body]の上部に表示するウィジェットを指定します。
+  final Widget? header;
+
+  /// Specify the widget to be displayed at the bottom of [body].
+  ///
+  /// [body]の下部に表示するウィジェットを指定します。
+  final Widget? footer;
 
   /// The loading widget will now be displayed until the specified [Future] is completed.
   ///
@@ -529,14 +541,14 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
 
   Widget _buildBody(BuildContext context, Widget body) {
     if (widget.sideBar == null) {
-      return body;
+      return _buildInnerBody(context, body);
     }
     final universalScope =
         MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final breakpoint = universalScope?.defaultBreakpoint ?? widget.breakpoint;
     final shouldShowSideBar = breakpoint?.shouldShowSideBar(context) ?? true;
     if (!shouldShowSideBar) {
-      return body;
+      return _buildInnerBody(context, body);
     }
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -548,8 +560,26 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
           child: widget.sideBar,
         ),
         Expanded(
+          child: _buildInnerBody(context, body),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInnerBody(BuildContext context, Widget body) {
+    if (widget.header == null && widget.footer == null) {
+      return body;
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        if (widget.header != null) widget.header!,
+        Expanded(
           child: body,
         ),
+        if (widget.footer != null) widget.footer!,
       ],
     );
   }
