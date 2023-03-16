@@ -206,13 +206,21 @@ String _defaultParsedValue(ParamaterValue param, bool existQuery) {
     if (param.type.toString() == "String") {
       return "${param.name}:match.groupNames.contains(\"${param.pageParamName}\") ? match.namedGroup(\"${param.pageParamName}\") ?? ( query.containsKey(\"${param.queryParamName}\") ? query[\"${param.queryParamName}\"] ?? ${_defaultValue(param)} : ${_defaultValue(param)}) : (query.containsKey(\"${param.queryParamName}\") ? query[\"${param.queryParamName}\"] ?? ${_defaultValue(param)} : ${_defaultValue(param)})";
     } else {
-      return "${param.name}:(query.containsKey(\"${param.queryParamName}\") ? query[\"${param.queryParamName}\"] ?? ${_defaultValue(param)} : ${_defaultValue(param)})";
+      final res = _defaultValue(param);
+      if (res == "null") {
+        return "";
+      }
+      return "${param.name}:(query.containsKey(\"${param.queryParamName}\") ? query[\"${param.queryParamName}\"] ?? $res : $res)";
     }
   } else {
     if (param.type.toString() == "String") {
       return "${param.name}:match.groupNames.contains(\"${param.pageParamName}\") ? match.namedGroup(\"${param.pageParamName}\") ?? ${_defaultValue(param)} : ${_defaultValue(param)}";
     } else {
-      return "${param.name}:${_defaultValue(param)}";
+      final res = _defaultValue(param);
+      if (res == "null") {
+        return "";
+      }
+      return "${param.name}:$res";
     }
   }
 }
