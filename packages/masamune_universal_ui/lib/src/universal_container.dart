@@ -159,12 +159,7 @@ class UniversalContainer extends StatelessWidget {
     return Align(
       alignment: alignment,
       child: Container(
-        constraints:
-            constraints?.copyWith(maxWidth: breakpoint?.width(context)) ??
-                BoxConstraints(
-                  maxWidth: breakpoint?.width(context) ?? double.infinity,
-                ),
-        padding: _effectivePadding(context, breakpoint),
+        padding: _padding(context, breakpoint),
         margin: ResponsiveEdgeInsets._responsive(
           context,
           margin,
@@ -182,6 +177,22 @@ class UniversalContainer extends StatelessWidget {
         child: child,
       ),
     );
+  }
+
+  EdgeInsetsGeometry _padding(BuildContext context, Breakpoint? breakpoint) {
+    final width = MediaQuery.of(context).size.width;
+    final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
+    final responsivePadding = (width - maxWidth) / 2.0;
+    final resolvedPadding =
+        _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
+    final generatedPadding = EdgeInsets.fromLTRB(
+      (resolvedPadding?.left ?? 0.0) + responsivePadding,
+      resolvedPadding?.top ?? 0.0,
+      (resolvedPadding?.right ?? 0.0) + responsivePadding,
+      resolvedPadding?.bottom ?? 0.0,
+    );
+
+    return generatedPadding;
   }
 
   EdgeInsetsGeometry? _effectivePadding(

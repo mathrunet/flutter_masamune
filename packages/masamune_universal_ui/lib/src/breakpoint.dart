@@ -54,7 +54,8 @@ enum Breakpoint {
   /// [context]を与えることで実際の最大横幅を取得します。
   double width(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final sideBarWidth = UniversalScaffold.of(context)?.sideBarWidth ?? 0.0;
+    // final sideBarWidth = ｎUniversalScaffold.of(context)?.sideBarWidth ?? 0.0;
+    final sideBarWidth = 0.0;
 
     switch (this) {
       case Breakpoint.sm:
