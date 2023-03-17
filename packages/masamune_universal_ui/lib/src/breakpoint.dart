@@ -54,59 +54,57 @@ enum Breakpoint {
   /// [context]を与えることで実際の最大横幅を取得します。
   double width(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    // final sideBarWidth = ｎUniversalScaffold.of(context)?.sideBarWidth ?? 0.0;
-    final sideBarWidth = 0.0;
 
     switch (this) {
       case Breakpoint.sm:
         if (screenWidth < BreakpointSettings.value.xs) {
           return double.infinity;
         } else if (screenWidth < BreakpointSettings.value.sm) {
-          return BreakpointSettings.value.xsContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.xsContainerWidth;
         } else if (screenWidth < BreakpointSettings.value.md) {
-          return BreakpointSettings.value.smContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.smContainerWidth;
         } else if (screenWidth < BreakpointSettings.value.lg) {
-          return BreakpointSettings.value.mdContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.mdContainerWidth;
         } else if (screenWidth < BreakpointSettings.value.xl) {
-          return BreakpointSettings.value.lgContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.lgContainerWidth;
         } else {
-          return BreakpointSettings.value.xlContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.xlContainerWidth;
         }
       case Breakpoint.md:
         if (screenWidth < BreakpointSettings.value.sm) {
           return double.infinity;
         } else if (screenWidth < BreakpointSettings.value.md) {
-          return BreakpointSettings.value.smContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.smContainerWidth;
         } else if (screenWidth < BreakpointSettings.value.lg) {
-          return BreakpointSettings.value.mdContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.mdContainerWidth;
         } else if (screenWidth < BreakpointSettings.value.xl) {
-          return BreakpointSettings.value.lgContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.lgContainerWidth;
         } else {
-          return BreakpointSettings.value.xlContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.xlContainerWidth;
         }
       case Breakpoint.lg:
         if (screenWidth < BreakpointSettings.value.md) {
           return double.infinity;
         } else if (screenWidth < BreakpointSettings.value.lg) {
-          return BreakpointSettings.value.mdContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.mdContainerWidth;
         } else if (screenWidth < BreakpointSettings.value.xl) {
-          return BreakpointSettings.value.lgContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.lgContainerWidth;
         } else {
-          return BreakpointSettings.value.xlContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.xlContainerWidth;
         }
       case Breakpoint.xl:
         if (screenWidth < BreakpointSettings.value.lg) {
           return double.infinity;
         } else if (screenWidth < BreakpointSettings.value.xl) {
-          return BreakpointSettings.value.lgContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.lgContainerWidth;
         } else {
-          return BreakpointSettings.value.xlContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.xlContainerWidth;
         }
       case Breakpoint.xxl:
         if (screenWidth < BreakpointSettings.value.xl) {
           return double.infinity;
         } else {
-          return BreakpointSettings.value.xlContainerWidth - sideBarWidth;
+          return BreakpointSettings.value.xlContainerWidth;
         }
       case Breakpoint.fluid:
         return double.infinity;
