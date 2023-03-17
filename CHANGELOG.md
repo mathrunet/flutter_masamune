@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.4.0`](#katana_form---v140)
+ - [`katana_model` - `v1.6.0`](#katana_model---v160)
+ - [`katana_model_firestore` - `v1.6.0`](#katana_model_firestore---v160)
+ - [`katana_scoped` - `v1.10.0`](#katana_scoped---v1100)
+ - [`masamune_picker` - `v1.6.0`](#masamune_picker---v160)
+ - [`masamune_picker_file` - `v1.6.0`](#masamune_picker_file---v160)
+ - [`masamune_picker_mobile` - `v1.6.0`](#masamune_picker_mobile---v160)
+ - [`masamune_universal_ui` - `v1.2.5`](#masamune_universal_ui---v125)
+ - [`masamune` - `v1.11.7`](#masamune---v1117)
+ - [`masamune_ai_openai` - `v1.1.10`](#masamune_ai_openai---v1110)
+ - [`masamune_notification_firebase` - `v1.2.36`](#masamune_notification_firebase---v1236)
+ - [`masamune_logger_firebase` - `v1.2.47`](#masamune_logger_firebase---v1247)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.7`
+ - `masamune_ai_openai` - `v1.1.10`
+ - `masamune_notification_firebase` - `v1.2.36`
+ - `masamune_logger_firebase` - `v1.2.47`
+
+---
+
+#### `katana_form` - `v1.4.0`
+
+ - **FEAT**: Added FormCheckbox. ([cba410ab](https://github.com/mathrunet/flutter_masamune/commit/cba410abe2d8520da5adf8d54d8a673d5e64aa33))
+
+#### `katana_model` - `v1.6.0`
+
+ - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))
+
+#### `katana_model_firestore` - `v1.6.0`
+
+ - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))
+
+#### `katana_scoped` - `v1.10.0`
+
+ - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))
+
+#### `masamune_picker` - `v1.6.0`
+
+ - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))
+
+#### `masamune_picker_file` - `v1.6.0`
+
+ - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))
+
+#### `masamune_picker_mobile` - `v1.6.0`
+
+ - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))
+
+#### `masamune_universal_ui` - `v1.2.5`
+
+ - **FIX**: Changed implementation regarding SidebarWidth. ([4f7172de](https://github.com/mathrunet/flutter_masamune/commit/4f7172de550acb77135f5f1e8b48d5eddd9bbc6e))
+
+
 ## 2023-03-16
 
 ### Changes

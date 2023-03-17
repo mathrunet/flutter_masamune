@@ -1,3 +1,7 @@
+## 1.2.5
+
+ - **FIX**: Changed implementation regarding SidebarWidth. ([4f7172de](https://github.com/mathrunet/flutter_masamune/commit/4f7172de550acb77135f5f1e8b48d5eddd9bbc6e))
+
 ## 1.2.4
 
  - **FIX**: Added headers and footers to UniversalScaffold. ([b160735d](https://github.com/mathrunet/flutter_masamune/commit/b160735d5b9aacf23cdbebaef35e5dab515c6ae8))
