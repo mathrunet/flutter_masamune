@@ -284,26 +284,26 @@ packages:
     dependency: "direct main"
     description:
       name: katana
-      sha256: "9a3ec047c35ec88e027139e88ce45202b022dd2111b38848c85159101b0028ce"
+      sha256: "97cd1be297a7ec41fb7decc52fb290a83283dc1aed4b7f6ef0f975d310d60238"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.6"
   katana_firebase:
     dependency: "direct main"
     description:
       name: katana_firebase
-      sha256: "8294c984f0c13d5dd2950694279242e7b8b167493ecd0f0f7a82bf3384da2b4d"
+      sha256: a2529edd65a2e7815117e9ebbc03d904dbb42f8ee4685c48d4ea59d092b64c46
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.12"
+    version: "1.1.13"
   katana_model:
     dependency: "direct main"
     description:
       name: katana_model
-      sha256: f53f7e628729830f1bdf3761e2a439918dd4c797ac50c09cf7596bdf6b114254
+      sha256: "369d3cbab0f660312f1508522421082f0332ff5a0762cf1588809f7b6eb9ff25"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.15"
+    version: "1.5.17"
   lints:
     dependency: transitive
     description:

@@ -1,8 +1,5 @@
 part of masamune_picker_file;
 
-@Deprecated("This type is deprecated. Please use [FilePickerMasamuneAdapter].")
-typedef FilePickerAdapter = FilePickerMasamuneAdapter;
-
 /// Adapter to use the file picker available on all platforms.
 ///
 /// Internally, the `file_picker` package is used.

@@ -89,19 +89,6 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
       return _modelQuery!;
     }
     final modelQuery = super.modelQuery;
-    assert(
-      modelQuery.isEqualTo == null &&
-          modelQuery.isNotEqualTo == null &&
-          modelQuery.isGreaterThanOrEqualTo == null &&
-          modelQuery.isLessThanOrEqualTo == null &&
-          modelQuery.arrayContains == null &&
-          modelQuery.arrayContainsAny == null &&
-          modelQuery.whereIn == null &&
-          modelQuery.whereNotIn == null &&
-          modelQuery.geoHash == null &&
-          modelQuery.orderBy == null,
-      "Filtering and sorting conditions are passed to [CollectionModelQuery]. These conditions cannot be used in a search. Please remove the conditions.",
-    );
     return _modelQuery = CollectionModelQuery._(
       modelQuery.path,
       filters: [

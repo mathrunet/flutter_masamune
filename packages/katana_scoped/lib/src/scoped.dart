@@ -26,12 +26,8 @@ class Scoped extends StatefulWidget {
   /// [builder]を渡すことでその中に更新を反映したいウィジェットを配置することができます。
   const Scoped({
     super.key,
-    this.page,
     required this.builder,
   });
-
-  @Deprecated("Delete the page as there is no need to pass it on.")
-  final PageScopedWidget? page;
 
   /// A builder for building widgets under the page.
   ///
@@ -127,11 +123,7 @@ abstract class ScopedWidget extends StatefulWidget implements ScopedWidgetBase {
   /// [ScopedWidgetBase]を継承しているため[ScopedWidgetScope.of]でウィジェットの内容を取得できます。
   const ScopedWidget({
     super.key,
-    this.page,
   });
-
-  @Deprecated("Delete the page as there is no need to pass it on.")
-  final PageScopedWidget? page;
 
   /// Build the internal widget.
   ///

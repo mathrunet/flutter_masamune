@@ -14,7 +14,4 @@ extension ScopedWidgetBuildContextExtensions on BuildContext {
   TWidget ancestor<TWidget extends ScopedWidgetBase>() {
     return ScopedWidgetScope.of(this);
   }
-
-  @Deprecated("[scoped] is deprecated. Please use [ancestor] instead.")
-  TWidget scoped<TWidget extends ScopedWidgetBase>() => ancestor();
 }

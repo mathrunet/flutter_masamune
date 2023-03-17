@@ -113,58 +113,6 @@ class CollectionModelQuery extends ModelQuery {
   /// [equal]、[notEqual]、[lessThanOrEqual]、[greaterThanOrEqual]、[contains]、[containsAny]、[where]、[notWhere]、[isNull]、[isNotNull]、[like]、[geo]、[orderByAsc]、[orderByDesc]、[limitTo]をチェインして指定していくことにより要素のフィルタリングが可能です。
   const CollectionModelQuery(
     super.path, {
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.equal] instead.",
-    )
-        super.key,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.equal] instead.",
-    )
-        super.isEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.notEqual] instead.",
-    )
-        super.isNotEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.lessThanOrEqual] instead.",
-    )
-        super.isLessThanOrEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.greaterThanOrEqual] instead.",
-    )
-        super.isGreaterThanOrEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.contains] instead.",
-    )
-        super.arrayContains,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.containsAny] instead.",
-    )
-        super.arrayContainsAny,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.where] instead.",
-    )
-        super.whereIn,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.notWhere] instead.",
-    )
-        super.whereNotIn,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.geo] instead.",
-    )
-        super.geoHash,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.orderByAsc] instead.",
-    )
-        super.order = ModelQueryOrder.asc,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.limitTo] instead.",
-    )
-        super.limit,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.orderByAsc] instead.",
-    )
-        super.orderBy,
     ModelAdapter? adapter,
   }) : _adapter = adapter;
 
@@ -491,119 +439,7 @@ class ModelQuery {
   const ModelQuery(
     this.path, {
     this.filters = const [],
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.equal] instead.",
-    )
-        this.key,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.equal] instead.",
-    )
-        this.isEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.notEqual] instead.",
-    )
-        this.isNotEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.lessThanOrEqual] instead.",
-    )
-        this.isLessThanOrEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.greaterThanOrEqual] instead.",
-    )
-        this.isGreaterThanOrEqualTo,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.contains] instead.",
-    )
-        this.arrayContains,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.containsAny] instead.",
-    )
-        this.arrayContainsAny,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.where] instead.",
-    )
-        this.whereIn,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.notWhere] instead.",
-    )
-        this.whereNotIn,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.geo] instead.",
-    )
-        this.geoHash,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.orderByAsc] instead.",
-    )
-        this.order = ModelQueryOrder.asc,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.limitTo] instead.",
-    )
-        this.limit,
-    @Deprecated(
-      "Deprecated. Please use chaining methods such as [CollectionModelQuery.orderByAsc] instead.",
-    )
-        this.orderBy,
-    this.searchText,
   });
-
-  /// [ModelQuery] from [path].
-  ///
-  /// Query class for defining Model.
-  ///
-  /// It is possible to define the [path] to be queried and other necessary conditions.
-  ///
-  /// Use [DocumentModelQuery] for documents and [CollectionModelQuery] for collections.
-  ///
-  /// [path]から[ModelQuery]を取得します。
-  ///
-  /// Modelを定義するためのクエリクラス。
-  ///
-  /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
-  ///
-  /// ドキュメントに対しては[DocumentModelQuery]、コレクションに対しては[CollectionModelQuery]を使用してください。
-  @Deprecated("The method of obtaining ModelQuery from Path is deprecated.")
-  factory ModelQuery.fromPath(String path) {
-    if (path.isEmpty) {
-      return ModelQuery(path);
-    }
-    final uri = Uri.tryParse(path);
-    if (uri == null) {
-      return ModelQuery(path);
-    }
-    final query = uri.queryParameters;
-
-    return ModelQuery(
-      uri.path,
-      key: _parseQuery(query, "key"),
-      isEqualTo: _parseQuery(query, "equalTo"),
-      isNotEqualTo: _parseQuery(query, "notEqualTo"),
-      isLessThanOrEqualTo: _parseQuery(query, "endAt"),
-      isGreaterThanOrEqualTo: _parseQuery(query, "startAt"),
-      arrayContains: _parseQuery(query, "contains"),
-      arrayContainsAny: _parseQuery(query, "containsAny", true),
-      whereIn: _parseQuery(query, "whereIn", true),
-      whereNotIn: _parseQuery(query, "whereNotIn", true),
-      geoHash: _parseQuery(query, "geoHash", true)
-          ?.map<String>((e) => e.toString())
-          ?.toList(),
-      orderBy: () {
-        if (query.containsKey("orderByDesc")) {
-          return query["orderByDesc"];
-        } else if (query.containsKey("orderByAsc")) {
-          return query["orderByAsc"];
-        }
-      }(),
-      order: () {
-        if (query.containsKey("orderByDesc")) {
-          return ModelQueryOrder.desc;
-        } else {
-          return ModelQueryOrder.asc;
-        }
-      }(),
-      limit: _parseQuery(query, "limitToFirst"),
-      searchText: _parseQuery(query, "search")?.toString(),
-    );
-  }
 
   /// Path definition for the model.
   ///
@@ -615,216 +451,18 @@ class ModelQuery {
   /// モデルに対するフィルター定義。
   final List<ModelQueryFilter> filters;
 
-  /// The key of the target to query.
-  ///
-  /// クエリを行う対象のキー。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.equal] instead.",
-  )
-  final String? key;
-
-  /// The key of the target for sorting.
-  ///
-  /// ソートを行う対象のキー。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.orderByAsc] instead.",
-  )
-  final String? orderBy;
-
-  /// If this is defined, only elements with the same value for [key] and [isEqualTo] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対する値と[isEqualTo]が同じ要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.equal] instead.",
-  )
-  final dynamic isEqualTo;
-
-  /// If this is defined, only elements with different values for [key] and [isNotEqualTo] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対する値と[isNotEqualTo]と違う要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.notEqual] instead.",
-  )
-  final dynamic isNotEqualTo;
-
-  /// If this is defined, only elements that are equal to or smaller than the value for [key] and [isLessThanOrEqualTo] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対する値と[isLessThanOrEqualTo]より同じか小さい要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.lessThanOrEqual] instead.",
-  )
-  final dynamic isLessThanOrEqualTo;
-
-  /// If this is defined, only elements that are equal to or greater than the value for [key] and [isGreaterThanOrEqualTo] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対する値と[isGreaterThanOrEqualTo]より同じか大きい要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.greaterThanOrEqual] instead.",
-  )
-  final dynamic isGreaterThanOrEqualTo;
-
-  /// If this is defined, only elements with [arrayContains] in the list for [key] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対するリストに[arrayContains]が含まれる要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.contains] instead.",
-  )
-  final dynamic arrayContains;
-
-  /// If this is defined, only elements whose list for [key] contains one of [arrayContainsAny] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対するリストに[arrayContainsAny]のいずれかが含まれる要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.containsAny] instead.",
-  )
-  final DynamicList? arrayContainsAny;
-
-  /// If this is defined, only elements whose value for [key] is contained in one of [whereIn] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対する値が[whereIn]のいずれかに含まれる要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.where] instead.",
-  )
-  final DynamicList? whereIn;
-
-  /// If this is defined, only elements whose value for [key] is not included in any of [whereNotIn] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対する値が[whereNotIn]のいずれにも含まれない要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.notWhere] instead.",
-  )
-  final DynamicList? whereNotIn;
-
-  /// Specify ascending order [ModelQueryOrder.asc] or descending order [ModelQueryOrder.desc] for sorting.
-  ///
-  /// ソートを行う場合の昇順[ModelQueryOrder.asc]、降順[ModelQueryOrder.desc]を指定します。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.orderByAsc] instead.",
-  )
-  final ModelQueryOrder order;
-
-  /// If this is defined, only elements whose GeoHash for [key] is within the range of [geoHash] will be retrieved.
-  ///
-  /// これが定義されている場合[key]に対するGeoHashが[geoHash]の範囲内にある要素のみ取得されます。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.geo] instead.",
-  )
-  final List<String>? geoHash;
-
-  /// Sets the upper limit for element retrieval.
-  ///
-  /// If [Null], unlimited.
-  ///
-  /// 要素の取得上限を設定します。
-  ///
-  /// [Null]の場合は無制限になります。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.limitTo] instead.",
-  )
-  final int? limit;
-
-  /// Query string for search.
-  ///
-  /// Also, [order] and [orderBy] do not work with this parameter.
-  ///
-  /// To use this, the document to be searched for must be stored in Bigram with the string split and [key] in the following structure.
-  ///
-  /// 検索用のクエリ文字列。
-  ///
-  /// また、このパラメーターを用いた場合[order]や[orderBy]が機能しません。
-  ///
-  /// これを利用する場合検索対象のドキュメントはBigramで文字列を分割し[key]で下記のような仕組みで保存されている必要があります。
-  ///
-  /// ```
-  /// final text = "Masamune";
-  ///
-  /// final searchableData = {
-  ///   "ma": true,
-  ///   "as": true,
-  ///   "sa": true,
-  ///   "am": true,
-  ///   "mu": true,
-  ///   "un": true,
-  ///   "ne": true,
-  /// }; // Save to database with [key]
-  /// ```
-  ///
-  /// Normally, the search function is achieved by mixing [SearchableDocumentMixin] into the document to be searched and matching [SearchableDocumentMixin.searchValueFieldKey] and [ModelQuery.key].
-  ///
-  /// 通常は[SearchableDocumentMixin]を検索対象のドキュメントにミックスインし、[SearchableDocumentMixin.searchValueFieldKey]と[ModelQuery.key]を合わせることで検索機能を実現します。
-  @Deprecated(
-    "Deprecated. Please use chaining methods such as [CollectionModelQuery.like] instead.",
-  )
-  final String? searchText;
-
   @override
   String toString() {
-    // TODO: Deprecatedが取れればここを修正
-    final additionalFilter = _addOldFilter();
-    final filters = [
-      ...this.filters,
-      ...additionalFilter,
-    ];
     if (filters.isEmpty) {
       return path;
     }
     return "$path?${filters.sortTo((a, b) => a.type.index - b.type.index).map((e) => e.toString()).join("&")}";
   }
 
-  @Deprecated("This is an implementation that is not necessary.")
-  List<ModelQueryFilter> _addOldFilter() {
-    final res = <ModelQueryFilter>[];
-    if (key.isNotEmpty) {
-      if (isEqualTo != null) {
-        res.add(ModelQueryFilter.equal(key: key!, value: isEqualTo));
-      } else if (isNotEqualTo != null) {
-        res.add(ModelQueryFilter.notEqual(key: key!, value: isNotEqualTo));
-      } else if (isLessThanOrEqualTo != null) {
-        res.add(ModelQueryFilter.lessThanOrEqual(
-            key: key!, value: isLessThanOrEqualTo));
-      } else if (isGreaterThanOrEqualTo != null) {
-        res.add(ModelQueryFilter.greaterThanOrEqual(
-            key: key!, value: isGreaterThanOrEqualTo));
-      } else if (arrayContains != null) {
-        res.add(ModelQueryFilter.contains(key: key!, value: arrayContains));
-      } else if (arrayContainsAny != null) {
-        res.add(ModelQueryFilter.containsAny(
-            key: key!, values: arrayContainsAny!.cast<Object>()));
-      } else if (whereIn != null) {
-        res.add(
-            ModelQueryFilter.where(key: key!, values: whereIn!.cast<Object>()));
-      } else if (whereNotIn != null) {
-        res.add(ModelQueryFilter.notWhere(
-            key: key!, values: whereNotIn!.cast<Object>()));
-      } else if (geoHash != null) {
-        res.add(ModelQueryFilter.geo(key: key!, geoHash: geoHash!));
-      } else if (searchText.isNotEmpty) {
-        res.add(ModelQueryFilter.like(key: key!, text: searchText!));
-      }
-    }
-    if (orderBy.isNotEmpty) {
-      if (order == ModelQueryOrder.asc) {
-        res.add(ModelQueryFilter.orderByAsc(key: orderBy!));
-      } else {
-        res.add(ModelQueryFilter.orderByDesc(key: orderBy!));
-      }
-    }
-    if (limit != null) {
-      res.add(ModelQueryFilter.limitTo(value: limit!));
-    }
-    return res;
-  }
-
   /// Ignores [ModelQueryFilter.key] and returns `true` if it is within all of the conditions in [filters].
   ///
   /// [ModelQueryFilter.key]を無視して[filters]の条件のすべての範囲内にある場合`true`を返します。
   bool hasMatchAsObject(Object? data) {
-    _assert();
-    final additionalFilter = _addOldFilter();
-    final filters = [
-      ...this.filters,
-      ...additionalFilter,
-    ];
     if (filters.isEmpty) {
       return true;
     }
@@ -836,33 +474,15 @@ class ModelQuery {
               e.type != ModelQueryFilterType.limit,
         )
         .every((element) => element._hasMatchValue(data));
-    // TODO: Deprecatedが取れればここを有効化
-    // if (filters.isEmpty) {
-    //   return true;
-    // }
-    // return filters
-    //     .where(
-    //       (e) =>
-    //           e.type != ModelQueryFilterType.orderByAsc &&
-    //           e.type != ModelQueryFilterType.orderByDesc &&
-    //           e.type != ModelQueryFilterType.limit,
-    //     )
-    //     .every((element) => element._hasMatchValue(data));
   }
 
   /// Pass [filters] through [data] and return `true` if all conditions are met.
   ///
   /// [data]に[filters]を通し、条件にすべて当てはまる場合`true`を返します。
   bool hasMatchAsMap(DynamicMap? data) {
-    _assert();
     if (data == null) {
       return false;
     }
-    final additionalFilter = _addOldFilter();
-    final filters = [
-      ...this.filters,
-      ...additionalFilter,
-    ];
     for (final filter in filters) {
       if (filter.type == ModelQueryFilterType.orderByAsc ||
           filter.type == ModelQueryFilterType.orderByDesc ||
@@ -878,29 +498,12 @@ class ModelQuery {
       }
     }
     return true;
-    // TODO: Deprecatedが取れればここを有効化
-    // for (final filter in filters) {
-    //   if (filter.type == ModelQueryFilterType.orderByAsc ||
-    //       filter.type == ModelQueryFilterType.orderByDesc ||
-    //       filter.type == ModelQueryFilterType.limit) {
-    //     continue;
-    //   }
-    //   if (filter.key.isEmpty) {
-    //     continue;
-    //   }
-    //   final val = data.containsKey(filter.key) ? data[filter.key] : null;
-    //   if (!filter._hasMatchValue(val)) {
-    //     return false;
-    //   }
-    // }
-    // return true;
   }
 
   /// Runs [hasMatchAsMap] recursively in [List] and returns `true` if one of the matches is found.
   ///
   /// [List]内で再帰的に[hasMatchAsMap]を実行し、１つでも該当すれば`true`を返します。
   bool hasMatchAsList(List<DynamicMap> data) {
-    _assert();
     return data.any((element) {
       return hasMatchAsMap(element);
     });
@@ -916,15 +519,9 @@ class ModelQuery {
   List<MapEntry<String, DynamicMap>> sort(
     List<MapEntry<String, DynamicMap>> data,
   ) {
-    _assert();
     if (data.isEmpty) {
       return data;
     }
-    final additionalFilter = _addOldFilter();
-    final filters = [
-      ...this.filters,
-      ...additionalFilter,
-    ];
     final order = filters.firstWhereOrNull((item) =>
         item.type == ModelQueryFilterType.orderByAsc ||
         item.type == ModelQueryFilterType.orderByDesc);
@@ -947,29 +544,6 @@ class ModelQuery {
       default:
         return data;
     }
-    // TODO: Deprecatedが取れればここを有効化
-    // final order = filters.firstWhereOrNull((item) =>
-    //     item.type == ModelQueryFilterType.orderByAsc ||
-    //     item.type == ModelQueryFilterType.orderByDesc);
-    // if (order == null) {
-    //   return data;
-    // }
-    // switch (order.type) {
-    //   case ModelQueryFilterType.orderByAsc:
-    //     final key = order.key;
-    //     if (key.isEmpty) {
-    //       return data;
-    //     }
-    //     return data.sortTo((a, b) => _compare(a.value[key], b.value[key]));
-    //   case ModelQueryFilterType.orderByDesc:
-    //     final key = order.key;
-    //     if (key.isEmpty) {
-    //       return data;
-    //     }
-    //     return data.sortTo((a, b) => _compare(b.value[key], a.value[key]));
-    //   default:
-    //     return data;
-    // }
   }
 
   /// The position where [data] enters is retrieved by searching from [sorted] according to the sort setting of [filters].
@@ -1019,15 +593,9 @@ class ModelQuery {
     List<MapEntry<String, DynamicMap>> sorted,
     DynamicMap data,
   ) {
-    _assert();
     if (data.isEmpty) {
       return null;
     }
-    final additionalFilter = _addOldFilter();
-    final filters = [
-      ...this.filters,
-      ...additionalFilter,
-    ];
     final order = filters.firstWhereOrNull((item) =>
         item.type == ModelQueryFilterType.orderByAsc ||
         item.type == ModelQueryFilterType.orderByDesc);
@@ -1100,79 +668,6 @@ class ModelQuery {
       default:
         return null;
     }
-    // TODO: Deprecatedが取れればここを有効化
-    // final order = filters.firstWhereOrNull((item) =>
-    //     item.type == ModelQueryFilterType.orderByAsc ||
-    //     item.type == ModelQueryFilterType.orderByDesc);
-    // if (order == null) {
-    //   return null;
-    // }
-    // switch (order.type) {
-    //   case ModelQueryFilterType.orderByAsc:
-    //     final key = order.key;
-    //     if (key.isEmpty) {
-    //       return null;
-    //     }
-    //     final value = data[key];
-    //     if (value == null) {
-    //       return sorted.length;
-    //     }
-    //     for (var i = 0; i < sorted.length; i++) {
-    //       final p = i - 1;
-    //       if (i == 0) {
-    //         if (sorted[i].value[key] == null) {
-    //           continue;
-    //         }
-    //         final a = _compare(value, sorted[i].value[key]);
-    //         if (a <= 0) {
-    //           return i;
-    //         }
-    //       } else {
-    //         if (sorted[i].value[key] == null || sorted[p].value[key] == null) {
-    //           continue;
-    //         }
-    //         final a = _compare(value, sorted[i].value[key]);
-    //         final b = _compare(value, sorted[p].value[key]);
-    //         if (a <= 0 && b > 0) {
-    //           return i;
-    //         }
-    //       }
-    //     }
-    //     return sorted.length;
-    //   case ModelQueryFilterType.orderByDesc:
-    //     final key = order.key;
-    //     if (key.isEmpty) {
-    //       return null;
-    //     }
-    //     final value = data[key];
-    //     if (value == null) {
-    //       return sorted.length;
-    //     }
-    //     for (var i = 0; i < sorted.length; i++) {
-    //       final p = i - 1;
-    //       if (i == 0) {
-    //         if (sorted[i].value[key] == null) {
-    //           continue;
-    //         }
-    //         final a = _compare(value, sorted[i].value[key]);
-    //         if (a >= 0) {
-    //           return i;
-    //         }
-    //       } else {
-    //         if (sorted[i].value[key] == null || sorted[p].value[key] == null) {
-    //           continue;
-    //         }
-    //         final a = _compare(value, sorted[i].value[key]);
-    //         final b = _compare(value, sorted[p].value[key]);
-    //         if (a >= 0 && b < 0) {
-    //           return i;
-    //         }
-    //       }
-    //     }
-    //     return sorted.length;
-    //   default:
-    //     return null;
-    // }
   }
 
   @protected
@@ -1201,109 +696,8 @@ class ModelQuery {
             (p, e) => p ^ e.hashCode,
           );
     }
-    return p ^
-        key.hashCode ^
-        isEqualTo.hashCode ^
-        isNotEqualTo.hashCode ^
-        isLessThanOrEqualTo.hashCode ^
-        isGreaterThanOrEqualTo.hashCode ^
-        arrayContains.hashCode ^
-        arrayContainsAny.hashCode ^
-        whereIn.hashCode ^
-        whereNotIn.hashCode ^
-        geoHash.hashCode ^
-        order.hashCode ^
-        limit.hashCode ^
-        orderBy.hashCode ^
-        searchText.hashCode;
+    return p;
   }
-
-  @protected
-  String _limit([String path = ""]) {
-    if (limit == null) {
-      return path;
-    }
-    return "$path&limitToFirst=$limit";
-  }
-
-  @protected
-  String _order([String path = ""]) {
-    if (orderBy.isEmpty) {
-      return path;
-    }
-    if (order == ModelQueryOrder.asc) {
-      return "$path&orderByAsc=$orderBy";
-    } else {
-      return "$path&orderByDesc=$orderBy";
-    }
-  }
-
-  @protected
-  void _assert() {
-    assert(
-      (key == null &&
-              (isEqualTo == null &&
-                  isNotEqualTo == null &&
-                  isLessThanOrEqualTo == null &&
-                  isGreaterThanOrEqualTo == null &&
-                  arrayContains == null &&
-                  arrayContainsAny == null &&
-                  whereIn == null &&
-                  whereNotIn == null &&
-                  geoHash == null &&
-                  searchText == null)) ||
-          (key != null &&
-              (isEqualTo != null ||
-                  isNotEqualTo != null ||
-                  isLessThanOrEqualTo != null ||
-                  isGreaterThanOrEqualTo != null ||
-                  arrayContains != null ||
-                  arrayContainsAny != null ||
-                  whereIn != null ||
-                  whereNotIn != null ||
-                  geoHash != null ||
-                  searchText != null)),
-      "If you want to specify a condition, please specify [key].",
-    );
-    assert(
-      searchText == null || (searchText != null && orderBy == null),
-      "If you define [search], you cannot define [orderBy].",
-    );
-  }
-}
-
-/// Define the sort order for [ModelQuery].
-///
-/// [ModelQuery]のソート順を定義します。
-@Deprecated(
-  "This value is deprecated. Use [ModelQueryFilter] to specify sort criteria.",
-)
-enum ModelQueryOrder {
-  /// Ascending Order.
-  /// 昇順。
-  asc,
-
-  /// Descending order.
-  /// 降順。
-  desc,
-}
-
-dynamic _parseQuery(
-  Map<String, String> query,
-  String key, [
-  bool isArray = false,
-]) {
-  if (!query.containsKey(key)) {
-    return null;
-  }
-  final value = query[key];
-  if (value.isEmpty) {
-    return null;
-  }
-  if (isArray) {
-    return value!.split(",").mapAndRemoveEmpty((item) => item.toAny());
-  }
-  return value.toAny();
 }
 
 /// Define the filter type for ModelQuery.

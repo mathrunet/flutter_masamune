@@ -203,10 +203,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
   ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
-  Future<T?> load([
-    @Deprecated("Deprecated. Please change the Adapter instead.")
-        bool listenWhenPossible = true,
-  ]) async {
+  Future<T?> load() async {
     if (_loadCompleter != null) {
       return loading!;
     }
@@ -254,10 +251,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<T?> reload([
-    @Deprecated("Deprecated. Please change the Adapter instead.")
-        bool listenWhenPossible = true,
-  ]) {
+  Future<T?> reload() {
     _loaded = false;
     return load();
   }

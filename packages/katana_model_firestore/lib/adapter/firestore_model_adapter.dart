@@ -375,69 +375,11 @@ class FirestoreModelAdapter extends ModelAdapter {
     return res;
   }
 
-  @Deprecated("This is an implementation that is not necessary.")
-  List<ModelQueryFilter> _addOldFilter(
-    ModelAdapterCollectionQuery query,
-  ) {
-    final res = <ModelQueryFilter>[];
-    if (query.query.key.isNotEmpty) {
-      if (query.query.isEqualTo != null) {
-        res.add(ModelQueryFilter.equal(
-            key: query.query.key!, value: query.query.isEqualTo));
-      } else if (query.query.isNotEqualTo != null) {
-        res.add(ModelQueryFilter.notEqual(
-            key: query.query.key!, value: query.query.isNotEqualTo));
-      } else if (query.query.isLessThanOrEqualTo != null) {
-        res.add(ModelQueryFilter.lessThanOrEqual(
-            key: query.query.key!, value: query.query.isLessThanOrEqualTo));
-      } else if (query.query.isGreaterThanOrEqualTo != null) {
-        res.add(ModelQueryFilter.greaterThanOrEqual(
-            key: query.query.key!, value: query.query.isGreaterThanOrEqualTo));
-      } else if (query.query.arrayContains != null) {
-        res.add(ModelQueryFilter.contains(
-            key: query.query.key!, value: query.query.arrayContains));
-      } else if (query.query.arrayContainsAny != null) {
-        res.add(ModelQueryFilter.containsAny(
-            key: query.query.key!,
-            values: query.query.arrayContainsAny!.cast<Object>()));
-      } else if (query.query.whereIn != null) {
-        res.add(ModelQueryFilter.where(
-            key: query.query.key!,
-            values: query.query.whereIn!.cast<Object>()));
-      } else if (query.query.whereNotIn != null) {
-        res.add(ModelQueryFilter.notWhere(
-            key: query.query.key!,
-            values: query.query.whereNotIn!.cast<Object>()));
-      } else if (query.query.geoHash != null) {
-        res.add(ModelQueryFilter.geo(
-            key: query.query.key!, geoHash: query.query.geoHash!));
-      } else if (query.query.searchText.isNotEmpty) {
-        res.add(ModelQueryFilter.like(
-            key: query.query.key!, text: query.query.searchText!));
-      }
-    }
-    if (query.query.orderBy.isNotEmpty) {
-      if (query.query.order == ModelQueryOrder.asc) {
-        res.add(ModelQueryFilter.orderByAsc(key: query.query.orderBy!));
-      } else {
-        res.add(ModelQueryFilter.orderByDesc(key: query.query.orderBy!));
-      }
-    }
-    if (query.query.limit != null) {
-      res.add(ModelQueryFilter.limitTo(value: query.query.limit!));
-    }
-    return res;
-  }
-
   Query<DynamicMap> _query(
     Query<DynamicMap> firestoreQuery,
     ModelAdapterCollectionQuery query,
   ) {
-    // TODO: Deprecatedが取れればここを修正
-    final filters = [
-      ...query.query.filters,
-      ..._addOldFilter(query),
-    ];
+    final filters = query.query.filters;
     for (final filter in filters) {
       switch (filter.type) {
         case ModelQueryFilterType.equalTo:
@@ -550,11 +492,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   List<Query<DynamicMap>> _collectionReference(
     ModelAdapterCollectionQuery query,
   ) {
-    // TODO: Deprecatedが取れればここを修正
-    final filters = [
-      ...query.query.filters,
-      ..._addOldFilter(query),
-    ];
+    final filters = query.query.filters;
     final containsAny = filters
         .where((e) => e.type == ModelQueryFilterType.arrayContainsAny)
         .toList();

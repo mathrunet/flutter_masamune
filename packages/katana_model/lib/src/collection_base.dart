@@ -211,10 +211,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// 一度読み込んだコンテンツに対しては、新しい読込は行われません。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内でも利用可能です。
   ///
   /// 再読み込みを行いたい場合は[reload]メソッドを利用してください。
-  Future<CollectionBase<TModel>> load([
-    @Deprecated("Deprecated. Please change the Adapter instead.")
-        bool listenWhenPossible = true,
-  ]) async {
+  Future<CollectionBase<TModel>> load() async {
     if (_loadCompleter != null) {
       return loading!;
     }
@@ -263,10 +260,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<CollectionBase<TModel>> reload([
-    @Deprecated("Deprecated. Please change the Adapter instead.")
-        bool listenWhenPossible = true,
-  ]) {
+  Future<CollectionBase<TModel>> reload() {
     _loaded = false;
     return load();
   }
@@ -282,10 +276,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// 実行した際に要素数が変わらなかった場合、[canNext]は`false`になりますがこのメソッドは[canNext]が`false`でも実行されます。
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<CollectionBase<TModel>> next([
-    @Deprecated("Deprecated. Please change the Adapter instead.")
-        bool listenWhenPossible = true,
-  ]) async {
+  Future<CollectionBase<TModel>> next() async {
     _loaded = false;
     _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page + 1);
     final prevLength = length;

@@ -1,9 +1,5 @@
 part of masamune_picker_mobile;
 
-@Deprecated(
-    "This type is deprecated. Please use [MobileImagePickerMasamuneAdapter].")
-typedef MobileImagePickerAdapter = MobileImagePickerMasamuneAdapter;
-
 /// Adapter to use mobile and other camera-enabled file pickers.
 ///
 /// Internally, the `image_picker` package is used.
