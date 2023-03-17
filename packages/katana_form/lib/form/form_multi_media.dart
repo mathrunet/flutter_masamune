@@ -25,7 +25,7 @@ const kFormMultiMediaInlineHeight = 96.0;
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
-/// When [FormController] is passed to [form], [onSaved] must be passed together with [form]. The contents of [onSaved] will be used to save the data.
+/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
 ///
 /// Enter the initial value given by [FormController.value] in [initialValue].
 ///
@@ -59,7 +59,7 @@ const kFormMultiMediaInlineHeight = 96.0;
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
-/// [form]に[FormController]を渡した場合、[form]を渡した場合一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
 ///
 /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
 ///
@@ -94,7 +94,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
-  /// When [FormController] is passed to [form], [onSaved] must be passed together with [form]. The contents of [onSaved] will be used to save the data.
+  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
   ///
   /// Enter the initial value given by [FormController.value] in [initialValue].
   ///
@@ -128,7 +128,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
-  /// [form]に[FormController]を渡した場合、[form]を渡した場合一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
   ///
   /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
   ///

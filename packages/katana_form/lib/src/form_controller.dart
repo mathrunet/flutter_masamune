@@ -57,12 +57,12 @@ part of katana_form;
 ///           FormTextField(
 ///             hintText: "Input name",
 ///             initialValue: _context.value["name"],
-///             onSaved: (form, value) => {...form.value, "name": value},
+///             onSaved: (value) => {...form.value, "name": value},
 ///           ),
 ///           FormTextField(
 ///             hintText: "Input description",
 ///             initialValue: _context.value["description"],
-///             onSaved: (form, value) => {...form.value, "description": value},
+///             onSaved: (value) => {...form.value, "description": value},
 ///           ),
 ///           FormButton(
 ///             "Submit",
@@ -137,12 +137,12 @@ class FormController<TValue> extends ValueNotifier<TValue> {
   ///           FormTextField(
   ///             hintText: "Input name",
   ///             initialValue: _context.value["name"],
-  ///             onSaved: (form, value) => {...form.value, "name": value},
+  ///             onSaved: (value) => {...form.value, "name": value},
   ///           ),
   ///           FormTextField(
   ///             hintText: "Input description",
   ///             initialValue: _context.value["description"],
-  ///             onSaved: (form, value) => {...form.value, "description": value},
+  ///             onSaved: (value) => {...form.value, "description": value},
   ///           ),
   ///           FormButton(
   ///             "Submit",

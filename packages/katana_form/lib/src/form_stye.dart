@@ -32,6 +32,7 @@ class FormStyle {
     this.errorColor,
     this.cursorColor,
     this.borderColor,
+    this.shape,
     this.disabledColor,
     this.borderRadius,
     this.disabledBackgroundColor,
@@ -163,6 +164,11 @@ class FormStyle {
   /// フォームの後に配置されるウィジェット。
   final FormAffixStyle? suffix;
 
+  /// Class for defining the shape of forms such as [FormCheckbox].
+  ///
+  /// [FormCheckbox]などのフォームの形状を定義するためのクラス。
+  final OutlinedBorder? shape;
+
   /// Create another [FormStyle], changing the parameters.
   ///
   /// パラメーターを変更しながら別の[FormStyle]を作成します。
@@ -189,6 +195,7 @@ class FormStyle {
     FormAffixStyle? prefix,
     FormAffixStyle? suffix,
     TextAlignVertical? textAlignVertical,
+    OutlinedBorder? shape,
   }) {
     return FormStyle(
       height: height ?? this.height,
@@ -214,6 +221,7 @@ class FormStyle {
           disabledBackgroundColor ?? this.disabledBackgroundColor,
       prefix: prefix ?? this.prefix,
       suffix: suffix ?? this.suffix,
+      shape: shape ?? this.shape,
     );
   }
 
@@ -240,7 +248,8 @@ class FormStyle {
       disabledBackgroundColor.hashCode ^
       borderWidth.hashCode ^
       prefix.hashCode ^
-      suffix.hashCode;
+      suffix.hashCode ^
+      shape.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
@@ -326,6 +335,8 @@ class FormAffixStyle {
   ///
   /// [icon]を指定したときの[BoxConstraints]。
   final BoxConstraints? iconConstraints;
+
+  
 
   @override
   int get hashCode =>
