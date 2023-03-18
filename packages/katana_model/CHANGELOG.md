@@ -1,3 +1,8 @@
+## 1.7.1
+
+ - **FIX**: Made each Filter parameter null-acceptable and through if null. ([2ca5e64b](https://github.com/mathrunet/flutter_masamune/commit/2ca5e64b93fc454345716747dfa6edc3e45b8a02))
+ - **FIX**: Fixes to ModelFieldValue support for Filter. ([1dde163d](https://github.com/mathrunet/flutter_masamune/commit/1dde163d9b9226f2790d26c12cb0ffc1b3cb12f2))
+
 ## 1.7.0
 
  - **FEAT**: ModelFieldValue is now available in filters. ([b5b6a514](https://github.com/mathrunet/flutter_masamune/commit/b5b6a514b225c9c25e0168895de07610525abe0d))

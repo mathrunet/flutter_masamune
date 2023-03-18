@@ -1,3 +1,7 @@
+## 1.6.2
+
+ - **FIX**: Fixes to ModelFieldValue support for Filter. ([1dde163d](https://github.com/mathrunet/flutter_masamune/commit/1dde163d9b9226f2790d26c12cb0ffc1b3cb12f2))
+
 ## 1.6.1
 
  - Update a dependency to the latest release.

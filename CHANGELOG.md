@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v1.7.1`](#katana_model---v171)
+ - [`katana_model_firestore` - `v1.6.2`](#katana_model_firestore---v162)
+ - [`masamune_annotation` - `v1.4.5`](#masamune_annotation---v145)
+ - [`masamune_builder` - `v1.4.14`](#masamune_builder---v1414)
+ - [`masamune` - `v1.11.9`](#masamune---v1119)
+ - [`masamune_picker` - `v1.6.2`](#masamune_picker---v162)
+ - [`masamune_universal_ui` - `v1.2.7`](#masamune_universal_ui---v127)
+ - [`masamune_ai_openai` - `v1.1.12`](#masamune_ai_openai---v1112)
+ - [`masamune_notification_firebase` - `v1.2.38`](#masamune_notification_firebase---v1238)
+ - [`masamune_picker_file` - `v1.6.2`](#masamune_picker_file---v162)
+ - [`masamune_logger_firebase` - `v1.2.49`](#masamune_logger_firebase---v1249)
+ - [`masamune_picker_mobile` - `v1.6.2`](#masamune_picker_mobile---v162)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.9`
+ - `masamune_picker` - `v1.6.2`
+ - `masamune_universal_ui` - `v1.2.7`
+ - `masamune_ai_openai` - `v1.1.12`
+ - `masamune_notification_firebase` - `v1.2.38`
+ - `masamune_picker_file` - `v1.6.2`
+ - `masamune_logger_firebase` - `v1.2.49`
+ - `masamune_picker_mobile` - `v1.6.2`
+
+---
+
+#### `katana_model` - `v1.7.1`
+
+ - **FIX**: Made each Filter parameter null-acceptable and through if null. ([2ca5e64b](https://github.com/mathrunet/flutter_masamune/commit/2ca5e64b93fc454345716747dfa6edc3e45b8a02))
+ - **FIX**: Fixes to ModelFieldValue support for Filter. ([1dde163d](https://github.com/mathrunet/flutter_masamune/commit/1dde163d9b9226f2790d26c12cb0ffc1b3cb12f2))
+
+#### `katana_model_firestore` - `v1.6.2`
+
+ - **FIX**: Fixes to ModelFieldValue support for Filter. ([1dde163d](https://github.com/mathrunet/flutter_masamune/commit/1dde163d9b9226f2790d26c12cb0ffc1b3cb12f2))
+
+#### `masamune_annotation` - `v1.4.5`
+
+ - **FIX**: Made each Filter parameter null-acceptable and through if null. ([2ca5e64b](https://github.com/mathrunet/flutter_masamune/commit/2ca5e64b93fc454345716747dfa6edc3e45b8a02))
+
+#### `masamune_builder` - `v1.4.14`
+
+ - **FIX**: Made each Filter parameter null-acceptable and through if null. ([2ca5e64b](https://github.com/mathrunet/flutter_masamune/commit/2ca5e64b93fc454345716747dfa6edc3e45b8a02))
+ - **FIX**: Fixes to ModelFieldValue support for Filter. ([1dde163d](https://github.com/mathrunet/flutter_masamune/commit/1dde163d9b9226f2790d26c12cb0ffc1b3cb12f2))
+
+
 ## 2023-03-18
 
 ### Changes
