@@ -1,3 +1,7 @@
+## 1.7.0
+
+ - **FEAT**: ModelFieldValue is now available in filters. ([b5b6a514](https://github.com/mathrunet/flutter_masamune/commit/b5b6a514b225c9c25e0168895de07610525abe0d))
+
 ## 1.6.0
 
  - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))

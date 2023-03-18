@@ -3,6 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.8.17`](#katana_cli---v1817)
+ - [`katana_model` - `v1.7.0`](#katana_model---v170)
+ - [`katana_model_firestore` - `v1.6.1`](#katana_model_firestore---v161)
+ - [`masamune` - `v1.11.8`](#masamune---v1118)
+ - [`masamune_picker` - `v1.6.1`](#masamune_picker---v161)
+ - [`masamune_ai_openai` - `v1.1.11`](#masamune_ai_openai---v1111)
+ - [`masamune_universal_ui` - `v1.2.6`](#masamune_universal_ui---v126)
+ - [`masamune_notification_firebase` - `v1.2.37`](#masamune_notification_firebase---v1237)
+ - [`masamune_picker_file` - `v1.6.1`](#masamune_picker_file---v161)
+ - [`masamune_logger_firebase` - `v1.2.48`](#masamune_logger_firebase---v1248)
+ - [`masamune_picker_mobile` - `v1.6.1`](#masamune_picker_mobile---v161)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v1.6.1`
+ - `masamune` - `v1.11.8`
+ - `masamune_picker` - `v1.6.1`
+ - `masamune_ai_openai` - `v1.1.11`
+ - `masamune_universal_ui` - `v1.2.6`
+ - `masamune_notification_firebase` - `v1.2.37`
+ - `masamune_picker_file` - `v1.6.1`
+ - `masamune_logger_firebase` - `v1.2.48`
+ - `masamune_picker_mobile` - `v1.6.1`
+
+---
+
+#### `katana_cli` - `v1.8.17`
+
+ - **FIX**: Support windows. ([18ee5b70](https://github.com/mathrunet/flutter_masamune/commit/18ee5b7029b7d4ecc4430df2cd803e02021de04a))
+
+#### `katana_model` - `v1.7.0`
+
+ - **FEAT**: ModelFieldValue is now available in filters. ([b5b6a514](https://github.com/mathrunet/flutter_masamune/commit/b5b6a514b225c9c25e0168895de07610525abe0d))
+
+
 ## 2023-03-17
 
 ### Changes

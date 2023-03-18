@@ -1,3 +1,7 @@
+## 1.2.6
+
+ - Update a dependency to the latest release.
+
 ## 1.2.5
 
  - **FIX**: Changed implementation regarding SidebarWidth. ([4f7172de](https://github.com/mathrunet/flutter_masamune/commit/4f7172de550acb77135f5f1e8b48d5eddd9bbc6e))
