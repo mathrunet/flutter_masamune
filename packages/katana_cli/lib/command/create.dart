@@ -298,14 +298,16 @@ class CreateCliCommand extends CliCommand {
         "--delete-conflicting-outputs",
       ],
     );
-    await command(
-      "Run `pod install`.",
-      [
-        "pod",
-        "install",
-      ],
-      workingDirectory: "ios",
-    );
+    if (Platform.isMacOS) {
+      await command(
+        "Run `pod install`.",
+        [
+          "pod",
+          "install",
+        ],
+        workingDirectory: "ios",
+      );
+    }
   }
 }
 
@@ -419,6 +421,7 @@ class MainCliCode extends CliCode {
     return """
 import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 """;
   }
 

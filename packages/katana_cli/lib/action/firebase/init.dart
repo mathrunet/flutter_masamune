@@ -126,7 +126,25 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
-    label("Run flutterfire configure");
+    await command(
+      "Install flutter cli",
+      [
+        npm,
+        "install",
+        "-g",
+        "firebase-tools",
+      ],
+    );
+    await command(
+      "Install flutterfire cli",
+      [
+        flutter,
+        "pub",
+        "global",
+        "activate",
+        "flutterfire_cli",
+      ],
+    );
     await command(
       "Run flutterfire configure",
       [
@@ -189,6 +207,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           print(line);
           _runCommandStack(
             line,
+            "? Are you ready to proceed?",
+            commandStack,
+            () => firestoreProcess.stdin.write("y\n"),
+          );
+          _runCommandStack(
+            line,
             "? What file should be used for Firestore Rules?",
             commandStack,
             () => firestoreProcess.stdin.write("\n"),
@@ -222,6 +246,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           print(line);
           _runCommandStack(
             line,
+            "? Are you ready to proceed?",
+            commandStack,
+            () => storageProcess.stdin.write("y\n"),
+          );
+          _runCommandStack(
+            line,
             "? What file should be used for Storage Rules?",
             commandStack,
             () => storageProcess.stdin.write("\n"),
@@ -247,6 +277,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         hostingProcess.stdout.transform(utf8.decoder).forEach((line) {
           // ignore: avoid_print
           print(line);
+          _runCommandStack(
+            line,
+            "? Are you ready to proceed?",
+            commandStack,
+            () => hostingProcess.stdin.write("y\n"),
+          );
           _runCommandStack(
             line,
             "? What do you want to use as your public directory?",
@@ -331,6 +367,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         functionsProcess.stdout.transform(utf8.decoder).forEach((line) {
           // ignore: avoid_print
           print(line);
+          _runCommandStack(
+            line,
+            "? Are you ready to proceed?",
+            commandStack,
+            () => functionsProcess.stdin.write("y\n"),
+          );
           _runCommandStack(
             line,
             "? what language would you like to use to write Cloud Functions?",
