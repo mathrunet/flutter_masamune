@@ -320,6 +320,914 @@ void main() {
       false,
     );
   });
+  test("ModelQuery.ModelCounter", () async {
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(key: "counter", value: ModelCounter(5)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(4)), false);
+    expect(query.hasMatchAsObject(const ModelCounter(5)), true);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "counter": const ModelCounter(1).toJson()}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "counter": const ModelCounter(5).toJson()}),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "counter": const ModelCounter(4).toJson()}
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "counter": const ModelCounter(5).toJson()}
+      ]),
+      true,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(key: "counter", value: ModelCounter(5)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(4)), true);
+    expect(query.hasMatchAsObject(const ModelCounter(5)), false);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "counter": const ModelCounter(1).toJson()}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "counter": const ModelCounter(5).toJson()}),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "counter": const ModelCounter(4).toJson()}
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "counter": const ModelCounter(5).toJson()},
+        {"name": "test2", "counter": const ModelCounter(5).toJson()}
+      ]),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.lessThan(key: "count", value: ModelCounter(100)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(99)), true);
+    expect(query.hasMatchAsObject(const ModelCounter(100)), false);
+    expect(query.hasMatchAsObject(const ModelCounter(101)), false);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(99).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(100).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(101).toJson(), "text": "aaaa"}),
+        false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.greaterThan(key: "count", value: ModelCounter(100)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(99)), false);
+    expect(query.hasMatchAsObject(const ModelCounter(100)), false);
+    expect(query.hasMatchAsObject(const ModelCounter(101)), true);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(99).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(100).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(101).toJson(), "text": "aaaa"}),
+        true);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.lessThanOrEqual(
+            key: "count", value: ModelCounter(100)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(99)), true);
+    expect(query.hasMatchAsObject(const ModelCounter(100)), true);
+    expect(query.hasMatchAsObject(const ModelCounter(101)), false);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(99).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(100).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(101).toJson(), "text": "aaaa"}),
+        false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.greaterThanOrEqual(
+            key: "count", value: ModelCounter(100)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(99)), false);
+    expect(query.hasMatchAsObject(const ModelCounter(100)), true);
+    expect(query.hasMatchAsObject(const ModelCounter(101)), true);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(99).toJson(), "text": "aaaa"}),
+        false);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(100).toJson(), "text": "aaaa"}),
+        true);
+    expect(
+        query.hasMatchAsMap(
+            {"count": const ModelCounter(101).toJson(), "text": "aaaa"}),
+        true);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(key: "count", value: ModelCounter(1)),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([0, 1, 2].map((e) => ModelCounter(e)).toList()),
+        true);
+    expect(
+        query.hasMatchAsObject(
+            [100, 101, 102].map((e) => ModelCounter(e)).toList()),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "count": [0, 1, 2].map((e) => ModelCounter(e).toJson()).toList(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": [100, 101, 102].map((e) => ModelCounter(e).toJson()).toList(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(
+            key: "count",
+            values: [ModelCounter(2), ModelCounter(3), ModelCounter(4)]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([0, 1, 2].map((e) => ModelCounter(e)).toList()),
+        true);
+    expect(
+        query.hasMatchAsObject([2, 3, 4].map((e) => ModelCounter(e)).toList()),
+        true);
+    expect(
+        query.hasMatchAsObject(
+            [100, 101, 102].map((e) => ModelCounter(e)).toList()),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "count": [0, 1, 2].map((e) => ModelCounter(e).toJson()).toList(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": [2, 3, 4].map((e) => ModelCounter(e).toJson()).toList(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": [100, 101, 102].map((e) => ModelCounter(e).toJson()).toList(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(
+            key: "count",
+            values: [ModelCounter(2), ModelCounter(3), ModelCounter(4)]),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(1)), false);
+    expect(query.hasMatchAsObject(const ModelCounter(2)), true);
+    expect(query.hasMatchAsObject(const ModelCounter(3)), true);
+    expect(
+      query.hasMatchAsMap(
+          {"count": const ModelCounter(1).toJson(), "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"count": const ModelCounter(2).toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"count": const ModelCounter(4).toJson(), "text": "aaaa"}),
+      true,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(
+            key: "count",
+            values: [ModelCounter(2), ModelCounter(3), ModelCounter(4)]),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelCounter(1)), true);
+    expect(query.hasMatchAsObject(const ModelCounter(2)), false);
+    expect(query.hasMatchAsObject(const ModelCounter(3)), false);
+    expect(
+      query.hasMatchAsMap(
+          {"count": const ModelCounter(1).toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"count": const ModelCounter(2).toJson(), "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"count": const ModelCounter(4).toJson(), "text": "aaaa"}),
+      false,
+    );
+  });
+  test("ModelQuery.ModelTimestamp", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+            key: "time", value: ModelTimestamp(DateTime(2000, 1, 4))),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), false);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestamp(DateTime(2000, 2, 3)).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "time": ModelTimestamp(DateTime(2001, 1, 4)).toJson()}
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson()}
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "time", value: ModelTimestamp(DateTime(2000, 1, 4))),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), true);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestamp(DateTime(2000, 2, 4)).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson()}
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "time": ModelTimestamp(DateTime(2000, 1, 4))},
+        {"name": "test2", "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson()}
+      ]),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.lessThan(
+            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), true);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), false);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), false);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "text": "aaaa"
+        }),
+        true);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "text": "aaaa"
+        }),
+        false);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "text": "aaaa"
+        }),
+        false);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.greaterThan(
+            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), false);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), false);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), true);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "text": "aaaa"
+        }),
+        false);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "text": "aaaa"
+        }),
+        false);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "text": "aaaa"
+        }),
+        true);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.lessThanOrEqual(
+            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), true);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), true);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), false);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "text": "aaaa"
+        }),
+        true);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "text": "aaaa"
+        }),
+        true);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "text": "aaaa"
+        }),
+        false);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.greaterThanOrEqual(
+            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), false);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), true);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 5))), true);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          "text": "aaaa"
+        }),
+        false);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          "text": "aaaa"
+        }),
+        true);
+    expect(
+        query.hasMatchAsMap({
+          "count": ModelTimestamp(DateTime(2000, 1, 5)).toJson(),
+          "text": "aaaa"
+        }),
+        true);
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+            key: "count", value: ModelTimestamp(DateTime(2000, 1, 4))),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestamp(DateTime(2000, 1, 3)),
+          ModelTimestamp(DateTime(2000, 1, 4)),
+          ModelTimestamp(DateTime(2000, 1, 5))
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestamp(DateTime(2000, 2, 3)),
+          ModelTimestamp(DateTime(2000, 2, 4)),
+          ModelTimestamp(DateTime(2000, 2, 5))
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "count": [
+          ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          ModelTimestamp(DateTime(2000, 1, 5)).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": [
+          ModelTimestamp(DateTime(2000, 2, 3)).toJson(),
+          ModelTimestamp(DateTime(2000, 2, 4)).toJson(),
+          ModelTimestamp(DateTime(2000, 2, 5)).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "count", values: [
+          ModelTimestamp(DateTime(2000, 1, 3)),
+          ModelTimestamp(DateTime(2000, 2, 4)),
+          ModelTimestamp(DateTime(2000, 3, 5))
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestamp(DateTime(2000, 1, 3)),
+          ModelTimestamp(DateTime(2000, 1, 4)),
+          ModelTimestamp(DateTime(2000, 1, 5))
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestamp(DateTime(2000, 2, 3)),
+          ModelTimestamp(DateTime(2000, 2, 4)),
+          ModelTimestamp(DateTime(2000, 2, 5))
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelTimestamp(DateTime(2000, 4, 3)),
+          ModelTimestamp(DateTime(2000, 4, 4)),
+          ModelTimestamp(DateTime(2000, 4, 5))
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "count": [
+          ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+          ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+          ModelTimestamp(DateTime(2000, 1, 5)).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": [
+          ModelTimestamp(DateTime(2000, 2, 3)).toJson(),
+          ModelTimestamp(DateTime(2000, 2, 4)).toJson(),
+          ModelTimestamp(DateTime(2000, 2, 5)).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": [
+          ModelTimestamp(DateTime(2000, 4, 3)).toJson(),
+          ModelTimestamp(DateTime(2000, 4, 4)).toJson(),
+          ModelTimestamp(DateTime(2000, 4, 5)).toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "count", values: [
+          ModelTimestamp(DateTime(2000, 1, 3)),
+          ModelTimestamp(DateTime(2000, 1, 4)),
+          ModelTimestamp(DateTime(2000, 1, 5))
+        ]),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 2))), false);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), true);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), true);
+    expect(
+      query.hasMatchAsMap({
+        "count": ModelTimestamp(DateTime(2000, 1, 2)).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "count", values: [
+          ModelTimestamp(DateTime(2000, 1, 3)),
+          ModelTimestamp(DateTime(2000, 1, 4)),
+          ModelTimestamp(DateTime(2000, 1, 5))
+        ]),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 2))), true);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 3))), false);
+    expect(query.hasMatchAsObject(ModelTimestamp(DateTime(2000, 1, 4))), false);
+    expect(
+      query.hasMatchAsMap({
+        "count": ModelTimestamp(DateTime(2000, 1, 2)).toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": ModelTimestamp(DateTime(2000, 1, 3)).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "count": ModelTimestamp(DateTime(2000, 1, 4)).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+  });
+  test("ModelQuery.ModelRef", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+            key: "path", value: ModelRefBase.fromPath("cccc/dddd")),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelRefBase.fromPath("eeee/ffff")), false);
+    expect(query.hasMatchAsObject(ModelRefBase.fromPath("cccc/dddd")), true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "path": ModelRefBase.fromPath("eeee/ffff").toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "path": ModelRefBase.fromPath("cccc/dddd").toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "path": ModelRefBase.fromPath("eeee/ffff").toJson()}
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "path": ModelRefBase.fromPath("cccc/dddd").toJson()}
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+            key: "path", value: ModelRefBase.fromPath("cccc/dddd")),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelRefBase.fromPath("eeee/ffff")), true);
+    expect(query.hasMatchAsObject(ModelRefBase.fromPath("cccc/dddd")), false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "path": ModelRefBase.fromPath("eeee/ffff").toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "path": ModelRefBase.fromPath("cccc/dddd").toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "path": ModelRefBase.fromPath("eeee/ffff").toJson()}
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "path": ModelRefBase.fromPath("cccc/dddd").toJson()},
+        {"name": "test2", "path": ModelRefBase.fromPath("cccc/dddd").toJson()}
+      ]),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+            key: "path", value: ModelRefBase.fromPath("cccc/dddd")),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelRefBase.fromPath("aaaa/bbbb"),
+          ModelRefBase.fromPath("cccc/dddd"),
+          ModelRefBase.fromPath("eeee/ffff")
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelRefBase.fromPath("1111/bbbb"),
+          ModelRefBase.fromPath("2222/dddd"),
+          ModelRefBase.fromPath("3333/ffff")
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "path": [
+          ModelRefBase.fromPath("aaaa/bbbb").toJson(),
+          ModelRefBase.fromPath("cccc/dddd").toJson(),
+          ModelRefBase.fromPath("eeee/ffff").toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "path": [
+          ModelRefBase.fromPath("1111/bbbb").toJson(),
+          ModelRefBase.fromPath("2222/dddd").toJson(),
+          ModelRefBase.fromPath("3333/ffff").toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "path", values: [
+          ModelRefBase.fromPath("aaaa/bbbb"),
+          ModelRefBase.fromPath("cccc/dddd"),
+          ModelRefBase.fromPath("eeee/ffff")
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelRefBase.fromPath("aaaa/bbbb"),
+          ModelRefBase.fromPath("2222/dddd"),
+          ModelRefBase.fromPath("3333/ffff")
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelRefBase.fromPath("1111/bbbb"),
+          ModelRefBase.fromPath("cccc/dddd"),
+          ModelRefBase.fromPath("3333/ffff")
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelRefBase.fromPath("1111/bbbb").toJson(),
+          ModelRefBase.fromPath("2222/dddd").toJson(),
+          ModelRefBase.fromPath("3333/ffff").toJson()
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "path": [
+          ModelRefBase.fromPath("aaaa/bbbb").toJson(),
+          ModelRefBase.fromPath("2222/dddd").toJson(),
+          ModelRefBase.fromPath("3333/ffff").toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "path": [
+          ModelRefBase.fromPath("1111/bbbb").toJson(),
+          ModelRefBase.fromPath("cccc/dddd").toJson(),
+          ModelRefBase.fromPath("3333/ffff").toJson()
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "path": [
+          ModelRefBase.fromPath("1111/bbbb").toJson(),
+          ModelRefBase.fromPath("2222/dddd").toJson(),
+          ModelRefBase.fromPath("3333/ffff").toJson()
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "path", values: [
+          ModelRefBase.fromPath("aaaa/bbbb"),
+          ModelRefBase.fromPath("cccc/dddd"),
+          ModelRefBase.fromPath("eeee/ffff")
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(
+          ModelRefBase.fromPath("1111/bbbb"),
+        ),
+        false);
+    expect(
+        query.hasMatchAsObject(
+          ModelRefBase.fromPath("cccc/dddd"),
+        ),
+        true);
+    expect(
+        query.hasMatchAsObject(
+          ModelRefBase.fromPath("eeee/ffff"),
+        ),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "path": ModelRefBase.fromPath("1111/bbbb").toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "path": ModelRefBase.fromPath("cccc/dddd").toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "path": ModelRefBase.fromPath("eeee/ffff").toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "path", values: [
+          ModelRefBase.fromPath("aaaa/bbbb"),
+          ModelRefBase.fromPath("cccc/dddd"),
+          ModelRefBase.fromPath("eeee/ffff")
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(
+          ModelRefBase.fromPath("1111/bbbb"),
+        ),
+        true);
+    expect(
+        query.hasMatchAsObject(
+          ModelRefBase.fromPath("cccc/dddd"),
+        ),
+        false);
+    expect(
+        query.hasMatchAsObject(
+          ModelRefBase.fromPath("eeee/ffff"),
+        ),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "path": ModelRefBase.fromPath("1111/bbbb").toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "path": ModelRefBase.fromPath("cccc/dddd").toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "path": ModelRefBase.fromPath("eeee/ffff").toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+  });
   test("ModelQuery.sort", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
@@ -363,6 +1271,138 @@ void main() {
         MapEntry("dddd", {"count": 8, "text": "a"}),
         MapEntry("dddd", {"count": 4, "text": "a"}),
         MapEntry("dddd", {"count": 1, "text": "a"}),
+      ].toString(),
+    );
+  });
+  test("ModelQuery.sort.ModelCounter", () async {
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByAsc(key: "count"),
+      ],
+    );
+    expect(
+      query.sort(
+        const [
+          MapEntry("dddd", {"count": ModelCounter(10), "text": "a"}),
+          MapEntry("dddd", {"count": ModelCounter(4), "text": "a"}),
+          MapEntry("dddd", {"count": ModelCounter(8), "text": "a"}),
+          MapEntry("dddd", {"count": ModelCounter(1), "text": "a"}),
+        ],
+      ).toString(),
+      const [
+        MapEntry("dddd", {"count": ModelCounter(1), "text": "a"}),
+        MapEntry("dddd", {"count": ModelCounter(4), "text": "a"}),
+        MapEntry("dddd", {"count": ModelCounter(8), "text": "a"}),
+        MapEntry("dddd", {"count": ModelCounter(10), "text": "a"}),
+      ].toString(),
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByDesc(key: "count"),
+      ],
+    );
+    expect(
+      query.sort(
+        [
+          MapEntry(
+              "dddd", {"count": const ModelCounter(10).toJson(), "text": "a"}),
+          MapEntry(
+              "dddd", {"count": const ModelCounter(4).toJson(), "text": "a"}),
+          MapEntry(
+              "dddd", {"count": const ModelCounter(8).toJson(), "text": "a"}),
+          MapEntry(
+              "dddd", {"count": const ModelCounter(1).toJson(), "text": "a"}),
+        ],
+      ).toString(),
+      [
+        MapEntry(
+            "dddd", {"count": const ModelCounter(10).toJson(), "text": "a"}),
+        MapEntry(
+            "dddd", {"count": const ModelCounter(8).toJson(), "text": "a"}),
+        MapEntry(
+            "dddd", {"count": const ModelCounter(4).toJson(), "text": "a"}),
+        MapEntry(
+            "dddd", {"count": const ModelCounter(1).toJson(), "text": "a"}),
+      ].toString(),
+    );
+  });
+  test("ModelQuery.sort.ModelTimestamp", () async {
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByAsc(key: "count"),
+      ],
+    );
+    expect(
+      query.sort(
+        [
+          MapEntry("dddd",
+              {"count": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
+          MapEntry("dddd",
+              {"count": ModelTimestamp(DateTime(2008, 1, 1)), "text": "a"}),
+          MapEntry("dddd",
+              {"count": ModelTimestamp(DateTime(2004, 1, 1)), "text": "a"}),
+          MapEntry("dddd",
+              {"count": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
+        ],
+      ).toString(),
+      [
+        MapEntry("dddd",
+            {"count": ModelTimestamp(DateTime(2001, 1, 1)), "text": "a"}),
+        MapEntry("dddd",
+            {"count": ModelTimestamp(DateTime(2004, 1, 1)), "text": "a"}),
+        MapEntry("dddd",
+            {"count": ModelTimestamp(DateTime(2008, 1, 1)), "text": "a"}),
+        MapEntry("dddd",
+            {"count": ModelTimestamp(DateTime(2010, 1, 1)), "text": "a"}),
+      ].toString(),
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.orderByDesc(key: "count"),
+      ],
+    );
+    expect(
+      query.sort(
+        [
+          MapEntry("dddd", {
+            "count": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
+            "text": "a"
+          }),
+          MapEntry("dddd", {
+            "count": ModelTimestamp(DateTime(2004, 1, 1)).toJson(),
+            "text": "a"
+          }),
+          MapEntry("dddd", {
+            "count": ModelTimestamp(DateTime(2008, 1, 1)).toJson(),
+            "text": "a"
+          }),
+          MapEntry("dddd", {
+            "count": ModelTimestamp(DateTime(2001, 1, 1)).toJson(),
+            "text": "a"
+          }),
+        ],
+      ).toString(),
+      [
+        MapEntry("dddd", {
+          "count": ModelTimestamp(DateTime(2010, 1, 1)).toJson(),
+          "text": "a"
+        }),
+        MapEntry("dddd", {
+          "count": ModelTimestamp(DateTime(2008, 1, 1)).toJson(),
+          "text": "a"
+        }),
+        MapEntry("dddd", {
+          "count": ModelTimestamp(DateTime(2004, 1, 1)).toJson(),
+          "text": "a"
+        }),
+        MapEntry("dddd", {
+          "count": ModelTimestamp(DateTime(2001, 1, 1)).toJson(),
+          "text": "a"
+        }),
       ].toString(),
     );
   });

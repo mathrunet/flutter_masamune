@@ -7,6 +7,7 @@ part of katana_model;
 /// [ModelFieldValue]に特殊なクラスを登録する場合に利用します。
 ///
 /// この抽象クラスを継承して新しいクラスを作り、アプリ起動時に[ModelFieldValue.registerConverter]に登録を行ってください。
+@immutable
 abstract class ModelFieldValueConverter<T extends ModelFieldValue> {
   /// Use this when registering special classes in [ModelFieldValue].
   ///
@@ -36,6 +37,56 @@ abstract class ModelFieldValueConverter<T extends ModelFieldValue> {
   ///
   /// [T]の値をJsonでエンコードできる[Map]に変換します。
   Map<String, Object?> toJson(T value);
+}
+
+/// Adapter class for determining the behavior of [ModelFieldValue] in [ModelQuery.filters].
+///
+/// Create a new class that inherits from this abstract class and register it with [ModelFieldValue.registerFilter] when the application starts.
+///
+/// [ModelQuery.filters]での[ModelFieldValue]の振る舞いを決めるためのアダプタークラス。
+///
+/// この抽象クラスを継承して新しいクラスを作り、アプリ起動時に[ModelFieldValue.registerFilter]に登録を行ってください。
+@immutable
+abstract class ModelFieldValueFilter<T extends ModelFieldValue> {
+  /// Adapter class for determining the behavior of [ModelFieldValue] in [ModelQuery.filters].
+  ///
+  /// Create a new class that inherits from this abstract class and register it with [ModelFieldValue.registerFilter] when the application starts.
+  ///
+  /// [ModelQuery.filters]での[ModelFieldValue]の振る舞いを決めるためのアダプタークラス。
+  ///
+  /// この抽象クラスを継承して新しいクラスを作り、アプリ起動時に[ModelFieldValue.registerFilter]に登録を行ってください。
+  const ModelFieldValueFilter();
+
+  /// Type of class being handled.
+  ///
+  /// 扱うクラスのタイプ。
+  Type get type => T;
+
+  /// Comparison operator for sorting.
+  ///
+  /// Compares [a] and [b] and returns a positive value if [a] is greater, 0 if [a] and [b] are equal, or negative if [a] is less.
+  ///
+  /// Returns [Null] if comparison is not possible due to type difference, etc.
+  ///
+  /// ソートを行うための比較演算子。
+  ///
+  /// [a]と[b]を比較し、[a]が大きい場合は正の値、[a]と[b]が等しい場合は0、[a]が小さい場合は負の値を返します。
+  ///
+  /// 型が違う等で比較不可能の場合は[Null]を返します。
+  int? compare(dynamic a, dynamic b);
+
+  /// Returns whether or not [source] matches according to the contents of [filter].
+  ///
+  /// Returns `true` if it matches, `false` if it does not.
+  ///
+  /// Returns [Null] if comparison is not possible due to type difference, etc.
+  ///
+  /// [filter]の内容に応じて、[source]がマッチするかどうかを返します。
+  ///
+  /// マッチする場合は`true`、しない場合は`false`を返します。
+  ///
+  /// 型が違う等で比較不可能の場合は[Null]を返します。
+  bool? hasMatch(ModelQueryFilter filter, dynamic source);
 }
 
 /// Class for defining special field values.
@@ -77,6 +128,26 @@ abstract class ModelFieldValue<T> {
     const ModelCounterConverter(),
     const ModelTimestampConverter(),
     const ModelRefConverter(),
+  };
+
+  /// A special class can be registered as a [ModelFieldValue] by passing [ModelFieldValueFilter] to [filter].
+  ///
+  /// [ModelFieldValueFilter]を[filter]に渡すことで特殊なクラスを[ModelFieldValue]として登録することができます。
+  static void registerFilter(ModelFieldValueFilter filter) {
+    _filters.add(filter);
+  }
+
+  /// By passing [ModelFieldValueFilter] to [filter], you can release an already registered [ModelFieldValueFilter].
+  ///
+  /// [filter]に[ModelFieldValueFilter]を渡すことですでに登録されている[ModelFieldValueFilter]を解除することができます。
+  static void unregisterFilter(ModelFieldValueFilter filter) {
+    _filters.remove(filter);
+  }
+
+  static final Set<ModelFieldValueFilter> _filters = {
+    const ModelCounterFilter(),
+    const ModelTimestampFilter(),
+    const ModelRefFilter(),
   };
 
   /// Actual value.
@@ -470,6 +541,43 @@ class ModelCounter extends ModelFieldValue<int> {
         kSourceKey: _source.name,
       };
 
+  /// Compare with other [ModelCounter].
+  ///
+  /// 他の[ModelCounter]と比較します。
+  bool operator <(ModelCounter other) => value < other.value;
+
+  /// Compare with other [ModelCounter].
+  ///
+  /// 他の[ModelCounter]と比較します。
+  bool operator >(ModelCounter other) => value > other.value;
+
+  /// Compare with other [ModelCounter].
+  ///
+  /// 他の[ModelCounter]と比較します。
+  bool operator <=(ModelCounter other) => value <= other.value;
+
+  /// Compare with other [ModelCounter].
+  ///
+  /// 他の[ModelCounter]と比較します。
+  bool operator >=(ModelCounter other) => value >= other.value;
+
+  /// Add other [ModelCounter] as [increment] value.
+  ///
+  /// 他の[ModelCounter]を[increment]の値として加算します。
+  ModelCounter operator +(ModelCounter other) => increment(other.value);
+
+  /// Subtracts other [ModelCounter] as the value of [increment].
+  ///
+  /// 他の[ModelCounter]を[increment]の値として減算します。
+  ModelCounter operator -(ModelCounter other) => increment(-other.value);
+
+  /// Inverts the plus/minus of the [increment] and [value] values.
+  ///
+  /// [increment]の値と[value]の値のプラスマイナスを反転します。
+  ModelCounter operator -() {
+    return ModelCounter._(-_value, -_increment, _source);
+  }
+
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 
@@ -505,6 +613,109 @@ class ModelCounterConverter extends ModelFieldValueConverter<ModelCounter> {
   @override
   Map<String, Object?> toJson(ModelCounter value) {
     return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelCounter] available to [ModelQuery.filters].
+///
+/// [ModelCounter]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelCounterFilter extends ModelFieldValueFilter<ModelCounter> {
+  /// Filter class to make [ModelCounter] available to [ModelQuery.filters].
+  ///
+  /// [ModelCounter]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelCounterFilter();
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.compareTo(b));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(source, target, (source, target) => source == target);
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(source, target, (source, target) => source != target);
+      case ModelQueryFilterType.lessThan:
+        return _hasMatch(source, target, (source, target) => source < target);
+      case ModelQueryFilterType.greaterThan:
+        return _hasMatch(source, target, (source, target) => source > target);
+      case ModelQueryFilterType.lessThanOrEqualTo:
+        return _hasMatch(source, target, (source, target) => source <= target);
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return _hasMatch(source, target, (source, target) => source >= target);
+      case ModelQueryFilterType.arrayContains:
+        if (source is List) {
+          if (source.any((s) =>
+              _hasMatch(s, target, (source, target) => source == target) ??
+              false)) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.arrayContainsAny:
+        if (source is List && target is List && target.isNotEmpty) {
+          if (source.any((s) => target.any((t) =>
+              _hasMatch(s, t, (source, target) => source == target) ??
+              false))) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return matches.any((element) => element);
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereNotIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return !matches.any((element) => element);
+          }
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(num source, num target) filter,
+  ) {
+    if (source is ModelCounter && target is ModelCounter) {
+      return filter(source.value, target.value);
+    } else if (source is ModelCounter && target is num) {
+      return filter(source.value, target);
+    } else if (source is num && target is ModelCounter) {
+      return filter(source, target.value);
+    } else if (source is ModelCounter &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == (ModelCounter).toString()) {
+      return filter(source.value, ModelCounter.fromJson(target).value);
+    } else if (source is DynamicMap &&
+        target is ModelCounter &&
+        source.get(kTypeFieldKey, "") == (ModelCounter).toString()) {
+      return filter(ModelCounter.fromJson(source).value, target.value);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == (ModelCounter).toString() &&
+        target.get(kTypeFieldKey, "") == (ModelCounter).toString()) {
+      return filter(ModelCounter.fromJson(source).value,
+          ModelCounter.fromJson(target).value);
+    }
+    return null;
   }
 }
 
@@ -597,6 +808,30 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
         kSourceKey: _source.name,
       };
 
+  /// Compare with other [ModelTimestamp].
+  ///
+  /// 他の[ModelTimestamp]と比較します。
+  bool operator <(ModelTimestamp other) =>
+      value.millisecondsSinceEpoch < other.value.millisecondsSinceEpoch;
+
+  /// Compare with other [ModelTimestamp].
+  ///
+  /// 他の[ModelTimestamp]と比較します。
+  bool operator >(ModelTimestamp other) =>
+      value.millisecondsSinceEpoch > other.value.millisecondsSinceEpoch;
+
+  /// Compare with other [ModelTimestamp].
+  ///
+  /// 他の[ModelTimestamp]と比較します。
+  bool operator <=(ModelTimestamp other) =>
+      value.millisecondsSinceEpoch <= other.value.millisecondsSinceEpoch;
+
+  /// Compare with other [ModelTimestamp].
+  ///
+  /// 他の[ModelTimestamp]と比較します。
+  bool operator >=(ModelTimestamp other) =>
+      value.millisecondsSinceEpoch >= other.value.millisecondsSinceEpoch;
+
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 
@@ -633,5 +868,119 @@ class ModelTimestampConverter extends ModelFieldValueConverter<ModelTimestamp> {
   @override
   Map<String, Object?> toJson(ModelTimestamp value) {
     return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelTimestamp] available to [ModelQuery.filters].
+///
+/// [ModelTimestamp]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelTimestampFilter extends ModelFieldValueFilter<ModelTimestamp> {
+  /// Filter class to make [ModelTimestamp] available to [ModelQuery.filters].
+  ///
+  /// [ModelTimestamp]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelTimestampFilter();
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.compareTo(b));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(source, target, (source, target) => source == target);
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(source, target, (source, target) => source != target);
+      case ModelQueryFilterType.lessThan:
+        return _hasMatch(source, target, (source, target) => source < target);
+      case ModelQueryFilterType.greaterThan:
+        return _hasMatch(source, target, (source, target) => source > target);
+      case ModelQueryFilterType.lessThanOrEqualTo:
+        return _hasMatch(source, target, (source, target) => source <= target);
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return _hasMatch(source, target, (source, target) => source >= target);
+      case ModelQueryFilterType.arrayContains:
+        if (source is List) {
+          if (source.any((s) =>
+              _hasMatch(s, target, (source, target) => source == target) ??
+              false)) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.arrayContainsAny:
+        if (source is List && target is List && target.isNotEmpty) {
+          if (source.any((s) => target.any((t) =>
+              _hasMatch(s, t, (source, target) => source == target) ??
+              false))) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return matches.any((element) => element);
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereNotIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return !matches.any((element) => element);
+          }
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(num source, num target) filter,
+  ) {
+    if (source is ModelTimestamp && target is ModelTimestamp) {
+      return filter(source.value.millisecondsSinceEpoch,
+          target.value.millisecondsSinceEpoch);
+    } else if (source is ModelTimestamp && target is DateTime) {
+      return filter(
+          source.value.millisecondsSinceEpoch, target.millisecondsSinceEpoch);
+    } else if (source is DateTime && target is ModelTimestamp) {
+      return filter(
+          source.millisecondsSinceEpoch, target.value.millisecondsSinceEpoch);
+    } else if (source is ModelTimestamp && target is num) {
+      return filter(source.value.millisecondsSinceEpoch, target);
+    } else if (source is num && target is ModelTimestamp) {
+      return filter(source, target.value.millisecondsSinceEpoch);
+    } else if (source is ModelTimestamp &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == (ModelTimestamp).toString()) {
+      return filter(source.value.millisecondsSinceEpoch,
+          ModelTimestamp.fromJson(target).value.millisecondsSinceEpoch);
+    } else if (source is DynamicMap &&
+        target is ModelTimestamp &&
+        source.get(kTypeFieldKey, "") == (ModelTimestamp).toString()) {
+      return filter(
+          ModelTimestamp.fromJson(source).value.millisecondsSinceEpoch,
+          target.value.millisecondsSinceEpoch);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == (ModelTimestamp).toString() &&
+        target.get(kTypeFieldKey, "") == (ModelTimestamp).toString()) {
+      return filter(
+          ModelTimestamp.fromJson(source).value.millisecondsSinceEpoch,
+          ModelTimestamp.fromJson(target).value.millisecondsSinceEpoch);
+    }
+    return null;
   }
 }

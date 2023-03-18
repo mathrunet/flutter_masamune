@@ -678,6 +678,12 @@ class ModelQuery {
     if (b == null) {
       return 1;
     }
+    for (final filter in ModelFieldValue._filters) {
+      final compared = filter.compare(a, b);
+      if (compared != null) {
+        return compared;
+      }
+    }
     if (a is num && b is num) {
       return a.compareTo(b);
     }
@@ -891,7 +897,7 @@ class ModelQueryFilter {
   /// [key]に対する値が[value]より小さい要素のみをフィルタリングすることができます。
   ///
   /// {@macro model_query_filter}
-  const ModelQueryFilter.lessThan({required String key, required num value})
+  const ModelQueryFilter.lessThan({required String key, required Object value})
       : this._(
           type: ModelQueryFilterType.lessThan,
           key: key,
@@ -903,7 +909,8 @@ class ModelQueryFilter {
   /// [key]に対する値が[value]より大きい要素のみをフィルタリングすることができます。
   ///
   /// {@macro model_query_filter}
-  const ModelQueryFilter.greaterThan({required String key, required num value})
+  const ModelQueryFilter.greaterThan(
+      {required String key, required Object value})
       : this._(
           type: ModelQueryFilterType.greaterThan,
           key: key,
@@ -916,7 +923,7 @@ class ModelQueryFilter {
   ///
   /// {@macro model_query_filter}
   const ModelQueryFilter.lessThanOrEqual(
-      {required String key, required num value})
+      {required String key, required Object value})
       : this._(
           type: ModelQueryFilterType.lessThanOrEqualTo,
           key: key,
@@ -929,7 +936,7 @@ class ModelQueryFilter {
   ///
   /// {@macro model_query_filter}
   const ModelQueryFilter.greaterThanOrEqual(
-      {required String key, required num value})
+      {required String key, required Object value})
       : this._(
           type: ModelQueryFilterType.greaterThanOrEqualTo,
           key: key,
@@ -1084,6 +1091,12 @@ class ModelQueryFilter {
 
   bool _hasMatchValue(dynamic source) {
     final target = value;
+    for (final filter in ModelFieldValue._filters) {
+      final res = filter.hasMatch(this, source);
+      if (res != null) {
+        return res;
+      }
+    }
     switch (type) {
       case ModelQueryFilterType.equalTo:
         return source == target;

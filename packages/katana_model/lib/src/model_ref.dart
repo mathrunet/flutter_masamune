@@ -134,6 +134,107 @@ class ModelRefConverter extends ModelFieldValueConverter<ModelRefBase> {
   }
 }
 
+/// Filter class to make [ModelRefBase] available to [ModelQuery.filters].
+///
+/// [ModelRefBase]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelRefFilter extends ModelFieldValueFilter<ModelRefBase> {
+  /// Filter class to make [ModelRefBase] available to [ModelQuery.filters].
+  ///
+  /// [ModelRefBase]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelRefFilter();
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.compareTo(b));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(source, target, (source, target) => source == target);
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(source, target, (source, target) => source != target);
+      case ModelQueryFilterType.arrayContains:
+        if (source is List) {
+          if (source.any((s) =>
+              _hasMatch(s, target, (source, target) => source == target) ??
+              false)) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.arrayContainsAny:
+        if (source is List && target is List && target.isNotEmpty) {
+          if (source.any((s) => target.any((t) =>
+              _hasMatch(s, t, (source, target) => source == target) ??
+              false))) {
+            return true;
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return matches.any((element) => element);
+          }
+        }
+        break;
+      case ModelQueryFilterType.whereNotIn:
+        if (target is List && target.isNotEmpty) {
+          final matches = target.mapAndRemoveEmpty((t) =>
+              _hasMatch(source, t, (source, target) => source == target));
+          if (matches.isNotEmpty) {
+            return !matches.any((element) => element);
+          }
+        }
+        break;
+      default:
+        return null;
+    }
+    return null;
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(String source, String target) filter,
+  ) {
+    if (source is ModelRefBase && target is ModelRefBase) {
+      return filter(source.modelQuery.path, target.modelQuery.path);
+    } else if (source is ModelRefBase && target is DocumentModelQuery) {
+      return filter(source.modelQuery.path, target.path);
+    } else if (source is DocumentModelQuery && target is ModelRefBase) {
+      return filter(source.path, target.modelQuery.path);
+    } else if (source is ModelRefBase && target is String) {
+      return filter(source.modelQuery.path, target);
+    } else if (source is String && target is ModelRefBase) {
+      return filter(source, target.modelQuery.path);
+    } else if (source is ModelRefBase &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == (ModelRefBase).toString()) {
+      return filter(source.modelQuery.path,
+          ModelRefBase.fromJson(target).modelQuery.path);
+    } else if (source is DynamicMap &&
+        target is ModelRefBase &&
+        source.get(kTypeFieldKey, "") == (ModelRefBase).toString()) {
+      return filter(ModelRefBase.fromJson(source).modelQuery.path,
+          target.modelQuery.path);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == (ModelRefBase).toString() &&
+        target.get(kTypeFieldKey, "") == (ModelRefBase).toString()) {
+      return filter(ModelRefBase.fromJson(source).modelQuery.path,
+          ModelRefBase.fromJson(target).modelQuery.path);
+    }
+    return null;
+  }
+}
+
 /// A mix-in to define that it is a relationship between models in [DocumentBase], etc.
 ///
 /// Mix in the document to which you are relating.
@@ -141,13 +242,20 @@ class ModelRefConverter extends ModelFieldValueConverter<ModelRefBase> {
 /// [DocumentBase]などにモデル間のリレーションであるということを定義するためのミックスイン。
 ///
 /// リレーション先のドキュメントにミックスインしてください。
-abstract class ModelRefMixin<T> implements ModelRefBase<T>, DocumentBase<T> {
+abstract class ModelRefMixin<T>
+    implements ModelRefDocumentBase<T>, ModelRefBase<T>, DocumentBase<T> {
   @override
   Map<String, dynamic> toJson() => {
         kTypeFieldKey: (ModelRefBase).toString(),
         ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 }
+
+/// Define a document base including [ModelRefBase] and [DocumentBase].
+///
+/// [ModelRefBase]と[DocumentBase]を含めたドキュメントベースを定義します。
+abstract class ModelRefDocumentBase<T>
+    implements ModelRefBase<T>, DocumentBase<T> {}
 
 /// It is available by mixing in when using [ModelRefBase] in [DocumentBase.value].
 ///
