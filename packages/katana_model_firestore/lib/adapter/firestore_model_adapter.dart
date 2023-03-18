@@ -265,31 +265,23 @@ class FirestoreModelAdapter extends ModelAdapter {
     for (final tmp in map.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      if (val is DynamicMap && val.containsKey(_kTypeKey)) {
-        final type = val.get(_kTypeKey, "");
+      // ModelCounter検索
+      if (val is int) {
+        final targetKey = "#$key";
+        final type = map.getAsMap(targetKey).get(_kTypeKey, "");
         if (type == (ModelCounter).toString()) {
-          final targetKey = val.get(_kTargetKey, "");
-          res[key] = ModelCounter(map.get(targetKey, 0)).toJson();
+          res[key] = ModelCounter(val.toInt()).toJson();
         } else if (type == (ModelTimestamp).toString()) {
-          final targetKey = val.get(_kTargetKey, "");
-          if (map.containsKey(targetKey)) {
-            if (map[targetKey] is Timestamp) {
-              final timestamp = map[targetKey] as Timestamp;
-              res[key] = ModelTimestamp(timestamp.toDate()).toJson();
-            } else if (map[targetKey] is int) {
-              final timestamp = map[targetKey] as int;
-              res[key] = ModelTimestamp(
-                DateTime.fromMillisecondsSinceEpoch(timestamp),
-              ).toJson();
-            } else {
-              res[key] = const ModelTimestamp().toJson();
-            }
-          } else {
-            res[key] = const ModelTimestamp().toJson();
-          }
+          res[key] = ModelTimestamp(
+            DateTime.fromMillisecondsSinceEpoch(val),
+          ).toJson();
         } else {
           res[key] = val;
         }
+        // ModelTimestamp検索
+      } else if (val is Timestamp) {
+        res[key] = ModelTimestamp(val.toDate()).toJson();
+        // ModelRef検索
       } else if (val is DocumentReference<DynamicMap>) {
         final path = prefix.isEmpty
             ? val.path
@@ -320,16 +312,16 @@ class FirestoreModelAdapter extends ModelAdapter {
           final value = val.get(ModelCounter.kValueKey, 0);
           final increment = val.get(ModelCounter.kIncrementKey, 0);
           final targetKey = "#$key";
-          res[key] = {
+          res[targetKey] = {
             kTypeFieldKey: (ModelCounter).toString(),
             ModelCounter.kValueKey: value,
             ModelCounter.kIncrementKey: increment,
-            _kTargetKey: targetKey,
+            _kTargetKey: key,
           };
           if (fromUser) {
-            res[targetKey] = value;
+            res[key] = value;
           } else {
-            res[targetKey] = FieldValue.increment(increment);
+            res[key] = FieldValue.increment(increment);
           }
         } else if (type == (ModelTimestamp).toString()) {
           final fromUser = val.get(ModelTimestamp.kSourceKey, "") ==
@@ -337,16 +329,16 @@ class FirestoreModelAdapter extends ModelAdapter {
           final value = val.get(ModelTimestamp.kTimeKey, 0);
           final useNow = val.get(ModelTimestamp.kNowKey, false);
           final targetKey = "#$key";
-          res[key] = {
+          res[targetKey] = {
             kTypeFieldKey: (ModelTimestamp).toString(),
             ModelTimestamp.kTimeKey: value,
-            _kTargetKey: targetKey,
+            _kTargetKey: key,
           };
           if (fromUser) {
             if (useNow) {
-              res[targetKey] = FieldValue.serverTimestamp();
+              res[key] = FieldValue.serverTimestamp();
             } else {
-              res[targetKey] = Timestamp.fromMillisecondsSinceEpoch(value);
+              res[key] = Timestamp.fromMillisecondsSinceEpoch(value);
             }
           }
         } else if (type.startsWith((ModelRefBase).toString())) {
@@ -385,43 +377,43 @@ class FirestoreModelAdapter extends ModelAdapter {
         case ModelQueryFilterType.equalTo:
           firestoreQuery = firestoreQuery.where(
             filter.key!,
-            isEqualTo: filter.value,
+            isEqualTo: _convertQueryValue(filter.value),
           );
           break;
         case ModelQueryFilterType.notEqualTo:
           firestoreQuery = firestoreQuery.where(
             filter.key!,
-            isNotEqualTo: filter.value,
+            isNotEqualTo: _convertQueryValue(filter.value),
           );
           break;
         case ModelQueryFilterType.lessThan:
           firestoreQuery = firestoreQuery.where(
             filter.key!,
-            isLessThan: filter.value,
+            isLessThan: _convertQueryValue(filter.value),
           );
           break;
         case ModelQueryFilterType.greaterThan:
           firestoreQuery = firestoreQuery.where(
             filter.key!,
-            isGreaterThan: filter.value,
+            isGreaterThan: _convertQueryValue(filter.value),
           );
           break;
         case ModelQueryFilterType.lessThanOrEqualTo:
           firestoreQuery = firestoreQuery.where(
             filter.key!,
-            isLessThanOrEqualTo: filter.value,
+            isLessThanOrEqualTo: _convertQueryValue(filter.value),
           );
           break;
         case ModelQueryFilterType.greaterThanOrEqualTo:
           firestoreQuery = firestoreQuery.where(
             filter.key!,
-            isGreaterThanOrEqualTo: filter.value,
+            isGreaterThanOrEqualTo: _convertQueryValue(filter.value),
           );
           break;
         case ModelQueryFilterType.arrayContains:
           firestoreQuery = firestoreQuery.where(
             filter.key!,
-            arrayContains: filter.value,
+            arrayContains: _convertQueryValue(filter.value),
           );
           break;
         case ModelQueryFilterType.like:
@@ -473,6 +465,18 @@ class FirestoreModelAdapter extends ModelAdapter {
       }
     }
     return firestoreQuery;
+  }
+
+  Object? _convertQueryValue(Object? value) {
+    if (value is ModelCounter) {
+      return value.value;
+    } else if (value is ModelTimestamp) {
+      return Timestamp.fromDate(value.value);
+    } else if (value is ModelRefBase) {
+      return database.doc(_path(value.modelQuery.path));
+    } else {
+      return value;
+    }
   }
 
   String _path(String original) {
@@ -531,18 +535,19 @@ class FirestoreModelAdapter extends ModelAdapter {
       final filter = containsAny.first;
       final items = filter.value;
       if (items is List && items.isNotEmpty) {
+        final list = items.map((e) => _convertQueryValue(e)).toList();
         final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < items.length; i += 10) {
+        for (var i = 0; i < list.length; i += 10) {
           queries.add(
             _query(
               database.collection(_path(query.query.path)),
               query,
             ).where(
               filter.key!,
-              arrayContainsAny: items
+              arrayContainsAny: list
                   .sublist(
                     i,
-                    min(i + 10, items.length),
+                    min(i + 10, list.length),
                   )
                   .toList(),
             ),
@@ -554,18 +559,19 @@ class FirestoreModelAdapter extends ModelAdapter {
       final filter = whereIn.first;
       final items = filter.value;
       if (items is List && items.isNotEmpty) {
+        final list = items.map((e) => _convertQueryValue(e)).toList();
         final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < items.length; i += 10) {
+        for (var i = 0; i < list.length; i += 10) {
           queries.add(
             _query(
               database.collection(_path(query.query.path)),
               query,
             ).where(
               filter.key!,
-              whereIn: items
+              whereIn: list
                   .sublist(
                     i,
-                    min(i + 10, items.length),
+                    min(i + 10, list.length),
                   )
                   .toList(),
             ),
@@ -577,18 +583,19 @@ class FirestoreModelAdapter extends ModelAdapter {
       final filter = whereNotIn.first;
       final items = filter.value;
       if (items is List && items.isNotEmpty) {
+        final list = items.map((e) => _convertQueryValue(e)).toList();
         final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < items.length; i += 10) {
+        for (var i = 0; i < list.length; i += 10) {
           queries.add(
             _query(
               database.collection(_path(query.query.path)),
               query,
             ).where(
               filter.key!,
-              whereNotIn: items
+              whereNotIn: list
                   .sublist(
                     i,
-                    min(i + 10, items.length),
+                    min(i + 10, list.length),
                   )
                   .toList(),
             ),

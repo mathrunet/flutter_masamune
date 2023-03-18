@@ -121,7 +121,7 @@ enum CollectionQueryType {
           Parameter(
             (p) => p
               ..name = "value"
-              ..type = const Reference("num"),
+              ..type = const Reference("Object"),
           ),
         ];
       case CollectionQueryType.containsAny:

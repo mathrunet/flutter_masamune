@@ -178,7 +178,7 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is less than [value] can be filtered.
   ///
   /// [key]に対する値が[value]より小さい要素のみをフィルタリングすることができます。
-  CollectionModelQuery lessThan(String key, num value) {
+  CollectionModelQuery lessThan(String key, Object value) {
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -192,7 +192,7 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is greater than [value] can be filtered.
   ///
   /// [key]に対する値が[value]より大きい要素のみをフィルタリングすることができます。
-  CollectionModelQuery greaterThan(String key, num value) {
+  CollectionModelQuery greaterThan(String key, Object value) {
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -206,7 +206,7 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is less than [value] (including equal values) can be filtered.
   ///
   /// [key]に対する値が[value]より小さい要素（等しい値を含む）のみをフィルタリングすることができます。
-  CollectionModelQuery lessThanOrEqual(String key, num value) {
+  CollectionModelQuery lessThanOrEqual(String key, Object value) {
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -220,7 +220,7 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is greater than [value] (including equal values) can be filtered.
   ///
   /// [key]に対する値が[value]より大きい要素（等しい値を含む）のみをフィルタリングすることができます。
-  CollectionModelQuery greaterThanOrEqual(String key, num value) {
+  CollectionModelQuery greaterThanOrEqual(String key, Object value) {
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
