@@ -336,8 +336,6 @@ class FormAffixStyle {
   /// [icon]を指定したときの[BoxConstraints]。
   final BoxConstraints? iconConstraints;
 
-  
-
   @override
   int get hashCode =>
       child.hashCode ^
