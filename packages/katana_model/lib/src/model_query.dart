@@ -150,7 +150,10 @@ class CollectionModelQuery extends ModelQuery {
   /// You can filter only those elements for which the value for [key] matches the value for [value].
   ///
   /// [key]に対する値と[value]が一致する要素のみをフィルタリングすることができます。
-  CollectionModelQuery equal(String key, Object value) {
+  CollectionModelQuery equal(String key, Object? value) {
+    if (value == null) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -164,7 +167,10 @@ class CollectionModelQuery extends ModelQuery {
   /// You can filter only those elements whose value for [key] does not match the value for [value].
   ///
   /// [key]に対する値と[value]が一致しない要素のみをフィルタリングすることができます。
-  CollectionModelQuery notEqual(String key, Object value) {
+  CollectionModelQuery notEqual(String key, Object? value) {
+    if (value == null) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -178,7 +184,10 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is less than [value] can be filtered.
   ///
   /// [key]に対する値が[value]より小さい要素のみをフィルタリングすることができます。
-  CollectionModelQuery lessThan(String key, Object value) {
+  CollectionModelQuery lessThan(String key, Object? value) {
+    if (value == null) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -192,7 +201,10 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is greater than [value] can be filtered.
   ///
   /// [key]に対する値が[value]より大きい要素のみをフィルタリングすることができます。
-  CollectionModelQuery greaterThan(String key, Object value) {
+  CollectionModelQuery greaterThan(String key, Object? value) {
+    if (value == null) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -206,7 +218,10 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is less than [value] (including equal values) can be filtered.
   ///
   /// [key]に対する値が[value]より小さい要素（等しい値を含む）のみをフィルタリングすることができます。
-  CollectionModelQuery lessThanOrEqual(String key, Object value) {
+  CollectionModelQuery lessThanOrEqual(String key, Object? value) {
+    if (value == null) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -220,7 +235,10 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose value for [key] is greater than [value] (including equal values) can be filtered.
   ///
   /// [key]に対する値が[value]より大きい要素（等しい値を含む）のみをフィルタリングすることができます。
-  CollectionModelQuery greaterThanOrEqual(String key, Object value) {
+  CollectionModelQuery greaterThanOrEqual(String key, Object? value) {
+    if (value == null) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -234,7 +252,10 @@ class CollectionModelQuery extends ModelQuery {
   /// You can filter only those elements whose [value] is contained in the array for [key].
   ///
   /// [key]に対する配列に[value]が含まれる要素のみをフィルタリングすることができます。
-  CollectionModelQuery contains(String key, Object value) {
+  CollectionModelQuery contains(String key, Object? value) {
+    if (value == null) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -248,7 +269,10 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements whose array for [key] contains one of the values in [values] can be filtered.
   ///
   /// [key]に対する配列に[values]の値のいずれかが含まれる要素のみをフィルタリングすることができます。
-  CollectionModelQuery containsAny(String key, List<Object> values) {
+  CollectionModelQuery containsAny(String key, List<Object>? values) {
+    if (values.isEmpty) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -262,7 +286,10 @@ class CollectionModelQuery extends ModelQuery {
   /// You can filter only those elements in the [values] array that contain one of the values for [key].
   ///
   /// [values]の配列に[key]に対する値のいずれかが含まれる要素のみをフィルタリングすることができます。
-  CollectionModelQuery where(String key, List<Object> values) {
+  CollectionModelQuery where(String key, List<Object>? values) {
+    if (values.isEmpty) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -276,7 +303,10 @@ class CollectionModelQuery extends ModelQuery {
   /// You can filter only those elements in the [values] array that do not contain any of the values for [key].
   ///
   /// [values]の配列に[key]に対する値のいずれも含まれない要素のみをフィルタリングすることができます。
-  CollectionModelQuery notWhere(String key, List<Object> values) {
+  CollectionModelQuery notWhere(String key, List<Object>? values) {
+    if (values.isEmpty) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -316,7 +346,10 @@ class CollectionModelQuery extends ModelQuery {
   /// You can filter only elements that contain the text of [text] in the text for [key].
   ///
   /// [key]に対するテキストに[text]のテキストが含まれる要素のみをフィルタリングすることができます。
-  CollectionModelQuery like(String key, String text) {
+  CollectionModelQuery like(String key, String? text) {
+    if (text.isEmpty) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(
@@ -330,7 +363,10 @@ class CollectionModelQuery extends ModelQuery {
   /// Only elements that contain positional information for [key] within the range of the [geoHash] array can be filtered.
   ///
   /// [geoHash]の配列の範囲内に[key]に対する位置情報が含まれる要素のみをフィルタリングすることができます。
-  CollectionModelQuery geo(String key, List<String> geoHash) {
+  CollectionModelQuery geo(String key, List<String>? geoHash) {
+    if (geoHash.isEmpty) {
+      return this;
+    }
     return _copyWithAddingFilter(filters: [
       ...filters,
       ModelQueryFilter._(

@@ -105,7 +105,7 @@ enum CollectionQueryType {
           Parameter(
             (p) => p
               ..name = "value"
-              ..type = const Reference("Object"),
+              ..type = const Reference("Object?"),
           ),
         ];
       case CollectionQueryType.lessThan:
@@ -121,7 +121,7 @@ enum CollectionQueryType {
           Parameter(
             (p) => p
               ..name = "value"
-              ..type = const Reference("Object"),
+              ..type = const Reference("Object?"),
           ),
         ];
       case CollectionQueryType.containsAny:
@@ -136,7 +136,7 @@ enum CollectionQueryType {
           Parameter(
             (p) => p
               ..name = "values"
-              ..type = const Reference("List<Object>"),
+              ..type = const Reference("List<Object>?"),
           ),
         ];
       case CollectionQueryType.geo:
@@ -149,7 +149,7 @@ enum CollectionQueryType {
           Parameter(
             (p) => p
               ..name = "geoHash"
-              ..type = const Reference("List<String>"),
+              ..type = const Reference("List<String>?"),
           ),
         ];
       case CollectionQueryType.isNull:
