@@ -254,6 +254,37 @@ class AppRouter extends ChangeNotifier
     return completer.future;
   }
 
+  /// Finds a [RouteQuery] that matches the [path] in the list of pages passed to [AppRouter.pages] and transitions to that page.
+  ///
+  /// The method of page transition can be specified with [transitionQuery].
+  ///
+  /// You can wait until the page is destroyed by the [pop] method with the return value [Future].
+  ///
+  /// In doing so, it can also receive the object passed by [pop].
+  ///
+  /// [AppRouter.pages]に渡したページリストから[path]に当てはまる[RouteQuery]を探し出しそちらのページに遷移します。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  ///
+  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
+  ///
+  /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
+  Future<E?> pushNamed<E>(
+    String path, [
+    TransitionQuery? transitionQuery,
+  ]) async {
+    for (final page in _config.pages) {
+      final resolved = page.resolve(path);
+      if (resolved != null) {
+        return push<E>(
+          resolved,
+          transitionQuery,
+        );
+      }
+    }
+    throw Exception("No $path found.");
+  }
+
   /// Passing [routeQuery] replaces the currently displayed page with a new page.
   ///
   /// The method of page transition can be specified with [transitionQuery].
@@ -275,6 +306,37 @@ class AppRouter extends ChangeNotifier
   ]) {
     pop();
     return push<E>(routeQuery, transitionQuery);
+  }
+
+  /// Finds a [RouteQuery] that matches the [path] in the list of pages passed to [AppRouter.pages] and replaces the currently displayed page with that page.
+  ///
+  /// The method of page transition can be specified with [transitionQuery].
+  ///
+  /// You can wait until the page is destroyed by the [pop] method with the return value [Future].
+  ///
+  /// In doing so, it can also receive the object passed by [pop].
+  ///
+  /// [AppRouter.pages]に渡したページリストから[path]に当てはまる[RouteQuery]を探し出しそちらのページに現在表示されているページを置き換えます。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  ///
+  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
+  ///
+  /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
+  Future<E?> replaceNamed<E>(
+    String path, [
+    TransitionQuery? transitionQuery,
+  ]) async {
+    for (final page in _config.pages) {
+      final resolved = page.resolve(path);
+      if (resolved != null) {
+        return replace<E>(
+          resolved,
+          transitionQuery,
+        );
+      }
+    }
+    throw Exception("No $path found.");
   }
 
   /// Checks if the page is [pop]-able. If `true` is returned, the page is [pop]able.
@@ -355,6 +417,26 @@ class AppRouter extends ChangeNotifier
       index -= 1;
     }
     return push<E>(routeQuery, transitionQuery);
+  }
+
+  /// Continue [pop] until the history stack runs out, then [push] to the [RouteQuery] that applies to [path].
+  ///
+  /// The method of page transition can be specified with [transitionQuery].
+  ///
+  /// ヒストリーのスタックがなくなるまで[pop]し続けた後[path]に当てはまる[RouteQuery]に[push]します。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  Future<E?> resetAndPushNamed<E>(
+    String path, [
+    TransitionQuery? transitionQuery,
+  ]) {
+    var index = _pageStack.length - 1;
+    while (index >= 0) {
+      final container = _pageStack.removeAt(index);
+      container.completer.complete(null);
+      index -= 1;
+    }
+    return pushNamed<E>(path, transitionQuery);
   }
 
   /// Refresh the current page.
