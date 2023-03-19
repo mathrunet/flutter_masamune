@@ -555,4 +555,28 @@ extension StringExtensions on String {
   ]) {
     return jsonDecodeAsList<T>(this, defaultValue);
   }
+
+  /// Returns whether this string is an email address or not.
+  ///
+  /// Returns `true` for an e-mail address.
+  ///
+  /// この文字列がメールアドレスかどうかを返します。
+  ///
+  /// メールアドレスの場合`true`を返します。
+  bool isEmail() {
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(this);
+  }
+
+  /// Returns whether this string is a URL or not.
+  ///
+  /// Returns `true` for a URL.
+  ///
+  /// この文字列がURLかどうかを返します。
+  ///
+  /// URLの場合`true`を返します。
+  bool isURL() {
+    return RegExp(r'https?://[a-zA-Z0-9\-%_/=&?.]+').hasMatch(this);
+  }
 }
