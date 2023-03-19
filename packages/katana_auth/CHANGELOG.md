@@ -1,3 +1,7 @@
+## 1.2.9
+
+ - **FIX**: ActiveProvider is now initially configurable. ([3175645f](https://github.com/mathrunet/flutter_masamune/commit/3175645fe1f4daa011f7f8d3bc7217c9d7deaac7))
+
 ## 1.2.8
 
  - Update a dependency to the latest release.

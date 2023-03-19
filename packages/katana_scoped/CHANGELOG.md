@@ -1,3 +1,7 @@
+## 1.10.1
+
+ - Update a dependency to the latest release.
+
 ## 1.10.0
 
  - **FEAT**: Remove deprecated implementations. ([915d9816](https://github.com/mathrunet/flutter_masamune/commit/915d98163915e1cd5503b67a8094f92e9bafe71d))

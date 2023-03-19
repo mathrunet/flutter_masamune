@@ -1,3 +1,7 @@
+## 1.11.7
+
+ - **FIX**: Added Named method to AppRouter. ([217db58f](https://github.com/mathrunet/flutter_masamune/commit/217db58f7f204b459d877b0673c1c42da7baf66d))
+
 ## 1.11.6
 
  - **FIX**: Fixed a bug that caused build failure if the page parameter was an object. ([4f9cebbf](https://github.com/mathrunet/flutter_masamune/commit/4f9cebbfc02d5876c5d973841b63e02080916d04))

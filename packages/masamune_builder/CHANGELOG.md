@@ -1,3 +1,7 @@
+## 1.4.15
+
+ - Update a dependency to the latest release.
+
 ## 1.4.14
 
  - **FIX**: Made each Filter parameter null-acceptable and through if null. ([2ca5e64b](https://github.com/mathrunet/flutter_masamune/commit/2ca5e64b93fc454345716747dfa6edc3e45b8a02))

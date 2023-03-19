@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - Update a dependency to the latest release.
+
 ## 1.4.0
 
  - **FEAT**: Added FormCheckbox. ([cba410ab](https://github.com/mathrunet/flutter_masamune/commit/cba410abe2d8520da5adf8d54d8a673d5e64aa33))

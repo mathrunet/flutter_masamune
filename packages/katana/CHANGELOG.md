@@ -1,3 +1,7 @@
+## 1.0.7
+
+ - **FIX**: Add isEmail and isURL. ([12e12d60](https://github.com/mathrunet/flutter_masamune/commit/12e12d603fe5b18c540a392bebf419be9737da78))
+
 ## 1.0.6
 
  - **FIX**: Added HHMM to DateTimeExtension. ([a5c785ef](https://github.com/mathrunet/flutter_masamune/commit/a5c785ef13fa4a990bd6ec574ac0b40dbb035832))

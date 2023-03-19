@@ -1,3 +1,7 @@
+## 1.8.18
+
+ - Update a dependency to the latest release.
+
 ## 1.8.17
 
  - **FIX**: Support windows. ([18ee5b70](https://github.com/mathrunet/flutter_masamune/commit/18ee5b7029b7d4ecc4430df2cd803e02021de04a))
