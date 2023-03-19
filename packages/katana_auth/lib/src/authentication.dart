@@ -273,13 +273,13 @@ class Authentication extends ChangeNotifier {
   ///
   /// Reauthentication is performed by passing a class inheriting from [ReAuthProvider] in [provider].
   ///
-  /// Throws [Exception] if not signed in.
+  /// Throws [Exception] if you are not signed in or your password is incorrect.
   ///
   /// サインインしている場合、認証用の情報（メールアドレスなど）を変更する直前に認証チェックを行うために利用します。
   ///
   /// [ReAuthProvider]を継承したクラスを[provider]で渡すことにより、再認証を行ないます。
   ///
-  /// サインインしていない場合[Exception]をスローします。
+  /// サインインしていない場合やパスワードが間違っていた場合[Exception]をスローします。
   Future<Authentication> reauth(
     ReAuthProvider provider,
   ) async {
@@ -288,7 +288,9 @@ class Authentication extends ChangeNotifier {
         "You are not logged in with the proper AuthProvider. Please login with the [signIn] method.",
       );
     }
-    await adapter.reauth(provider: provider);
+    if (!await adapter.reauth(provider: provider)) {
+      throw Exception("Password is incorrect.");
+    }
     return this;
   }
 

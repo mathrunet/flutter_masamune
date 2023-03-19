@@ -282,6 +282,7 @@ class AuthDatabase {
     String? userPhoneNumber,
     String? userPhotoURL,
     String? userPassword,
+    List<String>? userActiveProviders,
   }) {
     _data.addAll({
       _kIsRawDataRegisteredKey: true,
@@ -293,6 +294,8 @@ class AuthDatabase {
       if (userPhoneNumber != null) _kUserPhoneNumberKey: userPhoneNumber,
       if (userPhotoURL != null) _kUserPhotoURLKey: userPhotoURL,
       if (userPassword != null) _kUserPasswordKey: userPassword,
+      if (userActiveProviders != null)
+        _kActiveProvidersKey: userActiveProviders,
     });
   }
 

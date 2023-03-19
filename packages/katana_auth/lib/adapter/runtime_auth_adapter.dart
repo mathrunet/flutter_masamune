@@ -51,6 +51,7 @@ class RuntimeAuthAdapter extends AuthAdapter {
     String? userPhoneNumber,
     String? userPhotoURL,
     String? userPassword,
+    List<String>? userActiveProviders,
   })  : _database = database,
         _isVerified = isVerified,
         _isAnonymously = isAnonymously,
@@ -59,7 +60,8 @@ class RuntimeAuthAdapter extends AuthAdapter {
         _userEmail = userEmail,
         _userPhoneNumber = userPhoneNumber,
         _userPhotoURL = userPhotoURL,
-        _userPassword = userPassword;
+        _userPassword = userPassword,
+        _userActiveProviders = userActiveProviders;
 
   /// Designated database. Please use for testing purposes, etc.
   ///
@@ -76,6 +78,7 @@ class RuntimeAuthAdapter extends AuthAdapter {
         userPhoneNumber: _userPhoneNumber,
         userPhotoURL: _userPhotoURL,
         userPassword: _userPassword,
+        userActiveProviders: _userActiveProviders,
       );
     }
     return database;
@@ -90,6 +93,7 @@ class RuntimeAuthAdapter extends AuthAdapter {
   final String? _userPhoneNumber;
   final String? _userPhotoURL;
   final String? _userPassword;
+  final List<String>? _userActiveProviders;
 
   /// A common database throughout the application.
   ///
