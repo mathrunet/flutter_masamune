@@ -189,10 +189,10 @@ packages:
     dependency: "direct main"
     description:
       name: katana
-      sha256: "97cd1be297a7ec41fb7decc52fb290a83283dc1aed4b7f6ef0f975d310d60238"
+      sha256: "51af48e0bd087f21bc018675ce9294cfac1d7faec53d5a10d58bc58d7e2bf1ff"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   lints:
     dependency: transitive
     description:
