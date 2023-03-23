@@ -1,6 +1,6 @@
 name: katana_router
 description: A package to automatically create routing configurations with build_runner to enable type-safe routing.
-version: 1.11.10
+version: 1.11.11
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_router
 

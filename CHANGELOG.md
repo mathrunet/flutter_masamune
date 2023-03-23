@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.11.11`](#katana_router---v11111)
+ - [`katana_router_annotation` - `v1.11.5`](#katana_router_annotation---v1115)
+ - [`katana_router_builder` - `v1.11.8`](#katana_router_builder---v1118)
+ - [`masamune` - `v1.11.11`](#masamune---v11111)
+ - [`masamune_picker` - `v1.6.4`](#masamune_picker---v164)
+ - [`masamune_ai_openai` - `v1.1.14`](#masamune_ai_openai---v1114)
+ - [`masamune_notification_firebase` - `v1.2.40`](#masamune_notification_firebase---v1240)
+ - [`masamune_universal_ui` - `v1.2.9`](#masamune_universal_ui---v129)
+ - [`masamune_picker_file` - `v1.6.4`](#masamune_picker_file---v164)
+ - [`masamune_logger_firebase` - `v1.2.51`](#masamune_logger_firebase---v1251)
+ - [`masamune_picker_mobile` - `v1.6.4`](#masamune_picker_mobile---v164)
+ - [`masamune_builder` - `v1.4.16`](#masamune_builder---v1416)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.11`
+ - `masamune_picker` - `v1.6.4`
+ - `masamune_ai_openai` - `v1.1.14`
+ - `masamune_notification_firebase` - `v1.2.40`
+ - `masamune_universal_ui` - `v1.2.9`
+ - `masamune_picker_file` - `v1.6.4`
+ - `masamune_logger_firebase` - `v1.2.51`
+ - `masamune_picker_mobile` - `v1.6.4`
+ - `masamune_builder` - `v1.4.16`
+
+---
+
+#### `katana_router` - `v1.11.11`
+
+ - **FIX**: Fixed a bug that QueryParam was not generated properly when added. ([30e2abc5](https://github.com/mathrunet/flutter_masamune/commit/30e2abc53bae697de540eec879ef2c2687cf86c1))
+
+#### `katana_router_annotation` - `v1.11.5`
+
+ - **FIX**: Fixed a bug that QueryParam was not generated properly when added. ([30e2abc5](https://github.com/mathrunet/flutter_masamune/commit/30e2abc53bae697de540eec879ef2c2687cf86c1))
+
+#### `katana_router_builder` - `v1.11.8`
+
+ - **FIX**: Fixed a bug that QueryParam was not generated properly when added. ([30e2abc5](https://github.com/mathrunet/flutter_masamune/commit/30e2abc53bae697de540eec879ef2c2687cf86c1))
+
+
 ## 2023-03-19
 
 ### Changes

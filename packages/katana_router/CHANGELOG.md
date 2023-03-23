@@ -1,3 +1,7 @@
+## 1.11.11
+
+ - **FIX**: Fixed a bug that QueryParam was not generated properly when added. ([30e2abc5](https://github.com/mathrunet/flutter_masamune/commit/30e2abc53bae697de540eec879ef2c2687cf86c1))
+
 ## 1.11.10
 
  - **FIX**: Added Named method to AppRouter. ([217db58f](https://github.com/mathrunet/flutter_masamune/commit/217db58f7f204b459d877b0673c1c42da7baf66d))
