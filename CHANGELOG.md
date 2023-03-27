@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v1.4.2`](#katana_form---v142)
+ - [`masamune` - `v1.11.12`](#masamune---v11112)
+ - [`masamune_picker` - `v1.6.5`](#masamune_picker---v165)
+ - [`masamune_ai_openai` - `v1.1.15`](#masamune_ai_openai---v1115)
+ - [`masamune_universal_ui` - `v1.2.10`](#masamune_universal_ui---v1210)
+ - [`masamune_notification_firebase` - `v1.2.41`](#masamune_notification_firebase---v1241)
+ - [`masamune_logger_firebase` - `v1.2.52`](#masamune_logger_firebase---v1252)
+ - [`masamune_picker_file` - `v1.6.5`](#masamune_picker_file---v165)
+ - [`masamune_picker_mobile` - `v1.6.5`](#masamune_picker_mobile---v165)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.12`
+ - `masamune_picker` - `v1.6.5`
+ - `masamune_ai_openai` - `v1.1.15`
+ - `masamune_universal_ui` - `v1.2.10`
+ - `masamune_notification_firebase` - `v1.2.41`
+ - `masamune_logger_firebase` - `v1.2.52`
+ - `masamune_picker_file` - `v1.6.5`
+ - `masamune_picker_mobile` - `v1.6.5`
+
+---
+
+#### `katana_form` - `v1.4.2`
+
+ - **FIX**: Fixed a bug that FormButton backgrounds were not reflected in some cases. ([e5a35562](https://github.com/mathrunet/flutter_masamune/commit/e5a35562829c3b3acc048f1ac121b6efeb446722))
+
+
 ## 2023-03-23
 
 ### Changes
