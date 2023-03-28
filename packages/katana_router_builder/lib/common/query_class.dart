@@ -134,11 +134,19 @@ List<Class> queryClass(
               ..returns = const Reference("String")
               ..body = Code(
                 path == null
-                    ? "_path ?? \"${model.name.toSHA1()}\""
+                    ? "_path ?? \"${model.name.toSHA1()}\$_parameters\""
                     : "_path ?? \"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
                         return "\$${match.group(1)?.toCamelCase()}";
-                      })}\"",
+                      })}\$_parameters\"",
               ),
+          ),
+          Method(
+            (m) => m
+              ..name = "_parameters"
+              ..type = MethodType.getter
+              ..returns = const Reference("String")
+              ..body = Code(
+                  "final _query = <String, String>{}; ${model.parameters.map((e) => !e.isQueryParameter ? "" : "if (${e.name}?.toString().isNotEmpty ?? false) { _query[\"${e.queryParamName}\"] = ${e.name}!.toString(); }").join("")} return _query.isEmpty ? \"\" : \"?\${_query.entries.map((e) => \"\${e.key}=\${e.value}\").join(\"&\")}\";"),
           ),
           Method(
             (m) => m

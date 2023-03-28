@@ -34,8 +34,10 @@ class ParamaterValue {
               ?.toValue()
               ?.toString() ??
           name;
+      isPageParameter = true;
     } else {
       pageParamName = name;
+      isPageParameter = false;
     }
     if (_queryParamChecker.hasAnnotationOfExact(element)) {
       queryParamName = _queryParamChecker
@@ -44,8 +46,10 @@ class ParamaterValue {
               ?.toValue()
               ?.toString() ??
           name;
+      isQueryParameter = true;
     } else {
       queryParamName = name;
+      isQueryParameter = false;
     }
 
     if (element.type.isNullable || element.isRequired) {
@@ -88,6 +92,16 @@ class ParamaterValue {
   ///
   /// クエリーパラメーター用の名前。
   late final String queryParamName;
+
+  /// True if explicitly specified as a page parameter.
+  ///
+  /// 明示的にページパラメーターとして指定されている場合はtrue。
+  late final bool isPageParameter;
+
+  /// True if explicitly specified as a query parameter.
+  ///
+  /// 明示的にクエリーパラメーターとして指定されている場合はtrue。
+  late final bool isQueryParameter;
 
   @override
   String toString() {
