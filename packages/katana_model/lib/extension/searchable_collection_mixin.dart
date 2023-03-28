@@ -147,4 +147,17 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
     );
     return await reload();
   }
+
+  /// Get the currently searched text.
+  ///
+  /// If it is not set, it is obtained as an empty character.
+  ///
+  /// 現在検索されているテキストを取得します。
+  ///
+  /// 設定されていない場合は空文字として取得されます。
+  String get searchText {
+    final existsFilter = _modelQuery?.filters
+        .firstWhereOrNull((item) => item.type == ModelQueryFilterType.like);
+    return existsFilter?.value?.toString() ?? "";
+  }
 }
