@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-03-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v1.7.3`](#katana_model---v173)
+ - [`katana_model_firestore` - `v1.6.4`](#katana_model_firestore---v164)
+ - [`katana_router_builder` - `v1.11.9`](#katana_router_builder---v1119)
+ - [`katana_scoped` - `v1.11.0`](#katana_scoped---v1110)
+ - [`masamune` - `v1.11.13`](#masamune---v11113)
+ - [`masamune_ai_openai` - `v1.1.16`](#masamune_ai_openai---v1116)
+ - [`masamune_picker` - `v1.6.6`](#masamune_picker---v166)
+ - [`masamune_universal_ui` - `v1.2.11`](#masamune_universal_ui---v1211)
+ - [`masamune_notification_firebase` - `v1.2.42`](#masamune_notification_firebase---v1242)
+ - [`masamune_picker_file` - `v1.6.6`](#masamune_picker_file---v166)
+ - [`masamune_logger_firebase` - `v1.2.53`](#masamune_logger_firebase---v1253)
+ - [`masamune_picker_mobile` - `v1.6.6`](#masamune_picker_mobile---v166)
+ - [`masamune_builder` - `v1.4.17`](#masamune_builder---v1417)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.13`
+ - `masamune_ai_openai` - `v1.1.16`
+ - `masamune_picker` - `v1.6.6`
+ - `masamune_universal_ui` - `v1.2.11`
+ - `masamune_notification_firebase` - `v1.2.42`
+ - `masamune_picker_file` - `v1.6.6`
+ - `masamune_logger_firebase` - `v1.2.53`
+ - `masamune_picker_mobile` - `v1.6.6`
+ - `masamune_builder` - `v1.4.17`
+
+---
+
+#### `katana_model` - `v1.7.3`
+
+ - **FIX**: I made it possible to see the searchText. ([ad76e04b](https://github.com/mathrunet/flutter_masamune/commit/ad76e04beb019bebb0550e9af2b9d62cb6513779))
+
+#### `katana_model_firestore` - `v1.6.4`
+
+ - **FIX**: I made it possible to see the searchText. ([ad76e04b](https://github.com/mathrunet/flutter_masamune/commit/ad76e04beb019bebb0550e9af2b9d62cb6513779))
+
+#### `katana_router_builder` - `v1.11.9`
+
+ - **FIX**: Fixed a bug that was not reflected in the web URL when using parameters. ([20334fdd](https://github.com/mathrunet/flutter_masamune/commit/20334fdd2679e27593e458cde2a1208f3762705e))
+
+#### `katana_scoped` - `v1.11.0`
+
+ - **FEAT**: Add ScopedValue for periodic. ([1d9070a1](https://github.com/mathrunet/flutter_masamune/commit/1d9070a1a3fd8548d075a2d7681784934bfda537))
+
+
 ## 2023-03-27
 
 ### Changes

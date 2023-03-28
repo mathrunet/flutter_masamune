@@ -1,3 +1,7 @@
+## 1.11.9
+
+ - **FIX**: Fixed a bug that was not reflected in the web URL when using parameters. ([20334fdd](https://github.com/mathrunet/flutter_masamune/commit/20334fdd2679e27593e458cde2a1208f3762705e))
+
 ## 1.11.8
 
  - **FIX**: Fixed a bug that QueryParam was not generated properly when added. ([30e2abc5](https://github.com/mathrunet/flutter_masamune/commit/30e2abc53bae697de540eec879ef2c2687cf86c1))
