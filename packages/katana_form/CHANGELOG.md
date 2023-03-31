@@ -1,3 +1,7 @@
+## 1.4.3
+
+ - Update a dependency to the latest release.
+
 ## 1.4.2
 
  - **FIX**: Fixed a bug that FormButton backgrounds were not reflected in some cases. ([e5a35562](https://github.com/mathrunet/flutter_masamune/commit/e5a35562829c3b3acc048f1ac121b6efeb446722))

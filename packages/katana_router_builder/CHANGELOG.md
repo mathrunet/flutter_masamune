@@ -1,3 +1,7 @@
+## 1.11.10
+
+ - Update a dependency to the latest release.
+
 ## 1.11.9
 
  - **FIX**: Fixed a bug that was not reflected in the web URL when using parameters. ([20334fdd](https://github.com/mathrunet/flutter_masamune/commit/20334fdd2679e27593e458cde2a1208f3762705e))

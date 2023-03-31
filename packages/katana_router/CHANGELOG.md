@@ -1,3 +1,7 @@
+## 1.11.12
+
+ - Update a dependency to the latest release.
+
 ## 1.11.11
 
  - **FIX**: Fixed a bug that QueryParam was not generated properly when added. ([30e2abc5](https://github.com/mathrunet/flutter_masamune/commit/30e2abc53bae697de540eec879ef2c2687cf86c1))

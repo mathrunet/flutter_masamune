@@ -1,6 +1,6 @@
 name: katana_listenables_builder
 description: Building system for katana listenables packages. Create a ChangeNotifier that automatically groups multiple Listenables together.
-version: 1.2.17
+version: 1.2.18
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_listenables_builder
 
@@ -8,8 +8,8 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies: 
-  katana: ^1.0.7
-  katana_listenables_annotation: ^1.2.16
+  katana: ^1.0.8
+  katana_listenables_annotation: ^1.2.17
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0

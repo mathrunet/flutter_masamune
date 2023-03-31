@@ -1,3 +1,7 @@
+## 1.0.8
+
+ - **FIX**: Add E to DateTime. ([92cf312e](https://github.com/mathrunet/flutter_masamune/commit/92cf312e5bf2ac08d40874716670b70a21d8879b))
+
 ## 1.0.7
 
  - **FIX**: Add isEmail and isURL. ([12e12d60](https://github.com/mathrunet/flutter_masamune/commit/12e12d603fe5b18c540a392bebf419be9737da78))

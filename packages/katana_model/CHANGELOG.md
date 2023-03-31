@@ -1,3 +1,7 @@
+## 1.7.4
+
+ - Update a dependency to the latest release.
+
 ## 1.7.3
 
  - **FIX**: I made it possible to see the searchText. ([ad76e04b](https://github.com/mathrunet/flutter_masamune/commit/ad76e04beb019bebb0550e9af2b9d62cb6513779))

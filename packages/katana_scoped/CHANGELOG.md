@@ -1,3 +1,7 @@
+## 1.11.1
+
+ - Update a dependency to the latest release.
+
 ## 1.11.0
 
  - **FEAT**: Add ScopedValue for periodic. ([1d9070a1](https://github.com/mathrunet/flutter_masamune/commit/1d9070a1a3fd8548d075a2d7681784934bfda537))

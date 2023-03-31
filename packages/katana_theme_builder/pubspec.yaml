@@ -1,6 +1,6 @@
 name: katana_theme_builder
 description: Building system for katana theme packages. Create a list of image assets from the Asset folder.
-version: 1.4.4
+version: 1.4.5
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_theme_builder
 
@@ -8,8 +8,8 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies: 
-  katana: ^1.0.7
-  katana_theme_annotation: ^1.4.3
+  katana: ^1.0.8
+  katana_theme_annotation: ^1.4.4
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0
