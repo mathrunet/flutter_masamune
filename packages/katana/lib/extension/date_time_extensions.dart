@@ -190,6 +190,23 @@ extension DateTimeExtensions on DateTime {
 
   /// Parse from [DateTime] to [String] corresponding to an Intl DateFormat.
   ///
+  /// Outputs a string representing the day of the week.
+  ///
+  /// [DateTime]からIntlのDateFormatに対応した[String]にパースします。
+  ///
+  /// 曜日を表す文字列を出力します。
+  ///
+  /// Please refer to the following page for details.
+  ///
+  /// 詳細は下記ページを参考にしてください。
+  ///
+  /// https://api.flutter.dev/flutter/intl/DateFormat-class.html
+  String E() {
+    return format("E");
+  }
+
+  /// Parse from [DateTime] to [String] corresponding to an Intl DateFormat.
+  ///
   /// The output will be in the format `2022/12/21`.
   ///
   /// [DateTime]からIntlのDateFormatに対応した[String]にパースします。
