@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_openai` - `v1.1.18`](#masamune_ai_openai---v1118)
+ - [`masamune_calendar` - `v1.1.0`](#masamune_calendar---v110)
+
+---
+
+#### `masamune_ai_openai` - `v1.1.18`
+
+ - **FIX**: Support for OpenAI package version upgrades. ([920bc5f1](https://github.com/mathrunet/flutter_masamune/commit/920bc5f18f03722193c7122c1f13572ccc9fba60))
+
+#### `masamune_calendar` - `v1.1.0`
+
+ - **FEAT**: Initial calendar commitments. ([f6f3d901](https://github.com/mathrunet/flutter_masamune/commit/f6f3d90116757b047b1912f2882ce2b0359a6cb0))
+
+
 ## 2023-03-31
 
 ### Changes
