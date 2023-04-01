@@ -81,7 +81,7 @@ class OpenAIMedia extends ChangeNotifier
         prompt: prompt,
         size: size,
         n: count,
-        responseFormat: OpenAIResponseFormat.url,
+        responseFormat: OpenAIImageResponseFormat.url,
       );
       notifyListeners();
       if (res.data.length != count) {

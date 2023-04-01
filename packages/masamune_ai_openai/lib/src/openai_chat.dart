@@ -149,8 +149,9 @@ class OpenAIChat extends ChangeNotifier
       }
       response._complete(
         text: res.choices.first.message.content,
-        role: OpenAIChatRole.values.firstWhereOrNull(
-                (item) => item.name == res.choices.first.message.role) ??
+        role: OpenAIChatRole.values.firstWhereOrNull((item) =>
+                item._openAIChatMessageRole ==
+                res.choices.first.message.role) ??
             OpenAIChatRole.assistant,
         dateTime: res.created,
         token: res.usage.totalTokens,
@@ -236,7 +237,9 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
     final dateTime = json["time"];
     return OpenAIChatMsg._(
       value: json["content"] ?? "",
-      role: json["role"] ?? "user",
+      role: OpenAIChatRole.values.firstWhereOrNull(
+              (item) => item.name == (json["role"] ?? "user")) ??
+          OpenAIChatRole.system,
       token: json["token"],
       dateTime: dateTime != null
           ? DateTime.fromMillisecondsSinceEpoch(dateTime)
@@ -318,7 +321,7 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
   Map<String, dynamic> toJson() {
     return {
       "content": value,
-      "role": role,
+      "role": role.name,
       if (token != null) "token": token!,
       if (dateTime != null) "time": dateTime?.millisecondsSinceEpoch,
     };
@@ -328,7 +331,7 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
       _toOpenAIChatCompletionChoiceMessageModel() {
     return OpenAIChatCompletionChoiceMessageModel(
       content: value,
-      role: role.name,
+      role: role._openAIChatMessageRole,
     );
   }
 }
@@ -367,5 +370,16 @@ enum OpenAIChatRole {
   /// System.
   ///
   /// システム。
-  system,
+  system;
+
+  OpenAIChatMessageRole get _openAIChatMessageRole {
+    switch (this) {
+      case OpenAIChatRole.user:
+        return OpenAIChatMessageRole.user;
+      case OpenAIChatRole.assistant:
+        return OpenAIChatMessageRole.assistant;
+      case OpenAIChatRole.system:
+        return OpenAIChatMessageRole.system;
+    }
+  }
 }
