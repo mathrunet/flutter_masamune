@@ -1,3 +1,7 @@
+## 1.0.9
+
+ - **FIX**: Add yyyyMM to dateTime extensions. ([66dbb564](https://github.com/mathrunet/flutter_masamune/commit/66dbb564a6d53c9b406e947d15b3ee75286a4ddf))
+
 ## 1.0.8
 
  - **FIX**: Add E to DateTime. ([92cf312e](https://github.com/mathrunet/flutter_masamune/commit/92cf312e5bf2ac08d40874716670b70a21d8879b))

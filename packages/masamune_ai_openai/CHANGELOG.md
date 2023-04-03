@@ -1,3 +1,7 @@
+## 1.1.19
+
+ - Update a dependency to the latest release.
+
 ## 1.1.18
 
  - **FIX**: Support for OpenAI package version upgrades. ([920bc5f1](https://github.com/mathrunet/flutter_masamune/commit/920bc5f18f03722193c7122c1f13572ccc9fba60))
