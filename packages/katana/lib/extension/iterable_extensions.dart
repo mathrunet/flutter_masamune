@@ -16,11 +16,11 @@ extension IterableExtensions<T> on Iterable<T> {
   /// final array = [1, 1, 3, 5, 6, 8, 9, 9];
   /// final distinct = array.distinct(); // [1, 3, 5, 6, 8, 9]
   /// ```
-  List<T> distinct([Object Function(T element)? key]) {
+  List<T> distinct([Object? Function(T element)? key]) {
     if (key == null) {
       return toSet().toList();
     }
-    final tmp = <Object, T>{};
+    final tmp = <Object?, T>{};
     for (final element in this) {
       final o = key.call(element);
       if (tmp.containsKey(o)) {

@@ -9,6 +9,9 @@ void main() {
     final array = [1, 1, 3, 5, 6, 8, 9, 9];
     expect(array.distinct(), [1, 3, 5, 6, 8, 9]);
     expect(array.distinct((i) => i % 3), [1, 3, 5]);
+    final array2 = [1, null, 1, 3, 6, 9, null, 9];
+    expect(array2.distinct(), [1, null, 3, 6, 9]);
+    expect(array2.distinct((i) => i % 3), [1, null, 3]);
   });
   test("IterableExtensions.firstOrNull", () {
     final array = [1, 1, 3, 5, 6, 8, 9, 9];
