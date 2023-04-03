@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_calendar` - `v1.1.2`](#masamune_calendar---v112)
+
+---
+
+#### `masamune_calendar` - `v1.1.2`
+
+ - **FIX**: Switch the calendar header to a month-by-month view. ([ea5f3514](https://github.com/mathrunet/flutter_masamune/commit/ea5f3514009e44e25af59218c6a0472ddecb560b))
+
+
+## 2023-04-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v1.0.9`](#katana---v109)
  - [`masamune_annotation` - `v1.4.8`](#masamune_annotation---v148)
  - [`katana_shorten` - `v1.2.12`](#katana_shorten---v1212)

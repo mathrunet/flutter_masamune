@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: Switch the calendar header to a month-by-month view. ([ea5f3514](https://github.com/mathrunet/flutter_masamune/commit/ea5f3514009e44e25af59218c6a0472ddecb560b))
+
 ## 1.1.1
 
  - Update a dependency to the latest release.
