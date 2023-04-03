@@ -1,3 +1,7 @@
+## 1.0.10
+
+ - **FIX**: The value of key in Distinct is null-acceptable. ([04a59d2a](https://github.com/mathrunet/flutter_masamune/commit/04a59d2af2972498d3e35d1efd10620d9d4845e4))
+
 ## 1.0.9
 
  - **FIX**: Add yyyyMM to dateTime extensions. ([66dbb564](https://github.com/mathrunet/flutter_masamune/commit/66dbb564a6d53c9b406e947d15b3ee75286a4ddf))
