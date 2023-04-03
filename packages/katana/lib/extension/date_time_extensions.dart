@@ -207,6 +207,23 @@ extension DateTimeExtensions on DateTime {
 
   /// Parse from [DateTime] to [String] corresponding to an Intl DateFormat.
   ///
+  /// The output will be in the format `2022/12`.
+  ///
+  /// [DateTime]からIntlのDateFormatに対応した[String]にパースします。
+  ///
+  /// `2022/12`のような形式で出力されます。
+  ///
+  /// Please refer to the following page for details.
+  ///
+  /// 詳細は下記ページを参考にしてください。
+  ///
+  /// https://api.flutter.dev/flutter/intl/DateFormat-class.html
+  String yyyyMM() {
+    return format("yyyy/MM");
+  }
+
+  /// Parse from [DateTime] to [String] corresponding to an Intl DateFormat.
+  ///
   /// The output will be in the format `2022/12/21`.
   ///
   /// [DateTime]からIntlのDateFormatに対応した[String]にパースします。
