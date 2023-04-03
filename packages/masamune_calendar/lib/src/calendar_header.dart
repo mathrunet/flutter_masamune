@@ -149,7 +149,7 @@ class _CalendarHeaderState extends State<CalendarHeader> {
           onTap: widget.onTap,
           child: widget.titleBuilder?.call(context, widget.style, focusedDay) ??
               Text(
-                focusedDay.yyyyMMdd(),
+                focusedDay.yyyyMM(),
                 style: widget.style.textStyle,
                 textAlign: widget.style.textAlign,
               ),
