@@ -148,6 +148,8 @@ class UniversalScaffold extends StatefulWidget {
     this.breakpoint,
     this.persistentFooterAlignment = AlignmentDirectional.centerEnd,
     this.sideBar,
+    this.width,
+    this.height,
   });
 
   /// Pass [context] to get [Breakpoint] set by [UniversalScaffold] at the top.
@@ -158,6 +160,24 @@ class UniversalScaffold extends StatefulWidget {
         context.dependOnInheritedWidgetOfExactType<UniversalScaffoldScope>();
     return scope;
   }
+
+  /// You can specify the size of the [UniversalScaffold] itself.
+  ///
+  /// Please use when displaying as a modal.
+  ///
+  /// [UniversalScaffold]自体のサイズを指定できます。
+  ///
+  /// モーダルとして表示する場合にご利用ください。
+  final double? width;
+
+  /// You can specify the size of the [UniversalScaffold] itself.
+  ///
+  /// Please use when displaying as a modal.
+  ///
+  /// [UniversalScaffold]自体のサイズを指定できます。
+  ///
+  /// モーダルとして表示する場合にご利用ください。
+  final double? height;
 
   /// Setting this to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
   ///
@@ -410,75 +430,94 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     final breakpoint = universalScope?.defaultBreakpoint ?? widget.breakpoint;
 
     if (useSliver) {
-      return UniversalScaffoldScope(
-        breakpoint: breakpoint,
-        sideBarWidth: 0.0,
-        child: Scaffold(
-          key: widget.key,
-          body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                if (widget.appBar != null) widget.appBar!,
-              ];
-            },
-            body: _buildBody(context, _loading(context)),
+      return _sizedBox(
+        context,
+        UniversalScaffoldScope(
+          breakpoint: breakpoint,
+          sideBarWidth: 0.0,
+          child: Scaffold(
+            key: widget.key,
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  if (widget.appBar != null) widget.appBar!,
+                ];
+              },
+              body: _buildBody(context, _loading(context)),
+            ),
+            floatingActionButton: widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+            persistentFooterButtons: widget.persistentFooterButtons,
+            drawer: _buildDrawer(context),
+            onDrawerChanged: widget.onDrawerChanged,
+            endDrawer: widget.endDrawer,
+            onEndDrawerChanged: widget.onEndDrawerChanged,
+            bottomNavigationBar: widget.bottomNavigationBar,
+            bottomSheet: widget.bottomSheet,
+            backgroundColor: widget.backgroundColor,
+            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+            primary: widget.primary,
+            drawerDragStartBehavior: widget.drawerDragStartBehavior,
+            extendBody: widget.extendBody,
+            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+            drawerScrimColor: widget.drawerScrimColor,
+            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+            endDrawerEnableOpenDragGesture:
+                widget.endDrawerEnableOpenDragGesture,
+            restorationId: widget.restorationId,
           ),
-          floatingActionButton: widget.floatingActionButton,
-          floatingActionButtonLocation: widget.floatingActionButtonLocation,
-          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-          persistentFooterButtons: widget.persistentFooterButtons,
-          drawer: _buildDrawer(context),
-          onDrawerChanged: widget.onDrawerChanged,
-          endDrawer: widget.endDrawer,
-          onEndDrawerChanged: widget.onEndDrawerChanged,
-          bottomNavigationBar: widget.bottomNavigationBar,
-          bottomSheet: widget.bottomSheet,
-          backgroundColor: widget.backgroundColor,
-          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-          primary: widget.primary,
-          drawerDragStartBehavior: widget.drawerDragStartBehavior,
-          extendBody: widget.extendBody,
-          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-          drawerScrimColor: widget.drawerScrimColor,
-          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-          endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
-          restorationId: widget.restorationId,
         ),
       );
     } else {
-      return UniversalScaffoldScope(
-        breakpoint: breakpoint,
-        sideBarWidth: 0.0,
-        child: Scaffold(
-          key: widget.key,
-          appBar: _toMobileAppBar(context),
-          body: _buildBody(context, _loading(context)),
-          floatingActionButton: widget.floatingActionButton,
-          floatingActionButtonLocation: widget.floatingActionButtonLocation,
-          floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-          persistentFooterButtons: widget.persistentFooterButtons,
-          drawer: _buildDrawer(context),
-          onDrawerChanged: widget.onDrawerChanged,
-          endDrawer: widget.endDrawer,
-          onEndDrawerChanged: widget.onEndDrawerChanged,
-          bottomNavigationBar: widget.bottomNavigationBar,
-          bottomSheet: widget.bottomSheet,
-          backgroundColor: widget.backgroundColor,
-          resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-          primary: widget.primary,
-          drawerDragStartBehavior: widget.drawerDragStartBehavior,
-          extendBody: widget.extendBody,
-          extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-          drawerScrimColor: widget.drawerScrimColor,
-          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-          drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
-          endDrawerEnableOpenDragGesture: widget.endDrawerEnableOpenDragGesture,
-          restorationId: widget.restorationId,
+      return _sizedBox(
+        context,
+        UniversalScaffoldScope(
+          breakpoint: breakpoint,
+          sideBarWidth: 0.0,
+          child: Scaffold(
+            key: widget.key,
+            appBar: _toMobileAppBar(context),
+            body: _buildBody(context, _loading(context)),
+            floatingActionButton: widget.floatingActionButton,
+            floatingActionButtonLocation: widget.floatingActionButtonLocation,
+            floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+            persistentFooterButtons: widget.persistentFooterButtons,
+            drawer: _buildDrawer(context),
+            onDrawerChanged: widget.onDrawerChanged,
+            endDrawer: widget.endDrawer,
+            onEndDrawerChanged: widget.onEndDrawerChanged,
+            bottomNavigationBar: widget.bottomNavigationBar,
+            bottomSheet: widget.bottomSheet,
+            backgroundColor: widget.backgroundColor,
+            resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+            primary: widget.primary,
+            drawerDragStartBehavior: widget.drawerDragStartBehavior,
+            extendBody: widget.extendBody,
+            extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+            drawerScrimColor: widget.drawerScrimColor,
+            drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+            drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture,
+            endDrawerEnableOpenDragGesture:
+                widget.endDrawerEnableOpenDragGesture,
+            restorationId: widget.restorationId,
+          ),
         ),
       );
     }
+  }
+
+  Widget _sizedBox(BuildContext context, Widget child) {
+    if (widget.width == null && widget.height == null) {
+      return child;
+    }
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: child,
+    );
   }
 
   Widget _loading(BuildContext context) {
