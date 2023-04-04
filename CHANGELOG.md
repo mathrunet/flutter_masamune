@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v1.2.15`](#masamune_universal_ui---v1215)
+
+---
+
+#### `masamune_universal_ui` - `v1.2.15`
+
+ - **FIX**: Add width and height to UniversalScaffold. ([538a69e0](https://github.com/mathrunet/flutter_masamune/commit/538a69e0cc37d48610dc089e59083e0a1ca5e07d))
+
+
 ## 2023-04-03
 
 ### Changes
