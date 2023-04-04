@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Masamune plugin to provide calendar functionality.
+/// Masamune plugin to provide calendar functionality. The masamune framework is assumed to be used.
 ///
 /// To use, import `package:masamune_calendar/masamune_ai_openai.dart`.
 ///
