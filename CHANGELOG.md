@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_module` - `v1.1.0`](#masamune_module---v110)
+
+---
+
+#### `masamune_module` - `v1.1.0`
+
+ - **FEAT**: Initial commitments. ([33bfc41f](https://github.com/mathrunet/flutter_masamune/commit/33bfc41fcb5fd786bf4aa26592324d37c26dfae8))
+
+
+## 2023-04-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_universal_ui` - `v1.2.15`](#masamune_universal_ui---v1215)
 
 ---
