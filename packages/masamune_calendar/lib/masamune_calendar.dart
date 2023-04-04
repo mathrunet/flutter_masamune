@@ -2,7 +2,7 @@
 
 /// Masamune plugin to provide calendar functionality. The masamune framework is assumed to be used.
 ///
-/// To use, import `package:masamune_calendar/masamune_ai_openai.dart`.
+/// To use, import `package:masamune_calendar/masamune_calendar.dart`.
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
