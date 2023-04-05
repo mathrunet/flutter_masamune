@@ -356,21 +356,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.11.14"
+    version: "1.11.15"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "/Users/mathru/Documents/github/flutter_masamune/packages/katana_router/example/../../katana_router_annotation"
       relative: false
     source: path
-    version: "1.11.8"
+    version: "1.11.9"
   katana_router_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "1.11.12"
+    version: "1.11.13"
   lints:
     dependency: transitive
     description:

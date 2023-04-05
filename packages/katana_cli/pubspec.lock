@@ -156,11 +156,10 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      sha256: "9a3ec047c35ec88e027139e88ce45202b022dd2111b38848c85159101b0028ce"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.5"
+      path: "../katana"
+      relative: true
+    source: path
+    version: "1.0.10"
   lints:
     dependency: "direct main"
     description:
@@ -173,10 +172,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: "12307e7f0605ce3da64cf0db90e5fcab0869f3ca03f76be6bb2991ce0a55e82b"
+      sha256: "3c74dbf8763d36539f114c799d8a2d87343b5067e9d796ca22b5eb8437090ee3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   path:
     dependency: transitive
     description:
@@ -197,10 +196,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: db7306cf0249f838d1a24af52b5a5887c5bf7f31d8bb4e827d071dc0939ad346
+      sha256: c3120a968135aead39699267f4c74bc9a08e4e909e86bc1b0af5bfd78691123c
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.2"
+    version: "3.7.2"
   recase:
     dependency: transitive
     description:

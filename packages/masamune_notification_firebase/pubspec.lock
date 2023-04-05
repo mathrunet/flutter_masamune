@@ -5,26 +5,26 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "98d1d33ed129b372846e862de23a0fc365745f4d7b5e786ce667fcbbb7ac5c07"
+      sha256: a36ec4843dc30ea6bf652bf25e3448db6c5e8bcf4aa55f063a5d1dad216d8214
       url: "https://pub.dev"
     source: hosted
-    version: "55.0.0"
+    version: "58.0.0"
   _flutterfire_internals:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: cb3a948a1eebbf8efd987c43f95418269930e912a88bc7b6a5a7658423133635
+      sha256: f175bc1414e4edf8c5b83372c98eeabecf8353f39c9da423c2cfdf1f1f508788
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.17"
+    version: "1.1.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "881348aed9b0b425882c97732629a6a31093c8ff20fc4b3b03fb9d3d50a3a126"
+      sha256: cc4242565347e98424ce9945c819c192ec0838cb9d1f6aa4a97cc96becbc5b27
       url: "https://pub.dev"
     source: hosted
-    version: "5.7.1"
+    version: "5.10.0"
   args:
     dependency: transitive
     description:
@@ -77,26 +77,26 @@ packages:
     dependency: transitive
     description:
       name: cloud_firestore
-      sha256: cb49dd8aab9700766fb8a33a4328306f1b9b555ea6efb5fd3b1a55d14af2d2ca
+      sha256: "3a2dba23d7d084a2d3c2dfd240d2122908cca40bab2d142f7e107f40df174ab5"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.4"
+    version: "4.5.0"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
-      sha256: "21f8c6ebe74cab9bb28ecfcf1688813114d52b87b9b98e0bc8b23dd95a1d8e7b"
+      sha256: "29349a0687bc31290ab81d1de2b1cdadb40d0ea3ab30d247323c6c5be0d4c6fc"
       url: "https://pub.dev"
     source: hosted
-    version: "5.11.4"
+    version: "5.12.0"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
-      sha256: "57389e42341c5162861b505bfe2419112030f55d5efae607fad2625e5384715e"
+      sha256: bc1fbcd6287acedded1139c9b13cfd47e792d5198f130f98759464839ea510a7
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.4"
+    version: "3.4.0"
   collection:
     dependency: transitive
     description:
@@ -173,50 +173,50 @@ packages:
     dependency: transitive
     description:
       name: firebase_core
-      sha256: "1c121a478af23755b0b93fd4aa70d3bd32a587dd51ef0a3979091ac0d2317d32"
+      sha256: ed611fb8e67e43ecc7956f242cecca383d87cf71aace27287aa5dd4bdba4ac07
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.1"
+    version: "2.9.0"
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
-      sha256: "5615b30c36f55b2777d0533771deda7e5730e769e5d3cb7fda79e9bed86cfa55"
+      sha256: "0df0a064ab0cad7f8836291ca6f3272edd7b83ad5b3540478ee46a0849d8022b"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.3"
+    version: "4.6.0"
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "0c1cf1f1022d2245ac117443bb95207952ca770281524d2908e323bc063fb8ff"
+      sha256: "347351a8f0518f3343d79a9a0690fa67ad232fc32e2ea270677791949eac792b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.2"
+    version: "2.3.0"
   firebase_messaging:
     dependency: "direct main"
     description:
       name: firebase_messaging
-      sha256: f9618051d56256ce9bf1d620bdb0920c37ce43ecc7d587a888f9116506f8a21b
+      sha256: e4a5eb079aa9e7bd6b5fb2681f2bb8a6c78f87aacbf1c732c6ce91ad71e595ba
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.6"
+    version: "14.4.0"
   firebase_messaging_platform_interface:
     dependency: transitive
     description:
       name: firebase_messaging_platform_interface
-      sha256: c093ecf902ba4e073307b52f0d5ae87e72725daf467b94b4058b181fc21bbdd1
+      sha256: "3a007c888e3414c9e4f7c35ea6fa59eafc623c62ee36155710563a1ebc160063"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.15"
+    version: "4.3.0"
   firebase_messaging_web:
     dependency: transitive
     description:
       name: firebase_messaging_web
-      sha256: "8d084efb76d3c6a7f0e56ce5145f88963db1b49674a9b27cdf3daa237cd8468c"
+      sha256: a3239662b91b652cea4ce3b3ecac6cccbaebc1b4ac3101224bef805de4195fbf
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.16"
+    version: "3.3.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -350,181 +350,159 @@ packages:
     source: hosted
     version: "0.6.5"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      sha256: "9a3ec047c35ec88e027139e88ce45202b022dd2111b38848c85159101b0028ce"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.5"
+      path: "../katana"
+      relative: true
+    source: path
+    version: "1.0.10"
   katana_auth:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_auth
-      sha256: "523bb2179abe70ed306e97dbdd35e3ae62ee66ba8a1510be359bbee7d88e1397"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.6"
+      path: "../katana_auth"
+      relative: true
+    source: path
+    version: "1.2.12"
   katana_firebase:
     dependency: "direct main"
     description:
-      name: katana_firebase
-      sha256: "8294c984f0c13d5dd2950694279242e7b8b167493ecd0f0f7a82bf3384da2b4d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.12"
+      path: "../katana_firebase"
+      relative: true
+    source: path
+    version: "1.1.17"
   katana_form:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_form
-      sha256: dcb82d6e316ba64fa22b63a26f92314a3ec90c1ac96dd8f69cabcc1baa81d087
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.19"
+      path: "../katana_form"
+      relative: true
+    source: path
+    version: "1.4.5"
   katana_functions:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_functions
-      sha256: "4ecc5b0321c3aa93d5a1dcebabc63c112d09a12d8c05f6e12e4eea3f0a0c9cf8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.15"
+      path: "../katana_functions"
+      relative: true
+    source: path
+    version: "1.1.20"
   katana_indicator:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_indicator
-      sha256: e6ae1a233871ba744449d0bee0eacd43f0c8a309538cc4513e5676f28236e844
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.11"
-  katana_listenables:
-    dependency: transitive
-    description:
-      name: katana_listenables
-      sha256: "15bf27ce33f20189646af3a09c02c57c1cd3551ef29fa8d47bb4651f6e86669b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.16"
-  katana_listenables_annotation:
-    dependency: transitive
-    description:
-      name: katana_listenables_annotation
-      sha256: "8064fa5876c4ce8163d206504f5ea1a8c9eeaccd8076e68f33d4f1bfee906ad5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.14"
-  katana_localization:
-    dependency: transitive
-    description:
-      name: katana_localization
-      sha256: "06cbe33a7e8efcc21904a601778237912f04ec555f60c618177dfb8e1f491c46"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.28"
-  katana_localization_annotation:
-    dependency: transitive
-    description:
-      name: katana_localization_annotation
-      sha256: "8d279016c4b7649144bbec3c8b4924d236660d10b06f783afe5f156cf71a3541"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.26"
-  katana_logger:
-    dependency: transitive
-    description:
-      name: katana_logger
-      sha256: afd1a1d8681be44bfc8df20233da00b74d074f52d4aae98eb52ddfd23f312798
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.3"
-  katana_model:
-    dependency: transitive
-    description:
-      name: katana_model
-      sha256: f53f7e628729830f1bdf3761e2a439918dd4c797ac50c09cf7596bdf6b114254
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.15"
-  katana_prefs:
-    dependency: transitive
-    description:
-      name: katana_prefs
-      sha256: d67a1d185d72ebab7a21f78c71d16559c982034115266871cd13813914349dd9
-      url: "https://pub.dev"
-    source: hosted
+      path: "../katana_indicator"
+      relative: true
+    source: path
     version: "1.1.16"
-  katana_prefs_annotation:
-    dependency: transitive
+  katana_listenables:
+    dependency: "direct overridden"
     description:
-      name: katana_prefs_annotation
-      sha256: f701fa3be958c6c218c3bdaefc3ff03881e572aaad1c860f76dfbd5f8acec138
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.10"
-  katana_router:
-    dependency: transitive
+      path: "../katana_listenables"
+      relative: true
+    source: path
+    version: "1.2.21"
+  katana_listenables_annotation:
+    dependency: "direct overridden"
     description:
-      name: katana_router
-      sha256: "6a896bb3e9ebb90dc5ba46ce4ff4105598bfbed7be5c53ed5805d4117529b41a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.7"
-  katana_router_annotation:
-    dependency: transitive
+      path: "../katana_listenables_annotation"
+      relative: true
+    source: path
+    version: "1.2.19"
+  katana_localization:
+    dependency: "direct overridden"
     description:
-      name: katana_router_annotation
-      sha256: "74e93bdc82781d22efa49c168925735f1f867eb76c8d4a8cf66975466dc238b5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.1"
-  katana_scoped:
-    dependency: transitive
+      path: "../katana_localization"
+      relative: true
+    source: path
+    version: "1.1.33"
+  katana_localization_annotation:
+    dependency: "direct overridden"
     description:
-      name: katana_scoped
-      sha256: b135b4476bc2964b37c9bb7babf21a2c6866a43a37e225a4b9f5d697bf780a21
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.0"
-  katana_shorten:
-    dependency: transitive
+      path: "../katana_localization_annotation"
+      relative: true
+    source: path
+    version: "1.1.31"
+  katana_logger:
+    dependency: "direct overridden"
     description:
-      name: katana_shorten
-      sha256: f65fc3528c5801723b9c9cd2202173a2bf0a38f0cd74ee40173a59c322ad38e7
-      url: "https://pub.dev"
-    source: hosted
+      path: "../katana_logger"
+      relative: true
+    source: path
     version: "1.2.8"
+  katana_model:
+    dependency: "direct overridden"
+    description:
+      path: "../katana_model"
+      relative: true
+    source: path
+    version: "1.7.6"
+  katana_prefs:
+    dependency: "direct overridden"
+    description:
+      path: "../katana_prefs"
+      relative: true
+    source: path
+    version: "1.1.21"
+  katana_prefs_annotation:
+    dependency: "direct overridden"
+    description:
+      path: "../katana_prefs_annotation"
+      relative: true
+    source: path
+    version: "1.1.15"
+  katana_router:
+    dependency: "direct overridden"
+    description:
+      path: "../katana_router"
+      relative: true
+    source: path
+    version: "1.11.15"
+  katana_router_annotation:
+    dependency: "direct overridden"
+    description:
+      path: "../katana_router_annotation"
+      relative: true
+    source: path
+    version: "1.11.9"
+  katana_scoped:
+    dependency: "direct overridden"
+    description:
+      path: "../katana_scoped"
+      relative: true
+    source: path
+    version: "1.11.3"
+  katana_shorten:
+    dependency: "direct overridden"
+    description:
+      path: "../katana_shorten"
+      relative: true
+    source: path
+    version: "1.2.13"
   katana_storage:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_storage
-      sha256: f8229094dc87bb68c794dfe3618e1e888279bae6c44266ad41a148ce2295442a
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.11"
+      path: "../katana_storage"
+      relative: true
+    source: path
+    version: "1.1.16"
   katana_theme:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_theme
-      sha256: ebb1b744b7086a260310f93c36f428cf9bc399d7839b9740f1c48471093a9948
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.1"
+      path: "../katana_theme"
+      relative: true
+    source: path
+    version: "1.4.7"
   katana_theme_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_theme_annotation
-      sha256: "01073043410a76a19c627a0b6d722cfa7eaad9a09c6147f87f35f92ce5adbe93"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.0"
+      path: "../katana_theme_annotation"
+      relative: true
+    source: path
+    version: "1.4.6"
   katana_ui:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana_ui
-      sha256: "13bfce3ea99abcbd9e1d2910caca892d33c1d31f339ec8f68f94d71f051c456f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.3"
+      path: "../katana_ui"
+      relative: true
+    source: path
+    version: "1.2.9"
   lints:
     dependency: transitive
     description:
@@ -544,19 +522,17 @@ packages:
   masamune:
     dependency: "direct main"
     description:
-      name: masamune
-      sha256: "3351793077ba05f246a85ba0500a7b624639c452fd1624836afcac23a00cc83c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.1"
+      path: "../masamune"
+      relative: true
+    source: path
+    version: "1.11.17"
   masamune_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: masamune_annotation
-      sha256: b65df608fd4c93b96a63df92e0a8af8c3d84adb6730744eab771717a2851af43
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.3"
+      path: "../masamune_annotation"
+      relative: true
+    source: path
+    version: "1.4.9"
   matcher:
     dependency: transitive
     description:
@@ -617,10 +593,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider
-      sha256: "04890b994ee89bfa80bf3080bfec40d5a92c5c7a785ebb02c13084a099d2b6f9"
+      sha256: c7edf82217d4b2952b2129a61d3ad60f1075b9299e629e149a8d2e39c2e6aad4
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.13"
+    version: "2.0.14"
   path_provider_android:
     dependency: transitive
     description:
@@ -633,10 +609,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_foundation
-      sha256: "026b97a6c29da75181a37aae2eba9227f5fe13cb2838c6b975ce209328b8ab4e"
+      sha256: "818b2dc38b0f178e0ea3f7cf3b28146faab11375985d815942a68eee11c2d0f7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.3"
+    version: "2.2.1"
   path_provider_linux:
     dependency: transitive
     description:
@@ -689,10 +665,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: db7306cf0249f838d1a24af52b5a5887c5bf7f31d8bb4e827d071dc0939ad346
+      sha256: c3120a968135aead39699267f4c74bc9a08e4e909e86bc1b0af5bfd78691123c
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.2"
+    version: "3.7.2"
   pool:
     dependency: transitive
     description:
@@ -729,58 +705,58 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences
-      sha256: ee6257848f822b8481691f20c3e6d2bfee2e9eccb2a3d249907fcfb198c55b41
+      sha256: "858aaa72d8f61637d64e776aca82e1c67e6d9ee07979123c5d17115031c1b13b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.18"
+    version: "2.1.0"
   shared_preferences_android:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: ad423a80fe7b4e48b50d6111b3ea1027af0e959e49d485712e134863d9c1c521
+      sha256: "8304d8a1f7d21a429f91dee552792249362b68a331ac5c3c1caf370f658873f6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.17"
+    version: "2.1.0"
   shared_preferences_foundation:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: "1e755f8583229f185cfca61b1d80fb2344c9d660e1c69ede5450d8f478fa5310"
+      sha256: cf2a42fb20148502022861f71698db12d937c7459345a1bdaa88fc91a91b3603
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.2.0"
   shared_preferences_linux:
     dependency: transitive
     description:
       name: shared_preferences_linux
-      sha256: "3a59ed10890a8409ad0faad7bb2957dab4b92b8fbe553257b05d30ed8af2c707"
+      sha256: "9d387433ca65717bbf1be88f4d5bb18f10508917a8fa2fb02e0fd0d7479a9afa"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.2.0"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
       name: shared_preferences_platform_interface
-      sha256: "824bfd02713e37603b2bdade0842e47d56e7db32b1dcdd1cae533fb88e2913fc"
+      sha256: fb5cf25c0235df2d0640ac1b1174f6466bd311f621574997ac59018a6664548d
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.0"
   shared_preferences_web:
     dependency: transitive
     description:
       name: shared_preferences_web
-      sha256: "0dc2633f215a3d4aa3184c9b2c5766f4711e4e5a6b256e62aafee41f89f1bfb8"
+      sha256: "74083203a8eae241e0de4a0d597dbedab3b8fef5563f33cf3c12d7e93c655ca5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.6"
+    version: "2.1.0"
   shared_preferences_windows:
     dependency: transitive
     description:
       name: shared_preferences_windows
-      sha256: "71bcd669bb9cdb6b39f22c4a7728b6d49e934f6cba73157ffa5a54f1eed67436"
+      sha256: "5e588e2efef56916a3b229c3bfe81e6a525665a454519ca51dbcc4236a274173"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.2.0"
   shelf:
     dependency: transitive
     description:

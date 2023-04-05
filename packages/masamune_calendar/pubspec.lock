@@ -321,14 +321,14 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "1.11.14"
+    version: "1.11.15"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "1.11.8"
+    version: "1.11.9"
   katana_scoped:
     dependency: "direct overridden"
     description:
@@ -393,7 +393,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "1.11.16"
+    version: "1.11.17"
   masamune_annotation:
     dependency: "direct overridden"
     description:

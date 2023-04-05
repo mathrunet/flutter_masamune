@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "503361166f4a100e0d7eb7fb5a62c6f0322512f2bcb48d6922caf98f24b0ab90"
+      sha256: a36ec4843dc30ea6bf652bf25e3448db6c5e8bcf4aa55f063a5d1dad216d8214
       url: "https://pub.dev"
     source: hosted
-    version: "56.0.0"
+    version: "58.0.0"
   analyzer:
     dependency: "direct main"
     description:
       name: analyzer
-      sha256: "93fcd81a6716e69864516750590cf1e699420615046bda19100238aa7b429785"
+      sha256: cc4242565347e98424ce9945c819c192ec0838cb9d1f6aa4a97cc96becbc5b27
       url: "https://pub.dev"
     source: hosted
-    version: "5.8.0"
+    version: "5.10.0"
   args:
     dependency: transitive
     description:
@@ -260,91 +260,80 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      sha256: "97cd1be297a7ec41fb7decc52fb290a83283dc1aed4b7f6ef0f975d310d60238"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
+      path: "../katana"
+      relative: true
+    source: path
+    version: "1.0.10"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
-      name: katana_listenables_annotation
-      sha256: "8777df1b92d1389db3db92dc0ab6ca2c96c14590d4dd172e7833d199395c80e4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.15"
+      path: "../katana_listenables_annotation"
+      relative: true
+    source: path
+    version: "1.2.19"
   katana_listenables_builder:
     dependency: "direct main"
     description:
-      name: katana_listenables_builder
-      sha256: f52e4b46cb65dad429f7f928e9e29b57fc5637f29aaba6bed7a956a27f6da5ed
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.16"
+      path: "../katana_listenables_builder"
+      relative: true
+    source: path
+    version: "1.2.20"
   katana_localization_annotation:
     dependency: "direct main"
     description:
-      name: katana_localization_annotation
-      sha256: "62618332d48f51f123d0f9899efa7ace02dd1afe7d12ef1f774d43e23ee4f1fc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.27"
+      path: "../katana_localization_annotation"
+      relative: true
+    source: path
+    version: "1.1.31"
   katana_localization_builder:
     dependency: "direct main"
     description:
-      name: katana_localization_builder
-      sha256: "1ec71658a555fcb6f3f470525e0eae791192b95f3ee5bbaebf09a9d6660ec8f4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.29"
+      path: "../katana_localization_builder"
+      relative: true
+    source: path
+    version: "1.1.33"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
-      name: katana_prefs_annotation
-      sha256: a0a5e076c4bfff3582571a83da7a93ba8c885a62fdbdc3e1ffbdc7031dd6f101
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.11"
+      path: "../katana_prefs_annotation"
+      relative: true
+    source: path
+    version: "1.1.15"
   katana_prefs_builder:
     dependency: "direct main"
     description:
-      name: katana_prefs_builder
-      sha256: ceeae5fb5fdea00e9b978c26456bcc669b263d98ade903dd639318f4b63d22c5
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.20"
+      path: "../katana_prefs_builder"
+      relative: true
+    source: path
+    version: "1.1.24"
   katana_router_annotation:
     dependency: "direct main"
     description:
-      name: katana_router_annotation
-      sha256: bd4533e3d0586c9f9b6cfc5641cfcad6badad18366d3e1e0a969ccfaf0e08d8d
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.3"
+      path: "../katana_router_annotation"
+      relative: true
+    source: path
+    version: "1.11.9"
   katana_router_builder:
     dependency: "direct main"
     description:
-      name: katana_router_builder
-      sha256: "848f55dc7b3b1357a1f8a4f773e93929d95c5ac1d7b6c4ceed11ab56deb8080a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.6"
+      path: "../katana_router_builder"
+      relative: true
+    source: path
+    version: "1.11.13"
   katana_theme_annotation:
     dependency: "direct main"
     description:
-      name: katana_theme_annotation
-      sha256: "98146e4f1a83c6c95d2baaa137882e19e647fc6c659098e68a76cfd3bf557d8b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.2"
+      path: "../katana_theme_annotation"
+      relative: true
+    source: path
+    version: "1.4.6"
   katana_theme_builder:
     dependency: "direct main"
     description:
-      name: katana_theme_builder
-      sha256: "198974e7bc7baecf222c3b7313820ef0071283de5d0e6ab6130a3820b9496ff9"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.3"
+      path: "../katana_theme_builder"
+      relative: true
+    source: path
+    version: "1.4.7"
   lints:
     dependency: transitive
     description:
@@ -364,27 +353,26 @@ packages:
   masamune_annotation:
     dependency: "direct main"
     description:
-      name: masamune_annotation
-      sha256: "82b389e1541396c613080da2d222f0447180500b5a3e55a04f547af7af3db440"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.4"
+      path: "../masamune_annotation"
+      relative: true
+    source: path
+    version: "1.4.9"
   matcher:
     dependency: transitive
     description:
       name: matcher
-      sha256: c94db23593b89766cda57aab9ac311e3616cf87c6fa4e9749df032f66f30dcb8
+      sha256: "6501fbd55da300384b768785b83e5ce66991266cec21af89ab9ae7f5ce1c4cbb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.14"
+    version: "0.12.15"
   meta:
     dependency: transitive
     description:
       name: meta
-      sha256: "12307e7f0605ce3da64cf0db90e5fcab0869f3ca03f76be6bb2991ce0a55e82b"
+      sha256: "3c74dbf8763d36539f114c799d8a2d87343b5067e9d796ca22b5eb8437090ee3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   mime:
     dependency: transitive
     description:
@@ -421,10 +409,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: "57b6b78df14175658f09c5dfcfc51a46ad9561a3504fe679913dab404d0cc0f2"
+      sha256: c3120a968135aead39699267f4c74bc9a08e4e909e86bc1b0af5bfd78691123c
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.0"
+    version: "3.7.2"
   pool:
     dependency: transitive
     description:
@@ -557,26 +545,26 @@ packages:
     dependency: "direct dev"
     description:
       name: test
-      sha256: "5301f54eb6fe945daa99bc8df6ece3f88b5ceaa6f996f250efdaaf63e22886be"
+      sha256: "3dac9aecf2c3991d09b9cdde4f98ded7b30804a88a0d7e4e7e1678e78d6b97f4"
       url: "https://pub.dev"
     source: hosted
-    version: "1.23.1"
+    version: "1.24.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
-      sha256: "6182294da5abf431177fccc1ee02401f6df30f766bc6130a0852c6b6d7ee6b2d"
+      sha256: eb6ac1540b26de412b3403a163d919ba86f6a973fe6cc50ae3541b80092fdcfb
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.18"
+    version: "0.5.1"
   test_core:
     dependency: transitive
     description:
       name: test_core
-      sha256: d2e9240594b409565524802b84b7b39341da36dd6fd8e1660b53ad928ec3e9af
+      sha256: "5138dbffb77b2289ecb12b81c11ba46036590b72a64a7a90d6ffb880f1a29e93"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.24"
+    version: "0.5.1"
   tint:
     dependency: transitive
     description:
@@ -605,10 +593,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: eb3cf3f45fc1500ae30481ac9ab788302fa5e8edc3f3eaddf183945ee93a8bf3
+      sha256: f6deed8ed625c52864792459709183da231ebf66ff0cf09e69b573227c377efe
       url: "https://pub.dev"
     source: hosted
-    version: "11.2.0"
+    version: "11.3.0"
   watcher:
     dependency: transitive
     description:
