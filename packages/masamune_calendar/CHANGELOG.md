@@ -1,3 +1,7 @@
+## 1.1.4
+
+ - **FIX**: Added package description. ([04eac703](https://github.com/mathrunet/flutter_masamune/commit/04eac7035b66514fcac0e6133874aa1ab83e32cd))
+
 ## 1.1.3
 
  - Update a dependency to the latest release.

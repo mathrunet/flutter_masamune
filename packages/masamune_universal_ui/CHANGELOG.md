@@ -1,3 +1,7 @@
+## 1.2.16
+
+ - Update a dependency to the latest release.
+
 ## 1.2.15
 
  - **FIX**: Add width and height to UniversalScaffold. ([538a69e0](https://github.com/mathrunet/flutter_masamune/commit/538a69e0cc37d48610dc089e59083e0a1ca5e07d))

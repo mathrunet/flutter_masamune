@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.11.15`](#katana_router---v11115)
+ - [`katana_router_annotation` - `v1.11.9`](#katana_router_annotation---v1119)
+ - [`katana_router_builder` - `v1.11.13`](#katana_router_builder---v11113)
+ - [`masamune_calendar` - `v1.1.4`](#masamune_calendar---v114)
+ - [`masamune_module` - `v1.1.1`](#masamune_module---v111)
+ - [`masamune` - `v1.11.17`](#masamune---v11117)
+ - [`masamune_picker` - `v1.6.10`](#masamune_picker---v1610)
+ - [`masamune_universal_ui` - `v1.2.16`](#masamune_universal_ui---v1216)
+ - [`masamune_ai_openai` - `v1.1.21`](#masamune_ai_openai---v1121)
+ - [`masamune_notification_firebase` - `v1.2.46`](#masamune_notification_firebase---v1246)
+ - [`masamune_picker_file` - `v1.6.10`](#masamune_picker_file---v1610)
+ - [`masamune_logger_firebase` - `v1.2.57`](#masamune_logger_firebase---v1257)
+ - [`masamune_picker_mobile` - `v1.6.10`](#masamune_picker_mobile---v1610)
+ - [`masamune_builder` - `v1.4.21`](#masamune_builder---v1421)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.11.17`
+ - `masamune_picker` - `v1.6.10`
+ - `masamune_universal_ui` - `v1.2.16`
+ - `masamune_ai_openai` - `v1.1.21`
+ - `masamune_notification_firebase` - `v1.2.46`
+ - `masamune_picker_file` - `v1.6.10`
+ - `masamune_logger_firebase` - `v1.2.57`
+ - `masamune_picker_mobile` - `v1.6.10`
+ - `masamune_builder` - `v1.4.21`
+
+---
+
+#### `katana_router` - `v1.11.15`
+
+ - **FIX**: Fixed a bug in error modal at Boot time. ([760399f5](https://github.com/mathrunet/flutter_masamune/commit/760399f5dc9aca31185a673c158eb4b8f689689f))
+
+#### `katana_router_annotation` - `v1.11.9`
+
+ - **FIX**: Fixed a bug in error modal at Boot time. ([760399f5](https://github.com/mathrunet/flutter_masamune/commit/760399f5dc9aca31185a673c158eb4b8f689689f))
+
+#### `katana_router_builder` - `v1.11.13`
+
+ - **FIX**: Fixed a bug in error modal at Boot time. ([760399f5](https://github.com/mathrunet/flutter_masamune/commit/760399f5dc9aca31185a673c158eb4b8f689689f))
+
+#### `masamune_calendar` - `v1.1.4`
+
+ - **FIX**: Added package description. ([04eac703](https://github.com/mathrunet/flutter_masamune/commit/04eac7035b66514fcac0e6133874aa1ab83e32cd))
+
+#### `masamune_module` - `v1.1.1`
+
+ - **FIX**: Update module interfaces. ([8079c5c5](https://github.com/mathrunet/flutter_masamune/commit/8079c5c5acf8b5c48ff675da5a929d98bc490773))
+
+
 ## 2023-04-04
 
 ### Changes

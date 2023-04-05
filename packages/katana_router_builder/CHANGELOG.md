@@ -1,3 +1,7 @@
+## 1.11.13
+
+ - **FIX**: Fixed a bug in error modal at Boot time. ([760399f5](https://github.com/mathrunet/flutter_masamune/commit/760399f5dc9aca31185a673c158eb4b8f689689f))
+
 ## 1.11.12
 
  - Update a dependency to the latest release.
