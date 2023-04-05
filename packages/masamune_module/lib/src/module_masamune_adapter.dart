@@ -23,6 +23,7 @@ abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
     this.additionalRouterPages = const [],
     this.additionalRouterRedirect = const [],
     this.additionalNavigatorObservers = const [],
+    this.localize,
   });
 
   /// You can specify the plug-in adapter used by Masamune Framework.
@@ -104,14 +105,17 @@ abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
   /// アプリのタイトルを動的に指定します。
   ///
   /// コールバックの戻り値でタイトルを返してください。
-  final String Function(BuildContext)? onGenerateTitle;
+  final String Function(BuildContext context, AppLocalizeBase? localize)?
+      onGenerateTitle;
 
+  @mustCallSuper
   List<MasamuneAdapter> get masamuneAdapters => [
         this,
         ...additionalMasamuneAdapters,
       ];
 
   @override
+  @mustCallSuper
   List<LoggerAdapter> get loggerAdapters => additionalLoggerAdapters;
 
   final BootRouteQueryBuilder? routerBootOverride;
@@ -121,7 +125,9 @@ abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
   final List<RedirectQuery> additionalRouterRedirect;
   final List<NavigatorObserver> additionalNavigatorObservers;
 
+  @mustCallSuper
   List<RouteQueryBuilder> get routerPages;
+
   RouteQuery get routerInitialQuery;
   BootRouteQueryBuilder? get routerBoot => null;
   List<RedirectQuery> get routerRedirect => const [];
@@ -130,7 +136,7 @@ abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
   /// Config for router used by `katana_router`.
   ///
   /// `katana_router`で利用されるルーター用のコンフィグ。
-  RouterConfig<Object>? get router => AppRouter(
+  AppRouter get router => AppRouter(
         boot: routerBootOverride ?? routerBoot,
         initialQuery: routerInitialQueryOverride ?? routerInitialQuery,
         redirect: [
@@ -150,12 +156,12 @@ abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
   /// Data for localization used by `katana_localize`.
   ///
   /// `katana_localize`で利用されるローカライズ用のデータ。
-  AppLocalizeBase? get localize => null;
+  final AppLocalizeBase? localize;
 
   /// Ref for application scope called by `katana_scoped`.
   ///
   /// `katana_scoped`で呼び出されるアプリケーションスコープ用のref。
-  AppRef? get ref => AppRef();
+  AppRef get ref => AppRef();
 
   /// App authentication.
   ///
