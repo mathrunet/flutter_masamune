@@ -125,6 +125,7 @@ class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder> {
   }
 
   Future<void> _handledOnInit() async {
+    await Future.delayed(Duration.zero);
     await widget.onInit(context);
     AppRouter.of(context).pop();
   }
