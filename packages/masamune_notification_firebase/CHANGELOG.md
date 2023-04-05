@@ -1,3 +1,7 @@
+## 1.2.47
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
 ## 1.2.46
 
  - Update a dependency to the latest release.

@@ -15,6 +15,247 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v1.0.11`](#katana---v1011)
+ - [`katana_auth` - `v1.2.13`](#katana_auth---v1213)
+ - [`katana_auth_firebase` - `v1.2.13`](#katana_auth_firebase---v1213)
+ - [`katana_cli` - `v1.8.22`](#katana_cli---v1822)
+ - [`katana_firebase` - `v1.1.18`](#katana_firebase---v1118)
+ - [`katana_form` - `v1.4.6`](#katana_form---v146)
+ - [`katana_functions` - `v1.1.21`](#katana_functions---v1121)
+ - [`katana_functions_firebase` - `v1.1.25`](#katana_functions_firebase---v1125)
+ - [`katana_indicator` - `v1.1.17`](#katana_indicator---v1117)
+ - [`katana_listenables` - `v1.2.22`](#katana_listenables---v1222)
+ - [`katana_listenables_annotation` - `v1.2.20`](#katana_listenables_annotation---v1220)
+ - [`katana_listenables_builder` - `v1.2.21`](#katana_listenables_builder---v1221)
+ - [`katana_localization` - `v1.1.34`](#katana_localization---v1134)
+ - [`katana_localization_annotation` - `v1.1.32`](#katana_localization_annotation---v1132)
+ - [`katana_localization_builder` - `v1.1.34`](#katana_localization_builder---v1134)
+ - [`katana_logger` - `v1.2.9`](#katana_logger---v129)
+ - [`katana_model` - `v1.7.7`](#katana_model---v177)
+ - [`katana_model_firestore` - `v1.6.8`](#katana_model_firestore---v168)
+ - [`katana_model_openapi` - `v1.3.6`](#katana_model_openapi---v136)
+ - [`katana_model_openapi_builder` - `v1.3.6`](#katana_model_openapi_builder---v136)
+ - [`katana_prefs` - `v1.1.22`](#katana_prefs---v1122)
+ - [`katana_prefs_annotation` - `v1.1.16`](#katana_prefs_annotation---v1116)
+ - [`katana_prefs_builder` - `v1.1.25`](#katana_prefs_builder---v1125)
+ - [`katana_router` - `v1.11.16`](#katana_router---v11116)
+ - [`katana_router_annotation` - `v1.11.10`](#katana_router_annotation---v11110)
+ - [`katana_router_builder` - `v1.11.14`](#katana_router_builder---v11114)
+ - [`katana_scoped` - `v1.11.4`](#katana_scoped---v1114)
+ - [`katana_shorten` - `v1.2.14`](#katana_shorten---v1214)
+ - [`katana_storage` - `v1.1.17`](#katana_storage---v1117)
+ - [`katana_storage_firebase` - `v1.1.20`](#katana_storage_firebase---v1120)
+ - [`katana_theme` - `v1.4.8`](#katana_theme---v148)
+ - [`katana_theme_annotation` - `v1.4.7`](#katana_theme_annotation---v147)
+ - [`katana_theme_builder` - `v1.4.8`](#katana_theme_builder---v148)
+ - [`katana_ui` - `v1.2.10`](#katana_ui---v1210)
+ - [`masamune` - `v1.11.18`](#masamune---v11118)
+ - [`masamune_ai_openai` - `v1.1.22`](#masamune_ai_openai---v1122)
+ - [`masamune_annotation` - `v1.4.10`](#masamune_annotation---v1410)
+ - [`masamune_builder` - `v1.4.22`](#masamune_builder---v1422)
+ - [`masamune_calendar` - `v1.1.5`](#masamune_calendar---v115)
+ - [`masamune_logger_firebase` - `v1.2.58`](#masamune_logger_firebase---v1258)
+ - [`masamune_notification_firebase` - `v1.2.47`](#masamune_notification_firebase---v1247)
+ - [`masamune_picker` - `v1.6.11`](#masamune_picker---v1611)
+ - [`masamune_picker_file` - `v1.6.11`](#masamune_picker_file---v1611)
+ - [`masamune_picker_mobile` - `v1.6.11`](#masamune_picker_mobile---v1611)
+ - [`masamune_universal_ui` - `v1.2.17`](#masamune_universal_ui---v1217)
+
+---
+
+#### `katana` - `v1.0.11`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_auth` - `v1.2.13`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_auth_firebase` - `v1.2.13`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_cli` - `v1.8.22`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_firebase` - `v1.1.18`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_form` - `v1.4.6`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_functions` - `v1.1.21`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_functions_firebase` - `v1.1.25`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_indicator` - `v1.1.17`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_listenables` - `v1.2.22`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_listenables_annotation` - `v1.2.20`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_listenables_builder` - `v1.2.21`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_localization` - `v1.1.34`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_localization_annotation` - `v1.1.32`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_localization_builder` - `v1.1.34`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_logger` - `v1.2.9`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_model` - `v1.7.7`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_model_firestore` - `v1.6.8`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_model_openapi` - `v1.3.6`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_model_openapi_builder` - `v1.3.6`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_prefs` - `v1.1.22`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_prefs_annotation` - `v1.1.16`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_prefs_builder` - `v1.1.25`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_router` - `v1.11.16`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_router_annotation` - `v1.11.10`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_router_builder` - `v1.11.14`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_scoped` - `v1.11.4`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_shorten` - `v1.2.14`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_storage` - `v1.1.17`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_storage_firebase` - `v1.1.20`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_theme` - `v1.4.8`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_theme_annotation` - `v1.4.7`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_theme_builder` - `v1.4.8`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `katana_ui` - `v1.2.10`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune` - `v1.11.18`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_ai_openai` - `v1.1.22`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_annotation` - `v1.4.10`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_builder` - `v1.4.22`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_calendar` - `v1.1.5`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_logger_firebase` - `v1.2.58`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_notification_firebase` - `v1.2.47`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_picker` - `v1.6.11`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_picker_file` - `v1.6.11`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_picker_mobile` - `v1.6.11`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+#### `masamune_universal_ui` - `v1.2.17`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
+
+## 2023-04-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v1.11.15`](#katana_router---v11115)
  - [`katana_router_annotation` - `v1.11.9`](#katana_router_annotation---v1119)
  - [`katana_router_builder` - `v1.11.13`](#katana_router_builder---v11113)

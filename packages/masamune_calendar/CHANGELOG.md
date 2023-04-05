@@ -1,3 +1,7 @@
+## 1.1.5
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
 ## 1.1.4
 
  - **FIX**: Added package description. ([04eac703](https://github.com/mathrunet/flutter_masamune/commit/04eac7035b66514fcac0e6133874aa1ab83e32cd))

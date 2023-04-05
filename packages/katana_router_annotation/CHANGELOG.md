@@ -1,3 +1,7 @@
+## 1.11.10
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
 ## 1.11.9
 
  - **FIX**: Fixed a bug in error modal at Boot time. ([760399f5](https://github.com/mathrunet/flutter_masamune/commit/760399f5dc9aca31185a673c158eb4b8f689689f))

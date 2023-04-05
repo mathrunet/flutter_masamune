@@ -1,3 +1,7 @@
+## 1.0.11
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+
 ## 1.0.10
 
  - **FIX**: The value of key in Distinct is null-acceptable. ([04a59d2a](https://github.com/mathrunet/flutter_masamune/commit/04a59d2af2972498d3e35d1efd10620d9d4845e4))
