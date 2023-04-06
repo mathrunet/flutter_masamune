@@ -1,3 +1,7 @@
+## 1.1.23
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
 ## 1.1.22
 
  - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))

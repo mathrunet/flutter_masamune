@@ -3,6 +3,138 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_listenables` - `v1.2.23`](#katana_listenables---v1223)
+ - [`katana_listenables_annotation` - `v1.2.21`](#katana_listenables_annotation---v1221)
+ - [`katana_listenables_builder` - `v1.2.22`](#katana_listenables_builder---v1222)
+ - [`katana_localization` - `v1.1.35`](#katana_localization---v1135)
+ - [`katana_localization_annotation` - `v1.1.33`](#katana_localization_annotation---v1133)
+ - [`katana_localization_builder` - `v1.1.35`](#katana_localization_builder---v1135)
+ - [`katana_model_openapi` - `v1.3.7`](#katana_model_openapi---v137)
+ - [`katana_model_openapi_builder` - `v1.3.7`](#katana_model_openapi_builder---v137)
+ - [`katana_prefs` - `v1.1.23`](#katana_prefs---v1123)
+ - [`katana_prefs_annotation` - `v1.1.17`](#katana_prefs_annotation---v1117)
+ - [`katana_prefs_builder` - `v1.1.26`](#katana_prefs_builder---v1126)
+ - [`katana_router` - `v1.11.17`](#katana_router---v11117)
+ - [`katana_router_annotation` - `v1.11.11`](#katana_router_annotation---v11111)
+ - [`katana_router_builder` - `v1.11.15`](#katana_router_builder---v11115)
+ - [`katana_theme` - `v1.4.9`](#katana_theme---v149)
+ - [`katana_theme_annotation` - `v1.4.8`](#katana_theme_annotation---v148)
+ - [`katana_theme_builder` - `v1.4.9`](#katana_theme_builder---v149)
+ - [`masamune` - `v1.11.19`](#masamune---v11119)
+ - [`masamune_builder` - `v1.4.23`](#masamune_builder---v1423)
+ - [`masamune_picker` - `v1.6.12`](#masamune_picker---v1612)
+ - [`masamune_ai_openai` - `v1.1.23`](#masamune_ai_openai---v1123)
+ - [`masamune_universal_ui` - `v1.2.18`](#masamune_universal_ui---v1218)
+ - [`masamune_notification_firebase` - `v1.2.49`](#masamune_notification_firebase---v1249)
+ - [`masamune_calendar` - `v1.1.6`](#masamune_calendar---v116)
+ - [`masamune_picker_file` - `v1.6.12`](#masamune_picker_file---v1612)
+ - [`masamune_logger_firebase` - `v1.2.59`](#masamune_logger_firebase---v1259)
+ - [`masamune_picker_mobile` - `v1.6.12`](#masamune_picker_mobile---v1612)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.6.12`
+ - `masamune_ai_openai` - `v1.1.23`
+ - `masamune_universal_ui` - `v1.2.18`
+ - `masamune_notification_firebase` - `v1.2.49`
+ - `masamune_calendar` - `v1.1.6`
+ - `masamune_picker_file` - `v1.6.12`
+ - `masamune_logger_firebase` - `v1.2.59`
+ - `masamune_picker_mobile` - `v1.6.12`
+
+---
+
+#### `katana_listenables` - `v1.2.23`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_listenables_annotation` - `v1.2.21`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_listenables_builder` - `v1.2.22`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_localization` - `v1.1.35`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_localization_annotation` - `v1.1.33`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_localization_builder` - `v1.1.35`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_model_openapi` - `v1.3.7`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_model_openapi_builder` - `v1.3.7`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_prefs` - `v1.1.23`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_prefs_annotation` - `v1.1.17`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_prefs_builder` - `v1.1.26`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_router` - `v1.11.17`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_router_annotation` - `v1.11.11`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_router_builder` - `v1.11.15`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_theme` - `v1.4.9`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_theme_annotation` - `v1.4.8`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `katana_theme_builder` - `v1.4.9`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `masamune` - `v1.11.19`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+#### `masamune_builder` - `v1.4.23`
+
+ - **FIX**: Fixed a bug that build.yaml is no longer included. ([be918cab](https://github.com/mathrunet/flutter_masamune/commit/be918cabeaf94d30e4ee6baccb42a80452c83d46))
+
+
 ## 2023-04-06
 
 ### Changes

@@ -1,3 +1,7 @@
+## 1.2.49
+
+ - Update a dependency to the latest release.
+
 ## 1.2.48
 
  - **FIX**: Since there is sometimes an error in GetToken, I removed it once at initialization. ([66e63e32](https://github.com/mathrunet/flutter_masamune/commit/66e63e328c046b89ddb51913d7d2d4534a69b1db))
