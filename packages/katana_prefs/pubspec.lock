@@ -214,17 +214,19 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
-    version: "1.0.10"
+      name: katana
+      sha256: f4e68a522ae23b317132990e9a3dc2d4cb0fd7155de081daf2cc52427d8b6c46
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.11"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
-      path: "../katana_prefs_annotation"
-      relative: true
-    source: path
-    version: "1.1.15"
+      name: katana_prefs_annotation
+      sha256: b9395203ca6cfd3467092d8fd8b9fa09f9faeada63cf0f3767693231c68ad040
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.16"
   lints:
     dependency: transitive
     description:

@@ -227,150 +227,171 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
-    version: "1.0.10"
+      name: katana
+      sha256: f4e68a522ae23b317132990e9a3dc2d4cb0fd7155de081daf2cc52427d8b6c46
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.11"
   katana_auth:
     dependency: "direct main"
     description:
-      path: "../katana_auth"
-      relative: true
-    source: path
-    version: "1.2.12"
+      name: katana_auth
+      sha256: c3263eccead402d5e064175490f53409722f2eb15e0756c6311db061b21b98ad
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.13"
   katana_form:
     dependency: "direct main"
     description:
-      path: "../katana_form"
-      relative: true
-    source: path
-    version: "1.4.5"
+      name: katana_form
+      sha256: "0f45da76efbe15beadde6cc62805852fa74c8d6a7616bf9c0f5e37828603ac48"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.6"
   katana_functions:
     dependency: "direct main"
     description:
-      path: "../katana_functions"
-      relative: true
-    source: path
-    version: "1.1.20"
+      name: katana_functions
+      sha256: "2cfbcfe7fab517d5ec033f53fffb41f7b2c026e5a54135000340ea195172a76b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.21"
   katana_indicator:
     dependency: "direct main"
     description:
-      path: "../katana_indicator"
-      relative: true
-    source: path
-    version: "1.1.16"
+      name: katana_indicator
+      sha256: c350f64d6c3a3ff7fe2f37bf8062ecbbf1a499617bbe8889c6e11c6be834da9e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.17"
   katana_listenables:
     dependency: "direct main"
     description:
-      path: "../katana_listenables"
-      relative: true
-    source: path
-    version: "1.2.21"
+      name: katana_listenables
+      sha256: caa1d6b6a7c48405dddfd79a884f7a49ac138ca9129e43b719ad4fb5ab9ca705
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.22"
   katana_listenables_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_listenables_annotation"
-      relative: true
-    source: path
-    version: "1.2.19"
+      name: katana_listenables_annotation
+      sha256: accdb333507b32231e546f66fb75f2ce9079a489223659abed91f6958f07e591
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.20"
   katana_localization:
     dependency: "direct main"
     description:
-      path: "../katana_localization"
-      relative: true
-    source: path
-    version: "1.1.33"
+      name: katana_localization
+      sha256: "11e30dc3053bd5256835c8046a4d86f85c6c3b8617cc011200f5aecd847d1a9c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.34"
   katana_localization_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_localization_annotation"
-      relative: true
-    source: path
-    version: "1.1.31"
+      name: katana_localization_annotation
+      sha256: b3afffa74dafc7323276438b6e25b3941a057fdb70ed78ebee0aaf5afab691c3
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.32"
   katana_logger:
     dependency: "direct main"
     description:
-      path: "../katana_logger"
-      relative: true
-    source: path
-    version: "1.2.8"
+      name: katana_logger
+      sha256: "58bb47b1063437852188e82faf9dbba87303723bf0381b42ebdde07c10337c9d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.9"
   katana_model:
     dependency: "direct main"
     description:
-      path: "../katana_model"
-      relative: true
-    source: path
-    version: "1.7.6"
+      name: katana_model
+      sha256: "5450db03f04faa15de181a113e0f6e262cede7a613b0af36cc9c48fc01374be7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.7.7"
   katana_prefs:
     dependency: "direct main"
     description:
-      path: "../katana_prefs"
-      relative: true
-    source: path
-    version: "1.1.21"
+      name: katana_prefs
+      sha256: d15205118d2f137d10b4ba02dca1b8a19b48f688740fa09869e9f70c0e7e724b
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.22"
   katana_prefs_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_prefs_annotation"
-      relative: true
-    source: path
-    version: "1.1.15"
+      name: katana_prefs_annotation
+      sha256: b9395203ca6cfd3467092d8fd8b9fa09f9faeada63cf0f3767693231c68ad040
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.16"
   katana_router:
     dependency: "direct main"
     description:
-      path: "../katana_router"
-      relative: true
-    source: path
-    version: "1.11.15"
+      name: katana_router
+      sha256: "6ea19f287cbc18b2c2374b7ff82e7e3be567055a228ee3f1d8eeff3d9e40e643"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.16"
   katana_router_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_router_annotation"
-      relative: true
-    source: path
-    version: "1.11.9"
+      name: katana_router_annotation
+      sha256: "38aa16a320f70a4bde40cd1033d12448fbfb4034de55e703316e028dc6b0b769"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.10"
   katana_scoped:
     dependency: "direct main"
     description:
-      path: "../katana_scoped"
-      relative: true
-    source: path
-    version: "1.11.3"
+      name: katana_scoped
+      sha256: d39f6662d4d09687be232bb991ef96f1fd02af32d388cbfc32dc3877eeb83406
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.4"
   katana_shorten:
     dependency: "direct main"
     description:
-      path: "../katana_shorten"
-      relative: true
-    source: path
-    version: "1.2.13"
+      name: katana_shorten
+      sha256: ddf0e5373dea182cfb1f12ee5911eac82ac8ebb7208d74353c73148039b50a59
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.14"
   katana_storage:
     dependency: "direct main"
     description:
-      path: "../katana_storage"
-      relative: true
-    source: path
-    version: "1.1.16"
+      name: katana_storage
+      sha256: "70680e9a45340a5089b0f90be90cf154e389a924ed5e12e06b992ed17e1be938"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.17"
   katana_theme:
     dependency: "direct main"
     description:
-      path: "../katana_theme"
-      relative: true
-    source: path
-    version: "1.4.7"
+      name: katana_theme
+      sha256: eb70fa22fb5d5cff9e88f3aa7697cc7fe4db1c8010c6c71699b39ecbd6d0a5ee
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.8"
   katana_theme_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../katana_theme_annotation"
-      relative: true
-    source: path
-    version: "1.4.6"
+      name: katana_theme_annotation
+      sha256: "750452a745f08c8556b5d9c9461559a5b349e3add644014df8f2d7991f469831"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.7"
   katana_ui:
     dependency: "direct main"
     description:
-      path: "../katana_ui"
-      relative: true
-    source: path
-    version: "1.2.9"
+      name: katana_ui
+      sha256: f55cf92b58061c22f5d7e090a2a52b7c1d56dfd3e600fccf11c8471a9ba77a25
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.10"
   lints:
     dependency: transitive
     description:
@@ -390,10 +411,11 @@ packages:
   masamune_annotation:
     dependency: "direct main"
     description:
-      path: "../masamune_annotation"
-      relative: true
-    source: path
-    version: "1.4.9"
+      name: masamune_annotation
+      sha256: "1cb5fc9fc07a7bdc1f7b328229c667b1cf60fabb3c74d47c542fe0b52c9dc2f0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.10"
   matcher:
     dependency: transitive
     description:
