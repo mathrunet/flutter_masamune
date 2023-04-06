@@ -9,6 +9,7 @@ import 'package:yaml/yaml.dart';
 // Project imports:
 import 'package:katana_cli/command/apply.dart';
 import 'package:katana_cli/command/deploy.dart';
+import 'package:katana_cli/command/module.dart';
 import 'package:katana_cli/command/store/store.dart';
 import 'package:katana_cli/katana_cli.dart';
 
@@ -23,6 +24,7 @@ const commands = <String, CliCommand>{
   "create": CreateCliCommand(),
   "deploy": DeployCliCommand(),
   "store": StoreCliCommand(),
+  "module": CreateModuleCliCommand(),
 };
 
 Future<void> main(List<String> args) async {

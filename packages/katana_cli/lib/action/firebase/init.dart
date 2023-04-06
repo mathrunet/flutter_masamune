@@ -225,6 +225,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
         });
         await firestoreProcess.exitCode;
+        label("Rewriting Rules");
+        await const FirestoreRulesCliCode().generateFile("firestore.rules");
       }
     }
     if (enabledStorage) {
@@ -258,6 +260,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
         });
         await storageProcess.exitCode;
+        label("Rewriting Rules");
+        await const FirebaseStorageRulesCliCode().generateFile("storage.rules");
       }
     }
     if (enabledHosting) {
@@ -375,19 +379,19 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
           _runCommandStack(
             line,
-            "? what language would you like to use to write Cloud Functions?",
+            "? What language would you like to use to write Cloud Functions?",
             commandStack,
             () => functionsProcess.stdin.write("k\n"),
           );
           _runCommandStack(
             line,
-            "? do you want to use ESLint to catch probable bugs and enforce style?",
+            "? Do you want to use ESLint to catch probable bugs and enforce style?",
             commandStack,
             () => functionsProcess.stdin.write("y\n"),
           );
           _runCommandStack(
             line,
-            "? do you want to install dependencies with npm now?",
+            "? Do you want to install dependencies with npm now?",
             commandStack,
             () => functionsProcess.stdin.write("y\n"),
           );
@@ -407,6 +411,17 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         label("Data replacement for Firebase Functions.");
         await const FirebaseFunctionsIndexCliCode().generateFile("index.ts");
       }
+      await command(
+        "Fix lint errors.",
+        [
+          "eslint",
+          "--ext",
+          ".js,.ts",
+          ".",
+          "--fix",
+        ],
+        workingDirectory: "firebase/functions",
+      );
     }
     label("Edit config.properties");
     final configPropertiesFile = File("android/config.properties");
@@ -511,7 +526,65 @@ class FirebaseHostingIndexCliCode extends CliCode {
 
   @override
   String get description =>
-      "Define the code for index.html in Firebase Hosting.Firebase Hostingのindex.htmlのコードを定義します。";
+      "Define the code for index.html in Firebase Hosting. Firebase Hostingのindex.htmlのコードを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+""";
+  }
+}
+
+/// Firestore's Rules codebase.
+///
+/// FirestoreのRulesのコードベース。
+class FirestoreRulesCliCode extends CliCode {
+  /// Firestore's Rules codebase.
+  ///
+  /// FirestoreのRulesのコードベース。
+  const FirestoreRulesCliCode();
+
+  @override
+  String get name => "firestore";
+
+  @override
+  String get prefix => "firestore";
+
+  @override
+  String get directory => "firebase";
+
+  @override
+  String get description =>
+      "Define code for Firestore rules. Firestoreのルール用のコードを定義します。";
+
+  /// Checks [fileName] and returns true if the file does not exist or if all access is unauthorized.
+  ///
+  /// [fileName]をチェックしファイルが存在しない場合と、すべてのアクセスが未許可の場合にtrueを返します。
+  Future<bool> check(String fileName) async {
+    if (directory.isNotEmpty) {
+      final dir = Directory(directory);
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+    }
+    final file = File("${directory.isNotEmpty ? "$directory/" : ""}$fileName");
+    if (!file.existsSync()) {
+      return true;
+    }
+    final res = await file.readAsString();
+    return res.contains("allow read, write: if false;");
+  }
 
   @override
   String import(String path, String baseName, String className) {
@@ -527,6 +600,82 @@ class FirebaseHostingIndexCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
+rules_version = '3';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
+""";
+  }
+}
+
+/// Firebase Storage's Rules codebase.
+///
+/// Firebase StorageのRulesのコードベース。
+class FirebaseStorageRulesCliCode extends CliCode {
+  /// Firebase Storage's Rules codebase.
+  ///
+  /// Firebase StorageのRulesのコードベース。
+  const FirebaseStorageRulesCliCode();
+
+  @override
+  String get name => "storage";
+
+  @override
+  String get prefix => "storage";
+
+  @override
+  String get directory => "firebase";
+
+  @override
+  String get description =>
+      "Define code for Firebase Storage rules.Firebase Storageのルール用のコードを定義します。";
+
+  /// Checks [fileName] and returns true if the file does not exist or if all access is unauthorized.
+  ///
+  /// [fileName]をチェックしファイルが存在しない場合と、すべてのアクセスが未許可の場合にtrueを返します。
+  Future<bool> check(String fileName) async {
+    if (directory.isNotEmpty) {
+      final dir = Directory(directory);
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+    }
+    final file = File("${directory.isNotEmpty ? "$directory/" : ""}$fileName");
+    if (!file.existsSync()) {
+      return true;
+    }
+    final res = await file.readAsString();
+    return res.contains("allow read, write: if false;");
+  }
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+rules_version = '3';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
 """;
   }
 }
