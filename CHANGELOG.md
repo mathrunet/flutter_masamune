@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_notification_firebase` - `v1.2.48`](#masamune_notification_firebase---v1248)
+
+---
+
+#### `masamune_notification_firebase` - `v1.2.48`
+
+ - **FIX**: Since there is sometimes an error in GetToken, I removed it once at initialization. ([66e63e32](https://github.com/mathrunet/flutter_masamune/commit/66e63e328c046b89ddb51913d7d2d4534a69b1db))
+
+
 ## 2023-04-05
 
 ### Changes
