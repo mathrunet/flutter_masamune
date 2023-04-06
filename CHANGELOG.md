@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.9.0`](#katana_cli---v190)
+
+---
+
+#### `katana_cli` - `v1.9.0`
+
+ - **FEAT**: Added module command. ([77237e0a](https://github.com/mathrunet/flutter_masamune/commit/77237e0af80c37c3caae1ca74f25b227be069a7d))
+
+
+## 2023-04-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_listenables` - `v1.2.23`](#katana_listenables---v1223)
  - [`katana_listenables_annotation` - `v1.2.21`](#katana_listenables_annotation---v1221)
  - [`katana_listenables_builder` - `v1.2.22`](#katana_listenables_builder---v1222)

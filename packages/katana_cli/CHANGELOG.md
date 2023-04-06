@@ -1,3 +1,7 @@
+## 1.9.0
+
+ - **FEAT**: Added module command. ([77237e0a](https://github.com/mathrunet/flutter_masamune/commit/77237e0af80c37c3caae1ca74f25b227be069a7d))
+
 ## 1.8.22
 
  - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
