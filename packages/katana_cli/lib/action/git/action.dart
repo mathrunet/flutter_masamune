@@ -1,5 +1,8 @@
 // Project imports:
+import 'dart:io';
+
 import 'package:katana_cli/katana_cli.dart';
+import 'package:yaml/yaml.dart';
 import 'platform/android.dart';
 import 'platform/ios.dart';
 import 'platform/web.dart';
@@ -38,19 +41,22 @@ class GitActionCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final pubspecFile = File("pubspec.yaml");
+    final yaml = modifize(loadYaml(await pubspecFile.readAsString())) as Map;
     final bin = context.yaml.getAsMap("bin");
     final gh = bin.get("gh", "gh");
+    final name = yaml.get("name", "");
     for (final platform in platforms) {
       label("Create build.yaml for $platform");
       switch (platform) {
         case "android":
-          await buildAndroid(context, gh: gh);
+          await buildAndroid(context, gh: gh, appName: name);
           break;
         case "ios":
-          await buildIOS(context, gh: gh);
+          await buildIOS(context, gh: gh, appName: name);
           break;
         case "web":
-          await buildWeb(context, gh: gh);
+          await buildWeb(context, gh: gh, appName: name);
           break;
       }
     }

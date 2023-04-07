@@ -13,23 +13,25 @@ import 'package:katana_cli/katana_cli.dart';
 Future<void> buildWeb(
   ExecContext context, {
   required String gh,
+  required String appName,
 }) async {
   const webCode = GithubActionsWebCliCode();
+
   var hostingYamlFile =
       File("${webCode.directory}/firebase-hosting-pull-request.yml");
   if (!hostingYamlFile.existsSync()) {
-    hostingYamlFile =
-        File(".dart_tool/katana/firebase-hosting-pull-request.yml");
+    hostingYamlFile = File(
+        ".dart_tool/katana/firebase-hosting-pull-request-${appName.toLowerCase()}.yml");
   }
   final yaml = hostingYamlFile.existsSync()
       ? loadYaml(await hostingYamlFile.readAsString())
       : {};
   await webCode.generateFile(
-    "build_web.yaml",
+    "build_web_${appName.toLowerCase()}.yaml",
     filter: (source) => webCode._additionalFilter(yaml, source),
   );
-  await hostingYamlFile
-      .rename(".dart_tool/katana/firebase-hosting-pull-request.yml");
+  await hostingYamlFile.rename(
+      ".dart_tool/katana/firebase-hosting-pull-request-${appName.toLowerCase()}.yml");
 }
 
 /// Contents of buiod.yaml for Github Actions web.
@@ -48,7 +50,18 @@ class GithubActionsWebCliCode extends CliCode {
   String get prefix => "build_web";
 
   @override
-  String get directory => ".github/workflows";
+  String get directory {
+    int i = 0;
+    var current = Directory.current;
+    while (!Directory("${current.path}/.git").existsSync()) {
+      i++;
+      if (i > 5) {
+        return "${Directory.current.path}/.github/workflows";
+      }
+      current = current.parent;
+    }
+    return "${current.path}/.github/workflows";
+  }
 
   @override
   String get description =>
@@ -66,7 +79,10 @@ class GithubActionsWebCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""
+    final workingPath = Directory.current.path
+        .replaceAll(directory.replaceAll(".github/workflows", ""), "")
+        .trimString("/");
+    return """
 # Build and upload a Flutter web app.
 # 
 # The built related files will be stored in Github storage. (storage expires in 1 day)
@@ -89,6 +105,10 @@ jobs:
   build_web:
 
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${workingPath.isEmpty ? "." : workingPath}
 
     steps:
       # Check-out.
@@ -132,7 +152,7 @@ jobs:
       # Generate web files.
       # Webファイルを生成。
       - name: Building web build
-        run: flutter build web --build-number ${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod --web-renderer html
+        run: flutter build web --build-number \${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod --web-renderer html
 
       # Upload the generated files.
       # 生成されたファイルのアップロード。

@@ -11,6 +11,7 @@ import 'package:katana_cli/katana_cli.dart';
 Future<void> buildAndroid(
   ExecContext context, {
   required String gh,
+  required String appName,
 }) async {
   final keystoreFile = File("android/app/appkey.keystore");
   if (!keystoreFile.existsSync()) {
@@ -82,7 +83,7 @@ Future<void> buildAndroid(
     ],
   );
   await const GithubActionsAndroidCliCode().generateFile(
-    "build_android.yaml",
+    "build_android_${appName.toLowerCase()}.yaml",
     filter: (value) {
       return value.replaceAll(
         "#### REPLACE_ANDROID_PACKAGE_NAME ####",
@@ -147,7 +148,18 @@ class GithubActionsAndroidCliCode extends CliCode {
   String get prefix => "build_android";
 
   @override
-  String get directory => ".github/workflows";
+  String get directory {
+    int i = 0;
+    var current = Directory.current;
+    while (!Directory("${current.path}/.git").existsSync()) {
+      i++;
+      if (i > 5) {
+        return "${Directory.current.path}/.github/workflows";
+      }
+      current = current.parent;
+    }
+    return "${current.path}/.github/workflows";
+  }
 
   @override
   String get description =>
@@ -165,7 +177,10 @@ class GithubActionsAndroidCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""
+    final workingPath = Directory.current.path
+        .replaceAll(directory.replaceAll(".github/workflows", ""), "")
+        .trimString("/");
+    return """
 # Build and upload your Flutter Android app.
 # 
 # apk and aab files will be stored in Github storage. (Storage period is 1 day)
@@ -200,6 +215,10 @@ jobs:
   build_android:
 
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${workingPath.isEmpty ? "." : workingPath}
 
     steps:
       # Check-out.
@@ -243,27 +262,27 @@ jobs:
       # Generate appkey.keystore from Secrets.
       # Secretsからappkey.keystoreを生成。
       - name: Create appkey.keystore
-        run: echo -n ${{ secrets.ANDROID_KEYSTORE }} | base64 -d > android/app/appkey.keystore
+        run: echo -n \${{ secrets.ANDROID_KEYSTORE }} | base64 -d > android/app/appkey.keystore
 
       # Generate service_account_key.json from Secrets.
       # Secretsからservice_account_key.jsonを生成。
       - name: Create service_account_key.json
-        run: echo -n ${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON }} | base64 -d > android/service_account_key.json
+        run: echo -n \${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON }} | base64 -d > android/service_account_key.json
 
       # Generate key.properties from Secrets.
       # Secretsからkey.propertiesを生成。
       - name: Create key.properties
-        run: echo ${{ secrets.ANDROID_KEY_PROPERTIES }} | base64 -d > android/key.properties
+        run: echo \${{ secrets.ANDROID_KEY_PROPERTIES }} | base64 -d > android/key.properties
 
       # Generate Apk.
       # Apkを生成。
       - name: Building Android apk
-        run: flutter build apk --build-number ${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod
+        run: flutter build apk --build-number \${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod
 
       # Generate app bundle.
       # App Bundleを生成。
       - name: Building Android AppBundle
-        run: flutter build appbundle --build-number ${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod
+        run: flutter build appbundle --build-number \${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod
       
       # Upload the generated files.
       # 生成されたファイルのアップロード。

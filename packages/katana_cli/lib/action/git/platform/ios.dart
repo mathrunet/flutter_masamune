@@ -14,6 +14,7 @@ import 'package:katana_cli/katana_cli.dart';
 Future<void> buildIOS(
   ExecContext context, {
   required String gh,
+  required String appName,
 }) async {
   final github = context.yaml.getAsMap("github");
   final action = github.getAsMap("action");
@@ -160,7 +161,8 @@ Future<void> buildIOS(
       issuerId,
     ],
   );
-  await const GithubActionsIOSCliCode().generateFile("build_ios.yaml");
+  await const GithubActionsIOSCliCode()
+      .generateFile("build_ios_${appName.toLowerCase()}.yaml");
   label("Edit Info.plist.");
   final plist = File("ios/Runner/Info.plist");
   final document = XmlDocument.parse(await plist.readAsString());
@@ -255,7 +257,18 @@ class GithubActionsIOSCliCode extends CliCode {
   String get prefix => "build_ios";
 
   @override
-  String get directory => ".github/workflows";
+  String get directory {
+    int i = 0;
+    var current = Directory.current;
+    while (!Directory("${current.path}/.git").existsSync()) {
+      i++;
+      if (i > 5) {
+        return "${Directory.current.path}/.github/workflows";
+      }
+      current = current.parent;
+    }
+    return "${current.path}/.github/workflows";
+  }
 
   @override
   String get description =>
@@ -273,7 +286,10 @@ class GithubActionsIOSCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""
+    final workingPath = Directory.current.path
+        .replaceAll(directory.replaceAll(".github/workflows", ""), "")
+        .trimString("/");
+    return """
 # Build and upload a Flutter IOS app.
 # 
 # Nothing is stored in Github storage.
@@ -310,6 +326,10 @@ jobs:
   build_ios:
 
     runs-on: macos-latest
+
+    defaults:
+      run:
+        working-directory: ${workingPath.isEmpty ? "." : workingPath}
 
     steps:
       # Check-out.
@@ -354,70 +374,70 @@ jobs:
       # Certificateの設定。
       - name: Import Apple Development Certificate
         env:
-            IOS_KEYCHAIN_PASSWORD: ${{ secrets.IOS_KEYCHAIN_PASSWORD }}
-            IOS_CERTIFICATES_P12: ${{ secrets.IOS_CERTIFICATES_P12 }}
-            IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+            IOS_KEYCHAIN_PASSWORD: \${{ secrets.IOS_KEYCHAIN_PASSWORD }}
+            IOS_CERTIFICATES_P12: \${{ secrets.IOS_CERTIFICATES_P12 }}
+            IOS_CERTIFICATE_PASSWORD: \${{ secrets.IOS_CERTIFICATE_PASSWORD }}
         run: |
-            APPLE_DEVELOPMENT_CERTIFICATE=$RUNNER_TEMP/development_certificate.p12
-            KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+            APPLE_DEVELOPMENT_CERTIFICATE=\$RUNNER_TEMP/development_certificate.p12
+            KEYCHAIN_PATH=\$RUNNER_TEMP/app-signing.keychain-db
 
             # import certificate from secrets
-            echo -n "$IOS_CERTIFICATES_P12" | base64 --decode --output $APPLE_DEVELOPMENT_CERTIFICATE
+            echo -n "\$IOS_CERTIFICATES_P12" | base64 --decode --output \$APPLE_DEVELOPMENT_CERTIFICATE
 
             # create temporary keychain
-            security create-keychain -p "$IOS_KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-            security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-            security unlock-keychain -p "$IOS_KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+            security create-keychain -p "\$IOS_KEYCHAIN_PASSWORD" \$KEYCHAIN_PATH
+            security set-keychain-settings -lut 21600 \$KEYCHAIN_PATH
+            security unlock-keychain -p "\$IOS_KEYCHAIN_PASSWORD" \$KEYCHAIN_PATH
 
             # import certificate to keychain
-            security import $APPLE_DEVELOPMENT_CERTIFICATE -P "$IOS_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-            security list-keychain -d user -s $KEYCHAIN_PATH
+            security import \$APPLE_DEVELOPMENT_CERTIFICATE -P "\$IOS_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k \$KEYCHAIN_PATH
+            security list-keychain -d user -s \$KEYCHAIN_PATH
       
       # Create AppStoreConnectAPI key.
       # AppStoreConnectAPIキーを作成。
       - name: Create App Store Connect API Private Key in ./private_keys
         env:
-          IOS_API_KEY_ID: ${{ secrets.IOS_API_KEY_ID }}
-          IOS_API_AUTHKEY_P8: ${{ secrets.IOS_API_AUTHKEY_P8 }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
+          IOS_API_AUTHKEY_P8: \${{ secrets.IOS_API_AUTHKEY_P8 }}
         run: |
           mkdir ./private_keys
-          echo -n "$IOS_API_AUTHKEY_P8" | base64 --decode --output ./private_keys/AuthKey_$IOS_API_KEY_ID.p8
+          echo -n "\$IOS_API_AUTHKEY_P8" | base64 --decode --output ./private_keys/AuthKey_\$IOS_API_KEY_ID.p8
 
       # Flutter build.
       # Flutterのビルド。
       - name: Run flutter build
         id: build
-        run: flutter build ios --release --no-codesign --release --dart-define=FLAVOR=prod --build-number ${GITHUB_RUN_NUMBER}
+        run: flutter build ios --release --no-codesign --release --dart-define=FLAVOR=prod --build-number \${GITHUB_RUN_NUMBER}
 
       # Archive of built data.
       # ビルドされたデータのアーカイブ。
       - name: Archive by xcodebuild
         env:
-          IOS_API_ISSUER_ID: ${{ secrets.IOS_API_ISSUER_ID }}
-          IOS_API_KEY_ID: ${{ secrets.IOS_API_KEY_ID }}
-        run: xcodebuild archive -workspace ./ios/Runner.xcworkspace -scheme Runner -configuration Release -archivePath ./build/ios/Runner.xcarchive -allowProvisioningUpdates -authenticationKeyIssuerID $IOS_API_ISSUER_ID -authenticationKeyID $IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_$IOS_API_KEY_ID.p8
+          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
+        run: xcodebuild archive -workspace ./ios/Runner.xcworkspace -scheme Runner -configuration Release -archivePath ./build/ios/Runner.xcarchive -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
 
       # Export of built archives.
       # ビルドされたアーカイブのエクスポート。
       - name: Export by xcodebuild
         env:
-          IOS_API_ISSUER_ID: ${{ secrets.IOS_API_ISSUER_ID }}
-          IOS_API_KEY_ID: ${{ secrets.IOS_API_KEY_ID }}
-        run: xcodebuild -exportArchive -archivePath ./build/ios/Runner.xcarchive -exportPath ./build/ios/ipa -exportOptionsPlist ./ios/ExportOptions.plist -allowProvisioningUpdates -authenticationKeyIssuerID $IOS_API_ISSUER_ID -authenticationKeyID $IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_$IOS_API_KEY_ID.p8
+          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
+        run: xcodebuild -exportArchive -archivePath ./build/ios/Runner.xcarchive -exportPath ./build/ios/ipa -exportOptionsPlist ./ios/ExportOptions.plist -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
 
       # IPA file detection.
       # IPAファイルの検出。
       - name: Detect path for ipa file
         run: |
-          echo "IPA_PATH=$(find build/ios/ipa -type f -name '*.ipa')" >> $GITHUB_ENV
+          echo "IPA_PATH=\$(find build/ios/ipa -type f -name '*.ipa')" >> \$GITHUB_ENV
 
       # Upload IPA files to AppStoreConnect.
       # IPAファイルのAppStoreConnectへのアップロード。
       - name: Upload to App Store Connect
         env:
-          IOS_API_ISSUER_ID: ${{ secrets.IOS_API_ISSUER_ID }}
-          IOS_API_KEY_ID: ${{ secrets.IOS_API_KEY_ID }}
-        run: xcrun altool --upload-app --type ios -f $IPA_PATH --apiKey $IOS_API_KEY_ID --apiIssuer $IOS_API_ISSUER_ID
+          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
+        run: xcrun altool --upload-app --type ios -f \$IPA_PATH --apiKey \$IOS_API_KEY_ID --apiIssuer \$IOS_API_ISSUER_ID
 """;
   }
 }
