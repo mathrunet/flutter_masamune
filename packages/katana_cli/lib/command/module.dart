@@ -51,7 +51,7 @@ class CreateModuleCliCommand extends CliCommand {
         "--template=package",
         "--project-name",
         "masamune_module_$projectName",
-        "package",
+        "module",
       ],
     );
     await command(
@@ -63,7 +63,7 @@ class CreateModuleCliCommand extends CliCommand {
         ...importPackages,
         "masamune_module",
       ],
-      workingDirectory: "package",
+      workingDirectory: "module",
     );
     await command(
       "Import dev packages.",
@@ -74,14 +74,14 @@ class CreateModuleCliCommand extends CliCommand {
         "--dev",
         ...importDevPackages,
       ],
-      workingDirectory: "package",
+      workingDirectory: "module",
     );
     label("Create a pubspec_overrides.yaml");
     await const PubspecOverridesCliCode()
-        .generateFile("package/pubspec_overrides.yaml");
+        .generateFile("module/pubspec_overrides.yaml");
     label("Edit a analysis_options.yaml");
     await const AnalysisOptionsCliCode()
-        .generateFile("package/analysis_options.yaml");
+        .generateFile("module/analysis_options.yaml");
     await command(
       "Import additional packages.",
       [
@@ -89,12 +89,12 @@ class CreateModuleCliCommand extends CliCommand {
         "pub",
         "add",
         "masamune_module",
-        "masamune_module_$projectName:{\"path\":\"./package/\"}"
+        "masamune_module_$projectName:{\"path\":\"./module/\"}"
       ],
     );
     label("Create a masamune_module_${projectName?.toSnakeCase()}");
     await const ModuleMainCliCode().generateDartCode(
-        "package/lib/masamune_module_${projectName?.toSnakeCase()}",
+        "module/lib/masamune_module_${projectName?.toSnakeCase()}",
         projectName!);
     label("Replace the main.dart");
     await const AppModuleMainCliCode()
@@ -125,7 +125,7 @@ class CreateModuleCliCommand extends CliCommand {
         "build",
         "--delete-conflicting-outputs",
       ],
-      workingDirectory: "package",
+      workingDirectory: "module",
     );
   }
 }
@@ -146,7 +146,7 @@ class ModuleMainCliCode extends CliCode {
   String get prefix => "main";
 
   @override
-  String get directory => "package/lib";
+  String get directory => "module/lib";
 
   @override
   String get description =>
@@ -260,7 +260,7 @@ class AppModuleMainCliCode extends CliCode {
   String get prefix => "main";
 
   @override
-  String get directory => "package/lib";
+  String get directory => "module/lib";
 
   @override
   String get description =>
@@ -322,7 +322,7 @@ class ModuleWidgetTestCliCode extends CliCode {
   String get prefix => "widget_test";
 
   @override
-  String get directory => "package/test";
+  String get directory => "module/test";
 
   @override
   String get description =>
