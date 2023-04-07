@@ -1,3 +1,8 @@
+## 1.9.1
+
+ - **FIX**: Fixed bugs in Firebase and Module initialization. ([6f4d6540](https://github.com/mathrunet/flutter_masamune/commit/6f4d6540e99e8f6a0ddad6305c56e19e1a45d2a9))
+ - **FIX**: Changed the storage location of modules in the module command. ([3eeb32b6](https://github.com/mathrunet/flutter_masamune/commit/3eeb32b6404c3e363b60eb175cbe4d1e3bea9bc6))
+
 ## 1.9.0
 
  - **FEAT**: Added module command. ([77237e0a](https://github.com/mathrunet/flutter_masamune/commit/77237e0af80c37c3caae1ca74f25b227be069a7d))
