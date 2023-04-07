@@ -67,11 +67,11 @@ class Fuctions {
     }
     _rawData = _rawData.replaceAll(_regExp, """
 m.deploy(
-    exports,
-    [${regions.map((e) => '"$e"').join(", ")}],
-    [
-${functions.map((e) => "        m.Functions.$e").join(",")}
-    ],
+  exports,
+  [${regions.map((e) => '"$e"').join(", ")}],
+  [
+${functions.map((e) => "    m.Functions.$e,").join("\n")}
+  ],
 );""");
     final gradle = File("firebase/functions/src/index.ts");
     await gradle.writeAsString(_rawData);

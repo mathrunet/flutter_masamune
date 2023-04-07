@@ -295,7 +295,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
           _runCommandStack(
             line,
-            "? Configure as a single-page app (rewrite all urls to /index.html)?",
+            "? Configure as a single-page app",
             commandStack,
             () {
               if (useFlutter) {
@@ -417,8 +417,8 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           "eslint",
           "--ext",
           ".js,.ts",
-          ".",
           "--fix",
+          ".",
         ],
         workingDirectory: "firebase/functions",
       );
@@ -440,6 +440,14 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     gradle.android?.defaultConfig.minSdkVersion =
         "configProperties[\"flutter.minSdkVersion\"]";
     await gradle.save();
+    await command(
+      "Run firebase deploy",
+      [
+        firebaseCommand,
+        "deploy",
+      ],
+      workingDirectory: "firebase",
+    );
   }
 
   void _runCommandStack(
@@ -498,9 +506,9 @@ import * as m from "@mathrunet/masamune";
 // 
 // Functionsに追加する機能を[m.Functions.xxxx]を定義してください。
 m.deploy(
-    exports,
-    ["us-central1", "asia-northeast1"],
-    [],
+  exports,
+  ["us-central1", "asia-northeast1"],
+  [],
 );
 """;
   }
@@ -600,7 +608,7 @@ class FirestoreRulesCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-rules_version = '3';
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
@@ -667,7 +675,7 @@ class FirebaseStorageRulesCliCode extends CliCode {
   @override
   String body(String path, String baseName, String className) {
     return """
-rules_version = '3';
+rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
     match /{allPaths=**} {
