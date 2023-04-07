@@ -193,6 +193,9 @@ jobs:
         projectId.isEmpty) {
       return source;
     }
+    final workingPath = Directory.current.path
+        .replaceAll(directory.replaceAll(".github/workflows", ""), "")
+        .trimString("/");
     source += """
 
       # A copy of the generated file.
@@ -206,7 +209,7 @@ jobs:
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          entryPoint: firebase
+          entryPoint: ${workingPath.isEmpty ? "firebase" : "$workingPath/firebase"}
           repoToken: $repoToken
           firebaseServiceAccount: $firebaseServiceAccount
           channelId: live
