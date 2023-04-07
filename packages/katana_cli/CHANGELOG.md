@@ -1,3 +1,8 @@
+## 1.9.2
+
+ - **FIX**: The web path was insufficient, so it was corrected. ([804d11ff](https://github.com/mathrunet/flutter_masamune/commit/804d11ffd1d8c7cda357174e0790786e0d33a38b))
+ - **FIX**: Module support for actions. ([e9d89ab8](https://github.com/mathrunet/flutter_masamune/commit/e9d89ab85b876c2d9acc64bea0e39051f46001e3))
+
 ## 1.9.1
 
  - **FIX**: Fixed bugs in Firebase and Module initialization. ([6f4d6540](https://github.com/mathrunet/flutter_masamune/commit/6f4d6540e99e8f6a0ddad6305c56e19e1a45d2a9))

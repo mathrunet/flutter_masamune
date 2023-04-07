@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.9.2`](#katana_cli---v192)
+
+---
+
+#### `katana_cli` - `v1.9.2`
+
+ - **FIX**: The web path was insufficient, so it was corrected. ([804d11ff](https://github.com/mathrunet/flutter_masamune/commit/804d11ffd1d8c7cda357174e0790786e0d33a38b))
+ - **FIX**: Module support for actions. ([e9d89ab8](https://github.com/mathrunet/flutter_masamune/commit/e9d89ab85b876c2d9acc64bea0e39051f46001e3))
+
+
+## 2023-04-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.9.1`](#katana_cli---v191)
 
 ---
