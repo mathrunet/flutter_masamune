@@ -365,7 +365,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
   }
 
   bool _isSelected(DateTime day) {
-    return day.isToday(_effectiveController.selectedDay);
+    return day.isThisDay(_effectiveController.selectedDay);
   }
 
   bool _isDayUnavailable(DateTime day) {
@@ -730,9 +730,9 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
         [DayOfWeek.saturday, DayOfWeek.sunday];
     final isUnavailable = _isDayUnavailable(date);
     final isSelected = _isSelected(date);
-    final isToday = date.isToday();
+    final isToday = date.isThisDay();
     final tIsOutside = _isExtraDay(date);
-    final tIsHoliday = widget.holidays.any((e) => e.startTime.isToday(date));
+    final tIsHoliday = widget.holidays.any((e) => e.startTime.isThisDay(date));
     final tIsWeekend = _isWeekend(date, weekendDays);
 
     final isOutsideHoliday = tIsOutside && tIsHoliday;
@@ -754,7 +754,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
     );
 
     final events =
-        widget.events.where((e) => e.startTime.isToday(date)).toList();
+        widget.events.where((e) => e.startTime.isThisDay(date)).toList();
 
     if (events.isNotEmpty) {
       final children = <Widget>[content];
