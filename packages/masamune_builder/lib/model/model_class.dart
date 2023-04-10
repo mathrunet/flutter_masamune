@@ -169,7 +169,7 @@ List<Spec> modelClass(
     ),
     Class(
       (c) => c
-        ..name = "_\$${model.name}Collection"
+        ..name = "\$${model.name}Collection"
         ..extend = Reference("CollectionBase<\$${model.name}Document>")
         ..mixins.addAll([
           if (searchable.isNotEmpty)
@@ -360,7 +360,7 @@ List<Spec> modelClass(
       ),
       Class(
         (c) => c
-          ..name = "_\$${model.name}MirrorCollection"
+          ..name = "\$${model.name}MirrorCollection"
           ..extend = Reference("CollectionBase<\$${model.name}MirrorDocument>")
           ..mixins.addAll([
             if (searchable.isNotEmpty)
