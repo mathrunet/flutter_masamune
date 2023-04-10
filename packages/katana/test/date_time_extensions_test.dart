@@ -7,10 +7,10 @@ import 'package:katana/katana.dart';
 void main() {
   test("DateTimeExtensions.isToday", () {
     final dateTime = DateTime(2022, 12, 23, 10, 32, 10);
-    expect(dateTime.isToday(DateTime(2022, 12, 23)), true);
-    expect(dateTime.isToday(DateTime(2023, 12, 23)), false);
-    expect(dateTime.isToday(DateTime(2022, 11, 23)), false);
-    expect(dateTime.isToday(DateTime(2022, 12, 29)), false);
+    expect(dateTime.isThisDay(DateTime(2022, 12, 23)), true);
+    expect(dateTime.isThisDay(DateTime(2023, 12, 23)), false);
+    expect(dateTime.isThisDay(DateTime(2022, 11, 23)), false);
+    expect(dateTime.isThisDay(DateTime(2022, 12, 29)), false);
   });
   test("DateTimeExtensions.isThisMonth", () {
     final dateTime = DateTime(2022, 12, 23, 10, 32, 10);

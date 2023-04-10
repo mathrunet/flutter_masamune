@@ -85,12 +85,15 @@ extension DateTimeExtensions on DateTime {
   /// Returns `true` if the date is the same as a specific [dateTime] or the current time.
   ///
   /// 特定の[dateTime]もしくは現在時間と同じ日付の場合は`true`を返します
-  bool isToday([DateTime? dateTime]) {
+  bool isThisDay([DateTime? dateTime]) {
     dateTime ??= DateTime.now();
     return year == dateTime.year &&
         month == dateTime.month &&
         day == dateTime.day;
   }
+
+  @Deprecated('Use isThisDay instead')
+  bool isToday([DateTime? dateTime]) => isThisDay(dateTime);
 
   /// Returns `true` if the month is the same as a specific [dateTime] or the current time.
   ///

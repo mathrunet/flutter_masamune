@@ -48,4 +48,37 @@ extension DurationExtensions on Duration {
         .replaceAll("S", threeDigits(milliSeconds))
         .replaceAll("M", threeDigits(microSeconds));
   }
+
+  /// Parse from [Duration] to [String] corresponding to [format].
+  ///
+  /// The output will be in the format `08:30:12`.
+  ///
+  /// [Duration]から[format]に対応した[String]にパースします。
+  ///
+  /// `08:30:12`のような形式で出力されます。
+  String hhMMSS() {
+    return format("HH:mm:ss");
+  }
+
+  /// Parse from [Duration] to [String] corresponding to [format].
+  ///
+  /// The output will be in the format `30:12`.
+  ///
+  /// [Duration]から[format]に対応した[String]にパースします。
+  ///
+  /// `30:12`のような形式で出力されます。
+  String mmSS() {
+    return format("mm:ss");
+  }
+
+  /// Parse from [Duration] to [String] corresponding to [format].
+  ///
+  /// The output will be in the format `08:30`.
+  ///
+  /// [Duration]から[format]に対応した[String]にパースします。
+  ///
+  /// `08:30`のような形式で出力されます。
+  String hhMM() {
+    return format("HH:mm");
+  }
 }
