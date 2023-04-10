@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.9.3`](#katana_cli---v193)
+
+---
+
+#### `katana_cli` - `v1.9.3`
+
+ - **FIX**: Minor folder corrections. ([d3ebadb6](https://github.com/mathrunet/flutter_masamune/commit/d3ebadb6f0258e11adfcd7359e06cf190ce09e82))
+
+
 ## 2023-04-07
 
 ### Changes
