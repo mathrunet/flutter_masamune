@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v1.5.2`](#masamune_builder---v152)
+
+---
+
+#### `masamune_builder` - `v1.5.2`
+
+ - **FIX**: Bug fixes. ([92aaab5c](https://github.com/mathrunet/flutter_masamune/commit/92aaab5cb985897d3f594daddb45650b6140ad8a))
+
+
+## 2023-04-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v1.12.1`](#masamune---v1121)
  - [`masamune_builder` - `v1.5.1`](#masamune_builder---v151)
  - [`masamune_picker` - `v1.6.15`](#masamune_picker---v1615)

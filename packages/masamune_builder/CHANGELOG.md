@@ -1,3 +1,7 @@
+## 1.5.2
+
+ - **FIX**: Bug fixes. ([92aaab5c](https://github.com/mathrunet/flutter_masamune/commit/92aaab5cb985897d3f594daddb45650b6140ad8a))
+
 ## 1.5.1
 
  - **FIX**: Fixed a hidden collection class. ([78003574](https://github.com/mathrunet/flutter_masamune/commit/780035743317061970c59592bdc34366bff406ab))
