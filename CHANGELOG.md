@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v1.12.1`](#masamune---v1121)
+ - [`masamune_builder` - `v1.5.1`](#masamune_builder---v151)
+ - [`masamune_picker` - `v1.6.15`](#masamune_picker---v1615)
+ - [`masamune_ai_openai` - `v1.1.26`](#masamune_ai_openai---v1126)
+ - [`masamune_universal_ui` - `v1.2.21`](#masamune_universal_ui---v1221)
+ - [`masamune_calendar` - `v1.1.9`](#masamune_calendar---v119)
+ - [`masamune_notification_firebase` - `v1.2.52`](#masamune_notification_firebase---v1252)
+ - [`masamune_picker_file` - `v1.6.15`](#masamune_picker_file---v1615)
+ - [`masamune_logger_firebase` - `v1.2.62`](#masamune_logger_firebase---v1262)
+ - [`masamune_picker_mobile` - `v1.6.15`](#masamune_picker_mobile---v1615)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.6.15`
+ - `masamune_ai_openai` - `v1.1.26`
+ - `masamune_universal_ui` - `v1.2.21`
+ - `masamune_calendar` - `v1.1.9`
+ - `masamune_notification_firebase` - `v1.2.52`
+ - `masamune_picker_file` - `v1.6.15`
+ - `masamune_logger_firebase` - `v1.2.62`
+ - `masamune_picker_mobile` - `v1.6.15`
+
+---
+
+#### `masamune` - `v1.12.1`
+
+ - **FIX**: Fixed a hidden collection class. ([78003574](https://github.com/mathrunet/flutter_masamune/commit/780035743317061970c59592bdc34366bff406ab))
+
+#### `masamune_builder` - `v1.5.1`
+
+ - **FIX**: Fixed a hidden collection class. ([78003574](https://github.com/mathrunet/flutter_masamune/commit/780035743317061970c59592bdc34366bff406ab))
+
+
 ## 2023-04-10
 
 ### Changes

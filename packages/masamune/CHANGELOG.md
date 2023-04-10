@@ -1,3 +1,7 @@
+## 1.12.1
+
+ - **FIX**: Fixed a hidden collection class. ([78003574](https://github.com/mathrunet/flutter_masamune/commit/780035743317061970c59592bdc34366bff406ab))
+
 ## 1.12.0
 
  - **FEAT**: Added the ability to create mirror data in document and collection. ([93cb0c25](https://github.com/mathrunet/flutter_masamune/commit/93cb0c254caeff91ad400063745a313d79dd3107))
