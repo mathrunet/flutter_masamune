@@ -160,7 +160,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: web_release
-          path: ./build/web
+          path: ${workingPath.isEmpty ? "." : workingPath}/build/web
           retention-days: 1
 """;
   }

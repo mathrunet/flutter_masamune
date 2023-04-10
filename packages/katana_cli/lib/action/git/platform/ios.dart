@@ -95,74 +95,81 @@ Future<void> buildIOS(
     final mobileProvision =
         base64.encode(await mobileProvisionFile.readAsBytes());
     await command(
-      "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE`.",
+      "Store `${mobileProvisionFile.path.last()}` in `secrets.IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}`.",
       [
         gh,
         "secret",
         "set",
-        "IOS_PROVISIONING_PROFILE",
+        "IOS_PROVISIONING_PROFILE_${appName.toUpperCase()}",
         "--body",
         mobileProvision,
       ],
     );
   }
   await command(
-    "Store `${p12File.path.last()}` in `secrets.IOS_CERTIFICATES_P12`.",
+    "Store `${p12File.path.last()}` in `secrets.IOS_CERTIFICATES_P12_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "IOS_CERTIFICATES_P12",
+      "IOS_CERTIFICATES_P12_${appName.toUpperCase()}",
       "--body",
       p12,
     ],
   );
   await command(
-    "Store `ios_certificate_password.key` in `secrets.IOS_CERTIFICATE_PASSWORD`.",
+    "Store `ios_certificate_password.key` in `secrets.IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "IOS_CERTIFICATE_PASSWORD",
+      "IOS_CERTIFICATE_PASSWORD_${appName.toUpperCase()}",
       "--body",
       password,
     ],
   );
   await command(
-    "Store API key id in `secrets.IOS_API_KEY_ID`.",
+    "Store API key id in `secrets.IOS_API_KEY_ID_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "IOS_API_KEY_ID",
+      "IOS_API_KEY_ID_${appName.toUpperCase()}",
       "--body",
       p8Key,
     ],
   );
   await command(
-    "Store `${p8File.path}` in `secrets.IOS_API_AUTHKEY_P8`.",
+    "Store `${p8File.path}` in `secrets.IOS_API_AUTHKEY_P8_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "IOS_API_AUTHKEY_P8",
+      "IOS_API_AUTHKEY_P8_${appName.toUpperCase()}",
       "--body",
       p8,
     ],
   );
   await command(
-    "Store Issuer ID in `secrets.IOS_API_ISSUER_ID`.",
+    "Store Issuer ID in `secrets.IOS_API_ISSUER_ID_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "IOS_API_ISSUER_ID",
+      "IOS_API_ISSUER_ID_${appName.toUpperCase()}",
       "--body",
       issuerId,
     ],
   );
-  await const GithubActionsIOSCliCode()
-      .generateFile("build_ios_${appName.toLowerCase()}.yaml");
+  await const GithubActionsIOSCliCode().generateFile(
+    "build_ios_${appName.toLowerCase()}.yaml",
+    filter: (value) {
+      return value.replaceAll(
+        "#### REPLACE_APP_NAME ####",
+        appName.toUpperCase(),
+      );
+    },
+  );
   label("Edit Info.plist.");
   final plist = File("ios/Runner/Info.plist");
   final document = XmlDocument.parse(await plist.readAsString());
@@ -374,9 +381,9 @@ jobs:
       # Certificateの設定。
       - name: Import Apple Development Certificate
         env:
-            IOS_KEYCHAIN_PASSWORD: \${{ secrets.IOS_KEYCHAIN_PASSWORD }}
-            IOS_CERTIFICATES_P12: \${{ secrets.IOS_CERTIFICATES_P12 }}
-            IOS_CERTIFICATE_PASSWORD: \${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+            IOS_KEYCHAIN_PASSWORD: \${{ secrets.IOS_KEYCHAIN_PASSWORD_#### REPLACE_APP_NAME #### }}
+            IOS_CERTIFICATES_P12: \${{ secrets.IOS_CERTIFICATES_P12_#### REPLACE_APP_NAME #### }}
+            IOS_CERTIFICATE_PASSWORD: \${{ secrets.IOS_CERTIFICATE_PASSWORD_#### REPLACE_APP_NAME #### }}
         run: |
             APPLE_DEVELOPMENT_CERTIFICATE=\$RUNNER_TEMP/development_certificate.p12
             KEYCHAIN_PATH=\$RUNNER_TEMP/app-signing.keychain-db
@@ -395,13 +402,13 @@ jobs:
       
       # Create AppStoreConnectAPI key.
       # AppStoreConnectAPIキーを作成。
-      - name: Create App Store Connect API Private Key in ./private_keys
+      - name: Create App Store Connect API Private Key in `pwd`/private_keys
         env:
-          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
-          IOS_API_AUTHKEY_P8: \${{ secrets.IOS_API_AUTHKEY_P8 }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
+          IOS_API_AUTHKEY_P8: \${{ secrets.IOS_API_AUTHKEY_P8_#### REPLACE_APP_NAME #### }}
         run: |
-          mkdir ./private_keys
-          echo -n "\$IOS_API_AUTHKEY_P8" | base64 --decode --output ./private_keys/AuthKey_\$IOS_API_KEY_ID.p8
+          mkdir `pwd`/private_keys
+          echo -n "\$IOS_API_AUTHKEY_P8" | base64 --decode --output `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
 
       # Flutter build.
       # Flutterのビルド。
@@ -413,16 +420,16 @@ jobs:
       # ビルドされたデータのアーカイブ。
       - name: Archive by xcodebuild
         env:
-          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID }}
-          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
+          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID_#### REPLACE_APP_NAME #### }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
         run: xcodebuild archive -workspace ./ios/Runner.xcworkspace -scheme Runner -configuration Release -archivePath ./build/ios/Runner.xcarchive -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
 
       # Export of built archives.
       # ビルドされたアーカイブのエクスポート。
       - name: Export by xcodebuild
         env:
-          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID }}
-          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
+          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID_#### REPLACE_APP_NAME #### }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
         run: xcodebuild -exportArchive -archivePath ./build/ios/Runner.xcarchive -exportPath ./build/ios/ipa -exportOptionsPlist ./ios/ExportOptions.plist -allowProvisioningUpdates -authenticationKeyIssuerID \$IOS_API_ISSUER_ID -authenticationKeyID \$IOS_API_KEY_ID -authenticationKeyPath `pwd`/private_keys/AuthKey_\$IOS_API_KEY_ID.p8
 
       # IPA file detection.
@@ -435,9 +442,14 @@ jobs:
       # IPAファイルのAppStoreConnectへのアップロード。
       - name: Upload to App Store Connect
         env:
-          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID }}
-          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID }}
+          IOS_API_ISSUER_ID: \${{ secrets.IOS_API_ISSUER_ID_#### REPLACE_APP_NAME #### }}
+          IOS_API_KEY_ID: \${{ secrets.IOS_API_KEY_ID_#### REPLACE_APP_NAME #### }}
         run: xcrun altool --upload-app --type ios -f \$IPA_PATH --apiKey \$IOS_API_KEY_ID --apiIssuer \$IOS_API_ISSUER_ID
+
+      # Delete cache.
+      # キャッシュの削除。
+      - name: Clean up keychain and provisioning profile
+        run: security delete-keychain \$RUNNER_TEMP/app-signing.keychain-db
 """;
   }
 }

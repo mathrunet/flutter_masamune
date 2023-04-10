@@ -50,34 +50,34 @@ Future<void> buildAndroid(
   final keyProperties = base64.encode(await keyPropertiesFile.readAsBytes());
   final serviceAccount = base64.encode(await serviceAccountFile.readAsBytes());
   await command(
-    "Store `appkey.keystore` in `secrets.ANDROID_KEYSTORE`.",
+    "Store `appkey.keystore` in `secrets.ANDROID_KEYSTORE_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "ANDROID_KEYSTORE",
+      "ANDROID_KEYSTORE_${appName.toUpperCase()}",
       "--body",
       keystore,
     ],
   );
   await command(
-    "Store `key.properties` in `secrets.ANDROID_KEY_PROPERTIES`.",
+    "Store `key.properties` in `secrets.ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "ANDROID_KEY_PROPERTIES",
+      "ANDROID_KEY_PROPERTIES_${appName.toUpperCase()}",
       "--body",
       keyProperties,
     ],
   );
   await command(
-    "Store `service_account.json` in `secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON`.",
+    "Store `service_account.json` in `secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}`.",
     [
       gh,
       "secret",
       "set",
-      "ANDROID_SERVICE_ACCOUNT_KEY_JSON",
+      "ANDROID_SERVICE_ACCOUNT_KEY_JSON_${appName.toUpperCase()}",
       "--body",
       serviceAccount,
     ],
@@ -85,10 +85,15 @@ Future<void> buildAndroid(
   await const GithubActionsAndroidCliCode().generateFile(
     "build_android_${appName.toLowerCase()}.yaml",
     filter: (value) {
-      return value.replaceAll(
-        "#### REPLACE_ANDROID_PACKAGE_NAME ####",
-        packageName.replaceAll('"', ""),
-      );
+      return value
+          .replaceAll(
+            "#### REPLACE_ANDROID_PACKAGE_NAME ####",
+            packageName.replaceAll('"', ""),
+          )
+          .replaceAll(
+            "#### REPLACE_APP_NAME ####",
+            appName.toUpperCase(),
+          );
     },
   );
   label("Rewrite `.gitignore`.");
@@ -262,17 +267,17 @@ jobs:
       # Generate appkey.keystore from Secrets.
       # Secretsからappkey.keystoreを生成。
       - name: Create appkey.keystore
-        run: echo -n \${{ secrets.ANDROID_KEYSTORE }} | base64 -d > android/app/appkey.keystore
+        run: echo -n \${{ secrets.ANDROID_KEYSTORE_#### REPLACE_APP_NAME #### }} | base64 -d > android/app/appkey.keystore
 
       # Generate service_account_key.json from Secrets.
       # Secretsからservice_account_key.jsonを生成。
       - name: Create service_account_key.json
-        run: echo -n \${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON }} | base64 -d > android/service_account_key.json
+        run: echo -n \${{ secrets.ANDROID_SERVICE_ACCOUNT_KEY_JSON_#### REPLACE_APP_NAME #### }} | base64 -d > android/service_account_key.json
 
       # Generate key.properties from Secrets.
       # Secretsからkey.propertiesを生成。
       - name: Create key.properties
-        run: echo \${{ secrets.ANDROID_KEY_PROPERTIES }} | base64 -d > android/key.properties
+        run: echo \${{ secrets.ANDROID_KEY_PROPERTIES_#### REPLACE_APP_NAME #### }} | base64 -d > android/key.properties
 
       # Generate Apk.
       # Apkを生成。
@@ -290,7 +295,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: andoroid_apk_release
-          path: ./build/app/outputs/apk/release
+          path: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/apk/release
           retention-days: 1
 
       # Upload the generated files.
@@ -299,7 +304,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: andoroid_aab_release
-          path: ./build/app/outputs/bundle/release
+          path: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release
           retention-days: 1
 
       # Upload to Google Play Store.
@@ -310,9 +315,9 @@ jobs:
         with:
           track: internal
           status: draft
-          serviceAccountJson: android/service_account_key.json
+          serviceAccountJson: ${workingPath.isEmpty ? "." : workingPath}/android/service_account_key.json
           packageName: #### REPLACE_ANDROID_PACKAGE_NAME ####
-          releaseFiles: ./build/app/outputs/bundle/release/*.aab
+          releaseFiles: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release/*.aab
 """;
   }
 }
