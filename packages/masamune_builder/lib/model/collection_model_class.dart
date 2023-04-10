@@ -385,7 +385,7 @@ List<Spec> collectionModelClass(
       (c) => c
         ..name = "_\$_${model.name}CollectionQuery"
         ..annotations.addAll([const Reference("immutable")])
-        ..extend = Reference("ModelQueryBase<_\$${model.name}Collection>")
+        ..extend = Reference("ModelQueryBase<\$${model.name}Collection>")
         ..constructors.addAll([
           Constructor(
             (c) => c
@@ -420,9 +420,9 @@ List<Spec> collectionModelClass(
                     ..type = const Reference("Ref"),
                 )
               ])
-              ..returns = Reference("_\$${model.name}Collection Function()")
+              ..returns = Reference("\$${model.name}Collection Function()")
               ..body = Code(
-                "() => _\$${model.name}Collection(modelQuery)",
+                "() => \$${model.name}Collection(modelQuery)",
               ),
           ),
           Method(
@@ -593,7 +593,7 @@ List<Spec> collectionModelClass(
           ..name = "_\$_${model.name}MirrorCollectionQuery"
           ..annotations.addAll([const Reference("immutable")])
           ..extend =
-              Reference("ModelQueryBase<_\$${model.name}MirrorCollection>")
+              Reference("ModelQueryBase<\$${model.name}MirrorCollection>")
           ..constructors.addAll([
             Constructor(
               (c) => c
@@ -629,9 +629,9 @@ List<Spec> collectionModelClass(
                   )
                 ])
                 ..returns =
-                    Reference("_\$${model.name}MirrorCollection Function()")
+                    Reference("\$${model.name}MirrorCollection Function()")
                 ..body = Code(
-                  "() => _\$${model.name}MirrorCollection(modelQuery)",
+                  "() => \$${model.name}MirrorCollection(modelQuery)",
                 ),
             ),
             Method(
