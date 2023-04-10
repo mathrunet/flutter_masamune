@@ -2,8 +2,6 @@ part of masamune_annotation;
 
 /// Annotation to create a collection model.
 ///
-/// Documentation is also created together.
-///
 /// Specify the path for the collection in [path].
 ///
 /// Use with `freezed`, etc.
@@ -12,9 +10,15 @@ part of masamune_annotation;
 ///
 /// You can define a query to retrieve the collection model in `static const collection = _$(class name)CollectionQuery()`.
 ///
-/// コレクションモデルを作成するためのアノテーション。
+/// You can duplicate the same data to another path by defining a path in [mirror].
 ///
-/// ドキュメントも一緒に作成されます。
+/// Each data can be retrieved with `document.mirror` or `collection.mirror` and can be `loaded` or `saved` in the same way.
+///
+/// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
+///
+/// It can be used to achieve relationships in NoSQL databases with follow/follow implementations.
+///
+/// コレクションモデルを作成するためのアノテーション。
 ///
 /// [path]にコレクション用のパスを指定します。
 ///
@@ -23,6 +27,14 @@ part of masamune_annotation;
 /// `static const document = _$(クラス名)DocumentQuery()`にドキュメントモデルを取得するためのクエリを定義できます。
 ///
 /// `static const collection = _$(クラス名)CollectionQuery()`にコレクションモデルを取得するためのクエリを定義できます。
+///
+/// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
+///
+/// それぞれのデータは`document.mirror`や`collection.mirror`で取得でき、同じように`load`や`save`ができるようになります。
+///
+/// さらに`saveSync`や`deleteSync`を利用することで、同期的にデータの保存や削除が行なえます。
+///
+/// フォロー・フォロワーの実装でNoSQLデータベースにおけるリレーションを実現するために利用することが可能です。
 ///
 /// ```dart
 /// @freezed
@@ -56,6 +68,14 @@ class CollectionModelPath {
   ///
   /// You can define a query to retrieve the collection model in `static const collection = _$(class name)CollectionQuery()`.
   ///
+  /// You can duplicate the same data to another path by defining a path in [mirror].
+  ///
+  /// Each data can be retrieved with `document.mirror` or `collection.mirror` and can be `loaded` or `saved` in the same way.
+  ///
+  /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
+  ///
+  /// It can be used to achieve relationships in NoSQL databases with follow/follow implementations.
+  ///
   /// コレクションモデルを作成するためのアノテーション。
   ///
   /// [path]にコレクション用のパスを指定します。
@@ -65,6 +85,14 @@ class CollectionModelPath {
   /// `static const document = _$(クラス名)DocumentQuery()`にドキュメントモデルを取得するためのクエリを定義できます。
   ///
   /// `static const collection = _$(クラス名)CollectionQuery()`にコレクションモデルを取得するためのクエリを定義できます。
+  ///
+  /// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
+  ///
+  /// それぞれのデータは`document.mirror`や`collection.mirror`で取得でき、同じように`load`や`save`ができるようになります。
+  ///
+  /// さらに`saveSync`や`deleteSync`を利用することで、同期的にデータの保存や削除が行なえます。
+  ///
+  /// フォロー・フォロワーの実装でNoSQLデータベースにおけるリレーションを実現するために利用することが可能です。
   ///
   /// ```dart
   /// @freezed
@@ -87,10 +115,15 @@ class CollectionModelPath {
   /// ```
   ///
   /// * see https://pub.dev/packages/freezed
-  const CollectionModelPath(this.path);
+  const CollectionModelPath(this.path, {this.mirror});
 
   /// Path for collection.
   ///
   /// コレクション用のパス。
   final String path;
+
+  /// Path for mirror collection.
+  ///
+  /// ミラーコレクション用のパス。
+  final String? mirror;
 }

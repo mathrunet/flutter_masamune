@@ -261,58 +261,58 @@ packages:
     dependency: "direct main"
     description:
       name: katana
-      sha256: f4e68a522ae23b317132990e9a3dc2d4cb0fd7155de081daf2cc52427d8b6c46
+      sha256: d2994914d6a1ec082f05cb753138e0a729370479dc7b47f51d4d6db4027e4087
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.11"
+    version: "1.0.12"
   katana_listenables_annotation:
     dependency: "direct main"
     description:
       name: katana_listenables_annotation
-      sha256: accdb333507b32231e546f66fb75f2ce9079a489223659abed91f6958f07e591
+      sha256: "3d172e8f956ef5c79c7a106fa83f1774684f03b391411c5f671a9b687ec3f500"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.20"
+    version: "1.2.22"
   katana_listenables_builder:
     dependency: "direct main"
     description:
       name: katana_listenables_builder
-      sha256: "5de2a86bc5e2cff3f1e492c2ba8824d250fc6617568a2ff51a3efb64db4ec12a"
+      sha256: "08c39521122e128a4cd592c33b41aae2950842dc3709c23e507e8010b15bff04"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.21"
+    version: "1.2.23"
   katana_localization_annotation:
     dependency: "direct main"
     description:
       name: katana_localization_annotation
-      sha256: b3afffa74dafc7323276438b6e25b3941a057fdb70ed78ebee0aaf5afab691c3
+      sha256: c16b04f75347af835ec2be72778110e946bb1e0d497c87221aad5c4472c269b6
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.32"
+    version: "1.1.34"
   katana_localization_builder:
     dependency: "direct main"
     description:
       name: katana_localization_builder
-      sha256: "6b2e30acf464e50377039b6450efade9dddb2502879063cf9d0ba50f7761980b"
+      sha256: b09fb1ee6cef13872b10779d61c2f8e82bd789853c95735ba970b6a572aa1773
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.34"
+    version: "1.1.36"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
       name: katana_prefs_annotation
-      sha256: b9395203ca6cfd3467092d8fd8b9fa09f9faeada63cf0f3767693231c68ad040
+      sha256: "93c5f5b9aaadccb84d8ff3e4fb836f603eeee8ac7c334924aafc52937a2ed598"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.16"
+    version: "1.1.18"
   katana_prefs_builder:
     dependency: "direct main"
     description:
       name: katana_prefs_builder
-      sha256: fb8ab802029f0ce03953f97ace8bb32f613b6eb45c15cf0d42a6fc51b0e0da6e
+      sha256: "088de08331e7ff2259d897dcb768298550336942c25ba056a9498c943cf48467"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.25"
+    version: "1.1.27"
   katana_router_annotation:
     dependency: "direct main"
     description:
@@ -333,18 +333,18 @@ packages:
     dependency: "direct main"
     description:
       name: katana_theme_annotation
-      sha256: "750452a745f08c8556b5d9c9461559a5b349e3add644014df8f2d7991f469831"
+      sha256: "74c9fe0cd0e4ac66fbdc4b3116edb7d6a91938485c413f7b1f8d71f58ceb6402"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.7"
+    version: "1.4.9"
   katana_theme_builder:
     dependency: "direct main"
     description:
       name: katana_theme_builder
-      sha256: bc1898bc3e20954b9c3b28c4809c183c02a24a985605e60ba72fb0de97569787
+      sha256: f2490dcaf161415027432accb618ce0092d6bd333f23eb2aec3308da3b157836
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.8"
+    version: "1.4.10"
   lints:
     dependency: transitive
     description:
@@ -365,10 +365,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_annotation
-      sha256: "1cb5fc9fc07a7bdc1f7b328229c667b1cf60fabb3c74d47c542fe0b52c9dc2f0"
+      sha256: cf830df46a8adae31ff7bc13eb635e602103dd9e2ffc2ae4b995bea6d1576bd6
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.10"
+    version: "1.4.11"
   matcher:
     dependency: transitive
     description:

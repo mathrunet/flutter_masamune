@@ -47,11 +47,22 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
     final classValue = ClassValue(element);
     final pathValue =
         PathValue(annotation.read("path").stringValue.trimString("/"));
+    final mirrorPathValue = annotation.read("mirror").isNull
+        ? null
+        : PathValue(annotation.read("mirror").stringValue.trimString("/"));
     final path = pathValue.path;
+    final mirrorPath = mirrorPathValue?.path;
 
     if (path.splitLength() <= 0 || path.splitLength() % 2 != 0) {
       throw InvalidGenerationSourceError(
         "The query path hierarchy must be an even number: $path",
+        element: element,
+      );
+    }
+    if (mirrorPath.isNotEmpty &&
+        (path.splitLength() <= 0 || path.splitLength() % 2 != 0)) {
+      throw InvalidGenerationSourceError(
+        "The query mirror path hierarchy must be an odd number: $mirrorPath",
         element: element,
       );
     }
@@ -60,7 +71,7 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
       (l) => l
         ..body.addAll(
           [
-            ...documentModelClass(classValue, pathValue),
+            ...documentModelClass(classValue, pathValue, mirrorPathValue),
           ],
         ),
     );

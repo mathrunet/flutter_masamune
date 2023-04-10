@@ -48,7 +48,11 @@ class CollectionModelGenerator
     final classValue = ClassValue(element);
     final pathValue =
         PathValue(annotation.read("path").stringValue.trimString("/"));
+    final mirrorPathValue = annotation.read("mirror").isNull
+        ? null
+        : PathValue(annotation.read("mirror").stringValue.trimString("/"));
     final path = pathValue.path;
+    final mirrorPath = mirrorPathValue?.path;
 
     if (path.splitLength() <= 0 || path.splitLength() % 2 != 1) {
       throw InvalidGenerationSourceError(
@@ -57,11 +61,19 @@ class CollectionModelGenerator
       );
     }
 
+    if (mirrorPath.isNotEmpty &&
+        (path.splitLength() <= 0 || path.splitLength() % 2 != 1)) {
+      throw InvalidGenerationSourceError(
+        "The query mirror path hierarchy must be an odd number: $mirrorPath",
+        element: element,
+      );
+    }
+
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...collectionModelClass(classValue, pathValue),
+            ...collectionModelClass(classValue, pathValue, mirrorPathValue),
           ],
         ),
     );
