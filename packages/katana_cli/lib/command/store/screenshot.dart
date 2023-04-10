@@ -15,6 +15,16 @@ const _resolution = <String, Map<String, _Size>>{
   },
 };
 
+const _offset = <int, _Offset>{2732: _Offset(38, 32)};
+const _defaultOffset = _Offset(76, 48);
+
+class _Offset {
+  const _Offset(this.top, this.bottom);
+
+  final double top;
+  final double bottom;
+}
+
 class _Size {
   const _Size(this.width, this.height);
 
@@ -189,12 +199,14 @@ class StoreScreenshotCliCommand extends CliCommand {
               final file = File(sources[i].path);
               final image = Image(width: size.width, height: size.height)
                 ..clear(color);
+              final sourceFile = decodeImage(file.readAsBytesSync())!;
+              final offset = _getOffset(sourceFile.height);
               final sourceImage = dropShadow(
                 _resize(
                   _crop(
-                    decodeImage(file.readAsBytesSync())!,
-                    76,
-                    48,
+                    sourceFile,
+                    offset.top,
+                    offset.bottom,
                   ),
                   image,
                   64,
@@ -219,6 +231,14 @@ class StoreScreenshotCliCommand extends CliCommand {
         }
       }
     }
+  }
+
+  _Offset _getOffset(num height) {
+    final h = height.toInt();
+    if (_offset.containsKey(h)) {
+      return _offset[h]!;
+    }
+    return _defaultOffset;
   }
 
   Image _crop(
