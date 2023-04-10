@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.9.4`](#katana_cli---v194)
+
+---
+
+#### `katana_cli` - `v1.9.4`
+
+ - **FIX**: Support for iPad screenshots. ([db02a477](https://github.com/mathrunet/flutter_masamune/commit/db02a477a4348cd3d65634a79d44f471e39a0cbc))
+
+
+## 2023-04-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v1.9.3`](#katana_cli---v193)
 
 ---

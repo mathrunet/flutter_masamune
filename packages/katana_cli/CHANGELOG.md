@@ -1,3 +1,7 @@
+## 1.9.4
+
+ - **FIX**: Support for iPad screenshots. ([db02a477](https://github.com/mathrunet/flutter_masamune/commit/db02a477a4348cd3d65634a79d44f471e39a0cbc))
+
 ## 1.9.3
 
  - **FIX**: Minor folder corrections. ([d3ebadb6](https://github.com/mathrunet/flutter_masamune/commit/d3ebadb6f0258e11adfcd7359e06cf190ce09e82))
