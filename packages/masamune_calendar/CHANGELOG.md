@@ -1,3 +1,7 @@
+## 1.1.8
+
+ - Update a dependency to the latest release.
+
 ## 1.1.7
 
  - **FIX**: Support for DateTime extension changes. ([1b6fb210](https://github.com/mathrunet/flutter_masamune/commit/1b6fb210144a559ee9fb10df40610fa7ba1e2689))

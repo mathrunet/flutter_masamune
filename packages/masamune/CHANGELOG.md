@@ -1,3 +1,7 @@
+## 1.12.0
+
+ - **FEAT**: Added the ability to create mirror data in document and collection. ([93cb0c25](https://github.com/mathrunet/flutter_masamune/commit/93cb0c254caeff91ad400063745a313d79dd3107))
+
 ## 1.11.20
 
  - Update a dependency to the latest release.

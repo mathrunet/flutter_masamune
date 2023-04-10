@@ -15,6 +15,58 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.12.0`](#masamune---v1120)
+ - [`masamune_annotation` - `v1.5.0`](#masamune_annotation---v150)
+ - [`masamune_builder` - `v1.5.0`](#masamune_builder---v150)
+ - [`masamune_picker` - `v1.6.14`](#masamune_picker---v1614)
+ - [`masamune_ai_openai` - `v1.1.25`](#masamune_ai_openai---v1125)
+ - [`masamune_universal_ui` - `v1.2.20`](#masamune_universal_ui---v1220)
+ - [`masamune_calendar` - `v1.1.8`](#masamune_calendar---v118)
+ - [`masamune_notification_firebase` - `v1.2.51`](#masamune_notification_firebase---v1251)
+ - [`masamune_picker_file` - `v1.6.14`](#masamune_picker_file---v1614)
+ - [`masamune_logger_firebase` - `v1.2.61`](#masamune_logger_firebase---v1261)
+ - [`masamune_picker_mobile` - `v1.6.14`](#masamune_picker_mobile---v1614)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.6.14`
+ - `masamune_ai_openai` - `v1.1.25`
+ - `masamune_universal_ui` - `v1.2.20`
+ - `masamune_calendar` - `v1.1.8`
+ - `masamune_notification_firebase` - `v1.2.51`
+ - `masamune_picker_file` - `v1.6.14`
+ - `masamune_logger_firebase` - `v1.2.61`
+ - `masamune_picker_mobile` - `v1.6.14`
+
+---
+
+#### `masamune` - `v1.12.0`
+
+ - **FEAT**: Added the ability to create mirror data in document and collection. ([93cb0c25](https://github.com/mathrunet/flutter_masamune/commit/93cb0c254caeff91ad400063745a313d79dd3107))
+
+#### `masamune_annotation` - `v1.5.0`
+
+ - **FEAT**: Added the ability to create mirror data in document and collection. ([93cb0c25](https://github.com/mathrunet/flutter_masamune/commit/93cb0c254caeff91ad400063745a313d79dd3107))
+
+#### `masamune_builder` - `v1.5.0`
+
+ - **FEAT**: Added the ability to create mirror data in document and collection. ([93cb0c25](https://github.com/mathrunet/flutter_masamune/commit/93cb0c254caeff91ad400063745a313d79dd3107))
+
+
+## 2023-04-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v1.0.12`](#katana---v1012)
  - [`masamune_calendar` - `v1.1.7`](#masamune_calendar---v117)
  - [`katana_ui` - `v1.2.11`](#katana_ui---v1211)
