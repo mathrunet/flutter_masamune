@@ -1,3 +1,7 @@
+## 1.0.12
+
+ - **FIX**: Added type safe format to Duration. ([bd0d7b74](https://github.com/mathrunet/flutter_masamune/commit/bd0d7b7498272fe8ff262ebccf12f19e393375a2))
+
 ## 1.0.11
 
  - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))

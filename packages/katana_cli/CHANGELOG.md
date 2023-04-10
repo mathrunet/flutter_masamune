@@ -1,3 +1,7 @@
+## 1.9.5
+
+ - Update a dependency to the latest release.
+
 ## 1.9.4
 
  - **FIX**: Support for iPad screenshots. ([db02a477](https://github.com/mathrunet/flutter_masamune/commit/db02a477a4348cd3d65634a79d44f471e39a0cbc))
