@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v1.9.6`](#katana_cli---v196)
+
+---
+
+#### `katana_cli` - `v1.9.6`
+
+ - **FIX**: Compatible with iPhone screenshot size. ([599875a5](https://github.com/mathrunet/flutter_masamune/commit/599875a5f79ec658060f05fb05b666230097a62b))
+
+
+## 2023-04-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v1.7.9`](#katana_model---v179)
  - [`katana_model_firestore` - `v1.6.10`](#katana_model_firestore---v1610)
  - [`katana_router` - `v1.11.19`](#katana_router---v11119)
