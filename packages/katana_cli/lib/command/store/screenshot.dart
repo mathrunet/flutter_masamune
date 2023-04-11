@@ -15,7 +15,10 @@ const _resolution = <String, Map<String, _Size>>{
   },
 };
 
-const _offset = <int, _Offset>{2732: _Offset(38, 32)};
+const _offset = <int, _Offset>{
+  2732: _Offset(38, 32),
+  2556: _Offset(144, 48),
+};
 const _defaultOffset = _Offset(76, 48);
 
 class _Offset {
@@ -77,6 +80,7 @@ class StoreScreenshotCliCommand extends CliCommand {
     final colorCode = screenshot.get("color", "").trimString("#");
     final orientation = screenshot.get("orientation", "");
     final sourceDir = screenshot.get("source_dir", "");
+    final featureImageSourcePath = screenshot.get("feature_image", "");
     if (exportDir.isEmpty) {
       error(
         "[store]->[screenshot]->[export_dir] is not found. Fill in the destination folder here.",
@@ -120,12 +124,27 @@ class StoreScreenshotCliCommand extends CliCommand {
     }).toList();
     label("Create a featured image.");
     final featureImage = File("$exportDir/feature_image.png");
+    if (featureImageSourcePath.isNotEmpty) {
+      final featureImageSource = File(featureImageSourcePath);
+      if (featureImageSource.existsSync()) {
+        final source = decodeImage(featureImageSource.readAsBytesSync())!;
+        final resized = copyResize(source, width: 1024);
+        final cropped = copyCrop(
+          resized,
+          x: 0,
+          y: ((resized.height - 500) / 2.0).floor(),
+          width: resized.width,
+          height: 500,
+        );
+        featureImage.writeAsBytesSync(encodePng(cropped));
+      }
+    }
     if (!featureImage.existsSync()) {
       final image = Image(
         width: 1024,
         height: 500,
       )..clear(color);
-      File("$exportDir/feature_image.png").writeAsBytesSync(encodePng(image));
+      featureImage.writeAsBytesSync(encodePng(image));
     }
     label("Create other screenshots.");
     if (sources.isEmpty) {

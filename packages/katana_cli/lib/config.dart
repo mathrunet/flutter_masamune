@@ -201,6 +201,7 @@ store:
   screenshot:
     source_dir: document/screenshot
     export_dir: document/store
+    feature_image: document/feature.png
     orientation: portrait
     color: '000000'
 """;
