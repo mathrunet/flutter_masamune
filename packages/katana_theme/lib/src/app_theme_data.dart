@@ -129,6 +129,7 @@ class AppThemeData {
     Color? onInverseAppBarColor,
     Color? onInverseExpandedAppBarColor,
     Color? inverseScaffoldBackgroundColor,
+    this.themeMode = ThemeMode.system,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -528,6 +529,7 @@ class AppThemeData {
     Color? onInverseAppBarColor,
     Color? onInverseExpandedAppBarColor,
     Color? inverseScaffoldBackgroundColor,
+    ThemeMode themeMode = ThemeMode.system,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -707,6 +709,7 @@ class AppThemeData {
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.light,
           fixed: fixed,
+          themeMode: themeMode,
         );
 
   /// The dark theme defines the initial color.
@@ -785,6 +788,7 @@ class AppThemeData {
     Color? onInverseAppBarColor,
     Color? onInverseExpandedAppBarColor,
     Color? inverseScaffoldBackgroundColor,
+    ThemeMode themeMode = ThemeMode.system,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w400,
@@ -964,6 +968,7 @@ class AppThemeData {
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.dark,
           fixed: fixed,
+          themeMode: themeMode,
         );
 
   /// Retrieve the color scheme.
@@ -978,18 +983,34 @@ class AppThemeData {
   ///
   ///   - https://m3.material.io/styles/color/the-color-system/color-roles
   ColorThemeData get color {
-    final brightness =
-        WidgetsBinding.instance.platformDispatcher.platformBrightness;
-    if (brightness == Brightness.dark) {
-      return _darkColor;
-    } else {
-      return _lightColor;
+    switch (themeMode) {
+      case ThemeMode.dark:
+        return _darkColor;
+      case ThemeMode.light:
+        return _lightColor;
+      case ThemeMode.system:
+        final brightness =
+            WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        if (brightness == Brightness.dark) {
+          return _darkColor;
+        } else {
+          return _lightColor;
+        }
     }
   }
 
   final ColorThemeData _darkColor;
 
   final ColorThemeData _lightColor;
+
+  /// Specifies the theme mode.
+  ///
+  /// When [ThemeMode.system] is selected, it follows the platform theme.
+  ///
+  /// テーマモードを指定します。
+  ///
+  /// [ThemeMode.system]が選択されるとプラットフォームのテーマに従います。
+  final ThemeMode themeMode;
 
   /// Retrieve the text theme.
   ///
