@@ -15,6 +15,80 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v1.7.9`](#katana_model---v179)
+ - [`katana_model_firestore` - `v1.6.10`](#katana_model_firestore---v1610)
+ - [`katana_router` - `v1.11.19`](#katana_router---v11119)
+ - [`katana_router_annotation` - `v1.11.13`](#katana_router_annotation---v11113)
+ - [`katana_router_builder` - `v1.11.17`](#katana_router_builder---v11117)
+ - [`katana_theme` - `v1.4.11`](#katana_theme---v1411)
+ - [`masamune` - `v1.12.2`](#masamune---v1122)
+ - [`masamune_picker` - `v1.6.16`](#masamune_picker---v1616)
+ - [`masamune_ai_openai` - `v1.1.27`](#masamune_ai_openai---v1127)
+ - [`masamune_universal_ui` - `v1.2.22`](#masamune_universal_ui---v1222)
+ - [`masamune_calendar` - `v1.1.10`](#masamune_calendar---v1110)
+ - [`masamune_notification_firebase` - `v1.2.53`](#masamune_notification_firebase---v1253)
+ - [`masamune_picker_file` - `v1.6.16`](#masamune_picker_file---v1616)
+ - [`masamune_logger_firebase` - `v1.2.63`](#masamune_logger_firebase---v1263)
+ - [`masamune_picker_mobile` - `v1.6.16`](#masamune_picker_mobile---v1616)
+ - [`masamune_builder` - `v1.5.3`](#masamune_builder---v153)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.6.16`
+ - `masamune_ai_openai` - `v1.1.27`
+ - `masamune_universal_ui` - `v1.2.22`
+ - `masamune_calendar` - `v1.1.10`
+ - `masamune_notification_firebase` - `v1.2.53`
+ - `masamune_picker_file` - `v1.6.16`
+ - `masamune_logger_firebase` - `v1.2.63`
+ - `masamune_picker_mobile` - `v1.6.16`
+ - `masamune_builder` - `v1.5.3`
+
+---
+
+#### `katana_model` - `v1.7.9`
+
+ - **FIX**: Enum available in Filter. ([b8f6bed1](https://github.com/mathrunet/flutter_masamune/commit/b8f6bed19b2b7ad1c665f9f053fc9c47914c963b))
+
+#### `katana_model_firestore` - `v1.6.10`
+
+ - **FIX**: Enum available in Filter. ([b8f6bed1](https://github.com/mathrunet/flutter_masamune/commit/b8f6bed19b2b7ad1c665f9f053fc9c47914c963b))
+
+#### `katana_router` - `v1.11.19`
+
+ - **FIX**: Path parameters can now be identified in both SnakeCase and CamelCase. ([05ec49ce](https://github.com/mathrunet/flutter_masamune/commit/05ec49ce3faefc79b5648c6bb1e55729e3f0b369))
+
+#### `katana_router_annotation` - `v1.11.13`
+
+ - **FIX**: Path parameters can now be identified in both SnakeCase and CamelCase. ([05ec49ce](https://github.com/mathrunet/flutter_masamune/commit/05ec49ce3faefc79b5648c6bb1e55729e3f0b369))
+
+#### `katana_router_builder` - `v1.11.17`
+
+ - **FIX**: Path parameters can now be identified in both SnakeCase and CamelCase. ([05ec49ce](https://github.com/mathrunet/flutter_masamune/commit/05ec49ce3faefc79b5648c6bb1e55729e3f0b369))
+
+#### `katana_theme` - `v1.4.11`
+
+ - **FIX**: Added the ability to specify ThemeMode. ([cfdb3199](https://github.com/mathrunet/flutter_masamune/commit/cfdb319990dae3a9d1b76a29e09df9c76d9d0b0c))
+
+#### `masamune` - `v1.12.2`
+
+ - **FIX**: Allow ThemeMode to be specified with Theme's. ([57b69767](https://github.com/mathrunet/flutter_masamune/commit/57b69767b4efce44ee8c183cab4621aad7e2fef2))
+
+
+## 2023-04-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_builder` - `v1.5.2`](#masamune_builder---v152)
 
 ---

@@ -1,3 +1,7 @@
+## 1.12.2
+
+ - **FIX**: Allow ThemeMode to be specified with Theme's. ([57b69767](https://github.com/mathrunet/flutter_masamune/commit/57b69767b4efce44ee8c183cab4621aad7e2fef2))
+
 ## 1.12.1
 
  - **FIX**: Fixed a hidden collection class. ([78003574](https://github.com/mathrunet/flutter_masamune/commit/780035743317061970c59592bdc34366bff406ab))

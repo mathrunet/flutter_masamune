@@ -1,3 +1,7 @@
+## 1.6.10
+
+ - **FIX**: Enum available in Filter. ([b8f6bed1](https://github.com/mathrunet/flutter_masamune/commit/b8f6bed19b2b7ad1c665f9f053fc9c47914c963b))
+
 ## 1.6.9
 
  - Update a dependency to the latest release.
