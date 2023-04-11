@@ -350,10 +350,11 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      path: "../katana"
-      relative: true
-    source: path
-    version: "1.0.10"
+      name: katana
+      sha256: d2994914d6a1ec082f05cb753138e0a729370479dc7b47f51d4d6db4027e4087
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.12"
   lints:
     dependency: transitive
     description:

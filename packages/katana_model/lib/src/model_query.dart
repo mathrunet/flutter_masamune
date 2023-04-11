@@ -1135,8 +1135,14 @@ class ModelQueryFilter {
     }
     switch (type) {
       case ModelQueryFilterType.equalTo:
+        if (source is String && target is Enum) {
+          return source == target.toString().split(".").lastOrNull;
+        }
         return source == target;
       case ModelQueryFilterType.notEqualTo:
+        if (source is String && target is Enum) {
+          return source != target.toString().split(".").lastOrNull;
+        }
         return source != target;
       case ModelQueryFilterType.lessThan:
         if (source is! num || target is! num) {
