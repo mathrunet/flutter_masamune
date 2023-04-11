@@ -541,7 +541,7 @@ class MasamuneApp extends StatelessWidget {
         scaffoldMessengerKey: scaffoldMessengerKey,
         title: title,
         onGenerateTitle: onGenerateTitle,
-        themeMode: themeMode,
+        themeMode: theme?.themeMode ?? themeMode,
         home: home,
         routes: routes,
         initialRoute: initialRoute,
@@ -575,7 +575,7 @@ class MasamuneApp extends StatelessWidget {
         scaffoldMessengerKey: scaffoldMessengerKey,
         title: title,
         onGenerateTitle: onGenerateTitle,
-        themeMode: themeMode,
+        themeMode: theme?.themeMode ?? themeMode,
         builder: builder,
       );
     }
