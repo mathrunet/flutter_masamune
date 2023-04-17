@@ -1,3 +1,7 @@
+## 1.12.5
+
+ - Update a dependency to the latest release.
+
 ## 1.12.4
 
  - **FIX**: Added the ability to put default values in MasamuneControllerBase. ([7a9e4d3c](https://github.com/mathrunet/flutter_masamune/commit/7a9e4d3c1d3360cb3cd158f1348a1ddd279e1888))

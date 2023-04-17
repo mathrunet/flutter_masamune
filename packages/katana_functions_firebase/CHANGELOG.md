@@ -1,3 +1,7 @@
+## 1.1.28
+
+ - **FIX**: Added Function for agora_token. ([47b56097](https://github.com/mathrunet/flutter_masamune/commit/47b56097e9b8407815c1c6f3a41e641ae7c7d6a8))
+
 ## 1.1.27
 
  - Update a dependency to the latest release.
