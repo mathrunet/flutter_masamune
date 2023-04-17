@@ -15,6 +15,48 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v1.12.4`](#masamune---v1124)
+ - [`masamune_picker` - `v1.6.18`](#masamune_picker---v1618)
+ - [`masamune_universal_ui` - `v1.2.24`](#masamune_universal_ui---v1224)
+ - [`masamune_ai_openai` - `v1.1.29`](#masamune_ai_openai---v1129)
+ - [`masamune_calendar` - `v1.1.12`](#masamune_calendar---v1112)
+ - [`masamune_notification_firebase` - `v1.2.55`](#masamune_notification_firebase---v1255)
+ - [`masamune_picker_file` - `v1.6.18`](#masamune_picker_file---v1618)
+ - [`masamune_logger_firebase` - `v1.2.65`](#masamune_logger_firebase---v1265)
+ - [`masamune_picker_mobile` - `v1.6.18`](#masamune_picker_mobile---v1618)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker` - `v1.6.18`
+ - `masamune_universal_ui` - `v1.2.24`
+ - `masamune_ai_openai` - `v1.1.29`
+ - `masamune_calendar` - `v1.1.12`
+ - `masamune_notification_firebase` - `v1.2.55`
+ - `masamune_picker_file` - `v1.6.18`
+ - `masamune_logger_firebase` - `v1.2.65`
+ - `masamune_picker_mobile` - `v1.6.18`
+
+---
+
+#### `masamune` - `v1.12.4`
+
+ - **FIX**: Added the ability to put default values in MasamuneControllerBase. ([7a9e4d3c](https://github.com/mathrunet/flutter_masamune/commit/7a9e4d3c1d3360cb3cd158f1348a1ddd279e1888))
+
+
+## 2023-04-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v1.0.13`](#katana---v1013)
  - [`katana_ui` - `v1.2.12`](#katana_ui---v1212)
  - [`masamune_picker` - `v1.6.17`](#masamune_picker---v1617)
