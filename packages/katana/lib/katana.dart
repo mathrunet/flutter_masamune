@@ -13,7 +13,6 @@ import 'dart:convert';
 import 'dart:core' as core;
 import 'dart:core';
 import 'dart:math';
-import 'dart:typed_data';
 
 // Package imports:
 import 'package:crypto/crypto.dart';
