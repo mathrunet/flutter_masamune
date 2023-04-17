@@ -32,7 +32,9 @@ abstract class MasamuneControllerBase<TValue, TAdapter extends MasamuneAdapter>
   /// [adapter]を指定しない場合は、[primaryAdapter]を使用します。
   ///
   /// [ChangeNotifier]を継承しているので、[addListener]や[removeListener]を使用して値の変更を監視できます。
-  MasamuneControllerBase({TAdapter? adapter}) : _adapter = adapter;
+  MasamuneControllerBase({TAdapter? adapter, TValue? defaultValue})
+      : _adapter = adapter,
+        _value = defaultValue;
 
   /// [TAdapter] to be used.
   ///
