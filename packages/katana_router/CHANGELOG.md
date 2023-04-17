@@ -1,3 +1,7 @@
+## 1.11.20
+
+ - Update a dependency to the latest release.
+
 ## 1.11.19
 
  - **FIX**: Path parameters can now be identified in both SnakeCase and CamelCase. ([05ec49ce](https://github.com/mathrunet/flutter_masamune/commit/05ec49ce3faefc79b5648c6bb1e55729e3f0b369))

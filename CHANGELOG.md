@@ -3,6 +3,120 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v1.0.13`](#katana---v1013)
+ - [`katana_ui` - `v1.2.12`](#katana_ui---v1212)
+ - [`masamune_picker` - `v1.6.17`](#masamune_picker---v1617)
+ - [`masamune_annotation` - `v1.5.1`](#masamune_annotation---v151)
+ - [`katana_shorten` - `v1.2.16`](#katana_shorten---v1216)
+ - [`katana_storage` - `v1.1.19`](#katana_storage---v1119)
+ - [`masamune_universal_ui` - `v1.2.23`](#masamune_universal_ui---v1223)
+ - [`masamune_ai_openai` - `v1.1.28`](#masamune_ai_openai---v1128)
+ - [`katana_theme` - `v1.4.12`](#katana_theme---v1412)
+ - [`katana_scoped` - `v1.11.6`](#katana_scoped---v1116)
+ - [`katana_firebase` - `v1.1.20`](#katana_firebase---v1120)
+ - [`masamune_calendar` - `v1.1.11`](#masamune_calendar---v1111)
+ - [`katana_prefs_annotation` - `v1.1.19`](#katana_prefs_annotation---v1119)
+ - [`katana_auth` - `v1.2.15`](#katana_auth---v1215)
+ - [`katana_indicator` - `v1.1.19`](#katana_indicator---v1119)
+ - [`katana_listenables_annotation` - `v1.2.23`](#katana_listenables_annotation---v1223)
+ - [`katana_listenables` - `v1.2.25`](#katana_listenables---v1225)
+ - [`katana_listenables_builder` - `v1.2.24`](#katana_listenables_builder---v1224)
+ - [`katana_model_openapi` - `v1.3.9`](#katana_model_openapi---v139)
+ - [`katana_model_openapi_builder` - `v1.3.9`](#katana_model_openapi_builder---v139)
+ - [`katana_auth_firebase` - `v1.2.15`](#katana_auth_firebase---v1215)
+ - [`katana_functions_firebase` - `v1.1.27`](#katana_functions_firebase---v1127)
+ - [`katana_theme_builder` - `v1.4.11`](#katana_theme_builder---v1411)
+ - [`katana_functions` - `v1.1.23`](#katana_functions---v1123)
+ - [`katana_theme_annotation` - `v1.4.10`](#katana_theme_annotation---v1410)
+ - [`masamune_picker_file` - `v1.6.17`](#masamune_picker_file---v1617)
+ - [`masamune_builder` - `v1.5.4`](#masamune_builder---v154)
+ - [`katana_localization_builder` - `v1.1.37`](#katana_localization_builder---v1137)
+ - [`katana_localization_annotation` - `v1.1.35`](#katana_localization_annotation---v1135)
+ - [`katana_prefs` - `v1.1.25`](#katana_prefs---v1125)
+ - [`katana_router_builder` - `v1.11.18`](#katana_router_builder---v11118)
+ - [`katana_model_firestore` - `v1.6.11`](#katana_model_firestore---v1611)
+ - [`katana_form` - `v1.4.8`](#katana_form---v148)
+ - [`katana_router_annotation` - `v1.11.14`](#katana_router_annotation---v11114)
+ - [`masamune_picker_mobile` - `v1.6.17`](#masamune_picker_mobile---v1617)
+ - [`katana_cli` - `v1.9.7`](#katana_cli---v197)
+ - [`katana_localization` - `v1.1.37`](#katana_localization---v1137)
+ - [`katana_logger` - `v1.2.11`](#katana_logger---v1211)
+ - [`katana_model` - `v1.7.10`](#katana_model---v1710)
+ - [`katana_prefs_builder` - `v1.1.28`](#katana_prefs_builder---v1128)
+ - [`katana_storage_firebase` - `v1.1.22`](#katana_storage_firebase---v1122)
+ - [`masamune` - `v1.12.3`](#masamune---v1123)
+ - [`katana_router` - `v1.11.20`](#katana_router---v11120)
+ - [`masamune_notification_firebase` - `v1.2.54`](#masamune_notification_firebase---v1254)
+ - [`masamune_logger_firebase` - `v1.2.64`](#masamune_logger_firebase---v1264)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_ui` - `v1.2.12`
+ - `masamune_picker` - `v1.6.17`
+ - `masamune_annotation` - `v1.5.1`
+ - `katana_shorten` - `v1.2.16`
+ - `katana_storage` - `v1.1.19`
+ - `masamune_universal_ui` - `v1.2.23`
+ - `masamune_ai_openai` - `v1.1.28`
+ - `katana_theme` - `v1.4.12`
+ - `katana_scoped` - `v1.11.6`
+ - `katana_firebase` - `v1.1.20`
+ - `masamune_calendar` - `v1.1.11`
+ - `katana_prefs_annotation` - `v1.1.19`
+ - `katana_auth` - `v1.2.15`
+ - `katana_indicator` - `v1.1.19`
+ - `katana_listenables_annotation` - `v1.2.23`
+ - `katana_listenables` - `v1.2.25`
+ - `katana_listenables_builder` - `v1.2.24`
+ - `katana_model_openapi` - `v1.3.9`
+ - `katana_model_openapi_builder` - `v1.3.9`
+ - `katana_auth_firebase` - `v1.2.15`
+ - `katana_functions_firebase` - `v1.1.27`
+ - `katana_theme_builder` - `v1.4.11`
+ - `katana_functions` - `v1.1.23`
+ - `katana_theme_annotation` - `v1.4.10`
+ - `masamune_picker_file` - `v1.6.17`
+ - `masamune_builder` - `v1.5.4`
+ - `katana_localization_builder` - `v1.1.37`
+ - `katana_localization_annotation` - `v1.1.35`
+ - `katana_prefs` - `v1.1.25`
+ - `katana_router_builder` - `v1.11.18`
+ - `katana_model_firestore` - `v1.6.11`
+ - `katana_form` - `v1.4.8`
+ - `katana_router_annotation` - `v1.11.14`
+ - `masamune_picker_mobile` - `v1.6.17`
+ - `katana_cli` - `v1.9.7`
+ - `katana_localization` - `v1.1.37`
+ - `katana_logger` - `v1.2.11`
+ - `katana_model` - `v1.7.10`
+ - `katana_prefs_builder` - `v1.1.28`
+ - `katana_storage_firebase` - `v1.1.22`
+ - `masamune` - `v1.12.3`
+ - `katana_router` - `v1.11.20`
+ - `masamune_notification_firebase` - `v1.2.54`
+ - `masamune_logger_firebase` - `v1.2.64`
+
+---
+
+#### `katana` - `v1.0.13`
+
+ - **FIX**: Fixed internal data not readable in IOS. ([730f2690](https://github.com/mathrunet/flutter_masamune/commit/730f26904bf767d5904dcc2f2bcbab371e2797dd))
+
+
 ## 2023-04-11
 
 ### Changes

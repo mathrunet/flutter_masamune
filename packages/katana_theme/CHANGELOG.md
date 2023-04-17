@@ -1,3 +1,7 @@
+## 1.4.12
+
+ - Update a dependency to the latest release.
+
 ## 1.4.11
 
  - **FIX**: Added the ability to specify ThemeMode. ([cfdb3199](https://github.com/mathrunet/flutter_masamune/commit/cfdb319990dae3a9d1b76a29e09df9c76d9d0b0c))

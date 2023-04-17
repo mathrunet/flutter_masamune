@@ -1,3 +1,7 @@
+## 1.9.7
+
+ - Update a dependency to the latest release.
+
 ## 1.9.6
 
  - **FIX**: Compatible with iPhone screenshot size. ([599875a5](https://github.com/mathrunet/flutter_masamune/commit/599875a5f79ec658060f05fb05b666230097a62b))

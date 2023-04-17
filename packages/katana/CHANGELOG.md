@@ -1,3 +1,7 @@
+## 1.0.13
+
+ - **FIX**: Fixed internal data not readable in IOS. ([730f2690](https://github.com/mathrunet/flutter_masamune/commit/730f26904bf767d5904dcc2f2bcbab371e2797dd))
+
 ## 1.0.12
 
  - **FIX**: Added type safe format to Duration. ([bd0d7b74](https://github.com/mathrunet/flutter_masamune/commit/bd0d7b7498272fe8ff262ebccf12f19e393375a2))
