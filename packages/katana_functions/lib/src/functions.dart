@@ -104,4 +104,28 @@ class Functions extends ChangeNotifier {
       rethrow;
     }
   }
+
+  /// Functions for issuing tokens to be used by Agora.io.
+  ///
+  /// Pass the necessary values to [channelName] and [clientRole].
+  ///
+  /// Agora.ioで利用するトークンを発行するためのFunctions。
+  ///
+  /// [channelName]と[clientRole]に必要な値を渡してください。
+  Future<String> getAgoraToken({
+    required String channelName,
+    AgoraClientRole clientRole = AgoraClientRole.audience,
+  }) async {
+    try {
+      final res = await FunctionsAdapter.primary.getAgoraToken(
+        channelName: channelName,
+        clientRole: clientRole,
+      );
+      notifyListeners();
+      return res;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }
