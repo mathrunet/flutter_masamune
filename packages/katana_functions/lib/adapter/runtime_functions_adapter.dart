@@ -32,4 +32,11 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
           {required List<OpenAIChatGPTMessage> messages,
           OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo}) =>
       Future.value();
+
+  @override
+  Future<String> getAgoraToken({
+    required String channelName,
+    AgoraClientRole clientRole = AgoraClientRole.audience,
+  }) =>
+      Future.value("");
 }

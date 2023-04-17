@@ -69,6 +69,18 @@ abstract class FunctionsAdapter {
     required List<OpenAIChatGPTMessage> messages,
     OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo,
   });
+
+  /// Functions for issuing tokens to be used by Agora.io.
+  ///
+  /// Pass the necessary values to [channelName] and [clientRole].
+  ///
+  /// Agora.ioで利用するトークンを発行するためのFunctions。
+  ///
+  /// [channelName]と[clientRole]に必要な値を渡してください。
+  Future<String> getAgoraToken({
+    required String channelName,
+    AgoraClientRole clientRole = AgoraClientRole.audience,
+  });
 }
 
 /// [FunctionsAdapter] for the entire app by placing it on top of [MaterialApp], etc.

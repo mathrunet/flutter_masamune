@@ -142,4 +142,34 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
       rethrow;
     }
   }
+
+  @override
+  Future<String> getAgoraToken({
+    required String channelName,
+    AgoraClientRole clientRole = AgoraClientRole.audience,
+  }) async {
+    await FirebaseCore.initialize(options: options);
+    try {
+      final res = await functions.httpsCallable("agora_token").call<DynamicMap>(
+        {
+          "role": clientRole == AgoraClientRole.audience
+              ? "audience"
+              : "broadcaster",
+          "name": channelName,
+        },
+      );
+      if (res.data.isEmpty) {
+        throw Exception("Failed to get response from agora_token.");
+      }
+
+      final token = res.data.get("token", "");
+      if (token.isEmpty) {
+        throw Exception("Failed to get response from agora_token.");
+      }
+      return token;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }
