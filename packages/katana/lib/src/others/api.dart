@@ -1,4 +1,4 @@
-part of katana;
+part of katana.others;
 
 /// Provides static methods for making HTTP requests.
 ///
@@ -180,8 +180,13 @@ class Api {
     String path, {
     Map<String, String>? headers,
   }) async {
-    final url = Uri.parse(path);
-    return http.read(url, headers: headers);
+    if (path.startsWith("/")) {
+      final file = File(path);
+      return file.readAsString();
+    } else {
+      final url = Uri.parse(path);
+      return http.read(url, headers: headers);
+    }
   }
 
   /// Sends an HTTP GET request with the given headers to the given URL and returns a Future that completes to the body of the response as a list of bytes.
@@ -199,8 +204,13 @@ class Api {
     String path, {
     Map<String, String>? headers,
   }) async {
-    final url = Uri.parse(path);
-    return http.readBytes(url, headers: headers);
+    if (path.startsWith("/")) {
+      final file = File(path);
+      return file.readAsBytes();
+    } else {
+      final url = Uri.parse(path);
+      return http.readBytes(url, headers: headers);
+    }
   }
 }
 

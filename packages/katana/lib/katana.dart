@@ -18,7 +18,6 @@ import 'dart:typed_data';
 // Package imports:
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:recase/recase.dart';
 import 'package:sprintf/sprintf.dart';
@@ -28,6 +27,11 @@ export 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 export 'package:intl/intl.dart' show DateFormat;
 export 'package:meta/meta.dart' show Immutable, Required;
 export 'package:sprintf/sprintf.dart' show sprintf;
+
+export 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
 
 part 'extension/date_time_extensions.dart';
 part 'extension/date_time_iterable_extensions.dart';
@@ -56,6 +60,5 @@ part 'extension/random_extensions.dart';
 part 'extension/set_extensions.dart';
 part 'extension/string_extensions.dart';
 part 'src/date_duration.dart';
-part "src/api.dart";
 part "src/functions.dart";
 part "src/typedef.dart";
