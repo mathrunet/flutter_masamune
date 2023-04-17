@@ -1,3 +1,7 @@
+## 1.1.25
+
+ - **FIX**: Added a new function to Functions since it was not included. ([bc502fa2](https://github.com/mathrunet/flutter_masamune/commit/bc502fa2dcdf26e46fdc8f6875df28940fc18da5))
+
 ## 1.1.24
 
  - **FIX**: Added Function for agora_token. ([47b56097](https://github.com/mathrunet/flutter_masamune/commit/47b56097e9b8407815c1c6f3a41e641ae7c7d6a8))

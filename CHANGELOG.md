@@ -15,6 +15,55 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_functions` - `v1.1.25`](#katana_functions---v1125)
+ - [`katana_functions_firebase` - `v1.1.29`](#katana_functions_firebase---v1129)
+ - [`masamune` - `v1.12.6`](#masamune---v1126)
+ - [`masamune_picker` - `v1.6.20`](#masamune_picker---v1620)
+ - [`masamune_ai_openai` - `v1.1.31`](#masamune_ai_openai---v1131)
+ - [`masamune_universal_ui` - `v1.2.26`](#masamune_universal_ui---v1226)
+ - [`masamune_calendar` - `v1.1.14`](#masamune_calendar---v1114)
+ - [`masamune_notification_firebase` - `v1.2.57`](#masamune_notification_firebase---v1257)
+ - [`masamune_picker_file` - `v1.6.20`](#masamune_picker_file---v1620)
+ - [`masamune_logger_firebase` - `v1.2.67`](#masamune_logger_firebase---v1267)
+ - [`masamune_picker_mobile` - `v1.6.20`](#masamune_picker_mobile---v1620)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.12.6`
+ - `masamune_picker` - `v1.6.20`
+ - `masamune_ai_openai` - `v1.1.31`
+ - `masamune_universal_ui` - `v1.2.26`
+ - `masamune_calendar` - `v1.1.14`
+ - `masamune_notification_firebase` - `v1.2.57`
+ - `masamune_picker_file` - `v1.6.20`
+ - `masamune_logger_firebase` - `v1.2.67`
+ - `masamune_picker_mobile` - `v1.6.20`
+
+---
+
+#### `katana_functions` - `v1.1.25`
+
+ - **FIX**: Added a new function to Functions since it was not included. ([bc502fa2](https://github.com/mathrunet/flutter_masamune/commit/bc502fa2dcdf26e46fdc8f6875df28940fc18da5))
+
+#### `katana_functions_firebase` - `v1.1.29`
+
+ - **FIX**: Added a new function to Functions since it was not included. ([bc502fa2](https://github.com/mathrunet/flutter_masamune/commit/bc502fa2dcdf26e46fdc8f6875df28940fc18da5))
+
+
+## 2023-04-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_functions` - `v1.1.24`](#katana_functions---v1124)
  - [`katana_functions_firebase` - `v1.1.28`](#katana_functions_firebase---v1128)
  - [`masamune` - `v1.12.5`](#masamune---v1125)
