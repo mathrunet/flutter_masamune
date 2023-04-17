@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  masamune: ^1.10.0
+  masamune: ^1.12.2
   katana_firebase: ^1.1.19
   firebase_core: ^2.1.1
   firebase_crashlytics: ^3.0.11

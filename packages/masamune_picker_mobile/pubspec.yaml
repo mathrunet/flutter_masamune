@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^1.0.12
-  masamune: ^1.11.1
+  masamune: ^1.12.2
   masamune_picker: ^1.6.16
   file_picker: ^5.2.3
   image_picker: ^0.8.6

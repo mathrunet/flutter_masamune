@@ -261,10 +261,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: c3120a968135aead39699267f4c74bc9a08e4e909e86bc1b0af5bfd78691123c
+      sha256: "7c1e5f0d23c9016c5bbd8b1473d0d3fb3fc851b876046039509e18e0c7485f2c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.2"
+    version: "3.7.3"
   pool:
     dependency: transitive
     description:
@@ -341,10 +341,10 @@ packages:
     dependency: transitive
     description:
       name: source_span
-      sha256: dd904f795d4b4f3b870833847c461801f6750a9fa8e61ea5ac53f9422b31f250
+      sha256: "53e943d4206a5e30df338fd4c6e7a077e02254531b138a15aec3bd143c1a8b3c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.1"
+    version: "1.10.0"
   sprintf:
     dependency: transitive
     description:
@@ -453,10 +453,10 @@ packages:
     dependency: transitive
     description:
       name: web_socket_channel
-      sha256: ca49c0bc209c687b887f30527fb6a9d80040b072cc2990f34b9bec3e7663101b
+      sha256: d88238e5eac9a42bb43ca4e721edba3c08c6354d4a53063afaa568516217621b
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.4.0"
   webkit_inspection_protocol:
     dependency: transitive
     description:
