@@ -1,3 +1,7 @@
+## 1.10.0
+
+ - **FEAT**: Added Agora.io settings. ([c33753e9](https://github.com/mathrunet/flutter_masamune/commit/c33753e982f90aa2285bcc99ca94627d7cfda121))
+
 ## 1.9.7
 
  - Update a dependency to the latest release.

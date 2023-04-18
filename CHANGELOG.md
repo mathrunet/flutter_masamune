@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v1.10.0`](#katana_cli---v1100)
+
+---
+
+#### `katana_cli` - `v1.10.0`
+
+ - **FEAT**: Added Agora.io settings. ([c33753e9](https://github.com/mathrunet/flutter_masamune/commit/c33753e982f90aa2285bcc99ca94627d7cfda121))
+
+
 ## 2023-04-17
 
 ### Changes
