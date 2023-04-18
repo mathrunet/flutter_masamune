@@ -71,6 +71,16 @@ app:
     permission:
       en: Use the library for profile images.
 
+  # Describe the settings for using the calendar.
+  # カレンダーを利用するための設定を記述します。
+  calendar:
+    enable: false
+  
+  # Describe the settings for using OpenAI's GPT, etc.
+  # OpenAIのGPT等を利用するための設定を記述します。
+  openai:
+    enable: false
+
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。
 firebase:
@@ -204,5 +214,32 @@ store:
     feature_image: document/feature.png
     orientation: portrait
     color: '000000'
+
+# Configure Agora.io streaming settings.
+# Agora.ioのストリーミング設定を行います。
+agora:
+  # Set to `true` if you use Agora.io.
+  # Agora.ioを利用する場合は`true`にしてください。
+  enable: false
+
+  # AppID for Agora.
+  # Log in to the following URL and create a project.
+  # After the project is created, the AppID can be copied.
+  # Agora用のAppID。
+  # 下記URLにログインし、プロジェクトを作成します。
+  # プロジェクト作成後、AppIDをコピーすることができます。
+  # https://console.agora.io/projects
+  app_id: 
+
+  # AppCertificate for Agora.
+  # You can obtain the certificate after entering the project you created and activating it in Security -> App certificate.
+  # Agora用のAppCertificate。
+  # 作成したプロジェクトに入り、Security -> App certificateにて有効化した後取得できます。
+  # https://console.agora.io/projects
+  app_certificate: 
+
+  # Set to `true` to enable Agora cloud recording.
+  # Agoraのクラウドレコーディングを有効にする場合は`true`にしてください。
+  enable_cloud_recording: false
 """;
 }

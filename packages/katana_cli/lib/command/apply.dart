@@ -1,10 +1,13 @@
 // Project imports:
+import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
 import 'package:katana_cli/action/app/icon.dart';
 import 'package:katana_cli/action/app/keystore.dart';
+import 'package:katana_cli/action/app/openai.dart';
 import 'package:katana_cli/action/app/p12.dart';
 import 'package:katana_cli/action/app/picker.dart';
 import 'package:katana_cli/action/app/spread_sheet.dart';
+import 'package:katana_cli/action/agora/agora.dart';
 import 'package:katana_cli/action/firebase/init.dart';
 import 'package:katana_cli/action/firebase/messaging.dart';
 import 'package:katana_cli/action/firebase/terms_and_privacy.dart';
@@ -31,6 +34,9 @@ const _actions = <CliActionMixin>[
   FirebaseTermsAndPrivacyCliAction(),
   GitActionCliAction(),
   GitPreCommitCliAction(),
+  AppOpenAICliAction(),
+  AppCalendarCliAction(),
+  AgoraCliAction(),
 ];
 
 /// Reflect the settings in katana.yaml in the application project.
