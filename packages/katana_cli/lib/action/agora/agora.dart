@@ -1,6 +1,7 @@
-// Project imports:
+// Dart imports:
 import 'dart:io';
 
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to use Agora.io.
