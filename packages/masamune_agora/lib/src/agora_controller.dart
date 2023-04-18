@@ -1,9 +1,5 @@
 part of masamune_agora;
 
-const kAgoraDefaultScreenWidth = 1280;
-const kAgoraDefaultScreenHeight = 720;
-const kAgoraDefaultBitRate = 2000;
-
 class AgoraController
     extends MasamuneControllerBase<List<AgoraUser>, AgoraMasamuneAdapter> {
   AgoraController(
@@ -35,43 +31,43 @@ class AgoraController
 
   int? localUserNumber;
 
-  /// The width of the screen to send to the remote.
-  int get width => _width;
-  int _width = kAgoraDefaultScreenWidth;
+  final AgoraPermission permission = const AgoraPermission();
 
-  /// The height of the screen to send to the remote.
-  int get height => _height;
-  int _height = kAgoraDefaultScreenHeight;
+  /// The width of the screen to send to the remote.
+  VideoDimensions get videoDimensions {
+    switch (orientation) {
+      case AgoraVideoOrientation.landscape:
+        return _videoProfile.landscape;
+      case AgoraVideoOrientation.portrait:
+        return _videoProfile.portrait;
+    }
+  }
 
   /// The frame rate of the screen sent to the remote.
-  VideoFrameRate get frameRate => _frameRate;
-  VideoFrameRate _frameRate = VideoFrameRate.Fps24;
+  VideoFrameRate get frameRate => _videoProfile.frameRate;
 
   /// The bit rate of the screen sent to the remote.
-  int get bitRate => _bitRate;
-  int _bitRate = kAgoraDefaultBitRate;
+  int get bitRate => _videoProfile.bitrate(channelProfile);
+
+  AgoraVideoProfile _videoProfile = AgoraVideoProfile.size640x360Rate15;
 
   /// Set the screen
-  Future<void> setScreen(
-    int width,
-    int height, {
-    VideoFrameRate? frameRate,
-    int? bitRate,
+  Future<void> setScreen({
+    AgoraVideoProfile? videoProfile,
+    AgoraVideoOrientation? orientation,
   }) async {
     if (_engine == null) {
       throw Exception(
         "The engine is not initialized. [connect] the engine first.",
       );
     }
-    _width = width;
-    _height = height;
-    _frameRate = frameRate ?? _frameRate;
-    _bitRate = bitRate ?? _bitRate;
+    _videoProfile = videoProfile ?? _videoProfile;
+    _orientation = orientation ?? _orientation;
     final videoConfig = VideoEncoderConfiguration();
-    videoConfig.orientationMode = orientationMode;
-    videoConfig.dimensions = VideoDimensions(width: width, height: height);
-    videoConfig.frameRate = this.frameRate;
-    videoConfig.bitrate = this.bitRate;
+    videoConfig.orientationMode = _orientation.toVideoOutputOrientationMode();
+    videoConfig.dimensions = videoDimensions;
+    videoConfig.frameRate = frameRate;
+    videoConfig.bitrate = bitRate;
     await _engine?.setVideoEncoderConfiguration(videoConfig);
     notifyListeners();
   }
@@ -91,9 +87,8 @@ class AgoraController
   Completer<void>? _initializeCompleter;
 
   /// Orientation mode.
-  VideoOutputOrientationMode get orientationMode => _orientationMode;
-  VideoOutputOrientationMode _orientationMode =
-      VideoOutputOrientationMode.Adaptative;
+  AgoraVideoOrientation get orientation => _orientation;
+  AgoraVideoOrientation _orientation = AgoraVideoOrientation.landscape;
 
   /// Channel profile settings.
   ChannelProfile get channelProfile => _channelProfile;
@@ -192,6 +187,7 @@ class AgoraController
   bool _mute = false;
 
   String? _token;
+  bool _disposed = false;
 
   bool get capturing =>
       __recordingCaptureId != null &&
@@ -282,22 +278,22 @@ class AgoraController
       );
     }
     if (connected) {
+      _disposed = true;
       _token = null;
       _connected = false;
+      value?.clear();
       stopScreenCapture();
       stopRecording();
       stopAudioRecording();
       _engine?.leaveChannel();
+      _sendLog(AgoraLoggerEvent.leave);
     }
     _engine?.setEventHandler(RtcEngineEventHandler());
   }
 
   Future<void> connect({
     required String userName,
-    int width = kAgoraDefaultScreenWidth,
-    int height = kAgoraDefaultScreenHeight,
-    VideoFrameRate frameRate = VideoFrameRate.Fps24,
-    int bitRate = kAgoraDefaultBitRate,
+    AgoraVideoProfile videoProfile = AgoraVideoProfile.size640x360Rate15,
     CameraDirection cameraDirection = CameraDirection.Rear,
     bool enableAudio = true,
     bool enableVideo = true,
@@ -305,14 +301,10 @@ class AgoraController
     bool? enableScreenCaptureOnConnect,
     ChannelProfile channelProfile = ChannelProfile.LiveBroadcasting,
     ClientRole clientRole = ClientRole.Broadcaster,
-    VideoOutputOrientationMode orientationMode =
-        VideoOutputOrientationMode.FixedPortrait,
+    AgoraVideoOrientation orientation = AgoraVideoOrientation.landscape,
   }) async {
-    _width = width;
-    _height = height;
-    _bitRate = bitRate;
-    _orientationMode = orientationMode;
-    _frameRate = frameRate;
+    _videoProfile = videoProfile;
+    _orientation = orientation;
     _enableAudio = enableAudio;
     _enableVideo = enableVideo;
     _channelProfile = channelProfile;
@@ -338,6 +330,12 @@ class AgoraController
         "Already connected. Please disconnect with [disconnect].",
       );
     }
+    if (!await permission.request(
+        enableAudio: _enableAudio, enableVideo: _enableVideo)) {
+      throw Exception(
+        "Permission not granted.",
+      );
+    }
     _connectingCompleter = Completer<void>();
     try {
       _connected = true;
@@ -348,14 +346,16 @@ class AgoraController
                 .firstWhereOrNull((item) => item.index == clientRole.index) ??
             AgoraClientRole.audience,
       );
+      _token =
+          "007eJxTYJhz/5BbYZhQrnXAdwbGHxZxTD2WD+12W/N8rg4tcPkflq7AYJiUZGCcZmJoYW5sbGJpnmhpbplkBARmqUlGaWaJaYdb7VIaAhkZpm3hZmVkgEAQn4PBJbUsNSe/oISBAQAkTh7P";
       _engine?.setEventHandler(
         RtcEngineEventHandler(
           error: (err) {
+            debugPrint(err.toString());
             _connectingCompleter?.completeError(err);
             _connectingCompleter = null;
             _disconnectingCompleter?.completeError(err);
             _disconnectingCompleter = null;
-            dispose();
           },
           userInfoUpdated: (number, info) {
             final data = value?.firstWhereOrNull((e) => e.number == number);
@@ -371,46 +371,54 @@ class AgoraController
             }
           },
           joinChannelSuccess: (channel, number, elapsed) async {
-            final data = value?.firstWhereOrNull((e) => e.number == number);
-            if (data == null) {
-              value?.add(AgoraUser._(
-                controller: this,
-                number: number,
-                isLocalUser: true,
-                channel: channel,
-              ));
-              if ((enableScreenCaptureOnConnect ??
-                      adapter.enableScreenCaptureByDefault) &&
-                  channelProfile == ChannelProfile.LiveBroadcasting &&
-                  clientRole == ClientRole.Broadcaster) {
-                await startScreenCapture();
+            try {
+              final data = value?.firstWhereOrNull((e) => e.number == number);
+              if (data == null) {
+                value?.add(AgoraUser._(
+                  controller: this,
+                  number: number,
+                  isLocalUser: true,
+                  channel: channel,
+                  status: VideoRemoteState.Starting,
+                ));
+                if ((enableScreenCaptureOnConnect ??
+                        adapter.enableScreenCaptureByDefault) &&
+                    channelProfile == ChannelProfile.LiveBroadcasting &&
+                    clientRole == ClientRole.Broadcaster) {
+                  await startScreenCapture();
+                }
+                if ((enableRecordingOnConnect ??
+                        adapter.enableRecordingByDefault) &&
+                    channelProfile == ChannelProfile.LiveBroadcasting &&
+                    clientRole == ClientRole.Broadcaster) {
+                  await startRecording();
+                }
+              } else {
+                if (data.channel != channel) {
+                  data._setChannel(channel);
+                }
               }
-              if ((enableRecordingOnConnect ??
-                      adapter.enableRecordingByDefault) &&
-                  channelProfile == ChannelProfile.LiveBroadcasting &&
-                  clientRole == ClientRole.Broadcaster) {
-                await startRecording();
-              }
-            } else {
-              if (data.channel != channel) {
-                data._setChannel(channel);
-              }
+              _sendLog(AgoraLoggerEvent.join, parameters: {
+                AgoraLoggerEvent.userNumberKey: number,
+                AgoraLoggerEvent.channelKey: channel,
+                AgoraLoggerEvent.isLocalUserKey: true,
+              });
+              notifyListeners();
+              _connectingCompleter?.complete();
+              _connectingCompleter = null;
+            } catch (e) {
+              debugPrint(e.toString());
+              _connectingCompleter?.completeError(e);
+              _connectingCompleter = null;
+              rethrow;
             }
-            _sendLog(AgoraLoggerEvent.join, parameters: {
-              AgoraLoggerEvent.userNumberKey: number,
-              AgoraLoggerEvent.channelKey: channel,
-              AgoraLoggerEvent.isLocalUserKey: true,
-            });
-            notifyListeners();
-            _connectingCompleter?.complete();
-            _connectingCompleter = null;
           },
           remoteVideoStateChanged: (number, state, reason, elapsed) {
             final data = value?.firstWhereOrNull((e) => e.number == number);
             if (data == null) {
               return;
             }
-            data._setRemoteState(state);
+            data._setStatus(state);
           },
           userJoined: (number, elapsed) {
             final data = value?.firstWhereOrNull((e) => e.number == number);
@@ -421,6 +429,7 @@ class AgoraController
               controller: this,
               number: number,
               channel: channelName,
+              status: VideoRemoteState.Starting,
               isLocalUser: false,
             ));
             _sendLog(AgoraLoggerEvent.join, parameters: {
@@ -442,13 +451,13 @@ class AgoraController
             notifyListeners();
           },
           leaveChannel: (stats) {
+            value?.clear();
             _sendLog(AgoraLoggerEvent.leave, parameters: {
               AgoraLoggerEvent.userNumberKey: localUserNumber,
               AgoraLoggerEvent.isLocalUserKey: true,
             });
             _disconnectingCompleter?.complete();
             _disconnectingCompleter = null;
-            dispose();
           },
           firstRemoteVideoFrame: (
             number,
@@ -475,8 +484,8 @@ class AgoraController
         await _engine?.disableVideo();
       }
       final videoConfig = VideoEncoderConfiguration();
-      videoConfig.orientationMode = orientationMode;
-      videoConfig.dimensions = VideoDimensions(width: width, height: height);
+      videoConfig.orientationMode = orientation.toVideoOutputOrientationMode();
+      videoConfig.dimensions = videoDimensions;
       videoConfig.frameRate = frameRate;
       videoConfig.bitrate = bitRate;
       await _engine?.setVideoEncoderConfiguration(videoConfig);
@@ -518,9 +527,7 @@ class AgoraController
       return disconnecting;
     }
     if (_connectingCompleter != null || !connected) {
-      throw Exception(
-        "Already disconnected. Please connect with [connect].",
-      );
+      return;
     }
     _disconnectingCompleter = Completer<void>();
     try {
@@ -575,7 +582,7 @@ class AgoraController
       body: jsonEncode(
         {
           "cname": channelName,
-          "uid": _recordingCaptureId,
+          "uid": _recordingCaptureId.toString(),
           "clientRequest": {"resourceExpiredHour": 1},
         },
       ),
@@ -592,7 +599,7 @@ class AgoraController
           body: jsonEncode(
             {
               "cname": channelName,
-              "uid": _recordingCaptureId,
+              "uid": _recordingCaptureId.toString(),
               "clientRequest": {
                 "token": _token,
                 "recordingConfig": {
@@ -648,9 +655,7 @@ class AgoraController
   /// Stop taking screen shots.
   Future<void> stopScreenCapture() async {
     if (!capturing) {
-      throw Exception(
-        "Capture has not started. Please execute [startScreenCapture].",
-      );
+      return;
     }
     if (_engine == null) {
       throw Exception(
@@ -669,7 +674,7 @@ class AgoraController
       body: jsonEncode(
         {
           "cname": channelName,
-          "uid": _recordingCaptureId,
+          "uid": _recordingCaptureId.toString(),
           "clientRequest": {},
         },
       ),
@@ -680,7 +685,9 @@ class AgoraController
     });
     _sidCapture = null;
     _resourceCaptureId = null;
-    notifyListeners();
+    if (!_disposed) {
+      notifyListeners();
+    }
   }
 
   /// URL for screen captures.
@@ -729,7 +736,7 @@ class AgoraController
       body: jsonEncode(
         {
           "cname": channelName,
-          "uid": _recordingVideoId,
+          "uid": _recordingVideoId.toString(),
           "clientRequest": {"resourceExpiredHour": 1},
         },
       ),
@@ -746,7 +753,7 @@ class AgoraController
           body: jsonEncode(
             {
               "cname": channelName,
-              "uid": _recordingVideoId,
+              "uid": _recordingVideoId.toString(),
               "clientRequest": {
                 "token": _token,
                 "recordingConfig": {
@@ -755,8 +762,8 @@ class AgoraController
                   "audioProfile": 1,
                   "channelType": 1,
                   "transcodingConfig": {
-                    "height": height,
-                    "width": width,
+                    "height": videoDimensions.height,
+                    "width": videoDimensions.width,
                     "bitrate": bitRate,
                     "fps": frameRate.toInt(),
                     "mixedVideoLayout": 1,
@@ -809,9 +816,7 @@ class AgoraController
   /// Stop taking screen shots.
   Future<void> stopRecording() async {
     if (!recordingVideo) {
-      throw Exception(
-        "Capture has not started. Please execute [startScreenCapture].",
-      );
+      return;
     }
     if (_engine == null) {
       throw Exception(
@@ -830,7 +835,7 @@ class AgoraController
       body: jsonEncode(
         {
           "cname": channelName,
-          "uid": _recordingVideoId,
+          "uid": _recordingVideoId.toString(),
           "clientRequest": {},
         },
       ),
@@ -841,7 +846,9 @@ class AgoraController
     });
     _sidCapture = null;
     _resourceVideoId = null;
-    notifyListeners();
+    if (!_disposed) {
+      notifyListeners();
+    }
   }
 
   Future<void> _debugRecording() async {
@@ -923,19 +930,19 @@ class AgoraController
 
   /// Stop Recording.
   Future<void> stopAudioRecording() async {
-    if (_recordingAudio == null) {
-      throw Exception(
-        "Recording is not in progress. Please start the recording first.",
-      );
-    }
     if (_engine == null) {
       throw Exception(
         "The engine is not initialized. [connect] the engine first.",
       );
     }
+    if (_recordingAudio == null) {
+      return;
+    }
     try {
       await _engine?.stopAudioRecording();
-      notifyListeners();
+      if (!_disposed) {
+        notifyListeners();
+      }
       _recordingAudio?.complete();
       _recordingAudio = null;
     } catch (e) {

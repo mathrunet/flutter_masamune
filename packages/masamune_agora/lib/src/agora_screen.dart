@@ -56,7 +56,7 @@ class _AgoraScreenState extends State<AgoraScreen> {
   Widget build(BuildContext context) {
     final number = widget.value.number;
     final channel = widget.value.channel;
-    final remoteState = widget.value.remoteState;
+    final remoteState = widget.value.status;
     if (channel.isEmpty) {
       return const Empty();
     }

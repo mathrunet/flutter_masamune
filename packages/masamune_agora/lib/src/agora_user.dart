@@ -7,9 +7,11 @@ class AgoraUser extends ChangeNotifier {
     this.isLocalUser = false,
     String? channel,
     required AgoraController controller,
+    VideoRemoteState status = VideoRemoteState.Stopped,
   })  : _channel = channel,
         _name = name,
-        _controller = controller;
+        _controller = controller,
+        _status = status;
 
   final int number;
   final bool isLocalUser;
@@ -37,14 +39,14 @@ class AgoraUser extends ChangeNotifier {
     notifyListeners();
   }
 
-  VideoRemoteState get remoteState => _remoteState;
-  VideoRemoteState _remoteState = VideoRemoteState.Stopped;
+  VideoRemoteState get status => _status;
+  VideoRemoteState _status = VideoRemoteState.Stopped;
 
-  void _setRemoteState(VideoRemoteState remoteState) {
-    if (_remoteState == remoteState) {
+  void _setStatus(VideoRemoteState status) {
+    if (_status == status) {
       return;
     }
-    _remoteState = remoteState;
+    _status = status;
     notifyListeners();
   }
 }

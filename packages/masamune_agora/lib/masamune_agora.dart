@@ -19,7 +19,13 @@ import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as rtc_local_view;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
+import 'package:flutter/services.dart';
 import 'package:masamune/masamune.dart';
+
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
 
 export 'package:agora_rtc_engine/rtc_engine.dart'
     show
@@ -38,3 +44,5 @@ part 'src/agora_user.dart';
 part 'src/agora_logger_event.dart';
 part 'src/extensions.dart';
 part 'src/agora_screen.dart';
+part 'src/agora_video_profile.dart';
+part 'src/agora_video_orientation.dart';
