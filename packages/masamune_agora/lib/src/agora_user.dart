@@ -1,5 +1,24 @@
 part of masamune_agora;
 
+/// Class that holds information on the currently connected user.
+///
+/// Set the user number issued by Agora.io in [number] and the user name specified here in [name].
+///
+/// [isLocalUser] sets whether the user is your own user or not.
+///
+/// Set the name of the currently connected channel in [channel].
+///
+/// Set the current connection status in [status].
+///
+/// 現在接続しているユーザーの情報を保持するクラス。
+///
+/// [number]にAgora.ioから発行されたユーザー番号、[name]にこちらで指定したユーザー名を設定します。
+///
+/// [isLocalUser]は自分自身のユーザーかどうかを設定します。
+///
+/// [channel]には現在接続しているチャンネル名を設定します。
+///
+/// [status]には現在の接続状態を設定します。
 class AgoraUser extends ChangeNotifier {
   AgoraUser._({
     required this.number,
@@ -13,10 +32,25 @@ class AgoraUser extends ChangeNotifier {
         _controller = controller,
         _status = status;
 
-  final int number;
-  final bool isLocalUser;
   final AgoraController _controller;
 
+  /// User number issued by Agora.io.
+  ///
+  /// Agora.ioから発行されたユーザー番号。
+  final int number;
+
+  /// Whether you are your own user or not.
+  ///
+  /// If `true`, it is your own user.
+  ///
+  /// 自分自身のユーザーかどうか。
+  ///
+  /// `true`の場合、自分自身のユーザーです。
+  final bool isLocalUser;
+
+  /// Name of the currently connected channel.
+  ///
+  /// 現在接続しているチャンネル名。
   String? get channel => _channel;
   String? _channel;
 
@@ -28,6 +62,9 @@ class AgoraUser extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// User Name.
+  ///
+  /// ユーザー名。
   String? get name => _name;
   String? _name;
 
@@ -39,6 +76,9 @@ class AgoraUser extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Current connection status.
+  ///
+  /// 現在の接続状態。
   VideoRemoteState get status => _status;
   VideoRemoteState _status = VideoRemoteState.Stopped;
 

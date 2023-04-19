@@ -1,6 +1,28 @@
 part of masamune_agora;
 
+/// Adapter to make Agora.io available on the Masamune framework.
+///
+/// It is available by setting [appId], [customerId] and [customerSecret].
+///
+/// It is also necessary to set up a [functionsAdapter] to obtain the token.
+///
+/// Agora.ioをMasamuneフレームワーク上で利用可能にするためのAdapter。
+///
+/// [appId]と[customerId]、[customerSecret]を設定することで利用可能になります。
+///
+/// またトークンを取得するための[functionsAdapter]を設定する必要があります。
 class AgoraMasamuneAdapter extends MasamuneAdapter {
+  /// Adapter to make Agora.io available on the Masamune framework.
+  ///
+  /// It is available by setting [appId], [customerId] and [customerSecret].
+  ///
+  /// It is also necessary to set up a [functionsAdapter] to obtain the token.
+  ///
+  /// Agora.ioをMasamuneフレームワーク上で利用可能にするためのAdapter。
+  ///
+  /// [appId]と[customerId]、[customerSecret]を設定することで利用可能になります。
+  ///
+  /// またトークンを取得するための[functionsAdapter]を設定する必要があります。
   const AgoraMasamuneAdapter({
     required this.appId,
     required this.customerId,
@@ -18,6 +40,9 @@ class AgoraMasamuneAdapter extends MasamuneAdapter {
           "If you want to use screen capture, you must set [storageBucketConfig].",
         );
 
+  /// To use Agora.io, it is necessary to obtain a token from the server, so specify an adapter in [Functions] that can use it.
+  ///
+  /// Agora.ioを利用するためにサーバーからトークンを取得する必要があるのでそれが利用可能な[Functions]のアダプターを指定します。
   final FunctionsAdapter functionsAdapter;
 
   /// AppID for Agora.

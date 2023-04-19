@@ -1,5 +1,8 @@
 part of masamune_agora;
 
+/// Defines the video profiles available in Agora.
+///
+/// Agoraで利用可能なビデオプロファイルを定義します。
 enum AgoraVideoProfile {
   size160x120Rate15,
   size120x120Rate15,
@@ -30,6 +33,9 @@ enum AgoraVideoProfile {
   size1920x1080Rate30,
   size1920x1080Rate60;
 
+  /// Get [VideoDimensions] in portrait mode.
+  ///
+  /// 縦画面時の[VideoDimensions]を取得します。
   VideoDimensions get portrait {
     switch (this) {
       case AgoraVideoProfile.size160x120Rate15:
@@ -80,6 +86,9 @@ enum AgoraVideoProfile {
     }
   }
 
+  /// Get [VideoDimensions] in landscape mode.
+  ///
+  /// 横画面時の[VideoDimensions]を取得します。
   VideoDimensions get landscape {
     switch (this) {
       case AgoraVideoProfile.size160x120Rate15:
@@ -130,6 +139,9 @@ enum AgoraVideoProfile {
     }
   }
 
+  /// Get frame rate.
+  ///
+  /// フレームレートを取得します。
   VideoFrameRate get frameRate {
     switch (this) {
       case AgoraVideoProfile.size640x480Rate10:
@@ -167,6 +179,13 @@ enum AgoraVideoProfile {
     }
   }
 
+  /// Get the bit rate.
+  ///
+  /// The bit rate varies depending on the [channelProfile].
+  ///
+  /// ビットレートを取得します。
+  ///
+  /// [channelProfile]によって、ビットレートが変わります。
   int bitrate(ChannelProfile channelProfile) {
     switch (channelProfile) {
       case ChannelProfile.Communication:

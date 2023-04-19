@@ -5,17 +5,22 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:masamune/masamune.dart';
-import 'package:masamune_calendar/masamune_calendar.dart';
+import 'package:masamune_agora/masamune_agora.dart';
 
 final List<MasamuneAdapter> masamuneAdapters = [
-  const CalendarMasamuneAdapter(),
+  const AgoraMasamuneAdapter(
+    appId: "e3306fb870954eb880242a756a56c883",
+    customerId: "4def5dd9abb0475faa69a5edd1328e6e",
+    customerSecret: "f261c32d6af1406eb9a987f5cc900613",
+    functionsAdapter: RuntimeFunctionsAdapter(),
+  ),
 ];
 
 void main() {
   runMasamuneApp(
     masamuneAdapters: masamuneAdapters,
     (adapters) => MasamuneApp(
-      home: const OpenAIPage(),
+      home: const AgoraPage(),
       title: "Flutter Demo",
       masamuneAdapters: adapters,
       theme: AppThemeData(
@@ -25,57 +30,59 @@ void main() {
   );
 }
 
-class OpenAIPage extends StatefulWidget {
-  const OpenAIPage({super.key});
+class AgoraPage extends StatefulWidget {
+  const AgoraPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => OpenAIPagePageState();
+  State<StatefulWidget> createState() => AgoraPagePageState();
 }
 
-class OpenAIPagePageState extends State<OpenAIPage> {
-  final CalendarController _controller = CalendarController();
+class AgoraPagePageState extends State<AgoraPage> {
+  final AgoraController _controller = AgoraController("test_channel");
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_handledOnUpdate);
+  }
+
+  void _handledOnUpdate() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.removeListener(_handledOnUpdate);
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
     return Scaffold(
       appBar: AppBar(
         title: const Text("App Demo"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              _controller.prev();
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.arrow_forward),
-            onPressed: () {
-              _controller.next();
-            },
-          ),
-        ],
       ),
-      body: Column(
-        children: [
-          CalendarHeader(
-            controller: _controller,
-          ),
-          Expanded(
-            child: Calendar(
-              controller: _controller,
-              events: [
-                for (var i = 0; i < 10; i++)
-                  CalendarEventItem(
-                    startTime: DateTime(now.year, now.month, now.day).add(i.d),
-                    title: "Event $i",
-                  )
-              ],
-              expand: true,
+      body: GridBuilder<AgoraUser>.count(
+        crossAxisCount: 2,
+        source: _controller.value ?? <AgoraUser>[],
+        builder: (context, item, index) {
+          return AgoraScreen(value: item);
+        },
+      ),
+      floatingActionButton: !_controller.connected
+          ? FloatingActionButton(
+              onPressed: () {
+                _controller.disconnect();
+              },
+              child: const Icon(Icons.login),
+            )
+          : FloatingActionButton(
+              onPressed: () {
+                _controller.connect(userName: "user_name");
+              },
+              child: const Icon(Icons.logout),
             ),
-          ),
-        ],
-      ),
     );
   }
 }

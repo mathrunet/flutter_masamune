@@ -30,7 +30,6 @@ export 'package:agora_rtc_engine/rtc_engine.dart'
     show
         ClientRole,
         VideoFrameRate,
-        VideoOutputOrientationMode,
         ChannelProfile,
         CameraDirection,
         AudioSampleRateType,

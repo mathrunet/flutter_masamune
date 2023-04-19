@@ -1,7 +1,29 @@
 part of masamune_agora;
 
+/// Controller for connecting and disconnecting Agora.io, etc.
+///
+/// First give [channelName] to specify the channel.
+///
+/// [connect] to make a connection and [disconnect] to disconnect.
+///
+/// Agora.ioの接続や切断等を行うコントローラー。
+///
+/// 最初に[channelName]を与えてチャンネルを指定してください。
+///
+/// [connect]で接続を行い、[disconnect]で切断を行います。
 class AgoraController
     extends MasamuneControllerBase<List<AgoraUser>, AgoraMasamuneAdapter> {
+  /// Controller for connecting and disconnecting Agora.io, etc.
+  ///
+  /// First give [channelName] to specify the channel.
+  ///
+  /// [connect] to make a connection and [disconnect] to disconnect.
+  ///
+  /// Agora.ioの接続や切断等を行うコントローラー。
+  ///
+  /// 最初に[channelName]を与えてチャンネルを指定してください。
+  ///
+  /// [connect]で接続を行い、[disconnect]で切断を行います。
   AgoraController(
     this.channelName, {
     List<LoggerAdapter> loggerAdapters = const [],
@@ -24,16 +46,35 @@ class AgoraController
 
   final List<LoggerAdapter> _loggerAdapters;
 
-  final String channelName;
-
-  /// The name of the local account.
-  String? localName;
-
-  int? localUserNumber;
-
+  /// Controller around authority.
+  ///
+  /// 権限周りのコントローラー。
   final AgoraPermission permission = const AgoraPermission();
 
-  /// The width of the screen to send to the remote.
+  /// Name of the channel to connect.
+  ///
+  /// 接続するチャンネル名。
+  final String channelName;
+
+  /// User name for the connection.
+  ///
+  /// 接続した際のユーザー名。
+  String? get localName => _localName;
+  String? _localName;
+
+  /// User number used by Agora.io when connecting.
+  ///
+  /// 接続した際のAgora.ioで利用されるユーザー番号。
+  int? get localUserNumber => _localUserNumber;
+  int? _localUserNumber;
+
+  /// Screen size when connecting to a remote.
+  ///
+  /// This is determined by [AgoraVideoProfile]. If you want to change it, use [setScreen].
+  ///
+  /// リモートに接続する際の画面サイズ。
+  ///
+  /// [AgoraVideoProfile]によって決定されます。変更したい場合は[setScreen]を利用してください。
   VideoDimensions get videoDimensions {
     switch (orientation) {
       case AgoraVideoOrientation.landscape:
@@ -43,15 +84,39 @@ class AgoraController
     }
   }
 
-  /// The frame rate of the screen sent to the remote.
+  /// Screen frame rate when connecting to a remote.
+  ///
+  /// This is determined by [AgoraVideoProfile]. If you want to change it, use [setScreen].
+  ///
+  /// リモートに接続する際の画面フレームレート。
+  ///
+  /// [AgoraVideoProfile]によって決定されます。変更したい場合は[setScreen]を利用してください。
   VideoFrameRate get frameRate => _videoProfile.frameRate;
 
-  /// The bit rate of the screen sent to the remote.
+  /// Communication bit rate when connecting to a remote.
+  ///
+  /// This is determined by [AgoraVideoProfile]. If you want to change it, use [setScreen].
+  ///
+  /// リモートに接続する際の通信ビットレート。
+  ///
+  /// [AgoraVideoProfile]によって決定されます。変更したい場合は[setScreen]を利用してください。
   int get bitRate => _videoProfile.bitrate(channelProfile);
+
+  /// Specifies the orientation of the screen for shooting.
+  ///
+  /// 撮影する画面の向きを指定します。
+  AgoraVideoOrientation get orientation => _orientation;
+  AgoraVideoOrientation _orientation = AgoraVideoOrientation.landscape;
 
   AgoraVideoProfile _videoProfile = AgoraVideoProfile.size640x360Rate15;
 
-  /// Set the screen
+  /// By passing [videoProfile] and [orientation], the screen size and frame rate can be specified.
+  ///
+  /// If [Null] is passed, the respective current value is retained.
+  ///
+  /// [videoProfile]と[orientation]を渡すことによって、スクリーンサイズとフレームレートを指定することができます。
+  ///
+  /// [Null]が渡された場合、それぞれの現在の値が保持されます。
   Future<void> setScreen({
     AgoraVideoProfile? videoProfile,
     AgoraVideoOrientation? orientation,
@@ -72,33 +137,57 @@ class AgoraController
     notifyListeners();
   }
 
-  /// True if the connection process is in progress.
+  /// Returns `true` if connected.
+  ///
+  /// 接続されている場合`true`を返します。
   bool get connected => _connected;
   bool _connected = false;
 
-  /// Returns itself after the connecting finishes.
+  /// If a connection is currently being attempted, it returns its [Future].
+  ///
+  /// Once the connection is made, [Future] is completed.
+  ///
+  /// 現在接続試行中の場合、その[Future]を返します。
+  ///
+  /// 接続が完了すると[Future]が完了します。
   Future<void>? get connecting => _connectingCompleter?.future;
   Completer<void>? _connectingCompleter;
 
-  /// Returns itself after the disconnecting finishes.
+  /// If a disconnect attempt is currently in progress, returns its [Future].
+  ///
+  /// When the disconnection is complete, [Future] is completed.
+  ///
+  /// 現在切断試行中の場合、その[Future]を返します。
+  ///
+  /// 切断が完了すると[Future]が完了します。
   Future<void>? get disconnecting => _disconnectingCompleter?.future;
   Completer<void>? _disconnectingCompleter;
 
   Completer<void>? _initializeCompleter;
 
-  /// Orientation mode.
-  AgoraVideoOrientation get orientation => _orientation;
-  AgoraVideoOrientation _orientation = AgoraVideoOrientation.landscape;
-
-  /// Channel profile settings.
+  /// Specify the profile of the channel to be connected.
+  ///
+  /// [ChannelProfile.Communication] is a call type communication like Zoom, and [ChannelProfile.LiveBroadcasting] is a type of communication where a small number of people distribute to a large number of users.
+  ///
+  /// 接続するチャンネルのプロファイルを指定します。
+  ///
+  /// [ChannelProfile.Communication]だと、Zoomのような通話タイプの通信となり、[ChannelProfile.LiveBroadcasting]だと少人数が大人数のユーザーに配信するタイプの通信となります。
   ChannelProfile get channelProfile => _channelProfile;
   ChannelProfile _channelProfile = ChannelProfile.Communication;
 
-  /// Client role settings.
+  /// Specify your role if you specify [ChannelProfile.LiveBroadcasting].
+  ///
+  /// [ClientRole.Broadcaster] is the distributor and [ClientRole.Audience] is the audience.
+  ///
+  /// [ChannelProfile.LiveBroadcasting]を指定した場合の、自分の役割を指定します。
+  ///
+  /// [ClientRole.Broadcaster]だと配信者、[ClientRole.Audience]だと視聴者になります。
   ClientRole get clientRole => _clientRole;
   ClientRole _clientRole = ClientRole.Broadcaster;
 
-  /// Switches the camera in / out.
+  /// Swap the camera In and Out.
+  ///
+  /// カメラのInとOutを入れ替えます。
   void switchCamera() {
     if (_engine == null) {
       throw Exception(
@@ -112,12 +201,20 @@ class AgoraController
     notifyListeners();
   }
 
+  /// Get the In and Out of the current camera.
+  ///
+  /// 現在のカメラのInとOutを取得します。
   CameraDirection get cameraDirection => _cameraDirection;
   CameraDirection _cameraDirection = CameraDirection.Rear;
 
-  /// True to enable audio.
+  /// Returns `true` if Audio is enabled.
+  ///
+  /// Audioを有効にする場合`true`が返ります。
   bool get enableAudio => _enableAudio;
 
+  /// Returns `true` if Audio is enabled.
+  ///
+  /// Audioを有効にする場合`true`が返ります。
   set enableAudio(bool enableAudio) {
     if (_enableAudio == enableAudio) {
       return;
@@ -138,12 +235,14 @@ class AgoraController
 
   bool _enableAudio = true;
 
-  /// True to enable video.
+  /// Returns `true` if Video is enabled.
+  ///
+  /// Videoを有効にする場合`true`が返ります。
   bool get enableVideo => _enableVideo;
 
-  /// True to enable video.
+  /// Returns `true` if Video is enabled.
   ///
-  /// [enableVideo]: True to enable video.
+  /// Videoを有効にする場合`true`が返ります。
   set enableVideo(bool enableVideo) {
     if (_enableVideo == enableVideo) {
       return;
@@ -164,12 +263,14 @@ class AgoraController
 
   bool _enableVideo = true;
 
-  /// True to mute the call.
+  /// If the audio is muted, `true` is returned.
+  ///
+  /// 音声がミュートされている場合は`true`が返ります。
   bool get mute => _mute;
 
-  /// True to mute the call.
+  /// If the audio is muted, `true` is returned.
   ///
-  /// [mute]: True to mute the call.
+  /// 音声がミュートされている場合は`true`が返ります。
   set mute(bool mute) {
     if (mute == _mute) {
       return;
@@ -189,6 +290,9 @@ class AgoraController
   String? _token;
   bool _disposed = false;
 
+  /// If a screenshot of the delivered video is currently being taken, `true` is returned.
+  ///
+  /// 現在配信映像のスクリーンショットを撮影中の場合は`true`が返ります。
   bool get capturing =>
       __recordingCaptureId != null &&
       _sidCapture.isNotEmpty &&
@@ -210,6 +314,9 @@ class AgoraController
   String? _sidCapture;
   String? _resourceCaptureId;
 
+  /// If the delivery video is currently being recorded, `true` is returned.
+  ///
+  /// 現在配信映像を録画中の場合は`true`が返ります。
   bool get recordingVideo =>
       __recordingVideoId != null &&
       _sidVideo.isNotEmpty &&
@@ -231,7 +338,9 @@ class AgoraController
   String? _sidVideo;
   String? _resourceVideoId;
 
-  /// Returns itself after the disconnecting finishes.
+  /// If the delivery video is currently being recorded, `true` is returned.
+  ///
+  /// 現在配信映像を録音中の場合は`true`が返ります。
   Future<void>? get recordingAudio => _recordingAudio?.future;
   Completer<void>? _recordingAudio;
 
@@ -248,8 +357,8 @@ class AgoraController
       _engine?.setEventHandler(
         RtcEngineEventHandler(
           localUserRegistered: (uid, name) {
-            localName = name;
-            localUserNumber = uid;
+            _localName = name;
+            _localUserNumber = uid;
           },
         ),
       );
@@ -266,9 +375,6 @@ class AgoraController
     }
   }
 
-  /// Destroys the object.
-  ///
-  /// Destroyed objects are not allowed.
   @override
   void dispose() {
     super.dispose();
@@ -291,6 +397,35 @@ class AgoraController
     _engine?.setEventHandler(RtcEngineEventHandler());
   }
 
+  /// Connect to a new channel.
+  ///
+  /// Identify the user by passing [userName].
+  ///
+  /// Passing [videoProfile] and [orientation] will set the screen size, bit rate, etc.
+  ///
+  /// The [cameraDirection] allows you to specify the camera to shoot first.
+  ///
+  /// You can explicitly enable or disable video and audio by specifying [enableVideo] and [enableAudio].
+  ///
+  /// You can specify that a recording or screenshot be taken when the connection is established with [enableRecordingOnConnect] or [enableScreenCaptureOnConnect].
+  /// If not specified, the settings of [AgoraMasamuneAdapter.enableRecordingByDefault] and [AgoraMasamuneAdapter.enableScreenCaptureByDefault] are followed.
+  ///
+  /// You can specify the type of communication by specifying [channelProfile] or [clientRole].
+  ///
+  /// 新規にチャンネルに接続します。
+  ///
+  /// [userName]を渡すことでユーザーを識別します。
+  ///
+  /// [videoProfile]や[orientation]を渡すことで画面サイズやビットレート等の設定を行います。
+  ///
+  /// [cameraDirection]を利用することで最初に撮影するカメラを指定することができます。
+  ///
+  /// [enableVideo]、[enableAudio]を指定して、明示的に映像や音声を有効・無効にすることができます。
+  ///
+  /// [enableRecordingOnConnect]や[enableScreenCaptureOnConnect]で接続が完了したときに録画やスクリーンショットの撮影を指定することができます。
+  /// 指定されない場合は、[AgoraMasamuneAdapter.enableRecordingByDefault]や[AgoraMasamuneAdapter.enableScreenCaptureByDefault]の設定に従います。
+  ///
+  /// [channelProfile]や[clientRole]を指定して、通信のタイプを指定することができます。
   Future<void> connect({
     required String userName,
     AgoraVideoProfile videoProfile = AgoraVideoProfile.size640x360Rate15,
@@ -453,7 +588,7 @@ class AgoraController
           leaveChannel: (stats) {
             value?.clear();
             _sendLog(AgoraLoggerEvent.leave, parameters: {
-              AgoraLoggerEvent.userNumberKey: localUserNumber,
+              AgoraLoggerEvent.userNumberKey: _localUserNumber,
               AgoraLoggerEvent.isLocalUserKey: true,
             });
             _disconnectingCompleter?.complete();
@@ -521,7 +656,9 @@ class AgoraController
     }
   }
 
-  /// Close the connection.
+  /// Disconnect from channel.
+  ///
+  /// チャンネルから切断します。
   Future<void> disconnect() async {
     if (_disconnectingCompleter != null) {
       return disconnecting;
@@ -552,7 +689,17 @@ class AgoraController
     }
   }
 
-  /// Start taking screenshots.
+  /// If already connected, take a screenshot of the delivered video.
+  ///
+  /// The [AgoraMasamuneAdapter.storageBucketConfig] setting is mandatory and must also be configured in each Cloud and Functions.
+  ///
+  /// The corresponding screenshot image can be obtained from the URL in [screenCaptureURL].
+  ///
+  /// すでに接続されている場合、配信映像のスクリーンショットを撮影します。
+  ///
+  /// [AgoraMasamuneAdapter.storageBucketConfig]の設定が必須で、各クラウドやFunctionsでも設定が必要になります。
+  ///
+  /// [screenCaptureURL]のURLから該当のスクリーンショット画像を取得できます。
   Future<void> startScreenCapture() async {
     if (capturing) {
       throw Exception("Already started taking screen capture.");
@@ -652,7 +799,9 @@ class AgoraController
     }
   }
 
-  /// Stop taking screen shots.
+  /// Stops taking screenshots that have already been started.
+  ///
+  /// すでに開始されているスクリーンショットの撮影を停止します。
   Future<void> stopScreenCapture() async {
     if (!capturing) {
       return;
@@ -690,7 +839,13 @@ class AgoraController
     }
   }
 
-  /// URL for screen captures.
+  /// Get the URL of the image when a screenshot is taken with [startScreenCapture].
+  ///
+  /// Currently only available at [AgoraStorageVendor.googleCloud].
+  ///
+  /// [startScreenCapture]でスクリーンショットを撮影した際の画像のURLを取得します。
+  ///
+  /// 現在[AgoraStorageVendor.googleCloud]でのみ利用可能です。
   String get screenCaptureURL {
     if (_engine == null) {
       throw Exception(
@@ -706,7 +861,17 @@ class AgoraController
     }
   }
 
-  /// Start taking screenshots.
+  /// If already connected, record the delivered video.
+  ///
+  /// The [AgoraMasamuneAdapter.storageBucketConfig] setting is mandatory and must also be configured in each Cloud and Functions.
+  ///
+  /// You can get the corresponding video from the URL in [recordURL]. m3u8 format files must be able to be played.
+  ///
+  /// すでに接続されている場合、配信映像の録画を行います。
+  ///
+  /// [AgoraMasamuneAdapter.storageBucketConfig]の設定が必須で、各クラウドやFunctionsでも設定が必要になります。
+  ///
+  /// [recordURL]のURLから該当の映像を取得できます。m3u8形式のファイルを再生できる必要があります。
   Future<void> startRecording() async {
     if (recordingVideo) {
       throw Exception("Already started recording video.");
@@ -813,7 +978,9 @@ class AgoraController
     }
   }
 
-  /// Stop taking screen shots.
+  /// Stops a recording that has already started.
+  ///
+  /// すでに開始されている録画を停止します。
   Future<void> stopRecording() async {
     if (!recordingVideo) {
       return;
@@ -873,6 +1040,17 @@ class AgoraController
     }
   }
 
+  /// Get the URL of the video when recording with [startRecording].
+  ///
+  /// Currently only available at [AgoraStorageVendor.googleCloud].
+  ///
+  /// Must be able to play m3u8 format files.
+  ///
+  /// [startRecording]で録画した際の映像のURLを取得します。
+  ///
+  /// 現在[AgoraStorageVendor.googleCloud]でのみ利用可能です。
+  ///
+  /// m3u8形式のファイルを再生できる必要があります。
   String get recordURL {
     if (_engine == null) {
       throw Exception(
@@ -888,6 +1066,13 @@ class AgoraController
     }
   }
 
+  /// Check if [recordURL] is currently available.
+  ///
+  /// Returns `true` if available.
+  ///
+  /// [recordURL]が現在利用可能かどうかを確認します。
+  ///
+  /// 利用可能な場合`true`を返します。
   Future<bool> checkRecordURLIsActive() async {
     final res = await Api.get(recordURL);
     if (res.statusCode != 200) {
@@ -896,6 +1081,17 @@ class AgoraController
     return res.body.contains(".ts");
   }
 
+  /// If already connected, record the delivered video.
+  ///
+  /// The recorded file is saved in [filePath].
+  ///
+  /// You can set the quality of the recording with [sampleRate] and [quality].
+  ///
+  /// すでに接続されている場合、配信映像の録音を行います。
+  ///
+  /// [filePath]に録音されたファイルが保存されます。
+  ///
+  /// [sampleRate]や[quality]で録音の質を設定できます。
   Future<void> startAudioRecording(
     String filePath, {
     AudioSampleRateType sampleRate = AudioSampleRateType.Type44100,
@@ -928,7 +1124,9 @@ class AgoraController
     }
   }
 
-  /// Stop Recording.
+  /// Stops recording that has already started.
+  ///
+  /// すでに開始されている録音を停止します。
   Future<void> stopAudioRecording() async {
     if (_engine == null) {
       throw Exception(
