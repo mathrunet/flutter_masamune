@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_agora` - `v1.1.0`](#masamune_agora---v110)
+
+---
+
+#### `masamune_agora` - `v1.1.0`
+
+ - **FIX**: Maintenance of Comments. ([476bc409](https://github.com/mathrunet/flutter_masamune/commit/476bc409810f76c8dfd665d136b0410ff1e489a9))
+ - **FIX**: Supports CloudRecording and Web-based playback. ([353e5d54](https://github.com/mathrunet/flutter_masamune/commit/353e5d54ca9a5cb763300745cd5d6c5533fc3461))
+ - **FEAT**: Initial commitments. ([608e3a0a](https://github.com/mathrunet/flutter_masamune/commit/608e3a0ab99a9404f4792a8caf48ed616561e9fa))
+
+
 ## 2023-04-18
 
 ### Changes
