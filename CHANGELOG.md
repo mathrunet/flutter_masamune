@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_agora` - `v1.1.1`](#masamune_agora---v111)
+
+---
+
+#### `masamune_agora` - `v1.1.1`
+
+ - **DOCS**: Updated comments. ([84c6ff2b](https://github.com/mathrunet/flutter_masamune/commit/84c6ff2b7dae7a52dfc42bf1a9a53f8a2aeee118))
+
+
+## 2023-04-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_agora` - `v1.1.0`](#masamune_agora---v110)
 
 ---
