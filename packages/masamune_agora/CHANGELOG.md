@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: Fix "Don't use web-only libraries outside Flutter web plugin packages. ([41bac310](https://github.com/mathrunet/flutter_masamune/commit/41bac310c7bf3e600c3edb80a9e143b1223cba9c))
+
 ## 1.1.1
 
  - **DOCS**: Updated comments. ([84c6ff2b](https://github.com/mathrunet/flutter_masamune/commit/84c6ff2b7dae7a52dfc42bf1a9a53f8a2aeee118))
