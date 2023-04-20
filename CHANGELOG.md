@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v1.11.21`](#katana_router---v11121)
+ - [`katana_router_annotation` - `v1.11.15`](#katana_router_annotation---v11115)
+ - [`katana_router_builder` - `v1.11.19`](#katana_router_builder---v11119)
+ - [`masamune` - `v1.12.7`](#masamune---v1127)
+ - [`masamune_picker` - `v1.6.21`](#masamune_picker---v1621)
+ - [`masamune_ai_openai` - `v1.1.32`](#masamune_ai_openai---v1132)
+ - [`masamune_universal_ui` - `v1.2.27`](#masamune_universal_ui---v1227)
+ - [`masamune_calendar` - `v1.1.15`](#masamune_calendar---v1115)
+ - [`masamune_agora` - `v1.1.3`](#masamune_agora---v113)
+ - [`masamune_notification_firebase` - `v1.2.58`](#masamune_notification_firebase---v1258)
+ - [`masamune_picker_file` - `v1.6.21`](#masamune_picker_file---v1621)
+ - [`masamune_logger_firebase` - `v1.2.68`](#masamune_logger_firebase---v1268)
+ - [`masamune_picker_mobile` - `v1.6.21`](#masamune_picker_mobile---v1621)
+ - [`masamune_builder` - `v1.5.5`](#masamune_builder---v155)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.12.7`
+ - `masamune_picker` - `v1.6.21`
+ - `masamune_ai_openai` - `v1.1.32`
+ - `masamune_universal_ui` - `v1.2.27`
+ - `masamune_calendar` - `v1.1.15`
+ - `masamune_agora` - `v1.1.3`
+ - `masamune_notification_firebase` - `v1.2.58`
+ - `masamune_picker_file` - `v1.6.21`
+ - `masamune_logger_firebase` - `v1.2.68`
+ - `masamune_picker_mobile` - `v1.6.21`
+ - `masamune_builder` - `v1.5.5`
+
+---
+
+#### `katana_router` - `v1.11.21`
+
+ - **FIX**: Router generator issues [#8](https://github.com/mathrunet/flutter_masamune/issues/8). ([2dcfb7d5](https://github.com/mathrunet/flutter_masamune/commit/2dcfb7d5498be3b32ba247cec0995b0c34f225d8))
+
+#### `katana_router_annotation` - `v1.11.15`
+
+ - **FIX**: Router generator issues [#8](https://github.com/mathrunet/flutter_masamune/issues/8). ([2dcfb7d5](https://github.com/mathrunet/flutter_masamune/commit/2dcfb7d5498be3b32ba247cec0995b0c34f225d8))
+
+#### `katana_router_builder` - `v1.11.19`
+
+ - **FIX**: Router generator issues [#8](https://github.com/mathrunet/flutter_masamune/issues/8). ([2dcfb7d5](https://github.com/mathrunet/flutter_masamune/commit/2dcfb7d5498be3b32ba247cec0995b0c34f225d8))
+
+
 ## 2023-04-19
 
 ### Changes
