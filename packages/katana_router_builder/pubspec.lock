@@ -237,18 +237,18 @@ packages:
     dependency: "direct main"
     description:
       name: katana
-      sha256: d2994914d6a1ec082f05cb753138e0a729370479dc7b47f51d4d6db4027e4087
+      sha256: "427d91c692617ecb1c645fdf11678e82d5e9273c4929934cdea0d6fda4c32e6b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.12"
+    version: "1.0.13"
   katana_router_annotation:
     dependency: "direct main"
     description:
       name: katana_router_annotation
-      sha256: "38aa16a320f70a4bde40cd1033d12448fbfb4034de55e703316e028dc6b0b769"
+      sha256: aaf9015e0b74e4c54c779f59b2440a90b30cca3ae0e9d91beb4d1ec3a653ef8f
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.10"
+    version: "1.11.14"
   lints:
     dependency: transitive
     description:
@@ -317,10 +317,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: c3120a968135aead39699267f4c74bc9a08e4e909e86bc1b0af5bfd78691123c
+      sha256: "7c1e5f0d23c9016c5bbd8b1473d0d3fb3fc851b876046039509e18e0c7485f2c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.2"
+    version: "3.7.3"
   pool:
     dependency: transitive
     description:
@@ -405,10 +405,10 @@ packages:
     dependency: transitive
     description:
       name: source_span
-      sha256: dd904f795d4b4f3b870833847c461801f6750a9fa8e61ea5ac53f9422b31f250
+      sha256: "53e943d4206a5e30df338fd4c6e7a077e02254531b138a15aec3bd143c1a8b3c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.1"
+    version: "1.10.0"
   sprintf:
     dependency: transitive
     description:
@@ -453,26 +453,26 @@ packages:
     dependency: "direct dev"
     description:
       name: test
-      sha256: "3dac9aecf2c3991d09b9cdde4f98ded7b30804a88a0d7e4e7e1678e78d6b97f4"
+      sha256: "4f92f103ef63b1bbac6f4bd1930624fca81b2574464482512c4f0896319be575"
       url: "https://pub.dev"
     source: hosted
-    version: "1.24.1"
+    version: "1.24.2"
   test_api:
     dependency: transitive
     description:
       name: test_api
-      sha256: eb6ac1540b26de412b3403a163d919ba86f6a973fe6cc50ae3541b80092fdcfb
+      sha256: daadc9baabec998b062c9091525aa95786508b1c48e9c30f1f891b8bf6ff2e64
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.5.2"
   test_core:
     dependency: transitive
     description:
       name: test_core
-      sha256: "5138dbffb77b2289ecb12b81c11ba46036590b72a64a7a90d6ffb880f1a29e93"
+      sha256: "3642b184882f79e76ca57a9230fb971e494c3c1fd09c21ae3083ce891bcc0aa1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.5.2"
   tint:
     dependency: transitive
     description:
@@ -517,10 +517,10 @@ packages:
     dependency: transitive
     description:
       name: web_socket_channel
-      sha256: ca49c0bc209c687b887f30527fb6a9d80040b072cc2990f34b9bec3e7663101b
+      sha256: d88238e5eac9a42bb43ca4e721edba3c08c6354d4a53063afaa568516217621b
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.4.0"
   webkit_inspection_protocol:
     dependency: transitive
     description:

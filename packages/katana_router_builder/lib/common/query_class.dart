@@ -51,7 +51,10 @@ List<Class> queryClass(
                       ..required = param.element.isRequired
                       ..named = true
                       ..type = Reference(param.type.toString())
-                      ..name = param.name,
+                      ..name = param.name
+                      ..defaultTo = param.element.defaultValueCode != null
+                          ? Code(param.element.defaultValueCode!)
+                          : null,
                   );
                 }),
               ])
@@ -102,7 +105,10 @@ List<Class> queryClass(
                       ..required = param.element.isRequired
                       ..named = true
                       ..toThis = true
-                      ..name = param.name,
+                      ..name = param.name
+                      ..defaultTo = param.element.defaultValueCode != null
+                          ? Code(param.element.defaultValueCode!)
+                          : null,
                   );
                 }),
               ]),
@@ -146,7 +152,7 @@ List<Class> queryClass(
               ..type = MethodType.getter
               ..returns = const Reference("String")
               ..body = Code(
-                  "final _query = <String, String>{}; ${model.parameters.map((e) => !e.isQueryParameter ? "" : "if (${e.name}?.toString().isNotEmpty ?? false) { _query[\"${e.queryParamName}\"] = ${e.name}!.toString(); }").join("")} return _query.isEmpty ? \"\" : \"?\${_query.entries.map((e) => \"\${e.key}=\${e.value}\").join(\"&\")}\";"),
+                  "final q = <String, String>{}; ${model.parameters.map((e) => !e.isQueryParameter ? "" : "if (${e.name}?.toString().isNotEmpty ?? false) { q[\"${e.queryParamName}\"] = ${e.name}!.toString(); }").join("")} return q.isEmpty ? \"\" : \"?\${q.entries.map((e) => \"\${e.key}=\${e.value}\").join(\"&\")}\";"),
           ),
           Method(
             (m) => m
@@ -211,17 +217,38 @@ List<Class> queryClass(
 
 String _defaultParsedValue(ParamaterValue param, bool existQuery) {
   if (existQuery) {
-    if (param.type.toString() == "String") {
+    if (param.type.toString().trimStringRight("?") == "String" ||
+        param.type.toString().trimStringRight("?") == "Object") {
       return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
+    } else if (param.type.toString().trimStringRight("?") == "int") {
+      final res = _defaultValue(param);
+      if (res == "null") {
+        return "";
+      }
+      return "${param.name}: int.tryParse( query[\"${param.queryParamName}\"] ?? \"\" ) ?? int.tryParse( query[\"${param.queryParamName.toSnakeCase()}\"] ?? \"\" ) ?? int.tryParse( query[\"${param.queryParamName.toCamelCase()}\"] ?? \"\" ) ?? $res";
+    } else if (param.type.toString().trimStringRight("?") == "num" ||
+        param.type.toString().trimStringRight("?") == "double") {
+      final res = _defaultValue(param);
+      if (res == "null") {
+        return "";
+      }
+      return "${param.name}: double.tryParse( query[\"${param.queryParamName}\"] ?? \"\" ) ?? double.tryParse( query[\"${param.queryParamName.toSnakeCase()}\"] ?? \"\" ) ?? double.tryParse( query[\"${param.queryParamName.toCamelCase()}\"] ?? \"\" ) ?? $res";
+    } else if (param.type.toString().trimStringRight("?") == "bool") {
+      final res = _defaultValue(param);
+      if (res == "null") {
+        return "";
+      }
+      return "${param.name}: ( query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? \"$res\" ).toLowerCase() == \"true\"";
     } else {
       final res = _defaultValue(param);
       if (res == "null") {
         return "";
       }
-      return "${param.name}: query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? $res)";
+      return "${param.name}: $res";
     }
   } else {
-    if (param.type.toString() == "String") {
+    if (param.type.toString().trimStringRight("?") == "String" ||
+        param.type.toString().trimStringRight("?") == "Object") {
       return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? ${_defaultValue(param)}";
     } else {
       final res = _defaultValue(param);
