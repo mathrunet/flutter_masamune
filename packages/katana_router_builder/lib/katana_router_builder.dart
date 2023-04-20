@@ -10,7 +10,6 @@ library katana_router_builder;
 
 // Dart imports:
 import 'dart:async';
-import 'dart:convert';
 
 // Package imports:
 import 'package:analyzer/dart/constant/value.dart';
