@@ -54,7 +54,7 @@ part of katana_router;
 /// ```
 /// {@endtemplate}
 class AppRouter extends ChangeNotifier
-    with NavigatorObserver
+    with _NavigatorObserverMixin
     implements RouterConfig<RouteQuery> {
   /// {@template katana_router.app_router}
   /// Controller to define routing for the entire app.
@@ -661,4 +661,29 @@ class _AppRouterConfig {
   final TransitionQuery? defaultTransitionQuery;
   final bool reportsRouteUpdateToEngine;
   final Widget backgroundWidget;
+}
+
+mixin _NavigatorObserverMixin implements NavigatorObserver {
+  @override
+  NavigatorState? get navigator => _navigators[this];
+
+  static final Expando<NavigatorState> _navigators = Expando<NavigatorState>();
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {}
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {}
+
+  @override
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {}
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {}
+  @override
+  void didStartUserGesture(
+      Route<dynamic> route, Route<dynamic>? previousRoute) {}
+
+  @override
+  void didStopUserGesture() {}
 }

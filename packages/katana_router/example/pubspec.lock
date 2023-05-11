@@ -340,39 +340,39 @@ packages:
     dependency: transitive
     description:
       name: katana
-      sha256: "99e37bec02e32244b575b8459d7c5108297376e4f36d7da1a40ab22fb701e97d"
+      sha256: "4df26a26f05cde1d26313e896966bf21980cd26e7150fb0b6b7c6bec487c75ad"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.14"
+    version: "2.0.0"
   katana_logger:
     dependency: transitive
     description:
       name: katana_logger
-      sha256: d88af3581346cda2544a4147a613decc1d82b1b23f971bae68785df2b7859a40
+      sha256: "8e7bb1200df108c6f4e1927cfe5090b9d9cbf82d07237023e000ac0eda1c7dee"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.12"
+    version: "2.0.0"
   katana_router:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.11.22"
+    version: "2.0.0"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_router_annotation"
       relative: true
     source: path
-    version: "1.11.16"
+    version: "2.0.0"
   katana_router_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "1.11.20"
+    version: "2.0.0"
   lints:
     dependency: transitive
     description:
