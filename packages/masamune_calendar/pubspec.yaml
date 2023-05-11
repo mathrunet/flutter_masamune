@@ -1,6 +1,6 @@
 name: masamune_calendar
 description: Masamune plugin to provide calendar functionality. The masamune framework is assumed to be used.
-version: 1.1.16
+version: 1.1.17
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_calendar
 

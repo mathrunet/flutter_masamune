@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v1.1.39`](#katana_localization---v1139)
+ - [`katana_localization_annotation` - `v1.1.37`](#katana_localization_annotation---v1137)
+ - [`katana_localization_builder` - `v1.1.39`](#katana_localization_builder---v1139)
+ - [`masamune` - `v1.12.9`](#masamune---v1129)
+ - [`masamune_picker` - `v1.6.23`](#masamune_picker---v1623)
+ - [`masamune_ai_openai` - `v1.1.34`](#masamune_ai_openai---v1134)
+ - [`masamune_universal_ui` - `v1.2.29`](#masamune_universal_ui---v1229)
+ - [`masamune_calendar` - `v1.1.17`](#masamune_calendar---v1117)
+ - [`masamune_notification_firebase` - `v1.2.60`](#masamune_notification_firebase---v1260)
+ - [`masamune_agora` - `v1.1.5`](#masamune_agora---v115)
+ - [`masamune_picker_file` - `v1.6.23`](#masamune_picker_file---v1623)
+ - [`masamune_logger_firebase` - `v1.2.70`](#masamune_logger_firebase---v1270)
+ - [`masamune_picker_mobile` - `v1.6.23`](#masamune_picker_mobile---v1623)
+ - [`masamune_builder` - `v1.5.7`](#masamune_builder---v157)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v1.12.9`
+ - `masamune_picker` - `v1.6.23`
+ - `masamune_ai_openai` - `v1.1.34`
+ - `masamune_universal_ui` - `v1.2.29`
+ - `masamune_calendar` - `v1.1.17`
+ - `masamune_notification_firebase` - `v1.2.60`
+ - `masamune_agora` - `v1.1.5`
+ - `masamune_picker_file` - `v1.6.23`
+ - `masamune_logger_firebase` - `v1.2.70`
+ - `masamune_picker_mobile` - `v1.6.23`
+ - `masamune_builder` - `v1.5.7`
+
+---
+
+#### `katana_localization` - `v1.1.39`
+
+ - **FIX**: Remove flutter_localizations. ([a079a7b5](https://github.com/mathrunet/flutter_masamune/commit/a079a7b5434ccca195dd5238400c29877654a431))
+
+#### `katana_localization_annotation` - `v1.1.37`
+
+ - **FIX**: Remove flutter_localizations. ([a079a7b5](https://github.com/mathrunet/flutter_masamune/commit/a079a7b5434ccca195dd5238400c29877654a431))
+
+#### `katana_localization_builder` - `v1.1.39`
+
+ - **FIX**: Remove flutter_localizations. ([a079a7b5](https://github.com/mathrunet/flutter_masamune/commit/a079a7b5434ccca195dd5238400c29877654a431))
+
+
+## 2023-05-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v1.0.14`](#katana---v1014)
  - [`masamune_ai_openai` - `v1.1.33`](#masamune_ai_openai---v1133)
  - [`masamune_logger_firebase` - `v1.2.69`](#masamune_logger_firebase---v1269)

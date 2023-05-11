@@ -1,3 +1,7 @@
+## 1.1.39
+
+ - **FIX**: Remove flutter_localizations. ([a079a7b5](https://github.com/mathrunet/flutter_masamune/commit/a079a7b5434ccca195dd5238400c29877654a431))
+
 ## 1.1.38
 
  - Update a dependency to the latest release.
