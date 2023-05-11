@@ -1,3 +1,7 @@
+## 2.0.4
+
+ - Update a dependency to the latest release.
+
 ## 2.0.3
 
  - **FIX**: Remove unnecessary imports. ([25a4e5bd](https://github.com/mathrunet/flutter_masamune/commit/25a4e5bd1be8f4aa2e9768e35fb6749c43c323c9))

@@ -1,3 +1,7 @@
+## 2.0.1
+
+ - **FIX**: The version of intl is not specified. ([21d2af36](https://github.com/mathrunet/flutter_masamune/commit/21d2af36ec6d5bae1f0b928e31aff7dbde2d4ddd))
+
 ## 2.0.0
 
 > Note: This release has breaking changes.
