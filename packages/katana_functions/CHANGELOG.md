@@ -1,3 +1,7 @@
+## 1.1.26
+
+ - Update a dependency to the latest release.
+
 ## 1.1.25
 
  - **FIX**: Added a new function to Functions since it was not included. ([bc502fa2](https://github.com/mathrunet/flutter_masamune/commit/bc502fa2dcdf26e46fdc8f6875df28940fc18da5))

@@ -1,3 +1,7 @@
+## 1.2.59
+
+ - **FIX**: Eliminate Firebase dependencies. ([6bf7fb6b](https://github.com/mathrunet/flutter_masamune/commit/6bf7fb6bd345b66279e761d96629dcabf77ecbec))
+
 ## 1.2.58
 
  - Update a dependency to the latest release.

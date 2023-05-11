@@ -1,3 +1,7 @@
+## 1.0.14
+
+ - **FIX**: パッケージバージョンアップ. ([794c344a](https://github.com/mathrunet/flutter_masamune/commit/794c344ade4cdfdc5c79298e9803b18442f8ee74))
+
 ## 1.0.13
 
  - **FIX**: Fixed internal data not readable in IOS. ([730f2690](https://github.com/mathrunet/flutter_masamune/commit/730f26904bf767d5904dcc2f2bcbab371e2797dd))

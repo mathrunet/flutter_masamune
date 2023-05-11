@@ -1,3 +1,7 @@
+## 1.11.22
+
+ - Update a dependency to the latest release.
+
 ## 1.11.21
 
  - **FIX**: Router generator issues [#8](https://github.com/mathrunet/flutter_masamune/issues/8). ([2dcfb7d5](https://github.com/mathrunet/flutter_masamune/commit/2dcfb7d5498be3b32ba247cec0995b0c34f225d8))
