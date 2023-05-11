@@ -461,7 +461,7 @@ enum XCodePermissionType {
         if (value != null) {
           final text = value.children
               .firstWhereOrNull((item) => item is XmlText) as XmlText?;
-          text?.text = base.value;
+          text?.value = base.value;
         }
       }
       await plist.writeAsString(
