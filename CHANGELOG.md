@@ -11,6 +11,82 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - [`katana_form` - `v3.0.0`](#katana_form---v300)
+
+Packages with other changes:
+
+ - [`masamune` - `v2.0.1`](#masamune---v201)
+ - [`masamune_picker_file` - `v2.0.1`](#masamune_picker_file---v201)
+ - [`masamune_agora` - `v2.0.1`](#masamune_agora---v201)
+ - [`masamune_ai_openai` - `v2.0.1`](#masamune_ai_openai---v201)
+ - [`masamune_calendar` - `v2.0.1`](#masamune_calendar---v201)
+ - [`masamune_picker` - `v2.0.1`](#masamune_picker---v201)
+ - [`masamune_universal_ui` - `v2.0.1`](#masamune_universal_ui---v201)
+ - [`masamune_logger_firebase` - `v2.0.1`](#masamune_logger_firebase---v201)
+ - [`masamune_picker_mobile` - `v2.0.1`](#masamune_picker_mobile---v201)
+ - [`masamune_notification_firebase` - `v2.0.1`](#masamune_notification_firebase---v201)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v2.0.1`
+ - `masamune_agora` - `v2.0.1`
+ - `masamune_ai_openai` - `v2.0.1`
+ - `masamune_calendar` - `v2.0.1`
+ - `masamune_picker` - `v2.0.1`
+ - `masamune_universal_ui` - `v2.0.1`
+ - `masamune_logger_firebase` - `v2.0.1`
+ - `masamune_picker_mobile` - `v2.0.1`
+ - `masamune_notification_firebase` - `v2.0.1`
+
+---
+
+#### `katana_form` - `v3.0.0`
+
+ - **FIX**: Fix pubignore. ([be59bc95](https://github.com/mathrunet/flutter_masamune/commit/be59bc95bb855e50164dc53f8bc94689776734da))
+ - **FIX**: Fixed a bug that FormButton backgrounds were not reflected in some cases. ([e5a35562](https://github.com/mathrunet/flutter_masamune/commit/e5a35562829c3b3acc048f1ac121b6efeb446722))
+ - **FIX**: Fixed a bug that caused incorrect display when the value path was empty. ([40fe176e](https://github.com/mathrunet/flutter_masamune/commit/40fe176e1be32329e489dfb929439cdc411fcd90))
+ - **FIX**: Adjustment because the height changes. ([4334f5cf](https://github.com/mathrunet/flutter_masamune/commit/4334f5cfa766e8e0ca720afcd750079d9000bcf1))
+ - **FIX**: Expanded the scope of application of the Style of Form. ([6b5a70c2](https://github.com/mathrunet/flutter_masamune/commit/6b5a70c2e0bef1361720d216dbf30b3c6794291a))
+ - **FIX**: Adjust the appearance of the FormChipsField. ([786a79de](https://github.com/mathrunet/flutter_masamune/commit/786a79de984c1eda737b4e954544fe476289e561))
+ - **FIX**: Addition of FormFutureField and FormChipsField. ([25ae583a](https://github.com/mathrunet/flutter_masamune/commit/25ae583a81c578b96314a866a092d6097e41ebdb))
+ - **FIX**: Fixed a bug that caused the TextField to widen when inputting Japanese. ([b7d653cd](https://github.com/mathrunet/flutter_masamune/commit/b7d653cdc96f8917c0f57de22d31da10fec60ace))
+ - **FIX**: Adjust padding of FormTextField. ([14dc1b8a](https://github.com/mathrunet/flutter_masamune/commit/14dc1b8aede2a5e4be706145b42134a1e868cddf))
+ - **FIX**: Added AutoFocus function. ([8a6c7375](https://github.com/mathrunet/flutter_masamune/commit/8a6c7375cf5dbc5fbb73e6cb758222049e4d7f21))
+ - **FIX**: Added keepAlive item to widget. ([6bcad2f4](https://github.com/mathrunet/flutter_masamune/commit/6bcad2f4bdc1c1a7c2fe308364d29518796e7fed))
+ - **FIX**: Fixed a bug that prevented it from updating properly. ([6c1ce8de](https://github.com/mathrunet/flutter_masamune/commit/6c1ce8de4b183e874238e4ae1fbade2748459476))
+ - **FIX**: Fixed a bug that initial values were not updated when they were changed. ([0f2ccdd0](https://github.com/mathrunet/flutter_masamune/commit/0f2ccdd064cc1910729ee1b6995e4210e552f6ea))
+ - **FIX**: Remove ResetIcon from FormDateTime. ([11543b32](https://github.com/mathrunet/flutter_masamune/commit/11543b32f402360e731d13074ee0c6d24017bac0))
+ - **FIX**: ReadMe correction. ([9c496030](https://github.com/mathrunet/flutter_masamune/commit/9c496030d22849e87490598c13f02669b0c9dd9b))
+ - **FIX**: Fixed an outdated version of Katana. ([47ff3566](https://github.com/mathrunet/flutter_masamune/commit/47ff35667f59be0d24bdf6554f277583f70e71bf))
+ - **FIX**: Fixed a problem that was not being replaced properly. ([aea5900c](https://github.com/mathrunet/flutter_masamune/commit/aea5900c2e0caaed7dcc9aed12eb8e7814729dd9))
+ - **FIX**: Fixed the problem with Material3, as the shape is not correct. ([9cefae39](https://github.com/mathrunet/flutter_masamune/commit/9cefae39f085734a9cda926c206c005d83fed9fb))
+ - **FIX**: Fixed a bug when FormController is switched. ([032ff1c5](https://github.com/mathrunet/flutter_masamune/commit/032ff1c53f28eab83ada44870035b6ff57e13f47))
+ - **FIX**: The initialValue of FormTextField was not reflected. ([bba67a92](https://github.com/mathrunet/flutter_masamune/commit/bba67a92f1d269d13a2d839c74017f539334e86d))
+ - **FIX**: prefix and suffix can be specified in widgets as well. ([1a4c5348](https://github.com/mathrunet/flutter_masamune/commit/1a4c5348c2ac0dbec5c729db1e974e7de138ff55))
+ - **FEAT**: Added FormCheckbox. ([cba410ab](https://github.com/mathrunet/flutter_masamune/commit/cba410abe2d8520da5adf8d54d8a673d5e64aa33))
+ - **FEAT**: Added new FormMedia. ([58f36892](https://github.com/mathrunet/flutter_masamune/commit/58f36892b2ee84c4fabe50380ddb1016b19a3837))
+ - **FEAT**: Changed the onSaved mechanism of form. ([b07ad300](https://github.com/mathrunet/flutter_masamune/commit/b07ad3003ac0c5b07c6711c97256f3eb8b5ca03b))
+ - **DOCS**: Additional Comments. ([893fe68a](https://github.com/mathrunet/flutter_masamune/commit/893fe68a6fa09b258a837ae83caeacdde08615d9))
+ - **DOCS**: Fix ReadMe. ([97288683](https://github.com/mathrunet/flutter_masamune/commit/9728868373615da7b75528353c757946ff726fde))
+ - **DOCS**: README modifications. ([c3c2f3f1](https://github.com/mathrunet/flutter_masamune/commit/c3c2f3f13e63d7d76f1e0bcbeaa8b26fb228dd7f))
+ - **BREAKING** **FIX**: Changed the onSaved mechanism of form. ([b514a286](https://github.com/mathrunet/flutter_masamune/commit/b514a286f6810ebd7a352200178e4cc750dbd40b))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune` - `v2.0.1`
+
+ - **FIX**: Leakage of katana storage upgrade. ([1aed31d6](https://github.com/mathrunet/flutter_masamune/commit/1aed31d6c13c8f45501971230d4f91f5955836ff))
+
+
+## 2023-05-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - [`katana` - `v2.0.0`](#katana---v200)
  - [`katana_auth` - `v2.0.0`](#katana_auth---v200)
  - [`katana_auth_firebase` - `v2.0.0`](#katana_auth_firebase---v200)
