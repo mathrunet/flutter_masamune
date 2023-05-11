@@ -45,13 +45,13 @@ abstract class AppLocalizeBase with ChangeNotifier {
 
   /// Delegate list to be passed to `localizationsDelegates` such as MaterialApp.
   ///
-  /// Additional delegates can be specified in [delegates]. If not specified, [GlobalMaterialLocalizations.delegates] will be passed.
+  /// Additional delegates can be specified in [delegates]. If not specified, an empty array is passed.
   ///
   /// Pass this to `localizationsDelegates` such as MaterialApp as shown below.
   ///
   /// MaterialAppなどの`localizationsDelegates`に渡すためのデリゲートリスト。
   ///
-  /// [delegates]に追加のデリゲートを指定可能です。指定しない場合は[GlobalMaterialLocalizations.delegates]が渡されます。
+  /// [delegates]に追加のデリゲートを指定可能です。指定しない場合は空の配列が渡されます。
   ///
   /// これを下記のようにMaterialAppなどの`localizationsDelegates`に渡してください。
   ///
@@ -64,8 +64,7 @@ abstract class AppLocalizeBase with ChangeNotifier {
   /// );
   /// ```
   List<LocalizationsDelegate> delegates([
-    List<LocalizationsDelegate> delegates =
-        GlobalMaterialLocalizations.delegates,
+    List<LocalizationsDelegate> delegates = const [],
   ]);
 
   /// Locale list to pass to `supportedLocales` such as MaterialApp.

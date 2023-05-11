@@ -29,8 +29,7 @@ List<Spec> baseClass(
                   (p) => p
                     ..name = "delegates"
                     ..type = const Reference("List<LocalizationsDelegate>")
-                    ..defaultTo =
-                        const Code("GlobalMaterialLocalizations.delegates"),
+                    ..defaultTo = const Code("const []"),
                 )
               ])
               ..body = Code(

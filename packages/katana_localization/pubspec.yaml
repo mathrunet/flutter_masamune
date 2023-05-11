@@ -11,8 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter 
     
   katana: ^1.0.14
   katana_localization_annotation: ^1.1.36
