@@ -1,5 +1,6 @@
 part of katana_form;
 
+// TODO: MapMixinが使えるようになったら置き換え
 class _FormMediaValue extends FormMediaValue with _MapMixin<String, dynamic> {
   const _FormMediaValue({
     FormMediaType type = FormMediaType.image,
@@ -135,6 +136,7 @@ class FormMediaValue {
   bool operator ==(Object other) => hashCode == other.hashCode;
 }
 
+// TODO: MapMixinが使えるようになったら削除
 mixin _MapMixin<K, V> implements Map<K, V> {
   @override
   Iterable<K> get keys;
