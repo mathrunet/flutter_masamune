@@ -1,3 +1,7 @@
+## 2.0.1
+
+ - **FIX**: Fixed the Deprecated section. ([2d94eaeb](https://github.com/mathrunet/flutter_masamune/commit/2d94eaeb4f55e7273bb8397e17ac3a036bfe079f))
+
 ## 2.0.0
 
 > Note: This release has breaking changes.

@@ -1,3 +1,7 @@
+## 2.0.1
+
+ - **FIX**: Fix NavigatorObserver direct mixin. ([94317a8d](https://github.com/mathrunet/flutter_masamune/commit/94317a8d43b6957339ba6a2de0d4540c17355235))
+
 ## 2.0.0
 
 > Note: This release has breaking changes.

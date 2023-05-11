@@ -1,3 +1,7 @@
+## 2.0.2
+
+ - **FIX**: Fix direct mixin of PreferredSizeWidget. ([1fee8e3e](https://github.com/mathrunet/flutter_masamune/commit/1fee8e3e488af7d411fd0ae4d9be08066987de01))
+
 ## 2.0.1
 
  - Update a dependency to the latest release.

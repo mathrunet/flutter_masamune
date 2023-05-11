@@ -1,3 +1,7 @@
+## 2.0.2
+
+ - Update a dependency to the latest release.
+
 ## 2.0.1
 
  - **FIX**: Leakage of katana storage upgrade. ([1aed31d6](https://github.com/mathrunet/flutter_masamune/commit/1aed31d6c13c8f45501971230d4f91f5955836ff))
