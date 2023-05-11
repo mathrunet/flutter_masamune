@@ -11,6 +11,298 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
+ - [`katana` - `v2.0.0`](#katana---v200)
+ - [`katana_auth` - `v2.0.0`](#katana_auth---v200)
+ - [`katana_auth_firebase` - `v2.0.0`](#katana_auth_firebase---v200)
+ - [`katana_cli` - `v2.0.0`](#katana_cli---v200)
+ - [`katana_firebase` - `v2.0.0`](#katana_firebase---v200)
+ - [`katana_form` - `v2.0.0`](#katana_form---v200)
+ - [`katana_functions` - `v2.0.0`](#katana_functions---v200)
+ - [`katana_functions_firebase` - `v2.0.0`](#katana_functions_firebase---v200)
+ - [`katana_indicator` - `v2.0.0`](#katana_indicator---v200)
+ - [`katana_listenables` - `v2.0.0`](#katana_listenables---v200)
+ - [`katana_listenables_annotation` - `v2.0.0`](#katana_listenables_annotation---v200)
+ - [`katana_listenables_builder` - `v2.0.0`](#katana_listenables_builder---v200)
+ - [`katana_localization` - `v2.0.0`](#katana_localization---v200)
+ - [`katana_localization_annotation` - `v2.0.0`](#katana_localization_annotation---v200)
+ - [`katana_localization_builder` - `v2.0.0`](#katana_localization_builder---v200)
+ - [`katana_logger` - `v2.0.0`](#katana_logger---v200)
+ - [`katana_model` - `v2.0.0`](#katana_model---v200)
+ - [`katana_model_firestore` - `v2.0.0`](#katana_model_firestore---v200)
+ - [`katana_model_openapi` - `v2.0.0`](#katana_model_openapi---v200)
+ - [`katana_model_openapi_builder` - `v2.0.0`](#katana_model_openapi_builder---v200)
+ - [`katana_prefs` - `v2.0.0`](#katana_prefs---v200)
+ - [`katana_prefs_annotation` - `v2.0.0`](#katana_prefs_annotation---v200)
+ - [`katana_prefs_builder` - `v2.0.0`](#katana_prefs_builder---v200)
+ - [`katana_router` - `v2.0.0`](#katana_router---v200)
+ - [`katana_router_annotation` - `v2.0.0`](#katana_router_annotation---v200)
+ - [`katana_router_builder` - `v2.0.0`](#katana_router_builder---v200)
+ - [`katana_scoped` - `v2.0.0`](#katana_scoped---v200)
+ - [`katana_shorten` - `v2.0.0`](#katana_shorten---v200)
+ - [`katana_storage` - `v2.0.0`](#katana_storage---v200)
+ - [`katana_storage_firebase` - `v2.0.0`](#katana_storage_firebase---v200)
+ - [`katana_theme` - `v2.0.0`](#katana_theme---v200)
+ - [`katana_theme_annotation` - `v2.0.0`](#katana_theme_annotation---v200)
+ - [`katana_theme_builder` - `v2.0.0`](#katana_theme_builder---v200)
+ - [`katana_ui` - `v2.0.0`](#katana_ui---v200)
+ - [`masamune` - `v2.0.0`](#masamune---v200)
+ - [`masamune_agora` - `v2.0.0`](#masamune_agora---v200)
+ - [`masamune_ai_openai` - `v2.0.0`](#masamune_ai_openai---v200)
+ - [`masamune_annotation` - `v2.0.0`](#masamune_annotation---v200)
+ - [`masamune_builder` - `v2.0.0`](#masamune_builder---v200)
+ - [`masamune_calendar` - `v2.0.0`](#masamune_calendar---v200)
+ - [`masamune_logger_firebase` - `v2.0.0`](#masamune_logger_firebase---v200)
+ - [`masamune_notification_firebase` - `v2.0.0`](#masamune_notification_firebase---v200)
+ - [`masamune_picker` - `v2.0.0`](#masamune_picker---v200)
+ - [`masamune_picker_file` - `v2.0.0`](#masamune_picker_file---v200)
+ - [`masamune_picker_mobile` - `v2.0.0`](#masamune_picker_mobile---v200)
+ - [`masamune_universal_ui` - `v2.0.0`](#masamune_universal_ui---v200)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `katana` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_auth` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_auth_firebase` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_cli` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_firebase` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_form` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_functions` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_functions_firebase` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_indicator` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_listenables` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_listenables_annotation` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_listenables_builder` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_localization` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_localization_annotation` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_localization_builder` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_logger` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_model` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_model_firestore` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_model_openapi` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_model_openapi_builder` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_prefs` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_prefs_annotation` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_prefs_builder` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_router` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_router_annotation` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_router_builder` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_scoped` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_shorten` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_storage` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_storage_firebase` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_theme` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_theme_annotation` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_theme_builder` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_ui` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_agora` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_ai_openai` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_annotation` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_builder` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_calendar` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_logger_firebase` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_notification_firebase` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_picker` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_picker_file` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_picker_mobile` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `masamune_universal_ui` - `v2.0.0`
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+
+## 2023-05-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
  - There are no breaking changes in this release.
 
 Packages with other changes:

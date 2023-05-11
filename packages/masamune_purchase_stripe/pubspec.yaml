@@ -14,8 +14,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^1.1.0
-  masamune: ^1.13.0
+  katana: ^2.0.0
+  masamune: ^2.0.0
   webview_flutter: ^4.1.0
   js: ^0.6.7
 dev_dependencies:

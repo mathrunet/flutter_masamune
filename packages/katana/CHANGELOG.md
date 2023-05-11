@@ -1,3 +1,10 @@
+## 2.0.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: Dart 3.0.0 compatible. ([cc981bbc](https://github.com/mathrunet/flutter_masamune/commit/cc981bbc696d05dea5246a56711869d288851246))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
 ## 1.0.14
 
  - **FIX**: パッケージバージョンアップ. ([794c344a](https://github.com/mathrunet/flutter_masamune/commit/794c344ade4cdfdc5c79298e9803b18442f8ee74))
