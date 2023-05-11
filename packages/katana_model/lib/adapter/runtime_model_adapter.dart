@@ -175,8 +175,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     FutureOr<void> Function(
       ModelTransactionRef ref,
       ModelTransactionDocument<T> doc,
-    )
-        transaction,
+    ) transaction,
   ) async {
     final ref = RuntimeModelTransactionRef._();
     await transaction.call(ref, ref.read(doc));

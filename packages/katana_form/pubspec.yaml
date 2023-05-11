@@ -1,11 +1,11 @@
 name: katana_form
 description: Package to provide FormController to define the use of forms and FormStyle to unify the look and feel of forms.
-version: 1.4.9
+version: 1.5.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_form
 
 environment:
-  sdk: ">=2.17.0 <3.0.0"
+  sdk: ">=2.17.0 <4.0.0"
   flutter: ">=2.0.0"
 
 dependencies:
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   flutter_picker: ^2.0.5
-  katana: ^1.0.14
+  katana: ^1.1.0
   universal_platform: ^1.0.0+1
 dev_dependencies:
   test: ^1.21.3

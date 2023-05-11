@@ -128,8 +128,7 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
     required Widget Function(
       BuildContext context,
       FormMediaValue value,
-    )
-        builder,
+    ) builder,
     this.showOverlayIcon = true,
     this.overlayColor = Colors.black38,
     this.overlayIconColor = Colors.white70,

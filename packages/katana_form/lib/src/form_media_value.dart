@@ -1,6 +1,8 @@
 part of katana_form;
 
-class _FormMediaValue extends FormMediaValue with MapMixin<String, dynamic> {
+class _FormMediaValue extends FormMediaValue
+    with MapMixin<String, dynamic>
+    implements Map<String, dynamic> {
   const _FormMediaValue({
     FormMediaType type = FormMediaType.image,
     String? path,

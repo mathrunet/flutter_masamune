@@ -183,8 +183,7 @@ abstract class ModelAdapter {
     FutureOr<void> Function(
       ModelTransactionRef ref,
       ModelTransactionDocument<T> doc,
-    )
-        transaction,
+    ) transaction,
   );
 
   /// Describe the data acquisition process when performing a transaction.

@@ -11,8 +11,7 @@ part of 'main.dart';
 abstract class _$AppLocalize extends AppLocalizeBase {
   @override
   List<LocalizationsDelegate> delegates(
-      [List<LocalizationsDelegate> delegates =
-          GlobalMaterialLocalizations.delegates]) {
+      [List<LocalizationsDelegate> delegates = const []]) {
     return [
       const _$AppLocalizeDelegate(),
       ...delegates,

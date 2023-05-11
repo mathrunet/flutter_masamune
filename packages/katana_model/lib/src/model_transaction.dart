@@ -34,8 +34,7 @@ class ModelTransactionBuilder<T> {
     FutureOr<void> Function(
       ModelTransactionRef ref,
       ModelTransactionDocument<T> doc,
-    )
-        transaction,
+    ) transaction,
   ) {
     return document.modelQuery.adapter.runTransaction<T>(
       document,

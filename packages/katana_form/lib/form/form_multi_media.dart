@@ -156,8 +156,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
     required Widget Function(
       BuildContext context,
       FormMediaValue value,
-    )
-        builder,
+    ) builder,
     required this.onTap,
     this.onChanged,
     TValue Function(List<FormMediaValue> value)? onSaved,
@@ -463,8 +462,7 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
     Widget Function(
       BuildContext context,
       FormMediaValue value,
-    )
-        builder,
+    ) builder,
     void Function(String filePath, FormMediaType type)? onUpdate,
     VoidCallback? onRemove,
   ) {
@@ -602,8 +600,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
     Widget Function(
       BuildContext context,
       FormMediaValue value,
-    )
-        builder,
+    ) builder,
     void Function(String filePath, FormMediaType type)? onUpdate,
     VoidCallback? onRemove,
   ) {

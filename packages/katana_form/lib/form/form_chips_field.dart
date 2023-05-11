@@ -915,6 +915,9 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   @override
   void performSelector(String selectorName) {}
 
+  @override
+  void insertContent(KeyboardInsertedContent content) {}
+
   void _updateTextInputState({replaceText = false, putText = ''}) {
     if (replaceText || putText != '') {
       final updatedText =

@@ -246,8 +246,7 @@ class FirestoreModelAdapter extends ModelAdapter {
     FutureOr<void> Function(
       ModelTransactionRef ref,
       ModelTransactionDocument<T> doc,
-    )
-        transaction,
+    ) transaction,
   ) async {
     await FirebaseCore.initialize(options: options);
     await database.runTransaction((handler) async {

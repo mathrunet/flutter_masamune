@@ -166,8 +166,7 @@ class LocalModelAdapter extends ModelAdapter {
     FutureOr<void> Function(
       ModelTransactionRef ref,
       ModelTransactionDocument<T> doc,
-    )
-        transaction,
+    ) transaction,
   ) async {
     final ref = LocalModelTransactionRef._();
     await transaction.call(ref, ref.read(doc));
