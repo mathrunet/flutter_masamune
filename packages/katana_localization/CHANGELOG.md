@@ -1,3 +1,8 @@
+## 2.0.1
+
+ - **FIX**: Delete unnecessary Imports. ([da0b355d](https://github.com/mathrunet/flutter_masamune/commit/da0b355d9b8b6f6d4dc2dc0fee9287420954397d))
+ - **FIX**: Fixed a deprecated process. ([4b198fae](https://github.com/mathrunet/flutter_masamune/commit/4b198fae9fb8d16c3279cca4f6d1f13ba72453fe))
+
 ## 2.0.0
 
 > Note: This release has breaking changes.

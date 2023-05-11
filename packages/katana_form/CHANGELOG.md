@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - **FIX**: Remove unnecessary imports. ([25a4e5bd](https://github.com/mathrunet/flutter_masamune/commit/25a4e5bd1be8f4aa2e9768e35fb6749c43c323c9))
+
 ## 2.0.2
 
  - **FIX**: Temporarily resolved Mixin problem. ([4b0b9ab4](https://github.com/mathrunet/flutter_masamune/commit/4b0b9ab4e24b8f5a62f7310615d54fe94aa0acca))

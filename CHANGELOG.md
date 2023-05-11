@@ -15,6 +15,70 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.0.3`](#katana_form---v203)
+ - [`katana_localization` - `v2.0.1`](#katana_localization---v201)
+ - [`katana_localization_annotation` - `v2.0.1`](#katana_localization_annotation---v201)
+ - [`katana_localization_builder` - `v2.0.1`](#katana_localization_builder---v201)
+ - [`masamune` - `v2.0.5`](#masamune---v205)
+ - [`masamune_picker_file` - `v2.0.5`](#masamune_picker_file---v205)
+ - [`masamune_agora` - `v2.0.5`](#masamune_agora---v205)
+ - [`masamune_ai_openai` - `v2.0.5`](#masamune_ai_openai---v205)
+ - [`masamune_calendar` - `v2.0.5`](#masamune_calendar---v205)
+ - [`masamune_picker` - `v2.0.5`](#masamune_picker---v205)
+ - [`masamune_universal_ui` - `v2.0.5`](#masamune_universal_ui---v205)
+ - [`masamune_logger_firebase` - `v2.0.5`](#masamune_logger_firebase---v205)
+ - [`masamune_picker_mobile` - `v2.0.5`](#masamune_picker_mobile---v205)
+ - [`masamune_notification_firebase` - `v2.0.5`](#masamune_notification_firebase---v205)
+ - [`masamune_builder` - `v2.0.2`](#masamune_builder---v202)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.5`
+ - `masamune_picker_file` - `v2.0.5`
+ - `masamune_agora` - `v2.0.5`
+ - `masamune_ai_openai` - `v2.0.5`
+ - `masamune_calendar` - `v2.0.5`
+ - `masamune_picker` - `v2.0.5`
+ - `masamune_universal_ui` - `v2.0.5`
+ - `masamune_logger_firebase` - `v2.0.5`
+ - `masamune_picker_mobile` - `v2.0.5`
+ - `masamune_notification_firebase` - `v2.0.5`
+ - `masamune_builder` - `v2.0.2`
+
+---
+
+#### `katana_form` - `v2.0.3`
+
+ - **FIX**: Remove unnecessary imports. ([25a4e5bd](https://github.com/mathrunet/flutter_masamune/commit/25a4e5bd1be8f4aa2e9768e35fb6749c43c323c9))
+
+#### `katana_localization` - `v2.0.1`
+
+ - **FIX**: Delete unnecessary Imports. ([da0b355d](https://github.com/mathrunet/flutter_masamune/commit/da0b355d9b8b6f6d4dc2dc0fee9287420954397d))
+ - **FIX**: Fixed a deprecated process. ([4b198fae](https://github.com/mathrunet/flutter_masamune/commit/4b198fae9fb8d16c3279cca4f6d1f13ba72453fe))
+
+#### `katana_localization_annotation` - `v2.0.1`
+
+ - **FIX**: Fixed a deprecated process. ([4b198fae](https://github.com/mathrunet/flutter_masamune/commit/4b198fae9fb8d16c3279cca4f6d1f13ba72453fe))
+
+#### `katana_localization_builder` - `v2.0.1`
+
+ - **FIX**: Fixed a deprecated process. ([4b198fae](https://github.com/mathrunet/flutter_masamune/commit/4b198fae9fb8d16c3279cca4f6d1f13ba72453fe))
+
+
+## 2023-05-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.0.2`](#katana_form---v202)
  - [`masamune` - `v2.0.4`](#masamune---v204)
  - [`masamune_agora` - `v2.0.4`](#masamune_agora---v204)
