@@ -9,7 +9,6 @@
 library katana_localization;
 
 // Dart imports:
-import 'dart:ui' as ui;
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
