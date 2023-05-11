@@ -88,7 +88,7 @@ class OpenAIMedia extends ChangeNotifier
         throw Exception("Failed to get response from openai_generations.");
       }
       for (int i = 0; i < count; i++) {
-        responses[i]._complete(url: res.data[i].url);
+        responses[i]._complete(url: res.data[i].url ?? "");
       }
       notifyListeners();
       _createCompleter?.complete(responses);
