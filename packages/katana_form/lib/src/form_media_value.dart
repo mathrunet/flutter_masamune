@@ -1,8 +1,6 @@
 part of katana_form;
 
-class _FormMediaValue extends FormMediaValue
-    with MapMixin<String, dynamic>
-    implements Map<String, dynamic> {
+class _FormMediaValue extends FormMediaValue with _MapMixin<String, dynamic> {
   const _FormMediaValue({
     FormMediaType type = FormMediaType.image,
     String? path,
@@ -33,6 +31,12 @@ class _FormMediaValue extends FormMediaValue
   @override
   dynamic remove(Object? key) {
     throw UnsupportedError("Writing data is not supported.");
+  }
+
+  @override
+  Iterable get values {
+    final map = toJson();
+    return map.values;
   }
 }
 
@@ -129,4 +133,111 @@ class FormMediaValue {
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
+}
+
+mixin _MapMixin<K, V> implements Map<K, V> {
+  @override
+  Iterable<K> get keys;
+  @override
+  V? operator [](Object? key);
+  @override
+  operator []=(K key, V value);
+  @override
+  V? remove(Object? key);
+  @override
+  void clear();
+
+  @override
+  Map<RK, RV> cast<RK, RV>() => Map.castFrom<K, V, RK, RV>(this);
+  @override
+  void forEach(void Function(K key, V value) action) {
+    for (K key in keys) {
+      action(key, this[key] as V);
+    }
+  }
+
+  @override
+  void addAll(Map<K, V> other) {
+    other.forEach((K key, V value) {
+      this[key] = value;
+    });
+  }
+
+  @override
+  bool containsValue(Object? value) {
+    for (K key in keys) {
+      if (this[key] == value) return true;
+    }
+    return false;
+  }
+
+  @override
+  V putIfAbsent(K key, V Function() ifAbsent) {
+    if (containsKey(key)) {
+      return this[key] as V;
+    }
+    return this[key] = ifAbsent();
+  }
+
+  @override
+  V update(K key, V Function(V value) update, {V Function()? ifAbsent}) {
+    if (this.containsKey(key)) {
+      return this[key] = update(this[key] as V);
+    }
+    if (ifAbsent != null) {
+      return this[key] = ifAbsent();
+    }
+    throw ArgumentError.value(key, "key", "Key not in map.");
+  }
+
+  @override
+  void updateAll(V Function(K key, V value) update) {
+    for (var key in this.keys) {
+      this[key] = update(key, this[key] as V);
+    }
+  }
+
+  @override
+  Iterable<MapEntry<K, V>> get entries {
+    return keys.map((K key) => MapEntry<K, V>(key, this[key] as V));
+  }
+
+  @override
+  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(K key, V value) transform) {
+    var result = <K2, V2>{};
+    for (var key in this.keys) {
+      var entry = transform(key, this[key] as V);
+      result[entry.key] = entry.value;
+    }
+    return result;
+  }
+
+  @override
+  void addEntries(Iterable<MapEntry<K, V>> newEntries) {
+    for (var entry in newEntries) {
+      this[entry.key] = entry.value;
+    }
+  }
+
+  @override
+  void removeWhere(bool Function(K key, V value) test) {
+    var keysToRemove = <K>[];
+    for (var key in keys) {
+      if (test(key, this[key] as V)) keysToRemove.add(key);
+    }
+    for (var key in keysToRemove) {
+      this.remove(key);
+    }
+  }
+
+  @override
+  bool containsKey(Object? key) => keys.contains(key);
+  @override
+  int get length => keys.length;
+  @override
+  bool get isEmpty => keys.isEmpty;
+  @override
+  bool get isNotEmpty => keys.isNotEmpty;
+  @override
+  String toString() => this.toString();
 }
