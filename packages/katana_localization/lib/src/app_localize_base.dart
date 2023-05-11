@@ -113,7 +113,8 @@ abstract class AppLocalizeBase with ChangeNotifier {
           return _locale;
         }
         if (kIsWeb || locale == null) {
-          final locale = Locale(ui.window.locale.languageCode, "");
+          final locale =
+              Locale(PlatformDispatcher.instance.locale.languageCode, "");
           for (final supportedLocale in supportedLocales) {
             if (supportedLocale.languageCode == locale.languageCode) {
               _locale ??= supportedLocale;
