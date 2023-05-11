@@ -902,9 +902,10 @@ mixin UniversalAppBarMixin on Widget {
 /// [Widget]に対してミックスインすることで、[UniversalScaffold]に渡した場合、Sliverの利用フラグを`true`にした[UniversalAppBar]として利用されます。
 mixin SliverAppBarMixin on Widget {}
 
+@immutable
 class _DynamicExtentForegroundColorPreferredSizeWidget extends StatelessWidget
-    with PreferredSizeWidget {
-  _DynamicExtentForegroundColorPreferredSizeWidget({
+    implements PreferredSizeWidget {
+  const _DynamicExtentForegroundColorPreferredSizeWidget({
     this.startForegroundColor,
     this.endForegroundColor,
     required this.child,

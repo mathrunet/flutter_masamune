@@ -16,7 +16,7 @@ const kSideBarWidth = 240.0;
 /// [UniversalScaffold]の[UniversalScaffold.sidebar]に設定してください。
 ///
 /// [breakpoint]を設定すると、その[Breakpoint]の横幅に合わせてサイドバーのパディングが切り替わります。
-class UniversalSideBar extends StatelessWidget with PreferredSizeWidget {
+class UniversalSideBar extends StatelessWidget implements PreferredSizeWidget {
   /// Create a sidebar for Universal UI.
   ///
   /// Set to [UniversalScaffold.sidebar] in [UniversalScaffold].
