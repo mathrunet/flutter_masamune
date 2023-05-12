@@ -1,3 +1,7 @@
+## 2.0.2
+
+ - **FIX**: Explicitly define mixin. ([4a5bb0cd](https://github.com/mathrunet/flutter_masamune/commit/4a5bb0cdcf8420c616e2be00e47eafd3e381660a))
+
 ## 2.0.1
 
  - Update a dependency to the latest release.

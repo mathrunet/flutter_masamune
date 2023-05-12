@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_prefs` - `v2.0.2`](#katana_prefs---v202)
+ - [`katana_prefs_annotation` - `v2.0.2`](#katana_prefs_annotation---v202)
+ - [`katana_prefs_builder` - `v2.0.2`](#katana_prefs_builder---v202)
+ - [`masamune` - `v2.0.7`](#masamune---v207)
+ - [`masamune_picker_file` - `v2.0.7`](#masamune_picker_file---v207)
+ - [`masamune_agora` - `v2.0.7`](#masamune_agora---v207)
+ - [`masamune_ai_openai` - `v2.0.7`](#masamune_ai_openai---v207)
+ - [`masamune_calendar` - `v2.0.7`](#masamune_calendar---v207)
+ - [`masamune_picker` - `v2.0.7`](#masamune_picker---v207)
+ - [`masamune_universal_ui` - `v2.0.7`](#masamune_universal_ui---v207)
+ - [`masamune_logger_firebase` - `v2.0.7`](#masamune_logger_firebase---v207)
+ - [`masamune_picker_mobile` - `v2.0.7`](#masamune_picker_mobile---v207)
+ - [`masamune_notification_firebase` - `v2.0.7`](#masamune_notification_firebase---v207)
+ - [`masamune_builder` - `v2.0.4`](#masamune_builder---v204)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.7`
+ - `masamune_picker_file` - `v2.0.7`
+ - `masamune_agora` - `v2.0.7`
+ - `masamune_ai_openai` - `v2.0.7`
+ - `masamune_calendar` - `v2.0.7`
+ - `masamune_picker` - `v2.0.7`
+ - `masamune_universal_ui` - `v2.0.7`
+ - `masamune_logger_firebase` - `v2.0.7`
+ - `masamune_picker_mobile` - `v2.0.7`
+ - `masamune_notification_firebase` - `v2.0.7`
+ - `masamune_builder` - `v2.0.4`
+
+---
+
+#### `katana_prefs` - `v2.0.2`
+
+ - **FIX**: Explicitly define mixin. ([4a5bb0cd](https://github.com/mathrunet/flutter_masamune/commit/4a5bb0cdcf8420c616e2be00e47eafd3e381660a))
+
+#### `katana_prefs_annotation` - `v2.0.2`
+
+ - **FIX**: Explicitly define mixin. ([4a5bb0cd](https://github.com/mathrunet/flutter_masamune/commit/4a5bb0cdcf8420c616e2be00e47eafd3e381660a))
+
+#### `katana_prefs_builder` - `v2.0.2`
+
+ - **FIX**: Explicitly define mixin. ([4a5bb0cd](https://github.com/mathrunet/flutter_masamune/commit/4a5bb0cdcf8420c616e2be00e47eafd3e381660a))
+
+
 ## 2023-05-11
 
 ### Changes
