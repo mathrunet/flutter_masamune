@@ -562,12 +562,11 @@ class MasamuneApp extends StatelessWidget {
           navigatorObservers.add(observer);
         }
       }
-      final aa = localize?.delegates();
       return MaterialApp.router(
         routerConfig: routerConfig,
         locale: localize?.locale,
         supportedLocales: localize?.supportedLocales() ?? kDefaultLocales,
-        localizationsDelegates: aa,
+        localizationsDelegates: localize?.delegates(),
         localeResolutionCallback: localize?.localeResolutionCallback(),
         theme: theme?.toThemeData(brightness: Brightness.light),
         darkTheme: theme?.toThemeData(brightness: Brightness.dark),
