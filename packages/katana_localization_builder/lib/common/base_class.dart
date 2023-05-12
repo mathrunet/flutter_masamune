@@ -33,7 +33,7 @@ List<Spec> baseClass(
                 )
               ])
               ..body = Code(
-                "return [const _\$${model.name}Delegate(), ...delegates,];",
+                "return [const _\$${model.name}MaterialDelegate(), const _\$${model.name}CupertinoDelegate(), const _\$${model.name}WidgetsDelegate(), ...delegates,];",
               ),
           ),
           Method(
@@ -64,9 +64,9 @@ List<Spec> baseClass(
     ),
     Class(
       (c) => c
-        ..name = "_\$${model.name}Delegate"
+        ..name = "_\$${model.name}MaterialDelegate"
         ..extend =
-            Reference("LocalizationsDelegate<_\$${model.name}$_kBaseName>")
+            const Reference("LocalizationsDelegate<MaterialLocalizations>")
         ..constructors.addAll([
           Constructor((c) => c..constant = true),
         ])
@@ -92,7 +92,7 @@ List<Spec> baseClass(
             (m) => m
               ..name = "load"
               ..annotations.addAll([const Reference("override")])
-              ..returns = Reference("Future<_\$${model.name}$_kBaseName>")
+              ..returns = const Reference("Future<MaterialLocalizations>")
               ..lambda = true
               ..requiredParameters.addAll([
                 Parameter(
@@ -101,8 +101,8 @@ List<Spec> baseClass(
                     ..type = const Reference("Locale"),
                 )
               ])
-              ..body = Code(
-                "SynchronousFuture(_\$${model.name.toCamelCase()}Localizations[locale] ?? _\$${model.name.toCamelCase()}Localizations.values.first)",
+              ..body = const Code(
+                "SynchronousFuture(DefaultMaterialLocalizations())",
               ),
           ),
           Method(
@@ -115,8 +115,132 @@ List<Spec> baseClass(
                 Parameter(
                   (p) => p
                     ..name = "old"
-                    ..type = Reference(
-                      "LocalizationsDelegate<_\$${model.name}$_kBaseName>",
+                    ..type = const Reference(
+                      "LocalizationsDelegate<MaterialLocalizations>",
+                    ),
+                )
+              ])
+              ..body = const Code("false"),
+          ),
+        ]),
+    ),
+    Class(
+      (c) => c
+        ..name = "_\$${model.name}CupertinoDelegate"
+        ..extend =
+            const Reference("LocalizationsDelegate<CupertinoLocalizations>")
+        ..constructors.addAll([
+          Constructor((c) => c..constant = true),
+        ])
+        ..methods.addAll([
+          Method(
+            (m) => m
+              ..name = "isSupported"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("bool")
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "locale"
+                    ..type = const Reference("Locale"),
+                )
+              ])
+              ..body = Code(
+                "_\$${model.name.toCamelCase()}Localizations.containsKey(locale)",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "load"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("Future<CupertinoLocalizations>")
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "locale"
+                    ..type = const Reference("Locale"),
+                )
+              ])
+              ..body = const Code(
+                "SynchronousFuture(DefaultCupertinoLocalizations())",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "shouldReload"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("bool")
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "old"
+                    ..type = const Reference(
+                      "LocalizationsDelegate<CupertinoLocalizations>",
+                    ),
+                )
+              ])
+              ..body = const Code("false"),
+          ),
+        ]),
+    ),
+    Class(
+      (c) => c
+        ..name = "_\$${model.name}WidgetsDelegate"
+        ..extend =
+            const Reference("LocalizationsDelegate<WidgetsLocalizations>")
+        ..constructors.addAll([
+          Constructor((c) => c..constant = true),
+        ])
+        ..methods.addAll([
+          Method(
+            (m) => m
+              ..name = "isSupported"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("bool")
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "locale"
+                    ..type = const Reference("Locale"),
+                )
+              ])
+              ..body = Code(
+                "_\$${model.name.toCamelCase()}Localizations.containsKey(locale)",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "load"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("Future<WidgetsLocalizations>")
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "locale"
+                    ..type = const Reference("Locale"),
+                )
+              ])
+              ..body = const Code(
+                "SynchronousFuture(DefaultWidgetsLocalizations())",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "shouldReload"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("bool")
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "old"
+                    ..type = const Reference(
+                      "LocalizationsDelegate<WidgetsLocalizations>",
                     ),
                 )
               ])
