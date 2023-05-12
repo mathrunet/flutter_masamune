@@ -35,10 +35,10 @@ Future<void> runMasamuneApp(
   if (setPathUrlStrategy) {
     AppRouter.setPathUrlStrategy();
   }
-  WidgetsFlutterBinding.ensureInitialized();
   final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
   if (useRunZonedGuarded) {
     runZonedGuarded(() async {
+      WidgetsFlutterBinding.ensureInitialized();
       for (final adapter in masamuneAdapters) {
         await adapter.onPreRunApp();
       }
@@ -562,11 +562,12 @@ class MasamuneApp extends StatelessWidget {
           navigatorObservers.add(observer);
         }
       }
+      final aa = localize?.delegates();
       return MaterialApp.router(
         routerConfig: routerConfig,
         locale: localize?.locale,
         supportedLocales: localize?.supportedLocales() ?? kDefaultLocales,
-        localizationsDelegates: localize?.delegates(),
+        localizationsDelegates: aa,
         localeResolutionCallback: localize?.localeResolutionCallback(),
         theme: theme?.toThemeData(brightness: Brightness.light),
         darkTheme: theme?.toThemeData(brightness: Brightness.dark),
