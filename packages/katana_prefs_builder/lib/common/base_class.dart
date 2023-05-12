@@ -102,10 +102,9 @@ List<Spec> baseClass(
           ),
         ]),
     ),
-    Class(
+    Mixin(
       (c) => c
         ..name = "_\$${model.name}"
-        ..abstract = true
         ..implements.addAll([
           const Reference("PrefsBase"),
         ])
