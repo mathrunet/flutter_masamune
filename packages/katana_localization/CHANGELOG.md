@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - **FIX**: LocalizationsDelegate can be used by default. ([50ad8743](https://github.com/mathrunet/flutter_masamune/commit/50ad87439476adf79e4c08c62b0eb733201d4cb7))
+
 ## 2.0.2
 
  - Update a dependency to the latest release.

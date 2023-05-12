@@ -15,6 +15,67 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v2.0.3`](#katana_localization---v203)
+ - [`katana_localization_annotation` - `v2.0.3`](#katana_localization_annotation---v203)
+ - [`katana_localization_builder` - `v2.0.3`](#katana_localization_builder---v203)
+ - [`masamune` - `v2.0.8`](#masamune---v208)
+ - [`masamune_picker_file` - `v2.0.8`](#masamune_picker_file---v208)
+ - [`masamune_agora` - `v2.0.8`](#masamune_agora---v208)
+ - [`masamune_ai_openai` - `v2.0.8`](#masamune_ai_openai---v208)
+ - [`masamune_calendar` - `v2.0.8`](#masamune_calendar---v208)
+ - [`masamune_picker` - `v2.0.8`](#masamune_picker---v208)
+ - [`masamune_universal_ui` - `v2.0.8`](#masamune_universal_ui---v208)
+ - [`masamune_logger_firebase` - `v2.0.8`](#masamune_logger_firebase---v208)
+ - [`masamune_picker_mobile` - `v2.0.8`](#masamune_picker_mobile---v208)
+ - [`masamune_notification_firebase` - `v2.0.8`](#masamune_notification_firebase---v208)
+ - [`masamune_builder` - `v2.0.5`](#masamune_builder---v205)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v2.0.8`
+ - `masamune_agora` - `v2.0.8`
+ - `masamune_ai_openai` - `v2.0.8`
+ - `masamune_calendar` - `v2.0.8`
+ - `masamune_picker` - `v2.0.8`
+ - `masamune_universal_ui` - `v2.0.8`
+ - `masamune_logger_firebase` - `v2.0.8`
+ - `masamune_picker_mobile` - `v2.0.8`
+ - `masamune_notification_firebase` - `v2.0.8`
+ - `masamune_builder` - `v2.0.5`
+
+---
+
+#### `katana_localization` - `v2.0.3`
+
+ - **FIX**: LocalizationsDelegate can be used by default. ([50ad8743](https://github.com/mathrunet/flutter_masamune/commit/50ad87439476adf79e4c08c62b0eb733201d4cb7))
+
+#### `katana_localization_annotation` - `v2.0.3`
+
+ - **FIX**: LocalizationsDelegate can be used by default. ([50ad8743](https://github.com/mathrunet/flutter_masamune/commit/50ad87439476adf79e4c08c62b0eb733201d4cb7))
+
+#### `katana_localization_builder` - `v2.0.3`
+
+ - **FIX**: LocalizationsDelegate can be used by default. ([50ad8743](https://github.com/mathrunet/flutter_masamune/commit/50ad87439476adf79e4c08c62b0eb733201d4cb7))
+
+#### `masamune` - `v2.0.8`
+
+ - **FIX**: Change location of ensureInitialized. ([ec05e69f](https://github.com/mathrunet/flutter_masamune/commit/ec05e69fe1eb7143967510247bae370b542f5f39))
+
+
+## 2023-05-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v2.0.2`](#katana_prefs---v202)
  - [`katana_prefs_annotation` - `v2.0.2`](#katana_prefs_annotation---v202)
  - [`katana_prefs_builder` - `v2.0.2`](#katana_prefs_builder---v202)

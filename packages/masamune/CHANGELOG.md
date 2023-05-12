@@ -1,3 +1,7 @@
+## 2.0.8
+
+ - **FIX**: Change location of ensureInitialized. ([ec05e69f](https://github.com/mathrunet/flutter_masamune/commit/ec05e69fe1eb7143967510247bae370b542f5f39))
+
 ## 2.0.7
 
  - Update a dependency to the latest release.
