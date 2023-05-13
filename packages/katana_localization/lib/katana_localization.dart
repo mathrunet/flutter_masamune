@@ -11,6 +11,7 @@ library katana_localization;
 // Dart imports:
 
 // Flutter imports:
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -26,3 +27,4 @@ export 'package:katana_localization_annotation/katana_localization_annotation.da
 
 part 'src/app_localize_base.dart';
 part 'src/localize_scope.dart';
+part 'src/localizations_delegate.dart';
