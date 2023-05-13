@@ -49,6 +49,7 @@ Future<void> runMasamuneApp(
       }
     });
   } else {
+    WidgetsFlutterBinding.ensureInitialized();
     for (final adapter in masamuneAdapters) {
       await adapter.onPreRunApp();
     }
@@ -177,6 +178,7 @@ class MasamuneApp extends StatelessWidget {
     this.builder,
     this.onBuildAppFilters,
     this.masamuneAdapters = const <MasamuneAdapter>[],
+    this.localizationsDelegates,
   });
 
   /// You can specify the plug-in adapter used by Masamune Framework.
@@ -380,6 +382,11 @@ class MasamuneApp extends StatelessWidget {
   final List<Widget Function(BuildContext context, Widget app)>?
       onBuildAppFilters;
 
+  /// Define a list of [LocalizationsDelegate].
+  ///
+  /// [LocalizationsDelegate]のリストを定義します。
+  final List<LocalizationsDelegate<dynamic>>? localizationsDelegates;
+
   @override
   Widget build(BuildContext context) {
     var child = _buildAppFunctions(
@@ -534,7 +541,9 @@ class MasamuneApp extends StatelessWidget {
       return MaterialApp(
         locale: localize?.locale,
         supportedLocales: localize?.supportedLocales() ?? kDefaultLocales,
-        localizationsDelegates: localize?.delegates(),
+        localizationsDelegates:
+            localize?.delegates(localizationsDelegates ?? const []) ??
+                localizationsDelegates,
         localeResolutionCallback: localize?.localeResolutionCallback(),
         theme: theme?.toThemeData(brightness: Brightness.light),
         darkTheme: theme?.toThemeData(brightness: Brightness.dark),
@@ -566,7 +575,9 @@ class MasamuneApp extends StatelessWidget {
         routerConfig: routerConfig,
         locale: localize?.locale,
         supportedLocales: localize?.supportedLocales() ?? kDefaultLocales,
-        localizationsDelegates: localize?.delegates(),
+        localizationsDelegates:
+            localize?.delegates(localizationsDelegates ?? const []) ??
+                localizationsDelegates,
         localeResolutionCallback: localize?.localeResolutionCallback(),
         theme: theme?.toThemeData(brightness: Brightness.light),
         darkTheme: theme?.toThemeData(brightness: Brightness.dark),

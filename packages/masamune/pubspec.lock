@@ -282,14 +282,14 @@ packages:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.0.2"
+    version: "2.0.3"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.2"
+    version: "2.0.3"
   katana_logger:
     dependency: "direct main"
     description:
