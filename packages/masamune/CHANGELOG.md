@@ -1,3 +1,7 @@
+## 2.0.9
+
+ - **FIX**: Fixed a bug in ensureInitialized. ([d3452b53](https://github.com/mathrunet/flutter_masamune/commit/d3452b5304498997aca308e3e5eaa4a04ed8bee9))
+
 ## 2.0.8
 
  - **FIX**: Change location of ensureInitialized. ([ec05e69f](https://github.com/mathrunet/flutter_masamune/commit/ec05e69fe1eb7143967510247bae370b542f5f39))
