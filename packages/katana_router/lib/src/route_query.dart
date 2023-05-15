@@ -101,6 +101,9 @@ class _InnerRouteQueryImpl extends RouteQuery {
   String get path => routeQuery.path;
 
   @override
+  bool get nested => routeQuery.nested;
+
+  @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) => routeQuery.route(
         query ?? transitionQuery,
       );
