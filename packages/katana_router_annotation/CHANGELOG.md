@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - **FIX**: Fixed a bug that the URLs of pages nested in Web are reflected. ([7dff3be9](https://github.com/mathrunet/flutter_masamune/commit/7dff3be970eae5dc20a8dbc2b9b1ae6168e6ff98))
+
 ## 2.0.2
 
  - Update a dependency to the latest release.

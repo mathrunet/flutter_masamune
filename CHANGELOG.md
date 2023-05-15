@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v2.0.3`](#katana_router---v203)
+ - [`katana_router_annotation` - `v2.0.3`](#katana_router_annotation---v203)
+ - [`katana_router_builder` - `v2.0.3`](#katana_router_builder---v203)
+ - [`masamune` - `v2.0.10`](#masamune---v2010)
+ - [`masamune_picker_file` - `v2.0.10`](#masamune_picker_file---v2010)
+ - [`masamune_agora` - `v2.0.10`](#masamune_agora---v2010)
+ - [`masamune_ai_openai` - `v2.0.10`](#masamune_ai_openai---v2010)
+ - [`masamune_calendar` - `v2.0.10`](#masamune_calendar---v2010)
+ - [`masamune_picker` - `v2.0.10`](#masamune_picker---v2010)
+ - [`masamune_universal_ui` - `v2.0.10`](#masamune_universal_ui---v2010)
+ - [`masamune_logger_firebase` - `v2.0.10`](#masamune_logger_firebase---v2010)
+ - [`masamune_picker_mobile` - `v2.0.10`](#masamune_picker_mobile---v2010)
+ - [`masamune_notification_firebase` - `v2.0.10`](#masamune_notification_firebase---v2010)
+ - [`masamune_builder` - `v2.0.7`](#masamune_builder---v207)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.10`
+ - `masamune_picker_file` - `v2.0.10`
+ - `masamune_agora` - `v2.0.10`
+ - `masamune_ai_openai` - `v2.0.10`
+ - `masamune_calendar` - `v2.0.10`
+ - `masamune_picker` - `v2.0.10`
+ - `masamune_universal_ui` - `v2.0.10`
+ - `masamune_logger_firebase` - `v2.0.10`
+ - `masamune_picker_mobile` - `v2.0.10`
+ - `masamune_notification_firebase` - `v2.0.10`
+ - `masamune_builder` - `v2.0.7`
+
+---
+
+#### `katana_router` - `v2.0.3`
+
+ - **FIX**: Fixed a bug that the URLs of pages nested in Web are reflected. ([7dff3be9](https://github.com/mathrunet/flutter_masamune/commit/7dff3be970eae5dc20a8dbc2b9b1ae6168e6ff98))
+
+#### `katana_router_annotation` - `v2.0.3`
+
+ - **FIX**: Fixed a bug that the URLs of pages nested in Web are reflected. ([7dff3be9](https://github.com/mathrunet/flutter_masamune/commit/7dff3be970eae5dc20a8dbc2b9b1ae6168e6ff98))
+
+#### `katana_router_builder` - `v2.0.3`
+
+ - **FIX**: Fixed a bug that the URLs of pages nested in Web are reflected. ([7dff3be9](https://github.com/mathrunet/flutter_masamune/commit/7dff3be970eae5dc20a8dbc2b9b1ae6168e6ff98))
+
+
 ## 2023-05-13
 
 ### Changes

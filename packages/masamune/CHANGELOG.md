@@ -1,3 +1,7 @@
+## 2.0.10
+
+ - Update a dependency to the latest release.
+
 ## 2.0.9
 
  - **FIX**: Fixed a bug in ensureInitialized. ([d3452b53](https://github.com/mathrunet/flutter_masamune/commit/d3452b5304498997aca308e3e5eaa4a04ed8bee9))
