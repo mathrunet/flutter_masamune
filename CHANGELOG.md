@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_listenables` - `v2.0.2`](#katana_listenables---v202)
+ - [`katana_listenables_annotation` - `v2.0.2`](#katana_listenables_annotation---v202)
+ - [`katana_listenables_builder` - `v2.0.2`](#katana_listenables_builder---v202)
+ - [`masamune` - `v2.0.11`](#masamune---v2011)
+ - [`masamune_picker_file` - `v2.0.11`](#masamune_picker_file---v2011)
+ - [`masamune_agora` - `v2.0.11`](#masamune_agora---v2011)
+ - [`masamune_ai_openai` - `v2.0.11`](#masamune_ai_openai---v2011)
+ - [`masamune_calendar` - `v2.0.11`](#masamune_calendar---v2011)
+ - [`masamune_picker` - `v2.0.11`](#masamune_picker---v2011)
+ - [`masamune_universal_ui` - `v2.0.11`](#masamune_universal_ui---v2011)
+ - [`masamune_logger_firebase` - `v2.0.11`](#masamune_logger_firebase---v2011)
+ - [`masamune_picker_mobile` - `v2.0.11`](#masamune_picker_mobile---v2011)
+ - [`masamune_notification_firebase` - `v2.0.11`](#masamune_notification_firebase---v2011)
+ - [`masamune_builder` - `v2.0.8`](#masamune_builder---v208)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v2.0.11`
+ - `masamune_agora` - `v2.0.11`
+ - `masamune_ai_openai` - `v2.0.11`
+ - `masamune_calendar` - `v2.0.11`
+ - `masamune_picker` - `v2.0.11`
+ - `masamune_universal_ui` - `v2.0.11`
+ - `masamune_logger_firebase` - `v2.0.11`
+ - `masamune_picker_mobile` - `v2.0.11`
+ - `masamune_notification_firebase` - `v2.0.11`
+ - `masamune_builder` - `v2.0.8`
+
+---
+
+#### `katana_listenables` - `v2.0.2`
+
+ - **FIX**: Fixed an error when Implements ChangeNotifier. ([59c06dc7](https://github.com/mathrunet/flutter_masamune/commit/59c06dc73bdc27095bd6d2aa0d606b2e556b8fad))
+
+#### `katana_listenables_annotation` - `v2.0.2`
+
+ - **FIX**: Fixed an error when Implements ChangeNotifier. ([59c06dc7](https://github.com/mathrunet/flutter_masamune/commit/59c06dc73bdc27095bd6d2aa0d606b2e556b8fad))
+
+#### `katana_listenables_builder` - `v2.0.2`
+
+ - **FIX**: Fixed an error when Implements ChangeNotifier. ([59c06dc7](https://github.com/mathrunet/flutter_masamune/commit/59c06dc73bdc27095bd6d2aa0d606b2e556b8fad))
+
+#### `masamune` - `v2.0.11`
+
+ - **FIX**: Fixed an error when Implements ChangeNotifier. ([59c06dc7](https://github.com/mathrunet/flutter_masamune/commit/59c06dc73bdc27095bd6d2aa0d606b2e556b8fad))
+
+
 ## 2023-05-15
 
 ### Changes
