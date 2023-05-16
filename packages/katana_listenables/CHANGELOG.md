@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - **FIX**: Remove unnecessary overrides. ([2aa56cac](https://github.com/mathrunet/flutter_masamune/commit/2aa56cacf6c0806ab12e3406c5a8374936201b4d))
+
 ## 2.0.2
 
  - **FIX**: Fixed an error when Implements ChangeNotifier. ([59c06dc7](https://github.com/mathrunet/flutter_masamune/commit/59c06dc73bdc27095bd6d2aa0d606b2e556b8fad))

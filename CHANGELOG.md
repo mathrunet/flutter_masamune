@@ -15,6 +15,59 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables` - `v2.0.3`](#katana_listenables---v203)
+ - [`katana_listenables_builder` - `v2.0.3`](#katana_listenables_builder---v203)
+ - [`masamune` - `v2.0.12`](#masamune---v2012)
+ - [`masamune_picker_file` - `v2.0.12`](#masamune_picker_file---v2012)
+ - [`masamune_agora` - `v2.0.12`](#masamune_agora---v2012)
+ - [`masamune_ai_openai` - `v2.0.12`](#masamune_ai_openai---v2012)
+ - [`masamune_calendar` - `v2.0.12`](#masamune_calendar---v2012)
+ - [`masamune_picker` - `v2.0.12`](#masamune_picker---v2012)
+ - [`masamune_universal_ui` - `v2.0.12`](#masamune_universal_ui---v2012)
+ - [`masamune_logger_firebase` - `v2.0.12`](#masamune_logger_firebase---v2012)
+ - [`masamune_picker_mobile` - `v2.0.12`](#masamune_picker_mobile---v2012)
+ - [`masamune_notification_firebase` - `v2.0.12`](#masamune_notification_firebase---v2012)
+ - [`masamune_builder` - `v2.0.9`](#masamune_builder---v209)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.12`
+ - `masamune_picker_file` - `v2.0.12`
+ - `masamune_agora` - `v2.0.12`
+ - `masamune_ai_openai` - `v2.0.12`
+ - `masamune_calendar` - `v2.0.12`
+ - `masamune_picker` - `v2.0.12`
+ - `masamune_universal_ui` - `v2.0.12`
+ - `masamune_logger_firebase` - `v2.0.12`
+ - `masamune_picker_mobile` - `v2.0.12`
+ - `masamune_notification_firebase` - `v2.0.12`
+ - `masamune_builder` - `v2.0.9`
+
+---
+
+#### `katana_listenables` - `v2.0.3`
+
+ - **FIX**: Remove unnecessary overrides. ([2aa56cac](https://github.com/mathrunet/flutter_masamune/commit/2aa56cacf6c0806ab12e3406c5a8374936201b4d))
+
+#### `katana_listenables_builder` - `v2.0.3`
+
+ - **FIX**: Remove unnecessary overrides. ([2aa56cac](https://github.com/mathrunet/flutter_masamune/commit/2aa56cacf6c0806ab12e3406c5a8374936201b4d))
+
+
+## 2023-05-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_listenables` - `v2.0.2`](#katana_listenables---v202)
  - [`katana_listenables_annotation` - `v2.0.2`](#katana_listenables_annotation---v202)
  - [`katana_listenables_builder` - `v2.0.2`](#katana_listenables_builder---v202)
