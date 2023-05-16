@@ -64,7 +64,6 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "notifyListeners"
-              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("void")
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
@@ -72,7 +71,6 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "dispose"
-              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("void")
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
@@ -81,7 +79,6 @@ List<Spec> baseClass(
             (m) => m
               ..name = "hasListeners"
               ..type = MethodType.getter
-              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("bool")
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
