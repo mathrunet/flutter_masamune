@@ -30,7 +30,7 @@ extension MasamuneChangeNotifierScopedValueRefExtensions on RefHasApp {
   ///   }
   /// }
   /// ```
-  TController global<TController extends ChangeNotifier>(
+  TController global<TController extends Listenable>(
     TController globalChangeNotifier, {
     String? name,
   }) {

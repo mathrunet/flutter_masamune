@@ -324,34 +324,33 @@ packages:
     source: hosted
     version: "4.8.1"
   katana:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: katana
-      sha256: "99e37bec02e32244b575b8459d7c5108297376e4f36d7da1a40ab22fb701e97d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.14"
+      path: "../../katana"
+      relative: true
+    source: path
+    version: "2.0.0"
   katana_listenables:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "1.2.26"
+    version: "2.0.0"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_listenables_annotation"
       relative: true
     source: path
-    version: "1.2.24"
+    version: "2.0.0"
   katana_listenables_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_listenables_builder"
       relative: true
     source: path
-    version: "1.2.25"
+    version: "2.0.0"
   lints:
     dependency: transitive
     description:
@@ -615,4 +614,3 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.0-417 <4.0.0"
-  flutter: ">=2.0.0"

@@ -16,7 +16,7 @@ List<Spec> baseClass(
         ..name = "_\$${model.name}"
         ..abstract = true
         ..implements.addAll([
-          const Reference("ChangeNotifier"),
+          const Reference("Listenable"),
         ])
         ..methods.addAll([
           ...model.parameters.map((param) {

@@ -282,7 +282,7 @@ packages:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.0.3"
+    version: "2.0.4"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
@@ -324,14 +324,14 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.2"
+    version: "2.0.3"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.2"
+    version: "2.0.3"
   katana_scoped:
     dependency: "direct main"
     description:
