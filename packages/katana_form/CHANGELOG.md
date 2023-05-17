@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Add Dropdown-type form. ([270f8372](https://github.com/mathrunet/flutter_masamune/commit/270f8372169226d847ea198ef790f02e8758799b))
+
 ## 2.0.4
 
  - Update a dependency to the latest release.

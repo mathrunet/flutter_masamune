@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v2.1.0`](#katana_form---v210)
+ - [`masamune` - `v2.0.13`](#masamune---v2013)
+ - [`masamune_picker_file` - `v2.0.13`](#masamune_picker_file---v2013)
+ - [`masamune_ai_openai` - `v2.0.13`](#masamune_ai_openai---v2013)
+ - [`masamune_agora` - `v2.0.13`](#masamune_agora---v2013)
+ - [`masamune_calendar` - `v2.0.13`](#masamune_calendar---v2013)
+ - [`masamune_picker` - `v2.0.13`](#masamune_picker---v2013)
+ - [`masamune_universal_ui` - `v2.0.13`](#masamune_universal_ui---v2013)
+ - [`masamune_logger_firebase` - `v2.0.13`](#masamune_logger_firebase---v2013)
+ - [`masamune_picker_mobile` - `v2.0.13`](#masamune_picker_mobile---v2013)
+ - [`masamune_notification_firebase` - `v2.0.13`](#masamune_notification_firebase---v2013)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.13`
+ - `masamune_picker_file` - `v2.0.13`
+ - `masamune_ai_openai` - `v2.0.13`
+ - `masamune_agora` - `v2.0.13`
+ - `masamune_calendar` - `v2.0.13`
+ - `masamune_picker` - `v2.0.13`
+ - `masamune_universal_ui` - `v2.0.13`
+ - `masamune_logger_firebase` - `v2.0.13`
+ - `masamune_picker_mobile` - `v2.0.13`
+ - `masamune_notification_firebase` - `v2.0.13`
+
+---
+
+#### `katana_form` - `v2.1.0`
+
+ - **FEAT**: Add Dropdown-type form. ([270f8372](https://github.com/mathrunet/flutter_masamune/commit/270f8372169226d847ea198ef790f02e8758799b))
+
+
 ## 2023-05-16
 
 ### Changes
