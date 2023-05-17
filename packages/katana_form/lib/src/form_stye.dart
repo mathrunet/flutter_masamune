@@ -42,6 +42,7 @@ class FormStyle {
     this.activeBackgroundColor,
     this.prefix,
     this.suffix,
+    this.elevation = 8.0,
   });
 
   /// Form Height.
@@ -169,6 +170,11 @@ class FormStyle {
   /// [FormCheckbox]などのフォームの形状を定義するためのクラス。
   final OutlinedBorder? shape;
 
+  /// Specify the height of the Z axis in the drop-down menu.
+  ///
+  /// ドロップダウンメニューのZ軸の高さを指定します。
+  final double elevation;
+
   /// Create another [FormStyle], changing the parameters.
   ///
   /// パラメーターを変更しながら別の[FormStyle]を作成します。
@@ -196,6 +202,7 @@ class FormStyle {
     FormAffixStyle? suffix,
     TextAlignVertical? textAlignVertical,
     OutlinedBorder? shape,
+    double? elevation,
   }) {
     return FormStyle(
       height: height ?? this.height,
@@ -222,6 +229,7 @@ class FormStyle {
       prefix: prefix ?? this.prefix,
       suffix: suffix ?? this.suffix,
       shape: shape ?? this.shape,
+      elevation: elevation ?? this.elevation,
     );
   }
 

@@ -1,0 +1,457 @@
+part of katana_form;
+
+/// Drop-down form to select from all elements in [TEnum].
+///
+/// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+///
+/// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+///
+/// Enter the initial value given by [FormController.value] in [initialValue].
+///
+/// Each time the content is changed, [onChanged] is executed.
+///
+/// If [FormController.validateAndSave] is executed, validation and data saving are performed.
+///
+/// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+///
+/// Other error checking is performed by specifying [validator].
+/// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+///
+/// By specifying [picker], it is possible to set the selection method for [TEnum].
+///
+/// Deactivated when [enabled] is set to `false`.
+///
+/// [TEnum]のすべての要素から選択するためのドロップダウンフォーム。
+///
+/// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+///
+/// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+///
+/// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+///
+/// 内容が変更される度[onChanged]が実行されます。
+///
+/// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+///
+/// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
+///
+/// それ以外のエラーチェックは[validator]を指定することで行ないます。
+/// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
+///
+/// [picker]を指定することで[TEnum]の選択方法を設定することが可能です。
+///
+/// [enabled]が`false`になると非有効化されます。
+class FormEnumDropdownField<TEnum extends Enum, TValue> extends StatefulWidget {
+  /// Drop-down form to select from all elements in [TEnum].
+  ///
+  /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
+  ///
+  /// When [FormController] is passed to [form], [onSaved] must also be passed together. The contents of [onSaved] will be used to save the data.
+  ///
+  /// Enter the initial value given by [FormController.value] in [initialValue].
+  ///
+  /// Each time the content is changed, [onChanged] is executed.
+  ///
+  /// If [FormController.validateAndSave] is executed, validation and data saving are performed.
+  ///
+  /// Only when [emptyErrorText] is specified, [emptyErrorText] will be displayed as an error if no characters are entered.
+  ///
+  /// Other error checking is performed by specifying [validator].
+  /// If a string other than [Null] is returned in the callback, the string is displayed as an error statement. If [Null] is returned, it is processed as no error.
+  ///
+  /// By specifying [picker], it is possible to set the selection method for [TEnum].
+  ///
+  /// Deactivated when [enabled] is set to `false`.
+  ///
+  /// [TEnum]のすべての要素から選択するためのドロップダウンフォーム。
+  ///
+  /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
+  ///
+  /// [form]に[FormController]を渡した場合、一緒に[onSaved]も渡してください。データの保存は[onSaved]の内容が実行されます。
+  ///
+  /// [initialValue]に[FormController.value]から与えられた初期値を入力します。
+  ///
+  /// 内容が変更される度[onChanged]が実行されます。
+  ///
+  /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
+  ///
+  /// [emptyErrorText]が指定されている時に限り、文字が入力されていない場合[emptyErrorText]がエラーとして表示されます。
+  ///
+  /// それ以外のエラーチェックは[validator]を指定することで行ないます。
+  /// コールバック内で[Null]以外を返すようにするとその文字列がエラー文として表示されます。[Null]の場合はエラーなしとして処理されます。
+  ///
+  /// [picker]を指定することで[TEnum]の選択方法を設定することが可能です。
+  ///
+  /// [enabled]が`false`になると非有効化されます。
+  const FormEnumDropdownField({
+    this.form,
+    super.key,
+    this.prefix,
+    this.suffix,
+    this.hintText,
+    this.labelText,
+    this.emptyErrorText,
+    this.style,
+    this.enabled = true,
+    this.validator,
+    this.onChanged,
+    this.initialValue,
+    required this.picker,
+    this.onSaved,
+    this.focusNode,
+    this.keepAlive = true,
+    this.icon,
+    this.expanded = true,
+  }) : assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [form] or [onSaved].",
+        );
+
+  /// Context for forms.
+  ///
+  /// The widget is created outside of the widget in advance and handed over to the client.
+  ///
+  /// フォーム用のコンテキスト。
+  ///
+  /// 予めウィジェット外で作成し渡します。
+  final FormController<TValue>? form;
+
+  /// Form Style.
+  ///
+  /// フォームのスタイル。
+  final FormStyle? style;
+
+  /// A widget that is placed in front of the form.
+  ///
+  /// Priority is given to this one, and if there is a [Null] element, [FormStyle.prefix] will be applied.
+  ///
+  /// フォームの前に配置されるウィジェット。
+  ///
+  /// 優先的にこちらが表示され、[Null]の要素がある場合は[FormStyle.prefix]が適用されます。
+  final FormAffixStyle? prefix;
+
+  /// A widget that is placed after the form.
+  ///
+  /// Priority is given to this one, and if there is a [Null] element, [FormStyle.suffix] will be applied.
+  ///
+  /// フォームの後に配置されるウィジェット。
+  ///
+  /// 優先的にこちらが表示され、[Null]の要素がある場合は[FormStyle.suffix]が適用されます。
+  final FormAffixStyle? suffix;
+
+  /// Specifies the focus node.
+  ///
+  /// The focus node makes it possible to control the focus of the form.
+  ///
+  /// フォーカスノードを指定します。
+  ///
+  /// フォーカスノードを利用してフォームのフォーカスをコントロールすることが可能になります。
+  final FocusNode? focusNode;
+
+  /// Initial value.
+  ///
+  /// 初期値。
+  final TEnum? initialValue;
+
+  /// Hint to be displayed on the form. Displayed when no text is entered.
+  ///
+  /// フォームに表示するヒント。文字が入力されていない場合表示されます。
+  final String? hintText;
+
+  /// Label text for forms.
+  ///
+  /// フォーム用のラベルテキスト。
+  final String? labelText;
+
+  /// Error text. Only displayed if no characters are entered.
+  ///
+  /// エラーテキスト。入力された文字がない場合のみ表示されます。
+  final String? emptyErrorText;
+
+  /// If this is `false`, it is deactivated.
+  ///
+  /// In addition to disabling input, the form design, etc., will also be changed to a deactivated version.
+  ///
+  /// これが`false`の場合、非有効化されます。
+  ///
+  /// 入力ができなくなる他、フォームのデザイン等も非有効化されたものに変更されます。
+  final bool enabled;
+
+  /// Callback executed when [FormController.validateAndSave] is executed.
+  ///
+  /// The current value is passed to `value`.
+  ///
+  /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
+  ///
+  /// `value`に現在の値が渡されます。
+  final TValue Function(TEnum value)? onSaved;
+
+  /// Callback to be executed each time the value is changed.
+  ///
+  /// The current value is passed to `value`.
+  ///
+  /// 値が変更されるたびに実行されるコールバック。
+  ///
+  /// `value`に現在の値が渡されます。
+  final void Function(TEnum? value)? onChanged;
+
+  /// Validator to be executed when [FormController.validateAndSave] is executed.
+  ///
+  /// It is executed before [onSaved] is called.
+  ///
+  /// The current value is passed to `value` and if it returns a value other than [Null], the character is displayed as error text.
+  ///
+  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormController.validateAndSave] will return `false`.
+  ///
+  /// [FormController.validateAndSave]が実行されたときに実行されるバリデーター。
+  ///
+  /// [onSaved]が呼ばれる前に実行されます。
+  ///
+  /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
+  ///
+  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validateAndSave]が`false`が返されます。
+  final FormFieldValidator<TEnum?>? validator;
+
+  /// Picker object for selecting [TEnum].
+  ///
+  /// [TEnum]を選択するためのピッカーオブジェクト。
+  final FormEnumDropdownFieldPicker<TEnum> picker;
+
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
+  /// Specify the icon displayed on the right side of the drop-down form.
+  ///
+  /// ドロップダウンフォームの右側に表示されているアイコンを指定します。
+  final Widget? icon;
+
+  /// Extend the form.
+  ///
+  /// フォームを拡張します。
+  final bool expanded;
+
+  @override
+  State<StatefulWidget> createState() =>
+      _FormEnumDropdownFieldState<TEnum, TValue>();
+}
+
+class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
+    extends State<FormEnumDropdownField<TEnum, TValue>>
+    with AutomaticKeepAliveClientMixin<FormEnumDropdownField<TEnum, TValue>> {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    final mainTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.color,
+        ) ??
+        TextStyle(
+          color: widget.style?.color ??
+              Theme.of(context).textTheme.titleMedium?.color ??
+              Theme.of(context).colorScheme.onBackground,
+        );
+    final subTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.subColor,
+        ) ??
+        TextStyle(
+          color: widget.style?.subColor ??
+              widget.style?.color?.withOpacity(0.5) ??
+              Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.color
+                  ?.withOpacity(0.5) ??
+              Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+        );
+    final errorTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.errorColor,
+        ) ??
+        TextStyle(
+          color:
+              widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
+        );
+    const borderSide = OutlineInputBorder(
+      borderSide: BorderSide.none,
+    );
+
+    return Container(
+      width: widget.style?.width,
+      height: widget.style?.height,
+      padding:
+          widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
+      child: ButtonTheme(
+        alignedDropdown: false,
+        child: DropdownButtonFormField<TEnum>(
+          padding: EdgeInsets.zero,
+          hint: widget.hintText != null
+              ? Text(
+                  widget.hintText!,
+                  style: mainTextStyle,
+                )
+              : null,
+          disabledHint: widget.hintText != null
+              ? Text(
+                  widget.hintText!,
+                  style: mainTextStyle.copyWith(
+                      color: Theme.of(context).disabledColor),
+                )
+              : null,
+          decoration: InputDecoration(
+            contentPadding: widget.style?.contentPadding ??
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+            fillColor: widget.style?.backgroundColor,
+            filled: widget.style?.backgroundColor != null,
+            isDense: true,
+            border: widget.style?.border ?? borderSide,
+            enabledBorder: widget.style?.border ?? borderSide,
+            disabledBorder: widget.style?.disabledBorder ??
+                widget.style?.border ??
+                borderSide,
+            errorBorder:
+                widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
+            focusedBorder: widget.style?.border ?? borderSide,
+            focusedErrorBorder:
+                widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
+            hintText: widget.hintText,
+            labelText: widget.labelText,
+            prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+            suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+            prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+            suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+            prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+            suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+            prefixIconColor:
+                widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+            suffixIconColor:
+                widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+            prefixIconConstraints: widget.prefix?.iconConstraints ??
+                widget.style?.prefix?.iconConstraints,
+            suffixIconConstraints: widget.suffix?.iconConstraints ??
+                widget.style?.suffix?.iconConstraints,
+            labelStyle: mainTextStyle,
+            hintStyle: subTextStyle,
+            suffixStyle: subTextStyle,
+            prefixStyle: subTextStyle,
+            counterStyle: subTextStyle,
+            helperStyle: subTextStyle,
+            errorStyle: errorTextStyle,
+          ),
+          value: widget.initialValue,
+          validator: (value) {
+            if (widget.emptyErrorText.isNotEmpty && value == null) {
+              return widget.emptyErrorText;
+            }
+            return widget.validator?.call(value);
+          },
+          focusColor: Colors.transparent,
+          onChanged: widget.enabled
+              ? (value) {
+                  widget.onChanged?.call(value);
+                }
+              : null,
+          onSaved: (value) {
+            if (value == null) {
+              return;
+            }
+            final res = widget.onSaved?.call(value);
+            if (res == null) {
+              return;
+            }
+            widget.form!.value = res;
+          },
+          elevation: widget.style?.elevation.toInt() ?? 8,
+          style: mainTextStyle,
+          icon: widget.icon,
+          iconEnabledColor: mainTextStyle.color,
+          iconDisabledColor: Theme.of(context).disabledColor,
+          iconSize: 24,
+          isDense: true,
+          isExpanded: widget.expanded,
+          itemHeight: widget.style?.height,
+          selectedItemBuilder: widget.picker.build,
+          dropdownColor: widget.picker.backgroundColor ??
+              Theme.of(context).colorScheme.surface,
+          items: widget.picker.values.map((item) {
+            return DropdownMenuItem(
+              value: item,
+              child: Text(
+                widget.picker.labelBuilder?.call(item) ?? item.name,
+                style: TextStyle(
+                  color: widget.picker.color ??
+                      Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
+}
+
+/// Class that defines the picker style for selecting [TEnum].
+///
+/// [TEnum]を選択するためのピッカースタイルを定義するクラス。
+class FormEnumDropdownFieldPicker<TEnum extends Enum> {
+  /// Class that defines the picker style for selecting [TEnum].
+  ///
+  /// [TEnum]を選択するためのピッカースタイルを定義するクラス。
+  FormEnumDropdownFieldPicker({
+    required this.values,
+    this.labelBuilder,
+    this.backgroundColor,
+    this.color,
+  });
+
+  /// List of [TEnum]. Pass `TEnum.values` as is.
+  ///
+  /// [TEnum]のリスト。`TEnum.values`をそのまま渡してください。
+  final List<TEnum> values;
+
+  /// Label builder to create text to display choices.
+  ///
+  /// 選択肢を表示するためのテキストを作成するためのラベルビルダー。
+  final String Function(TEnum? value)? labelBuilder;
+
+  /// Background color of the picker.
+  ///
+  /// ピッカーの背景色。
+  final Color? backgroundColor;
+
+  /// Foreground view of the picker.
+  ///
+  /// ピッカーの前景色。
+  final Color? color;
+
+  /// Build the picker.
+  ///
+  /// [context] is passed [BuildContext].
+  ///
+  /// ピッカーのビルドを行ないます。
+  ///
+  /// [context]に[BuildContext]が渡されます。
+  List<Widget> build(BuildContext context) {
+    return values.map((item) {
+      return Container(
+        color: Colors.transparent,
+        alignment: Alignment.centerLeft,
+        child: Text(
+          labelBuilder?.call(item) ?? item.name,
+          style: TextStyle(
+            color: color ?? Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+      );
+    }).toList();
+  }
+}

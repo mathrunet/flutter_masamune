@@ -36,6 +36,8 @@ part 'form/form_multi_media.dart';
 part 'form/form_future_field.dart';
 part 'form/form_chips_field.dart';
 part 'form/form_checkbox.dart';
+part 'form/form_enum_dropdown_field.dart';
+part 'form/form_map_dropdown_field.dart';
 
 part 'src/form_controller.dart';
 part 'src/form_media_value.dart';

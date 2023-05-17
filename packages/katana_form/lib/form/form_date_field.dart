@@ -491,11 +491,14 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
             child: Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.only(right: 16),
                 child: IgnorePointer(
                   ignoring: true,
-                  child:
-                      Icon(Icons.arrow_drop_down, color: mainTextStyle.color),
+                  child: Icon(
+                    Icons.arrow_drop_down,
+                    size: 24,
+                    color: mainTextStyle.color,
+                  ),
                 ),
               ),
             ),
