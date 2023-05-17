@@ -1065,6 +1065,7 @@ class UniversalSliverAppBar extends UniversalAppBar {
     super.shadowColor,
     super.backgroundColor,
     super.foregroundColor,
+    super.expandedForegroundColor,
     super.iconTheme,
     super.actionsIconTheme,
     super.primary = true,
