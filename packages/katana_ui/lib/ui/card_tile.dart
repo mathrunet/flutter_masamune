@@ -36,6 +36,7 @@ class CardTile extends StatelessWidget {
     this.iconColor,
     this.textColor,
     this.contentPadding,
+    this.featureColor,
   });
 
   /// A callback that is called when the card is tapped.
@@ -137,6 +138,11 @@ class CardTile extends StatelessWidget {
   /// [ListTile]コンテンツの周囲のパディング。
   final EdgeInsetsGeometry? contentPadding;
 
+  /// Background color of the Feature image.
+  ///
+  /// Feature画像の背景色。
+  final Color? featureColor;
+
   @override
   Widget build(BuildContext context) {
     final backgroundColor =
@@ -149,10 +155,10 @@ class CardTile extends StatelessWidget {
       height: height,
       padding: margin,
       child: Card(
-        color: backgroundColor,
+        color: featureColor ?? backgroundColor,
         shadowColor: shadowColor,
         elevation: elevation,
-        surfaceTintColor: backgroundColor,
+        surfaceTintColor: featureColor ?? backgroundColor,
         shape: shape,
         margin: EdgeInsets.zero,
         borderOnForeground: borderOnForeground,
