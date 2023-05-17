@@ -15,6 +15,72 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v2.0.2`](#katana_theme---v202)
+ - [`katana_theme_annotation` - `v2.0.2`](#katana_theme_annotation---v202)
+ - [`katana_theme_builder` - `v2.0.2`](#katana_theme_builder---v202)
+ - [`katana_ui` - `v2.0.2`](#katana_ui---v202)
+ - [`masamune_universal_ui` - `v2.0.14`](#masamune_universal_ui---v2014)
+ - [`masamune` - `v2.0.14`](#masamune---v2014)
+ - [`masamune_picker_file` - `v2.0.14`](#masamune_picker_file---v2014)
+ - [`masamune_agora` - `v2.0.14`](#masamune_agora---v2014)
+ - [`masamune_ai_openai` - `v2.0.14`](#masamune_ai_openai---v2014)
+ - [`masamune_calendar` - `v2.0.14`](#masamune_calendar---v2014)
+ - [`masamune_picker` - `v2.0.14`](#masamune_picker---v2014)
+ - [`masamune_logger_firebase` - `v2.0.14`](#masamune_logger_firebase---v2014)
+ - [`masamune_notification_firebase` - `v2.0.14`](#masamune_notification_firebase---v2014)
+ - [`masamune_picker_mobile` - `v2.0.14`](#masamune_picker_mobile---v2014)
+ - [`masamune_builder` - `v2.0.10`](#masamune_builder---v2010)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.14`
+ - `masamune_picker_file` - `v2.0.14`
+ - `masamune_agora` - `v2.0.14`
+ - `masamune_ai_openai` - `v2.0.14`
+ - `masamune_calendar` - `v2.0.14`
+ - `masamune_picker` - `v2.0.14`
+ - `masamune_logger_firebase` - `v2.0.14`
+ - `masamune_notification_firebase` - `v2.0.14`
+ - `masamune_picker_mobile` - `v2.0.14`
+ - `masamune_builder` - `v2.0.10`
+
+---
+
+#### `katana_theme` - `v2.0.2`
+
+ - **FIX**: Added generateRandomMaterialColor. ([03d30c72](https://github.com/mathrunet/flutter_masamune/commit/03d30c72d502ea5e8b548f75dccfd7eb2cb512f0))
+
+#### `katana_theme_annotation` - `v2.0.2`
+
+ - **FIX**: Added generateRandomMaterialColor. ([03d30c72](https://github.com/mathrunet/flutter_masamune/commit/03d30c72d502ea5e8b548f75dccfd7eb2cb512f0))
+
+#### `katana_theme_builder` - `v2.0.2`
+
+ - **FIX**: Added generateRandomMaterialColor. ([03d30c72](https://github.com/mathrunet/flutter_masamune/commit/03d30c72d502ea5e8b548f75dccfd7eb2cb512f0))
+
+#### `katana_ui` - `v2.0.2`
+
+ - **FIX**: Added featureColor to CardTile. ([20da6aa2](https://github.com/mathrunet/flutter_masamune/commit/20da6aa277f0ea60d2edc187a2730af4ab4e6346))
+
+#### `masamune_universal_ui` - `v2.0.14`
+
+ - **FIX**: Add missing parameters to UniversalSliverAppBar. ([229a4678](https://github.com/mathrunet/flutter_masamune/commit/229a467882f786a88fba5b3e4e77e1695075b2c8))
+
+
+## 2023-05-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.1.0`](#katana_form---v210)
  - [`masamune` - `v2.0.13`](#masamune---v2013)
  - [`masamune_picker_file` - `v2.0.13`](#masamune_picker_file---v2013)

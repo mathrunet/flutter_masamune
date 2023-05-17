@@ -1,3 +1,7 @@
+## 2.0.14
+
+ - **FIX**: Add missing parameters to UniversalSliverAppBar. ([229a4678](https://github.com/mathrunet/flutter_masamune/commit/229a467882f786a88fba5b3e4e77e1695075b2c8))
+
 ## 2.0.13
 
  - Update a dependency to the latest release.

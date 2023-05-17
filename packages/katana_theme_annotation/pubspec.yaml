@@ -1,6 +1,6 @@
 name: katana_theme_annotation
 description: Annotation package for providing simple and straightforward theme definitions on Flutter.
-version: 2.0.1
+version: 2.0.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_theme_annotation
 

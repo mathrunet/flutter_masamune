@@ -1,3 +1,7 @@
+## 2.0.2
+
+ - **FIX**: Added featureColor to CardTile. ([20da6aa2](https://github.com/mathrunet/flutter_masamune/commit/20da6aa277f0ea60d2edc187a2730af4ab4e6346))
+
 ## 2.0.1
 
  - Update a dependency to the latest release.
