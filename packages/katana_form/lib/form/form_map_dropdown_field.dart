@@ -41,7 +41,7 @@ part of katana_form;
 /// [picker]を指定することで[Map]の選択方法を設定することが可能です。
 ///
 /// [enabled]が`false`になると非有効化されます。
-class FormMapDropdownField<TValue> extends StatefulWidget {
+class FormMapDropdownField<TValue> extends FormField<String> {
   /// Drop down form to select from there with [Map] as an option.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
@@ -83,29 +83,53 @@ class FormMapDropdownField<TValue> extends StatefulWidget {
   /// [picker]を指定することで[Map]の選択方法を設定することが可能です。
   ///
   /// [enabled]が`false`になると非有効化されます。
-  const FormMapDropdownField({
+  FormMapDropdownField({
     this.form,
-    super.key,
+    Key? key,
     this.prefix,
     this.suffix,
     this.hintText,
     this.labelText,
     this.emptyErrorText,
     this.style,
-    this.enabled = true,
-    this.validator,
     this.onChanged,
-    this.initialValue,
     required this.picker,
-    this.onSaved,
     this.focusNode,
     this.keepAlive = true,
     this.icon,
-    this.expanded = true,
-  }) : assert(
+    this.expanded = false,
+    TValue Function(String value)? onSaved,
+    String Function(String? value)? validator,
+    String? initialValue,
+    bool enabled = true,
+  })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",
+        ),
+        super(
+          key: key,
+          builder: (state) {
+            return const SizedBox.shrink();
+          },
+          onSaved: (value) {
+            if (value == null) {
+              return;
+            }
+            final res = onSaved?.call(value);
+            if (res == null) {
+              return;
+            }
+            form!.value = res;
+          },
+          validator: (value) {
+            if (emptyErrorText.isNotEmpty && value == null) {
+              return emptyErrorText;
+            }
+            return validator?.call(value);
+          },
+          initialValue: initialValue,
+          enabled: enabled,
         );
 
   /// Context for forms.
@@ -149,11 +173,6 @@ class FormMapDropdownField<TValue> extends StatefulWidget {
   /// フォーカスノードを利用してフォームのフォーカスをコントロールすることが可能になります。
   final FocusNode? focusNode;
 
-  /// Initial value.
-  ///
-  /// 初期値。
-  final String? initialValue;
-
   /// Hint to be displayed on the form. Displayed when no text is entered.
   ///
   /// フォームに表示するヒント。文字が入力されていない場合表示されます。
@@ -169,24 +188,6 @@ class FormMapDropdownField<TValue> extends StatefulWidget {
   /// エラーテキスト。入力された文字がない場合のみ表示されます。
   final String? emptyErrorText;
 
-  /// If this is `false`, it is deactivated.
-  ///
-  /// In addition to disabling input, the form design, etc., will also be changed to a deactivated version.
-  ///
-  /// これが`false`の場合、非有効化されます。
-  ///
-  /// 入力ができなくなる他、フォームのデザイン等も非有効化されたものに変更されます。
-  final bool enabled;
-
-  /// Callback executed when [FormController.validateAndSave] is executed.
-  ///
-  /// The current value is passed to `value`.
-  ///
-  /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
-  ///
-  /// `value`に現在の値が渡されます。
-  final TValue Function(String value)? onSaved;
-
   /// Callback to be executed each time the value is changed.
   ///
   /// The current value is passed to `value`.
@@ -195,23 +196,6 @@ class FormMapDropdownField<TValue> extends StatefulWidget {
   ///
   /// `value`に現在の値が渡されます。
   final void Function(String? value)? onChanged;
-
-  /// Validator to be executed when [FormController.validateAndSave] is executed.
-  ///
-  /// It is executed before [onSaved] is called.
-  ///
-  /// The current value is passed to `value` and if it returns a value other than [Null], the character is displayed as error text.
-  ///
-  /// If a character other than [Null] is returned, [onSaved] will not be executed and [FormController.validateAndSave] will return `false`.
-  ///
-  /// [FormController.validateAndSave]が実行されたときに実行されるバリデーター。
-  ///
-  /// [onSaved]が呼ばれる前に実行されます。
-  ///
-  /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
-  ///
-  /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validateAndSave]が`false`が返されます。
-  final FormFieldValidator<String?>? validator;
 
   /// Picker object for selecting from [Map].
   ///
@@ -238,12 +222,42 @@ class FormMapDropdownField<TValue> extends StatefulWidget {
   final bool expanded;
 
   @override
-  State<StatefulWidget> createState() => _FormMapDropdownFieldState<TValue>();
+  FormFieldState<String> createState() => _FormMapDropdownFieldState<TValue>();
 }
 
-class _FormMapDropdownFieldState<TValue>
-    extends State<FormMapDropdownField<TValue>>
-    with AutomaticKeepAliveClientMixin<FormMapDropdownField<TValue>> {
+class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
+    with AutomaticKeepAliveClientMixin<FormField<String>> {
+  @override
+  FormMapDropdownField<TValue> get widget =>
+      super.widget as FormMapDropdownField<TValue>;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.form?.register(this);
+  }
+
+  @override
+  void didUpdateWidget(FormMapDropdownField<TValue> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.form != oldWidget.form) {
+      oldWidget.form?.unregister(this);
+      widget.form?.register(this);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.form?.unregister(this);
+    super.dispose();
+  }
+
+  @override
+  void didChange(String? value) {
+    widget.onChanged?.call(value);
+    super.didChange(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -350,21 +364,7 @@ class _FormMapDropdownFieldState<TValue>
             return widget.validator?.call(value);
           },
           focusColor: Colors.transparent,
-          onChanged: widget.enabled
-              ? (value) {
-                  widget.onChanged?.call(value);
-                }
-              : null,
-          onSaved: (value) {
-            if (value == null) {
-              return;
-            }
-            final res = widget.onSaved?.call(value);
-            if (res == null) {
-              return;
-            }
-            widget.form!.value = res;
-          },
+          onChanged: (value) => didChange(value),
           elevation: widget.style?.elevation.toInt() ?? 8,
           style: mainTextStyle,
           icon: widget.icon,
