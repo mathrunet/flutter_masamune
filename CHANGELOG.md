@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v2.2.0`](#katana_form---v220)
+ - [`masamune_builder` - `v2.0.11`](#masamune_builder---v2011)
+ - [`masamune` - `v2.0.15`](#masamune---v2015)
+ - [`masamune_picker_file` - `v2.0.15`](#masamune_picker_file---v2015)
+ - [`masamune_agora` - `v2.0.15`](#masamune_agora---v2015)
+ - [`masamune_ai_openai` - `v2.0.15`](#masamune_ai_openai---v2015)
+ - [`masamune_calendar` - `v2.0.15`](#masamune_calendar---v2015)
+ - [`masamune_picker` - `v2.0.15`](#masamune_picker---v2015)
+ - [`masamune_universal_ui` - `v2.0.15`](#masamune_universal_ui---v2015)
+ - [`masamune_logger_firebase` - `v2.0.15`](#masamune_logger_firebase---v2015)
+ - [`masamune_picker_mobile` - `v2.0.15`](#masamune_picker_mobile---v2015)
+ - [`masamune_notification_firebase` - `v2.0.15`](#masamune_notification_firebase---v2015)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.15`
+ - `masamune_picker_file` - `v2.0.15`
+ - `masamune_agora` - `v2.0.15`
+ - `masamune_ai_openai` - `v2.0.15`
+ - `masamune_calendar` - `v2.0.15`
+ - `masamune_picker` - `v2.0.15`
+ - `masamune_universal_ui` - `v2.0.15`
+ - `masamune_logger_firebase` - `v2.0.15`
+ - `masamune_picker_mobile` - `v2.0.15`
+ - `masamune_notification_firebase` - `v2.0.15`
+
+---
+
+#### `katana_form` - `v2.2.0`
+
+ - **FEAT**: Added FormRatingBar. ([3324dbab](https://github.com/mathrunet/flutter_masamune/commit/3324dbab29b00fc282ef32eb24d40d07ac119a71))
+
+#### `masamune_builder` - `v2.0.11`
+
+ - **FIX**: Add callbacks to sync-type methods to include other processing. ([46693d82](https://github.com/mathrunet/flutter_masamune/commit/46693d8259781011a18440b1db80cdc42fcf4eb3))
+
+
 ## 2023-05-17
 
 ### Changes

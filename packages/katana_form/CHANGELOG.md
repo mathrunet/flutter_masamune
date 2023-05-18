@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Added FormRatingBar. ([3324dbab](https://github.com/mathrunet/flutter_masamune/commit/3324dbab29b00fc282ef32eb24d40d07ac119a71))
+
 ## 2.1.0
 
  - **FEAT**: Add Dropdown-type form. ([270f8372](https://github.com/mathrunet/flutter_masamune/commit/270f8372169226d847ea198ef790f02e8758799b))

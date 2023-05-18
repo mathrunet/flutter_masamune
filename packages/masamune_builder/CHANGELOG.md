@@ -1,3 +1,7 @@
+## 2.0.11
+
+ - **FIX**: Add callbacks to sync-type methods to include other processing. ([46693d82](https://github.com/mathrunet/flutter_masamune/commit/46693d8259781011a18440b1db80cdc42fcf4eb3))
+
 ## 2.0.10
 
  - Update a dependency to the latest release.
