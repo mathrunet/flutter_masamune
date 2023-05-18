@@ -15,6 +15,60 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.2.2`](#katana_form---v222)
+ - [`katana_theme` - `v2.0.4`](#katana_theme---v204)
+ - [`masamune_universal_ui` - `v2.0.17`](#masamune_universal_ui---v2017)
+ - [`masamune` - `v2.0.17`](#masamune---v2017)
+ - [`masamune_picker_file` - `v2.0.17`](#masamune_picker_file---v2017)
+ - [`masamune_agora` - `v2.0.17`](#masamune_agora---v2017)
+ - [`masamune_ai_openai` - `v2.0.17`](#masamune_ai_openai---v2017)
+ - [`masamune_calendar` - `v2.0.17`](#masamune_calendar---v2017)
+ - [`masamune_picker` - `v2.0.17`](#masamune_picker---v2017)
+ - [`masamune_logger_firebase` - `v2.0.17`](#masamune_logger_firebase---v2017)
+ - [`masamune_picker_mobile` - `v2.0.17`](#masamune_picker_mobile---v2017)
+ - [`masamune_notification_firebase` - `v2.0.17`](#masamune_notification_firebase---v2017)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.17`
+ - `masamune_picker_file` - `v2.0.17`
+ - `masamune_agora` - `v2.0.17`
+ - `masamune_ai_openai` - `v2.0.17`
+ - `masamune_calendar` - `v2.0.17`
+ - `masamune_picker` - `v2.0.17`
+ - `masamune_logger_firebase` - `v2.0.17`
+ - `masamune_picker_mobile` - `v2.0.17`
+ - `masamune_notification_firebase` - `v2.0.17`
+
+---
+
+#### `katana_form` - `v2.2.2`
+
+ - **FIX**: Fixed a bug in FormMediaValue's toString. ([81adc7fd](https://github.com/mathrunet/flutter_masamune/commit/81adc7fd4a05a986a0af3639ef4349ac4499a318))
+
+#### `katana_theme` - `v2.0.4`
+
+ - **FIX**: Set the hashCode of TextProvider. ([12dd6361](https://github.com/mathrunet/flutter_masamune/commit/12dd6361cf90c744cce18bd62dca8f4293a37718))
+
+#### `masamune_universal_ui` - `v2.0.17`
+
+ - **FIX**: BorderRadius can be set in UniversalScaffold. ([4aaea017](https://github.com/mathrunet/flutter_masamune/commit/4aaea017abb91c250b86f418991f6aa56ad52642))
+
+
+## 2023-05-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.2.1`](#katana_form---v221)
  - [`katana_theme` - `v2.0.3`](#katana_theme---v203)
  - [`katana_theme_builder` - `v2.0.3`](#katana_theme_builder---v203)

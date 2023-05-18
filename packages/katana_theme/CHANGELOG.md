@@ -1,3 +1,7 @@
+## 2.0.4
+
+ - **FIX**: Set the hashCode of TextProvider. ([12dd6361](https://github.com/mathrunet/flutter_masamune/commit/12dd6361cf90c744cce18bd62dca8f4293a37718))
+
 ## 2.0.3
 
  - **FIX**: Maintenance of TextProvider and changes to Asset.text. ([74f20219](https://github.com/mathrunet/flutter_masamune/commit/74f202199b61d8eb71f1f56c711360385881789e))

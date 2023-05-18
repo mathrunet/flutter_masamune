@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - **FIX**: Fixed a bug in FormMediaValue's toString. ([81adc7fd](https://github.com/mathrunet/flutter_masamune/commit/81adc7fd4a05a986a0af3639ef4349ac4499a318))
+
 ## 2.2.1
 
  - **FIX**: Adjustment of display. ([f7a67fe8](https://github.com/mathrunet/flutter_masamune/commit/f7a67fe842e273d8ae672c9e0560acebfd93f695))
