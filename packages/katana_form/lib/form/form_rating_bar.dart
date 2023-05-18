@@ -470,7 +470,7 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
               child: _build(context),
@@ -488,9 +488,7 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
     } else {
       return Padding(
         padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
-        child: Center(
-          child: _build(context),
-        ),
+        child: _build(context),
       );
     }
   }
