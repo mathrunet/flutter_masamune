@@ -150,6 +150,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  flutter_rating_bar:
+    dependency: transitive
+    description:
+      name: flutter_rating_bar
+      sha256: d2af03469eac832c591a1eba47c91ecc871fe5708e69967073c043b2d775ed93
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -247,7 +255,7 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "2.2.1"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -359,21 +367,21 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.0.1"
+    version: "2.0.3"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.1"
+    version: "2.0.2"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.0.1"
+    version: "2.0.2"
   lints:
     dependency: transitive
     description:
@@ -396,7 +404,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.16"
   masamune_annotation:
     dependency: "direct overridden"
     description:

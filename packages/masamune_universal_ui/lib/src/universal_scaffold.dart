@@ -150,6 +150,7 @@ class UniversalScaffold extends StatefulWidget {
     this.sideBar,
     this.width,
     this.height,
+    this.borderRadius,
   });
 
   /// Pass [context] to get [Breakpoint] set by [UniversalScaffold] at the top.
@@ -178,6 +179,15 @@ class UniversalScaffold extends StatefulWidget {
   ///
   /// モーダルとして表示する場合にご利用ください。
   final double? height;
+
+  /// Specify rounded corners.
+  ///
+  /// Please use when displaying as a modal.
+  ///
+  /// 四隅の角丸を指定します。
+  ///
+  /// モーダルとして表示する場合にご利用ください。
+  final BorderRadiusGeometry? borderRadius;
 
   /// Setting this to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
   ///
@@ -513,9 +523,21 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (widget.width == null && widget.height == null) {
       return child;
     }
-    return SizedBox(
-      width: widget.width,
-      height: widget.height,
+    return Center(
+      child: SizedBox(
+        width: widget.width,
+        height: widget.height,
+        child: _borderRadius(context, child),
+      ),
+    );
+  }
+
+  Widget _borderRadius(BuildContext context, Widget child) {
+    if (widget.borderRadius == null) {
+      return child;
+    }
+    return ClipRRect(
+      borderRadius: widget.borderRadius,
       child: child,
     );
   }
