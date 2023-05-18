@@ -84,10 +84,19 @@ List<Spec> modelClass(
                     (p) => p
                       ..name = "newValue"
                       ..type = Reference(model.name),
-                  )
+                  ),
+                ])
+                ..optionalParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "onSave"
+                      ..named = true
+                      ..type = const Reference(
+                          "Future<void> Function(ModelTransactionRef ref)?"),
+                  ),
                 ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); doc.save(newValue); mdoc.save(newValue); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onSave?.call(ref); doc.save(newValue); mdoc.save(newValue); });"),
             ),
             Method(
               (m) => m
@@ -101,8 +110,17 @@ List<Spec> modelClass(
                       ..type = Reference("\$${model.name}MirrorDocument"),
                   )
                 ])
+                ..optionalParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "onDelete"
+                      ..named = true
+                      ..type = const Reference(
+                          "Future<void> Function(ModelTransactionRef ref)?"),
+                  ),
+                ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); doc.delete(); mdoc.delete(); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onDelete?.call(ref); doc.delete(); mdoc.delete(); });"),
             ),
           ],
           if (searchable.isNotEmpty)
@@ -277,8 +295,17 @@ List<Spec> modelClass(
                       ..type = Reference(model.name),
                   )
                 ])
+                ..optionalParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "onSave"
+                      ..named = true
+                      ..type = const Reference(
+                          "Future<void> Function(ModelTransactionRef ref)?"),
+                  ),
+                ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); doc.save(newValue); mdoc.save(newValue); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onSave?.call(ref); doc.save(newValue); mdoc.save(newValue); });"),
             ),
             Method(
               (m) => m
@@ -292,8 +319,17 @@ List<Spec> modelClass(
                       ..type = Reference("\$${model.name}Document"),
                   )
                 ])
+                ..optionalParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "onDelete"
+                      ..named = true
+                      ..type = const Reference(
+                          "Future<void> Function(ModelTransactionRef ref)?"),
+                  ),
+                ])
                 ..body = const Code(
-                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); doc.delete(); mdoc.delete(); });"),
+                    "final tr = transaction(); await tr.call((ref, doc) async { final mdoc = ref.read(mirror); await onDelete?.call(ref); doc.delete(); mdoc.delete(); });"),
             ),
             if (searchable.isNotEmpty)
               Method(
