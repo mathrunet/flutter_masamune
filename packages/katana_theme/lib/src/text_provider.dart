@@ -53,6 +53,14 @@ class TextProvider extends ChangeNotifier implements ValueListenable<String?> {
 
   @override
   String? get value => defaultValue;
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => defaultValue.hashCode;
 }
 
 /// Provider to load text files from assets and display them in widgets, etc.
