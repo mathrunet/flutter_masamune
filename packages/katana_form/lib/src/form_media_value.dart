@@ -240,6 +240,4 @@ mixin _MapMixin<K, V> implements Map<K, V> {
   bool get isEmpty => keys.isEmpty;
   @override
   bool get isNotEmpty => keys.isNotEmpty;
-  @override
-  String toString() => this.toString();
 }
