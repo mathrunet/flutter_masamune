@@ -37,37 +37,40 @@ class Asset {
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、そのファイル内のテキストを取得します。
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合は[defaultValue]が返されます。
-  static Future<String> text(
+  static TextProvider text(
     String? uri, {
     Map<String, String>? headers,
     String defaultValue = "",
-  }) async {
+  }) {
     if (uri.isEmpty) {
-      return defaultValue;
+      return TextProvider(defaultValue: defaultValue);
     }
     try {
       if (uri!.startsWith("http")) {
-        final res = await Api.get(uri, headers: headers);
-        if (res.statusCode != 200) {
-          return defaultValue;
-        }
-        return res.body;
+        return NetworkTextProvider(
+          uri,
+          headers: headers,
+          defaultValue: defaultValue,
+        );
       } else if (uri.startsWith("/") || uri.startsWith("file:")) {
-        final file = File(uri.replaceAll(RegExp(r"^file:(//)?"), ""));
-        if (file.existsSync()) {
-          return await file.readAsString();
-        } else {
-          return await rootBundle.loadString(uri);
-        }
+        return FileTextProvider(
+          uri.replaceAll(RegExp(r"^file:(//)?"), ""),
+          defaultValue: defaultValue,
+        );
       } else if (uri.startsWith("resource:")) {
-        return await rootBundle
-            .loadString(uri.replaceAll(RegExp(r"^resource:(//)?"), ""));
+        return AssetTextProvider(
+          uri.replaceAll(RegExp(r"^resource:(//)?"), ""),
+          defaultValue: defaultValue,
+        );
       } else {
-        return await rootBundle.loadString(uri);
+        return AssetTextProvider(
+          uri,
+          defaultValue: defaultValue,
+        );
       }
     } catch (e) {
       debugPrint(e.toString());
-      return defaultValue;
+      return TextProvider(defaultValue: defaultValue);
     }
   }
 

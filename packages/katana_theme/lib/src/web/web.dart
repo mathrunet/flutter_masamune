@@ -15,3 +15,4 @@ import 'package:flutter/widgets.dart';
 import 'package:katana_theme/katana_theme.dart';
 
 part 'asset.dart';
+part 'text_provider.dart';
