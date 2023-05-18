@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.2.1`](#katana_form---v221)
+ - [`katana_theme` - `v2.0.3`](#katana_theme---v203)
+ - [`katana_theme_builder` - `v2.0.3`](#katana_theme_builder---v203)
+ - [`masamune` - `v2.0.16`](#masamune---v2016)
+ - [`masamune_picker_file` - `v2.0.16`](#masamune_picker_file---v2016)
+ - [`masamune_agora` - `v2.0.16`](#masamune_agora---v2016)
+ - [`masamune_ai_openai` - `v2.0.16`](#masamune_ai_openai---v2016)
+ - [`masamune_calendar` - `v2.0.16`](#masamune_calendar---v2016)
+ - [`masamune_picker` - `v2.0.16`](#masamune_picker---v2016)
+ - [`masamune_universal_ui` - `v2.0.16`](#masamune_universal_ui---v2016)
+ - [`masamune_logger_firebase` - `v2.0.16`](#masamune_logger_firebase---v2016)
+ - [`masamune_picker_mobile` - `v2.0.16`](#masamune_picker_mobile---v2016)
+ - [`masamune_notification_firebase` - `v2.0.16`](#masamune_notification_firebase---v2016)
+ - [`masamune_builder` - `v2.0.12`](#masamune_builder---v2012)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.16`
+ - `masamune_picker_file` - `v2.0.16`
+ - `masamune_agora` - `v2.0.16`
+ - `masamune_ai_openai` - `v2.0.16`
+ - `masamune_calendar` - `v2.0.16`
+ - `masamune_picker` - `v2.0.16`
+ - `masamune_universal_ui` - `v2.0.16`
+ - `masamune_logger_firebase` - `v2.0.16`
+ - `masamune_picker_mobile` - `v2.0.16`
+ - `masamune_notification_firebase` - `v2.0.16`
+ - `masamune_builder` - `v2.0.12`
+
+---
+
+#### `katana_form` - `v2.2.1`
+
+ - **FIX**: Adjustment of display. ([f7a67fe8](https://github.com/mathrunet/flutter_masamune/commit/f7a67fe842e273d8ae672c9e0560acebfd93f695))
+
+#### `katana_theme` - `v2.0.3`
+
+ - **FIX**: Maintenance of TextProvider and changes to Asset.text. ([74f20219](https://github.com/mathrunet/flutter_masamune/commit/74f202199b61d8eb71f1f56c711360385881789e))
+
+#### `katana_theme_builder` - `v2.0.3`
+
+ - **FIX**: Maintenance of TextProvider and changes to Asset.text. ([74f20219](https://github.com/mathrunet/flutter_masamune/commit/74f202199b61d8eb71f1f56c711360385881789e))
+
+
+## 2023-05-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.2.0`](#katana_form---v220)
  - [`masamune_builder` - `v2.0.11`](#masamune_builder---v2011)
  - [`masamune` - `v2.0.15`](#masamune---v2015)

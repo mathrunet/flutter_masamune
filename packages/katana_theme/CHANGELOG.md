@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - **FIX**: Maintenance of TextProvider and changes to Asset.text. ([74f20219](https://github.com/mathrunet/flutter_masamune/commit/74f202199b61d8eb71f1f56c711360385881789e))
+
 ## 2.0.2
 
  - **FIX**: Added generateRandomMaterialColor. ([03d30c72](https://github.com/mathrunet/flutter_masamune/commit/03d30c72d502ea5e8b548f75dccfd7eb2cb512f0))

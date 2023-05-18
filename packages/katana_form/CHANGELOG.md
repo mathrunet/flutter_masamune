@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Adjustment of display. ([f7a67fe8](https://github.com/mathrunet/flutter_masamune/commit/f7a67fe842e273d8ae672c9e0560acebfd93f695))
+
 ## 2.2.0
 
  - **FEAT**: Added FormRatingBar. ([3324dbab](https://github.com/mathrunet/flutter_masamune/commit/3324dbab29b00fc282ef32eb24d40d07ac119a71))
