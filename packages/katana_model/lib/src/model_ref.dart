@@ -242,7 +242,7 @@ class ModelRefFilter extends ModelFieldValueFilter<ModelRefBase> {
 /// [DocumentBase]などにモデル間のリレーションであるということを定義するためのミックスイン。
 ///
 /// リレーション先のドキュメントにミックスインしてください。
-abstract class ModelRefMixin<T>
+mixin ModelRefMixin<T>
     implements ModelRefDocumentBase<T>, ModelRefBase<T>, DocumentBase<T> {
   @override
   Map<String, dynamic> toJson() => {
@@ -272,7 +272,7 @@ abstract class ModelRefDocumentBase<T>
 /// [builder]を定義して関連するドキュメントとデータの格納を行ってください。
 ///
 /// リレーション元のドキュメントにミックスインしてください。
-abstract class ModelRefLoaderMixin<T> implements DocumentBase<T> {
+mixin ModelRefLoaderMixin<T> implements DocumentBase<T> {
   final _modelRefBuilderCache = <DocumentModelQuery, ModelRefMixin>{};
 
   /// ModelRefBuilder], which implements the definition of the loading method.

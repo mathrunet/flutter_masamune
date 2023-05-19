@@ -238,7 +238,7 @@ abstract class ModelFieldValue<T> {
 ///
 /// [Map]として扱われますが、値の更新はサポートされていません。
 /// 値を更新しようとすると[UnsupportedError]が出力されます。
-abstract class ModelFieldValueAsMapMixin<T>
+mixin ModelFieldValueAsMapMixin<T>
     implements Map<String, Object?>, ModelFieldValue<T> {
   @override
   Iterable<String> get keys {

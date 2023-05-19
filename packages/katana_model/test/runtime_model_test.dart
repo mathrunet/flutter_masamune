@@ -8,6 +8,39 @@ import 'package:katana_model/katana_model.dart';
 part 'runtime_model_test.freezed.dart';
 part 'runtime_model_test.g.dart';
 
+// class RuntimeRecordDocumentModel
+//     extends DocumentBase<({String name, int? count, String text})> {
+//   RuntimeRecordDocumentModel(super.query);
+
+//   @override
+//   ({int? count, String name, String text}) fromMap(DynamicMap map) {
+//     return (
+//       count: map.get("count", 0),
+//       name: map.get("name", ""),
+//       text: map.get("text", ""),
+//     );
+//   }
+
+//   @override
+//   DynamicMap toMap(({int? count, String name, String text}) value) {
+//     return {
+//       "count": value.count,
+//       "name": value.name,
+//       "text": value.text,
+//     };
+//   }
+// }
+
+// class RuntimeRecordCollectionModel
+//     extends CollectionBase<RuntimeRecordDocumentModel> {
+//   RuntimeRecordCollectionModel(super.query);
+
+//   @override
+//   RuntimeRecordDocumentModel create([String? id]) {
+//     return RuntimeRecordDocumentModel(modelQuery.create(id));
+//   }
+// }
+
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query);
 
@@ -60,6 +93,31 @@ class RuntimeTestValueCollectionModel
 }
 
 void main() {
+  // test("runtimeRecordDocumentModel.saveAndLoadAndDelete", () async {
+  //   final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+  //   final query = DocumentModelQuery("test/doc", adapter: adapter);
+  //   final model = RuntimeRecordDocumentModel(query);
+  //   await model.load();
+  //   expect(model.value, null);
+  //   model.save((name: "aaaa", text: "bbbb", count: 1));
+  //   await model.saving;
+  //   expect(model.value, (name: "aaaa", text: "bbbb", count: 1));
+  //   final remodel = RuntimeRecordDocumentModel(query);
+  //   expect(remodel.value, null);
+  //   expect(await remodel.load(), (name: "aaaa", text: "bbbb", count: 1));
+  //   expect(remodel.value, (name: "aaaa", text: "bbbb", count: 1));
+  //   remodel.save((name: "cccc", text: "dddd", count: 3));
+  //   await remodel.saving;
+  //   expect(remodel.value, (name: "cccc", text: "dddd", count: 3));
+  //   await model.loading;
+  //   expect(model.value, (name: "cccc", text: "dddd", count: 3));
+  //   await model.delete();
+  //   expect(model.value, null);
+  //   expect(remodel.value, null);
+  //   model.save((name: "aaaa", text: "bbbb", count: 1));
+  //   await model.saving;
+  //   expect(remodel.value, (name: "aaaa", text: "bbbb", count: 1));
+  // });
   test("runtimeDocumentModel.saveAndLoadAndDelete", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
