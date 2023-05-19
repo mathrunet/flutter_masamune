@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v2.0.18`](#masamune---v2018)
+ - [`masamune_universal_ui` - `v2.0.18`](#masamune_universal_ui---v2018)
+ - [`masamune_picker_file` - `v2.0.18`](#masamune_picker_file---v2018)
+ - [`masamune_agora` - `v2.0.18`](#masamune_agora---v2018)
+ - [`masamune_ai_openai` - `v2.0.18`](#masamune_ai_openai---v2018)
+ - [`masamune_calendar` - `v2.0.18`](#masamune_calendar---v2018)
+ - [`masamune_picker` - `v2.0.18`](#masamune_picker---v2018)
+ - [`masamune_logger_firebase` - `v2.0.18`](#masamune_logger_firebase---v2018)
+ - [`masamune_picker_mobile` - `v2.0.18`](#masamune_picker_mobile---v2018)
+ - [`masamune_notification_firebase` - `v2.0.18`](#masamune_notification_firebase---v2018)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v2.0.18`
+ - `masamune_agora` - `v2.0.18`
+ - `masamune_ai_openai` - `v2.0.18`
+ - `masamune_calendar` - `v2.0.18`
+ - `masamune_picker` - `v2.0.18`
+ - `masamune_logger_firebase` - `v2.0.18`
+ - `masamune_picker_mobile` - `v2.0.18`
+ - `masamune_notification_firebase` - `v2.0.18`
+
+---
+
+#### `masamune` - `v2.0.18`
+
+ - **DOCS**: ReadMe Revision. ([bafd12e1](https://github.com/mathrunet/flutter_masamune/commit/bafd12e13964389872dc9781d285a191866ea990))
+
+#### `masamune_universal_ui` - `v2.0.18`
+
+ - **DOCS**: ReadMe Revisions. ([328b1274](https://github.com/mathrunet/flutter_masamune/commit/328b12748cd34be03daeb8ad533f592866c90388))
+
+
 ## 2023-05-18
 
 ### Changes

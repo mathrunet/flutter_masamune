@@ -1,3 +1,7 @@
+## 2.0.18
+
+ - **DOCS**: ReadMe Revisions. ([328b1274](https://github.com/mathrunet/flutter_masamune/commit/328b12748cd34be03daeb8ad533f592866c90388))
+
 ## 2.0.17
 
  - **FIX**: BorderRadius can be set in UniversalScaffold. ([4aaea017](https://github.com/mathrunet/flutter_masamune/commit/4aaea017abb91c250b86f418991f6aa56ad52642))
