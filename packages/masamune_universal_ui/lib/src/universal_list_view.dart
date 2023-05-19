@@ -74,8 +74,8 @@ class UniversalListView extends StatelessWidget {
     this.padding,
   })  : assert(
           !(controller != null && primary == true),
-          'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
-          'You cannot both set primary to true and pass an explicit controller.',
+          "Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. "
+          "You cannot both set primary to true and pass an explicit controller.",
         ),
         assert(!shrinkWrap || center == null),
         assert(anchor >= 0.0 && anchor <= 1.0),
