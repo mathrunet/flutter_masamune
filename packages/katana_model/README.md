@@ -292,6 +292,35 @@ class UserValueCollection extends CollectionBase<UserValueDocument> {
 }
 ```
 
+### When using Record
+
+It is also possible to use Record, which has been available since Dart3.
+
+```dart
+class UserRecordDocumentModel
+    extends DocumentBase<({String first, String last, int? born})> {
+  RuntimeRecordDocumentModel(super.query);
+
+  @override
+  ({String first, String last, int? born}) fromMap(DynamicMap map) {
+    return (
+      born: map.get("born", 0),
+      first: map.get("first", ""),
+      last: map.get("last", ""),
+    );
+  }
+
+  @override
+  DynamicMap toMap(({String first, String last, int? born}) value) {
+    return {
+      "born": value.born,
+      "first": value.first,
+      "last": value.last,
+    };
+  }
+}
+```
+
 # How to use
 
 The following methods are provided according to CRUD.
