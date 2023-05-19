@@ -15,6 +15,58 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.0.2`](#katana_model---v202)
+ - [`katana_model_firestore` - `v2.0.2`](#katana_model_firestore---v202)
+ - [`masamune` - `v2.0.19`](#masamune---v2019)
+ - [`masamune_agora` - `v2.0.19`](#masamune_agora---v2019)
+ - [`masamune_picker_file` - `v2.0.19`](#masamune_picker_file---v2019)
+ - [`masamune_ai_openai` - `v2.0.19`](#masamune_ai_openai---v2019)
+ - [`masamune_calendar` - `v2.0.19`](#masamune_calendar---v2019)
+ - [`masamune_picker` - `v2.0.19`](#masamune_picker---v2019)
+ - [`masamune_universal_ui` - `v2.0.19`](#masamune_universal_ui---v2019)
+ - [`masamune_logger_firebase` - `v2.0.19`](#masamune_logger_firebase---v2019)
+ - [`masamune_picker_mobile` - `v2.0.19`](#masamune_picker_mobile---v2019)
+ - [`masamune_notification_firebase` - `v2.0.19`](#masamune_notification_firebase---v2019)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.19`
+ - `masamune_agora` - `v2.0.19`
+ - `masamune_picker_file` - `v2.0.19`
+ - `masamune_ai_openai` - `v2.0.19`
+ - `masamune_calendar` - `v2.0.19`
+ - `masamune_picker` - `v2.0.19`
+ - `masamune_universal_ui` - `v2.0.19`
+ - `masamune_logger_firebase` - `v2.0.19`
+ - `masamune_picker_mobile` - `v2.0.19`
+ - `masamune_notification_firebase` - `v2.0.19`
+
+---
+
+#### `katana_model` - `v2.0.2`
+
+ - **FIX**: Fixing definitions around mixin. ([333618dc](https://github.com/mathrunet/flutter_masamune/commit/333618dc881627f30cfc455a7973d6cf532a4c61))
+ - **DOCS**: Edit ReadMe. ([d39650a6](https://github.com/mathrunet/flutter_masamune/commit/d39650a6eff78da58670e2ca18f4895702c07690))
+
+#### `katana_model_firestore` - `v2.0.2`
+
+ - **DOCS**: Edit ReadMe. ([d39650a6](https://github.com/mathrunet/flutter_masamune/commit/d39650a6eff78da58670e2ca18f4895702c07690))
+
+
+## 2023-05-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v2.0.18`](#masamune---v2018)
  - [`masamune_universal_ui` - `v2.0.18`](#masamune_universal_ui---v2018)
  - [`masamune_picker_file` - `v2.0.18`](#masamune_picker_file---v2018)
