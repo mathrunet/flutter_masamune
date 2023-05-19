@@ -176,6 +176,8 @@ Describe the contents of the screen UI inside the `build`, just as you would wit
 import 'package:flutter/material.dart';
 // ignore: unused_import, unnecessary_import
 import 'package:masamune/masamune.dart';
+// ignore: unused_import, unnecessary_import
+import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
 // ignore: unused_import, unnecessary_import
 import '/main.dart';
@@ -213,7 +215,7 @@ class TestPage extends PageScopedWidget {
 
     // Describes the structure of the page.
     // TODO: Implement the view.
-    return Scaffold();
+    return UniversalScaffold();
   }
 }
 ```
@@ -649,9 +651,9 @@ Widget build(BuildContext context, PageRef ref) {
 
   // Describes the structure of the page.
   // TODO: Implement the view.
-  return Scaffold(
-    appBar: AppBar(title: Text("Title"), backgroundColor: theme.color.secondary),
-    body: Column(
+  return UniversalScaffold(
+    appBar: UniversalAppBar(title: Text("Title"), backgroundColor: theme.color.secondary),
+    body: UniversalColumn(
       crossAxisAlignment: CrossAxisAlignment.start,
       children:[
         Center(child: CircleAvatar(backgroundImage: theme.asset.userIcon.provider)),
@@ -925,42 +927,51 @@ Modal.confirm(
 
 ## Responsive layout
 
-It is possible to implement a responsive grid layout as follows.
+UniversalUI allows users to create UIs across platforms with different screen sizes and orientations, such as PC and mobile, without having to be aware of the differences.
 
 ```dart
-ResponsiveBuilder(
-  builder: (context) => [
-    ResponsiveRow(
+@override
+Widget build(BuildContext context, PageRef ref) {
+  return UniversalScaffold(
+    breakpoint: Breakpoint.sm,
+    sideBar: UniversalSideBar(
+      decoration: const BoxDecoration(
+        border: Border(right: BorderSide(color: Colors.grey)),
+      ),
       children: [
-        ResponsiveCol(
-          lg: 12,
-          child: Container(
-            color: Colors.red,
-            height: 100,
+        for (var i = 0; i < 100; i++)
+          ListTile(
+            tileColor: Colors.blue,
+            title: Text((i + 1).toString()),
           ),
+      ],
+    ),
+    appBar: UniversalSliverAppBar(
+      title: const Text("UniversalViewPage"),
+      subtitle: const Text("UniversalViewPage"),
+      titlePosition: UniversalAppBarTitlePosition.bottom,
+      background: UniversalAppBarBackground(theme.asset.image.provider),
+    ),
+    body: UniversalListView(
+      onRefresh: () {
+        return Future.delayed(1.s);
+      },
+      padding: const EdgeInsets.only(top: 32),
+      children: [
+        UniversalColumn(
+          children: [
+            ...List.generate(100, (i) {
+              return ListTile(
+                tileColor: Colors.red,
+                title: Text((i + 1).toString()),
+              );
+            }).mapResponsive(sm: 6, md: 4),
+          ],
         ),
       ],
     ),
-    ResponsiveRow(
-      children: [
-        ResponsiveCol(
-          sm: 6,
-          child: Container(
-            color: Colors.green,
-            height: 100,
-          ),
-        ),
-        ResponsiveCol(
-          sm: 6,
-          child: Container(
-            color: Colors.blue,
-            height: 100,
-          ),
-        ),
-      ],
-    ),
-  ],
-);
+  );
+}
 ```
 
 For other details, please see the package details page.
@@ -969,9 +980,9 @@ katana_ui
 
 [https://pub.dev/packages/katana_ui](https://pub.dev/packages/katana_ui)
 
-katana_responsive
+masamune_universal_ui
 
-[https://pub.dev/packages/katana_responsive](https://pub.dev/packages/katana_responsive)
+[https://pub.dev/packages/masamune_universal_ui](https://pub.dev/packages/masamune_universal_ui)
 
 ## Authentication
 

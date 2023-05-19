@@ -1,3 +1,4 @@
 {
-    "dart.runPubGetOnPubspecChanges": "never"
+    "dart.runPubGetOnPubspecChanges": "never",
+    "cmake.sourceDirectory": "/Users/mathru/Documents/github/flutter_masamune/packages/katana_auth/example/linux"
 }
