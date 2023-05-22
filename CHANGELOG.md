@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_openai` - `v2.0.20`](#masamune_ai_openai---v2020)
+
+---
+
+#### `masamune_ai_openai` - `v2.0.20`
+
+ - **FIX**: Fixed a problem caused by a path. ([ae5b7c03](https://github.com/mathrunet/flutter_masamune/commit/ae5b7c030bd2847b90a749a82c0643979f456dcf))
+
+
 ## 2023-05-19
 
 ### Changes
