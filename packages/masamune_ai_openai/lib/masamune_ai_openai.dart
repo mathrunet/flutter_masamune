@@ -16,7 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:dart_openai/openai.dart';
+import 'package:dart_openai/dart_openai.dart';
 import 'package:masamune/masamune.dart';
 
 part 'adapter/openai_masamune_adapter.dart';
