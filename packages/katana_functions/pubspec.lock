@@ -209,11 +209,10 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      sha256: "99e37bec02e32244b575b8459d7c5108297376e4f36d7da1a40ab22fb701e97d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.14"
+      path: "../katana"
+      relative: true
+    source: path
+    version: "2.0.1"
   lints:
     dependency: transitive
     description:

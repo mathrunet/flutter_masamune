@@ -172,4 +172,22 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
       rethrow;
     }
   }
+
+  @override
+  Future<TStripeResponse?>
+      stipe<TStripeResponse extends StripePurchaseActionResponse>({
+    required StripePurchaseAction<TStripeResponse> action,
+  }) async {
+    await FirebaseCore.initialize(options: options);
+    try {
+      return await action.execute((map) async {
+        final res =
+            await functions.httpsCallable("stripe").call<DynamicMap>(map);
+        return res.data;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }

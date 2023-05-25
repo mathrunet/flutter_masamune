@@ -39,4 +39,11 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
     AgoraClientRole clientRole = AgoraClientRole.audience,
   }) =>
       Future.value("");
+
+  @override
+  Future<TStripeResponse?>
+      stipe<TStripeResponse extends StripePurchaseActionResponse>({
+    required StripePurchaseAction<TStripeResponse> action,
+  }) =>
+          action.execute((map) async => {});
 }

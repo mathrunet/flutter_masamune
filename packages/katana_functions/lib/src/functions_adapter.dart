@@ -81,6 +81,18 @@ abstract class FunctionsAdapter {
     required String channelName,
     AgoraClientRole clientRole = AgoraClientRole.audience,
   });
+
+  /// Functions for server-side processing used by Stripe.
+  ///
+  /// [StripePurchaseAction] and [StripePurchaseActionResponse] must be prepared for each mode.
+  ///
+  /// Stripeで利用するサーバー側の処理を行うためのFunctions。
+  ///
+  /// 各モードに応じた[StripePurchaseAction]と[StripePurchaseActionResponse]を用意する必要があります。
+  Future<TStripeResponse?>
+      stipe<TStripeResponse extends StripePurchaseActionResponse>({
+    required StripePurchaseAction<TStripeResponse> action,
+  });
 }
 
 /// [FunctionsAdapter] for the entire app by placing it on top of [MaterialApp], etc.
