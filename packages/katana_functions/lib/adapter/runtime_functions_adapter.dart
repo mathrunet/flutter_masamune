@@ -18,6 +18,9 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
   const RuntimeFunctionsAdapter();
 
   @override
+  final String endpoint = "";
+
+  @override
   Future<void> sendNotification({
     required String title,
     required String text,

@@ -31,6 +31,11 @@ abstract class FunctionsAdapter {
 
   static FunctionsAdapter? _primary;
 
+  /// URL of the endpoint where the Functions are executed.
+  ///
+  /// Functionsを実行するエンドポイントのURL。
+  String get endpoint;
+
   /// PUSH notification.
   ///
   /// Pass the title of the notification to [title], the message to [text], and the destination to [target].

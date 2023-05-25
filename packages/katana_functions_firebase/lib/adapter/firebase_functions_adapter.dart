@@ -72,6 +72,9 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   final String? region;
 
   @override
+  String get endpoint => FirebaseCore.functionsEndpoint;
+
+  @override
   Future<void> sendNotification({
     required String title,
     required String text,
