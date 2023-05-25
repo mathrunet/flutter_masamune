@@ -7,8 +7,7 @@ part of katana_functions;
 /// Functionsで用いるStripeのアクション。
 ///
 /// 継承して使ってください。
-abstract class StripePurchaseAction<
-    TResponse extends StripePurchaseActionResponse> {
+abstract class StripeAction<TResponse extends StripeActionResponse> {
   /// Stripe actions used in Functions.
   ///
   /// Inherit and use.
@@ -16,7 +15,7 @@ abstract class StripePurchaseAction<
   /// Functionsで用いるStripeのアクション。
   ///
   /// 継承して使ってください。
-  const StripePurchaseAction();
+  const StripeAction();
 
   /// Mode of execution on the server side.
   ///
@@ -51,20 +50,20 @@ abstract class StripePurchaseAction<
   }
 }
 
-/// Class for defining the value returned when executed by [StripePurchaseAction].
+/// Class for defining the value returned when executed by [StripeAction].
 ///
 /// Inherit and use.
 ///
-/// [StripePurchaseAction]で実行されたときに返却された値を定義するためのクラス。
+/// [StripeAction]で実行されたときに返却された値を定義するためのクラス。
 ///
 /// 継承して使ってください。
-abstract class StripePurchaseActionResponse {
-  /// Class for defining the value returned when executed by [StripePurchaseAction].
+abstract class StripeActionResponse {
+  /// Class for defining the value returned when executed by [StripeAction].
   ///
   /// Inherit and use.
   ///
-  /// [StripePurchaseAction]で実行されたときに返却された値を定義するためのクラス。
+  /// [StripeAction]で実行されたときに返却された値を定義するためのクラス。
   ///
   /// 継承して使ってください。
-  const StripePurchaseActionResponse();
+  const StripeActionResponse();
 }

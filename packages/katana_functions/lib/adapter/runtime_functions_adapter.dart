@@ -41,9 +41,8 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
       Future.value("");
 
   @override
-  Future<TStripeResponse?>
-      stipe<TStripeResponse extends StripePurchaseActionResponse>({
-    required StripePurchaseAction<TStripeResponse> action,
+  Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
+    required StripeAction<TStripeResponse> action,
   }) =>
-          action.execute((map) async => {});
+      action.execute((map) async => {});
 }

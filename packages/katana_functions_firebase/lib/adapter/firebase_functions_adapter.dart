@@ -174,9 +174,8 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   }
 
   @override
-  Future<TStripeResponse?>
-      stipe<TStripeResponse extends StripePurchaseActionResponse>({
-    required StripePurchaseAction<TStripeResponse> action,
+  Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
+    required StripeAction<TStripeResponse> action,
   }) async {
     await FirebaseCore.initialize(options: options);
     try {

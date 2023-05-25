@@ -131,14 +131,13 @@ class Functions extends ChangeNotifier {
 
   /// Functions for server-side processing used by Stripe.
   ///
-  /// [StripePurchaseAction] and [StripePurchaseActionResponse] must be prepared for each mode.
+  /// [StripeAction] and [StripeActionResponse] must be prepared for each mode.
   ///
   /// Stripeで利用するサーバー側の処理を行うためのFunctions。
   ///
-  /// 各モードに応じた[StripePurchaseAction]と[StripePurchaseActionResponse]を用意する必要があります。
-  Future<TStripeResponse?>
-      stipe<TStripeResponse extends StripePurchaseActionResponse>({
-    required StripePurchaseAction<TStripeResponse> action,
+  /// 各モードに応じた[StripeAction]と[StripeActionResponse]を用意する必要があります。
+  Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
+    required StripeAction<TStripeResponse> action,
   }) async {
     try {
       final res = await FunctionsAdapter.primary.stipe(
