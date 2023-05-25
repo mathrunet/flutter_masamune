@@ -1,3 +1,7 @@
+## 2.0.21
+
+ - Update a dependency to the latest release.
+
 ## 2.0.20
 
  - **FIX**: Fixed a problem caused by a path. ([ae5b7c03](https://github.com/mathrunet/flutter_masamune/commit/ae5b7c030bd2847b90a749a82c0643979f456dcf))

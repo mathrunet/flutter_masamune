@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Add Stripe methods. ([9e1d6496](https://github.com/mathrunet/flutter_masamune/commit/9e1d6496d4aca3900b6d3e7a439fdde930e34844))
+
 ## 2.0.1
 
  - Update a dependency to the latest release.

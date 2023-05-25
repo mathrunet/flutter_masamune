@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - **FIX**: Supports http intent for Android 11 or later. ([192369a7](https://github.com/mathrunet/flutter_masamune/commit/192369a7f67d0be73df8ef8800d6314e1ce3bb33))
+
 ## 2.0.2
 
  - Update a dependency to the latest release.

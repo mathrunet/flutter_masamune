@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.0.3`](#katana_cli---v203)
+ - [`katana_functions` - `v2.1.0`](#katana_functions---v210)
+ - [`katana_functions_firebase` - `v2.1.0`](#katana_functions_firebase---v210)
+ - [`masamune` - `v2.0.20`](#masamune---v2020)
+ - [`masamune_picker_file` - `v2.0.20`](#masamune_picker_file---v2020)
+ - [`masamune_agora` - `v2.0.20`](#masamune_agora---v2020)
+ - [`masamune_ai_openai` - `v2.0.21`](#masamune_ai_openai---v2021)
+ - [`masamune_calendar` - `v2.0.20`](#masamune_calendar---v2020)
+ - [`masamune_picker` - `v2.0.20`](#masamune_picker---v2020)
+ - [`masamune_universal_ui` - `v2.0.20`](#masamune_universal_ui---v2020)
+ - [`masamune_logger_firebase` - `v2.0.20`](#masamune_logger_firebase---v2020)
+ - [`masamune_picker_mobile` - `v2.0.20`](#masamune_picker_mobile---v2020)
+ - [`masamune_notification_firebase` - `v2.0.20`](#masamune_notification_firebase---v2020)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.20`
+ - `masamune_picker_file` - `v2.0.20`
+ - `masamune_agora` - `v2.0.20`
+ - `masamune_ai_openai` - `v2.0.21`
+ - `masamune_calendar` - `v2.0.20`
+ - `masamune_picker` - `v2.0.20`
+ - `masamune_universal_ui` - `v2.0.20`
+ - `masamune_logger_firebase` - `v2.0.20`
+ - `masamune_picker_mobile` - `v2.0.20`
+ - `masamune_notification_firebase` - `v2.0.20`
+
+---
+
+#### `katana_cli` - `v2.0.3`
+
+ - **FIX**: Supports http intent for Android 11 or later. ([192369a7](https://github.com/mathrunet/flutter_masamune/commit/192369a7f67d0be73df8ef8800d6314e1ce3bb33))
+
+#### `katana_functions` - `v2.1.0`
+
+ - **FEAT**: Add Stripe methods. ([9e1d6496](https://github.com/mathrunet/flutter_masamune/commit/9e1d6496d4aca3900b6d3e7a439fdde930e34844))
+
+#### `katana_functions_firebase` - `v2.1.0`
+
+ - **FEAT**: Add Stripe methods. ([9e1d6496](https://github.com/mathrunet/flutter_masamune/commit/9e1d6496d4aca3900b6d3e7a439fdde930e34844))
+
+
 ## 2023-05-22
 
 ### Changes
