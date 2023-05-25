@@ -15,6 +15,57 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_functions` - `v2.1.1`](#katana_functions---v211)
+ - [`katana_functions_firebase` - `v2.1.1`](#katana_functions_firebase---v211)
+ - [`masamune` - `v2.0.21`](#masamune---v2021)
+ - [`masamune_picker_file` - `v2.0.21`](#masamune_picker_file---v2021)
+ - [`masamune_agora` - `v2.0.21`](#masamune_agora---v2021)
+ - [`masamune_ai_openai` - `v2.0.22`](#masamune_ai_openai---v2022)
+ - [`masamune_calendar` - `v2.0.21`](#masamune_calendar---v2021)
+ - [`masamune_picker` - `v2.0.21`](#masamune_picker---v2021)
+ - [`masamune_universal_ui` - `v2.0.21`](#masamune_universal_ui---v2021)
+ - [`masamune_logger_firebase` - `v2.0.21`](#masamune_logger_firebase---v2021)
+ - [`masamune_picker_mobile` - `v2.0.21`](#masamune_picker_mobile---v2021)
+ - [`masamune_notification_firebase` - `v2.0.21`](#masamune_notification_firebase---v2021)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.21`
+ - `masamune_picker_file` - `v2.0.21`
+ - `masamune_agora` - `v2.0.21`
+ - `masamune_ai_openai` - `v2.0.22`
+ - `masamune_calendar` - `v2.0.21`
+ - `masamune_picker` - `v2.0.21`
+ - `masamune_universal_ui` - `v2.0.21`
+ - `masamune_logger_firebase` - `v2.0.21`
+ - `masamune_picker_mobile` - `v2.0.21`
+ - `masamune_notification_firebase` - `v2.0.21`
+
+---
+
+#### `katana_functions` - `v2.1.1`
+
+ - **FIX**: Rename Stripe-type classes. ([60162bb9](https://github.com/mathrunet/flutter_masamune/commit/60162bb92088fda4725ca61044c7712fc376bbe7))
+
+#### `katana_functions_firebase` - `v2.1.1`
+
+ - **FIX**: Rename Stripe-type classes. ([60162bb9](https://github.com/mathrunet/flutter_masamune/commit/60162bb92088fda4725ca61044c7712fc376bbe7))
+
+
+## 2023-05-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.0.3`](#katana_cli---v203)
  - [`katana_functions` - `v2.1.0`](#katana_functions---v210)
  - [`katana_functions_firebase` - `v2.1.0`](#katana_functions_firebase---v210)

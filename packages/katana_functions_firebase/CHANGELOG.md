@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Rename Stripe-type classes. ([60162bb9](https://github.com/mathrunet/flutter_masamune/commit/60162bb92088fda4725ca61044c7712fc376bbe7))
+
 ## 2.1.0
 
  - **FEAT**: Add Stripe methods. ([9e1d6496](https://github.com/mathrunet/flutter_masamune/commit/9e1d6496d4aca3900b6d3e7a439fdde930e34844))
