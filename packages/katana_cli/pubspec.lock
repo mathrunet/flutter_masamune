@@ -45,10 +45,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: "4a07be6cb69c84d677a6c3096fcf960cc3285a8330b4603e0d463d15d9bd934c"
+      sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.1"
+    version: "1.17.2"
   convert:
     dependency: transitive
     description:
@@ -69,10 +69,10 @@ packages:
     dependency: transitive
     description:
       name: csslib
-      sha256: b36c7f7e24c0bdf1bf9a3da461c837d1de64b9f8beb190c9011d8c72a3dfd745
+      sha256: "831883fb353c8bdc1d71979e5b342c7d88acfbc643113c14ae51e2442ea0f20f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.17.2"
+    version: "0.17.3"
   csv:
     dependency: "direct main"
     description:
@@ -156,11 +156,10 @@ packages:
   katana:
     dependency: "direct main"
     description:
-      name: katana
-      sha256: "4df26a26f05cde1d26313e896966bf21980cd26e7150fb0b6b7c6bec487c75ad"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
+      path: "../katana"
+      relative: true
+    source: path
+    version: "2.0.1"
   lints:
     dependency: "direct main"
     description:

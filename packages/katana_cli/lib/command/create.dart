@@ -221,6 +221,206 @@ class CreateCliCommand extends CliCommand {
     if (!assetsDirectory.existsSync()) {
       await assetsDirectory.create();
     }
+    label("Edit AndroidManifest.xml.");
+    final file = File("android/app/src/main/AndroidManifest.xml");
+    if (!file.existsSync()) {
+      throw Exception(
+        "AndroidManifest does not exist in `android/app/src/main/AndroidManifest.xml`.",
+      );
+    }
+    final document = XmlDocument.parse(await file.readAsString());
+    final manifest = document.findAllElements("manifest");
+    if (manifest.isEmpty) {
+      throw Exception(
+        "The structure of AndroidManifest.xml is broken.",
+      );
+    }
+    final queries = manifest.first.children.firstWhereOrNull(
+            (p0) => p0 is XmlElement && p0.name.toString() == "queries") ??
+        () {
+          final q = XmlElement(XmlName("queries"), [], []);
+          manifest.first.children.insertFirst(q);
+          return q;
+        }();
+    if (!queries.children.any((p0) =>
+        p0 is XmlElement &&
+        p0.name.toString() == "intent" &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "action" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:name" &&
+                p2.value == "android.intent.action.VIEW")) &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "data" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:scheme" &&
+                p2.value == "https")))) {
+      queries.children.add(
+        XmlElement(
+          XmlName("intent"),
+          [],
+          [
+            XmlElement(
+              XmlName("action"),
+              [
+                XmlAttribute(
+                  XmlName("android:name"),
+                  "android.intent.action.VIEW",
+                ),
+              ],
+              [],
+            ),
+            XmlElement(
+              XmlName("data"),
+              [
+                XmlAttribute(
+                  XmlName("android:scheme"),
+                  "https",
+                ),
+              ],
+              [],
+            ),
+          ],
+        ),
+      );
+    }
+    if (!queries.children.any((p0) =>
+        p0 is XmlElement &&
+        p0.name.toString() == "intent" &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "action" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:name" &&
+                p2.value == "android.intent.action.DIAL")) &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "data" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:scheme" &&
+                p2.value == "tel")))) {
+      queries.children.add(
+        XmlElement(
+          XmlName("intent"),
+          [],
+          [
+            XmlElement(
+              XmlName("action"),
+              [
+                XmlAttribute(
+                  XmlName("android:name"),
+                  "android.intent.action.DIAL",
+                ),
+              ],
+              [],
+            ),
+            XmlElement(
+              XmlName("data"),
+              [
+                XmlAttribute(
+                  XmlName("android:scheme"),
+                  "tel",
+                ),
+              ],
+              [],
+            ),
+          ],
+        ),
+      );
+    }
+    if (!queries.children.any((p0) =>
+        p0 is XmlElement &&
+        p0.name.toString() == "intent" &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "action" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:name" &&
+                p2.value == "android.intent.action.SENDTO")) &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "data" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:scheme" &&
+                p2.value == "mailto")))) {
+      queries.children.add(
+        XmlElement(
+          XmlName("intent"),
+          [],
+          [
+            XmlElement(
+              XmlName("action"),
+              [
+                XmlAttribute(
+                  XmlName("android:name"),
+                  "android.intent.action.SENDTO",
+                ),
+              ],
+              [],
+            ),
+            XmlElement(
+              XmlName("data"),
+              [
+                XmlAttribute(
+                  XmlName("android:scheme"),
+                  "mailto",
+                ),
+              ],
+              [],
+            ),
+          ],
+        ),
+      );
+    }
+    if (!queries.children.any((p0) =>
+        p0 is XmlElement &&
+        p0.name.toString() == "intent" &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "action" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:name" &&
+                p2.value == "android.intent.action.SEND")) &&
+        p0.children.any((p1) =>
+            p1 is XmlElement &&
+            p1.name.toString() == "data" &&
+            p1.attributes.any((p2) =>
+                p2.name.toString() == "android:scheme" &&
+                p2.value == "*/*")))) {
+      queries.children.add(
+        XmlElement(
+          XmlName("intent"),
+          [],
+          [
+            XmlElement(
+              XmlName("action"),
+              [
+                XmlAttribute(
+                  XmlName("android:name"),
+                  "android.intent.action.SEND",
+                ),
+              ],
+              [],
+            ),
+            XmlElement(
+              XmlName("data"),
+              [
+                XmlAttribute(
+                  XmlName("android:scheme"),
+                  "*/*",
+                ),
+              ],
+              [],
+            ),
+          ],
+        ),
+      );
+    }
+    await file.writeAsString(
+      document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
+    );
     label("Edit DebugProfile.entitlements.");
     final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
     if (debugEntitlements.existsSync()) {
