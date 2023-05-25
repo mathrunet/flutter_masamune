@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Added Endpoint section. ([9ba84436](https://github.com/mathrunet/flutter_masamune/commit/9ba844369a670aeb711d0c8b03815991767db8ba))
+
 ## 2.1.1
 
  - **FIX**: Rename Stripe-type classes. ([60162bb9](https://github.com/mathrunet/flutter_masamune/commit/60162bb92088fda4725ca61044c7712fc376bbe7))
