@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v2.0.23`](#masamune_universal_ui---v2023)
+
+---
+
+#### `masamune_universal_ui` - `v2.0.23`
+
+ - **FIX**: Fixes around Padding. ([b742668b](https://github.com/mathrunet/flutter_masamune/commit/b742668b6e1e3636636ed7d7b2de519de41d6623))
+
+
 ## 2023-05-25
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.0.23
+
+ - **FIX**: Fixes around Padding. ([b742668b](https://github.com/mathrunet/flutter_masamune/commit/b742668b6e1e3636636ed7d7b2de519de41d6623))
+
 ## 2.0.22
 
  - Update a dependency to the latest release.
