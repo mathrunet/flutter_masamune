@@ -97,6 +97,42 @@ abstract class FunctionsAdapter {
   Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
     required StripeAction<TStripeResponse> action,
   });
+
+  /// Send email through Gmail.
+  ///
+  /// Specify the source email address in the [from] field and the destination email address in the [to] field.
+  ///
+  /// The title of the email is written in [title] and the body of the email is written in [content].
+  ///
+  /// Gmailを通してメールを送信します。
+  ///
+  /// [from]に送信元、[to]に送信先のメールアドレスを指定します。
+  ///
+  /// [title]にメールタイトル、[content]にメール本文を記載します。
+  Future<void> sendMailByGmail({
+    required String from,
+    required String to,
+    required String title,
+    required String content,
+  });
+
+  /// Send email through SendGrid.
+  ///
+  /// Specify the source email address in the [from] field and the destination email address in the [to] field.
+  ///
+  /// The title of the email is written in [title] and the body of the email is written in [content].
+  ///
+  /// SendGridを通してメールを送信します。
+  ///
+  /// [from]に送信元、[to]に送信先のメールアドレスを指定します。
+  ///
+  /// [title]にメールタイトル、[content]にメール本文を記載します。
+  Future<void> sendMailBySendGrid({
+    required String from,
+    required String to,
+    required String title,
+    required String content,
+  });
 }
 
 /// [FunctionsAdapter] for the entire app by placing it on top of [MaterialApp], etc.

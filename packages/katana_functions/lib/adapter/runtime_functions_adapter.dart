@@ -48,4 +48,22 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
     required StripeAction<TStripeResponse> action,
   }) =>
       action.execute((map) async => {});
+
+  @override
+  Future<void> sendMailByGmail({
+    required String from,
+    required String to,
+    required String title,
+    required String content,
+  }) =>
+      Future.value();
+
+  @override
+  Future<void> sendMailBySendGrid({
+    required String from,
+    required String to,
+    required String title,
+    required String content,
+  }) =>
+      Future.value();
 }
