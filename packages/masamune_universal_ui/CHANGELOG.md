@@ -1,3 +1,7 @@
+## 2.0.24
+
+ - **FIX**: Granted const. ([1d0db68a](https://github.com/mathrunet/flutter_masamune/commit/1d0db68a2eb58bde9b933c937f31b5886b4bf416))
+
 ## 2.0.23
 
  - **FIX**: Fixes around Padding. ([b742668b](https://github.com/mathrunet/flutter_masamune/commit/b742668b6e1e3636636ed7d7b2de519de41d6623))

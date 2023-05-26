@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_universal_ui` - `v2.0.24`](#masamune_universal_ui---v2024)
+
+---
+
+#### `masamune_universal_ui` - `v2.0.24`
+
+ - **FIX**: Granted const. ([1d0db68a](https://github.com/mathrunet/flutter_masamune/commit/1d0db68a2eb58bde9b933c937f31b5886b4bf416))
+
+
+## 2023-05-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_universal_ui` - `v2.0.23`](#masamune_universal_ui---v2023)
 
 ---
