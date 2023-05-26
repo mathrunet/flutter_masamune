@@ -25,6 +25,7 @@ part of masamune_universal_ui;
 ///
 /// See also:
 ///   * https://getbootstrap.jp/docs/5.0/layout/breakpoints/
+@immutable
 class BreakpointSettings {
   /// Sets breakpoints for the grid.
   ///
@@ -51,7 +52,7 @@ class BreakpointSettings {
   ///
   /// See also:
   ///   * https://getbootstrap.jp/docs/5.0/layout/breakpoints/
-  BreakpointSettings({
+  const BreakpointSettings({
     this.xs = 576,
     this.sm = 768,
     this.md = 992,

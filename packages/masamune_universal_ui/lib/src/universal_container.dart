@@ -43,6 +43,7 @@ class UniversalContainer extends StatelessWidget {
     this.transformAlignment,
     this.clipBehavior = Clip.none,
     this.breakpoint,
+    this.enableResponsivePadding = true,
   });
 
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
@@ -151,6 +152,11 @@ class UniversalContainer extends StatelessWidget {
   /// [Container]の中に格納するウィジェット。
   final Widget? child;
 
+  /// Set to `true` to enable responsive padding.
+  ///
+  /// レスポンシブのパディングを有効にする場合は`true`にします。
+  final bool enableResponsivePadding;
+
   @override
   Widget build(BuildContext context) {
     final breakpoint =
@@ -182,7 +188,8 @@ class UniversalContainer extends StatelessWidget {
   EdgeInsetsGeometry _padding(BuildContext context, Breakpoint? breakpoint) {
     final width = MediaQuery.of(context).size.width;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
-    final responsivePadding = (width - maxWidth) / 2.0;
+    final responsivePadding =
+        enableResponsivePadding ? (width - maxWidth) / 2.0 : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(

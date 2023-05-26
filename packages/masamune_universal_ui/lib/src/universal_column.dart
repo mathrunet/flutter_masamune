@@ -48,6 +48,7 @@ class UniversalColumn extends StatelessWidget {
     this.mainAxisSize = MainAxisSize.max,
     this.verticalDirection = VerticalDirection.down,
     this.rowSegments = 12,
+    this.enableResponsivePadding = true,
   });
 
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
@@ -181,6 +182,11 @@ class UniversalColumn extends StatelessWidget {
   /// 横方向のセグメントの数です。
   final int rowSegments;
 
+  /// Set to `true` to enable responsive padding.
+  ///
+  /// レスポンシブのパディングを有効にする場合は`true`にします。
+  final bool enableResponsivePadding;
+
   @override
   Widget build(BuildContext context) {
     final breakpoint =
@@ -190,12 +196,12 @@ class UniversalColumn extends StatelessWidget {
       alignment: alignment,
       child: SingleChildScrollView(
         child: Container(
-          constraints:
-              constraints?.copyWith(maxWidth: breakpoint?.width(context)) ??
-                  BoxConstraints(
-                    maxWidth: breakpoint?.width(context) ?? double.infinity,
-                  ),
-          padding: _effectivePadding(context, breakpoint),
+          // constraints:
+          //     constraints?.copyWith(maxWidth: breakpoint?.width(context)) ??
+          //         BoxConstraints(
+          //           maxWidth: breakpoint?.width(context) ?? double.infinity,
+          //         ),
+          padding: _padding(context, breakpoint),
           margin: margin,
           color: color,
           decoration: decoration,
@@ -266,6 +272,27 @@ class UniversalColumn extends StatelessWidget {
       ));
     }
     return rows;
+  }
+
+  EdgeInsetsGeometry _padding(
+    BuildContext context,
+    Breakpoint? breakpoint,
+  ) {
+    final width = MediaQuery.of(context).size.width;
+    final breakpoint = UniversalScaffold.of(context)?.breakpoint;
+    final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
+    final responsivePadding =
+        enableResponsivePadding ? (width - maxWidth) / 2.0 : 0.0;
+    final resolvedPadding =
+        _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
+    final generatedPadding = EdgeInsets.fromLTRB(
+      (resolvedPadding?.left ?? 0.0) + responsivePadding,
+      resolvedPadding?.top ?? 0.0,
+      (resolvedPadding?.right ?? 0.0) + responsivePadding,
+      resolvedPadding?.bottom ?? 0.0,
+    );
+
+    return generatedPadding;
   }
 
   EdgeInsetsGeometry? _effectivePadding(

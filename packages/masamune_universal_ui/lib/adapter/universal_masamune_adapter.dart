@@ -38,10 +38,12 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
       EdgeInsets.symmetric(vertical: kDefaultVerticalPadding),
       greaterThanBreakpoint: EdgeInsets.symmetric(vertical: kToolbarHeight),
     ),
+    this.breakpointSettings = const BreakpointSettings(),
   });
 
   @override
   Widget onBuildApp(BuildContext context, Widget app) {
+    BreakpointSettings.value = breakpointSettings;
     return MasamuneAdapterScope<UniversalMasamuneAdapter>(
         adapter: this, onInit: onInitScope, child: app);
   }
@@ -66,4 +68,9 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [ResponsiveEdgeInsets]を設定すると、[Breakpoint]に合わせてパディングが切り替わります。
   final ResponsiveEdgeInsets defaultSidebarPadding;
+
+  /// You can specify the actual size of the breakpoints.
+  ///
+  /// ブレークポイントの実際のサイズを指定できます。
+  final BreakpointSettings breakpointSettings;
 }

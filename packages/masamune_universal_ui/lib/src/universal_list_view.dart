@@ -72,6 +72,7 @@ class UniversalListView extends StatelessWidget {
     this.rowSegments = 12,
     this.maxWidth,
     this.padding,
+    this.enableResponsivePadding = true,
   })  : assert(
           !(controller != null && primary == true),
           "Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. "
@@ -176,6 +177,11 @@ class UniversalListView extends StatelessWidget {
   ///
   /// 横方向のセグメントの数です。
   final int rowSegments;
+
+  /// Set to `true` to enable responsive padding.
+  ///
+  /// レスポンシブのパディングを有効にする場合は`true`にします。
+  final bool enableResponsivePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +334,8 @@ class UniversalListView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final breakpoint = UniversalScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
-    final responsivePadding = (width - maxWidth) / 2.0;
+    final responsivePadding =
+        enableResponsivePadding ? (width - maxWidth) / 2.0 : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(

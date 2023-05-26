@@ -78,6 +78,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.surfaceTintColor,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
+    this.enableResponsivePadding = true,
   })  : floating = true,
         pinned = false,
         snap = false,
@@ -138,6 +139,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.surfaceTintColor,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
+    this.enableResponsivePadding = true,
   })  : assert(
           floating || !snap,
           'The "snap" argument only makes sense for floating app bars.',
@@ -359,6 +361,11 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
   ///
   /// アプリバーが伸縮を開始したときに呼び出されます。
   final AsyncCallback? onStretchTrigger;
+
+  /// Set to `true` to enable responsive padding.
+  ///
+  /// レスポンシブのパディングを有効にする場合は`true`にします。
+  final bool enableResponsivePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -716,7 +723,9 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     if (breakpoint == null) {
       return null;
     }
-    double spacing = (width - breakpoint.width(context)) / 2.0;
+    double spacing = enableResponsivePadding
+        ? (width - breakpoint.width(context)) / 2.0
+        : 0.0;
     if (showLeading) {
       spacing -= leadingWidth ?? _kLeadingWidth;
     } else {
@@ -735,7 +744,9 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     if (breakpoint == null) {
       return null;
     }
-    double spacing = (width - breakpoint.width(context)) / 2.0;
+    double spacing = enableResponsivePadding
+        ? (width - breakpoint.width(context)) / 2.0
+        : 0.0;
     return spacing.limitLow(0.0);
   }
 
@@ -1090,6 +1101,7 @@ class UniversalSliverAppBar extends UniversalAppBar {
     super.background,
     super.scrollStyle = UniversalAppBarScrollStyle.pinned,
     super.breakpoint,
+    super.enableResponsivePadding = true,
   }) : super._(sliver: true);
 }
 
