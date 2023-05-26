@@ -115,6 +115,8 @@ class CreateCliCommand extends CliCommand {
     );
     label("Replace lib/main.dart");
     await const MainCliCode().generateDartCode("lib/main", "main");
+    label("Create home.dart");
+    await const HomePageCliCode().generateDartCode("lib/pages/home", "home");
     label("Generate file for VSCode");
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
@@ -622,6 +624,8 @@ class MainCliCode extends CliCode {
 import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+
+import 'pages/home.dart';
 """;
   }
 
@@ -642,7 +646,7 @@ const title = "${1}";
 
 /// Initial page query.
 // TODO: Define the initial page query of the application.
-final initialQuery = ${2:null};
+final initialQuery = ${2:HomePage.query()};
 
 /// App Model.
 ///
@@ -1177,6 +1181,108 @@ body {
     100% {
         left: 100%;
     }
+}
+""";
+  }
+}
+
+/// Create a base class for the home page.
+///
+/// ホームページのベースクラスを作成します。
+class HomePageCliCode extends CliCode {
+  /// Create a base class for the home page.
+  ///
+  /// ホームページのベースクラスを作成します。
+  const HomePageCliCode();
+
+  @override
+  String get name => "home";
+
+  @override
+  String get prefix => "home";
+
+  @override
+  String get directory => "ib/pages";
+
+  @override
+  String get description =>
+      "Create a base class for the home page in `$directory/(filepath).dart`. ホームページのベースクラスを`$directory/(filepath).dart`に作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+// ignore: unused_import, unnecessary_import
+import 'package:flutter/material.dart';
+// ignore: unused_import, unnecessary_import
+import 'package:masamune/masamune.dart';
+import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+
+// ignore: unused_import, unnecessary_import
+import '/main.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+part '$baseName.page.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+@immutable
+// TODO: Set the path for the page.
+@PagePath("/")
+class HomePage extends PageScopedWidget {
+  const HomePage({
+    super.key,
+    // TODO: Set parameters for the page.
+  });
+
+  /// Used to transition to the HomePage screen.
+  ///
+  /// ```dart
+  /// router.push(HomePage.query(parameters));    // Push page to HomePage.
+  /// router.replace(HomePage.query(parameters)); // Push page to HomePage.
+  /// ```
+  @pageRouteQuery
+  static const query = _\$HomePageQuery();
+
+  @override
+  Widget build(BuildContext context, PageRef ref) {
+    // Describes the process of loading
+    // and defining variables required for the page.
+    // TODO: Implement the variable loading process.
+    final counter = ref.page.watch((ref) => ValueNotifier(0));
+
+    // Describes the structure of the page.
+    // TODO: Implement the view.
+    return UniversalScaffold(
+      appBar: UniversalAppBar(title: Text(l().appTitle)),
+      body: UniversalColumn(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            "You have pushed the button this many times:",
+          ),
+          Text(
+            "\${counter.value}",
+            style: theme.text.displayMedium,
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          counter.value++;
+        },
+        tooltip: "Increment",
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
 }
 """;
   }
