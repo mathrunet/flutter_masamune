@@ -473,7 +473,7 @@ packages:
     source: hosted
     version: "1.0.4"
   js:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: js
       sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
@@ -537,14 +537,14 @@ packages:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "2.1.2"
   katana_functions_firebase:
     dependency: "direct overridden"
     description:
       path: "../katana_functions_firebase"
       relative: true
     source: path
-    version: "2.1.0"
+    version: "2.1.2"
   katana_indicator:
     dependency: "direct overridden"
     description:
@@ -728,7 +728,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.0.20"
+    version: "2.0.22"
   masamune_annotation:
     dependency: "direct overridden"
     description:
