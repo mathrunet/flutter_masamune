@@ -130,5 +130,5 @@ class BreakpointSettings {
   /// New breakpoints can be set by updating this value.
   ///
   /// この値を更新することで新しいブレークポイントを設定することが可能です。
-  static BreakpointSettings value = BreakpointSettings();
+  static BreakpointSettings value = const BreakpointSettings();
 }
