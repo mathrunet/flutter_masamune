@@ -4,22 +4,22 @@ import 'dart:io';
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Add a module to use Agora.io.
+/// Add a module to use Gmail.
 ///
-/// Agora.ioを利用するためのモジュールを追加します。
-class AgoraCliAction extends CliCommand with CliActionMixin {
-  /// Add a module to use Agora.io.
+/// Gmailを利用するためのモジュールを追加します。
+class MailGmailCliAction extends CliCommand with CliActionMixin {
+  /// Add a module to use Gmail.
   ///
-  /// Agora.ioを利用するためのモジュールを追加します。
-  const AgoraCliAction();
+  /// Gmailを利用するためのモジュールを追加します。
+  const MailGmailCliAction();
 
   @override
   String get description =>
-      "Add a module to use Agora.io. Agora.ioを利用するためのモジュールを追加します。";
+      "Add a module to use Gmail. Gmailを利用するためのモジュールを追加します。";
 
   @override
   bool checkEnabled(ExecContext context) {
-    final value = context.yaml.getAsMap("agora");
+    final value = context.yaml.getAsMap("gmail");
     final enabled = value.get("enable", false);
     if (!enabled) {
       return false;
@@ -32,18 +32,22 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final firebaseCommand = bin.get("firebase", "firebase");
-    final agora = context.yaml.getAsMap("agora");
-    final appId = agora.get("app_id", "");
-    final appCertificate = agora.get("app_certificate", "");
-    final enableCloudRecording = agora.get("enable_cloud_recording", false);
+    final gmail = context.yaml.getAsMap("gmail");
+    final gmailUserId = gmail.get("user_id", "");
+    final gmailUserPassword = gmail.get("user_password", "");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
-    if (appId.isEmpty) {
-      error("[agora]->[app_id] is empty.");
+    if (gmailUserId.isEmpty) {
+      error(
+        "If [gmail]->[enable] is enabled, please include [gmail]->[user_id].",
+      );
       return;
     }
-    if (appCertificate.isEmpty) {
-      error("[agora]->[app_certificate] is empty.");
+    if (gmailUserPassword.isEmpty) {
+      error(
+        "If [gmail]->[enable] is enabled, please include [gmail]->[user_password].",
+      );
+      return;
     }
     if (projectId.isEmpty) {
       error(
@@ -71,19 +75,15 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
         flutter,
         "pub",
         "add",
-        "masamune_agora",
+        "masamune_purchase_stripe",
         "katana_functions_firebase",
       ],
     );
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "agoraToken")) {
-      functions.functions.add("agoraToken");
-    }
-    if (enableCloudRecording &&
-        !functions.functions.any((e) => e == "agoraCloudRecording")) {
-      functions.functions.add("agoraCloudRecording");
+    if (!functions.functions.any((e) => e == "gmail")) {
+      functions.functions.add("gmail");
     }
     await functions.save();
     await command(
@@ -91,8 +91,8 @@ class AgoraCliAction extends CliCommand with CliActionMixin {
       [
         firebaseCommand,
         "functions:config:set",
-        "agora.app_id=$appId",
-        "agora.app_certificate=$appCertificate",
+        "mail.gmail.id=${gmail.get("user_id", "")}",
+        "mail.gmail.password=${gmail.get("user_password", "")}",
       ],
       workingDirectory: "firebase",
     );

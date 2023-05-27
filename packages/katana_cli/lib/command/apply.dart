@@ -13,6 +13,9 @@ import 'package:katana_cli/action/firebase/messaging.dart';
 import 'package:katana_cli/action/firebase/terms_and_privacy.dart';
 import 'package:katana_cli/action/git/action.dart';
 import 'package:katana_cli/action/git/hook.dart';
+import 'package:katana_cli/action/mail/gmail.dart';
+import 'package:katana_cli/action/mail/send_grid.dart';
+import 'package:katana_cli/action/stripe/stripe.dart';
 import 'package:katana_cli/katana_cli.dart';
 
 /// Action to be performed.
@@ -37,6 +40,9 @@ const _actions = <CliActionMixin>[
   AppOpenAICliAction(),
   AppCalendarCliAction(),
   AgoraCliAction(),
+  StripeCliAction(),
+  MailGmailCliAction(),
+  MailSendGridCliAction(),
 ];
 
 /// Reflect the settings in katana.yaml in the application project.

@@ -241,5 +241,85 @@ agora:
   # Set to `true` to enable Agora cloud recording.
   # Agoraのクラウドレコーディングを有効にする場合は`true`にしてください。
   enable_cloud_recording: false
+
+# Configure billing settings for Stripe.
+# Stripeの課金設定を行います。
+stripe:
+  # Set to `true` if you use Stripe.
+  # Stripeを利用する場合は`true`にしてください。
+  enable: false
+
+  # Set to `true` if you use Stripe Connect.
+  # Stripeコネクトを利用する場合は`true`にしてください。
+  enable_connect: false
+
+  # Secret key for Stripe's API.
+  # You can obtain keys for the test and production environments at the following URLs
+  # StripeのAPI用シークレットキー。
+  # 下記のURLからテスト環境用と本番環境用のキーを取得できます。
+  # Production environment
+  # https://dashboard.stripe.com/apikeys
+  # Development enveironment
+  # https://dashboard.stripe.com/test/apikeys
+  secret_key: 
+
+  # Signature secret for `stripe_hook`.
+  # It can be obtained from each Webhook setting.
+  # `stripe_hook`用の署名シークレット。
+  # 各Webhookの設定から取得できます。
+  # Production environment
+  # https://dashboard.stripe.com/webhooks
+  # Development enveironment
+  # https://dashboard.stripe.com/test/webhooks
+  stripe_hook_signature_secret:
+
+  # Signature secret for `stripe_hook_connect`.
+  # It can be obtained from each Webhook setting.
+  # `stripe_hook_connect`用の署名シークレット。
+  # 各Webhookの設定から取得できます。
+  # Production environment
+  # https://dashboard.stripe.com/webhooks
+  # Development enveironment
+  # https://dashboard.stripe.com/test/webhooks
+  stripe_hook_connect_signature_secret:
+
+  # Specify the email provider for use with Stripe's 3D Secure authentication.
+  # Specify `sendgrid` if you use SendGrid or `gmail` if you use Gmail.
+  # Also, please set up various e-mail settings.
+  # Stripeの3Dセキュア認証で利用するためのメールプロバイダーを指定します。
+  # SendGridを利用する場合は`sendgrid`、Gmailを利用する場合は`gmail`を指定してください。
+  # また、各種メールの設定を行ってください。
+  email_provider: sendgrid
+
+# Configure Gmail sending settings.
+# Gmailの送信設定を行います。
+gmail:
+  # Set to `true` if you want to use Gmail to send emails.
+  # Gmailによるメール送信を利用する場合は`true`にしてください。
+  enable: false
+
+  # Gmail user ID. Follow the steps below to obtain a Gmail user ID.
+  # 1. Press your icon in the upper right corner of the Google top screen and open "Manage Google Account".
+  # 2. open "Security" on the left side of the screen and open "App Password
+  # GmailのユーザーID。下記の手順で取得します。
+  # 1. Googleのトップ画面の画面右上の自分のアイコンを押下し、「Google アカウントを管理」を開く
+  # 2. 画面左の「セキュリティ」を開き、「アプリ パスワード」を開く
+  user_id:
+
+  # Gmail user password. Enter the password obtained in the above procedure.
+  # Gmailのユーザーパスワード。上記の手順で取得したパスワードを入力します。
+  user_password:
+
+# Configure Sendgrid sending settings.
+# Sendgridの送信設定を行います。
+sendgrid:
+  # Set to `true` if you want to use mail sending by Sendgrid.
+  # Sendgridによるメール送信を利用する場合は`true`にしてください。
+  enable: false
+
+  # API key for SendGrid. It can be issued from the following URL.
+  # SendGridのAPIキー。下記URLから発行可能です。
+  # https://app.sendgrid.com/settings/api_keys
+  api_key:
 """;
 }
