@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`masamune_purchase_stripe` - `v3.0.0`](#masamune_purchase_stripe---v300)
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.1.0`](#katana_cli---v210)
+ - [`katana_functions` - `v2.2.0`](#katana_functions---v220)
+ - [`katana_functions_firebase` - `v2.2.0`](#katana_functions_firebase---v220)
+ - [`masamune` - `v2.0.23`](#masamune---v2023)
+ - [`masamune_picker_file` - `v2.0.23`](#masamune_picker_file---v2023)
+ - [`masamune_agora` - `v2.0.23`](#masamune_agora---v2023)
+ - [`masamune_calendar` - `v2.0.23`](#masamune_calendar---v2023)
+ - [`masamune_ai_openai` - `v2.0.24`](#masamune_ai_openai---v2024)
+ - [`masamune_picker` - `v2.0.23`](#masamune_picker---v2023)
+ - [`masamune_universal_ui` - `v2.0.25`](#masamune_universal_ui---v2025)
+ - [`masamune_logger_firebase` - `v2.0.23`](#masamune_logger_firebase---v2023)
+ - [`masamune_picker_mobile` - `v2.0.23`](#masamune_picker_mobile---v2023)
+ - [`masamune_notification_firebase` - `v2.0.23`](#masamune_notification_firebase---v2023)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.23`
+ - `masamune_picker_file` - `v2.0.23`
+ - `masamune_agora` - `v2.0.23`
+ - `masamune_calendar` - `v2.0.23`
+ - `masamune_ai_openai` - `v2.0.24`
+ - `masamune_picker` - `v2.0.23`
+ - `masamune_universal_ui` - `v2.0.25`
+ - `masamune_logger_firebase` - `v2.0.23`
+ - `masamune_picker_mobile` - `v2.0.23`
+ - `masamune_notification_firebase` - `v2.0.23`
+
+---
+
+#### `masamune_purchase_stripe` - `v3.0.0`
+
+ - **FIX**: Start of delivery. ([7f1997ce](https://github.com/mathrunet/flutter_masamune/commit/7f1997ce1c1cad5b706d85c42bbfb18aa0941594))
+ - **FEAT**: Initial commitments. ([4e797675](https://github.com/mathrunet/flutter_masamune/commit/4e7976753a7a66ed89ad2565650fcacad0988e8f))
+ - **BREAKING** **FEAT**: Dart 3.0.0 compatible. ([bf192403](https://github.com/mathrunet/flutter_masamune/commit/bf1924037365f81d24d2230acf233e693e3c42c5))
+
+#### `katana_cli` - `v2.1.0`
+
+ - **FIX**: Add initial page. ([096d8c2a](https://github.com/mathrunet/flutter_masamune/commit/096d8c2a55d0cb8d910f32049c2159104c51d512))
+ - **FEAT**: Added commands for Stripe, Gmail and Sendgrid. ([71e12279](https://github.com/mathrunet/flutter_masamune/commit/71e1227921d3fddcff7ab30d7cfa8282aa583036))
+
+#### `katana_functions` - `v2.2.0`
+
+ - **FEAT**: Added Functions for sending mail. ([66edd36d](https://github.com/mathrunet/flutter_masamune/commit/66edd36d3232ce630c231c81481ccce2327e8369))
+
+#### `katana_functions_firebase` - `v2.2.0`
+
+ - **FEAT**: Added Functions for sending mail. ([66edd36d](https://github.com/mathrunet/flutter_masamune/commit/66edd36d3232ce630c231c81481ccce2327e8369))
+
+
 ## 2023-05-26
 
 ### Changes

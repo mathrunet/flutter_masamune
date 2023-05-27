@@ -1,3 +1,8 @@
+## 2.1.0
+
+ - **FIX**: Add initial page. ([096d8c2a](https://github.com/mathrunet/flutter_masamune/commit/096d8c2a55d0cb8d910f32049c2159104c51d512))
+ - **FEAT**: Added commands for Stripe, Gmail and Sendgrid. ([71e12279](https://github.com/mathrunet/flutter_masamune/commit/71e1227921d3fddcff7ab30d7cfa8282aa583036))
+
 ## 2.0.3
 
  - **FIX**: Supports http intent for Android 11 or later. ([192369a7](https://github.com/mathrunet/flutter_masamune/commit/192369a7f67d0be73df8ef8800d6314e1ce3bb33))
