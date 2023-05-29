@@ -127,6 +127,7 @@ class StripePurchase extends ChangeNotifier {
     required StripePurchaseModel purchase,
     bool online = true,
     required void Function(
+      Uri endpoint,
       Widget webView,
       VoidCallback onClosed,
     ) builder,
@@ -165,7 +166,8 @@ class StripePurchase extends ChangeNotifier {
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
-      final callbackHost = StripePurchaseMasamuneAdapter.primary.callbackHost
+      final callbackHost = StripePurchaseMasamuneAdapter
+          .primary.callbackURLSchemeOrHost
           .toString()
           .trimQuery()
           .trimString("/");
@@ -173,13 +175,16 @@ class StripePurchase extends ChangeNotifier {
               .primary.hostingEndpoint
               ?.call(language!) ??
           callbackHost;
+      final returnPathOptions =
+          StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
       final response = await functionsAdapter.stipe(
         action: StripeConfirmPurchaseAction(
           userId: userId,
           orderId: purchase.orderId,
           returnUrl: online
-              ? Uri.parse("$callbackHost/confirm_payment/finished")
+              ? Uri.parse(
+                  "$callbackHost/${returnPathOptions.finishedOnConfirmPurchase.trimString("/")}")
               : Uri.parse(
                   "${functionsAdapter.endpoint}/${StripePurchaseMasamuneAdapter.primary.threeDSecureOptions.redirectFunctionPath}"),
           failureUrl: Uri.parse(
@@ -209,11 +214,11 @@ class StripePurchase extends ChangeNotifier {
           response.nextActionUrl!,
           shouldOverrideUrlLoading: (controller, url) {
             final path = url.trimQuery().replaceAll(callbackHost, "");
-            switch (path) {
-              case "/confirm_payment/finished":
-                onClosed?.call();
-                onCompleted();
-                return NavigationActionPolicy.CANCEL;
+            if (path ==
+                "/${returnPathOptions.finishedOnConfirmPurchase.trimString("/")}") {
+              onClosed?.call();
+              onCompleted();
+              return NavigationActionPolicy.CANCEL;
             }
             final uri = Uri.parse(url);
             if (uri.host == "hooks.stripe.com" &&
@@ -226,7 +231,7 @@ class StripePurchase extends ChangeNotifier {
             onCompleted();
           },
         );
-        builder.call(webView, onCompleted);
+        builder.call(response.nextActionUrl!, webView, onCompleted);
         await internalCompleter!.future;
       }
       await Future.doWhile(() async {

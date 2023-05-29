@@ -14,6 +14,7 @@ class StripeSubscription extends ChangeNotifier {
     required String orderId,
     required String productId,
     required void Function(
+      Uri endpoint,
       Widget webView,
       VoidCallback onSuccess,
       VoidCallback onCancel,
@@ -39,18 +40,23 @@ class StripeSubscription extends ChangeNotifier {
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
-      final callbackHost = StripePurchaseMasamuneAdapter.primary.callbackHost
+      final callbackHost = StripePurchaseMasamuneAdapter
+          .primary.callbackURLSchemeOrHost
           .toString()
           .trimQuery()
           .trimString("/");
+      final returnPathOptions =
+          StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
       final response = await functionsAdapter.stipe(
         action: StripeCreateSubscriptionAction(
           userId: userId,
           orderId: orderId,
           productId: productId,
-          successUrl: Uri.parse("$callbackHost/create_subscription/success"),
-          cancelUrl: Uri.parse("$callbackHost/create_subscription/cancel"),
+          successUrl: Uri.parse(
+              "$callbackHost/${returnPathOptions.successOnCreateSubscription.trimString("/")}"),
+          cancelUrl: Uri.parse(
+              "$callbackHost/${returnPathOptions.cancelOnCreateSubscription.trimString("/")}"),
         ),
       );
 
@@ -71,15 +77,16 @@ class StripeSubscription extends ChangeNotifier {
         response.endpoint,
         shouldOverrideUrlLoading: (controller, url) {
           final path = url.trimQuery().replaceAll(callbackHost, "");
-          switch (path) {
-            case "/create_subscription/success":
-              onClosed?.call();
-              onSuccess.call();
-              return NavigationActionPolicy.CANCEL;
-            case "/create_subscription/cancel":
-              onClosed?.call();
-              onCancel.call();
-              return NavigationActionPolicy.CANCEL;
+          if (path ==
+              "/${returnPathOptions.successOnCreateSubscription.trimString("/")}") {
+            onClosed?.call();
+            onSuccess.call();
+            return NavigationActionPolicy.CANCEL;
+          } else if (path ==
+              "/${returnPathOptions.cancelOnCreateSubscription.trimString("/")}") {
+            onClosed?.call();
+            onCancel.call();
+            return NavigationActionPolicy.CANCEL;
           }
           return NavigationActionPolicy.ALLOW;
         },
@@ -87,7 +94,7 @@ class StripeSubscription extends ChangeNotifier {
           onCancel.call();
         },
       );
-      builder.call(webView, onSuccess, onCancel);
+      builder.call(response.endpoint, webView, onSuccess, onCancel);
       await internalCompleter!.future;
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));

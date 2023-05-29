@@ -2,24 +2,24 @@ part of masamune_purchase_stripe;
 
 class StripePurchaseMasamuneAdapter extends MasamuneAdapter {
   const StripePurchaseMasamuneAdapter({
-    required this.publicAPIKey,
     this.functionsAdapter,
-    required this.callbackHost,
+    required this.callbackURLSchemeOrHost,
     required this.supportEmail,
     this.hostingEndpoint,
     this.revenueRatio = 0.3,
     this.currency = StripeCurrency.usd,
     this.threeDSecureOptions = const StripeThreeDSecureOptions(),
+    this.returnPathOptions = const StripeReturnPathOptions(),
   });
 
-  final String publicAPIKey;
   final FunctionsAdapter? functionsAdapter;
-  final Uri callbackHost;
+  final Uri callbackURLSchemeOrHost;
   final String Function(String languageCode)? hostingEndpoint;
   final String supportEmail;
   final double revenueRatio;
   final StripeCurrency currency;
   final StripeThreeDSecureOptions threeDSecureOptions;
+  final StripeReturnPathOptions returnPathOptions;
 
   /// You can retrieve the [StripePurchaseMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

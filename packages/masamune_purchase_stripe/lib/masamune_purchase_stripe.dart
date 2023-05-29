@@ -56,3 +56,4 @@ part 'src/stripe_currency.dart';
 part 'src/stripe_mail.dart';
 part 'src/stripe_webview.dart';
 part 'src/stripe_three_d_secure_options.dart';
+part 'src/stripe_return_path_options.dart';

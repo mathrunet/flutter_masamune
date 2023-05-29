@@ -12,6 +12,7 @@ class StripeAuthorization extends ChangeNotifier {
     Locale locale = const Locale("en", "US"),
     bool online = true,
     required void Function(
+      Uri endpoint,
       Widget webView,
       VoidCallback onClosed,
     ) builder,
@@ -28,10 +29,13 @@ class StripeAuthorization extends ChangeNotifier {
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
-      final callbackHost = StripePurchaseMasamuneAdapter.primary.callbackHost
+      final callbackHost = StripePurchaseMasamuneAdapter
+          .primary.callbackURLSchemeOrHost
           .toString()
           .trimQuery()
           .trimString("/");
+      final returnPathOptions =
+          StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
       final response = await functionsAdapter.stipe(
         action: StripeAuthorizationAction(
@@ -49,7 +53,8 @@ class StripeAuthorization extends ChangeNotifier {
                     .primary.threeDSecureOptions.emailContent,
           ),
           returnUrl: online
-              ? Uri.parse("$callbackHost/authorization/finished")
+              ? Uri.parse(
+                  "$callbackHost/${returnPathOptions.finishedOnAuthorization.trimString("/")}")
               : Uri.parse(
                   "${functionsAdapter.endpoint}/${StripePurchaseMasamuneAdapter.primary.threeDSecureOptions.redirectFunctionPath}"),
         ),
@@ -75,11 +80,11 @@ class StripeAuthorization extends ChangeNotifier {
           response.nextActionUrl!,
           shouldOverrideUrlLoading: (controller, url) {
             final path = url.trimQuery().replaceAll(callbackHost, "");
-            switch (path) {
-              case "/authorization/finished":
-                onClosed?.call();
-                onCompleted.call();
-                return NavigationActionPolicy.CANCEL;
+            if (path ==
+                "/${returnPathOptions.finishedOnAuthorization.trimString("/")}") {
+              onClosed?.call();
+              onCompleted.call();
+              return NavigationActionPolicy.CANCEL;
             }
             final uri = Uri.parse(url);
             if (uri.host == "hooks.stripe.com" &&
@@ -92,7 +97,7 @@ class StripeAuthorization extends ChangeNotifier {
             onCompleted();
           },
         );
-        builder.call(webView, onCompleted);
+        builder.call(response.nextActionUrl!, webView, onCompleted);
         await internalCompleter!.future;
       }
       final responseConfirm = await functionsAdapter.stipe(

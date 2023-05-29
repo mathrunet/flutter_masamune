@@ -11,6 +11,7 @@ class StripeCustomer extends ChangeNotifier {
   Future<void> create({
     required String userId,
     required void Function(
+      Uri endpoint,
       Widget webView,
       VoidCallback onSuccess,
       VoidCallback onCancel,
@@ -32,16 +33,21 @@ class StripeCustomer extends ChangeNotifier {
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
-      final callbackHost = StripePurchaseMasamuneAdapter.primary.callbackHost
+      final callbackHost = StripePurchaseMasamuneAdapter
+          .primary.callbackURLSchemeOrHost
           .toString()
           .trimQuery()
           .trimString("/");
+      final returnPathOptions =
+          StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
       final response = await functionsAdapter.stipe(
         action: StripeCreateCustomerAndPaymentAction(
           userId: userId,
-          successUrl: Uri.parse("$callbackHost/create_payment/success"),
-          cancelUrl: Uri.parse("$callbackHost/create_payment/cancel"),
+          successUrl: Uri.parse(
+              "$callbackHost/${returnPathOptions.successOnCreateCustormerAndPayment.trimString("/")}"),
+          cancelUrl: Uri.parse(
+              "$callbackHost/${returnPathOptions.cancelOnCreateCustormerAndPayment.trimString("/")}"),
         ),
       );
 
@@ -62,15 +68,16 @@ class StripeCustomer extends ChangeNotifier {
         response.endpoint,
         shouldOverrideUrlLoading: (controller, url) {
           final path = url.trimQuery().replaceAll(callbackHost, "");
-          switch (path) {
-            case "/create_payment/success":
-              onClosed?.call();
-              onSuccess.call();
-              return NavigationActionPolicy.CANCEL;
-            case "/create_payment/cancel":
-              onClosed?.call();
-              onCancel.call();
-              return NavigationActionPolicy.CANCEL;
+          if (path ==
+              "/${returnPathOptions.successOnCreateCustormerAndPayment.trimString("/")}") {
+            onClosed?.call();
+            onSuccess.call();
+            return NavigationActionPolicy.CANCEL;
+          } else if (path ==
+              "/${returnPathOptions.cancelOnCreateCustormerAndPayment.trimString("/")}") {
+            onClosed?.call();
+            onCancel.call();
+            return NavigationActionPolicy.CANCEL;
           }
           return NavigationActionPolicy.ALLOW;
         },
@@ -78,7 +85,7 @@ class StripeCustomer extends ChangeNotifier {
           onCancel.call();
         },
       );
-      builder.call(webView, onSuccess, onCancel);
+      builder.call(response.endpoint, webView, onSuccess, onCancel);
       await internalCompleter!.future;
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));

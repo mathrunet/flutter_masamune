@@ -537,14 +537,14 @@ packages:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.1.2"
+    version: "2.2.0"
   katana_functions_firebase:
     dependency: "direct overridden"
     description:
       path: "../katana_functions_firebase"
       relative: true
     source: path
-    version: "2.1.2"
+    version: "2.2.0"
   katana_indicator:
     dependency: "direct overridden"
     description:
@@ -728,7 +728,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.0.22"
+    version: "2.0.23"
   masamune_annotation:
     dependency: "direct overridden"
     description:

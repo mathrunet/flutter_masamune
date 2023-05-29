@@ -12,6 +12,7 @@ class StripeAccount extends ChangeNotifier {
     required String userId,
     Locale locale = const Locale("en", "US"),
     required void Function(
+      Uri endpoint,
       Widget webView,
       VoidCallback onSuccess,
       VoidCallback onCancel,
@@ -33,17 +34,22 @@ class StripeAccount extends ChangeNotifier {
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
-      final callbackHost = StripePurchaseMasamuneAdapter.primary.callbackHost
+      final callbackHost = StripePurchaseMasamuneAdapter
+          .primary.callbackURLSchemeOrHost
           .toString()
           .trimQuery()
           .trimString("/");
+      final returnPathOptions =
+          StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
       final response = await functionsAdapter.stipe(
         action: StripeCreateAccountAction(
           userId: userId,
           locale: locale,
-          refreshUrl: Uri.parse("$callbackHost/create_account/refresh"),
-          returnUrl: Uri.parse("$callbackHost/create_account/success"),
+          refreshUrl: Uri.parse(
+              "$callbackHost/${returnPathOptions.refreshOnCreateAccount.trimString("/")}"),
+          returnUrl: Uri.parse(
+              "$callbackHost/${returnPathOptions.successOnCreateAccount.trimString("/")}"),
         ),
       );
 
@@ -73,15 +79,17 @@ class StripeAccount extends ChangeNotifier {
           endpoint,
           shouldOverrideUrlLoading: (controller, url) {
             final path = url.trimQuery().replaceAll(callbackHost, "");
-            switch (path) {
-              case "/create_account/success":
-                onClosed?.call();
-                onSuccess.call();
-                return NavigationActionPolicy.CANCEL;
-              case "/create_account/refresh":
-                onClosed?.call();
-                onCancel.call();
-                return NavigationActionPolicy.CANCEL;
+
+            if (path ==
+                "/${returnPathOptions.successOnCreateAccount.trimString("/")}") {
+              onClosed?.call();
+              onSuccess.call();
+              return NavigationActionPolicy.CANCEL;
+            } else if (path ==
+                "/${returnPathOptions.refreshOnCreateAccount.trimString("/")}") {
+              onClosed?.call();
+              onCancel.call();
+              return NavigationActionPolicy.CANCEL;
             }
             return NavigationActionPolicy.ALLOW;
           },
@@ -89,7 +97,7 @@ class StripeAccount extends ChangeNotifier {
             onCancel.call();
           },
         );
-        builder.call(webView, onSuccess, onCancel);
+        builder.call(endpoint, webView, onSuccess, onCancel);
         await internalCompleter!.future;
         await Future.doWhile(() async {
           await Future.delayed(const Duration(milliseconds: 100));
@@ -168,6 +176,7 @@ class StripeAccount extends ChangeNotifier {
   Future<void> dashboard({
     required StripeUserModel account,
     required void Function(
+      Uri endpoint,
       Widget webView,
       VoidCallback onClosed,
     ) builder,
@@ -190,7 +199,8 @@ class StripeAccount extends ChangeNotifier {
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
-      final callbackHost = StripePurchaseMasamuneAdapter.primary.callbackHost
+      final callbackHost = StripePurchaseMasamuneAdapter
+          .primary.callbackURLSchemeOrHost
           .toString()
           .trimQuery()
           .trimString("/");
@@ -225,7 +235,7 @@ class StripeAccount extends ChangeNotifier {
           onCompleted.call();
         },
       );
-      builder.call(webView, onCompleted);
+      builder.call(response.endpoint, webView, onCompleted);
       await internalCompleter!.future;
       internalCompleter?.complete();
       internalCompleter = null;
