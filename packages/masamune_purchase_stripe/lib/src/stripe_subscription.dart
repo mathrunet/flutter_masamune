@@ -98,7 +98,7 @@ class StripeSubscription extends ChangeNotifier {
       await internalCompleter!.future;
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.load();
+        await purchaseCollection.reload();
         return purchaseCollection.isNotEmpty;
       }).timeout(timeout);
       _completer?.complete();
@@ -121,7 +121,7 @@ class StripeSubscription extends ChangeNotifier {
   }
 
   Future<void> delete({
-    required StripePurchaseModel purchase,
+    required DocumentBase<StripePurchaseModel> purchase,
     Duration timeout = const Duration(seconds: 15),
   }) async {
     if (_completer != null) {
@@ -129,10 +129,16 @@ class StripeSubscription extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
+      final value = purchase.value;
+      if (value == null) {
+        throw Exception(
+          "Purchase information is empty. Please run [create] method.",
+        );
+      }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final purchaseCollection = $StripePurchaseModelCollection(
         modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, purchase.orderId),
+            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
       );
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
@@ -140,7 +146,7 @@ class StripeSubscription extends ChangeNotifier {
 
       final response = await functionsAdapter.stipe(
         action: StripeDeleteSubscriptionAction(
-          orderId: purchase.orderId,
+          orderId: value.orderId,
         ),
       );
       if (response == null) {
@@ -148,7 +154,7 @@ class StripeSubscription extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.load();
+        await purchaseCollection.reload();
         return purchaseCollection.every(
           (element) =>
               element.value != null && element.value!.cancelAtPeriodEnd,

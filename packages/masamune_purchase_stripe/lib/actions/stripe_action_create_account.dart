@@ -26,6 +26,8 @@ class StripeCreateAccountAction
     return {
       "userId": userId,
       "locale": "${locale.languageCode}_${locale.countryCode}",
+      "refreshUrl": refreshUrl.toString(),
+      "returnUrl": returnUrl.toString(),
     };
   }
 

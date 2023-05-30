@@ -89,7 +89,7 @@ class StripeCustomer extends ChangeNotifier {
       await internalCompleter!.future;
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await userDocument.load();
+        await userDocument.reload();
         return userDocument.value?.customerId.isNotEmpty ?? false;
       }).timeout(timeout);
       _completer?.complete();
@@ -112,7 +112,7 @@ class StripeCustomer extends ChangeNotifier {
   }
 
   Future<void> delete({
-    required StripeUserModel customer,
+    required DocumentBase<StripeUserModel> customer,
     Duration timeout = const Duration(seconds: 15),
   }) async {
     if (_completer != null) {
@@ -120,12 +120,13 @@ class StripeCustomer extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
-      if (customer.customerId.isEmpty) {
+      final value = customer.value;
+      if (value == null || value.customerId.isEmpty) {
         throw Exception(
           "Customer information is empty. Please run [create] method.",
         );
       }
-      final modelQuery = documentQuery(customer.userId).modelQuery;
+      final modelQuery = documentQuery(value.userId).modelQuery;
       final userDocument = $StripeUserModelDocument(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
@@ -133,7 +134,7 @@ class StripeCustomer extends ChangeNotifier {
 
       final response = await functionsAdapter.stipe(
         action: StripeDeleteCustomerAction(
-          userId: customer.userId,
+          userId: value.userId,
         ),
       );
       if (response == null) {
@@ -141,8 +142,8 @@ class StripeCustomer extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await userDocument.load();
-        return !(userDocument.value?.customerId.isNotEmpty ?? false);
+        await userDocument.reload();
+        return userDocument.value?.customerId.isNotEmpty ?? false;
       }).timeout(timeout);
       _completer?.complete();
       _completer = null;

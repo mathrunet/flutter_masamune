@@ -23,9 +23,9 @@ mixin _$StripeUserModel {
   @JsonKey(name: "user")
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: "account")
-  String get accountId => throw _privateConstructorUsedError;
+  String? get accountId => throw _privateConstructorUsedError;
   @JsonKey(name: "customer")
-  String get customerId => throw _privateConstructorUsedError;
+  String? get customerId => throw _privateConstructorUsedError;
   @JsonKey(name: "defaultPayment")
   String? get defaultPayment => throw _privateConstructorUsedError;
   @JsonKey(name: "capability")
@@ -45,8 +45,8 @@ abstract class $StripeUserModelCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: "user") String userId,
-      @JsonKey(name: "account") String accountId,
-      @JsonKey(name: "customer") String customerId,
+      @JsonKey(name: "account") String? accountId,
+      @JsonKey(name: "customer") String? customerId,
       @JsonKey(name: "defaultPayment") String? defaultPayment,
       @JsonKey(name: "capability") Map<String, dynamic> capablity});
 }
@@ -65,8 +65,8 @@ class _$StripeUserModelCopyWithImpl<$Res, $Val extends StripeUserModel>
   @override
   $Res call({
     Object? userId = null,
-    Object? accountId = null,
-    Object? customerId = null,
+    Object? accountId = freezed,
+    Object? customerId = freezed,
     Object? defaultPayment = freezed,
     Object? capablity = null,
   }) {
@@ -75,14 +75,14 @@ class _$StripeUserModelCopyWithImpl<$Res, $Val extends StripeUserModel>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      accountId: null == accountId
+      accountId: freezed == accountId
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerId: null == customerId
+              as String?,
+      customerId: freezed == customerId
           ? _value.customerId
           : customerId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       defaultPayment: freezed == defaultPayment
           ? _value.defaultPayment
           : defaultPayment // ignore: cast_nullable_to_non_nullable
@@ -105,8 +105,8 @@ abstract class _$$_StripeUserModelCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: "user") String userId,
-      @JsonKey(name: "account") String accountId,
-      @JsonKey(name: "customer") String customerId,
+      @JsonKey(name: "account") String? accountId,
+      @JsonKey(name: "customer") String? customerId,
       @JsonKey(name: "defaultPayment") String? defaultPayment,
       @JsonKey(name: "capability") Map<String, dynamic> capablity});
 }
@@ -123,8 +123,8 @@ class __$$_StripeUserModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
-    Object? accountId = null,
-    Object? customerId = null,
+    Object? accountId = freezed,
+    Object? customerId = freezed,
     Object? defaultPayment = freezed,
     Object? capablity = null,
   }) {
@@ -133,14 +133,14 @@ class __$$_StripeUserModelCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      accountId: null == accountId
+      accountId: freezed == accountId
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerId: null == customerId
+              as String?,
+      customerId: freezed == customerId
           ? _value.customerId
           : customerId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       defaultPayment: freezed == defaultPayment
           ? _value.defaultPayment
           : defaultPayment // ignore: cast_nullable_to_non_nullable
@@ -160,9 +160,9 @@ class _$_StripeUserModel extends _StripeUserModel {
       {@JsonKey(name: "user")
           required this.userId,
       @JsonKey(name: "account")
-          required this.accountId,
+          this.accountId,
       @JsonKey(name: "customer")
-          required this.customerId,
+          this.customerId,
       @JsonKey(name: "defaultPayment")
           this.defaultPayment,
       @JsonKey(name: "capability")
@@ -178,10 +178,10 @@ class _$_StripeUserModel extends _StripeUserModel {
   final String userId;
   @override
   @JsonKey(name: "account")
-  final String accountId;
+  final String? accountId;
   @override
   @JsonKey(name: "customer")
-  final String customerId;
+  final String? customerId;
   @override
   @JsonKey(name: "defaultPayment")
   final String? defaultPayment;
@@ -237,8 +237,8 @@ class _$_StripeUserModel extends _StripeUserModel {
 abstract class _StripeUserModel extends StripeUserModel {
   const factory _StripeUserModel(
           {@JsonKey(name: "user") required final String userId,
-          @JsonKey(name: "account") required final String accountId,
-          @JsonKey(name: "customer") required final String customerId,
+          @JsonKey(name: "account") final String? accountId,
+          @JsonKey(name: "customer") final String? customerId,
           @JsonKey(name: "defaultPayment") final String? defaultPayment,
           @JsonKey(name: "capability") final Map<String, dynamic> capablity}) =
       _$_StripeUserModel;
@@ -252,10 +252,10 @@ abstract class _StripeUserModel extends StripeUserModel {
   String get userId;
   @override
   @JsonKey(name: "account")
-  String get accountId;
+  String? get accountId;
   @override
   @JsonKey(name: "customer")
-  String get customerId;
+  String? get customerId;
   @override
   @JsonKey(name: "defaultPayment")
   String? get defaultPayment;

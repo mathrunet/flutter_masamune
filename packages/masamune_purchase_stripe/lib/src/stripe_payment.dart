@@ -93,7 +93,7 @@ class StripePayment extends ChangeNotifier {
       await internalCompleter!.future;
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await paymentCollection.load();
+        await paymentCollection.reload();
         if (length == paymentCollection.length) {
           return true;
         }
@@ -120,13 +120,19 @@ class StripePayment extends ChangeNotifier {
   }
 
   Future<void> setDefault({
-    required StripePaymentModel payment,
+    required DocumentBase<StripePaymentModel> payment,
   }) async {
     if (_completer != null) {
       return _completer!.future;
     }
     _completer = Completer<void>();
     try {
+      final value = payment.value;
+      if (value == null) {
+        throw Exception(
+          "Payment information is empty. Please run [create] method.",
+        );
+      }
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
@@ -134,7 +140,7 @@ class StripePayment extends ChangeNotifier {
       final response = await functionsAdapter.stipe(
         action: StripeSetCustomerDefaultPaymentAction(
           userId: userId,
-          paymentId: payment.paymentId,
+          paymentId: value.paymentId,
         ),
       );
       if (response == null) {
@@ -154,7 +160,7 @@ class StripePayment extends ChangeNotifier {
   }
 
   Future<void> delete({
-    required StripePaymentModel payment,
+    required DocumentBase<StripePaymentModel> payment,
     Duration timeout = const Duration(seconds: 15),
   }) async {
     if (_completer != null) {
@@ -162,6 +168,12 @@ class StripePayment extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
+      final value = payment.value;
+      if (value == null) {
+        throw Exception(
+          "Payment information is empty. Please run [create] method.",
+        );
+      }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final paymentCollection = $StripePaymentModelCollection(modelQuery);
       await paymentCollection.load();
@@ -173,7 +185,7 @@ class StripePayment extends ChangeNotifier {
       final response = await functionsAdapter.stipe(
         action: StripeDeletePaymentAction(
           userId: userId,
-          paymentId: payment.paymentId,
+          paymentId: value.paymentId,
         ),
       );
       if (response == null) {
@@ -181,7 +193,7 @@ class StripePayment extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await paymentCollection.load();
+        await paymentCollection.reload();
         return length == paymentCollection.length;
       }).timeout(timeout);
       _completer?.complete();

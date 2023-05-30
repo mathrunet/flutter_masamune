@@ -98,12 +98,14 @@ class StripeAccount extends ChangeNotifier {
           },
         );
         builder.call(endpoint, webView, onSuccess, onCancel);
-        await internalCompleter!.future;
-        await Future.doWhile(() async {
-          await Future.delayed(const Duration(milliseconds: 100));
-          await userDocument.load();
-          return userDocument.value?.registered ?? false;
-        }).timeout(timeout);
+        if (!kIsWeb) {
+          await internalCompleter!.future;
+          await Future.doWhile(() async {
+            await Future.delayed(const Duration(milliseconds: 100));
+            await userDocument.reload();
+            return userDocument.value?.registered ?? false;
+          }).timeout(timeout);
+        }
         _completer?.complete();
         _completer = null;
       } else {
@@ -128,7 +130,7 @@ class StripeAccount extends ChangeNotifier {
   }
 
   Future<void> delete({
-    required StripeUserModel account,
+    required DocumentBase<StripeUserModel> account,
     Duration timeout = const Duration(seconds: 15),
   }) async {
     if (_completer != null) {
@@ -136,20 +138,19 @@ class StripeAccount extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
-      if (account.accountId.isEmpty) {
+      final value = account.value;
+      if (value == null || value.accountId.isEmpty) {
         throw Exception(
           "Account information is empty. Please run [create] method.",
         );
       }
-      final modelQuery = documentQuery(account.accountId).modelQuery;
-      final userDocument = $StripeUserModelDocument(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
       final response = await functionsAdapter.stipe(
         action: StripeDeleteAccountAction(
-          userId: account.userId,
+          userId: value.userId,
         ),
       );
       if (response == null) {
@@ -157,8 +158,8 @@ class StripeAccount extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await userDocument.load();
-        return !(userDocument.value?.accountId.isNotEmpty ?? false);
+        await account.reload();
+        return account.value?.accountId.isNotEmpty ?? false;
       }).timeout(timeout);
       _completer?.complete();
       _completer = null;
@@ -174,7 +175,7 @@ class StripeAccount extends ChangeNotifier {
   }
 
   Future<void> dashboard({
-    required StripeUserModel account,
+    required DocumentBase<StripeUserModel> account,
     required void Function(
       Uri endpoint,
       Widget webView,
@@ -188,12 +189,13 @@ class StripeAccount extends ChangeNotifier {
     _completer = Completer<void>();
     Completer<void>? internalCompleter = Completer<void>();
     try {
-      if (account.accountId.isEmpty) {
+      final value = account.value;
+      if (value == null || value.accountId.isEmpty) {
         throw Exception(
           "Account information is empty. Please run [create] method.",
         );
       }
-      if (!account.registered) {
+      if (!value.registered) {
         throw Exception("Your account has not been registered yet.");
       }
       final functionsAdapter =
@@ -207,7 +209,7 @@ class StripeAccount extends ChangeNotifier {
 
       final response = await functionsAdapter.stipe(
         action: StripeDashboardAccountAction(
-          userId: account.accountId,
+          userId: value.userId,
         ),
       );
       if (response == null) {
@@ -235,8 +237,10 @@ class StripeAccount extends ChangeNotifier {
           onCompleted.call();
         },
       );
-      builder.call(response.endpoint, webView, onCompleted);
-      await internalCompleter!.future;
+      if (!kIsWeb) {
+        builder.call(response.endpoint, webView, onCompleted);
+        await internalCompleter!.future;
+      }
       internalCompleter?.complete();
       internalCompleter = null;
       _completer?.complete();

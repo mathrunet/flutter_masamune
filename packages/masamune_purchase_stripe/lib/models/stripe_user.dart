@@ -24,8 +24,8 @@ typedef StripeUserModelRef = ModelRef<StripeUserModel>?;
 class StripeUserModel with _$StripeUserModel {
   const factory StripeUserModel({
     @JsonKey(name: "user") required String userId,
-    @JsonKey(name: "account") required String accountId,
-    @JsonKey(name: "customer") required String customerId,
+    @JsonKey(name: "account") String? accountId,
+    @JsonKey(name: "customer") String? customerId,
     @JsonKey(name: "defaultPayment") String? defaultPayment,
     @JsonKey(name: "capability") @Default({}) DynamicMap capablity,
   }) = _StripeUserModel;

@@ -66,7 +66,7 @@ class StripePurchase extends ChangeNotifier {
 
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.load();
+        await purchaseCollection.reload();
         return purchaseCollection.isNotEmpty;
       }).timeout(timeout);
       _completer?.complete();
@@ -124,7 +124,7 @@ class StripePurchase extends ChangeNotifier {
   }
 
   Future<void> confirm({
-    required StripePurchaseModel purchase,
+    required DocumentBase<StripePurchaseModel> purchase,
     bool online = true,
     required void Function(
       Uri endpoint,
@@ -140,23 +140,29 @@ class StripePurchase extends ChangeNotifier {
     _completer = Completer<void>();
     Completer<void>? internalCompleter = Completer<void>();
     try {
+      final value = purchase.value;
+      if (value == null) {
+        throw Exception(
+          "Purchase information is empty. Please run [create] method.",
+        );
+      }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final purchaseCollection = $StripePurchaseModelCollection(
         modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, purchase.orderId),
+            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
       );
-      if (purchase.error) {
+      if (value.error) {
         throw Exception(
           "There has been an error with your payment. Please check and Refresh your payment information once.",
         );
       }
-      if (purchase.canceled) {
+      if (value.canceled) {
         throw Exception("This purchase has already canceled.");
       }
-      if (purchase.confirm && purchase.verified) {
+      if (value.confirm && value.verified) {
         throw Exception("This purchase has already confirmed.");
       }
-      var language = purchase.locale?.split("_").firstOrNull;
+      var language = value.locale?.split("_").firstOrNull;
       if (!StripePurchaseMasamuneAdapter
           .primary.threeDSecureOptions.acceptLanguage
           .contains(language)) {
@@ -181,7 +187,7 @@ class StripePurchase extends ChangeNotifier {
       final response = await functionsAdapter.stipe(
         action: StripeConfirmPurchaseAction(
           userId: userId,
-          orderId: purchase.orderId,
+          orderId: value.orderId,
           returnUrl: online
               ? Uri.parse(
                   "$callbackHost/${returnPathOptions.finishedOnConfirmPurchase.trimString("/")}")
@@ -236,7 +242,7 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.load();
+        await purchaseCollection.reload();
         return !purchaseCollection.any(
           (element) =>
               element.value != null &&
@@ -264,7 +270,7 @@ class StripePurchase extends ChangeNotifier {
   }
 
   Future<void> capture({
-    required StripePurchaseModel purchase,
+    required DocumentBase<StripePurchaseModel> purchase,
     double? priceAmountOverride,
     Duration timeout = const Duration(seconds: 15),
   }) async {
@@ -273,29 +279,34 @@ class StripePurchase extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
+      final value = purchase.value;
+      if (value == null) {
+        throw Exception(
+          "Purchase information is empty. Please run [create] method.",
+        );
+      }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final purchaseCollection = $StripePurchaseModelCollection(
         modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, purchase.orderId),
+            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
       );
-      if (purchase.error) {
+      if (value.error) {
         throw Exception(
           "There has been an error with your payment. Please check and Refresh your payment information once.",
         );
       }
-      if (purchase.canceled) {
+      if (value.canceled) {
         throw Exception("This purchase has already canceled.");
       }
-      if (!purchase.confirm || !purchase.verified) {
+      if (!value.confirm || !value.verified) {
         throw Exception(
           "The payment has not been confirmed yet. Please confirm the payment by clicking [confirm] and then execute.",
         );
       }
-      if (purchase.captured) {
+      if (value.captured) {
         throw Exception("This purchase has already captured.");
       }
-      if (priceAmountOverride != null &&
-          purchase.amount < priceAmountOverride) {
+      if (priceAmountOverride != null && value.amount < priceAmountOverride) {
         throw Exception(
           "You cannot capture an amount higher than the billing amount already saved.",
         );
@@ -307,7 +318,7 @@ class StripePurchase extends ChangeNotifier {
       final response = await functionsAdapter.stipe(
         action: StripeCapturePurchaseAction(
           userId: userId,
-          orderId: purchase.orderId,
+          orderId: value.orderId,
           priceAmountOverride: priceAmountOverride,
         ),
       );
@@ -317,6 +328,7 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
+        await purchaseCollection.reload();
         return !purchaseCollection.any(
           (element) => element.value != null && element.value!.captured,
         );
@@ -335,7 +347,7 @@ class StripePurchase extends ChangeNotifier {
   }
 
   Future<void> cancel({
-    required StripePurchaseModel purchase,
+    required DocumentBase<StripePurchaseModel> purchase,
     Duration timeout = const Duration(seconds: 15),
   }) async {
     if (_completer != null) {
@@ -343,15 +355,21 @@ class StripePurchase extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
+      final value = purchase.value;
+      if (value == null) {
+        throw Exception(
+          "Purchase information is empty. Please run [create] method.",
+        );
+      }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final purchaseCollection = $StripePurchaseModelCollection(
         modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, purchase.orderId),
+            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
       );
-      if (purchase.canceled) {
+      if (value.canceled) {
         throw Exception("This purchase has already canceled.");
       }
-      if (purchase.captured || purchase.success) {
+      if (value.captured || value.success) {
         throw Exception("The payment has already been completed.");
       }
       final functionsAdapter =
@@ -361,7 +379,7 @@ class StripePurchase extends ChangeNotifier {
       final response = await functionsAdapter.stipe(
         action: StripeCancelPurchaseAction(
           userId: userId,
-          orderId: purchase.orderId,
+          orderId: value.orderId,
         ),
       );
 
@@ -370,6 +388,7 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
+        await purchaseCollection.reload();
         return !purchaseCollection.any(
           (element) => element.value != null && element.value!.canceled,
         );
@@ -388,7 +407,7 @@ class StripePurchase extends ChangeNotifier {
   }
 
   Future<void> refund({
-    required StripePurchaseModel purchase,
+    required DocumentBase<StripePurchaseModel> purchase,
     double? refundAmount,
     Duration timeout = const Duration(seconds: 15),
   }) async {
@@ -397,18 +416,24 @@ class StripePurchase extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
+      final value = purchase.value;
+      if (value == null) {
+        throw Exception(
+          "Purchase information is empty. Please run [create] method.",
+        );
+      }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final purchaseCollection = $StripePurchaseModelCollection(
         modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, purchase.orderId),
+            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
       );
-      if (!purchase.captured || !purchase.success) {
+      if (!value.captured || !value.success) {
         throw Exception("The payment is not yet in your jurisdiction.");
       }
-      if (purchase.refund) {
+      if (value.refund) {
         throw Exception("The payment is already refunded.");
       }
-      if (refundAmount != null && purchase.amount < refundAmount) {
+      if (refundAmount != null && value.amount < refundAmount) {
         throw Exception(
           "The amount to be refunded exceeds the original amount.",
         );
@@ -420,7 +445,7 @@ class StripePurchase extends ChangeNotifier {
       final response = await functionsAdapter.stipe(
         action: StripeRefundPurchaseAction(
           userId: userId,
-          orderId: purchase.orderId,
+          orderId: value.orderId,
           refundAmount: refundAmount,
         ),
       );
@@ -430,6 +455,7 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
+        await purchaseCollection.reload();
         return !purchaseCollection.any(
           (element) => element.value != null && element.value!.refund,
         );

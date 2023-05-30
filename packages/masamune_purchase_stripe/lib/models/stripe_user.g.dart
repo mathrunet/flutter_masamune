@@ -9,8 +9,8 @@ part of 'stripe_user.dart';
 _$_StripeUserModel _$$_StripeUserModelFromJson(Map<String, dynamic> json) =>
     _$_StripeUserModel(
       userId: json['user'] as String,
-      accountId: json['account'] as String,
-      customerId: json['customer'] as String,
+      accountId: json['account'] as String?,
+      customerId: json['customer'] as String?,
       defaultPayment: json['defaultPayment'] as String?,
       capablity: json['capability'] as Map<String, dynamic>? ?? const {},
     );
