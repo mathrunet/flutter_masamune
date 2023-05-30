@@ -73,24 +73,24 @@ class StripeSubscription extends ChangeNotifier {
         internalCompleter = null;
       }
 
-      final webView = _StripeWebview(
+      final webView = StripeWebview(
         response.endpoint,
-        shouldOverrideUrlLoading: (controller, url) {
+        shouldOverrideUrlLoading: (url) {
           final path = url.trimQuery().replaceAll(callbackHost, "");
           if (path ==
               "/${returnPathOptions.successOnCreateSubscription.trimString("/")}") {
             onClosed?.call();
             onSuccess.call();
-            return NavigationActionPolicy.CANCEL;
+            return StripeNavigationActionPolicy.cancel;
           } else if (path ==
               "/${returnPathOptions.cancelOnCreateSubscription.trimString("/")}") {
             onClosed?.call();
             onCancel.call();
-            return NavigationActionPolicy.CANCEL;
+            return StripeNavigationActionPolicy.cancel;
           }
-          return NavigationActionPolicy.ALLOW;
+          return StripeNavigationActionPolicy.allow;
         },
-        onCloseWindow: (controller) {
+        onCloseWindow: () {
           onCancel.call();
         },
       );

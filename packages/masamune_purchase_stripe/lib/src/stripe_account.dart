@@ -75,25 +75,25 @@ class StripeAccount extends ChangeNotifier {
           internalCompleter = null;
         }
 
-        final webView = _StripeWebview(
+        final webView = StripeWebview(
           endpoint,
-          shouldOverrideUrlLoading: (controller, url) {
+          shouldOverrideUrlLoading: (url) {
             final path = url.trimQuery().replaceAll(callbackHost, "");
 
             if (path ==
                 "/${returnPathOptions.successOnCreateAccount.trimString("/")}") {
               onClosed?.call();
               onSuccess.call();
-              return NavigationActionPolicy.CANCEL;
+              return StripeNavigationActionPolicy.cancel;
             } else if (path ==
                 "/${returnPathOptions.refreshOnCreateAccount.trimString("/")}") {
               onClosed?.call();
               onCancel.call();
-              return NavigationActionPolicy.CANCEL;
+              return StripeNavigationActionPolicy.cancel;
             }
-            return NavigationActionPolicy.ALLOW;
+            return StripeNavigationActionPolicy.allow;
           },
-          onCloseWindow: (controller) {
+          onCloseWindow: () {
             onCancel.call();
           },
         );
@@ -218,20 +218,20 @@ class StripeAccount extends ChangeNotifier {
         internalCompleter = null;
       }
 
-      final webView = _StripeWebview(
+      final webView = StripeWebview(
         response.endpoint,
-        shouldOverrideUrlLoading: (controller, url) {
+        shouldOverrideUrlLoading: (url) {
           final path = url.trimQuery().replaceAll(callbackHost, "");
           switch (path) {
             case "/dashboard/finished":
             case "https://connect.stripe.com/express_login":
               onClosed?.call();
               onCompleted.call();
-              return NavigationActionPolicy.CANCEL;
+              return StripeNavigationActionPolicy.cancel;
           }
-          return NavigationActionPolicy.ALLOW;
+          return StripeNavigationActionPolicy.allow;
         },
-        onCloseWindow: (controller) {
+        onCloseWindow: () {
           onCompleted.call();
         },
       );

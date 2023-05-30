@@ -12,14 +12,17 @@ library masamune_purchase_stripe;
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:masamune/masamune.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 // Project imports:
 import 'models/stripe_payment.dart';
 import 'models/stripe_purchase.dart';
 import 'models/stripe_user.dart';
+
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart';
 
 export 'models/stripe_payment.dart';
 export 'models/stripe_purchase.dart';
@@ -54,6 +57,5 @@ part 'src/stripe_already_registered_exception.dart';
 part 'src/stripe_cancel_exception.dart';
 part 'src/stripe_currency.dart';
 part 'src/stripe_mail.dart';
-part 'src/stripe_webview.dart';
 part 'src/stripe_three_d_secure_options.dart';
 part 'src/stripe_return_path_options.dart';

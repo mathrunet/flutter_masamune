@@ -210,24 +210,24 @@ class StripePurchase extends ChangeNotifier {
       }
 
       if (response.nextActionUrl != null) {
-        final webView = _StripeWebview(
+        final webView = StripeWebview(
           response.nextActionUrl!,
-          shouldOverrideUrlLoading: (controller, url) {
+          shouldOverrideUrlLoading: (url) {
             final path = url.trimQuery().replaceAll(callbackHost, "");
             if (path ==
                 "/${returnPathOptions.finishedOnConfirmPurchase.trimString("/")}") {
               onClosed?.call();
               onCompleted();
-              return NavigationActionPolicy.CANCEL;
+              return StripeNavigationActionPolicy.cancel;
             }
             final uri = Uri.parse(url);
             if (uri.host == "hooks.stripe.com" &&
                 uri.queryParameters.containsKey("authenticated")) {
               authenticated = uri.queryParameters["authenticated"] == "true";
             }
-            return NavigationActionPolicy.ALLOW;
+            return StripeNavigationActionPolicy.allow;
           },
-          onCloseWindow: (controller) {
+          onCloseWindow: () {
             onCompleted();
           },
         );

@@ -1,23 +1,37 @@
-part of masamune_purchase_stripe;
+part of masamune_purchase_stripe.others;
 
-class _StripeWebview extends StatefulWidget {
-  const _StripeWebview(
+enum StripeNavigationActionPolicy {
+  cancel,
+  allow;
+
+  NavigationActionPolicy get _navigationActionPolicy {
+    switch (this) {
+      case StripeNavigationActionPolicy.cancel:
+        return NavigationActionPolicy.CANCEL;
+      case StripeNavigationActionPolicy.allow:
+        return NavigationActionPolicy.ALLOW;
+    }
+  }
+}
+
+class StripeWebview extends StatefulWidget {
+  const StripeWebview(
     this.endpoint, {
+    super.key,
     this.shouldOverrideUrlLoading,
     this.onCloseWindow,
   });
   final Uri endpoint;
-  final NavigationActionPolicy Function(
-    InAppWebViewController controller,
+  final StripeNavigationActionPolicy Function(
     String url,
   )? shouldOverrideUrlLoading;
-  final void Function(InAppWebViewController controller)? onCloseWindow;
+  final void Function()? onCloseWindow;
 
   @override
   State<StatefulWidget> createState() => _StripeWebviewState();
 }
 
-class _StripeWebviewState extends State<_StripeWebview> {
+class _StripeWebviewState extends State<StripeWebview> {
   InAppWebViewController? _webViewController;
   double _progress = 0.0;
   late final PullToRefreshController pullToRefreshController;
@@ -64,7 +78,7 @@ class _StripeWebviewState extends State<_StripeWebview> {
           onWebViewCreated: (controller) {
             _webViewController = controller;
           },
-          onCloseWindow: widget.onCloseWindow,
+          onCloseWindow: (controller) => widget.onCloseWindow?.call(),
           androidOnPermissionRequest: (controller, origin, resources) async {
             return PermissionRequestResponse(
               resources: resources,
@@ -72,10 +86,11 @@ class _StripeWebviewState extends State<_StripeWebview> {
             );
           },
           shouldOverrideUrlLoading: (controller, navigationAction) async {
-            return widget.shouldOverrideUrlLoading?.call(
-                  controller,
-                  navigationAction.request.url!.toString(),
-                ) ??
+            return widget.shouldOverrideUrlLoading
+                    ?.call(
+                      navigationAction.request.url!.toString(),
+                    )
+                    ._navigationActionPolicy ??
                 NavigationActionPolicy.ALLOW;
           },
           onLoadStop: (controller, url) async {
@@ -112,6 +127,6 @@ class _StripeWebviewState extends State<_StripeWebview> {
     if (_webViewController == null) {
       return;
     }
-    widget.onCloseWindow?.call(_webViewController!);
+    widget.onCloseWindow?.call();
   }
 }

@@ -64,24 +64,24 @@ class StripeCustomer extends ChangeNotifier {
         internalCompleter = null;
       }
 
-      final webView = _StripeWebview(
+      final webView = StripeWebview(
         response.endpoint,
-        shouldOverrideUrlLoading: (controller, url) {
+        shouldOverrideUrlLoading: (url) {
           final path = url.trimQuery().replaceAll(callbackHost, "");
           if (path ==
               "/${returnPathOptions.successOnCreateCustormerAndPayment.trimString("/")}") {
             onClosed?.call();
             onSuccess.call();
-            return NavigationActionPolicy.CANCEL;
+            return StripeNavigationActionPolicy.cancel;
           } else if (path ==
               "/${returnPathOptions.cancelOnCreateCustormerAndPayment.trimString("/")}") {
             onClosed?.call();
             onCancel.call();
-            return NavigationActionPolicy.CANCEL;
+            return StripeNavigationActionPolicy.cancel;
           }
-          return NavigationActionPolicy.ALLOW;
+          return StripeNavigationActionPolicy.allow;
         },
-        onCloseWindow: (controller) {
+        onCloseWindow: () {
           onCancel.call();
         },
       );
