@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.1.2`](#katana_cli---v212)
+
+---
+
+#### `katana_cli` - `v2.1.2`
+
+ - **FIX**: Fixed a bug that prevented Stripe from working properly. ([2a51194f](https://github.com/mathrunet/flutter_masamune/commit/2a51194fa252f734329d4eccd72a700e4db25fb5))
+
+
+## 2023-05-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_stripe` - `v3.0.2`](#masamune_purchase_stripe---v302)
 
 ---

@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Fixed a bug that prevented Stripe from working properly. ([2a51194f](https://github.com/mathrunet/flutter_masamune/commit/2a51194fa252f734329d4eccd72a700e4db25fb5))
+
 ## 2.1.1
 
  - **FIX**: Add the necessary processing for Stripe. ([5ce7c3c6](https://github.com/mathrunet/flutter_masamune/commit/5ce7c3c685c0eb5805601d51e25a0e21ccd3719b))
