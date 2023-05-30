@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.1.3`](#katana_cli---v213)
+ - [`masamune_purchase_stripe` - `v3.0.3`](#masamune_purchase_stripe---v303)
+ - [`masamune_universal_ui` - `v2.0.27`](#masamune_universal_ui---v2027)
+
+---
+
+#### `katana_cli` - `v2.1.3`
+
+ - **FIX**: The path for Config was wrong, so it was corrected. ([ab9a8199](https://github.com/mathrunet/flutter_masamune/commit/ab9a8199e699d52f032565b659dd910289898d79))
+
+#### `masamune_purchase_stripe` - `v3.0.3`
+
+ - **FIX**: Fixed a bug that did not work well with Functions around accounts. ([1f761656](https://github.com/mathrunet/flutter_masamune/commit/1f76165653fa74a3bc9f71d44723f4c682480e03))
+
+#### `masamune_universal_ui` - `v2.0.27`
+
+ - **FIX**: Added ability to update own tabs in openURL. ([27c51d15](https://github.com/mathrunet/flutter_masamune/commit/27c51d1509d4b24d31ad9379ef823ab3c0f564f3))
+
+
 ## 2023-05-30
 
 ### Changes

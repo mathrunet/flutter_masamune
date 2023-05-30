@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: The path for Config was wrong, so it was corrected. ([ab9a8199](https://github.com/mathrunet/flutter_masamune/commit/ab9a8199e699d52f032565b659dd910289898d79))
+
 ## 2.1.2
 
  - **FIX**: Fixed a bug that prevented Stripe from working properly. ([2a51194f](https://github.com/mathrunet/flutter_masamune/commit/2a51194fa252f734329d4eccd72a700e4db25fb5))

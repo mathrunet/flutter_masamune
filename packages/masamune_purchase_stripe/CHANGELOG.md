@@ -1,3 +1,7 @@
+## 3.0.3
+
+ - **FIX**: Fixed a bug that did not work well with Functions around accounts. ([1f761656](https://github.com/mathrunet/flutter_masamune/commit/1f76165653fa74a3bc9f71d44723f4c682480e03))
+
 ## 3.0.2
 
  - **FIX**: Web platform available. ([44b4e6c7](https://github.com/mathrunet/flutter_masamune/commit/44b4e6c703c617a5c0c8acb6c02a1e9cab97bac5))

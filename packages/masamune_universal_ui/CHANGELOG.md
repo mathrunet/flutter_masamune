@@ -1,3 +1,7 @@
+## 2.0.27
+
+ - **FIX**: Added ability to update own tabs in openURL. ([27c51d15](https://github.com/mathrunet/flutter_masamune/commit/27c51d1509d4b24d31ad9379ef823ab3c0f564f3))
+
 ## 2.0.26
 
  - **FIX**: Added option to always show sideBar in the drawer. ([cd981edb](https://github.com/mathrunet/flutter_masamune/commit/cd981edb547611fe86cde00414b50fcb7a8f5cf7))
