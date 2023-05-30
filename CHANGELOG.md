@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_stripe` - `v3.0.2`](#masamune_purchase_stripe---v302)
+
+---
+
+#### `masamune_purchase_stripe` - `v3.0.2`
+
+ - **FIX**: Web platform available. ([44b4e6c7](https://github.com/mathrunet/flutter_masamune/commit/44b4e6c703c617a5c0c8acb6c02a1e9cab97bac5))
+
+
+## 2023-05-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.1.1`](#katana_cli---v211)
  - [`masamune_purchase_stripe` - `v3.0.1`](#masamune_purchase_stripe---v301)
 

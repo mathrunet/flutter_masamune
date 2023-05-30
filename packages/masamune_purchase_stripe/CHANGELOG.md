@@ -1,3 +1,7 @@
+## 3.0.2
+
+ - **FIX**: Web platform available. ([44b4e6c7](https://github.com/mathrunet/flutter_masamune/commit/44b4e6c703c617a5c0c8acb6c02a1e9cab97bac5))
+
 ## 3.0.1
 
  - **FIX**: Endpoint and return path liberalization. ([7382e547](https://github.com/mathrunet/flutter_masamune/commit/7382e547baef85223bf3253f4097bfa064ac9ec7))
