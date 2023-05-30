@@ -107,6 +107,13 @@ firebase:
   # Cloud Functions for Firebaseを有効にします。
   functions:
     enable: false
+
+    # Specify the Region for FirebaseFunctions.
+    # Please refer to the following link for the Region of FirebaseFunctions.
+    # FirebaseFunctionsのRegionを指定します。
+    # FirebaseFunctionsのRegionは以下のリンクを参考にしてください。
+    # https://firebase.google.com/docs/functions/locations?hl=ja
+    region: asia-northeast1
   
   # Enable Firebase Analytics and Firebase Crashlytics.
   # If you are unable to activate Analytics, please check if the "Project Settings" -> "Integration" -> "GoogleAnalytics" application is successfully linked.
@@ -263,25 +270,11 @@ stripe:
   # https://dashboard.stripe.com/test/apikeys
   secret_key: 
 
-  # Signature secret for `stripe_hook`.
-  # It can be obtained from each Webhook setting.
-  # `stripe_hook`用の署名シークレット。
-  # 各Webhookの設定から取得できます。
-  # Production environment
-  # https://dashboard.stripe.com/webhooks
-  # Development enveironment
-  # https://dashboard.stripe.com/test/webhooks
-  stripe_hook_signature_secret:
-
-  # Signature secret for `stripe_hook_connect`.
-  # It can be obtained from each Webhook setting.
-  # `stripe_hook_connect`用の署名シークレット。
-  # 各Webhookの設定から取得できます。
-  # Production environment
-  # https://dashboard.stripe.com/webhooks
-  # Development enveironment
-  # https://dashboard.stripe.com/test/webhooks
-  stripe_hook_connect_signature_secret:
+  # URL scheme for returning from Stripe's WebView.
+  # It must be set to the same settings as the application side.
+  # StripeのWebViewから戻る際のURLスキーム。
+  # アプリ側と同じ設定にする必要があります。
+  url_scheme:
 
   # Specify the email provider for use with Stripe's 3D Secure authentication.
   # Specify `sendgrid` if you use SendGrid or `gmail` if you use Gmail.
@@ -290,6 +283,20 @@ stripe:
   # SendGridを利用する場合は`sendgrid`、Gmailを利用する場合は`gmail`を指定してください。
   # また、各種メールの設定を行ってください。
   email_provider: sendgrid
+
+  # Set up a redirect page for 3D Secure.
+  # Under each language code, [success] and [failure] should include the URL for success and failure.
+  # Adding a language code allows you to include the URL for that language.
+  # 3Dセキュア用のリダイレクトページを設定します。
+  # 各言語コードの下に[success]と[failure]には成功時、失敗時のURLを記載してください。
+  # 言語コードを追加するとその言語のURLを記載することができます。
+  three_d_secure_redirect_page:
+    en:
+      success:
+      failure:
+    ja:
+      success:
+      failure:
 
 # Configure Gmail sending settings.
 # Gmailの送信設定を行います。
