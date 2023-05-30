@@ -86,7 +86,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         }
         break;
       default:
-        final enalbeSendGrid = gmail.get("enable", false);
+        final enalbeSendGrid = sendgrid.get("enable", false);
         final sendGridApiKey = sendgrid.get("api_key", "");
         if (!enalbeSendGrid) {
           error(
@@ -531,7 +531,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
       }
       final successContent = successResponse.body;
       final failureContent = failureResponse.body;
-      final dir = Directory("firebase/hosting/${locale.key}");
+      final dir = Directory("firebase/hosting/${locale.key}/secure");
       if (!dir.existsSync()) {
         await dir.create(recursive: true);
       }

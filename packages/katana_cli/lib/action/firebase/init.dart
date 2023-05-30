@@ -219,6 +219,12 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
           _runCommandStack(
             line,
+            "? File firestore.rules already exists. Do you want to overwrite it",
+            commandStack,
+            () => firestoreProcess.stdin.write("y\n"),
+          );
+          _runCommandStack(
+            line,
             "? What file should be used for Firestore indexes?",
             commandStack,
             () => firestoreProcess.stdin.write("\n"),
