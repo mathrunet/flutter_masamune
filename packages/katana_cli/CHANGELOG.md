@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Add the necessary processing for Stripe. ([5ce7c3c6](https://github.com/mathrunet/flutter_masamune/commit/5ce7c3c685c0eb5805601d51e25a0e21ccd3719b))
+
 ## 2.1.0
 
  - **FIX**: Add initial page. ([096d8c2a](https://github.com/mathrunet/flutter_masamune/commit/096d8c2a55d0cb8d910f32049c2159104c51d512))

@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-05-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.1.1`](#katana_cli---v211)
+ - [`masamune_purchase_stripe` - `v3.0.1`](#masamune_purchase_stripe---v301)
+
+---
+
+#### `katana_cli` - `v2.1.1`
+
+ - **FIX**: Add the necessary processing for Stripe. ([5ce7c3c6](https://github.com/mathrunet/flutter_masamune/commit/5ce7c3c685c0eb5805601d51e25a0e21ccd3719b))
+
+#### `masamune_purchase_stripe` - `v3.0.1`
+
+ - **FIX**: Endpoint and return path liberalization. ([7382e547](https://github.com/mathrunet/flutter_masamune/commit/7382e547baef85223bf3253f4097bfa064ac9ec7))
+
+
 ## 2023-05-27
 
 ### Changes

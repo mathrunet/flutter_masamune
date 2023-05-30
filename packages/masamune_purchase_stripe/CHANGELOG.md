@@ -1,3 +1,7 @@
+## 3.0.1
+
+ - **FIX**: Endpoint and return path liberalization. ([7382e547](https://github.com/mathrunet/flutter_masamune/commit/7382e547baef85223bf3253f4097bfa064ac9ec7))
+
 ## 3.0.0
 
 > Note: This release has breaking changes.
