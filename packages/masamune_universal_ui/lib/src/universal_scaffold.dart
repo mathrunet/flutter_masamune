@@ -139,6 +139,7 @@ class UniversalScaffold extends StatefulWidget {
     this.extendBodyBehindAppBar = false,
     this.drawerScrimColor,
     this.drawerEdgeDragWidth,
+    this.sideBarOnDrawerAlways = false,
     this.drawerEnableOpenDragGesture = true,
     this.endDrawerEnableOpenDragGesture = true,
     this.restorationId,
@@ -188,6 +189,11 @@ class UniversalScaffold extends StatefulWidget {
   ///
   /// モーダルとして表示する場合にご利用ください。
   final BorderRadiusGeometry? borderRadius;
+
+  /// If set to `true`, the sidebar will always be placed in the drawer regardless of screen size.
+  ///
+  /// `true`に設定されている場合、画面サイズによらずサイドバーを常にドロワーに設置します。
+  final bool sideBarOnDrawerAlways;
 
   /// Setting this to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
   ///
@@ -586,7 +592,9 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     final universalScope =
         MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final breakpoint = universalScope?.defaultBreakpoint ?? widget.breakpoint;
-    final shouldShowSideBar = breakpoint?.shouldShowSideBar(context) ?? true;
+    final shouldShowSideBar =
+        (breakpoint?.shouldShowSideBar(context) ?? true) &&
+            !widget.sideBarOnDrawerAlways;
     if (shouldShowSideBar) {
       return null;
     }
@@ -607,7 +615,9 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     final universalScope =
         MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
     final breakpoint = universalScope?.defaultBreakpoint ?? widget.breakpoint;
-    final shouldShowSideBar = breakpoint?.shouldShowSideBar(context) ?? true;
+    final shouldShowSideBar =
+        (breakpoint?.shouldShowSideBar(context) ?? true) &&
+            !widget.sideBarOnDrawerAlways;
     if (!shouldShowSideBar) {
       return _buildInnerBody(context, body);
     }
