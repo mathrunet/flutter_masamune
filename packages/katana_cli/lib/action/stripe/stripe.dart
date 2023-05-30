@@ -473,13 +473,14 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         firebaseCommand,
         "functions:config:set",
         "purchase.stripe.secret_key=$secretKey",
-        if (webHookSecret.isNotEmpty) "stripe.webhook_secret=$webHookSecret",
         "purchase.stripe.email_provider=$emailProvider",
         "purchase.stripe.user_path=plugins/stripe/user",
         "purchase.stripe.payment_path=payment",
         "purchase.stripe.purchase_path=purchase",
+        if (webHookSecret.isNotEmpty)
+          "purchase.stripe.webhook_secret=$webHookSecret",
         if (enableConnect && webHookConnectSecret.isNotEmpty)
-          "stripe.webhook_connect_secret=$webHookConnectSecret",
+          "purchase.stripe.webhook_connect_secret=$webHookConnectSecret",
         if (emailProvider == "gmail") ...[
           "mail.gmail.id=${gmail.get("user_id", "")}",
           "mail.gmail.password=${gmail.get("user_password", "")}",
