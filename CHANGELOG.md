@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_universal_ui` - `v2.0.26`](#masamune_universal_ui---v2026)
+
+---
+
+#### `masamune_universal_ui` - `v2.0.26`
+
+ - **FIX**: Added option to always show sideBar in the drawer. ([cd981edb](https://github.com/mathrunet/flutter_masamune/commit/cd981edb547611fe86cde00414b50fcb7a8f5cf7))
+
+
+## 2023-05-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.1.2`](#katana_cli---v212)
 
 ---

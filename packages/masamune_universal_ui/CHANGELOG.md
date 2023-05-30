@@ -1,3 +1,7 @@
+## 2.0.26
+
+ - **FIX**: Added option to always show sideBar in the drawer. ([cd981edb](https://github.com/mathrunet/flutter_masamune/commit/cd981edb547611fe86cde00414b50fcb7a8f5cf7))
+
 ## 2.0.25
 
  - Update a dependency to the latest release.
