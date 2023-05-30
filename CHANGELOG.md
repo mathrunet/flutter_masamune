@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.1.4`](#katana_cli---v214)
+
+---
+
+#### `katana_cli` - `v2.1.4`
+
+ - **FIX**: Fixed a bug that Hook's Config was not organized. ([7baf5216](https://github.com/mathrunet/flutter_masamune/commit/7baf5216d2b8a1a04f2aaf6569909a36c57c362b))
+
+
+## 2023-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.1.3`](#katana_cli---v213)
  - [`masamune_purchase_stripe` - `v3.0.3`](#masamune_purchase_stripe---v303)
  - [`masamune_universal_ui` - `v2.0.27`](#masamune_universal_ui---v2027)

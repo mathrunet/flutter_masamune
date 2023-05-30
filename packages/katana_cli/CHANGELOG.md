@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **FIX**: Fixed a bug that Hook's Config was not organized. ([7baf5216](https://github.com/mathrunet/flutter_masamune/commit/7baf5216d2b8a1a04f2aaf6569909a36c57c362b))
+
 ## 2.1.3
 
  - **FIX**: The path for Config was wrong, so it was corrected. ([ab9a8199](https://github.com/mathrunet/flutter_masamune/commit/ab9a8199e699d52f032565b659dd910289898d79))
