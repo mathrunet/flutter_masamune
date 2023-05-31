@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_openapi` - `v2.0.2`](#katana_model_openapi---v202)
+ - [`katana_model_openapi_builder` - `v2.0.2`](#katana_model_openapi_builder---v202)
+
+---
+
+#### `katana_model_openapi` - `v2.0.2`
+
+ - **FIX**: Addition of Map. ([807d0e7b](https://github.com/mathrunet/flutter_masamune/commit/807d0e7bc70cf779486598458bfaaeb9754cfea0))
+
+#### `katana_model_openapi_builder` - `v2.0.2`
+
+ - **FIX**: Addition of Map. ([807d0e7b](https://github.com/mathrunet/flutter_masamune/commit/807d0e7bc70cf779486598458bfaaeb9754cfea0))
+
+
+## 2023-05-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.1.4`](#katana_cli---v214)
 
 ---
