@@ -7,7 +7,7 @@ extension APISchemaObjectExtensions on APISchemaObject {
     bool inList = false,
   }) {
     final nullable = !inList && !required.contains(key) ? "?" : "";
-    if (referenceURI != null) {
+    if (referenceURI != null && additionalPropertySchema == null) {
       return "${referenceURI!.toString().split("/").last.toPascalCase()}$nullable";
     }
     switch (type) {
@@ -22,6 +22,9 @@ extension APISchemaObjectExtensions on APISchemaObject {
       case APIType.array:
         return "List<${items?.toDartType(key, inList: true)}>";
       default:
+        if (additionalPropertyPolicy != null) {
+          return "Map<String,dynamic>";
+        }
         return "Object$nullable";
     }
   }
