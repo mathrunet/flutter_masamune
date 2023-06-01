@@ -146,11 +146,6 @@ class StripePurchase extends ChangeNotifier {
           "Purchase information is empty. Please run [create] method.",
         );
       }
-      final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final purchaseCollection = $StripePurchaseModelCollection(
-        modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
-      );
       if (value.error) {
         throw Exception(
           "There has been an error with your payment. Please check and Refresh your payment information once.",
@@ -215,7 +210,8 @@ class StripePurchase extends ChangeNotifier {
         }
       }
 
-      if (response.nextActionUrl != null) {
+      final nextAction = response.nextActionUrl?.toString();
+      if (nextAction.isNotEmpty) {
         final webView = StripeWebview(
           response.nextActionUrl!,
           shouldOverrideUrlLoading: (url) {
@@ -242,13 +238,9 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.reload();
-        return !purchaseCollection.any(
-          (element) =>
-              element.value != null &&
-              element.value!.confirm &&
-              element.value!.verified,
-        );
+        await purchase.reload();
+        return purchase.value != null &&
+            (!purchase.value!.confirm || !purchase.value!.verified);
       }).timeout(timeout);
       _completer?.complete();
       _completer = null;
@@ -285,11 +277,6 @@ class StripePurchase extends ChangeNotifier {
           "Purchase information is empty. Please run [create] method.",
         );
       }
-      final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final purchaseCollection = $StripePurchaseModelCollection(
-        modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
-      );
       if (value.error) {
         throw Exception(
           "There has been an error with your payment. Please check and Refresh your payment information once.",
@@ -328,10 +315,8 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.reload();
-        return !purchaseCollection.any(
-          (element) => element.value != null && element.value!.captured,
-        );
+        await purchase.reload();
+        return purchase.value != null && !purchase.value!.confirm;
       }).timeout(timeout);
       _completer?.complete();
       _completer = null;
@@ -361,11 +346,6 @@ class StripePurchase extends ChangeNotifier {
           "Purchase information is empty. Please run [create] method.",
         );
       }
-      final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final purchaseCollection = $StripePurchaseModelCollection(
-        modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
-      );
       if (value.canceled) {
         throw Exception("This purchase has already canceled.");
       }
@@ -388,10 +368,8 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.reload();
-        return !purchaseCollection.any(
-          (element) => element.value != null && element.value!.canceled,
-        );
+        await purchase.reload();
+        return purchase.value != null && !purchase.value!.canceled;
       }).timeout(timeout);
       _completer?.complete();
       _completer = null;
@@ -422,11 +400,6 @@ class StripePurchase extends ChangeNotifier {
           "Purchase information is empty. Please run [create] method.",
         );
       }
-      final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final purchaseCollection = $StripePurchaseModelCollection(
-        modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
-      );
       if (!value.captured || !value.success) {
         throw Exception("The payment is not yet in your jurisdiction.");
       }
@@ -455,10 +428,8 @@ class StripePurchase extends ChangeNotifier {
       }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
-        await purchaseCollection.reload();
-        return !purchaseCollection.any(
-          (element) => element.value != null && element.value!.refund,
-        );
+        await purchase.reload();
+        return purchase.value != null && !purchase.value!.refund;
       }).timeout(timeout);
       _completer?.complete();
       _completer = null;

@@ -58,7 +58,7 @@ class StripePurchaseModel with _$StripePurchaseModel {
     @Default(0.0)
         double amount,
     @JsonKey(name: "application")
-        required double application,
+        String? application,
     @JsonKey(name: "applicationFeeAmount")
     @Default(0.0)
         double applicationFeeAmount,

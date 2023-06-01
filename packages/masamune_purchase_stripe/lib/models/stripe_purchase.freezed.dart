@@ -47,7 +47,7 @@ mixin _$StripePurchaseModel {
   @JsonKey(name: "amount")
   double get amount => throw _privateConstructorUsedError;
   @JsonKey(name: "application")
-  double get application => throw _privateConstructorUsedError;
+  String? get application => throw _privateConstructorUsedError;
   @JsonKey(name: "applicationFeeAmount")
   double get applicationFeeAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "transferAmount")
@@ -101,7 +101,7 @@ abstract class $StripePurchaseModelCopyWith<$Res> {
       @JsonKey(name: "paymentMethodId") String paymentMethodId,
       @JsonKey(name: "customer") String customerId,
       @JsonKey(name: "amount") double amount,
-      @JsonKey(name: "application") double application,
+      @JsonKey(name: "application") String? application,
       @JsonKey(name: "applicationFeeAmount") double applicationFeeAmount,
       @JsonKey(name: "transferAmount") double transferAmount,
       @JsonKey(name: "transferDistination") String transferDistination,
@@ -143,7 +143,7 @@ class _$StripePurchaseModelCopyWithImpl<$Res, $Val extends StripePurchaseModel>
     Object? paymentMethodId = null,
     Object? customerId = null,
     Object? amount = null,
-    Object? application = null,
+    Object? application = freezed,
     Object? applicationFeeAmount = null,
     Object? transferAmount = null,
     Object? transferDistination = null,
@@ -211,10 +211,10 @@ class _$StripePurchaseModelCopyWithImpl<$Res, $Val extends StripePurchaseModel>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      application: null == application
+      application: freezed == application
           ? _value.application
           : application // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String?,
       applicationFeeAmount: null == applicationFeeAmount
           ? _value.applicationFeeAmount
           : applicationFeeAmount // ignore: cast_nullable_to_non_nullable
@@ -293,7 +293,7 @@ abstract class _$$_StripePurchaseModelCopyWith<$Res>
       @JsonKey(name: "paymentMethodId") String paymentMethodId,
       @JsonKey(name: "customer") String customerId,
       @JsonKey(name: "amount") double amount,
-      @JsonKey(name: "application") double application,
+      @JsonKey(name: "application") String? application,
       @JsonKey(name: "applicationFeeAmount") double applicationFeeAmount,
       @JsonKey(name: "transferAmount") double transferAmount,
       @JsonKey(name: "transferDistination") String transferDistination,
@@ -333,7 +333,7 @@ class __$$_StripePurchaseModelCopyWithImpl<$Res>
     Object? paymentMethodId = null,
     Object? customerId = null,
     Object? amount = null,
-    Object? application = null,
+    Object? application = freezed,
     Object? applicationFeeAmount = null,
     Object? transferAmount = null,
     Object? transferDistination = null,
@@ -401,10 +401,10 @@ class __$$_StripePurchaseModelCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      application: null == application
+      application: freezed == application
           ? _value.application
           : application // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String?,
       applicationFeeAmount: null == applicationFeeAmount
           ? _value.applicationFeeAmount
           : applicationFeeAmount // ignore: cast_nullable_to_non_nullable
@@ -478,7 +478,7 @@ class _$_StripePurchaseModel extends _StripePurchaseModel {
       @JsonKey(name: "paymentMethodId") required this.paymentMethodId,
       @JsonKey(name: "customer") required this.customerId,
       @JsonKey(name: "amount") this.amount = 0.0,
-      @JsonKey(name: "application") required this.application,
+      @JsonKey(name: "application") this.application,
       @JsonKey(name: "applicationFeeAmount") this.applicationFeeAmount = 0.0,
       @JsonKey(name: "transferAmount") this.transferAmount = 0.0,
       @JsonKey(name: "transferDistination") this.transferDistination = "",
@@ -538,7 +538,7 @@ class _$_StripePurchaseModel extends _StripePurchaseModel {
   final double amount;
   @override
   @JsonKey(name: "application")
-  final double application;
+  final String? application;
   @override
   @JsonKey(name: "applicationFeeAmount")
   final double applicationFeeAmount;
@@ -713,7 +713,7 @@ abstract class _StripePurchaseModel extends StripePurchaseModel {
       @JsonKey(name: "amount")
           final double amount,
       @JsonKey(name: "application")
-          required final double application,
+          final String? application,
       @JsonKey(name: "applicationFeeAmount")
           final double applicationFeeAmount,
       @JsonKey(name: "transferAmount")
@@ -786,7 +786,7 @@ abstract class _StripePurchaseModel extends StripePurchaseModel {
   double get amount;
   @override
   @JsonKey(name: "application")
-  double get application;
+  String? get application;
   @override
   @JsonKey(name: "applicationFeeAmount")
   double get applicationFeeAmount;

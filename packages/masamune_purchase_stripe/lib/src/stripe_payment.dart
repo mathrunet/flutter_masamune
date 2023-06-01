@@ -176,8 +176,6 @@ class StripePayment extends ChangeNotifier {
       }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final paymentCollection = $StripePaymentModelCollection(modelQuery);
-      await paymentCollection.load();
-      final length = paymentCollection.length;
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
@@ -185,7 +183,7 @@ class StripePayment extends ChangeNotifier {
       final response = await functionsAdapter.stipe(
         action: StripeDeletePaymentAction(
           userId: userId,
-          paymentId: value.paymentId,
+          paymentId: payment.uid,
         ),
       );
       if (response == null) {
@@ -194,7 +192,7 @@ class StripePayment extends ChangeNotifier {
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
         await paymentCollection.reload();
-        return length == paymentCollection.length;
+        return paymentCollection.any((e) => e.uid == payment.uid);
       }).timeout(timeout);
       _completer?.complete();
       _completer = null;

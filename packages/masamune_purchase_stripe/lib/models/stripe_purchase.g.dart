@@ -22,7 +22,7 @@ _$_StripePurchaseModel _$$_StripePurchaseModelFromJson(
       paymentMethodId: json['paymentMethodId'] as String,
       customerId: json['customer'] as String,
       amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
-      application: (json['application'] as num).toDouble(),
+      application: json['application'] as String?,
       applicationFeeAmount:
           (json['applicationFeeAmount'] as num?)?.toDouble() ?? 0.0,
       transferAmount: (json['transferAmount'] as num?)?.toDouble() ?? 0.0,
