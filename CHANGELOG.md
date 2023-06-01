@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_purchase_stripe` - `v3.0.4`](#masamune_purchase_stripe---v304)
+
+---
+
+#### `masamune_purchase_stripe` - `v3.0.4`
+
+ - **FIX**: Fixed a bug in the purchase process. ([188cabc0](https://github.com/mathrunet/flutter_masamune/commit/188cabc027711065ab71109379d873d6c7eb9d42))
+
+
 ## 2023-05-31
 
 ### Changes

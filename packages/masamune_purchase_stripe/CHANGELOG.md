@@ -1,3 +1,7 @@
+## 3.0.4
+
+ - **FIX**: Fixed a bug in the purchase process. ([188cabc0](https://github.com/mathrunet/flutter_masamune/commit/188cabc027711065ab71109379d873d6c7eb9d42))
+
 ## 3.0.3
 
  - **FIX**: Fixed a bug that did not work well with Functions around accounts. ([1f761656](https://github.com/mathrunet/flutter_masamune/commit/1f76165653fa74a3bc9f71d44723f4c682480e03))
