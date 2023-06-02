@@ -307,6 +307,12 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
           color:
               widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
         );
+    final disabledTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.disabledColor,
+        ) ??
+        TextStyle(
+          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+        );
     const borderSide = OutlineInputBorder(
       borderSide: BorderSide.none,
     );
@@ -319,7 +325,9 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
       child: Stack(
         children: [
           TextFormField(
-            mouseCursor: SystemMouseCursors.click,
+            mouseCursor: widget.enabled == false
+                ? SystemMouseCursors.forbidden
+                : SystemMouseCursors.click,
             enabled: widget.enabled,
             controller: _controller,
             decoration: InputDecoration(
@@ -356,7 +364,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
                   widget.style?.prefix?.iconConstraints,
               suffixIconConstraints: widget.suffix?.iconConstraints ??
                   widget.style?.suffix?.iconConstraints,
-              labelStyle: mainTextStyle,
+              labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
               hintStyle: subTextStyle,
               suffixStyle: subTextStyle,
               prefixStyle: subTextStyle,
@@ -364,7 +372,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
               helperStyle: subTextStyle,
               errorStyle: errorTextStyle,
             ),
-            style: mainTextStyle,
+            style: widget.enabled ? mainTextStyle : disabledTextStyle,
             textAlign: widget.style?.textAlign ?? TextAlign.left,
             textAlignVertical: widget.style?.textAlignVertical,
             readOnly: true,
@@ -393,7 +401,9 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
                   child: Icon(
                     Icons.arrow_drop_down,
                     size: 24,
-                    color: mainTextStyle.color,
+                    color: widget.enabled
+                        ? mainTextStyle.color
+                        : disabledTextStyle.color,
                   ),
                 ),
               ),

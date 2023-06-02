@@ -308,6 +308,12 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
           color:
               widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
         );
+    final disabledTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.disabledColor,
+        ) ??
+        TextStyle(
+          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+        );
     const borderSide = OutlineInputBorder(
       borderSide: BorderSide.none,
     );
@@ -335,10 +341,12 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
                 Theme.of(context).colorScheme.primary,
             disabledColor:
                 widget.style?.disabledColor ?? Theme.of(context).disabledColor,
-            labelStyle: mainTextStyle.copyWith(
-              color: widget.style?.activeColor ??
-                  Theme.of(context).colorScheme.onPrimary,
-            ),
+            labelStyle: widget.enabled
+                ? mainTextStyle.copyWith(
+                    color: widget.style?.activeColor ??
+                        Theme.of(context).colorScheme.onPrimary,
+                  )
+                : disabledTextStyle,
             secondaryLabelStyle: subTextStyle.copyWith(
               color: widget.style?.activeColor ??
                   Theme.of(context).colorScheme.onPrimary,
@@ -347,7 +355,9 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
                 Theme.of(context).colorScheme.onPrimary,
           ),
           child: MouseRegion(
-            cursor: SystemMouseCursors.text,
+            cursor: widget.enabled == false
+                ? SystemMouseCursors.forbidden
+                : SystemMouseCursors.text,
             child: _ChipsInput<String>(
               initialValue: value ?? [],
               decoration: InputDecoration(
@@ -384,7 +394,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
                     widget.style?.prefix?.iconConstraints,
                 suffixIconConstraints: widget.suffix?.iconConstraints ??
                     widget.style?.suffix?.iconConstraints,
-                labelStyle: mainTextStyle,
+                labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
                 hintStyle: subTextStyle,
                 suffixStyle: subTextStyle,
                 prefixStyle: subTextStyle,

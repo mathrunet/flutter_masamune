@@ -402,6 +402,12 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
           color:
               widget.style?.errorColor ?? Theme.of(context).colorScheme.error,
         );
+    final disabledTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.disabledColor,
+        ) ??
+        TextStyle(
+          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+        );
     const borderSide = OutlineInputBorder(
       borderSide: BorderSide.none,
     );
@@ -454,7 +460,7 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
                   widget.style?.prefix?.iconConstraints,
               suffixIconConstraints: widget.suffix?.iconConstraints ??
                   widget.style?.suffix?.iconConstraints,
-              labelStyle: mainTextStyle,
+              labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
               hintStyle: subTextStyle,
               suffixStyle: subTextStyle,
               prefixStyle: subTextStyle,
@@ -462,7 +468,7 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
               helperStyle: subTextStyle,
               errorStyle: errorTextStyle,
             ),
-            style: mainTextStyle,
+            style: widget.enabled ? mainTextStyle : disabledTextStyle,
             textAlign: widget.style?.textAlign ?? TextAlign.left,
             textAlignVertical: widget.style?.textAlignVertical,
             readOnly: widget.readOnly,
@@ -497,7 +503,9 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
                   child: Icon(
                     Icons.arrow_drop_down,
                     size: 24,
-                    color: mainTextStyle.color,
+                    color: widget.enabled
+                        ? mainTextStyle.color
+                        : disabledTextStyle.color,
                   ),
                 ),
               ),
@@ -564,7 +572,9 @@ class _DateTextField<TValue> extends FormField<DateTime> {
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
-              mouseCursor: SystemMouseCursors.click,
+              mouseCursor: enabled == false
+                  ? SystemMouseCursors.forbidden
+                  : SystemMouseCursors.click,
               controller: state._effectiveController ??
                   TextEditingController(
                     text: state.value != null

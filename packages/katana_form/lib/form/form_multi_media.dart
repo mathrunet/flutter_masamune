@@ -578,6 +578,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
                   padding: const EdgeInsets.only(right: 8),
                   child: _buildItem(
                     context,
+                    widget,
                     value,
                     widget._builder,
                     widget.readOnly || !widget.enabled ? null : onUpdate,
@@ -594,8 +595,9 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
     );
   }
 
-  Widget _buildItem(
+  Widget _buildItem<TValue>(
     BuildContext context,
+    FormMultiMedia<TValue> widget,
     FormMediaValue value,
     Widget Function(
       BuildContext context,
@@ -610,6 +612,9 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
       return Stack(
         children: [
           InkWell(
+            mouseCursor: widget.enabled == false
+                ? SystemMouseCursors.forbidden
+                : SystemMouseCursors.click,
             onLongPress: onRemove == null
                 ? null
                 : () {

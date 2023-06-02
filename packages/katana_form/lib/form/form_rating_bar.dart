@@ -462,6 +462,12 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
               Theme.of(context).textTheme.titleMedium?.color ??
               Theme.of(context).colorScheme.onBackground,
         );
+    final disabledTextStyle = widget.style?.textStyle?.copyWith(
+          color: widget.style?.disabledColor,
+        ) ??
+        TextStyle(
+          color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
+        );
     final min = widget.min ?? 1.0;
 
     if (widget.showLabel) {
@@ -479,7 +485,7 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
               Text(
                 (value ?? min).format(widget.format),
                 textAlign: TextAlign.end,
-                style: mainTextStyle,
+                style: widget.enabled ? mainTextStyle : disabledTextStyle,
               ),
             ],
           ],
@@ -521,26 +527,32 @@ class _FormRatingBarState<TValue> extends FormFieldState<double>
           color: widget.activeColor ?? Theme.of(context).primaryColor,
           size: widget.iconSize,
         ),
-        child: RatingBar.builder(
-          minRating: min,
-          maxRating: widget.max ?? widget.iconCount.toDouble(),
-          itemBuilder: (context, index) {
-            if (widget.iconBuilder != null) {
-              return widget.iconBuilder!.call(context, index);
-            }
-            return widget.icon ?? const Icon(Icons.star);
-          },
-          onRatingUpdate: (value) {
-            widget.onChanged?.call(value);
-            didChange(value);
-          },
-          tapOnlyMode: widget.tapOnlyMode,
-          initialRating: value ?? min,
-          allowHalfRating: widget.allowHalfRating,
-          unratedColor: widget.inactiveColor ?? Theme.of(context).disabledColor,
-          direction: widget.direction,
-          itemSize: widget.iconSize,
-          itemCount: widget.iconCount,
+        child: MouseRegion(
+          cursor: widget.enabled == false
+              ? SystemMouseCursors.forbidden
+              : SystemMouseCursors.click,
+          child: RatingBar.builder(
+            minRating: min,
+            maxRating: widget.max ?? widget.iconCount.toDouble(),
+            itemBuilder: (context, index) {
+              if (widget.iconBuilder != null) {
+                return widget.iconBuilder!.call(context, index);
+              }
+              return widget.icon ?? const Icon(Icons.star);
+            },
+            onRatingUpdate: (value) {
+              widget.onChanged?.call(value);
+              didChange(value);
+            },
+            tapOnlyMode: widget.tapOnlyMode,
+            initialRating: value ?? min,
+            allowHalfRating: widget.allowHalfRating,
+            unratedColor:
+                widget.inactiveColor ?? Theme.of(context).disabledColor,
+            direction: widget.direction,
+            itemSize: widget.iconSize,
+            itemCount: widget.iconCount,
+          ),
         ),
       );
     }
