@@ -8,7 +8,7 @@ const kWhiteColor = Color(0xFFF7F7F7);
 /// Dark white for design.
 ///
 /// デザイン用の暗い白色。
-const kWhiteSurfaceColor = Color(0xFFD1D1D1);
+const kWhiteSurfaceColor = Color(0xFFE7E7E7);
 
 /// Black for design.
 ///
