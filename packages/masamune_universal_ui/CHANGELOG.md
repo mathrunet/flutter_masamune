@@ -1,3 +1,7 @@
+## 2.0.28
+
+ - Update a dependency to the latest release.
+
 ## 2.0.27
 
  - **FIX**: Added ability to update own tabs in openURL. ([27c51d15](https://github.com/mathrunet/flutter_masamune/commit/27c51d1509d4b24d31ad9379ef823ab3c0f564f3))

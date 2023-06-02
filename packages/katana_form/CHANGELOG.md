@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **FIX**: Display settings when inactive. ([28f1a10c](https://github.com/mathrunet/flutter_masamune/commit/28f1a10cebfc88c008109263c61b699bc1db7065))
+
 ## 2.2.2
 
  - **FIX**: Fixed a bug in FormMediaValue's toString. ([81adc7fd](https://github.com/mathrunet/flutter_masamune/commit/81adc7fd4a05a986a0af3639ef4349ac4499a318))

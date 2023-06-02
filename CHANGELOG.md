@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v2.2.3`](#katana_form---v223)
+ - [`katana_theme` - `v2.0.5`](#katana_theme---v205)
+ - [`masamune` - `v2.0.24`](#masamune---v2024)
+ - [`masamune_picker_file` - `v2.0.24`](#masamune_picker_file---v2024)
+ - [`masamune_agora` - `v2.0.24`](#masamune_agora---v2024)
+ - [`masamune_ai_openai` - `v2.0.25`](#masamune_ai_openai---v2025)
+ - [`masamune_calendar` - `v2.0.24`](#masamune_calendar---v2024)
+ - [`masamune_picker` - `v2.0.24`](#masamune_picker---v2024)
+ - [`masamune_universal_ui` - `v2.0.28`](#masamune_universal_ui---v2028)
+ - [`masamune_purchase_stripe` - `v3.0.5`](#masamune_purchase_stripe---v305)
+ - [`masamune_logger_firebase` - `v2.0.24`](#masamune_logger_firebase---v2024)
+ - [`masamune_picker_mobile` - `v2.0.24`](#masamune_picker_mobile---v2024)
+ - [`masamune_notification_firebase` - `v2.0.24`](#masamune_notification_firebase---v2024)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.0.24`
+ - `masamune_picker_file` - `v2.0.24`
+ - `masamune_agora` - `v2.0.24`
+ - `masamune_ai_openai` - `v2.0.25`
+ - `masamune_calendar` - `v2.0.24`
+ - `masamune_picker` - `v2.0.24`
+ - `masamune_universal_ui` - `v2.0.28`
+ - `masamune_purchase_stripe` - `v3.0.5`
+ - `masamune_logger_firebase` - `v2.0.24`
+ - `masamune_picker_mobile` - `v2.0.24`
+ - `masamune_notification_firebase` - `v2.0.24`
+
+---
+
+#### `katana_form` - `v2.2.3`
+
+ - **FIX**: Display settings when inactive. ([28f1a10c](https://github.com/mathrunet/flutter_masamune/commit/28f1a10cebfc88c008109263c61b699bc1db7065))
+
+#### `katana_theme` - `v2.0.5`
+
+ - **FIX**: Adjust colors in case of light theme. ([2a6b8c02](https://github.com/mathrunet/flutter_masamune/commit/2a6b8c027ad82d370b11c0fbf954b36ce2782031))
+
+
 ## 2023-06-01
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.0.5
+
+ - **FIX**: Adjust colors in case of light theme. ([2a6b8c02](https://github.com/mathrunet/flutter_masamune/commit/2a6b8c027ad82d370b11c0fbf954b36ce2782031))
+
 ## 2.0.4
 
  - **FIX**: Set the hashCode of TextProvider. ([12dd6361](https://github.com/mathrunet/flutter_masamune/commit/12dd6361cf90c744cce18bd62dca8f4293a37718))

@@ -1,3 +1,7 @@
+## 3.0.5
+
+ - Update a dependency to the latest release.
+
 ## 3.0.4
 
  - **FIX**: Fixed a bug in the purchase process. ([188cabc0](https://github.com/mathrunet/flutter_masamune/commit/188cabc027711065ab71109379d873d6c7eb9d42))
