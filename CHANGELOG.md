@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.1.1`](#masamune---v211)
+ - [`masamune_picker_file` - `v2.0.26`](#masamune_picker_file---v2026)
+ - [`masamune_agora` - `v2.0.26`](#masamune_agora---v2026)
+ - [`masamune_ai_openai` - `v2.0.27`](#masamune_ai_openai---v2027)
+ - [`masamune_calendar` - `v2.0.26`](#masamune_calendar---v2026)
+ - [`masamune_picker` - `v2.0.26`](#masamune_picker---v2026)
+ - [`masamune_universal_ui` - `v2.0.30`](#masamune_universal_ui---v2030)
+ - [`masamune_purchase_stripe` - `v3.0.7`](#masamune_purchase_stripe---v307)
+ - [`masamune_logger_firebase` - `v2.0.26`](#masamune_logger_firebase---v2026)
+ - [`masamune_picker_mobile` - `v2.0.26`](#masamune_picker_mobile---v2026)
+ - [`masamune_notification_firebase` - `v2.0.26`](#masamune_notification_firebase---v2026)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v2.0.26`
+ - `masamune_agora` - `v2.0.26`
+ - `masamune_ai_openai` - `v2.0.27`
+ - `masamune_calendar` - `v2.0.26`
+ - `masamune_picker` - `v2.0.26`
+ - `masamune_universal_ui` - `v2.0.30`
+ - `masamune_purchase_stripe` - `v3.0.7`
+ - `masamune_logger_firebase` - `v2.0.26`
+ - `masamune_picker_mobile` - `v2.0.26`
+ - `masamune_notification_firebase` - `v2.0.26`
+
+---
+
+#### `masamune` - `v2.1.1`
+
+ - **FIX**: Add defaultTransitionQuery to router. ([a83294ae](https://github.com/mathrunet/flutter_masamune/commit/a83294aef9fa6904771875392b9015ae05993862))
+
+
+## 2023-06-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.1.0`](#katana---v210)
  - [`katana_model` - `v2.1.0`](#katana_model---v210)
  - [`katana_model_firestore` - `v2.1.0`](#katana_model_firestore---v210)

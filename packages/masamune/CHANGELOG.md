@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Add defaultTransitionQuery to router. ([a83294ae](https://github.com/mathrunet/flutter_masamune/commit/a83294aef9fa6904771875392b9015ae05993862))
+
 ## 2.1.0
 
  - **FEAT**: Added Extension for router to get NestedAppRouter. ([d49a756f](https://github.com/mathrunet/flutter_masamune/commit/d49a756fa26ba5d50cdca58fffc4a12cf78fd024))
