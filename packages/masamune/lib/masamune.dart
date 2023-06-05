@@ -43,6 +43,7 @@ part 'model/model.dart';
 part 'prefs/prefs.dart';
 part 'scoped/controller.dart';
 part 'scoped/global.dart';
+part 'router/router.dart';
 part 'src/masamune_app.dart';
 part 'src/masamune_adapter.dart';
 part 'src/masamune_controller.dart';
