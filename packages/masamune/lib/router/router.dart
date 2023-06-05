@@ -25,11 +25,13 @@ extension MasamuneModelAppRefExtensions on RefHasPage {
   NestedAppRouter router({
     required RouteQuery? initialQuery,
     required List<RouteQueryBuilder> pages,
+    TransitionQuery? defaultTransitionQuery,
   }) {
     return page.watch((ref) {
       return NestedAppRouter(
         initialQuery: initialQuery,
         pages: pages,
+        defaultTransitionQuery: defaultTransitionQuery,
       );
     });
   }
