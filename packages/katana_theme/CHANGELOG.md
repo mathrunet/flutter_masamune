@@ -1,3 +1,7 @@
+## 2.0.6
+
+ - Update a dependency to the latest release.
+
 ## 2.0.5
 
  - **FIX**: Adjust colors in case of light theme. ([2a6b8c02](https://github.com/mathrunet/flutter_masamune/commit/2a6b8c027ad82d370b11c0fbf954b36ce2782031))

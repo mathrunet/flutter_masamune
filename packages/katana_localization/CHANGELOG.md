@@ -1,3 +1,7 @@
+## 2.0.5
+
+ - Update a dependency to the latest release.
+
 ## 2.0.4
 
  - **FIX**: Fixed LocalizationsDelegate related bugs. ([1fd1416e](https://github.com/mathrunet/flutter_masamune/commit/1fd1416ee213bf421adcb14414d5a3f1bf5fd139))

@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Added ModelUri and ModelGeoValue. ([176a98ec](https://github.com/mathrunet/flutter_masamune/commit/176a98ecd85285961e097738058a992bc8eb830a))
+
 ## 2.0.2
 
  - **DOCS**: Edit ReadMe. ([d39650a6](https://github.com/mathrunet/flutter_masamune/commit/d39650a6eff78da58670e2ca18f4895702c07690))

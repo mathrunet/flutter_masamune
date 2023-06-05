@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - Update a dependency to the latest release.
+
 ## 2.0.2
 
  - **FIX**: Addition of Map. ([807d0e7b](https://github.com/mathrunet/flutter_masamune/commit/807d0e7bc70cf779486598458bfaaeb9754cfea0))

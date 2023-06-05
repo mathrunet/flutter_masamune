@@ -1,3 +1,7 @@
+## 2.0.4
+
+ - Update a dependency to the latest release.
+
 ## 2.0.3
 
  - **FIX**: Maintenance of TextProvider and changes to Asset.text. ([74f20219](https://github.com/mathrunet/flutter_masamune/commit/74f202199b61d8eb71f1f56c711360385881789e))

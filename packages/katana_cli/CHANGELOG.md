@@ -1,3 +1,7 @@
+## 2.1.5
+
+ - Update a dependency to the latest release.
+
 ## 2.1.4
 
  - **FIX**: Fixed a bug that Hook's Config was not organized. ([7baf5216](https://github.com/mathrunet/flutter_masamune/commit/7baf5216d2b8a1a04f2aaf6569909a36c57c362b))

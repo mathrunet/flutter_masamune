@@ -3,6 +3,133 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v2.1.0`](#katana---v210)
+ - [`katana_model` - `v2.1.0`](#katana_model---v210)
+ - [`katana_model_firestore` - `v2.1.0`](#katana_model_firestore---v210)
+ - [`masamune` - `v2.1.0`](#masamune---v210)
+ - [`katana_prefs` - `v2.0.3`](#katana_prefs---v203)
+ - [`katana_prefs_annotation` - `v2.0.3`](#katana_prefs_annotation---v203)
+ - [`katana_functions_firebase` - `v2.2.1`](#katana_functions_firebase---v221)
+ - [`masamune_annotation` - `v2.0.2`](#masamune_annotation---v202)
+ - [`katana_scoped` - `v2.0.2`](#katana_scoped---v202)
+ - [`katana_localization` - `v2.0.5`](#katana_localization---v205)
+ - [`katana_shorten` - `v2.0.2`](#katana_shorten---v202)
+ - [`katana_router_annotation` - `v2.0.4`](#katana_router_annotation---v204)
+ - [`katana_functions` - `v2.2.1`](#katana_functions---v221)
+ - [`katana_logger` - `v2.0.2`](#katana_logger---v202)
+ - [`katana_localization_builder` - `v2.0.5`](#katana_localization_builder---v205)
+ - [`katana_theme_annotation` - `v2.0.3`](#katana_theme_annotation---v203)
+ - [`masamune_picker_file` - `v2.0.25`](#masamune_picker_file---v2025)
+ - [`katana_ui` - `v2.0.3`](#katana_ui---v203)
+ - [`masamune_agora` - `v2.0.25`](#masamune_agora---v2025)
+ - [`masamune_ai_openai` - `v2.0.26`](#masamune_ai_openai---v2026)
+ - [`katana_localization_annotation` - `v2.0.4`](#katana_localization_annotation---v204)
+ - [`masamune_calendar` - `v2.0.25`](#masamune_calendar---v2025)
+ - [`katana_router_builder` - `v2.0.4`](#katana_router_builder---v204)
+ - [`katana_storage_firebase` - `v2.0.2`](#katana_storage_firebase---v202)
+ - [`katana_auth` - `v2.0.2`](#katana_auth---v202)
+ - [`masamune_picker` - `v2.0.25`](#masamune_picker---v2025)
+ - [`katana_router` - `v2.0.4`](#katana_router---v204)
+ - [`katana_theme` - `v2.0.6`](#katana_theme---v206)
+ - [`katana_model_openapi` - `v2.0.3`](#katana_model_openapi---v203)
+ - [`katana_listenables_builder` - `v2.0.4`](#katana_listenables_builder---v204)
+ - [`katana_prefs_builder` - `v2.0.3`](#katana_prefs_builder---v203)
+ - [`katana_storage` - `v2.0.2`](#katana_storage---v202)
+ - [`katana_cli` - `v2.1.5`](#katana_cli---v215)
+ - [`masamune_universal_ui` - `v2.0.29`](#masamune_universal_ui---v2029)
+ - [`masamune_purchase_stripe` - `v3.0.6`](#masamune_purchase_stripe---v306)
+ - [`katana_listenables` - `v2.0.4`](#katana_listenables---v204)
+ - [`katana_listenables_annotation` - `v2.0.3`](#katana_listenables_annotation---v203)
+ - [`katana_indicator` - `v2.0.2`](#katana_indicator---v202)
+ - [`katana_firebase` - `v2.0.2`](#katana_firebase---v202)
+ - [`katana_model_openapi_builder` - `v2.0.3`](#katana_model_openapi_builder---v203)
+ - [`masamune_builder` - `v2.0.13`](#masamune_builder---v2013)
+ - [`katana_form` - `v2.2.4`](#katana_form---v224)
+ - [`katana_auth_firebase` - `v2.0.2`](#katana_auth_firebase---v202)
+ - [`masamune_picker_mobile` - `v2.0.25`](#masamune_picker_mobile---v2025)
+ - [`katana_theme_builder` - `v2.0.4`](#katana_theme_builder---v204)
+ - [`masamune_logger_firebase` - `v2.0.25`](#masamune_logger_firebase---v2025)
+ - [`masamune_notification_firebase` - `v2.0.25`](#masamune_notification_firebase---v2025)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_prefs` - `v2.0.3`
+ - `katana_prefs_annotation` - `v2.0.3`
+ - `katana_functions_firebase` - `v2.2.1`
+ - `masamune_annotation` - `v2.0.2`
+ - `katana_scoped` - `v2.0.2`
+ - `katana_localization` - `v2.0.5`
+ - `katana_shorten` - `v2.0.2`
+ - `katana_router_annotation` - `v2.0.4`
+ - `katana_functions` - `v2.2.1`
+ - `katana_logger` - `v2.0.2`
+ - `katana_localization_builder` - `v2.0.5`
+ - `katana_theme_annotation` - `v2.0.3`
+ - `masamune_picker_file` - `v2.0.25`
+ - `katana_ui` - `v2.0.3`
+ - `masamune_agora` - `v2.0.25`
+ - `masamune_ai_openai` - `v2.0.26`
+ - `katana_localization_annotation` - `v2.0.4`
+ - `masamune_calendar` - `v2.0.25`
+ - `katana_router_builder` - `v2.0.4`
+ - `katana_storage_firebase` - `v2.0.2`
+ - `katana_auth` - `v2.0.2`
+ - `masamune_picker` - `v2.0.25`
+ - `katana_router` - `v2.0.4`
+ - `katana_theme` - `v2.0.6`
+ - `katana_model_openapi` - `v2.0.3`
+ - `katana_listenables_builder` - `v2.0.4`
+ - `katana_prefs_builder` - `v2.0.3`
+ - `katana_storage` - `v2.0.2`
+ - `katana_cli` - `v2.1.5`
+ - `masamune_universal_ui` - `v2.0.29`
+ - `masamune_purchase_stripe` - `v3.0.6`
+ - `katana_listenables` - `v2.0.4`
+ - `katana_listenables_annotation` - `v2.0.3`
+ - `katana_indicator` - `v2.0.2`
+ - `katana_firebase` - `v2.0.2`
+ - `katana_model_openapi_builder` - `v2.0.3`
+ - `masamune_builder` - `v2.0.13`
+ - `katana_form` - `v2.2.4`
+ - `katana_auth_firebase` - `v2.0.2`
+ - `masamune_picker_mobile` - `v2.0.25`
+ - `katana_theme_builder` - `v2.0.4`
+ - `masamune_logger_firebase` - `v2.0.25`
+ - `masamune_notification_firebase` - `v2.0.25`
+
+---
+
+#### `katana` - `v2.1.0`
+
+ - **FEAT**: Migrated uuid to v7. ([687d985b](https://github.com/mathrunet/flutter_masamune/commit/687d985bd51f1a888c493b05245bab139210b525))
+
+#### `katana_model` - `v2.1.0`
+
+ - **FEAT**: Added ModelUri and ModelGeoValue. ([176a98ec](https://github.com/mathrunet/flutter_masamune/commit/176a98ecd85285961e097738058a992bc8eb830a))
+
+#### `katana_model_firestore` - `v2.1.0`
+
+ - **FEAT**: Added ModelUri and ModelGeoValue. ([176a98ec](https://github.com/mathrunet/flutter_masamune/commit/176a98ecd85285961e097738058a992bc8eb830a))
+
+#### `masamune` - `v2.1.0`
+
+ - **FEAT**: Added Extension for router to get NestedAppRouter. ([d49a756f](https://github.com/mathrunet/flutter_masamune/commit/d49a756fa26ba5d50cdca58fffc4a12cf78fd024))
+
+
 ## 2023-06-02
 
 ### Changes

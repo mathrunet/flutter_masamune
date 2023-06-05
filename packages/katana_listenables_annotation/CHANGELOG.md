@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - Update a dependency to the latest release.
+
 ## 2.0.2
 
  - **FIX**: Fixed an error when Implements ChangeNotifier. ([59c06dc7](https://github.com/mathrunet/flutter_masamune/commit/59c06dc73bdc27095bd6d2aa0d606b2e556b8fad))

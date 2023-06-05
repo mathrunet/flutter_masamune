@@ -1,3 +1,7 @@
+## 2.0.3
+
+ - Update a dependency to the latest release.
+
 ## 2.0.2
 
  - **FIX**: Added generateRandomMaterialColor. ([03d30c72](https://github.com/mathrunet/flutter_masamune/commit/03d30c72d502ea5e8b548f75dccfd7eb2cb512f0))

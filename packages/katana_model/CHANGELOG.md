@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Added ModelUri and ModelGeoValue. ([176a98ec](https://github.com/mathrunet/flutter_masamune/commit/176a98ecd85285961e097738058a992bc8eb830a))
+
 ## 2.0.2
 
  - **FIX**: Fixing definitions around mixin. ([333618dc](https://github.com/mathrunet/flutter_masamune/commit/333618dc881627f30cfc455a7973d6cf532a4c61))

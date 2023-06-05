@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - Update a dependency to the latest release.
+
 ## 2.2.3
 
  - **FIX**: Display settings when inactive. ([28f1a10c](https://github.com/mathrunet/flutter_masamune/commit/28f1a10cebfc88c008109263c61b699bc1db7065))

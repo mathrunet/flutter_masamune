@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Added Extension for router to get NestedAppRouter. ([d49a756f](https://github.com/mathrunet/flutter_masamune/commit/d49a756fa26ba5d50cdca58fffc4a12cf78fd024))
+
 ## 2.0.24
 
  - Update a dependency to the latest release.

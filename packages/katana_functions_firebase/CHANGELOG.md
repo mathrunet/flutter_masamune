@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Added Functions for sending mail. ([66edd36d](https://github.com/mathrunet/flutter_masamune/commit/66edd36d3232ce630c231c81481ccce2327e8369))
