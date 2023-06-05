@@ -9,7 +9,7 @@ part of katana;
 /// 32文字のハイフンが取り除かれた文字列として返されます。
 String get uuid {
   const uuid = Uuid();
-  return uuid.v4().replaceAll("-", "");
+  return uuid.v7().replaceAll("-", "");
 }
 
 /// Wait until all Futures given in [futures] are completed.
