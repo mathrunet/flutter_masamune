@@ -1052,17 +1052,18 @@ class ModelQueryFilter {
           key: key,
         );
 
-  /// Only elements that contain positional information for [key] within the range of the [geoHash] array can be filtered.
+  /// Only elements that contain positional information for [key] within the range of the [geoValues] array can be filtered.
   ///
-  /// [geoHash]の配列の範囲内に[key]に対する位置情報が含まれる要素のみをフィルタリングすることができます。
+  /// [geoValues]の配列の範囲内に[key]に対する位置情報が含まれる要素のみをフィルタリングすることができます。
   ///
   /// {@macro model_query_filter}
-  const ModelQueryFilter.geo(
-      {required String key, required List<String> geoHash})
-      : this._(
+  const ModelQueryFilter.geo({
+    required String key,
+    required List<GeoValue> geoValues,
+  }) : this._(
           type: ModelQueryFilterType.geoHash,
           key: key,
-          value: geoHash,
+          value: geoValues,
         );
 
   /// You can filter only elements that contain the text of [text] in the text for [key].
@@ -1189,10 +1190,13 @@ class ModelQueryFilter {
       case ModelQueryFilterType.isNotNull:
         return source != null;
       case ModelQueryFilterType.geoHash:
-        if (target is! List<String> || target.isEmpty) {
+        if (target is! List<GeoValue> ||
+            target.isEmpty ||
+            source is! GeoValue) {
           return false;
         }
-        return target.any((e) => RegExp("^$e").hasMatch(source));
+        return target
+            .any((e) => RegExp("^${e.geoHash}").hasMatch(source.geoHash));
       case ModelQueryFilterType.like:
         if (target is! String) {
           return false;

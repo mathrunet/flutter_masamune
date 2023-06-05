@@ -13,10 +13,18 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
       counter: json['counter'] == null
           ? const ModelCounter(0)
           : ModelCounter.fromJson(json['counter'] as Map<String, dynamic>),
+      uri: json['uri'] == null
+          ? const ModelUri()
+          : ModelUri.fromJson(json['uri'] as Map<String, dynamic>),
+      geo: json['geo'] == null
+          ? const ModelGeoValue()
+          : ModelGeoValue.fromJson(json['geo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
     <String, dynamic>{
       'time': instance.time,
       'counter': instance.counter,
+      'uri': instance.uri,
+      'geo': instance.geo,
     };

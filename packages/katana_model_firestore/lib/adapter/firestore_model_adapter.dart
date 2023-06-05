@@ -277,9 +277,30 @@ class FirestoreModelAdapter extends ModelAdapter {
         } else {
           res[key] = val;
         }
+        // ModelUri検索
+      } else if (val is String) {
+        final targetKey = "#$key";
+        final targetMap = map.getAsMap(targetKey);
+        final type = targetMap.get(_kTypeKey, "");
+        if (type == (ModelUri).toString()) {
+          res[key] = ModelUri(Uri.tryParse(val)).toJson();
+        } else if (type == (ModelGeoValue).toString()) {
+          final latitude = targetMap.get(ModelGeoValue.kLatitudeKey, 0.0);
+          final longitude = targetMap.get(ModelGeoValue.kLongitudeKey, 0.0);
+          res[key] = ModelGeoValue(
+            GeoValue(latitude: latitude, longitude: longitude),
+          ).toJson();
+        } else {
+          res[key] = val;
+        }
         // ModelTimestamp検索
       } else if (val is Timestamp) {
         res[key] = ModelTimestamp(val.toDate()).toJson();
+        // ModelGeoValue検索
+      } else if (val is GeoPoint) {
+        res[key] = ModelGeoValue(
+          GeoValue(latitude: val.latitude, longitude: val.longitude),
+        ).toJson();
         // ModelRef検索
       } else if (val is DocumentReference<DynamicMap>) {
         final path = prefix.isEmpty
@@ -339,6 +360,35 @@ class FirestoreModelAdapter extends ModelAdapter {
             } else {
               res[key] = Timestamp.fromMillisecondsSinceEpoch(value);
             }
+          }
+        } else if (type == (ModelUri).toString()) {
+          final fromUser = val.get(ModelUri.kSourceKey, "") ==
+              ModelFieldValueSource.user.name;
+          final value = val.get(ModelUri.kUriKey, 0);
+          final targetKey = "#$key";
+          res[targetKey] = {
+            kTypeFieldKey: (ModelUri).toString(),
+            ModelUri.kUriKey: value,
+            _kTargetKey: key,
+          };
+          if (fromUser) {
+            res[key] = value;
+          }
+        } else if (type == (ModelGeoValue).toString()) {
+          final fromUser = val.get(ModelGeoValue.kSourceKey, "") ==
+              ModelFieldValueSource.user.name;
+          final geoHash = val.get(ModelGeoValue.kGeoHashKey, 0);
+          final latitude = val.get(ModelGeoValue.kLatitudeKey, 0);
+          final longitude = val.get(ModelGeoValue.kLongitudeKey, 0);
+          final targetKey = "#$key";
+          res[targetKey] = {
+            kTypeFieldKey: (ModelGeoValue).toString(),
+            ModelGeoValue.kLatitudeKey: latitude,
+            ModelGeoValue.kLongitudeKey: longitude,
+            _kTargetKey: key,
+          };
+          if (fromUser) {
+            res[key] = geoHash;
           }
         } else if (type.startsWith((ModelRefBase).toString())) {
           final ref = ModelRefBase.fromJson(val);
@@ -471,6 +521,10 @@ class FirestoreModelAdapter extends ModelAdapter {
       return value.value;
     } else if (value is ModelTimestamp) {
       return Timestamp.fromDate(value.value);
+    } else if (value is ModelUri) {
+      return value.value;
+    } else if (value is ModelGeoValue) {
+      return value.value.geoHash;
     } else if (value is ModelRefBase) {
       return database.doc(_path(value.modelQuery.path));
     } else {
@@ -605,10 +659,11 @@ class FirestoreModelAdapter extends ModelAdapter {
     } else if (geoHash.isNotEmpty) {
       final filter = geoHash.first;
       final items = filter.value;
-      if (items is List<String> && items.isNotEmpty) {
+      if (items is List && items.isNotEmpty) {
+        final list = items.map((e) => _convertQueryValue(e)).toList();
         final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < items.length; i++) {
-          final hash = items[i];
+        for (var i = 0; i < list.length; i++) {
+          final hash = list[i].toString();
           queries.add(
             _query(
               database.collection(_path(query.query.path)),

@@ -22,6 +22,8 @@ TestValue _$TestValueFromJson(Map<String, dynamic> json) {
 mixin _$TestValue {
   ModelTimestamp get time => throw _privateConstructorUsedError;
   ModelCounter get counter => throw _privateConstructorUsedError;
+  ModelUri get uri => throw _privateConstructorUsedError;
+  ModelGeoValue get geo => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +36,11 @@ abstract class $TestValueCopyWith<$Res> {
   factory $TestValueCopyWith(TestValue value, $Res Function(TestValue) then) =
       _$TestValueCopyWithImpl<$Res, TestValue>;
   @useResult
-  $Res call({ModelTimestamp time, ModelCounter counter});
+  $Res call(
+      {ModelTimestamp time,
+      ModelCounter counter,
+      ModelUri uri,
+      ModelGeoValue geo});
 }
 
 /// @nodoc
@@ -52,6 +58,8 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
   $Res call({
     Object? time = null,
     Object? counter = null,
+    Object? uri = null,
+    Object? geo = null,
   }) {
     return _then(_value.copyWith(
       time: null == time
@@ -62,6 +70,14 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
           ? _value.counter
           : counter // ignore: cast_nullable_to_non_nullable
               as ModelCounter,
+      uri: null == uri
+          ? _value.uri
+          : uri // ignore: cast_nullable_to_non_nullable
+              as ModelUri,
+      geo: null == geo
+          ? _value.geo
+          : geo // ignore: cast_nullable_to_non_nullable
+              as ModelGeoValue,
     ) as $Val);
   }
 }
@@ -73,7 +89,11 @@ abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
       __$$_TestValueCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ModelTimestamp time, ModelCounter counter});
+  $Res call(
+      {ModelTimestamp time,
+      ModelCounter counter,
+      ModelUri uri,
+      ModelGeoValue geo});
 }
 
 /// @nodoc
@@ -89,6 +109,8 @@ class __$$_TestValueCopyWithImpl<$Res>
   $Res call({
     Object? time = null,
     Object? counter = null,
+    Object? uri = null,
+    Object? geo = null,
   }) {
     return _then(_$_TestValue(
       time: null == time
@@ -99,6 +121,14 @@ class __$$_TestValueCopyWithImpl<$Res>
           ? _value.counter
           : counter // ignore: cast_nullable_to_non_nullable
               as ModelCounter,
+      uri: null == uri
+          ? _value.uri
+          : uri // ignore: cast_nullable_to_non_nullable
+              as ModelUri,
+      geo: null == geo
+          ? _value.geo
+          : geo // ignore: cast_nullable_to_non_nullable
+              as ModelGeoValue,
     ));
   }
 }
@@ -108,7 +138,9 @@ class __$$_TestValueCopyWithImpl<$Res>
 class _$_TestValue implements _TestValue {
   const _$_TestValue(
       {this.time = const ModelTimestamp(),
-      this.counter = const ModelCounter(0)});
+      this.counter = const ModelCounter(0),
+      this.uri = const ModelUri(),
+      this.geo = const ModelGeoValue()});
 
   factory _$_TestValue.fromJson(Map<String, dynamic> json) =>
       _$$_TestValueFromJson(json);
@@ -119,10 +151,16 @@ class _$_TestValue implements _TestValue {
   @override
   @JsonKey()
   final ModelCounter counter;
+  @override
+  @JsonKey()
+  final ModelUri uri;
+  @override
+  @JsonKey()
+  final ModelGeoValue geo;
 
   @override
   String toString() {
-    return 'TestValue(time: $time, counter: $counter)';
+    return 'TestValue(time: $time, counter: $counter, uri: $uri, geo: $geo)';
   }
 
   @override
@@ -131,12 +169,14 @@ class _$_TestValue implements _TestValue {
         (other.runtimeType == runtimeType &&
             other is _$_TestValue &&
             (identical(other.time, time) || other.time == time) &&
-            (identical(other.counter, counter) || other.counter == counter));
+            (identical(other.counter, counter) || other.counter == counter) &&
+            (identical(other.uri, uri) || other.uri == uri) &&
+            (identical(other.geo, geo) || other.geo == geo));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, time, counter);
+  int get hashCode => Object.hash(runtimeType, time, counter, uri, geo);
 
   @JsonKey(ignore: true)
   @override
@@ -154,7 +194,10 @@ class _$_TestValue implements _TestValue {
 
 abstract class _TestValue implements TestValue {
   const factory _TestValue(
-      {final ModelTimestamp time, final ModelCounter counter}) = _$_TestValue;
+      {final ModelTimestamp time,
+      final ModelCounter counter,
+      final ModelUri uri,
+      final ModelGeoValue geo}) = _$_TestValue;
 
   factory _TestValue.fromJson(Map<String, dynamic> json) =
       _$_TestValue.fromJson;
@@ -163,6 +206,10 @@ abstract class _TestValue implements TestValue {
   ModelTimestamp get time;
   @override
   ModelCounter get counter;
+  @override
+  ModelUri get uri;
+  @override
+  ModelGeoValue get geo;
   @override
   @JsonKey(ignore: true)
   _$$_TestValueCopyWith<_$_TestValue> get copyWith =>

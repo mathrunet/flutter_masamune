@@ -48,3 +48,4 @@ part 'src/collection_base.dart';
 part 'src/listenable_listener.dart';
 part 'src/model_transaction.dart';
 part 'src/model_field_value.dart';
+part 'src/model_geo_value.dart';

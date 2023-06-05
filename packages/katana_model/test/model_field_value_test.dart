@@ -34,6 +34,8 @@ class TestValue with _$TestValue {
   const factory TestValue({
     @Default(ModelTimestamp()) ModelTimestamp time,
     @Default(ModelCounter(0)) ModelCounter counter,
+    @Default(ModelUri()) ModelUri uri,
+    @Default(ModelGeoValue()) ModelGeoValue geo,
   }) = _TestValue;
 
   factory TestValue.fromJson(Map<String, Object?> map) =>
@@ -68,13 +70,23 @@ void main() {
     final model2 = RuntimeMapDocumentModel(query);
     await model.save({
       "counter": const ModelCounter(0),
-      "time": ModelTimestamp(DateTime(2022, 1, 1))
+      "time": ModelTimestamp(DateTime(2022, 1, 1)),
+      "uri": ModelUri.parse("https://mathru.net"),
+      "geo": ModelGeoValue.fromDouble(
+        latitude: 35.68177834908552,
+        longitude: 139.75310000426765,
+      )
     });
     expect(
       model.value,
       {
         "counter": const ModelCounter.fromServer(0),
-        "time": ModelTimestamp(DateTime(2022, 1, 1))
+        "time": ModelTimestamp(DateTime(2022, 1, 1)),
+        "uri": ModelUri.parse("https://mathru.net"),
+        "geo": ModelGeoValue.fromDouble(
+          latitude: 35.68177834908552,
+          longitude: 139.75310000426765,
+        ),
       },
     );
     await model2.load();
@@ -82,22 +94,41 @@ void main() {
       model2.value,
       {
         "counter": const ModelCounter.fromServer(0),
-        "time": ModelTimestamp(DateTime(2022, 1, 1))
+        "time": ModelTimestamp(DateTime(2022, 1, 1)),
+        "uri": ModelUri.parse("https://mathru.net"),
+        "geo": ModelGeoValue.fromDouble(
+          latitude: 35.68177834908552,
+          longitude: 139.75310000426765,
+        ),
       },
     );
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
+    print((model.value!["uri"] as ModelUri).value);
+    print((model.value!["geo"] as ModelGeoValue).value);
     await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
-      "time": ModelTimestamp(DateTime(2022, 1, 2))
+      "time": ModelTimestamp(DateTime(2022, 1, 2)),
+      "uri": ModelUri.parse("https://pub.dev"),
+      "geo": ModelGeoValue.fromDouble(
+        latitude: 35.67389581850969,
+        longitude: 139.75049296820384,
+      ),
     });
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
+    print((model.value!["uri"] as ModelUri).value);
+    print((model.value!["geo"] as ModelGeoValue).value);
     expect(
       model.value,
       {
         "counter": const ModelCounter.fromServer(1),
-        "time": ModelTimestamp(DateTime(2022, 1, 2))
+        "time": ModelTimestamp(DateTime(2022, 1, 2)),
+        "uri": ModelUri.parse("https://pub.dev"),
+        "geo": ModelGeoValue.fromDouble(
+          latitude: 35.67389581850969,
+          longitude: 139.75049296820384,
+        ),
       },
     );
   });
@@ -110,6 +141,11 @@ void main() {
       TestValue(
         counter: const ModelCounter(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
+        uri: ModelUri.parse("https://mathru.net"),
+        geo: ModelGeoValue.fromDouble(
+          latitude: 35.68177834908552,
+          longitude: 139.75310000426765,
+        ),
       ),
     );
     expect(
@@ -117,6 +153,11 @@ void main() {
       TestValue(
         counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
+        uri: ModelUri.parse("https://mathru.net"),
+        geo: ModelGeoValue.fromDouble(
+          latitude: 35.68177834908552,
+          longitude: 139.75310000426765,
+        ),
       ),
     );
     await model2.load();
@@ -125,6 +166,11 @@ void main() {
       TestValue(
         counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
+        uri: ModelUri.parse("https://mathru.net"),
+        geo: ModelGeoValue.fromDouble(
+          latitude: 35.68177834908552,
+          longitude: 139.75310000426765,
+        ),
       ),
     );
     await model.save(
@@ -133,6 +179,11 @@ void main() {
         time: ModelTimestamp(
           DateTime(2022, 1, 2),
         ),
+        uri: ModelUri.parse("https://pub.dev"),
+        geo: ModelGeoValue.fromDouble(
+          latitude: 35.67389581850969,
+          longitude: 139.75049296820384,
+        ),
       ),
     );
     expect(
@@ -140,6 +191,11 @@ void main() {
       TestValue(
         counter: const ModelCounter.fromServer(1),
         time: ModelTimestamp(DateTime(2022, 1, 2)),
+        uri: ModelUri.parse("https://pub.dev"),
+        geo: ModelGeoValue.fromDouble(
+          latitude: 35.67389581850969,
+          longitude: 139.75049296820384,
+        ),
       ),
     );
   });

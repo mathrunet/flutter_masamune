@@ -660,7 +660,7 @@ void main() {
     );
     expect(
       query.hasMatchAsList([
-        {"name": "test", "time": ModelTimestamp(DateTime(2000, 1, 4))},
+        {"name": "test", "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson()},
         {"name": "test2", "time": ModelTimestamp(DateTime(2000, 1, 4)).toJson()}
       ]),
       false,
@@ -951,6 +951,543 @@ void main() {
         "text": "aaaa"
       }),
       false,
+    );
+  });
+  test("ModelQuery.ModelUri", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+          key: "uri",
+          value: ModelUri.parse("https://mathru.net"),
+        ),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelUri.parse("https://pub.dev")), false);
+    expect(query.hasMatchAsObject(ModelUri.parse("https://mathru.net")), true);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "uri": ModelUri.parse("https://pub.dev").toJson()}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": ModelUri.parse("https://mathru.net").toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "uri": ModelUri.parse("https://pub.dev").toJson()}
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "uri": ModelUri.parse("https://mathru.net").toJson()}
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+          key: "uri",
+          value: ModelUri.parse("https://mathru.net"),
+        ),
+      ],
+    );
+    expect(query.hasMatchAsObject(ModelUri.parse("https://pub.dev")), true);
+    expect(query.hasMatchAsObject(ModelUri.parse("https://mathru.net")), false);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "uri": ModelUri.parse("https://pub.dev").toJson()}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": ModelUri.parse("https://mathru.net").toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "uri": ModelUri.parse("https://mathru.net").toJson()}
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "uri": ModelUri.parse("https://mathru.net").toJson()},
+        {"name": "test2", "uri": ModelUri.parse("https://mathru.net").toJson()}
+      ]),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+            key: "uri", value: ModelUri.parse("https://mathru.net")),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelUri.parse("https://mathru.net"),
+          ModelUri.parse("https://puv.dev"),
+          ModelUri.parse("https://mathru.net/ja"),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelUri.parse("https://mathru.net/en"),
+          ModelUri.parse("https://puv.dev"),
+          ModelUri.parse("https://mathru.net/ja"),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          ModelUri.parse("https://mathru.net").toJson(),
+          ModelUri.parse("https://puv.dev").toJson(),
+          ModelUri.parse("https://mathru.net/ja").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          ModelUri.parse("https://mathru.net/en").toJson(),
+          ModelUri.parse("https://puv.dev").toJson(),
+          ModelUri.parse("https://mathru.net/ja").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "uri", values: [
+          ModelUri.parse("https://mathru.net/en"),
+          ModelUri.parse("https://mathru.net/zh"),
+          ModelUri.parse("https://mathru.net/ja"),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          ModelUri.parse("https://mathru.net/en"),
+          ModelUri.parse("https://puv.dev"),
+          ModelUri.parse("https://mathru.net"),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelUri.parse("https://mathru.net/en"),
+          ModelUri.parse("https://puv.dev"),
+          ModelUri.parse("https://mathru.net/ja"),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          ModelUri.parse("https://mathru.net"),
+          ModelUri.parse("https://puv.dev"),
+          ModelUri.parse("https://mathru.net/de"),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          ModelUri.parse("https://mathru.net/en").toJson(),
+          ModelUri.parse("https://puv.dev").toJson(),
+          ModelUri.parse("https://mathru.net").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          ModelUri.parse("https://mathru.net/en").toJson(),
+          ModelUri.parse("https://puv.dev").toJson(),
+          ModelUri.parse("https://mathru.net/ja").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          ModelUri.parse("https://mathru.net").toJson(),
+          ModelUri.parse("https://puv.dev").toJson(),
+          ModelUri.parse("https://mathru.net/de").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "uri", values: [
+          ModelUri.parse("https://mathru.net/en"),
+          ModelUri.parse("https://mathru.net/zh"),
+          ModelUri.parse("https://mathru.net/ja"),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/de")), false);
+    expect(
+        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/zh")), true);
+    expect(
+        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/ja")), true);
+    expect(
+      query.hasMatchAsMap({
+        "uri": ModelUri.parse("https://mathru.net/de").toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": ModelUri.parse("https://mathru.net/zh").toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": ModelUri.parse("https://mathru.net/ja").toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "uri", values: [
+          ModelUri.parse("https://mathru.net/en"),
+          ModelUri.parse("https://mathru.net/zh"),
+          ModelUri.parse("https://mathru.net/ja"),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/de")), true);
+    expect(
+        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/zh")), false);
+    expect(
+        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/ja")), false);
+    expect(
+      query.hasMatchAsMap({
+        "uri": ModelUri.parse("https://mathru.net/de").toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": ModelUri.parse("https://mathru.net/zh").toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": ModelUri.parse("https://mathru.net/ja").toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+  });
+  test("ModelQuery.ModelGeoValue", () async {
+    const nijyuBashi = GeoValue(
+      latitude: 35.68177834908552,
+      longitude: 139.75310000426765,
+    );
+    const sakasitaMon = GeoValue(
+      latitude: 35.68338744577881,
+      longitude: 139.75543340290164,
+    );
+    const kasumigaseki = GeoValue(
+      latitude: 35.67389581850969,
+      longitude: 139.75049296820384,
+    );
+    const gaien = GeoValue(
+      latitude: 35.68035473318286,
+      longitude: 139.7589095455294,
+    );
+    const tokyoEki = GeoValue(
+      latitude: 35.681400509168085,
+      longitude: 139.76573308476165,
+    );
+    const kokudoKotusho = GeoValue(
+      latitude: 35.6764460550141,
+      longitude: 139.75011795538524,
+    );
+    const kokurituKyogijyo = GeoValue(
+      latitude: 35.67505647159709,
+      longitude: 139.71676807084754,
+    );
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(key: "geo", value: ModelGeoValue(nijyuBashi)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelGeoValue(kasumigaseki)), false);
+    expect(query.hasMatchAsObject(const ModelGeoValue(sakasitaMon)), true);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "geo": const ModelGeoValue(kasumigaseki).toJson()}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "geo": const ModelGeoValue(sakasitaMon).toJson()}),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "geo": const ModelGeoValue(kasumigaseki).toJson()}
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "geo": const ModelGeoValue(sakasitaMon).toJson()}
+      ]),
+      true,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(key: "geo", value: ModelGeoValue(nijyuBashi)),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelGeoValue(kasumigaseki)), true);
+    expect(query.hasMatchAsObject(const ModelGeoValue(sakasitaMon)), false);
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "geo": const ModelGeoValue(kasumigaseki).toJson()}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"name": "test", "geo": const ModelGeoValue(sakasitaMon).toJson()}),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {"name": "test2", "geo": const ModelGeoValue(kasumigaseki).toJson()}
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test2", "geo": const ModelGeoValue(nijyuBashi).toJson()},
+        {"name": "test2", "geo": const ModelGeoValue(sakasitaMon).toJson()}
+      ]),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(key: "geo", value: ModelGeoValue(nijyuBashi)),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          const ModelGeoValue(kasumigaseki),
+          const ModelGeoValue(sakasitaMon),
+          const ModelGeoValue(gaien),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          const ModelGeoValue(kasumigaseki),
+          const ModelGeoValue(tokyoEki),
+          const ModelGeoValue(gaien),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "geo": [
+          const ModelGeoValue(kasumigaseki).toJson(),
+          const ModelGeoValue(sakasitaMon).toJson(),
+          const ModelGeoValue(gaien).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "geo": [
+          const ModelGeoValue(kasumigaseki).toJson(),
+          const ModelGeoValue(tokyoEki).toJson(),
+          const ModelGeoValue(gaien).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "geo", values: [
+          ModelGeoValue(kokudoKotusho),
+          ModelGeoValue(nijyuBashi),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          const ModelGeoValue(kasumigaseki),
+          const ModelGeoValue(sakasitaMon),
+          const ModelGeoValue(gaien),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          const ModelGeoValue(kasumigaseki),
+          const ModelGeoValue(tokyoEki),
+          const ModelGeoValue(gaien),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          const ModelGeoValue(tokyoEki),
+          const ModelGeoValue(gaien),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "geo": [
+          const ModelGeoValue(kasumigaseki).toJson(),
+          const ModelGeoValue(sakasitaMon).toJson(),
+          const ModelGeoValue(gaien).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "geo": [
+          const ModelGeoValue(kasumigaseki).toJson(),
+          const ModelGeoValue(tokyoEki).toJson(),
+          const ModelGeoValue(gaien).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "geo": [
+          const ModelGeoValue(tokyoEki).toJson(),
+          const ModelGeoValue(gaien).toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "geo", values: [
+          ModelGeoValue(kokudoKotusho),
+          ModelGeoValue(nijyuBashi),
+        ]),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelGeoValue(tokyoEki)), false);
+    expect(query.hasMatchAsObject(const ModelGeoValue(kasumigaseki)), true);
+    expect(query.hasMatchAsObject(const ModelGeoValue(sakasitaMon)), true);
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(tokyoEki).toJson(), "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(kasumigaseki).toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(sakasitaMon).toJson(), "text": "aaaa"}),
+      true,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "geo", values: [
+          ModelGeoValue(kokudoKotusho),
+          ModelGeoValue(nijyuBashi),
+        ]),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelGeoValue(tokyoEki)), true);
+    expect(query.hasMatchAsObject(const ModelGeoValue(kasumigaseki)), false);
+    expect(query.hasMatchAsObject(const ModelGeoValue(sakasitaMon)), false);
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(tokyoEki).toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(kasumigaseki).toJson(), "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(sakasitaMon).toJson(), "text": "aaaa"}),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.geo(key: "geo", geoValues: [
+          GeoValue(latitude: 35.662, longitude: 139.768, radiusKm: 2.0),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(const ModelGeoValue(kokurituKyogijyo)), false);
+    expect(query.hasMatchAsObject(const ModelGeoValue(kasumigaseki)), true);
+    expect(query.hasMatchAsObject(const ModelGeoValue(sakasitaMon)), true);
+    expect(
+      query.hasMatchAsMap({
+        "geo": const ModelGeoValue(kokurituKyogijyo).toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(kasumigaseki).toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"geo": const ModelGeoValue(sakasitaMon).toJson(), "text": "aaaa"}),
+      true,
     );
   });
   test("ModelQuery.ModelRef", () async {
