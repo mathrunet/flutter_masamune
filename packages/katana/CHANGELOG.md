@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: uuidのバージョンが合わなかったので下げる. ([eef0aaf5](https://github.com/mathrunet/flutter_masamune/commit/eef0aaf5825988e98f308dab4f34ab86eb9e1bf9))
+
 ## 2.1.0
 
  - **FEAT**: Migrated uuid to v7. ([687d985b](https://github.com/mathrunet/flutter_masamune/commit/687d985bd51f1a888c493b05245bab139210b525))

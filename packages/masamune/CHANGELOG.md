@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - Update a dependency to the latest release.
+
 ## 2.1.1
 
  - **FIX**: Add defaultTransitionQuery to router. ([a83294ae](https://github.com/mathrunet/flutter_masamune/commit/a83294aef9fa6904771875392b9015ae05993862))

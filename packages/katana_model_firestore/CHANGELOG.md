@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FEAT**: Added ModelUri and ModelGeoValue. ([176a98ec](https://github.com/mathrunet/flutter_masamune/commit/176a98ecd85285961e097738058a992bc8eb830a))
