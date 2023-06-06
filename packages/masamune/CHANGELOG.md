@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: The name of Extensions was covered, so it was corrected. ([1da7bf97](https://github.com/mathrunet/flutter_masamune/commit/1da7bf974d6e06af2acdf7343ef97560b3b504fe))
+
 ## 2.1.2
 
  - Update a dependency to the latest release.

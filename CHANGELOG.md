@@ -15,6 +15,52 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.1.3`](#masamune---v213)
+ - [`masamune_picker_file` - `v2.0.28`](#masamune_picker_file---v2028)
+ - [`masamune_agora` - `v2.0.28`](#masamune_agora---v2028)
+ - [`masamune_ai_openai` - `v2.0.29`](#masamune_ai_openai---v2029)
+ - [`masamune_calendar` - `v2.0.28`](#masamune_calendar---v2028)
+ - [`masamune_picker` - `v2.0.28`](#masamune_picker---v2028)
+ - [`masamune_universal_ui` - `v2.0.32`](#masamune_universal_ui---v2032)
+ - [`masamune_purchase_stripe` - `v3.0.9`](#masamune_purchase_stripe---v309)
+ - [`masamune_logger_firebase` - `v2.0.28`](#masamune_logger_firebase---v2028)
+ - [`masamune_picker_mobile` - `v2.0.28`](#masamune_picker_mobile---v2028)
+ - [`masamune_notification_firebase` - `v2.0.28`](#masamune_notification_firebase---v2028)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v2.0.28`
+ - `masamune_agora` - `v2.0.28`
+ - `masamune_ai_openai` - `v2.0.29`
+ - `masamune_calendar` - `v2.0.28`
+ - `masamune_picker` - `v2.0.28`
+ - `masamune_universal_ui` - `v2.0.32`
+ - `masamune_purchase_stripe` - `v3.0.9`
+ - `masamune_logger_firebase` - `v2.0.28`
+ - `masamune_picker_mobile` - `v2.0.28`
+ - `masamune_notification_firebase` - `v2.0.28`
+
+---
+
+#### `masamune` - `v2.1.3`
+
+ - **FIX**: The name of Extensions was covered, so it was corrected. ([1da7bf97](https://github.com/mathrunet/flutter_masamune/commit/1da7bf974d6e06af2acdf7343ef97560b3b504fe))
+
+
+## 2023-06-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.1.1`](#katana---v211)
  - [`katana_prefs_annotation` - `v2.0.4`](#katana_prefs_annotation---v204)
  - [`katana_prefs` - `v2.0.4`](#katana_prefs---v204)
