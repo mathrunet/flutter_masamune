@@ -3,7 +3,7 @@ part of masamune;
 /// Create an extension method for [RefHasPage] to create nested routers.
 ///
 /// ネストされたルーターを作成するための[RefHasPage]の拡張メソッドを作成します。
-extension MasamuneModelAppRefExtensions on RefHasPage {
+extension MasamuneRouterRefHasPageExtensions on RefHasPage {
   /// Create nested routers by passing [pages].
   ///
   /// Pass to [Router.withConfig] to display nested pages.
