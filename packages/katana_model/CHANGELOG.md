@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Added ModelSearch. ([1cf9f557](https://github.com/mathrunet/flutter_masamune/commit/1cf9f557530b7b52e4190a4a127e6e2307593e45))
+
 ## 2.1.1
 
  - Update a dependency to the latest release.

@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.1.3
+  masamune: ^2.1.4
   masamune_ai_openai:
     path: "../"
 

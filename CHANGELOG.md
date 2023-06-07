@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v2.2.0`](#katana_model---v220)
+ - [`katana_model_firestore` - `v2.2.0`](#katana_model_firestore---v220)
+ - [`masamune_universal_ui` - `v2.0.33`](#masamune_universal_ui---v2033)
+ - [`masamune` - `v2.1.4`](#masamune---v214)
+ - [`masamune_picker_file` - `v2.0.29`](#masamune_picker_file---v2029)
+ - [`masamune_agora` - `v2.0.29`](#masamune_agora---v2029)
+ - [`masamune_ai_openai` - `v2.0.30`](#masamune_ai_openai---v2030)
+ - [`masamune_calendar` - `v2.0.29`](#masamune_calendar---v2029)
+ - [`masamune_picker` - `v2.0.29`](#masamune_picker---v2029)
+ - [`masamune_purchase_stripe` - `v3.0.10`](#masamune_purchase_stripe---v3010)
+ - [`masamune_logger_firebase` - `v2.0.29`](#masamune_logger_firebase---v2029)
+ - [`masamune_picker_mobile` - `v2.0.29`](#masamune_picker_mobile---v2029)
+ - [`masamune_notification_firebase` - `v2.0.29`](#masamune_notification_firebase---v2029)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.4`
+ - `masamune_picker_file` - `v2.0.29`
+ - `masamune_agora` - `v2.0.29`
+ - `masamune_ai_openai` - `v2.0.30`
+ - `masamune_calendar` - `v2.0.29`
+ - `masamune_picker` - `v2.0.29`
+ - `masamune_purchase_stripe` - `v3.0.10`
+ - `masamune_logger_firebase` - `v2.0.29`
+ - `masamune_picker_mobile` - `v2.0.29`
+ - `masamune_notification_firebase` - `v2.0.29`
+
+---
+
+#### `katana_model` - `v2.2.0`
+
+ - **FEAT**: Added ModelSearch. ([1cf9f557](https://github.com/mathrunet/flutter_masamune/commit/1cf9f557530b7b52e4190a4a127e6e2307593e45))
+
+#### `katana_model_firestore` - `v2.2.0`
+
+ - **FEAT**: Added ModelSearch. ([1cf9f557](https://github.com/mathrunet/flutter_masamune/commit/1cf9f557530b7b52e4190a4a127e6e2307593e45))
+
+#### `masamune_universal_ui` - `v2.0.33`
+
+ - **FIX**: Fixed a bug in AppBar Leading. ([80c3cf5c](https://github.com/mathrunet/flutter_masamune/commit/80c3cf5c73e9c3a0c02c5a27c95550885080f16a))
+
+
 ## 2023-06-06
 
 ### Changes
