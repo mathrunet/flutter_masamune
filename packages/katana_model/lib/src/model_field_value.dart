@@ -129,6 +129,7 @@ abstract class ModelFieldValue<T> {
     const ModelTimestampConverter(),
     const ModelGeoValueConverter(),
     const ModelUriConverter(),
+    const ModelSearchConverter(),
     const ModelRefConverter(),
   };
 
@@ -151,6 +152,7 @@ abstract class ModelFieldValue<T> {
     const ModelTimestampFilter(),
     const ModelGeoValueFilter(),
     const ModelUriFilter(),
+    const ModelSearchFilter(),
     const ModelRefFilter(),
   };
 
@@ -1228,6 +1230,218 @@ class ModelUriFilter extends ModelFieldValueFilter<ModelUri> {
         target.get(kTypeFieldKey, "") == (ModelUri).toString()) {
       return filter(
           ModelUri.fromJson(source).value, ModelUri.fromJson(target).value);
+    }
+    return null;
+  }
+}
+
+/// Define searchable fields.
+///
+/// You can store values as searchable values and search for elements that contain all of those defined in [ModelQueryFilter.equal].
+///
+/// Available for category search, etc.
+///
+/// 検索可能なフィールドを定義します。
+///
+/// 値を検索可能な値として保存し、[ModelQueryFilter.equal]で定義されたものがすべて含まれる要素を検索することができます。
+///
+/// カテゴリー検索等に利用可能です。
+@immutable
+class ModelSearch extends ModelFieldValue<List<String>> {
+  /// Define searchable fields.
+  ///
+  /// You can store values as searchable values and search for elements that contain all of those defined in [ModelQueryFilter.equal].
+  ///
+  /// Available for category search, etc.
+  ///
+  /// 検索可能なフィールドを定義します。
+  ///
+  /// 値を検索可能な値として保存し、[ModelQueryFilter.equal]で定義されたものがすべて含まれる要素を検索することができます。
+  ///
+  /// カテゴリー検索等に利用可能です。
+  const factory ModelSearch(List<String> searchList) = _ModelSearch;
+
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const factory ModelSearch.fromServer(List<String> searchList) =
+      _ModelSearch.fromServer;
+
+  /// Convert from [json] map to [ModelSearch].
+  ///
+  /// [json]のマップから[ModelSearch]に変換します。
+  factory ModelSearch.fromJson(DynamicMap json) {
+    final list = json.getAsList<String>(kListKey);
+    return ModelSearch.fromServer(list);
+  }
+
+  const ModelSearch._(
+    List<String> value, [
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ])  : _value = value,
+        _source = source;
+
+  /// Key to save the list.
+  ///
+  /// リストを保存しておくキー。
+  static const kListKey = "@list";
+
+  /// Key to store the data source.
+  ///
+  /// データソースを保存しておくキー。
+  static const kSourceKey = "@source";
+
+  @override
+  List<String> get value => _value ?? [];
+  final List<String>? _value;
+
+  final ModelFieldValueSource _source;
+
+  @override
+  String toString() {
+    return value.toString();
+  }
+
+  @override
+  DynamicMap toJson() => {
+        kTypeFieldKey: (ModelSearch).toString(),
+        kListKey: value,
+        kSourceKey: _source.name,
+      };
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    if (_value == null) {
+      return null.hashCode;
+    }
+    return Object.hashAll(_value!);
+  }
+}
+
+@immutable
+class _ModelSearch extends ModelSearch
+    with ModelFieldValueAsMapMixin<List<String>> {
+  const _ModelSearch(
+    List<String> value, [
+    ModelFieldValueSource source = ModelFieldValueSource.user,
+  ]) : super._(value, source);
+  const _ModelSearch.fromServer(List<String> value)
+      : super._(value, ModelFieldValueSource.server);
+}
+
+/// [ModelFieldValueConverter] to enable automatic conversion of [ModelSearch] as [ModelFieldValue].
+///
+/// [ModelSearch]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+@immutable
+class ModelSearchConverter extends ModelFieldValueConverter<ModelSearch> {
+  /// [ModelFieldValueConverter] to enable automatic conversion of [ModelSearch] as [ModelFieldValue].
+  ///
+  /// [ModelSearch]を[ModelFieldValue]として自動変換できるようにするための[ModelFieldValueConverter]。
+  const ModelSearchConverter();
+
+  @override
+  ModelSearch fromJson(Map<String, Object?> map) {
+    return ModelSearch.fromJson(map);
+  }
+
+  @override
+  Map<String, Object?> toJson(ModelSearch value) {
+    return value.toJson();
+  }
+}
+
+/// Filter class to make [ModelSearch] available to [ModelQuery.filters].
+///
+/// [ModelSearch]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+@immutable
+class ModelSearchFilter extends ModelFieldValueFilter<ModelSearch> {
+  /// Filter class to make [ModelSearch] available to [ModelQuery.filters].
+  ///
+  /// [ModelSearch]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
+  const ModelSearchFilter();
+
+  @override
+  int? compare(dynamic a, dynamic b) {
+    return _hasMatch(a, b, (a, b) => a.toString().compareTo(b.toString()));
+  }
+
+  @override
+  bool? hasMatch(ModelQueryFilter filter, dynamic source) {
+    final target = filter.value;
+    switch (filter.type) {
+      case ModelQueryFilterType.equalTo:
+        return _hasMatch(
+          source,
+          target,
+          (source, target) => target.every((e) => source.contains(e)),
+        );
+      case ModelQueryFilterType.notEqualTo:
+        return _hasMatch(
+          source,
+          target,
+          (source, target) => target.every((e) => !source.contains(e)),
+        );
+      case ModelQueryFilterType.lessThan:
+      case ModelQueryFilterType.greaterThan:
+      case ModelQueryFilterType.lessThanOrEqualTo:
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return null;
+      case ModelQueryFilterType.arrayContains:
+        return _hasMatch(
+          source,
+          target,
+          (source, target) => target.every((e) => source.contains(e)),
+        );
+      case ModelQueryFilterType.arrayContainsAny:
+        return _hasMatch(
+          source,
+          target,
+          (source, target) => target.every((e) => source.contains(e)),
+        );
+      case ModelQueryFilterType.whereIn:
+      case ModelQueryFilterType.whereNotIn:
+        return null;
+      default:
+        return null;
+    }
+  }
+
+  T? _hasMatch<T>(
+    dynamic source,
+    dynamic target,
+    T Function(List<String> source, List<String> target) filter,
+  ) {
+    if (source is ModelSearch && target is ModelSearch) {
+      return filter(source.value, target.value);
+    } else if (source is ModelSearch && target is List) {
+      return filter(source.value, target.map((e) => e.toString()).toList());
+    } else if (source is List && target is ModelSearch) {
+      return filter(source.map((e) => e.toString()).toList(), target.value);
+    } else if (source is ModelSearch && target is String) {
+      return filter(source.value, [target]);
+    } else if (source is String && target is ModelSearch) {
+      return filter([source], target.value);
+    } else if (source is ModelSearch &&
+        target is DynamicMap &&
+        target.get(kTypeFieldKey, "") == (ModelSearch).toString()) {
+      return filter(source.value, ModelSearch.fromJson(target).value);
+    } else if (source is DynamicMap &&
+        target is ModelSearch &&
+        source.get(kTypeFieldKey, "") == (ModelSearch).toString()) {
+      return filter(ModelSearch.fromJson(source).value, target.value);
+    } else if (source is DynamicMap &&
+        target is DynamicMap &&
+        source.get(kTypeFieldKey, "") == (ModelSearch).toString() &&
+        target.get(kTypeFieldKey, "") == (ModelSearch).toString()) {
+      return filter(ModelSearch.fromJson(source).value,
+          ModelSearch.fromJson(target).value);
     }
     return null;
   }

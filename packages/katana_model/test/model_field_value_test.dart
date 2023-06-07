@@ -36,6 +36,7 @@ class TestValue with _$TestValue {
     @Default(ModelCounter(0)) ModelCounter counter,
     @Default(ModelUri()) ModelUri uri,
     @Default(ModelGeoValue()) ModelGeoValue geo,
+    @Default(ModelSearch([])) ModelSearch search,
   }) = _TestValue;
 
   factory TestValue.fromJson(Map<String, Object?> map) =>
@@ -75,7 +76,8 @@ void main() {
       "geo": ModelGeoValue.fromDouble(
         latitude: 35.68177834908552,
         longitude: 139.75310000426765,
-      )
+      ),
+      "search": const ModelSearch(["aaaa", "bbbb", "cccc"])
     });
     expect(
       model.value,
@@ -87,6 +89,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        "search": const ModelSearch(["aaaa", "bbbb", "cccc"])
       },
     );
     await model2.load();
@@ -100,12 +103,14 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        "search": const ModelSearch(["aaaa", "bbbb", "cccc"])
       },
     );
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
     print((model.value!["uri"] as ModelUri).value);
     print((model.value!["geo"] as ModelGeoValue).value);
+    print((model.value!["search"] as ModelSearch).value);
     await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
       "time": ModelTimestamp(DateTime(2022, 1, 2)),
@@ -114,11 +119,13 @@ void main() {
         latitude: 35.67389581850969,
         longitude: 139.75049296820384,
       ),
+      "search": const ModelSearch(["ddd", "eee"]),
     });
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
     print((model.value!["uri"] as ModelUri).value);
     print((model.value!["geo"] as ModelGeoValue).value);
+    print((model.value!["search"] as ModelSearch).value);
     expect(
       model.value,
       {
@@ -129,6 +136,7 @@ void main() {
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
         ),
+        "search": const ModelSearch(["ddd", "eee"]),
       },
     );
   });
@@ -146,6 +154,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        search: const ModelSearch(["aaaa", "bbbb", "cccc"]),
       ),
     );
     expect(
@@ -158,6 +167,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        search: const ModelSearch(["aaaa", "bbbb", "cccc"]),
       ),
     );
     await model2.load();
@@ -171,6 +181,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
+        search: const ModelSearch(["aaaa", "bbbb", "cccc"]),
       ),
     );
     await model.save(
@@ -184,6 +195,7 @@ void main() {
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
         ),
+        search: const ModelSearch(["ddd", "eee"]),
       ),
     );
     expect(
@@ -196,6 +208,7 @@ void main() {
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
         ),
+        search: const ModelSearch(["ddd", "eee"]),
       ),
     );
   });

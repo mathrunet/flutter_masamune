@@ -24,6 +24,7 @@ mixin _$TestValue {
   ModelCounter get counter => throw _privateConstructorUsedError;
   ModelUri get uri => throw _privateConstructorUsedError;
   ModelGeoValue get geo => throw _privateConstructorUsedError;
+  ModelSearch get search => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +41,8 @@ abstract class $TestValueCopyWith<$Res> {
       {ModelTimestamp time,
       ModelCounter counter,
       ModelUri uri,
-      ModelGeoValue geo});
+      ModelGeoValue geo,
+      ModelSearch search});
 }
 
 /// @nodoc
@@ -60,6 +62,7 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
     Object? counter = null,
     Object? uri = null,
     Object? geo = null,
+    Object? search = null,
   }) {
     return _then(_value.copyWith(
       time: null == time
@@ -78,6 +81,10 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
           ? _value.geo
           : geo // ignore: cast_nullable_to_non_nullable
               as ModelGeoValue,
+      search: null == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as ModelSearch,
     ) as $Val);
   }
 }
@@ -93,7 +100,8 @@ abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
       {ModelTimestamp time,
       ModelCounter counter,
       ModelUri uri,
-      ModelGeoValue geo});
+      ModelGeoValue geo,
+      ModelSearch search});
 }
 
 /// @nodoc
@@ -111,6 +119,7 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? counter = null,
     Object? uri = null,
     Object? geo = null,
+    Object? search = null,
   }) {
     return _then(_$_TestValue(
       time: null == time
@@ -129,6 +138,10 @@ class __$$_TestValueCopyWithImpl<$Res>
           ? _value.geo
           : geo // ignore: cast_nullable_to_non_nullable
               as ModelGeoValue,
+      search: null == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as ModelSearch,
     ));
   }
 }
@@ -140,7 +153,8 @@ class _$_TestValue implements _TestValue {
       {this.time = const ModelTimestamp(),
       this.counter = const ModelCounter(0),
       this.uri = const ModelUri(),
-      this.geo = const ModelGeoValue()});
+      this.geo = const ModelGeoValue(),
+      this.search = const ModelSearch([])});
 
   factory _$_TestValue.fromJson(Map<String, dynamic> json) =>
       _$$_TestValueFromJson(json);
@@ -157,10 +171,13 @@ class _$_TestValue implements _TestValue {
   @override
   @JsonKey()
   final ModelGeoValue geo;
+  @override
+  @JsonKey()
+  final ModelSearch search;
 
   @override
   String toString() {
-    return 'TestValue(time: $time, counter: $counter, uri: $uri, geo: $geo)';
+    return 'TestValue(time: $time, counter: $counter, uri: $uri, geo: $geo, search: $search)';
   }
 
   @override
@@ -171,12 +188,13 @@ class _$_TestValue implements _TestValue {
             (identical(other.time, time) || other.time == time) &&
             (identical(other.counter, counter) || other.counter == counter) &&
             (identical(other.uri, uri) || other.uri == uri) &&
-            (identical(other.geo, geo) || other.geo == geo));
+            (identical(other.geo, geo) || other.geo == geo) &&
+            (identical(other.search, search) || other.search == search));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, time, counter, uri, geo);
+  int get hashCode => Object.hash(runtimeType, time, counter, uri, geo, search);
 
   @JsonKey(ignore: true)
   @override
@@ -197,7 +215,8 @@ abstract class _TestValue implements TestValue {
       {final ModelTimestamp time,
       final ModelCounter counter,
       final ModelUri uri,
-      final ModelGeoValue geo}) = _$_TestValue;
+      final ModelGeoValue geo,
+      final ModelSearch search}) = _$_TestValue;
 
   factory _TestValue.fromJson(Map<String, dynamic> json) =
       _$_TestValue.fromJson;
@@ -210,6 +229,8 @@ abstract class _TestValue implements TestValue {
   ModelUri get uri;
   @override
   ModelGeoValue get geo;
+  @override
+  ModelSearch get search;
   @override
   @JsonKey(ignore: true)
   _$$_TestValueCopyWith<_$_TestValue> get copyWith =>

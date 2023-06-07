@@ -296,6 +296,18 @@ class FirestoreModelAdapter extends ModelAdapter {
         // ModelTimestamp検索
       } else if (val is Timestamp) {
         res[key] = ModelTimestamp(val.toDate()).toJson();
+        // ModelSearch検索
+      } else if (val is Map) {
+        final targetKey = "#$key";
+        final targetMap = map.getAsMap(targetKey);
+        final type = targetMap.get(_kTypeKey, "");
+        if (type == (ModelSearch).toString()) {
+          res[key] = ModelSearch(
+            val.keys.map((e) => e.toString()).toList(),
+          ).toJson();
+        } else {
+          res[key] = val;
+        }
         // ModelGeoValue検索
       } else if (val is GeoPoint) {
         res[key] = ModelGeoValue(
@@ -374,6 +386,19 @@ class FirestoreModelAdapter extends ModelAdapter {
           if (fromUser) {
             res[key] = value;
           }
+        } else if (type == (ModelSearch).toString()) {
+          final fromUser = val.get(ModelSearch.kSourceKey, "") ==
+              ModelFieldValueSource.user.name;
+          final value = val.getAsList<String>(ModelSearch.kListKey);
+          final targetKey = "#$key";
+          res[targetKey] = {
+            kTypeFieldKey: (ModelSearch).toString(),
+            ModelSearch.kListKey: value,
+            _kTargetKey: key,
+          };
+          if (fromUser) {
+            res[key] = value.toMap((item) => MapEntry(item, true));
+          }
         } else if (type == (ModelGeoValue).toString()) {
           final fromUser = val.get(ModelGeoValue.kSourceKey, "") ==
               ModelFieldValueSource.user.name;
@@ -424,16 +449,36 @@ class FirestoreModelAdapter extends ModelAdapter {
     for (final filter in filters) {
       switch (filter.type) {
         case ModelQueryFilterType.equalTo:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isEqualTo: _convertQueryValue(filter.value),
-          );
+          if (filter.value is ModelSearch) {
+            final modelSearch = filter.value as ModelSearch;
+            for (final text in modelSearch.value) {
+              firestoreQuery = firestoreQuery.where(
+                "${filter.key!}.$text",
+                isEqualTo: true,
+              );
+            }
+          } else {
+            firestoreQuery = firestoreQuery.where(
+              filter.key!,
+              isEqualTo: _convertQueryValue(filter.value),
+            );
+          }
           break;
         case ModelQueryFilterType.notEqualTo:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isNotEqualTo: _convertQueryValue(filter.value),
-          );
+          if (filter.value is ModelSearch) {
+            final modelSearch = filter.value as ModelSearch;
+            for (final text in modelSearch.value) {
+              firestoreQuery = firestoreQuery.where(
+                "${filter.key!}.$text",
+                isNotEqualTo: true,
+              );
+            }
+          } else {
+            firestoreQuery = firestoreQuery.where(
+              filter.key!,
+              isNotEqualTo: _convertQueryValue(filter.value),
+            );
+          }
           break;
         case ModelQueryFilterType.lessThan:
           firestoreQuery = firestoreQuery.where(
@@ -522,6 +567,8 @@ class FirestoreModelAdapter extends ModelAdapter {
     } else if (value is ModelTimestamp) {
       return Timestamp.fromDate(value.value);
     } else if (value is ModelUri) {
+      return value.value;
+    } else if (value is ModelSearch) {
       return value.value;
     } else if (value is ModelGeoValue) {
       return value.value.geoHash;

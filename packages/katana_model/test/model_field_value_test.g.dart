@@ -19,6 +19,9 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
       geo: json['geo'] == null
           ? const ModelGeoValue()
           : ModelGeoValue.fromJson(json['geo'] as Map<String, dynamic>),
+      search: json['search'] == null
+          ? const ModelSearch([])
+          : ModelSearch.fromJson(json['search'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
@@ -27,4 +30,5 @@ Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
       'counter': instance.counter,
       'uri': instance.uri,
       'geo': instance.geo,
+      'search': instance.search,
     };

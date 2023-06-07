@@ -1210,6 +1210,98 @@ void main() {
       false,
     );
   });
+  test("ModelQuery.ModelSearch", () async {
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+          key: "search",
+          value: ModelSearch(["aaaa", "bbbb"]),
+        ),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelSearch(["dddd", "cccc"])), false);
+    expect(query.hasMatchAsObject(const ModelSearch(["aaaa", "bbbb"])), true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": const ModelSearch(["dddd", "cccc"]).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": const ModelSearch(["aaaa", "bbbb"]).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": const ModelSearch(["eeee", "cccc"]).toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": const ModelSearch(["bbbb", "cccc"]).toJson()
+        }
+      ]),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+          key: "search",
+          value: ModelSearch(["aaaa", "bbbb"]),
+        ),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelSearch(["dddd", "cccc"])), true);
+    expect(query.hasMatchAsObject(const ModelSearch(["aaaa", "bbbb"])), false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": const ModelSearch(["dddd", "cccc"]).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": const ModelSearch(["aaaa", "bbbb"]).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": const ModelSearch(["eeee", "cccc"]).toJson()
+        }
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": const ModelSearch(["bbbb", "cccc"]).toJson()
+        }
+      ]),
+      true,
+    );
+  });
   test("ModelQuery.ModelGeoValue", () async {
     const nijyuBashi = GeoValue(
       latitude: 35.68177834908552,
