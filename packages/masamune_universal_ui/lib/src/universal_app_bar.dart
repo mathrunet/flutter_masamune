@@ -789,12 +789,13 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         );
       } else if (automaticallyImplyLeading ==
-                  AutomaticallyImplyLeadingType.drawerAndBack &&
-              (!hasEndDrawer && canPop) ||
-          (parentRoute?.impliesAppBarDismissal ?? false)) {
+              AutomaticallyImplyLeadingType.drawerAndBack &&
+          ((!hasEndDrawer && canPop) ||
+              (parentRoute?.impliesAppBarDismissal ?? false))) {
         leading = useCloseButton ? const CloseButton() : const BackButton();
       }
     }
+
     return PreferredSize(
       preferredSize:
           Size.fromHeight(toolbarHeight + (bottom?.preferredSize.height ?? 0)),
