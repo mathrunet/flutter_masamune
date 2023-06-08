@@ -167,6 +167,14 @@ enum _TransitionQueryType {
         switch (this) {
           case _TransitionQueryType.none:
             return child ?? const SizedBox.shrink();
+          case _TransitionQueryType.fullscreen:
+            return SlideTransition(
+              position: _slideUpTween.animate(animation),
+              child: FadeTransition(
+                opacity: _fadeTween.animate(animation),
+                child: child,
+              ),
+            );
           case _TransitionQueryType.fade:
             return FadeTransition(
               opacity: _fadeTween.animate(animation),
