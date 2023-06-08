@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_util` - `v2.0.0`](#masamune_util---v200)
+
+---
+
+#### `masamune_util` - `v2.0.0`
+
+ - Bump "masamune_util" to `2.0.0`.
+
+
+## 2023-06-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.7`](#katana_router---v207)
  - [`katana_router_annotation` - `v2.0.7`](#katana_router_annotation---v207)
  - [`katana_router_builder` - `v2.0.7`](#katana_router_builder---v207)
