@@ -1,3 +1,7 @@
+## 2.1.6
+
+ - Update a dependency to the latest release.
+
 ## 2.1.5
 
  - **FIX**: Change router to app scope. ([2575f7e0](https://github.com/mathrunet/flutter_masamune/commit/2575f7e05118dd8ed2b5bcc07aff169b616ea2be))

@@ -15,6 +15,71 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v2.0.7`](#katana_router---v207)
+ - [`katana_router_annotation` - `v2.0.7`](#katana_router_annotation---v207)
+ - [`katana_router_builder` - `v2.0.7`](#katana_router_builder---v207)
+ - [`masamune_util` - `v1.1.0`](#masamune_util---v110)
+ - [`masamune` - `v2.1.6`](#masamune---v216)
+ - [`masamune_picker_file` - `v2.0.31`](#masamune_picker_file---v2031)
+ - [`masamune_agora` - `v2.0.31`](#masamune_agora---v2031)
+ - [`masamune_ai_openai` - `v2.0.32`](#masamune_ai_openai---v2032)
+ - [`masamune_calendar` - `v2.0.31`](#masamune_calendar---v2031)
+ - [`masamune_picker` - `v2.0.31`](#masamune_picker---v2031)
+ - [`masamune_universal_ui` - `v2.0.35`](#masamune_universal_ui---v2035)
+ - [`masamune_purchase_stripe` - `v3.0.12`](#masamune_purchase_stripe---v3012)
+ - [`masamune_logger_firebase` - `v2.0.31`](#masamune_logger_firebase---v2031)
+ - [`masamune_picker_mobile` - `v2.0.31`](#masamune_picker_mobile---v2031)
+ - [`masamune_notification_firebase` - `v2.0.31`](#masamune_notification_firebase---v2031)
+ - [`masamune_builder` - `v2.0.16`](#masamune_builder---v2016)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.6`
+ - `masamune_picker_file` - `v2.0.31`
+ - `masamune_agora` - `v2.0.31`
+ - `masamune_ai_openai` - `v2.0.32`
+ - `masamune_calendar` - `v2.0.31`
+ - `masamune_picker` - `v2.0.31`
+ - `masamune_universal_ui` - `v2.0.35`
+ - `masamune_purchase_stripe` - `v3.0.12`
+ - `masamune_logger_firebase` - `v2.0.31`
+ - `masamune_picker_mobile` - `v2.0.31`
+ - `masamune_notification_firebase` - `v2.0.31`
+ - `masamune_builder` - `v2.0.16`
+
+---
+
+#### `katana_router` - `v2.0.7`
+
+ - **FIX**: Changed animation when fullscreen. ([4a831cee](https://github.com/mathrunet/flutter_masamune/commit/4a831cee9f6617ad89a1dbd69de1ce29530f7c0b))
+
+#### `katana_router_annotation` - `v2.0.7`
+
+ - **FIX**: Changed animation when fullscreen. ([4a831cee](https://github.com/mathrunet/flutter_masamune/commit/4a831cee9f6617ad89a1dbd69de1ce29530f7c0b))
+
+#### `katana_router_builder` - `v2.0.7`
+
+ - **FIX**: Changed animation when fullscreen. ([4a831cee](https://github.com/mathrunet/flutter_masamune/commit/4a831cee9f6617ad89a1dbd69de1ce29530f7c0b))
+
+#### `masamune_util` - `v1.1.0`
+
+ - **FEAT**: Initial commit. ([86780b0a](https://github.com/mathrunet/flutter_masamune/commit/86780b0a854bb421562e1f8ca31a1fad1bf7ebea))
+
+
+## 2023-06-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_openapi` - `v2.0.6`](#katana_model_openapi---v206)
  - [`katana_model_openapi_builder` - `v2.0.6`](#katana_model_openapi_builder---v206)
 
