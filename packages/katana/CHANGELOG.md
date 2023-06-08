@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Add fill to Iterable's extension. ([1c3c41bf](https://github.com/mathrunet/flutter_masamune/commit/1c3c41bf7a53645721f4c2d110d1d0f2dea23b54))
+
 ## 2.1.1
 
  - **FIX**: uuidのバージョンが合わなかったので下げる. ([eef0aaf5](https://github.com/mathrunet/flutter_masamune/commit/eef0aaf5825988e98f308dab4f34ab86eb9e1bf9))

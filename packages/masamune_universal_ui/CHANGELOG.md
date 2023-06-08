@@ -1,3 +1,7 @@
+## 2.0.34
+
+ - Update a dependency to the latest release.
+
 ## 2.0.33
 
  - **FIX**: Fixed a bug in AppBar Leading. ([80c3cf5c](https://github.com/mathrunet/flutter_masamune/commit/80c3cf5c73e9c3a0c02c5a27c95550885080f16a))
