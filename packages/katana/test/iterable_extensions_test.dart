@@ -76,6 +76,10 @@ void main() {
       ],
     );
   });
+  test("IterableExtensions.fill", () {
+    final array = [1, 2, 3, 4, 5];
+    expect(array.fill(10, (i) => i + 1), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  });
   test("IterableExtensions.toMap", () {
     final array = [1, 1, 3, 5, 6, 8, 9, 9];
     expect(

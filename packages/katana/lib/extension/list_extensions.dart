@@ -131,30 +131,6 @@ extension ListExtensions<T> on List<T> {
     return index >= 0 && index < length;
   }
 
-  /// If the number of elements in [List] is less than [length], it is filled with [value] up to the [length] elements.
-  ///
-  /// If [value] is not specified, [null] is inserted.
-  ///
-  /// [List]の要素の数が[length]未満の場合、[length]の要素まで[value]で埋め尽くします。
-  ///
-  /// [value]が指定されない場合は[Null]が挿入されます。
-  ///
-  /// ```dart
-  /// final array = [1, 2, 3];
-  /// final filled = array.fill(5, 0); // [1, 2, 3, 0, 0]
-  /// ```
-  List<T?> fill(int length, [T? value]) {
-    final tmp = <T?>[];
-    for (int i = 0; i < max(length, this.length); i++) {
-      if (i < this.length) {
-        tmp.add(this[i]);
-      } else {
-        tmp.add(value);
-      }
-    }
-    return tmp;
-  }
-
   /// If this object is Json encodable, `true` is returned.
   ///
   /// If a [List] or [Map] exists, its contents are also checked.

@@ -47,8 +47,4 @@ void main() {
     expect(array.containsIndex(6), false);
     expect(array.containsIndex(7), false);
   });
-  test("ListExtensions.fill", () {
-    final array = [1, 2, 3];
-    expect(array.fill(5, 0), [1, 2, 3, 0, 0]);
-  });
 }
