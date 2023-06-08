@@ -361,21 +361,21 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.0.1"
+    version: "2.1.0"
   katana_model_openapi:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.1"
+    version: "2.0.3"
   katana_model_openapi_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_model_openapi_builder"
       relative: true
     source: path
-    version: "2.0.1"
+    version: "2.0.3"
   lints:
     dependency: transitive
     description:

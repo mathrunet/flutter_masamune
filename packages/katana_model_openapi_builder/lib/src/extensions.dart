@@ -23,7 +23,11 @@ extension APISchemaObjectExtensions on APISchemaObject {
         return "List<${items?.toDartType(key, inList: true)}>";
       default:
         if (additionalPropertyPolicy != null) {
-          return "Map<String,dynamic>";
+          if (!inList) {
+            return "Map<String,dynamic>?";
+          } else {
+            return "Map<String,dynamic>";
+          }
         }
         return "Object$nullable";
     }
