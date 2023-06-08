@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_openapi` - `v2.0.6`](#katana_model_openapi---v206)
+ - [`katana_model_openapi_builder` - `v2.0.6`](#katana_model_openapi_builder---v206)
+
+---
+
+#### `katana_model_openapi` - `v2.0.6`
+
+ - **FIX**: nullable when generating non-list objects. ([9d093a1c](https://github.com/mathrunet/flutter_masamune/commit/9d093a1c447a1bb18515565f61ea8f4d5dab9ef9))
+
+#### `katana_model_openapi_builder` - `v2.0.6`
+
+ - **FIX**: nullable when generating non-list objects. ([9d093a1c](https://github.com/mathrunet/flutter_masamune/commit/9d093a1c447a1bb18515565f61ea8f4d5dab9ef9))
+
+
+## 2023-06-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.2.0`](#katana---v220)
  - [`masamune` - `v2.1.5`](#masamune---v215)
  - [`katana_prefs_annotation` - `v2.0.5`](#katana_prefs_annotation---v205)

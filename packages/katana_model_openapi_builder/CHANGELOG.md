@@ -1,3 +1,7 @@
+## 2.0.6
+
+ - **FIX**: nullable when generating non-list objects. ([9d093a1c](https://github.com/mathrunet/flutter_masamune/commit/9d093a1c447a1bb18515565f61ea8f4d5dab9ef9))
+
 ## 2.0.5
 
  - Update a dependency to the latest release.
