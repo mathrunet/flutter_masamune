@@ -311,7 +311,7 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.1.1"
+    version: "2.2.0"
   katana_prefs:
     dependency: "direct main"
     description:
