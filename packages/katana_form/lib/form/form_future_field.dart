@@ -4,7 +4,9 @@ part of katana_form;
 ///
 /// Use this when moving to another page and updating form values based on values entered on that page, or updating form values based on API responses.
 ///
-/// Specifying [builder] describes the data acquisition process after a tap.
+/// Specifying [onTap] describes the data acquisition process after a tap.
+///
+/// You can freely change the display by passing a widget with [builder]. If [builder] is not passed, a TextField will be displayed. In that case, you can use [parseToString] to convert the value of [T] to a string.
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
@@ -29,7 +31,9 @@ part of katana_form;
 ///
 /// 別のページに遷移してそのページで入力した値を元にフォームの値を更新する場合やAPIのレスポンスを元にフォームの値を更新する場合に使用します。
 ///
-/// [builder]を指定することでタップした後のデータ取得処理を記述します。
+/// [onTap]を指定することでタップした後のデータ取得処理を記述します。
+///
+/// [builder]でウィジェットを渡すことで自由に表示を変更できます。[builder]が渡されない場合はTextFieldが表示されます。その際[parseToString]で[T]の値を文字列に変換することが可能です。
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
@@ -54,7 +58,9 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   ///
   /// Use this when moving to another page and updating form values based on values entered on that page, or updating form values based on API responses.
   ///
-  /// Specifying [builder] describes the data acquisition process after a tap.
+  /// Specifying [onTap] describes the data acquisition process after a tap.
+  ///
+  /// You can freely change the display by passing a widget with [builder]. If [builder] is not passed, a TextField will be displayed. In that case, you can use [parseToString] to convert the value of [T] to a string.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
@@ -79,7 +85,9 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   ///
   /// 別のページに遷移してそのページで入力した値を元にフォームの値を更新する場合やAPIのレスポンスを元にフォームの値を更新する場合に使用します。
   ///
-  /// [builder]を指定することでタップした後のデータ取得処理を記述します。
+  /// [onTap]を指定することでタップした後のデータ取得処理を記述します。
+  ///
+  /// [builder]でウィジェットを渡すことで自由に表示を変更できます。[builder]が渡されない場合はTextFieldが表示されます。その際[parseToString]で[T]の値を文字列に変換することが可能です。
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
@@ -102,7 +110,13 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   FormFutureField({
     this.form,
     this.style,
-    required FutureOr<T?> Function() builder,
+    required this.onTap,
+    Widget Function(
+      BuildContext context,
+      FormFutureField<T, TValue> widget,
+      Future<void> Function()? onTap,
+      T? value,
+    )? builder,
     this.parseToString,
     this.prefix,
     this.suffix,
@@ -163,8 +177,32 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   /// これが`true`の場合、フォームの入力が行えずに初期値から変更することができなくなります。
   final bool readOnly;
 
+  /// Describe the behavior when the form is tapped.
   ///
-  final FutureOr<T?> Function() _builder;
+  /// You can change the value of the form by returning [T].
+  ///
+  /// フォームがタップされたときの挙動を記述します。
+  ///
+  /// [T]を返すことによりフォームの値を変えることができます。
+  final FutureOr<T?> Function(T? currentValue) onTap;
+
+  /// Build the form UI.
+  ///
+  /// Create a form UI based on the value of [value].
+  ///
+  /// Executing [onTap] will start the process of changing the value of the form.
+  ///
+  /// フォームのUIをビルドします。
+  ///
+  /// [value]の値を元にフォームのUIを作成してください。
+  ///
+  /// [onTap]を実行することでフォームの値を変更処理を開始することができます。
+  final Widget Function(
+    BuildContext context,
+    FormFutureField<T, TValue> widget,
+    Future<void> Function()? onTap,
+    T? value,
+  )? _builder;
 
   /// Hint to be displayed on the form. Displayed when no text is entered.
   ///
@@ -322,95 +360,104 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
       height: widget.style?.height,
       padding:
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-      child: Stack(
-        children: [
-          TextFormField(
-            mouseCursor: widget.enabled == false
-                ? SystemMouseCursors.forbidden
-                : SystemMouseCursors.click,
-            enabled: widget.enabled,
-            controller: _controller,
-            decoration: InputDecoration(
-              contentPadding: widget.style?.contentPadding ??
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              fillColor: widget.style?.backgroundColor,
-              filled: widget.style?.backgroundColor != null,
-              isDense: true,
-              border: widget.style?.border ?? borderSide,
-              enabledBorder: widget.style?.border ?? borderSide,
-              disabledBorder: widget.style?.disabledBorder ??
-                  widget.style?.border ??
-                  borderSide,
-              errorBorder: widget.style?.errorBorder ??
-                  widget.style?.border ??
-                  borderSide,
-              focusedBorder: widget.style?.border ?? borderSide,
-              focusedErrorBorder: widget.style?.errorBorder ??
-                  widget.style?.border ??
-                  borderSide,
-              hintText: widget.hintText,
-              labelText: widget.labelText,
-              prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-              suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-              prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-              suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-              prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-              suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-              prefixIconColor:
-                  widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-              suffixIconColor:
-                  widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-              prefixIconConstraints: widget.prefix?.iconConstraints ??
-                  widget.style?.prefix?.iconConstraints,
-              suffixIconConstraints: widget.suffix?.iconConstraints ??
-                  widget.style?.suffix?.iconConstraints,
-              labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
-              hintStyle: subTextStyle,
-              suffixStyle: subTextStyle,
-              prefixStyle: subTextStyle,
-              counterStyle: subTextStyle,
-              helperStyle: subTextStyle,
-              errorStyle: errorTextStyle,
-            ),
-            style: widget.enabled ? mainTextStyle : disabledTextStyle,
-            textAlign: widget.style?.textAlign ?? TextAlign.left,
-            textAlignVertical: widget.style?.textAlignVertical,
-            readOnly: true,
-            obscureText: widget.obscureText,
-            onTap: widget.enabled && !widget.readOnly
-                ? () async {
-                    final res = await widget._builder();
-                    if (res == null) {
-                      return;
-                    }
-                    setState(() {
-                      _controller.text =
-                          widget.parseToString?.call(res) ?? res.toString();
-                      setValue(res);
-                    });
-                  }
-                : null,
-          ),
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: IgnorePointer(
-                  ignoring: true,
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    size: 24,
-                    color: widget.enabled
-                        ? mainTextStyle.color
-                        : disabledTextStyle.color,
+      child: widget._builder?.call(
+            context,
+            widget,
+            widget.enabled && !widget.readOnly ? _onTap : null,
+            value,
+          ) ??
+          Stack(
+            children: [
+              TextFormField(
+                mouseCursor: widget.enabled == false
+                    ? SystemMouseCursors.forbidden
+                    : SystemMouseCursors.click,
+                enabled: widget.enabled,
+                controller: _controller,
+                decoration: InputDecoration(
+                  contentPadding: widget.style?.contentPadding ??
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  fillColor: widget.style?.backgroundColor,
+                  filled: widget.style?.backgroundColor != null,
+                  isDense: true,
+                  border: widget.style?.border ?? borderSide,
+                  enabledBorder: widget.style?.border ?? borderSide,
+                  disabledBorder: widget.style?.disabledBorder ??
+                      widget.style?.border ??
+                      borderSide,
+                  errorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      borderSide,
+                  focusedBorder: widget.style?.border ?? borderSide,
+                  focusedErrorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      borderSide,
+                  hintText: widget.hintText,
+                  labelText: widget.labelText,
+                  prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+                  suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+                  prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+                  suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+                  prefixText:
+                      widget.prefix?.label ?? widget.style?.prefix?.label,
+                  suffixText:
+                      widget.suffix?.label ?? widget.style?.suffix?.label,
+                  prefixIconColor: widget.prefix?.iconColor ??
+                      widget.style?.prefix?.iconColor,
+                  suffixIconColor: widget.suffix?.iconColor ??
+                      widget.style?.suffix?.iconColor,
+                  prefixIconConstraints: widget.prefix?.iconConstraints ??
+                      widget.style?.prefix?.iconConstraints,
+                  suffixIconConstraints: widget.suffix?.iconConstraints ??
+                      widget.style?.suffix?.iconConstraints,
+                  labelStyle:
+                      widget.enabled ? mainTextStyle : disabledTextStyle,
+                  hintStyle: subTextStyle,
+                  suffixStyle: subTextStyle,
+                  prefixStyle: subTextStyle,
+                  counterStyle: subTextStyle,
+                  helperStyle: subTextStyle,
+                  errorStyle: errorTextStyle,
+                ),
+                style: widget.enabled ? mainTextStyle : disabledTextStyle,
+                textAlign: widget.style?.textAlign ?? TextAlign.left,
+                textAlignVertical: widget.style?.textAlignVertical,
+                readOnly: true,
+                obscureText: widget.obscureText,
+                onTap: widget.enabled && !widget.readOnly
+                    ? () async {
+                        final res = await widget.onTap(value);
+                        if (res == null) {
+                          return;
+                        }
+                        setState(() {
+                          _controller.text =
+                              widget.parseToString?.call(res) ?? res.toString();
+                          setValue(res);
+                        });
+                      }
+                    : null,
+              ),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: IgnorePointer(
+                      ignoring: true,
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        size: 24,
+                        color: widget.enabled
+                            ? mainTextStyle.color
+                            : disabledTextStyle.color,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -420,6 +467,17 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
     setState(() {
       _controller.text = widget.parseToString?.call(widget.initialValue) ??
           widget.initialValue!.toString();
+    });
+  }
+
+  Future<void> _onTap() async {
+    final res = await widget.onTap(value);
+    if (res == null) {
+      return;
+    }
+    setState(() {
+      _controller.text = widget.parseToString?.call(res) ?? res.toString();
+      setValue(res);
     });
   }
 
