@@ -11,7 +11,7 @@ const kDefaultExpandedHeight = 240.0;
 /// This is the default height below the avatar image in [UniversalAvatarSliverAppBar].
 ///
 /// [UniversalAvatarSliverAppBar]のアバター画像より下のデフォルトの高さです。
-const kDefaultUnderBottomHeight = 32.0;
+const kDefaultUnderBottomHeight = 40.0;
 
 /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
 ///
