@@ -1,3 +1,8 @@
+## 2.1.0
+
+ - **FIX**: Icons are crushed, corrected. ([664bbd1e](https://github.com/mathrunet/flutter_masamune/commit/664bbd1e995ebffa418b504f09bada103bf76ce0))
+ - **FEAT**: Added UniversalAvatarSliverAppBar. ([6bb0d1ce](https://github.com/mathrunet/flutter_masamune/commit/6bb0d1ceeebeb5952fd49c17d9d19aa5e3a937ce))
+
 ## 2.0.36
 
  - Update a dependency to the latest release.

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v2.1.0`](#masamune_universal_ui---v210)
+
+---
+
+#### `masamune_universal_ui` - `v2.1.0`
+
+ - **FIX**: Icons are crushed, corrected. ([664bbd1e](https://github.com/mathrunet/flutter_masamune/commit/664bbd1e995ebffa418b504f09bada103bf76ce0))
+ - **FEAT**: Added UniversalAvatarSliverAppBar. ([6bb0d1ce](https://github.com/mathrunet/flutter_masamune/commit/6bb0d1ceeebeb5952fd49c17d9d19aa5e3a937ce))
+
+
 ## 2023-06-09
 
 ### Changes
