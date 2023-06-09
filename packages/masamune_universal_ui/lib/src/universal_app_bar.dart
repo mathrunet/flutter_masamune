@@ -1,6 +1,17 @@
 part of masamune_universal_ui;
 
 const _kLeadingWidth = kToolbarHeight;
+const _kAvatarAppBarBottomSpace = 8.0;
+
+/// Default height of [SliverAppBar].
+///
+/// [SliverAppBar]のデフォルトの高さです。
+const kDefaultExpandedHeight = 240.0;
+
+/// This is the default height below the avatar image in [UniversalAvatarSliverAppBar].
+///
+/// [UniversalAvatarSliverAppBar]のアバター画像より下のデフォルトの高さです。
+const kDefaultUnderBottomHeight = 32.0;
 
 /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
 ///
@@ -1030,7 +1041,7 @@ class _DynamicExtentForegroundColor extends StatelessWidget {
 /// [titlePosition]を指定して、[title]および[subtitle]の位置を変更することができます。
 ///
 /// [scrollStyle]を指定することでスクロールの方法を変更することができます。
-class UniversalSliverAppBar extends UniversalAppBar {
+class UniversalSliverAppBar extends UniversalAppBar with SliverAppBarMixin {
   /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
   ///
   /// Unlike [UniversalAppBar], it creates a Sliver-like listing.
@@ -1086,7 +1097,7 @@ class UniversalSliverAppBar extends UniversalAppBar {
     super.titleSpacing,
     super.titlePadding = EdgeInsets.zero,
     super.collapsedHeight,
-    super.expandedHeight,
+    super.expandedHeight = kDefaultExpandedHeight,
     super.floating = true,
     super.pinned = false,
     super.snap = false,
@@ -1104,6 +1115,493 @@ class UniversalSliverAppBar extends UniversalAppBar {
     super.breakpoint,
     super.enableResponsivePadding = true,
   }) : super._(sliver: true);
+}
+
+/// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
+///
+/// It is a [UniversalSliverAppBar] to which an avatar image can be further added.
+///
+/// If [avatarIcon] is specified, an avatar image can be displayed below the AppBar. If [underBottomActions] is specified, action buttons can be placed next to it.
+///
+/// Please use it for your profile page, etc.
+///
+/// [UniversalScaffold] can be used with [UniversalAppBar] and [UniversalListView] to create a responsive modern UI.
+///
+/// Basically, it is used in the same way as [AppBar].
+///
+/// It is responsive, and [title] moves according to the set screen size by [breakpoint] of [UniversalScaffold].
+///
+/// By specifying [subtitle], a subtitle can be displayed below [title].
+///
+/// You can change the position of [title] and [subtitle] by specifying [titlePosition].
+///
+/// You can change the scrolling method by specifying [scrollStyle].
+///
+/// Webとデスクトップ、モバイルで一貫したUIを提供するためのAppBarを作成します。
+///
+/// [UniversalSliverAppBar]にさらにアバター画像を追加できるようにしたものです。
+///
+/// [avatarIcon]を指定するとAppBarの下にアバター画像を表示することができます。[underBottomActions]を指定するとその隣にアクションボタンを設置することが可能です。
+///
+/// プロフィールページ等にご利用ください。
+///
+/// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
+///
+/// 基本的には[AppBar]と同じように使用します。
+///
+/// レスポンシブ対応しており、[UniversalScaffold]の[breakpoint]によって、設定された画面サイズに応じて、[title]が移動します。
+///
+/// [subtitle]を指定することで、[title]の下にサブタイトルを表示することができます。
+///
+/// [titlePosition]を指定して、[title]および[subtitle]の位置を変更することができます。
+///
+/// [scrollStyle]を指定することでスクロールの方法を変更することができます。
+class UniversalAvatarSliverAppBar extends UniversalSliverAppBar {
+  /// Create an AppBar to provide a consistent UI across web, desktop, and mobile.
+  ///
+  /// It is a [UniversalSliverAppBar] to which an avatar image can be further added.
+  ///
+  /// If [avatarIcon] is specified, an avatar image can be displayed below the AppBar. If [underBottomActions] is specified, action buttons can be placed next to it.
+  ///
+  /// Please use it for your profile page, etc.
+  ///
+  /// [UniversalScaffold] can be used with [UniversalAppBar] and [UniversalListView] to create a responsive modern UI.
+  ///
+  /// Basically, it is used in the same way as [AppBar].
+  ///
+  /// It is responsive, and [title] moves according to the set screen size by [breakpoint] of [UniversalScaffold].
+  ///
+  /// By specifying [subtitle], a subtitle can be displayed below [title].
+  ///
+  /// You can change the position of [title] and [subtitle] by specifying [titlePosition].
+  ///
+  /// You can change the scrolling method by specifying [scrollStyle].
+  ///
+  /// Webとデスクトップ、モバイルで一貫したUIを提供するためのAppBarを作成します。
+  ///
+  /// [UniversalSliverAppBar]にさらにアバター画像を追加できるようにしたものです。
+  ///
+  /// [avatarIcon]を指定するとAppBarの下にアバター画像を表示することができます。[underBottomActions]を指定するとその隣にアクションボタンを設置することが可能です。
+  ///
+  /// プロフィールページ等にご利用ください。
+  ///
+  /// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
+  ///
+  /// 基本的には[AppBar]と同じように使用します。
+  ///
+  /// レスポンシブ対応しており、[UniversalScaffold]の[breakpoint]によって、設定された画面サイズに応じて、[title]が移動します。
+  ///
+  /// [subtitle]を指定することで、[title]の下にサブタイトルを表示することができます。
+  ///
+  /// [titlePosition]を指定して、[title]および[subtitle]の位置を変更することができます。
+  ///
+  /// [scrollStyle]を指定することでスクロールの方法を変更することができます。
+  const UniversalAvatarSliverAppBar({
+    super.key,
+    super.leading,
+    super.automaticallyImplyLeading =
+        AutomaticallyImplyLeadingType.drawerAndBack,
+    super.title,
+    super.subtitle,
+    super.actions,
+    super.flexibleSpace,
+    super.titlePosition = UniversalAppBarTitlePosition.flexible,
+    super.bottom,
+    super.elevation,
+    super.shadowColor,
+    super.backgroundColor,
+    super.foregroundColor,
+    super.expandedForegroundColor,
+    super.iconTheme,
+    super.actionsIconTheme,
+    super.primary = true,
+    super.centerTitle = false,
+    super.excludeHeaderSemantics = false,
+    super.titleSpacing,
+    super.titlePadding = EdgeInsets.zero,
+    super.collapsedHeight,
+    super.expandedHeight = kDefaultExpandedHeight,
+    super.floating = true,
+    super.pinned = false,
+    super.snap = false,
+    super.stretch = false,
+    super.stretchTriggerOffset = 100.0,
+    super.onStretchTrigger,
+    super.shape,
+    super.toolbarHeight = kToolbarHeight + 1,
+    super.leadingWidth,
+    super.toolbarTextStyle,
+    super.titleTextStyle,
+    super.systemOverlayStyle,
+    super.background,
+    super.scrollStyle = UniversalAppBarScrollStyle.pinned,
+    super.breakpoint,
+    super.enableResponsivePadding = true,
+    this.underBottomHeight = kDefaultUnderBottomHeight,
+    this.avatarIcon,
+    this.avatarBorderWidth,
+    this.underBottomActions,
+  });
+
+  /// Height below avatar image.
+  ///
+  /// アバター画像より下の高さ。
+  final double underBottomHeight;
+
+  /// Avatar icon.
+  ///
+  /// アバターのアイコン。
+  final Widget? avatarIcon;
+
+  /// Margins around avatar icons.
+  ///
+  /// アバターアイコンの周りの余白。
+  final double? avatarBorderWidth;
+
+  /// Action widget to be placed below the profile image.
+  ///
+  /// プロフィール画像より下に配置するアクションウィジェット。
+  final List<Widget>? underBottomActions;
+
+  @override
+  Widget build(BuildContext context) {
+    final topPadding = primary ? MediaQuery.paddingOf(context).top : 0.0;
+    return SliverPersistentHeader(
+      delegate: _UniversalAvatarAppBarDelegate(
+        appBar: this,
+        topPadding: topPadding,
+      ),
+      floating: _floatingFromStyle,
+      pinned: _pinnedFromStyle,
+    );
+  }
+}
+
+class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
+  const _UniversalAvatarAppBarDelegate({
+    required this.appBar,
+    required this.topPadding,
+  });
+  final UniversalAvatarSliverAppBar appBar;
+
+  final double topPadding;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    final theme = Theme.of(context).appBarTheme;
+    final appBarTheme = Theme.of(context).appBarTheme;
+    final scaffold = Scaffold.maybeOf(context);
+    final parentRoute = ModalRoute.of(context);
+    final hasDrawer = scaffold?.hasDrawer ?? false;
+    final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
+    final canPop = parentRoute?.canPop ?? false;
+    final hasLeading = ((appBar.automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.onlyDrawer ||
+                appBar.automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.drawerAndBack) &&
+            hasDrawer) ||
+        (appBar.automaticallyImplyLeading ==
+                AutomaticallyImplyLeadingType.drawerAndBack &&
+            (!hasEndDrawer && canPop)) ||
+        appBar.leading != null;
+    final showLeading = appBar.leading != null ||
+        ((appBar.automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.onlyDrawer ||
+                appBar.automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.drawerAndBack) &&
+            hasDrawer) ||
+        (appBar.automaticallyImplyLeading ==
+                AutomaticallyImplyLeadingType.drawerAndBack &&
+            ((!hasEndDrawer && canPop) ||
+                (parentRoute?.impliesAppBarDismissal ?? false)));
+    final bool useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final overallIconTheme = appBar.iconTheme ?? appBarTheme.iconTheme;
+    Widget? leading = appBar.leading;
+    if (leading == null) {
+      if ((appBar.automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.onlyDrawer ||
+              appBar.automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.drawerAndBack) &&
+          hasDrawer) {
+        leading = IconButton(
+          icon: const Icon(Icons.menu),
+          iconSize: overallIconTheme?.size ?? 24,
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        );
+      } else if (appBar.automaticallyImplyLeading ==
+              AutomaticallyImplyLeadingType.drawerAndBack &&
+          ((!hasEndDrawer && canPop) ||
+              (parentRoute?.impliesAppBarDismissal ?? false))) {
+        leading = useCloseButton ? const CloseButton() : const BackButton();
+      }
+    }
+
+    final collapsedHeight = minExtent;
+    final expandedHeight = appBar.expandedHeight ?? kDefaultExpandedHeight;
+    final bottomHeight = appBar.bottom?.preferredSize.height ?? 0;
+    final appBarSize = expandedHeight - shrinkOffset;
+    final proportion = 2 - (expandedHeight / appBarSize);
+    final percent = proportion < 0 || proportion > 1 ? 0.0 : proportion;
+    final iconSize =
+        (((appBar.underBottomHeight + _kAvatarAppBarBottomSpace) * 2) * percent)
+            .limitLow(appBar.underBottomHeight);
+    final backgroundColor = appBar.backgroundColor;
+    final padding = ResponsiveEdgeInsets._responsive(
+      context,
+      appBar.titlePadding,
+      breakpoint: appBar.breakpoint,
+    )!
+        .resolve(TextDirection.ltr);
+    final titleSpacing = appBar._leadingSpace(context, showLeading);
+    final trailingSpacing = appBar._trailingSpace(context, showLeading);
+    final optimizedTitlePadding = EdgeInsets.fromLTRB(
+      padding.left +
+          (hasLeading ? (appBar.leadingWidth ?? _kLeadingWidth) : 0) +
+          (titleSpacing ?? NavigationToolbar.kMiddleSpacing),
+      padding.top,
+      padding.right,
+      padding.bottom + (appBar.subtitle != null ? 8 : 16) + bottomHeight,
+    );
+
+    final extensions = Theme.of(context)
+            .extensions
+            .values
+            .firstWhereOrNull((item) => item is AppBarThemeExtension)
+        as AppBarThemeExtension?;
+
+    final foregroundColor = appBar.foregroundColor ??
+        extensions?.collapsedForegroundColor ??
+        theme.actionsIconTheme?.color ??
+        theme.foregroundColor;
+    final expandedForegroundColor = appBar.expandedForegroundColor ??
+        extensions?.expandedForegroundColor ??
+        foregroundColor;
+
+    final double visibleMainHeight = maxExtent - shrinkOffset - topPadding;
+    final double extraToolbarHeight =
+        max(minExtent - bottomHeight - topPadding - appBar.toolbarHeight, 0.0);
+    final double visibleToolbarHeight =
+        visibleMainHeight - bottomHeight - extraToolbarHeight;
+    final bool isScrolledUnder = overlapsContent ||
+        (appBar._pinnedFromStyle && shrinkOffset > maxExtent - minExtent);
+    final bool isPinnedWithOpacityFade = appBar._pinnedFromStyle &&
+        appBar._floatingFromStyle &&
+        appBar.bottom != null &&
+        extraToolbarHeight == 0.0;
+    final double toolbarOpacity =
+        !appBar._pinnedFromStyle || isPinnedWithOpacityFade
+            ? clampDouble(visibleToolbarHeight / appBar.toolbarHeight, 0.0, 1.0)
+            : 1.0;
+
+    final iconWidget = appBar.avatarIcon == null
+        ? null
+        : Positioned(
+            left: 24.0,
+            bottom: 0.0,
+            child: Container(
+              alignment: Alignment.center,
+              width: iconSize,
+              child: Container(
+                width: iconSize,
+                height: iconSize,
+                padding: appBar.avatarBorderWidth != null
+                    ? EdgeInsets.all(appBar.avatarBorderWidth!)
+                    : null,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+                child: ClipOval(child: appBar.avatarIcon),
+              ),
+            ),
+          );
+
+    final bottomWidget = appBar.underBottomActions == null
+        ? null
+        : Positioned(
+            right: 12.0,
+            bottom: 0.0,
+            child: SizedBox(
+              height: appBar.underBottomHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: appBar.underBottomActions!,
+              ),
+            ),
+          );
+
+    final mergedTitle = appBar.subtitle == null
+        ? appBar.title
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: appBar.centerTitle
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
+            children: [
+              if (appBar.title != null) appBar.title!,
+              DefaultTextStyle.merge(
+                style:
+                    Theme.of(context).textTheme.labelSmall ?? const TextStyle(),
+                child: _DynamicExtentForegroundColor(
+                  startForegroundColor: foregroundColor,
+                  endForegroundColor: expandedForegroundColor,
+                  child: appBar.subtitle!,
+                ),
+              ),
+            ],
+          );
+
+    return SizedBox(
+      height:
+          expandedHeight + appBar.underBottomHeight + _kAvatarAppBarBottomSpace,
+      child: Stack(
+        children: [
+          if (percent < 0.5) ...[
+            if (bottomWidget != null) bottomWidget,
+            if (iconWidget != null) iconWidget,
+          ],
+          SizedBox(
+            height: appBarSize < collapsedHeight ? collapsedHeight : appBarSize,
+            child: FlexibleSpaceBar.createSettings(
+              minExtent: minExtent,
+              maxExtent: maxExtent,
+              currentExtent: max(minExtent, maxExtent - shrinkOffset),
+              toolbarOpacity: toolbarOpacity,
+              isScrolledUnder: isScrolledUnder,
+              child: AppBar(
+                leading: leading != null
+                    ? _DynamicExtentForegroundColor(
+                        startForegroundColor: foregroundColor,
+                        endForegroundColor: expandedForegroundColor,
+                        child: leading,
+                      )
+                    : null,
+                automaticallyImplyLeading: false,
+                title: mergedTitle != null &&
+                        appBar._titlePosition ==
+                            UniversalAppBarTitlePosition.top
+                    ? _DynamicExtentForegroundColor(
+                        startForegroundColor: foregroundColor,
+                        endForegroundColor: expandedForegroundColor,
+                        child: mergedTitle,
+                      )
+                    : null,
+                actions: appBar.actions.isNotEmpty
+                    ? [
+                        ...appBar.actions?.map((e) {
+                              return _DynamicExtentForegroundColor(
+                                startForegroundColor: foregroundColor,
+                                endForegroundColor: expandedForegroundColor,
+                                child: e,
+                              );
+                            }) ??
+                            [],
+                        SizedBox(width: trailingSpacing)
+                      ]
+                    : null,
+                flexibleSpace: _DynamicExtentForegroundColor(
+                  startForegroundColor: foregroundColor,
+                  endForegroundColor: expandedForegroundColor,
+                  child: appBar.flexibleSpace ??
+                      FlexibleSpaceBar(
+                        title: appBar._titlePosition ==
+                                UniversalAppBarTitlePosition.bottom
+                            ? SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: appBar.centerTitle
+                                      ? CrossAxisAlignment.center
+                                      : CrossAxisAlignment.start,
+                                  children: [
+                                    if (appBar.title != null)
+                                      DefaultTextStyle.merge(
+                                        style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge ??
+                                            const TextStyle(),
+                                        child: _DynamicExtentForegroundColor(
+                                          startForegroundColor: foregroundColor,
+                                          endForegroundColor:
+                                              expandedForegroundColor,
+                                          child: appBar.title!,
+                                        ),
+                                      ),
+                                    if (appBar.subtitle != null)
+                                      DefaultTextStyle.merge(
+                                        style: Theme.of(context)
+                                                .textTheme
+                                                .labelSmall ??
+                                            const TextStyle(),
+                                        child: _DynamicExtentForegroundColor(
+                                          startForegroundColor: foregroundColor,
+                                          endForegroundColor:
+                                              expandedForegroundColor,
+                                          child: appBar.subtitle!,
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              )
+                            : null,
+                        background: appBar.background,
+                        titlePadding: optimizedTitlePadding,
+                        centerTitle: appBar.centerTitle,
+                      ),
+                ),
+                bottom: appBar.bottom != null
+                    ? _DynamicExtentForegroundColorPreferredSizeWidget(
+                        startForegroundColor: foregroundColor,
+                        endForegroundColor: expandedForegroundColor,
+                        child: appBar.bottom!,
+                      )
+                    : null,
+                elevation: appBar.elevation,
+                shadowColor: appBar.shadowColor,
+                backgroundColor: backgroundColor,
+                foregroundColor: foregroundColor,
+                iconTheme: appBar.iconTheme,
+                actionsIconTheme: appBar.actionsIconTheme,
+                primary: appBar.primary,
+                centerTitle: appBar.centerTitle,
+                excludeHeaderSemantics: appBar.excludeHeaderSemantics,
+                titleSpacing: appBar.titleSpacing ?? titleSpacing,
+                shape: appBar.shape,
+              ),
+            ),
+          ),
+          if (percent >= 0.5) ...[
+            if (bottomWidget != null) bottomWidget,
+            if (iconWidget != null) iconWidget,
+          ],
+        ],
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent =>
+      (appBar.expandedHeight ?? kDefaultExpandedHeight) +
+      appBar.underBottomHeight +
+      _kAvatarAppBarBottomSpace;
+
+  @override
+  double get minExtent => kToolbarHeight + topPadding;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
 }
 
 /// [AppBar] background widget available in [UniversalAppBar].
