@@ -1,3 +1,7 @@
+## 2.2.7
+
+ - **FIX**: Changed FormFutureField specifications. ([51e34680](https://github.com/mathrunet/flutter_masamune/commit/51e346806304ac4bfe34495ab5efbb1cace0c05f))
+
 ## 2.2.6
 
  - Update a dependency to the latest release.
