@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FIX**: Icons are crushed, corrected. ([664bbd1e](https://github.com/mathrunet/flutter_masamune/commit/664bbd1e995ebffa418b504f09bada103bf76ce0))

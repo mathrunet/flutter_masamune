@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Add LineTile. ([df27401a](https://github.com/mathrunet/flutter_masamune/commit/df27401ae0dfb6cf23823c64dd1c97a44235094e))
+
 ## 2.0.5
 
  - Update a dependency to the latest release.

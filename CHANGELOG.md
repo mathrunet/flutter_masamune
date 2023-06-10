@@ -15,6 +15,56 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_ui` - `v2.1.0`](#katana_ui---v210)
+ - [`masamune` - `v2.1.8`](#masamune---v218)
+ - [`masamune_picker_file` - `v2.0.33`](#masamune_picker_file---v2033)
+ - [`masamune_agora` - `v2.0.33`](#masamune_agora---v2033)
+ - [`masamune_ai_openai` - `v2.0.34`](#masamune_ai_openai---v2034)
+ - [`masamune_calendar` - `v2.0.33`](#masamune_calendar---v2033)
+ - [`masamune_picker` - `v2.0.33`](#masamune_picker---v2033)
+ - [`masamune_util` - `v2.0.2`](#masamune_util---v202)
+ - [`masamune_universal_ui` - `v2.1.1`](#masamune_universal_ui---v211)
+ - [`masamune_purchase_stripe` - `v3.0.14`](#masamune_purchase_stripe---v3014)
+ - [`masamune_logger_firebase` - `v2.0.33`](#masamune_logger_firebase---v2033)
+ - [`masamune_notification_firebase` - `v2.0.33`](#masamune_notification_firebase---v2033)
+ - [`masamune_picker_mobile` - `v2.0.33`](#masamune_picker_mobile---v2033)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.8`
+ - `masamune_picker_file` - `v2.0.33`
+ - `masamune_agora` - `v2.0.33`
+ - `masamune_ai_openai` - `v2.0.34`
+ - `masamune_calendar` - `v2.0.33`
+ - `masamune_picker` - `v2.0.33`
+ - `masamune_util` - `v2.0.2`
+ - `masamune_universal_ui` - `v2.1.1`
+ - `masamune_purchase_stripe` - `v3.0.14`
+ - `masamune_logger_firebase` - `v2.0.33`
+ - `masamune_notification_firebase` - `v2.0.33`
+ - `masamune_picker_mobile` - `v2.0.33`
+
+---
+
+#### `katana_ui` - `v2.1.0`
+
+ - **FEAT**: Add LineTile. ([df27401a](https://github.com/mathrunet/flutter_masamune/commit/df27401ae0dfb6cf23823c64dd1c97a44235094e))
+
+
+## 2023-06-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_universal_ui` - `v2.1.0`](#masamune_universal_ui---v210)
 
 ---
