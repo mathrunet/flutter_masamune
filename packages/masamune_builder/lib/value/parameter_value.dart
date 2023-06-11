@@ -2,6 +2,8 @@ part of masamune_builder;
 
 const _searchParamChecker = TypeChecker.fromRuntime(SearchParam);
 const _refParamChecker = TypeChecker.fromRuntime(RefParam);
+const _jsonParamChecker = TypeChecker.fromRuntime(JsonParam);
+const _jsonKeyChecker = TypeChecker.fromRuntime(JsonKey);
 
 /// Parameter Value.
 ///
@@ -24,6 +26,20 @@ class ParamaterValue {
     required = element.isRequired;
     isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
     isReference = _refParamChecker.hasAnnotationOfExact(element);
+    isJsonSerializable = _jsonParamChecker.hasAnnotationOfExact(element);
+    if (isJsonSerializable) {
+      jsonKey = _jsonParamChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("name")
+              ?.toStringValue() ??
+          _jsonKeyChecker
+              .firstAnnotationOfExact(element)
+              ?.getField("name")
+              ?.toStringValue() ??
+          name;
+    } else {
+      jsonKey = name;
+    }
   }
 
   /// Parameter Element.
@@ -55,6 +71,16 @@ class ParamaterValue {
   ///
   /// 他のドキュメントを参照している場合true.
   late final bool isReference;
+
+  /// True if serializable to Json.
+  ///
+  /// Jsonにシリアライズ可能な場合true.
+  late final bool isJsonSerializable;
+
+  /// Name of the key if [isJsonSerializable] is true.
+  ///
+  /// [isJsonSerializable]がtrueな場合のキーの名前。
+  late final String? jsonKey;
 
   @override
   String toString() {

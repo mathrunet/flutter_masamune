@@ -13,6 +13,8 @@ List<Spec> modelClass(
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
   final referenceable = model.parameters.where((e) => e.isReference).toList();
+  final jsonSerarizable =
+      model.parameters.where((e) => e.isJsonSerializable).toList();
   return [
     Class(
       (c) => c
@@ -56,7 +58,6 @@ List<Spec> modelClass(
           Method(
             (m) => m
               ..name = "toMap"
-              ..lambda = true
               ..returns = const Reference("DynamicMap")
               ..annotations.addAll([const Reference("override")])
               ..requiredParameters.addAll([
@@ -66,7 +67,11 @@ List<Spec> modelClass(
                     ..type = Reference(model.name),
                 )
               ])
-              ..body = const Code("value.toJson()"),
+              ..body = Code(
+                jsonSerarizable.isEmpty
+                    ? "return value.toJson();"
+                    : "final map = value.toJson(); return { ...map, ${jsonSerarizable.map((e) => "\"${e.jsonKey}\": value.${e.name}${e.type.toString().endsWith("?") ? "?" : ""}.toJson()").join(",")}};",
+              ),
           ),
           if (mirror != null) ...[
             Method(

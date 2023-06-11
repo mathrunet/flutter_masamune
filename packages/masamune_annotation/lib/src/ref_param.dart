@@ -21,7 +21,7 @@ part of masamune_annotation;
 ///   const factory ShopModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
-///     ModelRef<UserModel> user,
+///     @refParam ModelRef<UserModel> user,
 ///   }) = _ShopModel;
 ///   const ShopModel._();
 ///
@@ -55,7 +55,7 @@ const refParam = RefParam();
 ///   const factory ShopModel({
 ///     @Default("") String name,
 ///     @Default("") String description,
-///     ModelRef<UserModel> user,
+///     @refParam ModelRef<UserModel> user,
 ///   }) = _ShopModel;
 ///   const ShopModel._();
 ///
@@ -88,7 +88,7 @@ class RefParam {
   ///   const factory ShopModel({
   ///     @Default("") String name,
   ///     @Default("") String description,
-  ///     ModelRef<UserModel> user,
+  ///     @refParam ModelRef<UserModel> user,
   ///   }) = _ShopModel;
   ///   const ShopModel._();
   ///

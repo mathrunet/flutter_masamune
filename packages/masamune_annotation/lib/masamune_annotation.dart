@@ -18,3 +18,4 @@ part 'src/controller_group.dart';
 part 'src/form_value.dart';
 part 'src/ref_param.dart';
 part 'src/search_param.dart';
+part 'src/json_param.dart';
