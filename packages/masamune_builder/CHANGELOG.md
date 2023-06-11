@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Enable JsonParam. ([f29e3943](https://github.com/mathrunet/flutter_masamune/commit/f29e3943f811ebac0a5742da515cb7fdb0fd2904))
+
 ## 2.0.16
 
  - Update a dependency to the latest release.

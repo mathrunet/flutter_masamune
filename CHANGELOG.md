@@ -15,6 +15,61 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_annotation` - `v2.1.0`](#masamune_annotation---v210)
+ - [`masamune_builder` - `v2.1.0`](#masamune_builder---v210)
+ - [`masamune` - `v2.1.9`](#masamune---v219)
+ - [`masamune_picker_file` - `v2.0.34`](#masamune_picker_file---v2034)
+ - [`masamune_agora` - `v2.0.34`](#masamune_agora---v2034)
+ - [`masamune_ai_openai` - `v2.0.35`](#masamune_ai_openai---v2035)
+ - [`masamune_calendar` - `v2.0.34`](#masamune_calendar---v2034)
+ - [`masamune_picker` - `v2.0.34`](#masamune_picker---v2034)
+ - [`masamune_util` - `v2.0.3`](#masamune_util---v203)
+ - [`masamune_universal_ui` - `v2.1.3`](#masamune_universal_ui---v213)
+ - [`masamune_purchase_stripe` - `v3.0.15`](#masamune_purchase_stripe---v3015)
+ - [`masamune_logger_firebase` - `v2.0.34`](#masamune_logger_firebase---v2034)
+ - [`masamune_picker_mobile` - `v2.0.34`](#masamune_picker_mobile---v2034)
+ - [`masamune_notification_firebase` - `v2.0.34`](#masamune_notification_firebase---v2034)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.9`
+ - `masamune_picker_file` - `v2.0.34`
+ - `masamune_agora` - `v2.0.34`
+ - `masamune_ai_openai` - `v2.0.35`
+ - `masamune_calendar` - `v2.0.34`
+ - `masamune_picker` - `v2.0.34`
+ - `masamune_util` - `v2.0.3`
+ - `masamune_universal_ui` - `v2.1.3`
+ - `masamune_purchase_stripe` - `v3.0.15`
+ - `masamune_logger_firebase` - `v2.0.34`
+ - `masamune_picker_mobile` - `v2.0.34`
+ - `masamune_notification_firebase` - `v2.0.34`
+
+---
+
+#### `masamune_annotation` - `v2.1.0`
+
+ - **FEAT**: Enable JsonParam. ([f29e3943](https://github.com/mathrunet/flutter_masamune/commit/f29e3943f811ebac0a5742da515cb7fdb0fd2904))
+
+#### `masamune_builder` - `v2.1.0`
+
+ - **FEAT**: Enable JsonParam. ([f29e3943](https://github.com/mathrunet/flutter_masamune/commit/f29e3943f811ebac0a5742da515cb7fdb0fd2904))
+
+
+## 2023-06-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_universal_ui` - `v2.1.2`](#masamune_universal_ui---v212)
 
 ---
