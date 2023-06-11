@@ -39,6 +39,8 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
       greaterThanBreakpoint: EdgeInsets.symmetric(vertical: kToolbarHeight),
     ),
     this.breakpointSettings = const BreakpointSettings(),
+    this.defaultScrollbarRadius,
+    this.defaultScrollbarThickness,
   });
 
   @override
@@ -73,4 +75,14 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
   ///
   /// ブレークポイントの実際のサイズを指定できます。
   final BreakpointSettings breakpointSettings;
+
+  /// Default scrollbar width.
+  ///
+  /// デフォルトのスクロールバーの横幅。
+  final double? defaultScrollbarThickness;
+
+  /// Default scrollbar radius.
+  ///
+  /// スクロールバーのデフォルトの半径。
+  final Radius? defaultScrollbarRadius;
 }

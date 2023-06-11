@@ -381,7 +381,7 @@ packages:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.0.5"
+    version: "2.1.0"
   lints:
     dependency: transitive
     description:
@@ -404,7 +404,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.1.7"
+    version: "2.1.8"
   masamune_annotation:
     dependency: "direct overridden"
     description:

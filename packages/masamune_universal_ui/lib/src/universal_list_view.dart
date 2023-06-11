@@ -44,14 +44,11 @@ class UniversalListView extends StatelessWidget {
   ///
   /// [onRefresh]を指定すると[RefreshIndicator]を自動で設定します。
   ///
-  /// [showScrollbarWhenDesktopOrWeb]を`true`にするとデスクトップとWebでスクロールバーを表示します。
-  ///
   /// レスポンシブ対応しており[UniversalScaffold.breakpoint]によって最大の横幅が設定されます。
   const UniversalListView({
     super.key,
     required this.children,
     this.decoration,
-    this.showScrollbarWhenDesktopOrWeb = true,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.controller,
@@ -104,11 +101,6 @@ class UniversalListView extends StatelessWidget {
   ///
   /// Pull-to-Refreshを行うと実行され、[Future]が返されるまでインジケーターを表示します。
   final Future<void> Function()? onRefresh;
-
-  /// Setting this to `true` will display scrollbars on desktop and web.
-  ///
-  /// これを`true`にするとデスクトップとWebでスクロールバーを表示します。
-  final bool showScrollbarWhenDesktopOrWeb;
 
   /// A list of child elements for display in [ListView].
   ///
@@ -189,41 +181,38 @@ class UniversalListView extends StatelessWidget {
 
     return _buildRefreshIndicator(
       context,
-      _buildScrollbar(
+      _buildConstrainedBox(
         context,
-        _buildConstrainedBox(
+        _buildDecoratedBox(
           context,
-          _buildDecoratedBox(
-            context,
-            CustomScrollView(
-              key: key,
-              scrollDirection: scrollDirection,
-              reverse: reverse,
-              controller: controller,
-              primary: primary,
-              physics: physics,
-              scrollBehavior: scrollBehavior,
-              shrinkWrap: shrinkWrap,
-              center: center,
-              anchor: anchor,
-              cacheExtent: cacheExtent,
-              semanticChildCount: semanticChildCount,
-              dragStartBehavior: dragStartBehavior,
-              keyboardDismissBehavior: keyboardDismissBehavior,
-              restorationId: restorationId,
-              clipBehavior: clipBehavior,
-              slivers: [
-                _padding(
-                  context,
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, i) => rows[i],
-                      childCount: rows.length,
-                    ),
+          CustomScrollView(
+            key: key,
+            scrollDirection: scrollDirection,
+            reverse: reverse,
+            controller: controller,
+            primary: primary,
+            physics: physics,
+            scrollBehavior: scrollBehavior,
+            shrinkWrap: shrinkWrap,
+            center: center,
+            anchor: anchor,
+            cacheExtent: cacheExtent,
+            semanticChildCount: semanticChildCount,
+            dragStartBehavior: dragStartBehavior,
+            keyboardDismissBehavior: keyboardDismissBehavior,
+            restorationId: restorationId,
+            clipBehavior: clipBehavior,
+            slivers: [
+              _padding(
+                context,
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) => rows[i],
+                    childCount: rows.length,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -284,20 +273,6 @@ class UniversalListView extends StatelessWidget {
     if (onRefresh != null) {
       return RefreshIndicator(
         onRefresh: onRefresh!,
-        child: child,
-      );
-    } else {
-      return child;
-    }
-  }
-
-  Widget _buildScrollbar(BuildContext context, Widget child) {
-    if (showScrollbarWhenDesktopOrWeb &&
-        (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
-      return Scrollbar(
-        interactive: true,
-        trackVisibility: true,
-        thumbVisibility: true,
         child: child,
       );
     } else {
