@@ -15,6 +15,58 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_annotation` - `v2.1.1`](#masamune_annotation---v211)
+ - [`masamune_builder` - `v2.1.2`](#masamune_builder---v212)
+ - [`masamune` - `v2.1.10`](#masamune---v2110)
+ - [`masamune_picker_file` - `v2.0.35`](#masamune_picker_file---v2035)
+ - [`masamune_agora` - `v2.0.35`](#masamune_agora---v2035)
+ - [`masamune_ai_openai` - `v2.0.36`](#masamune_ai_openai---v2036)
+ - [`masamune_calendar` - `v2.0.35`](#masamune_calendar---v2035)
+ - [`masamune_picker` - `v2.0.35`](#masamune_picker---v2035)
+ - [`masamune_util` - `v2.0.4`](#masamune_util---v204)
+ - [`masamune_purchase_stripe` - `v3.0.16`](#masamune_purchase_stripe---v3016)
+ - [`masamune_universal_ui` - `v2.1.4`](#masamune_universal_ui---v214)
+ - [`masamune_logger_firebase` - `v2.0.35`](#masamune_logger_firebase---v2035)
+ - [`masamune_picker_mobile` - `v2.0.35`](#masamune_picker_mobile---v2035)
+ - [`masamune_notification_firebase` - `v2.0.35`](#masamune_notification_firebase---v2035)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v2.1.2`
+ - `masamune` - `v2.1.10`
+ - `masamune_picker_file` - `v2.0.35`
+ - `masamune_agora` - `v2.0.35`
+ - `masamune_ai_openai` - `v2.0.36`
+ - `masamune_calendar` - `v2.0.35`
+ - `masamune_picker` - `v2.0.35`
+ - `masamune_util` - `v2.0.4`
+ - `masamune_purchase_stripe` - `v3.0.16`
+ - `masamune_universal_ui` - `v2.1.4`
+ - `masamune_logger_firebase` - `v2.0.35`
+ - `masamune_picker_mobile` - `v2.0.35`
+ - `masamune_notification_firebase` - `v2.0.35`
+
+---
+
+#### `masamune_annotation` - `v2.1.1`
+
+ - **DOCS**: Additional Comments. ([9615c0f0](https://github.com/mathrunet/flutter_masamune/commit/9615c0f0f212174558b51f181e5a4f5f33a90218))
+
+
+## 2023-06-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_builder` - `v2.1.1`](#masamune_builder---v211)
 
 ---
