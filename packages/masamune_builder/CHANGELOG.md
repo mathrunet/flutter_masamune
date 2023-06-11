@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Support jsonParam to List and Map. ([71b60f8e](https://github.com/mathrunet/flutter_masamune/commit/71b60f8ee313188b8cee65179fa19d640781e4df))
+
 ## 2.1.0
 
  - **FEAT**: Enable JsonParam. ([f29e3943](https://github.com/mathrunet/flutter_masamune/commit/f29e3943f811ebac0a5742da515cb7fdb0fd2904))

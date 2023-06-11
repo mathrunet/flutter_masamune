@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v2.1.1`](#masamune_builder---v211)
+
+---
+
+#### `masamune_builder` - `v2.1.1`
+
+ - **FIX**: Support jsonParam to List and Map. ([71b60f8e](https://github.com/mathrunet/flutter_masamune/commit/71b60f8ee313188b8cee65179fa19d640781e4df))
+
+
+## 2023-06-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_annotation` - `v2.1.0`](#masamune_annotation---v210)
  - [`masamune_builder` - `v2.1.0`](#masamune_builder---v210)
  - [`masamune` - `v2.1.9`](#masamune---v219)
