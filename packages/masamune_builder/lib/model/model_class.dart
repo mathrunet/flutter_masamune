@@ -70,7 +70,7 @@ List<Spec> modelClass(
               ..body = Code(
                 jsonSerarizable.isEmpty
                     ? "return value.toJson();"
-                    : "final map = value.toJson(); return { ...map, ${jsonSerarizable.map((e) => "\"${e.jsonKey}\": value.${e.name}${e.type.toString().endsWith("?") ? "?" : ""}.toJson()").join(",")}};",
+                    : "final map = value.toJson(); return { ...map, ${jsonSerarizable.map((e) => "\"${e.jsonKey}\": ${_jsonValue(e)}").join(",")}};",
               ),
           ),
           if (mirror != null) ...[
@@ -441,4 +441,26 @@ List<Spec> modelClass(
       ),
     ],
   ];
+}
+
+String _jsonValue(ParamaterValue param) {
+  if (param.type.isDartCoreList) {
+    if (param.type.toString().endsWith("?")) {
+      return "value.${param.name}?.map((e) => e.toJson()).toList()";
+    } else {
+      return "value.${param.name}.map((e) => e.toJson()).toList()";
+    }
+  } else if (param.type.isDartCoreMap) {
+    if (param.type.toString().endsWith("?")) {
+      return "value.${param.name}?.map((k, v) => MapEntry(k, v.toJson()))";
+    } else {
+      return "value.${param.name}.map((k, v) => MapEntry(k, v.toJson()))";
+    }
+  } else {
+    if (param.type.toString().endsWith("?")) {
+      return "value.${param.name}?.toJson()";
+    } else {
+      return "value.${param.name}.toJson()";
+    }
+  }
 }
