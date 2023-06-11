@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Change the position of the Scrollbar. ([932fe460](https://github.com/mathrunet/flutter_masamune/commit/932fe4605cbbfa151b480eeb00f0628d77d26fec))
+
 ## 2.1.1
 
  - Update a dependency to the latest release.

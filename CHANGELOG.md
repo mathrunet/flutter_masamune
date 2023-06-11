@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v2.1.2`](#masamune_universal_ui---v212)
+
+---
+
+#### `masamune_universal_ui` - `v2.1.2`
+
+ - **FIX**: Change the position of the Scrollbar. ([932fe460](https://github.com/mathrunet/flutter_masamune/commit/932fe4605cbbfa151b480eeb00f0628d77d26fec))
+
+
 ## 2023-06-10
 
 ### Changes
