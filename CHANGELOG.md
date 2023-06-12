@@ -15,6 +15,61 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.3.1`](#katana_form---v231)
+ - [`masamune_builder` - `v2.1.3`](#masamune_builder---v213)
+ - [`masamune` - `v2.1.12`](#masamune---v2112)
+ - [`masamune_agora` - `v2.0.37`](#masamune_agora---v2037)
+ - [`masamune_ai_openai` - `v2.0.38`](#masamune_ai_openai---v2038)
+ - [`masamune_picker_file` - `v2.0.37`](#masamune_picker_file---v2037)
+ - [`masamune_calendar` - `v2.0.37`](#masamune_calendar---v2037)
+ - [`masamune_picker` - `v2.0.37`](#masamune_picker---v2037)
+ - [`masamune_util` - `v2.0.6`](#masamune_util---v206)
+ - [`masamune_universal_ui` - `v2.1.6`](#masamune_universal_ui---v216)
+ - [`masamune_purchase_stripe` - `v3.0.18`](#masamune_purchase_stripe---v3018)
+ - [`masamune_logger_firebase` - `v2.0.37`](#masamune_logger_firebase---v2037)
+ - [`masamune_picker_mobile` - `v2.0.37`](#masamune_picker_mobile---v2037)
+ - [`masamune_notification_firebase` - `v2.0.37`](#masamune_notification_firebase---v2037)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.12`
+ - `masamune_agora` - `v2.0.37`
+ - `masamune_ai_openai` - `v2.0.38`
+ - `masamune_picker_file` - `v2.0.37`
+ - `masamune_calendar` - `v2.0.37`
+ - `masamune_picker` - `v2.0.37`
+ - `masamune_util` - `v2.0.6`
+ - `masamune_universal_ui` - `v2.1.6`
+ - `masamune_purchase_stripe` - `v3.0.18`
+ - `masamune_logger_firebase` - `v2.0.37`
+ - `masamune_picker_mobile` - `v2.0.37`
+ - `masamune_notification_firebase` - `v2.0.37`
+
+---
+
+#### `katana_form` - `v2.3.1`
+
+ - **FIX**: Fixed bugs in FromFutureField, etc. ([cbc0ec57](https://github.com/mathrunet/flutter_masamune/commit/cbc0ec57ab2afdeec4fa1e89848795b39d4e2463))
+
+#### `masamune_builder` - `v2.1.3`
+
+ - **FIX**: Add rawValue to Model. ([b8c75c47](https://github.com/mathrunet/flutter_masamune/commit/b8c75c475348eb97d08d836c688cc25ee6825f23))
+
+
+## 2023-06-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.3.0`](#katana_form---v230)
  - [`masamune` - `v2.1.11`](#masamune---v2111)
  - [`masamune_picker_file` - `v2.0.36`](#masamune_picker_file---v2036)

@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: Fixed bugs in FromFutureField, etc. ([cbc0ec57](https://github.com/mathrunet/flutter_masamune/commit/cbc0ec57ab2afdeec4fa1e89848795b39d4e2463))
+
 ## 2.3.0
 
  - **FEAT**: Added FormMonthField. ([bc0de5a9](https://github.com/mathrunet/flutter_masamune/commit/bc0de5a98866fa24a44a5d5bb7a0ddac2ec7dd24))

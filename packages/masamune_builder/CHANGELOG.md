@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Add rawValue to Model. ([b8c75c47](https://github.com/mathrunet/flutter_masamune/commit/b8c75c475348eb97d08d836c688cc25ee6825f23))
+
 ## 2.1.2
 
  - Update a dependency to the latest release.
