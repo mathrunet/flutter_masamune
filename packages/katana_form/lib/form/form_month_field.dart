@@ -759,23 +759,22 @@ class _MonthTextFieldState<TValue> extends FormFieldState<DateTime> {
     final regex = RegExp(
       widget.format
           .replaceAll("MM", "(?<MM>[0-9]+)")
-          .replaceAll("dd", "(?<dd>[0-9]+)"),
+          .replaceAll("yyyy", "(?<yyyy>[0-9]+)"),
     );
     final match = regex.firstMatch(text);
     if (match == null) {
       return null;
     }
-    final now = DateTime.now();
-    final days = match.groupNames.contains("dd")
-        ? int.tryParse(match.namedGroup("dd") ?? "") ?? 0
+    final years = match.groupNames.contains("yyyy")
+        ? int.tryParse(match.namedGroup("yyyy") ?? "") ?? 0
         : 0;
     final months = match.groupNames.contains("MM")
         ? int.tryParse(match.namedGroup("MM") ?? "") ?? 0
         : 0;
     return DateTime(
-      now.year,
+      years,
       months,
-      days,
+      1,
     );
   }
 
@@ -983,49 +982,23 @@ class FormMonthFieldPicker {
     final now = DateTime.now();
     final startYear = begin?.year ?? (now.year - 10);
     final endYear = end?.year ?? (now.year + 10);
-    final selectedYear = (currentDateTime?.year ??
-            defaultDateTime?.year ??
-            begin?.year ??
-            end?.year ??
-            now.year) -
-        startYear -
-        1;
-    final selectedMonth = (currentDateTime?.month ??
-            defaultDateTime?.month ??
-            begin?.month ??
-            end?.month ??
-            now.month) -
-        1;
-    final data = [
-      for (var y = startYear; y < endYear; y++) ...[
-        () {
-          final year = DateTime(y + 1, 1, 1);
-          final startMonth = y == startYear ? begin?.month ?? 1 : 1;
-          final endMonth = y == endYear - 1 ? end?.month ?? 12 : 12;
-          return PickerItem(
-            text: Text(
-              "${year.format(yearFormat)}$yearSuffix",
-              style: TextStyle(
-                color: color ?? Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            value: y,
-            children: [
-              for (var m = startMonth - 1; m < endMonth; m++)
-                PickerItem(
-                  text: Text(
-                    "${(m + 1).format("00")}$monthSuffix",
-                    style: TextStyle(
-                      color: color ?? Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  value: m,
-                ),
-            ],
-          );
-        }(),
-      ],
-    ];
+    final selectedYear = ((currentDateTime?.year ??
+                defaultDateTime?.year ??
+                begin?.year ??
+                end?.year ??
+                now.year) -
+            startYear)
+        .limit(0, endYear - startYear);
+    var selectedMonth = ((currentDateTime?.month ??
+                defaultDateTime?.month ??
+                begin?.month ??
+                end?.month ??
+                now.month) -
+            1)
+        .limit(0, 12);
+    if (selectedYear == 0) {
+      selectedMonth = selectedMonth - ((begin?.month ?? 1) - 1);
+    }
     await Picker(
       height: 240,
       backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
@@ -1040,15 +1013,49 @@ class FormMonthFieldPicker {
         selectedMonth,
       ],
       adapter: PickerDataAdapter<int>(
-        data: data,
+        data: [
+          for (var y = startYear; y < endYear; y++) ...[
+            () {
+              final year = DateTime(y, 1, 1);
+              final startMonth = y == startYear ? begin?.month ?? 1 : 1;
+              final endMonth = y == endYear - 1 ? end?.month ?? 12 : 12;
+              return PickerItem(
+                text: Text(
+                  "${year.format(yearFormat)}$yearSuffix",
+                  style: TextStyle(
+                    color: color ?? Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                value: y,
+                children: [
+                  for (var m = startMonth - 1; m < endMonth; m++)
+                    PickerItem(
+                      text: Text(
+                        "${(m + 1).format("00")}$monthSuffix",
+                        style: TextStyle(
+                          color:
+                              color ?? Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                      value: m,
+                    ),
+                ],
+              );
+            }(),
+          ],
+        ],
       ),
       changeToFirst: true,
       hideHeader: false,
       onConfirm: (Picker picker, List<int> value) {
+        var month = value[1] + 1;
+        if (value[0] == 0) {
+          month = month + ((begin?.month ?? 1) - 1);
+        }
         if (lastDayOfMonth == true) {
-          res = DateTime(value[0] + startYear + 1, value[1] + 1, 0);
+          res = DateTime(value[0] + startYear, month + 1, 0);
         } else {
-          res = DateTime(value[0] + startYear + 1, value[1] + 1, day ?? 1);
+          res = DateTime(value[0] + startYear, month, day ?? 1);
         }
       },
     ).showModal(context);
