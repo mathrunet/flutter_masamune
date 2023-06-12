@@ -1,6 +1,6 @@
 part of katana_form;
 
-/// A form to have the date (month and day) selected.
+/// A form to have the date (year and month) selected.
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
@@ -25,7 +25,7 @@ part of katana_form;
 ///
 /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
 ///
-/// 日付（月日）を選択させるためのフォーム。
+/// 日付（年月）を選択させるためのフォーム。
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
@@ -49,8 +49,8 @@ part of katana_form;
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-class FormDateField<TValue> extends StatefulWidget {
-  /// A form to have the date (month and day) selected.
+class FormMonthField<TValue> extends StatefulWidget {
+  /// A form to have the date (year and month) selected.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
@@ -75,7 +75,7 @@ class FormDateField<TValue> extends StatefulWidget {
   ///
   /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
   ///
-  /// 日付（月日）を選択させるためのフォーム。
+  /// 日付（年月）を選択させるためのフォーム。
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
@@ -99,7 +99,7 @@ class FormDateField<TValue> extends StatefulWidget {
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  const FormDateField({
+  const FormMonthField({
     this.form,
     super.key,
     this.controller,
@@ -118,7 +118,7 @@ class FormDateField<TValue> extends StatefulWidget {
     this.onSubmitted,
     this.initialValue,
     String? format,
-    this.picker = const FormDateFieldPicker(),
+    this.picker = const FormMonthFieldPicker(),
     this.onSaved,
     this.keepAlive = true,
   })  : _format = format,
@@ -260,19 +260,19 @@ class FormDateField<TValue> extends StatefulWidget {
   /// Picker object for selecting dates.
   ///
   /// 日付を選択するためのピッカーオブジェクト。
-  final FormDateFieldPicker picker;
+  final FormMonthFieldPicker picker;
 
   /// Formatter for formatting [DateTime] to [String].
   ///
   /// Describe and define the following pattern.
   ///
-  /// By default, "MM/dd" is used.
+  /// By default, "yyyy/MM" is used.
   ///
   /// [DateTime]を[String]にフォーマットするためのフォーマッタ。
   ///
   /// 下記のパターンを記述して定義してください。
   ///
-  /// デフォルトで"MM/dd"が利用されます。
+  /// デフォルトで"yyyy/MM"が利用されます。
   ///
   ///     Symbol   Meaning                Presentation       Example
   ///     ------   -------                ------------       -------
@@ -299,7 +299,7 @@ class FormDateField<TValue> extends StatefulWidget {
     if (_format.isNotEmpty) {
       return _format!;
     }
-    return "MM/dd";
+    return "yyyy/MM";
   }
 
   final String? _format;
@@ -314,11 +314,11 @@ class FormDateField<TValue> extends StatefulWidget {
   final bool keepAlive;
 
   @override
-  State<StatefulWidget> createState() => _FormDateFieldState<TValue>();
+  State<StatefulWidget> createState() => _FormMonthFieldState<TValue>();
 }
 
-class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
-    with AutomaticKeepAliveClientMixin<FormDateField<TValue>> {
+class _FormMonthFieldState<TValue> extends State<FormMonthField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormMonthField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -335,7 +335,7 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
   }
 
   @override
-  void didUpdateWidget(FormDateField<TValue> oldWidget) {
+  void didUpdateWidget(FormMonthField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.controller != widget.controller) {
@@ -419,7 +419,7 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
       child: Stack(
         children: [
-          _DateTextField<TValue>(
+          _MonthTextField<TValue>(
             form: widget.form,
             controller: _controller,
             focusNode: widget.focusNode,
@@ -520,8 +520,8 @@ class _FormDateFieldState<TValue> extends State<FormDateField<TValue>>
   bool get wantKeepAlive => widget.keepAlive;
 }
 
-class _DateTextField<TValue> extends FormField<DateTime> {
-  _DateTextField({
+class _MonthTextField<TValue> extends FormField<DateTime> {
+  _MonthTextField({
     required this.format,
     this.form,
     required this.picker,
@@ -567,8 +567,8 @@ class _DateTextField<TValue> extends FormField<DateTime> {
           validator: validator,
           onSaved: onSaved,
           builder: (field) {
-            final _DateTextFieldState<TValue> state =
-                field as _DateTextFieldState<TValue>;
+            final _MonthTextFieldState<TValue> state =
+                field as _MonthTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
@@ -620,7 +620,7 @@ class _DateTextField<TValue> extends FormField<DateTime> {
   final FormController<TValue>? form;
   final String format;
 
-  final FormDateFieldPicker picker;
+  final FormMonthFieldPicker picker;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -629,17 +629,17 @@ class _DateTextField<TValue> extends FormField<DateTime> {
   final void Function(DateTime? value)? onSubmitted;
 
   @override
-  _DateTextFieldState createState() => _DateTextFieldState<TValue>();
+  _MonthTextFieldState createState() => _MonthTextFieldState<TValue>();
 }
 
-class _DateTextFieldState<TValue> extends FormFieldState<DateTime> {
+class _MonthTextFieldState<TValue> extends FormFieldState<DateTime> {
   TextEditingController? _controller;
   FocusNode? _focusNode;
   bool isShowingDialog = false;
   bool hadFocus = false;
 
   @override
-  _DateTextField<TValue> get widget => super.widget as _DateTextField<TValue>;
+  _MonthTextField<TValue> get widget => super.widget as _MonthTextField<TValue>;
 
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
@@ -668,7 +668,7 @@ class _DateTextFieldState<TValue> extends FormFieldState<DateTime> {
   }
 
   @override
-  void didUpdateWidget(_DateTextField<TValue> oldWidget) {
+  void didUpdateWidget(_MonthTextField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -822,20 +822,79 @@ class _DateTextFieldState<TValue> extends FormFieldState<DateTime> {
 ///
 /// 日付を選択するためのピッカースタイルを定義するクラス。
 @immutable
-class FormDateFieldPicker {
+class FormMonthFieldPicker {
   /// Class that defines a picker style for selecting dates.
   ///
   /// 日付を選択するためのピッカースタイルを定義するクラス。
-  const FormDateFieldPicker({
+  const FormMonthFieldPicker({
     this.defaultDateTime,
     this.monthSuffix = "",
-    this.daySuffix = "",
-    this.monthFormat = "MM",
+    this.yearSuffix = "",
+    this.yearFormat = "yyyy",
     this.backgroundColor,
+    this.day,
+    this.lastDayOfMonth,
     this.color,
+    this.begin,
+    this.end,
     this.confirmText = "Confirm",
     this.cancelText = "Cancel",
-  });
+  })  : assert(
+          lastDayOfMonth == null || day == null,
+          "You can't set both lastDayOfMonth and day.",
+        ),
+        assert(
+          day == null || day > 0 && day <= 31,
+          "day must be 1-31.",
+        );
+
+  /// Set the date to the end of the month when outputting as [DateTime].
+  ///
+  /// Cannot be set at the same time as [day].
+  ///
+  /// [DateTime]として出力する場合の日付をその月の最後にします。
+  ///
+  /// [day]と同時に設定することはできません。
+  final bool? lastDayOfMonth;
+
+  /// Set the date to [day] when outputting as [DateTime].
+  ///
+  /// Specify a number between 1-31.
+  ///
+  /// Cannot be set at the same time as [lastDayOfMonth].
+  ///
+  /// [DateTime]として出力する場合の日付を[day]にします。
+  ///
+  /// 1-31の間の数字を指定してください。
+  ///
+  /// [lastDayOfMonth]と同時に設定することはできません。
+  final int? day;
+
+  /// Specify the first year and month to be selected.
+  ///
+  /// If not specified, you can choose from 10 years prior to the current year.
+  ///
+  /// Specify a date earlier than [end].
+  ///
+  /// 選択させる最初の年月を指定します。
+  ///
+  /// 指定されない場合は現在の年から10年前から選択できます。
+  ///
+  /// [end]よりも前の日付を指定してください。
+  final DateTime? begin;
+
+  /// Specify the last year and month to be selected.
+  ///
+  /// If not specified, you can choose up to 10 years after the current year.
+  ///
+  /// Specify a date later than [begin].
+  ///
+  /// 選択させる最後の年月を指定します。
+  ///
+  /// 指定されない場合は現在の年から10年後まで選択できます。
+  ///
+  /// [begin]よりも後の日付を指定してください。
+  final DateTime? end;
 
   /// Default value when not selected.
   ///
@@ -847,16 +906,16 @@ class FormDateFieldPicker {
   /// 月のSuffix。
   final String monthSuffix;
 
-  /// Suffix on day.
+  /// Suffix in year.
   ///
-  /// 日のSuffix。
-  final String daySuffix;
+  /// 年のSuffix。
+  final String yearSuffix;
 
-  /// Format of the month.
+  /// Format of the year.
   ///
   /// Describe and define the following pattern.
   ///
-  /// 月のフォーマット。
+  /// 年のフォーマット。
   ///
   /// 下記のパターンを記述して定義してください。
   ///
@@ -881,7 +940,7 @@ class FormDateFieldPicker {
   ///     Q        quarter                (Text)             Q3
   ///     '        escape for text        (Delimiter)        'Date='
   ///     ''       single quote           (Literal)          'o''clock'
-  final String monthFormat;
+  final String yearFormat;
 
   /// Background color of the picker.
   ///
@@ -914,7 +973,59 @@ class FormDateFieldPicker {
     BuildContext context,
     DateTime? currentDateTime,
   ) async {
+    assert(
+      begin == null ||
+          end == null ||
+          (begin != null && end != null && begin!.isBefore(end!)),
+      "[begin] must be before [end].",
+    );
     DateTime? res;
+    final now = DateTime.now();
+    final startYear = begin?.year ?? (now.year - 10);
+    final endYear = end?.year ?? (now.year + 10);
+    final selectedYear = (currentDateTime?.year ??
+            defaultDateTime?.year ??
+            begin?.year ??
+            end?.year ??
+            now.year) -
+        startYear -
+        1;
+    final selectedMonth = (currentDateTime?.month ??
+            defaultDateTime?.month ??
+            begin?.month ??
+            end?.month ??
+            now.month) -
+        1;
+    final data = [
+      for (var y = startYear; y < endYear; y++) ...[
+        () {
+          final year = DateTime(y + 1, 1, 1);
+          final startMonth = y == startYear ? begin?.month ?? 1 : 1;
+          final endMonth = y == endYear - 1 ? end?.month ?? 12 : 12;
+          return PickerItem(
+            text: Text(
+              "${year.format(yearFormat)}$yearSuffix",
+              style: TextStyle(
+                color: color ?? Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            value: y,
+            children: [
+              for (var m = startMonth - 1; m < endMonth; m++)
+                PickerItem(
+                  text: Text(
+                    "${(m + 1).format("00")}$monthSuffix",
+                    style: TextStyle(
+                      color: color ?? Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  value: m,
+                ),
+            ],
+          );
+        }(),
+      ],
+    ];
     await Picker(
       height: 240,
       backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
@@ -925,42 +1036,20 @@ class FormDateFieldPicker {
       confirmText: confirmText,
       cancelText: cancelText,
       selecteds: [
-        (currentDateTime?.month ?? defaultDateTime?.month ?? 1) - 1,
-        (currentDateTime?.day ?? defaultDateTime?.day ?? 1) - 1,
+        selectedYear,
+        selectedMonth,
       ],
       adapter: PickerDataAdapter<int>(
-        data: [
-          ...List.generate(12, (m) {
-            final month = DateTime(1970, m + 2, 0);
-            return PickerItem(
-              text: Text(
-                "${month.format(monthFormat)}$monthSuffix",
-                style: TextStyle(
-                  color: color ?? Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-              value: m + 1,
-              children: List.generate(
-                month.day,
-                (d) => PickerItem(
-                  text: Text(
-                    "${(d + 1).format("00")}$daySuffix",
-                    style: TextStyle(
-                      color: color ?? Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  value: d + 1,
-                ),
-              ),
-            );
-          }),
-        ],
+        data: data,
       ),
       changeToFirst: true,
       hideHeader: false,
       onConfirm: (Picker picker, List<int> value) {
-        final now = DateTime.now();
-        res = DateTime(now.year, value[0] + 1, value[1] + 1);
+        if (lastDayOfMonth == true) {
+          res = DateTime(value[0] + startYear + 1, value[1] + 1, 0);
+        } else {
+          res = DateTime(value[0] + startYear + 1, value[1] + 1, day ?? 1);
+        }
       },
     ).showModal(context);
     return res;

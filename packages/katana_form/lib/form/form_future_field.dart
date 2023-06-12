@@ -113,9 +113,7 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
     required this.onTap,
     Widget Function(
       BuildContext context,
-      FormFutureField<T, TValue> widget,
-      Future<void> Function()? onTap,
-      T? value,
+      FormFutureBuildValue<T, TValue> value,
     )? builder,
     this.parseToString,
     this.prefix,
@@ -190,18 +188,16 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   ///
   /// Create a form UI based on the value of [value].
   ///
-  /// Executing [onTap] will start the process of changing the value of the form.
+  /// Executing FormFutureBuildValue.onTap] will start the process of changing the value of the form. Also, update the value directly by executing [FormFutureBuildValue.onUpdate].
   ///
   /// フォームのUIをビルドします。
   ///
   /// [value]の値を元にフォームのUIを作成してください。
   ///
-  /// [onTap]を実行することでフォームの値を変更処理を開始することができます。
+  /// [FormFutureBuildValue.onTap]を実行することでフォームの値を変更処理を開始することができます。また、[FormFutureBuildValue.onUpdate]を実行して直接値を更新してください。
   final Widget Function(
     BuildContext context,
-    FormFutureField<T, TValue> widget,
-    Future<void> Function()? onTap,
-    T? value,
+    FormFutureBuildValue<T, TValue> value,
   )? _builder;
 
   /// Hint to be displayed on the form. Displayed when no text is entered.
@@ -270,7 +266,8 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
 }
 
 class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
-    with AutomaticKeepAliveClientMixin<FormField<T>> {
+    with AutomaticKeepAliveClientMixin<FormField<T>>
+    implements FormFutureBuildValue<T, TValue> {
   late final TextEditingController _controller;
   @override
   FormFutureField<T, TValue> get widget =>
@@ -362,9 +359,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
       child: widget._builder?.call(
             context,
-            widget,
-            widget.enabled && !widget.readOnly ? _onTap : null,
-            value,
+            this,
           ) ??
           Stack(
             children: [
@@ -470,7 +465,8 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
     });
   }
 
-  Future<void> _onTap() async {
+  @override
+  Future<void> onTap() async {
     final res = await widget.onTap(value);
     if (res == null) {
       return;
@@ -482,5 +478,41 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
   }
 
   @override
+  void onUpdate(T? value) {
+    setState(() {
+      _controller.text = widget.parseToString?.call(value) ?? value.toString();
+      setValue(value);
+    });
+  }
+
+  @override
+  FormFutureField<T, TValue> get settings => widget;
+
+  @override
   bool get wantKeepAlive => widget.keepAlive;
+}
+
+/// You can perform various operations used in [FormFutureField.builder].
+///
+/// [FormFutureField.builder]で利用する各種操作を行うことができます。
+abstract class FormFutureBuildValue<T extends Object, TValue> {
+  /// Update the form value to [value] and redraw the form.
+  ///
+  /// フォームの値を[value]に更新して、フォームを再描画します。
+  void onUpdate(T? value);
+
+  /// Execute [FormFutureField.onTap] to update and redraw the form values.
+  ///
+  /// [FormFutureField.onTap]を実行しフォームの値を更新して再描画します。
+  Future<void> onTap();
+
+  /// Gets the value of the current form.
+  ///
+  /// 現在のフォームの値を取得します。
+  T? get value;
+
+  /// Return [FormFutureField] to confirm settings.
+  ///
+  /// [FormFutureField]を返して設定を確認できます。
+  FormFutureField<T, TValue> get settings;
 }
