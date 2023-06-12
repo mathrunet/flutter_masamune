@@ -3,6 +3,56 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v2.3.0`](#katana_form---v230)
+ - [`masamune` - `v2.1.11`](#masamune---v2111)
+ - [`masamune_picker_file` - `v2.0.36`](#masamune_picker_file---v2036)
+ - [`masamune_agora` - `v2.0.36`](#masamune_agora---v2036)
+ - [`masamune_ai_openai` - `v2.0.37`](#masamune_ai_openai---v2037)
+ - [`masamune_calendar` - `v2.0.36`](#masamune_calendar---v2036)
+ - [`masamune_picker` - `v2.0.36`](#masamune_picker---v2036)
+ - [`masamune_util` - `v2.0.5`](#masamune_util---v205)
+ - [`masamune_universal_ui` - `v2.1.5`](#masamune_universal_ui---v215)
+ - [`masamune_purchase_stripe` - `v3.0.17`](#masamune_purchase_stripe---v3017)
+ - [`masamune_logger_firebase` - `v2.0.36`](#masamune_logger_firebase---v2036)
+ - [`masamune_picker_mobile` - `v2.0.36`](#masamune_picker_mobile---v2036)
+ - [`masamune_notification_firebase` - `v2.0.36`](#masamune_notification_firebase---v2036)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.11`
+ - `masamune_picker_file` - `v2.0.36`
+ - `masamune_agora` - `v2.0.36`
+ - `masamune_ai_openai` - `v2.0.37`
+ - `masamune_calendar` - `v2.0.36`
+ - `masamune_picker` - `v2.0.36`
+ - `masamune_util` - `v2.0.5`
+ - `masamune_universal_ui` - `v2.1.5`
+ - `masamune_purchase_stripe` - `v3.0.17`
+ - `masamune_logger_firebase` - `v2.0.36`
+ - `masamune_picker_mobile` - `v2.0.36`
+ - `masamune_notification_firebase` - `v2.0.36`
+
+---
+
+#### `katana_form` - `v2.3.0`
+
+ - **FEAT**: Added FormMonthField. ([bc0de5a9](https://github.com/mathrunet/flutter_masamune/commit/bc0de5a98866fa24a44a5d5bb7a0ddac2ec7dd24))
+
+
 ## 2023-06-11
 
 ### Changes

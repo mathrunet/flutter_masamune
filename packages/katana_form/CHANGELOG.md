@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added FormMonthField. ([bc0de5a9](https://github.com/mathrunet/flutter_masamune/commit/bc0de5a98866fa24a44a5d5bb7a0ddac2ec7dd24))
+
 ## 2.2.7
 
  - **FIX**: Changed FormFutureField specifications. ([51e34680](https://github.com/mathrunet/flutter_masamune/commit/51e346806304ac4bfe34495ab5efbb1cace0c05f))
