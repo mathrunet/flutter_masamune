@@ -16,6 +16,24 @@ List<Spec> modelClass(
   final jsonSerarizable =
       model.parameters.where((e) => e.isJsonSerializable).toList();
   return [
+    Extension(
+      (e) => e
+        ..name = "\$${model.name}Extensions"
+        ..on = Reference(model.name)
+        ..methods.addAll([
+          Method(
+            (m) => m
+              ..name = "rawValue"
+              ..type = MethodType.getter
+              ..returns = const Reference("Map<String, dynamic>")
+              ..body = Code(
+                jsonSerarizable.isEmpty
+                    ? "return toJson();"
+                    : "final map = toJson(); return { ...map, ${jsonSerarizable.map((e) => "\"${e.jsonKey}\": ${_jsonValue(e)}").join(",")}};",
+              ),
+          ),
+        ]),
+    ),
     Class(
       (c) => c
         ..name = "\$${model.name}Document"
@@ -59,6 +77,7 @@ List<Spec> modelClass(
             (m) => m
               ..name = "toMap"
               ..returns = const Reference("DynamicMap")
+              ..lambda = true
               ..annotations.addAll([const Reference("override")])
               ..requiredParameters.addAll([
                 Parameter(
@@ -67,11 +86,7 @@ List<Spec> modelClass(
                     ..type = Reference(model.name),
                 )
               ])
-              ..body = Code(
-                jsonSerarizable.isEmpty
-                    ? "return value.toJson();"
-                    : "final map = value.toJson(); return { ...map, ${jsonSerarizable.map((e) => "\"${e.jsonKey}\": ${_jsonValue(e)}").join(",")}};",
-              ),
+              ..body = const Code("value.rawValue"),
           ),
           if (mirror != null) ...[
             Method(
@@ -446,21 +461,21 @@ List<Spec> modelClass(
 String _jsonValue(ParamaterValue param) {
   if (param.type.isDartCoreList) {
     if (param.type.toString().endsWith("?")) {
-      return "value.${param.name}?.map((e) => e.toJson()).toList()";
+      return "${param.name}?.map((e) => e.toJson()).toList()";
     } else {
-      return "value.${param.name}.map((e) => e.toJson()).toList()";
+      return "${param.name}.map((e) => e.toJson()).toList()";
     }
   } else if (param.type.isDartCoreMap) {
     if (param.type.toString().endsWith("?")) {
-      return "value.${param.name}?.map((k, v) => MapEntry(k, v.toJson()))";
+      return "${param.name}?.map((k, v) => MapEntry(k, v.toJson()))";
     } else {
-      return "value.${param.name}.map((k, v) => MapEntry(k, v.toJson()))";
+      return "${param.name}.map((k, v) => MapEntry(k, v.toJson()))";
     }
   } else {
     if (param.type.toString().endsWith("?")) {
-      return "value.${param.name}?.toJson()";
+      return "${param.name}?.toJson()";
     } else {
-      return "value.${param.name}.toJson()";
+      return "${param.name}.toJson()";
     }
   }
 }
