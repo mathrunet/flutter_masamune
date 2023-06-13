@@ -83,6 +83,18 @@ class RuntimeCollectionLoaderModel extends CollectionBase<ShopDocument> {
   }
 }
 
+class TestValueModelRawCollection extends ModelRawCollection<TestValue> {
+  const TestValueModelRawCollection(super.value);
+
+  @override
+  String get path => "test";
+
+  @override
+  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
+        return MapEntry("$path/$key", value.toJson());
+      });
+}
+
 @freezed
 class TestValue with _$TestValue {
   const factory TestValue({
@@ -115,6 +127,18 @@ class RuntimeTestValueCollectionModel
   }
 }
 
+class UserValueModelRawCollection extends ModelRawCollection<UserValue> {
+  const UserValueModelRawCollection(super.value);
+
+  @override
+  String get path => "user";
+
+  @override
+  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
+        return MapEntry("$path/$key", value.toJson());
+      });
+}
+
 @freezed
 class UserValue with _$UserValue {
   const factory UserValue({
@@ -124,6 +148,18 @@ class UserValue with _$UserValue {
 
   factory UserValue.fromJson(Map<String, Object?> map) =>
       _$UserValueFromJson(map);
+}
+
+class ShopValueModelRawCollection extends ModelRawCollection<ShopValue> {
+  const ShopValueModelRawCollection(super.value);
+
+  @override
+  String get path => "shop";
+
+  @override
+  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
+        return MapEntry("$path/$key", value.toJson());
+      });
 }
 
 @freezed
@@ -194,10 +230,12 @@ void main() {
   test("runtimeDocumentModel.transaction", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: const {
-        "test/doc": {"name": "test", "text": "testtest"},
-        "test/doc2": {"name": "test2", "text": "testtest2"}
-      },
+      rawData: const [
+        DynamicModelRawCollection("test", {
+          "doc": {"name": "test", "text": "testtest"},
+          "doc2": {"name": "test2", "text": "testtest2"},
+        }),
+      ],
     );
     final query = DocumentModelQuery("test/doc", adapter: adapter);
     final model = RuntimeMapDocumentModel(query);
@@ -233,14 +271,18 @@ void main() {
   test("runtimeDocumentModel.modelRef", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: {
-        "user/doc": const {"name": "user_name", "text": "user_text"},
-        "shop/doc": {
-          "name": "shop_name",
-          "text": "shop_text",
-          "user": ModelRef.fromPath("user/doc")
-        }
-      },
+      rawData: [
+        const DynamicModelRawCollection("user", {
+          "doc": {"name": "user_name", "text": "user_text"},
+        }),
+        DynamicModelRawCollection("shop", {
+          "doc": {
+            "name": "shop_name",
+            "text": "shop_text",
+            "user": ModelRef.fromPath("user/doc")
+          },
+        }),
+      ],
     );
     final query = DocumentModelQuery("user/doc", adapter: adapter);
     final model = UserDocument(query);
@@ -267,10 +309,12 @@ void main() {
   test("runtimeDocumentModel.transaction.Freezed", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: {
-        "test/doc": const TestValue(name: "test", text: "testtest").toJson(),
-        "test/doc2": const TestValue(name: "test2", text: "testtest2").toJson(),
-      },
+      rawData: const [
+        TestValueModelRawCollection({
+          "doc": TestValue(name: "test", text: "testtest"),
+          "doc2": TestValue(name: "test2", text: "testtest2"),
+        }),
+      ],
     );
     final query = DocumentModelQuery("test/doc", adapter: adapter);
     final model = RuntimeMTestValueDocumentModel(query);
@@ -306,15 +350,20 @@ void main() {
   test("runtimeDocumentModel.modelRef.Freezed", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: {
-        "user/doc":
-            const UserValue(name: "user_name", text: "user_text").toJson(),
-        "shop/doc": ShopValue(
-          name: "shop_name",
-          text: "shop_text",
-          user: ModelRef.fromPath("user/doc"),
-        ).toJson(),
-      },
+      rawData: [
+        const UserValueModelRawCollection({
+          "doc": UserValue(name: "user_name", text: "user_text"),
+        }),
+        ShopValueModelRawCollection(
+          {
+            "doc": ShopValue(
+              name: "shop_name",
+              text: "shop_text",
+              user: ModelRef.fromPath("user/doc"),
+            ),
+          },
+        ),
+      ],
     );
     final query = DocumentModelQuery("user/doc", adapter: adapter);
     final model = UserValueDocument(query);

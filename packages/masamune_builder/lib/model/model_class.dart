@@ -18,7 +18,6 @@ List<Spec> modelClass(
   return [
     Extension(
       (e) => e
-        ..name = "\$${model.name}Extensions"
         ..on = Reference(model.name)
         ..methods.addAll([
           Method(
@@ -240,6 +239,105 @@ List<Spec> modelClass(
                 )
               ])
               ..body = Code("\$${model.name}Document(modelQuery.create(id))"),
+          ),
+        ]),
+    ),
+    Class(
+      (c) => c
+        ..name = "${model.name}RawCollection"
+        ..extend = Reference("ModelRawCollection<${model.name}>")
+        ..constructors.addAll([
+          Constructor(
+            (c) => c
+              ..constant = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "value"
+                    ..toSuper = true,
+                )
+              ])
+              ..optionalParameters.addAll([
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
+              ])
+              ..initializers.addAll([
+                ...path.parameters.map((param) {
+                  return Code("_${param.camelCase} = ${param.camelCase}");
+                }),
+              ]),
+          ),
+        ])
+        ..fields.addAll([
+          ...path.parameters.map((param) {
+            return Field(
+              (f) => f
+                ..name = "_${param.camelCase}"
+                ..modifier = FieldModifier.final$
+                ..type = const Reference("String"),
+            );
+          }),
+        ])
+        ..methods.addAll([
+          Method(
+            (m) => m
+              ..name = "path"
+              ..annotations.addAll([
+                const Reference("override"),
+              ])
+              ..type = MethodType.getter
+              ..lambda = true
+              ..returns = const Reference("String")
+              ..body = Code(
+                "\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "toMap"
+              ..annotations.addAll([
+                const Reference("override"),
+              ])
+              ..returns = const Reference("Map<String, Map<String, dynamic>>")
+              ..lambda = true
+              ..body = const Code(
+                "value.map((key, value) { return MapEntry(\"\$path/\$key\", value.rawValue); })",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "ref"
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "key"
+                    ..type = const Reference("String"),
+                ),
+              ])
+              ..optionalParameters.addAll([
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
+              ])
+              ..static = true
+              ..returns = Reference("${model.name}Ref")
+              ..lambda = true
+              ..body = Code(
+                "${model.name}Ref.fromPath(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
+              ),
           ),
         ]),
     ),

@@ -58,8 +58,11 @@ class RuntimeModelAdapter extends ModelAdapter {
   NoSqlDatabase get database {
     final database = _database ?? sharedDatabase;
     if (rawData.isNotEmpty && database.data.isEmpty) {
-      for (final tmp in rawData!.entries) {
-        database.setRawData(tmp.key, tmp.value);
+      for (final raw in rawData!) {
+        final map = raw.toMap();
+        for (final tmp in map.entries) {
+          database.setRawData(tmp.key, tmp.value);
+        }
       }
     }
     return database;
@@ -75,7 +78,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final Map<String, DynamicMap>? rawData;
+  final List<ModelRawValueCollection>? rawData;
 
   /// Path prefix.
   ///
