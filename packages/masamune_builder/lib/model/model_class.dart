@@ -552,6 +552,105 @@ List<Spec> modelClass(
             ),
           ]),
       ),
+      Class(
+        (c) => c
+          ..name = "${model.name}MirrorRawCollection"
+          ..extend = Reference("ModelRawCollection<${model.name}>")
+          ..constructors.addAll([
+            Constructor(
+              (c) => c
+                ..constant = true
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..toSuper = true,
+                  )
+                ])
+                ..optionalParameters.addAll([
+                  ...mirror.parameters.map((param) {
+                    return Parameter(
+                      (p) => p
+                        ..name = param.camelCase
+                        ..named = true
+                        ..required = true
+                        ..type = const Reference("String"),
+                    );
+                  }),
+                ])
+                ..initializers.addAll([
+                  ...mirror.parameters.map((param) {
+                    return Code("_${param.camelCase} = ${param.camelCase}");
+                  }),
+                ]),
+            ),
+          ])
+          ..fields.addAll([
+            ...mirror.parameters.map((param) {
+              return Field(
+                (f) => f
+                  ..name = "_${param.camelCase}"
+                  ..modifier = FieldModifier.final$
+                  ..type = const Reference("String"),
+              );
+            }),
+          ])
+          ..methods.addAll([
+            Method(
+              (m) => m
+                ..name = "path"
+                ..annotations.addAll([
+                  const Reference("override"),
+                ])
+                ..type = MethodType.getter
+                ..lambda = true
+                ..returns = const Reference("String")
+                ..body = Code(
+                  "\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
+                ),
+            ),
+            Method(
+              (m) => m
+                ..name = "toMap"
+                ..annotations.addAll([
+                  const Reference("override"),
+                ])
+                ..returns = const Reference("Map<String, Map<String, dynamic>>")
+                ..lambda = true
+                ..body = const Code(
+                  "value.map((key, value) { return MapEntry(\"\$path/\$key\", value.rawValue); })",
+                ),
+            ),
+            Method(
+              (m) => m
+                ..name = "ref"
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "key"
+                      ..type = const Reference("String"),
+                  ),
+                ])
+                ..optionalParameters.addAll([
+                  ...mirror.parameters.map((param) {
+                    return Parameter(
+                      (p) => p
+                        ..name = param.camelCase
+                        ..named = true
+                        ..required = true
+                        ..type = const Reference("String"),
+                    );
+                  }),
+                ])
+                ..static = true
+                ..returns = Reference("${model.name}Ref")
+                ..lambda = true
+                ..body = Code(
+                  "${model.name}Ref.fromPath(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
+                ),
+            ),
+          ]),
+      ),
     ],
   ];
 }
