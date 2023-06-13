@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - **FIX**: Bug with respect to limitTo. ([9fb6df00](https://github.com/mathrunet/flutter_masamune/commit/9fb6df0055beaad685c449f43b47f08df2c92842))
+
 ## 2.3.1
 
  - **FIX**: Fixed a bug where the name could not be changed. ([3b2707fc](https://github.com/mathrunet/flutter_masamune/commit/3b2707fca71f4e67b2d49404cc32c5258f169aed))

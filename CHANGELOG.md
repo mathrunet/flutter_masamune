@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v2.3.2`](#katana_model---v232)
+ - [`katana_model_firestore` - `v2.2.4`](#katana_model_firestore---v224)
+ - [`masamune` - `v2.1.15`](#masamune---v2115)
+ - [`masamune_picker_file` - `v2.0.40`](#masamune_picker_file---v2040)
+ - [`masamune_ai_openai` - `v2.0.41`](#masamune_ai_openai---v2041)
+ - [`masamune_agora` - `v2.0.40`](#masamune_agora---v2040)
+ - [`masamune_calendar` - `v2.0.40`](#masamune_calendar---v2040)
+ - [`masamune_picker` - `v2.0.40`](#masamune_picker---v2040)
+ - [`masamune_util` - `v2.0.9`](#masamune_util---v209)
+ - [`masamune_universal_ui` - `v2.1.9`](#masamune_universal_ui---v219)
+ - [`masamune_purchase_stripe` - `v3.0.21`](#masamune_purchase_stripe---v3021)
+ - [`masamune_logger_firebase` - `v2.0.40`](#masamune_logger_firebase---v2040)
+ - [`masamune_picker_mobile` - `v2.0.40`](#masamune_picker_mobile---v2040)
+ - [`masamune_notification_firebase` - `v2.0.40`](#masamune_notification_firebase---v2040)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v2.2.4`
+ - `masamune` - `v2.1.15`
+ - `masamune_picker_file` - `v2.0.40`
+ - `masamune_ai_openai` - `v2.0.41`
+ - `masamune_agora` - `v2.0.40`
+ - `masamune_calendar` - `v2.0.40`
+ - `masamune_picker` - `v2.0.40`
+ - `masamune_util` - `v2.0.9`
+ - `masamune_universal_ui` - `v2.1.9`
+ - `masamune_purchase_stripe` - `v3.0.21`
+ - `masamune_logger_firebase` - `v2.0.40`
+ - `masamune_picker_mobile` - `v2.0.40`
+ - `masamune_notification_firebase` - `v2.0.40`
+
+---
+
+#### `katana_model` - `v2.3.2`
+
+ - **FIX**: Bug with respect to limitTo. ([9fb6df00](https://github.com/mathrunet/flutter_masamune/commit/9fb6df0055beaad685c449f43b47f08df2c92842))
+
+
 ## 2023-06-13
 
 ### Changes
