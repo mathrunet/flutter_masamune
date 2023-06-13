@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **FIX**: Fixed a bug where the name could not be changed. ([3b2707fc](https://github.com/mathrunet/flutter_masamune/commit/3b2707fca71f4e67b2d49404cc32c5258f169aed))
+
 ## 2.2.2
 
  - Update a dependency to the latest release.

@@ -15,6 +15,66 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.3.1`](#katana_model---v231)
+ - [`katana_model_firestore` - `v2.2.3`](#katana_model_firestore---v223)
+ - [`masamune_builder` - `v2.2.1`](#masamune_builder---v221)
+ - [`masamune` - `v2.1.14`](#masamune---v2114)
+ - [`masamune_picker_file` - `v2.0.39`](#masamune_picker_file---v2039)
+ - [`masamune_ai_openai` - `v2.0.40`](#masamune_ai_openai---v2040)
+ - [`masamune_agora` - `v2.0.39`](#masamune_agora---v2039)
+ - [`masamune_calendar` - `v2.0.39`](#masamune_calendar---v2039)
+ - [`masamune_picker` - `v2.0.39`](#masamune_picker---v2039)
+ - [`masamune_util` - `v2.0.8`](#masamune_util---v208)
+ - [`masamune_purchase_stripe` - `v3.0.20`](#masamune_purchase_stripe---v3020)
+ - [`masamune_universal_ui` - `v2.1.8`](#masamune_universal_ui---v218)
+ - [`masamune_logger_firebase` - `v2.0.39`](#masamune_logger_firebase---v2039)
+ - [`masamune_picker_mobile` - `v2.0.39`](#masamune_picker_mobile---v2039)
+ - [`masamune_notification_firebase` - `v2.0.39`](#masamune_notification_firebase---v2039)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.14`
+ - `masamune_picker_file` - `v2.0.39`
+ - `masamune_ai_openai` - `v2.0.40`
+ - `masamune_agora` - `v2.0.39`
+ - `masamune_calendar` - `v2.0.39`
+ - `masamune_picker` - `v2.0.39`
+ - `masamune_util` - `v2.0.8`
+ - `masamune_purchase_stripe` - `v3.0.20`
+ - `masamune_universal_ui` - `v2.1.8`
+ - `masamune_logger_firebase` - `v2.0.39`
+ - `masamune_picker_mobile` - `v2.0.39`
+ - `masamune_notification_firebase` - `v2.0.39`
+
+---
+
+#### `katana_model` - `v2.3.1`
+
+ - **FIX**: Fixed a bug where the name could not be changed. ([3b2707fc](https://github.com/mathrunet/flutter_masamune/commit/3b2707fca71f4e67b2d49404cc32c5258f169aed))
+
+#### `katana_model_firestore` - `v2.2.3`
+
+ - **FIX**: Fixed a bug where the name could not be changed. ([3b2707fc](https://github.com/mathrunet/flutter_masamune/commit/3b2707fca71f4e67b2d49404cc32c5258f169aed))
+
+#### `masamune_builder` - `v2.2.1`
+
+ - **FIX**: RawCollection was also added to the Mirror model. ([bf5fc033](https://github.com/mathrunet/flutter_masamune/commit/bf5fc0337a0d198feca0057ae47d3d2b7785c8ef))
+
+
+## 2023-06-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.3.0`](#katana_model---v230)
  - [`masamune_builder` - `v2.2.0`](#masamune_builder---v220)
  - [`katana_model_firestore` - `v2.2.2`](#katana_model_firestore---v222)

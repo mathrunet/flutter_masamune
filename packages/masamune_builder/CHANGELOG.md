@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: RawCollection was also added to the Mirror model. ([bf5fc033](https://github.com/mathrunet/flutter_masamune/commit/bf5fc0337a0d198feca0057ae47d3d2b7785c8ef))
+
 ## 2.2.0
 
  - **FEAT**: Added ModelRawCollection. ([377d0e6c](https://github.com/mathrunet/flutter_masamune/commit/377d0e6c098d775f191b80c91dbae71b8ff5a5c7))
