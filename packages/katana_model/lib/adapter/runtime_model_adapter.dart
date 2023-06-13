@@ -78,7 +78,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelRawValueCollection>? rawData;
+  final List<ModelRawCollection>? rawData;
 
   /// Path prefix.
   ///
