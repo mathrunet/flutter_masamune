@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added ModelRawCollection. ([377d0e6c](https://github.com/mathrunet/flutter_masamune/commit/377d0e6c098d775f191b80c91dbae71b8ff5a5c7))
+
 ## 2.2.1
 
  - Update a dependency to the latest release.

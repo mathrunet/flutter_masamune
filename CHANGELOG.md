@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v2.3.0`](#katana_model---v230)
+ - [`masamune_builder` - `v2.2.0`](#masamune_builder---v220)
+ - [`katana_model_firestore` - `v2.2.2`](#katana_model_firestore---v222)
+ - [`masamune` - `v2.1.13`](#masamune---v2113)
+ - [`masamune_picker_file` - `v2.0.38`](#masamune_picker_file---v2038)
+ - [`masamune_agora` - `v2.0.38`](#masamune_agora---v2038)
+ - [`masamune_calendar` - `v2.0.38`](#masamune_calendar---v2038)
+ - [`masamune_ai_openai` - `v2.0.39`](#masamune_ai_openai---v2039)
+ - [`masamune_picker` - `v2.0.38`](#masamune_picker---v2038)
+ - [`masamune_util` - `v2.0.7`](#masamune_util---v207)
+ - [`masamune_universal_ui` - `v2.1.7`](#masamune_universal_ui---v217)
+ - [`masamune_purchase_stripe` - `v3.0.19`](#masamune_purchase_stripe---v3019)
+ - [`masamune_logger_firebase` - `v2.0.38`](#masamune_logger_firebase---v2038)
+ - [`masamune_picker_mobile` - `v2.0.38`](#masamune_picker_mobile---v2038)
+ - [`masamune_notification_firebase` - `v2.0.38`](#masamune_notification_firebase---v2038)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v2.2.2`
+ - `masamune` - `v2.1.13`
+ - `masamune_picker_file` - `v2.0.38`
+ - `masamune_agora` - `v2.0.38`
+ - `masamune_calendar` - `v2.0.38`
+ - `masamune_ai_openai` - `v2.0.39`
+ - `masamune_picker` - `v2.0.38`
+ - `masamune_util` - `v2.0.7`
+ - `masamune_universal_ui` - `v2.1.7`
+ - `masamune_purchase_stripe` - `v3.0.19`
+ - `masamune_logger_firebase` - `v2.0.38`
+ - `masamune_picker_mobile` - `v2.0.38`
+ - `masamune_notification_firebase` - `v2.0.38`
+
+---
+
+#### `katana_model` - `v2.3.0`
+
+ - **FEAT**: Added ModelRawCollection. ([377d0e6c](https://github.com/mathrunet/flutter_masamune/commit/377d0e6c098d775f191b80c91dbae71b8ff5a5c7))
+
+#### `masamune_builder` - `v2.2.0`
+
+ - **FEAT**: Added ModelRawCollection. ([377d0e6c](https://github.com/mathrunet/flutter_masamune/commit/377d0e6c098d775f191b80c91dbae71b8ff5a5c7))
+
+
 ## 2023-06-12
 
 ### Changes
