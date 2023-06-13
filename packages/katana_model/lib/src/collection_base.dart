@@ -439,7 +439,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
       }
       res.add(value);
     }
-    return limit != null ? res.sublist(0, limit) : res;
+    return limit != null ? res.sublist(0, min(limit, res.length)) : res;
   }
 
   @override

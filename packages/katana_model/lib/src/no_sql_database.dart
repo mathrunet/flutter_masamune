@@ -324,29 +324,31 @@ class NoSqlDatabase {
     final limitValue = query.query.filters
         .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
         ?.value as int?;
-    final entries = query.query
-        .sort(
-          value
-              .toList(
-                (key, value) {
-                  if (value is! Map) {
-                    return null;
-                  }
-                  return MapEntry(
-                    key,
-                    Map<String, dynamic>.from(value),
-                  );
-                },
-              )
-              .where(
-                (element) =>
-                    element != null && query.query.hasMatchAsMap(element.value),
-              )
-              .removeEmpty(),
-        )
-        .sublist(0, limitValue);
-    _collectionEntries[query] = List.from(entries);
-    return Map<String, DynamicMap>.fromEntries(entries);
+    final entries = query.query.sort(
+      value
+          .toList(
+            (key, value) {
+              if (value is! Map) {
+                return null;
+              }
+              return MapEntry(
+                key,
+                Map<String, dynamic>.from(value),
+              );
+            },
+          )
+          .where(
+            (element) =>
+                element != null && query.query.hasMatchAsMap(element.value),
+          )
+          .removeEmpty(),
+    );
+    final limited = entries.sublist(
+      0,
+      limitValue != null ? min(limitValue, entries.length) : null,
+    );
+    _collectionEntries[query] = List.from(limited);
+    return Map<String, DynamicMap>.fromEntries(limited);
   }
 
   /// Stores [value] in the path corresponding to [query] and then returns [value].
@@ -382,29 +384,31 @@ class NoSqlDatabase {
     final limitValue = query.query.filters
         .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
         ?.value as int?;
-    final entries = query.query
-        .sort(
-          value
-              .toList(
-                (key, value) {
-                  // ignore: unnecessary_type_check
-                  if (value is! Map) {
-                    return null;
-                  }
-                  return MapEntry(
-                    key,
-                    Map<String, dynamic>.from(value),
-                  );
-                },
-              )
-              .where(
-                (element) =>
-                    element != null && query.query.hasMatchAsMap(element.value),
-              )
-              .removeEmpty(),
-        )
-        .sublist(0, limitValue);
-    _collectionEntries[query] = List.from(entries);
+    final entries = query.query.sort(
+      value
+          .toList(
+            (key, value) {
+              // ignore: unnecessary_type_check
+              if (value is! Map) {
+                return null;
+              }
+              return MapEntry(
+                key,
+                Map<String, dynamic>.from(value),
+              );
+            },
+          )
+          .where(
+            (element) =>
+                element != null && query.query.hasMatchAsMap(element.value),
+          )
+          .removeEmpty(),
+    );
+    final limited = entries.sublist(
+      0,
+      limitValue != null ? min(limitValue, entries.length) : null,
+    );
+    _collectionEntries[query] = List.from(limited);
     await onSaved?.call(this);
     return value;
   }
