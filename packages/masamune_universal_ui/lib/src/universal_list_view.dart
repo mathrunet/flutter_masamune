@@ -179,40 +179,42 @@ class UniversalListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final rows = _createRows(context, children);
 
-    return _buildRefreshIndicator(
-      context,
-      _buildConstrainedBox(
+    return UniversalWidgetScope(
+      child: _buildRefreshIndicator(
         context,
-        _buildDecoratedBox(
+        _buildConstrainedBox(
           context,
-          CustomScrollView(
-            key: key,
-            scrollDirection: scrollDirection,
-            reverse: reverse,
-            controller: controller,
-            primary: primary,
-            physics: physics,
-            scrollBehavior: scrollBehavior,
-            shrinkWrap: shrinkWrap,
-            center: center,
-            anchor: anchor,
-            cacheExtent: cacheExtent,
-            semanticChildCount: semanticChildCount,
-            dragStartBehavior: dragStartBehavior,
-            keyboardDismissBehavior: keyboardDismissBehavior,
-            restorationId: restorationId,
-            clipBehavior: clipBehavior,
-            slivers: [
-              _padding(
-                context,
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, i) => rows[i],
-                    childCount: rows.length,
+          _buildDecoratedBox(
+            context,
+            CustomScrollView(
+              key: key,
+              scrollDirection: scrollDirection,
+              reverse: reverse,
+              controller: controller,
+              primary: primary,
+              physics: physics,
+              scrollBehavior: scrollBehavior,
+              shrinkWrap: shrinkWrap,
+              center: center,
+              anchor: anchor,
+              cacheExtent: cacheExtent,
+              semanticChildCount: semanticChildCount,
+              dragStartBehavior: dragStartBehavior,
+              keyboardDismissBehavior: keyboardDismissBehavior,
+              restorationId: restorationId,
+              clipBehavior: clipBehavior,
+              slivers: [
+                _padding(
+                  context,
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, i) => rows[i],
+                      childCount: rows.length,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -306,11 +308,14 @@ class UniversalListView extends StatelessWidget {
   }
 
   Widget _padding(BuildContext context, Widget sliver) {
+    final universalWidgetScope = UniversalWidgetScope.of(context);
     final width = MediaQuery.of(context).size.width;
     final breakpoint = UniversalScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
     final responsivePadding =
-        enableResponsivePadding ? (width - maxWidth) / 2.0 : 0.0;
+        enableResponsivePadding && universalWidgetScope == null
+            ? (width - maxWidth) / 2.0
+            : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(

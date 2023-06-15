@@ -49,7 +49,13 @@ class UniversalColumn extends StatelessWidget {
     this.verticalDirection = VerticalDirection.down,
     this.rowSegments = 12,
     this.enableResponsivePadding = true,
+    this.scrollableWhenOverflow = false,
   });
+
+  /// Specifies whether the element should be scrollable when it overflows.
+  ///
+  /// 要素がオーバーフローするときスクロール可能にするかどうかを指定します。
+  final bool scrollableWhenOverflow;
 
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
   ///
@@ -192,35 +198,42 @@ class UniversalColumn extends StatelessWidget {
     final breakpoint =
         this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
 
-    return Align(
-      alignment: alignment,
-      child: SingleChildScrollView(
-        child: Container(
-          // constraints:
-          //     constraints?.copyWith(maxWidth: breakpoint?.width(context)) ??
-          //         BoxConstraints(
-          //           maxWidth: breakpoint?.width(context) ?? double.infinity,
-          //         ),
-          padding: _padding(context, breakpoint),
-          margin: margin,
-          color: color,
-          decoration: decoration,
-          foregroundDecoration: foregroundDecoration,
-          width: width,
-          height: height,
-          alignment: alignment,
-          transform: transform,
-          transformAlignment: transformAlignment,
-          clipBehavior: clipBehavior,
-          child: Column(
-            verticalDirection: verticalDirection,
-            mainAxisAlignment: mainAxisAlignment,
-            crossAxisAlignment: crossAxisAlignment,
-            mainAxisSize: mainAxisSize,
-            children: _createRows(context, children),
+    return UniversalWidgetScope(
+      child: Align(
+        alignment: alignment,
+        child: _scrollable(
+          context,
+          Container(
+            padding: _padding(context, breakpoint),
+            margin: margin,
+            color: color,
+            decoration: decoration,
+            foregroundDecoration: foregroundDecoration,
+            width: width,
+            height: height,
+            alignment: alignment,
+            transform: transform,
+            transformAlignment: transformAlignment,
+            clipBehavior: clipBehavior,
+            child: Column(
+              verticalDirection: verticalDirection,
+              mainAxisAlignment: mainAxisAlignment,
+              crossAxisAlignment: crossAxisAlignment,
+              mainAxisSize: mainAxisSize,
+              children: _createRows(context, children),
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _scrollable(BuildContext context, Widget child) {
+    if (!scrollableWhenOverflow) {
+      return child;
+    }
+    return SingleChildScrollView(
+      child: child,
     );
   }
 
@@ -278,11 +291,14 @@ class UniversalColumn extends StatelessWidget {
     BuildContext context,
     Breakpoint? breakpoint,
   ) {
+    final universalWidgetScope = UniversalWidgetScope.of(context);
     final width = MediaQuery.of(context).size.width;
     final breakpoint = UniversalScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
     final responsivePadding =
-        enableResponsivePadding ? (width - maxWidth) / 2.0 : 0.0;
+        enableResponsivePadding && universalWidgetScope == null
+            ? (width - maxWidth) / 2.0
+            : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(

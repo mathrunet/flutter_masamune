@@ -162,34 +162,39 @@ class UniversalContainer extends StatelessWidget {
     final breakpoint =
         this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
 
-    return Align(
-      alignment: alignment,
-      child: Container(
-        padding: _padding(context, breakpoint),
-        margin: ResponsiveEdgeInsets._responsive(
-          context,
-          margin,
-          breakpoint: breakpoint,
-        ),
-        color: color,
-        decoration: decoration,
-        foregroundDecoration: foregroundDecoration,
-        width: width,
-        height: height,
+    return UniversalWidgetScope(
+      child: Align(
         alignment: alignment,
-        transform: transform,
-        transformAlignment: transformAlignment,
-        clipBehavior: clipBehavior,
-        child: child,
+        child: Container(
+          padding: _padding(context, breakpoint),
+          margin: ResponsiveEdgeInsets._responsive(
+            context,
+            margin,
+            breakpoint: breakpoint,
+          ),
+          color: color,
+          decoration: decoration,
+          foregroundDecoration: foregroundDecoration,
+          width: width,
+          height: height,
+          alignment: alignment,
+          transform: transform,
+          transformAlignment: transformAlignment,
+          clipBehavior: clipBehavior,
+          child: child,
+        ),
       ),
     );
   }
 
   EdgeInsetsGeometry _padding(BuildContext context, Breakpoint? breakpoint) {
+    final universalWidgetScope = UniversalWidgetScope.of(context);
     final width = MediaQuery.of(context).size.width;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
     final responsivePadding =
-        enableResponsivePadding ? (width - maxWidth) / 2.0 : 0.0;
+        enableResponsivePadding && universalWidgetScope == null
+            ? (width - maxWidth) / 2.0
+            : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(
