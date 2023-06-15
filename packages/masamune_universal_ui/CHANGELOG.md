@@ -1,3 +1,7 @@
+## 2.1.10
+
+ - **FIX**: Fixed a bug that caused double Padding when a double UniversalWidget was defined. ([f7fe7395](https://github.com/mathrunet/flutter_masamune/commit/f7fe7395dce0e41d9d32b6d96ff176a321f10000))
+
 ## 2.1.9
 
  - Update a dependency to the latest release.

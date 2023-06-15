@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v2.1.10`](#masamune_universal_ui---v2110)
+
+---
+
+#### `masamune_universal_ui` - `v2.1.10`
+
+ - **FIX**: Fixed a bug that caused double Padding when a double UniversalWidget was defined. ([f7fe7395](https://github.com/mathrunet/flutter_masamune/commit/f7fe7395dce0e41d9d32b6d96ff176a321f10000))
+
+
 ## 2023-06-14
 
 ### Changes
