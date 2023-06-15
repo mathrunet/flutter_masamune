@@ -1,6 +1,6 @@
 part of katana_form;
 
-/// A form to have the date and time selected.
+/// Form to have a range of dates selected.
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
@@ -19,13 +19,13 @@ part of katana_form;
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
-/// You can set the date and time selection method by specifying [delegate].
+/// You can set how to select a date range by specifying [DELEGATE].
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
 /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
 ///
-/// 日付と時間を選択させるためのフォーム。
+/// 日付の範囲を選択させるためのフォーム。
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
@@ -44,13 +44,13 @@ part of katana_form;
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
-/// [delegate]を指定することで日付や時間の選択方法を設定することが可能です。
+/// [delegate]を指定することで日付範囲の選択方法を設定することが可能です。
 ///
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-class FormDateTimeField<TValue> extends StatefulWidget {
-  /// A form to have the date and time selected.
+class FormDateTimeRangeField<TValue> extends StatefulWidget {
+  /// Form to have a range of dates selected.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
@@ -69,13 +69,13 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
-  /// You can set the date and time selection method by specifying [delegate].
+  /// You can set how to select a date range by specifying [DELEGATE].
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
   /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
   ///
-  /// 日付と時間を選択させるためのフォーム。
+  /// 日付の範囲を選択させるためのフォーム。
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
@@ -94,12 +94,12 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
-  /// [delegate]を指定することで日付や時間の選択方法を設定することが可能です。
+  /// [delegate]を指定することで日付範囲の選択方法を設定することが可能です。
   ///
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  const FormDateTimeField({
+  const FormDateTimeRangeField({
     this.form,
     super.key,
     this.controller,
@@ -118,7 +118,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
     this.onSubmitted,
     this.initialValue,
     this.keepAlive = true,
-    this.delegate = const FormDateTimeFieldDateTimeDelegate(),
+    this.delegate = const FormDateTimeRangeFieldDateDelegate(),
     this.onSaved,
   }) : assert(
           (form == null && onSaved == null) ||
@@ -180,7 +180,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   /// Initial value.
   ///
   /// 初期値。
-  final DateTime? initialValue;
+  final DateTimeRange? initialValue;
 
   /// Hint to be displayed on the form. Displayed when no text is entered.
   ///
@@ -218,7 +218,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
-  final TValue Function(DateTime value)? onSaved;
+  final TValue Function(DateTimeRange value)? onSaved;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -227,7 +227,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   /// 値が変更されるたびに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(DateTime? value)? onChanged;
+  final void Function(DateTimeRange? value)? onChanged;
 
   /// Validator to be executed when [FormController.validateAndSave] is executed.
   ///
@@ -244,7 +244,7 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
   ///
   /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validateAndSave]が`false`が返されます。
-  final FormFieldValidator<DateTime?>? validator;
+  final FormFieldValidator<DateTimeRange?>? validator;
 
   /// It is executed when the Enter button on the keyboard or the Submit button on the software keyboard is pressed.
   ///
@@ -253,16 +253,12 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   /// キーボードのEnterボタン、もしくはソフトウェアキーボードのサブミットボタンが押された場合に実行されます。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(DateTime? value)? onSubmitted;
+  final void Function(DateTimeRange? value)? onSubmitted;
 
   /// A delegate where the form picker and formatter are defined.
   ///
-  /// There is a FormDateTimeFieldDateTimeDelegate that allows you to select both date and time together, and a FormDateTimeFieldDateDelegate that allows you to select only date.
-  ///
   /// フォームのピッカーやフォーマッタが定義されているデリゲート。
-  ///
-  /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimeDelegate]と日付のみを選択できる[FormDateTimeFieldDateDelegate]があります。
-  final FormDateTimeFieldDelegate delegate;
+  final FormDateTimeRangeFieldDelegate delegate;
 
   /// If placed in a list, whether or not it should not be discarded on scrolling.
   ///
@@ -274,11 +270,12 @@ class FormDateTimeField<TValue> extends StatefulWidget {
   final bool keepAlive;
 
   @override
-  State<StatefulWidget> createState() => _FormDateTimeFieldState<TValue>();
+  State<StatefulWidget> createState() => _FormDateTimeRangeFieldState<TValue>();
 }
 
-class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
-    with AutomaticKeepAliveClientMixin<FormDateTimeField<TValue>> {
+class _FormDateTimeRangeFieldState<TValue>
+    extends State<FormDateTimeRangeField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormDateTimeRangeField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -295,7 +292,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
   }
 
   @override
-  void didUpdateWidget(FormDateTimeField<TValue> oldWidget) {
+  void didUpdateWidget(FormDateTimeRangeField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.controller != widget.controller) {
@@ -379,7 +376,7 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
       child: Stack(
         children: [
-          _DateTimeTextField<TValue>(
+          _DateTimeRangeTextField<TValue>(
             form: widget.form,
             controller: _controller,
             keyboardType: TextInputType.text,
@@ -480,15 +477,15 @@ class _FormDateTimeFieldState<TValue> extends State<FormDateTimeField<TValue>>
   bool get wantKeepAlive => widget.keepAlive;
 }
 
-class _DateTimeTextField<TValue> extends FormField<DateTime> {
-  _DateTimeTextField({
+class _DateTimeRangeTextField<TValue> extends FormField<DateTimeRange> {
+  _DateTimeRangeTextField({
     this.form,
     required this.delegate,
     required this.onShowPicker,
     Key? key,
-    FormFieldSetter<DateTime?>? onSaved,
-    FormFieldValidator<DateTime?>? validator,
-    DateTime? initialValue,
+    FormFieldSetter<DateTimeRange?>? onSaved,
+    FormFieldValidator<DateTimeRange?>? validator,
+    DateTimeRange? initialValue,
     bool enabled = true,
     this.onChanged,
     this.controller,
@@ -524,8 +521,8 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
           validator: validator,
           onSaved: onSaved,
           builder: (field) {
-            final _DateTimeTextFieldState<TValue> state =
-                field as _DateTimeTextFieldState<TValue>;
+            final _DateTimeRangeTextFieldState<TValue> state =
+                field as _DateTimeRangeTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
@@ -572,34 +569,32 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
         );
 
   final FormController<TValue>? form;
-  final FormDateTimeFieldDelegate delegate;
+  final FormDateTimeRangeFieldDelegate delegate;
 
-  final Future<DateTime> Function(BuildContext context, DateTime currentValue)?
-      onShowPicker;
+  final Future<DateTimeRange?> Function(
+      BuildContext context, DateTimeRange currentValue)? onShowPicker;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final bool readOnly;
-  final void Function(DateTime? value)? onChanged;
-  final void Function(DateTime? value)? onSubmitted;
+  final void Function(DateTimeRange? value)? onChanged;
+  final void Function(DateTimeRange? value)? onSubmitted;
 
   @override
-  _DateTimeTextFieldState<TValue> createState() =>
-      _DateTimeTextFieldState<TValue>();
-
-  static DateTime combine(DateTime date, TimeOfDay time) =>
-      DateTime(date.year, date.month, date.day, time.hour, time.minute);
+  _DateTimeRangeTextFieldState<TValue> createState() =>
+      _DateTimeRangeTextFieldState<TValue>();
 }
 
-class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
+class _DateTimeRangeTextFieldState<TValue>
+    extends FormFieldState<DateTimeRange> {
   TextEditingController? _controller;
   FocusNode? _focusNode;
   bool isShowingDialog = false;
   bool hadFocus = false;
 
   @override
-  _DateTimeTextField<TValue> get widget =>
-      super.widget as _DateTimeTextField<TValue>;
+  _DateTimeRangeTextField<TValue> get widget =>
+      super.widget as _DateTimeRangeTextField<TValue>;
 
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
@@ -628,7 +623,7 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
   }
 
   @override
-  void didUpdateWidget(_DateTimeTextField<TValue> oldWidget) {
+  void didUpdateWidget(_DateTimeRangeTextField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -677,7 +672,7 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
   }
 
   @override
-  void didChange(DateTime? value) {
+  void didChange(DateTimeRange? value) {
     widget.onChanged?.call(value);
     widget.onSubmitted?.call(value);
     super.didChange(value);
@@ -706,9 +701,9 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
     }
   }
 
-  String? format(DateTime? date) =>
+  String? format(DateTimeRange? date) =>
       date == null ? null : widget.delegate.format(date);
-  DateTime? parse(String? text) {
+  DateTimeRange? parse(String? text) {
     try {
       return text.isEmpty ? null : widget.delegate.parse(text!);
     } catch (e) {
@@ -722,8 +717,11 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
     }
     if (!isShowingDialog) {
       isShowingDialog = true;
-      final newValue =
-          await widget.onShowPicker?.call(context, value ?? DateTime.now());
+      final now = DateTime.now();
+      final newValue = await widget.onShowPicker?.call(
+        context,
+        value ?? DateTimeRange(start: now, end: now),
+      );
       isShowingDialog = false;
       if (newValue != null) {
         _effectiveController?.text = format(newValue) ?? "";
@@ -761,201 +759,122 @@ class _DateTimeTextFieldState<TValue> extends FormFieldState<DateTime> {
       !widget.readOnly;
 }
 
-/// Let the date and time be selected together [FormDateTimeFieldDelegate].
+/// Let the user select only dates [FormDateTimeRangeFieldDelegate].
 ///
 /// You can have it selected within the range of [startDate] and [endDate].
 ///
-/// The default value when not selected is [defaultDateTime].
+/// The default value when not selected is [defaultDateTimeRange].
 ///
 /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
 ///
-/// 日付と時間を合わせて選択させる[FormDateTimeFieldDelegate]。
+/// 日付のみを選択させる[FormDateTimeRangeFieldDelegate]。
 ///
 /// [startDate]と[endDate]の範囲内で選択させることができます。
 ///
-/// 選択されていない場合の初期値が[defaultDateTime]になります。
-///
-/// [dateFormat]は`yyyy/MM/dd(E) HH:mm`が定義されます。
-class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
-  /// Let the date and time be selected together [FormDateTimeFieldDelegate].
-  ///
-  /// You can have it selected within the range of [startDate] and [endDate].
-  ///
-  /// The default value when not selected is [defaultDateTime].
-  ///
-  /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
-  ///
-  /// 日付と時間を合わせて選択させる[FormDateTimeFieldDelegate]。
-  ///
-  /// [startDate]と[endDate]の範囲内で選択させることができます。
-  ///
-  /// 選択されていない場合の初期値が[defaultDateTime]になります。
-  ///
-  /// [dateFormat]は`yyyy/MM/dd(E) HH:mm`が定義されます。
-  const FormDateTimeFieldDateTimeDelegate({
-    super.startDate,
-    super.endDate,
-    super.defaultDateTime,
-    super.helpText,
-    super.cancelText,
-    super.confirmText,
-    super.locale,
-    super.errorFormatText,
-    super.errorInvalidText,
-    super.fieldHintText,
-    super.fieldLabelText,
-    super.initialDatePickerMode = DatePickerMode.day,
-    super.dateFormat = "yyyy/MM/dd(E) HH:mm",
-  });
-
-  @override
-  Future<DateTime> picker(
-    BuildContext context,
-    DateTime currentDateTime,
-  ) async {
-    final now = defaultDateTime ?? DateTime.now();
-    final date = await showDatePicker(
-      context: context,
-      helpText: helpText,
-      cancelText: cancelText,
-      confirmText: confirmText,
-      locale: locale,
-      initialDatePickerMode: initialDatePickerMode,
-      errorFormatText: errorFormatText,
-      errorInvalidText: errorInvalidText,
-      fieldHintText: fieldHintText,
-      fieldLabelText: fieldLabelText,
-      firstDate: startDate ?? now.subtract(const Duration(days: 365)),
-      initialDate: currentDateTime,
-      lastDate: endDate ??
-          now.add(
-            const Duration(days: 365),
-          ),
-    );
-    if (date != null) {
-      final time = await showTimePicker(
-        context: context,
-        helpText: helpText,
-        initialTime: TimeOfDay.fromDateTime(currentDateTime),
-      );
-      return _DateTimeTextField.combine(
-        date,
-        time ?? TimeOfDay.fromDateTime(now),
-      );
-    } else {
-      return currentDateTime;
-    }
-  }
-}
-
-/// Let the user select only dates [FormDateTimeFieldDelegate].
-///
-/// You can have it selected within the range of [startDate] and [endDate].
-///
-/// The default value when not selected is [defaultDateTime].
-///
-/// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
-///
-/// 日付のみを選択させる[FormDateTimeFieldDelegate]。
-///
-/// [startDate]と[endDate]の範囲内で選択させることができます。
-///
-/// 選択されていない場合の初期値が[defaultDateTime]になります。
+/// 選択されていない場合の初期値が[defaultDateTimeRange]になります。
 ///
 /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
-  /// Let the user select only dates [FormDateTimeFieldDelegate].
+class FormDateTimeRangeFieldDateDelegate
+    extends FormDateTimeRangeFieldDelegate {
+  /// Let the user select only dates [FormDateTimeRangeFieldDelegate].
   ///
   /// You can have it selected within the range of [startDate] and [endDate].
   ///
-  /// The default value when not selected is [defaultDateTime].
+  /// The default value when not selected is [defaultDateTimeRange].
   ///
   /// [dateFormat] is defined as `yyyyy/MM/dd(E) HH:mm`.
   ///
-  /// 日付のみを選択させる[FormDateTimeFieldDelegate]。
+  /// 日付のみを選択させる[FormDateTimeRangeFieldDelegate]。
   ///
   /// [startDate]と[endDate]の範囲内で選択させることができます。
   ///
-  /// 選択されていない場合の初期値が[defaultDateTime]になります。
+  /// 選択されていない場合の初期値が[defaultDateTimeRange]になります。
   ///
   /// [dateFormat]は`yyyy/MM/dd(E)`が定義されます。
-  const FormDateTimeFieldDateDelegate({
+  const FormDateTimeRangeFieldDateDelegate({
     super.startDate,
     super.endDate,
-    super.defaultDateTime,
+    super.defaultDateTimeRange,
     super.helpText,
     super.cancelText,
     super.confirmText,
     super.locale,
     super.errorFormatText,
     super.errorInvalidText,
-    super.fieldHintText,
-    super.fieldLabelText,
-    super.initialDatePickerMode = DatePickerMode.day,
+    super.fieldEndHintText,
+    super.fieldEndLabelText,
+    super.initialEntryMode = DatePickerEntryMode.calendar,
     super.dateFormat = "yyyy/MM/dd(E)",
+    super.separator = " - ",
   });
 
   @override
-  Future<DateTime> picker(
+  Future<DateTimeRange?> picker(
     BuildContext context,
-    DateTime currentDateTime,
+    DateTimeRange currentDateTimeRange,
   ) async {
-    final now = defaultDateTime ?? startDate ?? endDate ?? DateTime.now();
-    final date = await showDatePicker(
+    final now = DateTime.now();
+    final nowRange = defaultDateTimeRange;
+    final date = await showDateRangePicker(
       context: context,
       helpText: helpText,
       cancelText: cancelText,
       confirmText: confirmText,
       locale: locale,
-      initialDatePickerMode: initialDatePickerMode,
+      initialEntryMode: initialEntryMode,
       errorFormatText: errorFormatText,
       errorInvalidText: errorInvalidText,
-      fieldHintText: fieldHintText,
-      fieldLabelText: fieldLabelText,
-      firstDate: startDate ?? now.subtract(const Duration(days: 365)),
-      initialDate: currentDateTime,
+      fieldStartHintText: fieldStartHintText,
+      fieldStartLabelText: fieldStartLabelText,
+      fieldEndHintText: fieldEndHintText,
+      fieldEndLabelText: fieldEndLabelText,
+      firstDate: startDate ??
+          (nowRange?.start ?? now).subtract(const Duration(days: 365)),
+      initialDateRange: currentDateTimeRange,
       lastDate: endDate ??
-          now.add(
+          (nowRange?.end ?? now).add(
             const Duration(days: 365),
           ),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            datePickerTheme: Theme.of(context).datePickerTheme.copyWith(
+                  rangeSelectionBackgroundColor: Theme.of(context).primaryColor,
+                ),
+          ),
+          child: child!,
+        );
+      },
     );
-    return _DateTimeTextField.combine(
-      date ?? now,
-      TimeOfDay.fromDateTime(now),
-    );
+    return date;
   }
 }
 
 /// A delegate where the form picker and formatter are defined.
 ///
-/// There is a FormDateTimeFieldDateTimeDelegate that allows you to select both date and time together, and a FormDateTimeFieldDateDelegate that allows you to select only date.
-///
 /// フォームのピッカーやフォーマッタが定義されているデリゲート。
-///
-/// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimeDelegate]と日付のみを選択できる[FormDateTimeFieldDateDelegate]があります。
 @immutable
-abstract class FormDateTimeFieldDelegate {
+abstract class FormDateTimeRangeFieldDelegate {
   /// A delegate where the form picker and formatter are defined.
   ///
-  /// There is a FormDateTimeFieldDateTimeDelegate that allows you to select both date and time together, and a FormDateTimeFieldDateDelegate that allows you to select only date.
-  ///
   /// フォームのピッカーやフォーマッタが定義されているデリゲート。
-  ///
-  /// 日付と時間を合わせて選択できる[FormDateTimeFieldDateTimeDelegate]と日付のみを選択できる[FormDateTimeFieldDateDelegate]があります。
-  const FormDateTimeFieldDelegate({
+  const FormDateTimeRangeFieldDelegate({
     this.startDate,
     this.endDate,
-    this.defaultDateTime,
+    this.defaultDateTimeRange,
     this.helpText,
     this.cancelText,
     this.confirmText,
     this.locale,
     this.errorFormatText,
     this.errorInvalidText,
-    this.fieldHintText,
-    this.fieldLabelText,
-    this.initialDatePickerMode = DatePickerMode.day,
+    this.fieldStartHintText,
+    this.fieldStartLabelText,
+    this.fieldEndHintText,
+    this.fieldEndLabelText,
+    this.initialEntryMode = DatePickerEntryMode.calendar,
     required this.dateFormat,
+    this.separator = " - ",
   });
 
   /// Define date and time formats.
@@ -1002,7 +921,7 @@ abstract class FormDateTimeFieldDelegate {
   /// Default value if not selected.
   ///
   /// 選択されていない場合の初期値。
-  final DateTime? defaultDateTime;
+  final DateTimeRange? defaultDateTimeRange;
 
   /// Hint text to be displayed in the picker.
   ///
@@ -1024,14 +943,15 @@ abstract class FormDateTimeFieldDelegate {
   /// ピッカーのロケール。
   final Locale? locale;
 
-  /// Element that appears at the beginning of the dialog.
+  /// Characters between the start and end dates and times.
   ///
-  /// You can choose either [DatePickerMode.year] or [DatePickerMode.day].
+  /// 開始日時と終了日時の間の文字。
+  final String separator;
+
+  /// Specifies the initial input mode.
   ///
-  /// ピッカーの最初に表示される要素。
-  ///
-  /// [DatePickerMode.year]か[DatePickerMode.day]が選べます。
-  final DatePickerMode initialDatePickerMode;
+  /// 初期の入力モードを指定します。
+  final DatePickerEntryMode initialEntryMode;
 
   /// Text to be displayed if a formatting error occurs.
   ///
@@ -1043,47 +963,76 @@ abstract class FormDateTimeFieldDelegate {
   /// なにかしらのエラーが出た場合のテキスト。
   final String? errorInvalidText;
 
-  /// Hint text for text fields in the dialog.
+  /// Hint text of start date for text fields in the dialog.
   ///
-  /// ピッカー中のテキストフィールドのヒントテキスト。
-  final String? fieldHintText;
+  /// 開始日時のピッカー中のテキストフィールドのヒントテキスト。
+  final String? fieldStartHintText;
 
-  /// Label text for text fields in the dialog.
+  /// Label text of start date for text fields in the dialog.
   ///
-  /// ピッカー中のテキストフィールドのラベルテキスト。
-  final String? fieldLabelText;
+  /// 開始日時のピッカー中のテキストフィールドのラベルテキスト。
+  final String? fieldStartLabelText;
+
+  /// Hint text of end date for text fields in the dialog.
+  ///
+  /// 終了日時のピッカー中のテキストフィールドのヒントテキスト。
+  final String? fieldEndHintText;
+
+  /// Label text of end date for text fields in the dialog.
+  ///
+  /// 終了日時のピッカー中のテキストフィールドのラベルテキスト。
+  final String? fieldEndLabelText;
 
   /// Callback to display picker.
   ///
-  /// The currently selected [DateTime] is passed to [currentDateTime].
+  /// The currently selected [DateTimeRange] is passed to [currentDateTimeRange].
   ///
   /// ピッカーを表示するためのコールバック。
   ///
-  /// [currentDateTime]に現在選択中の[DateTime]が渡されます。
-  Future<DateTime> picker(
+  /// [currentDateTimeRange]に現在選択中の[DateTimeRange]が渡されます。
+  Future<DateTimeRange?> picker(
     BuildContext context,
-    DateTime currentDateTime,
+    DateTimeRange currentDateTimeRange,
   );
 
-  /// Pass [DateTime] to get [String].
+  /// Pass [DateTimeRange] to get a string.
   ///
-  /// [dateFormat] is used as is.
+  /// [dateFormat] and [separator] are used.
   ///
-  /// [DateTime]を渡して[String]を取得します。
+  /// [DateTimeRange]を渡して文字列を取得します。
   ///
-  /// [dateFormat]がそのまま利用されます。
-  String format(DateTime dateTime) {
-    return DateFormat(dateFormat).format(dateTime);
+  /// [dateFormat]と[separator]が利用されます。
+  String format(DateTimeRange? dateTimeRange) {
+    if (dateTimeRange == null) {
+      return "";
+    }
+    return "${DateFormat(dateFormat).format(dateTimeRange.start)}$separator${DateFormat(dateFormat).format(dateTimeRange.end)}";
   }
 
-  /// Pass [String] to get [DateTime].
+  /// Pass a string to get [DateTimeRange].
   ///
-  /// [dateFormat] is used as is.
+  /// [dateFormat] and [separator] are used.
   ///
-  /// [String]を渡して[DateTime]を取得します。
+  /// 文字列を渡して[DateTimeRange]を取得します。
   ///
-  /// [dateFormat]がそのまま利用されます。
-  DateTime parse(String dateTimeString) {
-    return DateFormat(dateFormat).parseLoose(dateTimeString);
+  /// [dateFormat]と[separator]が利用されます。
+  DateTimeRange? parse(String dateTimeRangeString) {
+    final format = DateFormat(dateFormat);
+    if (dateTimeRangeString.isEmpty) {
+      return null;
+    }
+    final List<String> dateTimeRangeStringList =
+        dateTimeRangeString.split(separator);
+    if (dateTimeRangeStringList.length != 2) {
+      return null;
+    }
+    final startString = dateTimeRangeStringList[0].trim();
+    final endString = dateTimeRangeStringList[1].trim();
+    final start = startString.isEmpty ? null : format.parse(startString);
+    final end = endString.isEmpty ? null : format.parse(endString);
+    if (start == null || end == null) {
+      return null;
+    }
+    return DateTimeRange(start: start, end: end);
   }
 }

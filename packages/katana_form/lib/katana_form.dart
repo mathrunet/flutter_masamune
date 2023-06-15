@@ -31,6 +31,7 @@ part 'form/form_text_field.dart';
 part 'form/form_num_field.dart';
 part 'form/form_label.dart';
 part 'form/form_date_time_field.dart';
+part 'form/form_date_time_range_field.dart';
 part 'form/form_enum_field.dart';
 part 'form/form_map_field.dart';
 part 'form/form_media.dart';
