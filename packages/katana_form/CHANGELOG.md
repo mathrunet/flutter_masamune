@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added FormDateTimeRange. ([10c86025](https://github.com/mathrunet/flutter_masamune/commit/10c86025aa9891d74da4af87baed5d9900450e23))
+
 ## 2.3.1
 
  - **FIX**: Fixed bugs in FromFutureField, etc. ([cbc0ec57](https://github.com/mathrunet/flutter_masamune/commit/cbc0ec57ab2afdeec4fa1e89848795b39d4e2463))
