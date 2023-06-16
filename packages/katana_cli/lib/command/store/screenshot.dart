@@ -2,12 +2,14 @@ part of katana_cli.store;
 
 const _resolution = <String, Map<String, _Size>>{
   "portrait": {
+    "icon": _Size(512, 512),
     "iphone5.5": _Size(1242, 2208),
     "iphone6.5": _Size(1284, 2778),
     "ipad": _Size(2048, 2732),
     "purchase": _Size(640, 920),
   },
   "landscape": {
+    "icon": _Size(512, 512),
     "iphone5.5": _Size(2208, 1242),
     "iphone6.5": _Size(2778, 1284),
     "ipad": _Size(2732, 2048),
@@ -163,6 +165,14 @@ class StoreScreenshotCliCommand extends CliCommand {
             final image = Image(width: size.width, height: size.height)
               ..clear(color);
             file.writeAsBytesSync(encodePng(image));
+          } else if (key == "icon") {
+            final file = File("$exportDir/$key.png");
+            if (file.existsSync()) {
+              continue;
+            }
+            final image = Image(width: size.width, height: size.height)
+              ..clear(color);
+            file.writeAsBytesSync(encodePng(image));
           } else {
             for (int i = 0; i < 2; i++) {
               final file = File("$exportDir/${key}_$i.png");
@@ -202,6 +212,14 @@ class StoreScreenshotCliCommand extends CliCommand {
                 );
                 File("$exportDir/${key}_$i.png")
                     .writeAsBytesSync(encodePng(cropped));
+              } else if (key == "icon") {
+                final file = File("$exportDir/$key.png");
+                if (file.existsSync()) {
+                  continue;
+                }
+                final image = Image(width: size.width, height: size.height)
+                  ..clear(color);
+                file.writeAsBytesSync(encodePng(image));
               } else {
                 final resized = copyResize(image, height: size.height);
                 final cropped = copyCrop(
