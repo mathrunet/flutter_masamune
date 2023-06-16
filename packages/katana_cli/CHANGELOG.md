@@ -1,3 +1,7 @@
+## 2.1.8
+
+ - **FIX**: Changed to emit Icon when Icon is empty. ([b6a87aa2](https://github.com/mathrunet/flutter_masamune/commit/b6a87aa23956cddedc3c044c7a3ef4fc68322c9b))
+
 ## 2.1.7
 
  - Update a dependency to the latest release.
