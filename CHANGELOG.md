@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.1.9`](#katana_cli---v219)
+
+---
+
+#### `katana_cli` - `v2.1.9`
+
+ - **FIX**: Support for Namespace in Gradle. ([b9f92285](https://github.com/mathrunet/flutter_masamune/commit/b9f922857e4add5461816492258dc699800b5d5b))
+
+
+## 2023-06-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.1.8`](#katana_cli---v218)
 
 ---

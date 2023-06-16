@@ -1,3 +1,7 @@
+## 2.1.9
+
+ - **FIX**: Support for Namespace in Gradle. ([b9f92285](https://github.com/mathrunet/flutter_masamune/commit/b9f922857e4add5461816492258dc699800b5d5b))
+
 ## 2.1.8
 
  - **FIX**: Changed to emit Icon when Icon is empty. ([b6a87aa2](https://github.com/mathrunet/flutter_masamune/commit/b6a87aa23956cddedc3c044c7a3ef4fc68322c9b))
