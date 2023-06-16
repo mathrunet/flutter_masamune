@@ -135,6 +135,7 @@ class GradleAndroid {
   ///
   /// `android`セクションのデータ。
   GradleAndroid({
+    required this.namespace,
     required this.buildTypes,
     required this.compileOptions,
     required this.compileSdkVersion,
@@ -149,6 +150,9 @@ class GradleAndroid {
 
   static GradleAndroid _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final namespace =
+        RegExp("namespace ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1) ??
+            "";
     final compileSdkVersion = RegExp("compileSdkVersion ([a-zA-Z0-9_\"'.-]+)")
             .firstMatch(region)
             ?.group(1) ??
@@ -159,6 +163,7 @@ class GradleAndroid {
     final ndkVersion =
         RegExp("ndkVersion ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
     return GradleAndroid(
+      namespace: namespace,
       buildTypes: GradleAndroidBuildTypes._load(region),
       signingConfigs: GradleAndroidSigningConfigs._load(region),
       compileOptions: GradleAndroidCompileOptions._load(region),
@@ -174,6 +179,11 @@ class GradleAndroid {
   static String _save(String content, GradleAndroid data) {
     return content.replaceAll(_regExp, "android {\n$data\n}");
   }
+
+  /// Namespace.
+  ///
+  /// 名前空間。
+  String namespace;
 
   /// SDK version of the compilation.
   ///
@@ -222,7 +232,7 @@ class GradleAndroid {
 
   @override
   String toString() {
-    return "    compileSdkVersion $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
+    return "    namespace $namespace\n    compileSdkVersion $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
   }
 }
 
