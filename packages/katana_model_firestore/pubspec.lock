@@ -308,7 +308,7 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.2.1"
+    version: "2.3.2"
   lints:
     dependency: transitive
     description:
