@@ -1,3 +1,7 @@
+## 2.0.8
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
 ## 2.0.7
 
  - **FIX**: Changed animation when fullscreen. ([4a831cee](https://github.com/mathrunet/flutter_masamune/commit/4a831cee9f6617ad89a1dbd69de1ce29530f7c0b))

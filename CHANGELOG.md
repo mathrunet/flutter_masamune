@@ -3,6 +3,233 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.0.5`](#katana_auth---v205)
+ - [`katana_auth_firebase` - `v2.0.5`](#katana_auth_firebase---v205)
+ - [`katana_form` - `v2.4.1`](#katana_form---v241)
+ - [`katana_functions` - `v2.2.4`](#katana_functions---v224)
+ - [`katana_functions_firebase` - `v2.2.4`](#katana_functions_firebase---v224)
+ - [`katana_indicator` - `v2.0.5`](#katana_indicator---v205)
+ - [`katana_listenables` - `v2.0.7`](#katana_listenables---v207)
+ - [`katana_listenables_annotation` - `v2.0.6`](#katana_listenables_annotation---v206)
+ - [`katana_listenables_builder` - `v2.0.7`](#katana_listenables_builder---v207)
+ - [`katana_localization` - `v2.0.8`](#katana_localization---v208)
+ - [`katana_localization_annotation` - `v2.0.7`](#katana_localization_annotation---v207)
+ - [`katana_localization_builder` - `v2.0.8`](#katana_localization_builder---v208)
+ - [`katana_logger` - `v2.0.5`](#katana_logger---v205)
+ - [`katana_model` - `v2.3.3`](#katana_model---v233)
+ - [`katana_model_firestore` - `v2.2.5`](#katana_model_firestore---v225)
+ - [`katana_model_openapi` - `v2.0.7`](#katana_model_openapi---v207)
+ - [`katana_prefs` - `v2.0.6`](#katana_prefs---v206)
+ - [`katana_prefs_annotation` - `v2.0.6`](#katana_prefs_annotation---v206)
+ - [`katana_prefs_builder` - `v2.0.6`](#katana_prefs_builder---v206)
+ - [`katana_router` - `v2.0.8`](#katana_router---v208)
+ - [`katana_router_builder` - `v2.0.8`](#katana_router_builder---v208)
+ - [`katana_scoped` - `v2.0.5`](#katana_scoped---v205)
+ - [`katana_shorten` - `v2.0.5`](#katana_shorten---v205)
+ - [`katana_storage` - `v2.0.5`](#katana_storage---v205)
+ - [`katana_storage_firebase` - `v2.0.5`](#katana_storage_firebase---v205)
+ - [`katana_theme` - `v2.0.9`](#katana_theme---v209)
+ - [`katana_theme_annotation` - `v2.0.6`](#katana_theme_annotation---v206)
+ - [`katana_theme_builder` - `v2.0.7`](#katana_theme_builder---v207)
+ - [`katana_ui` - `v2.1.1`](#katana_ui---v211)
+ - [`masamune` - `v2.1.17`](#masamune---v2117)
+ - [`masamune_agora` - `v2.0.42`](#masamune_agora---v2042)
+ - [`masamune_ai_openai` - `v2.0.43`](#masamune_ai_openai---v2043)
+ - [`masamune_calendar` - `v2.0.42`](#masamune_calendar---v2042)
+ - [`masamune_location` - `v2.1.0`](#masamune_location---v210)
+ - [`masamune_logger_firebase` - `v2.0.42`](#masamune_logger_firebase---v2042)
+ - [`masamune_notification_firebase` - `v2.0.42`](#masamune_notification_firebase---v2042)
+ - [`masamune_picker` - `v2.0.42`](#masamune_picker---v2042)
+ - [`masamune_picker_file` - `v2.0.42`](#masamune_picker_file---v2042)
+ - [`masamune_picker_mobile` - `v2.0.42`](#masamune_picker_mobile---v2042)
+ - [`masamune_universal_ui` - `v2.1.12`](#masamune_universal_ui---v2112)
+ - [`masamune_util` - `v2.0.11`](#masamune_util---v2011)
+ - [`masamune_purchase_stripe` - `v3.0.23`](#masamune_purchase_stripe---v3023)
+ - [`masamune_builder` - `v2.2.2`](#masamune_builder---v222)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_util` - `v2.0.11`
+ - `masamune_purchase_stripe` - `v3.0.23`
+ - `masamune_builder` - `v2.2.2`
+
+---
+
+#### `katana_auth` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_auth_firebase` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_form` - `v2.4.1`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_functions` - `v2.2.4`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_functions_firebase` - `v2.2.4`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_indicator` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_listenables` - `v2.0.7`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_listenables_annotation` - `v2.0.6`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_listenables_builder` - `v2.0.7`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_localization` - `v2.0.8`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_localization_annotation` - `v2.0.7`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_localization_builder` - `v2.0.8`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_logger` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_model` - `v2.3.3`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_model_firestore` - `v2.2.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_model_openapi` - `v2.0.7`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_prefs` - `v2.0.6`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_prefs_annotation` - `v2.0.6`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_prefs_builder` - `v2.0.6`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_router` - `v2.0.8`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_router_builder` - `v2.0.8`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_scoped` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_shorten` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_storage` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_storage_firebase` - `v2.0.5`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_theme` - `v2.0.9`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_theme_annotation` - `v2.0.6`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_theme_builder` - `v2.0.7`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `katana_ui` - `v2.1.1`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune` - `v2.1.17`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_agora` - `v2.0.42`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_ai_openai` - `v2.0.43`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_calendar` - `v2.0.42`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_location` - `v2.1.0`
+
+ - **FEAT**: Initial commitments. ([8e938827](https://github.com/mathrunet/flutter_masamune/commit/8e93882742693ffdd804821c56b2e0898f302250))
+
+#### `masamune_logger_firebase` - `v2.0.42`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_notification_firebase` - `v2.0.42`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_picker` - `v2.0.42`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_picker_file` - `v2.0.42`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_picker_mobile` - `v2.0.42`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+#### `masamune_universal_ui` - `v2.1.12`
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
+
 ## 2023-06-16
 
 ### Changes

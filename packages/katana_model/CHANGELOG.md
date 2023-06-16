@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
 ## 2.3.2
 
  - **FIX**: Bug with respect to limitTo. ([9fb6df00](https://github.com/mathrunet/flutter_masamune/commit/9fb6df0055beaad685c449f43b47f08df2c92842))

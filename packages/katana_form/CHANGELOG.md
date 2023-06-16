@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
 ## 2.4.0
 
  - **FEAT**: Added FormDateTimeRange. ([10c86025](https://github.com/mathrunet/flutter_masamune/commit/10c86025aa9891d74da4af87baed5d9900450e23))

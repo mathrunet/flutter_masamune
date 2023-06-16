@@ -1,6 +1,6 @@
 name: katana_localization
 description: A multilingual package that automatically creates code that can retrieve data from Google spreadsheets and write type-safe code with method chaining.
-version: 2.0.7
+version: 2.0.8
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_localization
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.2.0
-  katana_localization_annotation: ^2.0.6
+  katana_localization_annotation: ^2.0.7
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

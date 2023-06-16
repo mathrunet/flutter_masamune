@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
 ## 2.1.0
 
  - **FEAT**: Add LineTile. ([df27401a](https://github.com/mathrunet/flutter_masamune/commit/df27401ae0dfb6cf23823c64dd1c97a44235094e))

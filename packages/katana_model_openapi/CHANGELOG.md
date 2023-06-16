@@ -1,3 +1,7 @@
+## 2.0.7
+
+ - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
+
 ## 2.0.6
 
  - **FIX**: nullable when generating non-list objects. ([9d093a1c](https://github.com/mathrunet/flutter_masamune/commit/9d093a1c447a1bb18515565f61ea8f4d5dab9ef9))

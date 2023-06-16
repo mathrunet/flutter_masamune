@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: RawCollection was also added to the Mirror model. ([bf5fc033](https://github.com/mathrunet/flutter_masamune/commit/bf5fc0337a0d198feca0057ae47d3d2b7785c8ef))
