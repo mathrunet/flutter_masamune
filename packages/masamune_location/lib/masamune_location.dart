@@ -8,12 +8,16 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_location;
 
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:location/location.dart' show LocationData;
+
+// Package imports:
 import 'package:location/location.dart' as location;
+import 'package:location/location.dart' show LocationData;
 import 'package:masamune/masamune.dart';
 
 export 'src/others/others.dart'
