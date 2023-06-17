@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Plug-in for Masamune framework to use Agora.io. Includes support for recording.
+/// Masamune framework plugin for billing with Stripe; requires registration with Stripe.
 ///
 /// To use, import `package:masamune_purchase_stripe/masamune_purchase_stripe.dart`.
 ///
