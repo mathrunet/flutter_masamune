@@ -1,10 +1,13 @@
-// Project imports:
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
-import 'package:katana_cli/katana_cli.dart';
 import 'package:xml/xml.dart';
+
+// Project imports:
+import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to use location information and GoogleMap.
 ///
@@ -90,25 +93,6 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
         ),
       );
     }
-    if (!manifest.first.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "uses-permission" &&
-        p0.attributes.any((p1) =>
-            p1.name.toString() == "android:name" &&
-            p1.value == "android.permission.FOREGROUND_SERVICE"))) {
-      manifest.first.children.add(
-        XmlElement(
-          XmlName("uses-permission"),
-          [
-            XmlAttribute(
-              XmlName("android:name"),
-              "android.permission.FOREGROUND_SERVICE",
-            ),
-          ],
-          [],
-        ),
-      );
-    }
     if (enableBackground) {
       if (!manifest.first.children.any((p0) =>
           p0 is XmlElement &&
@@ -184,6 +168,15 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
       label("Edit build.gradle");
       final gradle = AppGradle();
       await gradle.load();
+      if (!gradle.loadProperties.any((e) => e.name == "configProperties")) {
+        gradle.loadProperties.add(
+          GradleLoadProperties(
+            path: "config.properties",
+            name: "configProperties",
+            file: "configPropertiesFile",
+          ),
+        );
+      }
       gradle.android?.defaultConfig.minSdkVersion =
           "configProperties[\"flutter.minSdkVersion\"]";
       await gradle.save();

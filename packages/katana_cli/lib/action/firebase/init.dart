@@ -443,6 +443,15 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       ].join("\n"));
     }
     label("Edit build.gradle");
+    if (!gradle.loadProperties.any((e) => e.name == "configProperties")) {
+      gradle.loadProperties.add(
+        GradleLoadProperties(
+          path: "config.properties",
+          name: "configProperties",
+          file: "configPropertiesFile",
+        ),
+      );
+    }
     gradle.android?.defaultConfig.minSdkVersion =
         "configProperties[\"flutter.minSdkVersion\"]";
     await gradle.save();
