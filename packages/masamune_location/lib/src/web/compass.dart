@@ -64,8 +64,7 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
   /// If permission is granted by executing [initialize], returns `true`.
   ///
   /// [initialize]を実行してパーミッションが許可されている場合は`true`を返します。
-  bool get permitted =>
-      _permissionStatus == location.PermissionStatus.granted;
+  bool get permitted => _permissionStatus == location.PermissionStatus.granted;
   location.PermissionStatus _permissionStatus =
       location.PermissionStatus.denied;
 
