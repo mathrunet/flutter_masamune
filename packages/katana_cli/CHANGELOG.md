@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Additional location settings. ([c9d2006d](https://github.com/mathrunet/flutter_masamune/commit/c9d2006d7a06fb303ebf25b4c26b211073269a25))
+
 ## 2.1.9
 
  - **FIX**: Support for Namespace in Gradle. ([b9f92285](https://github.com/mathrunet/flutter_masamune/commit/b9f922857e4add5461816492258dc699800b5d5b))

@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.0`](#katana_cli---v220)
+ - [`masamune_location` - `v2.1.2`](#masamune_location---v212)
+ - [`masamune_location_google` - `v2.1.1`](#masamune_location_google---v211)
+
+---
+
+#### `katana_cli` - `v2.2.0`
+
+ - **FEAT**: Additional location settings. ([c9d2006d](https://github.com/mathrunet/flutter_masamune/commit/c9d2006d7a06fb303ebf25b4c26b211073269a25))
+
+#### `masamune_location` - `v2.1.2`
+
+ - **FIX**: Formatting applied. ([00365ae2](https://github.com/mathrunet/flutter_masamune/commit/00365ae23d6b9ec28c37fe11892fb2d7159afe12))
+
+#### `masamune_location_google` - `v2.1.1`
+
+ - **FIX**: Define classes to be exported. ([c779ea43](https://github.com/mathrunet/flutter_masamune/commit/c779ea43a03ceec930a4b95678d26ece21dcaa62))
+
+
+## 2023-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v2.1.1`](#masamune_location---v211)
  - [`masamune_location_google` - `v2.1.0`](#masamune_location_google---v210)
  - [`masamune_purchase_stripe` - `v3.0.24`](#masamune_purchase_stripe---v3024)
