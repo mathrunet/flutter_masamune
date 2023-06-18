@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location` - `v2.1.1`](#masamune_location---v211)
+ - [`masamune_location_google` - `v2.1.0`](#masamune_location_google---v210)
+ - [`masamune_purchase_stripe` - `v3.0.24`](#masamune_purchase_stripe---v3024)
+
+---
+
+#### `masamune_location` - `v2.1.1`
+
+ - **FIX**: Rename flag system. ([fc8e6dbe](https://github.com/mathrunet/flutter_masamune/commit/fc8e6dbe024c98f50bcb6f12a9c0377a291d8890))
+ - **DOCS**: Import sorter applied. ([b36cd2e3](https://github.com/mathrunet/flutter_masamune/commit/b36cd2e3f4f2af2d3ec3ff9f26e94dc0ec7b7e85))
+
+#### `masamune_location_google` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([6a12710c](https://github.com/mathrunet/flutter_masamune/commit/6a12710cdf6ba9eef5c147810211fd182ed5abb5))
+
+#### `masamune_purchase_stripe` - `v3.0.24`
+
+ - **DOCS**: Changed description. ([8553d4d8](https://github.com/mathrunet/flutter_masamune/commit/8553d4d81c8fe568b8235cc38864e8e219d02c60))
+
+
 ## 2023-06-17
 
 ### Changes

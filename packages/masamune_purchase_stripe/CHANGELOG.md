@@ -1,3 +1,7 @@
+## 3.0.24
+
+ - **DOCS**: Changed description. ([8553d4d8](https://github.com/mathrunet/flutter_masamune/commit/8553d4d81c8fe568b8235cc38864e8e219d02c60))
+
 ## 3.0.23
 
  - Update a dependency to the latest release.
