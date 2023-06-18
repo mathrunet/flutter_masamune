@@ -54,7 +54,6 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
   Timer? _timer;
   Duration _updateInterval = const Duration(minutes: 1);
   Completer<void>? _completer;
-  final location.Location _location = location.Location();
 
   /// Returns `true` if [listen] has already been executed.
   ///
@@ -64,9 +63,10 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
   /// If permission is granted by executing [initialize], returns `true`.
   ///
   /// [initialize]を実行してパーミッションが許可されている場合は`true`を返します。
-  bool get permitted => _permissionStatus == location.PermissionStatus.granted;
-  location.PermissionStatus _permissionStatus =
-      location.PermissionStatus.denied;
+  bool get permitted =>
+      _permissionStatus == LocationPermission.always ||
+      _permissionStatus == LocationPermission.whileInUse;
+  LocationPermission _permissionStatus = LocationPermission.denied;
 
   /// Initialization.
   ///
@@ -86,19 +86,18 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
     }
     _completer = Completer<void>();
     try {
-      if (!await _location.serviceEnabled().timeout(timeout)) {
-        if (!await _location.requestService().timeout(timeout)) {
-          throw Exception(
-            "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
-          );
-        }
+      if (!await Geolocator.isLocationServiceEnabled().timeout(timeout)) {
+        throw Exception(
+          "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
+        );
       }
-      _permissionStatus = await _location.hasPermission().timeout(timeout);
-      if (_permissionStatus == location.PermissionStatus.denied) {
+      _permissionStatus = await Geolocator.checkPermission().timeout(timeout);
+      if (_permissionStatus == LocationPermission.denied) {
         _permissionStatus =
-            await _location.requestPermission().timeout(timeout);
+            await Geolocator.requestPermission().timeout(timeout);
       }
-      if (_permissionStatus != location.PermissionStatus.granted) {
+      if (_permissionStatus == LocationPermission.always ||
+          _permissionStatus == LocationPermission.whileInUse) {
         throw Exception(
           "You are not authorized to use the location information service. Check the permission settings.",
         );
@@ -177,6 +176,7 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
 /// Data obtained from the terminal's compass.
 ///
 /// 端末のコンパスから取得されたデータ。
+@immutable
 class CompassData {
   /// Data obtained from the terminal's compass.
   ///

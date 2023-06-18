@@ -14,7 +14,7 @@ dependencies:
     
   katana: ^2.2.0
   masamune: ^2.1.17
-  location: ^4.4.0
+  geolocator: ^9.0.2
   flutter_compass: ^0.7.0
 
 dev_dependencies:

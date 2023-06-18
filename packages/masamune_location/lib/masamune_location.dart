@@ -16,16 +16,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:location/location.dart' as location;
-import 'package:location/location.dart' show LocationData;
+import 'package:geolocator/geolocator.dart';
 import 'package:masamune/masamune.dart';
 
 export 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
-export 'package:location/location.dart'
-    show LocationData, LocationAccuracy, PermissionStatus;
+export 'package:geolocator/geolocator.dart' show LocationAccuracy;
 
 part 'adapter/location_masamune_adapter.dart';
 part 'src/location.dart';
