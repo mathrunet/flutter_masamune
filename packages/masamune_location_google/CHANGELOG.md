@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Fixed a permissions bug. ([ec74a522](https://github.com/mathrunet/flutter_masamune/commit/ec74a52222253ca1e218fdfd50117cd191e93ae2))
+
 ## 2.1.2
 
  - **FIX**: Change in location package. ([0bb05ee9](https://github.com/mathrunet/flutter_masamune/commit/0bb05ee966a9b00fa98c67644c32785a5ae2d1d2))

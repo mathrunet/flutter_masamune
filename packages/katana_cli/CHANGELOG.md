@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Fixed a bug that configProperties could not be obtained. ([50a1f9e4](https://github.com/mathrunet/flutter_masamune/commit/50a1f9e4e929cd310eb066a77345a9fa7c031ddc))
+
 ## 2.2.0
 
  - **FEAT**: Additional location settings. ([c9d2006d](https://github.com/mathrunet/flutter_masamune/commit/c9d2006d7a06fb303ebf25b4c26b211073269a25))

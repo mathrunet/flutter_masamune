@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.1`](#katana_cli---v221)
+ - [`masamune_location` - `v2.1.4`](#masamune_location---v214)
+ - [`masamune_location_google` - `v2.1.3`](#masamune_location_google---v213)
+
+---
+
+#### `katana_cli` - `v2.2.1`
+
+ - **FIX**: Fixed a bug that configProperties could not be obtained. ([50a1f9e4](https://github.com/mathrunet/flutter_masamune/commit/50a1f9e4e929cd310eb066a77345a9fa7c031ddc))
+
+#### `masamune_location` - `v2.1.4`
+
+ - **FIX**: Fixed a permissions bug. ([ec74a522](https://github.com/mathrunet/flutter_masamune/commit/ec74a52222253ca1e218fdfd50117cd191e93ae2))
+
+#### `masamune_location_google` - `v2.1.3`
+
+ - **FIX**: Fixed a permissions bug. ([ec74a522](https://github.com/mathrunet/flutter_masamune/commit/ec74a52222253ca1e218fdfd50117cd191e93ae2))
+
+
+## 2023-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v2.1.3`](#masamune_location---v213)
  - [`masamune_location_google` - `v2.1.2`](#masamune_location_google---v212)
 
