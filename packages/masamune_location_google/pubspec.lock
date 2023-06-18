@@ -714,10 +714,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_location
-      sha256: ae64cd876ad5d8b36dead587e7837fc668c297cc1661769dc8582f5765c22c68
+      sha256: f1566de7f5caa0327a7ab715d14e0cf73ba0fc4f795c65cc25f1ba61151b9826
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   matcher:
     dependency: transitive
     description:
