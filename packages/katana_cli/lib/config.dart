@@ -80,6 +80,35 @@ app:
   # OpenAIのGPT等を利用するための設定を記述します。
   openai:
     enable: false
+  
+  # Describe the settings for using location information.
+  #
+  # Set [enable_background] to true if you want to acquire location information even when the application enters the background.
+  # If you wish to use GoogleMap, set [google_map]->[enable] to true. Also, obtain a GoogleMap API key from the following link in advance and enter it in [google_map]->[api_key].
+  # https://console.cloud.google.com/google/maps-apis/credentials
+  #
+  # Specify the permission message to use the library in IOS in [permission].
+  # Please include `en`, `ja`, etc. and write the message in that language there.
+  # 
+  # 位置情報を利用するための設定を記述します。
+  # 
+  # アプリがバックグラウンドに入った場合でも位置情報を取得する場合は[enable_background]をtrueにしてください。
+  # GoogleMapを利用する場合は[google_map]->[enable]をtrueにしてください。また事前に下記のリンクからGoogleMapのAPIキーを取得しておき[google_map]->[api_key]に記載してください。
+  # https://console.cloud.google.com/google/maps-apis/credentials
+  #
+  # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+  # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+  location:
+    enable: false
+    enable_background: false
+    google_map:
+      enable: false
+      api_key:
+        android:
+        ios:
+        web: 
+    permission:
+      en: Location information is used to display the map.
 
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。

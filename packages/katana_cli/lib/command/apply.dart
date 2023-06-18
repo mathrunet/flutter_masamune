@@ -4,6 +4,7 @@ import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
 import 'package:katana_cli/action/app/icon.dart';
 import 'package:katana_cli/action/app/keystore.dart';
+import 'package:katana_cli/action/app/location.dart';
 import 'package:katana_cli/action/app/openai.dart';
 import 'package:katana_cli/action/app/p12.dart';
 import 'package:katana_cli/action/app/picker.dart';
@@ -39,6 +40,7 @@ const _actions = <CliActionMixin>[
   GitPreCommitCliAction(),
   AppOpenAICliAction(),
   AppCalendarCliAction(),
+  AppLocationCliAction(),
   AgoraCliAction(),
   StripeCliAction(),
   MailGmailCliAction(),
