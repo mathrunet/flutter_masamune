@@ -59,12 +59,12 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
   /// Returns `true` if [listen] has already been executed.
   ///
   /// すでに[listen]が実行されている場合`true`を返します。
-  bool get isListened => false;
+  bool get listening => false;
 
   /// If permission is granted by executing [initialize], returns `true`.
   ///
   /// [initialize]を実行してパーミッションが許可されている場合は`true`を返します。
-  bool get isPermitted =>
+  bool get permitted =>
       _permissionStatus == location.PermissionStatus.granted;
   location.PermissionStatus _permissionStatus =
       location.PermissionStatus.denied;
@@ -136,7 +136,7 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
     if (_completer != null) {
       return _completer?.future;
     }
-    if (_updateInterval == updateInterval && isListened) {
+    if (_updateInterval == updateInterval && listening) {
       return;
     }
     _completer = Completer<void>();
@@ -161,7 +161,7 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
   ///
   /// [CompassData]の取得をキャンセルします。
   void unlisten() {
-    if (!isListened) {
+    if (!listening) {
       return;
     }
     _timer?.cancel();

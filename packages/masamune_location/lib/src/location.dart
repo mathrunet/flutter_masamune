@@ -63,8 +63,8 @@ class Location extends ChangeNotifier
   /// Returns `true` if [listen] has already been executed.
   ///
   /// すでに[listen]が実行されている場合`true`を返します。
-  bool get isListened {
-    if (!isPermitted) {
+  bool get listening {
+    if (!permitted) {
       return false;
     }
     if (_locationEventSubscription == null) {
@@ -76,7 +76,7 @@ class Location extends ChangeNotifier
   /// If permission is granted by executing [initialize], returns `true`.
   ///
   /// [initialize]を実行してパーミッションが許可されている場合は`true`を返します。
-  bool get isPermitted =>
+  bool get permitted =>
       _permissionStatus == location.PermissionStatus.granted;
   location.PermissionStatus _permissionStatus =
       location.PermissionStatus.denied;
@@ -145,7 +145,7 @@ class Location extends ChangeNotifier
     if (_completer != null) {
       return _completer?.future;
     }
-    if (_updateInterval == updateInterval && isListened) {
+    if (_updateInterval == updateInterval && listening) {
       return;
     }
     _completer = Completer<void>();
