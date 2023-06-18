@@ -107,8 +107,8 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
         _permissionStatus =
             await Geolocator.requestPermission().timeout(timeout);
       }
-      if (_permissionStatus == LocationPermission.always ||
-          _permissionStatus == LocationPermission.whileInUse) {
+      if (_permissionStatus != LocationPermission.always &&
+          _permissionStatus != LocationPermission.whileInUse) {
         throw Exception(
           "You are not authorized to use the location information service. Check the permission settings.",
         );

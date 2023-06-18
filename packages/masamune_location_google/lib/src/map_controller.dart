@@ -234,8 +234,8 @@ class MapController extends ChangeNotifier {
       return;
     }
     _move(
-      latitude: location.value!.latitude!,
-      longitude: location.value!.longitude!,
+      latitude: location.value!.latitude,
+      longitude: location.value!.longitude,
       animated: false,
     );
   }
