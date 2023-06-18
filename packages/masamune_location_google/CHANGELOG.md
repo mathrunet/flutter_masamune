@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Change in location package. ([0bb05ee9](https://github.com/mathrunet/flutter_masamune/commit/0bb05ee966a9b00fa98c67644c32785a5ae2d1d2))
+
 ## 2.1.1
 
  - **FIX**: Define classes to be exported. ([c779ea43](https://github.com/mathrunet/flutter_masamune/commit/c779ea43a03ceec930a4b95678d26ece21dcaa62))

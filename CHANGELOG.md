@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v2.1.3`](#masamune_location---v213)
+ - [`masamune_location_google` - `v2.1.2`](#masamune_location_google---v212)
+
+---
+
+#### `masamune_location` - `v2.1.3`
+
+ - **FIX**: Change in location package. ([0bb05ee9](https://github.com/mathrunet/flutter_masamune/commit/0bb05ee966a9b00fa98c67644c32785a5ae2d1d2))
+
+#### `masamune_location_google` - `v2.1.2`
+
+ - **FIX**: Change in location package. ([0bb05ee9](https://github.com/mathrunet/flutter_masamune/commit/0bb05ee966a9b00fa98c67644c32785a5ae2d1d2))
+
+
+## 2023-06-18
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.2.0`](#katana_cli---v220)
  - [`masamune_location` - `v2.1.2`](#masamune_location---v212)
  - [`masamune_location_google` - `v2.1.1`](#masamune_location_google---v211)

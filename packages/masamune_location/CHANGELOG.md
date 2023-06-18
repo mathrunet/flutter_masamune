@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Change in location package. ([0bb05ee9](https://github.com/mathrunet/flutter_masamune/commit/0bb05ee966a9b00fa98c67644c32785a5ae2d1d2))
+
 ## 2.1.2
 
  - **FIX**: Formatting applied. ([00365ae2](https://github.com/mathrunet/flutter_masamune/commit/00365ae23d6b9ec28c37fe11892fb2d7159afe12))
