@@ -325,7 +325,7 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.0.4"
+    version: "2.0.5"
   katana_firebase:
     dependency: "direct main"
     description:
@@ -339,7 +339,7 @@ packages:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.0.4"
+    version: "2.0.5"
   lints:
     dependency: transitive
     description:

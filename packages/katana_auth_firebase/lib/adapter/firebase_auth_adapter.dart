@@ -377,12 +377,18 @@ class FirebaseAuthAdapter extends AuthAdapter {
         );
       }
       final credential = await provider.credential();
-      final firebaseCredential = AuthCredential(
-        providerId: credential.providerId,
-        signInMethod: credential.signInMethod,
-        token: credential.token,
-        accessToken: credential.accessToken,
-      );
+      final firebaseCredential = credential.signInMethod == "oauth"
+          ? OAuthProvider(credential.providerId).credential(
+              accessToken: credential.accessToken,
+              secret: credential.secret,
+              idToken: credential.idToken,
+            )
+          : AuthCredential(
+              providerId: credential.providerId,
+              signInMethod: credential.signInMethod,
+              token: credential.token,
+              accessToken: credential.accessToken,
+            );
       if (_user != null) {
         await _user!.linkWithCredential(firebaseCredential);
       } else {
