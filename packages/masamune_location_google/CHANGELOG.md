@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - Update a dependency to the latest release.
+
 ## 2.1.3
 
  - **FIX**: Fixed a permissions bug. ([ec74a522](https://github.com/mathrunet/flutter_masamune/commit/ec74a52222253ca1e218fdfd50117cd191e93ae2))

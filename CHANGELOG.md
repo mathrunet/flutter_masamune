@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.0.6`](#katana_auth---v206)
+ - [`katana_auth_firebase` - `v2.0.6`](#katana_auth_firebase---v206)
+ - [`masamune_auth_apple` - `v2.1.0`](#masamune_auth_apple---v210)
+ - [`masamune_auth_facebook` - `v2.1.0`](#masamune_auth_facebook---v210)
+ - [`masamune_auth_google` - `v2.1.0`](#masamune_auth_google---v210)
+ - [`masamune` - `v2.1.18`](#masamune---v2118)
+ - [`masamune_location` - `v2.1.5`](#masamune_location---v215)
+ - [`masamune_picker_file` - `v2.0.43`](#masamune_picker_file---v2043)
+ - [`masamune_agora` - `v2.0.43`](#masamune_agora---v2043)
+ - [`masamune_ai_openai` - `v2.0.44`](#masamune_ai_openai---v2044)
+ - [`masamune_calendar` - `v2.0.43`](#masamune_calendar---v2043)
+ - [`masamune_picker` - `v2.0.43`](#masamune_picker---v2043)
+ - [`masamune_util` - `v2.0.12`](#masamune_util---v2012)
+ - [`masamune_universal_ui` - `v2.1.13`](#masamune_universal_ui---v2113)
+ - [`masamune_purchase_stripe` - `v3.0.25`](#masamune_purchase_stripe---v3025)
+ - [`masamune_logger_firebase` - `v2.0.43`](#masamune_logger_firebase---v2043)
+ - [`masamune_location_google` - `v2.1.4`](#masamune_location_google---v214)
+ - [`masamune_picker_mobile` - `v2.0.43`](#masamune_picker_mobile---v2043)
+ - [`masamune_notification_firebase` - `v2.0.43`](#masamune_notification_firebase---v2043)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.18`
+ - `masamune_location` - `v2.1.5`
+ - `masamune_picker_file` - `v2.0.43`
+ - `masamune_agora` - `v2.0.43`
+ - `masamune_ai_openai` - `v2.0.44`
+ - `masamune_calendar` - `v2.0.43`
+ - `masamune_picker` - `v2.0.43`
+ - `masamune_util` - `v2.0.12`
+ - `masamune_universal_ui` - `v2.1.13`
+ - `masamune_purchase_stripe` - `v3.0.25`
+ - `masamune_logger_firebase` - `v2.0.43`
+ - `masamune_location_google` - `v2.1.4`
+ - `masamune_picker_mobile` - `v2.0.43`
+ - `masamune_notification_firebase` - `v2.0.43`
+
+---
+
+#### `katana_auth` - `v2.0.6`
+
+ - **FIX**: Added Credential information around sns sign-in. ([8d634c87](https://github.com/mathrunet/flutter_masamune/commit/8d634c87b98686396baf6a94c1de74488d536768))
+
+#### `katana_auth_firebase` - `v2.0.6`
+
+ - **FIX**: Added Credential information around sns sign-in. ([8d634c87](https://github.com/mathrunet/flutter_masamune/commit/8d634c87b98686396baf6a94c1de74488d536768))
+
+#### `masamune_auth_apple` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([a712236e](https://github.com/mathrunet/flutter_masamune/commit/a712236eb9961c43a87240b7f24c98298ae5436c))
+
+#### `masamune_auth_facebook` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([a712236e](https://github.com/mathrunet/flutter_masamune/commit/a712236eb9961c43a87240b7f24c98298ae5436c))
+
+#### `masamune_auth_google` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([a712236e](https://github.com/mathrunet/flutter_masamune/commit/a712236eb9961c43a87240b7f24c98298ae5436c))
+
+
 ## 2023-06-18
 
 ### Changes
