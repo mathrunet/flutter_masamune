@@ -14,9 +14,6 @@ dependencies:
     
   katana: ^2.2.0
   masamune: ^2.1.18
-  freezed_annotation: ^2.2.0
-  json_annotation: ^4.8.0
-  universal_platform: ^1.0.0+1
   masamune_location: ^2.1.5
   google_maps_flutter: ^2.3.1
   flutter_polyline_points: ^1.0.0
@@ -27,6 +24,4 @@ dev_dependencies:
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
   masamune_builder: ^2.2.2
-  freezed: ^2.3.2
-  json_serializable: ^6.6.0
 
