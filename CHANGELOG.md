@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.3`](#katana_cli---v223)
+
+---
+
+#### `katana_cli` - `v2.2.3`
+
+ - **FIX**: Applying Import sorter. ([7ab4d673](https://github.com/mathrunet/flutter_masamune/commit/7ab4d673a143cebd684b2344f37f8411d4d1621f))
+
+
+## 2023-06-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.2.2`](#katana_cli---v222)
  - [`masamune_auth_facebook` - `v2.1.2`](#masamune_auth_facebook---v212)
 

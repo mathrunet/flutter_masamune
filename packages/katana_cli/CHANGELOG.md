@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **FIX**: Applying Import sorter. ([7ab4d673](https://github.com/mathrunet/flutter_masamune/commit/7ab4d673a143cebd684b2344f37f8411d4d1621f))
+
 ## 2.2.2
 
  - **FIX**: SNS sign-in preferences. ([3578f467](https://github.com/mathrunet/flutter_masamune/commit/3578f4679fd4557fbefb44f37f4cd9b44804030d))
