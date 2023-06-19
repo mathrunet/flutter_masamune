@@ -8,7 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_auth_google;
 
+// Flutter imports:
 import 'package:flutter/widgets.dart';
+
+// Package imports:
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:masamune/masamune.dart';
 
