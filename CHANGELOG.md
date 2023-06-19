@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_auth_apple` - `v2.1.1`](#masamune_auth_apple---v211)
+ - [`masamune_auth_facebook` - `v2.1.1`](#masamune_auth_facebook---v211)
+ - [`masamune_auth_google` - `v2.1.1`](#masamune_auth_google---v211)
+
+---
+
+#### `masamune_auth_apple` - `v2.1.1`
+
+ - **DOCS**: Import sorter applied. ([6b95ec14](https://github.com/mathrunet/flutter_masamune/commit/6b95ec147ab5b499a076614c6be52bf1bd151fa2))
+
+#### `masamune_auth_facebook` - `v2.1.1`
+
+ - **DOCS**: Import sorter applied. ([6b95ec14](https://github.com/mathrunet/flutter_masamune/commit/6b95ec147ab5b499a076614c6be52bf1bd151fa2))
+
+#### `masamune_auth_google` - `v2.1.1`
+
+ - **DOCS**: Import sorter applied. ([6b95ec14](https://github.com/mathrunet/flutter_masamune/commit/6b95ec147ab5b499a076614c6be52bf1bd151fa2))
+
+
+## 2023-06-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v2.0.6`](#katana_auth---v206)
  - [`katana_auth_firebase` - `v2.0.6`](#katana_auth_firebase---v206)
  - [`masamune_auth_apple` - `v2.1.0`](#masamune_auth_apple---v210)
