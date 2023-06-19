@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.2`](#katana_cli---v222)
+ - [`masamune_auth_facebook` - `v2.1.2`](#masamune_auth_facebook---v212)
+
+---
+
+#### `katana_cli` - `v2.2.2`
+
+ - **FIX**: SNS sign-in preferences. ([3578f467](https://github.com/mathrunet/flutter_masamune/commit/3578f4679fd4557fbefb44f37f4cd9b44804030d))
+
+#### `masamune_auth_facebook` - `v2.1.2`
+
+ - **FIX**: Additional web settings. ([e5254dbc](https://github.com/mathrunet/flutter_masamune/commit/e5254dbc19b0afa43594c1819605fde7d6f475f4))
+
+
+## 2023-06-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v2.1.6`](#masamune_location---v216)
  - [`masamune_location_google` - `v2.1.5`](#masamune_location_google---v215)
 

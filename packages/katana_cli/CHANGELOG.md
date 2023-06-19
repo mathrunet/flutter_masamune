@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - **FIX**: SNS sign-in preferences. ([3578f467](https://github.com/mathrunet/flutter_masamune/commit/3578f4679fd4557fbefb44f37f4cd9b44804030d))
+
 ## 2.2.1
 
  - **FIX**: Fixed a bug that configProperties could not be obtained. ([50a1f9e4](https://github.com/mathrunet/flutter_masamune/commit/50a1f9e4e929cd310eb066a77345a9fa7c031ddc))

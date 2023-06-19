@@ -1,6 +1,6 @@
 name: masamune_auth_facebook
 description: Masamune plugin library to implement Facebook Sign-In.
-version: 2.1.1
+version: 2.1.2
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_facebook
 
