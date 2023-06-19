@@ -1,3 +1,7 @@
+## 2.1.5
+
+ - **FIX**: Organize dependent packages. ([95e815f1](https://github.com/mathrunet/flutter_masamune/commit/95e815f1b9f0f6754a78241fe4992cad4a220479))
+
 ## 2.1.4
 
  - Update a dependency to the latest release.

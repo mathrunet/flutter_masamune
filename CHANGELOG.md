@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v2.1.6`](#masamune_location---v216)
+ - [`masamune_location_google` - `v2.1.5`](#masamune_location_google---v215)
+
+---
+
+#### `masamune_location` - `v2.1.6`
+
+ - **FIX**: Organize dependent packages. ([95e815f1](https://github.com/mathrunet/flutter_masamune/commit/95e815f1b9f0f6754a78241fe4992cad4a220479))
+
+#### `masamune_location_google` - `v2.1.5`
+
+ - **FIX**: Organize dependent packages. ([95e815f1](https://github.com/mathrunet/flutter_masamune/commit/95e815f1b9f0f6754a78241fe4992cad4a220479))
+
+
+## 2023-06-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_auth_apple` - `v2.1.1`](#masamune_auth_apple---v211)
  - [`masamune_auth_facebook` - `v2.1.1`](#masamune_auth_facebook---v211)
  - [`masamune_auth_google` - `v2.1.1`](#masamune_auth_google---v211)
