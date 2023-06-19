@@ -180,7 +180,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
       gradle.android?.defaultConfig.minSdkVersion =
           "configProperties[\"flutter.minSdkVersion\"]";
       await gradle.save();
-      label("Edit AppDelegate.xml.");
+      label("Edit AppDelegate.swift.");
       final file = File("ios/Runner/AppDelegate.swift");
       if (!file.existsSync()) {
         throw Exception(

@@ -9,6 +9,7 @@ import 'package:katana_cli/action/app/openai.dart';
 import 'package:katana_cli/action/app/p12.dart';
 import 'package:katana_cli/action/app/picker.dart';
 import 'package:katana_cli/action/app/spread_sheet.dart';
+import 'package:katana_cli/action/firebase/authentication.dart';
 import 'package:katana_cli/action/firebase/init.dart';
 import 'package:katana_cli/action/firebase/messaging.dart';
 import 'package:katana_cli/action/firebase/terms_and_privacy.dart';
@@ -34,6 +35,7 @@ const _actions = <CliActionMixin>[
   AppPickerCliAction(),
   AppIconCliAction(),
   FirebaseInitCliAction(),
+  FirebaseAuthenticationCliAction(),
   FirebaseMessagingCliAction(),
   FirebaseTermsAndPrivacyCliAction(),
   GitActionCliAction(),

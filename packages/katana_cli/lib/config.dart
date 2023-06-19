@@ -127,6 +127,45 @@ firebase:
   authentication:
     enable: false
 
+    # If you want to use SNS providers, set [enable] to `true` for each SNS.
+    # SNSプロバイダーを利用したい場合はそれぞれのSNSの[enable]を`true`にしてください。
+    providers:
+
+      # SignIn with apple.
+      # When creating an application ID from the URL below, look for "Sign In with Apple" in the Capabilities section and check the box.
+      # https://developer.apple.com/account/resources/identifiers/list
+      # Also, from the Firebase console (https://console.firebase.google.com/), select [Authentication]->[Sing-in method] and enable `Apple`.
+      # SignIn with appleを利用します。
+      # 下記URLからアプリケーションIDを作成する際にCapabilitiesの項目の中から「Sign In with Apple」を探しチェックを入れてください。
+      # https://developer.apple.com/account/resources/identifiers/list
+      # またFirebaseのコンソール（https://console.firebase.google.com/）から[Authentication]->[Sing-in method]を選択し`Apple`を有効にしてください。
+      apple:
+        enable: false
+      
+      # Sign in with your Google account.
+      # Get the settings for Google Login automatically from Firebase settings.
+      # Also, from the Firebase console (https://console.firebase.google.com/), select [Authentication]->[Sing-in method] and enable `Google`.
+      # Googleアカウントによるログインを行います。
+      # Firebaseの設定から自動でGoogleログイン用の設定を取得します。
+      # またFirebaseのコンソール（https://console.firebase.google.com/）から[Authentication]->[Sing-in method]を選択し`Google`を有効にしてください。
+      google:
+        enable: false
+
+      # Log in with your Facebook account.
+      # Get the following settings for Facebook login.
+      # https://www.notion.so/mathru/Meta-Facebook-7acf4e522e7d42998a9dcc613a0b7760
+      # Please enter [AppId] and [AppSecret] in each field.
+      # Also, from the Firebase console (https://console.firebase.google.com/), select [Authentication]->[Sing-in method] and enable `Facebook`.
+      # Facebookアカウントによるログインを行います。
+      # 下記の設定でFacebookログイン用の設定を取得します。
+      # https://www.notion.so/mathru/Meta-Facebook-7acf4e522e7d42998a9dcc613a0b7760
+      # [AppId]と[AppSecret]を各項目に記載してください。
+      # またFirebaseのコンソール（https://console.firebase.google.com/）から[Authentication]->[Sing-in method]を選択し`Facebook`を有効にしてください。
+      facebook:
+        enable: false
+        app_id: 
+        app_secret: 
+
   # Enable Cloud Storage for Firebase.
   # Cloud Storage for Firebaseを有効にします。
   storage:

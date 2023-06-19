@@ -231,22 +231,21 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
       );
     }
-    final urlSchemeArray = dict.children.firstWhereOrNull((p0) {
+    final bundleUrlTypes = dict.children.firstWhereOrNull((p0) {
       return p0 is XmlElement &&
-          p0.name.toString() == "array" &&
-          p0.children.any(
-            (p1) =>
-                p1 is XmlElement &&
-                p1.name.toString() == "dict" &&
-                p1.children.any((p2) =>
-                    p2 is XmlElement &&
-                    p2.name.toString() == "key" &&
-                    p2.innerText == "CFBundleURLSchemes"),
-          );
+          p0.name.toString() == "key" &&
+          p0.innerText == "CFBundleURLTypes";
     });
-    if (urlSchemeArray == null) {
+    if (bundleUrlTypes == null) {
       dict.children.addAll(
         [
+          XmlElement(
+            XmlName("key"),
+            [],
+            [
+              XmlText("CFBundleURLTypes"),
+            ],
+          ),
           XmlElement(
             XmlName("array"),
             [],
@@ -296,7 +295,13 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         ],
       );
     } else {
-      if (urlSchemeArray.children.any(
+      final urlSchemeArray = bundleUrlTypes.nextElementSibling;
+      if (urlSchemeArray == null) {
+        throw Exception(
+          "Could not find `CFBundleURLTypes` value element in `ios/Runner/Info.plist`. File is corrupt.",
+        );
+      }
+      if (!urlSchemeArray.children.any(
         (p1) =>
             p1 is XmlElement &&
             p1.children.any((p2) =>
