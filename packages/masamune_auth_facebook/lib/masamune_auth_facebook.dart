@@ -9,6 +9,9 @@
 library masamune_auth_facebook;
 
 // Flutter imports:
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:

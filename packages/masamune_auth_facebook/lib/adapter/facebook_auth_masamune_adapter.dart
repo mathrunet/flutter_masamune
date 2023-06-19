@@ -7,7 +7,14 @@ class FacebookAuthMasamuneAdapter extends MasamuneAdapter {
   /// Initialize Facebook sign-in [MasamuneAdapter].
   ///
   /// Facebookサインインの初期設定を行う[MasamuneAdapter]。
-  const FacebookAuthMasamuneAdapter();
+  const FacebookAuthMasamuneAdapter({
+    this.facebookAppId,
+  });
+
+  /// Facebook App ID. used for web only.
+  ///
+  /// Facebook App ID. Webのみで利用します。
+  final String? facebookAppId;
 
   /// You can retrieve the [FacebookAuthMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -25,6 +32,18 @@ class FacebookAuthMasamuneAdapter extends MasamuneAdapter {
       return;
     }
     _primary = adapter;
+  }
+
+  @override
+  FutureOr<void> onPreRunApp() async {
+    if (kIsWeb && facebookAppId.isNotEmpty) {
+      await FacebookAuth.i.webAndDesktopInitialize(
+        appId: facebookAppId!,
+        cookie: true,
+        xfbml: true,
+        version: "v14.0",
+      );
+    }
   }
 
   @override
