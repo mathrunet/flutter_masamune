@@ -8,9 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_auth_facebook;
 
-// Flutter imports:
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
