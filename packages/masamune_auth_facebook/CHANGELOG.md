@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Apply import sorter. ([76d40ebd](https://github.com/mathrunet/flutter_masamune/commit/76d40ebd4af1d9ec30cac4f7bf39647ddc29fbd2))
+
 ## 2.1.2
 
  - **FIX**: Additional web settings. ([e5254dbc](https://github.com/mathrunet/flutter_masamune/commit/e5254dbc19b0afa43594c1819605fde7d6f475f4))
