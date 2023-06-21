@@ -66,4 +66,8 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
     required String content,
   }) =>
       Future.value();
+
+  @override
+  Future<bool> verifyPurchase({required PurchaseSettings setting}) =>
+      Future.value(true);
 }

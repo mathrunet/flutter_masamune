@@ -238,4 +238,19 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> verifyPurchase({required PurchaseSettings setting}) async {
+    await FirebaseCore.initialize(options: options);
+    try {
+      return await setting.execute((map) async {
+        final res =
+            await functions.httpsCallable(setting.action).call<DynamicMap>(map);
+        return res.data;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }

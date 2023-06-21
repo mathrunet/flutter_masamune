@@ -23,3 +23,4 @@ part 'src/functions_adapter.dart';
 part 'src/openai_chat_gpt_message.dart';
 part 'src/agora_client_role.dart';
 part 'src/stripe.dart';
+part 'src/purchase.dart';

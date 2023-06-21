@@ -324,7 +324,7 @@ packages:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.2.3"
+    version: "2.2.4"
   lints:
     dependency: transitive
     description:

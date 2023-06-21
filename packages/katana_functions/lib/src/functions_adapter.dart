@@ -133,6 +133,21 @@ abstract class FunctionsAdapter {
     required String title,
     required String content,
   });
+
+  /// Server-side verification of billing.
+  ///
+  /// Pass [setting] according to billing type.
+  ///
+  /// If the return value is `true`, the verification succeeds; if it is `false`, the verification fails.
+  ///
+  /// 課金のサーバーサイド検証を行います。
+  ///
+  /// 課金タイプに応じて[setting]を渡してください。
+  ///
+  /// 戻り値が`true`の場合は検証成功、`false`の場合は検証失敗となります。
+  Future<bool> verifyPurchase({
+    required PurchaseSettings setting,
+  });
 }
 
 /// [FunctionsAdapter] for the entire app by placing it on top of [MaterialApp], etc.
