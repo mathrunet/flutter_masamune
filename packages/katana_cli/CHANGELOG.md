@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - **FIX**: Fixed path defects. ([58cde1ce](https://github.com/mathrunet/flutter_masamune/commit/58cde1cee319d3d931b50d1e068ac43e396bc5d6))
+
 ## 2.2.3
 
  - **FIX**: Applying Import sorter. ([7ab4d673](https://github.com/mathrunet/flutter_masamune/commit/7ab4d673a143cebd684b2344f37f8411d4d1621f))
