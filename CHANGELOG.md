@@ -15,6 +15,71 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_functions` - `v2.3.0`](#katana_functions---v230)
+ - [`katana_functions_firebase` - `v2.3.0`](#katana_functions_firebase---v230)
+ - [`masamune` - `v2.1.19`](#masamune---v2119)
+ - [`masamune_location` - `v2.1.7`](#masamune_location---v217)
+ - [`masamune_picker_file` - `v2.0.44`](#masamune_picker_file---v2044)
+ - [`masamune_auth_apple` - `v2.1.2`](#masamune_auth_apple---v212)
+ - [`masamune_agora` - `v2.0.44`](#masamune_agora---v2044)
+ - [`masamune_auth_google` - `v2.1.2`](#masamune_auth_google---v212)
+ - [`masamune_ai_openai` - `v2.0.45`](#masamune_ai_openai---v2045)
+ - [`masamune_calendar` - `v2.0.44`](#masamune_calendar---v2044)
+ - [`masamune_picker` - `v2.0.44`](#masamune_picker---v2044)
+ - [`masamune_util` - `v2.0.13`](#masamune_util---v2013)
+ - [`masamune_universal_ui` - `v2.1.14`](#masamune_universal_ui---v2114)
+ - [`masamune_purchase_stripe` - `v3.0.26`](#masamune_purchase_stripe---v3026)
+ - [`masamune_logger_firebase` - `v2.0.44`](#masamune_logger_firebase---v2044)
+ - [`masamune_auth_facebook` - `v2.1.4`](#masamune_auth_facebook---v214)
+ - [`masamune_location_google` - `v2.1.6`](#masamune_location_google---v216)
+ - [`masamune_picker_mobile` - `v2.0.44`](#masamune_picker_mobile---v2044)
+ - [`masamune_notification_firebase` - `v2.0.44`](#masamune_notification_firebase---v2044)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.19`
+ - `masamune_location` - `v2.1.7`
+ - `masamune_picker_file` - `v2.0.44`
+ - `masamune_auth_apple` - `v2.1.2`
+ - `masamune_agora` - `v2.0.44`
+ - `masamune_auth_google` - `v2.1.2`
+ - `masamune_ai_openai` - `v2.0.45`
+ - `masamune_calendar` - `v2.0.44`
+ - `masamune_picker` - `v2.0.44`
+ - `masamune_util` - `v2.0.13`
+ - `masamune_universal_ui` - `v2.1.14`
+ - `masamune_purchase_stripe` - `v3.0.26`
+ - `masamune_logger_firebase` - `v2.0.44`
+ - `masamune_auth_facebook` - `v2.1.4`
+ - `masamune_location_google` - `v2.1.6`
+ - `masamune_picker_mobile` - `v2.0.44`
+ - `masamune_notification_firebase` - `v2.0.44`
+
+---
+
+#### `katana_functions` - `v2.3.0`
+
+ - **FEAT**: Added Functions for billing verification. ([f13e6877](https://github.com/mathrunet/flutter_masamune/commit/f13e6877a5918b16e9f54cb2fd488098edf803ac))
+
+#### `katana_functions_firebase` - `v2.3.0`
+
+ - **FEAT**: Added Functions for billing verification. ([f13e6877](https://github.com/mathrunet/flutter_masamune/commit/f13e6877a5918b16e9f54cb2fd488098edf803ac))
+
+
+## 2023-06-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.2.4`](#katana_cli---v224)
 
 ---

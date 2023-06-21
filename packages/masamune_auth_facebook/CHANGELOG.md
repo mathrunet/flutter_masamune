@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - Update a dependency to the latest release.
+
 ## 2.1.3
 
  - **FIX**: Apply import sorter. ([76d40ebd](https://github.com/mathrunet/flutter_masamune/commit/76d40ebd4af1d9ec30cac4f7bf39647ddc29fbd2))

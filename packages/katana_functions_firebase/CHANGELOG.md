@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added Functions for billing verification. ([f13e6877](https://github.com/mathrunet/flutter_masamune/commit/f13e6877a5918b16e9f54cb2fd488098edf803ac))
+
 ## 2.2.4
 
  - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))
