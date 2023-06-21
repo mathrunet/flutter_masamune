@@ -252,6 +252,12 @@ github:
   # Github Actionsを有効にして各プラットフォームでCI/CDビルドを行うようにします。
   # [platform]で指定したいプラットフォームをスペース区切り入力します。
   # 使用できるプラットフォームは`android`、`ios`、`web`、`windows`、`macos`、`linux`です。
+  #
+  # [Android]
+  # Json for the service account is required under the `android` folder, please refer to https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b to set it up Please refer to the `android` folder to set it up.
+  #
+  # [Android]
+  # サービスアカウント用のJsonが`android`フォルダ以下に必要です。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b を参考に設定してください。
   action:
     enable: false
     platform: android ios web

@@ -79,9 +79,7 @@ class GithubActionsWebCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    final workingPath = Directory.current.path
-        .replaceAll(directory.replaceAll(".github/workflows", ""), "")
-        .trimString("/");
+    const workingPath = "";
     return """
 # Build and upload a Flutter web app.
 # 
