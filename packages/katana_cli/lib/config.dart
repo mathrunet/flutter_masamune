@@ -296,32 +296,31 @@ store:
     orientation: portrait
     color: '000000'
 
-# Configure Agora.io streaming settings.
-# Agora.ioのストリーミング設定を行います。
-agora:
-  # Set to `true` if you use Agora.io.
-  # Agora.ioを利用する場合は`true`にしてください。
-  enable: false
+# Configure settings for store billing.
+# ストア課金を行う場合の設定を行います。
+purchase:
 
-  # AppID for Agora.
-  # Log in to the following URL and create a project.
-  # After the project is created, the AppID can be copied.
-  # Agora用のAppID。
-  # 下記URLにログインし、プロジェクトを作成します。
-  # プロジェクト作成後、AppIDをコピーすることができます。
-  # https://console.agora.io/projects
-  app_id: 
-
-  # AppCertificate for Agora.
-  # You can obtain the certificate after entering the project you created and activating it in Security -> App certificate.
-  # Agora用のAppCertificate。
-  # 作成したプロジェクトに入り、Security -> App certificateにて有効化した後取得できます。
-  # https://console.agora.io/projects
-  app_certificate: 
-
-  # Set to `true` to enable Agora cloud recording.
-  # Agoraのクラウドレコーディングを有効にする場合は`true`にしてください。
-  enable_cloud_recording: false
+  # Configure settings for Google Play billing.
+  # Follow the steps below to configure the settings.
+  # 1. Obtain the OAuth client ID and client secret based on the URL below.
+  #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+  # 2. Set `enable` to `true` and enter the values you obtained for `oauth_client_id` and `oauth_client_secret`.
+  # 3. Run `katana store android_token` to get a refresh token.
+  # 4. Enter the obtained refresh token in the `refresh_token` field.
+  # 5. Run `katana apply` to deploy the app and server.
+  # GooglePlayの課金を行う場合の設定を行います。
+  # 下記の手順で設定を行います。
+  # 1. 下記URLを元にOAuthのクライアントIDとクライアントシークレットを取得します。
+  #    https://mathru.notion.site/Android-1d4a60948a1446d7a82c010d96417a3d?pvs=4
+  # 2. `enable`を`true`にし、`oauth_client_id`と`oauth_client_secret`に取得した値を入力します。
+  # 3. `katana store android_token`を実行しリフレッシュトークンを取得します。
+  # 4. 取得したリフレッシュトークンを`refresh_token`に入力します。
+  # 5. `katana apply`を実行しアプリとサーバーのデプロイを行います。
+  google_play:
+    enable: false
+    oauth_client_id: 
+    oauth_client_secret: 
+    refresh_token: 
 
 # Configure billing settings for Stripe.
 # Stripeの課金設定を行います。
@@ -371,6 +370,33 @@ stripe:
     ja:
       success:
       failure:
+
+# Configure Agora.io streaming settings.
+# Agora.ioのストリーミング設定を行います。
+agora:
+  # Set to `true` if you use Agora.io.
+  # Agora.ioを利用する場合は`true`にしてください。
+  enable: false
+
+  # AppID for Agora.
+  # Log in to the following URL and create a project.
+  # After the project is created, the AppID can be copied.
+  # Agora用のAppID。
+  # 下記URLにログインし、プロジェクトを作成します。
+  # プロジェクト作成後、AppIDをコピーすることができます。
+  # https://console.agora.io/projects
+  app_id: 
+
+  # AppCertificate for Agora.
+  # You can obtain the certificate after entering the project you created and activating it in Security -> App certificate.
+  # Agora用のAppCertificate。
+  # 作成したプロジェクトに入り、Security -> App certificateにて有効化した後取得できます。
+  # https://console.agora.io/projects
+  app_certificate: 
+
+  # Set to `true` to enable Agora cloud recording.
+  # Agoraのクラウドレコーディングを有効にする場合は`true`にしてください。
+  enable_cloud_recording: false
 
 # Configure Gmail sending settings.
 # Gmailの送信設定を行います。
