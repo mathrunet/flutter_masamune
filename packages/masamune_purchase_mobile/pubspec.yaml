@@ -18,6 +18,8 @@ dependencies:
   json_annotation: ^4.8.0
   universal_platform: ^1.0.0+1
   in_app_purchase: ^3.1.7
+  in_app_purchase_android: ^0.3.0+6
+  in_app_purchase_storekit: ^0.3.6+4
 
 dev_dependencies:
   test: ^1.21.3
