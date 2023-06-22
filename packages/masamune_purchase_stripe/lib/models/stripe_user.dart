@@ -4,6 +4,8 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
+
+// Project imports:
 import 'package:masamune_purchase_stripe/masamune_purchase_stripe.dart';
 
 part 'stripe_user.m.dart';
