@@ -1,3 +1,7 @@
+## 3.0.27
+
+ - **FIX**: ModelAdapter can be set for each collection. ([2c1d71bb](https://github.com/mathrunet/flutter_masamune/commit/2c1d71bb7c5349c7f37faf9d4fa920d3ad3a00c5))
+
 ## 3.0.26
 
  - Update a dependency to the latest release.

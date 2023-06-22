@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_purchase_mobile` - `v2.1.0`](#masamune_purchase_mobile---v210)
+ - [`masamune_purchase_stripe` - `v3.0.27`](#masamune_purchase_stripe---v3027)
+
+---
+
+#### `masamune_purchase_mobile` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([c9ec2374](https://github.com/mathrunet/flutter_masamune/commit/c9ec2374528919769e8bf286e3d65398bad9175f))
+
+#### `masamune_purchase_stripe` - `v3.0.27`
+
+ - **FIX**: ModelAdapter can be set for each collection. ([2c1d71bb](https://github.com/mathrunet/flutter_masamune/commit/2c1d71bb7c5349c7f37faf9d4fa920d3ad3a00c5))
+
+
 ## 2023-06-21
 
 ### Changes
