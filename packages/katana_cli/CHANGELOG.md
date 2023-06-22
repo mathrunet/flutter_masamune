@@ -1,3 +1,7 @@
+## 2.2.5
+
+ - **FIX**: Added a command to issue a refresh token for Android billing. ([a1e33638](https://github.com/mathrunet/flutter_masamune/commit/a1e3363834e36e62a20cbd946f39e9e52a796e57))
+
 ## 2.2.4
 
  - **FIX**: Fixed path defects. ([58cde1ce](https://github.com/mathrunet/flutter_masamune/commit/58cde1cee319d3d931b50d1e068ac43e396bc5d6))

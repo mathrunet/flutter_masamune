@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.5`](#katana_cli---v225)
+ - [`masamune_purchase_mobile` - `v2.1.1`](#masamune_purchase_mobile---v211)
+ - [`masamune_purchase_stripe` - `v3.0.28`](#masamune_purchase_stripe---v3028)
+
+---
+
+#### `katana_cli` - `v2.2.5`
+
+ - **FIX**: Added a command to issue a refresh token for Android billing. ([a1e33638](https://github.com/mathrunet/flutter_masamune/commit/a1e3363834e36e62a20cbd946f39e9e52a796e57))
+
+#### `masamune_purchase_mobile` - `v2.1.1`
+
+ - **FIX**: Import sorter applied. ([e7e9ba2d](https://github.com/mathrunet/flutter_masamune/commit/e7e9ba2dd43ef048b6801e245fa3704e25e7fbb5))
+
+#### `masamune_purchase_stripe` - `v3.0.28`
+
+ - **FIX**: Import sorter applied. ([e7e9ba2d](https://github.com/mathrunet/flutter_masamune/commit/e7e9ba2dd43ef048b6801e245fa3704e25e7fbb5))
+
+
+## 2023-06-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_mobile` - `v2.1.0`](#masamune_purchase_mobile---v210)
  - [`masamune_purchase_stripe` - `v3.0.27`](#masamune_purchase_stripe---v3027)
 

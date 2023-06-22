@@ -1,3 +1,7 @@
+## 3.0.28
+
+ - **FIX**: Import sorter applied. ([e7e9ba2d](https://github.com/mathrunet/flutter_masamune/commit/e7e9ba2dd43ef048b6801e245fa3704e25e7fbb5))
+
 ## 3.0.27
 
  - **FIX**: ModelAdapter can be set for each collection. ([2c1d71bb](https://github.com/mathrunet/flutter_masamune/commit/2c1d71bb7c5349c7f37faf9d4fa920d3ad3a00c5))
