@@ -3,6 +3,7 @@ part of masamune_purchase_stripe;
 class StripePurchaseMasamuneAdapter extends MasamuneAdapter {
   const StripePurchaseMasamuneAdapter({
     this.functionsAdapter,
+    this.modelAdapter,
     required this.callbackURLSchemeOrHost,
     required this.supportEmail,
     this.hostingEndpoint,
@@ -13,6 +14,7 @@ class StripePurchaseMasamuneAdapter extends MasamuneAdapter {
   });
 
   final FunctionsAdapter? functionsAdapter;
+  final ModelAdapter? modelAdapter;
   final Uri callbackURLSchemeOrHost;
   final String Function(String languageCode)? hostingEndpoint;
   final String supportEmail;

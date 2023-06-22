@@ -4,6 +4,7 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_purchase_stripe/masamune_purchase_stripe.dart';
 
 part 'stripe_purchase.m.dart';
 part 'stripe_purchase.g.dart';
@@ -102,7 +103,7 @@ class StripePurchaseModel with _$StripePurchaseModel {
   /// appRef.model(StripePurchasePurchaseModel.document(id));      // Get the document.
   /// ref.model(StripePurchasePurchaseModel.document(id))..load(); // Load the document.
   /// ```
-  static const document = _$StripePurchaseModelDocumentQuery();
+  static const document = _$$_StripePurchaseModelDocumentQuery();
 
   /// Query for collection.
   ///
@@ -116,5 +117,39 @@ class StripePurchaseModel with _$StripePurchaseModel {
   ///   ),
   /// )..load(); // Load the collection with filter.
   /// ```
-  static const collection = _$StripePurchaseModelCollectionQuery();
+  static const collection = _$$_StripePurchaseModelCollectionQuery();
+}
+
+@immutable
+class _$$_StripePurchaseModelDocumentQuery {
+  const _$$_StripePurchaseModelDocumentQuery();
+
+  @useResult
+  _$_StripePurchaseModelDocumentQuery call(
+    Object id, {
+    required String userId,
+    ModelAdapter? adapter,
+  }) {
+    return const _$StripePurchaseModelDocumentQuery().call(
+      id,
+      userId: userId,
+      adapter: adapter ?? StripePurchaseMasamuneAdapter.primary.modelAdapter,
+    );
+  }
+}
+
+@immutable
+class _$$_StripePurchaseModelCollectionQuery {
+  const _$$_StripePurchaseModelCollectionQuery();
+
+  @useResult
+  _$_StripePurchaseModelCollectionQuery call({
+    required String userId,
+    ModelAdapter? adapter,
+  }) {
+    return const _$StripePurchaseModelCollectionQuery().call(
+      userId: userId,
+      adapter: adapter ?? StripePurchaseMasamuneAdapter.primary.modelAdapter,
+    );
+  }
 }

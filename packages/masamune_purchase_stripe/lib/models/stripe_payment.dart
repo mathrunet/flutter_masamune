@@ -3,6 +3,7 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_purchase_stripe/masamune_purchase_stripe.dart';
 
 part 'stripe_payment.m.dart';
 part 'stripe_payment.g.dart';
@@ -41,7 +42,7 @@ class StripePaymentModel with _$StripePaymentModel {
   /// appRef.model(StripePurchasePaymentModel.document(id));      // Get the document.
   /// ref.model(StripePurchasePaymentModel.document(id))..load(); // Load the document.
   /// ```
-  static const document = _$StripePaymentModelDocumentQuery();
+  static const document = _$$_StripePaymentModelDocumentQuery();
 
   /// Query for collection.
   ///
@@ -55,5 +56,39 @@ class StripePaymentModel with _$StripePaymentModel {
   ///   ),
   /// )..load(); // Load the collection with filter.
   /// ```
-  static const collection = _$StripePaymentModelCollectionQuery();
+  static const collection = _$$_StripePaymentModelCollectionQuery();
+}
+
+@immutable
+class _$$_StripePaymentModelDocumentQuery {
+  const _$$_StripePaymentModelDocumentQuery();
+
+  @useResult
+  _$_StripePaymentModelDocumentQuery call(
+    Object id, {
+    required String userId,
+    ModelAdapter? adapter,
+  }) {
+    return const _$StripePaymentModelDocumentQuery().call(
+      id,
+      userId: userId,
+      adapter: adapter ?? StripePurchaseMasamuneAdapter.primary.modelAdapter,
+    );
+  }
+}
+
+@immutable
+class _$$_StripePaymentModelCollectionQuery {
+  const _$$_StripePaymentModelCollectionQuery();
+
+  @useResult
+  _$_StripePaymentModelCollectionQuery call({
+    required String userId,
+    ModelAdapter? adapter,
+  }) {
+    return const _$StripePaymentModelCollectionQuery().call(
+      userId: userId,
+      adapter: adapter ?? StripePurchaseMasamuneAdapter.primary.modelAdapter,
+    );
+  }
 }
