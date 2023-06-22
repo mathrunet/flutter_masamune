@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Import related packages. ([cdeff119](https://github.com/mathrunet/flutter_masamune/commit/cdeff119a930abc7a5c5d76faf7a1dac7f580cf7))
+
 ## 2.1.1
 
  - **FIX**: Import sorter applied. ([e7e9ba2d](https://github.com/mathrunet/flutter_masamune/commit/e7e9ba2dd43ef048b6801e245fa3704e25e7fbb5))

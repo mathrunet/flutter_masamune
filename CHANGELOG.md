@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.1.2`](#masamune_purchase_mobile---v212)
+
+---
+
+#### `masamune_purchase_mobile` - `v2.1.2`
+
+ - **FIX**: Import related packages. ([cdeff119](https://github.com/mathrunet/flutter_masamune/commit/cdeff119a930abc7a5c5d76faf7a1dac7f580cf7))
+
+
+## 2023-06-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.2.5`](#katana_cli---v225)
  - [`masamune_purchase_mobile` - `v2.1.1`](#masamune_purchase_mobile---v211)
  - [`masamune_purchase_stripe` - `v3.0.28`](#masamune_purchase_stripe---v3028)
