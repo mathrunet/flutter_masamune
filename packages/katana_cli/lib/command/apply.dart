@@ -17,6 +17,7 @@ import 'package:katana_cli/action/git/action.dart';
 import 'package:katana_cli/action/git/hook.dart';
 import 'package:katana_cli/action/mail/gmail.dart';
 import 'package:katana_cli/action/mail/send_grid.dart';
+import 'package:katana_cli/action/purchase/purchase.dart';
 import 'package:katana_cli/action/stripe/stripe.dart';
 import 'package:katana_cli/katana_cli.dart';
 
@@ -44,6 +45,7 @@ const _actions = <CliActionMixin>[
   AppCalendarCliAction(),
   AppLocationCliAction(),
   AgoraCliAction(),
+  PurchaseCliAction(),
   StripeCliAction(),
   MailGmailCliAction(),
   MailSendGridCliAction(),

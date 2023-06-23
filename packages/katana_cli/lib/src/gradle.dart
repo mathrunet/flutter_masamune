@@ -28,6 +28,12 @@ class AppGradle {
   GradleAndroid? get android => _android;
   GradleAndroid? _android;
 
+  /// Data in the `android` section.
+  ///
+  /// `android`セクションのデータ。
+  List<GradleDependencies> get dependencies => _dependencies;
+  late List<GradleDependencies> _dependencies;
+
   /// Data loading.
   ///
   /// データの読み込み。
@@ -36,6 +42,7 @@ class AppGradle {
     _rawData = await gradle.readAsString();
     _loadProperties = GradleLoadProperties._load(_rawData);
     _android = GradleAndroid._load(_rawData);
+    _dependencies = GradleDependencies._load(_rawData);
   }
 
   /// Data storage.
@@ -49,6 +56,7 @@ class AppGradle {
     if (_android != null) {
       _rawData = GradleAndroid._save(_rawData, _android!);
     }
+    _rawData = GradleDependencies._save(_rawData, _dependencies);
     final gradle = File("android/app/build.gradle");
     await gradle.writeAsString(_rawData);
   }
@@ -652,5 +660,53 @@ class GradleAndroidSigningConfig {
   @override
   String toString() {
     return "            keyAlias $keyAlias\n            keyPassword $keyPassword\n            storeFile $storeFile\n            storePassword $storePassword\n";
+  }
+}
+
+/// Data in the `dependencies` section.
+///
+/// `dependencies`セクションのデータ。
+class GradleDependencies {
+  /// Data in the `android` section.
+  ///
+  /// `dependencies`セクションのデータ。
+  GradleDependencies({
+    required this.group,
+    required this.packageName,
+  });
+  static final _regExp = RegExp(r"dependencies {([\s\S]+?)\n}");
+
+  static List<GradleDependencies> _load(String content) {
+    final region = _regExp.firstMatch(content)?.group(1) ?? "";
+    final implmentations =
+        RegExp("(?<group>[a-zA-Z]+) \"(?<packageName>[^\"]+)\"")
+            .allMatches(region);
+    return implmentations
+        .map(
+          (e) => GradleDependencies(
+            group: e.namedGroup("group") ?? "",
+            packageName: e.namedGroup("packageName") ?? "",
+          ),
+        )
+        .toList();
+  }
+
+  static String _save(String content, List<GradleDependencies> data) {
+    return content.replaceAll(_regExp, "dependencies {\n${data.join("\n")}\n}");
+  }
+
+  /// Group.
+  ///
+  /// グループ。
+  String group;
+
+  /// Dependency package name.
+  ///
+  /// 依存関係のパッケージ名。
+  String packageName;
+
+  @override
+  String toString() {
+    return "    $group \"$packageName\"";
   }
 }

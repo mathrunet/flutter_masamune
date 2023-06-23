@@ -58,6 +58,13 @@ class XCode {
       _pbxBuildConfiguration;
   late List<PBXBuildConfiguration> _pbxBuildConfiguration;
 
+  /// PBXFrameworksBuildPhase data.
+  ///
+  /// PBXFrameworksBuildPhaseのデータ。
+  List<PBXFrameworksBuildPhase> get pbxFrameworksBuildPhase =>
+      _pbxFrameworksBuildPhase;
+  late List<PBXFrameworksBuildPhase> _pbxFrameworksBuildPhase;
+
   /// Data loading.
   ///
   /// データの読み込み。
@@ -70,6 +77,7 @@ class XCode {
     _pbxResourcesBuildPhase = PBXResourcesBuildPhase._load(_rawData);
     _pbxVariantGroup = PBXVariantGroup._load(_rawData);
     _pbxBuildConfiguration = PBXBuildConfiguration._load(_rawData);
+    _pbxFrameworksBuildPhase = PBXFrameworksBuildPhase._load(_rawData);
   }
 
   /// Data storage.
@@ -85,12 +93,73 @@ class XCode {
     _rawData = PBXFileReference._save(_rawData, _pbxFileReference);
     _rawData = PBXBuildFile._save(_rawData, _pbxBuildFile);
     _rawData = PBXBuildConfiguration._save(_rawData, _pbxBuildConfiguration);
+    _rawData =
+        PBXFrameworksBuildPhase._save(_rawData, _pbxFrameworksBuildPhase);
     // _rawData = _rawData.replaceFirstMapped(
     //   RegExp(r"objectVersion = ([0-9]+);"),
     //   (m) => "objectVersion = ${(int.tryParse(m.group(1) ?? "") ?? 0) + 1};",
     // );
     final pbx = File("ios/Runner.xcodeproj/project.pbxproj");
     await pbx.writeAsString(_rawData);
+  }
+
+  /// Add a new framework.
+  ///
+  /// [frameworkName] should be a name that does not include up to `.framework`.
+  ///
+  /// 新しいフレームワークを追加します。
+  ///
+  /// [frameworkName]は`.framework`まで含めない名前を記述します。
+  void addFramework({
+    required String frameworkName,
+  }) {
+    if (pbxFileReference.any((e) => e.name == "$frameworkName.framework")) {
+      return;
+    }
+    final id = generateId();
+    pbxFileReference.add(
+      PBXFileReference(
+        id: id,
+        name: frameworkName,
+        comment: "$frameworkName.framework",
+        path: "System/Library/Frameworks/$frameworkName.framework",
+        sourceTree: "SDKROOT",
+        lastKnownFileType: "wrapper.framework",
+      ),
+    );
+    final frameworksBuildPhase = pbxFrameworksBuildPhase.first;
+    if (!frameworksBuildPhase.files
+        .any((e) => e.fileName == "$frameworkName.framework")) {
+      frameworksBuildPhase.files.add(
+        PBXFrameworksBuildPhaseFiles(
+          id: id,
+          fileName: "$frameworkName.framework",
+          fileDir: "Frameworks",
+        ),
+      );
+    }
+    final frameworkGroup =
+        pbxGroup.firstWhere((item) => item.name == "Frameworks");
+    if (!frameworkGroup.children
+        .any((e) => e.comment == "$frameworkName.framework")) {
+      frameworkGroup.children.add(
+        PBXGroupChild(
+          id: id,
+          comment: "$frameworkName.framework",
+        ),
+      );
+    }
+    if (!pbxBuildFile
+        .any((element) => element.fileName == "$frameworkName.framework")) {
+      pbxBuildFile.add(
+        PBXBuildFile(
+          id: id,
+          fileName: "$frameworkName.framework",
+          fileDir: "Frameworks",
+          fileRef: id,
+        ),
+      );
+    }
   }
 
   /// Create an ID for XCode.
@@ -1288,5 +1357,159 @@ class PBXBuildConfigurationSettings {
   @override
   String toString() {
     return "\t\t\t\t$key = $value";
+  }
+}
+
+/// FrameworksBuildPhase data.
+///
+/// FrameworksBuildPhaseのデータ。
+class PBXFrameworksBuildPhase {
+  /// FrameworksBuildPhase data.
+  ///
+  /// FrameworksBuildPhaseのデータ。
+  factory PBXFrameworksBuildPhase({
+    String? id,
+    String? comment,
+    required String buildActionMask,
+    required List<PBXFrameworksBuildPhaseFiles> files,
+    int? runOnlyForDeploymentPostprocessing,
+  }) {
+    return PBXFrameworksBuildPhase._(
+      files: files,
+      comment: comment,
+      buildActionMask: buildActionMask,
+      runOnlyForDeploymentPostprocessing: runOnlyForDeploymentPostprocessing,
+      id: id ?? XCode.generateId(),
+    );
+  }
+  PBXFrameworksBuildPhase._({
+    required this.id,
+    this.comment,
+    this.buildActionMask,
+    this.runOnlyForDeploymentPostprocessing,
+    required this.files,
+  });
+
+  static List<PBXFrameworksBuildPhase> _load(String content) {
+    final region = RegExp(
+      r"/\* Begin PBXFrameworksBuildPhase section \*/([\s\S]+)/\* End PBXFrameworksBuildPhase section \*/",
+    ).firstMatch(content);
+    if (region == null) {
+      return [];
+    }
+    return RegExp(
+      r'(?<id>[0-9A-Z]{24}) (/\* (?<comment>[a-zA-Z_.-]+) \*/ )?= {[\s\t\n]+isa = PBXFrameworksBuildPhase;[\s\t\n]+buildActionMask = (?<buildActionMask>[0-9]+);[\s\t\n]+files = \((?<files>[^\)]+)\);[\s\t\n]+runOnlyForDeploymentPostprocessing = (?<runOnlyForDeploymentPostprocessing>[0-9]+);[\s\t\n]+};',
+    ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
+      return PBXFrameworksBuildPhase._(
+        id: e.namedGroup("id") ?? "",
+        comment: e.namedGroup("comment"),
+        buildActionMask: e.namedGroup("buildActionMask"),
+        runOnlyForDeploymentPostprocessing: int.tryParse(
+            e.namedGroup("runOnlyForDeploymentPostprocessing") ?? "0"),
+        files: PBXFrameworksBuildPhaseFiles._parse(e.namedGroup("files") ?? ""),
+      );
+    });
+  }
+
+  static String _save(String content, List<PBXFrameworksBuildPhase> list) {
+    final code = list.map((e) => e.toString()).join("\n");
+    return content.replaceAll(
+      RegExp(
+        r"/\* Begin PBXFrameworksBuildPhase section \*/([\s\S]+)/\* End PBXFrameworksBuildPhase section \*/",
+      ),
+      "/* Begin PBXFrameworksBuildPhase section */\n$code\n/* End PBXFrameworksBuildPhase section */",
+    );
+  }
+
+  /// Value of `isa`.
+  ///
+  /// `isa`の値。
+  final String isa = "PBXFrameworksBuildPhase";
+
+  /// ID of the section.
+  ///
+  /// セクションのID。
+  final String id;
+
+  /// Comment Data.
+  ///
+  /// コメントデータ。
+  final String? comment;
+
+  /// BuildActionMask data.
+  ///
+  /// BuildActionMaskデータ。
+  final String? buildActionMask;
+
+  /// Data for [PBXFrameworksBuildPhaseFiles].
+  ///
+  /// [PBXFrameworksBuildPhaseFiles]のデータ。
+  final List<PBXFrameworksBuildPhaseFiles> files;
+
+  /// Data from [runOnlyForDeploymentPostprocessing].
+  ///
+  /// [runOnlyForDeploymentPostprocessing]のデータ。
+  final int? runOnlyForDeploymentPostprocessing;
+
+  @override
+  String toString() {
+    return "\t\t$id ${comment != null ? "/* $comment */ " : ""}= {\n\t\t\tisa = PBXFrameworksBuildPhase;\n\t\t\tbuildActionMask = $buildActionMask;\n\t\t\tfiles = (\n${files.map((e) => e.toString()).join(",\n")},\n\t\t\t);\n\t\t\trunOnlyForDeploymentPostprocessing = ${runOnlyForDeploymentPostprocessing ?? 0};\n\t\t};";
+  }
+}
+
+/// Class for `files` of [PBXFrameworksBuildPhase].
+///
+/// [PBXFrameworksBuildPhase]の`files`用のクラス。
+class PBXFrameworksBuildPhaseFiles {
+  /// Class for `files` of [PBXFrameworksBuildPhase].
+  ///
+  /// [PBXFrameworksBuildPhase]の`files`用のクラス。
+  factory PBXFrameworksBuildPhaseFiles({
+    String? id,
+    required String fileName,
+    required String fileDir,
+  }) {
+    return PBXFrameworksBuildPhaseFiles._(
+      fileName: fileName,
+      dirName: fileDir,
+      id: id ?? XCode.generateId(),
+    );
+  }
+  PBXFrameworksBuildPhaseFiles._({
+    required this.id,
+    required this.fileName,
+    required this.dirName,
+  });
+
+  static List<PBXFrameworksBuildPhaseFiles> _parse(String text) {
+    return RegExp(
+      r'(?<id>[0-9A-Z]{24}) /\* (?<file>[a-zA-Z_.-]+) in (?<dir>[a-zA-Z_.-]+) \*/,',
+    ).allMatches(text).mapAndRemoveEmpty((e) {
+      return PBXFrameworksBuildPhaseFiles._(
+        id: e.namedGroup("id") ?? "",
+        fileName: e.namedGroup("file") ?? "",
+        dirName: e.namedGroup("dir") ?? "",
+      );
+    });
+  }
+
+  /// ID of the element.
+  ///
+  /// 要素のID。
+  final String id;
+
+  /// Framework file name.
+  ///
+  /// フレームワークファイル名。
+  final String fileName;
+
+  /// Framework folder name
+  ///
+  /// フレームワークのフォルダ名
+  final String dirName;
+
+  @override
+  String toString() {
+    return "\t\t\t\t$id /* $fileName in $dirName */";
   }
 }
