@@ -1,3 +1,7 @@
+## 2.2.7
+
+ - **FIX**: Support for Functions updates. ([7fdb4283](https://github.com/mathrunet/flutter_masamune/commit/7fdb4283ecf7de28aba1cc5d75442da4170d1e83))
+
 ## 2.2.6
 
  - **FIX**: Fixed a bug in addFramework. ([00d31927](https://github.com/mathrunet/flutter_masamune/commit/00d31927a295739a160c3cdd2e34585bfd0f6007))

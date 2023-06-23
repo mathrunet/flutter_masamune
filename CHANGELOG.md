@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.7`](#katana_cli---v227)
+ - [`masamune_purchase_stripe` - `v3.0.29`](#masamune_purchase_stripe---v3029)
+
+---
+
+#### `katana_cli` - `v2.2.7`
+
+ - **FIX**: Support for Functions updates. ([7fdb4283](https://github.com/mathrunet/flutter_masamune/commit/7fdb4283ecf7de28aba1cc5d75442da4170d1e83))
+
+#### `masamune_purchase_stripe` - `v3.0.29`
+
+ - **FIX**: Support for changes in Functions. ([b7fb7921](https://github.com/mathrunet/flutter_masamune/commit/b7fb7921a5af26bf93e23e6613c41b472923f266))
+
+
+## 2023-06-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.2.6`](#katana_cli---v226)
 
 ---

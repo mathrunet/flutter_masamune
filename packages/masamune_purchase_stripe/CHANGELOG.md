@@ -1,3 +1,7 @@
+## 3.0.29
+
+ - **FIX**: Support for changes in Functions. ([b7fb7921](https://github.com/mathrunet/flutter_masamune/commit/b7fb7921a5af26bf93e23e6613c41b472923f266))
+
 ## 3.0.28
 
  - **FIX**: Import sorter applied. ([e7e9ba2d](https://github.com/mathrunet/flutter_masamune/commit/e7e9ba2dd43ef048b6801e245fa3704e25e7fbb5))
