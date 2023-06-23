@@ -117,10 +117,11 @@ class XCode {
       return;
     }
     final id = generateId();
+    final fileId = generateId();
     pbxFileReference.add(
       PBXFileReference(
-        id: id,
-        name: frameworkName,
+        id: fileId,
+        name: "$frameworkName.framework",
         comment: "$frameworkName.framework",
         path: "System/Library/Frameworks/$frameworkName.framework",
         sourceTree: "SDKROOT",
@@ -144,7 +145,7 @@ class XCode {
         .any((e) => e.comment == "$frameworkName.framework")) {
       frameworkGroup.children.add(
         PBXGroupChild(
-          id: id,
+          id: fileId,
           comment: "$frameworkName.framework",
         ),
       );
@@ -156,7 +157,7 @@ class XCode {
           id: id,
           fileName: "$frameworkName.framework",
           fileDir: "Frameworks",
-          fileRef: id,
+          fileRef: fileId,
         ),
       );
     }
