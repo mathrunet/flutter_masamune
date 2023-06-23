@@ -3,7 +3,7 @@ part of masamune_purchase_stripe;
 @immutable
 class StripeThreeDSecureOptions {
   const StripeThreeDSecureOptions({
-    this.redirectFunctionPath = "stripe_hook_secure",
+    this.redirectFunctionPath = "stripe_webhook_secure",
     this.successPath = "secure/success.html",
     this.failurePath = "secure/failure.html",
     this.acceptLanguage = const ["ja", "en", "zh"],
