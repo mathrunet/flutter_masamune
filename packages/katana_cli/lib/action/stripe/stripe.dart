@@ -392,7 +392,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         "Authorization": "Basic $encodedApiSecret"
       },
       body: _formatQueryParamater({
-        "url": "https://$region-$projectId.cloudfunctions.net/stripe_hook",
+        "url": "https://$region-$projectId.cloudfunctions.net/stripe_webhook",
         "description": "",
         "enabled_events": [
           "customer.subscription.trial_will_end",
@@ -415,7 +415,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
     webHookSecret = stripeResMap.get("secret", "");
     if (webHookSecret.isEmpty) {
       error(
-          "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_hook");
+          "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_webhook");
       return;
     }
     if (enableConnect) {
@@ -427,7 +427,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
         },
         body: _formatQueryParamater({
           "url":
-              "https://$region-$projectId.cloudfunctions.net/stripe_hook_connect",
+              "https://$region-$projectId.cloudfunctions.net/stripe_webhook_connect",
           "description": "",
           "enabled_events": [
             "account.updated",
@@ -439,7 +439,7 @@ class StripeCliAction extends CliCommand with CliActionMixin {
       webHookConnectSecret = connectResMap.get("secret", "");
       if (webHookConnectSecret.isEmpty) {
         error(
-            "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_hook_connect");
+            "Could not create webhook: https://$region-$projectId.cloudfunctions.net/stripe_webhook_connect");
         return;
       }
     }
@@ -449,15 +449,15 @@ class StripeCliAction extends CliCommand with CliActionMixin {
     if (!functions.functions.any((e) => e == "stripe")) {
       functions.functions.add("stripe");
     }
-    if (!functions.functions.any((e) => e == "stripeHook")) {
-      functions.functions.add("stripeHook");
+    if (!functions.functions.any((e) => e == "stripeWebhook")) {
+      functions.functions.add("stripeWebhook");
     }
-    if (!functions.functions.any((e) => e == "stripeHookSecure")) {
-      functions.functions.add("stripeHookSecure");
+    if (!functions.functions.any((e) => e == "stripeWebhookSecure")) {
+      functions.functions.add("stripeWebhookSecure");
     }
     if (enableConnect &&
-        !functions.functions.any((e) => e == "stripeHookConnect")) {
-      functions.functions.add("stripeHookConnect");
+        !functions.functions.any((e) => e == "stripeWebhookConnect")) {
+      functions.functions.add("stripeWebhookConnect");
     }
     switch (emailProvider) {
       case "gmail":

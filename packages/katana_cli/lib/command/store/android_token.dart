@@ -74,11 +74,11 @@ class StoreAndroidTokenCliCommand extends CliCommand {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "android_auth_code")) {
-      functions.functions.add("android_auth_code");
+    if (!functions.functions.any((e) => e == "androidAuthCode")) {
+      functions.functions.add("androidAuthCode");
     }
-    if (!functions.functions.any((e) => e == "android_token")) {
-      functions.functions.add("android_token");
+    if (!functions.functions.any((e) => e == "androidToken")) {
+      functions.functions.add("androidToken");
     }
     await functions.save();
     await command(

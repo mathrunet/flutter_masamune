@@ -2,11 +2,14 @@
 
 // Package imports:
 
-// Project imports:
+// Dart imports:
 import 'dart:io';
 
-import 'package:katana_cli/katana_cli.dart';
+// Package imports:
 import 'package:xml/xml.dart';
+
+// Project imports:
+import 'package:katana_cli/katana_cli.dart';
 
 /// Add a module to use InAppPurchase.
 ///
@@ -207,39 +210,38 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "android_auth_code")) {
-      functions.functions.add("android_auth_code");
+    if (!functions.functions.any((e) => e == "androidAuthCode")) {
+      functions.functions.add("androidAuthCode");
     }
-    if (!functions.functions.any((e) => e == "android_token")) {
-      functions.functions.add("android_token");
+    if (!functions.functions.any((e) => e == "androidToken")) {
+      functions.functions.add("androidToken");
     }
     if (enableAppStore) {
-      if (!functions.functions.any((e) => e == "consumable_verify_ios")) {
-        functions.functions.add("consumable_verify_ios");
+      if (!functions.functions.any((e) => e == "consumableVerifyIOS")) {
+        functions.functions.add("consumableVerifyIOS");
       }
-      if (!functions.functions.any((e) => e == "nonconsumable_verify_ios")) {
-        functions.functions.add("nonconsumable_verify_ios");
+      if (!functions.functions.any((e) => e == "nonconsumableVerifyIOS")) {
+        functions.functions.add("nonconsumableVerifyIOS");
       }
-      if (!functions.functions.any((e) => e == "subscription_verify_ios")) {
-        functions.functions.add("subscription_verify_ios");
+      if (!functions.functions.any((e) => e == "subscriptionVerifyIOS")) {
+        functions.functions.add("subscriptionVerifyIOS");
       }
-      if (!functions.functions.any((e) => e == "purchase_hook_ios")) {
-        functions.functions.add("purchase_hook_ios");
+      if (!functions.functions.any((e) => e == "purchaseWebhookIOS")) {
+        functions.functions.add("purchaseWebhookIOS");
       }
     }
     if (enableGooglePlay) {
-      if (!functions.functions.any((e) => e == "consumable_verify_android")) {
-        functions.functions.add("consumable_verify_android");
+      if (!functions.functions.any((e) => e == "consumableVerifyAndroid")) {
+        functions.functions.add("consumableVerifyAndroid");
       }
-      if (!functions.functions
-          .any((e) => e == "nonconsumable_verify_android")) {
-        functions.functions.add("nonconsumable_verify_android");
+      if (!functions.functions.any((e) => e == "nonconsumableVerifyAndroid")) {
+        functions.functions.add("nonconsumableVerifyAndroid");
       }
-      if (!functions.functions.any((e) => e == "subscription_verify_android")) {
-        functions.functions.add("subscription_verify_android");
+      if (!functions.functions.any((e) => e == "subscriptionVerifyAndroid")) {
+        functions.functions.add("subscriptionVerifyAndroid");
       }
-      if (!functions.functions.any((e) => e == "purchase_hook_android")) {
-        functions.functions.add("purchase_hook_android");
+      if (!functions.functions.any((e) => e == "purchaseWebhookAndroid")) {
+        functions.functions.add("purchaseWebhookAndroid");
       }
     }
     await functions.save();
