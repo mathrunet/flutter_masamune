@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.8`](#katana_cli---v228)
+
+---
+
+#### `katana_cli` - `v2.2.8`
+
+ - **FIX**: Corresponding to changes in the structure of Functions' index.ts. ([cd6b962a](https://github.com/mathrunet/flutter_masamune/commit/cd6b962a746450faece09681b24491d222943040))
+
+
+## 2023-06-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.2.7`](#katana_cli---v227)
  - [`masamune_purchase_stripe` - `v3.0.29`](#masamune_purchase_stripe---v3029)
 

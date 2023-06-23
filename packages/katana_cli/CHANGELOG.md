@@ -1,3 +1,7 @@
+## 2.2.8
+
+ - **FIX**: Corresponding to changes in the structure of Functions' index.ts. ([cd6b962a](https://github.com/mathrunet/flutter_masamune/commit/cd6b962a746450faece09681b24491d222943040))
+
 ## 2.2.7
 
  - **FIX**: Support for Functions updates. ([7fdb4283](https://github.com/mathrunet/flutter_masamune/commit/7fdb4283ecf7de28aba1cc5d75442da4170d1e83))
