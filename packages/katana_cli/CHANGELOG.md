@@ -1,3 +1,9 @@
+## 2.2.6
+
+ - **FIX**: Fixed a bug in addFramework. ([00d31927](https://github.com/mathrunet/flutter_masamune/commit/00d31927a295739a160c3cdd2e34585bfd0f6007))
+ - **FIX**: Add appstore settings to katana.yaml. ([348fafa5](https://github.com/mathrunet/flutter_masamune/commit/348fafa52c0cb881666f3e963ec658fe892a8e0b))
+ - **FIX**: Added module around billing. ([012abf37](https://github.com/mathrunet/flutter_masamune/commit/012abf37a98248e041db474531e2ccb4ae1650b3))
+
 ## 2.2.5
 
  - **FIX**: Added a command to issue a refresh token for Android billing. ([a1e33638](https://github.com/mathrunet/flutter_masamune/commit/a1e3363834e36e62a20cbd946f39e9e52a796e57))
