@@ -321,6 +321,18 @@ purchase:
     oauth_client_id: 
     oauth_client_secret: 
     refresh_token: 
+  
+  # Configure settings for AppStore billing.
+  # Follow the steps below to configure the settings.
+  # 1. Register your tax information and bank account to activate [Subscription]->[Paid Apps] in the AppStore.
+  # 2. Get it from [AppStore]->[App Info]->[Shared Secret for App] and put it in `shared_secret`.
+  # AppStoreの課金を行う場合の設定を行います。
+  # 下記の手順で設定を行います。
+  # 1. AppStoreの[契約]->[有料App]をアクティブにするように税務情報や銀行口座を登録します。
+  # 2. AppStoreの[アプリ]->[App情報]->[App用共有シークレット]から取得して`shared_secret`に記載します。
+  app_store:
+    enable: false
+    shared_secret: 
 
 # Configure billing settings for Stripe.
 # Stripeの課金設定を行います。
