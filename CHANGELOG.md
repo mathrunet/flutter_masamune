@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_agora` - `v2.0.45`](#masamune_agora---v2045)
+ - [`masamune_ai_openai` - `v2.0.46`](#masamune_ai_openai---v2046)
+ - [`masamune_calendar` - `v2.0.45`](#masamune_calendar---v2045)
+ - [`masamune_location` - `v2.1.8`](#masamune_location---v218)
+ - [`masamune_location_google` - `v2.1.7`](#masamune_location_google---v217)
+
+---
+
+#### `masamune_agora` - `v2.0.45`
+
+ - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))
+
+#### `masamune_ai_openai` - `v2.0.46`
+
+ - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))
+
+#### `masamune_calendar` - `v2.0.45`
+
+ - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))
+
+#### `masamune_location` - `v2.1.8`
+
+ - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))
+
+#### `masamune_location_google` - `v2.1.7`
+
+ - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))
+
+
 ## 2023-06-24
 
 ### Changes

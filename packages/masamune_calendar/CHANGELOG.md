@@ -1,3 +1,7 @@
+## 2.0.45
+
+ - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))
+
 ## 2.0.44
 
  - Update a dependency to the latest release.
