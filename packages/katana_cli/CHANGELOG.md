@@ -1,3 +1,7 @@
+## 2.2.9
+
+ - **FIX**: Fixed a bug that prevented build. ([bf090374](https://github.com/mathrunet/flutter_masamune/commit/bf090374a3e209c1a3f475071966972981260f92))
+
 ## 2.2.8
 
  - **FIX**: Corresponding to changes in the structure of Functions' index.ts. ([cd6b962a](https://github.com/mathrunet/flutter_masamune/commit/cd6b962a746450faece09681b24491d222943040))
