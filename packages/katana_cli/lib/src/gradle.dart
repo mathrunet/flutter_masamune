@@ -143,7 +143,7 @@ class GradleAndroid {
   ///
   /// `android`セクションのデータ。
   GradleAndroid({
-    required this.namespace,
+    this.namespace,
     required this.buildTypes,
     required this.compileOptions,
     required this.compileSdkVersion,
@@ -159,8 +159,7 @@ class GradleAndroid {
   static GradleAndroid _load(String content) {
     final region = _regExp.firstMatch(content)?.group(1) ?? "";
     final namespace =
-        RegExp("namespace ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1) ??
-            "";
+        RegExp("namespace ([a-zA-Z0-9_\"'.-]+)").firstMatch(region)?.group(1);
     final compileSdkVersion = RegExp("compileSdkVersion ([a-zA-Z0-9_\"'.-]+)")
             .firstMatch(region)
             ?.group(1) ??
@@ -191,7 +190,7 @@ class GradleAndroid {
   /// Namespace.
   ///
   /// 名前空間。
-  String namespace;
+  String? namespace;
 
   /// SDK version of the compilation.
   ///
@@ -240,7 +239,7 @@ class GradleAndroid {
 
   @override
   String toString() {
-    return "    namespace $namespace\n    compileSdkVersion $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
+    return "${namespace.isEmpty ? "" : "    namespace $namespace\n"}    compileSdkVersion $compileSdkVersion\n${buildToolsVersion != null ? "    buildToolsVersion $buildToolsVersion\n" : ""}${ndkVersion != null ? "    ndkVersion $ndkVersion\n" : ""}\n$compileOptions\n$kotlinOptions\n${sourceSets.isNotEmpty ? "    sourceSets {\n${sourceSets.map((e) => e.toString()).join("\n")}\n    }\n\n" : ""}$defaultConfig\n${signingConfigs != null ? "$signingConfigs\n" : ""}\n$buildTypes";
   }
 }
 
@@ -337,6 +336,7 @@ class GradleAndroidSourceSet {
     required this.target,
     required this.symbol,
   });
+  
   static final _regExp = RegExp(r"sourceSets {([\s\S]+?)}");
 
   /// Source Target.

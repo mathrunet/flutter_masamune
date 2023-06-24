@@ -11,7 +11,7 @@ class Fuctions {
   Fuctions();
 
   static final _regExp = RegExp(
-    r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],[\s\S]*?{(?<topics>[^}]*?)},?[\s\S]*\);",
+    r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?([\s\S]*?{(?<topics>[^}]*?)},?)?[\s\S]*\);",
   );
 
   /// Original text data.
@@ -62,7 +62,11 @@ class Fuctions {
             .where((e) => e.isNotEmpty)
             .toList() ??
         [];
-    _topics = region.namedGroup("topics")?.split(",").toMap((e) {
+    _topics = region
+            .namedGroup("topics")
+            ?.split(",")
+            .where((e) => e.contains(":"))
+            .toMap((e) {
           final entry = e.trim().split(":");
           return MapEntry(entry[0].trim(), entry[1].trim());
         }) ??

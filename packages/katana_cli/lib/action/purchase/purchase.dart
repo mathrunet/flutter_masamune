@@ -243,8 +243,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       if (!functions.functions.any((e) => e == "purchaseWebhookAndroid")) {
         functions.functions.add("purchaseWebhookAndroid");
       }
-      if (!functions.topics.keys.any((e) => e == "purchase_webhook_android")) {
-        functions.topics["purchaseWebhookAndroid"] = "purchasing";
+      if (!functions.topics.keys.any((e) => e == "purchaseWebhookAndroid")) {
+        functions.topics["purchaseWebhookAndroid"] = "\"purchasing\"";
       }
     }
     await functions.save();
