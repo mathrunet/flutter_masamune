@@ -10,5 +10,7 @@ import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:masamune/masamune.dart';
+import 'package:masamune_location/masamune_location.dart';
 
 part 'compass.dart';

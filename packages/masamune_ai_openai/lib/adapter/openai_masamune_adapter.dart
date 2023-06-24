@@ -29,6 +29,28 @@ class OpenAIMasamuneAdapter extends MasamuneAdapter {
     OpenAI.apiKey = apiKey;
   }
 
+  /// You can retrieve the [OpenAIMasamuneAdapter] first given by [MasamuneAdapterScope].
+  ///
+  /// 最初に[MasamuneAdapterScope]で与えた[OpenAIMasamuneAdapter]を取得することができます。
+  static OpenAIMasamuneAdapter get primary {
+    assert(
+      _primary != null,
+      "OpenAIMasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
+    );
+    return _primary!;
+  }
+
+  static OpenAIMasamuneAdapter? _primary;
+
+  @override
+  void onInitScope(MasamuneAdapter adapter) {
+    super.onInitScope(adapter);
+    if (adapter is! OpenAIMasamuneAdapter) {
+      return;
+    }
+    _primary = adapter;
+  }
+
   @override
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<OpenAIMasamuneAdapter>(

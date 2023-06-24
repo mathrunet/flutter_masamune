@@ -23,8 +23,8 @@ part of masamune_ai_openai;
 /// これまでのすべての会話は[value]で取得できます。
 ///
 /// [clear]ですべての会話を削除し最初から始めることができます。
-class OpenAIChat extends ChangeNotifier
-    implements ValueListenable<List<OpenAIChatMsg>> {
+class OpenAIChat
+    extends MasamuneControllerBase<List<OpenAIChatMsg>, OpenAIMasamuneAdapter> {
   /// Class for exchanging ChatGPT.
   ///
   /// You can set an initial value in [initialValue] and proceed with the conversation while retaining all previous conversations.
@@ -57,6 +57,18 @@ class OpenAIChat extends ChangeNotifier
   }) {
     _value = initialValue ?? [];
   }
+
+  /// Query for OpenAIChat.
+  ///
+  /// ```dart
+  /// appRef.conroller(OpenAIChat.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(OpenAIChat.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(OpenAIChat.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$OpenAIChatQuery();
+
+  @override
+  OpenAIMasamuneAdapter get primaryAdapter => OpenAIMasamuneAdapter.primary;
 
   /// User Name.
   ///
@@ -382,4 +394,61 @@ enum OpenAIChatRole {
         return OpenAIChatMessageRole.system;
     }
   }
+}
+
+@immutable
+class _$OpenAIChatQuery {
+  const _$OpenAIChatQuery();
+
+  @useResult
+  _$_OpenAIChatQuery call({
+    String user = "user",
+    OpenAIChatModel model = OpenAIChatModel.gpt35Turbo,
+    List<OpenAIChatMsg>? initialValue,
+    int? maxTokens = 300,
+    double? temperature,
+  }) =>
+      _$_OpenAIChatQuery(
+        hashCode.toString(),
+        user: user,
+        model: model,
+        initialValue: initialValue,
+        maxTokens: maxTokens,
+        temperature: temperature,
+      );
+}
+
+@immutable
+class _$_OpenAIChatQuery extends ControllerQueryBase<OpenAIChat> {
+  const _$_OpenAIChatQuery(
+    this._name, {
+    this.user = "user",
+    this.model = OpenAIChatModel.gpt35Turbo,
+    this.initialValue,
+    this.maxTokens = 300,
+    this.temperature,
+  });
+
+  final String _name;
+  final String user;
+  final OpenAIChatModel model;
+  final int? maxTokens;
+  final double? temperature;
+  final List<OpenAIChatMsg>? initialValue;
+
+  @override
+  OpenAIChat Function() call(Ref ref) {
+    return () => OpenAIChat(
+          user: user,
+          model: model,
+          initialValue: initialValue,
+          maxTokens: maxTokens,
+          temperature: temperature,
+        );
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

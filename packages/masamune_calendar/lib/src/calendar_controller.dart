@@ -3,13 +3,26 @@ part of masamune_calendar;
 /// Controller for operating the calendar
 ///
 /// カレンダーを操作するためのコントローラー
-class CalendarController extends ChangeNotifier {
+class CalendarController
+    extends MasamuneControllerBase<void, CalendarMasamuneAdapter> {
   /// Controller for operating the calendar
   ///
   /// カレンダーを操作するためのコントローラー
   CalendarController({
     this.initialDay,
   });
+
+  /// Query for CalendarController.
+  ///
+  /// ```dart
+  /// appRef.conroller(CalendarController.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(CalendarController.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(CalendarController.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$CalendarControllerQuery();
+
+  @override
+  CalendarMasamuneAdapter get primaryAdapter => CalendarMasamuneAdapter.primary;
 
   DateTime? _selectedDay;
   DateTime? _focusedDay;
@@ -105,4 +118,42 @@ class CalendarController extends ChangeNotifier {
 
   @override
   bool operator ==(Object other) => other.hashCode == hashCode;
+}
+
+@immutable
+class _$CalendarControllerQuery {
+  const _$CalendarControllerQuery();
+
+  @useResult
+  _$_CalendarControllerQuery call({
+    DateTime? initialDay,
+  }) =>
+      _$_CalendarControllerQuery(
+        hashCode.toString(),
+        initialDay: initialDay,
+      );
+}
+
+@immutable
+class _$_CalendarControllerQuery
+    extends ControllerQueryBase<CalendarController> {
+  const _$_CalendarControllerQuery(
+    this._name, {
+    this.initialDay,
+  });
+
+  final String _name;
+  final DateTime? initialDay;
+
+  @override
+  CalendarController Function() call(Ref ref) {
+    return () => CalendarController(
+          initialDay: initialDay,
+        );
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

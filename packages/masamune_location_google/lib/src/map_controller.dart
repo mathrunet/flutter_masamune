@@ -31,8 +31,8 @@ part of masamune_location_google;
 /// [zoomIn]、[zoomOut]、[zoomTo]でズームを変更できます。
 ///
 /// [setMarker]、[setCircle]、[setPolygon]、[setPolyline]でマーカーやポリゴン、ポリライン、サークルを設定できます。
-@controller
-class MapController extends ChangeNotifier {
+class MapController
+    extends MasamuneControllerBase<void, GoogleLocationMasamuneAdapter> {
   /// Map controller to handle GoogleMap.
   ///
   /// [MapController.query] allows you to retrieve objects from `ref.controller` and others while preserving their state.
@@ -69,10 +69,18 @@ class MapController extends ChangeNotifier {
     compass.addListener(notifyListeners);
   }
 
-  /// Objects can be retrieved while retaining their state by passing them to `ref.controller`.
+  /// Query for MapController.
   ///
-  /// `ref.controller`に渡すことで状態を保持しながらオブジェクトの取得ができます。
+  /// ```dart
+  /// appRef.conroller(MapController.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(MapController.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(MapController.query(parameters)); // Watch at page scope.
+  /// ```
   static const query = _$MapControllerQuery();
+
+  @override
+  GoogleLocationMasamuneAdapter get primaryAdapter =>
+      GoogleLocationMasamuneAdapter.primary;
 
   Completer<void>? _completer;
 

@@ -14,6 +14,28 @@ class GoogleLocationMasamuneAdapter extends LocationMasamuneAdapter {
   /// デフォルトのマップスタイル。
   final MapStyle? defaultMapStyle;
 
+  /// You can retrieve the [GoogleLocationMasamuneAdapter] first given by [MasamuneAdapterScope].
+  ///
+  /// 最初に[MasamuneAdapterScope]で与えた[GoogleLocationMasamuneAdapter]を取得することができます。
+  static GoogleLocationMasamuneAdapter get primary {
+    assert(
+      _primary != null,
+      "GoogleLocationMasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
+    );
+    return _primary!;
+  }
+
+  static GoogleLocationMasamuneAdapter? _primary;
+
+  @override
+  void onInitScope(MasamuneAdapter adapter) {
+    super.onInitScope(adapter);
+    if (adapter is! GoogleLocationMasamuneAdapter) {
+      return;
+    }
+    _primary = adapter;
+  }
+
   @override
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<GoogleLocationMasamuneAdapter>(

@@ -38,6 +38,28 @@ class CalendarMasamuneAdapter extends MasamuneAdapter {
   /// 休日を指定します。
   final List<DayOfWeek> weekendDays;
 
+  /// You can retrieve the [CalendarMasamuneAdapter] first given by [MasamuneAdapterScope].
+  ///
+  /// 最初に[MasamuneAdapterScope]で与えた[CalendarMasamuneAdapter]を取得することができます。
+  static CalendarMasamuneAdapter get primary {
+    assert(
+      _primary != null,
+      "CalendarMasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
+    );
+    return _primary!;
+  }
+
+  static CalendarMasamuneAdapter? _primary;
+
+  @override
+  void onInitScope(MasamuneAdapter adapter) {
+    super.onInitScope(adapter);
+    if (adapter is! CalendarMasamuneAdapter) {
+      return;
+    }
+    _primary = adapter;
+  }
+
   @override
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<CalendarMasamuneAdapter>(

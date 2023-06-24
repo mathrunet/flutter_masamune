@@ -19,8 +19,8 @@ part of masamune_location;
 /// [value]に[LocationData]が格納されるのでそこを参照してください。
 ///
 /// [unlisten]で取得を終了します。
-class Location extends ChangeNotifier
-    implements ValueListenable<LocationData?> {
+class Location
+    extends MasamuneControllerBase<LocationData?, LocationMasamuneAdapter> {
   /// Class for handling terminal location information.
   ///
   /// The acquisition is initiated by doing [listen].
@@ -41,6 +41,18 @@ class Location extends ChangeNotifier
   ///
   /// [unlisten]で取得を終了します。
   Location();
+
+  /// Query for Location.
+  ///
+  /// ```dart
+  /// appRef.conroller(Location.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(Location.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(Location.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$LocationQuery();
+
+  @override
+  LocationMasamuneAdapter get primaryAdapter => LocationMasamuneAdapter.primary;
 
   /// Returns `true` if initialized by executing [initialize].
   ///
@@ -328,4 +340,33 @@ class LocationData {
   String toString() {
     return "Latitude: $latitude, Longitude: $longitude";
   }
+}
+
+@immutable
+class _$LocationQuery {
+  const _$LocationQuery();
+
+  @useResult
+  _$_LocationQuery call() => _$_LocationQuery(
+        hashCode.toString(),
+      );
+}
+
+@immutable
+class _$_LocationQuery extends ControllerQueryBase<Location> {
+  const _$_LocationQuery(
+    this._name,
+  );
+
+  final String _name;
+
+  @override
+  Location Function() call(Ref ref) {
+    return () => Location();
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

@@ -19,7 +19,8 @@ part of masamune_location.web;
 /// [value]に[CompassData]が格納されるのでそこを参照してください。
 ///
 /// [unlisten]で取得を終了します。
-class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
+class Compass
+    extends MasamuneControllerBase<CompassData?, LocationMasamuneAdapter> {
   /// Class that handles the compass of the terminal.
   ///
   /// The acquisition is initiated by doing [listen].
@@ -40,6 +41,18 @@ class Compass extends ChangeNotifier implements ValueListenable<CompassData?> {
   ///
   /// [unlisten]で取得を終了します。
   Compass();
+
+  /// Query for Compass.
+  ///
+  /// ```dart
+  /// appRef.conroller(Compass.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(Compass.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(Compass.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$CompassQuery();
+
+  @override
+  LocationMasamuneAdapter get primaryAdapter => LocationMasamuneAdapter.primary;
 
   /// Returns `true` if initialized by executing [initialize].
   ///
@@ -216,4 +229,33 @@ class CompassData {
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
+}
+
+@immutable
+class _$CompassQuery {
+  const _$CompassQuery();
+
+  @useResult
+  _$_CompassQuery call() => _$_CompassQuery(
+        hashCode.toString(),
+      );
+}
+
+@immutable
+class _$_CompassQuery extends ControllerQueryBase<Compass> {
+  const _$_CompassQuery(
+    this._name,
+  );
+
+  final String _name;
+
+  @override
+  Compass Function() call(Ref ref) {
+    return () => Compass();
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

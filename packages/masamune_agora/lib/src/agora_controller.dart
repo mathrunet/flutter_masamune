@@ -30,6 +30,15 @@ class AgoraController
   })  : _loggerAdapters = loggerAdapters,
         super(defaultValue: []);
 
+  /// Query for AgoraController.
+  ///
+  /// ```dart
+  /// appRef.conroller(AgoraController.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(AgoraController.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(AgoraController.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$AgoraControllerQuery();
+
   static const String _agoraURL = "https://api.agora.io/v1/apps";
 
   static RtcEngine? _engine;
@@ -1155,4 +1164,46 @@ class AgoraController
       loggerAdapter.send(event.toString(), parameters: parameters);
     }
   }
+}
+
+@immutable
+class _$AgoraControllerQuery {
+  const _$AgoraControllerQuery();
+
+  @useResult
+  _$_AgoraControllerQuery call(
+    String channelName, {
+    List<LoggerAdapter> loggerAdapters = const [],
+  }) =>
+      _$_AgoraControllerQuery(
+        hashCode.toString(),
+        channelName: channelName,
+        loggerAdapters: loggerAdapters,
+      );
+}
+
+@immutable
+class _$_AgoraControllerQuery extends ControllerQueryBase<AgoraController> {
+  const _$_AgoraControllerQuery(
+    this._name, {
+    required this.channelName,
+    this.loggerAdapters = const [],
+  });
+
+  final String _name;
+  final String channelName;
+  final List<LoggerAdapter> loggerAdapters;
+
+  @override
+  AgoraController Function() call(Ref ref) {
+    return () => AgoraController(
+          channelName,
+          loggerAdapters: loggerAdapters,
+        );
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }
