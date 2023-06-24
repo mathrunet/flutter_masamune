@@ -336,7 +336,7 @@ class GradleAndroidSourceSet {
     required this.target,
     required this.symbol,
   });
-  
+
   static final _regExp = RegExp(r"sourceSets {([\s\S]+?)}");
 
   /// Source Target.
