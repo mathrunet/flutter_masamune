@@ -1,15 +1,64 @@
 part of masamune_purchase_stripe;
 
-class StripePayment extends ChangeNotifier {
+/// Manage Stripe payment information.
+///
+/// Actual payment information should be obtained from [collectionQuery] or other sources.
+///
+/// Stripeの支払い情報を管理します。
+///
+/// 実際の支払い情報は[collectionQuery]などから取得してください。
+class StripePayment
+    extends MasamuneControllerBase<void, StripePurchaseMasamuneAdapter> {
+  /// Manage Stripe payment information.
+  ///
+  /// Actual payment information should be obtained from [collectionQuery] or other sources.
+  ///
+  /// Stripeの支払い情報を管理します。
+  ///
+  /// 実際の支払い情報は[collectionQuery]などから取得してください。
   StripePayment({required this.userId});
 
-  final String userId;
+  /// Query for StripePayment.
+  ///
+  /// ```dart
+  /// appRef.conroller(StripePayment.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(StripePayment.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(StripePayment.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$StripePaymentQuery();
 
-  static Completer<void>? _completer;
-
+  /// Use this to retrieve the relevant [StripePaymentModel] documentation.
+  ///
+  /// 関連する[StripePaymentModel]のドキュメントを取得する場合はこちらを利用してください。
   static const documentQuery = StripePaymentModel.document;
+
+  /// Use this to retrieve the related [StripePaymentModel] collection.
+  ///
+  /// 関連する[StripePaymentModel]のコレクションを取得する場合はこちらを利用してください。
   static const collectionQuery = StripePaymentModel.collection;
 
+  @override
+  StripePurchaseMasamuneAdapter get primaryAdapter =>
+      StripePurchaseMasamuneAdapter.primary;
+
+  /// User ID in the application.
+  ///
+  /// アプリ内のユーザーID。
+  final String userId;
+
+  Completer<void>? _completer;
+
+  /// Create new payment information.
+  ///
+  /// The WebView is passed to [builder], so use it to create the screen.
+  ///
+  /// Processing when the screen is closed can be specified with [onClosed].
+  ///
+  /// 支払い情報を新しく作成します。
+  ///
+  /// [builder]にWebViewが渡されるので、それを利用して画面を作成してください。
+  ///
+  /// 画面が閉じられたときの処理は[onClosed]で指定することができます。
   Future<void> create({
     required void Function(
       Uri endpoint,
@@ -119,6 +168,9 @@ class StripePayment extends ChangeNotifier {
     }
   }
 
+  /// If multiple payment information is set, set [payment] to the default payment information.
+  ///
+  /// 複数の支払い情報が設定されている場合[payment]をデフォルトの支払い情報に設定します。
   Future<void> setDefault({
     required DocumentBase<StripePaymentModel> payment,
   }) async {
@@ -159,6 +211,9 @@ class StripePayment extends ChangeNotifier {
     }
   }
 
+  /// Delete the created [payment].
+  ///
+  /// 作成した[payment]を削除します。
   Future<void> delete({
     required DocumentBase<StripePaymentModel> payment,
     Duration timeout = const Duration(seconds: 15),
@@ -206,4 +261,39 @@ class StripePayment extends ChangeNotifier {
       _completer = null;
     }
   }
+}
+
+@immutable
+class _$StripePaymentQuery {
+  const _$StripePaymentQuery();
+
+  @useResult
+  _$_StripePaymentQuery call({
+    required String userId,
+  }) =>
+      _$_StripePaymentQuery(
+        hashCode.toString(),
+        userId: userId,
+      );
+}
+
+@immutable
+class _$_StripePaymentQuery extends ControllerQueryBase<StripePayment> {
+  const _$_StripePaymentQuery(
+    this._name, {
+    required this.userId,
+  });
+
+  final String _name;
+  final String userId;
+
+  @override
+  StripePayment Function() call(Ref ref) {
+    return () => StripePayment(userId: userId);
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => false;
 }

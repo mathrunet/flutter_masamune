@@ -1,13 +1,71 @@
 part of masamune_purchase_stripe;
 
-class StripeAccount extends ChangeNotifier {
+/// Manage your stripe account (revenue receiver).
+///
+/// By creating this account, you can receive earnings from other users.
+///
+/// You can check your account information on the [dashboard].
+///
+/// ストライプのアカウント（収益受け取り側）を管理します。
+///
+/// このアカウントを作成することで他ユーザーからの収益を受け取ることができます。
+///
+/// [dashboard]でアカウントの情報を確認することができます。
+class StripeAccount
+    extends MasamuneControllerBase<void, StripePurchaseMasamuneAdapter> {
+  /// Manage your stripe account (revenue receiver).
+  ///
+  /// By creating this account, you can receive earnings from other users.
+  ///
+  /// You can check your account information on the [dashboard].
+  ///
+  /// ストライプのアカウント（収益受け取り側）を管理します。
+  ///
+  /// このアカウントを作成することで他ユーザーからの収益を受け取ることができます。
+  ///
+  /// [dashboard]でアカウントの情報を確認することができます。
   StripeAccount();
 
-  static Completer<void>? _completer;
+  /// Query for StripeAccount.
+  ///
+  /// ```dart
+  /// appRef.conroller(StripeAccount.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(StripeAccount.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(StripeAccount.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$StripeAccountQuery();
 
+  /// Use this to retrieve the relevant [StripeUserModel] documentation.
+  ///
+  /// 関連する[StripeUserModel]のドキュメントを取得する場合はこちらを利用してください。
   static const documentQuery = StripeUserModel.document;
+
+  /// Use this to retrieve the related [StripeUserModel] collection.
+  ///
+  /// 関連する[StripeUserModel]のコレクションを取得する場合はこちらを利用してください。
   static const collectionQuery = StripeUserModel.collection;
 
+  @override
+  StripePurchaseMasamuneAdapter get primaryAdapter =>
+      StripePurchaseMasamuneAdapter.primary;
+
+  Completer<void>? _completer;
+
+  /// Create a new stripe account (revenue receiver).
+  ///
+  /// Specify the [userId] of the associated app.
+  ///
+  /// Specify [builder] to specify how to display WebView.
+  ///
+  /// If [onClosed] is specified, it is called when WebView is closed.
+  ///
+  /// 新しくストライプのアカウント（収益受け取り側）を作成します。
+  ///
+  /// 関連するアプリの[userId]を指定してください。
+  ///
+  /// [builder]を指定して、WebViewを表示する方法を指定してください。
+  ///
+  /// [onClosed]を指定すると、WebViewが閉じられた時に呼び出されます。
   Future<void> create({
     required String userId,
     Locale locale = const Locale("en", "US"),
@@ -47,7 +105,7 @@ class StripeAccount extends ChangeNotifier {
           userId: userId,
           locale: locale,
           refreshUrl: Uri.parse(
-              "$callbackHost/${returnPathOptions.refreshOnCreateAccount.trimString("/")}"),
+              "$callbackHost/${returnPathOptions.cancelOnCreateAccount.trimString("/")}"),
           returnUrl: Uri.parse(
               "$callbackHost/${returnPathOptions.successOnCreateAccount.trimString("/")}"),
         ),
@@ -86,7 +144,7 @@ class StripeAccount extends ChangeNotifier {
               onSuccess.call();
               return StripeNavigationActionPolicy.cancel;
             } else if (path ==
-                "/${returnPathOptions.refreshOnCreateAccount.trimString("/")}") {
+                "/${returnPathOptions.cancelOnCreateAccount.trimString("/")}") {
               onClosed?.call();
               onCancel.call();
               return StripeNavigationActionPolicy.cancel;
@@ -129,6 +187,9 @@ class StripeAccount extends ChangeNotifier {
     }
   }
 
+  /// Delete the created [account].
+  ///
+  /// 作成された[account]を削除します。
   Future<void> delete({
     required DocumentBase<StripeUserModel> account,
     Duration timeout = const Duration(seconds: 15),
@@ -174,6 +235,17 @@ class StripeAccount extends ChangeNotifier {
     }
   }
 
+  /// Open the registered [account] in the dashboard.
+  ///
+  /// In [builder], the URL of the dashboard, a widget for displaying the WebView, and a callback when the WebView is closed are passed, so display the WebView based on these.
+  ///
+  /// If [onClosed] is specified, it is called when WebView is closed.
+  ///
+  /// 登録された[account]をダッシュボードで開きます。
+  ///
+  /// [builder]には、ダッシュボードのURLと、WebViewを表示するためのWidget、WebViewを閉じた時のコールバックを渡されるのでそれを元にWebViewを表示してください。
+  ///
+  /// [onClosed]を指定すると、WebViewが閉じられた時に呼び出されます。
   Future<void> dashboard({
     required DocumentBase<StripeUserModel> account,
     required void Function(
@@ -259,4 +331,33 @@ class StripeAccount extends ChangeNotifier {
       _completer = null;
     }
   }
+}
+
+@immutable
+class _$StripeAccountQuery {
+  const _$StripeAccountQuery();
+
+  @useResult
+  _$_StripeAccountQuery call() => _$_StripeAccountQuery(
+        hashCode.toString(),
+      );
+}
+
+@immutable
+class _$_StripeAccountQuery extends ControllerQueryBase<StripeAccount> {
+  const _$_StripeAccountQuery(
+    this._name,
+  );
+
+  final String _name;
+
+  @override
+  StripeAccount Function() call(Ref ref) {
+    return () => StripeAccount();
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => false;
 }

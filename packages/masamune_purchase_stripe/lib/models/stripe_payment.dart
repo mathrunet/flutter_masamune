@@ -20,10 +20,16 @@ part 'stripe_payment.freezed.dart';
 /// ```
 typedef StripePaymentModelRef = ModelRef<StripePaymentModel>?;
 
+/// A model for storing data on payment methods for stripes.
+///
+/// ストライプの支払い方法のデータを保管するためのモデル。
 @freezed
 @immutable
 @CollectionModelPath("plugins/stripe/user/:user_id/payment")
 class StripePaymentModel with _$StripePaymentModel {
+  /// A model for storing data on payment methods for stripes.
+  ///
+  /// ストライプの支払い方法のデータを保管するためのモデル。
   const factory StripePaymentModel({
     @JsonKey(name: "id") required String paymentId,
     @JsonKey(name: "type") required String type,

@@ -1,10 +1,20 @@
 part of masamune_purchase_stripe;
 
+/// [StripeAction] to finalize the Stripe authorization.
+///
+/// Stripeのオーソリの確定を行うための[StripeAction]。
 class StripeConfirmAuthorizationAction
     extends StripeAction<StripeConfirmAuthorizationActionResponse> {
+  /// [StripeAction] to finalize the Stripe authorization.
+  ///
+  /// Stripeのオーソリの確定を行うための[StripeAction]。
   const StripeConfirmAuthorizationAction({
     required this.authorizedId,
   });
+
+  /// Purchase ID for authorization.
+  ///
+  /// オーソリのための購入ID。
   final String authorizedId;
 
   @override
@@ -26,6 +36,12 @@ class StripeConfirmAuthorizationAction
   }
 }
 
+/// [StripeActionResponse] to finalize the Stripe authorization.
+///
+/// Stripeのオーソリの確定を行うための[StripeActionResponse]。
 class StripeConfirmAuthorizationActionResponse extends StripeActionResponse {
+  /// [StripeActionResponse] to finalize the Stripe authorization.
+  ///
+  /// Stripeのオーソリの確定を行うための[StripeActionResponse]。
   const StripeConfirmAuthorizationActionResponse();
 }

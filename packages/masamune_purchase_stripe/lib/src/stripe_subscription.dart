@@ -1,15 +1,64 @@
 part of masamune_purchase_stripe;
 
-class StripeSubscription extends ChangeNotifier {
+/// Controller to manage subscriptions as defined in the stripe configuration screen.
+///
+/// [create] to start a subscription and [delete] to cancel a subscription.
+///
+/// ストライプの設定画面で定義されたサブスクリプションを管理するためのコントローラー。
+///
+/// [create]で購読開始し、[delete]で購読をキャンセルします。
+class StripeSubscription
+    extends MasamuneControllerBase<void, StripePurchaseMasamuneAdapter> {
+  /// Controller to manage subscriptions as defined in the stripe configuration screen.
+  ///
+  /// [create] to start a subscription and [delete] to cancel a subscription.
+  ///
+  /// ストライプの設定画面で定義されたサブスクリプションを管理するためのコントローラー。
+  ///
+  /// [create]で購読開始し、[delete]で購読をキャンセルします。
   StripeSubscription({required this.userId});
 
-  final String userId;
+  /// Query for StripeSubscription.
+  ///
+  /// ```dart
+  /// appRef.conroller(StripeSubscription.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(StripeSubscription.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(StripeSubscription.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$StripeSubscriptionQuery();
 
-  static Completer<void>? _completer;
-
+  /// Use this to retrieve the relevant [StripePurchaseModel] documentation.
+  ///
+  /// 関連する[StripePurchaseModel]のドキュメントを取得する場合はこちらを利用してください。
   static const documentQuery = StripePurchaseModel.document;
+
+  /// Use this to retrieve the related [StripePurchaseModel] collection.
+  ///
+  /// 関連する[StripePurchaseModel]のコレクションを取得する場合はこちらを利用してください。
   static const collectionQuery = StripePurchaseModel.collection;
 
+  @override
+  StripePurchaseMasamuneAdapter get primaryAdapter =>
+      StripePurchaseMasamuneAdapter.primary;
+
+  /// User ID in the application.
+  ///
+  /// アプリ内のユーザーID。
+  final String userId;
+
+  Completer<void>? _completer;
+
+  /// Purchase a subscription to [productId] at [orderId].
+  ///
+  /// Implement the subscription purchase screen by specifying [builder].
+  ///
+  /// If you specify [onClosed], it will be called when the purchase screen is closed.
+  ///
+  /// [orderId]で[productId]のサブスクリプションを購入します。
+  ///
+  /// [builder]を指定してサブスクリプションの購入画面を実装してください。
+  ///
+  /// [onClosed]を指定すると、購入画面が閉じられたときに呼び出されます。
   Future<void> create({
     required String orderId,
     required String productId,
@@ -120,6 +169,9 @@ class StripeSubscription extends ChangeNotifier {
     }
   }
 
+  /// Delete (cancel) a subscription to [purchase] that has been started.
+  ///
+  /// 開始した[purchase]のサブスクリプションを削除（キャンセル）します。
   Future<void> delete({
     required DocumentBase<StripePurchaseModel> purchase,
     Duration timeout = const Duration(seconds: 15),
@@ -172,4 +224,40 @@ class StripeSubscription extends ChangeNotifier {
       _completer = null;
     }
   }
+}
+
+@immutable
+class _$StripeSubscriptionQuery {
+  const _$StripeSubscriptionQuery();
+
+  @useResult
+  _$_StripeSubscriptionQuery call({
+    required String userId,
+  }) =>
+      _$_StripeSubscriptionQuery(
+        hashCode.toString(),
+        userId: userId,
+      );
+}
+
+@immutable
+class _$_StripeSubscriptionQuery
+    extends ControllerQueryBase<StripeSubscription> {
+  const _$_StripeSubscriptionQuery(
+    this._name, {
+    required this.userId,
+  });
+
+  final String _name;
+  final String userId;
+
+  @override
+  StripeSubscription Function() call(Ref ref) {
+    return () => StripeSubscription(userId: userId);
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => false;
 }

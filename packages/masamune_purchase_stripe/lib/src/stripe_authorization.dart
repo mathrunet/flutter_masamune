@@ -1,12 +1,66 @@
 part of masamune_purchase_stripe;
 
-class StripeAuthorization extends ChangeNotifier {
+/// Controller for stripe authorization.
+///
+/// [authorization] to authorize the user associated with [userId].
+///
+/// [Exception] will be raised if the payment information associated with [userId] is not set.
+///
+/// ストライプのオーソリを行うためのコントローラー。
+///
+/// [authorization]を実行することで[userId]に関連するユーザーのオーソリを行います。
+///
+/// [userId]に関連付けられた支払い情報が設定されていない場合は[Exception]が発生します。
+class StripeAuthorization
+    extends MasamuneControllerBase<void, StripePurchaseMasamuneAdapter> {
+  /// Controller for stripe authorization.
+  ///
+  /// [authorization] to authorize the user associated with [userId].
+  ///
+  /// [Exception] will be raised if the payment information associated with [userId] is not set.
+  ///
+  /// ストライプのオーソリを行うためのコントローラー。
+  ///
+  /// [authorization]を実行することで[userId]に関連するユーザーのオーソリを行います。
+  ///
+  /// [userId]に関連付けられた支払い情報が設定されていない場合は[Exception]が発生します。
   StripeAuthorization({required this.userId});
 
+  /// Query for StripeAuthorization.
+  ///
+  /// ```dart
+  /// appRef.conroller(StripeAuthorization.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(StripeAuthorization.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(StripeAuthorization.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$StripeAuthorizationQuery();
+
+  @override
+  StripePurchaseMasamuneAdapter get primaryAdapter =>
+      StripePurchaseMasamuneAdapter.primary;
+
+  /// User ID in the application.
+  ///
+  /// アプリ内のユーザーID。
   final String userId;
 
-  static Completer<void>? _completer;
+  Completer<void>? _completer;
 
+  /// Check if [priceAmount] is available for payment.
+  ///
+  /// If an error occurs, [Exception] is returned.
+  ///
+  /// If you set [online] to `true`, WebView will be passed to [builder] when credit card 3D secure authentication is required and authentication can continue.
+  ///
+  /// If [online] is `false`, you can authenticate by e-mail.
+  ///
+  /// [priceAmount]が支払い可能かどうかをチェックします。
+  ///
+  /// エラーが発生した場合は[Exception]が返されます。
+  ///
+  /// [online]を`true`にすると、クレジットカードの3Dセキュア認証が必要な場合[builder]にWebViewが渡され認証を続けることができます。
+  ///
+  /// [online]が`false`の場合、メールにて認証を行うことができます。
   Future<void> authorization({
     required double priceAmount,
     Locale locale = const Locale("en", "US"),
@@ -126,4 +180,40 @@ class StripeAuthorization extends ChangeNotifier {
       internalCompleter = null;
     }
   }
+}
+
+@immutable
+class _$StripeAuthorizationQuery {
+  const _$StripeAuthorizationQuery();
+
+  @useResult
+  _$_StripeAuthorizationQuery call({
+    required String userId,
+  }) =>
+      _$_StripeAuthorizationQuery(
+        hashCode.toString(),
+        userId: userId,
+      );
+}
+
+@immutable
+class _$_StripeAuthorizationQuery
+    extends ControllerQueryBase<StripeAuthorization> {
+  const _$_StripeAuthorizationQuery(
+    this._name, {
+    required this.userId,
+  });
+
+  final String _name;
+  final String userId;
+
+  @override
+  StripeAuthorization Function() call(Ref ref) {
+    return () => StripeAuthorization(userId: userId);
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => false;
 }

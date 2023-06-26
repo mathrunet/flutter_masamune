@@ -1,7 +1,13 @@
 part of masamune_purchase_stripe;
 
+/// [StripeAction] for Stripe authorization.
+///
+/// Stripeのオーソリを行うための[StripeAction]。
 class StripeAuthorizationAction
     extends StripeAction<StripeAuthorizationActionResponse> {
+  /// StripeAction] for Stripe authorization.
+  ///
+  /// Stripeのオーソリを行うための[StripeAction]。
   const StripeAuthorizationAction({
     required this.userId,
     required this.priceAmount,
@@ -11,11 +17,42 @@ class StripeAuthorizationAction
     required this.returnUrl,
   });
 
+  /// User ID of the subject of the authorization.
+  ///
+  /// オーソリを行う対象のユーザーID。
   final String userId;
+
+  /// Amount of authorization to be performed.
+  ///
+  /// オーソリを行う金額。
   final double priceAmount;
+
+  /// Currency of [priceAmount].
+  ///
+  /// [priceAmount]の通貨。
   final StripeCurrency currency;
+
+  /// If [online] is `false`, 3D Secure authentication will be performed on the e-mail.
+  ///
+  /// Email information at that time.
+  ///
+  /// [online]が`false`の場合、3Dセキュア認証がメール上で行われます。
+  ///
+  /// その際のメール情報。
   final StripeMail email;
+
+  /// If this is `true`, 3D Secure authentication is performed on Webview.
+  ///
+  /// If `false`, 3D Secure authentication will be performed on the e-mail.
+  ///
+  /// これが`true`の場合、3Dセキュア認証がWebview上で行われます。
+  ///
+  /// `false`の場合、3Dセキュア認証がメール上で行われます。
   final bool online;
+
+  /// URL when the authorization is completed.
+  ///
+  /// オーソリが完了した場合のURL。
   final Uri returnUrl;
 
   @override
@@ -48,14 +85,31 @@ class StripeAuthorizationAction
   }
 }
 
+/// [StripeActionResponse] for Stripe authorization.
+///
+/// Stripeのオーソリを行うための[StripeActionResponse]。
 class StripeAuthorizationActionResponse extends StripeActionResponse {
+  /// [StripeActionResponse] for Stripe authorization.
+  ///
+  /// Stripeのオーソリを行うための[StripeActionResponse]。
   const StripeAuthorizationActionResponse({
     required this.authorizedId,
     required this.nextActionUrl,
     this.returnUrl,
   });
 
+  /// Purchase ID for authorization.
+  ///
+  /// オーソリ用の購入ID。
   final String authorizedId;
+
+  /// URL required for next action.
+  ///
+  /// 次のアクションに必要なURL。
   final Uri? nextActionUrl;
+
+  /// Return URL.
+  ///
+  /// リターンURL。
   final Uri? returnUrl;
 }

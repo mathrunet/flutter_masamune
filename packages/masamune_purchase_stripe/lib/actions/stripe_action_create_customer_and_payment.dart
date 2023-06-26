@@ -1,14 +1,32 @@
 part of masamune_purchase_stripe;
 
+/// [StripeAction] for creating Stripe customer and payment information.
+///
+/// Stripeのカスタマー及び支払い情報の作成を行うための[StripeAction]。
 class StripeCreateCustomerAndPaymentAction
     extends StripeAction<StripeCreateCustomerAndPaymentActionResponse> {
+  /// [StripeAction] for creating Stripe customer and payment information.
+  ///
+  /// Stripeのカスタマー及び支払い情報の作成を行うための[StripeAction]。
   const StripeCreateCustomerAndPaymentAction({
     required this.userId,
     required this.successUrl,
     required this.cancelUrl,
   });
+
+  /// User ID of the customer to be created.
+  ///
+  /// 作成するカスタマーのユーザーID。
   final String userId;
+
+  /// Return URL on success.
+  ///
+  /// 成功時のリターンURL。
   final Uri successUrl;
+
+  /// Return URL in case of cancellation.
+  ///
+  /// キャンセル時のリターンURL。
   final Uri cancelUrl;
 
   @override
@@ -35,13 +53,26 @@ class StripeCreateCustomerAndPaymentAction
   }
 }
 
+/// [StripeActionResponse] for creating Stripe customer and payment information.
+///
+/// Stripeのカスタマー及び支払い情報の作成を行うための[StripeActionResponse]。
 class StripeCreateCustomerAndPaymentActionResponse
     extends StripeActionResponse {
+  /// [StripeActionResponse] for creating Stripe customer and payment information.
+  ///
+  /// Stripeのカスタマー及び支払い情報の作成を行うための[StripeActionResponse]。
   const StripeCreateCustomerAndPaymentActionResponse({
     required this.endpoint,
     required this.customerId,
   });
 
+  /// Endpoints for creating payment information.
+  ///
+  /// 支払い情報作成のためのエンドポイント。
   final Uri endpoint;
+
+  /// Customer ID created.
+  ///
+  /// 作成されたカスタマーID。
   final String customerId;
 }

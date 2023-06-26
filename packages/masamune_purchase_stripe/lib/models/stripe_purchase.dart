@@ -21,10 +21,24 @@ part 'stripe_purchase.freezed.dart';
 /// ```
 typedef StripePurchaseModelRef = ModelRef<StripePurchaseModel>?;
 
+/// Data model for storing Stripe purchase information.
+///
+/// All payments to the operation, payments between users, and subscriptions are stored in this database.
+///
+/// Stripe購入情報を保管するためのデータモデル。
+///
+/// 運営への支払い、ユーザー間の支払い、サブスクリプションすべてこのデータベースに保存されます。
 @freezed
 @immutable
 @CollectionModelPath("plugins/stripe/user/:user_id/purchase")
 class StripePurchaseModel with _$StripePurchaseModel {
+  /// Data model for storing Stripe purchase information.
+  ///
+  /// All payments to the operation, payments between users, and subscriptions are stored in this database.
+  ///
+  /// Stripe購入情報を保管するためのデータモデル。
+  ///
+  /// 運営への支払い、ユーザー間の支払い、サブスクリプションすべてこのデータベースに保存されます。
   const factory StripePurchaseModel({
     @JsonKey(name: "user")
         required String userId,

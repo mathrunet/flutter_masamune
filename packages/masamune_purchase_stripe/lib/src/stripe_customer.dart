@@ -1,13 +1,67 @@
 part of masamune_purchase_stripe;
 
-class StripeCustomer extends ChangeNotifier {
+/// Create a stripe customer (payment account).
+///
+/// Basically, the payment account and payment information are created together.
+///
+/// You can make payments within Stripe by creating a payment account.
+///
+/// ストライプのカスタマー（支払いアカウント）を作成します。
+///
+/// 基本的には支払いアカウントと支払い情報を一緒に作成します。
+///
+/// 支払いアカウントを作成することでStripe内で決済を行うことが可能です。
+class StripeCustomer
+    extends MasamuneControllerBase<void, StripePurchaseMasamuneAdapter> {
+  /// Create a stripe customer (payment account).
+  ///
+  /// Basically, the payment account and payment information are created together.
+  ///
+  /// You can make payments within Stripe by creating a payment account.
+  ///
+  /// ストライプのカスタマー（支払いアカウント）を作成します。
+  ///
+  /// 基本的には支払いアカウントと支払い情報を一緒に作成します。
+  ///
+  /// 支払いアカウントを作成することでStripe内で決済を行うことが可能です。
   StripeCustomer();
 
-  static Completer<void>? _completer;
+  /// Query for StripeCustomer.
+  ///
+  /// ```dart
+  /// appRef.conroller(StripeCustomer.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(StripeCustomer.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(StripeCustomer.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$StripeCustomerQuery();
 
+  /// Use this to retrieve the relevant [StripeUserModel] documentation.
+  ///
+  /// 関連する[StripeUserModel]のドキュメントを取得する場合はこちらを利用してください。
   static const documentQuery = StripeUserModel.document;
+
+  /// Use this to retrieve the related [StripeUserModel] collection.
+  ///
+  /// 関連する[StripeUserModel]のコレクションを取得する場合はこちらを利用してください。
   static const collectionQuery = StripeUserModel.collection;
 
+  @override
+  StripePurchaseMasamuneAdapter get primaryAdapter =>
+      StripePurchaseMasamuneAdapter.primary;
+
+  Completer<void>? _completer;
+
+  /// Create a stripe customer (payment account) associated with [userId].
+  ///
+  /// Create a screen using the WebView passed from [builder].
+  ///
+  /// The [onClosed] option allows you to specify what to do when the screen is closed.
+  ///
+  /// [userId]に関連するストライプのカスタマー（支払いアカウント）を作成します。
+  ///
+  /// [builder]から渡されるWebViewを利用して画面を作成してください。
+  ///
+  /// [onClosed]で画面が閉じられた場合の処理を指定することができます。
   Future<void> create({
     required String userId,
     required void Function(
@@ -111,6 +165,9 @@ class StripeCustomer extends ChangeNotifier {
     }
   }
 
+  /// Delete the created [customer].
+  ///
+  /// 作成された[customer]を削除します。
   Future<void> delete({
     required DocumentBase<StripeUserModel> customer,
     Duration timeout = const Duration(seconds: 15),
@@ -157,4 +214,31 @@ class StripeCustomer extends ChangeNotifier {
       _completer = null;
     }
   }
+}
+
+@immutable
+class _$StripeCustomerQuery {
+  const _$StripeCustomerQuery();
+
+  @useResult
+  _$_StripeCustomerQuery call() => _$_StripeCustomerQuery(
+        hashCode.toString(),
+      );
+}
+
+@immutable
+class _$_StripeCustomerQuery extends ControllerQueryBase<StripeCustomer> {
+  const _$_StripeCustomerQuery(this._name);
+
+  final String _name;
+
+  @override
+  StripeCustomer Function() call(Ref ref) {
+    return () => StripeCustomer();
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => false;
 }

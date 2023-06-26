@@ -1,7 +1,13 @@
 part of masamune_purchase_stripe;
 
+/// [StripeAction] for creating Stripe purchase information.
+///
+/// Stripeの購入情報の作成を行うための[StripeAction]。
 class StripeCreatePurchaseAction
     extends StripeAction<StripeCreatePurchaseActionResponse> {
+  /// [StripeAction] for creating Stripe purchase information.
+  ///
+  /// Stripeの購入情報の作成を行うための[StripeAction]。
   const StripeCreatePurchaseAction({
     required this.userId,
     required this.priceAmount,
@@ -14,14 +20,49 @@ class StripeCreatePurchaseAction
     this.locale = const Locale("en", "US"),
   });
 
+  /// The user ID under which the purchase is made.
+  ///
+  /// 購入を行うユーザーID。
   final String userId;
+
+  /// Purchase Amount.
+  ///
+  /// 購入金額。
   final double priceAmount;
+
+  /// Rate collected by the operator.
+  ///
+  /// 運営側の徴収レート。
   final double revenueAmount;
+
+  /// Currency.
+  ///
+  /// 通貨。
   final StripeCurrency currency;
+
+  /// Selling user ID in case of user-to-user payment.
+  ///
+  /// ユーザー間の決済の場合の販売ユーザーID。
   final String? targetUserId;
+
+  /// Order ID.
+  ///
+  /// オーダーID。
   final String orderId;
+
+  /// Product Description.
+  ///
+  /// 商品の説明。
   final String? description;
+
+  /// Email settings for 3D Secure.
+  ///
+  /// 3Dセキュアを行うためのメール設定。
   final StripeMail email;
+
+  /// Purchasing side locale.
+  ///
+  /// 購入側のロケール。
   final Locale locale;
 
   @override
@@ -55,8 +96,17 @@ class StripeCreatePurchaseAction
   }
 }
 
+/// [StripeActionResponse] for creating Stripe purchase information.
+///
+/// Stripeの購入情報の作成を行うための[StripeActionResponse]。
 class StripeCreatePurchaseActionResponse extends StripeActionResponse {
+  /// [StripeActionResponse] for creating Stripe purchase information.
+  ///
+  /// Stripeの購入情報の作成を行うための[StripeActionResponse]。
   const StripeCreatePurchaseActionResponse({required this.purchaseId});
 
+  /// Purchase ID created.
+  ///
+  /// 作成された購入ID。
   final String purchaseId;
 }

@@ -1,7 +1,17 @@
 part of masamune_purchase_stripe;
 
+/// Passed if the processing of a stripe is canceled [Exception].
+///
+/// ストライプの処理がキャンセルされた場合に渡される[Exception]。
 class StripeCancelException implements Exception {
+  /// Passed if the processing of a stripe is canceled [Exception].
+  ///
+  /// ストライプの処理がキャンセルされた場合に渡される[Exception]。
   StripeCancelException([this.message]);
+
+  /// Error message.
+  ///
+  /// エラーメッセージ。
   final Object? message;
 
   @override

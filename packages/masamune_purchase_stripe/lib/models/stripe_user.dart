@@ -21,10 +21,24 @@ part 'stripe_user.freezed.dart';
 /// ```
 typedef StripeUserModelRef = ModelRef<StripeUserModel>?;
 
+/// Data model for storing stripe user data.
+///
+/// Both the payer (customer) and the revenue receiver (account) are stored in this data.
+///
+/// ストライプのユーザーデータを保管するためのデータモデル。
+///
+/// 支払う側（カスタマー）や収益を受け取る側（アカウント）両方がこのデータに保存されます。
 @freezed
 @immutable
 @CollectionModelPath("plugins/stripe/user")
 class StripeUserModel with _$StripeUserModel {
+  /// Data model for storing stripe user data.
+  ///
+  /// Both the payer (customer) and the revenue receiver (account) are stored in this data.
+  ///
+  /// ストライプのユーザーデータを保管するためのデータモデル。
+  ///
+  /// 支払う側（カスタマー）や収益を受け取る側（アカウント）両方がこのデータに保存されます。
   const factory StripeUserModel({
     @JsonKey(name: "user") required String userId,
     @JsonKey(name: "account") String? accountId,
@@ -37,6 +51,9 @@ class StripeUserModel with _$StripeUserModel {
   factory StripeUserModel.fromJson(Map<String, Object?> json) =>
       _$StripeUserModelFromJson(json);
 
+  /// Returns `true` if the account is already registered.
+  ///
+  /// アカウントとしてすでに登録されている場合`true`を返します。
   bool get registered {
     return capablity.containsKey("transfers");
   }
