@@ -57,46 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
-  build_config:
-    dependency: transitive
-    description:
-      name: build_config
-      sha256: bf80fcfb46a29945b423bd9aad884590fb1dc69b330a4d4700cac476af1708d1
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
-  build_daemon:
-    dependency: transitive
-    description:
-      name: build_daemon
-      sha256: "5f02d73eb2ba16483e693f80bee4f088563a820e47d1027d4cdfe62b5bb43e65"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
-  build_resolvers:
-    dependency: transitive
-    description:
-      name: build_resolvers
-      sha256: db49b8609ef8c81cca2b310618c3017c00f03a92af44c04d310b907b2d692d95
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
-  build_runner:
-    dependency: "direct dev"
-    description:
-      name: build_runner
-      sha256: "5e1929ad37d48bd382b124266cb8e521de5548d406a45a5ae6656c13dab73e37"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.5"
-  build_runner_core:
-    dependency: transitive
-    description:
-      name: build_runner_core
-      sha256: "6d6ee4276b1c5f34f21fdf39425202712d2be82019983d52f351c94aafbc2c41"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.2.10"
   built_collection:
     dependency: transitive
     description:
@@ -121,14 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
-  checked_yaml:
-    dependency: transitive
-    description:
-      name: checked_yaml
-      sha256: feb6bed21949061731a7a75fc5d2aa727cf160b91af9a3e464c5e3a32e28b5ff
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3"
   clock:
     dependency: transitive
     description:
@@ -411,14 +363,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0+1"
-  graphs:
-    dependency: transitive
-    description:
-      name: graphs
-      sha256: aedc5a15e78fc65a6e23bcd927f24c64dd995062bcd1ca6eda65a3cff92a4d19
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.1"
   html:
     dependency: transitive
     description:
@@ -712,7 +656,7 @@ packages:
     source: path
     version: "2.1.1"
   masamune_builder:
-    dependency: "direct dev"
+    dependency: "direct overridden"
     description:
       path: "../masamune_builder"
       relative: true
@@ -722,10 +666,10 @@ packages:
     dependency: "direct main"
     description:
       name: masamune_location
-      sha256: eb5607e19ef75f0d8bd1dd3820623e26956e25a16b6c3bcb64d77a0d22eaee2a
+      sha256: a5169e27e9904d59e7621e048f0a76dcd12bf2b0d1746321d11a24213f865aa9
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.7"
+    version: "2.1.8"
   matcher:
     dependency: transitive
     description:
@@ -878,14 +822,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  pubspec_parse:
-    dependency: transitive
-    description:
-      name: pubspec_parse
-      sha256: c63b2876e58e194e4b0828fcb080ad0e06d051cb607a6be51a9e084f47cb9367
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.3"
   recase:
     dependency: transitive
     description:
@@ -1099,14 +1035,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.3"
-  timing:
-    dependency: transitive
-    description:
-      name: timing
-      sha256: "70a3b636575d4163c477e6de42f247a23b315ae20e86442bebe32d3cabf61c32"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   tint:
     dependency: transitive
     description:

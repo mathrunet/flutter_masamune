@@ -257,5 +257,5 @@ class _$_CompassQuery extends ControllerQueryBase<Compass> {
   @override
   String get name => _name;
   @override
-  bool get autoDisposeWhenUnreferenced => true;
+  bool get autoDisposeWhenUnreferenced => false;
 }

@@ -527,5 +527,5 @@ class _$_MapControllerQuery extends ControllerQueryBase<MapController> {
   @override
   String get name => _name;
   @override
-  bool get autoDisposeWhenUnreferenced => true;
+  bool get autoDisposeWhenUnreferenced => false;
 }
