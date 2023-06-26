@@ -37,6 +37,17 @@ typedef PurchaseUserModelRef = ModelRef<PurchaseUserModel>?;
 @immutable
 @CollectionModelPath("plugins/iap/user")
 class PurchaseUserModel with _$PurchaseUserModel {
+  /// Model for storing user data for billing purposes.
+  ///
+  /// Here you can retrieve information about the user wallet.
+  ///
+  /// You can retrieve a collection or document by passing [collection] and [document], respectively.
+  ///
+  /// 課金用のユーザーデータを保存するためのモデル。
+  ///
+  /// ここでユーザーウォレットの情報を取得することができます。
+  ///
+  /// [collection]と[document]をそれぞれ渡すことによりコレクションやドキュメントを取得することができます。
   const factory PurchaseUserModel({
     @Default(0.0) double value,
   }) = _PurchaseUserModel;

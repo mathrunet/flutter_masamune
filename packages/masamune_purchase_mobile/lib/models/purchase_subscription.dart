@@ -33,6 +33,13 @@ typedef PurchaseSubscriptionModelRef = ModelRef<PurchaseSubscriptionModel>?;
 @immutable
 @CollectionModelPath("plugins/iap/subscription")
 class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
+  /// Model for storing subscription data for billing purposes.
+  ///
+  /// You can retrieve a collection or document by passing [collection] and [document], respectively.
+  ///
+  /// 課金用のサブスクリプションデータを保存するためのモデル。
+  ///
+  /// [collection]と[document]をそれぞれ渡すことによりコレクションやドキュメントを取得することができます。
   const factory PurchaseSubscriptionModel({
     @Default(true) bool expired,
     String? token,
