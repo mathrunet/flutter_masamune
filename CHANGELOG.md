@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location` - `v2.1.9`](#masamune_location---v219)
+ - [`masamune_location_google` - `v2.1.8`](#masamune_location_google---v218)
+ - [`masamune_purchase_mobile` - `v2.1.3`](#masamune_purchase_mobile---v213)
+
+---
+
+#### `masamune_location` - `v2.1.9`
+
+ - **FIX**: Controller AutoDispose disabled. ([db76f2b8](https://github.com/mathrunet/flutter_masamune/commit/db76f2b8d9d251f6516cc8f0aac0f2c3f1fbe10e))
+
+#### `masamune_location_google` - `v2.1.8`
+
+ - **FIX**: Controller AutoDispose disabled. ([db76f2b8](https://github.com/mathrunet/flutter_masamune/commit/db76f2b8d9d251f6516cc8f0aac0f2c3f1fbe10e))
+
+#### `masamune_purchase_mobile` - `v2.1.3`
+
+ - **DOCS**: Maintenance of Comments. ([13e9e069](https://github.com/mathrunet/flutter_masamune/commit/13e9e069eb558b9a5981e3d0041d19d8640adbb9))
+
+
 ## 2023-06-25
 
 ### Changes

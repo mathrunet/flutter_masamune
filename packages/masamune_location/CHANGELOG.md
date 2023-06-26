@@ -1,3 +1,7 @@
+## 2.1.9
+
+ - **FIX**: Controller AutoDispose disabled. ([db76f2b8](https://github.com/mathrunet/flutter_masamune/commit/db76f2b8d9d251f6516cc8f0aac0f2c3f1fbe10e))
+
 ## 2.1.8
 
  - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))

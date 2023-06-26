@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **DOCS**: Maintenance of Comments. ([13e9e069](https://github.com/mathrunet/flutter_masamune/commit/13e9e069eb558b9a5981e3d0041d19d8640adbb9))
+
 ## 2.1.2
 
  - **FIX**: Import related packages. ([cdeff119](https://github.com/mathrunet/flutter_masamune/commit/cdeff119a930abc7a5c5d76faf7a1dac7f580cf7))
