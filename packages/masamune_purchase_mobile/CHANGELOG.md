@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **DOCS**: Additional Comments. ([5d5adc0b](https://github.com/mathrunet/flutter_masamune/commit/5d5adc0b88f7397a7b57b7b58036ebd7708c0b14))
+
 ## 2.1.3
 
  - **DOCS**: Maintenance of Comments. ([13e9e069](https://github.com/mathrunet/flutter_masamune/commit/13e9e069eb558b9a5981e3d0041d19d8640adbb9))

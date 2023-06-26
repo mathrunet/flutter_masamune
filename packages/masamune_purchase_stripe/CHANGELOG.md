@@ -1,3 +1,7 @@
+## 3.0.30
+
+ - **DOCS**: Maintenance of Comments. ([4408a7a3](https://github.com/mathrunet/flutter_masamune/commit/4408a7a388f605f042d87e0881005a1c2d103b94))
+
 ## 3.0.29
 
  - **FIX**: Support for changes in Functions. ([b7fb7921](https://github.com/mathrunet/flutter_masamune/commit/b7fb7921a5af26bf93e23e6613c41b472923f266))

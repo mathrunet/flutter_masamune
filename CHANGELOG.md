@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_purchase_mobile` - `v2.1.4`](#masamune_purchase_mobile---v214)
+ - [`masamune_purchase_stripe` - `v3.0.30`](#masamune_purchase_stripe---v3030)
+
+---
+
+#### `masamune_purchase_mobile` - `v2.1.4`
+
+ - **DOCS**: Additional Comments. ([5d5adc0b](https://github.com/mathrunet/flutter_masamune/commit/5d5adc0b88f7397a7b57b7b58036ebd7708c0b14))
+
+#### `masamune_purchase_stripe` - `v3.0.30`
+
+ - **DOCS**: Maintenance of Comments. ([4408a7a3](https://github.com/mathrunet/flutter_masamune/commit/4408a7a388f605f042d87e0881005a1c2d103b94))
+
+
 ## 2023-06-26
 
 ### Changes
