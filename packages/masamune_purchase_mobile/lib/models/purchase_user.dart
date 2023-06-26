@@ -21,7 +21,17 @@ part 'purchase_user.freezed.dart';
 /// ```
 typedef PurchaseUserModelRef = ModelRef<PurchaseUserModel>?;
 
-/// Value for model.
+/// Model for storing user data for billing purposes.
+///
+/// Here you can retrieve information about the user wallet.
+///
+/// You can retrieve a collection or document by passing [collection] and [document], respectively.
+///
+/// 課金用のユーザーデータを保存するためのモデル。
+///
+/// ここでユーザーウォレットの情報を取得することができます。
+///
+/// [collection]と[document]をそれぞれ渡すことによりコレクションやドキュメントを取得することができます。
 @freezed
 @formValue
 @immutable

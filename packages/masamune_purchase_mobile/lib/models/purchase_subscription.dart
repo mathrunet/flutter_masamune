@@ -21,7 +21,13 @@ part 'purchase_subscription.freezed.dart';
 /// ```
 typedef PurchaseSubscriptionModelRef = ModelRef<PurchaseSubscriptionModel>?;
 
-/// Value for model.
+/// Model for storing subscription data for billing purposes.
+///
+/// You can retrieve a collection or document by passing [collection] and [document], respectively.
+///
+/// 課金用のサブスクリプションデータを保存するためのモデル。
+///
+/// [collection]と[document]をそれぞれ渡すことによりコレクションやドキュメントを取得することができます。
 @freezed
 @formValue
 @immutable

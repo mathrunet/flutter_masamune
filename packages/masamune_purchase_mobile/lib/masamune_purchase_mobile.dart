@@ -18,16 +18,14 @@ import 'package:flutter/widgets.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
+// ignore: implementation_imports
 import 'package:in_app_purchase_storekit/src/store_kit_wrappers/sk_payment_queue_wrapper.dart';
 import 'package:masamune/masamune.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 // Project imports:
 import 'package:masamune_purchase_mobile/models/purchase_user.dart';
-
-// ignore: depend_on_referenced_packages, implementation_imports
-// ignore: depend_on_referenced_packages
-// ignore: depend_on_referenced_packages
+import 'package:masamune_purchase_mobile/models/purchase_subscription.dart';
 
 part 'adapter/mobile_purchase_masamune_adapter.dart';
 

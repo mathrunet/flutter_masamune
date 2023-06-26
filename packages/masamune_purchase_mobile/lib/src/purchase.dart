@@ -1,10 +1,93 @@
 part of masamune_purchase_mobile;
 
-class Purchase extends ChangeNotifier {
+/// Controller for in app purchase.
+///
+/// Initialization is performed by executing [initialize].
+/// If the store side billing setup has not been completed, it will not complete successfully. Please pay attention to the following points while performing the setup.
+/// ** Android
+/// - Must be set up for store side apps.
+/// - The app must be signed and the first build uploaded
+/// - Billed items must be set and valid.
+///
+/// ** IOS
+/// - Must be set up for store side apps.
+/// - Must have bank account and tax information set up for payments
+/// - Billed items must be set and valid.
+///
+/// If you want to start billing, pass [PurchaseProduct] to [purchase] and execute.
+/// [PurchaseProduct] should be obtained through [findProductById] or similar.
+///
+/// In app purchaseを行うためのコントローラー。
+///
+/// [initialize]を実行することで初期化を行います。
+/// ストア側の課金のセットアップが終わっていない場合は正常に完了しません。以下の点を注意しながらセットアップを行ってください。
+/// ** Android
+/// - ストア側のアプリの設定を行っていること
+/// - アプリの署名を行い最初のビルドをアップロード済みであること
+/// - 課金アイテムを設定し有効であること
+///
+/// ** IOS
+/// - ストア側のアプリの設定を行っていること
+/// - 支払い用の銀行口座や税務情報をセットアップ済みであること
+/// - 課金アイテムを設定し有効であること
+///
+/// 課金を開始したい場合は[purchase]に[PurchaseProduct]を渡して実行します。
+/// [PurchaseProduct]は[findProductById]などを通して取得してください。
+class Purchase
+    extends MasamuneControllerBase<void, MobilePurchaseMasamuneAdapter> {
+  /// Controller for in app purchase.
+  ///
+  /// Initialization is performed by executing [initialize].
+  /// If the store side billing setup has not been completed, it will not complete successfully. Please pay attention to the following points while performing the setup.
+  /// ** Android
+  /// - Must be set up for store side apps.
+  /// - The app must be signed and the first build uploaded
+  /// - Billed items must be set and valid.
+  ///
+  /// ** IOS
+  /// - Must be set up for store side apps.
+  /// - Must have bank account and tax information set up for payments
+  /// - Billed items must be set and valid.
+  ///
+  /// If you want to start billing, pass [PurchaseProduct] to [purchase] and execute.
+  /// [PurchaseProduct] should be obtained through [findProductById] or similar.
+  ///
+  /// In app purchaseを行うためのコントローラー。
+  ///
+  /// [initialize]を実行することで初期化を行います。
+  /// ストア側の課金のセットアップが終わっていない場合は正常に完了しません。以下の点を注意しながらセットアップを行ってください。
+  /// ** Android
+  /// - ストア側のアプリの設定を行っていること
+  /// - アプリの署名を行い最初のビルドをアップロード済みであること
+  /// - 課金アイテムを設定し有効であること
+  ///
+  /// ** IOS
+  /// - ストア側のアプリの設定を行っていること
+  /// - 支払い用の銀行口座や税務情報をセットアップ済みであること
+  /// - 課金アイテムを設定し有効であること
+  ///
+  /// 課金を開始したい場合は[purchase]に[PurchaseProduct]を渡して実行します。
+  /// [PurchaseProduct]は[findProductById]などを通して取得してください。
   Purchase();
 
-  InAppPurchase get iap => InAppPurchase.instance;
+  /// Query for Purchase.
+  ///
+  /// ```dart
+  /// appRef.conroller(Purchase.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(Purchase.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(Purchase.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$PurchaseQuery();
 
+  @override
+  MobilePurchaseMasamuneAdapter get primaryAdapter =>
+      MobilePurchaseMasamuneAdapter.primary;
+
+  InAppPurchase get _iap => InAppPurchase.instance;
+
+  /// Returns `true` if already initialized.
+  ///
+  /// すでに初期化されていれば`true`を返します。
   bool get initialized => _initialized;
   bool _initialized = false;
 
@@ -13,6 +96,13 @@ class Purchase extends ChangeNotifier {
   StreamSubscription<List<PurchaseDetails>>? _purchaseUpdateStreamSubscription;
   final List<PurchaseProduct> _products = [];
 
+  /// Initialize InAppPurchase.
+  ///
+  /// Specify a callback in [onRetrieveUserId] that returns the unique ID of the user.
+  ///
+  /// InAppPurchaseを初期化します。
+  ///
+  /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。
   Future<void> initialize({
     required String Function() onRetrieveUserId,
   }) async {
@@ -27,11 +117,11 @@ class Purchase extends ChangeNotifier {
       final adapter = MobilePurchaseMasamuneAdapter.primary;
       final functions =
           adapter.functionsAdapter ?? const RuntimeFunctionsAdapter();
-      final available = await iap.isAvailable();
+      final available = await _iap.isAvailable();
       if (!available) {
         throw UnsupportedError("Purchasing function is not supported.");
       }
-      final productDetailResponse = await iap.queryProductDetails(
+      final productDetailResponse = await _iap.queryProductDetails(
         adapter.products
             .mapAndRemoveEmpty((element) => element.productId)
             .toSet(),
@@ -68,7 +158,7 @@ class Purchase extends ChangeNotifier {
         );
         debugPrint("Adding Product: ${tmp.title} (${tmp.id})");
       }
-      _purchaseUpdateStreamSubscription = iap.purchaseStream.listen(
+      _purchaseUpdateStreamSubscription = _iap.purchaseStream.listen(
         (purchaseDetailsList) async {
           try {
             var done = false;
@@ -81,7 +171,7 @@ class Purchase extends ChangeNotifier {
                 if (purchase.status != PurchaseStatus.pending) {
                   if (purchase.status == PurchaseStatus.error) {
                     if (purchase.pendingCompletePurchase) {
-                      await iap.completePurchase(purchase);
+                      await _iap.completePurchase(purchase);
                     }
                     throw Exception(
                       "Purchase completed with error: ${purchase.productID}:${purchase.error.toString()}",
@@ -309,21 +399,21 @@ class Purchase extends ChangeNotifier {
                   if (UniversalPlatform.isAndroid) {
                     if (!adapter.automaticallyConsumeOnAndroid &&
                         product.type == PurchaseProductType.consumable) {
-                      final platform = iap.getPlatformAddition<
+                      final platform = _iap.getPlatformAddition<
                           InAppPurchaseAndroidPlatformAddition>();
                       await platform.consumePurchase(purchase);
                     }
                   }
                   if (purchase.pendingCompletePurchase) {
                     debugPrint("Purchase completed: ${purchase.productID}");
-                    await iap.completePurchase(purchase);
+                    await _iap.completePurchase(purchase);
                   }
                   done = true;
                 }
               } catch (e) {
                 if (purchase.pendingCompletePurchase) {
                   debugPrint("Purchase completed: ${purchase.productID}");
-                  await iap.completePurchase(purchase);
+                  await _iap.completePurchase(purchase);
                 }
                 throw Exception(
                   "Purchase completed with error: ${purchase.productID}:${e.toString()}:${StackTrace.current.toString()}",
@@ -383,6 +473,13 @@ class Purchase extends ChangeNotifier {
     }
   }
 
+  /// This function is used to restore billing information when a device is initialized or when a device model is changed.
+  ///
+  /// Please use this function if you need to install a restore button in IOS, as it is also automatically executed by [INITIALIZE].
+  ///
+  /// 端末の初期化時や機種変更時などに課金情報を復元する際に実行します。
+  ///
+  /// [initialize]でも自動実行されるのでIOSでリストアボタンを設置する必要がある場合にご利用ください。
   Future<void> restore() async {
     if (!initialized) {
       throw Exception(
@@ -394,7 +491,7 @@ class Purchase extends ChangeNotifier {
     }
     _completer = Completer<void>();
     try {
-      await iap.restorePurchases();
+      await _iap.restorePurchases();
       _completer?.complete();
       _completer = null;
       notifyListeners();
@@ -408,6 +505,9 @@ class Purchase extends ChangeNotifier {
     }
   }
 
+  /// The billing is based on the items in [product].
+  ///
+  /// [product]のアイテムを元に課金を行います。
   Future<void> purchase(PurchaseProduct product) async {
     if (!initialized) {
       throw Exception(
@@ -431,7 +531,7 @@ class Purchase extends ChangeNotifier {
           productDetails: found.productDetails,
           applicationUserName: found.userId,
         );
-        if (!await iap.buyConsumable(
+        if (!await _iap.buyConsumable(
           purchaseParam: purchaseParam,
           autoConsume:
               adapter.automaticallyConsumeOnAndroid || UniversalPlatform.isIOS,
@@ -443,7 +543,7 @@ class Purchase extends ChangeNotifier {
           productDetails: found.productDetails,
           applicationUserName: found.userId,
         );
-        if (!await iap.buyNonConsumable(purchaseParam: purchaseParam)) {
+        if (!await _iap.buyNonConsumable(purchaseParam: purchaseParam)) {
           throw Exception("Purchase failed or was canceled.");
         }
       } else if (found is _StoreSubscriptionPurchaseProduct) {
@@ -451,7 +551,7 @@ class Purchase extends ChangeNotifier {
           productDetails: found.productDetails,
           applicationUserName: found.userId,
         );
-        if (!await iap.buyNonConsumable(purchaseParam: purchaseParam)) {
+        if (!await _iap.buyNonConsumable(purchaseParam: purchaseParam)) {
           throw Exception("Purchase failed or was canceled.");
         }
       } else {
@@ -477,24 +577,69 @@ class Purchase extends ChangeNotifier {
     _purchaseUpdateStreamSubscription?.cancel();
   }
 
+  /// Returns **Internally Managed** [PurchaseProduct] based on the specified [product].
+  ///
+  /// It is recommended to obtain the internally managed [PurchaseProduct], which is assigned an object that includes monitoring of actual data, etc.
+  ///
+  /// 指定された[product]を元に**内部で管理している**[PurchaseProduct]を返します。
+  ///
+  /// 内部で管理している[PurchaseProduct]は実データの監視等も含めたオブジェクトが割り当てられているのでそれを取得することを推奨します。
   PurchaseProduct? findProductByProduct(PurchaseProduct product) {
     return _products
         .firstWhereOrNull((product) => product.productId == product.productId);
   }
 
+  /// Returns Applications Users Volumes cores etc home opt private usr var which is **managed internally** based on [productId].
+  ///
+  /// [productId]を元に**内部で管理している**[PurchaseProduct]を返します。
   PurchaseProduct? findProductById(String productId) {
     assert(productId.isNotEmpty, "ID is empty.");
     return _products
         .firstWhereOrNull((product) => product.productId == productId);
   }
 
+  /// Returns Applications Users Volumes cores etc home opt private usr var which is **managed internally** based on [details].
+  ///
+  /// [details]を元に**内部で管理している**[PurchaseProduct]を返します。
   PurchaseProduct? findProductByPurchaseDetails(PurchaseDetails details) {
     return _products
         .firstWhereOrNull((product) => product.productId == details.productID);
   }
 
+  /// Returns Applications Users Volumes cores etc home opt private usr var which is **managed internally** based on [details].
+  ///
+  /// [details]を元に**内部で管理している**[PurchaseProduct]を返します。
   PurchaseProduct? findProductByProductDetails(ProductDetails details) {
     return _products
         .firstWhereOrNull((product) => product.productId == details.id);
   }
+}
+
+@immutable
+class _$PurchaseQuery {
+  const _$PurchaseQuery();
+
+  @useResult
+  _$_PurchaseQuery call() => _$_PurchaseQuery(
+        hashCode.toString(),
+      );
+}
+
+@immutable
+class _$_PurchaseQuery extends ControllerQueryBase<Purchase> {
+  const _$_PurchaseQuery(
+    this._name,
+  );
+
+  final String _name;
+
+  @override
+  Purchase Function() call(Ref ref) {
+    return () => Purchase();
+  }
+
+  @override
+  String get name => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => false;
 }
