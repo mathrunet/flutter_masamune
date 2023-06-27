@@ -28,7 +28,6 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:masamune_purchase_mobile/models/purchase_subscription.dart';
 import 'package:masamune_purchase_mobile/models/purchase_user.dart';
 
-
 part 'adapter/mobile_purchase_masamune_adapter.dart';
 
 part 'settings/android_consumable_purchase_settings.dart';
