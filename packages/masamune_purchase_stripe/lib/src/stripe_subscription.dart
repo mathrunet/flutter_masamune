@@ -97,8 +97,8 @@ class StripeSubscription
       final returnPathOptions =
           StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeCreateSubscriptionAction(
+      final response = await functionsAdapter.execute(
+        StripeCreateSubscriptionAction(
           userId: userId,
           orderId: orderId,
           productId: productId,
@@ -109,9 +109,6 @@ class StripeSubscription
         ),
       );
 
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       onSuccess() {
         internalCompleter?.complete();
         internalCompleter = null;
@@ -196,14 +193,11 @@ class StripeSubscription
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeDeleteSubscriptionAction(
+      await functionsAdapter.execute(
+        StripeDeleteSubscriptionAction(
           orderId: value.orderId,
         ),
       );
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
         await purchaseCollection.reload();

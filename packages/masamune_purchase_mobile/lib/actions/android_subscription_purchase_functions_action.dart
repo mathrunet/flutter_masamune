@@ -3,11 +3,12 @@ part of masamune_purchase_mobile;
 /// Define subscription settings for Android.
 ///
 /// Android用のサブスクリプションの設定を定義します。
-class AndroidSubscriptionPurchaseSettings extends PurchaseSettings {
+class AndroidSubscriptionPurchaseFunctionsAction
+    extends PurchaseFunctionsAction {
   /// Define subscription settings for Android.
   ///
   /// Android用のサブスクリプションの設定を定義します。
-  const AndroidSubscriptionPurchaseSettings({
+  const AndroidSubscriptionPurchaseFunctionsAction({
     required this.packageName,
     required this.productId,
     required this.purchaseToken,

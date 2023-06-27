@@ -3,11 +3,11 @@ part of masamune_purchase_mobile;
 /// Define subscription settings for IOS.
 ///
 /// IOS用のサブスクリプションの設定を定義します。
-class IOSSubscriptionPurchaseSettings extends PurchaseSettings {
+class IOSSubscriptionPurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// Define subscription settings for IOS.
   ///
   /// IOS用のサブスクリプションの設定を定義します。
-  const IOSSubscriptionPurchaseSettings({
+  const IOSSubscriptionPurchaseFunctionsAction({
     required this.receiptData,
     required this.productId,
     required this.purchaseId,

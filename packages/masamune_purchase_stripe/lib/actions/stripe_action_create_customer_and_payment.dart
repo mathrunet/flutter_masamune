@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] for creating Stripe customer and payment information.
+/// [StripeFunctionsAction] for creating Stripe customer and payment information.
 ///
-/// Stripeのカスタマー及び支払い情報の作成を行うための[StripeAction]。
-class StripeCreateCustomerAndPaymentAction
-    extends StripeAction<StripeCreateCustomerAndPaymentActionResponse> {
-  /// [StripeAction] for creating Stripe customer and payment information.
+/// Stripeのカスタマー及び支払い情報の作成を行うための[StripeFunctionsAction]。
+class StripeCreateCustomerAndPaymentAction extends StripeFunctionsAction<
+    StripeCreateCustomerAndPaymentActionResponse> {
+  /// [StripeFunctionsAction] for creating Stripe customer and payment information.
   ///
-  /// Stripeのカスタマー及び支払い情報の作成を行うための[StripeAction]。
+  /// Stripeのカスタマー及び支払い情報の作成を行うための[StripeFunctionsAction]。
   const StripeCreateCustomerAndPaymentAction({
     required this.userId,
     required this.successUrl,
@@ -42,9 +42,9 @@ class StripeCreateCustomerAndPaymentAction
   }
 
   @override
-  StripeCreateCustomerAndPaymentActionResponse? toResponse(DynamicMap map) {
+  StripeCreateCustomerAndPaymentActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeCreateCustomerAndPaymentActionResponse(
       endpoint: Uri.parse(map.get("endpoint", "")),
@@ -53,14 +53,14 @@ class StripeCreateCustomerAndPaymentAction
   }
 }
 
-/// [StripeActionResponse] for creating Stripe customer and payment information.
+/// [StripeFunctionsActionResponse] for creating Stripe customer and payment information.
 ///
-/// Stripeのカスタマー及び支払い情報の作成を行うための[StripeActionResponse]。
+/// Stripeのカスタマー及び支払い情報の作成を行うための[StripeFunctionsActionResponse]。
 class StripeCreateCustomerAndPaymentActionResponse
-    extends StripeActionResponse {
-  /// [StripeActionResponse] for creating Stripe customer and payment information.
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] for creating Stripe customer and payment information.
   ///
-  /// Stripeのカスタマー及び支払い情報の作成を行うための[StripeActionResponse]。
+  /// Stripeのカスタマー及び支払い情報の作成を行うための[StripeFunctionsActionResponse]。
   const StripeCreateCustomerAndPaymentActionResponse({
     required this.endpoint,
     required this.customerId,

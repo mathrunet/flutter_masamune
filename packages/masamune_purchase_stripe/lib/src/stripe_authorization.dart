@@ -91,8 +91,8 @@ class StripeAuthorization
       final returnPathOptions =
           StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeAuthorizationAction(
+      final response = await functionsAdapter.execute(
+        StripeAuthorizationAction(
           userId: userId,
           priceAmount: priceAmount,
           online: online,
@@ -114,7 +114,7 @@ class StripeAuthorization
         ),
       );
 
-      if (response == null || response.authorizedId.isEmpty) {
+      if (response.authorizedId.isEmpty) {
         throw Exception("Response is invalid.");
       }
       bool authenticated = true;
@@ -154,14 +154,11 @@ class StripeAuthorization
         builder.call(response.nextActionUrl!, webView, onCompleted);
         await internalCompleter!.future;
       }
-      final responseConfirm = await functionsAdapter.stipe(
-        action: StripeConfirmAuthorizationAction(
+      await functionsAdapter.execute(
+        StripeConfirmAuthorizationAction(
           authorizedId: response.authorizedId,
         ),
       );
-      if (responseConfirm == null) {
-        throw Exception("Response is invalid.");
-      }
       _completer?.complete();
       _completer = null;
       internalCompleter?.complete();

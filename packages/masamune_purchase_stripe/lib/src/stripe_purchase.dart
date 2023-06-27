@@ -97,8 +97,8 @@ class StripePurchase
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeCreatePurchaseAction(
+      final response = await functionsAdapter.execute(
+        StripeCreatePurchaseAction(
           userId: userId,
           priceAmount: priceAmount,
           revenueAmount: StripePurchaseMasamuneAdapter.primary.revenueRatio,
@@ -119,7 +119,7 @@ class StripePurchase
         ),
       );
 
-      if (response == null || response.purchaseId.isEmpty) {
+      if (response.purchaseId.isEmpty) {
         throw Exception("Response is invalid.");
       }
 
@@ -166,16 +166,13 @@ class StripePurchase
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeRefreshPurchaseAction(
+      await functionsAdapter.execute(
+        StripeRefreshPurchaseAction(
           userId: userId,
           orderId: purchase.orderId,
         ),
       );
 
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       _completer?.complete();
       _completer = null;
       notifyListeners();
@@ -264,8 +261,8 @@ class StripePurchase
       final returnPathOptions =
           StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeConfirmPurchaseAction(
+      final response = await functionsAdapter.execute(
+        StripeConfirmPurchaseAction(
           userId: userId,
           orderId: value.orderId,
           returnUrl: online
@@ -280,7 +277,7 @@ class StripePurchase
         ),
       );
 
-      if (response == null || response.purchaseId.isEmpty) {
+      if (response.purchaseId.isEmpty) {
         throw Exception("Response is invalid.");
       }
       bool authenticated = true;
@@ -398,15 +395,15 @@ class StripePurchase
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeCapturePurchaseAction(
+      final response = await functionsAdapter.execute(
+        StripeCapturePurchaseAction(
           userId: userId,
           orderId: value.orderId,
           priceAmountOverride: priceAmountOverride,
         ),
       );
 
-      if (response == null || response.purchaseId.isEmpty) {
+      if (response.purchaseId.isEmpty) {
         throw Exception("Response is invalid.");
       }
       await Future.doWhile(() async {
@@ -455,16 +452,13 @@ class StripePurchase
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeCancelPurchaseAction(
+      await functionsAdapter.execute(
+        StripeCancelPurchaseAction(
           userId: userId,
           orderId: value.orderId,
         ),
       );
 
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
         await purchase.reload();
@@ -521,17 +515,14 @@ class StripePurchase
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeRefundPurchaseAction(
+      await functionsAdapter.execute(
+        StripeRefundPurchaseAction(
           userId: userId,
           orderId: value.orderId,
           refundAmount: refundAmount,
         ),
       );
 
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
         await purchase.reload();

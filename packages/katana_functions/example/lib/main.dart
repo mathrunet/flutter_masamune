@@ -60,12 +60,10 @@ class FunctionsPageState extends State<FunctionsPage> {
       body: ListView(
         children: [
           ListTile(
-            title: const Text("Send Notification"),
+            title: const Text("Test Functions"),
             onTap: () async {
-              await functions.sendNotification(
-                title: "Title",
-                text: "Push Notifications",
-                target: "TopicName",
+              await functions.execute(
+                const TestFunctionsAction(),
               );
             },
           )

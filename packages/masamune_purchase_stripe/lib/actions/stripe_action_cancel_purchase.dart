@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to cancel a Stripe purchase.
+/// [StripeFunctionsAction] to cancel a Stripe purchase.
 ///
-/// Stripeの購入キャンセルを行うための[StripeAction]。
+/// Stripeの購入キャンセルを行うための[StripeFunctionsAction]。
 class StripeCancelPurchaseAction
-    extends StripeAction<StripeCancelPurchaseActionResponse> {
-  /// [StripeAction] to cancel a Stripe purchase.
+    extends StripeFunctionsAction<StripeCancelPurchaseActionResponse> {
+  /// [StripeFunctionsAction] to cancel a Stripe purchase.
   ///
-  /// Stripeの購入キャンセルを行うための[StripeAction]。
+  /// Stripeの購入キャンセルを行うための[StripeFunctionsAction]。
   const StripeCancelPurchaseAction({
     required this.userId,
     required this.orderId,
@@ -35,20 +35,17 @@ class StripeCancelPurchaseAction
   }
 
   @override
-  StripeCancelPurchaseActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeCancelPurchaseActionResponse toResponse(DynamicMap map) {
     return const StripeCancelPurchaseActionResponse();
   }
 }
 
-/// [StripeActionResponse] to cancel a Stripe purchase.
+/// [StripeFunctionsActionResponse] to cancel a Stripe purchase.
 ///
-/// Stripeの購入キャンセルを行うための[StripeActionResponse]。
-class StripeCancelPurchaseActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to cancel a Stripe purchase.
+/// Stripeの購入キャンセルを行うための[StripeFunctionsActionResponse]。
+class StripeCancelPurchaseActionResponse extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to cancel a Stripe purchase.
   ///
-  /// Stripeの購入キャンセルを行うための[StripeActionResponse]。
+  /// Stripeの購入キャンセルを行うための[StripeFunctionsActionResponse]。
   const StripeCancelPurchaseActionResponse();
 }

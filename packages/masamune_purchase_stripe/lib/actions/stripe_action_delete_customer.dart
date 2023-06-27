@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to delete a Stripe customer.
+/// [StripeFunctionsAction] to delete a Stripe customer.
 ///
-/// Stripeのカスタマーの削除を行うための[StripeAction]。
+/// Stripeのカスタマーの削除を行うための[StripeFunctionsAction]。
 class StripeDeleteCustomerAction
-    extends StripeAction<StripeDeleteCustomerActionResponse> {
-  /// [StripeAction] to delete a Stripe customer.
+    extends StripeFunctionsAction<StripeDeleteCustomerActionResponse> {
+  /// [StripeFunctionsAction] to delete a Stripe customer.
   ///
-  /// Stripeのカスタマーの削除を行うための[StripeAction]。
+  /// Stripeのカスタマーの削除を行うための[StripeFunctionsAction]。
   const StripeDeleteCustomerAction({
     required this.userId,
   });
@@ -28,20 +28,17 @@ class StripeDeleteCustomerAction
   }
 
   @override
-  StripeDeleteCustomerActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeDeleteCustomerActionResponse toResponse(DynamicMap map) {
     return const StripeDeleteCustomerActionResponse();
   }
 }
 
-/// [StripeActionResponse] to delete a Stripe customer.
+/// [StripeFunctionsActionResponse] to delete a Stripe customer.
 ///
-/// Stripeのカスタマーの削除を行うための[StripeActionResponse]。
-class StripeDeleteCustomerActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to delete a Stripe customer.
+/// Stripeのカスタマーの削除を行うための[StripeFunctionsActionResponse]。
+class StripeDeleteCustomerActionResponse extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to delete a Stripe customer.
   ///
-  /// Stripeのカスタマーの削除を行うための[StripeActionResponse]。
+  /// Stripeのカスタマーの削除を行うための[StripeFunctionsActionResponse]。
   const StripeDeleteCustomerActionResponse();
 }

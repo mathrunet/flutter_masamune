@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] for creating a Stripe subscription.
+/// [StripeFunctionsAction] for creating a Stripe subscription.
 ///
-/// Stripeのサブスクリプションの作成を行うための[StripeAction]。
+/// Stripeのサブスクリプションの作成を行うための[StripeFunctionsAction]。
 class StripeCreateSubscriptionAction
-    extends StripeAction<StripeCreateSubscriptionActionResponse> {
-  /// [StripeAction] for creating a Stripe subscription.
+    extends StripeFunctionsAction<StripeCreateSubscriptionActionResponse> {
+  /// [StripeFunctionsAction] for creating a Stripe subscription.
   ///
-  /// Stripeのサブスクリプションの作成を行うための[StripeAction]。
+  /// Stripeのサブスクリプションの作成を行うための[StripeFunctionsAction]。
   const StripeCreateSubscriptionAction({
     required this.userId,
     required this.productId,
@@ -63,9 +63,9 @@ class StripeCreateSubscriptionAction
   }
 
   @override
-  StripeCreateSubscriptionActionResponse? toResponse(DynamicMap map) {
+  StripeCreateSubscriptionActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeCreateSubscriptionActionResponse(
       endpoint: Uri.parse(map.get("endpoint", "")),
@@ -73,13 +73,14 @@ class StripeCreateSubscriptionAction
   }
 }
 
-/// [StripeActionResponse] for creating a Stripe subscription.
+/// [StripeFunctionsActionResponse] for creating a Stripe subscription.
 ///
-/// Stripeのサブスクリプションの作成を行うための[StripeActionResponse]。
-class StripeCreateSubscriptionActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] for creating a Stripe subscription.
+/// Stripeのサブスクリプションの作成を行うための[StripeFunctionsActionResponse]。
+class StripeCreateSubscriptionActionResponse
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] for creating a Stripe subscription.
   ///
-  /// Stripeのサブスクリプションの作成を行うための[StripeActionResponse]。
+  /// Stripeのサブスクリプションの作成を行うための[StripeFunctionsActionResponse]。
   const StripeCreateSubscriptionActionResponse({required this.endpoint});
 
   /// An endpoint for entering purchase information.

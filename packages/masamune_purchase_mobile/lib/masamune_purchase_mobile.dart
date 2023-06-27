@@ -30,12 +30,13 @@ import 'package:masamune_purchase_mobile/models/purchase_user.dart';
 
 part 'adapter/mobile_purchase_masamune_adapter.dart';
 
-part 'settings/android_consumable_purchase_settings.dart';
-part 'settings/ios_consumable_purchase_settings.dart';
-part 'settings/android_nonconsumable_purchase_settings.dart';
-part 'settings/ios_nonconsumable_purchase_settings.dart';
-part 'settings/android_subscription_purchase_settings.dart';
-part 'settings/ios_subscription_purchase_settings.dart';
+part 'actions/android_consumable_purchase_functions_action.dart';
+part 'actions/ios_consumable_purchase_functions_action.dart';
+part 'actions/android_nonconsumable_purchase_functions_action.dart';
+part 'actions/ios_nonconsumable_purchase_functions_action.dart';
+part 'actions/android_subscription_purchase_functions_action.dart';
+part 'actions/ios_subscription_purchase_functions_action.dart';
 
 part 'src/purchase.dart';
 part 'src/purchase_product.dart';
+part 'src/purchase_functions_action.dart';

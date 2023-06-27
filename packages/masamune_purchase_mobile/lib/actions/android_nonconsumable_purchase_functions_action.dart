@@ -1,23 +1,36 @@
 part of masamune_purchase_mobile;
 
-/// Define the settings for non-consumable billing for IOS.
+/// Define the settings for non-disposable billing for Android.
 ///
-/// IOS用の非消耗型課金の設定を定義します。
-class IOSNonConsumablePurchaseSettings extends PurchaseSettings {
-  /// Define the settings for non-consumable billing for IOS.
+/// Android用の非消耗型課金の設定を定義します。
+class AndroidNonConsumablePurchaseFunctionsAction
+    extends PurchaseFunctionsAction {
+  /// Define the settings for non-disposable billing for Android.
   ///
-  /// IOS用の非消耗型課金の設定を定義します。
-  const IOSNonConsumablePurchaseSettings({
-    required this.receiptData,
+  /// Android用の非消耗型課金の設定を定義します。
+  const AndroidNonConsumablePurchaseFunctionsAction({
+    required this.packageName,
+    required this.productId,
+    required this.purchaseToken,
     this.collectionPath = "plugins/iap/user",
     required this.fieldKey,
     required this.documentId,
   });
 
-  /// Receipt data.
+  /// Package Name.
   ///
-  /// レシートデータ。
-  final String receiptData;
+  /// パッケージ名。
+  final String packageName;
+
+  /// Product ID.
+  ///
+  /// 商品ID。
+  final String productId;
+
+  /// Tokens issued at the time of purchase.
+  ///
+  /// 購入時発行されたトークン。
+  final String purchaseToken;
 
   /// The collection path where the data will be stored.
   ///
@@ -35,7 +48,7 @@ class IOSNonConsumablePurchaseSettings extends PurchaseSettings {
   final String fieldKey;
 
   @override
-  String get action => "nonconsumable_verify_ios";
+  String get action => "nonconsumable_verify_android";
 
   @override
   DynamicMap? toMap() {
@@ -43,7 +56,9 @@ class IOSNonConsumablePurchaseSettings extends PurchaseSettings {
     assert(documentId.isNotEmpty, "The document id must not be empty.");
     assert(fieldKey.isNotEmpty, "The field key must not be empty.");
     return {
-      "receiptData": receiptData,
+      "packageName": packageName,
+      "productId": productId,
+      "purchaseToken": purchaseToken,
       "path": "$collectionPath/$documentId/$fieldKey",
     };
   }
@@ -53,6 +68,6 @@ class IOSNonConsumablePurchaseSettings extends PurchaseSettings {
     if (response == null) {
       return false;
     }
-    return response.get<int?>("status", null) == 0;
+    return response.get<int?>("purchaseState", null) == 0;
   }
 }

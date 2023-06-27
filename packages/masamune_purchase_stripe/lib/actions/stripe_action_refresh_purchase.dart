@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to update payment information for Stripe purchases.
+/// [StripeFunctionsAction] to update payment information for Stripe purchases.
 ///
-/// Stripeの購入の支払い情報の更新を行うための[StripeAction]。
+/// Stripeの購入の支払い情報の更新を行うための[StripeFunctionsAction]。
 class StripeRefreshPurchaseAction
-    extends StripeAction<StripeRefreshPurchaseActionResponse> {
-  /// [StripeAction] to update payment information for Stripe purchases.
+    extends StripeFunctionsAction<StripeRefreshPurchaseActionResponse> {
+  /// [StripeFunctionsAction] to update payment information for Stripe purchases.
   ///
-  /// Stripeの購入の支払い情報の更新を行うための[StripeAction]。
+  /// Stripeの購入の支払い情報の更新を行うための[StripeFunctionsAction]。
   const StripeRefreshPurchaseAction({
     required this.userId,
     required this.orderId,
@@ -35,20 +35,18 @@ class StripeRefreshPurchaseAction
   }
 
   @override
-  StripeRefreshPurchaseActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeRefreshPurchaseActionResponse toResponse(DynamicMap map) {
     return const StripeRefreshPurchaseActionResponse();
   }
 }
 
-/// [StripeActionResponse] to update payment information for Stripe purchases.
+/// [StripeFunctionsActionResponse] to update payment information for Stripe purchases.
 ///
-/// Stripeの購入の支払い情報の更新を行うための[StripeActionResponse]。
-class StripeRefreshPurchaseActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to update payment information for Stripe purchases.
+/// Stripeの購入の支払い情報の更新を行うための[StripeFunctionsActionResponse]。
+class StripeRefreshPurchaseActionResponse
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to update payment information for Stripe purchases.
   ///
-  /// Stripeの購入の支払い情報の更新を行うための[StripeActionResponse]。
+  /// Stripeの購入の支払い情報の更新を行うための[StripeFunctionsActionResponse]。
   const StripeRefreshPurchaseActionResponse();
 }

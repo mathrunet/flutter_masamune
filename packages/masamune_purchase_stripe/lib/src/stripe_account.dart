@@ -100,8 +100,8 @@ class StripeAccount
       final returnPathOptions =
           StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeCreateAccountAction(
+      final response = await functionsAdapter.execute(
+        StripeCreateAccountAction(
           userId: userId,
           locale: locale,
           refreshUrl: Uri.parse(
@@ -111,9 +111,6 @@ class StripeAccount
         ),
       );
 
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       if (response.accountId.isEmpty) {
         throw Exception("Response is invalid.");
       }
@@ -209,14 +206,11 @@ class StripeAccount
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeDeleteAccountAction(
+      await functionsAdapter.execute(
+        StripeDeleteAccountAction(
           userId: value.userId,
         ),
       );
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
         await account.reload();
@@ -279,14 +273,11 @@ class StripeAccount
           .trimQuery()
           .trimString("/");
 
-      final response = await functionsAdapter.stipe(
-        action: StripeDashboardAccountAction(
+      final response = await functionsAdapter.execute(
+        StripeDashboardAccountAction(
           userId: value.userId,
         ),
       );
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       onCompleted() {
         internalCompleter?.complete();
         internalCompleter = null;

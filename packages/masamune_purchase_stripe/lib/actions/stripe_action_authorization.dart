@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] for Stripe authorization.
+/// [StripeFunctionsAction] for Stripe authorization.
 ///
-/// Stripeのオーソリを行うための[StripeAction]。
+/// Stripeのオーソリを行うための[StripeFunctionsAction]。
 class StripeAuthorizationAction
-    extends StripeAction<StripeAuthorizationActionResponse> {
+    extends StripeFunctionsAction<StripeAuthorizationActionResponse> {
   /// StripeAction] for Stripe authorization.
   ///
-  /// Stripeのオーソリを行うための[StripeAction]。
+  /// Stripeのオーソリを行うための[StripeFunctionsAction]。
   const StripeAuthorizationAction({
     required this.userId,
     required this.priceAmount,
@@ -73,9 +73,9 @@ class StripeAuthorizationAction
   }
 
   @override
-  StripeAuthorizationActionResponse? toResponse(DynamicMap map) {
+  StripeAuthorizationActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeAuthorizationActionResponse(
       authorizedId: map.get("authorizedId", ""),
@@ -85,13 +85,13 @@ class StripeAuthorizationAction
   }
 }
 
-/// [StripeActionResponse] for Stripe authorization.
+/// [StripeFunctionsActionResponse] for Stripe authorization.
 ///
-/// Stripeのオーソリを行うための[StripeActionResponse]。
-class StripeAuthorizationActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] for Stripe authorization.
+/// Stripeのオーソリを行うための[StripeFunctionsActionResponse]。
+class StripeAuthorizationActionResponse extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] for Stripe authorization.
   ///
-  /// Stripeのオーソリを行うための[StripeActionResponse]。
+  /// Stripeのオーソリを行うための[StripeFunctionsActionResponse]。
   const StripeAuthorizationActionResponse({
     required this.authorizedId,
     required this.nextActionUrl,

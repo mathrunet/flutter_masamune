@@ -95,8 +95,8 @@ class StripeCustomer
       final returnPathOptions =
           StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeCreateCustomerAndPaymentAction(
+      final response = await functionsAdapter.execute(
+        StripeCreateCustomerAndPaymentAction(
           userId: userId,
           successUrl: Uri.parse(
               "$callbackHost/${returnPathOptions.successOnCreateCustormerAndPayment.trimString("/")}"),
@@ -105,7 +105,7 @@ class StripeCustomer
         ),
       );
 
-      if (response == null || response.customerId.isEmpty) {
+      if (response.customerId.isEmpty) {
         throw Exception("Response is invalid.");
       }
       onSuccess() {
@@ -189,14 +189,11 @@ class StripeCustomer
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeDeleteCustomerAction(
+      await functionsAdapter.execute(
+        StripeDeleteCustomerAction(
           userId: value.userId,
         ),
       );
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
         await userDocument.reload();

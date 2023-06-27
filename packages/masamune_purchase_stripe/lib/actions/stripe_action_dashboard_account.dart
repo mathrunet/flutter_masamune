@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to display the Stripe account dashboard.
+/// [StripeFunctionsAction] to display the Stripe account dashboard.
 ///
-/// Stripeのアカウントダッシュボードの表示を行うための[StripeAction]。
+/// Stripeのアカウントダッシュボードの表示を行うための[StripeFunctionsAction]。
 class StripeDashboardAccountAction
-    extends StripeAction<StripeDashboardAccountActionResponse> {
-  /// [StripeAction] to display the Stripe account dashboard.
+    extends StripeFunctionsAction<StripeDashboardAccountActionResponse> {
+  /// [StripeFunctionsAction] to display the Stripe account dashboard.
   ///
-  /// Stripeのアカウントダッシュボードの表示を行うための[StripeAction]。
+  /// Stripeのアカウントダッシュボードの表示を行うための[StripeFunctionsAction]。
   const StripeDashboardAccountAction({
     required this.userId,
   });
@@ -28,9 +28,9 @@ class StripeDashboardAccountAction
   }
 
   @override
-  StripeDashboardAccountActionResponse? toResponse(DynamicMap map) {
+  StripeDashboardAccountActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeDashboardAccountActionResponse(
       endpoint: Uri.parse(map.get("endpoint", "")),
@@ -38,10 +38,11 @@ class StripeDashboardAccountAction
   }
 }
 
-/// [StripeActionResponse] to display the Stripe account dashboard.
+/// [StripeFunctionsActionResponse] to display the Stripe account dashboard.
 ///
-/// Stripeのアカウントダッシュボードの表示を行うための[StripeActionResponse]。
-class StripeDashboardAccountActionResponse extends StripeActionResponse {
+/// Stripeのアカウントダッシュボードの表示を行うための[StripeFunctionsActionResponse]。
+class StripeDashboardAccountActionResponse
+    extends StripeFunctionsActionResponse {
   const StripeDashboardAccountActionResponse({required this.endpoint});
 
   /// Account dashboard endpoints.

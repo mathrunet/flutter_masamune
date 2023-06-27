@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to change Stripe's default payment method.
+/// [StripeFunctionsAction] to change Stripe's default payment method.
 ///
-/// Stripeのデフォルトの支払い方法の変更を行うための[StripeAction]。
-class StripeSetCustomerDefaultPaymentAction
-    extends StripeAction<StripeSetCustomerDefaultPaymentActionResponse> {
-  /// [StripeAction] to change Stripe's default payment method.
+/// Stripeのデフォルトの支払い方法の変更を行うための[StripeFunctionsAction]。
+class StripeSetCustomerDefaultPaymentAction extends StripeFunctionsAction<
+    StripeSetCustomerDefaultPaymentActionResponse> {
+  /// [StripeFunctionsAction] to change Stripe's default payment method.
   ///
-  /// Stripeのデフォルトの支払い方法の変更を行うための[StripeAction]。
+  /// Stripeのデフォルトの支払い方法の変更を行うための[StripeFunctionsAction]。
   const StripeSetCustomerDefaultPaymentAction({
     required this.userId,
     required this.paymentId,
@@ -35,21 +35,18 @@ class StripeSetCustomerDefaultPaymentAction
   }
 
   @override
-  StripeSetCustomerDefaultPaymentActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeSetCustomerDefaultPaymentActionResponse toResponse(DynamicMap map) {
     return const StripeSetCustomerDefaultPaymentActionResponse();
   }
 }
 
-/// [StripeActionResponse] to change Stripe's default payment method.
+/// [StripeFunctionsActionResponse] to change Stripe's default payment method.
 ///
-/// Stripeのデフォルトの支払い方法の変更を行うための[StripeActionResponse]。
+/// Stripeのデフォルトの支払い方法の変更を行うための[StripeFunctionsActionResponse]。
 class StripeSetCustomerDefaultPaymentActionResponse
-    extends StripeActionResponse {
-  /// [StripeActionResponse] to change Stripe's default payment method.
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to change Stripe's default payment method.
   ///
-  /// Stripeのデフォルトの支払い方法の変更を行うための[StripeActionResponse]。
+  /// Stripeのデフォルトの支払い方法の変更を行うための[StripeFunctionsActionResponse]。
   const StripeSetCustomerDefaultPaymentActionResponse();
 }

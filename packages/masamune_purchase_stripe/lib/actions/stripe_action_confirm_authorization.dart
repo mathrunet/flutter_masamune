@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to finalize the Stripe authorization.
+/// [StripeFunctionsAction] to finalize the Stripe authorization.
 ///
-/// Stripeのオーソリの確定を行うための[StripeAction]。
+/// Stripeのオーソリの確定を行うための[StripeFunctionsAction]。
 class StripeConfirmAuthorizationAction
-    extends StripeAction<StripeConfirmAuthorizationActionResponse> {
-  /// [StripeAction] to finalize the Stripe authorization.
+    extends StripeFunctionsAction<StripeConfirmAuthorizationActionResponse> {
+  /// [StripeFunctionsAction] to finalize the Stripe authorization.
   ///
-  /// Stripeのオーソリの確定を行うための[StripeAction]。
+  /// Stripeのオーソリの確定を行うための[StripeFunctionsAction]。
   const StripeConfirmAuthorizationAction({
     required this.authorizedId,
   });
@@ -28,20 +28,18 @@ class StripeConfirmAuthorizationAction
   }
 
   @override
-  StripeConfirmAuthorizationActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeConfirmAuthorizationActionResponse toResponse(DynamicMap map) {
     return const StripeConfirmAuthorizationActionResponse();
   }
 }
 
-/// [StripeActionResponse] to finalize the Stripe authorization.
+/// [StripeFunctionsActionResponse] to finalize the Stripe authorization.
 ///
-/// Stripeのオーソリの確定を行うための[StripeActionResponse]。
-class StripeConfirmAuthorizationActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to finalize the Stripe authorization.
+/// Stripeのオーソリの確定を行うための[StripeFunctionsActionResponse]。
+class StripeConfirmAuthorizationActionResponse
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to finalize the Stripe authorization.
   ///
-  /// Stripeのオーソリの確定を行うための[StripeActionResponse]。
+  /// Stripeのオーソリの確定を行うための[StripeFunctionsActionResponse]。
   const StripeConfirmAuthorizationActionResponse();
 }

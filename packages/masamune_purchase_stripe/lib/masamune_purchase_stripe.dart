@@ -48,7 +48,9 @@ part 'actions/stripe_action_create_subscription.dart';
 part 'actions/stripe_action_delete_subscription.dart';
 
 part 'adapter/stripe_purchase_masamune_adapter.dart';
+
 part 'src/stripe_account.dart';
+part 'src/stripe_functions_action.dart';
 part 'src/stripe_customer.dart';
 part 'src/stripe_payment.dart';
 part 'src/stripe_purchase.dart';

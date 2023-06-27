@@ -34,115 +34,17 @@ class Functions extends ChangeNotifier {
 
   final FunctionsAdapter? _adapter;
 
-  /// PUSH notification.
+  /// Functions defined in the action can be executed by passing [FunctionsAction].
   ///
-  /// Pass the title of the notification to [title], the message to [text], and the destination to [target].
+  /// The corresponding Function must be running in [adapter], such as on the server side.
   ///
-  /// If you want to plant data in the notification, use [data]. Pass the channel ID required for the specific platform to [channel].
+  /// [FunctionsAction]を渡すことでアクションに定義されたFunctionを実行することができます。
   ///
-  /// PUSH通知を行います。
-  ///
-  /// [title]に通知タイトル、[text]にメッセージ、[target]に宛先を渡します。
-  ///
-  /// 通知にデータを仕込みたい場合は[data]を利用します。[channel]に特定プラットフォームで必要なチャンネルIDを渡します。
-  Future<void> sendNotification({
-    required String title,
-    required String text,
-    String? channel,
-    DynamicMap? data,
-    required String target,
-  }) async {
+  /// サーバー側など[adapter]にそれに対応したFunctionが動作している必要があります。
+  Future<TResponse?> execute<TResponse>(
+      FunctionsAction<TResponse> action) async {
     try {
-      await FunctionsAdapter.primary.sendNotification(
-        title: title,
-        text: text,
-        target: target,
-        channel: channel,
-        data: data,
-      );
-      notifyListeners();
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  /// Chat using OpenAI's Chat GPT.
-  ///
-  /// Pass all previous correspondence to [messages].
-  ///
-  /// Returns a list of [OpenAIChatGPTMessage] with new messages added to the response.
-  ///
-  /// Pass the model to be used to [model].
-  ///
-  /// OpenAIのChat GPTを利用してチャットを行います。
-  ///
-  /// [messages]にそれまでのやりとりのすべてを渡してください。
-  ///
-  /// レスポンスに新しいメッセージが追加された[OpenAIChatGPTMessage]のリストを返します。
-  ///
-  /// [model]には利用するモデルを渡してください。
-  Future<List<OpenAIChatGPTMessage>> openAIChatGPT({
-    required List<OpenAIChatGPTMessage> messages,
-    OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo,
-  }) async {
-    try {
-      final res = await FunctionsAdapter.primary.openAIChatGPT(
-        messages: messages,
-        model: model,
-      );
-      if (res == null) {
-        throw Exception("Failed to get response from OpenAI Chat GPT.");
-      }
-      notifyListeners();
-      return [
-        ...messages,
-        res,
-      ];
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  /// Functions for issuing tokens to be used by Agora.io.
-  ///
-  /// Pass the necessary values to [channelName] and [clientRole].
-  ///
-  /// Agora.ioで利用するトークンを発行するためのFunctions。
-  ///
-  /// [channelName]と[clientRole]に必要な値を渡してください。
-  Future<String> getAgoraToken({
-    required String channelName,
-    AgoraClientRole clientRole = AgoraClientRole.audience,
-  }) async {
-    try {
-      final res = await FunctionsAdapter.primary.getAgoraToken(
-        channelName: channelName,
-        clientRole: clientRole,
-      );
-      notifyListeners();
-      return res;
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  /// Functions for server-side processing used by Stripe.
-  ///
-  /// [StripeAction] and [StripeActionResponse] must be prepared for each mode.
-  ///
-  /// Stripeで利用するサーバー側の処理を行うためのFunctions。
-  ///
-  /// 各モードに応じた[StripeAction]と[StripeActionResponse]を用意する必要があります。
-  Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
-    required StripeAction<TStripeResponse> action,
-  }) async {
-    try {
-      final res = await FunctionsAdapter.primary.stipe(
-        action: action,
-      );
+      final res = await adapter.execute(action);
       notifyListeners();
       return res;
     } catch (e) {

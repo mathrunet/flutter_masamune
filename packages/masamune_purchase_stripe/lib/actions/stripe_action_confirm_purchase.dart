@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to finalize a Stripe purchase.
+/// [StripeFunctionsAction] to finalize a Stripe purchase.
 ///
-/// Stripeの購入の確定を行うための[StripeAction]。
+/// Stripeの購入の確定を行うための[StripeFunctionsAction]。
 class StripeConfirmPurchaseAction
-    extends StripeAction<StripeConfirmPurchaseActionResponse> {
-  /// [StripeAction] to finalize a Stripe purchase.
+    extends StripeFunctionsAction<StripeConfirmPurchaseActionResponse> {
+  /// [StripeFunctionsAction] to finalize a Stripe purchase.
   ///
-  /// Stripeの購入の確定を行うための[StripeAction]。
+  /// Stripeの購入の確定を行うための[StripeFunctionsAction]。
   const StripeConfirmPurchaseAction({
     required this.userId,
     required this.orderId,
@@ -67,9 +67,9 @@ class StripeConfirmPurchaseAction
   }
 
   @override
-  StripeConfirmPurchaseActionResponse? toResponse(DynamicMap map) {
+  StripeConfirmPurchaseActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeConfirmPurchaseActionResponse(
       purchaseId: map.get("purchaseId", ""),
@@ -79,13 +79,14 @@ class StripeConfirmPurchaseAction
   }
 }
 
-/// [StripeActionResponse] to finalize a Stripe purchase.
+/// [StripeFunctionsActionResponse] to finalize a Stripe purchase.
 ///
-/// Stripeの購入の確定を行うための[StripeActionResponse]。
-class StripeConfirmPurchaseActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to finalize a Stripe purchase.
+/// Stripeの購入の確定を行うための[StripeFunctionsActionResponse]。
+class StripeConfirmPurchaseActionResponse
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to finalize a Stripe purchase.
   ///
-  /// Stripeの購入の確定を行うための[StripeActionResponse]。
+  /// Stripeの購入の確定を行うための[StripeFunctionsActionResponse]。
   const StripeConfirmPurchaseActionResponse({
     required this.purchaseId,
     required this.nextActionUrl,

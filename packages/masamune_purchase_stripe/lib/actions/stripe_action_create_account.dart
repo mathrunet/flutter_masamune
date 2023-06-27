@@ -15,14 +15,14 @@ enum StripeCreateAccountNextActionType {
   registration,
 }
 
-/// [StripeAction] for creating a Stripe account.
+/// [StripeFunctionsAction] for creating a Stripe account.
 ///
-/// Stripeのアカウント作成を行うための[StripeAction]。
+/// Stripeのアカウント作成を行うための[StripeFunctionsAction]。
 class StripeCreateAccountAction
-    extends StripeAction<StripeCreateAccountActionResponse> {
-  /// [StripeAction] for creating a Stripe account.
+    extends StripeFunctionsAction<StripeCreateAccountActionResponse> {
+  /// [StripeFunctionsAction] for creating a Stripe account.
   ///
-  /// Stripeのアカウント作成を行うための[StripeAction]。
+  /// Stripeのアカウント作成を行うための[StripeFunctionsAction]。
   const StripeCreateAccountAction({
     required this.userId,
     this.locale = const Locale("en", "US"),
@@ -64,9 +64,9 @@ class StripeCreateAccountAction
   }
 
   @override
-  StripeCreateAccountActionResponse? toResponse(DynamicMap map) {
+  StripeCreateAccountActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeCreateAccountActionResponse(
       nextAction: StripeCreateAccountNextActionType.values.firstWhere(
@@ -79,13 +79,13 @@ class StripeCreateAccountAction
   }
 }
 
-/// [StripeActionResponse] for creating a Stripe account.
+/// [StripeFunctionsActionResponse] for creating a Stripe account.
 ///
-/// Stripeのアカウント作成を行うための[StripeActionResponse]。
-class StripeCreateAccountActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] for creating a Stripe account.
+/// Stripeのアカウント作成を行うための[StripeFunctionsActionResponse]。
+class StripeCreateAccountActionResponse extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] for creating a Stripe account.
   ///
-  /// Stripeのアカウント作成を行うための[StripeActionResponse]。
+  /// Stripeのアカウント作成を行うための[StripeFunctionsActionResponse]。
   const StripeCreateAccountActionResponse({
     this.nextAction = StripeCreateAccountNextActionType.none,
     this.endpoint,

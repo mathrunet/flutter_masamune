@@ -3,11 +3,11 @@ part of masamune_purchase_mobile;
 /// Define consumable billing settings for Android.
 ///
 /// Android用の消耗型課金の設定を定義します。
-class AndroidConsumablePurchaseSettings extends PurchaseSettings {
+class AndroidConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// Define consumable billing settings for Android.
   ///
   /// Android用の消耗型課金の設定を定義します。
-  const AndroidConsumablePurchaseSettings({
+  const AndroidConsumablePurchaseFunctionsAction({
     required this.packageName,
     required this.productId,
     required this.purchaseToken,

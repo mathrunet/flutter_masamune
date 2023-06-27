@@ -185,12 +185,14 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   }) async {
     await listen();
     final f = adapter.functions ?? Functions();
-    await f.sendNotification(
-      title: title,
-      text: text,
-      target: target,
-      channel: adapter.androidNotificationChannelId,
-      data: data,
+    await f.execute(
+      SendNotificationFunctionsAction(
+        title: title,
+        text: text,
+        target: target,
+        channel: adapter.androidNotificationChannelId,
+        data: data,
+      ),
     );
   }
 

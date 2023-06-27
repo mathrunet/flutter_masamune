@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] for capturing Stripe purchases.
+/// [StripeFunctionsAction] for capturing Stripe purchases.
 ///
-/// Stripeの購入のキャプチャを行うための[StripeAction]。
+/// Stripeの購入のキャプチャを行うための[StripeFunctionsAction]。
 class StripeCapturePurchaseAction
-    extends StripeAction<StripeCapturePurchaseActionResponse> {
-  /// [StripeAction] for capturing Stripe purchases.
+    extends StripeFunctionsAction<StripeCapturePurchaseActionResponse> {
+  /// [StripeFunctionsAction] for capturing Stripe purchases.
   ///
-  /// Stripeの購入のキャプチャを行うための[StripeAction]。
+  /// Stripeの購入のキャプチャを行うための[StripeFunctionsAction]。
   const StripeCapturePurchaseAction({
     required this.userId,
     required this.orderId,
@@ -42,9 +42,9 @@ class StripeCapturePurchaseAction
   }
 
   @override
-  StripeCapturePurchaseActionResponse? toResponse(DynamicMap map) {
+  StripeCapturePurchaseActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeCapturePurchaseActionResponse(
       purchaseId: map.get("purchaseId", ""),
@@ -52,13 +52,14 @@ class StripeCapturePurchaseAction
   }
 }
 
-/// [StripeActionResponse] for Stripe purchase capture.
+/// [StripeFunctionsActionResponse] for Stripe purchase capture.
 ///
-/// Stripeの購入キャプチャを行うための[StripeActionResponse]。
-class StripeCapturePurchaseActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] for Stripe purchase capture.
+/// Stripeの購入キャプチャを行うための[StripeFunctionsActionResponse]。
+class StripeCapturePurchaseActionResponse
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] for Stripe purchase capture.
   ///
-  /// Stripeの購入キャプチャを行うための[StripeActionResponse]。
+  /// Stripeの購入キャプチャを行うための[StripeFunctionsActionResponse]。
   const StripeCapturePurchaseActionResponse({required this.purchaseId});
 
   /// Purchase ID.

@@ -36,67 +36,16 @@ abstract class FunctionsAdapter {
   /// Functionsを実行するエンドポイントのURL。
   String get endpoint;
 
-  /// PUSH notification.
+  /// Executes a Function with [action].
   ///
-  /// Pass the title of the notification to [title], the message to [text], and the destination to [target].
+  /// A [FunctionsAction] and [FunctionsActionResponse] must be prepared for each mode.
   ///
-  /// If you want to plant data in the notification, use [data]. Pass the channel ID required for the specific platform to [channel].
+  /// [action]を持つFunctionを実行します。
   ///
-  /// PUSH通知を行います。
-  ///
-  /// [title]に通知タイトル、[text]にメッセージ、[target]に宛先を渡します。
-  ///
-  /// 通知にデータを仕込みたい場合は[data]を利用します。[channel]に特定プラットフォームで必要なチャンネルIDを渡します。
-  Future<void> sendNotification({
-    required String title,
-    required String text,
-    String? channel,
-    DynamicMap? data,
-    required String target,
-  });
-
-  /// Chat using OpenAI's Chat GPT.
-  ///
-  /// Pass all previous correspondence to [messages].
-  ///
-  /// A new message, [OpenAIChatGPTMessage], is returned in the response.
-  ///
-  /// Pass the model to be used to [model].
-  ///
-  /// OpenAIのChat GPTを利用してチャットを行います。
-  ///
-  /// [messages]にそれまでのやりとりのすべてを渡してください。
-  ///
-  /// レスポンスに新しいメッセージの[OpenAIChatGPTMessage]を返ってきます。
-  ///
-  /// [model]には利用するモデルを渡してください。
-  Future<OpenAIChatGPTMessage?> openAIChatGPT({
-    required List<OpenAIChatGPTMessage> messages,
-    OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo,
-  });
-
-  /// Functions for issuing tokens to be used by Agora.io.
-  ///
-  /// Pass the necessary values to [channelName] and [clientRole].
-  ///
-  /// Agora.ioで利用するトークンを発行するためのFunctions。
-  ///
-  /// [channelName]と[clientRole]に必要な値を渡してください。
-  Future<String> getAgoraToken({
-    required String channelName,
-    AgoraClientRole clientRole = AgoraClientRole.audience,
-  });
-
-  /// Functions for server-side processing used by Stripe.
-  ///
-  /// [StripeAction] and [StripeActionResponse] must be prepared for each mode.
-  ///
-  /// Stripeで利用するサーバー側の処理を行うためのFunctions。
-  ///
-  /// 各モードに応じた[StripeAction]と[StripeActionResponse]を用意する必要があります。
-  Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
-    required StripeAction<TStripeResponse> action,
-  });
+  /// 各モードに応じた[FunctionsAction]と[FunctionsActionResponse]を用意する必要があります。
+  Future<TResponse> execute<TResponse>(
+    FunctionsAction<TResponse> action,
+  );
 
   /// Send email through Gmail.
   ///
@@ -132,21 +81,6 @@ abstract class FunctionsAdapter {
     required String to,
     required String title,
     required String content,
-  });
-
-  /// Server-side verification of billing.
-  ///
-  /// Pass [setting] according to billing type.
-  ///
-  /// If the return value is `true`, the verification succeeds; if it is `false`, the verification fails.
-  ///
-  /// 課金のサーバーサイド検証を行います。
-  ///
-  /// 課金タイプに応じて[setting]を渡してください。
-  ///
-  /// 戻り値が`true`の場合は検証成功、`false`の場合は検証失敗となります。
-  Future<bool> verifyPurchase({
-    required PurchaseSettings setting,
   });
 }
 

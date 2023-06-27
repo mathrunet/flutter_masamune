@@ -484,14 +484,15 @@ class AgoraController
     try {
       _connected = true;
       await _initialize(userName: userName);
-      _token = await adapter.functionsAdapter.getAgoraToken(
-        channelName: channelName,
-        clientRole: AgoraClientRole.values
-                .firstWhereOrNull((item) => item.index == clientRole.index) ??
-            AgoraClientRole.audience,
+      final res = await adapter.functionsAdapter.execute(
+        AgoraTokenFunctionsAction(
+          channelName: channelName,
+          clientRole: AgoraClientRole.values
+                  .firstWhereOrNull((item) => item.index == clientRole.index) ??
+              AgoraClientRole.audience,
+        ),
       );
-      _token =
-          "007eJxTYJhz/5BbYZhQrnXAdwbGHxZxTD2WD+12W/N8rg4tcPkflq7AYJiUZGCcZmJoYW5sbGJpnmhpbplkBARmqUlGaWaJaYdb7VIaAhkZpm3hZmVkgEAQn4PBJbUsNSe/oISBAQAkTh7P";
+      _token = res.token;
       _engine?.setEventHandler(
         RtcEngineEventHandler(
           error: (err) {

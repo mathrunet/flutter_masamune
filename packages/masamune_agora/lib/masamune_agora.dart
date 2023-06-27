@@ -36,6 +36,8 @@ export 'package:agora_rtc_engine/rtc_engine.dart'
         AudioRecordingQuality;
 
 part 'adapter/agora_masamune_adapter.dart';
+part 'functions/agora_token_functions_action.dart';
+
 part 'src/agora_storage_bucket_config.dart';
 part 'src/agora_controller.dart';
 part 'src/agora_user.dart';

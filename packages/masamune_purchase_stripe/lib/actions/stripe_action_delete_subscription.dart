@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to delete a Stripe subscription.
+/// [StripeFunctionsAction] to delete a Stripe subscription.
 ///
-/// Stripeのサブスクリプションの削除を行うための[StripeAction]。
+/// Stripeのサブスクリプションの削除を行うための[StripeFunctionsAction]。
 class StripeDeleteSubscriptionAction
-    extends StripeAction<StripeDeleteSubscriptionActionResponse> {
-  /// [StripeAction] to delete a Stripe subscription.
+    extends StripeFunctionsAction<StripeDeleteSubscriptionActionResponse> {
+  /// [StripeFunctionsAction] to delete a Stripe subscription.
   ///
-  /// Stripeのサブスクリプションの削除を行うための[StripeAction]。
+  /// Stripeのサブスクリプションの削除を行うための[StripeFunctionsAction]。
   const StripeDeleteSubscriptionAction({
     required this.orderId,
   });
@@ -28,20 +28,18 @@ class StripeDeleteSubscriptionAction
   }
 
   @override
-  StripeDeleteSubscriptionActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeDeleteSubscriptionActionResponse toResponse(DynamicMap map) {
     return const StripeDeleteSubscriptionActionResponse();
   }
 }
 
-/// [StripeActionResponse] to delete a Stripe subscription.
+/// [StripeFunctionsActionResponse] to delete a Stripe subscription.
 ///
-/// Stripeのサブスクリプションの削除を行うための[StripeActionResponse]。
-class StripeDeleteSubscriptionActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to delete a Stripe subscription.
+/// Stripeのサブスクリプションの削除を行うための[StripeFunctionsActionResponse]。
+class StripeDeleteSubscriptionActionResponse
+    extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to delete a Stripe subscription.
   ///
-  /// Stripeのサブスクリプションの削除を行うための[StripeActionResponse]。
+  /// Stripeのサブスクリプションの削除を行うための[StripeFunctionsActionResponse]。
   const StripeDeleteSubscriptionActionResponse();
 }

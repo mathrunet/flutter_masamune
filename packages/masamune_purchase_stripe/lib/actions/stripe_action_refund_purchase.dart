@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to refund a Stripe purchase.
+/// [StripeFunctionsAction] to refund a Stripe purchase.
 ///
-/// Stripeの購入の返金を行うための[StripeAction]。
+/// Stripeの購入の返金を行うための[StripeFunctionsAction]。
 class StripeRefundPurchaseAction
-    extends StripeAction<StripeRefundPurchaseActionResponse> {
-  /// [StripeAction] to refund a Stripe purchase.
+    extends StripeFunctionsAction<StripeRefundPurchaseActionResponse> {
+  /// [StripeFunctionsAction] to refund a Stripe purchase.
   ///
-  /// Stripeの購入の返金を行うための[StripeAction]。
+  /// Stripeの購入の返金を行うための[StripeFunctionsAction]。
   const StripeRefundPurchaseAction({
     required this.userId,
     required this.orderId,
@@ -42,20 +42,17 @@ class StripeRefundPurchaseAction
   }
 
   @override
-  StripeRefundPurchaseActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeRefundPurchaseActionResponse toResponse(DynamicMap map) {
     return const StripeRefundPurchaseActionResponse();
   }
 }
 
-/// [StripeActionResponse] to refund a Stripe purchase.
+/// [StripeFunctionsActionResponse] to refund a Stripe purchase.
 ///
-/// Stripeの購入の返金を行うための[StripeActionResponse]。
-class StripeRefundPurchaseActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to refund a Stripe purchase.
+/// Stripeの購入の返金を行うための[StripeFunctionsActionResponse]。
+class StripeRefundPurchaseActionResponse extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to refund a Stripe purchase.
   ///
-  /// Stripeの購入の返金を行うための[StripeActionResponse]。
+  /// Stripeの購入の返金を行うための[StripeFunctionsActionResponse]。
   const StripeRefundPurchaseActionResponse();
 }

@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] for creating Stripe purchase information.
+/// [StripeFunctionsAction] for creating Stripe purchase information.
 ///
-/// Stripeの購入情報の作成を行うための[StripeAction]。
+/// Stripeの購入情報の作成を行うための[StripeFunctionsAction]。
 class StripeCreatePurchaseAction
-    extends StripeAction<StripeCreatePurchaseActionResponse> {
-  /// [StripeAction] for creating Stripe purchase information.
+    extends StripeFunctionsAction<StripeCreatePurchaseActionResponse> {
+  /// [StripeFunctionsAction] for creating Stripe purchase information.
   ///
-  /// Stripeの購入情報の作成を行うための[StripeAction]。
+  /// Stripeの購入情報の作成を行うための[StripeFunctionsAction]。
   const StripeCreatePurchaseAction({
     required this.userId,
     required this.priceAmount,
@@ -86,9 +86,9 @@ class StripeCreatePurchaseAction
   }
 
   @override
-  StripeCreatePurchaseActionResponse? toResponse(DynamicMap map) {
+  StripeCreatePurchaseActionResponse toResponse(DynamicMap map) {
     if (map.isEmpty) {
-      return null;
+      throw Exception("Failed to get response from $mode.");
     }
     return StripeCreatePurchaseActionResponse(
       purchaseId: map.get("purchaseId", ""),
@@ -96,13 +96,13 @@ class StripeCreatePurchaseAction
   }
 }
 
-/// [StripeActionResponse] for creating Stripe purchase information.
+/// [StripeFunctionsActionResponse] for creating Stripe purchase information.
 ///
-/// Stripeの購入情報の作成を行うための[StripeActionResponse]。
-class StripeCreatePurchaseActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] for creating Stripe purchase information.
+/// Stripeの購入情報の作成を行うための[StripeFunctionsActionResponse]。
+class StripeCreatePurchaseActionResponse extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] for creating Stripe purchase information.
   ///
-  /// Stripeの購入情報の作成を行うための[StripeActionResponse]。
+  /// Stripeの購入情報の作成を行うための[StripeFunctionsActionResponse]。
   const StripeCreatePurchaseActionResponse({required this.purchaseId});
 
   /// Purchase ID created.

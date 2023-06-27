@@ -21,32 +21,7 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
   final String endpoint = "";
 
   @override
-  Future<void> sendNotification({
-    required String title,
-    required String text,
-    String? channel,
-    DynamicMap? data,
-    required String target,
-  }) =>
-      Future.value();
-
-  @override
-  Future<OpenAIChatGPTMessage?> openAIChatGPT(
-          {required List<OpenAIChatGPTMessage> messages,
-          OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo}) =>
-      Future.value();
-
-  @override
-  Future<String> getAgoraToken({
-    required String channelName,
-    AgoraClientRole clientRole = AgoraClientRole.audience,
-  }) =>
-      Future.value("");
-
-  @override
-  Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
-    required StripeAction<TStripeResponse> action,
-  }) =>
+  Future<TResponse> execute<TResponse>(FunctionsAction<TResponse> action) =>
       action.execute((map) async => {});
 
   @override
@@ -66,8 +41,4 @@ class RuntimeFunctionsAdapter extends FunctionsAdapter {
     required String content,
   }) =>
       Future.value();
-
-  @override
-  Future<bool> verifyPurchase({required PurchaseSettings setting}) =>
-      Future.value(true);
 }

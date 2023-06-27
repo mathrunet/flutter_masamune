@@ -3,11 +3,11 @@ part of masamune_purchase_mobile;
 /// Define consumable billing settings for IOS.
 ///
 /// IOS用の消耗型課金の設定を定義します。
-class IOSConsumablePurchaseSettings extends PurchaseSettings {
+class IOSConsumablePurchaseFunctionsAction extends PurchaseFunctionsAction {
   /// Define consumable billing settings for IOS.
   ///
   /// IOS用の消耗型課金の設定を定義します。
-  const IOSConsumablePurchaseSettings({
+  const IOSConsumablePurchaseFunctionsAction({
     required this.receiptData,
     this.collectionPath = "plugins/iap/user",
     this.fieldKey = "value",

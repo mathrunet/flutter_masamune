@@ -93,8 +93,8 @@ class StripePayment
       final returnPathOptions =
           StripePurchaseMasamuneAdapter.primary.returnPathOptions;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeCreateCustomerAndPaymentAction(
+      final response = await functionsAdapter.execute(
+        StripeCreateCustomerAndPaymentAction(
           userId: userId,
           successUrl: Uri.parse(
               "$callbackHost/${returnPathOptions.successOnCreateCustormerAndPayment.trimString("/")}"),
@@ -103,7 +103,7 @@ class StripePayment
         ),
       );
 
-      if (response == null || response.customerId.isEmpty) {
+      if (response.customerId.isEmpty) {
         throw Exception("Response is invalid.");
       }
       onSuccess() {
@@ -189,15 +189,12 @@ class StripePayment
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeSetCustomerDefaultPaymentAction(
+      await functionsAdapter.execute(
+        StripeSetCustomerDefaultPaymentAction(
           userId: userId,
           paymentId: value.paymentId,
         ),
       );
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       _completer?.complete();
       _completer = null;
       notifyListeners();
@@ -235,15 +232,12 @@ class StripePayment
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
 
-      final response = await functionsAdapter.stipe(
-        action: StripeDeletePaymentAction(
+      await functionsAdapter.execute(
+        StripeDeletePaymentAction(
           userId: userId,
           paymentId: payment.uid,
         ),
       );
-      if (response == null) {
-        throw Exception("Response is invalid.");
-      }
       await Future.doWhile(() async {
         await Future.delayed(const Duration(milliseconds: 100));
         await paymentCollection.reload();

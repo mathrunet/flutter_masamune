@@ -75,116 +75,13 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
   String get endpoint => FirebaseCore.functionsEndpoint;
 
   @override
-  Future<void> sendNotification({
-    required String title,
-    required String text,
-    String? channel,
-    DynamicMap? data,
-    required String target,
-  }) async {
-    await FirebaseCore.initialize(options: options);
-    try {
-      final regExp = RegExp(r"[a-zA-Z0-9]{11}:[0-9a-zA-Z_-]+");
-      final isToken = regExp.hasMatch(target);
-      await functions.httpsCallable("send_notification").call(
-        {
-          "title": title,
-          "text": text,
-          if (channel != null) "channel_id": channel,
-          if (data != null) "data": data,
-          if (isToken) "token": target else "topic": target,
-        },
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<OpenAIChatGPTMessage?> openAIChatGPT({
-    required List<OpenAIChatGPTMessage> messages,
-    OpenAIChatGPTModel model = OpenAIChatGPTModel.gpt35Turbo,
-  }) async {
-    await FirebaseCore.initialize(options: options);
-    try {
-      final res =
-          await functions.httpsCallable("openai_chat_gpt").call<DynamicMap>(
-        {
-          "message": messages
-              .map((e) => {
-                    "role": e.role.name,
-                    "content": e.text,
-                  })
-              .toList(),
-          "model": model.name,
-        },
-      );
-      if (res.data.isEmpty) {
-        throw Exception("Failed to get response from openai_chat_gpt.");
-      }
-
-      final choices = res.data.getAsList<DynamicMap>("choices");
-      if (choices.isEmpty) {
-        throw Exception("Failed to get response from openai_chat_gpt.");
-      }
-
-      final token = res.data.getAsMap("usage").get("total_tokens", 0);
-      final message = choices.first.getAsMap("message");
-      final role = message.get("role", "");
-      final content = message.get("content", "");
-      return OpenAIChatGPTMessage(
-        role: OpenAIChatGPTRole.values
-                .firstWhereOrNull((item) => item.name == role) ??
-            OpenAIChatGPTRole.user,
-        text: content,
-        token: token,
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<String> getAgoraToken({
-    required String channelName,
-    AgoraClientRole clientRole = AgoraClientRole.audience,
-  }) async {
-    await FirebaseCore.initialize(options: options);
-    try {
-      final res = await functions.httpsCallable("agora_token").call<DynamicMap>(
-        {
-          "role": clientRole == AgoraClientRole.audience
-              ? "audience"
-              : "broadcaster",
-          "name": channelName,
-        },
-      );
-      if (res.data.isEmpty) {
-        throw Exception("Failed to get response from agora_token.");
-      }
-
-      final token = res.data.get("token", "");
-      if (token.isEmpty) {
-        throw Exception("Failed to get response from agora_token.");
-      }
-      return token;
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<TStripeResponse?> stipe<TStripeResponse extends StripeActionResponse>({
-    required StripeAction<TStripeResponse> action,
-  }) async {
+  Future<TResponse> execute<TResponse>(
+      FunctionsAction<TResponse> action) async {
     await FirebaseCore.initialize(options: options);
     try {
       return await action.execute((map) async {
         final res =
-            await functions.httpsCallable("stripe").call<DynamicMap>(map);
+            await functions.httpsCallable(action.action).call<DynamicMap>(map);
         return res.data;
       });
     } catch (e) {
@@ -233,21 +130,6 @@ class FirebaseFunctionsAdapter extends FunctionsAdapter {
           "content": content,
         },
       );
-    } catch (e) {
-      debugPrint(e.toString());
-      rethrow;
-    }
-  }
-
-  @override
-  Future<bool> verifyPurchase({required PurchaseSettings setting}) async {
-    await FirebaseCore.initialize(options: options);
-    try {
-      return await setting.execute((map) async {
-        final res =
-            await functions.httpsCallable(setting.action).call<DynamicMap>(map);
-        return res.data;
-      });
     } catch (e) {
       debugPrint(e.toString());
       rethrow;

@@ -1,13 +1,13 @@
 part of masamune_purchase_stripe;
 
-/// [StripeAction] to delete a Stripe account.
+/// [StripeFunctionsAction] to delete a Stripe account.
 ///
-/// Stripeのアカウントの削除を行うための[StripeAction]。
+/// Stripeのアカウントの削除を行うための[StripeFunctionsAction]。
 class StripeDeleteAccountAction
-    extends StripeAction<StripeDeleteAccountActionResponse> {
-  /// [StripeAction] to delete a Stripe account.
+    extends StripeFunctionsAction<StripeDeleteAccountActionResponse> {
+  /// [StripeFunctionsAction] to delete a Stripe account.
   ///
-  /// Stripeのアカウントの削除を行うための[StripeAction]。
+  /// Stripeのアカウントの削除を行うための[StripeFunctionsAction]。
   const StripeDeleteAccountAction({
     required this.userId,
   });
@@ -28,20 +28,17 @@ class StripeDeleteAccountAction
   }
 
   @override
-  StripeDeleteAccountActionResponse? toResponse(DynamicMap map) {
-    if (map.isEmpty) {
-      return null;
-    }
+  StripeDeleteAccountActionResponse toResponse(DynamicMap map) {
     return const StripeDeleteAccountActionResponse();
   }
 }
 
-/// [StripeActionResponse] to delete a Stripe account.
+/// [StripeFunctionsActionResponse] to delete a Stripe account.
 ///
-/// Stripeのアカウントの削除を行うための[StripeActionResponse]。
-class StripeDeleteAccountActionResponse extends StripeActionResponse {
-  /// [StripeActionResponse] to delete a Stripe account.
+/// Stripeのアカウントの削除を行うための[StripeFunctionsActionResponse]。
+class StripeDeleteAccountActionResponse extends StripeFunctionsActionResponse {
+  /// [StripeFunctionsActionResponse] to delete a Stripe account.
   ///
-  /// Stripeのアカウントの削除を行うための[StripeActionResponse]。
+  /// Stripeのアカウントの削除を行うための[StripeFunctionsActionResponse]。
   const StripeDeleteAccountActionResponse();
 }
