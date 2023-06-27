@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MasamuneApp(
       home: const PickerPage(),
       title: "Flutter Demo",
-      masamuneAdapters: const [TestPickerMasamuneAdapter()],
+      masamuneAdapters: const [PickerMasamuneAdapter()],
       theme: AppThemeData(
         primary: Colors.blue,
       ),

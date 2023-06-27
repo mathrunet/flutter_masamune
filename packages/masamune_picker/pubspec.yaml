@@ -9,9 +9,11 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
+  file_picker: ^5.3.2
   flutter:
     sdk: flutter
     
+  image_picker: ^1.0.0
   katana: ^2.2.0
   masamune: ^2.1.19
 dev_dependencies:

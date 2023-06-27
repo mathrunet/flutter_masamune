@@ -16,12 +16,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:masamune/masamune.dart';
 
-part 'adapter/test_picker_masamune_adapter.dart';
+part 'adapter/picker_masamune_adapter.dart';
 
 part 'src/picker.dart';
 part 'src/picker_file_type.dart';
 part 'src/picker_value.dart';
-part 'src/picker_masamune_adapter.dart';
 part 'storage/storage.dart';
