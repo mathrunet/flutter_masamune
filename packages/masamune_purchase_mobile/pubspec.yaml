@@ -8,6 +8,16 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
   flutter: ">=2.0.0"
 
+flutter:
+  plugin:
+    platforms:
+      android:
+        default_package: in_app_purchase_android
+      ios:
+        default_package: in_app_purchase_storekit
+      macos:
+        default_package: in_app_purchase_storekit
+
 dependencies:
   flutter:
     sdk: flutter
