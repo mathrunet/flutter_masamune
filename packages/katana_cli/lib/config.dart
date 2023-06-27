@@ -67,7 +67,6 @@ app:
   # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
   picker:
     enable: false
-    platform: any
     permission:
       en: Use the library for profile images.
 

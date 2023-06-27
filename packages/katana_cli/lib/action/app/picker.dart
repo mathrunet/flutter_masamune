@@ -51,35 +51,14 @@ class AppPickerCliAction extends CliCommand with CliActionMixin {
           .map((key, value) => MapEntry(key, value.toString()))
           .where((key, value) => value.isNotEmpty),
     );
-    final platform = picker.get("platform", "any");
-    switch (platform) {
-      case "mobile":
-        await command(
-          "Import packages.",
-          [
-            flutter,
-            "pub",
-            "add",
-            "masamune_picker_mobile",
-          ],
-        );
-        break;
-      case "any":
-        await command(
-          "Import packages.",
-          [
-            flutter,
-            "pub",
-            "add",
-            "masamune_picker_file",
-          ],
-        );
-        break;
-      default:
-        error(
-          "The item [app]->[picker]->[platform] is missing. Write `any` or `mobile`.",
-        );
-        return;
-    }
+    await command(
+      "Import packages.",
+      [
+        flutter,
+        "pub",
+        "add",
+        "masamune_picker",
+      ],
+    );
   }
 }
