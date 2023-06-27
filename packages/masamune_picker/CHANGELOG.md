@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Applying Import sorter. ([7b4762cf](https://github.com/mathrunet/flutter_masamune/commit/7b4762cf1a4699e410a30ab380b2dd7c1bc184a3))
+
 ## 2.1.0
 
  - **FEAT**: Made available only on masamune_picker. ([d5fb1937](https://github.com/mathrunet/flutter_masamune/commit/d5fb193793f0c1caf62dd560cdec476865907aaf))

@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v2.1.10`](#masamune_location---v2110)
+ - [`masamune_location_google` - `v2.1.9`](#masamune_location_google---v219)
+ - [`masamune_picker` - `v2.1.1`](#masamune_picker---v211)
+
+---
+
+#### `masamune_location` - `v2.1.10`
+
+ - **FIX**: Internal package updates. ([fe79dbd8](https://github.com/mathrunet/flutter_masamune/commit/fe79dbd8b93edbceb3656f860915b6e0460a2c77))
+
+#### `masamune_location_google` - `v2.1.9`
+
+ - **FIX**: Internal package updates. ([fe79dbd8](https://github.com/mathrunet/flutter_masamune/commit/fe79dbd8b93edbceb3656f860915b6e0460a2c77))
+
+#### `masamune_picker` - `v2.1.1`
+
+ - **FIX**: Applying Import sorter. ([7b4762cf](https://github.com/mathrunet/flutter_masamune/commit/7b4762cf1a4699e410a30ab380b2dd7c1bc184a3))
+
+
+## 2023-06-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.2.10`](#katana_cli---v2210)
  - [`masamune_picker` - `v2.1.0`](#masamune_picker---v210)
  - [`masamune_picker_file` - `v2.0.45`](#masamune_picker_file---v2045)

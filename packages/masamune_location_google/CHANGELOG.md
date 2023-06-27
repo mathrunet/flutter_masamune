@@ -1,3 +1,7 @@
+## 2.1.9
+
+ - **FIX**: Internal package updates. ([fe79dbd8](https://github.com/mathrunet/flutter_masamune/commit/fe79dbd8b93edbceb3656f860915b6e0460a2c77))
+
 ## 2.1.8
 
  - **FIX**: Controller AutoDispose disabled. ([db76f2b8](https://github.com/mathrunet/flutter_masamune/commit/db76f2b8d9d251f6516cc8f0aac0f2c3f1fbe10e))
