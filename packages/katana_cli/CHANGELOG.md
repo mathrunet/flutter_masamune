@@ -1,3 +1,7 @@
+## 2.2.10
+
+ - **FIX**: Support for masamune_picker changes. ([3c01f862](https://github.com/mathrunet/flutter_masamune/commit/3c01f862050e73321adaca81a9b20da050ad77e8))
+
 ## 2.2.9
 
  - **FIX**: Fixed a bug that prevented build. ([bf090374](https://github.com/mathrunet/flutter_masamune/commit/bf090374a3e209c1a3f475071966972981260f92))

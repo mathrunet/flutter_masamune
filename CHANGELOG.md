@@ -15,6 +15,41 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.10`](#katana_cli---v2210)
+ - [`masamune_picker` - `v2.1.0`](#masamune_picker---v210)
+ - [`masamune_picker_file` - `v2.0.45`](#masamune_picker_file---v2045)
+ - [`masamune_picker_mobile` - `v2.0.45`](#masamune_picker_mobile---v2045)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_picker_file` - `v2.0.45`
+ - `masamune_picker_mobile` - `v2.0.45`
+
+---
+
+#### `katana_cli` - `v2.2.10`
+
+ - **FIX**: Support for masamune_picker changes. ([3c01f862](https://github.com/mathrunet/flutter_masamune/commit/3c01f862050e73321adaca81a9b20da050ad77e8))
+
+#### `masamune_picker` - `v2.1.0`
+
+ - **FEAT**: Made available only on masamune_picker. ([d5fb1937](https://github.com/mathrunet/flutter_masamune/commit/d5fb193793f0c1caf62dd560cdec476865907aaf))
+
+
+## 2023-06-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_mobile` - `v2.1.4`](#masamune_purchase_mobile---v214)
  - [`masamune_purchase_stripe` - `v3.0.30`](#masamune_purchase_stripe---v3030)
 

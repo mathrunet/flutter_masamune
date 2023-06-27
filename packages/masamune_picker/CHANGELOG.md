@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Made available only on masamune_picker. ([d5fb1937](https://github.com/mathrunet/flutter_masamune/commit/d5fb193793f0c1caf62dd560cdec476865907aaf))
+
 ## 2.0.44
 
  - Update a dependency to the latest release.
