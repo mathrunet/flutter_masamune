@@ -1,3 +1,8 @@
+## 2.1.0
+
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+ - **DOCS**: Documentation revisions. ([e7992101](https://github.com/mathrunet/flutter_masamune/commit/e7992101492b201f54733e15862b585763d6dd55))
+
 ## 2.0.46
 
  - **FIX**: Adapter tied to the main controller. query installation. ([be36304b](https://github.com/mathrunet/flutter_masamune/commit/be36304b0e70873af917058e590617137240a801))

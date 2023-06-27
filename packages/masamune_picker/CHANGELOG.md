@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **DOCS**: Corrected package description. ([21e47437](https://github.com/mathrunet/flutter_masamune/commit/21e47437e40159e4d2cbcc3331d27a99647f9674))
+
 ## 2.1.1
 
  - **FIX**: Applying Import sorter. ([7b4762cf](https://github.com/mathrunet/flutter_masamune/commit/7b4762cf1a4699e410a30ab380b2dd7c1bc184a3))

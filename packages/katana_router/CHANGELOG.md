@@ -1,3 +1,7 @@
+## 2.0.9
+
+ - **FIX**: Fixed a bug that prevented the back button on Android from working properly. ([47aacab9](https://github.com/mathrunet/flutter_masamune/commit/47aacab9d6a2f9f72576c2d708d7246d6c0dfef6))
+
 ## 2.0.8
 
  - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))

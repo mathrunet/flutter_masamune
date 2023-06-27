@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
 ## 2.1.4
 
  - **DOCS**: Additional Comments. ([5d5adc0b](https://github.com/mathrunet/flutter_masamune/commit/5d5adc0b88f7397a7b57b7b58036ebd7708c0b14))

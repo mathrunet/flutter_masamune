@@ -15,6 +15,100 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_functions` - `v2.4.0`](#katana_functions---v240)
+ - [`katana_functions_firebase` - `v2.4.0`](#katana_functions_firebase---v240)
+ - [`katana_router` - `v2.0.9`](#katana_router---v209)
+ - [`masamune_agora` - `v2.1.0`](#masamune_agora---v210)
+ - [`masamune_ai_openai` - `v2.1.0`](#masamune_ai_openai---v210)
+ - [`masamune_mail` - `v2.1.0`](#masamune_mail---v210)
+ - [`masamune_notification_firebase` - `v2.1.0`](#masamune_notification_firebase---v210)
+ - [`masamune_picker` - `v2.1.2`](#masamune_picker---v212)
+ - [`masamune_purchase_mobile` - `v2.2.0`](#masamune_purchase_mobile---v220)
+ - [`masamune_purchase_stripe` - `v3.1.0`](#masamune_purchase_stripe---v310)
+ - [`masamune` - `v2.1.20`](#masamune---v2120)
+ - [`masamune_location` - `v2.1.11`](#masamune_location---v2111)
+ - [`masamune_auth_apple` - `v2.1.3`](#masamune_auth_apple---v213)
+ - [`masamune_auth_google` - `v2.1.3`](#masamune_auth_google---v213)
+ - [`masamune_calendar` - `v2.0.46`](#masamune_calendar---v2046)
+ - [`masamune_util` - `v2.0.14`](#masamune_util---v2014)
+ - [`masamune_universal_ui` - `v2.1.15`](#masamune_universal_ui---v2115)
+ - [`masamune_auth_facebook` - `v2.1.5`](#masamune_auth_facebook---v215)
+ - [`masamune_logger_firebase` - `v2.0.45`](#masamune_logger_firebase---v2045)
+ - [`masamune_location_google` - `v2.1.10`](#masamune_location_google---v2110)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.20`
+ - `masamune_location` - `v2.1.11`
+ - `masamune_auth_apple` - `v2.1.3`
+ - `masamune_auth_google` - `v2.1.3`
+ - `masamune_calendar` - `v2.0.46`
+ - `masamune_util` - `v2.0.14`
+ - `masamune_universal_ui` - `v2.1.15`
+ - `masamune_auth_facebook` - `v2.1.5`
+ - `masamune_logger_firebase` - `v2.0.45`
+ - `masamune_location_google` - `v2.1.10`
+
+---
+
+#### `katana_functions` - `v2.4.0`
+
+ - **FIX**: Delete unnecessary Functions. ([ab991aa2](https://github.com/mathrunet/flutter_masamune/commit/ab991aa227286e7cf95244377479b734a2106eca))
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
+#### `katana_functions_firebase` - `v2.4.0`
+
+ - **FIX**: Delete unnecessary Functions. ([ab991aa2](https://github.com/mathrunet/flutter_masamune/commit/ab991aa227286e7cf95244377479b734a2106eca))
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
+#### `katana_router` - `v2.0.9`
+
+ - **FIX**: Fixed a bug that prevented the back button on Android from working properly. ([47aacab9](https://github.com/mathrunet/flutter_masamune/commit/47aacab9d6a2f9f72576c2d708d7246d6c0dfef6))
+
+#### `masamune_agora` - `v2.1.0`
+
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
+#### `masamune_ai_openai` - `v2.1.0`
+
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+ - **DOCS**: Documentation revisions. ([e7992101](https://github.com/mathrunet/flutter_masamune/commit/e7992101492b201f54733e15862b585763d6dd55))
+
+#### `masamune_mail` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([1e4657c2](https://github.com/mathrunet/flutter_masamune/commit/1e4657c2c34f31417f3f92a2d020725639b07050))
+
+#### `masamune_notification_firebase` - `v2.1.0`
+
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
+#### `masamune_picker` - `v2.1.2`
+
+ - **DOCS**: Corrected package description. ([21e47437](https://github.com/mathrunet/flutter_masamune/commit/21e47437e40159e4d2cbcc3331d27a99647f9674))
+
+#### `masamune_purchase_mobile` - `v2.2.0`
+
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
+#### `masamune_purchase_stripe` - `v3.1.0`
+
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
+
+## 2023-06-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v2.1.10`](#masamune_location---v2110)
  - [`masamune_location_google` - `v2.1.9`](#masamune_location_google---v219)
  - [`masamune_picker` - `v2.1.1`](#masamune_picker---v211)

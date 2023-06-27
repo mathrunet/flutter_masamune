@@ -1,3 +1,8 @@
+## 2.4.0
+
+ - **FIX**: Delete unnecessary Functions. ([ab991aa2](https://github.com/mathrunet/flutter_masamune/commit/ab991aa227286e7cf95244377479b734a2106eca))
+ - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
+
 ## 2.3.0
 
  - **FEAT**: Added Functions for billing verification. ([f13e6877](https://github.com/mathrunet/flutter_masamune/commit/f13e6877a5918b16e9f54cb2fd488098edf803ac))
