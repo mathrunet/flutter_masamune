@@ -75,7 +75,7 @@ class MailGmailCliAction extends CliCommand with CliActionMixin {
         flutter,
         "pub",
         "add",
-        "masamune_purchase_stripe",
+        "masamune_mail",
         "katana_functions_firebase",
       ],
     );
