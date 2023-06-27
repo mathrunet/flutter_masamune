@@ -16,8 +16,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:masamune/masamune.dart';
 
 part 'adapter/picker_masamune_adapter.dart';
