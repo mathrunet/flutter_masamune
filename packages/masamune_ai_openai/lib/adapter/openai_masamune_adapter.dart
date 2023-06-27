@@ -1,6 +1,6 @@
 part of masamune_ai_openai;
 
-/// MasamuneAdapter] for configuring OpenAI features.
+/// [MasamuneAdapter] for configuring OpenAI features.
 ///
 /// Set the API key issued by your OpenAI account in [apiKey].
 ///
@@ -8,7 +8,7 @@ part of masamune_ai_openai;
 ///
 /// [apiKey]にOpenAIのアカウントで発行したAPIキーを設定してください。
 class OpenAIMasamuneAdapter extends MasamuneAdapter {
-  /// MasamuneAdapter] for configuring OpenAI features.
+  /// [MasamuneAdapter] for configuring OpenAI features.
   ///
   /// Set the API key issued by your OpenAI account in [apiKey].
   ///
