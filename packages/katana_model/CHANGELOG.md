@@ -1,3 +1,7 @@
+## 2.3.4
+
+ - Update a dependency to the latest release.
+
 ## 2.3.3
 
  - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))

@@ -1,6 +1,6 @@
 name: katana_router_builder
 description: Building system for katana router packages. Automatic Page route generation.
-version: 2.0.8
+version: 2.0.9
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_router_builder
 
@@ -8,8 +8,8 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
 
 dependencies: 
-  katana: ^2.2.0
-  katana_router_annotation: ^2.0.7
+  katana: ^2.2.1
+  katana_router_annotation: ^2.0.8
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0

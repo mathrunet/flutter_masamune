@@ -1,3 +1,7 @@
+## 2.2.12
+
+ - Update a dependency to the latest release.
+
 ## 2.2.11
 
  - **FIX**: Mail package support. ([46fa3613](https://github.com/mathrunet/flutter_masamune/commit/46fa3613781b2051748cc71e96b3c63cb0e97430))

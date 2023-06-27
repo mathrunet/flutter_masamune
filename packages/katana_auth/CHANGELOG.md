@@ -1,3 +1,7 @@
+## 2.0.7
+
+ - Update a dependency to the latest release.
+
 ## 2.0.6
 
  - **FIX**: Added Credential information around sns sign-in. ([8d634c87](https://github.com/mathrunet/flutter_masamune/commit/8d634c87b98686396baf6a94c1de74488d536768))

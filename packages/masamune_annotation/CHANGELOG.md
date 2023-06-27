@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - Update a dependency to the latest release.
+
 ## 2.1.1
 
  - **DOCS**: Additional Comments. ([9615c0f0](https://github.com/mathrunet/flutter_masamune/commit/9615c0f0f212174558b51f181e5a4f5f33a90218))

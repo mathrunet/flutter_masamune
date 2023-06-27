@@ -1,3 +1,7 @@
+## 2.0.8
+
+ - **FIX**: Package Update. ([3ae7c72a](https://github.com/mathrunet/flutter_masamune/commit/3ae7c72ada3db217bd9e9c8ccc3267ebcc203151))
+
 ## 2.0.7
 
  - **FIX**: Changed animation when fullscreen. ([4a831cee](https://github.com/mathrunet/flutter_masamune/commit/4a831cee9f6617ad89a1dbd69de1ce29530f7c0b))

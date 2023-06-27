@@ -1,3 +1,7 @@
+## 2.0.10
+
+ - **FIX**: Package Update. ([3ae7c72a](https://github.com/mathrunet/flutter_masamune/commit/3ae7c72ada3db217bd9e9c8ccc3267ebcc203151))
+
 ## 2.0.9
 
  - **FIX**: Raised the Dart version of Example. ([55d99042](https://github.com/mathrunet/flutter_masamune/commit/55d99042aa35fa157af349455f7334fa55dda89f))

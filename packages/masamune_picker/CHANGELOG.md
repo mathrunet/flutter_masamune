@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - Update a dependency to the latest release.
+
 ## 2.1.2
 
  - **DOCS**: Corrected package description. ([21e47437](https://github.com/mathrunet/flutter_masamune/commit/21e47437e40159e4d2cbcc3331d27a99647f9674))

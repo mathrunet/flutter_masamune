@@ -1,3 +1,7 @@
+## 2.0.7
+
+ - **FIX**: Package Update. ([3ae7c72a](https://github.com/mathrunet/flutter_masamune/commit/3ae7c72ada3db217bd9e9c8ccc3267ebcc203151))
+
 ## 2.0.6
 
  - **FIX**: nullable when generating non-list objects. ([9d093a1c](https://github.com/mathrunet/flutter_masamune/commit/9d093a1c447a1bb18515565f61ea8f4d5dab9ef9))

@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Package Update. ([3ae7c72a](https://github.com/mathrunet/flutter_masamune/commit/3ae7c72ada3db217bd9e9c8ccc3267ebcc203151))
+
 ## 2.2.0
 
  - **FEAT**: Add fill to Iterable's extension. ([1c3c41bf](https://github.com/mathrunet/flutter_masamune/commit/1c3c41bf7a53645721f4c2d110d1d0f2dea23b54))

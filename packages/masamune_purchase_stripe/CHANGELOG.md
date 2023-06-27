@@ -1,3 +1,7 @@
+## 3.1.1
+
+ - Update a dependency to the latest release.
+
 ## 3.1.0
 
  - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))

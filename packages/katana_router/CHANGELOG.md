@@ -1,3 +1,7 @@
+## 2.0.10
+
+ - **FIX**: Package Update. ([3ae7c72a](https://github.com/mathrunet/flutter_masamune/commit/3ae7c72ada3db217bd9e9c8ccc3267ebcc203151))
+
 ## 2.0.9
 
  - **FIX**: Fixed a bug that prevented the back button on Android from working properly. ([47aacab9](https://github.com/mathrunet/flutter_masamune/commit/47aacab9d6a2f9f72576c2d708d7246d6c0dfef6))

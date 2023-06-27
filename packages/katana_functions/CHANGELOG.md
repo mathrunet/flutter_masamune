@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - Update a dependency to the latest release.
+
 ## 2.4.0
 
  - **FIX**: Delete unnecessary Functions. ([ab991aa2](https://github.com/mathrunet/flutter_masamune/commit/ab991aa227286e7cf95244377479b734a2106eca))

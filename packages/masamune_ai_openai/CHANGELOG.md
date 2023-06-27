@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Package Update. ([3ae7c72a](https://github.com/mathrunet/flutter_masamune/commit/3ae7c72ada3db217bd9e9c8ccc3267ebcc203151))
+
 ## 2.1.0
 
  - **FEAT**: Separate Functions. ([1bdfba3c](https://github.com/mathrunet/flutter_masamune/commit/1bdfba3c7997f9cadef9b08647959e2b282d535f))
