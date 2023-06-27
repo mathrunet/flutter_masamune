@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.2.2`](#masamune_purchase_mobile---v222)
+
+---
+
+#### `masamune_purchase_mobile` - `v2.2.2`
+
+ - **FIX**: Package platform support. ([9d08c55a](https://github.com/mathrunet/flutter_masamune/commit/9d08c55a732884062c1b38d1e7fe552c2ba4ccd8))
+
+
+## 2023-06-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.2.1`](#katana---v221)
  - [`katana_listenables` - `v2.0.8`](#katana_listenables---v208)
  - [`katana_listenables_annotation` - `v2.0.7`](#katana_listenables_annotation---v207)
