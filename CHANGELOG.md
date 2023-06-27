@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.2.11`](#katana_cli---v2211)
+
+---
+
+#### `katana_cli` - `v2.2.11`
+
+ - **FIX**: Mail package support. ([46fa3613](https://github.com/mathrunet/flutter_masamune/commit/46fa3613781b2051748cc71e96b3c63cb0e97430))
+
+
+## 2023-06-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_functions` - `v2.4.0`](#katana_functions---v240)
  - [`katana_functions_firebase` - `v2.4.0`](#katana_functions_firebase---v240)
  - [`katana_router` - `v2.0.9`](#katana_router---v209)

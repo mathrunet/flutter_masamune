@@ -1,3 +1,7 @@
+## 2.2.11
+
+ - **FIX**: Mail package support. ([46fa3613](https://github.com/mathrunet/flutter_masamune/commit/46fa3613781b2051748cc71e96b3c63cb0e97430))
+
 ## 2.2.10
 
  - **FIX**: Support for masamune_picker changes. ([3c01f862](https://github.com/mathrunet/flutter_masamune/commit/3c01f862050e73321adaca81a9b20da050ad77e8))
