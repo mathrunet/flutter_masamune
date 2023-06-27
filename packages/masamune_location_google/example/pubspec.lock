@@ -698,20 +698,19 @@ packages:
     source: path
     version: "2.1.1"
   masamune_location:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: masamune_location
-      sha256: eb5607e19ef75f0d8bd1dd3820623e26956e25a16b6c3bcb64d77a0d22eaee2a
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.7"
+      path: "../../masamune_location"
+      relative: true
+    source: path
+    version: "2.1.9"
   masamune_location_google:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.1.6"
+    version: "2.1.8"
   matcher:
     dependency: transitive
     description:
