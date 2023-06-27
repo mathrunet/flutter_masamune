@@ -56,12 +56,11 @@ class _AppRouterDelegate extends RouterDelegate<RouteQuery>
 
   @override
   Future<bool> popRoute() {
-    if (!canPop()) {
-      SystemNavigator.pop();
+    final navigator = router._config.navigatorKey.currentState;
+    if (navigator == null) {
       return SynchronousFuture(false);
     }
-    pop();
-    return SynchronousFuture(true);
+    return navigator.maybePop();
   }
 
   @override

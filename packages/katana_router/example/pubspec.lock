@@ -349,14 +349,14 @@ packages:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "2.0.4"
+    version: "2.0.5"
   katana_router:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.7"
+    version: "2.0.8"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -370,7 +370,7 @@ packages:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.7"
+    version: "2.0.8"
   lints:
     dependency: transitive
     description:
