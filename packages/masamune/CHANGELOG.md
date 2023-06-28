@@ -1,3 +1,7 @@
+## 2.1.23
+
+ - **FIX**: Support for katana_model_local. ([db3081a7](https://github.com/mathrunet/flutter_masamune/commit/db3081a7d2ce2d00bef1793fcb0b26da7a09853d))
+
 ## 2.1.22
 
  - Update a dependency to the latest release.
