@@ -69,7 +69,10 @@ class UniversalListView extends StatelessWidget {
     this.rowSegments = 12,
     this.maxWidth,
     this.padding,
-    this.enableResponsivePadding = true,
+    this.enableResponsivePadding,
+    this.showScrollbarWhenDesktopOrWeb = true,
+    this.scrollbarRadius,
+    this.scrollbarThickness,
   })  : assert(
           !(controller != null && primary == true),
           "Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. "
@@ -170,10 +173,33 @@ class UniversalListView extends StatelessWidget {
   /// 横方向のセグメントの数です。
   final int rowSegments;
 
-  /// Set to `true` to enable responsive padding.
+  /// Specify whether to enable responsive padding.
   ///
-  /// レスポンシブのパディングを有効にする場合は`true`にします。
-  final bool enableResponsivePadding;
+  /// If `true` or `false` is specified, it is forced to be enabled or disabled.
+  ///
+  /// [Null] will automatically be `false` if the parent has a [UniversalColumn] or [UniversalContainer]. If not, it will be `true`.
+  ///
+  /// レスポンシブのパディングを有効にするかどうかを指定します。
+  ///
+  /// `true`や`false`を指定する場合強制的に有効か無効になります。
+  ///
+  /// [Null]の場合、親に[UniversalColumn]や[UniversalContainer]がある場合は自動的に`false`になります。ない場合は`true`になります。
+  final bool? enableResponsivePadding;
+
+  /// Setting this to `true` will display scrollbars on desktop and web.
+  ///
+  /// これを`true`にするとデスクトップとWebでスクロールバーを表示します。
+  final bool showScrollbarWhenDesktopOrWeb;
+
+  /// Scrollbar width.
+  ///
+  /// スクロールバーの横幅。
+  final double? scrollbarThickness;
+
+  /// Scrollbar corner radius.
+  ///
+  /// スクロールバーの角の半径。
+  final Radius? scrollbarRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -182,38 +208,41 @@ class UniversalListView extends StatelessWidget {
     return UniversalWidgetScope(
       child: _buildRefreshIndicator(
         context,
-        _buildConstrainedBox(
+        _buildScrollbar(
           context,
-          _buildDecoratedBox(
+          _buildConstrainedBox(
             context,
-            CustomScrollView(
-              key: key,
-              scrollDirection: scrollDirection,
-              reverse: reverse,
-              controller: controller,
-              primary: primary,
-              physics: physics,
-              scrollBehavior: scrollBehavior,
-              shrinkWrap: shrinkWrap,
-              center: center,
-              anchor: anchor,
-              cacheExtent: cacheExtent,
-              semanticChildCount: semanticChildCount,
-              dragStartBehavior: dragStartBehavior,
-              keyboardDismissBehavior: keyboardDismissBehavior,
-              restorationId: restorationId,
-              clipBehavior: clipBehavior,
-              slivers: [
-                _padding(
-                  context,
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, i) => rows[i],
-                      childCount: rows.length,
+            _buildDecoratedBox(
+              context,
+              CustomScrollView(
+                key: key,
+                scrollDirection: scrollDirection,
+                reverse: reverse,
+                controller: controller,
+                primary: primary,
+                physics: physics,
+                scrollBehavior: scrollBehavior,
+                shrinkWrap: shrinkWrap,
+                center: center,
+                anchor: anchor,
+                cacheExtent: cacheExtent,
+                semanticChildCount: semanticChildCount,
+                dragStartBehavior: dragStartBehavior,
+                keyboardDismissBehavior: keyboardDismissBehavior,
+                restorationId: restorationId,
+                clipBehavior: clipBehavior,
+                slivers: [
+                  _padding(
+                    context,
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, i) => rows[i],
+                        childCount: rows.length,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -257,7 +286,7 @@ class UniversalListView extends StatelessWidget {
       }
     }
 
-    if (accumulatedWidth >= 0) {
+    if (accumulatedWidth > 0) {
       if (accumulatedWidth < rowSegments) {
         cols.add(Spacer(
           flex: rowSegments - accumulatedWidth,
@@ -269,6 +298,25 @@ class UniversalListView extends StatelessWidget {
       ));
     }
     return rows;
+  }
+
+  Widget _buildScrollbar(BuildContext context, Widget child) {
+    if (showScrollbarWhenDesktopOrWeb &&
+        (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
+      final universalScope =
+          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
+      return Scrollbar(
+        interactive: true,
+        trackVisibility: true,
+        thumbVisibility: true,
+        thickness:
+            scrollbarThickness ?? universalScope?.defaultScrollbarThickness,
+        radius: scrollbarRadius ?? universalScope?.defaultScrollbarRadius,
+        child: child,
+      );
+    } else {
+      return child;
+    }
   }
 
   Widget _buildRefreshIndicator(BuildContext context, Widget child) {
@@ -312,10 +360,9 @@ class UniversalListView extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final breakpoint = UniversalScaffold.of(context)?.breakpoint;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
-    final responsivePadding =
-        enableResponsivePadding && universalWidgetScope == null
-            ? (width - maxWidth) / 2.0
-            : 0.0;
+    final enablePadding =
+        enableResponsivePadding ?? universalWidgetScope == null;
+    final responsivePadding = enablePadding ? (width - maxWidth) / 2.0 : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(

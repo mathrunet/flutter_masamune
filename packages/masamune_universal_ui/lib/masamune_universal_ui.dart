@@ -37,4 +37,5 @@ part 'src/universal_list_view.dart';
 part 'src/universal_scaffold.dart';
 part 'src/universal_side_bar.dart';
 part 'src/universal_edge_insets.dart';
+part 'src/universal_padding.dart';
 part 'src/universal_widget_scope.dart';

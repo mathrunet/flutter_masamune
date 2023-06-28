@@ -131,7 +131,6 @@ class UniversalScaffold extends StatefulWidget {
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
     this.persistentFooterButtons,
-    this.showScrollbarWhenDesktopOrWeb = true,
     this.drawer,
     this.onDrawerChanged,
     this.endDrawer,
@@ -161,8 +160,6 @@ class UniversalScaffold extends StatefulWidget {
     this.width,
     this.height,
     this.borderRadius,
-    this.scrollbarRadius,
-    this.scrollbarThickness,
   });
 
   /// Pass [context] to get [Breakpoint] set by [UniversalScaffold] at the top.
@@ -429,21 +426,6 @@ class UniversalScaffold extends StatefulWidget {
   /// {@endtemplate}
   final String? restorationId;
 
-  /// Setting this to `true` will display scrollbars on desktop and web.
-  ///
-  /// これを`true`にするとデスクトップとWebでスクロールバーを表示します。
-  final bool showScrollbarWhenDesktopOrWeb;
-
-  /// Scrollbar width.
-  ///
-  /// スクロールバーの横幅。
-  final double? scrollbarThickness;
-
-  /// Scrollbar corner radius.
-  ///
-  /// スクロールバーの角の半径。
-  final Radius? scrollbarRadius;
-
   @override
   State<StatefulWidget> createState() => _UniversalScaffoldState();
 }
@@ -479,17 +461,14 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
           sideBarWidth: 0.0,
           child: Scaffold(
             key: widget.key,
-            body: _buildScrollbar(
-              context,
-              NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return [
-                    if (widget.appBar != null) widget.appBar!,
-                  ];
-                },
-                body: _buildBody(context, _loading(context)),
-              ),
+            body: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  if (widget.appBar != null) widget.appBar!,
+                ];
+              },
+              body: _buildBody(context, _loading(context)),
             ),
             floatingActionButton: widget.floatingActionButton,
             floatingActionButtonLocation: widget.floatingActionButtonLocation,
@@ -525,10 +504,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
           child: Scaffold(
             key: widget.key,
             appBar: _toMobileAppBar(context),
-            body: _buildScrollbar(
-              context,
-              _buildBody(context, _loading(context)),
-            ),
+            body: _buildBody(context, _loading(context)),
             floatingActionButton: widget.floatingActionButton,
             floatingActionButtonLocation: widget.floatingActionButtonLocation,
             floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
@@ -615,26 +591,6 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
       return appBar;
     }
     return null;
-  }
-
-  Widget _buildScrollbar(BuildContext context, Widget child) {
-    if (widget.showScrollbarWhenDesktopOrWeb &&
-        (UniversalPlatform.isDesktop || UniversalPlatform.isWeb)) {
-      final universalScope =
-          MasamuneAdapterScope.of<UniversalMasamuneAdapter>(context);
-      return Scrollbar(
-        interactive: true,
-        trackVisibility: true,
-        thumbVisibility: true,
-        thickness: widget.scrollbarThickness ??
-            universalScope?.defaultScrollbarThickness,
-        radius:
-            widget.scrollbarRadius ?? universalScope?.defaultScrollbarRadius,
-        child: child,
-      );
-    } else {
-      return child;
-    }
   }
 
   Widget? _buildDrawer(BuildContext context) {

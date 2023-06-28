@@ -43,7 +43,7 @@ class UniversalContainer extends StatelessWidget {
     this.transformAlignment,
     this.clipBehavior = Clip.none,
     this.breakpoint,
-    this.enableResponsivePadding = true,
+    this.enableResponsivePadding,
   });
 
   /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
@@ -152,10 +152,18 @@ class UniversalContainer extends StatelessWidget {
   /// [Container]の中に格納するウィジェット。
   final Widget? child;
 
-  /// Set to `true` to enable responsive padding.
+  /// Specify whether to enable responsive padding.
   ///
-  /// レスポンシブのパディングを有効にする場合は`true`にします。
-  final bool enableResponsivePadding;
+  /// If `true` or `false` is specified, it is forced to be enabled or disabled.
+  ///
+  /// [Null] will automatically be `false` if the parent has a [UniversalColumn] or [UniversalContainer]. If not, it will be `true`.
+  ///
+  /// レスポンシブのパディングを有効にするかどうかを指定します。
+  ///
+  /// `true`や`false`を指定する場合強制的に有効か無効になります。
+  ///
+  /// [Null]の場合、親に[UniversalColumn]や[UniversalContainer]がある場合は自動的に`false`になります。ない場合は`true`になります。
+  final bool? enableResponsivePadding;
 
   @override
   Widget build(BuildContext context) {
@@ -191,10 +199,9 @@ class UniversalContainer extends StatelessWidget {
     final universalWidgetScope = UniversalWidgetScope.of(context);
     final width = MediaQuery.of(context).size.width;
     final maxWidth = (breakpoint?.width(context) ?? width).limitHigh(width);
-    final responsivePadding =
-        enableResponsivePadding && universalWidgetScope == null
-            ? (width - maxWidth) / 2.0
-            : 0.0;
+    final enablePadding =
+        enableResponsivePadding ?? universalWidgetScope == null;
+    final responsivePadding = enablePadding ? (width - maxWidth) / 2.0 : 0.0;
     final resolvedPadding =
         _effectivePadding(context, breakpoint)?.resolve(TextDirection.ltr);
     final generatedPadding = EdgeInsets.fromLTRB(
