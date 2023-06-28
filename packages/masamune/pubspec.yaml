@@ -20,6 +20,7 @@ dependencies:
   katana_indicator: ^2.0.6
   katana_scoped: ^2.0.6
   katana_model: ^2.3.5
+  katana_model_local: ^2.1.0
   katana_listenables: ^2.0.8
   katana_router: ^2.0.10
   katana_theme: ^2.0.10
