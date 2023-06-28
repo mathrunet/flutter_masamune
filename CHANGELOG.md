@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_universal_ui` - `v2.1.19`](#masamune_universal_ui---v2119)
+
+---
+
+#### `masamune_universal_ui` - `v2.1.19`
+
+ - **FIX**: Re-organization of scroll bars. ([4e8828b7](https://github.com/mathrunet/flutter_masamune/commit/4e8828b783dd3301a703d7b32bc511fbf37e7913))
+
+
+## 2023-06-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v2.1.23`](#masamune---v2123)
  - [`masamune_location` - `v2.1.14`](#masamune_location---v2114)
  - [`masamune_auth_apple` - `v2.1.6`](#masamune_auth_apple---v216)
