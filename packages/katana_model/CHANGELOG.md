@@ -1,3 +1,7 @@
+## 2.3.5
+
+ - **FIX**: Separate LocalDB part. ([04c08192](https://github.com/mathrunet/flutter_masamune/commit/04c08192f09f6b98b13fd4a81c82815cca145456))
+
 ## 2.3.4
 
  - Update a dependency to the latest release.

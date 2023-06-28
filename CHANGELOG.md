@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v2.3.5`](#katana_model---v235)
+ - [`katana_model_firestore` - `v2.2.7`](#katana_model_firestore---v227)
+ - [`katana_model_local` - `v2.1.0`](#katana_model_local---v210)
+ - [`masamune` - `v2.1.22`](#masamune---v2122)
+ - [`masamune_location` - `v2.1.13`](#masamune_location---v2113)
+ - [`masamune_auth_apple` - `v2.1.5`](#masamune_auth_apple---v215)
+ - [`masamune_agora` - `v2.1.2`](#masamune_agora---v212)
+ - [`masamune_auth_google` - `v2.1.5`](#masamune_auth_google---v215)
+ - [`masamune_ai_openai` - `v2.1.2`](#masamune_ai_openai---v212)
+ - [`masamune_calendar` - `v2.0.48`](#masamune_calendar---v2048)
+ - [`masamune_picker` - `v2.1.4`](#masamune_picker---v214)
+ - [`masamune_util` - `v2.0.16`](#masamune_util---v2016)
+ - [`masamune_universal_ui` - `v2.1.17`](#masamune_universal_ui---v2117)
+ - [`masamune_purchase_stripe` - `v3.1.2`](#masamune_purchase_stripe---v312)
+ - [`masamune_auth_facebook` - `v2.1.7`](#masamune_auth_facebook---v217)
+ - [`masamune_logger_firebase` - `v2.0.47`](#masamune_logger_firebase---v2047)
+ - [`masamune_location_google` - `v2.1.12`](#masamune_location_google---v2112)
+ - [`masamune_mail` - `v2.1.2`](#masamune_mail---v212)
+ - [`masamune_notification_firebase` - `v2.1.2`](#masamune_notification_firebase---v212)
+ - [`masamune_purchase_mobile` - `v2.2.3`](#masamune_purchase_mobile---v223)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.1.22`
+ - `masamune_location` - `v2.1.13`
+ - `masamune_auth_apple` - `v2.1.5`
+ - `masamune_agora` - `v2.1.2`
+ - `masamune_auth_google` - `v2.1.5`
+ - `masamune_ai_openai` - `v2.1.2`
+ - `masamune_calendar` - `v2.0.48`
+ - `masamune_picker` - `v2.1.4`
+ - `masamune_util` - `v2.0.16`
+ - `masamune_universal_ui` - `v2.1.17`
+ - `masamune_purchase_stripe` - `v3.1.2`
+ - `masamune_auth_facebook` - `v2.1.7`
+ - `masamune_logger_firebase` - `v2.0.47`
+ - `masamune_location_google` - `v2.1.12`
+ - `masamune_mail` - `v2.1.2`
+ - `masamune_notification_firebase` - `v2.1.2`
+ - `masamune_purchase_mobile` - `v2.2.3`
+
+---
+
+#### `katana_model` - `v2.3.5`
+
+ - **FIX**: Separate LocalDB part. ([04c08192](https://github.com/mathrunet/flutter_masamune/commit/04c08192f09f6b98b13fd4a81c82815cca145456))
+
+#### `katana_model_firestore` - `v2.2.7`
+
+ - **DOCS**: Documentation revisions. ([1bcd20bf](https://github.com/mathrunet/flutter_masamune/commit/1bcd20bf66b37ad261628f333e1fcb5fa8dcd7f0))
+
+#### `katana_model_local` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([573949dc](https://github.com/mathrunet/flutter_masamune/commit/573949dccd3823488743af7e9c56ae4737d0b154))
+
+
 ## 2023-06-27
 
 ### Changes

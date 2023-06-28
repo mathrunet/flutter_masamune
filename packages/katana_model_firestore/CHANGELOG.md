@@ -1,3 +1,7 @@
+## 2.2.7
+
+ - **DOCS**: Documentation revisions. ([1bcd20bf](https://github.com/mathrunet/flutter_masamune/commit/1bcd20bf66b37ad261628f333e1fcb5fa8dcd7f0))
+
 ## 2.2.6
 
  - Update a dependency to the latest release.

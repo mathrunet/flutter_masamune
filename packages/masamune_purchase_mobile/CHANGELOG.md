@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - Update a dependency to the latest release.
+
 ## 2.2.2
 
  - **FIX**: Package platform support. ([9d08c55a](https://github.com/mathrunet/flutter_masamune/commit/9d08c55a732884062c1b38d1e7fe552c2ba4ccd8))
