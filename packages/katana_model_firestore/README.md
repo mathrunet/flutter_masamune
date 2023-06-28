@@ -107,6 +107,13 @@ Import the following packages.
 flutter pub add katana_model
 ```
 
+
+If you use a local DB, import the following packages together.
+
+```dart
+flutter pub add katana_model_local
+```
+
 If you use Firestore, import the following packages together.
 
 ```dart
@@ -288,6 +295,35 @@ class UserValueCollection extends CollectionBase<UserValueDocument> {
   @override
   UserValueDocument create([String? id]) {
     return UserValueDocument(modelQuery.create(id));
+  }
+}
+```
+
+### When using Record
+
+It is also possible to use Record, which has been available since Dart3.
+
+```dart
+class UserRecordDocumentModel
+    extends DocumentBase<({String first, String last, int? born})> {
+  RuntimeRecordDocumentModel(super.query);
+
+  @override
+  ({String first, String last, int? born}) fromMap(DynamicMap map) {
+    return (
+      born: map.get("born", 0),
+      first: map.get("first", ""),
+      last: map.get("last", ""),
+    );
+  }
+
+  @override
+  DynamicMap toMap(({String first, String last, int? born}) value) {
+    return {
+      "born": value.born,
+      "first": value.first,
+      "last": value.last,
+    };
   }
 }
 ```
