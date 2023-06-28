@@ -107,6 +107,13 @@ Import the following packages.
 flutter pub add katana_model
 ```
 
+
+If you use a local DB, import the following packages together.
+
+```dart
+flutter pub add katana_model_local
+```
+
 If you use Firestore, import the following packages together.
 
 ```dart
