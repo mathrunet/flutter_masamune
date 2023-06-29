@@ -103,7 +103,7 @@ class DocumentModelPath {
   /// ```
   ///
   /// * see https://pub.dev/packages/freezed
-  const DocumentModelPath(this.path, this.mirror);
+  const DocumentModelPath(this.path, {this.mirror});
 
   /// Path for documentation.
   ///
