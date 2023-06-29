@@ -41,6 +41,12 @@ Install with the following command.
 flutter pub global activate katana_cli
 ```
 
+Check the dependencies of the commands used internally. If these do not all pass, it may not work properly.
+
+```bash
+katana doctor
+```
+
 # How to use
 
 The following commands are available
