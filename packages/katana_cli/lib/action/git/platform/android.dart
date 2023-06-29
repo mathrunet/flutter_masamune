@@ -312,7 +312,7 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           track: internal
-          status: draft
+          status: completed
           serviceAccountJson: ${workingPath.isEmpty ? "." : workingPath}/android/service_account_key.json
           packageName: #### REPLACE_ANDROID_PACKAGE_NAME ####
           releaseFiles: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release/*.aab
