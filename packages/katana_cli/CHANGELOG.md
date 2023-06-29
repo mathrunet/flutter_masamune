@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **DOCS**: ReadMe Correction. ([6947f19a](https://github.com/mathrunet/flutter_masamune/commit/6947f19a2ff38486d707950c4916d88ebb2faa25))
+
 ## 2.3.0
 
  - **FIX**: Error suppression. ([40d97f2a](https://github.com/mathrunet/flutter_masamune/commit/40d97f2a6d081d0965267f6e38e6f9ac0b1fce02))

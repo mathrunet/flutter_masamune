@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.3.1`](#katana_cli---v231)
+
+---
+
+#### `katana_cli` - `v2.3.1`
+
+ - **DOCS**: ReadMe Correction. ([6947f19a](https://github.com/mathrunet/flutter_masamune/commit/6947f19a2ff38486d707950c4916d88ebb2faa25))
+
+
+## 2023-06-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.0`](#katana_cli---v230)
 
 ---
