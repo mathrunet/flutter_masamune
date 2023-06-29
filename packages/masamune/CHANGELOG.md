@@ -1,3 +1,7 @@
+## 2.1.25
+
+ - **FIX**: model_local is now exported. ([5f755229](https://github.com/mathrunet/flutter_masamune/commit/5f7552295b63874a8816f57656d236e3b40ad039))
+
 ## 2.1.24
 
  - Update a dependency to the latest release.

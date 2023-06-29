@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.1.25`](#masamune---v2125)
+ - [`masamune_location` - `v2.1.16`](#masamune_location---v2116)
+ - [`masamune_auth_apple` - `v2.1.8`](#masamune_auth_apple---v218)
+ - [`masamune_agora` - `v2.1.5`](#masamune_agora---v215)
+ - [`masamune_auth_google` - `v2.1.8`](#masamune_auth_google---v218)
+ - [`masamune_ai_openai` - `v2.1.5`](#masamune_ai_openai---v215)
+ - [`masamune_calendar` - `v2.0.51`](#masamune_calendar---v2051)
+ - [`masamune_picker` - `v2.1.7`](#masamune_picker---v217)
+ - [`masamune_util` - `v2.0.19`](#masamune_util---v2019)
+ - [`masamune_universal_ui` - `v2.1.21`](#masamune_universal_ui---v2121)
+ - [`masamune_purchase_stripe` - `v3.1.5`](#masamune_purchase_stripe---v315)
+ - [`masamune_logger_firebase` - `v2.0.50`](#masamune_logger_firebase---v2050)
+ - [`masamune_auth_facebook` - `v2.1.10`](#masamune_auth_facebook---v2110)
+ - [`masamune_location_google` - `v2.1.15`](#masamune_location_google---v2115)
+ - [`masamune_mail` - `v2.1.5`](#masamune_mail---v215)
+ - [`masamune_notification_firebase` - `v2.1.5`](#masamune_notification_firebase---v215)
+ - [`masamune_purchase_mobile` - `v2.2.6`](#masamune_purchase_mobile---v226)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.16`
+ - `masamune_auth_apple` - `v2.1.8`
+ - `masamune_agora` - `v2.1.5`
+ - `masamune_auth_google` - `v2.1.8`
+ - `masamune_ai_openai` - `v2.1.5`
+ - `masamune_calendar` - `v2.0.51`
+ - `masamune_picker` - `v2.1.7`
+ - `masamune_util` - `v2.0.19`
+ - `masamune_universal_ui` - `v2.1.21`
+ - `masamune_purchase_stripe` - `v3.1.5`
+ - `masamune_logger_firebase` - `v2.0.50`
+ - `masamune_auth_facebook` - `v2.1.10`
+ - `masamune_location_google` - `v2.1.15`
+ - `masamune_mail` - `v2.1.5`
+ - `masamune_notification_firebase` - `v2.1.5`
+ - `masamune_purchase_mobile` - `v2.2.6`
+
+---
+
+#### `masamune` - `v2.1.25`
+
+ - **FIX**: model_local is now exported. ([5f755229](https://github.com/mathrunet/flutter_masamune/commit/5f7552295b63874a8816f57656d236e3b40ad039))
+
+
+## 2023-06-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.3`](#katana_cli---v233)
 
 ---
