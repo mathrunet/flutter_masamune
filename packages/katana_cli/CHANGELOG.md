@@ -1,3 +1,9 @@
+## 2.3.0
+
+ - **FIX**: Error suppression. ([40d97f2a](https://github.com/mathrunet/flutter_masamune/commit/40d97f2a6d081d0965267f6e38e6f9ac0b1fce02))
+ - **FIX**: Modification of GithubActions. ([a9b2fbf1](https://github.com/mathrunet/flutter_masamune/commit/a9b2fbf10f2902a2f033c6efd5ba0f2d50b55a0e))
+ - **FEAT**: Addition of katana doctor. ([0f6f028e](https://github.com/mathrunet/flutter_masamune/commit/0f6f028ebda55fa5079917f58bc181aa94e11cbc))
+
 ## 2.2.12
 
  - Update a dependency to the latest release.
