@@ -28,6 +28,7 @@ export 'package:katana_listenables/katana_listenables.dart';
 export 'package:katana_localization/katana_localization.dart';
 export 'package:katana_logger/katana_logger.dart';
 export 'package:katana_model/katana_model.dart';
+export 'package:katana_model_local/katana_model_local.dart';
 export 'package:katana_prefs/katana_prefs.dart';
 export 'package:katana_router/katana_router.dart';
 export 'package:katana_scoped/katana_scoped.dart';
