@@ -1,3 +1,7 @@
+## 2.1.20
+
+ - Update a dependency to the latest release.
+
 ## 2.1.19
 
  - **FIX**: Re-organization of scroll bars. ([4e8828b7](https://github.com/mathrunet/flutter_masamune/commit/4e8828b783dd3301a703d7b32bc511fbf37e7913))

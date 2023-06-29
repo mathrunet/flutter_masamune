@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Corrected DocumentModelPath parameter. ([444706f0](https://github.com/mathrunet/flutter_masamune/commit/444706f0ea967e37bbdedb99f1631fa9af3b3f2e))
+
 ## 2.1.2
 
  - Update a dependency to the latest release.

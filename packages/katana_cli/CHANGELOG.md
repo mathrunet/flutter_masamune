@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - **FIX**: Add model to initial project. ([9fb58170](https://github.com/mathrunet/flutter_masamune/commit/9fb58170a21ec8b44b4e26e070b7578a6df8a19b))
+
 ## 2.3.1
 
  - **DOCS**: ReadMe Correction. ([6947f19a](https://github.com/mathrunet/flutter_masamune/commit/6947f19a2ff38486d707950c4916d88ebb2faa25))
