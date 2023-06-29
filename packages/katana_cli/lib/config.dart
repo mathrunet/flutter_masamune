@@ -7,7 +7,7 @@ class Config {
   /// Contents of katana.yaml.
   ///
   /// katana.yamlの中身。
-  static const String katanaYamlCode = r"""
+  static String katanaYamlCode(bool showAllConfig) => """
 # Describe the application information.
 # アプリケーション情報を記載します。
 app:
@@ -20,6 +20,7 @@ app:
     enable: false
     path: assets/icon.png
 
+${showAllConfig ? """
   # Retrieve data from a spreadsheet retrieved by a specific Google Form.
   # Please include the URL of the spreadsheet in [url] and the email address you collected in [email].
   # If [domain] is specified, og tags for the Web are generated for that domain.
@@ -31,6 +32,7 @@ app:
     url:
     email:
     domain: 
+""" : ""}
 
   # Create a `CertificateSigningRequest.certSigningRequest` for iOS.
   # Please include your support email address in [email].
@@ -57,6 +59,7 @@ app:
     state: Tokyo
     country: Japan
   
+${showAllConfig ? """
   # Describe the settings for using the file picker.
   # Describe the platform for using the picker in [platform]. Specify `any` or `mobile`. Import the picker package for that platform.
   # Specify the permission message to use the library in IOS in [permission].
@@ -79,35 +82,7 @@ app:
   # OpenAIのGPT等を利用するための設定を記述します。
   openai:
     enable: false
-  
-  # Describe the settings for using location information.
-  #
-  # Set [enable_background] to true if you want to acquire location information even when the application enters the background.
-  # If you wish to use GoogleMap, set [google_map]->[enable] to true. Also, obtain a GoogleMap API key from the following link in advance and enter it in [google_map]->[api_key].
-  # https://console.cloud.google.com/google/maps-apis/credentials
-  #
-  # Specify the permission message to use the library in IOS in [permission].
-  # Please include `en`, `ja`, etc. and write the message in that language there.
-  # 
-  # 位置情報を利用するための設定を記述します。
-  # 
-  # アプリがバックグラウンドに入った場合でも位置情報を取得する場合は[enable_background]をtrueにしてください。
-  # GoogleMapを利用する場合は[google_map]->[enable]をtrueにしてください。また事前に下記のリンクからGoogleMapのAPIキーを取得しておき[google_map]->[api_key]に記載してください。
-  # https://console.cloud.google.com/google/maps-apis/credentials
-  #
-  # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
-  # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
-  location:
-    enable: false
-    enable_background: false
-    google_map:
-      enable: false
-      api_key:
-        android:
-        ios:
-        web: 
-    permission:
-      en: Location information is used to display the map.
+""" : ""}
 
 # This section contains information related to Firebase.
 # Firebase関連の情報を記載します。
@@ -126,6 +101,7 @@ firebase:
   authentication:
     enable: false
 
+${showAllConfig ? """
     # If you want to use SNS providers, set [enable] to `true` for each SNS.
     # SNSプロバイダーを利用したい場合はそれぞれのSNSの[enable]を`true`にしてください。
     providers:
@@ -164,6 +140,7 @@ firebase:
         enable: false
         app_id: 
         app_secret: 
+""" : ""}
 
   # Enable Cloud Storage for Firebase.
   # Cloud Storage for Firebaseを有効にします。
@@ -199,14 +176,15 @@ firebase:
     enable: false
     use_flutter: true
 
+${showAllConfig ? """
   # Deploy Terms of Use and Privacy Policy data to Firebase Hosting.
   # Specify the URL of the Terms of Use and Privacy Policy in [terms_of_use] and [privacy_policy] under each language code.
   # Adding a language code allows you to include the URL for the Terms of Use and Privacy Policy for that language.
-  # ${ApplicationName} and ${SupportEmail} will be replaced with the app name and support email address, respectively.
+  # \${ApplicationName} and \${SupportEmail} will be replaced with the app name and support email address, respectively.
   # Firebase Hostingに利用規約とプライバシーポリシーのデータをデプロイします。
   # 各言語コードの下に[terms_of_use]と[privacy_policy]には利用規約とプライバシーポリシーのURLを記載してください。
   # 言語コードを追加するとその言語の利用規約とプライバシーポリシーのURLを記載することができます。
-  # ${ApplicationName}と${SupportEmail}がそれぞれアプリ名とサポート用のEmailアドレスに置き換わります。
+  # \${ApplicationName}と\${SupportEmail}がそれぞれアプリ名とサポート用のEmailアドレスに置き換わります。
   terms_and_privacy:
     enable: false
     en:
@@ -215,6 +193,7 @@ firebase:
     ja:
       terms_of_use:
       privacy_policy:
+""" : ""}
   
   # Enable Firebase Messaging.
   # Specify ChannelNotificationId for Android in [channel_id].
@@ -224,6 +203,7 @@ firebase:
     enable: false
     channel_id: 
 
+${showAllConfig ? """
 # This section contains information related to Git.
 # Git関連の情報を記載します。
 git:
@@ -241,6 +221,7 @@ git:
   # lefthandのインストールが必要です。
   pre_commit:
     enable: false
+""" : ""}
 
 # Github-related information will be described.
 # Github関連の情報を記載します。
@@ -277,6 +258,7 @@ github:
       # https://developer.apple.com/account のチームIDをコピーして記載してください。
       team_id: 
 
+${showAllConfig ? """
 # Store-related information.
 # ストア関連の情報を記載します。
 store:
@@ -294,6 +276,35 @@ store:
     feature_image: document/feature.png
     orientation: portrait
     color: '000000'
+
+# Describe the settings for using location information.
+#
+# Set [enable_background] to true if you want to acquire location information even when the application enters the background.
+# If you wish to use GoogleMap, set [google_map]->[enable] to true. Also, obtain a GoogleMap API key from the following link in advance and enter it in [google_map]->[api_key].
+# https://console.cloud.google.com/google/maps-apis/credentials
+#
+# Specify the permission message to use the library in IOS in [permission].
+# Please include `en`, `ja`, etc. and write the message in that language there.
+# 
+# 位置情報を利用するための設定を記述します。
+# 
+# アプリがバックグラウンドに入った場合でも位置情報を取得する場合は[enable_background]をtrueにしてください。
+# GoogleMapを利用する場合は[google_map]->[enable]をtrueにしてください。また事前に下記のリンクからGoogleMapのAPIキーを取得しておき[google_map]->[api_key]に記載してください。
+# https://console.cloud.google.com/google/maps-apis/credentials
+#
+# [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+# `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+location:
+  enable: false
+  enable_background: false
+  google_map:
+    enable: false
+    api_key:
+      android:
+      ios:
+      web: 
+  permission:
+    en: Location information is used to display the map.
 
 # Configure settings for store billing.
 # ストア課金を行う場合の設定を行います。
@@ -439,5 +450,6 @@ sendgrid:
   # SendGridのAPIキー。下記URLから発行可能です。
   # https://app.sendgrid.com/settings/api_keys
   api_key:
+""" : ""}
 """;
 }

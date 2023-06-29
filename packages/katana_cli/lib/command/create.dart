@@ -122,7 +122,8 @@ class CreateCliCommand extends CliCommand {
       await file.value.generateFile(file.key);
     }
     label("Create a katana.yaml");
-    await const KatanaCliCode().generateFile("katana.yaml");
+    await KatanaCliCode(context.args.get(2, "") == "-a")
+        .generateFile("katana.yaml");
     label("Create a katana_secrets.yaml");
     await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
     label("Create a pubspec_overrides.yaml");
@@ -520,7 +521,12 @@ class KatanaCliCode extends CliCode {
   /// Contents of katana.yaml.
   ///
   /// katana.yamlの中身。
-  const KatanaCliCode();
+  const KatanaCliCode(this.showAllConfig);
+
+  /// `true` to show all settings.
+  ///
+  /// すべての設定を表示する場合は`true`。
+  final bool showAllConfig;
 
   @override
   String get name => "katana";
@@ -547,7 +553,7 @@ class KatanaCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return Config.katanaYamlCode;
+    return Config.katanaYamlCode(showAllConfig);
   }
 }
 

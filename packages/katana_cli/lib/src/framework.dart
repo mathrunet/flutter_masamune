@@ -436,13 +436,24 @@ extension _ProcessExtensions on Future<Process> {
   Future<String> print() async {
     final process = await this;
     var res = "";
-    process.stderr.transform(utf8.decoder).forEach(core.print);
+    var err = false;
+    process.stderr.transform(utf8.decoder).forEach((e) {
+      err = true;
+      res += e;
+      // ignore: avoid_print
+      core.print(e);
+    });
     process.stdout.transform(utf8.decoder).forEach((e) {
       res += e;
       // ignore: avoid_print
       core.print(e);
     });
     await process.exitCode;
+    if (err) {
+      throw Exception(
+        "An error has occurred. Please check the log above for details.",
+      );
+    }
     return res;
   }
 }

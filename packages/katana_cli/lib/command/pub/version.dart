@@ -112,12 +112,15 @@ class PubVersionCliCommand extends CliCommand {
               continue;
             }
             error("--manual-version=${tmp.name}:$latestMajor.$latestPatch.0");
-            final processVersionUp = await Process.start(melos, [
-              "version",
-              "--manual-version=${tmp.name}:$latestMajor.$latestPatch.0",
-              "--message=\"chore: Fit versions with other packages.\"",
-              "--yes"
-            ]);
+            final processVersionUp = await Process.start(
+              melos,
+              [
+                "version",
+                "--manual-version=${tmp.name}:$latestMajor.$latestPatch.0",
+                "--message=\"chore: Fit versions with other packages.\"",
+                "--yes"
+              ],
+            );
             // ignore: avoid_print
             processVersionUp.stdout.transform(utf8.decoder).forEach(print);
             processVersionUp.stdin

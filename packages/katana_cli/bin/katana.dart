@@ -4,6 +4,7 @@ library katana_cli;
 import 'dart:io';
 
 // Package imports:
+import 'package:katana_cli/command/doctor.dart';
 import 'package:yaml/yaml.dart';
 
 // Project imports:
@@ -25,6 +26,7 @@ const commands = <String, CliCommand>{
   "deploy": DeployCliCommand(),
   "store": StoreCliCommand(),
   "module": CreateModuleCliCommand(),
+  "doctor": DoctorCliCommand(),
 };
 
 Future<void> main(List<String> args) async {

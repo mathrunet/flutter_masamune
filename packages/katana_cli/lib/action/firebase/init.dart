@@ -127,25 +127,6 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       return;
     }
     await command(
-      "Install flutter cli",
-      [
-        npm,
-        "install",
-        "-g",
-        "firebase-tools",
-      ],
-    );
-    await command(
-      "Install flutterfire cli",
-      [
-        flutter,
-        "pub",
-        "global",
-        "activate",
-        "flutterfire_cli",
-      ],
-    );
-    await command(
       "Run flutterfire configure",
       [
         flutterfireCommand,
