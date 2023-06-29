@@ -1276,17 +1276,16 @@ class HomePage extends PageScopedWidget {
             "You have pushed the button this many times:",
           ),
           Text(
-            "\${model.value?.counter ?? 0}",
+            "\${model.value?.counter.value ?? 0}",
             style: theme.text.displayMedium,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          final value = model.value ?? const CounterModel();
           model.save(
-            model.value?.copyWith(
-              counter: model.value?.counter.increment(1) ?? const ModelCounter(1),
-            ),
+            value.copyWith(counter: value.counter.increment(1)),
           );
         },
         tooltip: "Increment",
