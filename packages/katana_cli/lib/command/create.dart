@@ -117,6 +117,9 @@ class CreateCliCommand extends CliCommand {
     await const MainCliCode().generateDartCode("lib/main", "main");
     label("Create home.dart");
     await const HomePageCliCode().generateDartCode("lib/pages/home", "home");
+    label("Create counter.dart");
+    await const CounterModelCliCode()
+        .generateDartCode("lib/models/counter", "counter");
     label("Generate file for VSCode");
     for (final file in otherFiles.entries) {
       await file.value.generateFile(file.key);
@@ -1208,7 +1211,7 @@ class HomePageCliCode extends CliCode {
   String get prefix => "home";
 
   @override
-  String get directory => "ib/pages";
+  String get directory => "lib/pages";
 
   @override
   String get description =>
@@ -1231,6 +1234,8 @@ import '/main.dart';
   @override
   String header(String path, String baseName, String className) {
     return """
+import '/models/counter.dart';
+
 part '$baseName.page.dart';
 """;
   }
@@ -1239,12 +1244,10 @@ part '$baseName.page.dart';
   String body(String path, String baseName, String className) {
     return """
 @immutable
-// TODO: Set the path for the page.
 @PagePath("/")
 class HomePage extends PageScopedWidget {
   const HomePage({
     super.key,
-    // TODO: Set parameters for the page.
   });
 
   /// Used to transition to the HomePage screen.
@@ -1260,11 +1263,9 @@ class HomePage extends PageScopedWidget {
   Widget build(BuildContext context, PageRef ref) {
     // Describes the process of loading
     // and defining variables required for the page.
-    // TODO: Implement the variable loading process.
-    final counter = ref.page.watch((ref) => ValueNotifier(0));
+    final model = ref.model(CounterModel.document())..load();
 
     // Describes the structure of the page.
-    // TODO: Implement the view.
     return UniversalScaffold(
       appBar: UniversalAppBar(title: Text(l().appTitle)),
       body: UniversalColumn(
@@ -1275,20 +1276,114 @@ class HomePage extends PageScopedWidget {
             "You have pushed the button this many times:",
           ),
           Text(
-            "\${counter.value}",
+            "\${model.value?.counter ?? 0}",
             style: theme.text.displayMedium,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          counter.value++;
+        onPressed: () {
+          model.save(
+            model.value?.copyWith(
+              counter: model.value?.counter.increment(1) ?? const ModelCounter(1),
+            ),
+          );
         },
         tooltip: "Increment",
         child: const Icon(Icons.add),
       ),
     );
   }
+}
+""";
+  }
+}
+
+/// Create a base class for the counter model.
+///
+/// カウンターモデルのベースクラスを作成します。
+class CounterModelCliCode extends CliCode {
+  /// Create a base class for the counter model.
+  ///
+  /// カウンターモデルのベースクラスを作成します。
+  const CounterModelCliCode();
+
+  @override
+  String get name => "counter";
+
+  @override
+  String get prefix => "counter";
+
+  @override
+  String get directory => "lib/models";
+
+  @override
+  String get description =>
+      "Create a base class for the counter model in `$directory/(filepath).dart`. カウンターモデルのベースクラスを`$directory/(filepath).dart`に作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+// ignore: unused_import, unnecessary_import
+import 'package:flutter/material.dart';
+// ignore: unused_import, unnecessary_import
+import 'package:masamune/masamune.dart';
+
+// ignore: unused_import, unnecessary_import
+import '/main.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part '$baseName.m.dart';
+part '$baseName.g.dart';
+part '$baseName.freezed.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// Alias for ModelRef<CounterModel>.
+/// 
+/// When defining parameters for other Models, you can define them as follows
+/// 
+/// ```dart
+/// @refParam CounterModelRef $baseName
+/// ```
+typedef CounterModelRef = ModelRef<CounterModel>?;
+
+/// Value for model.
+@freezed
+@formValue
+@immutable
+@DocumentModelPath("app/counter")
+class CounterModel with _\$CounterModel {
+  const factory CounterModel({
+     @Default(ModelCounter(0)) ModelCounter counter,
+  }) = _CounterModel;
+  const CounterModel._();
+
+  factory CounterModel.fromJson(Map<String, Object?> json) => _\$CounterModelFromJson(json);
+
+  /// Query for document.
+  ///
+  /// ```dart
+  /// appRef.model(CounterModel.document());      // Get the document.
+  /// ref.model(CounterModel.document())..load(); // Load the document.
+  /// ```
+  static const document = _\$CounterModelDocumentQuery();
+
+  /// Query for form value.
+  ///
+  /// ```dart
+  /// ref.page.controller(CounterModel.form());     // Get the form controller.
+  /// ```
+  static const form = _\$CounterModelFormQuery();
 }
 """;
   }
