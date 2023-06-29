@@ -1,8 +1,10 @@
 // Project imports:
 // ignore_for_file: avoid_print
 
+// Dart imports:
 import 'dart:io';
 
+// Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
 const _mainCommands = {
@@ -111,6 +113,7 @@ class DoctorCliCommand extends CliCommand {
             "Install `${com.value}`",
             [npm, "install", "-g", com.value],
             runInShell: true,
+            catchError: true,
           );
         } else {
           print("[o] `${com.key}` exists at `$path`");
@@ -131,6 +134,7 @@ class DoctorCliCommand extends CliCommand {
             "Install `${com.value}`",
             [dart, "pub", "global", "activate", com.value],
             runInShell: true,
+            catchError: true,
           );
         } else {
           print("[o] `${com.key}` exists at `$path`");

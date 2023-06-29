@@ -396,6 +396,7 @@ Future<String> command(
   List<String> commands, {
   String? workingDirectory,
   bool runInShell = true,
+  bool catchError = false,
 }) {
   // ignore: avoid_print, prefer_interpolation_to_compose_strings
   print("\r\n#### " + title);
@@ -407,7 +408,7 @@ Future<String> command(
     commands.sublist(1, commands.length),
     runInShell: runInShell,
     workingDirectory: workingDirectory ?? Directory.current.path,
-  ).print();
+  ).print(catchError);
 }
 
 /// Get the first file that matches [pattern] in [root].
@@ -433,7 +434,7 @@ extension _ProcessExtensions on Future<Process> {
   /// Prints the contents of the command to standard output.
   ///
   /// コマンドの内容を標準出力にプリントします。
-  Future<String> print() async {
+  Future<String> print(bool catchError) async {
     final process = await this;
     var res = "";
     var err = false;
@@ -449,7 +450,7 @@ extension _ProcessExtensions on Future<Process> {
       core.print(e);
     });
     await process.exitCode;
-    if (err) {
+    if (catchError && err) {
       throw Exception(
         "An error has occurred. Please check the log above for details.",
       );
