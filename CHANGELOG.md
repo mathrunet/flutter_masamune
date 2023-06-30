@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.3.4`](#katana_cli---v234)
+
+---
+
+#### `katana_cli` - `v2.3.4`
+
+ - **FIX**: Addition of AppInfo. ([ad7c0846](https://github.com/mathrunet/flutter_masamune/commit/ad7c0846ff1dafa67da6f6614a74563539d9a352))
+
+
 ## 2023-06-29
 
 ### Changes

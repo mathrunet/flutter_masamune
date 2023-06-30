@@ -1,3 +1,7 @@
+## 2.3.4
+
+ - **FIX**: Addition of AppInfo. ([ad7c0846](https://github.com/mathrunet/flutter_masamune/commit/ad7c0846ff1dafa67da6f6614a74563539d9a352))
+
 ## 2.3.3
 
  - **FIX**: Initial project bug fixes. ([85b8f638](https://github.com/mathrunet/flutter_masamune/commit/85b8f63800df74b21fd436898134745aea6896c8))
