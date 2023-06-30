@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
 ## 2.3.5
 
  - **FIX**: Separate LocalDB part. ([04c08192](https://github.com/mathrunet/flutter_masamune/commit/04c08192f09f6b98b13fd4a81c82815cca145456))

@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
 ## 2.1.3
 
  - **FIX**: Corrected DocumentModelPath parameter. ([444706f0](https://github.com/mathrunet/flutter_masamune/commit/444706f0ea967e37bbdedb99f1631fa9af3b3f2e))

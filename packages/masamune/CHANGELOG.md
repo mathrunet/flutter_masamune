@@ -1,3 +1,7 @@
+## 2.1.26
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
 ## 2.1.25
 
  - **FIX**: model_local is now exported. ([5f755229](https://github.com/mathrunet/flutter_masamune/commit/5f7552295b63874a8816f57656d236e3b40ad039))

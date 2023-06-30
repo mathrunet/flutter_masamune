@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
 ## 2.3.5
 
  - **FIX**: Correction of IOS app title. ([69efcd90](https://github.com/mathrunet/flutter_masamune/commit/69efcd902003bebabb8763e51ec785971cfa88fb))

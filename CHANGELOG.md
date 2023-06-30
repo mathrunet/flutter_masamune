@@ -15,6 +15,292 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v2.2.2`](#katana---v222)
+ - [`katana_auth` - `v2.0.8`](#katana_auth---v208)
+ - [`katana_auth_firebase` - `v2.0.8`](#katana_auth_firebase---v208)
+ - [`katana_cli` - `v2.3.6`](#katana_cli---v236)
+ - [`katana_firebase` - `v2.0.6`](#katana_firebase---v206)
+ - [`katana_form` - `v2.4.3`](#katana_form---v243)
+ - [`katana_functions` - `v2.4.2`](#katana_functions---v242)
+ - [`katana_functions_firebase` - `v2.4.2`](#katana_functions_firebase---v242)
+ - [`katana_indicator` - `v2.0.7`](#katana_indicator---v207)
+ - [`katana_listenables` - `v2.0.9`](#katana_listenables---v209)
+ - [`katana_listenables_annotation` - `v2.0.8`](#katana_listenables_annotation---v208)
+ - [`katana_listenables_builder` - `v2.0.9`](#katana_listenables_builder---v209)
+ - [`katana_localization` - `v2.0.10`](#katana_localization---v2010)
+ - [`katana_localization_annotation` - `v2.0.9`](#katana_localization_annotation---v209)
+ - [`katana_localization_builder` - `v2.0.10`](#katana_localization_builder---v2010)
+ - [`katana_logger` - `v2.0.7`](#katana_logger---v207)
+ - [`katana_model` - `v2.3.6`](#katana_model---v236)
+ - [`katana_model_firestore` - `v2.2.8`](#katana_model_firestore---v228)
+ - [`katana_model_local` - `v2.1.1`](#katana_model_local---v211)
+ - [`katana_model_openapi` - `v2.0.9`](#katana_model_openapi---v209)
+ - [`katana_model_openapi_builder` - `v2.0.8`](#katana_model_openapi_builder---v208)
+ - [`katana_prefs` - `v2.0.8`](#katana_prefs---v208)
+ - [`katana_prefs_annotation` - `v2.0.8`](#katana_prefs_annotation---v208)
+ - [`katana_prefs_builder` - `v2.0.8`](#katana_prefs_builder---v208)
+ - [`katana_router` - `v2.0.11`](#katana_router---v2011)
+ - [`katana_router_annotation` - `v2.0.9`](#katana_router_annotation---v209)
+ - [`katana_router_builder` - `v2.0.10`](#katana_router_builder---v2010)
+ - [`katana_scoped` - `v2.0.7`](#katana_scoped---v207)
+ - [`katana_shorten` - `v2.0.7`](#katana_shorten---v207)
+ - [`katana_storage` - `v2.0.7`](#katana_storage---v207)
+ - [`katana_storage_firebase` - `v2.0.7`](#katana_storage_firebase---v207)
+ - [`katana_theme` - `v2.0.11`](#katana_theme---v2011)
+ - [`katana_theme_annotation` - `v2.0.8`](#katana_theme_annotation---v208)
+ - [`katana_theme_builder` - `v2.0.9`](#katana_theme_builder---v209)
+ - [`katana_ui` - `v2.1.3`](#katana_ui---v213)
+ - [`masamune` - `v2.1.26`](#masamune---v2126)
+ - [`masamune_agora` - `v2.1.6`](#masamune_agora---v216)
+ - [`masamune_ai_openai` - `v2.1.6`](#masamune_ai_openai---v216)
+ - [`masamune_annotation` - `v2.1.4`](#masamune_annotation---v214)
+ - [`masamune_auth_apple` - `v2.1.9`](#masamune_auth_apple---v219)
+ - [`masamune_auth_facebook` - `v2.1.11`](#masamune_auth_facebook---v2111)
+ - [`masamune_auth_google` - `v2.1.9`](#masamune_auth_google---v219)
+ - [`masamune_builder` - `v2.2.5`](#masamune_builder---v225)
+ - [`masamune_calendar` - `v2.0.52`](#masamune_calendar---v2052)
+ - [`masamune_location` - `v2.1.17`](#masamune_location---v2117)
+ - [`masamune_location_google` - `v2.1.16`](#masamune_location_google---v2116)
+ - [`masamune_logger_firebase` - `v2.0.51`](#masamune_logger_firebase---v2051)
+ - [`masamune_mail` - `v2.1.6`](#masamune_mail---v216)
+ - [`masamune_notification_firebase` - `v2.1.6`](#masamune_notification_firebase---v216)
+ - [`masamune_picker` - `v2.1.8`](#masamune_picker---v218)
+ - [`masamune_purchase_mobile` - `v2.2.7`](#masamune_purchase_mobile---v227)
+ - [`masamune_purchase_stripe` - `v3.1.6`](#masamune_purchase_stripe---v316)
+ - [`masamune_universal_ui` - `v2.1.22`](#masamune_universal_ui---v2122)
+ - [`masamune_util` - `v2.0.20`](#masamune_util---v2020)
+
+---
+
+#### `katana` - `v2.2.2`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_auth` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_auth_firebase` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_cli` - `v2.3.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_firebase` - `v2.0.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_form` - `v2.4.3`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_functions` - `v2.4.2`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_functions_firebase` - `v2.4.2`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_indicator` - `v2.0.7`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_listenables` - `v2.0.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_listenables_annotation` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_listenables_builder` - `v2.0.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_localization` - `v2.0.10`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_localization_annotation` - `v2.0.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_localization_builder` - `v2.0.10`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_logger` - `v2.0.7`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_model` - `v2.3.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_model_firestore` - `v2.2.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_model_local` - `v2.1.1`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_model_openapi` - `v2.0.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_model_openapi_builder` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_prefs` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_prefs_annotation` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_prefs_builder` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_router` - `v2.0.11`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_router_annotation` - `v2.0.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_router_builder` - `v2.0.10`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_scoped` - `v2.0.7`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_shorten` - `v2.0.7`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_storage` - `v2.0.7`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_storage_firebase` - `v2.0.7`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_theme` - `v2.0.11`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_theme_annotation` - `v2.0.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_theme_builder` - `v2.0.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `katana_ui` - `v2.1.3`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune` - `v2.1.26`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_agora` - `v2.1.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_ai_openai` - `v2.1.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_annotation` - `v2.1.4`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_auth_apple` - `v2.1.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_auth_facebook` - `v2.1.11`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_auth_google` - `v2.1.9`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_builder` - `v2.2.5`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_calendar` - `v2.0.52`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_location` - `v2.1.17`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_location_google` - `v2.1.16`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_logger_firebase` - `v2.0.51`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_mail` - `v2.1.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_notification_firebase` - `v2.1.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_picker` - `v2.1.8`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_purchase_mobile` - `v2.2.7`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_purchase_stripe` - `v3.1.6`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_universal_ui` - `v2.1.22`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+#### `masamune_util` - `v2.0.20`
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
+
+## 2023-06-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.5`](#katana_cli---v235)
 
 ---

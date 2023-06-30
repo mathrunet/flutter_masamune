@@ -1,3 +1,7 @@
+## 2.2.8
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
 ## 2.2.7
 
  - **DOCS**: Documentation revisions. ([1bcd20bf](https://github.com/mathrunet/flutter_masamune/commit/1bcd20bf66b37ad261628f333e1fcb5fa8dcd7f0))

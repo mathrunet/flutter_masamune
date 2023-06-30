@@ -1,3 +1,7 @@
+## 2.0.52
+
+ - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
+
 ## 2.0.51
 
  - Update a dependency to the latest release.
