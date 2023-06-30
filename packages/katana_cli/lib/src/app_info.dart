@@ -156,6 +156,9 @@ class AppInfo {
     await _replaceAndroidManifest();
     label("Replace ios information");
     await XCode.createIOSInfoPlistStrings(data.keys.toList());
+    if (defaultLocale.isNotEmpty) {
+      await _createIOSInfoPlist(data[defaultLocale!]!);
+    }
     await _createIOSInfoPlistStrings({
       if (defaultLocale.isNotEmpty) "": data[defaultLocale!]!,
       ...data,
@@ -291,6 +294,57 @@ class AppInfo {
     }
     await file.writeAsString(
       document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
+    );
+  }
+
+  static Future<void> _createIOSInfoPlist(Map<String, String> data) async {
+    label("Edit Info.plist.");
+    final plist = File("ios/Runner/Info.plist");
+    final document = XmlDocument.parse(await plist.readAsString());
+    final dict = document.findAllElements("dict").firstOrNull;
+    if (dict == null) {
+      throw Exception(
+        "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
+      );
+    }
+    final node = dict.children.firstWhereOrNull((p0) {
+      return p0 is XmlElement &&
+          p0.name.toString() == "key" &&
+          p0.innerText == "CFBundleDisplayName";
+    });
+    if (node == null) {
+      dict.children.addAll(
+        [
+          XmlElement(
+            XmlName("key"),
+            [],
+            [XmlText("CFBundleDisplayName")],
+          ),
+          XmlElement(
+            XmlName("string"),
+            [],
+            [
+              XmlText(data.get("short_title", "")),
+            ],
+          ),
+        ],
+      );
+    } else {
+      final next = node.nextElementSibling;
+      if (next is XmlElement && next.name.toString() == "string") {
+        next.children
+          ..clear()
+          ..add(
+            XmlText(data.get("short_title", "")),
+          );
+      } else {
+        throw Exception(
+          "The `ios/Runner/Info.plist` configuration is broken.",
+        );
+      }
+    }
+    await plist.writeAsString(
+      document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
     );
   }
 
