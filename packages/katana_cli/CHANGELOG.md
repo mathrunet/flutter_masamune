@@ -1,3 +1,7 @@
+## 2.3.5
+
+ - **FIX**: Correction of IOS app title. ([69efcd90](https://github.com/mathrunet/flutter_masamune/commit/69efcd902003bebabb8763e51ec785971cfa88fb))
+
 ## 2.3.4
 
  - **FIX**: Addition of AppInfo. ([ad7c0846](https://github.com/mathrunet/flutter_masamune/commit/ad7c0846ff1dafa67da6f6614a74563539d9a352))

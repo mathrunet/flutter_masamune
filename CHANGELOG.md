@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.3.5`](#katana_cli---v235)
+
+---
+
+#### `katana_cli` - `v2.3.5`
+
+ - **FIX**: Correction of IOS app title. ([69efcd90](https://github.com/mathrunet/flutter_masamune/commit/69efcd902003bebabb8763e51ec785971cfa88fb))
+
+
+## 2023-06-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.4`](#katana_cli---v234)
 
 ---
