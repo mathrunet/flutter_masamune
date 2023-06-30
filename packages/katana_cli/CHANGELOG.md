@@ -1,3 +1,7 @@
+## 2.3.7
+
+ - **FIX**: Allow overwrite_rule to be specified. ([adb14da0](https://github.com/mathrunet/flutter_masamune/commit/adb14da08b8334fa982ad2e78033322318d31973))
+
 ## 2.3.6
 
  - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))

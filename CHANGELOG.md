@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.3.7`](#katana_cli---v237)
+
+---
+
+#### `katana_cli` - `v2.3.7`
+
+ - **FIX**: Allow overwrite_rule to be specified. ([adb14da0](https://github.com/mathrunet/flutter_masamune/commit/adb14da08b8334fa982ad2e78033322318d31973))
+
+
+## 2023-06-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.2.2`](#katana---v222)
  - [`katana_auth` - `v2.0.8`](#katana_auth---v208)
  - [`katana_auth_firebase` - `v2.0.8`](#katana_auth_firebase---v208)
