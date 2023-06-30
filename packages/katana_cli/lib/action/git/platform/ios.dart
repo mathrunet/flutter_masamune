@@ -179,18 +179,39 @@ Future<void> buildIOS(
       "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
     );
   }
-  final node = dict.children.firstWhereOrNull((p0) {
+  final nodeITSEncryptionExportComplianceCode =
+      dict.children.firstWhereOrNull((p0) {
     return p0 is XmlElement &&
         p0.name.toString() == "key" &&
         p0.innerText == "ITSEncryptionExportComplianceCode";
   });
-  if (node == null) {
+  if (nodeITSEncryptionExportComplianceCode == null) {
     dict.children.addAll(
       [
         XmlElement(
           XmlName("key"),
           [],
           [XmlText("ITSEncryptionExportComplianceCode")],
+        ),
+        XmlElement(
+          XmlName("false"),
+        ),
+      ],
+    );
+  }
+  final nodeITSAppUsesNonExemptEncryption =
+      dict.children.firstWhereOrNull((p0) {
+    return p0 is XmlElement &&
+        p0.name.toString() == "key" &&
+        p0.innerText == "ITSAppUsesNonExemptEncryption";
+  });
+  if (nodeITSAppUsesNonExemptEncryption == null) {
+    dict.children.addAll(
+      [
+        XmlElement(
+          XmlName("key"),
+          [],
+          [XmlText("ITSAppUsesNonExemptEncryption")],
         ),
         XmlElement(
           XmlName("false"),

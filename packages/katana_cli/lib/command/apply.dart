@@ -3,6 +3,7 @@ import 'package:katana_cli/action/agora/agora.dart';
 import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
 import 'package:katana_cli/action/app/icon.dart';
+import 'package:katana_cli/action/app/info.dart';
 import 'package:katana_cli/action/app/keystore.dart';
 import 'package:katana_cli/action/app/location.dart';
 import 'package:katana_cli/action/app/openai.dart';
@@ -29,6 +30,7 @@ import 'package:katana_cli/katana_cli.dart';
 ///
 /// 実行する順番で並べてください。
 const _actions = <CliActionMixin>[
+  AppInfoCliAction(),
   AppSpreadSheetCliAction(),
   AppCsrCliAction(),
   AppP12CliAction(),

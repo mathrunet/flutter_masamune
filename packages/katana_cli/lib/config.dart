@@ -19,14 +19,33 @@ app:
   icon:
     enable: false
     path: assets/icon.png
+  
+  # Describe the application information.
+  # For each language code, put the normal title in [title] and a short title for the app in [short_title]. Provide an overview of the app in [overview].
+  # By increasing the language code, information corresponding to that language can be described.
+  # By specifying [domain], you can change the web og tags to those appropriate for that domain.
+  # アプリケーションの情報を記載します。
+  # それぞれの言語コードに対して[title]に通常タイトル、[short_title]にアプリ用の短いタイトルを記載します。[overview]にアプリの概要を記載します。
+  # 言語コードを増やすことでその言語に対応した情報を記載することができます。
+  # [domain]を指定することでWebのogタグをそのドメインに応じたものに変更することができます。
+  info:
+    enable: false
+    domain:
+    locale:
+      en:
+        title: 
+        short_title:
+        overview:
 
 ${showAllConfig ? """
   # Retrieve data from a spreadsheet retrieved by a specific Google Form.
   # Please include the URL of the spreadsheet in [url] and the email address you collected in [email].
   # If [domain] is specified, og tags for the Web are generated for that domain.
+  # Takes precedence over [info].
   # 特定のGoogleフォームで取得したスプレッドシートからデータを取得します。
   # [url]にスプレッドシートのURL、[email]に収集したメールアドレスを記載してください。
   # [domain]を指定するとそのドメインに応じたWeb用のogタグを生成します。
+  # [info]よりも優先されます。
   spread_sheet:
     enable: false
     url:
