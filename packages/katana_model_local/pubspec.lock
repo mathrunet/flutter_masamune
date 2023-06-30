@@ -224,7 +224,7 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.3.4"
+    version: "2.3.5"
   lints:
     dependency: transitive
     description:

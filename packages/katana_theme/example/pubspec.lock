@@ -337,28 +337,28 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.1"
   katana_theme:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.9"
+    version: "2.0.10"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.6"
+    version: "2.0.7"
   katana_theme_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_theme_builder"
       relative: true
     source: path
-    version: "2.0.7"
+    version: "2.0.8"
   lints:
     dependency: transitive
     description:

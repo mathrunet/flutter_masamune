@@ -21,18 +21,18 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: c372bb384f273f0c2a8aaaa226dad84dc27c8519a691b888725dec59518ad53a
+      sha256: eef6c46b622e0494a36c5a12d10d77fb4e855501a91c1b9ef9339326e58f0596
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.2"
   asn1lib:
     dependency: transitive
     description:
       name: asn1lib
-      sha256: ab96a1cb3beeccf8145c52e449233fe68364c9641623acd3adad66f8184f1039
+      sha256: b74e3842a52c61f8819a1ec8444b4de5419b41a7465e69d4aa681445377398b0
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   async:
     dependency: transitive
     description:
@@ -85,18 +85,18 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "220ae4553e50d7c21a17c051afc7b183d28a24a420502e842f303f8e4e6edced"
+      sha256: "5e1929ad37d48bd382b124266cb8e521de5548d406a45a5ae6656c13dab73e37"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.4"
+    version: "2.4.5"
   build_runner_core:
     dependency: transitive
     description:
       name: build_runner_core
-      sha256: "88a57f2ac99849362e73878334caa9f06ee25f31d2adced882b8337838c84e1e"
+      sha256: "6d6ee4276b1c5f34f21fdf39425202712d2be82019983d52f351c94aafbc2c41"
       url: "https://pub.dev"
     source: hosted
-    version: "7.2.9"
+    version: "7.2.10"
   built_collection:
     dependency: transitive
     description:
@@ -109,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: built_value
-      sha256: "7dd62d9faf105c434f3d829bbe9c4be02ec67f5ed94832222116122df67c5452"
+      sha256: "598a2a682e2a7a90f08ba39c0aaa9374c5112340f0a2e275f61b59389543d166"
       url: "https://pub.dev"
     source: hosted
-    version: "8.6.0"
+    version: "8.6.1"
   characters:
     dependency: transitive
     description:
@@ -141,10 +141,10 @@ packages:
     dependency: transitive
     description:
       name: code_builder
-      sha256: "0d43dd1288fd145de1ecc9a3948ad4a6d5a82f0a14c4fdd0892260787d975cbe"
+      sha256: "4ad01d6e56db961d29661561effde45e519939fdaeb46c351275b182eac70189"
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.0"
+    version: "4.5.0"
   collection:
     dependency: transitive
     description:
@@ -239,10 +239,10 @@ packages:
     dependency: "direct dev"
     description:
       name: freezed
-      sha256: "2edb9ef971d0f803860ecd9084afd48c717d002141ad77b69be3e976bee7190e"
+      sha256: a9520490532087cf38bf3f7de478ab6ebeb5f68bb1eb2641546d92719b224445
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.4"
+    version: "2.3.5"
   freezed_annotation:
     dependency: transitive
     description:
@@ -353,22 +353,22 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.1"
   katana_shorten:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.4"
+    version: "2.0.6"
   lints:
     dependency: transitive
     description:
       name: lints
-      sha256: "6b0206b0bf4f04961fc5438198ccb3a885685cd67d4d4a32cc20ad7f8adbe015"
+      sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   logging:
     dependency: transitive
     description:

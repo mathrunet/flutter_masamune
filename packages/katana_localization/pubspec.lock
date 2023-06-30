@@ -204,14 +204,14 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.1"
   katana_localization_annotation:
     dependency: "direct main"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.7"
+    version: "2.0.8"
   lints:
     dependency: transitive
     description:

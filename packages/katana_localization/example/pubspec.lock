@@ -337,28 +337,28 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.1"
   katana_localization:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.8"
+    version: "2.0.9"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.7"
+    version: "2.0.8"
   katana_localization_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_localization_builder"
       relative: true
     source: path
-    version: "2.0.8"
+    version: "2.0.9"
   lints:
     dependency: transitive
     description:
