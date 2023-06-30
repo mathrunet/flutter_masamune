@@ -60,13 +60,16 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final projectId = firebase.get("project_id", "");
     final hosting = firebase.getAsMap("hosting");
     final useFlutter = hosting.get("use_flutter", false);
-    final enabledFirestore =
-        firebase.getAsMap("firestore").get("enable", false);
+    final firestore = firebase.getAsMap("firestore");
+    final overwriteFirestoreRule = firestore.get("overwrite_rule", false);
+    final enabledFirestore = firestore.get("enable", false);
     final enabledAuthentication =
         firebase.getAsMap("authentication").get("enable", false);
     final enabledFunctions =
         firebase.getAsMap("functions").get("enable", false);
-    final enabledStorage = firebase.getAsMap("storage").get("enable", false);
+    final storage = firebase.getAsMap("storage");
+    final overwriteStorageRule = storage.get("overwrite_rule", false);
+    final enabledStorage = storage.get("enable", false);
     final enabledHosting = hosting.get("enable", false);
     final enabledLogger = firebase.getAsMap("logger").get("enable", false);
     final enableActions = enableGithubAction &&
@@ -212,8 +215,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
         });
         await firestoreProcess.exitCode;
-        label("Rewriting Rules");
-        await const FirestoreRulesCliCode().generateFile("firestore.rules");
+        if (overwriteFirestoreRule) {
+          label("Rewriting Rules");
+          await const FirestoreRulesCliCode().generateFile("firestore.rules");
+        }
       }
     }
     if (enabledStorage) {
@@ -247,8 +252,11 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
         });
         await storageProcess.exitCode;
-        label("Rewriting Rules");
-        await const FirebaseStorageRulesCliCode().generateFile("storage.rules");
+        if (overwriteStorageRule) {
+          label("Rewriting Rules");
+          await const FirebaseStorageRulesCliCode()
+              .generateFile("storage.rules");
+        }
       }
     }
     if (enabledHosting) {

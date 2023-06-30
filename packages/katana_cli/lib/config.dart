@@ -114,6 +114,7 @@ firebase:
   # Firebase Firestoreを有効にします。
   firestore:
     enable: false
+    overwrite_rule: false
 
   # Enable Firebase Authentication.
   # Firebase Authenticationを有効にします。
@@ -165,6 +166,7 @@ ${showAllConfig ? """
   # Cloud Storage for Firebaseを有効にします。
   storage:
     enable: false
+    overwrite_rule: false
 
   # Enable Cloud Functions for Firebase.
   # Cloud Functions for Firebaseを有効にします。
