@@ -26,6 +26,7 @@ part 'adapter/runtime_model_adapter.dart';
 
 part 'extension/searchable_document_mixin.dart';
 part 'extension/searchable_collection_mixin.dart';
+part 'extension/searchable_raw_collection_mixin.dart';
 
 part 'src/const.dart';
 part 'src/model_update_notification.dart';

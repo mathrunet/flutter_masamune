@@ -63,6 +63,23 @@ class SearchableRuntimeTestValueDocumentModel extends DocumentBase<TestValue>
   }
 }
 
+class SearchableRuntimeTestValueRawCollectionModel
+    extends ModelRawCollection<TestValue>
+    with SearchableRawCollectionMixin<TestValue> {
+  SearchableRuntimeTestValueRawCollectionModel(this.path, super.value);
+
+  @override
+  String buildSearchText(TestValue value) {
+    return (value.name ?? "") + (value.text ?? "");
+  }
+
+  @override
+  final String path;
+
+  @override
+  Map<String, dynamic> toMap(TestValue value) => value.toJson();
+}
+
 class SearchableRuntimeTestValueCollectionModel
     extends CollectionBase<SearchableRuntimeTestValueDocumentModel>
     with SearchableCollectionMixin<SearchableRuntimeTestValueDocumentModel> {
@@ -288,5 +305,37 @@ void main() {
       const TestValue(name: "kkk", text: "test"),
       const TestValue(name: "test", text: "10"),
     ]);
+  });
+  test("searchableRuntimeRawCollectionModel.search.Freezed", () async {
+    final rawData = SearchableRuntimeTestValueRawCollectionModel("test", {
+      "aaa": const TestValue(name: "aaaa", text: "bbbb"),
+      "ccc": const TestValue(name: "cccc", text: "dddd"),
+      "eee": const TestValue(name: "eeee", text: "ffff"),
+    });
+    final adapter = RuntimeModelAdapter(
+      database: NoSqlDatabase(),
+      rawData: [rawData],
+    );
+    final query = CollectionModelQuery(
+      "test",
+      adapter: adapter,
+    );
+    final collection = SearchableRuntimeTestValueCollectionModel(query);
+    collection.search("test");
+    await collection.loading;
+    expect(collection, []);
+    collection.search("aaaa");
+    await collection.loading;
+    expect(collection.map((e) => e.value), [
+      const TestValue(name: "aaaa", text: "bbbb"),
+    ]);
+    collection.search("dddd");
+    await collection.loading;
+    expect(collection.map((e) => e.value), [
+      const TestValue(name: "cccc", text: "dddd"),
+    ]);
+    collection.search("gggg");
+    await collection.loading;
+    expect(collection, []);
   });
 }

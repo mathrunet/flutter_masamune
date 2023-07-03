@@ -246,6 +246,10 @@ List<Spec> modelClass(
       (c) => c
         ..name = "${model.name}RawCollection"
         ..extend = Reference("ModelRawCollection<${model.name}>")
+        ..mixins.addAll([
+          if (searchable.isNotEmpty)
+            Reference("SearchableRawCollectionMixin<${model.name}>"),
+        ])
         ..constructors.addAll([
           Constructor(
             (c) => c
@@ -302,14 +306,19 @@ List<Spec> modelClass(
           Method(
             (m) => m
               ..name = "toMap"
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "value"
+                    ..type = Reference(model.name),
+                )
+              ])
               ..annotations.addAll([
                 const Reference("override"),
               ])
-              ..returns = const Reference("Map<String, Map<String, dynamic>>")
+              ..returns = const Reference("DynamicMap")
               ..lambda = true
-              ..body = const Code(
-                "value.map((key, value) { return MapEntry(\"\$path/\$key\", value.rawValue); })",
-              ),
+              ..body = const Code("value.rawValue"),
           ),
           Method(
             (m) => m
@@ -339,6 +348,30 @@ List<Spec> modelClass(
                 "${model.name}Ref.fromPath(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
               ),
           ),
+          if (searchable.isNotEmpty)
+            Method(
+              (m) => m
+                ..name = "buildSearchText"
+                ..lambda = true
+                ..returns = const Reference("String")
+                ..annotations.addAll([const Reference("override")])
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = Reference(model.name),
+                  )
+                ])
+                ..body = Code(
+                  searchable.map((e) {
+                    if (e.type.toString().endsWith("?")) {
+                      return "(value.${e.name}?.toString() ?? \"\")";
+                    } else {
+                      return "value.${e.name}.toString()";
+                    }
+                  }).join(" + "),
+                ),
+            ),
         ]),
     ),
     if (mirror != null) ...[
@@ -556,6 +589,10 @@ List<Spec> modelClass(
         (c) => c
           ..name = "${model.name}MirrorRawCollection"
           ..extend = Reference("ModelRawCollection<${model.name}>")
+          ..mixins.addAll([
+            if (searchable.isNotEmpty)
+              Reference("SearchableRawCollectionMixin<${model.name}>"),
+          ])
           ..constructors.addAll([
             Constructor(
               (c) => c
@@ -612,14 +649,19 @@ List<Spec> modelClass(
             Method(
               (m) => m
                 ..name = "toMap"
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = Reference(model.name),
+                  )
+                ])
                 ..annotations.addAll([
                   const Reference("override"),
                 ])
-                ..returns = const Reference("Map<String, Map<String, dynamic>>")
+                ..returns = const Reference("DynamicMap")
                 ..lambda = true
-                ..body = const Code(
-                  "value.map((key, value) { return MapEntry(\"\$path/\$key\", value.rawValue); })",
-                ),
+                ..body = const Code("value.rawValue"),
             ),
             Method(
               (m) => m
@@ -649,6 +691,30 @@ List<Spec> modelClass(
                   "${model.name}Ref.fromPath(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
                 ),
             ),
+            if (searchable.isNotEmpty)
+              Method(
+                (m) => m
+                  ..name = "buildSearchText"
+                  ..lambda = true
+                  ..returns = const Reference("String")
+                  ..annotations.addAll([const Reference("override")])
+                  ..requiredParameters.addAll([
+                    Parameter(
+                      (p) => p
+                        ..name = "value"
+                        ..type = Reference(model.name),
+                    )
+                  ])
+                  ..body = Code(
+                    searchable.map((e) {
+                      if (e.type.toString().endsWith("?")) {
+                        return "(value.${e.name}?.toString() ?? \"\")";
+                      } else {
+                        return "value.${e.name}.toString()";
+                      }
+                    }).join(" + "),
+                  ),
+              ),
           ]),
       ),
     ],

@@ -42,7 +42,19 @@ abstract class ModelRawCollection<T> {
   /// Parse for Json.
   ///
   /// Json用にパースする。
-  Map<String, Map<String, dynamic>> toMap();
+  DynamicMap toMap(T value);
+
+  /// Methods for filtering data as it is stored.
+  ///
+  /// Each element after being [toMap] and its corresponding [value] are passed to [rawData], so rewrite [rawData] and return it.
+  ///
+  /// データが保存される際にデータをフィルタリングするためのメソッド。
+  ///
+  /// [rawData]に[toMap]されたあとの各要素とそれに対応する[value]が渡されるので[rawData]を書き換えて返してください。
+  @mustCallSuper
+  DynamicMap filterOnSave(DynamicMap rawData, T value) {
+    return rawData;
+  }
 
   @override
   String toString() {
@@ -67,7 +79,5 @@ class DynamicModelRawCollection extends ModelRawCollection<DynamicMap> {
   final String path;
 
   @override
-  Map<String, Map<String, dynamic>> toMap() {
-    return value.map((key, value) => MapEntry("$path/$key", value));
-  }
+  DynamicMap toMap(DynamicMap value) => value;
 }

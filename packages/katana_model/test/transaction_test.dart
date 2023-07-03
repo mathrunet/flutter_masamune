@@ -90,9 +90,7 @@ class TestValueModelRawCollection extends ModelRawCollection<TestValue> {
   String get path => "test";
 
   @override
-  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
-        return MapEntry("$path/$key", value.toJson());
-      });
+  Map<String, dynamic> toMap(TestValue value) => value.toJson();
 }
 
 @freezed
@@ -134,9 +132,7 @@ class UserValueModelRawCollection extends ModelRawCollection<UserValue> {
   String get path => "user";
 
   @override
-  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
-        return MapEntry("$path/$key", value.toJson());
-      });
+  Map<String, dynamic> toMap(UserValue value) => value.toJson();
 }
 
 @freezed
@@ -157,9 +153,7 @@ class ShopValueModelRawCollection extends ModelRawCollection<ShopValue> {
   String get path => "shop";
 
   @override
-  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
-        return MapEntry("$path/$key", value.toJson());
-      });
+  Map<String, dynamic> toMap(ShopValue value) => value.toJson();
 }
 
 @freezed

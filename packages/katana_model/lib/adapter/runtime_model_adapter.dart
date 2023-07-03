@@ -59,9 +59,12 @@ class RuntimeModelAdapter extends ModelAdapter {
     final database = _database ?? sharedDatabase;
     if (rawData.isNotEmpty && database.data.isEmpty) {
       for (final raw in rawData!) {
-        final map = raw.toMap();
-        for (final tmp in map.entries) {
-          database.setRawData(tmp.key, tmp.value);
+        for (final tmp in raw.value.entries) {
+          final map = raw.toMap(tmp.value);
+          database.setRawData(
+            "${raw.path}/${tmp.key}",
+            raw.filterOnSave(map, tmp.value),
+          );
         }
       }
     }
