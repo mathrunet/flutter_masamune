@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Changed RawCollection specification to support Searchable parameters. ([24c8b728](https://github.com/mathrunet/flutter_masamune/commit/24c8b728512b485e79a64c516a008cdeb46d8068))
+
 ## 2.3.6
 
  - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))
