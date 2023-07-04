@@ -78,7 +78,6 @@ ${showAllConfig ? """
     state: Tokyo
     country: Japan
   
-${showAllConfig ? """
   # Describe the settings for using the file picker.
   # Describe the platform for using the picker in [platform]. Specify `any` or `mobile`. Import the picker package for that platform.
   # Specify the permission message to use the library in IOS in [permission].
@@ -92,6 +91,7 @@ ${showAllConfig ? """
     permission:
       en: Use the library for profile images.
 
+${showAllConfig ? """
   # Describe the settings for using the calendar.
   # カレンダーを利用するための設定を記述します。
   calendar:
