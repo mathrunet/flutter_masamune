@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Added the ability to link with Form. ([e71bab0e](https://github.com/mathrunet/flutter_masamune/commit/e71bab0e10e128c5805ab3bd7817dbe34e3c1807))
+
 ## 2.2.0
 
  - **FEAT**: Added ModelImageUri and ModelVideoUri. ([3d9456ee](https://github.com/mathrunet/flutter_masamune/commit/3d9456eef484ab6a35c97f2c18a00f61c1a53c6d))

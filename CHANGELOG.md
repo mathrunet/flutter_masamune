@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.2.1`](#masamune---v221)
+ - [`masamune_location` - `v2.1.20`](#masamune_location---v2120)
+ - [`masamune_auth_apple` - `v2.1.12`](#masamune_auth_apple---v2112)
+ - [`masamune_agora` - `v2.1.9`](#masamune_agora---v219)
+ - [`masamune_auth_google` - `v2.1.12`](#masamune_auth_google---v2112)
+ - [`masamune_ai_openai` - `v2.1.9`](#masamune_ai_openai---v219)
+ - [`masamune_calendar` - `v2.0.55`](#masamune_calendar---v2055)
+ - [`masamune_picker` - `v2.1.11`](#masamune_picker---v2111)
+ - [`masamune_util` - `v2.0.23`](#masamune_util---v2023)
+ - [`masamune_universal_ui` - `v2.1.25`](#masamune_universal_ui---v2125)
+ - [`masamune_purchase_stripe` - `v3.1.9`](#masamune_purchase_stripe---v319)
+ - [`masamune_logger_firebase` - `v2.0.54`](#masamune_logger_firebase---v2054)
+ - [`masamune_auth_facebook` - `v2.1.14`](#masamune_auth_facebook---v2114)
+ - [`masamune_location_google` - `v2.1.19`](#masamune_location_google---v2119)
+ - [`masamune_mail` - `v2.1.9`](#masamune_mail---v219)
+ - [`masamune_notification_firebase` - `v2.1.9`](#masamune_notification_firebase---v219)
+ - [`masamune_purchase_mobile` - `v2.2.11`](#masamune_purchase_mobile---v2211)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.20`
+ - `masamune_auth_apple` - `v2.1.12`
+ - `masamune_agora` - `v2.1.9`
+ - `masamune_auth_google` - `v2.1.12`
+ - `masamune_ai_openai` - `v2.1.9`
+ - `masamune_calendar` - `v2.0.55`
+ - `masamune_picker` - `v2.1.11`
+ - `masamune_util` - `v2.0.23`
+ - `masamune_universal_ui` - `v2.1.25`
+ - `masamune_purchase_stripe` - `v3.1.9`
+ - `masamune_logger_firebase` - `v2.0.54`
+ - `masamune_auth_facebook` - `v2.1.14`
+ - `masamune_location_google` - `v2.1.19`
+ - `masamune_mail` - `v2.1.9`
+ - `masamune_notification_firebase` - `v2.1.9`
+ - `masamune_purchase_mobile` - `v2.2.11`
+
+---
+
+#### `masamune` - `v2.2.1`
+
+ - **FIX**: Added the ability to link with Form. ([e71bab0e](https://github.com/mathrunet/flutter_masamune/commit/e71bab0e10e128c5805ab3bd7817dbe34e3c1807))
+
+
+## 2023-07-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.9`](#katana_cli---v239)
  - [`katana_model` - `v2.5.0`](#katana_model---v250)
  - [`katana_model_firestore` - `v2.3.0`](#katana_model_firestore---v230)
