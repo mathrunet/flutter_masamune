@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Added ModelImageUri and ModelVideoUri. ([3d9456ee](https://github.com/mathrunet/flutter_masamune/commit/3d9456eef484ab6a35c97f2c18a00f61c1a53c6d))
+
 ## 2.4.0
 
  - **FEAT**: Changed RawCollection specification to support Searchable parameters. ([24c8b728](https://github.com/mathrunet/flutter_masamune/commit/24c8b728512b485e79a64c516a008cdeb46d8068))

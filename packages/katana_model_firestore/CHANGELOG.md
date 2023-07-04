@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added ModelImageUri and ModelVideoUri. ([3d9456ee](https://github.com/mathrunet/flutter_masamune/commit/3d9456eef484ab6a35c97f2c18a00f61c1a53c6d))
+
 ## 2.2.9
 
  - Update a dependency to the latest release.

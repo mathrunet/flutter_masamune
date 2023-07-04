@@ -1,3 +1,7 @@
+## 2.2.10
+
+ - Update a dependency to the latest release.
+
 ## 2.2.9
 
  - **FIX**: Response to masamune_builder changes. ([b779bdc4](https://github.com/mathrunet/flutter_masamune/commit/b779bdc43ce1d4498767395caf171ab6272b41b3))

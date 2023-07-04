@@ -1,3 +1,7 @@
+## 2.3.9
+
+ - **FIX**: Fixed a bug in overwrite rules. ([9ba4b69e](https://github.com/mathrunet/flutter_masamune/commit/9ba4b69ecfd39a1670014e45a5a4e47522ed50c7))
+
 ## 2.3.8
 
  - **FIX**: Picker can be used. ([d1f6aeb8](https://github.com/mathrunet/flutter_masamune/commit/d1f6aeb853c51a6c9430afa006210fc74bc102c0))
