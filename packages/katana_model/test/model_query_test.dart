@@ -1220,11 +1220,15 @@ void main() {
         ),
       ],
     );
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://pub.dev")), false);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net")), true);
     expect(
-      query.hasMatchAsMap(
-          {"name": "test", "uri": ModelImageUri.parse("https://pub.dev").toJson()}),
+        query.hasMatchAsObject(ModelImageUri.parse("https://pub.dev")), false);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net")),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": ModelImageUri.parse("https://pub.dev").toJson()
+      }),
       false,
     );
     expect(
@@ -1237,14 +1241,20 @@ void main() {
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": ModelImageUri.parse("https://pub.dev").toJson()}
+        {
+          "name": "test2",
+          "uri": ModelImageUri.parse("https://pub.dev").toJson()
+        }
       ]),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": ModelImageUri.parse("https://mathru.net").toJson()}
+        {
+          "name": "test2",
+          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+        }
       ]),
       true,
     );
@@ -1257,11 +1267,15 @@ void main() {
         ),
       ],
     );
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://pub.dev")), true);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net")), false);
     expect(
-      query.hasMatchAsMap(
-          {"name": "test", "uri": ModelImageUri.parse("https://pub.dev").toJson()}),
+        query.hasMatchAsObject(ModelImageUri.parse("https://pub.dev")), true);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net")),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": ModelImageUri.parse("https://pub.dev").toJson()
+      }),
       true,
     );
     expect(
@@ -1274,14 +1288,23 @@ void main() {
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": ModelImageUri.parse("https://mathru.net").toJson()}
+        {
+          "name": "test2",
+          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+        }
       ]),
       true,
     );
     expect(
       query.hasMatchAsList([
-        {"name": "test", "uri": ModelImageUri.parse("https://mathru.net").toJson()},
-        {"name": "test2", "uri": ModelImageUri.parse("https://mathru.net").toJson()}
+        {
+          "name": "test",
+          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+        },
+        {
+          "name": "test2",
+          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+        }
       ]),
       false,
     );
@@ -1402,12 +1425,12 @@ void main() {
         ]),
       ],
     );
-    expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/de")), false);
-    expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/zh")), true);
-    expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/ja")), true);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/de")),
+        false);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/zh")),
+        true);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/ja")),
+        true);
     expect(
       query.hasMatchAsMap({
         "uri": ModelImageUri.parse("https://mathru.net/de").toJson(),
@@ -1439,12 +1462,12 @@ void main() {
         ]),
       ],
     );
-    expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/de")), true);
-    expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/zh")), false);
-    expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/ja")), false);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/de")),
+        true);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/zh")),
+        false);
+    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/ja")),
+        false);
     expect(
       query.hasMatchAsMap({
         "uri": ModelImageUri.parse("https://mathru.net/de").toJson(),
