@@ -4,8 +4,6 @@ part of masamune_picker;
 ///
 /// The file picker function defined in [PickerMasamuneAdapter] is available.
 ///
-/// By default, a [TestPickerMasamuneAdapter] is used, which can utilize the functionality of the `file_picker` package.
-///
 /// You can pick up a single file with [pickSingle] and multiple files with [pickMultiple].
 ///
 /// With [pickCamera], you can start the mobile camera and pick up the media files you have taken.
@@ -14,8 +12,6 @@ part of masamune_picker;
 /// ファイルピッカー機能を提供します。
 ///
 /// [PickerMasamuneAdapter]で定義されたファイルピッカー機能を利用可能です。
-///
-/// デフォルトの場合、テストで利用できる[TestPickerMasamuneAdapter]が使用されます。
 ///
 /// [pickSingle]で単数のファイルをピックアップでき、[pickMultiple]で複数ファイルをピックアップできます。
 ///
@@ -27,8 +23,6 @@ class Picker
   ///
   /// The file picker function defined in [PickerMasamuneAdapter] is available.
   ///
-  /// By default, a [TestPickerMasamuneAdapter] is used, which can utilize the functionality of the `file_picker` package.
-  ///
   /// You can pick up a single file with [pickSingle] and multiple files with [pickMultiple].
   ///
   /// With [pickCamera], you can start the mobile camera and pick up the media files you have taken.
@@ -37,8 +31,6 @@ class Picker
   /// ファイルピッカー機能を提供します。
   ///
   /// [PickerMasamuneAdapter]で定義されたファイルピッカー機能を利用可能です。
-  ///
-  /// デフォルトの場合、`file_picker`パッケージの機能を利用できる[TestPickerMasamuneAdapter]が使用されます。
   ///
   /// [pickSingle]で単数のファイルをピックアップでき、[pickMultiple]で複数ファイルをピックアップできます。
   ///
