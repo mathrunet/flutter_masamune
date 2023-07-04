@@ -215,10 +215,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
         });
         await firestoreProcess.exitCode;
-        if (overwriteFirestoreRule) {
-          label("Rewriting Rules");
-          await const FirestoreRulesCliCode().generateFile("firestore.rules");
-        }
+      }
+      if (overwriteFirestoreRule) {
+        label("Rewriting Rules");
+        await const FirestoreRulesCliCode().generateFile("firestore.rules");
       }
     }
     if (enabledStorage) {
@@ -252,11 +252,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
           );
         });
         await storageProcess.exitCode;
-        if (overwriteStorageRule) {
-          label("Rewriting Rules");
-          await const FirebaseStorageRulesCliCode()
-              .generateFile("storage.rules");
-        }
+      }
+      if (overwriteStorageRule) {
+        label("Rewriting Rules");
+        await const FirebaseStorageRulesCliCode().generateFile("storage.rules");
       }
     }
     if (enabledHosting) {
