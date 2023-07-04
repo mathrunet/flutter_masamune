@@ -16,6 +16,12 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
       uri: json['uri'] == null
           ? const ModelUri()
           : ModelUri.fromJson(json['uri'] as Map<String, dynamic>),
+      image: json['image'] == null
+          ? const ModelImageUri()
+          : ModelImageUri.fromJson(json['image'] as Map<String, dynamic>),
+      video: json['video'] == null
+          ? const ModelVideoUri()
+          : ModelVideoUri.fromJson(json['video'] as Map<String, dynamic>),
       geo: json['geo'] == null
           ? const ModelGeoValue()
           : ModelGeoValue.fromJson(json['geo'] as Map<String, dynamic>),
@@ -29,6 +35,8 @@ Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
       'time': instance.time,
       'counter': instance.counter,
       'uri': instance.uri,
+      'image': instance.image,
+      'video': instance.video,
       'geo': instance.geo,
       'search': instance.search,
     };

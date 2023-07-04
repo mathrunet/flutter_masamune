@@ -35,6 +35,8 @@ class TestValue with _$TestValue {
     @Default(ModelTimestamp()) ModelTimestamp time,
     @Default(ModelCounter(0)) ModelCounter counter,
     @Default(ModelUri()) ModelUri uri,
+    @Default(ModelImageUri()) ModelImageUri image,
+    @Default(ModelVideoUri()) ModelVideoUri video,
     @Default(ModelGeoValue()) ModelGeoValue geo,
     @Default(ModelSearch([])) ModelSearch search,
   }) = _TestValue;
@@ -73,6 +75,8 @@ void main() {
       "counter": const ModelCounter(0),
       "time": ModelTimestamp(DateTime(2022, 1, 1)),
       "uri": ModelUri.parse("https://mathru.net"),
+      "image": ModelImageUri.parse("https://mathru.net"),
+      "video": ModelVideoUri.parse("https://mathru.net"),
       "geo": ModelGeoValue.fromDouble(
         latitude: 35.68177834908552,
         longitude: 139.75310000426765,
@@ -85,6 +89,8 @@ void main() {
         "counter": const ModelCounter.fromServer(0),
         "time": ModelTimestamp(DateTime(2022, 1, 1)),
         "uri": ModelUri.parse("https://mathru.net"),
+        "image": ModelImageUri.parse("https://mathru.net"),
+        "video": ModelVideoUri.parse("https://mathru.net"),
         "geo": ModelGeoValue.fromDouble(
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
@@ -99,6 +105,8 @@ void main() {
         "counter": const ModelCounter.fromServer(0),
         "time": ModelTimestamp(DateTime(2022, 1, 1)),
         "uri": ModelUri.parse("https://mathru.net"),
+        "image": ModelImageUri.parse("https://mathru.net"),
+        "video": ModelVideoUri.parse("https://mathru.net"),
         "geo": ModelGeoValue.fromDouble(
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
@@ -109,12 +117,16 @@ void main() {
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
     print((model.value!["uri"] as ModelUri).value);
+    print((model.value!["image"] as ModelImageUri).value);
+    print((model.value!["video"] as ModelVideoUri).value);
     print((model.value!["geo"] as ModelGeoValue).value);
     print((model.value!["search"] as ModelSearch).value);
     await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
       "time": ModelTimestamp(DateTime(2022, 1, 2)),
       "uri": ModelUri.parse("https://pub.dev"),
+      "image": ModelImageUri.parse("https://pub.dev"),
+      "video": ModelVideoUri.parse("https://pub.dev"),
       "geo": ModelGeoValue.fromDouble(
         latitude: 35.67389581850969,
         longitude: 139.75049296820384,
@@ -124,6 +136,8 @@ void main() {
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
     print((model.value!["uri"] as ModelUri).value);
+    print((model.value!["image"] as ModelImageUri).value);
+    print((model.value!["video"] as ModelVideoUri).value);
     print((model.value!["geo"] as ModelGeoValue).value);
     print((model.value!["search"] as ModelSearch).value);
     expect(
@@ -132,6 +146,8 @@ void main() {
         "counter": const ModelCounter.fromServer(1),
         "time": ModelTimestamp(DateTime(2022, 1, 2)),
         "uri": ModelUri.parse("https://pub.dev"),
+        "image": ModelImageUri.parse("https://pub.dev"),
+        "video": ModelVideoUri.parse("https://pub.dev"),
         "geo": ModelGeoValue.fromDouble(
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
@@ -150,6 +166,8 @@ void main() {
         counter: const ModelCounter(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
         uri: ModelUri.parse("https://mathru.net"),
+        image: ModelImageUri.parse("https://mathru.net"),
+        video: ModelVideoUri.parse("https://mathru.net"),
         geo: ModelGeoValue.fromDouble(
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
@@ -163,6 +181,8 @@ void main() {
         counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
         uri: ModelUri.parse("https://mathru.net"),
+        image: ModelImageUri.parse("https://mathru.net"),
+        video: ModelVideoUri.parse("https://mathru.net"),
         geo: ModelGeoValue.fromDouble(
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
@@ -177,6 +197,8 @@ void main() {
         counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
         uri: ModelUri.parse("https://mathru.net"),
+        image: ModelImageUri.parse("https://mathru.net"),
+        video: ModelVideoUri.parse("https://mathru.net"),
         geo: ModelGeoValue.fromDouble(
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
@@ -191,6 +213,8 @@ void main() {
           DateTime(2022, 1, 2),
         ),
         uri: ModelUri.parse("https://pub.dev"),
+        image: ModelImageUri.parse("https://pub.dev"),
+        video: ModelVideoUri.parse("https://pub.dev"),
         geo: ModelGeoValue.fromDouble(
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
@@ -204,6 +228,8 @@ void main() {
         counter: const ModelCounter.fromServer(1),
         time: ModelTimestamp(DateTime(2022, 1, 2)),
         uri: ModelUri.parse("https://pub.dev"),
+        image: ModelImageUri.parse("https://pub.dev"),
+        video: ModelVideoUri.parse("https://pub.dev"),
         geo: ModelGeoValue.fromDouble(
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,

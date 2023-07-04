@@ -23,6 +23,8 @@ mixin _$TestValue {
   ModelTimestamp get time => throw _privateConstructorUsedError;
   ModelCounter get counter => throw _privateConstructorUsedError;
   ModelUri get uri => throw _privateConstructorUsedError;
+  ModelImageUri get image => throw _privateConstructorUsedError;
+  ModelVideoUri get video => throw _privateConstructorUsedError;
   ModelGeoValue get geo => throw _privateConstructorUsedError;
   ModelSearch get search => throw _privateConstructorUsedError;
 
@@ -41,6 +43,8 @@ abstract class $TestValueCopyWith<$Res> {
       {ModelTimestamp time,
       ModelCounter counter,
       ModelUri uri,
+      ModelImageUri image,
+      ModelVideoUri video,
       ModelGeoValue geo,
       ModelSearch search});
 }
@@ -61,6 +65,8 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
     Object? time = null,
     Object? counter = null,
     Object? uri = null,
+    Object? image = null,
+    Object? video = null,
     Object? geo = null,
     Object? search = null,
   }) {
@@ -77,6 +83,14 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
           ? _value.uri
           : uri // ignore: cast_nullable_to_non_nullable
               as ModelUri,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as ModelImageUri,
+      video: null == video
+          ? _value.video
+          : video // ignore: cast_nullable_to_non_nullable
+              as ModelVideoUri,
       geo: null == geo
           ? _value.geo
           : geo // ignore: cast_nullable_to_non_nullable
@@ -100,6 +114,8 @@ abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
       {ModelTimestamp time,
       ModelCounter counter,
       ModelUri uri,
+      ModelImageUri image,
+      ModelVideoUri video,
       ModelGeoValue geo,
       ModelSearch search});
 }
@@ -118,6 +134,8 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? time = null,
     Object? counter = null,
     Object? uri = null,
+    Object? image = null,
+    Object? video = null,
     Object? geo = null,
     Object? search = null,
   }) {
@@ -134,6 +152,14 @@ class __$$_TestValueCopyWithImpl<$Res>
           ? _value.uri
           : uri // ignore: cast_nullable_to_non_nullable
               as ModelUri,
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as ModelImageUri,
+      video: null == video
+          ? _value.video
+          : video // ignore: cast_nullable_to_non_nullable
+              as ModelVideoUri,
       geo: null == geo
           ? _value.geo
           : geo // ignore: cast_nullable_to_non_nullable
@@ -153,6 +179,8 @@ class _$_TestValue implements _TestValue {
       {this.time = const ModelTimestamp(),
       this.counter = const ModelCounter(0),
       this.uri = const ModelUri(),
+      this.image = const ModelImageUri(),
+      this.video = const ModelVideoUri(),
       this.geo = const ModelGeoValue(),
       this.search = const ModelSearch([])});
 
@@ -170,6 +198,12 @@ class _$_TestValue implements _TestValue {
   final ModelUri uri;
   @override
   @JsonKey()
+  final ModelImageUri image;
+  @override
+  @JsonKey()
+  final ModelVideoUri video;
+  @override
+  @JsonKey()
   final ModelGeoValue geo;
   @override
   @JsonKey()
@@ -177,7 +211,7 @@ class _$_TestValue implements _TestValue {
 
   @override
   String toString() {
-    return 'TestValue(time: $time, counter: $counter, uri: $uri, geo: $geo, search: $search)';
+    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search)';
   }
 
   @override
@@ -188,13 +222,16 @@ class _$_TestValue implements _TestValue {
             (identical(other.time, time) || other.time == time) &&
             (identical(other.counter, counter) || other.counter == counter) &&
             (identical(other.uri, uri) || other.uri == uri) &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.video, video) || other.video == video) &&
             (identical(other.geo, geo) || other.geo == geo) &&
             (identical(other.search, search) || other.search == search));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, time, counter, uri, geo, search);
+  int get hashCode =>
+      Object.hash(runtimeType, time, counter, uri, image, video, geo, search);
 
   @JsonKey(ignore: true)
   @override
@@ -215,6 +252,8 @@ abstract class _TestValue implements TestValue {
       {final ModelTimestamp time,
       final ModelCounter counter,
       final ModelUri uri,
+      final ModelImageUri image,
+      final ModelVideoUri video,
       final ModelGeoValue geo,
       final ModelSearch search}) = _$_TestValue;
 
@@ -227,6 +266,10 @@ abstract class _TestValue implements TestValue {
   ModelCounter get counter;
   @override
   ModelUri get uri;
+  @override
+  ModelImageUri get image;
+  @override
+  ModelVideoUri get video;
   @override
   ModelGeoValue get geo;
   @override

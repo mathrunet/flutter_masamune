@@ -284,6 +284,10 @@ class FirestoreModelAdapter extends ModelAdapter {
         final type = targetMap.get(_kTypeKey, "");
         if (type == (ModelUri).toString()) {
           res[key] = ModelUri(Uri.tryParse(val)).toJson();
+        } else if (type == (ModelImageUri).toString()) {
+          res[key] = ModelImageUri(Uri.tryParse(val)).toJson();
+        } else if (type == (ModelVideoUri).toString()) {
+          res[key] = ModelVideoUri(Uri.tryParse(val)).toJson();
         } else if (type == (ModelGeoValue).toString()) {
           final latitude = targetMap.get(ModelGeoValue.kLatitudeKey, 0.0);
           final longitude = targetMap.get(ModelGeoValue.kLongitudeKey, 0.0);
@@ -381,6 +385,32 @@ class FirestoreModelAdapter extends ModelAdapter {
           res[targetKey] = {
             kTypeFieldKey: (ModelUri).toString(),
             ModelUri.kUriKey: value,
+            _kTargetKey: key,
+          };
+          if (fromUser) {
+            res[key] = value;
+          }
+        } else if (type == (ModelImageUri).toString()) {
+          final fromUser = val.get(ModelImageUri.kSourceKey, "") ==
+              ModelFieldValueSource.user.name;
+          final value = val.get(ModelImageUri.kUriKey, 0);
+          final targetKey = "#$key";
+          res[targetKey] = {
+            kTypeFieldKey: (ModelImageUri).toString(),
+            ModelImageUri.kUriKey: value,
+            _kTargetKey: key,
+          };
+          if (fromUser) {
+            res[key] = value;
+          }
+        } else if (type == (ModelVideoUri).toString()) {
+          final fromUser = val.get(ModelVideoUri.kSourceKey, "") ==
+              ModelFieldValueSource.user.name;
+          final value = val.get(ModelVideoUri.kUriKey, 0);
+          final targetKey = "#$key";
+          res[targetKey] = {
+            kTypeFieldKey: (ModelVideoUri).toString(),
+            ModelVideoUri.kUriKey: value,
             _kTargetKey: key,
           };
           if (fromUser) {

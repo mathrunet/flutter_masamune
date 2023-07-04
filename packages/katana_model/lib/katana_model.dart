@@ -34,6 +34,7 @@ part 'src/document_base.dart';
 part 'src/model_adapter.dart';
 part 'src/no_sql_database.dart';
 part 'src/model_ref.dart';
+part 'src/model_uri.dart';
 part 'src/model_query.dart';
 part 'src/collection_base.dart';
 part 'src/listenable_listener.dart';
