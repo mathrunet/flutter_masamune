@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.3.8`](#katana_cli---v238)
+ - [`masamune_purchase_mobile` - `v2.2.9`](#masamune_purchase_mobile---v229)
+
+---
+
+#### `katana_cli` - `v2.3.8`
+
+ - **FIX**: Picker can be used. ([d1f6aeb8](https://github.com/mathrunet/flutter_masamune/commit/d1f6aeb853c51a6c9430afa006210fc74bc102c0))
+
+#### `masamune_purchase_mobile` - `v2.2.9`
+
+ - **FIX**: Response to masamune_builder changes. ([b779bdc4](https://github.com/mathrunet/flutter_masamune/commit/b779bdc43ce1d4498767395caf171ab6272b41b3))
+
+
 ## 2023-07-03
 
 ### Changes
