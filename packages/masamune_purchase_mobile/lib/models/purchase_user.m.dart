@@ -40,9 +40,7 @@ class PurchaseUserModelRawCollection
   @override
   String get path => "plugins/iap/user";
   @override
-  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
-        return MapEntry("$path/$key", value.rawValue);
-      });
+  DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
   static PurchaseUserModelRef ref(String key) =>
       PurchaseUserModelRef.fromPath("plugins/iap/user/$key");
 }

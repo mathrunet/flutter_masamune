@@ -42,9 +42,7 @@ class PurchaseSubscriptionModelRawCollection
   @override
   String get path => "plugins/iap/subscription";
   @override
-  Map<String, Map<String, dynamic>> toMap() => value.map((key, value) {
-        return MapEntry("$path/$key", value.rawValue);
-      });
+  DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
   static PurchaseSubscriptionModelRef ref(String key) =>
       PurchaseSubscriptionModelRef.fromPath("plugins/iap/subscription/$key");
 }
