@@ -40,6 +40,7 @@ export 'package:masamune_annotation/masamune_annotation.dart';
 export 'package:meta/meta.dart' show useResult;
 
 part 'form/form_scoped_widget.dart';
+part 'form/extension.dart';
 part 'model/model.dart';
 part 'model/extension.dart';
 part 'prefs/prefs.dart';

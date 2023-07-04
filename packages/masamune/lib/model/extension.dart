@@ -14,4 +14,39 @@ extension ModelImageUriExtensions on ModelImageUri {
   ImageProvider image([String defaultAssetURI = "assets/image.png"]) {
     return Asset.image(value.toString(), defaultAssetURI);
   }
+
+  /// Convert to [FormMediaValue].
+  ///
+  /// If [value] is empty, null is returned.
+  ///
+  /// [FormMediaValue]に変換します。
+  ///
+  /// [value]が空の場合はnullを返します。
+  FormMediaValue? toFormMediaValue() {
+    final path = value.toString();
+    if (path.isEmpty) {
+      return null;
+    }
+    return FormMediaValue(path: path, type: FormMediaType.image);
+  }
+}
+
+/// Extension methods for [ModelVideoUri].
+///
+/// [ModelVideoUri]の拡張メソッドです。
+extension ModelVideoUriExtensions on ModelVideoUri {
+  /// Convert to [FormMediaValue].
+  ///
+  /// If [value] is empty, null is returned.
+  ///
+  /// [FormMediaValue]に変換します。
+  ///
+  /// [value]が空の場合はnullを返します。
+  FormMediaValue? toFormMediaValue() {
+    final path = value.toString();
+    if (path.isEmpty) {
+      return null;
+    }
+    return FormMediaValue(path: path, type: FormMediaType.video);
+  }
 }
