@@ -1,5 +1,38 @@
 part of masamune_picker;
 
+/// Provides an extension method for [PickerValue] that is nullable.
+///
+/// Nullableな[PickerValue]用の拡張メソッドを提供します。
+extension NullablePickerValueExtension on PickerValue? {
+  /// Whether this [PickerValue] is empty.
+  ///
+  /// Returns `true` if itself is [Null].
+  ///
+  /// この[PickerValue]が空かどうかを調べます。
+  ///
+  /// 自身が[Null]の場合`true`を返します。
+  bool get isEmpty {
+    if (this == null) {
+      return true;
+    }
+    return this!.uri.isEmpty && this!.bytes.isEmpty;
+  }
+
+  /// Whether this [Uri] is not empty.
+  ///
+  /// Returns `false` if itself is [Null].
+  ///
+  /// この[Uri]が空でないかどうかを調べます。
+  ///
+  /// 自身が[Null]の場合`false`を返します。
+  bool get isNotEmpty {
+    if (this == null) {
+      return false;
+    }
+    return this!.uri.isNotEmpty || this!.bytes.isNotEmpty;
+  }
+}
+
 /// Data of the picked up files.
 ///
 /// The path where the picked up file is located is in [uri], and the actual data of the file is in [bytes].
