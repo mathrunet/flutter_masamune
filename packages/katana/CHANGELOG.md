@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **DOCS**: Modified Uri document. ([284e2a1f](https://github.com/mathrunet/flutter_masamune/commit/284e2a1f4511e4f80c32ddbc038f72da88cb54d6))
+
 ## 2.3.0
 
  - **FEAT**: Added uri extension. ([34306dbb](https://github.com/mathrunet/flutter_masamune/commit/34306dbb007257a1929364973d5a2c8247998039))

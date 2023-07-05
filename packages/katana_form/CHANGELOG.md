@@ -1,3 +1,7 @@
+## 2.4.5
+
+ - **FIX**: Added isEmpty method for FormMediaValue. ([922919d1](https://github.com/mathrunet/flutter_masamune/commit/922919d190b488a7ed27871ec98668d3f579295c))
+
 ## 2.4.4
 
  - **FIX**: Change the path of FormMediaValue to a URI. ([2a7cb1f3](https://github.com/mathrunet/flutter_masamune/commit/2a7cb1f35bda63a7f1f4dfd93506bf5755ce5f2a))

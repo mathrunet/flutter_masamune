@@ -15,6 +15,144 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v2.3.1`](#katana---v231)
+ - [`katana_form` - `v2.4.5`](#katana_form---v245)
+ - [`masamune_picker` - `v2.1.14`](#masamune_picker---v2114)
+ - [`katana_prefs_annotation` - `v2.0.10`](#katana_prefs_annotation---v2010)
+ - [`katana_functions_firebase` - `v2.4.4`](#katana_functions_firebase---v244)
+ - [`katana_prefs` - `v2.0.10`](#katana_prefs---v2010)
+ - [`masamune_annotation` - `v2.1.6`](#masamune_annotation---v216)
+ - [`katana_scoped` - `v2.0.9`](#katana_scoped---v209)
+ - [`katana_localization` - `v2.0.12`](#katana_localization---v2012)
+ - [`katana_shorten` - `v2.0.9`](#katana_shorten---v209)
+ - [`katana_router_annotation` - `v2.0.11`](#katana_router_annotation---v2011)
+ - [`masamune_location` - `v2.1.23`](#masamune_location---v2123)
+ - [`katana_functions` - `v2.4.4`](#katana_functions---v244)
+ - [`katana_theme_annotation` - `v2.0.10`](#katana_theme_annotation---v2010)
+ - [`masamune_auth_apple` - `v2.1.15`](#masamune_auth_apple---v2115)
+ - [`katana_logger` - `v2.0.9`](#katana_logger---v209)
+ - [`katana_ui` - `v2.1.5`](#katana_ui---v215)
+ - [`katana_localization_builder` - `v2.0.12`](#katana_localization_builder---v2012)
+ - [`masamune_agora` - `v2.1.12`](#masamune_agora---v2112)
+ - [`masamune_auth_google` - `v2.1.15`](#masamune_auth_google---v2115)
+ - [`masamune_ai_openai` - `v2.1.12`](#masamune_ai_openai---v2112)
+ - [`katana_localization_annotation` - `v2.0.11`](#katana_localization_annotation---v2011)
+ - [`masamune_calendar` - `v2.0.58`](#masamune_calendar---v2058)
+ - [`katana_model_local` - `v2.2.2`](#katana_model_local---v222)
+ - [`katana_auth` - `v2.0.10`](#katana_auth---v2010)
+ - [`katana_storage_firebase` - `v2.0.9`](#katana_storage_firebase---v209)
+ - [`masamune_util` - `v2.0.26`](#masamune_util---v2026)
+ - [`katana_router` - `v2.0.13`](#katana_router---v2013)
+ - [`katana_theme` - `v2.0.13`](#katana_theme---v2013)
+ - [`katana_router_builder` - `v2.0.12`](#katana_router_builder---v2012)
+ - [`katana_model_firestore` - `v2.3.2`](#katana_model_firestore---v232)
+ - [`katana_model_openapi` - `v2.0.11`](#katana_model_openapi---v2011)
+ - [`katana_prefs_builder` - `v2.0.10`](#katana_prefs_builder---v2010)
+ - [`katana_listenables_builder` - `v2.0.11`](#katana_listenables_builder---v2011)
+ - [`katana_cli` - `v2.3.11`](#katana_cli---v2311)
+ - [`katana_storage` - `v2.0.9`](#katana_storage---v209)
+ - [`katana_model` - `v2.5.2`](#katana_model---v252)
+ - [`masamune_purchase_stripe` - `v3.1.12`](#masamune_purchase_stripe---v3112)
+ - [`masamune_universal_ui` - `v2.1.28`](#masamune_universal_ui---v2128)
+ - [`katana_listenables` - `v2.0.11`](#katana_listenables---v2011)
+ - [`katana_listenables_annotation` - `v2.0.10`](#katana_listenables_annotation---v2010)
+ - [`katana_indicator` - `v2.0.9`](#katana_indicator---v209)
+ - [`masamune_builder` - `v2.3.2`](#masamune_builder---v232)
+ - [`katana_firebase` - `v2.0.8`](#katana_firebase---v208)
+ - [`masamune_location_google` - `v2.1.22`](#masamune_location_google---v2122)
+ - [`katana_model_openapi_builder` - `v2.0.10`](#katana_model_openapi_builder---v2010)
+ - [`masamune_mail` - `v2.1.12`](#masamune_mail---v2112)
+ - [`masamune_auth_facebook` - `v2.1.17`](#masamune_auth_facebook---v2117)
+ - [`katana_auth_firebase` - `v2.0.10`](#katana_auth_firebase---v2010)
+ - [`katana_theme_builder` - `v2.0.11`](#katana_theme_builder---v2011)
+ - [`masamune_purchase_mobile` - `v2.2.14`](#masamune_purchase_mobile---v2214)
+ - [`masamune` - `v2.2.4`](#masamune---v224)
+ - [`masamune_logger_firebase` - `v2.0.57`](#masamune_logger_firebase---v2057)
+ - [`masamune_notification_firebase` - `v2.1.12`](#masamune_notification_firebase---v2112)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_prefs_annotation` - `v2.0.10`
+ - `katana_functions_firebase` - `v2.4.4`
+ - `katana_prefs` - `v2.0.10`
+ - `masamune_annotation` - `v2.1.6`
+ - `katana_scoped` - `v2.0.9`
+ - `katana_localization` - `v2.0.12`
+ - `katana_shorten` - `v2.0.9`
+ - `katana_router_annotation` - `v2.0.11`
+ - `masamune_location` - `v2.1.23`
+ - `katana_functions` - `v2.4.4`
+ - `katana_theme_annotation` - `v2.0.10`
+ - `masamune_auth_apple` - `v2.1.15`
+ - `katana_logger` - `v2.0.9`
+ - `katana_ui` - `v2.1.5`
+ - `katana_localization_builder` - `v2.0.12`
+ - `masamune_agora` - `v2.1.12`
+ - `masamune_auth_google` - `v2.1.15`
+ - `masamune_ai_openai` - `v2.1.12`
+ - `katana_localization_annotation` - `v2.0.11`
+ - `masamune_calendar` - `v2.0.58`
+ - `katana_model_local` - `v2.2.2`
+ - `katana_auth` - `v2.0.10`
+ - `katana_storage_firebase` - `v2.0.9`
+ - `masamune_util` - `v2.0.26`
+ - `katana_router` - `v2.0.13`
+ - `katana_theme` - `v2.0.13`
+ - `katana_router_builder` - `v2.0.12`
+ - `katana_model_firestore` - `v2.3.2`
+ - `katana_model_openapi` - `v2.0.11`
+ - `katana_prefs_builder` - `v2.0.10`
+ - `katana_listenables_builder` - `v2.0.11`
+ - `katana_cli` - `v2.3.11`
+ - `katana_storage` - `v2.0.9`
+ - `katana_model` - `v2.5.2`
+ - `masamune_purchase_stripe` - `v3.1.12`
+ - `masamune_universal_ui` - `v2.1.28`
+ - `katana_listenables` - `v2.0.11`
+ - `katana_listenables_annotation` - `v2.0.10`
+ - `katana_indicator` - `v2.0.9`
+ - `masamune_builder` - `v2.3.2`
+ - `katana_firebase` - `v2.0.8`
+ - `masamune_location_google` - `v2.1.22`
+ - `katana_model_openapi_builder` - `v2.0.10`
+ - `masamune_mail` - `v2.1.12`
+ - `masamune_auth_facebook` - `v2.1.17`
+ - `katana_auth_firebase` - `v2.0.10`
+ - `katana_theme_builder` - `v2.0.11`
+ - `masamune_purchase_mobile` - `v2.2.14`
+ - `masamune` - `v2.2.4`
+ - `masamune_logger_firebase` - `v2.0.57`
+ - `masamune_notification_firebase` - `v2.1.12`
+
+---
+
+#### `katana` - `v2.3.1`
+
+ - **DOCS**: Modified Uri document. ([284e2a1f](https://github.com/mathrunet/flutter_masamune/commit/284e2a1f4511e4f80c32ddbc038f72da88cb54d6))
+
+#### `katana_form` - `v2.4.5`
+
+ - **FIX**: Added isEmpty method for FormMediaValue. ([922919d1](https://github.com/mathrunet/flutter_masamune/commit/922919d190b488a7ed27871ec98668d3f579295c))
+
+#### `masamune_picker` - `v2.1.14`
+
+ - **FIX**: Added isEmpty method for PickerValue. ([d03ae4dd](https://github.com/mathrunet/flutter_masamune/commit/d03ae4dda37e7125276549bfd3a7427d93c51fe4))
+
+
+## 2023-07-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.3.0`](#katana---v230)
  - [`katana_form` - `v2.4.4`](#katana_form---v244)
  - [`masamune` - `v2.2.3`](#masamune---v223)

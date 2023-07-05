@@ -1,3 +1,7 @@
+## 2.1.14
+
+ - **FIX**: Added isEmpty method for PickerValue. ([d03ae4dd](https://github.com/mathrunet/flutter_masamune/commit/d03ae4dda37e7125276549bfd3a7427d93c51fe4))
+
 ## 2.1.13
 
  - **FIX**: Changed Path to operate on URIs. ([39dcfcf3](https://github.com/mathrunet/flutter_masamune/commit/39dcfcf3c1adde5adcb938b9a5a1b324e4b27dfe))
