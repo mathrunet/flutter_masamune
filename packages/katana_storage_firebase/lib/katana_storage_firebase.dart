@@ -11,6 +11,6 @@ library katana_storage_firebase;
 export 'package:katana_storage/katana_storage.dart';
 
 export 'adapter/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+    if (dart.library.io) 'adapter/others/others.dart'
+    if (dart.library.js) 'adapter/web/web.dart'
+    if (dart.library.html) 'adapter/web/web.dart';
