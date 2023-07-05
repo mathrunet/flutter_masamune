@@ -19,7 +19,7 @@ extension FormMediaValueExtensions on FormMediaValue {
     if (type != FormMediaType.image) {
       return Asset.image(defaultAssetURI);
     }
-    return Asset.image(path, defaultAssetURI);
+    return Asset.image(uri.toString(), defaultAssetURI);
   }
 
   /// Convert to [ModelImageUri].
@@ -34,11 +34,7 @@ extension FormMediaValueExtensions on FormMediaValue {
   ///
   /// 元の[FormMediaType]が[FormMediaType.image]でない場合はエラーを返します。
   ModelImageUri? toModelImageUri() {
-    if (path.isEmpty) {
-      return null;
-    }
-    final uri = Uri.tryParse(path!);
-    if (uri == null) {
+    if (uri.isEmpty) {
       return null;
     }
     if (type != FormMediaType.image) {
@@ -59,11 +55,7 @@ extension FormMediaValueExtensions on FormMediaValue {
   ///
   /// 元の[FormMediaType]が[FormMediaType.video]でない場合はエラーを返します。
   ModelVideoUri? toModelVideoUri() {
-    if (path.isEmpty) {
-      return null;
-    }
-    final uri = Uri.tryParse(path!);
-    if (uri == null) {
+    if (uri.isEmpty) {
       return null;
     }
     if (type != FormMediaType.video) {

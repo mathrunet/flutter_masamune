@@ -23,11 +23,10 @@ extension ModelImageUriExtensions on ModelImageUri {
   ///
   /// [value]が空の場合はnullを返します。
   FormMediaValue? toFormMediaValue() {
-    final path = value.toString();
-    if (path.isEmpty) {
+    if (value.isEmpty) {
       return null;
     }
-    return FormMediaValue(path: path, type: FormMediaType.image);
+    return FormMediaValue(uri: value, type: FormMediaType.image);
   }
 }
 
@@ -43,10 +42,9 @@ extension ModelVideoUriExtensions on ModelVideoUri {
   ///
   /// [value]が空の場合はnullを返します。
   FormMediaValue? toFormMediaValue() {
-    final path = value.toString();
-    if (path.isEmpty) {
+    if (value.isEmpty) {
       return null;
     }
-    return FormMediaValue(path: path, type: FormMediaType.video);
+    return FormMediaValue(uri: value, type: FormMediaType.video);
   }
 }
