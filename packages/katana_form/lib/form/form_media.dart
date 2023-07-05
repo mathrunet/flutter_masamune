@@ -196,7 +196,7 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
   ///
   /// フォームがタップされた場合の処理を記述します。通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを[onUpdate]に返すようにします。
   final void Function(
-    void Function(String filePath, FormMediaType type) onUpdate,
+    void Function(Uri fileUri, FormMediaType type) onUpdate,
   )? onTap;
 
   /// Additional icons or overlay icons.
@@ -262,8 +262,8 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
   @override
   FormMedia<TValue> get widget => super.widget as FormMedia<TValue>;
 
-  void _onUpdate(String filePath, FormMediaType type) {
-    final val = FormMediaValue(type: type, path: filePath);
+  void _onUpdate(Uri fileUri, FormMediaType type) {
+    final val = FormMediaValue(type: type, uri: fileUri);
     if (value == val) {
       return;
     }
@@ -357,7 +357,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
 
   Widget _buildMedia(BuildContext context) {
     final height = widget.style?.height ?? _kDefaultHeight;
-    if (value != null && value!.path.isNotEmpty) {
+    if (value != null && value!.uri.isNotEmpty) {
       return Container(
         padding: widget.style?.contentPadding,
         constraints: BoxConstraints.expand(

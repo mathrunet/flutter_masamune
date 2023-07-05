@@ -61,11 +61,11 @@ class FormPageState extends State<FormPage> {
           FormMedia(
             form: form,
             onTap: (onUpdate) {
-              onUpdate("assets/default.png", FormMediaType.image);
+              onUpdate(Uri.parse("assets/default.png"), FormMediaType.image);
             },
             builder: (context, value) {
               return Image.asset(
-                value.path!,
+                value.uri!.toString(),
                 fit: BoxFit.cover,
               );
             },
@@ -130,11 +130,11 @@ class FormPageState extends State<FormPage> {
           FormMultiMedia(
             form: form,
             onTap: (onUpdate) {
-              onUpdate("assets/default.png", FormMediaType.image);
+              onUpdate(Uri.parse("assets/default.png"), FormMediaType.image);
             },
             builder: (context, value) {
               return Image.asset(
-                value.path!,
+                value.uri!.toString(),
                 fit: BoxFit.cover,
               );
             },

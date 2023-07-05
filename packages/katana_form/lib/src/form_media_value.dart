@@ -4,8 +4,8 @@ part of katana_form;
 class _FormMediaValue extends FormMediaValue with _MapMixin<String, dynamic> {
   const _FormMediaValue({
     FormMediaType type = FormMediaType.image,
-    String? path,
-  }) : super._(type: type, path: path);
+    Uri? uri,
+  }) : super._(type: type, uri: uri);
 
   @override
   dynamic operator [](Object? key) {
@@ -43,41 +43,41 @@ class _FormMediaValue extends FormMediaValue with _MapMixin<String, dynamic> {
 
 /// Class for values when handling media in forms.
 ///
-/// Specify the media type in [type] with [FormMediaType]. Specify the actual path in [path].
+/// Specify the media type in [type] with [FormMediaType]. Specify the actual path in [uri].
 ///
 /// Since mutual conversion to Json is possible with [FormMediaValue.fromJson] or [toJson], the data can be saved as is.
 ///
 /// フォームでメディアを取り扱うときの値用のクラス。
 ///
-/// [type]にメディアのタイプを[FormMediaType]で指定します。[path]に実際のパスを指定します。
+/// [type]にメディアのタイプを[FormMediaType]で指定します。[uri]に実際のパスを指定します。
 ///
 /// [FormMediaValue.fromJson]や[toJson]でJsonに相互変換が可能なので、このままデータとして保存することができます。
 @immutable
 class FormMediaValue {
   /// Class for values when handling media in forms.
   ///
-  /// Specify the media type in [type] with [FormMediaType]. Specify the actual path in [path].
+  /// Specify the media type in [type] with [FormMediaType]. Specify the actual path in [uri].
   ///
   /// Since mutual conversion to Json is possible with [FormMediaValue.fromJson] or [toJson], the data can be saved as is.
   ///
   /// フォームでメディアを取り扱うときの値用のクラス。
   ///
-  /// [type]にメディアのタイプを[FormMediaType]で指定します。[path]に実際のパスを指定します。
+  /// [type]にメディアのタイプを[FormMediaType]で指定します。[uri]に実際のパスを指定します。
   ///
   /// [FormMediaValue.fromJson]や[toJson]でJsonに相互変換が可能なので、このままデータとして保存することができます。
   factory FormMediaValue({
     FormMediaType type = FormMediaType.image,
-    String? path,
+    Uri? uri,
   }) {
     return _FormMediaValue(
       type: type,
-      path: path,
+      uri: uri,
     );
   }
 
   const FormMediaValue._({
     this.type = FormMediaType.image,
-    this.path,
+    this.uri,
   });
 
   /// [FormMediaValue] from the Json map [map].
@@ -88,7 +88,7 @@ class FormMediaValue {
     return FormMediaValue(
       type: FormMediaType.values.firstWhereOrNull((e) => e.name == type) ??
           FormMediaType.image,
-      path: map.get(_kPathKey, ""),
+      uri: Uri.tryParse(map.get(_kPathKey, "")),
     );
   }
 
@@ -100,12 +100,13 @@ class FormMediaValue {
   /// Actual path.
   ///
   /// 実際のパス。
-  final String? path;
+  final Uri? uri;
 
   /// Convert [FormMediaValue] to a Json map.
   ///
   /// [FormMediaValue]をJsonマップに変換します。
   Map<String, Object?> toJson() {
+    final path = uri.toString();
     return {
       _kTypeKey: type.name,
       if (path.isNotEmpty) _kPathKey: path,
@@ -114,23 +115,23 @@ class FormMediaValue {
 
   /// Create another [FormMediaValue] by copying the value.
   ///
-  /// Specify the media type in [type] with [FormMediaType]. Specify the actual path in [path].
+  /// Specify the media type in [type] with [FormMediaType]. Specify the actual path in [uri].
   ///
   /// 値をコピーして別の[FormMediaValue]を作成します。
   ///
-  /// [type]にメディアのタイプを[FormMediaType]で指定します。[path]に実際のパスを指定します。
+  /// [type]にメディアのタイプを[FormMediaType]で指定します。[uri]に実際のパスを指定します。
   FormMediaValue copyWith({
     FormMediaType? type,
-    String? path,
+    Uri? uri,
   }) {
     return FormMediaValue(
       type: type ?? this.type,
-      path: path ?? this.path,
+      uri: uri ?? this.uri,
     );
   }
 
   @override
-  int get hashCode => type.hashCode ^ path.hashCode;
+  int get hashCode => type.hashCode ^ uri.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;

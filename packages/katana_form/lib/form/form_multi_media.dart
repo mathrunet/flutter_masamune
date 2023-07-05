@@ -248,7 +248,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   ///
   /// フォームがタップされた場合の処理を記述します。通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを[onUpdate]に返すようにします。
   final void Function(
-    void Function(String filePath, FormMediaType type) onUpdate,
+    void Function(Uri fileUri, FormMediaType type) onUpdate,
   ) onTap;
 
   /// Callback to be executed each time the value is changed.
@@ -315,11 +315,11 @@ class _FormMultiMediaState<TValue> extends FormFieldState<List<FormMediaValue>>
     super.didChange(value);
   }
 
-  void _onUpdate(String filePath, FormMediaType type) {
+  void _onUpdate(Uri fileUri, FormMediaType type) {
     if (widget.maxLength != null && widget.maxLength! <= value.length) {
       return;
     }
-    final val = FormMediaValue(type: type, path: filePath);
+    final val = FormMediaValue(type: type, uri: fileUri);
     if (value.contains(val)) {
       return;
     }
@@ -421,7 +421,7 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
     BuildContext context,
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
-    void Function(String filePath, FormMediaType type) onUpdate,
+    void Function(Uri fileUri, FormMediaType type) onUpdate,
     void Function(dynamic dataOrIndex) onRemove,
   ) {
     return Padding(
@@ -463,10 +463,10 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
       BuildContext context,
       FormMediaValue value,
     ) builder,
-    void Function(String filePath, FormMediaType type)? onUpdate,
+    void Function(Uri fileUri, FormMediaType type)? onUpdate,
     VoidCallback? onRemove,
   ) {
-    if (value.path.isEmpty) {
+    if (value.uri.isEmpty) {
       return const SizedBox.shrink();
     } else {
       return ListTile(
@@ -478,7 +478,7 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
             child: builder.call(context, value),
           ),
         ),
-        title: Text(value.path!.last()),
+        title: Text(value.uri!.last()),
         trailing: IconButton(
           onPressed: onRemove == null
               ? null
@@ -528,7 +528,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
     BuildContext context,
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
-    void Function(String filePath, FormMediaType type) onUpdate,
+    void Function(Uri fileUri, FormMediaType type) onUpdate,
     void Function(dynamic dataOrIndex) onRemove,
   ) {
     return Container(
@@ -603,10 +603,10 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
       BuildContext context,
       FormMediaValue value,
     ) builder,
-    void Function(String filePath, FormMediaType type)? onUpdate,
+    void Function(Uri fileUri, FormMediaType type)? onUpdate,
     VoidCallback? onRemove,
   ) {
-    if (value.path.isEmpty) {
+    if (value.uri.isEmpty) {
       return const SizedBox.shrink();
     } else {
       return Stack(
@@ -681,7 +681,7 @@ abstract class FormMultiMediaDelegate {
     BuildContext context,
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
-    void Function(String filePath, FormMediaType type) onUpdate,
+    void Function(Uri fileUri, FormMediaType type) onUpdate,
     void Function(dynamic dataOrIndex) onRemove,
   );
 }
