@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added uri extension. ([34306dbb](https://github.com/mathrunet/flutter_masamune/commit/34306dbb007257a1929364973d5a2c8247998039))
+
 ## 2.2.2
 
  - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))

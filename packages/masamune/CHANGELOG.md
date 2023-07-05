@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **FIX**: Support for FormMediaValue changes. ([e37c51f4](https://github.com/mathrunet/flutter_masamune/commit/e37c51f446f1cd833f1545ded6e897dabc0b237c))
+
 ## 2.2.2
 
  - **FIX**: Add method of image to FormMediaValue. ([c5f95d58](https://github.com/mathrunet/flutter_masamune/commit/c5f95d581053174f964b055fefc0b3788308b74d))

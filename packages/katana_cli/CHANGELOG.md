@@ -1,3 +1,7 @@
+## 2.3.10
+
+ - Update a dependency to the latest release.
+
 ## 2.3.9
 
  - **FIX**: Fixed a bug in overwrite rules. ([9ba4b69e](https://github.com/mathrunet/flutter_masamune/commit/9ba4b69ecfd39a1670014e45a5a4e47522ed50c7))

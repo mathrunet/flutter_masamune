@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Changed RawCollection specification to support Searchable parameters. ([24c8b728](https://github.com/mathrunet/flutter_masamune/commit/24c8b728512b485e79a64c516a008cdeb46d8068))

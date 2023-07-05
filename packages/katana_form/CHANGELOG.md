@@ -1,3 +1,7 @@
+## 2.4.4
+
+ - **FIX**: Change the path of FormMediaValue to a URI. ([2a7cb1f3](https://github.com/mathrunet/flutter_masamune/commit/2a7cb1f35bda63a7f1f4dfd93506bf5755ce5f2a))
+
 ## 2.4.3
 
  - **DOCS**: Changed ReadMe header. ([4bc527cb](https://github.com/mathrunet/flutter_masamune/commit/4bc527cb3bf06cb287db8b65bbc183ae49894733))

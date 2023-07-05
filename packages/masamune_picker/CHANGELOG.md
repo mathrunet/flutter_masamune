@@ -1,3 +1,7 @@
+## 2.1.13
+
+ - **FIX**: Changed Path to operate on URIs. ([39dcfcf3](https://github.com/mathrunet/flutter_masamune/commit/39dcfcf3c1adde5adcb938b9a5a1b324e4b27dfe))
+
 ## 2.1.12
 
  - Update a dependency to the latest release.
