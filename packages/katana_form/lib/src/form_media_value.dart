@@ -1,5 +1,38 @@
 part of katana_form;
 
+/// Provides an extension method for [FormMediaValue] that is nullable.
+///
+/// Nullableな[FormMediaValue]用の拡張メソッドを提供します。
+extension NullableFormMeidaValueExtension on FormMediaValue? {
+  /// Whether this [FormMediaValue] is empty.
+  ///
+  /// Returns `true` if itself is [Null].
+  ///
+  /// この[FormMediaValue]が空かどうかを調べます。
+  ///
+  /// 自身が[Null]の場合`true`を返します。
+  bool get isEmpty {
+    if (this == null) {
+      return true;
+    }
+    return this!.uri.isEmpty;
+  }
+
+  /// Whether this [Uri] is not empty.
+  ///
+  /// Returns `false` if itself is [Null].
+  ///
+  /// この[Uri]が空でないかどうかを調べます。
+  ///
+  /// 自身が[Null]の場合`false`を返します。
+  bool get isNotEmpty {
+    if (this == null) {
+      return false;
+    }
+    return this!.uri.isNotEmpty;
+  }
+}
+
 // TODO: MapMixinが使えるようになったら置き換え
 class _FormMediaValue extends FormMediaValue with _MapMixin<String, dynamic> {
   const _FormMediaValue({
