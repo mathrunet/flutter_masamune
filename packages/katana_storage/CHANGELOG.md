@@ -1,3 +1,7 @@
+## 2.0.10
+
+ - **FIX**: Fixed a problem with Path. ([01e4812a](https://github.com/mathrunet/flutter_masamune/commit/01e4812a987c17f38bee57adb5770fd229e0296b))
+
 ## 2.0.9
 
  - Update a dependency to the latest release.

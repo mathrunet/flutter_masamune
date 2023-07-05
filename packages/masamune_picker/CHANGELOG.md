@@ -1,3 +1,7 @@
+## 2.1.15
+
+ - Update a dependency to the latest release.
+
 ## 2.1.14
 
  - **FIX**: Added isEmpty method for PickerValue. ([d03ae4dd](https://github.com/mathrunet/flutter_masamune/commit/d03ae4dda37e7125276549bfd3a7427d93c51fe4))
