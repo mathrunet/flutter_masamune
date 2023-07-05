@@ -380,7 +380,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         } else if (type == (ModelUri).toString()) {
           final fromUser = val.get(ModelUri.kSourceKey, "") ==
               ModelFieldValueSource.user.name;
-          final value = val.get(ModelUri.kUriKey, 0);
+          final value = val.get(ModelUri.kUriKey, "");
           final targetKey = "#$key";
           res[targetKey] = {
             kTypeFieldKey: (ModelUri).toString(),
@@ -393,7 +393,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         } else if (type == (ModelImageUri).toString()) {
           final fromUser = val.get(ModelImageUri.kSourceKey, "") ==
               ModelFieldValueSource.user.name;
-          final value = val.get(ModelImageUri.kUriKey, 0);
+          final value = val.get(ModelImageUri.kUriKey, "");
           final targetKey = "#$key";
           res[targetKey] = {
             kTypeFieldKey: (ModelImageUri).toString(),
@@ -406,7 +406,7 @@ class FirestoreModelAdapter extends ModelAdapter {
         } else if (type == (ModelVideoUri).toString()) {
           final fromUser = val.get(ModelVideoUri.kSourceKey, "") ==
               ModelFieldValueSource.user.name;
-          final value = val.get(ModelVideoUri.kUriKey, 0);
+          final value = val.get(ModelVideoUri.kUriKey, "");
           final targetKey = "#$key";
           res[targetKey] = {
             kTypeFieldKey: (ModelVideoUri).toString(),
