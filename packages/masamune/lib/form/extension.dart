@@ -4,6 +4,24 @@ part of masamune;
 ///
 /// [FormMediaValue]の拡張メソッドです。
 extension FormMediaValueExtensions on FormMediaValue {
+  /// Get a [ImageProvider].
+  ///
+  /// If [defaultAssetURI] is specified, use [defaultAssetURI] if [ImageProvider] cannot be obtained.
+  ///
+  /// If [type] is not [FormMediaType.image], use [defaultAssetURI].
+  ///
+  /// [ImageProvider]を取得します。
+  ///
+  /// [defaultAssetURI]が指定されている場合、[ImageProvider]が取得できない場合は[defaultAssetURI]を使用します。
+  ///
+  /// また[type]が[FormMediaType.image]でない場合は[defaultAssetURI]を使用します。
+  ImageProvider image([String defaultAssetURI = "assets/image.png"]) {
+    if (type != FormMediaType.image) {
+      return Asset.image(defaultAssetURI);
+    }
+    return Asset.image(path, defaultAssetURI);
+  }
+
   /// Convert to [ModelImageUri].
   ///
   /// If [path] is empty, null is returned.
