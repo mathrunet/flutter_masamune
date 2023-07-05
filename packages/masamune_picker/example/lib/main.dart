@@ -64,7 +64,7 @@ class PickerPageState extends State<PickerPage> {
         child: _value == null
             ? const SizedBox.shrink()
             : Image.file(
-                File(_value!.path!),
+                File(_value!.uri!.toString()),
                 fit: BoxFit.cover,
               ),
       ),

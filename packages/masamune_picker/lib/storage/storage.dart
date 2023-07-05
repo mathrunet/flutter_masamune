@@ -16,11 +16,12 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
   ///
   /// アップロードした後、アップロード後の公開URLが返されます。
   Future<Uri> upload({String relativeDirPath = ""}) async {
+    final path = uri.toString();
     if (kIsWeb) {
       if (path.isEmpty || bytes == null) {
         throw Exception("Upload data was not found.");
       }
-      final remoteFile = path!.trimQuery().trimStringRight("/").last();
+      final remoteFile = path.trimQuery().trimStringRight("/").last();
       final extension = remoteFile.last(separator: ".");
       final storage = Storage(
         StorageQuery(
@@ -30,17 +31,17 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
       await storage.uploadWithBytes(bytes!);
       return await storage.fetchPublicURI();
     } else {
-      if (path.isEmpty) {
+      if (uri == null || path.isEmpty) {
         throw Exception("Upload data was not found.");
       }
-      final remoteFile = path!.trimQuery().trimStringRight("/").last();
+      final remoteFile = path.trimQuery().trimStringRight("/").last();
       final extension = remoteFile.last(separator: ".");
       final storage = Storage(
         StorageQuery(
           "$relativeDirPath/$uuid.$extension".trimQuery().trimStringLeft("/"),
         ),
       );
-      await storage.upload(path!);
+      await storage.upload(uri!.toString());
       return await storage.fetchPublicURI();
     }
   }
