@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - **FIX**: Add method of image to FormMediaValue. ([c5f95d58](https://github.com/mathrunet/flutter_masamune/commit/c5f95d581053174f964b055fefc0b3788308b74d))
+
 ## 2.2.1
 
  - **FIX**: Added the ability to link with Form. ([e71bab0e](https://github.com/mathrunet/flutter_masamune/commit/e71bab0e10e128c5805ab3bd7817dbe34e3c1807))

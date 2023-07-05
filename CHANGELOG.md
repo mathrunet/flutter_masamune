@@ -15,6 +15,64 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.2.2`](#masamune---v222)
+ - [`masamune_location` - `v2.1.21`](#masamune_location---v2121)
+ - [`masamune_auth_apple` - `v2.1.13`](#masamune_auth_apple---v2113)
+ - [`masamune_agora` - `v2.1.10`](#masamune_agora---v2110)
+ - [`masamune_auth_google` - `v2.1.13`](#masamune_auth_google---v2113)
+ - [`masamune_ai_openai` - `v2.1.10`](#masamune_ai_openai---v2110)
+ - [`masamune_calendar` - `v2.0.56`](#masamune_calendar---v2056)
+ - [`masamune_picker` - `v2.1.12`](#masamune_picker---v2112)
+ - [`masamune_util` - `v2.0.24`](#masamune_util---v2024)
+ - [`masamune_universal_ui` - `v2.1.26`](#masamune_universal_ui---v2126)
+ - [`masamune_purchase_stripe` - `v3.1.10`](#masamune_purchase_stripe---v3110)
+ - [`masamune_logger_firebase` - `v2.0.55`](#masamune_logger_firebase---v2055)
+ - [`masamune_auth_facebook` - `v2.1.15`](#masamune_auth_facebook---v2115)
+ - [`masamune_location_google` - `v2.1.20`](#masamune_location_google---v2120)
+ - [`masamune_mail` - `v2.1.10`](#masamune_mail---v2110)
+ - [`masamune_notification_firebase` - `v2.1.10`](#masamune_notification_firebase---v2110)
+ - [`masamune_purchase_mobile` - `v2.2.12`](#masamune_purchase_mobile---v2212)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.21`
+ - `masamune_auth_apple` - `v2.1.13`
+ - `masamune_agora` - `v2.1.10`
+ - `masamune_auth_google` - `v2.1.13`
+ - `masamune_ai_openai` - `v2.1.10`
+ - `masamune_calendar` - `v2.0.56`
+ - `masamune_picker` - `v2.1.12`
+ - `masamune_util` - `v2.0.24`
+ - `masamune_universal_ui` - `v2.1.26`
+ - `masamune_purchase_stripe` - `v3.1.10`
+ - `masamune_logger_firebase` - `v2.0.55`
+ - `masamune_auth_facebook` - `v2.1.15`
+ - `masamune_location_google` - `v2.1.20`
+ - `masamune_mail` - `v2.1.10`
+ - `masamune_notification_firebase` - `v2.1.10`
+ - `masamune_purchase_mobile` - `v2.2.12`
+
+---
+
+#### `masamune` - `v2.2.2`
+
+ - **FIX**: Add method of image to FormMediaValue. ([c5f95d58](https://github.com/mathrunet/flutter_masamune/commit/c5f95d581053174f964b055fefc0b3788308b74d))
+
+
+## 2023-07-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v2.2.1`](#masamune---v221)
  - [`masamune_location` - `v2.1.20`](#masamune_location---v2120)
  - [`masamune_auth_apple` - `v2.1.12`](#masamune_auth_apple---v2112)
