@@ -1,3 +1,7 @@
+## 2.5.3
+
+ - **FIX**: Fixed a bug that caused ModelUri system data to be incorrect. ([f4358005](https://github.com/mathrunet/flutter_masamune/commit/f4358005c38406c82abaa9eab8cf6b99e81231c1))
+
 ## 2.5.2
 
  - Update a dependency to the latest release.
