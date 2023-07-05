@@ -4,11 +4,11 @@ part of katana;
 ///
 /// Nullableな[Uri]用の拡張メソッドを提供します。
 extension NullableUriExtensions on Uri? {
-  /// Whether this string is empty.
+  /// Whether this [Uri] is empty.
   ///
   /// Returns `true` if itself is [Null].
   ///
-  /// この文字列が空かどうかを調べます。
+  /// この[Uri]が空かどうかを調べます。
   ///
   /// 自身が[Null]の場合`true`を返します。
   bool get isEmpty {
@@ -18,11 +18,11 @@ extension NullableUriExtensions on Uri? {
     return this!.toString().isEmpty;
   }
 
-  /// Whether this string is not empty.
+  /// Whether this [Uri] is not empty.
   ///
   /// Returns `false` if itself is [Null].
   ///
-  /// この文字列が空でないかどうかを調べます。
+  /// この[Uri]が空でないかどうかを調べます。
   ///
   /// 自身が[Null]の場合`false`を返します。
   bool get isNotEmpty {

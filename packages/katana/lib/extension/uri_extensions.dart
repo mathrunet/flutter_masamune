@@ -6,9 +6,9 @@ part of katana;
 extension UriExtensions on Uri {
   static final RegExp _tail = RegExp(r"[^/]+$");
 
-  /// Divides [String] by [separator] and returns the number of elements.
+  /// Divides [Uri] by [separator] and returns the number of elements.
   ///
-  /// [String]を[separator]で分割し、その要素数を返します。
+  /// [Uri]を[separator]で分割し、その要素数を返します。
   ///
   /// ```dart
   /// final path = Uri.parse("aaaa/bbbb/cccc/dddd");
@@ -24,9 +24,9 @@ extension UriExtensions on Uri {
     return length;
   }
 
-  /// [String] is divided by [separator] and moved one level up.
+  /// [Uri] is divided by [separator] and moved one level up.
   ///
-  /// [String]を[separator]で分割し一つ上の階層に移動します。
+  /// [Uri]を[separator]で分割し一つ上の階層に移動します。
   ///
   /// ```dart
   /// final path = Uri.parse("aaaa/bbbb/cccc/dddd");
@@ -40,9 +40,9 @@ extension UriExtensions on Uri {
     return Uri.parse(path.replaceAll(_tail, "").trimStringRight(separator));
   }
 
-  /// Trims URL query characters (after ?).
+  /// Trims [Uri] query characters (after ?).
   ///
-  /// URLのクエリ文字（?以降）をトリムします。
+  /// [Uri]のクエリ文字（?以降）をトリムします。
   ///
   /// ```dart
   /// final url = Uri.parse("https://google.com?q=searchtext");
@@ -56,9 +56,9 @@ extension UriExtensions on Uri {
     return Uri.parse(path.split("?").first);
   }
 
-  /// Divides a [String] by [separator] and returns the first part.
+  /// Divides a [Uri] by [separator] and returns the first part.
   ///
-  /// [String]を[separator]で分割しその最初の部分を返します。
+  /// [Uri]を[separator]で分割しその最初の部分を返します。
   ///
   /// ```dart
   /// final path = Uri.parse("aaaa/bbbb/cccc/dddd");
@@ -68,9 +68,9 @@ extension UriExtensions on Uri {
     return toString().split(separator).firstOrNull ?? "";
   }
 
-  /// Divides a [String] by [separator] and returns the last part.
+  /// Divides a [Uri] by [separator] and returns the last part.
   ///
-  /// [String]を[separator]で分割しその最後の部分を返します。
+  /// [Uri]を[separator]で分割しその最後の部分を返します。
   ///
   /// ```dart
   /// final path = Uri.parse("aaaa/bbbb/cccc/dddd");
