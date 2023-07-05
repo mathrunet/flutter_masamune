@@ -1,3 +1,7 @@
+## 2.3.12
+
+ - **FIX**: Changed Firestore's rule override mechanism. ([b524f4f0](https://github.com/mathrunet/flutter_masamune/commit/b524f4f05d6d4f93fa6f905c8c3719cdf33ec1bc))
+
 ## 2.3.11
 
  - Update a dependency to the latest release.

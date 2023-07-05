@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.3.12`](#katana_cli---v2312)
+
+---
+
+#### `katana_cli` - `v2.3.12`
+
+ - **FIX**: Changed Firestore's rule override mechanism. ([b524f4f0](https://github.com/mathrunet/flutter_masamune/commit/b524f4f05d6d4f93fa6f905c8c3719cdf33ec1bc))
+
+
+## 2023-07-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.3.1`](#katana---v231)
  - [`katana_form` - `v2.4.5`](#katana_form---v245)
  - [`masamune_picker` - `v2.1.14`](#masamune_picker---v2114)
