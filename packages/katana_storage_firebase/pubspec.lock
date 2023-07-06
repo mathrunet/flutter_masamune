@@ -324,7 +324,7 @@ packages:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.0.9"
+    version: "2.0.10"
   lints:
     dependency: transitive
     description:

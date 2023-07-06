@@ -302,21 +302,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.2.1"
+    version: "2.3.1"
   katana_firebase:
     dependency: "direct main"
     description:
       path: "../katana_firebase"
       relative: true
     source: path
-    version: "2.0.5"
+    version: "2.0.8"
   katana_functions:
     dependency: "direct main"
     description:
       path: "../katana_functions"
       relative: true
     source: path
-    version: "2.4.1"
+    version: "2.4.4"
   lints:
     dependency: transitive
     description:
