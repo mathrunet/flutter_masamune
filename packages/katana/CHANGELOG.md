@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - **DOCS**: Added ReadMe link. ([b9a4ef5a](https://github.com/mathrunet/flutter_masamune/commit/b9a4ef5a159ea958c42c640b4345725383dc1e07))
+
 ## 2.3.1
 
  - **DOCS**: Modified Uri document. ([284e2a1f](https://github.com/mathrunet/flutter_masamune/commit/284e2a1f4511e4f80c32ddbc038f72da88cb54d6))

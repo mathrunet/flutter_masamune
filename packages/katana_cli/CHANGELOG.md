@@ -1,3 +1,7 @@
+## 2.3.13
+
+ - **DOCS**: Added ReadMe link. ([b9a4ef5a](https://github.com/mathrunet/flutter_masamune/commit/b9a4ef5a159ea958c42c640b4345725383dc1e07))
+
 ## 2.3.12
 
  - **FIX**: Changed Firestore's rule override mechanism. ([b524f4f0](https://github.com/mathrunet/flutter_masamune/commit/b524f4f05d6d4f93fa6f905c8c3719cdf33ec1bc))

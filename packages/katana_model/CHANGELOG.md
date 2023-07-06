@@ -1,3 +1,7 @@
+## 2.5.4
+
+ - **DOCS**: Added ReadMe link. ([b9a4ef5a](https://github.com/mathrunet/flutter_masamune/commit/b9a4ef5a159ea958c42c640b4345725383dc1e07))
+
 ## 2.5.3
 
  - **FIX**: Fixed a bug that caused ModelUri system data to be incorrect. ([f4358005](https://github.com/mathrunet/flutter_masamune/commit/f4358005c38406c82abaa9eab8cf6b99e81231c1))

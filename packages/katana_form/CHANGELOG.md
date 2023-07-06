@@ -1,3 +1,7 @@
+## 2.4.6
+
+ - **DOCS**: Added ReadMe link. ([b9a4ef5a](https://github.com/mathrunet/flutter_masamune/commit/b9a4ef5a159ea958c42c640b4345725383dc1e07))
+
 ## 2.4.5
 
  - **FIX**: Added isEmpty method for FormMediaValue. ([922919d1](https://github.com/mathrunet/flutter_masamune/commit/922919d190b488a7ed27871ec98668d3f579295c))

@@ -1,3 +1,7 @@
+## 3.1.15
+
+ - **DOCS**: Added ReadMe link. ([b9a4ef5a](https://github.com/mathrunet/flutter_masamune/commit/b9a4ef5a159ea958c42c640b4345725383dc1e07))
+
 ## 3.1.14
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.0.11
+
+ - **DOCS**: Added ReadMe link. ([b9a4ef5a](https://github.com/mathrunet/flutter_masamune/commit/b9a4ef5a159ea958c42c640b4345725383dc1e07))
+
 ## 2.0.10
 
  - **FIX**: Fixed a problem with Path. ([01e4812a](https://github.com/mathrunet/flutter_masamune/commit/01e4812a987c17f38bee57adb5770fd229e0296b))
