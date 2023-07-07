@@ -1,6 +1,6 @@
 name: masamune_auth_apple
 description: Masamune plugin library to implement Apple Sign-In.
-version: 2.1.18
+version: 2.1.19
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_apple
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.3.2
-  masamune: ^2.2.7
+  katana: ^2.3.3
+  masamune: ^2.2.8
   sign_in_with_apple: ^5.0.0
 
 dev_dependencies:

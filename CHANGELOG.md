@@ -3,6 +3,292 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana` - `v2.3.3`](#katana---v233)
+ - [`katana_auth` - `v2.0.12`](#katana_auth---v2012)
+ - [`katana_auth_firebase` - `v2.0.12`](#katana_auth_firebase---v2012)
+ - [`katana_cli` - `v2.3.14`](#katana_cli---v2314)
+ - [`katana_firebase` - `v2.0.10`](#katana_firebase---v2010)
+ - [`katana_form` - `v2.4.7`](#katana_form---v247)
+ - [`katana_functions` - `v2.4.6`](#katana_functions---v246)
+ - [`katana_functions_firebase` - `v2.4.6`](#katana_functions_firebase---v246)
+ - [`katana_indicator` - `v2.0.11`](#katana_indicator---v2011)
+ - [`katana_listenables` - `v2.0.13`](#katana_listenables---v2013)
+ - [`katana_listenables_annotation` - `v2.0.12`](#katana_listenables_annotation---v2012)
+ - [`katana_listenables_builder` - `v2.0.13`](#katana_listenables_builder---v2013)
+ - [`katana_localization` - `v2.0.14`](#katana_localization---v2014)
+ - [`katana_localization_annotation` - `v2.0.13`](#katana_localization_annotation---v2013)
+ - [`katana_localization_builder` - `v2.0.14`](#katana_localization_builder---v2014)
+ - [`katana_logger` - `v2.0.11`](#katana_logger---v2011)
+ - [`katana_model` - `v2.5.5`](#katana_model---v255)
+ - [`katana_model_firestore` - `v2.3.5`](#katana_model_firestore---v235)
+ - [`katana_model_local` - `v2.2.5`](#katana_model_local---v225)
+ - [`katana_model_openapi` - `v2.0.13`](#katana_model_openapi---v2013)
+ - [`katana_model_openapi_builder` - `v2.0.12`](#katana_model_openapi_builder---v2012)
+ - [`katana_prefs` - `v2.0.12`](#katana_prefs---v2012)
+ - [`katana_prefs_annotation` - `v2.0.12`](#katana_prefs_annotation---v2012)
+ - [`katana_prefs_builder` - `v2.0.12`](#katana_prefs_builder---v2012)
+ - [`katana_router` - `v2.0.15`](#katana_router---v2015)
+ - [`katana_router_annotation` - `v2.0.13`](#katana_router_annotation---v2013)
+ - [`katana_router_builder` - `v2.0.14`](#katana_router_builder---v2014)
+ - [`katana_scoped` - `v2.0.11`](#katana_scoped---v2011)
+ - [`katana_shorten` - `v2.0.11`](#katana_shorten---v2011)
+ - [`katana_storage` - `v2.0.12`](#katana_storage---v2012)
+ - [`katana_storage_firebase` - `v2.0.12`](#katana_storage_firebase---v2012)
+ - [`katana_theme` - `v2.0.15`](#katana_theme---v2015)
+ - [`katana_theme_annotation` - `v2.0.12`](#katana_theme_annotation---v2012)
+ - [`katana_theme_builder` - `v2.0.13`](#katana_theme_builder---v2013)
+ - [`katana_ui` - `v2.1.7`](#katana_ui---v217)
+ - [`masamune` - `v2.2.8`](#masamune---v228)
+ - [`masamune_agora` - `v2.1.16`](#masamune_agora---v2116)
+ - [`masamune_ai_openai` - `v2.1.16`](#masamune_ai_openai---v2116)
+ - [`masamune_annotation` - `v2.1.8`](#masamune_annotation---v218)
+ - [`masamune_auth_apple` - `v2.1.19`](#masamune_auth_apple---v2119)
+ - [`masamune_auth_facebook` - `v2.1.21`](#masamune_auth_facebook---v2121)
+ - [`masamune_auth_google` - `v2.1.19`](#masamune_auth_google---v2119)
+ - [`masamune_builder` - `v2.3.4`](#masamune_builder---v234)
+ - [`masamune_calendar` - `v2.0.62`](#masamune_calendar---v2062)
+ - [`masamune_location` - `v2.1.27`](#masamune_location---v2127)
+ - [`masamune_location_google` - `v2.1.26`](#masamune_location_google---v2126)
+ - [`masamune_logger_firebase` - `v2.0.61`](#masamune_logger_firebase---v2061)
+ - [`masamune_mail` - `v2.1.16`](#masamune_mail---v2116)
+ - [`masamune_notification_firebase` - `v2.1.16`](#masamune_notification_firebase---v2116)
+ - [`masamune_picker` - `v2.1.18`](#masamune_picker---v2118)
+ - [`masamune_purchase_mobile` - `v2.2.18`](#masamune_purchase_mobile---v2218)
+ - [`masamune_purchase_stripe` - `v3.1.16`](#masamune_purchase_stripe---v3116)
+ - [`masamune_universal_ui` - `v2.1.32`](#masamune_universal_ui---v2132)
+ - [`masamune_util` - `v2.0.30`](#masamune_util---v2030)
+
+---
+
+#### `katana` - `v2.3.3`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_auth` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_auth_firebase` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_cli` - `v2.3.14`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_firebase` - `v2.0.10`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_form` - `v2.4.7`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_functions` - `v2.4.6`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_functions_firebase` - `v2.4.6`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_indicator` - `v2.0.11`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_listenables` - `v2.0.13`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_listenables_annotation` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_listenables_builder` - `v2.0.13`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_localization` - `v2.0.14`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_localization_annotation` - `v2.0.13`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_localization_builder` - `v2.0.14`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_logger` - `v2.0.11`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_model` - `v2.5.5`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_model_firestore` - `v2.3.5`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_model_local` - `v2.2.5`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_model_openapi` - `v2.0.13`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_model_openapi_builder` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_prefs` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_prefs_annotation` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_prefs_builder` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_router` - `v2.0.15`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_router_annotation` - `v2.0.13`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_router_builder` - `v2.0.14`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_scoped` - `v2.0.11`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_shorten` - `v2.0.11`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_storage` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_storage_firebase` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_theme` - `v2.0.15`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_theme_annotation` - `v2.0.12`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_theme_builder` - `v2.0.13`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `katana_ui` - `v2.1.7`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune` - `v2.2.8`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_agora` - `v2.1.16`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_ai_openai` - `v2.1.16`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_annotation` - `v2.1.8`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_auth_apple` - `v2.1.19`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_auth_facebook` - `v2.1.21`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_auth_google` - `v2.1.19`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_builder` - `v2.3.4`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_calendar` - `v2.0.62`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_location` - `v2.1.27`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_location_google` - `v2.1.26`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_logger_firebase` - `v2.0.61`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_mail` - `v2.1.16`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_notification_firebase` - `v2.1.16`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_picker` - `v2.1.18`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_purchase_mobile` - `v2.2.18`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_purchase_stripe` - `v3.1.16`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_universal_ui` - `v2.1.32`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+#### `masamune_util` - `v2.0.30`
+
+ - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
+
+
 ## 2023-07-06
 
 ### Changes
