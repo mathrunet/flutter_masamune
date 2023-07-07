@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_agora` - `v2.2.0`](#masamune_agora---v220)
+
+---
+
+#### `masamune_agora` - `v2.2.0`
+
+ - **FEAT**: Supported agora_rtc_engine 6.x. ([baeb6a5f](https://github.com/mathrunet/flutter_masamune/commit/baeb6a5f82f59101a4dd38edfb7d545337d40001))
+
+
+## 2023-07-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.3.3`](#katana---v233)
  - [`katana_auth` - `v2.0.12`](#katana_auth---v2012)
  - [`katana_auth_firebase` - `v2.0.12`](#katana_auth_firebase---v2012)
