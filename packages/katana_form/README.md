@@ -327,3 +327,9 @@ The widgets that assist Form are as follows.
 - `FormButton`
     - Used for confirm and cancel buttons for forms.
     - FormStyle is available.
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

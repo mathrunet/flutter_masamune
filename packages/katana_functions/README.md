@@ -98,3 +98,9 @@ The following `FunctionsAdapter` is available
 
 - `RuntimeFunctionsAdapter`：FunctionsAdapter that completes without server processing and without error. available as a stub.
 - `FirebaseFunctionsAdapter`：FunctionsAdapter for using FirebaseFunctions, available by defining a Function using [@mathrunet/mathamune](https://www.npmjs.com/package/@mathrunet/masamune).
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

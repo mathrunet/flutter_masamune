@@ -507,3 +507,9 @@ ref.page.useFuture(() => Future.delayed(const Duration(seconds: 5))); // Redraw 
 ```
 
 In this case, I simply return the Future as is, but by creating a `snapshot` object with `FutureValueState<T>` and monitoring it, it is possible to implement a mechanism like FutureBuilder that allows the status of the snapshot to be monitored at any time.
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

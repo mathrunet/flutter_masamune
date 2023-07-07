@@ -190,12 +190,8 @@ It is possible to change the storage system by passing `StorageAdapterScope` whe
 - `LocalStorageAdapter`：Storage adapter for storing files locally on the terminal; note that both `local` and `remote` in download and upload are in the terminal. This is useful for implementing screen mocks.
 - `FirebaseStorageAdapter`：Storage adapter to use Cloud Storage for Firebase. Can be used between apps; requires [initial Firebase configuration](https://firebase.google.com/docs/storage/flutter/start).
 
-# Conclusion
+# GitHub Sponsors
 
-I made it for my own use, but if you think it fits your implementation philosophy, by all means, use it!
+Sponsors are always welcome. Thank you for your support!
 
-Also, I releasing the source [here](https://github.com/mathrunet/flutter_masamune), so issues and PullRequests are welcome!
-
-If you have any further work requests, please contact me directly through my [Twitter](https://twitter.com/mathru) or [website](https://mathru.net/)!
-
-[https://mathru.net/](https://mathru.net/ja/)
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

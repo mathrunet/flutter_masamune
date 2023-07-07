@@ -32,3 +32,9 @@ Plug-in packages that add functionality to the Masamune Framework.
 For more information about Masamune Framework, please click here.
 
 [https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

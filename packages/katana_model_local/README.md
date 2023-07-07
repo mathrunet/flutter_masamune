@@ -976,3 +976,9 @@ test("runtimeDocumentModel.test", () async {
   expect(document.value, {"name": "aaa", "text": "bbb"});
 });
 ```
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

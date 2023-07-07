@@ -256,3 +256,9 @@ By using the `AuthQuery` method, it is possible to use the functions for authent
 - `EmailLinkAuthQuery`：AuthQuery for providers that offers authentication via email link.
 - `SmsAuthQuery`：AuthQuery for providers offering authentication via SMS.
 - `SnsSignInAuthProvider`：Abstract class of AuthQuery for providers offering authentication with SNS accounts. Since it is an abstract class, the actual AuthQuery can be used by loading other related packages.
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

@@ -532,15 +532,15 @@ packages:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.5.2"
+    version: "2.5.3"
   katana_model_local:
     dependency: transitive
     description:
       name: katana_model_local
-      sha256: "4835656635fe588d11d2e2e39cabae978e699d6c3a2206d16a4ab454fa99963d"
+      sha256: "1f3aca22d1d9a0f8bd548cb2cbc794ae84c2fc9262a2d4e4e50d589b21e068de"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.3"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -589,7 +589,7 @@ packages:
       path: "../../katana_storage"
       relative: true
     source: path
-    version: "2.0.9"
+    version: "2.0.10"
   katana_theme:
     dependency: "direct overridden"
     description:
@@ -633,7 +633,7 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.2.4"
+    version: "2.2.6"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -647,7 +647,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.1.17"
+    version: "2.1.19"
   matcher:
     dependency: transitive
     description:

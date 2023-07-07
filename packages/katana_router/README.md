@@ -713,3 +713,9 @@ I will make a comparison with this package.
 | Deep Link Parameters | ○ | ○ |
 | Redirect | ○ | ○ |
 | Nested Navigation | ○ | ○ |
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

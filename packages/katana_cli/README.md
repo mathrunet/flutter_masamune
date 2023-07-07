@@ -141,3 +141,9 @@ katana code watch
 ```
 
 For other commands, please see Help.
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

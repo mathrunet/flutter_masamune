@@ -235,3 +235,9 @@ Only the languages available in the locale defined in the Google Spreadsheet wil
 Otherwise, it will remain unchanged.
 
 If `setCurrentLocale` is executed and the locale change is successful, the `LocalizeScope` is rebuilt. In addition, since AppLocalize itself is a `ChangeNotifier`, it is possible to implement processing that detects changes in other places by monitoring changes with addListener.
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

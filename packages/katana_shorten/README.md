@@ -92,3 +92,9 @@ The following can be substituted.
 
 Empty() // SizedBox.shrink()
 ```
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

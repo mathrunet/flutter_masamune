@@ -349,3 +349,9 @@ final TextStyle changedFontColorText = theme.text.bodyMedium.withColor(theme.col
 final TextStyle changedOpacityText = theme.text.bodyMedium.withOpacity(0.5); // Output text with half transparency
 final TextStyle changedFontWeightText = theme.text.bodyMedium.withBold(); // Bold text output
 ```
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)

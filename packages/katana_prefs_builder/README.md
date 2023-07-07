@@ -195,3 +195,9 @@ When the save is complete, `notifyListeners()` is called to execute the callback
 ```dart
 appPrefs.volumeSetting.set(1.0);
 ```
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)
