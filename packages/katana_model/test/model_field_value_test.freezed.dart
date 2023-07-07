@@ -27,6 +27,8 @@ mixin _$TestValue {
   ModelVideoUri get video => throw _privateConstructorUsedError;
   ModelGeoValue get geo => throw _privateConstructorUsedError;
   ModelSearch get search => throw _privateConstructorUsedError;
+  Map<String, ModelVideoUri> get videoMap => throw _privateConstructorUsedError;
+  List<ModelImageUri> get imageList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +48,9 @@ abstract class $TestValueCopyWith<$Res> {
       ModelImageUri image,
       ModelVideoUri video,
       ModelGeoValue geo,
-      ModelSearch search});
+      ModelSearch search,
+      Map<String, ModelVideoUri> videoMap,
+      List<ModelImageUri> imageList});
 }
 
 /// @nodoc
@@ -69,6 +73,8 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
     Object? video = null,
     Object? geo = null,
     Object? search = null,
+    Object? videoMap = null,
+    Object? imageList = null,
   }) {
     return _then(_value.copyWith(
       time: null == time
@@ -99,6 +105,14 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
           ? _value.search
           : search // ignore: cast_nullable_to_non_nullable
               as ModelSearch,
+      videoMap: null == videoMap
+          ? _value.videoMap
+          : videoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelVideoUri>,
+      imageList: null == imageList
+          ? _value.imageList
+          : imageList // ignore: cast_nullable_to_non_nullable
+              as List<ModelImageUri>,
     ) as $Val);
   }
 }
@@ -117,7 +131,9 @@ abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
       ModelImageUri image,
       ModelVideoUri video,
       ModelGeoValue geo,
-      ModelSearch search});
+      ModelSearch search,
+      Map<String, ModelVideoUri> videoMap,
+      List<ModelImageUri> imageList});
 }
 
 /// @nodoc
@@ -138,6 +154,8 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? video = null,
     Object? geo = null,
     Object? search = null,
+    Object? videoMap = null,
+    Object? imageList = null,
   }) {
     return _then(_$_TestValue(
       time: null == time
@@ -168,6 +186,14 @@ class __$$_TestValueCopyWithImpl<$Res>
           ? _value.search
           : search // ignore: cast_nullable_to_non_nullable
               as ModelSearch,
+      videoMap: null == videoMap
+          ? _value._videoMap
+          : videoMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelVideoUri>,
+      imageList: null == imageList
+          ? _value._imageList
+          : imageList // ignore: cast_nullable_to_non_nullable
+              as List<ModelImageUri>,
     ));
   }
 }
@@ -182,7 +208,11 @@ class _$_TestValue implements _TestValue {
       this.image = const ModelImageUri(),
       this.video = const ModelVideoUri(),
       this.geo = const ModelGeoValue(),
-      this.search = const ModelSearch([])});
+      this.search = const ModelSearch([]),
+      final Map<String, ModelVideoUri> videoMap = const {},
+      final List<ModelImageUri> imageList = const []})
+      : _videoMap = videoMap,
+        _imageList = imageList;
 
   factory _$_TestValue.fromJson(Map<String, dynamic> json) =>
       _$$_TestValueFromJson(json);
@@ -208,10 +238,27 @@ class _$_TestValue implements _TestValue {
   @override
   @JsonKey()
   final ModelSearch search;
+  final Map<String, ModelVideoUri> _videoMap;
+  @override
+  @JsonKey()
+  Map<String, ModelVideoUri> get videoMap {
+    if (_videoMap is EqualUnmodifiableMapView) return _videoMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_videoMap);
+  }
+
+  final List<ModelImageUri> _imageList;
+  @override
+  @JsonKey()
+  List<ModelImageUri> get imageList {
+    if (_imageList is EqualUnmodifiableListView) return _imageList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_imageList);
+  }
 
   @override
   String toString() {
-    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search)';
+    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, videoMap: $videoMap, imageList: $imageList)';
   }
 
   @override
@@ -225,13 +272,25 @@ class _$_TestValue implements _TestValue {
             (identical(other.image, image) || other.image == image) &&
             (identical(other.video, video) || other.video == video) &&
             (identical(other.geo, geo) || other.geo == geo) &&
-            (identical(other.search, search) || other.search == search));
+            (identical(other.search, search) || other.search == search) &&
+            const DeepCollectionEquality().equals(other._videoMap, _videoMap) &&
+            const DeepCollectionEquality()
+                .equals(other._imageList, _imageList));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, time, counter, uri, image, video, geo, search);
+  int get hashCode => Object.hash(
+      runtimeType,
+      time,
+      counter,
+      uri,
+      image,
+      video,
+      geo,
+      search,
+      const DeepCollectionEquality().hash(_videoMap),
+      const DeepCollectionEquality().hash(_imageList));
 
   @JsonKey(ignore: true)
   @override
@@ -255,7 +314,9 @@ abstract class _TestValue implements TestValue {
       final ModelImageUri image,
       final ModelVideoUri video,
       final ModelGeoValue geo,
-      final ModelSearch search}) = _$_TestValue;
+      final ModelSearch search,
+      final Map<String, ModelVideoUri> videoMap,
+      final List<ModelImageUri> imageList}) = _$_TestValue;
 
   factory _TestValue.fromJson(Map<String, dynamic> json) =
       _$_TestValue.fromJson;
@@ -274,6 +335,10 @@ abstract class _TestValue implements TestValue {
   ModelGeoValue get geo;
   @override
   ModelSearch get search;
+  @override
+  Map<String, ModelVideoUri> get videoMap;
+  @override
+  List<ModelImageUri> get imageList;
   @override
   @JsonKey(ignore: true)
   _$$_TestValueCopyWith<_$_TestValue> get copyWith =>

@@ -39,6 +39,8 @@ class TestValue with _$TestValue {
     @Default(ModelVideoUri()) ModelVideoUri video,
     @Default(ModelGeoValue()) ModelGeoValue geo,
     @Default(ModelSearch([])) ModelSearch search,
+    @Default({}) Map<String, ModelVideoUri> videoMap,
+    @Default([]) List<ModelImageUri> imageList,
   }) = _TestValue;
 
   factory TestValue.fromJson(Map<String, Object?> map) =>
@@ -237,5 +239,57 @@ void main() {
         search: const ModelSearch(["ddd", "eee"]),
       ),
     );
+  });
+  test("runtimeDocumentModel.modelFieldValue.List", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final model = RuntimeMTestValueDocumentModel(query);
+    final model2 = RuntimeMTestValueDocumentModel(query);
+    await model.save(
+      TestValue(
+        imageList: [
+          ModelImageUri.parse("https://mathru.net"),
+          ModelImageUri.parse("https://pub.dev"),
+        ],
+      ),
+    );
+    expect(
+      model.value?.imageList,
+      [
+        ModelImageUri.parse("https://mathru.net"),
+        ModelImageUri.parse("https://pub.dev"),
+      ],
+    );
+    await model2.load();
+    expect(
+      model2.value?.imageList,
+      [
+        ModelImageUri.parse("https://mathru.net"),
+        ModelImageUri.parse("https://pub.dev"),
+      ],
+    );
+  });
+  test("runtimeDocumentModel.modelFieldValue.Map", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final model = RuntimeMTestValueDocumentModel(query);
+    final model2 = RuntimeMTestValueDocumentModel(query);
+    await model.save(
+      TestValue(
+        videoMap: {
+          "mathru.net": ModelVideoUri.parse("https://mathru.net"),
+          "pub.dev": ModelVideoUri.parse("https://pub.dev"),
+        },
+      ),
+    );
+    expect(model.value?.videoMap, {
+      "mathru.net": ModelVideoUri.parse("https://mathru.net"),
+      "pub.dev": ModelVideoUri.parse("https://pub.dev"),
+    });
+    await model2.load();
+    expect(model2.value?.videoMap, {
+      "mathru.net": ModelVideoUri.parse("https://mathru.net"),
+      "pub.dev": ModelVideoUri.parse("https://pub.dev"),
+    });
   });
 }

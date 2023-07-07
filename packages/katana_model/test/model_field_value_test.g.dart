@@ -28,6 +28,15 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
       search: json['search'] == null
           ? const ModelSearch([])
           : ModelSearch.fromJson(json['search'] as Map<String, dynamic>),
+      videoMap: (json['videoMap'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, ModelVideoUri.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
+      imageList: (json['imageList'] as List<dynamic>?)
+              ?.map((e) => ModelImageUri.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
@@ -39,4 +48,6 @@ Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
       'video': instance.video,
       'geo': instance.geo,
       'search': instance.search,
+      'videoMap': instance.videoMap,
+      'imageList': instance.imageList,
     };
