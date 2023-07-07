@@ -40,6 +40,8 @@ class AgoraScreen extends StatefulWidget {
     this.disabled,
     this.height,
     this.width,
+    this.useAndroidSurfaceView = false,
+    this.useFlutterTexture = false,
   });
 
   /// Specify [AgoraUser] obtained from [AgoraController.value].
@@ -76,6 +78,16 @@ class AgoraScreen extends StatefulWidget {
   ///
   /// 切断時に表示するウィジェット。
   final Widget? disabled;
+
+  /// true` if drawing using Flutter's Texture.
+  ///
+  /// FlutterのTextureを使って描画する場合は`true`。
+  final bool useFlutterTexture;
+
+  /// For Android, `true` if SurfaceView is used; for non-Android, no change.
+  ///
+  /// Androidの場合SurfaceViewを利用する場合は`true`。Android以外の場合は変化なし。
+  final bool useAndroidSurfaceView;
 
   @override
   State<StatefulWidget> createState() => _AgoraScreenState();
@@ -117,11 +129,11 @@ class _AgoraScreenState extends State<AgoraScreen> {
     final number = widget.value.number;
     final channel = widget.value.channel;
     final remoteState = widget.value.status;
-    if (channel.isEmpty) {
+    if (AgoraController._engine == null || channel.isEmpty) {
       return const Empty();
     }
-    if (remoteState == VideoRemoteState.Stopped ||
-        remoteState == VideoRemoteState.Failed) {
+    if (remoteState == RemoteVideoState.remoteVideoStateStopped ||
+        remoteState == RemoteVideoState.remoteVideoStateFailed) {
       return Container(
         color: widget.disabledBackgroundColor ?? Colors.black,
         alignment: Alignment.center,
@@ -136,15 +148,33 @@ class _AgoraScreenState extends State<AgoraScreen> {
     }
     if (widget.value.isLocalUser) {
       if (widget.value._controller.channelProfile ==
-              ChannelProfile.LiveBroadcasting &&
-          widget.value._controller.clientRole == ClientRole.Audience) {
+              ChannelProfileType.channelProfileLiveBroadcasting &&
+          widget.value._controller.clientRole ==
+              ClientRoleType.clientRoleAudience) {
         return const Empty();
       }
-      return const rtc_local_view.SurfaceView();
+      return AgoraVideoView(
+        controller: VideoViewController(
+          rtcEngine: AgoraController._engine!,
+          canvas: VideoCanvas(uid: number),
+          useFlutterTexture: widget.useFlutterTexture,
+          useAndroidSurfaceView:
+              UniversalPlatform.isAndroid && widget.useAndroidSurfaceView,
+        ),
+        onAgoraVideoViewCreated: (viewId) {
+          AgoraController._engine!.startPreview();
+        },
+      );
     }
-    return rtc_remote_view.SurfaceView(
-      uid: number,
-      channelId: channel!,
+    return AgoraVideoView(
+      controller: VideoViewController.remote(
+        rtcEngine: AgoraController._engine!,
+        canvas: VideoCanvas(uid: number),
+        connection: RtcConnection(channelId: channel ?? ""),
+        useFlutterTexture: widget.useFlutterTexture,
+        useAndroidSurfaceView:
+            UniversalPlatform.isAndroid && widget.useAndroidSurfaceView,
+      ),
     );
   }
 }

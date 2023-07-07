@@ -14,15 +14,15 @@ enum AgoraVideoOrientation {
   /// 縦向き。
   portrait;
 
-  /// Convert to [VideoOutputOrientationMode] used on AgoraSDK.
+  /// Convert to [AgoraVideoOrientation] used on AgoraSDK.
   ///
-  /// AgoraSDK上で利用する[VideoOutputOrientationMode]に変換します。
-  VideoOutputOrientationMode toVideoOutputOrientationMode() {
+  /// AgoraSDK上で利用する[AgoraVideoOrientation]に変換します。
+  OrientationMode toVideoOutputOrientationMode() {
     switch (this) {
       case AgoraVideoOrientation.landscape:
-        return VideoOutputOrientationMode.FixedLandscape;
+        return OrientationMode.orientationModeFixedLandscape;
       case AgoraVideoOrientation.portrait:
-        return VideoOutputOrientationMode.FixedPortrait;
+        return OrientationMode.orientationModeFixedPortrait;
     }
   }
 }

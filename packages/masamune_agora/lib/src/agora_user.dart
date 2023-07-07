@@ -26,7 +26,7 @@ class AgoraUser extends ChangeNotifier {
     this.isLocalUser = false,
     String? channel,
     required AgoraController controller,
-    VideoRemoteState status = VideoRemoteState.Stopped,
+    RemoteVideoState status = RemoteVideoState.remoteVideoStateStopped,
   })  : _channel = channel,
         _name = name,
         _controller = controller,
@@ -79,10 +79,10 @@ class AgoraUser extends ChangeNotifier {
   /// Current connection status.
   ///
   /// 現在の接続状態。
-  VideoRemoteState get status => _status;
-  VideoRemoteState _status = VideoRemoteState.Stopped;
+  RemoteVideoState get status => _status;
+  RemoteVideoState _status = RemoteVideoState.remoteVideoStateStopped;
 
-  void _setStatus(VideoRemoteState status) {
+  void _setStatus(RemoteVideoState status) {
     if (_status == status) {
       return;
     }

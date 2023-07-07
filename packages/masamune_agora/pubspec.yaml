@@ -14,8 +14,9 @@ dependencies:
     
   katana: ^2.3.3
   masamune: ^2.2.8
-  agora_rtc_engine: ^5.3.1
+  agora_rtc_engine: ^6.2.1
   permission_handler: ^10.2.0
+  universal_platform: ^1.0.0+1
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

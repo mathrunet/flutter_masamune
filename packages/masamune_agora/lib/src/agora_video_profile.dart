@@ -142,10 +142,10 @@ enum AgoraVideoProfile {
   /// Get frame rate.
   ///
   /// フレームレートを取得します。
-  VideoFrameRate get frameRate {
+  int get frameRate {
     switch (this) {
       case AgoraVideoProfile.size640x480Rate10:
-        return VideoFrameRate.Fps10;
+        return 10;
       case AgoraVideoProfile.size160x120Rate15:
       case AgoraVideoProfile.size120x120Rate15:
       case AgoraVideoProfile.size320x180Rate15:
@@ -163,7 +163,7 @@ enum AgoraVideoProfile {
       case AgoraVideoProfile.size960x720Rate15:
       case AgoraVideoProfile.size1280x720Rate15:
       case AgoraVideoProfile.size1920x1080Rate15:
-        return VideoFrameRate.Fps15;
+        return 15;
       case AgoraVideoProfile.size640x360Rate30:
       case AgoraVideoProfile.size360x360Rate30:
       case AgoraVideoProfile.size480x360Rate30:
@@ -173,9 +173,9 @@ enum AgoraVideoProfile {
       case AgoraVideoProfile.size1280x720Rate30:
       case AgoraVideoProfile.size960x720Rate30:
       case AgoraVideoProfile.size1920x1080Rate30:
-        return VideoFrameRate.Fps30;
+        return 30;
       case AgoraVideoProfile.size1920x1080Rate60:
-        return VideoFrameRate.Fps60;
+        return 60;
     }
   }
 
@@ -186,9 +186,10 @@ enum AgoraVideoProfile {
   /// ビットレートを取得します。
   ///
   /// [channelProfile]によって、ビットレートが変わります。
-  int bitrate(ChannelProfile channelProfile) {
+  int bitrate(ChannelProfileType channelProfile) {
     switch (channelProfile) {
-      case ChannelProfile.Communication:
+      case ChannelProfileType.channelProfileCommunication:
+      case ChannelProfileType.channelProfileCommunication1v1:
         switch (this) {
           case AgoraVideoProfile.size160x120Rate15:
             return 65;
@@ -247,8 +248,9 @@ enum AgoraVideoProfile {
           case AgoraVideoProfile.size1920x1080Rate60:
             return 4780;
         }
-      case ChannelProfile.Game:
-      case ChannelProfile.LiveBroadcasting:
+      case ChannelProfileType.channelProfileGame:
+      case ChannelProfileType.channelProfileCloudGaming:
+      case ChannelProfileType.channelProfileLiveBroadcasting:
         switch (this) {
           case AgoraVideoProfile.size160x120Rate15:
             return 130;
