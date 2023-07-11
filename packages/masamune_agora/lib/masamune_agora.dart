@@ -17,10 +17,11 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-// import 'package:agora_rtc_engine/src/render/video_view_controller.dart' as rtc_local_view;
-// import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 import 'package:masamune/masamune.dart';
 import 'package:universal_platform/universal_platform.dart';
+
+// import 'package:agora_rtc_engine/src/render/video_view_controller.dart' as rtc_local_view;
+// import 'package:agora_rtc_engine/rtc_remote_view.dart' as rtc_remote_view;
 
 import 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'

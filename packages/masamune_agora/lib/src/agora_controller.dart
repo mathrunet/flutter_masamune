@@ -1128,7 +1128,8 @@ class AgoraController
   Future<void> startAudioRecording(
     String filePath, {
     AudioSampleRateType sampleRate = AudioSampleRateType.audioSampleRate44100,
-    AudioRecordingQualityType quality = AudioRecordingQualityType.audioRecordingQualityMedium,
+    AudioRecordingQualityType quality =
+        AudioRecordingQualityType.audioRecordingQualityMedium,
   }) async {
     if (_recordingAudio != null) {
       throw Exception(
