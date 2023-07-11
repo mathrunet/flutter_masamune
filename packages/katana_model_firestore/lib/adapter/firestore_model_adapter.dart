@@ -30,7 +30,8 @@ const _kTargetKey = "@target";
 /// 内部データベースは[localDatabase]で指定することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
-class FirestoreModelAdapter extends ModelAdapter {
+class FirestoreModelAdapter extends ModelAdapter
+    implements FirestoreModelAdapterBase {
   /// Model adapter with Firebase Firestore available.
   ///
   /// Firestore application settings must be completed in advance and [FirebaseCore.initialize] must be executed.
@@ -69,6 +70,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   /// The Firestore database instance used in the adapter.
   ///
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。
+  @override
   FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
   final FirebaseFirestore? _database;
 
@@ -87,6 +89,32 @@ class FirestoreModelAdapter extends ModelAdapter {
   /// アプリ内全体での共通の内部データベース。
   static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
 
+  /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
+  ///
+  /// [FirestoreModelFieldValueConverter]を[converter]に渡すことで特殊なクラスを[ModelFieldValue]として登録することができます。
+  static void registerConverter(FirestoreModelFieldValueConverter converter) {
+    _converters.add(converter);
+  }
+
+  /// By passing [FirestoreModelFieldValueConverter] to [converter], you can release an already registered [FirestoreModelFieldValueConverter].
+  ///
+  /// [converter]に[FirestoreModelFieldValueConverter]を渡すことですでに登録されている[FirestoreModelFieldValueConverter]を解除することができます。
+  static void unregisterConverter(FirestoreModelFieldValueConverter converter) {
+    _converters.remove(converter);
+  }
+
+  static final Set<FirestoreModelFieldValueConverter> _converters = {
+    const FirestoreModelCounterConverter(),
+    const FirestoreModelTimestampConverter(),
+    const FirestoreModelUriConverter(),
+    const FirestoreModelImageUriConverter(),
+    const FirestoreModelVideoUriConverter(),
+    const FirestoreModelSearchConverter(),
+    const FirestoreModelGeoValueConverter(),
+    const FirestoreModelRefConverter(),
+    const FirestoreNullConverter(),
+  };
+
   /// Options for initializing Firebase.
   ///
   /// Firebaseを初期化する際のオプション。
@@ -95,6 +123,7 @@ class FirestoreModelAdapter extends ModelAdapter {
   /// Path prefix.
   ///
   /// パスのプレフィックス。
+  @override
   final String? prefix;
 
   @override
@@ -264,70 +293,15 @@ class FirestoreModelAdapter extends ModelAdapter {
     for (final tmp in map.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      // ModelCounter検索
-      if (val is int) {
-        final targetKey = "#$key";
-        final type = map.getAsMap(targetKey).get(_kTypeKey, "");
-        if (type == (ModelCounter).toString()) {
-          res[key] = ModelCounter(val.toInt()).toJson();
-        } else if (type == (ModelTimestamp).toString()) {
-          res[key] = ModelTimestamp(
-            DateTime.fromMillisecondsSinceEpoch(val),
-          ).toJson();
-        } else {
-          res[key] = val;
+      DynamicMap? replaced;
+      for (final converter in _converters) {
+        replaced = converter.convertFrom(key, val, map, this);
+        if (replaced != null) {
+          break;
         }
-        // ModelUri検索
-      } else if (val is String) {
-        final targetKey = "#$key";
-        final targetMap = map.getAsMap(targetKey);
-        final type = targetMap.get(_kTypeKey, "");
-        if (type == (ModelUri).toString()) {
-          res[key] = ModelUri(Uri.tryParse(val)).toJson();
-        } else if (type == (ModelImageUri).toString()) {
-          res[key] = ModelImageUri(Uri.tryParse(val)).toJson();
-        } else if (type == (ModelVideoUri).toString()) {
-          res[key] = ModelVideoUri(Uri.tryParse(val)).toJson();
-        } else if (type == (ModelGeoValue).toString()) {
-          final latitude = targetMap.get(ModelGeoValue.kLatitudeKey, 0.0);
-          final longitude = targetMap.get(ModelGeoValue.kLongitudeKey, 0.0);
-          res[key] = ModelGeoValue(
-            GeoValue(latitude: latitude, longitude: longitude),
-          ).toJson();
-        } else {
-          res[key] = val;
-        }
-        // ModelTimestamp検索
-      } else if (val is Timestamp) {
-        res[key] = ModelTimestamp(val.toDate()).toJson();
-        // ModelSearch検索
-      } else if (val is Map) {
-        final targetKey = "#$key";
-        final targetMap = map.getAsMap(targetKey);
-        final type = targetMap.get(_kTypeKey, "");
-        if (type == (ModelSearch).toString()) {
-          res[key] = ModelSearch(
-            val.keys.map((e) => e.toString()).toList(),
-          ).toJson();
-        } else {
-          res[key] = val;
-        }
-        // ModelGeoValue検索
-      } else if (val is GeoPoint) {
-        res[key] = ModelGeoValue(
-          GeoValue(latitude: val.latitude, longitude: val.longitude),
-        ).toJson();
-        // ModelRef検索
-      } else if (val is DocumentReference<DynamicMap>) {
-        final path = prefix.isEmpty
-            ? val.path
-            : val.path.replaceAll(
-                RegExp("^${prefix!.trimQuery().trimString("/")}/"),
-                "",
-              );
-        res[key] = ModelRefBase.fromPath(
-          path,
-        ).toJson();
+      }
+      if (replaced != null) {
+        res.addAll(replaced);
       } else {
         res[key] = val;
       }
@@ -340,130 +314,15 @@ class FirestoreModelAdapter extends ModelAdapter {
     for (final tmp in map.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      if (val is DynamicMap && val.containsKey(_kTypeKey)) {
-        final type = val.get(_kTypeKey, "");
-        if (type == (ModelCounter).toString()) {
-          final fromUser = val.get(ModelCounter.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.get(ModelCounter.kValueKey, 0);
-          final increment = val.get(ModelCounter.kIncrementKey, 0);
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelCounter).toString(),
-            ModelCounter.kValueKey: value,
-            ModelCounter.kIncrementKey: increment,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            res[key] = value;
-          } else {
-            res[key] = FieldValue.increment(increment);
-          }
-        } else if (type == (ModelTimestamp).toString()) {
-          final fromUser = val.get(ModelTimestamp.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.get(ModelTimestamp.kTimeKey, 0);
-          final useNow = val.get(ModelTimestamp.kNowKey, false);
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelTimestamp).toString(),
-            ModelTimestamp.kTimeKey: value,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            if (useNow) {
-              res[key] = FieldValue.serverTimestamp();
-            } else {
-              res[key] = Timestamp.fromMillisecondsSinceEpoch(value);
-            }
-          }
-        } else if (type == (ModelUri).toString()) {
-          final fromUser = val.get(ModelUri.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.get(ModelUri.kUriKey, "");
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelUri).toString(),
-            ModelUri.kUriKey: value,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            res[key] = value;
-          }
-        } else if (type == (ModelImageUri).toString()) {
-          final fromUser = val.get(ModelImageUri.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.get(ModelImageUri.kUriKey, "");
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelImageUri).toString(),
-            ModelImageUri.kUriKey: value,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            res[key] = value;
-          }
-        } else if (type == (ModelVideoUri).toString()) {
-          final fromUser = val.get(ModelVideoUri.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.get(ModelVideoUri.kUriKey, "");
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelVideoUri).toString(),
-            ModelVideoUri.kUriKey: value,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            res[key] = value;
-          }
-        } else if (type == (ModelSearch).toString()) {
-          final fromUser = val.get(ModelSearch.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.getAsList<String>(ModelSearch.kListKey);
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelSearch).toString(),
-            ModelSearch.kListKey: value,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            res[key] = value.toMap((item) => MapEntry(item, true));
-          }
-        } else if (type == (ModelGeoValue).toString()) {
-          final fromUser = val.get(ModelGeoValue.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final geoHash = val.get(ModelGeoValue.kGeoHashKey, 0);
-          final latitude = val.get(ModelGeoValue.kLatitudeKey, 0);
-          final longitude = val.get(ModelGeoValue.kLongitudeKey, 0);
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelGeoValue).toString(),
-            ModelGeoValue.kLatitudeKey: latitude,
-            ModelGeoValue.kLongitudeKey: longitude,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            res[key] = geoHash;
-          }
-        } else if (type.startsWith((ModelRefBase).toString())) {
-          final ref = ModelRefBase.fromJson(val);
-          res[key] = database.doc(_path(ref.modelQuery.path));
-        } else {
-          res[key] = val;
+      DynamicMap? replaced;
+      for (final converter in _converters) {
+        replaced = converter.convertTo(key, val, map, this);
+        if (replaced != null) {
+          break;
         }
-      } else if (val is DynamicMap && original.containsKey(key)) {
-        final originalMap = original[key];
-        if (originalMap is Map) {
-          final newRes = Map<String, dynamic>.from(val);
-          for (final o in originalMap.entries) {
-            if (!val.containsKey(o.key)) {
-              newRes[o.key] = FieldValue.delete();
-            }
-          }
-          res[key] = newRes;
-        }
-      } else if (val == null) {
-        res[key] = FieldValue.delete();
+      }
+      if (replaced != null) {
+        res.addAll(replaced);
       } else {
         res[key] = val;
       }
@@ -592,23 +451,17 @@ class FirestoreModelAdapter extends ModelAdapter {
   }
 
   Object? _convertQueryValue(Object? value) {
-    if (value is ModelCounter) {
-      return value.value;
-    } else if (value is ModelTimestamp) {
-      return Timestamp.fromDate(value.value);
-    } else if (value is ModelUri) {
-      return value.value;
-    } else if (value is ModelSearch) {
-      return value.value;
-    } else if (value is ModelGeoValue) {
-      return value.value.geoHash;
-    } else if (value is ModelRefBase) {
-      return database.doc(_path(value.modelQuery.path));
-    } else {
-      return value;
+    Object? res;
+    for (final converter in _converters) {
+      res = converter.convertQueryValue(value, this);
+      if (res != null) {
+        return res;
+      }
     }
+    return value;
   }
 
+  @override
   String _path(String original) {
     if (prefix.isEmpty) {
       return original;

@@ -24,6 +24,17 @@ export 'package:katana_firebase/katana_firebase.dart';
 export 'package:katana_model/katana_model.dart';
 
 part 'src/firestore_cache.dart';
+part 'src/firestore_model_field_value_converter.dart';
+
+part 'converter/firestore_model_counter_converter.dart';
+part 'converter/firestore_model_timestamp_converter.dart';
+part 'converter/firestore_model_uri_converter.dart';
+part 'converter/firestore_model_image_uri_converter.dart';
+part 'converter/firestore_model_video_uri_converter.dart';
+part 'converter/firestore_model_geo_value_converter.dart';
+part 'converter/firestore_model_search_converter.dart';
+part 'converter/firestore_model_ref_converter.dart';
+part 'converter/firestore_null_converter.dart';
 
 part 'adapter/listenable_firestore_model_adapter.dart';
 part 'adapter/firestore_model_adapter.dart';

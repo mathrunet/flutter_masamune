@@ -23,7 +23,8 @@ part of katana_model_firestore;
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
-class ListenableFirestoreModelAdapter extends ModelAdapter {
+class ListenableFirestoreModelAdapter extends ModelAdapter
+    implements FirestoreModelAdapterBase {
   /// Model adapter with Firebase Firestore available.
   ///
   /// It monitors all documents in Firestore for changes and notifies you of any changes on the remote side.
@@ -56,8 +57,35 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
   /// The Firestore database instance used in the adapter.
   ///
   /// アダプター内で利用しているFirestoreのデータベースインスタンス。
+  @override
   FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
   final FirebaseFirestore? _database;
+
+  /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
+  ///
+  /// [FirestoreModelFieldValueConverter]を[converter]に渡すことで特殊なクラスを[ModelFieldValue]として登録することができます。
+  static void registerConverter(FirestoreModelFieldValueConverter converter) {
+    _converters.add(converter);
+  }
+
+  /// By passing [FirestoreModelFieldValueConverter] to [converter], you can release an already registered [FirestoreModelFieldValueConverter].
+  ///
+  /// [converter]に[FirestoreModelFieldValueConverter]を渡すことですでに登録されている[FirestoreModelFieldValueConverter]を解除することができます。
+  static void unregisterConverter(FirestoreModelFieldValueConverter converter) {
+    _converters.remove(converter);
+  }
+
+  static final Set<FirestoreModelFieldValueConverter> _converters = {
+    const FirestoreModelCounterConverter(),
+    const FirestoreModelTimestampConverter(),
+    const FirestoreModelUriConverter(),
+    const FirestoreModelImageUriConverter(),
+    const FirestoreModelVideoUriConverter(),
+    const FirestoreModelSearchConverter(),
+    const FirestoreModelGeoValueConverter(),
+    const FirestoreModelRefConverter(),
+    const FirestoreNullConverter(),
+  };
 
   /// Options for initializing Firebase.
   ///
@@ -67,6 +95,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
   /// Path prefix.
   ///
   /// パスのプレフィックス。
+  @override
   final String? prefix;
 
   @override
@@ -275,33 +304,15 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     for (final tmp in map.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      // ModelCounter検索
-      if (val is int) {
-        final targetKey = "#$key";
-        final type = map.getAsMap(targetKey).get(_kTypeKey, "");
-        if (type == (ModelCounter).toString()) {
-          res[key] = ModelCounter(val.toInt()).toJson();
-        } else if (type == (ModelTimestamp).toString()) {
-          res[key] = ModelTimestamp(
-            DateTime.fromMillisecondsSinceEpoch(val),
-          ).toJson();
-        } else {
-          res[key] = val;
+      DynamicMap? replaced;
+      for (final converter in _converters) {
+        replaced = converter.convertFrom(key, val, map, this);
+        if (replaced != null) {
+          break;
         }
-        // ModelTimestamp検索
-      } else if (val is Timestamp) {
-        res[key] = ModelTimestamp(val.toDate()).toJson();
-        // ModelRef検索
-      } else if (val is DocumentReference<DynamicMap>) {
-        final path = prefix.isEmpty
-            ? val.path
-            : val.path.replaceAll(
-                RegExp("^${prefix!.trimQuery().trimString("/")}/"),
-                "",
-              );
-        res[key] = ModelRefBase.fromPath(
-          path,
-        ).toJson();
+      }
+      if (replaced != null) {
+        res.addAll(replaced);
       } else {
         res[key] = val;
       }
@@ -314,62 +325,15 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
     for (final tmp in map.entries) {
       final key = tmp.key;
       final val = tmp.value;
-      if (val is DynamicMap && val.containsKey(_kTypeKey)) {
-        final type = val.get(_kTypeKey, "");
-        if (type == (ModelCounter).toString()) {
-          final fromUser = val.get(ModelCounter.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.get(ModelCounter.kValueKey, 0);
-          final increment = val.get(ModelCounter.kIncrementKey, 0);
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelCounter).toString(),
-            ModelCounter.kValueKey: value,
-            ModelCounter.kIncrementKey: increment,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            res[key] = value;
-          } else {
-            res[key] = FieldValue.increment(increment);
-          }
-        } else if (type == (ModelTimestamp).toString()) {
-          final fromUser = val.get(ModelTimestamp.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final value = val.get(ModelTimestamp.kTimeKey, 0);
-          final useNow = val.get(ModelTimestamp.kNowKey, false);
-          final targetKey = "#$key";
-          res[targetKey] = {
-            kTypeFieldKey: (ModelTimestamp).toString(),
-            ModelTimestamp.kTimeKey: value,
-            _kTargetKey: key,
-          };
-          if (fromUser) {
-            if (useNow) {
-              res[key] = FieldValue.serverTimestamp();
-            } else {
-              res[key] = Timestamp.fromMillisecondsSinceEpoch(value);
-            }
-          }
-        } else if (type.startsWith((ModelRefBase).toString())) {
-          final ref = ModelRefBase.fromJson(val);
-          res[key] = database.doc(_path(ref.modelQuery.path));
-        } else {
-          res[key] = val;
+      DynamicMap? replaced;
+      for (final converter in _converters) {
+        replaced = converter.convertTo(key, val, map, this);
+        if (replaced != null) {
+          break;
         }
-      } else if (val is DynamicMap && original.containsKey(key)) {
-        final originalMap = original[key];
-        if (originalMap is Map) {
-          final newRes = Map<String, dynamic>.from(val);
-          for (final o in originalMap.entries) {
-            if (!val.containsKey(o.key)) {
-              newRes[o.key] = FieldValue.delete();
-            }
-          }
-          res[key] = newRes;
-        }
-      } else if (val == null) {
-        res[key] = FieldValue.delete();
+      }
+      if (replaced != null) {
+        res.addAll(replaced);
       } else {
         res[key] = val;
       }
@@ -478,17 +442,17 @@ class ListenableFirestoreModelAdapter extends ModelAdapter {
   }
 
   Object? _convertQueryValue(Object? value) {
-    if (value is ModelCounter) {
-      return value.value;
-    } else if (value is ModelTimestamp) {
-      return Timestamp.fromDate(value.value);
-    } else if (value is ModelRefBase) {
-      return database.doc(_path(value.modelQuery.path));
-    } else {
-      return value;
+    Object? res;
+    for (final converter in _converters) {
+      res = converter.convertQueryValue(value, this);
+      if (res != null) {
+        return res;
+      }
     }
+    return value;
   }
 
+  @override
   String _path(String original) {
     if (prefix.isEmpty) {
       return original;
