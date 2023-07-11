@@ -342,10 +342,10 @@ List<Spec> modelClass(
                 }),
               ])
               ..static = true
-              ..returns = Reference("${model.name}Ref")
+              ..returns = const Reference("ModelRefBase")
               ..lambda = true
               ..body = Code(
-                "${model.name}Ref.fromPath(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
+                "ModelRefBase.fromPath(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
               ),
           ),
           if (searchable.isNotEmpty)
@@ -685,10 +685,10 @@ List<Spec> modelClass(
                   }),
                 ])
                 ..static = true
-                ..returns = Reference("${model.name}Ref")
+                ..returns = const Reference("ModelRefBase")
                 ..lambda = true
                 ..body = Code(
-                  "${model.name}Ref.fromPath(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
+                  "ModelRefBase.fromPath(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
                 ),
             ),
             if (searchable.isNotEmpty)
