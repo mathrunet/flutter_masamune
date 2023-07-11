@@ -1,3 +1,7 @@
+## 2.3.5
+
+ - **FIX**: Change RawCollection Ref to ModelRefBase. ([df812497](https://github.com/mathrunet/flutter_masamune/commit/df812497fcb736a6315550973a9ef2dad73fb920))
+
 ## 2.3.4
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

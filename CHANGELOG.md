@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v2.3.5`](#masamune_builder---v235)
+
+---
+
+#### `masamune_builder` - `v2.3.5`
+
+ - **FIX**: Change RawCollection Ref to ModelRefBase. ([df812497](https://github.com/mathrunet/flutter_masamune/commit/df812497fcb736a6315550973a9ef2dad73fb920))
+
+
+## 2023-07-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_firestore` - `v2.4.0`](#katana_model_firestore---v240)
 
 ---
