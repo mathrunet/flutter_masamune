@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_firestore` - `v2.4.0`](#katana_model_firestore---v240)
+
+---
+
+#### `katana_model_firestore` - `v2.4.0`
+
+ - **FEAT**: Enhanced extensibility for each ModelFieldValue. ([902f2569](https://github.com/mathrunet/flutter_masamune/commit/902f25699dae587584f9ae72ca9d98231bf07f46))
+
+
 ## 2023-07-07
 
 ### Changes

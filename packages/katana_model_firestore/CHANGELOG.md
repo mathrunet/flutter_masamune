@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Enhanced extensibility for each ModelFieldValue. ([902f2569](https://github.com/mathrunet/flutter_masamune/commit/902f25699dae587584f9ae72ca9d98231bf07f46))
+
 ## 2.3.5
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
