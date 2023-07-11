@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v2.3.6`](#masamune_builder---v236)
+
+---
+
+#### `masamune_builder` - `v2.3.6`
+
+ - **FIX**: ModelRefBase types are now matched. ([d91d3e93](https://github.com/mathrunet/flutter_masamune/commit/d91d3e938b384d6531b0994a202ab825169aeddb))
+
+
+## 2023-07-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_builder` - `v2.3.5`](#masamune_builder---v235)
 
 ---

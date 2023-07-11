@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **FIX**: ModelRefBase types are now matched. ([d91d3e93](https://github.com/mathrunet/flutter_masamune/commit/d91d3e938b384d6531b0994a202ab825169aeddb))
+
 ## 2.3.5
 
  - **FIX**: Change RawCollection Ref to ModelRefBase. ([df812497](https://github.com/mathrunet/flutter_masamune/commit/df812497fcb736a6315550973a9ef2dad73fb920))
