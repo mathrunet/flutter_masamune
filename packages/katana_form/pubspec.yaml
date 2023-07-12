@@ -16,6 +16,7 @@ dependencies:
   katana: ^2.3.3
   universal_platform: ^1.0.0+1
   flutter_rating_bar: ^4.0.1
+  pin_input_text_field: ^4.5.1
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

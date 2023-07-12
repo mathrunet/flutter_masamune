@@ -88,6 +88,7 @@ class FormCheckbox<TValue> extends FormField<bool> {
     bool initialValue = false,
     bool enabled = true,
     this.onChanged,
+    this.keepAlive = true,
     FocusNode? focusNode,
     bool autofocus = false,
     bool readOnly = false,
@@ -261,6 +262,15 @@ class FormCheckbox<TValue> extends FormField<bool> {
   /// 予めウィジェット外で作成し渡します。
   final FormController<TValue>? form;
 
+  /// If placed in a list, whether or not it should not be discarded on scrolling.
+  ///
+  /// If `true`, it is not destroyed but retained.
+  ///
+  /// リストに配置された場合、スクロール時に破棄されないようにするかどうか。
+  ///
+  /// `true`の場合、破棄されず保持され続けます。
+  final bool keepAlive;
+
   /// Callback to be executed each time the value is changed.
   ///
   /// The current value is passed to `value`.
@@ -274,7 +284,8 @@ class FormCheckbox<TValue> extends FormField<bool> {
   FormFieldState<bool> createState() => _FormCheckBoxState<TValue>();
 }
 
-class _FormCheckBoxState<TValue> extends FormFieldState<bool> {
+class _FormCheckBoxState<TValue> extends FormFieldState<bool>
+    with AutomaticKeepAliveClientMixin<FormField<bool>> {
   @override
   FormCheckbox<TValue> get widget => super.widget as FormCheckbox<TValue>;
 
@@ -313,5 +324,14 @@ class _FormCheckBoxState<TValue> extends FormFieldState<bool> {
   void reset() {
     super.reset();
     didChange(widget.initialValue);
+  }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.builder(this);
   }
 }

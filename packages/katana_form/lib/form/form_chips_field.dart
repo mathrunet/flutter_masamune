@@ -244,7 +244,8 @@ class FormChipsField<TValue> extends FormField<List<String>> {
   FormFieldState<List<String>> createState() => _FormChipsField<TValue>();
 }
 
-class _FormChipsField<TValue> extends FormFieldState<List<String>> {
+class _FormChipsField<TValue> extends FormFieldState<List<String>>
+    with AutomaticKeepAliveClientMixin<FormField<List<String>>> {
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -446,6 +447,9 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
 
 class _ChipsInput<T> extends StatefulWidget {
