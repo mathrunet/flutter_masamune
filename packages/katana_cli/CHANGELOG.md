@@ -1,3 +1,7 @@
+## 2.3.15
+
+ - **FIX**: Add new packages when creating a project. ([c7b3968f](https://github.com/mathrunet/flutter_masamune/commit/c7b3968f6c1858c214cc1f453ce654b08435dc28))
+
 ## 2.3.14
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

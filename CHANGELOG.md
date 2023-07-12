@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.3.15`](#katana_cli---v2315)
+
+---
+
+#### `katana_cli` - `v2.3.15`
+
+ - **FIX**: Add new packages when creating a project. ([c7b3968f](https://github.com/mathrunet/flutter_masamune/commit/c7b3968f6c1858c214cc1f453ce654b08435dc28))
+
+
+## 2023-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_ui` - `v2.2.0`](#katana_ui---v220)
  - [`masamune_universal_ui` - `v2.2.0`](#masamune_universal_ui---v220)
  - [`masamune_util` - `v2.1.0`](#masamune_util---v210)
