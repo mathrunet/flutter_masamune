@@ -24,6 +24,13 @@ final importPackages = [
   "json_annotation",
 ];
 
+/// Additional import packages if the "-a" option is used.
+///
+/// "-a"のオプションが利用された場合の追加インポートパッケージ。
+final allOptionsImportPackage = [
+  "flutter_animate",
+];
+
 /// Package for dev to import.
 ///
 /// インポートするdev用パッケージ。
@@ -65,6 +72,7 @@ class CreateCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final packageName = context.args.get(1, "");
+    final allOptions = context.args.get(2, "");
     if (packageName.isEmpty) {
       error(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
@@ -101,6 +109,7 @@ class CreateCliCommand extends CliCommand {
         "pub",
         "add",
         ...importPackages,
+        if (allOptions == "-a") ...allOptionsImportPackage,
       ],
     );
     await command(
