@@ -1,3 +1,7 @@
+## 2.1.34
+
+ - **FIX**: Add displayInvisibleArea to ListView. ([8a7f21dd](https://github.com/mathrunet/flutter_masamune/commit/8a7f21dd35e1d7277d499fc67294019b9324c77a))
+
 ## 2.1.33
 
  - Update a dependency to the latest release.

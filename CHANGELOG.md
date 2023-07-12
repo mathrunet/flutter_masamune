@@ -15,6 +15,86 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.5.1`](#katana_form---v251)
+ - [`katana_router` - `v2.0.16`](#katana_router---v2016)
+ - [`katana_router_annotation` - `v2.0.14`](#katana_router_annotation---v2014)
+ - [`katana_router_builder` - `v2.0.15`](#katana_router_builder---v2015)
+ - [`masamune_universal_ui` - `v2.1.34`](#masamune_universal_ui---v2134)
+ - [`masamune` - `v2.2.10`](#masamune---v2210)
+ - [`masamune_location` - `v2.1.29`](#masamune_location---v2129)
+ - [`masamune_auth_apple` - `v2.1.21`](#masamune_auth_apple---v2121)
+ - [`masamune_agora` - `v2.2.2`](#masamune_agora---v222)
+ - [`masamune_auth_google` - `v2.1.21`](#masamune_auth_google---v2121)
+ - [`masamune_ai_openai` - `v2.1.18`](#masamune_ai_openai---v2118)
+ - [`masamune_calendar` - `v2.0.64`](#masamune_calendar---v2064)
+ - [`masamune_picker` - `v2.1.20`](#masamune_picker---v2120)
+ - [`masamune_util` - `v2.0.32`](#masamune_util---v2032)
+ - [`masamune_purchase_stripe` - `v3.1.18`](#masamune_purchase_stripe---v3118)
+ - [`masamune_logger_firebase` - `v2.0.63`](#masamune_logger_firebase---v2063)
+ - [`masamune_auth_facebook` - `v2.1.23`](#masamune_auth_facebook---v2123)
+ - [`masamune_location_google` - `v2.1.28`](#masamune_location_google---v2128)
+ - [`masamune_mail` - `v2.1.18`](#masamune_mail---v2118)
+ - [`masamune_notification_firebase` - `v2.1.18`](#masamune_notification_firebase---v2118)
+ - [`masamune_purchase_mobile` - `v2.2.20`](#masamune_purchase_mobile---v2220)
+ - [`masamune_builder` - `v2.3.7`](#masamune_builder---v237)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.2.10`
+ - `masamune_location` - `v2.1.29`
+ - `masamune_auth_apple` - `v2.1.21`
+ - `masamune_agora` - `v2.2.2`
+ - `masamune_auth_google` - `v2.1.21`
+ - `masamune_ai_openai` - `v2.1.18`
+ - `masamune_calendar` - `v2.0.64`
+ - `masamune_picker` - `v2.1.20`
+ - `masamune_util` - `v2.0.32`
+ - `masamune_purchase_stripe` - `v3.1.18`
+ - `masamune_logger_firebase` - `v2.0.63`
+ - `masamune_auth_facebook` - `v2.1.23`
+ - `masamune_location_google` - `v2.1.28`
+ - `masamune_mail` - `v2.1.18`
+ - `masamune_notification_firebase` - `v2.1.18`
+ - `masamune_purchase_mobile` - `v2.2.20`
+ - `masamune_builder` - `v2.3.7`
+
+---
+
+#### `katana_form` - `v2.5.1`
+
+ - **FIX**: Added autofocus to FormPinField. ([03481e19](https://github.com/mathrunet/flutter_masamune/commit/03481e19b0d6808828475fd66f8ff58c1437bc1a))
+
+#### `katana_router` - `v2.0.16`
+
+ - **FIX**: Fixed a bug that occurred when a parameter was given when there was no path. ([df4b06b8](https://github.com/mathrunet/flutter_masamune/commit/df4b06b8cf2dcbbaec75421c06bd9ce83ed8be99))
+
+#### `katana_router_annotation` - `v2.0.14`
+
+ - **FIX**: Fixed a bug that occurred when a parameter was given when there was no path. ([df4b06b8](https://github.com/mathrunet/flutter_masamune/commit/df4b06b8cf2dcbbaec75421c06bd9ce83ed8be99))
+
+#### `katana_router_builder` - `v2.0.15`
+
+ - **FIX**: Fixed a bug that occurred when a parameter was given when there was no path. ([df4b06b8](https://github.com/mathrunet/flutter_masamune/commit/df4b06b8cf2dcbbaec75421c06bd9ce83ed8be99))
+
+#### `masamune_universal_ui` - `v2.1.34`
+
+ - **FIX**: Add displayInvisibleArea to ListView. ([8a7f21dd](https://github.com/mathrunet/flutter_masamune/commit/8a7f21dd35e1d7277d499fc67294019b9324c77a))
+
+
+## 2023-07-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.5.0`](#katana_form---v250)
  - [`masamune` - `v2.2.9`](#masamune---v229)
  - [`masamune_location` - `v2.1.28`](#masamune_location---v2128)

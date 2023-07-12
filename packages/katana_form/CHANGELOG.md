@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Added autofocus to FormPinField. ([03481e19](https://github.com/mathrunet/flutter_masamune/commit/03481e19b0d6808828475fd66f8ff58c1437bc1a))
+
 ## 2.5.0
 
  - **FEAT**: Added FormPinField. ([636d5e50](https://github.com/mathrunet/flutter_masamune/commit/636d5e500a692a0d4faad0600ed84b27f5ddb34f))

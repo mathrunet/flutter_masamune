@@ -1,3 +1,7 @@
+## 2.0.15
+
+ - **FIX**: Fixed a bug that occurred when a parameter was given when there was no path. ([df4b06b8](https://github.com/mathrunet/flutter_masamune/commit/df4b06b8cf2dcbbaec75421c06bd9ce83ed8be99))
+
 ## 2.0.14
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
