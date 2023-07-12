@@ -126,7 +126,7 @@ class FormPinField<TValue> extends FormField<String> {
     this.style,
     bool enabled = true,
     String? initialValue,
-    FocusNode? focusNode,
+    this.focusNode,
     TextInputType keyboardType = TextInputType.phone,
     TextInputAction textInputAction = TextInputAction.done,
     List<TextInputFormatter>? inputFormatters,
@@ -144,6 +144,7 @@ class FormPinField<TValue> extends FormField<String> {
     TValue Function(String value)? onSaved,
     String? hintText,
     bool obscureText = false,
+    this.autofocus = false,
   }) : super(
           initialValue:
               controller != null ? controller.text : (initialValue ?? ""),
@@ -227,7 +228,7 @@ class FormPinField<TValue> extends FormField<String> {
                 child: PinInputTextField(
                   pinLength: maxLength,
                   controller: state._effectiveController,
-                  focusNode: focusNode,
+                  focusNode: state._effectiveFocusNode,
                   decoration: BoxLooseDecoration(
                     errorText: state.errorText,
                     hintText: hintText,
@@ -291,6 +292,20 @@ class FormPinField<TValue> extends FormField<String> {
   /// テキストフォーム用のコントローラー。
   final TextEditingController? controller;
 
+  /// If `true`, focus is automatically applied.
+  ///
+  /// `true`の場合、自動でフォーカスが当たります。
+  final bool autofocus;
+
+  /// Specifies the focus node.
+  ///
+  /// The focus node makes it possible to control the focus of the form.
+  ///
+  /// フォーカスノードを指定します。
+  ///
+  /// フォーカスノードを利用してフォームのフォーカスをコントロールすることが可能になります。
+  final FocusNode? focusNode;
+
   @override
   FormFieldState<String> createState() => _FormPinFieldState<TValue>();
 }
@@ -298,6 +313,9 @@ class FormPinField<TValue> extends FormField<String> {
 class _FormPinFieldState<TValue> extends FormFieldState<String>
     with AutomaticKeepAliveClientMixin<FormField<String>> {
   RestorableTextEditingController? _controller;
+  FocusNode? _focusNode;
+
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
 
   TextEditingController get _effectiveController =>
       widget.controller ?? _controller!.value;
@@ -341,11 +359,19 @@ class _FormPinFieldState<TValue> extends FormFieldState<String>
     } else {
       widget.controller!.addListener(_handleControllerChanged);
     }
+    if (widget.focusNode == null) {
+      _focusNode = FocusNode();
+    }
     widget.form?.register(this);
+    WidgetsBinding.instance.scheduleFrameCallback((_) async {
+      if (mounted && widget.autofocus) {
+        FocusScope.of(context).autofocus(_effectiveFocusNode);
+      }
+    });
   }
 
   @override
-  void didUpdateWidget(_TextFormField<TValue> oldWidget) {
+  void didUpdateWidget(FormPinField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -362,6 +388,11 @@ class _FormPinFieldState<TValue> extends FormFieldState<String>
           _controller!.dispose();
           _controller = null;
         }
+      }
+    }
+    if (widget.focusNode != oldWidget.focusNode) {
+      if (widget.focusNode == null) {
+        _focusNode = FocusNode();
       }
     }
     if (widget.form != oldWidget.form) {
