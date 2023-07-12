@@ -77,7 +77,7 @@ List<Class> queryClass(
               ..body = Code(
                 path == null
                     ? "return null;"
-                    : "if (path == null) { return null; } if (path.contains(\"?\")) { final split = path.split(\"?\"); final match = _regExp.firstMatch(split.first.trimString(\"/\")); if (match == null) { return null; } final query = Uri.splitQueryString(split.last); return _\$_${model.name}Query(path, ${model.parameters.map((param) => _defaultParsedValue(param, true)).where((e) => e.isNotEmpty).join(",")}); } else { path = path.trimQuery().trimString(\"/\"); final match = _regExp.firstMatch(path.trimQuery().trimString(\"/\")); if (match == null) { return null; } return _\$_${model.name}Query(path, ${model.parameters.map((param) => _defaultParsedValue(param, false)).where((e) => e.isNotEmpty).join(",")}); }",
+                    : "if (path == null) { return null; } if (path.contains(\"?\")) { final split = path.split(\"?\"); final match = _regExp.firstMatch(split.first.trimString(\"/\")); if (match == null) { return null; } final query = Uri.splitQueryString(split.last); return _\$_${model.name}Query(path, ${model.parameters.map((param) => _defaultParsedValue(path, param, true)).where((e) => e.isNotEmpty).join(",")}); } else { path = path.trimQuery().trimString(\"/\"); final match = _regExp.firstMatch(path.trimQuery().trimString(\"/\")); if (match == null) { return null; } return _\$_${model.name}Query(path, ${model.parameters.map((param) => _defaultParsedValue(path, param, false)).where((e) => e.isNotEmpty).join(",")}); }",
               ),
           ),
         ]),
@@ -215,11 +215,20 @@ List<Class> queryClass(
   ];
 }
 
-String _defaultParsedValue(ParamaterValue param, bool existQuery) {
+String _defaultParsedValue(
+    PathValue path, ParamaterValue param, bool existQuery) {
   if (existQuery) {
     if (param.type.toString().trimStringRight("?") == "String" ||
         param.type.toString().trimStringRight("?") == "Object") {
-      return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
+      final isPageParameter = param.isPageParameter ||
+          path.path.contains(":${param.pageParamName}") ||
+          path.path.contains(":${param.pageParamName.toSnakeCase()}") ||
+          path.path.contains(":${param.pageParamName.toCamelCase()}");
+      if (isPageParameter) {
+        return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
+      } else {
+        return "${param.name}: query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
+      }
     } else if (param.type.toString().trimStringRight("?") == "int") {
       final res = _defaultValue(param);
       if (res == "null") {
@@ -249,7 +258,15 @@ String _defaultParsedValue(ParamaterValue param, bool existQuery) {
   } else {
     if (param.type.toString().trimStringRight("?") == "String" ||
         param.type.toString().trimStringRight("?") == "Object") {
-      return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? ${_defaultValue(param)}";
+      final isPageParameter = param.isPageParameter ||
+          path.path.contains(":${param.pageParamName}") ||
+          path.path.contains(":${param.pageParamName.toSnakeCase()}") ||
+          path.path.contains(":${param.pageParamName.toCamelCase()}");
+      if (isPageParameter) {
+        return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? ${_defaultValue(param)}";
+      } else {
+        return "${param.name}: ${_defaultValue(param)}";
+      }
     } else {
       final res = _defaultValue(param);
       if (res == "null") {
