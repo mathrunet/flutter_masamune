@@ -25,6 +25,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 part 'adapter/universal_masamune_adapter.dart';
 
+part 'extension/text.dart';
+part 'extension/icon.dart';
+part 'extension/structure.dart';
+part 'extension/decoration.dart';
+part 'extension/padding.dart';
+part 'extension/gesture_detector.dart';
+part 'extension/clip.dart';
+
 part 'src/functions.dart';
 part 'src/breakpoint_settings.dart';
 part 'src/breakpoint.dart';

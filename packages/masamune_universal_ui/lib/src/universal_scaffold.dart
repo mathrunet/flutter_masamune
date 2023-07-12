@@ -590,7 +590,9 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     } else if (appBar is PreferredSizeWidget) {
       return appBar;
     }
-    return null;
+    throw Exception(
+      "[appBar] is available only for [AppBar], [UniversalAppBarMixin], and [PreferredSizeWidget].",
+    );
   }
 
   Widget? _buildDrawer(BuildContext context) {
