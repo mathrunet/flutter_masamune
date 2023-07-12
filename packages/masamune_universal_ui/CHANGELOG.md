@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Fixed name coverings in extended methods. ([b8ff8ae9](https://github.com/mathrunet/flutter_masamune/commit/b8ff8ae9b649d001367acfac0d291afed742441b))
+
 ## 2.2.0
 
  - **FEAT**: Added Widget extensions. ([134d2144](https://github.com/mathrunet/flutter_masamune/commit/134d2144822a82e127d0cb30170c9ad08e077ac7))

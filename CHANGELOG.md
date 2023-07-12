@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_universal_ui` - `v2.2.1`](#masamune_universal_ui---v221)
+
+---
+
+#### `masamune_universal_ui` - `v2.2.1`
+
+ - **FIX**: Fixed name coverings in extended methods. ([b8ff8ae9](https://github.com/mathrunet/flutter_masamune/commit/b8ff8ae9b649d001367acfac0d291afed742441b))
+
+
+## 2023-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.15`](#katana_cli---v2315)
 
 ---
