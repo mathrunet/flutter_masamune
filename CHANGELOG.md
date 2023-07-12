@@ -3,6 +3,72 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_ui` - `v2.2.0`](#katana_ui---v220)
+ - [`masamune_universal_ui` - `v2.2.0`](#masamune_universal_ui---v220)
+ - [`masamune_util` - `v2.1.0`](#masamune_util---v210)
+ - [`masamune` - `v2.2.11`](#masamune---v2211)
+ - [`masamune_location` - `v2.1.30`](#masamune_location---v2130)
+ - [`masamune_auth_apple` - `v2.1.22`](#masamune_auth_apple---v2122)
+ - [`masamune_agora` - `v2.2.3`](#masamune_agora---v223)
+ - [`masamune_auth_google` - `v2.1.22`](#masamune_auth_google---v2122)
+ - [`masamune_ai_openai` - `v2.1.19`](#masamune_ai_openai---v2119)
+ - [`masamune_calendar` - `v2.0.65`](#masamune_calendar---v2065)
+ - [`masamune_picker` - `v2.1.21`](#masamune_picker---v2121)
+ - [`masamune_purchase_stripe` - `v3.1.19`](#masamune_purchase_stripe---v3119)
+ - [`masamune_auth_facebook` - `v2.1.24`](#masamune_auth_facebook---v2124)
+ - [`masamune_logger_firebase` - `v2.0.64`](#masamune_logger_firebase---v2064)
+ - [`masamune_location_google` - `v2.1.29`](#masamune_location_google---v2129)
+ - [`masamune_mail` - `v2.1.19`](#masamune_mail---v2119)
+ - [`masamune_notification_firebase` - `v2.1.19`](#masamune_notification_firebase---v2119)
+ - [`masamune_purchase_mobile` - `v2.2.21`](#masamune_purchase_mobile---v2221)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.2.11`
+ - `masamune_location` - `v2.1.30`
+ - `masamune_auth_apple` - `v2.1.22`
+ - `masamune_agora` - `v2.2.3`
+ - `masamune_auth_google` - `v2.1.22`
+ - `masamune_ai_openai` - `v2.1.19`
+ - `masamune_calendar` - `v2.0.65`
+ - `masamune_picker` - `v2.1.21`
+ - `masamune_purchase_stripe` - `v3.1.19`
+ - `masamune_auth_facebook` - `v2.1.24`
+ - `masamune_logger_firebase` - `v2.0.64`
+ - `masamune_location_google` - `v2.1.29`
+ - `masamune_mail` - `v2.1.19`
+ - `masamune_notification_firebase` - `v2.1.19`
+ - `masamune_purchase_mobile` - `v2.2.21`
+
+---
+
+#### `katana_ui` - `v2.2.0`
+
+ - **FEAT**: Added PeriodicScope. ([2b2dce2d](https://github.com/mathrunet/flutter_masamune/commit/2b2dce2df8c1935bb3e4a0295d8f931800afc805))
+
+#### `masamune_universal_ui` - `v2.2.0`
+
+ - **FEAT**: Added Widget extensions. ([134d2144](https://github.com/mathrunet/flutter_masamune/commit/134d2144822a82e127d0cb30170c9ad08e077ac7))
+
+#### `masamune_util` - `v2.1.0`
+
+ - **FEAT**: Added Widget extensions. ([134d2144](https://github.com/mathrunet/flutter_masamune/commit/134d2144822a82e127d0cb30170c9ad08e077ac7))
+
+
 ## 2023-07-12
 
 ### Changes

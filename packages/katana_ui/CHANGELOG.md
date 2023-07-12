@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Added PeriodicScope. ([2b2dce2d](https://github.com/mathrunet/flutter_masamune/commit/2b2dce2df8c1935bb3e4a0295d8f931800afc805))
+
 ## 2.1.7
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Added Widget extensions. ([134d2144](https://github.com/mathrunet/flutter_masamune/commit/134d2144822a82e127d0cb30170c9ad08e077ac7))
+
 ## 2.1.34
 
  - **FIX**: Add displayInvisibleArea to ListView. ([8a7f21dd](https://github.com/mathrunet/flutter_masamune/commit/8a7f21dd35e1d7277d499fc67294019b9324c77a))
