@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_form` - `v2.5.0`](#katana_form---v250)
+ - [`masamune` - `v2.2.9`](#masamune---v229)
+ - [`masamune_location` - `v2.1.28`](#masamune_location---v2128)
+ - [`masamune_auth_apple` - `v2.1.20`](#masamune_auth_apple---v2120)
+ - [`masamune_agora` - `v2.2.1`](#masamune_agora---v221)
+ - [`masamune_auth_google` - `v2.1.20`](#masamune_auth_google---v2120)
+ - [`masamune_ai_openai` - `v2.1.17`](#masamune_ai_openai---v2117)
+ - [`masamune_calendar` - `v2.0.63`](#masamune_calendar---v2063)
+ - [`masamune_picker` - `v2.1.19`](#masamune_picker---v2119)
+ - [`masamune_util` - `v2.0.31`](#masamune_util---v2031)
+ - [`masamune_universal_ui` - `v2.1.33`](#masamune_universal_ui---v2133)
+ - [`masamune_purchase_stripe` - `v3.1.17`](#masamune_purchase_stripe---v3117)
+ - [`masamune_logger_firebase` - `v2.0.62`](#masamune_logger_firebase---v2062)
+ - [`masamune_auth_facebook` - `v2.1.22`](#masamune_auth_facebook---v2122)
+ - [`masamune_location_google` - `v2.1.27`](#masamune_location_google---v2127)
+ - [`masamune_mail` - `v2.1.17`](#masamune_mail---v2117)
+ - [`masamune_notification_firebase` - `v2.1.17`](#masamune_notification_firebase---v2117)
+ - [`masamune_purchase_mobile` - `v2.2.19`](#masamune_purchase_mobile---v2219)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.2.9`
+ - `masamune_location` - `v2.1.28`
+ - `masamune_auth_apple` - `v2.1.20`
+ - `masamune_agora` - `v2.2.1`
+ - `masamune_auth_google` - `v2.1.20`
+ - `masamune_ai_openai` - `v2.1.17`
+ - `masamune_calendar` - `v2.0.63`
+ - `masamune_picker` - `v2.1.19`
+ - `masamune_util` - `v2.0.31`
+ - `masamune_universal_ui` - `v2.1.33`
+ - `masamune_purchase_stripe` - `v3.1.17`
+ - `masamune_logger_firebase` - `v2.0.62`
+ - `masamune_auth_facebook` - `v2.1.22`
+ - `masamune_location_google` - `v2.1.27`
+ - `masamune_mail` - `v2.1.17`
+ - `masamune_notification_firebase` - `v2.1.17`
+ - `masamune_purchase_mobile` - `v2.2.19`
+
+---
+
+#### `katana_form` - `v2.5.0`
+
+ - **FEAT**: Added FormPinField. ([636d5e50](https://github.com/mathrunet/flutter_masamune/commit/636d5e500a692a0d4faad0600ed84b27f5ddb34f))
+
+
 ## 2023-07-11
 
 ### Changes

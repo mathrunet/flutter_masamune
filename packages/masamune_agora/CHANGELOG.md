@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Supported agora_rtc_engine 6.x. ([baeb6a5f](https://github.com/mathrunet/flutter_masamune/commit/baeb6a5f82f59101a4dd38edfb7d545337d40001))

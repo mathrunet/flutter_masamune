@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Added FormPinField. ([636d5e50](https://github.com/mathrunet/flutter_masamune/commit/636d5e500a692a0d4faad0600ed84b27f5ddb34f))
+
 ## 2.4.7
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

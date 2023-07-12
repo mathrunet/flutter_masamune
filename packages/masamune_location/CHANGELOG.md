@@ -1,3 +1,7 @@
+## 2.1.28
+
+ - Update a dependency to the latest release.
+
 ## 2.1.27
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
