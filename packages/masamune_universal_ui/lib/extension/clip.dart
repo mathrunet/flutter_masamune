@@ -3,7 +3,7 @@ part of masamune_universal_ui;
 /// Extension methods for [Widget].
 ///
 /// [Widget]の拡張メソッドです。
-extension UniversalUIDecorationExtensions on Widget {
+extension UniversalUIClipExtensions on Widget {
   /// Set the size of the [Widget] to [width] and [height].
   ///
   /// [Widget]のサイズを[width]と[height]に設定します。
@@ -18,6 +18,9 @@ extension UniversalUIDecorationExtensions on Widget {
     );
   }
 
+  /// Clip [Widget] with a rounded rectangle.
+  ///
+  /// [Widget]を丸みを帯びた四角形でクリップします。
   ClipRRect clipRect({
     BorderRadiusGeometry? borderRadius,
     CustomClipper<RRect>? clipper,
@@ -31,6 +34,9 @@ extension UniversalUIDecorationExtensions on Widget {
     );
   }
 
+  /// Clip [Widget] in a circle.
+  ///
+  /// [Widget]を円形でクリップします。
   ClipOval clipOval({
     CustomClipper<Rect>? clipper,
     Clip clipBehavior = Clip.antiAlias,
