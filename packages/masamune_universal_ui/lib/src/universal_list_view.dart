@@ -73,6 +73,7 @@ class UniversalListView extends StatelessWidget {
     this.showScrollbarWhenDesktopOrWeb = true,
     this.scrollbarRadius,
     this.scrollbarThickness,
+    this.displayInvisibleArea = false,
   })  : assert(
           !(controller != null && primary == true),
           "Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. "
@@ -201,6 +202,11 @@ class UniversalListView extends StatelessWidget {
   /// スクロールバーの角の半径。
   final Radius? scrollbarRadius;
 
+  /// Return `true` if invisible areas should also be drawn.
+  ///
+  /// 見えないエリアも描画しておく場合`true`を返す。
+  final bool displayInvisibleArea;
+
   @override
   Widget build(BuildContext context) {
     final rows = _createRows(context, children);
@@ -235,10 +241,12 @@ class UniversalListView extends StatelessWidget {
                   _padding(
                     context,
                     SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, i) => rows[i],
-                        childCount: rows.length,
-                      ),
+                      delegate: displayInvisibleArea
+                          ? SliverChildListDelegate.fixed(rows)
+                          : SliverChildBuilderDelegate(
+                              (context, i) => rows[i],
+                              childCount: rows.length,
+                            ),
                     ),
                   ),
                 ],
