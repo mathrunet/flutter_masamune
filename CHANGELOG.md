@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.3.1`](#masamune_purchase_mobile---v231)
+
+---
+
+#### `masamune_purchase_mobile` - `v2.3.1`
+
+ - **FIX**: Apply import sorter. ([70dfb6e5](https://github.com/mathrunet/flutter_masamune/commit/70dfb6e52a28d650ea61588cdfe1939e089802fa))
+
+
+## 2023-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.17`](#katana_cli---v2317)
  - [`masamune_purchase_mobile` - `v2.3.0`](#masamune_purchase_mobile---v230)
 
