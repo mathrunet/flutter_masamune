@@ -1,3 +1,7 @@
+## 2.3.17
+
+ - **FIX**: Corresponding to changes in the definition of Functions in node_masamune. ([60acb87c](https://github.com/mathrunet/flutter_masamune/commit/60acb87c61a6bbc575a95eba885ea8685c575626))
+
 ## 2.3.16
 
  - **FIX**: Add font_awesome_flutter to the allOption package. ([b5054374](https://github.com/mathrunet/flutter_masamune/commit/b50543741d4541d3f9b059d974415ddcc5370f81))

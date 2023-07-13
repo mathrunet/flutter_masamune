@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.3.17`](#katana_cli---v2317)
+ - [`masamune_purchase_mobile` - `v2.3.0`](#masamune_purchase_mobile---v230)
+
+---
+
+#### `katana_cli` - `v2.3.17`
+
+ - **FIX**: Corresponding to changes in the definition of Functions in node_masamune. ([60acb87c](https://github.com/mathrunet/flutter_masamune/commit/60acb87c61a6bbc575a95eba885ea8685c575626))
+
+#### `masamune_purchase_mobile` - `v2.3.0`
+
+ - **FEAT**: Web-enabled and available as a mock-up. ([961eff8a](https://github.com/mathrunet/flutter_masamune/commit/961eff8a01b8bcc56fb08f7212fe2fbbf0e71fde))
+
+
+## 2023-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.16`](#katana_cli---v2316)
 
 ---

@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Web-enabled and available as a mock-up. ([961eff8a](https://github.com/mathrunet/flutter_masamune/commit/961eff8a01b8bcc56fb08f7212fe2fbbf0e71fde))
+
 ## 2.2.21
 
  - Update a dependency to the latest release.
