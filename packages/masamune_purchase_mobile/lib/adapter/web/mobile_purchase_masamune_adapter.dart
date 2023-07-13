@@ -21,6 +21,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     required super.products,
     this.automaticallyConsumeOnAndroid = true,
     this.iosSandboxTesting = false,
+    required super.onRetrieveUserId,
   });
 
   /// If you are using an Android device, set to `true` to automatically consume charged items.
@@ -61,7 +62,10 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   }
 
   @override
-  Future<void> purchase(PurchaseProduct product) async {
+  Future<void> purchase({
+    required PurchaseProduct product,
+    required VoidCallback onDone,
+  }) async {
     throw UnsupportedError("Purchasing function is not supported.");
   }
 }

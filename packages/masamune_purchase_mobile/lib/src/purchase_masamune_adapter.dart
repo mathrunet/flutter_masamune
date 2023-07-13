@@ -5,6 +5,7 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
     this.functionsAdapter,
     this.modelAdapter,
     required this.products,
+    required this.onRetrieveUserId,
   });
 
   /// Specify [FunctionsAdapter] for billing validation.
@@ -21,6 +22,11 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   ///
   /// アプリ内で利用する全課金アイテムのリスト。
   final List<PurchaseProduct> products;
+
+  /// Specify a callback to retrieve the user ID in [onRetrieveUserId].
+  ///
+  /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。
+  final String Function() onRetrieveUserId;
 
   /// You can retrieve the [PurchaseMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -87,5 +93,8 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   /// Process the purchase of [product].
   ///
   /// [product]の購入処理を行います。
-  Future<void> purchase(PurchaseProduct product);
+  Future<void> purchase({
+    required PurchaseProduct product,
+    required VoidCallback onDone,
+  });
 }

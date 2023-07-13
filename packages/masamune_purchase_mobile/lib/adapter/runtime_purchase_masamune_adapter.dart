@@ -19,6 +19,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     super.functionsAdapter,
     super.modelAdapter,
     required super.products,
+    required super.onRetrieveUserId,
   });
 
   @override
@@ -64,7 +65,10 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
       null;
 
   @override
-  Future<void> purchase(PurchaseProduct product) async {
+  Future<void> purchase({
+    required PurchaseProduct product,
+    required VoidCallback onDone,
+  }) async {
     if (product is StoreConsumablePurchaseProduct) {
       await product._purchaseForRuntime();
     } else if (product is StoreNonConsumablePurchaseProduct) {
@@ -76,6 +80,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     } else {
       throw Exception("Product not found: ${product.productId}");
     }
+    onDone();
   }
 
   @override

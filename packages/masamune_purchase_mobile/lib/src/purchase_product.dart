@@ -217,9 +217,11 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
         ),
         super(
           productId: product.productId,
+          title: product.title,
+          description: product.description,
+          price: product.price,
           amount: product.amount,
           type: PurchaseProductType.consumable,
-          price: 0.0,
         ) {
     _updateDocument();
   }
@@ -238,7 +240,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   ///
   /// ユーザーID。
   String get userId => _userId;
-  late String _userId;
+  String _userId = "";
 
   _DynamicPurchaseUserDocumentModel? _document;
 
@@ -249,6 +251,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   }
 
   Future<void> _purchaseForRuntime() async {
+    await load();
     await _document?.save({
       kConsumableValueKey:
           (_document?.value.get(kConsumableValueKey, 0.0) ?? 0.0) +
@@ -296,8 +299,10 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
         ),
         super(
           productId: product.productId,
+          title: product.title,
+          description: product.description,
+          price: product.price,
           type: PurchaseProductType.nonConsumable,
-          price: 0.0,
         ) {
     _updateDocument();
   }
@@ -316,7 +321,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   ///
   /// ユーザーID。
   String get userId => _userId;
-  late String _userId;
+  String _userId = "";
 
   _DynamicPurchaseUserDocumentModel? _document;
 
@@ -327,6 +332,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   }
 
   Future<void> _purchaseForRuntime() async {
+    await load();
     await _document?.save({
       productId.toCamelCase(): true,
     });
@@ -372,8 +378,10 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
         ),
         super(
           productId: product.productId,
+          title: product.title,
+          description: product.description,
+          price: product.price,
           type: PurchaseProductType.subscription,
-          price: 0.0,
         ) {
     _updateCollection();
   }
@@ -392,7 +400,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   ///
   /// ユーザーID。
   String get userId => _userId;
-  late String _userId;
+  String _userId = "";
 
   _DynamicPurchaseSubscriptionCollectionModel? _collection;
 
@@ -406,6 +414,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     required String orderId,
   }) async {
     assert(expiredPeriod != null, "[expiredPeriod] is not set.");
+    await load();
     final now = DateTime.now();
     final expiredTime = now.add(expiredPeriod!);
     final doc = _collection?.create();

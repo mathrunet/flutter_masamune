@@ -21,6 +21,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     required super.products,
     this.automaticallyConsumeOnAndroid = true,
     this.iosSandboxTesting = false,
+    required super.onRetrieveUserId,
   });
 
   InAppPurchase get _iap => InAppPurchase.instance;
@@ -406,7 +407,10 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
   }
 
   @override
-  Future<void> purchase(PurchaseProduct product) async {
+  Future<void> purchase({
+    required PurchaseProduct product,
+    required VoidCallback onDone,
+  }) async {
     if (product is _StoreConsumablePurchaseProduct) {
       final purchaseParam = PurchaseParam(
         productDetails: product.productDetails,

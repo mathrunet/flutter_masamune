@@ -90,6 +90,11 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   Completer<void>? _completer;
   // ignore: unused_field
   StreamSubscription? _purchaseUpdateStreamSubscription;
+
+  /// List of valid products.
+  ///
+  /// 有効なプロダクトの一覧。
+  List<PurchaseProduct> get products => _products;
   final List<PurchaseProduct> _products = [];
 
   /// Initialize InAppPurchase.
@@ -99,9 +104,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   /// InAppPurchaseを初期化します。
   ///
   /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。
-  Future<void> initialize({
-    required String Function() onRetrieveUserId,
-  }) async {
+  Future<void> initialize() async {
     if (_initialized) {
       return;
     }
@@ -113,7 +116,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
       _products.clear();
       _products.addAll(
         await adapter.getProducts(
-          onRetrieveUserId: onRetrieveUserId,
+          onRetrieveUserId: adapter.onRetrieveUserId,
         ),
       );
       for (final product in _products) {
@@ -207,7 +210,13 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
     }
     _completer = Completer<void>();
     try {
-      await adapter.purchase(found);
+      await adapter.purchase(
+        product: found,
+        onDone: () {
+          _completer?.complete();
+          _completer = null;
+        },
+      );
       await _completer?.future;
       _completer?.complete();
       _completer = null;
