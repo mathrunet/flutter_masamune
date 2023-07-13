@@ -1,3 +1,7 @@
+## 2.3.16
+
+ - **FIX**: Add font_awesome_flutter to the allOption package. ([b5054374](https://github.com/mathrunet/flutter_masamune/commit/b50543741d4541d3f9b059d974415ddcc5370f81))
+
 ## 2.3.15
 
  - **FIX**: Add new packages when creating a project. ([c7b3968f](https://github.com/mathrunet/flutter_masamune/commit/c7b3968f6c1858c214cc1f453ce654b08435dc28))
