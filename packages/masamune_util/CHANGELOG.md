@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FEAT**: Added Widget extensions. ([134d2144](https://github.com/mathrunet/flutter_masamune/commit/134d2144822a82e127d0cb30170c9ad08e077ac7))

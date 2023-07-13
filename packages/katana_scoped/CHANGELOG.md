@@ -1,3 +1,7 @@
+## 2.0.12
+
+ - **FIX**: Added default ScopedExtension. ([d295e923](https://github.com/mathrunet/flutter_masamune/commit/d295e923b35554328aac83ff6dd16f7c0d0cd819))
+
 ## 2.0.11
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

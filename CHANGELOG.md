@@ -15,6 +15,72 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v2.0.12`](#katana_scoped---v2012)
+ - [`masamune` - `v2.2.12`](#masamune---v2212)
+ - [`masamune_purchase_mobile` - `v2.3.3`](#masamune_purchase_mobile---v233)
+ - [`masamune_location` - `v2.1.31`](#masamune_location---v2131)
+ - [`masamune_auth_apple` - `v2.1.23`](#masamune_auth_apple---v2123)
+ - [`masamune_agora` - `v2.2.4`](#masamune_agora---v224)
+ - [`masamune_auth_google` - `v2.1.23`](#masamune_auth_google---v2123)
+ - [`masamune_ai_openai` - `v2.1.20`](#masamune_ai_openai---v2120)
+ - [`masamune_calendar` - `v2.0.66`](#masamune_calendar---v2066)
+ - [`masamune_picker` - `v2.1.22`](#masamune_picker---v2122)
+ - [`masamune_util` - `v2.1.1`](#masamune_util---v211)
+ - [`masamune_universal_ui` - `v2.2.2`](#masamune_universal_ui---v222)
+ - [`masamune_purchase_stripe` - `v3.1.20`](#masamune_purchase_stripe---v3120)
+ - [`masamune_logger_firebase` - `v2.0.65`](#masamune_logger_firebase---v2065)
+ - [`masamune_auth_facebook` - `v2.1.25`](#masamune_auth_facebook---v2125)
+ - [`masamune_location_google` - `v2.1.30`](#masamune_location_google---v2130)
+ - [`masamune_mail` - `v2.1.20`](#masamune_mail---v2120)
+ - [`masamune_notification_firebase` - `v2.1.20`](#masamune_notification_firebase---v2120)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.31`
+ - `masamune_auth_apple` - `v2.1.23`
+ - `masamune_agora` - `v2.2.4`
+ - `masamune_auth_google` - `v2.1.23`
+ - `masamune_ai_openai` - `v2.1.20`
+ - `masamune_calendar` - `v2.0.66`
+ - `masamune_picker` - `v2.1.22`
+ - `masamune_util` - `v2.1.1`
+ - `masamune_universal_ui` - `v2.2.2`
+ - `masamune_purchase_stripe` - `v3.1.20`
+ - `masamune_logger_firebase` - `v2.0.65`
+ - `masamune_auth_facebook` - `v2.1.25`
+ - `masamune_location_google` - `v2.1.30`
+ - `masamune_mail` - `v2.1.20`
+ - `masamune_notification_firebase` - `v2.1.20`
+
+---
+
+#### `katana_scoped` - `v2.0.12`
+
+ - **FIX**: Added default ScopedExtension. ([d295e923](https://github.com/mathrunet/flutter_masamune/commit/d295e923b35554328aac83ff6dd16f7c0d0cd819))
+
+#### `masamune` - `v2.2.12`
+
+ - **FIX**: Added default ScopedExtension. ([7e5a60a2](https://github.com/mathrunet/flutter_masamune/commit/7e5a60a21c95f4b4a00231bb1f6ed60143400698))
+
+#### `masamune_purchase_mobile` - `v2.3.3`
+
+ - **FIX**: Fixed a bug corresponding to RuntimePurchaseAdapter. ([db3847cf](https://github.com/mathrunet/flutter_masamune/commit/db3847cfff3a0863b2b2f7e20fb964154c463675))
+
+
+## 2023-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_mobile` - `v2.3.2`](#masamune_purchase_mobile---v232)
 
 ---

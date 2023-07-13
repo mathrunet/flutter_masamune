@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Fixed name coverings in extended methods. ([b8ff8ae9](https://github.com/mathrunet/flutter_masamune/commit/b8ff8ae9b649d001367acfac0d291afed742441b))

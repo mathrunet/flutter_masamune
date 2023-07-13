@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - **FIX**: Fixed a bug corresponding to RuntimePurchaseAdapter. ([db3847cf](https://github.com/mathrunet/flutter_masamune/commit/db3847cfff3a0863b2b2f7e20fb964154c463675))
+
 ## 2.3.2
 
  - **FIX**: Make sure that the Web is put out on the Platform. ([c5249455](https://github.com/mathrunet/flutter_masamune/commit/c524945534e73835438de6286e95384b1bbe071d))

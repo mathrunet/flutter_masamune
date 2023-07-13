@@ -1,3 +1,7 @@
+## 2.2.12
+
+ - **FIX**: Added default ScopedExtension. ([7e5a60a2](https://github.com/mathrunet/flutter_masamune/commit/7e5a60a21c95f4b4a00231bb1f6ed60143400698))
+
 ## 2.2.11
 
  - Update a dependency to the latest release.
