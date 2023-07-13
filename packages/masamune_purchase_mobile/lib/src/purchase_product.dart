@@ -1,35 +1,5 @@
 part of masamune_purchase_mobile;
 
-/// The key of the internal wallet when a [PurchaseProductType.consumable] chargeable item is purchased.
-///
-/// [PurchaseProductType.consumable]な課金アイテムを購入した場合の内部ウォレットのキー。
-const kConsumableValueKey = "value";
-
-/// A key used to determine if a [PurchaseProductType.subscription] chargeable item has been purchased and is within the expiration date.
-///
-/// [PurchaseProductType.subscription]な課金アイテムを購入した場合の有効期限内かどうかを判別するためのキー。
-const kSubscriptionExpiredKey = "expired";
-
-/// Defines the type of item being charged for.
-///
-/// 課金アイテムのタイプを定義します。
-enum PurchaseProductType {
-  /// Consumption type (wallet type)
-  ///
-  /// 消費型（ウォレットタイプ）
-  consumable,
-
-  /// Non-consumption type (function unlocked type)
-  ///
-  /// 非消費型（機能アンロックタイプ）
-  nonConsumable,
-
-  /// Subscription.
-  ///
-  /// サブスクリプション。
-  subscription,
-}
-
 /// Define chargeable items.
 ///
 /// PurchaseProduct.wallet] to create a wallet type billing item, [PurchaseProduct.unlock] to create a feature unlock type billing item, [PurchaseProduct.subscription] to Create a subscription with [PurchaseProduct.subscription].
@@ -55,6 +25,8 @@ class PurchaseProduct {
   ///
   /// The [title], [description], and [price] are overwritten when the charged item is loaded from the store.
   ///
+  /// [expiredPeriod] allows you to specify the duration of the subscription for testing.
+  ///
   /// 課金アイテムの定義を行います。
   ///
   /// [PurchaseProduct.wallet]でウォレットタイプの課金アイテムを作成し、[PurchaseProduct.unlock]で機能アンロックタイプの課金アイテムを作成、[PurchaseProduct.subscription]でサブスクリプションを作成します。
@@ -62,6 +34,8 @@ class PurchaseProduct {
   /// [productId]をストア側のIDと必ず合わせるようにしてください。
   ///
   /// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
+  ///
+  /// [expiredPeriod]を指定するとテスト用のサブスクリプションの期間を指定することができます。
   const PurchaseProduct({
     required this.productId,
     required this.type,
@@ -69,6 +43,7 @@ class PurchaseProduct {
     this.title = "",
     this.description = "",
     required this.price,
+    this.expiredPeriod,
   });
 
   /// Define chargeable items.
@@ -92,7 +67,8 @@ class PurchaseProduct {
     this.title = "",
     this.description = "",
     required this.price,
-  }) : type = PurchaseProductType.consumable;
+  })  : type = PurchaseProductType.consumable,
+        expiredPeriod = null;
 
   /// Define chargeable items.
   ///
@@ -115,7 +91,8 @@ class PurchaseProduct {
     this.description = "",
     required this.price,
   })  : type = PurchaseProductType.nonConsumable,
-        amount = null;
+        amount = null,
+        expiredPeriod = null;
 
   /// Define chargeable items.
   ///
@@ -125,6 +102,8 @@ class PurchaseProduct {
   ///
   /// The [title], [description], and [price] are overwritten when the charged item is loaded from the store.
   ///
+  /// [expiredPeriod] allows you to specify the duration of the subscription for testing.
+  ///
   /// 課金アイテムの定義を行います。
   ///
   /// [PurchaseProduct.wallet]でウォレットタイプの課金アイテムを作成し、[PurchaseProduct.unlock]で機能アンロックタイプの課金アイテムを作成、[PurchaseProduct.subscription]でサブスクリプションを作成します。
@@ -132,11 +111,14 @@ class PurchaseProduct {
   /// [productId]をストア側のIDと必ず合わせるようにしてください。
   ///
   /// [title]や[description]、[price]は課金アイテムをストアからロードした際に上書きされます。
+  ///
+  /// [expiredPeriod]を指定するとテスト用のサブスクリプションの期間を指定することができます。
   const PurchaseProduct.subscription({
     required this.productId,
     this.title = "",
     this.description = "",
     required this.price,
+    this.expiredPeriod,
   })  : type = PurchaseProductType.subscription,
         amount = null;
 
@@ -174,6 +156,11 @@ class PurchaseProduct {
   /// 課金アイテムの値段（仮）。
   final double price;
 
+  /// Period of validity.
+  ///
+  /// 有効期限の期間。
+  final Duration? expiredPeriod;
+
   /// Text with the currency mark of the item charged.
   ///
   /// 課金アイテムの通貨マークを付与したテキスト。
@@ -199,37 +186,6 @@ class PurchaseProduct {
   /// [load]を実行した後ロードに成功していれば、実データをここから取得することができます。
   PurchaseProductValue? get value => null;
 
-  PurchaseProduct _copyWith({
-    required ProductDetails productDetails,
-    required String Function() onRetrieveUserId,
-    ModelAdapter? adapter,
-  }) {
-    switch (type) {
-      case PurchaseProductType.consumable:
-        return _StoreConsumablePurchaseProduct(
-          productId: productId,
-          amount: amount,
-          onRetrieveUserId: onRetrieveUserId,
-          productDetails: productDetails,
-          adapter: adapter,
-        );
-      case PurchaseProductType.nonConsumable:
-        return _StoreNonConsumablePurchaseProduct(
-          productId: productId,
-          onRetrieveUserId: onRetrieveUserId,
-          productDetails: productDetails,
-          adapter: adapter,
-        );
-      case PurchaseProductType.subscription:
-        return _StoreSubscriptionPurchaseProduct(
-          productId: productId,
-          onRetrieveUserId: onRetrieveUserId,
-          productDetails: productDetails,
-          adapter: adapter,
-        );
-    }
-  }
-
   @override
   int get hashCode =>
       productId.hashCode ^
@@ -242,209 +198,261 @@ class PurchaseProduct {
   bool operator ==(Object other) => hashCode == other.hashCode;
 }
 
-/// Actual data for [PurchaseProduct].
+/// Define billing items that are [PurchaseProductType.consumable].
 ///
-/// [PurchaseProduct]の実データ。
-@immutable
-class PurchaseProductValue {
-  /// Actual data for [PurchaseProduct].
-  ///
-  /// [PurchaseProduct]の実データ。
-  const PurchaseProductValue({
-    this.amount = 0.0,
-    this.active = false,
-  });
-
-  /// Current wallet value.
-  ///
-  /// The value is obtained in the billing item of [PurchaseProductType.consumable].
-  ///
-  /// 現在のウォレットの値。
-  ///
-  /// [PurchaseProductType.consumable]の課金アイテムにて値が取得されています。
-  final double amount;
-
-  /// Returns `true` if the function is currently enabled.
-  ///
-  /// The [PurchaseProductType.nonConsumable] and [PurchaseProductType.subscription] will tell you if the functionality is unlocked due to billing.
-  ///
-  /// 現在機能が有効な場合`true`を返します。
-  ///
-  /// [PurchaseProductType.nonConsumable]や[PurchaseProductType.subscription]で課金により機能がアンロックされてかどうかを知ることができます。
-  final bool active;
-
-  @override
-  int get hashCode => amount.hashCode ^ active.hashCode;
-
-  @override
-  bool operator ==(Object other) => hashCode == other.hashCode;
-}
-
+/// [PurchaseProductType.consumable]な課金アイテムを定義します。
 // ignore: must_be_immutable
-class _StoreConsumablePurchaseProduct extends PurchaseProduct {
-  _StoreConsumablePurchaseProduct({
-    required super.productId,
-    super.amount,
+class StoreConsumablePurchaseProduct extends PurchaseProduct
+    with ChangeNotifier {
+  /// Define billing items that are [PurchaseProductType.consumable].
+  ///
+  /// [PurchaseProductType.consumable]な課金アイテムを定義します。
+  StoreConsumablePurchaseProduct({
+    required PurchaseProduct product,
     required this.onRetrieveUserId,
-    required this.productDetails,
     this.adapter,
-  }) : super(type: PurchaseProductType.consumable, price: 0.0) {
+  })  : assert(
+          product.type == PurchaseProductType.consumable,
+          "[product] does not match [PurchaseProductType.consumable].",
+        ),
+        super(
+          productId: product.productId,
+          amount: product.amount,
+          type: PurchaseProductType.consumable,
+          price: 0.0,
+        ) {
     _updateDocument();
   }
 
-  final ProductDetails productDetails;
+  /// Callback to obtain user ID.
+  ///
+  /// ユーザーIDを取得するためのコールバック。
   final String Function() onRetrieveUserId;
+
+  /// Adapters for models.
+  ///
+  /// モデル用のアダプター。
   final ModelAdapter? adapter;
 
-  @override
-  String get title => productDetails.title;
+  /// User ID.
+  ///
+  /// ユーザーID。
+  String get userId => _userId;
+  late String _userId;
 
-  @override
-  String get description => productDetails.description;
-
-  @override
-  double get price => productDetails.rawPrice;
-
-  @override
-  String get priceText => productDetails.price;
-
-  late String userId;
-  late _DynamicPurchaseUserModel document;
+  _DynamicPurchaseUserDocumentModel? _document;
 
   @override
   Future<void> load() async {
     _updateDocument();
-    await document.load();
+    await _document?.load();
+  }
+
+  Future<void> _purchaseForRuntime() async {
+    await _document?.save({
+      kConsumableValueKey:
+          (_document?.value.get(kConsumableValueKey, 0.0) ?? 0.0) +
+              (amount ?? 0.0),
+    });
   }
 
   @override
   PurchaseProductValue? get value {
-    _updateDocument();
     return PurchaseProductValue(
-      amount: document.value.get(kConsumableValueKey, 0.0),
+      amount: _document?.value.get(kConsumableValueKey, 0.0) ?? 0.0,
     );
   }
 
   void _updateDocument() {
     final updated = onRetrieveUserId();
-    if (userId != updated) {
-      document = _DynamicPurchaseUserModel(
-        userId,
+    if (_userId != updated) {
+      _userId = updated;
+      _document?.removeListener(notifyListeners);
+      _document?.dispose();
+      _document = _DynamicPurchaseUserDocumentModel(
+        _userId,
       );
+      _document?.addListener(notifyListeners);
     }
   }
 }
 
+/// Define billing items that are [PurchaseProductType.nonConsumable].
+///
+/// [PurchaseProductType.nonConsumable]な課金アイテムを定義します。
 // ignore: must_be_immutable
-class _StoreNonConsumablePurchaseProduct extends PurchaseProduct {
-  _StoreNonConsumablePurchaseProduct({
-    required super.productId,
+class StoreNonConsumablePurchaseProduct extends PurchaseProduct
+    with ChangeNotifier {
+  /// Define billing items that are [PurchaseProductType.nonConsumable].
+  ///
+  /// [PurchaseProductType.nonConsumable]な課金アイテムを定義します。
+  StoreNonConsumablePurchaseProduct({
+    required PurchaseProduct product,
     required this.onRetrieveUserId,
-    required this.productDetails,
     this.adapter,
-  }) : super(type: PurchaseProductType.nonConsumable, price: 0.0) {
+  })  : assert(
+          product.type == PurchaseProductType.nonConsumable,
+          "[product] does not match [PurchaseProductType.nonConsumable].",
+        ),
+        super(
+          productId: product.productId,
+          type: PurchaseProductType.nonConsumable,
+          price: 0.0,
+        ) {
     _updateDocument();
   }
 
-  final ProductDetails productDetails;
+  /// Callback to obtain user ID.
+  ///
+  /// ユーザーIDを取得するためのコールバック。
   final String Function() onRetrieveUserId;
+
+  /// Adapters for models.
+  ///
+  /// モデル用のアダプター。
   final ModelAdapter? adapter;
 
-  @override
-  String get title => productDetails.title;
+  /// User ID.
+  ///
+  /// ユーザーID。
+  String get userId => _userId;
+  late String _userId;
 
-  @override
-  String get description => productDetails.description;
-
-  @override
-  double get price => productDetails.rawPrice;
-
-  @override
-  String get priceText => productDetails.price;
-
-  late String userId;
-  late _DynamicPurchaseUserModel document;
+  _DynamicPurchaseUserDocumentModel? _document;
 
   @override
   Future<void> load() async {
     _updateDocument();
-    await document.load();
+    await _document?.load();
+  }
+
+  Future<void> _purchaseForRuntime() async {
+    await _document?.save({
+      productId.toCamelCase(): true,
+    });
   }
 
   @override
   PurchaseProductValue? get value {
-    _updateDocument();
     return PurchaseProductValue(
-      active: document.value.get(productId.toCamelCase(), false),
+      active: _document?.value.get(productId.toCamelCase(), false) ?? false,
     );
   }
 
   void _updateDocument() {
     final updated = onRetrieveUserId();
-    if (userId != updated) {
-      document = _DynamicPurchaseUserModel(
-        userId,
+    if (_userId != updated) {
+      _userId = updated;
+      _document?.removeListener(notifyListeners);
+      _document?.dispose();
+      _document = _DynamicPurchaseUserDocumentModel(
+        _userId,
       );
+      _document?.addListener(notifyListeners);
     }
   }
 }
 
+/// Define billing items that are [PurchaseProductType.subscription].
+///
+/// [PurchaseProductType.subscription]な課金アイテムを定義します。
 // ignore: must_be_immutable
-class _StoreSubscriptionPurchaseProduct extends PurchaseProduct {
-  _StoreSubscriptionPurchaseProduct({
-    required super.productId,
+class StoreSubscriptionPurchaseProduct extends PurchaseProduct
+    with ChangeNotifier {
+  /// Define billing items that are [PurchaseProductType.subscription].
+  ///
+  /// [PurchaseProductType.subscription]な課金アイテムを定義します。
+  StoreSubscriptionPurchaseProduct({
+    required PurchaseProduct product,
     required this.onRetrieveUserId,
-    required this.productDetails,
     this.adapter,
-  }) : super(type: PurchaseProductType.subscription, price: 0.0) {
-    _updateDocument();
+  })  : assert(
+          product.type == PurchaseProductType.subscription,
+          "[product] does not match [PurchaseProductType.subscription].",
+        ),
+        super(
+          productId: product.productId,
+          type: PurchaseProductType.subscription,
+          price: 0.0,
+        ) {
+    _updateCollection();
   }
 
-  final ProductDetails productDetails;
+  /// Callback to obtain user ID.
+  ///
+  /// ユーザーIDを取得するためのコールバック。
   final String Function() onRetrieveUserId;
+
+  /// Adapters for models.
+  ///
+  /// モデル用のアダプター。
   final ModelAdapter? adapter;
 
-  @override
-  String get title => productDetails.title;
+  /// User ID.
+  ///
+  /// ユーザーID。
+  String get userId => _userId;
+  late String _userId;
 
-  @override
-  String get description => productDetails.description;
-
-  @override
-  double get price => productDetails.rawPrice;
-
-  @override
-  String get priceText => productDetails.price;
-
-  late String userId;
-  late _DynamicPurchaseUserModel document;
+  _DynamicPurchaseSubscriptionCollectionModel? _collection;
 
   @override
   Future<void> load() async {
-    _updateDocument();
-    await document.load();
+    _updateCollection();
+    await _collection?.load();
+  }
+
+  Future<void> _purchaseForRuntime({
+    required String orderId,
+  }) async {
+    assert(expiredPeriod != null, "[expiredPeriod] is not set.");
+    final now = DateTime.now();
+    final expiredTime = now.add(expiredPeriod!);
+    final doc = _collection?.create();
+    await doc?.save(
+      PurchaseSubscriptionModel(
+        userId: _userId,
+        orderId: orderId,
+        productId: productId,
+        expired: now.isAfter(expiredTime),
+        expiredTime: expiredTime.millisecondsSinceEpoch,
+      ).toJson(),
+    );
   }
 
   @override
   PurchaseProductValue? get value {
-    _updateDocument();
     return PurchaseProductValue(
-      active: document.value.get(kSubscriptionExpiredKey, false),
+      active: _collection?.any(
+            (e) => !e.value.get(kSubscriptionExpiredKey, true),
+          ) ??
+          false,
     );
   }
 
-  void _updateDocument() {
+  void _updateCollection() {
     final updated = onRetrieveUserId();
-    if (userId != updated) {
-      document = _DynamicPurchaseUserModel(
-        userId,
+    if (_userId != updated) {
+      _userId = updated;
+      _collection?.removeListener(notifyListeners);
+      _collection?.dispose();
+      _collection = _DynamicPurchaseSubscriptionCollectionModel(
+        userId: updated,
       );
+      _collection?.addListener(notifyListeners);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _collection?.removeListener(notifyListeners);
+    _collection?.dispose();
   }
 }
 
-class _DynamicPurchaseUserModel extends DocumentBase<DynamicMap> {
-  _DynamicPurchaseUserModel(
+class _DynamicPurchaseUserDocumentModel extends DocumentBase<DynamicMap> {
+  _DynamicPurchaseUserDocumentModel(
     String userId, {
     ModelAdapter? adapter,
   }) : super(
@@ -459,5 +467,46 @@ class _DynamicPurchaseUserModel extends DocumentBase<DynamicMap> {
   @override
   DynamicMap toMap(DynamicMap value) {
     return ModelFieldValue.toMap(value);
+  }
+}
+
+class _DynamicPurchaseSubscriptionDocumentModel
+    extends DocumentBase<DynamicMap> {
+  _DynamicPurchaseSubscriptionDocumentModel(
+    String subscriptionId, {
+    ModelAdapter? adapter,
+  }) : super(
+          PurchaseSubscriptionModel.document(subscriptionId, adapter: adapter)
+              .modelQuery,
+        );
+
+  @override
+  DynamicMap fromMap(DynamicMap map) {
+    return ModelFieldValue.fromMap(map);
+  }
+
+  @override
+  DynamicMap toMap(DynamicMap value) {
+    return ModelFieldValue.toMap(value);
+  }
+}
+
+class _DynamicPurchaseSubscriptionCollectionModel
+    extends CollectionBase<_DynamicPurchaseSubscriptionDocumentModel> {
+  _DynamicPurchaseSubscriptionCollectionModel({
+    required String userId,
+    ModelAdapter? adapter,
+  }) : super(
+          PurchaseSubscriptionModel.collection(adapter: adapter)
+              .equal(PurchaseSubscriptionModelCollectionKey.userId, userId)
+              .modelQuery,
+        );
+
+  @override
+  _DynamicPurchaseSubscriptionDocumentModel create([String? id]) {
+    return _DynamicPurchaseSubscriptionDocumentModel(
+      id ?? uuid,
+      adapter: modelQuery.adapter,
+    );
   }
 }
