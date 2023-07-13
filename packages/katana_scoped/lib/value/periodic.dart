@@ -35,6 +35,39 @@ extension RefPeriodicExtensions on PageOrWidgetScopedValueRef {
   }
 }
 
+/// Provides extension methods for [RefHasPage] to perform periodic processing.
+///
+/// 定期処理を行うための[RefHasPage]用の拡張メソッドを提供します。
+extension RefHasPagePeriodicExtensions on RefHasPage {
+  /// Periodic processing.
+  ///
+  /// [callback] is executed at [duration] intervals.
+  ///
+  /// The start time and current time [DateTime] are passed each time so that processing can be performed based on them.
+  ///
+  /// If [name] is specified, it can be registered as a separate task.
+  ///
+  /// 定期処理を行います。
+  ///
+  /// [duration]間隔で[callback]が実行されます。
+  ///
+  /// 毎回開始時刻と現在時刻の[DateTime]が渡されるのでそれを元に処理を行うことができます。
+  ///
+  /// [name]を指定すると別のタスクとして登録することができます。
+  Timer periodic(
+    FutureOr<void> Function(DateTime currentTime, DateTime startTime)
+        callback, {
+    required Duration duration,
+    String? name,
+  }) {
+    return page.periodic(
+      (currentTime, startTime) => null,
+      duration: duration,
+      name: name,
+    );
+  }
+}
+
 @immutable
 class _PeriodicValue extends ScopedValue<Timer> {
   const _PeriodicValue({

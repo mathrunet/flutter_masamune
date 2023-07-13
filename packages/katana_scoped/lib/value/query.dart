@@ -44,6 +44,43 @@ extension RefQueryExtensions on Ref {
   }
 }
 
+/// Provides an extension method for [RefHasApp] to manage state using [ScopedQuery].
+///
+/// [ScopedQuery]を用いた状態管理を行うための[RefHasApp]用の拡張メソッドを提供します。
+extension RefHasAppQueryExtensions on RefHasApp {
+  /// It is possible to manage the status by passing [query].
+  ///
+  /// Defining [ScopedQuery] in a global scope allows you to manage state individually and safely.
+  ///
+  /// [ScopedQuery] allows you to cache all values, while [ChangeNotifierScopedQuery] monitors values and notifies updates when they change.
+  ///
+  /// [query]を渡して状態を管理することが可能です。
+  ///
+  /// [ScopedQuery]をグローバルなスコープに定義しておくことで状態を個別に安全に管理することができます。
+  ///
+  /// [ScopedQuery]を使うとすべての値をキャッシュすることができ、[ChangeNotifierScopedQuery]を使うと値を監視して変更時に更新通知を行います。
+  ///
+  /// ```dart
+  /// final valueNotifierQuery = ChangeNotifierScopedQuery(
+  ///   () => ValueNotifier(0),
+  /// );
+  ///
+  /// class TestPage extends PageScopedWidget {
+  ///   @override
+  ///   Widget build(BuildContext context, PageRef ref) {
+  ///     final valueNotifier = ref.query(valueNotifierQuery);
+  ///
+  ///     return Scaffold(
+  ///       body: Center(child: Text("${valueNotifier.value}")),
+  ///     );
+  ///   }
+  /// }
+  /// ```
+  T query<T>(ScopedQuery<T> query) {
+    return app.query(query);
+  }
+}
+
 @immutable
 class _QueryValue<T> extends ScopedValue<T> {
   const _QueryValue({

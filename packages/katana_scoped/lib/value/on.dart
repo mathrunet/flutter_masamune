@@ -34,6 +34,38 @@ extension RefOnExtensions on PageOrWidgetScopedValueRef {
   }
 }
 
+/// Provides extension methods for [RefHasPage] for processing in the lifecycle.
+///
+/// ライフサイクルにおける処理を行うための[RefHasPage]用の拡張メソッドを提供します。
+extension RefHasPageOnExtensions on RefHasPage {
+  /// Processing in the lifecycle.
+  ///
+  /// The process passed to [initOrUpdate] is executed the first time and when [keys] is passed a value different from the previous value.
+  ///
+  /// [initOrUpdate] can return [FutureOr]. In that case, [OnContext] is returned, so the end can be detected by [OnContext.initOrUpdating] there, such as [FutureBuilder].
+  ///
+  /// If [disposed] is specified, you can pass the process to be executed when the widget is disposed.
+  ///
+  /// ライフサイクルにおける処理を行います。
+  ///
+  /// [initOrUpdate]に渡した処理が初回、および[keys]が前の値と違う値が渡されたタイミングで実行されます。
+  ///
+  /// [initOrUpdate]は[FutureOr]を返すことができます。その場合、[OnContext]が返されるためそこの[OnContext.initOrUpdating]で終了を[FutureBuilder]等で検知することができます。
+  ///
+  /// [disposed]を指定すると、ウィジェットが破棄される際に実行される処理を渡すことができます。
+  OnContext on({
+    FutureOr<void> Function()? initOrUpdate,
+    VoidCallback? disposed,
+    List<Object> keys = const [],
+  }) {
+    return page.on(
+      initOrUpdate: initOrUpdate,
+      disposed: disposed,
+      keys: keys,
+    );
+  }
+}
+
 @immutable
 class _OnValue extends ScopedValue<OnContext> {
   const _OnValue({

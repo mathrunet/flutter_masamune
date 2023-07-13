@@ -15,6 +15,18 @@ extension RefRefreshExtensions on PageOrWidgetScopedValueRef {
   }
 }
 
+/// Provides an extension method for [RefHasPage] to update the widget.
+///
+/// ウィジェットの更新を行うための[RefHasPage]用の拡張メソッドを提供します。
+extension RefHasPageRefreshExtensions on RefHasPage {
+  /// When executed, it redraws the associated widget.
+  ///
+  /// 実行すると関連するウィジェットの再描画を行ないます。
+  void refresh() {
+    return page.refresh();
+  }
+}
+
 @immutable
 class _RefreshValue extends ScopedValue<void> {
   const _RefreshValue();
