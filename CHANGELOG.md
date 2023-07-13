@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.3.2`](#masamune_purchase_mobile---v232)
+
+---
+
+#### `masamune_purchase_mobile` - `v2.3.2`
+
+ - **FIX**: Make sure that the Web is put out on the Platform. ([c5249455](https://github.com/mathrunet/flutter_masamune/commit/c524945534e73835438de6286e95384b1bbe071d))
+
+
+## 2023-07-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_mobile` - `v2.3.1`](#masamune_purchase_mobile---v231)
 
 ---

@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - **FIX**: Make sure that the Web is put out on the Platform. ([c5249455](https://github.com/mathrunet/flutter_masamune/commit/c524945534e73835438de6286e95384b1bbe071d))
+
 ## 2.3.1
 
  - **FIX**: Apply import sorter. ([70dfb6e5](https://github.com/mathrunet/flutter_masamune/commit/70dfb6e52a28d650ea61588cdfe1939e089802fa))
