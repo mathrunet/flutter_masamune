@@ -82,8 +82,8 @@ class MailGmailCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "gmail")) {
-      functions.functions.add("gmail");
+    if (!functions.functions.any((e) => e == "gmail()")) {
+      functions.functions.add("gmail()");
     }
     await functions.save();
     await command(

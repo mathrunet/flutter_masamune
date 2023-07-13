@@ -446,28 +446,28 @@ class StripeCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "stripe")) {
-      functions.functions.add("stripe");
+    if (!functions.functions.any((e) => e == "stripe()")) {
+      functions.functions.add("stripe()");
     }
-    if (!functions.functions.any((e) => e == "stripeWebhook")) {
-      functions.functions.add("stripeWebhook");
+    if (!functions.functions.any((e) => e == "stripeWebhook()")) {
+      functions.functions.add("stripeWebhook()");
     }
-    if (!functions.functions.any((e) => e == "stripeWebhookSecure")) {
-      functions.functions.add("stripeWebhookSecure");
+    if (!functions.functions.any((e) => e == "stripeWebhookSecure()")) {
+      functions.functions.add("stripeWebhookSecure()");
     }
     if (enableConnect &&
-        !functions.functions.any((e) => e == "stripeWebhookConnect")) {
-      functions.functions.add("stripeWebhookConnect");
+        !functions.functions.any((e) => e == "stripeWebhookConnect()")) {
+      functions.functions.add("stripeWebhookConnect()");
     }
     switch (emailProvider) {
       case "gmail":
-        if (!functions.functions.any((e) => e == "gmail")) {
-          functions.functions.add("gmail");
+        if (!functions.functions.any((e) => e == "gmail()")) {
+          functions.functions.add("gmail()");
         }
         break;
       default:
-        if (!functions.functions.any((e) => e == "sendGrid")) {
-          functions.functions.add("sendGrid");
+        if (!functions.functions.any((e) => e == "sendGrid()")) {
+          functions.functions.add("sendGrid()");
         }
         break;
     }

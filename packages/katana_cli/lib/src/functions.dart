@@ -11,7 +11,7 @@ class Fuctions {
   Fuctions();
 
   static final _regExp = RegExp(
-    r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?([\s\S]*?{(?<topics>[^}]*?)},?)?[\s\S]*\);",
+    r"m.deploy\([\s\S]*?exports,[\s\S]*?\[(?<regions>[^\]]*?)\],[\s\S]*?\[(?<functions>[^\]]*?)\],?[\s\S]*\);",
   );
 
   /// Original text data.
@@ -31,12 +31,6 @@ class Fuctions {
   /// Regionの一覧。
   List<String> get regions => _regions;
   late List<String> _regions;
-
-  /// List of Topic.
-  ///
-  /// Topicの一覧。
-  Map<String, String> get topics => _topics;
-  late Map<String, String> _topics;
 
   /// Data loading.
   ///
@@ -62,15 +56,6 @@ class Fuctions {
             .where((e) => e.isNotEmpty)
             .toList() ??
         [];
-    _topics = region
-            .namedGroup("topics")
-            ?.split(",")
-            .where((e) => e.contains(":"))
-            .toMap((e) {
-          final entry = e.trim().split(":");
-          return MapEntry(entry[0].trim(), entry[1].trim());
-        }) ??
-        {};
   }
 
   /// Data storage.
@@ -87,9 +72,6 @@ m.deploy(
   [
 ${functions.map((e) => "    m.Functions.$e,").join("\n")}
   ],
-  {
-${topics.toList((k, v) => "    $k: $v,").join("\n")}
-  },
 );""");
     final gradle = File("firebase/functions/src/index.ts");
     await gradle.writeAsString(_rawData);

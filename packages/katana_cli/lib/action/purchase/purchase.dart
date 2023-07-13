@@ -48,6 +48,7 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final googlePlayClientId = googlePlay.get("oauth_client_id", "");
     final googlePlayClientSecret = googlePlay.get("oauth_client_secret", "");
     final googlePlayRefreshToken = googlePlay.get("refresh_token", "");
+    final googlePlayPubsubTopic = googlePlay.get("pubsub_topic", "");
     final appStoreSharedSecret = appStore.get("shared_secret", "");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
@@ -73,6 +74,13 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         error(
           "The item [purchase]->[google_play]->[refresh_token] is empty. Please set it."
           "After entering [purchase]->[google_play]->[oauth_client_id] and [purchase]->[google_play]->[oauth_client_secret], run `katana store android_token and run `katana store android_token` to get a refresh token.",
+        );
+        return;
+      }
+      if (googlePlayPubsubTopic.isEmpty) {
+        error(
+          "The item [purchase]->[google_play]->[pubsub_topic] is empty. Please set it."
+          "Set the topic ID you set in Pubsub.",
         );
         return;
       }
@@ -210,41 +218,41 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "androidAuthCode")) {
-      functions.functions.add("androidAuthCode");
+    if (!functions.functions.any((e) => e == "androidAuthCode()")) {
+      functions.functions.add("androidAuthCode()");
     }
-    if (!functions.functions.any((e) => e == "androidToken")) {
-      functions.functions.add("androidToken");
+    if (!functions.functions.any((e) => e == "androidToken()")) {
+      functions.functions.add("androidToken()");
     }
     if (enableAppStore) {
-      if (!functions.functions.any((e) => e == "consumableVerifyIOS")) {
-        functions.functions.add("consumableVerifyIOS");
+      if (!functions.functions.any((e) => e == "consumableVerifyIOS()")) {
+        functions.functions.add("consumableVerifyIOS()");
       }
-      if (!functions.functions.any((e) => e == "nonconsumableVerifyIOS")) {
-        functions.functions.add("nonconsumableVerifyIOS");
+      if (!functions.functions.any((e) => e == "nonconsumableVerifyIOS()")) {
+        functions.functions.add("nonconsumableVerifyIOS()");
       }
-      if (!functions.functions.any((e) => e == "subscriptionVerifyIOS")) {
-        functions.functions.add("subscriptionVerifyIOS");
+      if (!functions.functions.any((e) => e == "subscriptionVerifyIOS()")) {
+        functions.functions.add("subscriptionVerifyIOS()");
       }
-      if (!functions.functions.any((e) => e == "purchaseWebhookIOS")) {
-        functions.functions.add("purchaseWebhookIOS");
+      if (!functions.functions.any((e) => e == "purchaseWebhookIOS()")) {
+        functions.functions.add("purchaseWebhookIOS()");
       }
     }
     if (enableGooglePlay) {
-      if (!functions.functions.any((e) => e == "consumableVerifyAndroid")) {
-        functions.functions.add("consumableVerifyAndroid");
+      if (!functions.functions.any((e) => e == "consumableVerifyAndroid()")) {
+        functions.functions.add("consumableVerifyAndroid()");
       }
-      if (!functions.functions.any((e) => e == "nonconsumableVerifyAndroid")) {
-        functions.functions.add("nonconsumableVerifyAndroid");
+      if (!functions.functions
+          .any((e) => e == "nonconsumableVerifyAndroid()")) {
+        functions.functions.add("nonconsumableVerifyAndroid()");
       }
-      if (!functions.functions.any((e) => e == "subscriptionVerifyAndroid")) {
-        functions.functions.add("subscriptionVerifyAndroid");
+      if (!functions.functions.any((e) => e == "subscriptionVerifyAndroid()")) {
+        functions.functions.add("subscriptionVerifyAndroid()");
       }
-      if (!functions.functions.any((e) => e == "purchaseWebhookAndroid")) {
-        functions.functions.add("purchaseWebhookAndroid");
-      }
-      if (!functions.topics.keys.any((e) => e == "purchaseWebhookAndroid")) {
-        functions.topics["purchaseWebhookAndroid"] = "\"purchasing\"";
+      if (!functions.functions.any(
+          (e) => e == "purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")")) {
+        functions.functions
+            .add("purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")");
       }
     }
     await functions.save();

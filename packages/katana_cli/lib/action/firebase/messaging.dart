@@ -211,8 +211,8 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "sendNotification")) {
-      functions.functions.add("sendNotification");
+    if (!functions.functions.any((e) => e == "sendNotification()")) {
+      functions.functions.add("sendNotification()");
     }
     await functions.save();
     await command(

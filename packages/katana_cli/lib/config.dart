@@ -337,6 +337,7 @@ purchase:
   # 3. Run `katana store android_token` to get a refresh token.
   # 4. Enter the obtained refresh token in the `refresh_token` field.
   # 5. Run `katana apply` to deploy the app and server.
+  # 6. Set the topic ID for notification to `pubsub_topic`.
   # GooglePlayの課金を行う場合の設定を行います。
   # 下記の手順で設定を行います。
   # 1. 下記URLを元にOAuthのクライアントIDとクライアントシークレットを取得します。
@@ -345,11 +346,13 @@ purchase:
   # 3. `katana store android_token`を実行しリフレッシュトークンを取得します。
   # 4. 取得したリフレッシュトークンを`refresh_token`に入力します。
   # 5. `katana apply`を実行しアプリとサーバーのデプロイを行います。
+  # 6. 通知用のトピックIDを`pubsub_topic`に設定します。
   google_play:
     enable: false
     oauth_client_id: 
     oauth_client_secret: 
     refresh_token: 
+    pubsub_topic: purchasing
   
   # Configure settings for AppStore billing.
   # Follow the steps below to configure the settings.

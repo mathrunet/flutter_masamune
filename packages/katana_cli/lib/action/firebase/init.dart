@@ -508,7 +508,6 @@ m.deploy(
   exports,
   ["us-central1", "asia-northeast1"],
   [],
-  {},
 );
 """;
   }
