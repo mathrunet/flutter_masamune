@@ -29,6 +29,7 @@ final importPackages = [
 /// "-a"のオプションが利用された場合の追加インポートパッケージ。
 final allOptionsImportPackage = [
   "flutter_animate",
+  "font_awesome_flutter",
 ];
 
 /// Package for dev to import.
