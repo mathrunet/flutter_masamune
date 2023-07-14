@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.2.14
+  masamune: ^2.2.15
   masamune_picker:
     path: "../"
 

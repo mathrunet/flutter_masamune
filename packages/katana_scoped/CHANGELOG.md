@@ -1,3 +1,7 @@
+## 2.0.15
+
+ - **FIX**: Change so that the internal refs will also move as expected in Watch. ([3ae3dc41](https://github.com/mathrunet/flutter_masamune/commit/3ae3dc415663d0af02007e0117bec201f5fcd309))
+
 ## 2.0.14
 
  - **FIX**: Fixed a bug that prevented ScopedQuery from detecting Ref updates. ([a7f9b88c](https://github.com/mathrunet/flutter_masamune/commit/a7f9b88c61ae6b129adb54d63caf78153e26e16a))

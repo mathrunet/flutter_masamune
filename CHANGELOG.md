@@ -15,6 +15,66 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v2.0.15`](#katana_scoped---v2015)
+ - [`masamune` - `v2.2.15`](#masamune---v2215)
+ - [`masamune_location` - `v2.1.34`](#masamune_location---v2134)
+ - [`masamune_auth_apple` - `v2.1.26`](#masamune_auth_apple---v2126)
+ - [`masamune_agora` - `v2.2.7`](#masamune_agora---v227)
+ - [`masamune_auth_google` - `v2.1.26`](#masamune_auth_google---v2126)
+ - [`masamune_ai_openai` - `v2.1.23`](#masamune_ai_openai---v2123)
+ - [`masamune_calendar` - `v2.0.69`](#masamune_calendar---v2069)
+ - [`masamune_picker` - `v2.1.25`](#masamune_picker---v2125)
+ - [`masamune_util` - `v2.1.4`](#masamune_util---v214)
+ - [`masamune_universal_ui` - `v2.2.5`](#masamune_universal_ui---v225)
+ - [`masamune_purchase_stripe` - `v3.1.23`](#masamune_purchase_stripe---v3123)
+ - [`masamune_logger_firebase` - `v2.0.68`](#masamune_logger_firebase---v2068)
+ - [`masamune_auth_facebook` - `v2.1.28`](#masamune_auth_facebook---v2128)
+ - [`masamune_location_google` - `v2.1.33`](#masamune_location_google---v2133)
+ - [`masamune_mail` - `v2.1.23`](#masamune_mail---v2123)
+ - [`masamune_notification_firebase` - `v2.1.23`](#masamune_notification_firebase---v2123)
+ - [`masamune_purchase_mobile` - `v2.3.6`](#masamune_purchase_mobile---v236)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.2.15`
+ - `masamune_location` - `v2.1.34`
+ - `masamune_auth_apple` - `v2.1.26`
+ - `masamune_agora` - `v2.2.7`
+ - `masamune_auth_google` - `v2.1.26`
+ - `masamune_ai_openai` - `v2.1.23`
+ - `masamune_calendar` - `v2.0.69`
+ - `masamune_picker` - `v2.1.25`
+ - `masamune_util` - `v2.1.4`
+ - `masamune_universal_ui` - `v2.2.5`
+ - `masamune_purchase_stripe` - `v3.1.23`
+ - `masamune_logger_firebase` - `v2.0.68`
+ - `masamune_auth_facebook` - `v2.1.28`
+ - `masamune_location_google` - `v2.1.33`
+ - `masamune_mail` - `v2.1.23`
+ - `masamune_notification_firebase` - `v2.1.23`
+ - `masamune_purchase_mobile` - `v2.3.6`
+
+---
+
+#### `katana_scoped` - `v2.0.15`
+
+ - **FIX**: Change so that the internal refs will also move as expected in Watch. ([3ae3dc41](https://github.com/mathrunet/flutter_masamune/commit/3ae3dc415663d0af02007e0117bec201f5fcd309))
+
+
+## 2023-07-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.3.18`](#katana_cli---v2318)
  - [`katana_scoped` - `v2.0.14`](#katana_scoped---v2014)
  - [`masamune` - `v2.2.14`](#masamune---v2214)
