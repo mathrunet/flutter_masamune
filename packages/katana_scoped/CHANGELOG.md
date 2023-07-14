@@ -1,3 +1,7 @@
+## 2.0.14
+
+ - **FIX**: Fixed a bug that prevented ScopedQuery from detecting Ref updates. ([a7f9b88c](https://github.com/mathrunet/flutter_masamune/commit/a7f9b88c61ae6b129adb54d63caf78153e26e16a))
+
 ## 2.0.13
 
  - **FIX**: Rebuild Cache when Cache Ref is updated. ([32bf991b](https://github.com/mathrunet/flutter_masamune/commit/32bf991bdc241310a6100aa415037ca11c4c7a10))

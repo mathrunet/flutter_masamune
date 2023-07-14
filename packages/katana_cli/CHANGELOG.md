@@ -1,3 +1,7 @@
+## 2.3.18
+
+ - **FIX**: Fixed a bug when there is already data. ([e74d74fd](https://github.com/mathrunet/flutter_masamune/commit/e74d74fd5e0db7efb7aa1937fdca189286201117))
+
 ## 2.3.17
 
  - **FIX**: Corresponding to changes in the definition of Functions in node_masamune. ([60acb87c](https://github.com/mathrunet/flutter_masamune/commit/60acb87c61a6bbc575a95eba885ea8685c575626))
