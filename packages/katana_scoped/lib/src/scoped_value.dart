@@ -13,7 +13,12 @@ part of katana_scoped;
 /// 関連するステートを[ScopedValueState]で実装し[createState]で作成します。
 @immutable
 abstract class ScopedValue<TResult> {
-  const ScopedValue();
+  const ScopedValue({this.ref});
+
+  /// Specify the associated [Ref], if any.
+  ///
+  /// 関連する[Ref]があれば指定します。
+  final Ref? ref;
 
   /// Creates and returns the associated state.
   ///
@@ -54,13 +59,40 @@ abstract class ScopedValueState<TResult,
   late TScopedValue? _value;
   final Set<ScopedValueListener> _listeners = {};
   final Set<VoidCallback> _callbacks = {};
+  _ScopedValueRef? _ref;
   late final DynamicMap _baseParameters;
   late final List<LoggerAdapter> _loggerAdapters;
+  // ignore: prefer_final_fields
+  bool _referencedByChildState = false;
 
   /// Returns `true` if [ScopedValue] should be automatically discarded when it is no longer referenced by any widget.
   ///
   /// [ScopedValue]がどのウィジェットにも参照されなくなったときに自動的に破棄する場合`true`を返します。
   bool get autoDisposeWhenUnreferenced => false;
+
+  /// If [Ref] is passed to [ScopedValue], it returns a [Ref] that can be referenced by descendants.
+  ///
+  /// If [Ref] is not passed to [ScopedValue], an error will result.
+  ///
+  /// [ScopedValue]に[Ref]が渡された場合、子孫によって参照可能な[Ref]を返します。
+  ///
+  /// [ScopedValue]に[Ref]が渡されていない場合、エラーになります。
+  Ref get ref {
+    final ref = _ref ?? value.ref;
+    assert(ref != null, "[ref] is not set.");
+    return ref!;
+  }
+
+  /// `True` if the state is further monitored by [Ref] passed to [ScopedValue].
+  ///
+  /// When [setState] of the descendant [ScopedValue] is executed and the update of the state is notified, [didUpdateValue] is called, so check this value and change the state accordingly.
+  ///
+  /// [ScopedValue]に渡された[Ref]によってさらに状態を監視されている場合に`true`になります。
+  ///
+  /// 子孫の[ScopedValue]の[setState]が実行されて状態の更新が通知された場合、[didUpdateValue]が呼ばれるのでこの値を確認して適宜状態を変更してください。
+  bool get referencedByChildState {
+    return _ref?.referencedByChildState ?? false;
+  }
 
   void _addListener(ScopedValueListener listener, [VoidCallback? callback]) {
     if (_listeners.contains(listener)) {
@@ -178,7 +210,12 @@ abstract class ScopedValueState<TResult,
   ///
   /// 値が作成された際に実行されます。
   @mustCallSuper
-  void initValue() {}
+  void initValue() {
+    if (value.ref == null) {
+      return;
+    }
+    _ref = _ScopedValueRef(value.ref!, state: this);
+  }
 
   /// If the widget is monitored by a widget, it is executed when the monitored widget is destroyed or otherwise removed.
   ///

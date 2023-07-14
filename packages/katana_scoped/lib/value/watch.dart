@@ -36,8 +36,9 @@ extension RefWatchExtensions on Ref {
   }) {
     return getScopedValue<T, _WatchValue<T>>(
       (ref) => _WatchValue<T>(
-        callback: () => callback(ref),
+        callback: callback,
         keys: keys,
+        ref: ref,
         disposal: disposal,
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       ),
@@ -96,11 +97,12 @@ class _WatchValue<T> extends ScopedValue<T> {
   const _WatchValue({
     required this.callback,
     required this.keys,
+    required Ref ref,
     this.disposal = true,
     this.autoDisposeWhenUnreferenced = false,
-  });
+  }) : super(ref: ref);
 
-  final T Function() callback;
+  final T Function(Ref ref) callback;
   final List<Object> keys;
   final bool disposal;
   final bool autoDisposeWhenUnreferenced;
@@ -120,7 +122,7 @@ class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
   @override
   void initValue() {
     super.initValue();
-    _value = value.callback();
+    _value = value.callback(ref);
     final val = _value;
     if (val is Listenable) {
       val.addListener(_handledOnUpdate);
@@ -134,12 +136,12 @@ class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
   @override
   void didUpdateValue(_WatchValue<T> oldValue) {
     super.didUpdateValue(oldValue);
-    if (!equalsKeys(value.keys, oldValue.keys)) {
+    if (!equalsKeys(value.keys, oldValue.keys) || referencedByChildState) {
       final oldVal = _value;
       if (oldVal is Listenable) {
         oldVal.removeListener(_handledOnUpdate);
       }
-      _value = value.callback();
+      _value = value.callback(ref);
       final newVal = _value;
       if (newVal is Listenable) {
         newVal.addListener(_handledOnUpdate);

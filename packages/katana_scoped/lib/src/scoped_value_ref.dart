@@ -139,7 +139,7 @@ class ScopedValueRef implements Ref {
     String? name,
   }) {
     return _listener.getScopedValueResult<TResult, TScopedValue>(
-      () => provider(_ScopedValueRef(this, listener: _listener)),
+      () => provider(this),
       listen: listen,
       name: name,
     );
@@ -168,14 +168,16 @@ class ScopedValueRef implements Ref {
 }
 
 @immutable
-class _ScopedValueRef implements Ref, ListenableRef {
+class _ScopedValueRef implements Ref {
   const _ScopedValueRef(
     this.ref, {
-    this.listener,
+    required this.state,
   });
 
   final Ref ref;
-  final ScopedValueListener? listener;
+  final ScopedValueState state;
+
+  bool get referencedByChildState => state._referencedByChildState;
 
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
@@ -183,6 +185,9 @@ class _ScopedValueRef implements Ref, ListenableRef {
     bool listen = false,
     String? name,
   }) {
+    if (listen) {
+      state._referencedByChildState = true;
+    }
     return ref.getScopedValue(
       provider,
       listen: listen,
@@ -196,20 +201,13 @@ class _ScopedValueRef implements Ref, ListenableRef {
     String? name,
     bool listen = false,
   }) {
+    if (listen) {
+      state._referencedByChildState = true;
+    }
     return ref.getAlreadyExistsScopedValue(
       listen: listen,
       name: name,
     );
-  }
-
-  @override
-  void addListener(VoidCallback callback) {
-    listener?._addListener(callback);
-  }
-
-  @override
-  void removeListener(VoidCallback callback) {
-    listener?._removeListener(callback);
   }
 
   @override
@@ -220,25 +218,4 @@ class _ScopedValueRef implements Ref, ListenableRef {
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
-}
-
-/// Catch and notify updates [Ref].
-///
-/// You can notify updates by calling [addListener] or [removeListener].
-///
-/// 更新をキャッチして通知する[Ref]。
-///
-/// [addListener]や[removeListener]を呼び出すことで更新を通知することができます。
-abstract class ListenableRef implements Ref {
-  const ListenableRef();
-
-  /// Add [callback] to notify updates.
-  ///
-  /// 更新を通知する[callback]を追加します。
-  void addListener(VoidCallback callback);
-
-  /// Remove [callback] to notify updates.
-  ///
-  /// 更新を通知する[callback]を削除します。
-  void removeListener(VoidCallback callback);
 }

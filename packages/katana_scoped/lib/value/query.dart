@@ -35,7 +35,7 @@ extension RefQueryExtensions on Ref {
   T query<T>(ScopedQuery<T> query) {
     return getScopedValue<T, _QueryValue<T>>(
       (ref) => _QueryValue<T>(
-        callback: query.call(ref),
+        query: query,
         ref: ref,
         listen: query.listen,
         autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
@@ -86,15 +86,14 @@ extension RefHasAppQueryExtensions on RefHasApp {
 @immutable
 class _QueryValue<T> extends ScopedValue<T> {
   const _QueryValue({
-    required this.callback,
-    required this.ref,
+    required this.query,
+    required Ref ref,
     this.listen = false,
     this.autoDisposeWhenUnreferenced = false,
-  });
+  }) : super(ref: ref);
 
-  final T Function() callback;
+  final ScopedQuery<T> query;
   final bool listen;
-  final Ref ref;
   final bool autoDisposeWhenUnreferenced;
 
   @override
@@ -105,6 +104,7 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
   _QueryValueState();
 
   late T _value;
+  late T Function() _callback;
 
   @override
   bool get autoDisposeWhenUnreferenced => value.autoDisposeWhenUnreferenced;
@@ -112,25 +112,31 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
   @override
   void initValue() {
     super.initValue();
-    _value = value.callback.call();
+    _callback = value.query(ref);
+    _value = _callback();
     final val = _value;
     if (val is Listenable) {
       val.addListener(_handledOnUpdate);
     }
-    if (!value.listen) {
-      final ref = value.ref;
-      if (ref is ListenableRef) {
-        ref.addListener(_handledOnUpdateByRef);
+  }
+
+  @override
+  void didUpdateValue(_QueryValue<T> oldValue) {
+    super.didUpdateValue(oldValue);
+    if (referencedByChildState) {
+      final oldVal = _value;
+      if (oldVal is Listenable) {
+        oldVal.removeListener(_handledOnUpdate);
+      }
+      _value = _callback();
+      final newVal = _value;
+      if (newVal is Listenable) {
+        newVal.addListener(_handledOnUpdate);
       }
     }
   }
 
   void _handledOnUpdate() {
-    setState(() {});
-  }
-
-  void _handledOnUpdateByRef() {
-    _value = value.callback.call();
     setState(() {});
   }
 
@@ -143,10 +149,6 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
       if (val is ChangeNotifier) {
         val.dispose();
       }
-    }
-    final ref = value.ref;
-    if (ref is ListenableRef) {
-      ref.removeListener(_handledOnUpdateByRef);
     }
   }
 

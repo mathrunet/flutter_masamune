@@ -27,7 +27,7 @@ extension RefCacheExtensions on Ref {
   }) {
     return getScopedValue<T, _CacheValue<T>>(
       (ref) => _CacheValue<T>(
-        callback: () => callback(ref),
+        callback: callback,
         keys: keys,
         ref: ref,
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
@@ -77,13 +77,12 @@ class _CacheValue<T> extends ScopedValue<T> {
   const _CacheValue({
     required this.callback,
     required this.keys,
-    required this.ref,
+    required Ref ref,
     this.autoDisposeWhenUnreferenced = false,
-  });
+  }) : super(ref: ref);
 
-  final T Function() callback;
+  final T Function(Ref ref) callback;
   final List<Object> keys;
-  final Ref ref;
   final bool autoDisposeWhenUnreferenced;
 
   @override
@@ -101,32 +100,14 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
   @override
   void initValue() {
     super.initValue();
-    _value = value.callback();
-    final ref = value.ref;
-    if (ref is ListenableRef) {
-      ref.addListener(_handledOnUpdateByRef);
-    }
+    _value = value.callback(ref);
   }
 
   @override
   void didUpdateValue(_CacheValue<T> oldValue) {
     super.didUpdateValue(oldValue);
-    if (!equalsKeys(value.keys, oldValue.keys)) {
-      _value = value.callback();
-    }
-  }
-
-  void _handledOnUpdateByRef() {
-    _value = value.callback();
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    final ref = value.ref;
-    if (ref is ListenableRef) {
-      ref.removeListener(_handledOnUpdateByRef);
+    if (!equalsKeys(value.keys, oldValue.keys) || referencedByChildState) {
+      _value = value.callback(ref);
     }
   }
 
