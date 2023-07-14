@@ -104,7 +104,7 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
     _value = value.callback();
     final ref = value.ref;
     if (ref is ListenableRef) {
-      ref.addListener(_handledOnUpdateRef);
+      ref.addListener(_handledOnUpdateByRef);
     }
   }
 
@@ -116,7 +116,7 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
     }
   }
 
-  void _handledOnUpdateRef() {
+  void _handledOnUpdateByRef() {
     _value = value.callback();
     setState(() {});
   }
@@ -126,7 +126,7 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
     super.dispose();
     final ref = value.ref;
     if (ref is ListenableRef) {
-      ref.removeListener(_handledOnUpdateRef);
+      ref.removeListener(_handledOnUpdateByRef);
     }
   }
 

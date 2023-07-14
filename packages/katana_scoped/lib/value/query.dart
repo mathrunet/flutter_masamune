@@ -36,6 +36,8 @@ extension RefQueryExtensions on Ref {
     return getScopedValue<T, _QueryValue<T>>(
       (ref) => _QueryValue<T>(
         callback: query.call(ref),
+        ref: ref,
+        listen: query.listen,
         autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
@@ -85,10 +87,14 @@ extension RefHasAppQueryExtensions on RefHasApp {
 class _QueryValue<T> extends ScopedValue<T> {
   const _QueryValue({
     required this.callback,
+    required this.ref,
+    this.listen = false,
     this.autoDisposeWhenUnreferenced = false,
   });
 
   final T Function() callback;
+  final bool listen;
+  final Ref ref;
   final bool autoDisposeWhenUnreferenced;
 
   @override
@@ -111,9 +117,20 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
     if (val is Listenable) {
       val.addListener(_handledOnUpdate);
     }
+    if (!value.listen) {
+      final ref = value.ref;
+      if (ref is ListenableRef) {
+        ref.addListener(_handledOnUpdateByRef);
+      }
+    }
   }
 
   void _handledOnUpdate() {
+    setState(() {});
+  }
+
+  void _handledOnUpdateByRef() {
+    _value = value.callback.call();
     setState(() {});
   }
 
@@ -126,6 +143,10 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
       if (val is ChangeNotifier) {
         val.dispose();
       }
+    }
+    final ref = value.ref;
+    if (ref is ListenableRef) {
+      ref.removeListener(_handledOnUpdateByRef);
     }
   }
 
