@@ -1,3 +1,7 @@
+## 2.3.4
+
+ - Update a dependency to the latest release.
+
 ## 2.3.3
 
  - **FIX**: Fixed a bug corresponding to RuntimePurchaseAdapter. ([db3847cf](https://github.com/mathrunet/flutter_masamune/commit/db3847cfff3a0863b2b2f7e20fb964154c463675))

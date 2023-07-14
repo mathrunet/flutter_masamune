@@ -1,3 +1,7 @@
+## 2.0.13
+
+ - **FIX**: Rebuild Cache when Cache Ref is updated. ([32bf991b](https://github.com/mathrunet/flutter_masamune/commit/32bf991bdc241310a6100aa415037ca11c4c7a10))
+
 ## 2.0.12
 
  - **FIX**: Added default ScopedExtension. ([d295e923](https://github.com/mathrunet/flutter_masamune/commit/d295e923b35554328aac83ff6dd16f7c0d0cd819))

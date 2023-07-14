@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_scoped` - `v2.0.13`](#katana_scoped---v2013)
+ - [`masamune` - `v2.2.13`](#masamune---v2213)
+ - [`masamune_location` - `v2.1.32`](#masamune_location---v2132)
+ - [`masamune_auth_apple` - `v2.1.24`](#masamune_auth_apple---v2124)
+ - [`masamune_agora` - `v2.2.5`](#masamune_agora---v225)
+ - [`masamune_ai_openai` - `v2.1.21`](#masamune_ai_openai---v2121)
+ - [`masamune_auth_google` - `v2.1.24`](#masamune_auth_google---v2124)
+ - [`masamune_calendar` - `v2.0.67`](#masamune_calendar---v2067)
+ - [`masamune_picker` - `v2.1.23`](#masamune_picker---v2123)
+ - [`masamune_util` - `v2.1.2`](#masamune_util---v212)
+ - [`masamune_universal_ui` - `v2.2.3`](#masamune_universal_ui---v223)
+ - [`masamune_purchase_stripe` - `v3.1.21`](#masamune_purchase_stripe---v3121)
+ - [`masamune_logger_firebase` - `v2.0.66`](#masamune_logger_firebase---v2066)
+ - [`masamune_auth_facebook` - `v2.1.26`](#masamune_auth_facebook---v2126)
+ - [`masamune_location_google` - `v2.1.31`](#masamune_location_google---v2131)
+ - [`masamune_notification_firebase` - `v2.1.21`](#masamune_notification_firebase---v2121)
+ - [`masamune_mail` - `v2.1.21`](#masamune_mail---v2121)
+ - [`masamune_purchase_mobile` - `v2.3.4`](#masamune_purchase_mobile---v234)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.2.13`
+ - `masamune_location` - `v2.1.32`
+ - `masamune_auth_apple` - `v2.1.24`
+ - `masamune_agora` - `v2.2.5`
+ - `masamune_ai_openai` - `v2.1.21`
+ - `masamune_auth_google` - `v2.1.24`
+ - `masamune_calendar` - `v2.0.67`
+ - `masamune_picker` - `v2.1.23`
+ - `masamune_util` - `v2.1.2`
+ - `masamune_universal_ui` - `v2.2.3`
+ - `masamune_purchase_stripe` - `v3.1.21`
+ - `masamune_logger_firebase` - `v2.0.66`
+ - `masamune_auth_facebook` - `v2.1.26`
+ - `masamune_location_google` - `v2.1.31`
+ - `masamune_notification_firebase` - `v2.1.21`
+ - `masamune_mail` - `v2.1.21`
+ - `masamune_purchase_mobile` - `v2.3.4`
+
+---
+
+#### `katana_scoped` - `v2.0.13`
+
+ - **FIX**: Rebuild Cache when Cache Ref is updated. ([32bf991b](https://github.com/mathrunet/flutter_masamune/commit/32bf991bdc241310a6100aa415037ca11c4c7a10))
+
+
 ## 2023-07-13
 
 ### Changes
