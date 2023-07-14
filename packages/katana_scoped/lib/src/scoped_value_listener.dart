@@ -78,6 +78,7 @@ class ScopedValueListener {
   final ScopedValueContainer? _container;
   ScopedValueContainer? _containerCache;
   final Set<ScopedValueState> _watched = {};
+  final Set<VoidCallback> _listeners = {};
 
   AppRef get _appRef {
     return _AppScopedScope.of(_context).widget.appRef;
@@ -99,6 +100,21 @@ class ScopedValueListener {
   }
 
   String? __listendBy;
+
+  void _handledOnUpdate() {
+    _callback.call();
+    for (final listener in _listeners) {
+      listener.call();
+    }
+  }
+
+  void _addListener(VoidCallback callback) {
+    _listeners.add(callback);
+  }
+
+  void _removeListener(VoidCallback callback) {
+    _listeners.remove(callback);
+  }
 
   /// [ScopedValueContainer] that stores [ScopedValue].
   ///
@@ -137,7 +153,7 @@ class ScopedValueListener {
           return;
         }
         _watched.add(state);
-        state._addListener(this, listen ? _callback : null);
+        state._addListener(this, listen ? _handledOnUpdate : null);
         state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
           ScopedLoggerEvent.listenedKey: __listendBy,
         });
@@ -181,7 +197,7 @@ class ScopedValueListener {
           return;
         }
         _watched.add(state);
-        state._addListener(this, listen ? _callback : null);
+        state._addListener(this, listen ? _handledOnUpdate : null);
       },
       name: name,
     );
@@ -200,7 +216,7 @@ class ScopedValueListener {
       if (watched.disposed) {
         continue;
       }
-      watched._removeListener(this, _callback);
+      watched._removeListener(this, _handledOnUpdate);
       watched._sendLog(ScopedLoggerEvent.unlisten, additionalParameter: {
         ScopedLoggerEvent.listenedKey: __listendBy,
       });
@@ -210,6 +226,7 @@ class ScopedValueListener {
       }
     }
     _watched.clear();
+    _listeners.clear();
     if (_container != null) {
       _container!.dispose();
     }

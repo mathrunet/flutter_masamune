@@ -64,7 +64,7 @@ class AppRef implements Ref {
   }) {
     return _scopedValueContainer
         .getScopedValueState<TResult, TScopedValue>(
-          () => provider(this),
+          () => provider(_ScopedValueRef(this)),
           name: name,
           scope: ScopedLoggerScope.app,
           managedBy: toString(),

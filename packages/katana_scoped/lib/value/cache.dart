@@ -29,6 +29,7 @@ extension RefCacheExtensions on Ref {
       (ref) => _CacheValue<T>(
         callback: () => callback(ref),
         keys: keys,
+        ref: ref,
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       ),
       listen: false,
@@ -76,11 +77,13 @@ class _CacheValue<T> extends ScopedValue<T> {
   const _CacheValue({
     required this.callback,
     required this.keys,
+    required this.ref,
     this.autoDisposeWhenUnreferenced = false,
   });
 
   final T Function() callback;
   final List<Object> keys;
+  final Ref ref;
   final bool autoDisposeWhenUnreferenced;
 
   @override
@@ -99,6 +102,10 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
   void initValue() {
     super.initValue();
     _value = value.callback();
+    final ref = value.ref;
+    if (ref is ListenableRef) {
+      ref.addListener(_handledOnUpdateRef);
+    }
   }
 
   @override
@@ -106,6 +113,20 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
     super.didUpdateValue(oldValue);
     if (!equalsKeys(value.keys, oldValue.keys)) {
       _value = value.callback();
+    }
+  }
+
+  void _handledOnUpdateRef() {
+    _value = value.callback();
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    final ref = value.ref;
+    if (ref is ListenableRef) {
+      ref.removeListener(_handledOnUpdateRef);
     }
   }
 

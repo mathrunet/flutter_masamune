@@ -139,7 +139,7 @@ class ScopedValueRef implements Ref {
     String? name,
   }) {
     return _listener.getScopedValueResult<TResult, TScopedValue>(
-      () => provider(this),
+      () => provider(_ScopedValueRef(this, listener: _listener)),
       listen: listen,
       name: name,
     );
@@ -165,4 +165,80 @@ class ScopedValueRef implements Ref {
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
+}
+
+@immutable
+class _ScopedValueRef implements Ref, ListenableRef {
+  const _ScopedValueRef(
+    this.ref, {
+    this.listener,
+  });
+
+  final Ref ref;
+  final ScopedValueListener? listener;
+
+  @override
+  TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
+    TScopedValue Function(Ref ref) provider, {
+    bool listen = false,
+    String? name,
+  }) {
+    return ref.getScopedValue(
+      provider,
+      listen: listen,
+      name: name,
+    );
+  }
+
+  @override
+  TResult? getAlreadyExistsScopedValue<TResult,
+      TScopedValue extends ScopedValue<TResult>>({
+    String? name,
+    bool listen = false,
+  }) {
+    return ref.getAlreadyExistsScopedValue(
+      listen: listen,
+      name: name,
+    );
+  }
+
+  @override
+  void addListener(VoidCallback callback) {
+    listener?._addListener(callback);
+  }
+
+  @override
+  void removeListener(VoidCallback callback) {
+    listener?._removeListener(callback);
+  }
+
+  @override
+  String toString() => ref.toString();
+
+  @override
+  int get hashCode => ref.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+}
+
+/// Catch and notify updates [Ref].
+///
+/// You can notify updates by calling [addListener] or [removeListener].
+///
+/// 更新をキャッチして通知する[Ref]。
+///
+/// [addListener]や[removeListener]を呼び出すことで更新を通知することができます。
+abstract class ListenableRef implements Ref {
+  const ListenableRef();
+
+  /// Add [callback] to notify updates.
+  ///
+  /// 更新を通知する[callback]を追加します。
+  void addListener(VoidCallback callback);
+
+  /// Remove [callback] to notify updates.
+  ///
+  /// 更新を通知する[callback]を削除します。
+  void removeListener(VoidCallback callback);
 }
