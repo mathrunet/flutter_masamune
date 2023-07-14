@@ -23,6 +23,11 @@ Future<void> buildWeb(
     hostingYamlFile = File(
         ".dart_tool/katana/firebase-hosting-pull-request-${appName.toLowerCase()}.yml");
   }
+  if (!hostingYamlFile.existsSync() &&
+      File("${webCode.directory}/build_web_${appName.toLowerCase()}.yaml")
+          .existsSync()) {
+    return;
+  }
   final yaml = hostingYamlFile.existsSync()
       ? loadYaml(await hostingYamlFile.readAsString())
       : {};
@@ -30,8 +35,15 @@ Future<void> buildWeb(
     "build_web_${appName.toLowerCase()}.yaml",
     filter: (source) => webCode._additionalFilter(yaml, source),
   );
-  await hostingYamlFile.rename(
-      ".dart_tool/katana/firebase-hosting-pull-request-${appName.toLowerCase()}.yml");
+  if (hostingYamlFile.existsSync() &&
+      !File(".dart_tool/katana/firebase-hosting-pull-request-${appName.toLowerCase()}.yml")
+          .existsSync()) {
+    if (!Directory(".dart_tool/katana").existsSync()) {
+      Directory(".dart_tool/katana").createSync(recursive: true);
+    }
+    await hostingYamlFile.rename(
+        ".dart_tool/katana/firebase-hosting-pull-request-${appName.toLowerCase()}.yml");
+  }
 }
 
 /// Contents of buiod.yaml for Github Actions web.
