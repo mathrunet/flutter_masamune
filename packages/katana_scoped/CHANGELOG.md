@@ -1,3 +1,7 @@
+## 2.0.16
+
+ - **FIX**: Fixed a bug that caused unrelated items to be updated when refs were updated internally. ([b3d10395](https://github.com/mathrunet/flutter_masamune/commit/b3d103959fcc8acc15c6d47c639924ddb8001f20))
+
 ## 2.0.15
 
  - **FIX**: Change so that the internal refs will also move as expected in Watch. ([3ae3dc41](https://github.com/mathrunet/flutter_masamune/commit/3ae3dc415663d0af02007e0117bec201f5fcd309))
