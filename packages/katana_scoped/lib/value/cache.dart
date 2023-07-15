@@ -106,9 +106,15 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
   @override
   void didUpdateValue(_CacheValue<T> oldValue) {
     super.didUpdateValue(oldValue);
-    if (!equalsKeys(value.keys, oldValue.keys) || referencedByChildState) {
+    if (!equalsKeys(value.keys, oldValue.keys)) {
       _value = value.callback(ref);
     }
+  }
+
+  @override
+  void didUpdateDescendant() {
+    super.didUpdateDescendant();
+    _value = value.callback(ref);
   }
 
   @override

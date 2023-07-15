@@ -57,13 +57,12 @@ abstract class ScopedValueState<TResult,
     TScopedValue extends ScopedValue<TResult>> {
   bool _disposed = false;
   late TScopedValue? _value;
+  final Set<ScopedValueState> _ancestorStates = {};
   final Set<ScopedValueListener> _listeners = {};
   final Set<VoidCallback> _callbacks = {};
   _ScopedValueRef? _ref;
   late final DynamicMap _baseParameters;
   late final List<LoggerAdapter> _loggerAdapters;
-  // ignore: prefer_final_fields
-  bool _referencedByChildState = false;
 
   /// Returns `true` if [ScopedValue] should be automatically discarded when it is no longer referenced by any widget.
   ///
@@ -83,15 +82,8 @@ abstract class ScopedValueState<TResult,
     return ref!;
   }
 
-  /// `True` if the state is further monitored by [Ref] passed to [ScopedValue].
-  ///
-  /// When [setState] of the descendant [ScopedValue] is executed and the update of the state is notified, [didUpdateValue] is called, so check this value and change the state accordingly.
-  ///
-  /// [ScopedValue]に渡された[Ref]によってさらに状態を監視されている場合に`true`になります。
-  ///
-  /// 子孫の[ScopedValue]の[setState]が実行されて状態の更新が通知された場合、[didUpdateValue]が呼ばれるのでこの値を確認して適宜状態を変更してください。
-  bool get referencedByChildState {
-    return _ref?.referencedByChildState ?? false;
+  void _addParent(ScopedValueState state) {
+    _ancestorStates.add(state);
   }
 
   void _addListener(ScopedValueListener listener, [VoidCallback? callback]) {
@@ -115,6 +107,16 @@ abstract class ScopedValueState<TResult,
     assert(!disposed, "Value is already disposed.");
     for (final callback in _callbacks) {
       callback.call();
+    }
+    for (final ancestor in _ancestorStates) {
+      ancestor._notifyAncestor();
+    }
+  }
+
+  void _notifyAncestor() {
+    didUpdateDescendant();
+    for (final ancestor in _ancestorStates) {
+      ancestor._notifyAncestor();
     }
   }
 
@@ -206,6 +208,12 @@ abstract class ScopedValueState<TResult,
   @mustCallSuper
   void didUpdateValue(covariant TScopedValue oldValue) {}
 
+  /// The original [ScopedValue] is notified when a [ScopedValue] executed through the internal [Ref] is updated.
+  ///
+  /// 内部の[Ref]を通して実行された[ScopedValue]が更新された際にその元となった[ScopedValue]に通知されます。
+  @mustCallSuper
+  void didUpdateDescendant() {}
+
   /// Executed when a value is created.
   ///
   /// 値が作成された際に実行されます。
@@ -229,8 +237,11 @@ abstract class ScopedValueState<TResult,
   @mustCallSuper
   void dispose() {
     assert(!disposed, "Value is already disposed.");
+    _ref = null;
     _disposed = true;
+    _callbacks.clear();
     _listeners.clear();
+    _ancestorStates.clear();
     _sendLog(ScopedLoggerEvent.dispose);
   }
 

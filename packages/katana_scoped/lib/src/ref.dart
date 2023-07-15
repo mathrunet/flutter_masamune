@@ -89,6 +89,8 @@ abstract class Ref {
   /// {@endtemplate}
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function(Ref ref) provider, {
+    void Function(ScopedValueState<TResult, TScopedValue> state)?
+        onInitOrUpdate,
     bool listen = false,
     String? name,
   });

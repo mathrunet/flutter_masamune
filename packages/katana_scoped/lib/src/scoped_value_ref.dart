@@ -135,11 +135,14 @@ class ScopedValueRef implements Ref {
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function(Ref ref) provider, {
+    void Function(ScopedValueState<TResult, TScopedValue> state)?
+        onInitOrUpdate,
     bool listen = false,
     String? name,
   }) {
     return _listener.getScopedValueResult<TResult, TScopedValue>(
       () => provider(this),
+      onInitOrUpdate: onInitOrUpdate,
       listen: listen,
       name: name,
     );
@@ -177,19 +180,23 @@ class _ScopedValueRef implements Ref {
   final Ref ref;
   final ScopedValueState state;
 
-  bool get referencedByChildState => state._referencedByChildState;
-
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function(Ref ref) provider, {
+    void Function(ScopedValueState<TResult, TScopedValue> state)?
+        onInitOrUpdate,
     bool listen = false,
     String? name,
   }) {
-    if (listen) {
-      state._referencedByChildState = true;
-    }
     return ref.getScopedValue(
       provider,
+      onInitOrUpdate: (ScopedValueState<TResult, TScopedValue> state) {
+        if (state.disposed) {
+          return;
+        }
+        state._addParent(this.state);
+        onInitOrUpdate?.call(state);
+      },
       listen: listen,
       name: name,
     );
@@ -201,9 +208,6 @@ class _ScopedValueRef implements Ref {
     String? name,
     bool listen = false,
   }) {
-    if (listen) {
-      state._referencedByChildState = true;
-    }
     return ref.getAlreadyExistsScopedValue(
       listen: listen,
       name: name,

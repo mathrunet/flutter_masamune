@@ -136,7 +136,7 @@ class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
   @override
   void didUpdateValue(_WatchValue<T> oldValue) {
     super.didUpdateValue(oldValue);
-    if (!equalsKeys(value.keys, oldValue.keys) || referencedByChildState) {
+    if (!equalsKeys(value.keys, oldValue.keys)) {
       final oldVal = _value;
       if (oldVal is Listenable) {
         oldVal.removeListener(_handledOnUpdate);
@@ -146,6 +146,20 @@ class _WatchValueState<T> extends ScopedValueState<T, _WatchValue<T>> {
       if (newVal is Listenable) {
         newVal.addListener(_handledOnUpdate);
       }
+    }
+  }
+
+  @override
+  void didUpdateDescendant() {
+    super.didUpdateDescendant();
+    final oldVal = _value;
+    if (oldVal is Listenable) {
+      oldVal.removeListener(_handledOnUpdate);
+    }
+    _value = value.callback(ref);
+    final newVal = _value;
+    if (newVal is Listenable) {
+      newVal.addListener(_handledOnUpdate);
     }
   }
 

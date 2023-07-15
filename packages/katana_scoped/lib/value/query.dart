@@ -121,18 +121,16 @@ class _QueryValueState<T> extends ScopedValueState<T, _QueryValue<T>> {
   }
 
   @override
-  void didUpdateValue(_QueryValue<T> oldValue) {
-    super.didUpdateValue(oldValue);
-    if (referencedByChildState) {
-      final oldVal = _value;
-      if (oldVal is Listenable) {
-        oldVal.removeListener(_handledOnUpdate);
-      }
-      _value = _callback();
-      final newVal = _value;
-      if (newVal is Listenable) {
-        newVal.addListener(_handledOnUpdate);
-      }
+  void didUpdateDescendant() {
+    super.didUpdateDescendant();
+    final oldVal = _value;
+    if (oldVal is Listenable) {
+      oldVal.removeListener(_handledOnUpdate);
+    }
+    _value = _callback();
+    final newVal = _value;
+    if (newVal is Listenable) {
+      newVal.addListener(_handledOnUpdate);
     }
   }
 

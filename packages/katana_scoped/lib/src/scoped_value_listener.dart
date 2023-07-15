@@ -125,6 +125,8 @@ class ScopedValueListener {
   TResult
       getScopedValueResult<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function() provider, {
+    void Function(ScopedValueState<TResult, TScopedValue> state)?
+        onInitOrUpdate,
     bool listen = false,
     String? name,
   }) {
@@ -141,6 +143,7 @@ class ScopedValueListener {
         state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
           ScopedLoggerEvent.listenedKey: __listendBy,
         });
+        onInitOrUpdate?.call(state);
       },
       name: name,
       scope: _scope,
