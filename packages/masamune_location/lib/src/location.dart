@@ -322,6 +322,15 @@ class LocationData {
   /// speedAccuracyはすべてのデバイスで利用できるわけではありません。この場合、値は0.0です。
   final double speedAccuracy;
 
+  /// Converts from internal location information to [GeoValue].
+  ///
+  /// 内部の位置情報から[GeoValue]に変換します。
+  GeoValue toGeoValue({
+    double radiusKm = 1.0,
+  }) {
+    return GeoValue(latitude: latitude, longitude: longitude);
+  }
+
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 

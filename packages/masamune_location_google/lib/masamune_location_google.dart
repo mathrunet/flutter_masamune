@@ -22,6 +22,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_location/masamune_location.dart';
 
+export 'package:masamune_location/masamune_location.dart';
 export 'package:google_maps_flutter/google_maps_flutter.dart'
     show
         CameraPosition,
