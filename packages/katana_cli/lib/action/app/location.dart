@@ -24,7 +24,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
 
   @override
   bool checkEnabled(ExecContext context) {
-    final value = context.yaml.getAsMap("app").getAsMap("location");
+    final value = context.yaml.getAsMap("location");
     final enabled = value.get("enable", false);
     if (!enabled) {
       return false;
@@ -36,7 +36,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
-    final location = context.yaml.getAsMap("app").getAsMap("location");
+    final location = context.yaml.getAsMap("location");
     final enableBackground = location.get("enable_background", false);
     final googleMap = location.getAsMap("google_map");
     final enableGoogleMap = googleMap.get("enable", false);
