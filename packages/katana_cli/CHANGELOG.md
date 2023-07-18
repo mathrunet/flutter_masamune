@@ -1,3 +1,7 @@
+## 2.3.19
+
+ - **FIX**: Fixed a bug that did not support location changes in the yaml of Location. ([c25d2c93](https://github.com/mathrunet/flutter_masamune/commit/c25d2c93f7f5f93e7ed778a99d7922c0976bdb21))
+
 ## 2.3.18
 
  - **FIX**: Fixed a bug when there is already data. ([e74d74fd](https://github.com/mathrunet/flutter_masamune/commit/e74d74fd5e0db7efb7aa1937fdca189286201117))

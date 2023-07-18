@@ -1,3 +1,7 @@
+## 2.1.36
+
+ - **FIX**: toGeoValue is supported. ([4b6327e1](https://github.com/mathrunet/flutter_masamune/commit/4b6327e114f4faa852ce0448858e5146e5233a76))
+
 ## 2.1.35
 
  - Update a dependency to the latest release.
