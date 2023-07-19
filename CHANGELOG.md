@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.3.20`](#katana_cli---v2320)
+ - [`masamune_location_google` - `v2.1.36`](#masamune_location_google---v2136)
+ - [`masamune_purchase_mobile` - `v2.3.8`](#masamune_purchase_mobile---v238)
+
+---
+
+#### `katana_cli` - `v2.3.20`
+
+ - **FIX**: Modified the settings to allow the installation of a purchase for Test. ([0f574e46](https://github.com/mathrunet/flutter_masamune/commit/0f574e469971dfe01947e4fa49d4294547a1454f))
+
+#### `masamune_location_google` - `v2.1.36`
+
+ - **FIX**: Modified to allow various IDs to be used. ([a46e11bc](https://github.com/mathrunet/flutter_masamune/commit/a46e11bc19e3303aa9e491e5fafdd609188f0ab9))
+
+#### `masamune_purchase_mobile` - `v2.3.8`
+
+ - **FIX**: Added icon item to PurchaseProduct. ([e3989ab2](https://github.com/mathrunet/flutter_masamune/commit/e3989ab202484b7493ee317a67ce465f86d55d44))
+
+
 ## 2023-07-18
 
 ### Changes

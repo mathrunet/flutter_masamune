@@ -1,3 +1,7 @@
+## 2.3.20
+
+ - **FIX**: Modified the settings to allow the installation of a purchase for Test. ([0f574e46](https://github.com/mathrunet/flutter_masamune/commit/0f574e469971dfe01947e4fa49d4294547a1454f))
+
 ## 2.3.19
 
  - **FIX**: Fixed a bug that did not support location changes in the yaml of Location. ([c25d2c93](https://github.com/mathrunet/flutter_masamune/commit/c25d2c93f7f5f93e7ed778a99d7922c0976bdb21))

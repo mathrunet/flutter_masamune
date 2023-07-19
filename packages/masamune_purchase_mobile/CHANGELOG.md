@@ -1,3 +1,7 @@
+## 2.3.8
+
+ - **FIX**: Added icon item to PurchaseProduct. ([e3989ab2](https://github.com/mathrunet/flutter_masamune/commit/e3989ab202484b7493ee317a67ce465f86d55d44))
+
 ## 2.3.7
 
  - Update a dependency to the latest release.
