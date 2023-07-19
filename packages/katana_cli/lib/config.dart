@@ -328,6 +328,9 @@ location:
 # Configure settings for store billing.
 # ストア課金を行う場合の設定を行います。
 purchase:
+  # Setting this to `true` will install the billing package for testing.
+  # ここを`true`にするとテスト用の課金パッケージがインストールされます。
+  enable: false
 
   # Configure settings for Google Play billing.
   # Follow the steps below to configure the settings.

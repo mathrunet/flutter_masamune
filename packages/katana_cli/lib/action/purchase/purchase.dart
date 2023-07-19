@@ -27,11 +27,8 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
   @override
   bool checkEnabled(ExecContext context) {
     final purchase = context.yaml.getAsMap("purchase");
-    final googlePlay = purchase.getAsMap("google_play");
-    final appStore = purchase.getAsMap("app_store");
-    final enableGooglePlay = googlePlay.get("enable", false);
-    final enableAppStore = appStore.get("enable", false);
-    if (!enableAppStore && !enableGooglePlay) {
+    final enable = purchase.get("enable", false);
+    if (!enable) {
       return false;
     }
     return true;
@@ -57,12 +54,6 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
     final region = function.get("region", "");
     final enableGooglePlay = googlePlay.get("enable", false);
     final enableAppStore = appStore.get("enable", false);
-    if (!enableFunctions) {
-      error(
-        "The item [firebase]->[functions]->[enable] is false. Please set it to true.",
-      );
-      return;
-    }
     if (enableGooglePlay) {
       if (googlePlayClientId.isEmpty || googlePlayClientSecret.isEmpty) {
         error(
@@ -93,31 +84,39 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         return;
       }
     }
-    if (projectId.isEmpty) {
-      error(
-        "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
-      );
-      return;
-    }
-    if (region.isEmpty) {
-      error(
-        "The item [firebase]->[functions]->[region] is missing. Please provide the region for the configuration.",
-      );
-      return;
-    }
-    final firebaseDir = Directory("firebase");
-    if (!firebaseDir.existsSync()) {
-      error(
-        "The directory `firebase` does not exist. Initialize Firebase by executing Firebase init.",
-      );
-      return;
-    }
-    final functionsDir = Directory("firebase/functions");
-    if (!functionsDir.existsSync()) {
-      error(
-        "The directory `firebase/functions` does not exist. Initialize Firebase by executing Firebase init.",
-      );
-      return;
+    if (enableAppStore || enableGooglePlay) {
+      if (!enableFunctions) {
+        error(
+          "The item [firebase]->[functions]->[enable] is false. Please set it to true.",
+        );
+        return;
+      }
+      if (projectId.isEmpty) {
+        error(
+          "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
+        );
+        return;
+      }
+      if (region.isEmpty) {
+        error(
+          "The item [firebase]->[functions]->[region] is missing. Please provide the region for the configuration.",
+        );
+        return;
+      }
+      final firebaseDir = Directory("firebase");
+      if (!firebaseDir.existsSync()) {
+        error(
+          "The directory `firebase` does not exist. Initialize Firebase by executing Firebase init.",
+        );
+        return;
+      }
+      final functionsDir = Directory("firebase/functions");
+      if (!functionsDir.existsSync()) {
+        error(
+          "The directory `firebase/functions` does not exist. Initialize Firebase by executing Firebase init.",
+        );
+        return;
+      }
     }
     await command(
       "Import packages.",
@@ -215,73 +214,76 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
         document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
       );
     }
-    label("Add firebase functions");
-    final functions = Fuctions();
-    await functions.load();
-    if (!functions.functions.any((e) => e == "androidAuthCode()")) {
-      functions.functions.add("androidAuthCode()");
-    }
-    if (!functions.functions.any((e) => e == "androidToken()")) {
-      functions.functions.add("androidToken()");
-    }
-    if (enableAppStore) {
-      if (!functions.functions.any((e) => e == "consumableVerifyIOS()")) {
-        functions.functions.add("consumableVerifyIOS()");
+    if (enableAppStore || enableGooglePlay) {
+      label("Add firebase functions");
+      final functions = Fuctions();
+      await functions.load();
+      if (!functions.functions.any((e) => e == "androidAuthCode()")) {
+        functions.functions.add("androidAuthCode()");
       }
-      if (!functions.functions.any((e) => e == "nonconsumableVerifyIOS()")) {
-        functions.functions.add("nonconsumableVerifyIOS()");
+      if (!functions.functions.any((e) => e == "androidToken()")) {
+        functions.functions.add("androidToken()");
       }
-      if (!functions.functions.any((e) => e == "subscriptionVerifyIOS()")) {
-        functions.functions.add("subscriptionVerifyIOS()");
+      if (enableAppStore) {
+        if (!functions.functions.any((e) => e == "consumableVerifyIOS()")) {
+          functions.functions.add("consumableVerifyIOS()");
+        }
+        if (!functions.functions.any((e) => e == "nonconsumableVerifyIOS()")) {
+          functions.functions.add("nonconsumableVerifyIOS()");
+        }
+        if (!functions.functions.any((e) => e == "subscriptionVerifyIOS()")) {
+          functions.functions.add("subscriptionVerifyIOS()");
+        }
+        if (!functions.functions.any((e) => e == "purchaseWebhookIOS()")) {
+          functions.functions.add("purchaseWebhookIOS()");
+        }
       }
-      if (!functions.functions.any((e) => e == "purchaseWebhookIOS()")) {
-        functions.functions.add("purchaseWebhookIOS()");
+      if (enableGooglePlay) {
+        if (!functions.functions.any((e) => e == "consumableVerifyAndroid()")) {
+          functions.functions.add("consumableVerifyAndroid()");
+        }
+        if (!functions.functions
+            .any((e) => e == "nonconsumableVerifyAndroid()")) {
+          functions.functions.add("nonconsumableVerifyAndroid()");
+        }
+        if (!functions.functions
+            .any((e) => e == "subscriptionVerifyAndroid()")) {
+          functions.functions.add("subscriptionVerifyAndroid()");
+        }
+        if (!functions.functions.any(
+            (e) => e == "purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")")) {
+          functions.functions
+              .add("purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")");
+        }
       }
-    }
-    if (enableGooglePlay) {
-      if (!functions.functions.any((e) => e == "consumableVerifyAndroid()")) {
-        functions.functions.add("consumableVerifyAndroid()");
-      }
-      if (!functions.functions
-          .any((e) => e == "nonconsumableVerifyAndroid()")) {
-        functions.functions.add("nonconsumableVerifyAndroid()");
-      }
-      if (!functions.functions.any((e) => e == "subscriptionVerifyAndroid()")) {
-        functions.functions.add("subscriptionVerifyAndroid()");
-      }
-      if (!functions.functions.any(
-          (e) => e == "purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")")) {
-        functions.functions
-            .add("purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")");
-      }
-    }
-    await functions.save();
-    await command(
-      "Set firebase functions config.",
-      [
-        firebaseCommand,
-        "functions:config:set",
-        "purchase.subscription_path=plugins/iap/subscription",
-        if (enableGooglePlay) ...[
-          "purchase.android.refresh_token=$googlePlayRefreshToken",
-          "purchase.android.client_id=$googlePlayClientId",
-          "purchase.android.client_secret=$googlePlayClientSecret",
+      await functions.save();
+      await command(
+        "Set firebase functions config.",
+        [
+          firebaseCommand,
+          "functions:config:set",
+          "purchase.subscription_path=plugins/iap/subscription",
+          if (enableGooglePlay) ...[
+            "purchase.android.refresh_token=$googlePlayRefreshToken",
+            "purchase.android.client_id=$googlePlayClientId",
+            "purchase.android.client_secret=$googlePlayClientSecret",
+          ],
+          if (enableAppStore) ...[
+            "purchase.ios.shared_secret=$appStoreSharedSecret",
+          ],
         ],
-        if (enableAppStore) ...[
-          "purchase.ios.shared_secret=$appStoreSharedSecret",
+        workingDirectory: "firebase",
+      );
+      await command(
+        "Deploy firebase functions.",
+        [
+          firebaseCommand,
+          "deploy",
+          "--only",
+          "functions",
         ],
-      ],
-      workingDirectory: "firebase",
-    );
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
+        workingDirectory: "firebase",
+      );
+    }
   }
 }
