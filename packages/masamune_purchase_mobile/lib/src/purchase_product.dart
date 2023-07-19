@@ -42,6 +42,7 @@ class PurchaseProduct {
     this.amount,
     this.title = "",
     this.description = "",
+    this.icon,
     required this.price,
     this.expiredPeriod,
   });
@@ -66,6 +67,7 @@ class PurchaseProduct {
     this.amount,
     this.title = "",
     this.description = "",
+    this.icon,
     required this.price,
   })  : type = PurchaseProductType.consumable,
         expiredPeriod = null;
@@ -89,6 +91,7 @@ class PurchaseProduct {
     required this.productId,
     this.title = "",
     this.description = "",
+    this.icon,
     required this.price,
   })  : type = PurchaseProductType.nonConsumable,
         amount = null,
@@ -118,6 +121,7 @@ class PurchaseProduct {
     this.title = "",
     this.description = "",
     required this.price,
+    this.icon,
     this.expiredPeriod,
   })  : type = PurchaseProductType.subscription,
         amount = null;
@@ -150,6 +154,11 @@ class PurchaseProduct {
   ///
   /// 課金アイテムの説明（仮）。
   final String description;
+
+  /// Icons of charged items.
+  ///
+  /// 課金アイテムのアイコン。
+  final Widget? icon;
 
   /// Price of items charged (tentative).
   ///
@@ -220,6 +229,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
           title: product.title,
           description: product.description,
           price: product.price,
+          icon: product.icon,
           amount: product.amount,
           type: PurchaseProductType.consumable,
         ) {
@@ -301,6 +311,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
           productId: product.productId,
           title: product.title,
           description: product.description,
+          icon: product.icon,
           price: product.price,
           type: PurchaseProductType.nonConsumable,
         ) {
@@ -380,6 +391,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
           productId: product.productId,
           title: product.title,
           description: product.description,
+          icon: product.icon,
           price: product.price,
           type: PurchaseProductType.subscription,
         ) {
