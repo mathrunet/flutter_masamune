@@ -35,10 +35,15 @@ export 'package:google_maps_flutter/google_maps_flutter.dart'
         LatLng,
         BitmapDescriptor,
         Marker,
+        MarkerId,
         Polygon,
+        PolygonId,
         Polyline,
+        PolylineId,
         Circle,
-        TileOverlay;
+        CircleId,
+        TileOverlay,
+        TileOverlayId;
 
 part 'adapter/google_location_masamune_adapter.dart';
 

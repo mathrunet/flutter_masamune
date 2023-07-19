@@ -562,7 +562,7 @@ packages:
       path: "../masamune_location"
       relative: true
     source: path
-    version: "2.1.35"
+    version: "2.1.36"
   matcher:
     dependency: transitive
     description:
