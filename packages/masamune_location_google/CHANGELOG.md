@@ -1,3 +1,7 @@
+## 2.1.39
+
+ - **FIX**: Apply import sorter. ([7cf616c7](https://github.com/mathrunet/flutter_masamune/commit/7cf616c77edeb12cadcc17ecc86578507b6cc96b))
+
 ## 2.1.38
 
  - **FIX**: Maintenance around Map markers. ([9bc10bde](https://github.com/mathrunet/flutter_masamune/commit/9bc10bde5b32b61b6005048e850940f9bdbaf6cd))

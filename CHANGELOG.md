@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location_google` - `v2.1.39`](#masamune_location_google---v2139)
+
+---
+
+#### `masamune_location_google` - `v2.1.39`
+
+ - **FIX**: Apply import sorter. ([7cf616c7](https://github.com/mathrunet/flutter_masamune/commit/7cf616c77edeb12cadcc17ecc86578507b6cc96b))
+
+
+## 2023-07-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v2.1.38`](#masamune_location---v2138)
  - [`masamune_location_google` - `v2.1.38`](#masamune_location_google---v2138)
 
