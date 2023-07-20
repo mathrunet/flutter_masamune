@@ -1,3 +1,7 @@
+## 2.0.13
+
+ - **FIX**: Support for Firebase specification changes. ([dca44962](https://github.com/mathrunet/flutter_masamune/commit/dca44962efb56459d61b47990f3db8e78fe33d18))
+
 ## 2.0.12
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

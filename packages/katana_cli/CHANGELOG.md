@@ -1,3 +1,7 @@
+## 2.3.21
+
+ - **FIX**: Changed the minimum version of GoogleMap to 23. ([8daaae21](https://github.com/mathrunet/flutter_masamune/commit/8daaae210c461c4bfba909843d83e9afc1efb720))
+
 ## 2.3.20
 
  - **FIX**: Modified the settings to allow the installation of a purchase for Test. ([0f574e46](https://github.com/mathrunet/flutter_masamune/commit/0f574e469971dfe01947e4fa49d4294547a1454f))

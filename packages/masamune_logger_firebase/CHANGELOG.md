@@ -1,3 +1,7 @@
+## 2.0.70
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
 ## 2.0.69
 
  - Update a dependency to the latest release.

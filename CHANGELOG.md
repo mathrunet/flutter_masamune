@@ -3,6 +3,103 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.0.13`](#katana_auth---v2013)
+ - [`katana_auth_firebase` - `v2.0.13`](#katana_auth_firebase---v2013)
+ - [`katana_cli` - `v2.3.21`](#katana_cli---v2321)
+ - [`masamune` - `v2.2.17`](#masamune---v2217)
+ - [`masamune_agora` - `v2.2.9`](#masamune_agora---v229)
+ - [`masamune_location` - `v2.1.37`](#masamune_location---v2137)
+ - [`masamune_logger_firebase` - `v2.0.70`](#masamune_logger_firebase---v2070)
+ - [`masamune_notification_firebase` - `v2.1.25`](#masamune_notification_firebase---v2125)
+ - [`masamune_picker` - `v2.1.27`](#masamune_picker---v2127)
+ - [`masamune_purchase_mobile` - `v2.3.9`](#masamune_purchase_mobile---v239)
+ - [`masamune_purchase_stripe` - `v3.1.25`](#masamune_purchase_stripe---v3125)
+ - [`masamune_universal_ui` - `v2.2.7`](#masamune_universal_ui---v227)
+ - [`masamune_auth_apple` - `v2.1.28`](#masamune_auth_apple---v2128)
+ - [`masamune_auth_google` - `v2.1.28`](#masamune_auth_google---v2128)
+ - [`masamune_ai_openai` - `v2.1.25`](#masamune_ai_openai---v2125)
+ - [`masamune_calendar` - `v2.0.71`](#masamune_calendar---v2071)
+ - [`masamune_util` - `v2.1.6`](#masamune_util---v216)
+ - [`masamune_location_google` - `v2.1.37`](#masamune_location_google---v2137)
+ - [`masamune_auth_facebook` - `v2.1.30`](#masamune_auth_facebook---v2130)
+ - [`masamune_mail` - `v2.1.25`](#masamune_mail---v2125)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_apple` - `v2.1.28`
+ - `masamune_auth_google` - `v2.1.28`
+ - `masamune_ai_openai` - `v2.1.25`
+ - `masamune_calendar` - `v2.0.71`
+ - `masamune_util` - `v2.1.6`
+ - `masamune_location_google` - `v2.1.37`
+ - `masamune_auth_facebook` - `v2.1.30`
+ - `masamune_mail` - `v2.1.25`
+
+---
+
+#### `katana_auth` - `v2.0.13`
+
+ - **FIX**: Support for Firebase specification changes. ([dca44962](https://github.com/mathrunet/flutter_masamune/commit/dca44962efb56459d61b47990f3db8e78fe33d18))
+
+#### `katana_auth_firebase` - `v2.0.13`
+
+ - **FIX**: Support for Firebase specification changes. ([dca44962](https://github.com/mathrunet/flutter_masamune/commit/dca44962efb56459d61b47990f3db8e78fe33d18))
+
+#### `katana_cli` - `v2.3.21`
+
+ - **FIX**: Changed the minimum version of GoogleMap to 23. ([8daaae21](https://github.com/mathrunet/flutter_masamune/commit/8daaae210c461c4bfba909843d83e9afc1efb720))
+
+#### `masamune` - `v2.2.17`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_agora` - `v2.2.9`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_location` - `v2.1.37`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_logger_firebase` - `v2.0.70`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_notification_firebase` - `v2.1.25`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_picker` - `v2.1.27`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_purchase_mobile` - `v2.3.9`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_purchase_stripe` - `v3.1.25`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+#### `masamune_universal_ui` - `v2.2.7`
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
+
 ## 2023-07-19
 
 ### Changes

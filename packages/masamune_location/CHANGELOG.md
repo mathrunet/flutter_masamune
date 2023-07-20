@@ -1,3 +1,7 @@
+## 2.1.37
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
 ## 2.1.36
 
  - **FIX**: toGeoValue is supported. ([4b6327e1](https://github.com/mathrunet/flutter_masamune/commit/4b6327e114f4faa852ce0448858e5146e5233a76))

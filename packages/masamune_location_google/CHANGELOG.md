@@ -1,3 +1,7 @@
+## 2.1.37
+
+ - Update a dependency to the latest release.
+
 ## 2.1.36
 
  - **FIX**: Modified to allow various IDs to be used. ([a46e11bc](https://github.com/mathrunet/flutter_masamune/commit/a46e11bc19e3303aa9e491e5fafdd609188f0ab9))

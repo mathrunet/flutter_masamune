@@ -1,3 +1,7 @@
+## 2.3.9
+
+ - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
+
 ## 2.3.8
 
  - **FIX**: Added icon item to PurchaseProduct. ([e3989ab2](https://github.com/mathrunet/flutter_masamune/commit/e3989ab202484b7493ee317a67ce465f86d55d44))
