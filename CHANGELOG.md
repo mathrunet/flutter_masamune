@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v2.1.38`](#masamune_location---v2138)
+ - [`masamune_location_google` - `v2.1.38`](#masamune_location_google---v2138)
+
+---
+
+#### `masamune_location` - `v2.1.38`
+
+ - **FIX**: Maintenance around Map markers. ([9bc10bde](https://github.com/mathrunet/flutter_masamune/commit/9bc10bde5b32b61b6005048e850940f9bdbaf6cd))
+
+#### `masamune_location_google` - `v2.1.38`
+
+ - **FIX**: Maintenance around Map markers. ([9bc10bde](https://github.com/mathrunet/flutter_masamune/commit/9bc10bde5b32b61b6005048e850940f9bdbaf6cd))
+
+
+## 2023-07-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v2.0.13`](#katana_auth---v2013)
  - [`katana_auth_firebase` - `v2.0.13`](#katana_auth_firebase---v2013)
  - [`katana_cli` - `v2.3.21`](#katana_cli---v2321)

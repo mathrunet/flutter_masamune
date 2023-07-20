@@ -1,3 +1,7 @@
+## 2.1.38
+
+ - **FIX**: Maintenance around Map markers. ([9bc10bde](https://github.com/mathrunet/flutter_masamune/commit/9bc10bde5b32b61b6005048e850940f9bdbaf6cd))
+
 ## 2.1.37
 
  - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))
