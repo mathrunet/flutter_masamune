@@ -60,7 +60,6 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<PushNotificationMasamuneAdapter>(
       adapter: this,
-      onInit: onInitScope,
       child: app,
     );
   }

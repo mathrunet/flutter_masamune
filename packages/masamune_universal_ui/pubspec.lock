@@ -346,7 +346,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.0.11"
+    version: "2.0.16"
   katana_shorten:
     dependency: "direct overridden"
     description:
@@ -404,7 +404,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.2.11"
+    version: "2.2.16"
   masamune_annotation:
     dependency: "direct overridden"
     description:

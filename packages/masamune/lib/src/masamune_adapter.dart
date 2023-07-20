@@ -161,7 +161,6 @@ class MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
   /// ```
   const MasamuneAdapterScope({
     super.key,
-    this.onInit,
     required this.child,
     required this.adapter,
   });
@@ -175,15 +174,6 @@ class MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
   ///
   /// アプリ全体に設定する[MasamuneAdapter]。
   final TAdapter adapter;
-
-  /// Describe the process when this widget is initialized.
-  ///
-  /// [MasamuneAdapter] is passed to [adapter].
-  ///
-  /// このウィジェットが初期化されたときの処理を記述します。
-  ///
-  /// [adapter]に[MasamuneAdapter]が渡されます。
-  final void Function(TAdapter adapter)? onInit;
 
   /// By passing [context], the [MasamuneAdapter] set in [MasamuneAdapterScope] can be obtained.
   ///
@@ -211,7 +201,7 @@ class _MasamuneAdapterScopeState<TAdapter extends MasamuneAdapter>
   @override
   void initState() {
     super.initState();
-    widget.onInit?.call(widget.adapter);
+    widget.adapter.onInitScope(widget.adapter);
   }
 
   @override

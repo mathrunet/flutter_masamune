@@ -191,7 +191,6 @@ class PickerMasamuneAdapter extends MasamuneAdapter {
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<PickerMasamuneAdapter>(
       adapter: this,
-      onInit: onInitScope,
       child: app,
     );
   }

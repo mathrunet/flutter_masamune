@@ -98,7 +98,6 @@ class StripePurchaseMasamuneAdapter extends MasamuneAdapter {
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<StripePurchaseMasamuneAdapter>(
       adapter: this,
-      onInit: onInitScope,
       child: app,
     );
   }

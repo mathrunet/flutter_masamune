@@ -67,7 +67,8 @@ class Location
   Timer? _timer;
   Duration _updateInterval = const Duration(minutes: 1);
   bool _updated = false;
-  Completer<void>? _completer;
+  Completer<void>? _listenCompleter;
+  Completer<void>? _initializeCompleter;
   // ignore: cancel_subscriptions
   StreamSubscription<Position>? _positionStreamSubscription;
 
@@ -102,10 +103,10 @@ class Location
   Future<void> initialize({
     Duration timeout = const Duration(seconds: 60),
   }) async {
-    if (_completer != null) {
-      return _completer?.future;
+    if (_initializeCompleter != null) {
+      return _initializeCompleter?.future;
     }
-    _completer = Completer<void>();
+    _initializeCompleter = Completer<void>();
     try {
       if (!await Geolocator.isLocationServiceEnabled().timeout(timeout)) {
         throw Exception(
@@ -125,15 +126,15 @@ class Location
       }
       _initialized = true;
       notifyListeners();
-      _completer?.complete();
-      _completer = null;
+      _initializeCompleter?.complete();
+      _initializeCompleter = null;
     } catch (e) {
-      _completer?.completeError(e);
-      _completer = null;
+      _initializeCompleter?.completeError(e);
+      _initializeCompleter = null;
       rethrow;
     } finally {
-      _completer?.complete();
-      _completer = null;
+      _initializeCompleter?.complete();
+      _initializeCompleter = null;
     }
   }
 
@@ -158,13 +159,13 @@ class Location
     Duration updateInterval = const Duration(minutes: 1),
     Duration timeout = const Duration(seconds: 60),
   }) async {
-    if (_completer != null) {
-      return _completer?.future;
+    if (_listenCompleter != null) {
+      return _listenCompleter?.future;
     }
     if (_updateInterval == updateInterval && listening) {
       return;
     }
-    _completer = Completer<void>();
+    _listenCompleter = Completer<void>();
     _updateInterval = updateInterval;
     try {
       await initialize(timeout: timeout);
@@ -195,15 +196,15 @@ class Location
         notifyListeners();
       });
       notifyListeners();
-      _completer?.complete();
-      _completer = null;
+      _listenCompleter?.complete();
+      _listenCompleter = null;
     } catch (e) {
-      _completer?.completeError(e);
-      _completer = null;
+      _listenCompleter?.completeError(e);
+      _listenCompleter = null;
       rethrow;
     } finally {
-      _completer?.complete();
-      _completer = null;
+      _listenCompleter?.complete();
+      _listenCompleter = null;
     }
   }
 

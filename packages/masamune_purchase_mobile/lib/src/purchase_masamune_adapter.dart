@@ -54,7 +54,6 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<PurchaseMasamuneAdapter>(
       adapter: this,
-      onInit: onInitScope,
       child: app,
     );
   }

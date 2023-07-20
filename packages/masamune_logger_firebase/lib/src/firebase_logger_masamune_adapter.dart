@@ -96,7 +96,6 @@ class FirebaseLoggerMasamuneAdapter extends MasamuneAdapter {
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<FirebaseLoggerMasamuneAdapter>(
       adapter: this,
-      onInit: onInitScope,
       child: app,
     );
   }

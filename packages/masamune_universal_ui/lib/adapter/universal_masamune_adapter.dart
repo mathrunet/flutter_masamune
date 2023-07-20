@@ -47,7 +47,9 @@ class UniversalMasamuneAdapter extends MasamuneAdapter {
   Widget onBuildApp(BuildContext context, Widget app) {
     BreakpointSettings.value = breakpointSettings;
     return MasamuneAdapterScope<UniversalMasamuneAdapter>(
-        adapter: this, onInit: onInitScope, child: app);
+      adapter: this,
+      child: app,
+    );
   }
 
   /// デフォルトのブレークポイント。
