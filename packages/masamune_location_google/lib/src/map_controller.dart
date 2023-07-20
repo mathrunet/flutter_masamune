@@ -156,8 +156,8 @@ class MapController
   /// このコントローラーにセットされた[GoogleMapController]。
   ///
   /// [MapView]に[MapController]をわたすことで自動でセットされます。
-  GoogleMapController get controller => _controller;
-  late final GoogleMapController _controller;
+  GoogleMapController get controller => _controller!;
+  GoogleMapController? _controller;
 
   /// Initialize [MapController].
   ///
@@ -283,27 +283,27 @@ class MapController
     await initialize();
     if (animated) {
       if (zoom != null) {
-        await _controller.animateCamera(
+        await _controller?.animateCamera(
           CameraUpdate.newLatLngZoom(
             LatLng(latitude, longitude),
             zoom,
           ),
         );
       } else {
-        await _controller.animateCamera(
+        await _controller?.animateCamera(
           CameraUpdate.newLatLng(LatLng(latitude, longitude)),
         );
       }
     } else {
       if (zoom != null) {
-        await _controller.moveCamera(
+        await _controller?.moveCamera(
           CameraUpdate.newLatLngZoom(
             LatLng(latitude, longitude),
             zoom,
           ),
         );
       } else {
-        await _controller.moveCamera(
+        await _controller?.moveCamera(
           CameraUpdate.newLatLng(
             LatLng(latitude, longitude),
           ),
@@ -325,15 +325,17 @@ class MapController
   }) async {
     await initialize();
     if (animated) {
-      await _controller.animateCamera(
+      await _controller?.animateCamera(
         CameraUpdate.zoomIn(),
       );
     } else {
-      await _controller.moveCamera(
+      await _controller?.moveCamera(
         CameraUpdate.zoomIn(),
       );
     }
-    _zoom = await _controller.getZoomLevel();
+    if (_controller != null) {
+      _zoom = await _controller!.getZoomLevel();
+    }
     notifyListeners();
   }
 
@@ -349,15 +351,17 @@ class MapController
   }) async {
     await initialize();
     if (animated) {
-      await _controller.animateCamera(
+      await _controller?.animateCamera(
         CameraUpdate.zoomOut(),
       );
     } else {
-      await _controller.moveCamera(
+      await _controller?.moveCamera(
         CameraUpdate.zoomOut(),
       );
     }
-    _zoom = await _controller.getZoomLevel();
+    if (_controller != null) {
+      _zoom = await _controller!.getZoomLevel();
+    }
     notifyListeners();
   }
 
@@ -374,15 +378,17 @@ class MapController
   }) async {
     await initialize();
     if (animated) {
-      await _controller.animateCamera(
+      await _controller?.animateCamera(
         CameraUpdate.zoomTo(zoom),
       );
     } else {
-      await _controller.moveCamera(
+      await _controller?.moveCamera(
         CameraUpdate.zoomTo(zoom),
       );
     }
-    _zoom = await _controller.getZoomLevel();
+    if (_controller != null) {
+      _zoom = await _controller!.getZoomLevel();
+    }
     notifyListeners();
   }
 

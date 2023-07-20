@@ -53,32 +53,12 @@ class MapView extends StatefulWidget {
     this.circles = const <Circle>{},
     this.tileOverlays = const <TileOverlay>{},
     this.onCameraMoveStarted,
-    this.iconSettings = const <String, MapIconSetting>{},
     this.onCameraMove,
     this.onCameraIdle,
     this.onTap,
-    this.builder,
     this.style,
     this.onLongPress,
   });
-
-  /// List of icon images to be used on the map.
-  ///
-  /// マップ上で利用するアイコンイメージの一覧。
-  final Map<String, MapIconSetting> iconSettings;
-
-  /// Callback method called after the map image is loaded.
-  ///
-  /// Markers can be set in [MapController.setMarker], etc.
-  ///
-  /// マップの画像を読み込んだ後に呼び出されるコールバックメソッド。
-  ///
-  /// [MapController.setMarker]などにマーカーをセットできます。
-  final void Function(
-    BuildContext context,
-    MapController controller,
-    Map<String, MapIconSetting> iconSettings,
-  )? builder;
 
   /// Map style to be applied.
   ///
@@ -247,7 +227,7 @@ class MapView extends StatefulWidget {
   /// [onCameraMoveStarted]呼び出し後、カメラが動き続けるときに繰り返し呼び出されます。
   ///
   /// これはフレームごとに 1 回程度呼び出すことができ、負荷の高い操作を実行すべきではありません。
-  final CameraPositionCallback? onCameraMove;
+  final void Function(CameraPosition position)? onCameraMove;
 
   /// Called when camera movement has ended, there are no pending animations and the user has stopped interacting with the map.
   ///
@@ -317,7 +297,7 @@ class MapView extends StatefulWidget {
 }
 
 class _MapVewState extends State<MapView> {
-  Map<String, MapIconSetting>? _icons;
+  final Set<map.Marker> _marker = {};
 
   @override
   void didUpdateWidget(covariant MapView oldWidget) {
@@ -326,8 +306,9 @@ class _MapVewState extends State<MapView> {
       widget.controller
           ._setGoogleMapController(oldWidget.controller.controller);
     }
-    if (widget.iconSettings != oldWidget.iconSettings) {
-      _icons = null;
+    if (widget.markers != oldWidget.markers ||
+        widget.controller.markers != oldWidget.controller.markers) {
+      _marker.clear();
       _getBytesFromAsset();
     }
     if (widget.polygons != oldWidget.polygons ||
@@ -336,7 +317,6 @@ class _MapVewState extends State<MapView> {
         widget.circles != oldWidget.circles ||
         widget.tileOverlays != oldWidget.tileOverlays ||
         widget.controller.polygons != oldWidget.controller.polygons ||
-        widget.controller.markers != oldWidget.controller.markers ||
         widget.controller.polylines != oldWidget.controller.polylines ||
         widget.controller.circles != oldWidget.controller.circles ||
         widget.controller.tileOverlays != oldWidget.controller.tileOverlays) {
@@ -367,11 +347,7 @@ class _MapVewState extends State<MapView> {
         widget.onMapCreated?.call(controller);
         widget.controller._position = widget.initialCameraPosition.target;
         widget.controller._zoom = await controller.getZoomLevel();
-        if (widget.builder == null) {
-          return;
-        }
         await _getBytesFromAsset();
-        widget.builder?.call(context, widget.controller, _icons ?? {});
         await Future.delayed(const Duration(milliseconds: 250));
         setState(() {});
       },
@@ -394,8 +370,7 @@ class _MapVewState extends State<MapView> {
       trafficEnabled: widget.trafficEnabled,
       buildingsEnabled: widget.buildingsEnabled,
       markers: {
-        ...widget.markers,
-        ...widget.controller.markers,
+        ..._marker,
       },
       polygons: {
         ...widget.polygons,
@@ -414,50 +389,40 @@ class _MapVewState extends State<MapView> {
         ...widget.controller.tileOverlays,
       },
       onCameraMoveStarted: widget.onCameraMoveStarted,
-      onCameraMove: (position) async {
-        widget.onCameraMove?.call(position);
+      onCameraMove: (map.CameraPosition position) async {
+        widget.onCameraMove?.call(position.toCameraPosition());
         widget.controller._position = position.target;
-        widget.controller._zoom =
-            await widget.controller._controller.getZoomLevel();
-      },
-      onCameraIdle: () async {
-        widget.onCameraIdle?.call();
-        if (widget.builder == null) {
-          return;
+        if (widget.controller._controller != null) {
+          widget.controller._zoom =
+              await widget.controller._controller!.getZoomLevel();
         }
-        await _getBytesFromAsset();
-        widget.builder?.call(context, widget.controller, _icons ?? {});
-        setState(() {});
       },
+      onCameraIdle: widget.onCameraIdle,
       onTap: widget.onTap,
       onLongPress: widget.onLongPress,
     );
   }
 
   Future<void> _getBytesFromAsset() async {
-    if (_icons != null) {
-      return;
-    }
-    _icons = {};
-    if (widget.iconSettings.isEmpty) {
-      return;
-    }
-    for (final tmp in widget.iconSettings.entries) {
-      final data = await rootBundle.load(tmp.value.path);
-      final codec = await instantiateImageCodec(
-        data.buffer.asUint8List(),
-        targetWidth: tmp.value.width,
-      );
-      final fi = await codec.getNextFrame();
-      final bytes = await fi.image.toByteData(format: ImageByteFormat.png);
-      if (bytes == null) {
+    for (final marker in widget.markers) {
+      if (_marker.contains(marker)) {
         continue;
       }
-      _icons![tmp.key] = tmp.value.copyWith(
-        icon: BitmapDescriptor.fromBytes(
-          bytes.buffer.asUint8List(),
-        ),
-      );
+      final loaded = await marker._load();
+      if (loaded == null) {
+        continue;
+      }
+      _marker.add(loaded);
+    }
+    for (final marker in widget.controller.markers) {
+      if (_marker.contains(marker)) {
+        continue;
+      }
+      final loaded = await marker._load();
+      if (loaded == null) {
+        continue;
+      }
+      _marker.add(loaded);
     }
   }
 }
