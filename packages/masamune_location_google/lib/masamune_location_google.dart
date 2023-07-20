@@ -18,6 +18,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:masamune/masamune.dart';
+import 'package:masamune_location/masamune_location.dart';
+
+// Package imports:
 import 'package:google_maps_flutter/google_maps_flutter.dart'
     hide
         Marker,
@@ -29,8 +33,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart'
         CameraPositionCallback;
 import 'package:google_maps_flutter/google_maps_flutter.dart' as map
     show Marker, Polygon, Polyline, Circle, TileOverlay, CameraPosition;
-import 'package:masamune/masamune.dart';
-import 'package:masamune_location/masamune_location.dart';
 
 export 'package:masamune_location/masamune_location.dart';
 export 'package:google_maps_flutter/google_maps_flutter.dart'
