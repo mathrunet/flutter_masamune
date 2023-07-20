@@ -217,14 +217,14 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.3.2"
+    version: "2.3.3"
   katana_logger:
     dependency: "direct main"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.0.10"
+    version: "2.0.11"
   lints:
     dependency: transitive
     description:

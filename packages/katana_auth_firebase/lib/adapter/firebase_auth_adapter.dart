@@ -178,13 +178,19 @@ class FirebaseAuthAdapter extends AuthAdapter {
       _sharedPreferences.containsKey(_kUserPhoneNumberKey.toSHA1());
 
   @override
-  Future<String> get accessToken {
+  Future<String> get accessToken async {
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
     }
-    return _user!.getIdToken();
+    final token = await _user!.getIdToken();
+    if (token.isEmpty) {
+      throw Exception(
+        "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
+      );
+    }
+    return token!;
   }
 
   @override
