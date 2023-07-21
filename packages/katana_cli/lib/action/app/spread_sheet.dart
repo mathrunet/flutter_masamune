@@ -34,6 +34,8 @@ final _mapping = [
   "screenshot_5.5",
   "screenshot_6.5",
   "screenshot_tablet",
+  "screenshot_6.7",
+  "copyright",
 ];
 
 /// Set the application information from the spreadsheet.
