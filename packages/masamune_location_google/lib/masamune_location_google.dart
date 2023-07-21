@@ -9,6 +9,7 @@
 library masamune_location_google;
 
 // Dart imports:
+import 'dart:math';
 import 'dart:ui';
 
 // Flutter imports:

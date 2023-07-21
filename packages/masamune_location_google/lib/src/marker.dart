@@ -1,5 +1,20 @@
 part of masamune_location_google;
 
+/// The shape of the marker icon.
+///
+/// マーカーアイコンの形。
+enum MarkerIconShape {
+  /// Rectrangle.
+  ///
+  /// 四角形。
+  rect,
+
+  /// Circle.
+  ///
+  /// 円形。
+  circle,
+}
+
 /// Marks a geographical location on the map.
 ///
 /// [Marker.image] to place an image and [Marker.icon] to place an icon.
@@ -49,6 +64,12 @@ class Marker extends map.Marker {
     super.onDragEnd,
   })  : _icon = null,
         color = null,
+        borderColor = null,
+        borderWidth = 1.0,
+        padding = 0.0,
+        borderRadius = 8.0,
+        backgroundColor = null,
+        shape = MarkerIconShape.circle,
         super(markerId: MarkerId(markerId), position: position.toLatLng());
 
   /// Marks a geographical location on the map.
@@ -68,6 +89,10 @@ class Marker extends map.Marker {
   Marker.icon({
     required String markerId,
     super.alpha = 1.0,
+    this.padding = 0.0,
+    this.borderColor,
+    this.borderWidth = 1.0,
+    this.backgroundColor,
     super.anchor = const Offset(0.5, 1.0),
     super.consumeTapEvents = false,
     super.draggable = false,
@@ -83,7 +108,9 @@ class Marker extends map.Marker {
     super.onTap,
     super.onDrag,
     super.onDragStart,
+    this.shape = MarkerIconShape.circle,
     super.onDragEnd,
+    this.borderRadius = 8.0,
   })  : _icon = icon,
         image = null,
         super(markerId: MarkerId(markerId), position: position.toLatLng());
@@ -111,6 +138,36 @@ class Marker extends map.Marker {
   ///
   /// アイコンの色。
   final Color? color;
+
+  /// The color of the border around the icon.
+  ///
+  /// アイコンの周りのボーダーの色。
+  final Color? borderColor;
+
+  /// Width of the border around the icon.
+  ///
+  /// アイコンの周りのボーダーの幅。
+  final double borderWidth;
+
+  /// Background color around the icon.
+  ///
+  /// アイコンの周りの背景色。
+  final Color? backgroundColor;
+
+  /// Padding around icons.
+  ///
+  /// アイコン周りのパディング。
+  final double padding;
+
+  /// Radius of rounded corners for [MarkerIconShape.rect].
+  ///
+  /// [MarkerIconShape.rect]の場合の角丸の半径。
+  final double borderRadius;
+
+  /// Shape of marker.
+  ///
+  /// マーカーの形状。
+  final MarkerIconShape shape;
 
   Future<map.Marker?> _load() async {
     if (image != null) {
@@ -143,27 +200,20 @@ class Marker extends map.Marker {
         onDragEnd: onDragEnd,
       );
     } else if (_icon != null) {
-      final pictureRecorder = PictureRecorder();
-      final canvas = Canvas(pictureRecorder);
-      final textPainter = TextPainter(textDirection: TextDirection.ltr);
-      final iconStr = String.fromCharCode(_icon!.codePoint);
-      textPainter.text = TextSpan(
-          text: iconStr,
-          style: TextStyle(
-            letterSpacing: 0.0,
-            fontSize: size.toDouble(),
-            fontFamily: _icon!.fontFamily,
-            color: color,
-          ));
-      textPainter.layout();
-      textPainter.paint(canvas, const Offset(0.0, 0.0));
-      final picture = pictureRecorder.endRecording();
-      final image = await picture.toImage(
-        size.toInt(),
-        size.toInt(),
+      final generator = _MarkerGenerator(
+        markerSize: size,
+        padding: padding,
+        strokeWidth: borderWidth,
+        borderRadius: borderRadius,
       );
-      final bytes = await image.toByteData(format: ImageByteFormat.png);
-      if (bytes == null) {
+      final icon = await generator.createBitmapDescriptorFromIconData(
+        iconData: _icon!,
+        shape: shape,
+        iconColor: color ?? Colors.grey,
+        borderColor: borderColor,
+        backgroundColor: backgroundColor,
+      );
+      if (icon == null) {
         return null;
       }
       return map.Marker(
@@ -174,7 +224,7 @@ class Marker extends map.Marker {
         consumeTapEvents: consumeTapEvents,
         draggable: draggable,
         flat: flat,
-        icon: BitmapDescriptor.fromBytes(bytes.buffer.asUint8List()),
+        icon: icon,
         infoWindow: infoWindow,
         rotation: rotation,
         visible: visible,
@@ -186,5 +236,133 @@ class Marker extends map.Marker {
       );
     }
     return null;
+  }
+}
+
+class _MarkerGenerator {
+  _MarkerGenerator({
+    required this.markerSize,
+    this.strokeWidth = 1.0,
+    this.padding = 0.0,
+    this.borderRadius = 8.0,
+  }) {
+    _offset = markerSize / 2;
+    _outlineWidth = _offset - (strokeWidth / 2) + padding;
+    _fillWidth = markerSize / 2 + padding;
+    final outlineCircleInnerWidth = markerSize - (2 * strokeWidth);
+    _iconSize = sqrt(pow(outlineCircleInnerWidth, 2) / 2);
+    final rectDiagonal = sqrt(2 * pow(markerSize, 2));
+    final circleDistanceToCorners =
+        (rectDiagonal - outlineCircleInnerWidth) / 2;
+    _iconOffset = sqrt(pow(circleDistanceToCorners, 2) / 2);
+  }
+
+  final double markerSize;
+  final double padding;
+  final double strokeWidth;
+  late final double _offset;
+  late final double _outlineWidth;
+  late final double _fillWidth;
+  late final double _iconSize;
+  late final double _iconOffset;
+  final double borderRadius;
+
+  Future<BitmapDescriptor?> createBitmapDescriptorFromIconData({
+    required IconData iconData,
+    required Color iconColor,
+    required MarkerIconShape shape,
+    Color? borderColor,
+    Color? backgroundColor,
+  }) async {
+    final pictureRecorder = PictureRecorder();
+    final canvas = Canvas(pictureRecorder);
+
+    if (shape == MarkerIconShape.rect) {
+      if (backgroundColor != null) {
+        _paintRRectFill(canvas, backgroundColor);
+      }
+      if (borderColor != null) {
+        _paintRRectStroke(canvas, borderColor);
+      }
+    } else {
+      if (backgroundColor != null) {
+        _paintCircleFill(canvas, backgroundColor);
+      }
+      if (borderColor != null) {
+        _paintCircleStroke(canvas, borderColor);
+      }
+    }
+    _paintIcon(canvas, iconColor, iconData);
+
+    final picture = pictureRecorder.endRecording();
+    final image = await picture.toImage(markerSize.round(), markerSize.round());
+    final bytes = await image.toByteData(format: ImageByteFormat.png);
+    if (bytes == null) {
+      return null;
+    }
+    return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+  }
+
+  void _paintCircleFill(Canvas canvas, Color color) {
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = color;
+    canvas.drawCircle(Offset(_offset, _offset), _fillWidth, paint);
+  }
+
+  void _paintCircleStroke(Canvas canvas, Color color) {
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = color
+      ..strokeWidth = strokeWidth;
+    canvas.drawCircle(Offset(_offset, _offset), _outlineWidth, paint);
+  }
+
+  void _paintRRectFill(Canvas canvas, Color color) {
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = color;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+            center: Offset(_offset, _offset),
+            width: _fillWidth,
+            height: _fillWidth),
+        Radius.circular(borderRadius),
+      ),
+      paint,
+    );
+  }
+
+  void _paintRRectStroke(Canvas canvas, Color color) {
+    final paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = color
+      ..strokeWidth = strokeWidth;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+            center: Offset(_offset, _offset),
+            width: _outlineWidth,
+            height: _outlineWidth),
+        Radius.circular(borderRadius),
+      ),
+      paint,
+    );
+  }
+
+  void _paintIcon(Canvas canvas, Color color, IconData iconData) {
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
+    textPainter.text = TextSpan(
+        text: String.fromCharCode(iconData.codePoint),
+        style: TextStyle(
+          letterSpacing: 0.0,
+          fontSize: _iconSize,
+          fontFamily: iconData.fontFamily,
+          package: iconData.fontPackage,
+          color: color,
+        ));
+    textPainter.layout();
+    textPainter.paint(canvas, Offset(_iconOffset, _iconOffset));
   }
 }

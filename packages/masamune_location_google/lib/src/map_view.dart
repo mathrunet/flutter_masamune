@@ -30,19 +30,19 @@ class MapView extends StatefulWidget {
     required this.initialCameraPosition,
     this.onMapCreated,
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
-    this.compassEnabled = true,
-    this.mapToolbarEnabled = true,
+    this.compassEnabled = false,
+    this.mapToolbarEnabled = false,
     this.cameraTargetBounds = CameraTargetBounds.unbounded,
     this.mapType = MapType.normal,
     this.minMaxZoomPreference = MinMaxZoomPreference.unbounded,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
-    this.zoomControlsEnabled = true,
+    this.zoomControlsEnabled = false,
     this.zoomGesturesEnabled = true,
     this.liteModeEnabled = false,
     this.tiltGesturesEnabled = true,
-    this.myLocationEnabled = false,
-    this.myLocationButtonEnabled = true,
+    this.myLocationEnabled = true,
+    this.myLocationButtonEnabled = false,
     this.padding = const EdgeInsets.all(0),
     this.indoorViewEnabled = false,
     this.trafficEnabled = false,
@@ -306,20 +306,20 @@ class _MapVewState extends State<MapView> {
       widget.controller
           ._setGoogleMapController(oldWidget.controller.controller);
     }
-    if (widget.markers != oldWidget.markers ||
-        widget.controller.markers != oldWidget.controller.markers) {
+    if (!widget.markers.equalsTo(oldWidget.markers) ||
+        !widget.controller.markers.equalsTo(oldWidget.controller.markers)) {
       _marker.clear();
       _getBytesFromAsset();
     }
-    if (widget.polygons != oldWidget.polygons ||
-        widget.markers != oldWidget.markers ||
-        widget.polylines != oldWidget.polylines ||
-        widget.circles != oldWidget.circles ||
-        widget.tileOverlays != oldWidget.tileOverlays ||
-        widget.controller.polygons != oldWidget.controller.polygons ||
-        widget.controller.polylines != oldWidget.controller.polylines ||
-        widget.controller.circles != oldWidget.controller.circles ||
-        widget.controller.tileOverlays != oldWidget.controller.tileOverlays) {
+    if (!widget.polygons.equalsTo(oldWidget.polygons) ||
+        !widget.polylines.equalsTo(oldWidget.polylines) ||
+        !widget.circles.equalsTo(oldWidget.circles) ||
+        !widget.tileOverlays.equalsTo(oldWidget.tileOverlays) ||
+        !widget.controller.polygons.equalsTo(oldWidget.controller.polygons) ||
+        !widget.controller.polylines.equalsTo(oldWidget.controller.polylines) ||
+        !widget.controller.circles.equalsTo(oldWidget.controller.circles) ||
+        !widget.controller.tileOverlays
+            .equalsTo(oldWidget.controller.tileOverlays)) {
       setState(() {});
     }
   }
@@ -424,5 +424,6 @@ class _MapVewState extends State<MapView> {
       }
       _marker.add(loaded);
     }
+    setState(() {});
   }
 }
