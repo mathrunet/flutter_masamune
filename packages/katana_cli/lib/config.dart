@@ -24,12 +24,15 @@ app:
   # For each language code, put the normal title in [title] and a short title for the app in [short_title]. Provide an overview of the app in [overview].
   # By increasing the language code, information corresponding to that language can be described.
   # By specifying [domain], you can change the web og tags to those appropriate for that domain.
+  # Specify a support email address in the [email] field.
   # アプリケーションの情報を記載します。
   # それぞれの言語コードに対して[title]に通常タイトル、[short_title]にアプリ用の短いタイトルを記載します。[overview]にアプリの概要を記載します。
   # 言語コードを増やすことでその言語に対応した情報を記載することができます。
   # [domain]を指定することでWebのogタグをそのドメインに応じたものに変更することができます。
+  # [email]にはサポート用のメールアドレスを指定します。
   info:
     enable: false
+    email:
     domain:
     locale:
       en:

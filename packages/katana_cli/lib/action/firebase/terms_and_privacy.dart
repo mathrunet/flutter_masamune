@@ -45,6 +45,8 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
     final termsAndPrivacy = firebase.getAsMap("terms_and_privacy");
+    final appInfo = context.yaml.getAsMap("app").getAsMap("info");
+    final appInfoLocales = appInfo.getAsMap("locale");
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -66,16 +68,12 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       return;
     }
     final spreadSheetsFile = File(kGoogleSpreadSheetPath);
-    if (!spreadSheetsFile.existsSync()) {
-      error(
-        "The file `$kGoogleSpreadSheetPath` does not exist. Set the item [app]->[spread_sheet] and run `katana apply`.",
-      );
-      return;
-    }
-    final spreadSheets = jsonDecodeAsMap(await spreadSheetsFile.readAsString());
+    final spreadSheets = spreadSheetsFile.existsSync()
+        ? jsonDecodeAsMap(await spreadSheetsFile.readAsString())
+        : null;
     label("Set up a Terms of Use and Privacy Policy for Firebase Hosting.");
     for (final locale in termsAndPrivacy.entries) {
-      if (locale.key == "enable") {
+      if (locale.key == "enable" || locale.key == "support_email") {
         continue;
       }
       final value = locale.value as Map;
@@ -93,16 +91,6 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
         );
         return;
       }
-      final entry = spreadSheets.entries
-              .firstWhereOrNull((item) => item.key == locale.key) ??
-          spreadSheets.entries.firstWhereOrNull((item) => item.key == "en") ??
-          spreadSheets.entries.firstOrNull;
-      if (entry == null) {
-        error(
-          "The appropriate application information could not be found. Please check the spreadsheet listed under [app]->[spread_sheet]->[url] for the information you are looking for.",
-        );
-        return;
-      }
       final termsResponse = await Api.get(termsUrl);
       if (termsResponse.statusCode != 200) {
         error(
@@ -117,10 +105,35 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
         );
         return;
       }
-      final entryValue = entry.value as Map<String, dynamic>;
-      final applicationName = entryValue.get("title", "");
-      final supportEmail =
-          entryValue.get("support_email", entryValue.get("email", ""));
+      final entry = spreadSheets?.entries
+              .firstWhereOrNull((item) => item.key == locale.key) ??
+          spreadSheets?.entries.firstWhereOrNull((item) => item.key == "en") ??
+          spreadSheets?.entries.firstOrNull;
+      final entryValue =
+          entry == null ? null : (entry.value as Map<String, dynamic>);
+      final applicationName = entryValue.get(
+        "title",
+        appInfoLocales.getAsMap(locale.key).get(
+              "title",
+              value.get("app_title", ""),
+            ),
+      );
+      final supportEmail = entryValue.get(
+        "support_email",
+        entryValue.get("email", appInfo.get("email", "")),
+      );
+      if (applicationName.isEmpty) {
+        error(
+          "The item [app]->[info]->[locale]->[locale_name]->[title] is missing. Please provide the application title.",
+        );
+        return;
+      }
+      if (supportEmail.isEmpty) {
+        error(
+          "The item [app]->[info]->[email] is missing. Please provide the support email.",
+        );
+        return;
+      }
       final termsContent = termsResponse.body
           .replaceAll(kApplicationNameKey, applicationName)
           .replaceAll(kSuuportEmailKey, "mailto:$supportEmail");
