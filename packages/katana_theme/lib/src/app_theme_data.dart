@@ -214,7 +214,7 @@ class AppThemeData {
     this.useMaterial3 = true,
     this.platform = TargetPlatform.iOS,
     this.centerTitleOnAppBar,
-    this.brightness = Brightness.light,
+    Brightness brightness = Brightness.light,
     this.fixed = false,
   })  : _lightColor = brightness == Brightness.light
             ? ColorThemeData._(
@@ -1107,10 +1107,23 @@ class AppThemeData {
   /// `true`の場合中央寄せ、`false`の場合左寄せ、[Null]の場合はプラットフォームに合わせたデフォルトの寄せ方になります。
   final bool? centerTitleOnAppBar;
 
-  /// Define [Brightness] for the application. [Brightness.dark] will set it to dark mode and [Brightness.light] will set it to light mode.
+  /// Get the [Brightness] currently used by the application.
   ///
-  /// アプリの[Brightness]を定義します。[Brightness.dark]でダークモードに、[Brightness.light]でライトモードになります。
-  final Brightness brightness;
+  /// If [themeMode] is specified, it will take precedence. Otherwise, [WidgetsBinding.instance.platformDispatcher.platformBrightness] will be used.
+  ///
+  /// アプリで現在利用されている[Brightness]を取得します。
+  ///
+  /// [themeMode]で指定されている場合はそちらが優先されます。そうでない場合は[WidgetsBinding.instance.platformDispatcher.platformBrightness]が利用されます。
+  Brightness get brightness {
+    switch (themeMode) {
+      case ThemeMode.dark:
+        return Brightness.dark;
+      case ThemeMode.light:
+        return Brightness.light;
+      case ThemeMode.system:
+        return WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    }
+  }
 
   /// Specifies whether to always use the same theme instead of switching between light and dark modes.
   ///

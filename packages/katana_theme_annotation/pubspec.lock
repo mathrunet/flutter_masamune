@@ -191,7 +191,7 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.3.2"
+    version: "2.3.3"
   lints:
     dependency: transitive
     description:
