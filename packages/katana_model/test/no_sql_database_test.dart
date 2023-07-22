@@ -5,7 +5,6 @@ import 'package:test/test.dart';
 
 // Project imports:
 import 'package:katana_model/katana_model.dart';
-
 import 'runtime_model_test.dart';
 
 void main() {
