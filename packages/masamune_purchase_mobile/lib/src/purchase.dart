@@ -87,7 +87,11 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   bool get initialized => _initialized;
   bool _initialized = false;
 
-  Completer<void>? _completer;
+  bool _loaded = false;
+  Completer<void>? _initializeCompleter;
+  Completer<void>? _loadCompleter;
+  Completer<void>? _restoreompleter;
+  Completer<void>? _purchaseCompleter;
   // ignore: unused_field
   StreamSubscription? _purchaseUpdateStreamSubscription;
 
@@ -108,10 +112,10 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
     if (_initialized) {
       return;
     }
-    if (_completer != null) {
-      return _completer?.future;
+    if (_initializeCompleter != null) {
+      return _initializeCompleter?.future;
     }
-    _completer = Completer<void>();
+    _initializeCompleter = Completer<void>();
     try {
       _products.clear();
       _products.addAll(
@@ -127,34 +131,34 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
       _purchaseUpdateStreamSubscription = adapter.listenPurchase(
         products: _products,
         onDone: () {
-          _completer?.complete();
-          _completer = null;
+          _initializeCompleter?.complete();
+          _initializeCompleter = null;
           notifyListeners();
         },
         onDisposed: () {
-          _completer?.complete();
-          _completer = null;
+          _initializeCompleter?.complete();
+          _initializeCompleter = null;
           dispose();
         },
         onError: (e) {
-          _completer?.completeError(e);
-          _completer = null;
+          _initializeCompleter?.completeError(e);
+          _initializeCompleter = null;
         },
       );
       await adapter.initialize();
       _initialized = true;
-      _completer?.complete();
-      _completer = null;
+      _initializeCompleter?.complete();
+      _initializeCompleter = null;
       notifyListeners();
     } catch (e) {
-      _completer?.completeError(e);
-      _completer = null;
+      _initializeCompleter?.completeError(e);
+      _initializeCompleter = null;
       throw Exception(
         "Purchase completed with error: ${e.toString()}:${StackTrace.current.toString()}",
       );
     } finally {
-      _completer?.complete();
-      _completer = null;
+      _initializeCompleter?.complete();
+      _initializeCompleter = null;
     }
   }
 
@@ -171,23 +175,67 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
         "It has not been initialized. First, execute [initialize] to initialize.",
       );
     }
-    if (_completer != null) {
-      return _completer?.future;
+    if (_restoreompleter != null) {
+      return _restoreompleter?.future;
     }
-    _completer = Completer<void>();
+    _restoreompleter = Completer<void>();
     try {
       await adapter.restore(_products);
-      _completer?.complete();
-      _completer = null;
+      await reload();
+      _restoreompleter?.complete();
+      _restoreompleter = null;
       notifyListeners();
     } catch (e) {
-      _completer?.completeError(e);
-      _completer = null;
+      _restoreompleter?.completeError(e);
+      _restoreompleter = null;
       rethrow;
     } finally {
-      _completer?.complete();
-      _completer = null;
+      _restoreompleter?.complete();
+      _restoreompleter = null;
     }
+  }
+
+  /// Retrieve the status of all products from the server.
+  ///
+  /// すべてのプロダクトの状態をサーバーから取得します。
+  Future<void> load() async {
+    if (!initialized) {
+      throw Exception(
+        "It has not been initialized. First, execute [initialize] to initialize.",
+      );
+    }
+    if (_loaded) {
+      return;
+    }
+    _loaded = true;
+    _loadCompleter = Completer<void>();
+    try {
+      for (final product in _products) {
+        await product.load();
+      }
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+      notifyListeners();
+    } catch (e) {
+      _loadCompleter?.completeError(e);
+      _loadCompleter = null;
+      rethrow;
+    } finally {
+      _loadCompleter?.complete();
+      _loadCompleter = null;
+    }
+  }
+
+  /// Retrieve the status of all products from the server.
+  ///
+  /// The [load] function can only be loaded the first time, but [reload] can be used to load the file again.
+  ///
+  /// すべてのプロダクトの状態をサーバーから取得します。
+  ///
+  /// [load]は初回しか読み込めませんが[reload]を行うことで再度読み込みが可能です。
+  Future<void> reload() {
+    _loaded = false;
+    return load();
   }
 
   /// The billing is based on the items in [product].
@@ -199,8 +247,8 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
         "It has not been initialized. First, execute [initialize] to initialize.",
       );
     }
-    if (_completer != null) {
-      return _completer?.future;
+    if (_purchaseCompleter != null) {
+      return _purchaseCompleter?.future;
     }
     final found = _products.firstWhereOrNull(
       (p) => p.productId == product.productId,
@@ -208,26 +256,27 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
     if (found == null) {
       throw Exception("Product not found: ${product.productId}");
     }
-    _completer = Completer<void>();
+    _purchaseCompleter = Completer<void>();
     try {
       await adapter.purchase(
         product: found,
         onDone: () {
-          _completer?.complete();
-          _completer = null;
+          _purchaseCompleter?.complete();
+          _purchaseCompleter = null;
         },
       );
-      await _completer?.future;
-      _completer?.complete();
-      _completer = null;
+      await _purchaseCompleter?.future;
+      await load();
+      _purchaseCompleter?.complete();
+      _purchaseCompleter = null;
       notifyListeners();
     } catch (e) {
-      _completer?.completeError(e);
-      _completer = null;
+      _purchaseCompleter?.completeError(e);
+      _purchaseCompleter = null;
       rethrow;
     } finally {
-      _completer?.complete();
-      _completer = null;
+      _purchaseCompleter?.complete();
+      _purchaseCompleter = null;
     }
   }
 

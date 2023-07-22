@@ -10,6 +10,11 @@ const kConsumableValueKey = "value";
 /// [PurchaseProductType.subscription]な課金アイテムを購入した場合の有効期限内かどうかを判別するためのキー。
 const kSubscriptionExpiredKey = "expired";
 
+/// A key to identify the product ID.
+///
+/// プロダクトIDを判別するためのキー。
+const kProductIdKey = "productId";
+
 /// Defines the type of item being charged for.
 ///
 /// 課金アイテムのタイプを定義します。

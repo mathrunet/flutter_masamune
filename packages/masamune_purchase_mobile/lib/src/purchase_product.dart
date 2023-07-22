@@ -201,7 +201,8 @@ class PurchaseProduct {
       amount.hashCode ^
       title.hashCode ^
       description.hashCode ^
-      price.hashCode;
+      price.hashCode ^
+      expiredPeriod.hashCode;
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
@@ -231,6 +232,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
           price: product.price,
           icon: product.icon,
           amount: product.amount,
+          expiredPeriod: product.expiredPeriod,
           type: PurchaseProductType.consumable,
         ) {
     _updateDocument();
@@ -261,7 +263,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
   }
 
   Future<void> _purchaseForRuntime() async {
-    await load();
+    await _document?.reload();
     await _document?.save({
       kConsumableValueKey:
           (_document?.value.get(kConsumableValueKey, 0.0) ?? 0.0) +
@@ -313,6 +315,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
           description: product.description,
           icon: product.icon,
           price: product.price,
+          expiredPeriod: product.expiredPeriod,
           type: PurchaseProductType.nonConsumable,
         ) {
     _updateDocument();
@@ -343,7 +346,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
   }
 
   Future<void> _purchaseForRuntime() async {
-    await load();
+    await _document?.reload();
     await _document?.save({
       productId.toCamelCase(): true,
     });
@@ -393,6 +396,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
           description: product.description,
           icon: product.icon,
           price: product.price,
+          expiredPeriod: product.expiredPeriod,
           type: PurchaseProductType.subscription,
         ) {
     _updateCollection();
@@ -426,7 +430,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
     required String orderId,
   }) async {
     assert(expiredPeriod != null, "[expiredPeriod] is not set.");
-    await load();
+    await _collection?.reload();
     final now = DateTime.now();
     final expiredTime = now.add(expiredPeriod!);
     final doc = _collection?.create();
@@ -444,9 +448,11 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
   @override
   PurchaseProductValue? get value {
     return PurchaseProductValue(
-      active: _collection?.any(
-            (e) => !e.value.get(kSubscriptionExpiredKey, true),
-          ) ??
+      active: _collection
+              ?.where((e) => e.value.get(kProductIdKey, "") == productId)
+              .any(
+                (e) => !e.value.get(kSubscriptionExpiredKey, true),
+              ) ??
           false,
     );
   }
