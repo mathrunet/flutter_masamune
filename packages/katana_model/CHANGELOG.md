@@ -1,3 +1,8 @@
+## 2.6.1
+
+ - **FIX**: Fixed the filter reloads from time to time. ([c8d5f17d](https://github.com/mathrunet/flutter_masamune/commit/c8d5f17d8f0c67ba3e4c8deeb081dea6db6bd611))
+ - **FIX**: Apply import sorter. ([3c38a177](https://github.com/mathrunet/flutter_masamune/commit/3c38a177891b9126973b657a9b4b734a48d0d27d))
+
 ## 2.6.0
 
  - **FEAT**: Added filters for models. ([a1f6c91f](https://github.com/mathrunet/flutter_masamune/commit/a1f6c91f5b2af065c06618cb6a36c7f14f772b27))
