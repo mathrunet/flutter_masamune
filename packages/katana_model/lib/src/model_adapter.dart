@@ -492,20 +492,21 @@ class ModelAdapterCollectionQuery {
   /// `update`に変更された場合の情報が含まれています。
   final void Function(ModelUpdateNotification update)? callback;
 
-  /// Change [headers] or [method] and [page] and copy.
+  /// Change [headers] or [method], [page], and [query] and copy.
   ///
   /// Copied objects are recognized as the same object.
   ///
-  /// [headers]もしくは[method]、[page]を変更してコピーします。
+  /// [headers]もしくは[method]、[page]、[query]を変更してコピーします。
   ///
   /// コピーされたオブジェクトは同一オブジェクトとして認識されます。
   ModelAdapterCollectionQuery copyWith({
     Map<String, String>? headers,
     String? method,
     int? page,
+    CollectionModelQuery? query,
   }) {
     return ModelAdapterCollectionQuery(
-      query: query,
+      query: query ?? this.query,
       callback: callback,
       origin: origin,
       listen: listen,

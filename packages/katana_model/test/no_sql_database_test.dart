@@ -6,6 +6,8 @@ import 'package:test/test.dart';
 // Project imports:
 import 'package:katana_model/katana_model.dart';
 
+import 'runtime_model_test.dart';
+
 void main() {
   test("NoSqlDatabase.document", () async {
     final db = NoSqlDatabase();
@@ -1157,5 +1159,80 @@ void main() {
       "text": "mmm",
       "image": "nnn",
     });
+  });
+  test("NoSqlDatabase.filter", () async {
+    final db = NoSqlDatabase();
+    final adapter = RuntimeModelAdapter(
+      database: db,
+      rawData: const [
+        DynamicModelRawCollection("test", {
+          "1": {
+            "name": "aaa",
+            "text": "bbb",
+            "count": 5,
+          },
+          "2": {
+            "name": "ccc",
+            "text": "ddd",
+            "count": 10,
+          },
+          "3": {
+            "name": "eee",
+            "text": "fff",
+            "count": 15,
+          },
+        }),
+      ],
+    );
+    final collection = RuntimeCollectionModel(
+      CollectionModelQuery("test", adapter: adapter),
+    );
+    await collection.load();
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "aaa",
+        "text": "bbb",
+        "count": 5,
+      },
+      {
+        "name": "ccc",
+        "text": "ddd",
+        "count": 10,
+      },
+      {
+        "name": "eee",
+        "text": "fff",
+        "count": 15,
+      }
+    ]);
+    await collection.filter((source) => source.equal("name", "aaa"));
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "aaa",
+        "text": "bbb",
+        "count": 5,
+      },
+    ]);
+    await collection.filter((source) => source.reset().equal("name", "eee"));
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "eee",
+        "text": "fff",
+        "count": 15,
+      }
+    ]);
+    await collection.filter((source) => source.reset().greaterThan("count", 8));
+    expect(collection.map((e) => e.value).toList(), [
+      {
+        "name": "ccc",
+        "text": "ddd",
+        "count": 10,
+      },
+      {
+        "name": "eee",
+        "text": "fff",
+        "count": 15,
+      }
+    ]);
   });
 }

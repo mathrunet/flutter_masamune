@@ -85,9 +85,6 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
   @override
   @protected
   CollectionModelQuery get modelQuery {
-    if (_modelQuery != null) {
-      return _modelQuery!;
-    }
     final modelQuery = super.modelQuery;
     return _modelQuery = CollectionModelQuery._(
       modelQuery.path,
@@ -102,8 +99,6 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
       adapter: modelQuery.adapter,
     );
   }
-
-  CollectionModelQuery? _modelQuery;
 
   /// The field with this key contains the Bigram data for the search.
   ///
@@ -127,7 +122,7 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
   ///
   /// ソートなどは検索結果をクライアント側でソートしてから返してください。
   Future<CollectionBase<TModel>> search(String searchText) async {
-    final existsFilter = _modelQuery?.filters
+    final existsFilter = _modelQuery.filters
         .firstWhereOrNull((item) => item.type == ModelQueryFilterType.like);
     if (existsFilter?.value?.toString() == searchText) {
       return this;
@@ -156,7 +151,7 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
   ///
   /// 設定されていない場合は空文字として取得されます。
   String get searchText {
-    final existsFilter = _modelQuery?.filters
+    final existsFilter = _modelQuery.filters
         .firstWhereOrNull((item) => item.type == ModelQueryFilterType.like);
     return existsFilter?.value?.toString() ?? "";
   }

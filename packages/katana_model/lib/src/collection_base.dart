@@ -65,14 +65,14 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
   CollectionBase(
-    this.modelQuery, [
+    this._modelQuery, [
     List<TModel>? value,
   ])  : __value = value ?? [],
         assert(
-          !(modelQuery.path.trimQuery().trimString("/").splitLength() <= 0 ||
-              modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
+          !(_modelQuery.path.trimQuery().trimString("/").splitLength() <= 0 ||
+              _modelQuery.path.trimQuery().trimString("/").splitLength() % 2 !=
                   1),
-          "The query path hierarchy must be an odd number: ${modelQuery.path}",
+          "The query path hierarchy must be an odd number: ${_modelQuery.path}",
         );
 
   /// Define a collection model that includes [DocumentBase] as an element.
@@ -107,7 +107,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// 要素を追加する場合は[CollectionBase.create]を実行し新しいドキュメントを作成したあと、[DocumentBase.save]で保存してください。
   CollectionBase.unrestricted(
-    this.modelQuery, [
+    this._modelQuery, [
     List<TModel>? value,
   ]) : __value = value ?? [];
 
@@ -124,7 +124,9 @@ abstract class CollectionBase<TModel extends DocumentBase>
   ///
   /// コレクションを読込・保存するためのクエリ。
   @protected
-  final CollectionModelQuery modelQuery;
+  CollectionModelQuery get modelQuery => _modelQuery;
+  // ignore: prefer_final_fields
+  late CollectionModelQuery _modelQuery;
 
   /// Database queries for collections.
   ///
@@ -286,6 +288,27 @@ abstract class CollectionBase<TModel extends DocumentBase>
       _databaseQuery = databaseQuery.copyWith(page: databaseQuery.page - 1);
     }
     return loaded;
+  }
+
+  /// [callback] will redefine a new [CollectionModelQuery] and execute [reload].
+  ///
+  /// Use this function when you want to read the file again with new conditions.
+  ///
+  /// [callback]により新しく[CollectionModelQuery]を定義し直して[reload]を実行します。
+  ///
+  /// 新しい条件で再度読み込みをおこないたい場合に利用します。
+  Future<CollectionBase<TModel>> filter(
+    CollectionModelQuery Function(CollectionModelQuery source) callback,
+  ) {
+    _databaseQuery = null;
+    final newQuery = callback.call(modelQuery);
+    if (newQuery != _modelQuery) {
+      _databaseQuery = databaseQuery.copyWith(
+        query: newQuery,
+      );
+      _modelQuery.adapter.disposeCollection(databaseQuery);
+    }
+    return reload();
   }
 
   /// Callback called after loading.

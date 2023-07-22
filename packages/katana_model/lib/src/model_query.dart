@@ -421,6 +421,13 @@ class CollectionModelQuery extends ModelQuery {
     ]);
   }
 
+  /// Reset all [filters].
+  ///
+  /// すべての[filters]をリセットします。
+  CollectionModelQuery reset() {
+    return _copyWithAddingFilter(filters: []);
+  }
+
   CollectionModelQuery _copyWithAddingFilter({
     List<ModelQueryFilter>? filters,
   }) {
