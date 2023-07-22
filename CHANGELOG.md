@@ -3,6 +3,99 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.3.22`](#katana_cli---v2322)
+ - [`katana_model` - `v2.5.6`](#katana_model---v256)
+ - [`katana_theme` - `v2.0.16`](#katana_theme---v2016)
+ - [`katana_theme_annotation` - `v2.0.13`](#katana_theme_annotation---v2013)
+ - [`katana_theme_builder` - `v2.0.14`](#katana_theme_builder---v2014)
+ - [`masamune_location_google` - `v2.1.40`](#masamune_location_google---v2140)
+ - [`masamune_purchase_mobile` - `v2.3.10`](#masamune_purchase_mobile---v2310)
+ - [`katana_model_local` - `v2.2.6`](#katana_model_local---v226)
+ - [`katana_model_firestore` - `v2.4.1`](#katana_model_firestore---v241)
+ - [`masamune` - `v2.2.18`](#masamune---v2218)
+ - [`masamune_location` - `v2.1.39`](#masamune_location---v2139)
+ - [`masamune_auth_apple` - `v2.1.29`](#masamune_auth_apple---v2129)
+ - [`masamune_agora` - `v2.2.10`](#masamune_agora---v2210)
+ - [`masamune_auth_google` - `v2.1.29`](#masamune_auth_google---v2129)
+ - [`masamune_ai_openai` - `v2.1.26`](#masamune_ai_openai---v2126)
+ - [`masamune_calendar` - `v2.0.72`](#masamune_calendar---v2072)
+ - [`masamune_picker` - `v2.1.28`](#masamune_picker---v2128)
+ - [`masamune_util` - `v2.1.7`](#masamune_util---v217)
+ - [`masamune_universal_ui` - `v2.2.8`](#masamune_universal_ui---v228)
+ - [`masamune_purchase_stripe` - `v3.1.26`](#masamune_purchase_stripe---v3126)
+ - [`masamune_logger_firebase` - `v2.0.71`](#masamune_logger_firebase---v2071)
+ - [`masamune_auth_facebook` - `v2.1.31`](#masamune_auth_facebook---v2131)
+ - [`masamune_mail` - `v2.1.26`](#masamune_mail---v2126)
+ - [`masamune_notification_firebase` - `v2.1.26`](#masamune_notification_firebase---v2126)
+ - [`masamune_builder` - `v2.3.8`](#masamune_builder---v238)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_local` - `v2.2.6`
+ - `katana_model_firestore` - `v2.4.1`
+ - `masamune` - `v2.2.18`
+ - `masamune_location` - `v2.1.39`
+ - `masamune_auth_apple` - `v2.1.29`
+ - `masamune_agora` - `v2.2.10`
+ - `masamune_auth_google` - `v2.1.29`
+ - `masamune_ai_openai` - `v2.1.26`
+ - `masamune_calendar` - `v2.0.72`
+ - `masamune_picker` - `v2.1.28`
+ - `masamune_util` - `v2.1.7`
+ - `masamune_universal_ui` - `v2.2.8`
+ - `masamune_purchase_stripe` - `v3.1.26`
+ - `masamune_logger_firebase` - `v2.0.71`
+ - `masamune_auth_facebook` - `v2.1.31`
+ - `masamune_mail` - `v2.1.26`
+ - `masamune_notification_firebase` - `v2.1.26`
+ - `masamune_builder` - `v2.3.8`
+
+---
+
+#### `katana_cli` - `v2.3.22`
+
+ - **FIX**: Terms of Use and Privacy Policy can be written without spreadsheets. ([8b12caf1](https://github.com/mathrunet/flutter_masamune/commit/8b12caf10ce647cf74c25e97fb7c87beaf0c1355))
+ - **FIX**: Added new size of Screenshot. ([0069e6f9](https://github.com/mathrunet/flutter_masamune/commit/0069e6f9f3c0efa8a5766acfdd3257580377d077))
+
+#### `katana_model` - `v2.5.6`
+
+ - **FIX**: Fixed by changing Listener and Entries in NoSQLDatabase to use query.origin as a key since notifications were not sent to other objects in the same path. ([338194e5](https://github.com/mathrunet/flutter_masamune/commit/338194e5673274f53bf748442241ce025ef98445))
+
+#### `katana_theme` - `v2.0.16`
+
+ - **FIX**: Added the ability to get the Brightness of the system in theme.brightness. ([9b64cb3f](https://github.com/mathrunet/flutter_masamune/commit/9b64cb3fb3c06931bb5f31e526daf4b20ed269ea))
+
+#### `katana_theme_annotation` - `v2.0.13`
+
+ - **FIX**: Added the ability to get the Brightness of the system in theme.brightness. ([9b64cb3f](https://github.com/mathrunet/flutter_masamune/commit/9b64cb3fb3c06931bb5f31e526daf4b20ed269ea))
+
+#### `katana_theme_builder` - `v2.0.14`
+
+ - **FIX**: Added the ability to get the Brightness of the system in theme.brightness. ([9b64cb3f](https://github.com/mathrunet/flutter_masamune/commit/9b64cb3fb3c06931bb5f31e526daf4b20ed269ea))
+
+#### `masamune_location_google` - `v2.1.40`
+
+ - **FIX**: Added the ability to draw around marker icons. ([41d0178a](https://github.com/mathrunet/flutter_masamune/commit/41d0178aaf164dc73eb72406f7687fe320e09c1e))
+
+#### `masamune_purchase_mobile` - `v2.3.10`
+
+ - **FIX**: Fixes around product loading. ([311f2065](https://github.com/mathrunet/flutter_masamune/commit/311f20655ccf9c4827037805df7d535fc1ea5390))
+
+
 ## 2023-07-20
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - Update a dependency to the latest release.
+
 ## 2.4.0
 
  - **FEAT**: Enhanced extensibility for each ModelFieldValue. ([902f2569](https://github.com/mathrunet/flutter_masamune/commit/902f25699dae587584f9ae72ca9d98231bf07f46))

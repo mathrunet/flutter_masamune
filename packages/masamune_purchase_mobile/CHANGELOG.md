@@ -1,3 +1,7 @@
+## 2.3.10
+
+ - **FIX**: Fixes around product loading. ([311f2065](https://github.com/mathrunet/flutter_masamune/commit/311f20655ccf9c4827037805df7d535fc1ea5390))
+
 ## 2.3.9
 
  - **FIX**: Change the execution location of MasamuneAdapter.onInitScope. ([87e58ff5](https://github.com/mathrunet/flutter_masamune/commit/87e58ff5eae0a8386faa00de53f37f2cd370738b))

@@ -1,3 +1,8 @@
+## 2.3.22
+
+ - **FIX**: Terms of Use and Privacy Policy can be written without spreadsheets. ([8b12caf1](https://github.com/mathrunet/flutter_masamune/commit/8b12caf10ce647cf74c25e97fb7c87beaf0c1355))
+ - **FIX**: Added new size of Screenshot. ([0069e6f9](https://github.com/mathrunet/flutter_masamune/commit/0069e6f9f3c0efa8a5766acfdd3257580377d077))
+
 ## 2.3.21
 
  - **FIX**: Changed the minimum version of GoogleMap to 23. ([8daaae21](https://github.com/mathrunet/flutter_masamune/commit/8daaae210c461c4bfba909843d83e9afc1efb720))

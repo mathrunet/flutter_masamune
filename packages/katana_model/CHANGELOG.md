@@ -1,3 +1,7 @@
+## 2.5.6
+
+ - **FIX**: Fixed by changing Listener and Entries in NoSQLDatabase to use query.origin as a key since notifications were not sent to other objects in the same path. ([338194e5](https://github.com/mathrunet/flutter_masamune/commit/338194e5673274f53bf748442241ce025ef98445))
+
 ## 2.5.5
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

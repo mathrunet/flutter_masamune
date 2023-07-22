@@ -1,3 +1,7 @@
+## 2.0.13
+
+ - **FIX**: Added the ability to get the Brightness of the system in theme.brightness. ([9b64cb3f](https://github.com/mathrunet/flutter_masamune/commit/9b64cb3fb3c06931bb5f31e526daf4b20ed269ea))
+
 ## 2.0.12
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

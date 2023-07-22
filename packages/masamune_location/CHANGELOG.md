@@ -1,3 +1,7 @@
+## 2.1.39
+
+ - Update a dependency to the latest release.
+
 ## 2.1.38
 
  - **FIX**: Maintenance around Map markers. ([9bc10bde](https://github.com/mathrunet/flutter_masamune/commit/9bc10bde5b32b61b6005048e850940f9bdbaf6cd))
