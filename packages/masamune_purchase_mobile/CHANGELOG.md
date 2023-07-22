@@ -1,3 +1,7 @@
+## 2.3.11
+
+ - Update a dependency to the latest release.
+
 ## 2.3.10
 
  - **FIX**: Fixes around product loading. ([311f2065](https://github.com/mathrunet/flutter_masamune/commit/311f20655ccf9c4827037805df7d535fc1ea5390))

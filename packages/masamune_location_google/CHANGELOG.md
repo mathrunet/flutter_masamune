@@ -1,3 +1,7 @@
+## 2.1.41
+
+ - Update a dependency to the latest release.
+
 ## 2.1.40
 
  - **FIX**: Added the ability to draw around marker icons. ([41d0178a](https://github.com/mathrunet/flutter_masamune/commit/41d0178aaf164dc73eb72406f7687fe320e09c1e))

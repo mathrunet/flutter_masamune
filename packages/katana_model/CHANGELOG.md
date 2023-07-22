@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Added filters for models. ([a1f6c91f](https://github.com/mathrunet/flutter_masamune/commit/a1f6c91f5b2af065c06618cb6a36c7f14f772b27))
+
 ## 2.5.6
 
  - **FIX**: Fixed by changing Listener and Entries in NoSQLDatabase to use query.origin as a key since notifications were not sent to other objects in the same path. ([338194e5](https://github.com/mathrunet/flutter_masamune/commit/338194e5673274f53bf748442241ce025ef98445))
