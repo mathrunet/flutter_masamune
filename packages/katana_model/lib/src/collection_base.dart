@@ -299,16 +299,20 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// 新しい条件で再度読み込みをおこないたい場合に利用します。
   Future<CollectionBase<TModel>> filter(
     CollectionModelQuery Function(CollectionModelQuery source) callback,
-  ) {
-    _databaseQuery = null;
-    final newQuery = callback.call(modelQuery);
-    if (newQuery != _modelQuery) {
+  ) async {
+    final prevQuery = modelQuery;
+    _modelQuery = callback.call(modelQuery);
+    if (modelQuery != prevQuery) {
+      _databaseQuery = null;
       _databaseQuery = databaseQuery.copyWith(
-        query: newQuery,
+        query: modelQuery,
       );
       _modelQuery.adapter.disposeCollection(databaseQuery);
+      await reload();
+    } else {
+      _modelQuery = prevQuery;
     }
-    return reload();
+    return this;
   }
 
   /// Callback called after loading.
