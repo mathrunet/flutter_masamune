@@ -110,10 +110,12 @@ class NoSqlDatabase {
   bool _initialized = false;
   Completer<void>? _completer;
   final List<String> _registeredRawDataPath = [];
-  final Map<String, Set<ModelAdapterDocumentQuery>> _documentListeners = {};
-  final Map<String, Set<ModelAdapterCollectionQuery>> _collectionListeners = {};
-  final Map<ModelAdapterCollectionQuery, List<MapEntry<String, DynamicMap>>>
-      _collectionEntries = {};
+  final Map<String, Map<Object?, ModelAdapterDocumentQuery>>
+      _documentListeners = {};
+  final Map<String, Map<Object?, ModelAdapterCollectionQuery>>
+      _collectionListeners = {};
+  final Map<Object?, List<MapEntry<String, DynamicMap>>> _collectionEntries =
+      {};
 
   String _path(String original, String? prefix) {
     if (prefix.isEmpty) {
@@ -153,12 +155,12 @@ class NoSqlDatabase {
     final trimPath = _path(query.query.path, prefix);
     if (_documentListeners.containsKey(trimPath)) {
       final listener = _documentListeners[trimPath]!;
-      if (listener.contains(query)) {
+      if (listener.containsKey(query.origin)) {
         return;
       }
-      listener.add(query);
+      listener[query.origin] = query;
     } else {
-      _documentListeners[trimPath] = {query};
+      _documentListeners[trimPath] = {query.origin: query};
     }
   }
 
@@ -169,12 +171,12 @@ class NoSqlDatabase {
     final trimPath = _path(query.query.path, prefix);
     if (_collectionListeners.containsKey(trimPath)) {
       final listener = _collectionListeners[trimPath]!;
-      if (listener.contains(query)) {
+      if (listener.containsKey(query.origin)) {
         return;
       }
-      listener.add(query);
+      listener[query.origin] = query;
     } else {
-      _collectionListeners[trimPath] = {query};
+      _collectionListeners[trimPath] = {query.origin: query};
     }
   }
 
@@ -194,7 +196,7 @@ class NoSqlDatabase {
     }
     final trimPath = _path(query.query.path, prefix);
     if (_documentListeners.containsKey(trimPath)) {
-      _documentListeners[trimPath]!.remove(query);
+      _documentListeners[trimPath]!.remove(query.origin);
     }
   }
 
@@ -214,7 +216,7 @@ class NoSqlDatabase {
     }
     final trimPath = _path(query.query.path, prefix);
     if (_collectionListeners.containsKey(trimPath)) {
-      _collectionListeners[trimPath]!.remove(query);
+      _collectionListeners[trimPath]!.remove(query.origin);
     }
   }
 
@@ -347,7 +349,7 @@ class NoSqlDatabase {
       0,
       limitValue != null ? min(limitValue, entries.length) : null,
     );
-    _collectionEntries[query] = List.from(limited);
+    _collectionEntries[query.origin] = List.from(limited);
     return Map<String, DynamicMap>.fromEntries(limited);
   }
 
@@ -408,7 +410,7 @@ class NoSqlDatabase {
       0,
       limitValue != null ? min(limitValue, entries.length) : null,
     );
-    _collectionEntries[query] = List.from(limited);
+    _collectionEntries[query.origin] = List.from(limited);
     await onSaved?.call(this);
     return value;
   }
@@ -679,8 +681,9 @@ class NoSqlDatabase {
   ) {
     final collectionPath = documentPath.parentPath();
     if (_documentListeners.containsKey(documentPath)) {
-      _documentListeners[documentPath]?.forEach(
-        (element) => element.callback?.call(
+      for (final element in _documentListeners[documentPath]?.values ??
+          <ModelAdapterDocumentQuery>[]) {
+        element.callback?.call(
           ModelUpdateNotification(
             path: documentPath,
             id: documentId,
@@ -690,116 +693,95 @@ class NoSqlDatabase {
             listen: query.listen,
             query: element.query,
           ),
-        ),
-      );
+        );
+      }
     }
     if (_collectionListeners.containsKey(collectionPath)) {
-      _collectionListeners[collectionPath]?.forEach(
-        (element) {
-          final entries = _collectionEntries[element] ?? [];
-          switch (status) {
-            case ModelUpdateNotificationStatus.added:
-              if (!element.query.hasMatchAsMap(value)) {
-                return;
-              }
-              final newIndex =
-                  element.query.seekIndex(entries, value) ?? entries.length;
-              _collectionEntries[element] = entries
-                ..insert(newIndex, MapEntry(documentId, value));
-              element.callback?.call(
-                ModelUpdateNotification(
-                  path: documentPath,
-                  id: documentId,
-                  status: status,
-                  value: Map.from(value),
-                  origin: query.origin,
-                  oldIndex: null,
-                  newIndex: newIndex,
-                  listen: query.listen,
-                  query: element.query,
-                ),
-              );
-              break;
-            case ModelUpdateNotificationStatus.modified:
-              if (element.query.hasMatchAsMap(value)) {
-                final oldIndex = entries.indexWhere(
-                  (e) => e.key.trimQuery().trimString("/") == documentId,
-                );
-
-                if (oldIndex < 0) {
-                  final newIndex =
-                      element.query.seekIndex(entries, value) ?? entries.length;
-                  _collectionEntries[element] = entries
-                    ..insert(newIndex, MapEntry(documentId, value));
-                  element.callback?.call(
-                    ModelUpdateNotification(
-                      path: documentPath,
-                      id: documentId,
-                      status: ModelUpdateNotificationStatus.added,
-                      value: Map.from(value),
-                      origin: query.origin,
-                      oldIndex: null,
-                      newIndex: newIndex,
-                      listen: query.listen,
-                      query: element.query,
-                    ),
-                  );
-                } else {
-                  var newIndex =
-                      element.query.seekIndex(entries, value) ?? oldIndex;
-                  if (oldIndex < newIndex) {
-                    newIndex = newIndex - 1;
-                  }
-                  _collectionEntries[element] = entries
-                    ..removeAt(oldIndex)
-                    ..insert(newIndex, MapEntry(documentId, value));
-                  element.callback?.call(
-                    ModelUpdateNotification(
-                      path: documentPath,
-                      id: documentId,
-                      status: status,
-                      value: Map.from(value),
-                      origin: query.origin,
-                      oldIndex: oldIndex < 0 ? null : oldIndex,
-                      newIndex: newIndex,
-                      listen: query.listen,
-                      query: element.query,
-                    ),
-                  );
-                }
-              } else {
-                final oldIndex = entries.indexWhere(
-                  (e) => e.key.trimQuery().trimString("/") == documentId,
-                );
-                if (oldIndex >= 0) {
-                  _collectionEntries[element] = entries..removeAt(oldIndex);
-                  element.callback?.call(
-                    ModelUpdateNotification(
-                      path: documentPath,
-                      id: documentId,
-                      status: ModelUpdateNotificationStatus.removed,
-                      value: const {},
-                      origin: query.origin,
-                      oldIndex: oldIndex < 0 ? null : oldIndex,
-                      newIndex: null,
-                      listen: query.listen,
-                      query: element.query,
-                    ),
-                  );
-                }
-              }
-              break;
-            case ModelUpdateNotificationStatus.removed:
+      for (final element in _collectionListeners[collectionPath]?.values ??
+          <ModelAdapterCollectionQuery>[]) {
+        final entries = _collectionEntries[element.origin] ?? [];
+        switch (status) {
+          case ModelUpdateNotificationStatus.added:
+            if (!element.query.hasMatchAsMap(value)) {
+              return;
+            }
+            final newIndex =
+                element.query.seekIndex(entries, value) ?? entries.length;
+            _collectionEntries[element.origin] = entries
+              ..insert(newIndex, MapEntry(documentId, value));
+            element.callback?.call(
+              ModelUpdateNotification(
+                path: documentPath,
+                id: documentId,
+                status: status,
+                value: Map.from(value),
+                origin: query.origin,
+                oldIndex: null,
+                newIndex: newIndex,
+                listen: query.listen,
+                query: element.query,
+              ),
+            );
+            break;
+          case ModelUpdateNotificationStatus.modified:
+            if (element.query.hasMatchAsMap(value)) {
               final oldIndex = entries.indexWhere(
                 (e) => e.key.trimQuery().trimString("/") == documentId,
               );
-              if (oldIndex >= 0) {
-                _collectionEntries[element] = entries..removeAt(oldIndex);
+
+              if (oldIndex < 0) {
+                final newIndex =
+                    element.query.seekIndex(entries, value) ?? entries.length;
+                _collectionEntries[element.origin] = entries
+                  ..insert(newIndex, MapEntry(documentId, value));
+                element.callback?.call(
+                  ModelUpdateNotification(
+                    path: documentPath,
+                    id: documentId,
+                    status: ModelUpdateNotificationStatus.added,
+                    value: Map.from(value),
+                    origin: query.origin,
+                    oldIndex: null,
+                    newIndex: newIndex,
+                    listen: query.listen,
+                    query: element.query,
+                  ),
+                );
+              } else {
+                var newIndex =
+                    element.query.seekIndex(entries, value) ?? oldIndex;
+                if (oldIndex < newIndex) {
+                  newIndex = newIndex - 1;
+                }
+                _collectionEntries[element.origin] = entries
+                  ..removeAt(oldIndex)
+                  ..insert(newIndex, MapEntry(documentId, value));
                 element.callback?.call(
                   ModelUpdateNotification(
                     path: documentPath,
                     id: documentId,
                     status: status,
+                    value: Map.from(value),
+                    origin: query.origin,
+                    oldIndex: oldIndex < 0 ? null : oldIndex,
+                    newIndex: newIndex,
+                    listen: query.listen,
+                    query: element.query,
+                  ),
+                );
+              }
+            } else {
+              final oldIndex = entries.indexWhere(
+                (e) => e.key.trimQuery().trimString("/") == documentId,
+              );
+              if (oldIndex >= 0) {
+                _collectionEntries[element.origin] = entries
+                  ..removeAt(oldIndex);
+                element.callback?.call(
+                  ModelUpdateNotification(
+                    path: documentPath,
+                    id: documentId,
+                    status: ModelUpdateNotificationStatus.removed,
                     value: const {},
                     origin: query.origin,
                     oldIndex: oldIndex < 0 ? null : oldIndex,
@@ -809,10 +791,31 @@ class NoSqlDatabase {
                   ),
                 );
               }
-              break;
-          }
-        },
-      );
+            }
+            break;
+          case ModelUpdateNotificationStatus.removed:
+            final oldIndex = entries.indexWhere(
+              (e) => e.key.trimQuery().trimString("/") == documentId,
+            );
+            if (oldIndex >= 0) {
+              _collectionEntries[element.origin] = entries..removeAt(oldIndex);
+              element.callback?.call(
+                ModelUpdateNotification(
+                  path: documentPath,
+                  id: documentId,
+                  status: status,
+                  value: const {},
+                  origin: query.origin,
+                  oldIndex: oldIndex < 0 ? null : oldIndex,
+                  newIndex: null,
+                  listen: query.listen,
+                  query: element.query,
+                ),
+              );
+            }
+            break;
+        }
+      }
     }
   }
 }
