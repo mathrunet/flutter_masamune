@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune` - `v2.2.21`](#masamune---v2221)
+ - [`masamune_location` - `v2.1.42`](#masamune_location---v2142)
+ - [`masamune_auth_apple` - `v2.1.32`](#masamune_auth_apple---v2132)
+ - [`masamune_agora` - `v2.2.13`](#masamune_agora---v2213)
+ - [`masamune_auth_google` - `v2.1.32`](#masamune_auth_google---v2132)
+ - [`masamune_ai_openai` - `v2.1.29`](#masamune_ai_openai---v2129)
+ - [`masamune_calendar` - `v2.0.75`](#masamune_calendar---v2075)
+ - [`masamune_picker` - `v2.1.31`](#masamune_picker---v2131)
+ - [`masamune_util` - `v2.1.10`](#masamune_util---v2110)
+ - [`masamune_universal_ui` - `v2.2.11`](#masamune_universal_ui---v2211)
+ - [`masamune_purchase_stripe` - `v3.1.29`](#masamune_purchase_stripe---v3129)
+ - [`masamune_logger_firebase` - `v2.0.74`](#masamune_logger_firebase---v2074)
+ - [`masamune_location_google` - `v2.1.43`](#masamune_location_google---v2143)
+ - [`masamune_auth_facebook` - `v2.1.34`](#masamune_auth_facebook---v2134)
+ - [`masamune_mail` - `v2.1.29`](#masamune_mail---v2129)
+ - [`masamune_purchase_mobile` - `v2.3.13`](#masamune_purchase_mobile---v2313)
+ - [`masamune_notification_firebase` - `v2.1.29`](#masamune_notification_firebase---v2129)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.42`
+ - `masamune_auth_apple` - `v2.1.32`
+ - `masamune_agora` - `v2.2.13`
+ - `masamune_auth_google` - `v2.1.32`
+ - `masamune_ai_openai` - `v2.1.29`
+ - `masamune_calendar` - `v2.0.75`
+ - `masamune_picker` - `v2.1.31`
+ - `masamune_util` - `v2.1.10`
+ - `masamune_universal_ui` - `v2.2.11`
+ - `masamune_purchase_stripe` - `v3.1.29`
+ - `masamune_logger_firebase` - `v2.0.74`
+ - `masamune_location_google` - `v2.1.43`
+ - `masamune_auth_facebook` - `v2.1.34`
+ - `masamune_mail` - `v2.1.29`
+ - `masamune_purchase_mobile` - `v2.3.13`
+ - `masamune_notification_firebase` - `v2.1.29`
+
+---
+
+#### `masamune` - `v2.2.21`
+
+ - **FIX**: Change toImageProvider. ([cce1ad62](https://github.com/mathrunet/flutter_masamune/commit/cce1ad62e6c4d1e0beebe1f99023d437d77f9796))
+
+
 ## 2023-07-23
 
 ### Changes

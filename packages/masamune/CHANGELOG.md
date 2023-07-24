@@ -1,3 +1,7 @@
+## 2.2.21
+
+ - **FIX**: Change toImageProvider. ([cce1ad62](https://github.com/mathrunet/flutter_masamune/commit/cce1ad62e6c4d1e0beebe1f99023d437d77f9796))
+
 ## 2.2.20
 
  - Update a dependency to the latest release.
