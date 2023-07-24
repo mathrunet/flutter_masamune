@@ -15,7 +15,7 @@ extension FormMediaValueExtensions on FormMediaValue {
   /// [defaultAssetURI]が指定されている場合、[ImageProvider]が取得できない場合は[defaultAssetURI]を使用します。
   ///
   /// また[type]が[FormMediaType.image]でない場合は[defaultAssetURI]を使用します。
-  ImageProvider image([String defaultAssetURI = "assets/image.png"]) {
+  ImageProvider toImageProvider([String defaultAssetURI = "assets/image.png"]) {
     if (type != FormMediaType.image) {
       return Asset.image(defaultAssetURI);
     }

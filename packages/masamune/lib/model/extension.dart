@@ -11,7 +11,7 @@ extension ModelImageUriExtensions on ModelImageUri {
   /// [ImageProvider]を取得します。
   ///
   /// [defaultAssetURI]が指定されている場合、[ImageProvider]が取得できない場合は[defaultAssetURI]を使用します。
-  ImageProvider image([String defaultAssetURI = "assets/image.png"]) {
+  ImageProvider toImageProvider([String defaultAssetURI = "assets/image.png"]) {
     return Asset.image(value.toString(), defaultAssetURI);
   }
 
