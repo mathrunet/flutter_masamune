@@ -58,6 +58,9 @@ class Modal {
     bool disableBackKey = false,
     bool popOnPress = true,
     bool willShowRepetition = false,
+    EdgeInsetsGeometry contentPadding =
+        const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 16.0),
+    AlignmentGeometry? alignment,
   }) async {
     bool clicked = false;
     ScaffoldMessenger.of(context);
@@ -80,6 +83,8 @@ class Modal {
           return WillPopScope(
             onWillPop: disableBackKey ? () async => true : null,
             child: SimpleDialog(
+              contentPadding: contentPadding,
+              alignment: alignment,
               title: Text(
                 title,
                 style: TextStyle(
