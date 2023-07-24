@@ -69,12 +69,13 @@ class _ScopedValueListenerOnPage extends ScopedValueListener {
       TScopedValue extends ScopedValue<TResult>>({
     bool listen = false,
     String? name,
+    bool recursive = true,
   }) {
     final res = super.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
       listen: listen,
       name: name,
     );
-    if (res != null) {
+    if (res != null || !recursive) {
       return res;
     }
     return _PageScopedScope.maybeOf(_context)
@@ -104,12 +105,13 @@ class _ScopedValueListenerOnWidget extends ScopedValueListener {
       TScopedValue extends ScopedValue<TResult>>({
     bool listen = false,
     String? name,
+    bool recursive = true,
   }) {
     final res = super.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
       listen: listen,
       name: name,
     );
-    if (res != null) {
+    if (res != null || !recursive) {
       return res;
     }
     return _ScopedScope.maybeOf(_context)
@@ -231,6 +233,8 @@ abstract class ScopedValueListener {
   ///
   /// If [listen] is `true`, then it should be associated with the widget to notify it of changes.
   ///
+  /// If [recursive] is `true`, the search is recursive from child to parent in the same scope.
+  ///
   /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
   ///
   /// [ScopedValueContainer]にすでに保存されている[TScopedValue]に関連する[ScopedValueState]を取得し、その結果を返します。
@@ -241,11 +245,14 @@ abstract class ScopedValueListener {
   ///
   /// [listen]が`true`の場合、ウィジェットに関連付けて変更を通知するようにします。
   ///
+  /// [recursive]が`true`な場合、同じスコープの子から親へと再帰的に検索します。
+  ///
   /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
   TResult? getAlreadtExistsScopedValueResult<TResult,
       TScopedValue extends ScopedValue<TResult>>({
     bool listen = false,
     String? name,
+    bool recursive = true,
   }) {
     final state =
         container.getAlreadyExistsScopedValueState<TResult, TScopedValue>(

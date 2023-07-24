@@ -81,6 +81,7 @@ class AppRef implements Ref {
       TScopedValue extends ScopedValue<TResult>>({
     String? name,
     bool listen = false,
+    bool recursive = true,
   }) {
     return _scopedValueContainer
         .getAlreadyExistsScopedValueState<TResult, TScopedValue>(

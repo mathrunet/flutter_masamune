@@ -153,6 +153,7 @@ class ScopedValueRef implements Ref {
       TScopedValue extends ScopedValue<TResult>>({
     String? name,
     bool listen = false,
+    bool recursive = true,
   }) {
     return _listener.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
       name: name,
@@ -207,10 +208,12 @@ class _ScopedValueRef implements Ref {
       TScopedValue extends ScopedValue<TResult>>({
     String? name,
     bool listen = false,
+    bool recursive = true,
   }) {
     return ref.getAlreadyExistsScopedValue(
       listen: listen,
       name: name,
+      recursive: recursive,
     );
   }
 

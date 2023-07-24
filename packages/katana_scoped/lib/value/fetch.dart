@@ -12,6 +12,10 @@ extension RefFetchExtensions on Ref {
   ///
   /// When [watch] returns a registered [ScopedValue], it will be associated with the widget and notify the user of the change.
   ///
+  /// If there are multiple [ScopedValue] of the same type in the scope, specify [name].
+  ///
+  /// If [ScopedValue] is not found in that scope, it is searched recursively from the child to the parent scope.
+  ///
   /// [watch]や[cache]ですでに登録している[ScopedValue]をその下のウィジェット等で取得するために利用します。
   ///
   /// [watch]や[cache]で登録されていない[ScopedValue]を取得しようとした時[Null]が返されます。
@@ -19,6 +23,10 @@ extension RefFetchExtensions on Ref {
   /// [watch]で登録した[ScopedValue]、[cache]で登録した[ScopedValue]の順番で処理されます。
   ///
   /// [watch]で登録した[ScopedValue]を返すときにウィジェットに関連付けて変更を通知するようにします。
+  ///
+  /// そのスコープ内に同じ型の[ScopedValue]が複数存在する場合は[name]を指定してください。
+  ///
+  /// そのスコープ内に[ScopedValue]が見つからなかったときは子から親のスコープへと再帰的に検索します。
   T? fetch<T>([
     String? name,
   ]) {
