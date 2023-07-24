@@ -63,7 +63,7 @@ class _ScopedState extends State<Scoped> {
       callback: _handledOnRebuild,
       scope: ScopedLoggerScope.page,
     );
-    _widgetListener = ScopedValueListener._(
+    _widgetListener = _ScopedValueListenerOnWidget._(
       context: context,
       callback: _handledOnRebuild,
       container: _container,
@@ -91,9 +91,12 @@ class _ScopedState extends State<Scoped> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(
-      context,
-      _ref,
+    return _ScopedScope(
+      state: this,
+      child: widget.builder(
+        context,
+        _ref,
+      ),
     );
   }
 }
@@ -212,7 +215,7 @@ class _PageScopedWidgetState extends State<PageScopedWidget> {
       callback: _handledOnRebuild,
       scope: ScopedLoggerScope.app,
     );
-    _pageListener = ScopedValueListener._(
+    _pageListener = _ScopedValueListenerOnPage._(
       context: context,
       callback: _handledOnRebuild,
       container: _container,
@@ -363,4 +366,34 @@ class _ScopedWidgetScope extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ScopedWidgetScope oldWidget) => false;
+}
+
+class _ScopedScope extends InheritedWidget {
+  const _ScopedScope({
+    required this.state,
+    required super.child,
+  });
+
+  final _ScopedState state;
+
+  static _ScopedState of(BuildContext context) {
+    final scoped = context
+        .getElementForInheritedWidgetOfExactType<_ScopedScope>()
+        ?.widget as _ScopedScope?;
+    assert(
+      scoped != null,
+      "Scoped is not defined in the parent widget. Be sure to place it below the Scoped.",
+    );
+    return scoped!.state;
+  }
+
+  static _ScopedState? maybeOf(BuildContext context) {
+    final scoped = context
+        .getElementForInheritedWidgetOfExactType<_ScopedScope>()
+        ?.widget as _ScopedScope?;
+    return scoped?.state;
+  }
+
+  @override
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 }

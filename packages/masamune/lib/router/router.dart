@@ -1,9 +1,9 @@
 part of masamune;
 
-/// Create an extension method for [RefHasApp] to create nested routers.
+/// Create an extension method for [RefHasPage] to create nested routers.
 ///
-/// ネストされたルーターを作成するための[RefHasApp]の拡張メソッドを作成します。
-extension MasamuneRouterRefHasPageExtensions on RefHasApp {
+/// ネストされたルーターを作成するための[RefHasPage]の拡張メソッドを作成します。
+extension MasamuneRouterRefHasPageExtensions on RefHasPage {
   /// Create nested routers by passing [pages].
   ///
   /// Pass to [Router.withConfig] to display nested pages.
@@ -32,7 +32,7 @@ extension MasamuneRouterRefHasPageExtensions on RefHasApp {
     TransitionQuery? defaultTransitionQuery,
     String? name,
   }) {
-    return app.watch(
+    return page.watch(
       (ref) {
         return NestedAppRouter(
           initialQuery: initialQuery,
@@ -62,7 +62,7 @@ extension MasamuneRouterRefHasPageExtensions on RefHasApp {
   NestedAppRouter nestedRouter({
     String? name,
   }) {
-    final router = app.fetch<NestedAppRouter>(name);
+    final router = page.fetch<NestedAppRouter>(name);
     if (router == null) {
       throw Exception("The router does not exist.");
     }

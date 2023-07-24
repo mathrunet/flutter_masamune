@@ -29,7 +29,7 @@ class AppScopedValueListener extends ScopedValueListener {
 /// [ScopedValueListener] that targets the page.
 ///
 /// ページを対象にしている[ScopedValueListener]。
-class PageScopedValueListener extends ScopedValueListener {
+class PageScopedValueListener extends _ScopedValueListenerOnPage {
   PageScopedValueListener._({
     required BuildContext context,
     required VoidCallback callback,
@@ -51,6 +51,76 @@ class PageScopedValueListener extends ScopedValueListener {
   }
 }
 
+class _ScopedValueListenerOnPage extends ScopedValueListener {
+  _ScopedValueListenerOnPage._({
+    required BuildContext context,
+    required VoidCallback callback,
+    ScopedValueContainer? container,
+    ScopedLoggerScope scope = ScopedLoggerScope.page,
+  }) : super._(
+          context: context,
+          callback: callback,
+          container: container,
+          scope: scope,
+        );
+
+  @override
+  TResult? getAlreadtExistsScopedValueResult<TResult,
+      TScopedValue extends ScopedValue<TResult>>({
+    bool listen = false,
+    String? name,
+  }) {
+    final res = super.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
+      listen: listen,
+      name: name,
+    );
+    if (res != null) {
+      return res;
+    }
+    return _PageScopedScope.maybeOf(_context)
+        ?._pageListener
+        .getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
+          listen: listen,
+          name: name,
+        );
+  }
+}
+
+class _ScopedValueListenerOnWidget extends ScopedValueListener {
+  _ScopedValueListenerOnWidget._({
+    required BuildContext context,
+    required VoidCallback callback,
+    ScopedValueContainer? container,
+    ScopedLoggerScope scope = ScopedLoggerScope.widget,
+  }) : super._(
+          context: context,
+          callback: callback,
+          container: container,
+          scope: scope,
+        );
+
+  @override
+  TResult? getAlreadtExistsScopedValueResult<TResult,
+      TScopedValue extends ScopedValue<TResult>>({
+    bool listen = false,
+    String? name,
+  }) {
+    final res = super.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
+      listen: listen,
+      name: name,
+    );
+    if (res != null) {
+      return res;
+    }
+    return _ScopedScope.maybeOf(_context)
+        ?._widgetListener
+        .getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
+          listen: listen,
+          name: name,
+        );
+  }
+}
+
 /// An object to monitor [ScopedValue] in the widget.
 ///
 /// [container] to obtain a [ScopedValueContainer] and pass the change notification sent from the [ScopedValue] stored in the container to the associated widget.
@@ -62,7 +132,7 @@ class PageScopedValueListener extends ScopedValueListener {
 /// [container]で[ScopedValueContainer]を取得しそこに保存されている[ScopedValue]から送られた変更通知を関連付けれられたウィジェットに渡します。
 ///
 /// [getScopedValueResult]で[ScopedValue]の関連付けと結果の読み取りを行ないます。
-class ScopedValueListener {
+abstract class ScopedValueListener {
   ScopedValueListener._({
     required BuildContext context,
     required VoidCallback callback,

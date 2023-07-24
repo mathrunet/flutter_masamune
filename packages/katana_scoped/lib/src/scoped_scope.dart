@@ -42,6 +42,14 @@ class _PageScopedScope extends InheritedWidget {
     return scoped!.state;
   }
 
+
+  static _PageScopedWidgetState? maybeOf(BuildContext context) {
+    final scoped = context
+        .getElementForInheritedWidgetOfExactType<_PageScopedScope>()
+        ?.widget as _PageScopedScope?;
+    return scoped?.state;
+  }
+
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 }
