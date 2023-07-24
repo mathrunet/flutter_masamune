@@ -1,3 +1,7 @@
+## 2.3.23
+
+ - **FIX**: Add boot to Code. ([fcdd2e1e](https://github.com/mathrunet/flutter_masamune/commit/fcdd2e1ea7d1d57ea30c9b4abc9c4b338104f76a))
+
 ## 2.3.22
 
  - **FIX**: Terms of Use and Privacy Policy can be written without spreadsheets. ([8b12caf1](https://github.com/mathrunet/flutter_masamune/commit/8b12caf10ce647cf74c25e97fb7c87beaf0c1355))

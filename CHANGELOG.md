@@ -15,6 +15,80 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.3.23`](#katana_cli---v2323)
+ - [`katana_scoped` - `v2.0.17`](#katana_scoped---v2017)
+ - [`katana_ui` - `v2.2.1`](#katana_ui---v221)
+ - [`masamune` - `v2.2.22`](#masamune---v2222)
+ - [`masamune_location` - `v2.1.43`](#masamune_location---v2143)
+ - [`masamune_auth_apple` - `v2.1.33`](#masamune_auth_apple---v2133)
+ - [`masamune_ai_openai` - `v2.1.30`](#masamune_ai_openai---v2130)
+ - [`masamune_agora` - `v2.2.14`](#masamune_agora---v2214)
+ - [`masamune_auth_google` - `v2.1.33`](#masamune_auth_google---v2133)
+ - [`masamune_calendar` - `v2.0.76`](#masamune_calendar---v2076)
+ - [`masamune_util` - `v2.1.11`](#masamune_util---v2111)
+ - [`masamune_picker` - `v2.1.32`](#masamune_picker---v2132)
+ - [`masamune_universal_ui` - `v2.2.12`](#masamune_universal_ui---v2212)
+ - [`masamune_purchase_stripe` - `v3.1.30`](#masamune_purchase_stripe---v3130)
+ - [`masamune_logger_firebase` - `v2.0.75`](#masamune_logger_firebase---v2075)
+ - [`masamune_auth_facebook` - `v2.1.35`](#masamune_auth_facebook---v2135)
+ - [`masamune_location_google` - `v2.1.44`](#masamune_location_google---v2144)
+ - [`masamune_mail` - `v2.1.30`](#masamune_mail---v2130)
+ - [`masamune_notification_firebase` - `v2.1.30`](#masamune_notification_firebase---v2130)
+ - [`masamune_purchase_mobile` - `v2.3.14`](#masamune_purchase_mobile---v2314)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.43`
+ - `masamune_auth_apple` - `v2.1.33`
+ - `masamune_ai_openai` - `v2.1.30`
+ - `masamune_agora` - `v2.2.14`
+ - `masamune_auth_google` - `v2.1.33`
+ - `masamune_calendar` - `v2.0.76`
+ - `masamune_util` - `v2.1.11`
+ - `masamune_picker` - `v2.1.32`
+ - `masamune_universal_ui` - `v2.2.12`
+ - `masamune_purchase_stripe` - `v3.1.30`
+ - `masamune_logger_firebase` - `v2.0.75`
+ - `masamune_auth_facebook` - `v2.1.35`
+ - `masamune_location_google` - `v2.1.44`
+ - `masamune_mail` - `v2.1.30`
+ - `masamune_notification_firebase` - `v2.1.30`
+ - `masamune_purchase_mobile` - `v2.3.14`
+
+---
+
+#### `katana_cli` - `v2.3.23`
+
+ - **FIX**: Add boot to Code. ([fcdd2e1e](https://github.com/mathrunet/flutter_masamune/commit/fcdd2e1ea7d1d57ea30c9b4abc9c4b338104f76a))
+
+#### `katana_scoped` - `v2.0.17`
+
+ - **FIX**: Explicitly grant the recursive option. ([b6f84cb4](https://github.com/mathrunet/flutter_masamune/commit/b6f84cb49ba4f1188d63e64678b5f3664daae93c))
+ - **FIX**: Changed fetch method to recursive. ([d3300e96](https://github.com/mathrunet/flutter_masamune/commit/d3300e962cc96a0a5c4d9dcef0595cff6ed2b077))
+
+#### `katana_ui` - `v2.2.1`
+
+ - **FIX**: Add parameter to Modal.show. ([c2b64c2f](https://github.com/mathrunet/flutter_masamune/commit/c2b64c2f463a6a80863c030fbfc62134fd876c51))
+
+#### `masamune` - `v2.2.22`
+
+ - **FIX**: Changed fetch method to recursive. ([d3300e96](https://github.com/mathrunet/flutter_masamune/commit/d3300e962cc96a0a5c4d9dcef0595cff6ed2b077))
+
+
+## 2023-07-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v2.2.21`](#masamune---v2221)
  - [`masamune_location` - `v2.1.42`](#masamune_location---v2142)
  - [`masamune_auth_apple` - `v2.1.32`](#masamune_auth_apple---v2132)

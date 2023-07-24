@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Add parameter to Modal.show. ([c2b64c2f](https://github.com/mathrunet/flutter_masamune/commit/c2b64c2f463a6a80863c030fbfc62134fd876c51))
+
 ## 2.2.0
 
  - **FEAT**: Added PeriodicScope. ([2b2dce2d](https://github.com/mathrunet/flutter_masamune/commit/2b2dce2df8c1935bb3e4a0295d8f931800afc805))

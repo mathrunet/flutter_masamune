@@ -1,3 +1,8 @@
+## 2.0.17
+
+ - **FIX**: Explicitly grant the recursive option. ([b6f84cb4](https://github.com/mathrunet/flutter_masamune/commit/b6f84cb49ba4f1188d63e64678b5f3664daae93c))
+ - **FIX**: Changed fetch method to recursive. ([d3300e96](https://github.com/mathrunet/flutter_masamune/commit/d3300e962cc96a0a5c4d9dcef0595cff6ed2b077))
+
 ## 2.0.16
 
  - **FIX**: Fixed a bug that caused unrelated items to be updated when refs were updated internally. ([b3d10395](https://github.com/mathrunet/flutter_masamune/commit/b3d103959fcc8acc15c6d47c639924ddb8001f20))

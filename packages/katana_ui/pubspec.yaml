@@ -1,6 +1,6 @@
 name: katana_ui
 description: A package that provides widgets for UI to facilitate design and implementation.
-version: 2.2.0
+version: 2.2.1
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_ui
 
