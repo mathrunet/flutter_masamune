@@ -40,6 +40,7 @@ class CodeCliCommand extends CliCommandGroup {
   @override
   Map<String, CliCommand> get commands => const {
         "tmp": CodeTmpCliCommand(),
+        "boot": CodeBootCliCommand(),
         "format": CodeFormatCliCommand(),
         "generate": CodeGenerateCliCommand(),
         "watch": CodeWatchCliCommand(),
