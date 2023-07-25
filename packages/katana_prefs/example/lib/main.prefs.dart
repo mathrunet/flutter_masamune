@@ -22,10 +22,9 @@ class _$_PrefsValue<T> {
   final T _def;
 
   T get() {
-    assert(
-      _ref._prefs != null,
-      "SharedPreference has not finished loading. Please execute [load()] to complete loading.",
-    );
+    if (_ref._prefs == null) {
+      return _def;
+    }
     final o = _ref._prefs?.get(_key);
     if (o is List && T == List<String>) {
       return o.map((e) => e.toString()).toList() as T;
@@ -36,6 +35,9 @@ class _$_PrefsValue<T> {
   }
 
   Future<void> set(T value) async {
+    if (_ref._prefs == null) {
+      return;
+    }
     if (value is bool) {
       await _ref._prefs?.setBool(_key, value);
     } else if (value is int) {
@@ -50,13 +52,20 @@ class _$_PrefsValue<T> {
     _ref.notifyListeners();
   }
 
+  Future<bool> delete() async {
+    if (_ref._prefs == null) {
+      return false;
+    }
+    return await _ref._prefs?.remove(_key) ?? false;
+  }
+
   @override
   String toString() {
     return get().toString();
   }
 }
 
-abstract class _$PrefsValue implements ChangeNotifier {
+mixin _$PrefsValue implements PrefsBase {
   _$_PrefsValue<String?> get userToken => throw UnimplementedError();
   _$_PrefsValue<double> get volumeSetting => throw UnimplementedError();
   @override
@@ -76,6 +85,7 @@ abstract class _$PrefsValue implements ChangeNotifier {
 
   Future<void> load() => throw UnimplementedError();
   Future<void>? get loading => throw UnimplementedError();
+  Future<bool> clear() => throw UnimplementedError();
 }
 
 class _PrefsValue extends PrefsValue {
@@ -96,6 +106,9 @@ class _PrefsValue extends PrefsValue {
 
   @override
   Future<void> load() async {
+    if (_completer != null) {
+      return _completer!.future;
+    }
     if (_prefs != null) {
       return;
     }
@@ -115,6 +128,8 @@ class _PrefsValue extends PrefsValue {
 
   @override
   Future<void>? get loading => _completer?.future;
+  @override
+  Future<bool> clear() => _prefs?.clear() ?? Future.value(false);
   @override
   _$_PrefsValue<String?> get userToken =>
       _$_PrefsValue("_#userToken".toSHA1(), _userToken, this);

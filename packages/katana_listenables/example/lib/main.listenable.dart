@@ -8,18 +8,15 @@ part of 'main.dart';
 // ListenablesGenerator
 // **************************************************************************
 
-abstract class _$ListenableValue implements ChangeNotifier {
+abstract class _$ListenableValue implements Listenable {
   TextEditingController get controller => throw UnimplementedError();
   ValueNotifier<String>? get value => throw UnimplementedError();
   @override
   void addListener(VoidCallback listener) => throw UnimplementedError();
   @override
   void removeListener(VoidCallback listener) => throw UnimplementedError();
-  @override
   void notifyListeners() => throw UnimplementedError();
-  @override
   void dispose() => throw UnimplementedError();
-  @override
   bool get hasListeners => throw UnimplementedError();
   @override
   String toString() {

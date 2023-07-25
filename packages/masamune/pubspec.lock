@@ -303,15 +303,15 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.6.1"
+    version: "2.7.0"
   katana_model_local:
     dependency: "direct main"
     description:
       name: katana_model_local
-      sha256: bdc0431228c84a1118b9bbb2a1066fb275cae0f8a79bee5b005623f3f35f8547
+      sha256: f530d2802431f68bb35388e683091d9f399189364d2c1ba62322f12cb281de15
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.8"
+    version: "2.2.9"
   katana_prefs:
     dependency: "direct main"
     description:
