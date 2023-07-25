@@ -8,7 +8,7 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_introduction/masamune_introduction.dart';
 
 final List<MasamuneAdapter> masamuneAdapters = [
-  IntroductionMasamuneAdapter(
+  const IntroductionMasamuneAdapter(
     items: [
       IntroductionItem(
         title: Text("Title1"),

@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:masamune/masamune.dart';
+
+// Package imports:
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:masamune/masamune.dart';
+
+// Project imports:
 import 'package:masamune_introduction/masamune_introduction.dart';
 
 part 'masamune_introduction.page.dart';
