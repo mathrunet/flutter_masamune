@@ -160,6 +160,7 @@ class UniversalScaffold extends StatefulWidget {
     this.width,
     this.height,
     this.borderRadius,
+    this.alignment = Alignment.center,
   });
 
   /// Pass [context] to get [Breakpoint] set by [UniversalScaffold] at the top.
@@ -188,6 +189,15 @@ class UniversalScaffold extends StatefulWidget {
   ///
   /// モーダルとして表示する場合にご利用ください。
   final double? height;
+
+  /// You can specify where to place the [UniversalScaffold] itself.
+  ///
+  /// Please use when displaying as a modal.
+  ///
+  /// [UniversalScaffold]自体をどこに配置するかを指定できます。
+  ///
+  /// モーダルとして表示する場合にご利用ください。
+  final AlignmentGeometry alignment;
 
   /// Specify rounded corners.
   ///
@@ -537,7 +547,8 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
     if (widget.width == null && widget.height == null) {
       return child;
     }
-    return Center(
+    return Align(
+      alignment: widget.alignment,
       child: SizedBox(
         width: widget.width,
         height: widget.height,
