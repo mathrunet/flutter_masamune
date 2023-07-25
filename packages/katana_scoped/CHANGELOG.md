@@ -1,3 +1,7 @@
+## 2.0.18
+
+ - **FIX**: Change each name to Object? ([d3e77475](https://github.com/mathrunet/flutter_masamune/commit/d3e7747553641ace51debd6ecb630fd685bc71e2))
+
 ## 2.0.17
 
  - **FIX**: Explicitly grant the recursive option. ([b6f84cb4](https://github.com/mathrunet/flutter_masamune/commit/b6f84cb49ba4f1188d63e64678b5f3664daae93c))

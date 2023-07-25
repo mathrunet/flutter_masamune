@@ -1,3 +1,7 @@
+## 2.2.24
+
+ - **FIX**: Change each name to Object? ([d3e77475](https://github.com/mathrunet/flutter_masamune/commit/d3e7747553641ace51debd6ecb630fd685bc71e2))
+
 ## 2.2.23
 
  - Update a dependency to the latest release.
