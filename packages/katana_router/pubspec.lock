@@ -231,7 +231,7 @@ packages:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   lints:
     dependency: transitive
     description:

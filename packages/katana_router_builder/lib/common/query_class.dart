@@ -152,7 +152,7 @@ List<Class> queryClass(
               ..type = MethodType.getter
               ..returns = const Reference("String")
               ..body = Code(
-                  "final q = <String, String>{}; ${model.parameters.map((e) => !e.isQueryParameter ? "" : "if (${e.name}?.toString().isNotEmpty ?? false) { q[\"${e.queryParamName}\"] = ${e.name}!.toString(); }").join("")} return q.isEmpty ? \"\" : \"?\${q.entries.map((e) => \"\${e.key}=\${e.value}\").join(\"&\")}\";"),
+                  "final \$q = <String, String>{}; ${model.parameters.map((e) => !e.isQueryParameter ? "" : "if (${e.name}?.toString().isNotEmpty ?? false) { \$q[\"${e.queryParamName}\"] = ${e.name}!.toString(); }").join("")} return \$q.isEmpty ? \"\" : \"?\${\$q.entries.map((e) => \"\${e.key}=\${e.value}\").join(\"&\")}\";"),
           ),
           Method(
             (m) => m
@@ -184,6 +184,15 @@ List<Class> queryClass(
                 annotation.keyString == "null"
                     ? "null"
                     : "${annotation.keyString} as E?",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "widget<W extends Widget>"
+              ..annotations.addAll([const Reference("override")])
+              ..returns = const Reference("W?")
+              ..body = Code(
+                "final w = ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}); if(w is! W){ return null; } return w as W;",
               ),
           ),
           Method(

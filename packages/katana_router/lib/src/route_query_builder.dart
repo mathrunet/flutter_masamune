@@ -148,6 +148,9 @@ class _BootRouteQuery extends RouteQuery {
   E? key<E>() => throw UnimplementedError();
 
   @override
+  W? widget<W extends Widget>() => throw UnimplementedError();
+
+  @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute(
       key: ValueKey(builder.hashCode),
@@ -197,6 +200,9 @@ class _UnknownRouteQuery extends RouteQuery {
   E? key<E>() => throw UnimplementedError();
 
   @override
+  W? widget<W extends Widget>() => throw UnimplementedError();
+
+  @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute(
       key: ValueKey(builder.hashCode),
@@ -219,6 +225,9 @@ class _EmptyRouteQuery extends RouteQuery {
 
   @override
   E? key<E>() => throw UnimplementedError();
+
+  @override
+  W? widget<W extends Widget>() => throw UnimplementedError();
 
   @override
   AppPageRoute<E> route<E>([TransitionQuery? query]) {

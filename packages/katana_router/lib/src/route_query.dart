@@ -54,6 +54,15 @@ abstract class RouteQuery {
   /// [E]を指定することで[E]のオブジェクトとして取得できます。
   E? key<E>();
 
+  /// Returns a [Widget] created from the query.
+  ///
+  /// It is returned with parameters passed, so it can be used to retrieve parameters, etc.
+  ///
+  /// クエリから作成される[Widget]を返します。
+  ///
+  /// パラメーターが渡された状態で返されるのでパラメーターの取得などに利用してください。
+  W? widget<W extends Widget>();
+
   /// Make [AppPageRoute] return to perform page transitions.
   ///
   /// You can specify the method of transition, etc. by passing [TransitionQuery] for page transitions to [query].
@@ -96,6 +105,9 @@ class _InnerRouteQueryImpl extends RouteQuery {
 
   @override
   E? key<E>() => routeQuery.key<E>();
+
+  @override
+  W? widget<W extends Widget>() => routeQuery.widget<W>();
 
   @override
   String get path => routeQuery.path;

@@ -33,22 +33,15 @@ class _$MainPageQuery extends RouteQueryBuilder {
       }
       final query = Uri.splitQueryString(split.last);
       return _$_MainPageQuery(path,
-          title: match.groupNames.contains("title")
-              ? match.namedGroup("title") ??
-                  (query.containsKey("title") ? query["title"] ?? "" : "")
-              : (query.containsKey("title") ? query["title"] ?? "" : ""),
-          q: (query.containsKey("q") ? query["q"] ?? null : null));
+          title: query["title"] ?? query["title"] ?? query["title"] ?? "",
+          q: query["q"] ?? query["q"] ?? query["q"] ?? null);
     } else {
       path = path.trimQuery().trimString("/");
       final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
       if (match == null) {
         return null;
       }
-      return _$_MainPageQuery(path,
-          title: match.groupNames.contains("title")
-              ? match.namedGroup("title") ?? ""
-              : "",
-          q: null);
+      return _$_MainPageQuery(path, title: "", q: null);
     }
   }
 }
@@ -68,13 +61,32 @@ class _$_MainPageQuery extends RouteQuery {
   final String? _path;
 
   @override
-  String get path => _path ?? "";
+  String get path => _path ?? "$_parameters";
+  String get _parameters {
+    final $q = <String, String>{};
+    if (q?.toString().isNotEmpty ?? false) {
+      $q["q"] = q!.toString();
+    }
+    return $q.isEmpty
+        ? ""
+        : "?${$q.entries.map((e) => "${e.key}=${e.value}").join("&")}";
+  }
+
   @override
   String get name => "main";
   @override
   bool get nested => false;
   @override
   E? key<E>() => null;
+  @override
+  W? widget<W extends Widget>() {
+    final w = MainPage(title: title, q: q);
+    if (w is! W) {
+      return null;
+    }
+    return w as W;
+  }
+
   @override
   List<RedirectQuery> redirect() => const [];
   @override
@@ -109,10 +121,13 @@ class _$UserPageQuery extends RouteQueryBuilder {
       }
       final query = Uri.splitQueryString(split.last);
       return _$_UserPageQuery(path,
-          userId: match.groupNames.contains("userId")
-              ? match.namedGroup("userId") ??
-                  (query.containsKey("userId") ? query["userId"] ?? "" : "")
-              : (query.containsKey("userId") ? query["userId"] ?? "" : ""));
+          userId: match.namedGroup("userId") ??
+              match.namedGroup("user_id") ??
+              match.namedGroup("userId") ??
+              query["userId"] ??
+              query["user_id"] ??
+              query["userId"] ??
+              "");
     } else {
       path = path.trimQuery().trimString("/");
       final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
@@ -120,9 +135,10 @@ class _$UserPageQuery extends RouteQueryBuilder {
         return null;
       }
       return _$_UserPageQuery(path,
-          userId: match.groupNames.contains("userId")
-              ? match.namedGroup("userId") ?? ""
-              : "");
+          userId: match.namedGroup("userId") ??
+              match.namedGroup("user_id") ??
+              match.namedGroup("userId") ??
+              "");
     }
   }
 }
@@ -139,13 +155,29 @@ class _$_UserPageQuery extends RouteQuery {
   final String? _path;
 
   @override
-  String get path => _path ?? "page/$userId";
+  String get path => _path ?? "page/$userId$_parameters";
+  String get _parameters {
+    final $q = <String, String>{};
+    return $q.isEmpty
+        ? ""
+        : "?${$q.entries.map((e) => "${e.key}=${e.value}").join("&")}";
+  }
+
   @override
   String get name => "user";
   @override
   bool get nested => false;
   @override
   E? key<E>() => null;
+  @override
+  W? widget<W extends Widget>() {
+    final w = UserPage(userId: userId);
+    if (w is! W) {
+      return null;
+    }
+    return w as W;
+  }
+
   @override
   List<RedirectQuery> redirect() => const [];
   @override
@@ -180,14 +212,13 @@ class _$ContentPageQuery extends RouteQueryBuilder {
       }
       final query = Uri.splitQueryString(split.last);
       return _$_ContentPageQuery(path,
-          contentId: match.groupNames.contains("contentId")
-              ? match.namedGroup("contentId") ??
-                  (query.containsKey("contentId")
-                      ? query["contentId"] ?? ""
-                      : "")
-              : (query.containsKey("contentId")
-                  ? query["contentId"] ?? ""
-                  : ""));
+          contentId: match.namedGroup("contentId") ??
+              match.namedGroup("content_id") ??
+              match.namedGroup("contentId") ??
+              query["contentId"] ??
+              query["content_id"] ??
+              query["contentId"] ??
+              "");
     } else {
       path = path.trimQuery().trimString("/");
       final match = _regExp.firstMatch(path.trimQuery().trimString("/"));
@@ -195,9 +226,10 @@ class _$ContentPageQuery extends RouteQueryBuilder {
         return null;
       }
       return _$_ContentPageQuery(path,
-          contentId: match.groupNames.contains("contentId")
-              ? match.namedGroup("contentId") ?? ""
-              : "");
+          contentId: match.namedGroup("contentId") ??
+              match.namedGroup("content_id") ??
+              match.namedGroup("contentId") ??
+              "");
     }
   }
 }
@@ -214,13 +246,29 @@ class _$_ContentPageQuery extends RouteQuery {
   final String? _path;
 
   @override
-  String get path => _path ?? "content/$contentId";
+  String get path => _path ?? "content/$contentId$_parameters";
+  String get _parameters {
+    final $q = <String, String>{};
+    return $q.isEmpty
+        ? ""
+        : "?${$q.entries.map((e) => "${e.key}=${e.value}").join("&")}";
+  }
+
   @override
   String get name => path;
   @override
   bool get nested => false;
   @override
   E? key<E>() => null;
+  @override
+  W? widget<W extends Widget>() {
+    final w = ContentPage(contentId: contentId);
+    if (w is! W) {
+      return null;
+    }
+    return w as W;
+  }
+
   @override
   List<RedirectQuery> redirect() => const [];
   @override
@@ -278,13 +326,29 @@ class _$_NestedContainerPageQuery extends RouteQuery {
   final String? _path;
 
   @override
-  String get path => _path ?? "nested";
+  String get path => _path ?? "nested$_parameters";
+  String get _parameters {
+    final $q = <String, String>{};
+    return $q.isEmpty
+        ? ""
+        : "?${$q.entries.map((e) => "${e.key}=${e.value}").join("&")}";
+  }
+
   @override
   String get name => "nested";
   @override
   bool get nested => false;
   @override
   E? key<E>() => null;
+  @override
+  W? widget<W extends Widget>() {
+    final w = NestedContainerPage();
+    if (w is! W) {
+      return null;
+    }
+    return w as W;
+  }
+
   @override
   List<RedirectQuery> redirect() => const [];
   @override
@@ -322,13 +386,30 @@ class _$_InnerPage1Query extends RouteQuery {
   final String? _path;
 
   @override
-  String get path => _path ?? "201662f73f10593624c1b6c898df8767fc90b085";
+  String get path =>
+      _path ?? "201662f73f10593624c1b6c898df8767fc90b085$_parameters";
+  String get _parameters {
+    final $q = <String, String>{};
+    return $q.isEmpty
+        ? ""
+        : "?${$q.entries.map((e) => "${e.key}=${e.value}").join("&")}";
+  }
+
   @override
   String get name => path;
   @override
   bool get nested => true;
   @override
   E? key<E>() => InnerPageType.type1 as E?;
+  @override
+  W? widget<W extends Widget>() {
+    final w = InnerPage1();
+    if (w is! W) {
+      return null;
+    }
+    return w as W;
+  }
+
   @override
   List<RedirectQuery> redirect() => const [];
   @override
@@ -362,13 +443,30 @@ class _$_InnerPage2Query extends RouteQuery {
   final String? _path;
 
   @override
-  String get path => _path ?? "26318fd13828503b957bad63061e1fc2d0bb4bfd";
+  String get path =>
+      _path ?? "26318fd13828503b957bad63061e1fc2d0bb4bfd$_parameters";
+  String get _parameters {
+    final $q = <String, String>{};
+    return $q.isEmpty
+        ? ""
+        : "?${$q.entries.map((e) => "${e.key}=${e.value}").join("&")}";
+  }
+
   @override
   String get name => path;
   @override
   bool get nested => true;
   @override
   E? key<E>() => InnerPageType.type2 as E?;
+  @override
+  W? widget<W extends Widget>() {
+    final w = InnerPage2();
+    if (w is! W) {
+      return null;
+    }
+    return w as W;
+  }
+
   @override
   List<RedirectQuery> redirect() => const [];
   @override
