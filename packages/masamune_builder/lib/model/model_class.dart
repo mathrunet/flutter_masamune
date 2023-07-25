@@ -611,8 +611,8 @@ List<Spec> modelClass(
               (m) => m
                 ..name = "filter"
                 ..annotations.addAll([const Reference("override")])
-                ..returns =
-                    Reference("Future<CollectionBase<\$${model.name}MirrorDocument>>")
+                ..returns = Reference(
+                    "Future<CollectionBase<\$${model.name}MirrorDocument>>")
                 ..requiredParameters.addAll([
                   Parameter(
                     (p) => p
