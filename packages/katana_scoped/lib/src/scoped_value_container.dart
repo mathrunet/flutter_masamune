@@ -76,12 +76,12 @@ class ScopedValueContainer extends ChangeNotifier {
     TScopedValue Function() provider, {
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
-    String? name,
+    Object? name,
     ScopedLoggerScope? scope,
     String? managedBy,
     List<LoggerAdapter> loggerAdapters = const [],
   }) {
-    final key = "$TScopedValue/$name";
+    final key = "$TScopedValue/${name.hashCode}";
     final found = _data[key];
     if (found != null) {
       assert(
@@ -139,11 +139,11 @@ class ScopedValueContainer extends ChangeNotifier {
   ScopedValueState<TResult, ScopedValue<TResult>>?
       getAlreadyExistsScopedValueState<TResult,
           TScopedValue extends ScopedValue<TResult>>({
-    String? name,
+    Object? name,
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
   }) {
-    final key = "$TScopedValue/$name";
+    final key = "$TScopedValue/${name.hashCode}";
     final found = _data[key];
     if (found != null) {
       assert(

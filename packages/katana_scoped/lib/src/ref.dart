@@ -92,7 +92,7 @@ abstract class Ref {
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
     bool listen = false,
-    String? name,
+    Object? name,
   });
 
   /// {@template get_already_exists_scoped_value}
@@ -122,7 +122,7 @@ abstract class Ref {
   /// {@endtemplate}
   TResult? getAlreadyExistsScopedValue<TResult,
       TScopedValue extends ScopedValue<TResult>>({
-    String? name,
+    Object? name,
     bool listen = false,
     bool recursive = true,
   });

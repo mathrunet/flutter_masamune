@@ -72,11 +72,11 @@ class ScopedQuery<Result> {
   /// {@endtemplate}
   const ScopedQuery(
     this.provider, {
-    String? name,
+    Object? name,
     this.autoDisposeWhenUnreferenced = false,
   }) : _name = name;
 
-  final String? _name;
+  final Object? _name;
 
   /// A callback that returns the value you want to manage.
   ///
@@ -100,7 +100,7 @@ class ScopedQuery<Result> {
   /// 状態を識別するための名前を返します。
   ///
   /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
-  String get name => _name ?? hashCode.toString();
+  Object get name => _name ?? hashCode.toString();
 
   /// Returns `true` if [ScopedQuery] should be automatically discarded when it is no longer referenced by any widget.
   ///
@@ -214,11 +214,11 @@ class ScopedQueryFamily<Result, Param> {
   /// {@macro scoped_query}
   const ScopedQueryFamily(
     this.provider, {
-    String? name,
+    Object? name,
     this.autoDisposeWhenUnreferenced = false,
   }) : _name = name;
 
-  final String? _name;
+  final Object? _name;
 
   /// Returns a callback that returns the value you want to manage.
   ///

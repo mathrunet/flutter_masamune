@@ -22,7 +22,7 @@ extension RefCacheExtensions on Ref {
   T cache<T>(
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
-    String? name,
+    Object? name,
     bool autoDisposeWhenUnreferenced = false,
   }) {
     return getScopedValue<T, _CacheValue<T>>(
@@ -60,7 +60,7 @@ extension RefHasPageCacheExtensions on RefHasPage {
   T cache<T>(
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
-    String? name,
+    Object? name,
     bool autoDisposeWhenUnreferenced = false,
   }) {
     return page.cache<T>(

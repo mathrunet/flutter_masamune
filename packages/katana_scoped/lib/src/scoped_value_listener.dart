@@ -68,7 +68,7 @@ class _ScopedValueListenerOnPage extends ScopedValueListener {
   TResult? getAlreadtExistsScopedValueResult<TResult,
       TScopedValue extends ScopedValue<TResult>>({
     bool listen = false,
-    String? name,
+    Object? name,
     bool recursive = true,
   }) {
     final res = super.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
@@ -104,7 +104,7 @@ class _ScopedValueListenerOnWidget extends ScopedValueListener {
   TResult? getAlreadtExistsScopedValueResult<TResult,
       TScopedValue extends ScopedValue<TResult>>({
     bool listen = false,
-    String? name,
+    Object? name,
     bool recursive = true,
   }) {
     final res = super.getAlreadtExistsScopedValueResult<TResult, TScopedValue>(
@@ -200,7 +200,7 @@ abstract class ScopedValueListener {
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
     bool listen = false,
-    String? name,
+    Object? name,
   }) {
     __listendBy ??= _listenedBy;
     __managedBy ??= _managedBy;
@@ -251,7 +251,7 @@ abstract class ScopedValueListener {
   TResult? getAlreadtExistsScopedValueResult<TResult,
       TScopedValue extends ScopedValue<TResult>>({
     bool listen = false,
-    String? name,
+    Object? name,
     bool recursive = true,
   }) {
     final state =

@@ -62,7 +62,7 @@ class AppRef implements Ref {
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
     bool listen = false,
-    String? name,
+    Object? name,
   }) {
     return _scopedValueContainer
         .getScopedValueState<TResult, TScopedValue>(
@@ -79,7 +79,7 @@ class AppRef implements Ref {
   @override
   TResult? getAlreadyExistsScopedValue<TResult,
       TScopedValue extends ScopedValue<TResult>>({
-    String? name,
+    Object? name,
     bool listen = false,
     bool recursive = true,
   }) {

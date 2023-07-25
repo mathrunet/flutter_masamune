@@ -28,7 +28,7 @@ extension RefFetchExtensions on Ref {
   ///
   /// そのスコープ内に[ScopedValue]が見つからなかったときは子から親のスコープへと再帰的に検索します。
   T? fetch<T>([
-    String? name,
+    Object? name,
   ]) {
     return getAlreadyExistsScopedValue<T, _WatchValue<T>>(
           name: name,

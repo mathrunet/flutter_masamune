@@ -23,7 +23,7 @@ extension RefPeriodicExtensions on PageOrWidgetScopedValueRef {
     FutureOr<void> Function(DateTime currentTime, DateTime startTime)
         callback, {
     required Duration duration,
-    String? name,
+    Object? name,
   }) {
     return getScopedValue<Timer, _PeriodicValue>(
       (ref) => _PeriodicValue(
@@ -58,7 +58,7 @@ extension RefHasPagePeriodicExtensions on RefHasPage {
     FutureOr<void> Function(DateTime currentTime, DateTime startTime)
         callback, {
     required Duration duration,
-    String? name,
+    Object? name,
   }) {
     return page.periodic(
       (currentTime, startTime) => null,

@@ -138,7 +138,7 @@ class ScopedValueRef implements Ref {
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
     bool listen = false,
-    String? name,
+    Object? name,
   }) {
     return _listener.getScopedValueResult<TResult, TScopedValue>(
       () => provider(this),
@@ -151,7 +151,7 @@ class ScopedValueRef implements Ref {
   @override
   TResult? getAlreadyExistsScopedValue<TResult,
       TScopedValue extends ScopedValue<TResult>>({
-    String? name,
+    Object? name,
     bool listen = false,
     bool recursive = true,
   }) {
@@ -187,7 +187,7 @@ class _ScopedValueRef implements Ref {
     void Function(ScopedValueState<TResult, TScopedValue> state)?
         onInitOrUpdate,
     bool listen = false,
-    String? name,
+    Object? name,
   }) {
     return ref.getScopedValue(
       provider,
@@ -206,7 +206,7 @@ class _ScopedValueRef implements Ref {
   @override
   TResult? getAlreadyExistsScopedValue<TResult,
       TScopedValue extends ScopedValue<TResult>>({
-    String? name,
+    Object? name,
     bool listen = false,
     bool recursive = true,
   }) {

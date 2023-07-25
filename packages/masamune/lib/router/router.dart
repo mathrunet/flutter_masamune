@@ -30,7 +30,7 @@ extension MasamuneRouterRefHasPageExtensions on RefHasPage {
     required RouteQuery? initialQuery,
     required List<RouteQueryBuilder> pages,
     TransitionQuery? defaultTransitionQuery,
-    String? name,
+    Object? name,
   }) {
     return page.watch(
       (ref) {
@@ -60,7 +60,7 @@ extension MasamuneRouterRefHasPageExtensions on RefHasPage {
   ///
   /// [NestedAppRouter]が存在しない場合はエラーを返します。
   NestedAppRouter nestedRouter({
-    String? name,
+    Object? name,
   }) {
     final router = page.fetch<NestedAppRouter>(name);
     if (router == null) {

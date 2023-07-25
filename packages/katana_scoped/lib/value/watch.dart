@@ -30,7 +30,7 @@ extension RefWatchExtensions on Ref {
   T watch<T extends Listenable?>(
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
-    String? name,
+    Object? name,
     bool disposal = true,
     bool autoDisposeWhenUnreferenced = false,
   }) {
@@ -78,7 +78,7 @@ extension RefHasPageWatchExtensions on RefHasPage {
   T watch<T extends Listenable?>(
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
-    String? name,
+    Object? name,
     bool disposal = true,
     bool autoDisposeWhenUnreferenced = false,
   }) {
