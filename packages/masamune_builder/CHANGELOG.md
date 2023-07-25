@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Model filters are now available for type-safety. ([a3d57e27](https://github.com/mathrunet/flutter_masamune/commit/a3d57e276f35fb9e89a9746fa1226634802ef0bc))
+
 ## 2.3.9
 
  - Update a dependency to the latest release.
