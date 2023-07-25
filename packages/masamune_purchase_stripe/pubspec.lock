@@ -392,7 +392,7 @@ packages:
       path: "../katana_auth"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_form:
     dependency: "direct overridden"
     description:
@@ -469,15 +469,15 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.5.5"
+    version: "2.7.0"
   katana_model_local:
     dependency: transitive
     description:
       name: katana_model_local
-      sha256: "2ac6775eb4af476a987b061f767793c3dc09638e7dd8e5f74feac6a2e22813d0"
+      sha256: f530d2802431f68bb35388e683091d9f399189364d2c1ba62322f12cb281de15
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.5"
+    version: "2.2.9"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -505,7 +505,7 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.16"
+    version: "2.0.17"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -519,14 +519,14 @@ packages:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.0.16"
+    version: "2.0.18"
   katana_shorten:
     dependency: "direct overridden"
     description:
@@ -547,28 +547,28 @@ packages:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_theme_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.2.1"
   lints:
     dependency: transitive
     description:
@@ -591,7 +591,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.2.16"
+    version: "2.3.0"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -605,7 +605,7 @@ packages:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.3.7"
+    version: "2.4.0"
   matcher:
     dependency: transitive
     description:

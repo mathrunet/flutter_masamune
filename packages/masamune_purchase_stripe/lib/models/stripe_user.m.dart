@@ -1,12 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
 
 part of 'stripe_user.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
 // **************************************************************************
+
+extension on StripeUserModel {
+  Map<String, dynamic> get rawValue {
+    return toJson();
+  }
+}
 
 class $StripeUserModelDocument extends DocumentBase<StripeUserModel>
     with ModelRefMixin<StripeUserModel> {
@@ -15,16 +21,38 @@ class $StripeUserModelDocument extends DocumentBase<StripeUserModel>
   @override
   StripeUserModel fromMap(DynamicMap map) => StripeUserModel.fromJson(map);
   @override
-  DynamicMap toMap(StripeUserModel value) => value.toJson();
+  DynamicMap toMap(StripeUserModel value) => value.rawValue;
 }
 
 class $StripeUserModelCollection
-    extends CollectionBase<$StripeUserModelDocument> {
+    extends CollectionBase<$StripeUserModelDocument>
+    with
+        FilterableCollectionMixin<$StripeUserModelDocument,
+            _$_StripeUserModelCollectionQuery> {
   $StripeUserModelCollection(super.modelQuery);
 
   @override
   $StripeUserModelDocument create([String? id]) =>
       $StripeUserModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<$StripeUserModelDocument>> filter(
+      _$_StripeUserModelCollectionQuery Function(
+              _$_StripeUserModelCollectionQuery source)
+          callback) {
+    final query = callback.call(_$_StripeUserModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
+}
+
+class StripeUserModelRawCollection extends ModelRawCollection<StripeUserModel> {
+  const StripeUserModelRawCollection(super.value);
+
+  @override
+  String get path => "plugins/stripe/user";
+  @override
+  DynamicMap toMap(StripeUserModel value) => value.rawValue;
+  static ModelRefBase<StripeUserModel> ref(String key) =>
+      ModelRefBase<StripeUserModel>.fromPath("plugins/stripe/user/$key");
 }
 
 enum StripeUserModelCollectionKey {
@@ -197,5 +225,9 @@ class _$_StripeUserModelCollectionQuery
 
   _$_StripeUserModelCollectionQuery limitTo(int value) {
     return _$_StripeUserModelCollectionQuery(modelQuery.limitTo(value));
+  }
+
+  _$_StripeUserModelCollectionQuery reset() {
+    return _$_StripeUserModelCollectionQuery(modelQuery.reset());
   }
 }

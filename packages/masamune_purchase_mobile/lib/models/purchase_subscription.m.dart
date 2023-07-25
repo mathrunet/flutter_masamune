@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
 
 part of 'purchase_subscription.dart';
 
@@ -27,12 +27,24 @@ class $PurchaseSubscriptionModelDocument
 }
 
 class $PurchaseSubscriptionModelCollection
-    extends CollectionBase<$PurchaseSubscriptionModelDocument> {
+    extends CollectionBase<$PurchaseSubscriptionModelDocument>
+    with
+        FilterableCollectionMixin<$PurchaseSubscriptionModelDocument,
+            _$_PurchaseSubscriptionModelCollectionQuery> {
   $PurchaseSubscriptionModelCollection(super.modelQuery);
 
   @override
   $PurchaseSubscriptionModelDocument create([String? id]) =>
       $PurchaseSubscriptionModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<$PurchaseSubscriptionModelDocument>> filter(
+      _$_PurchaseSubscriptionModelCollectionQuery Function(
+              _$_PurchaseSubscriptionModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_PurchaseSubscriptionModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
 }
 
 class PurchaseSubscriptionModelRawCollection
@@ -43,8 +55,9 @@ class PurchaseSubscriptionModelRawCollection
   String get path => "plugins/iap/subscription";
   @override
   DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
-  static PurchaseSubscriptionModelRef ref(String key) =>
-      PurchaseSubscriptionModelRef.fromPath("plugins/iap/subscription/$key");
+  static ModelRefBase<PurchaseSubscriptionModel> ref(String key) =>
+      ModelRefBase<PurchaseSubscriptionModel>.fromPath(
+          "plugins/iap/subscription/$key");
 }
 
 enum PurchaseSubscriptionModelCollectionKey {
@@ -229,6 +242,10 @@ class _$_PurchaseSubscriptionModelCollectionQuery
   _$_PurchaseSubscriptionModelCollectionQuery limitTo(int value) {
     return _$_PurchaseSubscriptionModelCollectionQuery(
         modelQuery.limitTo(value));
+  }
+
+  _$_PurchaseSubscriptionModelCollectionQuery reset() {
+    return _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.reset());
   }
 }
 

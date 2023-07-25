@@ -1,12 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
 
 part of 'stripe_payment.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
 // **************************************************************************
+
+extension on StripePaymentModel {
+  Map<String, dynamic> get rawValue {
+    return toJson();
+  }
+}
 
 class $StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
     with ModelRefMixin<StripePaymentModel> {
@@ -16,16 +22,49 @@ class $StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
   StripePaymentModel fromMap(DynamicMap map) =>
       StripePaymentModel.fromJson(map);
   @override
-  DynamicMap toMap(StripePaymentModel value) => value.toJson();
+  DynamicMap toMap(StripePaymentModel value) => value.rawValue;
 }
 
 class $StripePaymentModelCollection
-    extends CollectionBase<$StripePaymentModelDocument> {
+    extends CollectionBase<$StripePaymentModelDocument>
+    with
+        FilterableCollectionMixin<$StripePaymentModelDocument,
+            _$_StripePaymentModelCollectionQuery> {
   $StripePaymentModelCollection(super.modelQuery);
 
   @override
   $StripePaymentModelDocument create([String? id]) =>
       $StripePaymentModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<$StripePaymentModelDocument>> filter(
+      _$_StripePaymentModelCollectionQuery Function(
+              _$_StripePaymentModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_StripePaymentModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
+}
+
+class StripePaymentModelRawCollection
+    extends ModelRawCollection<StripePaymentModel> {
+  const StripePaymentModelRawCollection(
+    super.value, {
+    required String userId,
+  }) : _userId = userId;
+
+  final String _userId;
+
+  @override
+  String get path => "plugins/stripe/user/$_userId/payment";
+  @override
+  DynamicMap toMap(StripePaymentModel value) => value.rawValue;
+  static ModelRefBase<StripePaymentModel> ref(
+    String key, {
+    required String userId,
+  }) =>
+      ModelRefBase<StripePaymentModel>.fromPath(
+          "plugins/stripe/user/$userId/payment/$key");
 }
 
 enum StripePaymentModelCollectionKey {
@@ -209,5 +248,9 @@ class _$_StripePaymentModelCollectionQuery
 
   _$_StripePaymentModelCollectionQuery limitTo(int value) {
     return _$_StripePaymentModelCollectionQuery(modelQuery.limitTo(value));
+  }
+
+  _$_StripePaymentModelCollectionQuery reset() {
+    return _$_StripePaymentModelCollectionQuery(modelQuery.reset());
   }
 }

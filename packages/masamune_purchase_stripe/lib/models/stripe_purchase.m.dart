@@ -1,12 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
 
 part of 'stripe_purchase.dart';
 
 // **************************************************************************
 // CollectionModelGenerator
 // **************************************************************************
+
+extension on StripePurchaseModel {
+  Map<String, dynamic> get rawValue {
+    return toJson();
+  }
+}
 
 class $StripePurchaseModelDocument extends DocumentBase<StripePurchaseModel>
     with ModelRefMixin<StripePurchaseModel> {
@@ -16,16 +22,49 @@ class $StripePurchaseModelDocument extends DocumentBase<StripePurchaseModel>
   StripePurchaseModel fromMap(DynamicMap map) =>
       StripePurchaseModel.fromJson(map);
   @override
-  DynamicMap toMap(StripePurchaseModel value) => value.toJson();
+  DynamicMap toMap(StripePurchaseModel value) => value.rawValue;
 }
 
 class $StripePurchaseModelCollection
-    extends CollectionBase<$StripePurchaseModelDocument> {
+    extends CollectionBase<$StripePurchaseModelDocument>
+    with
+        FilterableCollectionMixin<$StripePurchaseModelDocument,
+            _$_StripePurchaseModelCollectionQuery> {
   $StripePurchaseModelCollection(super.modelQuery);
 
   @override
   $StripePurchaseModelDocument create([String? id]) =>
       $StripePurchaseModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<$StripePurchaseModelDocument>> filter(
+      _$_StripePurchaseModelCollectionQuery Function(
+              _$_StripePurchaseModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_StripePurchaseModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
+}
+
+class StripePurchaseModelRawCollection
+    extends ModelRawCollection<StripePurchaseModel> {
+  const StripePurchaseModelRawCollection(
+    super.value, {
+    required String userId,
+  }) : _userId = userId;
+
+  final String _userId;
+
+  @override
+  String get path => "plugins/stripe/user/$_userId/purchase";
+  @override
+  DynamicMap toMap(StripePurchaseModel value) => value.rawValue;
+  static ModelRefBase<StripePurchaseModel> ref(
+    String key, {
+    required String userId,
+  }) =>
+      ModelRefBase<StripePurchaseModel>.fromPath(
+          "plugins/stripe/user/$userId/purchase/$key");
 }
 
 enum StripePurchaseModelCollectionKey {
@@ -230,5 +269,9 @@ class _$_StripePurchaseModelCollectionQuery
 
   _$_StripePurchaseModelCollectionQuery limitTo(int value) {
     return _$_StripePurchaseModelCollectionQuery(modelQuery.limitTo(value));
+  }
+
+  _$_StripePurchaseModelCollectionQuery reset() {
+    return _$_StripePurchaseModelCollectionQuery(modelQuery.reset());
   }
 }

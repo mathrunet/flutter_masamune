@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
 
 part of 'purchase_user.dart';
 
@@ -25,12 +25,24 @@ class $PurchaseUserModelDocument extends DocumentBase<PurchaseUserModel>
 }
 
 class $PurchaseUserModelCollection
-    extends CollectionBase<$PurchaseUserModelDocument> {
+    extends CollectionBase<$PurchaseUserModelDocument>
+    with
+        FilterableCollectionMixin<$PurchaseUserModelDocument,
+            _$_PurchaseUserModelCollectionQuery> {
   $PurchaseUserModelCollection(super.modelQuery);
 
   @override
   $PurchaseUserModelDocument create([String? id]) =>
       $PurchaseUserModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<$PurchaseUserModelDocument>> filter(
+      _$_PurchaseUserModelCollectionQuery Function(
+              _$_PurchaseUserModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_PurchaseUserModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
 }
 
 class PurchaseUserModelRawCollection
@@ -41,8 +53,8 @@ class PurchaseUserModelRawCollection
   String get path => "plugins/iap/user";
   @override
   DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
-  static PurchaseUserModelRef ref(String key) =>
-      PurchaseUserModelRef.fromPath("plugins/iap/user/$key");
+  static ModelRefBase<PurchaseUserModel> ref(String key) =>
+      ModelRefBase<PurchaseUserModel>.fromPath("plugins/iap/user/$key");
 }
 
 enum PurchaseUserModelCollectionKey { value }
@@ -213,6 +225,10 @@ class _$_PurchaseUserModelCollectionQuery
 
   _$_PurchaseUserModelCollectionQuery limitTo(int value) {
     return _$_PurchaseUserModelCollectionQuery(modelQuery.limitTo(value));
+  }
+
+  _$_PurchaseUserModelCollectionQuery reset() {
+    return _$_PurchaseUserModelCollectionQuery(modelQuery.reset());
   }
 }
 
