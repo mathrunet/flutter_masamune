@@ -1159,7 +1159,7 @@ void main() {
       "image": "nnn",
     });
   });
-  test("NoSqlDatabase.filter", () async {
+  test("NoSqlDatabase.replaceQuery", () async {
     final db = NoSqlDatabase();
     final adapter = RuntimeModelAdapter(
       database: db,
@@ -1204,7 +1204,7 @@ void main() {
         "count": 15,
       }
     ]);
-    await collection.filter((source) => source.equal("name", "aaa"));
+    await collection.replaceQuery((source) => source.equal("name", "aaa"));
     expect(collection.map((e) => e.value).toList(), [
       {
         "name": "aaa",
@@ -1212,7 +1212,8 @@ void main() {
         "count": 5,
       },
     ]);
-    await collection.filter((source) => source.reset().equal("name", "eee"));
+    await collection
+        .replaceQuery((source) => source.reset().equal("name", "eee"));
     expect(collection.map((e) => e.value).toList(), [
       {
         "name": "eee",
@@ -1220,7 +1221,8 @@ void main() {
         "count": 15,
       }
     ]);
-    await collection.filter((source) => source.reset().greaterThan("count", 8));
+    await collection
+        .replaceQuery((source) => source.reset().greaterThan("count", 8));
     expect(collection.map((e) => e.value).toList(), [
       {
         "name": "ccc",

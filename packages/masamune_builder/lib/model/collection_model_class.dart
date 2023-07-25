@@ -82,7 +82,12 @@ enum CollectionQueryType {
   /// The method  for `limitTo`.
   ///
   /// `limitTo`のメソッド。
-  limitTo;
+  limitTo,
+
+  /// The method of `reset`.
+  ///
+  /// `reset`のメソッド。
+  reset;
 
   /// Gets the parameters for the input of the method.
   ///
@@ -171,6 +176,8 @@ enum CollectionQueryType {
               ..type = const Reference("int"),
           ),
         ];
+      case CollectionQueryType.reset:
+        return [];
     }
   }
 
@@ -200,6 +207,8 @@ enum CollectionQueryType {
         return "$name(key.name)";
       case CollectionQueryType.limitTo:
         return "$name(value)";
+      case CollectionQueryType.reset:
+        return "$name()";
     }
   }
 }

@@ -312,28 +312,28 @@ packages:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_router_builder:
     dependency: "direct main"
     description:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.16"
   katana_theme_annotation:
     dependency: "direct main"
     description:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_theme_builder:
     dependency: "direct main"
     description:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   lints:
     dependency: transitive
     description:

@@ -209,6 +209,9 @@ List<Spec> modelClass(
         ..name = "\$${model.name}Collection"
         ..extend = Reference("CollectionBase<\$${model.name}Document>")
         ..mixins.addAll([
+          Reference(
+            "FilterableCollectionMixin<\$${model.name}Document, _\$_${model.name}CollectionQuery>",
+          ),
           if (searchable.isNotEmpty)
             Reference("SearchableCollectionMixin<\$${model.name}Document>")
         ])
@@ -239,6 +242,24 @@ List<Spec> modelClass(
                 )
               ])
               ..body = Code("\$${model.name}Document(modelQuery.create(id))"),
+          ),
+          Method(
+            (m) => m
+              ..name = "filter"
+              ..annotations.addAll([const Reference("override")])
+              ..returns =
+                  Reference("Future<CollectionBase<\$${model.name}Document>>")
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "callback"
+                    ..type = Reference(
+                        "_\$_${model.name}CollectionQuery Function(_\$_${model.name}CollectionQuery source)"),
+                )
+              ])
+              ..body = Code(
+                "final query = callback.call(_\$_${model.name}CollectionQuery(modelQuery)); return replaceQuery((_) => query.modelQuery);",
+              ),
           ),
         ]),
     ),
@@ -550,6 +571,9 @@ List<Spec> modelClass(
           ..name = "\$${model.name}MirrorCollection"
           ..extend = Reference("CollectionBase<\$${model.name}MirrorDocument>")
           ..mixins.addAll([
+            Reference(
+              "FilterableCollectionMixin<\$${model.name}MirrorDocument, _\$_${model.name}MirrorCollectionQuery>",
+            ),
             if (searchable.isNotEmpty)
               Reference(
                   "SearchableCollectionMixin<\$${model.name}MirrorDocument>")
@@ -582,6 +606,24 @@ List<Spec> modelClass(
                 ])
                 ..body = Code(
                     "\$${model.name}MirrorDocument(modelQuery.create(id))"),
+            ),
+            Method(
+              (m) => m
+                ..name = "filter"
+                ..annotations.addAll([const Reference("override")])
+                ..returns =
+                    Reference("Future<CollectionBase<\$${model.name}MirrorDocument>>")
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "callback"
+                      ..type = Reference(
+                          "_\$_${model.name}MirrorCollectionQuery Function(_\$_${model.name}MirrorCollectionQuery source)"),
+                  )
+                ])
+                ..body = Code(
+                  "final query = callback.call(_\$_${model.name}MirrorCollectionQuery(modelQuery)); return replaceQuery((_) => query.modelQuery);",
+                ),
             ),
           ]),
       ),

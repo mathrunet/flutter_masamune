@@ -93,7 +93,7 @@ mixin SearchableCollectionMixin<TModel extends SearchableDocumentMixin>
         ModelQueryFilter._(
           type: ModelQueryFilterType.like,
           key: searchValueFieldKey,
-          value: "",
+          value: searchText,
         ),
       ],
       adapter: modelQuery.adapter,

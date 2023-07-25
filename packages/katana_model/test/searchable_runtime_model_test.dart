@@ -100,7 +100,7 @@ void main() {
     );
 
     final collection = SearchableRuntimeCollectionModel(query);
-    collection.search("test");
+    await collection.search("test");
     await collection.loading;
     expect(collection, []);
     final query1 = DocumentModelQuery("test/aaa", adapter: adapter);

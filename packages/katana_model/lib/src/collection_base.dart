@@ -297,7 +297,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// [callback]により新しく[CollectionModelQuery]を定義し直して[reload]を実行します。
   ///
   /// 新しい条件で再度読み込みをおこないたい場合に利用します。
-  Future<CollectionBase<TModel>> filter(
+  Future<CollectionBase<TModel>> replaceQuery(
     CollectionModelQuery Function(CollectionModelQuery source) callback,
   ) async {
     final prevQuery = modelQuery;

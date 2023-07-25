@@ -43,6 +43,7 @@ part 'form/form_scoped_widget.dart';
 part 'form/extension.dart';
 part 'model/model.dart';
 part 'model/extension.dart';
+part 'model/filterable_collection_mixin.dart';
 part 'prefs/prefs.dart';
 part 'scoped/controller.dart';
 part 'scoped/global.dart';

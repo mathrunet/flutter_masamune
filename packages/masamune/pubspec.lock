@@ -346,7 +346,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   katana_shorten:
     dependency: "direct main"
     description:
