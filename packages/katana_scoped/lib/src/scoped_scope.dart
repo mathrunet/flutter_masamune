@@ -42,7 +42,6 @@ class _PageScopedScope extends InheritedWidget {
     return scoped!.state;
   }
 
-
   static _PageScopedWidgetState? maybeOf(BuildContext context) {
     final scoped = context
         .getElementForInheritedWidgetOfExactType<_PageScopedScope>()
