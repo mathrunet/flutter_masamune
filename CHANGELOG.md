@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_introduction` - `v2.1.0`](#masamune_introduction---v210)
+
+---
+
+#### `masamune_introduction` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([3800999b](https://github.com/mathrunet/flutter_masamune/commit/3800999bb763a963ec43740af4c8e4578ab176b1))
+
+
+## 2023-07-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_purchase_mobile` - `v2.3.18`](#masamune_purchase_mobile---v2318)
  - [`masamune_purchase_stripe` - `v3.1.34`](#masamune_purchase_stripe---v3134)
 
