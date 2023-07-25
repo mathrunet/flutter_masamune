@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Remove unnecessary packages. ([a8d397c5](https://github.com/mathrunet/flutter_masamune/commit/a8d397c5300a83eeff87030307bc424abad9ca7f))
+
 ## 2.1.1
 
  - **FIX**: Apply import sorter. ([af2c3d77](https://github.com/mathrunet/flutter_masamune/commit/af2c3d7734be189b3dc950069b9bf80b85514460))

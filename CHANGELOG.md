@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_introduction` - `v2.1.2`](#masamune_introduction---v212)
+
+---
+
+#### `masamune_introduction` - `v2.1.2`
+
+ - **FIX**: Remove unnecessary packages. ([a8d397c5](https://github.com/mathrunet/flutter_masamune/commit/a8d397c5300a83eeff87030307bc424abad9ca7f))
+
+
+## 2023-07-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_introduction` - `v2.1.1`](#masamune_introduction---v211)
 
 ---
