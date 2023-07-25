@@ -1,3 +1,7 @@
+## 2.0.16
+
+ - **FIX**: Add widget to RouteQuery. ([20a0cf86](https://github.com/mathrunet/flutter_masamune/commit/20a0cf864dd87c3991aff2f2b497bf02aeb2428d))
+
 ## 2.0.15
 
  - **FIX**: Fixed a bug that occurred when a parameter was given when there was no path. ([df4b06b8](https://github.com/mathrunet/flutter_masamune/commit/df4b06b8cf2dcbbaec75421c06bd9ce83ed8be99))

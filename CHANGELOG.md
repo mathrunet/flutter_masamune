@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v2.0.17`](#katana_router---v2017)
+ - [`katana_router_builder` - `v2.0.16`](#katana_router_builder---v2016)
+ - [`masamune_universal_ui` - `v2.2.13`](#masamune_universal_ui---v2213)
+ - [`masamune` - `v2.2.23`](#masamune---v2223)
+ - [`masamune_location` - `v2.1.44`](#masamune_location---v2144)
+ - [`masamune_auth_apple` - `v2.1.34`](#masamune_auth_apple---v2134)
+ - [`masamune_agora` - `v2.2.15`](#masamune_agora---v2215)
+ - [`masamune_auth_google` - `v2.1.34`](#masamune_auth_google---v2134)
+ - [`masamune_ai_openai` - `v2.1.31`](#masamune_ai_openai---v2131)
+ - [`masamune_calendar` - `v2.0.77`](#masamune_calendar---v2077)
+ - [`masamune_picker` - `v2.1.33`](#masamune_picker---v2133)
+ - [`masamune_util` - `v2.1.12`](#masamune_util---v2112)
+ - [`masamune_purchase_stripe` - `v3.1.31`](#masamune_purchase_stripe---v3131)
+ - [`masamune_logger_firebase` - `v2.0.76`](#masamune_logger_firebase---v2076)
+ - [`masamune_auth_facebook` - `v2.1.36`](#masamune_auth_facebook---v2136)
+ - [`masamune_location_google` - `v2.1.45`](#masamune_location_google---v2145)
+ - [`masamune_mail` - `v2.1.31`](#masamune_mail---v2131)
+ - [`masamune_notification_firebase` - `v2.1.31`](#masamune_notification_firebase---v2131)
+ - [`masamune_purchase_mobile` - `v2.3.15`](#masamune_purchase_mobile---v2315)
+ - [`masamune_builder` - `v2.3.9`](#masamune_builder---v239)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.2.23`
+ - `masamune_location` - `v2.1.44`
+ - `masamune_auth_apple` - `v2.1.34`
+ - `masamune_agora` - `v2.2.15`
+ - `masamune_auth_google` - `v2.1.34`
+ - `masamune_ai_openai` - `v2.1.31`
+ - `masamune_calendar` - `v2.0.77`
+ - `masamune_picker` - `v2.1.33`
+ - `masamune_util` - `v2.1.12`
+ - `masamune_purchase_stripe` - `v3.1.31`
+ - `masamune_logger_firebase` - `v2.0.76`
+ - `masamune_auth_facebook` - `v2.1.36`
+ - `masamune_location_google` - `v2.1.45`
+ - `masamune_mail` - `v2.1.31`
+ - `masamune_notification_firebase` - `v2.1.31`
+ - `masamune_purchase_mobile` - `v2.3.15`
+ - `masamune_builder` - `v2.3.9`
+
+---
+
+#### `katana_router` - `v2.0.17`
+
+ - **FIX**: Add widget to RouteQuery. ([20a0cf86](https://github.com/mathrunet/flutter_masamune/commit/20a0cf864dd87c3991aff2f2b497bf02aeb2428d))
+
+#### `katana_router_builder` - `v2.0.16`
+
+ - **FIX**: Add widget to RouteQuery. ([20a0cf86](https://github.com/mathrunet/flutter_masamune/commit/20a0cf864dd87c3991aff2f2b497bf02aeb2428d))
+
+#### `masamune_universal_ui` - `v2.2.13`
+
+ - **FIX**: Added alignment to UniversalScaffold. ([2536c0cb](https://github.com/mathrunet/flutter_masamune/commit/2536c0cb23b0bfb10e3b7ce886537c11119a022a))
+
+
 ## 2023-07-24
 
 ### Changes

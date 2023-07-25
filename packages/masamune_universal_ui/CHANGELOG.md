@@ -1,3 +1,7 @@
+## 2.2.13
+
+ - **FIX**: Added alignment to UniversalScaffold. ([2536c0cb](https://github.com/mathrunet/flutter_masamune/commit/2536c0cb23b0bfb10e3b7ce886537c11119a022a))
+
 ## 2.2.12
 
  - Update a dependency to the latest release.

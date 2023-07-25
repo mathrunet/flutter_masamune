@@ -1,3 +1,7 @@
+## 2.2.23
+
+ - Update a dependency to the latest release.
+
 ## 2.2.22
 
  - **FIX**: Changed fetch method to recursive. ([d3300e96](https://github.com/mathrunet/flutter_masamune/commit/d3300e962cc96a0a5c4d9dcef0595cff6ed2b077))
