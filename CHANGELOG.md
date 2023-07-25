@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_introduction` - `v2.1.1`](#masamune_introduction---v211)
+
+---
+
+#### `masamune_introduction` - `v2.1.1`
+
+ - **FIX**: Apply import sorter. ([af2c3d77](https://github.com/mathrunet/flutter_masamune/commit/af2c3d7734be189b3dc950069b9bf80b85514460))
+
+
+## 2023-07-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_introduction` - `v2.1.0`](#masamune_introduction---v210)
 
 ---
