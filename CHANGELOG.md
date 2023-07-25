@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.3.18`](#masamune_purchase_mobile---v2318)
+ - [`masamune_purchase_stripe` - `v3.1.34`](#masamune_purchase_stripe---v3134)
+
+---
+
+#### `masamune_purchase_mobile` - `v2.3.18`
+
+ - **FIX**: Model specification change support. ([243ca2fa](https://github.com/mathrunet/flutter_masamune/commit/243ca2faf2321542efa76bf4ac26229dffae4a18))
+
+#### `masamune_purchase_stripe` - `v3.1.34`
+
+ - **FIX**: Model specification change support. ([243ca2fa](https://github.com/mathrunet/flutter_masamune/commit/243ca2faf2321542efa76bf4ac26229dffae4a18))
+
+
+## 2023-07-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.7.0`](#katana_model---v270)
  - [`masamune` - `v2.3.0`](#masamune---v230)
  - [`masamune_builder` - `v2.4.0`](#masamune_builder---v240)
