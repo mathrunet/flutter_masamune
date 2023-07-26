@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.4.0`](#katana_cli---v240)
+ - [`masamune_speech_to_text` - `v2.1.2`](#masamune_speech_to_text---v212)
+ - [`masamune_text_to_speech` - `v2.1.2`](#masamune_text_to_speech---v212)
+
+---
+
+#### `katana_cli` - `v2.4.0`
+
+ - **FEAT**: Added actions for Introduction, TTS, and STT. ([4c16e62c](https://github.com/mathrunet/flutter_masamune/commit/4c16e62cba5d36a6fd3a75027a51d964d6959caf))
+
+#### `masamune_speech_to_text` - `v2.1.2`
+
+ - **FIX**: Fixed various bugs by operation check. ([67d536de](https://github.com/mathrunet/flutter_masamune/commit/67d536de0f019633868d6cea174472fd5122bbb0))
+
+#### `masamune_text_to_speech` - `v2.1.2`
+
+ - **FIX**: Fixed various bugs by operation check. ([67d536de](https://github.com/mathrunet/flutter_masamune/commit/67d536de0f019633868d6cea174472fd5122bbb0))
+
+
+## 2023-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_speech_to_text` - `v2.1.1`](#masamune_speech_to_text---v211)
  - [`masamune_text_to_speech` - `v2.1.1`](#masamune_text_to_speech---v211)
 

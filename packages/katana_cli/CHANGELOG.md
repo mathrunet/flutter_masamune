@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added actions for Introduction, TTS, and STT. ([4c16e62c](https://github.com/mathrunet/flutter_masamune/commit/4c16e62cba5d36a6fd3a75027a51d964d6959caf))
+
 ## 2.3.23
 
  - **FIX**: Add boot to Code. ([fcdd2e1e](https://github.com/mathrunet/flutter_masamune/commit/fcdd2e1ea7d1d57ea30c9b4abc9c4b338104f76a))

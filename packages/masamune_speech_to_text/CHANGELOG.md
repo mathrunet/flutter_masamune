@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Fixed various bugs by operation check. ([67d536de](https://github.com/mathrunet/flutter_masamune/commit/67d536de0f019633868d6cea174472fd5122bbb0))
+
 ## 2.1.1
 
  - **FIX**: Made available on the Web. ([e98bd326](https://github.com/mathrunet/flutter_masamune/commit/e98bd3261cdae4e324958d4cb34a74a0fcd8cc1a))
