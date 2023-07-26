@@ -97,6 +97,22 @@ abstract class ModelAdapter {
     ModelAdapterCollectionQuery query,
   );
 
+  /// Returns the number of all elements stored in the DB, including search criteria.
+  ///
+  /// Pass [query] to the platform set by the adapter to get the number of collections.
+  ///
+  /// [retreivedList] stores data that has already been retrieved.
+  ///
+  /// 検索条件を含めてDBに保存されているすべての要素の数を返します。
+  ///
+  /// アダプターで設定されたプラットフォームに[query]を渡してコレクションの数を取得します。
+  ///
+  /// [retreivedList]にはすでに取得したデータを格納します。
+  Future<int> loadCollectionCount(
+    ModelAdapterCollectionQuery query, {
+    Iterable? retreivedList,
+  });
+
   /// By passing the [query] and the [value] to be stored, the data is stored on the platform set by the adapter.
   ///
   /// Keys with [value] value of [null] should be deleted from the database.

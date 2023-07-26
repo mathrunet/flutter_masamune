@@ -105,6 +105,18 @@ class RuntimeModelAdapter extends ModelAdapter {
   }
 
   @override
+  Future<int> loadCollectionCount(
+    ModelAdapterCollectionQuery query, {
+    Iterable? retreivedList,
+  }) async {
+    if (retreivedList != null) {
+      return retreivedList.length;
+    }
+    final data = await database.loadCollection(query, prefix: prefix);
+    return data.length;
+  }
+
+  @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
     await database.deleteDocument(query, prefix: prefix);
   }

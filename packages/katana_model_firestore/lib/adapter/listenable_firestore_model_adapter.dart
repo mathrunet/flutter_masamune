@@ -255,6 +255,19 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   }
 
   @override
+  Future<int> loadCollectionCount(
+    ModelAdapterCollectionQuery query, {
+    Iterable? retreivedList,
+  }) async {
+    await FirebaseCore.initialize(options: options);
+    final snapshot = await Future.wait<AggregateQuerySnapshot>(
+      _collectionReference(query).map((reference) => reference.count().get()),
+    );
+    final res = snapshot.fold<int>(0, (p, e) => p + e.count);
+    return res;
+  }
+
+  @override
   Future<void> saveDocument(
     ModelAdapterDocumentQuery query,
     DynamicMap value,
