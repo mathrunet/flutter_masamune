@@ -221,450 +221,128 @@ List<Spec> collectionModelClass(
   PathValue path,
   PathValue? mirror,
 ) {
+  final searchable = model.parameters.where((e) => e.isSearchable).toList();
+
   return [
-    ...modelClass(model, path, mirror),
-    Enum(
-      (e) => e
-        ..name = "${model.name}CollectionKey"
-        ..values.addAll([
-          ...model.parameters.map((param) {
-            return EnumValue(
-              (v) => v..name = param.name,
-            );
-          }),
-        ]),
-    ),
     Class(
       (c) => c
-        ..name = "_\$${model.name}DocumentQuery"
-        ..annotations.addAll([const Reference("immutable")])
-        ..constructors.addAll([
-          Constructor(
-            (c) => c..constant = true,
-          )
-        ])
-        ..methods.addAll([
-          Method(
-            (m) => m
-              ..name = "call"
-              ..annotations.addAll([const Reference("useResult")])
-              ..optionalParameters.addAll([
-                ...path.parameters.map((param) {
-                  return Parameter(
-                    (p) => p
-                      ..name = param.camelCase
-                      ..named = true
-                      ..required = true
-                      ..type = const Reference("String"),
-                  );
-                }),
-                Parameter(
-                  (p) => p
-                    ..name = "adapter"
-                    ..named = true
-                    ..type = const Reference("ModelAdapter?"),
-                ),
-              ])
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "_id"
-                    ..type = const Reference("Object"),
-                ),
-              ])
-              ..returns = Reference("_\$_${model.name}DocumentQuery")
-              ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter,));",
-              ),
+        ..name = "\$${model.name}Collection"
+        ..extend = Reference("CollectionBase<\$${model.name}Document>")
+        ..mixins.addAll([
+          Reference(
+            "FilterableCollectionMixin<\$${model.name}Document, _\$_${model.name}CollectionQuery>",
           ),
-          if (mirror != null)
-            Method(
-              (m) => m
-                ..name = "mirror"
-                ..type = MethodType.getter
-                ..returns = Reference("_\$${model.name}MirrorDocumentQuery")
-                ..lambda = true
-                ..body = Code("_\$${model.name}MirrorDocumentQuery()"),
-            ),
-        ]),
-    ),
-    Class(
-      (c) => c
-        ..name = "_\$_${model.name}DocumentQuery"
-        ..annotations.addAll([const Reference("immutable")])
-        ..extend = Reference("ModelQueryBase<\$${model.name}Document>")
+          if (searchable.isNotEmpty)
+            Reference("SearchableCollectionMixin<\$${model.name}Document>")
+        ])
         ..constructors.addAll([
           Constructor(
             (c) => c
-              ..constant = true
               ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
                     ..name = "modelQuery"
-                    ..toThis = true,
+                    ..toSuper = true,
                 )
               ]),
           )
         ])
-        ..fields.addAll([
-          Field(
-            (f) => f
-              ..name = "modelQuery"
-              ..modifier = FieldModifier.final$
-              ..type = const Reference("DocumentModelQuery"),
-          )
-        ])
         ..methods.addAll([
           Method(
             (m) => m
-              ..name = "call"
-              ..lambda = true
+              ..name = "create"
               ..annotations.addAll([const Reference("override")])
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "ref"
-                    ..type = const Reference("Ref"),
-                )
-              ])
-              ..returns = Reference("\$${model.name}Document Function()")
-              ..body = Code(
-                "() => \$${model.name}Document(modelQuery)",
-              ),
-          ),
-          Method(
-            (m) => m
-              ..name = "name"
               ..lambda = true
-              ..type = MethodType.getter
-              ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("String")
-              ..body = const Code("modelQuery.toString()"),
-          ),
-        ]),
-    ),
-    Class(
-      (c) => c
-        ..name = "_\$${model.name}CollectionQuery"
-        ..annotations.addAll([const Reference("immutable")])
-        ..constructors.addAll([
-          Constructor(
-            (c) => c..constant = true,
-          )
-        ])
-        ..methods.addAll([
-          Method(
-            (m) => m
-              ..name = "call"
-              ..annotations.addAll([const Reference("useResult")])
+              ..returns = Reference("\$${model.name}Document")
               ..optionalParameters.addAll([
-                ...path.parameters.map((param) {
-                  return Parameter(
-                    (p) => p
-                      ..name = param.camelCase
-                      ..named = true
-                      ..required = true
-                      ..type = const Reference("String"),
-                  );
-                }),
                 Parameter(
                   (p) => p
-                    ..name = "adapter"
-                    ..named = true
-                    ..type = const Reference("ModelAdapter?"),
-                ),
-              ])
-              ..returns = Reference("_\$_${model.name}CollectionQuery")
-              ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter,));",
-              ),
-          ),
-          if (mirror != null)
-            Method(
-              (m) => m
-                ..name = "mirror"
-                ..type = MethodType.getter
-                ..returns = Reference("_\$${model.name}MirrorCollectionQuery")
-                ..lambda = true
-                ..body = Code("_\$${model.name}MirrorCollectionQuery()"),
-            ),
-        ]),
-    ),
-    Class(
-      (c) => c
-        ..name = "_\$_${model.name}CollectionQuery"
-        ..annotations.addAll([const Reference("immutable")])
-        ..extend = Reference("ModelQueryBase<\$${model.name}Collection>")
-        ..constructors.addAll([
-          Constructor(
-            (c) => c
-              ..constant = true
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "modelQuery"
-                    ..toThis = true,
-                )
-              ]),
-          )
-        ])
-        ..fields.addAll([
-          Field(
-            (f) => f
-              ..name = "modelQuery"
-              ..modifier = FieldModifier.final$
-              ..type = const Reference("CollectionModelQuery"),
-          )
-        ])
-        ..methods.addAll([
-          Method(
-            (m) => m
-              ..name = "call"
-              ..lambda = true
-              ..annotations.addAll([const Reference("override")])
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "ref"
-                    ..type = const Reference("Ref"),
+                    ..name = "id"
+                    ..type = const Reference("String?"),
                 )
               ])
-              ..returns = Reference("\$${model.name}Collection Function()")
-              ..body = Code(
-                "() => \$${model.name}Collection(modelQuery)",
-              ),
+              ..body = Code("\$${model.name}Document(modelQuery.create(id))"),
           ),
           Method(
             (m) => m
-              ..name = "name"
-              ..lambda = true
-              ..type = MethodType.getter
+              ..name = "filter"
               ..annotations.addAll([const Reference("override")])
-              ..returns = const Reference("String")
-              ..body = const Code("modelQuery.toString()"),
+              ..returns =
+                  Reference("Future<CollectionBase<\$${model.name}Document>>")
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "callback"
+                    ..type = Reference(
+                        "_\$_${model.name}CollectionQuery Function(_\$_${model.name}CollectionQuery source)"),
+                )
+              ])
+              ..body = Code(
+                "final query = callback.call(_\$_${model.name}CollectionQuery(modelQuery)); return replaceQuery((_) => query.modelQuery);",
+              ),
           ),
-          ...CollectionQueryType.values.map((queryType) {
-            return Method(
-              (m) => m
-                ..name = queryType.name
-                ..returns = Reference("_\$_${model.name}CollectionQuery")
-                ..requiredParameters.addAll(
-                    [...queryType.parameters("${model.name}CollectionKey")])
-                ..body = Code(
-                  "return _\$_${model.name}CollectionQuery(modelQuery.${queryType.methodCode});",
-                ),
-            );
-          }),
         ]),
     ),
     if (mirror != null) ...[
       Class(
         (c) => c
-          ..name = "_\$${model.name}MirrorDocumentQuery"
-          ..annotations.addAll([const Reference("immutable")])
-          ..constructors.addAll([
-            Constructor(
-              (c) => c..constant = true,
-            )
+          ..name = "\$${model.name}MirrorCollection"
+          ..extend = Reference("CollectionBase<\$${model.name}MirrorDocument>")
+          ..mixins.addAll([
+            Reference(
+              "FilterableCollectionMixin<\$${model.name}MirrorDocument, _\$_${model.name}MirrorCollectionQuery>",
+            ),
+            if (searchable.isNotEmpty)
+              Reference(
+                  "SearchableCollectionMixin<\$${model.name}MirrorDocument>")
           ])
-          ..methods.addAll([
-            Method(
-              (m) => m
-                ..name = "call"
-                ..annotations.addAll([const Reference("useResult")])
-                ..optionalParameters.addAll([
-                  ...mirror.parameters.map((param) {
-                    return Parameter(
-                      (p) => p
-                        ..name = param.camelCase
-                        ..named = true
-                        ..required = true
-                        ..type = const Reference("String"),
-                    );
-                  }),
-                  Parameter(
-                    (p) => p
-                      ..name = "adapter"
-                      ..named = true
-                      ..type = const Reference("ModelAdapter?"),
-                  ),
-                ])
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (p) => p
-                      ..name = "_id"
-                      ..type = const Reference("Object"),
-                  ),
-                ])
-                ..returns = Reference("_\$_${model.name}MirrorDocumentQuery")
-                ..body = Code(
-                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter,));",
-                ),
-            )
-          ]),
-      ),
-      Class(
-        (c) => c
-          ..name = "_\$_${model.name}MirrorDocumentQuery"
-          ..annotations.addAll([const Reference("immutable")])
-          ..extend = Reference("ModelQueryBase<\$${model.name}MirrorDocument>")
           ..constructors.addAll([
             Constructor(
               (c) => c
-                ..constant = true
                 ..requiredParameters.addAll([
                   Parameter(
                     (p) => p
                       ..name = "modelQuery"
-                      ..toThis = true,
+                      ..toSuper = true,
                   )
                 ]),
             )
           ])
-          ..fields.addAll([
-            Field(
-              (f) => f
-                ..name = "modelQuery"
-                ..modifier = FieldModifier.final$
-                ..type = const Reference("DocumentModelQuery"),
-            )
-          ])
           ..methods.addAll([
             Method(
               (m) => m
-                ..name = "call"
-                ..lambda = true
+                ..name = "create"
                 ..annotations.addAll([const Reference("override")])
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (p) => p
-                      ..name = "ref"
-                      ..type = const Reference("Ref"),
-                  )
-                ])
-                ..returns =
-                    Reference("\$${model.name}MirrorDocument Function()")
-                ..body = Code(
-                  "() => \$${model.name}MirrorDocument(modelQuery)",
-                ),
-            ),
-            Method(
-              (m) => m
-                ..name = "name"
                 ..lambda = true
-                ..type = MethodType.getter
-                ..annotations.addAll([const Reference("override")])
-                ..returns = const Reference("String")
-                ..body = const Code("modelQuery.toString()"),
-            ),
-          ]),
-      ),
-      Class(
-        (c) => c
-          ..name = "_\$${model.name}MirrorCollectionQuery"
-          ..annotations.addAll([const Reference("immutable")])
-          ..constructors.addAll([
-            Constructor(
-              (c) => c..constant = true,
-            )
-          ])
-          ..methods.addAll([
-            Method(
-              (m) => m
-                ..name = "call"
-                ..annotations.addAll([const Reference("useResult")])
+                ..returns = Reference("\$${model.name}MirrorDocument")
                 ..optionalParameters.addAll([
-                  ...mirror.parameters.map((param) {
-                    return Parameter(
-                      (p) => p
-                        ..name = param.camelCase
-                        ..named = true
-                        ..required = true
-                        ..type = const Reference("String"),
-                    );
-                  }),
                   Parameter(
                     (p) => p
-                      ..name = "adapter"
-                      ..named = true
-                      ..type = const Reference("ModelAdapter?"),
-                  ),
-                ])
-                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
-                ..body = Code(
-                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter,));",
-                ),
-            )
-          ]),
-      ),
-      Class(
-        (c) => c
-          ..name = "_\$_${model.name}MirrorCollectionQuery"
-          ..annotations.addAll([const Reference("immutable")])
-          ..extend =
-              Reference("ModelQueryBase<\$${model.name}MirrorCollection>")
-          ..constructors.addAll([
-            Constructor(
-              (c) => c
-                ..constant = true
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (p) => p
-                      ..name = "modelQuery"
-                      ..toThis = true,
-                  )
-                ]),
-            )
-          ])
-          ..fields.addAll([
-            Field(
-              (f) => f
-                ..name = "modelQuery"
-                ..modifier = FieldModifier.final$
-                ..type = const Reference("CollectionModelQuery"),
-            )
-          ])
-          ..methods.addAll([
-            Method(
-              (m) => m
-                ..name = "call"
-                ..lambda = true
-                ..annotations.addAll([const Reference("override")])
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (p) => p
-                      ..name = "ref"
-                      ..type = const Reference("Ref"),
+                      ..name = "id"
+                      ..type = const Reference("String?"),
                   )
                 ])
-                ..returns =
-                    Reference("\$${model.name}MirrorCollection Function()")
                 ..body = Code(
-                  "() => \$${model.name}MirrorCollection(modelQuery)",
-                ),
+                    "\$${model.name}MirrorDocument(modelQuery.create(id))"),
             ),
             Method(
               (m) => m
-                ..name = "name"
-                ..lambda = true
-                ..type = MethodType.getter
+                ..name = "filter"
                 ..annotations.addAll([const Reference("override")])
-                ..returns = const Reference("String")
-                ..body = const Code("modelQuery.toString()"),
+                ..returns = Reference(
+                    "Future<CollectionBase<\$${model.name}MirrorDocument>>")
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "callback"
+                      ..type = Reference(
+                          "_\$_${model.name}MirrorCollectionQuery Function(_\$_${model.name}MirrorCollectionQuery source)"),
+                  )
+                ])
+                ..body = Code(
+                  "final query = callback.call(_\$_${model.name}MirrorCollectionQuery(modelQuery)); return replaceQuery((_) => query.modelQuery);",
+                ),
             ),
-            ...CollectionQueryType.values.map((queryType) {
-              return Method(
-                (m) => m
-                  ..name = queryType.name
-                  ..returns =
-                      Reference("_\$_${model.name}MirrorCollectionQuery")
-                  ..requiredParameters.addAll(
-                      [...queryType.parameters("${model.name}CollectionKey")])
-                  ..body = Code(
-                    "return _\$_${model.name}MirrorCollectionQuery(modelQuery.${queryType.methodCode});",
-                  ),
-              );
-            }),
           ]),
       ),
     ],

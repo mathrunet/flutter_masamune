@@ -67,7 +67,11 @@ class CollectionModelGenerator
         (l) => l
           ..body.addAll(
             [
+              ...modelClass(classValue, pathValue, mirrorPathValue),
+              ...documentModelClass(classValue, pathValue, mirrorPathValue),
               ...collectionModelClass(classValue, pathValue, mirrorPathValue),
+              ...collectionModelQueryClass(
+                  classValue, pathValue, mirrorPathValue),
             ],
           ),
       );

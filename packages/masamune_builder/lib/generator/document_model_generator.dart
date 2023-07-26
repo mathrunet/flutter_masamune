@@ -71,7 +71,9 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
       (l) => l
         ..body.addAll(
           [
+            ...modelClass(classValue, pathValue, mirrorPathValue),
             ...documentModelClass(classValue, pathValue, mirrorPathValue),
+            ...documentModelQueryClass(classValue, pathValue, mirrorPathValue),
           ],
         ),
     );
