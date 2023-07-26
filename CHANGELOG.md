@@ -15,6 +15,97 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_firestore` - `v2.4.5`](#katana_model_firestore---v245)
+ - [`katana_router` - `v2.0.18`](#katana_router---v2018)
+ - [`katana_router_annotation` - `v2.0.15`](#katana_router_annotation---v2015)
+ - [`katana_router_builder` - `v2.0.17`](#katana_router_builder---v2017)
+ - [`masamune_annotation` - `v2.2.0`](#masamune_annotation---v220)
+ - [`masamune_builder` - `v2.5.0`](#masamune_builder---v250)
+ - [`masamune` - `v2.3.1`](#masamune---v231)
+ - [`masamune_location` - `v2.1.47`](#masamune_location---v2147)
+ - [`masamune_auth_apple` - `v2.1.37`](#masamune_auth_apple---v2137)
+ - [`masamune_agora` - `v2.2.18`](#masamune_agora---v2218)
+ - [`masamune_auth_google` - `v2.1.37`](#masamune_auth_google---v2137)
+ - [`masamune_text_to_speech` - `v2.1.3`](#masamune_text_to_speech---v213)
+ - [`masamune_ai_openai` - `v2.1.34`](#masamune_ai_openai---v2134)
+ - [`masamune_calendar` - `v2.0.80`](#masamune_calendar---v2080)
+ - [`masamune_picker` - `v2.1.36`](#masamune_picker---v2136)
+ - [`masamune_util` - `v2.1.15`](#masamune_util---v2115)
+ - [`masamune_universal_ui` - `v2.2.16`](#masamune_universal_ui---v2216)
+ - [`masamune_purchase_stripe` - `v3.1.35`](#masamune_purchase_stripe---v3135)
+ - [`masamune_logger_firebase` - `v2.0.79`](#masamune_logger_firebase---v2079)
+ - [`masamune_speech_to_text` - `v2.1.3`](#masamune_speech_to_text---v213)
+ - [`masamune_introduction` - `v2.1.3`](#masamune_introduction---v213)
+ - [`masamune_auth_facebook` - `v2.1.39`](#masamune_auth_facebook---v2139)
+ - [`masamune_location_google` - `v2.1.48`](#masamune_location_google---v2148)
+ - [`masamune_mail` - `v2.1.34`](#masamune_mail---v2134)
+ - [`masamune_notification_firebase` - `v2.1.34`](#masamune_notification_firebase---v2134)
+ - [`masamune_purchase_mobile` - `v2.3.19`](#masamune_purchase_mobile---v2319)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.1`
+ - `masamune_location` - `v2.1.47`
+ - `masamune_auth_apple` - `v2.1.37`
+ - `masamune_agora` - `v2.2.18`
+ - `masamune_auth_google` - `v2.1.37`
+ - `masamune_text_to_speech` - `v2.1.3`
+ - `masamune_ai_openai` - `v2.1.34`
+ - `masamune_calendar` - `v2.0.80`
+ - `masamune_picker` - `v2.1.36`
+ - `masamune_util` - `v2.1.15`
+ - `masamune_universal_ui` - `v2.2.16`
+ - `masamune_purchase_stripe` - `v3.1.35`
+ - `masamune_logger_firebase` - `v2.0.79`
+ - `masamune_speech_to_text` - `v2.1.3`
+ - `masamune_introduction` - `v2.1.3`
+ - `masamune_auth_facebook` - `v2.1.39`
+ - `masamune_location_google` - `v2.1.48`
+ - `masamune_mail` - `v2.1.34`
+ - `masamune_notification_firebase` - `v2.1.34`
+ - `masamune_purchase_mobile` - `v2.3.19`
+
+---
+
+#### `katana_model_firestore` - `v2.4.5`
+
+ - **FIX**: Options for each of the various platforms can now be specified. ([928c379c](https://github.com/mathrunet/flutter_masamune/commit/928c379c8e774b37e1d4b307c7de9015a48c9f30))
+
+#### `katana_router` - `v2.0.18`
+
+ - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))
+
+#### `katana_router_annotation` - `v2.0.15`
+
+ - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))
+
+#### `katana_router_builder` - `v2.0.17`
+
+ - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))
+
+#### `masamune_annotation` - `v2.2.0`
+
+ - **FEAT**: Added the ability to specify an adapter in DocumentModelPath and CollectionModelPath. ([0cdf5492](https://github.com/mathrunet/flutter_masamune/commit/0cdf5492ca7842f4b2e5a02e362c11d820dbfbd5))
+
+#### `masamune_builder` - `v2.5.0`
+
+ - **FEAT**: Added the ability to specify an adapter in DocumentModelPath and CollectionModelPath. ([0cdf5492](https://github.com/mathrunet/flutter_masamune/commit/0cdf5492ca7842f4b2e5a02e362c11d820dbfbd5))
+
+
+## 2023-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.4.1`](#katana_cli---v241)
  - [`masamune_builder` - `v2.4.1`](#masamune_builder---v241)
 

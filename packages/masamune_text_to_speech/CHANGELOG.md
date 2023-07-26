@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - Update a dependency to the latest release.
+
 ## 2.1.2
 
  - **FIX**: Fixed various bugs by operation check. ([67d536de](https://github.com/mathrunet/flutter_masamune/commit/67d536de0f019633868d6cea174472fd5122bbb0))

@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - Update a dependency to the latest release.
+
 ## 2.1.2
 
  - **FIX**: Remove unnecessary packages. ([a8d397c5](https://github.com/mathrunet/flutter_masamune/commit/a8d397c5300a83eeff87030307bc424abad9ca7f))

@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Added the ability to specify an adapter in DocumentModelPath and CollectionModelPath. ([0cdf5492](https://github.com/mathrunet/flutter_masamune/commit/0cdf5492ca7842f4b2e5a02e362c11d820dbfbd5))
+
 ## 2.1.8
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

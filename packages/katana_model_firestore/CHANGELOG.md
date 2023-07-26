@@ -1,3 +1,7 @@
+## 2.4.5
+
+ - **FIX**: Options for each of the various platforms can now be specified. ([928c379c](https://github.com/mathrunet/flutter_masamune/commit/928c379c8e774b37e1d4b307c7de9015a48c9f30))
+
 ## 2.4.4
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 3.1.35
+
+ - Update a dependency to the latest release.
+
 ## 3.1.34
 
  - **FIX**: Model specification change support. ([243ca2fa](https://github.com/mathrunet/flutter_masamune/commit/243ca2faf2321542efa76bf4ac26229dffae4a18))

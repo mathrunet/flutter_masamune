@@ -1,3 +1,7 @@
+## 2.0.18
+
+ - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))
+
 ## 2.0.17
 
  - **FIX**: Add widget to RouteQuery. ([20a0cf86](https://github.com/mathrunet/flutter_masamune/commit/20a0cf864dd87c3991aff2f2b497bf02aeb2428d))

@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Added the ability to specify an adapter in DocumentModelPath and CollectionModelPath. ([0cdf5492](https://github.com/mathrunet/flutter_masamune/commit/0cdf5492ca7842f4b2e5a02e362c11d820dbfbd5))
+
 ## 2.4.1
 
  - **FIX**: Fixed a bug that caused an error when creating DocumentModel. ([8d3cf4bd](https://github.com/mathrunet/flutter_masamune/commit/8d3cf4bd47d7e5f2b1fdc7bc34eed37577a85b9d))

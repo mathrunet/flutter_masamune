@@ -1,3 +1,7 @@
+## 2.0.15
+
+ - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))
+
 ## 2.0.14
 
  - **FIX**: Fixed a bug that occurred when a parameter was given when there was no path. ([df4b06b8](https://github.com/mathrunet/flutter_masamune/commit/df4b06b8cf2dcbbaec75421c06bd9ce83ed8be99))
