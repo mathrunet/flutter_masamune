@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_introduction` - `v2.1.4`](#masamune_introduction---v214)
+ - [`masamune_speech_to_text` - `v2.1.4`](#masamune_speech_to_text---v214)
+
+---
+
+#### `masamune_introduction` - `v2.1.4`
+
+ - **FIX**: Adjustment of theme. ([1a81eb9f](https://github.com/mathrunet/flutter_masamune/commit/1a81eb9f6bf288681d119f0caa7f0e45e57d74fb))
+
+#### `masamune_speech_to_text` - `v2.1.4`
+
+ - **FIX**: Remove permissions. ([edf57c4b](https://github.com/mathrunet/flutter_masamune/commit/edf57c4b8fea2f8f5826b9acbc6510e0b79338d8))
+
+
 ## 2023-07-26
 
 ### Changes

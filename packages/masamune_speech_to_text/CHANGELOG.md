@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **FIX**: Remove permissions. ([edf57c4b](https://github.com/mathrunet/flutter_masamune/commit/edf57c4b8fea2f8f5826b9acbc6510e0b79338d8))
+
 ## 2.1.3
 
  - Update a dependency to the latest release.

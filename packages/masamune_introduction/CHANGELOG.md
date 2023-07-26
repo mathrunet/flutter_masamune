@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **FIX**: Adjustment of theme. ([1a81eb9f](https://github.com/mathrunet/flutter_masamune/commit/1a81eb9f6bf288681d119f0caa7f0e45e57d74fb))
+
 ## 2.1.3
 
  - Update a dependency to the latest release.
