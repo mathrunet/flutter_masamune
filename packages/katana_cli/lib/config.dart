@@ -93,6 +93,11 @@ ${showAllConfig ? """
       en: Use the library for profile images.
 
 ${showAllConfig ? """
+  # Describe the settings for using the introductory part of the application.
+  # アプリの導入部分を利用するための設定を記述します。
+  introduction:
+    enable: false
+
   # Describe the settings for using the calendar.
   # カレンダーを利用するための設定を記述します。
   calendar:
@@ -102,6 +107,22 @@ ${showAllConfig ? """
   # OpenAIのGPT等を利用するための設定を記述します。
   openai:
     enable: false
+
+  # Describe the settings for using speech synthesis.
+  # 音声合成による発話を利用するための設定を記述します。
+  text_to_speech:
+    enable: false
+
+  # Describe the settings for using voice recognition.
+  # Specify the permission message to use the library in IOS in [permission].
+  # Please include `en`, `ja`, etc. and write the message in that language there.
+  # 音声認識を利用するための設定を記述します。
+  # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+  # `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
+  speech_to_text:
+    enable: false
+    permission:
+      en: Used to perform voice recognition.
 """ : ""}
 
 # This section contains information related to Firebase.

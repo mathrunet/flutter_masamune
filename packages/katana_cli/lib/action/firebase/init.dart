@@ -423,7 +423,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         .any((element) => element.startsWith("flutter.minSdkVersion"))) {
       await configPropertiesFile.writeAsString([
         ...configProperties,
-        "flutter.minSdkVersion=21",
+        "flutter.minSdkVersion=23",
       ].join("\n"));
     }
     label("Edit build.gradle");

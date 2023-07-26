@@ -4,12 +4,15 @@ import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
 import 'package:katana_cli/action/app/icon.dart';
 import 'package:katana_cli/action/app/info.dart';
+import 'package:katana_cli/action/app/introduction.dart';
 import 'package:katana_cli/action/app/keystore.dart';
 import 'package:katana_cli/action/app/location.dart';
 import 'package:katana_cli/action/app/openai.dart';
 import 'package:katana_cli/action/app/p12.dart';
 import 'package:katana_cli/action/app/picker.dart';
+import 'package:katana_cli/action/app/speech_to_text.dart';
 import 'package:katana_cli/action/app/spread_sheet.dart';
+import 'package:katana_cli/action/app/text_to_speech.dart';
 import 'package:katana_cli/action/firebase/authentication.dart';
 import 'package:katana_cli/action/firebase/init.dart';
 import 'package:katana_cli/action/firebase/messaging.dart';
@@ -44,7 +47,10 @@ const _actions = <CliActionMixin>[
   GitActionCliAction(),
   GitPreCommitCliAction(),
   AppOpenAICliAction(),
+  AppIntroductionCliAction(),
   AppCalendarCliAction(),
+  AppTextToSpeechCliAction(),
+  AppSpeechToTextCliAction(),
   AppLocationCliAction(),
   AgoraCliAction(),
   PurchaseCliAction(),
