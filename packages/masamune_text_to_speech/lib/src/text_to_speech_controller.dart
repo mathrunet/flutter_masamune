@@ -83,6 +83,7 @@ class TextToSpeechController
       if (UniversalPlatform.isIOS) {
         await _tts.setSharedInstance(true);
       }
+      await _tts.awaitSpeakCompletion(true);
       await _tts.setLanguage(adapter.defaultLocale.languageCode);
       _initialized = true;
       _initializeCompleter?.complete();
@@ -118,10 +119,14 @@ class TextToSpeechController
       );
     }
     if (_speakCompleter != null) {
-      return _speakCompleter!.future;
+      await _tts.stop();
+      notifyListeners();
+      _speakCompleter?.complete();
+      _speakCompleter = null;
     }
     _speakCompleter = Completer();
     try {
+      await initialize();
       if (locale != null) {
         _tts.setLanguage(locale.languageCode);
       }

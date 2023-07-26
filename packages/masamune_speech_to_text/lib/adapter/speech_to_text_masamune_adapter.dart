@@ -7,7 +7,14 @@ class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
   /// [MasamuneAdapter], which is the initial setup for handling Speech-to-Text.
   ///
   /// Speech-to-Textを取り扱うための初期設定を行う[MasamuneAdapter]。
-  const SpeechToTextMasamuneAdapter();
+  const SpeechToTextMasamuneAdapter({
+    required this.defaultLocale,
+  });
+
+  /// Default language.
+  ///
+  /// デフォルトの言語。
+  final Locale defaultLocale;
 
   /// You can retrieve the [SttMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
