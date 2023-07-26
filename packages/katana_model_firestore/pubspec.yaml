@@ -17,6 +17,7 @@ dependencies:
   katana_model: ^2.7.0
   firebase_core: ^2.1.1
   cloud_firestore: ^4.0.4
+  universal_platform: ^1.0.0+1
 
 dev_dependencies:
   test: ^1.21.3

@@ -19,6 +19,7 @@ import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:katana_model/katana_model.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 export 'package:katana_firebase/katana_firebase.dart';
 export 'package:katana_model/katana_model.dart';
