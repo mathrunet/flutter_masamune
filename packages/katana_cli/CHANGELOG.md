@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Fixed a bug that caused the path to be incorrect when creating a document at the first level. ([83e558dc](https://github.com/mathrunet/flutter_masamune/commit/83e558dc6d7d427c7968879e2a928d35cccf78ee))
+
 ## 2.4.0
 
  - **FEAT**: Added actions for Introduction, TTS, and STT. ([4c16e62c](https://github.com/mathrunet/flutter_masamune/commit/4c16e62cba5d36a6fd3a75027a51d964d6959caf))

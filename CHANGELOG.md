@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.4.1`](#katana_cli---v241)
+ - [`masamune_builder` - `v2.4.1`](#masamune_builder---v241)
+
+---
+
+#### `katana_cli` - `v2.4.1`
+
+ - **FIX**: Fixed a bug that caused the path to be incorrect when creating a document at the first level. ([83e558dc](https://github.com/mathrunet/flutter_masamune/commit/83e558dc6d7d427c7968879e2a928d35cccf78ee))
+
+#### `masamune_builder` - `v2.4.1`
+
+ - **FIX**: Fixed a bug that caused an error when creating DocumentModel. ([8d3cf4bd](https://github.com/mathrunet/flutter_masamune/commit/8d3cf4bd47d7e5f2b1fdc7bc34eed37577a85b9d))
+
+
+## 2023-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.4.0`](#katana_cli---v240)
  - [`masamune_speech_to_text` - `v2.1.2`](#masamune_speech_to_text---v212)
  - [`masamune_text_to_speech` - `v2.1.2`](#masamune_text_to_speech---v212)

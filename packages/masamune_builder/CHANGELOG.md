@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Fixed a bug that caused an error when creating DocumentModel. ([8d3cf4bd](https://github.com/mathrunet/flutter_masamune/commit/8d3cf4bd47d7e5f2b1fdc7bc34eed37577a85b9d))
+
 ## 2.4.0
 
  - **FEAT**: Model filters are now available for type-safety. ([a3d57e27](https://github.com/mathrunet/flutter_masamune/commit/a3d57e276f35fb9e89a9746fa1226634802ef0bc))
