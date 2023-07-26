@@ -70,7 +70,11 @@ part '$baseName.freezed.dart';
   String body(String path, String baseName, String className) {
     final paths = path.split("/");
     if (paths.length.isOdd) {
-      path = paths.sublist(0, paths.length - 1).join("/");
+      if (paths.length <= 1) {
+        path = (paths..insert(0, "app")).join("/");
+      } else {
+        path = paths.sublist(0, paths.length - 1).join("/");
+      }
     }
     return """
 /// Alias for ModelRef<${className}Model>.
