@@ -1,4 +1,4 @@
-part of masamune_speech_to_text.others;
+part of masamune_speech_to_text;
 
 /// Controller for Speech-to-Text.
 ///
@@ -90,24 +90,6 @@ class SpeechToTextController
     }
     _initializeCompleter = Completer();
     try {
-      var speechStatus = await Permission.speech.status;
-      if (speechStatus != PermissionStatus.granted) {
-        speechStatus = await Permission.speech.request();
-        if (speechStatus != PermissionStatus.granted) {
-          throw Exception(
-            "You are not authorized to use the speech information service. Check the permission settings.",
-          );
-        }
-      }
-      var microphoneStatus = await Permission.microphone.status;
-      if (microphoneStatus != PermissionStatus.granted) {
-        microphoneStatus = await Permission.microphone.request();
-        if (microphoneStatus != PermissionStatus.granted) {
-          throw Exception(
-            "You are not authorized to use the microphone information service. Check the permission settings.",
-          );
-        }
-      }
       await _stt.initialize(onError: _onError);
       _initialized = true;
       _initializeCompleter?.complete();

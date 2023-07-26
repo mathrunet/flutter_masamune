@@ -15,7 +15,6 @@ dependencies:
   katana: ^2.3.3
   masamune: ^2.3.1
   speech_to_text: ^6.3.0
-  permission_handler: ^10.4.3
 
 dev_dependencies:
   test: ^1.21.3

@@ -13,10 +13,8 @@ import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:masamune/masamune.dart';
-
-export 'src/others/others.dart'
-    if (dart.library.io) 'src/others/others.dart'
-    if (dart.library.js) 'src/web/web.dart'
-    if (dart.library.html) 'src/web/web.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 part 'adapter/speech_to_text_masamune_adapter.dart';
+part 'src/speech_to_text_controller.dart';
