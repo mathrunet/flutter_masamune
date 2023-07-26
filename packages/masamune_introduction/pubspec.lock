@@ -544,21 +544,21 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.15"
   katana_router_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.16"
+    version: "2.0.17"
   katana_scoped:
     dependency: "direct overridden"
     description:
@@ -630,21 +630,21 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.3.1"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../masamune_annotation"
       relative: true
     source: path
-    version: "2.1.8"
+    version: "2.2.0"
   masamune_builder:
     dependency: "direct dev"
     description:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.4.0"
+    version: "2.5.0"
   matcher:
     dependency: transitive
     description:

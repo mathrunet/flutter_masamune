@@ -28,7 +28,10 @@ part 'masamune_introduction.page.dart';
 ///
 /// ページとして利用したくない場合は[MasamuneIntroduction]をご利用ください。
 @immutable
-@PagePath("tutorial")
+@PagePath(
+  "tutorial",
+  transition: TransitionQuery.fade,
+)
 class MasamuneIntroductionPage extends PageScopedWidget {
   /// [PageScopedWidget] in the introduction.
   ///
@@ -104,6 +107,8 @@ class MasamuneIntroduction extends StatefulWidget {
   const MasamuneIntroduction({
     super.key,
     this.routeQuery,
+    this.padding = const EdgeInsets.all(16.0),
+    this.contentPadding = const EdgeInsets.all(16.0),
   });
 
   /// If you want to specify the page after the introduction, specify [routeQuery].
@@ -112,6 +117,16 @@ class MasamuneIntroduction extends StatefulWidget {
   /// イントロダクション終了後のページを指定したい場合は[routeQuery]を指定してください。
   /// [routeQuery]が[Null]の場合はイントロダクション終了後に前のページに戻ります。
   final RouteQuery? routeQuery;
+
+  /// Outer padding.
+  ///
+  /// 外側のパディング。
+  final EdgeInsets padding;
+
+  /// Content Padding.
+  ///
+  /// コンテンツのパディング。
+  final EdgeInsets contentPadding;
 
   @override
   State<StatefulWidget> createState() => _MasamuneIntroductionState();
@@ -129,37 +144,49 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
       return const SizedBox();
     }
 
-    return IntroductionScreen(
-      key: _introKey,
-      pages: [
-        ...adapter.items.map(
-          (e) => e.toPageViewModel(context),
+    return DefaultTextStyle(
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onBackground,
+      ),
+      child: IconTheme(
+        data: IconThemeData(
+          color: Theme.of(context).colorScheme.onBackground,
         ),
-      ],
-      done: Text(adapter.doneLabel),
-      skip: Text(adapter.skipLabel),
-      onDone: () {
-        if (widget.routeQuery == null) {
-          context.router.pop();
-        } else {
-          context.router.replace(
-            widget.routeQuery!,
-          );
-        }
-      },
-      onSkip: () {
-        if (widget.routeQuery == null) {
-          context.router.pop();
-        } else {
-          context.router.replace(
-            widget.routeQuery!,
-          );
-        }
-      },
-      showSkipButton: adapter.enableSkip,
-      showNextButton: false,
-      showBackButton: false,
-      showDoneButton: true,
+        child: IntroductionScreen(
+          key: _introKey,
+          bodyPadding: widget.padding,
+          controlsPadding: widget.contentPadding,
+          pages: [
+            ...adapter.items.map(
+              (e) => e.toPageViewModel(context),
+            ),
+          ],
+          done: Text(adapter.doneLabel),
+          skip: Text(adapter.skipLabel),
+          onDone: () {
+            if (widget.routeQuery == null) {
+              context.router.pop();
+            } else {
+              context.router.replace(
+                widget.routeQuery!,
+              );
+            }
+          },
+          onSkip: () {
+            if (widget.routeQuery == null) {
+              context.router.pop();
+            } else {
+              context.router.replace(
+                widget.routeQuery!,
+              );
+            }
+          },
+          showSkipButton: adapter.enableSkip,
+          showNextButton: false,
+          showBackButton: false,
+          showDoneButton: true,
+        ),
+      ),
     );
   }
 }

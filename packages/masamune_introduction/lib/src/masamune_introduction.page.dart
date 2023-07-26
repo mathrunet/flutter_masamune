@@ -70,6 +70,8 @@ class _$_MasamuneIntroductionPageQuery extends RouteQuery {
   @override
   bool get nested => false;
   @override
+  TransitionQuery? get transition => TransitionQuery.fade;
+  @override
   E? key<E>() => null;
   @override
   W? widget<W extends Widget>() {
@@ -86,7 +88,7 @@ class _$_MasamuneIntroductionPageQuery extends RouteQuery {
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
       path: path,
-      transitionQuery: query,
+      transitionQuery: query ?? transition,
       builder: (context) => MasamuneIntroductionPage(routeQuery: routeQuery),
     );
   }
