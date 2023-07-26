@@ -5,6 +5,7 @@ part of masamune_builder;
 /// コレクションモデルクエリを自動作成するためのクラスを作成します。
 List<Spec> collectionModelQueryClass(
   ClassValue model,
+  AnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
 ) {
@@ -30,6 +31,16 @@ List<Spec> collectionModelQueryClass(
           )
         ])
         ..methods.addAll([
+          Method(
+            (m) => m
+              ..name = "_adapter"
+              ..type = MethodType.getter
+              ..returns = const Reference("ModelAdapter?")
+              ..lambda = true
+              ..body = Code(
+                annotation.adapter == null ? "null" : annotation.adapter!,
+              ),
+          ),
           Method(
             (m) => m
               ..name = "call"
@@ -60,7 +71,7 @@ List<Spec> collectionModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter,));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _adapter,));",
               ),
           ),
           if (mirror != null)
@@ -141,6 +152,16 @@ List<Spec> collectionModelQueryClass(
         ..methods.addAll([
           Method(
             (m) => m
+              ..name = "_adapter"
+              ..type = MethodType.getter
+              ..returns = const Reference("ModelAdapter?")
+              ..lambda = true
+              ..body = Code(
+                annotation.adapter == null ? "null" : annotation.adapter!,
+              ),
+          ),
+          Method(
+            (m) => m
               ..name = "call"
               ..annotations.addAll([const Reference("useResult")])
               ..optionalParameters.addAll([
@@ -162,7 +183,7 @@ List<Spec> collectionModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter,));",
+                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _adapter,));",
               ),
           ),
           if (mirror != null)
@@ -256,6 +277,16 @@ List<Spec> collectionModelQueryClass(
           ..methods.addAll([
             Method(
               (m) => m
+                ..name = "_adapter"
+                ..type = MethodType.getter
+                ..returns = const Reference("ModelAdapter?")
+                ..lambda = true
+                ..body = Code(
+                  annotation.adapter == null ? "null" : annotation.adapter!,
+                ),
+            ),
+            Method(
+              (m) => m
                 ..name = "call"
                 ..annotations.addAll([const Reference("useResult")])
                 ..optionalParameters.addAll([
@@ -284,7 +315,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorDocumentQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter,));",
+                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _adapter,));",
                 ),
             )
           ]),
@@ -357,6 +388,16 @@ List<Spec> collectionModelQueryClass(
           ..methods.addAll([
             Method(
               (m) => m
+                ..name = "_adapter"
+                ..type = MethodType.getter
+                ..returns = const Reference("ModelAdapter?")
+                ..lambda = true
+                ..body = Code(
+                  annotation.adapter == null ? "null" : annotation.adapter!,
+                ),
+            ),
+            Method(
+              (m) => m
                 ..name = "call"
                 ..annotations.addAll([const Reference("useResult")])
                 ..optionalParameters.addAll([
@@ -378,7 +419,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter,));",
+                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _adapter,));",
                 ),
             )
           ]),

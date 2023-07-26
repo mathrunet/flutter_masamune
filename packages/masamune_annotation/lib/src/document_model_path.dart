@@ -10,6 +10,8 @@ part of masamune_annotation;
 ///
 /// You can duplicate the same data to another path by defining a path in [mirror].
 ///
+/// You can specify a default model adapter by specifying [adapter].
+///
 /// Each data can be retrieved with `document.mirror` and can be `loaded` and `saved` in the same way.
 ///
 /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -25,6 +27,8 @@ part of masamune_annotation;
 /// `static const document = _$(クラス名)DocumentQuery()`にドキュメントモデルを取得するためのクエリを定義できます。
 ///
 /// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
+///
+/// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
 ///
 /// それぞれのデータは`document.mirror`で取得でき、同じように`load`や`save`ができるようになります。
 ///
@@ -62,6 +66,8 @@ class DocumentModelPath {
   ///
   /// You can duplicate the same data to another path by defining a path in [mirror].
   ///
+  /// You can specify a default model adapter by specifying [adapter].
+  ///
   /// Each data can be retrieved with `document.mirror` and can be `loaded` and `saved` in the same way.
   ///
   /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -77,6 +83,8 @@ class DocumentModelPath {
   /// `static const document = _$(クラス名)DocumentQuery()`にドキュメントモデルを取得するためのクエリを定義できます。
   ///
   /// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
+  ///
+  /// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
   ///
   /// それぞれのデータは`document.mirror`で取得でき、同じように`load`や`save`ができるようになります。
   ///
@@ -103,7 +111,11 @@ class DocumentModelPath {
   /// ```
   ///
   /// * see https://pub.dev/packages/freezed
-  const DocumentModelPath(this.path, {this.mirror});
+  const DocumentModelPath(
+    this.path, {
+    this.mirror,
+    this.adapter,
+  });
 
   /// Path for documentation.
   ///
@@ -114,4 +126,9 @@ class DocumentModelPath {
   ///
   /// ミラードキュメント用のパス。
   final String? mirror;
+
+  /// Specifies the default adapter.
+  ///
+  /// デフォルトのアダプターを指定します。
+  final Object? adapter;
 }

@@ -52,3 +52,4 @@ part 'value/class_value.dart';
 part 'value/typedef_value.dart';
 part 'value/parameter_value.dart';
 part 'value/path_value.dart';
+part 'value/annotation_value.dart';

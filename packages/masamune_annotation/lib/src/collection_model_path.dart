@@ -12,6 +12,8 @@ part of masamune_annotation;
 ///
 /// You can duplicate the same data to another path by defining a path in [mirror].
 ///
+/// You can specify a default model adapter by specifying [adapter].
+///
 /// Each data can be retrieved with `document.mirror` or `collection.mirror` and can be `loaded` or `saved` in the same way.
 ///
 /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -29,6 +31,8 @@ part of masamune_annotation;
 /// `static const collection = _$(クラス名)CollectionQuery()`にコレクションモデルを取得するためのクエリを定義できます。
 ///
 /// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
+///
+/// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
 ///
 /// それぞれのデータは`document.mirror`や`collection.mirror`で取得でき、同じように`load`や`save`ができるようになります。
 ///
@@ -70,6 +74,8 @@ class CollectionModelPath {
   ///
   /// You can duplicate the same data to another path by defining a path in [mirror].
   ///
+  /// You can specify a default model adapter by specifying [adapter].
+  ///
   /// Each data can be retrieved with `document.mirror` or `collection.mirror` and can be `loaded` or `saved` in the same way.
   ///
   /// In addition, by using `saveSync` and `deleteSync`, data can be saved and deleted synchronously.
@@ -87,6 +93,8 @@ class CollectionModelPath {
   /// `static const collection = _$(クラス名)CollectionQuery()`にコレクションモデルを取得するためのクエリを定義できます。
   ///
   /// [mirror]にパスを定義すると別のパスに同じデータを複製することができます。
+  ///
+  /// [adapter]を指定することでデフォルトのモデルアダプターを指定することができます。
   ///
   /// それぞれのデータは`document.mirror`や`collection.mirror`で取得でき、同じように`load`や`save`ができるようになります。
   ///
@@ -115,7 +123,11 @@ class CollectionModelPath {
   /// ```
   ///
   /// * see https://pub.dev/packages/freezed
-  const CollectionModelPath(this.path, {this.mirror});
+  const CollectionModelPath(
+    this.path, {
+    this.mirror,
+    this.adapter,
+  });
 
   /// Path for collection.
   ///
@@ -126,4 +138,9 @@ class CollectionModelPath {
   ///
   /// ミラーコレクション用のパス。
   final String? mirror;
+
+  /// Specifies the default adapter.
+  ///
+  /// デフォルトのアダプターを指定します。
+  final Object? adapter;
 }

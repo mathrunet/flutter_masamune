@@ -45,6 +45,7 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
     }
 
     final classValue = ClassValue(element);
+    final annotationValue = AnnotationValue(element, DocumentModelPath);
     final pathValue =
         PathValue(annotation.read("path").stringValue.trimString("/"));
     final mirrorPathValue = annotation.read("mirror").isNull
@@ -71,9 +72,12 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
       (l) => l
         ..body.addAll(
           [
-            ...modelClass(classValue, pathValue, mirrorPathValue),
-            ...documentModelClass(classValue, pathValue, mirrorPathValue),
-            ...documentModelQueryClass(classValue, pathValue, mirrorPathValue),
+            ...modelClass(
+                classValue, annotationValue, pathValue, mirrorPathValue),
+            ...documentModelClass(
+                classValue, annotationValue, pathValue, mirrorPathValue),
+            ...documentModelQueryClass(
+                classValue, annotationValue, pathValue, mirrorPathValue),
           ],
         ),
     );

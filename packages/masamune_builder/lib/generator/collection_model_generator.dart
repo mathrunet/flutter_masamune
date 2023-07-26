@@ -40,6 +40,7 @@ class CollectionModelGenerator
       }
 
       final classValue = ClassValue(element);
+      final annotationValue = AnnotationValue(element, CollectionModelPath);
       final pathValue =
           PathValue(annotation.read("path").stringValue.trimString("/"));
       final mirrorPathValue = annotation.read("mirror").isNull
@@ -67,11 +68,14 @@ class CollectionModelGenerator
         (l) => l
           ..body.addAll(
             [
-              ...modelClass(classValue, pathValue, mirrorPathValue),
-              ...documentModelClass(classValue, pathValue, mirrorPathValue),
-              ...collectionModelClass(classValue, pathValue, mirrorPathValue),
+              ...modelClass(
+                  classValue, annotationValue, pathValue, mirrorPathValue),
+              ...documentModelClass(
+                  classValue, annotationValue, pathValue, mirrorPathValue),
+              ...collectionModelClass(
+                  classValue, annotationValue, pathValue, mirrorPathValue),
               ...collectionModelQueryClass(
-                  classValue, pathValue, mirrorPathValue),
+                  classValue, annotationValue, pathValue, mirrorPathValue),
             ],
           ),
       );

@@ -218,6 +218,7 @@ enum CollectionQueryType {
 /// コレクションモデルを自動作成するためのクラスを作成します。
 List<Spec> collectionModelClass(
   ClassValue model,
+  AnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
 ) {

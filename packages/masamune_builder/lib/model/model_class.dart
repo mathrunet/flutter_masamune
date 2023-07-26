@@ -8,6 +8,7 @@ final _regExpRef = RegExp(r"(.+)Ref");
 /// ドキュメントモデルやコレクションモデルを作成します。
 List<Spec> modelClass(
   ClassValue model,
+  AnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
 ) {

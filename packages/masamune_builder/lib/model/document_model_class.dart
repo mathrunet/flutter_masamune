@@ -5,6 +5,7 @@ part of masamune_builder;
 /// ドキュメントモデルを自動作成するためのクラスを作成します。
 List<Spec> documentModelClass(
   ClassValue model,
+  AnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
 ) {
