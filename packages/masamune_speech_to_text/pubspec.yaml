@@ -1,0 +1,24 @@
+name: masamune_speech_to_text
+description: Masamune plug-in adapter for use with Speech-to-Text. Provides a controller.
+version: 2.0.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_speech_to_text
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+  flutter: ">=2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+    
+  katana: ^2.3.3
+  masamune: ^2.3.0
+  speech_to_text: ^6.3.0
+  permission_handler: ^10.4.3
+
+dev_dependencies:
+  test: ^1.21.3
+  flutter_lints: ^2.0.0
+  import_sorter: ^4.6.0
+
