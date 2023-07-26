@@ -36,8 +36,7 @@ class AnnotationValue {
           redirectQueries = const [];
         }
 
-        final transitionMatch =
-            _transitionWithVariableRegExp.firstMatch(source);
+        final transitionMatch = _transitionRegExp.firstMatch(source);
         if (transitionMatch != null) {
           transition = transitionMatch.group(1)?.trim();
         } else {
@@ -53,6 +52,7 @@ class AnnotationValue {
               .group(1)
               ?.replaceAll(redirectMatch?.group(0) ?? "", "")
               .replaceAll(nameMatch?.group(0) ?? "", "")
+              .replaceAll(transitionMatch?.group(0) ?? "", "")
               .trim()
               .trimString(",")
               .trim();
@@ -78,7 +78,7 @@ class AnnotationValue {
   static final _nameWithDoubleQuoteRegExp = RegExp(r'name\s*:\s*("[^"]+")');
   static final _nameWithVariableRegExp =
       RegExp(r'name\s*:\s*([a-zA-Z0-9$._-]+)');
-  static final _transitionWithVariableRegExp =
+  static final _transitionRegExp =
       RegExp(r'transition\s*:\s*([a-zA-Z0-9$._-]+)');
   static final _redirectRegExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\]");
 
