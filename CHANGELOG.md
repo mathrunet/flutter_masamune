@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_speech_to_text` - `v2.1.0`](#masamune_speech_to_text---v210)
+ - [`masamune_text_to_speech` - `v2.1.0`](#masamune_text_to_speech---v210)
+
+---
+
+#### `masamune_speech_to_text` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([06721dd0](https://github.com/mathrunet/flutter_masamune/commit/06721dd0e1e6d817337e42913833a4d6c3c47c81))
+
+#### `masamune_text_to_speech` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([06721dd0](https://github.com/mathrunet/flutter_masamune/commit/06721dd0e1e6d817337e42913833a4d6c3c47c81))
+
+
 ## 2023-07-25
 
 ### Changes
