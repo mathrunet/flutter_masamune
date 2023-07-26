@@ -176,6 +176,17 @@ List<Class> queryClass(
           ),
           Method(
             (m) => m
+              ..name = "transition"
+              ..type = MethodType.getter
+              ..annotations.addAll([const Reference("override")])
+              ..lambda = true
+              ..returns = const Reference("TransitionQuery?")
+              ..body = Code(
+                annotation.transition == null ? "null" : annotation.transition!,
+              ),
+          ),
+          Method(
+            (m) => m
               ..name = "key<E>"
               ..annotations.addAll([const Reference("override")])
               ..lambda = true
@@ -216,7 +227,7 @@ List<Class> queryClass(
                 )
               ])
               ..body = Code(
-                "return AppPageRoute<E>(path: path,transitionQuery: query,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),);",
+                "return AppPageRoute<E>(path: path,transitionQuery: query ?? transition,builder: (context) => ${model.name}(${model.parameters.map((param) => "${param.name}:${param.name}").join(",")}),);",
               ),
           ),
         ]),

@@ -36,6 +36,14 @@ class AnnotationValue {
           redirectQueries = const [];
         }
 
+        final transitionMatch =
+            _transitionWithVariableRegExp.firstMatch(source);
+        if (transitionMatch != null) {
+          transition = transitionMatch.group(1)?.trim();
+        } else {
+          transition = null;
+        }
+
         final keyMatch = _keyRegExp.firstMatch(source);
         if (keyMatch != null) {
           final nameMatch = _nameWithSingleQuoteRegExp.firstMatch(source) ??
@@ -61,6 +69,7 @@ class AnnotationValue {
     }
     name = null;
     keyString = "null";
+    transition = null;
     redirectQueries = const [];
   }
 
@@ -69,6 +78,8 @@ class AnnotationValue {
   static final _nameWithDoubleQuoteRegExp = RegExp(r'name\s*:\s*("[^"]+")');
   static final _nameWithVariableRegExp =
       RegExp(r'name\s*:\s*([a-zA-Z0-9$._-]+)');
+  static final _transitionWithVariableRegExp =
+      RegExp(r'transition\s*:\s*([a-zA-Z0-9$._-]+)');
   static final _redirectRegExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\]");
 
   /// Class Element.
@@ -86,6 +97,13 @@ class AnnotationValue {
   /// `RedirectQuery`の一覧。
   late final List<String> redirectQueries;
 
+  /// Transition settings.
+  ///
+  /// トランジションの設定。
+  late final String? transition;
+
+  /// Page Name.
+  ///
   /// ページの名前。
   late final String? name;
 

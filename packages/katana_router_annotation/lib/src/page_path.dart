@@ -61,6 +61,7 @@ class PagePath {
     this.path, {
     this.key,
     this.name,
+    this.transition,
     this.redirect = const [],
   });
 
@@ -82,6 +83,15 @@ class PagePath {
   ///
   /// `RouteQuery`から取り出すことが可能です。ネストナビゲーションのタブなどで現在のページを識別するためにご利用ください。
   final Object? key;
+
+  /// Specifies page transitions.
+  ///
+  /// Specify `TransitionQuery` for [transition].
+  ///
+  /// ページのトランジションを指定します。
+  ///
+  /// [transition]には`TransitionQuery`を指定します。
+  final Object? transition;
 
   /// Reroute settings.
   ///
@@ -179,6 +189,7 @@ class NestedPage {
   const NestedPage({
     this.key,
     this.name,
+    this.transition,
     this.redirect = const [],
   });
 
@@ -195,6 +206,15 @@ class NestedPage {
   ///
   /// `RouteQuery`から取り出すことが可能です。ネストナビゲーションのタブなどで現在のページを識別するためにご利用ください。
   final Object? key;
+
+  /// Specifies page transitions.
+  ///
+  /// Specify `TransitionQuery` for [transition].
+  ///
+  /// ページのトランジションを指定します。
+  ///
+  /// [transition]には`TransitionQuery`を指定します。
+  final Object? transition;
 
   /// Reroute settings.
   ///

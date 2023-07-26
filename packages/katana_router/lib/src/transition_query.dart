@@ -38,20 +38,20 @@ class TransitionQuery {
   /// [TransitionQuery] for full screen transitions.
   ///
   /// フルスクリーンのトランジションを行う[TransitionQuery]。
-  static TransitionQuery get fullscreen =>
-      const TransitionQuery._(transition: _TransitionQueryType.fullscreen);
+  static const TransitionQuery fullscreen =
+      TransitionQuery._(transition: _TransitionQueryType.fullscreen);
 
   /// No transitions [TransitionQuery].
   ///
   /// トランジションを行なわない[TransitionQuery]。
-  static TransitionQuery get none =>
-      const TransitionQuery._(transition: _TransitionQueryType.none);
+  static const TransitionQuery none =
+      TransitionQuery._(transition: _TransitionQueryType.none);
 
   /// [TransitionQuery] to perform fade transitions.
   ///
   /// フェードのトランジションを行なう[TransitionQuery]。
-  static TransitionQuery get fade =>
-      const TransitionQuery._(transition: _TransitionQueryType.fade);
+  static const TransitionQuery fade =
+      TransitionQuery._(transition: _TransitionQueryType.fade);
 
   /// [TransitionQuery] that performs a modal transition from the middle.
   ///
@@ -60,8 +60,8 @@ class TransitionQuery {
   /// 真ん中からのモーダルのトランジションを行なう[TransitionQuery]。
   ///
   /// 裏のページが見えるようになります。
-  static TransitionQuery get centerModal =>
-      const TransitionQuery._(transition: _TransitionQueryType.centerModal);
+  static const TransitionQuery centerModal =
+      TransitionQuery._(transition: _TransitionQueryType.centerModal);
 
   /// [TransitionQuery] to perform modal transitions from below.
   ///
@@ -70,8 +70,8 @@ class TransitionQuery {
   /// 下からのモーダルのトランジションを行なう[TransitionQuery]。
   ///
   /// 裏のページが見えるようになります。
-  static TransitionQuery get bottomModal =>
-      const TransitionQuery._(transition: _TransitionQueryType.bottomModal);
+  static const TransitionQuery bottomModal =
+      TransitionQuery._(transition: _TransitionQueryType.bottomModal);
 
   /// TransitionQuery] that performs modal transitions that fade.
   ///
@@ -80,8 +80,8 @@ class TransitionQuery {
   /// フェードするモーダルのトランジションを行なう[TransitionQuery]。
   ///
   /// 裏のページが見えるようになります。
-  static TransitionQuery get fadeModal =>
-      const TransitionQuery._(transition: _TransitionQueryType.fadeModal);
+  static const TransitionQuery fadeModal =
+      TransitionQuery._(transition: _TransitionQueryType.fadeModal);
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;

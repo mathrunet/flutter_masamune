@@ -45,6 +45,11 @@ abstract class RouteQuery {
   /// ネストされたページ（つまりパス情報が無いページ）の場合は`true`を返します。
   bool get nested => false;
 
+  /// Specifies the default transition tied to the page. Transitions specified by [AppRouter.push] or other methods will take precedence.
+  ///
+  /// ページに紐付けられたデフォルトのトランジションを指定します。[AppRouter.push]などで指定されたトランジションが優先されます。
+  TransitionQuery? get transition => null;
+
   /// A key to identify the query.
   ///
   /// It can be obtained as an object of [E] by specifying [E].
