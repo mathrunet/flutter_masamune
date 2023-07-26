@@ -15,6 +15,33 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_speech_to_text` - `v2.1.1`](#masamune_speech_to_text---v211)
+ - [`masamune_text_to_speech` - `v2.1.1`](#masamune_text_to_speech---v211)
+
+---
+
+#### `masamune_speech_to_text` - `v2.1.1`
+
+ - **FIX**: Made available on the Web. ([e98bd326](https://github.com/mathrunet/flutter_masamune/commit/e98bd3261cdae4e324958d4cb34a74a0fcd8cc1a))
+ - **FIX**: Apply import sorter. ([e111caa5](https://github.com/mathrunet/flutter_masamune/commit/e111caa58768adc95dca41367924bcd8e97da9e0))
+
+#### `masamune_text_to_speech` - `v2.1.1`
+
+ - **FIX**: Apply import sorter. ([e111caa5](https://github.com/mathrunet/flutter_masamune/commit/e111caa58768adc95dca41367924bcd8e97da9e0))
+
+
+## 2023-07-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_speech_to_text` - `v2.1.0`](#masamune_speech_to_text---v210)
  - [`masamune_text_to_speech` - `v2.1.0`](#masamune_text_to_speech---v210)
 
