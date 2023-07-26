@@ -41,7 +41,7 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
   final double defaultVolume;
 
   /// Default vocal pitch.
-  /// 
+  ///
   /// デフォルトの発声ピッチ。
   final double defaultPitch;
 

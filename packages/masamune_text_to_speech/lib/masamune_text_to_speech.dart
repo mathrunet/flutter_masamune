@@ -10,9 +10,9 @@ library masamune_text_to_speech;
 
 // Flutter imports:
 import 'package:flutter/widgets.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 // Package imports:
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:masamune/masamune.dart';
 import 'package:universal_platform/universal_platform.dart';
 
