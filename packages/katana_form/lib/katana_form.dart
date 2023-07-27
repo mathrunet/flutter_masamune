@@ -27,6 +27,7 @@ export 'package:katana/katana.dart';
 
 part 'form/form_button.dart';
 part 'form/form_date_field.dart';
+part 'form/form_switch.dart';
 part 'form/form_month_field.dart';
 part 'form/form_text_field.dart';
 part 'form/form_num_field.dart';
