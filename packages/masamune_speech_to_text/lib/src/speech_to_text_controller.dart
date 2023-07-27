@@ -1,5 +1,7 @@
 part of masamune_speech_to_text;
 
+const _kDoneStatus = "done";
+
 /// Controller for Speech-to-Text.
 ///
 /// [initialize] to initialize and check permissions.
@@ -90,7 +92,7 @@ class SpeechToTextController
     }
     _initializeCompleter = Completer();
     try {
-      await _stt.initialize(onError: _onError);
+      await _stt.initialize(onError: _onError, onStatus: _onStatus);
       _initialized = true;
       _initializeCompleter?.complete();
       _initializeCompleter = null;
@@ -103,6 +105,14 @@ class SpeechToTextController
       _initializeCompleter?.complete();
       _initializeCompleter = null;
     }
+  }
+
+  void _onStatus(String status) {
+    if (status != _kDoneStatus) {
+      return;
+    }
+    _listenCompleter?.complete();
+    _listenCompleter = null;
   }
 
   void _onError(SpeechRecognitionError error) {
@@ -147,13 +157,14 @@ class SpeechToTextController
         localeId: (locale ?? adapter.defaultLocale).toLanguageTag(),
         onResult: (result) {
           final res = result.recognizedWords;
-          if (res.isEmpty || value.lastOrNull == res) {
-            return;
+          if (res.isNotEmpty && value.lastOrNull != res) {
+            _updated = true;
+            setValueInternal(List.unmodifiable([...value ?? [], res]));
           }
-          _updated = true;
-          setValueInternal(List.unmodifiable([...value ?? [], res]));
-          _listenCompleter?.complete(res);
-          _listenCompleter = null;
+          if (result.finalResult) {
+            _listenCompleter?.complete(res);
+            _listenCompleter = null;
+          }
         },
         listenFor: duration,
       );
@@ -191,7 +202,10 @@ class SpeechToTextController
     try {
       await initialize();
       await _stt.cancel();
+      await _listenCompleter?.future;
       notifyListeners();
+      _listenCompleter?.complete();
+      _listenCompleter = null;
       _cancelCompleter?.complete();
       _cancelCompleter = null;
     } catch (e) {
@@ -223,7 +237,10 @@ class SpeechToTextController
     try {
       await initialize();
       await _stt.stop();
+      await _listenCompleter?.future;
       notifyListeners();
+      _listenCompleter?.complete();
+      _listenCompleter = null;
       _cancelCompleter?.complete();
       _cancelCompleter = null;
     } catch (e) {
