@@ -15,6 +15,93 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.6.0`](#katana_form---v260)
+ - [`katana_model` - `v2.7.1`](#katana_model---v271)
+ - [`masamune_builder` - `v2.5.1`](#masamune_builder---v251)
+ - [`masamune_introduction` - `v2.1.5`](#masamune_introduction---v215)
+ - [`masamune_speech_to_text` - `v2.1.5`](#masamune_speech_to_text---v215)
+ - [`masamune` - `v2.3.2`](#masamune---v232)
+ - [`masamune_location` - `v2.1.48`](#masamune_location---v2148)
+ - [`masamune_auth_apple` - `v2.1.38`](#masamune_auth_apple---v2138)
+ - [`masamune_text_to_speech` - `v2.1.4`](#masamune_text_to_speech---v214)
+ - [`masamune_agora` - `v2.2.19`](#masamune_agora---v2219)
+ - [`masamune_auth_google` - `v2.1.38`](#masamune_auth_google---v2138)
+ - [`masamune_ai_openai` - `v2.1.35`](#masamune_ai_openai---v2135)
+ - [`masamune_calendar` - `v2.0.81`](#masamune_calendar---v2081)
+ - [`masamune_picker` - `v2.1.37`](#masamune_picker---v2137)
+ - [`masamune_util` - `v2.1.16`](#masamune_util---v2116)
+ - [`masamune_universal_ui` - `v2.2.17`](#masamune_universal_ui---v2217)
+ - [`masamune_purchase_stripe` - `v3.1.36`](#masamune_purchase_stripe---v3136)
+ - [`masamune_logger_firebase` - `v2.0.80`](#masamune_logger_firebase---v2080)
+ - [`masamune_location_google` - `v2.1.49`](#masamune_location_google---v2149)
+ - [`masamune_auth_facebook` - `v2.1.40`](#masamune_auth_facebook---v2140)
+ - [`masamune_notification_firebase` - `v2.1.35`](#masamune_notification_firebase---v2135)
+ - [`masamune_mail` - `v2.1.35`](#masamune_mail---v2135)
+ - [`masamune_purchase_mobile` - `v2.3.20`](#masamune_purchase_mobile---v2320)
+ - [`katana_model_local` - `v2.2.10`](#katana_model_local---v2210)
+ - [`katana_model_firestore` - `v2.4.6`](#katana_model_firestore---v246)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.2`
+ - `masamune_location` - `v2.1.48`
+ - `masamune_auth_apple` - `v2.1.38`
+ - `masamune_text_to_speech` - `v2.1.4`
+ - `masamune_agora` - `v2.2.19`
+ - `masamune_auth_google` - `v2.1.38`
+ - `masamune_ai_openai` - `v2.1.35`
+ - `masamune_calendar` - `v2.0.81`
+ - `masamune_picker` - `v2.1.37`
+ - `masamune_util` - `v2.1.16`
+ - `masamune_universal_ui` - `v2.2.17`
+ - `masamune_purchase_stripe` - `v3.1.36`
+ - `masamune_logger_firebase` - `v2.0.80`
+ - `masamune_location_google` - `v2.1.49`
+ - `masamune_auth_facebook` - `v2.1.40`
+ - `masamune_notification_firebase` - `v2.1.35`
+ - `masamune_mail` - `v2.1.35`
+ - `masamune_purchase_mobile` - `v2.3.20`
+ - `katana_model_local` - `v2.2.10`
+ - `katana_model_firestore` - `v2.4.6`
+
+---
+
+#### `katana_form` - `v2.6.0`
+
+ - **FEAT**: Added FormSwitch. ([ec367f5c](https://github.com/mathrunet/flutter_masamune/commit/ec367f5ce785e29e9ba911e2e29792fa0e983fda))
+
+#### `katana_model` - `v2.7.1`
+
+ - **FIX**: Allow individual ModelAdapter to be set to ModelRef. ([f8fa0e80](https://github.com/mathrunet/flutter_masamune/commit/f8fa0e80a5df09abfc8b738b9a43f242e1294798))
+
+#### `masamune_builder` - `v2.5.1`
+
+ - **FIX**: Allow individual ModelAdapter to be set to ModelRef. ([f8fa0e80](https://github.com/mathrunet/flutter_masamune/commit/f8fa0e80a5df09abfc8b738b9a43f242e1294798))
+
+#### `masamune_introduction` - `v2.1.5`
+
+ - **FIX**: Fixed because translation is not available. ([9cfe0d9e](https://github.com/mathrunet/flutter_masamune/commit/9cfe0d9e93da081b50f9d96bc9a81c00ef561351))
+
+#### `masamune_speech_to_text` - `v2.1.5`
+
+ - **FIX**: Fixed a bug on the Android side. ([2ee7e3de](https://github.com/mathrunet/flutter_masamune/commit/2ee7e3ded3bd824a207d7395d02ad7face50341f))
+ - **FIX**: Fixed a bug in IOS. ([554476c3](https://github.com/mathrunet/flutter_masamune/commit/554476c316c98a03e28958da8333642eb4195fe9))
+
+
+## 2023-07-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_introduction` - `v2.1.4`](#masamune_introduction---v214)
  - [`masamune_speech_to_text` - `v2.1.4`](#masamune_speech_to_text---v214)
 

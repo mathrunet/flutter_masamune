@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Allow individual ModelAdapter to be set to ModelRef. ([f8fa0e80](https://github.com/mathrunet/flutter_masamune/commit/f8fa0e80a5df09abfc8b738b9a43f242e1294798))
+
 ## 2.5.0
 
  - **FEAT**: Added the ability to specify an adapter in DocumentModelPath and CollectionModelPath. ([0cdf5492](https://github.com/mathrunet/flutter_masamune/commit/0cdf5492ca7842f4b2e5a02e362c11d820dbfbd5))

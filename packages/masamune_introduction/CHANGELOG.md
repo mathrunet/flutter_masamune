@@ -1,3 +1,7 @@
+## 2.1.5
+
+ - **FIX**: Fixed because translation is not available. ([9cfe0d9e](https://github.com/mathrunet/flutter_masamune/commit/9cfe0d9e93da081b50f9d96bc9a81c00ef561351))
+
 ## 2.1.4
 
  - **FIX**: Adjustment of theme. ([1a81eb9f](https://github.com/mathrunet/flutter_masamune/commit/1a81eb9f6bf288681d119f0caa7f0e45e57d74fb))

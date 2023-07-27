@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Allow individual ModelAdapter to be set to ModelRef. ([f8fa0e80](https://github.com/mathrunet/flutter_masamune/commit/f8fa0e80a5df09abfc8b738b9a43f242e1294798))
+
 ## 2.7.0
 
  - **FEAT**: Model filters are now available for type-safety. ([a3d57e27](https://github.com/mathrunet/flutter_masamune/commit/a3d57e276f35fb9e89a9746fa1226634802ef0bc))

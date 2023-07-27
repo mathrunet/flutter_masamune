@@ -1,3 +1,8 @@
+## 2.1.5
+
+ - **FIX**: Fixed a bug on the Android side. ([2ee7e3de](https://github.com/mathrunet/flutter_masamune/commit/2ee7e3ded3bd824a207d7395d02ad7face50341f))
+ - **FIX**: Fixed a bug in IOS. ([554476c3](https://github.com/mathrunet/flutter_masamune/commit/554476c316c98a03e28958da8333642eb4195fe9))
+
 ## 2.1.4
 
  - **FIX**: Remove permissions. ([edf57c4b](https://github.com/mathrunet/flutter_masamune/commit/edf57c4b8fea2f8f5826b9acbc6510e0b79338d8))
