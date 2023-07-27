@@ -1,6 +1,7 @@
 part of masamune_speech_to_text;
 
-const _kDoneStatus = "done";
+const _kFinalStatus = "final";
+const _kDoneNoResultStatus = "doneNoResult";
 
 /// Controller for Speech-to-Text.
 ///
@@ -74,7 +75,7 @@ class SpeechToTextController
   bool get updated => _updated;
   bool _updated = false;
 
-  final _stt = SpeechToText();
+  final _stt = _SpeechToText();
 
   /// Initialize the controller.
   ///
@@ -107,12 +108,21 @@ class SpeechToTextController
     }
   }
 
-  void _onStatus(String status) {
-    if (status != _kDoneStatus) {
-      return;
+  Future<void> _onStatus(String status) async {
+    print(status);
+    if (UniversalPlatform.isIOS) {
+      if (status != _kFinalStatus && status != _kDoneNoResultStatus) {
+        return;
+      }
+      _listenCompleter?.complete();
+      _listenCompleter = null;
+    } else {
+      if (status != _kFinalStatus) {
+        return;
+      }
+      _listenCompleter?.complete();
+      _listenCompleter = null;
     }
-    _listenCompleter?.complete();
-    _listenCompleter = null;
   }
 
   void _onError(SpeechRecognitionError error) {
