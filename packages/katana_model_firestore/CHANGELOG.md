@@ -1,3 +1,7 @@
+## 2.4.7
+
+ - **FIX**: Allow non-const ModelFieldValue to be specified with const. ([9ad23b2e](https://github.com/mathrunet/flutter_masamune/commit/9ad23b2e32063f3f5a69315e8daee0a23d990745))
+
 ## 2.4.6
 
  - Update a dependency to the latest release.

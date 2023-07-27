@@ -15,6 +15,87 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.7.2`](#katana_model---v272)
+ - [`katana_model_firestore` - `v2.4.7`](#katana_model_firestore---v247)
+ - [`katana_model_local` - `v2.2.11`](#katana_model_local---v2211)
+ - [`masamune_builder` - `v2.5.2`](#masamune_builder---v252)
+ - [`masamune` - `v2.3.3`](#masamune---v233)
+ - [`masamune_location` - `v2.1.49`](#masamune_location---v2149)
+ - [`masamune_auth_apple` - `v2.1.39`](#masamune_auth_apple---v2139)
+ - [`masamune_text_to_speech` - `v2.1.5`](#masamune_text_to_speech---v215)
+ - [`masamune_agora` - `v2.2.20`](#masamune_agora---v2220)
+ - [`masamune_auth_google` - `v2.1.39`](#masamune_auth_google---v2139)
+ - [`masamune_ai_openai` - `v2.1.36`](#masamune_ai_openai---v2136)
+ - [`masamune_calendar` - `v2.0.82`](#masamune_calendar---v2082)
+ - [`masamune_picker` - `v2.1.38`](#masamune_picker---v2138)
+ - [`masamune_util` - `v2.1.17`](#masamune_util---v2117)
+ - [`masamune_universal_ui` - `v2.2.18`](#masamune_universal_ui---v2218)
+ - [`masamune_purchase_stripe` - `v3.1.37`](#masamune_purchase_stripe---v3137)
+ - [`masamune_logger_firebase` - `v2.0.81`](#masamune_logger_firebase---v2081)
+ - [`masamune_introduction` - `v2.1.6`](#masamune_introduction---v216)
+ - [`masamune_speech_to_text` - `v2.1.7`](#masamune_speech_to_text---v217)
+ - [`masamune_auth_facebook` - `v2.1.41`](#masamune_auth_facebook---v2141)
+ - [`masamune_location_google` - `v2.1.50`](#masamune_location_google---v2150)
+ - [`masamune_mail` - `v2.1.36`](#masamune_mail---v2136)
+ - [`masamune_notification_firebase` - `v2.1.36`](#masamune_notification_firebase---v2136)
+ - [`masamune_purchase_mobile` - `v2.3.21`](#masamune_purchase_mobile---v2321)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.3`
+ - `masamune_location` - `v2.1.49`
+ - `masamune_auth_apple` - `v2.1.39`
+ - `masamune_text_to_speech` - `v2.1.5`
+ - `masamune_agora` - `v2.2.20`
+ - `masamune_auth_google` - `v2.1.39`
+ - `masamune_ai_openai` - `v2.1.36`
+ - `masamune_calendar` - `v2.0.82`
+ - `masamune_picker` - `v2.1.38`
+ - `masamune_util` - `v2.1.17`
+ - `masamune_universal_ui` - `v2.2.18`
+ - `masamune_purchase_stripe` - `v3.1.37`
+ - `masamune_logger_firebase` - `v2.0.81`
+ - `masamune_introduction` - `v2.1.6`
+ - `masamune_speech_to_text` - `v2.1.7`
+ - `masamune_auth_facebook` - `v2.1.41`
+ - `masamune_location_google` - `v2.1.50`
+ - `masamune_mail` - `v2.1.36`
+ - `masamune_notification_firebase` - `v2.1.36`
+ - `masamune_purchase_mobile` - `v2.3.21`
+
+---
+
+#### `katana_model` - `v2.7.2`
+
+ - **FIX**: Allow non-const ModelFieldValue to be specified with const. ([9ad23b2e](https://github.com/mathrunet/flutter_masamune/commit/9ad23b2e32063f3f5a69315e8daee0a23d990745))
+
+#### `katana_model_firestore` - `v2.4.7`
+
+ - **FIX**: Allow non-const ModelFieldValue to be specified with const. ([9ad23b2e](https://github.com/mathrunet/flutter_masamune/commit/9ad23b2e32063f3f5a69315e8daee0a23d990745))
+
+#### `katana_model_local` - `v2.2.11`
+
+ - **FIX**: Allow non-const ModelFieldValue to be specified with const. ([9ad23b2e](https://github.com/mathrunet/flutter_masamune/commit/9ad23b2e32063f3f5a69315e8daee0a23d990745))
+
+#### `masamune_builder` - `v2.5.2`
+
+ - **FIX**: Remove ModelRawCollection.ref. ([806f8cca](https://github.com/mathrunet/flutter_masamune/commit/806f8cca4fbfa9672a4899013dd26b3801b30311))
+
+
+## 2023-07-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_speech_to_text` - `v2.1.6`](#masamune_speech_to_text---v216)
 
 ---

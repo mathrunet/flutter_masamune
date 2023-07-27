@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - **FIX**: Remove ModelRawCollection.ref. ([806f8cca](https://github.com/mathrunet/flutter_masamune/commit/806f8cca4fbfa9672a4899013dd26b3801b30311))
+
 ## 2.5.1
 
  - **FIX**: Allow individual ModelAdapter to be set to ModelRef. ([f8fa0e80](https://github.com/mathrunet/flutter_masamune/commit/f8fa0e80a5df09abfc8b738b9a43f242e1294798))

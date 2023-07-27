@@ -1,3 +1,7 @@
+## 2.1.6
+
+ - Update a dependency to the latest release.
+
 ## 2.1.5
 
  - **FIX**: Fixed because translation is not available. ([9cfe0d9e](https://github.com/mathrunet/flutter_masamune/commit/9cfe0d9e93da081b50f9d96bc9a81c00ef561351))

@@ -1,3 +1,7 @@
+## 2.1.7
+
+ - Update a dependency to the latest release.
+
 ## 2.1.6
 
  - **FIX**: Add missing packages. ([a01c91ff](https://github.com/mathrunet/flutter_masamune/commit/a01c91ff05417fc52d5cf7385e4297a1428f4c3e))
