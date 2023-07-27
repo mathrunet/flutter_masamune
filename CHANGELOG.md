@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_speech_to_text` - `v2.1.6`](#masamune_speech_to_text---v216)
+
+---
+
+#### `masamune_speech_to_text` - `v2.1.6`
+
+ - **FIX**: Add missing packages. ([a01c91ff](https://github.com/mathrunet/flutter_masamune/commit/a01c91ff05417fc52d5cf7385e4297a1428f4c3e))
+
+
+## 2023-07-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.6.0`](#katana_form---v260)
  - [`katana_model` - `v2.7.1`](#katana_model---v271)
  - [`masamune_builder` - `v2.5.1`](#masamune_builder---v251)

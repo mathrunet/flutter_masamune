@@ -1,3 +1,7 @@
+## 2.1.6
+
+ - **FIX**: Add missing packages. ([a01c91ff](https://github.com/mathrunet/flutter_masamune/commit/a01c91ff05417fc52d5cf7385e4297a1428f4c3e))
+
 ## 2.1.5
 
  - **FIX**: Fixed a bug on the Android side. ([2ee7e3de](https://github.com/mathrunet/flutter_masamune/commit/2ee7e3ded3bd824a207d7395d02ad7face50341f))
