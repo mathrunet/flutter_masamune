@@ -248,6 +248,18 @@ List<Spec> collectionModelClass(
               ]),
           )
         ])
+        ..fields.addAll([
+          Field(
+            (f) => f
+              ..name = "defaultModelAdapter"
+              ..static = true
+              ..modifier = FieldModifier.constant
+              ..type = const Reference("ModelAdapter?")
+              ..assignment = Code(
+                annotation.adapter == null ? "null" : annotation.adapter!,
+              ),
+          )
+        ])
         ..methods.addAll([
           Method(
             (m) => m
@@ -307,6 +319,18 @@ List<Spec> collectionModelClass(
                       ..toSuper = true,
                   )
                 ]),
+            )
+          ])
+          ..fields.addAll([
+            Field(
+              (f) => f
+                ..name = "defaultModelAdapter"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("ModelAdapter?")
+                ..assignment = Code(
+                  annotation.adapter == null ? "null" : annotation.adapter!,
+                ),
             )
           ])
           ..methods.addAll([

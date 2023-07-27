@@ -388,6 +388,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     required this.modelRef,
     required this.document,
     required this.value,
+    this.adapter,
   });
 
   /// Callback to retrieve [ModelRefBase] stored in [TSource].
@@ -399,6 +400,15 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   ///
   /// [ModelRefBase]から取得された[DocumentModelQuery]を元に[ModelRefMixin<TResult>]をミックスインした[DocumentBase]を生成するためのコールバック。
   final ModelRefMixin<TResult> Function(DocumentModelQuery modelQuery) document;
+
+  /// Specify a [ModelAdapter] for use in the internal model.
+  ///
+  /// If not specified, the [ModelAdapter] used in the current document will be used.
+  ///
+  /// 内部モデルで利用するための[ModelAdapter]を指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelAdapter]が利用されます。
+  final ModelAdapter? adapter;
 
   /// Callback to store the generated [ModelRefMixin<TResult>] in [TSource].
   ///
@@ -426,7 +436,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     }
     final modelQuery = DocumentModelQuery(
       ref.modelQuery.path,
-      adapter: loaderModelQuery.adapter,
+      adapter: adapter ?? loaderModelQuery.adapter,
     );
     if (cacheList.containsKey(modelQuery)) {
       final doc = cacheList[modelQuery];

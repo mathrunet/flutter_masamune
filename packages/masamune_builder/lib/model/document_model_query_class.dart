@@ -22,16 +22,6 @@ List<Spec> documentModelQueryClass(
         ..methods.addAll([
           Method(
             (m) => m
-              ..name = "_adapter"
-              ..type = MethodType.getter
-              ..returns = const Reference("ModelAdapter?")
-              ..lambda = true
-              ..body = Code(
-                annotation.adapter == null ? "null" : annotation.adapter!,
-              ),
-          ),
-          Method(
-            (m) => m
               ..name = "call"
               ..annotations.addAll([const Reference("useResult")])
               ..optionalParameters.addAll([
@@ -53,7 +43,7 @@ List<Spec> documentModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _adapter,));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? \$${model.name}Document.defaultModelAdapter,));",
               ),
           ),
           if (mirror != null)
@@ -135,16 +125,6 @@ List<Spec> documentModelQueryClass(
           ..methods.addAll([
             Method(
               (m) => m
-                ..name = "_adapter"
-                ..type = MethodType.getter
-                ..returns = const Reference("ModelAdapter?")
-                ..lambda = true
-                ..body = Code(
-                  annotation.adapter == null ? "null" : annotation.adapter!,
-                ),
-            ),
-            Method(
-              (m) => m
                 ..name = "call"
                 ..annotations.addAll([const Reference("useResult")])
                 ..optionalParameters.addAll([
@@ -166,7 +146,7 @@ List<Spec> documentModelQueryClass(
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorDocumentQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _adapter,));",
+                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? \$${model.name}Document.defaultModelAdapter,));",
                 ),
             )
           ]),

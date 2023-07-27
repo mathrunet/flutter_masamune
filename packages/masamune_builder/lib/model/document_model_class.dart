@@ -36,6 +36,18 @@ List<Spec> documentModelClass(
               ]),
           )
         ])
+        ..fields.addAll([
+          Field(
+            (f) => f
+              ..name = "defaultModelAdapter"
+              ..static = true
+              ..modifier = FieldModifier.constant
+              ..type = const Reference("ModelAdapter?")
+              ..assignment = Code(
+                annotation.adapter == null ? "null" : annotation.adapter!,
+              ),
+          )
+        ])
         ..methods.addAll([
           Method(
             (m) => m
@@ -164,7 +176,7 @@ List<Spec> documentModelClass(
                       );
                     }
                     final doc = "\$${match.group(1)}Document";
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ),)";
+                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                   } else {
                     if (!e.type.toString().endsWith("?")) {
                       throw Exception(
@@ -178,7 +190,7 @@ List<Spec> documentModelClass(
                       );
                     }
                     final doc = "\$${match.group(2)}Document";
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ),)";
+                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                   }
                 }).join(",")}]"),
             ),
@@ -206,6 +218,18 @@ List<Spec> documentModelClass(
                       ..toSuper = true,
                   )
                 ]),
+            )
+          ])
+          ..fields.addAll([
+            Field(
+              (f) => f
+                ..name = "defaultModelAdapter"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("ModelAdapter?")
+                ..assignment = Code(
+                  annotation.adapter == null ? "null" : annotation.adapter!,
+                ),
             )
           ])
           ..methods.addAll([
@@ -334,7 +358,7 @@ List<Spec> documentModelClass(
                         );
                       }
                       final doc = "\$${match.group(1)}Document";
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ),)";
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                     } else {
                       if (!e.type.toString().endsWith("?")) {
                         throw Exception(
@@ -349,7 +373,7 @@ List<Spec> documentModelClass(
                         );
                       }
                       final doc = "\$${match.group(2)}Document";
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ),)";
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, )";
                     }
                   }).join(",")}]"),
               ),
