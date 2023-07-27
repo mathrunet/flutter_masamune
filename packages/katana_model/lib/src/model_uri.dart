@@ -37,9 +37,7 @@ class ModelImageUri extends ModelFieldValue<Uri> {
   /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
   ///
   /// 必ず画像URIとしての定義を行いたい場合は[ModelImageUri]を利用してください。
-  factory ModelImageUri.parse([String? value]) {
-    return ModelImageUri(value == null ? null : Uri.parse(value));
-  }
+  const factory ModelImageUri.parse([String? value]) = _ModelImageUriWithUri;
 
   /// Used to disguise the retrieval of data from the server.
   ///
@@ -100,6 +98,21 @@ class ModelImageUri extends ModelFieldValue<Uri> {
 
   @override
   int get hashCode => _value.hashCode;
+}
+
+@immutable
+class _ModelImageUriWithUri extends _ModelImageUri {
+  const _ModelImageUriWithUri([this._path]) : super();
+
+  final String? _path;
+
+  @override
+  Uri? get _value {
+    if (_path == null) {
+      return null;
+    }
+    return Uri.parse(_path!);
+  }
 }
 
 @immutable
@@ -282,9 +295,7 @@ class ModelVideoUri extends ModelFieldValue<Uri> {
   /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
   ///
   /// 必ず映像URIとしての定義を行いたい場合は[ModelVideoUri]を利用してください。
-  factory ModelVideoUri.parse([String? value]) {
-    return ModelVideoUri(value == null ? null : Uri.parse(value));
-  }
+  const factory ModelVideoUri.parse([String? value]) = _ModelVideoUriWithUri;
 
   /// Used to disguise the retrieval of data from the server.
   ///
@@ -345,6 +356,21 @@ class ModelVideoUri extends ModelFieldValue<Uri> {
 
   @override
   int get hashCode => _value.hashCode;
+}
+
+@immutable
+class _ModelVideoUriWithUri extends _ModelVideoUri {
+  const _ModelVideoUriWithUri([this._path]) : super();
+
+  final String? _path;
+
+  @override
+  Uri? get _value {
+    if (_path == null) {
+      return null;
+    }
+    return Uri.parse(_path!);
+  }
 }
 
 @immutable
@@ -527,9 +553,7 @@ class ModelUri extends ModelFieldValue<Uri> {
   /// ベースの値を[value]として与えます。空の[Uri]が定義されます。
   ///
   /// 必ずURIとしての定義を行いたい場合は[ModelUri]を利用してください。
-  factory ModelUri.parse([String? value]) {
-    return ModelUri(value == null ? null : Uri.parse(value));
-  }
+  const factory ModelUri.parse([String? value]) = _ModelUriWithUri;
 
   /// Used to disguise the retrieval of data from the server.
   ///
@@ -589,6 +613,21 @@ class ModelUri extends ModelFieldValue<Uri> {
 
   @override
   int get hashCode => _value.hashCode;
+}
+
+@immutable
+class _ModelUriWithUri extends _ModelUri {
+  const _ModelUriWithUri([this._path]) : super();
+
+  final String? _path;
+
+  @override
+  Uri? get _value {
+    if (_path == null) {
+      return null;
+    }
+    return Uri.parse(_path!);
+  }
 }
 
 @immutable

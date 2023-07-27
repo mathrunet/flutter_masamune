@@ -58,14 +58,8 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   /// また[adapter]を指定してモデルアダプターを設定することが可能です。
   ///
   /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
-  factory ModelRefBase.fromPath(String path, [ModelAdapter? adapter]) {
-    return _ModelRefBase(
-      DocumentModelQuery(
-        path.trimQuery().trimString("/"),
-        adapter: adapter,
-      ),
-    );
-  }
+  const factory ModelRefBase.fromPath(String path, [ModelAdapter? adapter]) =
+      _ModelRefBaseWithPath<T>;
 
   /// Convert from [json] map to [ModelRefBase].
   ///
@@ -110,6 +104,25 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   @override
   String toString() {
     return modelQuery.path;
+  }
+}
+
+@immutable
+class _ModelRefBaseWithPath<T> extends _ModelRefBase<T> {
+  const _ModelRefBaseWithPath(this.path, [this.adapter])
+      : super(
+          const DocumentModelQuery(""),
+        );
+
+  final String path;
+  final ModelAdapter? adapter;
+
+  @override
+  DocumentModelQuery get modelQuery {
+    return DocumentModelQuery(
+      path.trimQuery().trimString("/"),
+      adapter: adapter,
+    );
   }
 }
 

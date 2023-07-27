@@ -755,6 +755,41 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
   /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
   const factory ModelTimestamp([DateTime? value]) = _ModelTimestamp;
 
+  /// Define the field as a timestamp.
+  ///
+  /// The current time is returned in the same way as [DateTime.now].
+  ///
+  /// By passing this to the server, the timestamp on the server side is stored as data.
+  ///
+  /// フィールドをタイムスタンプとして定義します。
+  ///
+  /// [DateTime.now]と同じ様に現在時刻が返されます。
+  ///
+  /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
+  const factory ModelTimestamp.now() = _ModelTimestampWithNow;
+
+  /// Define the field as a timestamp.
+  ///
+  /// Returns the date and time specified in [year], [month], [day], [hour], [minute], [second], [millisecond], or [microsecond].
+  ///
+  /// By passing this to the server, the timestamp on the server side is stored as data.
+  ///
+  /// フィールドをタイムスタンプとして定義します。
+  ///
+  /// [year]、[month]、[day]、[hour]、[minute]、[second]、[millisecond]、[microsecond]で指定した日時が返されます。
+  ///
+  /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
+  const factory ModelTimestamp.dateTime(
+    int year, [
+    int? month,
+    int? day,
+    int? hour,
+    int? minute,
+    int? second,
+    int? millisecond,
+    int? microsecond,
+  ]) = _ModelTimestampWithDateTime;
+
   /// Used to disguise the retrieval of data from the server.
   ///
   /// Use for testing purposes.
@@ -847,6 +882,53 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 
   @override
   int get hashCode => _value.hashCode;
+}
+
+@immutable
+class _ModelTimestampWithNow extends _ModelTimestamp {
+  const _ModelTimestampWithNow() : super();
+
+  @override
+  DateTime? get _value {
+    return DateTime.now();
+  }
+}
+
+@immutable
+class _ModelTimestampWithDateTime extends _ModelTimestamp {
+  const _ModelTimestampWithDateTime(
+    this.year, [
+    this.month,
+    this.day,
+    this.hour,
+    this.minute,
+    this.second,
+    this.millisecond,
+    this.microsecond,
+  ]) : super();
+
+  final int year;
+  final int? month;
+  final int? day;
+  final int? hour;
+  final int? minute;
+  final int? second;
+  final int? millisecond;
+  final int? microsecond;
+
+  @override
+  DateTime? get _value {
+    return DateTime(
+      year,
+      month ?? 1,
+      day ?? 1,
+      hour ?? 0,
+      minute ?? 0,
+      second ?? 0,
+      millisecond ?? 0,
+      microsecond ?? 0,
+    );
+  }
 }
 
 @immutable
