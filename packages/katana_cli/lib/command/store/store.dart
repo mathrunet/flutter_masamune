@@ -11,6 +11,7 @@ import 'package:katana_cli/katana_cli.dart';
 
 part 'screenshot.dart';
 part 'android_token.dart';
+part 'build.dart';
 
 class StoreCliCommand extends CliCommandGroup {
   const StoreCliCommand();
@@ -23,5 +24,6 @@ class StoreCliCommand extends CliCommandGroup {
   Map<String, CliCommand> get commands => const {
         "screenshot": StoreScreenshotCliCommand(),
         "android_token": StoreAndroidTokenCliCommand(),
+        "build": StoreAndroidBuildCliCommand(),
       };
 }
