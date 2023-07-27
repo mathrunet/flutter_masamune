@@ -111,34 +111,6 @@ List<Spec> modelClass(
               ..lambda = true
               ..body = const Code("value.rawValue"),
           ),
-          Method(
-            (m) => m
-              ..name = "ref"
-              ..requiredParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "key"
-                    ..type = const Reference("String"),
-                ),
-              ])
-              ..optionalParameters.addAll([
-                ...path.parameters.map((param) {
-                  return Parameter(
-                    (p) => p
-                      ..name = param.camelCase
-                      ..named = true
-                      ..required = true
-                      ..type = const Reference("String"),
-                  );
-                }),
-              ])
-              ..static = true
-              ..returns = Reference("ModelRefBase<${model.name}>")
-              ..lambda = true
-              ..body = Code(
-                "ModelRefBase<${model.name}>.fromPath(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
-              ),
-          ),
           if (searchable.isNotEmpty)
             Method(
               (m) => m
@@ -243,34 +215,6 @@ List<Spec> modelClass(
                 ..returns = const Reference("DynamicMap")
                 ..lambda = true
                 ..body = const Code("value.rawValue"),
-            ),
-            Method(
-              (m) => m
-                ..name = "ref"
-                ..requiredParameters.addAll([
-                  Parameter(
-                    (p) => p
-                      ..name = "key"
-                      ..type = const Reference("String"),
-                  ),
-                ])
-                ..optionalParameters.addAll([
-                  ...mirror.parameters.map((param) {
-                    return Parameter(
-                      (p) => p
-                        ..name = param.camelCase
-                        ..named = true
-                        ..required = true
-                        ..type = const Reference("String"),
-                    );
-                  }),
-                ])
-                ..static = true
-                ..returns = Reference("ModelRefBase<${model.name}>")
-                ..lambda = true
-                ..body = Code(
-                  "ModelRefBase<${model.name}>.fromPath(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$key\")",
-                ),
             ),
             if (searchable.isNotEmpty)
               Method(
