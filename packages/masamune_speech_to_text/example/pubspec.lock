@@ -29,10 +29,10 @@ packages:
     dependency: transitive
     description:
       name: asn1lib
-      sha256: b74e3842a52c61f8819a1ec8444b4de5419b41a7465e69d4aa681445377398b0
+      sha256: "21afe4333076c02877d14f4a89df111e658a6d466cbfc802eb705eb91bd5adfd"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.1"
+    version: "1.5.0"
   async:
     dependency: transitive
     description:
@@ -396,7 +396,7 @@ packages:
       path: "../../katana_form"
       relative: true
     source: path
-    version: "2.5.1"
+    version: "2.6.0"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -452,14 +452,14 @@ packages:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.7.1"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "2.2.9"
+    version: "2.2.10"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -552,7 +552,7 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.3.1"
+    version: "2.3.2"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -566,7 +566,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.1.4"
+    version: "2.1.5"
   matcher:
     dependency: transitive
     description:

@@ -17,6 +17,7 @@ dependencies:
   masamune: ^2.3.2
   speech_to_text: ^6.3.0
   universal_platform: ^1.0.0+1
+  speech_to_text_platform_interface: ^2.1.0
 
 dev_dependencies:
   test: ^1.21.3

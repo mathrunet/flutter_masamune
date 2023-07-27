@@ -10,7 +10,6 @@ class _SpeechToText {
   static const defaultFinalTimeout = Duration(milliseconds: 2000);
   static const _minFinalTimeout = Duration(milliseconds: 50);
 
-
   static final _SpeechToText _instance = _SpeechToText.withMethodChannel();
   bool _initWorked = false;
 
