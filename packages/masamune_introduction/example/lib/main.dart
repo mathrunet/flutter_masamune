@@ -8,8 +8,8 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_introduction/masamune_introduction.dart';
 
 final List<MasamuneAdapter> masamuneAdapters = [
-  const IntroductionMasamuneAdapter(
-    items: [
+  IntroductionMasamuneAdapter(
+    items: const [
       IntroductionItem(
         title: Text("Title1"),
         body: Text("Body1"),
@@ -26,8 +26,8 @@ final List<MasamuneAdapter> masamuneAdapters = [
         image: Icon(Icons.abc, size: 128),
       )
     ],
-    skipLabel: "Skip",
-    doneLabel: "Done",
+    skipLabel: () => "Skip",
+    doneLabel: () => "Done",
   ),
 ];
 

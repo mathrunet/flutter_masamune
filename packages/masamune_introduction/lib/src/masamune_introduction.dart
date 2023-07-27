@@ -161,8 +161,8 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
               (e) => e.toPageViewModel(context),
             ),
           ],
-          done: Text(adapter.doneLabel),
-          skip: Text(adapter.skipLabel),
+          done: Text(adapter.doneLabel.call()),
+          skip: Text(adapter.skipLabel.call()),
           onDone: () {
             if (widget.routeQuery == null) {
               context.router.pop();

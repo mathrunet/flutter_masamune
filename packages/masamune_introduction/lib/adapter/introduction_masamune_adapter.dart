@@ -24,15 +24,15 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   /// スキップ可能な場合`true`にする。
   final bool enableSkip;
 
-  /// Done button label.
+  /// Generator of completion button labels.
   ///
-  /// 完了ボタンのラベル。
-  final String doneLabel;
+  /// 完了ボタンのラベルのジェネレーター.
+  final String Function() doneLabel;
 
-  /// Skip button label.
+  /// Generator of skip button labels.
   ///
-  /// スキップボタンのラベル。
-  final String skipLabel;
+  /// スキップボタンのラベルのジェネレーター。
+  final String Function() skipLabel;
 
   /// You can retrieve the [IntroductionMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
