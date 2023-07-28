@@ -1163,7 +1163,7 @@ void main() {
     final db = NoSqlDatabase();
     final adapter = RuntimeModelAdapter(
       database: db,
-      rawData: const [
+      data: const [
         DynamicModelRawCollection("test", {
           "1": {
             "name": "aaa",

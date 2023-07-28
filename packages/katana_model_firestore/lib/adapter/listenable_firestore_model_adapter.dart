@@ -10,6 +10,10 @@ part of katana_model_firestore;
 ///
 /// You can initialize Firebase by passing [options].
 ///
+/// The internal database can be specified in [localDatabase].
+///
+/// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
@@ -21,6 +25,10 @@ part of katana_model_firestore;
 /// 基本的にデフォルトの[FirebaseFirestore.instance]が利用されますが、アダプターの作成時に[database]を渡すことで指定されたデータベースを利用することが可能です。
 ///
 /// [options]を渡すことでFirebaseの初期化を行うことができます。
+///
+/// 内部データベースは[localDatabase]で指定することができます。
+///
+/// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 class ListenableFirestoreModelAdapter extends ModelAdapter
@@ -35,6 +43,10 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   ///
   /// You can initialize Firebase by passing [options].
   ///
+  /// The internal database can be specified in [localDatabase].
+  ///
+  /// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+  ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
@@ -47,9 +59,15 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   ///
   /// [options]を渡すことでFirebaseの初期化を行うことができます。
   ///
+  /// 内部データベースは[localDatabase]で指定することができます。
+  ///
+  /// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+  ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const ListenableFirestoreModelAdapter({
+    this.data,
     FirebaseFirestore? database,
+    NoSqlDatabase? localDatabase,
     FirebaseOptions? options,
     this.iosOptions,
     this.androidOptions,
@@ -59,7 +77,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     this.macosOptions,
     this.prefix,
   })  : _options = options,
-        _database = database;
+        _database = database,
+        _localDatabase = localDatabase;
 
   /// The Firestore database instance used in the adapter.
   ///
@@ -67,6 +86,37 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   @override
   FirebaseFirestore get database => _database ?? FirebaseFirestore.instance;
   final FirebaseFirestore? _database;
+
+  /// Caches data retrieved from the specified internal database, Firestore.
+  ///
+  /// 指定の内部データベース。Firestoreから取得したデータをキャッシュします。
+  NoSqlDatabase get localDatabase {
+    final database = _localDatabase ?? sharedLocalDatabase;
+    if (data.isNotEmpty && !database.isRawDataRegistered) {
+      for (final raw in data!) {
+        for (final tmp in raw.value.entries) {
+          final map = raw.toMap(tmp.value);
+          database.setRawData(
+            _path("${raw.path}/${tmp.key}"),
+            raw.filterOnSave(map, tmp.value),
+          );
+        }
+      }
+    }
+    return database;
+  }
+
+  final NoSqlDatabase? _localDatabase;
+
+  /// A common internal database throughout the app.
+  ///
+  /// アプリ内全体での共通の内部データベース。
+  static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
+
+  /// Actual data when used as a mock-up.
+  ///
+  /// モックアップとして利用する際の実データ。
+  final List<ModelRawCollection>? data;
 
   /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
   ///
@@ -223,7 +273,14 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
-    final res = _convertFrom(snapshot.data()?.cast() ?? {});
+    var res = _convertFrom(snapshot.data()?.cast() ?? {});
+    if (res.isEmpty) {
+      final localRes =
+          await localDatabase.getRawDocument(query, prefix: prefix);
+      if (localRes.isNotEmpty) {
+        res = localRes!;
+      }
+    }
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
   }
@@ -242,9 +299,16 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
-    final res = snapshot.expand((e) => e.docChanges).toMap(
+    var res = snapshot.expand((e) => e.docChanges).toMap(
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
+    if (res.isEmpty) {
+      final localRes =
+          await localDatabase.getRawCollection(query, prefix: prefix);
+      if (localRes.isNotEmpty) {
+        res = localRes!;
+      }
+    }
     for (final doc in res.entries) {
       _FirestoreCache.getCache(options).set(
         "${_path(query.query.path)}/${doc.key}",
@@ -296,15 +360,22 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterCollectionQuery query,
   ) async {
     await FirebaseCore.initialize(options: options);
+    final rawCollection =
+        await localDatabase.getRawCollection(query, prefix: prefix);
     final streams =
         _collectionReference(query).map((reference) => reference.snapshots());
     final subscriptions = streams.map((e) {
       return e.listen((event) {
         for (final doc in event.docChanges) {
-          final converted = _convertFrom(doc.doc.data()?.cast() ?? {});
+          final path = doc.doc.reference.path;
+          final id = doc.doc.id;
+          var converted = _convertFrom(doc.doc.data()?.cast() ?? {});
+          if (converted.isEmpty && rawCollection?.containsKey(id) == true) {
+            converted = rawCollection?[id] ?? {};
+          }
           query.callback?.call(
             ModelUpdateNotification(
-              path: doc.doc.reference.path,
+              path: path,
               id: doc.doc.id,
               status: _status(doc.type),
               value: converted,
@@ -331,10 +402,15 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
   ) async {
     await FirebaseCore.initialize(options: options);
+    final rawDocument =
+        await localDatabase.getRawDocument(query, prefix: prefix);
     final stream = _documentReference(query).snapshots();
     // ignore: cancel_subscriptions
     final subscription = stream.listen((doc) {
-      final converted = _convertFrom(doc.data()?.cast() ?? {});
+      var converted = _convertFrom(doc.data()?.cast() ?? {});
+      if (converted.isEmpty && rawDocument != null) {
+        converted = rawDocument;
+      }
       query.callback?.call(
         ModelUpdateNotification(
           path: doc.reference.path,
@@ -379,7 +455,14 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     }
     final snapshot =
         await ref.transaction.get(database.doc(_path(query.query.path)));
-    final res = _convertFrom(snapshot.data() ?? {});
+    var res = _convertFrom(snapshot.data() ?? {});
+    if (res.isEmpty) {
+      final localRes =
+          await localDatabase.getRawDocument(query, prefix: prefix);
+      if (localRes.isNotEmpty) {
+        res = localRes!;
+      }
+    }
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
   }

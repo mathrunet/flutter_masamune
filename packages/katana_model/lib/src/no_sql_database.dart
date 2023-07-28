@@ -109,7 +109,7 @@ class NoSqlDatabase {
 
   bool _initialized = false;
   Completer<void>? _completer;
-  final List<String> _registeredRawDataPath = [];
+  final Map<String, DynamicMap> _registeredRawData = {};
   final Map<String, Map<Object?, ModelAdapterDocumentQuery>>
       _documentListeners = {};
   final Map<String, Map<Object?, ModelAdapterCollectionQuery>>
@@ -137,6 +137,7 @@ class NoSqlDatabase {
     try {
       _initialized = true;
       await onInitialize?.call(this);
+      _applyRawData();
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -288,6 +289,35 @@ class NoSqlDatabase {
     return value;
   }
 
+  /// Load the document corresponding to [query] from [_registeredRawData].
+  ///
+  /// If data is found, it is returned in [DynamicMap].
+  ///
+  /// If no data is found or the path is invalid, [Null] is returned.
+  ///
+  /// [prefix] can be specified to prefix the path.
+  ///
+  /// [_registeredRawData]から[query]に対応するドキュメントを読み込みます。
+  ///
+  /// データが見つかった場合は[DynamicMap]で返されます。
+  ///
+  /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  Future<DynamicMap?> getRawDocument(
+    ModelAdapterDocumentQuery query, {
+    String? prefix,
+  }) async {
+    _addDocumentListener(query, prefix: prefix);
+    await _initialize();
+    await onLoad?.call(this);
+    final trimPath = _path(query.query.path, prefix);
+    if (_registeredRawData.containsKey(trimPath)) {
+      return Map<String, dynamic>.from(_registeredRawData[trimPath] ?? {});
+    }
+    return null;
+  }
+
   /// Pass [query] and load the collection corresponding to [query].
   ///
   /// If data is found, it will be returned in [Map<String, DynamicMap>].
@@ -296,9 +326,9 @@ class NoSqlDatabase {
   ///
   /// If no data is found or the path is invalid, [Null] is returned.
   ///
-  /// [query]を渡して[query]に対応するコレクションを読み込みます。
-  ///
   /// [prefix] can be specified to prefix the path.
+  ///
+  /// [query]を渡して[query]に対応するコレクションを読み込みます。
   ///
   /// データが見つかった場合は[Map<String, DynamicMap>]で返されます。
   ///
@@ -415,15 +445,58 @@ class NoSqlDatabase {
     return value;
   }
 
+  /// Load the document corresponding to [query] from [_registeredRawData].
+  ///
+  /// If data is found, it is returned in [DynamicMap].
+  ///
+  /// If no data is found or the path is invalid, [Null] is returned.
+  ///
+  /// [prefix] can be specified to prefix the path.
+  ///
+  /// [_registeredRawData]から[query]に対応するドキュメントを読み込みます。
+  ///
+  /// データが見つかった場合は[DynamicMap]で返されます。
+  ///
+  /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
+  ///
+  /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  Future<Map<String, DynamicMap>?> getRawCollection(
+    ModelAdapterCollectionQuery query, {
+    String? prefix,
+  }) async {
+    _addCollectionListener(query, prefix: prefix);
+    await _initialize();
+    await onLoad?.call(this);
+    final trimPath = _path(query.query.path, prefix);
+    final res = <String, DynamicMap>{};
+    for (final entry in _registeredRawData.entries) {
+      final parentPath = entry.key.parentPath().trimString("/");
+      if (parentPath != trimPath) {
+        continue;
+      }
+      final id = entry.key.last();
+      final value = entry.value;
+      res[id] = Map<String, dynamic>.from(value);
+    }
+    if (res.isEmpty) {
+      return null;
+    }
+    return res;
+  }
+
   /// Add/update the data of [value] at the position of [path].
   ///
   /// Unlike other storage methods, you will not be notified of data updates.
+  ///
+  /// Also, actual data is written after [_initialize] is executed.
   ///
   /// Please use this function when you want to include mock data or other data in advance.
   ///
   /// [path]の位置に[value]のデータを追加・更新します。
   ///
   /// 他の保存用メソッドと違ってデータの更新が通知されることはありません。
+  ///
+  /// また、[_initialize]実行後に実際のデータが書き込まれます。
   ///
   /// モックデータなど予めデータを入れておきたい場合などにご利用ください。
   void setRawData(String path, DynamicMap value) {
@@ -435,11 +508,30 @@ class NoSqlDatabase {
     if (paths.isEmpty) {
       return;
     }
-    if (_registeredRawDataPath.contains(path)) {
+    if (_registeredRawData.containsKey(path)) {
       return;
     }
-    _registeredRawDataPath.add(path);
-    data._writeToPath(paths, 0, Map.from(value));
+    _registeredRawData[path] = value;
+  }
+
+  /// Returns `true` if data is registered with [setRawData].
+  ///
+  /// [setRawData]でデータが登録されている場合は`true`を返します。
+  bool get isRawDataRegistered => _registeredRawData.isNotEmpty;
+
+  void _applyRawData() {
+    if (_registeredRawData.isEmpty) {
+      return;
+    }
+    for (final tmp in _registeredRawData.entries) {
+      final path = tmp.key;
+      final value = tmp.value;
+      final paths = path.split("/");
+      if (paths.isEmpty) {
+        continue;
+      }
+      data._writeToPath(paths, 0, Map.from(value));
+    }
   }
 
   /// Update and add data to [value] by passing [query] and the data in the document corresponding to [query].

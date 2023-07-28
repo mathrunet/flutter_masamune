@@ -15,6 +15,8 @@ const _kTargetKey = "@target";
 ///
 /// The internal database can be specified in [localDatabase].
 ///
+/// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
 /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
@@ -28,6 +30,8 @@ const _kTargetKey = "@target";
 /// また、内部で取得したデータをキャッシュしておき、[DocumentBase.save]や[DocumentBase.delete]などで発生した内部的な変更については関連するデータに通知を送ることができ変更を反映することができます。
 ///
 /// 内部データベースは[localDatabase]で指定することができます。
+///
+/// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 class FirestoreModelAdapter extends ModelAdapter
@@ -44,6 +48,8 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// The internal database can be specified in [localDatabase].
   ///
+  /// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+  ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
   /// FirebaseFirestoreを利用できるようにしたモデルアダプター。
@@ -58,8 +64,11 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// 内部データベースは[localDatabase]で指定することができます。
   ///
+  /// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+  ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const FirestoreModelAdapter({
+    this.data,
     FirebaseFirestore? database,
     NoSqlDatabase? localDatabase,
     FirebaseOptions? options,
@@ -86,6 +95,17 @@ class FirestoreModelAdapter extends ModelAdapter
   /// 指定の内部データベース。Firestoreから取得したデータをキャッシュします。
   NoSqlDatabase get localDatabase {
     final database = _localDatabase ?? sharedLocalDatabase;
+    if (data.isNotEmpty && !database.isRawDataRegistered) {
+      for (final raw in data!) {
+        for (final tmp in raw.value.entries) {
+          final map = raw.toMap(tmp.value);
+          database.setRawData(
+            _path("${raw.path}/${tmp.key}"),
+            raw.filterOnSave(map, tmp.value),
+          );
+        }
+      }
+    }
     return database;
   }
 
@@ -95,6 +115,11 @@ class FirestoreModelAdapter extends ModelAdapter
   ///
   /// アプリ内全体での共通の内部データベース。
   static final NoSqlDatabase sharedLocalDatabase = NoSqlDatabase();
+
+  /// Actual data when used as a mock-up.
+  ///
+  /// モックアップとして利用する際の実データ。
+  final List<ModelRawCollection>? data;
 
   /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
   ///
@@ -252,7 +277,14 @@ class FirestoreModelAdapter extends ModelAdapter
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
     await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
-    final res = _convertFrom(snapshot.data()?.cast() ?? {});
+    var res = _convertFrom(snapshot.data()?.cast() ?? {});
+    if (res.isEmpty) {
+      final localRes =
+          await localDatabase.getRawDocument(query, prefix: prefix);
+      if (localRes.isNotEmpty) {
+        res = localRes!;
+      }
+    }
     await localDatabase.syncDocument(query, res, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;
@@ -276,9 +308,16 @@ class FirestoreModelAdapter extends ModelAdapter
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
-    final res = snapshot.expand((e) => e.docChanges).toMap(
+    var res = snapshot.expand((e) => e.docChanges).toMap(
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
+    if (res.isEmpty) {
+      final localRes =
+          await localDatabase.getRawCollection(query, prefix: prefix);
+      if (localRes.isNotEmpty) {
+        res = localRes!;
+      }
+    }
     await localDatabase.syncCollection(query, res, prefix: prefix);
     for (final doc in res.entries) {
       _FirestoreCache.getCache(options).set(
@@ -366,7 +405,14 @@ class FirestoreModelAdapter extends ModelAdapter
     }
     final snapshot =
         await ref.transaction.get(database.doc(_path(query.query.path)));
-    final res = _convertFrom(snapshot.data() ?? {});
+    var res = _convertFrom(snapshot.data() ?? {});
+    if (res.isEmpty) {
+      final localRes =
+          await localDatabase.getRawDocument(query, prefix: prefix);
+      if (localRes.isNotEmpty) {
+        res = localRes!;
+      }
+    }
     await localDatabase.syncDocument(query, res, prefix: prefix);
     _FirestoreCache.getCache(options).set(_path(query.query.path), res);
     return res;

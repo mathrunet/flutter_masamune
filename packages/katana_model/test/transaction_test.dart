@@ -224,7 +224,7 @@ void main() {
   test("runtimeDocumentModel.transaction", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: const [
+      data: const [
         DynamicModelRawCollection("test", {
           "doc": {"name": "test", "text": "testtest"},
           "doc2": {"name": "test2", "text": "testtest2"},
@@ -265,7 +265,7 @@ void main() {
   test("runtimeDocumentModel.modelRef", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: [
+      data: [
         const DynamicModelRawCollection("user", {
           "doc": {"name": "user_name", "text": "user_text"},
         }),
@@ -303,7 +303,7 @@ void main() {
   test("runtimeDocumentModel.transaction.Freezed", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: const [
+      data: const [
         TestValueModelRawCollection({
           "doc": TestValue(name: "test", text: "testtest"),
           "doc2": TestValue(name: "test2", text: "testtest2"),
@@ -344,7 +344,7 @@ void main() {
   test("runtimeDocumentModel.modelRef.Freezed", () async {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      rawData: [
+      data: [
         const UserValueModelRawCollection({
           "doc": UserValue(name: "user_name", text: "user_text"),
         }),
