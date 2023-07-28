@@ -83,7 +83,7 @@ class RuntimeCollectionLoaderModel extends CollectionBase<ShopDocument> {
   }
 }
 
-class TestValueModelRawCollection extends ModelRawCollection<TestValue> {
+class TestValueModelRawCollection extends ModelDataCollection<TestValue> {
   const TestValueModelRawCollection(super.value);
 
   @override
@@ -125,7 +125,7 @@ class RuntimeTestValueCollectionModel
   }
 }
 
-class UserValueModelRawCollection extends ModelRawCollection<UserValue> {
+class UserValueModelRawCollection extends ModelDataCollection<UserValue> {
   const UserValueModelRawCollection(super.value);
 
   @override
@@ -146,7 +146,7 @@ class UserValue with _$UserValue {
       _$UserValueFromJson(map);
 }
 
-class ShopValueModelRawCollection extends ModelRawCollection<ShopValue> {
+class ShopValueModelRawCollection extends ModelDataCollection<ShopValue> {
   const ShopValueModelRawCollection(super.value);
 
   @override
@@ -225,7 +225,7 @@ void main() {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
       data: const [
-        DynamicModelRawCollection("test", {
+        DynamicModelDataCollection("test", {
           "doc": {"name": "test", "text": "testtest"},
           "doc2": {"name": "test2", "text": "testtest2"},
         }),
@@ -266,10 +266,10 @@ void main() {
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
       data: [
-        const DynamicModelRawCollection("user", {
+        const DynamicModelDataCollection("user", {
           "doc": {"name": "user_name", "text": "user_text"},
         }),
-        DynamicModelRawCollection("shop", {
+        DynamicModelDataCollection("shop", {
           "doc": {
             "name": "shop_name",
             "text": "shop_text",

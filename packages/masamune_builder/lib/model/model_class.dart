@@ -35,11 +35,11 @@ List<Spec> modelClass(
     ),
     Class(
       (c) => c
-        ..name = "${model.name}RawCollection"
-        ..extend = Reference("ModelRawCollection<${model.name}>")
+        ..name = "${model.name}DataCollection"
+        ..extend = Reference("ModelDataCollection<${model.name}>")
         ..mixins.addAll([
           if (searchable.isNotEmpty)
-            Reference("SearchableRawCollectionMixin<${model.name}>"),
+            Reference("SearchableDataCollectionMixin<${model.name}>"),
         ])
         ..constructors.addAll([
           Constructor(
@@ -140,11 +140,11 @@ List<Spec> modelClass(
     if (mirror != null) ...[
       Class(
         (c) => c
-          ..name = "${model.name}MirrorRawCollection"
-          ..extend = Reference("ModelRawCollection<${model.name}>")
+          ..name = "${model.name}MirrorDataCollection"
+          ..extend = Reference("ModelDataCollection<${model.name}>")
           ..mixins.addAll([
             if (searchable.isNotEmpty)
-              Reference("SearchableRawCollectionMixin<${model.name}>"),
+              Reference("SearchableDataCollectionMixin<${model.name}>"),
           ])
           ..constructors.addAll([
             Constructor(

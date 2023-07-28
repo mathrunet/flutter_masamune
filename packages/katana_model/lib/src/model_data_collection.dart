@@ -1,33 +1,33 @@
 part of katana_model;
 
 /// {@template model_raw_value_collection}
-/// Data to be passed to [RuntimeModelAdapter].
+/// Data to be passed to `data` of various [ModelAdapter].
 ///
 /// Specify the path to the collection itself in [path] and the ID and value Map in [value].
 ///
 /// You can parse for Json by using [toMap].
 ///
-/// [RuntimeModelAdapter]に渡すデータ。
+/// 各種[ModelAdapter]の`data`に渡すデータ。
 ///
 /// [path]にコレクション自体のパスを指定し、[value]にIDと値のMapを指定します。
 ///
 /// [toMap]を利用することでJson用にパースすることができます。
 /// {@endtemplate}
-abstract class ModelRawCollection<T> {
+abstract class ModelDataCollection<T> {
   /// {@template model_raw_value_collection}
-  /// Data to be passed to [RuntimeModelAdapter].
+  /// Data to be passed to `data` of various [ModelAdapter].
   ///
   /// Specify the path to the collection itself in [path] and the ID and value Map in [value].
   ///
   /// You can parse for Json by using [toMap].
   ///
-  /// [RuntimeModelAdapter]に渡すデータ。
+  /// 各種[ModelAdapter]の`data`に渡すデータ。
   ///
   /// [path]にコレクション自体のパスを指定し、[value]にIDと値のMapを指定します。
   ///
   /// [toMap]を利用することでJson用にパースすることができます。
   /// {@endtemplate}
-  const ModelRawCollection(this.value);
+  const ModelDataCollection(this.value);
 
   /// ID and value Map.
   ///
@@ -62,18 +62,18 @@ abstract class ModelRawCollection<T> {
   }
 }
 
-/// [ModelRawCollection] using [DynamicMap].
+/// [ModelDataCollection] using [DynamicMap].
 ///
-/// [DynamicMap]を利用した[ModelRawCollection]。
+/// [DynamicMap]を利用した[ModelDataCollection]。
 ///
 /// {@macro model_raw_value_collection}
-class DynamicModelRawCollection extends ModelRawCollection<DynamicMap> {
-  /// [ModelRawCollection] using [DynamicMap].
+class DynamicModelDataCollection extends ModelDataCollection<DynamicMap> {
+  /// [ModelDataCollection] using [DynamicMap].
   ///
-  /// [DynamicMap]を利用した[ModelRawCollection]。
+  /// [DynamicMap]を利用した[ModelDataCollection]。
   ///
   /// {@macro model_raw_value_collection}
-  const DynamicModelRawCollection(this.path, super.value);
+  const DynamicModelDataCollection(this.path, super.value);
 
   @override
   final String path;

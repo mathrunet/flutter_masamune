@@ -1164,7 +1164,7 @@ void main() {
     final adapter = RuntimeModelAdapter(
       database: db,
       data: const [
-        DynamicModelRawCollection("test", {
+        DynamicModelDataCollection("test", {
           "1": {
             "name": "aaa",
             "text": "bbb",

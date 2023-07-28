@@ -64,8 +64,8 @@ class SearchableRuntimeTestValueDocumentModel extends DocumentBase<TestValue>
 }
 
 class SearchableRuntimeTestValueRawCollectionModel
-    extends ModelRawCollection<TestValue>
-    with SearchableRawCollectionMixin<TestValue> {
+    extends ModelDataCollection<TestValue>
+    with SearchableDataCollectionMixin<TestValue> {
   SearchableRuntimeTestValueRawCollectionModel(this.path, super.value);
 
   @override

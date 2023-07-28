@@ -101,7 +101,7 @@ class LocalModelAdapter extends ModelAdapter {
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelRawCollection>? data;
+  final List<ModelDataCollection>? data;
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {

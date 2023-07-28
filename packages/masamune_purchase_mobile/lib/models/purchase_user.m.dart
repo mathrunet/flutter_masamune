@@ -46,7 +46,7 @@ class $PurchaseUserModelCollection
 }
 
 class PurchaseUserModelRawCollection
-    extends ModelRawCollection<PurchaseUserModel> {
+    extends ModelDataCollection<PurchaseUserModel> {
   const PurchaseUserModelRawCollection(super.value);
 
   @override

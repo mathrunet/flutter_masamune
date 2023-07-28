@@ -119,7 +119,7 @@ class FirestoreModelAdapter extends ModelAdapter
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelRawCollection>? data;
+  final List<ModelDataCollection>? data;
 
   /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
   ///

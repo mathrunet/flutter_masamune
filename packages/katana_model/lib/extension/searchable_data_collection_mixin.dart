@@ -1,6 +1,6 @@
 part of katana_model;
 
-/// Mix-in to search for [ModelRawCollection].
+/// Mix-in to search for [ModelDataCollection].
 ///
 /// This can be mixed in with `with` to make mock data searchable and "display only specific strings" when querying collections.
 ///
@@ -8,7 +8,7 @@ part of katana_model;
 ///
 /// [buildSearchText] creates a string to be searched. If you want to search multiple items, combine all strings and return them as a single string.
 ///
-/// [ModelRawCollection]を検索対象にするためのミックスイン。
+/// [ModelDataCollection]を検索対象にするためのミックスイン。
 ///
 /// これを`with`でミックスインすることでモックデータを検索対象にしてコレクションでのクエリ時に「特定の文字列のみ表示する」といったことを実現することができます。
 ///
@@ -27,7 +27,7 @@ part of katana_model;
 ///
 /// 検索を行うコレクションには[SearchableCollectionMixin]をミックスインして検索できるようにします。
 /// その後、[SearchableCollectionMixin.search]を利用して検索を行います。
-mixin SearchableRawCollectionMixin<T> on ModelRawCollection<T> {
+mixin SearchableDataCollectionMixin<T> on ModelDataCollection<T> {
   /// Field key for default search.
   ///
   /// デフォルトのサーチ用のフィールドキー。
