@@ -3,6 +3,93 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.4.2`](#katana_cli---v242)
+ - [`katana_model` - `v2.8.0`](#katana_model---v280)
+ - [`katana_model_firestore` - `v2.5.0`](#katana_model_firestore---v250)
+ - [`katana_model_local` - `v2.3.0`](#katana_model_local---v230)
+ - [`masamune_builder` - `v2.5.3`](#masamune_builder---v253)
+ - [`masamune` - `v2.3.4`](#masamune---v234)
+ - [`masamune_location` - `v2.1.50`](#masamune_location---v2150)
+ - [`masamune_auth_apple` - `v2.1.40`](#masamune_auth_apple---v2140)
+ - [`masamune_text_to_speech` - `v2.1.6`](#masamune_text_to_speech---v216)
+ - [`masamune_agora` - `v2.2.21`](#masamune_agora---v2221)
+ - [`masamune_auth_google` - `v2.1.40`](#masamune_auth_google---v2140)
+ - [`masamune_ai_openai` - `v2.1.37`](#masamune_ai_openai---v2137)
+ - [`masamune_calendar` - `v2.0.83`](#masamune_calendar---v2083)
+ - [`masamune_picker` - `v2.1.39`](#masamune_picker---v2139)
+ - [`masamune_util` - `v2.1.18`](#masamune_util---v2118)
+ - [`masamune_universal_ui` - `v2.2.19`](#masamune_universal_ui---v2219)
+ - [`masamune_purchase_stripe` - `v3.1.38`](#masamune_purchase_stripe---v3138)
+ - [`masamune_logger_firebase` - `v2.0.82`](#masamune_logger_firebase---v2082)
+ - [`masamune_speech_to_text` - `v2.1.8`](#masamune_speech_to_text---v218)
+ - [`masamune_introduction` - `v2.1.7`](#masamune_introduction---v217)
+ - [`masamune_auth_facebook` - `v2.1.42`](#masamune_auth_facebook---v2142)
+ - [`masamune_location_google` - `v2.1.51`](#masamune_location_google---v2151)
+ - [`masamune_mail` - `v2.1.37`](#masamune_mail---v2137)
+ - [`masamune_notification_firebase` - `v2.1.37`](#masamune_notification_firebase---v2137)
+ - [`masamune_purchase_mobile` - `v2.3.22`](#masamune_purchase_mobile---v2322)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.4`
+ - `masamune_location` - `v2.1.50`
+ - `masamune_auth_apple` - `v2.1.40`
+ - `masamune_text_to_speech` - `v2.1.6`
+ - `masamune_agora` - `v2.2.21`
+ - `masamune_auth_google` - `v2.1.40`
+ - `masamune_ai_openai` - `v2.1.37`
+ - `masamune_calendar` - `v2.0.83`
+ - `masamune_picker` - `v2.1.39`
+ - `masamune_util` - `v2.1.18`
+ - `masamune_universal_ui` - `v2.2.19`
+ - `masamune_purchase_stripe` - `v3.1.38`
+ - `masamune_logger_firebase` - `v2.0.82`
+ - `masamune_speech_to_text` - `v2.1.8`
+ - `masamune_introduction` - `v2.1.7`
+ - `masamune_auth_facebook` - `v2.1.42`
+ - `masamune_location_google` - `v2.1.51`
+ - `masamune_mail` - `v2.1.37`
+ - `masamune_notification_firebase` - `v2.1.37`
+ - `masamune_purchase_mobile` - `v2.3.22`
+
+---
+
+#### `katana_cli` - `v2.4.2`
+
+ - **FIX**: Fixed the problem that the first time when deploying Google Play, it seems to have to be a DRAFT. ([143edec2](https://github.com/mathrunet/flutter_masamune/commit/143edec286da529965ec2e636d6b651224ec2963))
+ - **FIX**: Added Store->Build. ([a92ec8e4](https://github.com/mathrunet/flutter_masamune/commit/a92ec8e48795fe5d9f81f304466886d459b3d02d))
+
+#### `katana_model` - `v2.8.0`
+
+ - **FEAT**: Granted the ability to add mock data to firestore and local adapters. ([22b1b636](https://github.com/mathrunet/flutter_masamune/commit/22b1b636bd93d3f319f4e17b7d5bdaeecbd90694))
+
+#### `katana_model_firestore` - `v2.5.0`
+
+ - **FEAT**: Granted the ability to add mock data to firestore and local adapters. ([22b1b636](https://github.com/mathrunet/flutter_masamune/commit/22b1b636bd93d3f319f4e17b7d5bdaeecbd90694))
+
+#### `katana_model_local` - `v2.3.0`
+
+ - **FEAT**: Granted the ability to add mock data to firestore and local adapters. ([22b1b636](https://github.com/mathrunet/flutter_masamune/commit/22b1b636bd93d3f319f4e17b7d5bdaeecbd90694))
+
+#### `masamune_builder` - `v2.5.3`
+
+ - **FIX**: Add IGNORE for Analyze in Builder. ([f562fa19](https://github.com/mathrunet/flutter_masamune/commit/f562fa193810a5a3d471067562de311e4545176b))
+
+
 ## 2023-07-27
 
 ### Changes

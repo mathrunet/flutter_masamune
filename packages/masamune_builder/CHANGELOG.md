@@ -1,3 +1,7 @@
+## 2.5.3
+
+ - **FIX**: Add IGNORE for Analyze in Builder. ([f562fa19](https://github.com/mathrunet/flutter_masamune/commit/f562fa193810a5a3d471067562de311e4545176b))
+
 ## 2.5.2
 
  - **FIX**: Remove ModelRawCollection.ref. ([806f8cca](https://github.com/mathrunet/flutter_masamune/commit/806f8cca4fbfa9672a4899013dd26b3801b30311))

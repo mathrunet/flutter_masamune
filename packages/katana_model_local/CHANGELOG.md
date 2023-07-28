@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Granted the ability to add mock data to firestore and local adapters. ([22b1b636](https://github.com/mathrunet/flutter_masamune/commit/22b1b636bd93d3f319f4e17b7d5bdaeecbd90694))
+
 ## 2.2.11
 
  - **FIX**: Allow non-const ModelFieldValue to be specified with const. ([9ad23b2e](https://github.com/mathrunet/flutter_masamune/commit/9ad23b2e32063f3f5a69315e8daee0a23d990745))

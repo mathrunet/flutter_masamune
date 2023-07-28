@@ -1,3 +1,8 @@
+## 2.4.2
+
+ - **FIX**: Fixed the problem that the first time when deploying Google Play, it seems to have to be a DRAFT. ([143edec2](https://github.com/mathrunet/flutter_masamune/commit/143edec286da529965ec2e636d6b651224ec2963))
+ - **FIX**: Added Store->Build. ([a92ec8e4](https://github.com/mathrunet/flutter_masamune/commit/a92ec8e48795fe5d9f81f304466886d459b3d02d))
+
 ## 2.4.1
 
  - **FIX**: Fixed a bug that caused the path to be incorrect when creating a document at the first level. ([83e558dc](https://github.com/mathrunet/flutter_masamune/commit/83e558dc6d7d427c7968879e2a928d35cccf78ee))
