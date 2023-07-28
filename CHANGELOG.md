@@ -15,6 +15,93 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.9.0`](#katana_model---v290)
+ - [`katana_model_firestore` - `v2.6.0`](#katana_model_firestore---v260)
+ - [`katana_model_local` - `v2.4.0`](#katana_model_local---v240)
+ - [`masamune_builder` - `v2.6.0`](#masamune_builder---v260)
+ - [`masamune_purchase_mobile` - `v2.4.0`](#masamune_purchase_mobile---v240)
+ - [`masamune_purchase_stripe` - `v3.2.0`](#masamune_purchase_stripe---v320)
+ - [`masamune` - `v2.3.5`](#masamune---v235)
+ - [`masamune_location` - `v2.1.51`](#masamune_location---v2151)
+ - [`masamune_auth_apple` - `v2.1.41`](#masamune_auth_apple---v2141)
+ - [`masamune_text_to_speech` - `v2.1.7`](#masamune_text_to_speech---v217)
+ - [`masamune_ai_openai` - `v2.1.38`](#masamune_ai_openai---v2138)
+ - [`masamune_agora` - `v2.2.22`](#masamune_agora---v2222)
+ - [`masamune_auth_google` - `v2.1.41`](#masamune_auth_google---v2141)
+ - [`masamune_calendar` - `v2.0.84`](#masamune_calendar---v2084)
+ - [`masamune_picker` - `v2.1.40`](#masamune_picker---v2140)
+ - [`masamune_util` - `v2.1.19`](#masamune_util---v2119)
+ - [`masamune_universal_ui` - `v2.2.20`](#masamune_universal_ui---v2220)
+ - [`masamune_logger_firebase` - `v2.0.83`](#masamune_logger_firebase---v2083)
+ - [`masamune_introduction` - `v2.1.8`](#masamune_introduction---v218)
+ - [`masamune_auth_facebook` - `v2.1.43`](#masamune_auth_facebook---v2143)
+ - [`masamune_speech_to_text` - `v2.1.9`](#masamune_speech_to_text---v219)
+ - [`masamune_location_google` - `v2.1.52`](#masamune_location_google---v2152)
+ - [`masamune_mail` - `v2.1.38`](#masamune_mail---v2138)
+ - [`masamune_notification_firebase` - `v2.1.38`](#masamune_notification_firebase---v2138)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.5`
+ - `masamune_location` - `v2.1.51`
+ - `masamune_auth_apple` - `v2.1.41`
+ - `masamune_text_to_speech` - `v2.1.7`
+ - `masamune_ai_openai` - `v2.1.38`
+ - `masamune_agora` - `v2.2.22`
+ - `masamune_auth_google` - `v2.1.41`
+ - `masamune_calendar` - `v2.0.84`
+ - `masamune_picker` - `v2.1.40`
+ - `masamune_util` - `v2.1.19`
+ - `masamune_universal_ui` - `v2.2.20`
+ - `masamune_logger_firebase` - `v2.0.83`
+ - `masamune_introduction` - `v2.1.8`
+ - `masamune_auth_facebook` - `v2.1.43`
+ - `masamune_speech_to_text` - `v2.1.9`
+ - `masamune_location_google` - `v2.1.52`
+ - `masamune_mail` - `v2.1.38`
+ - `masamune_notification_firebase` - `v2.1.38`
+
+---
+
+#### `katana_model` - `v2.9.0`
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
+#### `katana_model_firestore` - `v2.6.0`
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
+#### `katana_model_local` - `v2.4.0`
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
+#### `masamune_builder` - `v2.6.0`
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
+#### `masamune_purchase_mobile` - `v2.4.0`
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
+#### `masamune_purchase_stripe` - `v3.2.0`
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
+
+## 2023-07-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.4.2`](#katana_cli---v242)
  - [`katana_model` - `v2.8.0`](#katana_model---v280)
  - [`katana_model_firestore` - `v2.5.0`](#katana_model_firestore---v250)

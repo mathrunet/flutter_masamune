@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
 ## 2.8.0
 
  - **FEAT**: Granted the ability to add mock data to firestore and local adapters. ([22b1b636](https://github.com/mathrunet/flutter_masamune/commit/22b1b636bd93d3f319f4e17b7d5bdaeecbd90694))

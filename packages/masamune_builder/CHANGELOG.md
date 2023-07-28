@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
+
 ## 2.5.3
 
  - **FIX**: Add IGNORE for Analyze in Builder. ([f562fa19](https://github.com/mathrunet/flutter_masamune/commit/f562fa193810a5a3d471067562de311e4545176b))
