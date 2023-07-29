@@ -299,14 +299,20 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
-    var res = snapshot.expand((e) => e.docChanges).toMap(
+    final res = snapshot.expand((e) => e.docChanges).toMap(
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
-    if (res.isEmpty) {
-      final localRes =
-          await localDatabase.getRawCollection(query, prefix: prefix);
-      if (localRes.isNotEmpty) {
-        res = localRes!;
+    final localRes =
+        await localDatabase.getRawCollection(query, prefix: prefix);
+    if (localRes.isNotEmpty) {
+      for (final entry in localRes!.entries) {
+        if (res.containsKey(entry.key)) {
+          continue;
+        }
+        if (!query.query.hasMatchAsMap(entry.value)) {
+          continue;
+        }
+        res[entry.key] = entry.value;
       }
     }
     for (final doc in res.entries) {
@@ -360,19 +366,34 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterCollectionQuery query,
   ) async {
     await FirebaseCore.initialize(options: options);
-    final rawCollection =
+    final localRes =
         await localDatabase.getRawCollection(query, prefix: prefix);
+    if (localRes.isNotEmpty) {
+      for (final entry in localRes!.entries) {
+        if (!query.query.hasMatchAsMap(entry.value)) {
+          continue;
+        }
+        query.callback?.call(
+          ModelUpdateNotification(
+            path: entry.key,
+            id: entry.key.last(),
+            status: ModelUpdateNotificationStatus.added,
+            value: entry.value,
+            newIndex: 0,
+            origin: query.origin,
+            listen: availableListen,
+            query: query.query,
+          ),
+        );
+      }
+    }
     final streams =
         _collectionReference(query).map((reference) => reference.snapshots());
     final subscriptions = streams.map((e) {
       return e.listen((event) {
         for (final doc in event.docChanges) {
           final path = doc.doc.reference.path;
-          final id = doc.doc.id;
-          var converted = _convertFrom(doc.doc.data()?.cast() ?? {});
-          if (converted.isEmpty && rawCollection?.containsKey(id) == true) {
-            converted = rawCollection?[id] ?? {};
-          }
+          final converted = _convertFrom(doc.doc.data()?.cast() ?? {});
           query.callback?.call(
             ModelUpdateNotification(
               path: path,
@@ -402,14 +423,26 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
   ) async {
     await FirebaseCore.initialize(options: options);
-    final rawDocument =
-        await localDatabase.getRawDocument(query, prefix: prefix);
+    final localRes = await localDatabase.getRawDocument(query, prefix: prefix);
+    if (localRes.isNotEmpty) {
+      query.callback?.call(
+        ModelUpdateNotification(
+          path: query.query.path.parentPath(),
+          id: query.query.path.last(),
+          status: ModelUpdateNotificationStatus.modified,
+          value: localRes!,
+          origin: query.origin,
+          listen: availableListen,
+          query: query.query,
+        ),
+      );
+    }
     final stream = _documentReference(query).snapshots();
     // ignore: cancel_subscriptions
     final subscription = stream.listen((doc) {
-      var converted = _convertFrom(doc.data()?.cast() ?? {});
-      if (converted.isEmpty && rawDocument != null) {
-        converted = rawDocument;
+      final converted = _convertFrom(doc.data()?.cast() ?? {});
+      if (converted.isEmpty && localRes.isNotEmpty) {
+        return;
       }
       query.callback?.call(
         ModelUpdateNotification(

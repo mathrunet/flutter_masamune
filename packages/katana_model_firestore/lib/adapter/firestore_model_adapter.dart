@@ -308,14 +308,20 @@ class FirestoreModelAdapter extends ModelAdapter
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
     );
-    var res = snapshot.expand((e) => e.docChanges).toMap(
+    final res = snapshot.expand((e) => e.docChanges).toMap(
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
-    if (res.isEmpty) {
-      final localRes =
-          await localDatabase.getRawCollection(query, prefix: prefix);
-      if (localRes.isNotEmpty) {
-        res = localRes!;
+    final localRes =
+        await localDatabase.getRawCollection(query, prefix: prefix);
+    if (localRes.isNotEmpty) {
+      for (final entry in localRes!.entries) {
+        if (res.containsKey(entry.key)) {
+          continue;
+        }
+        if (!query.query.hasMatchAsMap(entry.value)) {
+          continue;
+        }
+        res[entry.key] = entry.value;
       }
     }
     await localDatabase.syncCollection(query, res, prefix: prefix);
