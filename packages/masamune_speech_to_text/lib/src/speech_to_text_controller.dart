@@ -18,8 +18,8 @@ const _kDoneNoResultStatus = "doneNoResult";
 /// [listen]で音声認識を開始します。[stop]で音声認識をストップして結果を取得します。
 ///
 /// [cancel]で音声認識をキャンセルします。
-class SpeechToTextController
-    extends MasamuneControllerBase<List<String>, SpeechToTextMasamuneAdapter> {
+class SpeechToTextController extends MasamuneControllerBase<
+    List<SpeechToTextResponse>, SpeechToTextMasamuneAdapter> {
   /// Controller for Speech-to-Text.
   ///
   /// [initialize] to initialize and check permissions.
@@ -56,7 +56,8 @@ class SpeechToTextController
   bool get initialized => _initialized;
   bool _initialized = false;
 
-  Completer<String?>? _listenCompleter;
+  SpeechToTextResponse? _current;
+  Completer<SpeechToTextResponse?>? _listenCompleter;
   Completer<void>? _cancelCompleter;
   Completer<void>? _initializeCompleter;
 
@@ -109,19 +110,11 @@ class SpeechToTextController
   }
 
   Future<void> _onStatus(String status) async {
-    print(status);
-    if (UniversalPlatform.isIOS) {
-      if (status != _kFinalStatus && status != _kDoneNoResultStatus) {
-        return;
-      }
-      _listenCompleter?.complete();
-      _listenCompleter = null;
-    } else {
-      if (status != _kFinalStatus) {
-        return;
-      }
-      _listenCompleter?.complete();
-      _listenCompleter = null;
+    if (_current == null) {
+      return;
+    }
+    if (status == _kFinalStatus || status == _kDoneNoResultStatus) {
+      _listenComplete();
     }
   }
 
@@ -143,8 +136,9 @@ class SpeechToTextController
   /// [locale]で認識する言語を指定します。
   ///
   /// [duration]で認識を行う時間を指定します。
-  Future<String?> listen({
+  Future<SpeechToTextResponse?> listen({
     Locale? locale,
+    void Function(SpeechToTextResponse text)? onChanged,
     required Duration duration,
   }) async {
     if (!initialized) {
@@ -154,42 +148,44 @@ class SpeechToTextController
     }
     if (_listenCompleter != null) {
       await _stt.stop();
+      await _listenCompleter?.future;
       notifyListeners();
-      _listenCompleter?.complete();
-      _listenCompleter = null;
+      _listenComplete();
     }
     _listenCompleter = Completer();
     try {
       _updated = false;
+      _current = SpeechToTextResponse._();
+      setValueInternal(List.unmodifiable([
+        if (value != null) ...value!,
+        _current!,
+      ]));
       await initialize();
       await _stt.listen(
-        partialResults: false,
+        listenMode: ListenMode.dictation,
         localeId: (locale ?? adapter.defaultLocale).toLanguageTag(),
         onResult: (result) {
+          final prev = _current?.value;
           final res = result.recognizedWords;
-          if (res.isNotEmpty && value.lastOrNull != res) {
-            _updated = true;
-            setValueInternal(List.unmodifiable([...value ?? [], res]));
+          if (res.isEmpty || prev == res) {
+            return;
           }
-          if (result.finalResult) {
-            _listenCompleter?.complete(res);
-            _listenCompleter = null;
-          }
+          _current?._value = res;
+          onChanged?.call(_current!);
+          notifyListeners();
         },
         listenFor: duration,
       );
-      final res = await _listenCompleter?.future;
+      await _listenCompleter?.future;
       notifyListeners();
-      _listenCompleter?.complete();
-      _listenCompleter = null;
-      return res;
+      _listenComplete();
+      return _current!;
     } catch (e) {
       _listenCompleter?.completeError(e);
       _listenCompleter = null;
       rethrow;
     } finally {
-      _listenCompleter?.complete();
-      _listenCompleter = null;
+      _listenComplete();
     }
   }
 
@@ -213,9 +209,11 @@ class SpeechToTextController
       await initialize();
       await _stt.cancel();
       await _listenCompleter?.future;
+      final list = List<SpeechToTextResponse>.from(value ?? []);
+      list.remove(_current);
+      setValueInternal(List.unmodifiable(list));
       notifyListeners();
-      _listenCompleter?.complete();
-      _listenCompleter = null;
+      _listenComplete();
       _cancelCompleter?.complete();
       _cancelCompleter = null;
     } catch (e) {
@@ -249,8 +247,7 @@ class SpeechToTextController
       await _stt.stop();
       await _listenCompleter?.future;
       notifyListeners();
-      _listenCompleter?.complete();
-      _listenCompleter = null;
+      _listenComplete();
       _cancelCompleter?.complete();
       _cancelCompleter = null;
     } catch (e) {
@@ -263,11 +260,33 @@ class SpeechToTextController
     }
   }
 
+  void _listenComplete() {
+    final text = _current?.value;
+    if (text.isNotEmpty) {
+      _updated = true;
+    }
+    _listenCompleter?.complete(_current);
+    _listenCompleter = null;
+  }
+
   @override
   void dispose() {
     super.dispose();
     _stt.cancel();
   }
+}
+
+/// Speech-to-Text response.
+///
+/// Speech-to-Textのレスポンスです。
+class SpeechToTextResponse {
+  SpeechToTextResponse._();
+
+  /// The value of the Speech-to-Text response.
+  ///
+  /// Speech-to-Textのレスポンスの値。
+  String get value => _value;
+  String _value = "";
 }
 
 @immutable
