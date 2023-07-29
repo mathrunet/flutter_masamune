@@ -45,33 +45,38 @@ List<Spec> modelClass(
               ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
-                    ..name = "path"
+                    ..name = "uid"
                     ..type = const Reference("String"),
                 )
               ])
               ..optionalParameters.addAll([
-                Parameter(
-                  (p) => p
-                    ..name = "adapter"
-                    ..type = const Reference("ModelAdapter?"),
-                ),
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
               ])
               ..initializers.addAll([
-                const Code("super(path, adapter)"),
+                ...path.parameters.map((param) {
+                  return Code("_${param.camelCase} = ${param.camelCase}");
+                }),
+                const Code("super(uid)"),
               ]),
           ),
         ])
         ..fields.addAll([
-          Field(
-            (f) => f
-              ..name = "_path"
-              ..static = true
-              ..modifier = FieldModifier.constant
-              ..type = const Reference("String")
-              ..assignment = Code(
-                "\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
-              ),
-          ),
+          ...path.parameters.map((param) {
+            return Field(
+              (f) => f
+                ..name = "_${param.camelCase}"
+                ..modifier = FieldModifier.final$
+                ..type = const Reference("String"),
+            );
+          }),
         ])
         ..methods.addAll(
           [
@@ -83,8 +88,8 @@ List<Spec> modelClass(
                 ])
                 ..returns = const Reference("DocumentModelQuery")
                 ..type = MethodType.getter
-                ..body = const Code(
-                  "return DocumentModelQuery( \"\$_path/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
+                ..body = Code(
+                  "return DocumentModelQuery( \"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
                 ),
             )
           ],
@@ -208,33 +213,38 @@ List<Spec> modelClass(
                 ..requiredParameters.addAll([
                   Parameter(
                     (p) => p
-                      ..name = "path"
+                      ..name = "uid"
                       ..type = const Reference("String"),
                   )
                 ])
                 ..optionalParameters.addAll([
-                  Parameter(
-                    (p) => p
-                      ..name = "adapter"
-                      ..type = const Reference("ModelAdapter?"),
-                  ),
+                  ...mirror.parameters.map((param) {
+                    return Parameter(
+                      (p) => p
+                        ..name = param.camelCase
+                        ..named = true
+                        ..required = true
+                        ..type = const Reference("String"),
+                    );
+                  }),
                 ])
                 ..initializers.addAll([
-                  const Code("super(path, adapter)"),
+                  ...mirror.parameters.map((param) {
+                    return Code("_${param.camelCase} = ${param.camelCase}");
+                  }),
+                  const Code("super(uid)"),
                 ]),
             ),
           ])
           ..fields.addAll([
-            Field(
-              (f) => f
-                ..name = "_path"
-                ..static = true
-                ..modifier = FieldModifier.constant
-                ..type = const Reference("String")
-                ..assignment = Code(
-                  "\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
-                ),
-            ),
+            ...mirror.parameters.map((param) {
+              return Field(
+                (f) => f
+                  ..name = "_${param.camelCase}"
+                  ..modifier = FieldModifier.final$
+                  ..type = const Reference("String"),
+              );
+            }),
           ])
           ..methods.addAll(
             [
@@ -246,8 +256,8 @@ List<Spec> modelClass(
                   ])
                   ..returns = const Reference("DocumentModelQuery")
                   ..type = MethodType.getter
-                  ..body = const Code(
-                    "return DocumentModelQuery( \"\$_path/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
+                  ..body = Code(
+                    "return DocumentModelQuery( \"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
                   ),
               )
             ],
