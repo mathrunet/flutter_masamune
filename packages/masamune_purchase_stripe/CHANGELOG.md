@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - Update a dependency to the latest release.
+
 ## 3.2.0
 
  - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))

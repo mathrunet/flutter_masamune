@@ -1,3 +1,7 @@
+## 2.6.1
+
+ - **FIX**: Create a new ModelRefPath. ([ca255138](https://github.com/mathrunet/flutter_masamune/commit/ca25513895453e599587e3709dab66ee647fb774))
+
 ## 2.6.0
 
  - **FEAT**: Change RawCollection to DataCollection. ([11b51299](https://github.com/mathrunet/flutter_masamune/commit/11b5129968c586b7ae30f71f647e8a7dcf46dcc8))
