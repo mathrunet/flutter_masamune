@@ -1,3 +1,7 @@
+## 2.6.2
+
+ - **FIX**: Fixed a bug in the reflection of data. ([4b3fb4d3](https://github.com/mathrunet/flutter_masamune/commit/4b3fb4d3b2e948920fc2f9acfb4d955b461c8ecb))
+
 ## 2.6.1
 
  - Update a dependency to the latest release.

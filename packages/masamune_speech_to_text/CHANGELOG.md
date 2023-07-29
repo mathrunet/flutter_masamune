@@ -1,3 +1,7 @@
+## 2.1.11
+
+ - Update a dependency to the latest release.
+
 ## 2.1.10
 
  - **FIX**: Split the data to get the data. ([dbe98e92](https://github.com/mathrunet/flutter_masamune/commit/dbe98e92e1e7fa5148a9f37b3757c28c5075c8d8))

@@ -1,3 +1,7 @@
+## 2.6.2
+
+ - **FIX**: Fix ModelRefPath. ([8b57a2cc](https://github.com/mathrunet/flutter_masamune/commit/8b57a2cc16bbb6f031fc124d352546f1da9fc14c))
+
 ## 2.6.1
 
  - **FIX**: Create a new ModelRefPath. ([ca255138](https://github.com/mathrunet/flutter_masamune/commit/ca25513895453e599587e3709dab66ee647fb774))
