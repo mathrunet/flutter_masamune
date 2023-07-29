@@ -59,7 +59,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   ///
   /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
   const factory ModelRefBase.fromPath(String path, [ModelAdapter? adapter]) =
-      _ModelRefBaseWithPath<T>;
+      ModelRefPath<T>;
 
   /// Convert from [json] map to [ModelRefBase].
   ///
@@ -101,20 +101,75 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
         "";
   }
 
+  /// Data can be saved.
+  ///
+  /// The [newValue] is saved as it is as data. If [Null] is given, it is not executed.
+  ///
+  /// If the save is successful, [value] is replaced with [newValue].
+  ///
+  /// If the save fails, an attempt is made to restore to the previous data.
+  ///
+  /// It is possible to wait for saving with `await`.
+  ///
+  /// データの保存を行うことができます。
+  ///
+  /// [newValue]がそのままデータとして保存されます。[Null]が与えられた場合実行されません。
+  ///
+  /// 保存に成功した場合、[value]が[newValue]に置き換えられます。
+  ///
+  /// 保存に失敗した場合、前のデータへの復元を試みます。
+  ///
+  /// `await`で保存を待つことが可能です。
+  Future<void> save(T? newValue) => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
+  /// Data can be deleted.
+  ///
+  /// It is the data in his document that is deleted.
+  ///
+  /// After deletion, the data is empty, but the object itself is still valid.
+  ///
+  /// If the database allows it, the data can be restored by re-entering the data and executing [save].
+  ///
+  /// データの削除を行うことができます。
+  ///
+  /// 削除されるのは自身のドキュメントのデータです。
+  ///
+  /// 削除後はデータが空になりますが、このオブジェクト自体は有効になっています。
+  ///
+  /// データベース上可能な場合、再度データを入れ[save]を実行することでデータを復元できます。
+  Future<void> delete() => throw UnimplementedError(
+        "This feature is not implemented. Please replace it with actual documentation.",
+      );
+
   @override
   String toString() {
     return modelQuery.path;
   }
 }
 
+/// Class for generating [ModelRefBase] by specifying the path.
+///
+/// [ModelRefBase]をパスを指定して生成するためのクラス。
 @immutable
-class _ModelRefBaseWithPath<T> extends _ModelRefBase<T> {
-  const _ModelRefBaseWithPath(this.path, [this.adapter])
+class ModelRefPath<T> extends _ModelRefBase<T> {
+  /// Class for generating [ModelRefBase] by specifying the path.
+  ///
+  /// [ModelRefBase]をパスを指定して生成するためのクラス。
+  const ModelRefPath(this.path, [this.adapter])
       : super(
           const DocumentModelQuery(""),
         );
 
+  /// Path to the associated document.
+  ///
+  /// 関連するドキュメントのパス。
   final String path;
+
+  /// Model adapter.
+  ///
+  /// モデルアダプター。
   final ModelAdapter? adapter;
 
   @override

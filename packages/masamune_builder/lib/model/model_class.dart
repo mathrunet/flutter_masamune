@@ -35,7 +35,65 @@ List<Spec> modelClass(
     ),
     Class(
       (c) => c
+        ..name = "${model.name}Path"
+        ..extend = Reference("ModelRefPath<${model.name}>")
+        ..annotations.addAll([const Reference("immutable")])
+        ..constructors.addAll([
+          Constructor(
+            (c) => c
+              ..constant = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "path"
+                    ..type = const Reference("String"),
+                )
+              ])
+              ..optionalParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "adapter"
+                    ..type = const Reference("ModelAdapter?"),
+                ),
+              ])
+              ..initializers.addAll([
+                const Code("super(path, adapter)"),
+              ]),
+          ),
+        ])
+        ..fields.addAll([
+          Field(
+            (f) => f
+              ..name = "_path"
+              ..static = true
+              ..modifier = FieldModifier.constant
+              ..type = const Reference("String")
+              ..assignment = Code(
+                "\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
+              ),
+          ),
+        ])
+        ..methods.addAll(
+          [
+            Method(
+              (m) => m
+                ..name = "modelQuery"
+                ..annotations.addAll([
+                  const Reference("override"),
+                ])
+                ..returns = const Reference("DocumentModelQuery")
+                ..type = MethodType.getter
+                ..body = const Code(
+                  "return DocumentModelQuery( \"\$_path/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
+                ),
+            )
+          ],
+        ),
+    ),
+    Class(
+      (c) => c
         ..name = "${model.name}DataCollection"
+        ..annotations.addAll([const Reference("immutable")])
         ..extend = Reference("ModelDataCollection<${model.name}>")
         ..mixins.addAll([
           if (searchable.isNotEmpty)
@@ -140,7 +198,65 @@ List<Spec> modelClass(
     if (mirror != null) ...[
       Class(
         (c) => c
+          ..name = "${model.name}MirrorPath"
+          ..annotations.addAll([const Reference("immutable")])
+          ..extend = Reference("ModelRefPath<${model.name}>")
+          ..constructors.addAll([
+            Constructor(
+              (c) => c
+                ..constant = true
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "path"
+                      ..type = const Reference("String"),
+                  )
+                ])
+                ..optionalParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "adapter"
+                      ..type = const Reference("ModelAdapter?"),
+                  ),
+                ])
+                ..initializers.addAll([
+                  const Code("super(path, adapter)"),
+                ]),
+            ),
+          ])
+          ..fields.addAll([
+            Field(
+              (f) => f
+                ..name = "_path"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("String")
+                ..assignment = Code(
+                  "\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
+                ),
+            ),
+          ])
+          ..methods.addAll(
+            [
+              Method(
+                (m) => m
+                  ..name = "modelQuery"
+                  ..annotations.addAll([
+                    const Reference("override"),
+                  ])
+                  ..returns = const Reference("DocumentModelQuery")
+                  ..type = MethodType.getter
+                  ..body = const Code(
+                    "return DocumentModelQuery( \"\$_path/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
+                  ),
+              )
+            ],
+          ),
+      ),
+      Class(
+        (c) => c
           ..name = "${model.name}MirrorDataCollection"
+          ..annotations.addAll([const Reference("immutable")])
           ..extend = Reference("ModelDataCollection<${model.name}>")
           ..mixins.addAll([
             if (searchable.isNotEmpty)
