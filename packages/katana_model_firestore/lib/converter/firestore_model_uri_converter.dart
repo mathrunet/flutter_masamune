@@ -134,11 +134,20 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
   @override
   Object? convertQueryValue(
     Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    if (value is! ModelUri) {
-      return null;
-    }
-    return value.value;
+    return (filter.value as ModelUri).value;
+  }
+
+  @override
+  bool enabledQuery(
+    Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+    FirestoreModelAdapterBase adapter,
+  ) {
+    return value is ModelUri;
   }
 }

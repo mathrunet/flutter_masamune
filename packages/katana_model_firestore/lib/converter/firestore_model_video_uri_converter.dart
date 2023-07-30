@@ -135,11 +135,20 @@ class FirestoreModelVideoUriConverter
   @override
   Object? convertQueryValue(
     Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    if (value is! ModelVideoUri) {
-      return null;
-    }
-    return value.value;
+    return (filter.value as ModelVideoUri).value;
+  }
+
+  @override
+  bool enabledQuery(
+    Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+    FirestoreModelAdapterBase adapter,
+  ) {
+    return value is ModelVideoUri;
   }
 }

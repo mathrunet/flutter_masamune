@@ -48,7 +48,20 @@ class FirestoreNullConverter extends FirestoreModelFieldValueConverter {
   @override
   Object? convertQueryValue(
     Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
-  ) =>
-      null;
+  ) {
+    return null;
+  }
+
+  @override
+  bool enabledQuery(
+    Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+    FirestoreModelAdapterBase adapter,
+  ) {
+    return value == null;
+  }
 }

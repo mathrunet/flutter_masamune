@@ -201,11 +201,20 @@ class FirestoreModelGeoValueConverter
   @override
   Object? convertQueryValue(
     Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    if (value is! ModelGeoValue) {
-      return null;
-    }
-    return value.value.geoHash;
+    return (value as ModelGeoValue).value.geoHash;
+  }
+
+  @override
+  bool enabledQuery(
+    Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+    FirestoreModelAdapterBase adapter,
+  ) {
+    return value is ModelGeoValue;
   }
 }

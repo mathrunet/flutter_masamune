@@ -138,6 +138,8 @@ class FirestoreModelAdapter extends ModelAdapter
   static final Set<FirestoreModelFieldValueConverter> _converters = {
     const FirestoreModelCounterConverter(),
     const FirestoreModelTimestampConverter(),
+    const FirestoreModelLocaleConverter(),
+    const FirestoreModelLocalizedValueConverter(),
     const FirestoreModelUriConverter(),
     const FirestoreModelImageUriConverter(),
     const FirestoreModelVideoUriConverter(),
@@ -145,6 +147,7 @@ class FirestoreModelAdapter extends ModelAdapter
     const FirestoreModelGeoValueConverter(),
     const FirestoreModelRefConverter(),
     const FirestoreNullConverter(),
+    const FirestoreBasicConverter(),
   };
 
   /// Options for initializing Firebase.
@@ -515,129 +518,24 @@ class FirestoreModelAdapter extends ModelAdapter
   ) {
     final filters = query.query.filters;
     for (final filter in filters) {
-      switch (filter.type) {
-        case ModelQueryFilterType.equalTo:
-          if (filter.value is ModelSearch) {
-            final modelSearch = filter.value as ModelSearch;
-            for (final text in modelSearch.value) {
-              firestoreQuery = firestoreQuery.where(
-                "${filter.key!}.$text",
-                isEqualTo: true,
-              );
-            }
-          } else {
-            firestoreQuery = firestoreQuery.where(
-              filter.key!,
-              isEqualTo: _convertQueryValue(filter.value),
-            );
-          }
+      for (final converter in _converters) {
+        final res = converter.filterQuery(firestoreQuery, filter, query, this);
+        if (res != null) {
+          firestoreQuery = res;
           break;
-        case ModelQueryFilterType.notEqualTo:
-          if (filter.value is ModelSearch) {
-            final modelSearch = filter.value as ModelSearch;
-            for (final text in modelSearch.value) {
-              firestoreQuery = firestoreQuery.where(
-                "${filter.key!}.$text",
-                isNotEqualTo: true,
-              );
-            }
-          } else {
-            firestoreQuery = firestoreQuery.where(
-              filter.key!,
-              isNotEqualTo: _convertQueryValue(filter.value),
-            );
-          }
-          break;
-        case ModelQueryFilterType.lessThan:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isLessThan: _convertQueryValue(filter.value),
-          );
-          break;
-        case ModelQueryFilterType.greaterThan:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isGreaterThan: _convertQueryValue(filter.value),
-          );
-          break;
-        case ModelQueryFilterType.lessThanOrEqualTo:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isLessThanOrEqualTo: _convertQueryValue(filter.value),
-          );
-          break;
-        case ModelQueryFilterType.greaterThanOrEqualTo:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isGreaterThanOrEqualTo: _convertQueryValue(filter.value),
-          );
-          break;
-        case ModelQueryFilterType.arrayContains:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            arrayContains: _convertQueryValue(filter.value),
-          );
-          break;
-        case ModelQueryFilterType.like:
-          final texts =
-              filter.value.toString().toLowerCase().splitByBigram().distinct();
-          for (final text in texts) {
-            firestoreQuery = firestoreQuery.where(
-              "${filter.key!}.$text",
-              isEqualTo: true,
-            );
-          }
-          break;
-        case ModelQueryFilterType.isNull:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isNull: true,
-          );
-          break;
-        case ModelQueryFilterType.isNotNull:
-          firestoreQuery = firestoreQuery.where(
-            filter.key!,
-            isNull: false,
-          );
-          break;
-        default:
-          break;
+        }
       }
     }
     for (final filter in filters) {
-      switch (filter.type) {
-        case ModelQueryFilterType.orderByAsc:
-          firestoreQuery = firestoreQuery.orderBy(filter.key!);
+      for (final converter in _converters) {
+        final res = converter.orderQuery(firestoreQuery, filter, query, this);
+        if (res != null) {
+          firestoreQuery = res;
           break;
-        case ModelQueryFilterType.orderByDesc:
-          firestoreQuery =
-              firestoreQuery.orderBy(filter.key!, descending: true);
-          break;
-        case ModelQueryFilterType.limit:
-          final val = filter.value;
-          if (val is! num) {
-            continue;
-          }
-          firestoreQuery = firestoreQuery.limit(
-            val.toInt() * query.page,
-          );
-          break;
-        default:
-          break;
+        }
       }
     }
     return firestoreQuery;
-  }
-
-  Object? _convertQueryValue(Object? value) {
-    Object? res;
-    for (final converter in _converters) {
-      res = converter.convertQueryValue(value, this);
-      if (res != null) {
-        return res;
-      }
-    }
-    return value;
   }
 
   @override
@@ -697,95 +595,81 @@ class FirestoreModelAdapter extends ModelAdapter
       final filter = containsAny.first;
       final items = filter.value;
       if (items is List && items.isNotEmpty) {
-        final list = items.map((e) => _convertQueryValue(e)).toList();
-        final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < list.length; i += 10) {
-          queries.add(
-            _query(
+        for (final conveter in _converters) {
+          final res = conveter.collectionQueries(
+            items,
+            () => _query(
               database.collection(_path(query.query.path)),
               query,
-            ).where(
-              filter.key!,
-              arrayContainsAny: list
-                  .sublist(
-                    i,
-                    min(i + 10, list.length),
-                  )
-                  .toList(),
             ),
+            filter,
+            query,
+            this,
           );
+          if (res != null) {
+            return res;
+          }
         }
-        return queries;
       }
     } else if (whereIn.isNotEmpty) {
       final filter = whereIn.first;
       final items = filter.value;
       if (items is List && items.isNotEmpty) {
-        final list = items.map((e) => _convertQueryValue(e)).toList();
-        final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < list.length; i += 10) {
-          queries.add(
-            _query(
+        for (final conveter in _converters) {
+          final res = conveter.collectionQueries(
+            items,
+            () => _query(
               database.collection(_path(query.query.path)),
               query,
-            ).where(
-              filter.key!,
-              whereIn: list
-                  .sublist(
-                    i,
-                    min(i + 10, list.length),
-                  )
-                  .toList(),
             ),
+            filter,
+            query,
+            this,
           );
+          if (res != null) {
+            return res;
+          }
         }
-        return queries;
       }
     } else if (whereNotIn.isNotEmpty) {
       final filter = whereNotIn.first;
       final items = filter.value;
       if (items is List && items.isNotEmpty) {
-        final list = items.map((e) => _convertQueryValue(e)).toList();
-        final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < list.length; i += 10) {
-          queries.add(
-            _query(
+        for (final conveter in _converters) {
+          final res = conveter.collectionQueries(
+            items,
+            () => _query(
               database.collection(_path(query.query.path)),
               query,
-            ).where(
-              filter.key!,
-              whereNotIn: list
-                  .sublist(
-                    i,
-                    min(i + 10, list.length),
-                  )
-                  .toList(),
             ),
+            filter,
+            query,
+            this,
           );
+          if (res != null) {
+            return res;
+          }
         }
-        return queries;
       }
     } else if (geoHash.isNotEmpty) {
       final filter = geoHash.first;
       final items = filter.value;
       if (items is List && items.isNotEmpty) {
-        final list = items.map((e) => _convertQueryValue(e)).toList();
-        final queries = <Query<DynamicMap>>[];
-        for (var i = 0; i < list.length; i++) {
-          final hash = list[i].toString();
-          queries.add(
-            _query(
+        for (final conveter in _converters) {
+          final res = conveter.collectionQueries(
+            items,
+            () => _query(
               database.collection(_path(query.query.path)),
               query,
-            )
-                .orderBy(
-              filter.key!,
-            )
-                // ignore: prefer_interpolation_to_compose_strings
-                .startAt([hash]).endAt([hash + "\uf8ff"]),
+            ),
+            filter,
+            query,
+            this,
           );
+          if (res != null) {
+            return res;
+          }
         }
-        return queries;
       }
     }
     return [

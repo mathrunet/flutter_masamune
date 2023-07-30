@@ -126,11 +126,22 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
   @override
   Object? convertQueryValue(
     Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    if (value is! ModelRefBase) {
-      return null;
-    }
-    return adapter.database.doc(adapter._path(value.modelQuery.path));
+    return adapter.database.doc(
+      adapter._path((value as ModelRefBase).modelQuery.path),
+    );
+  }
+
+  @override
+  bool enabledQuery(
+    Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+    FirestoreModelAdapterBase adapter,
+  ) {
+    return value is ModelRefBase;
   }
 }

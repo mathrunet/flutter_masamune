@@ -135,11 +135,20 @@ class FirestoreModelImageUriConverter
   @override
   Object? convertQueryValue(
     Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    if (value is! ModelImageUri) {
-      return null;
-    }
-    return value.value;
+    return (filter.value as ModelImageUri).value;
+  }
+
+  @override
+  bool enabledQuery(
+    Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+    FirestoreModelAdapterBase adapter,
+  ) {
+    return value is ModelImageUri;
   }
 }

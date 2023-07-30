@@ -188,11 +188,20 @@ class FirestoreModelTimestampConverter
   @override
   Object? convertQueryValue(
     Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    if (value is! ModelTimestamp) {
-      return null;
-    }
-    return Timestamp.fromDate(value.value);
+    return Timestamp.fromDate((value as ModelTimestamp).value);
+  }
+
+  @override
+  bool enabledQuery(
+    Object? value,
+    ModelQueryFilter filter,
+    ModelAdapterCollectionQuery query,
+    FirestoreModelAdapterBase adapter,
+  ) {
+    return value is ModelTimestamp;
   }
 }

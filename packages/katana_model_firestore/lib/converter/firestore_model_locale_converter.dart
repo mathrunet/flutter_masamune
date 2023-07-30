@@ -1,16 +1,16 @@
 part of katana_model_firestore;
 
-/// FirestoreConverter for [ModelCounter].
+/// FirestoreConverter for [ModelLocale].
 ///
-/// [ModelCounter]用のFirestoreConverter。
-class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
-  /// FirestoreConverter for [ModelCounter].
+/// [ModelLocale]用のFirestoreConverter。
+class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
+  /// FirestoreConverter for [ModelLocale].
   ///
-  /// [ModelCounter]用のFirestoreConverter。
-  const FirestoreModelCounterConverter();
+  /// [ModelLocale]用のFirestoreConverter。
+  const FirestoreModelLocaleConverter();
 
   @override
-  String get type => (ModelCounter).toString();
+  String get type => (ModelLocale).toString();
 
   @override
   DynamicMap? convertFrom(
@@ -28,9 +28,12 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
       if (targetList.isNotEmpty &&
           targetList.every((e) => e.get(_kTypeKey, "") == type)) {
         return {
-          key: value.whereType<num>().cast<num>().mapAndRemoveEmpty<DynamicMap>(
-                (e) => ModelCounter(e.toInt()).toJson(),
-              ),
+          key: value.mapAndRemoveEmpty<DynamicMap>((e) {
+            final keys = e.toString().replaceAll("-", "_").split("_");
+            return ModelLocale(
+              Locale(keys.first, keys.length > 1 ? keys.last : null),
+            ).toJson();
+          }),
         };
       }
     } else if (value is Map) {
@@ -42,23 +45,28 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
       if (targetMap.isNotEmpty &&
           targetMap.values.every((e) => e.get(_kTypeKey, "") == type)) {
         return {
-          key: value
-              .where((k, v) => v is num)
-              .cast<String, num>()
-              .map<String, DynamicMap>(
-                (k, v) => MapEntry(
-                  k,
-                  ModelCounter(v.toInt()).toJson(),
-                ),
-              ),
+          key: value.map<String, DynamicMap>((k, v) {
+            final keys = v.toString().replaceAll("-", "_").split("_");
+            return MapEntry(
+              k,
+              ModelLocale(
+                Locale(keys.first, keys.length > 1 ? keys.last : null),
+              ).toJson(),
+            );
+          }),
         };
       }
-    } else if (value is num) {
+    } else if (value is String) {
       final targetKey = "#$key";
       final targetMap = original.getAsMap(targetKey);
       final type = targetMap.get(_kTypeKey, "");
       if (type == this.type) {
-        return {key: ModelCounter(value.toInt()).toJson()};
+        final keys = value.toString().replaceAll("-", "_").split("_");
+        return {
+          key: ModelLocale(
+            Locale(keys.first, keys.length > 1 ? keys.last : null),
+          ).toJson(),
+        };
       }
     }
     return null;
@@ -74,39 +82,42 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
-        final fromUser = value.get(ModelCounter.kSourceKey, "") ==
-            ModelFieldValueSource.user.name;
-        final count = value.get<num>(ModelCounter.kValueKey, 0.0);
-        final increment = value.get<num>(ModelCounter.kIncrementKey, 0.0);
+        final language = value.get(ModelLocale.kLaunguageKey, "");
+        final country = value.get(ModelLocale.kCountryKey, "");
         final targetKey = "#$key";
         return {
           targetKey: {
             kTypeFieldKey: this.type,
-            ModelCounter.kValueKey: count,
-            ModelCounter.kIncrementKey: increment,
+            ModelLocale.kLaunguageKey: language,
+            ModelLocale.kCountryKey: country,
             _kTargetKey: key,
           },
-          key: fromUser ? count : FieldValue.increment(increment),
+          if (country.isNotEmpty)
+            key: "${language}_$country"
+          else
+            key: language,
         };
       }
     } else if (value is List) {
       final list = value.whereType<DynamicMap>();
       if (list.isNotEmpty && list.every((e) => e.get(_kTypeKey, "") == type)) {
         final target = <DynamicMap>[];
-        final res = <Object>[];
+        final res = <String>[];
         final targetKey = "#$key";
         for (final entry in list) {
-          final fromUser = entry.get(ModelCounter.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final count = entry.get<num>(ModelCounter.kValueKey, 0.0);
-          final increment = entry.get<num>(ModelCounter.kIncrementKey, 0.0);
+          final language = entry.get(ModelLocale.kLaunguageKey, "");
+          final country = entry.get(ModelLocale.kCountryKey, "");
           target.add({
             kTypeFieldKey: type,
-            ModelCounter.kValueKey: count,
-            ModelCounter.kIncrementKey: increment,
+            ModelLocale.kLaunguageKey: language,
+            ModelLocale.kCountryKey: country,
             _kTargetKey: key,
           });
-          res.add(fromUser ? count : FieldValue.increment(increment));
+          if (country.isNotEmpty) {
+            res.add("${language}_$country");
+          } else {
+            res.add(language);
+          }
         }
         return {
           targetKey: target,
@@ -120,21 +131,22 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
       if (map.isNotEmpty &&
           map.values.every((e) => e.get(_kTypeKey, "") == type)) {
         final target = <String, DynamicMap>{};
-        final res = <String, Object>{};
+        final res = <String, String>{};
         final targetKey = "#$key";
         for (final entry in map.entries) {
-          final fromUser = entry.value.get(ModelCounter.kSourceKey, "") ==
-              ModelFieldValueSource.user.name;
-          final count = entry.value.get<num>(ModelCounter.kValueKey, 0.0);
-          final increment =
-              entry.value.get<num>(ModelCounter.kIncrementKey, 0.0);
+          final language = entry.value.get(ModelLocale.kLaunguageKey, "");
+          final country = entry.value.get(ModelLocale.kCountryKey, "");
           target[entry.key] = {
             kTypeFieldKey: type,
-            ModelCounter.kValueKey: count,
-            ModelCounter.kIncrementKey: increment,
+            ModelLocale.kLaunguageKey: language,
+            ModelLocale.kCountryKey: country,
             _kTargetKey: key,
           };
-          res[entry.key] = fromUser ? count : FieldValue.increment(increment);
+          if (country.isNotEmpty) {
+            res[entry.key] = "${language}_$country";
+          } else {
+            res[entry.key] = language;
+          }
         }
         return {
           targetKey: target,
@@ -152,7 +164,7 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    return (filter.value as ModelCounter).value;
+    return (filter.value as ModelLocale).value.toString();
   }
 
   @override
@@ -162,6 +174,6 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    return value is ModelCounter;
+    return value is ModelLocale;
   }
 }

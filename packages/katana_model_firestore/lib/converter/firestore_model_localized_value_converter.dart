@@ -1,16 +1,17 @@
 part of katana_model_firestore;
 
-/// FirestoreConverter for [ModelSearch].
+/// FirestoreConverter for [ModelLocalizedValue].
 ///
-/// [ModelSearch]用のFirestoreConverter。
-class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
-  /// FirestoreConverter for [ModelSearch].
+/// [ModelLocalizedValue]用のFirestoreConverter。
+class FirestoreModelLocalizedValueConverter
+    extends FirestoreModelFieldValueConverter {
+  /// FirestoreConverter for [ModelLocalizedValue].
   ///
-  /// [ModelSearch]用のFirestoreConverter。
-  const FirestoreModelSearchConverter();
+  /// [ModelLocalizedValue]用のFirestoreConverter。
+  const FirestoreModelLocalizedValueConverter();
 
   @override
-  String get type => (ModelSearch).toString();
+  String get type => (ModelLocalizedValue).toString();
 
   @override
   DynamicMap? convertFrom(
@@ -25,8 +26,10 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
       final type = targetMap.get(_kTypeKey, "");
       if (type == this.type) {
         return {
-          key: ModelSearch(
-            value.map((e) => e.toString()).toList(),
+          key: ModelLocalizedValue(
+            LocalizedValue.fromJson(
+              targetMap.getAsMap(ModelLocalizedValue.kLocalizedKey),
+            ),
           ).toJson(),
         };
       }
@@ -44,24 +47,24 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
     if (value is DynamicMap && value.containsKey(_kTypeKey)) {
       final type = value.get(_kTypeKey, "");
       if (type == this.type) {
-        final fromUser = value.get(ModelSearch.kSourceKey, "") ==
+        final fromUser = value.get(ModelLocalizedValue.kSourceKey, "") ==
             ModelFieldValueSource.user.name;
-        final val = value.getAsList<String>(ModelSearch.kListKey);
+        final val = value.getAsMap(ModelLocalizedValue.kLocalizedKey);
         final targetKey = "#$key";
         return {
           targetKey: {
-            kTypeFieldKey: (ModelSearch).toString(),
-            ModelSearch.kListKey: val.toMap((item) => MapEntry(item, true)),
+            kTypeFieldKey: (ModelLocalizedValue).toString(),
+            ModelLocalizedValue.kLocalizedKey: val,
             _kTargetKey: key,
           },
-          if (fromUser) key: val,
+          if (fromUser) key: val.toList((key, value) => "$key:$value"),
         };
       }
     } else if (value is List) {
       final list = value.whereType<DynamicMap>();
       if (list.isNotEmpty && list.every((e) => e.get(_kTypeKey, "") == type)) {
         throw UnsupportedError(
-            "ModelSearch cannot be included in a listing or map. It must be placed in the top field.");
+            "ModelLocalizedValue cannot be included in a listing or map. It must be placed in the top field.");
       }
     } else if (value is Map) {
       final map = value
@@ -70,7 +73,7 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
       if (map.isNotEmpty &&
           map.values.every((e) => e.get(_kTypeKey, "") == type)) {
         throw UnsupportedError(
-            "ModelSearch cannot be included in a listing or map. It must be placed in the top field.");
+            "ModelLocalizedValue cannot be included in a listing or map. It must be placed in the top field.");
       }
     }
     return null;
@@ -83,7 +86,10 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    return (filter.value as ModelSearch).value.join(",");
+    return (filter.value as ModelLocalizedValue)
+        .value
+        .toList((k, v) => "$k:$v")
+        .join(",");
   }
 
   @override
@@ -93,7 +99,7 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
     ModelAdapterCollectionQuery query,
     FirestoreModelAdapterBase adapter,
   ) {
-    return value is ModelSearch;
+    return value is ModelLocalizedValue;
   }
 
   @override
@@ -109,28 +115,30 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
     final key = filter.key!;
     switch (filter.type) {
       case ModelQueryFilterType.equalTo:
-        final modelSearch = filter.value as ModelSearch;
-        for (final text in modelSearch.value) {
+        final localizedValue = filter.value as ModelLocalizedValue;
+        for (final entry in localizedValue.value.entries) {
           firestoreQuery = firestoreQuery.where(
-            "#${convertQueryKey(key, filter, query, adapter)}.${ModelSearch.kListKey}.$text",
-            isEqualTo: true,
+            "#${convertQueryKey(key, filter, query, adapter)}.${ModelLocalizedValue.kLocalizedKey}.${entry.key}",
+            isEqualTo: entry.value,
           );
         }
         break;
       case ModelQueryFilterType.notEqualTo:
-        final modelSearch = filter.value as ModelSearch;
-        for (final text in modelSearch.value) {
+        final localizedValue = filter.value as ModelLocalizedValue;
+        for (final entry in localizedValue.value.entries) {
           firestoreQuery = firestoreQuery.where(
-            "#${convertQueryKey(key, filter, query, adapter)}.${ModelSearch.kListKey}.$text",
-            isNotEqualTo: true,
+            "#${convertQueryKey(key, filter, query, adapter)}.${ModelLocalizedValue.kLocalizedKey}.${entry.key}",
+            isNotEqualTo: entry.value,
           );
         }
         break;
       case ModelQueryFilterType.arrayContains:
-        final modelSearch = filter.value as ModelSearch;
+        final localizedValue = filter.value as ModelLocalizedValue;
         firestoreQuery = firestoreQuery.where(
           convertQueryKey(key, filter, query, adapter),
-          arrayContainsAny: modelSearch.value,
+          arrayContainsAny: localizedValue.value.toList(
+            (key, value) => "$key:$value",
+          ),
         );
         break;
       default:
@@ -156,8 +164,10 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
     }
     switch (filter.type) {
       case ModelQueryFilterType.arrayContainsAny:
-        final list =
-            items.whereType<ModelSearch>().expand((e) => e.value).toList();
+        final list = items
+            .whereType<ModelLocalizedValue>()
+            .expand((e) => e.value.toList((key, value) => "$key:$value"))
+            .toList();
         final queries = <Query<DynamicMap>>[];
         for (var i = 0; i < list.length; i += 10) {
           queries.add(
