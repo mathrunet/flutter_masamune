@@ -1,3 +1,8 @@
+## 2.10.0
+
+ - **FIX**: All ModelFieldValues were made Comparable. ([bf91b2af](https://github.com/mathrunet/flutter_masamune/commit/bf91b2afcbb54b1b367f4c4a1543b2571c14781d))
+ - **FEAT**: Added ModelLocale and ModelLocalizedValue. ([81623e2c](https://github.com/mathrunet/flutter_masamune/commit/81623e2c588e80290a4a2ad24ea4335d185f3d73))
+
 ## 2.9.1
 
  - **FIX**: Create a new ModelRefPath. ([ca255138](https://github.com/mathrunet/flutter_masamune/commit/ca25513895453e599587e3709dab66ee647fb774))

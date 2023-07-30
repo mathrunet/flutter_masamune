@@ -1,3 +1,7 @@
+## 2.6.3
+
+ - **FIX**: Refactoring & Search and debugging Locale and LocalizedValue. ([3fbd903e](https://github.com/mathrunet/flutter_masamune/commit/3fbd903e37546a5f9e485e5c3892e1ae9bd994bf))
+
 ## 2.6.2
 
  - **FIX**: Fixed a bug in the reflection of data. ([4b3fb4d3](https://github.com/mathrunet/flutter_masamune/commit/4b3fb4d3b2e948920fc2f9acfb4d955b461c8ecb))

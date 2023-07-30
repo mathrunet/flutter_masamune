@@ -3,6 +3,80 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-07-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v2.10.0`](#katana_model---v2100)
+ - [`katana_model_firestore` - `v2.6.3`](#katana_model_firestore---v263)
+ - [`katana_model_local` - `v2.4.3`](#katana_model_local---v243)
+ - [`masamune` - `v2.3.8`](#masamune---v238)
+ - [`masamune_location` - `v2.1.54`](#masamune_location---v2154)
+ - [`masamune_auth_apple` - `v2.1.44`](#masamune_auth_apple---v2144)
+ - [`masamune_text_to_speech` - `v2.1.10`](#masamune_text_to_speech---v2110)
+ - [`masamune_agora` - `v2.2.25`](#masamune_agora---v2225)
+ - [`masamune_auth_google` - `v2.1.44`](#masamune_auth_google---v2144)
+ - [`masamune_ai_openai` - `v2.1.41`](#masamune_ai_openai---v2141)
+ - [`masamune_calendar` - `v2.0.87`](#masamune_calendar---v2087)
+ - [`masamune_util` - `v2.1.22`](#masamune_util---v2122)
+ - [`masamune_picker` - `v2.1.43`](#masamune_picker---v2143)
+ - [`masamune_universal_ui` - `v2.2.23`](#masamune_universal_ui---v2223)
+ - [`masamune_purchase_stripe` - `v3.2.3`](#masamune_purchase_stripe---v323)
+ - [`masamune_logger_firebase` - `v2.0.86`](#masamune_logger_firebase---v2086)
+ - [`masamune_introduction` - `v2.1.11`](#masamune_introduction---v2111)
+ - [`masamune_speech_to_text` - `v2.1.12`](#masamune_speech_to_text---v2112)
+ - [`masamune_location_google` - `v2.1.55`](#masamune_location_google---v2155)
+ - [`masamune_auth_facebook` - `v2.1.46`](#masamune_auth_facebook---v2146)
+ - [`masamune_mail` - `v2.1.41`](#masamune_mail---v2141)
+ - [`masamune_purchase_mobile` - `v2.4.3`](#masamune_purchase_mobile---v243)
+ - [`masamune_notification_firebase` - `v2.1.41`](#masamune_notification_firebase---v2141)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_local` - `v2.4.3`
+ - `masamune` - `v2.3.8`
+ - `masamune_location` - `v2.1.54`
+ - `masamune_auth_apple` - `v2.1.44`
+ - `masamune_text_to_speech` - `v2.1.10`
+ - `masamune_agora` - `v2.2.25`
+ - `masamune_auth_google` - `v2.1.44`
+ - `masamune_ai_openai` - `v2.1.41`
+ - `masamune_calendar` - `v2.0.87`
+ - `masamune_util` - `v2.1.22`
+ - `masamune_picker` - `v2.1.43`
+ - `masamune_universal_ui` - `v2.2.23`
+ - `masamune_purchase_stripe` - `v3.2.3`
+ - `masamune_logger_firebase` - `v2.0.86`
+ - `masamune_introduction` - `v2.1.11`
+ - `masamune_speech_to_text` - `v2.1.12`
+ - `masamune_location_google` - `v2.1.55`
+ - `masamune_auth_facebook` - `v2.1.46`
+ - `masamune_mail` - `v2.1.41`
+ - `masamune_purchase_mobile` - `v2.4.3`
+ - `masamune_notification_firebase` - `v2.1.41`
+
+---
+
+#### `katana_model` - `v2.10.0`
+
+ - **FIX**: All ModelFieldValues were made Comparable. ([bf91b2af](https://github.com/mathrunet/flutter_masamune/commit/bf91b2afcbb54b1b367f4c4a1543b2571c14781d))
+ - **FEAT**: Added ModelLocale and ModelLocalizedValue. ([81623e2c](https://github.com/mathrunet/flutter_masamune/commit/81623e2c588e80290a4a2ad24ea4335d185f3d73))
+
+#### `katana_model_firestore` - `v2.6.3`
+
+ - **FIX**: Refactoring & Search and debugging Locale and LocalizedValue. ([3fbd903e](https://github.com/mathrunet/flutter_masamune/commit/3fbd903e37546a5f9e485e5c3892e1ae9bd994bf))
+
+
 ## 2023-07-29
 
 ### Changes
