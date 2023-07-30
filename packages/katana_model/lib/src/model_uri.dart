@@ -12,7 +12,8 @@ part of katana_model;
 ///
 /// 必ず画像URIとしての定義を行いたい場合は[ModelImageUri]を利用してください。
 @immutable
-class ModelImageUri extends ModelFieldValue<Uri> {
+class ModelImageUri extends ModelFieldValue<Uri>
+    implements Comparable<ModelImageUri> {
   /// Define the field as an image URI.
   ///
   /// The base value is given as [value]. An empty [Uri] is defined.
@@ -98,6 +99,11 @@ class ModelImageUri extends ModelFieldValue<Uri> {
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  int compareTo(ModelImageUri other) {
+    return value.toString().compareTo(other.value.toString());
+  }
 }
 
 @immutable
@@ -270,7 +276,8 @@ class ModelImageUriFilter extends ModelFieldValueFilter<ModelImageUri> {
 ///
 /// 必ず映像URIとしての定義を行いたい場合は[ModelVideoUri]を利用してください。
 @immutable
-class ModelVideoUri extends ModelFieldValue<Uri> {
+class ModelVideoUri extends ModelFieldValue<Uri>
+    implements Comparable<ModelVideoUri> {
   /// Define the field as a video URI.
   ///
   /// The base value is given as [value]. An empty [Uri] is defined.
@@ -356,6 +363,11 @@ class ModelVideoUri extends ModelFieldValue<Uri> {
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  int compareTo(ModelVideoUri other) {
+    return value.toString().compareTo(other.value.toString());
+  }
 }
 
 @immutable
@@ -528,7 +540,7 @@ class ModelVideoUriFilter extends ModelFieldValueFilter<ModelVideoUri> {
 ///
 /// 必ずURIとしての定義を行いたい場合は[ModelUri]を利用してください。
 @immutable
-class ModelUri extends ModelFieldValue<Uri> {
+class ModelUri extends ModelFieldValue<Uri> implements Comparable<ModelUri> {
   /// Define the field as a URI.
   ///
   /// The base value is given as [value]. An empty [Uri] is defined.
@@ -613,6 +625,11 @@ class ModelUri extends ModelFieldValue<Uri> {
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  int compareTo(ModelUri other) {
+    return value.toString().compareTo(other.value.toString());
+  }
 }
 
 @immutable

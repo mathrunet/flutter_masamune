@@ -8,7 +8,8 @@ part of katana_model;
 ///
 /// ベースの値を[value]として与えます。与えられなかった場合は何も設定されていない[LocalizedValue]が利用されます。
 @immutable
-class ModelLocalizedValue extends ModelFieldValue<LocalizedValue> {
+class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
+    implements Comparable<ModelLocalizedValue> {
   /// Define a model [LocalizedValue] that stores locale and text pairs.
   ///
   /// The base value is given as [value]. If not given, an empty [LocalizedValue] is used.
@@ -87,6 +88,11 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue> {
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  int compareTo(ModelLocalizedValue other) {
+    return value.compareTo(other.value);
+  }
 }
 
 @immutable
@@ -156,103 +162,139 @@ class ModelLocalizedValueFilter
     switch (filter.type) {
       case ModelQueryFilterType.equalTo:
         return _hasMatch(
-            source, target, (source, target) => source.equalsTo(target));
+          source,
+          target,
+          (source, target) => target.every((e) => source.contains(e)),
+        );
       case ModelQueryFilterType.notEqualTo:
-        return _hasMatch(
-            source, target, (source, target) => !source.equalsTo(target));
+      case ModelQueryFilterType.lessThan:
+      case ModelQueryFilterType.greaterThan:
+      case ModelQueryFilterType.lessThanOrEqualTo:
+      case ModelQueryFilterType.greaterThanOrEqualTo:
+        return null;
       case ModelQueryFilterType.arrayContains:
-        if (source is List) {
-          if (source.any((s) =>
+        return _hasMatch(
+          source,
+          target,
+          (source, target) => target.any((e) => source.contains(e)),
+        );
+      case ModelQueryFilterType.arrayContainsAny:
+        if (target is List && target.isNotEmpty) {
+          if (target.any((t) =>
               _hasMatch(
-                  s, target, (source, target) => source.equalsTo(target)) ??
+                source,
+                t,
+                (source, target) => target.any((e) => source.contains(e)),
+              ) ??
               false)) {
             return true;
           }
         }
-        break;
-      case ModelQueryFilterType.arrayContainsAny:
-        if (source is List && target is List && target.isNotEmpty) {
-          if (source.any((s) => target.any((t) =>
-              _hasMatch(s, t, (source, target) => source.equalsTo(target)) ??
-              false))) {
-            return true;
-          }
-        }
-        break;
+        return null;
       case ModelQueryFilterType.whereIn:
-        if (target is List && target.isNotEmpty) {
-          final matches = target.mapAndRemoveEmpty((t) => _hasMatch(
-              source, t, (source, target) => source.equalsTo(target)));
-          if (matches.isNotEmpty) {
-            return matches.any((element) => element);
-          }
-        }
-        break;
       case ModelQueryFilterType.whereNotIn:
-        if (target is List && target.isNotEmpty) {
-          final matches = target.mapAndRemoveEmpty((t) => _hasMatch(
-              source, t, (source, target) => source.equalsTo(target)));
-          if (matches.isNotEmpty) {
-            return !matches.any((element) => element);
-          }
-        }
-        break;
+        return null;
       default:
         return null;
     }
-    return null;
   }
 
   T? _hasMatch<T>(
     dynamic source,
     dynamic target,
-    T Function(DynamicMap source, DynamicMap target) filter,
+    T Function(List<String> source, List<String> target) filter,
   ) {
     if (source is ModelLocalizedValue && target is ModelLocalizedValue) {
-      return filter(source.value.toJson(), target.value.toJson());
+      return filter(source.value.toList((k, v) => "$k:$v").toList(),
+          target.value.toList((k, v) => "$k:$v").toList());
     } else if (source is ModelLocalizedValue && target is LocalizedValue) {
-      return filter(source.value.toJson(), target.toJson());
+      return filter(source.value.toList((k, v) => "$k:$v").toList(),
+          target.toList((k, v) => "$k:$v").toList());
     } else if (source is LocalizedValue && target is ModelLocalizedValue) {
-      return filter(source.toJson(), target.value.toJson());
+      return filter(source.toList((k, v) => "$k:$v").toList(),
+          target.value.toList((k, v) => "$k:$v").toList());
     } else if (source is ModelLocalizedValue && target is Map<Locale, String>) {
-      return filter(source.value.toJson(), target.map((key, value) {
-        return MapEntry(key.toString().replaceAll("-", "_"), value);
-      }));
+      return filter(
+        source.value.toList((k, v) => "$k:$v").toList(),
+        target
+            .map((key, value) {
+              return MapEntry(key.toString().replaceAll("-", "_"), value);
+            })
+            .toList((k, v) => "$k:$v")
+            .toList(),
+      );
     } else if (source is ModelLocalizedValue && target is Map<String, String>) {
-      return filter(source.value.toJson(), target);
+      return filter(
+        source.value.toList((k, v) => "$k:$v").toList(),
+        target.toList((k, v) => "$k:$v").toList(),
+      );
     } else if (source is Map<Locale, String> && target is ModelLocalizedValue) {
-      return filter(source.map((key, value) {
-        return MapEntry(key.toString().replaceAll("-", "_"), value);
-      }), target.value.toJson());
+      return filter(
+        source
+            .map((key, value) {
+              return MapEntry(key.toString().replaceAll("-", "_"), value);
+            })
+            .toList((k, v) => "$k:$v")
+            .toList(),
+        target.value.toList((k, v) => "$k:$v").toList(),
+      );
     } else if (source is Map<String, String> && target is ModelLocalizedValue) {
-      return filter(source, target.value.toJson());
+      return filter(
+        source.toList((k, v) => "$k:$v").toList(),
+        target.value.toList((k, v) => "$k:$v").toList(),
+      );
     } else if (source is ModelLocalizedValue &&
         target is DynamicMap &&
         target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
-      return filter(source.value.toJson(),
-          ModelLocalizedValue.fromJson(target).value.toJson());
+      return filter(
+          source.value.toList((k, v) => "$k:$v").toList(),
+          ModelLocalizedValue.fromJson(target)
+              .value
+              .toList((k, v) => "$k:$v")
+              .toList());
     } else if (source is DynamicMap &&
         target is ModelLocalizedValue &&
         source.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
-      return filter(ModelLocalizedValue.fromJson(source).value.toJson(),
-          target.value.toJson());
+      return filter(
+        ModelLocalizedValue.fromJson(source)
+            .value
+            .toList((k, v) => "$k:$v")
+            .toList(),
+        target.value.toList((k, v) => "$k:$v").toList(),
+      );
     } else if (source is LocalizedValue &&
         target is DynamicMap &&
         target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
       return filter(
-          source.toJson(), ModelLocalizedValue.fromJson(target).value.toJson());
+        source.toList((k, v) => "$k:$v").toList(),
+        ModelLocalizedValue.fromJson(target)
+            .value
+            .toList((k, v) => "$k:$v")
+            .toList(),
+      );
     } else if (source is DynamicMap &&
         target is LocalizedValue &&
         source.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
       return filter(
-          ModelLocalizedValue.fromJson(source).value.toJson(), target.toJson());
+        ModelLocalizedValue.fromJson(source)
+            .value
+            .toList((k, v) => "$k:$v")
+            .toList(),
+        target.toList((k, v) => "$k:$v").toList(),
+      );
     } else if (source is DynamicMap &&
         target is DynamicMap &&
         source.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString() &&
         target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
       return filter(
-        ModelLocalizedValue.fromJson(source).value.toJson(),
-        ModelLocalizedValue.fromJson(target).value.toJson(),
+        ModelLocalizedValue.fromJson(source)
+            .value
+            .toList((k, v) => "$k:$v")
+            .toList(),
+        ModelLocalizedValue.fromJson(target)
+            .value
+            .toList((k, v) => "$k:$v")
+            .toList(),
       );
     }
     return null;
@@ -279,7 +321,7 @@ class ModelLocalizedValueFilter
 @immutable
 class LocalizedValue
     with MapMixin<Locale, String>
-    implements Map<Locale, String> {
+    implements Map<Locale, String>, Comparable<LocalizedValue> {
   /// Class for storing translation data.
   ///
   /// It consists of a pair of [Locale] and its corresponding [String] translation.
@@ -396,6 +438,11 @@ class LocalizedValue
 
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int compareTo(LocalizedValue other) {
+    return toString().compareTo(other.toString());
+  }
 }
 
 /// Define a model [Locale] that stores the locale.
@@ -406,7 +453,8 @@ class LocalizedValue
 ///
 /// ベースの値を[value]として与えます。与えられなかった場合`en_US`としてセットされます。
 @immutable
-class ModelLocale extends ModelFieldValue<Locale> {
+class ModelLocale extends ModelFieldValue<Locale>
+    implements Comparable<ModelLocale> {
   /// Define a model [Locale] that stores the locale.
   ///
   /// The base value is given as [value]. If not given, it is set as `en_US`.
@@ -495,6 +543,11 @@ class ModelLocale extends ModelFieldValue<Locale> {
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  int compareTo(ModelLocale other) {
+    return value.toString().compareTo(other.value.toString());
+  }
 }
 
 @immutable

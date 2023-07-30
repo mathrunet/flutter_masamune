@@ -12,7 +12,8 @@ part of katana_model;
 ///
 /// これをサーバーに渡すことでGeoHashによる検索が可能です。
 @immutable
-class ModelGeoValue extends ModelFieldValue<GeoValue> {
+class ModelGeoValue extends ModelFieldValue<GeoValue>
+    implements Comparable<ModelGeoValue> {
   /// Define a model [GeoValue] that stores location information.
   ///
   /// The base value is given as [value]. If not given, latitude and longitude are set to 0.
@@ -116,6 +117,11 @@ class ModelGeoValue extends ModelFieldValue<GeoValue> {
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  int compareTo(ModelGeoValue other) {
+    return value.compareTo(other.value);
+  }
 }
 
 @immutable
@@ -315,7 +321,7 @@ class ModelGeoValueFilter extends ModelFieldValueFilter<ModelGeoValue> {
 ///
 /// [neighbors]を使うことで、周辺のGeoHashを取得することができます。
 @immutable
-class GeoValue {
+class GeoValue implements Comparable<GeoValue> {
   /// Data to store location information.
   ///
   /// Specify the latitude in [latitude] and longitude in [longitude]. Specify the radius of the range in [radiusKm] to generate a GeoHash accordingly.
@@ -466,6 +472,11 @@ class GeoValue {
   @override
   String toString() {
     return "GeoValue(latitude: $latitude, longitude: $longitude)";
+  }
+
+  @override
+  int compareTo(GeoValue other) {
+    return geoHash.compareTo(other.geoHash);
   }
 }
 

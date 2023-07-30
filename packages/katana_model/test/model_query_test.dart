@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 // Package imports:
+import 'dart:ui';
+
 import 'package:test/test.dart';
 
 // Project imports:
@@ -963,11 +965,15 @@ void main() {
         ),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelUri.parse("https://pub.dev")), false);
-    expect(query.hasMatchAsObject(const ModelUri.parse("https://mathru.net")), true);
     expect(
-      query.hasMatchAsMap(
-          {"name": "test", "uri": const ModelUri.parse("https://pub.dev").toJson()}),
+        query.hasMatchAsObject(const ModelUri.parse("https://pub.dev")), false);
+    expect(query.hasMatchAsObject(const ModelUri.parse("https://mathru.net")),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": const ModelUri.parse("https://pub.dev").toJson()
+      }),
       false,
     );
     expect(
@@ -980,14 +986,20 @@ void main() {
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": const ModelUri.parse("https://pub.dev").toJson()}
+        {
+          "name": "test2",
+          "uri": const ModelUri.parse("https://pub.dev").toJson()
+        }
       ]),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": const ModelUri.parse("https://mathru.net").toJson()}
+        {
+          "name": "test2",
+          "uri": const ModelUri.parse("https://mathru.net").toJson()
+        }
       ]),
       true,
     );
@@ -1000,11 +1012,15 @@ void main() {
         ),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelUri.parse("https://pub.dev")), true);
-    expect(query.hasMatchAsObject(const ModelUri.parse("https://mathru.net")), false);
     expect(
-      query.hasMatchAsMap(
-          {"name": "test", "uri": const ModelUri.parse("https://pub.dev").toJson()}),
+        query.hasMatchAsObject(const ModelUri.parse("https://pub.dev")), true);
+    expect(query.hasMatchAsObject(const ModelUri.parse("https://mathru.net")),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": const ModelUri.parse("https://pub.dev").toJson()
+      }),
       true,
     );
     expect(
@@ -1017,14 +1033,23 @@ void main() {
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": const ModelUri.parse("https://mathru.net").toJson()}
+        {
+          "name": "test2",
+          "uri": const ModelUri.parse("https://mathru.net").toJson()
+        }
       ]),
       true,
     );
     expect(
       query.hasMatchAsList([
-        {"name": "test", "uri": const ModelUri.parse("https://mathru.net").toJson()},
-        {"name": "test2", "uri": const ModelUri.parse("https://mathru.net").toJson()}
+        {
+          "name": "test",
+          "uri": const ModelUri.parse("https://mathru.net").toJson()
+        },
+        {
+          "name": "test2",
+          "uri": const ModelUri.parse("https://mathru.net").toJson()
+        }
       ]),
       false,
     );
@@ -1146,11 +1171,14 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/de")), false);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/de")),
+        false);
     expect(
-        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/zh")), true);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/zh")),
+        true);
     expect(
-        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/ja")), true);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/ja")),
+        true);
     expect(
       query.hasMatchAsMap({
         "uri": const ModelUri.parse("https://mathru.net/de").toJson(),
@@ -1183,11 +1211,14 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/de")), true);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/de")),
+        true);
     expect(
-        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/zh")), false);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/zh")),
+        false);
     expect(
-        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/ja")), false);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/ja")),
+        false);
     expect(
       query.hasMatchAsMap({
         "uri": const ModelUri.parse("https://mathru.net/de").toJson(),
@@ -1220,9 +1251,10 @@ void main() {
         ),
       ],
     );
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://pub.dev")),
+        false);
     expect(
-        query.hasMatchAsObject(const ModelImageUri.parse("https://pub.dev")), false);
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net")),
         true);
     expect(
       query.hasMatchAsMap({
@@ -1267,9 +1299,10 @@ void main() {
         ),
       ],
     );
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://pub.dev")),
+        true);
     expect(
-        query.hasMatchAsObject(const ModelImageUri.parse("https://pub.dev")), true);
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net")),
         false);
     expect(
       query.hasMatchAsMap({
@@ -1425,11 +1458,17 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/de")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelImageUri.parse("https://mathru.net/de")),
         false);
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/zh")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelImageUri.parse("https://mathru.net/zh")),
         true);
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/ja")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelImageUri.parse("https://mathru.net/ja")),
         true);
     expect(
       query.hasMatchAsMap({
@@ -1462,11 +1501,17 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/de")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelImageUri.parse("https://mathru.net/de")),
         true);
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/zh")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelImageUri.parse("https://mathru.net/zh")),
         false);
-    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/ja")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelImageUri.parse("https://mathru.net/ja")),
         false);
     expect(
       query.hasMatchAsMap({
@@ -1500,9 +1545,10 @@ void main() {
         ),
       ],
     );
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://pub.dev")),
+        false);
     expect(
-        query.hasMatchAsObject(const ModelVideoUri.parse("https://pub.dev")), false);
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net")),
         true);
     expect(
       query.hasMatchAsMap({
@@ -1547,9 +1593,10 @@ void main() {
         ),
       ],
     );
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://pub.dev")),
+        true);
     expect(
-        query.hasMatchAsObject(const ModelVideoUri.parse("https://pub.dev")), true);
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net")),
         false);
     expect(
       query.hasMatchAsMap({
@@ -1705,11 +1752,17 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/de")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/de")),
         false);
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/zh")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/zh")),
         true);
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/ja")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/ja")),
         true);
     expect(
       query.hasMatchAsMap({
@@ -1742,11 +1795,17 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/de")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/de")),
         true);
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/zh")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/zh")),
         false);
-    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/ja")),
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/ja")),
         false);
     expect(
       query.hasMatchAsMap({
@@ -1819,14 +1878,62 @@ void main() {
     query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
-        ModelQueryFilter.notEqual(
+        ModelQueryFilter.contains(
           key: "search",
-          value: ModelSearch(["aaaa", "bbbb"]),
+          value: ModelSearch(["bbbb"]),
+        ),
+      ],
+    );
+    expect(query.hasMatchAsObject(const ModelSearch(["dddd", "cccc"])), false);
+    expect(query.hasMatchAsObject(const ModelSearch(["aaaa", "bbbb"])), true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": const ModelSearch(["dddd", "cccc"]).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": const ModelSearch(["aaaa", "bbbb"]).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": const ModelSearch(["eeee", "cccc"]).toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": const ModelSearch(["bbbb", "cccc"]).toJson()
+        }
+      ]),
+      true,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(
+          key: "search",
+          values: [
+            ModelSearch(["bbbb"]),
+            ModelSearch(["cccc"]),
+          ],
         ),
       ],
     );
     expect(query.hasMatchAsObject(const ModelSearch(["dddd", "cccc"])), true);
-    expect(query.hasMatchAsObject(const ModelSearch(["aaaa", "bbbb"])), false);
+    expect(query.hasMatchAsObject(const ModelSearch(["aaaa", "bbbb"])), true);
     expect(
       query.hasMatchAsMap({
         "name": "test",
@@ -1839,7 +1946,7 @@ void main() {
         "name": "test",
         "search": const ModelSearch(["aaaa", "bbbb"]).toJson()
       }),
-      false,
+      true,
     );
     expect(
       query.hasMatchAsList([
@@ -2142,6 +2249,493 @@ void main() {
       true,
     );
   });
+  test("ModelQuery.ModelLocalizedValue", () async {
+    var query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+          key: "search",
+          value: ModelLocalizedValue.fromMap({
+            const Locale("ja"): "aaaa",
+            const Locale("en"): "bbbb",
+          }),
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
+          const Locale("ja"): "cccc",
+          const Locale("en"): "dddd",
+        })),
+        false);
+    expect(
+        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
+          const Locale("ja"): "aaaa",
+          const Locale("en"): "bbbb",
+        })),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": ModelLocalizedValue.fromMap({
+          const Locale("ja"): "cccc",
+          const Locale("en"): "dddd",
+        }).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": ModelLocalizedValue.fromMap({
+          const Locale("ja"): "aaaa",
+          const Locale("en"): "bbbb",
+        }).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": ModelLocalizedValue.fromMap({
+            const Locale("ja"): "cccc",
+            const Locale("en"): "eeee",
+          }).toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": ModelLocalizedValue.fromMap({
+            const Locale("ja"): "bbbb",
+            const Locale("en"): "cccc",
+          }).toJson()
+        }
+      ]),
+      false,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+          key: "search",
+          value: ModelLocalizedValue.fromMap({
+            const Locale("ja"): "bbbb",
+          }),
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
+          const Locale("ja"): "cccc",
+          const Locale("en"): "dddd",
+        })),
+        false);
+    expect(
+        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
+          const Locale("ja"): "aaaa",
+          const Locale("en"): "bbbb",
+        })),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": ModelLocalizedValue.fromMap({
+          const Locale("ja"): "cccc",
+          const Locale("en"): "dddd",
+        }).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": ModelLocalizedValue.fromMap({
+          const Locale("ja"): "aaaa",
+          const Locale("en"): "bbbb",
+        }).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": ModelLocalizedValue.fromMap({
+            const Locale("ja"): "cccc",
+            const Locale("en"): "eeee",
+          }).toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": ModelLocalizedValue.fromMap({
+            const Locale("ja"): "bbbb",
+            const Locale("en"): "cccc",
+          }).toJson()
+        }
+      ]),
+      true,
+    );
+    query = ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(
+          key: "search",
+          values: [
+            ModelLocalizedValue.fromMap({
+              const Locale("ja"): "bbbb",
+            }),
+            ModelLocalizedValue.fromMap({
+              const Locale("en"): "bbbb",
+            }),
+          ],
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
+          const Locale("ja"): "cccc",
+          const Locale("en"): "dddd",
+        })),
+        false);
+    expect(
+        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
+          const Locale("ja"): "aaaa",
+          const Locale("en"): "bbbb",
+        })),
+        true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": ModelLocalizedValue.fromMap({
+          const Locale("ja"): "cccc",
+          const Locale("en"): "dddd",
+        }).toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "search": ModelLocalizedValue.fromMap({
+          const Locale("ja"): "aaaa",
+          const Locale("en"): "bbbb",
+        }).toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": ModelLocalizedValue.fromMap({
+            const Locale("ja"): "cccc",
+            const Locale("en"): "eeee",
+          }).toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "search": ModelLocalizedValue.fromMap({
+            const Locale("ja"): "bbbb",
+            const Locale("en"): "cccc",
+          }).toJson()
+        }
+      ]),
+      true,
+    );
+  });
+  test("ModelQuery.ModelLocale", () async {
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(
+          key: "uri",
+          value: ModelLocale.fromCode("ja", "JP"),
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(const ModelLocale.fromCode("en", "US")), false);
+    expect(
+        query.hasMatchAsObject(const ModelLocale.fromCode("ja", "JP")), true);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": const ModelLocale.fromCode("en", "US").toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": const ModelLocale.fromCode("ja", "JP").toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "uri": const ModelLocale.fromCode("en", "US").toJson()
+        }
+      ]),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "uri": const ModelLocale.fromCode("ja", "JP").toJson()
+        }
+      ]),
+      true,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notEqual(
+          key: "uri",
+          value: ModelLocale.fromCode("ja", "JP"),
+        ),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(const ModelLocale.fromCode("en", "US")), true);
+    expect(
+        query.hasMatchAsObject(const ModelLocale.fromCode("ja", "JP")), false);
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": const ModelLocale.fromCode("en", "US").toJson()
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "name": "test",
+        "uri": const ModelLocale.fromCode("ja", "JP").toJson()
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsList([
+        {"name": "test", "text": "aaaa"},
+        {
+          "name": "test2",
+          "uri": const ModelLocale.fromCode("ja", "JP").toJson()
+        }
+      ]),
+      true,
+    );
+    expect(
+      query.hasMatchAsList([
+        {
+          "name": "test",
+          "uri": const ModelLocale.fromCode("ja", "JP").toJson()
+        },
+        {
+          "name": "test2",
+          "uri": const ModelLocale.fromCode("ja", "JP").toJson()
+        }
+      ]),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(
+            key: "uri", value: ModelLocale.fromCode("ja", "JP")),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          const ModelLocale.fromCode("ja", "JP"),
+          const ModelLocale.fromCode("zh", "CH"),
+          const ModelLocale.fromCode("ja"),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          const ModelLocale.fromCode("en"),
+          const ModelLocale.fromCode("zh", "CH"),
+          const ModelLocale.fromCode("ja"),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          const ModelLocale.fromCode("ja", "JP").toJson(),
+          const ModelLocale.fromCode("zh", "CH").toJson(),
+          const ModelLocale.fromCode("ja").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          const ModelLocale.fromCode("en").toJson(),
+          const ModelLocale.fromCode("zh", "CH").toJson(),
+          const ModelLocale.fromCode("ja").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(key: "uri", values: [
+          ModelLocale.fromCode("en"),
+          ModelLocale.fromCode("zh"),
+          ModelLocale.fromCode("ja"),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          const ModelLocale.fromCode("en"),
+          const ModelLocale.fromCode("zh", "CH"),
+          const ModelLocale.fromCode("ja", "JP"),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          const ModelLocale.fromCode("en"),
+          const ModelLocale.fromCode("zh", "CH"),
+          const ModelLocale.fromCode("ja"),
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          const ModelLocale.fromCode("ja", "JP"),
+          const ModelLocale.fromCode("zh", "CH"),
+          const ModelVideoUri.parse("https://mathru.net/de"),
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          const ModelLocale.fromCode("en").toJson(),
+          const ModelLocale.fromCode("zh", "CH").toJson(),
+          const ModelLocale.fromCode("ja", "JP").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          const ModelLocale.fromCode("en").toJson(),
+          const ModelLocale.fromCode("zh", "CH").toJson(),
+          const ModelLocale.fromCode("ja").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "uri": [
+          const ModelLocale.fromCode("ja", "JP").toJson(),
+          const ModelLocale.fromCode("zh", "CH").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/de").toJson(),
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "uri", values: [
+          ModelLocale.fromCode("en"),
+          ModelLocale.fromCode("zh"),
+          ModelLocale.fromCode("ja"),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/de")),
+        false);
+    expect(query.hasMatchAsObject(const ModelLocale.fromCode("zh")), true);
+    expect(query.hasMatchAsObject(const ModelLocale.fromCode("ja")), true);
+    expect(
+      query.hasMatchAsMap({
+        "uri": const ModelVideoUri.parse("https://mathru.net/de").toJson(),
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"uri": const ModelLocale.fromCode("zh").toJson(), "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"uri": const ModelLocale.fromCode("ja").toJson(), "text": "aaaa"}),
+      true,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "uri", values: [
+          ModelLocale.fromCode("en"),
+          ModelLocale.fromCode("zh"),
+          ModelLocale.fromCode("ja"),
+        ]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject(
+            const ModelVideoUri.parse("https://mathru.net/de")),
+        true);
+    expect(query.hasMatchAsObject(const ModelLocale.fromCode("zh")), false);
+    expect(query.hasMatchAsObject(const ModelLocale.fromCode("ja")), false);
+    expect(
+      query.hasMatchAsMap({
+        "uri": const ModelVideoUri.parse("https://mathru.net/de").toJson(),
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"uri": const ModelLocale.fromCode("zh").toJson(), "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap(
+          {"uri": const ModelLocale.fromCode("ja").toJson(), "text": "aaaa"}),
+      false,
+    );
+  });
   test("ModelQuery.ModelRef", () async {
     var query = const ModelQuery(
       "aaaa/bbbb",
@@ -2150,8 +2744,10 @@ void main() {
             key: "path", value: ModelRefBase.fromPath("cccc/dddd")),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("eeee/ffff")), false);
-    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("cccc/dddd")), true);
+    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("eeee/ffff")),
+        false);
+    expect(
+        query.hasMatchAsObject(const ModelRefBase.fromPath("cccc/dddd")), true);
     expect(
       query.hasMatchAsMap({
         "name": "test",
@@ -2169,14 +2765,20 @@ void main() {
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "path": const ModelRefBase.fromPath("eeee/ffff").toJson()}
+        {
+          "name": "test2",
+          "path": const ModelRefBase.fromPath("eeee/ffff").toJson()
+        }
       ]),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "path": const ModelRefBase.fromPath("cccc/dddd").toJson()}
+        {
+          "name": "test2",
+          "path": const ModelRefBase.fromPath("cccc/dddd").toJson()
+        }
       ]),
       true,
     );
@@ -2187,8 +2789,10 @@ void main() {
             key: "path", value: ModelRefBase.fromPath("cccc/dddd")),
       ],
     );
-    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("eeee/ffff")), true);
-    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("cccc/dddd")), false);
+    expect(
+        query.hasMatchAsObject(const ModelRefBase.fromPath("eeee/ffff")), true);
+    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("cccc/dddd")),
+        false);
     expect(
       query.hasMatchAsMap({
         "name": "test",
@@ -2206,14 +2810,23 @@ void main() {
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "path": const ModelRefBase.fromPath("eeee/ffff").toJson()}
+        {
+          "name": "test2",
+          "path": const ModelRefBase.fromPath("eeee/ffff").toJson()
+        }
       ]),
       true,
     );
     expect(
       query.hasMatchAsList([
-        {"name": "test", "path": const ModelRefBase.fromPath("cccc/dddd").toJson()},
-        {"name": "test2", "path": const ModelRefBase.fromPath("cccc/dddd").toJson()}
+        {
+          "name": "test",
+          "path": const ModelRefBase.fromPath("cccc/dddd").toJson()
+        },
+        {
+          "name": "test2",
+          "path": const ModelRefBase.fromPath("cccc/dddd").toJson()
+        }
       ]),
       false,
     );

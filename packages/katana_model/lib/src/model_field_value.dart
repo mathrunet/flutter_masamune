@@ -466,7 +466,8 @@ enum ModelFieldValueSource {
 ///
 /// これをサーバーに渡すことで安定して値の増減を行うことができます。
 @immutable
-class ModelCounter extends ModelFieldValue<int> {
+class ModelCounter extends ModelFieldValue<int>
+    implements Comparable<ModelCounter> {
   /// Define the field as a counter.
   ///
   /// The base value is given as [value], and the value is increased or decreased by [increment].
@@ -597,6 +598,11 @@ class ModelCounter extends ModelFieldValue<int> {
 
   @override
   int get hashCode => _value.hashCode ^ _increment.hashCode;
+
+  @override
+  int compareTo(ModelCounter other) {
+    return value.compareTo(other.value);
+  }
 }
 
 @immutable
@@ -745,7 +751,8 @@ class ModelCounterFilter extends ModelFieldValueFilter<ModelCounter> {
 ///
 /// これをサーバーに渡すことでサーバー側のタイムスタンプがデータとして保存されます。
 @immutable
-class ModelTimestamp extends ModelFieldValue<DateTime> {
+class ModelTimestamp extends ModelFieldValue<DateTime>
+    implements Comparable<ModelTimestamp> {
   /// Define the field as a timestamp.
   ///
   /// The base value is given as [value]. If not given, the current time is set.
@@ -886,6 +893,13 @@ class ModelTimestamp extends ModelFieldValue<DateTime> {
 
   @override
   int get hashCode => _value.hashCode;
+
+  @override
+  int compareTo(ModelTimestamp other) {
+    return value.millisecondsSinceEpoch.compareTo(
+      other.value.millisecondsSinceEpoch,
+    );
+  }
 }
 
 @immutable
@@ -1093,7 +1107,8 @@ class ModelTimestampFilter extends ModelFieldValueFilter<ModelTimestamp> {
 ///
 /// カテゴリー検索等に利用可能です。
 @immutable
-class ModelSearch extends ModelFieldValue<List<String>> {
+class ModelSearch extends ModelFieldValue<List<String>>
+    implements Comparable<ModelSearch> {
   /// Define searchable fields.
   ///
   /// You can store values as searchable values and search for elements that contain all of those defined in [ModelQueryFilter.equal].
@@ -1169,6 +1184,11 @@ class ModelSearch extends ModelFieldValue<List<String>> {
     }
     return Object.hashAll(_value!);
   }
+
+  @override
+  int compareTo(ModelSearch other) {
+    return value.join().compareTo(other.value.join());
+  }
 }
 
 @immutable
@@ -1229,11 +1249,6 @@ class ModelSearchFilter extends ModelFieldValueFilter<ModelSearch> {
           (source, target) => target.every((e) => source.contains(e)),
         );
       case ModelQueryFilterType.notEqualTo:
-        return _hasMatch(
-          source,
-          target,
-          (source, target) => target.every((e) => !source.contains(e)),
-        );
       case ModelQueryFilterType.lessThan:
       case ModelQueryFilterType.greaterThan:
       case ModelQueryFilterType.lessThanOrEqualTo:
@@ -1243,14 +1258,21 @@ class ModelSearchFilter extends ModelFieldValueFilter<ModelSearch> {
         return _hasMatch(
           source,
           target,
-          (source, target) => target.every((e) => source.contains(e)),
+          (source, target) => target.any((e) => source.contains(e)),
         );
       case ModelQueryFilterType.arrayContainsAny:
-        return _hasMatch(
-          source,
-          target,
-          (source, target) => target.every((e) => source.contains(e)),
-        );
+        if (target is List && target.isNotEmpty) {
+          if (target.any((t) =>
+              _hasMatch(
+                source,
+                t,
+                (source, target) => target.any((e) => source.contains(e)),
+              ) ??
+              false)) {
+            return true;
+          }
+        }
+        return null;
       case ModelQueryFilterType.whereIn:
       case ModelQueryFilterType.whereNotIn:
         return null;

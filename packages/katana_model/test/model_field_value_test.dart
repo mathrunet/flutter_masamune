@@ -95,7 +95,6 @@ void main() {
         longitude: 139.75310000426765,
       ),
       "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
-      "videoMap": {}
     });
     expect(
       model.value,
@@ -114,7 +113,7 @@ void main() {
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
         ),
-        "search": const ModelSearch(["aaaa", "bbbb", "cccc"])
+        "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
       },
     );
     await model2.load();
@@ -564,5 +563,66 @@ void main() {
         const Locale("en", "US"): "Goodbye",
       }),
     });
+  });
+
+  test("runtimeDocumentModel.modelFieldValue.search", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = CollectionModelQuery("test", adapter: adapter);
+    final col = RuntimeCollectionModel(query);
+    final doc1 = col.create("doc1");
+    final doc2 = col.create("doc2");
+    final doc3 = col.create("doc3");
+    await doc1.save({
+      "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
+    });
+    await doc2.save({
+      "search": const ModelSearch(["aaaa", "dddd", "eeee"]),
+    });
+    await doc3.save({
+      "search": const ModelSearch(["aaaa", "dddd", "gggg"]),
+    });
+    await col.replaceQuery((source) => source.reset().equal("search", "aaaa"));
+    expect(col.map((e) => e.value), []);
+    await col.replaceQuery((source) => source
+        .reset()
+        .equal("search", const ModelSearch(["aaaa", "bbbb", "cccc"])));
+    expect(col.map((e) => e.value), [
+      {
+        "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
+      }
+    ]);
+    await col.replaceQuery((source) => source
+        .reset()
+        .equal("search", const ModelSearch(["aaaa", "dddd", "gggg"])));
+    expect(col.map((e) => e.value), [
+      {
+        "search": const ModelSearch(["aaaa", "dddd", "gggg"]),
+      }
+    ]);
+    await col.replaceQuery((source) =>
+        source.reset().contains("search", const ModelSearch(["cccc", "eeee"])));
+    expect(col.map((e) => e.value), [
+      {
+        "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
+      },
+      {
+        "search": const ModelSearch(["aaaa", "dddd", "eeee"]),
+      }
+    ]);
+    await col.replaceQuery((source) => source.reset().containsAny(
+          "search",
+          [
+            const ModelSearch(["cccc"]),
+            const ModelSearch(["eeee"])
+          ],
+        ));
+    expect(col.map((e) => e.value), [
+      {
+        "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
+      },
+      {
+        "search": const ModelSearch(["aaaa", "dddd", "eeee"]),
+      }
+    ]);
   });
 }

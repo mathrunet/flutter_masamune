@@ -29,7 +29,8 @@ class _ModelRefBase<T> extends ModelRefBase<T>
 /// [modelQuery]に関連するドキュメントのクエリーを渡すことでそのリレーションをデータとして持つことができます。
 ///
 /// ミュータブルクラスでかつ[DocumentBase]のインターフェースを備えているため[ModelRefBase]を実装し、[ModelRefMixin]をミックスインすることで[DocumentBase]で置き換えることが可能です。
-class ModelRefBase<T> extends ModelFieldValue<T?> {
+class ModelRefBase<T> extends ModelFieldValue<T?>
+    implements Comparable<ModelRefBase<T>> {
   /// Class for defining relationships between models.
   ///
   /// You can have that relationship as data by passing a query for the related document to [modelQuery].
@@ -146,6 +147,11 @@ class ModelRefBase<T> extends ModelFieldValue<T?> {
   @override
   String toString() {
     return modelQuery.path;
+  }
+
+  @override
+  int compareTo(ModelRefBase<T> other) {
+    return modelQuery.path.compareTo(other.modelQuery.path);
   }
 }
 
@@ -317,6 +323,11 @@ mixin ModelRefMixin<T>
         kTypeFieldKey: (ModelRefBase).toString(),
         ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
+
+  @override
+  int compareTo(ModelRefBase<T> other) {
+    return modelQuery.path.compareTo(other.modelQuery.path);
+  }
 }
 
 /// Define a document base including [ModelRefBase] and [DocumentBase].
