@@ -1,3 +1,7 @@
+## 2.10.2
+
+ - **FIX**: Fixed a bug in ModelLocalizedValue.toString. ([ef2321f1](https://github.com/mathrunet/flutter_masamune/commit/ef2321f1ddaad1a2f24ac65b5bef370c62904ecc))
+
 ## 2.10.1
 
  - **FIX**: Adjust the value of toString in Model. ([4eb21abb](https://github.com/mathrunet/flutter_masamune/commit/4eb21abb81c0e9239e4c0694d1d72f0f1dba5b4a))

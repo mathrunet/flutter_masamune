@@ -1,3 +1,7 @@
+## 2.6.5
+
+ - Update a dependency to the latest release.
+
 ## 2.6.4
 
  - **FIX**: Adjust the value of toString in Model. ([4eb21abb](https://github.com/mathrunet/flutter_masamune/commit/4eb21abb81c0e9239e4c0694d1d72f0f1dba5b4a))
