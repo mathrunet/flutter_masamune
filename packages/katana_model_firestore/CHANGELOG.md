@@ -1,3 +1,7 @@
+## 2.6.4
+
+ - **FIX**: Adjust the value of toString in Model. ([4eb21abb](https://github.com/mathrunet/flutter_masamune/commit/4eb21abb81c0e9239e4c0694d1d72f0f1dba5b4a))
+
 ## 2.6.3
 
  - **FIX**: Refactoring & Search and debugging Locale and LocalizedValue. ([3fbd903e](https://github.com/mathrunet/flutter_masamune/commit/3fbd903e37546a5f9e485e5c3892e1ae9bd994bf))

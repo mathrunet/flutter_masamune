@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - **FIX**: Adjust the value of toString in Model. ([4eb21abb](https://github.com/mathrunet/flutter_masamune/commit/4eb21abb81c0e9239e4c0694d1d72f0f1dba5b4a))
+
 ## 2.10.0
 
  - **FIX**: All ModelFieldValues were made Comparable. ([bf91b2af](https://github.com/mathrunet/flutter_masamune/commit/bf91b2afcbb54b1b367f4c4a1543b2571c14781d))

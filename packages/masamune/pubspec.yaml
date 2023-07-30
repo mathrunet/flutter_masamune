@@ -1,6 +1,6 @@
 name: masamune
 description: An application development framework centered on automatic code generation using build_runner.
-version: 2.3.8
+version: 2.3.9
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune
 
@@ -19,8 +19,8 @@ dependencies:
   katana_shorten: ^2.0.11
   katana_indicator: ^2.0.11
   katana_scoped: ^2.0.18
-  katana_model: ^2.10.0
-  katana_model_local: ^2.4.3
+  katana_model: ^2.10.1
+  katana_model_local: ^2.4.4
   katana_listenables: ^2.0.13
   katana_router: ^2.0.18
   katana_theme: ^2.0.16
