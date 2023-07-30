@@ -45,6 +45,8 @@ class TestValue with _$TestValue {
     @Default(ModelLocalizedValue()) ModelLocalizedValue localized,
     @Default({}) Map<String, ModelVideoUri> videoMap,
     @Default([]) List<ModelImageUri> imageList,
+    @Default({}) Map<String, ModelLocalizedValue> localizedMap,
+    @Default([]) List<ModelLocalizedValue> localizedList,
   }) = _TestValue;
 
   factory TestValue.fromJson(Map<String, Object?> map) =>
@@ -92,7 +94,8 @@ void main() {
         latitude: 35.68177834908552,
         longitude: 139.75310000426765,
       ),
-      "search": const ModelSearch(["aaaa", "bbbb", "cccc"])
+      "search": const ModelSearch(["aaaa", "bbbb", "cccc"]),
+      "videoMap": {}
     });
     expect(
       model.value,
@@ -301,6 +304,31 @@ void main() {
   test("runtimeDocumentModel.modelFieldValue.List", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final dynamicModel = RuntimeMapDocumentModel(query);
+    final dynamicModel2 = RuntimeMapDocumentModel(query);
+    await dynamicModel.save(
+      {
+        "imageList": [
+          const ModelImageUri.parse("https://mathru.net"),
+          const ModelImageUri.parse("https://pub.dev"),
+        ],
+      },
+    );
+    expect(
+      dynamicModel.value?.getAsList("imageList"),
+      [
+        const ModelImageUri.parse("https://mathru.net"),
+        const ModelImageUri.parse("https://pub.dev"),
+      ],
+    );
+    await dynamicModel2.load();
+    expect(
+      dynamicModel.value?.getAsList("imageList"),
+      [
+        const ModelImageUri.parse("https://mathru.net"),
+        const ModelImageUri.parse("https://pub.dev"),
+      ],
+    );
     final model = RuntimeMTestValueDocumentModel(query);
     final model2 = RuntimeMTestValueDocumentModel(query);
     await model.save(
@@ -330,6 +358,25 @@ void main() {
   test("runtimeDocumentModel.modelFieldValue.Map", () async {
     final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
     final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final dynamicModel = RuntimeMapDocumentModel(query);
+    final dynamicModel2 = RuntimeMapDocumentModel(query);
+    await dynamicModel.save(
+      {
+        "videoMap": {
+          "mathru.net": const ModelVideoUri.parse("https://mathru.net"),
+          "pub.dev": const ModelVideoUri.parse("https://pub.dev"),
+        },
+      },
+    );
+    expect(dynamicModel.value?.getAsMap("videoMap"), {
+      "mathru.net": const ModelVideoUri.parse("https://mathru.net"),
+      "pub.dev": const ModelVideoUri.parse("https://pub.dev"),
+    });
+    await dynamicModel2.load();
+    expect(dynamicModel2.value?.getAsMap("videoMap"), {
+      "mathru.net": const ModelVideoUri.parse("https://mathru.net"),
+      "pub.dev": const ModelVideoUri.parse("https://pub.dev"),
+    });
     final model = RuntimeMTestValueDocumentModel(query);
     final model2 = RuntimeMTestValueDocumentModel(query);
     await model.save(
@@ -348,6 +395,174 @@ void main() {
     expect(model2.value?.videoMap, {
       "mathru.net": const ModelVideoUri.parse("https://mathru.net"),
       "pub.dev": const ModelVideoUri.parse("https://pub.dev"),
+    });
+  });
+  test("runtimeDocumentModel.modelFieldValue.LocalizedValueList", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final dynamicModel = RuntimeMapDocumentModel(query);
+    final dynamicModel2 = RuntimeMapDocumentModel(query);
+    await dynamicModel.save(
+      {
+        "localized": [
+          ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "こんにちは",
+            const Locale("en", "US"): "Hello",
+          }),
+          ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "さようなら",
+            const Locale("en", "US"): "Goodbye",
+          }),
+        ],
+      },
+    );
+    expect(
+      dynamicModel.value?.getAsList("localized"),
+      [
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "こんにちは",
+          const Locale("en", "US"): "Hello",
+        }),
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "さようなら",
+          const Locale("en", "US"): "Goodbye",
+        }),
+      ],
+    );
+    await dynamicModel2.load();
+    expect(
+      dynamicModel2.value?.getAsList("localized"),
+      [
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "こんにちは",
+          const Locale("en", "US"): "Hello",
+        }),
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "さようなら",
+          const Locale("en", "US"): "Goodbye",
+        }),
+      ],
+    );
+    final model = RuntimeMTestValueDocumentModel(query);
+    final model2 = RuntimeMTestValueDocumentModel(query);
+    await model.save(
+      TestValue(
+        localizedList: [
+          ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "こんにちは",
+            const Locale("en", "US"): "Hello",
+          }),
+          ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "さようなら",
+            const Locale("en", "US"): "Goodbye",
+          }),
+        ],
+      ),
+    );
+    expect(
+      model.value?.localizedList,
+      [
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "こんにちは",
+          const Locale("en", "US"): "Hello",
+        }),
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "さようなら",
+          const Locale("en", "US"): "Goodbye",
+        }),
+      ],
+    );
+    await model2.load();
+    expect(
+      model2.value?.localizedList,
+      [
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "こんにちは",
+          const Locale("en", "US"): "Hello",
+        }),
+        ModelLocalizedValue.fromMap({
+          const Locale("ja", "JP"): "さようなら",
+          const Locale("en", "US"): "Goodbye",
+        }),
+      ],
+    );
+  });
+  test("runtimeDocumentModel.modelFieldValue.LocalizedValueMap", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = DocumentModelQuery("test/doc", adapter: adapter);
+    final dynamicModel = RuntimeMapDocumentModel(query);
+    final dynamicModel2 = RuntimeMapDocumentModel(query);
+    await dynamicModel.save(
+      {
+        "localized": {
+          "hello": ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "こんにちは",
+            const Locale("en", "US"): "Hello",
+          }),
+          "goodbye": ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "さようなら",
+            const Locale("en", "US"): "Goodbye",
+          }),
+        },
+      },
+    );
+    expect(dynamicModel.value?.getAsMap("localized"), {
+      "hello": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "こんにちは",
+        const Locale("en", "US"): "Hello",
+      }),
+      "goodbye": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "さようなら",
+        const Locale("en", "US"): "Goodbye",
+      }),
+    });
+    await dynamicModel2.load();
+    expect(dynamicModel2.value?.getAsMap("localized"), {
+      "hello": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "こんにちは",
+        const Locale("en", "US"): "Hello",
+      }),
+      "goodbye": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "さようなら",
+        const Locale("en", "US"): "Goodbye",
+      }),
+    });
+    final model = RuntimeMTestValueDocumentModel(query);
+    final model2 = RuntimeMTestValueDocumentModel(query);
+    await model.save(
+      TestValue(
+        localizedMap: {
+          "hello": ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "こんにちは",
+            const Locale("en", "US"): "Hello",
+          }),
+          "goodbye": ModelLocalizedValue.fromMap({
+            const Locale("ja", "JP"): "さようなら",
+            const Locale("en", "US"): "Goodbye",
+          }),
+        },
+      ),
+    );
+    expect(model.value?.localizedMap, {
+      "hello": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "こんにちは",
+        const Locale("en", "US"): "Hello",
+      }),
+      "goodbye": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "さようなら",
+        const Locale("en", "US"): "Goodbye",
+      }),
+    });
+    await model2.load();
+    expect(model2.value?.localizedMap, {
+      "hello": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "こんにちは",
+        const Locale("en", "US"): "Hello",
+      }),
+      "goodbye": ModelLocalizedValue.fromMap({
+        const Locale("ja", "JP"): "さようなら",
+        const Locale("en", "US"): "Goodbye",
+      }),
     });
   });
 }

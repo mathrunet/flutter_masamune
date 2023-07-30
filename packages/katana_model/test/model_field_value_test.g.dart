@@ -44,6 +44,16 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
               ?.map((e) => ModelImageUri.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      localizedMap: (json['localizedMap'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+                k, ModelLocalizedValue.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
+      localizedList: (json['localizedList'] as List<dynamic>?)
+              ?.map((e) =>
+                  ModelLocalizedValue.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
@@ -59,4 +69,6 @@ Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
       'localized': instance.localized,
       'videoMap': instance.videoMap,
       'imageList': instance.imageList,
+      'localizedMap': instance.localizedMap,
+      'localizedList': instance.localizedList,
     };

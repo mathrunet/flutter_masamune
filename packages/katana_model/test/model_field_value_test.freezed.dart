@@ -31,6 +31,10 @@ mixin _$TestValue {
   ModelLocalizedValue get localized => throw _privateConstructorUsedError;
   Map<String, ModelVideoUri> get videoMap => throw _privateConstructorUsedError;
   List<ModelImageUri> get imageList => throw _privateConstructorUsedError;
+  Map<String, ModelLocalizedValue> get localizedMap =>
+      throw _privateConstructorUsedError;
+  List<ModelLocalizedValue> get localizedList =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -54,7 +58,9 @@ abstract class $TestValueCopyWith<$Res> {
       ModelLocale locale,
       ModelLocalizedValue localized,
       Map<String, ModelVideoUri> videoMap,
-      List<ModelImageUri> imageList});
+      List<ModelImageUri> imageList,
+      Map<String, ModelLocalizedValue> localizedMap,
+      List<ModelLocalizedValue> localizedList});
 }
 
 /// @nodoc
@@ -81,6 +87,8 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
     Object? localized = null,
     Object? videoMap = null,
     Object? imageList = null,
+    Object? localizedMap = null,
+    Object? localizedList = null,
   }) {
     return _then(_value.copyWith(
       time: null == time
@@ -127,6 +135,14 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
           ? _value.imageList
           : imageList // ignore: cast_nullable_to_non_nullable
               as List<ModelImageUri>,
+      localizedMap: null == localizedMap
+          ? _value.localizedMap
+          : localizedMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelLocalizedValue>,
+      localizedList: null == localizedList
+          ? _value.localizedList
+          : localizedList // ignore: cast_nullable_to_non_nullable
+              as List<ModelLocalizedValue>,
     ) as $Val);
   }
 }
@@ -149,7 +165,9 @@ abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
       ModelLocale locale,
       ModelLocalizedValue localized,
       Map<String, ModelVideoUri> videoMap,
-      List<ModelImageUri> imageList});
+      List<ModelImageUri> imageList,
+      Map<String, ModelLocalizedValue> localizedMap,
+      List<ModelLocalizedValue> localizedList});
 }
 
 /// @nodoc
@@ -174,6 +192,8 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? localized = null,
     Object? videoMap = null,
     Object? imageList = null,
+    Object? localizedMap = null,
+    Object? localizedList = null,
   }) {
     return _then(_$_TestValue(
       time: null == time
@@ -220,6 +240,14 @@ class __$$_TestValueCopyWithImpl<$Res>
           ? _value._imageList
           : imageList // ignore: cast_nullable_to_non_nullable
               as List<ModelImageUri>,
+      localizedMap: null == localizedMap
+          ? _value._localizedMap
+          : localizedMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, ModelLocalizedValue>,
+      localizedList: null == localizedList
+          ? _value._localizedList
+          : localizedList // ignore: cast_nullable_to_non_nullable
+              as List<ModelLocalizedValue>,
     ));
   }
 }
@@ -238,9 +266,13 @@ class _$_TestValue implements _TestValue {
       this.locale = const ModelLocale(),
       this.localized = const ModelLocalizedValue(),
       final Map<String, ModelVideoUri> videoMap = const {},
-      final List<ModelImageUri> imageList = const []})
+      final List<ModelImageUri> imageList = const [],
+      final Map<String, ModelLocalizedValue> localizedMap = const {},
+      final List<ModelLocalizedValue> localizedList = const []})
       : _videoMap = videoMap,
-        _imageList = imageList;
+        _imageList = imageList,
+        _localizedMap = localizedMap,
+        _localizedList = localizedList;
 
   factory _$_TestValue.fromJson(Map<String, dynamic> json) =>
       _$$_TestValueFromJson(json);
@@ -290,9 +322,27 @@ class _$_TestValue implements _TestValue {
     return EqualUnmodifiableListView(_imageList);
   }
 
+  final Map<String, ModelLocalizedValue> _localizedMap;
+  @override
+  @JsonKey()
+  Map<String, ModelLocalizedValue> get localizedMap {
+    if (_localizedMap is EqualUnmodifiableMapView) return _localizedMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_localizedMap);
+  }
+
+  final List<ModelLocalizedValue> _localizedList;
+  @override
+  @JsonKey()
+  List<ModelLocalizedValue> get localizedList {
+    if (_localizedList is EqualUnmodifiableListView) return _localizedList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_localizedList);
+  }
+
   @override
   String toString() {
-    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList)';
+    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
   }
 
   @override
@@ -312,7 +362,11 @@ class _$_TestValue implements _TestValue {
                 other.localized == localized) &&
             const DeepCollectionEquality().equals(other._videoMap, _videoMap) &&
             const DeepCollectionEquality()
-                .equals(other._imageList, _imageList));
+                .equals(other._imageList, _imageList) &&
+            const DeepCollectionEquality()
+                .equals(other._localizedMap, _localizedMap) &&
+            const DeepCollectionEquality()
+                .equals(other._localizedList, _localizedList));
   }
 
   @JsonKey(ignore: true)
@@ -329,7 +383,9 @@ class _$_TestValue implements _TestValue {
       locale,
       localized,
       const DeepCollectionEquality().hash(_videoMap),
-      const DeepCollectionEquality().hash(_imageList));
+      const DeepCollectionEquality().hash(_imageList),
+      const DeepCollectionEquality().hash(_localizedMap),
+      const DeepCollectionEquality().hash(_localizedList));
 
   @JsonKey(ignore: true)
   @override
@@ -357,7 +413,9 @@ abstract class _TestValue implements TestValue {
       final ModelLocale locale,
       final ModelLocalizedValue localized,
       final Map<String, ModelVideoUri> videoMap,
-      final List<ModelImageUri> imageList}) = _$_TestValue;
+      final List<ModelImageUri> imageList,
+      final Map<String, ModelLocalizedValue> localizedMap,
+      final List<ModelLocalizedValue> localizedList}) = _$_TestValue;
 
   factory _TestValue.fromJson(Map<String, dynamic> json) =
       _$_TestValue.fromJson;
@@ -384,6 +442,10 @@ abstract class _TestValue implements TestValue {
   Map<String, ModelVideoUri> get videoMap;
   @override
   List<ModelImageUri> get imageList;
+  @override
+  Map<String, ModelLocalizedValue> get localizedMap;
+  @override
+  List<ModelLocalizedValue> get localizedList;
   @override
   @JsonKey(ignore: true)
   _$$_TestValueCopyWith<_$_TestValue> get copyWith =>
