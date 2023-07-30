@@ -13,14 +13,16 @@ import 'dart:async';
 import 'dart:math';
 
 // Flutter imports:
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:katana_model/katana_model.dart';
 import 'package:universal_platform/universal_platform.dart';
+
+// Flutter imports:
+
 
 export 'package:katana_firebase/katana_firebase.dart';
 export 'package:katana_model/katana_model.dart';

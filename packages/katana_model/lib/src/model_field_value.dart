@@ -1164,7 +1164,7 @@ class ModelSearch extends ModelFieldValue<List<String>>
 
   @override
   String toString() {
-    return value.toString();
+    return jsonEncode(value);
   }
 
   @override

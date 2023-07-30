@@ -11,6 +11,7 @@ library katana_model;
 // Dart imports:
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:math';
 
 // Flutter imports:

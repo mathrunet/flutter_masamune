@@ -471,7 +471,7 @@ class GeoValue implements Comparable<GeoValue> {
 
   @override
   String toString() {
-    return "GeoValue(latitude: $latitude, longitude: $longitude)";
+    return "($latitude, $longitude)";
   }
 
   @override

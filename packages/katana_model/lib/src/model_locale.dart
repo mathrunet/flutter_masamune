@@ -421,7 +421,7 @@ class LocalizedValue
 
   @override
   String toString() {
-    return _map.toString();
+    return jsonEncode(_map);
   }
 
   DynamicMap toJson() {
