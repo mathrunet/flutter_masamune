@@ -954,7 +954,7 @@ void main() {
     );
   });
   test("ModelQuery.ModelUri", () async {
-    var query = ModelQuery(
+    var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.equal(
@@ -963,35 +963,35 @@ void main() {
         ),
       ],
     );
-    expect(query.hasMatchAsObject(ModelUri.parse("https://pub.dev")), false);
-    expect(query.hasMatchAsObject(ModelUri.parse("https://mathru.net")), true);
+    expect(query.hasMatchAsObject(const ModelUri.parse("https://pub.dev")), false);
+    expect(query.hasMatchAsObject(const ModelUri.parse("https://mathru.net")), true);
     expect(
       query.hasMatchAsMap(
-          {"name": "test", "uri": ModelUri.parse("https://pub.dev").toJson()}),
+          {"name": "test", "uri": const ModelUri.parse("https://pub.dev").toJson()}),
       false,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelUri.parse("https://mathru.net").toJson()
+        "uri": const ModelUri.parse("https://mathru.net").toJson()
       }),
       true,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": ModelUri.parse("https://pub.dev").toJson()}
+        {"name": "test2", "uri": const ModelUri.parse("https://pub.dev").toJson()}
       ]),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": ModelUri.parse("https://mathru.net").toJson()}
+        {"name": "test2", "uri": const ModelUri.parse("https://mathru.net").toJson()}
       ]),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notEqual(
@@ -1000,35 +1000,35 @@ void main() {
         ),
       ],
     );
-    expect(query.hasMatchAsObject(ModelUri.parse("https://pub.dev")), true);
-    expect(query.hasMatchAsObject(ModelUri.parse("https://mathru.net")), false);
+    expect(query.hasMatchAsObject(const ModelUri.parse("https://pub.dev")), true);
+    expect(query.hasMatchAsObject(const ModelUri.parse("https://mathru.net")), false);
     expect(
       query.hasMatchAsMap(
-          {"name": "test", "uri": ModelUri.parse("https://pub.dev").toJson()}),
+          {"name": "test", "uri": const ModelUri.parse("https://pub.dev").toJson()}),
       true,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelUri.parse("https://mathru.net").toJson()
+        "uri": const ModelUri.parse("https://mathru.net").toJson()
       }),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "uri": ModelUri.parse("https://mathru.net").toJson()}
+        {"name": "test2", "uri": const ModelUri.parse("https://mathru.net").toJson()}
       ]),
       true,
     );
     expect(
       query.hasMatchAsList([
-        {"name": "test", "uri": ModelUri.parse("https://mathru.net").toJson()},
-        {"name": "test2", "uri": ModelUri.parse("https://mathru.net").toJson()}
+        {"name": "test", "uri": const ModelUri.parse("https://mathru.net").toJson()},
+        {"name": "test2", "uri": const ModelUri.parse("https://mathru.net").toJson()}
       ]),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
@@ -1037,24 +1037,24 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelUri.parse("https://mathru.net"),
-          ModelUri.parse("https://puv.dev"),
-          ModelUri.parse("https://mathru.net/ja"),
+          const ModelUri.parse("https://mathru.net"),
+          const ModelUri.parse("https://puv.dev"),
+          const ModelUri.parse("https://mathru.net/ja"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelUri.parse("https://mathru.net/en"),
-          ModelUri.parse("https://puv.dev"),
-          ModelUri.parse("https://mathru.net/ja"),
+          const ModelUri.parse("https://mathru.net/en"),
+          const ModelUri.parse("https://puv.dev"),
+          const ModelUri.parse("https://mathru.net/ja"),
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelUri.parse("https://mathru.net").toJson(),
-          ModelUri.parse("https://puv.dev").toJson(),
-          ModelUri.parse("https://mathru.net/ja").toJson(),
+          const ModelUri.parse("https://mathru.net").toJson(),
+          const ModelUri.parse("https://puv.dev").toJson(),
+          const ModelUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1063,15 +1063,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelUri.parse("https://mathru.net/en").toJson(),
-          ModelUri.parse("https://puv.dev").toJson(),
-          ModelUri.parse("https://mathru.net/ja").toJson(),
+          const ModelUri.parse("https://mathru.net/en").toJson(),
+          const ModelUri.parse("https://puv.dev").toJson(),
+          const ModelUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.containsAny(key: "uri", values: [
@@ -1083,31 +1083,31 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelUri.parse("https://mathru.net/en"),
-          ModelUri.parse("https://puv.dev"),
-          ModelUri.parse("https://mathru.net"),
+          const ModelUri.parse("https://mathru.net/en"),
+          const ModelUri.parse("https://puv.dev"),
+          const ModelUri.parse("https://mathru.net"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelUri.parse("https://mathru.net/en"),
-          ModelUri.parse("https://puv.dev"),
-          ModelUri.parse("https://mathru.net/ja"),
+          const ModelUri.parse("https://mathru.net/en"),
+          const ModelUri.parse("https://puv.dev"),
+          const ModelUri.parse("https://mathru.net/ja"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelUri.parse("https://mathru.net"),
-          ModelUri.parse("https://puv.dev"),
-          ModelUri.parse("https://mathru.net/de"),
+          const ModelUri.parse("https://mathru.net"),
+          const ModelUri.parse("https://puv.dev"),
+          const ModelUri.parse("https://mathru.net/de"),
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelUri.parse("https://mathru.net/en").toJson(),
-          ModelUri.parse("https://puv.dev").toJson(),
-          ModelUri.parse("https://mathru.net").toJson(),
+          const ModelUri.parse("https://mathru.net/en").toJson(),
+          const ModelUri.parse("https://puv.dev").toJson(),
+          const ModelUri.parse("https://mathru.net").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1116,9 +1116,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelUri.parse("https://mathru.net/en").toJson(),
-          ModelUri.parse("https://puv.dev").toJson(),
-          ModelUri.parse("https://mathru.net/ja").toJson(),
+          const ModelUri.parse("https://mathru.net/en").toJson(),
+          const ModelUri.parse("https://puv.dev").toJson(),
+          const ModelUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1127,15 +1127,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelUri.parse("https://mathru.net").toJson(),
-          ModelUri.parse("https://puv.dev").toJson(),
-          ModelUri.parse("https://mathru.net/de").toJson(),
+          const ModelUri.parse("https://mathru.net").toJson(),
+          const ModelUri.parse("https://puv.dev").toJson(),
+          const ModelUri.parse("https://mathru.net/de").toJson(),
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.where(key: "uri", values: [
@@ -1146,33 +1146,33 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/de")), false);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/de")), false);
     expect(
-        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/zh")), true);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/zh")), true);
     expect(
-        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/ja")), true);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/ja")), true);
     expect(
       query.hasMatchAsMap({
-        "uri": ModelUri.parse("https://mathru.net/de").toJson(),
+        "uri": const ModelUri.parse("https://mathru.net/de").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelUri.parse("https://mathru.net/zh").toJson(),
+        "uri": const ModelUri.parse("https://mathru.net/zh").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelUri.parse("https://mathru.net/ja").toJson(),
+        "uri": const ModelUri.parse("https://mathru.net/ja").toJson(),
         "text": "aaaa"
       }),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notWhere(key: "uri", values: [
@@ -1183,35 +1183,35 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/de")), true);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/de")), true);
     expect(
-        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/zh")), false);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/zh")), false);
     expect(
-        query.hasMatchAsObject(ModelUri.parse("https://mathru.net/ja")), false);
+        query.hasMatchAsObject(const ModelUri.parse("https://mathru.net/ja")), false);
     expect(
       query.hasMatchAsMap({
-        "uri": ModelUri.parse("https://mathru.net/de").toJson(),
+        "uri": const ModelUri.parse("https://mathru.net/de").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelUri.parse("https://mathru.net/zh").toJson(),
+        "uri": const ModelUri.parse("https://mathru.net/zh").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelUri.parse("https://mathru.net/ja").toJson(),
+        "uri": const ModelUri.parse("https://mathru.net/ja").toJson(),
         "text": "aaaa"
       }),
       false,
     );
   });
   test("ModelQuery.ModelImageUri", () async {
-    var query = ModelQuery(
+    var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.equal(
@@ -1221,20 +1221,20 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://pub.dev")), false);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelImageUri.parse("https://pub.dev")), false);
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net")),
         true);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelImageUri.parse("https://pub.dev").toJson()
+        "uri": const ModelImageUri.parse("https://pub.dev").toJson()
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelImageUri.parse("https://mathru.net").toJson()
+        "uri": const ModelImageUri.parse("https://mathru.net").toJson()
       }),
       true,
     );
@@ -1243,7 +1243,7 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "uri": ModelImageUri.parse("https://pub.dev").toJson()
+          "uri": const ModelImageUri.parse("https://pub.dev").toJson()
         }
       ]),
       false,
@@ -1253,12 +1253,12 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+          "uri": const ModelImageUri.parse("https://mathru.net").toJson()
         }
       ]),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notEqual(
@@ -1268,20 +1268,20 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelImageUri.parse("https://pub.dev")), true);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelImageUri.parse("https://pub.dev")), true);
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net")),
         false);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelImageUri.parse("https://pub.dev").toJson()
+        "uri": const ModelImageUri.parse("https://pub.dev").toJson()
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelImageUri.parse("https://mathru.net").toJson()
+        "uri": const ModelImageUri.parse("https://mathru.net").toJson()
       }),
       false,
     );
@@ -1290,7 +1290,7 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+          "uri": const ModelImageUri.parse("https://mathru.net").toJson()
         }
       ]),
       true,
@@ -1299,16 +1299,16 @@ void main() {
       query.hasMatchAsList([
         {
           "name": "test",
-          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+          "uri": const ModelImageUri.parse("https://mathru.net").toJson()
         },
         {
           "name": "test2",
-          "uri": ModelImageUri.parse("https://mathru.net").toJson()
+          "uri": const ModelImageUri.parse("https://mathru.net").toJson()
         }
       ]),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
@@ -1317,24 +1317,24 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelImageUri.parse("https://mathru.net"),
-          ModelImageUri.parse("https://puv.dev"),
-          ModelImageUri.parse("https://mathru.net/ja"),
+          const ModelImageUri.parse("https://mathru.net"),
+          const ModelImageUri.parse("https://puv.dev"),
+          const ModelImageUri.parse("https://mathru.net/ja"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelImageUri.parse("https://mathru.net/en"),
-          ModelImageUri.parse("https://puv.dev"),
-          ModelImageUri.parse("https://mathru.net/ja"),
+          const ModelImageUri.parse("https://mathru.net/en"),
+          const ModelImageUri.parse("https://puv.dev"),
+          const ModelImageUri.parse("https://mathru.net/ja"),
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelImageUri.parse("https://mathru.net").toJson(),
-          ModelImageUri.parse("https://puv.dev").toJson(),
-          ModelImageUri.parse("https://mathru.net/ja").toJson(),
+          const ModelImageUri.parse("https://mathru.net").toJson(),
+          const ModelImageUri.parse("https://puv.dev").toJson(),
+          const ModelImageUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1343,15 +1343,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelImageUri.parse("https://mathru.net/en").toJson(),
-          ModelImageUri.parse("https://puv.dev").toJson(),
-          ModelImageUri.parse("https://mathru.net/ja").toJson(),
+          const ModelImageUri.parse("https://mathru.net/en").toJson(),
+          const ModelImageUri.parse("https://puv.dev").toJson(),
+          const ModelImageUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.containsAny(key: "uri", values: [
@@ -1363,31 +1363,31 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelImageUri.parse("https://mathru.net/en"),
-          ModelImageUri.parse("https://puv.dev"),
-          ModelImageUri.parse("https://mathru.net"),
+          const ModelImageUri.parse("https://mathru.net/en"),
+          const ModelImageUri.parse("https://puv.dev"),
+          const ModelImageUri.parse("https://mathru.net"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelImageUri.parse("https://mathru.net/en"),
-          ModelImageUri.parse("https://puv.dev"),
-          ModelImageUri.parse("https://mathru.net/ja"),
+          const ModelImageUri.parse("https://mathru.net/en"),
+          const ModelImageUri.parse("https://puv.dev"),
+          const ModelImageUri.parse("https://mathru.net/ja"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelImageUri.parse("https://mathru.net"),
-          ModelImageUri.parse("https://puv.dev"),
-          ModelImageUri.parse("https://mathru.net/de"),
+          const ModelImageUri.parse("https://mathru.net"),
+          const ModelImageUri.parse("https://puv.dev"),
+          const ModelImageUri.parse("https://mathru.net/de"),
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelImageUri.parse("https://mathru.net/en").toJson(),
-          ModelImageUri.parse("https://puv.dev").toJson(),
-          ModelImageUri.parse("https://mathru.net").toJson(),
+          const ModelImageUri.parse("https://mathru.net/en").toJson(),
+          const ModelImageUri.parse("https://puv.dev").toJson(),
+          const ModelImageUri.parse("https://mathru.net").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1396,9 +1396,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelImageUri.parse("https://mathru.net/en").toJson(),
-          ModelImageUri.parse("https://puv.dev").toJson(),
-          ModelImageUri.parse("https://mathru.net/ja").toJson(),
+          const ModelImageUri.parse("https://mathru.net/en").toJson(),
+          const ModelImageUri.parse("https://puv.dev").toJson(),
+          const ModelImageUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1407,15 +1407,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelImageUri.parse("https://mathru.net").toJson(),
-          ModelImageUri.parse("https://puv.dev").toJson(),
-          ModelImageUri.parse("https://mathru.net/de").toJson(),
+          const ModelImageUri.parse("https://mathru.net").toJson(),
+          const ModelImageUri.parse("https://puv.dev").toJson(),
+          const ModelImageUri.parse("https://mathru.net/de").toJson(),
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.where(key: "uri", values: [
@@ -1425,34 +1425,34 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/de")),
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/de")),
         false);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/zh")),
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/zh")),
         true);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/ja")),
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/ja")),
         true);
     expect(
       query.hasMatchAsMap({
-        "uri": ModelImageUri.parse("https://mathru.net/de").toJson(),
+        "uri": const ModelImageUri.parse("https://mathru.net/de").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelImageUri.parse("https://mathru.net/zh").toJson(),
+        "uri": const ModelImageUri.parse("https://mathru.net/zh").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelImageUri.parse("https://mathru.net/ja").toJson(),
+        "uri": const ModelImageUri.parse("https://mathru.net/ja").toJson(),
         "text": "aaaa"
       }),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notWhere(key: "uri", values: [
@@ -1462,36 +1462,36 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/de")),
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/de")),
         true);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/zh")),
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/zh")),
         false);
-    expect(query.hasMatchAsObject(ModelImageUri.parse("https://mathru.net/ja")),
+    expect(query.hasMatchAsObject(const ModelImageUri.parse("https://mathru.net/ja")),
         false);
     expect(
       query.hasMatchAsMap({
-        "uri": ModelImageUri.parse("https://mathru.net/de").toJson(),
+        "uri": const ModelImageUri.parse("https://mathru.net/de").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelImageUri.parse("https://mathru.net/zh").toJson(),
+        "uri": const ModelImageUri.parse("https://mathru.net/zh").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelImageUri.parse("https://mathru.net/ja").toJson(),
+        "uri": const ModelImageUri.parse("https://mathru.net/ja").toJson(),
         "text": "aaaa"
       }),
       false,
     );
   });
   test("ModelQuery.ModelVideoUri", () async {
-    var query = ModelQuery(
+    var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.equal(
@@ -1501,20 +1501,20 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelVideoUri.parse("https://pub.dev")), false);
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelVideoUri.parse("https://pub.dev")), false);
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net")),
         true);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelVideoUri.parse("https://pub.dev").toJson()
+        "uri": const ModelVideoUri.parse("https://pub.dev").toJson()
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelVideoUri.parse("https://mathru.net").toJson()
+        "uri": const ModelVideoUri.parse("https://mathru.net").toJson()
       }),
       true,
     );
@@ -1523,7 +1523,7 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "uri": ModelVideoUri.parse("https://pub.dev").toJson()
+          "uri": const ModelVideoUri.parse("https://pub.dev").toJson()
         }
       ]),
       false,
@@ -1533,12 +1533,12 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "uri": ModelVideoUri.parse("https://mathru.net").toJson()
+          "uri": const ModelVideoUri.parse("https://mathru.net").toJson()
         }
       ]),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notEqual(
@@ -1548,20 +1548,20 @@ void main() {
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelVideoUri.parse("https://pub.dev")), true);
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net")),
+        query.hasMatchAsObject(const ModelVideoUri.parse("https://pub.dev")), true);
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net")),
         false);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelVideoUri.parse("https://pub.dev").toJson()
+        "uri": const ModelVideoUri.parse("https://pub.dev").toJson()
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "uri": ModelVideoUri.parse("https://mathru.net").toJson()
+        "uri": const ModelVideoUri.parse("https://mathru.net").toJson()
       }),
       false,
     );
@@ -1570,7 +1570,7 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "uri": ModelVideoUri.parse("https://mathru.net").toJson()
+          "uri": const ModelVideoUri.parse("https://mathru.net").toJson()
         }
       ]),
       true,
@@ -1579,16 +1579,16 @@ void main() {
       query.hasMatchAsList([
         {
           "name": "test",
-          "uri": ModelVideoUri.parse("https://mathru.net").toJson()
+          "uri": const ModelVideoUri.parse("https://mathru.net").toJson()
         },
         {
           "name": "test2",
-          "uri": ModelVideoUri.parse("https://mathru.net").toJson()
+          "uri": const ModelVideoUri.parse("https://mathru.net").toJson()
         }
       ]),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
@@ -1597,24 +1597,24 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelVideoUri.parse("https://mathru.net"),
-          ModelVideoUri.parse("https://puv.dev"),
-          ModelVideoUri.parse("https://mathru.net/ja"),
+          const ModelVideoUri.parse("https://mathru.net"),
+          const ModelVideoUri.parse("https://puv.dev"),
+          const ModelVideoUri.parse("https://mathru.net/ja"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelVideoUri.parse("https://mathru.net/en"),
-          ModelVideoUri.parse("https://puv.dev"),
-          ModelVideoUri.parse("https://mathru.net/ja"),
+          const ModelVideoUri.parse("https://mathru.net/en"),
+          const ModelVideoUri.parse("https://puv.dev"),
+          const ModelVideoUri.parse("https://mathru.net/ja"),
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelVideoUri.parse("https://mathru.net").toJson(),
-          ModelVideoUri.parse("https://puv.dev").toJson(),
-          ModelVideoUri.parse("https://mathru.net/ja").toJson(),
+          const ModelVideoUri.parse("https://mathru.net").toJson(),
+          const ModelVideoUri.parse("https://puv.dev").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1623,15 +1623,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelVideoUri.parse("https://mathru.net/en").toJson(),
-          ModelVideoUri.parse("https://puv.dev").toJson(),
-          ModelVideoUri.parse("https://mathru.net/ja").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/en").toJson(),
+          const ModelVideoUri.parse("https://puv.dev").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.containsAny(key: "uri", values: [
@@ -1643,31 +1643,31 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelVideoUri.parse("https://mathru.net/en"),
-          ModelVideoUri.parse("https://puv.dev"),
-          ModelVideoUri.parse("https://mathru.net"),
+          const ModelVideoUri.parse("https://mathru.net/en"),
+          const ModelVideoUri.parse("https://puv.dev"),
+          const ModelVideoUri.parse("https://mathru.net"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelVideoUri.parse("https://mathru.net/en"),
-          ModelVideoUri.parse("https://puv.dev"),
-          ModelVideoUri.parse("https://mathru.net/ja"),
+          const ModelVideoUri.parse("https://mathru.net/en"),
+          const ModelVideoUri.parse("https://puv.dev"),
+          const ModelVideoUri.parse("https://mathru.net/ja"),
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelVideoUri.parse("https://mathru.net"),
-          ModelVideoUri.parse("https://puv.dev"),
-          ModelVideoUri.parse("https://mathru.net/de"),
+          const ModelVideoUri.parse("https://mathru.net"),
+          const ModelVideoUri.parse("https://puv.dev"),
+          const ModelVideoUri.parse("https://mathru.net/de"),
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelVideoUri.parse("https://mathru.net/en").toJson(),
-          ModelVideoUri.parse("https://puv.dev").toJson(),
-          ModelVideoUri.parse("https://mathru.net").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/en").toJson(),
+          const ModelVideoUri.parse("https://puv.dev").toJson(),
+          const ModelVideoUri.parse("https://mathru.net").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1676,9 +1676,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelVideoUri.parse("https://mathru.net/en").toJson(),
-          ModelVideoUri.parse("https://puv.dev").toJson(),
-          ModelVideoUri.parse("https://mathru.net/ja").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/en").toJson(),
+          const ModelVideoUri.parse("https://puv.dev").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/ja").toJson(),
         ],
         "text": "aaaa"
       }),
@@ -1687,15 +1687,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "uri": [
-          ModelVideoUri.parse("https://mathru.net").toJson(),
-          ModelVideoUri.parse("https://puv.dev").toJson(),
-          ModelVideoUri.parse("https://mathru.net/de").toJson(),
+          const ModelVideoUri.parse("https://mathru.net").toJson(),
+          const ModelVideoUri.parse("https://puv.dev").toJson(),
+          const ModelVideoUri.parse("https://mathru.net/de").toJson(),
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.where(key: "uri", values: [
@@ -1705,34 +1705,34 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net/de")),
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/de")),
         false);
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net/zh")),
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/zh")),
         true);
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net/ja")),
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/ja")),
         true);
     expect(
       query.hasMatchAsMap({
-        "uri": ModelVideoUri.parse("https://mathru.net/de").toJson(),
+        "uri": const ModelVideoUri.parse("https://mathru.net/de").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelVideoUri.parse("https://mathru.net/zh").toJson(),
+        "uri": const ModelVideoUri.parse("https://mathru.net/zh").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelVideoUri.parse("https://mathru.net/ja").toJson(),
+        "uri": const ModelVideoUri.parse("https://mathru.net/ja").toJson(),
         "text": "aaaa"
       }),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notWhere(key: "uri", values: [
@@ -1742,29 +1742,29 @@ void main() {
         ]),
       ],
     );
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net/de")),
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/de")),
         true);
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net/zh")),
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/zh")),
         false);
-    expect(query.hasMatchAsObject(ModelVideoUri.parse("https://mathru.net/ja")),
+    expect(query.hasMatchAsObject(const ModelVideoUri.parse("https://mathru.net/ja")),
         false);
     expect(
       query.hasMatchAsMap({
-        "uri": ModelVideoUri.parse("https://mathru.net/de").toJson(),
+        "uri": const ModelVideoUri.parse("https://mathru.net/de").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelVideoUri.parse("https://mathru.net/zh").toJson(),
+        "uri": const ModelVideoUri.parse("https://mathru.net/zh").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "uri": ModelVideoUri.parse("https://mathru.net/ja").toJson(),
+        "uri": const ModelVideoUri.parse("https://mathru.net/ja").toJson(),
         "text": "aaaa"
       }),
       false,
@@ -2143,81 +2143,81 @@ void main() {
     );
   });
   test("ModelQuery.ModelRef", () async {
-    var query = ModelQuery(
+    var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.equal(
             key: "path", value: ModelRefBase.fromPath("cccc/dddd")),
       ],
     );
-    expect(query.hasMatchAsObject(ModelRefBase.fromPath("eeee/ffff")), false);
-    expect(query.hasMatchAsObject(ModelRefBase.fromPath("cccc/dddd")), true);
+    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("eeee/ffff")), false);
+    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("cccc/dddd")), true);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "path": ModelRefBase.fromPath("eeee/ffff").toJson()
+        "path": const ModelRefBase.fromPath("eeee/ffff").toJson()
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "path": ModelRefBase.fromPath("cccc/dddd").toJson()
+        "path": const ModelRefBase.fromPath("cccc/dddd").toJson()
       }),
       true,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "path": ModelRefBase.fromPath("eeee/ffff").toJson()}
+        {"name": "test2", "path": const ModelRefBase.fromPath("eeee/ffff").toJson()}
       ]),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "path": ModelRefBase.fromPath("cccc/dddd").toJson()}
+        {"name": "test2", "path": const ModelRefBase.fromPath("cccc/dddd").toJson()}
       ]),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notEqual(
             key: "path", value: ModelRefBase.fromPath("cccc/dddd")),
       ],
     );
-    expect(query.hasMatchAsObject(ModelRefBase.fromPath("eeee/ffff")), true);
-    expect(query.hasMatchAsObject(ModelRefBase.fromPath("cccc/dddd")), false);
+    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("eeee/ffff")), true);
+    expect(query.hasMatchAsObject(const ModelRefBase.fromPath("cccc/dddd")), false);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "path": ModelRefBase.fromPath("eeee/ffff").toJson()
+        "path": const ModelRefBase.fromPath("eeee/ffff").toJson()
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "path": ModelRefBase.fromPath("cccc/dddd").toJson()
+        "path": const ModelRefBase.fromPath("cccc/dddd").toJson()
       }),
       false,
     );
     expect(
       query.hasMatchAsList([
         {"name": "test", "text": "aaaa"},
-        {"name": "test2", "path": ModelRefBase.fromPath("eeee/ffff").toJson()}
+        {"name": "test2", "path": const ModelRefBase.fromPath("eeee/ffff").toJson()}
       ]),
       true,
     );
     expect(
       query.hasMatchAsList([
-        {"name": "test", "path": ModelRefBase.fromPath("cccc/dddd").toJson()},
-        {"name": "test2", "path": ModelRefBase.fromPath("cccc/dddd").toJson()}
+        {"name": "test", "path": const ModelRefBase.fromPath("cccc/dddd").toJson()},
+        {"name": "test2", "path": const ModelRefBase.fromPath("cccc/dddd").toJson()}
       ]),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
@@ -2226,24 +2226,24 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelRefBase.fromPath("aaaa/bbbb"),
-          ModelRefBase.fromPath("cccc/dddd"),
-          ModelRefBase.fromPath("eeee/ffff")
+          const ModelRefBase.fromPath("aaaa/bbbb"),
+          const ModelRefBase.fromPath("cccc/dddd"),
+          const ModelRefBase.fromPath("eeee/ffff")
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelRefBase.fromPath("1111/bbbb"),
-          ModelRefBase.fromPath("2222/dddd"),
-          ModelRefBase.fromPath("3333/ffff")
+          const ModelRefBase.fromPath("1111/bbbb"),
+          const ModelRefBase.fromPath("2222/dddd"),
+          const ModelRefBase.fromPath("3333/ffff")
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "path": [
-          ModelRefBase.fromPath("aaaa/bbbb").toJson(),
-          ModelRefBase.fromPath("cccc/dddd").toJson(),
-          ModelRefBase.fromPath("eeee/ffff").toJson()
+          const ModelRefBase.fromPath("aaaa/bbbb").toJson(),
+          const ModelRefBase.fromPath("cccc/dddd").toJson(),
+          const ModelRefBase.fromPath("eeee/ffff").toJson()
         ],
         "text": "aaaa"
       }),
@@ -2252,15 +2252,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "path": [
-          ModelRefBase.fromPath("1111/bbbb").toJson(),
-          ModelRefBase.fromPath("2222/dddd").toJson(),
-          ModelRefBase.fromPath("3333/ffff").toJson()
+          const ModelRefBase.fromPath("1111/bbbb").toJson(),
+          const ModelRefBase.fromPath("2222/dddd").toJson(),
+          const ModelRefBase.fromPath("3333/ffff").toJson()
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.containsAny(key: "path", values: [
@@ -2272,31 +2272,31 @@ void main() {
     );
     expect(
         query.hasMatchAsObject([
-          ModelRefBase.fromPath("aaaa/bbbb"),
-          ModelRefBase.fromPath("2222/dddd"),
-          ModelRefBase.fromPath("3333/ffff")
+          const ModelRefBase.fromPath("aaaa/bbbb"),
+          const ModelRefBase.fromPath("2222/dddd"),
+          const ModelRefBase.fromPath("3333/ffff")
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelRefBase.fromPath("1111/bbbb"),
-          ModelRefBase.fromPath("cccc/dddd"),
-          ModelRefBase.fromPath("3333/ffff")
+          const ModelRefBase.fromPath("1111/bbbb"),
+          const ModelRefBase.fromPath("cccc/dddd"),
+          const ModelRefBase.fromPath("3333/ffff")
         ]),
         true);
     expect(
         query.hasMatchAsObject([
-          ModelRefBase.fromPath("1111/bbbb").toJson(),
-          ModelRefBase.fromPath("2222/dddd").toJson(),
-          ModelRefBase.fromPath("3333/ffff").toJson()
+          const ModelRefBase.fromPath("1111/bbbb").toJson(),
+          const ModelRefBase.fromPath("2222/dddd").toJson(),
+          const ModelRefBase.fromPath("3333/ffff").toJson()
         ]),
         false);
     expect(
       query.hasMatchAsMap({
         "path": [
-          ModelRefBase.fromPath("aaaa/bbbb").toJson(),
-          ModelRefBase.fromPath("2222/dddd").toJson(),
-          ModelRefBase.fromPath("3333/ffff").toJson()
+          const ModelRefBase.fromPath("aaaa/bbbb").toJson(),
+          const ModelRefBase.fromPath("2222/dddd").toJson(),
+          const ModelRefBase.fromPath("3333/ffff").toJson()
         ],
         "text": "aaaa"
       }),
@@ -2305,9 +2305,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "path": [
-          ModelRefBase.fromPath("1111/bbbb").toJson(),
-          ModelRefBase.fromPath("cccc/dddd").toJson(),
-          ModelRefBase.fromPath("3333/ffff").toJson()
+          const ModelRefBase.fromPath("1111/bbbb").toJson(),
+          const ModelRefBase.fromPath("cccc/dddd").toJson(),
+          const ModelRefBase.fromPath("3333/ffff").toJson()
         ],
         "text": "aaaa"
       }),
@@ -2316,15 +2316,15 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "path": [
-          ModelRefBase.fromPath("1111/bbbb").toJson(),
-          ModelRefBase.fromPath("2222/dddd").toJson(),
-          ModelRefBase.fromPath("3333/ffff").toJson()
+          const ModelRefBase.fromPath("1111/bbbb").toJson(),
+          const ModelRefBase.fromPath("2222/dddd").toJson(),
+          const ModelRefBase.fromPath("3333/ffff").toJson()
         ],
         "text": "aaaa"
       }),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.where(key: "path", values: [
@@ -2336,41 +2336,41 @@ void main() {
     );
     expect(
         query.hasMatchAsObject(
-          ModelRefBase.fromPath("1111/bbbb"),
+          const ModelRefBase.fromPath("1111/bbbb"),
         ),
         false);
     expect(
         query.hasMatchAsObject(
-          ModelRefBase.fromPath("cccc/dddd"),
+          const ModelRefBase.fromPath("cccc/dddd"),
         ),
         true);
     expect(
         query.hasMatchAsObject(
-          ModelRefBase.fromPath("eeee/ffff"),
+          const ModelRefBase.fromPath("eeee/ffff"),
         ),
         true);
     expect(
       query.hasMatchAsMap({
-        "path": ModelRefBase.fromPath("1111/bbbb").toJson(),
+        "path": const ModelRefBase.fromPath("1111/bbbb").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "path": ModelRefBase.fromPath("cccc/dddd").toJson(),
+        "path": const ModelRefBase.fromPath("cccc/dddd").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "path": ModelRefBase.fromPath("eeee/ffff").toJson(),
+        "path": const ModelRefBase.fromPath("eeee/ffff").toJson(),
         "text": "aaaa"
       }),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.notWhere(key: "path", values: [
@@ -2382,36 +2382,36 @@ void main() {
     );
     expect(
         query.hasMatchAsObject(
-          ModelRefBase.fromPath("1111/bbbb"),
+          const ModelRefBase.fromPath("1111/bbbb"),
         ),
         true);
     expect(
         query.hasMatchAsObject(
-          ModelRefBase.fromPath("cccc/dddd"),
+          const ModelRefBase.fromPath("cccc/dddd"),
         ),
         false);
     expect(
         query.hasMatchAsObject(
-          ModelRefBase.fromPath("eeee/ffff"),
+          const ModelRefBase.fromPath("eeee/ffff"),
         ),
         false);
     expect(
       query.hasMatchAsMap({
-        "path": ModelRefBase.fromPath("1111/bbbb").toJson(),
+        "path": const ModelRefBase.fromPath("1111/bbbb").toJson(),
         "text": "aaaa"
       }),
       true,
     );
     expect(
       query.hasMatchAsMap({
-        "path": ModelRefBase.fromPath("cccc/dddd").toJson(),
+        "path": const ModelRefBase.fromPath("cccc/dddd").toJson(),
         "text": "aaaa"
       }),
       false,
     );
     expect(
       query.hasMatchAsMap({
-        "path": ModelRefBase.fromPath("eeee/ffff").toJson(),
+        "path": const ModelRefBase.fromPath("eeee/ffff").toJson(),
         "text": "aaaa"
       }),
       false,

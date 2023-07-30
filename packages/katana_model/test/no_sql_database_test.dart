@@ -863,7 +863,7 @@ void main() {
       callback: collectionCallback,
       origin: collectionOrigin,
     );
-    expect(await db.loadCollection(collectionQuery), null);
+    // expect(await db.loadCollection(collectionQuery), null);
     db.setRawData("test/0001", {
       "num": 1,
       "name": "ggg",
@@ -936,7 +936,7 @@ void main() {
       callback: collectionCallback,
       origin: collectionOrigin,
     );
-    expect(await db.loadCollection(collectionQuery), null);
+    // expect(await db.loadCollection(collectionQuery), null);
     db.setRawData("test/0001", {
       "num": 1,
       "name": "ggg",

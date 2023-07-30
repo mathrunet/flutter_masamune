@@ -28,6 +28,13 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
       search: json['search'] == null
           ? const ModelSearch([])
           : ModelSearch.fromJson(json['search'] as Map<String, dynamic>),
+      locale: json['locale'] == null
+          ? const ModelLocale()
+          : ModelLocale.fromJson(json['locale'] as Map<String, dynamic>),
+      localized: json['localized'] == null
+          ? const ModelLocalizedValue()
+          : ModelLocalizedValue.fromJson(
+              json['localized'] as Map<String, dynamic>),
       videoMap: (json['videoMap'] as Map<String, dynamic>?)?.map(
             (k, e) =>
                 MapEntry(k, ModelVideoUri.fromJson(e as Map<String, dynamic>)),
@@ -48,6 +55,8 @@ Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
       'video': instance.video,
       'geo': instance.geo,
       'search': instance.search,
+      'locale': instance.locale,
+      'localized': instance.localized,
       'videoMap': instance.videoMap,
       'imageList': instance.imageList,
     };

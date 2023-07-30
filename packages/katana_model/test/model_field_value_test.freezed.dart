@@ -27,6 +27,8 @@ mixin _$TestValue {
   ModelVideoUri get video => throw _privateConstructorUsedError;
   ModelGeoValue get geo => throw _privateConstructorUsedError;
   ModelSearch get search => throw _privateConstructorUsedError;
+  ModelLocale get locale => throw _privateConstructorUsedError;
+  ModelLocalizedValue get localized => throw _privateConstructorUsedError;
   Map<String, ModelVideoUri> get videoMap => throw _privateConstructorUsedError;
   List<ModelImageUri> get imageList => throw _privateConstructorUsedError;
 
@@ -49,6 +51,8 @@ abstract class $TestValueCopyWith<$Res> {
       ModelVideoUri video,
       ModelGeoValue geo,
       ModelSearch search,
+      ModelLocale locale,
+      ModelLocalizedValue localized,
       Map<String, ModelVideoUri> videoMap,
       List<ModelImageUri> imageList});
 }
@@ -73,6 +77,8 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
     Object? video = null,
     Object? geo = null,
     Object? search = null,
+    Object? locale = null,
+    Object? localized = null,
     Object? videoMap = null,
     Object? imageList = null,
   }) {
@@ -105,6 +111,14 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
           ? _value.search
           : search // ignore: cast_nullable_to_non_nullable
               as ModelSearch,
+      locale: null == locale
+          ? _value.locale
+          : locale // ignore: cast_nullable_to_non_nullable
+              as ModelLocale,
+      localized: null == localized
+          ? _value.localized
+          : localized // ignore: cast_nullable_to_non_nullable
+              as ModelLocalizedValue,
       videoMap: null == videoMap
           ? _value.videoMap
           : videoMap // ignore: cast_nullable_to_non_nullable
@@ -132,6 +146,8 @@ abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
       ModelVideoUri video,
       ModelGeoValue geo,
       ModelSearch search,
+      ModelLocale locale,
+      ModelLocalizedValue localized,
       Map<String, ModelVideoUri> videoMap,
       List<ModelImageUri> imageList});
 }
@@ -154,6 +170,8 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? video = null,
     Object? geo = null,
     Object? search = null,
+    Object? locale = null,
+    Object? localized = null,
     Object? videoMap = null,
     Object? imageList = null,
   }) {
@@ -186,6 +204,14 @@ class __$$_TestValueCopyWithImpl<$Res>
           ? _value.search
           : search // ignore: cast_nullable_to_non_nullable
               as ModelSearch,
+      locale: null == locale
+          ? _value.locale
+          : locale // ignore: cast_nullable_to_non_nullable
+              as ModelLocale,
+      localized: null == localized
+          ? _value.localized
+          : localized // ignore: cast_nullable_to_non_nullable
+              as ModelLocalizedValue,
       videoMap: null == videoMap
           ? _value._videoMap
           : videoMap // ignore: cast_nullable_to_non_nullable
@@ -209,6 +235,8 @@ class _$_TestValue implements _TestValue {
       this.video = const ModelVideoUri(),
       this.geo = const ModelGeoValue(),
       this.search = const ModelSearch([]),
+      this.locale = const ModelLocale(),
+      this.localized = const ModelLocalizedValue(),
       final Map<String, ModelVideoUri> videoMap = const {},
       final List<ModelImageUri> imageList = const []})
       : _videoMap = videoMap,
@@ -238,6 +266,12 @@ class _$_TestValue implements _TestValue {
   @override
   @JsonKey()
   final ModelSearch search;
+  @override
+  @JsonKey()
+  final ModelLocale locale;
+  @override
+  @JsonKey()
+  final ModelLocalizedValue localized;
   final Map<String, ModelVideoUri> _videoMap;
   @override
   @JsonKey()
@@ -258,7 +292,7 @@ class _$_TestValue implements _TestValue {
 
   @override
   String toString() {
-    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, videoMap: $videoMap, imageList: $imageList)';
+    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList)';
   }
 
   @override
@@ -273,6 +307,9 @@ class _$_TestValue implements _TestValue {
             (identical(other.video, video) || other.video == video) &&
             (identical(other.geo, geo) || other.geo == geo) &&
             (identical(other.search, search) || other.search == search) &&
+            (identical(other.locale, locale) || other.locale == locale) &&
+            (identical(other.localized, localized) ||
+                other.localized == localized) &&
             const DeepCollectionEquality().equals(other._videoMap, _videoMap) &&
             const DeepCollectionEquality()
                 .equals(other._imageList, _imageList));
@@ -289,6 +326,8 @@ class _$_TestValue implements _TestValue {
       video,
       geo,
       search,
+      locale,
+      localized,
       const DeepCollectionEquality().hash(_videoMap),
       const DeepCollectionEquality().hash(_imageList));
 
@@ -315,6 +354,8 @@ abstract class _TestValue implements TestValue {
       final ModelVideoUri video,
       final ModelGeoValue geo,
       final ModelSearch search,
+      final ModelLocale locale,
+      final ModelLocalizedValue localized,
       final Map<String, ModelVideoUri> videoMap,
       final List<ModelImageUri> imageList}) = _$_TestValue;
 
@@ -335,6 +376,10 @@ abstract class _TestValue implements TestValue {
   ModelGeoValue get geo;
   @override
   ModelSearch get search;
+  @override
+  ModelLocale get locale;
+  @override
+  ModelLocalizedValue get localized;
   @override
   Map<String, ModelVideoUri> get videoMap;
   @override

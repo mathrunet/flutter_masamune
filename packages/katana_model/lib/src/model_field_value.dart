@@ -127,6 +127,8 @@ abstract class ModelFieldValue<T> {
   static final Set<ModelFieldValueConverter> _converters = {
     const ModelCounterConverter(),
     const ModelTimestampConverter(),
+    const ModelLocaleConverter(),
+    const ModelLocalizedValueConverter(),
     const ModelGeoValueConverter(),
     const ModelUriConverter(),
     const ModelImageUriConverter(),
@@ -152,6 +154,8 @@ abstract class ModelFieldValue<T> {
   static final Set<ModelFieldValueFilter> _filters = {
     const ModelCounterFilter(),
     const ModelTimestampFilter(),
+    const ModelLocaleFilter(),
+    const ModelLocalizedValueFilter(),
     const ModelGeoValueFilter(),
     const ModelUriFilter(),
     const ModelImageUriFilter(),

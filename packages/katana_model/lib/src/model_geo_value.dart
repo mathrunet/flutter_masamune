@@ -37,17 +37,11 @@ class ModelGeoValue extends ModelFieldValue<GeoValue> {
   /// ベースの値を[value]として与えます。与えられなかった場合緯度・経度が0としてセットされます。
   ///
   /// これをサーバーに渡すことでGeoHashによる検索が可能です。
-  factory ModelGeoValue.fromDouble({
+  const factory ModelGeoValue.fromDouble({
     required double latitude,
     required double longitude,
-    double radiusKm = 1.0,
-  }) {
-    return ModelGeoValue(GeoValue(
-      latitude: latitude,
-      longitude: longitude,
-      radiusKm: radiusKm,
-    ));
-  }
+    double? radiusKm,
+  }) = _ModelGeoValueWithDouble;
 
   /// Used to disguise the retrieval of data from the server.
   ///
@@ -122,6 +116,28 @@ class ModelGeoValue extends ModelFieldValue<GeoValue> {
 
   @override
   int get hashCode => _value.hashCode;
+}
+
+@immutable
+class _ModelGeoValueWithDouble extends _ModelGeoValue {
+  const _ModelGeoValueWithDouble({
+    required this.latitude,
+    required this.longitude,
+    this.radiusKm,
+  }) : super();
+
+  final double latitude;
+  final double longitude;
+  final double? radiusKm;
+
+  @override
+  GeoValue? get _value {
+    return GeoValue(
+      latitude: latitude,
+      longitude: longitude,
+      radiusKm: radiusKm ?? 1.0,
+    );
+  }
 }
 
 @immutable
