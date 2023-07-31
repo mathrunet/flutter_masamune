@@ -1,8 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-// Dart imports:
-import 'dart:ui';
-
 // Package imports:
 import 'package:test/test.dart';
 
@@ -2251,36 +2248,36 @@ void main() {
     );
   });
   test("ModelQuery.ModelLocalizedValue", () async {
-    var query = ModelQuery(
+    var query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.equal(
           key: "search",
           value: ModelLocalizedValue.fromMap({
-            const Locale("ja"): "aaaa",
-            const Locale("en"): "bbbb",
+            "ja": "aaaa",
+            "en": "bbbb",
           }),
         ),
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
-          const Locale("ja"): "cccc",
-          const Locale("en"): "dddd",
+        query.hasMatchAsObject(const ModelLocalizedValue.fromMap({
+          "ja": "cccc",
+          "en": "dddd",
         })),
         false);
     expect(
-        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
-          const Locale("ja"): "aaaa",
-          const Locale("en"): "bbbb",
+        query.hasMatchAsObject(const ModelLocalizedValue.fromMap({
+          "ja": "aaaa",
+          "en": "bbbb",
         })),
         true);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "search": ModelLocalizedValue.fromMap({
-          const Locale("ja"): "cccc",
-          const Locale("en"): "dddd",
+        "search": const ModelLocalizedValue.fromMap({
+          "ja": "cccc",
+          "en": "dddd",
         }).toJson()
       }),
       false,
@@ -2288,9 +2285,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "search": ModelLocalizedValue.fromMap({
-          const Locale("ja"): "aaaa",
-          const Locale("en"): "bbbb",
+        "search": const ModelLocalizedValue.fromMap({
+          "ja": "aaaa",
+          "en": "bbbb",
         }).toJson()
       }),
       true,
@@ -2300,9 +2297,9 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "search": ModelLocalizedValue.fromMap({
-            const Locale("ja"): "cccc",
-            const Locale("en"): "eeee",
+          "search": const ModelLocalizedValue.fromMap({
+            "ja": "cccc",
+            "en": "eeee",
           }).toJson()
         }
       ]),
@@ -2313,43 +2310,43 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "search": ModelLocalizedValue.fromMap({
-            const Locale("ja"): "bbbb",
-            const Locale("en"): "cccc",
+          "search": const ModelLocalizedValue.fromMap({
+            "ja": "bbbb",
+            "en": "cccc",
           }).toJson()
         }
       ]),
       false,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.contains(
           key: "search",
           value: ModelLocalizedValue.fromMap({
-            const Locale("ja"): "bbbb",
+            "ja": "bbbb",
           }),
         ),
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
-          const Locale("ja"): "cccc",
-          const Locale("en"): "dddd",
+        query.hasMatchAsObject(const ModelLocalizedValue.fromMap({
+          "ja": "cccc",
+          "en": "dddd",
         })),
         false);
     expect(
-        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
-          const Locale("ja"): "aaaa",
-          const Locale("en"): "bbbb",
+        query.hasMatchAsObject(const ModelLocalizedValue.fromMap({
+          "ja": "aaaa",
+          "en": "bbbb",
         })),
         false);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "search": ModelLocalizedValue.fromMap({
-          const Locale("ja"): "cccc",
-          const Locale("en"): "dddd",
+        "search": const ModelLocalizedValue.fromMap({
+          "ja": "cccc",
+          "en": "dddd",
         }).toJson()
       }),
       false,
@@ -2357,9 +2354,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "search": ModelLocalizedValue.fromMap({
-          const Locale("ja"): "aaaa",
-          const Locale("en"): "bbbb",
+        "search": const ModelLocalizedValue.fromMap({
+          "ja": "aaaa",
+          "en": "bbbb",
         }).toJson()
       }),
       false,
@@ -2369,9 +2366,9 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "search": ModelLocalizedValue.fromMap({
-            const Locale("ja"): "cccc",
-            const Locale("en"): "eeee",
+          "search": const ModelLocalizedValue.fromMap({
+            "ja": "cccc",
+            "en": "eeee",
           }).toJson()
         }
       ]),
@@ -2382,48 +2379,48 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "search": ModelLocalizedValue.fromMap({
-            const Locale("ja"): "bbbb",
-            const Locale("en"): "cccc",
+          "search": const ModelLocalizedValue.fromMap({
+            "ja": "bbbb",
+            "en": "cccc",
           }).toJson()
         }
       ]),
       true,
     );
-    query = ModelQuery(
+    query = const ModelQuery(
       "aaaa/bbbb",
       filters: [
         ModelQueryFilter.containsAny(
           key: "search",
           values: [
             ModelLocalizedValue.fromMap({
-              const Locale("ja"): "bbbb",
+              "ja": "bbbb",
             }),
             ModelLocalizedValue.fromMap({
-              const Locale("en"): "bbbb",
+              "en": "bbbb",
             }),
           ],
         ),
       ],
     );
     expect(
-        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
-          const Locale("ja"): "cccc",
-          const Locale("en"): "dddd",
+        query.hasMatchAsObject(const ModelLocalizedValue.fromMap({
+          "ja": "cccc",
+          "en": "dddd",
         })),
         false);
     expect(
-        query.hasMatchAsObject(ModelLocalizedValue.fromMap({
-          const Locale("ja"): "aaaa",
-          const Locale("en"): "bbbb",
+        query.hasMatchAsObject(const ModelLocalizedValue.fromMap({
+          "ja": "aaaa",
+          "en": "bbbb",
         })),
         true);
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "search": ModelLocalizedValue.fromMap({
-          const Locale("ja"): "cccc",
-          const Locale("en"): "dddd",
+        "search": const ModelLocalizedValue.fromMap({
+          "ja": "cccc",
+          "en": "dddd",
         }).toJson()
       }),
       false,
@@ -2431,9 +2428,9 @@ void main() {
     expect(
       query.hasMatchAsMap({
         "name": "test",
-        "search": ModelLocalizedValue.fromMap({
-          const Locale("ja"): "aaaa",
-          const Locale("en"): "bbbb",
+        "search": const ModelLocalizedValue.fromMap({
+          "ja": "aaaa",
+          "en": "bbbb",
         }).toJson()
       }),
       true,
@@ -2443,9 +2440,9 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "search": ModelLocalizedValue.fromMap({
-            const Locale("ja"): "cccc",
-            const Locale("en"): "eeee",
+          "search": const ModelLocalizedValue.fromMap({
+            "ja": "cccc",
+            "en": "eeee",
           }).toJson()
         }
       ]),
@@ -2456,9 +2453,9 @@ void main() {
         {"name": "test", "text": "aaaa"},
         {
           "name": "test2",
-          "search": ModelLocalizedValue.fromMap({
-            const Locale("ja"): "bbbb",
-            const Locale("en"): "cccc",
+          "search": const ModelLocalizedValue.fromMap({
+            "ja": "bbbb",
+            "en": "cccc",
           }).toJson()
         }
       ]),

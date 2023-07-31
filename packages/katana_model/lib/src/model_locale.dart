@@ -27,7 +27,7 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
   /// ロケールとテキストのペアを保存する[LocalizedValue]をモデルとして定義します。
   ///
   /// ベースの値を[value]として与えます。与えられなかった場合は何も設定されていない[LocalizedValue]が利用されます。
-  const factory ModelLocalizedValue.fromMap(Map<Locale, String> map) =
+  const factory ModelLocalizedValue.fromMap(Map<String, String> map) =
       _ModelLocaleWithMap;
 
   /// Used to disguise the retrieval of data from the server.
@@ -99,11 +99,22 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
 class _ModelLocaleWithMap extends _ModelLocalizedValue {
   const _ModelLocaleWithMap(this._map) : super();
 
-  final Map<Locale, String> _map;
+  final Map<String, String> _map;
 
   @override
   LocalizedValue? get _value {
-    return LocalizedValue(_map);
+    return LocalizedValue(
+      _map.map((key, value) {
+        final keys = key.replaceAll("-", "_").split("_");
+        return MapEntry(
+          Locale(
+            keys.first,
+            keys.length > 1 ? keys.last : null,
+          ),
+          value,
+        );
+      }),
+    );
   }
 }
 
