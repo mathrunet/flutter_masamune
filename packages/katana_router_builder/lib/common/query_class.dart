@@ -139,11 +139,7 @@ List<Class> queryClass(
               ..lambda = true
               ..returns = const Reference("String")
               ..body = Code(
-                path == null
-                    ? "_path ?? \"${model.name.toSHA1()}\$_parameters\""
-                    : "_path ?? \"${path.path.trimQuery().trimString("/").replaceAllMapped(_pathRegExp, (match) {
-                        return "\$${match.group(1)?.toCamelCase()}";
-                      })}\$_parameters\"",
+                _path(model, path),
               ),
           ),
           Method(
@@ -233,6 +229,29 @@ List<Class> queryClass(
         ]),
     ),
   ];
+}
+
+String _path(ClassValue model, PathValue? path) {
+  if (path == null) {
+    final p = model.name.toSHA1();
+    if (p.isEmpty) {
+      return "_path ?? _parameters";
+    } else {
+      return "_path ?? \"$p\$_parameters\"";
+    }
+  } else {
+    final p = path.path
+        .trimQuery()
+        .trimString("/")
+        .replaceAllMapped(_pathRegExp, (match) {
+      return "\$${match.group(1)?.toCamelCase()}";
+    });
+    if (p.isEmpty) {
+      return "_path ?? _parameters";
+    } else {
+      return "_path ?? \"$p\$_parameters\"";
+    }
+  }
 }
 
 String _defaultParsedValue(

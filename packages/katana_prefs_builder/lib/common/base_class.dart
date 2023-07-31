@@ -188,6 +188,7 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "load"
+              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("Future<void>")
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
@@ -195,6 +196,7 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "loading"
+              ..annotations.addAll([const Reference("override")])
               ..type = MethodType.getter
               ..returns = const Reference("Future<void>?")
               ..lambda = true
@@ -203,6 +205,7 @@ List<Spec> baseClass(
           Method(
             (m) => m
               ..name = "clear"
+              ..annotations.addAll([const Reference("override")])
               ..returns = const Reference("Future<bool>")
               ..lambda = true
               ..body = const Code("throw UnimplementedError()"),
