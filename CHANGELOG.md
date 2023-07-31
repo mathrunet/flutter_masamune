@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.1.0`](#masamune_ads_google---v210)
+
+---
+
+#### `masamune_ads_google` - `v2.1.0`
+
+ - **FEAT**: Initial commitments. ([1aa22e1b](https://github.com/mathrunet/flutter_masamune/commit/1aa22e1bbd5efa0579ed5967a91568e24758c67e))
+
+
+## 2023-08-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.4.3`](#katana_cli---v243)
 
 ---
