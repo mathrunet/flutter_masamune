@@ -1,3 +1,7 @@
+## 2.6.6
+
+ - **FIX**: Change ModelAdapter data to initialValue. ([9e20df8d](https://github.com/mathrunet/flutter_masamune/commit/9e20df8d222f3234d886fd6fac29195d0bce4456))
+
 ## 2.6.5
 
  - Update a dependency to the latest release.

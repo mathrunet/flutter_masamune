@@ -1,3 +1,7 @@
+## 2.10.3
+
+ - **FIX**: Change ModelAdapter data to initialValue. ([9e20df8d](https://github.com/mathrunet/flutter_masamune/commit/9e20df8d222f3234d886fd6fac29195d0bce4456))
+
 ## 2.10.2
 
  - **FIX**: Fixed a bug in ModelLocalizedValue.toString. ([ef2321f1](https://github.com/mathrunet/flutter_masamune/commit/ef2321f1ddaad1a2f24ac65b5bef370c62904ecc))
