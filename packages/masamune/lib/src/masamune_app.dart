@@ -179,7 +179,13 @@ class MasamuneApp extends StatelessWidget {
     this.onBuildAppFilters,
     this.masamuneAdapters = const <MasamuneAdapter>[],
     this.localizationsDelegates,
+    this.supportedLocales,
   });
+
+  /// You can specify a list of supported locales.
+  ///
+  /// サポートするロケールの一覧を指定することができます。
+  final List<Locale>? supportedLocales;
 
   /// You can specify the plug-in adapter used by Masamune Framework.
   ///
@@ -540,7 +546,8 @@ class MasamuneApp extends StatelessWidget {
     if (home != null || routerConfig == null) {
       return MaterialApp(
         locale: localize?.locale,
-        supportedLocales: localize?.supportedLocales() ?? kDefaultLocales,
+        supportedLocales:
+            supportedLocales ?? localize?.supportedLocales() ?? kDefaultLocales,
         localizationsDelegates:
             localize?.delegates(localizationsDelegates ?? const []) ??
                 localizationsDelegates,
@@ -574,7 +581,8 @@ class MasamuneApp extends StatelessWidget {
       return MaterialApp.router(
         routerConfig: routerConfig,
         locale: localize?.locale,
-        supportedLocales: localize?.supportedLocales() ?? kDefaultLocales,
+        supportedLocales:
+            supportedLocales ?? localize?.supportedLocales() ?? kDefaultLocales,
         localizationsDelegates:
             localize?.delegates(localizationsDelegates ?? const []) ??
                 localizationsDelegates,
