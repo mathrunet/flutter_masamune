@@ -314,7 +314,7 @@ void main() {
     });
     final adapter = RuntimeModelAdapter(
       database: NoSqlDatabase(),
-      data: [rawData],
+      initialValue: [rawData],
     );
     final query = CollectionModelQuery(
       "test",

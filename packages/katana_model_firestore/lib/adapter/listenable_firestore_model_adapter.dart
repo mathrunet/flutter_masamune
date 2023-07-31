@@ -12,7 +12,7 @@ part of katana_model_firestore;
 ///
 /// The internal database can be specified in [localDatabase].
 ///
-/// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+/// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
@@ -28,7 +28,7 @@ part of katana_model_firestore;
 ///
 /// 内部データベースは[localDatabase]で指定することができます。
 ///
-/// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+/// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 class ListenableFirestoreModelAdapter extends ModelAdapter
@@ -45,7 +45,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   ///
   /// The internal database can be specified in [localDatabase].
   ///
-  /// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+  /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
@@ -61,11 +61,11 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   ///
   /// 内部データベースは[localDatabase]で指定することができます。
   ///
-  /// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+  /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const ListenableFirestoreModelAdapter({
-    this.data,
+    this.initialValue,
     FirebaseFirestore? database,
     NoSqlDatabase? localDatabase,
     FirebaseOptions? options,
@@ -92,11 +92,11 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   /// 指定の内部データベース。Firestoreから取得したデータをキャッシュします。
   NoSqlDatabase get localDatabase {
     final database = _localDatabase ?? sharedLocalDatabase;
-    if (data.isNotEmpty && !database.isRawDataRegistered) {
-      for (final raw in data!) {
+    if (initialValue.isNotEmpty && !database.isInitialValueRegistered) {
+      for (final raw in initialValue!) {
         for (final tmp in raw.value.entries) {
           final map = raw.toMap(tmp.value);
-          database.setRawData(
+          database.setInitialValue(
             _path("${raw.path}/${tmp.key}"),
             raw.filterOnSave(map, tmp.value),
           );
@@ -116,7 +116,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelDataCollection>? data;
+  final List<ModelDataCollection>? initialValue;
 
   /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
   ///
@@ -279,7 +279,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     var res = _convertFrom(snapshot.data()?.cast() ?? {});
     if (res.isEmpty) {
       final localRes =
-          await localDatabase.getRawDocument(query, prefix: prefix);
+          await localDatabase.getInitialDocument(query, prefix: prefix);
       if (localRes.isNotEmpty) {
         res = localRes!;
       }
@@ -306,7 +306,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
           (e) => MapEntry(e.doc.id, _convertFrom(e.doc.data()?.cast() ?? {})),
         );
     final localRes =
-        await localDatabase.getRawCollection(query, prefix: prefix);
+        await localDatabase.getInitialCollection(query, prefix: prefix);
     if (localRes.isNotEmpty) {
       for (final entry in localRes!.entries) {
         if (res.containsKey(entry.key)) {
@@ -370,7 +370,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   ) async {
     await FirebaseCore.initialize(options: options);
     final localRes =
-        await localDatabase.getRawCollection(query, prefix: prefix);
+        await localDatabase.getInitialCollection(query, prefix: prefix);
     if (localRes.isNotEmpty) {
       for (final entry in localRes!.entries) {
         if (!query.query.hasMatchAsMap(entry.value)) {
@@ -426,7 +426,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
   ) async {
     await FirebaseCore.initialize(options: options);
-    final localRes = await localDatabase.getRawDocument(query, prefix: prefix);
+    final localRes =
+        await localDatabase.getInitialDocument(query, prefix: prefix);
     if (localRes.isNotEmpty) {
       query.callback?.call(
         ModelUpdateNotification(
@@ -494,7 +495,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     var res = _convertFrom(snapshot.data() ?? {});
     if (res.isEmpty) {
       final localRes =
-          await localDatabase.getRawDocument(query, prefix: prefix);
+          await localDatabase.getInitialDocument(query, prefix: prefix);
       if (localRes.isNotEmpty) {
         res = localRes!;
       }

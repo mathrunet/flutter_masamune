@@ -8,7 +8,7 @@ const _kLocalDatabaseId = "local://";
 ///
 /// For mobile and desktop, data is encrypted and stored in external files, and for the Web, data is encrypted and stored in LocalStorage.
 ///
-/// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+/// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
@@ -18,7 +18,7 @@ const _kLocalDatabaseId = "local://";
 ///
 /// モバイルやデスクトップは外部ファイルに暗号化してデータが保存されWebの場合はLocalStorageに暗号化されデータが保存されます。
 ///
-/// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+/// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 @immutable
@@ -29,7 +29,7 @@ class LocalModelAdapter extends ModelAdapter {
   ///
   /// For mobile and desktop, data is encrypted and stored in external files, and for the Web, data is encrypted and stored in LocalStorage.
   ///
-  /// By passing data to [data], the database can be used as a data mockup because it contains data in advance.
+  /// By passing data to [initialValue], the database can be used as a data mockup because it contains data in advance.
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
@@ -39,12 +39,12 @@ class LocalModelAdapter extends ModelAdapter {
   ///
   /// モバイルやデスクトップは外部ファイルに暗号化してデータが保存されWebの場合はLocalStorageに暗号化されデータが保存されます。
   ///
-  /// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+  /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const LocalModelAdapter({
     this.prefix,
-    this.data,
+    this.initialValue,
   });
 
   /// Designated database.
@@ -52,11 +52,11 @@ class LocalModelAdapter extends ModelAdapter {
   /// 指定のデータベース。
   NoSqlDatabase get database {
     final database = sharedDatabase;
-    if (data.isNotEmpty && !database.isRawDataRegistered) {
-      for (final raw in data!) {
+    if (initialValue.isNotEmpty && !database.isInitialValueRegistered) {
+      for (final raw in initialValue!) {
         for (final tmp in raw.value.entries) {
           final map = raw.toMap(tmp.value);
-          database.setRawData(
+          database.setInitialValue(
             _path("${raw.path}/${tmp.key}"),
             raw.filterOnSave(map, tmp.value),
           );
@@ -101,7 +101,7 @@ class LocalModelAdapter extends ModelAdapter {
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelDataCollection>? data;
+  final List<ModelDataCollection>? initialValue;
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {

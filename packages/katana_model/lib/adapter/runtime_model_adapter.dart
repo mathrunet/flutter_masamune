@@ -7,7 +7,7 @@ part of katana_model;
 ///
 /// Normally, a common database [sharedDatabase] is used for the entire app, but if you want to reset the database each time, for example for testing, pass an individual database to [database].
 ///
-/// By passing data to [data], the database can be used as a data mockup since it contains data in advance.
+/// By passing data to [initialValue], the database can be used as a data mockup since it contains data in advance.
 ///
 /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
 ///
@@ -19,7 +19,7 @@ part of katana_model;
 ///
 /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
 ///
-/// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+/// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
 ///
 /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
 @immutable
@@ -31,7 +31,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// Normally, a common database [sharedDatabase] is used for the entire app, but if you want to reset the database each time, for example for testing, pass an individual database to [database].
   ///
-  /// By passing data to [data], the database can be used as a data mockup since it contains data in advance.
+  /// By passing data to [initialValue], the database can be used as a data mockup since it contains data in advance.
   ///
   /// By adding [prefix], all paths can be prefixed, enabling operations such as separating data storage locations for each Flavor.
   ///
@@ -43,12 +43,12 @@ class RuntimeModelAdapter extends ModelAdapter {
   ///
   /// 通常はアプリ内全体での共通のデータベース[sharedDatabase]が利用されますが、テスト用などで毎回データベースをリセットする場合は[database]に個別のデータベースを渡してください。
   ///
-  /// [data]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
+  /// [initialValue]にデータを渡すことで予めデータが入った状態でデータベースを利用することができるためデータモックとして利用することができます。
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const RuntimeModelAdapter({
     NoSqlDatabase? database,
-    this.data,
+    this.initialValue,
     this.prefix,
   }) : _database = database;
 
@@ -57,11 +57,11 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// 指定のデータベース。テスト用途などにご利用ください。
   NoSqlDatabase get database {
     final database = _database ?? sharedDatabase;
-    if (data.isNotEmpty && !database.isRawDataRegistered) {
-      for (final raw in data!) {
+    if (initialValue.isNotEmpty && !database.isInitialValueRegistered) {
+      for (final raw in initialValue!) {
         for (final tmp in raw.value.entries) {
           final map = raw.toMap(tmp.value);
-          database.setRawData(
+          database.setInitialValue(
             _path("${raw.path}/${tmp.key}"),
             raw.filterOnSave(map, tmp.value),
           );
@@ -81,7 +81,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelDataCollection>? data;
+  final List<ModelDataCollection>? initialValue;
 
   /// Path prefix.
   ///
@@ -216,7 +216,7 @@ class RuntimeModelAdapter extends ModelAdapter {
 
   @override
   int get hashCode {
-    return prefix.hashCode ^ database.hashCode ^ data.hashCode;
+    return prefix.hashCode ^ database.hashCode ^ initialValue.hashCode;
   }
 }
 

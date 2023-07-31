@@ -864,13 +864,13 @@ void main() {
       origin: collectionOrigin,
     );
     // expect(await db.loadCollection(collectionQuery), null);
-    db.setRawData("test/0001", {
+    db.setInitialValue("test/0001", {
       "num": 1,
       "name": "ggg",
       "text": "hhh",
       "image": "iii",
     });
-    db.setRawData("test/0002", {
+    db.setInitialValue("test/0002", {
       "num": 2,
       "name": "aaa",
       "text": "bbb",
@@ -937,13 +937,13 @@ void main() {
       origin: collectionOrigin,
     );
     // expect(await db.loadCollection(collectionQuery), null);
-    db.setRawData("test/0001", {
+    db.setInitialValue("test/0001", {
       "num": 1,
       "name": "ggg",
       "text": "hhh",
       "image": "iii",
     });
-    db.setRawData("test/0002", {
+    db.setInitialValue("test/0002", {
       "num": 2,
       "name": "aaa",
       "text": "bbb",
@@ -1163,7 +1163,7 @@ void main() {
     final db = NoSqlDatabase();
     final adapter = RuntimeModelAdapter(
       database: db,
-      data: const [
+      initialValue: const [
         DynamicModelDataCollection("test", {
           "1": {
             "name": "aaa",
