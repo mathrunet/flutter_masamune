@@ -251,6 +251,25 @@ class CreateCliCommand extends CliCommand {
         "The structure of AndroidManifest.xml is broken.",
       );
     }
+    if (!manifest.first.children.any((p0) =>
+        p0 is XmlElement &&
+        p0.name.toString() == "uses-permission" &&
+        p0.attributes.any((p1) =>
+            p1.name.toString() == "android:name" &&
+            p1.value == "android.permission.INTERNET"))) {
+      manifest.first.children.add(
+        XmlElement(
+          XmlName("uses-permission"),
+          [
+            XmlAttribute(
+              XmlName("android:name"),
+              "android.permission.INTERNET",
+            ),
+          ],
+          [],
+        ),
+      );
+    }
     final queries = manifest.first.children.firstWhereOrNull(
             (p0) => p0 is XmlElement && p0.name.toString() == "queries") ??
         () {
