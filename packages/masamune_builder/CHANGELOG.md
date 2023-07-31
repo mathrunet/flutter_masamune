@@ -1,3 +1,7 @@
+## 2.6.3
+
+ - **FIX**: Change ModelDataCollection to ModelInitialCollection. ([c2160b9b](https://github.com/mathrunet/flutter_masamune/commit/c2160b9b58ddb2d313ae24544dc1c1328476aa66))
+
 ## 2.6.2
 
  - **FIX**: Fix ModelRefPath. ([8b57a2cc](https://github.com/mathrunet/flutter_masamune/commit/8b57a2cc16bbb6f031fc124d352546f1da9fc14c))

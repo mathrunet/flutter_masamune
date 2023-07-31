@@ -1,3 +1,7 @@
+## 3.2.7
+
+ - **FIX**: Change ModelDataCollection to ModelInitialCollection. ([c2160b9b](https://github.com/mathrunet/flutter_masamune/commit/c2160b9b58ddb2d313ae24544dc1c1328476aa66))
+
 ## 3.2.6
 
  - Update a dependency to the latest release.
