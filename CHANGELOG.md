@@ -15,6 +15,112 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_localization` - `v2.0.16`](#katana_localization---v2016)
+ - [`katana_localization_builder` - `v2.0.16`](#katana_localization_builder---v2016)
+ - [`katana_model` - `v2.10.6`](#katana_model---v2106)
+ - [`katana_model_firestore` - `v2.6.9`](#katana_model_firestore---v269)
+ - [`katana_model_local` - `v2.4.9`](#katana_model_local---v249)
+ - [`katana_prefs` - `v2.0.15`](#katana_prefs---v2015)
+ - [`katana_prefs_builder` - `v2.0.14`](#katana_prefs_builder---v2014)
+ - [`katana_router_builder` - `v2.0.19`](#katana_router_builder---v2019)
+ - [`masamune_introduction` - `v2.2.0`](#masamune_introduction---v220)
+ - [`masamune` - `v2.3.16`](#masamune---v2316)
+ - [`masamune_location` - `v2.1.62`](#masamune_location---v2162)
+ - [`masamune_auth_apple` - `v2.1.52`](#masamune_auth_apple---v2152)
+ - [`masamune_text_to_speech` - `v2.1.18`](#masamune_text_to_speech---v2118)
+ - [`masamune_agora` - `v2.2.33`](#masamune_agora---v2233)
+ - [`masamune_auth_google` - `v2.1.52`](#masamune_auth_google---v2152)
+ - [`masamune_ai_openai` - `v2.1.49`](#masamune_ai_openai---v2149)
+ - [`masamune_picker` - `v2.1.51`](#masamune_picker---v2151)
+ - [`masamune_calendar` - `v2.0.95`](#masamune_calendar---v2095)
+ - [`masamune_util` - `v2.1.30`](#masamune_util---v2130)
+ - [`masamune_universal_ui` - `v2.2.31`](#masamune_universal_ui---v2231)
+ - [`masamune_purchase_stripe` - `v3.2.11`](#masamune_purchase_stripe---v3211)
+ - [`masamune_logger_firebase` - `v2.0.94`](#masamune_logger_firebase---v2094)
+ - [`masamune_speech_to_text` - `v2.1.20`](#masamune_speech_to_text---v2120)
+ - [`masamune_auth_facebook` - `v2.1.54`](#masamune_auth_facebook---v2154)
+ - [`masamune_location_google` - `v2.1.63`](#masamune_location_google---v2163)
+ - [`masamune_mail` - `v2.1.49`](#masamune_mail---v2149)
+ - [`masamune_purchase_mobile` - `v2.4.11`](#masamune_purchase_mobile---v2411)
+ - [`masamune_notification_firebase` - `v2.1.49`](#masamune_notification_firebase---v2149)
+ - [`masamune_builder` - `v2.6.6`](#masamune_builder---v266)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.16`
+ - `masamune_location` - `v2.1.62`
+ - `masamune_auth_apple` - `v2.1.52`
+ - `masamune_text_to_speech` - `v2.1.18`
+ - `masamune_agora` - `v2.2.33`
+ - `masamune_auth_google` - `v2.1.52`
+ - `masamune_ai_openai` - `v2.1.49`
+ - `masamune_picker` - `v2.1.51`
+ - `masamune_calendar` - `v2.0.95`
+ - `masamune_util` - `v2.1.30`
+ - `masamune_universal_ui` - `v2.2.31`
+ - `masamune_purchase_stripe` - `v3.2.11`
+ - `masamune_logger_firebase` - `v2.0.94`
+ - `masamune_speech_to_text` - `v2.1.20`
+ - `masamune_auth_facebook` - `v2.1.54`
+ - `masamune_location_google` - `v2.1.63`
+ - `masamune_mail` - `v2.1.49`
+ - `masamune_purchase_mobile` - `v2.4.11`
+ - `masamune_notification_firebase` - `v2.1.49`
+ - `masamune_builder` - `v2.6.6`
+
+---
+
+#### `katana_localization` - `v2.0.16`
+
+ - **FIX**: get() method available. ([73381c11](https://github.com/mathrunet/flutter_masamune/commit/73381c119c32d5eefca532b494aa5ae395f0b53c))
+
+#### `katana_localization_builder` - `v2.0.16`
+
+ - **FIX**: get() method available. ([73381c11](https://github.com/mathrunet/flutter_masamune/commit/73381c119c32d5eefca532b494aa5ae395f0b53c))
+
+#### `katana_model` - `v2.10.6`
+
+ - **FIX**: ModelLocalizedValue is now easier to specify with const. ([d9944db4](https://github.com/mathrunet/flutter_masamune/commit/d9944db4f23cc40ef2be49e9aa150d5690d6eb95))
+
+#### `katana_model_firestore` - `v2.6.9`
+
+ - **FIX**: ModelLocalizedValue is now easier to specify with const. ([d9944db4](https://github.com/mathrunet/flutter_masamune/commit/d9944db4f23cc40ef2be49e9aa150d5690d6eb95))
+
+#### `katana_model_local` - `v2.4.9`
+
+ - **FIX**: ModelLocalizedValue is now easier to specify with const. ([d9944db4](https://github.com/mathrunet/flutter_masamune/commit/d9944db4f23cc40ef2be49e9aa150d5690d6eb95))
+
+#### `katana_prefs` - `v2.0.15`
+
+ - **FIX**: Fixed a bug that caused an override error when building. ([06a000e3](https://github.com/mathrunet/flutter_masamune/commit/06a000e36e396e5efc51e5443c296d097be6548d))
+
+#### `katana_prefs_builder` - `v2.0.14`
+
+ - **FIX**: Fixed a bug that caused an override error when building. ([06a000e3](https://github.com/mathrunet/flutter_masamune/commit/06a000e36e396e5efc51e5443c296d097be6548d))
+
+#### `katana_router_builder` - `v2.0.19`
+
+ - **FIX**: Fixed a bug that caused an override error when building. ([06a000e3](https://github.com/mathrunet/flutter_masamune/commit/06a000e36e396e5efc51e5443c296d097be6548d))
+
+#### `masamune_introduction` - `v2.2.0`
+
+ - **FEAT**: Each value is made available as translation data. ([c1e96ee6](https://github.com/mathrunet/flutter_masamune/commit/c1e96ee6cc6da838c8eb6a73bf947503ffba20b0))
+
+
+## 2023-07-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_localization` - `v2.0.15`](#katana_localization---v2015)
  - [`katana_localization_annotation` - `v2.0.14`](#katana_localization_annotation---v2014)
  - [`katana_localization_builder` - `v2.0.15`](#katana_localization_builder---v2015)

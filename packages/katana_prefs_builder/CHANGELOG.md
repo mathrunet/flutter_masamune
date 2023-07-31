@@ -1,3 +1,7 @@
+## 2.0.14
+
+ - **FIX**: Fixed a bug that caused an override error when building. ([06a000e3](https://github.com/mathrunet/flutter_masamune/commit/06a000e36e396e5efc51e5443c296d097be6548d))
+
 ## 2.0.13
 
  - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))

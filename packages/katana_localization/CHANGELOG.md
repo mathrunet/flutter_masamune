@@ -1,3 +1,7 @@
+## 2.0.16
+
+ - **FIX**: get() method available. ([73381c11](https://github.com/mathrunet/flutter_masamune/commit/73381c119c32d5eefca532b494aa5ae395f0b53c))
+
 ## 2.0.15
 
  - **FIX**: Fixes to compensate for fluctuations in Locale. ([f1feaba8](https://github.com/mathrunet/flutter_masamune/commit/f1feaba8b3851e8637d45d17b9cdbd27be6695bb))

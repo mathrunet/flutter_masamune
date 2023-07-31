@@ -1,3 +1,7 @@
+## 2.10.6
+
+ - **FIX**: ModelLocalizedValue is now easier to specify with const. ([d9944db4](https://github.com/mathrunet/flutter_masamune/commit/d9944db4f23cc40ef2be49e9aa150d5690d6eb95))
+
 ## 2.10.5
 
  - **FIX**: LocalizedValue can be used in various ways. ([9c1d9c33](https://github.com/mathrunet/flutter_masamune/commit/9c1d9c33ee0a67e9c156693c9aedede2dfe93577))

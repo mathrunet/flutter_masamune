@@ -1,3 +1,7 @@
+## 2.4.9
+
+ - **FIX**: ModelLocalizedValue is now easier to specify with const. ([d9944db4](https://github.com/mathrunet/flutter_masamune/commit/d9944db4f23cc40ef2be49e9aa150d5690d6eb95))
+
 ## 2.4.8
 
  - **FIX**: ModelLocalizedValue.fromMap is now available in const. ([4acbfcfc](https://github.com/mathrunet/flutter_masamune/commit/4acbfcfcf81340cae085e1546fdde07504dfb46f))
