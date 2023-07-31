@@ -13,7 +13,7 @@ part of katana_model;
 ///
 /// [toMap]を利用することでJson用にパースすることができます。
 /// {@endtemplate}
-abstract class ModelDataCollection<T> {
+abstract class ModelInitialCollection<T> {
   /// {@template model_raw_value_collection}
   /// Data to be passed to `data` of various [ModelAdapter].
   ///
@@ -27,7 +27,7 @@ abstract class ModelDataCollection<T> {
   ///
   /// [toMap]を利用することでJson用にパースすることができます。
   /// {@endtemplate}
-  const ModelDataCollection(this.value);
+  const ModelInitialCollection(this.value);
 
   /// ID and value Map.
   ///
@@ -62,18 +62,18 @@ abstract class ModelDataCollection<T> {
   }
 }
 
-/// [ModelDataCollection] using [DynamicMap].
+/// [ModelInitialCollection] using [DynamicMap].
 ///
-/// [DynamicMap]を利用した[ModelDataCollection]。
+/// [DynamicMap]を利用した[ModelInitialCollection]。
 ///
 /// {@macro model_raw_value_collection}
-class DynamicModelDataCollection extends ModelDataCollection<DynamicMap> {
-  /// [ModelDataCollection] using [DynamicMap].
+class DynamicModelInitialCollection extends ModelInitialCollection<DynamicMap> {
+  /// [ModelInitialCollection] using [DynamicMap].
   ///
-  /// [DynamicMap]を利用した[ModelDataCollection]。
+  /// [DynamicMap]を利用した[ModelInitialCollection]。
   ///
   /// {@macro model_raw_value_collection}
-  const DynamicModelDataCollection(this.path, super.value);
+  const DynamicModelInitialCollection(this.path, super.value);
 
   @override
   final String path;

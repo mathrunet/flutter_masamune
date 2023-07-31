@@ -45,7 +45,7 @@ class $StripeUserModelCollection
 }
 
 class StripeUserModelRawCollection
-    extends ModelDataCollection<StripeUserModel> {
+    extends ModelInitialCollection<StripeUserModel> {
   const StripeUserModelRawCollection(super.value);
 
   @override

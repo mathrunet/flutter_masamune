@@ -27,7 +27,7 @@ part 'adapter/runtime_model_adapter.dart';
 
 part 'extension/searchable_document_mixin.dart';
 part 'extension/searchable_collection_mixin.dart';
-part 'extension/searchable_data_collection_mixin.dart';
+part 'extension/searchable_initial_collection_mixin.dart';
 
 part 'src/const.dart';
 part 'src/model_update_notification.dart';
@@ -43,4 +43,4 @@ part 'src/listenable_listener.dart';
 part 'src/model_transaction.dart';
 part 'src/model_field_value.dart';
 part 'src/model_geo_value.dart';
-part 'src/model_data_collection.dart';
+part 'src/model_initial_collection.dart';

@@ -47,7 +47,7 @@ class $StripePurchaseModelCollection
 }
 
 class StripePurchaseModelRawCollection
-    extends ModelDataCollection<StripePurchaseModel> {
+    extends ModelInitialCollection<StripePurchaseModel> {
   const StripePurchaseModelRawCollection(
     super.value, {
     required String userId,

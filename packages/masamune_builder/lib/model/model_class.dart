@@ -97,12 +97,12 @@ List<Spec> modelClass(
     ),
     Class(
       (c) => c
-        ..name = "${model.name}DataCollection"
+        ..name = "${model.name}InitialCollection"
         ..annotations.addAll([const Reference("immutable")])
-        ..extend = Reference("ModelDataCollection<${model.name}>")
+        ..extend = Reference("ModelInitialCollection<${model.name}>")
         ..mixins.addAll([
           if (searchable.isNotEmpty)
-            Reference("SearchableDataCollectionMixin<${model.name}>"),
+            Reference("SearchableInitialCollectionMixin<${model.name}>"),
         ])
         ..constructors.addAll([
           Constructor(
@@ -265,12 +265,12 @@ List<Spec> modelClass(
       ),
       Class(
         (c) => c
-          ..name = "${model.name}MirrorDataCollection"
+          ..name = "${model.name}MirrorInitialCollection"
           ..annotations.addAll([const Reference("immutable")])
-          ..extend = Reference("ModelDataCollection<${model.name}>")
+          ..extend = Reference("ModelInitialCollection<${model.name}>")
           ..mixins.addAll([
             if (searchable.isNotEmpty)
-              Reference("SearchableDataCollectionMixin<${model.name}>"),
+              Reference("SearchableInitialCollectionMixin<${model.name}>"),
           ])
           ..constructors.addAll([
             Constructor(

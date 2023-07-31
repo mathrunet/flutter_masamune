@@ -116,7 +116,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelDataCollection>? initialValue;
+  final List<ModelInitialCollection>? initialValue;
 
   /// A special class can be registered as a [ModelFieldValue] by passing [FirestoreModelFieldValueConverter] to [converter].
   ///
