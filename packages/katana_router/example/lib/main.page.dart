@@ -61,7 +61,7 @@ class _$_MainPageQuery extends RouteQuery {
   final String? _path;
 
   @override
-  String get path => _path ?? "$_parameters";
+  String get path => _path ?? _parameters;
   String get _parameters {
     final $q = <String, String>{};
     if (q?.toString().isNotEmpty ?? false) {
