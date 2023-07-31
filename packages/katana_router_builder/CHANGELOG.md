@@ -1,3 +1,7 @@
+## 2.0.18
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
 ## 2.0.17
 
  - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))

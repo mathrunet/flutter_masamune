@@ -1,3 +1,7 @@
+## 3.2.9
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
 ## 3.2.8
 
  - **FIX**: Reflecting changes in builder. ([ddc9af1c](https://github.com/mathrunet/flutter_masamune/commit/ddc9af1c811e571031955a46dc1dd538d774331b))

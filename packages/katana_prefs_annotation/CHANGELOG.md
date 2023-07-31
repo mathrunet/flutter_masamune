@@ -1,3 +1,7 @@
+## 2.0.13
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
 ## 2.0.12
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

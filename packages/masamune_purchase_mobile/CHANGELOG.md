@@ -1,3 +1,7 @@
+## 2.4.9
+
+ - Update a dependency to the latest release.
+
 ## 2.4.8
 
  - **FIX**: Reflecting changes in builder. ([ddc9af1c](https://github.com/mathrunet/flutter_masamune/commit/ddc9af1c811e571031955a46dc1dd538d774331b))

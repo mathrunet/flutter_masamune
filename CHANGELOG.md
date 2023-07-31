@@ -15,6 +15,97 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_prefs` - `v2.0.14`](#katana_prefs---v2014)
+ - [`katana_prefs_annotation` - `v2.0.13`](#katana_prefs_annotation---v2013)
+ - [`katana_prefs_builder` - `v2.0.13`](#katana_prefs_builder---v2013)
+ - [`katana_router` - `v2.0.20`](#katana_router---v2020)
+ - [`katana_router_builder` - `v2.0.18`](#katana_router_builder---v2018)
+ - [`masamune_purchase_stripe` - `v3.2.9`](#masamune_purchase_stripe---v329)
+ - [`masamune` - `v2.3.14`](#masamune---v2314)
+ - [`masamune_location` - `v2.1.60`](#masamune_location---v2160)
+ - [`masamune_auth_apple` - `v2.1.50`](#masamune_auth_apple---v2150)
+ - [`masamune_text_to_speech` - `v2.1.16`](#masamune_text_to_speech---v2116)
+ - [`masamune_agora` - `v2.2.31`](#masamune_agora---v2231)
+ - [`masamune_auth_google` - `v2.1.50`](#masamune_auth_google---v2150)
+ - [`masamune_ai_openai` - `v2.1.47`](#masamune_ai_openai---v2147)
+ - [`masamune_calendar` - `v2.0.93`](#masamune_calendar---v2093)
+ - [`masamune_picker` - `v2.1.49`](#masamune_picker---v2149)
+ - [`masamune_util` - `v2.1.28`](#masamune_util---v2128)
+ - [`masamune_universal_ui` - `v2.2.29`](#masamune_universal_ui---v2229)
+ - [`masamune_introduction` - `v2.1.17`](#masamune_introduction---v2117)
+ - [`masamune_logger_firebase` - `v2.0.92`](#masamune_logger_firebase---v2092)
+ - [`masamune_speech_to_text` - `v2.1.18`](#masamune_speech_to_text---v2118)
+ - [`masamune_auth_facebook` - `v2.1.52`](#masamune_auth_facebook---v2152)
+ - [`masamune_location_google` - `v2.1.61`](#masamune_location_google---v2161)
+ - [`masamune_mail` - `v2.1.47`](#masamune_mail---v2147)
+ - [`masamune_notification_firebase` - `v2.1.47`](#masamune_notification_firebase---v2147)
+ - [`masamune_purchase_mobile` - `v2.4.9`](#masamune_purchase_mobile---v249)
+ - [`masamune_builder` - `v2.6.4`](#masamune_builder---v264)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.14`
+ - `masamune_location` - `v2.1.60`
+ - `masamune_auth_apple` - `v2.1.50`
+ - `masamune_text_to_speech` - `v2.1.16`
+ - `masamune_agora` - `v2.2.31`
+ - `masamune_auth_google` - `v2.1.50`
+ - `masamune_ai_openai` - `v2.1.47`
+ - `masamune_calendar` - `v2.0.93`
+ - `masamune_picker` - `v2.1.49`
+ - `masamune_util` - `v2.1.28`
+ - `masamune_universal_ui` - `v2.2.29`
+ - `masamune_introduction` - `v2.1.17`
+ - `masamune_logger_firebase` - `v2.0.92`
+ - `masamune_speech_to_text` - `v2.1.18`
+ - `masamune_auth_facebook` - `v2.1.52`
+ - `masamune_location_google` - `v2.1.61`
+ - `masamune_mail` - `v2.1.47`
+ - `masamune_notification_firebase` - `v2.1.47`
+ - `masamune_purchase_mobile` - `v2.4.9`
+ - `masamune_builder` - `v2.6.4`
+
+---
+
+#### `katana_prefs` - `v2.0.14`
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
+#### `katana_prefs_annotation` - `v2.0.13`
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
+#### `katana_prefs_builder` - `v2.0.13`
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
+#### `katana_router` - `v2.0.20`
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
+#### `katana_router_builder` - `v2.0.18`
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
+#### `masamune_purchase_stripe` - `v3.2.9`
+
+ - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))
+
+
+## 2023-07-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_prefs` - `v2.0.13`](#katana_prefs---v2013)
  - [`katana_router` - `v2.0.19`](#katana_router---v2019)
  - [`masamune_purchase_mobile` - `v2.4.8`](#masamune_purchase_mobile---v248)
