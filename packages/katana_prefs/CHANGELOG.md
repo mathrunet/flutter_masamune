@@ -1,3 +1,7 @@
+## 2.0.13
+
+ - **FIX**: Reflecting changes in builder. ([ddc9af1c](https://github.com/mathrunet/flutter_masamune/commit/ddc9af1c811e571031955a46dc1dd538d774331b))
+
 ## 2.0.12
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

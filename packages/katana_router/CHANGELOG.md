@@ -1,3 +1,7 @@
+## 2.0.19
+
+ - **FIX**: Reflecting changes in builder. ([ddc9af1c](https://github.com/mathrunet/flutter_masamune/commit/ddc9af1c811e571031955a46dc1dd538d774331b))
+
 ## 2.0.18
 
  - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))

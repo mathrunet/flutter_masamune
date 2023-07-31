@@ -1,3 +1,7 @@
+## 2.4.8
+
+ - **FIX**: Reflecting changes in builder. ([ddc9af1c](https://github.com/mathrunet/flutter_masamune/commit/ddc9af1c811e571031955a46dc1dd538d774331b))
+
 ## 2.4.7
 
  - **FIX**: Change ModelDataCollection to ModelInitialCollection. ([c2160b9b](https://github.com/mathrunet/flutter_masamune/commit/c2160b9b58ddb2d313ae24544dc1c1328476aa66))
