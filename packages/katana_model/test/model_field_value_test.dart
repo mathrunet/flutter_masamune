@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
 // Package imports:
+import 'dart:ui';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test/test.dart';
 
@@ -84,10 +86,10 @@ void main() {
       "image": const ModelImageUri.parse("https://mathru.net"),
       "video": const ModelVideoUri.parse("https://mathru.net"),
       "locale": const ModelLocale.fromCode("ja", "JP"),
-      "localized": const ModelLocalizedValue.fromMap({
-        "ja_JP": "こんにちは",
-        "en_US": "Hello",
-      }),
+      "localized": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+        LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+      ]),
       "geo": const ModelGeoValue.fromDouble(
         latitude: 35.68177834908552,
         longitude: 139.75310000426765,
@@ -103,10 +105,10 @@ void main() {
         "image": const ModelImageUri.parse("https://mathru.net"),
         "video": const ModelVideoUri.parse("https://mathru.net"),
         "locale": const ModelLocale.fromCode("ja", "JP"),
-        "localized": const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
+        "localized": const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
         "geo": const ModelGeoValue.fromDouble(
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
@@ -124,10 +126,10 @@ void main() {
         "image": const ModelImageUri.parse("https://mathru.net"),
         "video": const ModelVideoUri.parse("https://mathru.net"),
         "locale": const ModelLocale.fromCode("ja", "JP"),
-        "localized": const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
+        "localized": const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
         "geo": const ModelGeoValue.fromDouble(
           latitude: 35.68177834908552,
           longitude: 139.75310000426765,
@@ -151,10 +153,10 @@ void main() {
       "image": const ModelImageUri.parse("https://pub.dev"),
       "video": const ModelVideoUri.parse("https://pub.dev"),
       "locale": const ModelLocale.fromCode("en", "US"),
-      "localized": const ModelLocalizedValue.fromMap({
-        "ja_JP": "さようなら",
-        "en_US": "Goodbye",
-      }),
+      "localized": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+        LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+      ]),
       "geo": const ModelGeoValue.fromDouble(
         latitude: 35.67389581850969,
         longitude: 139.75049296820384,
@@ -179,10 +181,10 @@ void main() {
         "image": const ModelImageUri.parse("https://pub.dev"),
         "video": const ModelVideoUri.parse("https://pub.dev"),
         "locale": const ModelLocale.fromCode("en", "US"),
-        "localized": const ModelLocalizedValue.fromMap({
-          "ja_JP": "さようなら",
-          "en_US": "Goodbye",
-        }),
+        "localized": const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+          LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+        ]),
         "geo": const ModelGeoValue.fromDouble(
           latitude: 35.67389581850969,
           longitude: 139.75049296820384,
@@ -208,10 +210,10 @@ void main() {
           longitude: 139.75310000426765,
         ),
         locale: const ModelLocale.fromCode("ja", "JP"),
-        localized: const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
+        localized: const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
         search: const ModelSearch(["aaaa", "bbbb", "cccc"]),
       ),
     );
@@ -228,10 +230,10 @@ void main() {
           longitude: 139.75310000426765,
         ),
         locale: const ModelLocale.fromCode("ja", "JP"),
-        localized: const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
+        localized: const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
         search: const ModelSearch(["aaaa", "bbbb", "cccc"]),
       ),
     );
@@ -249,10 +251,10 @@ void main() {
           longitude: 139.75310000426765,
         ),
         locale: const ModelLocale.fromCode("ja", "JP"),
-        localized: const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
+        localized: const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
         search: const ModelSearch(["aaaa", "bbbb", "cccc"]),
       ),
     );
@@ -270,10 +272,10 @@ void main() {
           longitude: 139.75049296820384,
         ),
         locale: const ModelLocale.fromCode("en", "US"),
-        localized: const ModelLocalizedValue.fromMap({
-          "ja_JP": "さようなら",
-          "en_US": "Goodbye",
-        }),
+        localized: const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+          LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+        ]),
         search: const ModelSearch(["ddd", "eee"]),
       ),
     );
@@ -290,10 +292,10 @@ void main() {
           longitude: 139.75049296820384,
         ),
         locale: const ModelLocale.fromCode("en", "US"),
-        localized: const ModelLocalizedValue.fromMap({
-          "ja_JP": "さようなら",
-          "en_US": "Goodbye",
-        }),
+        localized: const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+          LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+        ]),
         search: const ModelSearch(["ddd", "eee"]),
       ),
     );
@@ -402,42 +404,42 @@ void main() {
     await dynamicModel.save(
       {
         "localized": [
-          const ModelLocalizedValue.fromMap({
-            "ja_JP": "こんにちは",
-            "en_US": "Hello",
-          }),
-          const ModelLocalizedValue.fromMap({
-            "ja_JP": "さようなら",
-            "en_US": "Goodbye",
-          }),
+          const ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+            LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+          ]),
+          const ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+            LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+          ]),
         ],
       },
     );
     expect(
       dynamicModel.value?.getAsList("localized"),
       [
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "さようなら",
-          "en_US": "Goodbye",
-        }),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+          LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+        ]),
       ],
     );
     await dynamicModel2.load();
     expect(
       dynamicModel2.value?.getAsList("localized"),
       [
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "さようなら",
-          "en_US": "Goodbye",
-        }),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+          LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+        ]),
       ],
     );
     final model = RuntimeMTestValueDocumentModel(query);
@@ -445,42 +447,42 @@ void main() {
     await model.save(
       const TestValue(
         localizedList: [
-          ModelLocalizedValue.fromMap({
-            "ja_JP": "こんにちは",
-            "en_US": "Hello",
-          }),
-          ModelLocalizedValue.fromMap({
-            "ja_JP": "さようなら",
-            "en_US": "Goodbye",
-          }),
+          ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+            LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+          ]),
+          ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+            LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+          ]),
         ],
       ),
     );
     expect(
       model.value?.localizedList,
       [
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "さようなら",
-          "en_US": "Goodbye",
-        }),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+          LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+        ]),
       ],
     );
     await model2.load();
     expect(
       model2.value?.localizedList,
       [
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "こんにちは",
-          "en_US": "Hello",
-        }),
-        const ModelLocalizedValue.fromMap({
-          "ja_JP": "さようなら",
-          "en_US": "Goodbye",
-        }),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+          LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+        ]),
+        const ModelLocalizedValue.fromList([
+          LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+          LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+        ]),
       ],
     );
   });
@@ -492,74 +494,74 @@ void main() {
     await dynamicModel.save(
       {
         "localized": {
-          "hello": const ModelLocalizedValue.fromMap({
-            "ja_JP": "こんにちは",
-            "en_US": "Hello",
-          }),
-          "goodbye": const ModelLocalizedValue.fromMap({
-            "ja_JP": "さようなら",
-            "en_US": "Goodbye",
-          }),
+          "hello": const ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+            LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+          ]),
+          "goodbye": const ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+            LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+          ]),
         },
       },
     );
     expect(dynamicModel.value?.getAsMap("localized"), {
-      "hello": const ModelLocalizedValue.fromMap({
-        "ja_JP": "こんにちは",
-        "en_US": "Hello",
-      }),
-      "goodbye": const ModelLocalizedValue.fromMap({
-        "ja_JP": "さようなら",
-        "en_US": "Goodbye",
-      }),
+      "hello": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+        LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+      ]),
+      "goodbye": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+        LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+      ]),
     });
     await dynamicModel2.load();
     expect(dynamicModel2.value?.getAsMap("localized"), {
-      "hello": const ModelLocalizedValue.fromMap({
-        "ja_JP": "こんにちは",
-        "en_US": "Hello",
-      }),
-      "goodbye": const ModelLocalizedValue.fromMap({
-        "ja_JP": "さようなら",
-        "en_US": "Goodbye",
-      }),
+      "hello": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+        LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+      ]),
+      "goodbye": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+        LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+      ]),
     });
     final model = RuntimeMTestValueDocumentModel(query);
     final model2 = RuntimeMTestValueDocumentModel(query);
     await model.save(
       const TestValue(
         localizedMap: {
-          "hello": ModelLocalizedValue.fromMap({
-            "ja_JP": "こんにちは",
-            "en_US": "Hello",
-          }),
-          "goodbye": ModelLocalizedValue.fromMap({
-            "ja_JP": "さようなら",
-            "en_US": "Goodbye",
-          }),
+          "hello": ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+            LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+          ]),
+          "goodbye": ModelLocalizedValue.fromList([
+            LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+            LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+          ]),
         },
       ),
     );
     expect(model.value?.localizedMap, {
-      "hello": const ModelLocalizedValue.fromMap({
-        "ja_JP": "こんにちは",
-        "en_US": "Hello",
-      }),
-      "goodbye": const ModelLocalizedValue.fromMap({
-        "ja_JP": "さようなら",
-        "en_US": "Goodbye",
-      }),
+      "hello": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+        LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+      ]),
+      "goodbye": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+        LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+      ]),
     });
     await model2.load();
     expect(model2.value?.localizedMap, {
-      "hello": const ModelLocalizedValue.fromMap({
-        "ja_JP": "こんにちは",
-        "en_US": "Hello",
-      }),
-      "goodbye": const ModelLocalizedValue.fromMap({
-        "ja_JP": "さようなら",
-        "en_US": "Goodbye",
-      }),
+      "hello": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "こんにちは"),
+        LocalizedLocaleValue(Locale("en", "US"), "Hello"),
+      ]),
+      "goodbye": const ModelLocalizedValue.fromList([
+        LocalizedLocaleValue(Locale("ja", "JP"), "さようなら"),
+        LocalizedLocaleValue(Locale("en", "US"), "Goodbye"),
+      ]),
     });
   });
 

@@ -27,8 +27,8 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue<String>>
   /// ロケールとテキストのペアを保存する[LocalizedValue]をモデルとして定義します。
   ///
   /// ベースの値を[value]として与えます。与えられなかった場合は何も設定されていない[LocalizedValue]が利用されます。
-  const factory ModelLocalizedValue.fromMap(Map<String, String> map) =
-      _ModelLocaleWithMap;
+  const factory ModelLocalizedValue.fromList(
+      List<LocalizedLocaleValue<String>> list) = _ModelLocalizedValueWithList;
 
   /// Used to disguise the retrieval of data from the server.
   ///
@@ -96,25 +96,14 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue<String>>
 }
 
 @immutable
-class _ModelLocaleWithMap extends _ModelLocalizedValue {
-  const _ModelLocaleWithMap(this._map) : super();
+class _ModelLocalizedValueWithList extends _ModelLocalizedValue {
+  const _ModelLocalizedValueWithList(this._list) : super();
 
-  final Map<String, String> _map;
+  final List<LocalizedLocaleValue<String>> _list;
 
   @override
   LocalizedValue<String>? get _value {
-    return LocalizedValue<String>(
-      _map.map((key, value) {
-        final keys = key.replaceAll("-", "_").split("_");
-        return MapEntry(
-          Locale(
-            keys.first,
-            keys.length > 1 ? keys.last : null,
-          ),
-          value,
-        );
-      }),
-    );
+    return LocalizedValue<String>(_list);
   }
 }
 
@@ -216,54 +205,46 @@ class ModelLocalizedValueFilter
     T Function(List<String> source, List<String> target) filter,
   ) {
     if (source is ModelLocalizedValue && target is ModelLocalizedValue) {
-      return filter(source.value.toList((k, v) => "$k:$v").toList(),
-          target.value.toList((k, v) => "$k:$v").toList());
+      return filter(source.value.map((e) => "${e.locale}:${e.value}").toList(),
+          target.value.map((e) => "${e.locale}:${e.value}").toList());
     } else if (source is ModelLocalizedValue &&
         target is LocalizedValue<String>) {
-      return filter(source.value.toList((k, v) => "$k:$v").toList(),
-          target.toList((k, v) => "$k:$v").toList());
+      return filter(source.value.map((e) => "${e.locale}:${e.value}").toList(),
+          target.map((e) => "${e.locale}:${e.value}").toList());
     } else if (source is LocalizedValue<String> &&
         target is ModelLocalizedValue) {
-      return filter(source.toList((k, v) => "$k:$v").toList(),
-          target.value.toList((k, v) => "$k:$v").toList());
-    } else if (source is ModelLocalizedValue && target is Map<Locale, String>) {
+      return filter(source.map((e) => "${e.locale}:${e.value}").toList(),
+          target.value.map((e) => "${e.locale}:${e.value}").toList());
+    } else if (source is ModelLocalizedValue &&
+        target is List<LocalizedLocaleValue<String>>) {
       return filter(
-        source.value.toList((k, v) => "$k:$v").toList(),
-        target
-            .map((key, value) {
-              return MapEntry(key.toString().replaceAll("-", "_"), value);
-            })
-            .toList((k, v) => "$k:$v")
-            .toList(),
+        source.value.map((e) => "${e.locale}:${e.value}").toList(),
+        target.map((e) => "${e.locale}:${e.value}").toList(),
       );
     } else if (source is ModelLocalizedValue && target is Map<String, String>) {
       return filter(
-        source.value.toList((k, v) => "$k:$v").toList(),
+        source.value.map((e) => "${e.locale}:${e.value}").toList(),
         target.toList((k, v) => "$k:$v").toList(),
       );
-    } else if (source is Map<Locale, String> && target is ModelLocalizedValue) {
+    } else if (source is List<LocalizedLocaleValue<String>> &&
+        target is ModelLocalizedValue) {
       return filter(
-        source
-            .map((key, value) {
-              return MapEntry(key.toString().replaceAll("-", "_"), value);
-            })
-            .toList((k, v) => "$k:$v")
-            .toList(),
-        target.value.toList((k, v) => "$k:$v").toList(),
+        source.map((e) => "${e.locale}:${e.value}").toList(),
+        target.value.map((e) => "${e.locale}:${e.value}").toList(),
       );
     } else if (source is Map<String, String> && target is ModelLocalizedValue) {
       return filter(
         source.toList((k, v) => "$k:$v").toList(),
-        target.value.toList((k, v) => "$k:$v").toList(),
+        target.value.map((e) => "${e.locale}:${e.value}").toList(),
       );
     } else if (source is ModelLocalizedValue &&
         target is DynamicMap &&
         target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
       return filter(
-          source.value.toList((k, v) => "$k:$v").toList(),
+          source.value.map((e) => "${e.locale}:${e.value}").toList(),
           ModelLocalizedValue.fromJson(target)
               .value
-              .toList((k, v) => "$k:$v")
+              .map((e) => "${e.locale}:${e.value}")
               .toList());
     } else if (source is DynamicMap &&
         target is ModelLocalizedValue &&
@@ -271,18 +252,18 @@ class ModelLocalizedValueFilter
       return filter(
         ModelLocalizedValue.fromJson(source)
             .value
-            .toList((k, v) => "$k:$v")
+            .map((e) => "${e.locale}:${e.value}")
             .toList(),
-        target.value.toList((k, v) => "$k:$v").toList(),
+        target.value.map((e) => "${e.locale}:${e.value}").toList(),
       );
     } else if (source is LocalizedValue<String> &&
         target is DynamicMap &&
         target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
       return filter(
-        source.toList((k, v) => "$k:$v").toList(),
+        source.map((e) => "${e.locale}:${e.value}").toList(),
         ModelLocalizedValue.fromJson(target)
             .value
-            .toList((k, v) => "$k:$v")
+            .map((e) => "${e.locale}:${e.value}")
             .toList(),
       );
     } else if (source is DynamicMap &&
@@ -291,9 +272,9 @@ class ModelLocalizedValueFilter
       return filter(
         ModelLocalizedValue.fromJson(source)
             .value
-            .toList((k, v) => "$k:$v")
+            .map((e) => "${e.locale}:${e.value}")
             .toList(),
-        target.toList((k, v) => "$k:$v").toList(),
+        target.map((e) => "${e.locale}:${e.value}").toList(),
       );
     } else if (source is DynamicMap &&
         target is DynamicMap &&
@@ -302,11 +283,11 @@ class ModelLocalizedValueFilter
       return filter(
         ModelLocalizedValue.fromJson(source)
             .value
-            .toList((k, v) => "$k:$v")
+            .map((e) => "${e.locale}:${e.value}")
             .toList(),
         ModelLocalizedValue.fromJson(target)
             .value
-            .toList((k, v) => "$k:$v")
+            .map((e) => "${e.locale}:${e.value}")
             .toList(),
       );
     }
@@ -316,68 +297,69 @@ class ModelLocalizedValueFilter
 
 /// Class for storing translation data.
 ///
-/// It consists of a pair of [Locale] and its corresponding [String] translation.
+/// It consists of a pair of [Locale] and the corresponding [T] for the translation.
 ///
-/// [LocalizedValue.fromJson] can be used to convert [String] and [String] pairs from Json.
+/// [LocalizedValue.fromJson] can be used to convert [String] and [T] pairs from Json.
 /// In that case, the key must be a string delimited by `_`, such as `ja_JP`.
 ///
 /// Obtains the translation of [Locale] specified in [value].
 ///
 /// 翻訳データを保存するためのクラス。
 ///
-/// [Locale]とその翻訳に対応する[String]のペアで構成されます。
+/// [Locale]とその翻訳に対応する[T]のペアで構成されます。
 ///
-/// [LocalizedValue.fromJson]を利用することで[String]と[String]のペアのJsonからの変換が可能です。
+/// [LocalizedValue.fromJson]を利用することで[String]と[T]のペアのJsonからの変換が可能です。
 /// その場合、キーは`ja_JP`のように`_`で区切られた文字列である必要があります。
 ///
 /// [value]で指定した[Locale]の翻訳を取得します。
 @immutable
 class LocalizedValue<T>
-    with MapMixin<Locale, T>
-    implements Map<Locale, T>, Comparable<LocalizedValue> {
+    with IterableMixin<LocalizedLocaleValue<T>>
+    implements Iterable<LocalizedLocaleValue<T>>, Comparable<LocalizedValue> {
   /// Class for storing translation data.
   ///
-  /// It consists of a pair of [Locale] and its corresponding [String] translation.
+  /// It consists of a pair of [Locale] and the corresponding [T] for the translation.
   ///
-  /// [LocalizedValue.fromJson] can be used to convert [String] and [String] pairs from Json.
+  /// [LocalizedValue.fromJson] can be used to convert [String] and [T] pairs from Json.
   /// In that case, the key must be a string delimited by `_`, such as `ja_JP`.
   ///
   /// Obtains the translation of [Locale] specified in [value].
   ///
   /// 翻訳データを保存するためのクラス。
   ///
-  /// [Locale]とその翻訳に対応する[String]のペアで構成されます。
+  /// [Locale]とその翻訳に対応する[T]のペアで構成されます。
   ///
-  /// [LocalizedValue.fromJson]を利用することで[String]と[String]のペアのJsonからの変換が可能です。
+  /// [LocalizedValue.fromJson]を利用することで[String]と[T]のペアのJsonからの変換が可能です。
   /// その場合、キーは`ja_JP`のように`_`で区切られた文字列である必要があります。
   ///
   /// [value]で指定した[Locale]の翻訳を取得します。
-  const LocalizedValue([Map<Locale, T> defaultValue = const {}])
-      : _map = defaultValue;
-  final Map<Locale, T> _map;
+  const LocalizedValue(
+      [Iterable<LocalizedLocaleValue<T>> defaultValue = const []])
+      : _list = defaultValue;
+  final Iterable<LocalizedLocaleValue<T>> _list;
 
   /// Class for storing translation data.
   ///
-  /// It consists of a pair of [Locale] and its corresponding [String] translation.
+  /// It consists of a pair of [Locale] and the corresponding [T] for the translation.
   ///
-  /// [LocalizedValue.fromJson] can be used to convert [String] and [String] pairs from Json.
+  /// [LocalizedValue.fromJson] can be used to convert [String] and [T] pairs from Json.
   /// In that case, the key must be a string delimited by `_`, such as `ja_JP`.
   ///
   /// Obtains the translation of [Locale] specified in [value].
   ///
   /// 翻訳データを保存するためのクラス。
   ///
-  /// [Locale]とその翻訳に対応する[String]のペアで構成されます。
+  /// [Locale]とその翻訳に対応する[T]のペアで構成されます。
   ///
-  /// [LocalizedValue.fromJson]を利用することで[String]と[String]のペアのJsonからの変換が可能です。
+  /// [LocalizedValue.fromJson]を利用することで[String]と[T]のペアのJsonからの変換が可能です。
   /// その場合、キーは`ja_JP`のように`_`で区切られた文字列である必要があります。
   ///
   /// [value]で指定した[Locale]の翻訳を取得します。
   factory LocalizedValue.fromJson(DynamicMap json) {
     return LocalizedValue(
-      json.map((key, value) {
+      json.toList((key, value) {
         final keys = key.replaceAll("-", "_").split("_");
-        return MapEntry(
+        return LocalizedLocaleValue(
           Locale(
             keys.first,
             keys.length > 1 ? keys.last : null,
@@ -395,58 +377,51 @@ class LocalizedValue<T>
   /// [key]で指定した[Locale]の翻訳を取得します。
   ///
   /// まず[key]による値の取得を試みたあと、[defaultLocale]での取得を試みて、それでも取得できない場合は[defaultValue]を返します。
-  T value(
-    Locale key,
-    T defaultValue, {
+  T? value(
+    Locale key, {
+    T? defaultValue,
     Locale defaultLocale = const Locale("en", "US"),
   }) {
-    return _map[key] ?? _map[defaultLocale] ?? defaultValue;
+    return _list.firstWhereOrNull((e) => e.locale == key)?.value ??
+        _list.firstWhereOrNull((e) => e.locale == defaultLocale)?.value ??
+        _list
+            .firstWhereOrNull((e) => e.locale.languageCode == key.languageCode)
+            ?.value ??
+        _list
+            .firstWhereOrNull(
+                (e) => e.locale.languageCode == defaultLocale.languageCode)
+            ?.value ??
+        defaultValue;
+  }
+
+  /// Convert [LocalizedValue] to [DynamicMap].
+  ///
+  /// [Locale] are all converted to strings such as "en_US".
+  ///
+  /// [LocalizedValue]を[DynamicMap]に変換します。
+  ///
+  /// [Locale]はすべて"en_US"のような文字列に変換されます。
+  DynamicMap toJson() {
+    return _list.toMap((entry) {
+      return MapEntry(
+        entry.locale.toString().replaceAll("-", "_"),
+        entry.value,
+      );
+    });
   }
 
   @override
-  T? operator [](Object? key) {
-    if (key == null) {
-      return null;
-    }
-    return _map[key];
-  }
-
-  @override
-  void operator []=(Locale key, T value) {
-    _map[key] = value;
-  }
-
-  @override
-  void clear() {
-    _map.clear();
-  }
-
-  @override
-  Iterable<Locale> get keys => _map.keys;
-
-  @override
-  T? remove(Object? key) {
-    if (key == null) {
-      return null;
-    }
-    return _map.remove(key);
-  }
+  Iterator<LocalizedLocaleValue<T>> get iterator => _list.iterator;
 
   @override
   String toString() {
     return jsonEncode(toJson());
   }
 
-  DynamicMap toJson() {
-    return _map.map((key, value) {
-      return MapEntry(key.toString().replaceAll("-", "_"), value);
-    });
-  }
-
   @override
   int get hashCode {
-    return _map.entries
-        .fold<int>(0, (p, e) => p ^ e.key.hashCode ^ e.value.hashCode);
+    return _list.fold<int>(
+        0, (p, e) => p ^ e.locale.hashCode ^ e.value.hashCode);
   }
 
   @override
@@ -456,6 +431,51 @@ class LocalizedValue<T>
   int compareTo(LocalizedValue other) {
     return toString().compareTo(other.toString());
   }
+}
+
+/// Class for restricting the types of values that can be stored in [LocalizedValue].
+///
+/// The language information is stored in [locale] and the actual value in [value].
+///
+/// [LocalizedValue]に格納できる値の型を制限するためのクラス。
+///
+/// [locale]に言語情報、[value]に実際の値を格納します。
+@immutable
+class LocalizedLocaleValue<T> {
+  const LocalizedLocaleValue(this.locale, this.value);
+
+  /// Language Information.
+  ///
+  /// 言語情報。
+  final Locale locale;
+
+  /// Actual value.
+  ///
+  /// 実際の値。
+  final T value;
+
+  /// Copy [value] and generate a new one.
+  ///
+  /// [value]をコピーして新しく生成します。
+  LocalizedLocaleValue<T> copyWith({
+    T? value,
+  }) {
+    return LocalizedLocaleValue<T>(
+      locale,
+      value ?? this.value,
+    );
+  }
+
+  @override
+  String toString() {
+    return "$locale:$value";
+  }
+
+  @override
+  int get hashCode => locale.hashCode ^ value.hashCode;
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
 }
 
 /// Define a model [Locale] that stores the locale.

@@ -88,7 +88,7 @@ class FirestoreModelLocalizedValueConverter
   ) {
     return (filter.value as ModelLocalizedValue)
         .value
-        .toList((k, v) => "$k:$v")
+        .map((e) => "${e.locale}:${e.value}")
         .join(",");
   }
 
@@ -116,18 +116,18 @@ class FirestoreModelLocalizedValueConverter
     switch (filter.type) {
       case ModelQueryFilterType.equalTo:
         final localizedValue = filter.value as ModelLocalizedValue;
-        for (final entry in localizedValue.value.entries) {
+        for (final entry in localizedValue.value) {
           firestoreQuery = firestoreQuery.where(
-            "#${convertQueryKey(key, filter, query, adapter)}.${ModelLocalizedValue.kLocalizedKey}.${entry.key}",
+            "#${convertQueryKey(key, filter, query, adapter)}.${ModelLocalizedValue.kLocalizedKey}.${entry.locale.toString()}",
             isEqualTo: entry.value,
           );
         }
         break;
       case ModelQueryFilterType.notEqualTo:
         final localizedValue = filter.value as ModelLocalizedValue;
-        for (final entry in localizedValue.value.entries) {
+        for (final entry in localizedValue.value) {
           firestoreQuery = firestoreQuery.where(
-            "#${convertQueryKey(key, filter, query, adapter)}.${ModelLocalizedValue.kLocalizedKey}.${entry.key}",
+            "#${convertQueryKey(key, filter, query, adapter)}.${ModelLocalizedValue.kLocalizedKey}.${entry.locale.toString()}",
             isNotEqualTo: entry.value,
           );
         }
@@ -136,8 +136,8 @@ class FirestoreModelLocalizedValueConverter
         final localizedValue = filter.value as ModelLocalizedValue;
         firestoreQuery = firestoreQuery.where(
           convertQueryKey(key, filter, query, adapter),
-          arrayContainsAny: localizedValue.value.toList(
-            (key, value) => "$key:$value",
+          arrayContainsAny: localizedValue.value.map(
+            (e) => "${e.locale}:${e.value}",
           ),
         );
         break;
@@ -166,7 +166,7 @@ class FirestoreModelLocalizedValueConverter
       case ModelQueryFilterType.arrayContainsAny:
         final list = items
             .whereType<ModelLocalizedValue>()
-            .expand((e) => e.value.toList((key, value) => "$key:$value"))
+            .expand((e) => e.value.map((e) => "${e.locale}:${e.value}"))
             .toList();
         final queries = <Query<DynamicMap>>[];
         for (var i = 0; i < list.length; i += 10) {
