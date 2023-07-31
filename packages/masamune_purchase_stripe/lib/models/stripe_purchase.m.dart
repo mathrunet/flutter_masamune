@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
 
 part of 'stripe_purchase.dart';
 
@@ -14,9 +14,46 @@ extension on StripePurchaseModel {
   }
 }
 
+@immutable
+class StripePurchaseModelPath extends ModelRefPath<StripePurchaseModel> {
+  const StripePurchaseModelPath(
+    String uid, {
+    required String userId,
+  })  : _userId = userId,
+        super(uid);
+
+  final String _userId;
+
+  @override
+  DocumentModelQuery get modelQuery {
+    return DocumentModelQuery(
+      "plugins/stripe/user/$_userId/purchase/${path.trimQuery().trimString("/")}",
+      adapter: adapter,
+    );
+  }
+}
+
+@immutable
+class StripePurchaseModelInitialCollection
+    extends ModelInitialCollection<StripePurchaseModel> {
+  const StripePurchaseModelInitialCollection(
+    super.value, {
+    required String userId,
+  }) : _userId = userId;
+
+  final String _userId;
+
+  @override
+  String get path => "plugins/stripe/user/$_userId/purchase";
+  @override
+  DynamicMap toMap(StripePurchaseModel value) => value.rawValue;
+}
+
 class $StripePurchaseModelDocument extends DocumentBase<StripePurchaseModel>
     with ModelRefMixin<StripePurchaseModel> {
   $StripePurchaseModelDocument(super.modelQuery);
+
+  static const ModelAdapter? defaultModelAdapter = null;
 
   @override
   StripePurchaseModel fromMap(DynamicMap map) =>
@@ -32,6 +69,8 @@ class $StripePurchaseModelCollection
             _$_StripePurchaseModelCollectionQuery> {
   $StripePurchaseModelCollection(super.modelQuery);
 
+  static const ModelAdapter? defaultModelAdapter = null;
+
   @override
   $StripePurchaseModelDocument create([String? id]) =>
       $StripePurchaseModelDocument(modelQuery.create(id));
@@ -44,27 +83,6 @@ class $StripePurchaseModelCollection
         callback.call(_$_StripePurchaseModelCollectionQuery(modelQuery));
     return replaceQuery((_) => query.modelQuery);
   }
-}
-
-class StripePurchaseModelRawCollection
-    extends ModelInitialCollection<StripePurchaseModel> {
-  const StripePurchaseModelRawCollection(
-    super.value, {
-    required String userId,
-  }) : _userId = userId;
-
-  final String _userId;
-
-  @override
-  String get path => "plugins/stripe/user/$_userId/purchase";
-  @override
-  DynamicMap toMap(StripePurchaseModel value) => value.rawValue;
-  static ModelRefBase<StripePurchaseModel> ref(
-    String key, {
-    required String userId,
-  }) =>
-      ModelRefBase<StripePurchaseModel>.fromPath(
-          "plugins/stripe/user/$userId/purchase/$key");
 }
 
 enum StripePurchaseModelCollectionKey {
@@ -109,7 +127,7 @@ class _$StripePurchaseModelDocumentQuery {
   }) {
     return _$_StripePurchaseModelDocumentQuery(DocumentModelQuery(
       "plugins/stripe/user/$userId/purchase/$_id",
-      adapter: adapter,
+      adapter: adapter ?? $StripePurchaseModelDocument.defaultModelAdapter,
     ));
   }
 }
@@ -139,7 +157,7 @@ class _$StripePurchaseModelCollectionQuery {
   }) {
     return _$_StripePurchaseModelCollectionQuery(CollectionModelQuery(
       "plugins/stripe/user/$userId/purchase",
-      adapter: adapter,
+      adapter: adapter ?? $StripePurchaseModelCollection.defaultModelAdapter,
     ));
   }
 }

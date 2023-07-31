@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
 
 part of 'stripe_user.dart';
 
@@ -14,9 +14,35 @@ extension on StripeUserModel {
   }
 }
 
+@immutable
+class StripeUserModelPath extends ModelRefPath<StripeUserModel> {
+  const StripeUserModelPath(String uid) : super(uid);
+
+  @override
+  DocumentModelQuery get modelQuery {
+    return DocumentModelQuery(
+      "plugins/stripe/user/${path.trimQuery().trimString("/")}",
+      adapter: adapter,
+    );
+  }
+}
+
+@immutable
+class StripeUserModelInitialCollection
+    extends ModelInitialCollection<StripeUserModel> {
+  const StripeUserModelInitialCollection(super.value);
+
+  @override
+  String get path => "plugins/stripe/user";
+  @override
+  DynamicMap toMap(StripeUserModel value) => value.rawValue;
+}
+
 class $StripeUserModelDocument extends DocumentBase<StripeUserModel>
     with ModelRefMixin<StripeUserModel> {
   $StripeUserModelDocument(super.modelQuery);
+
+  static const ModelAdapter? defaultModelAdapter = null;
 
   @override
   StripeUserModel fromMap(DynamicMap map) => StripeUserModel.fromJson(map);
@@ -31,6 +57,8 @@ class $StripeUserModelCollection
             _$_StripeUserModelCollectionQuery> {
   $StripeUserModelCollection(super.modelQuery);
 
+  static const ModelAdapter? defaultModelAdapter = null;
+
   @override
   $StripeUserModelDocument create([String? id]) =>
       $StripeUserModelDocument(modelQuery.create(id));
@@ -42,18 +70,6 @@ class $StripeUserModelCollection
     final query = callback.call(_$_StripeUserModelCollectionQuery(modelQuery));
     return replaceQuery((_) => query.modelQuery);
   }
-}
-
-class StripeUserModelRawCollection
-    extends ModelInitialCollection<StripeUserModel> {
-  const StripeUserModelRawCollection(super.value);
-
-  @override
-  String get path => "plugins/stripe/user";
-  @override
-  DynamicMap toMap(StripeUserModel value) => value.rawValue;
-  static ModelRefBase<StripeUserModel> ref(String key) =>
-      ModelRefBase<StripeUserModel>.fromPath("plugins/stripe/user/$key");
 }
 
 enum StripeUserModelCollectionKey {
@@ -75,7 +91,7 @@ class _$StripeUserModelDocumentQuery {
   }) {
     return _$_StripeUserModelDocumentQuery(DocumentModelQuery(
       "plugins/stripe/user/$_id",
-      adapter: adapter,
+      adapter: adapter ?? $StripeUserModelDocument.defaultModelAdapter,
     ));
   }
 }
@@ -102,7 +118,7 @@ class _$StripeUserModelCollectionQuery {
   _$_StripeUserModelCollectionQuery call({ModelAdapter? adapter}) {
     return _$_StripeUserModelCollectionQuery(CollectionModelQuery(
       "plugins/stripe/user",
-      adapter: adapter,
+      adapter: adapter ?? $StripeUserModelCollection.defaultModelAdapter,
     ));
   }
 }

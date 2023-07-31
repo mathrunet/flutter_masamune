@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
 
 part of 'purchase_user.dart';
 
@@ -14,9 +14,35 @@ extension on PurchaseUserModel {
   }
 }
 
+@immutable
+class PurchaseUserModelPath extends ModelRefPath<PurchaseUserModel> {
+  const PurchaseUserModelPath(String uid) : super(uid);
+
+  @override
+  DocumentModelQuery get modelQuery {
+    return DocumentModelQuery(
+      "plugins/iap/user/${path.trimQuery().trimString("/")}",
+      adapter: adapter,
+    );
+  }
+}
+
+@immutable
+class PurchaseUserModelInitialCollection
+    extends ModelInitialCollection<PurchaseUserModel> {
+  const PurchaseUserModelInitialCollection(super.value);
+
+  @override
+  String get path => "plugins/iap/user";
+  @override
+  DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
+}
+
 class $PurchaseUserModelDocument extends DocumentBase<PurchaseUserModel>
     with ModelRefMixin<PurchaseUserModel> {
   $PurchaseUserModelDocument(super.modelQuery);
+
+  static const ModelAdapter? defaultModelAdapter = null;
 
   @override
   PurchaseUserModel fromMap(DynamicMap map) => PurchaseUserModel.fromJson(map);
@@ -30,6 +56,8 @@ class $PurchaseUserModelCollection
         FilterableCollectionMixin<$PurchaseUserModelDocument,
             _$_PurchaseUserModelCollectionQuery> {
   $PurchaseUserModelCollection(super.modelQuery);
+
+  static const ModelAdapter? defaultModelAdapter = null;
 
   @override
   $PurchaseUserModelDocument create([String? id]) =>
@@ -45,18 +73,6 @@ class $PurchaseUserModelCollection
   }
 }
 
-class PurchaseUserModelRawCollection
-    extends ModelInitialCollection<PurchaseUserModel> {
-  const PurchaseUserModelRawCollection(super.value);
-
-  @override
-  String get path => "plugins/iap/user";
-  @override
-  DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
-  static ModelRefBase<PurchaseUserModel> ref(String key) =>
-      ModelRefBase<PurchaseUserModel>.fromPath("plugins/iap/user/$key");
-}
-
 enum PurchaseUserModelCollectionKey { value }
 
 @immutable
@@ -70,7 +86,7 @@ class _$PurchaseUserModelDocumentQuery {
   }) {
     return _$_PurchaseUserModelDocumentQuery(DocumentModelQuery(
       "plugins/iap/user/$_id",
-      adapter: adapter,
+      adapter: adapter ?? $PurchaseUserModelDocument.defaultModelAdapter,
     ));
   }
 }
@@ -97,7 +113,7 @@ class _$PurchaseUserModelCollectionQuery {
   _$_PurchaseUserModelCollectionQuery call({ModelAdapter? adapter}) {
     return _$_PurchaseUserModelCollectionQuery(CollectionModelQuery(
       "plugins/iap/user",
-      adapter: adapter,
+      adapter: adapter ?? $PurchaseUserModelCollection.defaultModelAdapter,
     ));
   }
 }

@@ -83,11 +83,8 @@ mixin _$PrefsValue implements PrefsBase {
     return "$runtimeType(userToken: $userToken, volumeSetting: $volumeSetting)";
   }
 
-  @override
   Future<void> load() => throw UnimplementedError();
-  @override
   Future<void>? get loading => throw UnimplementedError();
-  @override
   Future<bool> clear() => throw UnimplementedError();
 }
 

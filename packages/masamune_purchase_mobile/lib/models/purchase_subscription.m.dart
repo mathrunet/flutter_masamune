@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
 
 part of 'purchase_subscription.dart';
 
@@ -14,10 +14,37 @@ extension on PurchaseSubscriptionModel {
   }
 }
 
+@immutable
+class PurchaseSubscriptionModelPath
+    extends ModelRefPath<PurchaseSubscriptionModel> {
+  const PurchaseSubscriptionModelPath(String uid) : super(uid);
+
+  @override
+  DocumentModelQuery get modelQuery {
+    return DocumentModelQuery(
+      "plugins/iap/subscription/${path.trimQuery().trimString("/")}",
+      adapter: adapter,
+    );
+  }
+}
+
+@immutable
+class PurchaseSubscriptionModelInitialCollection
+    extends ModelInitialCollection<PurchaseSubscriptionModel> {
+  const PurchaseSubscriptionModelInitialCollection(super.value);
+
+  @override
+  String get path => "plugins/iap/subscription";
+  @override
+  DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
+}
+
 class $PurchaseSubscriptionModelDocument
     extends DocumentBase<PurchaseSubscriptionModel>
     with ModelRefMixin<PurchaseSubscriptionModel> {
   $PurchaseSubscriptionModelDocument(super.modelQuery);
+
+  static const ModelAdapter? defaultModelAdapter = null;
 
   @override
   PurchaseSubscriptionModel fromMap(DynamicMap map) =>
@@ -33,6 +60,8 @@ class $PurchaseSubscriptionModelCollection
             _$_PurchaseSubscriptionModelCollectionQuery> {
   $PurchaseSubscriptionModelCollection(super.modelQuery);
 
+  static const ModelAdapter? defaultModelAdapter = null;
+
   @override
   $PurchaseSubscriptionModelDocument create([String? id]) =>
       $PurchaseSubscriptionModelDocument(modelQuery.create(id));
@@ -45,19 +74,6 @@ class $PurchaseSubscriptionModelCollection
         callback.call(_$_PurchaseSubscriptionModelCollectionQuery(modelQuery));
     return replaceQuery((_) => query.modelQuery);
   }
-}
-
-class PurchaseSubscriptionModelRawCollection
-    extends ModelInitialCollection<PurchaseSubscriptionModel> {
-  const PurchaseSubscriptionModelRawCollection(super.value);
-
-  @override
-  String get path => "plugins/iap/subscription";
-  @override
-  DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
-  static ModelRefBase<PurchaseSubscriptionModel> ref(String key) =>
-      ModelRefBase<PurchaseSubscriptionModel>.fromPath(
-          "plugins/iap/subscription/$key");
 }
 
 enum PurchaseSubscriptionModelCollectionKey {
@@ -83,7 +99,8 @@ class _$PurchaseSubscriptionModelDocumentQuery {
   }) {
     return _$_PurchaseSubscriptionModelDocumentQuery(DocumentModelQuery(
       "plugins/iap/subscription/$_id",
-      adapter: adapter,
+      adapter:
+          adapter ?? $PurchaseSubscriptionModelDocument.defaultModelAdapter,
     ));
   }
 }
@@ -110,7 +127,8 @@ class _$PurchaseSubscriptionModelCollectionQuery {
   _$_PurchaseSubscriptionModelCollectionQuery call({ModelAdapter? adapter}) {
     return _$_PurchaseSubscriptionModelCollectionQuery(CollectionModelQuery(
       "plugins/iap/subscription",
-      adapter: adapter,
+      adapter:
+          adapter ?? $PurchaseSubscriptionModelCollection.defaultModelAdapter,
     ));
   }
 }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
 
 part of 'stripe_payment.dart';
 
@@ -14,9 +14,46 @@ extension on StripePaymentModel {
   }
 }
 
+@immutable
+class StripePaymentModelPath extends ModelRefPath<StripePaymentModel> {
+  const StripePaymentModelPath(
+    String uid, {
+    required String userId,
+  })  : _userId = userId,
+        super(uid);
+
+  final String _userId;
+
+  @override
+  DocumentModelQuery get modelQuery {
+    return DocumentModelQuery(
+      "plugins/stripe/user/$_userId/payment/${path.trimQuery().trimString("/")}",
+      adapter: adapter,
+    );
+  }
+}
+
+@immutable
+class StripePaymentModelInitialCollection
+    extends ModelInitialCollection<StripePaymentModel> {
+  const StripePaymentModelInitialCollection(
+    super.value, {
+    required String userId,
+  }) : _userId = userId;
+
+  final String _userId;
+
+  @override
+  String get path => "plugins/stripe/user/$_userId/payment";
+  @override
+  DynamicMap toMap(StripePaymentModel value) => value.rawValue;
+}
+
 class $StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
     with ModelRefMixin<StripePaymentModel> {
   $StripePaymentModelDocument(super.modelQuery);
+
+  static const ModelAdapter? defaultModelAdapter = null;
 
   @override
   StripePaymentModel fromMap(DynamicMap map) =>
@@ -32,6 +69,8 @@ class $StripePaymentModelCollection
             _$_StripePaymentModelCollectionQuery> {
   $StripePaymentModelCollection(super.modelQuery);
 
+  static const ModelAdapter? defaultModelAdapter = null;
+
   @override
   $StripePaymentModelDocument create([String? id]) =>
       $StripePaymentModelDocument(modelQuery.create(id));
@@ -44,27 +83,6 @@ class $StripePaymentModelCollection
         callback.call(_$_StripePaymentModelCollectionQuery(modelQuery));
     return replaceQuery((_) => query.modelQuery);
   }
-}
-
-class StripePaymentModelRawCollection
-    extends ModelInitialCollection<StripePaymentModel> {
-  const StripePaymentModelRawCollection(
-    super.value, {
-    required String userId,
-  }) : _userId = userId;
-
-  final String _userId;
-
-  @override
-  String get path => "plugins/stripe/user/$_userId/payment";
-  @override
-  DynamicMap toMap(StripePaymentModel value) => value.rawValue;
-  static ModelRefBase<StripePaymentModel> ref(
-    String key, {
-    required String userId,
-  }) =>
-      ModelRefBase<StripePaymentModel>.fromPath(
-          "plugins/stripe/user/$userId/payment/$key");
 }
 
 enum StripePaymentModelCollectionKey {
@@ -89,7 +107,7 @@ class _$StripePaymentModelDocumentQuery {
   }) {
     return _$_StripePaymentModelDocumentQuery(DocumentModelQuery(
       "plugins/stripe/user/$userId/payment/$_id",
-      adapter: adapter,
+      adapter: adapter ?? $StripePaymentModelDocument.defaultModelAdapter,
     ));
   }
 }
@@ -119,7 +137,7 @@ class _$StripePaymentModelCollectionQuery {
   }) {
     return _$_StripePaymentModelCollectionQuery(CollectionModelQuery(
       "plugins/stripe/user/$userId/payment",
-      adapter: adapter,
+      adapter: adapter ?? $StripePaymentModelCollection.defaultModelAdapter,
     ));
   }
 }
