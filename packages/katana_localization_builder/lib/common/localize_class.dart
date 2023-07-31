@@ -20,7 +20,11 @@ List<Spec> localizeClass(
         ..modifier = FieldModifier.final$
         ..assignment = Code("{${locales.map((e) {
           final locale = e.split("_");
-          return "Locale(\"${locale.first}\", \"${locale.last}\"): _\$${model.name}${e.toCamelCase().capitalize()}()";
+          if (locale.length > 1) {
+            return "Locale(\"${locale.first}\", \"${locale.last}\"): _\$${model.name}${e.toCamelCase().capitalize()}()";
+          } else {
+            return "Locale(\"${locale.first}\"): _\$${model.name}${e.toCamelCase().capitalize()}()";
+          }
         }).join(",")}}"),
     ),
     Class(

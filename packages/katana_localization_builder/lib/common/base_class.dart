@@ -57,7 +57,7 @@ List<Spec> baseClass(
                 )
               ])
               ..body = Code(
-                "final l = context != null ? Localizations.localeOf(context) : locale;if (_\$${model.name.toCamelCase()}Localizations.containsKey(l)) {return _\$${model.name.toCamelCase()}Localizations[l]!;} else {return _\$${model.name.toCamelCase()}Localizations.values.first;}",
+                "final l = context != null ? Localizations.localeOf(context) : locale; var res = _\$${model.name.toCamelCase()}Localizations.entries.firstWhereOrNull((e) => e.key == l); if (res != null) { return res.value; } res = _\$${model.name.toCamelCase()}Localizations.entries.firstWhereOrNull((e) => e.key.languageCode == l.languageCode); if (res != null) { return res.value; } return _\$${model.name.toCamelCase()}Localizations.values.first;",
               ),
           )
         ]),

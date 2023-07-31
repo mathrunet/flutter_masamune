@@ -28,3 +28,4 @@ export 'package:katana_localization_annotation/katana_localization_annotation.da
 part 'src/app_localize_base.dart';
 part 'src/localize_scope.dart';
 part 'src/localizations_delegate.dart';
+part 'src/extensions.dart';
