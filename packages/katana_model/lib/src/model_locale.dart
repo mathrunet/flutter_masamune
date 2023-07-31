@@ -8,7 +8,7 @@ part of katana_model;
 ///
 /// ベースの値を[value]として与えます。与えられなかった場合は何も設定されていない[LocalizedValue]が利用されます。
 @immutable
-class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
+class ModelLocalizedValue extends ModelFieldValue<LocalizedValue<String>>
     implements Comparable<ModelLocalizedValue> {
   /// Define a model [LocalizedValue] that stores locale and text pairs.
   ///
@@ -17,7 +17,7 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
   /// ロケールとテキストのペアを保存する[LocalizedValue]をモデルとして定義します。
   ///
   /// ベースの値を[value]として与えます。与えられなかった場合は何も設定されていない[LocalizedValue]が利用されます。
-  const factory ModelLocalizedValue([LocalizedValue? value]) =
+  const factory ModelLocalizedValue([LocalizedValue<String>? value]) =
       _ModelLocalizedValue;
 
   /// Define a model [LocalizedValue] that stores locale and text pairs.
@@ -37,8 +37,8 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
   /// サーバーからのデータの取得に偽装するために利用します。
   ///
   /// テスト用途で用いてください。
-  const factory ModelLocalizedValue.fromServer([LocalizedValue? value]) =
-      _ModelLocalizedValue.fromServer;
+  const factory ModelLocalizedValue.fromServer(
+      [LocalizedValue<String>? value]) = _ModelLocalizedValue.fromServer;
 
   /// Convert from [json] map to [ModelLocalizedValue].
   ///
@@ -50,7 +50,7 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
   }
 
   const ModelLocalizedValue._([
-    LocalizedValue? value,
+    LocalizedValue<String>? value,
     ModelFieldValueSource source = ModelFieldValueSource.user,
   ])  : _value = value,
         _source = source;
@@ -66,8 +66,8 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue>
   static const kSourceKey = "@source";
 
   @override
-  LocalizedValue get value => _value ?? const LocalizedValue();
-  final LocalizedValue? _value;
+  LocalizedValue<String> get value => _value ?? const LocalizedValue<String>();
+  final LocalizedValue<String>? _value;
 
   final ModelFieldValueSource _source;
 
@@ -102,8 +102,8 @@ class _ModelLocaleWithMap extends _ModelLocalizedValue {
   final Map<String, String> _map;
 
   @override
-  LocalizedValue? get _value {
-    return LocalizedValue(
+  LocalizedValue<String>? get _value {
+    return LocalizedValue<String>(
       _map.map((key, value) {
         final keys = key.replaceAll("-", "_").split("_");
         return MapEntry(
@@ -120,12 +120,12 @@ class _ModelLocaleWithMap extends _ModelLocalizedValue {
 
 @immutable
 class _ModelLocalizedValue extends ModelLocalizedValue
-    with ModelFieldValueAsMapMixin<LocalizedValue> {
+    with ModelFieldValueAsMapMixin<LocalizedValue<String>> {
   const _ModelLocalizedValue([
-    LocalizedValue? value,
+    LocalizedValue<String>? value,
     ModelFieldValueSource source = ModelFieldValueSource.user,
   ]) : super._(value, source);
-  const _ModelLocalizedValue.fromServer([LocalizedValue? value])
+  const _ModelLocalizedValue.fromServer([LocalizedValue<String>? value])
       : super._(value, ModelFieldValueSource.server);
 }
 
@@ -218,10 +218,12 @@ class ModelLocalizedValueFilter
     if (source is ModelLocalizedValue && target is ModelLocalizedValue) {
       return filter(source.value.toList((k, v) => "$k:$v").toList(),
           target.value.toList((k, v) => "$k:$v").toList());
-    } else if (source is ModelLocalizedValue && target is LocalizedValue) {
+    } else if (source is ModelLocalizedValue &&
+        target is LocalizedValue<String>) {
       return filter(source.value.toList((k, v) => "$k:$v").toList(),
           target.toList((k, v) => "$k:$v").toList());
-    } else if (source is LocalizedValue && target is ModelLocalizedValue) {
+    } else if (source is LocalizedValue<String> &&
+        target is ModelLocalizedValue) {
       return filter(source.toList((k, v) => "$k:$v").toList(),
           target.value.toList((k, v) => "$k:$v").toList());
     } else if (source is ModelLocalizedValue && target is Map<Locale, String>) {
@@ -273,7 +275,7 @@ class ModelLocalizedValueFilter
             .toList(),
         target.value.toList((k, v) => "$k:$v").toList(),
       );
-    } else if (source is LocalizedValue &&
+    } else if (source is LocalizedValue<String> &&
         target is DynamicMap &&
         target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
       return filter(
@@ -284,7 +286,7 @@ class ModelLocalizedValueFilter
             .toList(),
       );
     } else if (source is DynamicMap &&
-        target is LocalizedValue &&
+        target is LocalizedValue<String> &&
         source.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
       return filter(
         ModelLocalizedValue.fromJson(source)
@@ -330,9 +332,9 @@ class ModelLocalizedValueFilter
 ///
 /// [value]で指定した[Locale]の翻訳を取得します。
 @immutable
-class LocalizedValue
-    with MapMixin<Locale, String>
-    implements Map<Locale, String>, Comparable<LocalizedValue> {
+class LocalizedValue<T>
+    with MapMixin<Locale, T>
+    implements Map<Locale, T>, Comparable<LocalizedValue> {
   /// Class for storing translation data.
   ///
   /// It consists of a pair of [Locale] and its corresponding [String] translation.
@@ -350,9 +352,9 @@ class LocalizedValue
   /// その場合、キーは`ja_JP`のように`_`で区切られた文字列である必要があります。
   ///
   /// [value]で指定した[Locale]の翻訳を取得します。
-  const LocalizedValue([Map<Locale, String> defaultValue = const {}])
+  const LocalizedValue([Map<Locale, T> defaultValue = const {}])
       : _map = defaultValue;
-  final Map<Locale, String> _map;
+  final Map<Locale, T> _map;
 
   /// Class for storing translation data.
   ///
@@ -380,7 +382,7 @@ class LocalizedValue
             keys.first,
             keys.length > 1 ? keys.last : null,
           ),
-          value.toString(),
+          value as T,
         );
       }),
     );
@@ -393,16 +395,16 @@ class LocalizedValue
   /// [key]で指定した[Locale]の翻訳を取得します。
   ///
   /// まず[key]による値の取得を試みたあと、[defaultLocale]での取得を試みて、それでも取得できない場合は[defaultValue]を返します。
-  String value(
-    Locale key, {
-    String defaultValue = "",
+  T value(
+    Locale key,
+    T defaultValue, {
     Locale defaultLocale = const Locale("en", "US"),
   }) {
     return _map[key] ?? _map[defaultLocale] ?? defaultValue;
   }
 
   @override
-  String? operator [](Object? key) {
+  T? operator [](Object? key) {
     if (key == null) {
       return null;
     }
@@ -410,7 +412,7 @@ class LocalizedValue
   }
 
   @override
-  void operator []=(Locale key, String value) {
+  void operator []=(Locale key, T value) {
     _map[key] = value;
   }
 
@@ -423,7 +425,7 @@ class LocalizedValue
   Iterable<Locale> get keys => _map.keys;
 
   @override
-  String? remove(Object? key) {
+  T? remove(Object? key) {
     if (key == null) {
       return null;
     }
