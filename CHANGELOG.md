@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.4.3`](#katana_cli---v243)
+
+---
+
+#### `katana_cli` - `v2.4.3`
+
+ - **FIX**: Granted android.permission.INTERNET when first created. ([3a3cc9ad](https://github.com/mathrunet/flutter_masamune/commit/3a3cc9adba6770603b9da262c8ec3369720afa3f))
+
+
 ## 2023-07-31
 
 ### Changes

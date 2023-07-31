@@ -1,3 +1,7 @@
+## 2.4.3
+
+ - **FIX**: Granted android.permission.INTERNET when first created. ([3a3cc9ad](https://github.com/mathrunet/flutter_masamune/commit/3a3cc9adba6770603b9da262c8ec3369720afa3f))
+
 ## 2.4.2
 
  - **FIX**: Fixed the problem that the first time when deploying Google Play, it seems to have to be a DRAFT. ([143edec2](https://github.com/mathrunet/flutter_masamune/commit/143edec286da529965ec2e636d6b651224ec2963))
