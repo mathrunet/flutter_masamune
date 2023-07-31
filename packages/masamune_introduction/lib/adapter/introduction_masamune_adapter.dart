@@ -17,7 +17,7 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   /// List of tutorial pages.
   ///
   /// チュートリアルのページ一覧。
-  final List<IntroductionItem> items;
+  final LocalizedValue<List<IntroductionItem>> items;
 
   /// Set to `true` if skippable.
   ///
@@ -27,12 +27,12 @@ class IntroductionMasamuneAdapter extends MasamuneAdapter {
   /// Generator of completion button labels.
   ///
   /// 完了ボタンのラベルのジェネレーター.
-  final String Function() doneLabel;
+  final LocalizedValue<String> doneLabel;
 
   /// Generator of skip button labels.
   ///
   /// スキップボタンのラベルのジェネレーター。
-  final String Function() skipLabel;
+  final LocalizedValue<String> skipLabel;
 
   /// You can retrieve the [IntroductionMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

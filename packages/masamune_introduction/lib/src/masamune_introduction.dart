@@ -157,12 +157,12 @@ class _MasamuneIntroductionState extends State<MasamuneIntroduction> {
           bodyPadding: widget.padding,
           controlsPadding: widget.contentPadding,
           pages: [
-            ...adapter.items.map(
+            ...(adapter.items.value(context.locale) ?? []).map(
               (e) => e.toPageViewModel(context),
             ),
           ],
-          done: Text(adapter.doneLabel.call()),
-          skip: Text(adapter.skipLabel.call()),
+          done: Text(adapter.doneLabel.value(context.locale) ?? ""),
+          skip: Text(adapter.skipLabel.value(context.locale) ?? ""),
           onDone: () {
             if (widget.routeQuery == null) {
               context.router.pop();
