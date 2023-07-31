@@ -1,3 +1,8 @@
+## 2.10.5
+
+ - **FIX**: LocalizedValue can be used in various ways. ([9c1d9c33](https://github.com/mathrunet/flutter_masamune/commit/9c1d9c33ee0a67e9c156693c9aedede2dfe93577))
+ - **FIX**: ModelLocalizedValue.fromMap is now available in const. ([4acbfcfc](https://github.com/mathrunet/flutter_masamune/commit/4acbfcfcf81340cae085e1546fdde07504dfb46f))
+
 ## 2.10.4
 
  - **FIX**: Change ModelDataCollection to ModelInitialCollection. ([c2160b9b](https://github.com/mathrunet/flutter_masamune/commit/c2160b9b58ddb2d313ae24544dc1c1328476aa66))

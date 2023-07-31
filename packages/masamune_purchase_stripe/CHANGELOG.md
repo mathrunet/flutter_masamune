@@ -1,3 +1,7 @@
+## 3.2.10
+
+ - Update a dependency to the latest release.
+
 ## 3.2.9
 
  - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))

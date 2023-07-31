@@ -1,3 +1,7 @@
+## 2.4.8
+
+ - **FIX**: ModelLocalizedValue.fromMap is now available in const. ([4acbfcfc](https://github.com/mathrunet/flutter_masamune/commit/4acbfcfcf81340cae085e1546fdde07504dfb46f))
+
 ## 2.4.7
 
  - **FIX**: Change ModelDataCollection to ModelInitialCollection. ([c2160b9b](https://github.com/mathrunet/flutter_masamune/commit/c2160b9b58ddb2d313ae24544dc1c1328476aa66))

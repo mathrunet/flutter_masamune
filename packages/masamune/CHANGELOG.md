@@ -1,3 +1,7 @@
+## 2.3.15
+
+ - **FIX**: Added SupportedLocale. ([ef47f4b2](https://github.com/mathrunet/flutter_masamune/commit/ef47f4b236e7fbed4cfc2c2947a240c16c878551))
+
 ## 2.3.14
 
  - Update a dependency to the latest release.

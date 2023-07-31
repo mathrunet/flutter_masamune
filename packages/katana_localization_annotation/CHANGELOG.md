@@ -1,3 +1,7 @@
+## 2.0.14
+
+ - **FIX**: Fixes to compensate for fluctuations in Locale. ([f1feaba8](https://github.com/mathrunet/flutter_masamune/commit/f1feaba8b3851e8637d45d17b9cdbd27be6695bb))
+
 ## 2.0.13
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))
