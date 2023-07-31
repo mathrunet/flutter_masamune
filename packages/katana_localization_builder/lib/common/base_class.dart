@@ -56,8 +56,23 @@ List<Spec> baseClass(
                     ..type = const Reference("BuildContext?"),
                 )
               ])
+              ..body = const Code(
+                "final l = context != null ? Localizations.localeOf(context) : locale; return get(l);",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "get"
+              ..returns = Reference("_\$${model.name}$_kBaseName")
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "locale"
+                    ..type = const Reference("Locale"),
+                )
+              ])
               ..body = Code(
-                "final l = context != null ? Localizations.localeOf(context) : locale; var res = _\$${model.name.toCamelCase()}Localizations.entries.firstWhereOrNull((e) => e.key == l); if (res != null) { return res.value; } res = _\$${model.name.toCamelCase()}Localizations.entries.firstWhereOrNull((e) => e.key.languageCode == l.languageCode); if (res != null) { return res.value; } return _\$${model.name.toCamelCase()}Localizations.values.first;",
+                "var res = _\$${model.name.toCamelCase()}Localizations.entries.firstWhereOrNull((e) => e.key == locale); if (res != null) { return res.value; } res = _\$${model.name.toCamelCase()}Localizations.entries.firstWhereOrNull((e) => e.key.languageCode == locale.languageCode); if (res != null) { return res.value; } return _\$${model.name.toCamelCase()}Localizations.values.first;",
               ),
           )
         ]),

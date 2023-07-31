@@ -11,3 +11,15 @@ extension LocalizeLocaleExtensions on Locale {
     return Locale(languageCode);
   }
 }
+
+/// Extension to extend [BuildContext].
+///
+/// [BuildContext]の拡張を行うエクステンション。
+extension BuildContextLocaleExtensions on BuildContext {
+  /// Get the current [Locale].
+  ///
+  /// 現在の[Locale]を取得します。
+  Locale get locale {
+    return Localizations.localeOf(this);
+  }
+}
