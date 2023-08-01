@@ -24,7 +24,7 @@ class StripeAccount
   /// このアカウントを作成することで他ユーザーからの収益を受け取ることができます。
   ///
   /// [dashboard]でアカウントの情報を確認することができます。
-  StripeAccount();
+  StripeAccount({super.adapter});
 
   /// Query for StripeAccount.
   ///

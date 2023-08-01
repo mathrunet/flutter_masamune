@@ -465,21 +465,21 @@ packages:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.16"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_localization_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.16"
   katana_logger:
     dependency: "direct overridden"
     description:
@@ -493,42 +493,42 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.10.4"
+    version: "2.10.6"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.4.7"
+    version: "2.4.9"
   katana_prefs:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.15"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_prefs_builder:
     dependency: "direct overridden"
     description:
       path: "../katana_prefs_builder"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.14"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.18"
+    version: "2.0.20"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -542,7 +542,7 @@ packages:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.19"
   katana_scoped:
     dependency: "direct overridden"
     description:
@@ -614,7 +614,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.3.12"
+    version: "2.3.16"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -628,7 +628,7 @@ packages:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.6.3"
+    version: "2.6.6"
   matcher:
     dependency: transitive
     description:

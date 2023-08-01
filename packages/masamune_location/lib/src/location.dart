@@ -40,7 +40,7 @@ class Location
   /// [value]に[LocationData]が格納されるのでそこを参照してください。
   ///
   /// [unlisten]で取得を終了します。
-  Location();
+  Location({super.adapter});
 
   /// Query for Location.
   ///

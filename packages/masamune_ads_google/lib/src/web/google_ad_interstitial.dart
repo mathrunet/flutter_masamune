@@ -71,7 +71,8 @@ class GoogleAdInterstitial extends ChangeNotifier {
 /// [adUnitId]を指定してインタースティシャル広告を表示します。
 ///
 /// [loading]が終了した後、[show]で広告を表示します。
-class GoogleAdRewardedInterstitial extends ChangeNotifier {
+class GoogleAdRewardedInterstitial
+    extends MasamuneControllerBase<void, GoogleAdsMasamuneAdapter> {
   /// This class displays a rewarded interstitial ad.
   ///
   /// Display interstitial ads by specifying [adUnitId].
@@ -84,8 +85,13 @@ class GoogleAdRewardedInterstitial extends ChangeNotifier {
   ///
   /// [loading]が終了した後、[show]で広告を表示します。
   GoogleAdRewardedInterstitial(
-    this.adUnitId,
-  );
+    this.adUnitId, {
+    super.adapter,
+  });
+
+  @override
+  GoogleAdsMasamuneAdapter get primaryAdapter =>
+      GoogleAdsMasamuneAdapter.primary;
 
   /// Ad unit ID.
   ///

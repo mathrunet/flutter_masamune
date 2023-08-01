@@ -24,7 +24,7 @@ class StripeCustomer
   /// 基本的には支払いアカウントと支払い情報を一緒に作成します。
   ///
   /// 支払いアカウントを作成することでStripe内で決済を行うことが可能です。
-  StripeCustomer();
+  StripeCustomer({super.adapter});
 
   /// Query for StripeCustomer.
   ///

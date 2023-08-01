@@ -67,7 +67,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   ///
   /// 課金を開始したい場合は[purchase]に[PurchaseProduct]を渡して実行します。
   /// [PurchaseProduct]は[findProductById]などを通して取得してください。
-  Purchase();
+  Purchase({super.adapter});
 
   /// Query for Purchase.
   ///

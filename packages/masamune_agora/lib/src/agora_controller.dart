@@ -26,6 +26,7 @@ class AgoraController
   /// [connect]で接続を行い、[disconnect]で切断を行います。
   AgoraController(
     this.channelName, {
+    super.adapter,
     List<LoggerAdapter> loggerAdapters = const [],
   })  : _loggerAdapters = loggerAdapters,
         super(defaultValue: []);

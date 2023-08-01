@@ -40,7 +40,7 @@ class Compass
   /// [value]に[CompassData]が格納されるのでそこを参照してください。
   ///
   /// [unlisten]で取得を終了します。
-  Compass();
+  Compass({super.adapter});
 
   /// Query for Compass.
   ///

@@ -24,7 +24,10 @@ class StripeAuthorization
   /// [authorization]を実行することで[userId]に関連するユーザーのオーソリを行います。
   ///
   /// [userId]に関連付けられた支払い情報が設定されていない場合は[Exception]が発生します。
-  StripeAuthorization({required this.userId});
+  StripeAuthorization({
+    required this.userId,
+    super.adapter,
+  });
 
   /// Query for StripeAuthorization.
   ///

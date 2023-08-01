@@ -10,6 +10,7 @@ class CalendarController
   /// カレンダーを操作するためのコントローラー
   CalendarController({
     this.initialDay,
+    super.adapter,
   });
 
   /// Query for CalendarController.

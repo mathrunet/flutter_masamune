@@ -16,7 +16,10 @@ class StripePayment
   /// Stripeの支払い情報を管理します。
   ///
   /// 実際の支払い情報は[collectionQuery]などから取得してください。
-  StripePayment({required this.userId});
+  StripePayment({
+    required this.userId,
+    super.adapter,
+  });
 
   /// Query for StripePayment.
   ///

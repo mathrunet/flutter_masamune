@@ -16,7 +16,10 @@ class StripeSubscription
   /// ストライプの設定画面で定義されたサブスクリプションを管理するためのコントローラー。
   ///
   /// [create]で購読開始し、[delete]で購読をキャンセルします。
-  StripeSubscription({required this.userId});
+  StripeSubscription({
+    required this.userId,
+    super.adapter,
+  });
 
   /// Query for StripeSubscription.
   ///

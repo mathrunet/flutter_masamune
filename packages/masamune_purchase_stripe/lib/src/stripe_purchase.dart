@@ -24,7 +24,10 @@ class StripePurchase
   /// [create]->[confirm]->[capture]の順で実行すると実際の金銭の移動が発生します。
   ///
   /// [cancel]や[refund]によって途中のキャンセルや金銭の移動後の返金処理を実行可能です。
-  StripePurchase({required this.userId});
+  StripePurchase({
+    required this.userId,
+    super.adapter,
+  });
 
   /// Query for StripePurchase.
   ///

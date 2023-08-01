@@ -64,7 +64,7 @@ class MapController
   /// [zoomIn]、[zoomOut]、[zoomTo]でズームを変更できます。
   ///
   /// [setMarker]、[setCircle]、[setPolygon]、[setPolyline]でマーカーやポリゴン、ポリライン、サークルを設定できます。
-  MapController() {
+  MapController({super.adapter}) {
     location.addListener(notifyListeners);
     compass.addListener(notifyListeners);
   }
