@@ -1,3 +1,7 @@
+## 2.4.4
+
+ - **FIX**: Added Ads command. ([4a77cd7f](https://github.com/mathrunet/flutter_masamune/commit/4a77cd7f22b21326fe46a1e7857d4dc0be1b7620))
+
 ## 2.4.3
 
  - **FIX**: Granted android.permission.INTERNET when first created. ([3a3cc9ad](https://github.com/mathrunet/flutter_masamune/commit/3a3cc9adba6770603b9da262c8ec3369720afa3f))

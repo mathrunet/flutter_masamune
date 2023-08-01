@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.4.4`](#katana_cli---v244)
+
+---
+
+#### `katana_cli` - `v2.4.4`
+
+ - **FIX**: Added Ads command. ([4a77cd7f](https://github.com/mathrunet/flutter_masamune/commit/4a77cd7f22b21326fe46a1e7857d4dc0be1b7620))
+
+
+## 2023-08-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_ads_google` - `v2.1.0`](#masamune_ads_google---v210)
 
 ---
