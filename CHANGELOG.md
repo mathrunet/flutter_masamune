@@ -15,6 +15,57 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.1.1`](#masamune_ads_google---v211)
+ - [`masamune_agora` - `v2.2.34`](#masamune_agora---v2234)
+ - [`masamune_calendar` - `v2.0.96`](#masamune_calendar---v2096)
+ - [`masamune_location` - `v2.1.63`](#masamune_location---v2163)
+ - [`masamune_location_google` - `v2.1.64`](#masamune_location_google---v2164)
+ - [`masamune_purchase_mobile` - `v2.4.12`](#masamune_purchase_mobile---v2412)
+ - [`masamune_purchase_stripe` - `v3.2.12`](#masamune_purchase_stripe---v3212)
+
+---
+
+#### `masamune_ads_google` - `v2.1.1`
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
+#### `masamune_agora` - `v2.2.34`
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
+#### `masamune_calendar` - `v2.0.96`
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
+#### `masamune_location` - `v2.1.63`
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
+#### `masamune_location_google` - `v2.1.64`
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
+#### `masamune_purchase_mobile` - `v2.4.12`
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
+#### `masamune_purchase_stripe` - `v3.2.12`
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
+
+## 2023-08-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.4.4`](#katana_cli---v244)
 
 ---

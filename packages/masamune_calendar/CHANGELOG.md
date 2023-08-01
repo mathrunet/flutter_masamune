@@ -1,3 +1,7 @@
+## 2.0.96
+
+ - **FIX**: Fixed MasamuneControllerBase where adapter was not specified. ([04493af1](https://github.com/mathrunet/flutter_masamune/commit/04493af171ba0b41835ceab051764804434c1f60))
+
 ## 2.0.95
 
  - Update a dependency to the latest release.
