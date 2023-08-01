@@ -1,4 +1,5 @@
 // Project imports:
+import 'package:katana_cli/action/ads/ads.dart';
 import 'package:katana_cli/action/agora/agora.dart';
 import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
@@ -53,6 +54,7 @@ const _actions = <CliActionMixin>[
   AppSpeechToTextCliAction(),
   AppLocationCliAction(),
   AgoraCliAction(),
+  AdsCliAction(),
   PurchaseCliAction(),
   StripeCliAction(),
   MailGmailCliAction(),

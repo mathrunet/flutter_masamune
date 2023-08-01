@@ -349,6 +349,17 @@ location:
   permission:
     en: Location information is used to display the map.
 
+# Configure the settings for advertising.
+# Set the respective Ad App Id in [android_app_id] and [ios_app_id].
+# https://admanager.google.com/home/
+# 広告を出す場合の設定を行います。
+# [android_app_id]と[ios_app_id]にそれぞれのAd App Idを設定してください。
+# https://admanager.google.com/home/
+ads:
+  enable: false
+  android_app_id: 
+  ios_app_id: 
+
 # Configure settings for store billing.
 # ストア課金を行う場合の設定を行います。
 purchase:
