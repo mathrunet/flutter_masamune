@@ -349,6 +349,25 @@ location:
   permission:
     en: Location information is used to display the map.
 
+# Describe the settings for using the app economic system.
+# アプリ経済システムを利用するための設定を記述します。
+ecosystem:
+  enable: false
+
+  # Specify the ecosystem type.
+  # エコシステムの種類を指定します。
+  # 
+  # [point]:
+  # Create an economic system centered on points.
+  # Points can be purchased by paying bills, increased through reward ads, login bonuses, etc.
+  # Points can be used to access features within the application.
+  # [purchase] and [ads] must be set.
+  # ポイントを中心とした経済システムを構築します。
+  # ポイントを課金で購入したり、リワード広告で増やしたり、ログインボーナス等で増やします。
+  # ポイントを利用することでアプリ内の機能を利用することが可能です。
+  # [purchase]と[ads]の設定が必要です。
+  type: point
+
 # Configure the settings for advertising.
 # Set the respective Ad App Id in [android_app_id] and [ios_app_id].
 # https://admanager.google.com/home/

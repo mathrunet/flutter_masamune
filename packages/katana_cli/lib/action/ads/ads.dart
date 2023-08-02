@@ -26,8 +26,8 @@ class AdsCliAction extends CliCommand with CliActionMixin {
 
   @override
   bool checkEnabled(ExecContext context) {
-    final purchase = context.yaml.getAsMap("ads");
-    final enable = purchase.get("enable", false);
+    final ads = context.yaml.getAsMap("ads");
+    final enable = ads.get("enable", false);
     if (!enable) {
       return false;
     }
@@ -43,7 +43,7 @@ class AdsCliAction extends CliCommand with CliActionMixin {
     final iosAppId = ads.get("ios_app_id", "");
     if (androidAppId.isEmpty && iosAppId.isEmpty) {
       throw Exception(
-        "Specify the app ID for Android or iOS in `ads.android_app_id` or `ads.ios_app_id`.",
+        "Specify the app ID for Android or iOS in [ads]->[android_app_id] or [ads]->[ios_app_id].",
       );
     }
     await command(
