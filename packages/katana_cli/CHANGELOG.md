@@ -1,3 +1,7 @@
+## 2.4.5
+
+ - **FIX**: Added Ecosystem command. ([83807a40](https://github.com/mathrunet/flutter_masamune/commit/83807a40a3106154042cb8f293573990b555c91d))
+
 ## 2.4.4
 
  - **FIX**: Added Ads command. ([4a77cd7f](https://github.com/mathrunet/flutter_masamune/commit/4a77cd7f22b21326fe46a1e7857d4dc0be1b7620))

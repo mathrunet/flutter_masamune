@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.4.5`](#katana_cli---v245)
+ - [`masamune_ads_google` - `v2.1.2`](#masamune_ads_google---v212)
+
+---
+
+#### `katana_cli` - `v2.4.5`
+
+ - **FIX**: Added Ecosystem command. ([83807a40](https://github.com/mathrunet/flutter_masamune/commit/83807a40a3106154042cb8f293573990b555c91d))
+
+#### `masamune_ads_google` - `v2.1.2`
+
+ - **FIX**: Apply import sorter. ([aa026366](https://github.com/mathrunet/flutter_masamune/commit/aa02636602ca3f064c873d22bd47d50cdc28a654))
+
+
 ## 2023-08-01
 
 ### Changes
