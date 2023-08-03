@@ -1,3 +1,7 @@
+## 2.6.7
+
+ - **FIX**: added support for specifying various annotation values as strings. ([1c9a8bb4](https://github.com/mathrunet/flutter_masamune/commit/1c9a8bb423426fd21f955d1f8d78a80b097a01e5))
+
 ## 2.6.6
 
  - Update a dependency to the latest release.

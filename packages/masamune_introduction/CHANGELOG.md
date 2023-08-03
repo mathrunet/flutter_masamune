@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Each value is made available as translation data. ([c1e96ee6](https://github.com/mathrunet/flutter_masamune/commit/c1e96ee6cc6da838c8eb6a73bf947503ffba20b0))

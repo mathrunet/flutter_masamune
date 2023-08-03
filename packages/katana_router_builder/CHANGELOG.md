@@ -1,3 +1,7 @@
+## 2.0.20
+
+ - **FIX**: added support for specifying various annotation values as strings. ([1c9a8bb4](https://github.com/mathrunet/flutter_masamune/commit/1c9a8bb423426fd21f955d1f8d78a80b097a01e5))
+
 ## 2.0.19
 
  - **FIX**: Fixed a bug that caused an override error when building. ([06a000e3](https://github.com/mathrunet/flutter_masamune/commit/06a000e36e396e5efc51e5443c296d097be6548d))

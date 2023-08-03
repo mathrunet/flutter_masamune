@@ -1,3 +1,7 @@
+## 2.1.50
+
+ - **FIX**: Added PromptBuilder. ([a5038567](https://github.com/mathrunet/flutter_masamune/commit/a503856701f7d15c143b89dd53db09d8db6d8f14))
+
 ## 2.1.49
 
  - Update a dependency to the latest release.

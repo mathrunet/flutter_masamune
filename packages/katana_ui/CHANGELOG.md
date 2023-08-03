@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Addition of ChatTile. ([b3544555](https://github.com/mathrunet/flutter_masamune/commit/b3544555958a4527f908df5a13dc73992205453d))
+
 ## 2.2.1
 
  - **FIX**: Add parameter to Modal.show. ([c2b64c2f](https://github.com/mathrunet/flutter_masamune/commit/c2b64c2f463a6a80863c030fbfc62134fd876c51))

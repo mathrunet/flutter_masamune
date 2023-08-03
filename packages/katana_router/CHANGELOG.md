@@ -1,3 +1,7 @@
+## 2.0.21
+
+ - **FIX**: added support for specifying various annotation values as strings. ([1c9a8bb4](https://github.com/mathrunet/flutter_masamune/commit/1c9a8bb423426fd21f955d1f8d78a80b097a01e5))
+
 ## 2.0.20
 
  - **FIX**: Apply formatter. ([5f3dbcfc](https://github.com/mathrunet/flutter_masamune/commit/5f3dbcfcbba7bf2aeada9e5828b89cc574f39a68))

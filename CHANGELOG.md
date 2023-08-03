@@ -3,6 +3,92 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_router` - `v2.0.21`](#katana_router---v2021)
+ - [`katana_router_builder` - `v2.0.20`](#katana_router_builder---v2020)
+ - [`katana_ui` - `v2.3.0`](#katana_ui---v230)
+ - [`masamune_ai_openai` - `v2.1.50`](#masamune_ai_openai---v2150)
+ - [`masamune_builder` - `v2.6.7`](#masamune_builder---v267)
+ - [`masamune` - `v2.3.17`](#masamune---v2317)
+ - [`masamune_location` - `v2.1.64`](#masamune_location---v2164)
+ - [`masamune_auth_apple` - `v2.1.53`](#masamune_auth_apple---v2153)
+ - [`masamune_text_to_speech` - `v2.1.19`](#masamune_text_to_speech---v2119)
+ - [`masamune_agora` - `v2.2.35`](#masamune_agora---v2235)
+ - [`masamune_auth_google` - `v2.1.53`](#masamune_auth_google---v2153)
+ - [`masamune_calendar` - `v2.0.97`](#masamune_calendar---v2097)
+ - [`masamune_picker` - `v2.1.52`](#masamune_picker---v2152)
+ - [`masamune_util` - `v2.1.31`](#masamune_util---v2131)
+ - [`masamune_universal_ui` - `v2.2.32`](#masamune_universal_ui---v2232)
+ - [`masamune_purchase_stripe` - `v3.2.13`](#masamune_purchase_stripe---v3213)
+ - [`masamune_logger_firebase` - `v2.0.95`](#masamune_logger_firebase---v2095)
+ - [`masamune_introduction` - `v2.2.1`](#masamune_introduction---v221)
+ - [`masamune_speech_to_text` - `v2.1.21`](#masamune_speech_to_text---v2121)
+ - [`masamune_auth_facebook` - `v2.1.55`](#masamune_auth_facebook---v2155)
+ - [`masamune_location_google` - `v2.1.65`](#masamune_location_google---v2165)
+ - [`masamune_mail` - `v2.1.50`](#masamune_mail---v2150)
+ - [`masamune_notification_firebase` - `v2.1.50`](#masamune_notification_firebase---v2150)
+ - [`masamune_purchase_mobile` - `v2.4.13`](#masamune_purchase_mobile---v2413)
+ - [`masamune_ads_google` - `v2.1.3`](#masamune_ads_google---v213)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.17`
+ - `masamune_location` - `v2.1.64`
+ - `masamune_auth_apple` - `v2.1.53`
+ - `masamune_text_to_speech` - `v2.1.19`
+ - `masamune_agora` - `v2.2.35`
+ - `masamune_auth_google` - `v2.1.53`
+ - `masamune_calendar` - `v2.0.97`
+ - `masamune_picker` - `v2.1.52`
+ - `masamune_util` - `v2.1.31`
+ - `masamune_universal_ui` - `v2.2.32`
+ - `masamune_purchase_stripe` - `v3.2.13`
+ - `masamune_logger_firebase` - `v2.0.95`
+ - `masamune_introduction` - `v2.2.1`
+ - `masamune_speech_to_text` - `v2.1.21`
+ - `masamune_auth_facebook` - `v2.1.55`
+ - `masamune_location_google` - `v2.1.65`
+ - `masamune_mail` - `v2.1.50`
+ - `masamune_notification_firebase` - `v2.1.50`
+ - `masamune_purchase_mobile` - `v2.4.13`
+ - `masamune_ads_google` - `v2.1.3`
+
+---
+
+#### `katana_router` - `v2.0.21`
+
+ - **FIX**: added support for specifying various annotation values as strings. ([1c9a8bb4](https://github.com/mathrunet/flutter_masamune/commit/1c9a8bb423426fd21f955d1f8d78a80b097a01e5))
+
+#### `katana_router_builder` - `v2.0.20`
+
+ - **FIX**: added support for specifying various annotation values as strings. ([1c9a8bb4](https://github.com/mathrunet/flutter_masamune/commit/1c9a8bb423426fd21f955d1f8d78a80b097a01e5))
+
+#### `katana_ui` - `v2.3.0`
+
+ - **FEAT**: Addition of ChatTile. ([b3544555](https://github.com/mathrunet/flutter_masamune/commit/b3544555958a4527f908df5a13dc73992205453d))
+
+#### `masamune_ai_openai` - `v2.1.50`
+
+ - **FIX**: Added PromptBuilder. ([a5038567](https://github.com/mathrunet/flutter_masamune/commit/a503856701f7d15c143b89dd53db09d8db6d8f14))
+
+#### `masamune_builder` - `v2.6.7`
+
+ - **FIX**: added support for specifying various annotation values as strings. ([1c9a8bb4](https://github.com/mathrunet/flutter_masamune/commit/1c9a8bb423426fd21f955d1f8d78a80b097a01e5))
+
+
 ## 2023-08-02
 
 ### Changes
