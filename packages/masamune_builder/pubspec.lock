@@ -284,28 +284,28 @@ packages:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_localization_builder:
     dependency: "direct main"
     description:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.16"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_prefs_builder:
     dependency: "direct main"
     description:
       path: "../katana_prefs_builder"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.14"
   katana_router_annotation:
     dependency: "direct main"
     description:
@@ -319,7 +319,7 @@ packages:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.19"
   katana_theme_annotation:
     dependency: "direct main"
     description:

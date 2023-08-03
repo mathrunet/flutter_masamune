@@ -36,7 +36,7 @@ class AnnotationValue {
               .trimString(",")
               .trim();
           if (match.isNotEmpty) {
-            adapter = match!;
+            adapter = match!.trimString("'").trimString('"');
           } else {
             adapter = null;
           }
