@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Added the ability to create Modules. ([26f16c1e](https://github.com/mathrunet/flutter_masamune/commit/26f16c1ef42655e2db5bae8e845532831751fc7e))
+
 ## 2.4.5
 
  - **FIX**: Added Ecosystem command. ([83807a40](https://github.com/mathrunet/flutter_masamune/commit/83807a40a3106154042cb8f293573990b555c91d))

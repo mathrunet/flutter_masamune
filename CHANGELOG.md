@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.5.0`](#katana_cli---v250)
+
+---
+
+#### `katana_cli` - `v2.5.0`
+
+ - **FEAT**: Added the ability to create Modules. ([26f16c1e](https://github.com/mathrunet/flutter_masamune/commit/26f16c1ef42655e2db5bae8e845532831751fc7e))
+
+
+## 2023-08-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.21`](#katana_router---v2021)
  - [`katana_router_builder` - `v2.0.20`](#katana_router_builder---v2020)
  - [`katana_ui` - `v2.3.0`](#katana_ui---v230)
