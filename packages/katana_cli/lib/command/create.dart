@@ -837,9 +837,9 @@ class MainCliCode extends CliCode {
     return """
 import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
-import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+${module == null ? "import 'package:masamune_universal_ui/masamune_universal_ui.dart';" : "import 'package:${module!.toSnakeCase()}/${module!.toSnakeCase()}.dart';"}
 
-${module == null ? "import 'pages/home.dart';" : "import 'package:${module!.toSnakeCase()}/${module!.toSnakeCase()}.dart';"}
+${module == null ? "import 'pages/home.dart';" : ""}
 """;
   }
 
