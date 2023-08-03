@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Apply import sorter. ([c3a1925e](https://github.com/mathrunet/flutter_masamune/commit/c3a1925ee504756fea2ea3dbcdd92dec094c8e7d))
+
 ## 2.5.0
 
  - **FEAT**: Added the ability to create Modules. ([26f16c1e](https://github.com/mathrunet/flutter_masamune/commit/26f16c1ef42655e2db5bae8e845532831751fc7e))

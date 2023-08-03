@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.5.1`](#katana_cli---v251)
+ - [`masamune_module` - `v2.0.6`](#masamune_module---v206)
+
+---
+
+#### `katana_cli` - `v2.5.1`
+
+ - **FIX**: Apply import sorter. ([c3a1925e](https://github.com/mathrunet/flutter_masamune/commit/c3a1925ee504756fea2ea3dbcdd92dec094c8e7d))
+
+#### `masamune_module` - `v2.0.6`
+
+ - **FIX**: Add configModelAdapter and prefsModelAdapter. ([c43a60da](https://github.com/mathrunet/flutter_masamune/commit/c43a60daa8a7888a1cda3c8b966567a088138796))
+
+
+## 2023-08-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.5.0`](#katana_cli---v250)
 
 ---

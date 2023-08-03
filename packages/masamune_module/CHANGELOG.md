@@ -1,3 +1,7 @@
+## 2.0.6
+
+ - **FIX**: Add configModelAdapter and prefsModelAdapter. ([c43a60da](https://github.com/mathrunet/flutter_masamune/commit/c43a60daa8a7888a1cda3c8b966567a088138796))
+
 ## 2.0.5
 
  - **FIX**: Package update support. ([633ad51a](https://github.com/mathrunet/flutter_masamune_module/commit/633ad51acd830098f284238da64a81e96bca8156))
