@@ -1,0 +1,8 @@
+## 2.1.1
+
+ - **DOCS**: ReadMe changes. ([9063cbbb](https://github.com/mathrunet/flutter_masamune_module/commit/9063cbbb720f88f5c1980946480e4fcc73d6cee6))
+
+## 2.1.0
+
+ - **FEAT**: Initial commit. ([7ad53678](https://github.com/mathrunet/flutter_masamune_module/commit/7ad53678a3acf2dc731b456c1f6c84bba9790f23))
+
