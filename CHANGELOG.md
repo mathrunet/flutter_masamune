@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.5.2`](#katana_cli---v252)
+
+---
+
+#### `katana_cli` - `v2.5.2`
+
+ - **FIX**: Fixed import of main.dart. ([34e3a7f2](https://github.com/mathrunet/flutter_masamune/commit/34e3a7f2e6b0d4ba9ec9275da1ea34ee79ce0d09))
+ - **FIX**: Added Melos for creating Modules. ([c3369dfe](https://github.com/mathrunet/flutter_masamune/commit/c3369dfe4114461c0f9d63dda40aa51b9ada97d0))
+
+
+## 2023-08-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.5.1`](#katana_cli---v251)
  - [`masamune_module` - `v2.0.6`](#masamune_module---v206)
 

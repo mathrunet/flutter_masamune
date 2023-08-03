@@ -1,3 +1,8 @@
+## 2.5.2
+
+ - **FIX**: Fixed import of main.dart. ([34e3a7f2](https://github.com/mathrunet/flutter_masamune/commit/34e3a7f2e6b0d4ba9ec9275da1ea34ee79ce0d09))
+ - **FIX**: Added Melos for creating Modules. ([c3369dfe](https://github.com/mathrunet/flutter_masamune/commit/c3369dfe4114461c0f9d63dda40aa51b9ada97d0))
+
 ## 2.5.1
 
  - **FIX**: Apply import sorter. ([c3a1925e](https://github.com/mathrunet/flutter_masamune/commit/c3a1925ee504756fea2ea3dbcdd92dec094c8e7d))
