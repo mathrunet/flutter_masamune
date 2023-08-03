@@ -72,18 +72,20 @@ class CreateCliCommand extends CliCommand {
   Future<void> exec(ExecContext context) async {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
+    final melos = bin.get("melos", "melos");
     final packageName = context.args.get(1, "");
     final options = context.args.get(2, "");
     final moduleName = context.args.get(3, "");
+    final repositoryName = context.args.get(4, "");
     if (packageName.isEmpty) {
       error(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
       );
       return;
     }
-    if (options == "-m" && moduleName.isEmpty) {
+    if (options == "-m" && (moduleName.isEmpty || repositoryName.isEmpty)) {
       error(
-        "If you are creating a module, please provide the [module name].\r\n\r\nモジュールを作成する場合は[module name]を記載してください。",
+        "When creating a module, please include [module name] and [repository name].\r\n\r\nモジュールを作成する場合は[module name]と[repository name]を記載してください。",
       );
       return;
     }
@@ -131,6 +133,7 @@ class CreateCliCommand extends CliCommand {
           "add",
           "--dev",
           ...importDevPackages,
+          "melos",
         ],
       );
       label("Replace lib/${moduleName.toSnakeCase()}.dart");
@@ -159,6 +162,9 @@ class CreateCliCommand extends CliCommand {
           .generateFile("analysis_options.yaml");
       label("Replace README.md");
       await ModuleReadMeCliCode(module: moduleName).generateFile("README.md");
+      label("Create melos.yaml");
+      await MelosCliCode(module: moduleName, repository: repositoryName)
+          .generateFile("melos.yaml");
       label("Replace pubspec.yaml");
       final pubspecFile = File("pubspec.yaml");
       final pubspec = await pubspecFile.readAsString();
@@ -221,6 +227,14 @@ class CreateCliCommand extends CliCommand {
           moduleName.toSnakeCase(),
         ],
         workingDirectory: "example",
+      );
+      label("Run melos.");
+      await command(
+        "Run the project's build_runner to generate code.",
+        [
+          melos,
+          "bs",
+        ],
       );
     } else {
       await command(
@@ -875,14 +889,16 @@ class AppLocalize extends _\$AppLocalize {}
 
 /// [ModuleMasamuneAdapter] for applications.
 // TODO: Please configure the module.
-final appModule = CliTestMasamuneAdapter(
+final appModule = ${module!.toPascalCase()}MasamuneAdapter(
   title: "\${3}",
   theme: theme,
   authAdapter: const RuntimeAuthAdapter(),
   modelAdapter: const RuntimeModelAdapter(),
   storageAdapter: const RuntimeStorageAdapter(),
   functionsAdapter: const RuntimeFunctionsAdapter(),
-  additionalMasamuneAdapters: const [],
+  additionalMasamuneAdapters: const [
+    \${4}
+  ],
 );
 
 /// App.
@@ -1898,6 +1914,9 @@ class ModuleReadMeCliCode extends CliCode {
   /// README.mdの中身。
   const ModuleReadMeCliCode({required this.module});
 
+  /// Module Name.
+  ///
+  /// モジュール名。
   final String module;
 
   @override
@@ -1925,7 +1944,8 @@ class ModuleReadMeCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return """<p align="center">
+    return """
+<p align="center">
   <a href="https://mathru.net">
     <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
   </a>
@@ -1965,6 +1985,92 @@ For more information about Masamune Framework, please click here.
 Sponsors are always welcome. Thank you for your support!
 
 [https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)
+""";
+  }
+}
+
+/// Contents of melos.yaml.
+///
+/// melos.yamlの中身。
+class MelosCliCode extends CliCode {
+  /// Contents of melos.yaml.
+  ///
+  /// melos.yamlの中身。
+  const MelosCliCode({required this.module, required this.repository});
+
+  /// Module Name.
+  ///
+  /// モジュール名。
+  final String module;
+
+  /// The name of the Git repository.
+  ///
+  /// Gitレポジトリ名。
+  final String repository;
+
+  @override
+  String get name => "melos";
+
+  @override
+  String get prefix => "melos";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Define `melos.yaml` with additional settings. `melos.yaml`を追加設定込で定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+name: ${module.toSnakeCase()}
+repository: $repository
+packages:
+  - .
+  - example
+command:
+  version:
+    # Generate commit links in package changelogs.
+    linkToCommits: true
+    # Only allow versioning to happen on main branch.
+    branch: main
+    # Additionally build a changelog at the root of the workspace.
+    workspaceChangelog: false
+  bootstrap:
+    # It seems so that running "pub get" in parallel has some issues (like
+    # https://github.com/dart-lang/pub/issues/3404). Disabling this feature
+    # makes the CI much more stable.
+    runPubGetInParallel: false
+
+scripts:
+  format: >
+    melos exec -- "dart format ."
+  
+  publish: >
+    melos publish --no-dry-run -y
+  
+  upgrade: >
+    melos exec -- "flutter pub upgrade"
+
+  analyze: >
+    melos exec -- "flutter analyze"
+
+  fix: >
+    melos exec -- "dart fix --apply lib"
+
+  import_sorter: >
+    melos exec -- "flutter pub run import_sorter:main ."
 """;
   }
 }
