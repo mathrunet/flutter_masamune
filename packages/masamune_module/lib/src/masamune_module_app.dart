@@ -45,7 +45,7 @@ class MasamuneModuleApp extends MasamuneApp {
   /// 利用する[ModuleMasamuneAdapter]。
   final ModuleMasamuneAdapter module;
 
-  /// List of [MasamuneAdapters] defined in [ModuleMasamuneAdapter].
+  /// List of [MasamuneAdapter] defined in [ModuleMasamuneAdapter].
   ///
   /// [ModuleMasamuneAdapter]で定義された[MasamuneAdapter]のリスト。
   final List<MasamuneAdapter> adapters;
