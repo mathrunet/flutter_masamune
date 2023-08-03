@@ -73,10 +73,17 @@ class CreateCliCommand extends CliCommand {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final packageName = context.args.get(1, "");
-    final allOptions = context.args.get(2, "");
+    final options = context.args.get(2, "");
+    final moduleName = context.args.get(3, "");
     if (packageName.isEmpty) {
       error(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
+      );
+      return;
+    }
+    if (options == "-m" && moduleName.isEmpty) {
+      error(
+        "If you are creating a module, please provide the [module name].\r\n\r\nモジュールを作成する場合は[module name]を記載してください。",
       );
       return;
     }
@@ -91,457 +98,610 @@ class CreateCliCommand extends CliCommand {
       );
       return;
     }
-    await command(
-      "Create a Flutter project.",
-      [
-        flutter,
-        "create",
-        "--org",
-        domain,
-        "--project-name",
-        projectName!,
-        ".",
-      ],
-    );
-    await command(
-      "Import packages.",
-      [
-        flutter,
-        "pub",
-        "add",
-        ...importPackages,
-        if (allOptions == "-a") ...allOptionsImportPackage,
-      ],
-    );
-    await command(
-      "Import dev packages.",
-      [
-        flutter,
-        "pub",
-        "add",
-        "--dev",
-        ...importDevPackages,
-      ],
-    );
-    label("Replace lib/main.dart");
-    await const MainCliCode().generateDartCode("lib/main", "main");
-    label("Create home.dart");
-    await const HomePageCliCode().generateDartCode("lib/pages/home", "home");
-    label("Create counter.dart");
-    await const CounterModelCliCode()
-        .generateDartCode("lib/models/counter", "counter");
-    label("Generate file for VSCode");
-    for (final file in otherFiles.entries) {
-      await file.value.generateFile(file.key);
-    }
-    label("Create a katana.yaml");
-    await KatanaCliCode(context.args.get(2, "") == "-a")
-        .generateFile("katana.yaml");
-    label("Create a katana_secrets.yaml");
-    await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
-    label("Create a pubspec_overrides.yaml");
-    await const PubspecOverridesCliCode()
-        .generateFile("pubspec_overrides.yaml");
-    label("Edit a analysis_options.yaml");
-    await const AnalysisOptionsCliCode().generateFile("analysis_options.yaml");
-    label("Edit a widget_test.dart");
-    await const WidgetTestCliCode().generateFile("widget_test.dart");
-    label("Create a loader.css");
-    await const LoaderCssCliCode().generateFile("loader.css");
-    label("Edit as index.html");
-    final indexHtmlFile = File("web/index.html");
-    final htmlDocument = parse(await indexHtmlFile.readAsString());
-    final body = htmlDocument.body;
-    final head = htmlDocument.head;
-    if (body != null) {
-      if (!body.children.any((element) =>
-          element.localName == "div" && element.classes.contains("loading"))) {
-        body.children.insertFirst(
-          Element.tag("div")
-            ..classes.add("loading")
-            ..children.add(
-              Element.tag("div")
-                ..children.addAll(
-                  [
-                    Element.tag("img")
-                      ..attributes["src"] = "icons/Icon-192.png"
-                      ..classes.add("logo"),
-                    Element.tag("div")..classes.add("loader-bar")
-                  ],
-                ),
-            ),
-        );
-      }
-    }
-    if (head != null) {
-      if (!head.children.any((element) =>
-          element.localName == "link" &&
-          element.attributes["rel"] == "stylesheet" &&
-          element.attributes["href"] == "loader.css")) {
-        head.children.add(Element.tag("link")
-          ..attributes["rel"] = "stylesheet"
-          ..attributes["href"] = "loader.css"
-          ..attributes["type"] = "text/css"
-          ..attributes["media"] = "all");
-      }
-      final icon = head.children.firstWhereOrNull((item) =>
-          item.localName == "link" && item.attributes["rel"] == "icon");
-      if (icon == null) {
-        head.children.add(Element.tag("link")
-          ..attributes["rel"] = "icon"
-          ..attributes["href"] = "favicon.ico");
-      } else if (icon.attributes["href"] != "favicon.ico") {
-        icon.attributes["href"] = "favicon.ico";
-        icon.attributes.remove("type");
-      }
-    }
-    await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
-    label("Create a favicon.ico");
-    final iconFile = File("web/icons/Icon-512.png");
-    final iconImage = decodeImage(iconFile.readAsBytesSync())!;
-    final icoPngFile = File("web/favicon.png");
-    if (icoPngFile.existsSync()) {
-      await icoPngFile.delete();
-    }
-    final icoFile = File("web/favicon.ico");
-    if (icoFile.existsSync()) {
-      await icoFile.delete();
-    }
-    final ico = IcoEncoder();
-    await icoFile.writeAsBytes(
-      ico.encodeImages(_faviconSize.map((e) {
-        return copyResize(
-          iconImage,
-          height: e,
-          width: e,
-          interpolation: Interpolation.average,
-        );
-      }).toList()),
-    );
-    label("Create a feature.png");
-    final featurePngFile = File("web/feature.png");
-    if (!featurePngFile.existsSync()) {
-      await featurePngFile.writeAsBytes(
-        encodePng(
-          copyResize(
-            iconImage,
-            height: 512,
-            width: 512,
-            interpolation: Interpolation.average,
-          ),
-        ),
-      );
-    }
-    label("Create a assets directory");
-    final assetsDirectory = Directory("assets");
-    if (!assetsDirectory.existsSync()) {
-      await assetsDirectory.create();
-    }
-    label("Edit AndroidManifest.xml.");
-    final file = File("android/app/src/main/AndroidManifest.xml");
-    if (!file.existsSync()) {
-      throw Exception(
-        "AndroidManifest does not exist in `android/app/src/main/AndroidManifest.xml`.",
-      );
-    }
-    final document = XmlDocument.parse(await file.readAsString());
-    final manifest = document.findAllElements("manifest");
-    if (manifest.isEmpty) {
-      throw Exception(
-        "The structure of AndroidManifest.xml is broken.",
-      );
-    }
-    if (!manifest.first.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "uses-permission" &&
-        p0.attributes.any((p1) =>
-            p1.name.toString() == "android:name" &&
-            p1.value == "android.permission.INTERNET"))) {
-      manifest.first.children.add(
-        XmlElement(
-          XmlName("uses-permission"),
-          [
-            XmlAttribute(
-              XmlName("android:name"),
-              "android.permission.INTERNET",
-            ),
-          ],
-          [],
-        ),
-      );
-    }
-    final queries = manifest.first.children.firstWhereOrNull(
-            (p0) => p0 is XmlElement && p0.name.toString() == "queries") ??
-        () {
-          final q = XmlElement(XmlName("queries"), [], []);
-          manifest.first.children.insertFirst(q);
-          return q;
-        }();
-    if (!queries.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "intent" &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "action" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:name" &&
-                p2.value == "android.intent.action.VIEW")) &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "data" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:scheme" &&
-                p2.value == "https")))) {
-      queries.children.add(
-        XmlElement(
-          XmlName("intent"),
-          [],
-          [
-            XmlElement(
-              XmlName("action"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.action.VIEW",
-                ),
-              ],
-              [],
-            ),
-            XmlElement(
-              XmlName("data"),
-              [
-                XmlAttribute(
-                  XmlName("android:scheme"),
-                  "https",
-                ),
-              ],
-              [],
-            ),
-          ],
-        ),
-      );
-    }
-    if (!queries.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "intent" &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "action" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:name" &&
-                p2.value == "android.intent.action.DIAL")) &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "data" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:scheme" &&
-                p2.value == "tel")))) {
-      queries.children.add(
-        XmlElement(
-          XmlName("intent"),
-          [],
-          [
-            XmlElement(
-              XmlName("action"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.action.DIAL",
-                ),
-              ],
-              [],
-            ),
-            XmlElement(
-              XmlName("data"),
-              [
-                XmlAttribute(
-                  XmlName("android:scheme"),
-                  "tel",
-                ),
-              ],
-              [],
-            ),
-          ],
-        ),
-      );
-    }
-    if (!queries.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "intent" &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "action" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:name" &&
-                p2.value == "android.intent.action.SENDTO")) &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "data" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:scheme" &&
-                p2.value == "mailto")))) {
-      queries.children.add(
-        XmlElement(
-          XmlName("intent"),
-          [],
-          [
-            XmlElement(
-              XmlName("action"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.action.SENDTO",
-                ),
-              ],
-              [],
-            ),
-            XmlElement(
-              XmlName("data"),
-              [
-                XmlAttribute(
-                  XmlName("android:scheme"),
-                  "mailto",
-                ),
-              ],
-              [],
-            ),
-          ],
-        ),
-      );
-    }
-    if (!queries.children.any((p0) =>
-        p0 is XmlElement &&
-        p0.name.toString() == "intent" &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "action" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:name" &&
-                p2.value == "android.intent.action.SEND")) &&
-        p0.children.any((p1) =>
-            p1 is XmlElement &&
-            p1.name.toString() == "data" &&
-            p1.attributes.any((p2) =>
-                p2.name.toString() == "android:scheme" &&
-                p2.value == "*/*")))) {
-      queries.children.add(
-        XmlElement(
-          XmlName("intent"),
-          [],
-          [
-            XmlElement(
-              XmlName("action"),
-              [
-                XmlAttribute(
-                  XmlName("android:name"),
-                  "android.intent.action.SEND",
-                ),
-              ],
-              [],
-            ),
-            XmlElement(
-              XmlName("data"),
-              [
-                XmlAttribute(
-                  XmlName("android:scheme"),
-                  "*/*",
-                ),
-              ],
-              [],
-            ),
-          ],
-        ),
-      );
-    }
-    await file.writeAsString(
-      document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
-    );
-    label("Edit DebugProfile.entitlements.");
-    final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
-    if (debugEntitlements.existsSync()) {
-      final document =
-          XmlDocument.parse(await debugEntitlements.readAsString());
-      final dict = document.findAllElements("dict").firstOrNull;
-      if (dict == null) {
-        throw Exception(
-          "Could not find `dict` element in `macos/Runner/DebugProfile.entitlements`. File is corrupt.",
-        );
-      }
-      final node = dict.children.firstWhereOrNull((p0) {
-        return p0 is XmlElement &&
-            p0.name.toString() == "key" &&
-            p0.innerText == "com.apple.security.network.client";
-      });
-      if (node == null) {
-        dict.children.addAll(
-          [
-            XmlElement(
-              XmlName("key"),
-              [],
-              [XmlText("com.apple.security.network.client")],
-            ),
-            XmlElement(
-              XmlName("true"),
-              [],
-              [],
-            ),
-          ],
-        );
-      }
-      await debugEntitlements.writeAsString(
-        document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
-      );
-    }
-    label("Replace pubspec.yaml");
-    final pubspecFile = File("pubspec.yaml");
-    final pubspec = await pubspecFile.readAsString();
-    await pubspecFile.writeAsString(
-      pubspec.replaceAll(
-        RegExp(
-          r"# assets:[\s\S]+#   - images/a_dot_burr.jpeg[\s\S]+#   - images/a_dot_ham.jpeg",
-        ),
-        "assets:\n    - assets/\n",
-      ),
-    );
-    label("Rewrite `.gitignore`.");
-    final gitignore = File(".gitignore");
-    if (!gitignore.existsSync()) {
-      error("Cannot find `.gitignore`. Project is broken.");
-      return;
-    }
-    final gitignores = await gitignore.readAsLines();
-    if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
-      gitignores.add("pubspec_overrides.yaml");
-    }
-    if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
-      if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
-        gitignores.add("katana_secrets.yaml");
-      }
-    } else {
-      gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
-    }
-    await gitignore.writeAsString(gitignores.join("\n"));
-    await command(
-      "Run the project's build_runner to generate code.",
-      [
-        flutter,
-        "packages",
-        "pub",
-        "run",
-        "build_runner",
-        "build",
-        "--delete-conflicting-outputs",
-      ],
-    );
-    if (Platform.isMacOS) {
+    if (options == "-m") {
       await command(
-        "Run `pod install`.",
+        "Create a Flutter package project.",
         [
-          "pod",
-          "install",
+          flutter,
+          "create",
+          "--org",
+          domain,
+          "--template=package",
+          "--project-name",
+          moduleName.toSnakeCase(),
+          ".",
         ],
-        workingDirectory: "ios",
       );
+      await command(
+        "Import packages.",
+        [
+          flutter,
+          "pub",
+          "add",
+          ...importPackages,
+          ...allOptionsImportPackage,
+          "masamune_module",
+        ],
+      );
+      await command(
+        "Import dev packages.",
+        [
+          flutter,
+          "pub",
+          "add",
+          "--dev",
+          ...importDevPackages,
+        ],
+      );
+      label("Replace lib/${moduleName.toSnakeCase()}.dart");
+      await const ModuleCliCode().generateDartCode(
+        "lib/${moduleName.toSnakeCase()}",
+        moduleName.toSnakeCase(),
+      );
+      label("Create home.dart");
+      await HomePageCliCode(module: moduleName)
+          .generateDartCode("lib/pages/home", "home");
+      label("Create counter.dart");
+      await CounterModelCliCode(module: moduleName)
+          .generateDartCode("lib/models/counter", "counter");
+      label("Edit a ${moduleName.toSnakeCase()}_test.dart");
+      await const WidgetTestCliCode()
+          .generateFile("${moduleName.toSnakeCase()}_test.dart");
+      label("Generate file for VSCode");
+      for (final file in otherFiles.entries) {
+        await file.value.generateFile(file.key);
+      }
+      label("Create a pubspec_overrides.yaml");
+      await const PubspecOverridesCliCode()
+          .generateFile("pubspec_overrides.yaml");
+      label("Edit a analysis_options.yaml");
+      await const AnalysisOptionsCliCode()
+          .generateFile("analysis_options.yaml");
+      label("Replace README.md");
+      await ModuleReadMeCliCode(module: moduleName).generateFile("README.md");
+      label("Replace pubspec.yaml");
+      final pubspecFile = File("pubspec.yaml");
+      final pubspec = await pubspecFile.readAsString();
+      await pubspecFile.writeAsString(
+        pubspec.replaceAll(
+          RegExp(
+            r"homepage:",
+          ),
+          "homepage: https://mathru.net",
+        ),
+      );
+      label("Add a .pubignore");
+      await const PubignoreCliCode().generateFile(".pubignore");
+      label("Rewrite `.gitignore`.");
+      final gitignore = File(".gitignore");
+      if (!gitignore.existsSync()) {
+        error("Cannot find `.gitignore`. Project is broken.");
+        return;
+      }
+      final gitignores = await gitignore.readAsLines();
+      if (!gitignores.any((e) => e.startsWith("secrets.dart"))) {
+        gitignores.add("secrets.dart");
+      }
+      if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
+        gitignores.add("pubspec_overrides.yaml");
+      }
+      if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+        if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
+          gitignores.add("katana_secrets.yaml");
+        }
+      } else {
+        gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
+      }
+      await gitignore.writeAsString(gitignores.join("\n"));
+      await Future.delayed(const Duration(seconds: 5));
+      await command(
+        "Run the project's build_runner to generate code.",
+        [
+          flutter,
+          "packages",
+          "pub",
+          "run",
+          "build_runner",
+          "build",
+          "--delete-conflicting-outputs",
+        ],
+      );
+      label("Create example.");
+      final exampleDirectory = Directory("example");
+      if (!exampleDirectory.existsSync()) {
+        await exampleDirectory.create();
+      }
+      await command(
+        "Run the project's build_runner to generate code.",
+        [
+          "katana",
+          "create",
+          packageName,
+          "-e",
+          moduleName.toSnakeCase(),
+        ],
+        workingDirectory: "example",
+      );
+    } else {
+      await command(
+        "Create a Flutter project.",
+        [
+          flutter,
+          "create",
+          "--org",
+          domain,
+          "--project-name",
+          projectName!,
+          ".",
+        ],
+      );
+      await command(
+        "Import packages.",
+        [
+          flutter,
+          "pub",
+          "add",
+          ...importPackages,
+          if (options == "-a" || options == "-e") ...allOptionsImportPackage,
+        ],
+      );
+      if (moduleName.isNotEmpty) {
+        await command(
+          "Import packages.",
+          [
+            flutter,
+            "pub",
+            "add",
+            "--directory=.",
+            if (moduleName.isNotEmpty)
+              if (options == "-e")
+                "${moduleName.toSnakeCase()}:{'path':'../'}"
+              else
+                moduleName.toSnakeCase(),
+          ],
+        );
+      }
+      await command(
+        "Import dev packages.",
+        [
+          flutter,
+          "pub",
+          "add",
+          "--dev",
+          ...importDevPackages,
+        ],
+      );
+      label("Replace lib/main.dart");
+      await MainCliCode(module: moduleName)
+          .generateDartCode("lib/main", "main");
+      if (moduleName.isEmpty) {
+        label("Create home.dart");
+        await const HomePageCliCode()
+            .generateDartCode("lib/pages/home", "home");
+        label("Create counter.dart");
+        await const CounterModelCliCode()
+            .generateDartCode("lib/models/counter", "counter");
+      }
+      label("Generate file for VSCode");
+      for (final file in otherFiles.entries) {
+        await file.value.generateFile(file.key);
+      }
+      label("Create a katana.yaml");
+      await KatanaCliCode(context.args.get(2, "") == "-a" ||
+              context.args.get(2, "") == "-e")
+          .generateFile("katana.yaml");
+      label("Create a katana_secrets.yaml");
+      await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
+      label("Create a pubspec_overrides.yaml");
+      await const PubspecOverridesCliCode()
+          .generateFile("pubspec_overrides.yaml");
+      label("Edit a analysis_options.yaml");
+      await const AnalysisOptionsCliCode()
+          .generateFile("analysis_options.yaml");
+      label("Edit a widget_test.dart");
+      await const WidgetTestCliCode().generateFile("widget_test.dart");
+      label("Create a loader.css");
+      await const LoaderCssCliCode().generateFile("loader.css");
+      label("Edit as index.html");
+      final indexHtmlFile = File("web/index.html");
+      final htmlDocument = parse(await indexHtmlFile.readAsString());
+      final body = htmlDocument.body;
+      final head = htmlDocument.head;
+      if (body != null) {
+        if (!body.children.any((element) =>
+            element.localName == "div" &&
+            element.classes.contains("loading"))) {
+          body.children.insertFirst(
+            Element.tag("div")
+              ..classes.add("loading")
+              ..children.add(
+                Element.tag("div")
+                  ..children.addAll(
+                    [
+                      Element.tag("img")
+                        ..attributes["src"] = "icons/Icon-192.png"
+                        ..classes.add("logo"),
+                      Element.tag("div")..classes.add("loader-bar")
+                    ],
+                  ),
+              ),
+          );
+        }
+      }
+      if (head != null) {
+        if (!head.children.any((element) =>
+            element.localName == "link" &&
+            element.attributes["rel"] == "stylesheet" &&
+            element.attributes["href"] == "loader.css")) {
+          head.children.add(Element.tag("link")
+            ..attributes["rel"] = "stylesheet"
+            ..attributes["href"] = "loader.css"
+            ..attributes["type"] = "text/css"
+            ..attributes["media"] = "all");
+        }
+        final icon = head.children.firstWhereOrNull((item) =>
+            item.localName == "link" && item.attributes["rel"] == "icon");
+        if (icon == null) {
+          head.children.add(Element.tag("link")
+            ..attributes["rel"] = "icon"
+            ..attributes["href"] = "favicon.ico");
+        } else if (icon.attributes["href"] != "favicon.ico") {
+          icon.attributes["href"] = "favicon.ico";
+          icon.attributes.remove("type");
+        }
+      }
+      await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
+      label("Create a favicon.ico");
+      final iconFile = File("web/icons/Icon-512.png");
+      final iconImage = decodeImage(iconFile.readAsBytesSync())!;
+      final icoPngFile = File("web/favicon.png");
+      if (icoPngFile.existsSync()) {
+        await icoPngFile.delete();
+      }
+      final icoFile = File("web/favicon.ico");
+      if (icoFile.existsSync()) {
+        await icoFile.delete();
+      }
+      final ico = IcoEncoder();
+      await icoFile.writeAsBytes(
+        ico.encodeImages(_faviconSize.map((e) {
+          return copyResize(
+            iconImage,
+            height: e,
+            width: e,
+            interpolation: Interpolation.average,
+          );
+        }).toList()),
+      );
+      label("Create a feature.png");
+      final featurePngFile = File("web/feature.png");
+      if (!featurePngFile.existsSync()) {
+        await featurePngFile.writeAsBytes(
+          encodePng(
+            copyResize(
+              iconImage,
+              height: 512,
+              width: 512,
+              interpolation: Interpolation.average,
+            ),
+          ),
+        );
+      }
+      label("Create a assets directory");
+      final assetsDirectory = Directory("assets");
+      if (!assetsDirectory.existsSync()) {
+        await assetsDirectory.create();
+      }
+      label("Edit AndroidManifest.xml.");
+      final file = File("android/app/src/main/AndroidManifest.xml");
+      if (!file.existsSync()) {
+        throw Exception(
+          "AndroidManifest does not exist in `android/app/src/main/AndroidManifest.xml`.",
+        );
+      }
+      final document = XmlDocument.parse(await file.readAsString());
+      final manifest = document.findAllElements("manifest");
+      if (manifest.isEmpty) {
+        throw Exception(
+          "The structure of AndroidManifest.xml is broken.",
+        );
+      }
+      if (!manifest.first.children.any((p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "uses-permission" &&
+          p0.attributes.any((p1) =>
+              p1.name.toString() == "android:name" &&
+              p1.value == "android.permission.INTERNET"))) {
+        manifest.first.children.add(
+          XmlElement(
+            XmlName("uses-permission"),
+            [
+              XmlAttribute(
+                XmlName("android:name"),
+                "android.permission.INTERNET",
+              ),
+            ],
+            [],
+          ),
+        );
+      }
+      final queries = manifest.first.children.firstWhereOrNull(
+              (p0) => p0 is XmlElement && p0.name.toString() == "queries") ??
+          () {
+            final q = XmlElement(XmlName("queries"), [], []);
+            manifest.first.children.insertFirst(q);
+            return q;
+          }();
+      if (!queries.children.any((p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "intent" &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "action" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:name" &&
+                  p2.value == "android.intent.action.VIEW")) &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "data" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:scheme" &&
+                  p2.value == "https")))) {
+        queries.children.add(
+          XmlElement(
+            XmlName("intent"),
+            [],
+            [
+              XmlElement(
+                XmlName("action"),
+                [
+                  XmlAttribute(
+                    XmlName("android:name"),
+                    "android.intent.action.VIEW",
+                  ),
+                ],
+                [],
+              ),
+              XmlElement(
+                XmlName("data"),
+                [
+                  XmlAttribute(
+                    XmlName("android:scheme"),
+                    "https",
+                  ),
+                ],
+                [],
+              ),
+            ],
+          ),
+        );
+      }
+      if (!queries.children.any((p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "intent" &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "action" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:name" &&
+                  p2.value == "android.intent.action.DIAL")) &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "data" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:scheme" &&
+                  p2.value == "tel")))) {
+        queries.children.add(
+          XmlElement(
+            XmlName("intent"),
+            [],
+            [
+              XmlElement(
+                XmlName("action"),
+                [
+                  XmlAttribute(
+                    XmlName("android:name"),
+                    "android.intent.action.DIAL",
+                  ),
+                ],
+                [],
+              ),
+              XmlElement(
+                XmlName("data"),
+                [
+                  XmlAttribute(
+                    XmlName("android:scheme"),
+                    "tel",
+                  ),
+                ],
+                [],
+              ),
+            ],
+          ),
+        );
+      }
+      if (!queries.children.any((p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "intent" &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "action" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:name" &&
+                  p2.value == "android.intent.action.SENDTO")) &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "data" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:scheme" &&
+                  p2.value == "mailto")))) {
+        queries.children.add(
+          XmlElement(
+            XmlName("intent"),
+            [],
+            [
+              XmlElement(
+                XmlName("action"),
+                [
+                  XmlAttribute(
+                    XmlName("android:name"),
+                    "android.intent.action.SENDTO",
+                  ),
+                ],
+                [],
+              ),
+              XmlElement(
+                XmlName("data"),
+                [
+                  XmlAttribute(
+                    XmlName("android:scheme"),
+                    "mailto",
+                  ),
+                ],
+                [],
+              ),
+            ],
+          ),
+        );
+      }
+      if (!queries.children.any((p0) =>
+          p0 is XmlElement &&
+          p0.name.toString() == "intent" &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "action" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:name" &&
+                  p2.value == "android.intent.action.SEND")) &&
+          p0.children.any((p1) =>
+              p1 is XmlElement &&
+              p1.name.toString() == "data" &&
+              p1.attributes.any((p2) =>
+                  p2.name.toString() == "android:scheme" &&
+                  p2.value == "*/*")))) {
+        queries.children.add(
+          XmlElement(
+            XmlName("intent"),
+            [],
+            [
+              XmlElement(
+                XmlName("action"),
+                [
+                  XmlAttribute(
+                    XmlName("android:name"),
+                    "android.intent.action.SEND",
+                  ),
+                ],
+                [],
+              ),
+              XmlElement(
+                XmlName("data"),
+                [
+                  XmlAttribute(
+                    XmlName("android:scheme"),
+                    "*/*",
+                  ),
+                ],
+                [],
+              ),
+            ],
+          ),
+        );
+      }
+      await file.writeAsString(
+        document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
+      );
+      label("Edit DebugProfile.entitlements.");
+      final debugEntitlements = File("macos/Runner/DebugProfile.entitlements");
+      if (debugEntitlements.existsSync()) {
+        final document =
+            XmlDocument.parse(await debugEntitlements.readAsString());
+        final dict = document.findAllElements("dict").firstOrNull;
+        if (dict == null) {
+          throw Exception(
+            "Could not find `dict` element in `macos/Runner/DebugProfile.entitlements`. File is corrupt.",
+          );
+        }
+        final node = dict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "com.apple.security.network.client";
+        });
+        if (node == null) {
+          dict.children.addAll(
+            [
+              XmlElement(
+                XmlName("key"),
+                [],
+                [XmlText("com.apple.security.network.client")],
+              ),
+              XmlElement(
+                XmlName("true"),
+                [],
+                [],
+              ),
+            ],
+          );
+        }
+        await debugEntitlements.writeAsString(
+          document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
+        );
+      }
+      label("Replace pubspec.yaml");
+      final pubspecFile = File("pubspec.yaml");
+      final pubspec = await pubspecFile.readAsString();
+      await pubspecFile.writeAsString(
+        pubspec.replaceAll(
+          RegExp(
+            r"# assets:[\s\S]+#   - images/a_dot_burr.jpeg[\s\S]+#   - images/a_dot_ham.jpeg",
+          ),
+          "assets:\n    - assets/\n",
+        ),
+      );
+      label("Rewrite `.gitignore`.");
+      final gitignore = File(".gitignore");
+      if (!gitignore.existsSync()) {
+        error("Cannot find `.gitignore`. Project is broken.");
+        return;
+      }
+      final gitignores = await gitignore.readAsLines();
+      if (!gitignores.any((e) => e.startsWith("secrets.dart"))) {
+        gitignores.add("secrets.dart");
+      }
+      if (!gitignores.any((e) => e.startsWith("pubspec_overrides.yaml"))) {
+        gitignores.add("pubspec_overrides.yaml");
+      }
+      if (context.yaml.getAsMap("git").get("ignore_secure_file", true)) {
+        if (!gitignores.any((e) => e.startsWith("katana_secrets.yaml"))) {
+          gitignores.add("katana_secrets.yaml");
+        }
+      } else {
+        gitignores.removeWhere((e) => e.startsWith("katana_secrets.yaml"));
+      }
+      await gitignore.writeAsString(gitignores.join("\n"));
+      await Future.delayed(const Duration(seconds: 5));
+      await command(
+        "Run the project's build_runner to generate code.",
+        [
+          flutter,
+          "packages",
+          "pub",
+          "run",
+          "build_runner",
+          "build",
+          "--delete-conflicting-outputs",
+        ],
+      );
+      if (Platform.isMacOS) {
+        await command(
+          "Run `pod install`.",
+          [
+            "pod",
+            "install",
+          ],
+          workingDirectory: "ios",
+        );
+      }
     }
   }
 }
@@ -641,7 +801,9 @@ class MainCliCode extends CliCode {
   /// Contents of main.dart.
   ///
   /// main.dartの中身。
-  const MainCliCode();
+  const MainCliCode({this.module});
+
+  final String? module;
 
   @override
   String get name => "main";
@@ -663,7 +825,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
-import 'pages/home.dart';
+${module == null ? "import 'pages/home.dart';" : "import 'package:${module!.toSnakeCase()}/${module!.toSnakeCase()}.dart';"}
 """;
   }
 
@@ -677,14 +839,69 @@ part '$baseName.localize.dart';
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""
+    if (module != null) {
+      return """
+/// App Theme.
+///
+/// ```dart
+/// theme.color.primary   // Primary color.
+/// theme.text.bodyMedium // Medium body text style.
+/// theme.asset.xxx       // xxx image.
+/// theme.font.xxx        // xxx font.
+/// ```
+@appTheme
+final theme = AppThemeData(
+  // TODO: Set the design.
+  primary: Colors.blue,
+  secondary: Colors.cyan,
+  onPrimary: Colors.white,
+  onSecondary: Colors.white,
+  \${1}
+);
+
+/// App Localization.
+///
+/// ```dart
+/// l().xxx  // Localization for xxx.
+/// ```
+final l = AppLocalize();
+
+// TODO: Set the Google Spreadsheet URL for the translation.
+@GoogleSpreadSheetLocalize(
+  "\${2:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
+  version: 1,
+)
+class AppLocalize extends _\$AppLocalize {}
+
+/// [ModuleMasamuneAdapter] for applications.
+// TODO: Please configure the module.
+final appModule = CliTestMasamuneAdapter(
+  title: "\${3}",
+  theme: theme,
+  authAdapter: const RuntimeAuthAdapter(),
+  modelAdapter: const RuntimeModelAdapter(),
+  storageAdapter: const RuntimeStorageAdapter(),
+  functionsAdapter: const RuntimeFunctionsAdapter(),
+  additionalMasamuneAdapters: const [],
+);
+
+/// App.
+void main() {
+  runMasamuneApp(
+    (adapters) => MasamuneModuleApp(appModule, adapters),
+    masamuneAdapters: appModule.masamuneAdapters,
+  );
+}
+""";
+    } else {
+      return """
 /// App Title.
 // TODO: Define the title of the application.
-const title = "${1}";
+const title = "\${1}";
 
 /// Initial page query.
 // TODO: Define the initial page query of the application.
-final initialQuery = ${2:HomePage.query()};
+final initialQuery = \${2:HomePage.query()};
 
 /// App Model.
 ///
@@ -741,7 +958,7 @@ final theme = AppThemeData(
   secondary: Colors.cyan,
   onPrimary: Colors.white,
   onSecondary: Colors.white,
-  ${3}
+  \${3}
 );
 
 /// App Router.
@@ -752,12 +969,12 @@ final theme = AppThemeData(
 /// ```
 final router = AppRouter(
   // TODO: Please configure the initial routing and redirection settings.
-  boot: ${4:null},
+  boot: \${4:null},
   initialQuery: initialQuery,
   redirect: [],
   pages: [
     // TODO: Add the page query to be used for routing.
-    ${5}
+    \${5}
   ],
 );
 
@@ -770,10 +987,10 @@ final l = AppLocalize();
 
 // TODO: Set the Google Spreadsheet URL for the translation.
 @GoogleSpreadSheetLocalize(
-  "${6:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
+  "\${6:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
   version: 1,
 )
-class AppLocalize extends _$AppLocalize {}
+class AppLocalize extends _\$AppLocalize {}
 
 /// App Ref.
 ///
@@ -844,6 +1061,7 @@ void main() {
   );
 }
 """;
+    }
   }
 }
 
@@ -1231,7 +1449,12 @@ class HomePageCliCode extends CliCode {
   /// Create a base class for the home page.
   ///
   /// ホームページのベースクラスを作成します。
-  const HomePageCliCode();
+  const HomePageCliCode({this.module});
+
+  /// Module name. If this is specified, the code for the module is output.
+  ///
+  /// モジュール名。これが指定されている場合はモジュール用のコードを出力します。
+  final String? module;
 
   @override
   String get name => "home";
@@ -1256,7 +1479,7 @@ import 'package:masamune/masamune.dart';
 import 'package:masamune_universal_ui/masamune_universal_ui.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import '/${module != null ? module?.toSnakeCase() : "main"}.dart';
 """;
   }
 
@@ -1296,7 +1519,7 @@ class HomePage extends PageScopedWidget {
 
     // Describes the structure of the page.
     return UniversalScaffold(
-      appBar: UniversalAppBar(title: Text(l().appTitle)),
+      appBar: UniversalAppBar(title: Text(${module != null ? "ml().appTitle" : "l().appTitle"})),
       body: UniversalColumn(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -1306,7 +1529,7 @@ class HomePage extends PageScopedWidget {
           ),
           Text(
             "\${model.value?.counter.value ?? 0}",
-            style: theme.text.displayMedium,
+            style: context.theme.text.displayMedium,
           ),
         ],
       ),
@@ -1334,7 +1557,12 @@ class CounterModelCliCode extends CliCode {
   /// Create a base class for the counter model.
   ///
   /// カウンターモデルのベースクラスを作成します。
-  const CounterModelCliCode();
+  const CounterModelCliCode({this.module});
+
+  /// Module name. If this is specified, the code for the module is output.
+  ///
+  /// モジュール名。これが指定されている場合はモジュール用のコードを出力します。
+  final String? module;
 
   @override
   String get name => "counter";
@@ -1358,7 +1586,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 
 // ignore: unused_import, unnecessary_import
-import '/main.dart';
+import '/${module != null ? module?.toSnakeCase() : "main"}.dart';
 """;
   }
 
@@ -1413,6 +1641,333 @@ class CounterModel with _\$CounterModel {
   /// ```
   static const form = _\$CounterModelFormQuery();
 }
+""";
+  }
+}
+
+/// Contents of lib/`module`.dart.
+///
+/// lib/`module`.dartの中身。
+class ModuleCliCode extends CliCode {
+  /// Contents of lib/`module`.dart.
+  ///
+  /// lib/`module`.dartの中身。
+  const ModuleCliCode();
+
+  @override
+  String get name => "module";
+
+  @override
+  String get prefix => "module";
+
+  @override
+  String get directory => "lib";
+
+  @override
+  String get description =>
+      "Create a module.dart for all Masamune Framework functions.\nMasamune Frameworkの機能すべてに対応したmodule.dartを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+// Copyright ${DateTime.now().year} mathru. All rights reserved.
+
+/// Any comment.
+///
+/// To use, import `package:${className.toSnakeCase()}/${className.toSnakeCase()}.dart`.
+///
+/// [mathru.net]: https://mathru.net
+/// [YouTube]: https://www.youtube.com/c/mathrunetchannel
+library ${className.toSnakeCase()};
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:masamune/masamune.dart';
+import 'package:masamune_module/masamune_module.dart';
+
+// Project imports:
+import 'pages/home.dart';
+
+// Package exports:
+export 'package:masamune_module/masamune_module.dart';
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return """
+part '${className.toSnakeCase()}.localize.dart';
+""";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+/// App Localization.
+///
+/// ```dart
+/// ml().xxx  // Localization for xxx.
+/// ```
+final ml = AppLocalize();
+
+// TODO: Set the Google Spreadsheet URL for the translation.
+@GoogleSpreadSheetLocalize(
+  "\${6:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
+  version: 1,
+)
+class AppLocalize extends _\$AppLocalize {}
+
+/// [ModuleMasamuneAdapter] should be defined together with [MasamuneModuleApp] in [runMasamuneApp].
+/// 
+/// ```dart
+/// const module = ${className.toPascalCase()}MasamuneAdapter();
+/// 
+/// void main() {
+///  runMasamuneApp(
+///    (adapters) => MasamuneModuleApp(module, adapters),
+///    masamuneAdapters: module.masamuneAdapters,
+///  );
+///}
+/// ```
+@immutable
+class ${className.toPascalCase()}MasamuneAdapter extends ModuleMasamuneAdapter {
+  /// [ModuleMasamuneAdapter] should be defined together with [MasamuneModuleApp] in [runMasamuneApp].
+  /// 
+  /// ```dart
+  /// const module = ${className.toPascalCase()}MasamuneAdapter();
+  /// 
+  /// void main() {
+  ///  runMasamuneApp(
+  ///    (adapters) => MasamuneModuleApp(module, adapters),
+  ///    masamuneAdapters: module.masamuneAdapters,
+  ///  );
+  ///}
+  /// ```
+  ${className.toPascalCase()}MasamuneAdapter({
+    super.theme,
+    super.authAdapter = const RuntimeAuthAdapter(),
+    super.modelAdapter = const RuntimeModelAdapter(),
+    super.configModelAdapter,
+    super.prefsModelAdapter,
+    super.storageAdapter = const RuntimeStorageAdapter(),
+    super.functionsAdapter = const RuntimeFunctionsAdapter(),
+    super.additionalLoggerAdapters = const [
+      ConsoleLoggerAdapter(),
+    ],
+    super.scaffoldMessengerKey,
+    super.debugShowCheckedModeBanner = true,
+    super.showPerformanceOverlay = false,
+    super.title = "",
+    super.onGenerateTitle,
+    super.themeMode,
+    super.routerBootOverride,
+    super.routerInitialQueryOverride,
+    super.additionalRouterPages = const [],
+    super.additionalRouterRedirect = const [],
+    super.additionalNavigatorObservers = const [],
+    super.additionalMasamuneAdapters = const [],
+  });
+
+  /// You can retrieve the [${className.toPascalCase()}MasamuneAdapter] first given by [MasamuneAdapterScope].
+  static ${className.toPascalCase()}MasamuneAdapter get primary {
+    assert(
+      _primary != null,
+      "${className.toPascalCase()}MasamuneAdapter is not set. Place [MasamuneAdapterScope] widget closer to the root.",
+    );
+    return _primary!;
+  }
+
+  static ${className.toPascalCase()}MasamuneAdapter? _primary;
+
+  @override
+  AppLocalizeBase? get localize => ml;
+
+  @override
+  BootRouteQueryBuilder? get routerBoot => null;
+
+  @override
+  RouteQuery get routerInitialQuery => HomePage.query();
+
+  @override
+  List<RouteQueryBuilder> get routerPages => [
+        HomePage.query,
+      ];
+
+  @override
+  List<MasamuneAdapter> get masamuneAdapters => [
+        ...super.masamuneAdapters,
+        this,
+      ];
+
+  @override
+  void onInitScope(MasamuneAdapter adapter) {
+    super.onInitScope(adapter);
+    if (adapter is! ${className.toPascalCase()}MasamuneAdapter) {
+      return;
+    }
+    _primary = adapter;
+  }
+
+  @override
+  Widget onBuildApp(BuildContext context, Widget app) {
+    return MasamuneAdapterScope<${className.toPascalCase()}MasamuneAdapter>(
+      adapter: this,
+      child: app,
+    );
+  }
+}
+""";
+  }
+}
+
+/// Contents of .pubignore.
+///
+/// .pubignoreの中身。
+class PubignoreCliCode extends CliCode {
+  /// Contents of .pubignore.
+  ///
+  /// .pubignoreの中身。
+  const PubignoreCliCode();
+
+  @override
+  String get name => ".pubignore";
+
+  @override
+  String get prefix => ".pubignore";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Define `.pubignore` with additional settings. `.pubignore`を追加設定込で定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+# See https://dart.dev/tools/pub/publishing#what-files-are-published
+
+# github
+.github/workflows/
+example/.github/
+
+# vscode
+example/.vscode/
+
+# firebase
+example/firebase/
+
+# document
+example/document/
+
+# lib
+secrets.dart
+firebase_options.dart
+example/ios/
+example/android/
+example/macos/
+example/windows/
+example/web/
+example/linux/
+
+# Yaml
+pubspec_overrides.yaml
+katana_secrets.yaml
+katana.yaml
+build.yaml
+lefthook.yaml
+""";
+  }
+}
+
+/// Contents of README.md.
+///
+/// README.mdの中身。
+class ModuleReadMeCliCode extends CliCode {
+  /// Contents of README.md.
+  ///
+  /// README.mdの中身。
+  const ModuleReadMeCliCode({required this.module});
+
+  final String module;
+
+  @override
+  String get name => "README";
+
+  @override
+  String get prefix => "README";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Define `README.md` with additional settings. `README.md`を追加設定込で定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """<p align="center">
+  <a href="https://mathru.net">
+    <img width="240px" src="https://raw.githubusercontent.com/mathrunet/flutter_masamune/master/.github/images/icon.png" alt="Masamune logo" style="border-radius: 32px"s><br/>
+  </a>
+  <h1 align="center">Masamune ${module.toPascalCase()} Module</h1>
+</p>
+
+<p align="center">
+  <a href="https://twitter.com/mathru">
+    <img src="https://img.shields.io/static/v1?label=Twitter&message=Follow&logo=Twitter&color=1DA1F2&link=https://twitter.com/mathru" alt="Follow on Twitter" />
+  </a>
+  <a href="https://threads.net/@mathrunet">
+    <img src="https://img.shields.io/static/v1?label=Threads&message=Follow&color=101010&link=https://threads.net/@mathrunet" alt="Follow on Threads" />
+  </a>
+  <a href="https://github.com/invertase/melos">
+    <img src="https://img.shields.io/static/v1?label=maintained%20with&message=melos&color=FF1493&link=https://github.com/invertase/melos" alt="Maintained with Melos" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/sponsors/mathrunet"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4&link=https://github.com/sponsors/mathrunet" alt="GitHub Sponsor" /></a>
+</p>
+
+---
+
+[[GitHub]](https://github.com/mathrunet) | [[YouTube]](https://www.youtube.com/c/mathrunetchannel) | [[Packages]](https://pub.dev/publishers/mathru.net/packages) | [[Twitter]](https://twitter.com/mathru) | [[Threads]](https://threads.net/@mathrunet) | [[LinkedIn]](https://www.linkedin.com/in/mathrunet/) | [[mathru.net]](https://mathru.net)
+
+---
+
+Plug-in packages that add functionality to the Masamune Framework.
+
+For more information about Masamune Framework, please click here.
+
+[https://pub.dev/packages/masamune](https://pub.dev/packages/masamune)
+
+# GitHub Sponsors
+
+Sponsors are always welcome. Thank you for your support!
+
+[https://github.com/sponsors/mathrunet](https://github.com/sponsors/mathrunet)
 """;
   }
 }
