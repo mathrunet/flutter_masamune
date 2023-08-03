@@ -27,3 +27,4 @@ part 'ui/card_tile.dart';
 part 'ui/label.dart';
 part 'ui/line_tile.dart';
 part 'ui/periodic_scope.dart';
+part 'ui/chat_tile.dart';
