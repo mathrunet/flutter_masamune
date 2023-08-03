@@ -1,0 +1,20 @@
+name: masamune_module
+description: Base package for creating application modules using the Masamune package.
+version: 2.0.5
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune_module/tree/master/packages/masamune_module
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+  flutter: ">=2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+    
+  katana: ^2.0.0
+  masamune: ^2.0.0
+dev_dependencies:
+  test: ^1.21.3
+  flutter_lints: ^2.0.0
+  import_sorter: ^4.6.0
