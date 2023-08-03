@@ -1680,14 +1680,11 @@ class ModuleCliCode extends CliCode {
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library ${className.toSnakeCase()};
 
-// Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
 import 'package:masamune/masamune.dart';
 import 'package:masamune_module/masamune_module.dart';
 
-// Project imports:
 import 'pages/home.dart';
 
 // Package exports:
