@@ -26,6 +26,7 @@ class OpenAIMedia extends MasamuneControllerBase<List<OpenAIMediaImg>,
   /// [value]でそれまで生成された画像のリストを取得できます。
   OpenAIMedia({
     this.user = "user",
+    super.adapter,
   });
 
   /// Query for OpenAIMedia.

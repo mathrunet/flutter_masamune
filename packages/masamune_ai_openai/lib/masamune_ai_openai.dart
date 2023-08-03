@@ -22,5 +22,8 @@ import 'package:masamune/masamune.dart';
 part 'adapter/openai_masamune_adapter.dart';
 part 'functions/openai_chat_gpt_functions_action.dart';
 
+part 'prompt/character_chat_prompt_builder.dart';
+
 part 'src/openai_chat.dart';
 part 'src/openai_media.dart';
+part 'src/openai_chat_prompt_builder.dart';

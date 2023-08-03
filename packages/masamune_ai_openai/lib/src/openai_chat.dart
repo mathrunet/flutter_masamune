@@ -49,13 +49,20 @@ class OpenAIChat
   ///
   /// [clear]ですべての会話を削除し最初から始めることができます。
   OpenAIChat({
-    this.user = "user",
     this.model = OpenAIChatModel.gpt35Turbo,
     List<OpenAIChatMsg>? initialValue,
     this.maxTokens = 300,
     this.temperature,
+    this.filterOnSend,
+    this.filterOnReceive,
+    super.adapter,
+    this.priorMessage,
+    this.builder,
   }) {
-    _value = initialValue ?? [];
+    _value = initialValue ??
+        builder?.initialValue ??
+        adapter.defaultChatPromptBuilder?.initialValue ??
+        [];
   }
 
   /// Query for OpenAIChat.
@@ -70,10 +77,14 @@ class OpenAIChat
   @override
   OpenAIMasamuneAdapter get primaryAdapter => OpenAIMasamuneAdapter.primary;
 
-  /// User Name.
+  /// Specify the prompt builder.
   ///
-  /// ユーザーの名前。
-  final String user;
+  /// The value specified in this class takes precedence over the value set in these.
+  ///
+  /// プロンプトビルダーを指定します。
+  ///
+  /// これらで設定された値よりもこのクラスで指定された値のほうが優先されます。
+  final OpenAIChatPromptBuilder? builder;
 
   /// Model to be used.
   ///
@@ -89,6 +100,21 @@ class OpenAIChat
   ///
   /// レスポンスの温度感。0-1で指定します。
   final double? temperature;
+
+  /// Filters for sending messages.
+  ///
+  /// メッセージを送信する際のフィルター。
+  final String Function(String content)? filterOnSend;
+
+  /// Filters for receiving messages.
+  ///
+  /// メッセージを受信する際のフィルター。
+  final String Function(String content)? filterOnReceive;
+
+  /// Prior message.
+  ///
+  /// 先行メッセージ。
+  final String? priorMessage;
 
   /// The total number of tokens it took until then.
   ///
@@ -116,6 +142,8 @@ class OpenAIChat
   ///
   /// The role of the sender can be specified in [role].
   ///
+  /// If [maxRetry] is set, the program will automatically retry if an error occurs.
+  ///
   /// Registered OpenAI conversations are retrieved asynchronously within each object. By monitoring each element with [ListenableListener], you can wait for processing for each item in the list.
   ///
   /// [message]をChatGPTに送信します。
@@ -124,50 +152,100 @@ class OpenAIChat
   ///
   /// [role]で送信する者のロールを指定できます。
   ///
+  /// [maxRetry]を設定すると、エラーが発生した場合に自動でリトライを行います。
+  ///
   /// 登録されたOpenAIの会話は、各オブジェクト内で非同期で取得されます。[ListenableListener]で各要素を監視することでリストの項目ごとで処理を待つことができます。
-  Future<OpenAIChatMsg?> send(
-    String message, {
+  Future<OpenAIChatMsg?> send({
+    String? message,
     DateTime? dateTime,
+    int? maxRetry,
+    String? userName,
+    OpenAIChatRole role = OpenAIChatRole.user,
+  }) =>
+      _send(
+        message: message,
+        dateTime: dateTime,
+        maxRetry: maxRetry,
+        retryCount: 0,
+        userName: userName,
+        role: role,
+      );
+
+  Future<OpenAIChatMsg?> _send({
+    String? message,
+    DateTime? dateTime,
+    int? maxRetry,
+    required int retryCount,
+    String? userName,
     OpenAIChatRole role = OpenAIChatRole.user,
   }) async {
     if (_sendCompleter != null) {
       return sending;
     }
     _sendCompleter = Completer();
-    final response = OpenAIChatMsg._(completer: Completer());
+    final response = OpenAIChatMsg._(
+      value: priorMessage ??
+          builder?.priorMessage ??
+          adapter.defaultChatPromptBuilder?.priorMessage,
+      completer: Completer(),
+      role: OpenAIChatRole.assistant,
+    );
     try {
       _value.removeWhere((element) => element.error);
-      _value.add(
-        OpenAIChatMsg(
-          message,
-          role: role,
-          dateTime: dateTime ?? DateTime.now(),
-        ),
-      );
+      if (message != null) {
+        final filtered = filterOnSend?.call(message) ??
+            builder?.filterOnSend?.call(message) ??
+            adapter.defaultChatPromptBuilder?.filterOnSend?.call(message) ??
+            message;
+        if (filtered.isNotEmpty) {
+          _value.add(
+            OpenAIChatMsg(
+              filtered,
+              role: role,
+              dateTime: dateTime ?? DateTime.now(),
+            ),
+          );
+        }
+      }
       final messages = _value
           .map((e) => e._toOpenAIChatCompletionChoiceMessageModel())
           .toList();
       _value.add(response);
+      final requestMessages = [
+        ...messages,
+        response._toOpenAIChatCompletionChoiceMessageModel(),
+      ];
       notifyListeners();
       final res = await OpenAI.instance.chat.create(
-        user: user,
+        user: userName,
         model: model.name,
-        messages: messages,
+        messages: requestMessages,
         temperature: temperature,
         maxTokens: maxTokens,
       );
       if (res.choices.isEmpty) {
         throw Exception("Failed to get response from openai_chat_gpt.");
       }
-      response._complete(
-        text: res.choices.first.message.content,
-        role: OpenAIChatRole.values.firstWhereOrNull((item) =>
-                item._openAIChatMessageRole ==
-                res.choices.first.message.role) ??
-            OpenAIChatRole.assistant,
-        dateTime: res.created,
-        token: res.usage.totalTokens,
-      );
+      final responseText =
+          "${response.value}${res.choices.first.message.content}";
+      final filtered = filterOnReceive?.call(responseText) ??
+          builder?.filterOnReceive?.call(responseText) ??
+          adapter.defaultChatPromptBuilder?.filterOnReceive
+              ?.call(responseText) ??
+          responseText;
+      if (filtered.isNotEmpty) {
+        response._complete(
+          text: filtered,
+          role: OpenAIChatRole.values.firstWhereOrNull((item) =>
+                  item._openAIChatMessageRole ==
+                  res.choices.first.message.role) ??
+              OpenAIChatRole.assistant,
+          dateTime: res.created,
+          token: res.usage.totalTokens,
+        );
+      } else {
+        throw Exception("Failed to get response from openai_chat_gpt.");
+      }
       _usageToken += res.usage.totalTokens;
       notifyListeners();
       _sendCompleter?.complete(response);
@@ -177,6 +255,15 @@ class OpenAIChat
       response._error(e);
       _sendCompleter?.completeError(e);
       _sendCompleter = null;
+      if (maxRetry != null && maxRetry > retryCount) {
+        return _send(
+          message: message,
+          dateTime: dateTime,
+          maxRetry: maxRetry,
+          retryCount: retryCount + 1,
+          role: role,
+        );
+      }
       rethrow;
     } finally {
       response._finally();
@@ -352,6 +439,7 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
 ///
 /// ChatGPTの利用可能モデル。
 enum OpenAIChatModel {
+  gpt4,
   gpt35Turbo;
 
   /// Returns the actual name passed to Functions.
@@ -360,7 +448,9 @@ enum OpenAIChatModel {
   String get name {
     switch (this) {
       case OpenAIChatModel.gpt35Turbo:
-        return "gpt-3.5-turbo";
+        return "gpt-3.5-turbo-0613";
+      case OpenAIChatModel.gpt4:
+        return "gpt-4-0613";
     }
   }
 }
@@ -402,19 +492,25 @@ class _$OpenAIChatQuery {
 
   @useResult
   _$_OpenAIChatQuery call({
-    String user = "user",
     OpenAIChatModel model = OpenAIChatModel.gpt35Turbo,
     List<OpenAIChatMsg>? initialValue,
     int? maxTokens = 300,
     double? temperature,
+    String Function(String content)? filterOnSend,
+    String Function(String content)? filterOnReceive,
+    String? priorMessage,
+    OpenAIChatPromptBuilder? builder,
   }) =>
       _$_OpenAIChatQuery(
         hashCode.toString(),
-        user: user,
         model: model,
         initialValue: initialValue,
         maxTokens: maxTokens,
         temperature: temperature,
+        filterOnSend: filterOnSend,
+        filterOnReceive: filterOnReceive,
+        priorMessage: priorMessage,
+        builder: builder,
       );
 }
 
@@ -422,28 +518,37 @@ class _$OpenAIChatQuery {
 class _$_OpenAIChatQuery extends ControllerQueryBase<OpenAIChat> {
   const _$_OpenAIChatQuery(
     this._name, {
-    this.user = "user",
     this.model = OpenAIChatModel.gpt35Turbo,
     this.initialValue,
     this.maxTokens = 300,
     this.temperature,
+    this.filterOnSend,
+    this.filterOnReceive,
+    this.priorMessage,
+    this.builder,
   });
 
   final String _name;
-  final String user;
   final OpenAIChatModel model;
   final int? maxTokens;
   final double? temperature;
   final List<OpenAIChatMsg>? initialValue;
+  final String Function(String content)? filterOnSend;
+  final String Function(String content)? filterOnReceive;
+  final String? priorMessage;
+  final OpenAIChatPromptBuilder? builder;
 
   @override
   OpenAIChat Function() call(Ref ref) {
     return () => OpenAIChat(
-          user: user,
           model: model,
           initialValue: initialValue,
           maxTokens: maxTokens,
           temperature: temperature,
+          filterOnSend: filterOnSend,
+          filterOnReceive: filterOnReceive,
+          priorMessage: priorMessage,
+          builder: builder,
         );
   }
 

@@ -96,7 +96,7 @@ class OpenAIPagePageState extends State<OpenAIPage> {
                     return;
                   }
                   _controller.text = "";
-                  await _chat.send(value!);
+                  await _chat.send(message: value!);
                 },
               ),
             ),
@@ -107,7 +107,7 @@ class OpenAIPagePageState extends State<OpenAIPage> {
                   return;
                 }
                 _controller.text = "";
-                await _chat.send(value);
+                await _chat.send(message: value);
               },
               icon: const Icon(Icons.send),
             ),

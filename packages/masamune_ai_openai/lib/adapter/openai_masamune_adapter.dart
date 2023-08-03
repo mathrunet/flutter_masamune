@@ -17,12 +17,22 @@ class OpenAIMasamuneAdapter extends MasamuneAdapter {
   /// [apiKey]にOpenAIのアカウントで発行したAPIキーを設定してください。
   const OpenAIMasamuneAdapter({
     required this.apiKey,
+    this.defaultChatPromptBuilder,
   });
 
   /// API key for OpenAI.
   ///
   /// OpenAIのAPIキー。
   final String apiKey;
+
+  /// Specifies the default prompt builder.
+  ///
+  /// The value specified in this class takes precedence over the value set in these.
+  ///
+  /// デフォルトプロンプトビルダーを指定します。
+  ///
+  /// これらで設定された値よりもこのクラスで指定された値のほうが優先されます。
+  final OpenAIChatPromptBuilder? defaultChatPromptBuilder;
 
   @override
   FutureOr<void> onPreRunApp() {
