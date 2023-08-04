@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FEAT**: Added ModuleOptions. ([67855f0d](https://github.com/mathrunet/flutter_masamune/commit/67855f0dea9b345357cd1341c05245d96b3ca68f))

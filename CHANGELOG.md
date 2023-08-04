@@ -15,6 +15,128 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.7.0`](#katana_cli---v270)
+ - [`katana_scoped` - `v2.0.19`](#katana_scoped---v2019)
+ - [`masamune` - `v2.4.0`](#masamune---v240)
+ - [`masamune_agora` - `v2.2.38`](#masamune_agora---v2238)
+ - [`masamune_ai_openai` - `v2.1.53`](#masamune_ai_openai---v2153)
+ - [`masamune_builder` - `v2.7.0`](#masamune_builder---v270)
+ - [`masamune_calendar` - `v2.0.100`](#masamune_calendar---v20100)
+ - [`masamune_location` - `v2.1.67`](#masamune_location---v2167)
+ - [`masamune_location_google` - `v2.1.68`](#masamune_location_google---v2168)
+ - [`masamune_notification_firebase` - `v2.1.53`](#masamune_notification_firebase---v2153)
+ - [`masamune_picker` - `v2.1.55`](#masamune_picker---v2155)
+ - [`masamune_point_ecosystem` - `v2.1.4`](#masamune_point_ecosystem---v214)
+ - [`masamune_purchase_mobile` - `v2.4.16`](#masamune_purchase_mobile---v2416)
+ - [`masamune_purchase_stripe` - `v3.2.16`](#masamune_purchase_stripe---v3216)
+ - [`masamune_speech_to_text` - `v2.1.24`](#masamune_speech_to_text---v2124)
+ - [`masamune_text_to_speech` - `v2.1.22`](#masamune_text_to_speech---v2122)
+ - [`masamune_auth_apple` - `v2.1.56`](#masamune_auth_apple---v2156)
+ - [`masamune_auth_google` - `v2.1.56`](#masamune_auth_google---v2156)
+ - [`masamune_util` - `v2.1.34`](#masamune_util---v2134)
+ - [`masamune_logger_firebase` - `v2.0.98`](#masamune_logger_firebase---v2098)
+ - [`masamune_universal_ui` - `v2.2.35`](#masamune_universal_ui---v2235)
+ - [`masamune_introduction` - `v2.2.4`](#masamune_introduction---v224)
+ - [`masamune_auth_facebook` - `v2.1.58`](#masamune_auth_facebook---v2158)
+ - [`masamune_module` - `v2.1.1`](#masamune_module---v211)
+ - [`masamune_mail` - `v2.1.53`](#masamune_mail---v2153)
+ - [`masamune_ads_google` - `v2.1.6`](#masamune_ads_google---v216)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_apple` - `v2.1.56`
+ - `masamune_auth_google` - `v2.1.56`
+ - `masamune_util` - `v2.1.34`
+ - `masamune_logger_firebase` - `v2.0.98`
+ - `masamune_universal_ui` - `v2.2.35`
+ - `masamune_introduction` - `v2.2.4`
+ - `masamune_auth_facebook` - `v2.1.58`
+ - `masamune_module` - `v2.1.1`
+ - `masamune_mail` - `v2.1.53`
+ - `masamune_ads_google` - `v2.1.6`
+
+---
+
+#### `katana_cli` - `v2.7.0`
+
+ - **FEAT**: Changed filtering specifications for CollectionModelQuery. ([f4114ffb](https://github.com/mathrunet/flutter_masamune/commit/f4114ffbdfc2677447befc3e5571dfd1e42fffca))
+
+#### `katana_scoped` - `v2.0.19`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune` - `v2.4.0`
+
+ - **FEAT**: Changed filtering specifications for CollectionModelQuery. ([f4114ffb](https://github.com/mathrunet/flutter_masamune/commit/f4114ffbdfc2677447befc3e5571dfd1e42fffca))
+
+#### `masamune_agora` - `v2.2.38`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_ai_openai` - `v2.1.53`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_builder` - `v2.7.0`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+ - **FEAT**: Changed filtering specifications for CollectionModelQuery. ([f4114ffb](https://github.com/mathrunet/flutter_masamune/commit/f4114ffbdfc2677447befc3e5571dfd1e42fffca))
+
+#### `masamune_calendar` - `v2.0.100`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_location` - `v2.1.67`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_location_google` - `v2.1.68`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_notification_firebase` - `v2.1.53`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_picker` - `v2.1.55`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_point_ecosystem` - `v2.1.4`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_purchase_mobile` - `v2.4.16`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_purchase_stripe` - `v3.2.16`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_speech_to_text` - `v2.1.24`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+#### `masamune_text_to_speech` - `v2.1.22`
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
+
+## 2023-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.6.0`](#katana_cli---v260)
  - [`katana_model` - `v2.10.8`](#katana_model---v2108)
  - [`katana_model_firestore` - `v2.6.11`](#katana_model_firestore---v2611)

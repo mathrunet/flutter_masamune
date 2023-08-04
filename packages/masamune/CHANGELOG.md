@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Changed filtering specifications for CollectionModelQuery. ([f4114ffb](https://github.com/mathrunet/flutter_masamune/commit/f4114ffbdfc2677447befc3e5571dfd1e42fffca))
+
 ## 2.3.19
 
  - Update a dependency to the latest release.

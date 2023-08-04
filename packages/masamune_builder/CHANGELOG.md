@@ -1,3 +1,8 @@
+## 2.7.0
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+ - **FEAT**: Changed filtering specifications for CollectionModelQuery. ([f4114ffb](https://github.com/mathrunet/flutter_masamune/commit/f4114ffbdfc2677447befc3e5571dfd1e42fffca))
+
 ## 2.6.9
 
  - Update a dependency to the latest release.

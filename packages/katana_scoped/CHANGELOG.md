@@ -1,3 +1,7 @@
+## 2.0.19
+
+ - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
+
 ## 2.0.18
 
  - **FIX**: Change each name to Object? ([d3e77475](https://github.com/mathrunet/flutter_masamune/commit/d3e7747553641ace51debd6ecb630fd685bc71e2))

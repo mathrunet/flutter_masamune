@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Changed filtering specifications for CollectionModelQuery. ([f4114ffb](https://github.com/mathrunet/flutter_masamune/commit/f4114ffbdfc2677447befc3e5571dfd1e42fffca))
+
 ## 2.6.0
 
  - **FEAT**: Added ModuleOptions. ([67855f0d](https://github.com/mathrunet/flutter_masamune/commit/67855f0dea9b345357cd1341c05245d96b3ca68f))
