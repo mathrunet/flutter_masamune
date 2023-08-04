@@ -1,5 +1,57 @@
 part of masamune_builder;
 
+String _querySelectorClass(ParamaterValue param, String queryClass) {
+  if (param.type.isDartCoreString) {
+    return "StringModelQuerySelector<$queryClass>";
+  } else if (param.type.isDartCoreDouble || param.type.isDartCoreInt) {
+    return "NumModelQuerySelector<$queryClass>";
+  } else if (param.type.isDartCoreBool) {
+    return "BooleanModelQuerySelector<$queryClass>";
+  } else if (param.type.isDartCoreEnum) {
+    final typeName = param.type.toString().trimStringRight("?");
+    return "ValueModelQuerySelector<$typeName, $queryClass>";
+  } else if (param.isReference) {
+    if (param.type.toString().endsWith("Ref")) {
+      final match = _regExpRef.firstMatch(param.type.toString());
+      if (match == null) {
+        throw Exception(
+          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${param.type.toString()} ${param.name}",
+        );
+      }
+      return "ModelRefModelQuerySelector<${match.group(1)}, $queryClass>";
+    } else {
+      if (!param.type.toString().endsWith("?")) {
+        throw Exception(
+          "ModelRefBase<T> must be nullable. \r\n\r\n${param.type.toString()} ${param.name}",
+        );
+      }
+      final match = _regExpModelRef.firstMatch(param.type.toString());
+      if (match == null) {
+        throw Exception(
+          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${param.type} ${param.name}",
+        );
+      }
+      return "ModelRefModelQuerySelector<${match.group(2)}, $queryClass>";
+    }
+  } else {
+    final typeName = param.type.toString().trimStringRight("?");
+    switch (typeName) {
+      case "ModelCounter":
+      case "ModelTimestamp":
+      case "ModelGeoValue":
+      case "ModelLocale":
+      case "ModelLocalizedValue":
+      case "ModelSearch":
+      case "ModelUri":
+      case "ModelImageUri":
+      case "ModelVideoUri":
+        return "${typeName}ModelQuerySelector<$queryClass>";
+      default:
+        return "ValueModelQuerySelector<$typeName, $queryClass>";
+    }
+  }
+}
+
 /// Create a class to automatically create collection model queries.
 ///
 /// コレクションモデルクエリを自動作成するためのクラスを作成します。
@@ -10,17 +62,6 @@ List<Spec> collectionModelQueryClass(
   PathValue? mirror,
 ) {
   return [
-    Enum(
-      (e) => e
-        ..name = "${model.name}CollectionKey"
-        ..values.addAll([
-          ...model.parameters.map((param) {
-            return EnumValue(
-              (v) => v..name = param.name,
-            );
-          }),
-        ]),
-    ),
     Class(
       (c) => c
         ..name = "_\$${model.name}DocumentQuery"
@@ -230,16 +271,58 @@ List<Spec> collectionModelQueryClass(
               ..returns = const Reference("String")
               ..body = const Code("modelQuery.toString()"),
           ),
-          ...CollectionQueryType.values.map((queryType) {
+          Method(
+            (m) => m
+              ..name = "_toQuery"
+              ..static = true
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "query"
+                    ..type = const Reference("CollectionModelQuery"),
+                )
+              ])
+              ..returns = Reference("_\$_${model.name}CollectionQuery")
+              ..body = Code("_\$_${model.name}CollectionQuery(query)"),
+          ),
+          Method(
+            (m) => m
+              ..name = "limitTo"
+              ..lambda = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "value"
+                    ..type = const Reference("int"),
+                )
+              ])
+              ..returns = Reference("_\$_${model.name}CollectionQuery")
+              ..body = Code(
+                  "_\$_${model.name}CollectionQuery(modelQuery.limitTo(value))"),
+          ),
+          Method(
+            (m) => m
+              ..name = "reset"
+              ..lambda = true
+              ..returns = Reference("_\$_${model.name}CollectionQuery")
+              ..body =
+                  Code("_\$_${model.name}CollectionQuery(modelQuery.reset())"),
+          ),
+          ...model.parameters.map((param) {
             return Method(
               (m) => m
-                ..name = queryType.name
-                ..returns = Reference("_\$_${model.name}CollectionQuery")
-                ..requiredParameters.addAll(
-                    [...queryType.parameters("${model.name}CollectionKey")])
+                ..name = param.name
+                ..type = MethodType.getter
+                ..lambda = true
+                ..returns = Reference(
+                  _querySelectorClass(
+                    param,
+                    "_\$_${model.name}CollectionQuery",
+                  ),
+                )
                 ..body = Code(
-                  "return _\$_${model.name}CollectionQuery(modelQuery.${queryType.methodCode});",
-                ),
+                    "${_querySelectorClass(param, "_\$_${model.name}CollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)"),
             );
           }),
         ]),
@@ -439,17 +522,58 @@ List<Spec> collectionModelQueryClass(
                 ..returns = const Reference("String")
                 ..body = const Code("modelQuery.toString()"),
             ),
-            ...CollectionQueryType.values.map((queryType) {
+            Method(
+              (m) => m
+                ..name = "_toQuery"
+                ..static = true
+                ..lambda = true
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "query"
+                      ..type = const Reference("CollectionModelQuery"),
+                  )
+                ])
+                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
+                ..body = Code("_\$_${model.name}MirrorCollectionQuery(query)"),
+            ),
+            Method(
+              (m) => m
+                ..name = "limitTo"
+                ..lambda = true
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = const Reference("int"),
+                  )
+                ])
+                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
+                ..body = Code(
+                    "_\$_${model.name}MirrorCollectionQuery(modelQuery.limitTo(value))"),
+            ),
+            Method(
+              (m) => m
+                ..name = "reset"
+                ..lambda = true
+                ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
+                ..body = Code(
+                    "_\$_${model.name}MirrorCollectionQuery(modelQuery.reset())"),
+            ),
+            ...model.parameters.map((param) {
               return Method(
                 (m) => m
-                  ..name = queryType.name
-                  ..returns =
-                      Reference("_\$_${model.name}MirrorCollectionQuery")
-                  ..requiredParameters.addAll(
-                      [...queryType.parameters("${model.name}CollectionKey")])
+                  ..name = param.name
+                  ..type = MethodType.getter
+                  ..lambda = true
+                  ..returns = Reference(
+                    _querySelectorClass(
+                      param,
+                      "_\$_${model.name}MirrorCollectionQuery",
+                    ),
+                  )
                   ..body = Code(
-                    "return _\$_${model.name}MirrorCollectionQuery(modelQuery.${queryType.methodCode});",
-                  ),
+                      "${_querySelectorClass(param, "_\$_${model.name}MirrorCollectionQuery")}(key: \"${param.jsonKey}\", toQuery: _toQuery, modelQuery: modelQuery)"),
               );
             }),
           ]),

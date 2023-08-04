@@ -44,6 +44,7 @@ part 'form/extension.dart';
 part 'model/model.dart';
 part 'model/extension.dart';
 part 'model/filterable_collection_mixin.dart';
+part 'model/model_query_selector.dart';
 part 'prefs/prefs.dart';
 part 'scoped/controller.dart';
 part 'scoped/global.dart';

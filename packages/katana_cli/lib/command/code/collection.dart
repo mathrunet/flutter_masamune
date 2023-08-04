@@ -111,8 +111,7 @@ class ${className}Model with _\$${className}Model {
   /// appRef.model(${className}Model.collectoin());      // Get the collection.
   /// ref.model(${className}Model.collection())..load(); // Load the collection.
   /// ref.model(
-  ///   ${className}Model.collection().equal(
-  ///     ${className}ModelCollectionKey.xxx,
+  ///   ${className}Model.collection().data.equal(
   ///     "data",
   ///   ),
   /// )..load(); // Load the collection with filter.
