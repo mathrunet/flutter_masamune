@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.7.3`](#katana_cli---v273)
+ - [`masamune_builder` - `v2.7.3`](#masamune_builder---v273)
+
+---
+
+#### `katana_cli` - `v2.7.3`
+
+ - **FIX**: Remove Keys from Form. ([de790d54](https://github.com/mathrunet/flutter_masamune/commit/de790d548eace142c9c023b9cc2d8783f7c05ada))
+
+#### `masamune_builder` - `v2.7.3`
+
+ - **FIX**: Remove Keys from Form. ([43e8b670](https://github.com/mathrunet/flutter_masamune/commit/43e8b670c44a6c015b4708597c7ad8a5cc0ed314))
+
+
+## 2023-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.7.2`](#katana_cli---v272)
  - [`masamune_builder` - `v2.7.2`](#masamune_builder---v272)
 
