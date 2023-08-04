@@ -157,12 +157,16 @@ class __$$_StripeUserModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_StripeUserModel extends _StripeUserModel {
   const _$_StripeUserModel(
-      {@JsonKey(name: "user") required this.userId,
-      @JsonKey(name: "account") this.accountId,
-      @JsonKey(name: "customer") this.customerId,
-      @JsonKey(name: "defaultPayment") this.defaultPayment,
+      {@JsonKey(name: "user")
+          required this.userId,
+      @JsonKey(name: "account")
+          this.accountId,
+      @JsonKey(name: "customer")
+          this.customerId,
+      @JsonKey(name: "defaultPayment")
+          this.defaultPayment,
       @JsonKey(name: "capability")
-      final Map<String, dynamic> capablity = const {}})
+          final Map<String, dynamic> capablity = const {}})
       : _capablity = capablity,
         super._();
 

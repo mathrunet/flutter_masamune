@@ -89,8 +89,7 @@ class StripePurchase
     try {
       final modelQuery = collectionQuery(userId: userId).modelQuery;
       final purchaseCollection = StripePurchaseModelCollection(
-        modelQuery.equal(
-            StripePurchaseModelKeys.orderId.name, orderId),
+        modelQuery.equal(StripePurchaseModelKeys.orderId.name, orderId),
       );
       await purchaseCollection.load();
       if (purchaseCollection.isNotEmpty) {
