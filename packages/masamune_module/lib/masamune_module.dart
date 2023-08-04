@@ -16,3 +16,4 @@ import 'package:masamune/masamune.dart';
 
 part 'src/module_masamune_adapter.dart';
 part 'src/masamune_module_app.dart';
+part 'src/module_options.dart';

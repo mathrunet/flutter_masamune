@@ -1886,6 +1886,13 @@ final ml = AppLocalize();
 )
 class AppLocalize extends _\$AppLocalize {}
 
+/// Define [${className.toPascalCase()}MasamuneAdapter] specific words and settings.
+class ${className.toPascalCase()}ModuleOptions extends ModuleOptions {
+  const ${className.toPascalCase()}ModuleOptions();
+
+  // TODO: Define the words used in the module.
+}
+
 /// [ModuleMasamuneAdapter] should be defined together with [MasamuneModuleApp] in [runMasamuneApp].
 /// 
 /// ```dart
@@ -1899,7 +1906,7 @@ class AppLocalize extends _\$AppLocalize {}
 ///}
 /// ```
 @immutable
-class ${className.toPascalCase()}MasamuneAdapter extends ModuleMasamuneAdapter {
+class ${className.toPascalCase()}MasamuneAdapter extends ModuleMasamuneAdapter<${className.toPascalCase()}ModuleOptions> {
   /// [ModuleMasamuneAdapter] should be defined together with [MasamuneModuleApp] in [runMasamuneApp].
   /// 
   /// ```dart
@@ -1914,6 +1921,7 @@ class ${className.toPascalCase()}MasamuneAdapter extends ModuleMasamuneAdapter {
   /// ```
   ${className.toPascalCase()}MasamuneAdapter({
     super.theme,
+    super.options = const ${className.toPascalCase()}ModuleOptions(),
     super.authAdapter = const RuntimeAuthAdapter(),
     super.modelAdapter = const RuntimeModelAdapter(),
     super.configModelAdapter,

@@ -12,7 +12,8 @@ part of masamune_module;
 ///
 /// 継承して[routerInitialQuery]と[routerPages]を指定して利用してください。
 @immutable
-abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
+abstract class ModuleMasamuneAdapter<TOptions extends ModuleOptions>
+    extends MasamuneAdapter {
   /// Base adapter to oversee and configure the entire application.
   ///
   /// When used in conjunction with [MasamuneModuleApp], the application can be used as a package plug-in.
@@ -26,6 +27,7 @@ abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
   /// 継承して[routerInitialQuery]と[routerPages]を指定して利用してください。
   ModuleMasamuneAdapter({
     this.additionalMasamuneAdapters = const [],
+    required this.options,
     this.theme,
     this.authAdapter = const RuntimeAuthAdapter(),
     ModelAdapter? configModelAdapter,
@@ -49,6 +51,15 @@ abstract class ModuleMasamuneAdapter extends MasamuneAdapter {
     this.additionalNavigatorObservers = const [],
   })  : _configModelAdapter = configModelAdapter,
         _prefsModelAdapter = prefsModelAdapter;
+
+  /// Module Options.
+  ///
+  /// Defines module-specific words and settings.
+  ///
+  /// モジュールのオプション。
+  ///
+  /// モジュール特有の単語や設定を定義します。
+  final TOptions options;
 
   /// You can specify the plug-in adapter used by Masamune Framework.
   ///
