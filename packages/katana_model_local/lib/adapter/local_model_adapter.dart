@@ -54,12 +54,20 @@ class LocalModelAdapter extends ModelAdapter {
     final database = sharedDatabase;
     if (initialValue.isNotEmpty && !database.isInitialValueRegistered) {
       for (final raw in initialValue!) {
-        for (final tmp in raw.value.entries) {
-          final map = raw.toMap(tmp.value);
+        if (raw is ModelInitialDocument) {
+          final map = raw.toMap(raw.value);
           database.setInitialValue(
-            _path("${raw.path}/${tmp.key}"),
-            raw.filterOnSave(map, tmp.value),
+            _path(raw.path),
+            raw.filterOnSave(map, raw.value),
           );
+        } else if (raw is ModelInitialCollection) {
+          for (final tmp in raw.value.entries) {
+            final map = raw.toMap(tmp.value);
+            database.setInitialValue(
+              _path("${raw.path}/${tmp.key}"),
+              raw.filterOnSave(map, tmp.value),
+            );
+          }
         }
       }
     }
@@ -101,7 +109,7 @@ class LocalModelAdapter extends ModelAdapter {
   /// Actual data when used as a mock-up.
   ///
   /// モックアップとして利用する際の実データ。
-  final List<ModelInitialCollection>? initialValue;
+  final List<ModelInitialValue>? initialValue;
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
