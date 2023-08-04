@@ -57,6 +57,12 @@ targets:
           exclude:
             - test
             - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
           include:
             - test/integration/*
             - test/integration/**/*
@@ -66,6 +72,12 @@ targets:
           exclude:
             - test
             - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
           include:
             - test/integration/*
             - test/integration/**/*
@@ -75,6 +87,12 @@ targets:
           exclude:
             - test
             - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
           include:
             - test/integration/*
             - test/integration/**/*
@@ -84,6 +102,12 @@ targets:
           exclude:
             - test
             - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
           include:
             - test/integration/*
             - test/integration/**/*
@@ -93,6 +117,12 @@ targets:
           exclude:
             - test
             - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
           include:
             - test/integration/*
             - test/integration/**/*
@@ -102,6 +132,12 @@ targets:
           exclude:
             - test
             - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
           include:
             - test/integration/*
             - test/integration/**/*
@@ -111,6 +147,12 @@ targets:
           exclude:
             - test
             - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
           include:
             - test/integration/*
             - test/integration/**/*

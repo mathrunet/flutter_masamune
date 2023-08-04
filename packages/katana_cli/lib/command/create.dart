@@ -157,6 +157,8 @@ class CreateCliCommand extends CliCommand {
       label("Create a pubspec_overrides.yaml");
       await const PubspecOverridesCliCode()
           .generateFile("pubspec_overrides.yaml");
+      label("Create a build.yaml");
+      await const BuildCliCode().generateFile("build.yaml");
       label("Edit a analysis_options.yaml");
       await const AnalysisOptionsCliCode()
           .generateFile("analysis_options.yaml");
@@ -309,6 +311,8 @@ class CreateCliCommand extends CliCommand {
       label("Create a pubspec_overrides.yaml");
       await const PubspecOverridesCliCode()
           .generateFile("pubspec_overrides.yaml");
+      label("Create a build.yaml");
+      await const BuildCliCode().generateFile("build.yaml");
       label("Edit a analysis_options.yaml");
       await const AnalysisOptionsCliCode()
           .generateFile("analysis_options.yaml");
@@ -1316,6 +1320,183 @@ class PubspecOverridesCliCode extends CliCode {
   String body(String path, String baseName, String className) {
     return r"""
 dependency_overrides:
+""";
+  }
+}
+
+/// Contents of build.yaml.
+///
+/// build.yamlの中身。
+class BuildCliCode extends CliCode {
+  /// Contents of build.yaml.
+  ///
+  /// build.yamlの中身。
+  const BuildCliCode();
+
+  @override
+  String get name => "build";
+
+  @override
+  String get prefix => "build";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description =>
+      "Create build.yaml for katana_cli. build.yamlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+targets:
+  $default:
+    builders:
+      masamune_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      masamune_builder:katana_theme_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      masamune_builder:katana_router_page_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      masamune_builder:katana_router_router_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      masamune_builder:katana_prefs_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      masamune_builder:katana_localization_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      masamune_builder:katana_listenables_builder:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      json_serializable:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
+      freezed:
+        enabled: true
+        generate_for:
+          exclude:
+            - test
+            - example
+            - ios
+            - android
+            - windows
+            - macos
+            - linux
+            - web
+          include:
+            - test/integration/*
+            - test/integration/**/*
 """;
   }
 }
