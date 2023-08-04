@@ -227,14 +227,14 @@ List<Spec> collectionModelClass(
   return [
     Class(
       (c) => c
-        ..name = "\$${model.name}Collection"
-        ..extend = Reference("CollectionBase<\$${model.name}Document>")
+        ..name = "_\$${model.name}Collection"
+        ..extend = Reference("CollectionBase<_\$${model.name}Document>")
         ..mixins.addAll([
           Reference(
-            "FilterableCollectionMixin<\$${model.name}Document, _\$_${model.name}CollectionQuery>",
+            "FilterableCollectionMixin<_\$${model.name}Document, _\$_${model.name}CollectionQuery>",
           ),
           if (searchable.isNotEmpty)
-            Reference("SearchableCollectionMixin<\$${model.name}Document>")
+            Reference("SearchableCollectionMixin<_\$${model.name}Document>")
         ])
         ..constructors.addAll([
           Constructor(
@@ -266,7 +266,7 @@ List<Spec> collectionModelClass(
               ..name = "create"
               ..annotations.addAll([const Reference("override")])
               ..lambda = true
-              ..returns = Reference("\$${model.name}Document")
+              ..returns = Reference("_\$${model.name}Document")
               ..optionalParameters.addAll([
                 Parameter(
                   (p) => p
@@ -274,14 +274,14 @@ List<Spec> collectionModelClass(
                     ..type = const Reference("String?"),
                 )
               ])
-              ..body = Code("\$${model.name}Document(modelQuery.create(id))"),
+              ..body = Code("_\$${model.name}Document(modelQuery.create(id))"),
           ),
           Method(
             (m) => m
               ..name = "filter"
               ..annotations.addAll([const Reference("override")])
               ..returns =
-                  Reference("Future<CollectionBase<\$${model.name}Document>>")
+                  Reference("Future<CollectionBase<_\$${model.name}Document>>")
               ..requiredParameters.addAll([
                 Parameter(
                   (p) => p
@@ -299,15 +299,15 @@ List<Spec> collectionModelClass(
     if (mirror != null) ...[
       Class(
         (c) => c
-          ..name = "\$${model.name}MirrorCollection"
-          ..extend = Reference("CollectionBase<\$${model.name}MirrorDocument>")
+          ..name = "_\$${model.name}MirrorCollection"
+          ..extend = Reference("CollectionBase<_\$${model.name}MirrorDocument>")
           ..mixins.addAll([
             Reference(
-              "FilterableCollectionMixin<\$${model.name}MirrorDocument, _\$_${model.name}MirrorCollectionQuery>",
+              "FilterableCollectionMixin<_\$${model.name}MirrorDocument, _\$_${model.name}MirrorCollectionQuery>",
             ),
             if (searchable.isNotEmpty)
               Reference(
-                  "SearchableCollectionMixin<\$${model.name}MirrorDocument>")
+                  "SearchableCollectionMixin<_\$${model.name}MirrorDocument>")
           ])
           ..constructors.addAll([
             Constructor(
@@ -339,7 +339,7 @@ List<Spec> collectionModelClass(
                 ..name = "create"
                 ..annotations.addAll([const Reference("override")])
                 ..lambda = true
-                ..returns = Reference("\$${model.name}MirrorDocument")
+                ..returns = Reference("_\$${model.name}MirrorDocument")
                 ..optionalParameters.addAll([
                   Parameter(
                     (p) => p
@@ -348,14 +348,14 @@ List<Spec> collectionModelClass(
                   )
                 ])
                 ..body = Code(
-                    "\$${model.name}MirrorDocument(modelQuery.create(id))"),
+                    "_\$${model.name}MirrorDocument(modelQuery.create(id))"),
             ),
             Method(
               (m) => m
                 ..name = "filter"
                 ..annotations.addAll([const Reference("override")])
                 ..returns = Reference(
-                    "Future<CollectionBase<\$${model.name}MirrorDocument>>")
+                    "Future<CollectionBase<_\$${model.name}MirrorDocument>>")
                 ..requiredParameters.addAll([
                   Parameter(
                     (p) => p

@@ -25,7 +25,19 @@ class ParamaterValue {
     type = element.type;
     required = element.isRequired;
     isSearchable = _searchParamChecker.hasAnnotationOfExact(element);
-    isReference = _refParamChecker.hasAnnotationOfExact(element);
+    if (_refParamChecker.hasAnnotationOfExact(element)) {
+      String? res;
+      for (final item in element.metadata) {
+        final match = _refParamRegExp.firstMatch(item.toSource());
+        if (match != null) {
+          res = match.group(1);
+          break;
+        }
+      }
+      reference = res?.trim();
+    } else {
+      reference = null;
+    }
     isJsonSerializable = _jsonParamChecker.hasAnnotationOfExact(element);
     if (isJsonSerializable) {
       jsonKey = _jsonParamChecker
@@ -41,6 +53,7 @@ class ParamaterValue {
       jsonKey = name;
     }
   }
+  static final _refParamRegExp = RegExp(r"^@RefParam\((.+)\)$");
 
   /// Parameter Element.
   ///
@@ -67,10 +80,10 @@ class ParamaterValue {
   /// 検索対象の場合true.
   late final bool isSearchable;
 
-  /// True if referring to another document.
+  /// If another document is referenced, the class name of that document is entered. If it does not reference any other document, [Null] is entered.
   ///
-  /// 他のドキュメントを参照している場合true.
-  late final bool isReference;
+  /// 他のドキュメントを参照している場合、そのドキュメントのクラス名が入ります。参照していない場合は[Null]が入ります。
+  late final String? reference;
 
   /// True if serializable to Json.
   ///

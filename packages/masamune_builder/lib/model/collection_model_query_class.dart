@@ -10,7 +10,7 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
   } else if (param.type.isDartCoreEnum) {
     final typeName = param.type.toString().trimStringRight("?");
     return "ValueModelQuerySelector<$typeName, $queryClass>";
-  } else if (param.isReference) {
+  } else if (param.reference.isNotEmpty) {
     if (param.type.toString().endsWith("Ref")) {
       final match = _regExpRef.firstMatch(param.type.toString());
       if (match == null) {
@@ -61,7 +61,176 @@ List<Spec> collectionModelQueryClass(
   PathValue path,
   PathValue? mirror,
 ) {
+  final searchable = model.parameters.where((e) => e.isSearchable).toList();
+
   return [
+    Class(
+      (c) => c
+        ..name = "_\$${model.name}Path"
+        ..extend = Reference("ModelRefPath<${model.name}>")
+        ..annotations.addAll([const Reference("immutable")])
+        ..constructors.addAll([
+          Constructor(
+            (c) => c
+              ..constant = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "uid"
+                    ..type = const Reference("String"),
+                )
+              ])
+              ..optionalParameters.addAll([
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
+              ])
+              ..initializers.addAll([
+                ...path.parameters.map((param) {
+                  return Code("_${param.camelCase} = ${param.camelCase}");
+                }),
+                const Code("super(uid)"),
+              ]),
+          ),
+        ])
+        ..fields.addAll([
+          ...path.parameters.map((param) {
+            return Field(
+              (f) => f
+                ..name = "_${param.camelCase}"
+                ..modifier = FieldModifier.final$
+                ..type = const Reference("String"),
+            );
+          }),
+        ])
+        ..methods.addAll(
+          [
+            Method(
+              (m) => m
+                ..name = "modelQuery"
+                ..annotations.addAll([
+                  const Reference("override"),
+                ])
+                ..returns = const Reference("DocumentModelQuery")
+                ..type = MethodType.getter
+                ..body = Code(
+                  "return DocumentModelQuery( \"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
+                ),
+            )
+          ],
+        ),
+    ),
+    Class(
+      (c) => c
+        ..name = "_\$${model.name}InitialCollection"
+        ..annotations.addAll([const Reference("immutable")])
+        ..extend = Reference("ModelInitialCollection<${model.name}>")
+        ..mixins.addAll([
+          if (searchable.isNotEmpty)
+            Reference("SearchableInitialCollectionMixin<${model.name}>"),
+        ])
+        ..constructors.addAll([
+          Constructor(
+            (c) => c
+              ..constant = true
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "value"
+                    ..toSuper = true,
+                )
+              ])
+              ..optionalParameters.addAll([
+                ...path.parameters.map((param) {
+                  return Parameter(
+                    (p) => p
+                      ..name = param.camelCase
+                      ..named = true
+                      ..required = true
+                      ..type = const Reference("String"),
+                  );
+                }),
+              ])
+              ..initializers.addAll([
+                ...path.parameters.map((param) {
+                  return Code("_${param.camelCase} = ${param.camelCase}");
+                }),
+              ]),
+          ),
+        ])
+        ..fields.addAll([
+          ...path.parameters.map((param) {
+            return Field(
+              (f) => f
+                ..name = "_${param.camelCase}"
+                ..modifier = FieldModifier.final$
+                ..type = const Reference("String"),
+            );
+          }),
+        ])
+        ..methods.addAll([
+          Method(
+            (m) => m
+              ..name = "path"
+              ..annotations.addAll([
+                const Reference("override"),
+              ])
+              ..type = MethodType.getter
+              ..lambda = true
+              ..returns = const Reference("String")
+              ..body = Code(
+                "\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
+              ),
+          ),
+          Method(
+            (m) => m
+              ..name = "toMap"
+              ..requiredParameters.addAll([
+                Parameter(
+                  (p) => p
+                    ..name = "value"
+                    ..type = Reference(model.name),
+                )
+              ])
+              ..annotations.addAll([
+                const Reference("override"),
+              ])
+              ..returns = const Reference("DynamicMap")
+              ..lambda = true
+              ..body = const Code("value.rawValue"),
+          ),
+          if (searchable.isNotEmpty)
+            Method(
+              (m) => m
+                ..name = "buildSearchText"
+                ..lambda = true
+                ..returns = const Reference("String")
+                ..annotations.addAll([const Reference("override")])
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = Reference(model.name),
+                  )
+                ])
+                ..body = Code(
+                  searchable.map((e) {
+                    if (e.type.toString().endsWith("?")) {
+                      return "(value.${e.name}?.toString() ?? \"\")";
+                    } else {
+                      return "value.${e.name}.toString()";
+                    }
+                  }).join(" + "),
+                ),
+            ),
+        ]),
+    ),
     Class(
       (c) => c
         ..name = "_\$${model.name}DocumentQuery"
@@ -102,7 +271,7 @@ List<Spec> collectionModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? \$${model.name}Document.defaultModelAdapter,));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter,));",
               ),
           ),
           if (mirror != null)
@@ -120,7 +289,7 @@ List<Spec> collectionModelQueryClass(
       (c) => c
         ..name = "_\$_${model.name}DocumentQuery"
         ..annotations.addAll([const Reference("immutable")])
-        ..extend = Reference("ModelQueryBase<\$${model.name}Document>")
+        ..extend = Reference("ModelQueryBase<_\$${model.name}Document>")
         ..constructors.addAll([
           Constructor(
             (c) => c
@@ -155,9 +324,9 @@ List<Spec> collectionModelQueryClass(
                     ..type = const Reference("Ref"),
                 )
               ])
-              ..returns = Reference("\$${model.name}Document Function()")
+              ..returns = Reference("_\$${model.name}Document Function()")
               ..body = Code(
-                "() => \$${model.name}Document(modelQuery)",
+                "() => _\$${model.name}Document(modelQuery)",
               ),
           ),
           Method(
@@ -204,7 +373,7 @@ List<Spec> collectionModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? \$${model.name}Collection.defaultModelAdapter,));",
+                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter,));",
               ),
           ),
           if (mirror != null)
@@ -222,7 +391,7 @@ List<Spec> collectionModelQueryClass(
       (c) => c
         ..name = "_\$_${model.name}CollectionQuery"
         ..annotations.addAll([const Reference("immutable")])
-        ..extend = Reference("ModelQueryBase<\$${model.name}Collection>")
+        ..extend = Reference("ModelQueryBase<_\$${model.name}Collection>")
         ..constructors.addAll([
           Constructor(
             (c) => c
@@ -257,9 +426,9 @@ List<Spec> collectionModelQueryClass(
                     ..type = const Reference("Ref"),
                 )
               ])
-              ..returns = Reference("\$${model.name}Collection Function()")
+              ..returns = Reference("_\$${model.name}Collection Function()")
               ..body = Code(
-                "() => \$${model.name}Collection(modelQuery)",
+                "() => _\$${model.name}Collection(modelQuery)",
               ),
           ),
           Method(
@@ -330,6 +499,173 @@ List<Spec> collectionModelQueryClass(
     if (mirror != null) ...[
       Class(
         (c) => c
+          ..name = "_\$${model.name}MirrorPath"
+          ..annotations.addAll([const Reference("immutable")])
+          ..extend = Reference("ModelRefPath<${model.name}>")
+          ..constructors.addAll([
+            Constructor(
+              (c) => c
+                ..constant = true
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "uid"
+                      ..type = const Reference("String"),
+                  )
+                ])
+                ..optionalParameters.addAll([
+                  ...mirror.parameters.map((param) {
+                    return Parameter(
+                      (p) => p
+                        ..name = param.camelCase
+                        ..named = true
+                        ..required = true
+                        ..type = const Reference("String"),
+                    );
+                  }),
+                ])
+                ..initializers.addAll([
+                  ...mirror.parameters.map((param) {
+                    return Code("_${param.camelCase} = ${param.camelCase}");
+                  }),
+                  const Code("super(uid)"),
+                ]),
+            ),
+          ])
+          ..fields.addAll([
+            ...mirror.parameters.map((param) {
+              return Field(
+                (f) => f
+                  ..name = "_${param.camelCase}"
+                  ..modifier = FieldModifier.final$
+                  ..type = const Reference("String"),
+              );
+            }),
+          ])
+          ..methods.addAll(
+            [
+              Method(
+                (m) => m
+                  ..name = "modelQuery"
+                  ..annotations.addAll([
+                    const Reference("override"),
+                  ])
+                  ..returns = const Reference("DocumentModelQuery")
+                  ..type = MethodType.getter
+                  ..body = Code(
+                    "return DocumentModelQuery( \"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}/\${path.trimQuery().trimString(\"/\")}\", adapter: adapter, );",
+                  ),
+              )
+            ],
+          ),
+      ),
+      Class(
+        (c) => c
+          ..name = "_\$${model.name}MirrorInitialCollection"
+          ..annotations.addAll([const Reference("immutable")])
+          ..extend = Reference("ModelInitialCollection<${model.name}>")
+          ..mixins.addAll([
+            if (searchable.isNotEmpty)
+              Reference("SearchableInitialCollectionMixin<${model.name}>"),
+          ])
+          ..constructors.addAll([
+            Constructor(
+              (c) => c
+                ..constant = true
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..toSuper = true,
+                  )
+                ])
+                ..optionalParameters.addAll([
+                  ...mirror.parameters.map((param) {
+                    return Parameter(
+                      (p) => p
+                        ..name = param.camelCase
+                        ..named = true
+                        ..required = true
+                        ..type = const Reference("String"),
+                    );
+                  }),
+                ])
+                ..initializers.addAll([
+                  ...mirror.parameters.map((param) {
+                    return Code("_${param.camelCase} = ${param.camelCase}");
+                  }),
+                ]),
+            ),
+          ])
+          ..fields.addAll([
+            ...mirror.parameters.map((param) {
+              return Field(
+                (f) => f
+                  ..name = "_${param.camelCase}"
+                  ..modifier = FieldModifier.final$
+                  ..type = const Reference("String"),
+              );
+            }),
+          ])
+          ..methods.addAll([
+            Method(
+              (m) => m
+                ..name = "path"
+                ..annotations.addAll([
+                  const Reference("override"),
+                ])
+                ..type = MethodType.getter
+                ..lambda = true
+                ..returns = const Reference("String")
+                ..body = Code(
+                  "\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$_${m.group(1)?.toCamelCase() ?? ""}")}\"",
+                ),
+            ),
+            Method(
+              (m) => m
+                ..name = "toMap"
+                ..requiredParameters.addAll([
+                  Parameter(
+                    (p) => p
+                      ..name = "value"
+                      ..type = Reference(model.name),
+                  )
+                ])
+                ..annotations.addAll([
+                  const Reference("override"),
+                ])
+                ..returns = const Reference("DynamicMap")
+                ..lambda = true
+                ..body = const Code("value.rawValue"),
+            ),
+            if (searchable.isNotEmpty)
+              Method(
+                (m) => m
+                  ..name = "buildSearchText"
+                  ..lambda = true
+                  ..returns = const Reference("String")
+                  ..annotations.addAll([const Reference("override")])
+                  ..requiredParameters.addAll([
+                    Parameter(
+                      (p) => p
+                        ..name = "value"
+                        ..type = Reference(model.name),
+                    )
+                  ])
+                  ..body = Code(
+                    searchable.map((e) {
+                      if (e.type.toString().endsWith("?")) {
+                        return "(value.${e.name}?.toString() ?? \"\")";
+                      } else {
+                        return "value.${e.name}.toString()";
+                      }
+                    }).join(" + "),
+                  ),
+              ),
+          ]),
+      ),
+      Class(
+        (c) => c
           ..name = "_\$${model.name}MirrorDocumentQuery"
           ..annotations.addAll([const Reference("immutable")])
           ..constructors.addAll([
@@ -368,7 +704,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorDocumentQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? \$${model.name}Document.defaultModelAdapter,));",
+                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter,));",
                 ),
             )
           ]),
@@ -377,7 +713,7 @@ List<Spec> collectionModelQueryClass(
         (c) => c
           ..name = "_\$_${model.name}MirrorDocumentQuery"
           ..annotations.addAll([const Reference("immutable")])
-          ..extend = Reference("ModelQueryBase<\$${model.name}MirrorDocument>")
+          ..extend = Reference("ModelQueryBase<_\$${model.name}MirrorDocument>")
           ..constructors.addAll([
             Constructor(
               (c) => c
@@ -413,9 +749,9 @@ List<Spec> collectionModelQueryClass(
                   )
                 ])
                 ..returns =
-                    Reference("\$${model.name}MirrorDocument Function()")
+                    Reference("_\$${model.name}MirrorDocument Function()")
                 ..body = Code(
-                  "() => \$${model.name}MirrorDocument(modelQuery)",
+                  "() => _\$${model.name}MirrorDocument(modelQuery)",
                 ),
             ),
             Method(
@@ -462,7 +798,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? \$${model.name}Collection.defaultModelAdapter,));",
+                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter,));",
                 ),
             )
           ]),
@@ -472,7 +808,7 @@ List<Spec> collectionModelQueryClass(
           ..name = "_\$_${model.name}MirrorCollectionQuery"
           ..annotations.addAll([const Reference("immutable")])
           ..extend =
-              Reference("ModelQueryBase<\$${model.name}MirrorCollection>")
+              Reference("ModelQueryBase<_\$${model.name}MirrorCollection>")
           ..constructors.addAll([
             Constructor(
               (c) => c
@@ -508,9 +844,9 @@ List<Spec> collectionModelQueryClass(
                   )
                 ])
                 ..returns =
-                    Reference("\$${model.name}MirrorCollection Function()")
+                    Reference("_\$${model.name}MirrorCollection Function()")
                 ..body = Code(
-                  "() => \$${model.name}MirrorCollection(modelQuery)",
+                  "() => _\$${model.name}MirrorCollection(modelQuery)",
                 ),
             ),
             Method(

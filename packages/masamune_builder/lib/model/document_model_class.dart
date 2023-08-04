@@ -10,12 +10,13 @@ List<Spec> documentModelClass(
   PathValue? mirror,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
-  final referenceable = model.parameters.where((e) => e.isReference).toList();
+  final referenceable =
+      model.parameters.where((e) => e.reference.isNotEmpty).toList();
 
   return [
     Class(
       (c) => c
-        ..name = "\$${model.name}Document"
+        ..name = "_\$${model.name}Document"
         ..extend = Reference("DocumentBase<${model.name}>")
         ..mixins.addAll([
           Reference("ModelRefMixin<${model.name}>"),
@@ -89,7 +90,7 @@ List<Spec> documentModelClass(
                   Parameter(
                     (p) => p
                       ..name = "mirror"
-                      ..type = Reference("\$${model.name}MirrorDocument"),
+                      ..type = Reference("_\$${model.name}MirrorDocument"),
                   ),
                   Parameter(
                     (p) => p
@@ -118,7 +119,7 @@ List<Spec> documentModelClass(
                   Parameter(
                     (p) => p
                       ..name = "mirror"
-                      ..type = Reference("\$${model.name}MirrorDocument"),
+                      ..type = Reference("_\$${model.name}MirrorDocument"),
                   )
                 ])
                 ..optionalParameters.addAll([
@@ -175,7 +176,7 @@ List<Spec> documentModelClass(
                         "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
                       );
                     }
-                    final doc = "\$${match.group(1)}Document";
+                    final doc = e.reference;
                     return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                   } else {
                     if (!e.type.toString().endsWith("?")) {
@@ -189,7 +190,7 @@ List<Spec> documentModelClass(
                         "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
                       );
                     }
-                    final doc = "\$${match.group(2)}Document";
+                    final doc = e.reference;
                     return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                   }
                 }).join(",")}]"),
@@ -199,7 +200,7 @@ List<Spec> documentModelClass(
     if (mirror != null) ...[
       Class(
         (c) => c
-          ..name = "\$${model.name}MirrorDocument"
+          ..name = "_\$${model.name}MirrorDocument"
           ..extend = Reference("DocumentBase<${model.name}>")
           ..mixins.addAll([
             Reference("ModelRefMixin<${model.name}>"),
@@ -272,7 +273,7 @@ List<Spec> documentModelClass(
                   Parameter(
                     (p) => p
                       ..name = "mirror"
-                      ..type = Reference("\$${model.name}Document"),
+                      ..type = Reference("_\$${model.name}Document"),
                   ),
                   Parameter(
                     (p) => p
@@ -301,7 +302,7 @@ List<Spec> documentModelClass(
                   Parameter(
                     (p) => p
                       ..name = "mirror"
-                      ..type = Reference("\$${model.name}Document"),
+                      ..type = Reference("_\$${model.name}Document"),
                   )
                 ])
                 ..optionalParameters.addAll([
@@ -357,7 +358,7 @@ List<Spec> documentModelClass(
                           "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
                         );
                       }
-                      final doc = "\$${match.group(1)}Document";
+                      final doc = e.reference;
                       return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                     } else {
                       if (!e.type.toString().endsWith("?")) {
@@ -372,7 +373,7 @@ List<Spec> documentModelClass(
                           "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
                         );
                       }
-                      final doc = "\$${match.group(2)}Document";
+                      final doc = e.reference;
                       return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, )";
                     }
                   }).join(",")}]"),
