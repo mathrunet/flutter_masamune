@@ -8,6 +8,17 @@ List<Spec> formValueClass(
   bool autoDisposeWhenUnreferenced,
 ) {
   return [
+    Enum(
+      (e) => e
+        ..name = "_\$${model.name}Keys"
+        ..values.addAll([
+          ...model.parameters.map((param) {
+            return EnumValue(
+              (v) => v..name = param.name,
+            );
+          }),
+        ]),
+    ),
     Class(
       (c) => c
         ..name = "_\$${model.name}FormQuery"

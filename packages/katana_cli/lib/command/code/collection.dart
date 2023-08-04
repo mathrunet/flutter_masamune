@@ -146,6 +146,9 @@ typedef ${className}ModelRefPath = _\$${className}ModelPath;
 /// ```
 typedef ${className}ModelInitialCollection = _\$${className}ModelInitialCollection;
 
+/// [Enum] of the name of the value defined in ${className}Model.
+typedef ${className}ModelKeys = _\$${className}ModelKeys;
+
 /// Document class for storing ${className}Model.
 typedef ${className}ModelDocument = _\$${className}ModelDocument;
 

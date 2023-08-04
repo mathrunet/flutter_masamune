@@ -32,6 +32,17 @@ List<Spec> modelClass(
           ),
         ]),
     ),
+    Enum(
+      (e) => e
+        ..name = "_\$${model.name}Keys"
+        ..values.addAll([
+          ...model.parameters.map((param) {
+            return EnumValue(
+              (v) => v..name = param.name,
+            );
+          }),
+        ]),
+    ),
   ];
 }
 

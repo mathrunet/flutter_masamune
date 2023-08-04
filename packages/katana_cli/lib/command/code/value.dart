@@ -89,6 +89,9 @@ class ${className}Value with _\$${className}Value {
   /// ```
   static const form = _\$${className}ValueFormQuery();
 }
+
+/// [Enum] of the name of the value defined in ${className}Value.
+typedef ${className}ValueKeys = _\$${className}ValueKeys;
 """;
   }
 }
