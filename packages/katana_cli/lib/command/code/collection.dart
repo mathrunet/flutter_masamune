@@ -73,15 +73,6 @@ part '$baseName.freezed.dart';
       path = paths.sublist(0, paths.length - 1).join("/");
     }
     return """
-/// Alias for ModelRef<${className}Model>.
-/// 
-/// When defining parameters for other Models, you can define them as follows
-/// 
-/// ```dart
-/// @refParam ${className}ModelRef $baseName
-/// ```
-typedef ${className}ModelRef = ModelRef<${className}Model>?;
-
 /// Value for model.
 @freezed
 @formValue
@@ -125,6 +116,41 @@ class ${className}Model with _\$${className}Model {
   /// ```
   static const form = _\$${className}ModelFormQuery();
 }
+
+/// Alias for ModelRef<${className}Model>.
+///
+/// When defining parameters for other Models, you can define them as follows
+///
+/// ```dart
+/// @RefParam(${className}ModelDocument) ${className}ModelRef $baseName
+/// ```
+typedef ${className}ModelRef = ModelRef<${className}Model>?;
+
+/// It can be defined as an empty ModelRef<${className}Model>.
+///
+/// ```dart
+/// ${className}ModelRefPath("xxx") // Define as a path.
+/// ```
+typedef ${className}ModelRefPath = _\$${className}ModelPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     ${className}ModelInitialCollection(
+///       "xxx": ${className}Model(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef ${className}ModelInitialCollection = _\$${className}ModelInitialCollection;
+
+/// Document class for storing ${className}Model.
+typedef ${className}ModelDocument = _\$${className}ModelDocument;
+
+/// Collection class for storing ${className}Model.
+typedef ${className}ModelCollection = _\$${className}ModelCollection;
 """;
   }
 }
