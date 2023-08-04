@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
 ## 2.1.1
 
  - **DOCS**: ReadMe changes. ([9063cbbb](https://github.com/mathrunet/flutter_masamune_module/commit/9063cbbb720f88f5c1980946480e4fcc73d6cee6))

@@ -1,3 +1,7 @@
+## 2.0.17
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
 ## 2.0.16
 
  - **FIX**: get() method available. ([73381c11](https://github.com/mathrunet/flutter_masamune/commit/73381c119c32d5eefca532b494aa5ae395f0b53c))

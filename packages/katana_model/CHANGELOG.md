@@ -1,3 +1,7 @@
+## 2.10.7
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
 ## 2.10.6
 
  - **FIX**: ModelLocalizedValue is now easier to specify with const. ([d9944db4](https://github.com/mathrunet/flutter_masamune/commit/d9944db4f23cc40ef2be49e9aa150d5690d6eb95))

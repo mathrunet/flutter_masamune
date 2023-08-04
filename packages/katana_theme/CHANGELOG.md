@@ -1,3 +1,7 @@
+## 2.0.17
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
 ## 2.0.16
 
  - **FIX**: Added the ability to get the Brightness of the system in theme.brightness. ([9b64cb3f](https://github.com/mathrunet/flutter_masamune/commit/9b64cb3fb3c06931bb5f31e526daf4b20ed269ea))

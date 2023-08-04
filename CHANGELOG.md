@@ -15,6 +15,138 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.5.4`](#katana_cli---v254)
+ - [`katana_listenables` - `v2.0.14`](#katana_listenables---v2014)
+ - [`katana_listenables_annotation` - `v2.0.13`](#katana_listenables_annotation---v2013)
+ - [`katana_localization` - `v2.0.17`](#katana_localization---v2017)
+ - [`katana_model` - `v2.10.7`](#katana_model---v2107)
+ - [`katana_model_openapi` - `v2.0.14`](#katana_model_openapi---v2014)
+ - [`katana_prefs` - `v2.0.16`](#katana_prefs---v2016)
+ - [`katana_router` - `v2.0.22`](#katana_router---v2022)
+ - [`katana_theme` - `v2.0.17`](#katana_theme---v2017)
+ - [`masamune` - `v2.3.18`](#masamune---v2318)
+ - [`masamune_point_ecosystem` - `v2.1.2`](#masamune_point_ecosystem---v212)
+ - [`masamune_purchase_mobile` - `v2.4.14`](#masamune_purchase_mobile---v2414)
+ - [`masamune_purchase_stripe` - `v3.2.14`](#masamune_purchase_stripe---v3214)
+ - [`masamune_location` - `v2.1.65`](#masamune_location---v2165)
+ - [`masamune_auth_apple` - `v2.1.54`](#masamune_auth_apple---v2154)
+ - [`masamune_text_to_speech` - `v2.1.20`](#masamune_text_to_speech---v2120)
+ - [`masamune_agora` - `v2.2.36`](#masamune_agora---v2236)
+ - [`masamune_auth_google` - `v2.1.54`](#masamune_auth_google---v2154)
+ - [`masamune_ai_openai` - `v2.1.51`](#masamune_ai_openai---v2151)
+ - [`masamune_calendar` - `v2.0.98`](#masamune_calendar---v2098)
+ - [`masamune_picker` - `v2.1.53`](#masamune_picker---v2153)
+ - [`masamune_util` - `v2.1.32`](#masamune_util---v2132)
+ - [`masamune_universal_ui` - `v2.2.33`](#masamune_universal_ui---v2233)
+ - [`masamune_logger_firebase` - `v2.0.96`](#masamune_logger_firebase---v2096)
+ - [`masamune_introduction` - `v2.2.2`](#masamune_introduction---v222)
+ - [`masamune_speech_to_text` - `v2.1.22`](#masamune_speech_to_text---v2122)
+ - [`masamune_auth_facebook` - `v2.1.56`](#masamune_auth_facebook---v2156)
+ - [`masamune_location_google` - `v2.1.66`](#masamune_location_google---v2166)
+ - [`masamune_mail` - `v2.1.51`](#masamune_mail---v2151)
+ - [`masamune_module` - `v2.0.7`](#masamune_module---v207)
+ - [`masamune_notification_firebase` - `v2.1.51`](#masamune_notification_firebase---v2151)
+ - [`masamune_ads_google` - `v2.1.4`](#masamune_ads_google---v214)
+ - [`katana_listenables_builder` - `v2.0.15`](#katana_listenables_builder---v2015)
+ - [`masamune_builder` - `v2.6.9`](#masamune_builder---v269)
+ - [`katana_model_local` - `v2.4.10`](#katana_model_local---v2410)
+ - [`katana_model_firestore` - `v2.6.10`](#katana_model_firestore---v2610)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.65`
+ - `masamune_auth_apple` - `v2.1.54`
+ - `masamune_text_to_speech` - `v2.1.20`
+ - `masamune_agora` - `v2.2.36`
+ - `masamune_auth_google` - `v2.1.54`
+ - `masamune_ai_openai` - `v2.1.51`
+ - `masamune_calendar` - `v2.0.98`
+ - `masamune_picker` - `v2.1.53`
+ - `masamune_util` - `v2.1.32`
+ - `masamune_universal_ui` - `v2.2.33`
+ - `masamune_logger_firebase` - `v2.0.96`
+ - `masamune_introduction` - `v2.2.2`
+ - `masamune_speech_to_text` - `v2.1.22`
+ - `masamune_auth_facebook` - `v2.1.56`
+ - `masamune_location_google` - `v2.1.66`
+ - `masamune_mail` - `v2.1.51`
+ - `masamune_module` - `v2.0.7`
+ - `masamune_notification_firebase` - `v2.1.51`
+ - `masamune_ads_google` - `v2.1.4`
+ - `katana_listenables_builder` - `v2.0.15`
+ - `masamune_builder` - `v2.6.9`
+ - `katana_model_local` - `v2.4.10`
+ - `katana_model_firestore` - `v2.6.10`
+
+---
+
+#### `katana_cli` - `v2.5.4`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_listenables` - `v2.0.14`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_listenables_annotation` - `v2.0.13`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_localization` - `v2.0.17`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_model` - `v2.10.7`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_model_openapi` - `v2.0.14`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_prefs` - `v2.0.16`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_router` - `v2.0.22`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `katana_theme` - `v2.0.17`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `masamune` - `v2.3.18`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `masamune_point_ecosystem` - `v2.1.2`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `masamune_purchase_mobile` - `v2.4.14`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+#### `masamune_purchase_stripe` - `v3.2.14`
+
+ - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))
+
+
+## 2023-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.5.3`](#katana_cli---v253)
  - [`katana_listenables_builder` - `v2.0.14`](#katana_listenables_builder---v2014)
  - [`katana_localization_builder` - `v2.0.17`](#katana_localization_builder---v2017)

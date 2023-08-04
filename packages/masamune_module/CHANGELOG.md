@@ -1,3 +1,7 @@
+## 2.0.7
+
+ - Update a dependency to the latest release.
+
 ## 2.0.6
 
  - **FIX**: Add configModelAdapter and prefsModelAdapter. ([c43a60da](https://github.com/mathrunet/flutter_masamune/commit/c43a60daa8a7888a1cda3c8b966567a088138796))
