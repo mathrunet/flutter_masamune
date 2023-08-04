@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_point_ecosystem` - `v2.2.0`](#masamune_point_ecosystem---v220)
+ - [`masamune_purchase_mobile` - `v2.5.0`](#masamune_purchase_mobile---v250)
+ - [`masamune_purchase_stripe` - `v3.3.0`](#masamune_purchase_stripe---v330)
+
+---
+
+#### `masamune_point_ecosystem` - `v2.2.0`
+
+ - **FEAT**: Model specifications were changed. ([0565e273](https://github.com/mathrunet/flutter_masamune/commit/0565e273e35505df24ffcce98d87215a027322c6))
+
+#### `masamune_purchase_mobile` - `v2.5.0`
+
+ - **FEAT**: Model specifications were changed. ([0565e273](https://github.com/mathrunet/flutter_masamune/commit/0565e273e35505df24ffcce98d87215a027322c6))
+
+#### `masamune_purchase_stripe` - `v3.3.0`
+
+ - **FEAT**: Model specifications were changed. ([0565e273](https://github.com/mathrunet/flutter_masamune/commit/0565e273e35505df24ffcce98d87215a027322c6))
+
+
 ## 2023-08-04
 
 ### Changes

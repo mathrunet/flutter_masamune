@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: Model specifications were changed. ([0565e273](https://github.com/mathrunet/flutter_masamune/commit/0565e273e35505df24ffcce98d87215a027322c6))
+
 ## 3.2.17
 
  - Update a dependency to the latest release.
