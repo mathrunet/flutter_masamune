@@ -1365,138 +1365,111 @@ targets:
       masamune_builder:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       masamune_builder:katana_theme_builder:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       masamune_builder:katana_router_page_builder:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       masamune_builder:katana_router_router_builder:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       masamune_builder:katana_prefs_builder:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       masamune_builder:katana_localization_builder:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       masamune_builder:katana_listenables_builder:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       json_serializable:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
       freezed:
         enabled: true
         generate_for:
-          exclude:
-            - test
-            - example
-            - ios
-            - android
-            - windows
-            - macos
-            - linux
-            - web
           include:
-            - test/integration/*
-            - test/integration/**/*
+            - lib/*.dart
+            - lib/**/*.dart
+            - test/*.dart
+            - test/**/*.dart
+            - example/lib/*.dart
+            - example/lib/**/*.dart
+            - example/test/*.dart
+            - example/test/**/*.dart
 """;
   }
 }

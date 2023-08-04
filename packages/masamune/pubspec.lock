@@ -290,14 +290,14 @@ packages:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.16"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_logger:
     dependency: "direct main"
     description:
@@ -311,21 +311,21 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.10.4"
+    version: "2.10.6"
   katana_model_local:
     dependency: "direct main"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.4.7"
+    version: "2.4.9"
   katana_prefs:
     dependency: "direct main"
     description:
       path: "../katana_prefs"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.15"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
@@ -339,7 +339,7 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.20"
+    version: "2.0.21"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -388,7 +388,7 @@ packages:
       path: "../katana_ui"
       relative: true
     source: path
-    version: "2.2.1"
+    version: "2.3.0"
   lints:
     dependency: transitive
     description:

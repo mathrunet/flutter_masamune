@@ -356,7 +356,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.0.20"
+    version: "2.0.21"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -370,7 +370,7 @@ packages:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.19"
+    version: "2.0.20"
   lints:
     dependency: transitive
     description:
