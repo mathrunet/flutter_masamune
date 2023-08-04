@@ -1,3 +1,7 @@
+## 2.7.2
+
+ - **FIX**: Added Enum for Keys. ([88f6c998](https://github.com/mathrunet/flutter_masamune/commit/88f6c998ff578883ef62473fd833ad58b37b479a))
+
 ## 2.7.1
 
  - **FIX**: Changed to hide all values. ([588300f6](https://github.com/mathrunet/flutter_masamune/commit/588300f6c458ba8f5bd395d5fb9497d116321c6c))

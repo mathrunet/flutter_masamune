@@ -1,3 +1,7 @@
+## 2.7.2
+
+ - **FIX**: Added Enum for Keys. ([88f6c998](https://github.com/mathrunet/flutter_masamune/commit/88f6c998ff578883ef62473fd833ad58b37b479a))
+
 ## 2.7.1
 
  - **FIX**: Definition of all values. ([e6f9ef6c](https://github.com/mathrunet/flutter_masamune/commit/e6f9ef6c952527fdb7bbf6379812a8af41a3ae31))

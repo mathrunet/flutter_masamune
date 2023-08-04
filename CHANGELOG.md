@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.7.2`](#katana_cli---v272)
+ - [`masamune_builder` - `v2.7.2`](#masamune_builder---v272)
+
+---
+
+#### `katana_cli` - `v2.7.2`
+
+ - **FIX**: Added Enum for Keys. ([88f6c998](https://github.com/mathrunet/flutter_masamune/commit/88f6c998ff578883ef62473fd833ad58b37b479a))
+
+#### `masamune_builder` - `v2.7.2`
+
+ - **FIX**: Added Enum for Keys. ([88f6c998](https://github.com/mathrunet/flutter_masamune/commit/88f6c998ff578883ef62473fd833ad58b37b479a))
+
+
+## 2023-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.7.1`](#katana_cli---v271)
  - [`masamune_annotation` - `v2.2.1`](#masamune_annotation---v221)
  - [`masamune_builder` - `v2.7.1`](#masamune_builder---v271)
