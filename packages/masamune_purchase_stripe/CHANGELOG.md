@@ -1,3 +1,7 @@
+## 3.2.17
+
+ - Update a dependency to the latest release.
+
 ## 3.2.16
 
  - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))

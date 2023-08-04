@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Changed to hide all values. ([588300f6](https://github.com/mathrunet/flutter_masamune/commit/588300f6c458ba8f5bd395d5fb9497d116321c6c))
+
 ## 2.2.0
 
  - **FEAT**: Added the ability to specify an adapter in DocumentModelPath and CollectionModelPath. ([0cdf5492](https://github.com/mathrunet/flutter_masamune/commit/0cdf5492ca7842f4b2e5a02e362c11d820dbfbd5))

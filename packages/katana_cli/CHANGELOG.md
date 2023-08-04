@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Definition of all values. ([e6f9ef6c](https://github.com/mathrunet/flutter_masamune/commit/e6f9ef6c952527fdb7bbf6379812a8af41a3ae31))
+
 ## 2.7.0
 
  - **FEAT**: Changed filtering specifications for CollectionModelQuery. ([f4114ffb](https://github.com/mathrunet/flutter_masamune/commit/f4114ffbdfc2677447befc3e5571dfd1e42fffca))

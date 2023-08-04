@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Changed to hide all values. ([588300f6](https://github.com/mathrunet/flutter_masamune/commit/588300f6c458ba8f5bd395d5fb9497d116321c6c))
+
 ## 2.7.0
 
  - **FIX**: Rename ScopedQuery. ([129a64dc](https://github.com/mathrunet/flutter_masamune/commit/129a64dc4e7dc49423c0afebb2edc4820033d926))
