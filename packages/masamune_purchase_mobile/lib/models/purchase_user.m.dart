@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
 part of 'purchase_user.dart';
 
@@ -14,9 +14,46 @@ extension on PurchaseUserModel {
   }
 }
 
+enum _$PurchaseUserModelKeys { value }
+
+class _$PurchaseUserModelDocument extends DocumentBase<PurchaseUserModel>
+    with ModelRefMixin<PurchaseUserModel> {
+  _$PurchaseUserModelDocument(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  PurchaseUserModel fromMap(DynamicMap map) => PurchaseUserModel.fromJson(map);
+  @override
+  DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
+}
+
+class _$PurchaseUserModelCollection
+    extends CollectionBase<_$PurchaseUserModelDocument>
+    with
+        FilterableCollectionMixin<_$PurchaseUserModelDocument,
+            _$_PurchaseUserModelCollectionQuery> {
+  _$PurchaseUserModelCollection(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  _$PurchaseUserModelDocument create([String? id]) =>
+      _$PurchaseUserModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<_$PurchaseUserModelDocument>> filter(
+      _$_PurchaseUserModelCollectionQuery Function(
+              _$_PurchaseUserModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_PurchaseUserModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
+}
+
 @immutable
-class PurchaseUserModelPath extends ModelRefPath<PurchaseUserModel> {
-  const PurchaseUserModelPath(String uid) : super(uid);
+class _$PurchaseUserModelPath extends ModelRefPath<PurchaseUserModel> {
+  const _$PurchaseUserModelPath(String uid) : super(uid);
 
   @override
   DocumentModelQuery get modelQuery {
@@ -28,52 +65,15 @@ class PurchaseUserModelPath extends ModelRefPath<PurchaseUserModel> {
 }
 
 @immutable
-class PurchaseUserModelInitialCollection
+class _$PurchaseUserModelInitialCollection
     extends ModelInitialCollection<PurchaseUserModel> {
-  const PurchaseUserModelInitialCollection(super.value);
+  const _$PurchaseUserModelInitialCollection(super.value);
 
   @override
   String get path => "plugins/iap/user";
   @override
   DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
 }
-
-class $PurchaseUserModelDocument extends DocumentBase<PurchaseUserModel>
-    with ModelRefMixin<PurchaseUserModel> {
-  $PurchaseUserModelDocument(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  PurchaseUserModel fromMap(DynamicMap map) => PurchaseUserModel.fromJson(map);
-  @override
-  DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
-}
-
-class $PurchaseUserModelCollection
-    extends CollectionBase<$PurchaseUserModelDocument>
-    with
-        FilterableCollectionMixin<$PurchaseUserModelDocument,
-            _$_PurchaseUserModelCollectionQuery> {
-  $PurchaseUserModelCollection(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  $PurchaseUserModelDocument create([String? id]) =>
-      $PurchaseUserModelDocument(modelQuery.create(id));
-  @override
-  Future<CollectionBase<$PurchaseUserModelDocument>> filter(
-      _$_PurchaseUserModelCollectionQuery Function(
-              _$_PurchaseUserModelCollectionQuery source)
-          callback) {
-    final query =
-        callback.call(_$_PurchaseUserModelCollectionQuery(modelQuery));
-    return replaceQuery((_) => query.modelQuery);
-  }
-}
-
-enum PurchaseUserModelCollectionKey { value }
 
 @immutable
 class _$PurchaseUserModelDocumentQuery {
@@ -86,21 +86,21 @@ class _$PurchaseUserModelDocumentQuery {
   }) {
     return _$_PurchaseUserModelDocumentQuery(DocumentModelQuery(
       "plugins/iap/user/$_id",
-      adapter: adapter ?? $PurchaseUserModelDocument.defaultModelAdapter,
+      adapter: adapter ?? _$PurchaseUserModelDocument.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_PurchaseUserModelDocumentQuery
-    extends ModelQueryBase<$PurchaseUserModelDocument> {
+    extends ModelQueryBase<_$PurchaseUserModelDocument> {
   const _$_PurchaseUserModelDocumentQuery(this.modelQuery);
 
   final DocumentModelQuery modelQuery;
 
   @override
-  $PurchaseUserModelDocument Function() call(Ref ref) =>
-      () => $PurchaseUserModelDocument(modelQuery);
+  _$PurchaseUserModelDocument Function() call(Ref ref) =>
+      () => _$PurchaseUserModelDocument(modelQuery);
   @override
   String get queryName => modelQuery.toString();
 }
@@ -113,139 +113,33 @@ class _$PurchaseUserModelCollectionQuery {
   _$_PurchaseUserModelCollectionQuery call({ModelAdapter? adapter}) {
     return _$_PurchaseUserModelCollectionQuery(CollectionModelQuery(
       "plugins/iap/user",
-      adapter: adapter ?? $PurchaseUserModelCollection.defaultModelAdapter,
+      adapter: adapter ?? _$PurchaseUserModelCollection.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_PurchaseUserModelCollectionQuery
-    extends ModelQueryBase<$PurchaseUserModelCollection> {
+    extends ModelQueryBase<_$PurchaseUserModelCollection> {
   const _$_PurchaseUserModelCollectionQuery(this.modelQuery);
 
   final CollectionModelQuery modelQuery;
 
   @override
-  $PurchaseUserModelCollection Function() call(Ref ref) =>
-      () => $PurchaseUserModelCollection(modelQuery);
+  _$PurchaseUserModelCollection Function() call(Ref ref) =>
+      () => _$PurchaseUserModelCollection(modelQuery);
   @override
   String get queryName => modelQuery.toString();
-  _$_PurchaseUserModelCollectionQuery equal(
-    PurchaseUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.equal(key.name, value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery notEqual(
-    PurchaseUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.notEqual(key.name, value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery lessThan(
-    PurchaseUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.lessThan(key.name, value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery greaterThan(
-    PurchaseUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.greaterThan(key.name, value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery lessThanOrEqual(
-    PurchaseUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.lessThanOrEqual(key.name, value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery greaterThanOrEqual(
-    PurchaseUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.greaterThanOrEqual(key.name, value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery contains(
-    PurchaseUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.contains(key.name, value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery containsAny(
-    PurchaseUserModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.containsAny(key.name, values));
-  }
-
-  _$_PurchaseUserModelCollectionQuery where(
-    PurchaseUserModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.where(key.name, values));
-  }
-
-  _$_PurchaseUserModelCollectionQuery notWhere(
-    PurchaseUserModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.notWhere(key.name, values));
-  }
-
-  _$_PurchaseUserModelCollectionQuery isNull(
-      PurchaseUserModelCollectionKey key) {
-    return _$_PurchaseUserModelCollectionQuery(modelQuery.isNull(key.name));
-  }
-
-  _$_PurchaseUserModelCollectionQuery isNotNull(
-      PurchaseUserModelCollectionKey key) {
-    return _$_PurchaseUserModelCollectionQuery(modelQuery.isNotNull(key.name));
-  }
-
-  _$_PurchaseUserModelCollectionQuery geo(
-    PurchaseUserModelCollectionKey key,
-    List<String>? geoHash,
-  ) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.geo(key.name, geoHash));
-  }
-
-  _$_PurchaseUserModelCollectionQuery orderByAsc(
-      PurchaseUserModelCollectionKey key) {
-    return _$_PurchaseUserModelCollectionQuery(modelQuery.orderByAsc(key.name));
-  }
-
-  _$_PurchaseUserModelCollectionQuery orderByDesc(
-      PurchaseUserModelCollectionKey key) {
-    return _$_PurchaseUserModelCollectionQuery(
-        modelQuery.orderByDesc(key.name));
-  }
-
-  _$_PurchaseUserModelCollectionQuery limitTo(int value) {
-    return _$_PurchaseUserModelCollectionQuery(modelQuery.limitTo(value));
-  }
-
-  _$_PurchaseUserModelCollectionQuery reset() {
-    return _$_PurchaseUserModelCollectionQuery(modelQuery.reset());
-  }
+  static _$_PurchaseUserModelCollectionQuery _toQuery(
+          CollectionModelQuery query) =>
+      _$_PurchaseUserModelCollectionQuery(query);
+  _$_PurchaseUserModelCollectionQuery limitTo(int value) =>
+      _$_PurchaseUserModelCollectionQuery(modelQuery.limitTo(value));
+  _$_PurchaseUserModelCollectionQuery reset() =>
+      _$_PurchaseUserModelCollectionQuery(modelQuery.reset());
+  NumModelQuerySelector<_$_PurchaseUserModelCollectionQuery> get value =>
+      NumModelQuerySelector<_$_PurchaseUserModelCollectionQuery>(
+          key: "value", toQuery: _toQuery, modelQuery: modelQuery);
 }
 
 // **************************************************************************

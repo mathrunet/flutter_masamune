@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
 part of 'purchase_subscription.dart';
 
@@ -14,10 +14,59 @@ extension on PurchaseSubscriptionModel {
   }
 }
 
+enum _$PurchaseSubscriptionModelKeys {
+  expired,
+  token,
+  platform,
+  productId,
+  purchaseId,
+  packageName,
+  expiredTime,
+  orderId,
+  userId
+}
+
+class _$PurchaseSubscriptionModelDocument
+    extends DocumentBase<PurchaseSubscriptionModel>
+    with ModelRefMixin<PurchaseSubscriptionModel> {
+  _$PurchaseSubscriptionModelDocument(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  PurchaseSubscriptionModel fromMap(DynamicMap map) =>
+      PurchaseSubscriptionModel.fromJson(map);
+  @override
+  DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
+}
+
+class _$PurchaseSubscriptionModelCollection
+    extends CollectionBase<_$PurchaseSubscriptionModelDocument>
+    with
+        FilterableCollectionMixin<_$PurchaseSubscriptionModelDocument,
+            _$_PurchaseSubscriptionModelCollectionQuery> {
+  _$PurchaseSubscriptionModelCollection(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  _$PurchaseSubscriptionModelDocument create([String? id]) =>
+      _$PurchaseSubscriptionModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<_$PurchaseSubscriptionModelDocument>> filter(
+      _$_PurchaseSubscriptionModelCollectionQuery Function(
+              _$_PurchaseSubscriptionModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_PurchaseSubscriptionModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
+}
+
 @immutable
-class PurchaseSubscriptionModelPath
+class _$PurchaseSubscriptionModelPath
     extends ModelRefPath<PurchaseSubscriptionModel> {
-  const PurchaseSubscriptionModelPath(String uid) : super(uid);
+  const _$PurchaseSubscriptionModelPath(String uid) : super(uid);
 
   @override
   DocumentModelQuery get modelQuery {
@@ -29,63 +78,14 @@ class PurchaseSubscriptionModelPath
 }
 
 @immutable
-class PurchaseSubscriptionModelInitialCollection
+class _$PurchaseSubscriptionModelInitialCollection
     extends ModelInitialCollection<PurchaseSubscriptionModel> {
-  const PurchaseSubscriptionModelInitialCollection(super.value);
+  const _$PurchaseSubscriptionModelInitialCollection(super.value);
 
   @override
   String get path => "plugins/iap/subscription";
   @override
   DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
-}
-
-class $PurchaseSubscriptionModelDocument
-    extends DocumentBase<PurchaseSubscriptionModel>
-    with ModelRefMixin<PurchaseSubscriptionModel> {
-  $PurchaseSubscriptionModelDocument(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  PurchaseSubscriptionModel fromMap(DynamicMap map) =>
-      PurchaseSubscriptionModel.fromJson(map);
-  @override
-  DynamicMap toMap(PurchaseSubscriptionModel value) => value.rawValue;
-}
-
-class $PurchaseSubscriptionModelCollection
-    extends CollectionBase<$PurchaseSubscriptionModelDocument>
-    with
-        FilterableCollectionMixin<$PurchaseSubscriptionModelDocument,
-            _$_PurchaseSubscriptionModelCollectionQuery> {
-  $PurchaseSubscriptionModelCollection(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  $PurchaseSubscriptionModelDocument create([String? id]) =>
-      $PurchaseSubscriptionModelDocument(modelQuery.create(id));
-  @override
-  Future<CollectionBase<$PurchaseSubscriptionModelDocument>> filter(
-      _$_PurchaseSubscriptionModelCollectionQuery Function(
-              _$_PurchaseSubscriptionModelCollectionQuery source)
-          callback) {
-    final query =
-        callback.call(_$_PurchaseSubscriptionModelCollectionQuery(modelQuery));
-    return replaceQuery((_) => query.modelQuery);
-  }
-}
-
-enum PurchaseSubscriptionModelCollectionKey {
-  expired,
-  token,
-  platform,
-  productId,
-  purchaseId,
-  packageName,
-  expiredTime,
-  orderId,
-  userId
 }
 
 @immutable
@@ -100,21 +100,21 @@ class _$PurchaseSubscriptionModelDocumentQuery {
     return _$_PurchaseSubscriptionModelDocumentQuery(DocumentModelQuery(
       "plugins/iap/subscription/$_id",
       adapter:
-          adapter ?? $PurchaseSubscriptionModelDocument.defaultModelAdapter,
+          adapter ?? _$PurchaseSubscriptionModelDocument.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_PurchaseSubscriptionModelDocumentQuery
-    extends ModelQueryBase<$PurchaseSubscriptionModelDocument> {
+    extends ModelQueryBase<_$PurchaseSubscriptionModelDocument> {
   const _$_PurchaseSubscriptionModelDocumentQuery(this.modelQuery);
 
   final DocumentModelQuery modelQuery;
 
   @override
-  $PurchaseSubscriptionModelDocument Function() call(Ref ref) =>
-      () => $PurchaseSubscriptionModelDocument(modelQuery);
+  _$PurchaseSubscriptionModelDocument Function() call(Ref ref) =>
+      () => _$PurchaseSubscriptionModelDocument(modelQuery);
   @override
   String get queryName => modelQuery.toString();
 }
@@ -128,143 +128,66 @@ class _$PurchaseSubscriptionModelCollectionQuery {
     return _$_PurchaseSubscriptionModelCollectionQuery(CollectionModelQuery(
       "plugins/iap/subscription",
       adapter:
-          adapter ?? $PurchaseSubscriptionModelCollection.defaultModelAdapter,
+          adapter ?? _$PurchaseSubscriptionModelCollection.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_PurchaseSubscriptionModelCollectionQuery
-    extends ModelQueryBase<$PurchaseSubscriptionModelCollection> {
+    extends ModelQueryBase<_$PurchaseSubscriptionModelCollection> {
   const _$_PurchaseSubscriptionModelCollectionQuery(this.modelQuery);
 
   final CollectionModelQuery modelQuery;
 
   @override
-  $PurchaseSubscriptionModelCollection Function() call(Ref ref) =>
-      () => $PurchaseSubscriptionModelCollection(modelQuery);
+  _$PurchaseSubscriptionModelCollection Function() call(Ref ref) =>
+      () => _$PurchaseSubscriptionModelCollection(modelQuery);
   @override
   String get queryName => modelQuery.toString();
-  _$_PurchaseSubscriptionModelCollectionQuery equal(
-    PurchaseSubscriptionModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.equal(key.name, value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery notEqual(
-    PurchaseSubscriptionModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.notEqual(key.name, value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery lessThan(
-    PurchaseSubscriptionModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.lessThan(key.name, value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery greaterThan(
-    PurchaseSubscriptionModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.greaterThan(key.name, value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery lessThanOrEqual(
-    PurchaseSubscriptionModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.lessThanOrEqual(key.name, value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery greaterThanOrEqual(
-    PurchaseSubscriptionModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.greaterThanOrEqual(key.name, value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery contains(
-    PurchaseSubscriptionModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.contains(key.name, value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery containsAny(
-    PurchaseSubscriptionModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.containsAny(key.name, values));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery where(
-    PurchaseSubscriptionModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.where(key.name, values));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery notWhere(
-    PurchaseSubscriptionModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.notWhere(key.name, values));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery isNull(
-      PurchaseSubscriptionModelCollectionKey key) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.isNull(key.name));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery isNotNull(
-      PurchaseSubscriptionModelCollectionKey key) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.isNotNull(key.name));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery geo(
-    PurchaseSubscriptionModelCollectionKey key,
-    List<String>? geoHash,
-  ) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.geo(key.name, geoHash));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery orderByAsc(
-      PurchaseSubscriptionModelCollectionKey key) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.orderByAsc(key.name));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery orderByDesc(
-      PurchaseSubscriptionModelCollectionKey key) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.orderByDesc(key.name));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery limitTo(int value) {
-    return _$_PurchaseSubscriptionModelCollectionQuery(
-        modelQuery.limitTo(value));
-  }
-
-  _$_PurchaseSubscriptionModelCollectionQuery reset() {
-    return _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.reset());
-  }
+  static _$_PurchaseSubscriptionModelCollectionQuery _toQuery(
+          CollectionModelQuery query) =>
+      _$_PurchaseSubscriptionModelCollectionQuery(query);
+  _$_PurchaseSubscriptionModelCollectionQuery limitTo(int value) =>
+      _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.limitTo(value));
+  _$_PurchaseSubscriptionModelCollectionQuery reset() =>
+      _$_PurchaseSubscriptionModelCollectionQuery(modelQuery.reset());
+  BooleanModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get expired => BooleanModelQuerySelector<
+              _$_PurchaseSubscriptionModelCollectionQuery>(
+          key: "expired", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get token =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "token", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get platform =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "platform", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get productId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "productId", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get purchaseId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "purchaseId", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get packageName =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "packageName", toQuery: _toQuery, modelQuery: modelQuery);
+  NumModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get expiredTime =>
+          NumModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "expiredTime", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get orderId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "orderId", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>
+      get userId =>
+          StringModelQuerySelector<_$_PurchaseSubscriptionModelCollectionQuery>(
+              key: "userId", toQuery: _toQuery, modelQuery: modelQuery);
 }
 
 // **************************************************************************

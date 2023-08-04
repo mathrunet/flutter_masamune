@@ -11,15 +11,6 @@ part 'stripe_payment.m.dart';
 part 'stripe_payment.g.dart';
 part 'stripe_payment.freezed.dart';
 
-/// Alias for ModelRef<StripePurchasePaymentModel>.
-///
-/// When defining parameters for other Models, you can define them as follows
-///
-/// ```dart
-/// @refParam StripePurchasePaymentModelRef stripe_purchase_payment
-/// ```
-typedef StripePaymentModelRef = ModelRef<StripePaymentModel>?;
-
 /// A model for storing data on payment methods for stripes.
 ///
 /// ストライプの支払い方法のデータを保管するためのモデル。
@@ -100,3 +91,42 @@ class _$$_StripePaymentModelCollectionQuery {
     );
   }
 }
+
+/// Alias for ModelRef<StripePaymentModel>.
+///
+/// When defining parameters for other Models, you can define them as follows
+///
+/// ```dart
+/// @RefParam(StripePaymentModelDocument) StripePaymentModelRef stripe_purchase_payment
+/// ```
+typedef StripePaymentModelRef = ModelRef<StripePaymentModel>?;
+
+/// It can be defined as an empty ModelRef<StripePaymentModel>.
+///
+///　```dart
+/// StripePaymentModelRefPath("xxx") // Define as a path.
+/// ```
+typedef StripePaymentModelRefPath = _$StripePaymentModelPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     StripePaymentModelInitialCollection(
+///       "xxx": StripePaymentModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef StripePaymentModelInitialCollection
+    = _$StripePaymentModelInitialCollection;
+
+/// [Enum] of the name of the value defined in StripePaymentModel.
+typedef StripePaymentModelKeys = _$StripePaymentModelKeys;
+
+/// Document class for storing StripePaymentModel.
+typedef StripePaymentModelDocument = _$StripePaymentModelDocument;
+
+/// Collection class for storing StripePaymentModel.
+typedef StripePaymentModelCollection = _$StripePaymentModelCollection;

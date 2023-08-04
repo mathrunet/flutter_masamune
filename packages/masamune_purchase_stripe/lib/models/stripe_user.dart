@@ -12,15 +12,6 @@ part 'stripe_user.m.dart';
 part 'stripe_user.g.dart';
 part 'stripe_user.freezed.dart';
 
-/// Alias for ModelRef<StripePurchaseUserModel>.
-///
-/// When defining parameters for other Models, you can define them as follows
-///
-/// ```dart
-/// @refParam StripePurchaseUserModelRef stripe_purchase_user
-/// ```
-typedef StripeUserModelRef = ModelRef<StripeUserModel>?;
-
 /// Data model for storing stripe user data.
 ///
 /// Both the payer (customer) and the revenue receiver (account) are stored in this data.
@@ -80,6 +71,44 @@ class StripeUserModel with _$StripeUserModel {
   /// ```
   static const collection = _$$_StripeUserModelCollectionQuery();
 }
+
+/// Alias for ModelRef<StripeUserModel>.
+///
+/// When defining parameters for other Models, you can define them as follows
+///
+/// ```dart
+/// @RefParam(StripeUserModelDocument) StripeUserModelRef stripe_purchase_user
+/// ```
+typedef StripeUserModelRef = ModelRef<StripeUserModel>?;
+
+/// It can be defined as an empty ModelRef<StripeUserModel>.
+///
+///　```dart
+/// StripeUserModelRefPath("xxx") // Define as a path.
+/// ```
+typedef StripeUserModelRefPath = _$StripeUserModelPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     StripeUserModelInitialCollection(
+///       "xxx": StripeUserModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef StripeUserModelInitialCollection = _$StripeUserModelInitialCollection;
+
+/// [Enum] of the name of the value defined in StripeUserModel.
+typedef StripeUserModelKeys = _$StripeUserModelKeys;
+
+/// Document class for storing StripeUserModel.
+typedef StripeUserModelDocument = _$StripeUserModelDocument;
+
+/// Collection class for storing StripeUserModel.
+typedef StripeUserModelCollection = _$StripeUserModelCollection;
 
 @immutable
 class _$$_StripeUserModelDocumentQuery {

@@ -82,7 +82,7 @@ class StripePayment
         throw Exception("You are not logged in. Please log in once.");
       }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final paymentCollection = $StripePaymentModelCollection(modelQuery);
+      final paymentCollection = StripePaymentModelCollection(modelQuery);
       await paymentCollection.load();
       final length = paymentCollection.length;
       final functionsAdapter =
@@ -230,7 +230,7 @@ class StripePayment
         );
       }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final paymentCollection = $StripePaymentModelCollection(modelQuery);
+      final paymentCollection = StripePaymentModelCollection(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;

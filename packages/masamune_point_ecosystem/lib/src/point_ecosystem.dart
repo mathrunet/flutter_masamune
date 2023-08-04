@@ -20,8 +20,8 @@ class PointEcosystem
   final Purchase _purchase = Purchase();
   GoogleAdRewarded? _rewarded;
 
-  $PurchaseUserModelDocument? _pointDocument;
-  $PointEcosystemUserModelDocument? _bonusDocument;
+  PurchaseUserModelDocument? _pointDocument;
+  PointEcosystemUserModelDocument? _bonusDocument;
 
   /// Returns `true` if initialization is complete.
   ///
@@ -62,13 +62,13 @@ class PointEcosystem
       _rewarded ??= GoogleAdRewarded(
         primaryAdapter.rewardedAdUnitId!,
       );
-      _pointDocument ??= $PurchaseUserModelDocument(
+      _pointDocument ??= PurchaseUserModelDocument(
         PurchaseUserModel.document(
           primaryAdapter._purchaseAdapter.onRetrieveUserId.call(),
           adapter: primaryAdapter.modelAdapter,
         ).modelQuery,
       );
-      _bonusDocument ??= $PointEcosystemUserModelDocument(
+      _bonusDocument ??= PointEcosystemUserModelDocument(
         PointEcosystemUserModel.document(
           primaryAdapter._purchaseAdapter.onRetrieveUserId.call(),
           adapter: primaryAdapter.modelAdapter,

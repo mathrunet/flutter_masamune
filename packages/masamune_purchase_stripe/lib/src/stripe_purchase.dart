@@ -88,9 +88,9 @@ class StripePurchase
     _completer = Completer<void>();
     try {
       final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final purchaseCollection = $StripePurchaseModelCollection(
+      final purchaseCollection = StripePurchaseModelCollection(
         modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, orderId),
+            StripePurchaseModelKeys.orderId.name, orderId),
       );
       await purchaseCollection.load();
       if (purchaseCollection.isNotEmpty) {

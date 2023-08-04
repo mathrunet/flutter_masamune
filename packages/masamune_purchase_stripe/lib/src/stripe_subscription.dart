@@ -81,9 +81,8 @@ class StripeSubscription
     Completer<void>? internalCompleter = Completer<void>();
     try {
       final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final purchaseCollection = $StripePurchaseModelCollection(
-        modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, orderId),
+      final purchaseCollection = StripePurchaseModelCollection(
+        modelQuery.equal(StripePurchaseModelKeys.orderId.name, orderId),
       );
       await purchaseCollection.load();
       if (purchaseCollection.isNotEmpty) {
@@ -188,9 +187,8 @@ class StripeSubscription
         );
       }
       final modelQuery = collectionQuery(userId: userId).modelQuery;
-      final purchaseCollection = $StripePurchaseModelCollection(
-        modelQuery.equal(
-            StripePurchaseModelCollectionKey.orderId.name, value.orderId),
+      final purchaseCollection = StripePurchaseModelCollection(
+        modelQuery.equal(StripePurchaseModelKeys.orderId.name, value.orderId),
       );
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??

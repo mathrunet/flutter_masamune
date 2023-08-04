@@ -12,15 +12,6 @@ part 'purchase_user.m.dart';
 part 'purchase_user.g.dart';
 part 'purchase_user.freezed.dart';
 
-/// Alias for ModelRef<PurchaseUserModel>.
-///
-/// When defining parameters for other Models, you can define them as follows
-///
-/// ```dart
-/// @refParam PurchaseUserModelRef purchase_user
-/// ```
-typedef PurchaseUserModelRef = ModelRef<PurchaseUserModel>?;
-
 /// Model for storing user data for billing purposes.
 ///
 /// Here you can retrieve information about the user wallet.
@@ -85,3 +76,42 @@ class PurchaseUserModel with _$PurchaseUserModel {
   /// ```
   static const form = _$PurchaseUserModelFormQuery();
 }
+
+/// Alias for ModelRef<PurchaseUserModel>.
+///
+/// When defining parameters for other Models, you can define them as follows
+///
+/// ```dart
+/// @RefParam(PurchaseUserModelDocument) PurchaseUserModelRef purchase_user
+/// ```
+typedef PurchaseUserModelRef = ModelRef<PurchaseUserModel>?;
+
+/// It can be defined as an empty ModelRef<PurchaseUserModel>.
+///
+///　```dart
+/// PurchaseUserModelRefPath("xxx") // Define as a path.
+/// ```
+typedef PurchaseUserModelRefPath = _$PurchaseUserModelPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     PurchaseUserModelInitialCollection(
+///       "xxx": PurchaseUserModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef PurchaseUserModelInitialCollection
+    = _$PurchaseUserModelInitialCollection;
+
+/// [Enum] of the name of the value defined in PurchaseUserModel.
+typedef PurchaseUserModelKeys = _$PurchaseUserModelKeys;
+
+/// Document class for storing PurchaseUserModel.
+typedef PurchaseUserModelDocument = _$PurchaseUserModelDocument;
+
+/// Collection class for storing PurchaseUserModel.
+typedef PurchaseUserModelCollection = _$PurchaseUserModelCollection;

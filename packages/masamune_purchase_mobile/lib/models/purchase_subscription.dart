@@ -12,15 +12,6 @@ part 'purchase_subscription.m.dart';
 part 'purchase_subscription.g.dart';
 part 'purchase_subscription.freezed.dart';
 
-/// Alias for ModelRef<PurchaseSubscriptionModel>.
-///
-/// When defining parameters for other Models, you can define them as follows
-///
-/// ```dart
-/// @refParam PurchaseSubscriptionModelRef purchase_subscription
-/// ```
-typedef PurchaseSubscriptionModelRef = ModelRef<PurchaseSubscriptionModel>?;
-
 /// Model for storing subscription data for billing purposes.
 ///
 /// You can retrieve a collection or document by passing [collection] and [document], respectively.
@@ -85,3 +76,43 @@ class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
   /// ```
   static const form = _$PurchaseSubscriptionModelFormQuery();
 }
+
+/// Alias for ModelRef<PurchaseSubscriptionModel>.
+///
+/// When defining parameters for other Models, you can define them as follows
+///
+/// ```dart
+/// @RefParam(PurchaseSubscriptionModelDocument) PurchaseSubscriptionModelRef purchase_subscription
+/// ```
+typedef PurchaseSubscriptionModelRef = ModelRef<PurchaseSubscriptionModel>?;
+
+/// It can be defined as an empty ModelRef<PurchaseSubscriptionModel>.
+///
+///　```dart
+/// PurchaseSubscriptionModelRefPath("xxx") // Define as a path.
+/// ```
+typedef PurchaseSubscriptionModelRefPath = _$PurchaseSubscriptionModelPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     PurchaseSubscriptionModelInitialCollection(
+///       "xxx": PurchaseSubscriptionModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef PurchaseSubscriptionModelInitialCollection
+    = _$PurchaseSubscriptionModelInitialCollection;
+
+/// [Enum] of the name of the value defined in PurchaseSubscriptionModel.
+typedef PurchaseSubscriptionModelKeys = _$PurchaseSubscriptionModelKeys;
+
+/// Document class for storing PurchaseSubscriptionModel.
+typedef PurchaseSubscriptionModelDocument = _$PurchaseSubscriptionModelDocument;
+
+/// Collection class for storing PurchaseSubscriptionModel.
+typedef PurchaseSubscriptionModelCollection
+    = _$PurchaseSubscriptionModelCollection;

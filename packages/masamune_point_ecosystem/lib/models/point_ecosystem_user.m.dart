@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
 part of 'point_ecosystem_user.dart';
 
@@ -14,10 +14,49 @@ extension on PointEcosystemUserModel {
   }
 }
 
+enum _$PointEcosystemUserModelKeys { lastDate, continuousCount }
+
+class _$PointEcosystemUserModelDocument
+    extends DocumentBase<PointEcosystemUserModel>
+    with ModelRefMixin<PointEcosystemUserModel> {
+  _$PointEcosystemUserModelDocument(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  PointEcosystemUserModel fromMap(DynamicMap map) =>
+      PointEcosystemUserModel.fromJson(map);
+  @override
+  DynamicMap toMap(PointEcosystemUserModel value) => value.rawValue;
+}
+
+class _$PointEcosystemUserModelCollection
+    extends CollectionBase<_$PointEcosystemUserModelDocument>
+    with
+        FilterableCollectionMixin<_$PointEcosystemUserModelDocument,
+            _$_PointEcosystemUserModelCollectionQuery> {
+  _$PointEcosystemUserModelCollection(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  _$PointEcosystemUserModelDocument create([String? id]) =>
+      _$PointEcosystemUserModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<_$PointEcosystemUserModelDocument>> filter(
+      _$_PointEcosystemUserModelCollectionQuery Function(
+              _$_PointEcosystemUserModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_PointEcosystemUserModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
+}
+
 @immutable
-class PointEcosystemUserModelPath
+class _$PointEcosystemUserModelPath
     extends ModelRefPath<PointEcosystemUserModel> {
-  const PointEcosystemUserModelPath(String uid) : super(uid);
+  const _$PointEcosystemUserModelPath(String uid) : super(uid);
 
   @override
   DocumentModelQuery get modelQuery {
@@ -29,54 +68,15 @@ class PointEcosystemUserModelPath
 }
 
 @immutable
-class PointEcosystemUserModelInitialCollection
+class _$PointEcosystemUserModelInitialCollection
     extends ModelInitialCollection<PointEcosystemUserModel> {
-  const PointEcosystemUserModelInitialCollection(super.value);
+  const _$PointEcosystemUserModelInitialCollection(super.value);
 
   @override
   String get path => "plugins/pes/user";
   @override
   DynamicMap toMap(PointEcosystemUserModel value) => value.rawValue;
 }
-
-class $PointEcosystemUserModelDocument
-    extends DocumentBase<PointEcosystemUserModel>
-    with ModelRefMixin<PointEcosystemUserModel> {
-  $PointEcosystemUserModelDocument(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  PointEcosystemUserModel fromMap(DynamicMap map) =>
-      PointEcosystemUserModel.fromJson(map);
-  @override
-  DynamicMap toMap(PointEcosystemUserModel value) => value.rawValue;
-}
-
-class $PointEcosystemUserModelCollection
-    extends CollectionBase<$PointEcosystemUserModelDocument>
-    with
-        FilterableCollectionMixin<$PointEcosystemUserModelDocument,
-            _$_PointEcosystemUserModelCollectionQuery> {
-  $PointEcosystemUserModelCollection(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  $PointEcosystemUserModelDocument create([String? id]) =>
-      $PointEcosystemUserModelDocument(modelQuery.create(id));
-  @override
-  Future<CollectionBase<$PointEcosystemUserModelDocument>> filter(
-      _$_PointEcosystemUserModelCollectionQuery Function(
-              _$_PointEcosystemUserModelCollectionQuery source)
-          callback) {
-    final query =
-        callback.call(_$_PointEcosystemUserModelCollectionQuery(modelQuery));
-    return replaceQuery((_) => query.modelQuery);
-  }
-}
-
-enum PointEcosystemUserModelCollectionKey { lastDate, continuousCount }
 
 @immutable
 class _$PointEcosystemUserModelDocumentQuery {
@@ -89,21 +89,21 @@ class _$PointEcosystemUserModelDocumentQuery {
   }) {
     return _$_PointEcosystemUserModelDocumentQuery(DocumentModelQuery(
       "plugins/pes/user/$_id",
-      adapter: adapter ?? $PointEcosystemUserModelDocument.defaultModelAdapter,
+      adapter: adapter ?? _$PointEcosystemUserModelDocument.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_PointEcosystemUserModelDocumentQuery
-    extends ModelQueryBase<$PointEcosystemUserModelDocument> {
+    extends ModelQueryBase<_$PointEcosystemUserModelDocument> {
   const _$_PointEcosystemUserModelDocumentQuery(this.modelQuery);
 
   final DocumentModelQuery modelQuery;
 
   @override
-  $PointEcosystemUserModelDocument Function() call(Ref ref) =>
-      () => $PointEcosystemUserModelDocument(modelQuery);
+  _$PointEcosystemUserModelDocument Function() call(Ref ref) =>
+      () => _$PointEcosystemUserModelDocument(modelQuery);
   @override
   String get queryName => modelQuery.toString();
 }
@@ -117,142 +117,40 @@ class _$PointEcosystemUserModelCollectionQuery {
     return _$_PointEcosystemUserModelCollectionQuery(CollectionModelQuery(
       "plugins/pes/user",
       adapter:
-          adapter ?? $PointEcosystemUserModelCollection.defaultModelAdapter,
+          adapter ?? _$PointEcosystemUserModelCollection.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_PointEcosystemUserModelCollectionQuery
-    extends ModelQueryBase<$PointEcosystemUserModelCollection> {
+    extends ModelQueryBase<_$PointEcosystemUserModelCollection> {
   const _$_PointEcosystemUserModelCollectionQuery(this.modelQuery);
 
   final CollectionModelQuery modelQuery;
 
   @override
-  $PointEcosystemUserModelCollection Function() call(Ref ref) =>
-      () => $PointEcosystemUserModelCollection(modelQuery);
+  _$PointEcosystemUserModelCollection Function() call(Ref ref) =>
+      () => _$PointEcosystemUserModelCollection(modelQuery);
   @override
   String get queryName => modelQuery.toString();
-  _$_PointEcosystemUserModelCollectionQuery equal(
-    PointEcosystemUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.equal(key.name, value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery notEqual(
-    PointEcosystemUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.notEqual(key.name, value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery lessThan(
-    PointEcosystemUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.lessThan(key.name, value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery greaterThan(
-    PointEcosystemUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.greaterThan(key.name, value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery lessThanOrEqual(
-    PointEcosystemUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.lessThanOrEqual(key.name, value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery greaterThanOrEqual(
-    PointEcosystemUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.greaterThanOrEqual(key.name, value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery contains(
-    PointEcosystemUserModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.contains(key.name, value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery containsAny(
-    PointEcosystemUserModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.containsAny(key.name, values));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery where(
-    PointEcosystemUserModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.where(key.name, values));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery notWhere(
-    PointEcosystemUserModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.notWhere(key.name, values));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery isNull(
-      PointEcosystemUserModelCollectionKey key) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.isNull(key.name));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery isNotNull(
-      PointEcosystemUserModelCollectionKey key) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.isNotNull(key.name));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery geo(
-    PointEcosystemUserModelCollectionKey key,
-    List<String>? geoHash,
-  ) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.geo(key.name, geoHash));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery orderByAsc(
-      PointEcosystemUserModelCollectionKey key) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.orderByAsc(key.name));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery orderByDesc(
-      PointEcosystemUserModelCollectionKey key) {
-    return _$_PointEcosystemUserModelCollectionQuery(
-        modelQuery.orderByDesc(key.name));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery limitTo(int value) {
-    return _$_PointEcosystemUserModelCollectionQuery(modelQuery.limitTo(value));
-  }
-
-  _$_PointEcosystemUserModelCollectionQuery reset() {
-    return _$_PointEcosystemUserModelCollectionQuery(modelQuery.reset());
-  }
+  static _$_PointEcosystemUserModelCollectionQuery _toQuery(
+          CollectionModelQuery query) =>
+      _$_PointEcosystemUserModelCollectionQuery(query);
+  _$_PointEcosystemUserModelCollectionQuery limitTo(int value) =>
+      _$_PointEcosystemUserModelCollectionQuery(modelQuery.limitTo(value));
+  _$_PointEcosystemUserModelCollectionQuery reset() =>
+      _$_PointEcosystemUserModelCollectionQuery(modelQuery.reset());
+  ModelTimestampModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>
+      get lastDate => ModelTimestampModelQuerySelector<
+              _$_PointEcosystemUserModelCollectionQuery>(
+          key: "lastDate", toQuery: _toQuery, modelQuery: modelQuery);
+  NumModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>
+      get continuousCount =>
+          NumModelQuerySelector<_$_PointEcosystemUserModelCollectionQuery>(
+              key: "continuousCount",
+              toQuery: _toQuery,
+              modelQuery: modelQuery);
 }
 
 // **************************************************************************

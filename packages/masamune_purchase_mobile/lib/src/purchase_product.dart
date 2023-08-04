@@ -525,7 +525,8 @@ class _DynamicPurchaseSubscriptionCollectionModel
     ModelAdapter? adapter,
   }) : super(
           PurchaseSubscriptionModel.collection(adapter: adapter)
-              .equal(PurchaseSubscriptionModelCollectionKey.userId, userId)
+              .userId
+              .equal(userId)
               .modelQuery,
         );
 

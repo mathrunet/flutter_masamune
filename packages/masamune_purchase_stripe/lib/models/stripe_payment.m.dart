@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations
+// ignore_for_file: unused_field, unused_element, require_trailing_commas, prefer_const_constructors, unnecessary_overrides, prefer_const_literals_to_create_immutables,  unnecessary_null_in_if_null_operators, library_prefixes, directives_ordering, no_leading_underscores_for_local_identifiers, unnecessary_brace_in_string_interps, unnecessary_type_check, library_private_types_in_public_api, unnecessary_nullable_for_final_variable_declarations, prefer_const_declarations
 
 part of 'stripe_payment.dart';
 
@@ -14,9 +14,55 @@ extension on StripePaymentModel {
   }
 }
 
+enum _$StripePaymentModelKeys {
+  paymentId,
+  type,
+  expMonth,
+  expYear,
+  brand,
+  numberLast,
+  isDefault
+}
+
+class _$StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
+    with ModelRefMixin<StripePaymentModel> {
+  _$StripePaymentModelDocument(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  StripePaymentModel fromMap(DynamicMap map) =>
+      StripePaymentModel.fromJson(map);
+  @override
+  DynamicMap toMap(StripePaymentModel value) => value.rawValue;
+}
+
+class _$StripePaymentModelCollection
+    extends CollectionBase<_$StripePaymentModelDocument>
+    with
+        FilterableCollectionMixin<_$StripePaymentModelDocument,
+            _$_StripePaymentModelCollectionQuery> {
+  _$StripePaymentModelCollection(super.modelQuery);
+
+  static final ModelAdapter? defaultModelAdapter = null;
+
+  @override
+  _$StripePaymentModelDocument create([String? id]) =>
+      _$StripePaymentModelDocument(modelQuery.create(id));
+  @override
+  Future<CollectionBase<_$StripePaymentModelDocument>> filter(
+      _$_StripePaymentModelCollectionQuery Function(
+              _$_StripePaymentModelCollectionQuery source)
+          callback) {
+    final query =
+        callback.call(_$_StripePaymentModelCollectionQuery(modelQuery));
+    return replaceQuery((_) => query.modelQuery);
+  }
+}
+
 @immutable
-class StripePaymentModelPath extends ModelRefPath<StripePaymentModel> {
-  const StripePaymentModelPath(
+class _$StripePaymentModelPath extends ModelRefPath<StripePaymentModel> {
+  const _$StripePaymentModelPath(
     String uid, {
     required String userId,
   })  : _userId = userId,
@@ -34,9 +80,9 @@ class StripePaymentModelPath extends ModelRefPath<StripePaymentModel> {
 }
 
 @immutable
-class StripePaymentModelInitialCollection
+class _$StripePaymentModelInitialCollection
     extends ModelInitialCollection<StripePaymentModel> {
-  const StripePaymentModelInitialCollection(
+  const _$StripePaymentModelInitialCollection(
     super.value, {
     required String userId,
   }) : _userId = userId;
@@ -47,52 +93,6 @@ class StripePaymentModelInitialCollection
   String get path => "plugins/stripe/user/$_userId/payment";
   @override
   DynamicMap toMap(StripePaymentModel value) => value.rawValue;
-}
-
-class $StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
-    with ModelRefMixin<StripePaymentModel> {
-  $StripePaymentModelDocument(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  StripePaymentModel fromMap(DynamicMap map) =>
-      StripePaymentModel.fromJson(map);
-  @override
-  DynamicMap toMap(StripePaymentModel value) => value.rawValue;
-}
-
-class $StripePaymentModelCollection
-    extends CollectionBase<$StripePaymentModelDocument>
-    with
-        FilterableCollectionMixin<$StripePaymentModelDocument,
-            _$_StripePaymentModelCollectionQuery> {
-  $StripePaymentModelCollection(super.modelQuery);
-
-  static const ModelAdapter? defaultModelAdapter = null;
-
-  @override
-  $StripePaymentModelDocument create([String? id]) =>
-      $StripePaymentModelDocument(modelQuery.create(id));
-  @override
-  Future<CollectionBase<$StripePaymentModelDocument>> filter(
-      _$_StripePaymentModelCollectionQuery Function(
-              _$_StripePaymentModelCollectionQuery source)
-          callback) {
-    final query =
-        callback.call(_$_StripePaymentModelCollectionQuery(modelQuery));
-    return replaceQuery((_) => query.modelQuery);
-  }
-}
-
-enum StripePaymentModelCollectionKey {
-  paymentId,
-  type,
-  expMonth,
-  expYear,
-  brand,
-  numberLast,
-  isDefault
 }
 
 @immutable
@@ -107,21 +107,21 @@ class _$StripePaymentModelDocumentQuery {
   }) {
     return _$_StripePaymentModelDocumentQuery(DocumentModelQuery(
       "plugins/stripe/user/$userId/payment/$_id",
-      adapter: adapter ?? $StripePaymentModelDocument.defaultModelAdapter,
+      adapter: adapter ?? _$StripePaymentModelDocument.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_StripePaymentModelDocumentQuery
-    extends ModelQueryBase<$StripePaymentModelDocument> {
+    extends ModelQueryBase<_$StripePaymentModelDocument> {
   const _$_StripePaymentModelDocumentQuery(this.modelQuery);
 
   final DocumentModelQuery modelQuery;
 
   @override
-  $StripePaymentModelDocument Function() call(Ref ref) =>
-      () => $StripePaymentModelDocument(modelQuery);
+  _$StripePaymentModelDocument Function() call(Ref ref) =>
+      () => _$StripePaymentModelDocument(modelQuery);
   @override
   String get queryName => modelQuery.toString();
 }
@@ -137,138 +137,52 @@ class _$StripePaymentModelCollectionQuery {
   }) {
     return _$_StripePaymentModelCollectionQuery(CollectionModelQuery(
       "plugins/stripe/user/$userId/payment",
-      adapter: adapter ?? $StripePaymentModelCollection.defaultModelAdapter,
+      adapter: adapter ?? _$StripePaymentModelCollection.defaultModelAdapter,
     ));
   }
 }
 
 @immutable
 class _$_StripePaymentModelCollectionQuery
-    extends ModelQueryBase<$StripePaymentModelCollection> {
+    extends ModelQueryBase<_$StripePaymentModelCollection> {
   const _$_StripePaymentModelCollectionQuery(this.modelQuery);
 
   final CollectionModelQuery modelQuery;
 
   @override
-  $StripePaymentModelCollection Function() call(Ref ref) =>
-      () => $StripePaymentModelCollection(modelQuery);
+  _$StripePaymentModelCollection Function() call(Ref ref) =>
+      () => _$StripePaymentModelCollection(modelQuery);
   @override
   String get queryName => modelQuery.toString();
-  _$_StripePaymentModelCollectionQuery equal(
-    StripePaymentModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.equal(key.name, value));
-  }
-
-  _$_StripePaymentModelCollectionQuery notEqual(
-    StripePaymentModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.notEqual(key.name, value));
-  }
-
-  _$_StripePaymentModelCollectionQuery lessThan(
-    StripePaymentModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.lessThan(key.name, value));
-  }
-
-  _$_StripePaymentModelCollectionQuery greaterThan(
-    StripePaymentModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.greaterThan(key.name, value));
-  }
-
-  _$_StripePaymentModelCollectionQuery lessThanOrEqual(
-    StripePaymentModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.lessThanOrEqual(key.name, value));
-  }
-
-  _$_StripePaymentModelCollectionQuery greaterThanOrEqual(
-    StripePaymentModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.greaterThanOrEqual(key.name, value));
-  }
-
-  _$_StripePaymentModelCollectionQuery contains(
-    StripePaymentModelCollectionKey key,
-    Object? value,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.contains(key.name, value));
-  }
-
-  _$_StripePaymentModelCollectionQuery containsAny(
-    StripePaymentModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.containsAny(key.name, values));
-  }
-
-  _$_StripePaymentModelCollectionQuery where(
-    StripePaymentModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.where(key.name, values));
-  }
-
-  _$_StripePaymentModelCollectionQuery notWhere(
-    StripePaymentModelCollectionKey key,
-    List<Object>? values,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.notWhere(key.name, values));
-  }
-
-  _$_StripePaymentModelCollectionQuery isNull(
-      StripePaymentModelCollectionKey key) {
-    return _$_StripePaymentModelCollectionQuery(modelQuery.isNull(key.name));
-  }
-
-  _$_StripePaymentModelCollectionQuery isNotNull(
-      StripePaymentModelCollectionKey key) {
-    return _$_StripePaymentModelCollectionQuery(modelQuery.isNotNull(key.name));
-  }
-
-  _$_StripePaymentModelCollectionQuery geo(
-    StripePaymentModelCollectionKey key,
-    List<String>? geoHash,
-  ) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.geo(key.name, geoHash));
-  }
-
-  _$_StripePaymentModelCollectionQuery orderByAsc(
-      StripePaymentModelCollectionKey key) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.orderByAsc(key.name));
-  }
-
-  _$_StripePaymentModelCollectionQuery orderByDesc(
-      StripePaymentModelCollectionKey key) {
-    return _$_StripePaymentModelCollectionQuery(
-        modelQuery.orderByDesc(key.name));
-  }
-
-  _$_StripePaymentModelCollectionQuery limitTo(int value) {
-    return _$_StripePaymentModelCollectionQuery(modelQuery.limitTo(value));
-  }
-
-  _$_StripePaymentModelCollectionQuery reset() {
-    return _$_StripePaymentModelCollectionQuery(modelQuery.reset());
-  }
+  static _$_StripePaymentModelCollectionQuery _toQuery(
+          CollectionModelQuery query) =>
+      _$_StripePaymentModelCollectionQuery(query);
+  _$_StripePaymentModelCollectionQuery limitTo(int value) =>
+      _$_StripePaymentModelCollectionQuery(modelQuery.limitTo(value));
+  _$_StripePaymentModelCollectionQuery reset() =>
+      _$_StripePaymentModelCollectionQuery(modelQuery.reset());
+  StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>
+      get paymentId =>
+          StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+              key: "paymentId", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get type =>
+      StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+          key: "type", toQuery: _toQuery, modelQuery: modelQuery);
+  NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expMonth =>
+      NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+          key: "expMonth", toQuery: _toQuery, modelQuery: modelQuery);
+  NumModelQuerySelector<_$_StripePaymentModelCollectionQuery> get expYear =>
+      NumModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+          key: "expYear", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_StripePaymentModelCollectionQuery> get brand =>
+      StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+          key: "brand", toQuery: _toQuery, modelQuery: modelQuery);
+  StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>
+      get numberLast =>
+          StringModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+              key: "numberLast", toQuery: _toQuery, modelQuery: modelQuery);
+  BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>
+      get isDefault =>
+          BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
+              key: "isDefault", toQuery: _toQuery, modelQuery: modelQuery);
 }

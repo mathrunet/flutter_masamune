@@ -12,15 +12,6 @@ part 'stripe_purchase.m.dart';
 part 'stripe_purchase.g.dart';
 part 'stripe_purchase.freezed.dart';
 
-/// Alias for ModelRef<StripePurchasePurchaseModel>.
-///
-/// When defining parameters for other Models, you can define them as follows
-///
-/// ```dart
-/// @refParam StripePurchasePurchaseModelRef stripe_purchase_purchase
-/// ```
-typedef StripePurchaseModelRef = ModelRef<StripePurchaseModel>?;
-
 /// Data model for storing Stripe purchase information.
 ///
 /// All payments to the operation, payments between users, and subscriptions are stored in this database.
@@ -135,6 +126,45 @@ class StripePurchaseModel with _$StripePurchaseModel {
   /// ```
   static const collection = _$$_StripePurchaseModelCollectionQuery();
 }
+
+/// Alias for ModelRef<StripePurchaseModel>.
+///
+/// When defining parameters for other Models, you can define them as follows
+///
+/// ```dart
+/// @RefParam(StripePurchaseModelDocument) StripePurchaseModelRef stripe_purchase
+/// ```
+typedef StripePurchaseModelRef = ModelRef<StripePurchaseModel>?;
+
+/// It can be defined as an empty ModelRef<StripePurchaseModel>.
+///
+///　```dart
+/// StripePurchaseModelRefPath("xxx") // Define as a path.
+/// ```
+typedef StripePurchaseModelRefPath = _$StripePurchaseModelPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     StripePurchaseModelInitialCollection(
+///       "xxx": StripePurchaseModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef StripePurchaseModelInitialCollection
+    = _$StripePurchaseModelInitialCollection;
+
+/// [Enum] of the name of the value defined in StripePurchaseModel.
+typedef StripePurchaseModelKeys = _$StripePurchaseModelKeys;
+
+/// Document class for storing StripePurchaseModel.
+typedef StripePurchaseModelDocument = _$StripePurchaseModelDocument;
+
+/// Collection class for storing StripePurchaseModel.
+typedef StripePurchaseModelCollection = _$StripePurchaseModelCollection;
 
 @immutable
 class _$$_StripePurchaseModelDocumentQuery {

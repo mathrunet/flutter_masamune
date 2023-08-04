@@ -83,7 +83,7 @@ class StripeCustomer
         throw Exception("You are not logged in. Please log in once.");
       }
       final modelQuery = documentQuery(userId).modelQuery;
-      final userDocument = $StripeUserModelDocument(modelQuery);
+      final userDocument = StripeUserModelDocument(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
@@ -184,7 +184,7 @@ class StripeCustomer
         );
       }
       final modelQuery = documentQuery(value.userId).modelQuery;
-      final userDocument = $StripeUserModelDocument(modelQuery);
+      final userDocument = StripeUserModelDocument(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;

@@ -88,7 +88,7 @@ class StripeAccount
         throw Exception("UserId is empty.");
       }
       final modelQuery = documentQuery(userId).modelQuery;
-      final userDocument = $StripeUserModelDocument(modelQuery);
+      final userDocument = StripeUserModelDocument(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
               FunctionsAdapter.primary;
