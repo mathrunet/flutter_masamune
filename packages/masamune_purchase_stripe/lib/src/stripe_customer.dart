@@ -235,7 +235,7 @@ class _$_StripeCustomerQuery extends ControllerQueryBase<StripeCustomer> {
   }
 
   @override
-  String get name => _name;
+  String get queryName => _name;
   @override
   bool get autoDisposeWhenUnreferenced => false;
 }

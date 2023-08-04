@@ -107,7 +107,7 @@ class _$_StripeUserModelDocumentQuery
   $StripeUserModelDocument Function() call(Ref ref) =>
       () => $StripeUserModelDocument(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
 }
 
 @immutable
@@ -134,7 +134,7 @@ class _$_StripeUserModelCollectionQuery
   $StripeUserModelCollection Function() call(Ref ref) =>
       () => $StripeUserModelCollection(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
   _$_StripeUserModelCollectionQuery equal(
     StripeUserModelCollectionKey key,
     Object? value,

@@ -143,7 +143,7 @@ class _$_StripePurchaseModelDocumentQuery
   $StripePurchaseModelDocument Function() call(Ref ref) =>
       () => $StripePurchaseModelDocument(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
 }
 
 @immutable
@@ -173,7 +173,7 @@ class _$_StripePurchaseModelCollectionQuery
   $StripePurchaseModelCollection Function() call(Ref ref) =>
       () => $StripePurchaseModelCollection(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
   _$_StripePurchaseModelCollectionQuery equal(
     StripePurchaseModelCollectionKey key,
     Object? value,

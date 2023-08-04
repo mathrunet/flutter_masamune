@@ -103,7 +103,7 @@ List<Spec> documentModelQueryClass(
           ),
           Method(
             (m) => m
-              ..name = "name"
+              ..name = "queryName"
               ..lambda = true
               ..type = MethodType.getter
               ..annotations.addAll([const Reference("override")])
@@ -198,7 +198,7 @@ List<Spec> documentModelQueryClass(
             ),
             Method(
               (m) => m
-                ..name = "name"
+                ..name = "queryName"
                 ..lambda = true
                 ..type = MethodType.getter
                 ..annotations.addAll([const Reference("override")])

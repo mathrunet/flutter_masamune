@@ -376,7 +376,7 @@ class _$_LocationQuery extends ControllerQueryBase<Location> {
   }
 
   @override
-  String get name => _name;
+  String get queryName => _name;
   @override
   bool get autoDisposeWhenUnreferenced => false;
 }

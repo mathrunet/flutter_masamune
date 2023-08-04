@@ -102,7 +102,7 @@ class _$_PurchaseUserModelDocumentQuery
   $PurchaseUserModelDocument Function() call(Ref ref) =>
       () => $PurchaseUserModelDocument(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
 }
 
 @immutable
@@ -129,7 +129,7 @@ class _$_PurchaseUserModelCollectionQuery
   $PurchaseUserModelCollection Function() call(Ref ref) =>
       () => $PurchaseUserModelCollection(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
   _$_PurchaseUserModelCollectionQuery equal(
     PurchaseUserModelCollectionKey key,
     Object? value,
@@ -273,7 +273,7 @@ class _$_PurchaseUserModelFormQuery
   FormController<PurchaseUserModel> Function() call(Ref ref) =>
       () => FormController(value);
   @override
-  String get name => value.hashCode.toString();
+  String get queryName => value.hashCode.toString();
   @override
   bool get autoDisposeWhenUnreferenced => true;
 }

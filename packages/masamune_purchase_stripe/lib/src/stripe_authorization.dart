@@ -213,7 +213,7 @@ class _$_StripeAuthorizationQuery
   }
 
   @override
-  String get name => _name;
+  String get queryName => _name;
   @override
   bool get autoDisposeWhenUnreferenced => false;
 }

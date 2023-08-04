@@ -431,14 +431,14 @@ packages:
       path: "../../katana_localization"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.16"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_logger:
     dependency: "direct overridden"
     description:
@@ -452,35 +452,35 @@ packages:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.7.1"
+    version: "2.10.6"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "2.2.10"
+    version: "2.4.9"
   katana_prefs:
     dependency: "direct overridden"
     description:
       path: "../../katana_prefs"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.15"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../../katana_router"
       relative: true
     source: path
-    version: "2.0.18"
+    version: "2.0.21"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -529,7 +529,7 @@ packages:
       path: "../../katana_ui"
       relative: true
     source: path
-    version: "2.2.1"
+    version: "2.3.0"
   lints:
     dependency: transitive
     description:
@@ -552,7 +552,7 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.3.2"
+    version: "2.3.17"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -566,7 +566,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.1.5"
+    version: "2.1.21"
   matcher:
     dependency: transitive
     description:

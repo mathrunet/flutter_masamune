@@ -313,7 +313,7 @@ class _$_SpeechToTextQuery extends ControllerQueryBase<SpeechToTextController> {
   }
 
   @override
-  String get name => _name;
+  String get queryName => _name;
   @override
   bool get autoDisposeWhenUnreferenced => true;
 }

@@ -105,7 +105,7 @@ class _$_PointEcosystemUserModelDocumentQuery
   $PointEcosystemUserModelDocument Function() call(Ref ref) =>
       () => $PointEcosystemUserModelDocument(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
 }
 
 @immutable
@@ -133,7 +133,7 @@ class _$_PointEcosystemUserModelCollectionQuery
   $PointEcosystemUserModelCollection Function() call(Ref ref) =>
       () => $PointEcosystemUserModelCollection(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
   _$_PointEcosystemUserModelCollectionQuery equal(
     PointEcosystemUserModelCollectionKey key,
     Object? value,
@@ -280,7 +280,7 @@ class _$_PointEcosystemUserModelFormQuery
   FormController<PointEcosystemUserModel> Function() call(Ref ref) =>
       () => FormController(value);
   @override
-  String get name => value.hashCode.toString();
+  String get queryName => value.hashCode.toString();
   @override
   bool get autoDisposeWhenUnreferenced => true;
 }

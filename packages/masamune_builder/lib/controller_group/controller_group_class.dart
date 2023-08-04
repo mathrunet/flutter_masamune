@@ -115,7 +115,7 @@ List<Spec> controllerGroupClass(
           ),
           Method(
             (m) => m
-              ..name = "name"
+              ..name = "queryName"
               ..lambda = true
               ..annotations.addAll([const Reference("override")])
               ..type = MethodType.getter

@@ -41,7 +41,7 @@ extension RefQueryExtensions on Ref {
         autoDisposeWhenUnreferenced: query.autoDisposeWhenUnreferenced,
       ),
       listen: query.listen,
-      name: query.name,
+      name: query.queryName,
     );
   }
 }

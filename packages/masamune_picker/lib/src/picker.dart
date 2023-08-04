@@ -38,6 +38,15 @@ class Picker
   /// （対応アダプターのみ）
   Picker({super.adapter});
 
+  /// Query for Picker.
+  ///
+  /// ```dart
+  /// appRef.conroller(Picker.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(Picker.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(Picker.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$PickerQuery();
+
   @override
   PickerMasamuneAdapter get primaryAdapter => PickerMasamuneAdapter.primary;
 
@@ -155,4 +164,33 @@ class Picker
       _completer = null;
     }
   }
+}
+
+@immutable
+class _$PickerQuery {
+  const _$PickerQuery();
+
+  @useResult
+  _$_PickerQuery call() => _$_PickerQuery(
+        hashCode.toString(),
+      );
+}
+
+@immutable
+class _$_PickerQuery extends ControllerQueryBase<Picker> {
+  const _$_PickerQuery(
+    this._name,
+  );
+
+  final String _name;
+
+  @override
+  Picker Function() call(Ref ref) {
+    return () => Picker();
+  }
+
+  @override
+  String get queryName => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

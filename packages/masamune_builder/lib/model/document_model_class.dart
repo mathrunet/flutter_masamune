@@ -41,7 +41,7 @@ List<Spec> documentModelClass(
             (f) => f
               ..name = "defaultModelAdapter"
               ..static = true
-              ..modifier = FieldModifier.constant
+              ..modifier = FieldModifier.final$
               ..type = const Reference("ModelAdapter?")
               ..assignment = Code(
                 annotation.adapter == null ? "null" : annotation.adapter!,
@@ -225,7 +225,7 @@ List<Spec> documentModelClass(
               (f) => f
                 ..name = "defaultModelAdapter"
                 ..static = true
-                ..modifier = FieldModifier.constant
+                ..modifier = FieldModifier.final$
                 ..type = const Reference("ModelAdapter?")
                 ..assignment = Code(
                   annotation.adapter == null ? "null" : annotation.adapter!,

@@ -58,6 +58,15 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// [adapter]を渡すことで各種設定を上書きすることができます。これが利用されない場合は[PushNotificationMasamuneAdapter.primary]が利用されます。
   PushNotification({super.adapter});
 
+  /// Query for Picker.
+  ///
+  /// ```dart
+  /// appRef.conroller(PushNotification.query(parameters));   // Get from application scope.
+  /// ref.app.conroller(PushNotification.query(parameters));  // Watch at application scope.
+  /// ref.page.conroller(PushNotification.query(parameters)); // Watch at page scope.
+  /// ```
+  static const query = _$PushNotificationQuery();
+
   @override
   PushNotificationMasamuneAdapter get primaryAdapter =>
       PushNotificationMasamuneAdapter.primary;
@@ -249,4 +258,33 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     );
     notifyListeners();
   }
+}
+
+@immutable
+class _$PushNotificationQuery {
+  const _$PushNotificationQuery();
+
+  @useResult
+  _$_PushNotificationQuery call() => _$_PushNotificationQuery(
+        hashCode.toString(),
+      );
+}
+
+@immutable
+class _$_PushNotificationQuery extends ControllerQueryBase<PushNotification> {
+  const _$_PushNotificationQuery(
+    this._name,
+  );
+
+  final String _name;
+
+  @override
+  PushNotification Function() call(Ref ref) {
+    return () => PushNotification();
+  }
+
+  @override
+  String get queryName => _name;
+  @override
+  bool get autoDisposeWhenUnreferenced => true;
 }

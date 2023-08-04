@@ -5,7 +5,7 @@ part of katana_scoped;
 ///
 /// Specify in [provider] a callback that returns the value you wish to manage.
 ///
-/// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
+/// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [queryName].
 ///
 /// If [autoDisposeWhenUnreferenced] is set to `true`, [ScopedQuery] will be automatically disposed of when it is no longer referenced by any widget.
 ///
@@ -13,7 +13,7 @@ part of katana_scoped;
 ///
 /// [provider]に管理したい値を返すコールバックを指定してください。
 ///
-/// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
+/// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[queryName]を指定してください。
 ///
 /// [autoDisposeWhenUnreferenced]を`true`にすると、[ScopedQuery]がどのウィジェットからも参照されなくなった時に自動的に破棄されます。
 ///
@@ -95,12 +95,12 @@ class ScopedQuery<Result> {
 
   /// Returns a name to identify the state.
   ///
-  /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
+  /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [queryName].
   ///
   /// 状態を識別するための名前を返します。
   ///
-  /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
-  Object get name => _name ?? hashCode.toString();
+  /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[queryName]を指定してください。
+  Object get queryName => _name ?? hashCode.toString();
 
   /// Returns `true` if [ScopedQuery] should be automatically discarded when it is no longer referenced by any widget.
   ///
@@ -115,7 +115,7 @@ class ScopedQuery<Result> {
 ///
 /// Specify in [provider] a callback that returns the value you wish to manage.
 ///
-/// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
+/// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [queryName].
 ///
 /// If [autoDisposeWhenUnreferenced] is set to `true`, [ScopedQuery] will be automatically disposed of when it is no longer referenced by any widget.
 ///
@@ -125,7 +125,7 @@ class ScopedQuery<Result> {
 ///
 /// [provider]に管理したい値を返すコールバックを指定してください。
 ///
-/// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
+/// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[queryName]を指定してください。
 ///
 /// [autoDisposeWhenUnreferenced]を`true`にすると、[ScopedQuery]がどのウィジェットからも参照されなくなった時に自動的に破棄されます。
 ///
@@ -156,7 +156,7 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   ///
   /// Specify in [provider] a callback that returns the value you wish to manage.
   ///
-  /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [name].
+  /// Normally [hashCode] is used to manage state names, but if you want to specify a special name, specify [queryName].
   ///
   /// If [autoDisposeWhenUnreferenced] is set to `true`, [ScopedQuery] will be automatically disposed of when it is no longer referenced by any widget.
   ///
@@ -166,7 +166,7 @@ class ChangeNotifierScopedQuery<Result extends Listenable?>
   ///
   /// [provider]に管理したい値を返すコールバックを指定してください。
   ///
-  /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[name]を指定してください。
+  /// 通常は[hashCode]を用いて状態の名前を管理しますが、特別に名前を指定したい場合は[queryName]を指定してください。
   ///
   /// [autoDisposeWhenUnreferenced]を`true`にすると、[ScopedQuery]がどのウィジェットからも参照されなくなった時に自動的に破棄されます。
   ///

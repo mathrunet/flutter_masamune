@@ -116,7 +116,7 @@ class _$_PurchaseSubscriptionModelDocumentQuery
   $PurchaseSubscriptionModelDocument Function() call(Ref ref) =>
       () => $PurchaseSubscriptionModelDocument(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
 }
 
 @immutable
@@ -144,7 +144,7 @@ class _$_PurchaseSubscriptionModelCollectionQuery
   $PurchaseSubscriptionModelCollection Function() call(Ref ref) =>
       () => $PurchaseSubscriptionModelCollection(modelQuery);
   @override
-  String get name => modelQuery.toString();
+  String get queryName => modelQuery.toString();
   _$_PurchaseSubscriptionModelCollectionQuery equal(
     PurchaseSubscriptionModelCollectionKey key,
     Object? value,
@@ -292,7 +292,7 @@ class _$_PurchaseSubscriptionModelFormQuery
   FormController<PurchaseSubscriptionModel> Function() call(Ref ref) =>
       () => FormController(value);
   @override
-  String get name => value.hashCode.toString();
+  String get queryName => value.hashCode.toString();
   @override
   bool get autoDisposeWhenUnreferenced => true;
 }
