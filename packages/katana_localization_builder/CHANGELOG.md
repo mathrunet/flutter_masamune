@@ -1,3 +1,7 @@
+## 2.0.17
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
 ## 2.0.16
 
  - **FIX**: get() method available. ([73381c11](https://github.com/mathrunet/flutter_masamune/commit/73381c119c32d5eefca532b494aa5ae395f0b53c))

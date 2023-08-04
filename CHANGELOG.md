@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.5.3`](#katana_cli---v253)
+ - [`katana_listenables_builder` - `v2.0.14`](#katana_listenables_builder---v2014)
+ - [`katana_localization_builder` - `v2.0.17`](#katana_localization_builder---v2017)
+ - [`katana_prefs_builder` - `v2.0.15`](#katana_prefs_builder---v2015)
+ - [`katana_router_builder` - `v2.0.21`](#katana_router_builder---v2021)
+ - [`katana_theme_builder` - `v2.0.15`](#katana_theme_builder---v2015)
+ - [`masamune_builder` - `v2.6.8`](#masamune_builder---v268)
+
+---
+
+#### `katana_cli` - `v2.5.3`
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
+#### `katana_listenables_builder` - `v2.0.14`
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
+#### `katana_localization_builder` - `v2.0.17`
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
+#### `katana_prefs_builder` - `v2.0.15`
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
+#### `katana_router_builder` - `v2.0.21`
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
+#### `katana_theme_builder` - `v2.0.15`
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
+#### `masamune_builder` - `v2.6.8`
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
+
 ## 2023-08-03
 
 ### Changes

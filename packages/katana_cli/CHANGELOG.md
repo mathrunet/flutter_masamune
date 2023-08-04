@@ -1,3 +1,7 @@
+## 2.5.3
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
 ## 2.5.2
 
  - **FIX**: Fixed import of main.dart. ([34e3a7f2](https://github.com/mathrunet/flutter_masamune/commit/34e3a7f2e6b0d4ba9ec9275da1ea34ee79ce0d09))

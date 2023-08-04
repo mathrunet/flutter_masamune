@@ -1,3 +1,7 @@
+## 2.0.21
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
 ## 2.0.20
 
  - **FIX**: added support for specifying various annotation values as strings. ([1c9a8bb4](https://github.com/mathrunet/flutter_masamune/commit/1c9a8bb423426fd21f955d1f8d78a80b097a01e5))

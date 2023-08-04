@@ -1,3 +1,7 @@
+## 2.0.15
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
 ## 2.0.14
 
  - **FIX**: Fixed a bug that caused an override error when building. ([06a000e3](https://github.com/mathrunet/flutter_masamune/commit/06a000e36e396e5efc51e5443c296d097be6548d))

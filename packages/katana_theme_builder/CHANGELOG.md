@@ -1,3 +1,7 @@
+## 2.0.15
+
+ - **FIX**: Add exclude in build.yaml. ([5e8b5467](https://github.com/mathrunet/flutter_masamune/commit/5e8b5467dc04dd98e44149b6f92be0a88636e635))
+
 ## 2.0.14
 
  - **FIX**: Added the ability to get the Brightness of the system in theme.brightness. ([9b64cb3f](https://github.com/mathrunet/flutter_masamune/commit/9b64cb3fb3c06931bb5f31e526daf4b20ed269ea))
