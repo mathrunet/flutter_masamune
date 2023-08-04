@@ -1,3 +1,7 @@
+## 2.6.11
+
+ - **FIX**: Added InitialDocument. ([3551ba98](https://github.com/mathrunet/flutter_masamune/commit/3551ba98f3f2b3d22243e41edba5379ff68ef266))
+
 ## 2.6.10
 
  - Update a dependency to the latest release.

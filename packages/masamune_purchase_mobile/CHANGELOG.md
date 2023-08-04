@@ -1,3 +1,7 @@
+## 2.4.15
+
+ - Update a dependency to the latest release.
+
 ## 2.4.14
 
  - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))

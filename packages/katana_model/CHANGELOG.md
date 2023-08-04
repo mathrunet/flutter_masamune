@@ -1,3 +1,7 @@
+## 2.10.8
+
+ - **FIX**: Added InitialDocument. ([3551ba98](https://github.com/mathrunet/flutter_masamune/commit/3551ba98f3f2b3d22243e41edba5379ff68ef266))
+
 ## 2.10.7
 
  - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))

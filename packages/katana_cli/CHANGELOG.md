@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Added ModuleOptions. ([67855f0d](https://github.com/mathrunet/flutter_masamune/commit/67855f0dea9b345357cd1341c05245d96b3ca68f))
+
 ## 2.5.4
 
  - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))

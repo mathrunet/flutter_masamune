@@ -15,6 +15,96 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.6.0`](#katana_cli---v260)
+ - [`katana_model` - `v2.10.8`](#katana_model---v2108)
+ - [`katana_model_firestore` - `v2.6.11`](#katana_model_firestore---v2611)
+ - [`katana_model_local` - `v2.4.11`](#katana_model_local---v2411)
+ - [`masamune_module` - `v2.1.0`](#masamune_module---v210)
+ - [`masamune` - `v2.3.19`](#masamune---v2319)
+ - [`masamune_location` - `v2.1.66`](#masamune_location---v2166)
+ - [`masamune_auth_apple` - `v2.1.55`](#masamune_auth_apple---v2155)
+ - [`masamune_text_to_speech` - `v2.1.21`](#masamune_text_to_speech---v2121)
+ - [`masamune_auth_google` - `v2.1.55`](#masamune_auth_google---v2155)
+ - [`masamune_agora` - `v2.2.37`](#masamune_agora---v2237)
+ - [`masamune_ai_openai` - `v2.1.52`](#masamune_ai_openai---v2152)
+ - [`masamune_calendar` - `v2.0.99`](#masamune_calendar---v2099)
+ - [`masamune_picker` - `v2.1.54`](#masamune_picker---v2154)
+ - [`masamune_util` - `v2.1.33`](#masamune_util---v2133)
+ - [`masamune_universal_ui` - `v2.2.34`](#masamune_universal_ui---v2234)
+ - [`masamune_purchase_stripe` - `v3.2.15`](#masamune_purchase_stripe---v3215)
+ - [`masamune_logger_firebase` - `v2.0.97`](#masamune_logger_firebase---v2097)
+ - [`masamune_introduction` - `v2.2.3`](#masamune_introduction---v223)
+ - [`masamune_speech_to_text` - `v2.1.23`](#masamune_speech_to_text---v2123)
+ - [`masamune_auth_facebook` - `v2.1.57`](#masamune_auth_facebook---v2157)
+ - [`masamune_mail` - `v2.1.52`](#masamune_mail---v2152)
+ - [`masamune_point_ecosystem` - `v2.1.3`](#masamune_point_ecosystem---v213)
+ - [`masamune_location_google` - `v2.1.67`](#masamune_location_google---v2167)
+ - [`masamune_notification_firebase` - `v2.1.52`](#masamune_notification_firebase---v2152)
+ - [`masamune_purchase_mobile` - `v2.4.15`](#masamune_purchase_mobile---v2415)
+ - [`masamune_ads_google` - `v2.1.5`](#masamune_ads_google---v215)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.3.19`
+ - `masamune_location` - `v2.1.66`
+ - `masamune_auth_apple` - `v2.1.55`
+ - `masamune_text_to_speech` - `v2.1.21`
+ - `masamune_auth_google` - `v2.1.55`
+ - `masamune_agora` - `v2.2.37`
+ - `masamune_ai_openai` - `v2.1.52`
+ - `masamune_calendar` - `v2.0.99`
+ - `masamune_picker` - `v2.1.54`
+ - `masamune_util` - `v2.1.33`
+ - `masamune_universal_ui` - `v2.2.34`
+ - `masamune_purchase_stripe` - `v3.2.15`
+ - `masamune_logger_firebase` - `v2.0.97`
+ - `masamune_introduction` - `v2.2.3`
+ - `masamune_speech_to_text` - `v2.1.23`
+ - `masamune_auth_facebook` - `v2.1.57`
+ - `masamune_mail` - `v2.1.52`
+ - `masamune_point_ecosystem` - `v2.1.3`
+ - `masamune_location_google` - `v2.1.67`
+ - `masamune_notification_firebase` - `v2.1.52`
+ - `masamune_purchase_mobile` - `v2.4.15`
+ - `masamune_ads_google` - `v2.1.5`
+
+---
+
+#### `katana_cli` - `v2.6.0`
+
+ - **FEAT**: Added ModuleOptions. ([67855f0d](https://github.com/mathrunet/flutter_masamune/commit/67855f0dea9b345357cd1341c05245d96b3ca68f))
+
+#### `katana_model` - `v2.10.8`
+
+ - **FIX**: Added InitialDocument. ([3551ba98](https://github.com/mathrunet/flutter_masamune/commit/3551ba98f3f2b3d22243e41edba5379ff68ef266))
+
+#### `katana_model_firestore` - `v2.6.11`
+
+ - **FIX**: Added InitialDocument. ([3551ba98](https://github.com/mathrunet/flutter_masamune/commit/3551ba98f3f2b3d22243e41edba5379ff68ef266))
+
+#### `katana_model_local` - `v2.4.11`
+
+ - **FIX**: Added InitialDocument. ([3551ba98](https://github.com/mathrunet/flutter_masamune/commit/3551ba98f3f2b3d22243e41edba5379ff68ef266))
+
+#### `masamune_module` - `v2.1.0`
+
+ - **FEAT**: Added ModuleOptions. ([67855f0d](https://github.com/mathrunet/flutter_masamune/commit/67855f0dea9b345357cd1341c05245d96b3ca68f))
+
+
+## 2023-08-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.5.4`](#katana_cli---v254)
  - [`katana_listenables` - `v2.0.14`](#katana_listenables---v2014)
  - [`katana_listenables_annotation` - `v2.0.13`](#katana_listenables_annotation---v2013)
