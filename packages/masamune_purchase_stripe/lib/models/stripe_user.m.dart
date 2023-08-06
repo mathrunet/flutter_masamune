@@ -34,6 +34,8 @@ class _$StripeUserModelDocument extends DocumentBase<StripeUserModel>
   DynamicMap toMap(StripeUserModel value) => value.rawValue;
 }
 
+typedef _$StripeUserModelMirrorDocument = _$StripeUserModelDocument;
+
 class _$StripeUserModelCollection
     extends CollectionBase<_$StripeUserModelDocument>
     with
@@ -56,9 +58,11 @@ class _$StripeUserModelCollection
   }
 }
 
+typedef _$StripeUserModelMirrorCollection = _$StripeUserModelCollection;
+
 @immutable
-class _$StripeUserModelPath extends ModelRefPath<StripeUserModel> {
-  const _$StripeUserModelPath(String uid) : super(uid);
+class _$StripeUserModelRefPath extends ModelRefPath<StripeUserModel> {
+  const _$StripeUserModelRefPath(String uid) : super(uid);
 
   @override
   DocumentModelQuery get modelQuery {
@@ -161,3 +165,7 @@ class _$_StripeUserModelCollectionQuery
               _$_StripeUserModelCollectionQuery>(
           key: "capablity", toQuery: _toQuery, modelQuery: modelQuery);
 }
+
+typedef _$StripeUserModelMirrorRefPath = _$StripeUserModelRefPath;
+typedef _$StripeUserModelMirrorInitialCollection
+    = _$StripeUserModelInitialCollection;

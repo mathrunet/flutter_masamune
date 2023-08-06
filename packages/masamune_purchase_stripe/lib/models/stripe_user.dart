@@ -72,21 +72,24 @@ class StripeUserModel with _$StripeUserModel {
   static const collection = _$$_StripeUserModelCollectionQuery();
 }
 
+/// [Enum] of the name of the value defined in StripeUserModel.
+typedef StripeUserModelKeys = _$StripeUserModelKeys;
+
 /// Alias for ModelRef<StripeUserModel>.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
 /// ```dart
-/// @RefParam(StripeUserModelDocument) StripeUserModelRef stripe_purchase_user
+/// @RefParam(StripeUserModelDocument) StripeUserModelRef replaced_collection
 /// ```
 typedef StripeUserModelRef = ModelRef<StripeUserModel>?;
 
 /// It can be defined as an empty ModelRef<StripeUserModel>.
 ///
-///　```dart
+/// ```dart
 /// StripeUserModelRefPath("xxx") // Define as a path.
 /// ```
-typedef StripeUserModelRefPath = _$StripeUserModelPath;
+typedef StripeUserModelRefPath = _$StripeUserModelRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -99,16 +102,46 @@ typedef StripeUserModelRefPath = _$StripeUserModelPath;
 ///   ],
 /// );
 /// ```
-typedef StripeUserModelInitialCollection = _$StripeUserModelInitialCollection;
-
-/// [Enum] of the name of the value defined in StripeUserModel.
-typedef StripeUserModelKeys = _$StripeUserModelKeys;
+typedef StripeUserModelInitialCollection
+    = _$StripeUserModelInitialCollection;
 
 /// Document class for storing StripeUserModel.
 typedef StripeUserModelDocument = _$StripeUserModelDocument;
 
 /// Collection class for storing StripeUserModel.
 typedef StripeUserModelCollection = _$StripeUserModelCollection;
+
+/// It can be defined as an empty ModelRef<StripeUserModel>.
+///
+/// ```dart
+/// StripeUserModelMirrorRefPath("xxx") // Define as a path.
+/// ```
+typedef StripeUserModelMirrorRefPath
+    = _$StripeUserModelMirrorRefPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     StripeUserModelMirrorInitialCollection(
+///       "xxx": StripeUserModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef StripeUserModelMirrorInitialCollection
+    = _$StripeUserModelMirrorInitialCollection;
+
+/// Document class for storing StripeUserModel.
+typedef StripeUserModelMirrorDocument
+    = _$StripeUserModelMirrorDocument;
+
+/// Collection class for storing StripeUserModel.
+typedef StripeUserModelMirrorCollection
+    = _$StripeUserModelMirrorCollection;
+
+
 
 @immutable
 class _$$_StripeUserModelDocumentQuery {

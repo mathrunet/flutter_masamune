@@ -57,6 +57,8 @@ class _$StripePurchaseModelDocument extends DocumentBase<StripePurchaseModel>
   DynamicMap toMap(StripePurchaseModel value) => value.rawValue;
 }
 
+typedef _$StripePurchaseModelMirrorDocument = _$StripePurchaseModelDocument;
+
 class _$StripePurchaseModelCollection
     extends CollectionBase<_$StripePurchaseModelDocument>
     with
@@ -80,9 +82,11 @@ class _$StripePurchaseModelCollection
   }
 }
 
+typedef _$StripePurchaseModelMirrorCollection = _$StripePurchaseModelCollection;
+
 @immutable
-class _$StripePurchaseModelPath extends ModelRefPath<StripePurchaseModel> {
-  const _$StripePurchaseModelPath(
+class _$StripePurchaseModelRefPath extends ModelRefPath<StripePurchaseModel> {
+  const _$StripePurchaseModelRefPath(
     String uid, {
     required String userId,
   })  : _userId = userId,
@@ -291,3 +295,7 @@ class _$_StripePurchaseModelCollectionQuery
               toQuery: _toQuery,
               modelQuery: modelQuery);
 }
+
+typedef _$StripePurchaseModelMirrorRefPath = _$StripePurchaseModelRefPath;
+typedef _$StripePurchaseModelMirrorInitialCollection
+    = _$StripePurchaseModelInitialCollection;

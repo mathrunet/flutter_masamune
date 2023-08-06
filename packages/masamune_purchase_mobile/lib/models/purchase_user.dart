@@ -77,21 +77,24 @@ class PurchaseUserModel with _$PurchaseUserModel {
   static const form = _$PurchaseUserModelFormQuery();
 }
 
+/// [Enum] of the name of the value defined in PurchaseUserModel.
+typedef PurchaseUserModelKeys = _$PurchaseUserModelKeys;
+
 /// Alias for ModelRef<PurchaseUserModel>.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
 /// ```dart
-/// @RefParam(PurchaseUserModelDocument) PurchaseUserModelRef purchase_user
+/// @RefParam(PurchaseUserModelDocument) PurchaseUserModelRef replaced_collection
 /// ```
 typedef PurchaseUserModelRef = ModelRef<PurchaseUserModel>?;
 
 /// It can be defined as an empty ModelRef<PurchaseUserModel>.
 ///
-///　```dart
+/// ```dart
 /// PurchaseUserModelRefPath("xxx") // Define as a path.
 /// ```
-typedef PurchaseUserModelRefPath = _$PurchaseUserModelPath;
+typedef PurchaseUserModelRefPath = _$PurchaseUserModelRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -107,11 +110,38 @@ typedef PurchaseUserModelRefPath = _$PurchaseUserModelPath;
 typedef PurchaseUserModelInitialCollection
     = _$PurchaseUserModelInitialCollection;
 
-/// [Enum] of the name of the value defined in PurchaseUserModel.
-typedef PurchaseUserModelKeys = _$PurchaseUserModelKeys;
-
 /// Document class for storing PurchaseUserModel.
 typedef PurchaseUserModelDocument = _$PurchaseUserModelDocument;
 
 /// Collection class for storing PurchaseUserModel.
 typedef PurchaseUserModelCollection = _$PurchaseUserModelCollection;
+
+/// It can be defined as an empty ModelRef<PurchaseUserModel>.
+///
+/// ```dart
+/// PurchaseUserModelMirrorRefPath("xxx") // Define as a path.
+/// ```
+typedef PurchaseUserModelMirrorRefPath
+    = _$PurchaseUserModelMirrorRefPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     PurchaseUserModelMirrorInitialCollection(
+///       "xxx": PurchaseUserModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef PurchaseUserModelMirrorInitialCollection
+    = _$PurchaseUserModelMirrorInitialCollection;
+
+/// Document class for storing PurchaseUserModel.
+typedef PurchaseUserModelMirrorDocument
+    = _$PurchaseUserModelMirrorDocument;
+
+/// Collection class for storing PurchaseUserModel.
+typedef PurchaseUserModelMirrorCollection
+    = _$PurchaseUserModelMirrorCollection;

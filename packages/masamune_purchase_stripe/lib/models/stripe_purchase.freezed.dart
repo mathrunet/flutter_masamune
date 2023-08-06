@@ -686,60 +686,34 @@ class _$_StripePurchaseModel extends _StripePurchaseModel {
 
 abstract class _StripePurchaseModel extends StripePurchaseModel {
   const factory _StripePurchaseModel(
-      {@JsonKey(name: "user")
-          required final String userId,
-      @JsonKey(name: "confirm")
-          final bool confirm,
-      @JsonKey(name: "verify")
-          final bool verified,
-      @JsonKey(name: "capture")
-          final bool captured,
-      @JsonKey(name: "success")
-          final bool success,
-      @JsonKey(name: "cancel")
-          final bool canceled,
-      @JsonKey(name: "error")
-          final bool error,
-      @JsonKey(name: "refund")
-          final bool refund,
-      @JsonKey(name: "orderId")
-          required final String orderId,
-      @JsonKey(name: "purchaseId")
-          required final String purchaseId,
-      @JsonKey(name: "paymentMethodId")
-          required final String paymentMethodId,
-      @JsonKey(name: "customer")
-          required final String customerId,
-      @JsonKey(name: "amount")
-          final double amount,
-      @JsonKey(name: "application")
-          final String? application,
-      @JsonKey(name: "applicationFeeAmount")
-          final double applicationFeeAmount,
-      @JsonKey(name: "transferAmount")
-          final double transferAmount,
-      @JsonKey(name: "transferDistination")
-          final String transferDistination,
-      @JsonKey(name: "currency")
-          final String currency,
-      @JsonKey(name: "clientSecret")
-          required final String clientSecret,
-      @JsonKey(name: "createdTime")
-          required final ModelTimestamp createdTime,
-      @JsonKey(name: "updatedTime")
-          required final ModelTimestamp updatedTime,
-      @JsonKey(name: "emailFrom")
-          final String? emailFrom,
-      @JsonKey(name: "emailTo")
-          final String? emailTo,
-      @JsonKey(name: "emailTitle")
-          final String? emailTitle,
-      @JsonKey(name: "emailContent")
-          final String? emailContent,
-      @JsonKey(name: "locale")
-          final String? locale,
+      {@JsonKey(name: "user") required final String userId,
+      @JsonKey(name: "confirm") final bool confirm,
+      @JsonKey(name: "verify") final bool verified,
+      @JsonKey(name: "capture") final bool captured,
+      @JsonKey(name: "success") final bool success,
+      @JsonKey(name: "cancel") final bool canceled,
+      @JsonKey(name: "error") final bool error,
+      @JsonKey(name: "refund") final bool refund,
+      @JsonKey(name: "orderId") required final String orderId,
+      @JsonKey(name: "purchaseId") required final String purchaseId,
+      @JsonKey(name: "paymentMethodId") required final String paymentMethodId,
+      @JsonKey(name: "customer") required final String customerId,
+      @JsonKey(name: "amount") final double amount,
+      @JsonKey(name: "application") final String? application,
+      @JsonKey(name: "applicationFeeAmount") final double applicationFeeAmount,
+      @JsonKey(name: "transferAmount") final double transferAmount,
+      @JsonKey(name: "transferDistination") final String transferDistination,
+      @JsonKey(name: "currency") final String currency,
+      @JsonKey(name: "clientSecret") required final String clientSecret,
+      @JsonKey(name: "createdTime") required final ModelTimestamp createdTime,
+      @JsonKey(name: "updatedTime") required final ModelTimestamp updatedTime,
+      @JsonKey(name: "emailFrom") final String? emailFrom,
+      @JsonKey(name: "emailTo") final String? emailTo,
+      @JsonKey(name: "emailTitle") final String? emailTitle,
+      @JsonKey(name: "emailContent") final String? emailContent,
+      @JsonKey(name: "locale") final String? locale,
       @JsonKey(name: "cancel_at_period_end")
-          final bool cancelAtPeriodEnd}) = _$_StripePurchaseModel;
+      final bool cancelAtPeriodEnd}) = _$_StripePurchaseModel;
   const _StripePurchaseModel._() : super._();
 
   factory _StripePurchaseModel.fromJson(Map<String, dynamic> json) =

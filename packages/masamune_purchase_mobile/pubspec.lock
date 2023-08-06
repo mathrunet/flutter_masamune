@@ -335,10 +335,10 @@ packages:
     dependency: "direct main"
     description:
       name: in_app_purchase
-      sha256: "3e03b982358936b8978cdeb263c984d2959a7713b6b58cdc49993d90f84f5824"
+      sha256: "944b9a9d8cce41a0ac057dd6984c942f01bfed9a8106247f2f630b06f5db8aab"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.7"
+    version: "3.1.8"
   in_app_purchase_android:
     dependency: "direct main"
     description:
@@ -628,7 +628,7 @@ packages:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.7.3"
+    version: "2.7.4"
   matcher:
     dependency: transitive
     description:

@@ -30,6 +30,9 @@ class _$PointEcosystemUserModelDocument
   DynamicMap toMap(PointEcosystemUserModel value) => value.rawValue;
 }
 
+typedef _$PointEcosystemUserModelMirrorDocument
+    = _$PointEcosystemUserModelDocument;
+
 class _$PointEcosystemUserModelCollection
     extends CollectionBase<_$PointEcosystemUserModelDocument>
     with
@@ -53,10 +56,13 @@ class _$PointEcosystemUserModelCollection
   }
 }
 
+typedef _$PointEcosystemUserModelMirrorCollection
+    = _$PointEcosystemUserModelCollection;
+
 @immutable
-class _$PointEcosystemUserModelPath
+class _$PointEcosystemUserModelRefPath
     extends ModelRefPath<PointEcosystemUserModel> {
-  const _$PointEcosystemUserModelPath(String uid) : super(uid);
+  const _$PointEcosystemUserModelRefPath(String uid) : super(uid);
 
   @override
   DocumentModelQuery get modelQuery {
@@ -152,6 +158,11 @@ class _$_PointEcosystemUserModelCollectionQuery
               toQuery: _toQuery,
               modelQuery: modelQuery);
 }
+
+typedef _$PointEcosystemUserModelMirrorRefPath
+    = _$PointEcosystemUserModelRefPath;
+typedef _$PointEcosystemUserModelMirrorInitialCollection
+    = _$PointEcosystemUserModelInitialCollection;
 
 // **************************************************************************
 // FormValueGenerator

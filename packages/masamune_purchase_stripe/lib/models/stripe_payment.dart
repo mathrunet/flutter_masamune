@@ -92,21 +92,24 @@ class _$$_StripePaymentModelCollectionQuery {
   }
 }
 
+/// [Enum] of the name of the value defined in StripePaymentModel.
+typedef StripePaymentModelKeys = _$StripePaymentModelKeys;
+
 /// Alias for ModelRef<StripePaymentModel>.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
 /// ```dart
-/// @RefParam(StripePaymentModelDocument) StripePaymentModelRef stripe_purchase_payment
+/// @RefParam(StripePaymentModelDocument) StripePaymentModelRef replaced_collection
 /// ```
 typedef StripePaymentModelRef = ModelRef<StripePaymentModel>?;
 
 /// It can be defined as an empty ModelRef<StripePaymentModel>.
 ///
-///　```dart
+/// ```dart
 /// StripePaymentModelRefPath("xxx") // Define as a path.
 /// ```
-typedef StripePaymentModelRefPath = _$StripePaymentModelPath;
+typedef StripePaymentModelRefPath = _$StripePaymentModelRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -122,11 +125,38 @@ typedef StripePaymentModelRefPath = _$StripePaymentModelPath;
 typedef StripePaymentModelInitialCollection
     = _$StripePaymentModelInitialCollection;
 
-/// [Enum] of the name of the value defined in StripePaymentModel.
-typedef StripePaymentModelKeys = _$StripePaymentModelKeys;
-
 /// Document class for storing StripePaymentModel.
 typedef StripePaymentModelDocument = _$StripePaymentModelDocument;
 
 /// Collection class for storing StripePaymentModel.
 typedef StripePaymentModelCollection = _$StripePaymentModelCollection;
+
+/// It can be defined as an empty ModelRef<StripePaymentModel>.
+///
+/// ```dart
+/// StripePaymentModelMirrorRefPath("xxx") // Define as a path.
+/// ```
+typedef StripePaymentModelMirrorRefPath
+    = _$StripePaymentModelMirrorRefPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     StripePaymentModelMirrorInitialCollection(
+///       "xxx": StripePaymentModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef StripePaymentModelMirrorInitialCollection
+    = _$StripePaymentModelMirrorInitialCollection;
+
+/// Document class for storing StripePaymentModel.
+typedef StripePaymentModelMirrorDocument
+    = _$StripePaymentModelMirrorDocument;
+
+/// Collection class for storing StripePaymentModel.
+typedef StripePaymentModelMirrorCollection
+    = _$StripePaymentModelMirrorCollection;

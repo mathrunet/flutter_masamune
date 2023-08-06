@@ -37,6 +37,8 @@ class _$StripePaymentModelDocument extends DocumentBase<StripePaymentModel>
   DynamicMap toMap(StripePaymentModel value) => value.rawValue;
 }
 
+typedef _$StripePaymentModelMirrorDocument = _$StripePaymentModelDocument;
+
 class _$StripePaymentModelCollection
     extends CollectionBase<_$StripePaymentModelDocument>
     with
@@ -60,9 +62,11 @@ class _$StripePaymentModelCollection
   }
 }
 
+typedef _$StripePaymentModelMirrorCollection = _$StripePaymentModelCollection;
+
 @immutable
-class _$StripePaymentModelPath extends ModelRefPath<StripePaymentModel> {
-  const _$StripePaymentModelPath(
+class _$StripePaymentModelRefPath extends ModelRefPath<StripePaymentModel> {
+  const _$StripePaymentModelRefPath(
     String uid, {
     required String userId,
   })  : _userId = userId,
@@ -186,3 +190,7 @@ class _$_StripePaymentModelCollectionQuery
           BooleanModelQuerySelector<_$_StripePaymentModelCollectionQuery>(
               key: "isDefault", toQuery: _toQuery, modelQuery: modelQuery);
 }
+
+typedef _$StripePaymentModelMirrorRefPath = _$StripePaymentModelRefPath;
+typedef _$StripePaymentModelMirrorInitialCollection
+    = _$StripePaymentModelInitialCollection;

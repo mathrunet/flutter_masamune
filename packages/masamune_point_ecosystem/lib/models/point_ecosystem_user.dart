@@ -57,21 +57,24 @@ class PointEcosystemUserModel with _$PointEcosystemUserModel {
   static const form = _$PointEcosystemUserModelFormQuery();
 }
 
+/// [Enum] of the name of the value defined in PointEcosystemUserModel.
+typedef PointEcosystemUserModelKeys = _$PointEcosystemUserModelKeys;
+
 /// Alias for ModelRef<PointEcosystemUserModel>.
 ///
 /// When defining parameters for other Models, you can define them as follows
 ///
 /// ```dart
-/// @RefParam(PointEcosystemUserModelDocument) PointEcosystemUserModelRef point_ecosystem_user
+/// @RefParam(PointEcosystemUserModelDocument) PointEcosystemUserModelRef replaced_collection
 /// ```
 typedef PointEcosystemUserModelRef = ModelRef<PointEcosystemUserModel>?;
 
 /// It can be defined as an empty ModelRef<PointEcosystemUserModel>.
 ///
-///　```dart
+/// ```dart
 /// PointEcosystemUserModelRefPath("xxx") // Define as a path.
 /// ```
-typedef PointEcosystemUserModelRefPath = _$PointEcosystemUserModelPath;
+typedef PointEcosystemUserModelRefPath = _$PointEcosystemUserModelRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -87,11 +90,38 @@ typedef PointEcosystemUserModelRefPath = _$PointEcosystemUserModelPath;
 typedef PointEcosystemUserModelInitialCollection
     = _$PointEcosystemUserModelInitialCollection;
 
-/// [Enum] of the name of the value defined in PointEcosystemUserModel.
-typedef PointEcosystemUserModelKeys = _$PointEcosystemUserModelKeys;
-
 /// Document class for storing PointEcosystemUserModel.
 typedef PointEcosystemUserModelDocument = _$PointEcosystemUserModelDocument;
 
 /// Collection class for storing PointEcosystemUserModel.
 typedef PointEcosystemUserModelCollection = _$PointEcosystemUserModelCollection;
+
+/// It can be defined as an empty ModelRef<PointEcosystemUserModel>.
+///
+/// ```dart
+/// PointEcosystemUserModelMirrorRefPath("xxx") // Define as a path.
+/// ```
+typedef PointEcosystemUserModelMirrorRefPath
+    = _$PointEcosystemUserModelMirrorRefPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     PointEcosystemUserModelMirrorInitialCollection(
+///       "xxx": PointEcosystemUserModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef PointEcosystemUserModelMirrorInitialCollection
+    = _$PointEcosystemUserModelMirrorInitialCollection;
+
+/// Document class for storing PointEcosystemUserModel.
+typedef PointEcosystemUserModelMirrorDocument
+    = _$PointEcosystemUserModelMirrorDocument;
+
+/// Collection class for storing PointEcosystemUserModel.
+typedef PointEcosystemUserModelMirrorCollection
+    = _$PointEcosystemUserModelMirrorCollection;

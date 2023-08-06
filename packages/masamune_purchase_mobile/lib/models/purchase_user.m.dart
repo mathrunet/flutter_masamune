@@ -28,6 +28,8 @@ class _$PurchaseUserModelDocument extends DocumentBase<PurchaseUserModel>
   DynamicMap toMap(PurchaseUserModel value) => value.rawValue;
 }
 
+typedef _$PurchaseUserModelMirrorDocument = _$PurchaseUserModelDocument;
+
 class _$PurchaseUserModelCollection
     extends CollectionBase<_$PurchaseUserModelDocument>
     with
@@ -51,9 +53,11 @@ class _$PurchaseUserModelCollection
   }
 }
 
+typedef _$PurchaseUserModelMirrorCollection = _$PurchaseUserModelCollection;
+
 @immutable
-class _$PurchaseUserModelPath extends ModelRefPath<PurchaseUserModel> {
-  const _$PurchaseUserModelPath(String uid) : super(uid);
+class _$PurchaseUserModelRefPath extends ModelRefPath<PurchaseUserModel> {
+  const _$PurchaseUserModelRefPath(String uid) : super(uid);
 
   @override
   DocumentModelQuery get modelQuery {
@@ -141,6 +145,10 @@ class _$_PurchaseUserModelCollectionQuery
       NumModelQuerySelector<_$_PurchaseUserModelCollectionQuery>(
           key: "value", toQuery: _toQuery, modelQuery: modelQuery);
 }
+
+typedef _$PurchaseUserModelMirrorRefPath = _$PurchaseUserModelRefPath;
+typedef _$PurchaseUserModelMirrorInitialCollection
+    = _$PurchaseUserModelInitialCollection;
 
 // **************************************************************************
 // FormValueGenerator
