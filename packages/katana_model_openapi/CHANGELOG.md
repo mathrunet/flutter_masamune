@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))
+
 ## 2.0.14
 
  - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))

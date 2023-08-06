@@ -15,6 +15,93 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.11.0`](#katana_model---v2110)
+ - [`katana_model_firestore` - `v2.7.0`](#katana_model_firestore---v270)
+ - [`katana_model_local` - `v2.5.0`](#katana_model_local---v250)
+ - [`katana_model_openapi` - `v2.1.0`](#katana_model_openapi---v210)
+ - [`masamune` - `v2.4.3`](#masamune---v243)
+ - [`masamune_location` - `v2.1.70`](#masamune_location---v2170)
+ - [`masamune_auth_apple` - `v2.1.59`](#masamune_auth_apple---v2159)
+ - [`masamune_text_to_speech` - `v2.1.25`](#masamune_text_to_speech---v2125)
+ - [`masamune_agora` - `v2.2.41`](#masamune_agora---v2241)
+ - [`masamune_auth_google` - `v2.1.59`](#masamune_auth_google---v2159)
+ - [`masamune_ai_openai` - `v2.1.56`](#masamune_ai_openai---v2156)
+ - [`masamune_calendar` - `v2.0.103`](#masamune_calendar---v20103)
+ - [`masamune_picker` - `v2.1.58`](#masamune_picker---v2158)
+ - [`masamune_util` - `v2.1.37`](#masamune_util---v2137)
+ - [`masamune_universal_ui` - `v2.2.38`](#masamune_universal_ui---v2238)
+ - [`masamune_purchase_stripe` - `v3.3.3`](#masamune_purchase_stripe---v333)
+ - [`masamune_logger_firebase` - `v2.0.101`](#masamune_logger_firebase---v20101)
+ - [`masamune_introduction` - `v2.2.7`](#masamune_introduction---v227)
+ - [`masamune_location_google` - `v2.1.71`](#masamune_location_google---v2171)
+ - [`masamune_speech_to_text` - `v2.1.27`](#masamune_speech_to_text---v2127)
+ - [`masamune_auth_facebook` - `v2.1.61`](#masamune_auth_facebook---v2161)
+ - [`masamune_point_ecosystem` - `v2.2.3`](#masamune_point_ecosystem---v223)
+ - [`masamune_module` - `v2.1.4`](#masamune_module---v214)
+ - [`masamune_mail` - `v2.1.56`](#masamune_mail---v2156)
+ - [`masamune_notification_firebase` - `v2.1.56`](#masamune_notification_firebase---v2156)
+ - [`masamune_purchase_mobile` - `v2.5.3`](#masamune_purchase_mobile---v253)
+ - [`masamune_ads_google` - `v2.1.9`](#masamune_ads_google---v219)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.3`
+ - `masamune_location` - `v2.1.70`
+ - `masamune_auth_apple` - `v2.1.59`
+ - `masamune_text_to_speech` - `v2.1.25`
+ - `masamune_agora` - `v2.2.41`
+ - `masamune_auth_google` - `v2.1.59`
+ - `masamune_ai_openai` - `v2.1.56`
+ - `masamune_calendar` - `v2.0.103`
+ - `masamune_picker` - `v2.1.58`
+ - `masamune_util` - `v2.1.37`
+ - `masamune_universal_ui` - `v2.2.38`
+ - `masamune_purchase_stripe` - `v3.3.3`
+ - `masamune_logger_firebase` - `v2.0.101`
+ - `masamune_introduction` - `v2.2.7`
+ - `masamune_location_google` - `v2.1.71`
+ - `masamune_speech_to_text` - `v2.1.27`
+ - `masamune_auth_facebook` - `v2.1.61`
+ - `masamune_point_ecosystem` - `v2.2.3`
+ - `masamune_module` - `v2.1.4`
+ - `masamune_mail` - `v2.1.56`
+ - `masamune_notification_firebase` - `v2.1.56`
+ - `masamune_purchase_mobile` - `v2.5.3`
+ - `masamune_ads_google` - `v2.1.9`
+
+---
+
+#### `katana_model` - `v2.11.0`
+
+ - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))
+
+#### `katana_model_firestore` - `v2.7.0`
+
+ - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))
+
+#### `katana_model_local` - `v2.5.0`
+
+ - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))
+
+#### `katana_model_openapi` - `v2.1.0`
+
+ - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))
+
+
+## 2023-08-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v2.4.2`](#masamune---v242)
  - [`masamune_location` - `v2.1.69`](#masamune_location---v2169)
  - [`masamune_auth_apple` - `v2.1.58`](#masamune_auth_apple---v2158)

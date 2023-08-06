@@ -1,3 +1,7 @@
+## 2.11.0
+
+ - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))
+
 ## 2.10.8
 
  - **FIX**: Added InitialDocument. ([3551ba98](https://github.com/mathrunet/flutter_masamune/commit/3551ba98f3f2b3d22243e41edba5379ff68ef266))
