@@ -1,3 +1,7 @@
+## 2.7.4
+
+ - **FIX**: Add Model for Mirror to the definition. ([2df92f13](https://github.com/mathrunet/flutter_masamune/commit/2df92f1302195095c568ccfc78095ed30f32290f))
+
 ## 2.7.3
 
  - **FIX**: Remove Keys from Form. ([de790d54](https://github.com/mathrunet/flutter_masamune/commit/de790d548eace142c9c023b9cc2d8783f7c05ada))

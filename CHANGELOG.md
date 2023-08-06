@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.7.4`](#katana_cli---v274)
+ - [`masamune_builder` - `v2.7.4`](#masamune_builder---v274)
+
+---
+
+#### `katana_cli` - `v2.7.4`
+
+ - **FIX**: Add Model for Mirror to the definition. ([2df92f13](https://github.com/mathrunet/flutter_masamune/commit/2df92f1302195095c568ccfc78095ed30f32290f))
+
+#### `masamune_builder` - `v2.7.4`
+
+ - **FIX**: Add Model for Mirror to the definition. ([2df92f13](https://github.com/mathrunet/flutter_masamune/commit/2df92f1302195095c568ccfc78095ed30f32290f))
+
+
 ## 2023-08-05
 
 ### Changes
