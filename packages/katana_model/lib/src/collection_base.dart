@@ -290,6 +290,34 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return loaded;
   }
 
+  /// {@macro model_transaction}
+  ///
+  /// ```dart
+  /// final transaction = sourceCollection.transaction();
+  /// transaction((ref, collection){
+  ///   final doc = ref.read(collection.create()); // `doc` is [ModelTransactionDocument] of `sourceDocument`.
+  ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+  ///   doc.save(newValue);
+  /// });
+  /// ```
+  ModelTransactionCollectionBuilder<TModel> transaction() {
+    return ModelTransactionCollectionBuilder._(this);
+  }
+
+  /// {@macro model_batch}
+  ///
+  /// ```dart
+  /// final batch = sourceCollection.batch();
+  /// batch((ref, collection){
+  ///   final doc = ref.read(collection.create()); // `doc` is [ModelBatchDocument] of `sourceDocument`.
+  ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+  ///   doc.save(newValue);
+  /// });
+  /// ```
+  ModelBatchCollectionBuilder<TModel> batch({int splitLength = 100}) {
+    return ModelBatchCollectionBuilder._(this, splitLength);
+  }
+
   /// [callback] will redefine a new [CollectionModelQuery] and execute [reload].
   ///
   /// Use this function when you want to read the file again with new conditions.

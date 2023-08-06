@@ -4,7 +4,7 @@ part of katana_model;
 ///
 /// Any changes made locally in the app will be notified and related objects will reflect the changes.
 ///
-/// When a value is reflected by [save], [delete], [transaction], or updated in real time from outside, all listeners are notified of the change by [notifyListeners].
+/// When a value is reflected by [save], [delete], [transaction], [batch], or updated in real time from outside, all listeners are notified of the change by [notifyListeners].
 ///
 /// Define object conversion from [DynamicMap] to [T], which is output by decoding Json by implementing [DocumentBase.fromMap].
 ///
@@ -18,7 +18,7 @@ part of katana_model;
 ///
 /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
 ///
-/// [save]や[delete]、[transaction]での値反映、外部からのリアルタイム更新が行われた場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+/// [save]や[delete]、[transaction]、[batch]での値反映、外部からのリアルタイム更新が行われた場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
 ///
 /// [DocumentBase.fromMap]を実装することでJsonをデコードして出力される[DynamicMap]から[T]へのオブジェクト変換を定義します。
 ///
@@ -33,7 +33,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// Any changes made locally in the app will be notified and related objects will reflect the changes.
   ///
-  /// When a value is reflected by [save], [delete], [transaction], or updated in real time from outside, all listeners are notified of the change by [notifyListeners].
+  /// When a value is reflected by [save], [delete], [transaction], [batch], or updated in real time from outside, all listeners are notified of the change by [notifyListeners].
   ///
   /// Define object conversion from [DynamicMap] to [T], which is output by decoding Json by implementing [DocumentBase.fromMap].
   ///
@@ -47,7 +47,7 @@ abstract class DocumentBase<T> extends ChangeNotifier
   ///
   /// アプリのローカル内での変更はすべて通知され関連のあるオブジェクトは変更内容が反映されます。
   ///
-  /// [save]や[delete]、[transaction]での値反映、外部からのリアルタイム更新が行われた場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
+  /// [save]や[delete]、[transaction]、[batch]での値反映、外部からのリアルタイム更新が行われた場合[notifyListeners]によって変更内容がすべてのリスナーに通知されます。
   ///
   /// [DocumentBase.fromMap]を実装することでJsonをデコードして出力される[DynamicMap]から[T]へのオブジェクト変換を定義します。
   ///
@@ -336,27 +336,32 @@ abstract class DocumentBase<T> extends ChangeNotifier
     }
   }
 
-  /// Create a transaction builder.
-  ///
-  /// The invoked transaction can be `call` as is, and transaction processing can be performed by executing [ModelTransactionDocument.load], [ModelTransactionDocument.save], and [ModelTransactionDocument.delete].
-  ///
-  /// ModelTransactionRef.read] can be used to create a [ModelTransactionDocument] from another [DocumentBase] and describe the process to be performed together.
-  ///
-  /// トランザクションビルダーを作成します。
-  ///
-  /// 呼び出されたトランザクションはそのまま`call`することができ、その引数から与えられる[ModelTransactionDocument]を用いて[ModelTransactionDocument.load]、[ModelTransactionDocument.save]、[ModelTransactionDocument.delete]を実行することでトランザクション処理を行うことが可能です。
-  ///
-  /// [ModelTransactionRef.read]を用いて他の[DocumentBase]から[ModelTransactionDocument]を作成することができ、まとめて実行する処理を記述することができます。
+  /// {@macro model_transaction}
   ///
   /// ```dart
   /// final transaction = sourceDocument.transaction();
-  /// transaction((ref, doc){ // `doc`は`sourceDocument`の[ModelTransactionDocument]
+  /// transaction((ref, document){
+  ///   final doc = ref.read(document); // `doc` is [ModelTransactionDocument] of `sourceDocument`.
   ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
   ///   doc.save(newValue);
   /// });
   /// ```
-  ModelTransactionBuilder<T> transaction() {
-    return ModelTransactionBuilder._(this);
+  ModelTransactionDocumentBuilder<T> transaction() {
+    return ModelTransactionDocumentBuilder._(this);
+  }
+
+  /// {@macro model_batch}
+  ///
+  /// ```dart
+  /// final batch = sourceDocument.batch();
+  /// batch((ref, document){
+  ///   final doc = ref.read(document); // `doc` is [ModelBatchDocument] of `sourceDocument`.
+  ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+  ///   doc.save(newValue);
+  /// });
+  /// ```
+  ModelBatchDocumentBuilder<T> batch({int splitLength = 100}) {
+    return ModelBatchDocumentBuilder._(this, splitLength);
   }
 
   /// Implement internal processing when [load] or [reload] is executed.

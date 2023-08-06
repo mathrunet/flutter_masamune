@@ -1,26 +1,29 @@
 part of katana_model;
 
+/// {@template model_transaction}
 /// Builder for transactions.
 ///
-/// The invoked transaction can be `call` as is, and transaction processing can be performed by executing [ModelTransactionDocument.load], [ModelTransactionDocument.save], and [ModelTransactionDocument.delete].
+/// [ModelTransactionDocument] can be created from other [DocumentBase] using [ModelTransactionRef.read], and the process to be executed together can be written.
 ///
-/// ModelTransactionRef.read] can be used to create a [ModelTransactionDocument] from another [DocumentBase] and describe the process to be performed together.
+/// [ModelTransactionDocument.load], [ModelTransactionDocument.save], and [ModelTransactionDocument.delete] using [ModelTransactionDocument]. transaction processing can be performed by executing
 ///
 /// トランザクションを行うためのビルダー。
 ///
-/// 呼び出されたトランザクションはそのまま`call`することができ、その引数から与えられる[ModelTransactionDocument]を用いて[ModelTransactionDocument.load]、[ModelTransactionDocument.save]、[ModelTransactionDocument.delete]を実行することでトランザクション処理を行うことが可能です。
-///
 /// [ModelTransactionRef.read]を用いて他の[DocumentBase]から[ModelTransactionDocument]を作成することができ、まとめて実行する処理を記述することができます。
+///
+/// [ModelTransactionDocument]を用いて[ModelTransactionDocument.load]、[ModelTransactionDocument.save]、[ModelTransactionDocument.delete]を実行することでトランザクション処理を行うことが可能です。
+/// {@endtemplate}
 ///
 /// ```dart
 /// final transaction = sourceDocument.transaction();
-/// transaction((ref, doc){ // `doc` is [ModelTransactionDocument] of `sourceDocument`.
+/// transaction((ref, document){
+///   final doc = ref.read(document); // `doc` is [ModelTransactionDocument] of `sourceDocument`.
 ///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
 ///   doc.save(newValue);
 /// });
 /// ```
-class ModelTransactionBuilder<T> {
-  ModelTransactionBuilder._(this.document);
+class ModelTransactionDocumentBuilder<T> {
+  ModelTransactionDocumentBuilder._(this.document);
 
   /// Original document.
   ///
@@ -33,12 +36,48 @@ class ModelTransactionBuilder<T> {
   FutureOr<void> call(
     FutureOr<void> Function(
       ModelTransactionRef ref,
-      ModelTransactionDocument<T> doc,
+      DocumentBase<T> doc,
     ) transaction,
   ) {
-    return document.modelQuery.adapter.runTransaction<T>(
-      document,
-      transaction,
+    return document.modelQuery.adapter.runTransaction(
+      (ref) {
+        return transaction(ref, document);
+      },
+    );
+  }
+}
+
+/// {@macro model_transaction}
+///
+/// ```dart
+/// final transaction = sourceCollection.transaction();
+/// transaction((ref, collection){
+///   final doc = ref.read(collection.create()); // `doc` is [ModelTransactionDocument] of `sourceDocument`.
+///   final newValue = {"name": "test"}; // The same mechanism can be used to perform the same preservation method as usual.
+///   doc.save(newValue);
+/// });
+/// ```
+class ModelTransactionCollectionBuilder<TModel extends DocumentBase> {
+  ModelTransactionCollectionBuilder._(this.collection);
+
+  /// Original collection.
+  ///
+  /// 元となるコレクション。
+  final CollectionBase<TModel> collection;
+
+  /// [transaction] is passed as a callback to execute the transaction.
+  ///
+  /// [transaction]をコールバックとして渡しトランザクションを実行します。
+  FutureOr<void> call(
+    FutureOr<void> Function(
+      ModelTransactionRef ref,
+      CollectionBase<TModel> collection,
+    ) transaction,
+  ) {
+    return collection.modelQuery.adapter.runTransaction(
+      (ref) {
+        return transaction(ref, collection);
+      },
     );
   }
 }

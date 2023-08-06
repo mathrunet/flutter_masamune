@@ -185,20 +185,14 @@ abstract class ModelAdapter {
 
   /// Do the processing to execute the transaction.
   ///
-  /// The base document is passed to [doc] and the actual processing callback is passed to [transaction].
-  ///
-  /// Create an adapter-specific [ModelTransactionRef] that internally inherits from [ModelTransactionRef], create a [doc] from that [ModelTransactionRef.read], pass it directly to the [transaction] argument, and execute [transaction].
+  /// Create an adapter-specific [ModelTransactionRef] that internally inherits from [ModelTransactionRef], create a [ModelTransactionDocument] from that [ModelTransactionRef.read], pass it directly to the TransactionRef], create a [ModelTransactionDocument] from that [ModelTransactionRef.read], pass it directly to the [transaction] argument, and then execute the [transaction].
   ///
   /// トランザクションを実行するための処理を行います。
   ///
-  /// [doc]にベースとなるドキュメントが渡され、[transaction]に実際行われる処理のコールバックが渡されます。
-  ///
-  /// 内部で[ModelTransactionRef]を継承したアダプター専用の[ModelTransactionRef]を作成し、その[ModelTransactionRef.read]から[doc]を作成、それをそのまま[transaction]の引数に渡し、[transaction]を実行するようにしてください。
-  FutureOr<void> runTransaction<T>(
-    DocumentBase<T> doc,
+  /// 内部で[ModelTransactionRef]を継承したアダプター専用の[ModelTransactionRef]を作成し、その[ModelTransactionRef.read]から[ModelTransactionDocument]を作成、それをそのまま[transaction]の引数に渡し、[transaction]を実行するようにしてください。
+  FutureOr<void> runTransaction(
     FutureOr<void> Function(
       ModelTransactionRef ref,
-      ModelTransactionDocument<T> doc,
     ) transaction,
   );
 
@@ -248,6 +242,57 @@ abstract class ModelAdapter {
   /// [ref]に[runTransaction]で作成した[ModelTransactionRef]が渡され、[query]は対象のドキュメントのクエリが渡されます。
   void deleteOnTransaction(
     ModelTransactionRef ref,
+    ModelAdapterDocumentQuery query,
+  );
+
+  /// Processes a batch for execution.
+  ///
+  /// Create an adapter-specific [ModelBatchRef] that inherits [ModelBatchRef] internally, create a [ModelBatchDocument] from the [ModelBatchRef.read], pass it as an argument to [batch], and execute [batch batch] and execute [batch].
+  ///
+  /// Split batches by specifying [splitLength].
+  ///
+  /// バッチを実行するための処理を行います。
+  ///
+  /// 内部で[ModelBatchRef]を継承したアダプター専用の[ModelBatchRef]を作成し、その[ModelBatchRef.read]から[ModelBatchDocument]を作成、それをそのまま[batch]の引数に渡し、[batch]を実行するようにしてください。
+  ///
+  /// [splitLength]を指定してバッチを分割することができます。
+  FutureOr<void> runBatch(
+    FutureOr<void> Function(
+      ModelBatchRef ref,
+    ) batch,
+    int splitLength,
+  );
+
+  /// Describe the data storage process when performing a batch.
+  ///
+  /// The [ModelBatchRef] created by [runBatch] is passed to [ref], and [query] is the query of the target document.
+  ///
+  /// The data to be stored is passed to [value].
+  ///
+  /// Keys with [value] value of [null] should be deleted from the database.
+  ///
+  /// バッチを行う際のデータ保存処理を記述します。
+  ///
+  /// [ref]に[runBatch]で作成した[ModelBatchRef]が渡され、[query]は対象のドキュメントのクエリが渡されます。
+  ///
+  /// [value]に保存するデータが渡されます。
+  ///
+  /// [value]の値に[Null]が入っているキーはデータベース上から削除するようにしてください。
+  void saveOnBatch(
+    ModelBatchRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  );
+
+  /// Describe the data deletion process when performing a batch.
+  ///
+  /// The [ModelBatchRef] created by [runBatch] is passed to [ref], and [query] is the query of the target document.
+  ///
+  /// バッチを行う際のデータ削除処理を記述します。
+  ///
+  /// [ref]に[runBatch]で作成した[ModelBatchRef]が渡され、[query]は対象のドキュメントのクエリが渡されます。
+  void deleteOnBatch(
+    ModelBatchRef ref,
     ModelAdapterDocumentQuery query,
   );
 }

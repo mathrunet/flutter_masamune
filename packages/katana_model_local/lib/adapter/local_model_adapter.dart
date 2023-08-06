@@ -211,15 +211,13 @@ class LocalModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> runTransaction<T>(
-    DocumentBase<T> doc,
+  FutureOr<void> runTransaction(
     FutureOr<void> Function(
       ModelTransactionRef ref,
-      ModelTransactionDocument<T> doc,
     ) transaction,
   ) async {
     final ref = LocalModelTransactionRef._();
-    await transaction.call(ref, ref.read(doc));
+    await transaction.call(ref);
     for (final tmp in ref._transactionList) {
       await tmp.call();
     }
@@ -241,6 +239,43 @@ class LocalModelAdapter extends ModelAdapter {
   int get hashCode {
     return prefix.hashCode;
   }
+
+  @override
+  void deleteOnBatch(
+    ModelBatchRef ref,
+    ModelAdapterDocumentQuery query,
+  ) {
+    if (ref is! LocalModelBatchRef) {
+      throw Exception("[ref] is not [LocalModelBatchRef].");
+    }
+    ref._batchList.add(() => deleteDocument(query));
+  }
+
+  @override
+  void saveOnBatch(
+    ModelBatchRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) {
+    if (ref is! LocalModelBatchRef) {
+      throw Exception("[ref] is not [LocalModelBatchRef].");
+    }
+    ref._batchList.add(() => saveDocument(query, value));
+  }
+
+  @override
+  FutureOr<void> runBatch(
+    FutureOr<void> Function(
+      ModelBatchRef ref,
+    ) batch,
+    int splitLength,
+  ) async {
+    final ref = LocalModelBatchRef._();
+    await batch.call(ref);
+    await wait(
+      ref._batchList.map((tmp) => tmp.call()),
+    );
+  }
 }
 
 /// [ModelTransactionRef] for [LocalModelAdapter].
@@ -250,4 +285,13 @@ class LocalModelTransactionRef extends ModelTransactionRef {
   LocalModelTransactionRef._();
 
   final List<FutureOr<void> Function()> _transactionList = [];
+}
+
+/// [ModelBatchRef] for [LocalModelAdapter].
+/// [LocalModelAdapter]用の[ModelBatchRef]。
+@immutable
+class LocalModelBatchRef extends ModelBatchRef {
+  LocalModelBatchRef._();
+
+  final List<FutureOr<void> Function()> _batchList = [];
 }

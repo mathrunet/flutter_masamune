@@ -484,8 +484,8 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     if (ref is! ListenableFirestoreModelTransactionRef) {
       throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
-    ref.transaction.delete(database.doc(_path(query.query.path)));
-    ref.localTransaction.add(() async {
+    ref._transaction.delete(database.doc(_path(query.query.path)));
+    ref._localTransaction.add(() async {
       _FirestoreCache.getCache(options).set(_path(query.query.path));
     });
   }
@@ -499,7 +499,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
       throw Exception("[ref] is not [ListenableFirestoreModelTransactionRef].");
     }
     final snapshot =
-        await ref.transaction.get(database.doc(_path(query.query.path)));
+        await ref._transaction.get(database.doc(_path(query.query.path)));
     var res = _convertFrom(snapshot.data() ?? {});
     if (res.isEmpty) {
       final localRes =
@@ -525,32 +525,108 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
       value,
       _FirestoreCache.getCache(options).get(_path(query.query.path)) ?? {},
     );
-    ref.transaction.set(
+    ref._transaction.set(
       database.doc(_path(query.query.path)),
       converted,
       SetOptions(merge: true),
     );
-    ref.localTransaction.add(() async {
+    ref._localTransaction.add(() async {
       _FirestoreCache.getCache(options).set(_path(query.query.path), value);
     });
   }
 
   @override
-  FutureOr<void> runTransaction<T>(
-    DocumentBase<T> doc,
+  FutureOr<void> runTransaction(
     FutureOr<void> Function(
       ModelTransactionRef ref,
-      ModelTransactionDocument<T> doc,
     ) transaction,
   ) async {
     await FirebaseCore.initialize(options: options);
     await database.runTransaction((handler) async {
       final ref = ListenableFirestoreModelTransactionRef._(handler);
-      await transaction.call(ref, ref.read(doc));
-      for (final tr in ref.localTransaction) {
+      await transaction.call(ref);
+      for (final tr in ref._localTransaction) {
         await tr.call();
       }
     });
+  }
+
+  @override
+  void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
+    if (ref is! ListenableFirestoreModelBatchRef) {
+      throw Exception("[ref] is not [ListenableFirestoreModelBatchRef].");
+    }
+    ref._localBatch.add(
+      _ListenableFirestoreModelBatchItem(
+        path: _path(query.query.path),
+        actions: () async {
+          await localDatabase.deleteDocument(query, prefix: prefix);
+          _FirestoreCache.getCache(options).set(_path(query.query.path));
+        },
+      ),
+    );
+  }
+
+  @override
+  FutureOr<void> runBatch(
+    FutureOr<void> Function(
+      ModelBatchRef ref,
+    ) batch,
+    int splitLength,
+  ) async {
+    assert(
+      splitLength > 0 && splitLength <= 500,
+      "[splitLength] must be greater than 0 and less than or equal to 500 in Firestore.",
+    );
+    await FirebaseCore.initialize(options: options);
+    final ref = ListenableFirestoreModelBatchRef._();
+    await batch.call(ref);
+    await wait(
+      ref._localBatch.split(splitLength).expand((b) {
+        final db = database.batch();
+        final actions = <Future<void>>[];
+        for (final item in b) {
+          if (item.value == null) {
+            db.delete(database.doc(item.path));
+          } else {
+            db.set(
+              database.doc(item.path),
+              item.value,
+              SetOptions(merge: true),
+            );
+            if (item.actions != null) {
+              actions.add(item.actions!());
+            }
+          }
+        }
+        return [db.commit(), ...actions];
+      }),
+    );
+  }
+
+  @override
+  void saveOnBatch(
+    ModelBatchRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) {
+    if (ref is! ListenableFirestoreModelBatchRef) {
+      throw Exception("[ref] is not [ListenableFirestoreModelBatchRef].");
+    }
+    final converted = _convertTo(
+      value,
+      _FirestoreCache.getCache(options).get(_path(query.query.path)) ?? {},
+    );
+    ref._localBatch.add(
+      _ListenableFirestoreModelBatchItem(
+        path: _path(query.query.path),
+        value: converted,
+        actions: () async {
+          await localDatabase.saveDocument(query, value, prefix: prefix);
+          _FirestoreCache.getCache(options).set(_path(query.query.path), value);
+        },
+      ),
+    );
   }
 
   DynamicMap _convertFrom(DynamicMap map) {
@@ -778,7 +854,25 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
 
 @immutable
 class ListenableFirestoreModelTransactionRef extends ModelTransactionRef {
-  ListenableFirestoreModelTransactionRef._(this.transaction);
-  final Transaction transaction;
-  final List<Future<void> Function()> localTransaction = [];
+  ListenableFirestoreModelTransactionRef._(this._transaction);
+  final Transaction _transaction;
+  final List<Future<void> Function()> _localTransaction = [];
+}
+
+@immutable
+class ListenableFirestoreModelBatchRef extends ModelBatchRef {
+  ListenableFirestoreModelBatchRef._();
+  final List<_ListenableFirestoreModelBatchItem> _localBatch = [];
+}
+
+@immutable
+class _ListenableFirestoreModelBatchItem {
+  const _ListenableFirestoreModelBatchItem({
+    required this.path,
+    this.value,
+    this.actions,
+  });
+  final String path;
+  final DynamicMap? value;
+  final Future<void> Function()? actions;
 }

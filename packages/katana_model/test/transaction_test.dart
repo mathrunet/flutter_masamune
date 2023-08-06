@@ -236,7 +236,8 @@ void main() {
     final query2 = DocumentModelQuery("test/doc2", adapter: adapter);
     final model2 = RuntimeMapDocumentModel(query2);
     final builder = model.transaction();
-    await builder.call((ref, doc) async {
+    await builder.call((ref, document) async {
+      final doc = ref.read(document);
       final docData = await doc.load();
       expect(docData, {"name": "test", "text": "testtest"});
       final doc2 = ref.read(model2);
@@ -247,7 +248,8 @@ void main() {
     });
     expect(model.value, {"name": "aaa", "text": "bbb"});
     expect(model2.value, {"name": "ccc", "text": "ddd"});
-    await builder.call((ref, doc) async {
+    await builder.call((ref, document) async {
+      final doc = ref.read(document);
       final docData = await doc.load();
       expect(docData, {"name": "aaa", "text": "bbb"});
       final doc2 = ref.read(model2);
@@ -260,6 +262,41 @@ void main() {
     });
     expect(model.value, null);
     expect(model2.value, null);
+  });
+
+  test("runtimeDocumentModel.batch", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = CollectionModelQuery("test", adapter: adapter);
+    final model = RuntimeCollectionModel(query);
+    final builder = model.batch();
+    await builder.call((ref, col) async {
+      for (var i = 0; i < 1000; i++) {
+        final doc = ref.read(col.create());
+        doc.save({"name": "aaa", "text": "bbb", "count": i});
+      }
+    });
+
+    for (var i = 0; i < model.length; i++) {
+      final doc = model[i];
+      expect(doc.value, {"name": "aaa", "text": "bbb", "count": i});
+    }
+    await builder.call((ref, col) async {
+      for (var i = 0; i < col.length; i++) {
+        final doc = ref.read(col[i]);
+        doc.save({"name": "aaa", "text": "ccc", "count": i});
+      }
+    });
+    for (var i = 0; i < model.length; i++) {
+      final doc = model[i];
+      expect(doc.value, {"name": "aaa", "text": "ccc", "count": i});
+    }
+    await builder.call((ref, col) async {
+      for (var i = 0; i < col.length; i++) {
+        final doc = ref.read(col[i]);
+        doc.delete();
+      }
+    });
+    expect(model.length, 0);
   });
 
   test("runtimeDocumentModel.modelRef", () async {
@@ -315,7 +352,8 @@ void main() {
     final query2 = DocumentModelQuery("test/doc2", adapter: adapter);
     final model2 = RuntimeMTestValueDocumentModel(query2);
     final builder = model.transaction();
-    await builder.call((ref, doc) async {
+    await builder.call((ref, document) async {
+      final doc = ref.read(document);
       final docData = await doc.load();
       expect(docData, const TestValue(name: "test", text: "testtest"));
       final doc2 = ref.read(model2);
@@ -326,7 +364,8 @@ void main() {
     });
     expect(model.value, const TestValue(name: "aaa", text: "bbb"));
     expect(model2.value, const TestValue(name: "ccc", text: "ddd"));
-    await builder.call((ref, doc) async {
+    await builder.call((ref, document) async {
+      final doc = ref.read(document);
       final docData = await doc.load();
       expect(docData, const TestValue(name: "aaa", text: "bbb"));
       final doc2 = ref.read(model2);
@@ -339,6 +378,40 @@ void main() {
     });
     expect(model.value, null);
     expect(model2.value, null);
+  });
+  test("runtimeDocumentModel.batch.Freezed", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final query = CollectionModelQuery("test", adapter: adapter);
+    final model = RuntimeTestValueCollectionModel(query);
+    final builder = model.batch();
+    await builder.call((ref, col) async {
+      for (var i = 0; i < 1000; i++) {
+        final doc = ref.read(col.create());
+        doc.save(TestValue(name: "aaa", text: "bbb", ids: [i]));
+      }
+    });
+
+    for (var i = 0; i < model.length; i++) {
+      final doc = model[i];
+      expect(doc.value, TestValue(name: "aaa", text: "bbb", ids: [i]));
+    }
+    await builder.call((ref, col) async {
+      for (var i = 0; i < col.length; i++) {
+        final doc = ref.read(col[i]);
+        doc.save(TestValue(name: "aaa", text: "ccc", ids: [i]));
+      }
+    });
+    for (var i = 0; i < model.length; i++) {
+      final doc = model[i];
+      expect(doc.value, TestValue(name: "aaa", text: "ccc", ids: [i]));
+    }
+    await builder.call((ref, col) async {
+      for (var i = 0; i < col.length; i++) {
+        final doc = ref.read(col[i]);
+        doc.delete();
+      }
+    });
+    expect(model.length, 0);
   });
 
   test("runtimeDocumentModel.modelRef.Freezed", () async {

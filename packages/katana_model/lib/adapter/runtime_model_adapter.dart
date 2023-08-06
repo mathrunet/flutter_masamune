@@ -196,18 +196,52 @@ class RuntimeModelAdapter extends ModelAdapter {
   }
 
   @override
-  FutureOr<void> runTransaction<T>(
-    DocumentBase<T> doc,
+  FutureOr<void> runTransaction(
     FutureOr<void> Function(
       ModelTransactionRef ref,
-      ModelTransactionDocument<T> doc,
     ) transaction,
   ) async {
     final ref = RuntimeModelTransactionRef._();
-    await transaction.call(ref, ref.read(doc));
+    await transaction.call(ref);
     for (final tmp in ref._transactionList) {
       await tmp.call();
     }
+  }
+
+  @override
+  void deleteOnBatch(
+    ModelBatchRef ref,
+    ModelAdapterDocumentQuery query,
+  ) {
+    if (ref is! RuntimeModelBatchRef) {
+      throw Exception("[ref] is not [RuntimeModelBatchRef].");
+    }
+    ref._batchList.add(() => deleteDocument(query));
+  }
+
+  @override
+  void saveOnBatch(
+    ModelBatchRef ref,
+    ModelAdapterDocumentQuery query,
+    DynamicMap value,
+  ) {
+    if (ref is! RuntimeModelBatchRef) {
+      throw Exception("[ref] is not [RuntimeModelBatchRef].");
+    }
+    ref._batchList.add(() => saveDocument(query, value));
+  }
+
+  @override
+  FutureOr<void> runBatch(
+    FutureOr<void> Function(
+      ModelBatchRef ref,
+    ) batch,
+    int splitLength,
+  ) async {
+    final ref = RuntimeModelBatchRef._();
+    await wait(
+      ref._batchList.map((tmp) => tmp.call()),
+    );
   }
 
   String _path(String original) {
@@ -235,4 +269,13 @@ class RuntimeModelTransactionRef extends ModelTransactionRef {
   RuntimeModelTransactionRef._();
 
   final List<FutureOr<void> Function()> _transactionList = [];
+}
+
+/// [ModelBatchRef] for [RuntimeModelAdapter].
+/// [RuntimeModelAdapter]用の[ModelBatchRef]。
+@immutable
+class RuntimeModelBatchRef extends ModelBatchRef {
+  RuntimeModelBatchRef._();
+
+  final List<FutureOr<void> Function()> _batchList = [];
 }
