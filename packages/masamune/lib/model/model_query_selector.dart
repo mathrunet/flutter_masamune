@@ -472,6 +472,55 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
     required super.modelQuery,
   });
 
+  /// Only elements contained within the range of neighboring GeoHashes of [value] will be added to the filtering.
+  ///
+  /// [value]の隣り合うGeoHashの範囲内に含む要素のみをフィルタリングに追加します。
+  TQuery append(ModelGeoValue? value) {
+    if (value == null) {
+      return _toQuery(_modelQuery);
+    }
+    final sourceNeighbors = _modelQuery.filters
+        .firstWhereOrNull(
+          (element) => element.key == key,
+        )
+        ?.value as List<String>?;
+
+    final neighbors = [
+      if (sourceNeighbors != null) ...sourceNeighbors,
+      ...value.value.neighbors,
+    ].distinct().sortTo((a, b) => a.compareTo(b));
+    return _toQuery(
+      _modelQuery.geo(
+        key,
+        neighbors,
+      ),
+    );
+  }
+
+  /// Remove from filtering only those elements that are contained within the range of adjacent GeoHashes of [value].
+  ///
+  /// [value]の隣り合うGeoHashの範囲内に含む要素のみをフィルタリングから削除します。
+  TQuery remove(ModelGeoValue? value) {
+    if (value == null) {
+      return _toQuery(_modelQuery);
+    }
+    final sourceNeighbors = _modelQuery.filters
+        .firstWhereOrNull(
+          (element) => element.key == key,
+        )
+        ?.value as List<String>?;
+
+    for (final hash in value.value.neighbors) {
+      sourceNeighbors?.remove(hash);
+    }
+    return _toQuery(
+      _modelQuery.geo(
+        key,
+        sourceNeighbors?.distinct().sortTo((a, b) => a.compareTo(b)) ?? [],
+      ),
+    );
+  }
+
   /// You can filter only those elements that fall within the range of neighboring GeoHashes of [value].
   ///
   /// [value]の隣り合うGeoHashの範囲内に含む要素のみをフィルタリングすることができます。
