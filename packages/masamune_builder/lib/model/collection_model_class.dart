@@ -370,6 +370,12 @@ List<Spec> collectionModelClass(
             ),
           ]),
       ),
+    ] else ...[
+      TypeDef(
+        (t) => t
+          ..name = "_\$${model.name}MirrorCollection"
+          ..definition = Reference("_\$${model.name}Collection"),
+      ),
     ],
   ];
 }

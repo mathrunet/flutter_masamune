@@ -380,6 +380,12 @@ List<Spec> documentModelClass(
               ),
           ]),
       ),
+    ] else ...[
+      TypeDef(
+        (t) => t
+          ..name = "_\$${model.name}MirrorDocument"
+          ..definition = Reference("_\$${model.name}Document"),
+      ),
     ],
   ];
 }

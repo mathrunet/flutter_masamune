@@ -117,6 +117,9 @@ class ${className}Model with _\$${className}Model {
   static const form = _\$${className}ModelFormQuery();
 }
 
+/// [Enum] of the name of the value defined in ${className}Model.
+typedef ${className}ModelKeys = _\$${className}ModelKeys;
+
 /// Alias for ModelRef<${className}Model>.
 ///
 /// When defining parameters for other Models, you can define them as follows
@@ -131,7 +134,7 @@ typedef ${className}ModelRef = ModelRef<${className}Model>?;
 /// ```dart
 /// ${className}ModelRefPath("xxx") // Define as a path.
 /// ```
-typedef ${className}ModelRefPath = _\$${className}ModelPath;
+typedef ${className}ModelRefPath = _\$${className}ModelRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -146,14 +149,37 @@ typedef ${className}ModelRefPath = _\$${className}ModelPath;
 /// ```
 typedef ${className}ModelInitialCollection = _\$${className}ModelInitialCollection;
 
-/// [Enum] of the name of the value defined in ${className}Model.
-typedef ${className}ModelKeys = _\$${className}ModelKeys;
-
 /// Document class for storing ${className}Model.
 typedef ${className}ModelDocument = _\$${className}ModelDocument;
 
 /// Collection class for storing ${className}Model.
 typedef ${className}ModelCollection = _\$${className}ModelCollection;
+
+/// It can be defined as an empty ModelRef<${className}Model>.
+///
+/// ```dart
+/// ${className}ModelMirrorRefPath("xxx") // Define as a path.
+/// ```
+typedef ${className}ModelMirrorRefPath = _\$${className}ModelMirrorRefPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     ${className}ModelMirrorInitialCollection(
+///       "xxx": ${className}Model(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef ${className}ModelMirrorInitialCollection = _\$${className}ModelMirrorInitialCollection;
+
+/// Document class for storing ${className}Model.
+typedef ${className}ModelMirrorDocument = _\$${className}ModelMirrorDocument;
+
+/// Collection class for storing ${className}Model.
+typedef ${className}ModelMirrorCollection = _\$${className}ModelMirrorCollection;
 """;
   }
 }

@@ -66,7 +66,7 @@ List<Spec> collectionModelQueryClass(
   return [
     Class(
       (c) => c
-        ..name = "_\$${model.name}Path"
+        ..name = "_\$${model.name}RefPath"
         ..extend = Reference("ModelRefPath<${model.name}>")
         ..annotations.addAll([const Reference("immutable")])
         ..constructors.addAll([
@@ -499,7 +499,7 @@ List<Spec> collectionModelQueryClass(
     if (mirror != null) ...[
       Class(
         (c) => c
-          ..name = "_\$${model.name}MirrorPath"
+          ..name = "_\$${model.name}MirrorRefPath"
           ..annotations.addAll([const Reference("immutable")])
           ..extend = Reference("ModelRefPath<${model.name}>")
           ..constructors.addAll([
@@ -914,6 +914,17 @@ List<Spec> collectionModelQueryClass(
             }),
           ]),
       ),
+    ] else ...[
+      TypeDef(
+        (t) => t
+          ..name = "_\$${model.name}MirrorRefPath"
+          ..definition = Reference("_\$${model.name}RefPath"),
+      ),
+      TypeDef(
+        (t) => t
+          ..name = "_\$${model.name}MirrorInitialCollection"
+          ..definition = Reference("_\$${model.name}InitialCollection"),
+      )
     ],
   ];
 }
