@@ -15,6 +15,76 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.4.2`](#masamune---v242)
+ - [`masamune_location` - `v2.1.69`](#masamune_location---v2169)
+ - [`masamune_auth_apple` - `v2.1.58`](#masamune_auth_apple---v2158)
+ - [`masamune_text_to_speech` - `v2.1.24`](#masamune_text_to_speech---v2124)
+ - [`masamune_auth_google` - `v2.1.58`](#masamune_auth_google---v2158)
+ - [`masamune_agora` - `v2.2.40`](#masamune_agora---v2240)
+ - [`masamune_ai_openai` - `v2.1.55`](#masamune_ai_openai---v2155)
+ - [`masamune_calendar` - `v2.0.102`](#masamune_calendar---v20102)
+ - [`masamune_picker` - `v2.1.57`](#masamune_picker---v2157)
+ - [`masamune_util` - `v2.1.36`](#masamune_util---v2136)
+ - [`masamune_universal_ui` - `v2.2.37`](#masamune_universal_ui---v2237)
+ - [`masamune_purchase_stripe` - `v3.3.2`](#masamune_purchase_stripe---v332)
+ - [`masamune_logger_firebase` - `v2.0.100`](#masamune_logger_firebase---v20100)
+ - [`masamune_introduction` - `v2.2.6`](#masamune_introduction---v226)
+ - [`masamune_speech_to_text` - `v2.1.26`](#masamune_speech_to_text---v2126)
+ - [`masamune_location_google` - `v2.1.70`](#masamune_location_google---v2170)
+ - [`masamune_auth_facebook` - `v2.1.60`](#masamune_auth_facebook---v2160)
+ - [`masamune_point_ecosystem` - `v2.2.2`](#masamune_point_ecosystem---v222)
+ - [`masamune_notification_firebase` - `v2.1.55`](#masamune_notification_firebase---v2155)
+ - [`masamune_module` - `v2.1.3`](#masamune_module---v213)
+ - [`masamune_purchase_mobile` - `v2.5.2`](#masamune_purchase_mobile---v252)
+ - [`masamune_mail` - `v2.1.55`](#masamune_mail---v2155)
+ - [`masamune_ads_google` - `v2.1.8`](#masamune_ads_google---v218)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.69`
+ - `masamune_auth_apple` - `v2.1.58`
+ - `masamune_text_to_speech` - `v2.1.24`
+ - `masamune_auth_google` - `v2.1.58`
+ - `masamune_agora` - `v2.2.40`
+ - `masamune_ai_openai` - `v2.1.55`
+ - `masamune_calendar` - `v2.0.102`
+ - `masamune_picker` - `v2.1.57`
+ - `masamune_util` - `v2.1.36`
+ - `masamune_universal_ui` - `v2.2.37`
+ - `masamune_purchase_stripe` - `v3.3.2`
+ - `masamune_logger_firebase` - `v2.0.100`
+ - `masamune_introduction` - `v2.2.6`
+ - `masamune_speech_to_text` - `v2.1.26`
+ - `masamune_location_google` - `v2.1.70`
+ - `masamune_auth_facebook` - `v2.1.60`
+ - `masamune_point_ecosystem` - `v2.2.2`
+ - `masamune_notification_firebase` - `v2.1.55`
+ - `masamune_module` - `v2.1.3`
+ - `masamune_purchase_mobile` - `v2.5.2`
+ - `masamune_mail` - `v2.1.55`
+ - `masamune_ads_google` - `v2.1.8`
+
+---
+
+#### `masamune` - `v2.4.2`
+
+ - **FIX**: Add append and remove to GeoValue of ModelQuerySelector. ([143a07a9](https://github.com/mathrunet/flutter_masamune/commit/143a07a9d4c5e843281cad13fbf2bc112bfe7af8))
+
+
+## 2023-08-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_point_ecosystem` - `v2.2.1`](#masamune_point_ecosystem---v221)
  - [`masamune_purchase_mobile` - `v2.5.1`](#masamune_purchase_mobile---v251)
  - [`masamune_purchase_stripe` - `v3.3.1`](#masamune_purchase_stripe---v331)

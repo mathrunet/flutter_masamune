@@ -1,3 +1,7 @@
+## 2.4.2
+
+ - **FIX**: Add append and remove to GeoValue of ModelQuerySelector. ([143a07a9](https://github.com/mathrunet/flutter_masamune/commit/143a07a9d4c5e843281cad13fbf2bc112bfe7af8))
+
 ## 2.4.1
 
  - Update a dependency to the latest release.
