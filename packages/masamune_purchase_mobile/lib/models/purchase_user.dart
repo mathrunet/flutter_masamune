@@ -121,8 +121,7 @@ typedef PurchaseUserModelCollection = _$PurchaseUserModelCollection;
 /// ```dart
 /// PurchaseUserModelMirrorRefPath("xxx") // Define as a path.
 /// ```
-typedef PurchaseUserModelMirrorRefPath
-    = _$PurchaseUserModelMirrorRefPath;
+typedef PurchaseUserModelMirrorRefPath = _$PurchaseUserModelMirrorRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -139,9 +138,7 @@ typedef PurchaseUserModelMirrorInitialCollection
     = _$PurchaseUserModelMirrorInitialCollection;
 
 /// Document class for storing PurchaseUserModel.
-typedef PurchaseUserModelMirrorDocument
-    = _$PurchaseUserModelMirrorDocument;
+typedef PurchaseUserModelMirrorDocument = _$PurchaseUserModelMirrorDocument;
 
 /// Collection class for storing PurchaseUserModel.
-typedef PurchaseUserModelMirrorCollection
-    = _$PurchaseUserModelMirrorCollection;
+typedef PurchaseUserModelMirrorCollection = _$PurchaseUserModelMirrorCollection;

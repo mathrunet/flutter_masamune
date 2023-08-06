@@ -136,8 +136,7 @@ typedef StripePaymentModelCollection = _$StripePaymentModelCollection;
 /// ```dart
 /// StripePaymentModelMirrorRefPath("xxx") // Define as a path.
 /// ```
-typedef StripePaymentModelMirrorRefPath
-    = _$StripePaymentModelMirrorRefPath;
+typedef StripePaymentModelMirrorRefPath = _$StripePaymentModelMirrorRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -154,8 +153,7 @@ typedef StripePaymentModelMirrorInitialCollection
     = _$StripePaymentModelMirrorInitialCollection;
 
 /// Document class for storing StripePaymentModel.
-typedef StripePaymentModelMirrorDocument
-    = _$StripePaymentModelMirrorDocument;
+typedef StripePaymentModelMirrorDocument = _$StripePaymentModelMirrorDocument;
 
 /// Collection class for storing StripePaymentModel.
 typedef StripePaymentModelMirrorCollection

@@ -102,8 +102,7 @@ typedef StripeUserModelRefPath = _$StripeUserModelRefPath;
 ///   ],
 /// );
 /// ```
-typedef StripeUserModelInitialCollection
-    = _$StripeUserModelInitialCollection;
+typedef StripeUserModelInitialCollection = _$StripeUserModelInitialCollection;
 
 /// Document class for storing StripeUserModel.
 typedef StripeUserModelDocument = _$StripeUserModelDocument;
@@ -116,8 +115,7 @@ typedef StripeUserModelCollection = _$StripeUserModelCollection;
 /// ```dart
 /// StripeUserModelMirrorRefPath("xxx") // Define as a path.
 /// ```
-typedef StripeUserModelMirrorRefPath
-    = _$StripeUserModelMirrorRefPath;
+typedef StripeUserModelMirrorRefPath = _$StripeUserModelMirrorRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -134,14 +132,10 @@ typedef StripeUserModelMirrorInitialCollection
     = _$StripeUserModelMirrorInitialCollection;
 
 /// Document class for storing StripeUserModel.
-typedef StripeUserModelMirrorDocument
-    = _$StripeUserModelMirrorDocument;
+typedef StripeUserModelMirrorDocument = _$StripeUserModelMirrorDocument;
 
 /// Collection class for storing StripeUserModel.
-typedef StripeUserModelMirrorCollection
-    = _$StripeUserModelMirrorCollection;
-
-
+typedef StripeUserModelMirrorCollection = _$StripeUserModelMirrorCollection;
 
 @immutable
 class _$$_StripeUserModelDocumentQuery {

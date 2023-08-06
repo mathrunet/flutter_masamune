@@ -114,7 +114,8 @@ typedef PurchaseSubscriptionModelInitialCollection
 typedef PurchaseSubscriptionModelDocument = _$PurchaseSubscriptionModelDocument;
 
 /// Collection class for storing PurchaseSubscriptionModel.
-typedef PurchaseSubscriptionModelCollection = _$PurchaseSubscriptionModelCollection;
+typedef PurchaseSubscriptionModelCollection
+    = _$PurchaseSubscriptionModelCollection;
 
 /// It can be defined as an empty ModelRef<PurchaseSubscriptionModel>.
 ///

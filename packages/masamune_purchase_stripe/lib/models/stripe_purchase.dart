@@ -171,8 +171,7 @@ typedef StripePurchaseModelCollection = _$StripePurchaseModelCollection;
 /// ```dart
 /// StripePurchaseModelMirrorRefPath("xxx") // Define as a path.
 /// ```
-typedef StripePurchaseModelMirrorRefPath
-    = _$StripePurchaseModelMirrorRefPath;
+typedef StripePurchaseModelMirrorRefPath = _$StripePurchaseModelMirrorRefPath;
 
 /// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
 ///
@@ -189,14 +188,11 @@ typedef StripePurchaseModelMirrorInitialCollection
     = _$StripePurchaseModelMirrorInitialCollection;
 
 /// Document class for storing StripePurchaseModel.
-typedef StripePurchaseModelMirrorDocument
-    = _$StripePurchaseModelMirrorDocument;
+typedef StripePurchaseModelMirrorDocument = _$StripePurchaseModelMirrorDocument;
 
 /// Collection class for storing StripePurchaseModel.
 typedef StripePurchaseModelMirrorCollection
     = _$StripePurchaseModelMirrorCollection;
-
-
 
 @immutable
 class _$$_StripePurchaseModelDocumentQuery {
