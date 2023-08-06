@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Support for updating the builder for Model. ([3d5cfdee](https://github.com/mathrunet/flutter_masamune/commit/3d5cfdeedd03a347a985ce85d647a3f6b526a7fc))
+
 ## 2.2.0
 
  - **FEAT**: Model specifications were changed. ([0565e273](https://github.com/mathrunet/flutter_masamune/commit/0565e273e35505df24ffcce98d87215a027322c6))

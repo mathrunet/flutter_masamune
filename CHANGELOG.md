@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_point_ecosystem` - `v2.2.1`](#masamune_point_ecosystem---v221)
+ - [`masamune_purchase_mobile` - `v2.5.1`](#masamune_purchase_mobile---v251)
+ - [`masamune_purchase_stripe` - `v3.3.1`](#masamune_purchase_stripe---v331)
+
+---
+
+#### `masamune_point_ecosystem` - `v2.2.1`
+
+ - **FIX**: Support for updating the builder for Model. ([3d5cfdee](https://github.com/mathrunet/flutter_masamune/commit/3d5cfdeedd03a347a985ce85d647a3f6b526a7fc))
+
+#### `masamune_purchase_mobile` - `v2.5.1`
+
+ - **FIX**: Support for updating the builder for Model. ([3d5cfdee](https://github.com/mathrunet/flutter_masamune/commit/3d5cfdeedd03a347a985ce85d647a3f6b526a7fc))
+
+#### `masamune_purchase_stripe` - `v3.3.1`
+
+ - **FIX**: Support for updating the builder for Model. ([3d5cfdee](https://github.com/mathrunet/flutter_masamune/commit/3d5cfdeedd03a347a985ce85d647a3f6b526a7fc))
+
+
+## 2023-08-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.7.4`](#katana_cli---v274)
  - [`masamune_builder` - `v2.7.4`](#masamune_builder---v274)
 
