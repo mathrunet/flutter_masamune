@@ -368,7 +368,7 @@ class CollectionModelQuery extends ModelQuery {
       return this;
     }
     return _copyWithAddingFilter(filters: [
-      ...filters,
+      ...filters.where((e) => e.type != ModelQueryFilterType.geoHash),
       ModelQueryFilter._(
         type: ModelQueryFilterType.geoHash,
         key: key,
