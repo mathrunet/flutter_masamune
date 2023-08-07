@@ -1,3 +1,8 @@
+## 2.2.40
+
+ - **FIX**: Added UniversalExtentAppBar. ([afac3ce6](https://github.com/mathrunet/flutter_masamune/commit/afac3ce6cb2f73202289aca539f2c606e9a3bdff))
+ - **DOCS**: Deleted unnecessary comments. ([09c4e017](https://github.com/mathrunet/flutter_masamune/commit/09c4e017f2eab0cb7199bda8b1c554eacc65410d))
+
 ## 2.2.39
 
  - Update a dependency to the latest release.

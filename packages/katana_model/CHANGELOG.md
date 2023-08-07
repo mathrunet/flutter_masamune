@@ -1,3 +1,7 @@
+## 2.11.2
+
+ - **FIX**: Fixed a bug that Geo of Model is covered. ([5beeecaa](https://github.com/mathrunet/flutter_masamune/commit/5beeecaa8a026618be4ad0fa9270bcb846b117be))
+
 ## 2.11.1
 
  - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
