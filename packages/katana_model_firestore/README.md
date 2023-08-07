@@ -667,23 +667,23 @@ print(collection); // [{ "name": "hirose", "text": "flutter engineer",}]
 
 ## Transaction
 
-Transactions can be executed in a manner similar to Firestore's `transaction` function.
+It is possible to execute transactions in a manner similar to Firestore's `transaction` feature.
 
-It is possible to combine the updates of multiple documents into one, and to implement a follow/follow function where `each document registers the other's information with each other`, for example.
+It is possible to combine the updates of multiple documents into one and implement a follow/follow function where `each document registers the other's information with each other`.
 
-To perform a transaction, the `ModelTransactionBuilder` must be created by executing the document's `transaction()` method.
+To perform a transaction, you must execute the `transaction()` method of the document or collection to create a `ModelTransactionBuilder`.
 
 The generated `ModelTransactionBuilder` can be executed as is, and the transaction processing is described within its callbacks.
 
-The callback is passed the `ModelTransactionRef` and the `ModelTransactionDocument` that converted the original document for transaction processing.
+The callback is passed the `ModelTransactionRef` and the original document (collection).
 
-Other documents can also be converted to `ModelTransactionDocument` with `ModelTransactionRef.read (document)`.
+Convert the document to a `ModelTransactionDocument` with `ModelTransactionRef.read (document)`.
 
-`ModelTransactionDocument` can load (`load()`), save (`save(T value)`), and delete (`delete()`) data.
+The `ModelTransactionDocument` can load (`load()`), save (`save(T value)`) and delete (`delete()`) data.
 
-However, be sure to **load the data (`load()`) followed by save(`save (T value)`) and delete (`delete()`)**.
+**However be sure to load the data (`load()`) followed by save (`save(T value)`) and delete (`delete()`).**
 
-The save and delete processes are executed after the `ModelTransactionBuilder` callback process is finished, and can wait for the await to complete.
+The save and delete processes are executed after the `ModelTransactionBuilder` callback process is finished and can wait for the await to complete.
 
 ```dart
 final myDocument = ModelDocument(const DocumentModelQuery("/user/me/follow/you"));
@@ -691,7 +691,8 @@ final yourDocument = ModelDocument(const DocumentModelQuery("/user/you/follower/
 
 final transaction = myDocument.transaction();
 await transaction(
-  (ref, myDoc) {
+  (ref, doc) {
+    final myDoc = ref.read(doc);
     final yourDoc = ref.read(yourDocument);
 
     myDoc.save({"to": "you"});
@@ -702,14 +703,15 @@ print(myDocument.value); // {"to": "you"}
 print(yourDocument.value); // {"from": "me"}
 ```
 
-Transaction processing can be organized by using `DocumentBase` `extensions`.
+Transaction processing can be organized by using `extension` of `DocumentBase`.
 
 ```dart
 extension FollowFollowerExtensions on DocumentBase<Map<String, dynamic>> {
   Future<void> follow(DocumentBase<Map<String, dynamic> target) async {
     final tr = transaction();
-		await tr(
-      (ref, me) {
+    await tr(
+      (ref, doc) {
+        final me = ref.read(doc);
         final tar = ref.read(target);
 		
         me.save({"to": tar["id"]});
@@ -722,6 +724,44 @@ extension FollowFollowerExtensions on DocumentBase<Map<String, dynamic>> {
 final myDocument = ModelDocument(const DocumentModelQuery("/user/me/follow/you"));
 final yourDocument = ModelDocument(const DocumentModelQuery("/user/you/follower/me"));
 await myDocument.follow(yourDocument);
+```
+
+## Batch processing
+
+It is possible to perform batch processing in a manner similar to Firestore's `batch` function.
+
+Multiple documents can be run at once for superior performance.
+
+Execute when you want to update thousands or tens of thousands of data at a time.
+
+Batching requires executing the `batch()` method of the document or collection to generate a `ModelBatchBuilder`.
+
+The generated `ModelBatchBuilder` can be executed as is, and batch processing is described in its callbacks.
+
+The callback is passed the `ModelBatchRef` and the original document (collection).
+
+Convert the document to a `ModelBatchDocument` with `ModelBatchRef.read(document)`.
+
+The `ModelBatchDocument` can save (`save(T value)`) and delete (`delete()`) data.
+
+The save and delete process is executed after the `ModelBatchBuilder` callback process is finished and can wait for the completion of the process with await.
+
+```dart
+final myDocument = ModelDocument(const DocumentModelQuery("/user/me/follow/you"));
+final yourDocument = ModelDocument(const DocumentModelQuery("/user/you/follower/me"));
+
+final batch = myDocument.batch();
+await batch(
+  (ref, doc) {
+    final myDoc = ref.read(doc);
+    final yourDoc = ref.read(yourDocument);
+
+    myDoc.save({"to": "you"});
+    yourDoc.save({"from": "me"});
+  },
+);
+print(myDocument.value); // {"to": "you"}
+print(yourDocument.value); // {"from": "me"}
 ```
 
 ## Special Field Values

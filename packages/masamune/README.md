@@ -322,15 +322,6 @@ part 'test.m.dart';
 part 'test.g.dart';
 part 'test.freezed.dart';
 
-/// Alias for ModelRef<TestModel>.
-/// 
-/// When defining parameters for other Models, you can define them as follows
-/// 
-/// ```dart
-/// @refParam TestModelRef test
-/// ```
-typedef TestModelRef = ModelRef<TestModel>?;
-
 /// Value for model.
 @freezed
 @formValue
@@ -359,6 +350,11 @@ class TestModel with _$TestModel {
   /// ```dart
   /// appRef.model(TestModel.collectoin());      // Get the collection.
   /// ref.model(TestModel.collection())..load(); // Load the collection.
+  /// ref.model(
+  ///   TestModel.collection().data.equal(
+  ///     "data",
+  ///   ),
+  /// )..load(); // Load the collection with filter.
   /// ```
   static const collection = _$TestModelCollectionQuery();
 
@@ -369,6 +365,70 @@ class TestModel with _$TestModel {
   /// ```
   static const form = _$TestModelFormQuery();
 }
+
+/// [Enum] of the name of the value defined in TestModel.
+typedef TestModelKeys = _$TestModelKeys;
+
+/// Alias for ModelRef<TestModel>.
+///
+/// When defining parameters for other Models, you can define them as follows
+///
+/// ```dart
+/// @RefParam(TestModelDocument) TestModelRef test
+/// ```
+typedef TestModelRef = ModelRef<TestModel>?;
+
+/// It can be defined as an empty ModelRef<TestModel>.
+///
+/// ```dart
+/// TestModelRefPath("xxx") // Define as a path.
+/// ```
+typedef TestModelRefPath = _$TestModelRefPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     TestModelInitialCollection(
+///       "xxx": TestModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef TestModelInitialCollection = _$TestModelInitialCollection;
+
+/// Document class for storing TestModel.
+typedef TestModelDocument = _$TestModelDocument;
+
+/// Collection class for storing TestModel.
+typedef TestModelCollection = _$TestModelCollection;
+
+/// It can be defined as an empty ModelRef<TestModel>.
+///
+/// ```dart
+/// TestModelMirrorRefPath("xxx") // Define as a path.
+/// ```
+typedef TestModelMirrorRefPath = _$TestModelMirrorRefPath;
+
+/// Class for defining initial values to be passed to `initialValue` of [RuntimeModelAdapter].
+///
+/// ```dart
+/// RuntimeModelAdapter(
+///   initialValue: [
+///     TestModelMirrorInitialCollection(
+///       "xxx": TestModel(...),
+///     ),
+///   ],
+/// );
+/// ```
+typedef TestModelMirrorInitialCollection = _$TestModelMirrorInitialCollection;
+
+/// Document class for storing TestModel.
+typedef TestModelMirrorDocument = _$TestModelMirrorDocument;
+
+/// Collection class for storing TestModel.
+typedef TestModelMirrorCollection = _$TestModelMirrorCollection;
 ```
 
 If you do not need a collection, but only a document model, you can create one with the following command.
@@ -428,6 +488,14 @@ Also, if you want to use it outside of a page or widget, you can use it in an `a
 final testModelCollection = appRef.model(TestModel.collection());
 ```
 
+### SharedPreferences feature
+
+If you want to store data locally, such as SharedPreferences, separately from the regular DB, you can do so by using a `ModelAdapter`.
+
+For more information, please see below.
+
+[[Flutter] Enhancement of Masamune’s DB linkage function](https://medium.com/@mathru/flutter-enhancement-of-masamunes-db-linkage-function-9599c0540e4e)
+
 To learn more about the other features listed below, please visit the package details page.
 
 - Editing and Deleting data
@@ -435,6 +503,7 @@ To learn more about the other features listed below, please visit the package de
 - Sort function for collections
 - Text search
 - Specify and retrieve relational data
+- Transaction and batch processing
 - Special Field Values
 
 katana_model
@@ -514,12 +583,6 @@ In the case of `appRef`, it is managed across pages. (Same as `ref.app.controlle
 
 ```dart
 final testController = appRef.controller(TestController.query());
-```
-
-If you want to bundle multiple controllers, enter the following command to create a controller group.
-
-```bash
-katana code group [ControllerGroup name]
 ```
 
 ## State management
@@ -676,87 +739,6 @@ To learn more about the other features listed below, please visit the package de
 katana_theme
 
 [https://pub.dev/packages/katana_theme](https://pub.dev/packages/katana_theme)
-
-## Shared Preferences
-
-`SharedPreferences` is available to locally store settings and other settings in the app separately from the data model.
-
-### Creating a Object
-
-You can create an object for SharedPreferences with the following command
-
-```bash
-katana code prefs
-```
-
-The following code will be created in `lib/prefs.dart`.
-
-```dart
-// ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
-// ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
-
-// ignore: unused_import, unnecessary_import
-import '/main.dart';
-
-part 'prefs.prefs.dart';
-
-/// Get SharedPreferences for the app.
-/// 
-/// ```dart
-/// appPrefs.xxx.get();      // Get xxx value.
-/// appPrefs.xxx.set("xxx"); // Set xxx value.
-/// ```
-final appPrefs = Prefs(
-  // TODO: Initial values defined in Prefs are listed here.
-  
-);
-
-/// Shared Preferences.
-@prefs
-class Prefs with _$Prefs, ChangeNotifier {
-  factory Prefs({
-    // TODO: Define here the values to be managed in Shared Preferences.
-    
-  }) = _Prefs;
-  Prefs._();
-}
-```
-
-Specify the type and name of the value you want to manage in the `factory` method.
-
-Also, the value specified in `required` must always be listed as the initial value in the definition of `Prefs`.
-
-```dart
-factory Prefs({
-  // TODO: Define here the values to be managed in Shared Preferences.
-  required double volumeSetting, 
-  String? userToken,
-}) = _Prefs;
-```
-
-```dart
-final appPrefs = Prefs(
-  // TODO: Initial values defined in Prefs are listed here.
-  volumeSetting: 0.5,
-);
-```
-
-### How to use
-
-SharedPreferences are obtained and saved by executing the `get()` and `set(value)` methods of the `appPrefs` object.
-
-```dart
-appPrefs.volumeSetting.get();     // Get the value of `volumeSetting
-appPrefs.volumeSetting.set(1.0);  // Set `volumeSetting` to 1.0
-```
-
-For other details, please see the package details page.
-
-katana_prefs
-
-[https://pub.dev/packages/katana_prefs](https://pub.dev/packages/katana_prefs)
 
 ## Form Building
 
