@@ -1,3 +1,7 @@
+## 2.4.7
+
+ - Update a dependency to the latest release.
+
 ## 2.4.6
 
  - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))

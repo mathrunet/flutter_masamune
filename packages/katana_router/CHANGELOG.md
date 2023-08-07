@@ -1,3 +1,7 @@
+## 2.0.24
+
+ - **FIX**: Remove unnecessary elements. ([00f93d69](https://github.com/mathrunet/flutter_masamune/commit/00f93d694b7a09bbc0f90c5b98e58faf3f6663c3))
+
 ## 2.0.23
 
  - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
