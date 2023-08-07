@@ -15,8 +15,6 @@ part of masamune_universal_ui;
 ///
 /// Setting [waitTransition] to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
 ///
-/// Setting [showScrollbarWhenDesktopOrWeb] to `true` will show scrollbars on desktop and web.
-///
 /// Webとデスクトップ、モバイルで一貫したUIを提供するためのScaffoldを作成します。
 ///
 /// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
@@ -31,8 +29,6 @@ part of masamune_universal_ui;
 /// [loadingWidget]を指定すると、ローディングウィジェットを変更できます。
 ///
 /// [waitTransition]を`true`にするとトランジションアニメーションの間に[body]を表示しないようにすることができ、スムーズなアニメーションを実現できます。
-///
-/// [showScrollbarWhenDesktopOrWeb]を`true`にするとデスクトップとWebでスクロールバーを表示します。
 ///
 /// ```dart
 /// @override
@@ -77,8 +73,6 @@ class UniversalScaffold extends StatefulWidget {
   ///
   /// Setting [waitTransition] to `true` will prevent [body] from being displayed during the transition animation, resulting in a smooth animation.
   ///
-  /// Setting [showScrollbarWhenDesktopOrWeb] to `true` will show scrollbars on desktop and web.
-  ///
   /// Webとデスクトップ、モバイルで一貫したUIを提供するためのScaffoldを作成します。
   ///
   /// [UniversalScaffold]は、[UniversalAppBar]と[UniversalListView]などを使用して、UIを構築するとレスポンシブ対応なモダンUIが作成可能です。
@@ -93,8 +87,6 @@ class UniversalScaffold extends StatefulWidget {
   /// [loadingWidget]を指定すると、ローディングウィジェットを変更できます。
   ///
   /// [waitTransition]を`true`にするとトランジションアニメーションの間に[body]を表示しないようにすることができ、スムーズなアニメーションを実現できます。
-  ///
-  /// [showScrollbarWhenDesktopOrWeb]を`true`にするとデスクトップとWebでスクロールバーを表示します。
   ///
   /// ```dart
   /// @override
