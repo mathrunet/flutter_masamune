@@ -48,9 +48,6 @@ abstract class AppPageRoute<T> extends Page<T> {
         builder: builder,
         path: path,
         transitionQuery: transitionQuery,
-        opaque: transitionQuery?.transition.opaque ?? false,
-        barrierDismissible:
-            transitionQuery?.transition.barrierDismissible ?? false,
         barrierColor:
             transitionQuery?.transition.barrierColor ?? const Color(0x80000000),
       );
