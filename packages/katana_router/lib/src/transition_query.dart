@@ -73,6 +73,20 @@ class TransitionQuery {
   static const TransitionQuery bottomModal =
       TransitionQuery._(transition: _TransitionQueryType.bottomModal);
 
+  /// [TransitionQuery] to perform modal transitions from below.
+  ///
+  /// The back page will be visible.
+  ///
+  /// The background will also be transparent.
+  ///
+  /// 下からのモーダルのトランジションを行なう[TransitionQuery]。
+  ///
+  /// 裏のページが見えるようになります。
+  ///
+  /// また、背景も透明になります。
+  static const TransitionQuery transparentBottomModal = TransitionQuery._(
+      transition: _TransitionQueryType.transparentBottomModal);
+
   /// TransitionQuery] that performs modal transitions that fade.
   ///
   /// The back page will be visible.

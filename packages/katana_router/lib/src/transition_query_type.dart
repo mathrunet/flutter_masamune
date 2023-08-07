@@ -42,6 +42,16 @@ enum _TransitionQueryType {
   /// 裏のページが見えるようになります。
   bottomModal(isModal: true, isFullscreen: true),
 
+  /// Modal transitions from below.
+  ///
+  /// The back page will be visible.
+  ///
+  /// 下からのモーダルトランジション。
+  ///
+  /// 裏のページが見えるようになります。
+  transparentBottomModal(
+      isModal: true, isFullscreen: true, barrierColor: Color(0x00000000)),
+
   /// Modal transition to fade.
   ///
   /// The back page will be visible.
@@ -57,6 +67,9 @@ enum _TransitionQueryType {
   const _TransitionQueryType({
     required this.isModal,
     required this.isFullscreen,
+    this.opaque = false,
+    this.barrierDismissible = false,
+    this.barrierColor = const Color(0x80000000),
   });
 
   /// True when using a modal.
@@ -68,6 +81,26 @@ enum _TransitionQueryType {
   ///
   /// フルスクリーンとして扱う場合はTrue。
   final bool isFullscreen;
+
+  /// Whether the route obscures previous routes when the transition is complete.
+  ///
+  /// When an opaque route's entrance transition is complete, the routes behind
+  /// the opaque route will not be built to save resources.
+  ///
+  /// 遷移が完了したときに、ルートが前のルートを隠すかどうか。
+  ///
+  /// 不透明なルートの入場トランジションが完了したとき、不透明なルートの後ろにあるルートは、リソースを節約するために構築されません。
+  final bool opaque;
+
+  /// Whether the route can be popped when the barrier is tapped.
+  ///
+  /// バリアをタップしたときにルートをポップできるかどうか。
+  final bool barrierDismissible;
+
+  /// Barrier color.
+  ///
+  /// バリアの色。
+  final Color barrierColor;
 
   /// Builder for creating transitions.
   ///
@@ -112,6 +145,7 @@ enum _TransitionQueryType {
           ),
         );
       case _TransitionQueryType.bottomModal:
+      case _TransitionQueryType.transparentBottomModal:
         return FadeTransition(
           opacity: _fadeTween.animate(animation),
           child: SlideTransition(
