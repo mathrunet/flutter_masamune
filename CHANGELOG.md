@@ -3,6 +3,101 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v2.11.1`](#katana_model---v2111)
+ - [`katana_model_firestore` - `v2.7.1`](#katana_model_firestore---v271)
+ - [`katana_model_local` - `v2.5.1`](#katana_model_local---v251)
+ - [`masamune` - `v2.4.4`](#masamune---v244)
+ - [`masamune_annotation` - `v2.2.2`](#masamune_annotation---v222)
+ - [`masamune_builder` - `v2.7.5`](#masamune_builder---v275)
+ - [`masamune_location` - `v2.1.71`](#masamune_location---v2171)
+ - [`masamune_auth_apple` - `v2.1.60`](#masamune_auth_apple---v2160)
+ - [`masamune_text_to_speech` - `v2.1.26`](#masamune_text_to_speech---v2126)
+ - [`masamune_agora` - `v2.2.42`](#masamune_agora---v2242)
+ - [`masamune_auth_google` - `v2.1.60`](#masamune_auth_google---v2160)
+ - [`masamune_ai_openai` - `v2.1.57`](#masamune_ai_openai---v2157)
+ - [`masamune_calendar` - `v2.0.104`](#masamune_calendar---v20104)
+ - [`masamune_picker` - `v2.1.59`](#masamune_picker---v2159)
+ - [`masamune_util` - `v2.1.38`](#masamune_util---v2138)
+ - [`masamune_universal_ui` - `v2.2.39`](#masamune_universal_ui---v2239)
+ - [`masamune_purchase_stripe` - `v3.3.4`](#masamune_purchase_stripe---v334)
+ - [`masamune_logger_firebase` - `v2.0.102`](#masamune_logger_firebase---v20102)
+ - [`masamune_introduction` - `v2.2.8`](#masamune_introduction---v228)
+ - [`masamune_speech_to_text` - `v2.1.28`](#masamune_speech_to_text---v2128)
+ - [`masamune_auth_facebook` - `v2.1.62`](#masamune_auth_facebook---v2162)
+ - [`masamune_location_google` - `v2.1.72`](#masamune_location_google---v2172)
+ - [`masamune_module` - `v2.1.5`](#masamune_module---v215)
+ - [`masamune_mail` - `v2.1.57`](#masamune_mail---v2157)
+ - [`masamune_point_ecosystem` - `v2.2.4`](#masamune_point_ecosystem---v224)
+ - [`masamune_notification_firebase` - `v2.1.57`](#masamune_notification_firebase---v2157)
+ - [`masamune_purchase_mobile` - `v2.5.4`](#masamune_purchase_mobile---v254)
+ - [`masamune_ads_google` - `v2.1.10`](#masamune_ads_google---v2110)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.71`
+ - `masamune_auth_apple` - `v2.1.60`
+ - `masamune_text_to_speech` - `v2.1.26`
+ - `masamune_agora` - `v2.2.42`
+ - `masamune_auth_google` - `v2.1.60`
+ - `masamune_ai_openai` - `v2.1.57`
+ - `masamune_calendar` - `v2.0.104`
+ - `masamune_picker` - `v2.1.59`
+ - `masamune_util` - `v2.1.38`
+ - `masamune_universal_ui` - `v2.2.39`
+ - `masamune_purchase_stripe` - `v3.3.4`
+ - `masamune_logger_firebase` - `v2.0.102`
+ - `masamune_introduction` - `v2.2.8`
+ - `masamune_speech_to_text` - `v2.1.28`
+ - `masamune_auth_facebook` - `v2.1.62`
+ - `masamune_location_google` - `v2.1.72`
+ - `masamune_module` - `v2.1.5`
+ - `masamune_mail` - `v2.1.57`
+ - `masamune_point_ecosystem` - `v2.2.4`
+ - `masamune_notification_firebase` - `v2.1.57`
+ - `masamune_purchase_mobile` - `v2.5.4`
+ - `masamune_ads_google` - `v2.1.10`
+
+---
+
+#### `katana_model` - `v2.11.1`
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
+#### `katana_model_firestore` - `v2.7.1`
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
+#### `katana_model_local` - `v2.5.1`
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
+#### `masamune` - `v2.4.4`
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
+#### `masamune_annotation` - `v2.2.2`
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
+#### `masamune_builder` - `v2.7.5`
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
+
 ## 2023-08-06
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
 ## 2.5.0
 
  - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))

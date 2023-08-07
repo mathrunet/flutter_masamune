@@ -1,3 +1,7 @@
+## 2.7.5
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
 ## 2.7.4
 
  - **FIX**: Add Model for Mirror to the definition. ([2df92f13](https://github.com/mathrunet/flutter_masamune/commit/2df92f1302195095c568ccfc78095ed30f32290f))

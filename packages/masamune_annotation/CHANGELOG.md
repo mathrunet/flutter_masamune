@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
+
 ## 2.2.1
 
  - **FIX**: Changed to hide all values. ([588300f6](https://github.com/mathrunet/flutter_masamune/commit/588300f6c458ba8f5bd395d5fb9497d116321c6c))
