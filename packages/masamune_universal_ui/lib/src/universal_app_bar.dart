@@ -1604,6 +1604,319 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
+/// Extended size [AppBar].
+///
+/// Basically, it is used in the same way as [AppBar].
+///
+/// It is responsive, and [title] moves according to the set screen size by [breakpoint] of [UniversalScaffold].
+///
+/// By specifying [subtitle], a subtitle can be displayed below [title].
+///
+/// サイズが拡張された[AppBar]。
+///
+/// 基本的には[AppBar]と同じように使用します。
+///
+/// レスポンシブ対応しており、[UniversalScaffold]の[breakpoint]によって、設定された画面サイズに応じて、[title]が移動します。
+///
+/// [subtitle]を指定することで、[title]の下にサブタイトルを表示することができます。
+@immutable
+class UniversalExtentAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  /// Extended size [AppBar].
+  ///
+  /// Basically, it is used in the same way as [AppBar].
+  ///
+  /// It is responsive, and [title] moves according to the set screen size by [breakpoint] of [UniversalScaffold].
+  ///
+  /// By specifying [subtitle], a subtitle can be displayed below [title].
+  ///
+  /// サイズが拡張された[AppBar]。
+  ///
+  /// 基本的には[AppBar]と同じように使用します。
+  ///
+  /// レスポンシブ対応しており、[UniversalScaffold]の[breakpoint]によって、設定された画面サイズに応じて、[title]が移動します。
+  ///
+  /// [subtitle]を指定することで、[title]の下にサブタイトルを表示することができます。
+  const UniversalExtentAppBar({
+    super.key,
+    this.height = kDefaultExpandedHeight,
+    this.foregroundColor,
+    this.backgroundColor,
+    this.iconTheme,
+    this.actionsIconTheme,
+    this.automaticallyImplyLeading =
+        AutomaticallyImplyLeadingType.drawerAndBack,
+    this.leading,
+    this.centerTitle = false,
+    this.title,
+    this.actions,
+    this.subtitle,
+    this.titleTextStyle,
+    this.background,
+    this.breakpoint,
+    this.leadingWidth,
+    this.titleSpacing,
+    this.titlePadding = const EdgeInsets.all(16),
+    this.titlePosition = UniversalAppBarTitlePosition.bottom,
+    this.enableResponsivePadding = true,
+  });
+
+  /// {@macro flutter.material.appbar.title}
+  final Widget? title;
+
+  /// {@macro flutter.material.appbar.actions}
+  final List<Widget>? actions;
+
+  /// Specify the subtitle to be displayed under [title].
+  ///
+  /// [title]の下に表示するサブタイトルを指定します。
+  final Widget? subtitle;
+
+  /// Fixed height of [AppBar].
+  ///
+  /// [AppBar]の固定の高さ。
+  final double height;
+
+  /// {@macro flutter.material.appbar.backgroundColor}
+  final Color? backgroundColor;
+
+  /// {@macro flutter.material.appbar.foregroundColor}
+  final Color? foregroundColor;
+
+  /// Specify the background widget for [AppBar].
+  ///
+  /// [AppBar]の背景ウィジェットを指定します。
+  final Widget? background;
+
+  /// {@macro flutter.material.appbar.centerTitle}
+  final bool centerTitle;
+
+  /// Specifies whether [leading] is set automatically.
+  ///
+  /// You can choose the type of setting under [AutomaticallyImplyLeadingType].
+  ///
+  /// 自動で[leading]を設定するかどうかを指定します。
+  ///
+  /// [AutomaticallyImplyLeadingType]で設定のタイプを選ぶことができます。
+  final AutomaticallyImplyLeadingType automaticallyImplyLeading;
+
+  /// {@macro flutter.material.appbar.leading}
+  final Widget? leading;
+
+  /// {@macro flutter.material.appbar.titleTextStyle}
+  final TextStyle? titleTextStyle;
+
+  /// Specify padding for [title] and [subtitle].
+  ///
+  /// [title]および[subtitle]のパディングを指定します。
+  final EdgeInsetsGeometry titlePadding;
+
+  /// {@macro flutter.material.appbar.leadingWidth}
+  final double? leadingWidth;
+
+  /// {@macro flutter.material.appbar.titleSpacing}
+  final double? titleSpacing;
+
+  /// You can specify the breakpoint at which the UI will change to a mobile-oriented UI.
+  ///
+  /// UIがモバイル向けのUIに変化するブレークポイントを指定できます。
+  final Breakpoint? breakpoint;
+
+  /// {@macro flutter.material.appbar.iconTheme}
+  final IconThemeData? iconTheme;
+
+  /// {@macro flutter.material.appbar.actionsIconTheme}
+  final IconThemeData? actionsIconTheme;
+
+  /// Specify the position of [title] and [subtitle].
+  ///
+  /// [title]および[subtitle]の位置を指定します。
+  final UniversalAppBarTitlePosition titlePosition;
+
+  /// Set to `true` to enable responsive padding.
+  ///
+  /// レスポンシブのパディングを有効にする場合は`true`にします。
+  final bool enableResponsivePadding;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).appBarTheme;
+    final appBarTheme = Theme.of(context).appBarTheme;
+    final centerTitle = this.centerTitle;
+
+    final scaffold = Scaffold.maybeOf(context);
+    final parentRoute = ModalRoute.of(context);
+    final hasDrawer = scaffold?.hasDrawer ?? false;
+    final hasEndDrawer = scaffold?.hasEndDrawer ?? false;
+    final canPop = parentRoute?.canPop ?? false;
+    final showLeading = this.leading != null ||
+        ((automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.onlyDrawer ||
+                automaticallyImplyLeading ==
+                    AutomaticallyImplyLeadingType.drawerAndBack) &&
+            hasDrawer) ||
+        (automaticallyImplyLeading ==
+                AutomaticallyImplyLeadingType.drawerAndBack &&
+            ((!hasEndDrawer && canPop) ||
+                (parentRoute?.impliesAppBarDismissal ?? false)));
+    final bool useCloseButton =
+        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    final overallIconTheme = iconTheme ?? appBarTheme.iconTheme;
+    Widget? leading = this.leading;
+    if (leading == null) {
+      if ((automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.onlyDrawer ||
+              automaticallyImplyLeading ==
+                  AutomaticallyImplyLeadingType.drawerAndBack) &&
+          hasDrawer) {
+        leading = IconButton(
+          icon: const Icon(Icons.menu),
+          iconSize: overallIconTheme?.size ?? 24,
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        );
+      } else if (automaticallyImplyLeading ==
+              AutomaticallyImplyLeadingType.drawerAndBack &&
+          ((!hasEndDrawer && canPop) ||
+              (parentRoute?.impliesAppBarDismissal ?? false))) {
+        leading = useCloseButton ? const CloseButton() : const BackButton();
+      }
+    }
+
+    final mergedTitle = subtitle == null
+        ? title
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: centerTitle
+                ? CrossAxisAlignment.center
+                : CrossAxisAlignment.start,
+            children: [
+              if (title != null) title!,
+              DefaultTextStyle.merge(
+                style:
+                    Theme.of(context).textTheme.labelSmall ?? const TextStyle(),
+                child: subtitle!,
+              ),
+            ],
+          );
+
+    return TextButtonTheme(
+      data: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor:
+              theme.actionsIconTheme?.color ?? theme.foregroundColor,
+        ),
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final titleSpacing = _leadingSpace(context, showLeading);
+          final trailingSpacing = _trailingSpace(context, showLeading);
+
+          return DefaultTextStyle(
+            style: (titleTextStyle ??
+                    appBarTheme.titleTextStyle ??
+                    Theme.of(context).textTheme.titleLarge ??
+                    const TextStyle())
+                .copyWith(
+              color:
+                  foregroundColor ?? Theme.of(context).colorScheme.onBackground,
+            ),
+            child: IconTheme(
+              data: IconThemeData(
+                  color: foregroundColor ??
+                      Theme.of(context).colorScheme.onBackground),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+                alignment: Alignment.topCenter,
+                height: height,
+                color:
+                    backgroundColor ?? Theme.of(context).colorScheme.background,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (background != null) background!,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (leading != null) leading,
+                            if (titlePosition ==
+                                UniversalAppBarTitlePosition.top) ...[
+                              SizedBox(width: titleSpacing),
+                              Expanded(
+                                child: mergedTitle!,
+                              ),
+                            ] else ...[
+                              const Spacer(),
+                            ],
+                            if (actions != null) ...actions!,
+                            SizedBox(width: trailingSpacing),
+                          ],
+                        ),
+                        if (titlePosition != UniversalAppBarTitlePosition.top)
+                          Padding(
+                            padding: titlePadding,
+                            child: mergedTitle,
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  double? _leadingSpace(BuildContext context, bool showLeading) {
+    if (titleSpacing != null) {
+      return titleSpacing;
+    }
+    final width = MediaQuery.of(context).size.width;
+    final breakpoint =
+        this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
+    if (breakpoint == null) {
+      return null;
+    }
+    double spacing = enableResponsivePadding
+        ? (width - breakpoint.width(context)) / 2.0
+        : 0.0;
+    if (showLeading) {
+      spacing -= leadingWidth ?? _kLeadingWidth;
+    } else {
+      spacing = spacing.limitLow(NavigationToolbar.kMiddleSpacing * 2.0);
+    }
+    return spacing.limitLow(NavigationToolbar.kMiddleSpacing);
+  }
+
+  double? _trailingSpace(BuildContext context, bool showLeading) {
+    if (actions.isEmpty) {
+      return 0.0;
+    }
+    final width = MediaQuery.of(context).size.width;
+    final breakpoint =
+        this.breakpoint ?? UniversalScaffold.of(context)?.breakpoint;
+    if (breakpoint == null) {
+      return null;
+    }
+    double spacing = enableResponsivePadding
+        ? (width - breakpoint.width(context)) / 2.0
+        : 0.0;
+    return spacing.limitLow(0.0);
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(height);
+}
+
 /// [AppBar] background widget available in [UniversalAppBar].
 ///
 /// Pass to [UniversalAppBar.background].
