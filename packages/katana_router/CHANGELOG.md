@@ -1,3 +1,7 @@
+## 2.0.23
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+
 ## 2.0.22
 
  - **FIX**: Change the configuration of build.yaml. ([39737f69](https://github.com/mathrunet/flutter_masamune/commit/39737f69b8391c04b4e63b12869dfc15fc1ec32c))

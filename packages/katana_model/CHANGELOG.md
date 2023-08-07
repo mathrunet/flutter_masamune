@@ -1,3 +1,8 @@
+## 2.11.3
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+ - **FIX**: Fixed a bug that Geo of Model is covered. ([5beeecaa](https://github.com/mathrunet/flutter_masamune/commit/5beeecaa8a026618be4ad0fa9270bcb846b117be))
+
 ## 2.11.2
 
  - **FIX**: Fixed a bug that Geo of Model is covered. ([5beeecaa](https://github.com/mathrunet/flutter_masamune/commit/5beeecaa8a026618be4ad0fa9270bcb846b117be))

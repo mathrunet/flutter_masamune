@@ -15,6 +15,102 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.11.3`](#katana_model---v2113)
+ - [`katana_model_firestore` - `v2.7.3`](#katana_model_firestore---v273)
+ - [`katana_model_local` - `v2.5.3`](#katana_model_local---v253)
+ - [`katana_router` - `v2.0.23`](#katana_router---v2023)
+ - [`masamune` - `v2.4.6`](#masamune---v246)
+ - [`masamune_universal_ui` - `v2.2.41`](#masamune_universal_ui---v2241)
+ - [`masamune_location` - `v2.1.73`](#masamune_location---v2173)
+ - [`masamune_auth_apple` - `v2.1.62`](#masamune_auth_apple---v2162)
+ - [`masamune_text_to_speech` - `v2.1.28`](#masamune_text_to_speech---v2128)
+ - [`masamune_agora` - `v2.2.44`](#masamune_agora---v2244)
+ - [`masamune_ai_openai` - `v2.1.59`](#masamune_ai_openai---v2159)
+ - [`masamune_auth_google` - `v2.1.62`](#masamune_auth_google---v2162)
+ - [`masamune_calendar` - `v2.0.106`](#masamune_calendar---v20106)
+ - [`masamune_picker` - `v2.1.61`](#masamune_picker---v2161)
+ - [`masamune_util` - `v2.1.40`](#masamune_util---v2140)
+ - [`masamune_purchase_stripe` - `v3.3.6`](#masamune_purchase_stripe---v336)
+ - [`masamune_logger_firebase` - `v2.0.104`](#masamune_logger_firebase---v20104)
+ - [`masamune_introduction` - `v2.2.10`](#masamune_introduction---v2210)
+ - [`masamune_auth_facebook` - `v2.1.64`](#masamune_auth_facebook---v2164)
+ - [`masamune_speech_to_text` - `v2.1.30`](#masamune_speech_to_text---v2130)
+ - [`masamune_location_google` - `v2.1.74`](#masamune_location_google---v2174)
+ - [`masamune_module` - `v2.1.7`](#masamune_module---v217)
+ - [`masamune_mail` - `v2.1.59`](#masamune_mail---v2159)
+ - [`masamune_notification_firebase` - `v2.1.59`](#masamune_notification_firebase---v2159)
+ - [`masamune_ads_google` - `v2.1.12`](#masamune_ads_google---v2112)
+ - [`masamune_point_ecosystem` - `v2.2.6`](#masamune_point_ecosystem---v226)
+ - [`masamune_purchase_mobile` - `v2.5.6`](#masamune_purchase_mobile---v256)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.73`
+ - `masamune_auth_apple` - `v2.1.62`
+ - `masamune_text_to_speech` - `v2.1.28`
+ - `masamune_agora` - `v2.2.44`
+ - `masamune_ai_openai` - `v2.1.59`
+ - `masamune_auth_google` - `v2.1.62`
+ - `masamune_calendar` - `v2.0.106`
+ - `masamune_picker` - `v2.1.61`
+ - `masamune_util` - `v2.1.40`
+ - `masamune_purchase_stripe` - `v3.3.6`
+ - `masamune_logger_firebase` - `v2.0.104`
+ - `masamune_introduction` - `v2.2.10`
+ - `masamune_auth_facebook` - `v2.1.64`
+ - `masamune_speech_to_text` - `v2.1.30`
+ - `masamune_location_google` - `v2.1.74`
+ - `masamune_module` - `v2.1.7`
+ - `masamune_mail` - `v2.1.59`
+ - `masamune_notification_firebase` - `v2.1.59`
+ - `masamune_ads_google` - `v2.1.12`
+ - `masamune_point_ecosystem` - `v2.2.6`
+ - `masamune_purchase_mobile` - `v2.5.6`
+
+---
+
+#### `katana_model` - `v2.11.3`
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+ - **FIX**: Fixed a bug that Geo of Model is covered. ([5beeecaa](https://github.com/mathrunet/flutter_masamune/commit/5beeecaa8a026618be4ad0fa9270bcb846b117be))
+
+#### `katana_model_firestore` - `v2.7.3`
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+
+#### `katana_model_local` - `v2.5.3`
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+
+#### `katana_router` - `v2.0.23`
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+
+#### `masamune` - `v2.4.6`
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+
+#### `masamune_universal_ui` - `v2.2.41`
+
+ - **FIX**: Remove unnecessary elements. ([30212b6e](https://github.com/mathrunet/flutter_masamune/commit/30212b6eaa5552fa6750b2e18c31b827ab057073))
+ - **FIX**: Added UniversalExtentAppBar. ([afac3ce6](https://github.com/mathrunet/flutter_masamune/commit/afac3ce6cb2f73202289aca539f2c606e9a3bdff))
+ - **DOCS**: Deleted unnecessary comments. ([09c4e017](https://github.com/mathrunet/flutter_masamune/commit/09c4e017f2eab0cb7199bda8b1c554eacc65410d))
+
+
+## 2023-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.11.2`](#katana_model---v2112)
  - [`masamune_universal_ui` - `v2.2.40`](#masamune_universal_ui---v2240)
  - [`katana_model_local` - `v2.5.2`](#katana_model_local---v252)
