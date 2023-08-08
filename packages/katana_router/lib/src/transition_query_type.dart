@@ -49,7 +49,7 @@ enum _TransitionQueryType {
   /// 下からのモーダルトランジション。
   ///
   /// 裏のページが見えるようになります。
-  transparentBottomModal(
+  bottomSheet(
       isModal: true, isFullscreen: true, barrierColor: Color(0x00000000)),
 
   /// Modal transition to fade.
@@ -128,7 +128,7 @@ enum _TransitionQueryType {
           ),
         );
       case _TransitionQueryType.bottomModal:
-      case _TransitionQueryType.transparentBottomModal:
+      case _TransitionQueryType.bottomSheet:
         return FadeTransition(
           opacity: _fadeTween.animate(animation),
           child: SlideTransition(

@@ -84,8 +84,8 @@ class TransitionQuery {
   /// 裏のページが見えるようになります。
   ///
   /// また、背景も透明になります。
-  static const TransitionQuery transparentBottomModal = TransitionQuery._(
-      transition: _TransitionQueryType.transparentBottomModal);
+  static const TransitionQuery bottomSheet =
+      TransitionQuery._(transition: _TransitionQueryType.bottomSheet);
 
   /// TransitionQuery] that performs modal transitions that fade.
   ///
