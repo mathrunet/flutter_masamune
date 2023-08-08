@@ -18,7 +18,11 @@ import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:katana_logger/katana_logger.dart';
-import 'package:url_strategy/url_strategy.dart' as url_strategy;
+
+import 'src/others/others.dart'
+    if (dart.library.io) 'src/others/others.dart'
+    if (dart.library.js) 'src/web/web.dart'
+    if (dart.library.html) 'src/web/web.dart' as url_strategy;
 
 export 'package:katana/katana.dart';
 export 'package:katana_logger/katana_logger.dart';
