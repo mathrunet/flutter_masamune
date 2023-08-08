@@ -15,6 +15,114 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_listenables_builder` - `v2.0.16`](#katana_listenables_builder---v2016)
+ - [`katana_localization_builder` - `v2.0.18`](#katana_localization_builder---v2018)
+ - [`katana_model_openapi_builder` - `v2.0.13`](#katana_model_openapi_builder---v2013)
+ - [`katana_prefs_builder` - `v2.0.16`](#katana_prefs_builder---v2016)
+ - [`katana_router` - `v2.0.25`](#katana_router---v2025)
+ - [`katana_router_builder` - `v2.0.22`](#katana_router_builder---v2022)
+ - [`katana_theme_builder` - `v2.0.16`](#katana_theme_builder---v2016)
+ - [`masamune_builder` - `v2.7.6`](#masamune_builder---v276)
+ - [`masamune` - `v2.4.8`](#masamune---v248)
+ - [`masamune_location` - `v2.1.75`](#masamune_location---v2175)
+ - [`masamune_auth_apple` - `v2.1.64`](#masamune_auth_apple---v2164)
+ - [`masamune_text_to_speech` - `v2.1.30`](#masamune_text_to_speech---v2130)
+ - [`masamune_auth_google` - `v2.1.64`](#masamune_auth_google---v2164)
+ - [`masamune_agora` - `v2.2.46`](#masamune_agora---v2246)
+ - [`masamune_ai_openai` - `v2.1.61`](#masamune_ai_openai---v2161)
+ - [`masamune_calendar` - `v2.0.108`](#masamune_calendar---v20108)
+ - [`masamune_picker` - `v2.1.63`](#masamune_picker---v2163)
+ - [`masamune_util` - `v2.1.42`](#masamune_util---v2142)
+ - [`masamune_universal_ui` - `v2.2.43`](#masamune_universal_ui---v2243)
+ - [`masamune_purchase_stripe` - `v3.3.8`](#masamune_purchase_stripe---v338)
+ - [`masamune_logger_firebase` - `v2.0.106`](#masamune_logger_firebase---v20106)
+ - [`masamune_introduction` - `v2.2.12`](#masamune_introduction---v2212)
+ - [`masamune_auth_facebook` - `v2.1.66`](#masamune_auth_facebook---v2166)
+ - [`masamune_speech_to_text` - `v2.1.32`](#masamune_speech_to_text---v2132)
+ - [`masamune_mail` - `v2.1.61`](#masamune_mail---v2161)
+ - [`masamune_point_ecosystem` - `v2.2.8`](#masamune_point_ecosystem---v228)
+ - [`masamune_location_google` - `v2.1.76`](#masamune_location_google---v2176)
+ - [`masamune_notification_firebase` - `v2.1.61`](#masamune_notification_firebase---v2161)
+ - [`masamune_module` - `v2.1.9`](#masamune_module---v219)
+ - [`masamune_ads_google` - `v2.1.14`](#masamune_ads_google---v2114)
+ - [`masamune_purchase_mobile` - `v2.5.8`](#masamune_purchase_mobile---v258)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.8`
+ - `masamune_location` - `v2.1.75`
+ - `masamune_auth_apple` - `v2.1.64`
+ - `masamune_text_to_speech` - `v2.1.30`
+ - `masamune_auth_google` - `v2.1.64`
+ - `masamune_agora` - `v2.2.46`
+ - `masamune_ai_openai` - `v2.1.61`
+ - `masamune_calendar` - `v2.0.108`
+ - `masamune_picker` - `v2.1.63`
+ - `masamune_util` - `v2.1.42`
+ - `masamune_universal_ui` - `v2.2.43`
+ - `masamune_purchase_stripe` - `v3.3.8`
+ - `masamune_logger_firebase` - `v2.0.106`
+ - `masamune_introduction` - `v2.2.12`
+ - `masamune_auth_facebook` - `v2.1.66`
+ - `masamune_speech_to_text` - `v2.1.32`
+ - `masamune_mail` - `v2.1.61`
+ - `masamune_point_ecosystem` - `v2.2.8`
+ - `masamune_location_google` - `v2.1.76`
+ - `masamune_notification_firebase` - `v2.1.61`
+ - `masamune_module` - `v2.1.9`
+ - `masamune_ads_google` - `v2.1.14`
+ - `masamune_purchase_mobile` - `v2.5.8`
+
+---
+
+#### `katana_listenables_builder` - `v2.0.16`
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+#### `katana_localization_builder` - `v2.0.18`
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+#### `katana_model_openapi_builder` - `v2.0.13`
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+#### `katana_prefs_builder` - `v2.0.16`
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+#### `katana_router` - `v2.0.25`
+
+ - **FIX**: Fixed a bug in setPathUrlStrategy. ([412b74e7](https://github.com/mathrunet/flutter_masamune/commit/412b74e7230553c3937c12d8f67a7a877d73ae6a))
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+#### `katana_router_builder` - `v2.0.22`
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+#### `katana_theme_builder` - `v2.0.16`
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+#### `masamune_builder` - `v2.7.6`
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
+
+## 2023-08-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.24`](#katana_router---v2024)
  - [`masamune` - `v2.4.7`](#masamune---v247)
  - [`masamune_location` - `v2.1.74`](#masamune_location---v2174)

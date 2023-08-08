@@ -1,3 +1,8 @@
+## 2.0.25
+
+ - **FIX**: Fixed a bug in setPathUrlStrategy. ([412b74e7](https://github.com/mathrunet/flutter_masamune/commit/412b74e7230553c3937c12d8f67a7a877d73ae6a))
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
 ## 2.0.24
 
  - **FIX**: Remove unnecessary elements. ([00f93d69](https://github.com/mathrunet/flutter_masamune/commit/00f93d694b7a09bbc0f90c5b98e58faf3f6663c3))

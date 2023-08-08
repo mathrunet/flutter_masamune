@@ -1,3 +1,7 @@
+## 2.0.13
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
 ## 2.0.12
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

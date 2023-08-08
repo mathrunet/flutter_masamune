@@ -1,3 +1,7 @@
+## 2.7.6
+
+ - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))
+
 ## 2.7.5
 
  - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))
