@@ -77,6 +77,8 @@ class _$_MainPageQuery extends RouteQuery {
   @override
   bool get nested => false;
   @override
+  TransitionQuery? get transition => null;
+  @override
   E? key<E>() => null;
   @override
   W? widget<W extends Widget>() {
@@ -93,7 +95,7 @@ class _$_MainPageQuery extends RouteQuery {
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
       path: path,
-      transitionQuery: query,
+      transitionQuery: query ?? transition,
       builder: (context) => MainPage(title: title, q: q),
     );
   }
@@ -168,6 +170,8 @@ class _$_UserPageQuery extends RouteQuery {
   @override
   bool get nested => false;
   @override
+  TransitionQuery? get transition => null;
+  @override
   E? key<E>() => null;
   @override
   W? widget<W extends Widget>() {
@@ -184,7 +188,7 @@ class _$_UserPageQuery extends RouteQuery {
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
       path: path,
-      transitionQuery: query,
+      transitionQuery: query ?? transition,
       builder: (context) => UserPage(userId: userId),
     );
   }
@@ -259,6 +263,8 @@ class _$_ContentPageQuery extends RouteQuery {
   @override
   bool get nested => false;
   @override
+  TransitionQuery? get transition => null;
+  @override
   E? key<E>() => null;
   @override
   W? widget<W extends Widget>() {
@@ -275,7 +281,7 @@ class _$_ContentPageQuery extends RouteQuery {
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
       path: path,
-      transitionQuery: query,
+      transitionQuery: query ?? transition,
       builder: (context) => ContentPage(contentId: contentId),
     );
   }
@@ -339,6 +345,8 @@ class _$_NestedContainerPageQuery extends RouteQuery {
   @override
   bool get nested => false;
   @override
+  TransitionQuery? get transition => null;
+  @override
   E? key<E>() => null;
   @override
   W? widget<W extends Widget>() {
@@ -355,7 +363,7 @@ class _$_NestedContainerPageQuery extends RouteQuery {
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
       path: path,
-      transitionQuery: query,
+      transitionQuery: query ?? transition,
       builder: (context) => NestedContainerPage(),
     );
   }
@@ -400,6 +408,8 @@ class _$_InnerPage1Query extends RouteQuery {
   @override
   bool get nested => true;
   @override
+  TransitionQuery? get transition => null;
+  @override
   E? key<E>() => InnerPageType.type1 as E?;
   @override
   W? widget<W extends Widget>() {
@@ -416,7 +426,7 @@ class _$_InnerPage1Query extends RouteQuery {
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
       path: path,
-      transitionQuery: query,
+      transitionQuery: query ?? transition,
       builder: (context) => InnerPage1(),
     );
   }
@@ -457,6 +467,8 @@ class _$_InnerPage2Query extends RouteQuery {
   @override
   bool get nested => true;
   @override
+  TransitionQuery? get transition => null;
+  @override
   E? key<E>() => InnerPageType.type2 as E?;
   @override
   W? widget<W extends Widget>() {
@@ -473,7 +485,7 @@ class _$_InnerPage2Query extends RouteQuery {
   AppPageRoute<E> route<E>([TransitionQuery? query]) {
     return AppPageRoute<E>(
       path: path,
-      transitionQuery: query,
+      transitionQuery: query ?? transition,
       builder: (context) => InnerPage2(),
     );
   }

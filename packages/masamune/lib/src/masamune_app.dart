@@ -15,8 +15,6 @@ const kDefaultLocales = [Locale("en", "US")];
 ///
 /// (If [masamuneAdapters] is specified, `adapters` must also be passed in [MasamuneApp].
 ///
-/// Set [setPathUrlStrategy] to `true` to remove `#` in the web path.
-///
 /// Masamune Framework用の[MasamuneAdapter]を[runApp]の直前などに適用するためのファンクション。
 ///
 /// [runApp]の代わりに実行します。
@@ -25,16 +23,16 @@ const kDefaultLocales = [Locale("en", "US")];
 ///
 /// [masamuneAdapters]を渡すことでMasamune Frameworkの追加プラグインを楽に利用することができます。
 /// （[masamuneAdapters]を指定する場合は[MasamuneApp]内でも`adapters`を渡してください。）
-///
-/// [setPathUrlStrategy]を`true`にするとWebのパス中の`#`を取り除くことができます。
 Future<void> runMasamuneApp(
   MasamuneApp Function(List<MasamuneAdapter> adapters) masamuneApp, {
-  bool setPathUrlStrategy = true,
+  // TODO: 非アクティブにするが一応残しておく
+  // bool setPathUrlStrategy = true,
   List<MasamuneAdapter> masamuneAdapters = const [],
 }) async {
-  if (setPathUrlStrategy) {
-    AppRouter.setPathUrlStrategy();
-  }
+  // TODO: 非アクティブにするが一応残しておく
+  // if (setPathUrlStrategy) {
+  //   AppRouter.setPathUrlStrategy();
+  // }
   final useRunZonedGuarded = masamuneAdapters.any((e) => e.runZonedGuarded);
   if (useRunZonedGuarded) {
     runZonedGuarded(() async {

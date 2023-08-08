@@ -453,7 +453,8 @@ class AppRouter extends ChangeNotifier
   /// Web アプリの URL 戦略を、先頭のハッシュ (#) の代わりにパスを使用するように設定します。
   ///
   /// これは、すべてのプラットフォームで安全に呼び出すことができます。つまり、モバイルまたはデスクトップで実行している場合でも同様です。その場合、それは単にヌープになります。
-  static void setPathUrlStrategy() => url_strategy.setPathUrlStrategy();
+  // TODO: 非アクティブにするが、一応残しておく
+  // static void setPathUrlStrategy() => url_strategy.setPathUrlStrategy();
 
   /// Get [AppRouter] placed on the widget tree.
   ///

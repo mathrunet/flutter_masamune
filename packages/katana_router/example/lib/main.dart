@@ -16,7 +16,6 @@ part 'main.page.dart';
 final appRouter = AutoRouter();
 
 void main() {
-  AutoRouter.setPathUrlStrategy();
   runApp(const MyApp());
 }
 
