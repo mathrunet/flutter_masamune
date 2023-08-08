@@ -1,3 +1,7 @@
+## 2.0.26
+
+ - **FIX**: Change transparentBottomModel to bottomSheet. ([a7f0b6d8](https://github.com/mathrunet/flutter_masamune/commit/a7f0b6d8b9040c093b7514c32b3157ec15833d58))
+
 ## 2.0.25
 
  - **FIX**: Fixed a bug in setPathUrlStrategy. ([412b74e7](https://github.com/mathrunet/flutter_masamune/commit/412b74e7230553c3937c12d8f67a7a877d73ae6a))
