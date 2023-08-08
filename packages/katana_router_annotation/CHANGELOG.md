@@ -1,3 +1,7 @@
+## 2.0.16
+
+ - **FIX**: Remove setPathUrlStrategy. ([10bf9e25](https://github.com/mathrunet/flutter_masamune/commit/10bf9e253db2292ff5a20e48a01144c2b39c2eb9))
+
 ## 2.0.15
 
  - **FIX**: Transition can be added to PagePath. ([5468b5dc](https://github.com/mathrunet/flutter_masamune/commit/5468b5dc5165b6f3e10c28bf2c45c420726458ad))

@@ -1,3 +1,7 @@
+## 2.7.7
+
+ - Update a dependency to the latest release.
+
 ## 2.7.6
 
  - **FIX**: ANALYZER UPDATE. ([bdeea558](https://github.com/mathrunet/flutter_masamune/commit/bdeea5581debacb46c527a7da1a27487af539e2e))

@@ -15,6 +15,93 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v2.0.27`](#katana_router---v2027)
+ - [`katana_router_annotation` - `v2.0.16`](#katana_router_annotation---v2016)
+ - [`katana_router_builder` - `v2.0.23`](#katana_router_builder---v2023)
+ - [`masamune` - `v2.4.10`](#masamune---v2410)
+ - [`masamune_location` - `v2.1.77`](#masamune_location---v2177)
+ - [`masamune_auth_apple` - `v2.1.66`](#masamune_auth_apple---v2166)
+ - [`masamune_text_to_speech` - `v2.1.32`](#masamune_text_to_speech---v2132)
+ - [`masamune_agora` - `v2.2.48`](#masamune_agora---v2248)
+ - [`masamune_auth_google` - `v2.1.66`](#masamune_auth_google---v2166)
+ - [`masamune_ai_openai` - `v2.1.63`](#masamune_ai_openai---v2163)
+ - [`masamune_calendar` - `v2.0.110`](#masamune_calendar---v20110)
+ - [`masamune_picker` - `v2.1.65`](#masamune_picker---v2165)
+ - [`masamune_util` - `v2.1.44`](#masamune_util---v2144)
+ - [`masamune_universal_ui` - `v2.2.45`](#masamune_universal_ui---v2245)
+ - [`masamune_purchase_stripe` - `v3.3.10`](#masamune_purchase_stripe---v3310)
+ - [`masamune_logger_firebase` - `v2.0.108`](#masamune_logger_firebase---v20108)
+ - [`masamune_introduction` - `v2.2.14`](#masamune_introduction---v2214)
+ - [`masamune_auth_facebook` - `v2.1.68`](#masamune_auth_facebook---v2168)
+ - [`masamune_speech_to_text` - `v2.1.34`](#masamune_speech_to_text---v2134)
+ - [`masamune_location_google` - `v2.1.78`](#masamune_location_google---v2178)
+ - [`masamune_point_ecosystem` - `v2.2.10`](#masamune_point_ecosystem---v2210)
+ - [`masamune_mail` - `v2.1.63`](#masamune_mail---v2163)
+ - [`masamune_notification_firebase` - `v2.1.63`](#masamune_notification_firebase---v2163)
+ - [`masamune_module` - `v2.1.11`](#masamune_module---v2111)
+ - [`masamune_purchase_mobile` - `v2.5.10`](#masamune_purchase_mobile---v2510)
+ - [`masamune_ads_google` - `v2.1.16`](#masamune_ads_google---v2116)
+ - [`masamune_builder` - `v2.7.7`](#masamune_builder---v277)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.77`
+ - `masamune_auth_apple` - `v2.1.66`
+ - `masamune_text_to_speech` - `v2.1.32`
+ - `masamune_agora` - `v2.2.48`
+ - `masamune_auth_google` - `v2.1.66`
+ - `masamune_ai_openai` - `v2.1.63`
+ - `masamune_calendar` - `v2.0.110`
+ - `masamune_picker` - `v2.1.65`
+ - `masamune_util` - `v2.1.44`
+ - `masamune_universal_ui` - `v2.2.45`
+ - `masamune_purchase_stripe` - `v3.3.10`
+ - `masamune_logger_firebase` - `v2.0.108`
+ - `masamune_introduction` - `v2.2.14`
+ - `masamune_auth_facebook` - `v2.1.68`
+ - `masamune_speech_to_text` - `v2.1.34`
+ - `masamune_location_google` - `v2.1.78`
+ - `masamune_point_ecosystem` - `v2.2.10`
+ - `masamune_mail` - `v2.1.63`
+ - `masamune_notification_firebase` - `v2.1.63`
+ - `masamune_module` - `v2.1.11`
+ - `masamune_purchase_mobile` - `v2.5.10`
+ - `masamune_ads_google` - `v2.1.16`
+ - `masamune_builder` - `v2.7.7`
+
+---
+
+#### `katana_router` - `v2.0.27`
+
+ - **FIX**: Remove setPathUrlStrategy. ([10bf9e25](https://github.com/mathrunet/flutter_masamune/commit/10bf9e253db2292ff5a20e48a01144c2b39c2eb9))
+
+#### `katana_router_annotation` - `v2.0.16`
+
+ - **FIX**: Remove setPathUrlStrategy. ([10bf9e25](https://github.com/mathrunet/flutter_masamune/commit/10bf9e253db2292ff5a20e48a01144c2b39c2eb9))
+
+#### `katana_router_builder` - `v2.0.23`
+
+ - **FIX**: Remove setPathUrlStrategy. ([10bf9e25](https://github.com/mathrunet/flutter_masamune/commit/10bf9e253db2292ff5a20e48a01144c2b39c2eb9))
+
+#### `masamune` - `v2.4.10`
+
+ - **FIX**: Remove setPathUrlStrategy. ([10bf9e25](https://github.com/mathrunet/flutter_masamune/commit/10bf9e253db2292ff5a20e48a01144c2b39c2eb9))
+
+
+## 2023-08-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.26`](#katana_router---v2026)
  - [`masamune` - `v2.4.9`](#masamune---v249)
  - [`masamune_location` - `v2.1.76`](#masamune_location---v2176)
