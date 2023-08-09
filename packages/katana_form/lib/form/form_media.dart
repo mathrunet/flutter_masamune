@@ -357,10 +357,12 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
 
   Widget _buildMedia(BuildContext context) {
     final height = widget.style?.height ?? _kDefaultHeight;
+    final width = widget.style?.width;
     if (value != null && value!.uri.isNotEmpty) {
       return Container(
         padding: widget.style?.contentPadding,
         constraints: BoxConstraints.expand(
+          width: width ?? double.infinity,
           height: errorText.isNotEmpty ? (height - _kErrorTextHeight) : height,
         ),
         child: ClipRRect(
@@ -376,6 +378,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
         padding: widget.style?.contentPadding,
         child: Container(
           constraints: BoxConstraints.expand(
+            width: width ?? double.infinity,
             height:
                 errorText.isNotEmpty ? (height - _kErrorTextHeight) : height,
           ),
