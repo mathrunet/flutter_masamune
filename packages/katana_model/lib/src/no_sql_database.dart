@@ -795,7 +795,7 @@ class NoSqlDatabase {
         switch (status) {
           case ModelUpdateNotificationStatus.added:
             if (!element.query.hasMatchAsMap(value)) {
-              return;
+              continue;
             }
             final newIndex =
                 element.query.seekIndex(entries, value) ?? entries.length;

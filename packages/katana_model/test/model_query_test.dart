@@ -9,6 +9,12 @@ import 'package:test/test.dart';
 // Project imports:
 import 'package:katana_model/katana_model.dart';
 
+enum TestEnum {
+  a,
+  b,
+  c;
+}
+
 void main() {
   test("ModelQuery.hasMatch", () async {
     var query = const ModelQuery(
@@ -3376,5 +3382,17 @@ void main() {
       }),
       false,
     );
+  });
+  test("ModelQuery.Enum", () async {
+    var query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.equal(key: "enum", value: TestEnum.a),
+      ],
+    );
+    expect(query.hasMatchAsObject("a"), true);
+    expect(query.hasMatchAsObject("b"), false);
+    expect(query.hasMatchAsObject(TestEnum.a), true);
+    expect(query.hasMatchAsObject(TestEnum.b), false);
   });
 }
