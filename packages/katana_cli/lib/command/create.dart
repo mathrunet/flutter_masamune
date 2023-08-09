@@ -901,7 +901,7 @@ final appModule = ${module!.toPascalCase()}MasamuneAdapter(
   storageAdapter: const RuntimeStorageAdapter(),
   functionsAdapter: const RuntimeFunctionsAdapter(),
   additionalMasamuneAdapters: const [
-    \${4}
+    \${4:UniversalMasamuneAdapter(),}    
   ],
 );
 
