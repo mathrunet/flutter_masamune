@@ -331,14 +331,14 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.26"
+    version: "2.0.27"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
   katana_scoped:
     dependency: "direct main"
     description:

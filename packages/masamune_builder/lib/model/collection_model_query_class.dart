@@ -7,7 +7,7 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
     return "NumModelQuerySelector<$queryClass>";
   } else if (param.type.isDartCoreBool) {
     return "BooleanModelQuerySelector<$queryClass>";
-  } else if (param.type.isDartCoreEnum) {
+  } else if (param.type.isDartCoreEnum || param.type.element is EnumElement) {
     final typeName = param.type.toString().trimStringRight("?");
     return "ValueModelQuerySelector<$typeName, $queryClass>";
   } else if (param.reference.isNotEmpty) {

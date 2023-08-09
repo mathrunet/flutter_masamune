@@ -164,14 +164,18 @@ mixin _ContainsAnyQuerySelectorMixin<T, TQuery extends ModelQueryBase>
   /// Only elements whose array for [key] contains one of the values in [values] can be filtered.
   ///
   /// [key]に対する配列に[values]の値のいずれかが含まれる要素のみをフィルタリングすることができます。
-  TQuery containsAny(List<T>? values) {
+  TQuery containsAny(List<T?>? values) {
     if (values == null) {
       return _toQuery(_modelQuery);
     }
     return _toQuery(
       _modelQuery.containsAny(
         key,
-        values.where((e) => e != null).map((e) => e as Object).toList(),
+        values
+            .where((e) => e != null)
+            .cast<T>()
+            .map((e) => e as Object)
+            .toList(),
       ),
     );
   }
@@ -182,14 +186,18 @@ mixin _WhereQuerySelectorMixin<T, TQuery extends ModelQueryBase>
   /// You can filter only those elements in the [values] array that contain one of the values for [key].
   ///
   /// [values]の配列に[key]に対する値のいずれかが含まれる要素のみをフィルタリングすることができます。
-  TQuery where(List<T>? values) {
+  TQuery where(List<T?>? values) {
     if (values == null) {
       return _toQuery(_modelQuery);
     }
     return _toQuery(
       _modelQuery.where(
         key,
-        values.where((e) => e != null).map((e) => e as Object).toList(),
+        values
+            .where((e) => e != null)
+            .cast<T>()
+            .map((e) => e as Object)
+            .toList(),
       ),
     );
   }
@@ -200,14 +208,18 @@ mixin _NotWhereQuerySelectorMixin<T, TQuery extends ModelQueryBase>
   /// You can filter only those elements in the [values] array that do not contain any of the values for [key].
   ///
   /// [values]の配列に[key]に対する値のいずれも含まれない要素のみをフィルタリングすることができます。
-  TQuery notWhere(List<T>? values) {
+  TQuery notWhere(List<T?>? values) {
     if (values == null) {
       return _toQuery(_modelQuery);
     }
     return _toQuery(
       _modelQuery.notWhere(
         key,
-        values.where((e) => e != null).map((e) => e as Object).toList(),
+        values
+            .where((e) => e != null)
+            .cast<T>()
+            .map((e) => e as Object)
+            .toList(),
       ),
     );
   }
