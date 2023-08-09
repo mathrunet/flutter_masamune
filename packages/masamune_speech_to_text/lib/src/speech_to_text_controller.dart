@@ -2,6 +2,7 @@ part of masamune_speech_to_text;
 
 const _kFinalStatus = "final";
 const _kDoneNoResultStatus = "doneNoResult";
+const _kNotListeningStatus = "notListening";
 
 /// Controller for Speech-to-Text.
 ///
@@ -113,7 +114,9 @@ class SpeechToTextController extends MasamuneControllerBase<
     if (_current == null) {
       return;
     }
-    if (status == _kFinalStatus || status == _kDoneNoResultStatus) {
+    if (_cancelCompleter != null && _kNotListeningStatus == status) {
+      _listenComplete();
+    } else if (status == _kFinalStatus || status == _kDoneNoResultStatus) {
       _listenComplete();
     }
   }

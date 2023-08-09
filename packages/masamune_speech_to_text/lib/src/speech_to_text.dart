@@ -3,10 +3,9 @@ part of masamune_speech_to_text;
 class _SpeechToText {
   static const String listeningStatus = 'listening';
   static const String doneStatus = 'done';
-
   static const String _finalStatus = 'final';
-
   static const String _doneNoResultStatus = 'doneNoResult';
+
   static const defaultFinalTimeout = Duration(milliseconds: 2000);
   static const _minFinalTimeout = Duration(milliseconds: 50);
 
