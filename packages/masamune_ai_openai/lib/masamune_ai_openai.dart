@@ -19,6 +19,9 @@ import 'package:flutter/widgets.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:masamune/masamune.dart';
 
+export 'package:dart_openai/dart_openai.dart'
+    show OpenAIFunctionModel, FunctionCall, FunctionCallResponse;
+
 part 'adapter/openai_masamune_adapter.dart';
 part 'functions/openai_chat_gpt_functions_action.dart';
 

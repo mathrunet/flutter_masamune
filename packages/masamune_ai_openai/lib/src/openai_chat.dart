@@ -58,6 +58,8 @@ class OpenAIChat
     super.adapter,
     this.priorMessage,
     this.builder,
+    this.functionCall,
+    this.functions,
   }) {
     _value = initialValue ??
         builder?.initialValue ??
@@ -109,12 +111,23 @@ class OpenAIChat
   /// Filters for receiving messages.
   ///
   /// メッセージを受信する際のフィルター。
-  final String Function(String content)? filterOnReceive;
+  final String Function(String content, FunctionCallResponse? functionCall)?
+      filterOnReceive;
 
   /// Prior message.
   ///
   /// 先行メッセージ。
   final String? priorMessage;
+
+  /// Function call implementation.
+  ///
+  /// Function callの実装。
+  final List<OpenAIFunctionModel>? functions;
+
+  /// Function call.
+  ///
+  /// Function callの呼び出し。
+  final FunctionCall? functionCall;
 
   /// The total number of tokens it took until then.
   ///
@@ -217,6 +230,8 @@ class OpenAIChat
       ];
       notifyListeners();
       final res = await OpenAI.instance.chat.create(
+        functions: functions,
+        functionCall: functionCall,
         user: userName,
         model: model.name,
         messages: requestMessages,
@@ -228,10 +243,11 @@ class OpenAIChat
       }
       final responseText =
           "${response.value}${res.choices.first.message.content}";
-      final filtered = filterOnReceive?.call(responseText) ??
-          builder?.filterOnReceive?.call(responseText) ??
+      final functionResponse = res.choices.first.message.functionCall;
+      final filtered = filterOnReceive?.call(responseText, functionResponse) ??
+          builder?.filterOnReceive?.call(responseText, functionResponse) ??
           adapter.defaultChatPromptBuilder?.filterOnReceive
-              ?.call(responseText) ??
+              ?.call(responseText, functionResponse) ??
           responseText;
       if (filtered.isNotEmpty) {
         response._complete(
@@ -241,6 +257,7 @@ class OpenAIChat
                   res.choices.first.message.role) ??
               OpenAIChatRole.assistant,
           dateTime: res.created,
+          functionCall: res.choices.first.message.functionCall,
           token: res.usage.totalTokens,
         );
       } else {
@@ -377,6 +394,12 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
   bool get error => __error;
   bool __error = false;
 
+  /// Holds the response when there is a FunctionCall.
+  ///
+  /// FunctionCallがあった場合に、そのレスポンスを保持します。
+  FunctionCallResponse? get functionCall => _functionCall;
+  FunctionCallResponse? _functionCall;
+
   /// If a response is awaited, [Future] is returned.
   ///
   /// This can be used to wait for a response.
@@ -391,12 +414,14 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
     required String text,
     required OpenAIChatRole role,
     required DateTime dateTime,
+    FunctionCallResponse? functionCall,
     required int token,
   }) {
     _value = text;
     _role = role;
     _dateTime = dateTime;
     _token = token;
+    _functionCall = functionCall;
     notifyListeners();
     _finally();
   }
@@ -497,7 +522,8 @@ class _$OpenAIChatQuery {
     int? maxTokens = 300,
     double? temperature,
     String Function(String content)? filterOnSend,
-    String Function(String content)? filterOnReceive,
+    String Function(String content, FunctionCallResponse? functionCall)?
+        filterOnReceive,
     String? priorMessage,
     OpenAIChatPromptBuilder? builder,
   }) =>
@@ -534,7 +560,8 @@ class _$_OpenAIChatQuery extends ControllerQueryBase<OpenAIChat> {
   final double? temperature;
   final List<OpenAIChatMsg>? initialValue;
   final String Function(String content)? filterOnSend;
-  final String Function(String content)? filterOnReceive;
+  final String Function(String content, FunctionCallResponse? functionCall)?
+      filterOnReceive;
   final String? priorMessage;
   final OpenAIChatPromptBuilder? builder;
 
