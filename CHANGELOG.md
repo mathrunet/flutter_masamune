@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ai_openai` - `v2.2.0`](#masamune_ai_openai---v220)
+ - [`masamune_speech_to_text` - `v2.1.35`](#masamune_speech_to_text---v2135)
+
+---
+
+#### `masamune_ai_openai` - `v2.2.0`
+
+ - **FEAT**: Supports FunctionCall. ([e66bbabf](https://github.com/mathrunet/flutter_masamune/commit/e66bbabf4962bf1236372f59eb129bd81933608f))
+
+#### `masamune_speech_to_text` - `v2.1.35`
+
+ - **FIX**: Fixed a bug that prevented cancel from working properly. ([455fdbbf](https://github.com/mathrunet/flutter_masamune/commit/455fdbbf625d633287d3c5c9b757c90fcc133496))
+
+
 ## 2023-08-08
 
 ### Changes
