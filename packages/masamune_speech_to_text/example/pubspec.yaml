@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.4.10
+  masamune: ^2.4.11
   masamune_speech_to_text:
     path: "../"
 

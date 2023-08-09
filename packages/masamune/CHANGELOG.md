@@ -1,3 +1,7 @@
+## 2.4.11
+
+ - **FIX**: Corrected Enum determination. ([64eff685](https://github.com/mathrunet/flutter_masamune/commit/64eff68511c227778acb605b2e8710e7de49f725))
+
 ## 2.4.10
 
  - **FIX**: Remove setPathUrlStrategy. ([10bf9e25](https://github.com/mathrunet/flutter_masamune/commit/10bf9e253db2292ff5a20e48a01144c2b39c2eb9))

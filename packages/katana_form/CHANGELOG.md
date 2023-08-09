@@ -1,3 +1,7 @@
+## 2.6.1
+
+ - **FIX**: Enabled to apply style.width to FormMedia. ([0dda0111](https://github.com/mathrunet/flutter_masamune/commit/0dda0111a8d7603807544772f4f8a5d71ec55e61))
+
 ## 2.6.0
 
  - **FEAT**: Added FormSwitch. ([ec367f5c](https://github.com/mathrunet/flutter_masamune/commit/ec367f5ce785e29e9ba911e2e29792fa0e983fda))

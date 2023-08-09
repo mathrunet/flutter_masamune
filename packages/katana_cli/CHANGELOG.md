@@ -1,3 +1,7 @@
+## 2.7.5
+
+ - **FIX**: Added UniversalMasamuneAdapter to Module template. ([c0999209](https://github.com/mathrunet/flutter_masamune/commit/c099920955fd8e98e690aae605c3d4cd814b0924))
+
 ## 2.7.4
 
  - **FIX**: Add Model for Mirror to the definition. ([2df92f13](https://github.com/mathrunet/flutter_masamune/commit/2df92f1302195095c568ccfc78095ed30f32290f))

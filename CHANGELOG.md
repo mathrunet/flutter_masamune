@@ -15,6 +15,100 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.7.5`](#katana_cli---v275)
+ - [`katana_form` - `v2.6.1`](#katana_form---v261)
+ - [`katana_model` - `v2.11.4`](#katana_model---v2114)
+ - [`masamune` - `v2.4.11`](#masamune---v2411)
+ - [`masamune_builder` - `v2.7.8`](#masamune_builder---v278)
+ - [`masamune_location` - `v2.1.78`](#masamune_location---v2178)
+ - [`masamune_auth_apple` - `v2.1.67`](#masamune_auth_apple---v2167)
+ - [`masamune_text_to_speech` - `v2.1.33`](#masamune_text_to_speech---v2133)
+ - [`masamune_agora` - `v2.2.49`](#masamune_agora---v2249)
+ - [`masamune_ai_openai` - `v2.2.1`](#masamune_ai_openai---v221)
+ - [`masamune_auth_google` - `v2.1.67`](#masamune_auth_google---v2167)
+ - [`masamune_calendar` - `v2.0.111`](#masamune_calendar---v20111)
+ - [`masamune_picker` - `v2.1.66`](#masamune_picker---v2166)
+ - [`masamune_util` - `v2.1.45`](#masamune_util---v2145)
+ - [`masamune_universal_ui` - `v2.2.46`](#masamune_universal_ui---v2246)
+ - [`masamune_purchase_stripe` - `v3.3.11`](#masamune_purchase_stripe---v3311)
+ - [`masamune_logger_firebase` - `v2.0.109`](#masamune_logger_firebase---v20109)
+ - [`masamune_introduction` - `v2.2.15`](#masamune_introduction---v2215)
+ - [`masamune_speech_to_text` - `v2.1.36`](#masamune_speech_to_text---v2136)
+ - [`masamune_auth_facebook` - `v2.1.69`](#masamune_auth_facebook---v2169)
+ - [`masamune_mail` - `v2.1.64`](#masamune_mail---v2164)
+ - [`masamune_location_google` - `v2.1.79`](#masamune_location_google---v2179)
+ - [`masamune_point_ecosystem` - `v2.2.11`](#masamune_point_ecosystem---v2211)
+ - [`masamune_module` - `v2.1.12`](#masamune_module---v2112)
+ - [`masamune_notification_firebase` - `v2.1.64`](#masamune_notification_firebase---v2164)
+ - [`masamune_ads_google` - `v2.1.17`](#masamune_ads_google---v2117)
+ - [`masamune_purchase_mobile` - `v2.5.11`](#masamune_purchase_mobile---v2511)
+ - [`katana_model_local` - `v2.5.4`](#katana_model_local---v254)
+ - [`katana_model_firestore` - `v2.7.4`](#katana_model_firestore---v274)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.78`
+ - `masamune_auth_apple` - `v2.1.67`
+ - `masamune_text_to_speech` - `v2.1.33`
+ - `masamune_agora` - `v2.2.49`
+ - `masamune_ai_openai` - `v2.2.1`
+ - `masamune_auth_google` - `v2.1.67`
+ - `masamune_calendar` - `v2.0.111`
+ - `masamune_picker` - `v2.1.66`
+ - `masamune_util` - `v2.1.45`
+ - `masamune_universal_ui` - `v2.2.46`
+ - `masamune_purchase_stripe` - `v3.3.11`
+ - `masamune_logger_firebase` - `v2.0.109`
+ - `masamune_introduction` - `v2.2.15`
+ - `masamune_speech_to_text` - `v2.1.36`
+ - `masamune_auth_facebook` - `v2.1.69`
+ - `masamune_mail` - `v2.1.64`
+ - `masamune_location_google` - `v2.1.79`
+ - `masamune_point_ecosystem` - `v2.2.11`
+ - `masamune_module` - `v2.1.12`
+ - `masamune_notification_firebase` - `v2.1.64`
+ - `masamune_ads_google` - `v2.1.17`
+ - `masamune_purchase_mobile` - `v2.5.11`
+ - `katana_model_local` - `v2.5.4`
+ - `katana_model_firestore` - `v2.7.4`
+
+---
+
+#### `katana_cli` - `v2.7.5`
+
+ - **FIX**: Added UniversalMasamuneAdapter to Module template. ([c0999209](https://github.com/mathrunet/flutter_masamune/commit/c099920955fd8e98e690aae605c3d4cd814b0924))
+
+#### `katana_form` - `v2.6.1`
+
+ - **FIX**: Enabled to apply style.width to FormMedia. ([0dda0111](https://github.com/mathrunet/flutter_masamune/commit/0dda0111a8d7603807544772f4f8a5d71ec55e61))
+
+#### `katana_model` - `v2.11.4`
+
+ - **FIX**: Fixed a bug that data was not being added properly when another collection was added. ([eaa17f4f](https://github.com/mathrunet/flutter_masamune/commit/eaa17f4f9dfb4bb8193d1f590931c817400a76a2))
+
+#### `masamune` - `v2.4.11`
+
+ - **FIX**: Corrected Enum determination. ([64eff685](https://github.com/mathrunet/flutter_masamune/commit/64eff68511c227778acb605b2e8710e7de49f725))
+
+#### `masamune_builder` - `v2.7.8`
+
+ - **FIX**: Corrected Enum determination. ([64eff685](https://github.com/mathrunet/flutter_masamune/commit/64eff68511c227778acb605b2e8710e7de49f725))
+
+
+## 2023-08-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_ai_openai` - `v2.2.0`](#masamune_ai_openai---v220)
  - [`masamune_speech_to_text` - `v2.1.35`](#masamune_speech_to_text---v2135)
 

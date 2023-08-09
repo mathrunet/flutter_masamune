@@ -1,3 +1,7 @@
+## 2.0.109
+
+ - Update a dependency to the latest release.
+
 ## 2.0.108
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Supports FunctionCall. ([e66bbabf](https://github.com/mathrunet/flutter_masamune/commit/e66bbabf4962bf1236372f59eb129bd81933608f))

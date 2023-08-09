@@ -1,3 +1,7 @@
+## 2.7.8
+
+ - **FIX**: Corrected Enum determination. ([64eff685](https://github.com/mathrunet/flutter_masamune/commit/64eff68511c227778acb605b2e8710e7de49f725))
+
 ## 2.7.7
 
  - Update a dependency to the latest release.

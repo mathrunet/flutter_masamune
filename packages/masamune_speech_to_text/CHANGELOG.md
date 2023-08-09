@@ -1,3 +1,7 @@
+## 2.1.36
+
+ - Update a dependency to the latest release.
+
 ## 2.1.35
 
  - **FIX**: Fixed a bug that prevented cancel from working properly. ([455fdbbf](https://github.com/mathrunet/flutter_masamune/commit/455fdbbf625d633287d3c5c9b757c90fcc133496))
