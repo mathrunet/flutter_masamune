@@ -18,6 +18,8 @@ dependencies:
   firebase_core: ^2.2.0
   firebase_auth: ^4.1.2
   shared_preferences: ^2.0.15
+  universal_platform: ^1.0.0+1
+
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

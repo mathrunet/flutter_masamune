@@ -19,6 +19,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:katana_auth/katana_auth.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 export 'package:katana_auth/katana_auth.dart';
 export 'package:katana_firebase/katana_firebase.dart';

@@ -17,6 +17,8 @@ dependencies:
   katana_firebase: ^2.0.10
   firebase_core: ^2.1.1
   cloud_functions: ^4.0.7
+  universal_platform: ^1.0.0+1
+
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0
