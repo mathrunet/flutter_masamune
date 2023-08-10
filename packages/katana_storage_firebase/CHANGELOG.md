@@ -1,3 +1,7 @@
+## 2.0.13
+
+ - **FIX**: Individual Options by Platform can now be specified. ([eac495df](https://github.com/mathrunet/flutter_masamune/commit/eac495dfb357da65a70796b430afab2512f7ea7a))
+
 ## 2.0.12
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

@@ -3,6 +3,109 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth_firebase` - `v2.0.14`](#katana_auth_firebase---v2014)
+ - [`katana_cli` - `v2.7.6`](#katana_cli---v276)
+ - [`katana_functions_firebase` - `v2.4.7`](#katana_functions_firebase---v247)
+ - [`katana_model` - `v2.11.5`](#katana_model---v2115)
+ - [`katana_model_firestore` - `v2.7.5`](#katana_model_firestore---v275)
+ - [`katana_model_local` - `v2.5.5`](#katana_model_local---v255)
+ - [`katana_storage_firebase` - `v2.0.13`](#katana_storage_firebase---v2013)
+ - [`masamune` - `v2.4.12`](#masamune---v2412)
+ - [`masamune_location` - `v2.1.79`](#masamune_location---v2179)
+ - [`masamune_auth_apple` - `v2.1.68`](#masamune_auth_apple---v2168)
+ - [`masamune_text_to_speech` - `v2.1.34`](#masamune_text_to_speech---v2134)
+ - [`masamune_agora` - `v2.2.50`](#masamune_agora---v2250)
+ - [`masamune_auth_google` - `v2.1.68`](#masamune_auth_google---v2168)
+ - [`masamune_ai_openai` - `v2.2.2`](#masamune_ai_openai---v222)
+ - [`masamune_calendar` - `v2.0.112`](#masamune_calendar---v20112)
+ - [`masamune_picker` - `v2.1.67`](#masamune_picker---v2167)
+ - [`masamune_util` - `v2.1.46`](#masamune_util---v2146)
+ - [`masamune_universal_ui` - `v2.2.47`](#masamune_universal_ui---v2247)
+ - [`masamune_purchase_stripe` - `v3.3.12`](#masamune_purchase_stripe---v3312)
+ - [`masamune_logger_firebase` - `v2.0.110`](#masamune_logger_firebase---v20110)
+ - [`masamune_introduction` - `v2.2.16`](#masamune_introduction---v2216)
+ - [`masamune_speech_to_text` - `v2.1.37`](#masamune_speech_to_text---v2137)
+ - [`masamune_auth_facebook` - `v2.1.70`](#masamune_auth_facebook---v2170)
+ - [`masamune_location_google` - `v2.1.80`](#masamune_location_google---v2180)
+ - [`masamune_module` - `v2.1.13`](#masamune_module---v2113)
+ - [`masamune_mail` - `v2.1.65`](#masamune_mail---v2165)
+ - [`masamune_point_ecosystem` - `v2.2.12`](#masamune_point_ecosystem---v2212)
+ - [`masamune_notification_firebase` - `v2.1.65`](#masamune_notification_firebase---v2165)
+ - [`masamune_purchase_mobile` - `v2.5.12`](#masamune_purchase_mobile---v2512)
+ - [`masamune_ads_google` - `v2.1.18`](#masamune_ads_google---v2118)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.12`
+ - `masamune_location` - `v2.1.79`
+ - `masamune_auth_apple` - `v2.1.68`
+ - `masamune_text_to_speech` - `v2.1.34`
+ - `masamune_agora` - `v2.2.50`
+ - `masamune_auth_google` - `v2.1.68`
+ - `masamune_ai_openai` - `v2.2.2`
+ - `masamune_calendar` - `v2.0.112`
+ - `masamune_picker` - `v2.1.67`
+ - `masamune_util` - `v2.1.46`
+ - `masamune_universal_ui` - `v2.2.47`
+ - `masamune_purchase_stripe` - `v3.3.12`
+ - `masamune_logger_firebase` - `v2.0.110`
+ - `masamune_introduction` - `v2.2.16`
+ - `masamune_speech_to_text` - `v2.1.37`
+ - `masamune_auth_facebook` - `v2.1.70`
+ - `masamune_location_google` - `v2.1.80`
+ - `masamune_module` - `v2.1.13`
+ - `masamune_mail` - `v2.1.65`
+ - `masamune_point_ecosystem` - `v2.2.12`
+ - `masamune_notification_firebase` - `v2.1.65`
+ - `masamune_purchase_mobile` - `v2.5.12`
+ - `masamune_ads_google` - `v2.1.18`
+
+---
+
+#### `katana_auth_firebase` - `v2.0.14`
+
+ - **FIX**: Individual Options by Platform can now be specified. ([eac495df](https://github.com/mathrunet/flutter_masamune/commit/eac495dfb357da65a70796b430afab2512f7ea7a))
+
+#### `katana_cli` - `v2.7.6`
+
+ - **FIX**: GithubActions are available for Modules as well. ([2d2dafd3](https://github.com/mathrunet/flutter_masamune/commit/2d2dafd3dad79357d67ad639622303419fe9b1fe))
+
+#### `katana_functions_firebase` - `v2.4.7`
+
+ - **FIX**: Individual Options by Platform can now be specified. ([eac495df](https://github.com/mathrunet/flutter_masamune/commit/eac495dfb357da65a70796b430afab2512f7ea7a))
+
+#### `katana_model` - `v2.11.5`
+
+ - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))
+
+#### `katana_model_firestore` - `v2.7.5`
+
+ - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))
+ - **FIX**: Model converter available for Enum. ([4234a5bf](https://github.com/mathrunet/flutter_masamune/commit/4234a5bfbe3bfccdc6b19e2bee79a2739d48e674))
+
+#### `katana_model_local` - `v2.5.5`
+
+ - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))
+
+#### `katana_storage_firebase` - `v2.0.13`
+
+ - **FIX**: Individual Options by Platform can now be specified. ([eac495df](https://github.com/mathrunet/flutter_masamune/commit/eac495dfb357da65a70796b430afab2512f7ea7a))
+
+
 ## 2023-08-09
 
 ### Changes

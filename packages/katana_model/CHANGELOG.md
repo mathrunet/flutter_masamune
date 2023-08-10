@@ -1,3 +1,7 @@
+## 2.11.5
+
+ - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))
+
 ## 2.11.4
 
  - **FIX**: Fixed a bug that data was not being added properly when another collection was added. ([eaa17f4f](https://github.com/mathrunet/flutter_masamune/commit/eaa17f4f9dfb4bb8193d1f590931c817400a76a2))

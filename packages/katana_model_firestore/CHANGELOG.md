@@ -1,3 +1,8 @@
+## 2.7.5
+
+ - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))
+ - **FIX**: Model converter available for Enum. ([4234a5bf](https://github.com/mathrunet/flutter_masamune/commit/4234a5bfbe3bfccdc6b19e2bee79a2739d48e674))
+
 ## 2.7.4
 
  - Update a dependency to the latest release.

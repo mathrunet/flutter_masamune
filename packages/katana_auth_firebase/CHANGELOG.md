@@ -1,3 +1,7 @@
+## 2.0.14
+
+ - **FIX**: Individual Options by Platform can now be specified. ([eac495df](https://github.com/mathrunet/flutter_masamune/commit/eac495dfb357da65a70796b430afab2512f7ea7a))
+
 ## 2.0.13
 
  - **FIX**: Support for Firebase specification changes. ([dca44962](https://github.com/mathrunet/flutter_masamune/commit/dca44962efb56459d61b47990f3db8e78fe33d18))

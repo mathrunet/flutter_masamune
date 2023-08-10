@@ -1,3 +1,7 @@
+## 2.7.6
+
+ - **FIX**: GithubActions are available for Modules as well. ([2d2dafd3](https://github.com/mathrunet/flutter_masamune/commit/2d2dafd3dad79357d67ad639622303419fe9b1fe))
+
 ## 2.7.5
 
  - **FIX**: Added UniversalMasamuneAdapter to Module template. ([c0999209](https://github.com/mathrunet/flutter_masamune/commit/c099920955fd8e98e690aae605c3d4cd814b0924))

@@ -1,3 +1,7 @@
+## 2.5.5
+
+ - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))
+
 ## 2.5.4
 
  - Update a dependency to the latest release.
