@@ -154,6 +154,7 @@ class FirestoreModelAdapter extends ModelAdapter
     const FirestoreModelSearchConverter(),
     const FirestoreModelGeoValueConverter(),
     const FirestoreModelRefConverter(),
+    const FirestoreEnumConverter(),
     const FirestoreNullConverter(),
     const FirestoreBasicConverter(),
   };

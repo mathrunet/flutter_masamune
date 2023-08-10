@@ -40,6 +40,7 @@ part 'converter/firestore_model_geo_value_converter.dart';
 part 'converter/firestore_model_search_converter.dart';
 part 'converter/firestore_model_ref_converter.dart';
 part 'converter/firestore_null_converter.dart';
+part 'converter/firestore_enum_converter.dart';
 part 'converter/firestore_basic_converter.dart';
 
 part 'adapter/listenable_firestore_model_adapter.dart';
