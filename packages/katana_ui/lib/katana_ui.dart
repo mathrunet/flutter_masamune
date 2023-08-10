@@ -13,9 +13,9 @@ import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/material.dart' hide Scaffold;
-import 'package:shimmer/shimmer.dart' as sm;
 
 // Package imports:
+import 'package:shimmer/shimmer.dart' as sm;
 import 'package:universal_platform/universal_platform.dart';
 
 export 'package:katana/katana.dart';
