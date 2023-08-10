@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added Shimmer functionality. ([7a0fcdf1](https://github.com/mathrunet/flutter_masamune/commit/7a0fcdf1cb7380e2d357a5eb9664b0550da5159a))
+
 ## 2.3.0
 
  - **FEAT**: Addition of ChatTile. ([b3544555](https://github.com/mathrunet/flutter_masamune/commit/b3544555958a4527f908df5a13dc73992205453d))
