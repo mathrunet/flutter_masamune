@@ -68,6 +68,9 @@ class LineTile extends ListTile {
     super.horizontalTitleGap,
     super.minVerticalPadding,
     super.minLeadingWidth,
+    this.shimmer = false,
+    this.shimmerBaseColor,
+    this.shimmerHighlightColor,
   });
 
   /// Widget to display next to the title.
@@ -90,62 +93,157 @@ class LineTile extends ListTile {
   /// タイトルとテキスト間のスペース。
   final double space;
 
+  /// Specify `true` to use shimmer effect.
+  ///
+  /// シマーエフェクトを利用する場合に`true`を指定します。
+  final bool shimmer;
+
+  /// Base color for shimmer effects.
+  ///
+  /// シマーエフェクトを利用する場合のベースカラー。
+  final Color? shimmerBaseColor;
+
+  /// Highlight color when using shimmer effect.
+  ///
+  /// シマーエフェクトを利用する場合のハイライトカラー。
+  final Color? shimmerHighlightColor;
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: leading,
-      title: _buildTitle(context),
-      subtitle: subtitle,
-      trailing: trailing,
-      isThreeLine: isThreeLine,
-      dense: dense,
-      visualDensity: visualDensity,
-      shape: shape,
-      style: style,
-      selectedColor: selectedColor,
-      iconColor: iconColor,
-      textColor: textColor,
-      contentPadding: contentPadding,
-      enabled: enabled,
-      onTap: onTap,
-      onLongPress: onLongPress,
-      onFocusChange: onFocusChange,
-      mouseCursor: mouseCursor,
-      selected: selected,
-      focusColor: focusColor,
-      hoverColor: hoverColor,
-      splashColor: splashColor,
-      focusNode: focusNode,
-      autofocus: autofocus,
-      tileColor: tileColor,
-      selectedTileColor: selectedTileColor,
-      enableFeedback: enableFeedback,
-      horizontalTitleGap: horizontalTitleGap,
-      minVerticalPadding: minVerticalPadding,
-      minLeadingWidth: minLeadingWidth,
-    );
+    if (shimmer) {
+      return sm.Shimmer.fromColors(
+        baseColor: shimmerBaseColor ?? Theme.of(context).colorScheme.surface,
+        highlightColor:
+            shimmerHighlightColor ?? Theme.of(context).colorScheme.background,
+        child: ListTile(
+          leading: leading,
+          title: _buildTitle(context),
+          subtitle: subtitle != null
+              ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: shimmerBaseColor ??
+                        Theme.of(context).colorScheme.surface,
+                  ),
+                  height: Theme.of(context)
+                          .listTileTheme
+                          .subtitleTextStyle
+                          ?.fontSize ??
+                      12,
+                  width: double.infinity,
+                )
+              : null,
+          trailing: trailing,
+          isThreeLine: isThreeLine,
+          dense: dense,
+          visualDensity: visualDensity,
+          shape: shape,
+          style: style,
+          selectedColor: selectedColor,
+          iconColor: iconColor,
+          textColor: textColor,
+          contentPadding: contentPadding,
+          enabled: enabled,
+          onTap: onTap,
+          onLongPress: onLongPress,
+          onFocusChange: onFocusChange,
+          mouseCursor: mouseCursor,
+          selected: selected,
+          focusColor: focusColor,
+          hoverColor: hoverColor,
+          splashColor: splashColor,
+          focusNode: focusNode,
+          autofocus: autofocus,
+          tileColor: tileColor,
+          selectedTileColor: selectedTileColor,
+          enableFeedback: enableFeedback,
+          horizontalTitleGap: horizontalTitleGap,
+          minVerticalPadding: minVerticalPadding,
+          minLeadingWidth: minLeadingWidth,
+        ),
+      );
+    } else {
+      return ListTile(
+        leading: leading,
+        title: _buildTitle(context),
+        subtitle: subtitle,
+        trailing: trailing,
+        isThreeLine: isThreeLine,
+        dense: dense,
+        visualDensity: visualDensity,
+        shape: shape,
+        style: style,
+        selectedColor: selectedColor,
+        iconColor: iconColor,
+        textColor: textColor,
+        contentPadding: contentPadding,
+        enabled: enabled,
+        onTap: onTap,
+        onLongPress: onLongPress,
+        onFocusChange: onFocusChange,
+        mouseCursor: mouseCursor,
+        selected: selected,
+        focusColor: focusColor,
+        hoverColor: hoverColor,
+        splashColor: splashColor,
+        focusNode: focusNode,
+        autofocus: autofocus,
+        tileColor: tileColor,
+        selectedTileColor: selectedTileColor,
+        enableFeedback: enableFeedback,
+        horizontalTitleGap: horizontalTitleGap,
+        minVerticalPadding: minVerticalPadding,
+        minLeadingWidth: minLeadingWidth,
+      );
+    }
   }
 
   Widget? _buildTitle(BuildContext context) {
-    if (title != null) {
-      if (text == null) {
-        return title;
-      }
-      return Row(
-        children: [
-          Expanded(
-            flex: titleFlex,
-            child: title!,
-          ),
-          SizedBox(width: space),
-          Flexible(
-            flex: textFlex,
-            child: text!,
-          ),
-        ],
+    if (shimmer) {
+      final mock = Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: shimmerBaseColor ?? Theme.of(context).colorScheme.surface,
+        ),
+        height: Theme.of(context).listTileTheme.titleTextStyle?.fontSize ?? 13,
+        width: double.infinity,
       );
+
+      if (title != null && text != null) {
+        return Row(
+          children: [
+            Expanded(
+              flex: titleFlex,
+              child: mock,
+            ),
+            SizedBox(width: space),
+            Flexible(flex: textFlex, child: mock),
+          ],
+        );
+      } else {
+        return mock;
+      }
     } else {
-      return text;
+      if (title != null) {
+        if (text == null) {
+          return title;
+        }
+        return Row(
+          children: [
+            Expanded(
+              flex: titleFlex,
+              child: title!,
+            ),
+            SizedBox(width: space),
+            Flexible(
+              flex: textFlex,
+              child: text!,
+            ),
+          ],
+        );
+      } else {
+        return text;
+      }
     }
   }
 }

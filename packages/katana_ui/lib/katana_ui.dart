@@ -13,6 +13,7 @@ import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/material.dart' hide Scaffold;
+import 'package:shimmer/shimmer.dart' as sm;
 
 // Package imports:
 import 'package:universal_platform/universal_platform.dart';
@@ -28,3 +29,4 @@ part 'ui/label.dart';
 part 'ui/line_tile.dart';
 part 'ui/periodic_scope.dart';
 part 'ui/chat_tile.dart';
+part 'ui/shimmer.dart';
