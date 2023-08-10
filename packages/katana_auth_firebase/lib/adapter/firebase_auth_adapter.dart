@@ -48,7 +48,8 @@ class FirebaseAuthAdapter extends AuthAdapter {
     this.androidMinimumVersion,
     this.defaultLocale = const Locale("en", "US"),
     FirebaseAuth? database,
-  }) : _options = options, _database = database;
+  })  : _options = options,
+        _database = database;
 
   /// Android package name.
   ///

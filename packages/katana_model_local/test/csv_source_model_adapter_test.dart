@@ -1,10 +1,14 @@
 // ignore_for_file: avoid_print
 
-// Package imports:
+// Flutter imports:
 import 'package:flutter/painting.dart';
+
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:katana_model_local/katana_model_local.dart';
 import 'package:test/test.dart';
+
+// Project imports:
+import 'package:katana_model_local/katana_model_local.dart';
 
 part 'csv_source_model_adapter_test.freezed.dart';
 part 'csv_source_model_adapter_test.g.dart';
