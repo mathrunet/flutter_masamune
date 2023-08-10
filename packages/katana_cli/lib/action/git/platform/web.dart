@@ -15,7 +15,8 @@ Future<void> buildWeb(
   required String gh,
   required String appName,
 }) async {
-  const webCode = GithubActionsWebCliCode();
+  final gitDir = await findGitDirectory(Directory.current);
+  final webCode = GithubActionsWebCliCode(workingDirectory: gitDir);
 
   var hostingYamlFile =
       File("${webCode.directory}/firebase-hosting-pull-request.yml");
@@ -53,7 +54,12 @@ class GithubActionsWebCliCode extends CliCode {
   /// Contents of buiod.yaml for Github Actions web.
   ///
   /// Github ActionsのWeb用のbuiod.yamlの中身。
-  const GithubActionsWebCliCode();
+  const GithubActionsWebCliCode({this.workingDirectory});
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "build_web";
@@ -63,16 +69,8 @@ class GithubActionsWebCliCode extends CliCode {
 
   @override
   String get directory {
-    int i = 0;
-    var current = Directory.current;
-    while (!Directory("${current.path}/.git").existsSync()) {
-      i++;
-      if (i > 5) {
-        return "${Directory.current.path}/.github/workflows";
-      }
-      current = current.parent;
-    }
-    return "${current.path}/.github/workflows";
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/workflows";
   }
 
   @override
@@ -91,7 +89,7 @@ class GithubActionsWebCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    const workingPath = "";
+    final workingPath = workingDirectory?.difference(Directory.current);
     return """
 # Build and upload a Flutter web app.
 # 
@@ -182,6 +180,7 @@ jobs:
     final jobs = yaml.getAsMap("jobs");
     final buildAndPreview = jobs.getAsMap("build_and_preview");
     final steps = buildAndPreview.getAsList("steps");
+    final workingPath = workingDirectory?.difference(Directory.current);
     var repoToken = "";
     var firebaseServiceAccount = "";
     var projectId = "";
@@ -203,9 +202,6 @@ jobs:
         projectId.isEmpty) {
       return source;
     }
-    final workingPath = Directory.current.path
-        .replaceAll(directory.replaceAll(".github/workflows", ""), "")
-        .trimString("/");
     source += """
 
       # A copy of the generated file.
@@ -219,7 +215,7 @@ jobs:
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          entryPoint: ${workingPath.isEmpty ? "firebase" : "$workingPath/firebase"}
+          entryPoint: ${workingPath.isEmpty ? "." : workingPath}/firebase
           repoToken: $repoToken
           firebaseServiceAccount: $firebaseServiceAccount
           channelId: live

@@ -30,6 +30,7 @@ final importPackages = [
 final allOptionsImportPackage = [
   "flutter_animate",
   "font_awesome_flutter",
+  "url_strategy",
 ];
 
 /// Package for dev to import.
@@ -134,6 +135,7 @@ class CreateCliCommand extends CliCommand {
           "--dev",
           ...importDevPackages,
           "melos",
+          "import_sorter",
         ],
       );
       label("Replace lib/${moduleName.toSnakeCase()}.dart");

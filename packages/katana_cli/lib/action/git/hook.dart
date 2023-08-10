@@ -1,4 +1,6 @@
 // Project imports:
+import 'dart:io';
+
 import 'package:katana_cli/katana_cli.dart';
 
 /// Add a Git hook for Flutter using Lefthook.
@@ -40,13 +42,18 @@ class GitPreCommitCliAction extends CliCommand with CliActionMixin {
       ],
     );
     label("Create lefthook.yaml");
-    await const LefthookCliCode().generateFile("lefthook.yaml");
+    final gitDir = await findGitDirectory(Directory.current);
+    final relativePath = Directory.current.difference(gitDir);
+    await const LefthookCliCode().generateFile(
+      "${relativePath.isEmpty ? "" : "$relativePath/"}lefthook.yaml",
+    );
     await command(
       "Install lefthook.",
       [
         lefthook,
         "install",
       ],
+      workingDirectory: gitDir?.path,
     );
   }
 }

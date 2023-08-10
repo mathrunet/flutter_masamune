@@ -427,6 +427,56 @@ Future<File?> find(Directory root, Pattern pattern) async {
   return null;
 }
 
+/// Get the first directory in [root] that matches [pattern].
+///
+/// [root]の中にある[pattern]に最初に当てはまるディレクトリを取得します。
+Future<Directory?> findDirectory(Directory root, Pattern pattern) async {
+  final files = root.list(recursive: true);
+  await for (final file in files) {
+    final name = file.path.trimQuery().last();
+    final match = pattern.allMatches(name);
+    if (match.isEmpty) {
+      continue;
+    }
+    return Directory(file.path);
+  }
+  return null;
+}
+
+/// Get the directory where Git resides.
+///
+/// Gitが存在するディレクトリを取得します。
+Future<Directory?> findGitDirectory(Directory current) {
+  return findDirectory(current, RegExp(r"^\.git$")).then((value) {
+    if (value != null) {
+      return value.parent;
+    }
+    if (current.path == current.parent.path) {
+      return null;
+    }
+    return findGitDirectory(current.parent);
+  });
+}
+
+extension CliDirectoryExtensions on Directory {
+  /// Obtains a path relative to the current directory.
+  ///
+  /// 現在のディレクトリとの相対パスを取得します。
+  String difference(Directory? other) {
+    if (other == null) {
+      return path;
+    }
+    if (other.path.length < path.length) {
+      final relative = path.replaceAll(other.path, "").trimStringLeft("/");
+      return ("../" * relative.split("/").length).trimString("/");
+    } else if (other.path.length > path.length) {
+      return other.path.replaceAll(path, "").trimStringLeft("/");
+    } else {
+      return "";
+    }
+  }
+}
+
 /// Extended methods to make [Process] easier to use.
 ///
 /// [Process]を使いやすくするための拡張メソッド。

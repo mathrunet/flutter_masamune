@@ -82,7 +82,8 @@ Future<void> buildAndroid(
       serviceAccount,
     ],
   );
-  await const GithubActionsAndroidCliCode().generateFile(
+  final gitDir = await findGitDirectory(Directory.current);
+  await GithubActionsAndroidCliCode(workingDirectory: gitDir).generateFile(
     "build_android_${appName.toLowerCase()}.yaml",
     filter: (value) {
       return value
@@ -144,7 +145,12 @@ class GithubActionsAndroidCliCode extends CliCode {
   /// Contents of buiod.yaml for Android in Github Actions.
   ///
   /// Github ActionsのAndroid用のbuiod.yamlの中身。
-  const GithubActionsAndroidCliCode();
+  const GithubActionsAndroidCliCode({this.workingDirectory});
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "build_android";
@@ -154,16 +160,8 @@ class GithubActionsAndroidCliCode extends CliCode {
 
   @override
   String get directory {
-    int i = 0;
-    var current = Directory.current;
-    while (!Directory("${current.path}/.git").existsSync()) {
-      i++;
-      if (i > 5) {
-        return "${Directory.current.path}/.github/workflows";
-      }
-      current = current.parent;
-    }
-    return "${current.path}/.github/workflows";
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/workflows";
   }
 
   @override
@@ -182,7 +180,7 @@ class GithubActionsAndroidCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    const workingPath = "";
+    final workingPath = workingDirectory?.difference(Directory.current);
     return """
 # Build and upload your Flutter Android app.
 # 

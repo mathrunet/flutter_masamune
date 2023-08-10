@@ -161,7 +161,8 @@ Future<void> buildIOS(
       issuerId,
     ],
   );
-  await const GithubActionsIOSCliCode().generateFile(
+  final gitDir = await findGitDirectory(Directory.current);
+  await GithubActionsIOSCliCode(workingDirectory: gitDir).generateFile(
     "build_ios_${appName.toLowerCase()}.yaml",
     filter: (value) {
       return value.replaceAll(
@@ -276,7 +277,12 @@ class GithubActionsIOSCliCode extends CliCode {
   /// Contents of buiod.yaml for IOS in Github Actions.
   ///
   /// Github ActionsのIOS用のbuiod.yamlの中身。
-  const GithubActionsIOSCliCode();
+  const GithubActionsIOSCliCode({this.workingDirectory});
+
+  /// Working Directory.
+  ///
+  /// ワーキングディレクトリ。
+  final Directory? workingDirectory;
 
   @override
   String get name => "build_ios";
@@ -286,16 +292,8 @@ class GithubActionsIOSCliCode extends CliCode {
 
   @override
   String get directory {
-    int i = 0;
-    var current = Directory.current;
-    while (!Directory("${current.path}/.git").existsSync()) {
-      i++;
-      if (i > 5) {
-        return "${Directory.current.path}/.github/workflows";
-      }
-      current = current.parent;
-    }
-    return "${current.path}/.github/workflows";
+    final workingPath = Directory.current.difference(workingDirectory);
+    return "${workingPath.isEmpty ? "." : workingPath}/.github/workflows";
   }
 
   @override
@@ -314,7 +312,7 @@ class GithubActionsIOSCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    const workingPath = "";
+    final workingPath = workingDirectory?.difference(Directory.current);
     return """
 # Build and upload a Flutter IOS app.
 # 
