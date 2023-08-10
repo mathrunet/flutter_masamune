@@ -16,8 +16,15 @@ dependencies:
   katana_model: ^2.11.4
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
+  csv: ^5.0.2
 
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0
+
+  freezed: ^2.3.2
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.7.0
+  json_serializable: ^6.5.4
+  build_runner: ^2.3.3
   import_sorter: ^4.6.0

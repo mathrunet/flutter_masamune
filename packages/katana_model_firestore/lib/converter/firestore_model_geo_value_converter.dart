@@ -11,7 +11,7 @@ class FirestoreModelGeoValueConverter
   const FirestoreModelGeoValueConverter();
 
   @override
-  String get type => (ModelGeoValue).toString();
+  String get type => ModelGeoValue.typeString;
 
   @override
   DynamicMap? convertFrom(

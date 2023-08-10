@@ -10,7 +10,7 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
   const FirestoreModelSearchConverter();
 
   @override
-  String get type => (ModelSearch).toString();
+  String get type => ModelSearch.typeString;
 
   @override
   DynamicMap? convertFrom(
@@ -50,7 +50,7 @@ class FirestoreModelSearchConverter extends FirestoreModelFieldValueConverter {
         final targetKey = "#$key";
         return {
           targetKey: {
-            kTypeFieldKey: (ModelSearch).toString(),
+            kTypeFieldKey: ModelSearch.typeString,
             ModelSearch.kListKey: val.toMap((item) => MapEntry(item, true)),
             _kTargetKey: key,
           },

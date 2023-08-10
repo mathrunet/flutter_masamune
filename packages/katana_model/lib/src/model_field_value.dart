@@ -21,7 +21,7 @@ abstract class ModelFieldValueConverter<T extends ModelFieldValue> {
   /// Type of class being handled.
   ///
   /// 扱うクラスのタイプ。
-  Type get type => T;
+  String get type;
 
   /// Returns `true` if the given [value] type matches [type].
   ///
@@ -60,7 +60,7 @@ abstract class ModelFieldValueFilter<T extends ModelFieldValue> {
   /// Type of class being handled.
   ///
   /// 扱うクラスのタイプ。
-  Type get type => T;
+  String get type;
 
   /// Comparison operator for sorting.
   ///
@@ -198,8 +198,7 @@ abstract class ModelFieldValue<T> {
         res[key] = val;
       } else if (val is DynamicMap && val.containsKey(kTypeFieldKey)) {
         final type = val.get(kTypeFieldKey, "");
-        final conveter =
-            _converters.firstWhereOrNull((e) => e.type.toString() == type);
+        final conveter = _converters.firstWhereOrNull((e) => e.type == type);
         if (conveter != null) {
           res[key] = conveter.fromJson(val);
         } else {
@@ -507,6 +506,11 @@ class ModelCounter extends ModelFieldValue<int>
         _increment = increment,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelCounter";
+
   /// Key to store the value.
   ///
   /// 値を保存しておくキー。
@@ -550,7 +554,7 @@ class ModelCounter extends ModelFieldValue<int>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelCounter).toString(),
+        kTypeFieldKey: ModelCounter.typeString,
         kValueKey: value,
         kIncrementKey: incrementValue,
         kSourceKey: _source.name,
@@ -626,6 +630,9 @@ class ModelCounterConverter extends ModelFieldValueConverter<ModelCounter> {
   const ModelCounterConverter();
 
   @override
+  String get type => ModelCounter.typeString;
+
+  @override
   ModelCounter fromJson(Map<String, Object?> map) {
     return ModelCounter.fromJson(map);
   }
@@ -645,6 +652,9 @@ class ModelCounterFilter extends ModelFieldValueFilter<ModelCounter> {
   ///
   /// [ModelCounter]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelCounterFilter();
+
+  @override
+  String get type => ModelCounter.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -722,16 +732,16 @@ class ModelCounterFilter extends ModelFieldValueFilter<ModelCounter> {
       return filter(source, target.value);
     } else if (source is ModelCounter &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelCounter).toString()) {
+        target.get(kTypeFieldKey, "") == ModelCounter.typeString) {
       return filter(source.value, ModelCounter.fromJson(target).value);
     } else if (source is DynamicMap &&
         target is ModelCounter &&
-        source.get(kTypeFieldKey, "") == (ModelCounter).toString()) {
+        source.get(kTypeFieldKey, "") == ModelCounter.typeString) {
       return filter(ModelCounter.fromJson(source).value, target.value);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelCounter).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelCounter).toString()) {
+        source.get(kTypeFieldKey, "") == ModelCounter.typeString &&
+        target.get(kTypeFieldKey, "") == ModelCounter.typeString) {
       return filter(ModelCounter.fromJson(source).value,
           ModelCounter.fromJson(target).value);
     }
@@ -830,6 +840,11 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelTimestamp";
+
   /// Key to save time.
   ///
   /// 時間を保存しておくキー。
@@ -858,7 +873,7 @@ class ModelTimestamp extends ModelFieldValue<DateTime>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelTimestamp).toString(),
+        kTypeFieldKey: ModelTimestamp.typeString,
         kTimeKey: value.millisecondsSinceEpoch,
         kNowKey: _value == null,
         kSourceKey: _source.name,
@@ -971,6 +986,9 @@ class ModelTimestampConverter extends ModelFieldValueConverter<ModelTimestamp> {
   const ModelTimestampConverter();
 
   @override
+  String get type => ModelTimestamp.typeString;
+
+  @override
   ModelTimestamp fromJson(Map<String, Object?> map) {
     return ModelTimestamp.fromJson(map);
   }
@@ -990,6 +1008,9 @@ class ModelTimestampFilter extends ModelFieldValueFilter<ModelTimestamp> {
   ///
   /// [ModelTimestamp]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelTimestampFilter();
+
+  @override
+  String get type => ModelTimestamp.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -1074,19 +1095,19 @@ class ModelTimestampFilter extends ModelFieldValueFilter<ModelTimestamp> {
       return filter(source, target.value.millisecondsSinceEpoch);
     } else if (source is ModelTimestamp &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelTimestamp).toString()) {
+        target.get(kTypeFieldKey, "") == ModelTimestamp.typeString) {
       return filter(source.value.millisecondsSinceEpoch,
           ModelTimestamp.fromJson(target).value.millisecondsSinceEpoch);
     } else if (source is DynamicMap &&
         target is ModelTimestamp &&
-        source.get(kTypeFieldKey, "") == (ModelTimestamp).toString()) {
+        source.get(kTypeFieldKey, "") == ModelTimestamp.typeString) {
       return filter(
           ModelTimestamp.fromJson(source).value.millisecondsSinceEpoch,
           target.value.millisecondsSinceEpoch);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelTimestamp).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelTimestamp).toString()) {
+        source.get(kTypeFieldKey, "") == ModelTimestamp.typeString &&
+        target.get(kTypeFieldKey, "") == ModelTimestamp.typeString) {
       return filter(
           ModelTimestamp.fromJson(source).value.millisecondsSinceEpoch,
           ModelTimestamp.fromJson(target).value.millisecondsSinceEpoch);
@@ -1146,6 +1167,11 @@ class ModelSearch extends ModelFieldValue<List<String>>
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelSearch";
+
   /// Key to save the list.
   ///
   /// リストを保存しておくキー。
@@ -1169,7 +1195,7 @@ class ModelSearch extends ModelFieldValue<List<String>>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelSearch).toString(),
+        kTypeFieldKey: ModelSearch.typeString,
         kListKey: value,
         kSourceKey: _source.name,
       };
@@ -1213,6 +1239,9 @@ class ModelSearchConverter extends ModelFieldValueConverter<ModelSearch> {
   const ModelSearchConverter();
 
   @override
+  String get type => ModelSearch.typeString;
+
+  @override
   ModelSearch fromJson(Map<String, Object?> map) {
     return ModelSearch.fromJson(map);
   }
@@ -1232,6 +1261,9 @@ class ModelSearchFilter extends ModelFieldValueFilter<ModelSearch> {
   ///
   /// [ModelSearch]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelSearchFilter();
+
+  @override
+  String get type => ModelSearch.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -1298,16 +1330,16 @@ class ModelSearchFilter extends ModelFieldValueFilter<ModelSearch> {
       return filter([source], target.value);
     } else if (source is ModelSearch &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelSearch).toString()) {
+        target.get(kTypeFieldKey, "") == ModelSearch.typeString) {
       return filter(source.value, ModelSearch.fromJson(target).value);
     } else if (source is DynamicMap &&
         target is ModelSearch &&
-        source.get(kTypeFieldKey, "") == (ModelSearch).toString()) {
+        source.get(kTypeFieldKey, "") == ModelSearch.typeString) {
       return filter(ModelSearch.fromJson(source).value, target.value);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelSearch).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelSearch).toString()) {
+        source.get(kTypeFieldKey, "") == ModelSearch.typeString &&
+        target.get(kTypeFieldKey, "") == ModelSearch.typeString) {
       return filter(ModelSearch.fromJson(source).value,
           ModelSearch.fromJson(target).value);
     }

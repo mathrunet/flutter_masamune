@@ -72,6 +72,11 @@ class ModelGeoValue extends ModelFieldValue<GeoValue>
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelGeoValue";
+
   /// Key to save latitude.
   ///
   /// 緯度を保存しておくキー。
@@ -105,7 +110,7 @@ class ModelGeoValue extends ModelFieldValue<GeoValue>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelGeoValue).toString(),
+        kTypeFieldKey: ModelGeoValue.typeString,
         kLatitudeKey: value.latitude,
         kLongitudeKey: value.longitude,
         kGeoHashKey: value.geoHash,
@@ -168,6 +173,9 @@ class ModelGeoValueConverter extends ModelFieldValueConverter<ModelGeoValue> {
   const ModelGeoValueConverter();
 
   @override
+  String get type => ModelGeoValue.typeString;
+
+  @override
   ModelGeoValue fromJson(Map<String, Object?> map) {
     return ModelGeoValue.fromJson(map);
   }
@@ -187,6 +195,9 @@ class ModelGeoValueFilter extends ModelFieldValueFilter<ModelGeoValue> {
   ///
   /// [ModelGeoValue]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelGeoValueFilter();
+
+  @override
+  String get type => ModelGeoValue.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -274,28 +285,28 @@ class ModelGeoValueFilter extends ModelFieldValueFilter<ModelGeoValue> {
       return filter(source, target.value.geoHash);
     } else if (source is ModelGeoValue &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelGeoValue).toString()) {
+        target.get(kTypeFieldKey, "") == ModelGeoValue.typeString) {
       return filter(
           source.value.geoHash, ModelGeoValue.fromJson(target).value.geoHash);
     } else if (source is DynamicMap &&
         target is ModelGeoValue &&
-        source.get(kTypeFieldKey, "") == (ModelGeoValue).toString()) {
+        source.get(kTypeFieldKey, "") == ModelGeoValue.typeString) {
       return filter(
           ModelGeoValue.fromJson(source).value.geoHash, target.value.geoHash);
     } else if (source is GeoValue &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelGeoValue).toString()) {
+        target.get(kTypeFieldKey, "") == ModelGeoValue.typeString) {
       return filter(
           source.geoHash, ModelGeoValue.fromJson(target).value.geoHash);
     } else if (source is DynamicMap &&
         target is GeoValue &&
-        source.get(kTypeFieldKey, "") == (ModelGeoValue).toString()) {
+        source.get(kTypeFieldKey, "") == ModelGeoValue.typeString) {
       return filter(
           ModelGeoValue.fromJson(source).value.geoHash, target.geoHash);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelGeoValue).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelGeoValue).toString()) {
+        source.get(kTypeFieldKey, "") == ModelGeoValue.typeString &&
+        target.get(kTypeFieldKey, "") == ModelGeoValue.typeString) {
       return filter(
         ModelGeoValue.fromJson(source).value.geoHash,
         ModelGeoValue.fromJson(target).value.geoHash,

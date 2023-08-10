@@ -11,7 +11,7 @@ class FirestoreModelImageUriConverter
   const FirestoreModelImageUriConverter();
 
   @override
-  String get type => (ModelImageUri).toString();
+  String get type => ModelImageUri.typeString;
 
   @override
   DynamicMap? convertFrom(

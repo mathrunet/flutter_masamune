@@ -11,7 +11,7 @@ class FirestoreModelVideoUriConverter
   const FirestoreModelVideoUriConverter();
 
   @override
-  String get type => (ModelVideoUri).toString();
+  String get type => ModelVideoUri.typeString;
 
   @override
   DynamicMap? convertFrom(

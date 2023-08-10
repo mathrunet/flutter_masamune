@@ -10,7 +10,7 @@ class FirestoreModelRefConverter extends FirestoreModelFieldValueConverter {
   const FirestoreModelRefConverter();
 
   @override
-  String get type => (ModelRefBase).toString();
+  String get type => ModelRefBase.typeString;
 
   @override
   DynamicMap? convertFrom(

@@ -69,6 +69,11 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
     return ModelRefBase.fromPath(json.get(ModelRefBase._kRefKey, ""));
   }
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelRefBase";
+
   static const _kRefKey = "@ref";
 
   /// [DocumentModelQuery] of the associated document.
@@ -78,7 +83,7 @@ class ModelRefBase<T> extends ModelFieldValue<T?>
 
   @override
   Map<String, dynamic> toJson() => {
-        kTypeFieldKey: (ModelRefBase).toString(),
+        kTypeFieldKey: ModelRefBase.typeString,
         ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 
@@ -198,6 +203,9 @@ class ModelRefConverter extends ModelFieldValueConverter<ModelRefBase> {
   const ModelRefConverter();
 
   @override
+  String get type => ModelRefBase.typeString;
+
+  @override
   ModelRefBase fromJson(Map<String, Object?> map) {
     return ModelRefBase.fromJson(map);
   }
@@ -217,6 +225,9 @@ class ModelRefFilter extends ModelFieldValueFilter<ModelRefBase> {
   ///
   /// [ModelRefBase]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelRefFilter();
+
+  @override
+  String get type => ModelRefBase.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -290,18 +301,18 @@ class ModelRefFilter extends ModelFieldValueFilter<ModelRefBase> {
       return filter(source, target.modelQuery.path);
     } else if (source is ModelRefBase &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelRefBase).toString()) {
+        target.get(kTypeFieldKey, "") == ModelRefBase.typeString) {
       return filter(source.modelQuery.path,
           ModelRefBase.fromJson(target).modelQuery.path);
     } else if (source is DynamicMap &&
         target is ModelRefBase &&
-        source.get(kTypeFieldKey, "") == (ModelRefBase).toString()) {
+        source.get(kTypeFieldKey, "") == ModelRefBase.typeString) {
       return filter(ModelRefBase.fromJson(source).modelQuery.path,
           target.modelQuery.path);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelRefBase).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelRefBase).toString()) {
+        source.get(kTypeFieldKey, "") == ModelRefBase.typeString &&
+        target.get(kTypeFieldKey, "") == ModelRefBase.typeString) {
       return filter(ModelRefBase.fromJson(source).modelQuery.path,
           ModelRefBase.fromJson(target).modelQuery.path);
     }
@@ -320,7 +331,7 @@ mixin ModelRefMixin<T>
     implements ModelRefDocumentBase<T>, ModelRefBase<T>, DocumentBase<T> {
   @override
   Map<String, dynamic> toJson() => {
-        kTypeFieldKey: (ModelRefBase).toString(),
+        kTypeFieldKey: ModelRefBase.typeString,
         ModelRefBase._kRefKey: modelQuery.path.trimQuery().trimString("/"),
       };
 

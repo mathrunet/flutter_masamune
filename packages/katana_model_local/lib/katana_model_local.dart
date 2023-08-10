@@ -13,8 +13,11 @@ import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
+import 'package:csv/csv.dart';
 import 'package:katana_model/katana_model.dart';
 
 import 'src/others/others.dart'
@@ -30,3 +33,4 @@ export 'src/others/others.dart'
     if (dart.library.html) 'src/web/web.dart';
 
 part 'adapter/local_model_adapter.dart';
+part 'adapter/csv_source_model_adapter.dart';

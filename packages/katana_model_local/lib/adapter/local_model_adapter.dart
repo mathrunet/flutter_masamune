@@ -43,15 +43,18 @@ class LocalModelAdapter extends ModelAdapter {
   ///
   /// [prefix]を追加することですべてのパスにプレフィックスを付与することができ、Flavorごとにデータの保存場所を分けるなどの運用が可能です。
   const LocalModelAdapter({
+    NoSqlDatabase? database,
     this.prefix,
     this.initialValue,
-  });
+  }) : _database = database;
+
+  final NoSqlDatabase? _database;
 
   /// Designated database.
   ///
   /// 指定のデータベース。
   NoSqlDatabase get database {
-    final database = sharedDatabase;
+    final database = _database ?? sharedDatabase;
     if (initialValue.isNotEmpty && !database.isInitialValueRegistered) {
       for (final raw in initialValue!) {
         if (raw is ModelInitialDocument) {

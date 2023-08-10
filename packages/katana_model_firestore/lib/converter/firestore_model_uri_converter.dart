@@ -10,7 +10,7 @@ class FirestoreModelUriConverter extends FirestoreModelFieldValueConverter {
   const FirestoreModelUriConverter();
 
   @override
-  String get type => (ModelUri).toString();
+  String get type => ModelUri.typeString;
 
   @override
   DynamicMap? convertFrom(

@@ -229,6 +229,8 @@ class NoSqlDatabase {
   ///
   /// [prefix] can be specified to prefix the path.
   ///
+  /// If [onLoad] is specified, it is executed when data is loaded after initialization.
+  ///
   /// [query]を渡して[query]に対応するドキュメントを読み込みます。
   ///
   /// データが見つかった場合は[DynamicMap]で返されます。
@@ -236,12 +238,16 @@ class NoSqlDatabase {
   /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
   ///
   /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  ///
+  /// [onLoad]を指定すると初期化後にデータを読み込む際に実行されます。
   Future<DynamicMap?> loadDocument(
     ModelAdapterDocumentQuery query, {
     String? prefix,
+    Future<void> Function(NoSqlDatabase)? onLoad,
   }) async {
     _addDocumentListener(query, prefix: prefix);
     await _initialize();
+    await this.onLoad?.call(this);
     await onLoad?.call(this);
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
@@ -328,6 +334,8 @@ class NoSqlDatabase {
   ///
   /// [prefix] can be specified to prefix the path.
   ///
+  /// If [onLoad] is specified, it is executed when data is loaded after initialization.
+  ///
   /// [query]を渡して[query]に対応するコレクションを読み込みます。
   ///
   /// データが見つかった場合は[Map<String, DynamicMap>]で返されます。
@@ -337,12 +345,16 @@ class NoSqlDatabase {
   /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
   ///
   /// [prefix]を指定するとパスにプレフィックスを付与可能です。
+  ///
+  /// [onLoad]を指定すると初期化後にデータを読み込む際に実行されます。
   Future<Map<String, DynamicMap>?> loadCollection(
     ModelAdapterCollectionQuery query, {
     String? prefix,
+    Future<void> Function(NoSqlDatabase)? onLoad,
   }) async {
     _addCollectionListener(query, prefix: prefix);
     await _initialize();
+    await this.onLoad?.call(this);
     await onLoad?.call(this);
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");

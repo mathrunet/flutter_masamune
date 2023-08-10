@@ -46,6 +46,16 @@ class DocumentModelQuery extends ModelQuery {
 
   final ModelAdapter? _adapter;
 
+  /// Copy [DocumentModelQuery] with [path] and [adapter].
+  ///
+  /// [path]と[adapter]を指定して[DocumentModelQuery]をコピーします。
+  DocumentModelQuery copyWith({String? path, ModelAdapter? adapter}) {
+    return DocumentModelQuery(
+      path ?? this.path,
+      adapter: adapter ?? _adapter,
+    );
+  }
+
   @override
   String toString() {
     if (_adapter == null) {
@@ -435,6 +445,17 @@ class CollectionModelQuery extends ModelQuery {
       path,
       filters: filters ?? this.filters,
       adapter: _adapter,
+    );
+  }
+
+  /// Copy [CollectionModelQuery] with [path] and [adapter].
+  ///
+  /// [path]と[adapter]を指定して[CollectionModelQuery]をコピーします。
+  CollectionModelQuery copyWith({String? path, ModelAdapter? adapter}) {
+    return CollectionModelQuery._(
+      path ?? this.path,
+      filters: filters,
+      adapter: adapter ?? _adapter,
     );
   }
 

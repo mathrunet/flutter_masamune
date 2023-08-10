@@ -10,7 +10,7 @@ class FirestoreEnumConverter extends FirestoreModelFieldValueConverter {
   const FirestoreEnumConverter();
 
   @override
-  String get type => (ModelCounter).toString();
+  String get type => ModelCounter.typeString;
 
   @override
   DynamicMap? convertFrom(

@@ -55,6 +55,11 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue<String>>
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelLocalizedValue";
+
   /// Key to save translation data.
   ///
   /// 翻訳データを保存しておくキー。
@@ -78,7 +83,7 @@ class ModelLocalizedValue extends ModelFieldValue<LocalizedValue<String>>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelLocalizedValue).toString(),
+        kTypeFieldKey: ModelLocalizedValue.typeString,
         kLocalizedKey: value.toJson(),
         kSourceKey: _source.name,
       };
@@ -130,6 +135,9 @@ class ModelLocalizedValueConverter
   const ModelLocalizedValueConverter();
 
   @override
+  String get type => ModelLocalizedValue.typeString;
+
+  @override
   ModelLocalizedValue fromJson(Map<String, Object?> map) {
     return ModelLocalizedValue.fromJson(map);
   }
@@ -150,6 +158,9 @@ class ModelLocalizedValueFilter
   ///
   /// [ModelLocalizedValue]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelLocalizedValueFilter();
+
+  @override
+  String get type => ModelLocalizedValue.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -239,7 +250,7 @@ class ModelLocalizedValueFilter
       );
     } else if (source is ModelLocalizedValue &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
+        target.get(kTypeFieldKey, "") == ModelLocalizedValue.typeString) {
       return filter(
           source.value.map((e) => "${e.locale}:${e.value}").toList(),
           ModelLocalizedValue.fromJson(target)
@@ -248,7 +259,7 @@ class ModelLocalizedValueFilter
               .toList());
     } else if (source is DynamicMap &&
         target is ModelLocalizedValue &&
-        source.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
+        source.get(kTypeFieldKey, "") == ModelLocalizedValue.typeString) {
       return filter(
         ModelLocalizedValue.fromJson(source)
             .value
@@ -258,7 +269,7 @@ class ModelLocalizedValueFilter
       );
     } else if (source is LocalizedValue<String> &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
+        target.get(kTypeFieldKey, "") == ModelLocalizedValue.typeString) {
       return filter(
         source.map((e) => "${e.locale}:${e.value}").toList(),
         ModelLocalizedValue.fromJson(target)
@@ -268,7 +279,7 @@ class ModelLocalizedValueFilter
       );
     } else if (source is DynamicMap &&
         target is LocalizedValue<String> &&
-        source.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
+        source.get(kTypeFieldKey, "") == ModelLocalizedValue.typeString) {
       return filter(
         ModelLocalizedValue.fromJson(source)
             .value
@@ -278,8 +289,8 @@ class ModelLocalizedValueFilter
       );
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelLocalizedValue).toString()) {
+        source.get(kTypeFieldKey, "") == ModelLocalizedValue.typeString &&
+        target.get(kTypeFieldKey, "") == ModelLocalizedValue.typeString) {
       return filter(
         ModelLocalizedValue.fromJson(source)
             .value
@@ -537,6 +548,11 @@ class ModelLocale extends ModelFieldValue<Locale>
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelLocale";
+
   /// Key to save the language code.
   ///
   /// 言語コードを保存しておくキー。
@@ -565,7 +581,7 @@ class ModelLocale extends ModelFieldValue<Locale>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelLocale).toString(),
+        kTypeFieldKey: ModelLocale.typeString,
         kLaunguageKey: value.languageCode,
         kCountryKey: value.countryCode,
         kSourceKey: _source.name,
@@ -623,6 +639,9 @@ class ModelLocaleConverter extends ModelFieldValueConverter<ModelLocale> {
   const ModelLocaleConverter();
 
   @override
+  String get type => ModelLocale.typeString;
+
+  @override
   ModelLocale fromJson(Map<String, Object?> map) {
     return ModelLocale.fromJson(map);
   }
@@ -642,6 +661,9 @@ class ModelLocaleFilter extends ModelFieldValueFilter<ModelLocale> {
   ///
   /// [ModelLocale]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelLocaleFilter();
+
+  @override
+  String get type => ModelLocale.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -715,28 +737,28 @@ class ModelLocaleFilter extends ModelFieldValueFilter<ModelLocale> {
       return filter(source.replaceAll("-", "_"), target.value.toString());
     } else if (source is ModelLocale &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelLocale).toString()) {
+        target.get(kTypeFieldKey, "") == ModelLocale.typeString) {
       return filter(source.value.toString(),
           ModelLocale.fromJson(target).value.toString());
     } else if (source is DynamicMap &&
         target is ModelLocale &&
-        source.get(kTypeFieldKey, "") == (ModelLocale).toString()) {
+        source.get(kTypeFieldKey, "") == ModelLocale.typeString) {
       return filter(ModelLocale.fromJson(source).value.toString(),
           target.value.toString());
     } else if (source is Locale &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelLocale).toString()) {
+        target.get(kTypeFieldKey, "") == ModelLocale.typeString) {
       return filter(
           source.toString(), ModelLocale.fromJson(target).value.toString());
     } else if (source is DynamicMap &&
         target is Locale &&
-        source.get(kTypeFieldKey, "") == (ModelLocale).toString()) {
+        source.get(kTypeFieldKey, "") == ModelLocale.typeString) {
       return filter(
           ModelLocale.fromJson(source).value.toString(), target.toString());
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelLocale).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelLocale).toString()) {
+        source.get(kTypeFieldKey, "") == ModelLocale.typeString &&
+        target.get(kTypeFieldKey, "") == ModelLocale.typeString) {
       return filter(
         ModelLocale.fromJson(source).value.toString(),
         ModelLocale.fromJson(target).value.toString(),

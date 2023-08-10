@@ -10,7 +10,7 @@ class FirestoreModelCounterConverter extends FirestoreModelFieldValueConverter {
   const FirestoreModelCounterConverter();
 
   @override
-  String get type => (ModelCounter).toString();
+  String get type => ModelCounter.typeString;
 
   @override
   DynamicMap? convertFrom(

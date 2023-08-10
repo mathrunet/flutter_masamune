@@ -11,7 +11,7 @@ class FirestoreModelLocalizedValueConverter
   const FirestoreModelLocalizedValueConverter();
 
   @override
-  String get type => (ModelLocalizedValue).toString();
+  String get type => ModelLocalizedValue.typeString;
 
   @override
   DynamicMap? convertFrom(
@@ -53,7 +53,7 @@ class FirestoreModelLocalizedValueConverter
         final targetKey = "#$key";
         return {
           targetKey: {
-            kTypeFieldKey: (ModelLocalizedValue).toString(),
+            kTypeFieldKey: ModelLocalizedValue.typeString,
             ModelLocalizedValue.kLocalizedKey: val,
             _kTargetKey: key,
           },

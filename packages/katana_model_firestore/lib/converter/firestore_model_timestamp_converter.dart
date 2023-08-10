@@ -11,7 +11,7 @@ class FirestoreModelTimestampConverter
   const FirestoreModelTimestampConverter();
 
   @override
-  String get type => (ModelTimestamp).toString();
+  String get type => ModelTimestamp.typeString;
 
   @override
   DynamicMap? convertFrom(

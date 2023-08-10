@@ -10,7 +10,7 @@ class FirestoreModelLocaleConverter extends FirestoreModelFieldValueConverter {
   const FirestoreModelLocaleConverter();
 
   @override
-  String get type => (ModelLocale).toString();
+  String get type => ModelLocale.typeString;
 
   @override
   DynamicMap? convertFrom(

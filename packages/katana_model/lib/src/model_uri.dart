@@ -66,6 +66,11 @@ class ModelImageUri extends ModelFieldValue<Uri>
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelImageUri";
+
   /// Key to save time.
   ///
   /// 時間を保存しておくキー。
@@ -89,7 +94,7 @@ class ModelImageUri extends ModelFieldValue<Uri>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelImageUri).toString(),
+        kTypeFieldKey: ModelImageUri.typeString,
         kUriKey: value.toString(),
         kSourceKey: _source.name,
       };
@@ -142,6 +147,9 @@ class ModelImageUriConverter extends ModelFieldValueConverter<ModelImageUri> {
   const ModelImageUriConverter();
 
   @override
+  String get type => ModelImageUri.typeString;
+
+  @override
   ModelImageUri fromJson(Map<String, Object?> map) {
     return ModelImageUri.fromJson(map);
   }
@@ -161,6 +169,9 @@ class ModelImageUriFilter extends ModelFieldValueFilter<ModelImageUri> {
   ///
   /// [ModelImageUri]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelImageUriFilter();
+
+  @override
+  String get type => ModelImageUri.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -247,16 +258,16 @@ class ModelImageUriFilter extends ModelFieldValueFilter<ModelImageUri> {
       return filter(uri, target.value);
     } else if (source is ModelImageUri &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelImageUri).toString()) {
+        target.get(kTypeFieldKey, "") == ModelImageUri.typeString) {
       return filter(source.value, ModelImageUri.fromJson(target).value);
     } else if (source is DynamicMap &&
         target is ModelImageUri &&
-        source.get(kTypeFieldKey, "") == (ModelImageUri).toString()) {
+        source.get(kTypeFieldKey, "") == ModelImageUri.typeString) {
       return filter(ModelImageUri.fromJson(source).value, target.value);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelImageUri).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelImageUri).toString()) {
+        source.get(kTypeFieldKey, "") == ModelImageUri.typeString &&
+        target.get(kTypeFieldKey, "") == ModelImageUri.typeString) {
       return filter(ModelImageUri.fromJson(source).value,
           ModelImageUri.fromJson(target).value);
     }
@@ -330,6 +341,11 @@ class ModelVideoUri extends ModelFieldValue<Uri>
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelVideoUri";
+
   /// Key to save time.
   ///
   /// 時間を保存しておくキー。
@@ -353,7 +369,7 @@ class ModelVideoUri extends ModelFieldValue<Uri>
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelVideoUri).toString(),
+        kTypeFieldKey: ModelVideoUri.typeString,
         kUriKey: value.toString(),
         kSourceKey: _source.name,
       };
@@ -406,6 +422,9 @@ class ModelVideoUriConverter extends ModelFieldValueConverter<ModelVideoUri> {
   const ModelVideoUriConverter();
 
   @override
+  String get type => ModelVideoUri.typeString;
+
+  @override
   ModelVideoUri fromJson(Map<String, Object?> map) {
     return ModelVideoUri.fromJson(map);
   }
@@ -425,6 +444,9 @@ class ModelVideoUriFilter extends ModelFieldValueFilter<ModelVideoUri> {
   ///
   /// [ModelVideoUri]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelVideoUriFilter();
+
+  @override
+  String get type => ModelVideoUri.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -511,16 +533,16 @@ class ModelVideoUriFilter extends ModelFieldValueFilter<ModelVideoUri> {
       return filter(uri, target.value);
     } else if (source is ModelVideoUri &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelVideoUri).toString()) {
+        target.get(kTypeFieldKey, "") == ModelVideoUri.typeString) {
       return filter(source.value, ModelVideoUri.fromJson(target).value);
     } else if (source is DynamicMap &&
         target is ModelVideoUri &&
-        source.get(kTypeFieldKey, "") == (ModelVideoUri).toString()) {
+        source.get(kTypeFieldKey, "") == ModelVideoUri.typeString) {
       return filter(ModelVideoUri.fromJson(source).value, target.value);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelVideoUri).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelVideoUri).toString()) {
+        source.get(kTypeFieldKey, "") == ModelVideoUri.typeString &&
+        target.get(kTypeFieldKey, "") == ModelVideoUri.typeString) {
       return filter(ModelVideoUri.fromJson(source).value,
           ModelVideoUri.fromJson(target).value);
     }
@@ -592,6 +614,11 @@ class ModelUri extends ModelFieldValue<Uri> implements Comparable<ModelUri> {
   ])  : _value = value,
         _source = source;
 
+  /// Type key.
+  ///
+  /// タイプのキー。
+  static const typeString = "ModelUri";
+
   /// Key to save time.
   ///
   /// 時間を保存しておくキー。
@@ -615,7 +642,7 @@ class ModelUri extends ModelFieldValue<Uri> implements Comparable<ModelUri> {
 
   @override
   DynamicMap toJson() => {
-        kTypeFieldKey: (ModelUri).toString(),
+        kTypeFieldKey: ModelUri.typeString,
         kUriKey: value.toString(),
         kSourceKey: _source.name,
       };
@@ -668,6 +695,9 @@ class ModelUriConverter extends ModelFieldValueConverter<ModelUri> {
   const ModelUriConverter();
 
   @override
+  String get type => ModelUri.typeString;
+
+  @override
   ModelUri fromJson(Map<String, Object?> map) {
     return ModelUri.fromJson(map);
   }
@@ -687,6 +717,9 @@ class ModelUriFilter extends ModelFieldValueFilter<ModelUri> {
   ///
   /// [ModelUri]を[ModelQuery.filters]で利用できるようにするためのフィルタークラス。
   const ModelUriFilter();
+
+  @override
+  String get type => ModelUri.typeString;
 
   @override
   int? compare(dynamic a, dynamic b) {
@@ -773,16 +806,16 @@ class ModelUriFilter extends ModelFieldValueFilter<ModelUri> {
       return filter(uri, target.value);
     } else if (source is ModelUri &&
         target is DynamicMap &&
-        target.get(kTypeFieldKey, "") == (ModelUri).toString()) {
+        target.get(kTypeFieldKey, "") == ModelUri.typeString) {
       return filter(source.value, ModelUri.fromJson(target).value);
     } else if (source is DynamicMap &&
         target is ModelUri &&
-        source.get(kTypeFieldKey, "") == (ModelUri).toString()) {
+        source.get(kTypeFieldKey, "") == ModelUri.typeString) {
       return filter(ModelUri.fromJson(source).value, target.value);
     } else if (source is DynamicMap &&
         target is DynamicMap &&
-        source.get(kTypeFieldKey, "") == (ModelUri).toString() &&
-        target.get(kTypeFieldKey, "") == (ModelUri).toString()) {
+        source.get(kTypeFieldKey, "") == ModelUri.typeString &&
+        target.get(kTypeFieldKey, "") == ModelUri.typeString) {
       return filter(
           ModelUri.fromJson(source).value, ModelUri.fromJson(target).value);
     }
