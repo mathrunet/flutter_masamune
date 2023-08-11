@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Shimmer name change. ([9ad7a5bb](https://github.com/mathrunet/flutter_masamune/commit/9ad7a5bbe4257fbe3108e9f811cfb92735d32fdd))
+
 ## 2.4.0
 
  - **FEAT**: Added Shimmer functionality. ([7a0fcdf1](https://github.com/mathrunet/flutter_masamune/commit/7a0fcdf1cb7380e2d357a5eb9664b0550da5159a))
