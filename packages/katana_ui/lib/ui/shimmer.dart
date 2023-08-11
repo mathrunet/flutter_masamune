@@ -7,7 +7,7 @@ part of katana_ui;
 /// シマーエフェクトを表示するコンテナを作成します。
 ///
 /// 文字の変わりにシマーエフェクトを表示する場合に利用します。
-class Shimmer extends StatelessWidget {
+class ShimmerBox extends StatelessWidget {
   /// Create a container to display the shimmer effect.
   ///
   /// Used to display a shimmer effect instead of text.
@@ -15,7 +15,7 @@ class Shimmer extends StatelessWidget {
   /// シマーエフェクトを表示するコンテナを作成します。
   ///
   /// 文字の変わりにシマーエフェクトを表示する場合に利用します。
-  const Shimmer({
+  const ShimmerBox({
     super.key,
     this.borderRadius,
     this.baseColor,
@@ -24,7 +24,13 @@ class Shimmer extends StatelessWidget {
     this.height,
     this.padding = const EdgeInsets.all(0),
     this.shape = BoxShape.rectangle,
+    this.child,
   });
+
+  /// Widget for the container inside.
+  ///
+  /// 中身のコンテナのウィジェット。
+  final Widget? child;
 
   /// Container height.
   ///
@@ -68,27 +74,28 @@ class Shimmer extends StatelessWidget {
       baseColor: baseColor ?? Theme.of(context).colorScheme.surface,
       highlightColor:
           highlightColor ?? Theme.of(context).colorScheme.background,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: borderRadius ?? BorderRadius.circular(h / 4),
-          color: baseColor ?? Theme.of(context).colorScheme.surface,
-          shape: shape,
-        ),
-        margin: padding,
-        height: h,
-        width: width,
-      ),
+      child: child ??
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: borderRadius ?? BorderRadius.circular(h / 4),
+              color: baseColor ?? Theme.of(context).colorScheme.surface,
+              shape: shape,
+            ),
+            margin: padding,
+            height: h,
+            width: width,
+          ),
     );
   }
 }
 
-/// Create a [Shimmer] effect that spans multiple lines.
+/// Create a [ShimmerBox] effect that spans multiple lines.
 ///
-/// 複数行に渡る[Shimmer]エフェクトを作成します。
+/// 複数行に渡る[ShimmerBox]エフェクトを作成します。
 class ShimmerMultiLine extends StatelessWidget {
-  /// Create a [Shimmer] effect that spans multiple lines.
+  /// Create a [ShimmerBox] effect that spans multiple lines.
   ///
-  /// 複数行に渡る[Shimmer]エフェクトを作成します。
+  /// 複数行に渡る[ShimmerBox]エフェクトを作成します。
   const ShimmerMultiLine({
     super.key,
     this.borderRadius,
@@ -156,7 +163,7 @@ class ShimmerMultiLine extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           for (var i = 0; i < lineCount; i++) ...[
-            Shimmer(
+            ShimmerBox(
               baseColor: baseColor,
               highlightColor: highlightColor,
               width: width,
