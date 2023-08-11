@@ -1404,7 +1404,7 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
     final iconWidget = appBar.avatarIcon == null
         ? null
         : Positioned(
-            left: 24.0,
+            left: max(24.0, titleSpacing ?? 24.0),
             bottom: 0.0,
             child: Container(
               alignment: Alignment.center,
