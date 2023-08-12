@@ -3,6 +3,85 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.0.14`](#katana_auth---v2014)
+ - [`katana_cli` - `v2.7.7`](#katana_cli---v277)
+ - [`katana_auth_firebase` - `v2.0.15`](#katana_auth_firebase---v2015)
+ - [`masamune` - `v2.4.15`](#masamune---v2415)
+ - [`masamune_location` - `v2.1.82`](#masamune_location---v2182)
+ - [`masamune_auth_apple` - `v2.1.71`](#masamune_auth_apple---v2171)
+ - [`masamune_text_to_speech` - `v2.1.37`](#masamune_text_to_speech---v2137)
+ - [`masamune_agora` - `v2.2.53`](#masamune_agora---v2253)
+ - [`masamune_auth_google` - `v2.1.71`](#masamune_auth_google---v2171)
+ - [`masamune_ai_openai` - `v2.2.5`](#masamune_ai_openai---v225)
+ - [`masamune_calendar` - `v2.0.115`](#masamune_calendar---v20115)
+ - [`masamune_picker` - `v2.1.70`](#masamune_picker---v2170)
+ - [`masamune_util` - `v2.1.49`](#masamune_util---v2149)
+ - [`masamune_universal_ui` - `v2.2.50`](#masamune_universal_ui---v2250)
+ - [`masamune_purchase_stripe` - `v3.3.15`](#masamune_purchase_stripe---v3315)
+ - [`masamune_introduction` - `v2.2.19`](#masamune_introduction---v2219)
+ - [`masamune_logger_firebase` - `v2.0.113`](#masamune_logger_firebase---v20113)
+ - [`masamune_speech_to_text` - `v2.1.40`](#masamune_speech_to_text---v2140)
+ - [`masamune_auth_facebook` - `v2.1.73`](#masamune_auth_facebook---v2173)
+ - [`masamune_location_google` - `v2.1.83`](#masamune_location_google---v2183)
+ - [`masamune_module` - `v2.1.16`](#masamune_module---v2116)
+ - [`masamune_point_ecosystem` - `v2.2.15`](#masamune_point_ecosystem---v2215)
+ - [`masamune_mail` - `v2.1.68`](#masamune_mail---v2168)
+ - [`masamune_notification_firebase` - `v2.1.68`](#masamune_notification_firebase---v2168)
+ - [`masamune_purchase_mobile` - `v2.5.15`](#masamune_purchase_mobile---v2515)
+ - [`masamune_ads_google` - `v2.1.21`](#masamune_ads_google---v2121)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth_firebase` - `v2.0.15`
+ - `masamune` - `v2.4.15`
+ - `masamune_location` - `v2.1.82`
+ - `masamune_auth_apple` - `v2.1.71`
+ - `masamune_text_to_speech` - `v2.1.37`
+ - `masamune_agora` - `v2.2.53`
+ - `masamune_auth_google` - `v2.1.71`
+ - `masamune_ai_openai` - `v2.2.5`
+ - `masamune_calendar` - `v2.0.115`
+ - `masamune_picker` - `v2.1.70`
+ - `masamune_util` - `v2.1.49`
+ - `masamune_universal_ui` - `v2.2.50`
+ - `masamune_purchase_stripe` - `v3.3.15`
+ - `masamune_introduction` - `v2.2.19`
+ - `masamune_logger_firebase` - `v2.0.113`
+ - `masamune_speech_to_text` - `v2.1.40`
+ - `masamune_auth_facebook` - `v2.1.73`
+ - `masamune_location_google` - `v2.1.83`
+ - `masamune_module` - `v2.1.16`
+ - `masamune_point_ecosystem` - `v2.2.15`
+ - `masamune_mail` - `v2.1.68`
+ - `masamune_notification_firebase` - `v2.1.68`
+ - `masamune_purchase_mobile` - `v2.5.15`
+ - `masamune_ads_google` - `v2.1.21`
+
+---
+
+#### `katana_auth` - `v2.0.14`
+
+ - **FIX**: Fixed inability to link if already signed in. ([fbee6313](https://github.com/mathrunet/flutter_masamune/commit/fbee63139b7d8d9862bdb0edf7e200711f30fc50))
+
+#### `katana_cli` - `v2.7.7`
+
+ - **FIX**: Fixed missing Apple sign-in settings. ([e2b33a1e](https://github.com/mathrunet/flutter_masamune/commit/e2b33a1ec05c7d11927e436f7868c512a228c1b7))
+
+
 ## 2023-08-11
 
 ### Changes

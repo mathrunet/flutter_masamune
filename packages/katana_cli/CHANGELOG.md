@@ -1,3 +1,7 @@
+## 2.7.7
+
+ - **FIX**: Fixed missing Apple sign-in settings. ([e2b33a1e](https://github.com/mathrunet/flutter_masamune/commit/e2b33a1ec05c7d11927e436f7868c512a228c1b7))
+
 ## 2.7.6
 
  - **FIX**: GithubActions are available for Modules as well. ([2d2dafd3](https://github.com/mathrunet/flutter_masamune/commit/2d2dafd3dad79357d67ad639622303419fe9b1fe))

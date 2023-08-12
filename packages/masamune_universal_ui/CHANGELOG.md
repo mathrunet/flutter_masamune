@@ -1,3 +1,7 @@
+## 2.2.50
+
+ - Update a dependency to the latest release.
+
 ## 2.2.49
 
  - **FIX**: Correction of Avatar's position on the web. ([63855e14](https://github.com/mathrunet/flutter_masamune/commit/63855e14caa4898af1c8969409e21b8e9734b5b9))

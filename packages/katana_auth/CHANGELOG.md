@@ -1,3 +1,7 @@
+## 2.0.14
+
+ - **FIX**: Fixed inability to link if already signed in. ([fbee6313](https://github.com/mathrunet/flutter_masamune/commit/fbee63139b7d8d9862bdb0edf7e200711f30fc50))
+
 ## 2.0.13
 
  - **FIX**: Support for Firebase specification changes. ([dca44962](https://github.com/mathrunet/flutter_masamune/commit/dca44962efb56459d61b47990f3db8e78fe33d18))
