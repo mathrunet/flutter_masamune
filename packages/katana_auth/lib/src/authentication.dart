@@ -229,9 +229,6 @@ class Authentication extends ChangeNotifier {
   ///
   /// すでにサインインしている場合は[Exception]が返されます。
   Future<Authentication> signIn(SignInAuthProvider provider) async {
-    if (isSignedIn) {
-      throw Exception("You are already signed in.");
-    }
     await adapter.signIn(
       provider: provider,
       onUserStateChanged: notifyListeners,
