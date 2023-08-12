@@ -106,36 +106,9 @@ class CsvHeaderSourceModelAdapter extends CsvSourceModelAdapter {
       for (var i = 0; i < header.length; i++) {
         map[header[i].toString()] = _toAny(row[i]);
       }
-      result[map[idKey].toString()] = map;
+      result[map[idKey].toString()] = _merged(map);
     }
     return result;
-  }
-
-  dynamic _toAny(Object? object) {
-    if (object == null) {
-      return null;
-    } else if (object is num) {
-      return object;
-    } else if (object is bool) {
-      return object;
-    } else {
-      final st = object.toString();
-      final d = double.tryParse(st);
-      if (d != null) {
-        return d;
-      }
-      final i = int.tryParse(st);
-      if (i != null) {
-        return i;
-      }
-      if (st.toLowerCase() == "true") {
-        return true;
-      }
-      if (st.toLowerCase() == "false") {
-        return false;
-      }
-      return object;
-    }
   }
 }
 
@@ -293,7 +266,7 @@ class CsvSingleDocumentSourceModelAdapter extends CsvSourceModelAdapter {
           res[key] = _toAny(value);
         }
         return {
-          documentId: res,
+          documentId: _merged(res),
         };
 
       case Axis.vertical:
@@ -314,35 +287,8 @@ class CsvSingleDocumentSourceModelAdapter extends CsvSourceModelAdapter {
           res[key] = _toAny(value);
         }
         return {
-          documentId: res,
+          documentId: _merged(res),
         };
-    }
-  }
-
-  dynamic _toAny(Object? object) {
-    if (object == null) {
-      return null;
-    } else if (object is num) {
-      return object;
-    } else if (object is bool) {
-      return object;
-    } else {
-      final st = object.toString();
-      final d = double.tryParse(st);
-      if (d != null) {
-        return d;
-      }
-      final i = int.tryParse(st);
-      if (i != null) {
-        return i;
-      }
-      if (st.toLowerCase() == "true") {
-        return true;
-      }
-      if (st.toLowerCase() == "false") {
-        return false;
-      }
-      return object;
     }
   }
 
@@ -812,4 +758,80 @@ class CsvSourceModelBatchRef extends ModelBatchRef {
   CsvSourceModelBatchRef._();
 
   final List<FutureOr<void> Function()> _batchList = [];
+}
+
+dynamic _toAny(Object? object) {
+  if (object == null) {
+    return null;
+  } else if (object is num) {
+    return object;
+  } else if (object is bool) {
+    return object;
+  } else {
+    final st = object.toString();
+    final d = double.tryParse(st);
+    if (d != null) {
+      return d;
+    }
+    final i = int.tryParse(st);
+    if (i != null) {
+      return i;
+    }
+    if (st.toLowerCase() == "true") {
+      return true;
+    }
+    if (st.toLowerCase() == "false") {
+      return false;
+    }
+    final dt = DateTime.tryParse(st);
+    if (dt != null) {
+      return ModelTimestamp(dt).toJson();
+    }
+    final uri = Uri.tryParse(st);
+    if (uri != null && uri.scheme == "ref") {
+      return ModelRefBase.fromPath(
+        uri.toString().replaceAll(RegExp("^ref:/"), ""),
+      ).toJson();
+    }
+    return object;
+  }
+}
+
+DynamicMap _merged(DynamicMap map) {
+  final result = <String, dynamic>{};
+  final localized = <String, Map<Locale, String>>{};
+  for (final entry in map.entries) {
+    if (entry.key.contains(":")) {
+      final keys = entry.key.split(":");
+      final key = keys.first;
+      switch (keys.length) {
+        case 2:
+          if (!localized.containsKey(key)) {
+            localized[key] = {};
+          }
+          final locales = keys.last.split("_");
+          final locale = Locale(
+            locales.first,
+            locales.length < 2 ? null : locales.last,
+          );
+          localized[key]![locale] = entry.value;
+          break;
+        default:
+          result[entry.key] = entry.value;
+          break;
+      }
+    } else {
+      result[entry.key] = entry.value;
+    }
+  }
+  if (localized.isNotEmpty) {
+    for (final l in localized.entries) {
+      result[l.key] = ModelLocalizedValue.fromList(
+        l.value
+            .toList((key, value) => LocalizedLocaleValue(key, value))
+            .toList(),
+      ).toJson();
+    }
+  }
+  return result;
 }
