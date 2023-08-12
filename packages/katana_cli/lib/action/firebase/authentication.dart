@@ -377,5 +377,145 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
         document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
       );
     }
+    if (enableApple) {
+      label("Edit Runner.entitlements.");
+      final runnerEntitlements = File("ios/Runner/Runner.entitlements");
+      if (!runnerEntitlements.existsSync()) {
+        await const RunnerEntitlementsCliCode()
+            .generateFile("Runner.entitlements");
+      }
+      final runnerDocument =
+          XmlDocument.parse(await runnerEntitlements.readAsString());
+      final dict = runnerDocument.findAllElements("dict").firstOrNull;
+      if (dict == null) {
+        throw Exception(
+          "Could not find `dict` element in `ios/Runner/Info.plist`. File is corrupt.",
+        );
+      }
+      final appleSignIn = dict.children.firstWhereOrNull((p0) {
+        return p0 is XmlElement &&
+            p0.name.toString() == "key" &&
+            p0.innerText == "com.apple.developer.applesignin";
+      });
+      if (appleSignIn == null) {
+        dict.children.add(
+          XmlElement(
+            XmlName("key"),
+            [],
+            [
+              XmlText("com.apple.developer.applesignin"),
+            ],
+          ),
+        );
+        dict.children.add(
+          XmlElement(
+            XmlName("array"),
+            [],
+            [
+              XmlElement(
+                XmlName("string"),
+                [],
+                [
+                  XmlText("Default"),
+                ],
+              ),
+            ],
+          ),
+        );
+        await runnerEntitlements.writeAsString(
+          runnerDocument.toXmlString(
+              pretty: true, indent: "    ", newLine: "\n"),
+        );
+      }
+      label("Edit project.pbxproj");
+      final xcode = XCode();
+      await xcode.load();
+      final fileId = XCode.generateId();
+      if (!xcode.pbxFileReference.any((e) => e.path == "Runner.entitlements")) {
+        xcode.pbxFileReference.add(
+          PBXFileReference(
+            id: fileId,
+            comment: "Runner.entitlements",
+            lastKnownFileType: "text.plist.entitlements",
+            path: "Runner.entitlements",
+            sourceTree: "\"<group>\"",
+          ),
+        );
+        final runner =
+            xcode.pbxGroup.firstWhereOrNull((item) => item.comment == "Runner");
+        if (runner == null) {
+          throw Exception(
+            "Could not find `Runner` group in `ios/Runner.xcodeproj/project.pbxproj`. File is corrupt.",
+          );
+        }
+        runner.children
+            .add(PBXGroupChild(comment: "Runner.entitlements", id: fileId));
+        for (final buildConfiguration in xcode.pbxBuildConfiguration) {
+          if (buildConfiguration.buildSettings
+              .any((e) => e.key == "CODE_SIGN_ENTITLEMENTS")) {
+            continue;
+          }
+          if (buildConfiguration.baseConfigurationReference
+                      ?.contains("/* Release.xcconfig */") ==
+                  true ||
+              buildConfiguration.baseConfigurationReference
+                      ?.contains("/* Debug.xcconfig */") ==
+                  true) {
+            buildConfiguration.buildSettings.add(
+              PBXBuildConfigurationSettings(
+                  key: "CODE_SIGN_ENTITLEMENTS",
+                  value: "Runner/Runner.entitlements"),
+            );
+          }
+        }
+      }
+      await xcode.save();
+    }
+  }
+}
+
+/// Code base for `Runner.entitlements`.
+///
+/// `Runner.entitlements`のコードベース。
+class RunnerEntitlementsCliCode extends CliCode {
+  /// Code base for `Runner.entitlements`.
+  ///
+  /// `Runner.entitlements`のコードベース。
+  const RunnerEntitlementsCliCode();
+
+  @override
+  String get name => "Runner";
+
+  @override
+  String get prefix => "Runner";
+
+  @override
+  String get directory => "ios/Runner";
+
+  @override
+  String get description =>
+      "Define code for `Runner.entitlements`. `Runner.entitlements`用のコードを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+</dict>
+</plist>
+""";
   }
 }
