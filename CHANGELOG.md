@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model_local` - `v2.5.6`](#katana_model_local---v256)
+ - [`masamune` - `v2.4.16`](#masamune---v2416)
+ - [`masamune_location` - `v2.1.83`](#masamune_location---v2183)
+ - [`masamune_auth_apple` - `v2.1.72`](#masamune_auth_apple---v2172)
+ - [`masamune_text_to_speech` - `v2.1.38`](#masamune_text_to_speech---v2138)
+ - [`masamune_agora` - `v2.2.54`](#masamune_agora---v2254)
+ - [`masamune_ai_openai` - `v2.2.6`](#masamune_ai_openai---v226)
+ - [`masamune_calendar` - `v2.0.116`](#masamune_calendar---v20116)
+ - [`masamune_auth_google` - `v2.1.72`](#masamune_auth_google---v2172)
+ - [`masamune_picker` - `v2.1.71`](#masamune_picker---v2171)
+ - [`masamune_util` - `v2.1.50`](#masamune_util---v2150)
+ - [`masamune_universal_ui` - `v2.2.51`](#masamune_universal_ui---v2251)
+ - [`masamune_purchase_stripe` - `v3.3.16`](#masamune_purchase_stripe---v3316)
+ - [`masamune_introduction` - `v2.2.20`](#masamune_introduction---v2220)
+ - [`masamune_auth_facebook` - `v2.1.74`](#masamune_auth_facebook---v2174)
+ - [`masamune_speech_to_text` - `v2.1.41`](#masamune_speech_to_text---v2141)
+ - [`masamune_location_google` - `v2.1.84`](#masamune_location_google---v2184)
+ - [`masamune_logger_firebase` - `v2.0.114`](#masamune_logger_firebase---v20114)
+ - [`masamune_module` - `v2.1.17`](#masamune_module---v2117)
+ - [`masamune_mail` - `v2.1.69`](#masamune_mail---v2169)
+ - [`masamune_purchase_mobile` - `v2.5.16`](#masamune_purchase_mobile---v2516)
+ - [`masamune_ads_google` - `v2.1.22`](#masamune_ads_google---v2122)
+ - [`masamune_notification_firebase` - `v2.1.69`](#masamune_notification_firebase---v2169)
+ - [`masamune_point_ecosystem` - `v2.2.16`](#masamune_point_ecosystem---v2216)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.16`
+ - `masamune_location` - `v2.1.83`
+ - `masamune_auth_apple` - `v2.1.72`
+ - `masamune_text_to_speech` - `v2.1.38`
+ - `masamune_agora` - `v2.2.54`
+ - `masamune_ai_openai` - `v2.2.6`
+ - `masamune_calendar` - `v2.0.116`
+ - `masamune_auth_google` - `v2.1.72`
+ - `masamune_picker` - `v2.1.71`
+ - `masamune_util` - `v2.1.50`
+ - `masamune_universal_ui` - `v2.2.51`
+ - `masamune_purchase_stripe` - `v3.3.16`
+ - `masamune_introduction` - `v2.2.20`
+ - `masamune_auth_facebook` - `v2.1.74`
+ - `masamune_speech_to_text` - `v2.1.41`
+ - `masamune_location_google` - `v2.1.84`
+ - `masamune_logger_firebase` - `v2.0.114`
+ - `masamune_module` - `v2.1.17`
+ - `masamune_mail` - `v2.1.69`
+ - `masamune_purchase_mobile` - `v2.5.16`
+ - `masamune_ads_google` - `v2.1.22`
+ - `masamune_notification_firebase` - `v2.1.69`
+ - `masamune_point_ecosystem` - `v2.2.16`
+
+---
+
+#### `katana_model_local` - `v2.5.6`
+
+ - **FIX**: Added support for LocalizedValue, ModelRef, and ModelTimestamp for CSV data conversion. ([fe09fdbf](https://github.com/mathrunet/flutter_masamune/commit/fe09fdbfd46fafeafe508cc47dab8da50bbfd825))
+
+
 ## 2023-08-12
 
 ### Changes

@@ -1,3 +1,7 @@
+## 2.5.6
+
+ - **FIX**: Added support for LocalizedValue, ModelRef, and ModelTimestamp for CSV data conversion. ([fe09fdbf](https://github.com/mathrunet/flutter_masamune/commit/fe09fdbfd46fafeafe508cc47dab8da50bbfd825))
+
 ## 2.5.5
 
  - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))

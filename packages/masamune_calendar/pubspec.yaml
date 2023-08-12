@@ -1,6 +1,6 @@
 name: masamune_calendar
 description: Masamune plugin to provide calendar functionality. The masamune framework is assumed to be used.
-version: 2.0.115
+version: 2.0.116
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_calendar
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.3.3
-  masamune: ^2.4.15
+  masamune: ^2.4.16
   simple_gesture_detector: ^0.2.0
 dev_dependencies:
   test: ^1.21.3
