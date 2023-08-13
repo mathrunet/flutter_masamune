@@ -21,9 +21,9 @@ import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:http/http.dart' as http;
 import 'package:masamune_annotation/masamune_annotation.dart';
 import 'package:source_gen/source_gen.dart';
-import 'package:http/http.dart' as http;
 
 export 'package:katana/katana.dart';
 export 'package:katana_listenables_builder/katana_listenables_builder.dart'
