@@ -1,3 +1,7 @@
+## 2.5.7
+
+ - **FIX**: Make the internal path hashCode dependent. ([8be59950](https://github.com/mathrunet/flutter_masamune/commit/8be599500c79a2135831a63b947753034c4fcbd9))
+
 ## 2.5.6
 
  - **FIX**: Added support for LocalizedValue, ModelRef, and ModelTimestamp for CSV data conversion. ([fe09fdbf](https://github.com/mathrunet/flutter_masamune/commit/fe09fdbfd46fafeafe508cc47dab8da50bbfd825))
