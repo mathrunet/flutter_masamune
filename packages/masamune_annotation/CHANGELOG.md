@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added annotation for GoogleSpreadSheetDataSource. ([7dd590db](https://github.com/mathrunet/flutter_masamune/commit/7dd590db7677fc0940fb3847a70b3459b3e6ae23))
+
 ## 2.2.2
 
  - **DOCS**: ReadMe changes. ([89789da4](https://github.com/mathrunet/flutter_masamune/commit/89789da4320648232a25778b9d5cae6c264fa94c))

@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Rename each CsvDataSource. ([4e0a8572](https://github.com/mathrunet/flutter_masamune/commit/4e0a8572d4c97432f9bc629f45d7e9ba5110494b))
+
 ## 2.5.7
 
  - **FIX**: Make the internal path hashCode dependent. ([8be59950](https://github.com/mathrunet/flutter_masamune/commit/8be599500c79a2135831a63b947753034c4fcbd9))
