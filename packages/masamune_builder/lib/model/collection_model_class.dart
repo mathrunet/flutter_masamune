@@ -218,9 +218,10 @@ enum CollectionQueryType {
 /// コレクションモデルを自動作成するためのクラスを作成します。
 List<Spec> collectionModelClass(
   ClassValue model,
-  AnnotationValue annotation,
+  ModelAnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
+  GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
 
@@ -249,16 +250,26 @@ List<Spec> collectionModelClass(
           )
         ])
         ..fields.addAll([
-          Field(
-            (f) => f
-              ..name = "defaultModelAdapter"
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..type = const Reference("ModelAdapter?")
-              ..assignment = Code(
-                annotation.adapter == null ? "null" : annotation.adapter!,
-              ),
-          )
+          if (googleSpreadSheetValue.source.isEmpty)
+            Field(
+              (f) => f
+                ..name = "defaultModelAdapter"
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..type = const Reference("ModelAdapter?")
+                ..assignment = Code(
+                  annotation.adapter == null ? "null" : annotation.adapter!,
+                ),
+            )
+          else
+            Field(
+              (f) => f
+                ..name = "defaultModelAdapter"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("ModelAdapter?")
+                ..assignment = Code(googleSpreadSheetValue.toCode()),
+            )
         ])
         ..methods.addAll([
           Method(
@@ -322,16 +333,26 @@ List<Spec> collectionModelClass(
             )
           ])
           ..fields.addAll([
-            Field(
-              (f) => f
-                ..name = "defaultModelAdapter"
-                ..static = true
-                ..modifier = FieldModifier.final$
-                ..type = const Reference("ModelAdapter?")
-                ..assignment = Code(
-                  annotation.adapter == null ? "null" : annotation.adapter!,
-                ),
-            )
+            if (googleSpreadSheetValue.source.isEmpty)
+              Field(
+                (f) => f
+                  ..name = "defaultModelAdapter"
+                  ..static = true
+                  ..modifier = FieldModifier.final$
+                  ..type = const Reference("ModelAdapter?")
+                  ..assignment = Code(
+                    annotation.adapter == null ? "null" : annotation.adapter!,
+                  ),
+              )
+            else
+              Field(
+                (f) => f
+                  ..name = "defaultModelAdapter"
+                  ..static = true
+                  ..modifier = FieldModifier.constant
+                  ..type = const Reference("ModelAdapter?")
+                  ..assignment = Code(googleSpreadSheetValue.toCode()),
+              )
           ])
           ..methods.addAll([
             Method(

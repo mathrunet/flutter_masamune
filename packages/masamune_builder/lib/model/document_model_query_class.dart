@@ -5,9 +5,10 @@ part of masamune_builder;
 /// ドキュメントモデルクエリを自動作成するためのクラスを作成します。
 List<Spec> documentModelQueryClass(
   ClassValue model,
-  AnnotationValue annotation,
+  ModelAnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
+  GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   return [
     Class(

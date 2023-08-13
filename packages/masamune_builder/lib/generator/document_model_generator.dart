@@ -45,7 +45,7 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
     }
 
     final classValue = ClassValue(element);
-    final annotationValue = AnnotationValue(element, DocumentModelPath);
+    final annotationValue = ModelAnnotationValue(element, DocumentModelPath);
     final pathValue =
         PathValue(annotation.read("path").stringValue.trimString("/"));
     final mirrorPathValue = annotation.read("mirror").isNull
@@ -53,6 +53,8 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
         : PathValue(annotation.read("mirror").stringValue.trimString("/"));
     final path = pathValue.path;
     final mirrorPath = mirrorPathValue?.path;
+    final googleSpreadSheetValue =
+        GoogleSpreadSheetValue(element, DocumentModelPath);
 
     if (path.splitLength() <= 0 || path.splitLength() % 2 != 0) {
       throw InvalidGenerationSourceError(
@@ -68,16 +70,18 @@ class DocumentModelGenerator extends GeneratorForAnnotation<DocumentModelPath> {
       );
     }
 
+    await googleSpreadSheetValue.load();
+
     final generated = Library(
       (l) => l
         ..body.addAll(
           [
-            ...modelClass(
-                classValue, annotationValue, pathValue, mirrorPathValue),
-            ...documentModelClass(
-                classValue, annotationValue, pathValue, mirrorPathValue),
-            ...documentModelQueryClass(
-                classValue, annotationValue, pathValue, mirrorPathValue),
+            ...modelClass(classValue, annotationValue, pathValue,
+                mirrorPathValue, googleSpreadSheetValue),
+            ...documentModelClass(classValue, annotationValue, pathValue,
+                mirrorPathValue, googleSpreadSheetValue),
+            ...documentModelQueryClass(classValue, annotationValue, pathValue,
+                mirrorPathValue, googleSpreadSheetValue),
           ],
         ),
     );

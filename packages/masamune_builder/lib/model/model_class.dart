@@ -8,9 +8,10 @@ final _regExpRef = RegExp(r"(.+)Ref");
 /// ドキュメントモデルやコレクションモデルを作成します。
 List<Spec> modelClass(
   ClassValue model,
-  AnnotationValue annotation,
+  ModelAnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
+  GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   final jsonSerarizable =
       model.parameters.where((e) => e.isJsonSerializable).toList();

@@ -7,7 +7,7 @@ part of masamune_builder;
 /// アノテーションの値を保存するためのクラス。
 ///
 /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
-class AnnotationValue {
+class ModelAnnotationValue {
   /// Class for storing annotation values.
   ///
   /// Specify the class element in [element] and the annotation type in [annotationType].
@@ -15,7 +15,7 @@ class AnnotationValue {
   /// アノテーションの値を保存するためのクラス。
   ///
   /// [element]にクラスエレメント、[annotationType]にアノテーションのタイプを指定します。
-  AnnotationValue(this.element, this.annotationType) {
+  ModelAnnotationValue(this.element, this.annotationType) {
     final matcher = TypeChecker.fromRuntime(annotationType);
 
     for (final meta in element.metadata) {

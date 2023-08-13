@@ -5,9 +5,10 @@ part of masamune_builder;
 /// ドキュメントモデルを自動作成するためのクラスを作成します。
 List<Spec> documentModelClass(
   ClassValue model,
-  AnnotationValue annotation,
+  ModelAnnotationValue annotation,
   PathValue path,
   PathValue? mirror,
+  GoogleSpreadSheetValue googleSpreadSheetValue,
 ) {
   final searchable = model.parameters.where((e) => e.isSearchable).toList();
   final referenceable =
@@ -38,16 +39,26 @@ List<Spec> documentModelClass(
           )
         ])
         ..fields.addAll([
-          Field(
-            (f) => f
-              ..name = "defaultModelAdapter"
-              ..static = true
-              ..modifier = FieldModifier.final$
-              ..type = const Reference("ModelAdapter?")
-              ..assignment = Code(
-                annotation.adapter == null ? "null" : annotation.adapter!,
-              ),
-          )
+          if (googleSpreadSheetValue.source.isEmpty)
+            Field(
+              (f) => f
+                ..name = "defaultModelAdapter"
+                ..static = true
+                ..modifier = FieldModifier.final$
+                ..type = const Reference("ModelAdapter?")
+                ..assignment = Code(
+                  annotation.adapter == null ? "null" : annotation.adapter!,
+                ),
+            )
+          else
+            Field(
+              (f) => f
+                ..name = "defaultModelAdapter"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("ModelAdapter?")
+                ..assignment = Code(googleSpreadSheetValue.toCode()),
+            )
         ])
         ..methods.addAll([
           Method(
@@ -222,16 +233,26 @@ List<Spec> documentModelClass(
             )
           ])
           ..fields.addAll([
-            Field(
-              (f) => f
-                ..name = "defaultModelAdapter"
-                ..static = true
-                ..modifier = FieldModifier.final$
-                ..type = const Reference("ModelAdapter?")
-                ..assignment = Code(
-                  annotation.adapter == null ? "null" : annotation.adapter!,
-                ),
-            )
+            if (googleSpreadSheetValue.source.isEmpty)
+              Field(
+                (f) => f
+                  ..name = "defaultModelAdapter"
+                  ..static = true
+                  ..modifier = FieldModifier.final$
+                  ..type = const Reference("ModelAdapter?")
+                  ..assignment = Code(
+                    annotation.adapter == null ? "null" : annotation.adapter!,
+                  ),
+              )
+            else
+              Field(
+                (f) => f
+                  ..name = "defaultModelAdapter"
+                  ..static = true
+                  ..modifier = FieldModifier.constant
+                  ..type = const Reference("ModelAdapter?")
+                  ..assignment = Code(googleSpreadSheetValue.toCode()),
+              )
           ])
           ..methods.addAll([
             Method(

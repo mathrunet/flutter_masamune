@@ -40,7 +40,8 @@ class CollectionModelGenerator
       }
 
       final classValue = ClassValue(element);
-      final annotationValue = AnnotationValue(element, CollectionModelPath);
+      final annotationValue =
+          ModelAnnotationValue(element, CollectionModelPath);
       final pathValue =
           PathValue(annotation.read("path").stringValue.trimString("/"));
       final mirrorPathValue = annotation.read("mirror").isNull
@@ -48,6 +49,8 @@ class CollectionModelGenerator
           : PathValue(annotation.read("mirror").stringValue.trimString("/"));
       final path = pathValue.path;
       final mirrorPath = mirrorPathValue?.path;
+      final googleSpreadSheetValue =
+          GoogleSpreadSheetValue(element, CollectionModelPath);
 
       if (path.splitLength() <= 0 || path.splitLength() % 2 != 1) {
         throw InvalidGenerationSourceError(
@@ -64,18 +67,20 @@ class CollectionModelGenerator
         );
       }
 
+      await googleSpreadSheetValue.load();
+
       final generated = Library(
         (l) => l
           ..body.addAll(
             [
-              ...modelClass(
-                  classValue, annotationValue, pathValue, mirrorPathValue),
-              ...documentModelClass(
-                  classValue, annotationValue, pathValue, mirrorPathValue),
-              ...collectionModelClass(
-                  classValue, annotationValue, pathValue, mirrorPathValue),
-              ...collectionModelQueryClass(
-                  classValue, annotationValue, pathValue, mirrorPathValue),
+              ...modelClass(classValue, annotationValue, pathValue,
+                  mirrorPathValue, googleSpreadSheetValue),
+              ...documentModelClass(classValue, annotationValue, pathValue,
+                  mirrorPathValue, googleSpreadSheetValue),
+              ...collectionModelClass(classValue, annotationValue, pathValue,
+                  mirrorPathValue, googleSpreadSheetValue),
+              ...collectionModelQueryClass(classValue, annotationValue,
+                  pathValue, mirrorPathValue, googleSpreadSheetValue),
             ],
           ),
       );
