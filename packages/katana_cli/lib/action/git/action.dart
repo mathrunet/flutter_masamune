@@ -44,6 +44,7 @@ class GitActionCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final incrementNumber = action.get("increment_number", 0);
     final pubspecFile = File("pubspec.yaml");
     final yaml = modifize(loadYaml(await pubspecFile.readAsString())) as Map;
     final bin = context.yaml.getAsMap("bin");
@@ -53,13 +54,28 @@ class GitActionCliAction extends CliCommand with CliActionMixin {
       label("Create build.yaml for $platform");
       switch (platform) {
         case "android":
-          await buildAndroid(context, gh: gh, appName: name);
+          await buildAndroid(
+            context,
+            gh: gh,
+            appName: name,
+            defaultIncrementNumber: incrementNumber,
+          );
           break;
         case "ios":
-          await buildIOS(context, gh: gh, appName: name);
+          await buildIOS(
+            context,
+            gh: gh,
+            appName: name,
+            defaultIncrementNumber: incrementNumber,
+          );
           break;
         case "web":
-          await buildWeb(context, gh: gh, appName: name);
+          await buildWeb(
+            context,
+            gh: gh,
+            appName: name,
+            defaultIncrementNumber: incrementNumber,
+          );
           break;
       }
     }

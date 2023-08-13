@@ -15,6 +15,7 @@ Future<void> buildIOS(
   ExecContext context, {
   required String gh,
   required String appName,
+  required int defaultIncrementNumber,
 }) async {
   final github = context.yaml.getAsMap("github");
   final action = github.getAsMap("action");
@@ -162,7 +163,10 @@ Future<void> buildIOS(
     ],
   );
   final gitDir = await findGitDirectory(Directory.current);
-  await GithubActionsIOSCliCode(workingDirectory: gitDir).generateFile(
+  await GithubActionsIOSCliCode(
+    workingDirectory: gitDir,
+    defaultIncrementNumber: defaultIncrementNumber,
+  ).generateFile(
     "build_ios_${appName.toLowerCase()}.yaml",
     filter: (value) {
       return value.replaceAll(
@@ -277,12 +281,20 @@ class GithubActionsIOSCliCode extends CliCode {
   /// Contents of buiod.yaml for IOS in Github Actions.
   ///
   /// Github ActionsのIOS用のbuiod.yamlの中身。
-  const GithubActionsIOSCliCode({this.workingDirectory});
+  const GithubActionsIOSCliCode({
+    this.workingDirectory,
+    this.defaultIncrementNumber = 0,
+  });
 
   /// Working Directory.
   ///
   /// ワーキングディレクトリ。
   final Directory? workingDirectory;
+
+  /// Increment number.
+  ///
+  /// インクリメント番号。
+  final int defaultIncrementNumber;
 
   @override
   String get name => "build_ios";
@@ -431,7 +443,7 @@ jobs:
       # Flutterのビルド。
       - name: Run flutter build
         id: build
-        run: flutter build ios --release --no-codesign --release --dart-define=FLAVOR=prod --build-number \${GITHUB_RUN_NUMBER}
+        run: flutter build ios --release --no-codesign --release --dart-define=FLAVOR=prod --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber))
 
       # Archive of built data.
       # ビルドされたデータのアーカイブ。

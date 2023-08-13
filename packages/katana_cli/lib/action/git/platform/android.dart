@@ -12,6 +12,7 @@ Future<void> buildAndroid(
   ExecContext context, {
   required String gh,
   required String appName,
+  required int defaultIncrementNumber,
 }) async {
   final keystoreFile = File("android/app/appkey.keystore");
   if (!keystoreFile.existsSync()) {
@@ -83,7 +84,10 @@ Future<void> buildAndroid(
     ],
   );
   final gitDir = await findGitDirectory(Directory.current);
-  await GithubActionsAndroidCliCode(workingDirectory: gitDir).generateFile(
+  await GithubActionsAndroidCliCode(
+    workingDirectory: gitDir,
+    defaultIncrementNumber: defaultIncrementNumber,
+  ).generateFile(
     "build_android_${appName.toLowerCase()}.yaml",
     filter: (value) {
       return value
@@ -145,12 +149,20 @@ class GithubActionsAndroidCliCode extends CliCode {
   /// Contents of buiod.yaml for Android in Github Actions.
   ///
   /// Github ActionsのAndroid用のbuiod.yamlの中身。
-  const GithubActionsAndroidCliCode({this.workingDirectory});
+  const GithubActionsAndroidCliCode({
+    this.workingDirectory,
+    this.defaultIncrementNumber = 0,
+  });
 
   /// Working Directory.
   ///
   /// ワーキングディレクトリ。
   final Directory? workingDirectory;
+
+  /// Increment number.
+  ///
+  /// インクリメント番号。
+  final int defaultIncrementNumber;
 
   @override
   String get name => "build_android";
@@ -278,12 +290,12 @@ jobs:
       # Generate Apk.
       # Apkを生成。
       - name: Building Android apk
-        run: flutter build apk --build-number \${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod
+        run: flutter build apk --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
 
       # Generate app bundle.
       # App Bundleを生成。
       - name: Building Android AppBundle
-        run: flutter build appbundle --build-number \${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod
+        run: flutter build appbundle --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod
       
       # Upload the generated files.
       # 生成されたファイルのアップロード。

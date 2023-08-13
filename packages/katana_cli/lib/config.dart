@@ -270,9 +270,11 @@ git:
 # Github関連の情報を記載します。
 github:
   # Enable Github Actions to perform CI/CD builds on each platform.
+  # Enter a numerical value in [increment_number] to set the initial value for the version number increment.
   # Enter the platform you wish to specify in [platform], separated by spaces.
   # Available platforms are `android`, `ios`, `web`, `windows`, `macos`, and `linux`.
   # Github Actionsを有効にして各プラットフォームでCI/CDビルドを行うようにします。
+  # [increment_number]に数値を記入するとバージョン番号のインクリメントの初期値を設定できます。
   # [platform]で指定したいプラットフォームをスペース区切り入力します。
   # 使用できるプラットフォームは`android`、`ios`、`web`、`windows`、`macos`、`linux`です。
   #
@@ -283,6 +285,7 @@ github:
   # サービスアカウント用のJsonが`android`フォルダ以下に必要です。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b を参考に設定してください。
   action:
     enable: false
+    increment_number: 0
     platform: android ios web
     web:
       # Configure to deploy to Firebase Hosting. Set to `true` to deploy to FirebaseHosting.

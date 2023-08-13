@@ -14,9 +14,13 @@ Future<void> buildWeb(
   ExecContext context, {
   required String gh,
   required String appName,
+  required int defaultIncrementNumber,
 }) async {
   final gitDir = await findGitDirectory(Directory.current);
-  final webCode = GithubActionsWebCliCode(workingDirectory: gitDir);
+  final webCode = GithubActionsWebCliCode(
+    workingDirectory: gitDir,
+    defaultIncrementNumber: defaultIncrementNumber,
+  );
 
   var hostingYamlFile =
       File("${webCode.directory}/firebase-hosting-pull-request.yml");
@@ -54,12 +58,20 @@ class GithubActionsWebCliCode extends CliCode {
   /// Contents of buiod.yaml for Github Actions web.
   ///
   /// Github ActionsのWeb用のbuiod.yamlの中身。
-  const GithubActionsWebCliCode({this.workingDirectory});
+  const GithubActionsWebCliCode({
+    this.workingDirectory,
+    this.defaultIncrementNumber = 0,
+  });
 
   /// Working Directory.
   ///
   /// ワーキングディレクトリ。
   final Directory? workingDirectory;
+
+  /// Increment number.
+  ///
+  /// インクリメント番号。
+  final int defaultIncrementNumber;
 
   @override
   String get name => "build_web";
@@ -160,7 +172,7 @@ jobs:
       # Generate web files.
       # Webファイルを生成。
       - name: Building web build
-        run: flutter build web --build-number \${GITHUB_RUN_NUMBER} --release --dart-define=FLAVOR=prod --web-renderer html
+        run: flutter build web --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod --web-renderer html
 
       # Upload the generated files.
       # 生成されたファイルのアップロード。
