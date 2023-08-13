@@ -1,3 +1,8 @@
+## 2.7.8
+
+ - **FIX**: Fixed Json reading bug. ([61fbfe6d](https://github.com/mathrunet/flutter_masamune/commit/61fbfe6d14de925474715f1db5b9fbb7343e9600))
+ - **FIX**: Modified GoogleSignin to be available on the web. ([6e0d2a61](https://github.com/mathrunet/flutter_masamune/commit/6e0d2a6160caa56a9dcaa303b3a6c677cd889546))
+
 ## 2.7.7
 
  - **FIX**: Fixed missing Apple sign-in settings. ([e2b33a1e](https://github.com/mathrunet/flutter_masamune/commit/e2b33a1ec05c7d11927e436f7868c512a228c1b7))

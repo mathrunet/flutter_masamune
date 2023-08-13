@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.7.8`](#katana_cli---v278)
+
+---
+
+#### `katana_cli` - `v2.7.8`
+
+ - **FIX**: Fixed Json reading bug. ([61fbfe6d](https://github.com/mathrunet/flutter_masamune/commit/61fbfe6d14de925474715f1db5b9fbb7343e9600))
+ - **FIX**: Modified GoogleSignin to be available on the web. ([6e0d2a61](https://github.com/mathrunet/flutter_masamune/commit/6e0d2a6160caa56a9dcaa303b3a6c677cd889546))
+
+
+## 2023-08-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_local` - `v2.5.6`](#katana_model_local---v256)
  - [`masamune` - `v2.4.16`](#masamune---v2416)
  - [`masamune_location` - `v2.1.83`](#masamune_location---v2183)
