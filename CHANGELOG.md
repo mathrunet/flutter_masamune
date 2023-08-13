@@ -3,6 +3,100 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.7.9`](#katana_cli---v279)
+ - [`katana_model` - `v2.11.6`](#katana_model---v2116)
+ - [`katana_model_local` - `v2.6.1`](#katana_model_local---v261)
+ - [`masamune_annotation` - `v2.3.1`](#masamune_annotation---v231)
+ - [`masamune_builder` - `v2.8.0`](#masamune_builder---v280)
+ - [`katana_model_firestore` - `v2.7.6`](#katana_model_firestore---v276)
+ - [`masamune` - `v2.4.19`](#masamune---v2419)
+ - [`masamune_location` - `v2.1.86`](#masamune_location---v2186)
+ - [`masamune_auth_apple` - `v2.1.75`](#masamune_auth_apple---v2175)
+ - [`masamune_auth_google` - `v2.1.75`](#masamune_auth_google---v2175)
+ - [`masamune_agora` - `v2.2.57`](#masamune_agora---v2257)
+ - [`masamune_ai_openai` - `v2.2.9`](#masamune_ai_openai---v229)
+ - [`masamune_text_to_speech` - `v2.1.41`](#masamune_text_to_speech---v2141)
+ - [`masamune_calendar` - `v2.0.119`](#masamune_calendar---v20119)
+ - [`masamune_picker` - `v2.1.74`](#masamune_picker---v2174)
+ - [`masamune_util` - `v2.1.53`](#masamune_util---v2153)
+ - [`masamune_universal_ui` - `v2.2.54`](#masamune_universal_ui---v2254)
+ - [`masamune_purchase_stripe` - `v3.3.19`](#masamune_purchase_stripe---v3319)
+ - [`masamune_logger_firebase` - `v2.0.117`](#masamune_logger_firebase---v20117)
+ - [`masamune_introduction` - `v2.2.23`](#masamune_introduction---v2223)
+ - [`masamune_auth_facebook` - `v2.1.77`](#masamune_auth_facebook---v2177)
+ - [`masamune_speech_to_text` - `v2.1.44`](#masamune_speech_to_text---v2144)
+ - [`masamune_location_google` - `v2.1.87`](#masamune_location_google---v2187)
+ - [`masamune_mail` - `v2.1.72`](#masamune_mail---v2172)
+ - [`masamune_point_ecosystem` - `v2.2.19`](#masamune_point_ecosystem---v2219)
+ - [`masamune_module` - `v2.1.20`](#masamune_module---v2120)
+ - [`masamune_purchase_mobile` - `v2.5.19`](#masamune_purchase_mobile---v2519)
+ - [`masamune_ads_google` - `v2.1.25`](#masamune_ads_google---v2125)
+ - [`masamune_notification_firebase` - `v2.1.72`](#masamune_notification_firebase---v2172)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_firestore` - `v2.7.6`
+ - `masamune` - `v2.4.19`
+ - `masamune_location` - `v2.1.86`
+ - `masamune_auth_apple` - `v2.1.75`
+ - `masamune_auth_google` - `v2.1.75`
+ - `masamune_agora` - `v2.2.57`
+ - `masamune_ai_openai` - `v2.2.9`
+ - `masamune_text_to_speech` - `v2.1.41`
+ - `masamune_calendar` - `v2.0.119`
+ - `masamune_picker` - `v2.1.74`
+ - `masamune_util` - `v2.1.53`
+ - `masamune_universal_ui` - `v2.2.54`
+ - `masamune_purchase_stripe` - `v3.3.19`
+ - `masamune_logger_firebase` - `v2.0.117`
+ - `masamune_introduction` - `v2.2.23`
+ - `masamune_auth_facebook` - `v2.1.77`
+ - `masamune_speech_to_text` - `v2.1.44`
+ - `masamune_location_google` - `v2.1.87`
+ - `masamune_mail` - `v2.1.72`
+ - `masamune_point_ecosystem` - `v2.2.19`
+ - `masamune_module` - `v2.1.20`
+ - `masamune_purchase_mobile` - `v2.5.19`
+ - `masamune_ads_google` - `v2.1.25`
+ - `masamune_notification_firebase` - `v2.1.72`
+
+---
+
+#### `katana_cli` - `v2.7.9`
+
+ - **FIX**: Increment number can be added. ([d34b8b7b](https://github.com/mathrunet/flutter_masamune/commit/d34b8b7b3b93e905e69f314ec23749b896dffe11))
+
+#### `katana_model` - `v2.11.6`
+
+ - **FIX**: Fixes to CSV loading. ([a05691c8](https://github.com/mathrunet/flutter_masamune/commit/a05691c802785216ab0cc3234627cb883b146860))
+
+#### `katana_model_local` - `v2.6.1`
+
+ - **FIX**: Fixes to CSV loading. ([a05691c8](https://github.com/mathrunet/flutter_masamune/commit/a05691c802785216ab0cc3234627cb883b146860))
+
+#### `masamune_annotation` - `v2.3.1`
+
+ - **FIX**: Add IdKey to GoogleSpreadSheetDataSource. ([8c37477d](https://github.com/mathrunet/flutter_masamune/commit/8c37477df2aae36d27e017060f42bf520ea6b010))
+
+#### `masamune_builder` - `v2.8.0`
+
+ - **FEAT**: Added CSV builder. ([99f90e74](https://github.com/mathrunet/flutter_masamune/commit/99f90e7434dcfe37e4e84e0de24f9508209ea504))
+
+
 ## 2023-08-13
 
 ### Changes

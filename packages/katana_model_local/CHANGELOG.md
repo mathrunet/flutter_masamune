@@ -1,3 +1,7 @@
+## 2.6.1
+
+ - **FIX**: Fixes to CSV loading. ([a05691c8](https://github.com/mathrunet/flutter_masamune/commit/a05691c802785216ab0cc3234627cb883b146860))
+
 ## 2.6.0
 
  - **FEAT**: Rename each CsvDataSource. ([4e0a8572](https://github.com/mathrunet/flutter_masamune/commit/4e0a8572d4c97432f9bc629f45d7e9ba5110494b))

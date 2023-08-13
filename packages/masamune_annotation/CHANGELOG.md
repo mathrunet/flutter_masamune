@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: Add IdKey to GoogleSpreadSheetDataSource. ([8c37477d](https://github.com/mathrunet/flutter_masamune/commit/8c37477df2aae36d27e017060f42bf520ea6b010))
+
 ## 2.3.0
 
  - **FEAT**: Added annotation for GoogleSpreadSheetDataSource. ([7dd590db](https://github.com/mathrunet/flutter_masamune/commit/7dd590db7677fc0940fb3847a70b3459b3e6ae23))

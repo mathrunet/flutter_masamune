@@ -1,3 +1,7 @@
+## 2.11.6
+
+ - **FIX**: Fixes to CSV loading. ([a05691c8](https://github.com/mathrunet/flutter_masamune/commit/a05691c802785216ab0cc3234627cb883b146860))
+
 ## 2.11.5
 
  - **FIX**: Fixed a bug that did not work properly in the case of Web x Firestore. ([838e5fba](https://github.com/mathrunet/flutter_masamune/commit/838e5fbaef8bdb15568efd0961bf36a1f25c14a7))

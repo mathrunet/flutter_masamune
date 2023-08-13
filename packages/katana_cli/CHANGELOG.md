@@ -1,3 +1,7 @@
+## 2.7.9
+
+ - **FIX**: Increment number can be added. ([d34b8b7b](https://github.com/mathrunet/flutter_masamune/commit/d34b8b7b3b93e905e69f314ec23749b896dffe11))
+
 ## 2.7.8
 
  - **FIX**: Fixed Json reading bug. ([61fbfe6d](https://github.com/mathrunet/flutter_masamune/commit/61fbfe6d14de925474715f1db5b9fbb7343e9600))

@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: Added CSV builder. ([99f90e74](https://github.com/mathrunet/flutter_masamune/commit/99f90e7434dcfe37e4e84e0de24f9508209ea504))
+
 ## 2.7.9
 
  - Update a dependency to the latest release.
