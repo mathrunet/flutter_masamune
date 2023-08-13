@@ -391,8 +391,10 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
         await googleServicesJson.readAsString(),
       );
       final oauthClient = googleServices
-          .getAsMap("client")
-          .getAsList("oauth_client")
+          .getAsList("client")
+          .cast<DynamicMap>()
+          .firstOrNull
+          ?.getAsList("oauth_client")
           .cast<DynamicMap>()
           .firstWhereOrNull((item) => item.get("client_type", 0) == 3);
       final clientId = oauthClient.get("client_id", "");
