@@ -110,6 +110,7 @@ class NoSqlDatabase {
   bool _initialized = false;
   Completer<void>? _completer;
   final Map<String, DynamicMap> _registeredInitialValue = {};
+  final List<String> _appliedInitialValue = [];
   final Map<String, Map<Object?, ModelAdapterDocumentQuery>>
       _documentListeners = {};
   final Map<String, Map<Object?, ModelAdapterCollectionQuery>>
@@ -130,23 +131,22 @@ class NoSqlDatabase {
     if (_completer != null) {
       return _completer?.future;
     }
-    if (_initialized) {
-      return;
+    if (!_initialized) {
+      _completer = Completer();
+      try {
+        _initialized = true;
+        await onInitialize?.call(this);
+        _completer?.complete();
+        _completer = null;
+      } catch (e) {
+        _completer?.completeError(e);
+        _completer = null;
+      } finally {
+        _completer?.complete();
+        _completer = null;
+      }
     }
-    _completer = Completer();
-    try {
-      _initialized = true;
-      await onInitialize?.call(this);
-      _applyRawData();
-      _completer?.complete();
-      _completer = null;
-    } catch (e) {
-      _completer?.completeError(e);
-      _completer = null;
-    } finally {
-      _completer?.complete();
-      _completer = null;
-    }
+    _applyRawData();
   }
 
   void _addDocumentListener(
@@ -229,8 +229,6 @@ class NoSqlDatabase {
   ///
   /// [prefix] can be specified to prefix the path.
   ///
-  /// If [onLoad] is specified, it is executed when data is loaded after initialization.
-  ///
   /// [query]を渡して[query]に対応するドキュメントを読み込みます。
   ///
   /// データが見つかった場合は[DynamicMap]で返されます。
@@ -238,16 +236,12 @@ class NoSqlDatabase {
   /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
   ///
   /// [prefix]を指定するとパスにプレフィックスを付与可能です。
-  ///
-  /// [onLoad]を指定すると初期化後にデータを読み込む際に実行されます。
   Future<DynamicMap?> loadDocument(
     ModelAdapterDocumentQuery query, {
     String? prefix,
-    Future<void> Function(NoSqlDatabase)? onLoad,
   }) async {
     _addDocumentListener(query, prefix: prefix);
     await _initialize();
-    await this.onLoad?.call(this);
     await onLoad?.call(this);
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
@@ -334,8 +328,6 @@ class NoSqlDatabase {
   ///
   /// [prefix] can be specified to prefix the path.
   ///
-  /// If [onLoad] is specified, it is executed when data is loaded after initialization.
-  ///
   /// [query]を渡して[query]に対応するコレクションを読み込みます。
   ///
   /// データが見つかった場合は[Map<String, DynamicMap>]で返されます。
@@ -345,16 +337,12 @@ class NoSqlDatabase {
   /// データが見つからなかったり、パスに不正があった場合は[Null]が返されます。
   ///
   /// [prefix]を指定するとパスにプレフィックスを付与可能です。
-  ///
-  /// [onLoad]を指定すると初期化後にデータを読み込む際に実行されます。
   Future<Map<String, DynamicMap>?> loadCollection(
     ModelAdapterCollectionQuery query, {
     String? prefix,
-    Future<void> Function(NoSqlDatabase)? onLoad,
   }) async {
     _addCollectionListener(query, prefix: prefix);
     await _initialize();
-    await this.onLoad?.call(this);
     await onLoad?.call(this);
     final trimPath = _path(query.query.path, prefix);
     final paths = trimPath.split("/");
@@ -526,6 +514,13 @@ class NoSqlDatabase {
     _registeredInitialValue[path] = value;
   }
 
+  /// Returns a list of registered initial value paths.
+  ///
+  /// 登録されている初期値のパスの一覧を返します。
+  List<String> get registeredInitialValuePaths {
+    return _registeredInitialValue.keys.toList();
+  }
+
   /// Returns `true` if data is registered with [setInitialValue].
   ///
   /// [setInitialValue]でデータが登録されている場合は`true`を返します。
@@ -536,12 +531,16 @@ class NoSqlDatabase {
       return;
     }
     for (final tmp in _registeredInitialValue.entries) {
+      if (_appliedInitialValue.contains(tmp.key)) {
+        continue;
+      }
       final path = tmp.key;
       final value = tmp.value;
       final paths = path.split("/");
       if (paths.isEmpty) {
         continue;
       }
+      _appliedInitialValue.add(tmp.key);
       data._writeToPath(paths, 0, Map.from(value));
     }
   }

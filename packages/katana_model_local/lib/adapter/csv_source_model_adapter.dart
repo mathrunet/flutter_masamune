@@ -491,13 +491,14 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   Map<String, DynamicMap> fromCsv(List<List<dynamic>> csv);
 
   Future<void> _loadCSV(NoSqlDatabase database) async {
-    if (database.data.isNotEmpty) {
+    final collectionPath = this.collectionPath ?? source.hashCode.toString();
+    if (database.registeredInitialValuePaths
+        .any((e) => e.startsWith(collectionPath))) {
       return;
     }
     try {
       final source =
           this.source.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
-      final collectionPath = this.collectionPath ?? source.hashCode.toString();
       if (source.startsWith("http")) {
         switch (requestMethod) {
           case "POST":
@@ -510,11 +511,12 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
                 "Failed to load CSV file. [${res.statusCode}]",
               );
             }
-            database.data = {
-              collectionPath: fromCsv(
-                const CsvToListConverter(eol: "\n").convert(res.body),
-              ),
-            };
+            final docs = fromCsv(
+              const CsvToListConverter(eol: "\n").convert(res.body),
+            );
+            for (final tmp in docs.entries) {
+              database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+            }
             break;
           default:
             final res = await Api.get(
@@ -526,26 +528,29 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
                 "Failed to load CSV file. [${res.statusCode}]",
               );
             }
-            database.data = {
-              collectionPath: fromCsv(
-                const CsvToListConverter(eol: "\n").convert(res.body),
-              ),
-            };
+            final docs = fromCsv(
+              const CsvToListConverter(eol: "\n").convert(res.body),
+            );
+            for (final tmp in docs.entries) {
+              database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+            }
             break;
         }
       } else if (source.contains("\n")) {
-        database.data = {
-          collectionPath: fromCsv(
-            const CsvToListConverter(eol: "\n").convert(source),
-          ),
-        };
+        final docs = fromCsv(
+          const CsvToListConverter(eol: "\n").convert(source),
+        );
+        for (final tmp in docs.entries) {
+          database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+        }
       } else {
         final csv = await rootBundle.loadString(source);
-        database.data = {
-          collectionPath: fromCsv(
-            const CsvToListConverter(eol: "\n").convert(csv),
-          ),
-        };
+        final docs = fromCsv(
+          const CsvToListConverter(eol: "\n").convert(csv),
+        );
+        for (final tmp in docs.entries) {
+          database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
+        }
       }
     } catch (e) {
       throw Exception(
@@ -556,9 +561,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    await _loadCSV(database);
     final data = await database.loadDocument(
       _replaceDocumentQuery(query),
-      onLoad: (db) => _loadCSV(db),
     );
     return data != null ? Map.from(data) : {};
   }
@@ -567,9 +572,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
+    await _loadCSV(database);
     final data = await database.loadCollection(
       _replaceCollectionQuery(query),
-      onLoad: (db) => _loadCSV(db),
     );
     return data != null
         ? data.map((key, value) => MapEntry(key, Map.from(value)))
@@ -584,9 +589,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
     if (retreivedList != null) {
       return retreivedList.length;
     }
+    await _loadCSV(database);
     final data = await database.loadCollection(
       _replaceCollectionQuery(query),
-      onLoad: (db) => _loadCSV(db),
     );
     return data.length;
   }
