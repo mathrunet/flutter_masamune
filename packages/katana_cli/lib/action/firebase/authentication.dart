@@ -2,6 +2,8 @@
 import 'dart:io';
 
 // Package imports:
+import 'package:html/dom.dart';
+import 'package:html/parser.dart';
 import 'package:xml/xml.dart';
 
 // Project imports:
@@ -376,6 +378,53 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       await file.writeAsString(
         document.toXmlString(pretty: true, indent: "    ", newLine: "\n"),
       );
+    }
+    if (enableGoogle) {
+      label("Load google-services.json");
+      final googleServicesJson = File("android/app/google-services.json");
+      if (!googleServicesJson.existsSync()) {
+        throw Exception(
+          "google-services.json does not exist in `android/app/google-services.json`. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
+      final googleServices = jsonDecodeAsMap(
+        await googleServicesJson.readAsString(),
+      );
+      final oauthClient = googleServices
+          .getAsMap("client")
+          .getAsList("oauth_client")
+          .cast<DynamicMap>()
+          .firstWhereOrNull((item) => item.get("client_type", 0) == 3);
+      final clientId = oauthClient.get("client_id", "");
+      if (clientId.isEmpty) {
+        throw Exception(
+          "Could not find `client_id` in `android/app/google-services.json`. File is corrupt.",
+        );
+      }
+      label("Edit index.html");
+      final indexHtmlFile = File("web/index.html");
+      if (!indexHtmlFile.existsSync()) {
+        throw Exception(
+          "index.html does not exist in `web/index.html`. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
+      final htmlDocument = parse(await indexHtmlFile.readAsString());
+      final head = htmlDocument.head;
+      if (head == null) {
+        throw Exception(
+          "The structure of index.html is broken. Do `katana create` to complete the initial setup of the project.",
+        );
+      }
+      if (!head.children.any((e0) =>
+          e0.localName == "meta" &&
+          e0.attributes["name"] == "google-signin-client_id")) {
+        head.append(
+          Element.tag("meta")
+            ..attributes["name"] = "google-signin-client_id"
+            ..attributes["content"] = clientId,
+        );
+      }
+      await indexHtmlFile.writeAsString(htmlDocument.outerHtml);
     }
     if (enableApple) {
       label("Edit Runner.entitlements.");
