@@ -68,7 +68,7 @@ class RuntimeTestValueCollectionModel
 
 void main() {
   test("csvSourceModelAdapter.csvHeaderSourceModelAdapter", () async {
-    final adapter = CsvHeaderSourceModelAdapter(
+    final adapter = CsvCollectionSourceModelAdapter(
       database: NoSqlDatabase(),
       idKey: "id",
       source:
@@ -105,7 +105,7 @@ void main() {
     );
   });
   test("csvSourceModelAdapter.csvSingleDocumentSourceModelAdapter", () async {
-    final adapter = CsvSingleDocumentSourceModelAdapter(
+    final adapter = CsvDocumentSourceModelAdapter(
       database: NoSqlDatabase(),
       offset: const Offset(1, 0),
       source: ",id,name,age,percent,flag\n,aaa,John,20,0.5,false",
@@ -128,7 +128,7 @@ void main() {
     );
   });
   test("csvSourceModelAdapter.csvHeaderSourceModelAdapter.Freezed", () async {
-    final adapter = CsvHeaderSourceModelAdapter(
+    final adapter = CsvCollectionSourceModelAdapter(
       database: NoSqlDatabase(),
       idKey: "id",
       source:
@@ -151,7 +151,7 @@ void main() {
   });
   test("csvSourceModelAdapter.csvSingleDocumentSourceModelAdapter.Freezed",
       () async {
-    final adapter = CsvSingleDocumentSourceModelAdapter(
+    final adapter = CsvDocumentSourceModelAdapter(
       database: NoSqlDatabase(),
       offset: const Offset(1, 0),
       source: ",id,name,age,percent,flag\n,aaa,John,20,0.5,false",

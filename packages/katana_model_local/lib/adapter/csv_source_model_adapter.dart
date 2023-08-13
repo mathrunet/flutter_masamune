@@ -39,7 +39,7 @@ part of katana_model_local;
 /// }
 /// ```
 @immutable
-class CsvHeaderSourceModelAdapter extends CsvSourceModelAdapter {
+class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
   /// {@macro csv_source_model_adapter}
   ///
   /// The first line is treated as a header and the strings listed there as keys.
@@ -78,7 +78,7 @@ class CsvHeaderSourceModelAdapter extends CsvSourceModelAdapter {
   ///   }
   /// }
   /// ```
-  const CsvHeaderSourceModelAdapter({
+  const CsvCollectionSourceModelAdapter({
     super.initialValue,
     super.database,
     super.collectionPath,
@@ -151,7 +151,7 @@ class CsvHeaderSourceModelAdapter extends CsvSourceModelAdapter {
 /// }
 /// ```
 @immutable
-class CsvSingleDocumentSourceModelAdapter extends CsvSourceModelAdapter {
+class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   /// {@macro csv_source_model_adapter}
   ///
   /// Treats a CSV with a sequence of keys and values as a document. It cannot be used as a collection.
@@ -190,7 +190,7 @@ class CsvSingleDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   ///   "age": 20
   /// }
   /// ```
-  const CsvSingleDocumentSourceModelAdapter({
+  const CsvDocumentSourceModelAdapter({
     super.initialValue,
     super.database,
     super.collectionPath,
