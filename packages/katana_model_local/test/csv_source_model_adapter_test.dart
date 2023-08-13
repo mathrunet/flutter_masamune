@@ -74,8 +74,7 @@ void main() {
       source:
           "id,name,age,percent,flag\naaa,John,20,0.5,false\nbbb,Tom,30,1.0,false\nccc,Alice,40,0.0,true",
     );
-    final query =
-        CollectionModelQuery(adapter.collectionPath, adapter: adapter);
+    final query = CollectionModelQuery("csv", adapter: adapter);
     final model = RuntimeCollectionModel(query);
     await model.load();
     expect(
@@ -112,7 +111,7 @@ void main() {
       source: ",id,name,age,percent,flag\n,aaa,John,20,0.5,false",
     );
     final query = DocumentModelQuery(
-      "${adapter.collectionPath}/${adapter.documentId}",
+      "csv/${adapter.documentId}",
       adapter: adapter,
     );
     final model = RuntimeMapDocumentModel(query);
@@ -135,8 +134,7 @@ void main() {
       source:
           "id,name,age,percent,flag\naaa,John,20,0.5,false\nbbb,Tom,30,1.0,false\nccc,Alice,40,0.0,true",
     );
-    final query =
-        CollectionModelQuery(adapter.collectionPath, adapter: adapter);
+    final query = CollectionModelQuery("csv", adapter: adapter);
     final model = RuntimeTestValueCollectionModel(query);
     await model.load();
     expect(

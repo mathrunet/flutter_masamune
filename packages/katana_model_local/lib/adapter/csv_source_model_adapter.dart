@@ -81,7 +81,7 @@ class CsvHeaderSourceModelAdapter extends CsvSourceModelAdapter {
   const CsvHeaderSourceModelAdapter({
     super.initialValue,
     super.database,
-    super.collectionPath = "csv",
+    super.collectionPath,
     required super.source,
     required this.idKey,
     super.requestHeaders,
@@ -193,23 +193,27 @@ class CsvSingleDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   const CsvSingleDocumentSourceModelAdapter({
     super.initialValue,
     super.database,
-    super.collectionPath = "csv",
-    this.documentId = "data",
+    super.collectionPath,
+    this.documentId,
     required super.source,
     this.offset,
     this.direction = Axis.horizontal,
     super.requestHeaders,
     super.requestMethod,
-  }) : assert(documentId.length > 0, "[documentId] is empty.");
+  });
 
   /// ID as a document.
   ///
   /// The document path is formed by [collectionPath]/[documentId].
   ///
+  /// If [Null], the hash value of [source] is used.
+  ///
   /// ドキュメントとしてのID。
   ///
   /// [collectionPath]/[documentId]でドキュメントパスが形成されます。
-  final String documentId;
+  ///
+  /// [Null]の場合は[source]のハッシュ値を利用します。
+  final String? documentId;
 
   /// Offset of XY axis.
   ///
@@ -245,6 +249,7 @@ class CsvSingleDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   @override
   Map<String, DynamicMap> fromCsv(List<List<dynamic>> csv) {
     final res = <String, dynamic>{};
+    final documentId = this.documentId ?? source.hashCode.toString();
     switch (direction) {
       case Axis.horizontal:
         final effectiveOffset = offset ?? const Offset(0, 0);
@@ -296,9 +301,11 @@ class CsvSingleDocumentSourceModelAdapter extends CsvSourceModelAdapter {
   ModelAdapterDocumentQuery _replaceDocumentQuery(
     ModelAdapterDocumentQuery query,
   ) {
+    final collectionPath = this.collectionPath ?? source.hashCode.toString();
+    final documentId = this.documentId ?? source.hashCode.toString();
     return ModelAdapterDocumentQuery(
       query: query.query.copyWith(
-        path: "$collectionPath/${query.query.path.last()}",
+        path: "$collectionPath/$documentId",
         adapter: query.query.adapter,
       ),
       callback: query.callback,
@@ -396,9 +403,8 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
     required this.source,
     this.requestHeaders,
     this.requestMethod,
-    this.collectionPath = "csv",
-  })  : _database = database,
-        assert(collectionPath.length > 0, "[collectionPath] is empty.");
+    this.collectionPath,
+  }) : _database = database;
 
   final NoSqlDatabase? _database;
 
@@ -436,8 +442,12 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
 
   /// The path of the destination as a collection.
   ///
+  /// If [Null], the hash value of [source] is used.
+  ///
   /// コレクションとしての保存先のパス。
-  final String collectionPath;
+  ///
+  /// [Null]の場合は[source]のハッシュ値を利用します。
+  final String? collectionPath;
 
   /// Actual data when used as a mock-up.
   ///
@@ -487,6 +497,7 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
     try {
       final source =
           this.source.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+      final collectionPath = this.collectionPath ?? source.hashCode.toString();
       if (source.startsWith("http")) {
         switch (requestMethod) {
           case "POST":
@@ -712,6 +723,7 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   ModelAdapterDocumentQuery _replaceDocumentQuery(
     ModelAdapterDocumentQuery query,
   ) {
+    final collectionPath = this.collectionPath ?? source.hashCode.toString();
     return ModelAdapterDocumentQuery(
       query: query.query.copyWith(
         path: "$collectionPath/${query.query.path.last()}",
@@ -728,6 +740,7 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
   ModelAdapterCollectionQuery _replaceCollectionQuery(
     ModelAdapterCollectionQuery query,
   ) {
+    final collectionPath = this.collectionPath ?? source.hashCode.toString();
     return ModelAdapterCollectionQuery(
       query: query.query.copyWith(
         path: collectionPath,
