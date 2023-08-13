@@ -118,6 +118,7 @@ class GoogleSpreadSheetDataSource {
   const GoogleSpreadSheetDataSource(
     this.source, {
     required this.version,
+    this.idKey = "id",
     this.direction = GoogleSpreadSheetDataSourceDirection.horizontal,
   });
 
@@ -142,6 +143,11 @@ class GoogleSpreadSheetDataSource {
   ///
   /// これを変更することによりデータに更新することができます。
   final int version;
+
+  /// Key for ID.
+  ///
+  /// ID用のキー。
+  final String idKey;
 
   /// Orientation for using data source for documents at [GoogleSpreadSheetDataSource].
   ///
