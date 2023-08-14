@@ -1,3 +1,7 @@
+## 2.7.10
+
+ - **DOCS**: Added description of Google Login. ([276bce26](https://github.com/mathrunet/flutter_masamune/commit/276bce265e7148b37c29840cdaf2491ba5a595c9))
+
 ## 2.7.9
 
  - **FIX**: Increment number can be added. ([d34b8b7b](https://github.com/mathrunet/flutter_masamune/commit/d34b8b7b3b93e905e69f314ec23749b896dffe11))

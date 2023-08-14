@@ -15,6 +15,37 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.7.10`](#katana_cli---v2710)
+ - [`masamune_auth_google` - `v2.1.76`](#masamune_auth_google---v2176)
+ - [`masamune_universal_ui` - `v2.2.55`](#masamune_universal_ui---v2255)
+
+---
+
+#### `katana_cli` - `v2.7.10`
+
+ - **DOCS**: Added description of Google Login. ([276bce26](https://github.com/mathrunet/flutter_masamune/commit/276bce265e7148b37c29840cdaf2491ba5a595c9))
+
+#### `masamune_auth_google` - `v2.1.76`
+
+ - **FIX**: Fixed a problem with web login. ([6afe3ef0](https://github.com/mathrunet/flutter_masamune/commit/6afe3ef06f2a187f2f4462ba4cee7fc3ef562f33))
+
+#### `masamune_universal_ui` - `v2.2.55`
+
+ - **FIX**: Added [leadingWhenDisabledPop] to UniversalScaffold. ([4a2389c4](https://github.com/mathrunet/flutter_masamune/commit/4a2389c432409ca00c63e6cc4eef8523929b3ff7))
+
+
+## 2023-08-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.7.9`](#katana_cli---v279)
  - [`katana_model` - `v2.11.6`](#katana_model---v2116)
  - [`katana_model_local` - `v2.6.1`](#katana_model_local---v261)

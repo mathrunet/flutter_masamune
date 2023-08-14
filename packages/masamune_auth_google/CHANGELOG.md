@@ -1,3 +1,7 @@
+## 2.1.76
+
+ - **FIX**: Fixed a problem with web login. ([6afe3ef0](https://github.com/mathrunet/flutter_masamune/commit/6afe3ef06f2a187f2f4462ba4cee7fc3ef562f33))
+
 ## 2.1.75
 
  - Update a dependency to the latest release.

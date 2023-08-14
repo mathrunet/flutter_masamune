@@ -1,3 +1,7 @@
+## 2.2.55
+
+ - **FIX**: Added [leadingWhenDisabledPop] to UniversalScaffold. ([4a2389c4](https://github.com/mathrunet/flutter_masamune/commit/4a2389c432409ca00c63e6cc4eef8523929b3ff7))
+
 ## 2.2.54
 
  - Update a dependency to the latest release.
