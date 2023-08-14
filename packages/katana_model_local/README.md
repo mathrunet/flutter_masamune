@@ -524,6 +524,19 @@ The following adapters are currently available
     - A database adapter that stores data in `CloudFirestore`.
     - Data is retained even if the application is stopped, restarted, deleted, or reinstalled.
     - Available for storing data on the server and communicating with other users via the server.
+- `ListenableFirestoreModelAdapter`
+    - A database adapter that stores data in `CloudFirestore`.
+    - Data is retained even if the application is stopped, restarted, deleted, or reinstalled.
+    - Available for storing data on the server and communicating with other users via the server.
+    - Firestore's `real-time update functionality` is used to immediately transmit updates on the server side to the application side.
+        - Please use it to implement chat functions, etc.
+- `CsvCollectionSourceModelAdapter`、`CsvDocumentSourceModelAdapter`
+    - A data source adapter that can handle CSV as a data source.
+    - **Values cannot be saved or deleted.**
+    - CSV can be obtained in the following ways
+        - Directly in source code
+        - Stored and loaded under the `assets` folder
+        - Retrieved from URL (e.g., Google spreadsheets already published on the Web)
 
 ```dart
 // Use local database

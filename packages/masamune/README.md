@@ -496,6 +496,40 @@ For more information, please see below.
 
 [[Flutter] Enhancement of Masamune’s DB linkage function](https://medium.com/@mathru/flutter-enhancement-of-masamunes-db-linkage-function-9599c0540e4e)
 
+### Use of Google Spreadsheets as a data source
+
+Google Spreadsheets can be used as a CSV data source.
+
+Please use this for cases such as when you ask customers to set up data, etc. since non-engineers will be touching it.
+
+Google Spreadsheets will be made available in advance.
+
+1. Copy the spreadsheet from [this template](https://docs.google.com/spreadsheets/d/1bfNX8clPH9PFOcfFIStNCGNGjeCKwGv-24iChSJn8yM/edit#gid=0) to your own Google Drive.
+    - If you use `CollectionModelPath`, use the sheet for collections; if you use `DocumentModelPath`, use the sheet for documents.
+    - You can copy from `File` -> `Create Copy`.
+2. In the copied spreadsheet, click `File` -> `Share` -> `Share with others`.
+3. In the `Share (name of spreadsheet you created)` window, change `General Access` to `Everyone who knows the link`.
+4. Add the "`GoogleSpreadSheetDataSource`" annotation as an addition to the class you created, and copy the URL as it appears in the browser (e.g., `https://docs.google.com/spreadsheets/d/1bfNX8clPH9 PFOcfFIStNCGNGjeCKwGv-24iChSJn8yM/edit#gid=0`) and copy it.
+    
+    ```dart
+    /// Value for model.
+    @freezed
+    @formValue
+    @immutable
+    @GoogleSpreadSheetDataSource(
+      "https://docs.google.com/spreadsheets/d/1bfNX8clPH9PFOcfFIStNCGNGjeCKwGv-24iChSJn8yM/edit#gid=0",
+      version: 1,
+    )
+    // TODO: Set the path for the collection.
+    @CollectionModelPath("test")
+    class TestModel with _$TestModel {
+      const factory TestModel({
+         // TODO: Set the data schema.
+         
+      }) = _TestModel;
+      const TestModel._();
+    ```
+
 To learn more about the other features listed below, please visit the package details page.
 
 - Editing and Deleting data
