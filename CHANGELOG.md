@@ -15,6 +15,101 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.11.7`](#katana_model---v2117)
+ - [`katana_model_firestore` - `v2.7.7`](#katana_model_firestore---v277)
+ - [`katana_model_local` - `v2.6.2`](#katana_model_local---v262)
+ - [`masamune` - `v2.4.20`](#masamune---v2420)
+ - [`masamune_annotation` - `v2.3.2`](#masamune_annotation---v232)
+ - [`masamune_builder` - `v2.8.1`](#masamune_builder---v281)
+ - [`masamune_location` - `v2.1.87`](#masamune_location---v2187)
+ - [`masamune_auth_apple` - `v2.1.76`](#masamune_auth_apple---v2176)
+ - [`masamune_text_to_speech` - `v2.1.42`](#masamune_text_to_speech---v2142)
+ - [`masamune_agora` - `v2.2.58`](#masamune_agora---v2258)
+ - [`masamune_auth_google` - `v2.1.77`](#masamune_auth_google---v2177)
+ - [`masamune_ai_openai` - `v2.2.10`](#masamune_ai_openai---v2210)
+ - [`masamune_calendar` - `v2.0.120`](#masamune_calendar---v20120)
+ - [`masamune_picker` - `v2.1.75`](#masamune_picker---v2175)
+ - [`masamune_util` - `v2.1.54`](#masamune_util---v2154)
+ - [`masamune_universal_ui` - `v2.2.56`](#masamune_universal_ui---v2256)
+ - [`masamune_purchase_stripe` - `v3.3.20`](#masamune_purchase_stripe---v3320)
+ - [`masamune_logger_firebase` - `v2.0.118`](#masamune_logger_firebase---v20118)
+ - [`masamune_introduction` - `v2.2.24`](#masamune_introduction---v2224)
+ - [`masamune_auth_facebook` - `v2.1.78`](#masamune_auth_facebook---v2178)
+ - [`masamune_speech_to_text` - `v2.1.45`](#masamune_speech_to_text---v2145)
+ - [`masamune_location_google` - `v2.1.88`](#masamune_location_google---v2188)
+ - [`masamune_module` - `v2.1.21`](#masamune_module---v2121)
+ - [`masamune_mail` - `v2.1.73`](#masamune_mail---v2173)
+ - [`masamune_point_ecosystem` - `v2.2.20`](#masamune_point_ecosystem---v2220)
+ - [`masamune_notification_firebase` - `v2.1.73`](#masamune_notification_firebase---v2173)
+ - [`masamune_ads_google` - `v2.1.26`](#masamune_ads_google---v2126)
+ - [`masamune_purchase_mobile` - `v2.5.20`](#masamune_purchase_mobile---v2520)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.87`
+ - `masamune_auth_apple` - `v2.1.76`
+ - `masamune_text_to_speech` - `v2.1.42`
+ - `masamune_agora` - `v2.2.58`
+ - `masamune_auth_google` - `v2.1.77`
+ - `masamune_ai_openai` - `v2.2.10`
+ - `masamune_calendar` - `v2.0.120`
+ - `masamune_picker` - `v2.1.75`
+ - `masamune_util` - `v2.1.54`
+ - `masamune_universal_ui` - `v2.2.56`
+ - `masamune_purchase_stripe` - `v3.3.20`
+ - `masamune_logger_firebase` - `v2.0.118`
+ - `masamune_introduction` - `v2.2.24`
+ - `masamune_auth_facebook` - `v2.1.78`
+ - `masamune_speech_to_text` - `v2.1.45`
+ - `masamune_location_google` - `v2.1.88`
+ - `masamune_module` - `v2.1.21`
+ - `masamune_mail` - `v2.1.73`
+ - `masamune_point_ecosystem` - `v2.2.20`
+ - `masamune_notification_firebase` - `v2.1.73`
+ - `masamune_ads_google` - `v2.1.26`
+ - `masamune_purchase_mobile` - `v2.5.20`
+
+---
+
+#### `katana_model` - `v2.11.7`
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
+#### `katana_model_firestore` - `v2.7.7`
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
+#### `katana_model_local` - `v2.6.2`
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
+#### `masamune` - `v2.4.20`
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
+#### `masamune_annotation` - `v2.3.2`
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
+#### `masamune_builder` - `v2.8.1`
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
+
+## 2023-08-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.7.10`](#katana_cli---v2710)
  - [`masamune_auth_google` - `v2.1.76`](#masamune_auth_google---v2176)
  - [`masamune_universal_ui` - `v2.2.55`](#masamune_universal_ui---v2255)

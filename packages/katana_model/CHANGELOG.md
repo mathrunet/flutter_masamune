@@ -1,3 +1,7 @@
+## 2.11.7
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
 ## 2.11.6
 
  - **FIX**: Fixes to CSV loading. ([a05691c8](https://github.com/mathrunet/flutter_masamune/commit/a05691c802785216ab0cc3234627cb883b146860))

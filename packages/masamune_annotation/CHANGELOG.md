@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
+
 ## 2.3.1
 
  - **FIX**: Add IdKey to GoogleSpreadSheetDataSource. ([8c37477d](https://github.com/mathrunet/flutter_masamune/commit/8c37477df2aae36d27e017060f42bf520ea6b010))
