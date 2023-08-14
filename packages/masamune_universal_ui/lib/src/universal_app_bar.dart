@@ -57,6 +57,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.leading,
     this.automaticallyImplyLeading =
         AutomaticallyImplyLeadingType.drawerAndBack,
+    this.leadingWhenDisabledPop,
     this.title,
     this.subtitle,
     this.actions,
@@ -109,6 +110,7 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
     this.leading,
     this.automaticallyImplyLeading =
         AutomaticallyImplyLeadingType.drawerAndBack,
+    this.leadingWhenDisabledPop,
     this.title,
     this.subtitle,
     this.actions,
@@ -193,6 +195,15 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
 
   /// {@macro flutter.material.appbar.leading}
   final Widget? leading;
+
+  /// Widget to display when the page cannot be POP when [automaticallyImplyLeading] is set to [AutomaticallyImplyLeadingType.drawerAndBack].
+  ///
+  /// [leading] has priority.
+  ///
+  /// [automaticallyImplyLeading]が[AutomaticallyImplyLeadingType.drawerAndBack]で設定されているときページがPOPできないときに表示するウィジェット。
+  ///
+  /// [leading]が優先的に動作します。
+  final Widget? leadingWhenDisabledPop;
 
   /// Specifies whether [leading] is set automatically.
   ///
@@ -431,6 +442,9 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           ((!hasEndDrawer && canPop) ||
               (parentRoute?.impliesAppBarDismissal ?? false))) {
         leading = useCloseButton ? const CloseButton() : const BackButton();
+      } else if (automaticallyImplyLeading ==
+          AutomaticallyImplyLeadingType.drawerAndBack) {
+        leading = leadingWhenDisabledPop;
       }
     }
 
@@ -804,6 +818,9 @@ class UniversalAppBar extends StatelessWidget with UniversalAppBarMixin {
           ((!hasEndDrawer && canPop) ||
               (parentRoute?.impliesAppBarDismissal ?? false))) {
         leading = useCloseButton ? const CloseButton() : const BackButton();
+      } else if (automaticallyImplyLeading ==
+          AutomaticallyImplyLeadingType.drawerAndBack) {
+        leading = leadingWhenDisabledPop;
       }
     }
 
@@ -1078,6 +1095,7 @@ class UniversalSliverAppBar extends UniversalAppBar with SliverAppBarMixin {
     super.leading,
     super.automaticallyImplyLeading =
         AutomaticallyImplyLeadingType.drawerAndBack,
+    super.leadingWhenDisabledPop,
     super.title,
     super.subtitle,
     super.actions,
@@ -1201,6 +1219,7 @@ class UniversalAvatarSliverAppBar extends UniversalSliverAppBar {
     super.leading,
     super.automaticallyImplyLeading =
         AutomaticallyImplyLeadingType.drawerAndBack,
+    super.leadingWhenDisabledPop,
     super.title,
     super.subtitle,
     super.actions,
@@ -1341,6 +1360,9 @@ class _UniversalAvatarAppBarDelegate extends SliverPersistentHeaderDelegate {
           ((!hasEndDrawer && canPop) ||
               (parentRoute?.impliesAppBarDismissal ?? false))) {
         leading = useCloseButton ? const CloseButton() : const BackButton();
+      } else if (appBar.automaticallyImplyLeading ==
+          AutomaticallyImplyLeadingType.drawerAndBack) {
+        leading = appBar.leadingWhenDisabledPop;
       }
     }
 
@@ -1640,6 +1662,7 @@ class UniversalExtentAppBar extends StatelessWidget
   const UniversalExtentAppBar({
     super.key,
     this.height = kDefaultExpandedHeight,
+    this.leadingWhenDisabledPop,
     this.foregroundColor,
     this.backgroundColor,
     this.iconTheme,
@@ -1690,6 +1713,15 @@ class UniversalExtentAppBar extends StatelessWidget
 
   /// {@macro flutter.material.appbar.centerTitle}
   final bool centerTitle;
+
+  /// Widget to display when the page cannot be POP when [automaticallyImplyLeading] is set to [AutomaticallyImplyLeadingType.drawerAndBack].
+  ///
+  /// [leading] has priority.
+  ///
+  /// [automaticallyImplyLeading]が[AutomaticallyImplyLeadingType.drawerAndBack]で設定されているときページがPOPできないときに表示するウィジェット。
+  ///
+  /// [leading]が優先的に動作します。
+  final Widget? leadingWhenDisabledPop;
 
   /// Specifies whether [leading] is set automatically.
   ///
@@ -1782,6 +1814,9 @@ class UniversalExtentAppBar extends StatelessWidget
           ((!hasEndDrawer && canPop) ||
               (parentRoute?.impliesAppBarDismissal ?? false))) {
         leading = useCloseButton ? const CloseButton() : const BackButton();
+      } else if (automaticallyImplyLeading ==
+          AutomaticallyImplyLeadingType.drawerAndBack) {
+        leading = leadingWhenDisabledPop;
       }
     }
 
