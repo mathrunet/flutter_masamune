@@ -25,7 +25,8 @@ class GoogleSignInAuthProvider extends SnsSignInAuthProvider {
       );
     }
     final credentials = await googleCurrentUser.authentication;
-    if (credentials.idToken.isEmpty || credentials.accessToken.isEmpty) {
+    if (credentials.idToken.isEmpty ||
+        (!kIsWeb && credentials.accessToken.isEmpty)) {
       throw Exception(
         "Login failed because the authentication information cannot be found.",
       );
