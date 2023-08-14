@@ -162,9 +162,19 @@ ${showAllConfig ? """
       # Sign in with your Google account.
       # Get the settings for Google Login automatically from Firebase settings.
       # Also, from the Firebase console (https://console.firebase.google.com/), select [Authentication]->[Sing-in method] and enable `Google`.
+      # To log in via the web, follow the steps below to enable the API.
+      # 1. Select the item "OAuth 2.0 Client ID" whose "Type" is "Web Application".
+      #    https://console.cloud.google.com/apis/credentials
+      # 2. List the domain where the website is open in the "Authorized JavaScript Generator" field.
+      #    e.g.) https://example.com
       # Googleアカウントによるログインを行います。
       # Firebaseの設定から自動でGoogleログイン用の設定を取得します。
       # またFirebaseのコンソール（https://console.firebase.google.com/）から[Authentication]->[Sing-in method]を選択し`Google`を有効にしてください。
+      # Webでのログインは下記の手順でAPIを有効にします。
+      # 1. 「OAuth 2.0 クライアント ID」の[種類]が[ウェブアプリケーション]の項目を選択します。
+      #    https://console.cloud.google.com/apis/credentials 
+      # 2. 「承認済みの JavaScript 生成元」にWebサイトを開いているドメインを記載します。
+      #    例）https://example.com
       google:
         enable: false
 
