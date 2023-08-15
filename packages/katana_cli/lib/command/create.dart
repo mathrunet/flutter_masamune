@@ -76,8 +76,8 @@ class CreateCliCommand extends CliCommand {
     final melos = bin.get("melos", "melos");
     final packageName = context.args.get(1, "");
     final options = context.args.get(2, "");
-    final moduleName = context.args.get(3, "");
-    final repositoryName = context.args.get(4, "");
+    final moduleName = context.args.get(3, nullOfString);
+    final repositoryName = context.args.get(4, nullOfString);
     if (packageName.isEmpty) {
       error(
         "Please provide the name of the package.\r\nパッケージ名を記載してください。\r\n\r\nkatana create [package name]",
@@ -111,7 +111,7 @@ class CreateCliCommand extends CliCommand {
           domain,
           "--template=package",
           "--project-name",
-          moduleName.toSnakeCase(),
+          moduleName!.toSnakeCase(),
           ".",
         ],
       );
@@ -273,9 +273,9 @@ class CreateCliCommand extends CliCommand {
             "--directory=.",
             if (moduleName.isNotEmpty)
               if (options == "-e")
-                "${moduleName.toSnakeCase()}:{'path':'../'}"
+                "${moduleName!.toSnakeCase()}:{'path':'../'}"
               else
-                moduleName.toSnakeCase(),
+                moduleName!.toSnakeCase(),
           ],
         );
       }
@@ -2170,7 +2170,7 @@ class MelosCliCode extends CliCode {
   /// The name of the Git repository.
   ///
   /// Gitレポジトリ名。
-  final String repository;
+  final String? repository;
 
   @override
   String get name => "melos";
