@@ -1,3 +1,7 @@
+## 2.7.11
+
+ - **FIX**: Fixed a bug in katana create. ([d97555ba](https://github.com/mathrunet/flutter_masamune/commit/d97555bae598cfede25262928009dc2fb8463c80))
+
 ## 2.7.10
 
  - **DOCS**: Added description of Google Login. ([276bce26](https://github.com/mathrunet/flutter_masamune/commit/276bce265e7148b37c29840cdaf2491ba5a595c9))

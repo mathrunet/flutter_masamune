@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.7.11`](#katana_cli---v2711)
+
+---
+
+#### `katana_cli` - `v2.7.11`
+
+ - **FIX**: Fixed a bug in katana create. ([d97555ba](https://github.com/mathrunet/flutter_masamune/commit/d97555bae598cfede25262928009dc2fb8463c80))
+
+
 ## 2023-08-14
 
 ### Changes
