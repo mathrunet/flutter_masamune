@@ -104,7 +104,10 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
     for (final row in data) {
       final map = <String, dynamic>{};
       for (var i = 0; i < header.length; i++) {
-        map[header[i].toString().trim()] = _toAny(row[i]);
+        final r = _toAny(row[i]);
+        if (r != null) {
+          map[header[i].toString().trim()] = r;
+        }
       }
       result[map[idKey].toString().trim()] = _merged(map);
     }
@@ -268,7 +271,10 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
           if (value == null || key.isEmpty) {
             continue;
           }
-          res[key] = _toAny(value);
+          final r = _toAny(value);
+          if (r != null) {
+            res[key] = r;
+          }
         }
         return {
           documentId: _merged(res),
@@ -289,7 +295,10 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
           if (value == null || key.isEmpty) {
             continue;
           }
-          res[key] = _toAny(value);
+          final r = _toAny(value);
+          if (r != null) {
+            res[key] = r;
+          }
         }
         return {
           documentId: _merged(res),
@@ -789,6 +798,9 @@ dynamic _toAny(Object? object) {
     return object;
   } else {
     final st = object.toString().trim();
+    if (st.isEmpty) {
+      return null;
+    }
     final d = double.tryParse(st);
     if (d != null) {
       return d;
