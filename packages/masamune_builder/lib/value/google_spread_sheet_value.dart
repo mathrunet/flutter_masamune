@@ -23,6 +23,7 @@ class GoogleSpreadSheetValue {
       if (matcher.isExactlyType(obj.type!)) {
         _source = obj.getField("source")?.toStringValue();
         idKey = obj.getField("idKey")?.toStringValue();
+        direct = obj.getField("direct")?.toBoolValue() ?? false;
         version = obj.getField("version")?.toIntValue() ?? 1;
 
         final directionMatch = _directionRegExp.firstMatch(meta.toSource());
@@ -38,6 +39,7 @@ class GoogleSpreadSheetValue {
     _source = null;
     version = 1;
     direction = null;
+    direct = false;
   }
 
   static final _directionRegExp =
@@ -73,6 +75,11 @@ class GoogleSpreadSheetValue {
   ///
   /// 読み込みの向きの設定。
   late final String? direction;
+
+  /// Setting whether or not to download directly from the URL.
+  ///
+  /// 直接URLからダウンロードするかどうかの設定。
+  late final bool direct;
 
   @override
   String toString() {
@@ -122,6 +129,10 @@ class GoogleSpreadSheetValue {
       }
       return "/export?format=csv&gid=$gid";
     });
+    if (direct) {
+      _source = endpoint;
+      return;
+    }
     Uint8List bytes;
     final file = File("${dir.path}/$spreadSheetId.$gid.$version.csv");
     if (file.existsSync()) {

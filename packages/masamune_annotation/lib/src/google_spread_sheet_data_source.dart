@@ -119,6 +119,7 @@ class GoogleSpreadSheetDataSource {
     this.source, {
     required this.version,
     this.idKey = "id",
+    this.direct = false,
     this.direction = GoogleSpreadSheetDataSourceDirection.horizontal,
   });
 
@@ -148,6 +149,15 @@ class GoogleSpreadSheetDataSource {
   ///
   /// ID用のキー。
   final String idKey;
+
+  /// `true` if you want to download directly from the URL when the app is launched.
+  ///
+  /// If `false`, build_runner will embed CSV data into the source code.
+  ///
+  /// アプリ起動時に直接URLからダウンロードする場合は`true`。
+  ///
+  /// `false`にするとbuild_runnerにてCSVデータをソースコードに埋め込みます。
+  final bool direct;
 
   /// Orientation for using data source for documents at [GoogleSpreadSheetDataSource].
   ///
