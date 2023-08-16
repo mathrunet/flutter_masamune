@@ -1,3 +1,7 @@
+## 2.7.12
+
+ - **FIX**: Change the default web renderer to canvaskit. ([f4a9067b](https://github.com/mathrunet/flutter_masamune/commit/f4a9067b09b9151a87542a4e0fb81f449c01e9f8))
+
 ## 2.7.11
 
  - **FIX**: Fixed a bug in katana create. ([d97555ba](https://github.com/mathrunet/flutter_masamune/commit/d97555bae598cfede25262928009dc2fb8463c80))

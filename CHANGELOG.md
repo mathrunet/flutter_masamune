@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.7.12`](#katana_cli---v2712)
+
+---
+
+#### `katana_cli` - `v2.7.12`
+
+ - **FIX**: Change the default web renderer to canvaskit. ([f4a9067b](https://github.com/mathrunet/flutter_masamune/commit/f4a9067b09b9151a87542a4e0fb81f449c01e9f8))
+
+
+## 2023-08-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model_local` - `v2.6.4`](#katana_model_local---v264)
  - [`masamune` - `v2.4.22`](#masamune---v2422)
  - [`masamune_location` - `v2.1.89`](#masamune_location---v2189)
