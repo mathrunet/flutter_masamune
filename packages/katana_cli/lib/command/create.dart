@@ -1215,13 +1215,13 @@ class LaunchCliCode extends CliCode {
       "name": "Development",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define=FLAVOR=dev", "--web-renderer", "html", "--web-port=5555"]
+      "args": ["--dart-define=FLAVOR=dev", "--web-renderer", "canvaskit", "--web-port=5555"]
     },
     {
       "name": "Staging",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define=FLAVOR=stg", "--web-renderer", "html", "--web-port=5555"]
+      "args": ["--dart-define=FLAVOR=stg", "--web-renderer", "canvaskit", "--web-port=5555"]
     },
     {
       "name": "Production",

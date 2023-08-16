@@ -16,10 +16,15 @@ Future<void> buildWeb(
   required String appName,
   required int defaultIncrementNumber,
 }) async {
+  final github = context.yaml.getAsMap("github");
+  final action = github.getAsMap("action");
+  final web = action.getAsMap("web");
+  final renderer = web.get("renderer", "canvaskit");
   final gitDir = await findGitDirectory(Directory.current);
   final webCode = GithubActionsWebCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
+    renderer: renderer,
   );
 
   var hostingYamlFile =
@@ -61,6 +66,7 @@ class GithubActionsWebCliCode extends CliCode {
   const GithubActionsWebCliCode({
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
+    this.renderer = "canvaskit",
   });
 
   /// Working Directory.
@@ -72,6 +78,11 @@ class GithubActionsWebCliCode extends CliCode {
   ///
   /// インクリメント番号。
   final int defaultIncrementNumber;
+
+  /// Web renderer type.
+  ///
+  /// Webレンダラーの種類。
+  final String renderer;
 
   @override
   String get name => "build_web";
@@ -172,7 +183,7 @@ jobs:
       # Generate web files.
       # Webファイルを生成。
       - name: Building web build
-        run: flutter build web --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod --web-renderer html
+        run: flutter build web --build-number \$((\$GITHUB_RUN_NUMBER+$defaultIncrementNumber)) --release --dart-define=FLAVOR=prod --web-renderer $renderer
 
       # Upload the generated files.
       # 生成されたファイルのアップロード。

@@ -298,6 +298,10 @@ github:
     increment_number: 0
     platform: android ios web
     web:
+      # Specify a renderer for the Web. (html | canvaskit)
+      # Web用のレンダラーを指定します。（html | canvaskit）
+      renderer: canvaskit
+
       # Configure to deploy to Firebase Hosting. Set to `true` to deploy to FirebaseHosting.
       # Firebase Hostingへデプロイするための設定を行います。FirebaseHostingにデプロイする場合は`true`にしてください。
       firebase: false
