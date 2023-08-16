@@ -1,3 +1,7 @@
+## 2.6.3
+
+ - **FIX**: Countermeasure against garbled characters when CSV is retrieved from the network. ([f13df883](https://github.com/mathrunet/flutter_masamune/commit/f13df883cdd96a3fb9cf094c14576852ad10383f))
+
 ## 2.6.2
 
  - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))

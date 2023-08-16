@@ -1,3 +1,7 @@
+## 2.4.21
+
+ - Update a dependency to the latest release.
+
 ## 2.4.20
 
  - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))

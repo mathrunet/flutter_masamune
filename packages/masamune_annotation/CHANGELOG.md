@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - **FIX**: Added flag for direct acquisition. ([a4b50e0d](https://github.com/mathrunet/flutter_masamune/commit/a4b50e0d57045240a9bceabc183f477555ef4a05))
+
 ## 2.3.2
 
  - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))
