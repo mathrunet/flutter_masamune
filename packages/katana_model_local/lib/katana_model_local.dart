@@ -10,6 +10,7 @@ library katana_model_local;
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/foundation.dart';

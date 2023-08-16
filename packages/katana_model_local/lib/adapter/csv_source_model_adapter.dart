@@ -104,9 +104,9 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
     for (final row in data) {
       final map = <String, dynamic>{};
       for (var i = 0; i < header.length; i++) {
-        map[header[i].toString()] = _toAny(row[i]);
+        map[header[i].toString().trim()] = _toAny(row[i]);
       }
-      result[map[idKey].toString()] = _merged(map);
+      result[map[idKey].toString().trim()] = _merged(map);
     }
     return result;
   }
@@ -263,7 +263,7 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
           throw Exception("The number of columns is less than the offset.");
         }
         for (var i = effectiveOffset.dx.toInt(); i < header.length; i++) {
-          final key = header[i].toString();
+          final key = header[i].toString().trim();
           final value = values[i];
           if (value == null || key.isEmpty) {
             continue;
@@ -284,7 +284,7 @@ class CsvDocumentSourceModelAdapter extends CsvSourceModelAdapter {
           if (line.length <= effectiveOffset.dx + 1) {
             throw Exception("The number of columns is less than the offset.");
           }
-          final key = line[effectiveOffset.dx.toInt()].toString();
+          final key = line[effectiveOffset.dx.toInt()].toString().trim();
           final value = line[effectiveOffset.dx.toInt() + 1];
           if (value == null || key.isEmpty) {
             continue;
@@ -511,8 +511,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
                 "Failed to load CSV file. [${res.statusCode}]",
               );
             }
+            final text = utf8.decode(res.bodyBytes);
             final docs = fromCsv(
-              const CsvToListConverter(eol: "\n").convert(res.body),
+              const CsvToListConverter(eol: "\n").convert(text),
             );
             for (final tmp in docs.entries) {
               database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
@@ -528,8 +529,9 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
                 "Failed to load CSV file. [${res.statusCode}]",
               );
             }
+            final text = utf8.decode(res.bodyBytes);
             final docs = fromCsv(
-              const CsvToListConverter(eol: "\n").convert(res.body),
+              const CsvToListConverter(eol: "\n").convert(text),
             );
             for (final tmp in docs.entries) {
               database.setInitialValue("$collectionPath/${tmp.key}", tmp.value);
@@ -786,7 +788,7 @@ dynamic _toAny(Object? object) {
   } else if (object is bool) {
     return object;
   } else {
-    final st = object.toString();
+    final st = object.toString().trim();
     final d = double.tryParse(st);
     if (d != null) {
       return d;
