@@ -1,11 +1,13 @@
 // Dart imports:
 import 'dart:io';
 
+// Package imports:
+import 'package:yaml/yaml.dart';
+
 // Project imports:
 import 'package:katana_cli/action/app/spread_sheet.dart';
 import 'package:katana_cli/action/git/platform/web.dart';
 import 'package:katana_cli/katana_cli.dart';
-import 'package:yaml/yaml.dart';
 
 /// Unique key for getting application name.
 ///
