@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.7.13`](#katana_cli---v2713)
+
+---
+
+#### `katana_cli` - `v2.7.13`
+
+ - **FIX**: Fixed a bug that Hosting was overwritten by deploying the Terms of Service when using GithubActions. ([9ceba01b](https://github.com/mathrunet/flutter_masamune/commit/9ceba01b2e8e952fdcb4d9e40dac16fc2b8937c9))
+
+
 ## 2023-08-16
 
 ### Changes

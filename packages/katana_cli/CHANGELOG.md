@@ -1,3 +1,7 @@
+## 2.7.13
+
+ - **FIX**: Fixed a bug that Hosting was overwritten by deploying the Terms of Service when using GithubActions. ([9ceba01b](https://github.com/mathrunet/flutter_masamune/commit/9ceba01b2e8e952fdcb4d9e40dac16fc2b8937c9))
+
 ## 2.7.12
 
  - **FIX**: Change the default web renderer to canvaskit. ([f4a9067b](https://github.com/mathrunet/flutter_masamune/commit/f4a9067b09b9151a87542a4e0fb81f449c01e9f8))
