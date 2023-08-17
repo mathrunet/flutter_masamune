@@ -325,12 +325,6 @@ class _MapVewState extends State<MapView> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    widget.controller.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final adapter =
         MasamuneAdapterScope.of<GoogleLocationMasamuneAdapter>(context);
