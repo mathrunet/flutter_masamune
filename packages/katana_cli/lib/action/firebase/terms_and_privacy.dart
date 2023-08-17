@@ -3,7 +3,9 @@ import 'dart:io';
 
 // Project imports:
 import 'package:katana_cli/action/app/spread_sheet.dart';
+import 'package:katana_cli/action/git/platform/web.dart';
 import 'package:katana_cli/katana_cli.dart';
+import 'package:yaml/yaml.dart';
 
 /// Unique key for getting application name.
 ///
@@ -47,6 +49,14 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
     final termsAndPrivacy = firebase.getAsMap("terms_and_privacy");
     final appInfo = context.yaml.getAsMap("app").getAsMap("info");
     final appInfoLocales = appInfo.getAsMap("locale");
+    final pubspecFile = File("pubspec.yaml");
+    final yaml = modifize(loadYaml(await pubspecFile.readAsString())) as Map;
+    final appName = yaml.get("name", "");
+    final gitDir = await findGitDirectory(Directory.current);
+    final webCode = GithubActionsWebCliCode(
+      workingDirectory: gitDir,
+    );
+
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -148,6 +158,14 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       await termsFile.writeAsString(termsContent);
       final privacyFile = File("firebase/hosting/${locale.key}/privacy.html");
       await privacyFile.writeAsString(privacyContent);
+    }
+    if (File("${webCode.directory}/build_web_${appName.toLowerCase()}.yaml")
+        .existsSync()) {
+      // ignore: avoid_print
+      print(
+        "build_web_${appName.toLowerCase()}.yaml already exists. Skip deployment to Hosting.",
+      );
+      return;
     }
     await command(
       "Deploy to Firebase Hosting.",
