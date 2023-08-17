@@ -499,6 +499,7 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
 
     final neighbors = [
       if (sourceNeighbors != null) ...sourceNeighbors,
+      value.value.geoHash,
       ...value.value.neighbors,
     ].distinct().sortTo((a, b) => a.compareTo(b));
     return _toQuery(
@@ -522,6 +523,7 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
         )
         ?.value as List<String>?;
 
+    sourceNeighbors?.remove(value.value.geoHash);
     for (final hash in value.value.neighbors) {
       sourceNeighbors?.remove(hash);
     }
@@ -543,7 +545,10 @@ class ModelGeoValueModelQuerySelector<TQuery extends ModelQueryBase>
     return _toQuery(
       _modelQuery.geo(
         key,
-        value.value.neighbors,
+        [
+          value.value.geoHash,
+          ...value.value.neighbors,
+        ],
       ),
     );
   }
