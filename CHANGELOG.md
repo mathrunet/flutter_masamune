@@ -15,6 +15,81 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune` - `v2.4.26`](#masamune---v2426)
+ - [`masamune_builder` - `v2.8.3`](#masamune_builder---v283)
+ - [`masamune_location` - `v2.1.93`](#masamune_location---v2193)
+ - [`masamune_auth_apple` - `v2.1.82`](#masamune_auth_apple---v2182)
+ - [`masamune_text_to_speech` - `v2.1.48`](#masamune_text_to_speech---v2148)
+ - [`masamune_agora` - `v2.2.64`](#masamune_agora---v2264)
+ - [`masamune_auth_google` - `v2.1.83`](#masamune_auth_google---v2183)
+ - [`masamune_ai_openai` - `v2.2.16`](#masamune_ai_openai---v2216)
+ - [`masamune_calendar` - `v2.0.126`](#masamune_calendar---v20126)
+ - [`masamune_picker` - `v2.1.81`](#masamune_picker---v2181)
+ - [`masamune_util` - `v2.1.60`](#masamune_util---v2160)
+ - [`masamune_universal_ui` - `v2.2.62`](#masamune_universal_ui---v2262)
+ - [`masamune_purchase_stripe` - `v3.3.26`](#masamune_purchase_stripe---v3326)
+ - [`masamune_logger_firebase` - `v2.0.124`](#masamune_logger_firebase---v20124)
+ - [`masamune_introduction` - `v2.2.30`](#masamune_introduction---v2230)
+ - [`masamune_speech_to_text` - `v2.1.51`](#masamune_speech_to_text---v2151)
+ - [`masamune_auth_facebook` - `v2.1.84`](#masamune_auth_facebook---v2184)
+ - [`masamune_location_google` - `v2.1.94`](#masamune_location_google---v2194)
+ - [`masamune_module` - `v2.1.27`](#masamune_module---v2127)
+ - [`masamune_mail` - `v2.1.79`](#masamune_mail---v2179)
+ - [`masamune_point_ecosystem` - `v2.2.26`](#masamune_point_ecosystem---v2226)
+ - [`masamune_notification_firebase` - `v2.1.79`](#masamune_notification_firebase---v2179)
+ - [`masamune_purchase_mobile` - `v2.5.26`](#masamune_purchase_mobile---v2526)
+ - [`masamune_ads_google` - `v2.1.32`](#masamune_ads_google---v2132)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location` - `v2.1.93`
+ - `masamune_auth_apple` - `v2.1.82`
+ - `masamune_text_to_speech` - `v2.1.48`
+ - `masamune_agora` - `v2.2.64`
+ - `masamune_auth_google` - `v2.1.83`
+ - `masamune_ai_openai` - `v2.2.16`
+ - `masamune_calendar` - `v2.0.126`
+ - `masamune_picker` - `v2.1.81`
+ - `masamune_util` - `v2.1.60`
+ - `masamune_universal_ui` - `v2.2.62`
+ - `masamune_purchase_stripe` - `v3.3.26`
+ - `masamune_logger_firebase` - `v2.0.124`
+ - `masamune_introduction` - `v2.2.30`
+ - `masamune_speech_to_text` - `v2.1.51`
+ - `masamune_auth_facebook` - `v2.1.84`
+ - `masamune_location_google` - `v2.1.94`
+ - `masamune_module` - `v2.1.27`
+ - `masamune_mail` - `v2.1.79`
+ - `masamune_point_ecosystem` - `v2.2.26`
+ - `masamune_notification_firebase` - `v2.1.79`
+ - `masamune_purchase_mobile` - `v2.5.26`
+ - `masamune_ads_google` - `v2.1.32`
+
+---
+
+#### `masamune` - `v2.4.26`
+
+ - **FIX**: Add QuerySelector for List and Map. ([7fc72a9f](https://github.com/mathrunet/flutter_masamune/commit/7fc72a9fe0f7e33a21ef88fb8559958c1a71372f))
+
+#### `masamune_builder` - `v2.8.3`
+
+ - **FIX**: Add QuerySelector for List and Map. ([7fc72a9f](https://github.com/mathrunet/flutter_masamune/commit/7fc72a9fe0f7e33a21ef88fb8559958c1a71372f))
+
+
+## 2023-08-19
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_localization` - `v2.0.18`](#katana_localization---v2018)
  - [`katana_model_local` - `v2.7.0`](#katana_model_local---v270)
  - [`masamune` - `v2.4.25`](#masamune---v2425)

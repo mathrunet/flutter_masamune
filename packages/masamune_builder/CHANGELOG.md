@@ -1,3 +1,7 @@
+## 2.8.3
+
+ - **FIX**: Add QuerySelector for List and Map. ([7fc72a9f](https://github.com/mathrunet/flutter_masamune/commit/7fc72a9fe0f7e33a21ef88fb8559958c1a71372f))
+
 ## 2.8.2
 
  - **FIX**: Added flag for direct acquisition. ([a4b50e0d](https://github.com/mathrunet/flutter_masamune/commit/a4b50e0d57045240a9bceabc183f477555ef4a05))

@@ -1,3 +1,7 @@
+## 2.4.26
+
+ - **FIX**: Add QuerySelector for List and Map. ([7fc72a9f](https://github.com/mathrunet/flutter_masamune/commit/7fc72a9fe0f7e33a21ef88fb8559958c1a71372f))
+
 ## 2.4.25
 
  - **FIX**: Reapplied Example build runner. ([51894a89](https://github.com/mathrunet/flutter_masamune/commit/51894a89078deb2eb3a90083b127742e78b83b7c))
