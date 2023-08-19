@@ -925,59 +925,52 @@ class NoSqlDatabase {
 
 extension _NoSqlDatabaseDynamicMapExtensions on Map {
   dynamic _readFromPath(List<String> paths, int index) {
-    if (paths.length <= index) {
-      return this;
+    if (paths.length % 2 == 0) {
+      final collectionPath = paths.sublist(0, paths.length - 1).join("/");
+      final documentId = paths.last;
+      final collection = getAsMap(collectionPath);
+      if (collection.containsKey(documentId)) {
+        final document = collection.getAsMap(documentId);
+        return document;
+      } else {
+        return null;
+      }
+    } else {
+      final path = paths.join("/");
+      if (containsKey(path)) {
+        final collection = getAsMap(path);
+        return collection;
+      } else {
+        return null;
+      }
     }
-    final p = paths[index];
-    if (p.isEmpty) {
-      return null;
-    }
-    final val = this[p];
-    if (val is Map) {
-      return val._readFromPath(paths, index + 1);
-    }
-    return val;
   }
 
   // 返り値が`true`の場合「追加」。`false`の場合「更新」になる
   // データが見つからなかった場合は`null`が返される
   bool? _writeToPath(List<String> paths, int index, dynamic value) {
-    final p = paths[index];
-    if (p.isEmpty) {
+    if (value is! Map) {
       return null;
     }
-    if (paths.length - 1 <= index) {
-      final prev = this[p];
-      remove(p);
-      this[p] = value;
-      if (prev is Map) {
-        return prev.isEmpty;
-      } else {
-        return prev == null;
-      }
-    }
-    final val = this[p];
-    if (val is! Map) {
-      final val = this[p] = <String, dynamic>{};
-      return val._writeToPath(paths, index + 1, value);
+    final collectionPath = paths.sublist(0, paths.length - 1).join("/");
+    final documentId = paths.last;
+    final collection = getAsMap(collectionPath);
+    if (collection.containsKey(documentId)) {
+      collection[documentId] = value;
+      this[collectionPath] = collection;
+      return false;
     } else {
-      return val._writeToPath(paths, index + 1, value);
+      collection[documentId] = value;
+      this[collectionPath] = collection;
+      return true;
     }
   }
 
   void _deleteFromPath(List<String> paths, int index) {
-    final p = paths[index];
-    if (p.isEmpty) {
-      return;
-    }
-    if (paths.length - 1 <= index) {
-      remove(p);
-      return;
-    }
-    final val = this[p];
-    if (val is! Map) {
-      return;
-    }
-    val._deleteFromPath(paths, index + 1);
+    final collectionPath = paths.sublist(0, paths.length - 1).join("/");
+    final documentId = paths.last;
+    final collection = getAsMap(collectionPath);
+    collection.remove(documentId);
+    this[collectionPath] = collection;
   }
 }

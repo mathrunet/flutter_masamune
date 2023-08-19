@@ -1236,4 +1236,45 @@ void main() {
       }
     ]);
   });
+  test("NoSqlDatabase.nestData", () async {
+    final db = NoSqlDatabase();
+    final adapter = RuntimeModelAdapter(database: db);
+    final root =
+        RuntimeCollectionModel(CollectionModelQuery("test", adapter: adapter));
+    final nest = RuntimeCollectionModel(
+        CollectionModelQuery("test/aaa/nest", adapter: adapter));
+    final doc = root.create("aaa");
+    await doc.save({"name": "aaa", "text": "bbb"});
+    await root.reload();
+    expect(root.map((e) => e.value).toList(), [
+      {
+        "name": "aaa",
+        "text": "bbb",
+      }
+    ]);
+    final aaa = nest.create("1");
+    await aaa.save({"name": "ccc", "text": "ddd"});
+    await nest.reload();
+    expect(nest.map((e) => e.value).toList(), [
+      {
+        "name": "ccc",
+        "text": "ddd",
+      }
+    ]);
+    await doc.save({"name": "eee", "text": "fff"});
+    await root.reload();
+    expect(root.map((e) => e.value).toList(), [
+      {
+        "name": "eee",
+        "text": "fff",
+      }
+    ]);
+    await nest.reload();
+    expect(nest.map((e) => e.value).toList(), [
+      {
+        "name": "ccc",
+        "text": "ddd",
+      }
+    ]);
+  });
 }
