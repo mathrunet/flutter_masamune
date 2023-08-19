@@ -1,9 +1,7 @@
 // ignore_for_file: avoid_print
 
-// Flutter imports:
+// Dart imports:
 import 'dart:convert';
-
-import 'package:flutter/painting.dart';
 
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
