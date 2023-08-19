@@ -1,3 +1,7 @@
+## 2.4.2
+
+ - **FIX**: Added functionality to CardTile. ([1a7d42e6](https://github.com/mathrunet/flutter_masamune/commit/1a7d42e6a5089cd61678b01b845e4246fc64a679))
+
 ## 2.4.1
 
  - **FIX**: Shimmer name change. ([9ad7a5bb](https://github.com/mathrunet/flutter_masamune/commit/9ad7a5bbe4257fbe3108e9f811cfb92735d32fdd))
