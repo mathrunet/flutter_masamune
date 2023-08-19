@@ -1,3 +1,7 @@
+## 2.7.14
+
+ - **FIX**: Change analsis_options. ([c019044c](https://github.com/mathrunet/flutter_masamune/commit/c019044c1dbf23f185114b376b68ed28c6ec8d5d))
+
 ## 2.7.13
 
  - **FIX**: Fixed a bug that Hosting was overwritten by deploying the Terms of Service when using GithubActions. ([9ceba01b](https://github.com/mathrunet/flutter_masamune/commit/9ceba01b2e8e952fdcb4d9e40dac16fc2b8937c9))

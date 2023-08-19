@@ -1,3 +1,7 @@
+## 2.1.92
+
+ - Update a dependency to the latest release.
+
 ## 2.1.91
 
  - **FIX**: Fixed a bug that caused Dispose. ([291c1266](https://github.com/mathrunet/flutter_masamune/commit/291c1266e2ffa99c413f3b857ba13ec5679c40c4))

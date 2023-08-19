@@ -1,3 +1,7 @@
+## 2.4.24
+
+ - Update a dependency to the latest release.
+
 ## 2.4.23
 
  - **FIX**: Fixed a bug that did not include its own GeoHash. ([6e48ffe5](https://github.com/mathrunet/flutter_masamune/commit/6e48ffe595f5e1c06cb48ea3e9a91ff5ce6e58ba))

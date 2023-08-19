@@ -1,3 +1,7 @@
+## 2.11.8
+
+ - **FIX**: Fixed no_sql_database bug. ([3f90167e](https://github.com/mathrunet/flutter_masamune/commit/3f90167e26d40eedab922a38af3526b106ad7c36))
+
 ## 2.11.7
 
  - **DOCS**: Added description of CsvSourceModelAdapter. ([ada7c65f](https://github.com/mathrunet/flutter_masamune/commit/ada7c65ff1ae8ac3f8dae15d263b61cfdff6ef67))

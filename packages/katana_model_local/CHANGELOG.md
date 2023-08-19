@@ -1,3 +1,7 @@
+## 2.6.5
+
+ - Update a dependency to the latest release.
+
 ## 2.6.4
 
  - **FIX**: Treat an item as null if it is empty. ([a3b4d657](https://github.com/mathrunet/flutter_masamune/commit/a3b4d65787a5d1b7278ec8ecc658e58d9184c2b6))
