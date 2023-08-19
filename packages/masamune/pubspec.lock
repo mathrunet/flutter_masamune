@@ -311,14 +311,14 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.11.7"
+    version: "2.11.8"
   katana_model_local:
     dependency: "direct main"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.6.4"
+    version: "2.6.5"
   katana_prefs:
     dependency: "direct main"
     description:

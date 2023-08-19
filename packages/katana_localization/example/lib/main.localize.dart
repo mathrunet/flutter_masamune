@@ -35,11 +35,21 @@ abstract class _$AppLocalize extends AppLocalizeBase {
 
   _$AppLocalizeBase call([BuildContext? context]) {
     final l = context != null ? Localizations.localeOf(context) : locale;
-    if (_$appLocalizeLocalizations.containsKey(l)) {
-      return _$appLocalizeLocalizations[l]!;
-    } else {
-      return _$appLocalizeLocalizations.values.first;
+    return get(l);
+  }
+
+  _$AppLocalizeBase get(Locale locale) {
+    var res = _$appLocalizeLocalizations.entries
+        .firstWhereOrNull((e) => e.key == locale);
+    if (res != null) {
+      return res.value;
     }
+    res = _$appLocalizeLocalizations.entries
+        .firstWhereOrNull((e) => e.key.languageCode == locale.languageCode);
+    if (res != null) {
+      return res.value;
+    }
+    return _$appLocalizeLocalizations.values.first;
   }
 }
 
