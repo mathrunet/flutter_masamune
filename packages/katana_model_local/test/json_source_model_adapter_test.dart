@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
 // Flutter imports:
+import 'dart:convert';
+
 import 'package:flutter/painting.dart';
 
 // Package imports:
@@ -10,8 +12,8 @@ import 'package:test/test.dart';
 // Project imports:
 import 'package:katana_model_local/katana_model_local.dart';
 
-part 'csv_source_model_adapter_test.freezed.dart';
-part 'csv_source_model_adapter_test.g.dart';
+part 'json_source_model_adapter_test.freezed.dart';
+part 'json_source_model_adapter_test.g.dart';
 
 class RuntimeMapDocumentModel extends DocumentBase<DynamicMap> {
   RuntimeMapDocumentModel(super.query);
@@ -67,12 +69,34 @@ class RuntimeTestValueCollectionModel
 }
 
 void main() {
-  test("csvSourceModelAdapter.csvCollectionSourceModelAdapter", () async {
-    final adapter = CsvCollectionSourceModelAdapter(
+  test("jsonSourceModelAdapter.jsonCollecionSourceModelAdapter", () async {
+    final adapter = JsonCollectionSourceModelAdapter(
       database: NoSqlDatabase(),
-      idKey: "id",
-      source:
-          "id,name,age,percent,flag\naaa,John,20,0.5,false\nbbb,Tom,30,1.0,false\nccc,Alice,40,0.0,true",
+      source: jsonEncode(
+        {
+          "aaa": {
+            "id": "aaa",
+            "name": "John",
+            "age": 20,
+            "percent": 0.5,
+            "flag": false,
+          },
+          "bbb": {
+            "id": "bbb",
+            "name": "Tom",
+            "age": 30,
+            "percent": 1.0,
+            "flag": false,
+          },
+          "ccc": {
+            "id": "ccc",
+            "name": "Alice",
+            "age": 40,
+            "percent": 0.0,
+            "flag": true,
+          },
+        },
+      ),
     );
     final query = CollectionModelQuery("csv", adapter: adapter);
     final model = RuntimeCollectionModel(query);
@@ -104,11 +128,16 @@ void main() {
       ],
     );
   });
-  test("csvSourceModelAdapter.csvDocumentSourceModelAdapter", () async {
-    final adapter = CsvDocumentSourceModelAdapter(
+  test("jsonSourceModelAdapter.jsonDocumentSourceModelAdapter", () async {
+    final adapter = JsonDocumentSourceModelAdapter(
       database: NoSqlDatabase(),
-      offset: const Offset(1, 0),
-      source: ",id,name,age,percent,flag\n,aaa,John,20,0.5,false",
+      source: jsonEncode({
+        "id": "aaa",
+        "name": "John",
+        "age": 20,
+        "percent": 0.5,
+        "flag": false,
+      }),
     );
     final query = DocumentModelQuery(
       "csv/${adapter.documentId}",
@@ -127,13 +156,35 @@ void main() {
       },
     );
   });
-  test("csvSourceModelAdapter.csvCollectionSourceModelAdapter.Freezed",
+  test("jsoSourceModelAdapter.jsonCollectionSourceModelAdapter.Freezed",
       () async {
-    final adapter = CsvCollectionSourceModelAdapter(
+    final adapter = JsonCollectionSourceModelAdapter(
       database: NoSqlDatabase(),
-      idKey: "id",
-      source:
-          "id,name,age,percent,flag\naaa,John,20,0.5,false\nbbb,Tom,30,1.0,false\nccc,Alice,40,0.0,true",
+      source: jsonEncode(
+        {
+          "aaa": {
+            "id": "aaa",
+            "name": "John",
+            "age": 20,
+            "percent": 0.5,
+            "flag": false,
+          },
+          "bbb": {
+            "id": "bbb",
+            "name": "Tom",
+            "age": 30,
+            "percent": 1.0,
+            "flag": false,
+          },
+          "ccc": {
+            "id": "ccc",
+            "name": "Alice",
+            "age": 40,
+            "percent": 0.0,
+            "flag": true,
+          },
+        },
+      ),
     );
     final query = CollectionModelQuery("csv", adapter: adapter);
     final model = RuntimeTestValueCollectionModel(query);
@@ -150,11 +201,17 @@ void main() {
       ],
     );
   });
-  test("csvSourceModelAdapter.csvDocumentSourceModelAdapter.Freezed", () async {
-    final adapter = CsvDocumentSourceModelAdapter(
+  test("jsonSourceModelAdapter.jsonDocumentSourceModelAdapter.Freezed",
+      () async {
+    final adapter = JsonDocumentSourceModelAdapter(
       database: NoSqlDatabase(),
-      offset: const Offset(1, 0),
-      source: ",id,name,age,percent,flag\n,aaa,John,20,0.5,false",
+      source: jsonEncode({
+        "id": "aaa",
+        "name": "John",
+        "age": 20,
+        "percent": 0.5,
+        "flag": false,
+      }),
     );
     final query = DocumentModelQuery(
       "${adapter.collectionPath}/${adapter.documentId}",

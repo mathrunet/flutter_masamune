@@ -35,3 +35,4 @@ export 'src/others/others.dart'
 
 part 'adapter/local_model_adapter.dart';
 part 'adapter/csv_source_model_adapter.dart';
+part 'adapter/json_source_model_adapter.dart';
