@@ -1147,6 +1147,7 @@ linter:
   # producing the lint.
   rules:
     use_build_context_synchronously: false
+    library_private_types_in_public_api: false
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
