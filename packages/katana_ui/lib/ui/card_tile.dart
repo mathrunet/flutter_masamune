@@ -22,7 +22,7 @@ class CardTile extends StatelessWidget {
     this.onTap,
     this.width,
     this.height = kCardHeight,
-    this.image,
+    this.feature,
     this.backgroundColor,
     this.shadowColor,
     this.elevation,
@@ -37,6 +37,7 @@ class CardTile extends StatelessWidget {
     this.textColor,
     this.contentPadding,
     this.featureColor,
+    this.bottom,
   });
 
   /// A callback that is called when the card is tapped.
@@ -54,10 +55,10 @@ class CardTile extends StatelessWidget {
   /// カードの縦幅。
   final double height;
 
-  /// The image to display.
+  /// Feature widget to display.
   ///
-  /// 表示する画像。
-  final ImageProvider? image;
+  /// 表示するフィーチャーウィジェット。
+  final Widget? feature;
 
   /// The background color of the card.
   ///
@@ -143,6 +144,11 @@ class CardTile extends StatelessWidget {
   /// Feature画像の背景色。
   final Color? featureColor;
 
+  /// The widget below this widget in the tree.
+  ///
+  /// このウィジェットの下のウィジェット。
+  final Widget? bottom;
+
   @override
   Widget build(BuildContext context) {
     final backgroundColor =
@@ -170,13 +176,7 @@ class CardTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (image != null)
-                Expanded(
-                  child: Ink.image(
-                    image: image!,
-                    fit: fit,
-                  ),
-                ),
+              if (feature != null) Expanded(child: feature!),
               ListTile(
                 title: title,
                 mouseCursor: SystemMouseCursors.click,
@@ -189,6 +189,7 @@ class CardTile extends StatelessWidget {
                 textColor: textColor,
                 tileColor: backgroundColor,
               ),
+              if (bottom != null) bottom!,
             ],
           ),
         ),
