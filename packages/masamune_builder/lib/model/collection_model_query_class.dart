@@ -10,6 +10,20 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
   } else if (param.type.isDartCoreEnum || param.type.element is EnumElement) {
     final typeName = param.type.toString().trimStringRight("?");
     return "ValueModelQuerySelector<$typeName, $queryClass>";
+  } else if (param.type.isDartCoreList) {
+    final generics = RegExp("List<([^>]+)>")
+            .firstMatch(param.type.toString())
+            ?.group(1)
+            ?.trim() ??
+        "dynamic";
+    return "ListModelQuerySelector<$generics, $queryClass>";
+  } else if (param.type.isDartCoreMap) {
+    final generics = RegExp("Map<([^>]+),([^>]+)>")
+            .firstMatch(param.type.toString())
+            ?.group(2)
+            ?.trim() ??
+        "dynamic";
+    return "MapModelQuerySelector<$generics, $queryClass>";
   } else if (param.reference.isNotEmpty) {
     if (param.type.toString().endsWith("Ref")) {
       final match = _regExpRef.firstMatch(param.type.toString());

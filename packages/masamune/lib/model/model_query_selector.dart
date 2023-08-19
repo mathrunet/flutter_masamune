@@ -346,6 +346,73 @@ class ValueModelQuerySelector<TValue, TQuery extends ModelQueryBase>
   });
 }
 
+/// [ModelQuerySelector] for [List].
+///
+/// [List]に対する[ModelQuerySelector]。
+@immutable
+class ListModelQuerySelector<TValue, TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<List<TValue>, TQuery>
+    with
+        _EqualQuerySelectorMixin<List<TValue>, TQuery>,
+        _NotEqualQuerySelectorMixin<List<TValue>, TQuery> {
+  /// [ModelQuerySelector] for [List].
+  ///
+  /// [List]に対する[ModelQuerySelector]。
+  const ListModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+
+  /// You can filter only those elements whose [value] is contained in the array for [key].
+  ///
+  /// [key]に対する配列に[value]が含まれる要素のみをフィルタリングすることができます。
+  TQuery contains(TValue? value) {
+    if (value == null) {
+      return _toQuery(_modelQuery);
+    }
+    return _toQuery(_modelQuery.contains(key, value));
+  }
+
+  /// Only elements whose array for [key] contains one of the values in [values] can be filtered.
+  ///
+  /// [key]に対する配列に[values]の値のいずれかが含まれる要素のみをフィルタリングすることができます。
+  TQuery containsAny(List<TValue?>? values) {
+    if (values == null) {
+      return _toQuery(_modelQuery);
+    }
+    return _toQuery(
+      _modelQuery.containsAny(
+        key,
+        values
+            .where((e) => e != null)
+            .cast<TValue>()
+            .map((e) => e as Object)
+            .toList(),
+      ),
+    );
+  }
+}
+
+/// [ModelQuerySelector] for [Map].
+///
+/// [Map]に対する[ModelQuerySelector]。
+@immutable
+class MapModelQuerySelector<TValue, TQuery extends ModelQueryBase>
+    extends ModelQuerySelector<Map<String, TValue>, TQuery>
+    with
+        _EqualQuerySelectorMixin<Map<String, TValue>, TQuery>,
+        _NotEqualQuerySelectorMixin<Map<String, TValue>, TQuery> {
+  /// [ModelQuerySelector] for [Map].
+  ///
+  /// [Map]に対する[ModelQuerySelector]。
+  const MapModelQuerySelector({
+    required super.key,
+    required super.toQuery,
+    required super.modelQuery,
+  });
+}
+
 /// [ModelQuerySelector] for [ModelCounter].
 ///
 /// [ModelCounter]に対する[ModelQuerySelector]。

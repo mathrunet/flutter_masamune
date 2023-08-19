@@ -290,7 +290,7 @@ packages:
       path: "../katana_localization"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
@@ -318,7 +318,7 @@ packages:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.6.5"
+    version: "2.7.0"
   katana_prefs:
     dependency: "direct main"
     description:
