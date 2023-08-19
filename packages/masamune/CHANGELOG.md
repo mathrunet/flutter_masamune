@@ -1,3 +1,7 @@
+## 2.4.25
+
+ - **FIX**: Reapplied Example build runner. ([51894a89](https://github.com/mathrunet/flutter_masamune/commit/51894a89078deb2eb3a90083b127742e78b83b7c))
+
 ## 2.4.24
 
  - Update a dependency to the latest release.
