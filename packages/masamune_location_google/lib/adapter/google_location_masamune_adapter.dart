@@ -7,7 +7,13 @@ class GoogleLocationMasamuneAdapter extends LocationMasamuneAdapter {
   /// [MasamuneAdapter] handles location information and performs initial settings for displaying GoogleMap.
   ///
   /// 位置情報を取り扱い、GoogleMapを表示するための初期設定を行う[MasamuneAdapter]。
-  const GoogleLocationMasamuneAdapter({this.defaultMapStyle});
+  const GoogleLocationMasamuneAdapter({
+    this.defaultMapStyle,
+    super.location,
+    super.defaultAccuracy,
+    super.defaultDistanceFilterMeters,
+    super.listenOnBoot,
+  });
 
   /// Default map style.
   ///

@@ -11,7 +11,7 @@ part of masamune_deeplink;
 /// [listen]を呼び出すことでディープリンクの監視を開始します。
 ///
 /// [value]に[Uri]がセットされ、[notifyListeners]が呼び出されます。
-class DeepLink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
+class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   /// Class for handling deep links.
   ///
   /// Start monitoring deep links by calling [listen].
@@ -23,7 +23,7 @@ class DeepLink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   /// [listen]を呼び出すことでディープリンクの監視を開始します。
   ///
   /// [value]に[Uri]がセットされ、[notifyListeners]が呼び出されます。
-  DeepLink({
+  Deeplink({
     super.adapter,
     super.defaultValue,
   });
@@ -104,7 +104,7 @@ class _$DeepLinkQuery {
 }
 
 @immutable
-class _$_DeepLinkQuery extends ControllerQueryBase<DeepLink> {
+class _$_DeepLinkQuery extends ControllerQueryBase<Deeplink> {
   const _$_DeepLinkQuery(
     this._name,
   );
@@ -112,8 +112,8 @@ class _$_DeepLinkQuery extends ControllerQueryBase<DeepLink> {
   final String _name;
 
   @override
-  DeepLink Function() call(Ref ref) {
-    return () => DeepLink();
+  Deeplink Function() call(Ref ref) {
+    return () => Deeplink();
   }
 
   @override

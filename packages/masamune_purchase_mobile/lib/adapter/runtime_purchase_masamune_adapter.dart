@@ -20,6 +20,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     super.modelAdapter,
     required super.products,
     required super.onRetrieveUserId,
+    super.purchase,
   });
 
   @override

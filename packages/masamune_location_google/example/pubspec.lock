@@ -541,7 +541,7 @@ packages:
       path: "../../katana_auth"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_form:
     dependency: "direct overridden"
     description:
@@ -583,7 +583,7 @@ packages:
       path: "../../katana_localization"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
@@ -604,14 +604,14 @@ packages:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.11.5"
+    version: "2.11.8"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "2.5.5"
+    version: "2.7.0"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -681,7 +681,7 @@ packages:
       path: "../../katana_ui"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.4.2"
   lints:
     dependency: transitive
     description:
@@ -704,28 +704,28 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.4.12"
+    version: "2.4.27"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../../masamune_annotation"
       relative: true
     source: path
-    version: "2.2.2"
+    version: "2.3.3"
   masamune_location:
     dependency: "direct overridden"
     description:
       path: "../../masamune_location"
       relative: true
     source: path
-    version: "2.1.79"
+    version: "2.1.94"
   masamune_location_google:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.1.80"
+    version: "2.1.95"
   matcher:
     dependency: transitive
     description:

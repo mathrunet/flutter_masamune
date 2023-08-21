@@ -12,6 +12,7 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
     this.defaultSpeechRate = 1.0,
     this.defaultVolume = 1.0,
     this.defaultPitch = 1.0,
+    this.textToSpeechController,
   })  : assert(
           defaultPitch > 0.0 && defaultPitch <= 1.0,
           "defaultPitch must be greater than 0.0 and less than or equal to 1.0.",
@@ -45,6 +46,15 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
   /// デフォルトの発声ピッチ。
   final double defaultPitch;
 
+  /// Specify the object of [TextToSpeechController].
+  ///
+  /// After specifying this, execute [onMaybeBoot] to start initialization automatically.
+  ///
+  /// [TextToSpeechController]のオブジェクトを指定します。
+  ///
+  /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
+  final TextToSpeechController? textToSpeechController;
+
   /// You can retrieve the [TextToSpeechMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
   /// 最初に[MasamuneAdapterScope]で与えた[TextToSpeechMasamuneAdapter]を取得することができます。
@@ -73,5 +83,11 @@ class TextToSpeechMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot() async {
+    await super.onMaybeBoot();
+    await textToSpeechController?.initialize();
   }
 }

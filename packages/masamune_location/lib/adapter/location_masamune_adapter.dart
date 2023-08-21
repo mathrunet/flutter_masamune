@@ -10,6 +10,8 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   const LocationMasamuneAdapter({
     this.defaultAccuracy = LocationAccuracy.best,
     this.defaultDistanceFilterMeters = 10,
+    this.location,
+    this.listenOnBoot = false,
   });
 
   /// Specifies the accuracy of location information.
@@ -21,6 +23,20 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// 位置情報を更新する際の最低距離（m）。
   final int defaultDistanceFilterMeters;
+
+  /// Specify the object of [Location].
+  ///
+  /// After specifying this, execute [onMaybeBoot] to start initialization automatically.
+  ///
+  /// [Location]のオブジェクトを指定します。
+  ///
+  /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
+  final Location? location;
+
+  /// `true` if [location] is set to `true` to start acquiring location information when [onMaybeBoot] is executed.
+  ///
+  /// [location]が設定されている場合、[onMaybeBoot]を実行した際合わせて位置情報の取得も開始する場合`true`。
+  final bool listenOnBoot;
 
   /// You can retrieve the [LocationMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -50,5 +66,15 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot() async {
+    await super.onMaybeBoot();
+    if (listenOnBoot) {
+      await location?.listen();
+    } else {
+      await location?.initialize();
+    }
   }
 }

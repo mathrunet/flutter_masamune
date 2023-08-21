@@ -93,6 +93,15 @@ abstract class MasamuneAdapter {
   /// [runApp]前の処理を記述することができます。
   FutureOr<void> onPreRunApp() {}
 
+  /// It may be called during application initialization.
+  ///
+  /// It is necessary to create your own `boot.dart` or similar file and call this process explicitly.
+  ///
+  /// アプリの初期化時に呼び出されることがあります。
+  ///
+  /// そのままだと利用されず`boot.dart`などを自身で作成しこの処理を明示的に呼び出す必要があります。
+  FutureOr<void> onMaybeBoot() {}
+
   /// You can describe the process when [runZonedGuarded] is set to `true`.
   ///
   /// The object in which the error occurred is passed to [error] and [stackTrace].

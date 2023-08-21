@@ -10,6 +10,7 @@ class PointEcosystemMasamuneAdapter extends MasamuneAdapter {
     this.rewardedAdUnitId,
     this.dailyBonusEarnAmount,
     this.rewardBonusEarnAmount,
+    this.pointEcosystem,
   }) : _purchaseAdapter = purchaseAdapter;
 
   /// You can retrieve the [PointEcosystemMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -35,6 +36,15 @@ class PointEcosystemMasamuneAdapter extends MasamuneAdapter {
 
   final double? dailyBonusEarnAmount;
   final double? rewardBonusEarnAmount;
+
+  /// Specify the object of [PointEcosystem].
+  ///
+  /// After specifying this, execute [onMaybeBoot] to start initialization automatically.
+  ///
+  /// [PointEcosystem]のオブジェクトを指定します。
+  ///
+  /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
+  final PointEcosystem? pointEcosystem;
 
   MobilePurchaseMasamuneAdapter get purchaseAdapter {
     return MobilePurchaseMasamuneAdapter(
@@ -98,5 +108,11 @@ class PointEcosystemMasamuneAdapter extends MasamuneAdapter {
     purchaseAdapter.onError(error, stackTrace);
     adsAdapter.onError(error, stackTrace);
     super.onError(error, stackTrace);
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot() async {
+    await super.onMaybeBoot();
+    await pointEcosystem?.initialize();
   }
 }

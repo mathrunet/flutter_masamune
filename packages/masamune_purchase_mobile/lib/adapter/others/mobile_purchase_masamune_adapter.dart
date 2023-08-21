@@ -22,6 +22,7 @@ class MobilePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
     this.automaticallyConsumeOnAndroid = true,
     this.iosSandboxTesting = false,
     required super.onRetrieveUserId,
+    super.purchase,
   });
 
   InAppPurchase get _iap => InAppPurchase.instance;

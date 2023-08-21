@@ -169,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  csv:
+    dependency: transitive
+    description:
+      name: csv
+      sha256: "016b31a51a913744a0a1655c74ff13c9379e1200e246a03d96c81c5d9ed297b5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -421,14 +429,14 @@ packages:
       path: "../../katana_auth"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../../katana_form"
       relative: true
     source: path
-    version: "2.6.0"
+    version: "2.6.1"
   katana_functions:
     dependency: "direct overridden"
     description:
@@ -463,7 +471,7 @@ packages:
       path: "../../katana_localization"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
@@ -484,14 +492,14 @@ packages:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.10.8"
+    version: "2.11.8"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "2.4.11"
+    version: "2.7.0"
   katana_prefs:
     dependency: "direct overridden"
     description:
@@ -512,14 +520,14 @@ packages:
       path: "../../katana_router"
       relative: true
     source: path
-    version: "2.0.22"
+    version: "2.0.27"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
   katana_scoped:
     dependency: "direct overridden"
     description:
@@ -561,7 +569,7 @@ packages:
       path: "../../katana_ui"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.4.2"
   lints:
     dependency: transitive
     description:
@@ -584,21 +592,21 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.4.1"
+    version: "2.4.27"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../../masamune_annotation"
       relative: true
     source: path
-    version: "2.2.1"
+    version: "2.3.3"
   masamune_purchase_mobile:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.5.0"
+    version: "2.5.27"
   matcher:
     dependency: transitive
     description:
@@ -651,10 +659,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider
-      sha256: "3087813781ab814e4157b172f1a11c46be20179fcc9bea043e0fba36bc0acaa2"
+      sha256: "909b84830485dbcd0308edf6f7368bc8fd76afa26a270420f34cabea2a6467a0"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.15"
+    version: "2.1.0"
   path_provider_android:
     dependency: transitive
     description:
@@ -831,6 +839,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  shimmer:
+    dependency: transitive
+    description:
+      name: shimmer
+      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -948,14 +964,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0+1"
-  url_strategy:
-    dependency: transitive
-    description:
-      name: url_strategy
-      sha256: "42b68b42a9864c4d710401add17ad06e28f1c1d5500c93b98c431f6b0ea4ab87"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
   uuid:
     dependency: transitive
     description:

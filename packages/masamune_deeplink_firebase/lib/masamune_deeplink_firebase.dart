@@ -29,4 +29,5 @@ export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
         SocialMetaTagParameters;
 
 part 'adapter/firebase_deeplink_masamune_adapter.dart';
-part 'src/deep_link.dart';
+part 'src/deeplink.dart';
+part 'src/firebase_deep_link_options.dart';

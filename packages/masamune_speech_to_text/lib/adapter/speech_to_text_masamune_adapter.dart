@@ -9,6 +9,7 @@ class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
   /// Speech-to-Textを取り扱うための初期設定を行う[MasamuneAdapter]。
   const SpeechToTextMasamuneAdapter({
     required this.defaultLocale,
+    this.speechToTextController,
   });
 
   /// Default language.
@@ -16,9 +17,18 @@ class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
   /// デフォルトの言語。
   final Locale defaultLocale;
 
-  /// You can retrieve the [SttMasamuneAdapter] first given by [MasamuneAdapterScope].
+  /// Specify the object of [SpeechToTextController].
   ///
-  /// 最初に[MasamuneAdapterScope]で与えた[SttMasamuneAdapter]を取得することができます。
+  /// After specifying this, execute [onMaybeBoot] to start initialization automatically.
+  ///
+  /// [SpeechToTextController]のオブジェクトを指定します。
+  ///
+  /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
+  final SpeechToTextController? speechToTextController;
+
+  /// You can retrieve the [SpeechToTextMasamuneAdapter] first given by [MasamuneAdapterScope].
+  ///
+  /// 最初に[MasamuneAdapterScope]で与えた[SpeechToTextMasamuneAdapter]を取得することができます。
   static SpeechToTextMasamuneAdapter get primary {
     assert(
       _primary != null,
@@ -44,5 +54,11 @@ class SpeechToTextMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot() async {
+    await super.onMaybeBoot();
+    await speechToTextController?.initialize();
   }
 }

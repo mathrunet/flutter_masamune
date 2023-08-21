@@ -15,7 +15,7 @@ part of masamune_deeplink_firebase;
 /// [value]に[Uri]がセットされ、[notifyListeners]が呼び出されます。
 ///
 /// [create]で新しいDynamicLinkを作成することができます。
-class DeepLink
+class Deeplink
     extends MasamuneControllerBase<Uri?, FirebaseDeeplinkMasamuneAdapter> {
   /// Class for handling DynamicLink.
   ///
@@ -32,7 +32,7 @@ class DeepLink
   /// [value]に[Uri]がセットされ、[notifyListeners]が呼び出されます。
   ///
   /// [create]で新しいDynamicLinkを作成することができます。
-  DeepLink({
+  Deeplink({
     super.adapter,
     super.defaultValue,
   });
@@ -64,11 +64,28 @@ class DeepLink
 
   FirebaseDynamicLinks get _dynamicLink => FirebaseDynamicLinks.instance;
 
-  /// Create a new, short DynamicLink according to [parameters].
+  /// Create a new, short DynamicLink according to [path].
   ///
-  /// [parameters]に応じた新しく短いDynamicLinkを作成します。
-  Future<Uri> create(DynamicLinkParameters parameters) async {
-    final dynamicLink = await _dynamicLink.buildShortLink(parameters);
+  /// [path] is an absolute path under the hostname of the URL.
+  ///
+  /// Specify [socialMetaTagParameters] to set the URL meta tag.
+  ///
+  /// [path]に応じた新しく短いDynamicLinkを作成します。
+  ///
+  /// [path]はURLのホスト名以下の絶対パスを指定します。
+  ///
+  /// [socialMetaTagParameters]を指定すると、URLのメタタグを設定することができます。
+  Future<Uri> create(
+    String path, {
+    SocialMetaTagParameters? socialMetaTagParameters,
+  }) async {
+    final adapter = primaryAdapter;
+    final dynamicLink = await _dynamicLink.buildShortLink(
+      adapter.options._toDynamicLinkParameters(
+        path,
+        socialMetaTagParameters: socialMetaTagParameters,
+      ),
+    );
     return dynamicLink.shortUrl;
   }
 
@@ -125,7 +142,7 @@ class _$DeepLinkQuery {
 }
 
 @immutable
-class _$_DeepLinkQuery extends ControllerQueryBase<DeepLink> {
+class _$_DeepLinkQuery extends ControllerQueryBase<Deeplink> {
   const _$_DeepLinkQuery(
     this._name,
   );
@@ -133,8 +150,8 @@ class _$_DeepLinkQuery extends ControllerQueryBase<DeepLink> {
   final String _name;
 
   @override
-  DeepLink Function() call(Ref ref) {
-    return () => DeepLink();
+  Deeplink Function() call(Ref ref) {
+    return () => Deeplink();
   }
 
   @override

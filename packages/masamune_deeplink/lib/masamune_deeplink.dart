@@ -19,4 +19,4 @@ import 'package:masamune/masamune.dart';
 import 'package:uni_links/uni_links.dart';
 
 part 'adapter/deeplink_masamune_adapter.dart';
-part 'src/deep_link.dart';
+part 'src/deeplink.dart';

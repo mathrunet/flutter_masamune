@@ -12,6 +12,8 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
     required this.androidNotificationChannelId,
     required this.androidNotificationChannelTitle,
     required this.androidNotificationChannelDescription,
+    this.pushNotification,
+    this.subscribeOnBoot = const [],
   });
 
   /// You can retrieve the [PushNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -47,6 +49,20 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   /// **Android**でのみサポートされる通知チャンネルの説明です。
   final String androidNotificationChannelDescription;
 
+  /// Specify the object of [PushNotification].
+  ///
+  /// After specifying this, execute [onMaybeBoot] to start initialization automatically.
+  ///
+  /// [PushNotification]のオブジェクトを指定します。
+  ///
+  /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
+  final PushNotification? pushNotification;
+
+  /// If [pushNotification] is set, specify the list of topics to subscribe to when [onMaybeBoot] is executed.
+  ///
+  /// [pushNotification]が設定されている場合、[onMaybeBoot]を実行した際合わせてトピックの購読を行う際のトピックリストを指定します。
+  final List<String> subscribeOnBoot;
+
   @override
   void onInitScope(MasamuneAdapter adapter) {
     super.onInitScope(adapter);
@@ -62,5 +78,17 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot() async {
+    await super.onMaybeBoot();
+    if (subscribeOnBoot.isNotEmpty) {
+      for (final topic in subscribeOnBoot) {
+        await pushNotification?.subscribe(topic);
+      }
+    } else {
+      await pushNotification?.listen();
+    }
   }
 }

@@ -7,12 +7,30 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
   /// Initial setup for handling Deeplink [MasamuneAdapter].
   ///
   /// Deeplinkを取り扱うための初期設定を行う[MasamuneAdapter]。
-  const FirebaseDeeplinkMasamuneAdapter({this.onLink});
+  const FirebaseDeeplinkMasamuneAdapter({
+    this.onLink,
+    required this.options,
+    this.deeplink,
+  });
 
   /// Callback when the URL is launched.
   ///
   /// URLが起動されたときのコールバック。
-  final Future<void> Function(Uri link)? onLink;
+  final FutureOr<void> Function(Uri link)? onLink;
+
+  /// Options for handling Deeplink.
+  ///
+  /// Deeplinkを取り扱うためのオプション。
+  final FirebaseDeepLinkOptions options;
+
+  /// Specify the object of [Deeplink].
+  ///
+  /// After specifying this, [onMaybeBoot] will automatically start monitoring.
+  ///
+  /// [Deeplink]のオブジェクトを指定します。
+  ///
+  /// これを指定した上で[onMaybeBoot]を実行すると自動で監視を開始します。
+  final Deeplink? deeplink;
 
   /// You can retrieve the [FirebaseDeeplinkMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -42,5 +60,11 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot() async {
+    await super.onMaybeBoot();
+    await deeplink?.listen();
   }
 }

@@ -9,6 +9,8 @@
 library masamune_text_to_speech;
 
 // Flutter imports:
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 // Package imports:

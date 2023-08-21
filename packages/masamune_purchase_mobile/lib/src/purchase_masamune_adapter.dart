@@ -6,7 +6,8 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
     this.modelAdapter,
     required this.products,
     required this.onRetrieveUserId,
-  });
+    Purchase? purchase,
+  }) : _purchase = purchase;
 
   /// Specify [FunctionsAdapter] for billing validation.
   ///
@@ -27,6 +28,15 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。
   final String Function() onRetrieveUserId;
+
+  /// Specify the object of [Purchase].
+  ///
+  /// After specifying this, execute [onMaybeBoot] to start initialization automatically.
+  ///
+  /// [Purchase]のオブジェクトを指定します。
+  ///
+  /// これを指定した上で[onMaybeBoot]を実行すると自動で初期化を開始します。
+  final Purchase? _purchase;
 
   /// You can retrieve the [PurchaseMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -56,6 +66,12 @@ abstract class PurchaseMasamuneAdapter extends MasamuneAdapter {
       adapter: this,
       child: app,
     );
+  }
+
+  @override
+  FutureOr<void> onMaybeBoot() async {
+    await super.onMaybeBoot();
+    await _purchase?.initialize();
   }
 
   ///Get the [PurchaseProduct] with its contents included.
