@@ -8,9 +8,10 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_text_to_speech;
 
-// Flutter imports:
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/widgets.dart';
 
 // Package imports:
