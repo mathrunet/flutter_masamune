@@ -200,7 +200,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         flutter,
         "pub",
         "add",
-        "masamune_notification_firebase",
+        "masamune_notification_firebase:^2.0.0",
       ],
     );
     label("Add firebase-messaging-sw.js");
@@ -208,22 +208,24 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     if (!swFile.existsSync()) {
       await swFile.writeAsString("console.log('Empty');");
     }
-    label("Add firebase functions");
-    final functions = Fuctions();
-    await functions.load();
-    if (!functions.functions.any((e) => e == "sendNotification()")) {
-      functions.functions.add("sendNotification()");
+    if (Directory("firebase/functions").existsSync()) {
+      label("Add firebase functions");
+      final functions = Fuctions();
+      await functions.load();
+      if (!functions.functions.any((e) => e == "sendNotification()")) {
+        functions.functions.add("sendNotification()");
+      }
+      await functions.save();
+      await command(
+        "Deploy firebase functions.",
+        [
+          firebaseCommand,
+          "deploy",
+          "--only",
+          "functions",
+        ],
+        workingDirectory: "firebase",
+      );
     }
-    await functions.save();
-    await command(
-      "Deploy firebase functions.",
-      [
-        firebaseCommand,
-        "deploy",
-        "--only",
-        "functions",
-      ],
-      workingDirectory: "firebase",
-    );
   }
 }
