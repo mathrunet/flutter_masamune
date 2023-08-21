@@ -192,12 +192,14 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
     FormMediaValue value,
   ) _builder;
 
-  /// Describe what to do when the form is tapped. Normally, use `image_picker` or `file_picker` to display a dialog to select a file and return the media path to [onUpdate].
+  /// Describe what to do when the form is tapped.
   ///
-  /// フォームがタップされた場合の処理を記述します。通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを[onUpdate]に返すようにします。
-  final void Function(
-    void Function(Uri fileUri, FormMediaType type) onUpdate,
-  )? onTap;
+  /// Normally, use `image_picker` or `file_picker` to display a dialog to select a file and return the media path to [FormMediaRef.update].
+  ///
+  /// フォームがタップされた場合の処理を記述します。
+  ///
+  /// 通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを[FormMediaRef.update]に返すようにします。
+  final void Function(FormMediaRef ref)? onTap;
 
   /// Additional icons or overlay icons.
   ///
@@ -258,11 +260,13 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
 }
 
 class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
-    with AutomaticKeepAliveClientMixin<FormField<FormMediaValue>> {
+    with AutomaticKeepAliveClientMixin<FormField<FormMediaValue>>
+    implements FormMediaRef<TValue> {
   @override
   FormMedia<TValue> get widget => super.widget as FormMedia<TValue>;
 
-  void _onUpdate(Uri fileUri, FormMediaType type) {
+  @override
+  void update(Uri fileUri, FormMediaType type) {
     final val = FormMediaValue(type: type, uri: fileUri);
     if (value == val) {
       return;
@@ -315,7 +319,7 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
                     if (!widget.enabled) {
                       return;
                     }
-                    widget.onTap?.call(_onUpdate);
+                    widget.onTap?.call(this);
                   },
             child: _buildMedia(context),
           ),
@@ -401,4 +405,18 @@ class _FormMediaState<TValue> extends FormFieldState<FormMediaValue>
 
   @override
   bool get wantKeepAlive => widget.keepAlive;
+}
+
+/// Class for controlling [FormMedia].
+///
+/// [FormMedia]のコントロールを行うためのクラス。
+abstract class FormMediaRef<TValue> {
+  /// Upload the file by specifying the [fileUri] of the file.
+  ///
+  /// Specify whether it is an image or a video in [type].
+  ///
+  /// ファイルの[fileUri]を指定してアップロードを行います。
+  ///
+  /// [type]で画像か動画かを指定します。
+  void update(Uri fileUri, FormMediaType type);
 }

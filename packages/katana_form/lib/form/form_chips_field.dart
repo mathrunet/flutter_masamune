@@ -8,8 +8,8 @@ const _kFormHeight = 40.0;
 /// [FormChipsField]で利用するためのビルダー。
 typedef ChipBuilder<T> = Widget Function(
   BuildContext context,
-  ChipsInputController<T> state,
-  T data,
+  FormChipsInputRef<T> ref,
+  T item,
 );
 
 /// Form to allow text to be entered and saved separately as [Chip].
@@ -521,10 +521,10 @@ class _ChipsInput<T> extends StatefulWidget {
   _ChipsInputState<T> createState() => _ChipsInputState<T>();
 }
 
-/// Controller for adding and removing [Chip].
+/// Class for adding and removing [Chip].
 ///
-/// [Chip]を追加したり削除したりするためのコントローラー。
-abstract class ChipsInputController<T> {
+/// [Chip]を追加したり削除したりするためのクラス。
+abstract class FormChipsInputRef<T> {
   /// Requests keyboard display.
   ///
   /// キーボードの表示をリクエストします。
@@ -533,16 +533,16 @@ abstract class ChipsInputController<T> {
   /// Add [Chip] for [data].
   ///
   /// [data]に対する[Chip]を追加します。
-  void addChip(T data);
+  void add(T data);
 
   /// Remove [Chip] for [data].
   ///
   /// [data]に対する[Chip]を削除します。
-  void deleteChip(T data);
+  void delete(T data);
 }
 
 class _ChipsInputState<T> extends State<_ChipsInput<T>>
-    implements TextInputClient, ChipsInputController<T> {
+    implements TextInputClient, FormChipsInputRef<T> {
   Set<T> _chips = <T>{};
   List<T?>? _suggestions;
   final StreamController<List<T?>?> _suggestionsStreamController =
@@ -589,7 +589,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   }
 
   @override
-  void addChip(T data) {
+  void add(T data) {
     if (!_hasReachedMaxChips) {
       setState(() => _chips = _chips..add(data));
       if (widget.allowChipEditing) {
@@ -611,7 +611,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   }
 
   @override
-  void deleteChip(T data) {
+  void delete(T data) {
     if (widget.enabled) {
       setState(() => _chips.remove(data));
       if (_enteredTexts.containsKey(data)) {
@@ -872,7 +872,7 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
       case TextInputAction.search:
         final suggestion = _suggestions.firstOrNull;
         if (suggestion != null) {
-          addChip(suggestion);
+          add(suggestion);
         } else {
           _effectiveFocusNode.unfocus();
         }

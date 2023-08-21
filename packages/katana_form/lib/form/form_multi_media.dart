@@ -244,12 +244,14 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
     FormMediaValue value,
   ) _builder;
 
-  /// Describe what to do when the form is tapped. Normally, use `image_picker` or `file_picker` to display a dialog to select a file and return the media path to [onUpdate].
+  /// Describe what to do when the form is tapped.
   ///
-  /// フォームがタップされた場合の処理を記述します。通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを[onUpdate]に返すようにします。
-  final void Function(
-    void Function(Uri fileUri, FormMediaType type) onUpdate,
-  ) onTap;
+  /// Normally, use `image_picker` or `file_picker` to display a dialog to select a file and return the media path to [FormMediaRef.update].
+  ///
+  /// フォームがタップされた場合の処理を記述します。
+  ///
+  /// 通常は`image_picker`や`file_picker`を用いてファイルを選択するダイアログを表示しメディアのパスを[FormMediaRef.update]に返すようにします。
+  final void Function(FormMultiMediaRef ref) onTap;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -285,7 +287,8 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
 }
 
 class _FormMultiMediaState<TValue> extends FormFieldState<List<FormMediaValue>>
-    with AutomaticKeepAliveClientMixin<FormField<List<FormMediaValue>>> {
+    with AutomaticKeepAliveClientMixin<FormField<List<FormMediaValue>>>
+    implements FormMultiMediaRef<TValue> {
   @override
   FormMultiMedia<TValue> get widget => super.widget as FormMultiMedia<TValue>;
   @override
@@ -315,7 +318,8 @@ class _FormMultiMediaState<TValue> extends FormFieldState<List<FormMediaValue>>
     super.didChange(value);
   }
 
-  void _onUpdate(Uri fileUri, FormMediaType type) {
+  @override
+  void update(Uri fileUri, FormMediaType type) {
     if (widget.maxLength != null && widget.maxLength! <= value.length) {
       return;
     }
@@ -327,7 +331,8 @@ class _FormMultiMediaState<TValue> extends FormFieldState<List<FormMediaValue>>
     setState(() {});
   }
 
-  void _onRemove(dynamic dataOrIndex) {
+  @override
+  void delete(dynamic dataOrIndex) {
     if (dataOrIndex is FormMediaValue) {
       if (!value.contains(dataOrIndex)) {
         return;
@@ -360,10 +365,9 @@ class _FormMultiMediaState<TValue> extends FormFieldState<List<FormMediaValue>>
     super.build(context);
     return widget.delegate.build(
       context,
+      this,
       widget,
       value ?? [],
-      _onUpdate,
-      _onRemove,
     );
   }
 
@@ -419,10 +423,9 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
   @override
   Widget build<TValue>(
     BuildContext context,
+    FormMultiMediaRef<TValue> ref,
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
-    void Function(Uri fileUri, FormMediaType type) onUpdate,
-    void Function(dynamic dataOrIndex) onRemove,
   ) {
     return Padding(
       padding: widget.style?.padding ??
@@ -437,8 +440,10 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
               context,
               value,
               widget._builder,
-              widget.readOnly || !widget.enabled ? null : onUpdate,
-              widget.readOnly || !widget.enabled ? null : () => onRemove(value),
+              widget.readOnly || !widget.enabled ? null : ref.update,
+              widget.readOnly || !widget.enabled
+                  ? null
+                  : () => ref.delete(value),
             );
           }),
           if (widget.maxLength == null || widget.maxLength! > values.length)
@@ -446,7 +451,7 @@ class FormMultiMediaListTileDelegate extends FormMultiMediaDelegate {
               onTap: widget.readOnly || !widget.enabled
                   ? null
                   : () {
-                      widget.onTap.call(onUpdate);
+                      widget.onTap.call(ref);
                     },
               title: addLabel,
               trailing: Icon(addIcon),
@@ -526,10 +531,9 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
   @override
   Widget build<TValue>(
     BuildContext context,
+    FormMultiMediaRef<TValue> ref,
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
-    void Function(Uri fileUri, FormMediaType type) onUpdate,
-    void Function(dynamic dataOrIndex) onRemove,
   ) {
     return Container(
       alignment: Alignment.centerLeft,
@@ -560,7 +564,7 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
                   onPressed: widget.readOnly || !widget.enabled
                       ? null
                       : () {
-                          widget.onTap.call(onUpdate);
+                          widget.onTap.call(ref);
                         },
                   child: Icon(
                     addIcon,
@@ -581,10 +585,10 @@ class FormMultiMediaInlineDelegate extends FormMultiMediaDelegate {
                     widget,
                     value,
                     widget._builder,
-                    widget.readOnly || !widget.enabled ? null : onUpdate,
+                    widget.readOnly || !widget.enabled ? null : ref.update,
                     widget.readOnly || !widget.enabled
                         ? null
-                        : () => onRemove(value),
+                        : () => ref.delete(value),
                   ),
                 );
               },
@@ -679,9 +683,27 @@ abstract class FormMultiMediaDelegate {
   /// [onUpdate]に更新時のコールバックと[onRemove]に削除時のコールバックが渡されます。
   Widget build<TValue>(
     BuildContext context,
+    FormMultiMediaRef<TValue> ref,
     FormMultiMedia<TValue> widget,
     List<FormMediaValue> values,
-    void Function(Uri fileUri, FormMediaType type) onUpdate,
-    void Function(dynamic dataOrIndex) onRemove,
   );
+}
+
+/// Class for controlling [FormMultiMedia].
+///
+/// [FormMultiMedia]のコントロールを行うためのクラス。
+abstract class FormMultiMediaRef<TValue> {
+  /// Upload the file by specifying the [fileUri] of the file.
+  ///
+  /// Specify whether it is an image or a video in [type].
+  ///
+  /// ファイルの[fileUri]を指定してアップロードを行います。
+  ///
+  /// [type]で画像か動画かを指定します。
+  void update(Uri fileUri, FormMediaType type);
+
+  /// Delete an item by specifying [dataOrIndex].
+  ///
+  /// [dataOrIndex]を指定して項目を削除します。
+  void delete(dynamic dataOrIndex);
 }

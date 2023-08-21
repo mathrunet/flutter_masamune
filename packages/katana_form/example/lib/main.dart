@@ -60,8 +60,8 @@ class FormPageState extends State<FormPage> {
         children: [
           FormMedia(
             form: form,
-            onTap: (onUpdate) {
-              onUpdate(Uri.parse("assets/default.png"), FormMediaType.image);
+            onTap: (ref) {
+              ref.update(Uri.parse("assets/default.png"), FormMediaType.image);
             },
             builder: (context, value) {
               return Image.asset(
@@ -129,8 +129,8 @@ class FormPageState extends State<FormPage> {
           const FormLabel("Multimedia Form"),
           FormMultiMedia(
             form: form,
-            onTap: (onUpdate) {
-              onUpdate(Uri.parse("assets/default.png"), FormMediaType.image);
+            onTap: (ref) {
+              ref.update(Uri.parse("assets/default.png"), FormMediaType.image);
             },
             builder: (context, value) {
               return Image.asset(

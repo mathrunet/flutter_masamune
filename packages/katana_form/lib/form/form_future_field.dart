@@ -113,7 +113,7 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
     required this.onTap,
     Widget Function(
       BuildContext context,
-      FormFutureBuildValue<T, TValue> value,
+      FormFutureFieldRef<T, TValue> value,
     )? builder,
     this.parseToString,
     this.prefix,
@@ -188,16 +188,16 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
   ///
   /// Create a form UI based on the value of [value].
   ///
-  /// Executing FormFutureBuildValue.onTap] will start the process of changing the value of the form. Also, update the value directly by executing [FormFutureBuildValue.onUpdate].
+  /// Executing FormFutureBuildValue.onTap] will start the process of changing the value of the form. Also, update the value directly by executing [FormFutureFieldRef.update].
   ///
   /// フォームのUIをビルドします。
   ///
   /// [value]の値を元にフォームのUIを作成してください。
   ///
-  /// [FormFutureBuildValue.onTap]を実行することでフォームの値を変更処理を開始することができます。また、[FormFutureBuildValue.onUpdate]を実行して直接値を更新してください。
+  /// [FormFutureFieldRef.onTap]を実行することでフォームの値を変更処理を開始することができます。また、[FormFutureFieldRef.update]を実行して直接値を更新してください。
   final Widget Function(
     BuildContext context,
-    FormFutureBuildValue<T, TValue> value,
+    FormFutureFieldRef<T, TValue> ref,
   )? _builder;
 
   /// Hint to be displayed on the form. Displayed when no text is entered.
@@ -267,7 +267,7 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
 
 class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
     with AutomaticKeepAliveClientMixin<FormField<T>>
-    implements FormFutureBuildValue<T, TValue> {
+    implements FormFutureFieldRef<T, TValue> {
   late final TextEditingController _controller;
   @override
   FormFutureField<T, TValue> get widget =>
@@ -481,7 +481,7 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
   }
 
   @override
-  void onUpdate(T? value) {
+  void update(T? value) {
     setState(() {
       _controller.text = widget.parseToString?.call(value) ?? value.toString();
       setValue(value);
@@ -498,11 +498,11 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
 /// You can perform various operations used in [FormFutureField.builder].
 ///
 /// [FormFutureField.builder]で利用する各種操作を行うことができます。
-abstract class FormFutureBuildValue<T extends Object, TValue> {
+abstract class FormFutureFieldRef<T extends Object, TValue> {
   /// Update the form value to [value] and redraw the form.
   ///
   /// フォームの値を[value]に更新して、フォームを再描画します。
-  void onUpdate(T? value);
+  void update(T? value);
 
   /// Execute [FormFutureField.onTap] to update and redraw the form values.
   ///
