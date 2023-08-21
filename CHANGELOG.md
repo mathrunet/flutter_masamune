@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.0`](#katana_cli---v280)
+
+---
+
+#### `katana_cli` - `v2.8.0`
+
+ - **FEAT**: Added DynamicLink settings. ([4761a7fe](https://github.com/mathrunet/flutter_masamune/commit/4761a7fe8e4caefee30c8f5f64d12a17c2b83a7e))
+
+
+## 2023-08-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_deeplink_firebase` - `v2.1.1`](#masamune_deeplink_firebase---v211)
 
 ---

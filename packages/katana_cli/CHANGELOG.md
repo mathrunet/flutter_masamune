@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: Added DynamicLink settings. ([4761a7fe](https://github.com/mathrunet/flutter_masamune/commit/4761a7fe8e4caefee30c8f5f64d12a17c2b83a7e))
+
 ## 2.7.14
 
  - **FIX**: Change analsis_options. ([c019044c](https://github.com/mathrunet/flutter_masamune/commit/c019044c1dbf23f185114b376b68ed28c6ec8d5d))
