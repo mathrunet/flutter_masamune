@@ -103,11 +103,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
 
   /// Initialize InAppPurchase.
   ///
-  /// Specify a callback in [onRetrieveUserId] that returns the unique ID of the user.
-  ///
   /// InAppPurchaseを初期化します。
-  ///
-  /// [onRetrieveUserId]にユーザーの一意のIDを返すコールバックを指定してください。
   Future<void> initialize() async {
     if (_initialized) {
       return;
