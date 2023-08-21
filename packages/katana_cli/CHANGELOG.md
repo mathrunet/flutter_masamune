@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - **FIX**: Fixed a bug in Messaging. ([84f411f8](https://github.com/mathrunet/flutter_masamune/commit/84f411f8a9a5d14503c8810e80c8f1a9385c9539))
+
 ## 2.8.0
 
  - **FEAT**: Added DynamicLink settings. ([4761a7fe](https://github.com/mathrunet/flutter_masamune/commit/4761a7fe8e4caefee30c8f5f64d12a17c2b83a7e))

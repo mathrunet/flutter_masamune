@@ -1,3 +1,7 @@
+## 2.5.29
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
 ## 2.5.28
 
  - **DOCS**: Comment Change. ([5d2da30a](https://github.com/mathrunet/flutter_masamune/commit/5d2da30a8035b31c70e89600074f5686cd886f6b))

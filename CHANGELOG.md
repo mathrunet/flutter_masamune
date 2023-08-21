@@ -15,6 +15,112 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.1`](#katana_cli---v281)
+ - [`masamune` - `v2.4.28`](#masamune---v2428)
+ - [`masamune_deeplink` - `v2.1.1`](#masamune_deeplink---v211)
+ - [`masamune_deeplink_firebase` - `v2.1.2`](#masamune_deeplink_firebase---v212)
+ - [`masamune_location` - `v2.1.95`](#masamune_location---v2195)
+ - [`masamune_location_google` - `v2.1.96`](#masamune_location_google---v2196)
+ - [`masamune_notification_firebase` - `v2.1.81`](#masamune_notification_firebase---v2181)
+ - [`masamune_point_ecosystem` - `v2.2.29`](#masamune_point_ecosystem---v2229)
+ - [`masamune_purchase_mobile` - `v2.5.29`](#masamune_purchase_mobile---v2529)
+ - [`masamune_speech_to_text` - `v2.1.53`](#masamune_speech_to_text---v2153)
+ - [`masamune_text_to_speech` - `v2.1.50`](#masamune_text_to_speech---v2150)
+ - [`masamune_auth_apple` - `v2.1.84`](#masamune_auth_apple---v2184)
+ - [`masamune_ai_openai` - `v2.2.18`](#masamune_ai_openai---v2218)
+ - [`masamune_calendar` - `v2.0.128`](#masamune_calendar---v20128)
+ - [`masamune_auth_google` - `v2.1.85`](#masamune_auth_google---v2185)
+ - [`masamune_agora` - `v2.2.66`](#masamune_agora---v2266)
+ - [`masamune_picker` - `v2.1.83`](#masamune_picker---v2183)
+ - [`masamune_util` - `v2.1.62`](#masamune_util---v2162)
+ - [`masamune_universal_ui` - `v2.2.64`](#masamune_universal_ui---v2264)
+ - [`masamune_purchase_stripe` - `v3.3.28`](#masamune_purchase_stripe---v3328)
+ - [`masamune_logger_firebase` - `v2.0.126`](#masamune_logger_firebase---v20126)
+ - [`masamune_introduction` - `v2.2.32`](#masamune_introduction---v2232)
+ - [`masamune_auth_facebook` - `v2.1.86`](#masamune_auth_facebook---v2186)
+ - [`masamune_module` - `v2.1.29`](#masamune_module---v2129)
+ - [`masamune_mail` - `v2.1.81`](#masamune_mail---v2181)
+ - [`masamune_ads_google` - `v2.1.34`](#masamune_ads_google---v2134)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_apple` - `v2.1.84`
+ - `masamune_ai_openai` - `v2.2.18`
+ - `masamune_calendar` - `v2.0.128`
+ - `masamune_auth_google` - `v2.1.85`
+ - `masamune_agora` - `v2.2.66`
+ - `masamune_picker` - `v2.1.83`
+ - `masamune_util` - `v2.1.62`
+ - `masamune_universal_ui` - `v2.2.64`
+ - `masamune_purchase_stripe` - `v3.3.28`
+ - `masamune_logger_firebase` - `v2.0.126`
+ - `masamune_introduction` - `v2.2.32`
+ - `masamune_auth_facebook` - `v2.1.86`
+ - `masamune_module` - `v2.1.29`
+ - `masamune_mail` - `v2.1.81`
+ - `masamune_ads_google` - `v2.1.34`
+
+---
+
+#### `katana_cli` - `v2.8.1`
+
+ - **FIX**: Fixed a bug in Messaging. ([84f411f8](https://github.com/mathrunet/flutter_masamune/commit/84f411f8a9a5d14503c8810e80c8f1a9385c9539))
+
+#### `masamune` - `v2.4.28`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_deeplink` - `v2.1.1`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_deeplink_firebase` - `v2.1.2`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_location` - `v2.1.95`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_location_google` - `v2.1.96`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_notification_firebase` - `v2.1.81`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_point_ecosystem` - `v2.2.29`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_purchase_mobile` - `v2.5.29`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_speech_to_text` - `v2.1.53`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+#### `masamune_text_to_speech` - `v2.1.50`
+
+ - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
+
+
+## 2023-08-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.0`](#katana_cli---v280)
 
 ---
