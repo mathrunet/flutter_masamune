@@ -1,3 +1,7 @@
+## 2.5.28
+
+ - **DOCS**: Comment Change. ([5d2da30a](https://github.com/mathrunet/flutter_masamune/commit/5d2da30a8035b31c70e89600074f5686cd886f6b))
+
 ## 2.5.27
 
  - Update a dependency to the latest release.

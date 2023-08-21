@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_deeplink` - `v2.1.0`](#masamune_deeplink---v210)
+ - [`masamune_deeplink_firebase` - `v2.1.0`](#masamune_deeplink_firebase---v210)
+ - [`masamune_purchase_mobile` - `v2.5.28`](#masamune_purchase_mobile---v2528)
+ - [`masamune_point_ecosystem` - `v2.2.28`](#masamune_point_ecosystem---v2228)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_point_ecosystem` - `v2.2.28`
+
+---
+
+#### `masamune_deeplink` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([a3fa3da6](https://github.com/mathrunet/flutter_masamune/commit/a3fa3da69f285051dbc5cffee7c3b215c904ae8c))
+
+#### `masamune_deeplink_firebase` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([a3fa3da6](https://github.com/mathrunet/flutter_masamune/commit/a3fa3da69f285051dbc5cffee7c3b215c904ae8c))
+
+#### `masamune_purchase_mobile` - `v2.5.28`
+
+ - **DOCS**: Comment Change. ([5d2da30a](https://github.com/mathrunet/flutter_masamune/commit/5d2da30a8035b31c70e89600074f5686cd886f6b))
+
+
 ## 2023-08-19
 
 ### Changes
