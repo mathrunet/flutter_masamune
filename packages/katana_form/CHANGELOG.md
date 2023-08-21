@@ -1,3 +1,7 @@
+## 2.6.2
+
+ - **FIX**: Changed the interface of the form to perform updates along the way. ([769490dc](https://github.com/mathrunet/flutter_masamune/commit/769490dc68f12216979916bf42d4c13f2b2cc0c7))
+
 ## 2.6.1
 
  - **FIX**: Enabled to apply style.width to FormMedia. ([0dda0111](https://github.com/mathrunet/flutter_masamune/commit/0dda0111a8d7603807544772f4f8a5d71ec55e61))

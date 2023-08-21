@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - Update a dependency to the latest release.
+
 ## 2.1.1
 
  - **FIX**: Added onMaybeBoot functionality. ([ad450967](https://github.com/mathrunet/flutter_masamune/commit/ad4509676383a72be07f918f92c7d08d2b509741))
