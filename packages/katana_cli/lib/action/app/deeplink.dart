@@ -1,9 +1,12 @@
-// Project imports:
+// Dart imports:
 import 'dart:io';
 
+// Package imports:
+import 'package:xml/xml.dart';
+
+// Project imports:
 import 'package:katana_cli/action/firebase/authentication.dart';
 import 'package:katana_cli/katana_cli.dart';
-import 'package:xml/xml.dart';
 
 /// Add a module to use Deeplink.
 ///
