@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_deeplink_firebase` - `v2.1.1`](#masamune_deeplink_firebase---v211)
+
+---
+
+#### `masamune_deeplink_firebase` - `v2.1.1`
+
+ - **FIX**: Export required parameters. ([9920985c](https://github.com/mathrunet/flutter_masamune/commit/9920985c3487f7334f4da15ff4e1dbdc9e1138a0))
+
+
+## 2023-08-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_deeplink` - `v2.1.0`](#masamune_deeplink---v210)
  - [`masamune_deeplink_firebase` - `v2.1.0`](#masamune_deeplink_firebase---v210)
  - [`masamune_purchase_mobile` - `v2.5.28`](#masamune_purchase_mobile---v2528)
