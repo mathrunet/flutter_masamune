@@ -18,5 +18,15 @@ import 'package:flutter/widgets.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:masamune/masamune.dart';
 
+export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
+    show
+        DynamicLinkParameters,
+        AndroidParameters,
+        GoogleAnalyticsParameters,
+        IOSParameters,
+        ITunesConnectAnalyticsParameters,
+        NavigationInfoParameters,
+        SocialMetaTagParameters;
+
 part 'adapter/firebase_deeplink_masamune_adapter.dart';
 part 'src/deep_link.dart';
