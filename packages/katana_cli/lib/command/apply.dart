@@ -3,6 +3,7 @@ import 'package:katana_cli/action/ads/ads.dart';
 import 'package:katana_cli/action/agora/agora.dart';
 import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
+import 'package:katana_cli/action/app/deeplink.dart';
 import 'package:katana_cli/action/app/icon.dart';
 import 'package:katana_cli/action/app/info.dart';
 import 'package:katana_cli/action/app/introduction.dart';
@@ -16,6 +17,7 @@ import 'package:katana_cli/action/app/spread_sheet.dart';
 import 'package:katana_cli/action/app/text_to_speech.dart';
 import 'package:katana_cli/action/ecosystem/ecosystem.dart';
 import 'package:katana_cli/action/firebase/authentication.dart';
+import 'package:katana_cli/action/firebase/dynamic_links.dart';
 import 'package:katana_cli/action/firebase/init.dart';
 import 'package:katana_cli/action/firebase/messaging.dart';
 import 'package:katana_cli/action/firebase/terms_and_privacy.dart';
@@ -42,9 +44,11 @@ const _actions = <CliActionMixin>[
   AppKeystoreCliAction(),
   AppPickerCliAction(),
   AppIconCliAction(),
+  AppDeeplinkCliAction(),
   FirebaseInitCliAction(),
   FirebaseAuthenticationCliAction(),
   FirebaseMessagingCliAction(),
+  FirebaseDynamicLinksCliAction(),
   FirebaseTermsAndPrivacyCliAction(),
   GitActionCliAction(),
   GitPreCommitCliAction(),

@@ -93,6 +93,17 @@ ${showAllConfig ? """
       en: Use the library for profile images.
 
 ${showAllConfig ? """
+  # Configure settings for mobile app deep linking.
+  # Describe the URI with URL scheme in [host].
+  # モバイルアプリのディープリンク用の設定を行います。
+  # [host]にURLスキームを入れたURIを記述してください。
+  # ```
+  # host: https://mathru.net
+  # ```
+  deeplink:
+    enable: false
+    host:
+
   # Describe the settings for using the introductory part of the application.
   # アプリの導入部分を利用するための設定を記述します。
   introduction:
@@ -228,8 +239,20 @@ ${showAllConfig ? """
   hosting:
     enable: false
     use_flutter: true
+  
+  # Configure Firebase DynamicLinks. 
+  # Describe the URI with URL scheme in [host].
+  # Firebase DynamicLinksの設定を行います。
+  # [host]にURLスキームを入れたURIを記述してください。
+  # ```
+  # host: https://mathru.net
+  # ```
+  dynamic_links:
+    enable: false
+    host:
 
 ${showAllConfig ? """
+  
   # Deploy Terms of Use and Privacy Policy data to Firebase Hosting.
   # Specify the URL of the Terms of Use and Privacy Policy in [terms_of_use] and [privacy_policy] under each language code.
   # Adding a language code allows you to include the URL for the Terms of Use and Privacy Policy for that language.
