@@ -8,12 +8,14 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_deeplink;
 
+// Dart imports:
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+// Flutter imports:
 import 'package:flutter/widgets.dart';
-import 'package:masamune/masamune.dart';
 
+// Package imports:
+import 'package:masamune/masamune.dart';
 import 'package:uni_links/uni_links.dart';
 
 part 'adapter/deeplink_masamune_adapter.dart';
