@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - Update a dependency to the latest release.
+
 ## 2.7.0
 
  - **FEAT**: Add JsonSourceModelAdapter. ([a25dda5f](https://github.com/mathrunet/flutter_masamune/commit/a25dda5f3d2095d0c538fad1f3dee69e0767bf62))

@@ -1,3 +1,7 @@
+## 2.4.32
+
+ - Update a dependency to the latest release.
+
 ## 2.4.31
 
  - **FIX**: FormRef.select is now non-nullable. ([7e27253c](https://github.com/mathrunet/flutter_masamune/commit/7e27253c4bda73a719c5bdb4689ad05e62d79f0f))

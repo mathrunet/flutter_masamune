@@ -1,3 +1,7 @@
+## 2.8.4
+
+ - Update a dependency to the latest release.
+
 ## 2.8.3
 
  - **FIX**: Add QuerySelector for List and Map. ([7fc72a9f](https://github.com/mathrunet/flutter_masamune/commit/7fc72a9fe0f7e33a21ef88fb8559958c1a71372f))

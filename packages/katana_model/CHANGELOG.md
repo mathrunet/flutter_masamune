@@ -1,3 +1,7 @@
+## 2.11.9
+
+ - **FIX**: Fixed a bug that data was not updated properly when a transaction was saved. ([41f9cff7](https://github.com/mathrunet/flutter_masamune/commit/41f9cff7e26960f1f1702af6ec34cd4b4f12cb17))
+
 ## 2.11.8
 
  - **FIX**: Fixed no_sql_database bug. ([3f90167e](https://github.com/mathrunet/flutter_masamune/commit/3f90167e26d40eedab922a38af3526b106ad7c36))

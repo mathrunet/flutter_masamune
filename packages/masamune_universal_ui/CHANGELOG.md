@@ -1,3 +1,7 @@
+## 2.2.68
+
+ - **FIX**: Enabled to specify where to launch OpenURL. ([e9d82502](https://github.com/mathrunet/flutter_masamune/commit/e9d82502e910c8b2d8f3a8e8c5a133ee2a1ad6eb))
+
 ## 2.2.67
 
  - Update a dependency to the latest release.

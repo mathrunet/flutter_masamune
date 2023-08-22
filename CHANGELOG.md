@@ -15,6 +15,115 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.7.1`](#katana_form---v271)
+ - [`katana_model` - `v2.11.9`](#katana_model---v2119)
+ - [`katana_theme` - `v2.0.18`](#katana_theme---v2018)
+ - [`katana_theme_annotation` - `v2.0.14`](#katana_theme_annotation---v2014)
+ - [`katana_ui` - `v2.4.3`](#katana_ui---v243)
+ - [`masamune_universal_ui` - `v2.2.68`](#masamune_universal_ui---v2268)
+ - [`masamune` - `v2.4.32`](#masamune---v2432)
+ - [`masamune_location` - `v2.1.99`](#masamune_location---v2199)
+ - [`masamune_auth_apple` - `v2.1.88`](#masamune_auth_apple---v2188)
+ - [`masamune_deeplink_firebase` - `v2.1.6`](#masamune_deeplink_firebase---v216)
+ - [`masamune_text_to_speech` - `v2.1.54`](#masamune_text_to_speech---v2154)
+ - [`masamune_agora` - `v2.2.70`](#masamune_agora---v2270)
+ - [`masamune_ai_openai` - `v2.2.22`](#masamune_ai_openai---v2222)
+ - [`masamune_auth_google` - `v2.1.89`](#masamune_auth_google---v2189)
+ - [`masamune_calendar` - `v2.0.132`](#masamune_calendar---v20132)
+ - [`masamune_picker` - `v2.1.87`](#masamune_picker---v2187)
+ - [`masamune_util` - `v2.1.66`](#masamune_util---v2166)
+ - [`masamune_purchase_stripe` - `v3.3.32`](#masamune_purchase_stripe---v3332)
+ - [`masamune_logger_firebase` - `v2.0.130`](#masamune_logger_firebase---v20130)
+ - [`masamune_introduction` - `v2.2.36`](#masamune_introduction---v2236)
+ - [`masamune_speech_to_text` - `v2.1.57`](#masamune_speech_to_text---v2157)
+ - [`masamune_auth_facebook` - `v2.1.90`](#masamune_auth_facebook---v2190)
+ - [`masamune_deeplink` - `v2.1.5`](#masamune_deeplink---v215)
+ - [`masamune_location_google` - `v2.1.100`](#masamune_location_google---v21100)
+ - [`masamune_module` - `v2.1.33`](#masamune_module---v2133)
+ - [`masamune_mail` - `v2.1.85`](#masamune_mail---v2185)
+ - [`masamune_point_ecosystem` - `v2.2.33`](#masamune_point_ecosystem---v2233)
+ - [`masamune_notification_firebase` - `v2.1.85`](#masamune_notification_firebase---v2185)
+ - [`masamune_purchase_mobile` - `v2.5.33`](#masamune_purchase_mobile---v2533)
+ - [`masamune_ads_google` - `v2.1.38`](#masamune_ads_google---v2138)
+ - [`katana_model_local` - `v2.7.1`](#katana_model_local---v271)
+ - [`katana_model_firestore` - `v2.7.9`](#katana_model_firestore---v279)
+ - [`masamune_builder` - `v2.8.4`](#masamune_builder---v284)
+ - [`katana_theme_builder` - `v2.0.17`](#katana_theme_builder---v2017)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.32`
+ - `masamune_location` - `v2.1.99`
+ - `masamune_auth_apple` - `v2.1.88`
+ - `masamune_deeplink_firebase` - `v2.1.6`
+ - `masamune_text_to_speech` - `v2.1.54`
+ - `masamune_agora` - `v2.2.70`
+ - `masamune_ai_openai` - `v2.2.22`
+ - `masamune_auth_google` - `v2.1.89`
+ - `masamune_calendar` - `v2.0.132`
+ - `masamune_picker` - `v2.1.87`
+ - `masamune_util` - `v2.1.66`
+ - `masamune_purchase_stripe` - `v3.3.32`
+ - `masamune_logger_firebase` - `v2.0.130`
+ - `masamune_introduction` - `v2.2.36`
+ - `masamune_speech_to_text` - `v2.1.57`
+ - `masamune_auth_facebook` - `v2.1.90`
+ - `masamune_deeplink` - `v2.1.5`
+ - `masamune_location_google` - `v2.1.100`
+ - `masamune_module` - `v2.1.33`
+ - `masamune_mail` - `v2.1.85`
+ - `masamune_point_ecosystem` - `v2.2.33`
+ - `masamune_notification_firebase` - `v2.1.85`
+ - `masamune_purchase_mobile` - `v2.5.33`
+ - `masamune_ads_google` - `v2.1.38`
+ - `katana_model_local` - `v2.7.1`
+ - `katana_model_firestore` - `v2.7.9`
+ - `masamune_builder` - `v2.8.4`
+ - `katana_theme_builder` - `v2.0.17`
+
+---
+
+#### `katana_form` - `v2.7.1`
+
+ - **FIX**: DateTimePicker color can now be set. ([103635b0](https://github.com/mathrunet/flutter_masamune/commit/103635b05f49a7f05d8e0895a3fd1fe00745fb32))
+ - **FIX**: Fixed a bug in onSaved. ([64e2c071](https://github.com/mathrunet/flutter_masamune/commit/64e2c0715cb43a2d6dd486f0d2579c631843d97a))
+ - **FIX**: Fixed a bug that caused the FocusNode to be disconnected. ([cbc09e51](https://github.com/mathrunet/flutter_masamune/commit/cbc09e5107bef9cf625d4a0ed4a680b957b9a165))
+
+#### `katana_model` - `v2.11.9`
+
+ - **FIX**: Fixed a bug that data was not updated properly when a transaction was saved. ([41f9cff7](https://github.com/mathrunet/flutter_masamune/commit/41f9cff7e26960f1f1702af6ec34cd4b4f12cb17))
+
+#### `katana_theme` - `v2.0.18`
+
+ - **FIX**: DecorationColor was also changed to match. ([6db74865](https://github.com/mathrunet/flutter_masamune/commit/6db74865586abeddef213dde017b95eb8f334bf7))
+
+#### `katana_theme_annotation` - `v2.0.14`
+
+ - **FIX**: DecorationColor was also changed to match. ([6db74865](https://github.com/mathrunet/flutter_masamune/commit/6db74865586abeddef213dde017b95eb8f334bf7))
+
+#### `katana_ui` - `v2.4.3`
+
+ - **FIX**: Changed the specification of builder in Modal.show. ([3c67fc32](https://github.com/mathrunet/flutter_masamune/commit/3c67fc32efac9e15e9bf004f2af6aeff634f807f))
+
+#### `masamune_universal_ui` - `v2.2.68`
+
+ - **FIX**: Enabled to specify where to launch OpenURL. ([e9d82502](https://github.com/mathrunet/flutter_masamune/commit/e9d82502e910c8b2d8f3a8e8c5a133ee2a1ad6eb))
+
+
+## 2023-08-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune` - `v2.4.31`](#masamune---v2431)
  - [`masamune_location` - `v2.1.98`](#masamune_location---v2198)
  - [`masamune_deeplink_firebase` - `v2.1.5`](#masamune_deeplink_firebase---v215)

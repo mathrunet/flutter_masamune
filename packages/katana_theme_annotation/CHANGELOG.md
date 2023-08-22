@@ -1,3 +1,7 @@
+## 2.0.14
+
+ - **FIX**: DecorationColor was also changed to match. ([6db74865](https://github.com/mathrunet/flutter_masamune/commit/6db74865586abeddef213dde017b95eb8f334bf7))
+
 ## 2.0.13
 
  - **FIX**: Added the ability to get the Brightness of the system in theme.brightness. ([9b64cb3f](https://github.com/mathrunet/flutter_masamune/commit/9b64cb3fb3c06931bb5f31e526daf4b20ed269ea))

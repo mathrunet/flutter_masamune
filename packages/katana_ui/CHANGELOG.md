@@ -1,3 +1,7 @@
+## 2.4.3
+
+ - **FIX**: Changed the specification of builder in Modal.show. ([3c67fc32](https://github.com/mathrunet/flutter_masamune/commit/3c67fc32efac9e15e9bf004f2af6aeff634f807f))
+
 ## 2.4.2
 
  - **FIX**: Added functionality to CardTile. ([1a7d42e6](https://github.com/mathrunet/flutter_masamune/commit/1a7d42e6a5089cd61678b01b845e4246fc64a679))

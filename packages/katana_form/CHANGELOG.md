@@ -1,3 +1,9 @@
+## 2.7.1
+
+ - **FIX**: DateTimePicker color can now be set. ([103635b0](https://github.com/mathrunet/flutter_masamune/commit/103635b05f49a7f05d8e0895a3fd1fe00745fb32))
+ - **FIX**: Fixed a bug in onSaved. ([64e2c071](https://github.com/mathrunet/flutter_masamune/commit/64e2c0715cb43a2d6dd486f0d2579c631843d97a))
+ - **FIX**: Fixed a bug that caused the FocusNode to be disconnected. ([cbc09e51](https://github.com/mathrunet/flutter_masamune/commit/cbc09e5107bef9cf625d4a0ed4a680b957b9a165))
+
 ## 2.7.0
 
  - **FEAT**: Added FormBuilder and FormAppendableListBuilder. ([0090cb8a](https://github.com/mathrunet/flutter_masamune/commit/0090cb8aad05a75beeb91d9a2ead71526e38f1a9))
