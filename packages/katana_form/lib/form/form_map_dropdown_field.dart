@@ -398,6 +398,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                 value: key,
                 child: Text(
                   value,
+                  softWrap: true,
                   style: TextStyle(
                     color: widget.picker.color ??
                         Theme.of(context).colorScheme.onSurface,

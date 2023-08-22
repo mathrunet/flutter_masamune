@@ -45,7 +45,7 @@ part 'form/form_enum_dropdown_field.dart';
 part 'form/form_map_dropdown_field.dart';
 part 'form/form_rating_bar.dart';
 part 'form/form_pin_field.dart';
-part 'form/form_appendable_list_builder.dart';
+part 'form/form_list_builder.dart';
 part 'form/form_builder.dart';
 
 part 'src/form_controller.dart';

@@ -19,7 +19,7 @@ part of katana_form;
 /// [form]を指定した場合、[onSaved]が実行されるタイミングが[builder]の中身のフォームの[onSaved]が実行されるタイミングの前になるので、配列の初期化を行ったりが可能です。
 ///
 /// [initialValue]を指定して初期のデータを設定してください。
-class FormAppendableListBuilder<T, TValue> extends FormField<List<T>> {
+class FormListBuilder<T, TValue> extends FormField<List<T>> {
   /// A builder that can add and delete forms.
   ///
   /// Make [builder] return each form.
@@ -39,7 +39,7 @@ class FormAppendableListBuilder<T, TValue> extends FormField<List<T>> {
   /// [form]を指定した場合、[onSaved]が実行されるタイミングが[builder]の中身のフォームの[onSaved]が実行されるタイミングの前になるので、配列の初期化を行ったりが可能です。
   ///
   /// [initialValue]を指定して初期のデータを設定してください。
-  FormAppendableListBuilder({
+  FormListBuilder({
     Key? key,
     this.form,
     this.top,
@@ -51,7 +51,8 @@ class FormAppendableListBuilder<T, TValue> extends FormField<List<T>> {
       T item,
       int index,
     ) builder,
-    TValue Function()? onSaved,
+    TValue Function(List<T> value)? onSaved,
+    String? Function(List<T> value)? validator,
     this.readOnly = false,
     List<T>? initialValue,
     bool enabled = true,
@@ -67,12 +68,22 @@ class FormAppendableListBuilder<T, TValue> extends FormField<List<T>> {
           builder: (state) {
             return const SizedBox.shrink();
           },
-          onSaved: (_) {
-            final res = onSaved?.call();
+          onSaved: (value) {
+            if (value == null) {
+              return;
+            }
+            final res = onSaved?.call(value);
             if (res == null) {
               return;
             }
             form!.value = res;
+          },
+          validator: (value) {
+            final res = validator?.call(value ?? []);
+            if (res == null) {
+              return null;
+            }
+            return res;
           },
           initialValue: initialValue,
           enabled: enabled,
@@ -138,8 +149,8 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
     with AutomaticKeepAliveClientMixin<FormField<List<T>>>
     implements FormAppendableListBuilderRef<T, TValue> {
   @override
-  FormAppendableListBuilder<T, TValue> get widget =>
-      super.widget as FormAppendableListBuilder<T, TValue>;
+  FormListBuilder<T, TValue> get widget =>
+      super.widget as FormListBuilder<T, TValue>;
 
   @override
   void add(T item) async {
@@ -162,7 +173,7 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
   }
 
   @override
-  void didUpdateWidget(FormAppendableListBuilder<T, TValue> oldWidget) {
+  void didUpdateWidget(FormListBuilder<T, TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.form != oldWidget.form) {
       oldWidget.form?.unregister(this);
@@ -200,9 +211,9 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
   bool get wantKeepAlive => widget.keepAlive;
 }
 
-/// Controller class for [FormAppendableListBuilder].
+/// Controller class for [FormListBuilder].
 ///
-/// [FormAppendableListBuilder]用のコントローラークラス。
+/// [FormListBuilder]用のコントローラークラス。
 abstract class FormAppendableListBuilderRef<T, TValue> {
   /// Add element [item] to the list.
   ///
