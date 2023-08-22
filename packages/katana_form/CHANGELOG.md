@@ -1,3 +1,7 @@
+## 2.7.2
+
+ - **FIX**: Rename to FormListBuilder. ([5524e4df](https://github.com/mathrunet/flutter_masamune/commit/5524e4dfdfa1042a65fec56dd48990853477e0d5))
+
 ## 2.7.1
 
  - **FIX**: DateTimePicker color can now be set. ([103635b0](https://github.com/mathrunet/flutter_masamune/commit/103635b05f49a7f05d8e0895a3fd1fe00745fb32))
