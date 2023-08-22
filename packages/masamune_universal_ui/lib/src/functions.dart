@@ -9,11 +9,13 @@ part of masamune_universal_ui;
 /// Webの場合[openSelfWindowOnWeb]を`true`にすると自身のウインドウ（タブ）で開きます。
 Future<void> openURL(
   String url, {
+  LaunchMode mode = LaunchMode.platformDefault,
   bool openSelfWindowOnWeb = false,
 }) async {
   if (await canLaunchUrlString(url)) {
     await launchUrlString(
       url,
+      mode: mode,
       webOnlyWindowName: kIsWeb && openSelfWindowOnWeb ? "_self" : null,
     );
   } else {
