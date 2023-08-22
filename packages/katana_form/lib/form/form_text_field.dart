@@ -425,6 +425,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
       _effectiveController?.text = widget.initialValue!;
     }
     _effectiveController?.addListener(_handledOnUpdate);
+    widget.focusNode?.addListener(_handledOnUpdate);
   }
 
   @override
@@ -439,11 +440,16 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
         widget.initialValue != null) {
       _effectiveController?.text = widget.initialValue!;
     }
+    if (oldWidget.focusNode != widget.focusNode) {
+      oldWidget.focusNode?.removeListener(_handledOnUpdate);
+      widget.focusNode?.addListener(_handledOnUpdate);
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
+    widget.focusNode?.removeListener(_handledOnUpdate);
     _effectiveController?.removeListener(_handledOnUpdate);
     _controller?.dispose();
   }
