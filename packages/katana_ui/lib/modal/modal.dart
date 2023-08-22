@@ -54,7 +54,7 @@ class Modal {
     Color? backgroundColor,
     Color? color,
     required String title,
-    required List<Widget> Function(VoidCallback onClose) builder,
+    required List<Widget> Function(ModalRef ref) builder,
     bool disableBackKey = false,
     bool popOnPress = true,
     bool willShowRepetition = false,
@@ -68,12 +68,12 @@ class Modal {
     if (overlay == null) {
       return;
     }
-    onClose() {
+    final ref = ModalRef._(() {
       if (popOnPress) {
         Navigator.of(context, rootNavigator: true).pop();
       }
       clicked = true;
-    }
+    });
 
     do {
       await showDialog(
@@ -93,7 +93,7 @@ class Modal {
               ),
               backgroundColor:
                   backgroundColor ?? Theme.of(context).colorScheme.surface,
-              children: builder.call(onClose),
+              children: builder.call(ref),
             ),
           );
         },
@@ -305,4 +305,19 @@ class Modal {
     } while (willShowRepetition && !clicked);
     return state;
   }
+}
+
+/// Class for controlling Modal.
+///
+/// Modalをコントロールするためのクラスです。
+@immutable
+class ModalRef {
+  const ModalRef._(this._onClose);
+
+  final VoidCallback _onClose;
+
+  /// Closes the modal.
+  ///
+  /// モーダルを閉じます。
+  void close() => _onClose();
 }
