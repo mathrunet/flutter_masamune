@@ -806,6 +806,12 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
     super.fieldLabelText,
     super.initialDatePickerMode = DatePickerMode.day,
     super.dateFormat = "yyyy/MM/dd(E) HH:mm",
+    super.backgroundColor,
+    super.foregroundColor,
+    super.primaryColor,
+    super.onPrimaryColor,
+    super.headerBackgroundColor,
+    super.headerForegroundColor,
   });
 
   @override
@@ -831,6 +837,46 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
           now.add(
             const Duration(days: 365),
           ),
+      builder: (context, child) {
+        final colorScheme = Theme.of(context).colorScheme;
+        final datePickerTheme = Theme.of(context).datePickerTheme;
+        final textButtonTheme = Theme.of(context).textButtonTheme;
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: colorScheme.copyWith(
+              primary: primaryColor ?? colorScheme.primary,
+              onPrimary: onPrimaryColor ?? colorScheme.onPrimary,
+              surface: backgroundColor ?? colorScheme.surface,
+              onSurface: foregroundColor ?? colorScheme.onSurface,
+            ),
+            datePickerTheme: datePickerTheme.copyWith(
+              headerBackgroundColor: headerBackgroundColor ??
+                  datePickerTheme.headerBackgroundColor ??
+                  primaryColor ??
+                  colorScheme.primary,
+              headerForegroundColor: headerForegroundColor ??
+                  datePickerTheme.headerForegroundColor ??
+                  onPrimaryColor ??
+                  colorScheme.onPrimary,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: textButtonTheme.style?.copyWith(
+                    foregroundColor: textButtonTheme.style?.foregroundColor ??
+                        MaterialStateProperty.all(
+                          primaryColor ?? colorScheme.primary,
+                        ),
+                  ) ??
+                  ButtonStyle(
+                    foregroundColor: textButtonTheme.style?.foregroundColor ??
+                        MaterialStateProperty.all(
+                          primaryColor ?? colorScheme.primary,
+                        ),
+                  ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (date != null) {
       final time = await showTimePicker(
@@ -893,6 +939,12 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
     super.fieldLabelText,
     super.initialDatePickerMode = DatePickerMode.day,
     super.dateFormat = "yyyy/MM/dd(E)",
+    super.backgroundColor,
+    super.foregroundColor,
+    super.primaryColor,
+    super.onPrimaryColor,
+    super.headerBackgroundColor,
+    super.headerForegroundColor,
   });
 
   @override
@@ -918,6 +970,46 @@ class FormDateTimeFieldDateDelegate extends FormDateTimeFieldDelegate {
           now.add(
             const Duration(days: 365),
           ),
+      builder: (context, child) {
+        final colorScheme = Theme.of(context).colorScheme;
+        final datePickerTheme = Theme.of(context).datePickerTheme;
+        final textButtonTheme = Theme.of(context).textButtonTheme;
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: colorScheme.copyWith(
+              primary: primaryColor ?? colorScheme.primary,
+              onPrimary: onPrimaryColor ?? colorScheme.onPrimary,
+              surface: backgroundColor ?? colorScheme.surface,
+              onSurface: foregroundColor ?? colorScheme.onSurface,
+            ),
+            datePickerTheme: datePickerTheme.copyWith(
+              headerBackgroundColor: headerBackgroundColor ??
+                  datePickerTheme.headerBackgroundColor ??
+                  primaryColor ??
+                  colorScheme.primary,
+              headerForegroundColor: headerForegroundColor ??
+                  datePickerTheme.headerForegroundColor ??
+                  onPrimaryColor ??
+                  colorScheme.onPrimary,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: textButtonTheme.style?.copyWith(
+                    foregroundColor: textButtonTheme.style?.foregroundColor ??
+                        MaterialStateProperty.all(
+                          primaryColor ?? colorScheme.primary,
+                        ),
+                  ) ??
+                  ButtonStyle(
+                    foregroundColor: textButtonTheme.style?.foregroundColor ??
+                        MaterialStateProperty.all(
+                          primaryColor ?? colorScheme.primary,
+                        ),
+                  ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     return _DateTimeTextField.combine(
       date ?? now,
@@ -956,6 +1048,12 @@ abstract class FormDateTimeFieldDelegate {
     this.fieldLabelText,
     this.initialDatePickerMode = DatePickerMode.day,
     required this.dateFormat,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.primaryColor,
+    this.onPrimaryColor,
+    this.headerBackgroundColor,
+    this.headerForegroundColor,
   });
 
   /// Define date and time formats.
@@ -1052,6 +1150,36 @@ abstract class FormDateTimeFieldDelegate {
   ///
   /// ピッカー中のテキストフィールドのラベルテキスト。
   final String? fieldLabelText;
+
+  /// Background color of the picker.
+  ///
+  /// ピッカーの背景色。
+  final Color? backgroundColor;
+
+  /// Picker text color.
+  ///
+  /// ピッカーの文字色。
+  final Color? foregroundColor;
+
+  /// Picker primary color.
+  ///
+  /// ピッカーのプライマリーカラー。
+  final Color? primaryColor;
+
+  /// Picker on primary color.
+  ///
+  /// ピッカーのオンプライマリーカラー。
+  final Color? onPrimaryColor;
+
+  /// Picker header background color.
+  ///
+  /// ピッカーのヘッダーの背景色。
+  final Color? headerBackgroundColor;
+
+  /// Picker header foreground color.
+  ///
+  /// ピッカーのヘッダーの文字色。
+  final Color? headerForegroundColor;
 
   /// Callback to display picker.
   ///
