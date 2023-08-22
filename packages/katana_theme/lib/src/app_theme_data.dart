@@ -1244,6 +1244,7 @@ class AppThemeData {
             displayColor: color.onBackground,
             fontSizeFactor: text.fontSizeFactor,
             fontSizeDelta: text.fontSizeDelta,
+            decorationColor: color.onBackground,
           ),
           appBarTheme: theme.appBarTheme.copyWith(
             centerTitle: centerTitleOnAppBar,
@@ -1253,10 +1254,15 @@ class AppThemeData {
             foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
                   color: appBarForegroundColor,
+                  decorationColor: appBarForegroundColor,
                 ) ??
-                TextStyle(color: appBarForegroundColor),
+                TextStyle(
+                  color: appBarForegroundColor,
+                  decorationColor: appBarForegroundColor,
+                ),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
+                  decorationColor: appBarForegroundColor,
                 ) ??
                 text.titleLarge.copyWith(color: appBarForegroundColor),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
@@ -1280,22 +1286,45 @@ class AppThemeData {
             disabledColor: color.disabled,
             labelStyle: theme.chipTheme.labelStyle?.copyWith(
                   color: color.onSurface,
+                  decorationColor: color.onSurface,
                 ) ??
-                TextStyle(color: color.onPrimary),
-            secondaryLabelStyle: theme.chipTheme.secondaryLabelStyle?.copyWith(
+                TextStyle(
                   color: color.onSurface,
-                ) ??
-                TextStyle(color: color.onSurface),
+                  decorationColor: color.onSurface,
+                ),
+            secondaryLabelStyle: theme.chipTheme.secondaryLabelStyle?.copyWith(
+                    color: color.onSurface, decorationColor: color.onSurface) ??
+                TextStyle(
+                    color: color.onSurface, decorationColor: color.onSurface),
             deleteIconColor: color.onSurface,
           ),
           inputDecorationTheme: theme.inputDecorationTheme.copyWith(
-            labelStyle: TextStyle(color: color.weak),
-            helperStyle: TextStyle(color: color.weak),
-            hintStyle: TextStyle(color: color.weak),
-            counterStyle: TextStyle(color: color.weak),
-            errorStyle: TextStyle(color: color.error),
-            prefixStyle: TextStyle(color: color.onBackground),
-            suffixStyle: TextStyle(color: color.onBackground),
+            labelStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+            ),
+            helperStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+            ),
+            hintStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+            ),
+            counterStyle: TextStyle(
+              color: color.weak,
+              decorationColor: color.weak,
+            ),
+            errorStyle:
+                TextStyle(color: color.error, decorationColor: color.error),
+            prefixStyle: TextStyle(
+              color: color.onBackground,
+              decorationColor: color.onBackground,
+            ),
+            suffixStyle: TextStyle(
+              color: color.onBackground,
+              decorationColor: color.onBackground,
+            ),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: color.weak, width: 2),
             ),
@@ -1413,12 +1442,20 @@ class AppThemeData {
             foregroundColor: appBarForegroundColor,
             toolbarTextStyle: theme.appBarTheme.toolbarTextStyle?.copyWith(
                   color: appBarForegroundColor,
+                  decorationColor: appBarForegroundColor,
                 ) ??
-                TextStyle(color: appBarForegroundColor),
+                TextStyle(
+                  color: appBarForegroundColor,
+                  decorationColor: appBarForegroundColor,
+                ),
             titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                   color: appBarForegroundColor,
+                  decorationColor: appBarForegroundColor,
                 ) ??
-                text.titleLarge.copyWith(color: appBarForegroundColor),
+                text.titleLarge.copyWith(
+                  color: appBarForegroundColor,
+                  decorationColor: appBarForegroundColor,
+                ),
             iconTheme: theme.appBarTheme.iconTheme?.copyWith(
                   color: appBarForegroundColor,
                 ) ??
@@ -1434,6 +1471,7 @@ class AppThemeData {
             displayColor: color.onBackground,
             fontSizeFactor: text.fontSizeFactor,
             fontSizeDelta: text.fontSizeDelta,
+            decorationColor: color.onBackground,
           ),
           buttonTheme: theme.buttonTheme.copyWith(
             buttonColor: color.primary,
@@ -1446,22 +1484,37 @@ class AppThemeData {
             disabledColor: color.disabled,
             labelStyle: theme.chipTheme.labelStyle?.copyWith(
                   color: color.onSurface,
+                  decorationColor: color.onSurface,
                 ) ??
-                TextStyle(color: color.onPrimary),
+                TextStyle(
+                  color: color.onSurface,
+                  decorationColor: color.onSurface,
+                ),
             secondaryLabelStyle: theme.chipTheme.secondaryLabelStyle?.copyWith(
                   color: color.onSurface,
+                  decorationColor: color.onSurface,
                 ) ??
-                TextStyle(color: color.onSurface),
+                TextStyle(
+                  color: color.onSurface,
+                  decorationColor: color.onSurface,
+                ),
             deleteIconColor: color.onSurface,
           ),
           inputDecorationTheme: theme.inputDecorationTheme.copyWith(
-            labelStyle: TextStyle(color: color.weak),
-            helperStyle: TextStyle(color: color.weak),
-            hintStyle: TextStyle(color: color.weak),
-            counterStyle: TextStyle(color: color.weak),
-            errorStyle: TextStyle(color: color.error),
-            prefixStyle: TextStyle(color: color.onBackground),
-            suffixStyle: TextStyle(color: color.onBackground),
+            labelStyle:
+                TextStyle(color: color.weak, decorationColor: color.weak),
+            helperStyle:
+                TextStyle(color: color.weak, decorationColor: color.weak),
+            hintStyle:
+                TextStyle(color: color.weak, decorationColor: color.weak),
+            counterStyle:
+                TextStyle(color: color.weak, decorationColor: color.weak),
+            errorStyle:
+                TextStyle(color: color.error, decorationColor: color.error),
+            prefixStyle: TextStyle(
+                color: color.onBackground, decorationColor: color.onBackground),
+            suffixStyle: TextStyle(
+                color: color.onBackground, decorationColor: color.onBackground),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: color.weak, width: 2),
             ),
