@@ -210,7 +210,8 @@ class ModelTransactionDocument<T> {
       document,
       document._filterOnSave(document.toMap(newValue)),
     );
-    document._value = newValue;
+    // TODO: 削除してみたが問題ないか確認
+    // document._value = newValue;
   }
 
   /// Data can be deleted.
