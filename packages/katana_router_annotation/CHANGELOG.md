@@ -1,3 +1,7 @@
+## 2.0.17
+
+ - Update a dependency to the latest release.
+
 ## 2.0.16
 
  - **FIX**: Remove setPathUrlStrategy. ([10bf9e25](https://github.com/mathrunet/flutter_masamune/commit/10bf9e253db2292ff5a20e48a01144c2b39c2eb9))

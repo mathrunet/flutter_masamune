@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Add shuffleTo. ([7c6821f0](https://github.com/mathrunet/flutter_masamune/commit/7c6821f01f2cb15da52a42d89f21a6e254442d15))
+
 ## 2.3.3
 
  - **DOCS**: Added GithubSponsors to ReadMe. ([4492e87e](https://github.com/mathrunet/flutter_masamune/commit/4492e87e65ab809c1b6413bfb457d391bdadf691))

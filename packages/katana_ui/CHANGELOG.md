@@ -1,3 +1,7 @@
+## 2.4.4
+
+ - Update a dependency to the latest release.
+
 ## 2.4.3
 
  - **FIX**: Changed the specification of builder in Modal.show. ([3c67fc32](https://github.com/mathrunet/flutter_masamune/commit/3c67fc32efac9e15e9bf004f2af6aeff634f807f))

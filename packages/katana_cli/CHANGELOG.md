@@ -1,3 +1,7 @@
+## 2.8.2
+
+ - Update a dependency to the latest release.
+
 ## 2.8.1
 
  - **FIX**: Fixed a bug in Messaging. ([84f411f8](https://github.com/mathrunet/flutter_masamune/commit/84f411f8a9a5d14503c8810e80c8f1a9385c9539))

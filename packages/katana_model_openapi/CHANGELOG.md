@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FEAT**: Addition of Batch processing and addition to transaction to Collection. ([9e669b7c](https://github.com/mathrunet/flutter_masamune/commit/9e669b7c169a0468bcf3440b71785226a2c4d870))

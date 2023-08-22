@@ -1,3 +1,7 @@
+## 2.0.15
+
+ - Update a dependency to the latest release.
+
 ## 2.0.14
 
  - **FIX**: Fixed inability to link if already signed in. ([fbee6313](https://github.com/mathrunet/flutter_masamune/commit/fbee63139b7d8d9862bdb0edf7e200711f30fc50))

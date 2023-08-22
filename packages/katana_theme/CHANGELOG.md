@@ -1,3 +1,7 @@
+## 2.0.19
+
+ - Update a dependency to the latest release.
+
 ## 2.0.18
 
  - **FIX**: DecorationColor was also changed to match. ([6db74865](https://github.com/mathrunet/flutter_masamune/commit/6db74865586abeddef213dde017b95eb8f334bf7))

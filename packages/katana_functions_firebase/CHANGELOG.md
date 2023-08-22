@@ -1,3 +1,7 @@
+## 2.4.8
+
+ - Update a dependency to the latest release.
+
 ## 2.4.7
 
  - **FIX**: Individual Options by Platform can now be specified. ([eac495df](https://github.com/mathrunet/flutter_masamune/commit/eac495dfb357da65a70796b430afab2512f7ea7a))

@@ -1,3 +1,7 @@
+## 2.3.4
+
+ - Update a dependency to the latest release.
+
 ## 2.3.3
 
  - **FIX**: Added flag for direct acquisition. ([a4b50e0d](https://github.com/mathrunet/flutter_masamune/commit/a4b50e0d57045240a9bceabc183f477555ef4a05))

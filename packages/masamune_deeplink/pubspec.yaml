@@ -1,6 +1,6 @@
 name: masamune_deeplink
 description: Masamune plugin library to handle Deeplink. Launch the application from the URL to launch the internal page.
-version: 2.1.6
+version: 2.1.7
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_deeplink
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.3.3
-  masamune: ^2.4.33
+  katana: ^2.4.0
+  masamune: ^2.4.34
   uni_links: ^0.5.1
 
 dev_dependencies:
