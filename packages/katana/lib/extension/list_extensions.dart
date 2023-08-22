@@ -124,6 +124,25 @@ extension ListExtensions<T> on List<T> {
     return sorted;
   }
 
+  /// Randomly sort this list.
+  ///
+  /// If [random] is specified, a random value is obtained according to the seed.
+  ///
+  /// このリストをランダムに並べ替えます。
+  ///
+  /// [random]を指定するとシードに応じたランダム値を取得します。
+  ///
+  /// ```dart
+  /// final numbers = <int>[1, 2, 3, 4, 5];
+  /// final shuffled = numbers.shuffleTo();
+  /// print(numbers); // [1, 3, 4, 5, 2] OR some other random result.
+  /// ```
+  List<T> shuffleTo([Random? random]) {
+    final shuffled = List<T>.from(this);
+    shuffled.shuffle(random);
+    return shuffled;
+  }
+
   /// Returns `true` if [index] is within the range of elements in [List].
   ///
   /// [index]が[List]の要素の範囲内にある場合`true`を返します。
