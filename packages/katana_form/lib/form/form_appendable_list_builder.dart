@@ -51,7 +51,7 @@ class FormAppendableListBuilder<T, TValue> extends FormField<List<T>> {
       T item,
       int index,
     ) builder,
-    void Function()? onSaved,
+    TValue Function()? onSaved,
     this.readOnly = false,
     List<T>? initialValue,
     bool enabled = true,
@@ -68,7 +68,11 @@ class FormAppendableListBuilder<T, TValue> extends FormField<List<T>> {
             return const SizedBox.shrink();
           },
           onSaved: (_) {
-            onSaved?.call();
+            final res = onSaved?.call();
+            if (res == null) {
+              return;
+            }
+            form!.value = res;
           },
           initialValue: initialValue,
           enabled: enabled,

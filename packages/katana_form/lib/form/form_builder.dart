@@ -72,7 +72,7 @@ class FormBuilder<T, TValue> extends FormField<T> {
       FormBuilderRef<T, TValue> ref,
       T? item,
     ) builder,
-    void Function(T? value)? onSaved,
+    TValue? Function(T? value)? onSaved,
     T? initialValue,
     this.onChanged,
     String? Function(T? value)? validator,
@@ -89,7 +89,16 @@ class FormBuilder<T, TValue> extends FormField<T> {
           builder: (state) {
             return const SizedBox.shrink();
           },
-          onSaved: onSaved,
+          onSaved: (value) {
+            if (value == null) {
+              return;
+            }
+            final res = onSaved?.call(value);
+            if (res == null) {
+              return;
+            }
+            form!.value = res;
+          },
           validator: validator,
           initialValue: initialValue,
           enabled: enabled,
