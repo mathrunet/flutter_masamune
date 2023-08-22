@@ -255,7 +255,7 @@ packages:
       path: "../katana_form"
       relative: true
     source: path
-    version: "2.6.1"
+    version: "2.7.0"
   katana_functions:
     dependency: "direct main"
     description:
