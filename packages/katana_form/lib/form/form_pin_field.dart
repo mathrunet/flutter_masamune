@@ -145,7 +145,7 @@ class FormPinField<TValue> extends FormField<String> {
     String? hintText,
     bool obscureText = false,
     this.autofocus = false,
-  }) : assert(
+  })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",

@@ -158,7 +158,7 @@ class FormRatingBar<TValue> extends FormField<double> {
     String Function(double? value)? validator,
     num? initialValue,
     bool enabled = true,
-  }) : assert(
+  })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",
