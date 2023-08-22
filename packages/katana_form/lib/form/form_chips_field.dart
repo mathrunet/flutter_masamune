@@ -92,6 +92,11 @@ class FormChipsField<TValue> extends FormField<List<String>> {
     String Function(List<String>? value)? validator,
     List<String> initialValue = const [],
   })  : _builder = builder,
+        assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [form] or [onSaved].",
+        ),
         super(
           key: key,
           builder: (state) {

@@ -158,7 +158,12 @@ class FormRatingBar<TValue> extends FormField<double> {
     String Function(double? value)? validator,
     num? initialValue,
     bool enabled = true,
-  }) : super(
+  }) : assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [form] or [onSaved].",
+        ),
+        super(
           key: key,
           builder: (state) {
             return const SizedBox.shrink();

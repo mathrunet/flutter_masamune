@@ -131,6 +131,11 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
     T? initialValue,
     bool enabled = true,
   })  : _builder = builder,
+        assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [form] or [onSaved].",
+        ),
         super(
           key: key,
           builder: (state) {

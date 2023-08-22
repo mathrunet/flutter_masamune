@@ -145,7 +145,12 @@ class FormPinField<TValue> extends FormField<String> {
     String? hintText,
     bool obscureText = false,
     this.autofocus = false,
-  }) : super(
+  }) : assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [form] or [onSaved].",
+        ),
+        super(
           initialValue:
               controller != null ? controller.text : (initialValue ?? ""),
           enabled: enabled,

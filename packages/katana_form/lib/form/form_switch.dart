@@ -91,7 +91,12 @@ class FormSwitch<TValue> extends FormField<bool> {
     Widget? labelWidget,
     FormAffixStyle? prefix,
     FormAffixStyle? suffix,
-  })  : assert(!(labelText != null && labelWidget != null),
+  })  : assert(
+          (form == null && onSaved == null) ||
+              (form != null && onSaved != null),
+          "Both are required when using [form] or [onSaved].",
+        ),
+        assert(!(labelText != null && labelWidget != null),
             "Please select either [labelText] or [labelWidget]."),
         super(
           initialValue: initialValue,
