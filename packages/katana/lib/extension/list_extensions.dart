@@ -130,7 +130,7 @@ extension ListExtensions<T> on List<T> {
   ///
   /// このリストをランダムに並べ替えます。
   ///
-  /// [random]を指定するとシードに応じたランダム値を取得します。 
+  /// [random]を指定するとシードに応じたランダム値を取得します。
   ///
   /// ```dart
   /// final numbers = <int>[1, 2, 3, 4, 5];
