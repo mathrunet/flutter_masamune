@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Added FormBuilder and FormAppendableListBuilder. ([0090cb8a](https://github.com/mathrunet/flutter_masamune/commit/0090cb8aad05a75beeb91d9a2ead71526e38f1a9))
+
 ## 2.6.2
 
  - **FIX**: Changed the interface of the form to perform updates along the way. ([769490dc](https://github.com/mathrunet/flutter_masamune/commit/769490dc68f12216979916bf42d4c13f2b2cc0c7))

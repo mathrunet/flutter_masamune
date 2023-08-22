@@ -1,3 +1,7 @@
+## 2.4.30
+
+ - **FIX**: Added select functionality to FormRef. ([9f3430a4](https://github.com/mathrunet/flutter_masamune/commit/9f3430a480ced2bd4f644e51dadaa82713ca41c0))
+
 ## 2.4.29
 
  - Update a dependency to the latest release.
