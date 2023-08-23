@@ -34,9 +34,9 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   /// Query for DeepLink.
   ///
   /// ```dart
-  /// appRef.conroller(DeepLink.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(DeepLink.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(DeepLink.query(parameters)); // Watch at page scope.
+  /// DeepLink.query(parameters).read(appRef);     // Get from application scope.
+  /// DeepLink.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// DeepLink.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$DeepLinkQuery();
 

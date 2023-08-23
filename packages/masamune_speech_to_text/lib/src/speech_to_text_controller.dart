@@ -41,9 +41,9 @@ class SpeechToTextController extends MasamuneControllerBase<
   /// Query for Location.
   ///
   /// ```dart
-  /// appRef.conroller(SpeechToTextController.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(SpeechToTextController.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(SpeechToTextController.query(parameters)); // Watch at page scope.
+  /// SpeechToTextController.query(parameters).read(appRef);     // Get from application scope.
+  /// SpeechToTextController.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// SpeechToTextController.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$SpeechToTextQuery();
 

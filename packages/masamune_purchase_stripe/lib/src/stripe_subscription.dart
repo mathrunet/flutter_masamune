@@ -24,9 +24,9 @@ class StripeSubscription
   /// Query for StripeSubscription.
   ///
   /// ```dart
-  /// appRef.conroller(StripeSubscription.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(StripeSubscription.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(StripeSubscription.query(parameters)); // Watch at page scope.
+  /// StripeSubscription.query(parameters).read(appRef);     // Get from application scope.
+  /// StripeSubscription.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// StripeSubscription.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$StripeSubscriptionQuery();
 

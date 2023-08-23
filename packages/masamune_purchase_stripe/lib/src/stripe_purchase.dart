@@ -32,9 +32,9 @@ class StripePurchase
   /// Query for StripePurchase.
   ///
   /// ```dart
-  /// appRef.conroller(StripePurchase.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(StripePurchase.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(StripePurchase.query(parameters)); // Watch at page scope.
+  /// StripePurchase.query(parameters).read(appRef);     // Get from application scope.
+  /// StripePurchase.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// StripePurchase.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$StripePurchaseQuery();
 

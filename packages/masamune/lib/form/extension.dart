@@ -64,3 +64,16 @@ extension FormMediaValueExtensions on FormMediaValue {
     return ModelVideoUri(uri);
   }
 }
+
+/// Extension methods for [ControllerQueryBase<FormController>].
+///
+/// [ControllerQueryBase<FormController>]の拡張メソッドです。
+extension FormControllerQueryBaseExtensions<TModel>
+    on ControllerQueryBase<FormController<TModel>> {
+  /// Get [FormController<TModel>] while monitoring it with the widget associated with [ref] in the same way as `ref.page.controller`.
+  ///
+  /// `ref.page.controller`と同じように[ref]に関連するウィジェットで監視を行いつつ[FormController<TModel>]を取得します。
+  FormController<TModel> watch(RefHasPage ref) {
+    return ref.page.controller(this);
+  }
+}

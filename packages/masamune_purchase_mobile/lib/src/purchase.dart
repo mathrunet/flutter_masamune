@@ -72,9 +72,9 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   /// Query for Purchase.
   ///
   /// ```dart
-  /// appRef.conroller(Purchase.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(Purchase.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(Purchase.query(parameters)); // Watch at page scope.
+  /// Purchase.query(parameters).read(appRef);     // Get from application scope.
+  /// Purchase.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// Purchase.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$PurchaseQuery();
 

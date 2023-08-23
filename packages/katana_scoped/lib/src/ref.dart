@@ -26,7 +26,7 @@ part of katana_scoped;
 /// }
 /// ```
 @immutable
-abstract class Ref {
+abstract class Ref implements RefOrRefHasAny {
   /// {@template ref}
   /// Base class for References passed from ScopedWidget, etc.
   ///
@@ -150,7 +150,7 @@ abstract class Ref {
 /// }
 /// ```
 @immutable
-abstract class RefHasApp {
+abstract class RefHasApp implements RefOrRefHasAny {
   /// [Ref] in the application scope.
   ///
   /// アプリケーションスコープの[Ref]。
@@ -179,7 +179,7 @@ abstract class RefHasApp {
 /// }
 /// ```
 @immutable
-abstract class RefHasPage {
+abstract class RefHasPage implements RefOrRefHasAny {
   /// [Ref] in the page scope.
   ///
   /// ページスコープの[Ref]。
@@ -208,9 +208,15 @@ abstract class RefHasPage {
 /// }
 /// ```
 @immutable
-abstract class RefHasWidget {
+abstract class RefHasWidget implements RefOrRefHasAny {
   /// [Ref] in the widget scope.
   ///
   /// ウィジェットスコープの[Ref]。
   WidgetScopedValueRef get widget;
 }
+
+/// [Ref] or [RefHasApp], [RefHasPage], [RefHasWidget].
+///
+/// [Ref]もしくは[RefHasApp]、[RefHasPage]、[RefHasWidget]。
+@immutable
+abstract class RefOrRefHasAny {}

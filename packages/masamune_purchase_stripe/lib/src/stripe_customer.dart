@@ -29,9 +29,9 @@ class StripeCustomer
   /// Query for StripeCustomer.
   ///
   /// ```dart
-  /// appRef.conroller(StripeCustomer.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(StripeCustomer.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(StripeCustomer.query(parameters)); // Watch at page scope.
+  /// StripeCustomer.query(parameters).read(appRef);     // Get from application scope.
+  /// StripeCustomer.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// StripeCustomer.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$StripeCustomerQuery();
 

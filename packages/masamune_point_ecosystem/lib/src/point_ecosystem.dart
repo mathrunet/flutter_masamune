@@ -7,9 +7,9 @@ class PointEcosystem
   /// Query for PointEcosystem.
   ///
   /// ```dart
-  /// appRef.conroller(PointEcosystem.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(PointEcosystem.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(PointEcosystem.query(parameters)); // Watch at page scope.
+  /// PointEcosystem.query(parameters).read(appRef);     // Get from application scope.
+  /// PointEcosystem.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// PointEcosystem.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$PointEcosystemQuery();
 

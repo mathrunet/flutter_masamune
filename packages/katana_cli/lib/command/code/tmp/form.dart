@@ -70,8 +70,8 @@ class ${className}AddPage extends FormAddPageScopedWidget {
   /// Used to transition to the ${className}AddPage screen.
   ///
   /// ```dart
-  /// router.push(${className}AddPage.query(parameters));    // Push page to ${className}AddPage.
-  /// router.replace(${className}AddPage.query(parameters)); // Push page to ${className}AddPage.
+  /// ${className}AddPage.query(parameters).push(router);    // Push page to ${className}AddPage.
+  /// ${className}AddPage.query(parameters).replace(router); // Replace page to ${className}AddPage.
   /// ```
   @pageRouteQuery
   static const query = _\$${className}AddPageQuery();
@@ -93,8 +93,8 @@ class ${className}EditPage extends FormEditPageScopedWidget {
   /// Used to transition to the ${className}EditPage screen.
   ///
   /// ```dart
-  /// router.push(${className}EditPage.query(parameters));    // Push page to ${className}EditPage.
-  /// router.replace(${className}EditPage.query(parameters)); // Push page to ${className}EditPage.
+  /// ${className}EditPage.query(parameters).push(router);    // Push page to ${className}EditPage.
+  /// ${className}EditPage.query(parameters).replace(router); // Replace page to ${className}EditPage.
   /// ```
   @pageRouteQuery
   static const query = _\$${className}EditPageQuery();

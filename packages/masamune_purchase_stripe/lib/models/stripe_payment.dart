@@ -38,16 +38,16 @@ class StripePaymentModel with _$StripePaymentModel {
   /// Query for document.
   ///
   /// ```dart
-  /// appRef.model(StripePurchasePaymentModel.document(id));      // Get the document.
-  /// ref.model(StripePurchasePaymentModel.document(id))..load(); // Load the document.
+  /// StripePurchasePaymentModel.document(id).read(appRef);       // Get the document.
+  /// StripePurchasePaymentModel.document(id).watch(ref)..load(); // Load the document.
   /// ```
   static const document = _$$_StripePaymentModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// appRef.model(StripePurchasePaymentModel.collectoin());      // Get the collection.
-  /// ref.model(StripePurchasePaymentModel.collection())..load(); // Load the collection.
+  /// StripePurchasePaymentModel.collection().read(appRef);       // Get the collection.
+  /// StripePurchasePaymentModel.collection().watch(ref)..load(); // Load the collection.
   /// ref.model(
   ///   StripePurchasePaymentModel.collection().equal(
   ///     StripePurchasePaymentModelCollectionKey.xxx,

@@ -82,8 +82,8 @@ class ${className}Page extends PageScopedWidget {
   /// Used to transition to the ${className}Page screen.
   ///
   /// ```dart
-  /// router.push(${className}Page.query(parameters));    // Push page to ${className}Page.
-  /// router.replace(${className}Page.query(parameters)); // Push page to ${className}Page.
+  /// ${className}Page.query(parameters).push(router);    // Push page to ${className}Page.
+  /// ${className}Page.query(parameters).replace(router); // Replace page to ${className}Page.
   /// ```
   @pageRouteQuery
   static const query = _\$${className}PageQuery();

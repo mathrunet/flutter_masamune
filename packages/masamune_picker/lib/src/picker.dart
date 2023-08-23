@@ -41,9 +41,9 @@ class Picker
   /// Query for Picker.
   ///
   /// ```dart
-  /// appRef.conroller(Picker.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(Picker.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(Picker.query(parameters)); // Watch at page scope.
+  /// Picker.query(parameters).read(appRef);     // Get from application scope.
+  /// Picker.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// Picker.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$PickerQuery();
 

@@ -203,8 +203,8 @@ class TestPage extends PageScopedWidget {
   /// Used to transition to the TestPage screen.
   ///
   /// ```dart
-  /// router.push(TestPage.query(parameters));    // Push page to TestPage.
-  /// router.replace(TestPage.query(parameters)); // Push page to TestPage.
+  /// TestPage.query(parameters).push(router);    // Push page to TestPage.
+  /// TestPage.query(parameters).replace(router); // Replace page to TestPage.
   /// ```
   @pageRouteQuery
   static const query = _$TestPageQuery();
@@ -258,6 +258,19 @@ router.push(TestPage.query());
 
 // Page Replacements
 router.replace(TestPage.query());
+
+// Back to Previous Page
+router.pop();
+```
+
+You can also use the `push` and `replace` methods provided for `RouteQuery`.
+
+```dart
+// Transition to TestPage
+TestPage.query().push();
+
+// Page Replacements
+TestPage.query().replace();
 
 // Back to Previous Page
 router.pop();
@@ -340,28 +353,26 @@ class TestModel with _$TestModel {
   /// Query for document.
   ///
   /// ```dart
-  /// appRef.model(TestModel.document(id));      // Get the document.
-  /// ref.model(TestModel.document(id))..load(); // Load the document.
+  /// TestModel.document(id).read(appRef);       // Get the document.
+  /// TestModel.document(id).watch(ref)..load(); // Load the document.
   /// ```
   static const document = _$TestModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// appRef.model(TestModel.collectoin());      // Get the collection.
-  /// ref.model(TestModel.collection())..load(); // Load the collection.
-  /// ref.model(
-  ///   TestModel.collection().data.equal(
-  ///     "data",
-  ///   ),
-  /// )..load(); // Load the collection with filter.
+  /// TestModel.collection().read(appRef);       // Get the collection.
+  /// TestModel.collection().watch(ref)..load(); // Load the collection.
+  /// TestModel.collection().data.equal(
+  ///   "data",
+  /// ).watch(ref)..load(); // Load the collection with filter.
   /// ```
   static const collection = _$TestModelCollectionQuery();
 
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(TestModel.form());     // Get the form controller.
+  /// TestModel.form(TestModel()).watch(ref);    // Get the form controller.
   /// ```
   static const form = _$TestModelFormQuery();
 }
@@ -488,6 +499,13 @@ Also, if you want to use it outside of a page or widget, you can use it in an `a
 final testModelCollection = appRef.model(TestModel.collection());
 ```
 
+It can also be written concisely in a method chain by using the `watch` and `read` methods.
+
+```dart
+final testModelCollection = TestModel.collection().watch(ref);
+final testModelCollection = TestModel.collection().read(appRef);
+```
+
 ### SharedPreferences feature
 
 If you want to store data locally, such as SharedPreferences, separately from the regular DB, you can do so by using a `ModelAdapter`.
@@ -583,9 +601,9 @@ class TestController extends ChangeNotifier {
   /// Query for TestController.
   ///
   /// ```dart
-  /// appRef.conroller(TestController.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(TestController.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(TestController.query(parameters)); // Watch at page scope.
+  /// TestController.query(parameters).read(appRef);     // Get from application scope.
+  /// TestController.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// TestController.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$TestControllerQuery();
 }
@@ -617,6 +635,14 @@ In the case of `appRef`, it is managed across pages. (Same as `ref.app.controlle
 
 ```dart
 final testController = appRef.controller(TestController.query());
+```
+
+It can also be written concisely in a method chain by using the `watch` and `read` methods.
+
+```dart
+final testController = TestController.query().watchOnApp(ref);
+final testController = TestController.query().watchOnPage(ref);
+final testController = TestController.query().read(appRef);
 ```
 
 ## State management
@@ -786,7 +812,7 @@ When creating a form that targets a `data model`, such as editing profile data, 
 /// Query for form value.
 ///
 /// ```dart
-/// ref.page.controller(TestModel.form());     // Get the form controller.
+/// TestModel.form(TestModel()).watch(ref);    // Get the form controller.
 /// ```
 static const form = _$TestModelFormQuery();
 ```
@@ -849,7 +875,7 @@ class LoginValue with _$LoginValue {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(LoginValue.form());     // Get the form controller.
+  /// LoginValue.form(LoginValue()).watch(ref);    // Get the form controller.
   /// ```
   static const form = _$LoginValueFormQuery();
 }

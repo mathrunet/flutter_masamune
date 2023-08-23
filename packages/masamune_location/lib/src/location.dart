@@ -45,9 +45,9 @@ class Location
   /// Query for Location.
   ///
   /// ```dart
-  /// appRef.conroller(Location.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(Location.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(Location.query(parameters)); // Watch at page scope.
+  /// Location.query(parameters).read(appRef);     // Get from application scope.
+  /// Location.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// Location.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _$LocationQuery();
 

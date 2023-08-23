@@ -196,3 +196,75 @@ extension RoutingBuildContedxtExtensions on BuildContext {
     return AppRouter.of(this, root: true);
   }
 }
+
+/// Provides extension methods for [RouteQuery].
+///
+/// [RouteQuery]の拡張メソッドを提供します。
+extension RouteQueryRouterExtensions on RouteQuery {
+  /// Passing [router] will take you to a new page.
+  ///
+  /// The method of page transition can be specified with [transitionQuery].
+  ///
+  /// You can wait until the page is destroyed by the [pop] method with the return value [Future].
+  ///
+  /// In doing so, it can also receive the object passed by [pop].
+  ///
+  /// [router]を渡すことにより新しいページに遷移します。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  ///
+  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
+  ///
+  /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
+  Future<E?> push<E>(
+    AppRouter router, [
+    TransitionQuery? transitionQuery,
+  ]) {
+    return router.push<E>(
+      this,
+      transitionQuery,
+    );
+  }
+
+  /// Passing [router] replaces the currently displayed page with a new page.
+  ///
+  /// The method of page transition can be specified with [transitionQuery].
+  ///
+  /// You can wait until the page is destroyed by the [pop] method with the return value [Future].
+  ///
+  /// In doing so, it can also receive the object passed by [pop].
+  ///
+  /// [router]を渡すことにより現在表示されているページを新しいページに置き換えます。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  ///
+  /// 戻り値の[Future]で[pop]メソッドでページが破棄されるまで待つことができます。
+  ///
+  /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
+  Future<E?> replace<E>(
+    AppRouter router, [
+    TransitionQuery? transitionQuery,
+  ]) {
+    return router.replace<E>(
+      this,
+      transitionQuery,
+    );
+  }
+
+  /// It keeps [pop] until the history stack runs out and then [push] itself.
+  ///
+  /// The method of page transition can be specified with [transitionQuery].
+  ///
+  /// ヒストリーのスタックがなくなるまで[pop]し続けた後自身を[push]します。
+  ///
+  /// ページ遷移の方法を[transitionQuery]で指定可能です。
+  Future<E?> resetAndPush<E>(
+    AppRouter router, [
+    TransitionQuery? transitionQuery,
+  ]) {
+    return router.resetAndPush<E>(
+      this,
+      transitionQuery,
+    );
+  }
+}

@@ -79,9 +79,9 @@ class ${className}ControllerGroup with _\$${className}ControllerGroup, ChangeNot
   /// Query for ${className}ControllerGroup.
   ///
   /// ```dart
-  /// appRef.conroller(${className}ControllerGroup.query(parameters));   // Get from application scope.
-  /// ref.app.conroller(${className}ControllerGroup.query(parameters));  // Watch at application scope.
-  /// ref.page.conroller(${className}ControllerGroup.query(parameters)); // Watch at page scope.
+  /// ${className}ControllerGroup.query(parameters).read(appRef);     // Get from application scope.
+  /// ${className}ControllerGroup.query(parameters).watchOnApp(ref);  // Watch at application scope.
+  /// ${className}ControllerGroup.query(parameters).watchOnPage(ref); // Watch at page scope.
   /// ```
   static const query = _\$${className}ControllerGroupQuery();
 }

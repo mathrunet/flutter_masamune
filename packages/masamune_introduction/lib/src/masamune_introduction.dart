@@ -65,8 +65,8 @@ class MasamuneIntroductionPage extends PageScopedWidget {
   /// Used to transition to the MasamuneIntroductionPage screen.
   ///
   /// ```dart
-  /// router.push(MasamuneIntroductionPage.query(parameters));    // Push page to MasamuneIntroductionPage.
-  /// router.replace(MasamuneIntroductionPage.query(parameters)); // Push page to MasamuneIntroductionPage.
+  /// MasamuneIntroductionPage.query(parameters).push(router);    // Push page to MasamuneIntroductionPage.
+  /// MasamuneIntroductionPage.query(parameters).replace(router); // Replace page to MasamuneIntroductionPage.
   /// ```
   @pageRouteQuery
   static const query = _$MasamuneIntroductionPageQuery();
