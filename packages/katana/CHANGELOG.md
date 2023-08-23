@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: Add select method to bool. ([a26fdf18](https://github.com/mathrunet/flutter_masamune/commit/a26fdf181577a7ce60b90bbf989b0ed5043913af))
+
 ## 2.4.0
 
  - **FEAT**: Add shuffleTo. ([7c6821f0](https://github.com/mathrunet/flutter_masamune/commit/7c6821f01f2cb15da52a42d89f21a6e254442d15))

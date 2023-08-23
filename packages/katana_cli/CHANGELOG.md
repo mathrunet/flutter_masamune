@@ -1,3 +1,7 @@
+## 2.8.5
+
+ - Update a dependency to the latest release.
+
 ## 2.8.4
 
  - **DOCS**: Leakage of changes to the method chain. ([3d3e5c2f](https://github.com/mathrunet/flutter_masamune/commit/3d3e5c2fbdd4f615bae705eacdcb1f544e6c4178))

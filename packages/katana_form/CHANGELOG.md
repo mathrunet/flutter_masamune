@@ -1,3 +1,7 @@
+## 2.7.5
+
+ - Update a dependency to the latest release.
+
 ## 2.7.4
 
  - **FIX**: Fixed a bug that initialValue was not reflected properly. ([2f2abce5](https://github.com/mathrunet/flutter_masamune/commit/2f2abce5cdfacf7bee8a7d9436cf81c4541096f3))

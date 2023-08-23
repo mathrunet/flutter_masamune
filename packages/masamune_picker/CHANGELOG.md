@@ -1,3 +1,7 @@
+## 2.1.92
+
+ - Update a dependency to the latest release.
+
 ## 2.1.91
 
  - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))

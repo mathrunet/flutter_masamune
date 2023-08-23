@@ -1,3 +1,7 @@
+## 2.0.21
+
+ - Update a dependency to the latest release.
+
 ## 2.0.20
 
  - **FIX**: Added missing settings. ([3eb1cb69](https://github.com/mathrunet/flutter_masamune/commit/3eb1cb6977fee664e3b7d5ca0990088b2197faf6))
