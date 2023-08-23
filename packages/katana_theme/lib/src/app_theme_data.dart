@@ -1344,6 +1344,15 @@ class AppThemeData {
               borderSide: BorderSide(color: color.error, width: 2),
             ),
           ),
+          listTileTheme: theme.listTileTheme.copyWith(
+            tileColor: color.background,
+            selectedTileColor: color.primary,
+            iconColor: color.onBackground,
+            textColor: color.onBackground,
+          ),
+          iconButtonTheme: IconButtonThemeData(style: IconButton.styleFrom(
+            foregroundColor: color.onBackground,
+          )),
           indicatorColor: color.secondary,
           brightness: color.brightness,
           primaryColor: color.primary,
@@ -1500,6 +1509,16 @@ class AppThemeData {
                 ),
             deleteIconColor: color.onSurface,
           ),
+          listTileTheme: theme.listTileTheme.copyWith(
+            tileColor: color.background,
+            selectedTileColor: color.primary,
+            iconColor: color.onBackground,
+            textColor: color.onBackground,
+          ),
+          iconButtonTheme: IconButtonThemeData(
+              style: IconButton.styleFrom(
+            foregroundColor: color.onBackground,
+          )),
           inputDecorationTheme: theme.inputDecorationTheme.copyWith(
             labelStyle:
                 TextStyle(color: color.weak, decorationColor: color.weak),
