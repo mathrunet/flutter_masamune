@@ -15,6 +15,166 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.3`](#katana_cli---v283)
+ - [`katana_form` - `v2.7.4`](#katana_form---v274)
+ - [`katana_model_firestore` - `v2.7.11`](#katana_model_firestore---v2711)
+ - [`katana_router` - `v2.0.30`](#katana_router---v2030)
+ - [`katana_scoped` - `v2.0.21`](#katana_scoped---v2021)
+ - [`katana_theme` - `v2.0.20`](#katana_theme---v2020)
+ - [`masamune` - `v2.4.36`](#masamune---v2436)
+ - [`masamune_agora` - `v2.2.74`](#masamune_agora---v2274)
+ - [`masamune_ai_openai` - `v2.2.26`](#masamune_ai_openai---v2226)
+ - [`masamune_annotation` - `v2.3.5`](#masamune_annotation---v235)
+ - [`masamune_builder` - `v2.8.6`](#masamune_builder---v286)
+ - [`masamune_calendar` - `v2.0.136`](#masamune_calendar---v20136)
+ - [`masamune_deeplink` - `v2.1.9`](#masamune_deeplink---v219)
+ - [`masamune_deeplink_firebase` - `v2.1.10`](#masamune_deeplink_firebase---v2110)
+ - [`masamune_introduction` - `v2.2.40`](#masamune_introduction---v2240)
+ - [`masamune_location` - `v2.1.103`](#masamune_location---v21103)
+ - [`masamune_location_google` - `v2.1.104`](#masamune_location_google---v21104)
+ - [`masamune_notification_firebase` - `v2.1.89`](#masamune_notification_firebase---v2189)
+ - [`masamune_picker` - `v2.1.91`](#masamune_picker---v2191)
+ - [`masamune_point_ecosystem` - `v2.2.37`](#masamune_point_ecosystem---v2237)
+ - [`masamune_purchase_mobile` - `v2.5.37`](#masamune_purchase_mobile---v2537)
+ - [`masamune_purchase_stripe` - `v3.3.36`](#masamune_purchase_stripe---v3336)
+ - [`masamune_speech_to_text` - `v2.1.61`](#masamune_speech_to_text---v2161)
+ - [`masamune_text_to_speech` - `v2.1.58`](#masamune_text_to_speech---v2158)
+ - [`masamune_auth_apple` - `v2.1.92`](#masamune_auth_apple---v2192)
+ - [`masamune_auth_google` - `v2.1.93`](#masamune_auth_google---v2193)
+ - [`masamune_util` - `v2.1.70`](#masamune_util---v2170)
+ - [`masamune_universal_ui` - `v2.2.72`](#masamune_universal_ui---v2272)
+ - [`masamune_logger_firebase` - `v2.0.134`](#masamune_logger_firebase---v20134)
+ - [`masamune_auth_facebook` - `v2.1.94`](#masamune_auth_facebook---v2194)
+ - [`masamune_mail` - `v2.1.89`](#masamune_mail---v2189)
+ - [`masamune_module` - `v2.1.37`](#masamune_module---v2137)
+ - [`masamune_ads_google` - `v2.1.42`](#masamune_ads_google---v2142)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_apple` - `v2.1.92`
+ - `masamune_auth_google` - `v2.1.93`
+ - `masamune_util` - `v2.1.70`
+ - `masamune_universal_ui` - `v2.2.72`
+ - `masamune_logger_firebase` - `v2.0.134`
+ - `masamune_auth_facebook` - `v2.1.94`
+ - `masamune_mail` - `v2.1.89`
+ - `masamune_module` - `v2.1.37`
+ - `masamune_ads_google` - `v2.1.42`
+
+---
+
+#### `katana_cli` - `v2.8.3`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `katana_form` - `v2.7.4`
+
+ - **FIX**: Fixed a bug that initialValue was not reflected properly. ([2f2abce5](https://github.com/mathrunet/flutter_masamune/commit/2f2abce5cdfacf7bee8a7d9436cf81c4541096f3))
+
+#### `katana_model_firestore` - `v2.7.11`
+
+ - **FIX**: Fixed a bug that caused duplicate @search content. ([bc0d8f7d](https://github.com/mathrunet/flutter_masamune/commit/bc0d8f7d0d3585c0f59646534bffb1a2d3c47a6a))
+
+#### `katana_router` - `v2.0.30`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `katana_scoped` - `v2.0.21`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `katana_theme` - `v2.0.20`
+
+ - **FIX**: Added missing settings. ([3eb1cb69](https://github.com/mathrunet/flutter_masamune/commit/3eb1cb6977fee664e3b7d5ca0990088b2197faf6))
+
+#### `masamune` - `v2.4.36`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+ - **FIX**: The default method of onReorder in ReorderableListBuilder is now supported for normal objects. ([6a2efad2](https://github.com/mathrunet/flutter_masamune/commit/6a2efad233f5e0390b58031ba88e7e2c4cad02d0))
+
+#### `masamune_agora` - `v2.2.74`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_ai_openai` - `v2.2.26`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_annotation` - `v2.3.5`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_builder` - `v2.8.6`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_calendar` - `v2.0.136`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_deeplink` - `v2.1.9`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_deeplink_firebase` - `v2.1.10`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_introduction` - `v2.2.40`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_location` - `v2.1.103`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_location_google` - `v2.1.104`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_notification_firebase` - `v2.1.89`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_picker` - `v2.1.91`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_point_ecosystem` - `v2.2.37`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_purchase_mobile` - `v2.5.37`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_purchase_stripe` - `v3.3.36`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_speech_to_text` - `v2.1.61`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+#### `masamune_text_to_speech` - `v2.1.58`
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
+
+## 2023-08-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.29`](#katana_router---v2029)
  - [`masamune_universal_ui` - `v2.2.71`](#masamune_universal_ui---v2271)
  - [`masamune` - `v2.4.35`](#masamune---v2435)

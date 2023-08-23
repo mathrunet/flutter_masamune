@@ -1350,7 +1350,8 @@ class AppThemeData {
             iconColor: color.onBackground,
             textColor: color.onBackground,
           ),
-          iconButtonTheme: IconButtonThemeData(style: IconButton.styleFrom(
+          iconButtonTheme: IconButtonThemeData(
+              style: IconButton.styleFrom(
             foregroundColor: color.onBackground,
           )),
           indicatorColor: color.secondary,

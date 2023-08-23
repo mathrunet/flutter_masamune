@@ -1,3 +1,7 @@
+## 2.0.30
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+
 ## 2.0.29
 
  - **FIX**: Support for Flutter 3.13. ([f71763e1](https://github.com/mathrunet/flutter_masamune/commit/f71763e1f443a144e4460ce77c71e2897ae472fb))

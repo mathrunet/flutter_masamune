@@ -1,3 +1,8 @@
+## 2.4.36
+
+ - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
+ - **FIX**: The default method of onReorder in ReorderableListBuilder is now supported for normal objects. ([6a2efad2](https://github.com/mathrunet/flutter_masamune/commit/6a2efad233f5e0390b58031ba88e7e2c4cad02d0))
+
 ## 2.4.35
 
  - Update a dependency to the latest release.

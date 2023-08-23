@@ -1,3 +1,7 @@
+## 2.7.11
+
+ - **FIX**: Fixed a bug that caused duplicate @search content. ([bc0d8f7d](https://github.com/mathrunet/flutter_masamune/commit/bc0d8f7d0d3585c0f59646534bffb1a2d3c47a6a))
+
 ## 2.7.10
 
  - Update a dependency to the latest release.
