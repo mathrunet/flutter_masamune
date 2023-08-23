@@ -179,6 +179,10 @@ class _FormAppendableListBuilderState<T, TValue> extends FormFieldState<List<T>>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override

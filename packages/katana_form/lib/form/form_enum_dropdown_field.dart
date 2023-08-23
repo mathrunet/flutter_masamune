@@ -247,6 +247,10 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override

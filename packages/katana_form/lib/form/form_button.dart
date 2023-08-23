@@ -117,6 +117,7 @@ class FormButton extends StatelessWidget {
           color: enabled ? foregroundColor : disabledForegroundColor,
         ) ??
         TextStyle(color: enabled ? foregroundColor : disabledForegroundColor);
+    final borderColor = style?.borderColor ?? foregroundColor;
 
     return Container(
       width: style?.width,
@@ -138,6 +139,12 @@ class FormButton extends StatelessWidget {
           child: Ink(
             decoration: BoxDecoration(
               borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
+              border: style?.borderWidth != null && style!.borderWidth! > 0
+                  ? Border.all(
+                      color: enabled ? borderColor : disabledForegroundColor,
+                      width: style!.borderWidth!,
+                    )
+                  : null,
               color: enabled ? backgroundColor : disabledBackgroundColor,
             ),
             child: Padding(

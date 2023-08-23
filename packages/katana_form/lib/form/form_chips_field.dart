@@ -259,20 +259,27 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
   @override
   void initState() {
     super.initState();
+    widget.form?.register(this);
     _focusNode.addListener(_handleFocus);
   }
 
   @override
   void didUpdateWidget(FormChipsField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.initialValue != oldWidget.initialValue) {
-      setValue(widget.initialValue);
+    if (widget.form != oldWidget.form) {
+      oldWidget.form?.unregister(this);
+      widget.form?.register(this);
+    }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
     }
   }
 
   @override
   void dispose() {
     super.dispose();
+    widget.form?.unregister(this);
     _focusNode.removeListener(_handleFocus);
   }
 
@@ -901,6 +908,12 @@ class _ChipsInputState<T> extends State<_ChipsInput<T>>
   void didUpdateWidget(covariant _ChipsInput<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     _effectiveFocusNode.canRequestFocus = _canRequestFocus;
+    if (oldWidget.initialValue != widget.initialValue) {
+      setState(() {
+        _chips.clear();
+        _chips.addAll(widget.initialValue);
+      });
+    }
   }
 
   @override

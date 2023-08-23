@@ -1234,6 +1234,10 @@ class _TextFormFieldState<TValue> extends FormFieldState<String> {
       oldWidget.form?.unregister(this);
       _textFormField.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override

@@ -244,6 +244,10 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override
@@ -475,6 +479,7 @@ class FormMapDropdownFieldPicker {
         alignment: Alignment.centerLeft,
         child: Text(
           data[key] ?? "",
+          softWrap: true,
           style: TextStyle(
             color: color ?? Theme.of(context).colorScheme.onSurface,
           ),

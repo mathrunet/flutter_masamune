@@ -404,6 +404,10 @@ class _FormPinFieldState<TValue> extends FormFieldState<String>
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
     }
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != null) {
+      reset();
+    }
   }
 
   @override

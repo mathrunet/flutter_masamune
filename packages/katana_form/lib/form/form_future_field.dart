@@ -297,11 +297,9 @@ class _FormFutureFieldState<T extends Object, TValue> extends FormFieldState<T>
       widget.form?.register(this);
     }
     if (widget.initialValue != oldWidget.initialValue) {
-      setState(() {
-        _controller.text = widget.parseToString?.call(widget.initialValue) ??
-            widget.initialValue!.toString();
-        setValue(widget.initialValue);
-      });
+      _controller.text = widget.parseToString?.call(widget.initialValue) ??
+          widget.initialValue!.toString();
+      reset();
     }
   }
 
