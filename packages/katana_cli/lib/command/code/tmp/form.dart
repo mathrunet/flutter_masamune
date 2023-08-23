@@ -112,16 +112,16 @@ class ${className}Form extends FormScopedWidget {
   /// Used to transition to the ${className}AddPage screen.
   ///
   /// ```dart
-  /// router.push(${className}Form.addQuery(parameters));    // Push page to ${className}AddPage.
-  /// router.replace(${className}Form.addQuery(parameters)); // Push page to ${className}AddPage.
+  /// ${className}Form.addQuery(parameters).push(router);    // Push page to ${className}AddPage.
+  /// ${className}Form.addQuery(parameters).replace(router); // Replace page to ${className}AddPage.
   /// ```
   static const addQuery = ${className}AddPage.query;
 
   /// Used to transition to the ${className}EditPage screen.
   ///
   /// ```dart
-  /// router.push(${className}Form.editQuery(parameters));    // Push page to ${className}EditPage.
-  /// router.replace(${className}Form.editQuery(parameters)); // Push page to ${className}EditPage.
+  /// ${className}Form.editQuery(parameters).push(router);    // Push page to ${className}EditPage.
+  /// ${className}Form.editQuery(parameters).replace(router); // Replace page to ${className}EditPage.
   /// ```
   static const editQuery = ${className}EditPage.query;
 
