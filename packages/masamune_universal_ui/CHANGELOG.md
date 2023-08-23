@@ -1,3 +1,7 @@
+## 2.2.71
+
+ - **FIX**: Support for Flutter 3.13. ([f71763e1](https://github.com/mathrunet/flutter_masamune/commit/f71763e1f443a144e4460ce77c71e2897ae472fb))
+
 ## 2.2.70
 
  - Update a dependency to the latest release.
