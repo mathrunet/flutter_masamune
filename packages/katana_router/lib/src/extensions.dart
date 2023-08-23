@@ -217,9 +217,12 @@ extension RouteQueryRouterExtensions on RouteQuery {
   ///
   /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
   Future<E?> push<E>(
-    AppRouter router, [
+    AppRouter? router, [
     TransitionQuery? transitionQuery,
   ]) {
+    if (router == null) {
+      return Future.value();
+    }
     return router.push<E>(
       this,
       transitionQuery,
@@ -242,9 +245,12 @@ extension RouteQueryRouterExtensions on RouteQuery {
   ///
   /// また、その際[pop]で渡されたオブジェクトを受け取ることができます。
   Future<E?> replace<E>(
-    AppRouter router, [
+    AppRouter? router, [
     TransitionQuery? transitionQuery,
   ]) {
+    if (router == null) {
+      return Future.value();
+    }
     return router.replace<E>(
       this,
       transitionQuery,
@@ -259,9 +265,12 @@ extension RouteQueryRouterExtensions on RouteQuery {
   ///
   /// ページ遷移の方法を[transitionQuery]で指定可能です。
   Future<E?> resetAndPush<E>(
-    AppRouter router, [
+    AppRouter? router, [
     TransitionQuery? transitionQuery,
   ]) {
+    if (router == null) {
+      return Future.value();
+    }
     return router.resetAndPush<E>(
       this,
       transitionQuery,
