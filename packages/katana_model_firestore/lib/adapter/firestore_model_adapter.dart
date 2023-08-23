@@ -582,6 +582,17 @@ class FirestoreModelAdapter extends ModelAdapter
       final key = tmp.key;
       final val = tmp.value;
       DynamicMap? replaced;
+      if (val is Map && original.containsKey(key) && original[key] is Map) {
+        final map = <String, dynamic>{};
+        final originalMap = original[key] as Map;
+        for (final originalKey in originalMap.keys) {
+          map[originalKey] = FieldValue.delete();
+        }
+        for (final entry in val.entries) {
+          map[entry.key] = entry.value;
+        }
+        replaced = {key: map};
+      }
       for (final converter in _converters) {
         replaced = converter.convertTo(key, val, map, this);
         if (replaced != null) {

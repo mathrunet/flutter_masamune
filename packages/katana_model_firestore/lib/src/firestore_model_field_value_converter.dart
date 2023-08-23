@@ -94,6 +94,9 @@ abstract class FirestoreModelFieldValueConverter {
     if (!enabledQuery(filter.value, filter, query, adapter)) {
       return null;
     }
+    if (filter.key.isEmpty) {
+      return null;
+    }
     final key = filter.key!;
     switch (filter.type) {
       case ModelQueryFilterType.equalTo:
@@ -230,14 +233,21 @@ abstract class FirestoreModelFieldValueConverter {
     if (!enabledQuery(filter.value, filter, query, adapter)) {
       return null;
     }
-    final key = filter.key!;
     switch (filter.type) {
       case ModelQueryFilterType.orderByAsc:
+        if (filter.key.isEmpty) {
+          return null;
+        }
+        final key = filter.key!;
         firestoreQuery = firestoreQuery.orderBy(
           convertQueryKey(key, filter, query, adapter),
         );
         break;
       case ModelQueryFilterType.orderByDesc:
+        if (filter.key.isEmpty) {
+          return null;
+        }
+        final key = filter.key!;
         firestoreQuery = firestoreQuery.orderBy(
           convertQueryKey(key, filter, query, adapter),
           descending: true,
