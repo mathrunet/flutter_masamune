@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.4`](#katana_cli---v284)
+
+---
+
+#### `katana_cli` - `v2.8.4`
+
+ - **DOCS**: Leakage of changes to the method chain. ([3d3e5c2f](https://github.com/mathrunet/flutter_masamune/commit/3d3e5c2fbdd4f615bae705eacdcb1f544e6c4178))
+
+
+## 2023-08-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.3`](#katana_cli---v283)
  - [`katana_form` - `v2.7.4`](#katana_form---v274)
  - [`katana_model_firestore` - `v2.7.11`](#katana_model_firestore---v2711)

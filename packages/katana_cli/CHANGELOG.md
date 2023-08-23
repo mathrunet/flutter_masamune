@@ -1,3 +1,7 @@
+## 2.8.4
+
+ - **DOCS**: Leakage of changes to the method chain. ([3d3e5c2f](https://github.com/mathrunet/flutter_masamune/commit/3d3e5c2fbdd4f615bae705eacdcb1f544e6c4178))
+
 ## 2.8.3
 
  - **FIX**: Added extensions to query, model, and router. Also made them available in the method chain. ([f1e54c85](https://github.com/mathrunet/flutter_masamune/commit/f1e54c85a20e4add8f32255c807cc504e5549a4c))
