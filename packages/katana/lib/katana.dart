@@ -33,6 +33,7 @@ export 'src/others/others.dart'
     if (dart.library.html) 'src/web/web.dart';
 
 part 'extension/date_time_extensions.dart';
+part 'extension/boolean_extensions.dart';
 part 'extension/date_time_iterable_extensions.dart';
 part 'extension/double_extensions.dart';
 part 'extension/double_iterable_extensions.dart';
