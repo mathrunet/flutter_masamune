@@ -554,7 +554,7 @@ class _UniversalScaffoldState extends State<UniversalScaffold> {
       return child;
     }
     return ClipRRect(
-      borderRadius: widget.borderRadius,
+      borderRadius: widget.borderRadius!,
       child: child,
     );
   }

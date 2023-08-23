@@ -135,7 +135,7 @@ packages:
     source: hosted
     version: "2.0.2"
   flutter_web_plugins:
-    dependency: "direct main"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -217,21 +217,21 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.3.3"
+    version: "2.4.0"
   katana_logger:
     dependency: "direct main"
     description:
       path: "../katana_logger"
       relative: true
     source: path
-    version: "2.0.11"
+    version: "2.0.12"
   katana_router_annotation:
     dependency: "direct main"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.17"
   lints:
     dependency: transitive
     description:

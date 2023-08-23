@@ -22,7 +22,7 @@ extension UniversalUIClipExtensions on Widget {
   ///
   /// [Widget]を丸みを帯びた四角形でクリップします。
   ClipRRect clipRect({
-    BorderRadiusGeometry? borderRadius,
+    required BorderRadiusGeometry borderRadius,
     CustomClipper<RRect>? clipper,
     Clip clipBehavior = Clip.antiAlias,
   }) {

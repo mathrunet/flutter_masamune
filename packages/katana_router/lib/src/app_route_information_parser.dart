@@ -17,17 +17,18 @@ class _AppRouteInformationParser extends RouteInformationParser<RouteQuery> {
         routeInformation.query != null) {
       return routeInformation.query!;
     }
-    final path = routeInformation.location;
+    final path = routeInformation.uri.path;
     final query = router._config.pages
             .map((e) => e.resolve(path))
             .firstWhereOrNull((e) => e != null) ??
-        router._config.unknown?.resolve(path ?? "") ??
-        _EmptyRouteQuery(sourcePath: path ?? "");
+        router._config.unknown?.resolve(path) ??
+        _EmptyRouteQuery(sourcePath: path);
     return await router._redirect(context, query);
   }
 
   @override
   RouteInformation? restoreRouteInformation(RouteQuery configuration) {
-    return RouteInformation(location: configuration.path, state: configuration);
+    return RouteInformation(
+        uri: Uri.tryParse(configuration.path), state: configuration);
   }
 }

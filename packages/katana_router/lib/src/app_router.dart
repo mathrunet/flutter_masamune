@@ -166,7 +166,7 @@ class AppRouter extends ChangeNotifier
                 effectiveInitialLocation,
                 initialQuery,
               ),
-        location: effectiveInitialLocation,
+        uri: Uri.tryParse(effectiveInitialLocation ?? ""),
       ),
     );
   }

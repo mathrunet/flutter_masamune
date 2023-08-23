@@ -18,12 +18,12 @@ class _AppRouteInformationProvider extends RouteInformationProvider
     if (val is InitialRouteInformation) {
       return InitialRouteInformation(
         query: val.query,
-        location: val.location,
+        uri: val.uri,
         state: val.state,
       );
     } else {
       return RouteInformation(
-        location: val.location,
+        uri: val.uri,
         state: val.state,
       );
     }
@@ -33,15 +33,15 @@ class _AppRouteInformationProvider extends RouteInformationProvider
 
   set value(RouteInformation other) {
     final bool shouldNotify =
-        _value.location != other.location || _value.state != other.state;
+        _value.uri != other.uri || _value.state != other.state;
     _value = other;
     if (shouldNotify) {
       notifyListeners();
     }
   }
 
-  RouteInformation _valueInEngine =
-      RouteInformation(location: _binding.platformDispatcher.defaultRouteName);
+  RouteInformation _valueInEngine = RouteInformation(
+      uri: Uri.tryParse(_binding.platformDispatcher.defaultRouteName));
 
   @override
   void routerReportsNewRouteInformation(
@@ -65,11 +65,11 @@ class _AppRouteInformationProvider extends RouteInformationProvider
     }
     final bool replace = type == RouteInformationReportingType.neglect ||
         (type == RouteInformationReportingType.none &&
-            _valueInEngine.location?.trimString("/") ==
-                routeInformation.location?.trimString("/"));
+            _valueInEngine.uri.path.trimString("/") ==
+                routeInformation.uri.path.trimString("/"));
     SystemNavigator.selectMultiEntryHistory();
     SystemNavigator.routeInformationUpdated(
-      location: routeInformation.location!,
+      uri: routeInformation.uri,
       replace: replace,
     );
     _value = routeInformation;
@@ -110,7 +110,8 @@ class _AppRouteInformationProvider extends RouteInformationProvider
   @override
   Future<bool> didPushRoute(String route) {
     assert(hasListeners);
-    _platformReportsNewRouteInformation(RouteInformation(location: route));
+    _platformReportsNewRouteInformation(
+        RouteInformation(uri: Uri.tryParse(route)));
     return SynchronousFuture<bool>(true);
   }
 
@@ -125,7 +126,11 @@ class _AppRouteInformationProvider extends RouteInformationProvider
 }
 
 class InitialRouteInformation extends RouteInformation {
-  const InitialRouteInformation({this.query, super.location, super.state});
+  const InitialRouteInformation({
+    this.query,
+    super.uri,
+    super.state,
+  });
 
   final RouteQuery? query;
 }
