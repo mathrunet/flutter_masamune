@@ -87,53 +87,106 @@ class ReorderableListBuilder<T> extends StatefulWidget {
         _length = top.length + source.length + bottom.length + insert.length,
         _topSourcelength = top.length + source.length + insert.length;
 
+  ///Method to define [ReorderableListBuilder.onReorder] when the data in the list consists of [M].
+  ///
+  /// The elements to be reordered are passed to [data], [oldPosition] and [newPosition] are the old and new positions, and [reordered] is the list after the reordering.
+  ///
+  /// Specify a callback to [onRetrieve] to retrieve the numerical value of the order.
+  ///
+  /// Specify a callback to execute after reordering in [onUpdate].
+  ///
+  /// Specify the initial value to be passed to [defaultOrderValue] if [key] has no value.
+  ///
+  /// リストのデータが[M]で構成されている場合の[ReorderableListBuilder.onReorder]を定義するためのメソッド。
+  ///
+  /// [data]に順番が入れ替わった対象の要素、[oldPosition]、[newPosition]に新旧の位置、[reordered]に順番が入れ替わった後のリストが渡されます。
+  ///
+  /// [onRetrieve]に順番の数値を取得するためのコールバックを指定します。
+  ///
+  /// [onUpdate]に順番を入れ替えた後に実行するコールバックを指定します。
+  ///
+  /// [defaultOrderValue]に[key]に値がなかったときに渡す初期値を指定します。
+  static Future<M> defaultOnReorder<M>(
+    int oldPosition,
+    int newPosition,
+    M data,
+    List<M> reordered, {
+    required double Function(M data) onRetrieve,
+    required FutureOr<void> Function(M data, double order) onUpdate,
+    double? defaultOrderValue,
+  }) async {
+    if (reordered.length <= 1) {
+      return data;
+    }
+    if (oldPosition < newPosition) {
+      if (reordered.length <= newPosition) {
+        await onUpdate(
+          data,
+          defaultOrderValue ?? DateTime.now().millisecondsSinceEpoch.toDouble(),
+        );
+      } else {
+        await onUpdate(
+          data,
+          (onRetrieve(reordered[newPosition]) +
+                  onRetrieve(reordered[newPosition - 2])) /
+              2.0,
+        );
+      }
+    } else {
+      if (newPosition <= 0) {
+        await onUpdate(
+          data,
+          onRetrieve(reordered[1]) / 2.0,
+        );
+      } else if (reordered.length - 1 <= newPosition) {
+        await onUpdate(
+          data,
+          defaultOrderValue ?? DateTime.now().millisecondsSinceEpoch.toDouble(),
+        );
+      } else {
+        await onUpdate(
+          data,
+          (onRetrieve(reordered[newPosition + 1]) +
+                  onRetrieve(reordered[newPosition - 1])) /
+              2.0,
+        );
+      }
+    }
+    return data;
+  }
+
   /// Method to define [ReorderableListBuilder.onReorder] when the list data consists of [DynamicMap].
   ///
   /// The elements to be reordered are passed to [map], [oldPosition] and [newPosition] are the old and new positions, and [reordered] is the list after the reordering.
   ///
-  /// Specify the callback to be executed after reordering in [onSave]. Specify the key of the element for which the order value is to be entered in [key]. Specify the initial value to be passed to [defaultOrder] if [key] has no value.
+  /// Specify the callback to be executed after reordering in [onSaved]. Specify the key of the element for which the order value is to be entered in [key]. Specify the initial value to be passed to [defaultOrderValue] if [key] has no value.
   ///
   /// リストのデータが[DynamicMap]で構成されている場合の[ReorderableListBuilder.onReorder]を定義するためのメソッド。
   ///
   /// [map]に順番が入れ替わった対象の要素、[oldPosition]、[newPosition]に新旧の位置、[reordered]に順番が入れ替わった後のリストが渡されます。
   ///
-  /// [onSave]に順番を入れ替えた後に実行するコールバックを指定します。[key]には順番の値を記載する要素のキーを指定します。[defaultOrder]に[key]に値がなかったときに渡す初期値を指定します。
-  static Future<M> setOrderForDynamicMap<M extends DynamicMap>(
+  /// [onSaved]に順番を入れ替えた後に実行するコールバックを指定します。[key]には順番の値を記載する要素のキーを指定します。[defaultOrderValue]に[key]に値がなかったときに渡す初期値を指定します。
+  static Future<M> defaultOnReorderForDynamicMap<M extends DynamicMap>(
     int oldPosition,
     int newPosition,
     M map,
     List<M> reordered, {
-    FutureOr<void> Function(M data)? onSave,
+    FutureOr<void> Function(M data)? onSaved,
     String key = "order",
-    double? defaultOrder,
-  }) async {
-    if (reordered.length <= 1) {
-      return map;
-    }
-    if (oldPosition < newPosition) {
-      if (reordered.length <= newPosition) {
-        map[key] =
-            defaultOrder ?? DateTime.now().millisecondsSinceEpoch.toDouble();
-      } else {
-        map[key] = (reordered[newPosition].get(key, 0.0) +
-                reordered[newPosition - 2].get(key, 0.0)) /
-            2.0;
-      }
-    } else {
-      if (newPosition <= 0) {
-        map[key] = reordered[1].get(key, 0.0) / 2.0;
-      } else if (reordered.length - 1 <= newPosition) {
-        map[key] =
-            defaultOrder ?? DateTime.now().millisecondsSinceEpoch.toDouble();
-      } else {
-        map[key] = (reordered[newPosition + 1].get(key, 0.0) +
-                reordered[newPosition - 1].get(key, 0.0)) /
-            2.0;
-      }
-    }
-    await onSave?.call(map);
-    return map;
-  }
+    double? defaultOrderValue,
+  }) =>
+      defaultOnReorder(
+        oldPosition,
+        newPosition,
+        map,
+        reordered,
+        onRetrieve: (map) => map.get(key, 0.0),
+        onUpdate: (map, order) async {
+          map[key] = order;
+          await onSaved?.call(map);
+        },
+        defaultOrderValue: defaultOrderValue,
+      );
 
   /// Scroll direction.
   ///
