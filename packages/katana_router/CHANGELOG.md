@@ -1,3 +1,7 @@
+## 2.0.32
+
+ - **FIX**: Extension was made null-acceptable. ([ac2aad16](https://github.com/mathrunet/flutter_masamune/commit/ac2aad16448b2b061be8bdac3b5ab60b3a931882))
+
 ## 2.0.31
 
  - Update a dependency to the latest release.
