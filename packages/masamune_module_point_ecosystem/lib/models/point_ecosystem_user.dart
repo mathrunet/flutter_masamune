@@ -12,12 +12,17 @@ part 'point_ecosystem_user.m.dart';
 part 'point_ecosystem_user.g.dart';
 part 'point_ecosystem_user.freezed.dart';
 
-/// Value for model.
+/// User model for managing point login bonuses, etc.
+///
+/// ポイントのログインボーナスなどを管理するためのユーザーモデル。
 @freezed
 @formValue
 @immutable
 @CollectionModelPath("plugins/pes/user")
 class PointEcosystemUserModel with _$PointEcosystemUserModel {
+  /// User model for managing point login bonuses, etc.
+  ///
+  /// ポイントのログインボーナスなどを管理するためのユーザーモデル。
   const factory PointEcosystemUserModel({
     ModelTimestamp? lastDate,
     @Default(0) int continuousCount,

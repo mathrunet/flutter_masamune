@@ -1,8 +1,8 @@
-name: masamune_point_ecosystem
+name: masamune_module_point_ecosystem
 description: This Masamune plugin module provides a point-based monetization structure for your app.
 version: 2.2.41
 homepage: https://mathru.net
-repository: https://github.com/mathrunet/flutter_masamune_module/tree/master/packages/masamune_point_ecosystem
+repository: https://github.com/mathrunet/flutter_masamune_module/tree/master/packages/masamune_module_point_ecosystem
 
 environment:
   sdk: ">=2.17.0 <4.0.0"
@@ -14,6 +14,7 @@ dependencies:
     
   katana: ^2.4.1
   masamune: ^2.4.40
+  masamune_module: ^2.2.0
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
   masamune_ads_google: ^2.1.46

@@ -1,23 +1,60 @@
-part of masamune_point_ecosystem;
+part of masamune_module_point_ecosystem;
 
-class PointEcosystem
-    extends MasamuneControllerBase<double, PointEcosystemMasamuneAdapter> {
-  PointEcosystem({super.adapter});
+/// This module is used to build an application that allows users to accumulate points through purchases by billing, login bonuses, and viewing through reward ads, which can then be used to access services.
+///
+/// [initialize] initializes the system. At this time, the reward ads and billing system are initialized, and the model to be used is also loaded.
+///
+/// Purchase the charged items for points at [purchase].
+///
+/// Receive daily bonuses at [bonus]. With [reward], you receive a bonus for viewing and watching reward ads. The amount of each earn is specified in [PointEcosystemModuleMasamuneAdapter.options].
+///
+/// [consume] to consume points. [Earn] to manually earn points.
+///
+/// 課金による購入やログインボーナス、リワード広告による視聴によりポイントを貯めそれを使うことでサービスを利用できるアプリを構築するためのモジュールです。
+///
+/// [initialize]で初期化を行います。このときにリワード広告や課金システムの初期化、利用するモデルの読み込みも行われます。
+///
+/// [purchase]でポイント用の課金アイテムを購入します。
+///
+/// [bonus]でデイリーボーナスを受け取ります。[reward]でリワード広告を表示し、視聴することでボーナスを受け取ります。それぞれの獲得量は[PointEcosystemModuleMasamuneAdapter.options]で指定します。
+///
+/// [consume]でポイントを消費します。[earn]でポイントを手動で獲得します。
+class PointEcosystemModule extends MasamuneControllerBase<double,
+    PointEcosystemModuleMasamuneAdapter> {
+  /// This module is used to build an application that allows users to accumulate points through purchases by billing, login bonuses, and viewing through reward ads, which can then be used to access services.
+  ///
+  /// [initialize] initializes the system. At this time, the reward ads and billing system are initialized, and the model to be used is also loaded.
+  ///
+  /// Purchase the charged items for points at [purchase].
+  ///
+  /// Receive daily bonuses at [bonus]. With [reward], you receive a bonus for viewing and watching reward ads. The amount of each earn is specified in [PointEcosystemModuleMasamuneAdapter.options].
+  ///
+  /// [consume] to consume points. [Earn] to manually earn points.
+  ///
+  /// 課金による購入やログインボーナス、リワード広告による視聴によりポイントを貯めそれを使うことでサービスを利用できるアプリを構築するためのモジュールです。
+  ///
+  /// [initialize]で初期化を行います。このときにリワード広告や課金システムの初期化、利用するモデルの読み込みも行われます。
+  ///
+  /// [purchase]でポイント用の課金アイテムを購入します。
+  ///
+  /// [bonus]でデイリーボーナスを受け取ります。[reward]でリワード広告を表示し、視聴することでボーナスを受け取ります。それぞれの獲得量は[PointEcosystemModuleMasamuneAdapter.options]で指定します。
+  ///
+  /// [consume]でポイントを消費します。[earn]でポイントを手動で獲得します。
+  PointEcosystemModule({super.adapter});
 
-  /// Query for PointEcosystem.
+  /// Query for PointEcosystemModule.
   ///
   /// ```dart
-  /// appRef.controller(PointEcosystem.query(parameters));     // Get from application scope.
-  /// ref.app.controller(PointEcosystem.query(parameters));    // Watch at application scope.
-  /// ref.page.controller(PointEcosystem.query(parameters));   // Watch at page scope.
+  /// appRef.controller(PointEcosystemModule.query(parameters));     // Get from application scope.
+  /// ref.app.controller(PointEcosystemModule.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(PointEcosystemModule.query(parameters));   // Watch at page scope.
   /// ```
-  static const query = _$PointEcosystemQuery();
+  static const query = _$PointEcosystemModuleQuery();
 
   @override
-  PointEcosystemMasamuneAdapter get primaryAdapter =>
-      PointEcosystemMasamuneAdapter.primary;
+  PointEcosystemModuleMasamuneAdapter get primaryAdapter =>
+      PointEcosystemModuleMasamuneAdapter.primary;
 
-  final Purchase _purchase = Purchase();
   GoogleAdRewarded? _rewarded;
 
   PurchaseUserModelDocument? _pointDocument;
@@ -41,15 +78,21 @@ class PointEcosystem
     return _pointDocument?.value?.value ?? 0.0;
   }
 
+  /// List of valid products.
+  ///
+  /// 有効なプロダクトの一覧。
   List<PurchaseProduct> get products {
     if (!initialized) {
       throw Exception(
         "Not initialized. Please initialize it by executing [initialize].",
       );
     }
-    return _purchase.products;
+    return adapter.purchase.products;
   }
 
+  /// Initialization. At this time, the reward advertising and billing systems are also initialized and the models to be used are loaded.
+  ///
+  /// 初期化を行います。このときにリワード広告や課金システムの初期化、利用するモデルの読み込みも行われます。
   Future<void> initialize() async {
     if (initialized) {
       return;
@@ -60,26 +103,26 @@ class PointEcosystem
     _completer = Completer<void>();
     try {
       _rewarded ??= GoogleAdRewarded(
-        primaryAdapter.rewardedAdUnitId!,
+        primaryAdapter.options.rewardedAdUnitId!,
       );
       _pointDocument ??= PurchaseUserModelDocument(
         PurchaseUserModel.document(
-          primaryAdapter._purchaseAdapter.onRetrieveUserId.call(),
+          primaryAdapter.purchaseAdapter.onRetrieveUserId.call(),
           adapter: primaryAdapter.modelAdapter,
         ).modelQuery,
       );
       _bonusDocument ??= PointEcosystemUserModelDocument(
         PointEcosystemUserModel.document(
-          primaryAdapter._purchaseAdapter.onRetrieveUserId.call(),
+          primaryAdapter.purchaseAdapter.onRetrieveUserId.call(),
           adapter: primaryAdapter.modelAdapter,
         ).modelQuery,
       );
       await wait([
-        _purchase.initialize(),
+        adapter.purchase.initialize(),
         _pointDocument!.load(),
         _bonusDocument!.load(),
       ]);
-      _purchase.addListener(notifyListeners);
+      adapter.purchase.addListener(notifyListeners);
       _rewarded!.addListener(notifyListeners);
       _pointDocument!.addListener(notifyListeners);
       _bonusDocument!.addListener(notifyListeners);
@@ -97,26 +140,39 @@ class PointEcosystem
     }
   }
 
+  /// Restore purchased charged items.
+  ///
+  /// Reloading of the points earned is also performed at the same time.
+  ///
+  /// 購入した課金アイテムの復元を行います。
+  ///
+  /// 合わせて獲得したポイントのリロードも行います。
   Future<void> restore() async {
     if (!initialized) {
       throw Exception(
         "Not initialized. Please initialize it by executing [initialize].",
       );
     }
-    await _purchase.restore();
+    await adapter.purchase.restore();
     await _pointDocument?.reload();
   }
 
+  /// The billing is based on the items in [product].
+  ///
+  /// [product]のアイテムを元に課金を行います。
   Future<void> purchase(PurchaseProduct product) async {
     if (!initialized) {
       throw Exception(
         "Not initialized. Please initialize it by executing [initialize].",
       );
     }
-    await _purchase.purchase(product);
+    await adapter.purchase.purchase(product);
     await _pointDocument?.reload();
   }
 
+  /// Consume [amount] of points.
+  ///
+  /// ポイントを[amount]消費します。
   Future<void> consume(double amount) async {
     if (!initialized) {
       throw Exception(
@@ -140,6 +196,9 @@ class PointEcosystem
     await _pointDocument?.reload();
   }
 
+  /// Earn [amount] of points.
+  ///
+  /// ポイントを[amount]獲得します。
   Future<void> earn(double amount) async {
     if (!initialized) {
       throw Exception(
@@ -158,13 +217,16 @@ class PointEcosystem
     await _pointDocument?.reload();
   }
 
+  /// Receive daily bonuses.
+  ///
+  /// デイリーボーナスを受け取ります。
   Future<void> bonus() async {
     if (!initialized) {
       throw Exception(
         "Not initialized. Please initialize it by executing [initialize].",
       );
     }
-    final amount = primaryAdapter.dailyBonusEarnAmount;
+    final amount = primaryAdapter.options.dailyBonusEarnAmount;
     if (amount == null) {
       throw Exception(
         "[PointEcosystemMasamuneAdapter.dailyBonusEarnAmount] is not set.",
@@ -206,13 +268,16 @@ class PointEcosystem
     ]);
   }
 
+  /// Receive a bonus for viewing and watching reward ads.
+  ///
+  /// リワード広告を表示し、視聴することでボーナスを受け取ります。
   Future<void> reward() async {
     if (!initialized) {
       throw Exception(
         "Not initialized. Please initialize it by executing [initialize].",
       );
     }
-    final amount = primaryAdapter.rewardBonusEarnAmount;
+    final amount = primaryAdapter.options.rewardBonusEarnAmount;
     if (amount == null) {
       throw Exception(
         "[PointEcosystemMasamuneAdapter.rewardBonusEarnAmount] is not set.",
@@ -240,24 +305,24 @@ class PointEcosystem
   ///
   /// 内部で管理している[PurchaseProduct]は実データの監視等も含めたオブジェクトが割り当てられているのでそれを取得することを推奨します。
   PurchaseProduct? findProductByProduct(PurchaseProduct product) {
-    return _purchase.findProductByProduct(product);
+    return adapter.purchase.findProductByProduct(product);
   }
 
   /// Returns Applications Users Volumes cores etc home opt private usr var which is **managed internally** based on [productId].
   ///
   /// [productId]を元に**内部で管理している**[PurchaseProduct]を返します。
   PurchaseProduct? findProductById(String productId) {
-    return _purchase.findProductById(productId);
+    return adapter.purchase.findProductById(productId);
   }
 
   @override
   Future<void> dispose() async {
     super.dispose();
-    _purchase.removeListener(notifyListeners);
+    adapter.purchase.removeListener(notifyListeners);
     _rewarded?.removeListener(notifyListeners);
     _pointDocument?.removeListener(notifyListeners);
     _bonusDocument?.removeListener(notifyListeners);
-    _purchase.dispose();
+    adapter.purchase.dispose();
     await _rewarded?.dispose();
     _rewarded = null;
     _pointDocument?.dispose();
@@ -268,26 +333,27 @@ class PointEcosystem
 }
 
 @immutable
-class _$PointEcosystemQuery {
-  const _$PointEcosystemQuery();
+class _$PointEcosystemModuleQuery {
+  const _$PointEcosystemModuleQuery();
 
   @useResult
-  _$_PointEcosystemQuery call() => _$_PointEcosystemQuery(
+  _$_PointEcosystemModuleQuery call() => _$_PointEcosystemModuleQuery(
         hashCode.toString(),
       );
 }
 
 @immutable
-class _$_PointEcosystemQuery extends ControllerQueryBase<PointEcosystem> {
-  const _$_PointEcosystemQuery(
+class _$_PointEcosystemModuleQuery
+    extends ControllerQueryBase<PointEcosystemModule> {
+  const _$_PointEcosystemModuleQuery(
     this._name,
   );
 
   final String _name;
 
   @override
-  PointEcosystem Function() call(Ref ref) {
-    return () => PointEcosystem();
+  PointEcosystemModule Function() call(Ref ref) {
+    return () => PointEcosystemModule();
   }
 
   @override
