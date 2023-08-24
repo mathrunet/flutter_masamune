@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_module_point_ecosystem` - `v2.3.0`](#masamune_module_point_ecosystem---v230)
+
+---
+
+#### `masamune_module_point_ecosystem` - `v2.3.0`
+
+ - **FEAT**: Modularization of PointEcosystem. ([2234b949](https://github.com/mathrunet/flutter_masamune/commit/2234b94914dd198f64a3266df45f57457da7c067))
+
+
+## 2023-08-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.33`](#katana_router---v2033)
  - [`masamune_module` - `v2.2.0`](#masamune_module---v220)
  - [`masamune` - `v2.4.40`](#masamune---v2440)
