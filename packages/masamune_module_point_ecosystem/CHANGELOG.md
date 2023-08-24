@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Modularization of PointEcosystem. ([2234b949](https://github.com/mathrunet/flutter_masamune/commit/2234b94914dd198f64a3266df45f57457da7c067))

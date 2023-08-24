@@ -15,6 +15,39 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_purchase_mobile` - `v2.5.42`](#masamune_purchase_mobile---v2542)
+ - [`masamune_purchase_stripe` - `v3.3.41`](#masamune_purchase_stripe---v3341)
+ - [`masamune_module_point_ecosystem` - `v2.3.1`](#masamune_module_point_ecosystem---v231)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.3.1`
+
+---
+
+#### `masamune_purchase_mobile` - `v2.5.42`
+
+ - **FIX**: Changed the way the model is called. ([b54a0982](https://github.com/mathrunet/flutter_masamune/commit/b54a0982df93741c692866600e3c23455198c3e2))
+
+#### `masamune_purchase_stripe` - `v3.3.41`
+
+ - **FIX**: Changed the way the model is called. ([b54a0982](https://github.com/mathrunet/flutter_masamune/commit/b54a0982df93741c692866600e3c23455198c3e2))
+
+
+## 2023-08-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_module_point_ecosystem` - `v2.3.0`](#masamune_module_point_ecosystem---v230)
 
 ---
