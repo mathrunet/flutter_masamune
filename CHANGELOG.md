@@ -15,6 +15,140 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.6`](#katana_cli---v286)
+ - [`masamune` - `v2.4.39`](#masamune---v2439)
+ - [`masamune_agora` - `v2.2.77`](#masamune_agora---v2277)
+ - [`masamune_ai_openai` - `v2.2.29`](#masamune_ai_openai---v2229)
+ - [`masamune_annotation` - `v2.3.7`](#masamune_annotation---v237)
+ - [`masamune_builder` - `v2.8.8`](#masamune_builder---v288)
+ - [`masamune_calendar` - `v2.0.139`](#masamune_calendar---v20139)
+ - [`masamune_deeplink` - `v2.1.12`](#masamune_deeplink---v2112)
+ - [`masamune_deeplink_firebase` - `v2.1.13`](#masamune_deeplink_firebase---v2113)
+ - [`masamune_introduction` - `v2.2.43`](#masamune_introduction---v2243)
+ - [`masamune_location` - `v2.1.106`](#masamune_location---v21106)
+ - [`masamune_location_google` - `v2.1.107`](#masamune_location_google---v21107)
+ - [`masamune_notification_firebase` - `v2.1.92`](#masamune_notification_firebase---v2192)
+ - [`masamune_picker` - `v2.1.94`](#masamune_picker---v2194)
+ - [`masamune_point_ecosystem` - `v2.2.40`](#masamune_point_ecosystem---v2240)
+ - [`masamune_purchase_mobile` - `v2.5.40`](#masamune_purchase_mobile---v2540)
+ - [`masamune_purchase_stripe` - `v3.3.39`](#masamune_purchase_stripe---v3339)
+ - [`masamune_speech_to_text` - `v2.1.64`](#masamune_speech_to_text---v2164)
+ - [`masamune_text_to_speech` - `v2.1.61`](#masamune_text_to_speech---v2161)
+ - [`masamune_auth_apple` - `v2.1.95`](#masamune_auth_apple---v2195)
+ - [`masamune_auth_google` - `v2.1.96`](#masamune_auth_google---v2196)
+ - [`masamune_util` - `v2.1.73`](#masamune_util---v2173)
+ - [`masamune_universal_ui` - `v2.2.75`](#masamune_universal_ui---v2275)
+ - [`masamune_logger_firebase` - `v2.0.137`](#masamune_logger_firebase---v20137)
+ - [`masamune_auth_facebook` - `v2.1.97`](#masamune_auth_facebook---v2197)
+ - [`masamune_module` - `v2.1.40`](#masamune_module---v2140)
+ - [`masamune_mail` - `v2.1.92`](#masamune_mail---v2192)
+ - [`masamune_ads_google` - `v2.1.45`](#masamune_ads_google---v2145)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_auth_apple` - `v2.1.95`
+ - `masamune_auth_google` - `v2.1.96`
+ - `masamune_util` - `v2.1.73`
+ - `masamune_universal_ui` - `v2.2.75`
+ - `masamune_logger_firebase` - `v2.0.137`
+ - `masamune_auth_facebook` - `v2.1.97`
+ - `masamune_module` - `v2.1.40`
+ - `masamune_mail` - `v2.1.92`
+ - `masamune_ads_google` - `v2.1.45`
+
+---
+
+#### `katana_cli` - `v2.8.6`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune` - `v2.4.39`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_agora` - `v2.2.77`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_ai_openai` - `v2.2.29`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_annotation` - `v2.3.7`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_builder` - `v2.8.8`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_calendar` - `v2.0.139`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_deeplink` - `v2.1.12`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_deeplink_firebase` - `v2.1.13`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_introduction` - `v2.2.43`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_location` - `v2.1.106`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_location_google` - `v2.1.107`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_notification_firebase` - `v2.1.92`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_picker` - `v2.1.94`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_point_ecosystem` - `v2.2.40`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_purchase_mobile` - `v2.5.40`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_purchase_stripe` - `v3.3.39`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_speech_to_text` - `v2.1.64`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+#### `masamune_text_to_speech` - `v2.1.61`
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
+
+## 2023-08-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.32`](#katana_router---v2032)
  - [`masamune` - `v2.4.38`](#masamune---v2438)
  - [`masamune_location` - `v2.1.105`](#masamune_location---v21105)

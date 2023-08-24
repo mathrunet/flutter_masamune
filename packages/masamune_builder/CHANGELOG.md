@@ -1,3 +1,7 @@
+## 2.8.8
+
+ - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
+
 ## 2.8.7
 
  - Update a dependency to the latest release.
