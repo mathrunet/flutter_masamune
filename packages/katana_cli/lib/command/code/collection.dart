@@ -101,9 +101,11 @@ class ${className}Model with _\$${className}Model {
   /// ```dart
   /// appRef.model(${className}Model.collection());       // Get the collection.
   /// ref.model(${className}Model.collection())..load();  // Load the collection.
-  /// ref.model(${className}Model.collection().data.equal(
-  ///   "data",
-  /// ))..load(); // Load the collection with filter.
+  /// ref.model(
+  ///   ${className}Model.collection().data.equal(
+  ///     "data",
+  ///   )
+  /// )..load(); // Load the collection with filter.
   /// ```
   static const collection = _\$${className}ModelCollectionQuery();
 
