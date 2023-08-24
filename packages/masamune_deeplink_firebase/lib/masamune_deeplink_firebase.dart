@@ -17,6 +17,8 @@ import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:masamune/masamune.dart';
+import 'package:universal_platform/universal_platform.dart';
+import 'package:katana_firebase/katana_firebase.dart';
 
 export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
     show
@@ -30,4 +32,4 @@ export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
 
 part 'adapter/firebase_deeplink_masamune_adapter.dart';
 part 'src/deeplink.dart';
-part 'src/firebase_deep_link_options.dart';
+part 'src/firebase_deep_link_settings.dart';

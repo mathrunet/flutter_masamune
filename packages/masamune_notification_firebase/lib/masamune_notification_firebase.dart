@@ -21,6 +21,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 part 'adapter/push_notification_masamune_adapter.dart';
 part 'functions/send_notification_functions_action.dart';

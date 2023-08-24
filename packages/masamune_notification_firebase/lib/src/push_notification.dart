@@ -127,7 +127,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     }
     _completer = Completer();
     try {
-      await FirebaseCore.initialize();
+      final adapter = primaryAdapter;
+      await FirebaseCore.initialize(options: adapter.options);
       await _messaging.setAutoInitEnabled(true);
       _onMessageSubscription = FirebaseMessaging.onMessage.listen(_onMessage);
       _onMessageOpenedAppSubscription =

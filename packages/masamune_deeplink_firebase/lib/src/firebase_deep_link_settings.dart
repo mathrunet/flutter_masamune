@@ -1,9 +1,9 @@
 part of masamune_deeplink_firebase;
 
 /// Interface that defines the all the parameters required to build a dynamic link
-class FirebaseDeepLinkOptions {
+class FirebaseDeepLinkSettings {
   // ignore: public_member_api_docs
-  const FirebaseDeepLinkOptions({
+  const FirebaseDeepLinkSettings({
     required this.uriPrefix,
     this.longDynamicLink,
     this.androidParameters,

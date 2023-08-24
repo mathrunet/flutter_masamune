@@ -80,8 +80,9 @@ class Deeplink
     SocialMetaTagParameters? socialMetaTagParameters,
   }) async {
     final adapter = primaryAdapter;
+    await FirebaseCore.initialize(options: adapter.options);
     final dynamicLink = await _dynamicLink.buildShortLink(
-      adapter.options._toDynamicLinkParameters(
+      adapter.settings._toDynamicLinkParameters(
         path,
         socialMetaTagParameters: socialMetaTagParameters,
       ),
@@ -102,6 +103,8 @@ class Deeplink
     }
     _completer = Completer<void>();
     try {
+      final adapter = primaryAdapter;
+      await FirebaseCore.initialize(options: adapter.options);
       final dynamicLink = await _dynamicLink.getInitialLink();
       _value = dynamicLink?.link;
       notifyListeners();

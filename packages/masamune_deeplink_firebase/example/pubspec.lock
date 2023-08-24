@@ -145,6 +145,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore:
+    dependency: transitive
+    description:
+      name: cloud_firestore
+      sha256: "21cffe06a212015950010ecb9adbf1eb9acaf294f2bd159bde7980aee37c997b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.9.0"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: "5749b81aea93afdce220e02d34369162010d210011054ac494b2c38c4e9ebeb7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.16.0"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: fef99ad0599e983092adb1bb01f14a596dba601a7a8efaaffd7b2721d64e2c51
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.0"
   code_builder:
     dependency: transitive
     description:
@@ -438,154 +462,162 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.4.0"
+    version: "2.4.1"
   katana_auth:
     dependency: "direct overridden"
     description:
       path: "../../katana_auth"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
+  katana_firebase:
+    dependency: transitive
+    description:
+      name: katana_firebase
+      sha256: "1910c8167fc45f02d5acd039ede81522174539acd444d4f3daf7cfd7d2c50228"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.12"
   katana_form:
     dependency: "direct overridden"
     description:
       path: "../../katana_form"
       relative: true
     source: path
-    version: "2.7.3"
+    version: "2.7.5"
   katana_functions:
     dependency: "direct overridden"
     description:
       path: "../../katana_functions"
       relative: true
     source: path
-    version: "2.4.7"
+    version: "2.4.8"
   katana_indicator:
     dependency: "direct overridden"
     description:
       path: "../../katana_indicator"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_listenables:
     dependency: "direct overridden"
     description:
       path: "../../katana_listenables"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.15"
   katana_localization:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization"
       relative: true
     source: path
-    version: "2.0.19"
+    version: "2.0.20"
   katana_localization_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_localization_annotation"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_model:
     dependency: "direct overridden"
     description:
       path: "../../katana_model"
       relative: true
     source: path
-    version: "2.11.10"
+    version: "2.11.11"
   katana_model_local:
     dependency: "direct overridden"
     description:
       path: "../../katana_model_local"
       relative: true
     source: path
-    version: "2.7.2"
+    version: "2.7.3"
   katana_prefs:
     dependency: "direct overridden"
     description:
       path: "../../katana_prefs"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   katana_prefs_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.0.14"
+    version: "2.0.15"
   katana_router:
     dependency: "direct overridden"
     description:
       path: "../../katana_router"
       relative: true
     source: path
-    version: "2.0.28"
+    version: "2.0.32"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   katana_scoped:
     dependency: "direct overridden"
     description:
       path: "../../katana_scoped"
       relative: true
     source: path
-    version: "2.0.20"
+    version: "2.0.22"
   katana_shorten:
     dependency: "direct overridden"
     description:
       path: "../../katana_shorten"
       relative: true
     source: path
-    version: "2.0.12"
+    version: "2.0.13"
   katana_storage:
     dependency: "direct overridden"
     description:
       path: "../../katana_storage"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_theme:
     dependency: "direct overridden"
     description:
       path: "../../katana_theme"
       relative: true
     source: path
-    version: "2.0.19"
+    version: "2.0.21"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.15"
+    version: "2.0.16"
   katana_ui:
     dependency: "direct overridden"
     description:
       path: "../../katana_ui"
       relative: true
     source: path
-    version: "2.4.4"
+    version: "2.4.5"
   lints:
     dependency: transitive
     description:
@@ -608,21 +640,21 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.4.34"
+    version: "2.4.39"
   masamune_annotation:
     dependency: "direct overridden"
     description:
       path: "../../masamune_annotation"
       relative: true
     source: path
-    version: "2.3.4"
+    version: "2.3.7"
   masamune_deeplink_firebase:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.1.8"
+    version: "2.1.13"
   matcher:
     dependency: transitive
     description:

@@ -14,7 +14,9 @@ dependencies:
     
   katana: ^2.4.1
   masamune: ^2.4.39
+  katana_firebase: ^2.0.12
   firebase_dynamic_links: ^5.3.5
+  universal_platform: ^1.0.0+1
 
 dev_dependencies:
   test: ^1.21.3
