@@ -1,3 +1,7 @@
+## 2.8.7
+
+ - **DOCS**: Corrected collection comment. ([b6fae928](https://github.com/mathrunet/flutter_masamune/commit/b6fae928cc7b72cd1cd4a2ec598c5155bf0bf8d5))
+
 ## 2.8.6
 
  - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))
