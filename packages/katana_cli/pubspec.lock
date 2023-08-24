@@ -159,7 +159,7 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.4.0"
+    version: "2.4.1"
   lints:
     dependency: "direct main"
     description:

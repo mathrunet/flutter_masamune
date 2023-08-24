@@ -61,9 +61,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// Query for Picker.
   ///
   /// ```dart
-  /// PushNotification.query(parameters).read(appRef);     // Get from application scope.
-  /// PushNotification.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// PushNotification.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(PushNotification.query(parameters));     // Get from application scope.
+  /// ref.app.controller(PushNotification.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(PushNotification.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$PushNotificationQuery();
 

@@ -1678,8 +1678,8 @@ class HomePage extends PageScopedWidget {
   /// Used to transition to the HomePage screen.
   ///
   /// ```dart
-  /// HomePage.query(parameters).push(router);    // Push page to HomePage.
-  /// HomePage.query(parameters).replace(router); // Replace page to HomePage.
+  /// router.push(HomePage.query(parameters));    // Push page to HomePage.
+  /// router.replace(HomePage.query(parameters)); // Replace page to HomePage.
   /// ```
   @pageRouteQuery
   static const query = _\$HomePageQuery();
@@ -1688,7 +1688,7 @@ class HomePage extends PageScopedWidget {
   Widget build(BuildContext context, PageRef ref) {
     // Describes the process of loading
     // and defining variables required for the page.
-    final model = CounterModel.document().watch(ref);
+    final model = ref.model(CounterModel.document())..load();
 
     // Describes the structure of the page.
     return UniversalScaffold(
@@ -1802,15 +1802,15 @@ class CounterModel with _\$CounterModel {
   /// Query for document.
   ///
   /// ```dart
-  /// CounterModel.document().read(appRef);       // Get the document.
-  /// CounterModel.document().watch(ref)..load(); // Load the document.
+  /// appRef.model(CounterModel.document());       // Get the document.
+  /// ref.model(CounterModel.document())..load();  // Load the document.
   /// ```
   static const document = _\$CounterModelDocumentQuery();
 
   /// Query for form value.
   ///
   /// ```dart
-  /// CounterModel.form(CounterModel()).watch(ref);    // Get the form controller.
+  /// ref.page.controller(CounterModel.form(CounterModel()));    // Get the form controller.
   /// ```
   static const form = _\$CounterModelFormQuery();
 }

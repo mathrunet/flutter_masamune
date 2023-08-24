@@ -50,16 +50,16 @@ class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
   /// Query for document.
   ///
   /// ```dart
-  /// PurchaseSubscriptionModel.document(id).read(appRef);       // Get the document.
-  /// PurchaseSubscriptionModel.document(id).watch(ref)..load(); // Load the document.
+  /// appRef.model(PurchaseSubscriptionModel.document(id));       // Get the document.
+  /// ref.model(PurchaseSubscriptionModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$PurchaseSubscriptionModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// PurchaseSubscriptionModel.collection().read(appRef);       // Get the collection.
-  /// PurchaseSubscriptionModel.collection().watch(ref)..load(); // Load the collection.
+  /// appRef.model(PurchaseSubscriptionModel.collection());       // Get the collection.
+  /// ref.model(PurchaseSubscriptionModel.collection())..load();  // Load the collection.
   /// ref.model(
   ///   PurchaseSubscriptionModel.collection().equal(
   ///     PurchaseSubscriptionModelCollectionKey.xxx,
@@ -72,7 +72,7 @@ class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
   /// Query for form value.
   ///
   /// ```dart
-  /// PurchaseSubscriptionModel.form(PurchaseSubscriptionModel()).watch(ref);    // Get the form controller.
+  /// ref.page.controller(PurchaseSubscriptionModel.form(PurchaseSubscriptionModel()));    // Get the form controller.
   /// ```
   static const form = _$PurchaseSubscriptionModelFormQuery();
 }

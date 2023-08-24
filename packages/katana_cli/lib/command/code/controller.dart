@@ -79,9 +79,9 @@ class ${className}Controller extends ChangeNotifier {
   /// Query for ${className}Controller.
   ///
   /// ```dart
-  /// ${className}Controller.query(parameters).read(appRef);     // Get from application scope.
-  /// ${className}Controller.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// ${className}Controller.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(${className}Controller.query(parameters));     // Get from application scope.
+  /// ref.app.controller(${className}Controller.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(${className}Controller.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _\$${className}ControllerQuery();
 }

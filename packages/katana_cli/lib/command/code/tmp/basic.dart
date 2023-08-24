@@ -73,8 +73,8 @@ class ${className}Page extends PageScopedWidget {
   /// Used to transition to the ${className}Page screen.
   ///
   /// ```dart
-  /// ${className}Page.query(parameters).push(router);    // Push page to ${className}Page.
-  /// ${className}Page.query(parameters).replace(router); // Replace page to ${className}Page.
+  /// router.push(${className}Page.query(parameters));    // Push page to ${className}Page.
+  /// router.replace(${className}Page.query(parameters)); // Replace page to ${className}Page.
   /// ```
   @pageRouteQuery
   static const query = _\$${className}PageQuery();
@@ -136,8 +136,8 @@ class ${className}DetailPage extends PageScopedWidget {
   /// Used to transition to the ${className}DetailPage screen.
   ///
   /// ```dart
-  /// ${className}DetailPage.query(parameters).push(router);    // Push page to ${className}DetailPage.
-  /// ${className}DetailPage.query(parameters).replace(router); // Replace page to ${className}DetailPage.
+  /// router.push(${className}DetailPage.query(parameters));    // Push page to ${className}DetailPage.
+  /// router.replace(${className}DetailPage.query(parameters)); // Replace page to ${className}DetailPage.
   /// ```
   @pageRouteQuery
   static const query = _\$${className}DetailPageQuery();
@@ -166,8 +166,8 @@ class ${className}AddPage extends FormAddPageScopedWidget {
   /// Used to transition to the ${className}AddPage screen.
   ///
   /// ```dart
-  /// ${className}AddPage.query(parameters).push(router);    // Push page to ${className}AddPage.
-  /// ${className}AddPage.query(parameters).replace(router); // Replace page to ${className}AddPage.
+  /// router.push(${className}AddPage.query(parameters));    // Push page to ${className}AddPage.
+  /// router.replace(${className}AddPage.query(parameters)); // Replace page to ${className}AddPage.
   /// ```
   @pageRouteQuery
   static const query = _\$${className}AddPageQuery();
@@ -189,8 +189,8 @@ class ${className}EditPage extends FormEditPageScopedWidget {
   /// Used to transition to the ${className}EditPage screen.
   ///
   /// ```dart
-  /// ${className}EditPage.query(parameters).push(router);    // Push page to ${className}EditPage.
-  /// ${className}EditPage.query(parameters).replace(router); // Replace page to ${className}EditPage.
+  /// router.push(${className}EditPage.query(parameters));    // Push page to ${className}EditPage.
+  /// router.replace(${className}EditPage.query(parameters)); // Replace page to ${className}EditPage.
   /// ```
   @pageRouteQuery
   static const query = _\$${className}EditPageQuery();

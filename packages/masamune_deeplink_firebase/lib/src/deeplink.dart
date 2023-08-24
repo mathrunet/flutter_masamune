@@ -44,9 +44,9 @@ class Deeplink
   /// Query for DeepLink.
   ///
   /// ```dart
-  /// DeepLink.query(parameters).read(appRef);     // Get from application scope.
-  /// DeepLink.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// DeepLink.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(DeepLink.query(parameters));     // Get from application scope.
+  /// ref.app.controller(DeepLink.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(DeepLink.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$DeepLinkQuery();
 

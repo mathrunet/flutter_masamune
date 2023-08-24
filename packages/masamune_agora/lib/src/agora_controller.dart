@@ -34,9 +34,9 @@ class AgoraController
   /// Query for AgoraController.
   ///
   /// ```dart
-  /// AgoraController.query(parameters).read(appRef);     // Get from application scope.
-  /// AgoraController.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// AgoraController.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(AgoraController.query(parameters));     // Get from application scope.
+  /// ref.app.controller(AgoraController.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(AgoraController.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$AgoraControllerQuery();
 

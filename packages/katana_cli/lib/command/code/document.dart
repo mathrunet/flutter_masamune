@@ -95,15 +95,15 @@ class ${className}Model with _\$${className}Model {
   /// Query for document.
   ///
   /// ```dart
-  /// ${className}Model.document().read(appRef);      // Get the document.
-  /// ${className}Model.document().watch(ref); // Load the document.
+  /// appRef.model(${className}Model.document());      // Get the document.
+  /// ref.model(${className}Model.document())..load(); // Load the document.
   /// ```
   static const document = _\$${className}ModelDocumentQuery();
 
   /// Query for form value.
   ///
   /// ```dart
-  /// ${className}Model.form(${className}Model()).watch(ref);    // Get the form controller.
+  /// ref.page.controller(${className}Model.form(${className}Model()));    // Get the form controller.
   /// ```
   static const form = _\$${className}ModelFormQuery();
 }

@@ -52,16 +52,16 @@ class StripeUserModel with _$StripeUserModel {
   /// Query for document.
   ///
   /// ```dart
-  /// StripePurchaseUserModel.document(id).read(appRef);       // Get the document.
-  /// StripePurchaseUserModel.document(id).watch(ref)..load(); // Load the document.
+  /// appRef.model(StripePurchaseUserModel.document(id));       // Get the document.
+  /// ref.model(StripePurchaseUserModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$$_StripeUserModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// StripePurchaseUserModel.collection().read(appRef);       // Get the collection.
-  /// StripePurchaseUserModel.collection().watch(ref)..load(); // Load the collection.
+  /// appRef.model(StripePurchaseUserModel.collection());       // Get the collection.
+  /// ref.model(StripePurchaseUserModel.collection())..load();  // Load the collection.
   /// ref.model(
   ///   StripePurchaseUserModel.collection().equal(
   ///     StripePurchaseUserModelCollectionKey.xxx,

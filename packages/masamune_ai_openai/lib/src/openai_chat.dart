@@ -70,9 +70,9 @@ class OpenAIChat
   /// Query for OpenAIChat.
   ///
   /// ```dart
-  /// OpenAIChat.query(parameters).read(appRef);     // Get from application scope.
-  /// OpenAIChat.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// OpenAIChat.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(OpenAIChat.query(parameters));     // Get from application scope.
+  /// ref.app.controller(OpenAIChat.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(OpenAIChat.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$OpenAIChatQuery();
 

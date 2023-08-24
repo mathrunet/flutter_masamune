@@ -37,9 +37,9 @@ class TextToSpeechController
   /// Query for Location.
   ///
   /// ```dart
-  /// TextToSpeechController.query(parameters).read(appRef);     // Get from application scope.
-  /// TextToSpeechController.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// TextToSpeechController.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(TextToSpeechController.query(parameters));     // Get from application scope.
+  /// ref.app.controller(TextToSpeechController.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(TextToSpeechController.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$TextToSpeechQuery();
 

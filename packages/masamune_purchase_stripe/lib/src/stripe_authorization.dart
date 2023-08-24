@@ -32,9 +32,9 @@ class StripeAuthorization
   /// Query for StripeAuthorization.
   ///
   /// ```dart
-  /// StripeAuthorization.query(parameters).read(appRef);     // Get from application scope.
-  /// StripeAuthorization.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// StripeAuthorization.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(StripeAuthorization.query(parameters));     // Get from application scope.
+  /// ref.app.controller(StripeAuthorization.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(StripeAuthorization.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$StripeAuthorizationQuery();
 

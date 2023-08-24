@@ -45,9 +45,9 @@ class Compass
   /// Query for Compass.
   ///
   /// ```dart
-  /// Compass.query(parameters).read(appRef);     // Get from application scope.
-  /// Compass.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// Compass.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(Compass.query(parameters));     // Get from application scope.
+  /// ref.app.controller(Compass.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(Compass.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$CompassQuery();
 

@@ -91,26 +91,26 @@ class ${className}Model with _\$${className}Model {
   /// Query for document.
   ///
   /// ```dart
-  /// ${className}Model.document(id).read(appRef);       // Get the document.
-  /// ${className}Model.document(id).watch(ref)..load(); // Load the document.
+  /// appRef.model(${className}Model.document(id));       // Get the document.
+  /// ref.model(${className}Model.document(id))..load();  // Load the document.
   /// ```
   static const document = _\$${className}ModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// ${className}Model.collection().read(appRef);       // Get the collection.
-  /// ${className}Model.collection().watch(ref)..load(); // Load the collection.
-  /// ${className}Model.collection().data.equal(
+  /// appRef.model(${className}Model.collection());       // Get the collection.
+  /// ref.model(${className}Model.collection())..load();  // Load the collection.
+  /// ref.model(${className}Model.collection().data.equal(
   ///   "data",
-  /// ).watch(ref)..load(); // Load the collection with filter.
+  /// ))..load(); // Load the collection with filter.
   /// ```
   static const collection = _\$${className}ModelCollectionQuery();
 
   /// Query for form value.
   ///
   /// ```dart
-  /// ${className}Model.form(${className}Model()).watch(ref);    // Get the form controller.
+  /// ref.page.controller(${className}Model.form(${className}Model()));    // Get the form controller.
   /// ```
   static const form = _\$${className}ModelFormQuery();
 }

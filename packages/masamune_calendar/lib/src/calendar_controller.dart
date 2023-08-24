@@ -16,9 +16,9 @@ class CalendarController
   /// Query for CalendarController.
   ///
   /// ```dart
-  /// CalendarController.query(parameters).read(appRef);     // Get from application scope.
-  /// CalendarController.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// CalendarController.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(CalendarController.query(parameters));     // Get from application scope.
+  /// ref.app.controller(CalendarController.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(CalendarController.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$CalendarControllerQuery();
 

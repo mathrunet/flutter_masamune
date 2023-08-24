@@ -29,9 +29,9 @@ class StripeAccount
   /// Query for StripeAccount.
   ///
   /// ```dart
-  /// StripeAccount.query(parameters).read(appRef);     // Get from application scope.
-  /// StripeAccount.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// StripeAccount.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(StripeAccount.query(parameters));     // Get from application scope.
+  /// ref.app.controller(StripeAccount.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(StripeAccount.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$StripeAccountQuery();
 

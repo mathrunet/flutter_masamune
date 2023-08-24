@@ -32,9 +32,9 @@ class OpenAIMedia extends MasamuneControllerBase<List<OpenAIMediaImg>,
   /// Query for OpenAIMedia.
   ///
   /// ```dart
-  /// OpenAIMedia.query(parameters).read(appRef);     // Get from application scope.
-  /// OpenAIMedia.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// OpenAIMedia.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(OpenAIMedia.query(parameters));     // Get from application scope.
+  /// ref.app.controller(OpenAIMedia.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(OpenAIMedia.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$OpenAIMediaQuery();
 

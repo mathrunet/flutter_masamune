@@ -72,9 +72,9 @@ class MapController
   /// Query for MapController.
   ///
   /// ```dart
-  /// MapController.query(parameters).read(appRef);     // Get from application scope.
-  /// MapController.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// MapController.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(MapController.query(parameters));     // Get from application scope.
+  /// ref.app.controller(MapController.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(MapController.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$MapControllerQuery();
 

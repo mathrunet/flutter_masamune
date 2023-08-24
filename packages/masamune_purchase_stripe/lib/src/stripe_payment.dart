@@ -24,9 +24,9 @@ class StripePayment
   /// Query for StripePayment.
   ///
   /// ```dart
-  /// StripePayment.query(parameters).read(appRef);     // Get from application scope.
-  /// StripePayment.query(parameters).watchOnApp(ref);  // Watch at application scope.
-  /// StripePayment.query(parameters).watchOnPage(ref); // Watch at page scope.
+  /// appRef.controller(StripePayment.query(parameters));     // Get from application scope.
+  /// ref.app.controller(StripePayment.query(parameters));    // Watch at application scope.
+  /// ref.page.controller(StripePayment.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$StripePaymentQuery();
 

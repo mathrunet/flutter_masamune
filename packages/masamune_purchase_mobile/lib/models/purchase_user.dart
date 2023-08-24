@@ -50,16 +50,16 @@ class PurchaseUserModel with _$PurchaseUserModel {
   /// Query for document.
   ///
   /// ```dart
-  /// PurchaseUserModel.document(id).read(appRef);       // Get the document.
-  /// PurchaseUserModel.document(id).watch(ref)..load(); // Load the document.
+  /// appRef.model(PurchaseUserModel.document(id));       // Get the document.
+  /// ref.model(PurchaseUserModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$PurchaseUserModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// PurchaseUserModel.collection().read(appRef);       // Get the collection.
-  /// PurchaseUserModel.collection().watch(ref)..load(); // Load the collection.
+  /// appRef.model(PurchaseUserModel.collection());       // Get the collection.
+  /// ref.model(PurchaseUserModel.collection())..load();  // Load the collection.
   /// ref.model(
   ///   PurchaseUserModel.collection().equal(
   ///     PurchaseUserModelCollectionKey.xxx,
@@ -72,7 +72,7 @@ class PurchaseUserModel with _$PurchaseUserModel {
   /// Query for form value.
   ///
   /// ```dart
-  /// PurchaseUserModel.form(PurchaseUserModel()).watch(ref);    // Get the form controller.
+  /// ref.page.controller(PurchaseUserModel.form(PurchaseUserModel()));    // Get the form controller.
   /// ```
   static const form = _$PurchaseUserModelFormQuery();
 }

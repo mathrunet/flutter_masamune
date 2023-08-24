@@ -30,16 +30,16 @@ class PointEcosystemUserModel with _$PointEcosystemUserModel {
   /// Query for document.
   ///
   /// ```dart
-  /// PointEcosystemUserModel.document(id).read(appRef);       // Get the document.
-  /// PointEcosystemUserModel.document(id).watch(ref)..load(); // Load the document.
+  /// appRef.model(PointEcosystemUserModel.document(id));       // Get the document.
+  /// ref.model(PointEcosystemUserModel.document(id))..load();  // Load the document.
   /// ```
   static const document = _$PointEcosystemUserModelDocumentQuery();
 
   /// Query for collection.
   ///
   /// ```dart
-  /// PointEcosystemUserModel.collection().read(appRef);       // Get the collection.
-  /// PointEcosystemUserModel.collection().watch(ref)..load(); // Load the collection.
+  /// appRef.model(PointEcosystemUserModel.collection());       // Get the collection.
+  /// ref.model(PointEcosystemUserModel.collection())..load();  // Load the collection.
   /// ref.model(
   ///   PointEcosystemUserModel.collection().equal(
   ///     PointEcosystemUserModelCollectionKey.xxx,
@@ -52,7 +52,7 @@ class PointEcosystemUserModel with _$PointEcosystemUserModel {
   /// Query for form value.
   ///
   /// ```dart
-  /// PointEcosystemUserModel.form(PointEcosystemUserModel()).watch(ref);    // Get the form controller.
+  /// ref.page.controller(PointEcosystemUserModel.form(PointEcosystemUserModel()));    // Get the form controller.
   /// ```
   static const form = _$PointEcosystemUserModelFormQuery();
 }
