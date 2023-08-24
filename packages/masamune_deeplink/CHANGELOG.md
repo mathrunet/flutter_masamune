@@ -1,3 +1,7 @@
+## 2.1.13
+
+ - **FIX**: FirebaseOptions can now be configured. ([45e2b620](https://github.com/mathrunet/flutter_masamune/commit/45e2b620dca66b599f8a7f9ea8cf5093a7724008))
+
 ## 2.1.12
 
  - **DOCS**: Return to the explanation of normal usage instead of method chain. ([ed8a4fcb](https://github.com/mathrunet/flutter_masamune/commit/ed8a4fcbf40b6746ca0cb9376341bfc712379c7f))

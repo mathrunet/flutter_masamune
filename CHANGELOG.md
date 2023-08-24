@@ -15,6 +15,42 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.9`](#katana_cli---v289)
+ - [`masamune_deeplink` - `v2.1.13`](#masamune_deeplink---v2113)
+ - [`masamune_deeplink_firebase` - `v2.1.14`](#masamune_deeplink_firebase---v2114)
+ - [`masamune_notification_firebase` - `v2.1.93`](#masamune_notification_firebase---v2193)
+
+---
+
+#### `katana_cli` - `v2.8.9`
+
+ - **FIX**: Added Facebook information as it was missing. ([06a531c8](https://github.com/mathrunet/flutter_masamune/commit/06a531c8c847a5e9a2013d4f5d5270a6a518ae68))
+
+#### `masamune_deeplink` - `v2.1.13`
+
+ - **FIX**: FirebaseOptions can now be configured. ([45e2b620](https://github.com/mathrunet/flutter_masamune/commit/45e2b620dca66b599f8a7f9ea8cf5093a7724008))
+
+#### `masamune_deeplink_firebase` - `v2.1.14`
+
+ - **FIX**: FirebaseOptions can now be configured. ([45e2b620](https://github.com/mathrunet/flutter_masamune/commit/45e2b620dca66b599f8a7f9ea8cf5093a7724008))
+
+#### `masamune_notification_firebase` - `v2.1.93`
+
+ - **FIX**: FirebaseOptions can now be configured. ([45e2b620](https://github.com/mathrunet/flutter_masamune/commit/45e2b620dca66b599f8a7f9ea8cf5093a7724008))
+
+
+## 2023-08-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.8`](#katana_cli---v288)
 
 ---

@@ -1,3 +1,7 @@
+## 2.8.9
+
+ - **FIX**: Added Facebook information as it was missing. ([06a531c8](https://github.com/mathrunet/flutter_masamune/commit/06a531c8c847a5e9a2013d4f5d5270a6a518ae68))
+
 ## 2.8.8
 
  - **FIX**: Corrected router documentation. ([309abb3f](https://github.com/mathrunet/flutter_masamune/commit/309abb3f18414cce077b06b26477e8b31b4bf4a3))
