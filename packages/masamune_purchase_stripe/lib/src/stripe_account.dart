@@ -38,12 +38,12 @@ class StripeAccount
   /// Use this to retrieve the relevant [StripeUserModel] documentation.
   ///
   /// 関連する[StripeUserModel]のドキュメントを取得する場合はこちらを利用してください。
-  static const documentQuery = StripeUserModel.document;
+  static const document = StripeUserModel.document;
 
   /// Use this to retrieve the related [StripeUserModel] collection.
   ///
   /// 関連する[StripeUserModel]のコレクションを取得する場合はこちらを利用してください。
-  static const collectionQuery = StripeUserModel.collection;
+  static const collection = StripeUserModel.collection;
 
   @override
   StripePurchaseMasamuneAdapter get primaryAdapter =>
@@ -87,7 +87,7 @@ class StripeAccount
       if (userId.isEmpty) {
         throw Exception("UserId is empty.");
       }
-      final modelQuery = documentQuery(userId).modelQuery;
+      final modelQuery = document(userId).modelQuery;
       final userDocument = StripeUserModelDocument(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??

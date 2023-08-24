@@ -41,12 +41,12 @@ class StripePurchase
   /// Use this to retrieve the relevant [StripePurchaseModel] documentation.
   ///
   /// 関連する[StripePurchaseModel]のドキュメントを取得する場合はこちらを利用してください。
-  static const documentQuery = StripePurchaseModel.document;
+  static const document = StripePurchaseModel.document;
 
   /// Use this to retrieve the related [StripePurchaseModel] collection.
   ///
   /// 関連する[StripePurchaseModel]のコレクションを取得する場合はこちらを利用してください。
-  static const collectionQuery = StripePurchaseModel.collection;
+  static const collection = StripePurchaseModel.collection;
 
   @override
   StripePurchaseMasamuneAdapter get primaryAdapter =>
@@ -87,7 +87,7 @@ class StripePurchase
     }
     _completer = Completer<void>();
     try {
-      final modelQuery = collectionQuery(userId: userId).modelQuery;
+      final modelQuery = collection(userId: userId).modelQuery;
       final purchaseCollection = StripePurchaseModelCollection(
         modelQuery.equal(StripePurchaseModelKeys.orderId.name, orderId),
       );

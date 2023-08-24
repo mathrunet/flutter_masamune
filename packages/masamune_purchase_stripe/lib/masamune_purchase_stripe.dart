@@ -25,10 +25,6 @@ import 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
 
-export 'models/stripe_payment.dart';
-export 'models/stripe_purchase.dart';
-export 'models/stripe_user.dart';
-
 part 'actions/stripe_action_create_account.dart';
 part 'actions/stripe_action_delete_account.dart';
 part 'actions/stripe_action_dashboard_account.dart';

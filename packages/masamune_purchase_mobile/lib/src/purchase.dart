@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 part of masamune_purchase_mobile;
 
 /// Controller for in app purchase.
@@ -78,6 +80,22 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   /// ```
   static const query = _$PurchaseQuery();
 
+  /// Model for User.
+  ///
+  /// ```dart
+  /// ref.model(Purchase.user.document(id));       // Get the document.
+  /// ref.model(Purchase.user.collection());       // Get the collection.
+  /// ```
+  static const user = _$PurchaseUser();
+
+  /// Model for Subscription.
+  ///
+  /// ```dart
+  /// ref.model(Purchase.subscripiton.document(id));       // Get the document.
+  /// ref.model(Purchase.subscription.collection());       // Get the collection.
+  /// ```
+  static const subscription = _$PurchaseSubscription();
+
   @override
   PurchaseMasamuneAdapter get primaryAdapter => PurchaseMasamuneAdapter.primary;
 
@@ -92,7 +110,6 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
   Completer<void>? _loadCompleter;
   Completer<void>? _restoreompleter;
   Completer<void>? _purchaseCompleter;
-  // ignore: unused_field
   StreamSubscription? _purchaseUpdateStreamSubscription;
 
   /// List of valid products.
@@ -339,4 +356,56 @@ class _$_PurchaseQuery extends ControllerQueryBase<Purchase> {
   String get queryName => _name;
   @override
   bool get autoDisposeWhenUnreferenced => false;
+}
+
+class _$PurchaseSubscription {
+  const _$PurchaseSubscription();
+
+  /// Query for document.
+  ///
+  /// ```dart
+  /// appRef.model(PurchaseSubscriptionModel.document(id));       // Get the document.
+  /// ref.model(PurchaseSubscriptionModel.document(id))..load();  // Load the document.
+  /// ```
+  static const document = PurchaseSubscriptionModel.document;
+
+  /// Query for collection.
+  ///
+  /// ```dart
+  /// appRef.model(PurchaseSubscriptionModel.collection());       // Get the collection.
+  /// ref.model(PurchaseSubscriptionModel.collection())..load();  // Load the collection.
+  /// ref.model(
+  ///   PurchaseSubscriptionModel.collection().equal(
+  ///     PurchaseSubscriptionModelCollectionKey.xxx,
+  ///     "data",
+  ///   ),
+  /// )..load(); // Load the collection with filter.
+  /// ```
+  static const collection = PurchaseSubscriptionModel.collection;
+}
+
+class _$PurchaseUser {
+  const _$PurchaseUser();
+
+  /// Query for document.
+  ///
+  /// ```dart
+  /// appRef.model(PurchaseUserModel.document(id));       // Get the document.
+  /// ref.model(PurchaseUserModel.document(id))..load();  // Load the document.
+  /// ```
+  static const document = PurchaseUserModel.document;
+
+  /// Query for collection.
+  ///
+  /// ```dart
+  /// appRef.model(PurchaseUserModel.collection());       // Get the collection.
+  /// ref.model(PurchaseUserModel.collection())..load();  // Load the collection.
+  /// ref.model(
+  ///   PurchaseUserModel.collection().equal(
+  ///     PurchaseUserModelCollectionKey.xxx,
+  ///     "data",
+  ///   ),
+  /// )..load(); // Load the collection with filter.
+  /// ```
+  static const collection = PurchaseUserModel.collection;
 }

@@ -33,12 +33,12 @@ class StripePayment
   /// Use this to retrieve the relevant [StripePaymentModel] documentation.
   ///
   /// 関連する[StripePaymentModel]のドキュメントを取得する場合はこちらを利用してください。
-  static const documentQuery = StripePaymentModel.document;
+  static const document = StripePaymentModel.document;
 
   /// Use this to retrieve the related [StripePaymentModel] collection.
   ///
   /// 関連する[StripePaymentModel]のコレクションを取得する場合はこちらを利用してください。
-  static const collectionQuery = StripePaymentModel.collection;
+  static const collection = StripePaymentModel.collection;
 
   @override
   StripePurchaseMasamuneAdapter get primaryAdapter =>
@@ -81,7 +81,7 @@ class StripePayment
       if (userId.isEmpty) {
         throw Exception("You are not logged in. Please log in once.");
       }
-      final modelQuery = collectionQuery(userId: userId).modelQuery;
+      final modelQuery = collection(userId: userId).modelQuery;
       final paymentCollection = StripePaymentModelCollection(modelQuery);
       await paymentCollection.load();
       final length = paymentCollection.length;
@@ -229,7 +229,7 @@ class StripePayment
           "Payment information is empty. Please run [create] method.",
         );
       }
-      final modelQuery = collectionQuery(userId: userId).modelQuery;
+      final modelQuery = collection(userId: userId).modelQuery;
       final paymentCollection = StripePaymentModelCollection(modelQuery);
       final functionsAdapter =
           StripePurchaseMasamuneAdapter.primary.functionsAdapter ??
