@@ -9,11 +9,12 @@
 library masamune_module;
 
 // Flutter imports:
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:masamune/masamune.dart';
 
 part 'src/module_masamune_adapter.dart';
-part 'src/masamune_module_app.dart';
 part 'src/module_options.dart';
