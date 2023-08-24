@@ -203,6 +203,7 @@ ${showAllConfig ? """
         enable: false
         app_id: 
         app_secret: 
+        client_token: 
 """ : ""}
 
   # Enable Cloud Storage for Firebase.

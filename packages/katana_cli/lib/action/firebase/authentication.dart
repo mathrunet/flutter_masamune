@@ -60,6 +60,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
         facebook.get<int?>("app_secret", null)?.toString() ??
             facebook.get("app_secret", "") ??
             "";
+    final facebookClientToken = facebook.get("client_token", "");
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
@@ -67,9 +68,11 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
       return;
     }
     if (enableFacebook &&
-        (facebookAppId.isEmpty || facebookAppSecret.isEmpty)) {
+        (facebookAppId.isEmpty ||
+            facebookAppSecret.isEmpty ||
+            facebookClientToken.isEmpty)) {
       error(
-        "The item [facebook]->[app_id] or [facebook]->[app_secret] is missing. Please provide the Facebook App ID and App Secret for the configuration.",
+        "The item [facebook]->[app_id] or [facebook]->[app_secret], [facebook]->[client_token] is missing. Please provide the Facebook App ID and App Secret, Client Token for the configuration.",
       );
       return;
     }
@@ -219,17 +222,18 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
             "Could not find `CFBundleURLTypes` value element in `ios/Runner/Info.plist`. File is corrupt.",
           );
         }
-        if (!urlSchemeArray.children.any(
-          (p1) =>
-              p1 is XmlElement &&
-              p1.children.any((p2) =>
-                  p2 is XmlElement &&
-                  p2.name.toString() == "array" &&
-                  p2.children.any((p3) =>
-                      p3 is XmlElement &&
-                      p3.name.toString() == "string" &&
-                      p3.innerText == reversedClientId)),
-        )) {
+        if (enableGoogle &&
+            !urlSchemeArray.children.any(
+              (p1) =>
+                  p1 is XmlElement &&
+                  p1.children.any((p2) =>
+                      p2 is XmlElement &&
+                      p2.name.toString() == "array" &&
+                      p2.children.any((p3) =>
+                          p3 is XmlElement &&
+                          p3.name.toString() == "string" &&
+                          p3.innerText == reversedClientId)),
+            )) {
           urlSchemeArray.children.add(
             XmlElement(
               XmlName("dict"),
@@ -272,6 +276,253 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
               ],
             ),
           );
+        }
+        if (enableFacebook &&
+            !urlSchemeArray.children.any(
+              (p1) =>
+                  p1 is XmlElement &&
+                  p1.children.any((p2) =>
+                      p2 is XmlElement &&
+                      p2.name.toString() == "array" &&
+                      p2.children.any((p3) =>
+                          p3 is XmlElement &&
+                          p3.name.toString() == "string" &&
+                          p3.innerText == "fb$facebookAppId")),
+            )) {
+          urlSchemeArray.children.add(
+            XmlElement(
+              XmlName("dict"),
+              [],
+              [
+                XmlElement(
+                  XmlName("key"),
+                  [],
+                  [
+                    XmlText("CFBundleTypeRole"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("string"),
+                  [],
+                  [
+                    XmlText("Editor"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("key"),
+                  [],
+                  [
+                    XmlText("CFBundleURLSchemes"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("array"),
+                  [],
+                  [
+                    XmlElement(
+                      XmlName("string"),
+                      [],
+                      [
+                        XmlText("fb$facebookAppId"),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }
+      }
+      if (enableFacebook) {
+        final lsApplicationQueriesSchemes =
+            dict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "LSApplicationQueriesSchemes";
+        });
+        if (lsApplicationQueriesSchemes == null) {
+          dict.children.addAll(
+            [
+              XmlElement(
+                XmlName("key"),
+                [],
+                [
+                  XmlText("LSApplicationQueriesSchemes"),
+                ],
+              ),
+              XmlElement(
+                XmlName("array"),
+                [],
+                [
+                  XmlElement(
+                    XmlName("string"),
+                    [],
+                    [
+                      XmlText("fbapi"),
+                    ],
+                  ),
+                  XmlElement(
+                    XmlName("string"),
+                    [],
+                    [
+                      XmlText("fb-messenger-share-api"),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          );
+        } else {
+          final lsApplicationQueriesSchemesArray =
+              lsApplicationQueriesSchemes.nextElementSibling;
+          if (lsApplicationQueriesSchemesArray == null) {
+            throw Exception(
+              "Could not find `LSApplicationQueriesSchemes` value element in `ios/Runner/Info.plist`. File is corrupt.",
+            );
+          }
+          if (enableGoogle &&
+              !lsApplicationQueriesSchemesArray.children.any(
+                (p1) =>
+                    p1 is XmlElement &&
+                    p1.children.any((p2) =>
+                        p2 is XmlElement &&
+                        p2.name.toString() == "string" &&
+                        p2.innerText == "fbapi"),
+              )) {
+            lsApplicationQueriesSchemesArray.children.addAll(
+              [
+                XmlElement(
+                  XmlName("string"),
+                  [],
+                  [
+                    XmlText("fbapi"),
+                  ],
+                ),
+                XmlElement(
+                  XmlName("string"),
+                  [],
+                  [
+                    XmlText("fb-messenger-share-api"),
+                  ],
+                ),
+              ],
+            );
+          }
+        }
+        final facebookAppIdElement = dict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "FacebookAppID";
+        });
+        if (facebookAppIdElement == null) {
+          dict.children.addAll(
+            [
+              XmlElement(
+                XmlName("key"),
+                [],
+                [
+                  XmlText("FacebookAppID"),
+                ],
+              ),
+              XmlElement(
+                XmlName("string"),
+                [],
+                [
+                  XmlText(facebookAppId),
+                ],
+              ),
+            ],
+          );
+        } else {
+          final facebookAppIdElementString =
+              facebookAppIdElement.nextElementSibling;
+          if (facebookAppIdElementString == null) {
+            throw Exception(
+              "Could not find `FacebookAppID` value element in `ios/Runner/Info.plist`. File is corrupt.",
+            );
+          }
+          facebookAppIdElementString.innerText = facebookAppId;
+        }
+        final facebookClientTokenElement = dict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "FacebookClientToken";
+        });
+        if (facebookClientTokenElement == null) {
+          dict.children.addAll(
+            [
+              XmlElement(
+                XmlName("key"),
+                [],
+                [
+                  XmlText("FacebookClientToken"),
+                ],
+              ),
+              XmlElement(
+                XmlName("string"),
+                [],
+                [
+                  XmlText(facebookClientToken),
+                ],
+              ),
+            ],
+          );
+        } else {
+          final facebookClientTokenElementString =
+              facebookClientTokenElement.nextElementSibling;
+          if (facebookClientTokenElementString == null) {
+            throw Exception(
+              "Could not find `FacebookClientToken` value element in `ios/Runner/Info.plist`. File is corrupt.",
+            );
+          }
+          facebookClientTokenElementString.innerText = facebookClientToken;
+        }
+
+        final displayNameElement = dict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "CFBundleDisplayName";
+        });
+        final displayNameElementString = displayNameElement?.nextElementSibling;
+        if (displayNameElementString == null) {
+          throw Exception(
+            "Could not find `CFBundleDisplayName` value element in `ios/Runner/Info.plist`. File is corrupt.",
+          );
+        }
+        final facebookDisplayNameElement = dict.children.firstWhereOrNull((p0) {
+          return p0 is XmlElement &&
+              p0.name.toString() == "key" &&
+              p0.innerText == "FacebookDisplayName";
+        });
+        if (facebookDisplayNameElement == null) {
+          dict.children.addAll(
+            [
+              XmlElement(
+                XmlName("key"),
+                [],
+                [
+                  XmlText("FacebookDisplayName"),
+                ],
+              ),
+              XmlElement(
+                XmlName("string"),
+                [],
+                [
+                  XmlText(displayNameElementString.innerText),
+                ],
+              ),
+            ],
+          );
+        } else {
+          final facebookDisplayNameElementString =
+              facebookDisplayNameElement.nextElementSibling;
+          if (facebookDisplayNameElementString == null) {
+            throw Exception(
+              "Could not find `FacebookDisplayName` value element in `ios/Runner/Info.plist`. File is corrupt.",
+            );
+          }
+          facebookDisplayNameElementString.innerText =
+              displayNameElementString.innerText;
         }
       }
       await plist.writeAsString(
