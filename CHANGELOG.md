@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.8`](#katana_cli---v288)
+
+---
+
+#### `katana_cli` - `v2.8.8`
+
+ - **FIX**: Corrected router documentation. ([309abb3f](https://github.com/mathrunet/flutter_masamune/commit/309abb3f18414cce077b06b26477e8b31b4bf4a3))
+
+
+## 2023-08-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.7`](#katana_cli---v287)
 
 ---

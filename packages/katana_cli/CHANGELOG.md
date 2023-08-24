@@ -1,3 +1,7 @@
+## 2.8.8
+
+ - **FIX**: Corrected router documentation. ([309abb3f](https://github.com/mathrunet/flutter_masamune/commit/309abb3f18414cce077b06b26477e8b31b4bf4a3))
+
 ## 2.8.7
 
  - **DOCS**: Corrected collection comment. ([b6fae928](https://github.com/mathrunet/flutter_masamune/commit/b6fae928cc7b72cd1cd4a2ec598c5155bf0bf8d5))
