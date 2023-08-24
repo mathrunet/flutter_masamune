@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: More detailed modules can be created. ([756aa051](https://github.com/mathrunet/flutter_masamune/commit/756aa0513836513fee19eab0dbe35cfccddb81ca))
+
 ## 2.1.40
 
  - Update a dependency to the latest release.

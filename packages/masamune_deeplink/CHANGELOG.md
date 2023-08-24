@@ -1,3 +1,7 @@
+## 2.1.14
+
+ - Update a dependency to the latest release.
+
 ## 2.1.13
 
  - **FIX**: FirebaseOptions can now be configured. ([45e2b620](https://github.com/mathrunet/flutter_masamune/commit/45e2b620dca66b599f8a7f9ea8cf5093a7724008))

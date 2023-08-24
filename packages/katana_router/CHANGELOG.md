@@ -1,3 +1,7 @@
+## 2.0.33
+
+ - **FIX**: The page can be registered later. ([f3893013](https://github.com/mathrunet/flutter_masamune/commit/f389301349c0ed2a71619857dc1f141109788572))
+
 ## 2.0.32
 
  - **FIX**: Extension was made null-acceptable. ([ac2aad16](https://github.com/mathrunet/flutter_masamune/commit/ac2aad16448b2b061be8bdac3b5ab60b3a931882))
