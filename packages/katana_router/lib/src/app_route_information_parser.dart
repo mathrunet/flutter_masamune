@@ -18,7 +18,7 @@ class _AppRouteInformationParser extends RouteInformationParser<RouteQuery> {
       return routeInformation.query!;
     }
     final path = routeInformation.uri.path;
-    final query = router._config.pages
+    final query = router.pages
             .map((e) => e.resolve(path))
             .firstWhereOrNull((e) => e != null) ??
         router._config.unknown?.resolve(path) ??

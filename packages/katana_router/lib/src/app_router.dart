@@ -210,7 +210,22 @@ class AppRouter extends ChangeNotifier
   /// List of pages currently passed to [AppRouter].
   ///
   /// 現在[AppRouter]に渡されているページのリスト。
-  List<RouteQueryBuilder> get pages => _config.pages;
+  List<RouteQueryBuilder> get pages => [..._config.pages, ..._pages];
+  final Set<RouteQueryBuilder> _pages = {};
+
+  /// Register a new [RouteQueryBuilder].
+  ///
+  /// 新しい[RouteQueryBuilder]を登録します。
+  void registerPage(RouteQueryBuilder pageBuilder) {
+    _pages.add(pageBuilder);
+  }
+
+  /// Unregister the [RouteQueryBuilder].
+  ///
+  /// [RouteQueryBuilder]を登録解除します。
+  void unregisterPage(RouteQueryBuilder pageBuilder) {
+    _pages.remove(pageBuilder);
+  }
 
   /// You can check the current [RouteQuery].
   ///
@@ -273,7 +288,7 @@ class AppRouter extends ChangeNotifier
     String path, [
     TransitionQuery? transitionQuery,
   ]) async {
-    for (final page in _config.pages) {
+    for (final page in pages) {
       final resolved = page.resolve(path);
       if (resolved != null) {
         return push<E>(
@@ -327,7 +342,7 @@ class AppRouter extends ChangeNotifier
     String path, [
     TransitionQuery? transitionQuery,
   ]) async {
-    for (final page in _config.pages) {
+    for (final page in pages) {
       final resolved = page.resolve(path);
       if (resolved != null) {
         return replace<E>(
@@ -559,7 +574,7 @@ class AppRouter extends ChangeNotifier
     if (initialLocation.isEmpty) {
       return initialQuery;
     }
-    for (final page in _config.pages) {
+    for (final page in pages) {
       final query = page.resolve(initialLocation);
       if (query != null) {
         return query;
