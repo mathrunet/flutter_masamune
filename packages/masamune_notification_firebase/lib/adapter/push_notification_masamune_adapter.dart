@@ -21,6 +21,7 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
     this.windowsOptions,
     this.macosOptions,
     this.linuxOptions,
+    this.loggerAdapters = const [],
   }) : _options = options;
 
   /// You can retrieve the [PushNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -167,6 +168,9 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// **Android**でのみサポートされる通知チャンネルの説明です。
   final String androidNotificationChannelDescription;
+
+  @override
+  final List<LoggerAdapter> loggerAdapters;
 
   /// Specify the object of [PushNotification].
   ///

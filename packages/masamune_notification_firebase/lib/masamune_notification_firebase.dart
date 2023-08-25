@@ -28,3 +28,4 @@ part 'functions/send_notification_functions_action.dart';
 
 part 'src/push_notification.dart';
 part 'src/push_notification_value.dart';
+part 'src/push_notification_logger_event.dart';

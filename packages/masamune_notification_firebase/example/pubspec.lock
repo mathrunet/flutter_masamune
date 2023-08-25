@@ -607,7 +607,7 @@ packages:
       path: "../../katana_router"
       relative: true
     source: path
-    version: "2.0.32"
+    version: "2.0.33"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -679,7 +679,7 @@ packages:
       path: "../../masamune"
       relative: true
     source: path
-    version: "2.4.39"
+    version: "2.4.40"
   masamune_annotation:
     dependency: "direct overridden"
     description:
@@ -693,7 +693,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.1.92"
+    version: "2.1.94"
   matcher:
     dependency: transitive
     description:

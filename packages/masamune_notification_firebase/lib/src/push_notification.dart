@@ -104,7 +104,11 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// この端末のFCMトークンを取得します。
   Future<String?> getToken() {
-    return _messaging.getToken();
+    final token = _messaging.getToken();
+    _sendLog(PushNotificationLoggerEvent.token, parameters: {
+      PushNotificationLoggerEvent.tokenKey: token,
+    });
+    return token;
   }
 
   /// Start receiving notifications.
@@ -162,6 +166,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         sound: true,
       );
       _listening = true;
+      _sendLog(PushNotificationLoggerEvent.listen, parameters: {});
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -204,6 +209,11 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         data: data,
       ),
     );
+    _sendLog(PushNotificationLoggerEvent.send, parameters: {
+      PushNotificationLoggerEvent.titleKey: title,
+      PushNotificationLoggerEvent.bodyKey: text,
+      PushNotificationLoggerEvent.toKey: target,
+    });
   }
 
   /// Subscribe to a topic named [topic].
@@ -221,6 +231,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
     _messaging.subscribeToTopic(topic);
+    _sendLog(PushNotificationLoggerEvent.subscribe, parameters: {
+      PushNotificationLoggerEvent.topicNameKey: topic,
+    });
   }
 
   /// Unsubscribe from a topic name named [topic].
@@ -234,6 +247,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
     _messaging.unsubscribeFromTopic(topic);
+    _sendLog(PushNotificationLoggerEvent.unsubscribe, parameters: {
+      PushNotificationLoggerEvent.topicNameKey: topic,
+    });
   }
 
   Future<void> _onMessage(RemoteMessage message) async {
@@ -245,6 +261,11 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       target: message.from ?? "",
       whenAppOpened: false,
     );
+    _sendLog(PushNotificationLoggerEvent.receive, parameters: {
+      PushNotificationLoggerEvent.titleKey: message.notification?.title ?? "",
+      PushNotificationLoggerEvent.bodyKey: message.notification?.body ?? "",
+      PushNotificationLoggerEvent.toKey: message.from ?? "",
+    });
     notifyListeners();
   }
 
@@ -257,7 +278,19 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       target: message.from ?? "",
       whenAppOpened: true,
     );
+    _sendLog(PushNotificationLoggerEvent.receive, parameters: {
+      PushNotificationLoggerEvent.titleKey: message.notification?.title ?? "",
+      PushNotificationLoggerEvent.bodyKey: message.notification?.body ?? "",
+      PushNotificationLoggerEvent.toKey: message.from ?? "",
+    });
     notifyListeners();
+  }
+
+  void _sendLog(PushNotificationLoggerEvent event, {DynamicMap? parameters}) {
+    final loggerAdapters = LoggerAdapter.primary;
+    for (final loggerAdapter in loggerAdapters) {
+      loggerAdapter.send(event.toString(), parameters: parameters);
+    }
   }
 }
 
