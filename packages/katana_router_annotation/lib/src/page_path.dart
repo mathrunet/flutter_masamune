@@ -63,6 +63,7 @@ class PagePath {
     this.name,
     this.transition,
     this.redirect = const [],
+    this.implementType,
   });
 
   /// Page path.
@@ -105,6 +106,11 @@ class PagePath {
   ///
   /// `RerouteQuery`とそれを継承したクラスのみがbuilderで利用されます。
   final List<Object> redirect;
+
+  /// Specify a class that extends `RouteQueryBuilder` to enable page swapping.
+  ///
+  /// `RouteQueryBuilder`を継承したクラスを指定してページを入れ替え可能にします。
+  final Type? implementType;
 }
 
 /// Pages for use in nested navigators rather than at the top level.
@@ -191,6 +197,7 @@ class NestedPage {
     this.name,
     this.transition,
     this.redirect = const [],
+    this.implementType,
   });
 
   /// Page Name.
@@ -228,4 +235,9 @@ class NestedPage {
   ///
   /// `RerouteQuery`とそれを継承したクラスのみがbuilderで利用されます。
   final List<Object> redirect;
+
+  /// Specify a class that extends `RouteQueryBuilder` to enable page swapping.
+  ///
+  /// `RouteQueryBuilder`を継承したクラスを指定してページを入れ替え可能にします。
+  final Type? implementType;
 }

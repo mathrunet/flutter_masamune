@@ -18,6 +18,10 @@ List<Class> queryClass(
         ..name = "_\$${model.name}Query"
         ..extend = const Reference("RouteQueryBuilder")
         ..annotations.addAll([const Reference("immutable")])
+        ..implements.addAll([
+          if (annotation.implementType != null)
+            Reference(annotation.implementType),
+        ])
         ..constructors.addAll([
           Constructor(
             (c) => c..constant = true,
@@ -42,7 +46,7 @@ List<Class> queryClass(
             (m) => m
               ..name = "call"
               ..lambda = true
-              ..returns = Reference("_\$_${model.name}Query")
+              ..returns = const Reference("RouteQuery")
               ..annotations.addAll([const Reference("useResult")])
               ..optionalParameters.addAll([
                 ...model.parameters.map((param) {

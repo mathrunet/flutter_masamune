@@ -44,6 +44,17 @@ class AnnotationValue {
           transition = null;
         }
 
+        final implementTypeMatch = _implementTypeRegExp.firstMatch(source);
+        if (implementTypeMatch != null) {
+          implementType = implementTypeMatch
+              .group(1)
+              ?.trim()
+              .trimString("'")
+              .trimString('"');
+        } else {
+          implementType = null;
+        }
+
         final keyMatch = _keyRegExp.firstMatch(source);
         if (keyMatch != null) {
           final nameMatch = _nameWithSingleQuoteRegExp.firstMatch(source) ??
@@ -54,6 +65,7 @@ class AnnotationValue {
               ?.replaceAll(redirectMatch?.group(0) ?? "", "")
               .replaceAll(nameMatch?.group(0) ?? "", "")
               .replaceAll(transitionMatch?.group(0) ?? "", "")
+              .replaceAll(implementTypeMatch?.group(0) ?? "", "")
               .trim()
               .trimString(",")
               .trim();
@@ -75,13 +87,15 @@ class AnnotationValue {
   }
 
   static final _keyRegExp = RegExp(r"key\s*:\s*(.+),?\s*\)\s*$");
-  static final _nameWithSingleQuoteRegExp = RegExp(r"name\s*:\s*('[^']+')");
-  static final _nameWithDoubleQuoteRegExp = RegExp(r'name\s*:\s*("[^"]+")');
+  static final _nameWithSingleQuoteRegExp = RegExp(r"name\s*:\s*('[^']+'),?");
+  static final _nameWithDoubleQuoteRegExp = RegExp(r'name\s*:\s*("[^"]+"),?');
   static final _nameWithVariableRegExp =
-      RegExp(r'name\s*:\s*([a-zA-Z0-9$._-]+)');
+      RegExp(r'name\s*:\s*([a-zA-Z0-9$._-]+),?');
   static final _transitionRegExp =
-      RegExp("transition\\s*:\\s*([a-zA-Z0-9\$._'\"-]+)");
-  static final _redirectRegExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\]");
+      RegExp("transition\\s*:\\s*([a-zA-Z0-9\$._'\"-]+),?");
+  static final _implementTypeRegExp =
+      RegExp("implementType\\s*:\\s*([a-zA-Z0-9\$._'\"-]+),?");
+  static final _redirectRegExp = RegExp(r"redirect\s*:\s*\[([^\]]*)\],?");
 
   /// Class Element.
   ///
@@ -112,6 +126,11 @@ class AnnotationValue {
   ///
   /// Keyの文字列。
   late final String keyString;
+
+  /// Implement type.
+  ///
+  /// 実装タイプ。
+  late final String? implementType;
 
   @override
   String toString() {

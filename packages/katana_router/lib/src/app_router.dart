@@ -149,26 +149,9 @@ class AppRouter extends ChangeNotifier
 
     _routeInformationParser = _AppRouteInformationParser(this);
 
-    nested = nested || initialQuery?.nested == true;
-
-    final effectiveInitialLocation = nested
-        ? null
-        : _effectiveInitialLocation(
-            initialPath,
-          );
-
-    _routeInformationProvider = _AppRouteInformationProvider(
-      router: this,
-      initialRouteInformation: InitialRouteInformation(
-        query: nested
-            ? initialQuery
-            : _effectiveInitialQuery(
-                effectiveInitialLocation,
-                initialQuery,
-              ),
-        uri: Uri.tryParse(effectiveInitialLocation ?? ""),
-      ),
-    );
+    _nested = nested || initialQuery?.nested == true;
+    _initialPath = initialPath;
+    _initialQuery = initialQuery;
   }
 
   late final _AppRouterConfig _config;
@@ -205,7 +188,35 @@ class AppRouter extends ChangeNotifier
   @override
   RouteInformationProvider? get routeInformationProvider =>
       _routeInformationProvider;
-  late final _AppRouteInformationProvider _routeInformationProvider;
+
+  late final bool _nested;
+  late final String? _initialPath;
+  late final RouteQuery? _initialQuery;
+
+  _AppRouteInformationProvider get _routeInformationProvider {
+    return __routeInformationProvider ??= () {
+      final effectiveInitialLocation = _nested
+          ? null
+          : _effectiveInitialLocation(
+              _initialPath,
+            );
+
+      return _AppRouteInformationProvider(
+        router: this,
+        initialRouteInformation: InitialRouteInformation(
+          query: _nested
+              ? _initialQuery
+              : _effectiveInitialQuery(
+                  effectiveInitialLocation,
+                  _initialQuery,
+                ),
+          uri: Uri.tryParse(effectiveInitialLocation ?? ""),
+        ),
+      );
+    }();
+  }
+
+  _AppRouteInformationProvider? __routeInformationProvider;
 
   /// List of pages currently passed to [AppRouter].
   ///
@@ -373,6 +384,15 @@ class AppRouter extends ChangeNotifier
   void pop<E>([E? result]) {
     if (!canPop()) {
       SystemNavigator.pop();
+      return;
+    }
+    final container = _pageStack.removeLast();
+    container.completer.complete(result);
+    _routerDelegate.notifyListeners();
+  }
+
+  void _forcePop<E>([E? result]) {
+    if (_pageStack.isEmpty) {
       return;
     }
     final container = _pageStack.removeLast();
