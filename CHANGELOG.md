@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.11`](#katana_cli---v2811)
+ - [`masamune_notification_firebase` - `v2.1.96`](#masamune_notification_firebase---v2196)
+
+---
+
+#### `katana_cli` - `v2.8.11`
+
+ - **FIX**: モジュールの生成コードを変更。. ([59f66c8f](https://github.com/mathrunet/flutter_masamune/commit/59f66c8fe746dd7cba11fa5d38cb537af6116627))
+
+#### `masamune_notification_firebase` - `v2.1.96`
+
+ - **FIX**: Added callbacks for message retrieval. ([0c914dd2](https://github.com/mathrunet/flutter_masamune/commit/0c914dd209b3c5d5f5235f8d93d316952a1e5332))
+
+
+## 2023-08-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.10`](#katana_cli---v2810)
  - [`katana_form` - `v2.7.6`](#katana_form---v276)
  - [`katana_router` - `v2.0.34`](#katana_router---v2034)

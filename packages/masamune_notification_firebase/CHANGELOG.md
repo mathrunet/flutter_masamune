@@ -1,3 +1,7 @@
+## 2.1.96
+
+ - **FIX**: Added callbacks for message retrieval. ([0c914dd2](https://github.com/mathrunet/flutter_masamune/commit/0c914dd209b3c5d5f5235f8d93d316952a1e5332))
+
 ## 2.1.95
 
  - **FIX**: Add logger. ([6b7e70ed](https://github.com/mathrunet/flutter_masamune/commit/6b7e70ed5027c9de79c4c475942bc240260cedde))

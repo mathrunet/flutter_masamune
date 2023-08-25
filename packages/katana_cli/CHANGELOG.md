@@ -1,3 +1,7 @@
+## 2.8.11
+
+ - **FIX**: モジュールの生成コードを変更。. ([59f66c8f](https://github.com/mathrunet/flutter_masamune/commit/59f66c8fe746dd7cba11fa5d38cb537af6116627))
+
 ## 2.8.10
 
  - **FIX**: Modularization support for pages. ([301fecff](https://github.com/mathrunet/flutter_masamune/commit/301fecff9daeb06868c7f8c25c06e86e11fa1375))
