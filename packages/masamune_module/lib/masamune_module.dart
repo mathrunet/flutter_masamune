@@ -19,3 +19,4 @@ import 'package:masamune/masamune.dart';
 
 part 'src/module_masamune_adapter.dart';
 part 'src/module_options.dart';
+part 'src/app_module_masamune_adapter.dart';
