@@ -22,6 +22,7 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
     this.macosOptions,
     this.linuxOptions,
     this.loggerAdapters = const [],
+    this.onLink,
   }) : _options = options;
 
   /// You can retrieve the [PushNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -185,6 +186,11 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [pushNotification]が設定されている場合、[onMaybeBoot]を実行した際合わせてトピックの購読を行う際のトピックリストを指定します。
   final List<String> subscribeOnBoot;
+
+  /// Callback when the URL is launched.
+  ///
+  /// URLが起動されたときのコールバック。
+  final FutureOr<void> Function(Uri link)? onLink;
 
   @override
   void onInitScope(MasamuneAdapter adapter) {

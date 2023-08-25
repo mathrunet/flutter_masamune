@@ -79,6 +79,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     return FirebaseMessaging.instance;
   }
 
+  static const String _linkKey = "@link";
+
   @override
   void dispose() {
     super.dispose();
@@ -131,7 +133,6 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     }
     _completer = Completer();
     try {
-      final adapter = primaryAdapter;
       await FirebaseCore.initialize(options: adapter.options);
       await _messaging.setAutoInitEnabled(true);
       _onMessageSubscription = FirebaseMessaging.onMessage.listen(_onMessage);
@@ -197,6 +198,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     String? channel,
     DynamicMap? data,
     required String target,
+    Uri? link,
   }) async {
     await listen();
     final f = adapter.functions ?? Functions();
@@ -206,7 +208,10 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
         text: text,
         target: target,
         channel: adapter.androidNotificationChannelId,
-        data: data,
+        data: {
+          if (data != null) ...data,
+          if (link != null) _linkKey: link.path,
+        },
       ),
     );
     _sendLog(PushNotificationLoggerEvent.send, parameters: {
@@ -261,6 +266,12 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       target: message.from ?? "",
       whenAppOpened: false,
     );
+    if (adapter.onLink != null && data.containsKey(_linkKey)) {
+      final uri = data.get(_linkKey, "").toUri();
+      if (uri != null) {
+        await adapter.onLink?.call(uri);
+      }
+    }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
       PushNotificationLoggerEvent.titleKey: message.notification?.title ?? "",
       PushNotificationLoggerEvent.bodyKey: message.notification?.body ?? "",
@@ -278,6 +289,12 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       target: message.from ?? "",
       whenAppOpened: true,
     );
+    if (adapter.onLink != null && data.containsKey(_linkKey)) {
+      final uri = data.get(_linkKey, "").toUri();
+      if (uri != null) {
+        await adapter.onLink?.call(uri);
+      }
+    }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
       PushNotificationLoggerEvent.titleKey: message.notification?.title ?? "",
       PushNotificationLoggerEvent.bodyKey: message.notification?.body ?? "",
