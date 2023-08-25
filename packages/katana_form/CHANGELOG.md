@@ -1,3 +1,7 @@
+## 2.7.6
+
+ - **FIX**: Fixed a bug in TextField. ([72030930](https://github.com/mathrunet/flutter_masamune/commit/72030930437aa6fbf07c01762d17e9dd84cf2948))
+
 ## 2.7.5
 
  - Update a dependency to the latest release.

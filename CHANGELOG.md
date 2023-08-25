@@ -3,6 +3,123 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.8.10`](#katana_cli---v2810)
+ - [`katana_form` - `v2.7.6`](#katana_form---v276)
+ - [`katana_router` - `v2.0.34`](#katana_router---v2034)
+ - [`katana_router_annotation` - `v2.0.19`](#katana_router_annotation---v2019)
+ - [`katana_router_builder` - `v2.0.26`](#katana_router_builder---v2026)
+ - [`masamune_auth_google` - `v2.1.98`](#masamune_auth_google---v2198)
+ - [`masamune_deeplink` - `v2.1.15`](#masamune_deeplink---v2115)
+ - [`masamune_deeplink_firebase` - `v2.1.16`](#masamune_deeplink_firebase---v2116)
+ - [`masamune_module` - `v2.3.0`](#masamune_module---v230)
+ - [`masamune_module_point_ecosystem` - `v2.3.2`](#masamune_module_point_ecosystem---v232)
+ - [`masamune_notification_firebase` - `v2.1.95`](#masamune_notification_firebase---v2195)
+ - [`masamune` - `v2.4.41`](#masamune---v2441)
+ - [`masamune_location` - `v2.1.108`](#masamune_location---v21108)
+ - [`masamune_auth_apple` - `v2.1.97`](#masamune_auth_apple---v2197)
+ - [`masamune_text_to_speech` - `v2.1.63`](#masamune_text_to_speech---v2163)
+ - [`masamune_agora` - `v2.2.79`](#masamune_agora---v2279)
+ - [`masamune_ai_openai` - `v2.2.31`](#masamune_ai_openai---v2231)
+ - [`masamune_calendar` - `v2.0.141`](#masamune_calendar---v20141)
+ - [`masamune_picker` - `v2.1.96`](#masamune_picker---v2196)
+ - [`masamune_util` - `v2.1.75`](#masamune_util---v2175)
+ - [`masamune_universal_ui` - `v2.2.77`](#masamune_universal_ui---v2277)
+ - [`masamune_purchase_stripe` - `v3.3.42`](#masamune_purchase_stripe---v3342)
+ - [`masamune_logger_firebase` - `v2.0.139`](#masamune_logger_firebase---v20139)
+ - [`masamune_introduction` - `v2.2.45`](#masamune_introduction---v2245)
+ - [`masamune_speech_to_text` - `v2.1.66`](#masamune_speech_to_text---v2166)
+ - [`masamune_auth_facebook` - `v2.1.99`](#masamune_auth_facebook---v2199)
+ - [`masamune_location_google` - `v2.1.109`](#masamune_location_google---v21109)
+ - [`masamune_mail` - `v2.1.94`](#masamune_mail---v2194)
+ - [`masamune_ads_google` - `v2.1.47`](#masamune_ads_google---v2147)
+ - [`masamune_purchase_mobile` - `v2.5.43`](#masamune_purchase_mobile---v2543)
+ - [`masamune_builder` - `v2.8.9`](#masamune_builder---v289)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.41`
+ - `masamune_location` - `v2.1.108`
+ - `masamune_auth_apple` - `v2.1.97`
+ - `masamune_text_to_speech` - `v2.1.63`
+ - `masamune_agora` - `v2.2.79`
+ - `masamune_ai_openai` - `v2.2.31`
+ - `masamune_calendar` - `v2.0.141`
+ - `masamune_picker` - `v2.1.96`
+ - `masamune_util` - `v2.1.75`
+ - `masamune_universal_ui` - `v2.2.77`
+ - `masamune_purchase_stripe` - `v3.3.42`
+ - `masamune_logger_firebase` - `v2.0.139`
+ - `masamune_introduction` - `v2.2.45`
+ - `masamune_speech_to_text` - `v2.1.66`
+ - `masamune_auth_facebook` - `v2.1.99`
+ - `masamune_location_google` - `v2.1.109`
+ - `masamune_mail` - `v2.1.94`
+ - `masamune_ads_google` - `v2.1.47`
+ - `masamune_purchase_mobile` - `v2.5.43`
+ - `masamune_builder` - `v2.8.9`
+
+---
+
+#### `katana_cli` - `v2.8.10`
+
+ - **FIX**: Modularization support for pages. ([301fecff](https://github.com/mathrunet/flutter_masamune/commit/301fecff9daeb06868c7f8c25c06e86e11fa1375))
+
+#### `katana_form` - `v2.7.6`
+
+ - **FIX**: Fixed a bug in TextField. ([72030930](https://github.com/mathrunet/flutter_masamune/commit/72030930437aa6fbf07c01762d17e9dd84cf2948))
+
+#### `katana_router` - `v2.0.34`
+
+ - **FIX**: Fixed a bug in the use of WidgetBinding during AppRouter initialization. ([a9af0aed](https://github.com/mathrunet/flutter_masamune/commit/a9af0aed2a8793181144b67fd95f8ee9b611d8f2))
+ - **FIX**: Fixed canpop bug. ([8d189615](https://github.com/mathrunet/flutter_masamune/commit/8d189615227b2a4716a29753eb68287fa89a5923))
+
+#### `katana_router_annotation` - `v2.0.19`
+
+ - **FIX**: Fixed a bug in the use of WidgetBinding during AppRouter initialization. ([a9af0aed](https://github.com/mathrunet/flutter_masamune/commit/a9af0aed2a8793181144b67fd95f8ee9b611d8f2))
+
+#### `katana_router_builder` - `v2.0.26`
+
+ - **FIX**: Fixed a bug in the use of WidgetBinding during AppRouter initialization. ([a9af0aed](https://github.com/mathrunet/flutter_masamune/commit/a9af0aed2a8793181144b67fd95f8ee9b611d8f2))
+
+#### `masamune_auth_google` - `v2.1.98`
+
+ - **FIX**: Deleted unnecessary parts. ([f8f8c989](https://github.com/mathrunet/flutter_masamune/commit/f8f8c989c8b5f3d9c1bf205c2e1664d0ca209939))
+
+#### `masamune_deeplink` - `v2.1.15`
+
+ - **FIX**: Changed the method of generating Deeplink. ([9e881aa0](https://github.com/mathrunet/flutter_masamune/commit/9e881aa0c7f27ac99c83d8491141fb7214712145))
+
+#### `masamune_deeplink_firebase` - `v2.1.16`
+
+ - **FIX**: Changed the method of generating Deeplink. ([9e881aa0](https://github.com/mathrunet/flutter_masamune/commit/9e881aa0c7f27ac99c83d8491141fb7214712145))
+
+#### `masamune_module` - `v2.3.0`
+
+ - **FEAT**: Added AppModuleMasamuneAdatper. ([96194ca3](https://github.com/mathrunet/flutter_masamune/commit/96194ca3c307f6a68d766c7df2a04cea55a9202b))
+
+#### `masamune_module_point_ecosystem` - `v2.3.2`
+
+ - **FIX**: Support for module specification changes. ([e81bc85f](https://github.com/mathrunet/flutter_masamune/commit/e81bc85fcca55ce7759c47c2b08863087756e600))
+
+#### `masamune_notification_firebase` - `v2.1.95`
+
+ - **FIX**: Add logger. ([6b7e70ed](https://github.com/mathrunet/flutter_masamune/commit/6b7e70ed5027c9de79c4c475942bc240260cedde))
+
+
 ## 2023-08-24
 
 ### Changes

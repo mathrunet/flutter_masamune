@@ -1,3 +1,8 @@
+## 2.0.34
+
+ - **FIX**: Fixed a bug in the use of WidgetBinding during AppRouter initialization. ([a9af0aed](https://github.com/mathrunet/flutter_masamune/commit/a9af0aed2a8793181144b67fd95f8ee9b611d8f2))
+ - **FIX**: Fixed canpop bug. ([8d189615](https://github.com/mathrunet/flutter_masamune/commit/8d189615227b2a4716a29753eb68287fa89a5923))
+
 ## 2.0.33
 
  - **FIX**: The page can be registered later. ([f3893013](https://github.com/mathrunet/flutter_masamune/commit/f389301349c0ed2a71619857dc1f141109788572))

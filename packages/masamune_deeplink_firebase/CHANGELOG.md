@@ -1,3 +1,7 @@
+## 2.1.16
+
+ - **FIX**: Changed the method of generating Deeplink. ([9e881aa0](https://github.com/mathrunet/flutter_masamune/commit/9e881aa0c7f27ac99c83d8491141fb7214712145))
+
 ## 2.1.15
 
  - Update a dependency to the latest release.

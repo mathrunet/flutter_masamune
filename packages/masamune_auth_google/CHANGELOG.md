@@ -1,3 +1,7 @@
+## 2.1.98
+
+ - **FIX**: Deleted unnecessary parts. ([f8f8c989](https://github.com/mathrunet/flutter_masamune/commit/f8f8c989c8b5f3d9c1bf205c2e1664d0ca209939))
+
 ## 2.1.97
 
  - Update a dependency to the latest release.

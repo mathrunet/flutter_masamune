@@ -1,3 +1,7 @@
+## 2.0.19
+
+ - **FIX**: Fixed a bug in the use of WidgetBinding during AppRouter initialization. ([a9af0aed](https://github.com/mathrunet/flutter_masamune/commit/a9af0aed2a8793181144b67fd95f8ee9b611d8f2))
+
 ## 2.0.18
 
  - Update a dependency to the latest release.

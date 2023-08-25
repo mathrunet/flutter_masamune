@@ -1,3 +1,7 @@
+## 3.3.42
+
+ - Update a dependency to the latest release.
+
 ## 3.3.41
 
  - **FIX**: Changed the way the model is called. ([b54a0982](https://github.com/mathrunet/flutter_masamune/commit/b54a0982df93741c692866600e3c23455198c3e2))

@@ -1,3 +1,7 @@
+## 2.8.10
+
+ - **FIX**: Modularization support for pages. ([301fecff](https://github.com/mathrunet/flutter_masamune/commit/301fecff9daeb06868c7f8c25c06e86e11fa1375))
+
 ## 2.8.9
 
  - **FIX**: Added Facebook information as it was missing. ([06a531c8](https://github.com/mathrunet/flutter_masamune/commit/06a531c8c847a5e9a2013d4f5d5270a6a518ae68))

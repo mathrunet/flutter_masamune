@@ -1,3 +1,7 @@
+## 2.1.95
+
+ - **FIX**: Add logger. ([6b7e70ed](https://github.com/mathrunet/flutter_masamune/commit/6b7e70ed5027c9de79c4c475942bc240260cedde))
+
 ## 2.1.94
 
  - Update a dependency to the latest release.

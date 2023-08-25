@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added AppModuleMasamuneAdatper. ([96194ca3](https://github.com/mathrunet/flutter_masamune/commit/96194ca3c307f6a68d766c7df2a04cea55a9202b))
+
 ## 2.2.0
 
  - **FEAT**: More detailed modules can be created. ([756aa051](https://github.com/mathrunet/flutter_masamune/commit/756aa0513836513fee19eab0dbe35cfccddb81ca))
