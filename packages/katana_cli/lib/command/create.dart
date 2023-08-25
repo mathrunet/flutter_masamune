@@ -823,6 +823,9 @@ class MainCliCode extends CliCode {
   /// main.dartの中身。
   const MainCliCode({this.module});
 
+  /// Name of the module to be used.
+  ///
+  /// 利用するモジュール名。
   final String? module;
 
   @override
@@ -843,7 +846,9 @@ class MainCliCode extends CliCode {
     return """
 import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
-${module == null ? "import 'package:masamune_universal_ui/masamune_universal_ui.dart';" : "import 'package:${module!.toSnakeCase()}/${module!.toSnakeCase()}.dart';"}
+import 'package:masamune_universal_ui/masamune_universal_ui.dart';
+${module == null ? "" : "import 'package:${module!.toSnakeCase()}/${module!.toSnakeCase()}.dart';"}
+${module == null ? "" : "import 'package:${module!.toSnakeCase()}/pages/home.dart';"}
 
 ${module == null ? "import 'pages/home.dart';" : ""}
 """;
@@ -859,64 +864,28 @@ part '$baseName.localize.dart';
 
   @override
   String body(String path, String baseName, String className) {
-    if (module != null) {
-      return """
-/// App Theme.
-///
-/// ```dart
-/// theme.color.primary   // Primary color.
-/// theme.text.bodyMedium // Medium body text style.
-/// theme.asset.xxx       // xxx image.
-/// theme.font.xxx        // xxx font.
-/// ```
-@appTheme
-final theme = AppThemeData(
-  // TODO: Set the design.
-  primary: Colors.blue,
-  secondary: Colors.cyan,
-  onPrimary: Colors.white,
-  onSecondary: Colors.white,
-  \${1}
-);
-
-/// App Localization.
-///
-/// ```dart
-/// l().xxx  // Localization for xxx.
-/// ```
-final l = AppLocalize();
-
-// TODO: Set the Google Spreadsheet URL for the translation.
-@GoogleSpreadSheetLocalize(
-  "\${2:https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808}",
-  version: 1,
-)
-class AppLocalize extends _\$AppLocalize {}
-
+    final moduleContent = module == null
+        ? null
+        : """
 /// [ModuleMasamuneAdapter] for applications.
 // TODO: Please configure the module.
 final appModule = ${module!.toPascalCase()}MasamuneAdapter(
-  title: "\${3}",
+  title: const LocalizedValue([
+    LocalizedLocaleValue(Locale("en"), title),
+  ]),
+  appRef: appRef,
+  auth: appAuth,
+  router: router,
+  function: appFunction,
+  localize: l,
   theme: theme,
-  authAdapter: const RuntimeAuthAdapter(),
-  modelAdapter: const RuntimeModelAdapter(),
-  storageAdapter: const RuntimeStorageAdapter(),
-  functionsAdapter: const RuntimeFunctionsAdapter(),
-  additionalMasamuneAdapters: const [
-    \${4:UniversalMasamuneAdapter(),}    
-  ],
+  option: ${module!.toPascalCase()}ModuleOptions(
+  ),
 );
-
-/// App.
-void main() {
-  runMasamuneApp(
-    (adapters) => MasamuneModuleApp(appModule, adapters),
-    masamuneAdapters: appModule.masamuneAdapters,
-  );
-}
 """;
-    } else {
-      return """
+    return """
+$moduleContent
+
 /// App Title.
 // TODO: Define the title of the application.
 const title = "\${1}";
@@ -963,6 +932,7 @@ final loggerAdapters = <LoggerAdapter>[
 // TODO: Add the adapters.
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
+  ${module == null ? "appModule," : ""}
 ];
 
 /// App Theme.
@@ -1083,7 +1053,6 @@ void main() {
   );
 }
 """;
-    }
   }
 }
 
@@ -1719,6 +1688,20 @@ class HomePage extends PageScopedWidget {
     );
   }
 }
+
+${module == null ? "" : """
+/// [RouteQueryBuilder], which is also available externally.
+///
+/// ```dart
+/// @PagePath(
+///   "test",
+///   implementType: HomePageQuery,
+/// )
+/// class TestPage extends PageScopedWidget {
+/// }
+/// ```
+typedef HomePageQuery = _\$HomePageQuery;
+"""}
 """;
   }
 }
@@ -1896,56 +1879,81 @@ class ${className.toPascalCase()}ModuleOptions extends ModuleOptions {
   // TODO: Define the words used in the module.
 }
 
-/// [ModuleMasamuneAdapter] should be defined together with [MasamuneModuleApp] in [runMasamuneApp].
+/// Define [${className.toPascalCase()}MasamuneAdapter] pages.
+class ${className.toPascalCase()}ModulePages extends ModulePages {
+  const ${className.toPascalCase()}ModulePages({
+    this.home = const HomePageQuery(),
+  });
+
+  // TODO: Define the pages.
+  final HomePageQuery home;
+
+  @override
+  List<RouteQueryBuilder> get pages => [
+    home,
+  ];
+}
+
+/// [AppModuleMasamuneAdapter] should be compiled into a list of [MasamuneAdapters] and passed to [runMasamuneApp.masamuneAdapters].
 /// 
 /// ```dart
 /// const module = ${className.toPascalCase()}MasamuneAdapter();
 /// 
 /// void main() {
 ///  runMasamuneApp(
-///    (adapters) => MasamuneModuleApp(module, adapters),
-///    masamuneAdapters: module.masamuneAdapters,
+///    (adapters) => MasamuneApp(
+///      title: title,
+///      appRef: appRef,
+///      theme: theme,
+///      routerConfig: router,
+///      localize: l,
+///      authAdapter: authAdapter,
+///      modelAdapter: modelAdapter,
+///      storageAdapter: storageAdapter,
+///      functionsAdapter: functionsAdapter,
+///      loggerAdapters: loggerAdapters,
+///      masamuneAdapters: adapters,
+///    ),
+///    masamuneAdapters: [module],
 ///  );
 ///}
 /// ```
 @immutable
-class ${className.toPascalCase()}MasamuneAdapter extends ModuleMasamuneAdapter<${className.toPascalCase()}ModuleOptions> {
-  /// [ModuleMasamuneAdapter] should be defined together with [MasamuneModuleApp] in [runMasamuneApp].
+class ${className.toPascalCase()}MasamuneAdapter extends AppModuleMasamuneAdapter<${className.toPascalCase()}ModulePages, ${className.toPascalCase()}ModuleOptions> {
+  /// [AppModuleMasamuneAdapter] should be compiled into a list of [MasamuneAdapters] and passed to [runMasamuneApp.masamuneAdapters].
   /// 
   /// ```dart
   /// const module = ${className.toPascalCase()}MasamuneAdapter();
   /// 
   /// void main() {
   ///  runMasamuneApp(
-  ///    (adapters) => MasamuneModuleApp(module, adapters),
-  ///    masamuneAdapters: module.masamuneAdapters,
+  ///    (adapters) => MasamuneApp(
+  ///      title: title,
+  ///      appRef: appRef,
+  ///      theme: theme,
+  ///      routerConfig: router,
+  ///      localize: l,
+  ///      authAdapter: authAdapter,
+  ///      modelAdapter: modelAdapter,
+  ///      storageAdapter: storageAdapter,
+  ///      functionsAdapter: functionsAdapter,
+  ///      loggerAdapters: loggerAdapters,
+  ///      masamuneAdapters: adapters,
+  ///    ),
+  ///    masamuneAdapters: [module],
   ///  );
   ///}
-  /// ```
-  ${className.toPascalCase()}MasamuneAdapter({
-    super.theme,
-    super.options = const ${className.toPascalCase()}ModuleOptions(),
-    super.authAdapter = const RuntimeAuthAdapter(),
-    super.modelAdapter = const RuntimeModelAdapter(),
-    super.configModelAdapter,
-    super.prefsModelAdapter,
-    super.storageAdapter = const RuntimeStorageAdapter(),
-    super.functionsAdapter = const RuntimeFunctionsAdapter(),
-    super.additionalLoggerAdapters = const [
-      ConsoleLoggerAdapter(),
-    ],
-    super.scaffoldMessengerKey,
-    super.debugShowCheckedModeBanner = true,
-    super.showPerformanceOverlay = false,
-    super.title = "",
-    super.onGenerateTitle,
-    super.themeMode,
-    super.routerBootOverride,
-    super.routerInitialQueryOverride,
-    super.additionalRouterPages = const [],
-    super.additionalRouterRedirect = const [],
-    super.additionalNavigatorObservers = const [],
-    super.additionalMasamuneAdapters = const [],
+  ///```
+  const ${className.toPascalCase()}MasamuneAdapter({
+    required super.appRef,
+    required super.auth,
+    required super.router,
+    required super.localize,
+    required super.theme,
+    required super.function,
+    super.title,
+    super.option = const ${className.toPascalCase()}ModuleOptions(),
+    super.page = const ${className.toPascalCase()}ModulePages(),
   });
 
   /// You can retrieve the [${className.toPascalCase()}MasamuneAdapter] first given by [MasamuneAdapterScope].
@@ -1960,26 +1968,6 @@ class ${className.toPascalCase()}MasamuneAdapter extends ModuleMasamuneAdapter<$
   static ${className.toPascalCase()}MasamuneAdapter? _primary;
 
   @override
-  AppLocalizeBase? get localize => ml;
-
-  @override
-  BootRouteQueryBuilder? get routerBoot => null;
-
-  @override
-  RouteQuery get routerInitialQuery => HomePage.query();
-
-  @override
-  List<RouteQueryBuilder> get routerPages => [
-        HomePage.query,
-      ];
-
-  @override
-  List<MasamuneAdapter> get masamuneAdapters => [
-        ...super.masamuneAdapters,
-        this,
-      ];
-
-  @override
   void onInitScope(MasamuneAdapter adapter) {
     super.onInitScope(adapter);
     if (adapter is! ${className.toPascalCase()}MasamuneAdapter) {
@@ -1992,7 +1980,7 @@ class ${className.toPascalCase()}MasamuneAdapter extends ModuleMasamuneAdapter<$
   Widget onBuildApp(BuildContext context, Widget app) {
     return MasamuneAdapterScope<${className.toPascalCase()}MasamuneAdapter>(
       adapter: this,
-      child: app,
+      child: super.onBuildApp(context, app),
     );
   }
 }
