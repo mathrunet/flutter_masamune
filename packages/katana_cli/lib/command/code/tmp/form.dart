@@ -31,8 +31,43 @@ class CodeTmpFormCliCommand extends CliCodeCommand {
       );
       return;
     }
+    final existsMain = File("lib/main.dart").existsSync();
     label("Create a form template in `$directory/$path.dart`.");
-    await generateDartCode("$directory/$path", path);
+    await generateDartCode(
+      "$directory/$path",
+      path,
+      filter: (value) {
+        if (existsMain) {
+          return value;
+        } else {
+          return """$value
+/// [RouteQueryBuilder], which is also available externally.
+/// 
+/// ```dart
+/// @PagePath(
+///   "test",
+///   implementType: ${path.split("/").distinct().join("_").toPascalCase()}AddPageQuery,
+/// )
+/// class TestPage extends PageScopedWidget {
+/// }
+/// ```
+typedef ${path.split("/").distinct().join("_").toPascalCase()}AddPageQuery = _\$${path.split("/").distinct().join("_").toPascalCase()}AddPageQuery;
+
+/// [RouteQueryBuilder], which is also available externally.
+/// 
+/// ```dart
+/// @PagePath(
+///   "test",
+///   implementType: ${path.split("/").distinct().join("_").toPascalCase()}EditPageQuery,
+/// )
+/// class TestPage extends PageScopedWidget {
+/// }
+/// ```
+typedef ${path.split("/").distinct().join("_").toPascalCase()}EditPageQuery = _\$${path.split("/").distinct().join("_").toPascalCase()}EditPageQuery;
+""";
+        }
+      },
+    );
   }
 
   @override

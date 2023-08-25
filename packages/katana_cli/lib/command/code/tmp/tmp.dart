@@ -1,6 +1,8 @@
 library katana_cli.code.tmp;
 
 // Project imports:
+import 'dart:io';
+
 import 'package:katana_cli/katana_cli.dart';
 
 part 'form.dart';

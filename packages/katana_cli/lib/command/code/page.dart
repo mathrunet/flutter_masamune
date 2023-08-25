@@ -31,6 +31,7 @@ class CodePageCliCommand extends CliCodeCommand {
       );
       return;
     }
+    final existsMain = File("lib/main.dart").existsSync();
     label("Create a page class in `$directory/$path.dart`.");
     final parentPath = path.parentPath();
     if (parentPath.isNotEmpty) {
@@ -39,7 +40,29 @@ class CodePageCliCommand extends CliCodeCommand {
         await parentDir.create(recursive: true);
       }
     }
-    await generateDartCode("$directory/$path", path);
+    await generateDartCode(
+      "$directory/$path",
+      path,
+      filter: (value) {
+        if (existsMain) {
+          return value;
+        } else {
+          return """$value
+/// [RouteQueryBuilder], which is also available externally.
+/// 
+/// ```dart
+/// @PagePath(
+///   "test",
+///   implementType: ${path.split("/").distinct().join("_").toPascalCase()}PageQuery,
+/// )
+/// class TestPage extends PageScopedWidget {
+/// }
+/// ```
+typedef ${path.split("/").distinct().join("_").toPascalCase()}PageQuery = _\$${path.split("/").distinct().join("_").toPascalCase()}PageQuery;
+""";
+        }
+      },
+    );
   }
 
   @override
