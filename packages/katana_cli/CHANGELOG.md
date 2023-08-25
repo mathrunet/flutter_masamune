@@ -1,3 +1,7 @@
+## 2.8.12
+
+ - **FIX**: Rewriting of licenses. ([ff54be2b](https://github.com/mathrunet/flutter_masamune/commit/ff54be2b846fbc9ecfeb6c5ccf31eab5f24f7a2b))
+
 ## 2.8.11
 
  - **FIX**: モジュールの生成コードを変更。. ([59f66c8f](https://github.com/mathrunet/flutter_masamune/commit/59f66c8fe746dd7cba11fa5d38cb537af6116627))

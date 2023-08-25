@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.12`](#katana_cli---v2812)
+
+---
+
+#### `katana_cli` - `v2.8.12`
+
+ - **FIX**: Rewriting of licenses. ([ff54be2b](https://github.com/mathrunet/flutter_masamune/commit/ff54be2b846fbc9ecfeb6c5ccf31eab5f24f7a2b))
+
+
+## 2023-08-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.11`](#katana_cli---v2811)
  - [`masamune_notification_firebase` - `v2.1.96`](#masamune_notification_firebase---v2196)
 
