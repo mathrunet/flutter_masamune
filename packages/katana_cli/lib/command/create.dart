@@ -308,6 +308,8 @@ class CreateCliCommand extends CliCommand {
       await KatanaCliCode(context.args.get(2, "") == "-a" ||
               context.args.get(2, "") == "-e")
           .generateFile("katana.yaml");
+      label("Replace LICENSE");
+      await const LicenseCliCode().generateFile("LICENSE");
       label("Create a katana_secrets.yaml");
       await const KatanaSecretsCliCode().generateFile("katana_secrets.yaml");
       label("Create a pubspec_overrides.yaml");
@@ -2224,6 +2226,68 @@ scripts:
 
   import_sorter: >
     melos exec -- "flutter pub run import_sorter:main ."
+""";
+  }
+}
+
+/// Contents of LICENSE.
+///
+/// LICENSEの中身。
+class LicenseCliCode extends CliCode {
+  /// Contents of LICENSE.
+  ///
+  /// LICENSEの中身。
+  const LicenseCliCode();
+
+  @override
+  String get name => "LICENSE";
+
+  @override
+  String get prefix => "LICENSE";
+
+  @override
+  String get directory => "";
+
+  @override
+  String get description => "Define LICENSE. LICENSEを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+Copyright (c) 2021, mathru (https://mathru.net)
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+* Redistributions of source code must retain the above copyright notice, 
+  this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, 
+  this list of conditions and the following disclaimer in the documentation 
+  and/or other materials provided with the distribution.
+* Neither the name of the <organization> nor the names of its contributors 
+  may be used to endorse or promote products derived from this software 
+  without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """;
   }
 }
