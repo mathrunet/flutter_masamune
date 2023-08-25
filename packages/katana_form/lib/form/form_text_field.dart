@@ -1257,12 +1257,6 @@ class _TextFormFieldState<TValue> extends FormFieldState<String> {
     }
   }
 
-  @override
-  void reset() {
-    _effectiveController.text = widget.initialValue ?? "";
-    super.reset();
-  }
-
   void _handleControllerChanged() {
     if (_effectiveController.text != value) {
       didChange(_effectiveController.text);
