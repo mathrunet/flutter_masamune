@@ -357,7 +357,7 @@ class AppRouter extends ChangeNotifier
   /// Checks if the page is [pop]-able. If `true` is returned, the page is [pop]able.
   ///
   /// ページが[pop]可能かどうかをチェックします。`true`が返された場合[pop]可能です。
-  bool canPop() => _pageStack.isNotEmpty;
+  bool canPop() => _pageStack.length > 1;
 
   /// Discards the current page and returns to the previous page.
   ///
