@@ -32,4 +32,5 @@ export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
 
 part 'adapter/firebase_deeplink_masamune_adapter.dart';
 part 'src/deeplink.dart';
-part 'src/firebase_deep_link_settings.dart';
+part 'src/firebase_deeplink_settings.dart';
+part 'src/firebase_deeplink_logger_event.dart';

@@ -81,12 +81,21 @@ class Deeplink
   }) async {
     final adapter = primaryAdapter;
     await FirebaseCore.initialize(options: adapter.options);
-    final dynamicLink = await _dynamicLink.buildShortLink(
-      adapter.settings._toDynamicLinkParameters(
-        path,
-        socialMetaTagParameters: socialMetaTagParameters,
-      ),
+
+    final parameters = adapter.settings._toDynamicLinkParameters(
+      path,
+      socialMetaTagParameters: socialMetaTagParameters,
     );
+    final dynamicLink = await _dynamicLink.buildShortLink(
+      parameters,
+      shortLinkType: ShortDynamicLinkType.unguessable,
+    );
+    final shortUrl = dynamicLink.shortUrl;
+    _sendLog(FirebaseDeeplinkLoggerEvent.create, parameters: {
+      FirebaseDeeplinkLoggerEvent.longUriKey:
+          parameters.longDynamicLink.toString(),
+      FirebaseDeeplinkLoggerEvent.shortUriKey: shortUrl,
+    });
     return dynamicLink.shortUrl;
   }
 
@@ -107,14 +116,23 @@ class Deeplink
       await FirebaseCore.initialize(options: adapter.options);
       final dynamicLink = await _dynamicLink.getInitialLink();
       _value = dynamicLink?.link;
+      if (_value != null) {
+        _sendLog(FirebaseDeeplinkLoggerEvent.recieve, parameters: {
+          FirebaseDeeplinkLoggerEvent.linkKey: _value.toString(),
+        });
+      }
       notifyListeners();
       _uriLinkStreamSubscription ??= _dynamicLink.onLink.listen((dynamicLink) {
         _value = dynamicLink.link;
+        _sendLog(FirebaseDeeplinkLoggerEvent.recieve, parameters: {
+          FirebaseDeeplinkLoggerEvent.linkKey: _value.toString(),
+        });
         notifyListeners();
       }, onError: (Object error) {
         _value = null;
         notifyListeners();
       });
+      _sendLog(FirebaseDeeplinkLoggerEvent.listen, parameters: {});
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -131,6 +149,13 @@ class Deeplink
     _value = null;
     _uriLinkStreamSubscription?.cancel();
     super.dispose();
+  }
+
+  void _sendLog(FirebaseDeeplinkLoggerEvent event, {DynamicMap? parameters}) {
+    final loggerAdapters = LoggerAdapter.primary;
+    for (final loggerAdapter in loggerAdapters) {
+      loggerAdapter.send(event.toString(), parameters: parameters);
+    }
   }
 }
 

@@ -18,6 +18,7 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
     this.windowsOptions,
     this.macosOptions,
     this.linuxOptions,
+    this.loggerAdapters = const [],
   }) : _options = options;
 
   /// Options for initializing Firebase.
@@ -140,7 +141,7 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
   /// Options for handling Deeplink.
   ///
   /// Deeplinkを取り扱うためのオプション。
-  final FirebaseDeepLinkSettings settings;
+  final FirebaseDeeplinkSettings settings;
 
   /// Specify the object of [Deeplink].
   ///
@@ -150,6 +151,9 @@ class FirebaseDeeplinkMasamuneAdapter extends MasamuneAdapter {
   ///
   /// これを指定した上で[onMaybeBoot]を実行すると自動で監視を開始します。
   final Deeplink? deeplink;
+
+  @override
+  final List<LoggerAdapter> loggerAdapters;
 
   /// You can retrieve the [FirebaseDeeplinkMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

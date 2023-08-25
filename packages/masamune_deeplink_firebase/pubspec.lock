@@ -337,10 +337,9 @@ packages:
   katana_firebase:
     dependency: "direct main"
     description:
-      name: katana_firebase
-      sha256: "1910c8167fc45f02d5acd039ede81522174539acd444d4f3daf7cfd7d2c50228"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../katana_firebase"
+      relative: true
+    source: path
     version: "2.0.12"
   katana_form:
     dependency: "direct overridden"
@@ -432,7 +431,7 @@ packages:
       path: "../katana_router"
       relative: true
     source: path
-    version: "2.0.32"
+    version: "2.0.33"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
@@ -504,7 +503,7 @@ packages:
       path: "../masamune"
       relative: true
     source: path
-    version: "2.4.39"
+    version: "2.4.40"
   masamune_annotation:
     dependency: "direct overridden"
     description:
