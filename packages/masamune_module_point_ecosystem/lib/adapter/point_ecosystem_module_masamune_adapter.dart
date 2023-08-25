@@ -12,8 +12,8 @@ part of masamune_module_point_ecosystem;
 ///
 /// 外部で作成された[Purchase]や[AppRef]、[AppRouter]を渡してください。
 @immutable
-class PointEcosystemModuleMasamuneAdapter
-    extends ModuleMasamuneAdapter<PointEcosystemModuleOptions> {
+class PointEcosystemModuleMasamuneAdapter extends ModuleMasamuneAdapter<
+    _PointEcosystemModuleMasamuneAdapterPages, PointEcosystemModuleOptions> {
   /// This module is used to build an application that allows users to accumulate points through purchases by billing, login bonuses, and viewing through reward ads, which can then be used to access services.
   ///
   /// Since [MobilePurchaseMasamuneAdapter] or [GoogleAdsMasamuneAdapter] is used, it is necessary to prepare them.
@@ -31,10 +31,8 @@ class PointEcosystemModuleMasamuneAdapter
     required this.purchase,
     this.modelAdapter,
     this.pointEcosystem,
-    required super.options,
-    required super.appRef,
-    required super.router,
-  });
+    required super.option,
+  }) : super(page: const _PointEcosystemModuleMasamuneAdapterPages());
 
   /// You can retrieve the [PointEcosystemModuleMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -108,4 +106,10 @@ class PointEcosystemModuleMasamuneAdapter
     await super.onMaybeBoot();
     await pointEcosystem?.initialize();
   }
+}
+
+class _PointEcosystemModuleMasamuneAdapterPages extends ModulePages {
+  const _PointEcosystemModuleMasamuneAdapterPages();
+  @override
+  List<RouteQueryBuilder> get pages => const [];
 }

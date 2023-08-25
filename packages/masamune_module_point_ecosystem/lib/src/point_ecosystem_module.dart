@@ -6,7 +6,7 @@ part of masamune_module_point_ecosystem;
 ///
 /// Purchase the charged items for points at [purchase].
 ///
-/// Receive daily bonuses at [bonus]. With [reward], you receive a bonus for viewing and watching reward ads. The amount of each earn is specified in [PointEcosystemModuleMasamuneAdapter.options].
+/// Receive daily bonuses at [bonus]. With [reward], you receive a bonus for viewing and watching reward ads. The amount of each earn is specified in [PointEcosystemModuleMasamuneAdapter.option].
 ///
 /// [consume] to consume points. [Earn] to manually earn points.
 ///
@@ -16,7 +16,7 @@ part of masamune_module_point_ecosystem;
 ///
 /// [purchase]でポイント用の課金アイテムを購入します。
 ///
-/// [bonus]でデイリーボーナスを受け取ります。[reward]でリワード広告を表示し、視聴することでボーナスを受け取ります。それぞれの獲得量は[PointEcosystemModuleMasamuneAdapter.options]で指定します。
+/// [bonus]でデイリーボーナスを受け取ります。[reward]でリワード広告を表示し、視聴することでボーナスを受け取ります。それぞれの獲得量は[PointEcosystemModuleMasamuneAdapter.option]で指定します。
 ///
 /// [consume]でポイントを消費します。[earn]でポイントを手動で獲得します。
 class PointEcosystemModule extends MasamuneControllerBase<double,
@@ -27,7 +27,7 @@ class PointEcosystemModule extends MasamuneControllerBase<double,
   ///
   /// Purchase the charged items for points at [purchase].
   ///
-  /// Receive daily bonuses at [bonus]. With [reward], you receive a bonus for viewing and watching reward ads. The amount of each earn is specified in [PointEcosystemModuleMasamuneAdapter.options].
+  /// Receive daily bonuses at [bonus]. With [reward], you receive a bonus for viewing and watching reward ads. The amount of each earn is specified in [PointEcosystemModuleMasamuneAdapter.option].
   ///
   /// [consume] to consume points. [Earn] to manually earn points.
   ///
@@ -37,7 +37,7 @@ class PointEcosystemModule extends MasamuneControllerBase<double,
   ///
   /// [purchase]でポイント用の課金アイテムを購入します。
   ///
-  /// [bonus]でデイリーボーナスを受け取ります。[reward]でリワード広告を表示し、視聴することでボーナスを受け取ります。それぞれの獲得量は[PointEcosystemModuleMasamuneAdapter.options]で指定します。
+  /// [bonus]でデイリーボーナスを受け取ります。[reward]でリワード広告を表示し、視聴することでボーナスを受け取ります。それぞれの獲得量は[PointEcosystemModuleMasamuneAdapter.option]で指定します。
   ///
   /// [consume]でポイントを消費します。[earn]でポイントを手動で獲得します。
   PointEcosystemModule({super.adapter});
@@ -103,7 +103,7 @@ class PointEcosystemModule extends MasamuneControllerBase<double,
     _completer = Completer<void>();
     try {
       _rewarded ??= GoogleAdRewarded(
-        primaryAdapter.options.rewardedAdUnitId!,
+        primaryAdapter.option.rewardedAdUnitId!,
       );
       _pointDocument ??= PurchaseUserModelDocument(
         PurchaseUserModel.document(
@@ -226,7 +226,7 @@ class PointEcosystemModule extends MasamuneControllerBase<double,
         "Not initialized. Please initialize it by executing [initialize].",
       );
     }
-    final amount = primaryAdapter.options.dailyBonusEarnAmount;
+    final amount = primaryAdapter.option.dailyBonusEarnAmount;
     if (amount == null) {
       throw Exception(
         "[PointEcosystemMasamuneAdapter.dailyBonusEarnAmount] is not set.",
@@ -277,7 +277,7 @@ class PointEcosystemModule extends MasamuneControllerBase<double,
         "Not initialized. Please initialize it by executing [initialize].",
       );
     }
-    final amount = primaryAdapter.options.rewardBonusEarnAmount;
+    final amount = primaryAdapter.option.rewardBonusEarnAmount;
     if (amount == null) {
       throw Exception(
         "[PointEcosystemMasamuneAdapter.rewardBonusEarnAmount] is not set.",
