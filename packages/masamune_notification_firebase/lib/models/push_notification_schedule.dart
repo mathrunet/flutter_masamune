@@ -1,9 +1,8 @@
 // ignore: unused_import, unnecessary_import
-import 'package:flutter/material.dart';
-// ignore: unused_import, unnecessary_import
-import 'package:masamune/masamune.dart';
 
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:masamune/masamune.dart';
 
 part 'push_notification_schedule.m.dart';
 part 'push_notification_schedule.g.dart';

@@ -558,7 +558,7 @@ packages:
       path: "../katana_listenables_builder"
       relative: true
     source: path
-    version: "2.0.18"
+    version: "2.0.19"
   katana_localization:
     dependency: "direct overridden"
     description:
@@ -579,7 +579,7 @@ packages:
       path: "../katana_localization_builder"
       relative: true
     source: path
-    version: "2.0.20"
+    version: "2.0.21"
   katana_logger:
     dependency: "direct overridden"
     description:
@@ -621,7 +621,7 @@ packages:
       path: "../katana_prefs_builder"
       relative: true
     source: path
-    version: "2.0.18"
+    version: "2.0.19"
   katana_router:
     dependency: "direct overridden"
     description:
@@ -642,7 +642,7 @@ packages:
       path: "../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.26"
+    version: "2.0.27"
   katana_scoped:
     dependency: "direct overridden"
     description:
@@ -684,7 +684,7 @@ packages:
       path: "../katana_theme_builder"
       relative: true
     source: path
-    version: "2.0.19"
+    version: "2.0.20"
   katana_ui:
     dependency: "direct overridden"
     description:
@@ -728,7 +728,7 @@ packages:
       path: "../masamune_builder"
       relative: true
     source: path
-    version: "2.8.9"
+    version: "2.8.10"
   matcher:
     dependency: transitive
     description:
