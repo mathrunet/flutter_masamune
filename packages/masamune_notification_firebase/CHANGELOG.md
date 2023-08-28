@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Added NotificationSchedule functionality. ([819d2a67](https://github.com/mathrunet/flutter_masamune/commit/819d2a67808b678fe12f5b15db8fc8e10892aa61))

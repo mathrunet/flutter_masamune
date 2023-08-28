@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Added AvatarTile. ([dc544a68](https://github.com/mathrunet/flutter_masamune/commit/dc544a68cd5f6d9677b7d4f21d8282c92112c1fa))
+
 ## 2.4.5
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Added AppModuleMasamuneAdatper. ([96194ca3](https://github.com/mathrunet/flutter_masamune/commit/96194ca3c307f6a68d766c7df2a04cea55a9202b))
