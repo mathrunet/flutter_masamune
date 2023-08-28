@@ -8,7 +8,8 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// PUSH通知を受信するための[MasamuneAdapter]です。
   const PushNotificationMasamuneAdapter({
-    this.functions,
+    this.functionsAdapter,
+    this.modelAdapter,
     required this.androidNotificationChannelId,
     required this.androidNotificationChannelTitle,
     required this.androidNotificationChannelDescription,
@@ -150,10 +151,15 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   /// [options]が指定されている場合はこちらが優先されます。
   final FirebaseOptions? linuxOptions;
 
-  /// Specify if there are functions to be executed on the server side.
+  /// Specify [FunctionsAdapter] if there are functions to be executed on the server side.
   ///
-  /// サーバー側で実行する関数がある場合指定します。
-  final Functions? functions;
+  /// サーバー側で実行する関数がある場合[FunctionsAdapter]を指定します。
+  final FunctionsAdapter? functionsAdapter;
+
+  /// Specify a [ModelAdapter] to register the PUSH notification schedule.
+  ///
+  /// PUSH通知のスケジュールを登録するための[ModelAdapter]を指定します。
+  final ModelAdapter? modelAdapter;
 
   /// Notification channel IDs supported only by **Android**.
   ///

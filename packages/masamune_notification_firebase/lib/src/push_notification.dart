@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 part of masamune_notification_firebase;
 
 /// Class for handling FirebaseMessaging.
@@ -35,7 +37,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// You can subscribe and unsubscribe to topics by clicking [subscribe] and [unsubscribe].
   ///
-  /// Notifications can be sent using [send]. (Assuming that a Function for notification has been set in FirebaseFunctions. It is also possible to set up a [FunctionsAdapter] in [functions]).
+  /// Notifications can be sent using [send]. (Assuming that a Function for notification has been set up in FirebaseFunctions. It is also possible to set [FunctionsAdapter] in [PushNotificationMasamuneAdapter.functionsAdapter]).
   ///
   /// When a notification is retrieved, [value] is updated and [notifyListeners] is called.
   ///
@@ -49,7 +51,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// [subscribe]、[unsubscribe]でトピックの購読、購読解除が行なえます。
   ///
-  /// [send]で通知の送信が可能です。（FirebaseFunctionsで通知用のFunctionが設定されていること前提。[functions]で[FunctionsAdapter]を設定することも可能です。）
+  /// [send]で通知の送信が可能です。（FirebaseFunctionsで通知用のFunctionが設定されていること前提。[PushNotificationMasamuneAdapter.functionsAdapter]で[FunctionsAdapter]を設定することも可能です。）
   ///
   /// 通知を取得した場合、[value]が更新され、[notifyListeners]が呼ばれます。
   ///
@@ -66,6 +68,14 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   /// ref.page.controller(PushNotification.query(parameters));   // Watch at page scope.
   /// ```
   static const query = _$PushNotificationQuery();
+
+  /// Model for Schedule.
+  ///
+  /// ```dart
+  /// ref.model(PushNotification.schedule.document(id));       // Get the document.
+  /// ref.model(PushNotification.schedule.collection());       // Get the collection.
+  /// ```
+  static const schedule = _$PushNotificationSchedule();
 
   @override
   PushNotificationMasamuneAdapter get primaryAdapter =>
@@ -185,13 +195,13 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// Pass the title of the notification in [title], the content of the notification in [text], the PCM token or topic name in [target], the notification channel ID for Android in [channel], and other notification data in [data].
   ///
-  /// See [Functions.sendNotification] for details.
+  /// See [SendNotificationFunctionsAction] for details.
   ///
   /// FirebaseFunctionsにデプロイされたFCM通知送信用のFunctionsを起動します。
   ///
   /// [title]に通知タイトル、[text]に通知の内容、[target]にPCMトークン、もしくはトピック名、[channel]にAndroid用の通知チャンネルID、[data]にその他の通知データを渡してください。
   ///
-  /// 詳しくは[Functions.sendNotification]を御覧ください。
+  /// 詳しくは[SendNotificationFunctionsAction]を御覧ください。
   Future<void> send({
     required String title,
     required String text,
@@ -201,7 +211,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     Uri? link,
   }) async {
     await listen();
-    final f = adapter.functions ?? Functions();
+    final f = adapter.functionsAdapter ?? FunctionsAdapter.primary;
     await f.execute(
       SendNotificationFunctionsAction(
         title: title,
@@ -219,6 +229,65 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       PushNotificationLoggerEvent.bodyKey: text,
       PushNotificationLoggerEvent.toKey: target,
     });
+  }
+
+  /// Register notifications in the database for scaling.
+  ///
+  /// Specify the date and time to send the notification in [time].
+  ///
+  /// Specify the title of the notification in [title]. Specify the body of the notification in [text].
+  ///
+  /// 通知をデータベースに登録してスケーリングを行います。
+  ///
+  /// [time]に通知を送信する日時を指定します。
+  ///
+  /// [title]に通知のタイトルを指定します。[text]に通知の本文を指定します。
+  Future<void> scheduling({
+    required DateTime time,
+    required String title,
+    required String text,
+    String? channel,
+    DynamicMap? data,
+    required String target,
+    Uri? link,
+  }) async {
+    final regExp = RegExp(r"[a-zA-Z0-9]{11}:[0-9a-zA-Z_-]+");
+    final isToken = regExp.hasMatch(target);
+    await listen();
+    final m = adapter.modelAdapter ?? ModelAdapter.primary;
+    final modelQuery = schedule.collection().modelQuery;
+    final document = PushNotificationScheduleModelDocument(
+      modelQuery
+          .create("${time.format("yyyyMMddHhmmssSSS")}:$target")
+          .copyWith(adapter: m),
+    );
+    await document.load();
+    await document.save(
+      document.value?.copyWith(
+            time: ModelTimestamp(time),
+            title: title,
+            text: text,
+            channelId: channel,
+            data: {
+              if (data != null) ...data,
+              if (link != null) _linkKey: link.path,
+            },
+            token: isToken ? target : null,
+            topic: isToken ? null : target,
+          ) ??
+          PushNotificationScheduleModel(
+            time: ModelTimestamp(time),
+            title: title,
+            text: text,
+            channelId: channel,
+            data: {
+              if (data != null) ...data,
+              if (link != null) _linkKey: link.path,
+            },
+            token: isToken ? target : null,
+            topic: isToken ? null : target,
+          ),
+    );
   }
 
   /// Subscribe to a topic named [topic].
@@ -338,4 +407,30 @@ class _$_PushNotificationQuery extends ControllerQueryBase<PushNotification> {
   String get queryName => _name;
   @override
   bool get autoDisposeWhenUnreferenced => true;
+}
+
+class _$PushNotificationSchedule {
+  const _$PushNotificationSchedule();
+
+  /// Query for document.
+  ///
+  /// ```dart
+  /// appRef.model(PushNotificationScheduleModel.document(id));       // Get the document.
+  /// ref.model(PushNotificationScheduleModel.document(id))..load();  // Load the document.
+  /// ```
+  final document = PushNotificationScheduleModel.document;
+
+  /// Query for collection.
+  ///
+  /// ```dart
+  /// appRef.model(PushNotificationScheduleModel.collection());       // Get the collection.
+  /// ref.model(PushNotificationScheduleModel.collection())..load();  // Load the collection.
+  /// ref.model(
+  ///   PushNotificationScheduleModel.collection().equal(
+  ///     PushNotificationScheduleModelCollectionKey.xxx,
+  ///     "data",
+  ///   ),
+  /// )..load(); // Load the collection with filter.
+  /// ```
+  final collection = PushNotificationScheduleModel.collection;
 }

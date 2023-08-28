@@ -23,6 +23,8 @@ import 'package:katana_firebase/katana_firebase.dart';
 import 'package:masamune/masamune.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+import 'models/push_notification_schedule.dart';
+
 part 'adapter/push_notification_masamune_adapter.dart';
 part 'functions/send_notification_functions_action.dart';
 
