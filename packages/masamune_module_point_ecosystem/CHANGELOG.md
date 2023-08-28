@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - Update a dependency to the latest release.
+
 ## 2.3.2
 
  - **FIX**: Support for module specification changes. ([e81bc85f](https://github.com/mathrunet/flutter_masamune/commit/e81bc85fcca55ce7759c47c2b08863087756e600))

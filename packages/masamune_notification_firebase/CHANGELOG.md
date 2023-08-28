@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Added NotificationSchedule functionality. ([819d2a67](https://github.com/mathrunet/flutter_masamune/commit/819d2a67808b678fe12f5b15db8fc8e10892aa61))
+
 ## 2.1.96
 
  - **FIX**: Added callbacks for message retrieval. ([0c914dd2](https://github.com/mathrunet/flutter_masamune/commit/0c914dd209b3c5d5f5235f8d93d316952a1e5332))

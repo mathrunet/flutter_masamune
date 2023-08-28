@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_listenables_builder` - `v2.0.19`](#katana_listenables_builder---v2019)
+ - [`katana_localization_builder` - `v2.0.21`](#katana_localization_builder---v2021)
+ - [`katana_model_openapi_builder` - `v2.0.16`](#katana_model_openapi_builder---v2016)
+ - [`katana_prefs_builder` - `v2.0.19`](#katana_prefs_builder---v2019)
+ - [`katana_router_builder` - `v2.0.27`](#katana_router_builder---v2027)
+ - [`katana_theme_builder` - `v2.0.20`](#katana_theme_builder---v2020)
+ - [`masamune_builder` - `v2.8.10`](#masamune_builder---v2810)
+ - [`masamune_notification_firebase` - `v2.2.0`](#masamune_notification_firebase---v220)
+ - [`masamune_purchase_mobile` - `v2.5.44`](#masamune_purchase_mobile---v2544)
+ - [`masamune_module_point_ecosystem` - `v2.3.3`](#masamune_module_point_ecosystem---v233)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.3.3`
+
+---
+
+#### `katana_listenables_builder` - `v2.0.19`
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
+#### `katana_localization_builder` - `v2.0.21`
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
+#### `katana_model_openapi_builder` - `v2.0.16`
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
+#### `katana_prefs_builder` - `v2.0.19`
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
+#### `katana_router_builder` - `v2.0.27`
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
+#### `katana_theme_builder` - `v2.0.20`
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
+#### `masamune_builder` - `v2.8.10`
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
+#### `masamune_notification_firebase` - `v2.2.0`
+
+ - **FEAT**: Added NotificationSchedule functionality. ([819d2a67](https://github.com/mathrunet/flutter_masamune/commit/819d2a67808b678fe12f5b15db8fc8e10892aa61))
+
+#### `masamune_purchase_mobile` - `v2.5.44`
+
+ - **DOCS**: Documentation revisions. ([1fd398bb](https://github.com/mathrunet/flutter_masamune/commit/1fd398bb23337b4a52e133066f847c3ddc5a60d0))
+
+
 ## 2023-08-25
 
 ### Changes

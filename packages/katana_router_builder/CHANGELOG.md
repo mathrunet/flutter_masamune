@@ -1,3 +1,7 @@
+## 2.0.27
+
+ - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))
+
 ## 2.0.26
 
  - **FIX**: Fixed a bug in the use of WidgetBinding during AppRouter initialization. ([a9af0aed](https://github.com/mathrunet/flutter_masamune/commit/a9af0aed2a8793181144b67fd95f8ee9b611d8f2))
