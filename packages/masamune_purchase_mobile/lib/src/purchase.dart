@@ -177,7 +177,7 @@ class Purchase extends MasamuneControllerBase<void, PurchaseMasamuneAdapter> {
 
   /// This function is used to restore billing information when a device is initialized or when a device model is changed.
   ///
-  /// Please use this function if you need to install a restore button in IOS, as it is also automatically executed by [INITIALIZE].
+  /// Please use this function if you need to install a restore button in IOS, as it is also automatically executed by [initialize].
   ///
   /// 端末の初期化時や機種変更時などに課金情報を復元する際に実行します。
   ///
@@ -367,7 +367,7 @@ class _$PurchaseSubscription {
   /// appRef.model(PurchaseSubscriptionModel.document(id));       // Get the document.
   /// ref.model(PurchaseSubscriptionModel.document(id))..load();  // Load the document.
   /// ```
-  static const document = PurchaseSubscriptionModel.document;
+  final document = PurchaseSubscriptionModel.document;
 
   /// Query for collection.
   ///
@@ -381,7 +381,7 @@ class _$PurchaseSubscription {
   ///   ),
   /// )..load(); // Load the collection with filter.
   /// ```
-  static const collection = PurchaseSubscriptionModel.collection;
+  final collection = PurchaseSubscriptionModel.collection;
 }
 
 class _$PurchaseUser {
@@ -393,7 +393,7 @@ class _$PurchaseUser {
   /// appRef.model(PurchaseUserModel.document(id));       // Get the document.
   /// ref.model(PurchaseUserModel.document(id))..load();  // Load the document.
   /// ```
-  static const document = PurchaseUserModel.document;
+  final document = PurchaseUserModel.document;
 
   /// Query for collection.
   ///
@@ -407,5 +407,5 @@ class _$PurchaseUser {
   ///   ),
   /// )..load(); // Load the collection with filter.
   /// ```
-  static const collection = PurchaseUserModel.collection;
+  final collection = PurchaseUserModel.collection;
 }
