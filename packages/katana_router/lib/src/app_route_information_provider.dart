@@ -41,7 +41,8 @@ class _AppRouteInformationProvider extends RouteInformationProvider
   }
 
   RouteInformation _valueInEngine = RouteInformation(
-      uri: Uri.tryParse(_binding.platformDispatcher.defaultRouteName));
+    uri: Uri.tryParse(_binding.platformDispatcher.defaultRouteName),
+  );
 
   @override
   void routerReportsNewRouteInformation(
@@ -110,6 +111,9 @@ class _AppRouteInformationProvider extends RouteInformationProvider
   @override
   Future<bool> didPushRoute(String route) {
     assert(hasListeners);
+    if (!route.startsWith("/")) {
+      route = "/$route";
+    }
     _platformReportsNewRouteInformation(
         RouteInformation(uri: Uri.tryParse(route)));
     return SynchronousFuture<bool>(true);

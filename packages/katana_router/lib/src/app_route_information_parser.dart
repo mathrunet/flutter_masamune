@@ -28,7 +28,10 @@ class _AppRouteInformationParser extends RouteInformationParser<RouteQuery> {
 
   @override
   RouteInformation? restoreRouteInformation(RouteQuery configuration) {
-    return RouteInformation(
-        uri: Uri.tryParse(configuration.path), state: configuration);
+    var path = configuration.path;
+    if (!path.startsWith("/")) {
+      path = "/$path";
+    }
+    return RouteInformation(uri: Uri.tryParse(path), state: configuration);
   }
 }
