@@ -161,9 +161,19 @@ class FormCheckbox<TValue> extends FormField<bool> {
                   style?.disabledBackgroundColor ??
                   Theme.of(field.context).disabledColor,
             );
-            const borderSide = OutlineInputBorder(
-              borderSide: BorderSide.none,
-            );
+            final borderSide =
+                style?.borderColor != null && style?.borderWidth != null
+                    ? OutlineInputBorder(
+                        borderRadius: style?.borderRadius ??
+                            const BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(
+                          color: style!.borderColor!,
+                          width: style.borderWidth!,
+                        ),
+                      )
+                    : const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      );
             final checkbox = Checkbox(
               value: field.value ?? false,
               tristate: false,

@@ -46,6 +46,7 @@ class FormLabel extends StatelessWidget {
     this.color,
     this.prefix,
     this.suffix,
+    this.showDivider = true,
   });
 
   /// Display the icon in front of [label].
@@ -73,6 +74,11 @@ class FormLabel extends StatelessWidget {
   /// フォームのラベル。
   final String label;
 
+  /// `true` if you want to display the separator line.
+  ///
+  /// 区切り線を表示する場合`true`。
+  final bool showDivider;
+
   @override
   Widget build(BuildContext context) {
     final dividerColor = color ??
@@ -83,8 +89,10 @@ class FormLabel extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
-        SizedBox(width: 12, child: Divider(color: color)),
-        const SizedBox(width: 4),
+        if (showDivider) ...[
+          SizedBox(width: 12, child: Divider(color: color)),
+          const SizedBox(width: 4),
+        ],
         if (prefix != null) ...[
           prefix!,
           const SizedBox(width: 4),
@@ -104,12 +112,18 @@ class FormLabel extends StatelessWidget {
             fontSize: 12,
           ),
         ),
-        const SizedBox(width: 4),
-        Expanded(child: Divider(color: color)),
+        if (showDivider) ...[
+          const SizedBox(width: 4),
+          Expanded(child: Divider(color: color)),
+        ] else ...[
+          const Spacer(),
+        ],
         if (suffix != null) ...[
           const SizedBox(width: 4),
           suffix!,
-          SizedBox(width: 12, child: Divider(color: color)),
+          if (showDivider) ...[
+            SizedBox(width: 12, child: Divider(color: color)),
+          ],
         ],
       ],
     );

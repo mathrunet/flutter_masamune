@@ -150,9 +150,19 @@ class FormSwitch<TValue> extends FormField<bool> {
                   color: style?.disabledColor ??
                       Theme.of(field.context).disabledColor,
                 );
-            const borderSide = OutlineInputBorder(
-              borderSide: BorderSide.none,
-            );
+            final borderSide =
+                style?.borderColor != null && style?.borderWidth != null
+                    ? OutlineInputBorder(
+                        borderRadius: style?.borderRadius ??
+                            const BorderRadius.all(Radius.circular(4.0)),
+                        borderSide: BorderSide(
+                          color: style!.borderColor!,
+                          width: style.borderWidth!,
+                        ),
+                      )
+                    : const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      );
             final switchForm = Switch(
               value: field.value ?? false,
               onChanged:

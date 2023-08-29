@@ -408,9 +408,19 @@ class _FormMonthFieldState<TValue> extends State<FormMonthField<TValue>>
         TextStyle(
           color: widget.style?.disabledColor ?? Theme.of(context).disabledColor,
         );
-    const borderSide = OutlineInputBorder(
-      borderSide: BorderSide.none,
-    );
+    final borderSide =
+        widget.style?.borderColor != null && widget.style?.borderWidth != null
+            ? OutlineInputBorder(
+                borderRadius: widget.style?.borderRadius ??
+                    const BorderRadius.all(Radius.circular(4.0)),
+                borderSide: BorderSide(
+                  color: widget.style!.borderColor!,
+                  width: widget.style!.borderWidth!,
+                ),
+              )
+            : const OutlineInputBorder(
+                borderSide: BorderSide.none,
+              );
 
     return Container(
       width: widget.style?.width,
