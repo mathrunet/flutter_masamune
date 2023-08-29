@@ -3,6 +3,93 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-08-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.8.13`](#katana_cli---v2813)
+ - [`katana_form` - `v2.7.7`](#katana_form---v277)
+ - [`katana_router` - `v2.0.35`](#katana_router---v2035)
+ - [`masamune` - `v2.4.43`](#masamune---v2443)
+ - [`masamune_location` - `v2.1.110`](#masamune_location---v21110)
+ - [`masamune_deeplink_firebase` - `v2.1.18`](#masamune_deeplink_firebase---v2118)
+ - [`masamune_auth_apple` - `v2.1.99`](#masamune_auth_apple---v2199)
+ - [`masamune_text_to_speech` - `v2.1.65`](#masamune_text_to_speech---v2165)
+ - [`masamune_agora` - `v2.2.81`](#masamune_agora---v2281)
+ - [`masamune_auth_google` - `v2.1.100`](#masamune_auth_google---v21100)
+ - [`masamune_ai_openai` - `v2.2.33`](#masamune_ai_openai---v2233)
+ - [`masamune_calendar` - `v2.0.143`](#masamune_calendar---v20143)
+ - [`masamune_picker` - `v2.1.98`](#masamune_picker---v2198)
+ - [`masamune_util` - `v2.1.77`](#masamune_util---v2177)
+ - [`masamune_universal_ui` - `v2.2.79`](#masamune_universal_ui---v2279)
+ - [`masamune_purchase_stripe` - `v3.3.44`](#masamune_purchase_stripe---v3344)
+ - [`masamune_logger_firebase` - `v2.0.141`](#masamune_logger_firebase---v20141)
+ - [`masamune_introduction` - `v2.2.47`](#masamune_introduction---v2247)
+ - [`masamune_deeplink` - `v2.1.17`](#masamune_deeplink---v2117)
+ - [`masamune_auth_facebook` - `v2.1.101`](#masamune_auth_facebook---v21101)
+ - [`masamune_speech_to_text` - `v2.1.68`](#masamune_speech_to_text---v2168)
+ - [`masamune_location_google` - `v2.1.111`](#masamune_location_google---v21111)
+ - [`masamune_module_point_ecosystem` - `v2.3.5`](#masamune_module_point_ecosystem---v235)
+ - [`masamune_module` - `v2.3.2`](#masamune_module---v232)
+ - [`masamune_mail` - `v2.1.96`](#masamune_mail---v2196)
+ - [`masamune_notification_firebase` - `v2.2.2`](#masamune_notification_firebase---v222)
+ - [`masamune_purchase_mobile` - `v2.5.46`](#masamune_purchase_mobile---v2546)
+ - [`masamune_ads_google` - `v2.1.49`](#masamune_ads_google---v2149)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.43`
+ - `masamune_location` - `v2.1.110`
+ - `masamune_deeplink_firebase` - `v2.1.18`
+ - `masamune_auth_apple` - `v2.1.99`
+ - `masamune_text_to_speech` - `v2.1.65`
+ - `masamune_agora` - `v2.2.81`
+ - `masamune_auth_google` - `v2.1.100`
+ - `masamune_ai_openai` - `v2.2.33`
+ - `masamune_calendar` - `v2.0.143`
+ - `masamune_picker` - `v2.1.98`
+ - `masamune_util` - `v2.1.77`
+ - `masamune_universal_ui` - `v2.2.79`
+ - `masamune_purchase_stripe` - `v3.3.44`
+ - `masamune_logger_firebase` - `v2.0.141`
+ - `masamune_introduction` - `v2.2.47`
+ - `masamune_deeplink` - `v2.1.17`
+ - `masamune_auth_facebook` - `v2.1.101`
+ - `masamune_speech_to_text` - `v2.1.68`
+ - `masamune_location_google` - `v2.1.111`
+ - `masamune_module_point_ecosystem` - `v2.3.5`
+ - `masamune_module` - `v2.3.2`
+ - `masamune_mail` - `v2.1.96`
+ - `masamune_notification_firebase` - `v2.2.2`
+ - `masamune_purchase_mobile` - `v2.5.46`
+ - `masamune_ads_google` - `v2.1.49`
+
+---
+
+#### `katana_cli` - `v2.8.13`
+
+ - **FIX**: Bug fixes around Facebook and Android build. ([e635d4a6](https://github.com/mathrunet/flutter_masamune/commit/e635d4a6bab40df139809f75c8a9399216ce97b9))
+
+#### `katana_form` - `v2.7.7`
+
+ - **FIX**: Reflects the border setting of Form. ([b61e77d2](https://github.com/mathrunet/flutter_masamune/commit/b61e77d277ad2772063c694614a3939be67302ad))
+
+#### `katana_router` - `v2.0.35`
+
+ - **FIX**: Fixed a bug that caused no redirection on first load. ([55431e7a](https://github.com/mathrunet/flutter_masamune/commit/55431e7a49cd6290a995722fa51468d65135bb44))
+ - **FIX**: Fixed a bug that prevented PathStrategy from working properly. ([901f8fe5](https://github.com/mathrunet/flutter_masamune/commit/901f8fe5d8a28ed8b27aa66d80ae5e7e8fb247c9))
+
+
 ## 2023-08-28
 
 ### Changes

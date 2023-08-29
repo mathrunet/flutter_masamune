@@ -1,3 +1,7 @@
+## 2.8.13
+
+ - **FIX**: Bug fixes around Facebook and Android build. ([e635d4a6](https://github.com/mathrunet/flutter_masamune/commit/e635d4a6bab40df139809f75c8a9399216ce97b9))
+
 ## 2.8.12
 
  - **FIX**: Rewriting of licenses. ([ff54be2b](https://github.com/mathrunet/flutter_masamune/commit/ff54be2b846fbc9ecfeb6c5ccf31eab5f24f7a2b))

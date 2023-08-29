@@ -1,3 +1,7 @@
+## 2.7.7
+
+ - **FIX**: Reflects the border setting of Form. ([b61e77d2](https://github.com/mathrunet/flutter_masamune/commit/b61e77d277ad2772063c694614a3939be67302ad))
+
 ## 2.7.6
 
  - **FIX**: Fixed a bug in TextField. ([72030930](https://github.com/mathrunet/flutter_masamune/commit/72030930437aa6fbf07c01762d17e9dd84cf2948))

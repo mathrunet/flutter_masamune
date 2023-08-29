@@ -1,3 +1,8 @@
+## 2.0.35
+
+ - **FIX**: Fixed a bug that caused no redirection on first load. ([55431e7a](https://github.com/mathrunet/flutter_masamune/commit/55431e7a49cd6290a995722fa51468d65135bb44))
+ - **FIX**: Fixed a bug that prevented PathStrategy from working properly. ([901f8fe5](https://github.com/mathrunet/flutter_masamune/commit/901f8fe5d8a28ed8b27aa66d80ae5e7e8fb247c9))
+
 ## 2.0.34
 
  - **FIX**: Fixed a bug in the use of WidgetBinding during AppRouter initialization. ([a9af0aed](https://github.com/mathrunet/flutter_masamune/commit/a9af0aed2a8793181144b67fd95f8ee9b611d8f2))
