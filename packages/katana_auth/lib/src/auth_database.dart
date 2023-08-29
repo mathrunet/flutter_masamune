@@ -314,6 +314,38 @@ class AuthDatabase {
     return isSignedIn;
   }
 
+  /// Register a user by passing a class inheriting from [CreateAuthProvider] in [provider].
+  ///
+  /// [CreateAuthProvider]を継承したクラスを[provider]で渡すことにより、ユーザーの登録を行います。
+  Future<String?> create({
+    required CreateAuthProvider provider,
+  }) async {
+    String? userId;
+    await _initialize();
+    if (provider is EmailAndPasswordCreateAuthProvider) {
+      if (_data.containsKey(_kUserEmailKey)) {
+        throw Exception(
+          "This Email address is already registered. Please register another email address.",
+        );
+      }
+      userId = uuid;
+      _data[_kUserIdKey] = userId;
+      _data[_kUserEmailKey] = provider.email;
+      _data[_kUserPasswordKey] = provider.password;
+      _data[_kActiveProvidersKey] = {
+        ...activeProviderIds,
+        provider.providerId,
+      }.toList();
+      await onSendRegisteredEmail?.call(
+        provider.email,
+        provider.password,
+        provider.locale ?? defaultLocale,
+      );
+    }
+    await onSaved?.call(this);
+    return userId;
+  }
+
   /// Register a user by passing a class inheriting from [RegisterAuthProvider] in [provider].
   ///
   /// [RegisterAuthProvider]を継承したクラスを[provider]で渡すことにより、ユーザーの登録を行います。

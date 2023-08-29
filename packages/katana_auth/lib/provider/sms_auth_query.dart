@@ -18,6 +18,13 @@ const _kPhoneAuthProviderId = "phone";
 class SmsAuthQuery {
   const SmsAuthQuery._();
 
+  /// {@macro sign_in_auth_provider}
+  ///
+  /// Pass the phone number in [phoneNumber] and the SMS language setting in [locale].
+  ///
+  /// [phoneNumber]で電話番号、[locale]にSMSの言語設定を渡します。
+  ///
+  /// {@macro sms_auth}
   static SmsSignInAuthProvider signIn({
     required String phoneNumber,
     Locale? locale,
@@ -25,12 +32,26 @@ class SmsAuthQuery {
     return SmsSignInAuthProvider(phoneNumber: phoneNumber, locale: locale);
   }
 
+  /// {@macro confirm_sign_in_auth_provider}
+  ///
+  /// Pass the code sent by SMS at [code].
+  ///
+  /// [code]でSMSで送られたコードを渡します。
+  ///
+  /// {@macro sms_auth}
   static SmsConfirmSignInAuthProvider confirmSignIn({
     required String code,
   }) {
     return SmsConfirmSignInAuthProvider(code: code);
   }
 
+  /// {@macro change_phone_number_auth_provider}
+  ///
+  /// Pass the phone number in [phoneNumber] and the SMS language setting in [locale].
+  ///
+  /// [phoneNumber]で電話番号、[locale]にSMSの言語設定を渡します。
+  ///
+  /// {@macro sms_auth}
   static SmsChangePhoneNumberAuthProvider changePhoneNumber({
     required String phoneNumber,
     Locale? locale,
@@ -41,6 +62,13 @@ class SmsAuthQuery {
     );
   }
 
+  /// {@macro confirm_change_phone_number_auth_provider}
+  ///
+  /// Pass the code sent by SMS at [code].
+  ///
+  /// [code]でSMSで送られたコードを渡します。
+  ///
+  /// {@macro sms_auth}
   static SmsConfirmChangePhoneNumberAuthProvider confirmChangePhoneNumber({
     required String code,
   }) {

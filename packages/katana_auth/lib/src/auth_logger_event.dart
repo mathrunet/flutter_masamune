@@ -4,6 +4,11 @@ part of katana_auth;
 ///
 /// ロギング用の認証イベント。
 enum AuthLoggerEvent {
+  /// User Creation.
+  ///
+  /// ユーザー作成。
+  create,
+
   /// Registration.
   ///
   /// 登録。

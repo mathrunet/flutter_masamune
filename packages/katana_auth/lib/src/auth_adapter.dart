@@ -154,6 +154,26 @@ abstract class AuthAdapter {
     required VoidCallback onUserStateChanged,
   });
 
+  /// Register users by passing a class inheriting from [CreateAuthProvider] in [provider].
+  ///
+  /// The difference with [register] is that you can create another user even if you are already logged in.
+  ///
+  /// Execute [onUserStateChanged] when a user's authentication state is changed.
+  ///
+  /// Returns the user's ID as the return value.
+  ///
+  /// [CreateAuthProvider]を継承したクラスを[provider]で渡すことにより、ユーザーの登録を行います。
+  ///
+  /// [register]との違いはすでにログインしている場合でも別のユーザーを作成することができることです。
+  ///
+  /// ユーザーの認証状態が変更されたときに[onUserStateChanged]を実行します。
+  ///
+  /// 戻り値にユーザーのIDを返します。
+  Future<String?> create({
+    required CreateAuthProvider provider,
+    required VoidCallback onUserStateChanged,
+  });
+
   /// Register a user by passing a class inheriting from [RegisterAuthProvider] in [provider].
   ///
   /// Execute [onUserStateChanged] when a user's authentication state is changed.

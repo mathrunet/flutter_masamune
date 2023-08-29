@@ -27,6 +27,20 @@ abstract class AuthProvider {
   String get providerId;
 }
 
+/// {@template create_auth_provider}
+/// [AuthProvider] for performing [Authentication.create].
+///
+/// [Authentication.create]を実行するための[AuthProvider]。
+/// {@endtemplate}
+abstract class CreateAuthProvider extends AuthProvider {
+  /// {@template create_auth_provider}
+  /// [AuthProvider] for performing [Authentication.create].
+  ///
+  /// [Authentication.create]を実行するための[AuthProvider]。
+  /// {@endtemplate}
+  const CreateAuthProvider();
+}
+
 /// {@template register_auth_provider}
 /// [AuthProvider] for performing [Authentication.register].
 ///

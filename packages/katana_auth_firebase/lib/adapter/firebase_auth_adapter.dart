@@ -357,6 +357,26 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }
 
   @override
+  Future<String?> create({
+    required CreateAuthProvider provider,
+    required VoidCallback onUserStateChanged,
+  }) async {
+    if (provider is EmailAndPasswordCreateAuthProvider) {
+      await _prepareProcessInternal();
+      await database.setLanguageCode(
+        provider.locale?.languageCode ?? defaultLocale.languageCode,
+      );
+      final credentials = await database.createUserWithEmailAndPassword(
+        email: provider.email,
+        password: provider.password,
+      );
+      onUserStateChanged.call();
+      return credentials.user?.uid;
+    }
+    return null;
+  }
+
+  @override
   Future<void> register({
     required RegisterAuthProvider provider,
     required VoidCallback onUserStateChanged,

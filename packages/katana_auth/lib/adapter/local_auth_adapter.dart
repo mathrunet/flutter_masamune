@@ -104,6 +104,16 @@ class LocalAuthAdapter extends AuthAdapter {
   }
 
   @override
+  Future<String?> create({
+    required CreateAuthProvider provider,
+    required VoidCallback onUserStateChanged,
+  }) async {
+    final userId = await database.create(provider: provider);
+    onUserStateChanged.call();
+    return userId;
+  }
+
+  @override
   Future<void> register({
     required RegisterAuthProvider provider,
     required VoidCallback onUserStateChanged,

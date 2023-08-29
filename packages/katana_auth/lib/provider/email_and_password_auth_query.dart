@@ -22,6 +22,23 @@ const _kPasswordAuthProviderId = "password";
 class EmailAndPasswordAuthQuery {
   const EmailAndPasswordAuthQuery._();
 
+  /// {@macro create_auth_provider}
+  ///
+  /// Please give us your email address in [email] and your password in [password].
+  ///
+  /// [email]にメールアドレス、[password]にパスワードを渡してください。
+  ///
+  /// {@macro email_and_password_auth}
+  static EmailAndPasswordCreateAuthProvider create({
+    required String email,
+    required String password,
+  }) {
+    return EmailAndPasswordCreateAuthProvider(
+      email: email,
+      password: password,
+    );
+  }
+
   /// {@macro register_auth_provider}
   ///
   /// Please give us your email address in [email] and your password in [password].
@@ -126,6 +143,47 @@ class EmailAndPasswordAuthQuery {
       locale: locale,
     );
   }
+}
+
+/// {@macro create_auth_provider}
+///
+/// Pass the email address in [email], the password in [password], and the language setting of the registration email in [locale].
+///
+/// [email]にメールアドレス、[password]にパスワード、[locale]に登録用のEメールの言語設定を渡します。
+///
+/// {@macro email_and_password_auth}
+class EmailAndPasswordCreateAuthProvider extends CreateAuthProvider {
+  /// {@macro create_auth_provider}
+  ///
+  /// Pass the email address in [email], the password in [password], and the language setting of the registration email in [locale].
+  ///
+  /// [email]にメールアドレス、[password]にパスワード、[locale]に登録用のEメールの言語設定を渡します。
+  ///
+  /// {@macro email_and_password_auth}
+  const EmailAndPasswordCreateAuthProvider({
+    required this.email,
+    required this.password,
+    this.locale,
+  });
+
+  @override
+  // ignore: avoid_field_initializers_in_const_classes
+  final String providerId = _kPasswordAuthProviderId;
+
+  /// Email address.
+  ///
+  /// メールアドレス。
+  final String email;
+
+  /// Password.
+  ///
+  /// パスワード。
+  final String password;
+
+  /// Language preference for registration e-mails.
+  ///
+  /// 登録用のEメールの言語設定。
+  final Locale? locale;
 }
 
 /// {@macro register_auth_provider}

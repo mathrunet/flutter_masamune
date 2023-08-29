@@ -199,6 +199,29 @@ class Authentication extends ChangeNotifier {
   /// [verify]を実行したあと等に認証のステータスを更新したいときに利用します。
   Future<Authentication> refresh() => tryRestoreAuth();
 
+  /// Register users by passing a class inheriting from [CreateAuthProvider] in [provider].
+  ///
+  /// The difference with [register] is that you can create another user even if you are already logged in.
+  ///
+  /// The ID of the created user is returned in the return value.
+  ///
+  /// [CreateAuthProvider]を継承したクラスを[provider]で渡すことにより、ユーザーの登録を行います。
+  ///
+  /// [register]との違いはすでにログインしている場合でも別のユーザーを作成することができることです。
+  ///
+  /// 戻り値に作成したユーザーのIDが返されます。
+  Future<String?> create(CreateAuthProvider provider) async {
+    final userId = await adapter.create(
+      provider: provider,
+      onUserStateChanged: notifyListeners,
+    );
+    _sendLog(AuthLoggerEvent.create, parameters: {
+      AuthLoggerEvent.userIdKey: userId,
+      AuthLoggerEvent.providerKey: provider.providerId,
+    });
+    return userId;
+  }
+
   /// Register a user by passing a class inheriting from [RegisterAuthProvider] in [provider].
   ///
   /// If you are already signed in, [Exception] is returned.
