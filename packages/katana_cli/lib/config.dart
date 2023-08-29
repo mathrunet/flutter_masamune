@@ -315,12 +315,24 @@ github:
   # [Android]
   # Json for the service account is required under the `android` folder, please refer to https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b to set it up Please refer to the `android` folder to set it up.
   #
+  # [IOS]
+  # AuthKey_xxxxx.p8 file and development.p12 generated from development.cer are required under the `ios` folder. https://mathru.notion.site/AppStoreConnect-ID-f516ff1a Please refer to 767146f69acd6780fbcf20fe to set it up.
+  #
   # [Android]
   # サービスアカウント用のJsonが`android`フォルダ以下に必要です。https://mathru.notion.site/Google-Play-Developer-df655aff2dfb49988b82feb7aae3c61b を参考に設定してください。
+  #
+  # [IOS]
+  # AuthKey_xxxx.p8ファイルとdevelopment.cerから生成したdevelopment.p12が`ios`フォルダ以下に必要です。https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20feを参考に設定してください。
   action:
     enable: false
     increment_number: 0
     platform: android ios web
+    android:
+        # Change to completed after the app is released.
+        # アプリをリリースした後は completed に変更してください。
+        status: draft
+        changes_not_sent_for_review: false
+
     web:
       # Specify a renderer for the Web. (html | canvaskit)
       # Web用のレンダラーを指定します。（html | canvaskit）

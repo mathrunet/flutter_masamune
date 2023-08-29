@@ -14,6 +14,12 @@ Future<void> buildAndroid(
   required String appName,
   required int defaultIncrementNumber,
 }) async {
+  final github = context.yaml.getAsMap("github");
+  final action = github.getAsMap("action");
+  final android = action.getAsMap("android");
+  final changesNotSentForReview =
+      android.get("changes_not_sent_for_review", false);
+  final status = android.get("status", "draft");
   final keystoreFile = File("android/app/appkey.keystore");
   if (!keystoreFile.existsSync()) {
     error(
@@ -87,6 +93,8 @@ Future<void> buildAndroid(
   await GithubActionsAndroidCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
+    changesNotSentForReview: changesNotSentForReview,
+    status: status,
   ).generateFile(
     "build_android_${appName.toLowerCase()}.yaml",
     filter: (value) {
@@ -152,6 +160,8 @@ class GithubActionsAndroidCliCode extends CliCode {
   const GithubActionsAndroidCliCode({
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
+    this.changesNotSentForReview = false,
+    this.status = "draft",
   });
 
   /// Working Directory.
@@ -163,6 +173,16 @@ class GithubActionsAndroidCliCode extends CliCode {
   ///
   /// インクリメント番号。
   final int defaultIncrementNumber;
+
+  /// Parameters of [changesNotSentForReview].
+  ///
+  /// [changesNotSentForReview]のパラメーター。
+  final bool changesNotSentForReview;
+
+  /// Parameters of [status].
+  ///
+  /// [status]のパラメーター。
+  final String status;
 
   @override
   String get name => "build_android";
@@ -324,8 +344,9 @@ jobs:
           track: internal
           # Change to completed after the app is released.
           # アプリをリリースした後は completed に変更してください。
-          status: draft 
+          status: $status 
           serviceAccountJson: ${workingPath.isEmpty ? "." : workingPath}/android/service_account_key.json
+          changesNotSentForReview: ${changesNotSentForReview ? "true" : "false"}
           packageName: #### REPLACE_ANDROID_PACKAGE_NAME ####
           releaseFiles: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release/*.aab
 """;

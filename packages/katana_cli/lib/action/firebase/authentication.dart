@@ -380,15 +380,11 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
               "Could not find `LSApplicationQueriesSchemes` value element in `ios/Runner/Info.plist`. File is corrupt.",
             );
           }
-          if (enableGoogle &&
-              !lsApplicationQueriesSchemesArray.children.any(
-                (p1) =>
-                    p1 is XmlElement &&
-                    p1.children.any((p2) =>
-                        p2 is XmlElement &&
-                        p2.name.toString() == "string" &&
-                        p2.innerText == "fbapi"),
-              )) {
+          if (enableFacebook &&
+              !lsApplicationQueriesSchemesArray.children.any((p1) =>
+                  p1 is XmlElement &&
+                  p1.name.toString() == "string" &&
+                  p1.innerText == "fbapi")) {
             lsApplicationQueriesSchemesArray.children.addAll(
               [
                 XmlElement(
