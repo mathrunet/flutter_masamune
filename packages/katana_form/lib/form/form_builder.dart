@@ -196,8 +196,23 @@ class _FormBuilderState<T, TValue> extends FormFieldState<T>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Padding(
-      padding: widget.style?.padding ?? const EdgeInsets.all(0),
+
+    final decoration =
+        widget.style?.borderColor != null && widget.style?.borderWidth != null
+            ? BoxDecoration(
+                borderRadius: widget.style?.borderRadius ??
+                    const BorderRadius.all(Radius.circular(4.0)),
+                border: Border.all(
+                  color: widget.style!.borderColor!,
+                  width: widget.style!.borderWidth!,
+                ),
+              )
+            : null;
+
+    return Container(
+      decoration: decoration,
+      margin: widget.style?.padding ?? const EdgeInsets.all(0),
+      padding: widget.style?.contentPadding ?? const EdgeInsets.all(0),
       child: widget._builder(context, this, value),
     );
   }
