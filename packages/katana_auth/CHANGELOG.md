@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Added the ability to create accounts. ([f1d7cf60](https://github.com/mathrunet/flutter_masamune/commit/f1d7cf60d5670865c8935194a7b20f84016777cc))
+
 ## 2.0.16
 
  - Update a dependency to the latest release.

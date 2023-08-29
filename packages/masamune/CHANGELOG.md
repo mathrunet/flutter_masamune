@@ -1,3 +1,7 @@
+## 2.4.44
+
+ - **FIX**: The editId of Select in FormRef is now non-nullable. ([1fe769c1](https://github.com/mathrunet/flutter_masamune/commit/1fe769c1bdc30a279df8546a1f3a5da15bef4ad8))
+
 ## 2.4.43
 
  - Update a dependency to the latest release.

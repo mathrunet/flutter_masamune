@@ -1,3 +1,7 @@
+## 2.7.8
+
+ - **FIX**: Border style can be applied to FormBuilder. ([d90ccf52](https://github.com/mathrunet/flutter_masamune/commit/d90ccf5262b40cc538afbc740c1adb816749df7a))
+
 ## 2.7.7
 
  - **FIX**: Reflects the border setting of Form. ([b61e77d2](https://github.com/mathrunet/flutter_masamune/commit/b61e77d277ad2772063c694614a3939be67302ad))

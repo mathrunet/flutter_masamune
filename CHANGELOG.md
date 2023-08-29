@@ -15,6 +15,95 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth` - `v2.1.0`](#katana_auth---v210)
+ - [`katana_auth_firebase` - `v2.1.0`](#katana_auth_firebase---v210)
+ - [`katana_form` - `v2.7.8`](#katana_form---v278)
+ - [`masamune` - `v2.4.44`](#masamune---v2444)
+ - [`masamune_text_to_speech` - `v2.1.66`](#masamune_text_to_speech---v2166)
+ - [`masamune_location` - `v2.1.111`](#masamune_location---v21111)
+ - [`masamune_deeplink_firebase` - `v2.1.19`](#masamune_deeplink_firebase---v2119)
+ - [`masamune_location_google` - `v2.1.112`](#masamune_location_google---v21112)
+ - [`masamune_deeplink` - `v2.1.18`](#masamune_deeplink---v2118)
+ - [`masamune_agora` - `v2.2.82`](#masamune_agora---v2282)
+ - [`masamune_auth_google` - `v2.1.101`](#masamune_auth_google---v21101)
+ - [`masamune_purchase_stripe` - `v3.3.45`](#masamune_purchase_stripe---v3345)
+ - [`masamune_ai_openai` - `v2.2.34`](#masamune_ai_openai---v2234)
+ - [`masamune_util` - `v2.1.78`](#masamune_util---v2178)
+ - [`masamune_calendar` - `v2.0.144`](#masamune_calendar---v20144)
+ - [`masamune_universal_ui` - `v2.2.80`](#masamune_universal_ui---v2280)
+ - [`masamune_introduction` - `v2.2.48`](#masamune_introduction---v2248)
+ - [`masamune_auth_apple` - `v2.1.100`](#masamune_auth_apple---v21100)
+ - [`masamune_speech_to_text` - `v2.1.69`](#masamune_speech_to_text---v2169)
+ - [`masamune_picker` - `v2.1.99`](#masamune_picker---v2199)
+ - [`masamune_logger_firebase` - `v2.0.142`](#masamune_logger_firebase---v20142)
+ - [`masamune_ads_google` - `v2.1.50`](#masamune_ads_google---v2150)
+ - [`masamune_purchase_mobile` - `v2.5.47`](#masamune_purchase_mobile---v2547)
+ - [`masamune_module` - `v2.3.3`](#masamune_module---v233)
+ - [`masamune_mail` - `v2.1.97`](#masamune_mail---v2197)
+ - [`masamune_module_point_ecosystem` - `v2.3.6`](#masamune_module_point_ecosystem---v236)
+ - [`masamune_auth_facebook` - `v2.1.102`](#masamune_auth_facebook---v21102)
+ - [`masamune_notification_firebase` - `v2.2.3`](#masamune_notification_firebase---v223)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_text_to_speech` - `v2.1.66`
+ - `masamune_location` - `v2.1.111`
+ - `masamune_deeplink_firebase` - `v2.1.19`
+ - `masamune_location_google` - `v2.1.112`
+ - `masamune_deeplink` - `v2.1.18`
+ - `masamune_agora` - `v2.2.82`
+ - `masamune_auth_google` - `v2.1.101`
+ - `masamune_purchase_stripe` - `v3.3.45`
+ - `masamune_ai_openai` - `v2.2.34`
+ - `masamune_util` - `v2.1.78`
+ - `masamune_calendar` - `v2.0.144`
+ - `masamune_universal_ui` - `v2.2.80`
+ - `masamune_introduction` - `v2.2.48`
+ - `masamune_auth_apple` - `v2.1.100`
+ - `masamune_speech_to_text` - `v2.1.69`
+ - `masamune_picker` - `v2.1.99`
+ - `masamune_logger_firebase` - `v2.0.142`
+ - `masamune_ads_google` - `v2.1.50`
+ - `masamune_purchase_mobile` - `v2.5.47`
+ - `masamune_module` - `v2.3.3`
+ - `masamune_mail` - `v2.1.97`
+ - `masamune_module_point_ecosystem` - `v2.3.6`
+ - `masamune_auth_facebook` - `v2.1.102`
+ - `masamune_notification_firebase` - `v2.2.3`
+
+---
+
+#### `katana_auth` - `v2.1.0`
+
+ - **FEAT**: Added the ability to create accounts. ([f1d7cf60](https://github.com/mathrunet/flutter_masamune/commit/f1d7cf60d5670865c8935194a7b20f84016777cc))
+
+#### `katana_auth_firebase` - `v2.1.0`
+
+ - **FEAT**: Added the ability to create accounts. ([f1d7cf60](https://github.com/mathrunet/flutter_masamune/commit/f1d7cf60d5670865c8935194a7b20f84016777cc))
+
+#### `katana_form` - `v2.7.8`
+
+ - **FIX**: Border style can be applied to FormBuilder. ([d90ccf52](https://github.com/mathrunet/flutter_masamune/commit/d90ccf5262b40cc538afbc740c1adb816749df7a))
+
+#### `masamune` - `v2.4.44`
+
+ - **FIX**: The editId of Select in FormRef is now non-nullable. ([1fe769c1](https://github.com/mathrunet/flutter_masamune/commit/1fe769c1bdc30a279df8546a1f3a5da15bef4ad8))
+
+
+## 2023-08-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.13`](#katana_cli---v2813)
  - [`katana_form` - `v2.7.7`](#katana_form---v277)
  - [`katana_router` - `v2.0.35`](#katana_router---v2035)
