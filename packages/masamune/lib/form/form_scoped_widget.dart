@@ -69,12 +69,12 @@ class FormRef implements WidgetRef {
   /// フォームに値を追加しているときは[onAdd]が実行され、編集しているときは[onEdit]が実行されます。
   T select<T>({
     required T Function() onAdd,
-    required T Function(String? editId) onEdit,
+    required T Function(String editId) onEdit,
   }) {
     if (isAdding) {
       return onAdd.call();
     } else {
-      return onEdit.call(editId);
+      return onEdit.call(editId ?? "");
     }
   }
 }
