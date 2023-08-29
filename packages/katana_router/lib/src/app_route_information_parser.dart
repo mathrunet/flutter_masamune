@@ -15,7 +15,12 @@ class _AppRouteInformationParser extends RouteInformationParser<RouteQuery> {
   ) async {
     if (routeInformation is InitialRouteInformation &&
         routeInformation.query != null) {
-      return routeInformation.query!;
+      final query = routeInformation.query!;
+      final redirect = await router._redirect(context, query);
+      if (redirect != query) {
+        return redirect;
+      }
+      return query;
     }
     final path = routeInformation.uri.path;
     final query = router.pages
