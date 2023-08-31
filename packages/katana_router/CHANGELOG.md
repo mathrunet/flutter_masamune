@@ -1,3 +1,7 @@
+## 2.0.36
+
+ - **FIX**: Fixed a bug in Redirect. ([7c051875](https://github.com/mathrunet/flutter_masamune/commit/7c051875a187a297a0fb33af328238de6eee7b19))
+
 ## 2.0.35
 
  - **FIX**: Fixed a bug that caused no redirection on first load. ([55431e7a](https://github.com/mathrunet/flutter_masamune/commit/55431e7a49cd6290a995722fa51468d65135bb44))

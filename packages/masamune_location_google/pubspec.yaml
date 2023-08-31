@@ -1,6 +1,6 @@
 name: masamune_location_google
 description: Masamune plugin library for displaying GoogleMap including location information.
-version: 2.1.112
+version: 2.1.113
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_location_google
 
@@ -13,8 +13,8 @@ dependencies:
     sdk: flutter
     
   katana: ^2.4.1
-  masamune: ^2.4.44
-  masamune_location: ^2.1.111
+  masamune: ^2.4.45
+  masamune_location: ^2.1.112
   google_maps_flutter: ^2.3.1
   flutter_polyline_points: ^1.0.0
 
