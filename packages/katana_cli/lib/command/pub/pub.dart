@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:katana_cli/katana_cli.dart';
 
 part 'get.dart';
+part 'add.dart';
 part 'version.dart';
 part 'upgrade.dart';
 part 'publish.dart';
@@ -22,6 +23,7 @@ class PubCliCommand extends CliCommandGroup {
   @override
   Map<String, CliCommand> get commands => const {
         "get": PubGetCliCommand(),
+        "add": PubAddCliCommand(),
         "version": PubVersionCliCommand(),
         "upgrade": PubUpgradeCliCommand(),
         "publish": PubPublishCliCommand(),

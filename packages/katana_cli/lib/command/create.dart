@@ -886,7 +886,7 @@ final appModule = ${module!.toPascalCase()}MasamuneAdapter(
 );
 """;
     return """
-$moduleContent
+${moduleContent ?? ""}
 
 /// App Title.
 // TODO: Define the title of the application.
@@ -934,7 +934,7 @@ final loggerAdapters = <LoggerAdapter>[
 // TODO: Add the adapters.
 final masamuneAdapters = <MasamuneAdapter>[
   const UniversalMasamuneAdapter(),
-  ${module == null ? "appModule," : ""}
+  ${module != null ? "appModule," : ""}
 ];
 
 /// App Theme.
