@@ -516,10 +516,7 @@ class AppRouter extends ChangeNotifier
       ..._config.redirect,
     ];
     for (final r in redirectList) {
-      final res = await r.redirect(context, query);
-      if (res != null) {
-        return res;
-      }
+      query = await r.redirect(context, query);
     }
     return query;
   }
