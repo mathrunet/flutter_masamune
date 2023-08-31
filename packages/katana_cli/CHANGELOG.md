@@ -1,3 +1,7 @@
+## 2.8.14
+
+ - **FIX**: Added Scheduler functionality to Messaging. ([0525440e](https://github.com/mathrunet/flutter_masamune/commit/0525440e8d2a666afe8a4b4f2feff3a854dfdd2a))
+
 ## 2.8.13
 
  - **FIX**: Bug fixes around Facebook and Android build. ([e635d4a6](https://github.com/mathrunet/flutter_masamune/commit/e635d4a6bab40df139809f75c8a9399216ce97b9))

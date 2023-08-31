@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.8.14`](#katana_cli---v2814)
+
+---
+
+#### `katana_cli` - `v2.8.14`
+
+ - **FIX**: Added Scheduler functionality to Messaging. ([0525440e](https://github.com/mathrunet/flutter_masamune/commit/0525440e8d2a666afe8a4b4f2feff3a854dfdd2a))
+
+
+## 2023-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_router` - `v2.0.36`](#katana_router---v2036)
  - [`masamune` - `v2.4.45`](#masamune---v2445)
  - [`masamune_location` - `v2.1.112`](#masamune_location---v21112)
