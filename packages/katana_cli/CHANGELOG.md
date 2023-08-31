@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: Add the command pub add. ([a1dcd7ae](https://github.com/mathrunet/flutter_masamune/commit/a1dcd7ae713dc568c968a6981972ddb1eb87043b))
+
 ## 2.8.14
 
  - **FIX**: Added Scheduler functionality to Messaging. ([0525440e](https://github.com/mathrunet/flutter_masamune/commit/0525440e8d2a666afe8a4b4f2feff3a854dfdd2a))

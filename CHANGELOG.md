@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.9.0`](#katana_cli---v290)
+
+---
+
+#### `katana_cli` - `v2.9.0`
+
+ - **FEAT**: Add the command pub add. ([a1dcd7ae](https://github.com/mathrunet/flutter_masamune/commit/a1dcd7ae713dc568c968a6981972ddb1eb87043b))
+
+
+## 2023-08-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.8.14`](#katana_cli---v2814)
 
 ---
