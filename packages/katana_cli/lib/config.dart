@@ -274,11 +274,14 @@ ${showAllConfig ? """
   
   # Enable Firebase Messaging.
   # Specify ChannelNotificationId for Android in [channel_id].
+  # Set [scheduler] to `true` to send notifications at the specified time.
   # Firebase Messagingを有効にします。
   # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
+  # [scheduler]を`true`にすると指定した時間に通知を送ることができます。
   messaging:
     enable: false
     channel_id: 
+    scheduler: false
 
 ${showAllConfig ? """
 # This section contains information related to Git.

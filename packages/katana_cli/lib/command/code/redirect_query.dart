@@ -81,7 +81,7 @@ class ${className}RedirectQuery extends RedirectQuery {
   const ${className}RedirectQuery();
 
   @override
-  FutureOr<RouteQuery?> redirect(
+  FutureOr<RouteQuery> redirect(
     BuildContext context,
     RouteQuery source,
   ) async {
