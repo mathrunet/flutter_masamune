@@ -374,104 +374,107 @@ class _FormEnumFieldState<TEnum extends Enum, TValue>
               );
 
     return Container(
-      width: widget.style?.width,
-      height: widget.style?.height,
+      alignment: widget.style?.alignment,
       padding:
           widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-      child: Stack(
-        children: [
-          _EnumTextField<TEnum, TValue>(
-            form: widget.form,
-            controller: _controller,
-            focusNode: widget.focusNode,
-            keyboardType: TextInputType.text,
-            initialValue: widget.initialValue,
-            enabled: widget.enabled,
-            decoration: InputDecoration(
-              contentPadding: widget.style?.contentPadding ??
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-              fillColor: widget.style?.backgroundColor,
-              filled: widget.style?.backgroundColor != null,
-              isDense: true,
-              border: widget.style?.border ?? borderSide,
-              enabledBorder: widget.style?.border ?? borderSide,
-              disabledBorder: widget.style?.disabledBorder ??
-                  widget.style?.border ??
-                  borderSide,
-              errorBorder: widget.style?.errorBorder ??
-                  widget.style?.border ??
-                  borderSide,
-              focusedBorder: widget.style?.border ?? borderSide,
-              focusedErrorBorder: widget.style?.errorBorder ??
-                  widget.style?.border ??
-                  borderSide,
-              hintText: widget.hintText,
-              labelText: widget.labelText,
-              prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-              suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-              prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-              suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-              prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-              suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-              prefixIconColor:
-                  widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-              suffixIconColor:
-                  widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-              prefixIconConstraints: widget.prefix?.iconConstraints ??
-                  widget.style?.prefix?.iconConstraints,
-              suffixIconConstraints: widget.suffix?.iconConstraints ??
-                  widget.style?.suffix?.iconConstraints,
-              labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
-              hintStyle: subTextStyle,
-              suffixStyle: subTextStyle,
-              prefixStyle: subTextStyle,
-              counterStyle: subTextStyle,
-              helperStyle: subTextStyle,
-              errorStyle: errorTextStyle,
+      child: SizedBox(
+        height: widget.style?.height,
+        width: widget.style?.width,
+        child: Stack(
+          children: [
+            _EnumTextField<TEnum, TValue>(
+              form: widget.form,
+              controller: _controller,
+              focusNode: widget.focusNode,
+              keyboardType: TextInputType.text,
+              initialValue: widget.initialValue,
+              enabled: widget.enabled,
+              decoration: InputDecoration(
+                contentPadding: widget.style?.contentPadding ??
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                fillColor: widget.style?.backgroundColor,
+                filled: widget.style?.backgroundColor != null,
+                isDense: true,
+                border: widget.style?.border ?? borderSide,
+                enabledBorder: widget.style?.border ?? borderSide,
+                disabledBorder: widget.style?.disabledBorder ??
+                    widget.style?.border ??
+                    borderSide,
+                errorBorder: widget.style?.errorBorder ??
+                    widget.style?.border ??
+                    borderSide,
+                focusedBorder: widget.style?.border ?? borderSide,
+                focusedErrorBorder: widget.style?.errorBorder ??
+                    widget.style?.border ??
+                    borderSide,
+                hintText: widget.hintText,
+                labelText: widget.labelText,
+                prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+                suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+                prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+                suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+                prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+                suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+                prefixIconColor:
+                    widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+                suffixIconColor:
+                    widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+                prefixIconConstraints: widget.prefix?.iconConstraints ??
+                    widget.style?.prefix?.iconConstraints,
+                suffixIconConstraints: widget.suffix?.iconConstraints ??
+                    widget.style?.suffix?.iconConstraints,
+                labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
+                hintStyle: subTextStyle,
+                suffixStyle: subTextStyle,
+                prefixStyle: subTextStyle,
+                counterStyle: subTextStyle,
+                helperStyle: subTextStyle,
+                errorStyle: errorTextStyle,
+              ),
+              style: widget.enabled ? mainTextStyle : disabledTextStyle,
+              textAlign: widget.style?.textAlign ?? TextAlign.left,
+              textAlignVertical: widget.style?.textAlignVertical,
+              readOnly: widget.readOnly,
+              validator: (value) {
+                if (widget.emptyErrorText.isNotEmpty && value == null) {
+                  return widget.emptyErrorText;
+                }
+                return widget.validator?.call(value);
+              },
+              onSubmitted: widget.onSubmitted,
+              onChanged: widget.onChanged,
+              onSaved: (value) {
+                if (value == null) {
+                  return;
+                }
+                final res = widget.onSaved?.call(value);
+                if (res == null) {
+                  return;
+                }
+                widget.form!.value = res;
+              },
+              picker: widget.picker,
             ),
-            style: widget.enabled ? mainTextStyle : disabledTextStyle,
-            textAlign: widget.style?.textAlign ?? TextAlign.left,
-            textAlignVertical: widget.style?.textAlignVertical,
-            readOnly: widget.readOnly,
-            validator: (value) {
-              if (widget.emptyErrorText.isNotEmpty && value == null) {
-                return widget.emptyErrorText;
-              }
-              return widget.validator?.call(value);
-            },
-            onSubmitted: widget.onSubmitted,
-            onChanged: widget.onChanged,
-            onSaved: (value) {
-              if (value == null) {
-                return;
-              }
-              final res = widget.onSaved?.call(value);
-              if (res == null) {
-                return;
-              }
-              widget.form!.value = res;
-            },
-            picker: widget.picker,
-          ),
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: IgnorePointer(
-                  ignoring: true,
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    size: 24,
-                    color: widget.enabled
-                        ? mainTextStyle.color
-                        : disabledTextStyle.color,
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: IgnorePointer(
+                    ignoring: true,
+                    child: Icon(
+                      Icons.arrow_drop_down,
+                      size: 24,
+                      color: widget.enabled
+                          ? mainTextStyle.color
+                          : disabledTextStyle.color,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

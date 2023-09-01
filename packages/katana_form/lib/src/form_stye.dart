@@ -18,6 +18,7 @@ class FormStyle {
   /// フォームの種類によっては対応できないパラメーターもあります。
   const FormStyle({
     this.padding,
+    this.alignment,
     this.contentPadding,
     this.border,
     this.disabledBorder,
@@ -54,6 +55,11 @@ class FormStyle {
   ///
   /// フォームの幅。
   final double? width;
+
+  /// Form position.
+  ///
+  /// フォームの位置。
+  final AlignmentGeometry? alignment;
 
   /// Text cursor color.
   ///
@@ -189,6 +195,7 @@ class FormStyle {
     double? borderWidth,
     TextStyle? textStyle,
     Color? backgroundColor,
+    AlignmentGeometry? alignment,
     EdgeInsetsGeometry? padding,
     EdgeInsetsGeometry? contentPadding,
     Color? color,
@@ -207,6 +214,7 @@ class FormStyle {
     return FormStyle(
       height: height ?? this.height,
       width: width ?? this.width,
+      alignment: alignment ?? this.alignment,
       borderRadius: borderRadius ?? this.borderRadius,
       borderWidth: borderWidth ?? this.borderWidth,
       cursorColor: cursorColor ?? this.cursorColor,

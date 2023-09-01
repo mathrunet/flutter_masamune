@@ -224,40 +224,43 @@ class FormPinField<TValue> extends FormField<String> {
                 style?.borderColor ?? Theme.of(context).dividerColor;
 
             return Container(
-              width: style?.width,
-              height: style?.height,
+              alignment: style?.alignment,
               padding:
                   style?.padding ?? const EdgeInsets.symmetric(vertical: 16),
-              child: UnmanagedRestorationScope(
-                bucket: field.bucket,
-                child: PinInputTextField(
-                  pinLength: maxLength,
-                  controller: state._effectiveController,
-                  focusNode: state._effectiveFocusNode,
-                  decoration: BoxLooseDecoration(
-                    errorText: state.errorText,
-                    hintText: hintText,
-                    errorTextStyle: errorTextStyle,
-                    hintTextStyle: subTextStyle,
-                    obscureStyle: ObscureStyle(isTextObscure: obscureText),
-                    strokeColorBuilder: FixedColorBuilder(borderColor),
-                    bgColorBuilder: FixedColorBuilder(
-                      style?.backgroundColor ??
-                          Theme.of(context).colorScheme.background,
+              child: SizedBox(
+                height: style?.height,
+                width: style?.width,
+                child: UnmanagedRestorationScope(
+                  bucket: field.bucket,
+                  child: PinInputTextField(
+                    pinLength: maxLength,
+                    controller: state._effectiveController,
+                    focusNode: state._effectiveFocusNode,
+                    decoration: BoxLooseDecoration(
+                      errorText: state.errorText,
+                      hintText: hintText,
+                      errorTextStyle: errorTextStyle,
+                      hintTextStyle: subTextStyle,
+                      obscureStyle: ObscureStyle(isTextObscure: obscureText),
+                      strokeColorBuilder: FixedColorBuilder(borderColor),
+                      bgColorBuilder: FixedColorBuilder(
+                        style?.backgroundColor ??
+                            Theme.of(context).colorScheme.background,
+                      ),
+                      textStyle: mainTextStyle,
                     ),
-                    textStyle: mainTextStyle,
+                    keyboardType: keyboardType,
+                    textInputAction: textInputAction,
+                    textCapitalization: textCapitalization,
+                    autocorrect: autocorrect,
+                    onChanged: onChangedHandler,
+                    onSubmit: onSubmitted,
+                    inputFormatters: inputFormatters,
+                    enabled: enabled,
+                    enableInteractiveSelection: enableInteractiveSelection,
+                    autofillHints: autofillHints,
+                    cursor: mouseCursor,
                   ),
-                  keyboardType: keyboardType,
-                  textInputAction: textInputAction,
-                  textCapitalization: textCapitalization,
-                  autocorrect: autocorrect,
-                  onChanged: onChangedHandler,
-                  onSubmit: onSubmitted,
-                  inputFormatters: inputFormatters,
-                  enabled: enabled,
-                  enableInteractiveSelection: enableInteractiveSelection,
-                  autofillHints: autofillHints,
-                  cursor: mouseCursor,
                 ),
               ),
             );

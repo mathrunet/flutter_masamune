@@ -517,112 +517,117 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
       controller: _effectiveController,
       focusNode: widget.focusNode,
       builder: (context, controller, onTap) => Container(
-        height: widget.style?.height,
-        width: widget.style?.width,
+        alignment: widget.style?.alignment,
         padding:
             widget.style?.padding ?? const EdgeInsets.symmetric(vertical: 8),
-        child: _TextFormField<TValue>(
-          key: widget.key,
-          form: widget.form,
-          cursorColor: widget.style?.cursorColor,
-          inputFormatters: widget.inputFormatters,
-          focusNode: widget.focusNode,
-          textAlign: widget.style?.textAlign ?? TextAlign.left,
-          textAlignVertical: widget.style?.textAlignVertical,
-          showCursor: widget.showCursor,
-          enabled: widget.enabled,
-          controller: controller,
-          autofocus: widget.autofocus,
-          keyboardType: widget.expands || widget.minLines > 1
-              ? TextInputType.multiline
-              : widget.keyboardType,
-          maxLength: widget.maxLength,
-          maxLines: (widget.obscureText
-              ? 1
-              : (widget.expands
-                  ? null
-                  : max(widget.maxLines, widget.minLines))),
-          minLines: widget.obscureText
-              ? 1
-              : (widget.expands ? null : widget.minLines),
-          expands: !widget.obscureText && widget.expands,
-          decoration: InputDecoration(
-            contentPadding: widget.style?.contentPadding ??
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            fillColor: widget.style?.backgroundColor,
-            filled: widget.style?.backgroundColor != null,
-            isDense: true,
-            border: widget.style?.border ?? borderSide,
-            enabledBorder: widget.style?.border ?? borderSide,
-            disabledBorder: widget.style?.disabledBorder ??
-                widget.style?.border ??
-                borderSide,
-            errorBorder:
-                widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
-            focusedBorder: widget.style?.border ?? borderSide,
-            focusedErrorBorder:
-                widget.style?.errorBorder ?? widget.style?.border ?? borderSide,
-            hintText: widget.hintText,
-            labelText: widget.labelText,
-            counterText: widget.counterText,
-            prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-            suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-            prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-            suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-            prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-            suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-            prefixIconColor:
-                widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-            suffixIconColor:
-                widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-            prefixIconConstraints: widget.prefix?.iconConstraints ??
-                widget.style?.prefix?.iconConstraints,
-            suffixIconConstraints: widget.suffix?.iconConstraints ??
-                widget.style?.suffix?.iconConstraints,
-            labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
-            hintStyle: subTextStyle,
-            suffixStyle: subTextStyle,
-            prefixStyle: subTextStyle,
-            counterStyle: subTextStyle,
-            helperStyle: subTextStyle,
-            errorStyle: errorTextStyle,
-          ),
-          style: widget.enabled ? mainTextStyle : disabledTextStyle,
-          obscureText: widget.obscureText,
-          readOnly: widget.readOnly,
-          onFieldSubmitted: (value) {
-            widget.onSubmitted?.call(value);
-          },
-          onTap: widget.enabled
-              ? () {
-                  if (widget.onTap != null) {
-                    widget.onTap?.call();
-                  } else {
-                    onTap.call();
+        child: SizedBox(
+          height: widget.style?.height,
+          width: widget.style?.width,
+          child: _TextFormField<TValue>(
+            key: widget.key,
+            form: widget.form,
+            cursorColor: widget.style?.cursorColor,
+            inputFormatters: widget.inputFormatters,
+            focusNode: widget.focusNode,
+            textAlign: widget.style?.textAlign ?? TextAlign.left,
+            textAlignVertical: widget.style?.textAlignVertical,
+            showCursor: widget.showCursor,
+            enabled: widget.enabled,
+            controller: controller,
+            autofocus: widget.autofocus,
+            keyboardType: widget.expands || widget.minLines > 1
+                ? TextInputType.multiline
+                : widget.keyboardType,
+            maxLength: widget.maxLength,
+            maxLines: (widget.obscureText
+                ? 1
+                : (widget.expands
+                    ? null
+                    : max(widget.maxLines, widget.minLines))),
+            minLines: widget.obscureText
+                ? 1
+                : (widget.expands ? null : widget.minLines),
+            expands: !widget.obscureText && widget.expands,
+            decoration: InputDecoration(
+              contentPadding: widget.style?.contentPadding ??
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              fillColor: widget.style?.backgroundColor,
+              filled: widget.style?.backgroundColor != null,
+              isDense: true,
+              border: widget.style?.border ?? borderSide,
+              enabledBorder: widget.style?.border ?? borderSide,
+              disabledBorder: widget.style?.disabledBorder ??
+                  widget.style?.border ??
+                  borderSide,
+              errorBorder: widget.style?.errorBorder ??
+                  widget.style?.border ??
+                  borderSide,
+              focusedBorder: widget.style?.border ?? borderSide,
+              focusedErrorBorder: widget.style?.errorBorder ??
+                  widget.style?.border ??
+                  borderSide,
+              hintText: widget.hintText,
+              labelText: widget.labelText,
+              counterText: widget.counterText,
+              prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+              suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+              prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+              suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+              prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
+              suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
+              prefixIconColor:
+                  widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
+              suffixIconColor:
+                  widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
+              prefixIconConstraints: widget.prefix?.iconConstraints ??
+                  widget.style?.prefix?.iconConstraints,
+              suffixIconConstraints: widget.suffix?.iconConstraints ??
+                  widget.style?.suffix?.iconConstraints,
+              labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
+              hintStyle: subTextStyle,
+              suffixStyle: subTextStyle,
+              prefixStyle: subTextStyle,
+              counterStyle: subTextStyle,
+              helperStyle: subTextStyle,
+              errorStyle: errorTextStyle,
+            ),
+            style: widget.enabled ? mainTextStyle : disabledTextStyle,
+            obscureText: widget.obscureText,
+            readOnly: widget.readOnly,
+            onFieldSubmitted: (value) {
+              widget.onSubmitted?.call(value);
+            },
+            onTap: widget.enabled
+                ? () {
+                    if (widget.onTap != null) {
+                      widget.onTap?.call();
+                    } else {
+                      onTap.call();
+                    }
                   }
-                }
-              : null,
-          validator: (value) {
-            if (widget.emptyErrorText.isNotEmpty && value.isEmpty) {
-              return widget.emptyErrorText;
-            }
-            if (widget.lengthErrorText.isNotEmpty &&
-                widget.minLength.def(0) > value.length) {
-              return widget.lengthErrorText;
-            }
-            return widget.validator?.call(value);
-          },
-          onChanged: widget.onChanged,
-          onSaved: (value) {
-            if (value == null) {
-              return;
-            }
-            final res = widget.onSaved?.call(value);
-            if (res == null) {
-              return;
-            }
-            widget.form!.value = res;
-          },
+                : null,
+            validator: (value) {
+              if (widget.emptyErrorText.isNotEmpty && value.isEmpty) {
+                return widget.emptyErrorText;
+              }
+              if (widget.lengthErrorText.isNotEmpty &&
+                  widget.minLength.def(0) > value.length) {
+                return widget.lengthErrorText;
+              }
+              return widget.validator?.call(value);
+            },
+            onChanged: widget.onChanged,
+            onSaved: (value) {
+              if (value == null) {
+                return;
+              }
+              final res = widget.onSaved?.call(value);
+              if (res == null) {
+                return;
+              }
+              widget.form!.value = res;
+            },
+          ),
         ),
       ),
     );

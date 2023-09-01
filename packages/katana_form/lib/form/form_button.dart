@@ -120,66 +120,69 @@ class FormButton extends StatelessWidget {
     final borderColor = style?.borderColor ?? foregroundColor;
 
     return Container(
-      width: style?.width,
-      height: style?.height,
+      alignment: style?.alignment,
       padding: style?.padding ??
           const EdgeInsets.symmetric(
-            horizontal: 32,
+            horizontal: 0,
             vertical: 4,
           ),
-      child: Material(
-        borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
-        child: InkWell(
-          focusColor: foregroundColor.withOpacity(0.5),
-          hoverColor: foregroundColor.withOpacity(0.5),
-          highlightColor: foregroundColor.withOpacity(0.5),
-          splashColor: foregroundColor.withOpacity(0.5),
+      child: SizedBox(
+        height: style?.height,
+        width: style?.width,
+        child: Material(
           borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
-          onTap: enabled ? onPressed : null,
-          child: Ink(
-            decoration: BoxDecoration(
-              borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
-              border: style?.borderWidth != null && style!.borderWidth! > 0
-                  ? Border.all(
-                      color: enabled ? borderColor : disabledForegroundColor,
-                      width: style!.borderWidth!,
-                    )
-                  : null,
-              color: enabled ? backgroundColor : disabledBackgroundColor,
-            ),
-            child: Padding(
-              padding: style?.contentPadding ??
-                  const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+          child: InkWell(
+            focusColor: foregroundColor.withOpacity(0.5),
+            hoverColor: foregroundColor.withOpacity(0.5),
+            highlightColor: foregroundColor.withOpacity(0.5),
+            splashColor: foregroundColor.withOpacity(0.5),
+            borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
+            onTap: enabled ? onPressed : null,
+            child: Ink(
+              decoration: BoxDecoration(
+                borderRadius: style?.borderRadius ?? BorderRadius.circular(32),
+                border: style?.borderWidth != null && style!.borderWidth! > 0
+                    ? Border.all(
+                        color: enabled ? borderColor : disabledForegroundColor,
+                        width: style!.borderWidth!,
+                      )
+                    : null,
+                color: enabled ? backgroundColor : disabledBackgroundColor,
+              ),
+              child: Padding(
+                padding: style?.contentPadding ??
+                    const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                child: IconTheme(
+                  data: IconThemeData(
+                    color: enabled ? foregroundColor : disabledForegroundColor,
                   ),
-              child: IconTheme(
-                data: IconThemeData(
-                  color: enabled ? foregroundColor : disabledForegroundColor,
-                ),
-                child: DefaultTextStyle(
-                  style: textStyle,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (style?.prefix != null) ...[
-                        ..._buildAffix(context, style!.prefix!),
-                        const SizedBox(width: 12),
+                  child: DefaultTextStyle(
+                    style: textStyle,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (style?.prefix != null) ...[
+                          ..._buildAffix(context, style!.prefix!),
+                          const SizedBox(width: 12),
+                        ],
+                        if (icon != null) ...[
+                          icon!,
+                          const SizedBox(width: 12),
+                        ],
+                        Center(
+                          child: Text(label, textAlign: TextAlign.center),
+                        ),
+                        if (style?.suffix != null) ...[
+                          const SizedBox(width: 12),
+                          ..._buildAffix(context, style!.suffix!),
+                        ],
                       ],
-                      if (icon != null) ...[
-                        icon!,
-                        const SizedBox(width: 12),
-                      ],
-                      Center(
-                        child: Text(label, textAlign: TextAlign.center),
-                      ),
-                      if (style?.suffix != null) ...[
-                        const SizedBox(width: 12),
-                        ..._buildAffix(context, style!.suffix!),
-                      ],
-                    ],
+                    ),
                   ),
                 ),
               ),
