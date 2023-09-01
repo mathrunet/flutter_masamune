@@ -330,7 +330,9 @@ class AppRouter extends ChangeNotifier
     RouteQuery routeQuery, [
     TransitionQuery? transitionQuery,
   ]) {
-    pop();
+    if (_pageStack.isNotEmpty) {
+      _pageStack.removeLast();
+    }
     return push<E>(routeQuery, transitionQuery);
   }
 
