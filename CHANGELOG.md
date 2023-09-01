@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.9.1`](#katana_cli---v291)
+
+---
+
+#### `katana_cli` - `v2.9.1`
+
+ - **FIX**: Change the initial value of increment_number to 1. ([e0ef7e71](https://github.com/mathrunet/flutter_masamune/commit/e0ef7e71250ec9867339e86181c386c26efa1ac3))
+
+
+## 2023-09-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_form` - `v2.7.9`](#katana_form---v279)
  - [`masamune` - `v2.4.46`](#masamune---v2446)
  - [`masamune_location` - `v2.1.113`](#masamune_location---v21113)

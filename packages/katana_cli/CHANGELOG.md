@@ -1,3 +1,7 @@
+## 2.9.1
+
+ - **FIX**: Change the initial value of increment_number to 1. ([e0ef7e71](https://github.com/mathrunet/flutter_masamune/commit/e0ef7e71250ec9867339e86181c386c26efa1ac3))
+
 ## 2.9.0
 
  - **FEAT**: Add the command pub add. ([a1dcd7ae](https://github.com/mathrunet/flutter_masamune/commit/a1dcd7ae713dc568c968a6981972ddb1eb87043b))
