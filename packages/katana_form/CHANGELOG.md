@@ -1,3 +1,7 @@
+## 2.7.9
+
+ - **FIX**: Alignment can now be specified by Style. ([140ba29d](https://github.com/mathrunet/flutter_masamune/commit/140ba29d8c9a5c71fd6351874c192effae1c8732))
+
 ## 2.7.8
 
  - **FIX**: Border style can be applied to FormBuilder. ([d90ccf52](https://github.com/mathrunet/flutter_masamune/commit/d90ccf5262b40cc538afbc740c1adb816749df7a))
