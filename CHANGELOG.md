@@ -15,6 +15,82 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v2.0.37`](#katana_router---v2037)
+ - [`masamune` - `v2.4.47`](#masamune---v2447)
+ - [`masamune_location` - `v2.1.114`](#masamune_location---v21114)
+ - [`masamune_auth_apple` - `v2.1.103`](#masamune_auth_apple---v21103)
+ - [`masamune_deeplink_firebase` - `v2.1.22`](#masamune_deeplink_firebase---v2122)
+ - [`masamune_text_to_speech` - `v2.1.69`](#masamune_text_to_speech---v2169)
+ - [`masamune_agora` - `v2.2.85`](#masamune_agora---v2285)
+ - [`masamune_auth_google` - `v2.1.104`](#masamune_auth_google---v21104)
+ - [`masamune_ai_openai` - `v2.2.37`](#masamune_ai_openai---v2237)
+ - [`masamune_calendar` - `v2.0.147`](#masamune_calendar---v20147)
+ - [`masamune_picker` - `v2.1.102`](#masamune_picker---v21102)
+ - [`masamune_util` - `v2.1.81`](#masamune_util---v2181)
+ - [`masamune_universal_ui` - `v2.2.83`](#masamune_universal_ui---v2283)
+ - [`masamune_purchase_stripe` - `v3.3.48`](#masamune_purchase_stripe---v3348)
+ - [`masamune_introduction` - `v2.2.51`](#masamune_introduction---v2251)
+ - [`masamune_logger_firebase` - `v2.0.145`](#masamune_logger_firebase---v20145)
+ - [`masamune_deeplink` - `v2.1.21`](#masamune_deeplink---v2121)
+ - [`masamune_auth_facebook` - `v2.1.105`](#masamune_auth_facebook---v21105)
+ - [`masamune_speech_to_text` - `v2.1.72`](#masamune_speech_to_text---v2172)
+ - [`masamune_location_google` - `v2.1.115`](#masamune_location_google---v21115)
+ - [`masamune_module_point_ecosystem` - `v2.3.9`](#masamune_module_point_ecosystem---v239)
+ - [`masamune_module` - `v2.3.6`](#masamune_module---v236)
+ - [`masamune_mail` - `v2.1.100`](#masamune_mail---v21100)
+ - [`masamune_notification_firebase` - `v2.2.6`](#masamune_notification_firebase---v226)
+ - [`masamune_purchase_mobile` - `v2.5.50`](#masamune_purchase_mobile---v2550)
+ - [`masamune_ads_google` - `v2.1.53`](#masamune_ads_google---v2153)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.47`
+ - `masamune_location` - `v2.1.114`
+ - `masamune_auth_apple` - `v2.1.103`
+ - `masamune_deeplink_firebase` - `v2.1.22`
+ - `masamune_text_to_speech` - `v2.1.69`
+ - `masamune_agora` - `v2.2.85`
+ - `masamune_auth_google` - `v2.1.104`
+ - `masamune_ai_openai` - `v2.2.37`
+ - `masamune_calendar` - `v2.0.147`
+ - `masamune_picker` - `v2.1.102`
+ - `masamune_util` - `v2.1.81`
+ - `masamune_universal_ui` - `v2.2.83`
+ - `masamune_purchase_stripe` - `v3.3.48`
+ - `masamune_introduction` - `v2.2.51`
+ - `masamune_logger_firebase` - `v2.0.145`
+ - `masamune_deeplink` - `v2.1.21`
+ - `masamune_auth_facebook` - `v2.1.105`
+ - `masamune_speech_to_text` - `v2.1.72`
+ - `masamune_location_google` - `v2.1.115`
+ - `masamune_module_point_ecosystem` - `v2.3.9`
+ - `masamune_module` - `v2.3.6`
+ - `masamune_mail` - `v2.1.100`
+ - `masamune_notification_firebase` - `v2.2.6`
+ - `masamune_purchase_mobile` - `v2.5.50`
+ - `masamune_ads_google` - `v2.1.53`
+
+---
+
+#### `katana_router` - `v2.0.37`
+
+ - **FIX**: Fixing a PROPERTY REPLACE bug. ([f5d0fafa](https://github.com/mathrunet/flutter_masamune/commit/f5d0fafabce3564b15997293c1b33c77b42090bd))
+
+
+## 2023-09-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.9.1`](#katana_cli---v291)
 
 ---

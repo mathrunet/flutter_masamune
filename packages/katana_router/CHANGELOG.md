@@ -1,3 +1,7 @@
+## 2.0.37
+
+ - **FIX**: Fixing a PROPERTY REPLACE bug. ([f5d0fafa](https://github.com/mathrunet/flutter_masamune/commit/f5d0fafabce3564b15997293c1b33c77b42090bd))
+
 ## 2.0.36
 
  - **FIX**: Fixed a bug in Redirect. ([7c051875](https://github.com/mathrunet/flutter_masamune/commit/7c051875a187a297a0fb33af328238de6eee7b19))
