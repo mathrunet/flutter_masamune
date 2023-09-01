@@ -328,7 +328,7 @@ github:
   # AuthKey_xxxx.p8ファイルとdevelopment.cerから生成したdevelopment.p12が`ios`フォルダ以下に必要です。https://mathru.notion.site/AppStoreConnect-ID-f516ff1a767146f69acd6780fbcf20feを参考に設定してください。
   action:
     enable: false
-    increment_number: 0
+    increment_number: 1
     platform: android ios web
     android:
         # Change to completed after the app is released.
