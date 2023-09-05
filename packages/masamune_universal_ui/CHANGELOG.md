@@ -1,3 +1,7 @@
+## 2.2.84
+
+ - **FIX**: Color Reflection. ([3e6ac296](https://github.com/mathrunet/flutter_masamune/commit/3e6ac296026bd089394f9e665046064869fbb5fa))
+
 ## 2.2.83
 
  - Update a dependency to the latest release.

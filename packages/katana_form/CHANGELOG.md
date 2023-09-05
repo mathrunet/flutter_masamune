@@ -1,3 +1,7 @@
+## 2.7.10
+
+ - **FIX**: autocorrect is set to false by default. ([e6a656d7](https://github.com/mathrunet/flutter_masamune/commit/e6a656d76c699d6921151f4d02ba970aa101553a))
+
 ## 2.7.9
 
  - **FIX**: Alignment can now be specified by Style. ([140ba29d](https://github.com/mathrunet/flutter_masamune/commit/140ba29d8c9a5c71fd6351874c192effae1c8732))

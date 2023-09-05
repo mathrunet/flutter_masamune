@@ -3,6 +3,107 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-09-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth` - `v2.2.0`](#katana_auth---v220)
+ - [`katana_form` - `v2.7.10`](#katana_form---v2710)
+ - [`katana_model` - `v2.12.0`](#katana_model---v2120)
+ - [`katana_model_firestore` - `v2.8.0`](#katana_model_firestore---v280)
+ - [`katana_model_local` - `v2.8.0`](#katana_model_local---v280)
+ - [`masamune_universal_ui` - `v2.2.84`](#masamune_universal_ui---v2284)
+ - [`katana_auth_firebase` - `v2.1.1`](#katana_auth_firebase---v211)
+ - [`masamune` - `v2.4.48`](#masamune---v2448)
+ - [`masamune_location` - `v2.1.115`](#masamune_location---v21115)
+ - [`masamune_deeplink_firebase` - `v2.1.23`](#masamune_deeplink_firebase---v2123)
+ - [`masamune_auth_apple` - `v2.1.104`](#masamune_auth_apple---v21104)
+ - [`masamune_text_to_speech` - `v2.1.70`](#masamune_text_to_speech---v2170)
+ - [`masamune_auth_google` - `v2.1.105`](#masamune_auth_google---v21105)
+ - [`masamune_agora` - `v2.2.86`](#masamune_agora---v2286)
+ - [`masamune_ai_openai` - `v2.2.38`](#masamune_ai_openai---v2238)
+ - [`masamune_calendar` - `v2.0.148`](#masamune_calendar---v20148)
+ - [`masamune_picker` - `v2.1.103`](#masamune_picker---v21103)
+ - [`masamune_util` - `v2.1.82`](#masamune_util---v2182)
+ - [`masamune_purchase_stripe` - `v3.3.49`](#masamune_purchase_stripe---v3349)
+ - [`masamune_introduction` - `v2.2.52`](#masamune_introduction---v2252)
+ - [`masamune_logger_firebase` - `v2.0.146`](#masamune_logger_firebase---v20146)
+ - [`masamune_deeplink` - `v2.1.22`](#masamune_deeplink---v2122)
+ - [`masamune_speech_to_text` - `v2.1.73`](#masamune_speech_to_text---v2173)
+ - [`masamune_location_google` - `v2.1.116`](#masamune_location_google---v21116)
+ - [`masamune_auth_facebook` - `v2.1.106`](#masamune_auth_facebook---v21106)
+ - [`masamune_module_point_ecosystem` - `v2.3.10`](#masamune_module_point_ecosystem---v2310)
+ - [`masamune_module` - `v2.3.7`](#masamune_module---v237)
+ - [`masamune_notification_firebase` - `v2.2.7`](#masamune_notification_firebase---v227)
+ - [`masamune_mail` - `v2.1.101`](#masamune_mail---v21101)
+ - [`masamune_purchase_mobile` - `v2.5.51`](#masamune_purchase_mobile---v2551)
+ - [`masamune_ads_google` - `v2.1.54`](#masamune_ads_google---v2154)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_auth_firebase` - `v2.1.1`
+ - `masamune` - `v2.4.48`
+ - `masamune_location` - `v2.1.115`
+ - `masamune_deeplink_firebase` - `v2.1.23`
+ - `masamune_auth_apple` - `v2.1.104`
+ - `masamune_text_to_speech` - `v2.1.70`
+ - `masamune_auth_google` - `v2.1.105`
+ - `masamune_agora` - `v2.2.86`
+ - `masamune_ai_openai` - `v2.2.38`
+ - `masamune_calendar` - `v2.0.148`
+ - `masamune_picker` - `v2.1.103`
+ - `masamune_util` - `v2.1.82`
+ - `masamune_purchase_stripe` - `v3.3.49`
+ - `masamune_introduction` - `v2.2.52`
+ - `masamune_logger_firebase` - `v2.0.146`
+ - `masamune_deeplink` - `v2.1.22`
+ - `masamune_speech_to_text` - `v2.1.73`
+ - `masamune_location_google` - `v2.1.116`
+ - `masamune_auth_facebook` - `v2.1.106`
+ - `masamune_module_point_ecosystem` - `v2.3.10`
+ - `masamune_module` - `v2.3.7`
+ - `masamune_notification_firebase` - `v2.2.7`
+ - `masamune_mail` - `v2.1.101`
+ - `masamune_purchase_mobile` - `v2.5.51`
+ - `masamune_ads_google` - `v2.1.54`
+
+---
+
+#### `katana_auth` - `v2.2.0`
+
+ - **FEAT**: Changed AuthDatabase mechanism. ([56a2ce99](https://github.com/mathrunet/flutter_masamune/commit/56a2ce99310a291efc4598da3540af1edf91b993))
+
+#### `katana_form` - `v2.7.10`
+
+ - **FIX**: autocorrect is set to false by default. ([e6a656d7](https://github.com/mathrunet/flutter_masamune/commit/e6a656d76c699d6921151f4d02ba970aa101553a))
+
+#### `katana_model` - `v2.12.0`
+
+ - **FEAT**: Added count() functionality. ([5c2f1885](https://github.com/mathrunet/flutter_masamune/commit/5c2f18850bfd133edee781cf5043178b5dfbceff))
+
+#### `katana_model_firestore` - `v2.8.0`
+
+ - **FEAT**: Added count() functionality. ([5c2f1885](https://github.com/mathrunet/flutter_masamune/commit/5c2f18850bfd133edee781cf5043178b5dfbceff))
+
+#### `katana_model_local` - `v2.8.0`
+
+ - **FEAT**: Added count() functionality. ([5c2f1885](https://github.com/mathrunet/flutter_masamune/commit/5c2f18850bfd133edee781cf5043178b5dfbceff))
+
+#### `masamune_universal_ui` - `v2.2.84`
+
+ - **FIX**: Color Reflection. ([3e6ac296](https://github.com/mathrunet/flutter_masamune/commit/3e6ac296026bd089394f9e665046064869fbb5fa))
+
+
 ## 2023-09-01
 
 ### Changes

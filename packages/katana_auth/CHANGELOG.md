@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Changed AuthDatabase mechanism. ([56a2ce99](https://github.com/mathrunet/flutter_masamune/commit/56a2ce99310a291efc4598da3540af1edf91b993))
+
 ## 2.1.0
 
  - **FEAT**: Added the ability to create accounts. ([f1d7cf60](https://github.com/mathrunet/flutter_masamune/commit/f1d7cf60d5670865c8935194a7b20f84016777cc))
