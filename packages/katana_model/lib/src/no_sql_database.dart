@@ -540,7 +540,7 @@ class NoSqlDatabase {
       if (paths.isEmpty) {
         continue;
       }
-      _appliedInitialValue.add(tmp.key);
+      _appliedInitialValue.add(path);
       data._writeToPath(paths, 0, Map.from(value));
     }
   }

@@ -113,14 +113,11 @@ class RuntimeModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<int> loadCollectionCount(
-    ModelAdapterCollectionQuery query, {
-    Iterable? retreivedList,
-  }) async {
-    if (retreivedList != null) {
-      return retreivedList.length;
-    }
-    final data = await database.loadCollection(query, prefix: prefix);
+  Future<int> loadCollectionCount(ModelAdapterCollectionQuery query) async {
+    final data = await database.loadCollection(
+      query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
+      prefix: prefix,
+    );
     return data.length;
   }
 

@@ -290,6 +290,26 @@ abstract class CollectionBase<TModel extends DocumentBase>
     return loaded;
   }
 
+  /// Get the number of elements in all collections existing in the database.
+  ///
+  /// [AsyncCountValue] is returned, wait a moment and then retrieve the value from [AsyncCountValue.value].
+  ///
+  /// データベース上に存在するすべてのコレクションの要素数を取得します。
+  ///
+  /// [AsyncCountValue]が返されるので少し待ったあと[AsyncCountValue.value]から値を取得してください。
+  AsyncCountValue count() {
+    _count ??= AsyncCountValue._(_countRequest());
+    return _count!;
+  }
+
+  Future<int> _countRequest() async {
+    final count = await modelQuery.adapter.loadCollectionCount(databaseQuery);
+    notifyListeners();
+    return count;
+  }
+
+  AsyncCountValue? _count;
+
   /// {@macro model_transaction}
   ///
   /// ```dart

@@ -264,10 +264,7 @@ class JsonDocumentSourceModelAdapter extends JsonSourceModelAdapter {
   }
 
   @override
-  Future<int> loadCollectionCount(
-    ModelAdapterCollectionQuery query, {
-    Iterable? retreivedList,
-  }) async {
+  Future<int> loadCollectionCount(ModelAdapterCollectionQuery query) async {
     throw UnsupportedError("This adapter cannot be used as a collection.");
   }
 
@@ -516,16 +513,12 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
   }
 
   @override
-  Future<int> loadCollectionCount(
-    ModelAdapterCollectionQuery query, {
-    Iterable? retreivedList,
-  }) async {
-    if (retreivedList != null) {
-      return retreivedList.length;
-    }
+  Future<int> loadCollectionCount(ModelAdapterCollectionQuery query) async {
     await _loadJson(database);
     final data = await database.loadCollection(
-      _replaceCollectionQuery(query),
+      _replaceCollectionQuery(
+        query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
+      ),
     );
     return data.length;
   }

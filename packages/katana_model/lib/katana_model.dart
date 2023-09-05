@@ -40,6 +40,7 @@ part 'src/model_query.dart';
 part 'src/model_locale.dart';
 part 'src/collection_base.dart';
 part 'src/listenable_listener.dart';
+part 'src/async_count_value.dart';
 part 'src/model_batch.dart';
 part 'src/model_transaction.dart';
 part 'src/model_field_value.dart';

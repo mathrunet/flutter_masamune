@@ -438,6 +438,15 @@ class CollectionModelQuery extends ModelQuery {
     return _copyWithAddingFilter(filters: []);
   }
 
+  /// Remove filters related to [type].
+  ///
+  /// [type]に関連するフィルタを取り除きます。
+  CollectionModelQuery remove(ModelQueryFilterType type) {
+    return _copyWithAddingFilter(filters: [
+      ...filters.where((e) => e.type != type),
+    ]);
+  }
+
   CollectionModelQuery _copyWithAddingFilter({
     List<ModelQueryFilter>? filters,
   }) {
