@@ -27,12 +27,34 @@ class LocalAuthAdapter extends AuthAdapter {
   /// 外部に値を保存する必要のないアプリ開発に利用します。
   ///
   /// モバイルやデスクトップは外部ファイルに暗号化してデータが保存されWebの場合はLocalStorageに暗号化されデータが保存されます。
-  const LocalAuthAdapter();
+  const LocalAuthAdapter({
+    AuthDatabase? database,
+    String? initialUserId,
+    List<AuthInitialValue>? initialValue,
+  })  : _database = database,
+        _initialUserId = initialUserId,
+        _initialValue = initialValue;
 
   /// Designated database.
   ///
   /// 指定のデータベース。
-  AuthDatabase get database => sharedDatabase;
+  AuthDatabase get database {
+    final database = _database ?? sharedDatabase;
+    if (_initialValue.isNotEmpty && !database.isInitialValueRegistered) {
+      for (final value in _initialValue!) {
+        database.setInitialValue(value);
+      }
+      database.setInitialId(_initialUserId);
+      if (_initialUserId != null) {
+        database.setInitialValue(AuthInitialValue(uid: _initialUserId!));
+      }
+    }
+    return database;
+  }
+
+  final AuthDatabase? _database;
+  final String? _initialUserId;
+  final List<AuthInitialValue>? _initialValue;
 
   /// A common database throughout the application.
   ///

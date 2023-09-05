@@ -43,57 +43,32 @@ class RuntimeAuthAdapter extends AuthAdapter {
   /// 個別のデータを予め設定しておくことで認証用のデータモックとして利用することができます。
   const RuntimeAuthAdapter({
     AuthDatabase? database,
-    bool? isVerified,
-    bool? isAnonymously,
-    String? userId,
-    String? userName,
-    String? userEmail,
-    String? userPhoneNumber,
-    String? userPhotoURL,
-    String? userPassword,
-    List<String>? userActiveProviders,
+    String? initialUserId,
+    List<AuthInitialValue>? initialValue,
   })  : _database = database,
-        _isVerified = isVerified,
-        _isAnonymously = isAnonymously,
-        _userId = userId,
-        _userName = userName,
-        _userEmail = userEmail,
-        _userPhoneNumber = userPhoneNumber,
-        _userPhotoURL = userPhotoURL,
-        _userPassword = userPassword,
-        _userActiveProviders = userActiveProviders;
+        _initialUserId = initialUserId,
+        _initialValue = initialValue;
 
   /// Designated database. Please use for testing purposes, etc.
   ///
   /// 指定のデータベース。テスト用途などにご利用ください。
   AuthDatabase get database {
     final database = _database ?? sharedDatabase;
-    if (database._data.isEmpty) {
-      database.setRawData(
-        isVerified: _isVerified,
-        isAnonymously: _isAnonymously,
-        userId: _userId,
-        userName: _userName,
-        userEmail: _userEmail,
-        userPhoneNumber: _userPhoneNumber,
-        userPhotoURL: _userPhotoURL,
-        userPassword: _userPassword,
-        userActiveProviders: _userActiveProviders,
-      );
+    if (_initialValue.isNotEmpty && !database.isInitialValueRegistered) {
+      for (final value in _initialValue!) {
+        database.setInitialValue(value);
+      }
+      database.setInitialId(_initialUserId);
+      if (_initialUserId != null) {
+        database.setInitialValue(AuthInitialValue(uid: _initialUserId!));
+      }
     }
     return database;
   }
 
   final AuthDatabase? _database;
-  final bool? _isVerified;
-  final bool? _isAnonymously;
-  final String? _userId;
-  final String? _userName;
-  final String? _userEmail;
-  final String? _userPhoneNumber;
-  final String? _userPhotoURL;
-  final String? _userPassword;
-  final List<String>? _userActiveProviders;
+  final String? _initialUserId;
+  final List<AuthInitialValue>? _initialValue;
 
   /// A common database throughout the application.
   ///

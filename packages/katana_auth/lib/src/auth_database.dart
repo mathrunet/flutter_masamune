@@ -2,7 +2,6 @@
 
 part of katana_auth;
 
-const _kIsRawDataRegisteredKey = "isRawDataRegistered";
 const _kIsVerifiedKey = "isVerified";
 const _kIsAnonymouslyKey = "isAnonymously";
 const _kUserIdKey = "userId";
@@ -28,7 +27,7 @@ const _kTempUserPhoneNumberKey = "tmpPhoneNumber";
 ///
 /// This also allows authentication information to be stored locally within the terminal.
 ///
-/// It is possible to test each email and SMS sending process with [onSendRegisteredEmail], [onSendEmailLink], [onSendSMS], [onResetPassword] and [onSendVerificationEmail].
+/// It is possible to test each email and SMS sending process with [onSendRegisteredEmail], [onSendEmailLink], [onSendSMS], [onResetPassword] and [onVerify].
 ///
 /// The password to be reset when [reset] is executed can be specified in [resetPassword].
 ///
@@ -42,7 +41,7 @@ const _kTempUserPhoneNumberKey = "tmpPhoneNumber";
 ///
 /// これにより、端末ローカル内に認証情報を保存することも可能です。
 ///
-/// [onSendRegisteredEmail]や[onSendEmailLink]、[onSendSMS]、[onResetPassword]、[onSendVerificationEmail]で各メールやSMSの送信処理をテストすることが可能です。
+/// [onSendRegisteredEmail]や[onSendEmailLink]、[onSendSMS]、[onResetPassword]、[onVerify]で各メールやSMSの送信処理をテストすることが可能です。
 ///
 /// [reset]が実行された場合リセットされるパスワードを[resetPassword]で指定することが可能です。
 class AuthDatabase {
@@ -56,7 +55,7 @@ class AuthDatabase {
   ///
   /// This also allows authentication information to be stored locally within the terminal.
   ///
-  /// It is possible to test each email and SMS sending process with [onSendRegisteredEmail], [onSendEmailLink], [onSendSMS], [onResetPassword] and [onSendVerificationEmail].
+  /// It is possible to test each email and SMS sending process with [onSendRegisteredEmail], [onSendEmailLink], [onSendSMS], [onResetPassword] and [onVerify].
   ///
   /// The password to be reset when [reset] is executed can be specified in [resetPassword].
   ///
@@ -70,7 +69,7 @@ class AuthDatabase {
   ///
   /// これにより、端末ローカル内に認証情報を保存することも可能です。
   ///
-  /// [onSendRegisteredEmail]や[onSendEmailLink]、[onSendSMS]、[onResetPassword]、[onSendVerificationEmail]で各メールやSMSの送信処理をテストすることが可能です。
+  /// [onSendRegisteredEmail]や[onSendEmailLink]、[onSendSMS]、[onResetPassword]、[onVerify]で各メールやSMSの送信処理をテストすることが可能です。
   ///
   /// [reset]が実行された場合リセットされるパスワードを[resetPassword]で指定することが可能です。
   AuthDatabase({
@@ -81,14 +80,18 @@ class AuthDatabase {
     this.onSendEmailLink,
     this.onSendSMS,
     this.onResetPassword,
-    this.onSendVerificationEmail,
+    this.onVerify,
     this.resetPassword = "01234567",
     this.defaultLocale = const Locale("en", "US"),
   });
 
-  DynamicMap _data = {};
   bool _initialized = false;
   Completer<void>? _completer;
+  DynamicMap _data = {};
+  String? _activeId;
+  String? _registeredCurrentId;
+  final Map<String, DynamicMap> _registeredInitialValue = {};
+  final List<String> _appliedInitialValue = [];
 
   /// Default locale when [Locale] is not set.
   ///
@@ -160,8 +163,7 @@ class AuthDatabase {
   /// 認証用メールを送る際に実行されます。
   ///
   /// `email`に送信先のメールアドレス、locale`に言語設定が渡されます。
-  final Future<void> Function(String email, Locale locale)?
-      onSendVerificationEmail;
+  final Future<bool> Function(String email, Locale locale)? onVerify;
 
   /// This is performed when resetting a password.
   ///
@@ -181,45 +183,54 @@ class AuthDatabase {
     if (_completer != null) {
       return _completer?.future;
     }
-    if (_initialized) {
-      return;
+    if (!_initialized) {
+      _completer = Completer();
+      try {
+        _initialized = true;
+        await onInitialize?.call(this);
+        _completer?.complete();
+        _completer = null;
+      } catch (e) {
+        _completer?.completeError(e);
+        _completer = null;
+      } finally {
+        _completer?.complete();
+        _completer = null;
+      }
     }
-    _completer = Completer();
-    try {
-      _initialized = true;
-      await onInitialize?.call(this);
-      _completer?.complete();
-      _completer = null;
-    } catch (e) {
-      _completer?.completeError(e);
-      _completer = null;
-    } finally {
-      _completer?.complete();
-      _completer = null;
+    _applyRawData();
+  }
+
+  DynamicMap? get _activeAccount {
+    if (_activeId.isEmpty) {
+      return null;
     }
+    return _data._getAccount(userId);
   }
 
   /// If you are signed in, `true` is returned.
   ///
   /// サインインしている場合、`true`が返されます。
-  bool get isSignedIn => _data.get(_kUserIdKey, "").isNotEmpty;
+  bool get isSignedIn => _activeAccount.isNotEmpty;
 
   /// Returns `true` if the registration has been authenticated.
   ///
   /// 登録が認証済みの場合`true`を返します。
-  bool get isVerified => isSignedIn && _data.get(_kIsVerifiedKey, false);
+  bool get isVerified =>
+      isSignedIn && _activeAccount.get(_kIsVerifiedKey, false);
 
   /// Returns `true` in case of anonymous or guest authentication.
   ///
   /// 匿名認証、ゲスト認証の場合、`true`を返します。
-  bool get isAnonymously => isSignedIn && _data.get(_kIsAnonymouslyKey, false);
+  bool get isAnonymously =>
+      isSignedIn && _activeAccount.get(_kIsAnonymouslyKey, false);
 
   /// Returns `true` if [confirmSignIn] or [confirmChange] is required.
   ///
   /// [confirmSignIn]や[confirmChange]の実行を必要とする場合`true`を返します。
   bool get isWaitingConfirmation =>
-      _data.get(_kEmailLinkUrlKey, "").isNotEmpty ||
-      _data.get(_kSmsCodeKey, "").isNotEmpty;
+      _activeAccount.get(_kEmailLinkUrlKey, "").isNotEmpty ||
+      _activeAccount.get(_kSmsCodeKey, "").isNotEmpty;
 
   /// Returns the user ID on the authentication platform during sign-in.
   ///
@@ -228,23 +239,25 @@ class AuthDatabase {
   /// サインイン時、認証プラットフォーム上のユーザーIDを返します。
   ///
   /// このIDはユニークなものとなっているためユーザーのDBに登録するユニークIDとして利用可能です。
-  String get userId => !isSignedIn ? "" : _data.get(_kUserIdKey, "");
+  String get userId => !isSignedIn ? "" : _activeAccount.get(_kUserIdKey, "");
 
   /// Returns the user name on the authentication platform during sign-in.
   ///
   /// サインイン時、、認証プラットフォーム上のユーザー名を返します。
-  String get userName => !isSignedIn ? "" : _data.get(_kUserNameKey, "");
+  String get userName =>
+      !isSignedIn ? "" : _activeAccount.get(_kUserNameKey, "");
 
   /// Returns the email address registered with the authentication platform upon sign-in.
   ///
   /// サインイン時、認証プラットフォームに登録されたメールアドレスを返します。
-  String get userEmail => !isSignedIn ? "" : _data.get(_kUserEmailKey, "");
+  String get userEmail =>
+      !isSignedIn ? "" : _activeAccount.get(_kUserEmailKey, "");
 
   /// Returns the phone number registered with the authentication platform upon sign-in.
   ///
   /// サインイン時、認証プラットフォームに登録された電話番号を返します。
   String get userPhoneNumber =>
-      !isSignedIn ? "" : _data.get(_kUserPhoneNumberKey, "");
+      !isSignedIn ? "" : _activeAccount.get(_kUserPhoneNumberKey, "");
 
   /// Returns the URL of the user's icon registered on the authentication platform during sign-in.
   ///
@@ -256,48 +269,19 @@ class AuthDatabase {
   /// 基本的にSNSで登録されているアイコンを取得するために利用します。
   /// （SNSプラットフォームによっては取得できない場合もあります。）
   String get userPhotoURL =>
-      !isSignedIn ? "" : _data.get(_kUserPhotoURLKey, "");
+      !isSignedIn ? "" : _activeAccount.get(_kUserPhotoURLKey, "");
 
   /// Returns a list of authenticated provider IDs upon sign-in.
   ///
   /// サインイン時、認証されたプロバイダーのID一覧を返します。
   List<String> get activeProviderIds =>
-      !isSignedIn ? [] : _data.getAsList(_kActiveProvidersKey);
+      !isSignedIn ? [] : _activeAccount.getAsList(_kActiveProvidersKey);
 
   /// Returns the stored password.
   ///
   /// 保存されたパスワードを返します。
   String get userPassword =>
-      !isSignedIn ? "" : _data.get(_kUserPasswordKey, "");
-
-  /// The respective authentication data can be entered directly.
-  ///
-  /// それぞれの認証データを直接入力することができます。
-  void setRawData({
-    bool? isVerified,
-    bool? isAnonymously,
-    String? userId,
-    String? userName,
-    String? userEmail,
-    String? userPhoneNumber,
-    String? userPhotoURL,
-    String? userPassword,
-    List<String>? userActiveProviders,
-  }) {
-    _data.addAll({
-      _kIsRawDataRegisteredKey: true,
-      if (isVerified != null) _kIsVerifiedKey: isVerified,
-      if (isAnonymously != null) _kIsAnonymouslyKey: isAnonymously,
-      if (userId != null) _kUserIdKey: userId,
-      if (userName != null) _kUserNameKey: userName,
-      if (userEmail != null) _kUserEmailKey: userEmail,
-      if (userPhoneNumber != null) _kUserPhoneNumberKey: userPhoneNumber,
-      if (userPhotoURL != null) _kUserPhotoURLKey: userPhotoURL,
-      if (userPassword != null) _kUserPasswordKey: userPassword,
-      if (userActiveProviders != null)
-        _kActiveProvidersKey: userActiveProviders,
-    });
-  }
+      !isSignedIn ? "" : _activeAccount.get(_kUserPasswordKey, "");
 
   /// Running the application at startup will automatically re-authenticate the user.
   ///
@@ -311,6 +295,8 @@ class AuthDatabase {
   Future<bool> tryRestoreAuth() async {
     await _initialize();
     await onLoad?.call(this);
+    final current = _data._getCurrent();
+    _activeId = current.get(_kUserIdKey, nullOfString) ?? _registeredCurrentId;
     return isSignedIn;
   }
 
@@ -328,14 +314,26 @@ class AuthDatabase {
           "This Email address is already registered. Please register another email address.",
         );
       }
+      final accounts = _data._getAccounts();
+      if (accounts.any(
+          (element) => element.get(_kUserEmailKey, "") == provider.email)) {
+        throw Exception(
+          "This Email address is already registered. Please register another email address.",
+        );
+      }
       userId = uuid;
-      _data[_kUserIdKey] = userId;
-      _data[_kUserEmailKey] = provider.email;
-      _data[_kUserPasswordKey] = provider.password;
-      _data[_kActiveProvidersKey] = {
-        ...activeProviderIds,
-        provider.providerId,
-      }.toList();
+      _data._setAccount(
+        userId,
+        {
+          _kUserIdKey: userId,
+          _kUserEmailKey: provider.email,
+          _kUserPasswordKey: provider.password,
+          _kActiveProvidersKey: [
+            ...activeProviderIds,
+            provider.providerId,
+          ].distinct(),
+        },
+      );
       await onSendRegisteredEmail?.call(
         provider.email,
         provider.password,
@@ -360,13 +358,27 @@ class AuthDatabase {
           "This Email address is already registered. Please register another email address.",
         );
       }
-      _data[_kUserIdKey] = uuid;
-      _data[_kUserEmailKey] = provider.email;
-      _data[_kUserPasswordKey] = provider.password;
-      _data[_kActiveProvidersKey] = {
-        ...activeProviderIds,
-        provider.providerId,
-      }.toList();
+      final accounts = _data._getAccounts();
+      if (accounts.any(
+          (element) => element.get(_kUserEmailKey, "") == provider.email)) {
+        throw Exception(
+          "This Email address is already registered. Please register another email address.",
+        );
+      }
+      final userId = uuid;
+      _data._setAccount(
+        userId,
+        {
+          _kUserIdKey: userId,
+          _kUserEmailKey: provider.email,
+          _kUserPasswordKey: provider.password,
+          _kActiveProvidersKey: [
+            ...activeProviderIds,
+            provider.providerId,
+          ].distinct(),
+        },
+      );
+      _data._setCurrent(userId);
       await onSendRegisteredEmail?.call(
         provider.email,
         provider.password,
@@ -383,42 +395,104 @@ class AuthDatabase {
     required SignInAuthProvider provider,
   }) async {
     await _initialize();
-    await signOut();
+    final accounts = _data._getAccounts();
     if (provider is AnonymouslySignInAuthProvider ||
         provider is SnsSignInAuthProvider) {
-      _data[_kUserIdKey] = uuid;
-      _data[_kIsAnonymouslyKey] = true;
-      _data[_kActiveProvidersKey] = {
-        ...activeProviderIds,
-        provider.providerId,
-      }.toList();
-    } else if (provider is EmailAndPasswordSignInAuthProvider) {
-      if (_data[_kUserEmailKey] != provider.email ||
-          _data[_kUserPasswordKey] != provider.password) {
-        throw Exception("ID or Password is invalid.");
+      final active = _activeAccount;
+      if (active.isEmpty) {
+        final current = _data._getCurrent();
+        final userId = current.get(_kUserIdKey, "");
+        if (userId.isEmpty) {
+          final userId = uuid;
+          _data._setAccount(userId, {
+            _kUserIdKey: userId,
+            _kIsAnonymouslyKey: true,
+            _kActiveProvidersKey: [provider.providerId].distinct(),
+          });
+          _data._setCurrent(userId);
+          _activeId = userId;
+        } else {
+          final current = _data._getAccount(userId);
+          current.addAll({
+            _kIsAnonymouslyKey: true,
+            _kActiveProvidersKey: [
+              ...current.getAsList(_kActiveProvidersKey),
+              provider.providerId
+            ].distinct(),
+          });
+          _data._setAccount(userId, current);
+          _activeId = userId;
+        }
+      } else {
+        final userId = _activeId!;
+        final current = _data._getAccount(userId);
+        current.addAll({
+          _kIsAnonymouslyKey: true,
+          _kActiveProvidersKey: [
+            ...current.getAsList(_kActiveProvidersKey),
+            provider.providerId
+          ].distinct(),
+        });
+        _data._setAccount(userId, current);
       }
-      _data[_kUserIdKey] = uuid;
-      _data[_kActiveProvidersKey] = {
-        ...activeProviderIds,
-        provider.providerId,
-      }.toList();
+    } else if (provider is EmailAndPasswordSignInAuthProvider) {
+      final accounts = _data._getAccounts();
+      final account = accounts.firstWhereOrNull((e) =>
+          e.get(_kUserEmailKey, "") == provider.email &&
+          e.get(_kUserPasswordKey, "") == provider.password);
+      if (account == null) {
+        throw Exception("Email or Password is invalid.");
+      }
+      _activeId = account.get(_kUserIdKey, "");
     } else if (provider is EmailLinkSignInAuthProvider) {
       await onSendEmailLink?.call(
         provider.email,
         provider.url,
         provider.locale ?? defaultLocale,
       );
-      _data[_kEmailLinkUrlKey] = provider.url;
-      _data[_kTempUserEmailKey] = provider.email;
+      final account = accounts
+          .firstWhereOrNull((e) => e.get(_kUserEmailKey, "") == provider.email);
+      if (account == null) {
+        final userId = uuid;
+        _data._setAccount(userId, {
+          _kUserIdKey: userId,
+          _kEmailLinkUrlKey: provider.url,
+          _kTempUserEmailKey: provider.email,
+        });
+        _data._setTemporary(userId);
+      } else {
+        final userId = account.get(_kUserIdKey, "");
+        _data._setAccount(userId, {
+          _kEmailLinkUrlKey: provider.url,
+          _kTempUserEmailKey: provider.email,
+        });
+        _data._setTemporary(userId);
+      }
     } else if (provider is SmsSignInAuthProvider) {
-      final code = generateCode(6, charSet: "01223456789");
+      final account = accounts.firstWhereOrNull(
+          (e) => e.get(_kUserPhoneNumberKey, "") == provider.phoneNumber);
+      final code = generateCode(6, charSet: "0123456789");
       await onSendSMS?.call(
         provider.phoneNumber,
         code,
         provider.locale ?? defaultLocale,
       );
-      _data[_kTempUserPhoneNumberKey] = provider.phoneNumber;
-      _data[_kSmsCodeKey] = code;
+      if (account == null) {
+        final userId = uuid;
+        _data._setAccount(userId, {
+          _kUserIdKey: userId,
+          _kTempUserPhoneNumberKey: provider.phoneNumber,
+          _kSmsCodeKey: code,
+        });
+        _data._setTemporary(userId);
+      } else {
+        final userId = account.get(_kUserIdKey, "");
+        _data._setAccount(userId, {
+          _kTempUserPhoneNumberKey: provider.phoneNumber,
+          _kSmsCodeKey: code,
+        });
+        _data._setTemporary(userId);
+      }
     }
     await onSaved?.call(this);
   }
@@ -437,36 +511,42 @@ class AuthDatabase {
   }) async {
     await _initialize();
     if (provider is EmailLinkConfirmSignInAuthProvider) {
-      final emailLink = _data.get(_kEmailLinkUrlKey, "");
-      final email = _data.get(_kTempUserEmailKey, "");
-      if (emailLink != provider.url || email.isEmpty) {
+      final temporary = _data._getTemporary();
+      final emailLink = temporary.get(_kEmailLinkUrlKey, "");
+      final email = temporary.get(_kTempUserEmailKey, "");
+      if (temporary.isEmpty || emailLink != provider.url || email.isEmpty) {
         throw Exception(
           "Your Email is not registered. Please register it with [signIn] beforehand.",
         );
       }
-      _data[_kUserIdKey] = uuid;
-      _data[_kUserEmailKey] = email;
-      _data.remove(_kEmailLinkUrlKey);
-      _data.remove(_kTempUserEmailKey);
-      _data[_kActiveProvidersKey] = {
-        ...activeProviderIds,
-        provider.providerId,
-      }.toList();
+      final userId = temporary.get(_kUserIdKey, "");
+      _data._setTemporary(null);
+      _data._setAccount(userId, {
+        ...temporary,
+        _kActiveProvidersKey: [
+          ...temporary.getAsList(_kActiveProvidersKey),
+          provider.providerId
+        ].distinct()
+      });
+      _data._setCurrent(userId);
     } else if (provider is SmsConfirmSignInAuthProvider) {
+      final temporary = _data._getTemporary();
       final phoenNumber = _data.get(_kTempUserPhoneNumberKey, "");
-      if (phoenNumber.isEmpty) {
+      if (temporary.isEmpty || phoenNumber.isEmpty) {
         throw Exception(
           "Phone number is not registered. Please register it with [signIn] beforehand.",
         );
       }
-      _data[_kUserIdKey] = uuid;
-      _data[_kUserPhoneNumberKey] = phoenNumber;
-      _data.remove(_kSmsCodeKey);
-      _data.remove(_kTempUserPhoneNumberKey);
-      _data[_kActiveProvidersKey] = {
-        ...activeProviderIds,
-        provider.providerId,
-      }.toList();
+      final userId = temporary.get(_kUserIdKey, "");
+      _data._setTemporary(null);
+      _data._setAccount(userId, {
+        ...temporary,
+        _kActiveProvidersKey: [
+          ...temporary.getAsList(_kActiveProvidersKey),
+          provider.providerId
+        ].distinct()
+      });
+      _data._setCurrent(userId);
     }
     await onSaved?.call(this);
   }
@@ -482,8 +562,14 @@ class AuthDatabase {
     required ReAuthProvider provider,
   }) async {
     await _initialize();
+    final account = _activeAccount;
+    if (account == null) {
+      throw Exception(
+        "You are not signed in. Please sign in with [signIn] first.",
+      );
+    }
     if (provider is EmailAndPasswordReAuthProvider) {
-      return _data[_kUserPasswordKey] == provider.password;
+      return account[_kUserPasswordKey] == provider.password;
     } else {
       throw Exception(
         "This provider is not supported: ${provider.runtimeType}",
@@ -502,12 +588,20 @@ class AuthDatabase {
     required ResetAuthProvider provider,
   }) async {
     await _initialize();
+    final account = _activeAccount;
+    if (account == null) {
+      throw Exception(
+        "You are not signed in. Please sign in with [signIn] first.",
+      );
+    }
+    final userId = account.get(_kUserIdKey, "");
     if (provider is EmailAndPasswordResetAuthProvider) {
       final password = await onResetPassword?.call(
         resetPassword,
         provider.locale ?? defaultLocale,
       );
-      _data[_kUserPasswordKey] = password;
+      account[_kUserPasswordKey] = password;
+      _data._setAccount(userId, account);
     } else {
       throw Exception(
         "This provider is not supported: ${provider.runtimeType}",
@@ -531,18 +625,27 @@ class AuthDatabase {
     required VerifyAuthProvider provider,
   }) async {
     await _initialize();
+    final account = _activeAccount;
+    if (account == null) {
+      throw Exception(
+        "You are not signed in. Please sign in with [signIn] first.",
+      );
+    }
+    final userId = account.get(_kUserIdKey, "");
     if (provider is EmailAndPasswordVerifyAuthProvider) {
-      await onSendVerificationEmail?.call(
+      final verified = await onVerify?.call(
         userEmail,
         provider.locale ?? defaultLocale,
       );
-      _data[_kIsVerifiedKey] = true;
+      account[_kIsVerifiedKey] = verified;
+      _data._setAccount(userId, account);
     } else if (provider is EmailLinkVerifyAuthProvider) {
-      await onSendVerificationEmail?.call(
+      final verified = await onVerify?.call(
         userEmail,
         provider.locale ?? defaultLocale,
       );
-      _data[_kIsVerifiedKey] = true;
+      account[_kIsVerifiedKey] = verified;
+      _data._setAccount(userId, account);
     }
     await onSaved?.call(this);
   }
@@ -558,10 +661,19 @@ class AuthDatabase {
     required ChangeAuthProvider provider,
   }) async {
     await _initialize();
+    final account = _activeAccount;
+    if (account == null) {
+      throw Exception(
+        "You are not signed in. Please sign in with [signIn] first.",
+      );
+    }
+    final userId = account.get(_kUserIdKey, "");
     if (provider is ChangeEmailAuthProvider) {
-      _data[_kUserEmailKey] = provider.email;
+      account[_kUserEmailKey] = provider.email;
+      _data._setAccount(userId, account);
     } else if (provider is ChangePasswordAuthProvider) {
-      _data[_kUserPasswordKey] = provider.password;
+      account[_kUserPasswordKey] = provider.password;
+      _data._setAccount(userId, account);
     } else if (provider is ChangePhoneNumberAuthProvider) {
       final code = generateCode(6, charSet: "01223456789");
       await onSendSMS?.call(
@@ -569,8 +681,9 @@ class AuthDatabase {
         code,
         provider.locale ?? defaultLocale,
       );
-      _data[_kTempUserPhoneNumberKey] = provider.phoneNumber;
-      _data[_kSmsCodeKey] = code;
+      account[_kTempUserPhoneNumberKey] = provider.phoneNumber;
+      account[_kSmsCodeKey] = code;
+      _data._setAccount(userId, account);
     }
     await onSaved?.call(this);
   }
@@ -588,6 +701,13 @@ class AuthDatabase {
     required ConfirmChangeAuthProvider provider,
   }) async {
     await _initialize();
+    final account = _activeAccount;
+    if (account == null) {
+      throw Exception(
+        "You are not signed in. Please sign in with [signIn] first.",
+      );
+    }
+    final userId = account.get(_kUserIdKey, "");
     if (provider is ConfirmChangePhoneNumberAuthProvider) {
       final phoenNumber = _data.get(_kTempUserPhoneNumberKey, "");
       if (phoenNumber.isEmpty) {
@@ -595,9 +715,8 @@ class AuthDatabase {
           "Phone number is not registered. Please register it with [signIn] beforehand.",
         );
       }
-      _data[_kUserPhoneNumberKey] = phoenNumber;
-      _data.remove(_kSmsCodeKey);
-      _data.remove(_kTempUserPhoneNumberKey);
+      account[_kUserPhoneNumberKey] = phoenNumber;
+      _data._setAccount(userId, account);
     }
     await onSaved?.call(this);
   }
@@ -607,11 +726,15 @@ class AuthDatabase {
   /// すでにサインインしている場合サインアウトします。
   Future<void> signOut() async {
     await _initialize();
-    _data.remove(_kIsVerifiedKey);
-    _data.remove(_kIsAnonymouslyKey);
-    _data.remove(_kUserIdKey);
-    _data.remove(_kEmailLinkUrlKey);
-    _data.remove(_kSmsCodeKey);
+    final account = _activeAccount;
+    if (account == null) {
+      throw Exception(
+        "You are not signed in. Please sign in with [signIn] first.",
+      );
+    }
+    _activeId = null;
+    _data._setTemporary(null);
+    _data._setCurrent(null);
     await onSaved?.call(this);
   }
 
@@ -624,8 +747,79 @@ class AuthDatabase {
   /// [register]が実行されていない場合でも[signIn]で合わせて登録が行われる[AuthProvider]で作成されたユーザーも対象となります。
   Future<void> delete() async {
     await _initialize();
-    _data.clear();
+    final account = _activeAccount;
+    if (account == null) {
+      throw Exception(
+        "You are not signed in. Please sign in with [signIn] first.",
+      );
+    }
+    final userId = account.get(_kUserIdKey, "");
+    _data._removeAccount(userId);
+    _activeId = null;
+    _data._setTemporary(null);
+    _data._setCurrent(null);
     await signOut();
+  }
+
+  /// Add/update the data of [value] at the position of [path].
+  ///
+  /// Unlike other storage methods, you will not be notified of data updates.
+  ///
+  /// Also, actual data is written after [_initialize] is executed.
+  ///
+  /// Please use this function when you want to include mock data or other data in advance.
+  ///
+  /// [path]の位置に[value]のデータを追加・更新します。
+  ///
+  /// 他の保存用メソッドと違ってデータの更新が通知されることはありません。
+  ///
+  /// また、[_initialize]実行後に実際のデータが書き込まれます。
+  ///
+  /// モックデータなど予めデータを入れておきたい場合などにご利用ください。
+  void setInitialValue(AuthInitialValue value) {
+    if (value.uid.isEmpty) {
+      return;
+    }
+    final path = value.uid.trimQuery().trimString("/");
+    final paths = path.split("/");
+    if (paths.isEmpty) {
+      return;
+    }
+    if (_registeredInitialValue.containsKey(path)) {
+      return;
+    }
+    _registeredInitialValue[path] = value._toMap();
+  }
+
+  void setInitialId(String? uid) {
+    _registeredCurrentId = uid;
+  }
+
+  /// Returns a list of registered initial value paths.
+  ///
+  /// 登録されている初期値のパスの一覧を返します。
+  List<String> get registeredInitialValuePaths {
+    return _registeredInitialValue.keys.toList();
+  }
+
+  /// Returns `true` if data is registered with [setInitialValue].
+  ///
+  /// [setInitialValue]でデータが登録されている場合は`true`を返します。
+  bool get isInitialValueRegistered => _registeredInitialValue.isNotEmpty;
+
+  void _applyRawData() {
+    if (_registeredInitialValue.isEmpty) {
+      return;
+    }
+    for (final tmp in _registeredInitialValue.entries) {
+      if (_appliedInitialValue.contains(tmp.key)) {
+        continue;
+      }
+      final path = tmp.key;
+      final value = tmp.value;
+      _appliedInitialValue.add(path);
+      _data._setAccount(path, value);
+    }
   }
 
   /// Destroy the database.
@@ -636,4 +830,100 @@ class AuthDatabase {
   ///
   /// 登録されているユーザーはすべて削除されます。
   void dispose() => _data.clear();
+}
+
+extension _AuthDatabaseDynamicMapExtensions on Map {
+  static const _currentKey = "current";
+  static const _temporaryKey = "temporary";
+  static const _accountKey = "account";
+
+  void _initialize() {
+    if (containsKey(_accountKey)) {
+      return;
+    }
+    this[_accountKey] = <String, dynamic>{};
+  }
+
+  void _setAccount(String userId, DynamicMap value) {
+    _initialize();
+    this[_accountKey][userId] = value;
+  }
+
+  void _removeAccount(String userId) {
+    _initialize();
+    getAsMap(_accountKey).remove(userId);
+  }
+
+  DynamicMap _getAccount(String userId) {
+    _initialize();
+    return getAsMap(_accountKey).getAsMap(userId);
+  }
+
+  List<DynamicMap> _getAccounts() {
+    _initialize();
+    return getAsMap(_accountKey).values.cast<DynamicMap>().toList();
+  }
+
+  DynamicMap _getTemporary() {
+    _initialize();
+    return getAsMap(get(_temporaryKey, ""));
+  }
+
+  void _setTemporary(String? userId) {
+    if (userId.isEmpty) {
+      return;
+    }
+    _initialize();
+    this[_temporaryKey] = userId;
+  }
+
+  DynamicMap _getCurrent() {
+    _initialize();
+    return getAsMap(get(_currentKey, ""));
+  }
+
+  void _setCurrent(String? userId) {
+    if (userId.isEmpty) {
+      return;
+    }
+    _initialize();
+    this[_currentKey] = userId;
+  }
+}
+
+class AuthInitialValue {
+  const AuthInitialValue({
+    this.isVerified = false,
+    this.isAnonymously = false,
+    required this.uid,
+    this.name,
+    this.email,
+    this.phoneNumber,
+    this.photoURL,
+    this.password,
+    this.activeProviders,
+  });
+  final bool isVerified;
+  final bool isAnonymously;
+  final String uid;
+  final String? name;
+  final String? email;
+  final String? phoneNumber;
+  final String? photoURL;
+  final String? password;
+  final List<String>? activeProviders;
+
+  DynamicMap _toMap() {
+    return {
+      _kIsVerifiedKey: isVerified,
+      _kIsAnonymouslyKey: isAnonymously,
+      _kUserIdKey: uid,
+      _kUserNameKey: name,
+      _kUserEmailKey: email,
+      _kUserPhoneNumberKey: phoneNumber,
+      _kUserPhotoURLKey: photoURL,
+      _kUserPasswordKey: password,
+      _kActiveProvidersKey: activeProviders,
+    };
+  }
 }
