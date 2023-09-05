@@ -1841,72 +1841,82 @@ class UniversalExtentAppBar extends StatelessWidget
     return TextButtonTheme(
       data: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor:
-              theme.actionsIconTheme?.color ?? theme.foregroundColor,
+          foregroundColor: foregroundColor ??
+              theme.actionsIconTheme?.color ??
+              theme.foregroundColor,
         ),
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final titleSpacing = _leadingSpace(context, showLeading);
-          final trailingSpacing = _trailingSpace(context, showLeading);
+      child: IconButtonTheme(
+        data: IconButtonThemeData(
+          style: IconButton.styleFrom(
+            foregroundColor: foregroundColor ??
+                theme.actionsIconTheme?.color ??
+                theme.foregroundColor,
+          ),
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final titleSpacing = _leadingSpace(context, showLeading);
+            final trailingSpacing = _trailingSpace(context, showLeading);
 
-          return DefaultTextStyle(
-            style: (titleTextStyle ??
-                    appBarTheme.titleTextStyle ??
-                    Theme.of(context).textTheme.titleLarge ??
-                    const TextStyle())
-                .copyWith(
-              color:
-                  foregroundColor ?? Theme.of(context).colorScheme.onBackground,
-            ),
-            child: IconTheme(
-              data: IconThemeData(
-                  color: foregroundColor ??
-                      Theme.of(context).colorScheme.onBackground),
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-                alignment: Alignment.topCenter,
-                height: height,
-                color:
-                    backgroundColor ?? Theme.of(context).colorScheme.background,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    if (background != null) background!,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            if (leading != null) leading,
-                            if (titlePosition ==
-                                UniversalAppBarTitlePosition.top) ...[
-                              SizedBox(width: titleSpacing),
-                              Expanded(
-                                child: mergedTitle!,
-                              ),
-                            ] else ...[
-                              const Spacer(),
+            return DefaultTextStyle(
+              style: (titleTextStyle ??
+                      appBarTheme.titleTextStyle ??
+                      Theme.of(context).textTheme.titleLarge ??
+                      const TextStyle())
+                  .copyWith(
+                color: foregroundColor ??
+                    Theme.of(context).colorScheme.onBackground,
+              ),
+              child: IconTheme(
+                data: IconThemeData(
+                    color: foregroundColor ??
+                        Theme.of(context).colorScheme.onBackground),
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+                  alignment: Alignment.topCenter,
+                  height: height,
+                  color: backgroundColor ??
+                      Theme.of(context).colorScheme.background,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      if (background != null) background!,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              if (leading != null) leading,
+                              if (titlePosition ==
+                                  UniversalAppBarTitlePosition.top) ...[
+                                SizedBox(width: titleSpacing),
+                                Expanded(
+                                  child: mergedTitle!,
+                                ),
+                              ] else ...[
+                                const Spacer(),
+                              ],
+                              if (actions != null) ...actions!,
+                              SizedBox(width: trailingSpacing),
                             ],
-                            if (actions != null) ...actions!,
-                            SizedBox(width: trailingSpacing),
-                          ],
-                        ),
-                        if (titlePosition != UniversalAppBarTitlePosition.top)
-                          Padding(
-                            padding: titlePadding,
-                            child: mergedTitle,
                           ),
-                      ],
-                    ),
-                  ],
+                          if (titlePosition != UniversalAppBarTitlePosition.top)
+                            Padding(
+                              padding: titlePadding,
+                              child: mergedTitle,
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
