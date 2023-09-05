@@ -157,6 +157,8 @@ class FormTextField<TValue> extends StatefulWidget {
     this.onChanged,
     this.showCursor,
     this.autofocus = false,
+    this.autocorrect = false,
+    this.selectOnFocus = false,
     this.focusNode,
     this.emptyErrorText,
     this.initialValue,
@@ -405,6 +407,16 @@ class FormTextField<TValue> extends StatefulWidget {
   /// Submitされた場合、中身を消去します。
   final bool clearOnSubmitted;
 
+  /// `true` to modify auto-entered text.
+  ///
+  /// 自動で入力されたテキストを修正する場合`true`。
+  final bool autocorrect;
+
+  /// `true` to select all text when focused.
+  ///
+  /// フォーカスされたときにテキストを全選択する場合は`true`。
+  final bool selectOnFocus;
+
   @override
   State<StatefulWidget> createState() => _FormTextFieldState<TValue>();
 }
@@ -413,7 +425,9 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
     with AutomaticKeepAliveClientMixin<FormTextField<TValue>> {
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
+  FocusNode? get _effectiveFocusNode => widget.focusNode ?? _focusNode;
   TextEditingController? _controller;
+  FocusNode? _focusNode;
 
   @override
   void initState() {
@@ -421,11 +435,14 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
     if (widget.controller == null) {
       _controller = TextEditingController(text: widget.initialValue);
     }
+    if (widget.focusNode == null) {
+      _focusNode = FocusNode();
+    }
     if (widget.initialValue != null) {
       _effectiveController?.text = widget.initialValue!;
     }
     _effectiveController?.addListener(_handledOnUpdate);
-    widget.focusNode?.addListener(_handledOnUpdate);
+    _effectiveFocusNode?.addListener(_handledOnFocused);
   }
 
   @override
@@ -433,6 +450,10 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.controller != widget.controller) {
+      if (widget.controller == null && _controller == null) {
+        _controller = TextEditingController(text: widget.initialValue);
+        _controller?.addListener(_handledOnUpdate);
+      }
       oldWidget.controller?.removeListener(_handledOnUpdate);
       widget.controller?.addListener(_handledOnUpdate);
     }
@@ -441,17 +462,32 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
       _effectiveController?.text = widget.initialValue!;
     }
     if (oldWidget.focusNode != widget.focusNode) {
-      oldWidget.focusNode?.removeListener(_handledOnUpdate);
-      widget.focusNode?.addListener(_handledOnUpdate);
+      if (widget.focusNode == null && _focusNode == null) {
+        _focusNode = FocusNode();
+        _focusNode?.addListener(_handledOnFocused);
+      }
+      oldWidget.focusNode?.removeListener(_handledOnFocused);
+      widget.focusNode?.addListener(_handledOnFocused);
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    widget.focusNode?.removeListener(_handledOnUpdate);
+    _effectiveFocusNode?.removeListener(_handledOnFocused);
+    _focusNode?.dispose();
     _effectiveController?.removeListener(_handledOnUpdate);
     _controller?.dispose();
+  }
+
+  void _handledOnFocused() {
+    if (_effectiveController != null) {
+      _effectiveController?.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _effectiveController!.value.text.length,
+      );
+    }
+    _handledOnUpdate();
   }
 
   void _handledOnUpdate() {
@@ -515,7 +551,7 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
       style: widget.suggestionStyle ?? const SuggestionStyle(),
       onDeleteSuggestion: widget.onDeleteSuggestion,
       controller: _effectiveController,
-      focusNode: widget.focusNode,
+      focusNode: _effectiveFocusNode,
       builder: (context, controller, onTap) => Container(
         alignment: widget.style?.alignment,
         padding:
@@ -526,9 +562,10 @@ class _FormTextFieldState<TValue> extends State<FormTextField<TValue>>
           child: _TextFormField<TValue>(
             key: widget.key,
             form: widget.form,
+            autocorrect: widget.autocorrect,
             cursorColor: widget.style?.cursorColor,
             inputFormatters: widget.inputFormatters,
-            focusNode: widget.focusNode,
+            focusNode: _effectiveFocusNode,
             textAlign: widget.style?.textAlign ?? TextAlign.left,
             textAlignVertical: widget.style?.textAlignVertical,
             showCursor: widget.showCursor,
@@ -1036,7 +1073,7 @@ class _TextFormField<TValue> extends FormField<String> {
     bool? showCursor,
     String obscuringCharacter = "•",
     bool obscureText = false,
-    bool autocorrect = true,
+    bool autocorrect = false,
     SmartDashesType? smartDashesType,
     SmartQuotesType? smartQuotesType,
     bool enableSuggestions = true,

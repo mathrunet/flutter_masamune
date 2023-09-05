@@ -507,7 +507,7 @@ class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {
     this.readOnly = true,
     bool? showCursor,
     bool obscureText = false,
-    bool autocorrect = true,
+    bool autocorrect = false,
     bool expands = false,
     VoidCallback? onEditingComplete,
     this.onSubmitted,

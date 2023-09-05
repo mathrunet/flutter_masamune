@@ -506,7 +506,7 @@ class _MapTextField<TValue> extends FormField<String> {
     this.readOnly = true,
     bool? showCursor,
     bool obscureText = false,
-    bool autocorrect = true,
+    bool autocorrect = false,
     bool expands = false,
     VoidCallback? onEditingComplete,
     this.onSubmitted,

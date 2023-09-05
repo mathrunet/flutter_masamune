@@ -558,7 +558,7 @@ class _DateTextField<TValue> extends FormField<DateTime> {
     this.readOnly = true,
     bool? showCursor,
     bool obscureText = false,
-    bool autocorrect = true,
+    bool autocorrect = false,
     int maxLines = 1,
     int? minLines,
     bool expands = false,

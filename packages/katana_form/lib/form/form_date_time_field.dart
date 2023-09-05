@@ -518,7 +518,7 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
     this.readOnly = true,
     bool? showCursor,
     bool obscureText = false,
-    bool autocorrect = true,
+    bool autocorrect = false,
     bool expands = false,
     VoidCallback? onEditingComplete,
     this.onSubmitted,
@@ -825,7 +825,19 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
     super.onPrimaryColor,
     super.headerBackgroundColor,
     super.headerForegroundColor,
+    this.dateSelectorHelpText,
+    this.timeSelectorHelpText,
   });
+
+  /// [helpText] when selecting a date.
+  ///
+  /// 日付の選択時の[helpText]。
+  final String? dateSelectorHelpText;
+
+  /// [helpText] when selecting a time.
+  ///
+  /// 時間の選択時の[helpText]。
+  final String? timeSelectorHelpText;
 
   @override
   Future<DateTime> picker(
@@ -835,7 +847,7 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
     final now = defaultDateTime ?? DateTime.now();
     final date = await showDatePicker(
       context: context,
-      helpText: helpText,
+      helpText: dateSelectorHelpText ?? helpText,
       cancelText: cancelText,
       confirmText: confirmText,
       locale: locale,
@@ -894,7 +906,7 @@ class FormDateTimeFieldDateTimeDelegate extends FormDateTimeFieldDelegate {
     if (date != null) {
       final time = await showTimePicker(
         context: context,
-        helpText: helpText,
+        helpText: timeSelectorHelpText ?? helpText,
         initialTime: TimeOfDay.fromDateTime(currentDateTime),
       );
       return _DateTimeTextField.combine(
