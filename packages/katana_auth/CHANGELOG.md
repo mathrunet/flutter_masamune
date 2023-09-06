@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Maintenance of test codes. ([0552ebef](https://github.com/mathrunet/flutter_masamune/commit/0552ebef483c15076754c3ec0396b7fab0b47290))
+
 ## 2.2.0
 
  - **FEAT**: Changed AuthDatabase mechanism. ([56a2ce99](https://github.com/mathrunet/flutter_masamune/commit/56a2ce99310a291efc4598da3540af1edf91b993))
