@@ -40,12 +40,14 @@ class LocalAuthAdapter extends AuthAdapter {
   /// 指定のデータベース。
   AuthDatabase get database {
     final database = _database ?? sharedDatabase;
-    if (_initialValue.isNotEmpty && !database.isInitialValueRegistered) {
-      for (final value in _initialValue!) {
-        database.setInitialValue(value);
+    if (!database.isInitialValueRegistered) {
+      if (_initialValue.isNotEmpty) {
+        for (final value in _initialValue!) {
+          database.setInitialValue(value);
+        }
       }
-      database.setInitialId(_initialUserId);
-      if (_initialUserId != null) {
+      if (_initialUserId.isNotEmpty) {
+        database.setInitialId(_initialUserId);
         database.setInitialValue(
           AuthInitialValue.anonymously(userId: _initialUserId!),
         );
