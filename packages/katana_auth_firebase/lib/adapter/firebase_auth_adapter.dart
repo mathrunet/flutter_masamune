@@ -195,13 +195,14 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   User? get _user => database.currentUser;
 
-  static Future<void> _initialize() async {
+  Future<void> _initialize() async {
     if (_initialized) {
       return;
     }
     _initialized = true;
     try {
       _sharedPreferences = await SharedPreferences.getInstance();
+      await FirebaseCore.initialize(options: options);
     } catch (e) {
       _initialized = false;
       rethrow;
@@ -213,6 +214,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   String get userId {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return "";
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -223,6 +228,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   String get userName {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return "";
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -233,6 +242,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   String get userEmail {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return "";
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -243,6 +256,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   String get userPhoneNumber {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return "";
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -253,6 +270,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   String get userPhotoURL {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return "";
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -263,6 +284,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   bool get isAnonymously {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return false;
+    }
     if (_user == null || _user!.uid.isEmpty) {
       return false;
     }
@@ -271,6 +296,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   bool get isSignedIn {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return false;
+    }
     if (_user == null || _user!.uid.isEmpty) {
       return false;
     }
@@ -279,6 +308,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   bool get isVerified {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return false;
+    }
     if (_user == null || _user!.uid.isEmpty) {
       return false;
     }
@@ -286,13 +319,22 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }
 
   @override
-  bool get isWaitingConfirmation =>
-      _sharedPreferences.containsKey(_kSmsCodeKey.toSHA1()) ||
-      _sharedPreferences.containsKey(_kUserEmailKey.toSHA1()) ||
-      _sharedPreferences.containsKey(_kUserPhoneNumberKey.toSHA1());
+  bool get isWaitingConfirmation {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return false;
+    }
+    return _sharedPreferences.containsKey(_kSmsCodeKey.toSHA1()) ||
+        _sharedPreferences.containsKey(_kUserEmailKey.toSHA1()) ||
+        _sharedPreferences.containsKey(_kUserPhoneNumberKey.toSHA1());
+  }
 
   @override
   Future<String> get accessToken async {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return "";
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -309,6 +351,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   String get refreshToken {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return "";
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -319,6 +365,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
 
   @override
   List<String> get activeProviderIds {
+    if (!_initialized) {
+      debugPrint("Please call initialize before using it.");
+      return [];
+    }
     if (_user == null || _user!.uid.isEmpty) {
       throw Exception(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
@@ -334,7 +384,6 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }) async {
     try {
       await _initialize();
-      await FirebaseCore.initialize(options: options);
       User? user = database.currentUser;
       user ??= await database.idTokenChanges().first;
       if (user != null) {
@@ -775,7 +824,6 @@ class FirebaseAuthAdapter extends AuthAdapter {
       );
     }
     await _initialize();
-    await FirebaseCore.initialize(options: options);
     await database.signOut();
     onUserStateChanged.call();
   }
@@ -790,14 +838,12 @@ class FirebaseAuthAdapter extends AuthAdapter {
       );
     }
     await _initialize();
-    await FirebaseCore.initialize(options: options);
     await _user!.delete();
     onUserStateChanged.call();
   }
 
   Future<void> _prepareProcessInternal() async {
     await _initialize();
-    await FirebaseCore.initialize(options: options);
     final user = database.currentUser;
     if (user == null) {
       return;
