@@ -1,3 +1,7 @@
+## 2.1.4
+
+ - **FIX**: Fixed a bug in initialization. ([7703050e](https://github.com/mathrunet/flutter_masamune/commit/7703050e4adb7997c9931079a4f88d62d907ee6a))
+
 ## 2.1.3
 
  - Update a dependency to the latest release.

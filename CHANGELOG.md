@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth_firebase` - `v2.1.4`](#katana_auth_firebase---v214)
+
+---
+
+#### `katana_auth_firebase` - `v2.1.4`
+
+ - **FIX**: Fixed a bug in initialization. ([7703050e](https://github.com/mathrunet/flutter_masamune/commit/7703050e4adb7997c9931079a4f88d62d907ee6a))
+
+
+## 2023-09-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth` - `v2.2.2`](#katana_auth---v222)
  - [`katana_auth_firebase` - `v2.1.3`](#katana_auth_firebase---v213)
  - [`masamune` - `v2.4.50`](#masamune---v2450)
