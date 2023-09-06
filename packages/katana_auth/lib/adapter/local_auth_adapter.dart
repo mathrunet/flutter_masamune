@@ -46,7 +46,9 @@ class LocalAuthAdapter extends AuthAdapter {
       }
       database.setInitialId(_initialUserId);
       if (_initialUserId != null) {
-        database.setInitialValue(AuthInitialValue(uid: _initialUserId!));
+        database.setInitialValue(
+          AuthInitialValue.anonymously(userId: _initialUserId!),
+        );
       }
     }
     return database;

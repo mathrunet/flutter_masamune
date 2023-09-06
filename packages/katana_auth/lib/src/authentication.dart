@@ -433,7 +433,7 @@ class Authentication extends ChangeNotifier {
     final userId = this.userId;
     await adapter.signOut(onUserStateChanged: notifyListeners);
     _sendLog(AuthLoggerEvent.signOut, parameters: {
-      _kUserIdKey: userId,
+      AuthDatabase.userIdKey: userId,
     });
     return this;
   }
