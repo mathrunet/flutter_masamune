@@ -123,15 +123,12 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
 }
 
 class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder> {
-  bool _initialized = false;
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_initialized) {
-      _initialized = true;
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _handledOnInit();
-    }
+    });
   }
 
   @override
