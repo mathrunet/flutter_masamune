@@ -1,3 +1,7 @@
+## 2.0.39
+
+ - **FIX**: Change the contents of BootState. ([11215585](https://github.com/mathrunet/flutter_masamune/commit/1121558502b4cc83690de403e80d18c604749d36))
+
 ## 2.0.38
 
  - **FIX**: Support for Boot interface changes. ([6528a54f](https://github.com/mathrunet/flutter_masamune/commit/6528a54f011962b063a797b8614248fdd62acb41))
