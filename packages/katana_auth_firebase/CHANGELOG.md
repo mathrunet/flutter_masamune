@@ -1,3 +1,7 @@
+## 2.1.5
+
+ - **FIX**: Fixed a bug that sometimes did not start properly. ([ae2ff784](https://github.com/mathrunet/flutter_masamune/commit/ae2ff7842247a6041fbc5c150f67f956640c3d9f))
+
 ## 2.1.4
 
  - **FIX**: Fixed a bug in initialization. ([7703050e](https://github.com/mathrunet/flutter_masamune/commit/7703050e4adb7997c9931079a4f88d62d907ee6a))

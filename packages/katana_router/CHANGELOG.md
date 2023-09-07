@@ -1,3 +1,8 @@
+## 2.0.38
+
+ - **FIX**: Support for Boot interface changes. ([6528a54f](https://github.com/mathrunet/flutter_masamune/commit/6528a54f011962b063a797b8614248fdd62acb41))
+ - **FIX**: Fixed a bug that caused the initial page to disappear. ([dc4f24c0](https://github.com/mathrunet/flutter_masamune/commit/dc4f24c09e2709c5fde4fba9f96aa64abd1f1efd))
+
 ## 2.0.37
 
  - **FIX**: Fixing a PROPERTY REPLACE bug. ([f5d0fafa](https://github.com/mathrunet/flutter_masamune/commit/f5d0fafabce3564b15997293c1b33c77b42090bd))

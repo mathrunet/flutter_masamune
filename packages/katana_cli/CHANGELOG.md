@@ -1,3 +1,7 @@
+## 2.9.2
+
+ - **FIX**: Output keyhash for Facebook. ([b7f4d905](https://github.com/mathrunet/flutter_masamune/commit/b7f4d90543850e786ba5f178696fbd5632562132))
+
 ## 2.9.1
 
  - **FIX**: Change the initial value of increment_number to 1. ([e0ef7e71](https://github.com/mathrunet/flutter_masamune/commit/e0ef7e71250ec9867339e86181c386c26efa1ac3))
