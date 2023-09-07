@@ -199,18 +199,29 @@ class FirebaseAuthAdapter extends AuthAdapter {
     if (_initialized) {
       return;
     }
-    _initialized = true;
+    if (_initializeCompleter != null) {
+      return _initializeCompleter!.future;
+    }
+    _initializeCompleter = Completer();
     try {
       _sharedPreferences = await SharedPreferences.getInstance();
       await FirebaseCore.initialize(options: options);
+      _initialized = true;
+      _initializeCompleter!.complete();
+      _initializeCompleter = null;
     } catch (e) {
-      _initialized = false;
+      _initializeCompleter!.completeError(e);
+      _initializeCompleter = null;
       rethrow;
+    } finally {
+      _initializeCompleter!.complete();
+      _initializeCompleter = null;
     }
   }
 
   static late final SharedPreferences _sharedPreferences;
   static bool _initialized = false;
+  static Completer<void>? _initializeCompleter;
 
   @override
   String get userId {
