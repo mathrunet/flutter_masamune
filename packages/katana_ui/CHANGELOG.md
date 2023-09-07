@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Fixed around the color of the modal. ([cd76a967](https://github.com/mathrunet/flutter_masamune/commit/cd76a967e3673e22aefc25f4d4eda477fa6ddef0))
+
 ## 2.5.0
 
  - **FEAT**: Added AvatarTile. ([dc544a68](https://github.com/mathrunet/flutter_masamune/commit/dc544a68cd5f6d9677b7d4f21d8282c92112c1fa))
