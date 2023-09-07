@@ -588,7 +588,7 @@ class FirebaseAuthenticationCliAction extends CliCommand with CliActionMixin {
               ),
               XmlAttribute(
                 XmlName("android:value"),
-                facebookAppId,
+                "fb$facebookAppId",
               ),
             ],
             [],

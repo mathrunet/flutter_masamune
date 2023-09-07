@@ -480,7 +480,7 @@ extension CliDirectoryExtensions on Directory {
 /// Extended methods to make [Process] easier to use.
 ///
 /// [Process]を使いやすくするための拡張メソッド。
-extension _ProcessExtensions on Future<Process> {
+extension ProcessExtensions on Future<Process> {
   /// Prints the contents of the command to standard output.
   ///
   /// コマンドの内容を標準出力にプリントします。

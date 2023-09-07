@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:convert';
 import 'dart:io';
 
 // Project imports:
@@ -50,6 +51,7 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
     }
     final bin = context.yaml.getAsMap("bin");
     final keytool = bin.get("keytool", "keytool");
+    final openssl = bin.get("openssl", "openssl");
     final app = context.yaml.getAsMap("app");
     if (app.isEmpty) {
       error("The item [app] is missing. Please add an item.");
@@ -197,6 +199,12 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         storeFile: "file(keyProperties['storeFile'])",
         storePassword: "keyProperties['storePassword']",
       ),
+      debug: GradleAndroidSigningConfig(
+        keyAlias: "keyProperties['keyAlias']",
+        keyPassword: "keyProperties['keyPassword']",
+        storeFile: "file(keyProperties['storeFile'])",
+        storePassword: "keyProperties['storePassword']",
+      ),
     );
     await gradle.save();
     label("Save the fingerprint information.");
@@ -219,6 +227,37 @@ class AppKeystoreCliAction extends CliCommand with CliActionMixin {
         ],
       );
       await fingerPrintFile.writeAsString(fingerPrint);
+    }
+    label("Save the keyhash information.");
+    final keyHashFile = File("android/app/appkey_keyhash.txt");
+    if (!keyHashFile.existsSync()) {
+      // ignore: avoid_print
+      print("\r\n#### Create appkey_keyhash.txt");
+      var keyHash = "";
+      final keytoolResult = await Process.start(keytool, [
+        "-exportcert",
+        "-v",
+        "-keystore",
+        "android/app/appkey.keystore",
+        "-alias",
+        alias,
+        "-storepass",
+        password,
+      ]);
+      final openSslSha1Restul = await Process.start(openssl, [
+        "sha1",
+        "-binary",
+      ]);
+      keytoolResult.stdout.pipe(openSslSha1Restul.stdin);
+      final openSslBase64Result = await Process.start(openssl, ["base64"]);
+      openSslSha1Restul.stdout.pipe(openSslBase64Result.stdin);
+      openSslBase64Result.stdout.transform(utf8.decoder).forEach((e) {
+        keyHash += e;
+        // ignore: avoid_print
+        print(e);
+      });
+      await openSslBase64Result.exitCode;
+      await keyHashFile.writeAsString(keyHash);
     }
     label("Rewrite `.gitignore`.");
     final gitignore = File("android/.gitignore");
