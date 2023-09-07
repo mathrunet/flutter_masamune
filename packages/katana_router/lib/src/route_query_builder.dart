@@ -108,15 +108,30 @@ abstract class BootRouteQueryBuilder extends StatefulWidget {
     return _BootRouteQuery(builder: this, sourcePath: path);
   }
 
+  /// Describe what to do in the event of an error.
+  ///
+  /// エラーが発生した場合の処理を記述します。
+  void onError(BuildContext context, Object error, StackTrace stackTrace);
+
+  /// Define the minimum time to be displayed.
+  ///
+  /// 最低限表示する時間を定義します。
+  Duration get minumumDuration => const Duration(milliseconds: 1000);
+
   @override
   State<StatefulWidget> createState() => _BootRouteQueryBuilderState();
 }
 
 class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder> {
+  bool _initialized = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _handledOnInit();
+    if (!_initialized) {
+      _initialized = true;
+      _handledOnInit();
+    }
   }
 
   @override
@@ -125,9 +140,16 @@ class _BootRouteQueryBuilderState extends State<BootRouteQueryBuilder> {
   }
 
   Future<void> _handledOnInit() async {
-    await Future.delayed(Duration.zero);
-    await widget.onInit(context);
-    AppRouter.of(context)._forcePop();
+    final router = AppRouter.of(context);
+    try {
+      await wait([
+        widget.onInit(context),
+        Future.delayed(widget.minumumDuration),
+      ]);
+      router._forcePop();
+    } catch (e, stackTrace) {
+      widget.onError(context, e, stackTrace);
+    }
   }
 }
 
