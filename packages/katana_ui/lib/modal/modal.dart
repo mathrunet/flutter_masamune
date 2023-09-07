@@ -75,6 +75,11 @@ class Modal {
       clicked = true;
     });
 
+    final foregroundColor = color ??
+        Theme.of(context).dialogTheme.iconColor ??
+        Theme.of(context).colorScheme.onSurface;
+    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
+        Theme.of(context).colorScheme.surface;
     do {
       await showDialog(
         context: overlay.context,
@@ -88,11 +93,11 @@ class Modal {
               title: Text(
                 title,
                 style: TextStyle(
-                  color: color ?? Theme.of(context).colorScheme.onSurface,
+                  color: foregroundColor,
                 ),
               ),
-              backgroundColor:
-                  backgroundColor ?? Theme.of(context).colorScheme.surface,
+              backgroundColor: backgroundColor,
+              surfaceTintColor: backgroundColor,
               children: builder.call(ref),
             ),
           );
@@ -154,6 +159,11 @@ class Modal {
     if (overlay == null) {
       return;
     }
+    final foregroundColor = color ??
+        Theme.of(context).dialogTheme.iconColor ??
+        Theme.of(context).colorScheme.onSurface;
+    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
+        Theme.of(context).colorScheme.surface;
     do {
       await showDialog(
         context: overlay.context,
@@ -165,19 +175,19 @@ class Modal {
               title: Text(
                 title,
                 style: TextStyle(
-                  color: color ?? Theme.of(context).colorScheme.onSurface,
+                  color: foregroundColor,
                 ),
               ),
               content: SingleChildScrollView(
                 child: Text(
                   text,
                   style: TextStyle(
-                    color: color ?? Theme.of(context).colorScheme.onSurface,
+                    color: foregroundColor,
                   ),
                 ),
               ),
-              backgroundColor:
-                  backgroundColor ?? Theme.of(context).colorScheme.surface,
+              backgroundColor: backgroundColor,
+              surfaceTintColor: backgroundColor,
               actions: <Widget>[
                 TextButton(
                   child: Text(submitText),
@@ -253,6 +263,11 @@ class Modal {
     if (overlay == null) {
       return state;
     }
+    final foregroundColor = color ??
+        Theme.of(context).dialogTheme.iconColor ??
+        Theme.of(context).colorScheme.onSurface;
+    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
+        Theme.of(context).colorScheme.surface;
     do {
       await showDialog(
         context: overlay.context,
@@ -262,19 +277,19 @@ class Modal {
             title: Text(
               title,
               style: TextStyle(
-                color: color ?? Theme.of(context).colorScheme.onSurface,
+                color: foregroundColor,
               ),
             ),
             content: SingleChildScrollView(
               child: Text(
                 text,
                 style: TextStyle(
-                  color: color ?? Theme.of(context).colorScheme.onSurface,
+                  color: foregroundColor,
                 ),
               ),
             ),
-            backgroundColor:
-                backgroundColor ?? Theme.of(context).colorScheme.surface,
+            backgroundColor: backgroundColor,
+            surfaceTintColor: backgroundColor,
             actions: <Widget>[
               TextButton(
                 child: Text(cancelText),

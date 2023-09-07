@@ -94,6 +94,8 @@ class AppThemeData {
     Color? onAppBarColor,
     Color? onExpandedAppBarColor,
     Color? scaffoldBackgroundColor,
+    Color? dialogColor,
+    Color? onDialogColor,
     Color? inversePrimary,
     Color? inverseSecondary,
     Color? inverseTertiary,
@@ -129,6 +131,8 @@ class AppThemeData {
     Color? onInverseAppBarColor,
     Color? onInverseExpandedAppBarColor,
     Color? inverseScaffoldBackgroundColor,
+    Color? inverseDialogColor,
+    Color? onInverseDialogColor,
     this.themeMode = ThemeMode.system,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
@@ -263,6 +267,8 @@ class AppThemeData {
                 onExpandedAppBarColor: onExpandedAppBarColor,
                 scaffoldBackgroundColor:
                     scaffoldBackgroundColor ?? _background(brightness),
+                dialogColor: dialogColor ?? surface,
+                onDialogColor: onDialogColor ?? onSurface,
               )
             : ColorThemeData._(
                 brightness: Brightness.dark,
@@ -323,6 +329,14 @@ class AppThemeData {
                 scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
                     scaffoldBackgroundColor ??
                     _background(_inverse(brightness, fixed)),
+                dialogColor: inverseDialogColor ??
+                    inverseSurface ??
+                    dialogColor ??
+                    surface,
+                onDialogColor: onInverseDialogColor ??
+                    onInverseSurface ??
+                    onDialogColor ??
+                    onSurface,
               ),
         _darkColor = brightness == Brightness.dark
             ? ColorThemeData._(
@@ -371,6 +385,8 @@ class AppThemeData {
                 onExpandedAppBarColor: onExpandedAppBarColor,
                 scaffoldBackgroundColor:
                     scaffoldBackgroundColor ?? _background(brightness),
+                dialogColor: dialogColor ?? surface,
+                onDialogColor: onDialogColor ?? onSurface,
               )
             : ColorThemeData._(
                 brightness: Brightness.light,
@@ -431,6 +447,14 @@ class AppThemeData {
                 scaffoldBackgroundColor: inverseScaffoldBackgroundColor ??
                     scaffoldBackgroundColor ??
                     _background(_inverse(brightness, fixed)),
+                dialogColor: inverseDialogColor ??
+                    inverseSurface ??
+                    dialogColor ??
+                    surface,
+                onDialogColor: onInverseDialogColor ??
+                    onInverseSurface ??
+                    onDialogColor ??
+                    onSurface,
               ),
         text = TextThemeData._(
           displayLarge: displayLarge,
@@ -494,6 +518,8 @@ class AppThemeData {
     Color? onAppBarColor,
     Color? onExpandedAppBarColor,
     Color? scaffoldBackgroundColor,
+    Color? dialogColor,
+    Color? onDialogColor,
     Color? inversePrimary,
     Color? inverseSecondary,
     Color? inverseTertiary,
@@ -529,6 +555,8 @@ class AppThemeData {
     Color? onInverseAppBarColor,
     Color? onInverseExpandedAppBarColor,
     Color? inverseScaffoldBackgroundColor,
+    Color? inverseDialogColor,
+    Color? onInverseDialogColor,
     ThemeMode themeMode = ThemeMode.system,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
@@ -651,6 +679,8 @@ class AppThemeData {
           onAppBarColor: onAppBarColor,
           onExpandedAppBarColor: onExpandedAppBarColor,
           scaffoldBackgroundColor: scaffoldBackgroundColor,
+          dialogColor: dialogColor,
+          onDialogColor: onDialogColor,
           inversePrimary: inversePrimary,
           inverseSecondary: inverseSecondary,
           inverseTertiary: inverseTertiary,
@@ -686,6 +716,8 @@ class AppThemeData {
           onInverseAppBarColor: onInverseAppBarColor,
           onInverseExpandedAppBarColor: onInverseExpandedAppBarColor,
           inverseScaffoldBackgroundColor: inverseScaffoldBackgroundColor,
+          inverseDialogColor: inverseDialogColor,
+          onInverseDialogColor: onInverseDialogColor,
           displayLarge: displayLarge,
           displayMedium: displayMedium,
           displaySmall: displaySmall,
@@ -753,6 +785,8 @@ class AppThemeData {
     Color? onAppBarColor,
     Color? onExpandedAppBarColor,
     Color? scaffoldBackgroundColor,
+    Color? dialogColor,
+    Color? onDialogColor,
     Color? inversePrimary,
     Color? inverseSecondary,
     Color? inverseTertiary,
@@ -788,6 +822,8 @@ class AppThemeData {
     Color? onInverseAppBarColor,
     Color? onInverseExpandedAppBarColor,
     Color? inverseScaffoldBackgroundColor,
+    Color? inverseDialogColor,
+    Color? onInverseDialogColor,
     ThemeMode themeMode = ThemeMode.system,
     TextStyle displayLarge = const TextStyle(
       fontSize: 57,
@@ -910,6 +946,8 @@ class AppThemeData {
           onAppBarColor: onAppBarColor,
           onExpandedAppBarColor: onExpandedAppBarColor,
           scaffoldBackgroundColor: scaffoldBackgroundColor,
+          dialogColor: dialogColor,
+          onDialogColor: onDialogColor,
           inversePrimary: inversePrimary,
           inverseSecondary: inverseSecondary,
           inverseTertiary: inverseTertiary,
@@ -945,6 +983,8 @@ class AppThemeData {
           onInverseAppBarColor: onInverseAppBarColor,
           onInverseExpandedAppBarColor: onInverseExpandedAppBarColor,
           inverseScaffoldBackgroundColor: inverseScaffoldBackgroundColor,
+          inverseDialogColor: inverseDialogColor,
+          onInverseDialogColor: onInverseDialogColor,
           displayLarge: displayLarge,
           displayMedium: displayMedium,
           displaySmall: displaySmall,
@@ -1274,6 +1314,20 @@ class AppThemeData {
                 ) ??
                 IconThemeData(color: appBarForegroundColor),
           ),
+          dialogBackgroundColor: color.dialogColor ?? color.surface,
+          dialogTheme: theme.dialogTheme.copyWith(
+            iconColor: color.onDialogColor ?? color.onSurface,
+            titleTextStyle: theme.dialogTheme.titleTextStyle
+                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
+                text.headlineSmall
+                    .withColor(color.onDialogColor ?? color.onSurface),
+            contentTextStyle: theme.dialogTheme.contentTextStyle
+                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
+                text.bodyMedium
+                    .withColor(color.onDialogColor ?? color.onSurface),
+            backgroundColor: color.dialogColor ?? color.surface,
+            surfaceTintColor: color.dialogColor ?? color.surface,
+          ),
           buttonTheme: theme.buttonTheme.copyWith(
             textTheme: theme.buttonTheme.textTheme,
             buttonColor: color.primary,
@@ -1475,6 +1529,20 @@ class AppThemeData {
                 ) ??
                 IconThemeData(color: appBarForegroundColor),
           ),
+          dialogBackgroundColor: color.dialogColor ?? color.surface,
+          dialogTheme: theme.dialogTheme.copyWith(
+            iconColor: color.onDialogColor ?? color.onSurface,
+            titleTextStyle: theme.dialogTheme.titleTextStyle
+                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
+                text.headlineSmall
+                    .withColor(color.onDialogColor ?? color.onSurface),
+            contentTextStyle: theme.dialogTheme.contentTextStyle
+                    ?.withColor(color.onDialogColor ?? color.onSurface) ??
+                text.bodyMedium
+                    .withColor(color.onDialogColor ?? color.onSurface),
+            backgroundColor: color.dialogColor ?? color.surface,
+            surfaceTintColor: color.dialogColor ?? color.surface,
+          ),
           textTheme: textTheme.apply(
             fontFamily: text.defaultFontFamily,
             bodyColor: color.onBackground,
@@ -1667,6 +1735,8 @@ class ColorThemeData {
     this.appBarColor,
     this.onAppBarColor,
     this.onExpandedAppBarColor,
+    this.dialogColor,
+    this.onDialogColor,
     Color? canvasColor,
     Color? scaffoldBackgroundColor,
   })  : _scaffoldBackgroundColor = scaffoldBackgroundColor,
@@ -1980,6 +2050,24 @@ class ColorThemeData {
   }
 
   final Color? _scaffoldBackgroundColor;
+
+  /// Background color of the dialog.
+  ///
+  /// These are colors outside of the Material3 color scheme.
+  ///
+  /// ダイアログの背景色。
+  ///
+  /// Material3のカラースキーム外のカラーです。
+  final Color? dialogColor;
+
+  /// Color of text and icons on [dialogColor].
+  ///
+  /// These are colors outside of the Material3 color scheme.
+  ///
+  /// [dialogColor]上のテキストやアイコンのカラー。
+  ///
+  /// Material3のカラースキーム外のカラーです。
+  final Color? onDialogColor;
 
   /// Canvas background color.
   ///
