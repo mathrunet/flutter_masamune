@@ -3394,5 +3394,230 @@ void main() {
     expect(query.hasMatchAsObject("b"), false);
     expect(query.hasMatchAsObject(TestEnum.a), true);
     expect(query.hasMatchAsObject(TestEnum.b), false);
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.contains(key: "enum", value: TestEnum.a),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          TestEnum.a,
+          TestEnum.b,
+          TestEnum.c,
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          TestEnum.b,
+          TestEnum.c,
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          TestEnum.a,
+          TestEnum.b,
+          TestEnum.c,
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          TestEnum.b,
+          TestEnum.c,
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+        query.hasMatchAsObject([
+          "a",
+          "b",
+          "c",
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          "b",
+          "c",
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          "a",
+          "b",
+          "c",
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          "b",
+          "c",
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.containsAny(
+            key: "enum", values: [TestEnum.a, TestEnum.b]),
+      ],
+    );
+    expect(
+        query.hasMatchAsObject([
+          TestEnum.a,
+          TestEnum.b,
+          TestEnum.c,
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          TestEnum.b,
+          TestEnum.c,
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          TestEnum.c,
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          TestEnum.a,
+          TestEnum.b,
+          TestEnum.c,
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          TestEnum.b,
+          TestEnum.c,
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          TestEnum.c,
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    expect(
+        query.hasMatchAsObject([
+          "a",
+          "b",
+          "c",
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          "b",
+          "c",
+        ]),
+        true);
+    expect(
+        query.hasMatchAsObject([
+          "c",
+        ]),
+        false);
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          "a",
+          "b",
+          "c",
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          "b",
+          "c",
+        ],
+        "text": "aaaa"
+      }),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({
+        "enum": [
+          "c",
+        ],
+        "text": "aaaa"
+      }),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.where(key: "enum", values: [TestEnum.a]),
+      ],
+    );
+    expect(query.hasMatchAsObject("a"), true);
+    expect(query.hasMatchAsObject("b"), false);
+    expect(query.hasMatchAsObject("c"), false);
+    expect(query.hasMatchAsObject(TestEnum.a), true);
+    expect(query.hasMatchAsObject(TestEnum.b), false);
+    expect(query.hasMatchAsObject(TestEnum.c), false);
+    expect(
+      query.hasMatchAsMap({"enum": "a", "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({"enum": "b", "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({"enum": "c", "text": "aaaa"}),
+      false,
+    );
+    query = const ModelQuery(
+      "aaaa/bbbb",
+      filters: [
+        ModelQueryFilter.notWhere(key: "enum", values: [TestEnum.a]),
+      ],
+    );
+    expect(query.hasMatchAsObject("a"), false);
+    expect(query.hasMatchAsObject("b"), true);
+    expect(query.hasMatchAsObject("c"), true);
+    expect(query.hasMatchAsObject(TestEnum.a), false);
+    expect(query.hasMatchAsObject(TestEnum.b), true);
+    expect(query.hasMatchAsObject(TestEnum.c), true);
+    expect(
+      query.hasMatchAsMap({"enum": "a", "text": "aaaa"}),
+      false,
+    );
+    expect(
+      query.hasMatchAsMap({"enum": "b", "text": "aaaa"}),
+      true,
+    );
+    expect(
+      query.hasMatchAsMap({"enum": "c", "text": "aaaa"}),
+      true,
+    );
   });
 }

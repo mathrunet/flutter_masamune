@@ -1206,22 +1206,47 @@ class ModelQueryFilter {
         if (source is! List) {
           return false;
         }
-        return source.contains(value);
+        return source.any((e) {
+          if (e is String && target is Enum) {
+            return e == target.toString().split(".").lastOrNull;
+          }
+          return e == target;
+        });
       case ModelQueryFilterType.arrayContainsAny:
         if (source is! List || target is! List || target.isEmpty) {
           return false;
         }
-        return source.containsAny(target);
+        return source.any((e) {
+          if (e is String) {
+            return target.any((e2) {
+              if (e2 is Enum) {
+                return e == e2.toString().split(".").lastOrNull;
+              }
+              return e == e2;
+            });
+          }
+          return target.contains(e);
+        });
       case ModelQueryFilterType.whereIn:
         if (target is! List || target.isEmpty) {
           return false;
         }
-        return target.contains(source);
+        return target.any((e) {
+          if (e is Enum && source is String) {
+            return source == e.toString().split(".").lastOrNull;
+          }
+          return e == source;
+        });
       case ModelQueryFilterType.whereNotIn:
         if (target is! List || target.isEmpty) {
           return false;
         }
-        return !target.contains(source);
+        return !target.any((e) {
+          if (e is Enum && source is String) {
+            return source == e.toString().split(".").lastOrNull;
+          }
+          return e == source;
+        });
       case ModelQueryFilterType.isNull:
         return source == null;
       case ModelQueryFilterType.isNotNull:
