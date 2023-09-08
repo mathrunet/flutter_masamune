@@ -1,3 +1,7 @@
+## 2.12.1
+
+ - **FIX**: Fixed a bug in which contains and where in Enum did not work properly. ([854bbe29](https://github.com/mathrunet/flutter_masamune/commit/854bbe2938d164d4dc9cfc13f66c594b5fec94ac))
+
 ## 2.12.0
 
  - **FEAT**: Added count() functionality. ([5c2f1885](https://github.com/mathrunet/flutter_masamune/commit/5c2f18850bfd133edee781cf5043178b5dfbceff))

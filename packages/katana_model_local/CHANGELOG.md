@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - Update a dependency to the latest release.
+
 ## 2.8.0
 
  - **FEAT**: Added count() functionality. ([5c2f1885](https://github.com/mathrunet/flutter_masamune/commit/5c2f18850bfd133edee781cf5043178b5dfbceff))
