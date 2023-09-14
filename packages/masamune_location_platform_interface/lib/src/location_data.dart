@@ -5,7 +5,7 @@ part of masamune_location_platform_interface;
 /// 位置情報のデータクラス。
 @immutable
 class LocationData {
-  const LocationData._({
+  const LocationData({
     required this.longitude,
     required this.latitude,
     required this.timestamp,
@@ -15,6 +15,22 @@ class LocationData {
     required this.speed,
     required this.speedAccuracy,
   });
+
+  /// Location data class.
+  ///
+  /// 位置情報のデータクラス。
+  factory LocationData.fromJson(DynamicMap json) {
+    return LocationData(
+      latitude: json.get("latitude", 0.0),
+      longitude: json.get("longitude", 0.0),
+      timestamp: json.getAsDateTime("timestamp"),
+      accuracy: json.get("accuracy", 0.0),
+      altitude: json.get("altitude", 0.0),
+      heading: json.get("heading", 0.0),
+      speed: json.get("speed", 0.0),
+      speedAccuracy: json.get("speed_accuracy", 0.0),
+    );
+  }
 
   /// The latitude of this position in degrees normalized to the interval -90.0
   /// to +90.0 (both inclusive).
@@ -91,6 +107,23 @@ class LocationData {
     double radiusKm = 1.0,
   }) {
     return GeoValue(latitude: latitude, longitude: longitude);
+  }
+
+  /// Convert [LocationData] to a Json map.
+  ///
+  /// [LocationData]をJsonマップに変換します。
+  DynamicMap toJson() {
+    final time = timestamp?.millisecondsSinceEpoch;
+    return {
+      "latitude": latitude,
+      "longitude": longitude,
+      if (time != null) "timestamp": time,
+      "accuracy": accuracy,
+      "altitude": altitude,
+      "heading": heading,
+      "speed": speed,
+      "speed_accuracy": speedAccuracy,
+    };
   }
 
   @override

@@ -15,14 +15,16 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart' hide LocationAccuracy;
+import 'package:geolocator/geolocator.dart' as geolocator show LocationAccuracy;
 import 'package:masamune/masamune.dart';
+import 'package:masamune_location_platform_interface/masamune_location_platform_interface.dart';
 
 export 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'
     if (dart.library.js) 'src/web/web.dart'
     if (dart.library.html) 'src/web/web.dart';
-export 'package:geolocator/geolocator.dart' show LocationAccuracy;
+export 'package:masamune_location_platform_interface/masamune_location_platform_interface.dart';
 
 part 'adapter/location_masamune_adapter.dart';
 part 'src/location.dart';

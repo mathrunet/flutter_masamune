@@ -8,8 +8,12 @@
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
 library masamune_location_platform_interface;
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
 import 'package:masamune/masamune.dart';
 
 part 'src/location_accuracy.dart';
 part 'src/location_data.dart';
+part 'src/compass_data.dart';

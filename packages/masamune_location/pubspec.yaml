@@ -16,6 +16,7 @@ dependencies:
   masamune: ^2.4.54
   geolocator: ^9.0.2
   flutter_compass: ^0.7.0
+  masamune_location_platform_interface: ^2.1.0
 
 dev_dependencies:
   test: ^1.21.3
