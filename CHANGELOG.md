@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-09-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location_platform_interface` - `v2.1.0`](#masamune_location_platform_interface---v210)
+
+---
+
+#### `masamune_location_platform_interface` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([aac2e5d0](https://github.com/mathrunet/flutter_masamune/commit/aac2e5d0dd7d8af40b0b50307400c90ed88924ef))
+
+
 ## 2023-09-08
 
 ### Changes
