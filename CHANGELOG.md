@@ -15,6 +15,44 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v2.1.122`](#masamune_location---v21122)
+ - [`masamune_location_background` - `v2.1.0`](#masamune_location_background---v210)
+ - [`masamune_location_platform_interface` - `v2.1.1`](#masamune_location_platform_interface---v211)
+ - [`masamune_location_google` - `v2.1.123`](#masamune_location_google---v21123)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_google` - `v2.1.123`
+
+---
+
+#### `masamune_location` - `v2.1.122`
+
+ - **FIX**: Move various data to platform_interface. ([f4448342](https://github.com/mathrunet/flutter_masamune/commit/f4448342868fad6d9fb28a67f2154a60faa68f5b))
+
+#### `masamune_location_background` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([652a26f5](https://github.com/mathrunet/flutter_masamune/commit/652a26f5ea59eea7a1b21d192309e1271d5569f5))
+
+#### `masamune_location_platform_interface` - `v2.1.1`
+
+ - **FIX**: Move various data to platform_interface. ([f4448342](https://github.com/mathrunet/flutter_masamune/commit/f4448342868fad6d9fb28a67f2154a60faa68f5b))
+
+
+## 2023-09-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location_platform_interface` - `v2.1.0`](#masamune_location_platform_interface---v210)
 
 ---

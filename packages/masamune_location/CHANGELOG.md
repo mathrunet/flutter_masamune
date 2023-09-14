@@ -1,3 +1,7 @@
+## 2.1.122
+
+ - **FIX**: Move various data to platform_interface. ([f4448342](https://github.com/mathrunet/flutter_masamune/commit/f4448342868fad6d9fb28a67f2154a60faa68f5b))
+
 ## 2.1.121
 
  - Update a dependency to the latest release.
