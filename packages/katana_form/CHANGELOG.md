@@ -1,3 +1,7 @@
+## 2.7.11
+
+ - **FIX**: Fixed enabled was not working. ([efba6c38](https://github.com/mathrunet/flutter_masamune/commit/efba6c38a80adb103ec91c27f484777a454b9880))
+
 ## 2.7.10
 
  - **FIX**: autocorrect is set to false by default. ([e6a656d7](https://github.com/mathrunet/flutter_masamune/commit/e6a656d76c699d6921151f4d02ba970aa101553a))

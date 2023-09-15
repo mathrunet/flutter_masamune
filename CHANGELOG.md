@@ -15,6 +15,86 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.7.11`](#katana_form---v2711)
+ - [`masamune` - `v2.4.55`](#masamune---v2455)
+ - [`masamune_location_platform_interface` - `v2.1.2`](#masamune_location_platform_interface---v212)
+ - [`masamune_location` - `v2.1.123`](#masamune_location---v21123)
+ - [`masamune_deeplink_firebase` - `v2.1.30`](#masamune_deeplink_firebase---v2130)
+ - [`masamune_auth_apple` - `v2.1.111`](#masamune_auth_apple---v21111)
+ - [`masamune_location_background` - `v2.1.1`](#masamune_location_background---v211)
+ - [`masamune_text_to_speech` - `v2.1.77`](#masamune_text_to_speech---v2177)
+ - [`masamune_agora` - `v2.2.93`](#masamune_agora---v2293)
+ - [`masamune_ai_openai` - `v2.2.45`](#masamune_ai_openai---v2245)
+ - [`masamune_calendar` - `v2.0.155`](#masamune_calendar---v20155)
+ - [`masamune_auth_google` - `v2.1.112`](#masamune_auth_google---v21112)
+ - [`masamune_picker` - `v2.1.110`](#masamune_picker---v21110)
+ - [`masamune_util` - `v2.1.89`](#masamune_util---v2189)
+ - [`masamune_universal_ui` - `v2.2.91`](#masamune_universal_ui---v2291)
+ - [`masamune_purchase_stripe` - `v3.3.57`](#masamune_purchase_stripe---v3357)
+ - [`masamune_introduction` - `v2.2.59`](#masamune_introduction---v2259)
+ - [`masamune_logger_firebase` - `v2.0.153`](#masamune_logger_firebase---v20153)
+ - [`masamune_deeplink` - `v2.1.29`](#masamune_deeplink---v2129)
+ - [`masamune_speech_to_text` - `v2.1.80`](#masamune_speech_to_text---v2180)
+ - [`masamune_auth_facebook` - `v2.1.113`](#masamune_auth_facebook---v21113)
+ - [`masamune_location_google` - `v2.1.124`](#masamune_location_google---v21124)
+ - [`masamune_module_point_ecosystem` - `v2.3.18`](#masamune_module_point_ecosystem---v2318)
+ - [`masamune_mail` - `v2.1.108`](#masamune_mail---v21108)
+ - [`masamune_module` - `v2.3.14`](#masamune_module---v2314)
+ - [`masamune_notification_firebase` - `v2.2.15`](#masamune_notification_firebase---v2215)
+ - [`masamune_purchase_mobile` - `v2.5.59`](#masamune_purchase_mobile---v2559)
+ - [`masamune_ads_google` - `v2.1.61`](#masamune_ads_google---v2161)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.55`
+ - `masamune_location_platform_interface` - `v2.1.2`
+ - `masamune_location` - `v2.1.123`
+ - `masamune_deeplink_firebase` - `v2.1.30`
+ - `masamune_auth_apple` - `v2.1.111`
+ - `masamune_location_background` - `v2.1.1`
+ - `masamune_text_to_speech` - `v2.1.77`
+ - `masamune_agora` - `v2.2.93`
+ - `masamune_ai_openai` - `v2.2.45`
+ - `masamune_calendar` - `v2.0.155`
+ - `masamune_auth_google` - `v2.1.112`
+ - `masamune_picker` - `v2.1.110`
+ - `masamune_util` - `v2.1.89`
+ - `masamune_universal_ui` - `v2.2.91`
+ - `masamune_purchase_stripe` - `v3.3.57`
+ - `masamune_introduction` - `v2.2.59`
+ - `masamune_logger_firebase` - `v2.0.153`
+ - `masamune_deeplink` - `v2.1.29`
+ - `masamune_speech_to_text` - `v2.1.80`
+ - `masamune_auth_facebook` - `v2.1.113`
+ - `masamune_location_google` - `v2.1.124`
+ - `masamune_module_point_ecosystem` - `v2.3.18`
+ - `masamune_mail` - `v2.1.108`
+ - `masamune_module` - `v2.3.14`
+ - `masamune_notification_firebase` - `v2.2.15`
+ - `masamune_purchase_mobile` - `v2.5.59`
+ - `masamune_ads_google` - `v2.1.61`
+
+---
+
+#### `katana_form` - `v2.7.11`
+
+ - **FIX**: Fixed enabled was not working. ([efba6c38](https://github.com/mathrunet/flutter_masamune/commit/efba6c38a80adb103ec91c27f484777a454b9880))
+
+
+## 2023-09-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_module_point_ecosystem` - `v2.3.17`](#masamune_module_point_ecosystem---v2317)
  - [`masamune_notification_firebase` - `v2.2.14`](#masamune_notification_firebase---v2214)
  - [`masamune_purchase_mobile` - `v2.5.58`](#masamune_purchase_mobile---v2558)
