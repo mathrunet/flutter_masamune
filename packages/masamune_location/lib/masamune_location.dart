@@ -15,8 +15,8 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 // Package imports:
-import 'package:geolocator/geolocator.dart' hide LocationAccuracy;
 import 'package:geolocator/geolocator.dart' as geolocator show LocationAccuracy;
+import 'package:geolocator/geolocator.dart' hide LocationAccuracy;
 import 'package:masamune/masamune.dart';
 import 'package:masamune_location_platform_interface/masamune_location_platform_interface.dart';
 
