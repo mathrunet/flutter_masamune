@@ -395,7 +395,7 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                 return widget.validator?.call(value);
               },
               focusColor: Colors.transparent,
-              onChanged: (value) => didChange(value),
+              onChanged: widget.enabled ? (value) => didChange(value) : null,
               elevation: widget.style?.elevation.toInt() ?? 8,
               style: widget.enabled ? mainTextStyle : disabledTextStyle,
               icon: widget.icon,
