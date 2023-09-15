@@ -1,3 +1,7 @@
+## 2.3.17
+
+ - **FIX**: Removed warning from _$$_ description. ([e81ee89f](https://github.com/mathrunet/flutter_masamune/commit/e81ee89fcaa9801477bd809b1bd5458d4cc282be))
+
 ## 2.3.16
 
  - Update a dependency to the latest release.
