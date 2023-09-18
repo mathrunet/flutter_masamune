@@ -198,7 +198,12 @@ abstract class FirestoreModelFieldValueConverter {
         break;
       case ModelQueryFilterType.like:
         final texts =
-            filter.value.toString().toLowerCase().splitByBigram().distinct();
+            filter.value.toString()
+            .toHankakuNumericAndAlphabet()
+            .toZenkakuKatakana()
+            .toKatakana()
+            .splitByCharacterAndBigram()
+            .distinct();
         for (final text in texts) {
           firestoreQuery = firestoreQuery.where(
             "${convertQueryKey(key, filter, query, adapter)}.$text",

@@ -113,7 +113,11 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
         ...rawData,
         searchValueFieldKey: searchText
             .toLowerCase()
-            .splitByBigram()
+            .toHankakuNumericAndAlphabet()
+            .toZenkakuKatakana()
+            .toKatakana()
+            .splitByCharacterAndBigram()
+            .distinct()
             .toMap((e) => MapEntry(e, true)),
       }),
     );
