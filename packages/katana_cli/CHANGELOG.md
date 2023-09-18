@@ -1,3 +1,7 @@
+## 2.9.3
+
+ - Update a dependency to the latest release.
+
 ## 2.9.2
 
  - **FIX**: Output keyhash for Facebook. ([b7f4d905](https://github.com/mathrunet/flutter_masamune/commit/b7f4d90543850e786ba5f178696fbd5632562132))

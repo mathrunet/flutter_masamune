@@ -1,3 +1,7 @@
+## 2.7.12
+
+ - Update a dependency to the latest release.
+
 ## 2.7.11
 
  - **FIX**: Fixed enabled was not working. ([efba6c38](https://github.com/mathrunet/flutter_masamune/commit/efba6c38a80adb103ec91c27f484777a454b9880))

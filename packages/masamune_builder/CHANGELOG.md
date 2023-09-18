@@ -1,3 +1,7 @@
+## 2.8.11
+
+ - Update a dependency to the latest release.
+
 ## 2.8.10
 
  - **FIX**: Downgrade of Analyize plugin. ([d3717652](https://github.com/mathrunet/flutter_masamune/commit/d371765229973097aa1e828aa8c7ec476a6359c6))

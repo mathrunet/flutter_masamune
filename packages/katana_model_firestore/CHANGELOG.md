@@ -1,3 +1,7 @@
+## 2.8.2
+
+ - **FIX**: Hiragana katakana and full-width and half-width portions are absorbed. ([785ef5d6](https://github.com/mathrunet/flutter_masamune/commit/785ef5d62d743596c45c6a34a77af424d9afc775))
+
 ## 2.8.1
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.4.2
+
+ - **FIX**: Added Japanese editing methods. ([d9b6b02a](https://github.com/mathrunet/flutter_masamune/commit/d9b6b02a3da7e7580a1f8ba7eaf4a4fc66dd55cc))
+
 ## 2.4.1
 
  - **FIX**: Add select method to bool. ([a26fdf18](https://github.com/mathrunet/flutter_masamune/commit/a26fdf181577a7ce60b90bbf989b0ed5043913af))

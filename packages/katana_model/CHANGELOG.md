@@ -1,3 +1,7 @@
+## 2.12.2
+
+ - **FIX**: Hiragana katakana and full-width and half-width portions are absorbed. ([785ef5d6](https://github.com/mathrunet/flutter_masamune/commit/785ef5d62d743596c45c6a34a77af424d9afc775))
+
 ## 2.12.1
 
  - **FIX**: Fixed a bug in which contains and where in Enum did not work properly. ([854bbe29](https://github.com/mathrunet/flutter_masamune/commit/854bbe2938d164d4dc9cfc13f66c594b5fec94ac))

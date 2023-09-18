@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - Update a dependency to the latest release.
+
 ## 2.5.1
 
  - **FIX**: Fixed around the color of the modal. ([cd76a967](https://github.com/mathrunet/flutter_masamune/commit/cd76a967e3673e22aefc25f4d4eda477fa6ddef0))

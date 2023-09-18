@@ -1,3 +1,7 @@
+## 2.0.40
+
+ - Update a dependency to the latest release.
+
 ## 2.0.39
 
  - **FIX**: Change the contents of BootState. ([11215585](https://github.com/mathrunet/flutter_masamune/commit/1121558502b4cc83690de403e80d18c604749d36))

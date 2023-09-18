@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - Update a dependency to the latest release.
+
 ## 2.2.2
 
  - **FIX**: Fixed a bug that prevented initial values from being registered. ([a29a4e49](https://github.com/mathrunet/flutter_masamune/commit/a29a4e498f810509c0bf59415a4df02e26e4e9c2))

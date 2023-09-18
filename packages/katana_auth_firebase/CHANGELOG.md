@@ -1,3 +1,7 @@
+## 2.1.6
+
+ - Update a dependency to the latest release.
+
 ## 2.1.5
 
  - **FIX**: Fixed a bug that sometimes did not start properly. ([ae2ff784](https://github.com/mathrunet/flutter_masamune/commit/ae2ff7842247a6041fbc5c150f67f956640c3d9f))
