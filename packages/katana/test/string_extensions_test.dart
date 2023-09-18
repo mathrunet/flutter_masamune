@@ -13,6 +13,36 @@ void main() {
     const path = "aaaa/bbbb/cccc/dddd";
     expect(path.parentPath(), "aaaa/bbbb/cccc");
   });
+  test("StringExtensions.toZenkakuNumericAndAlphabet", () {
+    const path =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    expect(path.toZenkakuNumericAndAlphabet(),
+        "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９");
+  });
+  test("StringExtensions.toHankakuNumericAndAlphabet", () {
+    const path =
+        "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ０１２３４５６７８９";
+    expect(path.toHankakuNumericAndAlphabet(),
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+  });
+  test("StringExtensions.toHiragana", () {
+    const path =
+        "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰウヱヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォッャュョヮ";
+    expect(path.toHiragana(),
+        "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐうゑをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉっゃゅょゎ");
+  });
+  test("StringExtensions.toKatakana", () {
+    const path =
+        "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐうゑをんゔがぎぐげござじずぜぞだぢづでどばびぶべぼぁぃぅぇぉっゃゅょゎ";
+    expect(path.toKatakana(),
+        "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヰウヱヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォッャュョヮ");
+  });
+  test("StringExtensions.toZenkakuKatakana", () {
+    const path =
+        "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｳｦﾝｳﾞｶﾞｷﾞｸﾞｹﾞｺﾞｻﾞｼﾞｽﾞｾﾞｿﾞﾀﾞﾁﾞﾂﾞﾃﾞﾄﾞﾊﾞﾋﾞﾌﾞﾍﾞﾎﾞｧｨｩｪｫｯｬｭｮ";
+    expect(path.toZenkakuKatakana(),
+        "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワウヲンヴガギグゲゴザジズゼゾダヂヅデドバビブベボァィゥェォッャュョ");
+  });
   test("StringExtensions.splitByCharacter", () {
     const text = "abcde";
     expect(text.splitByCharacter(), ["a", "b", "c", "d", "e"]);
@@ -20,6 +50,11 @@ void main() {
   test("StringExtensions.splitByBigram", () {
     const text = "abcde";
     expect(text.splitByBigram(), ["ab", "bc", "cd", "de"]);
+  });
+  test("StringExtensions.splitByCharacterAndBigram", () {
+    const text = "abcde";
+    expect(text.splitByCharacterAndBigram(),
+        ["a", "b", "c", "d", "e", "ab", "bc", "cd", "de"]);
   });
   test("StringExtensions.splitByTrigram", () {
     const text = "abcde";

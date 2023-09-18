@@ -39,6 +39,177 @@ extension StringExtensions on String {
     return path.replaceAll(_tail, "").trimStringRight(separator);
   }
 
+  /// Converts alphabets and numbers to full-width characters.
+  ///
+  /// アルファベットと数字を全角に変換します。
+  ///
+  /// ```dart
+  /// final text = "abcd";
+  /// final converted = path.toZenkakuNumericAndAlphabet(); // "ａｂｃｄ"
+  /// ```
+  String toZenkakuNumericAndAlphabet() {
+    final regex = RegExp(r'^[a-zA-Z0-9]+$');
+    final string = runes.map<String>((rune) {
+      final char = String.fromCharCode(rune);
+      return regex.hasMatch(char) ? String.fromCharCode(rune + 65248) : char;
+    });
+    return string.join();
+  }
+
+  /// Converts alphabets and numbers to half-width characters.
+  ///
+  /// アルファベットと数字を半角に変換します。
+  ///
+  /// ```dart
+  /// final text = "ａｂｃｄ";
+  /// final converted = path.toHankakuNumericAndAlphabet(); // "abcd"
+  /// ```
+  String toHankakuNumericAndAlphabet() {
+    final regex = RegExp(r'^[Ａ-Ｚａ-ｚ０-９]+$');
+    final string = runes.map<String>((rune) {
+      final char = String.fromCharCode(rune);
+      return regex.hasMatch(char) ? String.fromCharCode(rune - 65248) : char;
+    });
+    return string.join();
+  }
+
+  /// Converts katakana to hiragana.
+  ///
+  /// カタカナをひらがなに変換します。
+  ///
+  /// ```dart
+  /// final text = "アイウエオ";
+  /// final converted = path.toHiragana(); // "あいうえお"
+  /// ```
+  String toHiragana() {
+    return replaceAllMapped(RegExp("[ァ-ヴ]"),
+        (Match m) => String.fromCharCode(m.group(0)!.codeUnitAt(0) - 0x60));
+  }
+
+  /// Converts hiragana into katakana.
+  ///
+  /// ひらがなをカタカナに変換します。
+  ///
+  /// ```dart
+  /// final text = "あいうえお";
+  /// final converted = path.toKatakana(); // "アイウエオ"
+  /// ```
+  String toKatakana() {
+    return replaceAllMapped(RegExp("[ぁ-ゔ]"),
+        (Match m) => String.fromCharCode(m.group(0)!.codeUnitAt(0) + 0x60));
+  }
+
+  /// Converts half-width katakana to full-width katakana.
+  ///
+  /// 半角カタカナを全角カタカナに変換します。
+  ///
+  /// ```dart
+  /// final text = "ｱｲｳｴｵ";
+  /// final converted = path.toZenkakuKatakana(); // "アイウエオ"
+  /// ```
+  String toZenkakuKatakana() {
+    var val = this;
+    val = val.replaceAllMapped(RegExp("[ｳｶ-ﾄﾊ-ﾎ]ﾞ"), (Match m) {
+      Map<String, String> dakuten = {
+        'ｳﾞ': 'ヴ',
+        'ｶﾞ': 'ガ',
+        'ｷﾞ': 'ギ',
+        'ｸﾞ': 'グ',
+        'ｹﾞ': 'ゲ',
+        'ｺﾞ': 'ゴ',
+        'ｻﾞ': 'ザ',
+        'ｼﾞ': 'ジ',
+        'ｽﾞ': 'ズ',
+        'ｾﾞ': 'ゼ',
+        'ｿﾞ': 'ゾ',
+        'ﾀﾞ': 'ダ',
+        'ﾁﾞ': 'ヂ',
+        'ﾂﾞ': 'ヅ',
+        'ﾃﾞ': 'デ',
+        'ﾄﾞ': 'ド',
+        'ﾊﾞ': 'バ',
+        'ﾋﾞ': 'ビ',
+        'ﾌﾞ': 'ブ',
+        'ﾍﾞ': 'ベ',
+        'ﾎﾞ': 'ボ',
+      };
+      return dakuten[m.group(0)!] ?? m.group(0)!;
+    });
+    val = val.replaceAllMapped(RegExp("[ﾊ-ﾎ]ﾟ"), (Match m) {
+      Map<String, String> handakuten = {
+        'ﾊﾟ': 'パ',
+        'ﾋﾟ': 'ピ',
+        'ﾌﾟ': 'プ',
+        'ﾍﾟ': 'ペ',
+        'ﾎﾟ': 'ポ',
+      };
+      return handakuten[m.group(0)!] ?? m.group(0)!;
+    });
+    val = val.replaceAllMapped(RegExp("[ｦ-ﾝｰ]"), (Match m) {
+      Map<String, String> other = {
+        'ｱ': 'ア',
+        'ｲ': 'イ',
+        'ｳ': 'ウ',
+        'ｴ': 'エ',
+        'ｵ': 'オ',
+        'ｧ': 'ァ',
+        'ｨ': 'ィ',
+        'ｩ': 'ゥ',
+        'ｪ': 'ェ',
+        'ｫ': 'ォ',
+        'ｶ': 'カ',
+        'ｷ': 'キ',
+        'ｸ': 'ク',
+        'ｹ': 'ケ',
+        'ｺ': 'コ',
+        'ｻ': 'サ',
+        'ｼ': 'シ',
+        'ｽ': 'ス',
+        'ｾ': 'セ',
+        'ｿ': 'ソ',
+        'ﾀ': 'タ',
+        'ﾁ': 'チ',
+        'ﾂ': 'ツ',
+        'ﾃ': 'テ',
+        'ﾄ': 'ト',
+        'ﾅ': 'ナ',
+        'ﾆ': 'ニ',
+        'ﾇ': 'ヌ',
+        'ﾈ': 'ネ',
+        'ﾉ': 'ノ',
+        'ﾊ': 'ハ',
+        'ﾋ': 'ヒ',
+        'ﾌ': 'フ',
+        'ﾍ': 'ヘ',
+        'ﾎ': 'ホ',
+        'ﾏ': 'マ',
+        'ﾐ': 'ミ',
+        'ﾑ': 'ム',
+        'ﾒ': 'メ',
+        'ﾓ': 'モ',
+        'ﾔ': 'ヤ',
+        'ﾕ': 'ユ',
+        'ﾖ': 'ヨ',
+        'ﾗ': 'ラ',
+        'ﾘ': 'リ',
+        'ﾙ': 'ル',
+        'ﾚ': 'レ',
+        'ﾛ': 'ロ',
+        'ﾜ': 'ワ',
+        'ｦ': 'ヲ',
+        'ﾝ': 'ン',
+        'ｯ': 'ッ',
+        'ｬ': 'ャ',
+        'ｭ': 'ュ',
+        'ｮ': 'ョ',
+        'ｰ': 'ー',
+      };
+      return other[m.group(0)!] ?? m.group(0)!;
+    });
+
+    return val;
+  }
+
   /// Converts [String] to an array of one character at a time.
   ///
   /// [String]を1文字ずつの配列に変換します。
@@ -81,6 +252,21 @@ extension StringExtensions on String {
       tmp.add(substring(i, min(i + 2, length)));
     }
     return tmp;
+  }
+
+  /// Converts [String] into a one-character array and a two-character array.
+  ///
+  /// [String]を1文字ずつの配列と2文字ずつの配列に変換します。
+  ///
+  /// ```dart
+  /// final text = "abcde";
+  /// final characters = ["a", "b", "c", "d", "e", "ab", "bc", "cd", "de"];
+  /// ```
+  List<String> splitByCharacterAndBigram() {
+    return [
+      ...splitByCharacter(),
+      ...splitByBigram(),
+    ];
   }
 
   /// Convert [String] to Trigram, i.e., an array of 3 characters each.
