@@ -1,3 +1,7 @@
+## 2.9.4
+
+ - **FIX**: Added ability to add apply plugin. ([37c17207](https://github.com/mathrunet/flutter_masamune/commit/37c1720783c62740ba1ea1e03ca005ebf8a843a0))
+
 ## 2.9.3
 
  - Update a dependency to the latest release.

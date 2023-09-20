@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.9.4`](#katana_cli---v294)
+
+---
+
+#### `katana_cli` - `v2.9.4`
+
+ - **FIX**: Added ability to add apply plugin. ([37c17207](https://github.com/mathrunet/flutter_masamune/commit/37c1720783c62740ba1ea1e03ca005ebf8a843a0))
+
+
+## 2023-09-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.12.3`](#katana_model---v2123)
  - [`katana_model_firestore` - `v2.8.3`](#katana_model_firestore---v283)
  - [`katana_model_local` - `v2.8.3`](#katana_model_local---v283)
