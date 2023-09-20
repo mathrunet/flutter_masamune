@@ -436,6 +436,14 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         ),
       );
     }
+    if (!gradle.plugins
+        .any((e) => e.plugin == "com.google.gms.google-services")) {
+      gradle.plugins.add(
+        GradlePlugin(
+          plugin: "com.google.gms.google-services",
+        ),
+      );
+    }
     gradle.android?.defaultConfig.minSdkVersion =
         "configProperties[\"flutter.minSdkVersion\"]";
     await gradle.save();

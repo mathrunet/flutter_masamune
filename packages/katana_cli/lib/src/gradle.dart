@@ -22,6 +22,12 @@ class AppGradle {
   List<GradleLoadProperties> get loadProperties => _loadProperties;
   late List<GradleLoadProperties> _loadProperties;
 
+  /// List of `apply plugin`.
+  ///
+  /// `apply plugin`のリスト。
+  List<GradlePlugin> get plugins => _plugins;
+  late List<GradlePlugin> _plugins;
+
   /// Data in the `android` section.
   ///
   /// `android`セクションのデータ。
@@ -41,6 +47,7 @@ class AppGradle {
     final gradle = File("android/app/build.gradle");
     _rawData = await gradle.readAsString();
     _loadProperties = GradleLoadProperties._load(_rawData);
+    _plugins = GradlePlugin._load(_rawData);
     _android = GradleAndroid._load(_rawData);
     _dependencies = GradleDependencies._load(_rawData);
   }
@@ -56,6 +63,7 @@ class AppGradle {
     if (_android != null) {
       _rawData = GradleAndroid._save(_rawData, _android!);
     }
+    _rawData = GradlePlugin._save(_rawData, _plugins);
     _rawData = GradleDependencies._save(_rawData, _dependencies);
     final gradle = File("android/app/build.gradle");
     await gradle.writeAsString(_rawData);
@@ -132,6 +140,54 @@ class GradleLoadProperties {
   @override
   String toString() {
     return "def $name = new Properties()\ndef $file = rootProject.file('$path')\nif ($file.exists()) {\n    $file.withReader('UTF-8') { reader ->\n        $name.load(reader)\n    }\n}";
+  }
+}
+
+/// Data in the `apply plugin` section.
+///
+/// `apply plugin`セクションのデータ。
+class GradlePlugin {
+  /// Data in the `apply plugin` section.
+  ///
+  /// `apply plugin`セクションのデータ。
+  GradlePlugin({
+    required this.plugin,
+  });
+
+  static List<GradlePlugin> _load(String content) {
+    final region = RegExp(
+      r"apply plugin: 'kotlin-android'([\s\S]*?)apply from:",
+    ).firstMatch(content);
+    if (region == null) {
+      return [];
+    }
+    return RegExp(
+      r"apply plugin: '(?<plugin>[a-zA-Z0-9_.-]+)'",
+    ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
+      return GradlePlugin(
+        plugin: e.namedGroup("plugin") ?? "",
+      );
+    });
+  }
+
+  static String _save(String content, List<GradlePlugin> list) {
+    final code = list.map((e) => e.toString()).join("\n");
+    return content.replaceAll(
+      RegExp(
+        r"apply plugin: 'kotlin-android'([\s\S]*?)apply from:",
+      ),
+      "apply plugin: 'kotlin-android'\n$code\napply from:",
+    );
+  }
+
+  /// Plugin Name.
+  ///
+  /// プラグインの名前。
+  String plugin;
+
+  @override
+  String toString() {
+    return "apply plugin: '$plugin'";
   }
 }
 
