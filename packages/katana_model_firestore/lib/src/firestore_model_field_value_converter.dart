@@ -199,9 +199,10 @@ abstract class FirestoreModelFieldValueConverter {
       case ModelQueryFilterType.like:
         final texts = filter.value
             .toString()
-            .toHankakuNumericAndAlphabet()
-            .toZenkakuKatakana()
-            .toKatakana()
+            .toLowerCase()
+            // .toHankakuNumericAndAlphabet()
+            // .toZenkakuKatakana()
+            // .toKatakana()
             .splitByCharacterAndBigram()
             .distinct();
         for (final text in texts) {

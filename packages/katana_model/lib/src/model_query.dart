@@ -1270,9 +1270,10 @@ class ModelQueryFilter {
           return false;
         }
         final splitBygram = target
-            .toHankakuNumericAndAlphabet()
-            .toZenkakuKatakana()
-            .toKatakana()
+            .toLowerCase()
+            // .toHankakuNumericAndAlphabet()
+            // .toZenkakuKatakana()
+            // .toKatakana()
             .splitByCharacterAndBigram()
             .distinct();
         for (final text in splitBygram) {

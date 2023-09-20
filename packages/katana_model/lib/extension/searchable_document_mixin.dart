@@ -113,9 +113,9 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
         ...rawData,
         searchValueFieldKey: searchText
             .toLowerCase()
-            .toHankakuNumericAndAlphabet()
-            .toZenkakuKatakana()
-            .toKatakana()
+            // .toHankakuNumericAndAlphabet()
+            // .toZenkakuKatakana()
+            // .toKatakana()
             .splitByCharacterAndBigram()
             .distinct()
             .toMap((e) => MapEntry(e, true)),

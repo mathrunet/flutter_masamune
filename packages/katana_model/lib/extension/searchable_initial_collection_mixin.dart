@@ -68,9 +68,9 @@ mixin SearchableInitialCollectionMixin<T> on ModelInitialCollection<T> {
         ...rawData,
         searchValueFieldKey: searchText
             .toLowerCase()
-            .toHankakuNumericAndAlphabet()
-            .toZenkakuKatakana()
-            .toKatakana()
+            // .toHankakuNumericAndAlphabet()
+            // .toZenkakuKatakana()
+            // .toKatakana()
             .splitByCharacterAndBigram()
             .distinct()
             .toMap((e) => MapEntry(e, true)),
