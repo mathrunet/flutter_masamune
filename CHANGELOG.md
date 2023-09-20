@@ -3,6 +3,93 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-09-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_model` - `v2.12.3`](#katana_model---v2123)
+ - [`katana_model_firestore` - `v2.8.3`](#katana_model_firestore---v283)
+ - [`katana_model_local` - `v2.8.3`](#katana_model_local---v283)
+ - [`masamune` - `v2.4.57`](#masamune---v2457)
+ - [`masamune_location` - `v2.1.125`](#masamune_location---v21125)
+ - [`masamune_location_background` - `v2.1.3`](#masamune_location_background---v213)
+ - [`masamune_deeplink_firebase` - `v2.1.32`](#masamune_deeplink_firebase---v2132)
+ - [`masamune_auth_apple` - `v2.1.113`](#masamune_auth_apple---v21113)
+ - [`masamune_text_to_speech` - `v2.1.79`](#masamune_text_to_speech---v2179)
+ - [`masamune_agora` - `v2.2.95`](#masamune_agora---v2295)
+ - [`masamune_location_platform_interface` - `v2.1.4`](#masamune_location_platform_interface---v214)
+ - [`masamune_auth_google` - `v2.1.114`](#masamune_auth_google---v21114)
+ - [`masamune_ai_openai` - `v2.2.47`](#masamune_ai_openai---v2247)
+ - [`masamune_calendar` - `v2.0.157`](#masamune_calendar---v20157)
+ - [`masamune_picker` - `v2.1.112`](#masamune_picker---v21112)
+ - [`masamune_util` - `v2.1.91`](#masamune_util---v2191)
+ - [`masamune_universal_ui` - `v2.2.93`](#masamune_universal_ui---v2293)
+ - [`masamune_purchase_stripe` - `v3.3.59`](#masamune_purchase_stripe---v3359)
+ - [`masamune_logger_firebase` - `v2.0.155`](#masamune_logger_firebase---v20155)
+ - [`masamune_introduction` - `v2.2.61`](#masamune_introduction---v2261)
+ - [`masamune_deeplink` - `v2.1.31`](#masamune_deeplink---v2131)
+ - [`masamune_speech_to_text` - `v2.1.82`](#masamune_speech_to_text---v2182)
+ - [`masamune_auth_facebook` - `v2.1.115`](#masamune_auth_facebook---v21115)
+ - [`masamune_location_google` - `v2.1.126`](#masamune_location_google---v21126)
+ - [`masamune_module_point_ecosystem` - `v2.3.20`](#masamune_module_point_ecosystem---v2320)
+ - [`masamune_mail` - `v2.1.110`](#masamune_mail---v21110)
+ - [`masamune_notification_firebase` - `v2.2.17`](#masamune_notification_firebase---v2217)
+ - [`masamune_purchase_mobile` - `v2.5.61`](#masamune_purchase_mobile---v2561)
+ - [`masamune_ads_google` - `v2.1.63`](#masamune_ads_google---v2163)
+ - [`masamune_module` - `v2.3.16`](#masamune_module---v2316)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_local` - `v2.8.3`
+ - `masamune` - `v2.4.57`
+ - `masamune_location` - `v2.1.125`
+ - `masamune_location_background` - `v2.1.3`
+ - `masamune_deeplink_firebase` - `v2.1.32`
+ - `masamune_auth_apple` - `v2.1.113`
+ - `masamune_text_to_speech` - `v2.1.79`
+ - `masamune_agora` - `v2.2.95`
+ - `masamune_location_platform_interface` - `v2.1.4`
+ - `masamune_auth_google` - `v2.1.114`
+ - `masamune_ai_openai` - `v2.2.47`
+ - `masamune_calendar` - `v2.0.157`
+ - `masamune_picker` - `v2.1.112`
+ - `masamune_util` - `v2.1.91`
+ - `masamune_universal_ui` - `v2.2.93`
+ - `masamune_purchase_stripe` - `v3.3.59`
+ - `masamune_logger_firebase` - `v2.0.155`
+ - `masamune_introduction` - `v2.2.61`
+ - `masamune_deeplink` - `v2.1.31`
+ - `masamune_speech_to_text` - `v2.1.82`
+ - `masamune_auth_facebook` - `v2.1.115`
+ - `masamune_location_google` - `v2.1.126`
+ - `masamune_module_point_ecosystem` - `v2.3.20`
+ - `masamune_mail` - `v2.1.110`
+ - `masamune_notification_firebase` - `v2.2.17`
+ - `masamune_purchase_mobile` - `v2.5.61`
+ - `masamune_ads_google` - `v2.1.63`
+ - `masamune_module` - `v2.3.16`
+
+---
+
+#### `katana_model` - `v2.12.3`
+
+ - **FIX**: 日本語周りをもとに戻す. ([295415ed](https://github.com/mathrunet/flutter_masamune/commit/295415edf68820d9e5e82ff086c5a18b2c095730))
+
+#### `katana_model_firestore` - `v2.8.3`
+
+ - **FIX**: 日本語周りをもとに戻す. ([295415ed](https://github.com/mathrunet/flutter_masamune/commit/295415edf68820d9e5e82ff086c5a18b2c095730))
+
+
 ## 2023-09-18
 
 ### Changes

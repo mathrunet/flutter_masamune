@@ -1,3 +1,7 @@
+## 2.12.3
+
+ - **FIX**: 日本語周りをもとに戻す. ([295415ed](https://github.com/mathrunet/flutter_masamune/commit/295415edf68820d9e5e82ff086c5a18b2c095730))
+
 ## 2.12.2
 
  - **FIX**: Hiragana katakana and full-width and half-width portions are absorbed. ([785ef5d6](https://github.com/mathrunet/flutter_masamune/commit/785ef5d62d743596c45c6a34a77af424d9afc775))
