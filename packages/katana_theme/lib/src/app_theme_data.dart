@@ -1313,6 +1313,11 @@ class AppThemeData {
                   color: appBarForegroundColor,
                 ) ??
                 IconThemeData(color: appBarForegroundColor),
+            systemOverlayStyle: SystemUiOverlayStyle(
+              systemNavigationBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.dark,
+              statusBarIconBrightness: Brightness.light,
+            ),
           ),
           dialogBackgroundColor: color.dialogColor ?? color.surface,
           dialogTheme: theme.dialogTheme.copyWith(
@@ -1528,6 +1533,11 @@ class AppThemeData {
                   color: appBarForegroundColor,
                 ) ??
                 IconThemeData(color: appBarForegroundColor),
+            systemOverlayStyle: SystemUiOverlayStyle(
+              systemNavigationBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.light,
+              statusBarIconBrightness: Brightness.dark,
+            ),
           ),
           dialogBackgroundColor: color.dialogColor ?? color.surface,
           dialogTheme: theme.dialogTheme.copyWith(
