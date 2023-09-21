@@ -23,8 +23,9 @@ extension ListenableIterableExtensions<T extends Listenable> on Iterable<T> {
     return map((item) {
       return ListenableListener<T>(
         listenable: item,
-        builder: (context, listenable) =>
-            callback.call(listenable) ?? const SizedBox.shrink(),
+        builder: (context, listenable) => listenable == null
+            ? const SizedBox.shrink()
+            : callback.call(listenable) ?? const SizedBox.shrink(),
       );
     }).toList();
   }
@@ -46,7 +47,7 @@ class ListenableListener<T extends Listenable> extends StatefulWidget {
   /// [Listenable] for monitoring.
   ///
   /// 監視するための[Listenable]。
-  final T listenable;
+  final T? listenable;
 
   /// Builder to build [Widget] to update when changes are made.
   ///
@@ -55,7 +56,7 @@ class ListenableListener<T extends Listenable> extends StatefulWidget {
   /// 変更があった場合に更新する[Widget]をビルドするためのビルダー。
   ///
   /// [listenable]に監視している[Listenable]オブジェクトが渡されます。
-  final Widget Function(BuildContext context, T listenable) builder;
+  final Widget Function(BuildContext context, T? listenable) builder;
 
   @override
   @protected
@@ -67,21 +68,21 @@ class _ListenableListenerState<T extends Listenable>
   @override
   void initState() {
     super.initState();
-    widget.listenable.addListener(_handledOnUpdate);
+    widget.listenable?.addListener(_handledOnUpdate);
   }
 
   @override
   void dispose() {
     super.dispose();
-    widget.listenable.removeListener(_handledOnUpdate);
+    widget.listenable?.removeListener(_handledOnUpdate);
   }
 
   @override
   void didUpdateWidget(ListenableListener<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.listenable != oldWidget.listenable) {
-      oldWidget.listenable.removeListener(_handledOnUpdate);
-      widget.listenable.addListener(_handledOnUpdate);
+      oldWidget.listenable?.removeListener(_handledOnUpdate);
+      widget.listenable?.addListener(_handledOnUpdate);
     }
   }
 
