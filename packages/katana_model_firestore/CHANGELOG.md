@@ -1,3 +1,7 @@
+## 2.8.4
+
+ - Update a dependency to the latest release.
+
 ## 2.8.3
 
  - **FIX**: 日本語周りをもとに戻す. ([295415ed](https://github.com/mathrunet/flutter_masamune/commit/295415edf68820d9e5e82ff086c5a18b2c095730))

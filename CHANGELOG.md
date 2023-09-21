@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.12.4`](#katana_model---v2124)
+ - [`katana_model_local` - `v2.8.4`](#katana_model_local---v284)
+ - [`katana_model_firestore` - `v2.8.4`](#katana_model_firestore---v284)
+ - [`masamune` - `v2.4.59`](#masamune---v2459)
+ - [`masamune_location_platform_interface` - `v2.1.6`](#masamune_location_platform_interface---v216)
+ - [`masamune_location` - `v2.1.127`](#masamune_location---v21127)
+ - [`masamune_deeplink_firebase` - `v2.1.34`](#masamune_deeplink_firebase---v2134)
+ - [`masamune_location_background` - `v2.1.5`](#masamune_location_background---v215)
+ - [`masamune_auth_apple` - `v2.1.115`](#masamune_auth_apple---v21115)
+ - [`masamune_text_to_speech` - `v2.1.81`](#masamune_text_to_speech---v2181)
+ - [`masamune_auth_google` - `v2.1.116`](#masamune_auth_google---v21116)
+ - [`masamune_agora` - `v2.2.97`](#masamune_agora---v2297)
+ - [`masamune_ai_openai` - `v2.2.49`](#masamune_ai_openai---v2249)
+ - [`masamune_calendar` - `v2.0.159`](#masamune_calendar---v20159)
+ - [`masamune_picker` - `v2.1.114`](#masamune_picker---v21114)
+ - [`masamune_universal_ui` - `v2.2.95`](#masamune_universal_ui---v2295)
+ - [`masamune_purchase_stripe` - `v3.3.61`](#masamune_purchase_stripe---v3361)
+ - [`masamune_logger_firebase` - `v2.0.157`](#masamune_logger_firebase---v20157)
+ - [`masamune_introduction` - `v2.2.63`](#masamune_introduction---v2263)
+ - [`masamune_deeplink` - `v2.1.33`](#masamune_deeplink---v2133)
+ - [`masamune_speech_to_text` - `v2.1.84`](#masamune_speech_to_text---v2184)
+ - [`masamune_auth_facebook` - `v2.1.117`](#masamune_auth_facebook---v21117)
+ - [`masamune_module_point_ecosystem` - `v2.3.22`](#masamune_module_point_ecosystem---v2322)
+ - [`masamune_location_google` - `v2.1.128`](#masamune_location_google---v21128)
+ - [`masamune_mail` - `v2.1.112`](#masamune_mail---v21112)
+ - [`masamune_module` - `v2.3.18`](#masamune_module---v2318)
+ - [`masamune_notification_firebase` - `v2.2.19`](#masamune_notification_firebase---v2219)
+ - [`masamune_ads_google` - `v2.1.65`](#masamune_ads_google---v2165)
+ - [`masamune_purchase_mobile` - `v2.5.63`](#masamune_purchase_mobile---v2563)
+ - [`masamune_util` - `v2.1.93`](#masamune_util---v2193)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `katana_model_local` - `v2.8.4`
+ - `katana_model_firestore` - `v2.8.4`
+ - `masamune` - `v2.4.59`
+ - `masamune_location_platform_interface` - `v2.1.6`
+ - `masamune_location` - `v2.1.127`
+ - `masamune_deeplink_firebase` - `v2.1.34`
+ - `masamune_location_background` - `v2.1.5`
+ - `masamune_auth_apple` - `v2.1.115`
+ - `masamune_text_to_speech` - `v2.1.81`
+ - `masamune_auth_google` - `v2.1.116`
+ - `masamune_agora` - `v2.2.97`
+ - `masamune_ai_openai` - `v2.2.49`
+ - `masamune_calendar` - `v2.0.159`
+ - `masamune_picker` - `v2.1.114`
+ - `masamune_universal_ui` - `v2.2.95`
+ - `masamune_purchase_stripe` - `v3.3.61`
+ - `masamune_logger_firebase` - `v2.0.157`
+ - `masamune_introduction` - `v2.2.63`
+ - `masamune_deeplink` - `v2.1.33`
+ - `masamune_speech_to_text` - `v2.1.84`
+ - `masamune_auth_facebook` - `v2.1.117`
+ - `masamune_module_point_ecosystem` - `v2.3.22`
+ - `masamune_location_google` - `v2.1.128`
+ - `masamune_mail` - `v2.1.112`
+ - `masamune_module` - `v2.3.18`
+ - `masamune_notification_firebase` - `v2.2.19`
+ - `masamune_ads_google` - `v2.1.65`
+ - `masamune_purchase_mobile` - `v2.5.63`
+ - `masamune_util` - `v2.1.93`
+
+---
+
+#### `katana_model` - `v2.12.4`
+
+ - **FIX**: ListenableListener is now nullable-compatible. ([d7858b03](https://github.com/mathrunet/flutter_masamune/commit/d7858b0396293cbeb4e365164c3387a7ef458aea))
+
+
+## 2023-09-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v2.0.24`](#katana_theme---v2024)
  - [`masamune` - `v2.4.58`](#masamune---v2458)
  - [`masamune_location_platform_interface` - `v2.1.5`](#masamune_location_platform_interface---v215)

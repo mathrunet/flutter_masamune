@@ -1,3 +1,7 @@
+## 2.12.4
+
+ - **FIX**: ListenableListener is now nullable-compatible. ([d7858b03](https://github.com/mathrunet/flutter_masamune/commit/d7858b0396293cbeb4e365164c3387a7ef458aea))
+
 ## 2.12.3
 
  - **FIX**: 日本語周りをもとに戻す. ([295415ed](https://github.com/mathrunet/flutter_masamune/commit/295415edf68820d9e5e82ff086c5a18b2c095730))
