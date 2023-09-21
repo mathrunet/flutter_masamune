@@ -1,3 +1,7 @@
+## 2.0.24
+
+ - **FIX**: systemStyleOverlay is now reflected. ([9e88ee24](https://github.com/mathrunet/flutter_masamune/commit/9e88ee2478add15dffb143ce763e53bda79776df))
+
 ## 2.0.23
 
  - Update a dependency to the latest release.
