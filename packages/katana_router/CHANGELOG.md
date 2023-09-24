@@ -1,3 +1,7 @@
+## 2.0.41
+
+ - **FIX**: Add rootContext. ([100ab189](https://github.com/mathrunet/flutter_masamune/commit/100ab189d69a7b3e5baf0d5054b3d2c6f0a47fd4))
+
 ## 2.0.40
 
  - Update a dependency to the latest release.
