@@ -345,7 +345,10 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>>
                   ?.withOpacity(0.5) ??
               Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
         );
-    final errorTextStyle = widget.style?.textStyle?.copyWith(
+    final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
+          color: widget.style?.errorColor,
+        ) ??
+        widget.style?.textStyle?.copyWith(
           color: widget.style?.errorColor,
         ) ??
         TextStyle(

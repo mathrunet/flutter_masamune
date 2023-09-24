@@ -213,7 +213,10 @@ class FormPinField<TValue> extends FormField<String> {
                           .onBackground
                           .withOpacity(0.5),
                 );
-            final errorTextStyle = style?.textStyle?.copyWith(
+            final errorTextStyle = style?.errorTextStyle?.copyWith(
+                  color: style.errorColor,
+                ) ??
+                style?.textStyle?.copyWith(
                   color: style.errorColor,
                 ) ??
                 TextStyle(

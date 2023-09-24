@@ -29,6 +29,7 @@ class FormStyle {
     this.color,
     this.borderWidth,
     this.textStyle,
+    this.errorTextStyle,
     this.subColor,
     this.errorColor,
     this.cursorColor,
@@ -95,6 +96,11 @@ class FormStyle {
   ///
   /// テキストのスタイル。
   final TextStyle? textStyle;
+
+  /// Text style for errors.
+  ///
+  /// エラー用のテキストスタイル。
+  final TextStyle? errorTextStyle;
 
   /// Form Background.
   ///

@@ -287,7 +287,10 @@ class _FormMapDropdownFieldState<TValue> extends FormFieldState<String>
                   ?.withOpacity(0.5) ??
               Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
         );
-    final errorTextStyle = widget.style?.textStyle?.copyWith(
+    final errorTextStyle = widget.style?.errorTextStyle?.copyWith(
+          color: widget.style?.errorColor,
+        ) ??
+        widget.style?.textStyle?.copyWith(
           color: widget.style?.errorColor,
         ) ??
         TextStyle(
