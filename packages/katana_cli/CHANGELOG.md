@@ -1,3 +1,7 @@
+## 2.9.6
+
+ - **FIX**: Do not upload from local when using GithubActions. ([b361e97a](https://github.com/mathrunet/flutter_masamune/commit/b361e97a34a69d1a470dabe5c77208682897184c))
+
 ## 2.9.5
 
  - **FIX**: Changed the location of Firebase Hosting's Github Actions deployment settings. ([56676cc8](https://github.com/mathrunet/flutter_masamune/commit/56676cc8acedaba82d44cd96c901ba446a056012))

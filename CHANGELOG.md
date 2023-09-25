@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.9.6`](#katana_cli---v296)
+
+---
+
+#### `katana_cli` - `v2.9.6`
+
+ - **FIX**: Do not upload from local when using GithubActions. ([b361e97a](https://github.com/mathrunet/flutter_masamune/commit/b361e97a34a69d1a470dabe5c77208682897184c))
+
+
+## 2023-09-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.9.5`](#katana_cli---v295)
 
 ---
