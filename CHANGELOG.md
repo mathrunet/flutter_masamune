@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-09-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.9.5`](#katana_cli---v295)
+
+---
+
+#### `katana_cli` - `v2.9.5`
+
+ - **FIX**: Changed the location of Firebase Hosting's Github Actions deployment settings. ([56676cc8](https://github.com/mathrunet/flutter_masamune/commit/56676cc8acedaba82d44cd96c901ba446a056012))
+
+
 ## 2023-09-24
 
 ### Changes

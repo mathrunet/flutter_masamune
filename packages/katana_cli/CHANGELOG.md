@@ -1,3 +1,7 @@
+## 2.9.5
+
+ - **FIX**: Changed the location of Firebase Hosting's Github Actions deployment settings. ([56676cc8](https://github.com/mathrunet/flutter_masamune/commit/56676cc8acedaba82d44cd96c901ba446a056012))
+
 ## 2.9.4
 
  - **FIX**: Added ability to add apply plugin. ([37c17207](https://github.com/mathrunet/flutter_masamune/commit/37c1720783c62740ba1ea1e03ca005ebf8a843a0))
