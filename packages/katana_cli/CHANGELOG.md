@@ -1,3 +1,7 @@
+## 2.9.7
+
+ - **FIX**: Added Slack notification settings to GithubActions. ([6fadd6f7](https://github.com/mathrunet/flutter_masamune/commit/6fadd6f77618a85bbaf511f1276b950c8346c393))
+
 ## 2.9.6
 
  - **FIX**: Do not upload from local when using GithubActions. ([b361e97a](https://github.com/mathrunet/flutter_masamune/commit/b361e97a34a69d1a470dabe5c77208682897184c))

@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.9.7`](#katana_cli---v297)
+
+---
+
+#### `katana_cli` - `v2.9.7`
+
+ - **FIX**: Added Slack notification settings to GithubActions. ([6fadd6f7](https://github.com/mathrunet/flutter_masamune/commit/6fadd6f77618a85bbaf511f1276b950c8346c393))
+
+
+## 2023-09-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.9.6`](#katana_cli---v296)
 
 ---
