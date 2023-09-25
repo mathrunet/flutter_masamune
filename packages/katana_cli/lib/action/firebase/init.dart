@@ -53,8 +53,6 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final enableGithubAction = action.get("enable", false);
     final platformGithubAction = action.get("platform", "");
     final webGithubAction = action.getAsMap("web");
-    final enableFirebaseWebGithubAction =
-        webGithubAction.get("firebase", false);
     final repositoryFirebaseWebGithubAction =
         webGithubAction.get("repository", "");
     final projectId = firebase.get("project_id", "");
@@ -71,13 +69,23 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final overwriteStorageRule = storage.get("overwrite_rule", false);
     final enabledStorage = storage.get("enable", false);
     final enabledHosting = hosting.get("enable", false);
+    final enableActions = hosting.get("github_actions", false);
     final enabledLogger = firebase.getAsMap("logger").get("enable", false);
-    final enableActions = enableGithubAction &&
-        platformGithubAction.contains("web") &&
-        enableFirebaseWebGithubAction;
     if (projectId.isEmpty) {
       error(
         "The item [firebase]->[project_id] is missing. Please provide the Firebase project ID for the configuration.",
+      );
+      return;
+    }
+    if (enableActions && !enableGithubAction) {
+      error(
+        "The item [hosting]->[github_actions] is true, but the item [github]->[action]->[enable] is false. Please set the item [github]->[action]->[enable] to true.",
+      );
+      return;
+    }
+    if (enableActions && !platformGithubAction.contains("web")) {
+      error(
+        "The item [hosting]->[github_actions] is true, but the item [github]->[action]->[platform] does not contain `web`. Please set the item [github]->[action]->[platform] to `web`.",
       );
       return;
     }

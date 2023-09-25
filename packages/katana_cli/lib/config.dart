@@ -234,11 +234,14 @@ ${showAllConfig ? """
   # Configure Firebase Hosting settings.
   # Set [use_flutter] to `true` so that all routes point to index.html, and set it to `true` when using Flutter Web.
   # Even in the above case, /**/terms.html and /**/privacy.html will not be directed to the root.
+  # Set [github_actions] to `true` to deploy to Firebase Hosting with Github Actions.
   # Firebase Hostingの設定を行います。
   # [use_flutter]を`true`にするとすべてのルートがindex.htmlを向くようになります。Flutter Webを利用する際に`true`にしてください。
   # 上記の場合でも/**/terms.html、/**/privacy.htmlはルートに向かないようになります。
+  # [github_actions]を`true`にするとGithub ActionsでFirebase Hostingにデプロイするようになります。
   hosting:
     enable: false
+    github_actions: false
     use_flutter: true
   
   # Configure Firebase DynamicLinks. 
@@ -340,10 +343,6 @@ github:
       # Specify a renderer for the Web. (html | canvaskit)
       # Web用のレンダラーを指定します。（html | canvaskit）
       renderer: canvaskit
-
-      # Configure to deploy to Firebase Hosting. Set to `true` to deploy to FirebaseHosting.
-      # Firebase Hostingへデプロイするための設定を行います。FirebaseHostingにデプロイする場合は`true`にしてください。
-      firebase: false
 
       # Please include the path to your current repository on Github in the format `user/repository name`.
       # Githubの現在のリポジトリのパスを`ユーザー/レポジトリ名`のフォーマットで記載してください。
