@@ -460,6 +460,10 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       [
         firebaseCommand,
         "deploy",
+        if (enableActions) ...[
+          "--except",
+          "hosting",
+        ]
       ],
       workingDirectory: "firebase",
     );
