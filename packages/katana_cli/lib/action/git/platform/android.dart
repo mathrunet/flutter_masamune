@@ -21,6 +21,9 @@ Future<void> buildAndroid(
       android.get("changes_not_sent_for_review", false);
   final status = android.get("status", "draft");
   final keystoreFile = File("android/app/appkey.keystore");
+  final secretGithub = context.secrets.getAsMap("github");
+  final slack = secretGithub.getAsMap("slack");
+  final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   if (!keystoreFile.existsSync()) {
     error(
       "Cannot find `android/app/appkey.keystore`. Run `katana app keystore` to create the keystore file. `android/app/appkey.keystore`が見つかりません。`katana app keystore`を実行しキーストアのファイルを作成してください。",
@@ -90,23 +93,27 @@ Future<void> buildAndroid(
     ],
   );
   final gitDir = await findGitDirectory(Directory.current);
-  await GithubActionsAndroidCliCode(
+  final androidCode = GithubActionsAndroidCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
     changesNotSentForReview: changesNotSentForReview,
     status: status,
-  ).generateFile(
+  );
+  await androidCode.generateFile(
     "build_android_${appName.toLowerCase()}.yaml",
     filter: (value) {
-      return value
-          .replaceAll(
-            "#### REPLACE_ANDROID_PACKAGE_NAME ####",
-            packageName.replaceAll('"', ""),
-          )
-          .replaceAll(
-            "#### REPLACE_APP_NAME ####",
-            appName.toUpperCase(),
-          );
+      return androidCode._additionalSlackFilter(
+        value
+            .replaceAll(
+              "#### REPLACE_ANDROID_PACKAGE_NAME ####",
+              packageName.replaceAll('"', ""),
+            )
+            .replaceAll(
+              "#### REPLACE_APP_NAME ####",
+              appName.toUpperCase(),
+            ),
+        slackIncomingWebhookUrl,
+      );
     },
   );
   label("Rewrite `.gitignore`.");
@@ -162,6 +169,7 @@ class GithubActionsAndroidCliCode extends CliCode {
     this.defaultIncrementNumber = 0,
     this.changesNotSentForReview = false,
     this.status = "draft",
+    this.slackWebhookURL,
   });
 
   /// Working Directory.
@@ -183,6 +191,11 @@ class GithubActionsAndroidCliCode extends CliCode {
   ///
   /// [status]のパラメーター。
   final String status;
+
+  /// Include the URL of the Incoming webhook if Slack notifications are used.
+  ///
+  /// Slack通知を利用する場合Incoming webhookのURLを記載。
+  final String? slackWebhookURL;
 
   @override
   String get name => "build_android";
@@ -350,5 +363,40 @@ jobs:
           packageName: #### REPLACE_ANDROID_PACKAGE_NAME ####
           releaseFiles: ${workingPath.isEmpty ? "." : workingPath}/build/app/outputs/bundle/release/*.aab
 """;
+  }
+
+  String _additionalSlackFilter(
+      String source, String? slackIncomingWebhookURL) {
+    if (slackIncomingWebhookURL.isEmpty) {
+      return source;
+    }
+    return source += """
+
+      # Slack notification (on success)
+      # Slack通知（成功時）
+      - name: Slack Notification on Success
+        uses: rtCamp/action-slack-notify@v2
+        if: \${{success()}}
+        env:
+          SLACK_USERNAME: Github Actions
+          SLACK_TITLE: Deploy / Success
+          SLACK_COLOR: good
+          SLACK_MESSAGE: Deployment completed.
+          SLACK_ICON_EMOJI: :bell:
+          SLACK_WEBHOOK: $slackIncomingWebhookURL
+
+      # Slack notification (on failure)
+      # Slack通知（失敗時）
+      - name: Slack Notification on Failure
+        uses: rtCamp/action-slack-notify@v2
+        if: \${{failure()}}
+        env:
+          SLACK_USERNAME: Github Actions
+          SLACK_TITLE: Deploy / Failure
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: Deployment failed.😢
+          SLACK_ICON_EMOJI: :bell:
+          SLACK_WEBHOOK: $slackIncomingWebhookURL
+      """;
   }
 }

@@ -22,6 +22,9 @@ Future<void> buildIOS(
   final ios = action.getAsMap("ios");
   final issuerId = ios.get("issuer_id", "");
   final teamId = ios.get("team_id", "");
+  final secretGithub = context.secrets.getAsMap("github");
+  final slack = secretGithub.getAsMap("slack");
+  final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   if (issuerId.isEmpty) {
     error(
       "The item [github]->[action]->[ios]->[issuer_id] is missing. Copy the Issuer ID listed on the page at https://appstoreconnect.apple.com/access/api.",
@@ -163,15 +166,19 @@ Future<void> buildIOS(
     ],
   );
   final gitDir = await findGitDirectory(Directory.current);
-  await GithubActionsIOSCliCode(
+  final iosCode = GithubActionsIOSCliCode(
     workingDirectory: gitDir,
     defaultIncrementNumber: defaultIncrementNumber,
-  ).generateFile(
+  );
+  await iosCode.generateFile(
     "build_ios_${appName.toLowerCase()}.yaml",
     filter: (value) {
-      return value.replaceAll(
-        "#### REPLACE_APP_NAME ####",
-        appName.toUpperCase(),
+      return iosCode._additionalSlackFilter(
+        value.replaceAll(
+          "#### REPLACE_APP_NAME ####",
+          appName.toUpperCase(),
+        ),
+        slackIncomingWebhookUrl,
       );
     },
   );
@@ -284,6 +291,7 @@ class GithubActionsIOSCliCode extends CliCode {
   const GithubActionsIOSCliCode({
     this.workingDirectory,
     this.defaultIncrementNumber = 0,
+    this.slackWebhookURL,
   });
 
   /// Working Directory.
@@ -295,6 +303,11 @@ class GithubActionsIOSCliCode extends CliCode {
   ///
   /// インクリメント番号。
   final int defaultIncrementNumber;
+
+  /// Include the URL of the Incoming webhook if Slack notifications are used.
+  ///
+  /// Slack通知を利用する場合Incoming webhookのURLを記載。
+  final String? slackWebhookURL;
 
   @override
   String get name => "build_ios";
@@ -480,6 +493,41 @@ jobs:
       - name: Clean up keychain and provisioning profile
         run: security delete-keychain \$RUNNER_TEMP/app-signing.keychain-db
 """;
+  }
+
+  String _additionalSlackFilter(
+      String source, String? slackIncomingWebhookURL) {
+    if (slackIncomingWebhookURL.isEmpty) {
+      return source;
+    }
+    return source += """
+
+      # Slack notification (on success)
+      # Slack通知（成功時）
+      - name: Slack Notification on Success
+        uses: rtCamp/action-slack-notify@v2
+        if: \${{success()}}
+        env:
+          SLACK_USERNAME: Github Actions
+          SLACK_TITLE: Deploy / Success
+          SLACK_COLOR: good
+          SLACK_MESSAGE: Deployment completed.
+          SLACK_ICON_EMOJI: :bell:
+          SLACK_WEBHOOK: $slackIncomingWebhookURL
+
+      # Slack notification (on failure)
+      # Slack通知（失敗時）
+      - name: Slack Notification on Failure
+        uses: rtCamp/action-slack-notify@v2
+        if: \${{failure()}}
+        env:
+          SLACK_USERNAME: Github Actions
+          SLACK_TITLE: Deploy / Failure
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: Deployment failed.😢
+          SLACK_ICON_EMOJI: :bell:
+          SLACK_WEBHOOK: $slackIncomingWebhookURL
+      """;
   }
 }
 

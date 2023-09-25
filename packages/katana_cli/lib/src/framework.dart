@@ -36,6 +36,7 @@ class ExecContext {
   const ExecContext({
     required this.yaml,
     required this.args,
+    this.secrets = const {},
     int index = 1,
   }) : _index = index;
 
@@ -43,6 +44,11 @@ class ExecContext {
   ///
   /// `katana.yaml`の内容が入ります。
   final Map yaml;
+
+  /// The contents of `katana_secrets.yaml` will be included.
+  ///
+  /// `katana_secrets.yaml`の内容が入ります。
+  final Map secrets;
 
   /// Arguments when the command is executed.
   ///

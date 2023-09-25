@@ -805,14 +805,7 @@ class KatanaSecretsCliCode extends CliCode {
 
   @override
   String body(String path, String baseName, String className) {
-    return r"""
-# Describe Github secret information.
-# Githubのシークレット情報を記述します。
-github:
-  # Please describe the Github token.
-  # Githubのトークンを記載してください。
-  token:
-""";
+    return Config.katanaSecretsYamlCode();
   }
 }
 

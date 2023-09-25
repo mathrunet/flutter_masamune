@@ -20,6 +20,9 @@ Future<void> buildWeb(
   final action = github.getAsMap("action");
   final web = action.getAsMap("web");
   final renderer = web.get("renderer", "canvaskit");
+  final secretGithub = context.secrets.getAsMap("github");
+  final slack = secretGithub.getAsMap("slack");
+  final slackIncomingWebhookUrl = slack.get("incoming_webhook_url", "");
   final gitDir = await findGitDirectory(Directory.current);
   final webCode = GithubActionsWebCliCode(
     workingDirectory: gitDir,
@@ -43,7 +46,10 @@ Future<void> buildWeb(
       : {};
   await webCode.generateFile(
     "build_web_${appName.toLowerCase()}.yaml",
-    filter: (source) => webCode._additionalFilter(yaml, source),
+    filter: (source) => webCode._additionalSlackFilter(
+      webCode._additionalFilter(yaml, source),
+      slackIncomingWebhookUrl,
+    ),
   );
   if (hostingYamlFile.existsSync() &&
       !File(".dart_tool/katana/firebase-hosting-pull-request-${appName.toLowerCase()}.yml")
@@ -244,5 +250,40 @@ jobs:
           channelId: live
 """;
     return source;
+  }
+
+  String _additionalSlackFilter(
+      String source, String? slackIncomingWebhookURL) {
+    if (slackIncomingWebhookURL.isEmpty) {
+      return source;
+    }
+    return source += """
+
+      # Slack notification (on success)
+      # Slack通知（成功時）
+      - name: Slack Notification on Success
+        uses: rtCamp/action-slack-notify@v2
+        if: \${{success()}}
+        env:
+          SLACK_USERNAME: Github Actions
+          SLACK_TITLE: Deploy / Success
+          SLACK_COLOR: good
+          SLACK_MESSAGE: Deployment completed.
+          SLACK_ICON_EMOJI: :bell:
+          SLACK_WEBHOOK: $slackIncomingWebhookURL
+
+      # Slack notification (on failure)
+      # Slack通知（失敗時）
+      - name: Slack Notification on Failure
+        uses: rtCamp/action-slack-notify@v2
+        if: \${{failure()}}
+        env:
+          SLACK_USERNAME: Github Actions
+          SLACK_TITLE: Deploy / Failure
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: Deployment failed.😢
+          SLACK_ICON_EMOJI: :bell:
+          SLACK_WEBHOOK: $slackIncomingWebhookURL
+      """;
   }
 }

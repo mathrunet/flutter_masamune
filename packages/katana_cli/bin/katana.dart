@@ -40,6 +40,7 @@ Future<void> main(List<String> args) async {
     return;
   }
   final katana = File("katana.yaml");
+  final katanaSecrets = File("katana_secrets.yaml");
   if (!katana.existsSync()) {
     for (final tmp in commands.entries) {
       if (tmp.key != command) {
@@ -48,6 +49,9 @@ Future<void> main(List<String> args) async {
       await tmp.value.exec(
         ExecContext(
           yaml: {},
+          secrets: katanaSecrets.existsSync()
+              ? loadYaml(await katanaSecrets.readAsString())
+              : {},
           args: args,
         ),
       );
@@ -69,6 +73,9 @@ Future<void> main(List<String> args) async {
       await tmp.value.exec(
         ExecContext(
           yaml: yaml,
+          secrets: katanaSecrets.existsSync()
+              ? modifize(loadYaml(await katanaSecrets.readAsString()))
+              : {},
           args: args,
         ),
       );

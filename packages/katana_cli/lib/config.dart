@@ -586,4 +586,26 @@ sendgrid:
   api_key:
 """ : ""}
 """;
+
+  /// Contents of katana_secrets.yaml.
+  ///
+  /// katana_secrets.yamlの中身。
+  static String katanaSecretsYamlCode() => """
+# Describe Github secret information.
+# Githubのシークレット情報を記述します。
+github:
+  # Please describe the Github token.
+  # Githubのトークンを記載してください。
+  token:
+
+  slack:
+    # Slackに通知を送ります。
+    # 下記の手順で設定を行います。
+    # 1. Slack の「App」にGitHubを追加する
+    #    https://developer.mamezou-tech.com/blogs/2022/12/12/notify-github-actions-workflow-to-slack/
+    # 2. Slack の「 Incoming Webhook」 を利用
+    #    https://w1625424953-rox450381.slack.com/apps/A0F7XDUAZ--incoming-webhook-?tab=more_info
+    # 
+    incoming_webhook_url: 
+""";
 }
