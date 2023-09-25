@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.9.8`](#katana_cli---v298)
+
+---
+
+#### `katana_cli` - `v2.9.8`
+
+ - **FIX**: Change Icon. ([788aaaac](https://github.com/mathrunet/flutter_masamune/commit/788aaaace84291b78980a5f6866ec09aa4298ffd))
+
+
+## 2023-09-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.9.7`](#katana_cli---v297)
 
 ---

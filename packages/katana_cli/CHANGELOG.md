@@ -1,3 +1,7 @@
+## 2.9.8
+
+ - **FIX**: Change Icon. ([788aaaac](https://github.com/mathrunet/flutter_masamune/commit/788aaaace84291b78980a5f6866ec09aa4298ffd))
+
 ## 2.9.7
 
  - **FIX**: Added Slack notification settings to GithubActions. ([6fadd6f7](https://github.com/mathrunet/flutter_masamune/commit/6fadd6f77618a85bbaf511f1276b950c8346c393))
