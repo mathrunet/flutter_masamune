@@ -382,7 +382,7 @@ jobs:
           SLACK_TITLE: Deploy / Success
           SLACK_COLOR: good
           SLACK_MESSAGE: Deployment completed.
-          SLACK_ICON_EMOJI: :bell:
+          SLACK_ICON_EMOJI: ':github:'
           SLACK_WEBHOOK: $slackIncomingWebhookURL
 
       # Slack notification (on failure)
@@ -395,7 +395,7 @@ jobs:
           SLACK_TITLE: Deploy / Failure
           SLACK_COLOR: danger
           SLACK_MESSAGE: Deployment failed.😢
-          SLACK_ICON_EMOJI: :bell:
+          SLACK_ICON_EMOJI: ':github:'
           SLACK_WEBHOOK: $slackIncomingWebhookURL
       """;
   }
