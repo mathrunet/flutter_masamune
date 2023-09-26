@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:masamune/masamune.dart';
 import 'package:masamune_notification_firebase/masamune_notification_firebase.dart';
 
-const pushNotificationAdapter = PushNotificationMasamuneAdapter(
+const pushNotificationAdapter = RuntimePushNotificationMasamuneAdapter(
   androidNotificationChannelId: "masamune_firebase_messaging_channel",
   androidNotificationChannelTitle: "Important Notification",
   androidNotificationChannelDescription:

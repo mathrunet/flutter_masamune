@@ -26,9 +26,11 @@ import 'package:universal_platform/universal_platform.dart';
 // Project imports:
 import 'models/push_notification_schedule.dart';
 
-part 'adapter/push_notification_masamune_adapter.dart';
+part 'adapter/firebase_push_notification_masamune_adapter.dart';
+part 'adapter/runtime_push_notification_masamune_adapter.dart';
 part 'functions/send_notification_functions_action.dart';
 
 part 'src/push_notification.dart';
+part 'src/push_notification_masamune_adapter.dart';
 part 'src/push_notification_value.dart';
 part 'src/push_notification_logger_event.dart';

@@ -82,12 +82,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
       PushNotificationMasamuneAdapter.primary;
 
   Completer<void>? _completer;
-  StreamSubscription<RemoteMessage>? _onMessageSubscription;
-  StreamSubscription<RemoteMessage>? _onMessageOpenedAppSubscription;
-
-  FirebaseMessaging get _messaging {
-    return FirebaseMessaging.instance;
-  }
+  PushNotificationListenResponse? _listenResponse;
 
   static const String _linkKey = "@link";
 
@@ -95,8 +90,8 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   void dispose() {
     super.dispose();
     _listening = false;
-    _onMessageSubscription?.cancel();
-    _onMessageOpenedAppSubscription?.cancel();
+    _listenResponse?.onMessageSubscription?.cancel();
+    _listenResponse?.onMessageOpenedAppSubscription?.cancel();
   }
 
   /// The content of the most recent notice received.
@@ -116,7 +111,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// この端末のFCMトークンを取得します。
   Future<String?> getToken() {
-    final token = _messaging.getToken();
+    final token = adapter.getToken();
     _sendLog(PushNotificationLoggerEvent.token, parameters: {
       PushNotificationLoggerEvent.tokenKey: token,
     });
@@ -143,38 +138,9 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     }
     _completer = Completer();
     try {
-      await FirebaseCore.initialize(options: adapter.options);
-      await _messaging.setAutoInitEnabled(true);
-      _onMessageSubscription = FirebaseMessaging.onMessage.listen(_onMessage);
-      _onMessageOpenedAppSubscription =
-          FirebaseMessaging.onMessageOpenedApp.listen(_onMessageOpenedApp);
-      if (!kIsWeb && Platform.isAndroid) {
-        await FlutterLocalNotificationsPlugin()
-            .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin>()
-            ?.createNotificationChannel(
-              AndroidNotificationChannel(
-                adapter.androidNotificationChannelId,
-                adapter.androidNotificationChannelTitle,
-                description: adapter.androidNotificationChannelDescription,
-                importance: Importance.max,
-              ),
-            );
-      } else {
-        await _messaging.setForegroundNotificationPresentationOptions(
-          sound: true,
-          badge: true,
-          alert: true,
-        );
-      }
-      await _messaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true,
+      _listenResponse = await adapter.listen(
+        onMessage: _onMessage,
+        onMessageOpenedApp: _onMessageOpenedApp,
       );
       _listening = true;
       _sendLog(PushNotificationLoggerEvent.listen, parameters: {});
@@ -304,7 +270,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     }
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
-    _messaging.subscribeToTopic(topic);
+    await adapter.subscribe(topic);
     _sendLog(PushNotificationLoggerEvent.subscribe, parameters: {
       PushNotificationLoggerEvent.topicNameKey: topic,
     });
@@ -320,54 +286,40 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     }
     await listen();
     assert(topic.isNotEmpty, "You have not specified a topic.");
-    _messaging.unsubscribeFromTopic(topic);
+    await adapter.unsubscribe(topic);
     _sendLog(PushNotificationLoggerEvent.unsubscribe, parameters: {
       PushNotificationLoggerEvent.topicNameKey: topic,
     });
   }
 
-  Future<void> _onMessage(RemoteMessage message) async {
-    final data = message.data;
-    _value = PushNotificationValue(
-      title: message.notification?.title ?? "",
-      text: message.notification?.body ?? "",
-      data: data,
-      target: message.from ?? "",
-      whenAppOpened: false,
-    );
-    if (adapter.onLink != null && data.containsKey(_linkKey)) {
-      final uri = data.get(_linkKey, "").toUri();
+  Future<void> _onMessage(PushNotificationValue value) async {
+    _value = value;
+    if (adapter.onLink != null && value.data.containsKey(_linkKey)) {
+      final uri = value.data.get(_linkKey, "").toUri();
       if (uri != null) {
         await adapter.onLink?.call(uri);
       }
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
-      PushNotificationLoggerEvent.titleKey: message.notification?.title ?? "",
-      PushNotificationLoggerEvent.bodyKey: message.notification?.body ?? "",
-      PushNotificationLoggerEvent.toKey: message.from ?? "",
+      PushNotificationLoggerEvent.titleKey: value.title,
+      PushNotificationLoggerEvent.bodyKey: value.text,
+      PushNotificationLoggerEvent.toKey: value.target,
     });
     notifyListeners();
   }
 
-  Future<void> _onMessageOpenedApp(RemoteMessage message) async {
-    final data = message.data;
-    _value = PushNotificationValue(
-      title: message.notification?.title ?? "",
-      text: message.notification?.body ?? "",
-      data: data,
-      target: message.from ?? "",
-      whenAppOpened: true,
-    );
-    if (adapter.onLink != null && data.containsKey(_linkKey)) {
-      final uri = data.get(_linkKey, "").toUri();
+  Future<void> _onMessageOpenedApp(PushNotificationValue value) async {
+    _value = value;
+    if (adapter.onLink != null && value.data.containsKey(_linkKey)) {
+      final uri = value.data.get(_linkKey, "").toUri();
       if (uri != null) {
         await adapter.onLink?.call(uri);
       }
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
-      PushNotificationLoggerEvent.titleKey: message.notification?.title ?? "",
-      PushNotificationLoggerEvent.bodyKey: message.notification?.body ?? "",
-      PushNotificationLoggerEvent.toKey: message.from ?? "",
+      PushNotificationLoggerEvent.titleKey: value.title,
+      PushNotificationLoggerEvent.bodyKey: value.text,
+      PushNotificationLoggerEvent.toKey: value.target,
     });
     notifyListeners();
   }

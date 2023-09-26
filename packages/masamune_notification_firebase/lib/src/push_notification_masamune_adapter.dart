@@ -3,7 +3,7 @@ part of masamune_notification_firebase;
 /// [MasamuneAdapter] for receiving push notifications.
 ///
 /// PUSH通知を受信するための[MasamuneAdapter]です。
-class PushNotificationMasamuneAdapter extends MasamuneAdapter {
+abstract class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   /// [MasamuneAdapter] for receiving push notifications.
   ///
   /// PUSH通知を受信するための[MasamuneAdapter]です。
@@ -15,16 +15,9 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
     required this.androidNotificationChannelDescription,
     this.pushNotification,
     this.subscribeOnBoot = const [],
-    FirebaseOptions? options,
-    this.iosOptions,
-    this.androidOptions,
-    this.webOptions,
-    this.windowsOptions,
-    this.macosOptions,
-    this.linuxOptions,
     this.loggerAdapters = const [],
     this.onLink,
-  }) : _options = options;
+  });
 
   /// You can retrieve the [PushNotificationMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
@@ -38,118 +31,6 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
   }
 
   static PushNotificationMasamuneAdapter? _primary;
-
-  /// Options for initializing Firebase.
-  ///
-  /// If platform-specific options are specified, they take precedence.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// プラットフォーム固有のオプションが指定されている場合はそちらが優先されます。
-  FirebaseOptions? get options {
-    if (UniversalPlatform.isIOS) {
-      return iosOptions ?? _options;
-    } else if (UniversalPlatform.isAndroid) {
-      return androidOptions ?? _options;
-    } else if (UniversalPlatform.isWeb) {
-      return webOptions ?? _options;
-    } else if (UniversalPlatform.isLinux) {
-      return linuxOptions ?? _options;
-    } else if (UniversalPlatform.isWindows) {
-      return windowsOptions ?? _options;
-    } else if (UniversalPlatform.isMacOS) {
-      return macosOptions ?? _options;
-    } else {
-      return _options;
-    }
-  }
-
-  /// Options for initializing Firebase.
-  ///
-  /// If options for other platforms are specified, these are ignored.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// 他のプラットフォーム用のオプションが指定されている場合はこちらは無視されます。
-  final FirebaseOptions? _options;
-
-  /// Options for initializing Firebase.
-  ///
-  /// Applies to IOS only.
-  ///
-  /// If [options] is specified, this takes precedence.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// IOSのみに適用されます。
-  ///
-  /// [options]が指定されている場合はこちらが優先されます。
-  final FirebaseOptions? iosOptions;
-
-  /// Options for initializing Firebase.
-  ///
-  /// Applies to Android only.
-  ///
-  /// If [options] is specified, this takes precedence.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// Androidのみに適用されます。
-  ///
-  /// [options]が指定されている場合はこちらが優先されます。
-  final FirebaseOptions? androidOptions;
-
-  /// Options for initializing Firebase.
-  ///
-  /// Applies to Web only.
-  ///
-  /// If [options] is specified, this takes precedence.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// Webのみに適用されます。
-  ///
-  /// [options]が指定されている場合はこちらが優先されます。
-  final FirebaseOptions? webOptions;
-
-  /// Options for initializing Firebase.
-  ///
-  /// Applies to Web only.
-  ///
-  /// If [options] is specified, this takes precedence.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// Webのみに適用されます。
-  ///
-  /// [options]が指定されている場合はこちらが優先されます。
-  final FirebaseOptions? windowsOptions;
-
-  /// Options for initializing Firebase.
-  ///
-  /// Applies to MacOS only.
-  ///
-  /// If [options] is specified, this takes precedence.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// MacOSのみに適用されます。
-  ///
-  /// [options]が指定されている場合はこちらが優先されます。
-  final FirebaseOptions? macosOptions;
-
-  /// Options for initializing Firebase.
-  ///
-  /// Applies to Linux only.
-  ///
-  /// If [options] is specified, this takes precedence.
-  ///
-  /// Firebaseを初期化する際のオプション。
-  ///
-  /// Linuxのみに適用されます。
-  ///
-  /// [options]が指定されている場合はこちらが優先されます。
-  final FirebaseOptions? linuxOptions;
 
   /// Specify [FunctionsAdapter] if there are functions to be executed on the server side.
   ///
@@ -226,4 +107,56 @@ class PushNotificationMasamuneAdapter extends MasamuneAdapter {
       await pushNotification?.listen();
     }
   }
+
+  /// Acquisition of tokens.
+  ///
+  /// トークンの取得。
+  Future<String?> getToken();
+
+  /// Initialize push notifications.
+  ///
+  /// Push通知の初期化。
+  Future<PushNotificationListenResponse?> listen({
+    required Future<void> Function(PushNotificationValue value) onMessage,
+    required Future<void> Function(PushNotificationValue value)
+        onMessageOpenedApp,
+  });
+
+  /// Subscribe to a topic named [topic].
+  ///
+  /// You will be able to retrieve notifications sent under this topic name.
+  ///
+  /// [topic]の名前のトピックを購読します。
+  ///
+  /// このトピック名で送られた通知を取得することができるようになります。
+  Future<void> subscribe(String topic);
+
+  /// Unsubscribe from a topic name named [topic].
+  ///
+  /// [topic]の名前のトピック名の購読を解除します。
+  Future<void> unsubscribe(String topic);
+}
+
+/// Class that stores the response to [PushNotificationMasamuneAdapter.listen].
+///
+/// [PushNotificationMasamuneAdapter.listen]のレスポンスを格納するクラス。
+@immutable
+class PushNotificationListenResponse {
+  /// Class that stores the response to [PushNotificationMasamuneAdapter.listen].
+  ///
+  /// [PushNotificationMasamuneAdapter.listen]のレスポンスを格納するクラス。
+  const PushNotificationListenResponse({
+    required this.onMessageOpenedAppSubscription,
+    required this.onMessageSubscription,
+  });
+
+  /// [StreamSubscription] in the callback when a message is received.
+  ///
+  /// メッセージを受信したときのコールバックの[StreamSubscription]。
+  final StreamSubscription? onMessageSubscription;
+
+  /// [StreamSubscription] in the callback when a message is received.
+  ///
+  /// メッセージを受信したときのコールバックの[StreamSubscription]。
+  final StreamSubscription? onMessageOpenedAppSubscription;
 }
