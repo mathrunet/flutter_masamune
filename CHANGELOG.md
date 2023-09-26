@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-09-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_notification_firebase` - `v2.3.0`](#masamune_notification_firebase---v230)
+
+---
+
+#### `masamune_notification_firebase` - `v2.3.0`
+
+ - **FEAT**: Added RuntimePushNotificationAdapter; separated from FilebasePushNotificationAdapter. ([24558fcf](https://github.com/mathrunet/flutter_masamune/commit/24558fcfd464dce87a4d791d1a47fa7310d8498d))
+
+
 ## 2023-09-25
 
 ### Changes

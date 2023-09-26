@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added RuntimePushNotificationAdapter; separated from FilebasePushNotificationAdapter. ([24558fcf](https://github.com/mathrunet/flutter_masamune/commit/24558fcfd464dce87a4d791d1a47fa7310d8498d))
+
 ## 2.2.21
 
  - Update a dependency to the latest release.
