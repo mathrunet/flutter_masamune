@@ -15,6 +15,55 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_module_point_ecosystem` - `v2.3.25`](#masamune_module_point_ecosystem---v2325)
+ - [`masamune_notification` - `v2.2.0`](#masamune_notification---v220)
+ - [`masamune_purchase_mobile` - `v2.5.66`](#masamune_purchase_mobile---v2566)
+ - [`masamune_purchase_stripe` - `v3.3.64`](#masamune_purchase_stripe---v3364)
+ - [`masamune_scheduler` - `v2.1.0`](#masamune_scheduler---v210)
+ - [`masamune_notification_firebase` - `v2.4.1`](#masamune_notification_firebase---v241)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_firebase` - `v2.4.1`
+
+---
+
+#### `masamune_module_point_ecosystem` - `v2.3.25`
+
+ - **FIX**: Model paths can now be retrieved. ([0ff353ec](https://github.com/mathrunet/flutter_masamune/commit/0ff353ecd174fc6d2b351bd08935f1c288060bfa))
+
+#### `masamune_notification` - `v2.2.0`
+
+ - **FEAT**: Systematize scheduling functions. ([73201ef6](https://github.com/mathrunet/flutter_masamune/commit/73201ef682e14094d80f1e324ac6ea6a62f41762))
+
+#### `masamune_purchase_mobile` - `v2.5.66`
+
+ - **FIX**: Model paths can now be retrieved. ([0ff353ec](https://github.com/mathrunet/flutter_masamune/commit/0ff353ecd174fc6d2b351bd08935f1c288060bfa))
+
+#### `masamune_purchase_stripe` - `v3.3.64`
+
+ - **FIX**: Model paths can now be retrieved. ([0ff353ec](https://github.com/mathrunet/flutter_masamune/commit/0ff353ecd174fc6d2b351bd08935f1c288060bfa))
+
+#### `masamune_scheduler` - `v2.1.0`
+
+ - **FIX**: Add "path". ([814f0822](https://github.com/mathrunet/flutter_masamune/commit/814f0822021b4668db431ea2fa7ed2874107cf82))
+ - **FEAT**: Systematize scheduling functions. ([73201ef6](https://github.com/mathrunet/flutter_masamune/commit/73201ef682e14094d80f1e324ac6ea6a62f41762))
+
+
+## 2023-09-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_notification` - `v2.1.0`](#masamune_notification---v210)
  - [`masamune_notification_firebase` - `v2.4.0`](#masamune_notification_firebase---v240)
 
