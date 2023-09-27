@@ -14,6 +14,11 @@ abstract class ModelScheduleMixin {
   ///
   /// 投稿日時。
   ModelTimestamp get time;
+
+  /// The path to the posting.
+  ///
+  /// 投稿先のパス。
+  String get path;
 }
 
 /// Provides extension methods for [CollectionBase] of [DocumentBase] with mixed-in [ModelScheduleMixin] objects.
