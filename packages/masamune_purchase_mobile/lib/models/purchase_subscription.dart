@@ -22,7 +22,7 @@ part 'purchase_subscription.freezed.dart';
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("plugins/iap/subscription")
+@CollectionModelPath(PurchaseSubscriptionModel.path)
 class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
   /// Model for storing subscription data for billing purposes.
   ///
@@ -46,6 +46,11 @@ class PurchaseSubscriptionModel with _$PurchaseSubscriptionModel {
 
   factory PurchaseSubscriptionModel.fromJson(Map<String, Object?> json) =>
       _$PurchaseSubscriptionModelFromJson(json);
+
+  /// Model path.
+  ///
+  /// モデルのパス。
+  static const String path = "plugins/iap/subscription";
 
   /// Query for document.
   ///

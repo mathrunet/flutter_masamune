@@ -21,7 +21,7 @@ part 'stripe_purchase.freezed.dart';
 /// 運営への支払い、ユーザー間の支払い、サブスクリプションすべてこのデータベースに保存されます。
 @freezed
 @immutable
-@CollectionModelPath("plugins/stripe/user/:user_id/purchase")
+@CollectionModelPath(StripePurchaseModel.path)
 class StripePurchaseModel with _$StripePurchaseModel {
   /// Data model for storing Stripe purchase information.
   ///
@@ -69,6 +69,11 @@ class StripePurchaseModel with _$StripePurchaseModel {
 
   factory StripePurchaseModel.fromJson(Map<String, Object?> json) =>
       _$StripePurchaseModelFromJson(json);
+
+  /// Model path.
+  ///
+  /// モデルのパス。
+  static const String path = "plugins/stripe/user/:user_id/purchase";
 
   /// Query for document.
   ///

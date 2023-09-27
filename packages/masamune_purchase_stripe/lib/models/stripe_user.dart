@@ -21,7 +21,7 @@ part 'stripe_user.freezed.dart';
 /// 支払う側（カスタマー）や収益を受け取る側（アカウント）両方がこのデータに保存されます。
 @freezed
 @immutable
-@CollectionModelPath("plugins/stripe/user")
+@CollectionModelPath(StripeUserModel.path)
 class StripeUserModel with _$StripeUserModel {
   /// Data model for storing stripe user data.
   ///
@@ -48,6 +48,11 @@ class StripeUserModel with _$StripeUserModel {
   bool get registered {
     return capablity.containsKey("transfers");
   }
+
+  /// Model path.
+  ///
+  /// モデルのパス。
+  static const String path = "plugins/stripe/user";
 
   /// Query for document.
   ///

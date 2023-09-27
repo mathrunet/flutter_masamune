@@ -18,7 +18,7 @@ part 'point_ecosystem_user.freezed.dart';
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("plugins/pes/user")
+@CollectionModelPath(PointEcosystemUserModel.path)
 class PointEcosystemUserModel with _$PointEcosystemUserModel {
   /// User model for managing point login bonuses, etc.
   ///
@@ -31,6 +31,11 @@ class PointEcosystemUserModel with _$PointEcosystemUserModel {
 
   factory PointEcosystemUserModel.fromJson(Map<String, Object?> json) =>
       _$PointEcosystemUserModelFromJson(json);
+
+  /// Model path.
+  ///
+  /// モデルのパス。
+  static const String path = "plugins/pes/user";
 
   /// Query for document.
   ///

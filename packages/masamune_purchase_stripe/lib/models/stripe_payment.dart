@@ -16,7 +16,7 @@ part 'stripe_payment.freezed.dart';
 /// ストライプの支払い方法のデータを保管するためのモデル。
 @freezed
 @immutable
-@CollectionModelPath("plugins/stripe/user/:user_id/payment")
+@CollectionModelPath(StripePaymentModel.path)
 class StripePaymentModel with _$StripePaymentModel {
   /// A model for storing data on payment methods for stripes.
   ///
@@ -34,6 +34,11 @@ class StripePaymentModel with _$StripePaymentModel {
 
   factory StripePaymentModel.fromJson(Map<String, Object?> json) =>
       _$StripePaymentModelFromJson(json);
+
+  /// Model path.
+  ///
+  /// モデルのパス。
+  static const String path = "plugins/stripe/user/:user_id/payment";
 
   /// Query for document.
   ///
