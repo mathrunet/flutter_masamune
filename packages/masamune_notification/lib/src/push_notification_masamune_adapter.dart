@@ -1,4 +1,4 @@
-part of masamune_notification_firebase;
+part of masamune_notification;
 
 /// [MasamuneAdapter] for receiving push notifications.
 ///

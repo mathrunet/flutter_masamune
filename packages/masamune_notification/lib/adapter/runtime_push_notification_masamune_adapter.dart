@@ -1,4 +1,4 @@
-part of masamune_notification_firebase;
+part of masamune_notification;
 
 /// [MasamuneAdapter] to receive PUSH notifications for testing.
 ///

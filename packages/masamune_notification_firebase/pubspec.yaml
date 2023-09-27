@@ -19,6 +19,7 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   katana_firebase: ^2.0.13
   universal_platform: ^1.0.0+1
+  masamune_notification: ^2.0.0
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

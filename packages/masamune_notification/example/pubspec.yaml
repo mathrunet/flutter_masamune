@@ -1,4 +1,4 @@
-name: masamune_notification_firebase_example
+name: masamune_notification_example
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -32,7 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   masamune: ^2.4.61
-  masamune_notification_firebase:
+  masamune_notification:
     path: "../"
 
   # The following adds the Cupertino Icons font to your application.

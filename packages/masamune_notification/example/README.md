@@ -1,4 +1,4 @@
-# masamune_notification_firebase_example
+# masamune_notification_example
 
 A new Flutter project.
 

@@ -1,4 +1,4 @@
-part of masamune_notification_firebase;
+part of masamune_notification;
 
 /// [FunctionsAction] for sending PUSH notifications from the server side.
 ///
