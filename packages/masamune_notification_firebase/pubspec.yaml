@@ -1,6 +1,6 @@
 name: masamune_notification_firebase
 description: Package for receiving PUSH notifications using Firebase Messaging. Firebase Functions can also be used to send notifications.
-version: 2.3.0
+version: 2.4.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_notification_firebase
 
@@ -19,7 +19,7 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   katana_firebase: ^2.0.13
   universal_platform: ^1.0.0+1
-  masamune_notification: ^2.0.0
+  masamune_notification: ^2.1.0
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

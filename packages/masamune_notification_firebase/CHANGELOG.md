@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Separate masamune_notification from firebase one. ([34971691](https://github.com/mathrunet/flutter_masamune/commit/34971691685fd39f5b40b8b1c2508aef896d9435))
+
 ## 2.3.0
 
  - **FEAT**: Added RuntimePushNotificationAdapter; separated from FilebasePushNotificationAdapter. ([24558fcf](https://github.com/mathrunet/flutter_masamune/commit/24558fcfd464dce87a4d791d1a47fa7310d8498d))
