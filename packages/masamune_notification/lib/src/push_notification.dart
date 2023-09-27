@@ -2,6 +2,8 @@
 
 part of masamune_notification;
 
+const _kNotificationSchedulerCommand = "notification";
+
 /// Class for handling FirebaseMessaging.
 ///
 /// First, monitor notifications with [listen]. Notifications can be received after this method is executed.
@@ -221,11 +223,12 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     final isToken = regExp.hasMatch(target);
     await listen();
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
-    final modelQuery = schedule.collection().modelQuery;
+    final modelQuery = schedule.collection().modelQuery.createSchedule(
+          time: time,
+          command: _kNotificationSchedulerCommand,
+        );
     final document = PushNotificationScheduleModelDocument(
-      modelQuery
-          .create("${time.format("yyyyMMddHhmmssSSS")}:$target")
-          .copyWith(adapter: m),
+      modelQuery.copyWith(adapter: m),
     );
     await document.load();
     await document.save(

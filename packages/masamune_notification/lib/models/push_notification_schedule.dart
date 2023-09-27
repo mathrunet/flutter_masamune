@@ -3,10 +3,13 @@
 // Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:masamune/masamune.dart';
+import 'package:masamune_scheduler/masamune_scheduler.dart';
 
 part 'push_notification_schedule.m.dart';
 part 'push_notification_schedule.g.dart';
 part 'push_notification_schedule.freezed.dart';
+
+const _kNotificationSchedulerCommand = "notification";
 
 /// This model is for scheduling and registering notifications.
 ///
@@ -22,8 +25,9 @@ part 'push_notification_schedule.freezed.dart';
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("plugins/notification/schedule")
-class PushNotificationScheduleModel with _$PushNotificationScheduleModel {
+@CollectionModelPath("plugins/scheduler/schedule")
+class PushNotificationScheduleModel
+    with _$PushNotificationScheduleModel, NotificationScheduleMixin {
   /// This model is for scheduling and registering notifications.
   ///
   /// Specify the date and time to send the notification in [time].
@@ -150,3 +154,45 @@ typedef PushNotificationScheduleModelMirrorDocument
 /// Collection class for storing PushNotificationScheduleModel.
 typedef PushNotificationScheduleModelMirrorCollection
     = _$PushNotificationScheduleModelMirrorCollection;
+
+/// Mix-in to define a document with a schedule for adding and updating models at specified dates and times.
+///
+/// Mix this in with the value you want [DocumentBase] to have.
+///
+/// モデルを指定日時に追加・更新するためのスケジュールを持ったドキュメントを定義するためのミックスイン。
+///
+/// これを[DocumentBase]に持たせる値にミックスインしてください。
+abstract class NotificationScheduleMixin {
+  /// Submission Date.
+  ///
+  /// 投稿日時。
+  ModelTimestamp get time;
+}
+
+/// Provides extension methods for [CollectionBase] of [DocumentBase] with mixed-in [NotificationScheduleMixin] objects.
+///
+/// [NotificationScheduleMixin]をミックスインしたオブジェクトを持つ[DocumentBase]の[CollectionBase]の拡張メソッドを提供します。
+extension NotificationSchedulerCollectionExtensions<
+        TModelSchedule extends NotificationScheduleMixin,
+        TDocument extends DocumentBase<TModelSchedule>>
+    on CollectionBase<TDocument> {
+  /// Create a document with a schedule for adding and updating notifications at specified dates and times.
+  ///
+  /// You must create a model with [NotificationScheduleMixin] mixed in.
+  ///
+  /// 通知を指定日時に追加・更新するためのスケジュールを持ったドキュメントを作成します。
+  ///
+  /// [NotificationScheduleMixin]をミックスインしたモデルを作成する必要があります。
+  TDocument createSchedule({
+    required DateTime time,
+    String? target,
+  }) {
+    return create(
+      SchedulerQuery.createScheduleId(
+        time: time,
+        command: _kNotificationSchedulerCommand,
+        target: target,
+      ),
+    );
+  }
+}

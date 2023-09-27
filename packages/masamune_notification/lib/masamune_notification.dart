@@ -17,6 +17,7 @@ import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:masamune/masamune.dart';
+import 'package:masamune_scheduler/masamune_scheduler.dart';
 
 // Project imports:
 import 'models/push_notification_schedule.dart';
