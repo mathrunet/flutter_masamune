@@ -1,3 +1,7 @@
+## 2.4.3
+
+ - Update a dependency to the latest release.
+
 ## 2.4.2
 
  - **FIX**: Related Packages export. ([779afd39](https://github.com/mathrunet/flutter_masamune/commit/779afd39f37bde796a8791d49fc2ea65dce8dfbe))

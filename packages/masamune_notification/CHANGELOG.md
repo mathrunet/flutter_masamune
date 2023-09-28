@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - **FIX**: Model export. ([434f99c0](https://github.com/mathrunet/flutter_masamune/commit/434f99c082fc6eb05fafbc8ac6cd2750e354474b))
+
 ## 2.2.1
 
  - **FIX**: Related Packages export. ([779afd39](https://github.com/mathrunet/flutter_masamune/commit/779afd39f37bde796a8791d49fc2ea65dce8dfbe))

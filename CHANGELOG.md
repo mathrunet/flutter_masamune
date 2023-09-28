@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_notification` - `v2.2.2`](#masamune_notification---v222)
+ - [`masamune_notification_firebase` - `v2.4.3`](#masamune_notification_firebase---v243)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_notification_firebase` - `v2.4.3`
+
+---
+
+#### `masamune_notification` - `v2.2.2`
+
+ - **FIX**: Model export. ([434f99c0](https://github.com/mathrunet/flutter_masamune/commit/434f99c082fc6eb05fafbc8ac6cd2750e354474b))
+
+
+## 2023-09-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_notification` - `v2.2.1`](#masamune_notification---v221)
  - [`masamune_notification_firebase` - `v2.4.2`](#masamune_notification_firebase---v242)
 
