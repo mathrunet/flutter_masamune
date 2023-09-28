@@ -22,6 +22,7 @@ import 'package:masamune_scheduler/masamune_scheduler.dart';
 // Project imports:
 import 'models/push_notification_schedule.dart';
 
+export 'models/push_notification_schedule.dart';
 export 'package:masamune_scheduler/masamune_scheduler.dart';
 
 part 'adapter/runtime_push_notification_masamune_adapter.dart';
