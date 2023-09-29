@@ -11,5 +11,6 @@ library masamune_scheduler;
 // Package imports:
 import 'package:masamune/masamune.dart';
 
-part 'src/sceduler.dart';
-part 'src/model_schedule.dart';
+part 'src/sceduler_query.dart';
+part 'src/model_copy_document_schedule.dart';
+part 'src/model_server_command_copy_document_schedule.dart';
