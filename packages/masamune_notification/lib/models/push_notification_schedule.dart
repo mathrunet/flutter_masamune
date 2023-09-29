@@ -9,8 +9,6 @@ part 'push_notification_schedule.m.dart';
 part 'push_notification_schedule.g.dart';
 part 'push_notification_schedule.freezed.dart';
 
-const _kNotificationSchedulerCommand = "notification";
-
 /// This model is for scheduling and registering notifications.
 ///
 /// Specify the date and time to send the notification in [time].
@@ -25,9 +23,10 @@ const _kNotificationSchedulerCommand = "notification";
 @freezed
 @formValue
 @immutable
-@CollectionModelPath("plugins/scheduler/schedule")
+@CollectionModelPath(SchedulerQuery.path)
 class PushNotificationScheduleModel
-    with _$PushNotificationScheduleModel, NotificationScheduleMixin {
+    with _$PushNotificationScheduleModel
+    implements ModelNotificationScheduleBase {
   /// This model is for scheduling and registering notifications.
   ///
   /// Specify the date and time to send the notification in [time].
@@ -40,13 +39,7 @@ class PushNotificationScheduleModel
   ///
   /// [title]に通知のタイトルを指定します。[text]に通知の本文を指定します。
   const factory PushNotificationScheduleModel({
-    required ModelTimestamp time,
-    required String title,
-    required String text,
-    String? channelId,
-    DynamicMap? data,
-    String? token,
-    String? topic,
+    required ModelServerCommandPushNotificationSchedule command,
   }) = _PushNotificationScheduleModel;
   const PushNotificationScheduleModel._();
 
@@ -155,44 +148,187 @@ typedef PushNotificationScheduleModelMirrorDocument
 typedef PushNotificationScheduleModelMirrorCollection
     = _$PushNotificationScheduleModelMirrorCollection;
 
-/// Mix-in to define a document with a schedule for adding and updating models at specified dates and times.
+/// [ModelServerCommandBase] for PUSH notification to [time].
 ///
-/// Mix this in with the value you want [DocumentBase] to have.
+/// Enter the text for the notification in [title] or [text], and specify the token or topic string for the notification in [target].
 ///
-/// モデルを指定日時に追加・更新するためのスケジュールを持ったドキュメントを定義するためのミックスイン。
+/// **If you use this in firestore, please specify the fields `_time` and `_done` in CollectionID:`schedule` to create the index.**
 ///
-/// これを[DocumentBase]に持たせる値にミックスインしてください。
-abstract class NotificationScheduleMixin {
+/// [time]にPUSH通知を行うための[ModelServerCommandBase]です。
+///
+/// [title]や[text]に通知用の文言を入力し、[target]に通知用のトークンやトピックの文字列を指定します。
+///
+/// **firestoreでこちらを利用する場合CollectionID:`schedule`で`_time`と`_done`のフィールドを指定してインデックスを作成してください。**
+class ModelServerCommandPushNotificationSchedule
+    extends ModelServerCommandBase {
+  /// [ModelServerCommandBase] for PUSH notification to [time].
+  ///
+  /// Enter the text for the notification in [title] or [text], and specify the token or topic string for the notification in [target].
+  ///
+  /// **If you use this in firestore, please specify the fields `_time` and `_done` in CollectionID:`schedule` to create the index.**
+  ///
+  /// [time]にPUSH通知を行うための[ModelServerCommandBase]です。
+  ///
+  /// [title]や[text]に通知用の文言を入力し、[target]に通知用のトークンやトピックの文字列を指定します。
+  ///
+  /// **firestoreでこちらを利用する場合CollectionID:`schedule`で`_time`と`_done`のフィールドを指定してインデックスを作成してください。**
+  const factory ModelServerCommandPushNotificationSchedule({
+    required ModelTimestamp time,
+    required String title,
+    required String text,
+    String? channelId,
+    DynamicMap? data,
+    required String target,
+    Uri? link,
+  }) = _ModelServerCommandPushNotificationSchedule;
+
+  const ModelServerCommandPushNotificationSchedule._()
+      : super(ModelServerCommandPushNotificationSchedule.command);
+
+  /// Used to disguise the retrieval of data from the server.
+  ///
+  /// Use for testing purposes.
+  ///
+  /// サーバーからのデータの取得に偽装するために利用します。
+  ///
+  /// テスト用途で用いてください。
+  const ModelServerCommandPushNotificationSchedule.fromServer({
+    super.publicParameters = const {},
+    super.privateParameters = const {},
+  }) : super(ModelServerCommandPushNotificationSchedule.command);
+
+  /// Specify the date and time to copy.
+  ///
+  /// コピーする日時を指定します。
+  ModelTimestamp get time => throw UnimplementedError();
+
+  /// The title of the notification.
+  ///
+  /// 通知のタイトル。
+  String get title => throw UnimplementedError();
+
+  /// The body of the notification.
+  ///
+  /// 通知の本文。
+  String get text => throw UnimplementedError();
+
+  /// The channel ID of the notification.
+  ///
+  /// 通知のチャンネルID。
+  String? get channelId => throw UnimplementedError();
+
+  /// The data of the notification.
+  ///
+  /// 通知のデータ。
+  DynamicMap? get data => throw UnimplementedError();
+
+  /// The token or topic of the notification.
+  ///
+  /// 通知のトークンまたはトピック。
+  String get target => throw UnimplementedError();
+
+  /// A link to transition from the notification.
+  ///
+  /// 通知から遷移するリンク。
+  Uri? get link => throw UnimplementedError();
+
+  /// Command Name.
+  ///
+  /// コマンド名。
+  static const command = "notification";
+
+  static const String _kTimeKey = "_time";
+  static const String _kDoneKey = "_done";
+  static const String _kTitleKey = "title";
+  static const String _kTextKey = "text";
+  static const String _kChannelIdKey = "channelId";
+  static const String _kDataKey = "data";
+  static const String _kTopicKey = "topic";
+  static const String _kTokenKey = "token";
+  static const String _kLinkKey = "@link";
+
+  /// Convert from [json] map to [ModelServerCommandPushNotificationSchedule].
+  ///
+  /// [json]のマップから[ModelServerCommandPushNotificationSchedule]に変換します。
+  factory ModelServerCommandPushNotificationSchedule.fromJson(DynamicMap json) {
+    return ModelServerCommandPushNotificationSchedule.fromServer(
+      publicParameters:
+          json.getAsMap(ModelServerCommandBase.kPublicParametersKey, {}),
+      privateParameters:
+          json.getAsMap(ModelServerCommandBase.kPrivateParametersKey, {}),
+    );
+  }
+
+  @override
+  DynamicMap get privateParameters {
+    final regExp = RegExp(r"[a-zA-Z0-9]{11}:[0-9a-zA-Z_-]+");
+    final isToken = regExp.hasMatch(target);
+    return {
+      _kTitleKey: title,
+      _kTextKey: text,
+      _kChannelIdKey: channelId,
+      _kDataKey: {
+        if (data != null) ...data!,
+        if (link != null) _kLinkKey: link!.path,
+      },
+      _kTokenKey: isToken ? target : null,
+      _kTopicKey: isToken ? null : target,
+    };
+  }
+
+  @override
+  DynamicMap get publicParameters {
+    return {
+      _kDoneKey: false,
+      _kTimeKey: time.value.millisecondsSinceEpoch,
+    };
+  }
+}
+
+class _ModelServerCommandPushNotificationSchedule
+    extends ModelServerCommandPushNotificationSchedule {
+  const _ModelServerCommandPushNotificationSchedule({
+    required this.time,
+    required this.title,
+    required this.text,
+    this.channelId,
+    this.data,
+    required this.target,
+    this.link,
+  }) : super._();
+
+  @override
+  final ModelTimestamp time;
+
+  @override
+  final String title;
+
+  @override
+  final String text;
+
+  @override
+  final String? channelId;
+
+  @override
+  final DynamicMap? data;
+
+  @override
+  final String target;
+
+  @override
+  final Uri? link;
+}
+
+/// Abstract class for defining a document with a schedule for PUSH notifications.
+///
+/// Implement this in the value you want [DocumentBase] to have.
+///
+/// PUSH通知を行うスケジュールを持ったドキュメントを定義するための抽象クラス。
+///
+/// これを[DocumentBase]に持たせる値に実装してください。
+abstract class ModelNotificationScheduleBase {
   /// Submission Date.
   ///
   /// 投稿日時。
-  ModelTimestamp get time;
-}
-
-/// Provides extension methods for [CollectionBase] of [DocumentBase] with mixed-in [NotificationScheduleMixin] objects.
-///
-/// [NotificationScheduleMixin]をミックスインしたオブジェクトを持つ[DocumentBase]の[CollectionBase]の拡張メソッドを提供します。
-extension NotificationSchedulerCollectionExtensions<
-        TModelSchedule extends NotificationScheduleMixin,
-        TDocument extends DocumentBase<TModelSchedule>>
-    on CollectionBase<TDocument> {
-  /// Create a document with a schedule for adding and updating notifications at specified dates and times.
-  ///
-  /// You must create a model with [NotificationScheduleMixin] mixed in.
-  ///
-  /// 通知を指定日時に追加・更新するためのスケジュールを持ったドキュメントを作成します。
-  ///
-  /// [NotificationScheduleMixin]をミックスインしたモデルを作成する必要があります。
-  TDocument createSchedule({
-    required DateTime time,
-    String? target,
-  }) {
-    return create(
-      SchedulerQuery.createScheduleId(
-        time: time,
-        command: _kNotificationSchedulerCommand,
-        target: target,
-      ),
-    );
-  }
+  ModelServerCommandPushNotificationSchedule get command;
 }

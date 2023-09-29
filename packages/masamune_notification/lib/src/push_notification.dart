@@ -2,8 +2,6 @@
 
 part of masamune_notification;
 
-const _kNotificationSchedulerCommand = "notification";
-
 /// Class for handling FirebaseMessaging.
 ///
 /// First, monitor notifications with [listen]. Notifications can be received after this method is executed.
@@ -219,42 +217,41 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     required String target,
     Uri? link,
   }) async {
-    final regExp = RegExp(r"[a-zA-Z0-9]{11}:[0-9a-zA-Z_-]+");
-    final isToken = regExp.hasMatch(target);
     await listen();
     final m = adapter.modelAdapter ?? ModelAdapter.primary;
-    final modelQuery = schedule.collection().modelQuery.createSchedule(
+    final modelQuery = schedule
+        .collection()
+        .modelQuery
+        .create(SchedulerQuery.generateScheduleId(
           time: time,
-          command: _kNotificationSchedulerCommand,
-        );
+          command: ModelServerCommandPushNotificationSchedule.command,
+        ));
     final document = PushNotificationScheduleModelDocument(
       modelQuery.copyWith(adapter: m),
     );
     await document.load();
     await document.save(
       document.value?.copyWith(
-            time: ModelTimestamp(time),
-            title: title,
-            text: text,
-            channelId: channel,
-            data: {
-              if (data != null) ...data,
-              if (link != null) _linkKey: link.path,
-            },
-            token: isToken ? target : null,
-            topic: isToken ? null : target,
+            command: ModelServerCommandPushNotificationSchedule(
+              time: ModelTimestamp(time),
+              title: title,
+              text: text,
+              channelId: channel,
+              data: data,
+              target: target,
+              link: link,
+            ),
           ) ??
           PushNotificationScheduleModel(
-            time: ModelTimestamp(time),
-            title: title,
-            text: text,
-            channelId: channel,
-            data: {
-              if (data != null) ...data,
-              if (link != null) _linkKey: link.path,
-            },
-            token: isToken ? target : null,
-            topic: isToken ? null : target,
+            command: ModelServerCommandPushNotificationSchedule(
+              time: ModelTimestamp(time),
+              title: title,
+              text: text,
+              channelId: channel,
+              data: data,
+              target: target,
+              link: link,
+            ),
           ),
     );
   }

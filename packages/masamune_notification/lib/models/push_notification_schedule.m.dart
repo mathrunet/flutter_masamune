@@ -14,15 +14,7 @@ extension on PushNotificationScheduleModel {
   }
 }
 
-enum _$PushNotificationScheduleModelKeys {
-  time,
-  title,
-  text,
-  channelId,
-  data,
-  token,
-  topic
-}
+enum _$PushNotificationScheduleModelKeys { command }
 
 class _$PushNotificationScheduleModelDocument
     extends DocumentBase<PushNotificationScheduleModel>
@@ -34,6 +26,7 @@ class _$PushNotificationScheduleModelDocument
   @override
   PushNotificationScheduleModel fromMap(DynamicMap map) =>
       PushNotificationScheduleModel.fromJson(map);
+
   @override
   DynamicMap toMap(PushNotificationScheduleModel value) => value.rawValue;
 }
@@ -53,6 +46,7 @@ class _$PushNotificationScheduleModelCollection
   @override
   _$PushNotificationScheduleModelDocument create([String? id]) =>
       _$PushNotificationScheduleModelDocument(modelQuery.create(id));
+
   @override
   Future<CollectionBase<_$PushNotificationScheduleModelDocument>> filter(
       _$_PushNotificationScheduleModelCollectionQuery Function(
@@ -75,7 +69,7 @@ class _$PushNotificationScheduleModelRefPath
   @override
   DocumentModelQuery get modelQuery {
     return DocumentModelQuery(
-      "plugins/notification/schedule/${path.trimQuery().trimString("/")}",
+      "plugins/scheduler/schedule/${path.trimQuery().trimString("/")}",
       adapter: adapter,
     );
   }
@@ -87,7 +81,8 @@ class _$PushNotificationScheduleModelInitialCollection
   const _$PushNotificationScheduleModelInitialCollection(super.value);
 
   @override
-  String get path => "plugins/notification/schedule";
+  String get path => "plugins/scheduler/schedule";
+
   @override
   DynamicMap toMap(PushNotificationScheduleModel value) => value.rawValue;
 }
@@ -102,7 +97,7 @@ class _$PushNotificationScheduleModelDocumentQuery {
     ModelAdapter? adapter,
   }) {
     return _$_PushNotificationScheduleModelDocumentQuery(DocumentModelQuery(
-      "plugins/notification/schedule/$_id",
+      "plugins/scheduler/schedule/$_id",
       adapter: adapter ??
           _$PushNotificationScheduleModelDocument.defaultModelAdapter,
     ));
@@ -119,6 +114,7 @@ class _$_PushNotificationScheduleModelDocumentQuery
   @override
   _$PushNotificationScheduleModelDocument Function() call(Ref ref) =>
       () => _$PushNotificationScheduleModelDocument(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
 }
@@ -131,7 +127,7 @@ class _$PushNotificationScheduleModelCollectionQuery {
   _$_PushNotificationScheduleModelCollectionQuery call(
       {ModelAdapter? adapter}) {
     return _$_PushNotificationScheduleModelCollectionQuery(CollectionModelQuery(
-      "plugins/notification/schedule",
+      "plugins/scheduler/schedule",
       adapter: adapter ??
           _$PushNotificationScheduleModelCollection.defaultModelAdapter,
     ));
@@ -148,46 +144,27 @@ class _$_PushNotificationScheduleModelCollectionQuery
   @override
   _$PushNotificationScheduleModelCollection Function() call(Ref ref) =>
       () => _$PushNotificationScheduleModelCollection(modelQuery);
+
   @override
   String get queryName => modelQuery.toString();
+
   static _$_PushNotificationScheduleModelCollectionQuery _toQuery(
           CollectionModelQuery query) =>
       _$_PushNotificationScheduleModelCollectionQuery(query);
+
   _$_PushNotificationScheduleModelCollectionQuery limitTo(int value) =>
       _$_PushNotificationScheduleModelCollectionQuery(
           modelQuery.limitTo(value));
+
   _$_PushNotificationScheduleModelCollectionQuery reset() =>
       _$_PushNotificationScheduleModelCollectionQuery(modelQuery.reset());
-  ModelTimestampModelQuerySelector<
+
+  ValueModelQuerySelector<ModelServerCommandPushNotificationSchedule,
           _$_PushNotificationScheduleModelCollectionQuery>
-      get time => ModelTimestampModelQuerySelector<
+      get command => ValueModelQuerySelector<
+              ModelServerCommandPushNotificationSchedule,
               _$_PushNotificationScheduleModelCollectionQuery>(
-          key: "time", toQuery: _toQuery, modelQuery: modelQuery);
-  StringModelQuerySelector<_$_PushNotificationScheduleModelCollectionQuery>
-      get title => StringModelQuerySelector<
-              _$_PushNotificationScheduleModelCollectionQuery>(
-          key: "title", toQuery: _toQuery, modelQuery: modelQuery);
-  StringModelQuerySelector<_$_PushNotificationScheduleModelCollectionQuery>
-      get text => StringModelQuerySelector<
-              _$_PushNotificationScheduleModelCollectionQuery>(
-          key: "text", toQuery: _toQuery, modelQuery: modelQuery);
-  StringModelQuerySelector<_$_PushNotificationScheduleModelCollectionQuery>
-      get channelId => StringModelQuerySelector<
-              _$_PushNotificationScheduleModelCollectionQuery>(
-          key: "channelId", toQuery: _toQuery, modelQuery: modelQuery);
-  MapModelQuerySelector<dynamic,
-          _$_PushNotificationScheduleModelCollectionQuery>
-      get data => MapModelQuerySelector<dynamic,
-              _$_PushNotificationScheduleModelCollectionQuery>(
-          key: "data", toQuery: _toQuery, modelQuery: modelQuery);
-  StringModelQuerySelector<_$_PushNotificationScheduleModelCollectionQuery>
-      get token => StringModelQuerySelector<
-              _$_PushNotificationScheduleModelCollectionQuery>(
-          key: "token", toQuery: _toQuery, modelQuery: modelQuery);
-  StringModelQuerySelector<_$_PushNotificationScheduleModelCollectionQuery>
-      get topic => StringModelQuerySelector<
-              _$_PushNotificationScheduleModelCollectionQuery>(
-          key: "topic", toQuery: _toQuery, modelQuery: modelQuery);
+          key: "command", toQuery: _toQuery, modelQuery: modelQuery);
 }
 
 typedef _$PushNotificationScheduleModelMirrorRefPath
@@ -220,8 +197,10 @@ class _$_PushNotificationScheduleModelFormQuery
   @override
   FormController<PushNotificationScheduleModel> Function() call(Ref ref) =>
       () => FormController(value);
+
   @override
   String get queryName => value.hashCode.toString();
+
   @override
   bool get autoDisposeWhenUnreferenced => true;
 }

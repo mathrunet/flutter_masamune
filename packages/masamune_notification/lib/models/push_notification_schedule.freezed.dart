@@ -21,13 +21,8 @@ PushNotificationScheduleModel _$PushNotificationScheduleModelFromJson(
 
 /// @nodoc
 mixin _$PushNotificationScheduleModel {
-  ModelTimestamp get time => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get text => throw _privateConstructorUsedError;
-  String? get channelId => throw _privateConstructorUsedError;
-  Map<String, dynamic>? get data => throw _privateConstructorUsedError;
-  String? get token => throw _privateConstructorUsedError;
-  String? get topic => throw _privateConstructorUsedError;
+  ModelServerCommandPushNotificationSchedule get command =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,14 +38,7 @@ abstract class $PushNotificationScheduleModelCopyWith<$Res> {
       _$PushNotificationScheduleModelCopyWithImpl<$Res,
           PushNotificationScheduleModel>;
   @useResult
-  $Res call(
-      {ModelTimestamp time,
-      String title,
-      String text,
-      String? channelId,
-      Map<String, dynamic>? data,
-      String? token,
-      String? topic});
+  $Res call({ModelServerCommandPushNotificationSchedule command});
 }
 
 /// @nodoc
@@ -67,43 +55,13 @@ class _$PushNotificationScheduleModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? time = null,
-    Object? title = null,
-    Object? text = null,
-    Object? channelId = freezed,
-    Object? data = freezed,
-    Object? token = freezed,
-    Object? topic = freezed,
+    Object? command = null,
   }) {
     return _then(_value.copyWith(
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as ModelTimestamp,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String,
-      channelId: freezed == channelId
-          ? _value.channelId
-          : channelId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      token: freezed == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String?,
-      topic: freezed == topic
-          ? _value.topic
-          : topic // ignore: cast_nullable_to_non_nullable
-              as String?,
+      command: null == command
+          ? _value.command
+          : command // ignore: cast_nullable_to_non_nullable
+              as ModelServerCommandPushNotificationSchedule,
     ) as $Val);
   }
 }
@@ -117,14 +75,7 @@ abstract class _$$_PushNotificationScheduleModelCopyWith<$Res>
       __$$_PushNotificationScheduleModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {ModelTimestamp time,
-      String title,
-      String text,
-      String? channelId,
-      Map<String, dynamic>? data,
-      String? token,
-      String? topic});
+  $Res call({ModelServerCommandPushNotificationSchedule command});
 }
 
 /// @nodoc
@@ -140,43 +91,13 @@ class __$$_PushNotificationScheduleModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? time = null,
-    Object? title = null,
-    Object? text = null,
-    Object? channelId = freezed,
-    Object? data = freezed,
-    Object? token = freezed,
-    Object? topic = freezed,
+    Object? command = null,
   }) {
     return _then(_$_PushNotificationScheduleModel(
-      time: null == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as ModelTimestamp,
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      text: null == text
-          ? _value.text
-          : text // ignore: cast_nullable_to_non_nullable
-              as String,
-      channelId: freezed == channelId
-          ? _value.channelId
-          : channelId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      data: freezed == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
-      token: freezed == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String?,
-      topic: freezed == topic
-          ? _value.topic
-          : topic // ignore: cast_nullable_to_non_nullable
-              as String?,
+      command: null == command
+          ? _value.command
+          : command // ignore: cast_nullable_to_non_nullable
+              as ModelServerCommandPushNotificationSchedule,
     ));
   }
 }
@@ -184,47 +105,18 @@ class __$$_PushNotificationScheduleModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_PushNotificationScheduleModel extends _PushNotificationScheduleModel {
-  const _$_PushNotificationScheduleModel(
-      {required this.time,
-      required this.title,
-      required this.text,
-      this.channelId,
-      final Map<String, dynamic>? data,
-      this.token,
-      this.topic})
-      : _data = data,
-        super._();
+  const _$_PushNotificationScheduleModel({required this.command}) : super._();
 
   factory _$_PushNotificationScheduleModel.fromJson(
           Map<String, dynamic> json) =>
       _$$_PushNotificationScheduleModelFromJson(json);
 
   @override
-  final ModelTimestamp time;
-  @override
-  final String title;
-  @override
-  final String text;
-  @override
-  final String? channelId;
-  final Map<String, dynamic>? _data;
-  @override
-  Map<String, dynamic>? get data {
-    final value = _data;
-    if (value == null) return null;
-    if (_data is EqualUnmodifiableMapView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
-
-  @override
-  final String? token;
-  @override
-  final String? topic;
+  final ModelServerCommandPushNotificationSchedule command;
 
   @override
   String toString() {
-    return 'PushNotificationScheduleModel(time: $time, title: $title, text: $text, channelId: $channelId, data: $data, token: $token, topic: $topic)';
+    return 'PushNotificationScheduleModel(command: $command)';
   }
 
   @override
@@ -232,20 +124,12 @@ class _$_PushNotificationScheduleModel extends _PushNotificationScheduleModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PushNotificationScheduleModel &&
-            (identical(other.time, time) || other.time == time) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.text, text) || other.text == text) &&
-            (identical(other.channelId, channelId) ||
-                other.channelId == channelId) &&
-            const DeepCollectionEquality().equals(other._data, _data) &&
-            (identical(other.token, token) || other.token == token) &&
-            (identical(other.topic, topic) || other.topic == topic));
+            (identical(other.command, command) || other.command == command));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, time, title, text, channelId,
-      const DeepCollectionEquality().hash(_data), token, topic);
+  int get hashCode => Object.hash(runtimeType, command);
 
   @JsonKey(ignore: true)
   @override
@@ -265,32 +149,15 @@ class _$_PushNotificationScheduleModel extends _PushNotificationScheduleModel {
 abstract class _PushNotificationScheduleModel
     extends PushNotificationScheduleModel {
   const factory _PushNotificationScheduleModel(
-      {required final ModelTimestamp time,
-      required final String title,
-      required final String text,
-      final String? channelId,
-      final Map<String, dynamic>? data,
-      final String? token,
-      final String? topic}) = _$_PushNotificationScheduleModel;
+          {required final ModelServerCommandPushNotificationSchedule command}) =
+      _$_PushNotificationScheduleModel;
   const _PushNotificationScheduleModel._() : super._();
 
   factory _PushNotificationScheduleModel.fromJson(Map<String, dynamic> json) =
       _$_PushNotificationScheduleModel.fromJson;
 
   @override
-  ModelTimestamp get time;
-  @override
-  String get title;
-  @override
-  String get text;
-  @override
-  String? get channelId;
-  @override
-  Map<String, dynamic>? get data;
-  @override
-  String? get token;
-  @override
-  String? get topic;
+  ModelServerCommandPushNotificationSchedule get command;
   @override
   @JsonKey(ignore: true)
   _$$_PushNotificationScheduleModelCopyWith<_$_PushNotificationScheduleModel>
