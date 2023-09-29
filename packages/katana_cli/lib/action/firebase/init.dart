@@ -59,14 +59,14 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final hosting = firebase.getAsMap("hosting");
     final useFlutter = hosting.get("use_flutter", false);
     final firestore = firebase.getAsMap("firestore");
-    final overwriteFirestoreRule = firestore.get("overwrite_rule", false);
+    // final overwriteFirestoreRule = firestore.get("overwrite_rule", false);
     final enabledFirestore = firestore.get("enable", false);
     final enabledAuthentication =
         firebase.getAsMap("authentication").get("enable", false);
     final enabledFunctions =
         firebase.getAsMap("functions").get("enable", false);
     final storage = firebase.getAsMap("storage");
-    final overwriteStorageRule = storage.get("overwrite_rule", false);
+    // final overwriteStorageRule = storage.get("overwrite_rule", false);
     final enabledStorage = storage.get("enable", false);
     final enabledHosting = hosting.get("enable", false);
     final enableActions = hosting.get("github_actions", false);
@@ -180,7 +180,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
       ],
     );
     final commandStack = <String>[];
-    if (enabledFirestore && overwriteFirestoreRule) {
+    if (enabledFirestore) {
       if (!firebaseJson.containsKey("firestore")) {
         final firestoreProcess = await Process.start(
           firebaseCommand,
@@ -227,7 +227,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         await const FirestoreRulesCliCode().generateFile("firestore.rules");
       }
     }
-    if (enabledStorage && overwriteStorageRule) {
+    if (enabledStorage) {
       if (!firebaseJson.containsKey("storage")) {
         final storageProcess = await Process.start(
           firebaseCommand,

@@ -36,7 +36,6 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
     final firebase = context.yaml.getAsMap("firebase");
     final messaging = firebase.getAsMap("messaging");
     final channelId = messaging.get("channel_id", "");
-    final scheduler = messaging.get("scheduler", false);
     if (channelId.isEmpty) {
       error(
         "Channel ID is not specified in [firebase]->[messaging]->[channel_id]. Please specify any ID.",
@@ -201,7 +200,7 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
         flutter,
         "pub",
         "add",
-        "masamune_notification_firebase:^2.0.0",
+        "masamune_notification_firebase",
       ],
     );
     label("Add firebase-messaging-sw.js");
@@ -215,10 +214,6 @@ class FirebaseMessagingCliAction extends CliCommand with CliActionMixin {
       await functions.load();
       if (!functions.functions.any((e) => e == "sendNotification()")) {
         functions.functions.add("sendNotification()");
-      }
-      if (scheduler &&
-          !functions.functions.any((e) => e == "sendNotificationSchedule()")) {
-        functions.functions.add("sendNotificationSchedule()");
       }
       await functions.save();
       await command(

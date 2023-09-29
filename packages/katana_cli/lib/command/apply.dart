@@ -20,6 +20,7 @@ import 'package:katana_cli/action/firebase/authentication.dart';
 import 'package:katana_cli/action/firebase/dynamic_links.dart';
 import 'package:katana_cli/action/firebase/init.dart';
 import 'package:katana_cli/action/firebase/messaging.dart';
+import 'package:katana_cli/action/firebase/scheduler.dart';
 import 'package:katana_cli/action/firebase/terms_and_privacy.dart';
 import 'package:katana_cli/action/git/action.dart';
 import 'package:katana_cli/action/git/hook.dart';
@@ -47,6 +48,7 @@ const _actions = <CliActionMixin>[
   AppDeeplinkCliAction(),
   FirebaseInitCliAction(),
   FirebaseAuthenticationCliAction(),
+  FirebaseSchedulerCliAction(),
   FirebaseMessagingCliAction(),
   FirebaseDynamicLinksCliAction(),
   FirebaseTermsAndPrivacyCliAction(),

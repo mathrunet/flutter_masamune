@@ -147,7 +147,6 @@ firebase:
   # Firebase Firestoreを有効にします。
   firestore:
     enable: false
-    overwrite_rule: false
 
   # Enable Firebase Authentication.
   # Firebase Authenticationを有効にします。
@@ -210,7 +209,6 @@ ${showAllConfig ? """
   # Cloud Storage for Firebaseを有効にします。
   storage:
     enable: false
-    overwrite_rule: false
 
   # Enable Cloud Functions for Firebase.
   # Cloud Functions for Firebaseを有効にします。
@@ -277,14 +275,22 @@ ${showAllConfig ? """
   
   # Enable Firebase Messaging.
   # Specify ChannelNotificationId for Android in [channel_id].
-  # Set [scheduler] to `true` to send notifications at the specified time.
   # Firebase Messagingを有効にします。
   # [channel_id]にAndroid用のChannelNotificationIdを指定してください。
-  # [scheduler]を`true`にすると指定した時間に通知を送ることができます。
   messaging:
     enable: false
     channel_id: 
-    scheduler: false
+
+${showAllConfig ? """
+
+  # Describe the settings for creating a mechanism to copy Firestore documents at a specified time or to send notifications at a specified time.
+  # If you put a schedule such as `every 10 minutes` in [time], it can be executed at the specified time.
+  # 指定した時間にFirestoreのドキュメントをコピーしたり、指定した時間に通知を送信したりする仕組みを作成するための設定を記述します。
+  # [time]に`every 10 minutes`のようなスケジュールを記述すると指定した時間に実行することができます。
+  scheduler:
+    enable: false
+    time: 
+""" : ""}
 
 ${showAllConfig ? """
 # This section contains information related to Git.
