@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - **FIX**: Apply ServerCommand to the scheduler. ([863ae23b](https://github.com/mathrunet/flutter_masamune/commit/863ae23b0bb9114d471a2485b499d863902a70f8))
+
 ## 2.1.0
 
  - **FIX**: Add "path". ([814f0822](https://github.com/mathrunet/flutter_masamune/commit/814f0822021b4668db431ea2fa7ed2874107cf82))

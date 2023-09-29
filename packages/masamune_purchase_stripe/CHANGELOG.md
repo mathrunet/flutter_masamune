@@ -1,3 +1,7 @@
+## 3.3.65
+
+ - Update a dependency to the latest release.
+
 ## 3.3.64
 
  - **FIX**: Model paths can now be retrieved. ([0ff353ec](https://github.com/mathrunet/flutter_masamune/commit/0ff353ecd174fc6d2b351bd08935f1c288060bfa))

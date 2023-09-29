@@ -1,3 +1,7 @@
+## 2.9.9
+
+ - **FIX**: Scheduler command application. ([020a0ab0](https://github.com/mathrunet/flutter_masamune/commit/020a0ab0ba409907c2f6adae4406a14e615bfb60))
+
 ## 2.9.8
 
  - **FIX**: Change Icon. ([788aaaac](https://github.com/mathrunet/flutter_masamune/commit/788aaaace84291b78980a5f6866ec09aa4298ffd))

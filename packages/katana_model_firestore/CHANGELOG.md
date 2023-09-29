@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: Define ModelFieldValue for the server command. ([3f694b74](https://github.com/mathrunet/flutter_masamune/commit/3f694b7457cef6ba9ccb77740e1c5f75275f64a5))
+
 ## 2.8.4
 
  - Update a dependency to the latest release.

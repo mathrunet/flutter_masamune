@@ -1,3 +1,7 @@
+## 2.13.0
+
+ - **FEAT**: Define ModelFieldValue for the server command. ([3f694b74](https://github.com/mathrunet/flutter_masamune/commit/3f694b7457cef6ba9ccb77740e1c5f75275f64a5))
+
 ## 2.12.4
 
  - **FIX**: ListenableListener is now nullable-compatible. ([d7858b03](https://github.com/mathrunet/flutter_masamune/commit/d7858b0396293cbeb4e365164c3387a7ef458aea))

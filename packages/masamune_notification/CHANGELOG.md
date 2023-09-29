@@ -1,3 +1,7 @@
+## 2.2.3
+
+ - **FIX**: Apply ServerCommand to the push notification scheduler. ([cf863411](https://github.com/mathrunet/flutter_masamune/commit/cf863411852fbd2c5b79b9860e4ddd68b2a0a23e))
+
 ## 2.2.2
 
  - **FIX**: Model export. ([434f99c0](https://github.com/mathrunet/flutter_masamune/commit/434f99c082fc6eb05fafbc8ac6cd2750e354474b))
