@@ -144,6 +144,7 @@ class FirestoreModelAdapter extends ModelAdapter
   }
 
   static final Set<FirestoreModelFieldValueConverter> _converters = {
+    const FirestoreModelCommandBaseConverter(),
     const FirestoreModelCounterConverter(),
     const FirestoreModelTimestampConverter(),
     const FirestoreModelLocaleConverter(),
