@@ -1,3 +1,7 @@
+## 2.0.26
+
+ - **FIX**: In the case of IOS, it is the other way around, so adjust to that. ([0cddf475](https://github.com/mathrunet/flutter_masamune/commit/0cddf475076db9547a3fd38cd85e236e5a62c79a))
+
 ## 2.0.25
 
  - **FIX**: Added the ability to explicitly change the color of the status bar. ([2ccaeffa](https://github.com/mathrunet/flutter_masamune/commit/2ccaeffa7c4ebea4e43c584bc16c83ec695917cd))

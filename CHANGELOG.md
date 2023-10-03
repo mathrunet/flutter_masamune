@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v2.0.26`](#katana_theme---v2026)
+ - [`masamune` - `v2.4.64`](#masamune---v2464)
+ - [`masamune_location_platform_interface` - `v2.1.11`](#masamune_location_platform_interface---v2111)
+ - [`masamune_location` - `v2.1.132`](#masamune_location---v21132)
+ - [`masamune_auth_apple` - `v2.1.120`](#masamune_auth_apple---v21120)
+ - [`masamune_deeplink_firebase` - `v2.1.39`](#masamune_deeplink_firebase---v2139)
+ - [`masamune_scheduler` - `v2.1.3`](#masamune_scheduler---v213)
+ - [`masamune_location_background` - `v2.1.10`](#masamune_location_background---v2110)
+ - [`masamune_text_to_speech` - `v2.1.86`](#masamune_text_to_speech---v2186)
+ - [`masamune_agora` - `v2.2.102`](#masamune_agora---v22102)
+ - [`masamune_ai_openai` - `v2.2.54`](#masamune_ai_openai---v2254)
+ - [`masamune_picker` - `v2.1.119`](#masamune_picker---v21119)
+ - [`masamune_util` - `v2.1.98`](#masamune_util---v2198)
+ - [`masamune_universal_ui` - `v2.2.100`](#masamune_universal_ui---v22100)
+ - [`masamune_notification` - `v2.2.5`](#masamune_notification---v225)
+ - [`masamune_logger_firebase` - `v2.0.162`](#masamune_logger_firebase---v20162)
+ - [`masamune_auth_google` - `v2.1.121`](#masamune_auth_google---v21121)
+ - [`masamune_calendar` - `v2.0.164`](#masamune_calendar---v20164)
+ - [`masamune_purchase_stripe` - `v3.3.67`](#masamune_purchase_stripe---v3367)
+ - [`masamune_introduction` - `v2.2.68`](#masamune_introduction---v2268)
+ - [`masamune_deeplink` - `v2.1.38`](#masamune_deeplink---v2138)
+ - [`masamune_speech_to_text` - `v2.1.89`](#masamune_speech_to_text---v2189)
+ - [`masamune_location_google` - `v2.1.133`](#masamune_location_google---v21133)
+ - [`masamune_mail` - `v2.1.117`](#masamune_mail---v21117)
+ - [`masamune_module` - `v2.3.23`](#masamune_module---v2323)
+ - [`masamune_auth_facebook` - `v2.1.122`](#masamune_auth_facebook---v21122)
+ - [`masamune_module_point_ecosystem` - `v2.3.28`](#masamune_module_point_ecosystem---v2328)
+ - [`masamune_purchase_mobile` - `v2.5.69`](#masamune_purchase_mobile---v2569)
+ - [`masamune_notification_firebase` - `v2.4.6`](#masamune_notification_firebase---v246)
+ - [`masamune_ads_google` - `v2.1.70`](#masamune_ads_google---v2170)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.64`
+ - `masamune_location_platform_interface` - `v2.1.11`
+ - `masamune_location` - `v2.1.132`
+ - `masamune_auth_apple` - `v2.1.120`
+ - `masamune_deeplink_firebase` - `v2.1.39`
+ - `masamune_scheduler` - `v2.1.3`
+ - `masamune_location_background` - `v2.1.10`
+ - `masamune_text_to_speech` - `v2.1.86`
+ - `masamune_agora` - `v2.2.102`
+ - `masamune_ai_openai` - `v2.2.54`
+ - `masamune_picker` - `v2.1.119`
+ - `masamune_util` - `v2.1.98`
+ - `masamune_universal_ui` - `v2.2.100`
+ - `masamune_notification` - `v2.2.5`
+ - `masamune_logger_firebase` - `v2.0.162`
+ - `masamune_auth_google` - `v2.1.121`
+ - `masamune_calendar` - `v2.0.164`
+ - `masamune_purchase_stripe` - `v3.3.67`
+ - `masamune_introduction` - `v2.2.68`
+ - `masamune_deeplink` - `v2.1.38`
+ - `masamune_speech_to_text` - `v2.1.89`
+ - `masamune_location_google` - `v2.1.133`
+ - `masamune_mail` - `v2.1.117`
+ - `masamune_module` - `v2.3.23`
+ - `masamune_auth_facebook` - `v2.1.122`
+ - `masamune_module_point_ecosystem` - `v2.3.28`
+ - `masamune_purchase_mobile` - `v2.5.69`
+ - `masamune_notification_firebase` - `v2.4.6`
+ - `masamune_ads_google` - `v2.1.70`
+
+---
+
+#### `katana_theme` - `v2.0.26`
+
+ - **FIX**: In the case of IOS, it is the other way around, so adjust to that. ([0cddf475](https://github.com/mathrunet/flutter_masamune/commit/0cddf475076db9547a3fd38cd85e236e5a62c79a))
+
+
+## 2023-10-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.9.10`](#katana_cli---v2910)
  - [`katana_theme` - `v2.0.25`](#katana_theme---v2025)
  - [`katana_theme_annotation` - `v2.0.18`](#katana_theme_annotation---v2018)
