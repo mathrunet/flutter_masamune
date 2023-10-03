@@ -258,6 +258,17 @@ String _path(ClassValue model, PathValue? path) {
   }
 }
 
+String? _pageParamName(String path, String paramName) {
+  if (path.contains(":$paramName")) {
+    return paramName;
+  } else if (path.contains(":${paramName.toSnakeCase()}")) {
+    return paramName.toSnakeCase();
+  } else if (path.contains(":${paramName.toCamelCase()}")) {
+    return paramName.toCamelCase();
+  }
+  return null;
+}
+
 String _defaultParsedValue(
     PathValue path, ParamaterValue param, bool existQuery) {
   if (existQuery) {
@@ -268,7 +279,7 @@ String _defaultParsedValue(
           path.path.contains(":${param.pageParamName.toSnakeCase()}") ||
           path.path.contains(":${param.pageParamName.toCamelCase()}");
       if (isPageParameter) {
-        return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
+        return "${param.name}: match.namedGroup(\"${_pageParamName(path.path, param.pageParamName)}\") ?? query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
       } else {
         return "${param.name}: query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
       }
@@ -306,7 +317,7 @@ String _defaultParsedValue(
           path.path.contains(":${param.pageParamName.toSnakeCase()}") ||
           path.path.contains(":${param.pageParamName.toCamelCase()}");
       if (isPageParameter) {
-        return "${param.name}: match.namedGroup(\"${param.pageParamName}\") ?? match.namedGroup(\"${param.pageParamName.toSnakeCase()}\") ?? match.namedGroup(\"${param.pageParamName.toCamelCase()}\") ?? ${_defaultValue(param)}";
+        return "${param.name}: match.namedGroup(\"${_pageParamName(path.path, param.pageParamName)}\") ?? ${_defaultValue(param)}";
       } else {
         return "${param.name}: ${_defaultValue(param)}";
       }

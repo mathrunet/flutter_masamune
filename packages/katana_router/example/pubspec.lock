@@ -342,35 +342,35 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.4.1"
+    version: "2.4.2"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.14"
   katana_router:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.39"
+    version: "2.0.41"
   katana_router_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.19"
+    version: "2.0.20"
   katana_router_builder:
     dependency: "direct dev"
     description:
       path: "../../katana_router_builder"
       relative: true
     source: path
-    version: "2.0.27"
+    version: "2.0.28"
   lints:
     dependency: transitive
     description:
