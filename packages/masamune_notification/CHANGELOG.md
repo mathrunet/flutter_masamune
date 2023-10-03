@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - Update a dependency to the latest release.
+
 ## 2.2.3
 
  - **FIX**: Apply ServerCommand to the push notification scheduler. ([cf863411](https://github.com/mathrunet/flutter_masamune/commit/cf863411852fbd2c5b79b9860e4ddd68b2a0a23e))

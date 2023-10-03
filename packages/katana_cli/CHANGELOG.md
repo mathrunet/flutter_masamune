@@ -1,3 +1,7 @@
+## 2.9.10
+
+ - **FIX**: Added support for AdaptiveIcon to icons. ([57d66b74](https://github.com/mathrunet/flutter_masamune/commit/57d66b74b3f2035c80657f8c01663eb177a707fa))
+
 ## 2.9.9
 
  - **FIX**: Scheduler command application. ([020a0ab0](https://github.com/mathrunet/flutter_masamune/commit/020a0ab0ba409907c2f6adae4406a14e615bfb60))

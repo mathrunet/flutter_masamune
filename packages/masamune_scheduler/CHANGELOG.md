@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - Update a dependency to the latest release.
+
 ## 2.1.1
 
  - **FIX**: Apply ServerCommand to the scheduler. ([863ae23b](https://github.com/mathrunet/flutter_masamune/commit/863ae23b0bb9114d471a2485b499d863902a70f8))

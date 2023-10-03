@@ -1,3 +1,7 @@
+## 2.0.25
+
+ - **FIX**: Added the ability to explicitly change the color of the status bar. ([2ccaeffa](https://github.com/mathrunet/flutter_masamune/commit/2ccaeffa7c4ebea4e43c584bc16c83ec695917cd))
+
 ## 2.0.24
 
  - **FIX**: systemStyleOverlay is now reflected. ([9e88ee24](https://github.com/mathrunet/flutter_masamune/commit/9e88ee2478add15dffb143ce763e53bda79776df))

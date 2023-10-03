@@ -3,6 +3,107 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.9.10`](#katana_cli---v2910)
+ - [`katana_theme` - `v2.0.25`](#katana_theme---v2025)
+ - [`katana_theme_annotation` - `v2.0.18`](#katana_theme_annotation---v2018)
+ - [`katana_theme_builder` - `v2.0.22`](#katana_theme_builder---v2022)
+ - [`masamune` - `v2.4.63`](#masamune---v2463)
+ - [`masamune_location_platform_interface` - `v2.1.10`](#masamune_location_platform_interface---v2110)
+ - [`masamune_location` - `v2.1.131`](#masamune_location---v21131)
+ - [`masamune_auth_apple` - `v2.1.119`](#masamune_auth_apple---v21119)
+ - [`masamune_deeplink_firebase` - `v2.1.38`](#masamune_deeplink_firebase---v2138)
+ - [`masamune_scheduler` - `v2.1.2`](#masamune_scheduler---v212)
+ - [`masamune_agora` - `v2.2.101`](#masamune_agora---v22101)
+ - [`masamune_calendar` - `v2.0.163`](#masamune_calendar---v20163)
+ - [`masamune_text_to_speech` - `v2.1.85`](#masamune_text_to_speech---v2185)
+ - [`masamune_auth_google` - `v2.1.120`](#masamune_auth_google---v21120)
+ - [`masamune_location_background` - `v2.1.9`](#masamune_location_background---v219)
+ - [`masamune_ai_openai` - `v2.2.53`](#masamune_ai_openai---v2253)
+ - [`masamune_picker` - `v2.1.118`](#masamune_picker---v21118)
+ - [`masamune_util` - `v2.1.97`](#masamune_util---v2197)
+ - [`masamune_universal_ui` - `v2.2.99`](#masamune_universal_ui---v2299)
+ - [`masamune_purchase_stripe` - `v3.3.66`](#masamune_purchase_stripe---v3366)
+ - [`masamune_notification` - `v2.2.4`](#masamune_notification---v224)
+ - [`masamune_logger_firebase` - `v2.0.161`](#masamune_logger_firebase---v20161)
+ - [`masamune_introduction` - `v2.2.67`](#masamune_introduction---v2267)
+ - [`masamune_deeplink` - `v2.1.37`](#masamune_deeplink---v2137)
+ - [`masamune_speech_to_text` - `v2.1.88`](#masamune_speech_to_text---v2188)
+ - [`masamune_auth_facebook` - `v2.1.121`](#masamune_auth_facebook---v21121)
+ - [`masamune_location_google` - `v2.1.132`](#masamune_location_google---v21132)
+ - [`masamune_module` - `v2.3.22`](#masamune_module---v2322)
+ - [`masamune_mail` - `v2.1.116`](#masamune_mail---v21116)
+ - [`masamune_module_point_ecosystem` - `v2.3.27`](#masamune_module_point_ecosystem---v2327)
+ - [`masamune_notification_firebase` - `v2.4.5`](#masamune_notification_firebase---v245)
+ - [`masamune_purchase_mobile` - `v2.5.68`](#masamune_purchase_mobile---v2568)
+ - [`masamune_ads_google` - `v2.1.69`](#masamune_ads_google---v2169)
+ - [`masamune_builder` - `v2.8.12`](#masamune_builder---v2812)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.63`
+ - `masamune_location_platform_interface` - `v2.1.10`
+ - `masamune_location` - `v2.1.131`
+ - `masamune_auth_apple` - `v2.1.119`
+ - `masamune_deeplink_firebase` - `v2.1.38`
+ - `masamune_scheduler` - `v2.1.2`
+ - `masamune_agora` - `v2.2.101`
+ - `masamune_calendar` - `v2.0.163`
+ - `masamune_text_to_speech` - `v2.1.85`
+ - `masamune_auth_google` - `v2.1.120`
+ - `masamune_location_background` - `v2.1.9`
+ - `masamune_ai_openai` - `v2.2.53`
+ - `masamune_picker` - `v2.1.118`
+ - `masamune_util` - `v2.1.97`
+ - `masamune_universal_ui` - `v2.2.99`
+ - `masamune_purchase_stripe` - `v3.3.66`
+ - `masamune_notification` - `v2.2.4`
+ - `masamune_logger_firebase` - `v2.0.161`
+ - `masamune_introduction` - `v2.2.67`
+ - `masamune_deeplink` - `v2.1.37`
+ - `masamune_speech_to_text` - `v2.1.88`
+ - `masamune_auth_facebook` - `v2.1.121`
+ - `masamune_location_google` - `v2.1.132`
+ - `masamune_module` - `v2.3.22`
+ - `masamune_mail` - `v2.1.116`
+ - `masamune_module_point_ecosystem` - `v2.3.27`
+ - `masamune_notification_firebase` - `v2.4.5`
+ - `masamune_purchase_mobile` - `v2.5.68`
+ - `masamune_ads_google` - `v2.1.69`
+ - `masamune_builder` - `v2.8.12`
+
+---
+
+#### `katana_cli` - `v2.9.10`
+
+ - **FIX**: Added support for AdaptiveIcon to icons. ([57d66b74](https://github.com/mathrunet/flutter_masamune/commit/57d66b74b3f2035c80657f8c01663eb177a707fa))
+
+#### `katana_theme` - `v2.0.25`
+
+ - **FIX**: Added the ability to explicitly change the color of the status bar. ([2ccaeffa](https://github.com/mathrunet/flutter_masamune/commit/2ccaeffa7c4ebea4e43c584bc16c83ec695917cd))
+
+#### `katana_theme_annotation` - `v2.0.18`
+
+ - **FIX**: Added the ability to explicitly change the color of the status bar. ([2ccaeffa](https://github.com/mathrunet/flutter_masamune/commit/2ccaeffa7c4ebea4e43c584bc16c83ec695917cd))
+
+#### `katana_theme_builder` - `v2.0.22`
+
+ - **FIX**: Added the ability to explicitly change the color of the status bar. ([2ccaeffa](https://github.com/mathrunet/flutter_masamune/commit/2ccaeffa7c4ebea4e43c584bc16c83ec695917cd))
+
+
 ## 2023-09-29
 
 ### Changes
