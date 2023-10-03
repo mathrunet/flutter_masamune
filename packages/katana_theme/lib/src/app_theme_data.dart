@@ -219,6 +219,8 @@ class AppThemeData {
     this.platform = TargetPlatform.iOS,
     this.centerTitleOnAppBar,
     Brightness brightness = Brightness.light,
+    this.statusBarBrightnessOnIOS,
+    this.statusBarBrightnessOnAndroid,
     this.fixed = false,
   })  : _lightColor = brightness == Brightness.light
             ? ColorThemeData._(
@@ -642,6 +644,8 @@ class AppThemeData {
     bool useMaterial3 = true,
     TargetPlatform platform = TargetPlatform.iOS,
     bool? centerTitleOnAppBar,
+    Brightness? statusBarBrightnessOnIOS,
+    Brightness? statusBarBrightnessOnAndroid,
     bool fixed = false,
   }) : this(
           primary: primary,
@@ -741,6 +745,8 @@ class AppThemeData {
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.light,
           fixed: fixed,
+          statusBarBrightnessOnIOS: statusBarBrightnessOnIOS,
+          statusBarBrightnessOnAndroid: statusBarBrightnessOnAndroid,
           themeMode: themeMode,
         );
 
@@ -909,6 +915,8 @@ class AppThemeData {
     bool useMaterial3 = true,
     TargetPlatform platform = TargetPlatform.iOS,
     bool? centerTitleOnAppBar,
+    Brightness? statusBarBrightnessOnIOS,
+    Brightness? statusBarBrightnessOnAndroid,
     bool fixed = false,
   }) : this(
           primary: primary,
@@ -1008,6 +1016,8 @@ class AppThemeData {
           centerTitleOnAppBar: centerTitleOnAppBar,
           brightness: Brightness.dark,
           fixed: fixed,
+          statusBarBrightnessOnIOS: statusBarBrightnessOnIOS,
+          statusBarBrightnessOnAndroid: statusBarBrightnessOnAndroid,
           themeMode: themeMode,
         );
 
@@ -1174,6 +1184,24 @@ class AppThemeData {
   /// `true`の場合、ライトモードやダークモードの切り替えを行わず、常に同じテーマを使用します。
   final bool fixed;
 
+  /// Explicitly specifies the color of the status bar icon.
+  ///
+  /// Black for [Brightness.dark] and white for [Brightness.light].
+  ///
+  /// ステータスバーのアイコンの色を明示的に指定します。
+  ///
+  /// [Brightness.dark]の場合は黒、[Brightness.light]の場合は白になります。
+  final Brightness? statusBarBrightnessOnIOS;
+
+  /// Explicitly specifies the color of the status bar icon.
+  ///
+  /// Black for [Brightness.dark] and white for [Brightness.light].
+  ///
+  /// ステータスバーのアイコンの色を明示的に指定します。
+  ///
+  /// [Brightness.dark]の場合は黒、[Brightness.light]の場合は白になります。
+  final Brightness? statusBarBrightnessOnAndroid;
+
   /// Get [AppThemeData] placed on the widget tree.
   ///
   /// ウィジェットツリー上に配置されている[AppThemeData]を取得します。
@@ -1314,9 +1342,11 @@ class AppThemeData {
                 ) ??
                 IconThemeData(color: appBarForegroundColor),
             systemOverlayStyle: SystemUiOverlayStyle(
-              systemNavigationBarIconBrightness: Brightness.dark,
+              systemNavigationBarIconBrightness:
+                  statusBarBrightnessOnIOS ?? Brightness.dark,
               statusBarBrightness: Brightness.dark,
-              statusBarIconBrightness: Brightness.light,
+              statusBarIconBrightness:
+                  statusBarBrightnessOnAndroid ?? Brightness.light,
             ),
           ),
           dialogBackgroundColor: color.dialogColor ?? color.surface,
@@ -1534,9 +1564,11 @@ class AppThemeData {
                 ) ??
                 IconThemeData(color: appBarForegroundColor),
             systemOverlayStyle: SystemUiOverlayStyle(
-              systemNavigationBarIconBrightness: Brightness.light,
+              systemNavigationBarIconBrightness:
+                  statusBarBrightnessOnIOS ?? Brightness.light,
               statusBarBrightness: Brightness.light,
-              statusBarIconBrightness: Brightness.dark,
+              statusBarIconBrightness:
+                  statusBarBrightnessOnAndroid ?? Brightness.dark,
             ),
           ),
           dialogBackgroundColor: color.dialogColor ?? color.surface,
