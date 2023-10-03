@@ -15,6 +15,107 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router` - `v2.0.42`](#katana_router---v2042)
+ - [`katana_router_annotation` - `v2.0.21`](#katana_router_annotation---v2021)
+ - [`katana_router_builder` - `v2.0.29`](#katana_router_builder---v2029)
+ - [`katana_scoped` - `v2.0.24`](#katana_scoped---v2024)
+ - [`masamune` - `v2.4.65`](#masamune---v2465)
+ - [`masamune_location_platform_interface` - `v2.1.12`](#masamune_location_platform_interface---v2112)
+ - [`masamune_location` - `v2.1.133`](#masamune_location---v21133)
+ - [`masamune_deeplink_firebase` - `v2.1.40`](#masamune_deeplink_firebase---v2140)
+ - [`masamune_auth_apple` - `v2.1.121`](#masamune_auth_apple---v21121)
+ - [`masamune_scheduler` - `v2.1.4`](#masamune_scheduler---v214)
+ - [`masamune_location_background` - `v2.1.11`](#masamune_location_background---v2111)
+ - [`masamune_text_to_speech` - `v2.1.87`](#masamune_text_to_speech---v2187)
+ - [`masamune_agora` - `v2.2.103`](#masamune_agora---v22103)
+ - [`masamune_auth_google` - `v2.1.122`](#masamune_auth_google---v21122)
+ - [`masamune_ai_openai` - `v2.2.55`](#masamune_ai_openai---v2255)
+ - [`masamune_calendar` - `v2.0.165`](#masamune_calendar---v20165)
+ - [`masamune_picker` - `v2.1.120`](#masamune_picker---v21120)
+ - [`masamune_util` - `v2.1.99`](#masamune_util---v2199)
+ - [`masamune_universal_ui` - `v2.2.101`](#masamune_universal_ui---v22101)
+ - [`masamune_purchase_stripe` - `v3.3.68`](#masamune_purchase_stripe---v3368)
+ - [`masamune_notification` - `v2.2.6`](#masamune_notification---v226)
+ - [`masamune_logger_firebase` - `v2.0.163`](#masamune_logger_firebase---v20163)
+ - [`masamune_introduction` - `v2.2.69`](#masamune_introduction---v2269)
+ - [`masamune_deeplink` - `v2.1.39`](#masamune_deeplink---v2139)
+ - [`masamune_speech_to_text` - `v2.1.90`](#masamune_speech_to_text---v2190)
+ - [`masamune_auth_facebook` - `v2.1.123`](#masamune_auth_facebook---v21123)
+ - [`masamune_module_point_ecosystem` - `v2.3.29`](#masamune_module_point_ecosystem---v2329)
+ - [`masamune_location_google` - `v2.1.134`](#masamune_location_google---v21134)
+ - [`masamune_module` - `v2.3.24`](#masamune_module---v2324)
+ - [`masamune_mail` - `v2.1.118`](#masamune_mail---v21118)
+ - [`masamune_notification_firebase` - `v2.4.7`](#masamune_notification_firebase---v247)
+ - [`masamune_purchase_mobile` - `v2.5.70`](#masamune_purchase_mobile---v2570)
+ - [`masamune_ads_google` - `v2.1.71`](#masamune_ads_google---v2171)
+ - [`masamune_builder` - `v2.8.13`](#masamune_builder---v2813)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.65`
+ - `masamune_location_platform_interface` - `v2.1.12`
+ - `masamune_location` - `v2.1.133`
+ - `masamune_deeplink_firebase` - `v2.1.40`
+ - `masamune_auth_apple` - `v2.1.121`
+ - `masamune_scheduler` - `v2.1.4`
+ - `masamune_location_background` - `v2.1.11`
+ - `masamune_text_to_speech` - `v2.1.87`
+ - `masamune_agora` - `v2.2.103`
+ - `masamune_auth_google` - `v2.1.122`
+ - `masamune_ai_openai` - `v2.2.55`
+ - `masamune_calendar` - `v2.0.165`
+ - `masamune_picker` - `v2.1.120`
+ - `masamune_util` - `v2.1.99`
+ - `masamune_universal_ui` - `v2.2.101`
+ - `masamune_purchase_stripe` - `v3.3.68`
+ - `masamune_notification` - `v2.2.6`
+ - `masamune_logger_firebase` - `v2.0.163`
+ - `masamune_introduction` - `v2.2.69`
+ - `masamune_deeplink` - `v2.1.39`
+ - `masamune_speech_to_text` - `v2.1.90`
+ - `masamune_auth_facebook` - `v2.1.123`
+ - `masamune_module_point_ecosystem` - `v2.3.29`
+ - `masamune_location_google` - `v2.1.134`
+ - `masamune_module` - `v2.3.24`
+ - `masamune_mail` - `v2.1.118`
+ - `masamune_notification_firebase` - `v2.4.7`
+ - `masamune_purchase_mobile` - `v2.5.70`
+ - `masamune_ads_google` - `v2.1.71`
+ - `masamune_builder` - `v2.8.13`
+
+---
+
+#### `katana_router` - `v2.0.42`
+
+ - **FIX**: Fixed a bug in loading page parameters. ([cdb3e463](https://github.com/mathrunet/flutter_masamune/commit/cdb3e463a56276e84bc835e8734b5abfdd354f1d))
+
+#### `katana_router_annotation` - `v2.0.21`
+
+ - **FIX**: Fixed a bug in loading page parameters. ([cdb3e463](https://github.com/mathrunet/flutter_masamune/commit/cdb3e463a56276e84bc835e8734b5abfdd354f1d))
+
+#### `katana_router_builder` - `v2.0.29`
+
+ - **FIX**: Fixed a bug in loading page parameters. ([cdb3e463](https://github.com/mathrunet/flutter_masamune/commit/cdb3e463a56276e84bc835e8734b5abfdd354f1d))
+
+#### `katana_scoped` - `v2.0.24`
+
+ - **FIX**: Added ScopedVallue for Timer. ([9a454a90](https://github.com/mathrunet/flutter_masamune/commit/9a454a907fbcc8fa37cd2226c0512dc49a3559e1))
+
+
+## 2023-10-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v2.0.26`](#katana_theme---v2026)
  - [`masamune` - `v2.4.64`](#masamune---v2464)
  - [`masamune_location_platform_interface` - `v2.1.11`](#masamune_location_platform_interface---v2111)

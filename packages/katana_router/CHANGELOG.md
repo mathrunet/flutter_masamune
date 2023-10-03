@@ -1,3 +1,7 @@
+## 2.0.42
+
+ - **FIX**: Fixed a bug in loading page parameters. ([cdb3e463](https://github.com/mathrunet/flutter_masamune/commit/cdb3e463a56276e84bc835e8734b5abfdd354f1d))
+
 ## 2.0.41
 
  - **FIX**: Add rootContext. ([100ab189](https://github.com/mathrunet/flutter_masamune/commit/100ab189d69a7b3e5baf0d5054b3d2c6f0a47fd4))

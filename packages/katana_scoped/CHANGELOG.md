@@ -1,3 +1,7 @@
+## 2.0.24
+
+ - **FIX**: Added ScopedVallue for Timer. ([9a454a90](https://github.com/mathrunet/flutter_masamune/commit/9a454a907fbcc8fa37cd2226c0512dc49a3559e1))
+
 ## 2.0.23
 
  - Update a dependency to the latest release.
