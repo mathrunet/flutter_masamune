@@ -1343,8 +1343,12 @@ class AppThemeData {
                 IconThemeData(color: appBarForegroundColor),
             systemOverlayStyle: SystemUiOverlayStyle(
               systemNavigationBarIconBrightness:
-                  statusBarBrightnessOnIOS ?? Brightness.dark,
-              statusBarBrightness: Brightness.dark,
+                  statusBarBrightnessOnIOS != null
+                      ? _inverse(statusBarBrightnessOnIOS!, false)
+                      : Brightness.dark,
+              statusBarBrightness: statusBarBrightnessOnIOS != null
+                  ? _inverse(statusBarBrightnessOnIOS!, false)
+                  : Brightness.dark,
               statusBarIconBrightness:
                   statusBarBrightnessOnAndroid ?? Brightness.light,
             ),
@@ -1565,8 +1569,12 @@ class AppThemeData {
                 IconThemeData(color: appBarForegroundColor),
             systemOverlayStyle: SystemUiOverlayStyle(
               systemNavigationBarIconBrightness:
-                  statusBarBrightnessOnIOS ?? Brightness.light,
-              statusBarBrightness: Brightness.light,
+                  statusBarBrightnessOnIOS != null
+                      ? _inverse(statusBarBrightnessOnIOS!, false)
+                      : Brightness.light,
+              statusBarBrightness: statusBarBrightnessOnIOS != null
+                  ? _inverse(statusBarBrightnessOnIOS!, false)
+                  : Brightness.light,
               statusBarIconBrightness:
                   statusBarBrightnessOnAndroid ?? Brightness.dark,
             ),

@@ -211,7 +211,7 @@ packages:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.17"
+    version: "2.0.18"
   lints:
     dependency: transitive
     description:
