@@ -14,11 +14,16 @@ app:
 
   # The application icon is automatically set based on the image file specified in [path].
   # Image files should be created as 1024 x 1024 png files.
+  # You can create an AdaptiveIcon for Android by specifying [background] and [foreground] in [adaptive_icon].
   # [path]に指定された画像ファイルを元にアプリのアイコンを自動設定します。
   # 画像ファイルは1024×1024のpngファイルで作成してください。
+  # [adaptive_icon]で[background]と[foreground]を指定するとAndroid用のAdaptiveIconを作成できます。
   icon:
     enable: false
     path: assets/icon.png
+    adaptive_icon:
+      foreground:
+      background:
   
   # Describe the application information.
   # For each language code, put the normal title in [title] and a short title for the app in [short_title]. Provide an overview of the app in [overview].

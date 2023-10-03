@@ -41,6 +41,21 @@ final _sizeList = {
   "web/icons/Icon-maskable-512.png": 512,
 };
 
+final _sizeListAdaptiveBackground = {
+  "android/app/src/main/res/mipmap-hdpi/ic_launcher_background.png": 162,
+  "android/app/src/main/res/mipmap-mdpi/ic_launcher_background.png": 108,
+  "android/app/src/main/res/mipmap-xhdpi/ic_launcher_background.png": 216,
+  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_background.png": 324,
+  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_background.png": 432,
+};
+final _sizeListAdaptiveForeground = {
+  "android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png": 162,
+  "android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png": 108,
+  "android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png": 216,
+  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png": 324,
+  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png": 432,
+};
+
 final _faviconSize = [
   16,
   32,
@@ -90,6 +105,10 @@ class AppIconCliAction extends CliCommand with CliActionMixin {
       );
       return;
     }
+    final adaptive = icon.getAsMap("adaptive_icon");
+    final adaptiveBackground = adaptive.get("background", "");
+    final adaptiveForeground = adaptive.get("foreground", "");
+    label("Load $adaptiveBackground $adaptiveForeground");
     label("Load a file from $path");
     final iconFile = File(path);
     if (!iconFile.existsSync()) {
@@ -119,6 +138,72 @@ class AppIconCliAction extends CliCommand with CliActionMixin {
       );
       await file.writeAsBytes(encodePng(resized, level: 9));
     }
+    if (adaptiveBackground.isNotEmpty && adaptiveForeground.isNotEmpty) {
+      label("Load a file from $adaptiveBackground");
+      final backgroundIconFile = File(adaptiveBackground);
+      if (!backgroundIconFile.existsSync()) {
+        error("Icon file not found in $adaptiveBackground.");
+        return;
+      }
+      label("Load a file from $adaptiveForeground");
+      final foregroundIconFile = File(adaptiveForeground);
+      if (!foregroundIconFile.existsSync()) {
+        error("Icon file not found in $adaptiveForeground.");
+        return;
+      }
+      final backgroundIconImage =
+          decodeImage(backgroundIconFile.readAsBytesSync())!;
+      if (backgroundIconImage.width != 1024 ||
+          backgroundIconImage.height != 1024) {
+        error("Icon files should be 1024 x 1024.");
+        return;
+      }
+      final foregroundIconImage =
+          decodeImage(foregroundIconFile.readAsBytesSync())!;
+      if (foregroundIconImage.width != 1024 ||
+          foregroundIconImage.height != 1024) {
+        error("Icon files should be 1024 x 1024.");
+        return;
+      }
+      for (final tmp in _sizeListAdaptiveBackground.entries) {
+        label("Resize & Save to ${tmp.key}");
+        final dir = Directory(tmp.key.parentPath());
+        if (!dir.existsSync()) {
+          await dir.create(recursive: true);
+        }
+        final file = File(tmp.key);
+        if (file.existsSync()) {
+          await file.delete();
+        }
+        final resized = copyResize(
+          backgroundIconImage,
+          height: tmp.value,
+          width: tmp.value,
+          interpolation: Interpolation.average,
+        );
+        await file.writeAsBytes(encodePng(resized, level: 9));
+      }
+      for (final tmp in _sizeListAdaptiveForeground.entries) {
+        label("Resize & Save to ${tmp.key}");
+        final dir = Directory(tmp.key.parentPath());
+        if (!dir.existsSync()) {
+          await dir.create(recursive: true);
+        }
+        final file = File(tmp.key);
+        if (file.existsSync()) {
+          await file.delete();
+        }
+        final resized = copyResize(
+          foregroundIconImage,
+          height: tmp.value,
+          width: tmp.value,
+          interpolation: Interpolation.average,
+        );
+        await file.writeAsBytes(encodePng(resized, level: 9));
+      }
+      label("Create a ic_launcher.xml");
+      await const IcLauncherCliCode().generateFile("ic_launcher.xml");
+    }
     final icoFile = File("web/favicon.ico");
     if (icoFile.existsSync()) {
       await icoFile.delete();
@@ -134,5 +219,49 @@ class AppIconCliAction extends CliCommand with CliActionMixin {
         );
       }).toList()),
     );
+  }
+}
+
+/// Contents of ic_launcher.xml.
+///
+/// ic_launcher.xmlの中身。
+class IcLauncherCliCode extends CliCode {
+  /// Contents of launch.json.
+  ///
+  /// launch.jsonの中身。
+  const IcLauncherCliCode();
+
+  @override
+  String get name => "ic_launcher";
+
+  @override
+  String get prefix => "ic_launcher";
+
+  @override
+  String get directory => "android/app/src/main/res/mipmap-anydpi-v26";
+
+  @override
+  String get description =>
+      "Create ic_launcher.xml for adaptive icons. アダプティブアイコン用のic_launcher.xmlを作成します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return r"""
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>
+""";
   }
 }
