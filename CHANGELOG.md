@@ -3,6 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_scoped` - `v2.0.25`](#katana_scoped---v2025)
+ - [`masamune` - `v2.4.66`](#masamune---v2466)
+ - [`masamune_location_platform_interface` - `v2.1.13`](#masamune_location_platform_interface---v2113)
+ - [`masamune_location` - `v2.1.134`](#masamune_location---v21134)
+ - [`masamune_deeplink_firebase` - `v2.1.41`](#masamune_deeplink_firebase---v2141)
+ - [`masamune_scheduler` - `v2.1.5`](#masamune_scheduler---v215)
+ - [`masamune_auth_apple` - `v2.1.122`](#masamune_auth_apple---v21122)
+ - [`masamune_location_background` - `v2.1.12`](#masamune_location_background---v2112)
+ - [`masamune_text_to_speech` - `v2.1.88`](#masamune_text_to_speech---v2188)
+ - [`masamune_agora` - `v2.2.104`](#masamune_agora---v22104)
+ - [`masamune_ai_openai` - `v2.2.56`](#masamune_ai_openai---v2256)
+ - [`masamune_auth_google` - `v2.1.123`](#masamune_auth_google---v21123)
+ - [`masamune_calendar` - `v2.0.166`](#masamune_calendar---v20166)
+ - [`masamune_picker` - `v2.1.121`](#masamune_picker---v21121)
+ - [`masamune_util` - `v2.1.100`](#masamune_util---v21100)
+ - [`masamune_universal_ui` - `v2.2.102`](#masamune_universal_ui---v22102)
+ - [`masamune_purchase_stripe` - `v3.3.69`](#masamune_purchase_stripe---v3369)
+ - [`masamune_notification` - `v2.2.7`](#masamune_notification---v227)
+ - [`masamune_logger_firebase` - `v2.0.164`](#masamune_logger_firebase---v20164)
+ - [`masamune_introduction` - `v2.2.70`](#masamune_introduction---v2270)
+ - [`masamune_deeplink` - `v2.1.40`](#masamune_deeplink---v2140)
+ - [`masamune_speech_to_text` - `v2.1.91`](#masamune_speech_to_text---v2191)
+ - [`masamune_auth_facebook` - `v2.1.124`](#masamune_auth_facebook---v21124)
+ - [`masamune_module_point_ecosystem` - `v2.3.30`](#masamune_module_point_ecosystem---v2330)
+ - [`masamune_location_google` - `v2.1.135`](#masamune_location_google---v21135)
+ - [`masamune_module` - `v2.3.25`](#masamune_module---v2325)
+ - [`masamune_mail` - `v2.1.119`](#masamune_mail---v21119)
+ - [`masamune_notification_firebase` - `v2.4.8`](#masamune_notification_firebase---v248)
+ - [`masamune_purchase_mobile` - `v2.5.71`](#masamune_purchase_mobile---v2571)
+ - [`masamune_ads_google` - `v2.1.72`](#masamune_ads_google---v2172)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.66`
+ - `masamune_location_platform_interface` - `v2.1.13`
+ - `masamune_location` - `v2.1.134`
+ - `masamune_deeplink_firebase` - `v2.1.41`
+ - `masamune_scheduler` - `v2.1.5`
+ - `masamune_auth_apple` - `v2.1.122`
+ - `masamune_location_background` - `v2.1.12`
+ - `masamune_text_to_speech` - `v2.1.88`
+ - `masamune_agora` - `v2.2.104`
+ - `masamune_ai_openai` - `v2.2.56`
+ - `masamune_auth_google` - `v2.1.123`
+ - `masamune_calendar` - `v2.0.166`
+ - `masamune_picker` - `v2.1.121`
+ - `masamune_util` - `v2.1.100`
+ - `masamune_universal_ui` - `v2.2.102`
+ - `masamune_purchase_stripe` - `v3.3.69`
+ - `masamune_notification` - `v2.2.7`
+ - `masamune_logger_firebase` - `v2.0.164`
+ - `masamune_introduction` - `v2.2.70`
+ - `masamune_deeplink` - `v2.1.40`
+ - `masamune_speech_to_text` - `v2.1.91`
+ - `masamune_auth_facebook` - `v2.1.124`
+ - `masamune_module_point_ecosystem` - `v2.3.30`
+ - `masamune_location_google` - `v2.1.135`
+ - `masamune_module` - `v2.3.25`
+ - `masamune_mail` - `v2.1.119`
+ - `masamune_notification_firebase` - `v2.4.8`
+ - `masamune_purchase_mobile` - `v2.5.71`
+ - `masamune_ads_google` - `v2.1.72`
+
+---
+
+#### `katana_scoped` - `v2.0.25`
+
+ - **FIX**: Add ref.schedule. ([04ff113e](https://github.com/mathrunet/flutter_masamune/commit/04ff113e0c86cc605a876b5059815fcc5bf9f979))
+
+
 ## 2023-10-03
 
 ### Changes

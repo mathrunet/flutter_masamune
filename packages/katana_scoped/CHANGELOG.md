@@ -1,3 +1,7 @@
+## 2.0.25
+
+ - **FIX**: Add ref.schedule. ([04ff113e](https://github.com/mathrunet/flutter_masamune/commit/04ff113e0c86cc605a876b5059815fcc5bf9f979))
+
 ## 2.0.24
 
  - **FIX**: Added ScopedVallue for Timer. ([9a454a90](https://github.com/mathrunet/flutter_masamune/commit/9a454a907fbcc8fa37cd2226c0512dc49a3559e1))
