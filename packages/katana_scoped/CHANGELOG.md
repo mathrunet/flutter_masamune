@@ -1,3 +1,7 @@
+## 2.0.26
+
+ - **FIX**: Internal implementation of ref.schedule to use Timer. ([11a7aee8](https://github.com/mathrunet/flutter_masamune/commit/11a7aee8c3a6b624b0bfd92411bc7e253d90309c))
+
 ## 2.0.25
 
  - **FIX**: Add ref.schedule. ([04ff113e](https://github.com/mathrunet/flutter_masamune/commit/04ff113e0c86cc605a876b5059815fcc5bf9f979))
