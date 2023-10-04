@@ -145,5 +145,14 @@ class _OnValueState extends ScopedValueState<OnContext, _OnValue> {
 class OnContext {
   OnContext._();
   Completer<void>? _completer;
+
+  /// [Future] to monitor the end of `on` `initOrUpdate` when it is executed.
+  ///
+  /// `on`の`initOrUpdate`を実行したときにその終了を監視するための[Future]。
   Future<void>? get initOrUpdating => _completer?.future;
+
+  /// Returns `true` if `on` `initOrUpdate` is executed and terminated.
+  ///
+  /// `on`の`initOrUpdate`を実行したときに終了した場合`true`を返す。
+  bool get initOrUpdated => _completer == null;
 }

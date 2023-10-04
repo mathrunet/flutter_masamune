@@ -15,13 +15,13 @@ extension RefTimerExtensions on PageOrWidgetScopedValueRef {
   /// 開始時刻と現在時刻の[DateTime]が渡されるのでそれを元に処理を行うことができます。
   ///
   /// [name]を指定すると別のタスクとして登録することができます。
-  Timer timer(
+  Timer? timer(
     FutureOr<void> Function(DateTime currentTime, DateTime startTime)
         callback, {
     required Duration duration,
     Object? name,
   }) {
-    return getScopedValue<Timer, _TimerValue>(
+    return getScopedValue<Timer?, _TimerValue>(
       (ref) => _TimerValue(
         callback: callback,
         duration: duration,
@@ -47,24 +47,25 @@ extension RefHasPageTimerExtensions on RefHasPage {
   /// 開始時刻と現在時刻の[DateTime]が渡されるのでそれを元に処理を行うことができます。
   ///
   /// [name]を指定すると別のタスクとして登録することができます。
-  Timer timer(
+  Timer? timer(
     FutureOr<void> Function(DateTime currentTime, DateTime startTime)
         callback, {
     required Duration duration,
     Object? name,
   }) {
-    return page.getScopedValue<Timer, _TimerValue>(
+    return page.getScopedValue<Timer?, _TimerValue>(
       (ref) => _TimerValue(
         callback: callback,
         duration: duration,
       ),
+      listen: true,
       name: name,
     );
   }
 }
 
 @immutable
-class _TimerValue extends ScopedValue<Timer> {
+class _TimerValue extends ScopedValue<Timer?> {
   const _TimerValue({
     required this.callback,
     required this.duration,
@@ -75,10 +76,10 @@ class _TimerValue extends ScopedValue<Timer> {
       callback;
 
   @override
-  ScopedValueState<Timer, _TimerValue> createState() => _TimerValueState();
+  ScopedValueState<Timer?, _TimerValue> createState() => _TimerValueState();
 }
 
-class _TimerValueState extends ScopedValueState<Timer, _TimerValue> {
+class _TimerValueState extends ScopedValueState<Timer?, _TimerValue> {
   _TimerValueState();
   Timer? _timer;
   DateTime? _startTime;
