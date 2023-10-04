@@ -85,6 +85,7 @@ class _ScheduleValueState
   _ScheduleValueState();
   final ScheduleContext _context = ScheduleContext._();
   late DateTime _startTime;
+  Timer? _timer;
 
   @override
   bool get autoDisposeWhenUnreferenced => true;
@@ -99,11 +100,16 @@ class _ScheduleValueState
     _context._completer = Completer();
     _startTime = DateTime.now();
     if (value.dateTime.isAfter(_startTime)) {
-      await Future.delayed(value.dateTime.difference(_startTime));
-      _context._completer?.complete();
-      _context._completer = null;
-      value.callback(DateTime.now(), _startTime);
-      setState(() {});
+      _timer = Timer(
+        value.dateTime.difference(_startTime),
+        () {
+          _timer = null;
+          _context._completer?.complete();
+          _context._completer = null;
+          value.callback(DateTime.now(), _startTime);
+          setState(() {});
+        },
+      );
     } else {
       await Future.delayed(Duration.zero);
       _context._completer?.complete();
@@ -111,6 +117,15 @@ class _ScheduleValueState
       value.callback(_startTime, _startTime);
       setState(() {});
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _context._completer?.complete();
+    _context._completer = null;
+    _timer?.cancel();
+    _timer = null;
   }
 
   @override
