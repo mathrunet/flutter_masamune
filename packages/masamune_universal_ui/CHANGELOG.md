@@ -1,3 +1,7 @@
+## 2.2.104
+
+ - **FIX**: Added the ability to load the next element to UniversalListView. ([2d7f6cdc](https://github.com/mathrunet/flutter_masamune/commit/2d7f6cdc9e6d2b946ed86c772eee6a9f7f86fca1))
+
 ## 2.2.103
 
  - Update a dependency to the latest release.

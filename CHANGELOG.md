@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-06
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v2.2.104`](#masamune_universal_ui---v22104)
+
+---
+
+#### `masamune_universal_ui` - `v2.2.104`
+
+ - **FIX**: Added the ability to load the next element to UniversalListView. ([2d7f6cdc](https://github.com/mathrunet/flutter_masamune/commit/2d7f6cdc9e6d2b946ed86c772eee6a9f7f86fca1))
+
+
 ## 2023-10-04
 
 ### Changes
