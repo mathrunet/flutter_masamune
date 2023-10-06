@@ -53,6 +53,7 @@ class UniversalListView extends StatelessWidget {
     this.reverse = false,
     this.controller,
     this.onRefresh,
+    this.onLoadNext,
     bool? primary,
     ScrollPhysics? physics,
     this.scrollBehavior,
@@ -105,6 +106,11 @@ class UniversalListView extends StatelessWidget {
   ///
   /// Pull-to-Refreshを行うと実行され、[Future]が返されるまでインジケーターを表示します。
   final Future<void> Function()? onRefresh;
+
+  /// 一番最後の要素が表示されたときに呼ばれるメソッド。
+  ///
+  /// これが[Null]でない場合は最後にローディングインジケーターが表示されこれが実行されます。
+  final Future<void> Function()? onLoadNext;
 
   /// A list of child elements for display in [ListView].
   ///
@@ -305,6 +311,11 @@ class UniversalListView extends StatelessWidget {
         children: cols,
       ));
     }
+    if (onLoadNext != null) {
+      rows.add(
+        _NextIndicator(key: ValueKey(children.length), onLoad: onLoadNext),
+      );
+    }
     return rows;
   }
 
@@ -396,6 +407,66 @@ class UniversalListView extends StatelessWidget {
       context,
       padding ?? universal?.defaultBodyPadding,
       breakpoint: breakpoint,
+    );
+  }
+}
+
+class _NextIndicator extends StatefulWidget {
+  const _NextIndicator({
+    required Key key,
+    this.onLoad,
+  }) : super(key: key);
+
+  final Future<void> Function()? onLoad;
+
+  static const _height = 56.0;
+
+  @override
+  State<StatefulWidget> createState() => _NextIndicatorState();
+}
+
+class _NextIndicatorState extends State<_NextIndicator> {
+  bool _loaded = false;
+  bool _loading = false;
+
+  Future<void> _load() async {
+    if (_loading) {
+      return;
+    }
+    _loading = true;
+    await widget.onLoad?.call();
+    _loaded = true;
+    _loading = false;
+    setState(() {});
+  }
+
+  @override
+  void didUpdateWidget(covariant _NextIndicator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.key != widget.key && _loaded) {
+      _loaded = false;
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loaded) {
+      return const Empty();
+    }
+    return VisibilityDetector(
+      key: widget.key!,
+      onVisibilityChanged: (info) {
+        final visiblePercentage = info.visibleFraction * 100;
+        if (visiblePercentage > 50.0) {
+          _load();
+        }
+      },
+      child: Container(
+        alignment: Alignment.center,
+        height: _NextIndicator._height,
+        child: const CircularProgressIndicator(),
+      ),
     );
   }
 }
