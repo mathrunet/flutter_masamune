@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_location_background` - `v2.1.14`](#masamune_location_background---v2114)
+
+---
+
+#### `masamune_location_background` - `v2.1.14`
+
+ - **FIX**: Bug fixes. ([7296abcb](https://github.com/mathrunet/flutter_masamune/commit/7296abcb80901a04fadc027814ad0723f01d28f9))
+
+
 ## 2023-10-06
 
 ### Changes
