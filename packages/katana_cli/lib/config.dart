@@ -100,14 +100,22 @@ ${showAllConfig ? """
 ${showAllConfig ? """
   # Configure settings for mobile app deep linking.
   # Describe the URI with URL scheme in [host].
+  # It is possible to create a universal link using https by enabling [server] and deploying the web to a server with the corresponding [host].
+  # [android_sha_256] specifies the SHA-256 hash value of the **signature certificate managed by Google Play**.
   # モバイルアプリのディープリンク用の設定を行います。
   # [host]にURLスキームを入れたURIを記述してください。
+  # [server]を有効にしてWebを該当の[host]を持つサーバーにデプロイするとhttpsを使ったユニバーサルリンクを作成することが可能です。
+  # [android_sha_256]は**GooglePlayでマネージされている**署名証明書のSHA-256ハッシュ値を指定します。
   # ```
   # host: https://mathru.net
   # ```
   deeplink:
     enable: false
     host:
+    server:
+      enable: false
+      ios_team_id:
+      android_sha_256:
 
   # Describe the settings for using the introductory part of the application.
   # アプリの導入部分を利用するための設定を記述します。

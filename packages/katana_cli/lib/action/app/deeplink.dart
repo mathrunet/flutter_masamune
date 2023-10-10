@@ -37,12 +37,30 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
     final flutter = bin.get("flutter", "flutter");
     final deeplink = context.yaml.getAsMap("app").getAsMap("deeplink");
     final host = deeplink.get("host", "");
+    final server = deeplink.getAsMap("server");
+    final enableServer = server.get("enable", false);
+    final iosTeamId = server.get("ios_team_id", "");
+    final androidSHA256 = server.get("android_sha_256", "");
     final uri = Uri.tryParse(host);
     if (host.isEmpty || uri == null) {
       error(
         "[app]->[deeplink]->[host] is not set. Please set the host name with URL scheme like `https://mathru.net`.",
       );
       return;
+    }
+    if (enableServer) {
+      if (iosTeamId.isEmpty) {
+        error(
+          "[app]->[deeplink]->[server]->[ios_team_id] is not set. Please set the iOS Team ID.",
+        );
+        return;
+      }
+      if (androidSHA256.isEmpty) {
+        error(
+          "[app]->[deeplink]->[server]->[android_sha_256] is not set. Please set the Android SHA-256.",
+        );
+        return;
+      }
     }
 
     await command(
@@ -192,6 +210,20 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
       label("Edit project.pbxproj");
       final xcode = XCode();
       await xcode.load();
+      final bundleId = xcode.pbxBuildConfiguration
+          .map(
+            (e) => e.buildSettings
+                .firstWhereOrNull((e) => e.key == "PRODUCT_BUNDLE_IDENTIFIER")
+                ?.value,
+          )
+          .firstWhereOrNull((e) => e != null)
+          ?.replaceAll('"', "")
+          .replaceAll("'", "");
+      if (bundleId.isEmpty) {
+        throw Exception(
+          "Bundle ID is not set in your XCode project. Please open `ios/Runner.xcodeproj` and check the settings.",
+        );
+      }
       final fileId = XCode.generateId();
       if (!xcode.pbxFileReference.any((e) => e.path == "Runner.entitlements")) {
         xcode.pbxFileReference.add(
@@ -232,6 +264,24 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
         }
       }
       await xcode.save();
+      label("Create apple-app-site-association");
+      final dir = Directory("web/.well-known");
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+      await AppleAppSiteAssociationCliCode(
+        teamId: iosTeamId,
+        bundleId: bundleId!,
+      ).generateFile("apple-app-site-association");
+      await AppleAppSiteAssociationCliCode(
+        teamId: iosTeamId,
+        bundleId: bundleId,
+      ).generateFile(".well-known/apple-app-site-association");
+      label("Create assetlinks.json");
+      await AndroidAssetLinksCliCode(
+        packageName: bundleId,
+        sha256: androidSHA256,
+      ).generateFile("assetlinks.json");
     } else {
       label("Edit Info.plist.");
       final plist = File("ios/Runner/Info.plist");
@@ -371,5 +421,130 @@ class AppDeeplinkCliAction extends CliCommand with CliActionMixin {
         iosDocument.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
       );
     }
+  }
+}
+
+/// Code base for `apple-app-site-association`.
+///
+/// `apple-app-site-association`のコードベース。
+class AppleAppSiteAssociationCliCode extends CliCode {
+  /// Code base for `apple-app-site-association`.
+  ///
+  /// `apple-app-site-association`のコードベース。
+  const AppleAppSiteAssociationCliCode({
+    required this.bundleId,
+    required this.teamId,
+  });
+
+  /// IOS Team ID.
+  ///
+  /// IOSのチームID。
+  final String teamId;
+
+  /// IOS Bundle ID.
+  ///
+  /// IOSのバンドルID。
+  final String bundleId;
+
+  @override
+  String get name => "apple-app-site-association";
+
+  @override
+  String get prefix => "apple-app-site-association";
+
+  @override
+  String get directory => "web";
+
+  @override
+  String get description =>
+      "Define code for `apple-app-site-association`. `apple-app-site-association`用のコードを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+{
+  "applinks": {
+       "apps": [],
+        "details": [
+           {
+               "appID":"$teamId.$bundleId",
+               "paths":[ "*" ]
+           }
+         ]
+    }
+}
+""";
+  }
+}
+
+/// Code base for `assetsLinks.json`.
+///
+/// `assetsLinks.json`のコードベース。
+class AndroidAssetLinksCliCode extends CliCode {
+  /// Code base for `assetsLinks.json`.
+  ///
+  /// `assetsLinks.json`のコードベース。
+  const AndroidAssetLinksCliCode({
+    required this.packageName,
+    required this.sha256,
+  });
+
+  /// Android SHA256 fingerprinting.
+  ///
+  /// AndroidのSHA256のフィンガープリント。
+  final String sha256;
+
+  /// Android package name.
+  ///
+  /// Androidのパッケージ名。
+  final String packageName;
+
+  @override
+  String get name => "assetsLinks.json";
+
+  @override
+  String get prefix => "assetsLinks.json";
+
+  @override
+  String get directory => "web/.well-known";
+
+  @override
+  String get description =>
+      "Define code for `assetsLinks.json`. `assetsLinks.json`用のコードを定義します。";
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "$packageName",
+        "sha256_cert_fingerprints": ["$sha256"]
+      }
+ }]
+""";
   }
 }
