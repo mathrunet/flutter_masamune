@@ -150,10 +150,15 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
       IsolateNameServer.registerPortWithName(port.sendPort, _isolateName);
       _subscription ??= port.listen(
         _handledOnUpdate,
-        onError: dispose,
+        onError: (e, stacktrace) {
+          debugPrint(e.toString());
+          debugPrint(stacktrace.toString());
+          dispose();
+        },
         cancelOnError: true,
       );
       await BackgroundLocator.initialize();
+      _running = await BackgroundLocator.isServiceRunning();
       _initialized = true;
       notifyListeners();
       _initializeCompleter?.complete();
@@ -243,6 +248,7 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
         _updated = false;
         notifyListeners();
       });
+      _running = await BackgroundLocator.isServiceRunning();
       notifyListeners();
       _listenCompleter?.complete();
       _listenCompleter = null;
@@ -271,10 +277,15 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
   }
 
   void _handledOnUpdate(dynamic data) async {
-    final value = await _BackgroundLocationRepository.loadAsLatestLocation();
-    if (_value != value) {
-      _value = value;
-      _updated = true;
+    try {
+      final value = await _BackgroundLocationRepository.loadAsLatestLocation();
+      if (_value != value) {
+        _value = value;
+        _updated = true;
+      }
+    } catch (e, stacktrace) {
+      debugPrint(e.toString());
+      debugPrint(stacktrace.toString());
     }
   }
 
