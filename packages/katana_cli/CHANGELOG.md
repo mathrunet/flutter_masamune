@@ -1,3 +1,7 @@
+## 2.9.11
+
+ - **FIX**: Additional server-side settings for Deeplink. ([6341c7fa](https://github.com/mathrunet/flutter_masamune/commit/6341c7fa504fbd190d48b06f1d9f040e7297d7c4))
+
 ## 2.9.10
 
  - **FIX**: Added support for AdaptiveIcon to icons. ([57d66b74](https://github.com/mathrunet/flutter_masamune/commit/57d66b74b3f2035c80657f8c01663eb177a707fa))

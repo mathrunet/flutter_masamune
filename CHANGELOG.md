@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.9.11`](#katana_cli---v2911)
+
+---
+
+#### `katana_cli` - `v2.9.11`
+
+ - **FIX**: Additional server-side settings for Deeplink. ([6341c7fa](https://github.com/mathrunet/flutter_masamune/commit/6341c7fa504fbd190d48b06f1d9f040e7297d7c4))
+
+
+## 2023-10-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location_background` - `v2.1.14`](#masamune_location_background---v2114)
 
 ---
