@@ -205,6 +205,7 @@ abstract class CliCode {
   Future<void> generateDartCode(
     String path,
     String className, {
+    String ext = "dart",
     String Function(String value)? filter,
   }) async {
     final baseName = path.last();
@@ -218,7 +219,7 @@ abstract class CliCode {
     final output = _removeCodeSnippetValue(
       "${import(trimedPath, baseName, editClassName)}\n${header(trimedPath, baseName, editClassName)}\n${body(trimedPath, baseName, editClassName)}",
     );
-    await File("$path.dart").writeAsString(filter?.call(output) ?? output);
+    await File("$path.$ext").writeAsString(filter?.call(output) ?? output);
   }
 
   /// Create a code snippet file for VSCode in [directory]/[name].code-snippets.

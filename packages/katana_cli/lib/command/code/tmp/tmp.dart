@@ -9,7 +9,13 @@ import 'package:katana_cli/katana_cli.dart';
 part 'form.dart';
 part 'basic.dart';
 
+/// Create a Dart/Flutter code template.
+///
+/// Dart/Flutterのコードテンプレートを作成します。
 class CodeTmpCliCommand extends CliCommandGroup {
+  /// Create a Dart/Flutter code template.
+  ///
+  /// Dart/Flutterのコードテンプレートを作成します。
   const CodeTmpCliCommand();
 
   @override
