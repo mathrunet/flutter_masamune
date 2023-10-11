@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.10.0`](#katana_cli---v2100)
+
+---
+
+#### `katana_cli` - `v2.10.0`
+
+ - **FEAT**: Added server-side code generation. ([815e5778](https://github.com/mathrunet/flutter_masamune/commit/815e5778f40cdb8094d2989a72ca2a6d2817c28d))
+
+
 ## 2023-10-10
 
 ### Changes

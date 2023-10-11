@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: Added server-side code generation. ([815e5778](https://github.com/mathrunet/flutter_masamune/commit/815e5778f40cdb8094d2989a72ca2a6d2817c28d))
+
 ## 2.9.11
 
  - **FIX**: Additional server-side settings for Deeplink. ([6341c7fa](https://github.com/mathrunet/flutter_masamune/commit/6341c7fa504fbd190d48b06f1d9f040e7297d7c4))
