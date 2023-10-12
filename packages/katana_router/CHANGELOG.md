@@ -1,3 +1,7 @@
+## 2.0.43
+
+ - Update a dependency to the latest release.
+
 ## 2.0.42
 
  - **FIX**: Fixed a bug in loading page parameters. ([cdb3e463](https://github.com/mathrunet/flutter_masamune/commit/cdb3e463a56276e84bc835e8734b5abfdd354f1d))

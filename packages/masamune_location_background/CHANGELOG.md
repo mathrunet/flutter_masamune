@@ -1,3 +1,7 @@
+## 2.1.15
+
+ - Update a dependency to the latest release.
+
 ## 2.1.14
 
  - **FIX**: Bug fixes. ([7296abcb](https://github.com/mathrunet/flutter_masamune/commit/7296abcb80901a04fadc027814ad0723f01d28f9))

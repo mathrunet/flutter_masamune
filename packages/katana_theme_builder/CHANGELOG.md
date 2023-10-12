@@ -1,3 +1,7 @@
+## 2.0.23
+
+ - Update a dependency to the latest release.
+
 ## 2.0.22
 
  - **FIX**: Added the ability to explicitly change the color of the status bar. ([2ccaeffa](https://github.com/mathrunet/flutter_masamune/commit/2ccaeffa7c4ebea4e43c584bc16c83ec695917cd))

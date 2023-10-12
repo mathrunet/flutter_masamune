@@ -1,6 +1,6 @@
 name: masamune_module
 description: Base package for creating application modules using the Masamune package.
-version: 2.3.26
+version: 2.3.27
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune_module/tree/master/packages/masamune_module
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.4.2
-  masamune: ^2.4.67
+  katana: ^2.4.3
+  masamune: ^2.4.68
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

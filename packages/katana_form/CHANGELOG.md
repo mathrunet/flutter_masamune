@@ -1,3 +1,7 @@
+## 2.7.14
+
+ - Update a dependency to the latest release.
+
 ## 2.7.13
 
  - **FIX**: Added errorTextStyle. ([92c3a4d8](https://github.com/mathrunet/flutter_masamune/commit/92c3a4d831ee896ed18b1c1a296bd9bebb14a4ca))

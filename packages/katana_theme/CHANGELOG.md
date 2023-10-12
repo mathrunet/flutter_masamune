@@ -1,3 +1,7 @@
+## 2.0.27
+
+ - Update a dependency to the latest release.
+
 ## 2.0.26
 
  - **FIX**: In the case of IOS, it is the other way around, so adjust to that. ([0cddf475](https://github.com/mathrunet/flutter_masamune/commit/0cddf475076db9547a3fd38cd85e236e5a62c79a))

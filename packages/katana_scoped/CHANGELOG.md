@@ -1,3 +1,7 @@
+## 2.0.27
+
+ - Update a dependency to the latest release.
+
 ## 2.0.26
 
  - **FIX**: Internal implementation of ref.schedule to use Timer. ([11a7aee8](https://github.com/mathrunet/flutter_masamune/commit/11a7aee8c3a6b624b0bfd92411bc7e253d90309c))

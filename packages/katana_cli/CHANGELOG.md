@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - **FIX**: Minor modifications to the server code generator. ([4d932d47](https://github.com/mathrunet/flutter_masamune/commit/4d932d47f99c26543a96d4c199c1ecea75676099))
+
 ## 2.10.0
 
  - **FEAT**: Added server-side code generation. ([815e5778](https://github.com/mathrunet/flutter_masamune/commit/815e5778f40cdb8094d2989a72ca2a6d2817c28d))

@@ -1,3 +1,7 @@
+## 2.4.3
+
+ - **DOCS**: Documentation changes. ([6b265c42](https://github.com/mathrunet/flutter_masamune/commit/6b265c42df258dafcbae81b3474fc1aa978282b3))
+
 ## 2.4.2
 
  - **FIX**: Added Japanese editing methods. ([d9b6b02a](https://github.com/mathrunet/flutter_masamune/commit/d9b6b02a3da7e7580a1f8ba7eaf4a4fc66dd55cc))
