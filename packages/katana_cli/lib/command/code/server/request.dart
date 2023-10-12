@@ -24,7 +24,7 @@ class CodeServerRequestCliCommand extends CliCodeCommand {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final path = context.args.get(2, "");
+    final path = context.args.get(3, "");
     if (path.isEmpty) {
       error(
         "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code cache [path]\r\n",
@@ -61,18 +61,18 @@ import {Response, Request} from "firebase-functions";
   String body(String path, String baseName, String className) {
     return """
 /**
- * ${className.toPascalCase()}
+ * ${className.toPascalCase()}Request
  * 
  * Create server code for HTTP requests.
  */
-export class ${className.toPascalCase()} extends m.RequestProcessFunctionBase {
+export class ${className.toPascalCase()}Request extends m.RequestProcessFunctionBase {
     /**
      * @param id
      * Describe the method names used in Functions.
      *
      * Functionsで利用されるメソッド名を記述します。
      */
-    id = "${className.toSnakeCase()}";
+    id = "${className.toSnakeCase()}_request";
     /**
      * Specify the actual contents of the process.
      *

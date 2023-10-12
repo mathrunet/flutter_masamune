@@ -24,7 +24,7 @@ class CodeServerScheduleCliCommand extends CliCodeCommand {
 
   @override
   Future<void> exec(ExecContext context) async {
-    final path = context.args.get(2, "");
+    final path = context.args.get(3, "");
     if (path.isEmpty) {
       error(
         "[path] is not specified. Please enter [path] according to the following command.\r\nkatana code cache [path]\r\n",
@@ -60,18 +60,18 @@ import * as m from "@mathrunet/masamune";
   String body(String path, String baseName, String className) {
     return """
 /**
- * ${className.toPascalCase()}
+ * ${className.toPascalCase()}Schedule
  * 
  * Create a server code for the scheduler.
  */
-export class ${className.toPascalCase()} extends m.ScheduleProcessFunctionBase {
+export class ${className.toPascalCase()}Schedule extends m.ScheduleProcessFunctionBase {
     /**
      * @param id
      * Describe the method names used in Functions.
      *
      * Functionsで利用されるメソッド名を記述します。
      */
-    id = "${className.toSnakeCase()}";
+    id = "${className.toSnakeCase()}_schedule";
     /**
      * Specify the schedule to execute the process in cron format.
      *
