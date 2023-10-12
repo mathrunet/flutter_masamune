@@ -45,7 +45,7 @@ extension StringExtensions on String {
   ///
   /// ```dart
   /// final text = "abcd";
-  /// final converted = path.toZenkakuNumericAndAlphabet(); // "ａｂｃｄ"
+  /// final converted = text.toZenkakuNumericAndAlphabet(); // "ａｂｃｄ"
   /// ```
   String toZenkakuNumericAndAlphabet() {
     final regex = RegExp(r'^[a-zA-Z0-9]+$');
@@ -62,7 +62,7 @@ extension StringExtensions on String {
   ///
   /// ```dart
   /// final text = "ａｂｃｄ";
-  /// final converted = path.toHankakuNumericAndAlphabet(); // "abcd"
+  /// final converted = text.toHankakuNumericAndAlphabet(); // "abcd"
   /// ```
   String toHankakuNumericAndAlphabet() {
     final regex = RegExp(r'^[Ａ-Ｚａ-ｚ０-９]+$');
@@ -79,7 +79,7 @@ extension StringExtensions on String {
   ///
   /// ```dart
   /// final text = "アイウエオ";
-  /// final converted = path.toHiragana(); // "あいうえお"
+  /// final converted = text.toHiragana(); // "あいうえお"
   /// ```
   String toHiragana() {
     return replaceAllMapped(RegExp("[ァ-ヴ]"),
@@ -92,7 +92,7 @@ extension StringExtensions on String {
   ///
   /// ```dart
   /// final text = "あいうえお";
-  /// final converted = path.toKatakana(); // "アイウエオ"
+  /// final converted = text.toKatakana(); // "アイウエオ"
   /// ```
   String toKatakana() {
     return replaceAllMapped(RegExp("[ぁ-ゔ]"),
@@ -105,7 +105,7 @@ extension StringExtensions on String {
   ///
   /// ```dart
   /// final text = "ｱｲｳｴｵ";
-  /// final converted = path.toZenkakuKatakana(); // "アイウエオ"
+  /// final converted = text.toZenkakuKatakana(); // "アイウエオ"
   /// ```
   String toZenkakuKatakana() {
     var val = this;
@@ -215,8 +215,7 @@ extension StringExtensions on String {
   /// [String]を1文字ずつの配列に変換します。
   ///
   /// ```dart
-  /// final text = "abcde";
-  /// final characters = ["a", "b", "c", "d", "e"];
+  /// final text = "abcde".splitByCharacter() // ["a", "b", "c", "d", "e"];
   /// ```
   List<String> splitByCharacter() {
     if (isEmpty) {
@@ -237,8 +236,7 @@ extension StringExtensions on String {
   /// [String]をBigram、つまり2文字ずつの配列に変換します。
   ///
   /// ```dart
-  /// final text = "abcde";
-  /// final characters = ["ab", "bc", "cd", "de"];
+  /// final text = "abcde".splitByBigram() // ["ab", "bc", "cd", "de"];
   /// ```
   List<String> splitByBigram() {
     if (isEmpty) {
@@ -259,8 +257,7 @@ extension StringExtensions on String {
   /// [String]を1文字ずつの配列と2文字ずつの配列に変換します。
   ///
   /// ```dart
-  /// final text = "abcde";
-  /// final characters = ["a", "b", "c", "d", "e", "ab", "bc", "cd", "de"];
+  /// final text = "abcde".splitByCharacterAndBigram() // ["a", "b", "c", "d", "e", "ab", "bc", "cd", "de"];
   /// ```
   List<String> splitByCharacterAndBigram() {
     return [
@@ -274,8 +271,7 @@ extension StringExtensions on String {
   /// [String]をTrigram、つまり3文字ずつの配列に変換します。
   ///
   /// ```dart
-  /// final text = "abcde";
-  /// final characters = ["abc", "bcd", "cde"];
+  /// final text = "abcde".splitByTrigram() // ["abc", "bcd", "cde"];
   /// ```
   List<String> splitByTrigram() {
     if (isEmpty) {
