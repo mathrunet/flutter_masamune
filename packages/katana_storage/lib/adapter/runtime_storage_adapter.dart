@@ -70,7 +70,7 @@ class RuntimeStorageAdapter extends StorageAdapter {
   /// Local Storage.
   ///
   /// ローカルストレージ。
-  static const FileStorage localStorage = FileStorage();
+  static final MemoryStorage localStorage = MemoryStorage();
 
   @override
   Future<void> delete(String relativePath) async {
@@ -83,7 +83,8 @@ class RuntimeStorageAdapter extends StorageAdapter {
 
   @override
   Future<Uri> fetchPublicURI(String remoteRelativePath) async {
-    return Uri.parse(await remoteStorage.fetchURI(remoteRelativePath));
+    final bytes = await remoteStorage.read(remoteRelativePath);
+    return Uri.parse("blob:${base64Url.encode(bytes)}");
   }
 
   @override
