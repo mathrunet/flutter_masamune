@@ -8,6 +8,7 @@ import 'package:katana_cli/katana_cli.dart';
 
 part 'request.dart';
 part 'schedule.dart';
+part 'call.dart';
 
 /// Create a code template for Firebase Functions.
 ///
@@ -24,6 +25,7 @@ class CodeServerCliCommand extends CliCommandGroup {
 
   @override
   Map<String, CliCommand> get commands => const {
+        "call": CodeServerCallCliCommand(),
         "request": CodeServerRequestCliCommand(),
         "schedule": CodeServerScheduleCliCommand(),
       };
