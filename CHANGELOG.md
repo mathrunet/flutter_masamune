@@ -3,6 +3,108 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.10.2`](#katana_cli---v2102)
+ - [`katana_storage` - `v2.0.17`](#katana_storage---v2017)
+ - [`katana_storage_firebase` - `v2.0.18`](#katana_storage_firebase---v2018)
+ - [`katana_theme` - `v2.0.28`](#katana_theme---v2028)
+ - [`masamune` - `v2.4.69`](#masamune---v2469)
+ - [`masamune_location_platform_interface` - `v2.1.16`](#masamune_location_platform_interface---v2116)
+ - [`masamune_location` - `v2.1.137`](#masamune_location---v21137)
+ - [`masamune_scheduler` - `v2.1.8`](#masamune_scheduler---v218)
+ - [`masamune_deeplink_firebase` - `v2.1.44`](#masamune_deeplink_firebase---v2144)
+ - [`masamune_location_background` - `v2.1.16`](#masamune_location_background---v2116)
+ - [`masamune_text_to_speech` - `v2.1.91`](#masamune_text_to_speech---v2191)
+ - [`masamune_auth_apple` - `v2.1.125`](#masamune_auth_apple---v21125)
+ - [`masamune_agora` - `v2.2.107`](#masamune_agora---v22107)
+ - [`masamune_auth_google` - `v2.1.126`](#masamune_auth_google---v21126)
+ - [`masamune_ai_openai` - `v2.2.59`](#masamune_ai_openai---v2259)
+ - [`masamune_calendar` - `v2.0.169`](#masamune_calendar---v20169)
+ - [`masamune_picker` - `v2.1.124`](#masamune_picker---v21124)
+ - [`masamune_util` - `v2.1.103`](#masamune_util---v21103)
+ - [`masamune_universal_ui` - `v2.2.106`](#masamune_universal_ui---v22106)
+ - [`masamune_purchase_stripe` - `v3.3.72`](#masamune_purchase_stripe---v3372)
+ - [`masamune_logger_firebase` - `v2.0.167`](#masamune_logger_firebase---v20167)
+ - [`masamune_notification` - `v2.2.10`](#masamune_notification---v2210)
+ - [`masamune_introduction` - `v2.2.73`](#masamune_introduction---v2273)
+ - [`masamune_auth_facebook` - `v2.1.127`](#masamune_auth_facebook---v21127)
+ - [`masamune_deeplink` - `v2.1.43`](#masamune_deeplink---v2143)
+ - [`masamune_location_google` - `v2.1.138`](#masamune_location_google---v21138)
+ - [`masamune_speech_to_text` - `v2.1.94`](#masamune_speech_to_text---v2194)
+ - [`masamune_module_point_ecosystem` - `v2.3.33`](#masamune_module_point_ecosystem---v2333)
+ - [`masamune_module` - `v2.3.28`](#masamune_module---v2328)
+ - [`masamune_mail` - `v2.1.122`](#masamune_mail---v21122)
+ - [`masamune_notification_firebase` - `v2.4.11`](#masamune_notification_firebase---v2411)
+ - [`masamune_purchase_mobile` - `v2.5.74`](#masamune_purchase_mobile---v2574)
+ - [`masamune_ads_google` - `v2.1.75`](#masamune_ads_google---v2175)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v2.1.16`
+ - `masamune_location` - `v2.1.137`
+ - `masamune_scheduler` - `v2.1.8`
+ - `masamune_deeplink_firebase` - `v2.1.44`
+ - `masamune_location_background` - `v2.1.16`
+ - `masamune_text_to_speech` - `v2.1.91`
+ - `masamune_auth_apple` - `v2.1.125`
+ - `masamune_agora` - `v2.2.107`
+ - `masamune_auth_google` - `v2.1.126`
+ - `masamune_ai_openai` - `v2.2.59`
+ - `masamune_calendar` - `v2.0.169`
+ - `masamune_picker` - `v2.1.124`
+ - `masamune_util` - `v2.1.103`
+ - `masamune_universal_ui` - `v2.2.106`
+ - `masamune_purchase_stripe` - `v3.3.72`
+ - `masamune_logger_firebase` - `v2.0.167`
+ - `masamune_notification` - `v2.2.10`
+ - `masamune_introduction` - `v2.2.73`
+ - `masamune_auth_facebook` - `v2.1.127`
+ - `masamune_deeplink` - `v2.1.43`
+ - `masamune_location_google` - `v2.1.138`
+ - `masamune_speech_to_text` - `v2.1.94`
+ - `masamune_module_point_ecosystem` - `v2.3.33`
+ - `masamune_module` - `v2.3.28`
+ - `masamune_mail` - `v2.1.122`
+ - `masamune_notification_firebase` - `v2.4.11`
+ - `masamune_purchase_mobile` - `v2.5.74`
+ - `masamune_ads_google` - `v2.1.75`
+
+---
+
+#### `katana_cli` - `v2.10.2`
+
+ - **FIX**: Add server code for Call. ([58e21ac3](https://github.com/mathrunet/flutter_masamune/commit/58e21ac3f71edb3011eb7dca84309155477d930d))
+
+#### `katana_storage` - `v2.0.17`
+
+ - **FIX**: RuntimeStorageAdapter made available on the web. ([90f65994](https://github.com/mathrunet/flutter_masamune/commit/90f65994974212971d8016d98110d3743227051a))
+
+#### `katana_storage_firebase` - `v2.0.18`
+
+ - **FIX**: RuntimeStorageAdapter made available on the web. ([90f65994](https://github.com/mathrunet/flutter_masamune/commit/90f65994974212971d8016d98110d3743227051a))
+
+#### `katana_theme` - `v2.0.28`
+
+ - **FIX**: Image URLs starting with "blob:" are now displayed in MemoryImage. ([77d4f5cd](https://github.com/mathrunet/flutter_masamune/commit/77d4f5cde1503ec831fe79b813125a7be64b7ba6))
+
+#### `masamune` - `v2.4.69`
+
+ - **FIX**: Added PageRef Extension for forms. ([0f2d62ad](https://github.com/mathrunet/flutter_masamune/commit/0f2d62ad961c097582a27c4cc640be309aea8137))
+
+
 ## 2023-10-12
 
 ### Changes

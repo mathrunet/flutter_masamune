@@ -1,3 +1,7 @@
+## 2.0.28
+
+ - **FIX**: Image URLs starting with "blob:" are now displayed in MemoryImage. ([77d4f5cd](https://github.com/mathrunet/flutter_masamune/commit/77d4f5cde1503ec831fe79b813125a7be64b7ba6))
+
 ## 2.0.27
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.4.69
+
+ - **FIX**: Added PageRef Extension for forms. ([0f2d62ad](https://github.com/mathrunet/flutter_masamune/commit/0f2d62ad961c097582a27c4cc640be309aea8137))
+
 ## 2.4.68
 
  - Update a dependency to the latest release.

@@ -1,3 +1,7 @@
+## 2.10.2
+
+ - **FIX**: Add server code for Call. ([58e21ac3](https://github.com/mathrunet/flutter_masamune/commit/58e21ac3f71edb3011eb7dca84309155477d930d))
+
 ## 2.10.1
 
  - **FIX**: Minor modifications to the server code generator. ([4d932d47](https://github.com/mathrunet/flutter_masamune/commit/4d932d47f99c26543a96d4c199c1ecea75676099))
