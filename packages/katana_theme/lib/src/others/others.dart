@@ -5,6 +5,7 @@ library katana_theme.others;
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 // Flutter imports:

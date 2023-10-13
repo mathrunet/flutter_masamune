@@ -5,6 +5,7 @@ library katana_theme.web;
 
 // Dart imports:
 import 'dart:async';
+import 'dart:convert';
 
 // Flutter imports:
 import 'package:flutter/src/painting/_network_image_web.dart' as network_image;

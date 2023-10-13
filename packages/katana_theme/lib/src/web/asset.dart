@@ -100,7 +100,10 @@ class Asset {
       return _MemoizedAssetImage(defaultAssetURI);
     }
     try {
-      if (uri!.startsWith("http") || uri.startsWith("blob:")) {
+      if (uri!.startsWith("blob:")) {
+        final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
+        return MemoryImage(base64Url.decode(blob));
+      } else if (uri.startsWith("http")) {
         return _MemoizedNetworkImage(uri);
       } else if (uri.startsWith("resource:")) {
         return _MemoizedAssetImage(
