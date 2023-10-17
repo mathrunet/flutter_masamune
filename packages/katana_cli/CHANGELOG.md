@@ -1,3 +1,7 @@
+## 2.10.3
+
+ - **FIX**: Linter support for functions. ([d6edce62](https://github.com/mathrunet/flutter_masamune/commit/d6edce627806c35cc26ae1538b9bc1df938d9bf9))
+
 ## 2.10.2
 
  - **FIX**: Add server code for Call. ([58e21ac3](https://github.com/mathrunet/flutter_masamune/commit/58e21ac3f71edb3011eb7dca84309155477d930d))

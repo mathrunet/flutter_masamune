@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.10.3`](#katana_cli---v2103)
+
+---
+
+#### `katana_cli` - `v2.10.3`
+
+ - **FIX**: Linter support for functions. ([d6edce62](https://github.com/mathrunet/flutter_masamune/commit/d6edce627806c35cc26ae1538b9bc1df938d9bf9))
+
+
 ## 2023-10-13
 
 ### Changes
