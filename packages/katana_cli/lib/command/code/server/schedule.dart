@@ -61,18 +61,19 @@ import * as m from "@mathrunet/masamune";
     return """
 /**
  * ${className.toPascalCase()}Schedule
- * 
+ *
  * Create a server code for the scheduler.
  */
 export class ${className.toPascalCase()}Schedule extends m.ScheduleProcessFunctionBase {
     /**
-     * @param id
+     * @param {string} id
      * Describe the method names used in Functions.
      *
      * Functionsで利用されるメソッド名を記述します。
      */
     id = "${className.toSnakeCase()}_schedule";
     /**
+     * @param {string} schedule
      * Specify the schedule to execute the process in cron format.
      *
      * 処理を実行するスケジュールをcron形式で指定します。
@@ -85,7 +86,7 @@ export class ${className.toPascalCase()}Schedule extends m.ScheduleProcessFuncti
      *
      * 実際の処理の中身を指定します。
      *
-     * @param options
+     * @param {Record<string, any>} options
      * Options passed to Functions.
      *
      * Functionsに渡されたオプション。

@@ -62,12 +62,12 @@ import {Response, Request} from "firebase-functions";
     return """
 /**
  * ${className.toPascalCase()}Request
- * 
+ *
  * Create server code for HTTP requests.
  */
 export class ${className.toPascalCase()}Request extends m.RequestProcessFunctionBase {
     /**
-     * @param id
+     * @param {string} id
      * Describe the method names used in Functions.
      *
      * Functionsで利用されるメソッド名を記述します。
@@ -78,17 +78,17 @@ export class ${className.toPascalCase()}Request extends m.RequestProcessFunction
      *
      * 実際の処理の中身を指定します。
      *
-     * @param reqest
+     * @param {Request} reqest
      * Request passed to Functions.
      *
      * Functionsに渡されたRequest。
      *
-     * @param response
+     * @param {Response<any>} response
      * Response passed to Functions.
      *
      * Functionsに渡されたResponse。
      *
-     * @param options
+     * @param {Record<string, any>} options
      * Options passed to Functions.
      *
      * Functionsに渡されたオプション。

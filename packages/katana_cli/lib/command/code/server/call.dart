@@ -67,12 +67,12 @@ import * as m from "@mathrunet/masamune";
     return """
 /**
  * ${className.toPascalCase()}Call
- * 
+ *
  * Create server code for FunctionCall.
  */
 export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
     /**
-     * @param id
+     * @param {string} id
      * Describe the method names used in Functions.
      *
      * Functionsで利用されるメソッド名を記述します。
@@ -80,17 +80,17 @@ export class ${className.toPascalCase()}Call extends m.CallProcessFunctionBase {
     id = "${className.toSnakeCase()}_call";
     /**
      * Specify the actual contents of the process.
-     * 
+     *
      * 実際の処理の中身を指定します。
-     * 
-     * @param query
+     *
+     * @param {any} query
      * Query passed to Functions.
-     * 
+     *
      * Functionsに渡されたクエリ。
-     * 
-     * @param options 
+     *
+     * @param {Record<string, any>} options
      * Options passed to Functions.
-     * 
+     *
      * Functionsに渡されたオプション。
      */
     async process(query: any, options: Record<string, any>): Promise<void> {
