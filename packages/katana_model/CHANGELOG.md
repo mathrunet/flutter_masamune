@@ -1,3 +1,7 @@
+## 2.13.2
+
+ - **FIX**: Fixed a bug where paging for limit was not working properly. ([9b18ca25](https://github.com/mathrunet/flutter_masamune/commit/9b18ca25baa420e629ad9d49a7b756b9fd5085f7))
+
 ## 2.13.1
 
  - Update a dependency to the latest release.
