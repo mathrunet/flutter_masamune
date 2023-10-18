@@ -353,9 +353,7 @@ class NoSqlDatabase {
     if (value is! DynamicMap) {
       return null;
     }
-    final limitValue = query.query.filters
-        .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
-        ?.value as int?;
+    final limitValue = _limitValue(query);
     final entries = query.query.sort(
       value
           .toList(
@@ -920,6 +918,16 @@ class NoSqlDatabase {
         }
       }
     }
+  }
+
+  int? _limitValue(ModelAdapterCollectionQuery query) {
+    final limitValue = query.query.filters
+        .firstWhereOrNull((e) => e.type == ModelQueryFilterType.limit)
+        ?.value as int?;
+    if (limitValue == null) {
+      return null;
+    }
+    return limitValue * query.page;
   }
 }
 
