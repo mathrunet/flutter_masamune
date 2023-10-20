@@ -1,3 +1,7 @@
+## 2.10.4
+
+ - **FIX**: Fixing glitches. ([63f41798](https://github.com/mathrunet/flutter_masamune/commit/63f41798da26efa642dd720a2fb5213f9d883733))
+
 ## 2.10.3
 
  - **FIX**: Linter support for functions. ([d6edce62](https://github.com/mathrunet/flutter_masamune/commit/d6edce627806c35cc26ae1538b9bc1df938d9bf9))
