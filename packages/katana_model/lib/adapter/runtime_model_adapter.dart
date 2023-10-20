@@ -98,6 +98,7 @@ class RuntimeModelAdapter extends ModelAdapter {
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    _assert();
     final data = await database.loadDocument(query, prefix: prefix);
     return data != null ? Map.from(data) : {};
   }
@@ -106,6 +107,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
+    _assert();
     final data = await database.loadCollection(query, prefix: prefix);
     return data != null
         ? data.map((key, value) => MapEntry(key, Map.from(value)))
@@ -114,6 +116,7 @@ class RuntimeModelAdapter extends ModelAdapter {
 
   @override
   Future<int> loadCollectionCount(ModelAdapterCollectionQuery query) async {
+    _assert();
     final data = await database.loadCollection(
       query.copyWith(query: query.query.remove(ModelQueryFilterType.limit)),
       prefix: prefix,
@@ -123,6 +126,7 @@ class RuntimeModelAdapter extends ModelAdapter {
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+    _assert();
     await database.deleteDocument(query, prefix: prefix);
   }
 
@@ -131,16 +135,19 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) async {
+    _assert();
     await database.saveDocument(query, value, prefix: prefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
+    _assert();
     database.removeDocumentListener(query, prefix: prefix);
   }
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
+    _assert();
     database.removeCollectionListener(query, prefix: prefix);
   }
 
@@ -151,6 +158,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   Future<List<StreamSubscription>> listenCollection(
     ModelAdapterCollectionQuery query,
   ) {
+    _assert();
     throw UnsupportedError("This adapter cannot listen.");
   }
 
@@ -158,6 +166,7 @@ class RuntimeModelAdapter extends ModelAdapter {
   Future<List<StreamSubscription>> listenDocument(
     ModelAdapterDocumentQuery query,
   ) {
+    _assert();
     throw UnsupportedError("This adapter cannot listen.");
   }
 
@@ -166,6 +175,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
+    _assert();
     if (ref is! RuntimeModelTransactionRef) {
       throw Exception("[ref] is not [RuntimeModelTransactionRef].");
     }
@@ -177,6 +187,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
+    _assert();
     return loadDocument(query);
   }
 
@@ -186,6 +197,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
+    _assert();
     if (ref is! RuntimeModelTransactionRef) {
       throw Exception("[ref] is not [RuntimeModelTransactionRef].");
     }
@@ -198,6 +210,7 @@ class RuntimeModelAdapter extends ModelAdapter {
       ModelTransactionRef ref,
     ) transaction,
   ) async {
+    _assert();
     final ref = RuntimeModelTransactionRef._();
     await transaction.call(ref);
     for (final tmp in ref._transactionList) {
@@ -210,6 +223,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelBatchRef ref,
     ModelAdapterDocumentQuery query,
   ) {
+    _assert();
     if (ref is! RuntimeModelBatchRef) {
       throw Exception("[ref] is not [RuntimeModelBatchRef].");
     }
@@ -222,6 +236,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
+    _assert();
     if (ref is! RuntimeModelBatchRef) {
       throw Exception("[ref] is not [RuntimeModelBatchRef].");
     }
@@ -235,6 +250,7 @@ class RuntimeModelAdapter extends ModelAdapter {
     ) batch,
     int splitLength,
   ) async {
+    _assert();
     final ref = RuntimeModelBatchRef._();
     await wait(
       ref._batchList.map((tmp) => tmp.call()),
@@ -245,9 +261,19 @@ class RuntimeModelAdapter extends ModelAdapter {
     if (prefix.isEmpty) {
       return original;
     }
+    _assert();
     final p = prefix!.trimQuery().trimString("/");
     final o = original.trimQuery().trimString("/");
     return "$p/$o";
+  }
+
+  void _assert() {
+    assert(
+      prefix.isEmpty ||
+          !(prefix!.trimQuery().trimString("/").splitLength() <= 0 ||
+              prefix!.trimQuery().trimString("/").splitLength() % 2 != 0),
+      "The prefix path hierarchy must be an even number: $prefix",
+    );
   }
 
   @override

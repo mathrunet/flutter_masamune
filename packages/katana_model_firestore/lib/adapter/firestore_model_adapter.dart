@@ -280,6 +280,7 @@ class FirestoreModelAdapter extends ModelAdapter
 
   @override
   Future<void> deleteDocument(ModelAdapterDocumentQuery query) async {
+    _assert();
     await FirebaseCore.initialize(options: options);
     await _documentReference(query).delete();
     await localDatabase.deleteDocument(query, prefix: prefix);
@@ -288,6 +289,7 @@ class FirestoreModelAdapter extends ModelAdapter
 
   @override
   Future<DynamicMap> loadDocument(ModelAdapterDocumentQuery query) async {
+    _assert();
     await FirebaseCore.initialize(options: options);
     final snapshot = await _documentReference(query).get();
     var res = _convertFrom(snapshot.data()?.cast() ?? {});
@@ -305,11 +307,13 @@ class FirestoreModelAdapter extends ModelAdapter
 
   @override
   void disposeCollection(ModelAdapterCollectionQuery query) {
+    _assert();
     localDatabase.removeCollectionListener(query, prefix: prefix);
   }
 
   @override
   void disposeDocument(ModelAdapterDocumentQuery query) {
+    _assert();
     localDatabase.removeDocumentListener(query, prefix: prefix);
   }
 
@@ -317,6 +321,7 @@ class FirestoreModelAdapter extends ModelAdapter
   Future<Map<String, DynamicMap>> loadCollection(
     ModelAdapterCollectionQuery query,
   ) async {
+    _assert();
     await FirebaseCore.initialize(options: options);
     final snapshot = await Future.wait<QuerySnapshot<DynamicMap>>(
       _collectionReference(query).map((reference) => reference.get()),
@@ -352,6 +357,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelAdapterCollectionQuery query, {
     Iterable? retreivedList,
   }) async {
+    _assert();
     await FirebaseCore.initialize(options: options);
     final snapshot = await Future.wait<AggregateQuerySnapshot>(
       _collectionReference(
@@ -367,6 +373,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) async {
+    _assert();
     await FirebaseCore.initialize(options: options);
 
     final converted = _convertTo(
@@ -391,6 +398,7 @@ class FirestoreModelAdapter extends ModelAdapter
   Future<List<StreamSubscription>> listenCollection(
     ModelAdapterCollectionQuery query,
   ) {
+    _assert();
     throw UnsupportedError("This adapter cannot listen.");
   }
 
@@ -398,6 +406,7 @@ class FirestoreModelAdapter extends ModelAdapter
   Future<List<StreamSubscription>> listenDocument(
     ModelAdapterDocumentQuery query,
   ) {
+    _assert();
     throw UnsupportedError("This adapter cannot listen.");
   }
 
@@ -406,6 +415,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) {
+    _assert();
     if (ref is! FirestoreModelTransactionRef) {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
@@ -421,6 +431,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelTransactionRef ref,
     ModelAdapterDocumentQuery query,
   ) async {
+    _assert();
     if (ref is! FirestoreModelTransactionRef) {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
@@ -445,6 +456,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
+    _assert();
     if (ref is! FirestoreModelTransactionRef) {
       throw Exception("[ref] is not [FirestoreModelTransactionRef].");
     }
@@ -469,6 +481,7 @@ class FirestoreModelAdapter extends ModelAdapter
       ModelTransactionRef ref,
     ) transaction,
   ) async {
+    _assert();
     await FirebaseCore.initialize(options: options);
     await database.runTransaction((handler) async {
       final ref = FirestoreModelTransactionRef._(handler);
@@ -481,6 +494,7 @@ class FirestoreModelAdapter extends ModelAdapter
 
   @override
   void deleteOnBatch(ModelBatchRef ref, ModelAdapterDocumentQuery query) {
+    _assert();
     if (ref is! FirestoreModelBatchRef) {
       throw Exception("[ref] is not [FirestoreModelBatchRef].");
     }
@@ -506,6 +520,7 @@ class FirestoreModelAdapter extends ModelAdapter
       splitLength > 0 && splitLength <= 500,
       "[splitLength] must be greater than 0 and less than or equal to 500 in Firestore.",
     );
+    _assert();
     await FirebaseCore.initialize(options: options);
     final ref = FirestoreModelBatchRef._();
     await batch.call(ref);
@@ -538,6 +553,7 @@ class FirestoreModelAdapter extends ModelAdapter
     ModelAdapterDocumentQuery query,
     DynamicMap value,
   ) {
+    _assert();
     if (ref is! FirestoreModelBatchRef) {
       throw Exception("[ref] is not [FirestoreModelBatchRef].");
     }
@@ -642,6 +658,7 @@ class FirestoreModelAdapter extends ModelAdapter
     if (prefix.isEmpty) {
       return original;
     }
+    _assert();
     final p = prefix!.trimQuery().trimString("/");
     final o = original.trimQuery().trimString("/");
     return "$p/$o";
@@ -777,6 +794,15 @@ class FirestoreModelAdapter extends ModelAdapter
         query,
       )
     ];
+  }
+
+  void _assert() {
+    assert(
+      prefix.isEmpty ||
+          !(prefix!.trimQuery().trimString("/").splitLength() <= 0 ||
+              prefix!.trimQuery().trimString("/").splitLength() % 2 != 0),
+      "The prefix path hierarchy must be an even number: $prefix",
+    );
   }
 }
 
