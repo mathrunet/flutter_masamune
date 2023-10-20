@@ -70,7 +70,13 @@ m.deploy(
   exports,
   [${regions.map((e) => '"$e"').join(", ")}],
   [
-${functions.map((e) => "    m.Functions.$e,").join("\n")}
+${functions.map((e) {
+      if (e.startsWith("new ")) {
+        return "    $e,";
+      } else {
+        return "    m.Functions.$e,";
+      }
+    }).join("\n")}
   ],
 );""");
     final gradle = File("firebase/functions/src/index.ts");

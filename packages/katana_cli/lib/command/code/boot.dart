@@ -79,6 +79,11 @@ class Boot extends BootRouteQueryBuilder {
   }
 
   @override
+  void onError(BuildContext context, Object error, StackTrace stackTrace) {
+    // TODO: Describe the error process.
+  }
+
+  @override
   TransitionQuery get initialTransitionQuery => TransitionQuery.fade;
 }
 """;
