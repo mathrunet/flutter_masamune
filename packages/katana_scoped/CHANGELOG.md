@@ -1,3 +1,7 @@
+## 2.0.28
+
+ - **FIX**: Removed Timer test due to instability. ([c4c545f3](https://github.com/mathrunet/flutter_masamune/commit/c4c545f3f7a8e99cc93232be40a6508b68192ead))
+
 ## 2.0.27
 
  - Update a dependency to the latest release.

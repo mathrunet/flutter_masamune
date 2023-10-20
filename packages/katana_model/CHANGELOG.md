@@ -1,3 +1,8 @@
+## 2.13.4
+
+ - **FIX**: Fixing testing glitches. ([9cf6d836](https://github.com/mathrunet/flutter_masamune/commit/9cf6d83668f2c37183af737256249be691740792))
+ - **FIX**: Fix Adapter so that it can be used separately. ([9a23fae0](https://github.com/mathrunet/flutter_masamune/commit/9a23fae02d712fde0e779ed76815dc7097f08475))
+
 ## 2.13.3
 
  - **FIX**: Add assert to the prefix of Adapter. ([1dca0c00](https://github.com/mathrunet/flutter_masamune/commit/1dca0c00dd4458123eb7b10630aaee9df7fd31df))
