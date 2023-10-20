@@ -3326,6 +3326,12 @@ void main() {
     );
     expect(
       query.hasMatchAsObject({
+        "m": true,
+        "a": true,
+        "s": true,
+        "u": true,
+        "n": true,
+        "e": true,
         "ma": true,
         "as": true,
         "sa": true,
@@ -3339,6 +3345,12 @@ void main() {
     expect(
       query.hasMatchAsMap({
         kDefaultSearchableFieldKey: {
+          "m": true,
+          "a": true,
+          "s": true,
+          "u": true,
+          "n": true,
+          "e": true,
           "ma": true,
           "as": true,
           "sa": true,
@@ -3358,6 +3370,12 @@ void main() {
     );
     expect(
       query.hasMatchAsObject({
+        "m": true,
+        "a": true,
+        "s": true,
+        "u": true,
+        "n": true,
+        "e": true,
         "ma": true,
         "as": true,
         "sa": true,
@@ -3371,6 +3389,12 @@ void main() {
     expect(
       query.hasMatchAsMap({
         kDefaultSearchableFieldKey: {
+          "m": true,
+          "a": true,
+          "s": true,
+          "u": true,
+          "n": true,
+          "e": true,
           "ma": true,
           "as": true,
           "sa": true,
