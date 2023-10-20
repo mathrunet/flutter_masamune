@@ -288,6 +288,11 @@ abstract class ModelAdapter {
     ModelBatchRef ref,
     ModelAdapterDocumentQuery query,
   );
+
+  @override
+  String toString() {
+    return "$runtimeType[$hashCode]";
+  }
 }
 
 /// Widget for setting [ModelAdapter].

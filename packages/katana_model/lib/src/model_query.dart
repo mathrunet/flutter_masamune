@@ -61,7 +61,7 @@ class DocumentModelQuery extends ModelQuery {
     if (_adapter == null) {
       return super.toString();
     }
-    return "${super.toString()}@${_adapter.runtimeType}";
+    return "${super.toString()}@${_adapter.toString()}";
   }
 
   @override
@@ -473,7 +473,7 @@ class CollectionModelQuery extends ModelQuery {
     if (_adapter == null) {
       return super.toString();
     }
-    return "${super.toString()}@${_adapter.runtimeType}";
+    return "${super.toString()}@${_adapter.toString()}";
   }
 
   @override

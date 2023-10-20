@@ -796,6 +796,18 @@ class FirestoreModelAdapter extends ModelAdapter
     ];
   }
 
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+
+  @override
+  int get hashCode {
+    return prefix.hashCode ^
+        localDatabase.hashCode ^
+        options.hashCode ^
+        database.hashCode ^
+        initialValue.hashCode;
+  }
+
   void _assert() {
     assert(
       prefix.isEmpty ||
