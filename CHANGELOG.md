@@ -15,6 +15,100 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model` - `v2.13.3`](#katana_model---v2133)
+ - [`katana_model_firestore` - `v2.9.3`](#katana_model_firestore---v293)
+ - [`katana_model_local` - `v2.8.8`](#katana_model_local---v288)
+ - [`masamune` - `v2.4.71`](#masamune---v2471)
+ - [`masamune_location_platform_interface` - `v2.1.18`](#masamune_location_platform_interface---v2118)
+ - [`masamune_location` - `v2.1.139`](#masamune_location---v21139)
+ - [`masamune_scheduler` - `v2.1.10`](#masamune_scheduler---v2110)
+ - [`masamune_deeplink_firebase` - `v2.1.46`](#masamune_deeplink_firebase---v2146)
+ - [`masamune_auth_apple` - `v2.1.127`](#masamune_auth_apple---v21127)
+ - [`masamune_location_background` - `v2.1.18`](#masamune_location_background---v2118)
+ - [`masamune_text_to_speech` - `v2.1.93`](#masamune_text_to_speech---v2193)
+ - [`masamune_agora` - `v2.2.109`](#masamune_agora---v22109)
+ - [`masamune_auth_google` - `v2.1.128`](#masamune_auth_google---v21128)
+ - [`masamune_ai_openai` - `v2.2.61`](#masamune_ai_openai---v2261)
+ - [`masamune_calendar` - `v2.0.171`](#masamune_calendar---v20171)
+ - [`masamune_picker` - `v2.1.126`](#masamune_picker---v21126)
+ - [`masamune_util` - `v2.1.105`](#masamune_util---v21105)
+ - [`masamune_universal_ui` - `v2.2.108`](#masamune_universal_ui---v22108)
+ - [`masamune_purchase_stripe` - `v3.3.74`](#masamune_purchase_stripe---v3374)
+ - [`masamune_notification` - `v2.2.12`](#masamune_notification---v2212)
+ - [`masamune_logger_firebase` - `v2.0.169`](#masamune_logger_firebase---v20169)
+ - [`masamune_introduction` - `v2.2.75`](#masamune_introduction---v2275)
+ - [`masamune_deeplink` - `v2.1.45`](#masamune_deeplink---v2145)
+ - [`masamune_speech_to_text` - `v2.1.96`](#masamune_speech_to_text---v2196)
+ - [`masamune_auth_facebook` - `v2.1.129`](#masamune_auth_facebook---v21129)
+ - [`masamune_location_google` - `v2.1.140`](#masamune_location_google---v21140)
+ - [`masamune_module_point_ecosystem` - `v2.3.35`](#masamune_module_point_ecosystem---v2335)
+ - [`masamune_module` - `v2.3.30`](#masamune_module---v2330)
+ - [`masamune_notification_firebase` - `v2.4.13`](#masamune_notification_firebase---v2413)
+ - [`masamune_mail` - `v2.1.124`](#masamune_mail---v21124)
+ - [`masamune_ads_google` - `v2.1.77`](#masamune_ads_google---v2177)
+ - [`masamune_purchase_mobile` - `v2.5.76`](#masamune_purchase_mobile---v2576)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.71`
+ - `masamune_location_platform_interface` - `v2.1.18`
+ - `masamune_location` - `v2.1.139`
+ - `masamune_scheduler` - `v2.1.10`
+ - `masamune_deeplink_firebase` - `v2.1.46`
+ - `masamune_auth_apple` - `v2.1.127`
+ - `masamune_location_background` - `v2.1.18`
+ - `masamune_text_to_speech` - `v2.1.93`
+ - `masamune_agora` - `v2.2.109`
+ - `masamune_auth_google` - `v2.1.128`
+ - `masamune_ai_openai` - `v2.2.61`
+ - `masamune_calendar` - `v2.0.171`
+ - `masamune_picker` - `v2.1.126`
+ - `masamune_util` - `v2.1.105`
+ - `masamune_universal_ui` - `v2.2.108`
+ - `masamune_purchase_stripe` - `v3.3.74`
+ - `masamune_notification` - `v2.2.12`
+ - `masamune_logger_firebase` - `v2.0.169`
+ - `masamune_introduction` - `v2.2.75`
+ - `masamune_deeplink` - `v2.1.45`
+ - `masamune_speech_to_text` - `v2.1.96`
+ - `masamune_auth_facebook` - `v2.1.129`
+ - `masamune_location_google` - `v2.1.140`
+ - `masamune_module_point_ecosystem` - `v2.3.35`
+ - `masamune_module` - `v2.3.30`
+ - `masamune_notification_firebase` - `v2.4.13`
+ - `masamune_mail` - `v2.1.124`
+ - `masamune_ads_google` - `v2.1.77`
+ - `masamune_purchase_mobile` - `v2.5.76`
+
+---
+
+#### `katana_model` - `v2.13.3`
+
+ - **FIX**: Add assert to the prefix of Adapter. ([1dca0c00](https://github.com/mathrunet/flutter_masamune/commit/1dca0c00dd4458123eb7b10630aaee9df7fd31df))
+
+#### `katana_model_firestore` - `v2.9.3`
+
+ - **FIX**: Add assert to the prefix of Adapter. ([1dca0c00](https://github.com/mathrunet/flutter_masamune/commit/1dca0c00dd4458123eb7b10630aaee9df7fd31df))
+
+#### `katana_model_local` - `v2.8.8`
+
+ - **FIX**: Add assert to the prefix of Adapter. ([1dca0c00](https://github.com/mathrunet/flutter_masamune/commit/1dca0c00dd4458123eb7b10630aaee9df7fd31df))
+
+
+## 2023-10-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.10.4`](#katana_cli---v2104)
 
 ---

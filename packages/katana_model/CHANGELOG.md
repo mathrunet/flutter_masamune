@@ -1,3 +1,7 @@
+## 2.13.3
+
+ - **FIX**: Add assert to the prefix of Adapter. ([1dca0c00](https://github.com/mathrunet/flutter_masamune/commit/1dca0c00dd4458123eb7b10630aaee9df7fd31df))
+
 ## 2.13.2
 
  - **FIX**: Fixed a bug where paging for limit was not working properly. ([9b18ca25](https://github.com/mathrunet/flutter_masamune/commit/9b18ca25baa420e629ad9d49a7b756b9fd5085f7))

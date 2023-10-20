@@ -1,3 +1,7 @@
+## 2.8.8
+
+ - **FIX**: Add assert to the prefix of Adapter. ([1dca0c00](https://github.com/mathrunet/flutter_masamune/commit/1dca0c00dd4458123eb7b10630aaee9df7fd31df))
+
 ## 2.8.7
 
  - Update a dependency to the latest release.
