@@ -85,7 +85,7 @@ class ${className}Value with _\$${className}Value {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(${className}Value.form());     // Get the form controller.
+  /// ref.form(${className}Value.form());     // Get the form controller.
   /// ```
   static const form = _\$${className}ValueFormQuery();
 }

@@ -311,14 +311,14 @@ packages:
       path: "../katana_model"
       relative: true
     source: path
-    version: "2.13.1"
+    version: "2.13.4"
   katana_model_local:
     dependency: "direct main"
     description:
       path: "../katana_model_local"
       relative: true
     source: path
-    version: "2.8.6"
+    version: "2.8.9"
   katana_prefs:
     dependency: "direct main"
     description:
@@ -353,7 +353,7 @@ packages:
       path: "../katana_scoped"
       relative: true
     source: path
-    version: "2.0.27"
+    version: "2.0.28"
   katana_shorten:
     dependency: "direct main"
     description:
@@ -367,14 +367,14 @@ packages:
       path: "../katana_storage"
       relative: true
     source: path
-    version: "2.0.16"
+    version: "2.0.17"
   katana_theme:
     dependency: "direct main"
     description:
       path: "../katana_theme"
       relative: true
     source: path
-    version: "2.0.27"
+    version: "2.0.28"
   katana_theme_annotation:
     dependency: "direct overridden"
     description:

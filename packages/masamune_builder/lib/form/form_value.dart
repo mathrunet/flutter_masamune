@@ -40,8 +40,7 @@ List<Spec> formValueClass(
       (c) => c
         ..name = "_\$_${model.name}FormQuery"
         ..annotations.addAll([const Reference("immutable")])
-        ..extend =
-            Reference("ControllerQueryBase<FormController<${model.name}>>")
+        ..extend = Reference("FormControllerQueryBase<${model.name}>")
         ..constructors.addAll([
           Constructor(
             (c) => c

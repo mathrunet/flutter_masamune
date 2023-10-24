@@ -112,7 +112,7 @@ class ${className}Model with _\$${className}Model {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(${className}Model.form(${className}Model()));    // Get the form controller.
+  /// ref.form(${className}Model.form(${className}Model()));    // Get the form controller.
   /// ```
   static const form = _\$${className}ModelFormQuery();
 }
