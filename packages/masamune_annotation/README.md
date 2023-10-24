@@ -199,6 +199,7 @@ class TestPage extends PageScopedWidget {
 
   // TODO: Set parameters for the page in the form [final String xxx].
   
+
   /// Used to transition to the TestPage screen.
   ///
   /// ```dart
@@ -373,7 +374,7 @@ class TestModel with _$TestModel {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(TestModel.form(TestModel()));    // Get the form controller.
+  /// ref.form(TestModel.form(TestModel()));    // Get the form controller.
   /// ```
   static const form = _$TestModelFormQuery();
 }
@@ -598,6 +599,7 @@ class TestController extends ChangeNotifier {
 
   // TODO: Define fields and processes.
   
+
   /// Query for TestController.
   ///
   /// ```dart
@@ -812,23 +814,23 @@ When creating a form that targets a `data model`, such as editing profile data, 
 /// Query for form value.
 ///
 /// ```dart
-/// ref.page.controller(TestModel.form(TestModel()));    // Get the form controller.
+/// ref.form(TestModel.form(TestModel()));    // Get the form controller.
 /// ```
 static const form = _$TestModelFormQuery();
 ```
 
-The `form` is passed to `ref.page.controller`, but the original object (`TestModel`) must be passed as an argument.
+The `form` is passed to `ref.form`, but the original object (`TestModel`) must be passed as an argument.
 
 When registering new data, simply create and pass a `TestModel`, and when editing existing data, pass the values read from the `data model` as they are.
 
 ```dart
 // When creating new data
 final memo = const MemoModel(title: "", text: "");
-final formController = ref.page.controller(MemoModel.form( memo ));
+final formController = ref.form(MemoModel.form( memo ));
 
 // When creating existing data
 final memo = ref.model(MemoModel.document("Memo ID"))..load();
-final formController = ref.page.controller(MemoModel.form( memo ));
+final formController = ref.form(MemoModel.form( memo ));
 ```
 
 To create a form for data not defined in the data model, such as login, use the following command to create a data definition for the form.
@@ -875,7 +877,7 @@ class LoginValue with _$LoginValue {
   /// Query for form value.
   ///
   /// ```dart
-  /// ref.page.controller(LoginValue.form(LoginValue()));    // Get the form controller.
+  /// ref.form(LoginValue.form(LoginValue()));    // Get the form controller.
   /// ```
   static const form = _$LoginValueFormQuery();
 }
@@ -895,7 +897,7 @@ To retrieve the form controller, use the `form` defined in this object for the s
 
 ```dart
 final login = const LoginValue(email: "", password: "");
-final formController = ref.page.controller(LoginValue.form( login ));
+final formController = ref.form(LoginValue.form( login ));
 ```
 
 ### Form drawing and validation/finalization
