@@ -1,3 +1,7 @@
+## 2.7.15
+
+ - **FIX**: Validate bug fixes. ([ef513846](https://github.com/mathrunet/flutter_masamune/commit/ef513846a3d6e92559920cd336e679d17378959d))
+
 ## 2.7.14
 
  - Update a dependency to the latest release.

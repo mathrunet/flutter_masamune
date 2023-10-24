@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.4.72
+  masamune: ^2.4.73
   masamune_deeplink:
     path: "../"
 

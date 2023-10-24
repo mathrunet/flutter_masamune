@@ -1,3 +1,7 @@
+## 2.3.10
+
+ - **DOCS**: Reflects correction for Form. ([3118e3e6](https://github.com/mathrunet/flutter_masamune/commit/3118e3e635aec9ec63f8108356efae92a6aac645))
+
 ## 2.3.9
 
  - Update a dependency to the latest release.

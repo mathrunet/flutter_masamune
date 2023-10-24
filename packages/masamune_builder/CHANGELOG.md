@@ -1,3 +1,8 @@
+## 2.8.15
+
+ - **FIX**: FormController can only be handled by ref.form. ([92fde506](https://github.com/mathrunet/flutter_masamune/commit/92fde50661f87002045f79de8de768fdb3538886))
+ - **DOCS**: Reflects correction for Form. ([3118e3e6](https://github.com/mathrunet/flutter_masamune/commit/3118e3e635aec9ec63f8108356efae92a6aac645))
+
 ## 2.8.14
 
  - Update a dependency to the latest release.

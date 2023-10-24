@@ -1,3 +1,7 @@
+## 2.10.5
+
+ - **FIX**: FormController can only be handled by ref.form. ([92fde506](https://github.com/mathrunet/flutter_masamune/commit/92fde50661f87002045f79de8de768fdb3538886))
+
 ## 2.10.4
 
  - **FIX**: Fixing glitches. ([63f41798](https://github.com/mathrunet/flutter_masamune/commit/63f41798da26efa642dd720a2fb5213f9d883733))
