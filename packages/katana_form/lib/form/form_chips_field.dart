@@ -113,7 +113,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
             form!.value = res;
           },
           validator: (value) {
-            if (emptyErrorText.isNotEmpty && value == null) {
+            if (emptyErrorText.isNotEmpty && value.isEmpty) {
               return emptyErrorText;
             }
             return validator?.call(value);
@@ -432,6 +432,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
                   counterStyle: subTextStyle,
                   helperStyle: subTextStyle,
                   errorStyle: errorTextStyle,
+                  errorText: errorText
                 ),
                 obscureText: widget.obscureText,
                 enabled: widget.enabled,
