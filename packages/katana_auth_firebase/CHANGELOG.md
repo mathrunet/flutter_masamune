@@ -1,3 +1,7 @@
+## 2.1.8
+
+ - **FIX**: Fixed a problem that assert is not issued when the user is not logged in. ([39cc1504](https://github.com/mathrunet/flutter_masamune/commit/39cc15048adb5644bb23b880e3e140b6aa1596a1))
+
 ## 2.1.7
 
  - Update a dependency to the latest release.

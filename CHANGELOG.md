@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_auth_firebase` - `v2.1.8`](#katana_auth_firebase---v218)
+
+---
+
+#### `katana_auth_firebase` - `v2.1.8`
+
+ - **FIX**: Fixed a problem that assert is not issued when the user is not logged in. ([39cc1504](https://github.com/mathrunet/flutter_masamune/commit/39cc15048adb5644bb23b880e3e140b6aa1596a1))
+
+
+## 2023-10-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v2.0.29`](#katana_theme---v2029)
  - [`katana_theme_annotation` - `v2.0.20`](#katana_theme_annotation---v2020)
  - [`katana_theme_builder` - `v2.0.24`](#katana_theme_builder---v2024)
