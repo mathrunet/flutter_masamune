@@ -1291,7 +1291,9 @@ class _TextFormFieldState<TValue> extends FormFieldState<String> {
     }
     if (oldWidget.initialValue != widget.initialValue &&
         widget.initialValue != null) {
-      reset();
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        reset();
+      });
     }
   }
 
