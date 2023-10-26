@@ -1,3 +1,7 @@
+## 2.0.29
+
+ - **FIX**: Fixed image cache was not working properly. ([ad1b9874](https://github.com/mathrunet/flutter_masamune/commit/ad1b9874b801b7ce455bf9d3ff43d550c15df958))
+
 ## 2.0.28
 
  - **FIX**: Image URLs starting with "blob:" are now displayed in MemoryImage. ([77d4f5cd](https://github.com/mathrunet/flutter_masamune/commit/77d4f5cde1503ec831fe79b813125a7be64b7ba6))

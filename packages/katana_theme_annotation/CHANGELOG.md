@@ -1,3 +1,7 @@
+## 2.0.20
+
+ - **FIX**: Fixed image cache was not working properly. ([ad1b9874](https://github.com/mathrunet/flutter_masamune/commit/ad1b9874b801b7ce455bf9d3ff43d550c15df958))
+
 ## 2.0.19
 
  - Update a dependency to the latest release.

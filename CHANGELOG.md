@@ -15,6 +15,102 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_theme` - `v2.0.29`](#katana_theme---v2029)
+ - [`katana_theme_annotation` - `v2.0.20`](#katana_theme_annotation---v2020)
+ - [`katana_theme_builder` - `v2.0.24`](#katana_theme_builder---v2024)
+ - [`masamune` - `v2.4.75`](#masamune---v2475)
+ - [`masamune_location_platform_interface` - `v2.1.22`](#masamune_location_platform_interface---v2122)
+ - [`masamune_location` - `v2.1.143`](#masamune_location---v21143)
+ - [`masamune_deeplink_firebase` - `v2.1.50`](#masamune_deeplink_firebase---v2150)
+ - [`masamune_auth_apple` - `v2.1.131`](#masamune_auth_apple---v21131)
+ - [`masamune_scheduler` - `v2.1.14`](#masamune_scheduler---v2114)
+ - [`masamune_location_background` - `v2.1.22`](#masamune_location_background---v2122)
+ - [`masamune_text_to_speech` - `v2.1.97`](#masamune_text_to_speech---v2197)
+ - [`masamune_agora` - `v2.2.113`](#masamune_agora---v22113)
+ - [`masamune_auth_google` - `v2.1.132`](#masamune_auth_google---v21132)
+ - [`masamune_ai_openai` - `v2.2.65`](#masamune_ai_openai---v2265)
+ - [`masamune_calendar` - `v2.0.175`](#masamune_calendar---v20175)
+ - [`masamune_picker` - `v2.1.130`](#masamune_picker---v21130)
+ - [`masamune_util` - `v2.1.109`](#masamune_util---v21109)
+ - [`masamune_universal_ui` - `v2.2.112`](#masamune_universal_ui---v22112)
+ - [`masamune_purchase_stripe` - `v3.3.78`](#masamune_purchase_stripe---v3378)
+ - [`masamune_notification` - `v2.2.16`](#masamune_notification---v2216)
+ - [`masamune_logger_firebase` - `v2.0.173`](#masamune_logger_firebase---v20173)
+ - [`masamune_introduction` - `v2.2.79`](#masamune_introduction---v2279)
+ - [`masamune_deeplink` - `v2.1.49`](#masamune_deeplink---v2149)
+ - [`masamune_speech_to_text` - `v2.1.100`](#masamune_speech_to_text---v21100)
+ - [`masamune_auth_facebook` - `v2.1.133`](#masamune_auth_facebook---v21133)
+ - [`masamune_location_google` - `v2.1.144`](#masamune_location_google---v21144)
+ - [`masamune_module_point_ecosystem` - `v2.3.39`](#masamune_module_point_ecosystem---v2339)
+ - [`masamune_module` - `v2.3.34`](#masamune_module---v2334)
+ - [`masamune_mail` - `v2.1.128`](#masamune_mail---v21128)
+ - [`masamune_notification_firebase` - `v2.4.17`](#masamune_notification_firebase---v2417)
+ - [`masamune_purchase_mobile` - `v2.5.80`](#masamune_purchase_mobile---v2580)
+ - [`masamune_ads_google` - `v2.1.81`](#masamune_ads_google---v2181)
+ - [`masamune_builder` - `v2.8.16`](#masamune_builder---v2816)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.75`
+ - `masamune_location_platform_interface` - `v2.1.22`
+ - `masamune_location` - `v2.1.143`
+ - `masamune_deeplink_firebase` - `v2.1.50`
+ - `masamune_auth_apple` - `v2.1.131`
+ - `masamune_scheduler` - `v2.1.14`
+ - `masamune_location_background` - `v2.1.22`
+ - `masamune_text_to_speech` - `v2.1.97`
+ - `masamune_agora` - `v2.2.113`
+ - `masamune_auth_google` - `v2.1.132`
+ - `masamune_ai_openai` - `v2.2.65`
+ - `masamune_calendar` - `v2.0.175`
+ - `masamune_picker` - `v2.1.130`
+ - `masamune_util` - `v2.1.109`
+ - `masamune_universal_ui` - `v2.2.112`
+ - `masamune_purchase_stripe` - `v3.3.78`
+ - `masamune_notification` - `v2.2.16`
+ - `masamune_logger_firebase` - `v2.0.173`
+ - `masamune_introduction` - `v2.2.79`
+ - `masamune_deeplink` - `v2.1.49`
+ - `masamune_speech_to_text` - `v2.1.100`
+ - `masamune_auth_facebook` - `v2.1.133`
+ - `masamune_location_google` - `v2.1.144`
+ - `masamune_module_point_ecosystem` - `v2.3.39`
+ - `masamune_module` - `v2.3.34`
+ - `masamune_mail` - `v2.1.128`
+ - `masamune_notification_firebase` - `v2.4.17`
+ - `masamune_purchase_mobile` - `v2.5.80`
+ - `masamune_ads_google` - `v2.1.81`
+ - `masamune_builder` - `v2.8.16`
+
+---
+
+#### `katana_theme` - `v2.0.29`
+
+ - **FIX**: Fixed image cache was not working properly. ([ad1b9874](https://github.com/mathrunet/flutter_masamune/commit/ad1b9874b801b7ce455bf9d3ff43d550c15df958))
+
+#### `katana_theme_annotation` - `v2.0.20`
+
+ - **FIX**: Fixed image cache was not working properly. ([ad1b9874](https://github.com/mathrunet/flutter_masamune/commit/ad1b9874b801b7ce455bf9d3ff43d550c15df958))
+
+#### `katana_theme_builder` - `v2.0.24`
+
+ - **FIX**: Fixed image cache was not working properly. ([ad1b9874](https://github.com/mathrunet/flutter_masamune/commit/ad1b9874b801b7ce455bf9d3ff43d550c15df958))
+
+
+## 2023-10-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_ui` - `v2.5.4`](#katana_ui---v254)
  - [`masamune` - `v2.4.74`](#masamune---v2474)
  - [`masamune_location_platform_interface` - `v2.1.21`](#masamune_location_platform_interface---v2121)
