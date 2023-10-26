@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Debugging complete. ([d9889f19](https://github.com/mathrunet/flutter_masamune/commit/d9889f19e49d720a32d1545f22b10d056b3aa44f))
+
 ## 2.1.23
 
  - Update a dependency to the latest release.

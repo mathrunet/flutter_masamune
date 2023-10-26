@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location_background` - `v2.2.0`](#masamune_location_background---v220)
+
+---
+
+#### `masamune_location_background` - `v2.2.0`
+
+ - **FEAT**: Debugging complete. ([d9889f19](https://github.com/mathrunet/flutter_masamune/commit/d9889f19e49d720a32d1545f22b10d056b3aa44f))
+
+
+## 2023-10-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_scoped` - `v2.0.29`](#katana_scoped---v2029)
  - [`masamune` - `v2.4.76`](#masamune---v2476)
  - [`masamune_location_platform_interface` - `v2.1.23`](#masamune_location_platform_interface---v2123)
