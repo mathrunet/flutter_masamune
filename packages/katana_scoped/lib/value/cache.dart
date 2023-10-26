@@ -23,6 +23,7 @@ extension RefCacheExtensions on Ref {
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
     Object? name,
+    bool disposal = false,
     bool autoDisposeWhenUnreferenced = false,
   }) {
     return getScopedValue<T, _CacheValue<T>>(
@@ -30,6 +31,7 @@ extension RefCacheExtensions on Ref {
         callback: callback,
         keys: keys,
         ref: ref,
+        disposal: disposal,
         autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
       ),
       listen: false,
@@ -61,12 +63,14 @@ extension RefHasPageCacheExtensions on RefHasPage {
     T Function(Ref ref) callback, {
     List<Object> keys = const [],
     Object? name,
+    bool disposal = false,
     bool autoDisposeWhenUnreferenced = false,
   }) {
     return page.cache<T>(
       callback,
       keys: keys,
       name: name,
+      disposal: disposal,
       autoDisposeWhenUnreferenced: autoDisposeWhenUnreferenced,
     );
   }
@@ -78,11 +82,13 @@ class _CacheValue<T> extends ScopedValue<T> {
     required this.callback,
     required this.keys,
     required Ref ref,
+    this.disposal = false,
     this.autoDisposeWhenUnreferenced = false,
   }) : super(ref: ref);
 
   final T Function(Ref ref) callback;
   final List<Object> keys;
+  final bool disposal;
   final bool autoDisposeWhenUnreferenced;
 
   @override
@@ -115,6 +121,15 @@ class _CacheValueState<T> extends ScopedValueState<T, _CacheValue<T>> {
   void didUpdateDescendant() {
     super.didUpdateDescendant();
     _value = value.callback(ref);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    final val = _value;
+    if (value.disposal && val is ChangeNotifier) {
+      val.dispose();
+    }
   }
 
   @override
