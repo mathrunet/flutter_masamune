@@ -1,3 +1,7 @@
+## 2.0.29
+
+ - **FIX**: Added the function of DISPOSAL to CACHE. ([443bad43](https://github.com/mathrunet/flutter_masamune/commit/443bad43e57ec3d9e7eecd126450a1a2f2e23956))
+
 ## 2.0.28
 
  - **FIX**: Removed Timer test due to instability. ([c4c545f3](https://github.com/mathrunet/flutter_masamune/commit/c4c545f3f7a8e99cc93232be40a6508b68192ead))

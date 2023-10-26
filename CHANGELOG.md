@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_scoped` - `v2.0.29`](#katana_scoped---v2029)
+ - [`masamune` - `v2.4.76`](#masamune---v2476)
+ - [`masamune_location_platform_interface` - `v2.1.23`](#masamune_location_platform_interface---v2123)
+ - [`masamune_location` - `v2.1.144`](#masamune_location---v21144)
+ - [`masamune_deeplink_firebase` - `v2.1.51`](#masamune_deeplink_firebase---v2151)
+ - [`masamune_auth_apple` - `v2.1.132`](#masamune_auth_apple---v21132)
+ - [`masamune_scheduler` - `v2.1.15`](#masamune_scheduler---v2115)
+ - [`masamune_location_background` - `v2.1.23`](#masamune_location_background---v2123)
+ - [`masamune_text_to_speech` - `v2.1.98`](#masamune_text_to_speech---v2198)
+ - [`masamune_agora` - `v2.2.114`](#masamune_agora---v22114)
+ - [`masamune_auth_google` - `v2.1.133`](#masamune_auth_google---v21133)
+ - [`masamune_ai_openai` - `v2.2.66`](#masamune_ai_openai---v2266)
+ - [`masamune_calendar` - `v2.0.176`](#masamune_calendar---v20176)
+ - [`masamune_picker` - `v2.1.131`](#masamune_picker---v21131)
+ - [`masamune_util` - `v2.1.110`](#masamune_util---v21110)
+ - [`masamune_universal_ui` - `v2.2.113`](#masamune_universal_ui---v22113)
+ - [`masamune_purchase_stripe` - `v3.3.79`](#masamune_purchase_stripe---v3379)
+ - [`masamune_notification` - `v2.2.17`](#masamune_notification---v2217)
+ - [`masamune_logger_firebase` - `v2.0.174`](#masamune_logger_firebase---v20174)
+ - [`masamune_introduction` - `v2.2.80`](#masamune_introduction---v2280)
+ - [`masamune_deeplink` - `v2.1.50`](#masamune_deeplink---v2150)
+ - [`masamune_speech_to_text` - `v2.1.101`](#masamune_speech_to_text---v21101)
+ - [`masamune_auth_facebook` - `v2.1.134`](#masamune_auth_facebook---v21134)
+ - [`masamune_location_google` - `v2.1.145`](#masamune_location_google---v21145)
+ - [`masamune_module_point_ecosystem` - `v2.3.40`](#masamune_module_point_ecosystem---v2340)
+ - [`masamune_module` - `v2.3.35`](#masamune_module---v2335)
+ - [`masamune_mail` - `v2.1.129`](#masamune_mail---v21129)
+ - [`masamune_notification_firebase` - `v2.4.18`](#masamune_notification_firebase---v2418)
+ - [`masamune_purchase_mobile` - `v2.5.81`](#masamune_purchase_mobile---v2581)
+ - [`masamune_ads_google` - `v2.1.82`](#masamune_ads_google---v2182)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.76`
+ - `masamune_location_platform_interface` - `v2.1.23`
+ - `masamune_location` - `v2.1.144`
+ - `masamune_deeplink_firebase` - `v2.1.51`
+ - `masamune_auth_apple` - `v2.1.132`
+ - `masamune_scheduler` - `v2.1.15`
+ - `masamune_location_background` - `v2.1.23`
+ - `masamune_text_to_speech` - `v2.1.98`
+ - `masamune_agora` - `v2.2.114`
+ - `masamune_auth_google` - `v2.1.133`
+ - `masamune_ai_openai` - `v2.2.66`
+ - `masamune_calendar` - `v2.0.176`
+ - `masamune_picker` - `v2.1.131`
+ - `masamune_util` - `v2.1.110`
+ - `masamune_universal_ui` - `v2.2.113`
+ - `masamune_purchase_stripe` - `v3.3.79`
+ - `masamune_notification` - `v2.2.17`
+ - `masamune_logger_firebase` - `v2.0.174`
+ - `masamune_introduction` - `v2.2.80`
+ - `masamune_deeplink` - `v2.1.50`
+ - `masamune_speech_to_text` - `v2.1.101`
+ - `masamune_auth_facebook` - `v2.1.134`
+ - `masamune_location_google` - `v2.1.145`
+ - `masamune_module_point_ecosystem` - `v2.3.40`
+ - `masamune_module` - `v2.3.35`
+ - `masamune_mail` - `v2.1.129`
+ - `masamune_notification_firebase` - `v2.4.18`
+ - `masamune_purchase_mobile` - `v2.5.81`
+ - `masamune_ads_google` - `v2.1.82`
+
+---
+
+#### `katana_scoped` - `v2.0.29`
+
+ - **FIX**: Added the function of DISPOSAL to CACHE. ([443bad43](https://github.com/mathrunet/flutter_masamune/commit/443bad43e57ec3d9e7eecd126450a1a2f2e23956))
+
+
+## 2023-10-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth_firebase` - `v2.1.8`](#katana_auth_firebase---v218)
 
 ---
