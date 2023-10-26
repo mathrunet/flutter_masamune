@@ -1,6 +1,6 @@
 name: masamune_auth_google
 description: Masamune plugin library to implement Google Sign-In.
-version: 2.1.130
+version: 2.1.131
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_auth_google
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
     
   katana: ^2.4.3
-  masamune: ^2.4.73
+  masamune: ^2.4.74
   google_sign_in: ^6.1.4
 
 dev_dependencies:

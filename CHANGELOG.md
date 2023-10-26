@@ -3,6 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-26
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_ui` - `v2.5.4`](#katana_ui---v254)
+ - [`masamune` - `v2.4.74`](#masamune---v2474)
+ - [`masamune_location_platform_interface` - `v2.1.21`](#masamune_location_platform_interface---v2121)
+ - [`masamune_location` - `v2.1.142`](#masamune_location---v21142)
+ - [`masamune_auth_apple` - `v2.1.130`](#masamune_auth_apple---v21130)
+ - [`masamune_scheduler` - `v2.1.13`](#masamune_scheduler---v2113)
+ - [`masamune_deeplink_firebase` - `v2.1.49`](#masamune_deeplink_firebase---v2149)
+ - [`masamune_location_background` - `v2.1.21`](#masamune_location_background---v2121)
+ - [`masamune_text_to_speech` - `v2.1.96`](#masamune_text_to_speech---v2196)
+ - [`masamune_calendar` - `v2.0.174`](#masamune_calendar---v20174)
+ - [`masamune_agora` - `v2.2.112`](#masamune_agora---v22112)
+ - [`masamune_ai_openai` - `v2.2.64`](#masamune_ai_openai---v2264)
+ - [`masamune_auth_google` - `v2.1.131`](#masamune_auth_google---v21131)
+ - [`masamune_util` - `v2.1.108`](#masamune_util---v21108)
+ - [`masamune_picker` - `v2.1.129`](#masamune_picker---v21129)
+ - [`masamune_universal_ui` - `v2.2.111`](#masamune_universal_ui---v22111)
+ - [`masamune_purchase_stripe` - `v3.3.77`](#masamune_purchase_stripe---v3377)
+ - [`masamune_logger_firebase` - `v2.0.172`](#masamune_logger_firebase---v20172)
+ - [`masamune_notification` - `v2.2.15`](#masamune_notification---v2215)
+ - [`masamune_introduction` - `v2.2.78`](#masamune_introduction---v2278)
+ - [`masamune_deeplink` - `v2.1.48`](#masamune_deeplink---v2148)
+ - [`masamune_speech_to_text` - `v2.1.99`](#masamune_speech_to_text---v2199)
+ - [`masamune_auth_facebook` - `v2.1.132`](#masamune_auth_facebook---v21132)
+ - [`masamune_module_point_ecosystem` - `v2.3.38`](#masamune_module_point_ecosystem---v2338)
+ - [`masamune_location_google` - `v2.1.143`](#masamune_location_google---v21143)
+ - [`masamune_module` - `v2.3.33`](#masamune_module---v2333)
+ - [`masamune_notification_firebase` - `v2.4.16`](#masamune_notification_firebase---v2416)
+ - [`masamune_mail` - `v2.1.127`](#masamune_mail---v21127)
+ - [`masamune_purchase_mobile` - `v2.5.79`](#masamune_purchase_mobile---v2579)
+ - [`masamune_ads_google` - `v2.1.80`](#masamune_ads_google---v2180)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.74`
+ - `masamune_location_platform_interface` - `v2.1.21`
+ - `masamune_location` - `v2.1.142`
+ - `masamune_auth_apple` - `v2.1.130`
+ - `masamune_scheduler` - `v2.1.13`
+ - `masamune_deeplink_firebase` - `v2.1.49`
+ - `masamune_location_background` - `v2.1.21`
+ - `masamune_text_to_speech` - `v2.1.96`
+ - `masamune_calendar` - `v2.0.174`
+ - `masamune_agora` - `v2.2.112`
+ - `masamune_ai_openai` - `v2.2.64`
+ - `masamune_auth_google` - `v2.1.131`
+ - `masamune_util` - `v2.1.108`
+ - `masamune_picker` - `v2.1.129`
+ - `masamune_universal_ui` - `v2.2.111`
+ - `masamune_purchase_stripe` - `v3.3.77`
+ - `masamune_logger_firebase` - `v2.0.172`
+ - `masamune_notification` - `v2.2.15`
+ - `masamune_introduction` - `v2.2.78`
+ - `masamune_deeplink` - `v2.1.48`
+ - `masamune_speech_to_text` - `v2.1.99`
+ - `masamune_auth_facebook` - `v2.1.132`
+ - `masamune_module_point_ecosystem` - `v2.3.38`
+ - `masamune_location_google` - `v2.1.143`
+ - `masamune_module` - `v2.3.33`
+ - `masamune_notification_firebase` - `v2.4.16`
+ - `masamune_mail` - `v2.1.127`
+ - `masamune_purchase_mobile` - `v2.5.79`
+ - `masamune_ads_google` - `v2.1.80`
+
+---
+
+#### `katana_ui` - `v2.5.4`
+
+ - **FIX**: Added SquareAvatar. ([6ee12d28](https://github.com/mathrunet/flutter_masamune/commit/6ee12d28bd72e43b5fc116cee686db7eda24f9fa))
+
+
 ## 2023-10-24
 
 ### Changes
