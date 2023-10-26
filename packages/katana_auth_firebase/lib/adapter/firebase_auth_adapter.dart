@@ -353,9 +353,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
     }
     final token = await _user!.getIdToken();
     if (token.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return "";
     }
     return token!;
   }
@@ -367,9 +368,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
       return "";
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return "";
     }
     return _user!.refreshToken ?? "";
   }
@@ -381,9 +383,10 @@ class FirebaseAuthAdapter extends AuthAdapter {
       return [];
     }
     if (_user == null || _user!.uid.isEmpty) {
-      throw Exception(
+      debugPrint(
         "Information could not be retrieved because you are not signed in, please sign in using the method for signIn.",
       );
+      return [];
     }
     return _user!.providerData.map((e) => e.providerId).toList();
   }
@@ -740,7 +743,7 @@ class FirebaseAuthAdapter extends AuthAdapter {
       await database.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
       );
-      await _user!.updateEmail(provider.email);
+      await _user!.verifyBeforeUpdateEmail(provider.email);
       await _user!.reload();
       onUserStateChanged.call();
     } else if (provider is ChangePasswordAuthProvider) {
