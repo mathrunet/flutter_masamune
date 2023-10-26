@@ -1,3 +1,7 @@
+## 2.7.16
+
+ - **FIX**: TextEditingControllerの値を変更した場合の修正. ([6d324ef3](https://github.com/mathrunet/flutter_masamune/commit/6d324ef3b6a39325fc7398db2fb878161f069baa))
+
 ## 2.7.15
 
  - **FIX**: Validate bug fixes. ([ef513846](https://github.com/mathrunet/flutter_masamune/commit/ef513846a3d6e92559920cd336e679d17378959d))
