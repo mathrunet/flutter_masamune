@@ -10,12 +10,30 @@ class BackgroundLocationMasamuneAdapter extends MasamuneAdapter {
   const BackgroundLocationMasamuneAdapter({
     this.defaultAccuracy = LocationAccuracy.high,
     this.defaultDistanceFilterMeters = 10,
+    this.defaultUpdateInterval = const Duration(seconds: 60),
     this.location,
     this.listenOnBoot = false,
     this.androidNotificationSettings =
         const BackgroundLocationAndroidNotificationSettings(),
     this.stopOnTerminate = false,
+    this.onResume,
+    this.onUpdate,
   });
+
+  /// Interval to update location data.
+  ///
+  /// 位置情報のデータを更新するインターバル。
+  final Duration defaultUpdateInterval;
+
+  /// Callback called when location information is updated.
+  ///
+  /// 位置情報がアップデートされたときに呼び出されるコールバック。
+  final FutureOr<void> Function(BackgroundLocation location)? onUpdate;
+
+  /// Callback called when the app resumes.
+  ///
+  /// アプリがレジュームしたときに呼び出されるコールバック。
+  final FutureOr<void> Function(BackgroundLocation location)? onResume;
 
   /// Specifies the accuracy of location information.
   ///

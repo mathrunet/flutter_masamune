@@ -77,7 +77,8 @@ class _BackgroundLocationRepository {
 
   static Future<void> save(Map<String, dynamic> value) async {
     final file = await _getTempLogFile();
-    await file.writeAsString(value.toJsonString(), mode: FileMode.append);
+    await file.writeAsString("${value.toJsonString()}\n",
+        mode: FileMode.append);
   }
 
   static Future<String> load() async {
@@ -86,7 +87,7 @@ class _BackgroundLocationRepository {
   }
 
   static Future<File> _getTempLogFile() async {
-    final directory = await getTemporaryDirectory();
+    final directory = Directory.systemTemp;
     final file = File(
       "${directory.path}/${_kBackgroundLocationRepositoryId.toSHA1()}",
     );

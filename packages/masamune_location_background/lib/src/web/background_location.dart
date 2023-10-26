@@ -81,6 +81,11 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
     );
   }
 
+  /// Delete history.
+  ///
+  /// 履歴を削除します。
+  Future<void> clear() => Future.value();
+
   /// Returns `true` if [listen] has already been executed.
   ///
   /// すでに[listen]が実行されている場合`true`を返します。
@@ -123,8 +128,9 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
     LocationAccuracy? accuracy,
     double? distanceFilterMeters,
     bool? stopOnTerminate,
-    Duration updateInterval = const Duration(seconds: 60),
     Duration timeout = const Duration(seconds: 60),
+    FutureOr<void> Function(BackgroundLocation location)? onUpdate,
+    FutureOr<void> Function(BackgroundLocation location)? onResume,
   }) async {
     throw UnsupportedError("This platform is not supported.");
   }
