@@ -191,6 +191,19 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
     }
     return _ImageMemoryCache._setCache(key.url, super.load(key, decode));
   }
+
+  @override
+  ImageStreamCompleter loadImage(
+      NetworkImage key, ImageDecoderCallback decode) {
+    if (key.url.isEmpty) {
+      return super.loadImage(key, decode);
+    }
+    final cache = _ImageMemoryCache._getCache(key.url);
+    if (cache != null) {
+      return cache;
+    }
+    return _ImageMemoryCache._setCache(key.url, super.loadImage(key, decode));
+  }
 }
 
 class _MemoizedFileImage extends FileImage {
@@ -208,6 +221,19 @@ class _MemoizedFileImage extends FileImage {
       return cache;
     }
     return _ImageMemoryCache._setCache(key.file.path, super.load(key, decode));
+  }
+
+  @override
+  ImageStreamCompleter loadImage(FileImage key, ImageDecoderCallback decode) {
+    if (key.file.path.isEmpty) {
+      return super.loadImage(key, decode);
+    }
+    final cache = _ImageMemoryCache._getCache(key.file.path);
+    if (cache != null) {
+      return cache;
+    }
+    return _ImageMemoryCache._setCache(
+        key.file.path, super.loadImage(key, decode));
   }
 }
 
@@ -233,5 +259,18 @@ class _MemoizedAssetImage extends AssetImage {
       return cache;
     }
     return _ImageMemoryCache._setCache(key.name, super.load(key, decode));
+  }
+
+  @override
+  ImageStreamCompleter loadImage(
+      AssetBundleImageKey key, ImageDecoderCallback decode) {
+    if (key.name.isEmpty) {
+      return super.loadImage(key, decode);
+    }
+    final cache = _ImageMemoryCache._getCache(key.name);
+    if (cache != null) {
+      return cache;
+    }
+    return _ImageMemoryCache._setCache(key.name, super.loadImage(key, decode));
   }
 }
