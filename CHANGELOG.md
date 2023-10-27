@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_universal_ui` - `v2.2.115`](#masamune_universal_ui---v22115)
+
+---
+
+#### `masamune_universal_ui` - `v2.2.115`
+
+ - **FIX**: Add loadNextThreshold. ([7ae38fcf](https://github.com/mathrunet/flutter_masamune/commit/7ae38fcfed6155b482a0ba84562a6e73d860b850))
+
+
 ## 2023-10-26
 
 ### Changes
