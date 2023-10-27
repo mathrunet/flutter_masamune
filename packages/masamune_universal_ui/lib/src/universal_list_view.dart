@@ -54,6 +54,7 @@ class UniversalListView extends StatelessWidget {
     this.controller,
     this.onRefresh,
     this.onLoadNext,
+    this.loadNextThreshold = 10,
     bool? primary,
     ScrollPhysics? physics,
     this.scrollBehavior,
@@ -111,6 +112,15 @@ class UniversalListView extends StatelessWidget {
   ///
   /// これが[Null]でない場合は最後にローディングインジケーターが表示されこれが実行されます。
   final Future<void> Function()? onLoadNext;
+
+  /// If the number of elements is less than or equal to this number, [onLoadNext] will not be executed.
+  ///
+  /// Whenever [Null] is passed, [onLoadNext] is executed.
+  ///
+  /// 要素数がこの数以下の場合は[onLoadNext]が実行されません。
+  ///
+  /// [Null]が渡されたときは必ず[onLoadNext]が実行されます。
+  final int? loadNextThreshold;
 
   /// A list of child elements for display in [ListView].
   ///
@@ -311,7 +321,8 @@ class UniversalListView extends StatelessWidget {
         children: cols,
       ));
     }
-    if (onLoadNext != null) {
+    if (onLoadNext != null &&
+        (loadNextThreshold == null || loadNextThreshold! < children.length)) {
       rows.add(
         _NextIndicator(key: ValueKey(children.length), onLoad: onLoadNext),
       );
