@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: NetworkImage can be cached locally. ([fc00f2f6](https://github.com/mathrunet/flutter_masamune/commit/fc00f2f62a7a28322c6487f10c84cb29d9bf479c))
+
 ## 2.0.29
 
  - **FIX**: Fixed image cache was not working properly. ([ad1b9874](https://github.com/mathrunet/flutter_masamune/commit/ad1b9874b801b7ce455bf9d3ff43d550c15df958))

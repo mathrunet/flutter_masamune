@@ -1,3 +1,7 @@
+## 2.13.5
+
+ - **DOCS**: Maintenance of Comments. ([4bd4e9e5](https://github.com/mathrunet/flutter_masamune/commit/4bd4e9e585508c3e07c6df6d10da4a6a1de41c78))
+
 ## 2.13.4
 
  - **FIX**: Fixing testing glitches. ([9cf6d836](https://github.com/mathrunet/flutter_masamune/commit/9cf6d83668f2c37183af737256249be691740792))

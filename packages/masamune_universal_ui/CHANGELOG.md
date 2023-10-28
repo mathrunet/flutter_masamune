@@ -1,3 +1,7 @@
+## 2.2.116
+
+ - Update a dependency to the latest release.
+
 ## 2.2.115
 
  - **FIX**: Add loadNextThreshold. ([7ae38fcf](https://github.com/mathrunet/flutter_masamune/commit/7ae38fcfed6155b482a0ba84562a6e73d860b850))

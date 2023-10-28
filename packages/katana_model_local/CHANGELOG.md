@@ -1,3 +1,7 @@
+## 2.8.10
+
+ - **DOCS**: Maintenance of Comments. ([4bd4e9e5](https://github.com/mathrunet/flutter_masamune/commit/4bd4e9e585508c3e07c6df6d10da4a6a1de41c78))
+
 ## 2.8.9
 
  - **FIX**: Fix Adapter so that it can be used separately. ([9a23fae0](https://github.com/mathrunet/flutter_masamune/commit/9a23fae02d712fde0e779ed76815dc7097f08475))
