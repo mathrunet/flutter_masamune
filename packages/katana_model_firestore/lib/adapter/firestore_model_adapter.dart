@@ -818,6 +818,9 @@ class FirestoreModelAdapter extends ModelAdapter
   }
 }
 
+/// [ModelTransactionRef] for [FirestoreModelAdapter].
+///
+/// [FirestoreModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class FirestoreModelTransactionRef extends ModelTransactionRef {
   FirestoreModelTransactionRef._(
@@ -827,6 +830,9 @@ class FirestoreModelTransactionRef extends ModelTransactionRef {
   final List<Future<void> Function()> _localTransaction = [];
 }
 
+/// [ModelBatchRef] for [FirestoreModelAdapter].
+///
+/// [FirestoreModelAdapter]用の[ModelBatchRef]。
 @immutable
 class FirestoreModelBatchRef extends ModelBatchRef {
   FirestoreModelBatchRef._();

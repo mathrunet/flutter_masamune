@@ -1148,6 +1148,10 @@ class ModelQueryFilter {
           value: value,
         );
 
+  static const String _kTypeKey = "type";
+  static const String _kKeyKey = "key";
+  static const String _kValueKey = "value";
+
   /// The filter condition specified in [ModelQueryFilter] is defined in [ModelQueryFilterType].
   ///
   /// [ModelQueryFilter]で指定されているフィルター条件を[ModelQueryFilterType]で定義しています。
@@ -1304,5 +1308,16 @@ class ModelQueryFilter {
           .fold(type.hashCode ^ key.hashCode, (p, e) => p ^ e.hashCode);
     }
     return type.hashCode ^ key.hashCode ^ value.hashCode;
+  }
+
+  /// [ModelQueryFilter] is converted to [Map].
+  ///
+  /// [ModelQueryFilter]を[Map]に変換します。
+  DynamicMap toJson() {
+    return {
+      _kTypeKey: type.name,
+      _kKeyKey: key,
+      _kValueKey: value,
+    };
   }
 }

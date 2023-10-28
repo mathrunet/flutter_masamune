@@ -896,6 +896,9 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
   }
 }
 
+/// [ModelTransactionRef] for [ListenableFirestoreModelAdapter].
+///
+/// [ListenableFirestoreModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class ListenableFirestoreModelTransactionRef extends ModelTransactionRef {
   ListenableFirestoreModelTransactionRef._(this._transaction);
@@ -903,6 +906,9 @@ class ListenableFirestoreModelTransactionRef extends ModelTransactionRef {
   final List<Future<void> Function()> _localTransaction = [];
 }
 
+/// [ModelBatchRef] for [ListenableFirestoreModelAdapter].
+///
+/// [ListenableFirestoreModelAdapter]用の[ModelBatchRef]。
 @immutable
 class ListenableFirestoreModelBatchRef extends ModelBatchRef {
   ListenableFirestoreModelBatchRef._();

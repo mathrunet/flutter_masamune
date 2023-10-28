@@ -286,6 +286,7 @@ class RuntimeModelAdapter extends ModelAdapter {
 }
 
 /// [ModelTransactionRef] for [RuntimeModelAdapter].
+/// 
 /// [RuntimeModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class RuntimeModelTransactionRef extends ModelTransactionRef {
@@ -295,6 +296,7 @@ class RuntimeModelTransactionRef extends ModelTransactionRef {
 }
 
 /// [ModelBatchRef] for [RuntimeModelAdapter].
+/// 
 /// [RuntimeModelAdapter]用の[ModelBatchRef]。
 @immutable
 class RuntimeModelBatchRef extends ModelBatchRef {

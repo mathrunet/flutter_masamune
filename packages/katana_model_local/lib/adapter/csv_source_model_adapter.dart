@@ -765,6 +765,7 @@ abstract class CsvSourceModelAdapter extends ModelAdapter {
 }
 
 /// [ModelTransactionRef] for [CsvSourceModelAdapter].
+///
 /// [CsvSourceModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class CsvSourceModelTransactionRef extends ModelTransactionRef {
@@ -774,6 +775,7 @@ class CsvSourceModelTransactionRef extends ModelTransactionRef {
 }
 
 /// [ModelBatchRef] for [CsvSourceModelAdapter].
+///
 /// [CsvSourceModelAdapter]用の[ModelBatchRef]。
 @immutable
 class CsvSourceModelBatchRef extends ModelBatchRef {

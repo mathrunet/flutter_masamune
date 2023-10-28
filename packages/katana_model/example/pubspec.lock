@@ -329,21 +329,21 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.4.2"
+    version: "2.4.3"
   katana_listenables_annotation:
     dependency: "direct overridden"
     description:
       path: "../../katana_listenables_annotation"
       relative: true
     source: path
-    version: "2.0.16"
+    version: "2.0.17"
   katana_model:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.12.4"
+    version: "2.13.4"
   lints:
     dependency: transitive
     description:

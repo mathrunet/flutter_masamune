@@ -305,6 +305,7 @@ class LocalModelAdapter extends ModelAdapter {
 }
 
 /// [ModelTransactionRef] for [LocalModelAdapter].
+///
 /// [LocalModelAdapter]用の[ModelTransactionRef]。
 @immutable
 class LocalModelTransactionRef extends ModelTransactionRef {
@@ -314,6 +315,7 @@ class LocalModelTransactionRef extends ModelTransactionRef {
 }
 
 /// [ModelBatchRef] for [LocalModelAdapter].
+///
 /// [LocalModelAdapter]用の[ModelBatchRef]。
 @immutable
 class LocalModelBatchRef extends ModelBatchRef {

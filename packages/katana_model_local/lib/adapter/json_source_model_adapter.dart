@@ -688,6 +688,7 @@ abstract class JsonSourceModelAdapter extends ModelAdapter {
 }
 
 /// [ModelTransactionRef] for [JsonSourceModelTransactionRef].
+/// 
 /// [JsonSourceModelTransactionRef]用の[ModelTransactionRef]。
 @immutable
 class JsonSourceModelTransactionRef extends ModelTransactionRef {
@@ -697,6 +698,7 @@ class JsonSourceModelTransactionRef extends ModelTransactionRef {
 }
 
 /// [ModelBatchRef] for [JsonSourceModelBatchRef].
+/// 
 /// [JsonSourceModelBatchRef]用の[ModelBatchRef]。
 @immutable
 class JsonSourceModelBatchRef extends ModelBatchRef {
