@@ -246,7 +246,7 @@ packages:
       path: "../katana_theme_annotation"
       relative: true
     source: path
-    version: "2.0.19"
+    version: "2.0.20"
   lints:
     dependency: transitive
     description:

@@ -179,6 +179,20 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
           headers: headers,
         );
 
+  static final HttpClient _sharedHttpClient = HttpClient()
+    ..autoUncompress = false;
+
+  static HttpClient get _httpClient {
+    HttpClient? client;
+    assert(() {
+      if (debugNetworkImageHttpClientProvider != null) {
+        client = debugNetworkImageHttpClientProvider!();
+      }
+      return true;
+    }());
+    return client ?? _sharedHttpClient;
+  }
+
   @override
   // ignore: deprecated_member_use
   ImageStreamCompleter load(NetworkImage key, DecoderCallback decode) {
@@ -196,13 +210,109 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
   ImageStreamCompleter loadImage(
       NetworkImage key, ImageDecoderCallback decode) {
     if (key.url.isEmpty) {
-      return super.loadImage(key, decode);
+      return _loadImage(key, decode);
     }
     final cache = _ImageMemoryCache._getCache(key.url);
     if (cache != null) {
       return cache;
     }
-    return _ImageMemoryCache._setCache(key.url, super.loadImage(key, decode));
+    return _ImageMemoryCache._setCache(key.url, _loadImage(key, decode));
+  }
+
+  ImageStreamCompleter _loadImage(
+      NetworkImage key, ImageDecoderCallback decode) {
+    final StreamController<ImageChunkEvent> chunkEvents =
+        StreamController<ImageChunkEvent>();
+
+    return MultiFrameImageStreamCompleter(
+      codec: _loadNetworkAsync(key, chunkEvents, decode: decode),
+      chunkEvents: chunkEvents.stream,
+      scale: key.scale,
+      debugLabel: key.url,
+      informationCollector: () => <DiagnosticsNode>[
+        DiagnosticsProperty<ImageProvider>("Image provider", this),
+        DiagnosticsProperty<NetworkImage>("Image key", key),
+      ],
+    );
+  }
+
+  Future<ui.Codec> _loadNetworkAsync(
+    NetworkImage key,
+    StreamController<ImageChunkEvent> chunkEvents, {
+    required ImageDecoderCallback decode,
+  }) async {
+    try {
+      assert(key == this);
+      final file = await _getLocalFile(key);
+      if (file.existsSync()) {
+        return _loadFileAsync(key, file: file, decode: decode);
+      }
+
+      final Uri resolved = Uri.base.resolve(key.url);
+
+      final HttpClientRequest request = await _httpClient.getUrl(resolved);
+
+      headers?.forEach((String name, String value) {
+        request.headers.add(name, value);
+      });
+      final HttpClientResponse response = await request.close();
+      if (response.statusCode != HttpStatus.ok) {
+        await response.drain<List<int>>(<int>[]);
+        throw NetworkImageLoadException(
+            statusCode: response.statusCode, uri: resolved);
+      }
+
+      final Uint8List bytes = await consolidateHttpClientResponseBytes(
+        response,
+        onBytesReceived: (int cumulative, int? total) {
+          chunkEvents.add(ImageChunkEvent(
+            cumulativeBytesLoaded: cumulative,
+            expectedTotalBytes: total,
+          ));
+        },
+      );
+      if (bytes.lengthInBytes == 0) {
+        throw Exception("NetworkImage is an empty file: $resolved");
+      }
+      await file.writeAsBytes(bytes);
+
+      final ui.ImmutableBuffer buffer =
+          await ui.ImmutableBuffer.fromUint8List(bytes);
+      return decode(buffer);
+    } catch (e) {
+      scheduleMicrotask(() {
+        PaintingBinding.instance.imageCache.evict(key);
+      });
+      rethrow;
+    } finally {
+      chunkEvents.close();
+    }
+  }
+
+  Future<ui.Codec> _loadFileAsync(
+    NetworkImage key, {
+    required File file,
+    required ImageDecoderCallback decode,
+  }) async {
+    final int lengthInBytes = await file.length();
+    if (lengthInBytes == 0) {
+      PaintingBinding.instance.imageCache.evict(key);
+      throw StateError("$file is empty and cannot be loaded as an image.");
+    }
+    if (file.runtimeType == File) {
+      return decode(await ui.ImmutableBuffer.fromFilePath(file.path));
+    }
+    return decode(
+        await ui.ImmutableBuffer.fromUint8List(await file.readAsBytes()));
+  }
+
+  Future<File> _getLocalFile(NetworkImage key) async {
+    final cacheDir = await getTemporaryDirectory();
+    final fileName = key.url.last();
+    final ext = fileName.contains(".") ? fileName.last(separator: ".") : null;
+    return File(
+      "${cacheDir.path}/${fileName.toSHA1()}${ext != null ? ".$ext" : ""}",
+    );
   }
 }
 
