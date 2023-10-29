@@ -45,7 +45,8 @@ class PurchaseProduct {
     this.icon,
     required this.price,
     this.expiredPeriod,
-  });
+    String? priceText,
+  }) : _priceText = priceText;
 
   /// Define chargeable items.
   ///
@@ -69,8 +70,10 @@ class PurchaseProduct {
     this.description = "",
     this.icon,
     required this.price,
+    String? priceText,
   })  : type = PurchaseProductType.consumable,
-        expiredPeriod = null;
+        expiredPeriod = null,
+        _priceText = priceText;
 
   /// Define chargeable items.
   ///
@@ -93,9 +96,11 @@ class PurchaseProduct {
     this.description = "",
     this.icon,
     required this.price,
+    String? priceText,
   })  : type = PurchaseProductType.nonConsumable,
         amount = null,
-        expiredPeriod = null;
+        expiredPeriod = null,
+        _priceText = priceText;
 
   /// Define chargeable items.
   ///
@@ -123,8 +128,10 @@ class PurchaseProduct {
     required this.price,
     this.icon,
     this.expiredPeriod,
+    String? priceText,
   })  : type = PurchaseProductType.subscription,
-        amount = null;
+        amount = null,
+        _priceText = priceText;
 
   /// Product ID.
   ///
@@ -173,7 +180,8 @@ class PurchaseProduct {
   /// Text with the currency mark of the item charged.
   ///
   /// 課金アイテムの通貨マークを付与したテキスト。
-  String get priceText => price.toString();
+  String get priceText => _priceText ?? price.toString();
+  final String? _priceText;
 
   /// Load real data from the database.
   ///
@@ -227,6 +235,7 @@ class StoreConsumablePurchaseProduct extends PurchaseProduct
         ),
         super(
           productId: product.productId,
+          priceText: product._priceText,
           title: product.title,
           description: product.description,
           price: product.price,
@@ -311,6 +320,7 @@ class StoreNonConsumablePurchaseProduct extends PurchaseProduct
         ),
         super(
           productId: product.productId,
+          priceText: product._priceText,
           title: product.title,
           description: product.description,
           icon: product.icon,
@@ -392,6 +402,7 @@ class StoreSubscriptionPurchaseProduct extends PurchaseProduct
         ),
         super(
           productId: product.productId,
+          priceText: product._priceText,
           title: product.title,
           description: product.description,
           icon: product.icon,
