@@ -7,16 +7,20 @@ class AppScopedValueListener extends ScopedValueListener {
   AppScopedValueListener._({
     required BuildContext context,
     required VoidCallback callback,
+    required AppRef appRef,
     required super.scope,
-  }) : super._(context: context, callback: callback);
+  }) : super._(
+          context: context,
+          callback: callback,
+          appRef: appRef,
+        );
 
   @override
   ScopedValueContainer get container {
     if (_containerCache != null) {
       return _containerCache!;
     }
-    final appRef = _AppScopedScope.of(_context).widget.appRef;
-    return _containerCache = appRef._scopedValueContainer;
+    return _containerCache = _appRef._scopedValueContainer;
   }
 
   @override
@@ -33,8 +37,13 @@ class PageScopedValueListener extends _ScopedValueListenerOnPage {
   PageScopedValueListener._({
     required BuildContext context,
     required VoidCallback callback,
+    required AppRef appRef,
     required super.scope,
-  }) : super._(context: context, callback: callback);
+  }) : super._(
+          context: context,
+          callback: callback,
+          appRef: appRef,
+        );
 
   @override
   ScopedValueContainer get container {
@@ -55,11 +64,13 @@ class _ScopedValueListenerOnPage extends ScopedValueListener {
   _ScopedValueListenerOnPage._({
     required BuildContext context,
     required VoidCallback callback,
+    required AppRef appRef,
     ScopedValueContainer? container,
     ScopedLoggerScope scope = ScopedLoggerScope.page,
   }) : super._(
           context: context,
           callback: callback,
+          appRef: appRef,
           container: container,
           scope: scope,
         );
@@ -91,12 +102,14 @@ class _ScopedValueListenerOnWidget extends ScopedValueListener {
   _ScopedValueListenerOnWidget._({
     required BuildContext context,
     required VoidCallback callback,
+    required AppRef appRef,
     ScopedValueContainer? container,
     ScopedLoggerScope scope = ScopedLoggerScope.widget,
   }) : super._(
           context: context,
           callback: callback,
           container: container,
+          appRef: appRef,
           scope: scope,
         );
 
@@ -138,9 +151,11 @@ abstract class ScopedValueListener {
   ScopedValueListener._({
     required BuildContext context,
     required VoidCallback callback,
+    required AppRef appRef,
     ScopedValueContainer? container,
     ScopedLoggerScope scope = ScopedLoggerScope.widget,
   })  : _scope = scope,
+        _appRef = appRef,
         _context = context,
         _callback = callback,
         _container = container;
@@ -151,9 +166,10 @@ abstract class ScopedValueListener {
   ScopedValueContainer? _containerCache;
   final Set<ScopedValueState> _watched = {};
 
-  AppRef get _appRef {
-    return _AppScopedScope.of(_context).widget.appRef;
-  }
+  late final AppRef _appRef;
+  // AppRef get _appRef {
+  //   return _AppScopedScope.of(_context).widget.appRef;
+  // }
 
   @protected
   final ScopedLoggerScope _scope;

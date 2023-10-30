@@ -53,18 +53,22 @@ class _ScopedState extends State<Scoped> {
   void initState() {
     super.initState();
     _container = ScopedValueContainer();
+    final appRef = _AppScopedScope.of(context).widget.appRef;
     _appListener = AppScopedValueListener._(
       context: context,
+      appRef: appRef,
       callback: _handledOnRebuild,
       scope: ScopedLoggerScope.app,
     );
     _pageListener = PageScopedValueListener._(
       context: context,
+      appRef: appRef,
       callback: _handledOnRebuild,
       scope: ScopedLoggerScope.page,
     );
     _widgetListener = _ScopedValueListenerOnWidget._(
       context: context,
+      appRef: appRef,
       callback: _handledOnRebuild,
       container: _container,
       scope: ScopedLoggerScope.widget,
@@ -209,14 +213,17 @@ class _PageScopedWidgetState extends State<PageScopedWidget> {
   @override
   void initState() {
     super.initState();
+    final appRef = _AppScopedScope.of(context).widget.appRef;
     _container = ScopedValueContainer();
     _appListener = AppScopedValueListener._(
       context: context,
+      appRef: appRef,
       callback: _handledOnRebuild,
       scope: ScopedLoggerScope.app,
     );
     _pageListener = _ScopedValueListenerOnPage._(
       context: context,
+      appRef: appRef,
       callback: _handledOnRebuild,
       container: _container,
       scope: ScopedLoggerScope.page,
