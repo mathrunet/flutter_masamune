@@ -13,6 +13,7 @@ import 'dart:convert';
 import 'dart:core' as core;
 import 'dart:core';
 import 'dart:math';
+import 'dart:typed_data';
 
 // Package imports:
 import 'package:crypto/crypto.dart';
@@ -20,6 +21,8 @@ import 'package:encrypt/encrypt.dart';
 import 'package:intl/intl.dart';
 import 'package:recase/recase.dart';
 import 'package:sprintf/sprintf.dart';
+import 'package:uuid/data.dart';
+import 'package:uuid/rng.dart';
 import 'package:uuid/uuid.dart';
 
 export 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;

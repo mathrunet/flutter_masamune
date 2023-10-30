@@ -1,15 +1,73 @@
 part of katana;
 
-/// Generate and retrieve the UUID for Version 4.
+const int _kIntMaxValue = 9007199254740991;
+
+/// Generate and retrieve the UUID for Version 7.
+///
+/// The strings can be sorted in chronological order of generation.
 ///
 /// Returned as a string with 32 hyphenated characters removed.
 ///
-/// Version4のUUIDを生成し取得します。
+/// If [baseTime] is specified, the date and time to be generated can be adjusted. If [reverse] is specified, the elapsed time from [baseTime] is reversed.
+///
+/// Version7のUUIDを生成し取得します。
+///
+/// 文字列を生成した時系列順にソート可能です。
 ///
 /// 32文字のハイフンが取り除かれた文字列として返されます。
-String get uuid {
+///
+/// [baseTime]を指定した場合、生成する日時を調節できます。[reverse]を指定した場合は、[baseTime]からの経過時間を反転させた値を使用します。
+String uuid({DateTime? baseTime, bool reverse = false}) {
   const uuid = Uuid();
-  return uuid.v4().replaceAll("-", "");
+  if (baseTime != null) {
+    if (reverse) {
+      return uuid
+          .v7(
+            config: V7Options(
+              _kIntMaxValue - baseTime.toUtc().millisecondsSinceEpoch,
+              _randomData(),
+            ),
+          )
+          .replaceAll("-", "");
+    } else {
+      return uuid
+          .v7(
+            config: V7Options(
+              baseTime.toUtc().millisecondsSinceEpoch,
+              _randomData(),
+            ),
+          )
+          .replaceAll("-", "");
+    }
+  } else {
+    return uuid
+        .v7(
+          config: V7Options(
+            DateTime.now().toUtc().millisecondsSinceEpoch,
+            _randomData(),
+          ),
+        )
+        .replaceAll("-", "");
+  }
+}
+
+List<int> _randomData() {
+  Uint8List seedBytes = const MathRNG().generate();
+
+  List<int> randomData = [
+    seedBytes[0],
+    seedBytes[1],
+    seedBytes[2],
+    seedBytes[3],
+    seedBytes[4],
+    seedBytes[5],
+    seedBytes[6],
+    seedBytes[7],
+    seedBytes[8],
+    seedBytes[9]
+  ];
+
+  return randomData;
 }
 
 /// Wait until all Futures given in [futures] are completed.
