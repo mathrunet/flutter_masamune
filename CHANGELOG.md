@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location_background` - `v2.2.4`](#masamune_location_background---v224)
+
+---
+
+#### `masamune_location_background` - `v2.2.4`
+
+ - **FIX**: Compatible for Android. ([6ec5c07c](https://github.com/mathrunet/flutter_masamune/commit/6ec5c07c6a2af625dfbe5d0bdaf079c65a623b85))
+
+
+## 2023-10-30
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.5.0`](#katana---v250)
  - [`katana_auth` - `v2.2.5`](#katana_auth---v225)
  - [`katana_model` - `v2.13.6`](#katana_model---v2136)

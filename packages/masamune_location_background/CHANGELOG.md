@@ -1,3 +1,7 @@
+## 2.2.4
+
+ - **FIX**: Compatible for Android. ([6ec5c07c](https://github.com/mathrunet/flutter_masamune/commit/6ec5c07c6a2af625dfbe5d0bdaf079c65a623b85))
+
 ## 2.2.3
 
  - Update a dependency to the latest release.
