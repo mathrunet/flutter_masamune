@@ -1,5 +1,7 @@
 part of masamune_location_background.others;
 
+const _kRunningKey = "gps://runnning";
+
 /// Class for handling terminal location information.
 ///
 /// It also works in the background.
@@ -77,16 +79,26 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
   ///
   /// 現在記録されているすべての位置情報ログの一覧を取得します。
   AsyncHistoryValue history() {
-    return AsyncHistoryValue._(
-      _BackgroundLocationRepository.loadAsLocations(),
-    );
+    if (UniversalPlatform.isAndroid) {
+      return AsyncHistoryValue._(
+        _AndroidBackgroundLocationRepository.loadAsLocations(),
+      );
+    } else {
+      return AsyncHistoryValue._(
+        _IOSBackgroundLocationRepository.loadAsLocations(),
+      );
+    }
   }
 
   /// Delete history.
   ///
   /// 履歴を削除します。
   Future<void> clear() {
-    return _BackgroundLocationRepository.clear();
+    if (UniversalPlatform.isAndroid) {
+      return _AndroidBackgroundLocationRepository.clear();
+    } else {
+      return _IOSBackgroundLocationRepository.clear();
+    }
   }
 
   Timer? _timer;
@@ -150,8 +162,16 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
       }
       await BackgroundLocator.initialize();
       _running = await BackgroundLocator.isServiceRunning();
+      final sharedPreferences = await SharedPreferences.getInstance();
+      _running = sharedPreferences.getBool(_kRunningKey.toSHA1()) ?? _running;
       if (_running) {
-        _value = await _BackgroundLocationRepository.loadAsLatestLocation();
+        if (UniversalPlatform.isAndroid) {
+          _value =
+              await _AndroidBackgroundLocationRepository.loadAsLatestLocation();
+        } else {
+          _value =
+              await _IOSBackgroundLocationRepository.loadAsLatestLocation();
+        }
       }
       _observer ??= _BackgroundLocationWidgetsBindingObserver(this);
       WidgetsBinding.instance.addObserver(_observer!);
@@ -212,31 +232,55 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
       if (_running) {
         await BackgroundLocator.unRegisterLocationUpdate();
       }
-      await BackgroundLocator.registerLocationUpdate(
-        BackgroundLocationCallbackHandler.callback,
-        initCallback: BackgroundLocationCallbackHandler.init,
-        disposeCallback: BackgroundLocationCallbackHandler.dispose,
-        iosSettings: IOSSettings(
-          accuracy:
-              (accuracy ?? adapter.defaultAccuracy).toLocatorLocationAccuracy(),
-          distanceFilter:
-              distanceFilterMeters ?? adapter.defaultDistanceFilterMeters,
-          stopWithTerminate: stopOnTerminate ?? adapter.stopOnTerminate,
-        ),
-        androidSettings: AndroidSettings(
-          accuracy:
-              (accuracy ?? adapter.defaultAccuracy).toLocatorLocationAccuracy(),
-          interval: adapter.defaultUpdateInterval.inSeconds,
-          distanceFilter:
-              distanceFilterMeters ?? adapter.defaultDistanceFilterMeters,
-          client: LocationClient.google,
-          androidNotificationSettings:
-              adapter.androidNotificationSettings.toAndroidNotificationSettings(
-            onTap: BackgroundLocationCallbackHandler.notification,
+      if (UniversalPlatform.isAndroid) {
+        await BackgroundLocator.registerLocationUpdate(
+          AndroidBackgroundLocationCallbackHandler.callback,
+          initCallback: AndroidBackgroundLocationCallbackHandler.init,
+          disposeCallback: AndroidBackgroundLocationCallbackHandler.dispose,
+          androidSettings: AndroidSettings(
+            accuracy: (accuracy ?? adapter.defaultAccuracy)
+                .toLocatorLocationAccuracy(),
+            interval: adapter.defaultUpdateInterval.inSeconds,
+            distanceFilter:
+                distanceFilterMeters ?? adapter.defaultDistanceFilterMeters,
+            client: LocationClient.google,
+            androidNotificationSettings: adapter.androidNotificationSettings
+                .toAndroidNotificationSettings(
+              onTap: AndroidBackgroundLocationCallbackHandler.notification,
+            ),
           ),
-        ),
-      );
-      _value = await _BackgroundLocationRepository.loadAsLatestLocation();
+        );
+        _value =
+            await _AndroidBackgroundLocationRepository.loadAsLatestLocation();
+      } else {
+        await BackgroundLocator.registerLocationUpdate(
+          IOSBackgroundLocationCallbackHandler.callback,
+          initCallback: IOSBackgroundLocationCallbackHandler.init,
+          disposeCallback: IOSBackgroundLocationCallbackHandler.dispose,
+          iosSettings: IOSSettings(
+            accuracy: (accuracy ?? adapter.defaultAccuracy)
+                .toLocatorLocationAccuracy(),
+            distanceFilter:
+                distanceFilterMeters ?? adapter.defaultDistanceFilterMeters,
+            stopWithTerminate: stopOnTerminate ?? adapter.stopOnTerminate,
+          ),
+          androidSettings: AndroidSettings(
+            accuracy: (accuracy ?? adapter.defaultAccuracy)
+                .toLocatorLocationAccuracy(),
+            interval: adapter.defaultUpdateInterval.inSeconds,
+            distanceFilter:
+                distanceFilterMeters ?? adapter.defaultDistanceFilterMeters,
+            client: LocationClient.google,
+            androidNotificationSettings: adapter.androidNotificationSettings
+                .toAndroidNotificationSettings(
+              onTap: IOSBackgroundLocationCallbackHandler.notification,
+            ),
+          ),
+        );
+        _value = await _IOSBackgroundLocationRepository.loadAsLatestLocation();
+      }
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setBool(_kRunningKey.toSHA1(), true);
       _running = await BackgroundLocator.isServiceRunning();
       notifyListeners();
       _listenCompleter?.complete();
@@ -255,7 +299,9 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
     if (!_running) {
       return;
     }
-    final value = await _BackgroundLocationRepository.loadAsLatestLocation();
+    final value = UniversalPlatform.isAndroid
+        ? await _AndroidBackgroundLocationRepository.loadAsLatestLocation()
+        : await _IOSBackgroundLocationRepository.loadAsLatestLocation();
     if (value != _value) {
       _value = value;
       await wait([
@@ -271,8 +317,10 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
   /// [LocationData]の取得をキャンセルします。
   Future<void> unlisten() async {
     await BackgroundLocator.unRegisterLocationUpdate();
-    await _BackgroundLocationRepository.clear();
+    await clear();
     _running = await BackgroundLocator.isServiceRunning();
+    final sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.setBool(_kRunningKey.toSHA1(), false);
     notifyListeners();
   }
 

@@ -15,6 +15,7 @@ import 'package:background_locator_2/location_dto.dart';
 import 'package:background_locator_2/settings/android_settings.dart';
 import 'package:background_locator_2/settings/ios_settings.dart';
 import 'package:masamune/masamune.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // Project imports:
@@ -22,6 +23,7 @@ import 'package:masamune_location_background/masamune_location_background.dart';
 
 import 'package:background_locator_2/settings/locator_settings.dart'
     as locator_settings;
+import 'package:universal_platform/universal_platform.dart';
 
 part 'background_location.dart';
 part 'background_location_callback_handler.dart';
