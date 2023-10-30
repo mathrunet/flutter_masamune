@@ -1,3 +1,8 @@
+## 2.13.6
+
+ - **FIX**: Support for UUID changes. ([54fcea14](https://github.com/mathrunet/flutter_masamune/commit/54fcea14605ccb74610d067e67c07b6a97fa6010))
+ - **DOCS**: Corrected comment. ([45ac90b3](https://github.com/mathrunet/flutter_masamune/commit/45ac90b33774b57e34ed5e208895979f64aa747f))
+
 ## 2.13.5
 
  - **DOCS**: Maintenance of Comments. ([4bd4e9e5](https://github.com/mathrunet/flutter_masamune/commit/4bd4e9e585508c3e07c6df6d10da4a6a1de41c78))

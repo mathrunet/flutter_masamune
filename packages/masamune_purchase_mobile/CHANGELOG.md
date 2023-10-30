@@ -1,3 +1,8 @@
+## 2.5.84
+
+ - **FIX**: Support for UUID changes. ([54fcea14](https://github.com/mathrunet/flutter_masamune/commit/54fcea14605ccb74610d067e67c07b6a97fa6010))
+ - **FIX**: Added the ability to specify priceText for debugging purposes. ([6f7c5597](https://github.com/mathrunet/flutter_masamune/commit/6f7c5597223575c47f8b90d0ced5a11513858a62))
+
 ## 2.5.83
 
  - Update a dependency to the latest release.

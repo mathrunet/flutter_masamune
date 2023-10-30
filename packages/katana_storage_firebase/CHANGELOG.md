@@ -1,3 +1,7 @@
+## 2.0.19
+
+ - Update a dependency to the latest release.
+
 ## 2.0.18
 
  - **FIX**: RuntimeStorageAdapter made available on the web. ([90f65994](https://github.com/mathrunet/flutter_masamune/commit/90f65994974212971d8016d98110d3743227051a))

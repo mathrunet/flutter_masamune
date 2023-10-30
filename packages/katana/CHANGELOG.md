@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: Support v7 UUID. ([0596de94](https://github.com/mathrunet/flutter_masamune/commit/0596de9407a4c9642b123597379d809e44574f30))
+
 ## 2.4.3
 
  - **DOCS**: Documentation changes. ([6b265c42](https://github.com/mathrunet/flutter_masamune/commit/6b265c42df258dafcbae81b3474fc1aa978282b3))

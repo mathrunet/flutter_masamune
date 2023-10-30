@@ -1,3 +1,7 @@
+## 2.5.5
+
+ - Update a dependency to the latest release.
+
 ## 2.5.4
 
  - **FIX**: Added SquareAvatar. ([6ee12d28](https://github.com/mathrunet/flutter_masamune/commit/6ee12d28bd72e43b5fc116cee686db7eda24f9fa))

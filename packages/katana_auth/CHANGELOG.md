@@ -1,3 +1,7 @@
+## 2.2.5
+
+ - **FIX**: Support for UUID changes. ([54fcea14](https://github.com/mathrunet/flutter_masamune/commit/54fcea14605ccb74610d067e67c07b6a97fa6010))
+
 ## 2.2.4
 
  - Update a dependency to the latest release.

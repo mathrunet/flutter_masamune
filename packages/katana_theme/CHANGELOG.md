@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FEAT**: NetworkImage can be cached locally. ([fc00f2f6](https://github.com/mathrunet/flutter_masamune/commit/fc00f2f62a7a28322c6487f10c84cb29d9bf479c))

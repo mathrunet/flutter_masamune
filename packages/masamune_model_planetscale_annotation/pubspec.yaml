@@ -1,0 +1,19 @@
+name: masamune_model_planetscale_annotation
+description: Define annotations to use the masamune model planetscale builder. Build with masamune_model_planetscale_builder using this annotation.
+version: 2.0.0
+homepage: https://mathru.net
+repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_planetscale_annotation
+
+publish_to: "none"
+
+environment:
+  sdk: ">=2.17.0 <4.0.0"
+
+dependencies:
+  katana: ^2.5.0
+  meta: ^1.8.0
+    
+dev_dependencies:
+  test: ^1.21.3
+  flutter_lints: ^2.0.0
+  import_sorter: ^4.6.0

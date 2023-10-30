@@ -1,3 +1,8 @@
+## 2.0.30
+
+ - **FIX**: Fixed a bug in internal appRef. ([5299d985](https://github.com/mathrunet/flutter_masamune/commit/5299d98550440d076ca1ff39bd7fea4232285abd))
+ - **FIX**: Support for UUID changes. ([54fcea14](https://github.com/mathrunet/flutter_masamune/commit/54fcea14605ccb74610d067e67c07b6a97fa6010))
+
 ## 2.0.29
 
  - **FIX**: Added the function of DISPOSAL to CACHE. ([443bad43](https://github.com/mathrunet/flutter_masamune/commit/443bad43e57ec3d9e7eecd126450a1a2f2e23956))

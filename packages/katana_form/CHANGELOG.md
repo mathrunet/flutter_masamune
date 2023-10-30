@@ -1,3 +1,7 @@
+## 2.7.17
+
+ - Update a dependency to the latest release.
+
 ## 2.7.16
 
  - **FIX**: TextEditingControllerの値を変更した場合の修正. ([6d324ef3](https://github.com/mathrunet/flutter_masamune/commit/6d324ef3b6a39325fc7398db2fb878161f069baa))
