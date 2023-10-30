@@ -8,7 +8,7 @@ import 'package:katana_auth/katana_auth.dart';
 
 void main() {
   test("AuthDatabase.create", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -30,7 +30,7 @@ void main() {
     expect(db.isSignedIn, false);
   });
   test("AuthDatabase.register", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -70,7 +70,7 @@ void main() {
     });
   });
   test("AuthDatabase.signInWithAnonymously", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -97,7 +97,7 @@ void main() {
     });
   });
   test("AuthDatabase.signInWithEmailAndPassword", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -146,7 +146,7 @@ void main() {
     });
   });
   test("AuthDatabase.signInWithEmailLink", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -196,7 +196,7 @@ void main() {
   });
   test("AuthDatabase.signInWithSms", () async {
     const code = "123456";
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
       debugSmsCode: code,
@@ -245,7 +245,7 @@ void main() {
     });
   });
   test("AuthDatabase.reauth", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -271,7 +271,7 @@ void main() {
     expect(res, true);
   });
   test("AuthDatabase.reset", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
       onResetPassword: (newPassword, locale) async {
@@ -309,7 +309,7 @@ void main() {
     });
   });
   test("AuthDatabase.verifyEmailAndPassword", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
       onVerify: (email, locale) async {
@@ -344,7 +344,7 @@ void main() {
     });
   });
   test("AuthDatabase.verifyEmailLink", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
       onVerify: (email, locale) async {
@@ -377,7 +377,7 @@ void main() {
     });
   });
   test("AuthDatabase.changeEmail", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -422,7 +422,7 @@ void main() {
     expect(db.isSignedIn, true);
   });
   test("AuthDatabase.changePassword", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );
@@ -468,7 +468,7 @@ void main() {
   });
   test("AuthDatabase.changePhoneNumber", () async {
     const code = "123456";
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
       debugSmsCode: code,
@@ -532,7 +532,7 @@ void main() {
     expect(db.isSignedIn, true);
   });
   test("AuthDatabase.delete", () async {
-    final userId = uuid;
+    final userId = uuid();
     final db = AuthDatabase(
       debugUserId: userId,
     );

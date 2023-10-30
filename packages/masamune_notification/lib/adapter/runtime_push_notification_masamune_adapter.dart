@@ -24,7 +24,7 @@ class RuntimePushNotificationMasamuneAdapter
 
   @override
   Future<String?> getToken() async {
-    _token ??= uuid;
+    _token ??= uuid();
     return _token;
   }
 

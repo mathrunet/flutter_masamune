@@ -544,7 +544,7 @@ class _DynamicPurchaseSubscriptionCollectionModel
   @override
   _DynamicPurchaseSubscriptionDocumentModel create([String? id]) {
     return _DynamicPurchaseSubscriptionDocumentModel(
-      id ?? uuid,
+      id ?? uuid(),
       adapter: modelQuery.adapter,
     );
   }

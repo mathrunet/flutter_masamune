@@ -152,7 +152,7 @@ class CollectionModelQuery extends ModelQuery {
     String? id,
   ]) {
     return DocumentModelQuery(
-      "${path.trimQuery().trimString("/")}/${id ?? uuid}",
+      "${path.trimQuery().trimString("/")}/${id ?? uuid()}",
       adapter: adapter,
     );
   }

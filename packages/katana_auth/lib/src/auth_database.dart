@@ -250,7 +250,7 @@ class AuthDatabase {
       onResetPassword;
 
   String get _uuid {
-    return debugUserId ?? uuid;
+    return debugUserId ?? uuid();
   }
 
   Future<void> _initialize() async {

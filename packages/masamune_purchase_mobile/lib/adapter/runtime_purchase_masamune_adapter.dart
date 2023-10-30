@@ -76,7 +76,7 @@ class RuntimePurchaseMasamuneAdapter extends PurchaseMasamuneAdapter {
       await product._purchaseForRuntime();
     } else if (product is StoreSubscriptionPurchaseProduct) {
       await product._purchaseForRuntime(
-        orderId: uuid,
+        orderId: uuid(),
       );
     } else {
       throw Exception("Product not found: ${product.productId}");

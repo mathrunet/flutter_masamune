@@ -25,7 +25,9 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
       final extension = remoteFile.last(separator: ".");
       final storage = Storage(
         StorageQuery(
-          "$relativeDirPath/$uuid.$extension".trimQuery().trimStringLeft("/"),
+          "$relativeDirPath/${uuid()}.$extension"
+              .trimQuery()
+              .trimStringLeft("/"),
         ),
       );
       await storage.uploadWithBytes(bytes!);
@@ -38,7 +40,9 @@ extension MasamunePickerUploaderAppRefExtensions on PickerValue {
       final extension = remoteFile.last(separator: ".");
       final storage = Storage(
         StorageQuery(
-          "$relativeDirPath/$uuid.$extension".trimQuery().trimStringLeft("/"),
+          "$relativeDirPath/${uuid()}.$extension"
+              .trimQuery()
+              .trimStringLeft("/"),
         ),
       );
       await storage.upload(uri!.toString());

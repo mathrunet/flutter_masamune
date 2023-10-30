@@ -44,7 +44,7 @@ abstract class AppPageRoute<T> extends Page<T> {
   }) {
     if (transitionQuery?.transition.isModal ?? false) {
       return _ModalPageRoute(
-        key: key ?? ValueKey(uuid),
+        key: key ?? ValueKey(uuid()),
         builder: builder,
         path: path,
         transitionQuery: transitionQuery,
@@ -53,7 +53,7 @@ abstract class AppPageRoute<T> extends Page<T> {
       );
     } else {
       return _DefaultPageRoute(
-        key: key ?? ValueKey(uuid),
+        key: key ?? ValueKey(uuid()),
         builder: builder,
         path: path,
         transitionQuery: transitionQuery,

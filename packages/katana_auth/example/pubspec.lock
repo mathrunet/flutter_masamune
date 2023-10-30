@@ -366,21 +366,21 @@ packages:
       path: "../../katana"
       relative: true
     source: path
-    version: "2.4.1"
+    version: "2.4.3"
   katana_auth:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "2.0.16"
+    version: "2.2.4"
   katana_logger:
     dependency: "direct overridden"
     description:
       path: "../../katana_logger"
       relative: true
     source: path
-    version: "2.0.13"
+    version: "2.0.15"
   lints:
     dependency: transitive
     description:
