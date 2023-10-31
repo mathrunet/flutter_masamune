@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-10-31
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_notification` - `v2.2.21`](#masamune_notification---v2221)
+ - [`masamune_notification_firebase` - `v2.4.22`](#masamune_notification_firebase---v2422)
+
+---
+
+#### `masamune_notification` - `v2.2.21`
+
+ - **FIX**: Changed onLink behavior. ([d76467fc](https://github.com/mathrunet/flutter_masamune/commit/d76467fc2526c55e48018813ca536cb1507e874c))
+
+#### `masamune_notification_firebase` - `v2.4.22`
+
+ - **FIX**: Changed onLink behavior. ([d76467fc](https://github.com/mathrunet/flutter_masamune/commit/d76467fc2526c55e48018813ca536cb1507e874c))
+
+
 ## 2023-10-30
 
 ### Changes

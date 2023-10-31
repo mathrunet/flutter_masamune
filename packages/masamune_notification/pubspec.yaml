@@ -1,6 +1,6 @@
 name: masamune_notification
 description: Masamune plugin to use base classes and stubs to implement PUSH notifications.
-version: 2.2.20
+version: 2.2.21
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_notification
 

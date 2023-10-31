@@ -1,3 +1,7 @@
+## 2.2.21
+
+ - **FIX**: Changed onLink behavior. ([d76467fc](https://github.com/mathrunet/flutter_masamune/commit/d76467fc2526c55e48018813ca536cb1507e874c))
+
 ## 2.2.20
 
  - **FIX**: Support for UUID changes. ([54fcea14](https://github.com/mathrunet/flutter_masamune/commit/54fcea14605ccb74610d067e67c07b6a97fa6010))
