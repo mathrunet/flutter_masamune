@@ -107,6 +107,12 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   bool get listening => _listening;
   bool _listening = false;
 
+  /// Callback when the URL is launched.
+  ///
+  /// URLが起動されたときのコールバック。
+  FutureOr<void> Function(Uri link)? get onLink => _onLink;
+  FutureOr<void> Function(Uri link)? _onLink;
+
   /// Obtain the FCM token for this terminal.
   ///
   /// この端末のFCMトークンを取得します。
@@ -124,12 +130,18 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
   ///
   /// By monitoring the status with [addListener], it is possible to do something when a notification comes in.
   ///
+  /// You can specify a callback when the URL is launched with [onLink].
+  ///
   /// 通知の受け取りを開始します。
   ///
   /// 通知を取得した場合、[value]が更新され、[notifyListeners]が呼ばれます。
   ///
   /// [addListener]で状態を監視することで通知が来たときになにかしらの処理を行うことが可能です。
-  Future<void> listen() async {
+  ///
+  /// [onLink]でURLが起動されたときのコールバックを指定することができます。
+  Future<void> listen({
+    FutureOr<void> Function(Uri link)? onLink,
+  }) async {
     if (_completer != null) {
       return _completer?.future;
     }
@@ -138,6 +150,7 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
     }
     _completer = Completer();
     try {
+      _onLink = onLink;
       _listenResponse = await adapter.listen(
         onMessage: _onMessage,
         onMessageOpenedApp: _onMessageOpenedApp,
@@ -294,10 +307,11 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
 
   Future<void> _onMessage(PushNotificationValue value) async {
     _value = value;
-    if (adapter.onLink != null && value.data.containsKey(_linkKey)) {
+    final onLink = this.onLink ?? adapter.onLink;
+    if (onLink != null && value.data.containsKey(_linkKey)) {
       final uri = value.data.get(_linkKey, "").toUri();
       if (uri != null) {
-        await adapter.onLink?.call(uri);
+        await onLink.call(uri);
       }
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {
@@ -310,10 +324,11 @@ class PushNotification extends MasamuneControllerBase<PushNotificationValue,
 
   Future<void> _onMessageOpenedApp(PushNotificationValue value) async {
     _value = value;
-    if (adapter.onLink != null && value.data.containsKey(_linkKey)) {
+    final onLink = this.onLink ?? adapter.onLink;
+    if (onLink != null && value.data.containsKey(_linkKey)) {
       final uri = value.data.get(_linkKey, "").toUri();
       if (uri != null) {
-        await adapter.onLink?.call(uri);
+        await onLink.call(uri);
       }
     }
     _sendLog(PushNotificationLoggerEvent.receive, parameters: {

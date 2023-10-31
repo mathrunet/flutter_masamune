@@ -191,6 +191,10 @@ class FirebasePushNotificationMasamuneAdapter
       provisional: false,
       sound: true,
     );
+    final initialMessage = await _messaging.getInitialMessage();
+    if (initialMessage != null) {
+      await _onMessageOpenedApp(initialMessage, onMessageOpenedApp);
+    }
     return PushNotificationListenResponse(
       onMessageOpenedAppSubscription: onMessageOpenedAppSubscription,
       onMessageSubscription: onMessageSubscription,
