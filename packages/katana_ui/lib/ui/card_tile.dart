@@ -1,7 +1,5 @@
 part of katana_ui;
 
-const kCardHeight = 196.0;
-
 /// A widget for displaying an image or text over a card widget.
 ///
 /// Use in conjunction with [ListTile].
@@ -21,7 +19,7 @@ class CardTile extends StatelessWidget {
     super.key,
     this.onTap,
     this.width,
-    this.height = kCardHeight,
+    this.height,
     this.feature,
     this.backgroundColor,
     this.shadowColor,
@@ -53,7 +51,7 @@ class CardTile extends StatelessWidget {
   /// The height of the card.
   ///
   /// カードの縦幅。
-  final double height;
+  final double? height;
 
   /// Feature widget to display.
   ///
@@ -176,7 +174,8 @@ class CardTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (feature != null) Expanded(child: feature!),
+              if (feature != null)
+                if (height != null) Expanded(child: feature!) else feature!,
               ListTile(
                 title: title,
                 mouseCursor: SystemMouseCursors.click,
