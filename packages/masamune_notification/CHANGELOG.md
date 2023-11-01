@@ -1,3 +1,7 @@
+## 2.2.22
+
+ - Update a dependency to the latest release.
+
 ## 2.2.21
 
  - **FIX**: Changed onLink behavior. ([d76467fc](https://github.com/mathrunet/flutter_masamune/commit/d76467fc2526c55e48018813ca536cb1507e874c))

@@ -17,7 +17,7 @@ dependencies:
   meta: ^1.8.0
 
   katana: ^2.5.0
-  masamune: ^2.4.79
+  masamune: ^2.4.80
   masamune_model_planetscale_annotation: ^2.0.0
 dev_dependencies:
   test: ^1.21.3

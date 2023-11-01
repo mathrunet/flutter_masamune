@@ -1,3 +1,7 @@
+## 2.5.6
+
+ - **FIX**: Changed CardTile height specifications. ([58935121](https://github.com/mathrunet/flutter_masamune/commit/58935121a2ea53338116b992cef103dc4ac297db))
+
 ## 2.5.5
 
  - Update a dependency to the latest release.
