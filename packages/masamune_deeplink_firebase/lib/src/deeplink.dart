@@ -55,6 +55,7 @@ class Deeplink
   Uri? _value;
 
   Completer<void>? _completer;
+  FutureOr<void> Function(Uri link)? _onLink;
   StreamSubscription<PendingDynamicLinkData>? _uriLinkStreamSubscription;
 
   /// Returns `true` if monitored.
@@ -102,7 +103,9 @@ class Deeplink
   /// Initialize DeepLink and start monitoring the link.
   ///
   /// DeepLinkを初期化してリンクの監視を開始します。
-  Future<void> listen() async {
+  Future<void> listen({
+    FutureOr<void> Function(Uri link)? onLink,
+  }) async {
     if (listened) {
       return;
     }
@@ -112,27 +115,19 @@ class Deeplink
     }
     _completer = Completer<void>();
     try {
+      _onLink = onLink;
       final adapter = primaryAdapter;
       await FirebaseCore.initialize(options: adapter.options);
       final dynamicLink = await _dynamicLink.getInitialLink();
-      _value = dynamicLink?.link;
-      if (_value != null) {
-        _sendLog(FirebaseDeeplinkLoggerEvent.recieve, parameters: {
-          FirebaseDeeplinkLoggerEvent.linkKey: _value.toString(),
-        });
-      }
-      notifyListeners();
-      _uriLinkStreamSubscription ??= _dynamicLink.onLink.listen((dynamicLink) {
-        _value = dynamicLink.link;
-        _sendLog(FirebaseDeeplinkLoggerEvent.recieve, parameters: {
-          FirebaseDeeplinkLoggerEvent.linkKey: _value.toString(),
-        });
-        notifyListeners();
+      _uriLinkStreamSubscription ??=
+          _dynamicLink.onLink.listen((dynamicLink) async {
+        await _onMessage(dynamicLink);
       }, onError: (Object error) {
         _value = null;
         notifyListeners();
       });
       _sendLog(FirebaseDeeplinkLoggerEvent.listen, parameters: {});
+      await _onMessage(dynamicLink!);
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -142,6 +137,17 @@ class Deeplink
       _completer?.complete();
       _completer = null;
     }
+  }
+
+  Future<void> _onMessage(PendingDynamicLinkData value) async {
+    _value = value.link;
+    if (_value != null) {
+      _sendLog(FirebaseDeeplinkLoggerEvent.recieve, parameters: {
+        FirebaseDeeplinkLoggerEvent.linkKey: _value.toString(),
+      });
+      await (_onLink ?? adapter.onLink)?.call(_value!);
+    }
+    notifyListeners();
   }
 
   @override

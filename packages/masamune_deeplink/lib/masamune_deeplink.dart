@@ -20,3 +20,4 @@ import 'package:uni_links/uni_links.dart';
 
 part 'adapter/deeplink_masamune_adapter.dart';
 part 'src/deeplink.dart';
+part 'src/deeplink_logger_event.dart';

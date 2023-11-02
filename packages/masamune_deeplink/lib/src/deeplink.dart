@@ -45,6 +45,7 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   Uri? _value;
 
   Completer<void>? _completer;
+  FutureOr<void> Function(Uri link)? _onLink;
   StreamSubscription<Uri?>? _uriLinkStreamSubscription;
 
   /// Returns `true` if monitored.
@@ -55,7 +56,9 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
   /// Initialize DeepLink and start monitoring the link.
   ///
   /// DeepLinkを初期化してリンクの監視を開始します。
-  Future<void> listen() async {
+  Future<void> listen({
+    FutureOr<void> Function(Uri link)? onLink,
+  }) async {
     if (listened) {
       return;
     }
@@ -65,15 +68,16 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
     }
     _completer = Completer<void>();
     try {
-      _value = await getInitialUri();
-      notifyListeners();
-      _uriLinkStreamSubscription ??= uriLinkStream.listen((Uri? uri) {
-        _value = uri;
-        notifyListeners();
+      _onLink = onLink;
+      final initialLink = await getInitialUri();
+      _uriLinkStreamSubscription ??= uriLinkStream.listen((Uri? uri) async {
+        await _onMessage(initialLink);
       }, onError: (Object error) {
         _value = null;
         notifyListeners();
       });
+      _sendLog(DeeplinkLoggerEvent.listen, parameters: {});
+      await _onMessage(initialLink);
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -85,11 +89,29 @@ class Deeplink extends MasamuneControllerBase<Uri?, DeeplinkMasamuneAdapter> {
     }
   }
 
+  Future<void> _onMessage(Uri? value) async {
+    _value = value;
+    if (_value != null) {
+      _sendLog(DeeplinkLoggerEvent.recieve, parameters: {
+        DeeplinkLoggerEvent.linkKey: _value.toString(),
+      });
+      await (_onLink ?? adapter.onLink)?.call(_value!);
+    }
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _value = null;
     _uriLinkStreamSubscription?.cancel();
     super.dispose();
+  }
+
+  void _sendLog(DeeplinkLoggerEvent event, {DynamicMap? parameters}) {
+    final loggerAdapters = LoggerAdapter.primary;
+    for (final loggerAdapter in loggerAdapters) {
+      loggerAdapter.send(event.toString(), parameters: parameters);
+    }
   }
 }
 
