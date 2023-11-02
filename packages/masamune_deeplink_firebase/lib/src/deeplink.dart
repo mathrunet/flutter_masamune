@@ -127,7 +127,7 @@ class Deeplink
         notifyListeners();
       });
       _sendLog(FirebaseDeeplinkLoggerEvent.listen, parameters: {});
-      await _onMessage(dynamicLink!);
+      await _onMessage(dynamicLink);
       _completer?.complete();
       _completer = null;
     } catch (e) {
@@ -139,8 +139,8 @@ class Deeplink
     }
   }
 
-  Future<void> _onMessage(PendingDynamicLinkData value) async {
-    _value = value.link;
+  Future<void> _onMessage(PendingDynamicLinkData? value) async {
+    _value = value?.link;
     if (_value != null) {
       _sendLog(FirebaseDeeplinkLoggerEvent.recieve, parameters: {
         FirebaseDeeplinkLoggerEvent.linkKey: _value.toString(),
