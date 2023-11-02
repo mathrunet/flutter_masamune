@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_deeplink` - `v2.1.56`](#masamune_deeplink---v2156)
+ - [`masamune_deeplink_firebase` - `v2.1.57`](#masamune_deeplink_firebase---v2157)
+
+---
+
+#### `masamune_deeplink` - `v2.1.56`
+
+ - **FIX**: The link was not responding well, so it was corrected. ([e1aaad62](https://github.com/mathrunet/flutter_masamune/commit/e1aaad62356f7f98ce3fc163c7f72864d76a2821))
+
+#### `masamune_deeplink_firebase` - `v2.1.57`
+
+ - **FIX**: The link was not responding well, so it was corrected. ([e1aaad62](https://github.com/mathrunet/flutter_masamune/commit/e1aaad62356f7f98ce3fc163c7f72864d76a2821))
+
+
+## 2023-11-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.13.7`](#katana_model---v2137)
  - [`katana_model_firestore` - `v2.9.7`](#katana_model_firestore---v297)
  - [`katana_model_local` - `v2.8.12`](#katana_model_local---v2812)
