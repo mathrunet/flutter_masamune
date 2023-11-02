@@ -1,3 +1,7 @@
+## 2.1.58
+
+ - **FIX**: Null bug fix. ([ace09708](https://github.com/mathrunet/flutter_masamune/commit/ace097085b9020191da015615eb23b0ffff91548))
+
 ## 2.1.57
 
  - **FIX**: The link was not responding well, so it was corrected. ([e1aaad62](https://github.com/mathrunet/flutter_masamune/commit/e1aaad62356f7f98ce3fc163c7f72864d76a2821))

@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_deeplink_firebase` - `v2.1.58`](#masamune_deeplink_firebase---v2158)
+
+---
+
+#### `masamune_deeplink_firebase` - `v2.1.58`
+
+ - **FIX**: Null bug fix. ([ace09708](https://github.com/mathrunet/flutter_masamune/commit/ace097085b9020191da015615eb23b0ffff91548))
+
+
+## 2023-11-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_deeplink` - `v2.1.56`](#masamune_deeplink---v2156)
  - [`masamune_deeplink_firebase` - `v2.1.57`](#masamune_deeplink_firebase---v2157)
 
