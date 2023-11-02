@@ -1,3 +1,7 @@
+## 2.13.7
+
+ - **FIX**: Fixed a bug when the character . Fixed a bug when the character . ([0267612f](https://github.com/mathrunet/flutter_masamune/commit/0267612fcb7989b88e09b194faf9b1c6d6115469))
+
 ## 2.13.6
 
  - **FIX**: Support for UUID changes. ([54fcea14](https://github.com/mathrunet/flutter_masamune/commit/54fcea14605ccb74610d067e67c07b6a97fa6010))

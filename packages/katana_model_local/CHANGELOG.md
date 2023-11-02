@@ -1,3 +1,7 @@
+## 2.8.12
+
+ - Update a dependency to the latest release.
+
 ## 2.8.11
 
  - **DOCS**: Corrected comment. ([45ac90b3](https://github.com/mathrunet/flutter_masamune/commit/45ac90b33774b57e34ed5e208895979f64aa747f))

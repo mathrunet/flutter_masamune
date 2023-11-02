@@ -1,3 +1,7 @@
+## 2.9.7
+
+ - **FIX**: Fixed a bug when the character . Fixed a bug when the character . ([0267612f](https://github.com/mathrunet/flutter_masamune/commit/0267612fcb7989b88e09b194faf9b1c6d6115469))
+
 ## 2.9.6
 
  - Update a dependency to the latest release.
