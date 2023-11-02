@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: Allows setting of icons for Dropdown. ([e266c9a6](https://github.com/mathrunet/flutter_masamune/commit/e266c9a6f64df11beec3c850f32bef46897ebecd))
+
 ## 2.7.17
 
  - Update a dependency to the latest release.

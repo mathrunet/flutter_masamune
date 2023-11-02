@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_form` - `v2.8.0`](#katana_form---v280)
+ - [`masamune` - `v2.4.82`](#masamune---v2482)
+ - [`masamune_location_platform_interface` - `v2.1.29`](#masamune_location_platform_interface---v2129)
+ - [`masamune_location` - `v2.1.150`](#masamune_location---v21150)
+ - [`masamune_deeplink_firebase` - `v2.1.59`](#masamune_deeplink_firebase---v2159)
+ - [`masamune_auth_apple` - `v2.1.138`](#masamune_auth_apple---v21138)
+ - [`masamune_scheduler` - `v2.1.21`](#masamune_scheduler---v2121)
+ - [`masamune_location_background` - `v2.2.7`](#masamune_location_background---v227)
+ - [`masamune_text_to_speech` - `v2.1.104`](#masamune_text_to_speech---v21104)
+ - [`masamune_agora` - `v2.2.120`](#masamune_agora---v22120)
+ - [`masamune_auth_google` - `v2.1.139`](#masamune_auth_google---v21139)
+ - [`masamune_ai_openai` - `v2.2.72`](#masamune_ai_openai---v2272)
+ - [`masamune_calendar` - `v2.0.182`](#masamune_calendar---v20182)
+ - [`masamune_picker` - `v2.1.137`](#masamune_picker---v21137)
+ - [`masamune_util` - `v2.1.116`](#masamune_util---v21116)
+ - [`masamune_universal_ui` - `v2.2.120`](#masamune_universal_ui---v22120)
+ - [`masamune_purchase_stripe` - `v3.3.85`](#masamune_purchase_stripe---v3385)
+ - [`masamune_notification` - `v2.2.24`](#masamune_notification---v2224)
+ - [`masamune_logger_firebase` - `v2.0.180`](#masamune_logger_firebase---v20180)
+ - [`masamune_introduction` - `v2.2.86`](#masamune_introduction---v2286)
+ - [`masamune_deeplink` - `v2.1.57`](#masamune_deeplink---v2157)
+ - [`masamune_speech_to_text` - `v2.1.107`](#masamune_speech_to_text---v21107)
+ - [`masamune_auth_facebook` - `v2.1.140`](#masamune_auth_facebook---v21140)
+ - [`masamune_location_google` - `v2.1.151`](#masamune_location_google---v21151)
+ - [`masamune_module_point_ecosystem` - `v2.3.46`](#masamune_module_point_ecosystem---v2346)
+ - [`masamune_module` - `v2.3.41`](#masamune_module---v2341)
+ - [`masamune_mail` - `v2.1.135`](#masamune_mail---v21135)
+ - [`masamune_notification_firebase` - `v2.4.25`](#masamune_notification_firebase---v2425)
+ - [`masamune_purchase_mobile` - `v2.5.87`](#masamune_purchase_mobile---v2587)
+ - [`masamune_ads_google` - `v2.1.88`](#masamune_ads_google---v2188)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.82`
+ - `masamune_location_platform_interface` - `v2.1.29`
+ - `masamune_location` - `v2.1.150`
+ - `masamune_deeplink_firebase` - `v2.1.59`
+ - `masamune_auth_apple` - `v2.1.138`
+ - `masamune_scheduler` - `v2.1.21`
+ - `masamune_location_background` - `v2.2.7`
+ - `masamune_text_to_speech` - `v2.1.104`
+ - `masamune_agora` - `v2.2.120`
+ - `masamune_auth_google` - `v2.1.139`
+ - `masamune_ai_openai` - `v2.2.72`
+ - `masamune_calendar` - `v2.0.182`
+ - `masamune_picker` - `v2.1.137`
+ - `masamune_util` - `v2.1.116`
+ - `masamune_universal_ui` - `v2.2.120`
+ - `masamune_purchase_stripe` - `v3.3.85`
+ - `masamune_notification` - `v2.2.24`
+ - `masamune_logger_firebase` - `v2.0.180`
+ - `masamune_introduction` - `v2.2.86`
+ - `masamune_deeplink` - `v2.1.57`
+ - `masamune_speech_to_text` - `v2.1.107`
+ - `masamune_auth_facebook` - `v2.1.140`
+ - `masamune_location_google` - `v2.1.151`
+ - `masamune_module_point_ecosystem` - `v2.3.46`
+ - `masamune_module` - `v2.3.41`
+ - `masamune_mail` - `v2.1.135`
+ - `masamune_notification_firebase` - `v2.4.25`
+ - `masamune_purchase_mobile` - `v2.5.87`
+ - `masamune_ads_google` - `v2.1.88`
+
+---
+
+#### `katana_form` - `v2.8.0`
+
+ - **FEAT**: Allows setting of icons for Dropdown. ([e266c9a6](https://github.com/mathrunet/flutter_masamune/commit/e266c9a6f64df11beec3c850f32bef46897ebecd))
+
+
+## 2023-11-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_deeplink_firebase` - `v2.1.58`](#masamune_deeplink_firebase---v2158)
 
 ---

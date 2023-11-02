@@ -1,3 +1,7 @@
+## 2.1.57
+
+ - Update a dependency to the latest release.
+
 ## 2.1.56
 
  - **FIX**: The link was not responding well, so it was corrected. ([e1aaad62](https://github.com/mathrunet/flutter_masamune/commit/e1aaad62356f7f98ce3fc163c7f72864d76a2821))
