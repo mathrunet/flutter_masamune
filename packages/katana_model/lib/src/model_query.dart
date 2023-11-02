@@ -1275,6 +1275,7 @@ class ModelQueryFilter {
         }
         final splitBygram = target
             .toLowerCase()
+            .replaceAll(".", "")
             // .toHankakuNumericAndAlphabet()
             // .toZenkakuKatakana()
             // .toKatakana()

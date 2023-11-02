@@ -200,6 +200,7 @@ abstract class FirestoreModelFieldValueConverter {
         final texts = filter.value
             .toString()
             .toLowerCase()
+            .replaceAll(".", "")
             // .toHankakuNumericAndAlphabet()
             // .toZenkakuKatakana()
             // .toKatakana()

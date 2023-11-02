@@ -113,6 +113,7 @@ mixin SearchableDocumentMixin<T> on DocumentBase<T> {
         ...rawData,
         searchValueFieldKey: searchText
             .toLowerCase()
+            .replaceAll(".", "")
             // .toHankakuNumericAndAlphabet()
             // .toZenkakuKatakana()
             // .toKatakana()
