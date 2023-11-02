@@ -119,6 +119,8 @@ class FormMapField<TValue> extends StatefulWidget {
     this.emptyErrorText,
     this.onSubmitted,
     this.keepAlive = true,
+    this.showDropdownIcon = true,
+    this.dropdownIcon,
   }) : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
@@ -263,6 +265,16 @@ class FormMapField<TValue> extends StatefulWidget {
   /// `true`の場合、破棄されず保持され続けます。
   final bool keepAlive;
 
+  /// true` if you want to display icons for drop-downs.
+  ///
+  /// ドロップダウン用のアイコンを表示する場合`true`。
+  final bool showDropdownIcon;
+
+  /// Icon for dropdown. Valid only if [showDropdownIcon] is `true`.
+  ///
+  /// ドロップダウン用のアイコン。[showDropdownIcon]が`true`の場合のみ有効。
+  final Widget? dropdownIcon;
+
   @override
   State<StatefulWidget> createState() => _FormMapFieldState<TValue>();
 }
@@ -384,97 +396,105 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>>
         width: widget.style?.width,
         child: Stack(
           children: [
-            _MapTextField<TValue>(
-              controller: _controller,
-              form: widget.form,
-              focusNode: widget.focusNode,
-              keyboardType: TextInputType.text,
-              initialValue: widget.initialValue,
-              enabled: widget.enabled,
-              decoration: InputDecoration(
-                contentPadding: widget.style?.contentPadding ??
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                fillColor: widget.style?.backgroundColor,
-                filled: widget.style?.backgroundColor != null,
-                isDense: true,
-                border: widget.style?.border ?? borderSide,
-                enabledBorder: widget.style?.border ?? borderSide,
-                disabledBorder: widget.style?.disabledBorder ??
-                    widget.style?.border ??
-                    borderSide,
-                errorBorder: widget.style?.errorBorder ??
-                    widget.style?.border ??
-                    borderSide,
-                focusedBorder: widget.style?.border ?? borderSide,
-                focusedErrorBorder: widget.style?.errorBorder ??
-                    widget.style?.border ??
-                    borderSide,
-                hintText: widget.hintText,
-                labelText: widget.labelText,
-                prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
-                suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
-                prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
-                suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
-                prefixText: widget.prefix?.label ?? widget.style?.prefix?.label,
-                suffixText: widget.suffix?.label ?? widget.style?.suffix?.label,
-                prefixIconColor:
-                    widget.prefix?.iconColor ?? widget.style?.prefix?.iconColor,
-                suffixIconColor:
-                    widget.suffix?.iconColor ?? widget.style?.suffix?.iconColor,
-                prefixIconConstraints: widget.prefix?.iconConstraints ??
-                    widget.style?.prefix?.iconConstraints,
-                suffixIconConstraints: widget.suffix?.iconConstraints ??
-                    widget.style?.suffix?.iconConstraints,
-                labelStyle: widget.enabled ? mainTextStyle : disabledTextStyle,
-                hintStyle: subTextStyle,
-                suffixStyle: subTextStyle,
-                prefixStyle: subTextStyle,
-                counterStyle: subTextStyle,
-                helperStyle: subTextStyle,
-                errorStyle: errorTextStyle,
+            Padding(
+              padding:
+                  EdgeInsets.only(right: widget.showDropdownIcon ? 16.0 : 0),
+              child: _MapTextField<TValue>(
+                controller: _controller,
+                form: widget.form,
+                focusNode: widget.focusNode,
+                keyboardType: TextInputType.text,
+                initialValue: widget.initialValue,
+                enabled: widget.enabled,
+                decoration: InputDecoration(
+                  contentPadding: widget.style?.contentPadding ??
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                  fillColor: widget.style?.backgroundColor,
+                  filled: widget.style?.backgroundColor != null,
+                  isDense: true,
+                  border: widget.style?.border ?? borderSide,
+                  enabledBorder: widget.style?.border ?? borderSide,
+                  disabledBorder: widget.style?.disabledBorder ??
+                      widget.style?.border ??
+                      borderSide,
+                  errorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      borderSide,
+                  focusedBorder: widget.style?.border ?? borderSide,
+                  focusedErrorBorder: widget.style?.errorBorder ??
+                      widget.style?.border ??
+                      borderSide,
+                  hintText: widget.hintText,
+                  labelText: widget.labelText,
+                  prefix: widget.prefix?.child ?? widget.style?.prefix?.child,
+                  suffix: widget.suffix?.child ?? widget.style?.suffix?.child,
+                  prefixIcon: widget.prefix?.icon ?? widget.style?.prefix?.icon,
+                  suffixIcon: widget.suffix?.icon ?? widget.style?.suffix?.icon,
+                  prefixText:
+                      widget.prefix?.label ?? widget.style?.prefix?.label,
+                  suffixText:
+                      widget.suffix?.label ?? widget.style?.suffix?.label,
+                  prefixIconColor: widget.prefix?.iconColor ??
+                      widget.style?.prefix?.iconColor,
+                  suffixIconColor: widget.suffix?.iconColor ??
+                      widget.style?.suffix?.iconColor,
+                  prefixIconConstraints: widget.prefix?.iconConstraints ??
+                      widget.style?.prefix?.iconConstraints,
+                  suffixIconConstraints: widget.suffix?.iconConstraints ??
+                      widget.style?.suffix?.iconConstraints,
+                  labelStyle:
+                      widget.enabled ? mainTextStyle : disabledTextStyle,
+                  hintStyle: subTextStyle,
+                  suffixStyle: subTextStyle,
+                  prefixStyle: subTextStyle,
+                  counterStyle: subTextStyle,
+                  helperStyle: subTextStyle,
+                  errorStyle: errorTextStyle,
+                ),
+                style: widget.enabled ? mainTextStyle : disabledTextStyle,
+                textAlign: widget.style?.textAlign ?? TextAlign.left,
+                textAlignVertical: widget.style?.textAlignVertical,
+                readOnly: widget.readOnly,
+                validator: (value) {
+                  if (widget.emptyErrorText.isNotEmpty && value == null) {
+                    return widget.emptyErrorText;
+                  }
+                  return widget.validator?.call(value);
+                },
+                onSubmitted: widget.onSubmitted,
+                onChanged: widget.onChanged,
+                onSaved: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  final res = widget.onSaved?.call(value);
+                  if (res == null) {
+                    return;
+                  }
+                  widget.form!.value = res;
+                },
+                picker: widget.picker,
               ),
-              style: widget.enabled ? mainTextStyle : disabledTextStyle,
-              textAlign: widget.style?.textAlign ?? TextAlign.left,
-              textAlignVertical: widget.style?.textAlignVertical,
-              readOnly: widget.readOnly,
-              validator: (value) {
-                if (widget.emptyErrorText.isNotEmpty && value == null) {
-                  return widget.emptyErrorText;
-                }
-                return widget.validator?.call(value);
-              },
-              onSubmitted: widget.onSubmitted,
-              onChanged: widget.onChanged,
-              onSaved: (value) {
-                if (value == null) {
-                  return;
-                }
-                final res = widget.onSaved?.call(value);
-                if (res == null) {
-                  return;
-                }
-                widget.form!.value = res;
-              },
-              picker: widget.picker,
             ),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 16),
+            if (widget.showDropdownIcon)
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.centerRight,
                   child: IgnorePointer(
                     ignoring: true,
-                    child: Icon(
-                      Icons.arrow_drop_down,
-                      size: 24,
-                      color: widget.enabled
-                          ? mainTextStyle.color
-                          : disabledTextStyle.color,
+                    child: IconTheme(
+                      data: IconThemeData(
+                        size: 24,
+                        color: widget.enabled
+                            ? mainTextStyle.color
+                            : disabledTextStyle.color,
+                      ),
+                      child: widget.dropdownIcon ??
+                          const Icon(Icons.arrow_drop_down),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
