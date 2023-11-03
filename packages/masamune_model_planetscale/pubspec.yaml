@@ -18,7 +18,7 @@ dependencies:
 
   katana: ^2.5.0
   masamune: ^2.4.82
-  masamune_model_planetscale_annotation: ^2.0.0
+  masamune_model_planetscale_annotation: ^2.1.0
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

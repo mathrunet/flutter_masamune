@@ -1,5 +1,5 @@
 name: masamune_model_planetscale_builder
-description: Building system for masamune model planetscale. Prizma's scheme and API are automatically generated.
+description: Building system for masamune model planetscale. Prisma's scheme and API are automatically generated.
 version: 2.0.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_model_planetscale_builder
@@ -17,7 +17,9 @@ dependencies:
   source_gen: ^1.2.2
   analyzer: ^5.13.0
   http: ^0.13.5
-  masamune_model_planetscale_annotation: ^2.0.0
+  freezed_annotation: ^2.2.0
+  masamune_annotation: ^2.3.11
+  masamune_model_planetscale_annotation: ^2.1.0
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^2.0.0

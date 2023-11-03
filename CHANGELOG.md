@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_model_planetscale_annotation` - `v2.1.0`](#masamune_model_planetscale_annotation---v210)
+
+---
+
+#### `masamune_model_planetscale_annotation` - `v2.1.0`
+
+ - **FEAT**: Initial commit. ([2a00b84d](https://github.com/mathrunet/flutter_masamune/commit/2a00b84dabe343db97a3943bb767629aed3743d1))
+
+
 ## 2023-11-02
 
 ### Changes
