@@ -1,3 +1,7 @@
+## 2.5.1
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
 ## 2.5.0
 
  - **FEAT**: Support v7 UUID. ([0596de94](https://github.com/mathrunet/flutter_masamune/commit/0596de9407a4c9642b123597379d809e44574f30))

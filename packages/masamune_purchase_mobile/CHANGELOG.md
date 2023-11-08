@@ -1,3 +1,7 @@
+## 2.5.88
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
 ## 2.5.87
 
  - Update a dependency to the latest release.

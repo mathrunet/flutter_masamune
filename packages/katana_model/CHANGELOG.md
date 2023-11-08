@@ -1,3 +1,7 @@
+## 2.13.8
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
 ## 2.13.7
 
  - **FIX**: Fixed a bug when the character . Fixed a bug when the character . ([0267612f](https://github.com/mathrunet/flutter_masamune/commit/0267612fcb7989b88e09b194faf9b1c6d6115469))

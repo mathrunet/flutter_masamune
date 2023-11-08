@@ -1,3 +1,7 @@
+## 2.0.31
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
 ## 2.0.30
 
  - **FIX**: Fixed a bug in internal appRef. ([5299d985](https://github.com/mathrunet/flutter_masamune/commit/5299d98550440d076ca1ff39bd7fea4232285abd))

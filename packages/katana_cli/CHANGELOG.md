@@ -1,3 +1,7 @@
+## 2.10.8
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
 ## 2.10.7
 
  - **FIX**: Eliminate "The part-of directive uses a library name. ([934b2825](https://github.com/mathrunet/flutter_masamune/commit/934b2825a1d488348063af1981c5ad847a31e03c))

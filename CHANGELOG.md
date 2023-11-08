@@ -15,6 +15,357 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v2.5.1`](#katana---v251)
+ - [`katana_auth` - `v2.2.6`](#katana_auth---v226)
+ - [`katana_auth_firebase` - `v2.1.10`](#katana_auth_firebase---v2110)
+ - [`katana_cli` - `v2.10.8`](#katana_cli---v2108)
+ - [`katana_firebase` - `v2.0.16`](#katana_firebase---v2016)
+ - [`katana_form` - `v2.8.1`](#katana_form---v281)
+ - [`katana_functions` - `v2.4.12`](#katana_functions---v2412)
+ - [`katana_functions_firebase` - `v2.4.13`](#katana_functions_firebase---v2413)
+ - [`katana_indicator` - `v2.0.17`](#katana_indicator---v2017)
+ - [`katana_listenables` - `v2.0.20`](#katana_listenables---v2020)
+ - [`katana_listenables_annotation` - `v2.0.19`](#katana_listenables_annotation---v2019)
+ - [`katana_listenables_builder` - `v2.0.23`](#katana_listenables_builder---v2023)
+ - [`katana_localization` - `v2.0.24`](#katana_localization---v2024)
+ - [`katana_localization_annotation` - `v2.0.20`](#katana_localization_annotation---v2020)
+ - [`katana_localization_builder` - `v2.0.25`](#katana_localization_builder---v2025)
+ - [`katana_logger` - `v2.0.17`](#katana_logger---v2017)
+ - [`katana_model` - `v2.13.8`](#katana_model---v2138)
+ - [`katana_model_firestore` - `v2.9.8`](#katana_model_firestore---v298)
+ - [`katana_model_local` - `v2.8.13`](#katana_model_local---v2813)
+ - [`katana_model_openapi` - `v2.1.6`](#katana_model_openapi---v216)
+ - [`katana_model_openapi_builder` - `v2.0.20`](#katana_model_openapi_builder---v2020)
+ - [`katana_prefs` - `v2.0.22`](#katana_prefs---v2022)
+ - [`katana_prefs_annotation` - `v2.0.19`](#katana_prefs_annotation---v2019)
+ - [`katana_prefs_builder` - `v2.0.23`](#katana_prefs_builder---v2023)
+ - [`katana_router` - `v2.0.45`](#katana_router---v2045)
+ - [`katana_router_annotation` - `v2.0.24`](#katana_router_annotation---v2024)
+ - [`katana_router_builder` - `v2.0.32`](#katana_router_builder---v2032)
+ - [`katana_scoped` - `v2.0.31`](#katana_scoped---v2031)
+ - [`katana_shorten` - `v2.0.17`](#katana_shorten---v2017)
+ - [`katana_storage` - `v2.0.19`](#katana_storage---v2019)
+ - [`katana_storage_firebase` - `v2.0.20`](#katana_storage_firebase---v2020)
+ - [`katana_theme` - `v2.1.2`](#katana_theme---v212)
+ - [`katana_theme_annotation` - `v2.0.22`](#katana_theme_annotation---v2022)
+ - [`katana_theme_builder` - `v2.1.2`](#katana_theme_builder---v212)
+ - [`katana_ui` - `v2.5.7`](#katana_ui---v257)
+ - [`masamune` - `v2.4.83`](#masamune---v2483)
+ - [`masamune_ads_google` - `v2.1.89`](#masamune_ads_google---v2189)
+ - [`masamune_agora` - `v2.2.121`](#masamune_agora---v22121)
+ - [`masamune_ai_openai` - `v2.2.73`](#masamune_ai_openai---v2273)
+ - [`masamune_annotation` - `v2.3.12`](#masamune_annotation---v2312)
+ - [`masamune_auth_apple` - `v2.1.139`](#masamune_auth_apple---v21139)
+ - [`masamune_auth_facebook` - `v2.1.141`](#masamune_auth_facebook---v21141)
+ - [`masamune_auth_google` - `v2.1.140`](#masamune_auth_google---v21140)
+ - [`masamune_builder` - `v2.8.19`](#masamune_builder---v2819)
+ - [`masamune_calendar` - `v2.0.183`](#masamune_calendar---v20183)
+ - [`masamune_deeplink` - `v2.1.58`](#masamune_deeplink---v2158)
+ - [`masamune_deeplink_firebase` - `v2.1.60`](#masamune_deeplink_firebase---v2160)
+ - [`masamune_introduction` - `v2.2.87`](#masamune_introduction---v2287)
+ - [`masamune_location` - `v2.1.151`](#masamune_location---v21151)
+ - [`masamune_location_background` - `v2.2.8`](#masamune_location_background---v228)
+ - [`masamune_location_google` - `v2.1.152`](#masamune_location_google---v21152)
+ - [`masamune_location_platform_interface` - `v2.1.30`](#masamune_location_platform_interface---v2130)
+ - [`masamune_logger_firebase` - `v2.0.181`](#masamune_logger_firebase---v20181)
+ - [`masamune_mail` - `v2.1.136`](#masamune_mail---v21136)
+ - [`masamune_model_planetscale_annotation` - `v2.1.1`](#masamune_model_planetscale_annotation---v211)
+ - [`masamune_module` - `v2.3.42`](#masamune_module---v2342)
+ - [`masamune_module_point_ecosystem` - `v2.3.47`](#masamune_module_point_ecosystem---v2347)
+ - [`masamune_notification` - `v2.2.25`](#masamune_notification---v2225)
+ - [`masamune_notification_firebase` - `v2.4.27`](#masamune_notification_firebase---v2427)
+ - [`masamune_picker` - `v2.1.138`](#masamune_picker---v21138)
+ - [`masamune_purchase_mobile` - `v2.5.88`](#masamune_purchase_mobile---v2588)
+ - [`masamune_purchase_stripe` - `v3.3.86`](#masamune_purchase_stripe---v3386)
+ - [`masamune_scheduler` - `v2.1.22`](#masamune_scheduler---v2122)
+ - [`masamune_speech_to_text` - `v2.1.108`](#masamune_speech_to_text---v21108)
+ - [`masamune_text_to_speech` - `v2.1.105`](#masamune_text_to_speech---v21105)
+ - [`masamune_universal_ui` - `v2.2.121`](#masamune_universal_ui---v22121)
+ - [`masamune_util` - `v2.1.117`](#masamune_util---v21117)
+
+---
+
+#### `katana` - `v2.5.1`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_auth` - `v2.2.6`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_auth_firebase` - `v2.1.10`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_cli` - `v2.10.8`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_firebase` - `v2.0.16`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_form` - `v2.8.1`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_functions` - `v2.4.12`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_functions_firebase` - `v2.4.13`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_indicator` - `v2.0.17`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_listenables` - `v2.0.20`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_listenables_annotation` - `v2.0.19`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_listenables_builder` - `v2.0.23`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_localization` - `v2.0.24`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_localization_annotation` - `v2.0.20`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_localization_builder` - `v2.0.25`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_logger` - `v2.0.17`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_model` - `v2.13.8`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_model_firestore` - `v2.9.8`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_model_local` - `v2.8.13`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_model_openapi` - `v2.1.6`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_model_openapi_builder` - `v2.0.20`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_prefs` - `v2.0.22`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_prefs_annotation` - `v2.0.19`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_prefs_builder` - `v2.0.23`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_router` - `v2.0.45`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_router_annotation` - `v2.0.24`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_router_builder` - `v2.0.32`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_scoped` - `v2.0.31`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_shorten` - `v2.0.17`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_storage` - `v2.0.19`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_storage_firebase` - `v2.0.20`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_theme` - `v2.1.2`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_theme_annotation` - `v2.0.22`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_theme_builder` - `v2.1.2`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `katana_ui` - `v2.5.7`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune` - `v2.4.83`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_ads_google` - `v2.1.89`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_agora` - `v2.2.121`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_ai_openai` - `v2.2.73`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_annotation` - `v2.3.12`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_auth_apple` - `v2.1.139`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_auth_facebook` - `v2.1.141`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_auth_google` - `v2.1.140`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_builder` - `v2.8.19`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_calendar` - `v2.0.183`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_deeplink` - `v2.1.58`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_deeplink_firebase` - `v2.1.60`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_introduction` - `v2.2.87`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_location` - `v2.1.151`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_location_background` - `v2.2.8`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_location_google` - `v2.1.152`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_location_platform_interface` - `v2.1.30`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_logger_firebase` - `v2.0.181`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_mail` - `v2.1.136`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_model_planetscale_annotation` - `v2.1.1`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_module` - `v2.3.42`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_module_point_ecosystem` - `v2.3.47`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_notification` - `v2.2.25`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_notification_firebase` - `v2.4.27`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_picker` - `v2.1.138`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_purchase_mobile` - `v2.5.88`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_purchase_stripe` - `v3.3.86`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_scheduler` - `v2.1.22`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_speech_to_text` - `v2.1.108`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_text_to_speech` - `v2.1.105`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_universal_ui` - `v2.2.121`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+#### `masamune_util` - `v2.1.117`
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
+
+## 2023-11-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_notification_firebase` - `v2.4.26`](#masamune_notification_firebase---v2426)
 
 ---

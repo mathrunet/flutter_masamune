@@ -1,3 +1,7 @@
+## 2.4.27
+
+ - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
+
 ## 2.4.26
 
  - **FIX**: Linter Response. ([b471cf0e](https://github.com/mathrunet/flutter_masamune/commit/b471cf0eace9aaae67f5d9700879b0a62c8853d4))

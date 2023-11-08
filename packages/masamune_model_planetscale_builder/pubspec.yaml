@@ -10,7 +10,7 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
 
 dependencies:
-  katana: ^2.5.0
+  katana: ^2.5.1
   build: ^2.3.0
   dart_style: ^2.2.3
   code_builder: ^4.2.0
@@ -18,8 +18,8 @@ dependencies:
   analyzer: ^6.3.0
   http: ^1.1.0
   freezed_annotation: ^2.2.0
-  masamune_annotation: ^2.3.11
-  masamune_model_planetscale_annotation: ^2.1.0
+  masamune_annotation: ^2.3.12
+  masamune_model_planetscale_annotation: ^2.1.1
 dev_dependencies:
   test: ^1.21.3
   flutter_lints: ^3.0.0
