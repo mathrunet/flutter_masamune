@@ -20,6 +20,6 @@ dependencies:
   universal_platform: ^1.0.0+1
 
 dev_dependencies:
-  test: ^1.21.3
+  test: ^1.24.0
   flutter_lints: ^3.0.0
   import_sorter: ^4.6.0
