@@ -15,6 +15,358 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v2.5.3`](#katana---v253)
+ - [`katana_auth` - `v2.2.8`](#katana_auth---v228)
+ - [`katana_auth_firebase` - `v2.1.12`](#katana_auth_firebase---v2112)
+ - [`katana_cli` - `v2.10.10`](#katana_cli---v21010)
+ - [`katana_firebase` - `v2.0.18`](#katana_firebase---v2018)
+ - [`katana_form` - `v2.8.3`](#katana_form---v283)
+ - [`katana_functions` - `v2.4.14`](#katana_functions---v2414)
+ - [`katana_functions_firebase` - `v2.4.15`](#katana_functions_firebase---v2415)
+ - [`katana_indicator` - `v2.0.19`](#katana_indicator---v2019)
+ - [`katana_listenables` - `v2.0.22`](#katana_listenables---v2022)
+ - [`katana_listenables_annotation` - `v2.0.21`](#katana_listenables_annotation---v2021)
+ - [`katana_listenables_builder` - `v2.0.25`](#katana_listenables_builder---v2025)
+ - [`katana_localization` - `v2.0.26`](#katana_localization---v2026)
+ - [`katana_localization_annotation` - `v2.0.22`](#katana_localization_annotation---v2022)
+ - [`katana_localization_builder` - `v2.0.27`](#katana_localization_builder---v2027)
+ - [`katana_logger` - `v2.0.19`](#katana_logger---v2019)
+ - [`katana_model` - `v2.13.10`](#katana_model---v21310)
+ - [`katana_model_firestore` - `v2.9.10`](#katana_model_firestore---v2910)
+ - [`katana_model_local` - `v2.8.15`](#katana_model_local---v2815)
+ - [`katana_model_openapi` - `v2.1.8`](#katana_model_openapi---v218)
+ - [`katana_model_openapi_builder` - `v2.0.22`](#katana_model_openapi_builder---v2022)
+ - [`katana_prefs` - `v2.0.24`](#katana_prefs---v2024)
+ - [`katana_prefs_annotation` - `v2.0.21`](#katana_prefs_annotation---v2021)
+ - [`katana_prefs_builder` - `v2.0.25`](#katana_prefs_builder---v2025)
+ - [`katana_router` - `v2.0.47`](#katana_router---v2047)
+ - [`katana_router_annotation` - `v2.0.26`](#katana_router_annotation---v2026)
+ - [`katana_router_builder` - `v2.0.34`](#katana_router_builder---v2034)
+ - [`katana_scoped` - `v2.0.33`](#katana_scoped---v2033)
+ - [`katana_shorten` - `v2.0.19`](#katana_shorten---v2019)
+ - [`katana_storage` - `v2.0.21`](#katana_storage---v2021)
+ - [`katana_storage_firebase` - `v2.0.22`](#katana_storage_firebase---v2022)
+ - [`katana_theme` - `v2.1.4`](#katana_theme---v214)
+ - [`katana_theme_annotation` - `v2.0.24`](#katana_theme_annotation---v2024)
+ - [`katana_theme_builder` - `v2.1.4`](#katana_theme_builder---v214)
+ - [`katana_ui` - `v2.5.9`](#katana_ui---v259)
+ - [`masamune` - `v2.4.85`](#masamune---v2485)
+ - [`masamune_ads_google` - `v2.1.91`](#masamune_ads_google---v2191)
+ - [`masamune_agora` - `v2.2.123`](#masamune_agora---v22123)
+ - [`masamune_ai_openai` - `v2.2.75`](#masamune_ai_openai---v2275)
+ - [`masamune_annotation` - `v2.3.14`](#masamune_annotation---v2314)
+ - [`masamune_auth_apple` - `v2.1.141`](#masamune_auth_apple---v21141)
+ - [`masamune_auth_facebook` - `v2.1.143`](#masamune_auth_facebook---v21143)
+ - [`masamune_auth_google` - `v2.1.142`](#masamune_auth_google---v21142)
+ - [`masamune_builder` - `v2.8.21`](#masamune_builder---v2821)
+ - [`masamune_calendar` - `v2.0.185`](#masamune_calendar---v20185)
+ - [`masamune_deeplink` - `v2.1.60`](#masamune_deeplink---v2160)
+ - [`masamune_deeplink_firebase` - `v2.1.62`](#masamune_deeplink_firebase---v2162)
+ - [`masamune_introduction` - `v2.2.89`](#masamune_introduction---v2289)
+ - [`masamune_location` - `v2.1.153`](#masamune_location---v21153)
+ - [`masamune_location_background` - `v2.2.10`](#masamune_location_background---v2210)
+ - [`masamune_location_google` - `v2.1.154`](#masamune_location_google---v21154)
+ - [`masamune_location_platform_interface` - `v2.1.32`](#masamune_location_platform_interface---v2132)
+ - [`masamune_logger_firebase` - `v2.0.183`](#masamune_logger_firebase---v20183)
+ - [`masamune_mail` - `v2.1.138`](#masamune_mail---v21138)
+ - [`masamune_model_planetscale_annotation` - `v2.1.3`](#masamune_model_planetscale_annotation---v213)
+ - [`masamune_module` - `v2.3.44`](#masamune_module---v2344)
+ - [`masamune_module_point_ecosystem` - `v2.3.49`](#masamune_module_point_ecosystem---v2349)
+ - [`masamune_notification` - `v2.2.27`](#masamune_notification---v2227)
+ - [`masamune_notification_firebase` - `v2.4.29`](#masamune_notification_firebase---v2429)
+ - [`masamune_picker` - `v2.1.140`](#masamune_picker---v21140)
+ - [`masamune_purchase_mobile` - `v2.5.90`](#masamune_purchase_mobile---v2590)
+ - [`masamune_purchase_stripe` - `v3.3.88`](#masamune_purchase_stripe---v3388)
+ - [`masamune_scheduler` - `v2.1.24`](#masamune_scheduler---v2124)
+ - [`masamune_speech_to_text` - `v2.1.110`](#masamune_speech_to_text---v21110)
+ - [`masamune_text_to_speech` - `v2.1.107`](#masamune_text_to_speech---v21107)
+ - [`masamune_universal_ui` - `v2.2.123`](#masamune_universal_ui---v22123)
+ - [`masamune_util` - `v2.1.119`](#masamune_util---v21119)
+
+---
+
+#### `katana` - `v2.5.3`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_auth` - `v2.2.8`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_auth_firebase` - `v2.1.12`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_cli` - `v2.10.10`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_firebase` - `v2.0.18`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_form` - `v2.8.3`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_functions` - `v2.4.14`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_functions_firebase` - `v2.4.15`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_indicator` - `v2.0.19`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_listenables` - `v2.0.22`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_listenables_annotation` - `v2.0.21`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_listenables_builder` - `v2.0.25`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_localization` - `v2.0.26`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_localization_annotation` - `v2.0.22`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_localization_builder` - `v2.0.27`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_logger` - `v2.0.19`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_model` - `v2.13.10`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_model_firestore` - `v2.9.10`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_model_local` - `v2.8.15`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_model_openapi` - `v2.1.8`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_model_openapi_builder` - `v2.0.22`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_prefs` - `v2.0.24`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_prefs_annotation` - `v2.0.21`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_prefs_builder` - `v2.0.25`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_router` - `v2.0.47`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_router_annotation` - `v2.0.26`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_router_builder` - `v2.0.34`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_scoped` - `v2.0.33`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_shorten` - `v2.0.19`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_storage` - `v2.0.21`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_storage_firebase` - `v2.0.22`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_theme` - `v2.1.4`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_theme_annotation` - `v2.0.24`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_theme_builder` - `v2.1.4`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `katana_ui` - `v2.5.9`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune` - `v2.4.85`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_ads_google` - `v2.1.91`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_agora` - `v2.2.123`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_ai_openai` - `v2.2.75`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_annotation` - `v2.3.14`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_auth_apple` - `v2.1.141`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_auth_facebook` - `v2.1.143`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_auth_google` - `v2.1.142`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_builder` - `v2.8.21`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_calendar` - `v2.0.185`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_deeplink` - `v2.1.60`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_deeplink_firebase` - `v2.1.62`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_introduction` - `v2.2.89`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_location` - `v2.1.153`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_location_background` - `v2.2.10`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_location_google` - `v2.1.154`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_location_platform_interface` - `v2.1.32`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
+#### `masamune_logger_firebase` - `v2.0.183`
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_mail` - `v2.1.138`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_model_planetscale_annotation` - `v2.1.3`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_module` - `v2.3.44`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_module_point_ecosystem` - `v2.3.49`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_notification` - `v2.2.27`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_notification_firebase` - `v2.4.29`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_picker` - `v2.1.140`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_purchase_mobile` - `v2.5.90`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_purchase_stripe` - `v3.3.88`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_scheduler` - `v2.1.24`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_speech_to_text` - `v2.1.110`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_text_to_speech` - `v2.1.107`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_universal_ui` - `v2.2.123`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+#### `masamune_util` - `v2.1.119`
+
+ - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))
+
+
+## 2023-11-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.5.2`](#katana---v252)
  - [`katana_prefs_annotation` - `v2.0.20`](#katana_prefs_annotation---v2020)
  - [`masamune_location_platform_interface` - `v2.1.31`](#masamune_location_platform_interface---v2131)

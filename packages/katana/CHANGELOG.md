@@ -1,3 +1,7 @@
+## 2.5.3
+
+ - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
+
 ## 2.5.2
 
  - **FIX**: Upgrade meta. ([12985ab7](https://github.com/mathrunet/flutter_masamune/commit/12985ab77b1699e8d232b09faa3685e1efa33950))
