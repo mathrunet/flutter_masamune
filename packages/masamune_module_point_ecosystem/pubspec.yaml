@@ -20,7 +20,7 @@ dependencies:
   masamune_ads_google: ^2.1.90
   masamune_purchase_mobile: ^2.5.89
 dev_dependencies:
-  test: ^1.21.3
+  test: ^1.24.0
   flutter_lints: ^3.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3

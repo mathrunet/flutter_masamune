@@ -17,7 +17,7 @@ dependencies:
   json_annotation: ^4.8.0
   masamune_scheduler: ^2.1.23
 dev_dependencies:
-  test: ^1.21.3
+  test: ^1.24.0
   flutter_lints: ^3.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
