@@ -1,3 +1,7 @@
+## 2.10.7
+
+ - **FIX**: Eliminate "The part-of directive uses a library name. ([934b2825](https://github.com/mathrunet/flutter_masamune/commit/934b2825a1d488348063af1981c5ad847a31e03c))
+
 ## 2.10.6
 
  - Update a dependency to the latest release.

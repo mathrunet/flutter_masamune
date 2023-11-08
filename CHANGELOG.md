@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.10.7`](#katana_cli---v2107)
+
+---
+
+#### `katana_cli` - `v2.10.7`
+
+ - **FIX**: Eliminate "The part-of directive uses a library name. ([934b2825](https://github.com/mathrunet/flutter_masamune/commit/934b2825a1d488348063af1981c5ad847a31e03c))
+
+
 ## 2023-11-03
 
 ### Changes
