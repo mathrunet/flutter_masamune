@@ -1,6 +1,6 @@
 name: masamune_deeplink_firebase
 description: Masamune plugin library for using Firebase DynamicLinks to launch applications from URLs and launch internal pages.
-version: 2.1.60
+version: 2.1.61
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_deeplink_firebase
 
@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.5.1
-  masamune: ^2.4.83
-  katana_firebase: ^2.0.16
+  katana: ^2.5.2
+  masamune: ^2.4.84
+  katana_firebase: ^2.0.17
   firebase_dynamic_links: ^5.3.5
   universal_platform: ^1.0.0+1
 

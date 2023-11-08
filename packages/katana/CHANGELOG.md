@@ -1,3 +1,7 @@
+## 2.5.2
+
+ - **FIX**: Upgrade meta. ([12985ab7](https://github.com/mathrunet/flutter_masamune/commit/12985ab77b1699e8d232b09faa3685e1efa33950))
+
 ## 2.5.1
 
  - **FIX**: Match the notation of "part of" to Linter. ([cca8c742](https://github.com/mathrunet/flutter_masamune/commit/cca8c742328da2e2ac0125c179967beee5f9a596))
