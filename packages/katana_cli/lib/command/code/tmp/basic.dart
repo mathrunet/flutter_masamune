@@ -1,4 +1,4 @@
-part of katana_cli.code.tmp;
+part of "tmp.dart";
 
 /// Create templates to create forms for listing, detailing, adding, and editing data.
 ///

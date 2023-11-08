@@ -1,4 +1,4 @@
-part of katana_cli.code.server;
+part of "server.dart";
 
 /// Create a server code for the scheduler.
 ///

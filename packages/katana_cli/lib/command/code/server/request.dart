@@ -1,4 +1,4 @@
-part of katana_cli.code.server;
+part of "server.dart";
 
 /// Create server code for HTTP requests.
 ///

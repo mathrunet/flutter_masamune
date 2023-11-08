@@ -1,4 +1,4 @@
-part of katana_cli.code;
+part of "code.dart";
 
 /// Output the Dart code in a hardened Zip file.
 ///

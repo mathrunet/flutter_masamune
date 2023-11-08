@@ -1,4 +1,4 @@
-part of katana_cli.code;
+part of "code.dart";
 
 /// Start Dart's build_runner to automatically generate code.
 ///

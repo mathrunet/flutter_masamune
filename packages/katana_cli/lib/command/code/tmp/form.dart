@@ -1,4 +1,4 @@
-part of katana_cli.code.tmp;
+part of "tmp.dart";
 
 /// Create a template for the form page.
 ///

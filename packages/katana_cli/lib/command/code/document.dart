@@ -1,4 +1,4 @@
-part of katana_cli.code;
+part of "code.dart";
 
 /// Create a base class for the document model.
 ///
