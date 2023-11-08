@@ -1,3 +1,7 @@
+## 2.4.26
+
+ - **FIX**: Linter Response. ([b471cf0e](https://github.com/mathrunet/flutter_masamune/commit/b471cf0eace9aaae67f5d9700879b0a62c8853d4))
+
 ## 2.4.25
 
  - Update a dependency to the latest release.

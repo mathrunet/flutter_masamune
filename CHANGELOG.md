@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_notification_firebase` - `v2.4.26`](#masamune_notification_firebase---v2426)
+
+---
+
+#### `masamune_notification_firebase` - `v2.4.26`
+
+ - **FIX**: Linter Response. ([b471cf0e](https://github.com/mathrunet/flutter_masamune/commit/b471cf0eace9aaae67f5d9700879b0a62c8853d4))
+
+
+## 2023-11-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.10.7`](#katana_cli---v2107)
 
 ---
