@@ -1,4 +1,4 @@
-part of masamune_notification_firebase;
+part of "/masamune_notification_firebase.dart";
 
 /// MasamuneAdapter] for receiving PUSH notifications for Firebase.
 ///
