@@ -1,4 +1,4 @@
-part of katana.web;
+part of "web.dart";
 
 /// Provides static methods for making HTTP requests.
 ///

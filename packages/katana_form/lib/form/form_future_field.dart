@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// A form that waits for another process to complete and updates the value of the form based on that value.
 ///
@@ -127,11 +127,11 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
     this.keepAlive = true,
     this.showDropdownIcon = true,
     this.dropdownIcon,
-    Key? key,
+    super.key,
     TValue Function(T value)? onSaved,
     String? Function(T? value)? validator,
-    T? initialValue,
-    bool enabled = true,
+    super.initialValue,
+    super.enabled,
   })  : _builder = builder,
         assert(
           (form == null && onSaved == null) ||
@@ -139,7 +139,6 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -159,8 +158,6 @@ class FormFutureField<T extends Object, TValue> extends FormField<T> {
             }
             return validator?.call(value);
           },
-          initialValue: initialValue,
-          enabled: enabled,
         );
 
   /// Context for forms.

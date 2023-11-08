@@ -1,4 +1,4 @@
-part of masamune_builder;
+part of '/masamune_builder.dart';
 
 /// Create a FormController query class for use with `ref.page.controller`.
 ///

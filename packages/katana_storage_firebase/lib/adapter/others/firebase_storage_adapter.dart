@@ -1,4 +1,4 @@
-part of katana_storage_firebase.others;
+part of "others.dart";
 
 /// [StorageAdapter] for handling files in Firebase Storage.
 ///

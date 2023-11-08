@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Provides an extension method for [FormMediaValue] that is nullable.
 ///
@@ -36,9 +36,9 @@ extension NullableFormMeidaValueExtension on FormMediaValue? {
 // TODO: MapMixinが使えるようになったら置き換え
 class _FormMediaValue extends FormMediaValue with _MapMixin<String, dynamic> {
   const _FormMediaValue({
-    FormMediaType type = FormMediaType.image,
-    Uri? uri,
-  }) : super._(type: type, uri: uri);
+    super.type,
+    super.uri,
+  }) : super._();
 
   @override
   dynamic operator [](Object? key) {

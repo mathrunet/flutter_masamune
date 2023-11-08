@@ -1,4 +1,4 @@
-part of katana_router_annotation;
+part of '/katana_router_annotation.dart';
 
 /// Annotation to define the `RouteQuery` of the page.
 ///

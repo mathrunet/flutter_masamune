@@ -1,4 +1,4 @@
-part of katana_functions;
+part of '/katana_functions.dart';
 
 /// Actions used in Functions.
 ///

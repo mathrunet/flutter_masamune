@@ -1,4 +1,4 @@
-part of katana_storage_firebase.web;
+part of "web.dart";
 
 /// [StorageAdapter] for handling files in Firebase Storage.
 ///

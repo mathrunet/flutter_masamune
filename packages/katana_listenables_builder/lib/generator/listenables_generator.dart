@@ -1,4 +1,4 @@
-part of katana_listenables_builder;
+part of '/katana_listenables_builder.dart';
 
 /// Generator to automatically create Listenable groups.
 ///

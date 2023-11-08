@@ -1,4 +1,4 @@
-part of masamune_module_point_ecosystem;
+part of '/masamune_module_point_ecosystem.dart';
 
 /// Option to use [PointEcosystemModule].
 ///

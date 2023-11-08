@@ -1,4 +1,4 @@
-part of katana_auth;
+part of '/katana_auth.dart';
 
 const _kPasswordAuthProviderId = "password";
 

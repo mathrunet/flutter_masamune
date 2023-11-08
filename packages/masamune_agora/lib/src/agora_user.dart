@@ -1,4 +1,4 @@
-part of masamune_agora;
+part of '/masamune_agora.dart';
 
 /// Class that holds information on the currently connected user.
 ///

@@ -65,22 +65,19 @@ class OpenAIPagePageState extends State<OpenAIPage> {
         ],
       ),
       body: ListView(children: [
-        ..._chat.value
-            .mapListenable(
-              (e) {
-                if (e.future != null) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return ListTile(
-                  title: Text(e.value),
-                  subtitle: Text(e.role.name),
-                );
-              },
-            )
-            .insertEvery(const Divider(), 1)
-            .toList(),
+        ..._chat.value.mapListenable(
+          (e) {
+            if (e.future != null) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListTile(
+              title: Text(e.value),
+              subtitle: Text(e.role.name),
+            );
+          },
+        ).insertEvery(const Divider(), 1),
       ]),
       bottomSheet: Container(
         color: Theme.of(context).colorScheme.surface,

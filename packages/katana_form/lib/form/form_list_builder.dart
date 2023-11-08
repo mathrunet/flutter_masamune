@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// A builder that can add and delete forms.
 ///
@@ -40,7 +40,7 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
   ///
   /// [initialValue]を指定して初期のデータを設定してください。
   FormListBuilder({
-    Key? key,
+    super.key,
     this.form,
     this.top,
     this.bottom,
@@ -54,8 +54,8 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
     TValue Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,
     this.readOnly = false,
-    List<T>? initialValue,
-    bool enabled = true,
+    super.initialValue,
+    super.enabled,
     this.keepAlive = true,
   })  : _builder = builder,
         assert(
@@ -64,7 +64,6 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -85,8 +84,6 @@ class FormListBuilder<T, TValue> extends FormField<List<T>> {
             }
             return res;
           },
-          initialValue: initialValue,
-          enabled: enabled,
         );
 
   /// Widget to be displayed at the top of the list.

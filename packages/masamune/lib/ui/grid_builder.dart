@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// Draw a grid list with elements generated from [builder] given [source].
 ///

@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Masamune plugin library to implement Apple Sign-In.
+/// Authentication plugin for Masamune that can implement Apple sign-in, works only on IOS.
 ///
 /// To use, import `package:masamune_auth_apple/masamune_auth_apple.dart`.
 ///

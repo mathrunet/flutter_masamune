@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Default maximum pin length.
 ///
@@ -124,7 +124,7 @@ class FormPinField<TValue> extends FormField<String> {
     this.form,
     this.controller,
     this.style,
-    bool enabled = true,
+    super.enabled,
     String? initialValue,
     this.focusNode,
     TextInputType keyboardType = TextInputType.phone,
@@ -153,7 +153,6 @@ class FormPinField<TValue> extends FormField<String> {
         super(
           initialValue:
               controller != null ? controller.text : (initialValue ?? ""),
-          enabled: enabled,
           validator: (value) {
             if (emptyErrorText.isNotEmpty && value.isEmpty) {
               return emptyErrorText;

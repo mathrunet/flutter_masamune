@@ -1,4 +1,4 @@
-part of katana_router;
+part of '/katana_router.dart';
 
 /// Routing events for logging.
 ///

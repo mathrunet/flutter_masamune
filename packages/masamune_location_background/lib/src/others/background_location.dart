@@ -1,4 +1,4 @@
-part of masamune_location_background.others;
+part of "others.dart";
 
 const _kRunningKey = "gps://runnning";
 

@@ -14,11 +14,11 @@ dependencies:
   uuid: ^4.0.0
   sprintf: ^7.0.0
   encrypt: ^5.0.1
-  http: ^0.13.5
+  http: ^1.1.0
   meta: ^1.8.0
   recase: ^4.0.0
 
 dev_dependencies:
   test: ^1.21.3
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
   import_sorter: ^4.6.0

@@ -1,6 +1,6 @@
 // ignore_for_file: unused_field
 
-part of masamune_notification;
+part of '/masamune_notification.dart';
 
 /// Class for handling FirebaseMessaging.
 ///

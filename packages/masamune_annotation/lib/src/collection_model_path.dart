@@ -1,4 +1,4 @@
-part of masamune_annotation;
+part of '/masamune_annotation.dart';
 
 /// Annotation to create a collection model.
 ///

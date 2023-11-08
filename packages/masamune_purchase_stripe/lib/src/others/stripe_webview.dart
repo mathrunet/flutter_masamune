@@ -1,4 +1,4 @@
-part of masamune_purchase_stripe.others;
+part of "others.dart";
 
 /// Navigation action policy definition in WebView.
 ///

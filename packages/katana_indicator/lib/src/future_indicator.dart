@@ -1,4 +1,4 @@
-part of katana_indicator;
+part of "/katana_indicator.dart";
 
 /// Extension to display Indicator in [FutureOr].
 ///

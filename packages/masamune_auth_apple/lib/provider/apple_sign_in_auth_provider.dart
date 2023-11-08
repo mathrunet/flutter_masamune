@@ -1,4 +1,4 @@
-part of masamune_auth_apple;
+part of '/masamune_auth_apple.dart';
 
 /// An `AuthQuery` for Apple's OAuth authentication.
 ///

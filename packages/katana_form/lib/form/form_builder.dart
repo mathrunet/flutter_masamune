@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// A builder that can freely change the UI within a form.
 ///
@@ -64,7 +64,7 @@ class FormBuilder<T, TValue> extends FormField<T> {
   ///
   /// [FormController.validateAndSave]が実行された場合、バリデーションとデータの保存を行ないます。
   FormBuilder({
-    Key? key,
+    super.key,
     this.form,
     this.style,
     required Widget Function(
@@ -73,10 +73,10 @@ class FormBuilder<T, TValue> extends FormField<T> {
       T? item,
     ) builder,
     TValue? Function(T? value)? onSaved,
-    T? initialValue,
+    super.initialValue,
     this.onChanged,
-    String? Function(T? value)? validator,
-    bool enabled = true,
+    super.validator,
+    super.enabled,
     this.keepAlive = true,
   })  : _builder = builder,
         assert(
@@ -85,7 +85,6 @@ class FormBuilder<T, TValue> extends FormField<T> {
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -99,9 +98,6 @@ class FormBuilder<T, TValue> extends FormField<T> {
             }
             form!.value = res;
           },
-          validator: validator,
-          initialValue: initialValue,
-          enabled: enabled,
         );
 
   /// Callback to be executed each time the value is changed.

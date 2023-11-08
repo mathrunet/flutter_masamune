@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Masamune plugin library to implement Google Sign-In.
+/// Authentication plugin for Masamune that can implement Google sign-in.
 ///
 /// To use, import `package:masamune_auth_google/masamune_auth_google.dart`.
 ///

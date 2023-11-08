@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Define a document model for storing [T] types that inherit from [ChangeNotifier].
 ///

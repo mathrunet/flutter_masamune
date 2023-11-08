@@ -1,4 +1,4 @@
-part of masamune_builder;
+part of '/masamune_builder.dart';
 
 /// Generator of controller groups for classes annotated with the [ControllerGroup] annotation.
 ///

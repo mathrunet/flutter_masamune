@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 const _kTypeKey = "type";
 const _kPathKey = "path";
@@ -145,7 +145,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
   ///
   /// [maxLength]が指定されている場合、それ以上項目を増やすことができなくなります。
   FormMultiMedia({
-    Key? key,
+    super.key,
     this.form,
     this.style,
     this.onRemove,
@@ -162,7 +162,7 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
     TValue Function(List<FormMediaValue> value)? onSaved,
     String Function(List<FormMediaValue> value)? validator,
     this.delegate = const FormMultiMediaInlineDelegate(),
-    bool enabled = true,
+    super.enabled,
     this.keepAlive = true,
   })  : _builder = builder,
         assert(
@@ -171,7 +171,6 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -192,7 +191,6 @@ class FormMultiMedia<TValue> extends FormField<List<FormMediaValue>> {
             return validator?.call(value ?? []);
           },
           initialValue: initialValue ?? [],
-          enabled: enabled,
         );
 
   /// Context for forms.

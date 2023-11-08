@@ -1,4 +1,4 @@
-part of masamune_purchase_mobile.others;
+part of "others.dart";
 
 extension on PurchaseProduct {
   PurchaseProduct _copyWith({

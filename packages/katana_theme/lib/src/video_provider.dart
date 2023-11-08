@@ -1,4 +1,4 @@
-part of katana_theme;
+part of '/katana_theme.dart';
 
 /// {@template video_provider}
 /// Provider to load video data and display it in widgets.

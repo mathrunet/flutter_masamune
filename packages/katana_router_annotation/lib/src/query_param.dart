@@ -1,4 +1,4 @@
-part of katana_router_annotation;
+part of '/katana_router_annotation.dart';
 
 /// Annotation to map each widget parameter to a query parameter in the page path.
 ///

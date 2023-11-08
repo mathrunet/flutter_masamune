@@ -1,4 +1,4 @@
-part of katana_storage.others;
+part of "others.dart";
 
 /// Class for using storage functions in local storage.
 ///

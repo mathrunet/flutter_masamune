@@ -1,4 +1,4 @@
-part of masamune_location_platform_interface;
+part of '/masamune_location_platform_interface.dart';
 
 /// Data obtained from the terminal's compass.
 ///

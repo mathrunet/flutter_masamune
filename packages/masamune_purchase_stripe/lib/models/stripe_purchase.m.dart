@@ -87,10 +87,9 @@ typedef _$StripePurchaseModelMirrorCollection = _$StripePurchaseModelCollection;
 @immutable
 class _$StripePurchaseModelRefPath extends ModelRefPath<StripePurchaseModel> {
   const _$StripePurchaseModelRefPath(
-    String uid, {
+    super.uid, {
     required String userId,
-  })  : _userId = userId,
-        super(uid);
+  })  : _userId = userId;
 
   final String _userId;
 

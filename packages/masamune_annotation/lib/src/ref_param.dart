@@ -1,4 +1,4 @@
-part of masamune_annotation;
+part of '/masamune_annotation.dart';
 
 /// When specifying a [CollectionModelPath] or [DocumentModelPath] field, you can load the referenced document together by specifying it in the field when referencing other documents.
 ///

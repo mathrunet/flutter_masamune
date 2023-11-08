@@ -1,4 +1,4 @@
-part of masamune_ads_google.others;
+part of 'others.dart';
 
 /// [GoogleNativeAd] Template Type.
 ///

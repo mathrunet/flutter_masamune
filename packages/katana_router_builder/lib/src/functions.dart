@@ -1,4 +1,4 @@
-part of katana_router_builder;
+part of '/katana_router_builder.dart';
 
 String _defaultValue(ParamaterValue param) {
   final type = param.type.toString().trimStringRight("?");

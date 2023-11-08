@@ -1,4 +1,4 @@
-part of katana_scoped;
+part of '/katana_scoped.dart';
 
 /// Widgets for state management within a page or widget.
 ///
@@ -382,17 +382,6 @@ class _ScopedScope extends InheritedWidget {
   });
 
   final _ScopedState state;
-
-  static _ScopedState of(BuildContext context) {
-    final scoped = context
-        .getElementForInheritedWidgetOfExactType<_ScopedScope>()
-        ?.widget as _ScopedScope?;
-    assert(
-      scoped != null,
-      "Scoped is not defined in the parent widget. Be sure to place it below the Scoped.",
-    );
-    return scoped!.state;
-  }
 
   static _ScopedState? maybeOf(BuildContext context) {
     final scoped = context

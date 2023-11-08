@@ -1,4 +1,4 @@
-part of katana_cli.store;
+part of "store.dart";
 
 const _resolution = <String, Map<String, _Size>>{
   "portrait": {

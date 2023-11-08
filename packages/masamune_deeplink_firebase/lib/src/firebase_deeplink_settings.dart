@@ -1,4 +1,4 @@
-part of masamune_deeplink_firebase;
+part of '/masamune_deeplink_firebase.dart';
 
 /// Interface that defines the all the parameters required to build a dynamic link
 class FirebaseDeeplinkSettings {

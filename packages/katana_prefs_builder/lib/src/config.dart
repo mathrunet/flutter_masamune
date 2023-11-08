@@ -1,4 +1,4 @@
-part of katana_prefs_builder;
+part of '/katana_prefs_builder.dart';
 
 final _ignoreWords = <String>[
   "dispose",

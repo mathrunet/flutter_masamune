@@ -1,4 +1,4 @@
-part of masamune_builder;
+part of '/masamune_builder.dart';
 
 final _pathRegExp = RegExp(r":([^/]+)");
 

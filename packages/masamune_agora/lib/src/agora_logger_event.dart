@@ -1,4 +1,4 @@
-part of masamune_agora;
+part of '/masamune_agora.dart';
 
 /// Agora events for logging.
 ///

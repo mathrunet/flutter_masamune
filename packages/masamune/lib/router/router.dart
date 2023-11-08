@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// Create an extension method for [RefHasPage] to create nested routers.
 ///

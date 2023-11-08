@@ -1,4 +1,4 @@
-part of katana_shorten;
+part of '/katana_shorten.dart';
 
 /// Extension to allow [BorderRadius] to be easily described in [num].
 ///

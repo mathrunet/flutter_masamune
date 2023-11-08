@@ -1,4 +1,4 @@
-part of masamune_model_planetscale_annotation;
+part of '/masamune_model_planetscale_annotation.dart';
 
 /// Annotation to make Masamune's model available to PlanetScale.
 ///

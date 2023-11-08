@@ -1,4 +1,4 @@
-part of katana_cli.github;
+part of "git.dart";
 
 /// Recursively clone submodules.
 ///

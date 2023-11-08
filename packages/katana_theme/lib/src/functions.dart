@@ -1,4 +1,4 @@
-part of katana_theme;
+part of '/katana_theme.dart';
 
 /// Get one at random from the major MaterialColor.
 ///

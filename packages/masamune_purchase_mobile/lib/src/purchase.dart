@@ -1,6 +1,6 @@
 // ignore_for_file: unused_field
 
-part of masamune_purchase_mobile;
+part of '/masamune_purchase_mobile.dart';
 
 /// Controller for in app purchase.
 ///

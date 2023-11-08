@@ -1,4 +1,4 @@
-part of katana_cli.pub;
+part of "pub.dart";
 
 /// Get the packages.
 ///

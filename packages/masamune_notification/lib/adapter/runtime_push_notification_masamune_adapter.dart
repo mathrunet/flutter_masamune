@@ -1,4 +1,4 @@
-part of masamune_notification;
+part of '/masamune_notification.dart';
 
 /// [MasamuneAdapter] to receive PUSH notifications for testing.
 ///

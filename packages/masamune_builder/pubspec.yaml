@@ -13,8 +13,8 @@ dependencies:
   dart_style: ^2.2.3
   code_builder: ^4.2.0
   source_gen: ^1.2.2
-  analyzer: ^5.13.0
-  http: ^0.13.5
+  analyzer: ^6.3.0
+  http: ^1.1.0
   freezed_annotation: ^2.2.0
   katana_theme_builder: ^2.1.1
   katana_theme_annotation: ^2.0.21
@@ -29,5 +29,5 @@ dependencies:
   masamune_annotation: ^2.3.11
 dev_dependencies:
   test: ^1.21.3
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
   import_sorter: ^4.6.0

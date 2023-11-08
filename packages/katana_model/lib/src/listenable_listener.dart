@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Provides an extension method for [Iterable] that includes [Listenable] as an element.
 ///

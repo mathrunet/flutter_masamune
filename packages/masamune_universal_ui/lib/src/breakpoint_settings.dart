@@ -1,4 +1,4 @@
-part of masamune_universal_ui;
+part of '/masamune_universal_ui.dart';
 
 /// Sets breakpoints for the grid.
 ///

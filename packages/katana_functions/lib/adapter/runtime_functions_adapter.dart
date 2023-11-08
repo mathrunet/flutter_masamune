@@ -1,4 +1,4 @@
-part of katana_functions;
+part of '/katana_functions.dart';
 
 /// FunctionsAdapter] that only returns a normal system without communicating with the server side.
 ///

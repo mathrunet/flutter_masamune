@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// A form to let you select a numerical value.
 ///
@@ -522,11 +522,11 @@ class _NumTextField<TValue> extends FormField<num> {
   _NumTextField({
     required this.picker,
     this.form,
-    Key? key,
-    FormFieldSetter<num?>? onSaved,
-    FormFieldValidator<num?>? validator,
-    num? initialValue,
-    bool enabled = true,
+    super.key,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
+    super.enabled,
     this.onChanged,
     this.controller,
     this.focusNode,
@@ -555,11 +555,6 @@ class _NumTextField<TValue> extends FormField<num> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          enabled: enabled,
-          validator: validator,
-          onSaved: onSaved,
           builder: (field) {
             final _NumTextFieldState<TValue> state =
                 field as _NumTextFieldState<TValue>;

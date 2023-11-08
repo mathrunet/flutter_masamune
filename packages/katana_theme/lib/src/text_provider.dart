@@ -1,4 +1,4 @@
-part of katana_theme;
+part of '/katana_theme.dart';
 
 /// {@template text_provider}
 /// Provider for loading text data and displaying it in widgets, etc.

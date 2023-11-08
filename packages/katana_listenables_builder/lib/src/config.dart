@@ -1,4 +1,4 @@
-part of katana_listenables_builder;
+part of '/katana_listenables_builder.dart';
 
 final _ignoreWords = <String>[
   "dispose",

@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Define a collection model that includes [DocumentBase] as an element.
 ///

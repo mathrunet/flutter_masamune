@@ -1,4 +1,4 @@
-part of katana_auth;
+part of '/katana_auth.dart';
 
 /// Adapters to change the behavior of authentication on different platforms.
 ///

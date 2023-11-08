@@ -1,4 +1,4 @@
-part of masamune_annotation;
+part of '/masamune_annotation.dart';
 
 /// Create a data source adapter based on a Google spreadsheet.
 ///

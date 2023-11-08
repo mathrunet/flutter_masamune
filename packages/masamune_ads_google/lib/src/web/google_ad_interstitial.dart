@@ -1,4 +1,4 @@
-part of masamune_ads_google.web;
+part of 'web.dart';
 
 /// This class displays interstitial advertisements.
 ///

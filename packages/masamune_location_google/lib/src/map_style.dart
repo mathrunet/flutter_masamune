@@ -1,4 +1,4 @@
-part of masamune_location_google;
+part of '/masamune_location_google.dart';
 
 /// {@template map_style}
 /// Class that defines the style of the map.

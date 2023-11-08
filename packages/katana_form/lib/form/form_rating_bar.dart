@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Widget to display & edit by number of stars by passing [double].
 ///
@@ -152,19 +152,18 @@ class FormRatingBar<TValue> extends FormField<double> {
     this.showLabel = false,
     this.icon,
     this.format = "0.#",
-    Key? key,
+    super.key,
     this.emptyErrorText,
     TValue Function(double value)? onSaved,
     String Function(double? value)? validator,
     num? initialValue,
-    bool enabled = true,
+    super.enabled,
   })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -185,7 +184,6 @@ class FormRatingBar<TValue> extends FormField<double> {
             return validator?.call(value);
           },
           initialValue: initialValue?.toDouble(),
-          enabled: enabled,
         );
 
   /// Widget to display & edit by number of stars by passing [double].

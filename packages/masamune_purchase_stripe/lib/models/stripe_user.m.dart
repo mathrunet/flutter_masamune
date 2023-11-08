@@ -62,7 +62,7 @@ typedef _$StripeUserModelMirrorCollection = _$StripeUserModelCollection;
 
 @immutable
 class _$StripeUserModelRefPath extends ModelRefPath<StripeUserModel> {
-  const _$StripeUserModelRefPath(String uid) : super(uid);
+  const _$StripeUserModelRefPath(super.uid);
 
   @override
   DocumentModelQuery get modelQuery {

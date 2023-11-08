@@ -1,4 +1,4 @@
-part of masamune_ai_openai;
+part of '/masamune_ai_openai.dart';
 
 /// Provides image generation capabilities using OpenAI's Dall-E.
 ///

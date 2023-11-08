@@ -1,4 +1,4 @@
-part of masamune_builder;
+part of '/masamune_builder.dart';
 
 /// Generator of document models for classes annotated with [DocumentModelPath].
 ///

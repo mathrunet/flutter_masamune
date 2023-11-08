@@ -1,4 +1,4 @@
-part of masamune_model_planetscale_annotation;
+part of '/masamune_model_planetscale_annotation.dart';
 
 /// When using [PlanetScale], specify for the field that will be the primary key.
 ///

@@ -1,4 +1,4 @@
-part of masamune_agora;
+part of '/masamune_agora.dart';
 
 /// Setup to use cloud recording.
 ///

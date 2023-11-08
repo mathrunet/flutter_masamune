@@ -1,4 +1,4 @@
-part of katana_localization;
+part of '/katana_localization.dart';
 
 /// Class for retrieving the default [LocalizationsDelegate].
 ///

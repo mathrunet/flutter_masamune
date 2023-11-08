@@ -1,4 +1,4 @@
-part of masamune_location_background.web;
+part of "web.dart";
 
 /// Class for handling terminal location information.
 ///

@@ -1,4 +1,4 @@
-part of masamune_introduction;
+part of '/masamune_introduction.dart';
 
 /// Items for setting up the introductory page.
 ///

@@ -1,4 +1,4 @@
-part of masamune_universal_ui;
+part of '/masamune_universal_ui.dart';
 
 /// Determines which GridTier it belongs to based on the current screen size.
 ///

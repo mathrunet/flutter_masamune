@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 const _kObjectReplacementChar = 0xFFFD;
 const _kFormHeight = 40.0;
@@ -67,10 +67,10 @@ typedef ChipBuilder<T> = Widget Function(
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
 class FormChipsField<TValue> extends FormField<List<String>> {
   FormChipsField({
-    Key? key,
+    super.key,
     this.form,
     this.style,
-    bool enabled = true,
+    super.enabled,
     this.hintText,
     this.labelText,
     this.prefix,
@@ -90,7 +90,7 @@ class FormChipsField<TValue> extends FormField<List<String>> {
     this.keepAlive = true,
     TValue Function(List<String> value)? onSaved,
     String Function(List<String>? value)? validator,
-    List<String> initialValue = const [],
+    List<String> super.initialValue = const [],
   })  : _builder = builder,
         assert(
           (form == null && onSaved == null) ||
@@ -98,7 +98,6 @@ class FormChipsField<TValue> extends FormField<List<String>> {
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -118,8 +117,6 @@ class FormChipsField<TValue> extends FormField<List<String>> {
             }
             return validator?.call(value);
           },
-          initialValue: initialValue,
-          enabled: enabled,
         );
 
   /// Context for forms.
@@ -489,7 +486,7 @@ class _FormChipsField<TValue> extends FormFieldState<List<String>>
 
 class _ChipsInput<T> extends StatefulWidget {
   const _ChipsInput({
-    Key? key,
+    super.key,
     this.initialValue = const [],
     this.decoration = const InputDecoration(),
     this.enabled = true,
@@ -517,8 +514,7 @@ class _ChipsInput<T> extends StatefulWidget {
     this.focusNode,
     this.initialSuggestions,
     this.onChipTapped,
-  })  : assert(maxChips == null || initialValue.length <= maxChips),
-        super(key: key);
+  })  : assert(maxChips == null || initialValue.length <= maxChips);
 
   final InputDecoration decoration;
   final TextStyle? textStyle;
@@ -1102,9 +1098,8 @@ extension _TextEditingValueExtensions on TextEditingValue {
 
 class _TextCursor extends StatefulWidget {
   const _TextCursor({
-    Key? key,
     this.resumed = false,
-  }) : super(key: key);
+  });
 
   final bool resumed;
 

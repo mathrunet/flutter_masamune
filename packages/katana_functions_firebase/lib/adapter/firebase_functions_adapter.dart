@@ -1,4 +1,4 @@
-part of katana_functions_firebase;
+part of "/katana_functions_firebase.dart";
 
 /// Adapter to return server-side processing using Firebase Functions.
 ///

@@ -1,4 +1,4 @@
-part of masamune_universal_ui;
+part of '/masamune_universal_ui.dart';
 
 const _kLeadingWidth = kToolbarHeight;
 const _kAvatarAppBarBottomSpace = 8.0;

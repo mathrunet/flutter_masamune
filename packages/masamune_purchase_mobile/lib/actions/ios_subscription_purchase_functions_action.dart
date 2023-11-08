@@ -1,4 +1,4 @@
-part of masamune_purchase_mobile;
+part of '/masamune_purchase_mobile.dart';
 
 /// Define subscription settings for IOS.
 ///

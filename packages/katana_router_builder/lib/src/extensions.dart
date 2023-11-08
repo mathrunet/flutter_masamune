@@ -1,4 +1,4 @@
-part of katana_router_builder;
+part of '/katana_router_builder.dart';
 
 extension _DartObjectExtensions on DartObject {
   Object? toValue() {

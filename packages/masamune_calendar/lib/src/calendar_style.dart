@@ -1,4 +1,4 @@
-part of masamune_calendar;
+part of '/masamune_calendar.dart';
 
 /// Specify the calendar style.
 ///

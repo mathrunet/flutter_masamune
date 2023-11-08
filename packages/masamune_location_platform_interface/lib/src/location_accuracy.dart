@@ -1,4 +1,4 @@
-part of masamune_location_platform_interface;
+part of '/masamune_location_platform_interface.dart';
 
 /// Represent the possible location accuracy values.
 ///

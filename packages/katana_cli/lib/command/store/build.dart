@@ -1,4 +1,4 @@
-part of katana_cli.store;
+part of "store.dart";
 
 /// Build the Android appbundle for the first upload to the store.
 ///

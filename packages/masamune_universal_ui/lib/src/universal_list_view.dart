@@ -1,4 +1,4 @@
-part of masamune_universal_ui;
+part of '/masamune_universal_ui.dart';
 
 /// Create [ListView] to provide a consistent UI across web, desktop, and mobile.
 ///

@@ -1,4 +1,4 @@
-part of masamune_location_google;
+part of '/masamune_location_google.dart';
 
 extension on GeoValue {
   LatLng toLatLng() => LatLng(latitude, longitude);

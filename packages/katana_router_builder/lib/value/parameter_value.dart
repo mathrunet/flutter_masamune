@@ -1,4 +1,4 @@
-part of katana_router_builder;
+part of '/katana_router_builder.dart';
 
 const _pageParamChecker = TypeChecker.fromRuntime(PageParam);
 const _queryParamChecker = TypeChecker.fromRuntime(QueryParam);

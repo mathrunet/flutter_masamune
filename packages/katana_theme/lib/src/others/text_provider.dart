@@ -1,4 +1,4 @@
-part of katana_theme.others;
+part of "others.dart";
 
 /// Provider to load text files from local and display them in widgets, etc.
 ///

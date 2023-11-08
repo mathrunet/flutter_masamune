@@ -1,4 +1,4 @@
-part of masamune_module;
+part of '/masamune_module.dart';
 
 /// [MasamuneAdapter] for creating module plug-ins for your application.
 ///

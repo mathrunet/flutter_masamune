@@ -57,7 +57,7 @@ typedef _$PurchaseUserModelMirrorCollection = _$PurchaseUserModelCollection;
 
 @immutable
 class _$PurchaseUserModelRefPath extends ModelRefPath<PurchaseUserModel> {
-  const _$PurchaseUserModelRefPath(String uid) : super(uid);
+  const _$PurchaseUserModelRefPath(super.uid);
 
   @override
   DocumentModelQuery get modelQuery {

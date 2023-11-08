@@ -1,4 +1,4 @@
-part of katana_storage;
+part of '/katana_storage.dart';
 
 /// Define storage values.
 ///
@@ -48,11 +48,8 @@ class LocalFile extends StorageFile {
   /// Class for handling local files and real data.
   ///
   /// ローカルのファイルと実データを扱うためのクラス。
-  const LocalFile({Uri? path, Uint8List? bytes})
-      : super._(
-          path: path,
-          bytes: bytes,
-        );
+  const LocalFile({super.path, super.bytes})
+      : super._();
 }
 
 /// Class for handling remote files and real data.
@@ -63,11 +60,8 @@ class RemoteFile extends StorageFile {
   /// Class for handling remote files and real data.
   ///
   /// リモートのファイルと実データを扱うためのクラス。
-  const RemoteFile({Uri? path, Uint8List? bytes})
-      : super._(
-          path: path,
-          bytes: bytes,
-        );
+  const RemoteFile({super.path, super.bytes})
+      : super._();
 }
 
 /// Abstract class for defining files for storage.

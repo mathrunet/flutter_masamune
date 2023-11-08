@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Drop-down form to select from all elements in [TEnum].
 ///
@@ -85,7 +85,7 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
   ///
   /// [enabled]が`false`になると非有効化されます。
   FormEnumDropdownField({
-    Key? key,
+    super.key,
     this.form,
     this.prefix,
     this.suffix,
@@ -101,15 +101,14 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
     this.expanded = false,
     TValue Function(TEnum value)? onSaved,
     String Function(TEnum? value)? validator,
-    TEnum? initialValue,
-    bool enabled = true,
+    super.initialValue,
+    super.enabled,
   })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -129,8 +128,6 @@ class FormEnumDropdownField<TEnum extends Enum, TValue>
             }
             return validator?.call(value);
           },
-          initialValue: initialValue,
-          enabled: enabled,
         );
 
   /// Context for forms.

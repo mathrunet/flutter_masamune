@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// A reference scoped to the form passed from [FormScopedWidget.build].
 ///

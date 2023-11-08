@@ -1,4 +1,4 @@
-part of katana_logger.web;
+part of "web.dart";
 
 /// Import and export [DynamicMap] data used in [LoggerDatabase] to external files.
 ///

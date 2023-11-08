@@ -1,4 +1,4 @@
-part of masamune_module_point_ecosystem;
+part of '/masamune_module_point_ecosystem.dart';
 
 /// This module is used to build an application that allows users to accumulate points through purchases by billing, login bonuses, and viewing through reward ads, which can then be used to access services.
 ///

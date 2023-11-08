@@ -1,4 +1,4 @@
-part of masamune_module;
+part of '/masamune_module.dart';
 
 /// Module Options.
 ///

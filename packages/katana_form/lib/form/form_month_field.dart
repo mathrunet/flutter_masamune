@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// A form to have the date (year and month) selected.
 ///
@@ -560,11 +560,11 @@ class _MonthTextField<TValue> extends FormField<DateTime> {
     required this.format,
     this.form,
     required this.picker,
-    Key? key,
-    FormFieldSetter<DateTime?>? onSaved,
-    FormFieldValidator<DateTime?>? validator,
-    DateTime? initialValue,
-    bool enabled = true,
+    super.key,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
+    super.enabled,
     this.onChanged,
     this.controller,
     this.focusNode,
@@ -596,11 +596,6 @@ class _MonthTextField<TValue> extends FormField<DateTime> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          enabled: enabled,
-          validator: validator,
-          onSaved: onSaved,
           builder: (field) {
             final _MonthTextFieldState<TValue> state =
                 field as _MonthTextFieldState<TValue>;

@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Form to select from there with [Map] as an option.
 ///
@@ -508,12 +508,12 @@ class _FormMapFieldState<TValue> extends State<FormMapField<TValue>>
 class _MapTextField<TValue> extends FormField<String> {
   _MapTextField({
     required this.picker,
-    Key? key,
+    super.key,
     this.form,
-    FormFieldSetter<String?>? onSaved,
-    FormFieldValidator<String?>? validator,
-    String? initialValue,
-    bool enabled = true,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
+    super.enabled,
     this.onChanged,
     this.controller,
     this.focusNode,
@@ -542,11 +542,6 @@ class _MapTextField<TValue> extends FormField<String> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          enabled: enabled,
-          validator: validator,
-          onSaved: onSaved,
           builder: (field) {
             final _SelectTextFieldState<TValue> state =
                 field as _SelectTextFieldState<TValue>;

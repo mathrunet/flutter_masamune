@@ -1,4 +1,4 @@
-part of masamune_speech_to_text;
+part of '/masamune_speech_to_text.dart';
 
 class _SpeechToText {
   static const String listeningStatus = 'listening';

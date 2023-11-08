@@ -1,4 +1,4 @@
-part of masamune_model_planetscale_annotation;
+part of '/masamune_model_planetscale_annotation.dart';
 
 /// When using [PlanetScale], specify for fields whose values should not be covered.
 ///

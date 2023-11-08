@@ -1,4 +1,4 @@
-part of katana_scoped;
+part of '/katana_scoped.dart';
 
 /// [ScopedValueRef] of the application.
 ///
@@ -24,9 +24,9 @@ part of katana_scoped;
 @immutable
 class AppScopedValueRef extends ScopedValueRef {
   const AppScopedValueRef._({
-    required ScopedValueListener listener,
-    required BuildContext context,
-  }) : super._(context: context, listener: listener);
+    required super.listener,
+    required super.context,
+  }) : super._();
 }
 
 /// Page's [ScopedValueRef].
@@ -54,9 +54,9 @@ class AppScopedValueRef extends ScopedValueRef {
 class PageScopedValueRef extends ScopedValueRef
     implements PageOrWidgetScopedValueRef {
   const PageScopedValueRef._({
-    required ScopedValueListener listener,
-    required BuildContext context,
-  }) : super._(context: context, listener: listener);
+    required super.listener,
+    required super.context,
+  }) : super._();
 }
 
 /// Widget's [ScopedValueRef].
@@ -84,9 +84,9 @@ class PageScopedValueRef extends ScopedValueRef
 class WidgetScopedValueRef extends ScopedValueRef
     implements PageOrWidgetScopedValueRef {
   const WidgetScopedValueRef._({
-    required ScopedValueListener listener,
-    required BuildContext context,
-  }) : super._(context: context, listener: listener);
+    required super.listener,
+    required super.context,
+  }) : super._();
 }
 
 /// [ScopedValueRef] of the Page or Widget (whose state can be monitored).

@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Form to select from all elements in [TEnum].
 ///
@@ -510,11 +510,11 @@ class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {
   _EnumTextField({
     required this.picker,
     this.form,
-    Key? key,
-    FormFieldSetter<TEnum?>? onSaved,
-    FormFieldValidator<TEnum?>? validator,
-    TEnum? initialValue,
-    bool enabled = true,
+    super.key,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
+    super.enabled,
     this.onChanged,
     this.controller,
     this.focusNode,
@@ -543,11 +543,6 @@ class _EnumTextField<TEnum extends Enum, TValue> extends FormField<TEnum> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          enabled: enabled,
-          validator: validator,
-          onSaved: onSaved,
           builder: (field) {
             final _EnumTextFieldState<TEnum, TValue> state =
                 field as _EnumTextFieldState<TEnum, TValue>;

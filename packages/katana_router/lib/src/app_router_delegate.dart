@@ -1,4 +1,4 @@
-part of katana_router;
+part of '/katana_router.dart';
 
 class _AppRouterDelegate extends RouterDelegate<RouteQuery>
     with ChangeNotifier {

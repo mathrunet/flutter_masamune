@@ -1,4 +1,4 @@
-part of katana_listenables_builder;
+part of '/katana_listenables_builder.dart';
 
 /// Defines the value of the class to which the annotation is assigned.
 ///

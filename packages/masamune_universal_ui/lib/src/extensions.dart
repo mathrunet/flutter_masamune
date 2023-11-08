@@ -1,4 +1,4 @@
-part of masamune_universal_ui;
+part of '/masamune_universal_ui.dart';
 
 /// Define extension methods for [BuildContext] in Universal UI.
 ///

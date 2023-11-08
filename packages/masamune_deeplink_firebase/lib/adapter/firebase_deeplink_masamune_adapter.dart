@@ -1,4 +1,4 @@
-part of masamune_deeplink_firebase;
+part of '/masamune_deeplink_firebase.dart';
 
 /// Initial setup for handling Deeplink [MasamuneAdapter].
 ///

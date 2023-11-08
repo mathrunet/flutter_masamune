@@ -1,4 +1,4 @@
-part of katana_model_local;
+part of '/katana_model_local.dart';
 
 const _kLocalDatabaseId = "local://";
 

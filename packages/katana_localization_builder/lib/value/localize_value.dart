@@ -1,4 +1,4 @@
-part of katana_localization_builder;
+part of '/katana_localization_builder.dart';
 
 String _replaceText(String text) {
   text = text

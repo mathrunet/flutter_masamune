@@ -1,4 +1,4 @@
-part of katana_model_local;
+part of '/katana_model_local.dart';
 
 /// {@macro csv_source_model_adapter}
 ///

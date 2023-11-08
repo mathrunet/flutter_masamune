@@ -1,4 +1,4 @@
-part of katana_theme;
+part of '/katana_theme.dart';
 
 /// You can add gradient elements to the theme's color settings.
 ///

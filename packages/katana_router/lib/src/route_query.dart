@@ -1,4 +1,4 @@
-part of katana_router;
+part of '/katana_router.dart';
 
 /// Base class for creating queries to perform page transitions.
 ///

@@ -62,7 +62,7 @@ typedef _$PointEcosystemUserModelMirrorCollection
 @immutable
 class _$PointEcosystemUserModelRefPath
     extends ModelRefPath<PointEcosystemUserModel> {
-  const _$PointEcosystemUserModelRefPath(String uid) : super(uid);
+  const _$PointEcosystemUserModelRefPath(super.uid);
 
   @override
   DocumentModelQuery get modelQuery {

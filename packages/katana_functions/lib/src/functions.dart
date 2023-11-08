@@ -1,4 +1,4 @@
-part of katana_functions;
+part of '/katana_functions.dart';
 
 /// An interface for executing server-side processing.
 ///

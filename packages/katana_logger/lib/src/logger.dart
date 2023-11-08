@@ -1,4 +1,4 @@
-part of katana_logger;
+part of '/katana_logger.dart';
 
 /// Used for active logging.
 ///

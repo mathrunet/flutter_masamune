@@ -1,4 +1,4 @@
-part of masamune_location;
+part of '/masamune_location.dart';
 
 /// Class for handling terminal location information.
 ///

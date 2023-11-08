@@ -1,4 +1,4 @@
-part of katana_model_openapi_builder;
+part of '/katana_model_openapi_builder.dart';
 
 DynamicMap _filter(String? parentKey, DynamicMap map) {
   final res = <String, dynamic>{};

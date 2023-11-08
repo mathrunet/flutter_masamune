@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// This widget is used to display switches and save ON/OFF of switches.
 ///
@@ -80,8 +80,8 @@ class FormSwitch<TValue> extends FormField<bool> {
     super.key,
     FormStyle? style,
     TValue Function(bool value)? onSaved,
-    bool initialValue = false,
-    bool enabled = true,
+    bool super.initialValue = false,
+    super.enabled,
     this.onChanged,
     this.keepAlive = true,
     FocusNode? focusNode,
@@ -99,8 +99,6 @@ class FormSwitch<TValue> extends FormField<bool> {
         assert(!(labelText != null && labelWidget != null),
             "Please select either [labelText] or [labelWidget]."),
         super(
-          initialValue: initialValue,
-          enabled: enabled,
           onSaved: (val) {
             if (val == null) {
               return;

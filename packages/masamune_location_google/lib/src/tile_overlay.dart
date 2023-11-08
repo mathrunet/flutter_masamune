@@ -1,4 +1,4 @@
-part of masamune_location_google;
+part of '/masamune_location_google.dart';
 
 /// A set of images which are displayed on top of the base map tiles.
 ///

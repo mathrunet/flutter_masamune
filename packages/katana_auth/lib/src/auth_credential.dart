@@ -1,4 +1,4 @@
-part of katana_auth;
+part of '/katana_auth.dart';
 
 /// Interface that represents the credentials returned by an auth provider.
 /// Implementations specify the details about each auth provider's credential

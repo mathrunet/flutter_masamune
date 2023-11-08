@@ -1,4 +1,4 @@
-part of masamune_agora.others;
+part of "others.dart";
 
 /// A class that manages the authorization area.
 ///

@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Form to have a range of dates selected.
 ///
@@ -518,11 +518,11 @@ class _DateTimeRangeTextField<TValue> extends FormField<DateTimeRange> {
     this.form,
     required this.delegate,
     required this.onShowPicker,
-    Key? key,
-    FormFieldSetter<DateTimeRange?>? onSaved,
-    FormFieldValidator<DateTimeRange?>? validator,
-    DateTimeRange? initialValue,
-    bool enabled = true,
+    super.key,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
+    super.enabled,
     this.onChanged,
     this.controller,
     this.focusNode,
@@ -551,11 +551,6 @@ class _DateTimeRangeTextField<TValue> extends FormField<DateTimeRange> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          enabled: enabled,
-          validator: validator,
-          onSaved: onSaved,
           builder: (field) {
             final _DateTimeRangeTextFieldState<TValue> state =
                 field as _DateTimeRangeTextFieldState<TValue>;

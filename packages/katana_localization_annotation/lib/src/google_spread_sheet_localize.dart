@@ -1,4 +1,4 @@
-part of katana_localization_annotation;
+part of "/katana_localization_annotation.dart";
 
 /// Annotation for automatic creation of multilingualization codes based on Google spreadsheets.
 ///

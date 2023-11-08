@@ -1,4 +1,4 @@
-part of masamune_builder;
+part of '/masamune_builder.dart';
 
 /// Defines the value of the class to which the annotation is assigned.
 ///

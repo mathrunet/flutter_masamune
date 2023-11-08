@@ -1,4 +1,4 @@
-part of masamune_module;
+part of '/masamune_module.dart';
 
 /// {@template module_masamune_adapter}
 /// [MasamuneAdapter] for creating module plug-ins.

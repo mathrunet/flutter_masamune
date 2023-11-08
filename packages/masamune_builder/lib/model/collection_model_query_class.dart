@@ -1,4 +1,4 @@
-part of masamune_builder;
+part of '/masamune_builder.dart';
 
 String _querySelectorClass(ParamaterValue param, String queryClass) {
   if (param.type.isDartCoreString) {
@@ -92,7 +92,7 @@ List<Spec> collectionModelQueryClass(
                 Parameter(
                   (p) => p
                     ..name = "uid"
-                    ..type = const Reference("String"),
+                    ..toSuper = true,
                 )
               ])
               ..optionalParameters.addAll([
@@ -110,7 +110,6 @@ List<Spec> collectionModelQueryClass(
                 ...path.parameters.map((param) {
                   return Code("_${param.camelCase} = ${param.camelCase}");
                 }),
-                const Code("super(uid)"),
               ]),
           ),
         ])
@@ -525,7 +524,7 @@ List<Spec> collectionModelQueryClass(
                   Parameter(
                     (p) => p
                       ..name = "uid"
-                      ..type = const Reference("String"),
+                      ..toSuper = true,
                   )
                 ])
                 ..optionalParameters.addAll([
@@ -543,7 +542,6 @@ List<Spec> collectionModelQueryClass(
                   ...mirror.parameters.map((param) {
                     return Code("_${param.camelCase} = ${param.camelCase}");
                   }),
-                  const Code("super(uid)"),
                 ]),
             ),
           ])

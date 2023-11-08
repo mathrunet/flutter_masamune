@@ -1,4 +1,4 @@
-part of katana_router;
+part of '/katana_router.dart';
 
 /// Class for defining the page to be displayed in different locations depending on conditions.
 ///

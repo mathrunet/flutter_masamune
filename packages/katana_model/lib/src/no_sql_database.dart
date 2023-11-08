@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Class for building a NoSql database model within an application.
 ///

@@ -1,4 +1,4 @@
-part of masamune_picker;
+part of '/masamune_picker.dart';
 
 /// The type of file to pick up.
 ///

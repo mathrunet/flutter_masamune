@@ -1,4 +1,4 @@
-part of katana_scoped.value;
+part of 'value.dart';
 
 /// Provides extension methods for [PageOrWidgetScopedValueRef] to perform periodic processing.
 ///

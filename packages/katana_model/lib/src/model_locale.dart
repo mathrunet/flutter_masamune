@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Define a model [LocalizedValue] that stores locale and text pairs.
 ///
@@ -116,9 +116,8 @@ class _ModelLocalizedValueWithList extends _ModelLocalizedValue {
 class _ModelLocalizedValue extends ModelLocalizedValue
     with ModelFieldValueAsMapMixin<LocalizedValue<String>> {
   const _ModelLocalizedValue([
-    LocalizedValue<String>? value,
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value,
+  ]) : super._();
   const _ModelLocalizedValue.fromServer([LocalizedValue<String>? value])
       : super._(value, ModelFieldValueSource.server);
 }
@@ -621,9 +620,8 @@ class _ModelLocaleWithCode extends _ModelLocale {
 @immutable
 class _ModelLocale extends ModelLocale with ModelFieldValueAsMapMixin<Locale> {
   const _ModelLocale([
-    Locale? value,
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value,
+  ]) : super._();
   const _ModelLocale.fromServer([Locale? value])
       : super._(value, ModelFieldValueSource.server);
 }

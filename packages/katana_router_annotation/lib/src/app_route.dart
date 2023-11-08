@@ -1,4 +1,4 @@
-part of katana_router_annotation;
+part of '/katana_router_annotation.dart';
 
 /// Automatically generates routing for the entire application.
 ///

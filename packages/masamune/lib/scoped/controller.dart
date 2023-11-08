@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// Create an extension method for [Ref] to handle Query for controllers and controller groups.
 ///

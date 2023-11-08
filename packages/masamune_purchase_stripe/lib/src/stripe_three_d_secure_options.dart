@@ -1,4 +1,4 @@
-part of masamune_purchase_stripe;
+part of '/masamune_purchase_stripe.dart';
 
 /// Stripe's 3D Secure (mainly server side) setup.
 ///

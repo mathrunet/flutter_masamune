@@ -1,4 +1,4 @@
-part of katana_auth.web;
+part of "web.dart";
 
 /// Import and export [DynamicMap] data used in [AuthDatabase] to external files.
 ///

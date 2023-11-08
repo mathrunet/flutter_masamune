@@ -43,7 +43,7 @@ void main() {
     const Map<String, int>? nullMap = null;
     expect(map.containsValue(1), true);
     expect(map.containsValue(5), false);
-    expect(nullMap.containsValue("a"), false);
+    expect(nullMap.containsValue(1), false);
   });
   test("NullableMapExtensions.get", () {
     // ignore: unnecessary_nullable_for_final_variable_declarations

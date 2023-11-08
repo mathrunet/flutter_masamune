@@ -1,4 +1,4 @@
-part of masamune_auth_apple;
+part of '/masamune_auth_apple.dart';
 
 /// Initialize Apple sign-in [MasamuneAdapter].
 ///

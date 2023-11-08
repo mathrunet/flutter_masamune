@@ -1,4 +1,4 @@
-part of katana_model_firestore;
+part of '/katana_model_firestore.dart';
 
 /// Model adapter with Firebase Firestore available.
 ///

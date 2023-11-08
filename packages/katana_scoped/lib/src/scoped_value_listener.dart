@@ -1,19 +1,15 @@
-part of katana_scoped;
+part of '/katana_scoped.dart';
 
 /// [ScopedValueListener] that targets the app.
 ///
 /// アプリを対象にしている[ScopedValueListener]。
 class AppScopedValueListener extends ScopedValueListener {
   AppScopedValueListener._({
-    required BuildContext context,
-    required VoidCallback callback,
-    required AppRef appRef,
+    required super.context,
+    required super.callback,
+    required super.appRef,
     required super.scope,
-  }) : super._(
-          context: context,
-          callback: callback,
-          appRef: appRef,
-        );
+  }) : super._();
 
   @override
   ScopedValueContainer get container {
@@ -35,15 +31,11 @@ class AppScopedValueListener extends ScopedValueListener {
 /// ページを対象にしている[ScopedValueListener]。
 class PageScopedValueListener extends _ScopedValueListenerOnPage {
   PageScopedValueListener._({
-    required BuildContext context,
-    required VoidCallback callback,
-    required AppRef appRef,
+    required super.context,
+    required super.callback,
+    required super.appRef,
     required super.scope,
-  }) : super._(
-          context: context,
-          callback: callback,
-          appRef: appRef,
-        );
+  }) : super._();
 
   @override
   ScopedValueContainer get container {
@@ -62,18 +54,12 @@ class PageScopedValueListener extends _ScopedValueListenerOnPage {
 
 class _ScopedValueListenerOnPage extends ScopedValueListener {
   _ScopedValueListenerOnPage._({
-    required BuildContext context,
-    required VoidCallback callback,
-    required AppRef appRef,
-    ScopedValueContainer? container,
-    ScopedLoggerScope scope = ScopedLoggerScope.page,
-  }) : super._(
-          context: context,
-          callback: callback,
-          appRef: appRef,
-          container: container,
-          scope: scope,
-        );
+    required super.context,
+    required super.callback,
+    required super.appRef,
+    super.container,
+    super.scope = ScopedLoggerScope.page,
+  }) : super._();
 
   @override
   TResult? getAlreadtExistsScopedValueResult<TResult,
@@ -100,18 +86,12 @@ class _ScopedValueListenerOnPage extends ScopedValueListener {
 
 class _ScopedValueListenerOnWidget extends ScopedValueListener {
   _ScopedValueListenerOnWidget._({
-    required BuildContext context,
-    required VoidCallback callback,
-    required AppRef appRef,
-    ScopedValueContainer? container,
-    ScopedLoggerScope scope = ScopedLoggerScope.widget,
-  }) : super._(
-          context: context,
-          callback: callback,
-          container: container,
-          appRef: appRef,
-          scope: scope,
-        );
+    required super.context,
+    required super.callback,
+    required super.appRef,
+    super.container,
+    super.scope,
+  }) : super._();
 
   @override
   TResult? getAlreadtExistsScopedValueResult<TResult,

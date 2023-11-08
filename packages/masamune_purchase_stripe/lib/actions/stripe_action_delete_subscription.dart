@@ -1,4 +1,4 @@
-part of masamune_purchase_stripe;
+part of '/masamune_purchase_stripe.dart';
 
 /// [StripeFunctionsAction] to delete a Stripe subscription.
 ///

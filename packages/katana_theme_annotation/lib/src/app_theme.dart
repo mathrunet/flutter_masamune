@@ -1,4 +1,4 @@
-part of katana_theme_annotation;
+part of "/katana_theme_annotation.dart";
 
 /// Annotation to be given to the theme of the application.
 ///

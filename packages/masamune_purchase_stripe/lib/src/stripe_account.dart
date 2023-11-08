@@ -1,4 +1,4 @@
-part of masamune_purchase_stripe;
+part of '/masamune_purchase_stripe.dart';
 
 /// Manage your stripe account (revenue receiver).
 ///

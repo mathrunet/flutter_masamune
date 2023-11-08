@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_field_initializers_in_const_classes
 
-part of katana_auth;
+part of '/katana_auth.dart';
 
 /// Authentication adapter using a database that runs only in the app's memory.
 ///

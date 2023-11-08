@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 const _kErrorTextHeight = 20.0;
 const _kDefaultHeight = 196.0;
@@ -119,7 +119,7 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
   ///
   /// [showOverlayIcon]を`true`にするとメディアが選択された後でもそのプレビューの上にアイコンを表示します。[icon]や[iconSize]、[overlayColor]、[overlayIconColor]を指定することでアイコンやオーバーレイのデザインを変更することができます。
   FormMedia({
-    Key? key,
+    super.key,
     this.style,
     this.onChanged,
     this.readOnly = false,
@@ -137,8 +137,8 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
     this.emptyErrorText,
     TValue Function(FormMediaValue value)? onSaved,
     String Function(FormMediaValue? value)? validator,
-    FormMediaValue? initialValue,
-    bool enabled = true,
+    super.initialValue,
+    super.enabled,
     this.keepAlive = true,
   })  : _builder = builder,
         assert(
@@ -147,7 +147,6 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -167,8 +166,6 @@ class FormMedia<TValue> extends FormField<FormMediaValue> {
             }
             return validator?.call(value);
           },
-          initialValue: initialValue,
-          enabled: enabled,
         );
 
   /// Context for forms.

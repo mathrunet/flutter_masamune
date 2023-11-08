@@ -1,4 +1,4 @@
-part of masamune_calendar;
+part of '/masamune_calendar.dart';
 
 /// Item classes representing calendar events and holidays.
 ///

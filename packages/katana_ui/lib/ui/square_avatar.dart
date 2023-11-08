@@ -1,4 +1,4 @@
-part of katana_ui;
+part of '/katana_ui.dart';
 
 /// Square version of [CircleAvatar].
 ///

@@ -1,4 +1,4 @@
-part of masamune_location_background.others;
+part of "others.dart";
 
 @pragma("vm:entry-point")
 class IOSBackgroundLocationCallbackHandler {

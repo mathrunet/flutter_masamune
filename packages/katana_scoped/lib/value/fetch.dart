@@ -1,4 +1,4 @@
-part of katana_scoped.value;
+part of 'value.dart';
 
 /// Provides an extension method for [Ref] to retrieve a [ScopedValue] that already exists.
 ///

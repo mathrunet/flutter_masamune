@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Use this when registering special classes in [ModelFieldValue].
 ///
@@ -970,9 +970,8 @@ class _ModelTimestampWithDateTime extends _ModelTimestamp {
 class _ModelTimestamp extends ModelTimestamp
     with ModelFieldValueAsMapMixin<DateTime> {
   const _ModelTimestamp([
-    DateTime? value,
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value,
+  ]) : super._();
   const _ModelTimestamp.fromServer([DateTime? value])
       : super._(value, ModelFieldValueSource.server);
 }
@@ -1223,9 +1222,7 @@ class ModelSearch extends ModelFieldValue<List<String>>
 class _ModelSearch extends ModelSearch
     with ModelFieldValueAsMapMixin<List<String>> {
   const _ModelSearch(
-    List<String> value, [
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value) : super._();
   const _ModelSearch.fromServer(List<String> value)
       : super._(value, ModelFieldValueSource.server);
 }

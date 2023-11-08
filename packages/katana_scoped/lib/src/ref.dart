@@ -1,4 +1,4 @@
-part of katana_scoped;
+part of '/katana_scoped.dart';
 
 /// Base class for References passed from ScopedWidget, etc.
 ///

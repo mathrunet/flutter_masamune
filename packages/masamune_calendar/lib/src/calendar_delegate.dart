@@ -1,4 +1,4 @@
-part of masamune_calendar;
+part of '/masamune_calendar.dart';
 
 /// A delegate that represents the display portion of the calendar.
 ///

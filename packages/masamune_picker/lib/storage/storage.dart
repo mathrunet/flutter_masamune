@@ -1,4 +1,4 @@
-part of masamune_picker;
+part of '/masamune_picker.dart';
 
 /// Extension methods of Storage system related to PickerValue.
 ///

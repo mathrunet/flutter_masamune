@@ -1,4 +1,4 @@
-part of masamune_calendar;
+part of '/masamune_calendar.dart';
 
 const double _dxMax = 1.2;
 const double _dxMin = -1.2;

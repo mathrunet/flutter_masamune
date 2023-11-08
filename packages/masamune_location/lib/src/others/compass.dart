@@ -1,4 +1,4 @@
-part of masamune_location.others;
+part of "others.dart";
 
 /// Class that handles the compass of the terminal.
 ///

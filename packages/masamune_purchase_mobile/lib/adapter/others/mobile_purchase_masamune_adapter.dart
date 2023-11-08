@@ -1,4 +1,4 @@
-part of masamune_purchase_mobile.others;
+part of "others.dart";
 
 /// Initial setup for handling InAppPurchase on mobile [MasamuneAdapter].
 ///

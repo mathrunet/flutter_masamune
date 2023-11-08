@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// A form to have the date and time selected.
 ///
@@ -521,11 +521,11 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
     this.form,
     required this.delegate,
     required this.onShowPicker,
-    Key? key,
-    FormFieldSetter<DateTime?>? onSaved,
-    FormFieldValidator<DateTime?>? validator,
-    DateTime? initialValue,
-    bool enabled = true,
+    super.key,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
+    super.enabled,
     this.onChanged,
     this.controller,
     this.focusNode,
@@ -554,11 +554,6 @@ class _DateTimeTextField<TValue> extends FormField<DateTime> {
     bool enableInteractiveSelection = true,
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          enabled: enabled,
-          validator: validator,
-          onSaved: onSaved,
           builder: (field) {
             final _DateTimeTextFieldState<TValue> state =
                 field as _DateTimeTextFieldState<TValue>;

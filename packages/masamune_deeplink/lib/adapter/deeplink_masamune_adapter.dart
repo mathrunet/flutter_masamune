@@ -1,4 +1,4 @@
-part of masamune_deeplink;
+part of '/masamune_deeplink.dart';
 
 /// Initial setup for handling Deeplink [MasamuneAdapter].
 ///

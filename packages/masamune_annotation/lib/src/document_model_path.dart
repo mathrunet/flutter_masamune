@@ -1,4 +1,4 @@
-part of masamune_annotation;
+part of '/masamune_annotation.dart';
 
 /// Annotation for creating a documentation model.
 ///

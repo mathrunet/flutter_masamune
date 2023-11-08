@@ -1,4 +1,4 @@
-part of masamune_picker;
+part of '/masamune_picker.dart';
 
 /// Adapter to use the file picker.
 ///

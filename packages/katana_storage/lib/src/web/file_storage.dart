@@ -1,4 +1,4 @@
-part of katana_storage.web;
+part of "web.dart";
 
 /// Class for using storage functions in local storage.
 ///

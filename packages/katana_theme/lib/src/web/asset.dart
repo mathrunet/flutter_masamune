@@ -1,4 +1,4 @@
-part of katana_theme.web;
+part of "web.dart";
 
 /// A class that provides utilities for handling assets without much awareness of their source location (on the network, on the terminal, in the asset folder).
 ///
@@ -157,15 +157,7 @@ class _ImageMemoryCache {
 }
 
 class _MemoizedNetworkImage extends network_image.NetworkImage {
-  const _MemoizedNetworkImage(
-    String url, {
-    double scale = 1.0,
-    Map<String, String>? headers,
-  }) : super(
-          url,
-          scale: scale,
-          headers: headers,
-        );
+  const _MemoizedNetworkImage(super.url);
 
   @override
   // ignore: deprecated_member_use
@@ -195,15 +187,7 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
 }
 
 class _MemoizedAssetImage extends AssetImage {
-  const _MemoizedAssetImage(
-    String assetName, {
-    AssetBundle? bundle,
-    String? package,
-  }) : super(
-          assetName,
-          bundle: bundle,
-          package: package,
-        );
+  const _MemoizedAssetImage(super.assetName);
 
   @override
   // ignore: deprecated_member_use

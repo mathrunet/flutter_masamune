@@ -72,7 +72,7 @@ typedef _$PurchaseSubscriptionModelMirrorCollection
 @immutable
 class _$PurchaseSubscriptionModelRefPath
     extends ModelRefPath<PurchaseSubscriptionModel> {
-  const _$PurchaseSubscriptionModelRefPath(String uid) : super(uid);
+  const _$PurchaseSubscriptionModelRefPath(super.uid);
 
   @override
   DocumentModelQuery get modelQuery {

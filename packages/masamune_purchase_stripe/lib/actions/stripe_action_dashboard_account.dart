@@ -1,4 +1,4 @@
-part of masamune_purchase_stripe;
+part of '/masamune_purchase_stripe.dart';
 
 /// [StripeFunctionsAction] to display the Stripe account dashboard.
 ///

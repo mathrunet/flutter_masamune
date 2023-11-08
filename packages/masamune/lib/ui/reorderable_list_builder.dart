@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// You can configure reorderable lists in a similar fashion to [ListBuilder].
 ///

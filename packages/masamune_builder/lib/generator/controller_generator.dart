@@ -1,4 +1,4 @@
-part of masamune_builder;
+part of '/masamune_builder.dart';
 
 /// Generator of controllers for classes annotated with the [Controller] annotation.
 ///

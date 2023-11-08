@@ -1,4 +1,4 @@
-part of masamune_ai_openai;
+part of '/masamune_ai_openai.dart';
 
 /// Class used to create prompts.
 ///

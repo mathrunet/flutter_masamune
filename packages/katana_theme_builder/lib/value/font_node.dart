@@ -1,4 +1,4 @@
-part of katana_theme_builder;
+part of '/katana_theme_builder.dart';
 
 /// Node data for fonts.
 ///

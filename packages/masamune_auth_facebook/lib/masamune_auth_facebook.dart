@@ -1,6 +1,6 @@
 // Copyright 2023 mathru. All rights reserved.
 
-/// Masamune plugin library to implement Facebook Sign-In.
+/// Authentication plugin for Masamune that can implement Facebook(Meta) sign-in.
 ///
 /// To use, import `package:masamune_auth_facebook/masamune_auth_facebook.dart`.
 ///

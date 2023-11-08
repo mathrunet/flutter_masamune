@@ -1,4 +1,4 @@
-part of masamune_location_google;
+part of '/masamune_location_google.dart';
 
 /// Draws a circle on the map.
 ///

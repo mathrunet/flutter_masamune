@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// This is an extension method of [ControllerQueryBase].
 ///

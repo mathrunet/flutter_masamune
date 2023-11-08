@@ -1,4 +1,4 @@
-part of katana;
+part of '/katana.dart';
 
 /// Provides an extension method for [Iterable] that is nullable.
 ///

@@ -1,4 +1,4 @@
-part of katana;
+part of '/katana.dart';
 
 /// Provides extended methods for [List] in [T].
 ///

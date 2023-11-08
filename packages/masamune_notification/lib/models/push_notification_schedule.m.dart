@@ -64,7 +64,7 @@ typedef _$PushNotificationScheduleModelMirrorCollection
 @immutable
 class _$PushNotificationScheduleModelRefPath
     extends ModelRefPath<PushNotificationScheduleModel> {
-  const _$PushNotificationScheduleModelRefPath(String uid) : super(uid);
+  const _$PushNotificationScheduleModelRefPath(super.uid);
 
   @override
   DocumentModelQuery get modelQuery {

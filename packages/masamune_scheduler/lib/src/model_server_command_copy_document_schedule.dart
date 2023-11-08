@@ -1,4 +1,4 @@
-part of masamune_scheduler;
+part of '/masamune_scheduler.dart';
 
 /// [ModelServerCommandBase] to copy all documents to [time].
 ///

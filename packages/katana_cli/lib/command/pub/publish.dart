@@ -1,4 +1,5 @@
-part of katana_cli.pub;
+part of "pub.dart";
+
 
 /// Deploy the Dart package to the pub.
 ///

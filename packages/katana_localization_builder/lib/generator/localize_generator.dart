@@ -1,4 +1,4 @@
-part of katana_localization_builder;
+part of '/katana_localization_builder.dart';
 
 /// Automatic generation of translations from Google spreadsheets.
 ///

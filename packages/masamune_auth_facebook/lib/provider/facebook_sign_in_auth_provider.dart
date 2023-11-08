@@ -1,4 +1,4 @@
-part of masamune_auth_facebook;
+part of '/masamune_auth_facebook.dart';
 
 /// An `AuthQuery` for Facebook's OAuth authentication.
 ///

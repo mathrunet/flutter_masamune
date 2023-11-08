@@ -1,4 +1,4 @@
-part of masamune_purchase_mobile;
+part of '/masamune_purchase_mobile.dart';
 
 /// Define the settings for non-consumable billing for IOS.
 ///

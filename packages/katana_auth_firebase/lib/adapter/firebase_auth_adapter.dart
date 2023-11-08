@@ -1,4 +1,4 @@
-part of katana_auth_firebase;
+part of "/katana_auth_firebase.dart";
 
 const _kUserEmailKey = "userEmail";
 const _kUserPhoneNumberKey = "userPhoneNumber";

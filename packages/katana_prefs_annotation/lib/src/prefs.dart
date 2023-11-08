@@ -1,4 +1,4 @@
-part of katana_prefs_annotation;
+part of "/katana_prefs_annotation.dart";
 
 /// Annotation to define values to be handled in Shared Preferences and to enable type-safe storage and retrieval.
 ///

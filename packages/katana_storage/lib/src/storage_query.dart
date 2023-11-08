@@ -1,4 +1,4 @@
-part of katana_storage;
+part of '/katana_storage.dart';
 
 /// Query to specify the path of storage on the remote side.
 ///

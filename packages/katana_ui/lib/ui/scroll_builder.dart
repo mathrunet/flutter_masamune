@@ -1,4 +1,4 @@
-part of katana_ui;
+part of '/katana_ui.dart';
 
 /// This widget can be placed on top of a [ListView] or [SingleChildScrollView] to easily add a [RefreshIndicator] or [Scrollbar].
 ///

@@ -1,4 +1,4 @@
-part of katana_ui;
+part of '/katana_ui.dart';
 
 /// A widget for displaying an image or text over a card widget.
 ///

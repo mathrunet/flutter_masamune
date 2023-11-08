@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Define a model [GeoValue] that stores location information.
 ///
@@ -155,9 +155,8 @@ class _ModelGeoValueWithDouble extends _ModelGeoValue {
 class _ModelGeoValue extends ModelGeoValue
     with ModelFieldValueAsMapMixin<GeoValue> {
   const _ModelGeoValue([
-    GeoValue? value,
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value,
+  ]) : super._();
   const _ModelGeoValue.fromServer([GeoValue? value])
       : super._(value, ModelFieldValueSource.server);
 }

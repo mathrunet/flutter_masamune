@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// Callbacks used by [ListBuilder].
 ///

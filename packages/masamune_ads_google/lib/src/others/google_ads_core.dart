@@ -1,4 +1,4 @@
-part of masamune_ads_google.others;
+part of 'others.dart';
 
 /// Class that manages all aspects of GoogleAd.
 ///

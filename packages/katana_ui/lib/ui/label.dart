@@ -1,4 +1,4 @@
-part of katana_ui;
+part of '/katana_ui.dart';
 
 /// Widget for displaying labels used for item titles, etc.
 ///

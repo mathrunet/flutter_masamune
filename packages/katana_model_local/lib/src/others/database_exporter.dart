@@ -1,4 +1,4 @@
-part of katana_model_local.others;
+part of "others.dart";
 
 /// Import and export [DynamicMap] data used in [NoSqlDatabase] to external files.
 ///

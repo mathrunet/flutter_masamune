@@ -1,4 +1,4 @@
-part of katana_form;
+part of '/katana_form.dart';
 
 /// Drop down form to select from there with [Map] as an option.
 ///
@@ -85,7 +85,7 @@ class FormMapDropdownField<TValue> extends FormField<String> {
   /// [enabled]が`false`になると非有効化されます。
   FormMapDropdownField({
     this.form,
-    Key? key,
+    super.key,
     this.prefix,
     this.suffix,
     this.hintText,
@@ -100,15 +100,14 @@ class FormMapDropdownField<TValue> extends FormField<String> {
     this.expanded = false,
     TValue Function(String value)? onSaved,
     String Function(String? value)? validator,
-    String? initialValue,
-    bool enabled = true,
+    super.initialValue,
+    super.enabled,
   })  : assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",
         ),
         super(
-          key: key,
           builder: (state) {
             return const SizedBox.shrink();
           },
@@ -128,8 +127,6 @@ class FormMapDropdownField<TValue> extends FormField<String> {
             }
             return validator?.call(value);
           },
-          initialValue: initialValue,
-          enabled: enabled,
         );
 
   /// Context for forms.

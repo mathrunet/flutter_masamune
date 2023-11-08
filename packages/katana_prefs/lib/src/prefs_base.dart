@@ -1,4 +1,4 @@
-part of katana_prefs;
+part of "/katana_prefs.dart";
 
 /// Base class for creating Prefs classes.
 ///

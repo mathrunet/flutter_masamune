@@ -1,4 +1,4 @@
-part of masamune;
+part of '/masamune.dart';
 
 /// Mix-in to do [CollectionBase.replaceQuery] by [ModelQueryBase].
 ///

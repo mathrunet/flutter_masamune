@@ -1,4 +1,4 @@
-part of masamune_speech_to_text;
+part of '/masamune_speech_to_text.dart';
 
 /// [MasamuneAdapter], which is the initial setup for handling Speech-to-Text.
 ///

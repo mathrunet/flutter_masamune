@@ -1,4 +1,4 @@
-part of katana_scoped;
+part of '/katana_scoped.dart';
 
 /// {@template scoped_query}
 /// [ScopedQuery] makes it possible to define values globally and manage state individually and safely.

@@ -1,4 +1,4 @@
-part of katana_firebase;
+part of "/katana_firebase.dart";
 
 /// Initialize Firebase.
 ///

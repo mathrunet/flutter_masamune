@@ -1,4 +1,4 @@
-part of masamune_purchase_stripe;
+part of '/masamune_purchase_stripe.dart';
 
 /// [StripeFunctionsAction] to update payment information for Stripe purchases.
 ///

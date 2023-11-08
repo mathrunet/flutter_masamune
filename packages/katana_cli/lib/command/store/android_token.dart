@@ -1,4 +1,5 @@
-part of katana_cli.store;
+part of "store.dart";
+
 
 /// Obtain a refresh token for store billing on Google Play.
 ///

@@ -1,4 +1,4 @@
-part of masamune_notification;
+part of '/masamune_notification.dart';
 
 /// Push notification event for logging.
 ///

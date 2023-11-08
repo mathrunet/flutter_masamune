@@ -8,7 +8,6 @@ environment:
   sdk: ">=2.17.0 <4.0.0"
 
 dependencies:
-  lints: ^2.0.0
   yaml: ^3.1.0
   yaml_writer: ^1.0.3
   archive: ^3.1.9
@@ -16,7 +15,7 @@ dependencies:
   katana: ^2.5.0
   image: ^4.0.10
   xml: ^6.2.2
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
   html: ^0.15.1
 
 executables:

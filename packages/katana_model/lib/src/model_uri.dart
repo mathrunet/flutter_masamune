@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Define the field as an image URI.
 ///
@@ -129,9 +129,8 @@ class _ModelImageUriWithUri extends _ModelImageUri {
 @immutable
 class _ModelImageUri extends ModelImageUri with ModelFieldValueAsMapMixin<Uri> {
   const _ModelImageUri([
-    Uri? value,
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value,
+  ]) : super._();
   const _ModelImageUri.fromServer([Uri? value])
       : super._(value, ModelFieldValueSource.server);
 }
@@ -404,9 +403,8 @@ class _ModelVideoUriWithUri extends _ModelVideoUri {
 @immutable
 class _ModelVideoUri extends ModelVideoUri with ModelFieldValueAsMapMixin<Uri> {
   const _ModelVideoUri([
-    Uri? value,
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value,
+  ]) : super._();
   const _ModelVideoUri.fromServer([Uri? value])
       : super._(value, ModelFieldValueSource.server);
 }
@@ -677,9 +675,8 @@ class _ModelUriWithUri extends _ModelUri {
 @immutable
 class _ModelUri extends ModelUri with ModelFieldValueAsMapMixin<Uri> {
   const _ModelUri([
-    Uri? value,
-    ModelFieldValueSource source = ModelFieldValueSource.user,
-  ]) : super._(value, source);
+    super.value,
+  ]) : super._();
   const _ModelUri.fromServer([Uri? value])
       : super._(value, ModelFieldValueSource.server);
 }

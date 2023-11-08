@@ -1,4 +1,4 @@
-part of katana_listenables_annotation;
+part of "/katana_listenables_annotation.dart";
 
 /// Annotation to create a class to put together `Listenable`.
 ///

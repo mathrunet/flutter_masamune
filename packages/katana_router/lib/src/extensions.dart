@@ -1,4 +1,4 @@
-part of katana_router;
+part of '/katana_router.dart';
 
 /// Provides extension methods for [NavigatorState].
 ///

@@ -1,4 +1,4 @@
-part of katana_theme_builder;
+part of '/katana_theme_builder.dart';
 
 /// Generator that automatically creates data for themes.
 ///

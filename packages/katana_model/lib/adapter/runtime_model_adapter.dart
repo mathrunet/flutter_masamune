@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Model adapter that uses a database that runs only in the memory of the application.
 /// All data will be reset when the application is re-launched.

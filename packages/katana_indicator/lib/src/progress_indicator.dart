@@ -1,4 +1,4 @@
-part of katana_indicator;
+part of "/katana_indicator.dart";
 
 /// Progress indicator to show progress via [ChangeNotifier].
 ///

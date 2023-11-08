@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
-part of katana_auth;
+part of '/katana_auth.dart';
 
 /// A database for managing authentication information locally.
 ///

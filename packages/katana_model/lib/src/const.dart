@@ -1,4 +1,4 @@
-part of katana_model;
+part of '/katana_model.dart';
 
 /// Field key to store the last part of the document path (`ddd` for aaa/bbb/ccc/ddd).
 ///

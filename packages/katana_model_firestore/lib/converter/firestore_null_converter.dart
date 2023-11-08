@@ -1,4 +1,4 @@
-part of katana_model_firestore;
+part of '/katana_model_firestore.dart';
 
 /// FirestoreConverter for [Null].
 ///

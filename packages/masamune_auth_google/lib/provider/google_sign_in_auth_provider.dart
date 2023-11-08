@@ -1,4 +1,4 @@
-part of masamune_auth_google;
+part of '/masamune_auth_google.dart';
 
 /// An `AuthQuery` for Google's OAuth authentication.
 ///

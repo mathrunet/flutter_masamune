@@ -1,4 +1,4 @@
-part of masamune_purchase_stripe;
+part of '/masamune_purchase_stripe.dart';
 
 /// Passed if the processing of a stripe is canceled [Exception].
 ///

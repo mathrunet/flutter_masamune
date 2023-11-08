@@ -1,4 +1,4 @@
-part of katana_model_openapi_builder;
+part of '/katana_model_openapi_builder.dart';
 
 /// Creates classes created by Freezed.
 ///
