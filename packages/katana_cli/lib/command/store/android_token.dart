@@ -1,6 +1,5 @@
 part of "store.dart";
 
-
 /// Obtain a refresh token for store billing on Google Play.
 ///
 /// GooglePlayでストア課金を行うためのリフレッシュトークンを取得します。

@@ -89,7 +89,7 @@ class _$StripePurchaseModelRefPath extends ModelRefPath<StripePurchaseModel> {
   const _$StripePurchaseModelRefPath(
     super.uid, {
     required String userId,
-  })  : _userId = userId;
+  }) : _userId = userId;
 
   final String _userId;
 

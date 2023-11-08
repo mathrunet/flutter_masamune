@@ -514,7 +514,7 @@ class _ChipsInput<T> extends StatefulWidget {
     this.focusNode,
     this.initialSuggestions,
     this.onChipTapped,
-  })  : assert(maxChips == null || initialValue.length <= maxChips);
+  }) : assert(maxChips == null || initialValue.length <= maxChips);
 
   final InputDecoration decoration;
   final TextStyle? textStyle;

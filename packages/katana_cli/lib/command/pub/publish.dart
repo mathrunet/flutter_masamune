@@ -1,6 +1,5 @@
 part of "pub.dart";
 
-
 /// Deploy the Dart package to the pub.
 ///
 /// Dartパッケージのpubへのデプロイを行います。

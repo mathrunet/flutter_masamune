@@ -169,8 +169,7 @@ class _ImageMemoryCache {
 }
 
 class _MemoizedNetworkImage extends network_image.NetworkImage {
-  const _MemoizedNetworkImage(
-    super.url);
+  const _MemoizedNetworkImage(super.url);
 
   static final HttpClient _sharedHttpClient = HttpClient()
     ..autoUncompress = false;
@@ -340,8 +339,7 @@ class _MemoizedFileImage extends FileImage {
 }
 
 class _MemoizedAssetImage extends AssetImage {
-  const _MemoizedAssetImage(
-    super.assetName);
+  const _MemoizedAssetImage(super.assetName);
 
   @override
   // ignore: deprecated_member_use

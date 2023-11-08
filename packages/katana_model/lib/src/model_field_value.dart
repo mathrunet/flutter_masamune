@@ -1221,8 +1221,7 @@ class ModelSearch extends ModelFieldValue<List<String>>
 @immutable
 class _ModelSearch extends ModelSearch
     with ModelFieldValueAsMapMixin<List<String>> {
-  const _ModelSearch(
-    super.value) : super._();
+  const _ModelSearch(super.value) : super._();
   const _ModelSearch.fromServer(List<String> value)
       : super._(value, ModelFieldValueSource.server);
 }

@@ -1,6 +1,5 @@
 part of "pub.dart";
 
-
 /// Upgrade the Dart package.
 ///
 /// Dartパッケージのバージョンアップを行います。
