@@ -1,3 +1,7 @@
+## 2.10.11
+
+ - **FIX**: Modified eslint on Server side. ([d3a27010](https://github.com/mathrunet/flutter_masamune/commit/d3a27010161f112f8c0937607ba49c1a2ebab15a))
+
 ## 2.10.10
 
  - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))

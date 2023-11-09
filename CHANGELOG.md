@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-09
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.10.11`](#katana_cli---v21011)
+
+---
+
+#### `katana_cli` - `v2.10.11`
+
+ - **FIX**: Modified eslint on Server side. ([d3a27010](https://github.com/mathrunet/flutter_masamune/commit/d3a27010161f112f8c0937607ba49c1a2ebab15a))
+
+
 ## 2023-11-08
 
 ### Changes
