@@ -46,6 +46,7 @@ class CodeServerRequestCliCommand extends CliCodeCommand {
   String import(String path, String baseName, String className) {
     return """
 /* eslint indent: off */
+/* eslint max-len: off */
 import * as m from "@mathrunet/masamune";
 import {Response, Request} from "firebase-functions";
 
