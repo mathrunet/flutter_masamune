@@ -1,3 +1,7 @@
+## 2.2.124
+
+ - Update a dependency to the latest release.
+
 ## 2.2.123
 
  - **FIX**: Version error correction. ([becfe79e](https://github.com/mathrunet/flutter_masamune/commit/becfe79e01538a76421e67d125f801273bf70f42))

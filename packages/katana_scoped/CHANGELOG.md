@@ -1,3 +1,7 @@
+## 2.0.34
+
+ - **FIX**: Changed internal callback processing. ([48f61da9](https://github.com/mathrunet/flutter_masamune/commit/48f61da9753be45fd8c3399855aa1529b26998f0))
+
 ## 2.0.33
 
  - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))
