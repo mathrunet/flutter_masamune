@@ -193,8 +193,8 @@ abstract class ScopedValueListener {
   TResult
       getScopedValueResult<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function() provider, {
-    void Function(ScopedValueState<TResult, TScopedValue> state)?
-        onInitOrUpdate,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onInit,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onUpdate,
     bool listen = false,
     Object? name,
   }) {
@@ -202,7 +202,7 @@ abstract class ScopedValueListener {
     __managedBy ??= _managedBy;
     final state = container.getScopedValueState<TResult, TScopedValue>(
       provider,
-      onInitOrUpdate: (state) {
+      onInit: (state) {
         if (state.disposed) {
           return;
         }
@@ -211,7 +211,15 @@ abstract class ScopedValueListener {
         state._sendLog(ScopedLoggerEvent.listen, additionalParameter: {
           ScopedLoggerEvent.listenedKey: __listendBy,
         });
-        onInitOrUpdate?.call(state);
+        onInit?.call(state);
+      },
+      onUpdate: (state) {
+        if (state.disposed) {
+          return;
+        }
+        _watched.add(state);
+        state._addListener(this, listen ? _callback : null);
+        onUpdate?.call(state);
       },
       name: name,
       scope: _scope,
@@ -252,7 +260,7 @@ abstract class ScopedValueListener {
   }) {
     final state =
         container.getAlreadyExistsScopedValueState<TResult, TScopedValue>(
-      onInitOrUpdate: (state) {
+      onUpdate: (state) {
         if (state.disposed) {
           return;
         }

@@ -58,9 +58,7 @@ class ScopedValueContainer extends ChangeNotifier {
   ///
   /// If the state has already been created, [ScopedValueState.didUpdateValue] is executed and the value is returned.
   ///
-  /// [onInitOrUpdate] is executed just before [ScopedValueState.initValue] or [ScopedValueState.didUpdateValue] is executed.
-  ///
-  /// [onInitOrUpdate] is executed just before [ScopedValueState.initValue] or [ScopedValueState.didUpdateValue] is executed.
+  /// [onInit] and [onUpdate] are executed just before [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are executed.
   ///
   /// [provider]に[TScopedValue]を返すコールバックを渡すことでその[ScopedValue]のステートを作成しつつ適切な処理を行い[ScopedValueState]を返します。
   ///
@@ -70,12 +68,12 @@ class ScopedValueContainer extends ChangeNotifier {
   ///
   /// すでに作成済みの状態が存在する場合は[ScopedValueState.didUpdateValue]を実行して値を返します。
   ///
-  /// [ScopedValueState.initValue]や[ScopedValueState.didUpdateValue]を実行する直前に[onInitOrUpdate]が実行されます。
+  /// [ScopedValueState.initValue]や[ScopedValueState.didUpdateValue]を実行する直前に[onInit]や[onUpdate]が実行されます。
   ScopedValueState<TResult, ScopedValue<TResult>>
       getScopedValueState<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function() provider, {
-    void Function(ScopedValueState<TResult, TScopedValue> state)?
-        onInitOrUpdate,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onInit,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onUpdate,
     Object? name,
     ScopedLoggerScope? scope,
     String? managedBy,
@@ -91,7 +89,7 @@ class ScopedValueContainer extends ChangeNotifier {
       final state = found as ScopedValueState<TResult, TScopedValue>;
       final oldValue = state.value;
       state._setValue(provider.call());
-      onInitOrUpdate?.call(state);
+      onUpdate?.call(state);
       found.didUpdateValue(oldValue);
       notifyListeners();
       return state;
@@ -109,7 +107,7 @@ class ScopedValueContainer extends ChangeNotifier {
           if (managedBy != null) ScopedLoggerEvent.managedKey: managedBy,
         },
       );
-      onInitOrUpdate?.call(state);
+      onInit?.call(state);
       state.initValue();
       _data[key] = state;
       notifyListeners();
@@ -125,7 +123,7 @@ class ScopedValueContainer extends ChangeNotifier {
   ///
   /// [ScopedValueState.setState], [ScopedValueState.initValue] and [ScopedValueState.didUpdateValue] are not executed.
   ///
-  /// The [onInitOrUpdate] is executed before the value is returned.
+  /// The [onUpdate] is executed before the value is returned.
   ///
   /// [ScopedValueContainer]にすでに保存されている[TScopedValue]に関連する[ScopedValueState]を取得します。
   ///
@@ -135,13 +133,12 @@ class ScopedValueContainer extends ChangeNotifier {
   ///
   /// [ScopedValueState.setState]や[ScopedValueState.initValue]、[ScopedValueState.didUpdateValue]は実行されません。
   ///
-  /// 値が返される前に[onInitOrUpdate]が実行されます。
+  /// 値が返される前に[onUpdate]が実行されます。
   ScopedValueState<TResult, ScopedValue<TResult>>?
       getAlreadyExistsScopedValueState<TResult,
           TScopedValue extends ScopedValue<TResult>>({
     Object? name,
-    void Function(ScopedValueState<TResult, TScopedValue> state)?
-        onInitOrUpdate,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onUpdate,
   }) {
     final key = "$TScopedValue/${name.hashCode}";
     final found = _data[key];
@@ -151,7 +148,7 @@ class ScopedValueContainer extends ChangeNotifier {
         "The stored [value] type is incorrect: ${found.runtimeType}",
       );
       final state = found as ScopedValueState<TResult, TScopedValue>;
-      onInitOrUpdate?.call(state);
+      onUpdate?.call(state);
       return state;
     } else {
       return null;

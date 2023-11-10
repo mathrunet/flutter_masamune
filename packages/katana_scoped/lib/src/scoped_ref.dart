@@ -59,8 +59,8 @@ class AppRef implements Ref {
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function(Ref ref) provider, {
-    void Function(ScopedValueState<TResult, TScopedValue> state)?
-        onInitOrUpdate,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onInit,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onUpdate,
     bool listen = false,
     Object? name,
   }) {
@@ -68,7 +68,8 @@ class AppRef implements Ref {
         .getScopedValueState<TResult, TScopedValue>(
           () => provider(this),
           name: name,
-          onInitOrUpdate: onInitOrUpdate,
+          onInit: onInit,
+          onUpdate: onUpdate,
           scope: ScopedLoggerScope.app,
           managedBy: toString(),
           loggerAdapters: loggerAdapters,

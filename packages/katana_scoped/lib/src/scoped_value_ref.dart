@@ -135,14 +135,15 @@ class ScopedValueRef implements Ref {
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function(Ref ref) provider, {
-    void Function(ScopedValueState<TResult, TScopedValue> state)?
-        onInitOrUpdate,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onInit,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onUpdate,
     bool listen = false,
     Object? name,
   }) {
     return _listener.getScopedValueResult<TResult, TScopedValue>(
       () => provider(this),
-      onInitOrUpdate: onInitOrUpdate,
+      onInit: onInit,
+      onUpdate: onUpdate,
       listen: listen,
       name: name,
     );
@@ -184,19 +185,26 @@ class _ScopedValueRef implements Ref {
   @override
   TResult getScopedValue<TResult, TScopedValue extends ScopedValue<TResult>>(
     TScopedValue Function(Ref ref) provider, {
-    void Function(ScopedValueState<TResult, TScopedValue> state)?
-        onInitOrUpdate,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onInit,
+    void Function(ScopedValueState<TResult, TScopedValue> state)? onUpdate,
     bool listen = false,
     Object? name,
   }) {
     return ref.getScopedValue(
       provider,
-      onInitOrUpdate: (ScopedValueState<TResult, TScopedValue> state) {
+      onInit: (ScopedValueState<TResult, TScopedValue> state) {
         if (state.disposed) {
           return;
         }
         state._addParent(this.state);
-        onInitOrUpdate?.call(state);
+        onInit?.call(state);
+      },
+      onUpdate: (ScopedValueState<TResult, TScopedValue> state) {
+        if (state.disposed) {
+          return;
+        }
+        state._addParent(this.state);
+        onUpdate?.call(state);
       },
       listen: listen,
       name: name,
