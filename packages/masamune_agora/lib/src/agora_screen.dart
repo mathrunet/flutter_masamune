@@ -156,7 +156,7 @@ class _AgoraScreenState extends State<AgoraScreen> {
       return AgoraVideoView(
         controller: VideoViewController(
           rtcEngine: AgoraController._engine!,
-          canvas: VideoCanvas(uid: number),
+          canvas: const VideoCanvas(uid: 0),
           useFlutterTexture: widget.useFlutterTexture,
           useAndroidSurfaceView:
               UniversalPlatform.isAndroid && widget.useAndroidSurfaceView,

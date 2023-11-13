@@ -12,6 +12,8 @@ extension AgoraUserExtensions on AgoraUser {
     Color? disabledColor,
     Color? disabledBackgroundColor,
     Widget? disabled,
+    bool useAndroidSurfaceView = false,
+    bool useFlutterTexture = false,
   }) {
     return AgoraScreen(
       value: this,
@@ -19,6 +21,8 @@ extension AgoraUserExtensions on AgoraUser {
       disabled: disabled,
       disabledColor: disabledColor,
       disabledBackgroundColor: disabledBackgroundColor,
+      useAndroidSurfaceView: useAndroidSurfaceView,
+      useFlutterTexture: useFlutterTexture,
     );
   }
 }

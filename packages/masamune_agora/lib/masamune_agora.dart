@@ -11,6 +11,7 @@ library masamune_agora;
 // Dart imports:
 import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -34,7 +35,8 @@ export 'package:agora_rtc_engine/agora_rtc_engine.dart'
         ChannelProfileType,
         CameraDirection,
         AudioSampleRateType,
-        AudioRecordingQualityType;
+        AudioRecordingQualityType,
+        VideoPixelFormat;
 
 part 'adapter/agora_masamune_adapter.dart';
 part 'functions/agora_token_functions_action.dart';

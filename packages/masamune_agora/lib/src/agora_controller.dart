@@ -275,6 +275,20 @@ class AgoraController
 
   bool _enableVideo = true;
 
+  /// If you want to use a custom video source, set it to `true`.
+  ///
+  /// カスタムビデオソースを利用する場合は`true`に設定してください。
+  bool get enableCustomVideoSource => _enableCustomVideoSource;
+  bool _enableCustomVideoSource = false;
+
+  /// Set to `true` to use data stream.
+  ///
+  /// データストリームを利用する場合は`true`に設定してください。
+  bool get enableDataStream => _onReceivedDataStream != null;
+  void Function(int streamId, AgoraUser from, Uint8List data)?
+      _onReceivedDataStream;
+  int? _dataStreamId;
+
   /// If the audio is muted, `true` is returned.
   ///
   /// 音声がミュートされている場合は`true`が返ります。
@@ -465,6 +479,9 @@ class AgoraController
         ChannelProfileType.channelProfileLiveBroadcasting,
     ClientRoleType clientRole = ClientRoleType.clientRoleBroadcaster,
     AgoraVideoOrientation orientation = AgoraVideoOrientation.landscape,
+    bool enableCustomVideoSource = false,
+    void Function(int streamId, AgoraUser from, Uint8List data)?
+        onReceivedDataStream,
   }) async {
     _videoProfile = videoProfile;
     _orientation = orientation;
@@ -473,6 +490,8 @@ class AgoraController
     _channelProfile = channelProfile;
     _clientRole = clientRole;
     _cameraDirection = cameraDirection;
+    _enableCustomVideoSource = enableCustomVideoSource;
+    _onReceivedDataStream = onReceivedDataStream;
     await _joinRoom(
       userName: userName,
       enableRecordingOnConnect: enableRecordingOnConnect,
@@ -519,6 +538,17 @@ class AgoraController
           _connectingCompleter = null;
           _disconnectingCompleter?.completeError(err);
           _disconnectingCompleter = null;
+        },
+        onStreamMessage:
+            (connection, remoteUid, streamId, data, length, sentTs) {
+          if (_onReceivedDataStream == null || _dataStreamId == null) {
+            return;
+          }
+          final user = value?.firstWhereOrNull((e) => e.number == remoteUid);
+          if (user == null) {
+            return;
+          }
+          _onReceivedDataStream?.call(_dataStreamId!, user, data);
         },
         onUserInfoUpdated: (uid, info) {
           final data = value?.firstWhereOrNull((e) => e.number == uid);
@@ -669,6 +699,18 @@ class AgoraController
       await _engine?.setChannelProfile(channelProfile);
       if (channelProfile == ChannelProfileType.channelProfileLiveBroadcasting) {
         await _engine?.setClientRole(role: clientRole);
+      }
+      if (enableCustomVideoSource) {
+        await _engine?.getMediaEngine().setExternalVideoSource(
+              enabled: true,
+              useTexture: false,
+            );
+      }
+      if (_onReceivedDataStream != null) {
+        _dataStreamId = await _engine?.createDataStream(const DataStreamConfig(
+          syncWithAudio: true,
+          ordered: true,
+        ));
       }
       _engine?.joinChannelWithUserAccount(
         token: _token ?? "",
@@ -1050,6 +1092,57 @@ class AgoraController
     if (!_disposed) {
       notifyListeners();
     }
+  }
+
+  /// Push the video to be delivered.
+  ///
+  /// The video is delivered in the format specified by [videoPixelFormat].
+  ///
+  /// The video size is specified by [width] and [height].
+  ///
+  /// If [timestamp] is not specified, the current time is used.
+  ///
+  /// 配信する映像をプッシュします。
+  ///
+  /// 映像は[videoPixelFormat]で指定した形式で配信されます。
+  ///
+  /// 映像のサイズは[width]と[height]で指定します。
+  ///
+  /// [timestamp]が指定されない場合は現在時刻が利用されます。
+  Future<void> pushCustomVideo(Uint8List bytes,
+      VideoPixelFormat videoPixelFormat, double width, double height,
+      {DateTime? timestamp}) async {
+    if (!enableCustomVideoSource) {
+      return;
+    }
+    if (!connected) {
+      throw Exception("Not connected.");
+    }
+    final agoraFrame = ExternalVideoFrame(
+      type: VideoBufferType.videoBufferRawData,
+      format: videoPixelFormat,
+      buffer: bytes,
+      stride: width.toInt(),
+      height: height.toInt(),
+      timestamp: timestamp?.millisecondsSinceEpoch ??
+          DateTime.now().millisecondsSinceEpoch,
+    );
+
+    await _engine!.getMediaEngine().pushVideoFrame(frame: agoraFrame);
+  }
+
+  /// Sends [message] as a data stream.
+  ///
+  /// [message]をデータストリームとして送信します。
+  Future<void> sendDataStream(Uint8List message) async {
+    if (!enableDataStream || _dataStreamId == null) {
+      return;
+    }
+    await _engine?.sendStreamMessage(
+      streamId: _dataStreamId!,
+      data: message,
+      length: message.length,
+    );
   }
 
   Future<void> _debugRecording() async {
