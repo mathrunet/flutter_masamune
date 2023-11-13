@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_agora` - `v2.3.0`](#masamune_agora---v230)
+
+---
+
+#### `masamune_agora` - `v2.3.0`
+
+ - **FEAT**: Added DataStream transmission function. ([350148ce](https://github.com/mathrunet/flutter_masamune/commit/350148ce91cbe37938e3de1e3851a15300c48d8a))
+
+
 ## 2023-11-10
 
 ### Changes
