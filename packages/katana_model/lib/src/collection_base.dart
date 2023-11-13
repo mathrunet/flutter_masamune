@@ -304,7 +304,12 @@ abstract class CollectionBase<TModel extends DocumentBase>
 
   Future<int> _countRequest() async {
     final count = await modelQuery.adapter.loadCollectionCount(databaseQuery);
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
+    if (count < length) {
+      return length;
+    }
     return count;
   }
 
