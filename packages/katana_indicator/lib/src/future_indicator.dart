@@ -34,12 +34,13 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
   }) async {
     final futureOr = this;
     if (futureOr is Future<T>) {
-      final navigator = Navigator.of(context, rootNavigator: true);
+      var navigator = Navigator.of(context, rootNavigator: true);
       final dialog = showDialog(
         context: context,
         barrierColor: barrierColor,
         barrierDismissible: false,
         builder: (context) {
+          navigator = Navigator.of(context);
           return WillPopScope(
             onWillPop: () async => false,
             child: indicator ??
