@@ -1,3 +1,7 @@
+## 2.13.11
+
+ - **FIX**: Fixed a bug in which Count values were not always reflected. ([184cb343](https://github.com/mathrunet/flutter_masamune/commit/184cb3438151f89fee883e204639ad32dbe46ea0))
+
 ## 2.13.10
 
  - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))

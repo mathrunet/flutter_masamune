@@ -1,3 +1,7 @@
+## 2.0.35
+
+ - **FIX**: Support for requiredObject arguments. ([b79a4fce](https://github.com/mathrunet/flutter_masamune/commit/b79a4fceb07e36283b31a1c4bf538e437ef45d04))
+
 ## 2.0.34
 
  - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))

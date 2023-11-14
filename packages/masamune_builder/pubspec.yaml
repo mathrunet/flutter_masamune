@@ -1,6 +1,6 @@
 name: masamune_builder
 description: Building system for masamune framework. Automatic creation of models, themes, pages, and translation data.
-version: 2.8.21
+version: 2.8.22
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_builder
 
@@ -20,7 +20,7 @@ dependencies:
   katana_theme_annotation: ^2.0.24
   katana_localization_builder: ^2.0.27
   katana_localization_annotation: ^2.0.22
-  katana_router_builder: ^2.0.34
+  katana_router_builder: ^2.0.35
   katana_router_annotation: ^2.0.26
   katana_listenables_annotation: ^2.0.21
   katana_listenables_builder: ^2.0.25

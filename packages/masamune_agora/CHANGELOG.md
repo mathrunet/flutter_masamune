@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Added DataStream transmission function. ([350148ce](https://github.com/mathrunet/flutter_masamune/commit/350148ce91cbe37938e3de1e3851a15300c48d8a))
