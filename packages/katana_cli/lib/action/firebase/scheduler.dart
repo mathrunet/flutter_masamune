@@ -125,7 +125,7 @@ class FirebaseSchedulerCliAction extends CliCommand with CliActionMixin {
     final functions = Fuctions();
     await functions.load();
     if (scheduler.isNotEmpty &&
-        !functions.functions.any((e) => e == "scheduler(\"$scheduler\")")) {
+        !functions.functions.any((e) => e.startsWith("scheduler"))) {
       functions.functions.add("scheduler(\"$scheduler\")");
     }
     await functions.save();

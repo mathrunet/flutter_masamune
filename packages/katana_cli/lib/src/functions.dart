@@ -71,7 +71,7 @@ m.deploy(
   [${regions.map((e) => '"$e"').join(", ")}],
   [
 ${functions.map((e) {
-      if (e.startsWith("new ")) {
+      if (e.startsWith("new ") || e.startsWith("//")) {
         return "    $e,";
       } else {
         return "    m.Functions.$e,";

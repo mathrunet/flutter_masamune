@@ -75,7 +75,7 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e == "sendGrid()")) {
+    if (!functions.functions.any((e) => e.startsWith("sendGrid"))) {
       functions.functions.add("sendGrid()");
     }
     await functions.save();

@@ -218,40 +218,45 @@ class PurchaseCliAction extends CliCommand with CliActionMixin {
       label("Add firebase functions");
       final functions = Fuctions();
       await functions.load();
-      if (!functions.functions.any((e) => e == "androidAuthCode()")) {
+      if (!functions.functions.any((e) => e.startsWith("androidAuthCode"))) {
         functions.functions.add("androidAuthCode()");
       }
-      if (!functions.functions.any((e) => e == "androidToken()")) {
+      if (!functions.functions.any((e) => e.startsWith("androidToken"))) {
         functions.functions.add("androidToken()");
       }
       if (enableAppStore) {
-        if (!functions.functions.any((e) => e == "consumableVerifyIOS()")) {
+        if (!functions.functions
+            .any((e) => e.startsWith("consumableVerifyIOS"))) {
           functions.functions.add("consumableVerifyIOS()");
         }
-        if (!functions.functions.any((e) => e == "nonconsumableVerifyIOS()")) {
+        if (!functions.functions
+            .any((e) => e.startsWith("nonconsumableVerifyIOS"))) {
           functions.functions.add("nonconsumableVerifyIOS()");
         }
-        if (!functions.functions.any((e) => e == "subscriptionVerifyIOS()")) {
+        if (!functions.functions
+            .any((e) => e.startsWith("subscriptionVerifyIOS"))) {
           functions.functions.add("subscriptionVerifyIOS()");
         }
-        if (!functions.functions.any((e) => e == "purchaseWebhookIOS()")) {
+        if (!functions.functions
+            .any((e) => e.startsWith("purchaseWebhookIOS"))) {
           functions.functions.add("purchaseWebhookIOS()");
         }
       }
       if (enableGooglePlay) {
-        if (!functions.functions.any((e) => e == "consumableVerifyAndroid()")) {
+        if (!functions.functions
+            .any((e) => e.startsWith("consumableVerifyAndroid"))) {
           functions.functions.add("consumableVerifyAndroid()");
         }
         if (!functions.functions
-            .any((e) => e == "nonconsumableVerifyAndroid()")) {
+            .any((e) => e.startsWith("nonconsumableVerifyAndroid"))) {
           functions.functions.add("nonconsumableVerifyAndroid()");
         }
         if (!functions.functions
-            .any((e) => e == "subscriptionVerifyAndroid()")) {
+            .any((e) => e.startsWith("subscriptionVerifyAndroid"))) {
           functions.functions.add("subscriptionVerifyAndroid()");
         }
-        if (!functions.functions.any(
-            (e) => e == "purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")")) {
+        if (!functions.functions
+            .any((e) => e.startsWith("purchaseWebhookAndroid"))) {
           functions.functions
               .add("purchaseWebhookAndroid(\"$googlePlayPubsubTopic\")");
         }
