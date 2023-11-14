@@ -1,3 +1,7 @@
+## 2.10.12
+
+ - **FIX**: Fixed a bug that prevented Functions from being controlled properly. ([48db9fef](https://github.com/mathrunet/flutter_masamune/commit/48db9fef34055f5023df6f81b8bb85a25a23f1bd))
+
 ## 2.10.11
 
  - **FIX**: Modified eslint on Server side. ([d3a27010](https://github.com/mathrunet/flutter_masamune/commit/d3a27010161f112f8c0937607ba49c1a2ebab15a))

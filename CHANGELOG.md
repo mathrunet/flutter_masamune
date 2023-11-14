@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.10.12`](#katana_cli---v21012)
+
+---
+
+#### `katana_cli` - `v2.10.12`
+
+ - **FIX**: Fixed a bug that prevented Functions from being controlled properly. ([48db9fef](https://github.com/mathrunet/flutter_masamune/commit/48db9fef34055f5023df6f81b8bb85a25a23f1bd))
+
+
+## 2023-11-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_indicator` - `v2.0.20`](#katana_indicator---v2020)
  - [`katana_model` - `v2.13.11`](#katana_model---v21311)
  - [`katana_router_builder` - `v2.0.35`](#katana_router_builder---v2035)
