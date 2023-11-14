@@ -3,6 +3,7 @@ part of '/katana_router_builder.dart';
 String _defaultValue(ParamaterValue param) {
   final type = param.type.toString().trimStringRight("?");
   final nullable = param.type.isNullable;
+  final isRequired = param.element.isRequired;
   final defaultValue = param.defaultValue;
   switch (type) {
     case "Object":
@@ -101,6 +102,8 @@ String _defaultValue(ParamaterValue param) {
     return defaultValue.toString();
   } else if (nullable) {
     return "null";
+  } else if (isRequired) {
+    return "(){ throw Exception(\"There is a parameter with a non-nullable value for which no initial value has been set. Please set the initial value or make it nullable.\"); }()";
   } else {
     throw Exception(
       "There is a parameter with a non-nullable value for which no initial value has been set. Please set the initial value or make it nullable.",

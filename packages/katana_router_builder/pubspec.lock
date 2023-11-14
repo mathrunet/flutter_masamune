@@ -239,14 +239,14 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.5.2"
+    version: "2.5.3"
   katana_router_annotation:
     dependency: "direct main"
     description:
       path: "../katana_router_annotation"
       relative: true
     source: path
-    version: "2.0.25"
+    version: "2.0.26"
   lints:
     dependency: transitive
     description:
