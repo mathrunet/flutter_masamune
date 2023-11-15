@@ -1,3 +1,7 @@
+## 2.13.12
+
+ - **FIX**: ModelRef was not being reloaded on reload. ([1a58ec6f](https://github.com/mathrunet/flutter_masamune/commit/1a58ec6f30b379adfd6d5a9a07ef36e7372a6543))
+
 ## 2.13.11
 
  - **FIX**: Fixed a bug in which Count values were not always reflected. ([184cb343](https://github.com/mathrunet/flutter_masamune/commit/184cb3438151f89fee883e204639ad32dbe46ea0))
