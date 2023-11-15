@@ -188,6 +188,20 @@ abstract class CollectionBase<TModel extends DocumentBase>
   Future<CollectionBase<TModel>>? get loading => _loadCompleter?.future;
   Completer<CollectionBase<TModel>>? _loadCompleter;
 
+  /// If [reload] is done, it waits until the loading process is finished.
+  ///
+  /// After reading is completed, a [T] object is returned.
+  ///
+  /// If [reload] is not in progress, [Null] is returned.
+  ///
+  /// [reload]した場合にその読込処理が終わるまで待ちます。
+  ///
+  /// 読込終了後、[T]オブジェクトが返されます。
+  ///
+  /// [reload]を実行中でない場合、[Null]が返されます。
+  Future<CollectionBase<TModel>>? get reloading => _reloadingCompleter?.future;
+  Completer<CollectionBase<TModel>>? _reloadingCompleter;
+
   /// If the number of elements is limited by [ModelQueryFilterType.limit], returns `true` if the next element can be added.
   ///
   /// If the number of elements does not change when the [next] method is executed, [canNext] will be `false`.
@@ -235,7 +249,7 @@ abstract class CollectionBase<TModel extends DocumentBase>
         }
         _loaded = true;
       }
-      if (tmpValue != _value) {
+      if (tmpValue != _value || _reloadingCompleter != null) {
         notifyListeners();
       }
       _loadCompleter?.complete(this);
@@ -262,9 +276,19 @@ abstract class CollectionBase<TModel extends DocumentBase>
   /// 戻り値は[CollectionBase]そのものが返され、そのまま読込済みのデータの利用が可能になります。
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<CollectionBase<TModel>> reload() {
-    _loaded = false;
-    return load();
+  Future<CollectionBase<TModel>> reload() async {
+    _reloadingCompleter = Completer();
+    try {
+      _loaded = false;
+      return await load();
+    } catch (e) {
+      _reloadingCompleter?.completeError(e);
+      _reloadingCompleter = null;
+      rethrow;
+    } finally {
+      _reloadingCompleter?.complete(this);
+      _reloadingCompleter = null;
+    }
   }
 
   /// If the number of elements is limited by [ModelQueryFilterType.limit], additional elements are loaded for the next limited number.

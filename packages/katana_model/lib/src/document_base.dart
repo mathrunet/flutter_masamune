@@ -182,6 +182,20 @@ abstract class DocumentBase<T> extends ChangeNotifier
   Future<T?>? get loading => _loadCompleter?.future;
   Completer<T?>? _loadCompleter;
 
+  /// If [reload] is done, it waits until the loading process is finished.
+  ///
+  /// After reading is completed, a [T] object is returned.
+  ///
+  /// If [reload] is not in progress, [Null] is returned.
+  ///
+  /// [reload]した場合にその読込処理が終わるまで待ちます。
+  ///
+  /// 読込終了後、[T]オブジェクトが返されます。
+  ///
+  /// [reload]を実行中でない場合、[Null]が返されます。
+  Future<T?>? get reloading => _reloadingCompleter?.future;
+  Completer<T?>? _reloadingCompleter;
+
   /// If [save] or [delete] is executed, it waits until the read process is completed.
   ///
   /// [save]や[delete]を実行した場合、その読込処理が終わるまで待ちます。
@@ -251,9 +265,19 @@ abstract class DocumentBase<T> extends ChangeNotifier
   /// 戻り値は[T]オブジェクトが返され、そのまま読込済みのデータの利用が可能になります。
   ///
   /// [load]メソッドとは違い実行されるたびに新しい読込を行います。そのため`Widget`の`build`メソッド内など何度でも読み出されるメソッド内では利用しないでください。
-  Future<T?> reload() {
-    _loaded = false;
-    return load();
+  Future<T?> reload() async {
+    _reloadingCompleter = Completer();
+    try {
+      _loaded = false;
+      return await load();
+    } catch (e) {
+      _reloadingCompleter?.completeError(e);
+      _reloadingCompleter = null;
+      rethrow;
+    } finally {
+      _reloadingCompleter?.complete(value);
+      _reloadingCompleter = null;
+    }
   }
 
   /// Data can be saved.

@@ -386,6 +386,7 @@ mixin ModelRefLoaderMixin<T> implements DocumentBase<T> {
       }
       tmpValue = await build._build(
         val: tmpValue,
+        forceReload: _reloadingCompleter != null,
         cacheList: _modelRefBuilderCache,
         onDidLoad: (query, modelRefMixin) {
           modelRefMixin.addListener(notifyListeners);
@@ -511,6 +512,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   @override
   Future<TSource?> _build({
     required TSource? val,
+    required bool forceReload,
     required Map<DocumentModelQuery, ModelRefMixin> cacheList,
     required void Function(
             DocumentModelQuery query, ModelRefMixin modelRefMixin)
@@ -531,6 +533,9 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     if (cacheList.containsKey(modelQuery)) {
       final doc = cacheList[modelQuery];
       if (doc is ModelRefMixin<TResult>) {
+        if (forceReload) {
+          await doc.reload();
+        }
         return value(val, doc);
       }
     }
@@ -539,7 +544,11 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
       doc.modelQuery == modelQuery,
       "The document was created with a different [DocumentModelQuery] than [ModelRef]. Please match [DocumentModelQuery]: ${doc.modelQuery}, $modelQuery",
     );
-    await doc.load();
+    if (forceReload) {
+      await doc.reload();
+    } else {
+      await doc.load();
+    }
     onDidLoad(modelQuery, doc);
     return value(val, doc);
   }
@@ -565,6 +574,7 @@ abstract class ModelRefBuilderBase<TSource> {
 
   Future<TSource?> _build({
     required TSource? val,
+    required bool forceReload,
     required Map<DocumentModelQuery, ModelRefMixin> cacheList,
     required void Function(
             DocumentModelQuery query, ModelRefMixin modelRefMixin)
