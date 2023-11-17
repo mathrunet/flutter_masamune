@@ -37,11 +37,18 @@ extension DoubleIterableExtensions on Iterable<double> {
     return res;
   }
 
+  /// Calculate the sum using all values in the [double] list.
+  /// 
+  /// [double]のリストのすべての値を用いて合計を算出します。
+  double sum(){
+    return reduce((a, b) => a + b);
+  }
+
   /// Calculate the average using all values in the [double] list.
   ///
   /// [double]のリストのすべての値を用いて平均を算出します。
   double average() {
-    return reduce((a, b) => a + b) / length;
+    return sum() / length;
   }
 
   /// Calculate the standard deviation using all values in the [double] list.
