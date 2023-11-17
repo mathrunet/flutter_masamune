@@ -1,3 +1,7 @@
+## 2.6.1
+
+ - **FIX**: Add sum method. ([3049039b](https://github.com/mathrunet/flutter_masamune/commit/3049039b6417c083df68cf10c087eb98749771e7))
+
 ## 2.6.0
 
  - **FEAT**: Added methods for min, max, average, standardDeviation, and Variance. ([a3563b80](https://github.com/mathrunet/flutter_masamune/commit/a3563b80754e9a2ccfd190e8c75a3e03be6761e0))
