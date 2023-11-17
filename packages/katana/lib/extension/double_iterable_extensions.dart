@@ -38,9 +38,9 @@ extension DoubleIterableExtensions on Iterable<double> {
   }
 
   /// Calculate the sum using all values in the [double] list.
-  /// 
+  ///
   /// [double]のリストのすべての値を用いて合計を算出します。
-  double sum(){
+  double sum() {
     return reduce((a, b) => a + b);
   }
 
