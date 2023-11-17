@@ -1,3 +1,7 @@
+## 2.6.2
+
+ - **FIX**: Add min and max to DateTime. ([bc76dcd9](https://github.com/mathrunet/flutter_masamune/commit/bc76dcd946fb446ce82a81b42e849a3f44169d7f))
+
 ## 2.6.1
 
  - **FIX**: Add sum method. ([3049039b](https://github.com/mathrunet/flutter_masamune/commit/3049039b6417c083df68cf10c087eb98749771e7))
