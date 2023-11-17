@@ -29,7 +29,7 @@ abstract class FunctionsAction<TResponse> {
   ///
   /// 継承して使ってください。
   ///
-  /// {@templatte functions_action}
+  /// {@template functions_action}
   /// 実行する際はオブジェクトを[Functions.execute]に渡してFunction実行します。
   ///
   /// ```dart

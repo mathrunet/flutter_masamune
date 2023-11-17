@@ -18,7 +18,7 @@ extension UniversalUITextExtensions on Text {
     Locale? locale,
     bool? softWrap,
     TextOverflow? overflow,
-    double? textScaleFactor,
+    TextScaler? textScaler,
     int? maxLines,
     String? semanticsLabel,
     TextWidthBasis? textWidthBasis,
@@ -34,7 +34,7 @@ extension UniversalUITextExtensions on Text {
       locale: locale ?? this.locale,
       softWrap: softWrap ?? this.softWrap,
       overflow: overflow ?? this.overflow,
-      textScaleFactor: textScaleFactor ?? this.textScaleFactor,
+      textScaler: textScaler ?? this.textScaler,
       maxLines: maxLines ?? this.maxLines,
       semanticsLabel: semanticsLabel ?? this.semanticsLabel,
       textWidthBasis: textWidthBasis ?? this.textWidthBasis,
@@ -75,10 +75,10 @@ extension UniversalUITextExtensions on Text {
     );
   }
 
-  /// Change [Text.textScaleFactor] to [scaleFactor].
+  /// Change [Text.textScaler] to [textScaler].
   ///
-  /// [Text.textScaleFactor]を[scaleFactor]に変更します。
-  Text textScale(double scaleFactor) => copyWith(textScaleFactor: scaleFactor);
+  /// [Text.textScaler]を[textScaler]に変更します。
+  Text textScale(TextScaler textScaler) => copyWith(textScaler: textScaler);
 
   /// Bold [Text].
   ///

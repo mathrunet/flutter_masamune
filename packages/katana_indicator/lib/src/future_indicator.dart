@@ -41,8 +41,8 @@ extension FutureIndicatorExtensions<T> on FutureOr<T> {
         barrierDismissible: false,
         builder: (context) {
           navigator = Navigator.of(context);
-          return WillPopScope(
-            onWillPop: () async => false,
+          return PopScope(
+            canPop: false,
             child: indicator ??
                 Center(
                   child: CircularProgressIndicator(

@@ -116,10 +116,8 @@ enum _TransitionQueryType {
             scale: _scaleTween.animate(animation),
             child: Material(
               type: MaterialType.transparency,
-              child: WillPopScope(
-                onWillPop: () async {
-                  return isAndroidBackEnable;
-                },
+              child: PopScope(
+                canPop: isAndroidBackEnable,
                 child: Center(
                   child: builder?.call(context),
                 ),
@@ -135,10 +133,8 @@ enum _TransitionQueryType {
             position: _slideUpTween.animate(animation),
             child: Material(
               type: MaterialType.transparency,
-              child: WillPopScope(
-                onWillPop: () async {
-                  return isAndroidBackEnable;
-                },
+              child: PopScope(
+                canPop: isAndroidBackEnable,
                 child: Center(
                   child: builder?.call(context),
                 ),
@@ -151,10 +147,8 @@ enum _TransitionQueryType {
           opacity: _fadeTween.animate(animation),
           child: Material(
             type: MaterialType.transparency,
-            child: WillPopScope(
-              onWillPop: () async {
-                return isAndroidBackEnable;
-              },
+            child: PopScope(
+              canPop: isAndroidBackEnable,
               child: Center(
                 child: builder?.call(context),
               ),

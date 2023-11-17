@@ -156,9 +156,11 @@ class FirebasePushNotificationMasamuneAdapter
   }) async {
     await FirebaseCore.initialize(options: options);
     await _messaging.setAutoInitEnabled(true);
+    // ignore: cancel_subscriptions
     final onMessageSubscription = FirebaseMessaging.onMessage.listen(
       (message) => _onMessage(message, onMessage),
     );
+    // ignore: cancel_subscriptions
     final onMessageOpenedAppSubscription =
         FirebaseMessaging.onMessageOpenedApp.listen(
       (message) => _onMessageOpenedApp(message, onMessageOpenedApp),

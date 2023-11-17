@@ -85,8 +85,8 @@ class Modal {
         context: overlay.context,
         barrierDismissible: false,
         builder: (context) {
-          return WillPopScope(
-            onWillPop: disableBackKey ? () async => true : null,
+          return PopScope(
+            canPop: !disableBackKey,
             child: SimpleDialog(
               contentPadding: contentPadding,
               alignment: alignment,
@@ -169,8 +169,8 @@ class Modal {
         context: overlay.context,
         barrierDismissible: false,
         builder: (context) {
-          return WillPopScope(
-            onWillPop: disableBackKey ? () async => true : null,
+          return PopScope(
+            canPop: !disableBackKey,
             child: AlertDialog(
               title: Text(
                 title,

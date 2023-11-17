@@ -795,14 +795,12 @@ class _SuggestionOverlayBuilderState extends State<_SuggestionOverlayBuilder> {
         widget.onTap ?? () {},
       );
     }
-    return WillPopScope(
-      onWillPop: () {
-        if (_overlay == null) {
-          return Future.value(true);
-        } else {
-          _overlay!.remove();
+    return PopScope(
+      canPop: _overlay == null,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          _overlay?.remove();
           _overlay = null;
-          return Future.value(false);
         }
       },
       child: CompositedTransformTarget(
