@@ -1,3 +1,7 @@
+## 2.10.13
+
+ - Update a dependency to the latest release.
+
 ## 2.10.12
 
  - **FIX**: Fixed a bug that prevented Functions from being controlled properly. ([48db9fef](https://github.com/mathrunet/flutter_masamune/commit/48db9fef34055f5023df6f81b8bb85a25a23f1bd))

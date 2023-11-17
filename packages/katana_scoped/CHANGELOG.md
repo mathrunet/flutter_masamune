@@ -1,3 +1,7 @@
+## 2.0.35
+
+ - Update a dependency to the latest release.
+
 ## 2.0.34
 
  - **FIX**: Changed internal callback processing. ([48f61da9](https://github.com/mathrunet/flutter_masamune/commit/48f61da9753be45fd8c3399855aa1529b26998f0))

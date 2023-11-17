@@ -1,3 +1,7 @@
+## 2.0.21
+
+ - Update a dependency to the latest release.
+
 ## 2.0.20
 
  - **FIX**: Change the internal mechanism of Indicator. ([5e553498](https://github.com/mathrunet/flutter_masamune/commit/5e553498039c626b4b2986a97fd449c78e77d930))

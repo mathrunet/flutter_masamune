@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: Added methods for min, max, average, standardDeviation, and Variance. ([a3563b80](https://github.com/mathrunet/flutter_masamune/commit/a3563b80754e9a2ccfd190e8c75a3e03be6761e0))
+
 ## 2.5.3
 
  - **FIX**: Version error correction. ([3e7b0288](https://github.com/mathrunet/flutter_masamune/commit/3e7b0288878712dd4f5fe5ccf4a4e1c9bb2e2454))

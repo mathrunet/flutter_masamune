@@ -1,3 +1,7 @@
+## 2.13.13
+
+ - Update a dependency to the latest release.
+
 ## 2.13.12
 
  - **FIX**: ModelRef was not being reloaded on reload. ([1a58ec6f](https://github.com/mathrunet/flutter_masamune/commit/1a58ec6f30b379adfd6d5a9a07ef36e7372a6543))

@@ -1,6 +1,6 @@
 name: masamune_introduction
 description: Masamune plugin package for displaying an introduction description screen.
-version: 2.2.92
+version: 2.2.93
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_introduction
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.5.3
-  masamune: ^2.4.88
+  katana: ^2.6.0
+  masamune: ^2.4.89
   introduction_screen: ^3.1.11
 
 dev_dependencies:
@@ -21,6 +21,6 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
-  masamune_builder: ^2.8.22
+  masamune_builder: ^2.8.23
 
 

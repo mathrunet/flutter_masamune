@@ -1,3 +1,7 @@
+## 2.0.36
+
+ - Update a dependency to the latest release.
+
 ## 2.0.35
 
  - **FIX**: Support for requiredObject arguments. ([b79a4fce](https://github.com/mathrunet/flutter_masamune/commit/b79a4fceb07e36283b31a1c4bf538e437ef45d04))
