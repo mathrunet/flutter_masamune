@@ -15,6 +15,10 @@ void main() {
     expect(ints.nearestOrNull(5000), 100);
     expect(<int>[].nearestOrNull(5000), null);
   });
+  test("IntIterableExtensions.sum", () {
+    final ints = [1, 2, 3, 4];
+    expect(ints.sum(), 10);
+  });
   test("IntIterableExtensions.average", () {
     final ints = [1, 2, 3, 4];
     expect(ints.average(), 2.5);

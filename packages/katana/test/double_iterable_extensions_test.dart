@@ -15,6 +15,10 @@ void main() {
     expect(doubles.nearestOrNull(5000), 100.0);
     expect(doubles.nearestOrNull(double.nan), null);
   });
+  test("DoubleIterableExtensions.sum", () {
+    final doubles = [1.0, 2.0, 3.0, 4.0];
+    expect(doubles.sum(), 10.0);
+  });
   test("DoubleIterableExtensions.average", () {
     final doubles = [1.0, 2.0, 3.0, 4.0];
     expect(doubles.average(), 2.5);

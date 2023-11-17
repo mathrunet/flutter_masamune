@@ -26,4 +26,24 @@ void main() {
       DateTime(2023, 3, 23, 10, 32, 10),
     );
   });
+  test("DateTimeIterableExtensions.min", () {
+    final minDateTime = DateTime(2022, 12, 23, 10, 32, 10);
+    final maxDateTime = DateTime(2023, 12, 23, 10, 32, 10);
+    final dateTimes = [
+      ...List.generate(10, (i) => minDateTime.add(Duration(days: i * 10))),
+      maxDateTime,
+    ];
+    expect(dateTimes.min().millisecondsSinceEpoch,
+        minDateTime.millisecondsSinceEpoch);
+  });
+  test("DateTimeIterableExtensions.max", () {
+    final minDateTime = DateTime(2022, 12, 23, 10, 32, 10);
+    final maxDateTime = DateTime(2023, 12, 23, 10, 32, 10);
+    final dateTimes = [
+      ...List.generate(10, (i) => minDateTime.add(Duration(days: i * 10))),
+      maxDateTime,
+    ];
+    expect(dateTimes.max().millisecondsSinceEpoch,
+        maxDateTime.millisecondsSinceEpoch);
+  });
 }
