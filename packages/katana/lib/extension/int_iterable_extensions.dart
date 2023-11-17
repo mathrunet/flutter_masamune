@@ -36,4 +36,42 @@ extension IntIterableExtensions on Iterable<int> {
     }
     return res;
   }
+
+  /// Calculate the average using all values in the [int] list.
+  ///
+  /// [int]のリストのすべての値を用いて平均を算出します。
+  double average() {
+    return reduce((a, b) => a + b) / length;
+  }
+
+  /// Calculate the standard deviation using all values in the [int] list.
+  ///
+  /// [int]のリストのすべての値を用いて標準偏差を算出します。
+  double standardDeviation() {
+    return sqrt(variance());
+  }
+
+  /// Calculate the variance using all the values in the list of [int].
+  ///
+  /// [int]のリストのすべての値を用いて分散を算出します。
+  double variance() {
+    final mean = reduce((a, b) => a + b) / length;
+    final variance =
+        map((value) => pow(value - mean, 2)).reduce((a, b) => a + b) / length;
+    return variance;
+  }
+
+  /// Calculate the maximum value in the [int] list.
+  ///
+  /// [int]のリストの中で最大値を算出します。
+  int max() {
+    return reduce((a, b) => a > b ? a : b);
+  }
+
+  /// Calculate the minimum value in the [int] list.
+  ///
+  /// [int]のリストの中で最小値を算出します。
+  int min() {
+    return reduce((a, b) => a < b ? a : b);
+  }
 }

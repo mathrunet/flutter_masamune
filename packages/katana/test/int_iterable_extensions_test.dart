@@ -15,4 +15,24 @@ void main() {
     expect(ints.nearestOrNull(5000), 100);
     expect(<int>[].nearestOrNull(5000), null);
   });
+  test("IntIterableExtensions.average", () {
+    final ints = [1, 2, 3, 4];
+    expect(ints.average(), 2.5);
+  });
+  test("IntIterableExtensions.min", () {
+    final ints = [1, 2, 3, 4];
+    expect(ints.min(), 1);
+  });
+  test("IntIterableExtensions.max", () {
+    final ints = [1, 2, 3, 4];
+    expect(ints.max(), 4);
+  });
+  test("IntIterableExtensions.variance", () {
+    final ints = [1, 2, 3, 4];
+    expect(ints.variance(), 1.25);
+  });
+  test("IntIterableExtensions.standardDeviation", () {
+    final ints = [1, 2, 3, 4];
+    expect(ints.standardDeviation(), 1.118033988749895);
+  });
 }
