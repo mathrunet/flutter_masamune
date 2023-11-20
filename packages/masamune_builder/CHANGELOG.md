@@ -1,3 +1,7 @@
+## 2.8.26
+
+ - **FIX**: The query was not separated by controller parameters, which has been corrected. ([8bc06fff](https://github.com/mathrunet/flutter_masamune/commit/8bc06fffa47384731ea46877e84470e3759c4ec0))
+
 ## 2.8.25
 
  - Update a dependency to the latest release.

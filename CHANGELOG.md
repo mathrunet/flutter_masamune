@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_builder` - `v2.8.26`](#masamune_builder---v2826)
+
+---
+
+#### `masamune_builder` - `v2.8.26`
+
+ - **FIX**: The query was not separated by controller parameters, which has been corrected. ([8bc06fff](https://github.com/mathrunet/flutter_masamune/commit/8bc06fffa47384731ea46877e84470e3759c4ec0))
+
+
 ## 2023-11-17
 
 ### Changes
