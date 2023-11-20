@@ -36,7 +36,10 @@ List<Spec> controllerClass(
                 }),
               ])
               ..body = Code(
-                "_\$_${model.name}Query(hashCode.toString(), ${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
+                "_\$_${model.name}Query((${[
+                  "hashCode",
+                  ...model.parameters.map((param) => "${param.name}.hashCode")
+                ].join(" ^ ")}).toString(), ${model.parameters.map((param) => "${param.name}:${param.name}").join(",")})",
               ),
           ),
         ]),
