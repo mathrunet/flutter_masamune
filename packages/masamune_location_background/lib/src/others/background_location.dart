@@ -149,11 +149,26 @@ class BackgroundLocation extends MasamuneControllerBase<LocationData?,
         _permissionStatus =
             await Permission.locationWhenInUse.request().timeout(timeout);
       }
+      if (_permissionStatus != PermissionStatus.granted) {
+        throw Exception(
+          "You are not authorized to use the location information service. Check the permission settings.",
+        );
+      }
       _permissionStatus =
           await Permission.locationAlways.status.timeout(timeout);
       if (_permissionStatus != PermissionStatus.granted) {
         _permissionStatus =
             await Permission.locationAlways.request().timeout(timeout);
+      }
+      if (_permissionStatus != PermissionStatus.granted) {
+        throw Exception(
+          "You are not authorized to use the location information service. Check the permission settings.",
+        );
+      }
+      _permissionStatus = await Permission.location.status.timeout(timeout);
+      if (_permissionStatus != PermissionStatus.granted) {
+        _permissionStatus =
+            await Permission.location.request().timeout(timeout);
       }
       if (_permissionStatus != PermissionStatus.granted) {
         throw Exception(
