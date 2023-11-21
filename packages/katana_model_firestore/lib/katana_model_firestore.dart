@@ -31,6 +31,7 @@ part 'src/firestore_model_field_value_converter.dart';
 
 part 'converter/firestore_model_counter_converter.dart';
 part 'converter/firestore_model_timestamp_converter.dart';
+part 'converter/firestore_model_date_converter.dart';
 part 'converter/firestore_model_command_base_converter.dart';
 part 'converter/firestore_model_uri_converter.dart';
 part 'converter/firestore_model_locale_converter.dart';

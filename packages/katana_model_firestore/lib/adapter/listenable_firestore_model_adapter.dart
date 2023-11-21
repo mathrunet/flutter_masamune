@@ -144,6 +144,7 @@ class ListenableFirestoreModelAdapter extends ModelAdapter
     const FirestoreModelCommandBaseConverter(),
     const FirestoreModelCounterConverter(),
     const FirestoreModelTimestampConverter(),
+    const FirestoreModelDateConverter(),
     const FirestoreModelLocaleConverter(),
     const FirestoreModelLocalizedValueConverter(),
     const FirestoreModelUriConverter(),
