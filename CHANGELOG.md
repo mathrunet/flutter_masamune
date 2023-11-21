@@ -15,6 +15,90 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_model_local` - `v2.8.22`](#katana_model_local---v2822)
+ - [`masamune` - `v2.4.95`](#masamune---v2495)
+ - [`masamune_location_platform_interface` - `v2.1.42`](#masamune_location_platform_interface---v2142)
+ - [`masamune_location` - `v2.1.163`](#masamune_location---v21163)
+ - [`masamune_deeplink_firebase` - `v2.1.72`](#masamune_deeplink_firebase---v2172)
+ - [`masamune_auth_apple` - `v2.1.151`](#masamune_auth_apple---v21151)
+ - [`masamune_location_background` - `v2.2.21`](#masamune_location_background---v2221)
+ - [`masamune_scheduler` - `v2.1.34`](#masamune_scheduler---v2134)
+ - [`masamune_text_to_speech` - `v2.1.117`](#masamune_text_to_speech---v21117)
+ - [`masamune_agora` - `v2.3.9`](#masamune_agora---v239)
+ - [`masamune_ai_openai` - `v2.2.85`](#masamune_ai_openai---v2285)
+ - [`masamune_auth_google` - `v2.1.152`](#masamune_auth_google---v21152)
+ - [`masamune_calendar` - `v2.0.195`](#masamune_calendar---v20195)
+ - [`masamune_picker` - `v2.1.150`](#masamune_picker---v21150)
+ - [`masamune_util` - `v2.1.129`](#masamune_util---v21129)
+ - [`masamune_universal_ui` - `v2.2.133`](#masamune_universal_ui---v22133)
+ - [`masamune_purchase_stripe` - `v3.3.98`](#masamune_purchase_stripe---v3398)
+ - [`masamune_notification` - `v2.2.37`](#masamune_notification---v2237)
+ - [`masamune_logger_firebase` - `v2.0.193`](#masamune_logger_firebase---v20193)
+ - [`masamune_introduction` - `v2.2.99`](#masamune_introduction---v2299)
+ - [`masamune_deeplink` - `v2.1.70`](#masamune_deeplink---v2170)
+ - [`masamune_speech_to_text` - `v2.1.120`](#masamune_speech_to_text---v21120)
+ - [`masamune_location_google` - `v2.1.164`](#masamune_location_google---v21164)
+ - [`masamune_auth_facebook` - `v2.1.153`](#masamune_auth_facebook---v21153)
+ - [`masamune_module_point_ecosystem` - `v2.3.59`](#masamune_module_point_ecosystem---v2359)
+ - [`masamune_mail` - `v2.1.148`](#masamune_mail---v21148)
+ - [`masamune_module` - `v2.3.54`](#masamune_module---v2354)
+ - [`masamune_notification_firebase` - `v2.4.39`](#masamune_notification_firebase---v2439)
+ - [`masamune_purchase_mobile` - `v2.5.100`](#masamune_purchase_mobile---v25100)
+ - [`masamune_ads_google` - `v2.1.101`](#masamune_ads_google---v21101)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.95`
+ - `masamune_location_platform_interface` - `v2.1.42`
+ - `masamune_location` - `v2.1.163`
+ - `masamune_deeplink_firebase` - `v2.1.72`
+ - `masamune_auth_apple` - `v2.1.151`
+ - `masamune_location_background` - `v2.2.21`
+ - `masamune_scheduler` - `v2.1.34`
+ - `masamune_text_to_speech` - `v2.1.117`
+ - `masamune_agora` - `v2.3.9`
+ - `masamune_ai_openai` - `v2.2.85`
+ - `masamune_auth_google` - `v2.1.152`
+ - `masamune_calendar` - `v2.0.195`
+ - `masamune_picker` - `v2.1.150`
+ - `masamune_util` - `v2.1.129`
+ - `masamune_universal_ui` - `v2.2.133`
+ - `masamune_purchase_stripe` - `v3.3.98`
+ - `masamune_notification` - `v2.2.37`
+ - `masamune_logger_firebase` - `v2.0.193`
+ - `masamune_introduction` - `v2.2.99`
+ - `masamune_deeplink` - `v2.1.70`
+ - `masamune_speech_to_text` - `v2.1.120`
+ - `masamune_location_google` - `v2.1.164`
+ - `masamune_auth_facebook` - `v2.1.153`
+ - `masamune_module_point_ecosystem` - `v2.3.59`
+ - `masamune_mail` - `v2.1.148`
+ - `masamune_module` - `v2.3.54`
+ - `masamune_notification_firebase` - `v2.4.39`
+ - `masamune_purchase_mobile` - `v2.5.100`
+ - `masamune_ads_google` - `v2.1.101`
+
+---
+
+#### `katana_model_local` - `v2.8.22`
+
+ - **FIX**: Added the ability to insert a comment field in the CSV. ([3e387d4f](https://github.com/mathrunet/flutter_masamune/commit/3e387d4f195a1963852daf5c906b88f4257a3f85))
+
+
+## 2023-11-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.14.0`](#katana_model---v2140)
  - [`katana_model_firestore` - `v2.10.0`](#katana_model_firestore---v2100)
  - [`katana_model_local` - `v2.8.21`](#katana_model_local---v2821)
