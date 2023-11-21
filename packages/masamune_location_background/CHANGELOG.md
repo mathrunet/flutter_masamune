@@ -1,3 +1,7 @@
+## 2.2.19
+
+ - **FIX**: Change the order of Permission. ([04053c1a](https://github.com/mathrunet/flutter_masamune/commit/04053c1a7cc7b92746b9a98745a1a6582f6c1b87))
+
 ## 2.2.18
 
  - Update a dependency to the latest release.

@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-21
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.10.16`](#katana_cli---v21016)
+ - [`masamune_location_background` - `v2.2.19`](#masamune_location_background---v2219)
+
+---
+
+#### `katana_cli` - `v2.10.16`
+
+ - **FIX**: New Gradle support. ([3f5bd31c](https://github.com/mathrunet/flutter_masamune/commit/3f5bd31cd07d74365282c576b5b3f2b5f0362f59))
+
+#### `masamune_location_background` - `v2.2.19`
+
+ - **FIX**: Change the order of Permission. ([04053c1a](https://github.com/mathrunet/flutter_masamune/commit/04053c1a7cc7b92746b9a98745a1a6582f6c1b87))
+
+
 ## 2023-11-20
 
 ### Changes
