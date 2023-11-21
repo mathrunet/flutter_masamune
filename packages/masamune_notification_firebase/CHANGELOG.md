@@ -1,3 +1,7 @@
+## 2.4.38
+
+ - Update a dependency to the latest release.
+
 ## 2.4.37
 
  - **FIX**: Flutter 3.16 compatible. ([092ecd4f](https://github.com/mathrunet/flutter_masamune/commit/092ecd4fb0a6a58546a82bf67f8fa8a852183fd3))

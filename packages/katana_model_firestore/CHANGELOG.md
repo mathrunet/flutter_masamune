@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: Added ModelDate. ([06938edf](https://github.com/mathrunet/flutter_masamune/commit/06938edfa5fd981dd10e84e776eb8a6cb3ba035d))
+
 ## 2.9.15
 
  - Update a dependency to the latest release.
