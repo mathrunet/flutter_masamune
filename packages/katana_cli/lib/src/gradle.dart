@@ -114,11 +114,18 @@ class GradleLoadProperties {
 
   static String _save(String content, List<GradleLoadProperties> list) {
     final code = list.map((e) => e.toString()).join("\n");
-    return content.replaceAll(
+    return content.replaceAllMapped(
       RegExp(
-        r"^([\s\S]*?)def localProperties = new Properties\(\)",
+        r"(?<plugins>plugins[^{]*?\{[\s\S]*?\})?([\s\S]*?)def localProperties = new Properties\(\)",
       ),
-      "$code\n\ndef localProperties = new Properties()",
+      (match) {
+        final plugins = match.group(1);
+        if (plugins.isEmpty) {
+          return "${match.group(1) ?? ""}$code\n\ndef localProperties = new Properties()";
+        } else {
+          return "$plugins\n\n$code\n\ndef localProperties = new Properties()";
+        }
+      },
     );
   }
 
@@ -155,29 +162,53 @@ class GradlePlugin {
   });
 
   static List<GradlePlugin> _load(String content) {
+    final newRegion =
+        RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
+    if (newRegion != null) {
+      return RegExp(
+        "id ('|\")(?<plugin>[a-zA-Z0-9_.-]+)('|\")",
+      ).allMatches(newRegion.group(1) ?? "").mapAndRemoveEmpty((e) {
+        return GradlePlugin(
+          plugin: e.namedGroup("plugin") ?? "",
+        );
+      });
+    }
     final region = RegExp(
       r"apply plugin: 'kotlin-android'([\s\S]*?)apply from:",
     ).firstMatch(content);
-    if (region == null) {
-      return [];
+    if (region != null) {
+      return RegExp(
+        r"apply plugin: '(?<plugin>[a-zA-Z0-9_.-]+)'",
+      ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
+        return GradlePlugin(
+          plugin: e.namedGroup("plugin") ?? "",
+        );
+      });
     }
-    return RegExp(
-      r"apply plugin: '(?<plugin>[a-zA-Z0-9_.-]+)'",
-    ).allMatches(region.group(1) ?? "").mapAndRemoveEmpty((e) {
-      return GradlePlugin(
-        plugin: e.namedGroup("plugin") ?? "",
-      );
-    });
+    return [];
   }
 
   static String _save(String content, List<GradlePlugin> list) {
-    final code = list.map((e) => e.toString()).join("\n");
-    return content.replaceAll(
-      RegExp(
-        r"apply plugin: 'kotlin-android'([\s\S]*?)apply from:",
-      ),
-      "apply plugin: 'kotlin-android'\n$code\napply from:",
-    );
+    final newRegion =
+        RegExp(r"plugins[^{]*?\{([\s\S]*?)\}").firstMatch(content);
+    if (newRegion != null) {
+      final code = list.map((e) => "    id \"${e.toString()}\"").join("\n");
+      return content.replaceAll(
+        RegExp(
+          r"plugins[^{]*?\{([\s\S]*?)\}",
+        ),
+        "plugins {\n$code\n}",
+      );
+    } else {
+      final code =
+          list.map((e) => "apply plugin: '${e.toString()}'").join("\n");
+      return content.replaceAll(
+        RegExp(
+          r"apply plugin: 'kotlin-android'([\s\S]*?)apply from:",
+        ),
+        "apply plugin: 'kotlin-android'\n$code\napply from:",
+      );
+    }
   }
 
   /// Plugin Name.
@@ -187,7 +218,7 @@ class GradlePlugin {
 
   @override
   String toString() {
-    return "apply plugin: '$plugin'";
+    return plugin;
   }
 }
 
