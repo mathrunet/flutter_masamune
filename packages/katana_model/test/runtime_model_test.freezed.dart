@@ -73,21 +73,22 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
 }
 
 /// @nodoc
-abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
-  factory _$$_TestValueCopyWith(
-          _$_TestValue value, $Res Function(_$_TestValue) then) =
-      __$$_TestValueCopyWithImpl<$Res>;
+abstract class _$$TestValueImplCopyWith<$Res>
+    implements $TestValueCopyWith<$Res> {
+  factory _$$TestValueImplCopyWith(
+          _$TestValueImpl value, $Res Function(_$TestValueImpl) then) =
+      __$$TestValueImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? name, String? text, List<int> ids});
 }
 
 /// @nodoc
-class __$$_TestValueCopyWithImpl<$Res>
-    extends _$TestValueCopyWithImpl<$Res, _$_TestValue>
-    implements _$$_TestValueCopyWith<$Res> {
-  __$$_TestValueCopyWithImpl(
-      _$_TestValue _value, $Res Function(_$_TestValue) _then)
+class __$$TestValueImplCopyWithImpl<$Res>
+    extends _$TestValueCopyWithImpl<$Res, _$TestValueImpl>
+    implements _$$TestValueImplCopyWith<$Res> {
+  __$$TestValueImplCopyWithImpl(
+      _$TestValueImpl _value, $Res Function(_$TestValueImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -97,7 +98,7 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? text = freezed,
     Object? ids = null,
   }) {
-    return _then(_$_TestValue(
+    return _then(_$TestValueImpl(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -116,12 +117,12 @@ class __$$_TestValueCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TestValue implements _TestValue {
-  const _$_TestValue({this.name, this.text, final List<int> ids = const []})
+class _$TestValueImpl implements _TestValue {
+  const _$TestValueImpl({this.name, this.text, final List<int> ids = const []})
       : _ids = ids;
 
-  factory _$_TestValue.fromJson(Map<String, dynamic> json) =>
-      _$$_TestValueFromJson(json);
+  factory _$TestValueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TestValueImplFromJson(json);
 
   @override
   final String? name;
@@ -145,7 +146,7 @@ class _$_TestValue implements _TestValue {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TestValue &&
+            other is _$TestValueImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.text, text) || other.text == text) &&
             const DeepCollectionEquality().equals(other._ids, _ids));
@@ -159,12 +160,12 @@ class _$_TestValue implements _TestValue {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TestValueCopyWith<_$_TestValue> get copyWith =>
-      __$$_TestValueCopyWithImpl<_$_TestValue>(this, _$identity);
+  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
+      __$$TestValueImplCopyWithImpl<_$TestValueImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TestValueToJson(
+    return _$$TestValueImplToJson(
       this,
     );
   }
@@ -174,10 +175,10 @@ abstract class _TestValue implements TestValue {
   const factory _TestValue(
       {final String? name,
       final String? text,
-      final List<int> ids}) = _$_TestValue;
+      final List<int> ids}) = _$TestValueImpl;
 
   factory _TestValue.fromJson(Map<String, dynamic> json) =
-      _$_TestValue.fromJson;
+      _$TestValueImpl.fromJson;
 
   @override
   String? get name;
@@ -187,6 +188,6 @@ abstract class _TestValue implements TestValue {
   List<int> get ids;
   @override
   @JsonKey(ignore: true)
-  _$$_TestValueCopyWith<_$_TestValue> get copyWith =>
+  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

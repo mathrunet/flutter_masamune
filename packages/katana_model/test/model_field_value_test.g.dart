@@ -6,10 +6,14 @@ part of 'model_field_value_test.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
+_$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
+    _$TestValueImpl(
       time: json['time'] == null
           ? const ModelTimestamp()
           : ModelTimestamp.fromJson(json['time'] as Map<String, dynamic>),
+      date: json['date'] == null
+          ? const ModelDate()
+          : ModelDate.fromJson(json['date'] as Map<String, dynamic>),
       counter: json['counter'] == null
           ? const ModelCounter(0)
           : ModelCounter.fromJson(json['counter'] as Map<String, dynamic>),
@@ -56,9 +60,10 @@ _$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
           const [],
     );
 
-Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
+Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
     <String, dynamic>{
       'time': instance.time,
+      'date': instance.date,
       'counter': instance.counter,
       'uri': instance.uri,
       'image': instance.image,

@@ -21,6 +21,7 @@ TestValue _$TestValueFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TestValue {
   ModelTimestamp get time => throw _privateConstructorUsedError;
+  ModelDate get date => throw _privateConstructorUsedError;
   ModelCounter get counter => throw _privateConstructorUsedError;
   ModelUri get uri => throw _privateConstructorUsedError;
   ModelImageUri get image => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $TestValueCopyWith<$Res> {
   @useResult
   $Res call(
       {ModelTimestamp time,
+      ModelDate date,
       ModelCounter counter,
       ModelUri uri,
       ModelImageUri image,
@@ -77,6 +79,7 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
   @override
   $Res call({
     Object? time = null,
+    Object? date = null,
     Object? counter = null,
     Object? uri = null,
     Object? image = null,
@@ -95,6 +98,10 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as ModelDate,
       counter: null == counter
           ? _value.counter
           : counter // ignore: cast_nullable_to_non_nullable
@@ -148,14 +155,16 @@ class _$TestValueCopyWithImpl<$Res, $Val extends TestValue>
 }
 
 /// @nodoc
-abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
-  factory _$$_TestValueCopyWith(
-          _$_TestValue value, $Res Function(_$_TestValue) then) =
-      __$$_TestValueCopyWithImpl<$Res>;
+abstract class _$$TestValueImplCopyWith<$Res>
+    implements $TestValueCopyWith<$Res> {
+  factory _$$TestValueImplCopyWith(
+          _$TestValueImpl value, $Res Function(_$TestValueImpl) then) =
+      __$$TestValueImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {ModelTimestamp time,
+      ModelDate date,
       ModelCounter counter,
       ModelUri uri,
       ModelImageUri image,
@@ -171,17 +180,18 @@ abstract class _$$_TestValueCopyWith<$Res> implements $TestValueCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_TestValueCopyWithImpl<$Res>
-    extends _$TestValueCopyWithImpl<$Res, _$_TestValue>
-    implements _$$_TestValueCopyWith<$Res> {
-  __$$_TestValueCopyWithImpl(
-      _$_TestValue _value, $Res Function(_$_TestValue) _then)
+class __$$TestValueImplCopyWithImpl<$Res>
+    extends _$TestValueCopyWithImpl<$Res, _$TestValueImpl>
+    implements _$$TestValueImplCopyWith<$Res> {
+  __$$TestValueImplCopyWithImpl(
+      _$TestValueImpl _value, $Res Function(_$TestValueImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? time = null,
+    Object? date = null,
     Object? counter = null,
     Object? uri = null,
     Object? image = null,
@@ -195,11 +205,15 @@ class __$$_TestValueCopyWithImpl<$Res>
     Object? localizedMap = null,
     Object? localizedList = null,
   }) {
-    return _then(_$_TestValue(
+    return _then(_$TestValueImpl(
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as ModelTimestamp,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as ModelDate,
       counter: null == counter
           ? _value.counter
           : counter // ignore: cast_nullable_to_non_nullable
@@ -254,9 +268,10 @@ class __$$_TestValueCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TestValue implements _TestValue {
-  const _$_TestValue(
+class _$TestValueImpl implements _TestValue {
+  const _$TestValueImpl(
       {this.time = const ModelTimestamp(),
+      this.date = const ModelDate(),
       this.counter = const ModelCounter(0),
       this.uri = const ModelUri(),
       this.image = const ModelImageUri(),
@@ -274,12 +289,15 @@ class _$_TestValue implements _TestValue {
         _localizedMap = localizedMap,
         _localizedList = localizedList;
 
-  factory _$_TestValue.fromJson(Map<String, dynamic> json) =>
-      _$$_TestValueFromJson(json);
+  factory _$TestValueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TestValueImplFromJson(json);
 
   @override
   @JsonKey()
   final ModelTimestamp time;
+  @override
+  @JsonKey()
+  final ModelDate date;
   @override
   @JsonKey()
   final ModelCounter counter;
@@ -342,15 +360,16 @@ class _$_TestValue implements _TestValue {
 
   @override
   String toString() {
-    return 'TestValue(time: $time, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
+    return 'TestValue(time: $time, date: $date, counter: $counter, uri: $uri, image: $image, video: $video, geo: $geo, search: $search, locale: $locale, localized: $localized, videoMap: $videoMap, imageList: $imageList, localizedMap: $localizedMap, localizedList: $localizedList)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TestValue &&
+            other is _$TestValueImpl &&
             (identical(other.time, time) || other.time == time) &&
+            (identical(other.date, date) || other.date == date) &&
             (identical(other.counter, counter) || other.counter == counter) &&
             (identical(other.uri, uri) || other.uri == uri) &&
             (identical(other.image, image) || other.image == image) &&
@@ -374,6 +393,7 @@ class _$_TestValue implements _TestValue {
   int get hashCode => Object.hash(
       runtimeType,
       time,
+      date,
       counter,
       uri,
       image,
@@ -390,12 +410,12 @@ class _$_TestValue implements _TestValue {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TestValueCopyWith<_$_TestValue> get copyWith =>
-      __$$_TestValueCopyWithImpl<_$_TestValue>(this, _$identity);
+  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
+      __$$TestValueImplCopyWithImpl<_$TestValueImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TestValueToJson(
+    return _$$TestValueImplToJson(
       this,
     );
   }
@@ -404,6 +424,7 @@ class _$_TestValue implements _TestValue {
 abstract class _TestValue implements TestValue {
   const factory _TestValue(
       {final ModelTimestamp time,
+      final ModelDate date,
       final ModelCounter counter,
       final ModelUri uri,
       final ModelImageUri image,
@@ -415,13 +436,15 @@ abstract class _TestValue implements TestValue {
       final Map<String, ModelVideoUri> videoMap,
       final List<ModelImageUri> imageList,
       final Map<String, ModelLocalizedValue> localizedMap,
-      final List<ModelLocalizedValue> localizedList}) = _$_TestValue;
+      final List<ModelLocalizedValue> localizedList}) = _$TestValueImpl;
 
   factory _TestValue.fromJson(Map<String, dynamic> json) =
-      _$_TestValue.fromJson;
+      _$TestValueImpl.fromJson;
 
   @override
   ModelTimestamp get time;
+  @override
+  ModelDate get date;
   @override
   ModelCounter get counter;
   @override
@@ -448,6 +471,6 @@ abstract class _TestValue implements TestValue {
   List<ModelLocalizedValue> get localizedList;
   @override
   @JsonKey(ignore: true)
-  _$$_TestValueCopyWith<_$_TestValue> get copyWith =>
+  _$$TestValueImplCopyWith<_$TestValueImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

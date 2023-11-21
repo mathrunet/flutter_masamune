@@ -6,32 +6,35 @@ part of 'transaction_test.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_TestValue _$$_TestValueFromJson(Map<String, dynamic> json) => _$_TestValue(
+_$TestValueImpl _$$TestValueImplFromJson(Map<String, dynamic> json) =>
+    _$TestValueImpl(
       name: json['name'] as String?,
       text: json['text'] as String?,
       ids: (json['ids'] as List<dynamic>?)?.map((e) => e as int).toList() ??
           const [],
     );
 
-Map<String, dynamic> _$$_TestValueToJson(_$_TestValue instance) =>
+Map<String, dynamic> _$$TestValueImplToJson(_$TestValueImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'text': instance.text,
       'ids': instance.ids,
     };
 
-_$_UserValue _$$_UserValueFromJson(Map<String, dynamic> json) => _$_UserValue(
+_$UserValueImpl _$$UserValueImplFromJson(Map<String, dynamic> json) =>
+    _$UserValueImpl(
       name: json['name'] as String?,
       text: json['text'] as String?,
     );
 
-Map<String, dynamic> _$$_UserValueToJson(_$_UserValue instance) =>
+Map<String, dynamic> _$$UserValueImplToJson(_$UserValueImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'text': instance.text,
     };
 
-_$_ShopValue _$$_ShopValueFromJson(Map<String, dynamic> json) => _$_ShopValue(
+_$ShopValueImpl _$$ShopValueImplFromJson(Map<String, dynamic> json) =>
+    _$ShopValueImpl(
       name: json['name'] as String?,
       text: json['text'] as String?,
       user: json['user'] == null
@@ -40,7 +43,7 @@ _$_ShopValue _$$_ShopValueFromJson(Map<String, dynamic> json) => _$_ShopValue(
               json['user'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_ShopValueToJson(_$_ShopValue instance) =>
+Map<String, dynamic> _$$ShopValueImplToJson(_$ShopValueImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'text': instance.text,

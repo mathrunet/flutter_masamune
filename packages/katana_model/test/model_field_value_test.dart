@@ -36,6 +36,7 @@ class RuntimeCollectionModel extends CollectionBase<RuntimeMapDocumentModel> {
 class TestValue with _$TestValue {
   const factory TestValue({
     @Default(ModelTimestamp()) ModelTimestamp time,
+    @Default(ModelDate()) ModelDate date,
     @Default(ModelCounter(0)) ModelCounter counter,
     @Default(ModelUri()) ModelUri uri,
     @Default(ModelImageUri()) ModelImageUri image,
@@ -83,6 +84,7 @@ void main() {
     await model.save({
       "counter": const ModelCounter(0),
       "time": ModelTimestamp(DateTime(2022, 1, 1)),
+      "date": ModelDate(DateTime(2022, 1, 1)),
       "uri": const ModelUri.parse("https://mathru.net"),
       "image": const ModelImageUri.parse("https://mathru.net"),
       "video": const ModelVideoUri.parse("https://mathru.net"),
@@ -102,6 +104,7 @@ void main() {
       {
         "counter": const ModelCounter.fromServer(0),
         "time": ModelTimestamp(DateTime(2022, 1, 1)),
+        "date": ModelDate(DateTime(2022, 1, 1)),
         "uri": const ModelUri.parse("https://mathru.net"),
         "image": const ModelImageUri.parse("https://mathru.net"),
         "video": const ModelVideoUri.parse("https://mathru.net"),
@@ -123,6 +126,7 @@ void main() {
       {
         "counter": const ModelCounter.fromServer(0),
         "time": ModelTimestamp(DateTime(2022, 1, 1)),
+        "date": ModelDate(DateTime(2022, 1, 1)),
         "uri": const ModelUri.parse("https://mathru.net"),
         "image": const ModelImageUri.parse("https://mathru.net"),
         "video": const ModelVideoUri.parse("https://mathru.net"),
@@ -140,6 +144,7 @@ void main() {
     );
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
+    print((model.value!["date"] as ModelDate).value);
     print((model.value!["uri"] as ModelUri).value);
     print((model.value!["image"] as ModelImageUri).value);
     print((model.value!["video"] as ModelVideoUri).value);
@@ -150,6 +155,7 @@ void main() {
     await model.save({
       "counter": model.value?.getAsModelCounter("counter").increment(1),
       "time": ModelTimestamp(DateTime(2022, 1, 2)),
+      "date": ModelDate(DateTime(2022, 1, 2)),
       "uri": const ModelUri.parse("https://pub.dev"),
       "image": const ModelImageUri.parse("https://pub.dev"),
       "video": const ModelVideoUri.parse("https://pub.dev"),
@@ -166,6 +172,7 @@ void main() {
     });
     print((model.value!["counter"] as ModelCounter).value);
     print((model.value!["time"] as ModelTimestamp).value);
+    print((model.value!["date"] as ModelDate).value);
     print((model.value!["uri"] as ModelUri).value);
     print((model.value!["image"] as ModelImageUri).value);
     print((model.value!["video"] as ModelVideoUri).value);
@@ -178,6 +185,7 @@ void main() {
       {
         "counter": const ModelCounter.fromServer(1),
         "time": ModelTimestamp(DateTime(2022, 1, 2)),
+        "date": ModelDate(DateTime(2022, 1, 2)),
         "uri": const ModelUri.parse("https://pub.dev"),
         "image": const ModelImageUri.parse("https://pub.dev"),
         "video": const ModelVideoUri.parse("https://pub.dev"),
@@ -203,6 +211,7 @@ void main() {
       TestValue(
         counter: const ModelCounter(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
+        date: ModelDate(DateTime(2022, 1, 1)),
         uri: const ModelUri.parse("https://mathru.net"),
         image: const ModelImageUri.parse("https://mathru.net"),
         video: const ModelVideoUri.parse("https://mathru.net"),
@@ -223,6 +232,7 @@ void main() {
       TestValue(
         counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
+        date: ModelDate(DateTime(2022, 1, 1)),
         uri: const ModelUri.parse("https://mathru.net"),
         image: const ModelImageUri.parse("https://mathru.net"),
         video: const ModelVideoUri.parse("https://mathru.net"),
@@ -244,6 +254,7 @@ void main() {
       TestValue(
         counter: const ModelCounter.fromServer(0),
         time: ModelTimestamp(DateTime(2022, 1, 1)),
+        date: ModelDate(DateTime(2022, 1, 1)),
         uri: const ModelUri.parse("https://mathru.net"),
         image: const ModelImageUri.parse("https://mathru.net"),
         video: const ModelVideoUri.parse("https://mathru.net"),
@@ -265,6 +276,7 @@ void main() {
         time: ModelTimestamp(
           DateTime(2022, 1, 2),
         ),
+        date: ModelDate(DateTime(2022, 1, 2)),
         uri: const ModelUri.parse("https://pub.dev"),
         image: const ModelImageUri.parse("https://pub.dev"),
         video: const ModelVideoUri.parse("https://pub.dev"),
@@ -285,6 +297,7 @@ void main() {
       TestValue(
         counter: const ModelCounter.fromServer(1),
         time: ModelTimestamp(DateTime(2022, 1, 2)),
+        date: ModelDate(DateTime(2022, 1, 2)),
         uri: const ModelUri.parse("https://pub.dev"),
         image: const ModelImageUri.parse("https://pub.dev"),
         video: const ModelVideoUri.parse("https://pub.dev"),
