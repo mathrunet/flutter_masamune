@@ -86,12 +86,18 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
     required this.idKey,
     super.requestHeaders,
     super.requestMethod,
+    this.skipIdPrefix = "#",
   });
 
   /// Key of the column to be used as the ID.
   ///
   /// IDとして使うカラムのキー。
   final String idKey;
+
+  /// Prefix for the value of [idKey] when skipping that row.
+  ///
+  /// その行をスキップする際の[idKey]の値のプレフィックス。
+  final String skipIdPrefix;
 
   @override
   Map<String, DynamicMap> fromCsv(List<List<dynamic>> csv) {
@@ -109,7 +115,11 @@ class CsvCollectionSourceModelAdapter extends CsvSourceModelAdapter {
           map[header[i].toString().trim()] = r;
         }
       }
-      result[map[idKey].toString().trim()] = _merged(map);
+      final id = map[idKey].toString().trim();
+      if (id.startsWith(skipIdPrefix)) {
+        continue;
+      }
+      result[id] = _merged(map);
     }
     return result;
   }
