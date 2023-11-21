@@ -973,17 +973,13 @@ void main() {
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), false);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), true);
     expect(
-      query.hasMatchAsMap({
-        "name": "test",
-        "time": ModelDate(DateTime(2000, 2, 3)).toJson()
-      }),
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelDate(DateTime(2000, 2, 3)).toJson()}),
       false,
     );
     expect(
-      query.hasMatchAsMap({
-        "name": "test",
-        "time": ModelDate(DateTime(2000, 1, 4)).toJson()
-      }),
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelDate(DateTime(2000, 1, 4)).toJson()}),
       true,
     );
     expect(
@@ -1010,17 +1006,13 @@ void main() {
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), true);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), false);
     expect(
-      query.hasMatchAsMap({
-        "name": "test",
-        "time": ModelDate(DateTime(2000, 2, 4)).toJson()
-      }),
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelDate(DateTime(2000, 2, 4)).toJson()}),
       true,
     );
     expect(
-      query.hasMatchAsMap({
-        "name": "test",
-        "time": ModelDate(DateTime(2000, 1, 4)).toJson()
-      }),
+      query.hasMatchAsMap(
+          {"name": "test", "time": ModelDate(DateTime(2000, 1, 4)).toJson()}),
       false,
     );
     expect(
@@ -1270,24 +1262,18 @@ void main() {
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), true);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), true);
     expect(
-      query.hasMatchAsMap({
-        "count": ModelDate(DateTime(2000, 1, 2)).toJson(),
-        "text": "aaaa"
-      }),
+      query.hasMatchAsMap(
+          {"count": ModelDate(DateTime(2000, 1, 2)).toJson(), "text": "aaaa"}),
       false,
     );
     expect(
-      query.hasMatchAsMap({
-        "count": ModelDate(DateTime(2000, 1, 3)).toJson(),
-        "text": "aaaa"
-      }),
+      query.hasMatchAsMap(
+          {"count": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
       true,
     );
     expect(
-      query.hasMatchAsMap({
-        "count": ModelDate(DateTime(2000, 1, 4)).toJson(),
-        "text": "aaaa"
-      }),
+      query.hasMatchAsMap(
+          {"count": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
       true,
     );
     query = ModelQuery(
@@ -1304,24 +1290,18 @@ void main() {
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 3))), false);
     expect(query.hasMatchAsObject(ModelDate(DateTime(2000, 1, 4))), false);
     expect(
-      query.hasMatchAsMap({
-        "count": ModelDate(DateTime(2000, 1, 2)).toJson(),
-        "text": "aaaa"
-      }),
+      query.hasMatchAsMap(
+          {"count": ModelDate(DateTime(2000, 1, 2)).toJson(), "text": "aaaa"}),
       true,
     );
     expect(
-      query.hasMatchAsMap({
-        "count": ModelDate(DateTime(2000, 1, 3)).toJson(),
-        "text": "aaaa"
-      }),
+      query.hasMatchAsMap(
+          {"count": ModelDate(DateTime(2000, 1, 3)).toJson(), "text": "aaaa"}),
       false,
     );
     expect(
-      query.hasMatchAsMap({
-        "count": ModelDate(DateTime(2000, 1, 4)).toJson(),
-        "text": "aaaa"
-      }),
+      query.hasMatchAsMap(
+          {"count": ModelDate(DateTime(2000, 1, 4)).toJson(), "text": "aaaa"}),
       false,
     );
   });
@@ -3592,25 +3572,25 @@ void main() {
     expect(
       query.sort(
         [
-          MapEntry("dddd",
-              {"count": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
-          MapEntry("dddd",
-              {"count": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
-          MapEntry("dddd",
-              {"count": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
-          MapEntry("dddd",
-              {"count": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
+          MapEntry(
+              "dddd", {"count": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
+          MapEntry(
+              "dddd", {"count": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
+          MapEntry(
+              "dddd", {"count": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
+          MapEntry(
+              "dddd", {"count": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
         ],
       ).toString(),
       [
-        MapEntry("dddd",
-            {"count": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
-        MapEntry("dddd",
-            {"count": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
-        MapEntry("dddd",
-            {"count": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
-        MapEntry("dddd",
-            {"count": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
+        MapEntry(
+            "dddd", {"count": ModelDate(DateTime(2001, 1, 1)), "text": "a"}),
+        MapEntry(
+            "dddd", {"count": ModelDate(DateTime(2004, 1, 1)), "text": "a"}),
+        MapEntry(
+            "dddd", {"count": ModelDate(DateTime(2008, 1, 1)), "text": "a"}),
+        MapEntry(
+            "dddd", {"count": ModelDate(DateTime(2010, 1, 1)), "text": "a"}),
       ].toString(),
     );
     query = const ModelQuery(
@@ -3622,41 +3602,25 @@ void main() {
     expect(
       query.sort(
         [
-          MapEntry("dddd", {
-            "count": ModelDate(DateTime(2010, 1, 1)).toJson(),
-            "text": "a"
-          }),
-          MapEntry("dddd", {
-            "count": ModelDate(DateTime(2004, 1, 1)).toJson(),
-            "text": "a"
-          }),
-          MapEntry("dddd", {
-            "count": ModelDate(DateTime(2008, 1, 1)).toJson(),
-            "text": "a"
-          }),
-          MapEntry("dddd", {
-            "count": ModelDate(DateTime(2001, 1, 1)).toJson(),
-            "text": "a"
-          }),
+          MapEntry("dddd",
+              {"count": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
+          MapEntry("dddd",
+              {"count": ModelDate(DateTime(2004, 1, 1)).toJson(), "text": "a"}),
+          MapEntry("dddd",
+              {"count": ModelDate(DateTime(2008, 1, 1)).toJson(), "text": "a"}),
+          MapEntry("dddd",
+              {"count": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
         ],
       ).toString(),
       [
-        MapEntry("dddd", {
-          "count": ModelDate(DateTime(2010, 1, 1)).toJson(),
-          "text": "a"
-        }),
-        MapEntry("dddd", {
-          "count": ModelDate(DateTime(2008, 1, 1)).toJson(),
-          "text": "a"
-        }),
-        MapEntry("dddd", {
-          "count": ModelDate(DateTime(2004, 1, 1)).toJson(),
-          "text": "a"
-        }),
-        MapEntry("dddd", {
-          "count": ModelDate(DateTime(2001, 1, 1)).toJson(),
-          "text": "a"
-        }),
+        MapEntry("dddd",
+            {"count": ModelDate(DateTime(2010, 1, 1)).toJson(), "text": "a"}),
+        MapEntry("dddd",
+            {"count": ModelDate(DateTime(2008, 1, 1)).toJson(), "text": "a"}),
+        MapEntry("dddd",
+            {"count": ModelDate(DateTime(2004, 1, 1)).toJson(), "text": "a"}),
+        MapEntry("dddd",
+            {"count": ModelDate(DateTime(2001, 1, 1)).toJson(), "text": "a"}),
       ].toString(),
     );
   });
