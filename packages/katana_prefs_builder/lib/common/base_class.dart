@@ -116,7 +116,7 @@ List<Spec> baseClass(
                 ..type = MethodType.getter
                 ..lambda = true
                 ..returns = Reference(
-                  "_\$_${model.name}<${param.type.toString()}>",
+                  "_\$_${model.name}<${param.type.aliasName}>",
                 )
                 ..body = const Code("throw UnimplementedError()"),
             );
@@ -229,7 +229,7 @@ List<Spec> baseClass(
                     return Parameter(
                       (p) => p
                         ..name = param.name
-                        ..type = Reference(param.type.toString())
+                        ..type = Reference(param.type.aliasName)
                         ..named = true
                         ..required = param.required
                         ..defaultTo = param.defaultValueCode.isEmpty
@@ -279,7 +279,7 @@ List<Spec> baseClass(
                 (m) => m
                   ..name = param.name
                   ..returns = Reference(
-                    "_\$_${model.name}<${param.type.toString()}>",
+                    "_\$_${model.name}<${param.type.aliasName}>",
                   )
                   ..lambda = true
                   ..type = MethodType.getter
@@ -306,7 +306,7 @@ List<Spec> baseClass(
                 (f) => f
                   ..name = "_${param.name}"
                   ..modifier = FieldModifier.final$
-                  ..type = Reference(param.type.toString()),
+                  ..type = Reference(param.type.aliasName),
               );
             })
           ]),
@@ -329,7 +329,7 @@ List<Spec> baseClass(
                     return Parameter(
                       (p) => p
                         ..name = param.name
-                        ..type = Reference(param.type.toString())
+                        ..type = Reference(param.type.aliasName)
                         ..named = true
                         ..required = param.required
                         ..defaultTo = param.defaultValueCode.isEmpty
@@ -378,7 +378,7 @@ List<Spec> baseClass(
                 (m) => m
                   ..name = param.name
                   ..returns = Reference(
-                    "_\$_${model.name}<${param.type.toString()}>",
+                    "_\$_${model.name}<${param.type.aliasName}>",
                   )
                   ..lambda = true
                   ..type = MethodType.getter
@@ -405,7 +405,7 @@ List<Spec> baseClass(
                 (f) => f
                   ..name = "_${param.name}"
                   ..modifier = FieldModifier.final$
-                  ..type = Reference(param.type.toString()),
+                  ..type = Reference(param.type.aliasName),
               );
             })
           ]),

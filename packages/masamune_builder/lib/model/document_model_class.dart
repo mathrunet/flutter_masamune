@@ -162,7 +162,7 @@ List<Spec> documentModelClass(
                 ])
                 ..body = Code(
                   searchable.map((e) {
-                    if (e.type.toString().endsWith("?")) {
+                    if (e.type.aliasName.endsWith("?")) {
                       return "(value.${e.name}?.toString() ?? \"\")";
                     } else {
                       return "value.${e.name}.toString()";
@@ -180,8 +180,8 @@ List<Spec> documentModelClass(
                     Reference("List<ModelRefBuilderBase<${model.name}>>")
                 ..annotations.addAll([const Reference("override")])
                 ..body = Code("[${referenceable.map((e) {
-                  if (e.type.toString().endsWith("Ref")) {
-                    final match = _regExpRef.firstMatch(e.type.toString());
+                  if (e.type.aliasName.endsWith("Ref")) {
+                    final match = _regExpRef.firstMatch(e.type.aliasName);
                     if (match == null) {
                       throw Exception(
                         "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
@@ -190,12 +190,12 @@ List<Spec> documentModelClass(
                     final doc = e.reference;
                     return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                   } else {
-                    if (!e.type.toString().endsWith("?")) {
+                    if (!e.type.aliasName.endsWith("?")) {
                       throw Exception(
                         "ModelRefBase<T> must be nullable. \r\n\r\n${e.type} ${e.name}",
                       );
                     }
-                    final match = _regExpModelRef.firstMatch(e.type.toString());
+                    final match = _regExpModelRef.firstMatch(e.type.aliasName);
                     if (match == null) {
                       throw Exception(
                         "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
@@ -354,7 +354,7 @@ List<Spec> documentModelClass(
                   ])
                   ..body = Code(
                     searchable.map((e) {
-                      if (e.type.toString().endsWith("?")) {
+                      if (e.type.aliasName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {
                         return "value.${e.name}.toString()";
@@ -372,8 +372,8 @@ List<Spec> documentModelClass(
                       Reference("List<ModelRefBuilderBase<${model.name}>>")
                   ..annotations.addAll([const Reference("override")])
                   ..body = Code("[${referenceable.map((e) {
-                    if (e.type.toString().endsWith("Ref")) {
-                      final match = _regExpRef.firstMatch(e.type.toString());
+                    if (e.type.aliasName.endsWith("Ref")) {
+                      final match = _regExpRef.firstMatch(e.type.aliasName);
                       if (match == null) {
                         throw Exception(
                           "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",
@@ -382,13 +382,13 @@ List<Spec> documentModelClass(
                       final doc = e.reference;
                       return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
                     } else {
-                      if (!e.type.toString().endsWith("?")) {
+                      if (!e.type.aliasName.endsWith("?")) {
                         throw Exception(
                           "ModelRefBase<T> must be nullable. \r\n\r\n${e.type} ${e.name}",
                         );
                       }
                       final match =
-                          _regExpModelRef.firstMatch(e.type.toString());
+                          _regExpModelRef.firstMatch(e.type.aliasName);
                       if (match == null) {
                         throw Exception(
                           "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${e.type} ${e.name}",

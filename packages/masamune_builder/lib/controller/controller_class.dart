@@ -30,7 +30,7 @@ List<Spec> controllerClass(
                     (p) => p
                       ..required = param.element.isRequired
                       ..named = true
-                      ..type = Reference(param.type.toString())
+                      ..type = Reference(param.type.aliasName)
                       ..name = param.name,
                   );
                 }),
@@ -85,7 +85,7 @@ List<Spec> controllerClass(
               (f) => f
                 ..name = param.name
                 ..modifier = FieldModifier.final$
-                ..type = Reference(param.type.toString()),
+                ..type = Reference(param.type.aliasName),
             );
           })
         ])

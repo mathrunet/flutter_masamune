@@ -23,6 +23,7 @@ import 'package:source_gen/source_gen.dart';
 // ignore: implementation_imports
 
 part 'src/builder.dart';
+part 'src/extensions.dart';
 part 'value/annotation_value.dart';
 part 'value/class_value.dart';
 part 'value/parameter_value.dart';

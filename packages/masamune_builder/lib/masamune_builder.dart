@@ -52,6 +52,7 @@ part 'model/document_model_query_class.dart';
 part 'model/model_class.dart';
 part 'src/builder.dart';
 part 'src/config.dart';
+part 'src/extensions.dart';
 part 'value/class_value.dart';
 part 'value/typedef_value.dart';
 part 'value/parameter_value.dart';

@@ -48,7 +48,7 @@ class PageGenerator extends GeneratorForAnnotation<PagePath> {
         );
       }
       if (!classValue.parameters.any(
-        (e) => e.name == param.camelCase && e.type.toString() == "String",
+        (e) => e.name == param.camelCase && e.type.aliasName == "String",
       )) {
         throw InvalidGenerationSourceError(
           "The corresponding `${param.camelCase}` for {${param.snakeCase}} is defined, but the type is not `String`.\n"

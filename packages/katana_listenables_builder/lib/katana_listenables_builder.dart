@@ -24,5 +24,6 @@ part 'common/base_class.dart';
 part 'generator/listenables_generator.dart';
 part 'src/builder.dart';
 part 'src/config.dart';
+part 'src/extensions.dart';
 part 'value/class_value.dart';
 part 'value/parameter_value.dart';

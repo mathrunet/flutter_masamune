@@ -49,19 +49,19 @@ List<Spec> modelClass(
 
 String _jsonValue(ParamaterValue param) {
   if (param.type.isDartCoreList) {
-    if (param.type.toString().endsWith("?")) {
+    if (param.type.aliasName.endsWith("?")) {
       return "${param.name}?.map((e) => e.toJson()).toList()";
     } else {
       return "${param.name}.map((e) => e.toJson()).toList()";
     }
   } else if (param.type.isDartCoreMap) {
-    if (param.type.toString().endsWith("?")) {
+    if (param.type.aliasName.endsWith("?")) {
       return "${param.name}?.map((k, v) => MapEntry(k, v.toJson()))";
     } else {
       return "${param.name}.map((k, v) => MapEntry(k, v.toJson()))";
     }
   } else {
-    if (param.type.toString().endsWith("?")) {
+    if (param.type.aliasName.endsWith("?")) {
       return "${param.name}?.toJson()";
     } else {
       return "${param.name}.toJson()";

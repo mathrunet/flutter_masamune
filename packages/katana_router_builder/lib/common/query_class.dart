@@ -54,7 +54,9 @@ List<Class> queryClass(
                     (p) => p
                       ..required = param.element.isRequired
                       ..named = true
-                      ..type = Reference(param.type.toString())
+                      ..type = Reference(
+                        param.type.aliasName,
+                      )
                       ..name = param.name
                       ..defaultTo = param.element.defaultValueCode != null
                           ? Code(param.element.defaultValueCode!)
@@ -124,7 +126,9 @@ List<Class> queryClass(
               (f) => f
                 ..name = param.name
                 ..modifier = FieldModifier.final$
-                ..type = Reference(param.type.toString()),
+                ..type = Reference(
+                  param.type.aliasName,
+                ),
             );
           }),
           Field(
@@ -272,8 +276,8 @@ String? _pageParamName(String path, String paramName) {
 String _defaultParsedValue(
     PathValue path, ParamaterValue param, bool existQuery) {
   if (existQuery) {
-    if (param.type.toString().trimStringRight("?") == "String" ||
-        param.type.toString().trimStringRight("?") == "Object") {
+    if (param.type.aliasName.trimStringRight("?") == "String" ||
+        param.type.aliasName.trimStringRight("?") == "Object") {
       final isPageParameter = param.isPageParameter ||
           path.path.contains(":${param.pageParamName}") ||
           path.path.contains(":${param.pageParamName.toSnakeCase()}") ||
@@ -283,20 +287,20 @@ String _defaultParsedValue(
       } else {
         return "${param.name}: query[\"${param.queryParamName}\"] ?? query[\"${param.queryParamName.toSnakeCase()}\"] ?? query[\"${param.queryParamName.toCamelCase()}\"] ?? ${_defaultValue(param)}";
       }
-    } else if (param.type.toString().trimStringRight("?") == "int") {
+    } else if (param.type.aliasName.trimStringRight("?") == "int") {
       final res = _defaultValue(param);
       if (res == "null") {
         return "";
       }
       return "${param.name}: int.tryParse( query[\"${param.queryParamName}\"] ?? \"\" ) ?? int.tryParse( query[\"${param.queryParamName.toSnakeCase()}\"] ?? \"\" ) ?? int.tryParse( query[\"${param.queryParamName.toCamelCase()}\"] ?? \"\" ) ?? $res";
-    } else if (param.type.toString().trimStringRight("?") == "num" ||
-        param.type.toString().trimStringRight("?") == "double") {
+    } else if (param.type.aliasName.trimStringRight("?") == "num" ||
+        param.type.aliasName.trimStringRight("?") == "double") {
       final res = _defaultValue(param);
       if (res == "null") {
         return "";
       }
       return "${param.name}: double.tryParse( query[\"${param.queryParamName}\"] ?? \"\" ) ?? double.tryParse( query[\"${param.queryParamName.toSnakeCase()}\"] ?? \"\" ) ?? double.tryParse( query[\"${param.queryParamName.toCamelCase()}\"] ?? \"\" ) ?? $res";
-    } else if (param.type.toString().trimStringRight("?") == "bool") {
+    } else if (param.type.aliasName.trimStringRight("?") == "bool") {
       final res = _defaultValue(param);
       if (res == "null") {
         return "";
@@ -310,8 +314,8 @@ String _defaultParsedValue(
       return "${param.name}: $res";
     }
   } else {
-    if (param.type.toString().trimStringRight("?") == "String" ||
-        param.type.toString().trimStringRight("?") == "Object") {
+    if (param.type.aliasName.trimStringRight("?") == "String" ||
+        param.type.aliasName.trimStringRight("?") == "Object") {
       final isPageParameter = param.isPageParameter ||
           path.path.contains(":${param.pageParamName}") ||
           path.path.contains(":${param.pageParamName.toSnakeCase()}") ||

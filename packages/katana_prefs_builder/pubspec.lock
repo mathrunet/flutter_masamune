@@ -239,14 +239,14 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.5.2"
+    version: "2.6.2"
   katana_prefs_annotation:
     dependency: "direct main"
     description:
       path: "../katana_prefs_annotation"
       relative: true
     source: path
-    version: "2.0.20"
+    version: "2.0.24"
   lints:
     dependency: transitive
     description:

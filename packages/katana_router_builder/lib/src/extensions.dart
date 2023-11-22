@@ -27,4 +27,12 @@ extension _DartTypeExtensions on DartType {
   bool get isNullable {
     return toString().endsWith("?");
   }
+
+  String get aliasName {
+    final aliasElement = alias?.element;
+    if (aliasElement != null) {
+      return aliasElement.name;
+    }
+    return toString();
+  }
 }

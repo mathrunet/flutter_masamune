@@ -55,7 +55,7 @@ class ParamaterValue {
   /// Typescript用のタイプに変換します。
   String toTypescriptType() {
     final res = <String>[];
-    final typeString = type.toString();
+    final typeString = type.aliasName;
     if (reference != null) {
       res.add("Prisma.JsonValue");
       res.add("undefined");

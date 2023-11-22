@@ -26,7 +26,7 @@ List<Spec> baseClass(
                 ..type = MethodType.getter
                 ..lambda = true
                 ..returns = Reference(
-                  "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
+                  "${param.type.aliasName.trimStringRight("?")}${param.required ? "" : "?"}",
                 )
                 ..body = const Code("throw UnimplementedError()"),
             );
@@ -136,7 +136,7 @@ List<Spec> baseClass(
                   ..modifier = FieldModifier.final$
                   ..annotations.addAll([const Reference("override")])
                   ..type = Reference(
-                    "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
+                    "${param.type.aliasName.trimStringRight("?")}${param.required ? "" : "?"}",
                   ),
               );
             })
@@ -203,7 +203,7 @@ List<Spec> baseClass(
                   ..annotations.addAll([const Reference("override")])
                   ..modifier = FieldModifier.final$
                   ..type = Reference(
-                    "${param.type.toString().trimStringRight("?")}${param.required ? "" : "?"}",
+                    "${param.type.aliasName.trimStringRight("?")}${param.required ? "" : "?"}",
                   ),
               );
             })

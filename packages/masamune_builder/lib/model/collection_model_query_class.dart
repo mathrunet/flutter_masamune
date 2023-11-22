@@ -8,38 +8,38 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
   } else if (param.type.isDartCoreBool) {
     return "BooleanModelQuerySelector<$queryClass>";
   } else if (param.type.isDartCoreEnum || param.type.element is EnumElement) {
-    final typeName = param.type.toString().trimStringRight("?");
+    final typeName = param.type.aliasName.trimStringRight("?");
     return "ValueModelQuerySelector<$typeName, $queryClass>";
   } else if (param.type.isDartCoreList) {
     final generics = RegExp("List<([^>]+)>")
-            .firstMatch(param.type.toString())
+            .firstMatch(param.type.aliasName)
             ?.group(1)
             ?.trim() ??
         "dynamic";
     return "ListModelQuerySelector<$generics, $queryClass>";
   } else if (param.type.isDartCoreMap) {
     final generics = RegExp("Map<([^>]+),([^>]+)>")
-            .firstMatch(param.type.toString())
+            .firstMatch(param.type.aliasName)
             ?.group(2)
             ?.trim() ??
         "dynamic";
     return "MapModelQuerySelector<$generics, $queryClass>";
   } else if (param.reference.isNotEmpty) {
-    if (param.type.toString().endsWith("Ref")) {
-      final match = _regExpRef.firstMatch(param.type.toString());
+    if (param.type.aliasName.endsWith("Ref")) {
+      final match = _regExpRef.firstMatch(param.type.aliasName);
       if (match == null) {
         throw Exception(
-          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${param.type.toString()} ${param.name}",
+          "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${param.type.aliasName} ${param.name}",
         );
       }
       return "ModelRefModelQuerySelector<${match.group(1)}, $queryClass>";
     } else {
-      if (!param.type.toString().endsWith("?")) {
+      if (!param.type.aliasName.endsWith("?")) {
         throw Exception(
-          "ModelRefBase<T> must be nullable. \r\n\r\n${param.type.toString()} ${param.name}",
+          "ModelRefBase<T> must be nullable. \r\n\r\n${param.type.aliasName} ${param.name}",
         );
       }
-      final match = _regExpModelRef.firstMatch(param.type.toString());
+      final match = _regExpModelRef.firstMatch(param.type.aliasName);
       if (match == null) {
         throw Exception(
           "@refParam can only be given to ModelRef<T> / ModelRefBase<T>? / XXXRef types. \r\n\r\n${param.type} ${param.name}",
@@ -48,7 +48,7 @@ String _querySelectorClass(ParamaterValue param, String queryClass) {
       return "ModelRefModelQuerySelector<${match.group(2)}, $queryClass>";
     }
   } else {
-    final typeName = param.type.toString().trimStringRight("?");
+    final typeName = param.type.aliasName.trimStringRight("?");
     switch (typeName) {
       case "ModelCounter":
       case "ModelTimestamp":
@@ -235,7 +235,7 @@ List<Spec> collectionModelQueryClass(
                 ])
                 ..body = Code(
                   searchable.map((e) {
-                    if (e.type.toString().endsWith("?")) {
+                    if (e.type.aliasName.endsWith("?")) {
                       return "(value.${e.name}?.toString() ?? \"\")";
                     } else {
                       return "value.${e.name}.toString()";
@@ -667,7 +667,7 @@ List<Spec> collectionModelQueryClass(
                   ])
                   ..body = Code(
                     searchable.map((e) {
-                      if (e.type.toString().endsWith("?")) {
+                      if (e.type.aliasName.endsWith("?")) {
                         return "(value.${e.name}?.toString() ?? \"\")";
                       } else {
                         return "value.${e.name}.toString()";

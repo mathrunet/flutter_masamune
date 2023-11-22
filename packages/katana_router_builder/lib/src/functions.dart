@@ -1,7 +1,7 @@
 part of '/katana_router_builder.dart';
 
 String _defaultValue(ParamaterValue param) {
-  final type = param.type.toString().trimStringRight("?");
+  final type = param.type.aliasName.trimStringRight("?");
   final nullable = param.type.isNullable;
   final isRequired = param.element.isRequired;
   final defaultValue = param.defaultValue;
