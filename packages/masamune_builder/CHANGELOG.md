@@ -1,3 +1,7 @@
+## 2.8.27
+
+ - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))
+
 ## 2.8.26
 
  - **FIX**: The query was not separated by controller parameters, which has been corrected. ([8bc06fff](https://github.com/mathrunet/flutter_masamune/commit/8bc06fffa47384731ea46877e84470e3759c4ec0))

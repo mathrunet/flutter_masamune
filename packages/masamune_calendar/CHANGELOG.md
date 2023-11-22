@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Changed the calendar data structure. ([65579213](https://github.com/mathrunet/flutter_masamune/commit/6557921362e109fbd0963f1613db88af23a03701))
+
 ## 2.0.195
 
  - Update a dependency to the latest release.

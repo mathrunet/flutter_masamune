@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_listenables_builder` - `v2.0.29`](#katana_listenables_builder---v2029)
+ - [`katana_prefs_builder` - `v2.0.29`](#katana_prefs_builder---v2029)
+ - [`katana_router_builder` - `v2.0.39`](#katana_router_builder---v2039)
+ - [`masamune_builder` - `v2.8.27`](#masamune_builder---v2827)
+ - [`masamune_calendar` - `v2.1.0`](#masamune_calendar---v210)
+ - [`masamune_model_planetscale_annotation` - `v2.1.7`](#masamune_model_planetscale_annotation---v217)
+
+---
+
+#### `katana_listenables_builder` - `v2.0.29`
+
+ - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))
+
+#### `katana_prefs_builder` - `v2.0.29`
+
+ - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))
+
+#### `katana_router_builder` - `v2.0.39`
+
+ - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))
+
+#### `masamune_builder` - `v2.8.27`
+
+ - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))
+
+#### `masamune_calendar` - `v2.1.0`
+
+ - **FEAT**: Changed the calendar data structure. ([65579213](https://github.com/mathrunet/flutter_masamune/commit/6557921362e109fbd0963f1613db88af23a03701))
+
+#### `masamune_model_planetscale_annotation` - `v2.1.7`
+
+ - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))
+
+
 ## 2023-11-21
 
 ### Changes
