@@ -1,3 +1,7 @@
+## 2.0.40
+
+ - **FIX**: Fix the area around the mold. ([c8a4d973](https://github.com/mathrunet/flutter_masamune/commit/c8a4d9730b7bd581748f754056a23ef8eaacea21))
+
 ## 2.0.39
 
  - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))

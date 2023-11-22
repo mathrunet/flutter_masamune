@@ -37,7 +37,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   import_sorter: ^4.6.0
   build_runner: ^2.3.3
-  masamune_builder: ^2.8.27
+  masamune_builder: ^2.8.28
   freezed: ^2.3.2
   json_serializable: ^6.6.0
 

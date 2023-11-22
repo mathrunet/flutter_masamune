@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_router_builder` - `v2.0.40`](#katana_router_builder---v2040)
+ - [`masamune_builder` - `v2.8.28`](#masamune_builder---v2828)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_builder` - `v2.8.28`
+
+---
+
+#### `katana_router_builder` - `v2.0.40`
+
+ - **FIX**: Fix the area around the mold. ([c8a4d973](https://github.com/mathrunet/flutter_masamune/commit/c8a4d9730b7bd581748f754056a23ef8eaacea21))
+
+
+## 2023-11-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_listenables_builder` - `v2.0.29`](#katana_listenables_builder---v2029)
  - [`katana_prefs_builder` - `v2.0.29`](#katana_prefs_builder---v2029)
  - [`katana_router_builder` - `v2.0.39`](#katana_router_builder---v2039)
