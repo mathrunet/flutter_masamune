@@ -50,7 +50,7 @@ enum AvailableGestures {
 ///
 /// [expand]にtrueを指定すると、カレンダーの高さを自動的に調整します。
 @immutable
-class Calendar extends StatefulWidget {
+class Calendar<T> extends StatefulWidget {
   /// Specify the calendar widget.
   ///
   /// Specify a list of events in [events].
@@ -104,17 +104,17 @@ class Calendar extends StatefulWidget {
   /// Customize your calendar design.
   ///
   /// カレンダーのデザインをカスタマイズできます。
-  final CalendarDelegate delegate;
+  final CalendarDelegate<T> delegate;
 
   /// Specifies calendar events.
   ///
   /// カレンダーのイベントを指定します。
-  final List<CalendarEventItem> events;
+  final List<CalendarEventItem<T>> events;
 
   /// Specify calendar holidays.
   ///
   /// カレンダーの休日を指定します。
-  final List<CalendarHolidayItem> holidays;
+  final List<CalendarHolidayItem<T>> holidays;
 
   /// Specifies the calendar controller.
   ///
@@ -171,12 +171,12 @@ class Calendar extends StatefulWidget {
 
   /// Specifies what happens when a valid date is tapped.
   ///
-  /// The date is passed to [day].
+  /// The date is passed to [day] and the list of events for that day is passed to [events].
   ///
   /// 有効な日付をタップした際の処理を指定します。
   ///
-  /// [day]に日付が渡されます。
-  final void Function(DateTime day)? onTap;
+  /// [day]に日付が渡され、[events]にその日のイベント一覧が渡されます。
+  final void Function(DateTime day, List<CalendarEventItem<T>> events)? onTap;
 
   /// If `true` is specified, the calendar height is automatically adjusted.
   ///
@@ -819,7 +819,9 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
         } else {
           _effectiveController.select(date);
         }
-        widget.onTap?.call(date);
+        final events =
+            widget.events.where((e) => e.startTime.isThisDay(date)).toList();
+        widget.onTap?.call(date, events);
       },
       child: content,
     );

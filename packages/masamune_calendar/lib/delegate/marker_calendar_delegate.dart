@@ -11,7 +11,7 @@ part of '/masamune_calendar.dart';
 /// [marker]にマーカーのウィジェットを指定します。
 ///
 /// [color]や[size]、[selectedColor]、[todayColor]、[outsideColor]を指定することで、マーカーの色やサイズを変更できます。
-class MarkerCalendarDelegate extends CalendarDelegate {
+class MarkerCalendarDelegate<T> extends CalendarDelegate<T> {
   /// The design of the calendar is simply to display a marker in the center of the calendar on days that have events.
   ///
   /// Specify the widget for the marker in [marker].
@@ -67,7 +67,7 @@ class MarkerCalendarDelegate extends CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   ) {
     if (events.isEmpty) {
       return null;
@@ -95,7 +95,7 @@ class MarkerCalendarDelegate extends CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   ) {
     if (events.isEmpty) {
       return null;
@@ -123,7 +123,7 @@ class MarkerCalendarDelegate extends CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   ) {
     if (events.isEmpty) {
       return null;
@@ -151,7 +151,7 @@ class MarkerCalendarDelegate extends CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   ) {
     return LayoutBuilder(
       builder: (context, constraints) {

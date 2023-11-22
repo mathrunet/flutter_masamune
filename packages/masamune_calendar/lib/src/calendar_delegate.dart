@@ -4,7 +4,7 @@ part of '/masamune_calendar.dart';
 ///
 /// カレンダーの表示部分を表すデリゲート。
 @immutable
-abstract class CalendarDelegate {
+abstract class CalendarDelegate<T> {
   /// A delegate that represents the display portion of the calendar.
   ///
   /// カレンダーの表示部分を表すデリゲート。
@@ -239,7 +239,7 @@ abstract class CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   );
 
   /// Generates a widget that displays today's events.
@@ -253,7 +253,7 @@ abstract class CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   );
 
   /// Generates a widget that displays events for the selected date.
@@ -267,7 +267,7 @@ abstract class CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   );
 
   /// Generates a widget that displays events for dates outside the month range.
@@ -281,7 +281,7 @@ abstract class CalendarDelegate {
     BuildContext context,
     CalendarStyle style,
     DateTime date,
-    List<CalendarEventItem> events,
+    List<CalendarEventItem<T>> events,
   );
 
   /// Generates the weekday display portion of the weekday.

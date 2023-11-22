@@ -68,7 +68,7 @@ class OpenAIPagePageState extends State<OpenAIPage> {
                 for (var i = 0; i < 10; i++)
                   CalendarEventItem(
                     startTime: DateTime(now.year, now.month, now.day).add(i.d),
-                    title: "Event $i",
+                    data: "Event $i",
                   )
               ],
               expand: true,

@@ -29,3 +29,4 @@ part 'src/calendar_style.dart';
 part 'src/calendar_delegate.dart';
 part 'src/calendar_header.dart';
 part 'delegate/marker_calendar_delegate.dart';
+part 'delegate/builder_calendar_delegate.dart';
