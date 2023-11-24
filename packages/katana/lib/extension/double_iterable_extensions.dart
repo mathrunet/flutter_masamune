@@ -39,29 +39,57 @@ extension DoubleIterableExtensions on Iterable<double> {
 
   /// Calculate the sum using all values in the [double] list.
   ///
+  /// If there is no element, 0.0 is returned.
+  ///
   /// [double]のリストのすべての値を用いて合計を算出します。
+  ///
+  /// 要素がない場合は0.0が返されます。
   double sum() {
+    if (isEmpty) {
+      return 0.0;
+    }
     return reduce((a, b) => a + b);
   }
 
   /// Calculate the average using all values in the [double] list.
   ///
+  /// If there is no element, 0.0 is returned.
+  ///
   /// [double]のリストのすべての値を用いて平均を算出します。
+  ///
+  /// 要素がない場合は0.0が返されます。
   double average() {
+    if (isEmpty) {
+      return 0.0;
+    }
     return sum() / length;
   }
 
   /// Calculate the standard deviation using all values in the [double] list.
   ///
+  /// If there is no element, 0.0 is returned.
+  ///
   /// [double]のリストのすべての値を用いて標準偏差を算出します。
+  ///
+  /// 要素がない場合は0.0が返されます。
   double standardDeviation() {
+    if (isEmpty) {
+      return 0.0;
+    }
     return sqrt(variance());
   }
 
   /// Calculate the variance using all the values in the list of [int].
   ///
+  /// If there is no element, 0.0 is returned.
+  ///
   /// [double]のリストのすべての値を用いて分散を算出します。
+  ///
+  /// 要素がない場合は0.0が返されます。
   double variance() {
+    if (isEmpty) {
+      return 0.0;
+    }
     final mean = reduce((a, b) => a + b) / length;
     final variance =
         map((value) => pow(value - mean, 2)).reduce((a, b) => a + b) / length;
@@ -70,15 +98,29 @@ extension DoubleIterableExtensions on Iterable<double> {
 
   /// Calculate the maximum value in the [double] list.
   ///
+  /// If there is no element, 0.0 is returned.
+  ///
   /// [double]のリストの中で最大値を算出します。
+  ///
+  /// 要素がない場合は0.0が返されます。
   double max() {
+    if (isEmpty) {
+      return 0.0;
+    }
     return reduce((a, b) => a > b ? a : b);
   }
 
   /// Calculate the minimum value in the [double] list.
   ///
+  /// If there is no element, 0.0 is returned.
+  ///
   /// [double]のリストの中で最小値を算出します。
+  ///
+  /// 要素がない場合は0.0が返されます。
   double min() {
+    if (isEmpty) {
+      return 0.0;
+    }
     return reduce((a, b) => a < b ? a : b);
   }
 }
