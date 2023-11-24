@@ -2,9 +2,9 @@
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Package imports:
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test/test.dart';
 
 // Project imports:
