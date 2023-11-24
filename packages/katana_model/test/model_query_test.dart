@@ -2,6 +2,7 @@
 
 // Flutter imports:
 import 'package:flutter/cupertino.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Package imports:
 import 'package:test/test.dart';
@@ -9,10 +10,44 @@ import 'package:test/test.dart';
 // Project imports:
 import 'package:katana_model/katana_model.dart';
 
+part 'model_query_test.freezed.dart';
+part 'model_query_test.g.dart';
+
 enum TestEnum {
   a,
   b,
   c;
+}
+
+@freezed
+class TestValue with _$TestValue {
+  const factory TestValue({
+    required String name,
+    TestEnum? en,
+  }) = _TestValue;
+
+  factory TestValue.fromJson(Map<String, Object?> map) =>
+      _$TestValueFromJson(map);
+}
+
+class RuntimeMTestValueDocumentModel extends DocumentBase<TestValue> {
+  RuntimeMTestValueDocumentModel(super.query);
+
+  @override
+  TestValue fromMap(DynamicMap map) => TestValue.fromJson(map);
+
+  @override
+  DynamicMap toMap(TestValue value) => value.toJson();
+}
+
+class RuntimeTestValueCollectionModel
+    extends CollectionBase<RuntimeMTestValueDocumentModel> {
+  RuntimeTestValueCollectionModel(super.query);
+
+  @override
+  RuntimeMTestValueDocumentModel create([String? id]) {
+    return RuntimeMTestValueDocumentModel(modelQuery.create(id));
+  }
 }
 
 void main() {
@@ -4048,5 +4083,73 @@ void main() {
       query.hasMatchAsMap({"enum": "c", "text": "aaaa"}),
       true,
     );
+  });
+  test("ModelQuery.Enum.Freezed", () async {
+    final adapter = RuntimeModelAdapter(database: NoSqlDatabase());
+    final originQuery = CollectionModelQuery(
+      "aaaa",
+      adapter: adapter,
+    );
+    final originCollection = RuntimeTestValueCollectionModel(originQuery);
+    await originCollection.load();
+    var doc = originCollection.create();
+    await doc.save(const TestValue(name: "1", en: TestEnum.a));
+    doc = originCollection.create();
+    await doc.save(const TestValue(name: "2", en: TestEnum.a));
+    doc = originCollection.create();
+    await doc.save(const TestValue(name: "3", en: TestEnum.b));
+    doc = originCollection.create();
+    await doc.save(const TestValue(name: "4", en: TestEnum.b));
+    doc = originCollection.create();
+    await doc.save(const TestValue(name: "5", en: TestEnum.b));
+    expect(originCollection.map((e) => e.value).toList(), [
+      const TestValue(name: "1", en: TestEnum.a),
+      const TestValue(name: "2", en: TestEnum.a),
+      const TestValue(name: "3", en: TestEnum.b),
+      const TestValue(name: "4", en: TestEnum.b),
+      const TestValue(name: "5", en: TestEnum.b),
+    ]);
+    var query = CollectionModelQuery(
+      "aaaa",
+      adapter: adapter,
+    ).equal("en", TestEnum.a);
+    var collection = RuntimeTestValueCollectionModel(query);
+    await collection.load();
+    expect(collection.map((e) => e.value).toList(), [
+      const TestValue(name: "1", en: TestEnum.a),
+      const TestValue(name: "2", en: TestEnum.a),
+    ]);
+    query = CollectionModelQuery(
+      "aaaa",
+      adapter: adapter,
+    ).notEqual("en", TestEnum.a);
+    collection = RuntimeTestValueCollectionModel(query);
+    await collection.load();
+    expect(collection.map((e) => e.value).toList(), [
+      const TestValue(name: "3", en: TestEnum.b),
+      const TestValue(name: "4", en: TestEnum.b),
+      const TestValue(name: "5", en: TestEnum.b),
+    ]);
+    query = CollectionModelQuery(
+      "aaaa",
+      adapter: adapter,
+    ).equal("en", TestEnum.b);
+    collection = RuntimeTestValueCollectionModel(query);
+    await collection.load();
+    expect(collection.map((e) => e.value).toList(), [
+      const TestValue(name: "3", en: TestEnum.b),
+      const TestValue(name: "4", en: TestEnum.b),
+      const TestValue(name: "5", en: TestEnum.b),
+    ]);
+    query = CollectionModelQuery(
+      "aaaa",
+      adapter: adapter,
+    ).notEqual("en", TestEnum.b);
+    collection = RuntimeTestValueCollectionModel(query);
+    await collection.load();
+    expect(collection.map((e) => e.value).toList(), [
+      const TestValue(name: "1", en: TestEnum.a),
+      const TestValue(name: "2", en: TestEnum.a),
+    ]);
   });
 }
