@@ -189,10 +189,11 @@ class Calendar<T> extends StatefulWidget {
   final AvailableGestures availableGestures;
 
   @override
-  State<StatefulWidget> createState() => _CalendarState();
+  State<StatefulWidget> createState() => _CalendarState<T>();
 }
 
-class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
+class _CalendarState<T> extends State<Calendar<T>>
+    with TickerProviderStateMixin {
   int _pageId = 0;
   double _dx = 0;
 
@@ -224,7 +225,7 @@ class _CalendarState extends State<Calendar> with TickerProviderStateMixin {
   }
 
   @override
-  void didUpdateWidget(covariant Calendar oldWidget) {
+  void didUpdateWidget(covariant Calendar<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
       oldWidget.controller?._removeListener(
