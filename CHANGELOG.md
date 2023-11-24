@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_calendar` - `v2.1.2`](#masamune_calendar---v212)
+
+---
+
+#### `masamune_calendar` - `v2.1.2`
+
+ - **FIX**: Fixed a bug in onTap. ([5bf9cdbe](https://github.com/mathrunet/flutter_masamune/commit/5bf9cdbe65df119083a5cb775185ba276e2a5578))
+
+
+## 2023-11-24
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.6.3`](#katana---v263)
  - [`katana_model` - `v2.14.1`](#katana_model---v2141)
  - [`masamune_location_platform_interface` - `v2.1.43`](#masamune_location_platform_interface---v2143)

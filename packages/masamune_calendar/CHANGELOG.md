@@ -1,3 +1,7 @@
+## 2.1.2
+
+ - **FIX**: Fixed a bug in onTap. ([5bf9cdbe](https://github.com/mathrunet/flutter_masamune/commit/5bf9cdbe65df119083a5cb775185ba276e2a5578))
+
 ## 2.1.1
 
  - Update a dependency to the latest release.
