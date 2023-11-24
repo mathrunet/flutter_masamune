@@ -1,3 +1,7 @@
+## 2.1.8
+
+ - Update a dependency to the latest release.
+
 ## 2.1.7
 
  - **FIX**: Support for typedef types. ([7b616869](https://github.com/mathrunet/flutter_masamune/commit/7b61686951055c6dbfc9b8420ae0f62db66ffce3))

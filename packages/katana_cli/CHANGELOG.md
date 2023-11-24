@@ -1,3 +1,7 @@
+## 2.10.17
+
+ - Update a dependency to the latest release.
+
 ## 2.10.16
 
  - **FIX**: New Gradle support. ([3f5bd31c](https://github.com/mathrunet/flutter_masamune/commit/3f5bd31cd07d74365282c576b5b3f2b5f0362f59))

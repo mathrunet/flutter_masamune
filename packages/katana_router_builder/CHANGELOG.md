@@ -1,3 +1,7 @@
+## 2.0.41
+
+ - Update a dependency to the latest release.
+
 ## 2.0.40
 
  - **FIX**: Fix the area around the mold. ([c8a4d973](https://github.com/mathrunet/flutter_masamune/commit/c8a4d9730b7bd581748f754056a23ef8eaacea21))

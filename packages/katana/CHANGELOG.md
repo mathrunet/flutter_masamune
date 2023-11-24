@@ -1,3 +1,7 @@
+## 2.6.3
+
+ - **FIX**: Initial value of List calculation for various nums is set to 0. ([10ae168c](https://github.com/mathrunet/flutter_masamune/commit/10ae168cf3efe91d407d5095c0fba9a573430d8b))
+
 ## 2.6.2
 
  - **FIX**: Add min and max to DateTime. ([bc76dcd9](https://github.com/mathrunet/flutter_masamune/commit/bc76dcd946fb446ce82a81b42e849a3f44169d7f))

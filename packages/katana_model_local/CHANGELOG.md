@@ -1,3 +1,7 @@
+## 2.8.23
+
+ - Update a dependency to the latest release.
+
 ## 2.8.22
 
  - **FIX**: Added the ability to insert a comment field in the CSV. ([3e387d4f](https://github.com/mathrunet/flutter_masamune/commit/3e387d4f195a1963852daf5c906b88f4257a3f85))
