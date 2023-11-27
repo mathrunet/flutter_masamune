@@ -2,14 +2,14 @@ part of '/katana_localization_builder.dart';
 
 /// Create translated classes.
 ///
-/// Pass the value for the query in [model] and the path created from the annotation in [path]. Pass a parsed [LocalizeValue] in [localized] and a list of locales in [locales].
+/// Pass the value for the query in [model] and the path created from the annotation in [paths]. Pass a parsed [LocalizeValue] in [localized] and a list of locales in [locales].
 ///
 /// 翻訳されたクラスを作成します。
 ///
-/// [model]にクエリー用の値を[path]にアノテーションから作成されたパスを渡します。[localized]に解析済みの[LocalizeValue]を渡し、[locales]にロケールのリストを渡します。
+/// [model]にクエリー用の値を[paths]にアノテーションから作成されたパスを渡します。[localized]に解析済みの[LocalizeValue]を渡し、[locales]にロケールのリストを渡します。
 List<Spec> localizeClass(
   ClassValue model,
-  PathValue? path,
+  List<PathValue> paths,
   List<LocalizeValue> localized,
   List<String> locales,
 ) {

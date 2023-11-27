@@ -32,12 +32,42 @@ class GoogleSpreadSheetLocalizeGenerator
         );
       }
 
-      final pathValue = PathValue(
-        annotation.read("url").stringValue.trimString("/"),
-        annotation.read("version").intValue,
-      );
+      final pathValues = <PathValue>[];
+      final version = annotation.read("version").intValue;
+
+      if (annotation.read("url").isString) {
+        pathValues.add(
+          PathValue(
+            annotation.read("url").stringValue.trimString("/"),
+            version,
+          ),
+        );
+      } else if (annotation.read("url").isList) {
+        final list = annotation.read("url").listValue;
+
+        if (list.isEmpty) {
+          throw InvalidGenerationSourceError(
+            "Be sure to add at least one URL to the `url` of `@GoogleSpreadSheetLocalize()`.",
+            element: element,
+          );
+        }
+
+        for (final item in list) {
+          final val = item.toStringValue();
+          if (val.isEmpty) {
+            continue;
+          }
+          pathValues.add(
+            PathValue(
+              val!.trimString("/"),
+              version,
+            ),
+          );
+        }
+      }
+
       final classValue = ClassValue(element);
-      final loader = LocalizeLoader(pathValue);
+      final loader = LocalizeLoader(pathValues);
 
       await loader.load();
 
@@ -45,9 +75,9 @@ class GoogleSpreadSheetLocalizeGenerator
         (l) => l
           ..body.addAll(
             [
-              ...baseClass(classValue, pathValue, loader.locales),
+              ...baseClass(classValue, pathValues, loader.locales),
               ...localizeClass(
-                  classValue, pathValue, loader.localized, loader.locales),
+                  classValue, pathValues, loader.localized, loader.locales),
             ],
           ),
       );

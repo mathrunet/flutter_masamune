@@ -2,14 +2,14 @@ part of '/katana_localization_builder.dart';
 
 /// Create a base class.
 ///
-/// Pass the value for the query in [model] and the path created from the annotation in [path]. Pass a list of locales to [locales].
+/// Pass the value for the query in [model] and the path created from the annotation in [paths]. Pass a list of locales to [locales].
 ///
 /// ベースを作成します。
 ///
-/// [model]にクエリー用の値を[path]にアノテーションから作成されたパスを渡します。[locales]にロケールのリストを渡します。
+/// [model]にクエリー用の値を[paths]にアノテーションから作成されたパスを渡します。[locales]にロケールのリストを渡します。
 List<Spec> baseClass(
   ClassValue model,
-  PathValue? path,
+  List<PathValue> paths,
   List<String> locales,
 ) {
   return [

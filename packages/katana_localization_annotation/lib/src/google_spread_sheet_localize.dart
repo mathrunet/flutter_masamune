@@ -59,6 +59,8 @@ class GoogleSpreadSheetLocalize {
   ///
   /// If [version] is not changed, the spreadsheet contents are cached.
   ///
+  /// Multiple [url] can be specified, and if multiple URLs are specified, translations are retrieved from all of them and merged together.
+  ///
   /// Googleスプレッドシートを元に多言語化コードを自動作成するためのアノテーションです。
   ///
   /// 事前に下記の手順でGoogleスプレッドシートの準備を行います。
@@ -75,9 +77,11 @@ class GoogleSpreadSheetLocalize {
   ///
   /// [version]を変更しない場合はスプレッドシートの内容がキャッシュされます。
   ///
+  /// [url]は複数指定することができ、複数のURLを指定するとそのすべてのURLから翻訳を取得し、マージして使用します。
+  ///
   /// ```dart
   /// @GoogleSpreadSheetLocalize(
-  ///   "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+  ///   ["https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808"],
   ///   version: 1,
   /// )
   /// class AppLocalize extends _$AppLocalize {
@@ -94,14 +98,18 @@ class GoogleSpreadSheetLocalize {
   ///
   /// Paste the URL as it appears in your browser.
   ///
+  /// If multiple URLs are specified, translations are retrieved from all of them and merged together.
+  ///
   /// Example: `https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808`
   ///
   /// GoogleスプレッドシートのURL。
   ///
   /// ブラウザ上で表示しているURLをそのまま貼り付けてください。
   ///
+  /// 複数のURLを指定するとそのすべてのURLから翻訳を取得し、マージして使用します。
+  ///
   /// 例：`https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808`
-  final String url;
+  final List<String> url;
 
   /// Google Spreadsheet Version.
   ///
