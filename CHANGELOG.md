@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.10.20`](#katana_cli---v21020)
+
+---
+
+#### `katana_cli` - `v2.10.20`
+
+ - **FIX**: Added Pod repo update. ([589afb49](https://github.com/mathrunet/flutter_masamune/commit/589afb493b0a93c9db6947cfbbde66de8777d47d))
+
+
+## 2023-11-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.10.19`](#katana_cli---v21019)
  - [`katana_localization` - `v2.1.0`](#katana_localization---v210)
  - [`katana_localization_annotation` - `v2.1.0`](#katana_localization_annotation---v210)

@@ -1,3 +1,7 @@
+## 2.10.20
+
+ - **FIX**: Added Pod repo update. ([589afb49](https://github.com/mathrunet/flutter_masamune/commit/589afb493b0a93c9db6947cfbbde66de8777d47d))
+
 ## 2.10.19
 
  - **FIX**: Support for multiple designations of Google Spreadsheets. ([2a106d79](https://github.com/mathrunet/flutter_masamune/commit/2a106d79b65ac1e75631ebbc2235683c65114a0d))
