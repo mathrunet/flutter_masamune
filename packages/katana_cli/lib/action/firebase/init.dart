@@ -46,6 +46,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final flutter = bin.get("flutter", "flutter");
     final npm = bin.get("npm", "npm");
     final firebaseCommand = bin.get("firebase", "firebase");
+    final gsutil = bin.get("gsutil", "gsutil");
     final flutterfireCommand = bin.get("flutterfire", "flutterfire");
     final firebase = context.yaml.getAsMap("firebase");
     final github = context.yaml.getAsMap("github");
@@ -68,6 +69,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
     final storage = firebase.getAsMap("storage");
     // final overwriteStorageRule = storage.get("overwrite_rule", false);
     final enabledStorage = storage.get("enable", false);
+    final enabledCors = storage.get("cors", false);
     final enabledHosting = hosting.get("enable", false);
     final enableActions = hosting.get("github_actions", false);
     final enabledLogger = firebase.getAsMap("logger").get("enable", false);
@@ -260,6 +262,21 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
         await storageProcess.exitCode;
         label("Rewriting Rules");
         await const FirebaseStorageRulesCliCode().generateFile("storage.rules");
+        if (enabledCors) {
+          label("Set the cors.json");
+          await const FirebaseStorageCorsCliCode().generateFile("cors.json");
+          await command(
+            "Run cors.json deploy",
+            [
+              gsutil,
+              "cors",
+              "set",
+              "cors.json",
+              "gs://$projectId.appspot.com",
+            ],
+            workingDirectory: "firebase",
+          );
+        }
       }
     }
     if (enabledHosting) {
@@ -703,6 +720,70 @@ service firebase.storage {
     }
   }
 }
+""";
+  }
+}
+
+/// Firebase Storage cors.json codebase.
+///
+/// Firebase Storageのcors.jsonのコードベース。
+class FirebaseStorageCorsCliCode extends CliCode {
+  /// Firebase Storage cors.json codebase.
+  ///
+  /// Firebase Storageのcors.jsonのコードベース。
+  const FirebaseStorageCorsCliCode();
+
+  @override
+  String get name => "cors";
+
+  @override
+  String get prefix => "cors";
+
+  @override
+  String get directory => "firebase";
+
+  @override
+  String get description =>
+      "Firebase Storage cors.json codebase. Firebase Storageのcors.jsonのコードベース。";
+
+  /// Checks [fileName] and returns true if the file does not exist.
+  ///
+  /// [fileName]をチェックしファイルが存在しない場合にtrueを返します。
+  Future<bool> check(String fileName) async {
+    if (directory.isNotEmpty) {
+      final dir = Directory(directory);
+      if (!dir.existsSync()) {
+        await dir.create(recursive: true);
+      }
+    }
+    final file = File("${directory.isNotEmpty ? "$directory/" : ""}$fileName");
+    if (!file.existsSync()) {
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  String import(String path, String baseName, String className) {
+    return """
+""";
+  }
+
+  @override
+  String header(String path, String baseName, String className) {
+    return "";
+  }
+
+  @override
+  String body(String path, String baseName, String className) {
+    return """
+[
+  {
+    "origin": ["*"],
+    "method": ["GET"],
+    "maxAgeSeconds": 3600
+  }
+]
 """;
   }
 }

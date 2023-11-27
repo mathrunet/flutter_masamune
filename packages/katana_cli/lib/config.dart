@@ -220,8 +220,10 @@ ${showAllConfig ? """
 
   # Enable Cloud Storage for Firebase.
   # Cloud Storage for Firebaseを有効にします。
+  # CORSで画像等を取得する
   storage:
     enable: false
+    cors: false
 
   # Enable Cloud Functions for Firebase.
   # Cloud Functions for Firebaseを有効にします。

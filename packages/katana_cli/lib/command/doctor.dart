@@ -20,6 +20,8 @@ const _mainCommands = {
       "The `keytool` command does not exist. Please install the JDK from the following and pass the path under the bin file of the installed JDK:\nhttps://jdk.java.net/\n\n`keytool`コマンドが存在しません。下記からJDKをインストールし、インストールしたJDKのbinファイル以下のパスを通してください。\nhttps://jdk.java.net/",
   "openssl":
       "The command `openssl` does not exist.\n[Windows] Please install from the following and pass through the path:\nhttps://slproweb.com/products/Win32OpenSSL.html\n[Mac] Please install from the following command and pass through the path:\n`brew install openssl`\n\n`openssl`のコマンドが存在しません。\n[Windows]下記からインストールを行ってパスを通してください。\nhttps://slproweb.com/products/Win32OpenSSL.html\n[Mac]下記のコマンドからインストールを行ってパスを通してください。。\n`brew install openssl`",
+  "gsutil":
+      "The `gsutil` command does not exist.\nPlease install from the following:\nhttps://cloud.google.com/storage/docs/gsutil_install\n\n`gsutil`コマンドが存在しません。\n下記からインストールを行ってください。\nhttps://cloud.google.com/storage/docs/gsutil_install",
 };
 
 final _macOSMainCommand = {
