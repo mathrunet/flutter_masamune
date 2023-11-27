@@ -409,6 +409,16 @@ jobs:
       - name: Create assets folder
         run: mkdir -p assets
 
+      # Updating pod files.
+      # Podファイルのアップデート。
+      - name: Pod file update
+        run: |
+          cd ios
+          pod repo update
+          rm Podfile.lock
+          pod install
+          cd ..
+
       # Running flutter analyze.
       # Flutter analyzeの実行。
       - name: Analyzing flutter project
