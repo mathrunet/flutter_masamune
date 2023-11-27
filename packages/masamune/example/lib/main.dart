@@ -81,7 +81,9 @@ final l = AppLocalize();
 
 // TODO: Set the Google Spreadsheet URL for the translation.
 @GoogleSpreadSheetLocalize(
-  "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808",
+  [
+    "https://docs.google.com/spreadsheets/d/1bw7IXEr7BGkZ4U6on0OuF7HQkTMgDSm6u5ThpBkDPeo/edit#gid=551986808"
+  ],
   version: 1,
 )
 class AppLocalize extends _$AppLocalize {}
