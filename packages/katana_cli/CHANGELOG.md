@@ -1,3 +1,7 @@
+## 2.10.18
+
+ - **FIX**: Added CORS settings for Storage. ([e5adf741](https://github.com/mathrunet/flutter_masamune/commit/e5adf741bca04a55ac1e2a06099bccf2dd8064a9))
+
 ## 2.10.17
 
  - Update a dependency to the latest release.

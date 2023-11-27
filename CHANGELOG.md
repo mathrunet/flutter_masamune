@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.10.18`](#katana_cli---v21018)
+
+---
+
+#### `katana_cli` - `v2.10.18`
+
+ - **FIX**: Added CORS settings for Storage. ([e5adf741](https://github.com/mathrunet/flutter_masamune/commit/e5adf741bca04a55ac1e2a06099bccf2dd8064a9))
+
+
 ## 2023-11-24
 
 ### Changes
