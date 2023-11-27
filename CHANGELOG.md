@@ -15,6 +15,110 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.10.19`](#katana_cli---v21019)
+ - [`katana_localization` - `v2.1.0`](#katana_localization---v210)
+ - [`katana_localization_annotation` - `v2.1.0`](#katana_localization_annotation---v210)
+ - [`katana_localization_builder` - `v2.1.0`](#katana_localization_builder---v210)
+ - [`masamune` - `v2.4.97`](#masamune---v2497)
+ - [`masamune_location_platform_interface` - `v2.1.44`](#masamune_location_platform_interface---v2144)
+ - [`masamune_location` - `v2.1.165`](#masamune_location---v21165)
+ - [`masamune_deeplink_firebase` - `v2.1.74`](#masamune_deeplink_firebase---v2174)
+ - [`masamune_auth_apple` - `v2.1.153`](#masamune_auth_apple---v21153)
+ - [`masamune_location_background` - `v2.2.23`](#masamune_location_background---v2223)
+ - [`masamune_scheduler` - `v2.1.36`](#masamune_scheduler---v2136)
+ - [`masamune_auth_google` - `v2.1.154`](#masamune_auth_google---v21154)
+ - [`masamune_text_to_speech` - `v2.1.119`](#masamune_text_to_speech---v21119)
+ - [`masamune_agora` - `v2.3.11`](#masamune_agora---v2311)
+ - [`masamune_ai_openai` - `v2.2.87`](#masamune_ai_openai---v2287)
+ - [`masamune_calendar` - `v2.1.3`](#masamune_calendar---v213)
+ - [`masamune_picker` - `v2.1.152`](#masamune_picker---v21152)
+ - [`masamune_util` - `v2.1.131`](#masamune_util---v21131)
+ - [`masamune_universal_ui` - `v2.2.135`](#masamune_universal_ui---v22135)
+ - [`masamune_purchase_stripe` - `v3.3.100`](#masamune_purchase_stripe---v33100)
+ - [`masamune_notification` - `v2.2.39`](#masamune_notification---v2239)
+ - [`masamune_logger_firebase` - `v2.0.195`](#masamune_logger_firebase---v20195)
+ - [`masamune_deeplink` - `v2.1.72`](#masamune_deeplink---v2172)
+ - [`masamune_introduction` - `v2.2.101`](#masamune_introduction---v22101)
+ - [`masamune_auth_facebook` - `v2.1.155`](#masamune_auth_facebook---v21155)
+ - [`masamune_speech_to_text` - `v2.1.122`](#masamune_speech_to_text---v21122)
+ - [`masamune_module_point_ecosystem` - `v2.3.61`](#masamune_module_point_ecosystem---v2361)
+ - [`masamune_location_google` - `v2.1.166`](#masamune_location_google---v21166)
+ - [`masamune_module` - `v2.3.56`](#masamune_module---v2356)
+ - [`masamune_mail` - `v2.1.150`](#masamune_mail---v21150)
+ - [`masamune_notification_firebase` - `v2.4.41`](#masamune_notification_firebase---v2441)
+ - [`masamune_purchase_mobile` - `v2.5.102`](#masamune_purchase_mobile---v25102)
+ - [`masamune_ads_google` - `v2.1.103`](#masamune_ads_google---v21103)
+ - [`masamune_builder` - `v2.8.30`](#masamune_builder---v2830)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v2.1.44`
+ - `masamune_location` - `v2.1.165`
+ - `masamune_deeplink_firebase` - `v2.1.74`
+ - `masamune_auth_apple` - `v2.1.153`
+ - `masamune_location_background` - `v2.2.23`
+ - `masamune_scheduler` - `v2.1.36`
+ - `masamune_auth_google` - `v2.1.154`
+ - `masamune_text_to_speech` - `v2.1.119`
+ - `masamune_agora` - `v2.3.11`
+ - `masamune_ai_openai` - `v2.2.87`
+ - `masamune_calendar` - `v2.1.3`
+ - `masamune_picker` - `v2.1.152`
+ - `masamune_util` - `v2.1.131`
+ - `masamune_universal_ui` - `v2.2.135`
+ - `masamune_purchase_stripe` - `v3.3.100`
+ - `masamune_notification` - `v2.2.39`
+ - `masamune_logger_firebase` - `v2.0.195`
+ - `masamune_deeplink` - `v2.1.72`
+ - `masamune_introduction` - `v2.2.101`
+ - `masamune_auth_facebook` - `v2.1.155`
+ - `masamune_speech_to_text` - `v2.1.122`
+ - `masamune_module_point_ecosystem` - `v2.3.61`
+ - `masamune_location_google` - `v2.1.166`
+ - `masamune_module` - `v2.3.56`
+ - `masamune_mail` - `v2.1.150`
+ - `masamune_notification_firebase` - `v2.4.41`
+ - `masamune_purchase_mobile` - `v2.5.102`
+ - `masamune_ads_google` - `v2.1.103`
+ - `masamune_builder` - `v2.8.30`
+
+---
+
+#### `katana_cli` - `v2.10.19`
+
+ - **FIX**: Support for multiple designations of Google Spreadsheets. ([2a106d79](https://github.com/mathrunet/flutter_masamune/commit/2a106d79b65ac1e75631ebbc2235683c65114a0d))
+
+#### `katana_localization` - `v2.1.0`
+
+ - **FEAT**: Multiple URLs for Google Spreadsheet can be specified. ([5dc709dd](https://github.com/mathrunet/flutter_masamune/commit/5dc709ddd5b1c81c6f115be29c9b655949933962))
+
+#### `katana_localization_annotation` - `v2.1.0`
+
+ - **FEAT**: Multiple URLs for Google Spreadsheet can be specified. ([5dc709dd](https://github.com/mathrunet/flutter_masamune/commit/5dc709ddd5b1c81c6f115be29c9b655949933962))
+
+#### `katana_localization_builder` - `v2.1.0`
+
+ - **FEAT**: Multiple URLs for Google Spreadsheet can be specified. ([5dc709dd](https://github.com/mathrunet/flutter_masamune/commit/5dc709ddd5b1c81c6f115be29c9b655949933962))
+
+#### `masamune` - `v2.4.97`
+
+ - **FIX**: Support for multiple designations of Google Spreadsheets. ([2a106d79](https://github.com/mathrunet/flutter_masamune/commit/2a106d79b65ac1e75631ebbc2235683c65114a0d))
+
+
+## 2023-11-27
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.10.18`](#katana_cli---v21018)
 
 ---

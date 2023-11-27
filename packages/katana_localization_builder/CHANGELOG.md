@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: Multiple URLs for Google Spreadsheet can be specified. ([5dc709dd](https://github.com/mathrunet/flutter_masamune/commit/5dc709ddd5b1c81c6f115be29c9b655949933962))
+
 ## 2.0.31
 
  - Update a dependency to the latest release.
