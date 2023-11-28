@@ -173,10 +173,16 @@ List<Spec> documentModelQueryClass(
                     ..named = true
                     ..type = const Reference("ModelAdapter?"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "accessQuery"
+                    ..named = true
+                    ..type = const Reference("ModelAccessQuery?"),
+                ),
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter,));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, ));",
               ),
           ),
           if (mirror != null)
@@ -408,10 +414,16 @@ List<Spec> documentModelQueryClass(
                       ..named = true
                       ..type = const Reference("ModelAdapter?"),
                   ),
+                  Parameter(
+                    (p) => p
+                      ..name = "accessQuery"
+                      ..named = true
+                      ..type = const Reference("ModelAccessQuery?"),
+                  ),
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorDocumentQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter,));",
+                  "return _\$_${model.name}MirrorDocumentQuery(DocumentModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, ));",
                 ),
             )
           ]),

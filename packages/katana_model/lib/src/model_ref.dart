@@ -480,6 +480,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     required this.document,
     required this.value,
     this.adapter,
+    this.accessQuery,
   });
 
   /// Callback to retrieve [ModelRefBase] stored in [TSource].
@@ -500,6 +501,15 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
   ///
   /// 指定されない場合は、現在のドキュメントで利用されている[ModelAdapter]が利用されます。
   final ModelAdapter? adapter;
+
+  /// [ModelAccessQuery] for use in the internal model.
+  ///
+  /// If not specified, [ModelAccessQuery] used in the current document will be used.
+  ///
+  /// 内部モデルで利用するための[ModelAccessQuery]を指定します。
+  ///
+  /// 指定されない場合は、現在のドキュメントで利用されている[ModelAccessQuery]が利用されます。
+  final ModelAccessQuery? accessQuery;
 
   /// Callback to store the generated [ModelRefMixin<TResult>] in [TSource].
   ///
@@ -529,6 +539,7 @@ class ModelRefBuilder<TSource, TResult> extends ModelRefBuilderBase<TSource> {
     final modelQuery = DocumentModelQuery(
       ref.modelQuery.path,
       adapter: adapter ?? loaderModelQuery.adapter,
+      accessQuery: accessQuery ?? loaderModelQuery.accessQuery,
     );
     if (cacheList.containsKey(modelQuery)) {
       final doc = cacheList[modelQuery];

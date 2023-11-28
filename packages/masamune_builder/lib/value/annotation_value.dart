@@ -23,6 +23,7 @@ class ModelAnnotationValue {
       if (matcher.isExactlyType(obj.type!)) {
         final source = meta.toSource();
         mirror = obj.getField("mirror")?.toStringValue();
+        endpoint = obj.getField("endpoint")?.toStringValue();
 
         final adapterMatch = _adapterRegExp.firstMatch(source);
         if (adapterMatch != null) {
@@ -48,6 +49,7 @@ class ModelAnnotationValue {
     }
     mirror = null;
     adapter = null;
+    endpoint = null;
   }
 
   static final _mirrorWithSingleQuoteRegExp = RegExp(r"mirror\s*:\s*('[^']+')");
@@ -75,6 +77,11 @@ class ModelAnnotationValue {
   ///
   /// アダプターの設定。
   late final String? adapter;
+
+  /// Endpoint configuration.
+  ///
+  /// エンドポイントの設定。
+  late final String? endpoint;
 
   @override
   String toString() {

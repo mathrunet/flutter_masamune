@@ -250,6 +250,18 @@ List<Spec> collectionModelClass(
           )
         ])
         ..fields.addAll([
+          Field(
+            (f) => f
+              ..name = "defaultModelAccessQuery"
+              ..static = true
+              ..modifier = FieldModifier.constant
+              ..type = const Reference("ModelAccessQuery?")
+              ..assignment = Code(
+                annotation.endpoint.isEmpty
+                    ? "null"
+                    : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
+              ),
+          ),
           if (googleSpreadSheetValue.source.isEmpty)
             Field(
               (f) => f
@@ -333,6 +345,18 @@ List<Spec> collectionModelClass(
             )
           ])
           ..fields.addAll([
+            Field(
+              (f) => f
+                ..name = "defaultModelAccessQuery"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("ModelAccessQuery?")
+                ..assignment = Code(
+                  annotation.endpoint.isEmpty
+                      ? "null"
+                      : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
+                ),
+            ),
             if (googleSpreadSheetValue.source.isEmpty)
               Field(
                 (f) => f

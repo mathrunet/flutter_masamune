@@ -4,7 +4,9 @@ part of '/katana_model.dart';
 ///
 /// The [path] to be queried is given and the document is loaded, etc.
 ///
-/// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ ModelAdapter.primary] is used.
+/// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ModelAdapter.primary] is used.
+///
+/// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
 ///
 /// Use [CollectionModelQuery] for collections.
 ///
@@ -12,7 +14,9 @@ part of '/katana_model.dart';
 ///
 /// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
 ///
-/// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
+/// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
+///
+/// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
 ///
 /// コレクションに対しては[CollectionModelQuery]を使用してください。
 @immutable
@@ -21,7 +25,9 @@ class DocumentModelQuery extends ModelQuery {
   ///
   /// The [path] to be queried is given and the document is loaded, etc.
   ///
-  /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ ModelAdapter.primary] is used.
+  /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ModelAdapter.primary] is used.
+  ///
+  /// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
   ///
   /// Use [CollectionModelQuery] for collections.
   ///
@@ -29,12 +35,15 @@ class DocumentModelQuery extends ModelQuery {
   ///
   /// クエリ対象となる[path]を与えて、ドキュメントの読み込み等を行います。
   ///
-  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ ModelAdapter.primary]が使用されます。
+  /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
+  ///
+  /// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
   ///
   /// コレクションに対しては[CollectionModelQuery]を使用してください。
   const DocumentModelQuery(
     super.path, {
     ModelAdapter? adapter,
+    super.accessQuery,
   }) : _adapter = adapter;
 
   /// An adapter for defining the process of reading and saving data. If [adapter] is not specified, [ModelAdapter.primary] is used.
@@ -46,13 +55,18 @@ class DocumentModelQuery extends ModelQuery {
 
   final ModelAdapter? _adapter;
 
-  /// Copy [DocumentModelQuery] with [path] and [adapter].
+  /// Copy [DocumentModelQuery] with [path], [adapter] and [accessQuery].
   ///
-  /// [path]と[adapter]を指定して[DocumentModelQuery]をコピーします。
-  DocumentModelQuery copyWith({String? path, ModelAdapter? adapter}) {
+  /// [path]と[adapter]、[accessQuery]を指定して[DocumentModelQuery]をコピーします。
+  DocumentModelQuery copyWith({
+    String? path,
+    ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
+  }) {
     return DocumentModelQuery(
       path ?? this.path,
       adapter: adapter ?? _adapter,
+      accessQuery: accessQuery ?? this.accessQuery,
     );
   }
 
@@ -79,6 +93,8 @@ class DocumentModelQuery extends ModelQuery {
 ///
 /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ModelAdapter.primary] is used.
 ///
+/// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
+///
 /// Use [DocumentModelQuery] for documents.
 ///
 /// Execute [create] to create a [DocumentModelQuery] with the specified ID.
@@ -90,6 +106,8 @@ class DocumentModelQuery extends ModelQuery {
 /// クエリ対象となる[path]と他必要な条件を定義することが可能です。
 ///
 /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
+///
+/// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
 ///
 /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
 ///
@@ -104,6 +122,8 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// By specifying [adapter], you can change the behavior when reading and saving data. If no [adapter] is specified, [ModelAdapter.primary] is used.
   ///
+  /// If [accessQuery] is specified, you can specify endpoints, etc. in [ModelAdapter].
+  ///
   /// Use [DocumentModelQuery] for documents.
   ///
   /// Execute [create] to create a [DocumentModelQuery] with the specified ID.
@@ -116,6 +136,8 @@ class CollectionModelQuery extends ModelQuery {
   ///
   /// [adapter]を指定することでデータの読取・保存の際の挙動を変えることができます。[adapter]は何も指定されない場合[ModelAdapter.primary]が使用されます。
   ///
+  /// [accessQuery]を指定した場合、[ModelAdapter]でのエンドポイント等を指定できます。
+  ///
   /// ドキュメントに対しては[DocumentModelQuery]を使用してください。
   ///
   /// [create]を実行すると指定したIDを持つ[DocumentModelQuery]を作成することができます。
@@ -124,11 +146,13 @@ class CollectionModelQuery extends ModelQuery {
   const CollectionModelQuery(
     super.path, {
     ModelAdapter? adapter,
+    super.accessQuery,
   }) : _adapter = adapter;
 
   const CollectionModelQuery._(
     super.path, {
     super.filters = const [],
+    super.accessQuery,
     ModelAdapter? adapter,
   }) : _adapter = adapter;
 
@@ -154,6 +178,7 @@ class CollectionModelQuery extends ModelQuery {
     return DocumentModelQuery(
       "${path.trimQuery().trimString("/")}/${id ?? uuid()}",
       adapter: adapter,
+      accessQuery: accessQuery,
     );
   }
 
@@ -454,17 +479,23 @@ class CollectionModelQuery extends ModelQuery {
       path,
       filters: filters ?? this.filters,
       adapter: _adapter,
+      accessQuery: accessQuery,
     );
   }
 
-  /// Copy [CollectionModelQuery] with [path] and [adapter].
+  /// Copy [CollectionModelQuery] with [path], [adapter] and [accessQuery].
   ///
-  /// [path]と[adapter]を指定して[CollectionModelQuery]をコピーします。
-  CollectionModelQuery copyWith({String? path, ModelAdapter? adapter}) {
+  /// [path]と[adapter]、[accessQuery]を指定して[CollectionModelQuery]をコピーします。
+  CollectionModelQuery copyWith({
+    String? path,
+    ModelAdapter? adapter,
+    ModelAccessQuery? accessQuery,
+  }) {
     return CollectionModelQuery._(
       path ?? this.path,
       filters: filters,
       adapter: adapter ?? _adapter,
+      accessQuery: accessQuery ?? this.accessQuery,
     );
   }
 
@@ -512,6 +543,7 @@ class ModelQuery {
   const ModelQuery(
     this.path, {
     this.filters = const [],
+    this.accessQuery,
   });
 
   /// Path definition for the model.
@@ -523,6 +555,11 @@ class ModelQuery {
   ///
   /// モデルに対するフィルター定義。
   final List<ModelQueryFilter> filters;
+
+  /// Stores information for connecting to the server.
+  ///
+  /// サーバーに接続するための情報を格納します。
+  final ModelAccessQuery? accessQuery;
 
   @override
   String toString() {

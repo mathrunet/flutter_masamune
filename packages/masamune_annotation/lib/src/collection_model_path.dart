@@ -127,6 +127,7 @@ class CollectionModelPath {
     this.path, {
     this.mirror,
     this.adapter,
+    this.endpoint,
   });
 
   /// Path for collection.
@@ -143,4 +144,9 @@ class CollectionModelPath {
   ///
   /// デフォルトのアダプターを指定します。
   final Object? adapter;
+
+  /// Endpoints for accessing the API.
+  ///
+  /// APIにアクセスするためのエンドポイント。
+  final String? endpoint;
 }

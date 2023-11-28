@@ -39,6 +39,18 @@ List<Spec> documentModelClass(
           )
         ])
         ..fields.addAll([
+          Field(
+            (f) => f
+              ..name = "defaultModelAccessQuery"
+              ..static = true
+              ..modifier = FieldModifier.constant
+              ..type = const Reference("ModelAccessQuery?")
+              ..assignment = Code(
+                annotation.endpoint.isEmpty
+                    ? "null"
+                    : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
+              ),
+          ),
           if (googleSpreadSheetValue.source.isEmpty)
             Field(
               (f) => f
@@ -188,7 +200,7 @@ List<Spec> documentModelClass(
                       );
                     }
                     final doc = e.reference;
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
+                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
                   } else {
                     if (!e.type.aliasName.endsWith("?")) {
                       throw Exception(
@@ -202,7 +214,7 @@ List<Spec> documentModelClass(
                       );
                     }
                     final doc = e.reference;
-                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
+                    return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
                   }
                 }).join(",")}]"),
             ),
@@ -233,6 +245,18 @@ List<Spec> documentModelClass(
             )
           ])
           ..fields.addAll([
+            Field(
+              (f) => f
+                ..name = "defaultModelAccessQuery"
+                ..static = true
+                ..modifier = FieldModifier.constant
+                ..type = const Reference("ModelAccessQuery?")
+                ..assignment = Code(
+                  annotation.endpoint.isEmpty
+                      ? "null"
+                      : "ModelAccessQuery(endpoint:\"${annotation.endpoint}\")",
+                ),
+            ),
             if (googleSpreadSheetValue.source.isEmpty)
               Field(
                 (f) => f
@@ -380,7 +404,7 @@ List<Spec> documentModelClass(
                         );
                       }
                       final doc = e.reference;
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter,)";
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
                     } else {
                       if (!e.type.aliasName.endsWith("?")) {
                         throw Exception(
@@ -395,7 +419,7 @@ List<Spec> documentModelClass(
                         );
                       }
                       final doc = e.reference;
-                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, )";
+                      return "ModelRefBuilder( modelRef: (value) => value.${e.name}, document: (modelQuery) => $doc(modelQuery), value: (value, doc) => value.copyWith( ${e.name}: doc ), adapter: $doc.defaultModelAdapter, accessQuery: $doc.defaultModelAccessQuery,)";
                     }
                   }).join(",")}]"),
               ),

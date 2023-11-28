@@ -115,6 +115,7 @@ class DocumentModelPath {
     this.path, {
     this.mirror,
     this.adapter,
+    this.endpoint,
   });
 
   /// Path for documentation.
@@ -131,4 +132,9 @@ class DocumentModelPath {
   ///
   /// デフォルトのアダプターを指定します。
   final Object? adapter;
+
+  /// Endpoints for accessing the API.
+  ///
+  /// APIにアクセスするためのエンドポイント。
+  final String? endpoint;
 }
