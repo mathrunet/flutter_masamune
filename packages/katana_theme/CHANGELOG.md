@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: Added the ability to specify to Document and Temporary folders. ([4ca19cc4](https://github.com/mathrunet/flutter_masamune/commit/4ca19cc49e8e071239e601622010a04673fd6840))
+
 ## 2.1.11
 
  - Update a dependency to the latest release.
