@@ -1,3 +1,7 @@
+## 2.4.98
+
+ - Update a dependency to the latest release.
+
 ## 2.4.97
 
  - **FIX**: Support for multiple designations of Google Spreadsheets. ([2a106d79](https://github.com/mathrunet/flutter_masamune/commit/2a106d79b65ac1e75631ebbc2235683c65114a0d))

@@ -1,3 +1,7 @@
+## 2.15.0
+
+ - **FEAT**: Added implementation of ModelAccessQuery. ([b469479f](https://github.com/mathrunet/flutter_masamune/commit/b469479f2dcdece177523f0d69f953cee9c6e24f))
+
 ## 2.14.1
 
  - **FIX**: Added Freezed test. ([2b2398b3](https://github.com/mathrunet/flutter_masamune/commit/2b2398b359ce154ca96aed04edbbcc6c214699c0))

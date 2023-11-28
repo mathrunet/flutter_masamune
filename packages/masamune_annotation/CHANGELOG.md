@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: Added implementation of ModelAccessQuery. ([b469479f](https://github.com/mathrunet/flutter_masamune/commit/b469479f2dcdece177523f0d69f953cee9c6e24f))
+
 ## 2.3.18
 
  - Update a dependency to the latest release.
