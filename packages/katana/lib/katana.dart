@@ -65,5 +65,5 @@ part 'extension/set_extensions.dart';
 part 'extension/string_extensions.dart';
 part 'extension/uri_extensions.dart';
 part 'src/date_duration.dart';
-part "src/functions.dart";
-part "src/typedef.dart";
+part 'src/functions.dart';
+part 'src/typedef.dart';
