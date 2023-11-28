@@ -67,3 +67,4 @@ part 'extension/uri_extensions.dart';
 part 'src/date_duration.dart';
 part 'src/functions.dart';
 part 'src/typedef.dart';
+part 'src/num_range.dart';
