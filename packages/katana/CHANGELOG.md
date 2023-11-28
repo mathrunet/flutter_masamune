@@ -1,3 +1,7 @@
+## 2.7.1
+
+ - **FIX**: Fixed a bug that NumRange was not available. ([4fdf0c87](https://github.com/mathrunet/flutter_masamune/commit/4fdf0c876b22d877e57b1aa8d445c2c7d6d2f047))
+
 ## 2.7.0
 
  - **FEAT**: Create a class for NumRange. ([0c4cf48c](https://github.com/mathrunet/flutter_masamune/commit/0c4cf48c75f04f0b6da7f0c1819c5d2e14373f61))

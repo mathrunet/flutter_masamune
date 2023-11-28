@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  masamune: ^2.4.99
+  masamune: ^2.4.100
   masamune_universal_ui:
     path: "../"
 

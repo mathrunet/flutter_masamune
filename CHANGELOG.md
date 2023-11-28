@@ -15,6 +15,164 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana` - `v2.7.1`](#katana---v271)
+ - [`masamune_location_platform_interface` - `v2.1.47`](#masamune_location_platform_interface---v2147)
+ - [`katana_prefs_annotation` - `v2.0.27`](#katana_prefs_annotation---v2027)
+ - [`katana_prefs` - `v2.0.30`](#katana_prefs---v2030)
+ - [`masamune_annotation` - `v2.4.2`](#masamune_annotation---v242)
+ - [`katana_functions_firebase` - `v2.4.22`](#katana_functions_firebase---v2422)
+ - [`katana_scoped` - `v2.0.40`](#katana_scoped---v2040)
+ - [`katana_shorten` - `v2.0.25`](#katana_shorten---v2025)
+ - [`masamune_location` - `v2.1.168`](#masamune_location---v21168)
+ - [`katana_localization` - `v2.1.2`](#katana_localization---v212)
+ - [`katana_router_annotation` - `v2.0.32`](#katana_router_annotation---v2032)
+ - [`katana_functions` - `v2.4.21`](#katana_functions---v2421)
+ - [`masamune_deeplink_firebase` - `v2.1.77`](#masamune_deeplink_firebase---v2177)
+ - [`katana_theme_annotation` - `v2.0.30`](#katana_theme_annotation---v2030)
+ - [`masamune_auth_apple` - `v2.1.156`](#masamune_auth_apple---v21156)
+ - [`masamune_location_background` - `v2.2.26`](#masamune_location_background---v2226)
+ - [`katana_logger` - `v2.0.25`](#katana_logger---v2025)
+ - [`katana_localization_builder` - `v2.1.2`](#katana_localization_builder---v212)
+ - [`katana_ui` - `v2.5.16`](#katana_ui---v2516)
+ - [`masamune_agora` - `v2.3.14`](#masamune_agora---v2314)
+ - [`masamune_ai_openai` - `v2.2.90`](#masamune_ai_openai---v2290)
+ - [`masamune_auth_google` - `v2.1.157`](#masamune_auth_google---v21157)
+ - [`masamune_text_to_speech` - `v2.1.122`](#masamune_text_to_speech---v21122)
+ - [`katana_localization_annotation` - `v2.1.2`](#katana_localization_annotation---v212)
+ - [`masamune_calendar` - `v2.1.6`](#masamune_calendar---v216)
+ - [`katana_router_builder` - `v2.0.43`](#katana_router_builder---v2043)
+ - [`katana_auth` - `v2.2.14`](#katana_auth---v2214)
+ - [`masamune_picker` - `v2.1.155`](#masamune_picker---v21155)
+ - [`katana_model_local` - `v2.8.26`](#katana_model_local---v2826)
+ - [`katana_storage_firebase` - `v2.0.28`](#katana_storage_firebase---v2028)
+ - [`masamune_model_planetscale_annotation` - `v2.1.10`](#masamune_model_planetscale_annotation---v2110)
+ - [`katana_model_firestore` - `v2.10.4`](#katana_model_firestore---v2104)
+ - [`katana_router` - `v2.0.54`](#katana_router---v2054)
+ - [`katana_theme` - `v2.1.11`](#katana_theme---v2111)
+ - [`masamune_util` - `v2.1.134`](#masamune_util---v21134)
+ - [`katana_model_openapi` - `v2.1.14`](#katana_model_openapi---v2114)
+ - [`katana_prefs_builder` - `v2.0.32`](#katana_prefs_builder---v2032)
+ - [`katana_cli` - `v2.10.22`](#katana_cli---v21022)
+ - [`masamune_universal_ui` - `v2.2.138`](#masamune_universal_ui---v22138)
+ - [`katana_storage` - `v2.0.27`](#katana_storage---v2027)
+ - [`masamune_purchase_stripe` - `v3.3.103`](#masamune_purchase_stripe---v33103)
+ - [`katana_model` - `v2.15.2`](#katana_model---v2152)
+ - [`katana_listenables` - `v2.0.28`](#katana_listenables---v2028)
+ - [`katana_listenables_builder` - `v2.0.32`](#katana_listenables_builder---v2032)
+ - [`katana_listenables_annotation` - `v2.0.27`](#katana_listenables_annotation---v2027)
+ - [`katana_indicator` - `v2.0.27`](#katana_indicator---v2027)
+ - [`masamune_builder` - `v2.9.2`](#masamune_builder---v292)
+ - [`masamune_introduction` - `v2.2.104`](#masamune_introduction---v22104)
+ - [`katana_firebase` - `v2.0.24`](#katana_firebase---v2024)
+ - [`masamune_deeplink` - `v2.1.75`](#masamune_deeplink---v2175)
+ - [`masamune_speech_to_text` - `v2.1.125`](#masamune_speech_to_text---v21125)
+ - [`masamune_auth_facebook` - `v2.1.158`](#masamune_auth_facebook---v21158)
+ - [`katana_model_openapi_builder` - `v2.0.28`](#katana_model_openapi_builder---v2028)
+ - [`masamune_location_google` - `v2.1.169`](#masamune_location_google---v21169)
+ - [`katana_form` - `v2.8.10`](#katana_form---v2810)
+ - [`masamune_module_point_ecosystem` - `v2.3.64`](#masamune_module_point_ecosystem---v2364)
+ - [`katana_auth_firebase` - `v2.1.18`](#katana_auth_firebase---v2118)
+ - [`katana_theme_builder` - `v2.1.10`](#katana_theme_builder---v2110)
+ - [`masamune_mail` - `v2.1.153`](#masamune_mail---v21153)
+ - [`masamune_module` - `v2.3.59`](#masamune_module---v2359)
+ - [`masamune_purchase_mobile` - `v2.5.105`](#masamune_purchase_mobile---v25105)
+ - [`masamune_ads_google` - `v2.1.106`](#masamune_ads_google---v21106)
+ - [`masamune` - `v2.4.100`](#masamune---v24100)
+ - [`masamune_logger_firebase` - `v2.0.198`](#masamune_logger_firebase---v20198)
+ - [`masamune_notification_firebase` - `v2.4.44`](#masamune_notification_firebase---v2444)
+ - [`masamune_scheduler` - `v2.1.39`](#masamune_scheduler---v2139)
+ - [`masamune_notification` - `v2.2.42`](#masamune_notification---v2242)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_location_platform_interface` - `v2.1.47`
+ - `katana_prefs_annotation` - `v2.0.27`
+ - `katana_prefs` - `v2.0.30`
+ - `masamune_annotation` - `v2.4.2`
+ - `katana_functions_firebase` - `v2.4.22`
+ - `katana_scoped` - `v2.0.40`
+ - `katana_shorten` - `v2.0.25`
+ - `masamune_location` - `v2.1.168`
+ - `katana_localization` - `v2.1.2`
+ - `katana_router_annotation` - `v2.0.32`
+ - `katana_functions` - `v2.4.21`
+ - `masamune_deeplink_firebase` - `v2.1.77`
+ - `katana_theme_annotation` - `v2.0.30`
+ - `masamune_auth_apple` - `v2.1.156`
+ - `masamune_location_background` - `v2.2.26`
+ - `katana_logger` - `v2.0.25`
+ - `katana_localization_builder` - `v2.1.2`
+ - `katana_ui` - `v2.5.16`
+ - `masamune_agora` - `v2.3.14`
+ - `masamune_ai_openai` - `v2.2.90`
+ - `masamune_auth_google` - `v2.1.157`
+ - `masamune_text_to_speech` - `v2.1.122`
+ - `katana_localization_annotation` - `v2.1.2`
+ - `masamune_calendar` - `v2.1.6`
+ - `katana_router_builder` - `v2.0.43`
+ - `katana_auth` - `v2.2.14`
+ - `masamune_picker` - `v2.1.155`
+ - `katana_model_local` - `v2.8.26`
+ - `katana_storage_firebase` - `v2.0.28`
+ - `masamune_model_planetscale_annotation` - `v2.1.10`
+ - `katana_model_firestore` - `v2.10.4`
+ - `katana_router` - `v2.0.54`
+ - `katana_theme` - `v2.1.11`
+ - `masamune_util` - `v2.1.134`
+ - `katana_model_openapi` - `v2.1.14`
+ - `katana_prefs_builder` - `v2.0.32`
+ - `katana_cli` - `v2.10.22`
+ - `masamune_universal_ui` - `v2.2.138`
+ - `katana_storage` - `v2.0.27`
+ - `masamune_purchase_stripe` - `v3.3.103`
+ - `katana_model` - `v2.15.2`
+ - `katana_listenables` - `v2.0.28`
+ - `katana_listenables_builder` - `v2.0.32`
+ - `katana_listenables_annotation` - `v2.0.27`
+ - `katana_indicator` - `v2.0.27`
+ - `masamune_builder` - `v2.9.2`
+ - `masamune_introduction` - `v2.2.104`
+ - `katana_firebase` - `v2.0.24`
+ - `masamune_deeplink` - `v2.1.75`
+ - `masamune_speech_to_text` - `v2.1.125`
+ - `masamune_auth_facebook` - `v2.1.158`
+ - `katana_model_openapi_builder` - `v2.0.28`
+ - `masamune_location_google` - `v2.1.169`
+ - `katana_form` - `v2.8.10`
+ - `masamune_module_point_ecosystem` - `v2.3.64`
+ - `katana_auth_firebase` - `v2.1.18`
+ - `katana_theme_builder` - `v2.1.10`
+ - `masamune_mail` - `v2.1.153`
+ - `masamune_module` - `v2.3.59`
+ - `masamune_purchase_mobile` - `v2.5.105`
+ - `masamune_ads_google` - `v2.1.106`
+ - `masamune` - `v2.4.100`
+ - `masamune_logger_firebase` - `v2.0.198`
+ - `masamune_notification_firebase` - `v2.4.44`
+ - `masamune_scheduler` - `v2.1.39`
+ - `masamune_notification` - `v2.2.42`
+
+---
+
+#### `katana` - `v2.7.1`
+
+ - **FIX**: Fixed a bug that NumRange was not available. ([4fdf0c87](https://github.com/mathrunet/flutter_masamune/commit/4fdf0c876b22d877e57b1aa8d445c2c7d6d2f047))
+
+
+## 2023-11-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana` - `v2.7.0`](#katana---v270)
  - [`masamune_location_platform_interface` - `v2.1.46`](#masamune_location_platform_interface---v2146)
  - [`katana_prefs_annotation` - `v2.0.26`](#katana_prefs_annotation---v2026)
