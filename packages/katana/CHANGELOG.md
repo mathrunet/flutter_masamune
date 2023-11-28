@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: Create a class for NumRange. ([0c4cf48c](https://github.com/mathrunet/flutter_masamune/commit/0c4cf48c75f04f0b6da7f0c1819c5d2e14373f61))
+
 ## 2.6.3
 
  - **FIX**: Initial value of List calculation for various nums is set to 0. ([10ae168c](https://github.com/mathrunet/flutter_masamune/commit/10ae168cf3efe91d407d5095c0fba9a573430d8b))
