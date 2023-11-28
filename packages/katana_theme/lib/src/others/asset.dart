@@ -57,6 +57,24 @@ class Asset {
           uri.replaceAll(RegExp(r"^file:(//)?"), ""),
           defaultValue: defaultValue,
         );
+      } else if (uri.startsWith("document:")) {
+        return FileTextProvider(
+          uri.replaceAll(RegExp(r"^document:(//)?"), ""),
+          defaultValue: defaultValue,
+          dirType: FileImageDirType.document,
+        );
+      } else if (uri.startsWith("temp:")) {
+        return FileTextProvider(
+          uri.replaceAll(RegExp(r"^temp:(//)?"), ""),
+          defaultValue: defaultValue,
+          dirType: FileImageDirType.temporary,
+        );
+      } else if (uri.startsWith("temporary:")) {
+        return FileTextProvider(
+          uri.replaceAll(RegExp(r"^temporary:(//)?"), ""),
+          defaultValue: defaultValue,
+          dirType: FileImageDirType.temporary,
+        );
       } else if (uri.startsWith("resource:")) {
         return AssetTextProvider(
           uri.replaceAll(RegExp(r"^resource:(//)?"), ""),
@@ -117,6 +135,15 @@ class Asset {
         } else {
           return _MemoizedAssetImage(uri.trimString("/"));
         }
+      } else if (uri.startsWith("document:")) {
+        final file = File(uri.replaceAll(RegExp(r"^document:(//)?"), ""));
+        return _MemoizedFileImage(file, dirType: FileImageDirType.document);
+      } else if (uri.startsWith("temp:")) {
+        final file = File(uri.replaceAll(RegExp(r"^temp:(//)?"), ""));
+        return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
+      } else if (uri.startsWith("temporary:")) {
+        final file = File(uri.replaceAll(RegExp(r"^temporary:(//)?"), ""));
+        return _MemoizedFileImage(file, dirType: FileImageDirType.temporary);
       } else if (uri.startsWith("resource:")) {
         return _MemoizedAssetImage(
             uri.replaceAll(RegExp(r"^resource:(//)?"), ""));
@@ -296,19 +323,64 @@ class _MemoizedNetworkImage extends network_image.NetworkImage {
 }
 
 class _MemoizedFileImage extends FileImage {
-  const _MemoizedFileImage(super.file);
+  const _MemoizedFileImage(
+    super.file, {
+    this.dirType = FileImageDirType.directory,
+  });
+
+  final FileImageDirType dirType;
 
   @override
   ImageStreamCompleter loadImage(FileImage key, ImageDecoderCallback decode) {
     if (key.file.path.isEmpty) {
-      return super.loadImage(key, decode);
+      return _loadImage(key, decode);
     }
     final cache = _ImageMemoryCache._getCache(key.file.path);
     if (cache != null) {
       return cache;
     }
     return _ImageMemoryCache._setCache(
-        key.file.path, super.loadImage(key, decode));
+      key.file.path,
+      _loadImage(key, decode),
+    );
+  }
+
+  ImageStreamCompleter _loadImage(FileImage key, ImageDecoderCallback decode) {
+    return MultiFrameImageStreamCompleter(
+      codec: _loadAsync(key, decode: decode),
+      scale: key.scale,
+      debugLabel: key.file.path,
+      informationCollector: () => <DiagnosticsNode>[
+        ErrorDescription("Path: ${file.path}"),
+      ],
+    );
+  }
+
+  Future<ui.Codec> _loadAsync(
+    FileImage key, {
+    required Future<ui.Codec> Function(ui.ImmutableBuffer buffer) decode,
+  }) async {
+    assert(key == this);
+    if (dirType == FileImageDirType.temporary) {
+      final cacheDir = await getTemporaryDirectory();
+      final fileName = key.file.path.trimString("/");
+      final file = File("${cacheDir.path}/$fileName");
+      key = FileImage(file, scale: key.scale);
+    } else if (dirType == FileImageDirType.document) {
+      final cacheDir = await getApplicationDocumentsDirectory();
+      final fileName = key.file.path.trimString("/");
+      final file = File("${cacheDir.path}/$fileName");
+      key = FileImage(file, scale: key.scale);
+    }
+    final int lengthInBytes = await file.length();
+    if (lengthInBytes == 0) {
+      PaintingBinding.instance.imageCache.evict(key);
+      throw StateError("$file is empty and cannot be loaded as an image.");
+    }
+    return (file.runtimeType == File)
+        ? decode(await ui.ImmutableBuffer.fromFilePath(file.path))
+        : decode(
+            await ui.ImmutableBuffer.fromUint8List(await file.readAsBytes()));
   }
 }
 

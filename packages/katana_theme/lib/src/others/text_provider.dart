@@ -14,6 +14,7 @@ class FileTextProvider extends TextProvider {
   FileTextProvider(
     this.path, {
     super.defaultValue,
+    this.dirType = FileImageDirType.directory,
   }) {
     _load();
   }
@@ -23,6 +24,11 @@ class FileTextProvider extends TextProvider {
   /// アセット内のパス。
   final String path;
 
+  /// Directory type.
+  ///
+  /// ディレクトリのタイプ。
+  final FileImageDirType dirType;
+
   @override
   String? get value => _value ?? defaultValue;
   String? _value;
@@ -30,7 +36,18 @@ class FileTextProvider extends TextProvider {
   Future<void> _load() async {
     _completer = Completer();
     try {
-      final file = File(path);
+      late File file;
+      if (dirType == FileImageDirType.temporary) {
+        final cacheDir = await getTemporaryDirectory();
+        final fileName = path.trimString("/");
+        file = File("${cacheDir.path}/$fileName");
+      } else if (dirType == FileImageDirType.document) {
+        final cacheDir = await getApplicationDocumentsDirectory();
+        final fileName = path.trimString("/");
+        file = File("${cacheDir.path}/$fileName");
+      } else {
+        file = File(path);
+      }
       if (file.existsSync()) {
         _value = await file.readAsString();
         notifyListeners();

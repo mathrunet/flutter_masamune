@@ -34,3 +34,4 @@ part 'src/gradient_color.dart';
 part 'src/video_provider.dart';
 part 'src/text_provider.dart';
 part 'src/functions.dart';
+part 'src/file_image_dir_type.dart';
