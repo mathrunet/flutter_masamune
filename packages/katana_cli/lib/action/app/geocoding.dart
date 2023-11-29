@@ -4,22 +4,22 @@ import 'dart:io';
 // Project imports:
 import 'package:katana_cli/katana_cli.dart';
 
-/// Add a module to use SendGrid.
+/// Add a module to use GeocodingAPI.
 ///
-/// SendGridを利用するためのモジュールを追加します。
-class MailSendGridCliAction extends CliCommand with CliActionMixin {
-  /// Add a module to use SendGrid.
+/// GeocodingAPIを利用するためのモジュールを追加します。
+class AppGeocodingCliAction extends CliCommand with CliActionMixin {
+  /// Add a module to use GeocodingAPI.
   ///
-  /// SendGridを利用するためのモジュールを追加します。
-  const MailSendGridCliAction();
+  /// GeocodingAPIを利用するためのモジュールを追加します。
+  const AppGeocodingCliAction();
 
   @override
   String get description =>
-      "Add a module to use SendGrid. SendGridを利用するためのモジュールを追加します。";
+      "Add a module to use GeocodingAPI. GeocodingAPIを利用するためのモジュールを追加します。";
 
   @override
   bool checkEnabled(ExecContext context) {
-    final value = context.yaml.getAsMap("sendgrid");
+    final value = context.yaml.getAsMap("location").getAsMap("geocoding");
     final enabled = value.get("enable", false);
     if (!enabled) {
       return false;
@@ -32,13 +32,14 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
     final bin = context.yaml.getAsMap("bin");
     final flutter = bin.get("flutter", "flutter");
     final firebaseCommand = bin.get("firebase", "firebase");
-    final sendgrid = context.yaml.getAsMap("sendgrid");
+    final location = context.yaml.getAsMap("location");
+    final geocoding = location.getAsMap("geocoding");
     final firebase = context.yaml.getAsMap("firebase");
     final projectId = firebase.get("project_id", "");
-    final sendGridApiKey = sendgrid.get("api_key", "");
-    if (sendGridApiKey.isEmpty) {
+    final geocodingApiKey = geocoding.get("api_key", "");
+    if (geocodingApiKey.isEmpty) {
       error(
-        "If [sendgrid]->[enable] is enabled, please include [sendgrid]->[api_key].",
+        "If [location]->[geocoding]->[enable] is enabled, please include [location]->[geocoding]->[api_key].",
       );
       return;
     }
@@ -68,15 +69,15 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
         flutter,
         "pub",
         "add",
-        "masamune_mail",
+        "masamune_geocoding",
         "katana_functions_firebase",
       ],
     );
     label("Add firebase functions");
     final functions = Fuctions();
     await functions.load();
-    if (!functions.functions.any((e) => e.startsWith("sendGrid"))) {
-      functions.functions.add("sendGrid()");
+    if (!functions.functions.any((e) => e.startsWith("geocoding"))) {
+      functions.functions.add("geocoding()");
     }
     await functions.save();
     await command(
@@ -84,7 +85,7 @@ class MailSendGridCliAction extends CliCommand with CliActionMixin {
       [
         firebaseCommand,
         "functions:config:set",
-        "mail.sendgrid.api_key=${sendgrid.get("api_key", "")}",
+        "map.geocoding.api_key=${geocoding.get("api_key", "")}",
       ],
       workingDirectory: "firebase",
     );

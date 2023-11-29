@@ -402,6 +402,9 @@ store:
 # If you wish to use GoogleMap, set [google_map]->[enable] to true. Also, obtain a GoogleMap API key from the following link in advance and enter it in [google_map]->[api_key].
 # https://console.cloud.google.com/google/maps-apis/credentials
 #
+# If you want to use Geocoding to obtain location information from addresses, set [geocoding]->[enable] to true. Also, please obtain an API key for Geocoding from the link below and enter it in the [geocoding]->[api_key] field.
+# https://console.cloud.google.com/google/maps-apis/credentials
+#
 # Specify the permission message to use the library in IOS in [permission].
 # Please include `en`, `ja`, etc. and write the message in that language there.
 # 
@@ -409,6 +412,9 @@ store:
 # 
 # アプリがバックグラウンドに入った場合でも位置情報を取得する場合は[enable_background]をtrueにしてください。
 # GoogleMapを利用する場合は[google_map]->[enable]をtrueにしてください。また事前に下記のリンクからGoogleMapのAPIキーを取得しておき[google_map]->[api_key]に記載してください。
+# https://console.cloud.google.com/google/maps-apis/credentials
+#
+# Geocodingで住所から位置情報を取得する場合は[geocoding]->[enable]をtrueにしてください。また事前に下記のリンクからGeocoding専用のAPIキーを取得しておき[geocoding]->[api_key]に記載してください。
 # https://console.cloud.google.com/google/maps-apis/credentials
 #
 # [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
@@ -421,7 +427,10 @@ location:
     api_key:
       android:
       ios:
-      web: 
+      web:
+  geocoding:
+    enable: false
+    api_key: 
   permission:
     en: Location information is used to display the map.
 

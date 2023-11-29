@@ -4,6 +4,7 @@ import 'package:katana_cli/action/agora/agora.dart';
 import 'package:katana_cli/action/app/calendar.dart';
 import 'package:katana_cli/action/app/csr.dart';
 import 'package:katana_cli/action/app/deeplink.dart';
+import 'package:katana_cli/action/app/geocoding.dart';
 import 'package:katana_cli/action/app/icon.dart';
 import 'package:katana_cli/action/app/info.dart';
 import 'package:katana_cli/action/app/introduction.dart';
@@ -66,6 +67,7 @@ const _actions = <CliActionMixin>[
   StripeCliAction(),
   MailGmailCliAction(),
   MailSendGridCliAction(),
+  AppGeocodingCliAction(),
   EcosystemCliAction(),
 ];
 
