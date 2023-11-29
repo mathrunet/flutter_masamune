@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_builder` - `v2.9.3`](#masamune_builder---v293)
+
+---
+
+#### `masamune_builder` - `v2.9.3`
+
+ - **FIX**: Fixed a bug that prevented ModelAccessQuery from being set. ([590e0bec](https://github.com/mathrunet/flutter_masamune/commit/590e0becf6dda918a1a76329e2170e0c5af91b8d))
+
+
+## 2023-11-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location_geocoding` - `v2.2.1`](#masamune_location_geocoding---v221)
 
 ---
