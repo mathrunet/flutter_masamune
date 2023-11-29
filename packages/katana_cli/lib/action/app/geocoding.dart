@@ -69,7 +69,7 @@ class AppGeocodingCliAction extends CliCommand with CliActionMixin {
         flutter,
         "pub",
         "add",
-        "masamune_geocoding",
+        "masamune_location_geocoding",
         "katana_functions_firebase",
       ],
     );
