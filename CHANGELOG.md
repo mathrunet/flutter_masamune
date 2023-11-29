@@ -15,6 +15,28 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location_geocoding` - `v2.2.0`](#masamune_location_geocoding---v220)
+
+---
+
+#### `masamune_location_geocoding` - `v2.2.0`
+
+ - **FEAT**: Package name change. ([9502cbb8](https://github.com/mathrunet/flutter_masamune/commit/9502cbb83961d90fcf195b2a8615265685e1bdc7))
+ - **FEAT**: Initial release. ([486e20ae](https://github.com/mathrunet/flutter_masamune/commit/486e20ae2318147fb5feb99f515145052b8f1589))
+
+
+## 2023-11-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_auth_firebase` - `v2.1.19`](#katana_auth_firebase---v2119)
  - [`katana_cli` - `v2.10.23`](#katana_cli---v21023)
  - [`masamune_geocoding` - `v2.1.0`](#masamune_geocoding---v210)
