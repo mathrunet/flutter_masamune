@@ -33,35 +33,34 @@ class GeocodingFunctionsAction
 
   @override
   GeocodingFunctionsActionFunctionsActionResponse toResponse(DynamicMap map) {
-    final results = map.getAsList("results");
+    final results = map.getAsList<Map>("results");
     if (results.isEmpty) {
       return const GeocodingFunctionsActionFunctionsActionResponse(
         latitude: 0,
         longitude: 0,
       );
     }
-    final geometry = results.first.getAsMap("geometry");
+    final geometry = results.first
+        .map((key, value) => MapEntry(key.toString(), value))
+        .getAsMap("geometry");
     if (geometry.isEmpty) {
       return const GeocodingFunctionsActionFunctionsActionResponse(
         latitude: 0,
         longitude: 0,
       );
     }
-    final location = geometry.getAsMap("location");
+    final location = geometry
+        .map((key, value) => MapEntry(key.toString(), value))
+        .getAsMap("location")
+        .map((key, value) => MapEntry(key.toString(), value));
     if (location.isEmpty) {
       return const GeocodingFunctionsActionFunctionsActionResponse(
         latitude: 0,
         longitude: 0,
       );
     }
-    final latitude = location.getAsDouble("lat");
-    final longitude = location.getAsDouble("lng");
-    if (latitude == null || longitude == null) {
-      return const GeocodingFunctionsActionFunctionsActionResponse(
-        latitude: 0,
-        longitude: 0,
-      );
-    }
+    final latitude = location.get("lat", 0.0);
+    final longitude = location.get("lng", 0.0);
     return GeocodingFunctionsActionFunctionsActionResponse(
       latitude: latitude,
       longitude: longitude,
