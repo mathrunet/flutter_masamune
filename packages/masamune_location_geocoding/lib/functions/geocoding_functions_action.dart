@@ -1,4 +1,4 @@
-part of '/masamune_geocoding.dart';
+part of '/masamune_location_geocoding.dart';
 
 /// [FunctionsAction] for obtaining location information from an address.
 ///

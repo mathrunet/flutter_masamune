@@ -2,11 +2,11 @@
 
 /// Masamune plugin for using Google Map Geocoding API with Firebase Functions.
 ///
-/// To use, import `package:masamune_geocoding/masamune_geocoding.dart`.
+/// To use, import `package:masamune_location_geocoding/masamune_location_geocoding.dart`.
 ///
 /// [mathru.net]: https://mathru.net
 /// [YouTube]: https://www.youtube.com/c/mathrunetchannel
-library masamune_geocoding;
+library masamune_location_geocoding;
 
 // Dart imports:
 
