@@ -275,6 +275,12 @@ List<Spec> collectionModelQueryClass(
                     ..named = true
                     ..type = const Reference("ModelAdapter?"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "accessQuery"
+                    ..named = true
+                    ..type = const Reference("ModelAccessQuery?"),
+                ),
               ])
               ..requiredParameters.addAll([
                 Parameter(
@@ -285,7 +291,7 @@ List<Spec> collectionModelQueryClass(
               ])
               ..returns = Reference("_\$_${model.name}DocumentQuery")
               ..body = Code(
-                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter,));",
+                "return _\$_${model.name}DocumentQuery(DocumentModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}/\$_id\", adapter: adapter ?? _\$${model.name}Document.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Document.defaultModelAccessQuery, ));",
               ),
           ),
           if (mirror != null)
@@ -384,10 +390,16 @@ List<Spec> collectionModelQueryClass(
                     ..named = true
                     ..type = const Reference("ModelAdapter?"),
                 ),
+                Parameter(
+                  (p) => p
+                    ..name = "accessQuery"
+                    ..named = true
+                    ..type = const Reference("ModelAccessQuery?"),
+                ),
               ])
               ..returns = Reference("_\$_${model.name}CollectionQuery")
               ..body = Code(
-                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: endpoint.isEmpty ? null : ModelAccessQuery(endpoint: endpoint)));",
+                "return _\$_${model.name}CollectionQuery(CollectionModelQuery(\"${path.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Collection.defaultModelAccessQuery, ));",
               ),
           ),
           if (mirror != null)
@@ -814,10 +826,16 @@ List<Spec> collectionModelQueryClass(
                       ..named = true
                       ..type = const Reference("ModelAdapter?"),
                   ),
+                  Parameter(
+                    (p) => p
+                      ..name = "accessQuery"
+                      ..named = true
+                      ..type = const Reference("ModelAccessQuery?"),
+                  ),
                 ])
                 ..returns = Reference("_\$_${model.name}MirrorCollectionQuery")
                 ..body = Code(
-                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: endpoint.isEmpty ? null : ModelAccessQuery(endpoint: endpoint),));",
+                  "return _\$_${model.name}MirrorCollectionQuery(CollectionModelQuery(\"${mirror.path.replaceAllMapped(_pathRegExp, (m) => "\$${m.group(1)?.toCamelCase() ?? ""}")}\", adapter: adapter ?? _\$${model.name}Collection.defaultModelAdapter, accessQuery: accessQuery ?? _\$${model.name}Collection.defaultModelAccessQuery, ));",
                 ),
             )
           ]),
