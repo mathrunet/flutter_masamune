@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location_geocoding` - `v2.2.1`](#masamune_location_geocoding---v221)
+
+---
+
+#### `masamune_location_geocoding` - `v2.2.1`
+
+ - **FIX**: Fixed a bug that prevented data from being siphoned off properly. ([2c2e10bc](https://github.com/mathrunet/flutter_masamune/commit/2c2e10bcce4818caf0480561cacae85647a823ce))
+
+
+## 2023-11-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location_geocoding` - `v2.2.0`](#masamune_location_geocoding---v220)
 
 ---

@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Fixed a bug that prevented data from being siphoned off properly. ([2c2e10bc](https://github.com/mathrunet/flutter_masamune/commit/2c2e10bcce4818caf0480561cacae85647a823ce))
+
 ## 2.2.0
 
  - **FEAT**: Package name change. ([9502cbb8](https://github.com/mathrunet/flutter_masamune/commit/9502cbb83961d90fcf195b2a8615265685e1bdc7))
