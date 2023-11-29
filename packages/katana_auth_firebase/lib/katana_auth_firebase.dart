@@ -12,6 +12,7 @@ library katana_auth_firebase;
 import 'dart:async';
 
 // Flutter imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:

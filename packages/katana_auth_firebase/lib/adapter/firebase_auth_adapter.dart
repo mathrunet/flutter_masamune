@@ -3,6 +3,7 @@ part of "/katana_auth_firebase.dart";
 const _kUserEmailKey = "userEmail";
 const _kUserPhoneNumberKey = "userPhoneNumber";
 const _kSmsCodeKey = "smsCode";
+const _kSecondaryAppName = "secondary";
 
 /// Model adapter with FirebaseAuth available.
 ///
@@ -192,6 +193,9 @@ class FirebaseAuthAdapter extends AuthAdapter {
   /// アダプター内で利用しているFirebaseAuthのインスタンス。
   FirebaseAuth get database => _database ?? FirebaseAuth.instance;
   final FirebaseAuth? _database;
+
+  static FirebaseApp? _secondaryApp;
+  static FirebaseAuth? _secondaryAuth;
 
   User? get _user => database.currentUser;
 
@@ -426,10 +430,15 @@ class FirebaseAuthAdapter extends AuthAdapter {
   }) async {
     if (provider is EmailAndPasswordCreateAuthProvider) {
       await _prepareProcessInternal();
-      await database.setLanguageCode(
+      _secondaryApp ??= await Firebase.initializeApp(
+        options: options,
+        name: _kSecondaryAppName,
+      );
+      _secondaryAuth ??= FirebaseAuth.instanceFor(app: _secondaryApp!);
+      await _secondaryAuth!.setLanguageCode(
         provider.locale?.languageCode ?? defaultLocale.languageCode,
       );
-      final credentials = await database.createUserWithEmailAndPassword(
+      final credentials = await _secondaryAuth!.createUserWithEmailAndPassword(
         email: provider.email,
         password: provider.password,
       );
