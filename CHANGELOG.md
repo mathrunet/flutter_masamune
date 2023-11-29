@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-11-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_auth_firebase` - `v2.1.19`](#katana_auth_firebase---v2119)
+ - [`katana_cli` - `v2.10.23`](#katana_cli---v21023)
+ - [`masamune_geocoding` - `v2.1.0`](#masamune_geocoding---v210)
+
+---
+
+#### `katana_auth_firebase` - `v2.1.19`
+
+ - **FIX**: Fixed a bug that caused login to that account in case of CREATE. ([2b69a369](https://github.com/mathrunet/flutter_masamune/commit/2b69a3690b1f825038a6dd182c5f2a0c27bde855))
+
+#### `katana_cli` - `v2.10.23`
+
+ - **FIX**: Package name change. ([7c5f05bd](https://github.com/mathrunet/flutter_masamune/commit/7c5f05bd1a57e890aa7721eb4d1734f8b1f902ed))
+ - **FIX**: Added Geocoding section. ([edd86cb2](https://github.com/mathrunet/flutter_masamune/commit/edd86cb244b5a2aeef3b4a7ea9df999401c568fc))
+
+#### `masamune_geocoding` - `v2.1.0`
+
+ - **FEAT**: Initial release. ([486e20ae](https://github.com/mathrunet/flutter_masamune/commit/486e20ae2318147fb5feb99f515145052b8f1589))
+
+
 ## 2023-11-28
 
 ### Changes

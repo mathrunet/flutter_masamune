@@ -1,3 +1,8 @@
+## 2.10.23
+
+ - **FIX**: Package name change. ([7c5f05bd](https://github.com/mathrunet/flutter_masamune/commit/7c5f05bd1a57e890aa7721eb4d1734f8b1f902ed))
+ - **FIX**: Added Geocoding section. ([edd86cb2](https://github.com/mathrunet/flutter_masamune/commit/edd86cb244b5a2aeef3b4a7ea9df999401c568fc))
+
 ## 2.10.22
 
  - Update a dependency to the latest release.
