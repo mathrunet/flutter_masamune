@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - Update a dependency to the latest release.
+
 ## 2.2.1
 
  - **FIX**: Fixed a bug that prevented data from being siphoned off properly. ([2c2e10bc](https://github.com/mathrunet/flutter_masamune/commit/2c2e10bcce4818caf0480561cacae85647a823ce))
