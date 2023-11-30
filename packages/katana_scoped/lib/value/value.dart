@@ -18,3 +18,4 @@ part 'query.dart';
 part 'periodic.dart';
 part 'timer.dart';
 part 'schedule.dart';
+part 'future.dart';
