@@ -1,6 +1,6 @@
 part of '/katana_form.dart';
 
-/// A form to let you select a numerical value.
+/// Form to have the duration selected.
 ///
 /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
 ///
@@ -19,13 +19,13 @@ part of '/katana_form.dart';
 ///
 /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
 ///
-/// The date selection method can be set by specifying [picker].
+/// The interval selection method can be set by specifying [picker].
 ///
 /// If [enabled] is `false`, the text is deactivated.
 ///
 /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
 ///
-/// 数値を選択させるためのフォーム。
+/// デュレーションを選択させるためのフォーム。
 ///
 /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
 ///
@@ -44,13 +44,13 @@ part of '/katana_form.dart';
 ///
 /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
 ///
-/// [picker]を指定することで日付の選択方法を設定することが可能です。
+/// [picker]を指定することで間隔の選択方法を設定することが可能です。
 ///
 /// [enabled]が`false`になるとテキストが非有効化されます。
 ///
 /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-class FormNumField<TValue> extends StatefulWidget {
-  /// A form to let you select a numerical value.
+class FormDurationField<TValue> extends StatefulWidget {
+  /// Form to have the duration selected.
   ///
   /// Place under the [Form] that gave [FormController.key], or pass [FormController] to [form].
   ///
@@ -69,13 +69,13 @@ class FormNumField<TValue> extends StatefulWidget {
   ///
   /// The [onSubmitted] process is executed when the Enter key or other keys are pressed.
   ///
-  /// The date selection method can be set by specifying [picker].
+  /// The interval selection method can be set by specifying [picker].
   ///
   /// If [enabled] is `false`, the text is deactivated.
   ///
   /// If [readOnly] is set to `true`, the activation is displayed, but the text cannot be changed.
   ///
-  /// 数値を選択させるためのフォーム。
+  /// デュレーションを選択させるためのフォーム。
   ///
   /// [FormController.key]を与えた[Form]配下に配置、もしくは[form]に[FormController]を渡します。
   ///
@@ -94,36 +94,37 @@ class FormNumField<TValue> extends StatefulWidget {
   ///
   /// Enterキーなどが押された場合の処理を[onSubmitted]が実行されます。
   ///
-  /// [picker]を指定することで日付の選択方法を設定することが可能です。
+  /// [picker]を指定することで間隔の選択方法を設定することが可能です。
   ///
   /// [enabled]が`false`になるとテキストが非有効化されます。
   ///
   /// [readOnly]が`true`になっている場合は、有効化の表示になりますが、テキストが変更できなくなります。
-  const FormNumField({
+  const FormDurationField({
     this.form,
     super.key,
     this.controller,
     this.prefix,
     this.suffix,
     this.focusNode,
-    this.keyboardType = TextInputType.number,
+    this.keyboardType = TextInputType.text,
     this.hintText,
     this.labelText,
     this.style,
     this.enabled = true,
     this.emptyErrorText,
     this.readOnly = false,
-    this.obscureText = false,
     this.validator,
     this.onChanged,
     this.onSubmitted,
     this.initialValue,
-    this.keepAlive = true,
-    this.picker = const FormNumFieldPicker(),
+    String? format,
+    this.picker = const FormDurationFieldPicker(),
     this.onSaved,
+    this.keepAlive = true,
     this.showDropdownIcon = true,
     this.dropdownIcon,
-  }) : assert(
+  })  : _format = format,
+        assert(
           (form == null && onSaved == null) ||
               (form != null && onSaved != null),
           "Both are required when using [form] or [onSaved].",
@@ -183,7 +184,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// Initial value.
   ///
   /// 初期値。
-  final num? initialValue;
+  final Duration? initialValue;
 
   /// Hint to be displayed on the form. Displayed when no text is entered.
   ///
@@ -214,11 +215,6 @@ class FormNumField<TValue> extends StatefulWidget {
   /// これが`true`の場合、フォームの入力が行えずに初期値から変更することができなくなります。
   final bool readOnly;
 
-  /// If this is `true`, the input will be hidden. Use this to enter passwords, etc.
-  ///
-  /// これが`true`の場合、入力された内容が隠されます。パスワードの入力等にご利用ください。
-  final bool obscureText;
-
   /// Callback executed when [FormController.validateAndSave] is executed.
   ///
   /// The current value is passed to `value`.
@@ -226,7 +222,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// [FormController.validateAndSave]が実行されたときに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
-  final TValue Function(num value)? onSaved;
+  final TValue Function(Duration value)? onSaved;
 
   /// Callback to be executed each time the value is changed.
   ///
@@ -235,7 +231,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// 値が変更されるたびに実行されるコールバック。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(num? value)? onChanged;
+  final void Function(Duration? value)? onChanged;
 
   /// Validator to be executed when [FormController.validateAndSave] is executed.
   ///
@@ -252,7 +248,7 @@ class FormNumField<TValue> extends StatefulWidget {
   /// `value`に現在の値が渡され、[Null]以外の値を返すとその文字がエラーテキストとして表示されます。
   ///
   /// [Null]以外の文字を返した場合、[onSaved]は実行されず、[FormController.validateAndSave]が`false`が返されます。
-  final FormFieldValidator<num?>? validator;
+  final FormFieldValidator<Duration?>? validator;
 
   /// It is executed when the Enter button on the keyboard or the Submit button on the software keyboard is pressed.
   ///
@@ -261,12 +257,42 @@ class FormNumField<TValue> extends StatefulWidget {
   /// キーボードのEnterボタン、もしくはソフトウェアキーボードのサブミットボタンが押された場合に実行されます。
   ///
   /// `value`に現在の値が渡されます。
-  final void Function(num? value)? onSubmitted;
+  final void Function(Duration? value)? onSubmitted;
 
-  /// Picker object for selecting numerical values.
+  /// Picker object for selecting intervals.
   ///
-  /// 数値を選択するためのピッカーオブジェクト。
-  final FormNumFieldPicker picker;
+  /// 間隔を選択するためのピッカーオブジェクト。
+  final FormDurationFieldPicker picker;
+
+  /// Formatter for formatting [Duration] to [String].
+  ///
+  /// The following formats are available
+  ///
+  /// By default, `HH:mm:ss` is used.
+  ///
+  /// [Duration]を[String]にフォーマットするためのフォーマッタ。
+  ///
+  /// 下記のフォーマットが利用可能です。
+  ///
+  /// デフォルトだと`HH:mm:ss`が利用されます。
+  ///
+  /// - `d` Displays days. 日付を表示します。
+  /// - `H` Displays hours. 時間を表示します。
+  /// - `m` Display minutes. 分を表示します。
+  /// - `s` Display seconds. 秒を表示します。
+  /// - `HH` Displays hours in two digits. 時間を２桁で表示します。
+  /// - `mm` Displays minutes in two digits. 分を２桁で表示します。
+  /// - `ss` Displays seconds in two digits. 秒を２桁で表示します。
+  /// - `S` Display milli-seconds. ミリ秒を表示します。
+  /// - `M` Display micro-seconds. マイクロ秒を表示します。
+  String get format {
+    if (_format.isNotEmpty) {
+      return _format!;
+    }
+    return "HH:mm:ss";
+  }
+
+  final String? _format;
 
   /// If placed in a list, whether or not it should not be discarded on scrolling.
   ///
@@ -288,11 +314,11 @@ class FormNumField<TValue> extends StatefulWidget {
   final Widget? dropdownIcon;
 
   @override
-  State<StatefulWidget> createState() => _FormNumFieldState<TValue>();
+  State<StatefulWidget> createState() => _FormDurationFieldState<TValue>();
 }
 
-class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
-    with AutomaticKeepAliveClientMixin<FormNumField<TValue>> {
+class _FormDurationFieldState<TValue> extends State<FormDurationField<TValue>>
+    with AutomaticKeepAliveClientMixin<FormDurationField<TValue>> {
   TextEditingController? _controller;
   @override
   void initState() {
@@ -301,7 +327,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
       return;
     }
     if (widget.initialValue != null) {
-      widget.controller?.text = widget.initialValue!.toString();
+      widget.controller?.text = widget.initialValue!.format(widget.format);
     }
     _controller = TextEditingController(text: widget.controller?.text);
     _controller?.addListener(_listenerInside);
@@ -309,7 +335,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
   }
 
   @override
-  void didUpdateWidget(FormNumField<TValue> oldWidget) {
+  void didUpdateWidget(FormDurationField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.controller != widget.controller) {
@@ -411,7 +437,7 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
             Padding(
               padding:
                   EdgeInsets.only(right: widget.showDropdownIcon ? 16.0 : 0),
-              child: _NumTextField<TValue>(
+              child: _DurationTextField<TValue>(
                 form: widget.form,
                 controller: _controller,
                 focusNode: widget.focusNode,
@@ -464,10 +490,10 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
                   errorStyle: errorTextStyle,
                 ),
                 style: widget.enabled ? mainTextStyle : disabledTextStyle,
-                obscureText: widget.obscureText,
                 textAlign: widget.style?.textAlign ?? TextAlign.left,
                 textAlignVertical: widget.style?.textAlignVertical,
                 readOnly: widget.readOnly,
+                format: widget.format,
                 validator: (value) {
                   if (widget.emptyErrorText.isNotEmpty && value == null) {
                     return widget.emptyErrorText;
@@ -518,10 +544,11 @@ class _FormNumFieldState<TValue> extends State<FormNumField<TValue>>
   bool get wantKeepAlive => widget.keepAlive;
 }
 
-class _NumTextField<TValue> extends FormField<num> {
-  _NumTextField({
-    required this.picker,
+class _DurationTextField<TValue> extends FormField<Duration> {
+  _DurationTextField({
+    required this.format,
     this.form,
+    required this.picker,
     super.key,
     super.onSaved,
     super.validator,
@@ -543,7 +570,10 @@ class _NumTextField<TValue> extends FormField<num> {
     bool? showCursor,
     bool obscureText = false,
     bool autocorrect = false,
+    int maxLines = 1,
+    int? minLines,
     bool expands = false,
+    int? maxLength,
     VoidCallback? onEditingComplete,
     this.onSubmitted,
     List<TextInputFormatter>? inputFormatters,
@@ -556,8 +586,8 @@ class _NumTextField<TValue> extends FormField<num> {
     InputCounterWidgetBuilder? buildCounter,
   }) : super(
           builder: (field) {
-            final _NumTextFieldState<TValue> state =
-                field as _NumTextFieldState<TValue>;
+            final _DurationTextFieldState<TValue> state =
+                field as _DurationTextFieldState<TValue>;
             final InputDecoration effectiveDecoration = decoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             return TextField(
@@ -566,7 +596,7 @@ class _NumTextField<TValue> extends FormField<num> {
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??
                   TextEditingController(
-                    text: state.value != null ? state.value!.toString() : null,
+                    text: state.value?.format(state.widget.format),
                   ),
               focusNode: state._effectiveFocusNode,
               decoration: effectiveDecoration.copyWith(
@@ -584,7 +614,10 @@ class _NumTextField<TValue> extends FormField<num> {
               showCursor: showCursor,
               obscureText: obscureText,
               autocorrect: autocorrect,
+              maxLines: maxLines,
+              minLines: minLines,
               expands: expands,
+              maxLength: maxLength,
               onChanged: (text) => field.didChange(state.parse(text)),
               onEditingComplete: onEditingComplete,
               onSubmitted: (text) => onSubmitted?.call(state.parse(text)),
@@ -602,26 +635,29 @@ class _NumTextField<TValue> extends FormField<num> {
         );
 
   final FormController<TValue>? form;
-  final FormNumFieldPicker picker;
+  final String format;
+
+  final FormDurationFieldPicker picker;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final bool readOnly;
-  final void Function(num? value)? onChanged;
-  final void Function(num? value)? onSubmitted;
+  final void Function(Duration? value)? onChanged;
+  final void Function(Duration? value)? onSubmitted;
 
   @override
-  _NumTextFieldState<TValue> createState() => _NumTextFieldState<TValue>();
+  _DurationTextFieldState createState() => _DurationTextFieldState<TValue>();
 }
 
-class _NumTextFieldState<TValue> extends FormFieldState<num> {
+class _DurationTextFieldState<TValue> extends FormFieldState<Duration> {
   TextEditingController? _controller;
   FocusNode? _focusNode;
   bool isShowingDialog = false;
   bool hadFocus = false;
 
   @override
-  _NumTextField<TValue> get widget => super.widget as _NumTextField<TValue>;
+  _DurationTextField<TValue> get widget =>
+      super.widget as _DurationTextField<TValue>;
 
   TextEditingController? get _effectiveController =>
       widget.controller ?? _controller;
@@ -650,7 +686,7 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 
   @override
-  void didUpdateWidget(_NumTextField oldWidget) {
+  void didUpdateWidget(_DurationTextField<TValue> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -683,6 +719,11 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
         _focusNode = null;
       }
     }
+    if (widget.format != oldWidget.format) {
+      if (_effectiveController?.text != format(value)) {
+        setValue(parse(_effectiveController?.text ?? ""));
+      }
+    }
     if (widget.form != oldWidget.form) {
       oldWidget.form?.unregister(this);
       widget.form?.register(this);
@@ -694,7 +735,7 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 
   @override
-  void didChange(num? value) {
+  void didChange(Duration? value) {
     widget.onChanged?.call(value);
     widget.onSubmitted?.call(value);
     super.didChange(value);
@@ -723,8 +764,8 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
     }
   }
 
-  String? format(num? value) => value?.toString();
-  num? parse(String? text) {
+  String? format(Duration? value) => value?.format(widget.format);
+  Duration? parse(String? text) {
     try {
       return text.isEmpty ? null : _parseLoose(text!);
     } catch (e) {
@@ -732,12 +773,36 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
     }
   }
 
-  num? _parseLoose(String text) {
-    final i = int.tryParse(text);
-    if (i != null) {
-      return i;
+  Duration? _parseLoose(String text) {
+    final regex = RegExp(
+      widget.format
+          .replaceAll("HH", "(?<HH>[0-9]+)")
+          .replaceAll("mm", "(?<mm>[0-9]+)")
+          .replaceAll("ss", "(?<ss>[0-9]+)")
+          .replaceAll("d", "(?<d>[0-9]+)"),
+    );
+    final match = regex.firstMatch(text);
+    if (match == null) {
+      return null;
     }
-    return double.tryParse(text);
+    final days = match.groupNames.contains("d")
+        ? int.tryParse(match.namedGroup("d") ?? "") ?? 0
+        : 0;
+    final hours = match.groupNames.contains("HH")
+        ? int.tryParse(match.namedGroup("HH") ?? "") ?? 0
+        : 0;
+    final minutes = match.groupNames.contains("mm")
+        ? int.tryParse(match.namedGroup("mm") ?? "") ?? 0
+        : 0;
+    final seconds = match.groupNames.contains("ss")
+        ? int.tryParse(match.namedGroup("ss") ?? "") ?? 0
+        : 0;
+    return Duration(
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+    );
   }
 
   Future<void> requestUpdate() async {
@@ -779,60 +844,78 @@ class _NumTextFieldState<TValue> extends FormFieldState<num> {
   }
 }
 
-/// Class that defines a picker style for selecting numbers.
+/// Class that defines the picker style for selecting spacing.
 ///
-/// [begin] < [end] and [interval] must be greater than 0.
-///
-/// 数値を選択するためのピッカースタイルを定義するクラス。
-///
-/// [begin] < [end]である必要があり、[interval]は0より大きい値を指定する必要があります。
-class FormNumFieldPicker {
-  /// Class that defines a picker style for selecting numbers.
+/// 間隔を選択するためのピッカースタイルを定義するクラス。
+@immutable
+class FormDurationFieldPicker {
+  /// Class that defines the picker style for selecting spacing.
   ///
-  /// [begin] < [end] and [interval] must be greater than 0.
-  ///
-  /// 数値を選択するためのピッカースタイルを定義するクラス。
-  ///
-  /// [begin] < [end]である必要があり、[interval]は0より大きい値を指定する必要があります。
-  const FormNumFieldPicker({
-    this.defaultValue,
-    this.begin = 0,
-    this.interval = 1,
-    this.end = 100,
-    this.suffix = "",
+  /// 間隔を選択するためのピッカースタイルを定義するクラス。
+  const FormDurationFieldPicker({
+    this.defaultDuration,
+    this.minuteSuffix = "",
+    this.secondSuffix = "",
+    this.hourSuffix = "",
+    this.daySuffix = "",
     this.backgroundColor,
-    this.fractionDigits = 0,
     this.color,
+    this.begin,
+    this.end,
     this.confirmText = "Confirm",
     this.cancelText = "Cancel",
-  })  : assert(begin < end, "[begin] must be less than [end]."),
-        assert(interval > 0, "[interval] must be greater than 0."),
-        assert(fractionDigits >= 0, "[fractionDigits] must be greater than 0.");
+  });
+
+  /// Specifies the initial interval at which to make the selection.
+  ///
+  /// If not specified, 0 seconds can be selected.
+  ///
+  /// Specify an interval less than [end].
+  ///
+  /// 選択させる最初の間隔を指定します。
+  ///
+  /// 指定されない場合は0秒を選択できます。
+  ///
+  /// [end]よりも少ない間隔を指定してください。
+  final Duration? begin;
+
+  /// Specifies the last interval to be selected.
+  ///
+  /// If not specified, 23 hours, 59 minutes and 59 seconds can be selected.
+  ///
+  /// Specify the interval after [begin].
+  ///
+  /// 選択させる最後の間隔を指定します。
+  ///
+  /// 指定されない場合は23時間59分59秒を選択できます。
+  ///
+  /// [begin]よりも後の間隔を指定してください。
+  final Duration? end;
 
   /// Default value when not selected.
   ///
   /// 選択されていないときのデフォルトの値。
-  final num? defaultValue;
+  final Duration? defaultDuration;
 
-  /// The smallest value to be selected.
+  /// Suffix of the Second.
   ///
-  /// 選択させる数値の一番小さい値。
-  final num begin;
+  /// 秒のSuffix。
+  final String secondSuffix;
 
-  /// Interval of the value to be selected.
+  /// Suffix of the Minute.
   ///
-  /// 選択させる数値のインターバル。
-  final num interval;
+  /// 分のSuffix。
+  final String minuteSuffix;
 
-  /// The highest value of the number to be selected.
+  /// Suffix of the Hour.
   ///
-  /// 選択させる数値の一番大きい値。
-  final num end;
+  /// 時のSuffix。
+  final String hourSuffix;
 
-  /// Suffix of values.
+  /// Suffix of the Day.
   ///
-  /// 数値のSuffix。
-  final String suffix;
+  /// 日のSuffix。
+  final String daySuffix;
 
   /// Background color of the picker.
   ///
@@ -854,21 +937,125 @@ class FormNumFieldPicker {
   /// ピッカーをキャンセルするボタンのテキスト。
   final String cancelText;
 
-  /// Number of decimal places.
-  ///
-  /// 小数点以下の桁数。
-  final int fractionDigits;
-
   /// Build the picker.
   ///
-  /// [context] is passed [BuildContext]. [currentValue] is passed the currently selected [num].
+  /// [context] is passed [BuildContext]. [currentDuration] is passed the currently selected [DateTime].
   ///
   /// ピッカーのビルドを行ないます。
   ///
-  /// [context]に[BuildContext]が渡されます。[currentValue]に現在選択されている[num]が渡されます。
-  Future<num?> build(BuildContext context, num? currentValue) async {
-    final length = (end - begin) ~/ interval;
-    num? res;
+  /// [context]に[BuildContext]が渡されます。[currentDuration]に現在選択されている[DateTime]が渡されます。
+  Future<Duration?> build(
+    BuildContext context,
+    Duration? currentDuration,
+  ) async {
+    assert(
+      begin == null ||
+          end == null ||
+          (begin != null &&
+              end != null &&
+              begin!.inMicroseconds < end!.inMicroseconds),
+      "[begin] must be before [end].",
+    );
+    Duration? res;
+    final enableDays = (begin?.inDays ?? 0) > 0 || (end?.inDays ?? 0) > 0;
+    final selectedDay = (currentDuration?.inDays ??
+        defaultDuration?.inDays ??
+        begin?.inDays ??
+        end?.inDays ??
+        0);
+    final enableHours = (begin?.inHours ?? 0) > 0 || (end?.inHours ?? 0) > 0;
+    final selectedHours = (currentDuration?.inHours.remainder(24) ??
+        defaultDuration?.inHours.remainder(24) ??
+        begin?.inHours.remainder(24) ??
+        end?.inHours.remainder(24) ??
+        0);
+    final enableMinutes =
+        (begin?.inMinutes ?? 0) > 0 || (end?.inMinutes ?? 0) > 0;
+    final selectedMinutes = (currentDuration?.inMinutes.remainder(60) ??
+        defaultDuration?.inMinutes.remainder(60) ??
+        begin?.inMinutes.remainder(60) ??
+        end?.inMinutes.remainder(60) ??
+        0);
+    final selectedSeconds = (currentDuration?.inSeconds.remainder(60) ??
+        defaultDuration?.inSeconds.remainder(60) ??
+        begin?.inSeconds.remainder(60) ??
+        end?.inSeconds.remainder(60) ??
+        0);
+
+    List<PickerItem<int>> pickerItems = <PickerItem<int>>[];
+    for (var s = begin?.inSeconds.remainder(60) ?? 0;
+        s <= (end?.inSeconds.remainder(60) ?? 0);
+        s++) {
+      pickerItems.add(
+        PickerItem(
+          text: Text(
+            "$s$secondSuffix",
+            style: TextStyle(
+              color: color ?? Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
+          value: s,
+        ),
+      );
+    }
+    if (enableMinutes) {
+      final secondsPickerItems = List<PickerItem<int>>.from(pickerItems);
+      pickerItems = <PickerItem<int>>[];
+      for (var m = begin?.inMinutes.remainder(60) ?? 0;
+          m <= (end?.inMinutes.remainder(60) ?? 0);
+          m++) {
+        pickerItems.add(
+          PickerItem(
+            text: Text(
+              "$m$minuteSuffix",
+              style: TextStyle(
+                color: color ?? Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            value: m,
+            children: secondsPickerItems,
+          ),
+        );
+      }
+      if (enableHours) {
+        final minutesPickerItems = List<PickerItem<int>>.from(pickerItems);
+        pickerItems = <PickerItem<int>>[];
+        for (var h = begin?.inHours.remainder(24) ?? 0;
+            h <= (end?.inHours.remainder(24) ?? 0);
+            h++) {
+          pickerItems.add(
+            PickerItem(
+              text: Text(
+                "$h$hourSuffix",
+                style: TextStyle(
+                  color: color ?? Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              value: h,
+              children: minutesPickerItems,
+            ),
+          );
+        }
+        if (enableDays) {
+          final hoursPickerItems = List<PickerItem<int>>.from(pickerItems);
+          pickerItems = <PickerItem<int>>[];
+          for (var d = begin?.inDays ?? 0; d <= (end?.inDays ?? 0); d++) {
+            pickerItems.add(
+              PickerItem(
+                text: Text(
+                  "$d$daySuffix",
+                  style: TextStyle(
+                    color: color ?? Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                value: d,
+                children: hoursPickerItems,
+              ),
+            );
+          }
+        }
+      }
+    }
     await Picker(
       height: 240,
       backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.surface,
@@ -879,28 +1066,42 @@ class FormNumFieldPicker {
       confirmText: confirmText,
       cancelText: cancelText,
       selecteds: [
-        ((currentValue ?? defaultValue ?? 0) - begin) ~/ interval,
+        if (enableDays) selectedDay,
+        if (enableHours) selectedHours,
+        if (enableMinutes) selectedMinutes,
+        selectedSeconds,
       ],
-      adapter: PickerDataAdapter<num>(
+      adapter: PickerDataAdapter<int>(
         data: [
-          ...List.generate(length + 1, (m) {
-            final val = begin + (m * interval);
-            return PickerItem<num>(
-              text: Text(
-                "${val.toStringAsFixed(fractionDigits)}$suffix",
-                style: TextStyle(
-                  color: color ?? Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-              value: val,
-            );
-          }),
+          ...pickerItems,
         ],
       ),
       changeToFirst: true,
       hideHeader: false,
       onConfirm: (Picker picker, List<int> value) {
-        res = begin + (value[0] * interval);
+        if (value.length >= 4) {
+          res = Duration(
+            days: value[0],
+            hours: value[1],
+            minutes: value[2],
+            seconds: value[3],
+          );
+        } else if (value.length == 3) {
+          res = Duration(
+            hours: value[0],
+            minutes: value[1],
+            seconds: value[2],
+          );
+        } else if (value.length == 2) {
+          res = Duration(
+            minutes: value[0],
+            seconds: value[1],
+          );
+        } else if (value.length == 1) {
+          res = Duration(
+            seconds: value[0],
+          );
+        }
       },
     ).showModal(context);
     return res;

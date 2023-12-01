@@ -47,6 +47,7 @@ part 'form/form_rating_bar.dart';
 part 'form/form_pin_field.dart';
 part 'form/form_list_builder.dart';
 part 'form/form_builder.dart';
+part 'form/form_duration_field.dart';
 
 part 'src/form_controller.dart';
 part 'src/form_media_value.dart';

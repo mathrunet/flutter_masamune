@@ -607,9 +607,7 @@ class _MonthTextField<TValue> extends FormField<DateTime> {
                   : SystemMouseCursors.click,
               controller: state._effectiveController ??
                   TextEditingController(
-                    text: state.value != null
-                        ? state.value!.format(state.widget.format)
-                        : null,
+                    text: state.value?.format(state.widget.format),
                   ),
               focusNode: state._effectiveFocusNode,
               decoration: effectiveDecoration.copyWith(
