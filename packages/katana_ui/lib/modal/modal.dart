@@ -320,6 +320,66 @@ class Modal {
     } while (willShowRepetition && !clicked);
     return state;
   }
+
+  /// Display the bottom sheet as a modal.
+  ///
+  /// The widget to be displayed is passed to [children].
+  ///
+  /// Specify the background color with [backgroundColor] and the text color with [color].
+  ///
+  /// モーダルとしてのボトムシートを表示します。
+  ///
+  /// [children]には表示するウィジェットを渡します。
+  ///
+  /// [backgroundColor]で背景色、[color]でテキストカラーを指定します。
+  static Future<void> bottomSheet(
+    BuildContext context, {
+    Color? backgroundColor,
+    Color? color,
+    required List<Widget> Function(BuildContext context, VoidCallback onClose)
+        builder,
+    EdgeInsetsGeometry contentPadding =
+        const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+  }) async {
+    final overlay = Navigator.of(context).overlay;
+    if (overlay == null) {
+      return;
+    }
+    final foregroundColor = color ??
+        Theme.of(context).dialogTheme.iconColor ??
+        Theme.of(context).colorScheme.onSurface;
+    backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
+        Theme.of(context).colorScheme.surface;
+    final onClose = () {
+      Navigator.of(context, rootNavigator: true).pop();
+    };
+    await showModalBottomSheet(
+      context: overlay.context,
+      backgroundColor: backgroundColor,
+      useSafeArea: true,
+      builder: (context) {
+        return ColoredBox(
+          color: backgroundColor!,
+          child: SafeArea(
+            top: false,
+            child: IconTheme(
+              data: IconThemeData(color: foregroundColor),
+              child: DefaultTextStyle(
+                style: TextStyle(color: foregroundColor),
+                child: Padding(
+                  padding: contentPadding,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: builder.call(context, onClose),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 /// Class for controlling Modal.
