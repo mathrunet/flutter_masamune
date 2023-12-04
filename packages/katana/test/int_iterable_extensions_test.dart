@@ -39,4 +39,8 @@ void main() {
     final ints = [1, 2, 3, 4];
     expect(ints.standardDeviation(), 1.118033988749895);
   });
+  test("IntIterableExtensions.smoothing", () {
+    final ints = [1, 9, 5, 4, 3];
+    expect(ints.smoothing(), [5, 5, 6, 4, 3.5]);
+  });
 }

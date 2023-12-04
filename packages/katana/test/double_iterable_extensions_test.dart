@@ -39,4 +39,8 @@ void main() {
     final doubles = [1.0, 2.0, 3.0, 4.0];
     expect(doubles.standardDeviation(), 1.118033988749895);
   });
+  test("DoubleIterableExtensions.smoothing", () {
+    final doubles = [1.0, 9.0, 5.0, 4.0, 3.0];
+    expect(doubles.smoothing(), [5.0, 5.0, 6.0, 4.0, 3.5]);
+  });
 }

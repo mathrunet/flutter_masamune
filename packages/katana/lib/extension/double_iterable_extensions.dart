@@ -123,4 +123,34 @@ extension DoubleIterableExtensions on Iterable<double> {
     }
     return reduce((a, b) => a < b ? a : b);
   }
+
+  /// Smooth this array with [n] moving averages.
+  ///
+  /// [n] must be an odd number.
+  ///
+  /// この配列を[n]個の移動平均で平滑化します。
+  ///
+  /// [n]は奇数である必要があります。
+  List<double> smoothing({int n = 3}) {
+    assert(3 % 2 == 1, "n must be odd number");
+    final array = toList();
+    final halfN = (n / 2).floor();
+    final result = <double>[];
+    for (int i = 0; i < array.length; i++) {
+      int start = i - halfN;
+      int end = i + halfN;
+      if (start < 0) {
+        start = 0;
+      }
+      if (end >= array.length) {
+        end = array.length - 1;
+      }
+      double sum = 0;
+      for (int j = start; j <= end; j++) {
+        sum += array[j];
+      }
+      result.add(sum / (end - start + 1));
+    }
+    return result;
+  }
 }
