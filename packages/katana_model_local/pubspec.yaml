@@ -1,6 +1,6 @@
 name: katana_model_local
 description: Local DB plugin for katana_model. A package that models data into documents and collections and allows Firestore, local DB, and data mocks to be handled in the same interface.
-version: 2.8.27
+version: 2.8.28
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_model_local
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   
-  katana: ^2.8.0
-  katana_model: ^2.15.3
+  katana: ^2.8.1
+  katana_model: ^2.15.4
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
   csv: ^5.0.2

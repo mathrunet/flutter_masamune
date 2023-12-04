@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - **FIX**: Added the function of four arithmetic operations to the Range system. ([759627c7](https://github.com/mathrunet/flutter_masamune/commit/759627c7cb36fcf1f2f17cc4188247fb2778f969))
+
 ## 2.8.0
 
  - **FEAT**: Added RectRange. ([0c787769](https://github.com/mathrunet/flutter_masamune/commit/0c7877697fd661aeda8bc456ab4493e2a8345746))
