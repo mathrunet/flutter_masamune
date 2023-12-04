@@ -1,3 +1,7 @@
+## 2.10.24
+
+ - Update a dependency to the latest release.
+
 ## 2.10.23
 
  - **FIX**: Package name change. ([7c5f05bd](https://github.com/mathrunet/flutter_masamune/commit/7c5f05bd1a57e890aa7721eb4d1734f8b1f902ed))

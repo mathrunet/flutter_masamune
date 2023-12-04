@@ -1,3 +1,7 @@
+## 2.9.4
+
+ - Update a dependency to the latest release.
+
 ## 2.9.3
 
  - **FIX**: Fixed a bug that prevented ModelAccessQuery from being set. ([590e0bec](https://github.com/mathrunet/flutter_masamune/commit/590e0becf6dda918a1a76329e2170e0c5af91b8d))

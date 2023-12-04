@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: Added RectRange. ([0c787769](https://github.com/mathrunet/flutter_masamune/commit/0c7877697fd661aeda8bc456ab4493e2a8345746))
+
 ## 2.7.1
 
  - **FIX**: Fixed a bug that NumRange was not available. ([4fdf0c87](https://github.com/mathrunet/flutter_masamune/commit/4fdf0c876b22d877e57b1aa8d445c2c7d6d2f047))

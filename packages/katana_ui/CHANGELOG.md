@@ -1,3 +1,7 @@
+## 2.5.18
+
+ - Update a dependency to the latest release.
+
 ## 2.5.17
 
  - **FIX**: Added bottomsheet to Modal. ([1969c2c8](https://github.com/mathrunet/flutter_masamune/commit/1969c2c8f8f76398a6919404bd2fdd3d3f799af8))

@@ -1,3 +1,7 @@
+## 2.1.1
+
+ - Update a dependency to the latest release.
+
 ## 2.1.0
 
  - **FEAT**: Add future. ([cd9e75a4](https://github.com/mathrunet/flutter_masamune/commit/cd9e75a47b381de993930ea6400b80da8f5e6009))

@@ -1,3 +1,7 @@
+## 2.1.20
+
+ - Update a dependency to the latest release.
+
 ## 2.1.19
 
  - **FIX**: Fixed a bug that caused login to that account in case of CREATE. ([2b69a369](https://github.com/mathrunet/flutter_masamune/commit/2b69a3690b1f825038a6dd182c5f2a0c27bde855))

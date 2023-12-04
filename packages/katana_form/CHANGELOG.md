@@ -1,3 +1,7 @@
+## 2.9.1
+
+ - Update a dependency to the latest release.
+
 ## 2.9.0
 
  - **FEAT**: Added FormDurationField. ([2e7805c1](https://github.com/mathrunet/flutter_masamune/commit/2e7805c11ddde43a7c84efaecd1b613b0d512cb7))
