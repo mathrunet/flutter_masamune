@@ -3,6 +3,92 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-04
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_localization` - `v2.1.3`](#katana_localization---v213)
+ - [`masamune` - `v2.4.104`](#masamune---v24104)
+ - [`masamune_text_to_speech` - `v2.1.126`](#masamune_text_to_speech---v21126)
+ - [`masamune_location_platform_interface` - `v2.1.51`](#masamune_location_platform_interface---v2151)
+ - [`masamune_auth_google` - `v2.1.161`](#masamune_auth_google---v21161)
+ - [`masamune_agora` - `v2.3.18`](#masamune_agora---v2318)
+ - [`masamune_ai_openai` - `v2.2.94`](#masamune_ai_openai---v2294)
+ - [`masamune_calendar` - `v2.1.10`](#masamune_calendar---v2110)
+ - [`masamune_location` - `v2.1.172`](#masamune_location---v21172)
+ - [`masamune_location_geocoding` - `v2.2.4`](#masamune_location_geocoding---v224)
+ - [`masamune_picker` - `v2.1.159`](#masamune_picker---v21159)
+ - [`masamune_auth_apple` - `v2.1.160`](#masamune_auth_apple---v21160)
+ - [`masamune_scheduler` - `v2.1.43`](#masamune_scheduler---v2143)
+ - [`masamune_location_background` - `v2.2.30`](#masamune_location_background---v2230)
+ - [`masamune_deeplink_firebase` - `v2.1.81`](#masamune_deeplink_firebase---v2181)
+ - [`masamune_util` - `v2.1.138`](#masamune_util---v21138)
+ - [`masamune_notification` - `v2.2.46`](#masamune_notification---v2246)
+ - [`masamune_location_google` - `v2.1.173`](#masamune_location_google---v21173)
+ - [`masamune_module_point_ecosystem` - `v2.3.68`](#masamune_module_point_ecosystem---v2368)
+ - [`masamune_universal_ui` - `v2.2.142`](#masamune_universal_ui---v22142)
+ - [`masamune_mail` - `v2.1.157`](#masamune_mail---v21157)
+ - [`masamune_module` - `v2.3.63`](#masamune_module---v2363)
+ - [`masamune_notification_firebase` - `v2.4.48`](#masamune_notification_firebase---v2448)
+ - [`masamune_purchase_stripe` - `v3.3.107`](#masamune_purchase_stripe---v33107)
+ - [`masamune_purchase_mobile` - `v2.5.109`](#masamune_purchase_mobile---v25109)
+ - [`masamune_ads_google` - `v2.1.110`](#masamune_ads_google---v21110)
+ - [`masamune_logger_firebase` - `v2.0.202`](#masamune_logger_firebase---v20202)
+ - [`masamune_deeplink` - `v2.1.79`](#masamune_deeplink---v2179)
+ - [`masamune_speech_to_text` - `v2.1.129`](#masamune_speech_to_text---v21129)
+ - [`masamune_introduction` - `v2.2.108`](#masamune_introduction---v22108)
+ - [`masamune_auth_facebook` - `v2.1.162`](#masamune_auth_facebook---v21162)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.104`
+ - `masamune_text_to_speech` - `v2.1.126`
+ - `masamune_location_platform_interface` - `v2.1.51`
+ - `masamune_auth_google` - `v2.1.161`
+ - `masamune_agora` - `v2.3.18`
+ - `masamune_ai_openai` - `v2.2.94`
+ - `masamune_calendar` - `v2.1.10`
+ - `masamune_location` - `v2.1.172`
+ - `masamune_location_geocoding` - `v2.2.4`
+ - `masamune_picker` - `v2.1.159`
+ - `masamune_auth_apple` - `v2.1.160`
+ - `masamune_scheduler` - `v2.1.43`
+ - `masamune_location_background` - `v2.2.30`
+ - `masamune_deeplink_firebase` - `v2.1.81`
+ - `masamune_util` - `v2.1.138`
+ - `masamune_notification` - `v2.2.46`
+ - `masamune_location_google` - `v2.1.173`
+ - `masamune_module_point_ecosystem` - `v2.3.68`
+ - `masamune_universal_ui` - `v2.2.142`
+ - `masamune_mail` - `v2.1.157`
+ - `masamune_module` - `v2.3.63`
+ - `masamune_notification_firebase` - `v2.4.48`
+ - `masamune_purchase_stripe` - `v3.3.107`
+ - `masamune_purchase_mobile` - `v2.5.109`
+ - `masamune_ads_google` - `v2.1.110`
+ - `masamune_logger_firebase` - `v2.0.202`
+ - `masamune_deeplink` - `v2.1.79`
+ - `masamune_speech_to_text` - `v2.1.129`
+ - `masamune_introduction` - `v2.2.108`
+ - `masamune_auth_facebook` - `v2.1.162`
+
+---
+
+#### `katana_localization` - `v2.1.3`
+
+ - **FIX**: Add fields such as isJapanese. ([3793f736](https://github.com/mathrunet/flutter_masamune/commit/3793f73634ab706727d67b26bc92f838d7eb8d8b))
+
+
 ## 2023-12-01
 
 ### Changes

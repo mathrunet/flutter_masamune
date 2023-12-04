@@ -1,3 +1,7 @@
+## 2.1.3
+
+ - **FIX**: Add fields such as isJapanese. ([3793f736](https://github.com/mathrunet/flutter_masamune/commit/3793f73634ab706727d67b26bc92f838d7eb8d8b))
+
 ## 2.1.2
 
  - Update a dependency to the latest release.
