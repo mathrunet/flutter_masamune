@@ -1,6 +1,6 @@
 name: katana_theme
 description: Base package for providing simple and straightforward theme definitions on Flutter.
-version: 2.2.2
+version: 2.2.3
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/katana_theme
 
@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
     
-  katana: ^2.8.1
-  katana_theme_annotation: ^2.0.32
+  katana: ^2.9.0
+  katana_theme_annotation: ^2.0.33
   path_provider: ^2.1.1
 dev_dependencies:
   test: ^1.24.0

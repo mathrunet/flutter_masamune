@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: Added Smooting extension method. ([e474c9a1](https://github.com/mathrunet/flutter_masamune/commit/e474c9a15f475a2773da40edd709442f7c728d6f))
+
 ## 2.8.1
 
  - **FIX**: Added the function of four arithmetic operations to the Range system. ([759627c7](https://github.com/mathrunet/flutter_masamune/commit/759627c7cb36fcf1f2f17cc4188247fb2778f969))
