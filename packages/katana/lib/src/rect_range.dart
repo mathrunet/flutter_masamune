@@ -34,6 +34,117 @@ class RectRange<TNum extends num> {
   /// Y軸の最大値。
   final TNum maxY;
 
+  /// Add [other].
+  ///
+  /// [other]を加算します。
+  RectRange operator +(RectRange? other) {
+    if (other == null) {
+      return this;
+    }
+    return RectRange(
+      minX: minX + other.minX,
+      maxX: maxX + other.maxX,
+      minY: minY + other.minY,
+      maxY: maxY + other.maxY,
+    );
+  }
+
+  /// Subtract [other].
+  ///
+  /// [other]を減算します。
+  RectRange operator -(RectRange? other) {
+    if (other == null) {
+      return this;
+    }
+    return RectRange(
+      minX: minX - other.minX,
+      maxX: maxX - other.maxX,
+      minY: minY - other.minY,
+      maxY: maxY - other.maxY,
+    );
+  }
+
+  /// Multiply by [value].
+  ///
+  /// [value]を乗算します。
+  RectRange? operator *(num? value) {
+    if (value == null) {
+      return this;
+    }
+    return RectRange(
+      minX: minX * value,
+      maxX: maxX * value,
+      minY: minY * value,
+      maxY: maxY * value,
+    );
+  }
+
+  /// Divide by [value].
+  ///
+  /// If [value] is `0`, an [ArgumentError] is thrown.
+  ///
+  /// [value]で除算します。
+  ///
+  /// [value]が`0`の場合、[ArgumentError]がスローされます。
+  RectRange operator /(num? value) {
+    if (value == null) {
+      return this;
+    }
+    if (value == 0) {
+      throw ArgumentError.value(value, "value", "value must not be 0.");
+    }
+    return RectRange(
+      minX: minX / value,
+      maxX: maxX / value,
+      minY: minY / value,
+      maxY: maxY / value,
+    );
+  }
+
+  /// Returns the remainder of the division by [value].
+  ///
+  /// If [value] is `0`, an [ArgumentError] is thrown.
+  ///
+  /// [value]で除算した余りを返します。
+  ///
+  /// [value]が`0`の場合、[ArgumentError]がスローされます。
+  RectRange operator %(num? value) {
+    if (value == null) {
+      return this;
+    }
+    if (value == 0) {
+      throw ArgumentError.value(value, "value", "value must not be 0.");
+    }
+    return RectRange(
+      minX: minX % value,
+      maxX: maxX % value,
+      minY: minY % value,
+      maxY: maxY % value,
+    );
+  }
+
+  /// Performs truncated division by [value].
+  ///
+  /// If [value] is `0`, an [ArgumentError] is thrown.
+  ///
+  /// [value]で切り捨て除算を行います。
+  ///
+  /// [value]が`0`の場合、[ArgumentError]がスローされます。
+  RectRange operator ~/(num? value) {
+    if (value == null) {
+      return this;
+    }
+    if (value == 0) {
+      throw ArgumentError.value(value, "value", "value must not be 0.");
+    }
+    return RectRange(
+      minX: minX ~/ value,
+      maxX: maxX ~/ value,
+      minY: minY ~/ value,
+      maxY: maxY ~/ value,
+    );
+  }
+
   /// Returns `true` if the value is in the range.
   ///
   /// 値がレンジ内にある場合は`true`を返します。

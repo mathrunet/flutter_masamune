@@ -23,6 +23,105 @@ class NumRange<TNum extends num> {
   /// 終了の値。
   final TNum max;
 
+  /// Add [other].
+  ///
+  /// [other]を加算します。
+  NumRange operator +(NumRange? other) {
+    if (other == null) {
+      return this;
+    }
+    return NumRange(
+      min + other.min,
+      max + other.max,
+    );
+  }
+
+  /// Subtract [other].
+  ///
+  /// [other]を減算します。
+  NumRange operator -(NumRange? other) {
+    if (other == null) {
+      return this;
+    }
+    return NumRange(
+      min - other.min,
+      max - other.max,
+    );
+  }
+
+  /// Multiply by [value].
+  ///
+  /// [value]を乗算します。
+  NumRange? operator *(num? value) {
+    if (value == null) {
+      return this;
+    }
+    return NumRange(
+      min * value,
+      max * value,
+    );
+  }
+
+  /// Divide by [value].
+  ///
+  /// If [value] is `0`, an [ArgumentError] is thrown.
+  ///
+  /// [value]で除算します。
+  ///
+  /// [value]が`0`の場合、[ArgumentError]がスローされます。
+  NumRange operator /(num? value) {
+    if (value == null) {
+      return this;
+    }
+    if (value == 0) {
+      throw ArgumentError.value(value, "value", "value must not be 0.");
+    }
+    return NumRange(
+      min / value,
+      max / value,
+    );
+  }
+
+  /// Returns the remainder of the division by [value].
+  ///
+  /// If [value] is `0`, an [ArgumentError] is thrown.
+  ///
+  /// [value]で除算した余りを返します。
+  ///
+  /// [value]が`0`の場合、[ArgumentError]がスローされます。
+  NumRange operator %(num? value) {
+    if (value == null) {
+      return this;
+    }
+    if (value == 0) {
+      throw ArgumentError.value(value, "value", "value must not be 0.");
+    }
+    return NumRange(
+      min % value,
+      max % value,
+    );
+  }
+
+  /// Performs truncated division by [value].
+  ///
+  /// If [value] is `0`, an [ArgumentError] is thrown.
+  ///
+  /// [value]で切り捨て除算を行います。
+  ///
+  /// [value]が`0`の場合、[ArgumentError]がスローされます。
+  NumRange operator ~/(num? value) {
+    if (value == null) {
+      return this;
+    }
+    if (value == 0) {
+      throw ArgumentError.value(value, "value", "value must not be 0.");
+    }
+    return NumRange(
+      min ~/ value,
+      max ~/ value,
+    );
+  }
+
   /// Returns `true` if the value is in the range.
   ///
   /// 値がレンジ内にある場合は`true`を返します。
