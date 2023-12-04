@@ -2,35 +2,35 @@ part of '/katana.dart';
 
 /// A class that represents a range of numbers.
 ///
-/// Includes values from [start] to [end].
+/// Includes values from [min] to [max].
 ///
 /// 数値のレンジを表すクラス。
 ///
-/// [start]から[end]までの値を含みます。
+/// [min]から[max]までの値を含みます。
 class NumRange<TNum extends num> {
   const NumRange(
-    this.start,
-    this.end,
-  );
+    this.min,
+    this.max,
+  ) : assert(min <= max, "min must be less than or equal to max.");
 
   /// Starting value.
   ///
   /// 開始の値。
-  final TNum start;
+  final TNum min;
 
   /// Exit value.
   ///
   /// 終了の値。
-  final TNum end;
+  final TNum max;
 
   /// Returns `true` if the value is in the range.
   ///
   /// 値がレンジ内にある場合は`true`を返します。
-  bool contains(num value) => value >= start && value < end;
+  bool contains(num value) => value >= min && value < max;
 
   @override
   String toString() {
-    return "$runtimeType($start, $end)";
+    return "$runtimeType($min, $max)";
   }
 
   @override
@@ -39,5 +39,5 @@ class NumRange<TNum extends num> {
 
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
-  int get hashCode => start.hashCode ^ end.hashCode;
+  int get hashCode => min.hashCode ^ max.hashCode;
 }
