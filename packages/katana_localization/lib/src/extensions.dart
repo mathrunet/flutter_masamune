@@ -10,6 +10,20 @@ extension LocalizeLocaleExtensions on Locale {
   Locale toLanguage() {
     return Locale(languageCode);
   }
+
+  /// Returns `true` if the language is Japanese.
+  ///
+  /// 言語が日本語である場合`true`を返します。
+  bool get isJapanese {
+    return languageCode == "ja";
+  }
+
+  /// Returns `true` if the language is English.
+  ///
+  /// 言語が英語である場合`true`を返します。
+  bool get isEnglish {
+    return languageCode == "en";
+  }
 }
 
 /// Extension to extend [BuildContext].
