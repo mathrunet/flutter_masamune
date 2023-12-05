@@ -1,3 +1,7 @@
+## 2.9.1
+
+ - **FIX**: Allow null as an argument to equalsTo. ([67f15315](https://github.com/mathrunet/flutter_masamune/commit/67f15315c69be355c4f53df2f7463445f7f49fc9))
+
 ## 2.9.0
 
  - **FEAT**: Added Smooting extension method. ([e474c9a1](https://github.com/mathrunet/flutter_masamune/commit/e474c9a15f475a2773da40edd709442f7c728d6f))
