@@ -287,6 +287,6 @@ extension NullableMapExtensions<K, V> on Map<K, V>? {
     if (this == null && others == null) {
       return true;
     }
-    return this!.equalsTo(others!);
+    return this!.equalsTo(others);
   }
 }

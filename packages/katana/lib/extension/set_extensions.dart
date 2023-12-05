@@ -21,7 +21,10 @@ extension SetExtensions<T> on Set<T> {
   /// Returns `true` if the internals of [Set] and [others] are compared and match.
   ///
   /// [Set]と[others]の内部を比較して一致している場合`true`を返します。
-  bool equalsTo(Set<T> others) {
+  bool equalsTo(Set<T>? others) {
+    if (others == null) {
+      return false;
+    }
     for (final t in this) {
       if (!others.any((o) {
         if (t is Iterable?) {

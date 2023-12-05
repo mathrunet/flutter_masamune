@@ -272,7 +272,10 @@ extension MapExtensions<K, V> on Map<K, V> {
   /// Returns `true` if the internals of [Map] and [others] are compared and match.
   ///
   /// [Map]と[others]の内部を比較して一致している場合`true`を返します。
-  bool equalsTo(Map<K, V> others) {
+  bool equalsTo(Map<K, V>? others) {
+    if (others == null) {
+      return false;
+    }
     for (final tmp in entries) {
       if (!others.containsKey(tmp.key)) {
         return false;

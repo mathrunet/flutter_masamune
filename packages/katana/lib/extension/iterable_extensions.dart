@@ -353,7 +353,10 @@ extension IterableExtensions<T> on Iterable<T> {
   /// Returns `true` if the internals of [Iterable] and [others] are compared and match.
   ///
   /// [Iterable]と[others]の内部を比較して一致している場合`true`を返します。
-  bool equalsTo(Iterable<T> others) {
+  bool equalsTo(Iterable<T>? others) {
+    if (others == null) {
+      return false;
+    }
     for (final t in this) {
       if (!others.any((o) {
         if (t is Iterable?) {

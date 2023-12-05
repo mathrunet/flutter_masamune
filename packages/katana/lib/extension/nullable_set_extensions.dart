@@ -167,6 +167,6 @@ extension NullableSetExtensions<T> on Set<T>? {
     if (this == null && others == null) {
       return true;
     }
-    return this!.equalsTo(others!);
+    return this!.equalsTo(others);
   }
 }

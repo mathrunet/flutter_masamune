@@ -235,6 +235,6 @@ extension NullableIterableExtensions<T> on Iterable<T>? {
     if (this == null && others == null) {
       return true;
     }
-    return this!.equalsTo(others!);
+    return this!.equalsTo(others);
   }
 }
