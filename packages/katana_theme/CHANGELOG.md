@@ -1,3 +1,7 @@
+## 2.2.5
+
+ - **FIX**: Asset's document folder and temporary folders can now be specified type-safe. ([51497142](https://github.com/mathrunet/flutter_masamune/commit/514971427fe86c965fc5d88cdf08b32cca6a9690))
+
 ## 2.2.4
 
  - Update a dependency to the latest release.
