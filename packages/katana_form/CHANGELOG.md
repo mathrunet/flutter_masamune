@@ -1,3 +1,7 @@
+## 2.9.5
+
+ - **FIX**: Fixed a validator bug in dropdown. ([b72f1a2c](https://github.com/mathrunet/flutter_masamune/commit/b72f1a2cdab86fe79dec1cb5b2088211bce7d424))
+
 ## 2.9.4
 
  - Update a dependency to the latest release.
