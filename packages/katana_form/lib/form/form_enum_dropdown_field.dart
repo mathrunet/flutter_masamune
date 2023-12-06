@@ -389,16 +389,10 @@ class _FormEnumDropdownFieldState<TEnum extends Enum, TValue>
                 counterStyle: subTextStyle,
                 helperStyle: subTextStyle,
                 errorStyle: errorTextStyle,
-              ),
+              ).copyWith(errorText: errorText),
               focusNode: widget.focusNode,
               focusColor: Colors.transparent,
               value: widget.initialValue,
-              validator: (value) {
-                if (widget.emptyErrorText.isNotEmpty && value == null) {
-                  return widget.emptyErrorText;
-                }
-                return widget.validator?.call(value);
-              },
               onChanged: widget.enabled ? (value) => didChange(value) : null,
               elevation: widget.style?.elevation.toInt() ?? 8,
               style: widget.enabled ? mainTextStyle : disabledTextStyle,
