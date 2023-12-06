@@ -14,6 +14,70 @@ part of "others.dart";
 class Asset {
   const Asset._();
 
+  /// Get builder to get text data.
+  ///
+  /// テキストデータを取得するためのビルダーを取得します。
+  static const TextProviderBuilder text = TextProviderBuilder._();
+
+  /// Acquire builder to get image data.
+  ///
+  /// 画像データを取得するためのビルダーを取得します。
+  static const ImageProviderBuilder image = ImageProviderBuilder._();
+}
+
+/// Class for providing implementation of [Asset.text].
+///
+/// [Asset.text]を実装を提供するためのクラス。
+class TextProviderBuilder with _TextProviderBuilderMixin {
+  const TextProviderBuilder._();
+
+  @override
+  final String _prefix = "";
+
+  /// Retrieves files in the document folder.
+  ///
+  /// ドキュメントフォルダ内のファイルを取得します。
+  final DocumentTextProviderBuilder document =
+      const DocumentTextProviderBuilder._();
+
+  /// Retrieves files in a temporary folder.
+  ///
+  /// テンポラリフォルダ内のファイルを取得します。
+  final TemporaryTextProviderBuilder temporary =
+      const TemporaryTextProviderBuilder._();
+}
+
+/// Class for providing implementation of [Asset.text].
+///
+/// Retrieves files in the document folder.
+///
+/// [Asset.text]を実装を提供するためのクラス。
+///
+/// ドキュメントフォルダ内のファイルを取得します。
+class DocumentTextProviderBuilder with _TextProviderBuilderMixin {
+  const DocumentTextProviderBuilder._();
+
+  @override
+  final String _prefix = "document://";
+}
+
+/// Class for providing implementation of [Asset.text].
+///
+/// Retrieves files in the temporary folder.
+///
+/// [Asset.text]を実装を提供するためのクラス。
+///
+/// 一時フォルダ内のファイルを取得します。
+class TemporaryTextProviderBuilder with _TextProviderBuilderMixin {
+  const TemporaryTextProviderBuilder._();
+
+  @override
+  final String _prefix = "document://";
+}
+
+abstract class _TextProviderBuilderMixin {
+  String? get _prefix;
+
   /// Obtains text from a text file that exists in [uri].
   ///
   /// If [uri] starts with `http://` or `https://`, a request is made to the network with `GET` to retrieve the text.
@@ -37,7 +101,7 @@ class Asset {
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、そのファイル内のテキストを取得します。
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合は[defaultValue]が返されます。
-  static TextProvider text(
+  TextProvider call(
     String? uri, {
     Map<String, String>? headers,
     String defaultValue = "",
@@ -46,7 +110,8 @@ class Asset {
       return TextProvider(defaultValue: defaultValue);
     }
     try {
-      if (uri!.startsWith("http")) {
+      uri = "$_prefix${uri!.trimString("/")}";
+      if (uri.startsWith("http")) {
         return NetworkTextProvider(
           uri,
           headers: headers,
@@ -91,6 +156,60 @@ class Asset {
       return TextProvider(defaultValue: defaultValue);
     }
   }
+}
+
+/// Class for providing implementation of [Asset.image].
+///
+/// [Asset.image]を実装を提供するためのクラス。
+class ImageProviderBuilder with _ImageProviderBuilderMixin {
+  const ImageProviderBuilder._();
+
+  @override
+  final String _prefix = "";
+
+  /// Retrieves files in the document folder.
+  ///
+  /// ドキュメントフォルダ内のファイルを取得します。
+  final DocumentImageProviderBuilder document =
+      const DocumentImageProviderBuilder._();
+
+  /// Retrieves files in a temporary folder.
+  ///
+  /// テンポラリフォルダ内のファイルを取得します。
+  final TemporaryImageProviderBuilder temporary =
+      const TemporaryImageProviderBuilder._();
+}
+
+/// Class for providing implementation of [Asset.image].
+///
+/// Retrieves files in the document folder.
+///
+/// [Asset.image]を実装を提供するためのクラス。
+///
+/// ドキュメントフォルダ内のファイルを取得します。
+class DocumentImageProviderBuilder with _ImageProviderBuilderMixin {
+  const DocumentImageProviderBuilder._();
+
+  @override
+  final String _prefix = "document://";
+}
+
+/// Class for providing implementation of [Asset.image].
+///
+/// Retrieves files in the temporary folder.
+///
+/// [Asset.image]を実装を提供するためのクラス。
+///
+/// 一時フォルダ内のファイルを取得します。
+class TemporaryImageProviderBuilder with _ImageProviderBuilderMixin {
+  const TemporaryImageProviderBuilder._();
+
+  @override
+  final String _prefix = "document://";
+}
+
+abstract class _ImageProviderBuilderMixin {
+  String? get _prefix;
 
   /// [ImageProvider] from the image file existing in [uri].
   ///
@@ -115,7 +234,7 @@ class Asset {
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、その画像ファイルを取得します。
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合はFlutterのアセットフォルダ内の[defaultAssetURI]に存在する画像ファイルが返されます。デフォルトは`assets/image.png`。
-  static ImageProvider image(
+  ImageProvider call(
     String? uri, [
     String defaultAssetURI = "assets/image.png",
   ]) {
@@ -123,7 +242,8 @@ class Asset {
       return _MemoizedAssetImage(defaultAssetURI);
     }
     try {
-      if (uri!.startsWith("blob:")) {
+      uri = "$_prefix${uri!.trimString("/")}";
+      if (uri.startsWith("blob:")) {
         final blob = uri.replaceAll(RegExp(r"^blob:(//)?"), "");
         return MemoryImage(base64Url.decode(blob));
       } else if (uri.startsWith("http")) {

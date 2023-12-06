@@ -14,6 +14,35 @@ part of "web.dart";
 class Asset {
   const Asset._();
 
+  /// Get builder to get text data.
+  ///
+  /// テキストデータを取得するためのビルダーを取得します。
+  static const TextProviderBuilder text = TextProviderBuilder._();
+
+  /// Acquire builder to get image data.
+  ///
+  /// 画像データを取得するためのビルダーを取得します。
+  static const ImageProviderBuilder image = ImageProviderBuilder._();
+}
+
+/// Class for providing implementation of [Asset.text].
+///
+/// [Asset.text]を実装を提供するためのクラス。
+class TextProviderBuilder with _TextProviderBuilderMixin {
+  const TextProviderBuilder._();
+
+  /// Retrieves files in the document folder.
+  ///
+  /// ドキュメントフォルダ内のファイルを取得します。
+  DocumentTextProviderBuilder get document => throw UnimplementedError();
+
+  /// Retrieves files in a temporary folder.
+  ///
+  /// テンポラリフォルダ内のファイルを取得します。
+  TemporaryTextProviderBuilder get temporary => throw UnimplementedError();
+}
+
+abstract class _TextProviderBuilderMixin {
   /// Obtains text from a text file that exists in [uri].
   ///
   /// If [uri] starts with `http://` or `https://`, a request is made to the network with `GET` to retrieve the text.
@@ -37,7 +66,7 @@ class Asset {
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、そのファイル内のテキストを取得します。
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合は[defaultValue]が返されます。
-  static TextProvider text(
+  TextProvider call(
     String? uri, {
     Map<String, String>? headers,
     String defaultValue = "",
@@ -68,7 +97,26 @@ class Asset {
       return TextProvider(defaultValue: defaultValue);
     }
   }
+}
 
+/// Class for providing implementation of [Asset.image].
+///
+/// [Asset.image]を実装を提供するためのクラス。
+class ImageProviderBuilder with _ImageProviderBuilderMixin {
+  const ImageProviderBuilder._();
+
+  /// Retrieves files in the document folder.
+  ///
+  /// ドキュメントフォルダ内のファイルを取得します。
+  DocumentImageProviderBuilder get document => throw UnimplementedError();
+
+  /// Retrieves files in a temporary folder.
+  ///
+  /// テンポラリフォルダ内のファイルを取得します。
+  TemporaryImageProviderBuilder get temporary => throw UnimplementedError();
+}
+
+abstract class _ImageProviderBuilderMixin {
   /// [ImageProvider] from the image file existing in [uri].
   ///
   /// If [uri] starts with `http://` or `https://`, images existing on the network are downloaded and retrieved.
@@ -92,7 +140,7 @@ class Asset {
   /// ファイルが見つからない場合、もしくは[uri]が`resource://`で始まる場合はFlutterのアセットフォルダからファイルを検索し、その画像ファイルを取得します。
   ///
   /// [uri]が空の場合、もしくはテキストがなにかしらの原因で取得出来なかった場合はFlutterのアセットフォルダ内の[defaultAssetURI]に存在する画像ファイルが返されます。デフォルトは`assets/image.png`。
-  static ImageProvider image(
+  ImageProvider call(
     String? uri, [
     String defaultAssetURI = "assets/image.png",
   ]) {
