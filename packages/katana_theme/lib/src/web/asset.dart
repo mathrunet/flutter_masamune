@@ -42,6 +42,28 @@ class TextProviderBuilder with _TextProviderBuilderMixin {
   TemporaryTextProviderBuilder get temporary => throw UnimplementedError();
 }
 
+/// Class for providing implementation of [Asset.text].
+///
+/// Retrieves files in the document folder.
+///
+/// [Asset.text]を実装を提供するためのクラス。
+///
+/// ドキュメントフォルダ内のファイルを取得します。
+class DocumentTextProviderBuilder with _TextProviderBuilderMixin {
+  const DocumentTextProviderBuilder._();
+}
+
+/// Class for providing implementation of [Asset.text].
+///
+/// Retrieves files in the temporary folder.
+///
+/// [Asset.text]を実装を提供するためのクラス。
+///
+/// 一時フォルダ内のファイルを取得します。
+class TemporaryTextProviderBuilder with _TextProviderBuilderMixin {
+  const TemporaryTextProviderBuilder._();
+}
+
 abstract class _TextProviderBuilderMixin {
   /// Obtains text from a text file that exists in [uri].
   ///
@@ -114,6 +136,28 @@ class ImageProviderBuilder with _ImageProviderBuilderMixin {
   ///
   /// テンポラリフォルダ内のファイルを取得します。
   TemporaryImageProviderBuilder get temporary => throw UnimplementedError();
+}
+
+/// Class for providing implementation of [Asset.image].
+///
+/// Retrieves files in the document folder.
+///
+/// [Asset.image]を実装を提供するためのクラス。
+///
+/// ドキュメントフォルダ内のファイルを取得します。
+class DocumentImageProviderBuilder with _ImageProviderBuilderMixin {
+  const DocumentImageProviderBuilder._();
+}
+
+/// Class for providing implementation of [Asset.image].
+///
+/// Retrieves files in the temporary folder.
+///
+/// [Asset.image]を実装を提供するためのクラス。
+///
+/// 一時フォルダ内のファイルを取得します。
+class TemporaryImageProviderBuilder with _ImageProviderBuilderMixin {
+  const TemporaryImageProviderBuilder._();
 }
 
 abstract class _ImageProviderBuilderMixin {
