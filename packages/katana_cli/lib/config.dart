@@ -455,9 +455,11 @@ ecosystem:
 
 # Configure the settings for advertising.
 # Set the respective Ad App Id in [android_app_id] and [ios_app_id].
+# If you want to use it on the web, please obtain app_ads.txt and place it under the web folder.
 # https://admanager.google.com/home/
 # 広告を出す場合の設定を行います。
 # [android_app_id]と[ios_app_id]にそれぞれのAd App Idを設定してください。
+# Webで利用する場合はapp_ads.txtを取得し、webフォルダ以下に配置してください。
 # https://admanager.google.com/home/
 ads:
   enable: false
