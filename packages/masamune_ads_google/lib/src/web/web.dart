@@ -17,3 +17,4 @@ part 'google_ads_core.dart';
 part 'google_ad_native.dart';
 part 'google_ad_interstitial.dart';
 part 'google_ad_rewarded.dart';
+part 'google_ad_banner.dart';
