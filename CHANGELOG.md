@@ -15,6 +15,32 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.2.2`](#masamune_ads_google---v222)
+ - [`masamune_module_point_ecosystem` - `v2.3.78`](#masamune_module_point_ecosystem---v2378)
+
+---
+
+#### `masamune_ads_google` - `v2.2.2`
+
+ - **FIX**: Changed the method of specifying UnitId. ([922a383c](https://github.com/mathrunet/flutter_masamune/commit/922a383cf653f384bc3f0fdaf531a2a8941dadb7))
+
+#### `masamune_module_point_ecosystem` - `v2.3.78`
+
+ - **FIX**: Changed the method of specifying UnitId. ([922a383c](https://github.com/mathrunet/flutter_masamune/commit/922a383cf653f384bc3f0fdaf531a2a8941dadb7))
+
+
+## 2023-12-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_ui` - `v2.5.22`](#katana_ui---v2522)
  - [`masamune` - `v2.4.112`](#masamune---v24112)
  - [`masamune_location_platform_interface` - `v2.1.59`](#masamune_location_platform_interface---v2159)

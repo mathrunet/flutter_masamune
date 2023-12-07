@@ -1,3 +1,7 @@
+## 2.2.2
+
+ - **FIX**: Changed the method of specifying UnitId. ([922a383c](https://github.com/mathrunet/flutter_masamune/commit/922a383cf653f384bc3f0fdaf531a2a8941dadb7))
+
 ## 2.2.1
 
  - Update a dependency to the latest release.
