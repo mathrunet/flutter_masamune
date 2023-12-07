@@ -1,3 +1,7 @@
+## 2.2.6
+
+ - **FIX**: Fixed a bug on the web. ([c85774fe](https://github.com/mathrunet/flutter_masamune/commit/c85774fe56a77c7b008652debfb068b94c17c0cf))
+
 ## 2.2.5
 
  - **FIX**: Asset's document folder and temporary folders can now be specified type-safe. ([51497142](https://github.com/mathrunet/flutter_masamune/commit/514971427fe86c965fc5d88cdf08b32cca6a9690))
