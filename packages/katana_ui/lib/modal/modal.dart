@@ -323,19 +323,20 @@ class Modal {
 
   /// Display the bottom sheet as a modal.
   ///
-  /// The widget to be displayed is passed to [children].
+  /// The widget to be displayed is passed to [builder].
   ///
   /// Specify the background color with [backgroundColor] and the text color with [color].
   ///
   /// モーダルとしてのボトムシートを表示します。
   ///
-  /// [children]には表示するウィジェットを渡します。
+  /// [builder]には表示するウィジェットを渡します。
   ///
   /// [backgroundColor]で背景色、[color]でテキストカラーを指定します。
   static Future<void> bottomSheet(
     BuildContext context, {
     Color? backgroundColor,
     Color? color,
+    bool isScrollControlled = false,
     required List<Widget> Function(BuildContext context, VoidCallback onClose)
         builder,
     EdgeInsetsGeometry contentPadding =
@@ -350,11 +351,13 @@ class Modal {
         Theme.of(context).colorScheme.onSurface;
     backgroundColor ??= Theme.of(context).dialogTheme.backgroundColor ??
         Theme.of(context).colorScheme.surface;
-    final onClose = () {
+    void onClose() {
       Navigator.of(context, rootNavigator: true).pop();
-    };
+    }
+
     await showModalBottomSheet(
       context: overlay.context,
+      isScrollControlled: isScrollControlled,
       backgroundColor: backgroundColor,
       useSafeArea: true,
       builder: (context) {
