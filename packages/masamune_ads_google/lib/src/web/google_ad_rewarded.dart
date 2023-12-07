@@ -24,8 +24,8 @@ class GoogleAdRewarded
   /// [adUnitId]を指定してインタースティシャル広告を表示します。
   ///
   /// [loading]が終了した後、[show]で広告を表示します。
-  GoogleAdRewarded(
-    this.adUnitId, {
+  GoogleAdRewarded({
+    this.adUnitId,
     super.adapter,
   });
 
@@ -36,7 +36,7 @@ class GoogleAdRewarded
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Returns `true` if initialization is complete.
   ///

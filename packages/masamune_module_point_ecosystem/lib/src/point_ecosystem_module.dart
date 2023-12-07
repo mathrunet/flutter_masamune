@@ -103,7 +103,7 @@ class PointEcosystemModule extends MasamuneControllerBase<double,
     _completer = Completer<void>();
     try {
       _rewarded ??= GoogleAdRewarded(
-        primaryAdapter.option.rewardedAdUnitId!,
+        adUnitId: primaryAdapter.option.rewardedAdUnitId!,
       );
       _pointDocument ??= PurchaseUserModelDocument(
         PurchaseUserModel.document(

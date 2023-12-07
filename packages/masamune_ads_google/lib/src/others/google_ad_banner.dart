@@ -4,34 +4,34 @@ part of 'others.dart';
 ///
 /// [GoogleBannerAd]の広告サイズ。
 enum GoogleBannerAdSize {
-  /// Banner.
+  /// Banner. (320×50)
   ///
-  /// バナー。
+  /// バナー。(320×50)
   banner,
 
-  /// Large banner.
+  /// Large banner. (320×100)
   ///
-  /// 大きなバナー。
+  /// 大きなバナー。(320×100)
   largeBanner,
 
-  /// Medium rectangle.
+  /// Medium rectangle. (320×250)
   ///
-  /// 中四角。
+  /// 中四角。(320×250)
   mediumRectangle,
 
-  /// Full banner.
+  /// Full banner. (468×60)
   ///
-  /// フルバナー。
+  /// フルバナー。(468×60)
   fullBanner,
 
-  /// Leaderboard.
+  /// Leaderboard. (728×90)
   ///
-  /// リーダーボード。
+  /// リーダーボード。(728×90)
   leaderboard,
 
-  /// Fluid.
+  /// Fluid. (varies depending on screen size)
   ///
-  /// フルード。
+  /// フルード。(画面のサイズによって変化)
   fluid;
 
   AdSize _toAdSize() {
@@ -86,7 +86,7 @@ class GoogleBannerAd extends StatefulWidget {
   /// Webでは空のWidgetを返します。
   const GoogleBannerAd({
     super.key,
-    required this.adUnitId,
+    this.adUnitId,
     this.size = GoogleBannerAdSize.fullBanner,
     this.onAdClicked,
     this.onPaidEvent,
@@ -95,7 +95,7 @@ class GoogleBannerAd extends StatefulWidget {
   /// Advertising Unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Size of ad.
   ///
@@ -141,9 +141,11 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
     }
   }
 
-  void loadAd() {
+  Future<void> loadAd() async {
+    await GoogleAdsCore.initialize();
     _bannerAd ??= BannerAd(
-      adUnitId: widget.adUnitId,
+      adUnitId:
+          widget.adUnitId ?? GoogleAdsMasamuneAdapter.primary.defaultAdUnitId,
       size: widget.size._toAdSize(),
       listener: BannerAdListener(
         onAdLoaded: (ad) {

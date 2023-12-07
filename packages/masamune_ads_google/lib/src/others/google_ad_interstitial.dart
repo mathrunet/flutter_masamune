@@ -24,8 +24,8 @@ class GoogleAdInterstitial
   /// [adUnitId]を指定してインタースティシャル広告を表示します。
   ///
   /// [loading]が終了した後、[show]で広告を表示します。
-  GoogleAdInterstitial(
-    this.adUnitId, {
+  GoogleAdInterstitial({
+    this.adUnitId,
     super.adapter,
   }) {
     _initialize();
@@ -38,7 +38,7 @@ class GoogleAdInterstitial
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Returns `true` if initialization is complete.
   ///
@@ -61,8 +61,9 @@ class GoogleAdInterstitial
   Future<void> _initialize() async {
     _loadCompleter = Completer<void>();
     try {
+      await GoogleAdsCore.initialize();
       await InterstitialAd.load(
-        adUnitId: adUnitId,
+        adUnitId: adUnitId ?? adapter.defaultAdUnitId,
         request: const AdManagerAdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (ad) {
@@ -97,6 +98,9 @@ class GoogleAdInterstitial
   Future<void> show({
     VoidCallback? onAdClicked,
   }) async {
+    if (_loadCompleter != null) {
+      await _loadCompleter!.future;
+    }
     if (!initialized) {
       throw Exception("InterstitialAd is not initialized.");
     }

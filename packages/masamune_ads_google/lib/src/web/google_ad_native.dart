@@ -49,7 +49,7 @@ class GoogleNativeAd extends StatefulWidget {
   /// Webでは空のWidgetを返します。
   const GoogleNativeAd({
     super.key,
-    required this.adUnitId,
+    this.adUnitId,
     this.templateType = GoogleNativeAdTemplateType.medium,
     this.backgroundColor,
     this.cornerRadius,
@@ -68,7 +68,7 @@ class GoogleNativeAd extends StatefulWidget {
   /// Advertising Unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Template type.
   ///

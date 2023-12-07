@@ -1,13 +1,20 @@
 part of '/masamune_ads_google.dart';
 
-/// MasamuneAdapter] for displaying mobile ads.
+/// [MasamuneAdapter] for displaying mobile ads.
 ///
 /// モバイル広告を表示するための[MasamuneAdapter]。
 class GoogleAdsMasamuneAdapter extends MasamuneAdapter {
-  /// MasamuneAdapter] for displaying mobile ads.
+  /// [MasamuneAdapter] for displaying mobile ads.
   ///
   /// モバイル広告を表示するための[MasamuneAdapter]。
-  const GoogleAdsMasamuneAdapter();
+  const GoogleAdsMasamuneAdapter({
+    required this.defaultAdUnitId,
+  });
+
+  /// Default ad ID.
+  ///
+  /// デフォルトの広告ID。
+  final String defaultAdUnitId;
 
   /// You can retrieve the [GoogleAdsMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///

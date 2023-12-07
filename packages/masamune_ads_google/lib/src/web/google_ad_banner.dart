@@ -86,7 +86,7 @@ class GoogleBannerAd extends StatefulWidget {
   /// Webでは空のWidgetを返します。
   const GoogleBannerAd({
     super.key,
-    required this.adUnitId,
+    this.adUnitId,
     this.size = GoogleBannerAdSize.fullBanner,
     this.onAdClicked,
     this.onPaidEvent,
@@ -95,7 +95,7 @@ class GoogleBannerAd extends StatefulWidget {
   /// Advertising Unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Size of ad.
   ///

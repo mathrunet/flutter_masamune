@@ -24,8 +24,8 @@ class GoogleAdRewarded
   /// [adUnitId]を指定してインタースティシャル広告を表示します。
   ///
   /// [loading]が終了した後、[show]で広告を表示します。
-  GoogleAdRewarded(
-    this.adUnitId, {
+  GoogleAdRewarded({
+    this.adUnitId,
     super.adapter,
   }) {
     _initialize();
@@ -38,7 +38,7 @@ class GoogleAdRewarded
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Returns `true` if initialization is complete.
   ///
@@ -62,8 +62,9 @@ class GoogleAdRewarded
   Future<void> _initialize() async {
     _loadCompleter = Completer<void>();
     try {
+      await GoogleAdsCore.initialize();
       await RewardedAd.load(
-        adUnitId: adUnitId,
+        adUnitId: adUnitId ?? adapter.defaultAdUnitId,
         request: const AdManagerAdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
           onAdLoaded: (RewardedAd ad) {
@@ -103,6 +104,9 @@ class GoogleAdRewarded
     required FutureOr<void> Function(double amount, String type) onEarnedReward,
     VoidCallback? onAdClicked,
   }) async {
+    if (_loadCompleter != null) {
+      await _loadCompleter!.future;
+    }
     if (!initialized) {
       throw Exception("RewardedAd is not initialized.");
     }

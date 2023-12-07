@@ -11,7 +11,8 @@ part of 'web.dart';
 /// [adUnitId]を指定してインタースティシャル広告を表示します。
 ///
 /// [loading]が終了した後、[show]で広告を表示します。
-class GoogleAdInterstitial extends ChangeNotifier {
+class GoogleAdInterstitial
+    extends MasamuneControllerBase<void, GoogleAdsMasamuneAdapter> {
   /// This class displays interstitial advertisements.
   ///
   /// Display interstitial ads by specifying [adUnitId].
@@ -23,14 +24,19 @@ class GoogleAdInterstitial extends ChangeNotifier {
   /// [adUnitId]を指定してインタースティシャル広告を表示します。
   ///
   /// [loading]が終了した後、[show]で広告を表示します。
-  GoogleAdInterstitial(
+  GoogleAdInterstitial({
     this.adUnitId,
-  );
+    super.adapter,
+  });
+
+  @override
+  GoogleAdsMasamuneAdapter get primaryAdapter =>
+      GoogleAdsMasamuneAdapter.primary;
 
   /// Ad unit ID.
   ///
   /// 広告ユニットID。
-  final String adUnitId;
+  final String? adUnitId;
 
   /// Returns `true` if initialization is complete.
   ///
