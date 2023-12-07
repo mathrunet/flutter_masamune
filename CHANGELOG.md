@@ -15,6 +15,92 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_ui` - `v2.5.22`](#katana_ui---v2522)
+ - [`masamune` - `v2.4.112`](#masamune---v24112)
+ - [`masamune_location_platform_interface` - `v2.1.59`](#masamune_location_platform_interface---v2159)
+ - [`masamune_location` - `v2.1.180`](#masamune_location---v21180)
+ - [`masamune_location_geocoding` - `v2.2.12`](#masamune_location_geocoding---v2212)
+ - [`masamune_deeplink_firebase` - `v2.1.89`](#masamune_deeplink_firebase---v2189)
+ - [`masamune_auth_apple` - `v2.1.168`](#masamune_auth_apple---v21168)
+ - [`masamune_location_background` - `v2.2.38`](#masamune_location_background---v2238)
+ - [`masamune_scheduler` - `v2.1.51`](#masamune_scheduler---v2151)
+ - [`masamune_text_to_speech` - `v2.1.134`](#masamune_text_to_speech---v21134)
+ - [`masamune_agora` - `v2.3.26`](#masamune_agora---v2326)
+ - [`masamune_auth_google` - `v2.1.169`](#masamune_auth_google---v21169)
+ - [`masamune_ai_openai` - `v2.2.102`](#masamune_ai_openai---v22102)
+ - [`masamune_calendar` - `v2.1.18`](#masamune_calendar---v2118)
+ - [`masamune_picker` - `v2.1.167`](#masamune_picker---v21167)
+ - [`masamune_util` - `v2.1.146`](#masamune_util---v21146)
+ - [`masamune_universal_ui` - `v2.2.150`](#masamune_universal_ui---v22150)
+ - [`masamune_purchase_stripe` - `v3.3.115`](#masamune_purchase_stripe---v33115)
+ - [`masamune_notification` - `v2.2.54`](#masamune_notification---v2254)
+ - [`masamune_logger_firebase` - `v2.0.210`](#masamune_logger_firebase---v20210)
+ - [`masamune_introduction` - `v2.2.116`](#masamune_introduction---v22116)
+ - [`masamune_deeplink` - `v2.1.87`](#masamune_deeplink---v2187)
+ - [`masamune_speech_to_text` - `v2.1.137`](#masamune_speech_to_text---v21137)
+ - [`masamune_auth_facebook` - `v2.1.170`](#masamune_auth_facebook---v21170)
+ - [`masamune_module_point_ecosystem` - `v2.3.77`](#masamune_module_point_ecosystem---v2377)
+ - [`masamune_location_google` - `v2.1.181`](#masamune_location_google---v21181)
+ - [`masamune_module` - `v2.3.71`](#masamune_module---v2371)
+ - [`masamune_mail` - `v2.1.165`](#masamune_mail---v21165)
+ - [`masamune_notification_firebase` - `v2.4.56`](#masamune_notification_firebase---v2456)
+ - [`masamune_purchase_mobile` - `v2.5.117`](#masamune_purchase_mobile---v25117)
+ - [`masamune_ads_google` - `v2.2.1`](#masamune_ads_google---v221)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune` - `v2.4.112`
+ - `masamune_location_platform_interface` - `v2.1.59`
+ - `masamune_location` - `v2.1.180`
+ - `masamune_location_geocoding` - `v2.2.12`
+ - `masamune_deeplink_firebase` - `v2.1.89`
+ - `masamune_auth_apple` - `v2.1.168`
+ - `masamune_location_background` - `v2.2.38`
+ - `masamune_scheduler` - `v2.1.51`
+ - `masamune_text_to_speech` - `v2.1.134`
+ - `masamune_agora` - `v2.3.26`
+ - `masamune_auth_google` - `v2.1.169`
+ - `masamune_ai_openai` - `v2.2.102`
+ - `masamune_calendar` - `v2.1.18`
+ - `masamune_picker` - `v2.1.167`
+ - `masamune_util` - `v2.1.146`
+ - `masamune_universal_ui` - `v2.2.150`
+ - `masamune_purchase_stripe` - `v3.3.115`
+ - `masamune_notification` - `v2.2.54`
+ - `masamune_logger_firebase` - `v2.0.210`
+ - `masamune_introduction` - `v2.2.116`
+ - `masamune_deeplink` - `v2.1.87`
+ - `masamune_speech_to_text` - `v2.1.137`
+ - `masamune_auth_facebook` - `v2.1.170`
+ - `masamune_module_point_ecosystem` - `v2.3.77`
+ - `masamune_location_google` - `v2.1.181`
+ - `masamune_module` - `v2.3.71`
+ - `masamune_mail` - `v2.1.165`
+ - `masamune_notification_firebase` - `v2.4.56`
+ - `masamune_purchase_mobile` - `v2.5.117`
+ - `masamune_ads_google` - `v2.2.1`
+
+---
+
+#### `katana_ui` - `v2.5.22`
+
+ - **FIX**: Add isScrollControlled to bottomSheet. ([50e5a7b0](https://github.com/mathrunet/flutter_masamune/commit/50e5a7b0e01ebc2afa74c99a29d1348a8dae6ca6))
+
+
+## 2023-12-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_ads_google` - `v2.2.0`](#masamune_ads_google---v220)
  - [`masamune_module_point_ecosystem` - `v2.3.76`](#masamune_module_point_ecosystem---v2376)
 

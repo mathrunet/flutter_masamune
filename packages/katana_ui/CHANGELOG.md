@@ -1,3 +1,7 @@
+## 2.5.22
+
+ - **FIX**: Add isScrollControlled to bottomSheet. ([50e5a7b0](https://github.com/mathrunet/flutter_masamune/commit/50e5a7b0e01ebc2afa74c99a29d1348a8dae6ca6))
+
 ## 2.5.21
 
  - Update a dependency to the latest release.

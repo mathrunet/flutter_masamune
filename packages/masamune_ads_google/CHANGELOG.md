@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - Update a dependency to the latest release.
+
 ## 2.2.0
 
  - **FEAT**: Added BannerAd. ([6c80303e](https://github.com/mathrunet/flutter_masamune/commit/6c80303e387c5c7204835983663d9f931204413a))
