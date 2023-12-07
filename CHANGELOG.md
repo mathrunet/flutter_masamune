@@ -15,6 +15,34 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_ads_google` - `v2.2.0`](#masamune_ads_google---v220)
+ - [`masamune_module_point_ecosystem` - `v2.3.76`](#masamune_module_point_ecosystem---v2376)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.3.76`
+
+---
+
+#### `masamune_ads_google` - `v2.2.0`
+
+ - **FEAT**: Added BannerAd. ([6c80303e](https://github.com/mathrunet/flutter_masamune/commit/6c80303e387c5c7204835983663d9f931204413a))
+
+
+## 2023-12-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_theme` - `v2.2.6`](#katana_theme---v226)
  - [`masamune` - `v2.4.111`](#masamune---v24111)
  - [`masamune_location_platform_interface` - `v2.1.58`](#masamune_location_platform_interface---v2158)
