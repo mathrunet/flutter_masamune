@@ -13,6 +13,7 @@ import 'package:masamune/masamune.dart';
 
 // Project imports:
 import 'package:masamune_ads_google/masamune_ads_google.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'google_ads_core.dart';
 part 'google_ad_native.dart';

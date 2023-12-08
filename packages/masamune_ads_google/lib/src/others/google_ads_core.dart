@@ -17,6 +17,7 @@ class GoogleAdsCore {
   static bool _initialized = false;
 
   static Completer<void>? _completer;
+  static Completer<void>? _permissionCompleter;
 
   /// Initialize the advertisement.
   ///
@@ -30,6 +31,7 @@ class GoogleAdsCore {
     }
     _completer = Completer<void>();
     try {
+      await permission();
       await MobileAds.instance.initialize();
       _initialized = true;
       _completer = Completer<void>();
@@ -40,6 +42,30 @@ class GoogleAdsCore {
     } finally {
       _completer?.complete();
       _completer = null;
+    }
+  }
+
+  /// Request permission.
+  ///
+  /// 許可をリクエストします。
+  static Future<void> permission() async {
+    if (_permissionCompleter != null) {
+      return _permissionCompleter!.future;
+    }
+    _permissionCompleter = Completer<void>();
+    try {
+      final status = await Permission.appTrackingTransparency.status;
+      if (status != PermissionStatus.granted) {
+        await Permission.appTrackingTransparency.request();
+      }
+      _permissionCompleter = Completer<void>();
+      _permissionCompleter = null;
+    } catch (e) {
+      _permissionCompleter?.completeError(e);
+      _permissionCompleter = null;
+    } finally {
+      _permissionCompleter?.complete();
+      _permissionCompleter = null;
     }
   }
 }

@@ -129,11 +129,9 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
   @override
   Widget build(BuildContext context) {
     final adSize = widget.size._toAdSize();
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: adSize.width.toDouble(),
-        minHeight: adSize.height.toDouble(),
-      ),
+    return SizedBox(
+      width: adSize.width.toDouble(),
+      height: adSize.height.toDouble(),
       child: const Empty(),
     );
   }
