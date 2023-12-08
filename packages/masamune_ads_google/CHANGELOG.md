@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: Added Permission setting for ATT. ([8378a98e](https://github.com/mathrunet/flutter_masamune/commit/8378a98ea1147bcc27064a051fad06fa076a7b1a))
+
 ## 2.2.2
 
  - **FIX**: Changed the method of specifying UnitId. ([922a383c](https://github.com/mathrunet/flutter_masamune/commit/922a383cf653f384bc3f0fdaf531a2a8941dadb7))

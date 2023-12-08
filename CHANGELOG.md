@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`katana_cli` - `v2.11.0`](#katana_cli---v2110)
+ - [`masamune_ads_google` - `v2.3.0`](#masamune_ads_google---v230)
+ - [`masamune_module_point_ecosystem` - `v2.3.79`](#masamune_module_point_ecosystem---v2379)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.3.79`
+
+---
+
+#### `katana_cli` - `v2.11.0`
+
+ - **FEAT**: Added a setting for Permission for Podfile. ([8eaae3df](https://github.com/mathrunet/flutter_masamune/commit/8eaae3df4203ad7482be2e3daef7bac4ae3b886b))
+
+#### `masamune_ads_google` - `v2.3.0`
+
+ - **FEAT**: Added Permission setting for ATT. ([8378a98e](https://github.com/mathrunet/flutter_masamune/commit/8378a98ea1147bcc27064a051fad06fa076a7b1a))
+
+
 ## 2023-12-07
 
 ### Changes

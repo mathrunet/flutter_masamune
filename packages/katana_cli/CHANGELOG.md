@@ -1,3 +1,7 @@
+## 2.11.0
+
+ - **FEAT**: Added a setting for Permission for Podfile. ([8eaae3df](https://github.com/mathrunet/flutter_masamune/commit/8eaae3df4203ad7482be2e3daef7bac4ae3b886b))
+
 ## 2.10.27
 
  - Update a dependency to the latest release.
