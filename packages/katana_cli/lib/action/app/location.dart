@@ -307,6 +307,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
           .map((key, value) => MapEntry(key, value.toString()))
           .where((key, value) => value.isNotEmpty),
     );
+    await PodfilePermissionType.locationUsage.enablePermissionToPodfile();
     await command(
       "Import packages.",
       [

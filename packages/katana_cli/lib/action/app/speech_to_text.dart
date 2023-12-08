@@ -62,6 +62,8 @@ class AppSpeechToTextCliAction extends CliCommand with CliActionMixin {
           .map((key, value) => MapEntry(key, value.toString()))
           .where((key, value) => value.isNotEmpty),
     );
+    await PodfilePermissionType.microphoneUsage.enablePermissionToPodfile();
+    await PodfilePermissionType.speechRecognitionUsage.enablePermissionToPodfile();
     label("Edit AndroidManifest.xml.");
     final file = File("android/app/src/main/AndroidManifest.xml");
     if (!file.existsSync()) {

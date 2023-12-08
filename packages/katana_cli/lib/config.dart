@@ -457,14 +457,20 @@ ecosystem:
 # Set the respective Ad App Id in [android_app_id] and [ios_app_id].
 # If you want to use it on the web, please obtain app_ads.txt and place it under the web folder.
 # https://admanager.google.com/home/
+# Specify the permission message to use the library in IOS in [permission].
+# Please include `en`, `ja`, etc. and write the message in that language there.
 # 広告を出す場合の設定を行います。
 # [android_app_id]と[ios_app_id]にそれぞれのAd App Idを設定してください。
 # Webで利用する場合はapp_ads.txtを取得し、webフォルダ以下に配置してください。
 # https://admanager.google.com/home/
+# [permission]にIOSでライブラリを利用するための権限許可メッセージを指定します。
+# `en`や`ja`などを記載しそこにその言語でのメッセージを記述してください。
 ads:
   enable: false
   android_app_id: 
   ios_app_id: 
+  permission:
+      en: If you [Allow], App will display ads optimized for you.
 
 # Configure settings for store billing.
 # ストア課金を行う場合の設定を行います。

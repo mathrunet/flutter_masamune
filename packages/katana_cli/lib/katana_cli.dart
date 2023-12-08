@@ -17,4 +17,5 @@ export 'command/pub/pub.dart';
 export 'src/framework.dart';
 export 'src/gradle.dart';
 export 'src/xcode.dart';
+export 'src/podfile.dart';
 export 'src/functions.dart';

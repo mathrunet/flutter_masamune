@@ -41,6 +41,7 @@ class AdsCliAction extends CliCommand with CliActionMixin {
     final ads = context.yaml.getAsMap("ads");
     final androidAppId = ads.get("android_app_id", "");
     final iosAppId = ads.get("ios_app_id", "");
+    final permission = ads.getAsMap("permission");
     if (androidAppId.isEmpty && iosAppId.isEmpty) {
       throw Exception(
         "Specify the app ID for Android or iOS in [ads]->[android_app_id] or [ads]->[ios_app_id].",
@@ -81,7 +82,7 @@ class AdsCliAction extends CliCommand with CliActionMixin {
                   p1.value == "com.google.android.gms.ads.APPLICATION_ID",
             ),
       );
-      if (applicationIdData != null) {
+      if (applicationIdData == null) {
         application.first.children.add(
           XmlElement(
             XmlName("meta-data"),
@@ -99,7 +100,7 @@ class AdsCliAction extends CliCommand with CliActionMixin {
           ),
         );
       } else {
-        applicationIdData!.attributes
+        applicationIdData.attributes
           ..clear()
           ..addAll([
             XmlAttribute(
@@ -143,11 +144,18 @@ class AdsCliAction extends CliCommand with CliActionMixin {
           ],
         );
       } else {
-        applicationIdData.nextSibling!.innerText = iosAppId;
+        applicationIdData.nextElementSibling!.innerText = iosAppId;
       }
       await plist.writeAsString(
         document.toXmlString(pretty: true, indent: "\t", newLine: "\n"),
       );
     }
+    label("Addition of permission messages.");
+    await XCodePermissionType.userTrackingUsage.setMessageToXCode(
+      permission
+          .map((key, value) => MapEntry(key, value.toString()))
+          .where((key, value) => value.isNotEmpty),
+    );
+    await PodfilePermissionType.userTrackingUsage.enablePermissionToPodfile();
   }
 }
