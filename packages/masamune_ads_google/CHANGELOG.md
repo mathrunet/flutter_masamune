@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Added Permission setting for ATT. ([8378a98e](https://github.com/mathrunet/flutter_masamune/commit/8378a98ea1147bcc27064a051fad06fa076a7b1a))

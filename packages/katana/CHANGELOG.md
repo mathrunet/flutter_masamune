@@ -1,3 +1,7 @@
+## 2.9.2
+
+ - **FIX**: Added roundBy. ([df3ce3e5](https://github.com/mathrunet/flutter_masamune/commit/df3ce3e56564b12f7175ba3fe970b7206f3631f7))
+
 ## 2.9.1
 
  - **FIX**: Allow null as an argument to equalsTo. ([67f15315](https://github.com/mathrunet/flutter_masamune/commit/67f15315c69be355c4f53df2f7463445f7f49fc9))
