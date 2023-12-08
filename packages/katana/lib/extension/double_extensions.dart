@@ -108,4 +108,16 @@ extension DoubleExtensions on double {
     assert(format.isNotEmpty, "The format is empty.");
     return NumberFormat(format).format(this);
   }
+
+  /// Round [double] to the nearest [base].
+  ///
+  /// [double]を最も近い[base]に丸めます。
+  double roundBy([int base = 0]) {
+    assert(base >= 0, "The base must be greater than or equal to 0.");
+    if (base == 0) {
+      return roundToDouble();
+    }
+    final p = pow(10, base);
+    return (this * p).round() / p;
+  }
 }

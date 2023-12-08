@@ -51,4 +51,7 @@ void main() {
   test("DoubleExtensions.format", () {
     expect(12.343.format("###.0#"), "12.34");
   });
+  test("DoubleExtensions.roundBy", () {
+    expect(12.343.roundBy(2), 12.34);
+  });
 }
