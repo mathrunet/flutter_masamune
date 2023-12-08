@@ -44,7 +44,7 @@ class GoogleAdsCore {
   }
 
   /// Request permission.
-  /// 
+  ///
   /// 許可をリクエストします。
   static Future<void> permission() async {
     debugPrint("The web does not support GoogleAd.");
