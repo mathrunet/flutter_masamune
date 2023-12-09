@@ -1,3 +1,7 @@
+## 2.3.2
+
+ - **FIX**: A border can be added. ([36b22944](https://github.com/mathrunet/flutter_masamune/commit/36b22944060bb4ca33a5a9eee0eb6a180911f3bd))
+
 ## 2.3.1
 
  - Update a dependency to the latest release.
