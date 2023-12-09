@@ -90,6 +90,7 @@ class GoogleBannerAd extends StatefulWidget {
     this.size = GoogleBannerAdSize.fullBanner,
     this.onAdClicked,
     this.onPaidEvent,
+    this.border,
   });
 
   /// Advertising Unit ID.
@@ -116,6 +117,11 @@ class GoogleBannerAd extends StatefulWidget {
   /// [value]には金額、[currencyCode]には通貨が入ります。
   final void Function(double value, String currencyCode)? onPaidEvent;
 
+  /// Framing of the advertisement.
+  ///
+  /// 広告の枠線。
+  final BoxBorder? border;
+
   @override
   State<StatefulWidget> createState() => _GoogleBannerAdState();
 }
@@ -129,7 +135,12 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
   @override
   Widget build(BuildContext context) {
     final adSize = widget.size._toAdSize();
-    return SizedBox(
+    return Container(
+      decoration: widget.border != null
+          ? BoxDecoration(
+              border: widget.border,
+            )
+          : null,
       width: adSize.width.toDouble(),
       height: adSize.height.toDouble(),
       child: const Empty(),

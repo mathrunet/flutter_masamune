@@ -90,6 +90,7 @@ class GoogleBannerAd extends StatefulWidget {
     this.size = GoogleBannerAdSize.fullBanner,
     this.onAdClicked,
     this.onPaidEvent,
+    this.border,
   });
 
   /// Advertising Unit ID.
@@ -106,6 +107,11 @@ class GoogleBannerAd extends StatefulWidget {
   ///
   /// 広告がクリックされた時に呼び出されます。
   final VoidCallback? onAdClicked;
+
+  /// Framing of the advertisement.
+  ///
+  /// 広告の枠線。
+  final BoxBorder? border;
 
   /// Called when a paid event occurs.
   ///
@@ -171,7 +177,12 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
   @override
   Widget build(BuildContext context) {
     final adSize = widget.size._toAdSize();
-    return SizedBox(
+    return Container(
+      decoration: widget.border != null
+          ? BoxDecoration(
+              border: widget.border,
+            )
+          : null,
       width: adSize.width.toDouble(),
       height: adSize.height.toDouble(),
       child: _bannerAdIsLoaded
