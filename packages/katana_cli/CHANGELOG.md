@@ -1,3 +1,7 @@
+## 2.11.2
+
+ - **FIX**: command was invalid, corrected. ([2d53a89f](https://github.com/mathrunet/flutter_masamune/commit/2d53a89f6cd99418f53598fbdedccb84eaf57969))
+
 ## 2.11.1
 
  - Update a dependency to the latest release.
