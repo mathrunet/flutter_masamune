@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.11.4`](#katana_cli---v2114)
+
+---
+
+#### `katana_cli` - `v2.11.4`
+
+ - **FIX**: Added a page on how to delete. ([f0dfeb98](https://github.com/mathrunet/flutter_masamune/commit/f0dfeb98006a3646e496cf3ea4300ee70a58ed63))
+
+
+## 2023-12-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_cli` - `v2.11.3`](#katana_cli---v2113)
  - [`katana_form` - `v2.10.0`](#katana_form---v2100)
  - [`masamune` - `v2.4.114`](#masamune---v24114)

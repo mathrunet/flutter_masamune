@@ -1,3 +1,7 @@
+## 2.11.4
+
+ - **FIX**: Added a page on how to delete. ([f0dfeb98](https://github.com/mathrunet/flutter_masamune/commit/f0dfeb98006a3646e496cf3ea4300ee70a58ed63))
+
 ## 2.11.3
 
  - **FIX**: Support for changes in Functions commands. ([c9ea5039](https://github.com/mathrunet/flutter_masamune/commit/c9ea503906e21567265467bf0fdb34ecda60c75e))
