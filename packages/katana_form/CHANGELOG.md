@@ -1,3 +1,7 @@
+## 2.10.0
+
+ - **FEAT**: Added FormPasswordVisible. ([f2e9df7b](https://github.com/mathrunet/flutter_masamune/commit/f2e9df7b9742b070360453c3e29cb87492176a5c))
+
 ## 2.9.6
 
  - Update a dependency to the latest release.

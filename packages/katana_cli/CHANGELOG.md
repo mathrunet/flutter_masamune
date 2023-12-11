@@ -1,3 +1,7 @@
+## 2.11.3
+
+ - **FIX**: Support for changes in Functions commands. ([c9ea5039](https://github.com/mathrunet/flutter_masamune/commit/c9ea503906e21567265467bf0fdb34ecda60c75e))
+
 ## 2.11.2
 
  - **FIX**: command was invalid, corrected. ([2d53a89f](https://github.com/mathrunet/flutter_masamune/commit/2d53a89f6cd99418f53598fbdedccb84eaf57969))
