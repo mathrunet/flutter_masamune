@@ -271,21 +271,23 @@ ${showAllConfig ? """
 ${showAllConfig ? """
   
   # Deploy Terms of Use and Privacy Policy data to Firebase Hosting.
-  # Specify the URL of the Terms of Use and Privacy Policy in [terms_of_use] and [privacy_policy] under each language code.
-  # Adding a language code allows you to include the URL for the Terms of Use and Privacy Policy for that language.
+  # Under each language code, [terms_of_use] and [privacy_policy] and [how_to_delete] should include the URL for the terms of use, privacy policy, and deletion method.
+  # Adding a language code allows you to include the Terms of Use and Privacy Policy for that language, as well as the URL for removal instructions.
   # \${ApplicationName} and \${SupportEmail} will be replaced with the app name and support email address, respectively.
   # Firebase Hostingに利用規約とプライバシーポリシーのデータをデプロイします。
-  # 各言語コードの下に[terms_of_use]と[privacy_policy]には利用規約とプライバシーポリシーのURLを記載してください。
-  # 言語コードを追加するとその言語の利用規約とプライバシーポリシーのURLを記載することができます。
+  # 各言語コードの下に[terms_of_use]と[privacy_policy]、[how_to_delete]には利用規約とプライバシーポリシー、削除方法のURLを記載してください。
+  # 言語コードを追加するとその言語の利用規約とプライバシーポリシー、削除方法のURLを記載することができます。
   # \${ApplicationName}と\${SupportEmail}がそれぞれアプリ名とサポート用のEmailアドレスに置き換わります。
   terms_and_privacy:
     enable: false
     en:
       terms_of_use:
       privacy_policy:
+      how_to_delete: 
     ja:
       terms_of_use:
       privacy_policy:
+      how_to_delete: 
 """ : ""}
   
   # Enable Firebase Messaging.

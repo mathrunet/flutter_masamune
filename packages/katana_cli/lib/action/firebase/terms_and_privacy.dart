@@ -91,6 +91,7 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       final value = locale.value as Map;
       final termsUrl = value.get("terms_of_use", "");
       final privacyUrl = value.get("privacy_policy", "");
+      final deleteUrl = value.get("how_to_delete", "");
       if (termsUrl.isEmpty) {
         error(
           "The item [firebase]->[terms_and_privacy]->[${locale.key}]->[terms_of_use] is missing. Please provide the URL of the Terms of Use.",
@@ -100,6 +101,12 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       if (privacyUrl.isEmpty) {
         error(
           "The item [firebase]->[terms_and_privacy]->[${locale.key}]->[privacy_policy] is missing. Please provide the URL of the Privacy Policy.",
+        );
+        return;
+      }
+      if (deleteUrl.isEmpty) {
+        error(
+          "The item [firebase]->[terms_and_privacy]->[${locale.key}]->[how_to_delete] is missing. Please provide the URL of the How to delete.",
         );
         return;
       }
@@ -114,6 +121,13 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       if (privacyResponse.statusCode != 200) {
         error(
           "The URL of the Privacy Policy is invalid. Please provide the URL of the Privacy Policy.",
+        );
+        return;
+      }
+      final deleteResponse = await Api.get(deleteUrl);
+      if (deleteResponse.statusCode != 200) {
+        error(
+          "The URL of the How to delete is invalid. Please provide the URL of the How to delete.",
         );
         return;
       }
@@ -152,6 +166,9 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       final privacyContent = privacyResponse.body
           .replaceAll(kApplicationNameKey, applicationName)
           .replaceAll(kSuuportEmailKey, "mailto:$supportEmail");
+      final deleteContent = deleteResponse.body
+          .replaceAll(kApplicationNameKey, applicationName)
+          .replaceAll(kSuuportEmailKey, "mailto:$supportEmail");
       final dir = Directory("firebase/hosting/${locale.key}");
       if (!dir.existsSync()) {
         await dir.create(recursive: true);
@@ -160,6 +177,8 @@ class FirebaseTermsAndPrivacyCliAction extends CliCommand with CliActionMixin {
       await termsFile.writeAsString(termsContent);
       final privacyFile = File("firebase/hosting/${locale.key}/privacy.html");
       await privacyFile.writeAsString(privacyContent);
+      final deleteFile = File("firebase/hosting/${locale.key}/delete.html");
+      await deleteFile.writeAsString(deleteContent);
     }
     if (File("${webCode.directory}/build_web_${appName.toLowerCase()}.yaml")
         .existsSync()) {
