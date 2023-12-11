@@ -396,7 +396,7 @@ class FirebaseInitCliAction extends CliCommand with CliActionMixin {
             line,
             "? What language would you like to use to write Cloud Functions?",
             commandStack,
-            () => functionsProcess.stdin.write("k\n"),
+            () => functionsProcess.stdin.write("j\n"),
           );
           _runCommandStack(
             line,
