@@ -220,7 +220,7 @@ packages:
       path: "../katana"
       relative: true
     source: path
-    version: "2.9.1"
+    version: "2.9.2"
   lints:
     dependency: transitive
     description:
