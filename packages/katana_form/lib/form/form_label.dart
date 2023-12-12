@@ -46,6 +46,7 @@ class FormLabel extends StatelessWidget {
     this.color,
     this.prefix,
     this.suffix,
+    this.notice,
     this.showDivider = true,
   });
 
@@ -73,6 +74,11 @@ class FormLabel extends StatelessWidget {
   ///
   /// フォームのラベル。
   final String label;
+
+  /// Widget for annotations. It appears after the label.
+  ///
+  /// 注釈用のウィジェット。ラベルの後に表示されます。
+  final Widget? notice;
 
   /// `true` if you want to display the separator line.
   ///
@@ -112,6 +118,10 @@ class FormLabel extends StatelessWidget {
             fontSize: 12,
           ),
         ),
+        if (notice != null) ...[
+          const SizedBox(width: 4),
+          notice!,
+        ],
         if (showDivider) ...[
           const SizedBox(width: 4),
           Expanded(child: Divider(color: color)),
