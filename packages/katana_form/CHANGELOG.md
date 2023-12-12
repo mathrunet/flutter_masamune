@@ -1,3 +1,7 @@
+## 2.10.1
+
+ - **FIX**: Notice parameters are given. ([99d41995](https://github.com/mathrunet/flutter_masamune/commit/99d41995b4c8414a90a14bf29bd0d58f2b6bff66))
+
 ## 2.10.0
 
  - **FEAT**: Added FormPasswordVisible. ([f2e9df7b](https://github.com/mathrunet/flutter_masamune/commit/f2e9df7b9742b070360453c3e29cb87492176a5c))
