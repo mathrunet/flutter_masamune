@@ -73,7 +73,7 @@ class OpenAIPagePageState extends State<OpenAIPage> {
               );
             }
             return ListTile(
-              title: Text(e.value),
+              title: Text(e.value.text),
               subtitle: Text(e.role.name),
             );
           },

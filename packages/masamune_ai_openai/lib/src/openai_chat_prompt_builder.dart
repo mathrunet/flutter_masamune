@@ -53,13 +53,14 @@ class OpenAIChatPromptBuilder {
   /// Filters for sending messages.
   ///
   /// メッセージを送信する際のフィルター。
-  final String Function(String content)? filterOnSend;
+  final List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content)?
+      filterOnSend;
 
   /// Filters for receiving messages.
   ///
   /// メッセージを受信する際のフィルター。
-  final String Function(String content, FunctionCallResponse? functionCall)?
-      filterOnReceive;
+  final List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content,
+      List<OpenAIResponseFunction>? functionCall)? filterOnReceive;
 
   /// Prior message.
   ///

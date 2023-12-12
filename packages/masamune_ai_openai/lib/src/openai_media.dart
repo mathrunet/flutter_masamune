@@ -282,6 +282,10 @@ extension on OpenAIImageSize {
         return 512;
       case OpenAIImageSize.size1024:
         return 1024;
+      case OpenAIImageSize.size1792Horizontal:
+        return 1792;
+      case OpenAIImageSize.size1792Vertical:
+        return 1792;
     }
   }
 }

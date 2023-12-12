@@ -58,7 +58,6 @@ class OpenAIChat
     super.adapter,
     this.priorMessage,
     this.builder,
-    this.functionCall,
     this.functions,
   }) {
     _value = initialValue ??
@@ -106,28 +105,24 @@ class OpenAIChat
   /// Filters for sending messages.
   ///
   /// メッセージを送信する際のフィルター。
-  final String Function(String content)? filterOnSend;
+  final List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content)?
+      filterOnSend;
 
   /// Filters for receiving messages.
   ///
   /// メッセージを受信する際のフィルター。
-  final String Function(String content, FunctionCallResponse? functionCall)?
-      filterOnReceive;
+  final List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content,
+      List<OpenAIResponseFunction>? functionReponses)? filterOnReceive;
 
   /// Prior message.
   ///
   /// 先行メッセージ。
   final String? priorMessage;
 
-  /// Function call implementation.
+  /// FunctionCall implementation.
   ///
-  /// Function callの実装。
+  /// FunctionCallの実装。
   final List<OpenAIFunctionModel>? functions;
-
-  /// Function call.
-  ///
-  /// Function callの呼び出し。
-  final FunctionCall? functionCall;
 
   /// The total number of tokens it took until then.
   ///
@@ -196,20 +191,24 @@ class OpenAIChat
       return sending;
     }
     _sendCompleter = Completer();
+    final priorMessage = this.priorMessage ??
+        builder?.priorMessage ??
+        adapter.defaultChatPromptBuilder?.priorMessage;
     final response = OpenAIChatMsg._(
-      value: priorMessage ??
-          builder?.priorMessage ??
-          adapter.defaultChatPromptBuilder?.priorMessage,
+      value: priorMessage.isEmpty
+          ? null
+          : [OpenAIChatMsgItem(value: priorMessage!)],
       completer: Completer(),
       role: OpenAIChatRole.assistant,
     );
     try {
       _value.removeWhere((element) => element.error);
       if (message != null) {
-        final filtered = filterOnSend?.call(message) ??
-            builder?.filterOnSend?.call(message) ??
-            adapter.defaultChatPromptBuilder?.filterOnSend?.call(message) ??
-            message;
+        final content = [OpenAIChatMsgItem(value: message)];
+        final filtered = filterOnSend?.call(content) ??
+            builder?.filterOnSend?.call(content) ??
+            adapter.defaultChatPromptBuilder?.filterOnSend?.call(content) ??
+            content;
         if (filtered.isNotEmpty) {
           _value.add(
             OpenAIChatMsg(
@@ -230,8 +229,9 @@ class OpenAIChat
       ];
       notifyListeners();
       final res = await OpenAI.instance.chat.create(
-        functions: functions,
-        functionCall: functionCall,
+        tools: functions
+            ?.map((e) => OpenAIToolModel(type: "function", function: e))
+            .toList(),
         user: userName,
         model: model.name,
         messages: requestMessages,
@@ -241,9 +241,14 @@ class OpenAIChat
       if (res.choices.isEmpty) {
         throw Exception("Failed to get response from openai_chat_gpt.");
       }
-      final responseText =
-          "${response.value}${res.choices.first.message.content}";
-      final functionResponse = res.choices.first.message.functionCall;
+      final responseText = [
+        ...response.value,
+        ...res.choices.first.message.content
+                ?.map((e) => e._toOpenAIChatMsgItem()) ??
+            [],
+      ];
+      final functionResponse =
+          res.choices.first.message.toolCalls?.map((e) => e.function).toList();
       final filtered = filterOnReceive?.call(responseText, functionResponse) ??
           builder?.filterOnReceive?.call(responseText, functionResponse) ??
           adapter.defaultChatPromptBuilder?.filterOnReceive
@@ -251,13 +256,15 @@ class OpenAIChat
           responseText;
       if (filtered.isNotEmpty) {
         response._complete(
-          text: filtered,
+          items: filtered,
           role: OpenAIChatRole.values.firstWhereOrNull((item) =>
                   item._openAIChatMessageRole ==
                   res.choices.first.message.role) ??
               OpenAIChatRole.assistant,
           dateTime: res.created,
-          functionCall: res.choices.first.message.functionCall,
+          functionCalls: res.choices.first.message.toolCalls
+              ?.map((e) => e.function)
+              .toList(),
           token: res.usage.totalTokens,
         );
       } else {
@@ -312,7 +319,8 @@ class OpenAIChat
 /// これ自体が[ChangeNotifier]を継承しており、送信したデータを非同期で待つことができます。
 ///
 /// 実際のテキストは[value]を参照してください。
-class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
+class OpenAIChatMsg extends ChangeNotifier
+    implements ValueListenable<List<OpenAIChatMsgItem>> {
   /// Maintains information on chat messages sent and received by OpenAI.
   ///
   /// This itself inherits from [ChangeNotifier] and can wait asynchronously for data sent.
@@ -325,7 +333,7 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
   ///
   /// 実際のテキストは[value]を参照してください。
   OpenAIChatMsg(
-    String value, {
+    List<OpenAIChatMsgItem> value, {
     OpenAIChatRole role = OpenAIChatRole.system,
     DateTime? dateTime,
   }) : this._(
@@ -335,12 +343,12 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
         );
 
   OpenAIChatMsg._({
-    String? value,
+    List<OpenAIChatMsgItem>? value,
     OpenAIChatRole? role,
     DateTime? dateTime,
     int? token,
     Completer? completer,
-  })  : _value = value ?? "",
+  })  : _value = value ?? [],
         _role = role ?? OpenAIChatRole.user,
         _dateTime = dateTime,
         _token = token,
@@ -373,8 +381,9 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
   ///
   /// 実際のテキスト。ストリームで呼ばれている場合は都度更新されます。
   @override
-  String get value => _value;
-  String _value;
+  List<OpenAIChatMsgItem> get value =>
+      List<OpenAIChatMsgItem>.from(_value, growable: false);
+  List<OpenAIChatMsgItem> _value;
 
   /// Date and time the message was sent and received.
   ///
@@ -397,8 +406,8 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
   /// Holds the response when there is a FunctionCall.
   ///
   /// FunctionCallがあった場合に、そのレスポンスを保持します。
-  FunctionCallResponse? get functionCall => _functionCall;
-  FunctionCallResponse? _functionCall;
+  List<OpenAIResponseFunction>? get functionCalls => _functionCalls;
+  List<OpenAIResponseFunction>? _functionCalls;
 
   /// If a response is awaited, [Future] is returned.
   ///
@@ -411,24 +420,24 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
   Completer<void>? _completer;
 
   void _complete({
-    required String text,
+    required List<OpenAIChatMsgItem> items,
     required OpenAIChatRole role,
     required DateTime dateTime,
-    FunctionCallResponse? functionCall,
+    List<OpenAIResponseFunction>? functionCalls,
     required int token,
   }) {
-    _value = text;
+    _value = items;
     _role = role;
     _dateTime = dateTime;
     _token = token;
-    _functionCall = functionCall;
+    _functionCalls = functionCalls;
     notifyListeners();
     _finally();
   }
 
   void _error(Object e) {
     __error = true;
-    _value = e.toString();
+    _value = [OpenAIChatMsgItem(value: e.toString())];
     notifyListeners();
     _completer?.completeError(e);
     _completer = null;
@@ -454,9 +463,94 @@ class OpenAIChatMsg extends ChangeNotifier implements ValueListenable<String> {
   OpenAIChatCompletionChoiceMessageModel
       _toOpenAIChatCompletionChoiceMessageModel() {
     return OpenAIChatCompletionChoiceMessageModel(
-      content: value,
+      content: value
+          .map((e) => e._toOpenAIChatCompletionChoiceMessageContentItemModel())
+          .toList(),
       role: role._openAIChatMessageRole,
+      toolCalls: functionCalls
+          ?.map((e) => OpenAIResponseToolCall(
+                id: null,
+                type: null,
+                function: e,
+              ))
+          .toList(),
     );
+  }
+}
+
+/// Split messages in [OpenAIChatMsg].
+///
+/// If an image or other object is inserted in between, it will be split.
+///
+/// [OpenAIChatMsg]内の分割されたメッセージ。
+///
+/// 画像等が間に差し込まれると分割されます。
+class OpenAIChatMsgItem {
+  const OpenAIChatMsgItem({
+    required this.value,
+    this.type = OpenAIChatMsgItemType.text,
+  });
+
+  /// Content.
+  ///
+  /// コンテンツ。
+  final String value;
+
+  /// Type.
+  ///
+  /// タイプ。
+  final OpenAIChatMsgItemType type;
+
+  OpenAIChatCompletionChoiceMessageContentItemModel
+      _toOpenAIChatCompletionChoiceMessageContentItemModel() {
+    switch (type) {
+      case OpenAIChatMsgItemType.text:
+        return OpenAIChatCompletionChoiceMessageContentItemModel.text(value);
+      case OpenAIChatMsgItemType.image:
+        return OpenAIChatCompletionChoiceMessageContentItemModel.imageUrl(
+            value);
+    }
+  }
+}
+
+/// [OpenAIChatMsgItem] Type.
+///
+/// [OpenAIChatMsgItem]のタイプ。
+enum OpenAIChatMsgItemType {
+  /// Text.
+  ///
+  /// テキスト。
+  text,
+
+  /// Image.
+  ///
+  /// 画像。
+  image;
+}
+
+extension OpenAIChatMsgItemListExtensions on Iterable<OpenAIChatMsgItem> {
+  String get text {
+    return where((element) => element.type == OpenAIChatMsgItemType.text)
+        .map((e) => e.value)
+        .join("");
+  }
+}
+
+extension on OpenAIChatCompletionChoiceMessageContentItemModel {
+  OpenAIChatMsgItem _toOpenAIChatMsgItem() {
+    switch (type) {
+      case "text":
+        return OpenAIChatMsgItem(
+          value: text ?? "",
+          type: OpenAIChatMsgItemType.text,
+        );
+      case "image":
+        return OpenAIChatMsgItem(
+          value: imageUrl ?? "",
+          type: OpenAIChatMsgItemType.image,
+        );
+    }
+    throw Exception("Unknown type.");
   }
 }
 
@@ -521,8 +615,10 @@ class _$OpenAIChatQuery {
     List<OpenAIChatMsg>? initialValue,
     int? maxTokens = 300,
     double? temperature,
-    String Function(String content)? filterOnSend,
-    String Function(String content, FunctionCallResponse? functionCall)?
+    List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content)?
+        filterOnSend,
+    List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content,
+            List<OpenAIResponseFunction>? functionCall)?
         filterOnReceive,
     String? priorMessage,
     OpenAIChatPromptBuilder? builder,
@@ -559,9 +655,10 @@ class _$_OpenAIChatQuery extends ControllerQueryBase<OpenAIChat> {
   final int? maxTokens;
   final double? temperature;
   final List<OpenAIChatMsg>? initialValue;
-  final String Function(String content)? filterOnSend;
-  final String Function(String content, FunctionCallResponse? functionCall)?
-      filterOnReceive;
+  final List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content)?
+      filterOnSend;
+  final List<OpenAIChatMsgItem> Function(List<OpenAIChatMsgItem> content,
+      List<OpenAIResponseFunction>? functionCall)? filterOnReceive;
   final String? priorMessage;
   final OpenAIChatPromptBuilder? builder;
 
