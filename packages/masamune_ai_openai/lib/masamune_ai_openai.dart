@@ -1,5 +1,7 @@
 // Copyright 2023 mathru. All rights reserved.
 
+// ignore_for_file: implementation_imports
+
 /// Plug-in to make OpenAI API available on Masamune Framework. API key registration is required separately.
 ///
 /// To use, import `package:masamune_ai_openai/masamune_ai_openai.dart`.
@@ -17,8 +19,6 @@ import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:dart_openai/dart_openai.dart';
-
-// ignore: implementation_imports
 import 'package:dart_openai/src/core/models/chat/sub_models/choices/sub_models/sub_models/sub_models/response_function_call.dart';
 import 'package:masamune/masamune.dart';
 
