@@ -15,6 +15,47 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`masamune_location` - `v2.2.0`](#masamune_location---v220)
+ - [`masamune_location_background` - `v2.3.0`](#masamune_location_background---v230)
+ - [`masamune_location_geocoding` - `v2.3.0`](#masamune_location_geocoding---v230)
+ - [`masamune_location_google` - `v2.2.0`](#masamune_location_google---v220)
+ - [`masamune_location_platform_interface` - `v2.2.0`](#masamune_location_platform_interface---v220)
+
+---
+
+#### `masamune_location` - `v2.2.0`
+
+ - **FEAT**: Change the internal package to location. ([d32a1d53](https://github.com/mathrunet/flutter_masamune/commit/d32a1d5311e12b71019d28d1ca9aa9d3a97f3c82))
+
+#### `masamune_location_background` - `v2.3.0`
+
+ - **FEAT**: Change the internal package to location. ([d32a1d53](https://github.com/mathrunet/flutter_masamune/commit/d32a1d5311e12b71019d28d1ca9aa9d3a97f3c82))
+
+#### `masamune_location_geocoding` - `v2.3.0`
+
+ - **FEAT**: Change the internal package to location. ([d32a1d53](https://github.com/mathrunet/flutter_masamune/commit/d32a1d5311e12b71019d28d1ca9aa9d3a97f3c82))
+
+#### `masamune_location_google` - `v2.2.0`
+
+ - **FEAT**: Change the internal package to location. ([d32a1d53](https://github.com/mathrunet/flutter_masamune/commit/d32a1d5311e12b71019d28d1ca9aa9d3a97f3c82))
+
+#### `masamune_location_platform_interface` - `v2.2.0`
+
+ - **FEAT**: Change the internal package to location. ([d32a1d53](https://github.com/mathrunet/flutter_masamune/commit/d32a1d5311e12b71019d28d1ca9aa9d3a97f3c82))
+
+
+## 2023-12-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_ads_google` - `v2.3.5`](#masamune_ads_google---v235)
  - [`masamune_module_point_ecosystem` - `v2.3.84`](#masamune_module_point_ecosystem---v2384)
 

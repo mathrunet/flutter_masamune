@@ -1,6 +1,6 @@
 name: masamune_location_geocoding
 description: Masamune plugin for using Google Map Geocoding API with Firebase Functions.
-version: 2.2.15
+version: 2.3.0
 homepage: https://mathru.net
 repository: https://github.com/mathrunet/flutter_masamune/tree/master/packages/masamune_location_geocoding
 
