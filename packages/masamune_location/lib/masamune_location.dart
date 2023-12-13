@@ -17,8 +17,8 @@ import 'package:flutter/widgets.dart';
 // Package imports:
 import 'package:location/location.dart' as location;
 import 'package:masamune/masamune.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:masamune_location_platform_interface/masamune_location_platform_interface.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 export 'src/others/others.dart'
     if (dart.library.io) 'src/others/others.dart'

@@ -11,9 +11,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:location/location.dart' as location;
 import 'package:masamune/masamune.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // Project imports:
 import 'package:masamune_location/masamune_location.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 part 'compass.dart';
