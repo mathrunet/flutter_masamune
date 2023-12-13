@@ -19,6 +19,8 @@ class GoogleAdsCore {
   static Completer<void>? _completer;
   static Completer<void>? _permissionCompleter;
 
+  static Map<String, List<GoogleBannerAdUnit>> _bannerAdPool = {};
+
   /// Initialize the advertisement.
   ///
   /// 広告を初期化します。
@@ -67,5 +69,52 @@ class GoogleAdsCore {
       _permissionCompleter?.complete();
       _permissionCompleter = null;
     }
+  }
+
+  /// Pre-load banner ads.
+  ///
+  /// Specify the ad unit ID in [adUnitId] and the ad size in [size].
+  ///
+  /// バナー広告を事前に読み込みます。
+  ///
+  /// [adUnitId]に広告ユニットIDを[size]に広告サイズを指定します。
+  static Future<void> preloadBannerAd({
+    String? adUnitId,
+    required GoogleBannerAdSize size,
+  }) async {
+    await initialize();
+    final unit = _rentBannerAd(size: size, adUnitId: adUnitId);
+    _returnBannerAd(unit: unit);
+    await unit.loading;
+  }
+
+  static GoogleBannerAdUnit _rentBannerAd({
+    String? adUnitId,
+    required GoogleBannerAdSize size,
+  }) {
+    adUnitId ??= GoogleAdsMasamuneAdapter.primary.defaultAdUnitId;
+    final key =
+        "$adUnitId:${size._toAdSize().width}x${size._toAdSize().height}";
+    if (!_bannerAdPool.containsKey(key)) {
+      _bannerAdPool[key] = [];
+    }
+    if (_bannerAdPool[key]!.isEmpty) {
+      return GoogleBannerAdUnit._(adUnitId: adUnitId, size: size);
+    }
+    return _bannerAdPool[key]!.removeAt(0);
+  }
+
+  static void _returnBannerAd({
+    GoogleBannerAdUnit? unit,
+  }) {
+    if (unit == null) {
+      return;
+    }
+    final key =
+        "${unit.adUnitId}:${unit.size._toAdSize().width}x${unit.size._toAdSize().height}";
+    if (!_bannerAdPool.containsKey(key)) {
+      _bannerAdPool[key] = [];
+    }
+    _bannerAdPool[key]!.add(unit);
   }
 }

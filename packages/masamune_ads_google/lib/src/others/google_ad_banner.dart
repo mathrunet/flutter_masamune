@@ -60,6 +60,8 @@ enum GoogleBannerAdSize {
 ///
 /// Web returns an empty Widget.
 ///
+/// You can preload your ads with [GoogleAdsCore.preloadBannerAd].
+///
 /// Googleのバナー広告を表示するWidgetです。
 ///
 /// [adUnitId]を与えて広告を表示します。
@@ -67,6 +69,8 @@ enum GoogleBannerAdSize {
 /// [size]で広告のサイズを指定します。
 ///
 /// Webでは空のWidgetを返します。
+///
+/// [GoogleAdsCore.preloadBannerAd]で事前に広告をロードしておくことができます。
 @immutable
 class GoogleBannerAd extends StatefulWidget {
   /// This Widget displays Google banner ads.
@@ -77,6 +81,8 @@ class GoogleBannerAd extends StatefulWidget {
   ///
   /// Web returns an empty Widget.
   ///
+  /// You can preload your ads with [GoogleAdsCore.preloadBannerAd].
+  ///
   /// Googleのバナー広告を表示するWidgetです。
   ///
   /// [adUnitId]を与えて広告を表示します。
@@ -84,6 +90,8 @@ class GoogleBannerAd extends StatefulWidget {
   /// [size]で広告のサイズを指定します。
   ///
   /// Webでは空のWidgetを返します。
+  ///
+  /// [GoogleAdsCore.preloadBannerAd]で事前に広告をロードしておくことができます。
   const GoogleBannerAd({
     super.key,
     this.adUnitId,
@@ -127,8 +135,7 @@ class GoogleBannerAd extends StatefulWidget {
 }
 
 class _GoogleBannerAdState extends State<GoogleBannerAd> {
-  BannerAd? _bannerAd;
-  bool _bannerAdIsLoaded = false;
+  GoogleBannerAdUnit? _bannerAd;
 
   @override
   void initState() {
@@ -140,38 +147,33 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
   void didUpdateWidget(GoogleBannerAd oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.adUnitId != oldWidget.adUnitId) {
-      _bannerAd?.dispose();
+      _bannerAd?.removeListener(_handledOnUpdate);
       _bannerAd = null;
-      _bannerAdIsLoaded = false;
       loadAd();
     }
   }
 
+  @override
+  void dispose() {
+    _bannerAd?.removeListener(_handledOnUpdate);
+    GoogleAdsCore._returnBannerAd(unit: _bannerAd);
+    _bannerAd = null;
+    super.dispose();
+  }
+
   Future<void> loadAd() async {
     await GoogleAdsCore.initialize();
-    _bannerAd ??= BannerAd(
+    _bannerAd ??= GoogleAdsCore._rentBannerAd(
       adUnitId:
           widget.adUnitId ?? GoogleAdsMasamuneAdapter.primary.defaultAdUnitId,
-      size: widget.size._toAdSize(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            _bannerAdIsLoaded = true;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          debugPrint("$NativeAd failedToLoad: $error");
-          ad.dispose();
-        },
-        onAdClicked: (ad) {
-          widget.onAdClicked?.call();
-        },
-        onPaidEvent: (ad, value, precision, currencyCode) {
-          widget.onPaidEvent?.call(value, currencyCode);
-        },
-      ),
-      request: const AdManagerAdRequest(),
-    )..load();
+      size: widget.size,
+    );
+    _bannerAd?.addListener(_handledOnUpdate);
+    setState(() {});
+  }
+
+  void _handledOnUpdate() {
+    setState(() {});
   }
 
   @override
@@ -185,11 +187,121 @@ class _GoogleBannerAdState extends State<GoogleBannerAd> {
           : null,
       width: adSize.width.toDouble(),
       height: adSize.height.toDouble(),
-      child: _bannerAdIsLoaded
-          ? AdWidget(ad: _bannerAd!)
+      child: _bannerAd?.loaded ?? false
+          ? AdWidget(ad: _bannerAd!._bannerAd)
           : const Center(
               child: CircularProgressIndicator(),
             ),
     );
+  }
+}
+
+/// Class for managing banner ads.
+///
+/// バナー広告を管理するクラス。
+class GoogleBannerAdUnit extends ChangeNotifier {
+  GoogleBannerAdUnit._({
+    required this.adUnitId,
+    required this.size,
+  }) {
+    _bannerAd = BannerAd(
+      adUnitId: adUnitId,
+      size: size._toAdSize(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          _loaded = true;
+          _completer?.complete();
+          _completer = null;
+          notifyListeners();
+        },
+        onAdFailedToLoad: (ad, error) {
+          _loaded = false;
+          debugPrint("$NativeAd failedToLoad: $error");
+          ad.dispose();
+          _completer?.completeError(error);
+          _completer = null;
+          notifyListeners();
+        },
+        onAdClicked: (ad) {
+          for (final callback in _onAdClicked) {
+            callback();
+          }
+        },
+        onPaidEvent: (ad, value, precision, currencyCode) {
+          for (final callback in _onPaidEvent) {
+            callback(value, currencyCode);
+          }
+        },
+      ),
+      request: const AdManagerAdRequest(),
+    )..load();
+  }
+
+  late final BannerAd _bannerAd;
+
+  /// Advertising Unit ID.
+  ///
+  /// 広告ユニットID。
+  final String adUnitId;
+
+  /// Size of ad.
+  ///
+  /// 広告のサイズ。
+  final GoogleBannerAdSize size;
+
+  /// true` if the ad is loaded.
+  ///
+  /// 広告がロードされた場合`true`。
+  bool get loaded => _loaded;
+  bool _loaded = false;
+
+  /// [Future] is returned if the ad is loading.
+  ///
+  /// 広告がロード中の場合[Future]が返されます。
+  Future<void>? get loading => _completer?.future;
+  Completer<void>? _completer = Completer<void>();
+
+  final List<VoidCallback> _onAdClicked = [];
+  final List<void Function(double value, String currencyCode)> _onPaidEvent =
+      [];
+
+  /// Add a callback when an ad is clicked.
+  ///
+  /// 広告をクリックしたときのコールバックを追加します。
+  void addOnAdClickedListener(VoidCallback callback) {
+    _onAdClicked.add(callback);
+  }
+
+  /// Remove the callback when an ad is clicked.
+  ///
+  /// 広告をクリックしたときのコールバックを削除します。
+  void removeOnAdClickedListener(VoidCallback callback) {
+    _onAdClicked.remove(callback);
+  }
+
+  /// Add a callback when a paid event occurs.
+  ///
+  /// 有料イベントが発生したときのコールバックを追加します。
+  void addOnPaidEventListener(
+    void Function(double value, String currencyCode) callback,
+  ) {
+    _onPaidEvent.add(callback);
+  }
+
+  /// Remove the callback when a paid event occurs.
+  ///
+  /// 有料イベントが発生したときのコールバックを削除します。
+  void removeOnPaidEventListener(
+    void Function(double value, String currencyCode) callback,
+  ) {
+    _onPaidEvent.remove(callback);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _onPaidEvent.clear();
+    _onAdClicked.clear();
+    _bannerAd.dispose();
   }
 }

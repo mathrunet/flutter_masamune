@@ -49,4 +49,18 @@ class GoogleAdsCore {
   static Future<void> permission() async {
     debugPrint("The web does not support GoogleAd.");
   }
+
+  /// Pre-load banner ads.
+  ///
+  /// Specify the ad unit ID in [adUnitId] and the ad size in [size].
+  ///
+  /// バナー広告を事前に読み込みます。
+  ///
+  /// [adUnitId]に広告ユニットIDを[size]に広告サイズを指定します。
+  static Future<void> preloadBannerAd({
+    String? adUnitId,
+    required GoogleBannerAdSize size,
+  }) async {
+    debugPrint("The web does not support GoogleAd.");
+  }
 }
