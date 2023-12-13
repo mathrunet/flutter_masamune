@@ -17,9 +17,10 @@ import 'package:flutter/widgets.dart';
 
 // Package imports:
 import 'package:dart_openai/dart_openai.dart';
-import 'package:masamune/masamune.dart';
+
 // ignore: implementation_imports
 import 'package:dart_openai/src/core/models/chat/sub_models/choices/sub_models/sub_models/sub_models/response_function_call.dart';
+import 'package:masamune/masamune.dart';
 
 export 'package:dart_openai/dart_openai.dart' show OpenAIFunctionModel;
 export 'package:dart_openai/src/core/models/chat/sub_models/choices/sub_models/sub_models/sub_models/response_function_call.dart'
