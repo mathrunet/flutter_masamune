@@ -1,3 +1,7 @@
+## 2.3.5
+
+ - **FIX**: Improved banner loading speed. ([1236b556](https://github.com/mathrunet/flutter_masamune/commit/1236b556b1a0ac5d0088af18237bb8485cf3a02c))
+
 ## 2.3.4
 
  - Update a dependency to the latest release.

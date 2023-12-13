@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-12-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`masamune_ads_google` - `v2.3.5`](#masamune_ads_google---v235)
+ - [`masamune_module_point_ecosystem` - `v2.3.84`](#masamune_module_point_ecosystem---v2384)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `masamune_module_point_ecosystem` - `v2.3.84`
+
+---
+
+#### `masamune_ads_google` - `v2.3.5`
+
+ - **FIX**: Improved banner loading speed. ([1236b556](https://github.com/mathrunet/flutter_masamune/commit/1236b556b1a0ac5d0088af18237bb8485cf3a02c))
+
+
 ## 2023-12-12
 
 ### Changes
