@@ -1,3 +1,7 @@
+## 2.11.5
+
+ - **FIX**: Change the package when in BackgroundMode. ([2d98efb4](https://github.com/mathrunet/flutter_masamune/commit/2d98efb44b64064d21e6fd52a2c212dfef7d9cb0))
+
 ## 2.11.4
 
  - **FIX**: Added a page on how to delete. ([f0dfeb98](https://github.com/mathrunet/flutter_masamune/commit/f0dfeb98006a3646e496cf3ea4300ee70a58ed63))

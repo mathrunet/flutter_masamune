@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.11.5`](#katana_cli---v2115)
+
+---
+
+#### `katana_cli` - `v2.11.5`
+
+ - **FIX**: Change the package when in BackgroundMode. ([2d98efb4](https://github.com/mathrunet/flutter_masamune/commit/2d98efb44b64064d21e6fd52a2c212dfef7d9cb0))
+
+
+## 2023-12-13
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`masamune_location` - `v2.2.0`](#masamune_location---v220)
  - [`masamune_location_background` - `v2.3.0`](#masamune_location_background---v230)
  - [`masamune_location_geocoding` - `v2.3.0`](#masamune_location_geocoding---v230)
