@@ -314,10 +314,7 @@ class AppLocationCliAction extends CliCommand with CliActionMixin {
         flutter,
         "pub",
         "add",
-        if (enableGoogleMap)
-          "masamune_location_google"
-        else
-          "masamune_location",
+        "masamune_location",
       ],
     );
   }
