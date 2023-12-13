@@ -64,13 +64,15 @@ class Location
   LocationData? get value => _value;
   LocationData? _value;
 
+  final location.Location _location = location.Location();
+
   Timer? _timer;
   Duration _updateInterval = const Duration(minutes: 1);
   bool _updated = false;
   Completer<void>? _listenCompleter;
   Completer<void>? _initializeCompleter;
   // ignore: cancel_subscriptions
-  StreamSubscription<Position>? _positionStreamSubscription;
+  StreamSubscription<location.LocationData>? _locationChangeStreamSubscription;
 
   /// Returns `true` if [listen] has already been executed.
   ///
@@ -79,7 +81,7 @@ class Location
     if (!permitted) {
       return false;
     }
-    if (_positionStreamSubscription == null) {
+    if (_locationChangeStreamSubscription == null) {
       return false;
     }
     return true;
@@ -88,10 +90,15 @@ class Location
   /// If permission is granted by executing [initialize], returns `true`.
   ///
   /// [initialize]を実行してパーミッションが許可されている場合は`true`を返します。
-  bool get permitted =>
-      _permissionStatus == LocationPermission.always ||
-      _permissionStatus == LocationPermission.whileInUse;
-  LocationPermission _permissionStatus = LocationPermission.denied;
+  bool get permitted => _permissionStatus == PermissionStatus.granted;
+  PermissionStatus _permissionStatus = PermissionStatus.denied;
+
+  /// Returns `true` if [initialize] is executed and permissions for background are allowed.
+  ///
+  /// [initialize]を実行してバックグラウンド向けのパーミッションが許可されている場合は`true`を返します。
+  bool get permittedBackground =>
+      _backgroundPermissionStatus == PermissionStatus.granted;
+  PermissionStatus _backgroundPermissionStatus = PermissionStatus.denied;
 
   /// Initialization.
   ///
@@ -108,21 +115,29 @@ class Location
     }
     _initializeCompleter = Completer<void>();
     try {
-      if (!await Geolocator.isLocationServiceEnabled().timeout(timeout)) {
+      if (!await _location.serviceEnabled().timeout(timeout)) {
         throw Exception(
           "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
         );
       }
-      _permissionStatus = await Geolocator.checkPermission().timeout(timeout);
-      if (_permissionStatus == LocationPermission.denied) {
+      _permissionStatus =
+          await Permission.locationWhenInUse.status.timeout(timeout);
+      if (_permissionStatus != PermissionStatus.granted) {
         _permissionStatus =
-            await Geolocator.requestPermission().timeout(timeout);
+            await Permission.locationWhenInUse.request().timeout(timeout);
       }
-      if (_permissionStatus != LocationPermission.always &&
-          _permissionStatus != LocationPermission.whileInUse) {
+      if (_permissionStatus != PermissionStatus.granted) {
         throw Exception(
           "You are not authorized to use the location information service. Check the permission settings.",
         );
+      }
+      if (adapter.enableBackgroundLocation) {
+        _backgroundPermissionStatus =
+            await Permission.locationAlways.status.timeout(timeout);
+        if (_backgroundPermissionStatus != PermissionStatus.granted) {
+          _backgroundPermissionStatus =
+              await Permission.locationAlways.request().timeout(timeout);
+        }
       }
       _initialized = true;
       notifyListeners();
@@ -155,7 +170,7 @@ class Location
   /// [accuracy]や[distanceFilterMeters]で精度を指定することもできます。
   Future<void> listen({
     LocationAccuracy? accuracy,
-    int? distanceFilterMeters,
+    double? distanceFilterMeters,
     Duration updateInterval = const Duration(minutes: 1),
     Duration timeout = const Duration(seconds: 60),
   }) async {
@@ -169,25 +184,23 @@ class Location
     _updateInterval = updateInterval;
     try {
       await initialize(timeout: timeout);
-      _value = (await Geolocator.getCurrentPosition(
-        desiredAccuracy:
-            (accuracy ?? LocationMasamuneAdapter.primary.defaultAccuracy)
-                .toGeoLocatorLocationAccuracy(),
-      ))
-          .toLocationData();
-      _positionStreamSubscription?.cancel();
-      _positionStreamSubscription = Geolocator.getPositionStream(
-        locationSettings: LocationSettings(
-          accuracy:
-              (accuracy ?? LocationMasamuneAdapter.primary.defaultAccuracy)
-                  .toGeoLocatorLocationAccuracy(),
-          distanceFilter: distanceFilterMeters ??
-              LocationMasamuneAdapter.primary.defaultDistanceFilterMeters,
-        ),
-      ).listen((position) {
-        _updated = true;
-        _value = position.toLocationData();
-      });
+      await _location.changeSettings(
+        accuracy: (accuracy ?? LocationMasamuneAdapter.primary.defaultAccuracy)
+            .toGeoLocatorLocationAccuracy(),
+        distanceFilter: distanceFilterMeters ??
+            LocationMasamuneAdapter.primary.defaultDistanceFilterMeters,
+      );
+      if (adapter.enableBackgroundLocation && permittedBackground) {
+        await _location.enableBackgroundMode(enable: true);
+      }
+      _value = (await _location.getLocation()).toLocationData();
+      _locationChangeStreamSubscription?.cancel();
+      _locationChangeStreamSubscription = _location.onLocationChanged.listen(
+        (event) {
+          _updated = true;
+          _value = event.toLocationData();
+        },
+      );
       _updated = false;
       _timer?.cancel();
       _timer = Timer.periodic(_updateInterval, (timer) {
@@ -217,8 +230,8 @@ class Location
     _updated = false;
     _timer?.cancel();
     _timer = null;
-    _positionStreamSubscription?.cancel();
-    _positionStreamSubscription = null;
+    _locationChangeStreamSubscription?.cancel();
+    _locationChangeStreamSubscription = null;
   }
 
   @override
@@ -258,37 +271,39 @@ class _$_LocationQuery extends ControllerQueryBase<Location> {
 }
 
 extension on LocationAccuracy {
-  geolocator.LocationAccuracy toGeoLocatorLocationAccuracy() {
+  location.LocationAccuracy toGeoLocatorLocationAccuracy() {
     switch (this) {
       case LocationAccuracy.lowest:
-        return geolocator.LocationAccuracy.lowest;
+        return location.LocationAccuracy.powerSave;
       case LocationAccuracy.low:
-        return geolocator.LocationAccuracy.low;
+        return location.LocationAccuracy.low;
       case LocationAccuracy.medium:
-        return geolocator.LocationAccuracy.medium;
+        return location.LocationAccuracy.balanced;
       case LocationAccuracy.high:
-        return geolocator.LocationAccuracy.high;
+        return location.LocationAccuracy.high;
       case LocationAccuracy.best:
-        return geolocator.LocationAccuracy.best;
+        return location.LocationAccuracy.high;
       case LocationAccuracy.navigation:
-        return geolocator.LocationAccuracy.bestForNavigation;
+        return location.LocationAccuracy.navigation;
       default:
-        return geolocator.LocationAccuracy.low;
+        return location.LocationAccuracy.reduced;
     }
   }
 }
 
-extension on Position {
+extension on location.LocationData {
   LocationData toLocationData() {
     return LocationData(
-      latitude: latitude,
-      longitude: longitude,
+      latitude: latitude ?? 0.0,
+      longitude: longitude ?? 0.0,
       altitude: altitude,
       accuracy: accuracy,
       heading: heading,
       speed: speed,
       speedAccuracy: speedAccuracy,
-      timestamp: timestamp,
+      timestamp: time != null
+          ? DateTime.fromMillisecondsSinceEpoch(time!.toInt())
+          : null,
     );
   }
 }

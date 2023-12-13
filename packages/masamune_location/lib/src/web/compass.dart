@@ -64,6 +64,8 @@ class Compass
   CompassData? get value => _value;
   CompassData? _value;
 
+  final location.Location _location = location.Location();
+
   Timer? _timer;
   Duration _updateInterval = const Duration(minutes: 1);
   Completer<void>? _completer;
@@ -76,10 +78,8 @@ class Compass
   /// If permission is granted by executing [initialize], returns `true`.
   ///
   /// [initialize]を実行してパーミッションが許可されている場合は`true`を返します。
-  bool get permitted =>
-      _permissionStatus == LocationPermission.always ||
-      _permissionStatus == LocationPermission.whileInUse;
-  LocationPermission _permissionStatus = LocationPermission.denied;
+  bool get permitted => _permissionStatus == PermissionStatus.granted;
+  PermissionStatus _permissionStatus = PermissionStatus.denied;
 
   /// Initialization.
   ///
@@ -99,18 +99,18 @@ class Compass
     }
     _completer = Completer<void>();
     try {
-      if (!await Geolocator.isLocationServiceEnabled().timeout(timeout)) {
+      if (!await _location.serviceEnabled().timeout(timeout)) {
         throw Exception(
           "Location service not available. The platform may not be supported or it may be disabled in the settings. please confirm.",
         );
       }
-      _permissionStatus = await Geolocator.checkPermission().timeout(timeout);
-      if (_permissionStatus == LocationPermission.denied) {
+      _permissionStatus =
+          await Permission.locationWhenInUse.status.timeout(timeout);
+      if (_permissionStatus != PermissionStatus.granted) {
         _permissionStatus =
-            await Geolocator.requestPermission().timeout(timeout);
+            await Permission.locationWhenInUse.request().timeout(timeout);
       }
-      if (_permissionStatus != LocationPermission.always &&
-          _permissionStatus != LocationPermission.whileInUse) {
+      if (_permissionStatus != PermissionStatus.granted) {
         throw Exception(
           "You are not authorized to use the location information service. Check the permission settings.",
         );

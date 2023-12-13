@@ -9,11 +9,11 @@ class LocationData {
     required this.longitude,
     required this.latitude,
     required this.timestamp,
-    required this.accuracy,
-    required this.altitude,
-    required this.heading,
-    required this.speed,
-    required this.speedAccuracy,
+    this.accuracy,
+    this.altitude,
+    this.heading,
+    this.speed,
+    this.speedAccuracy,
   });
 
   /// Location data class.
@@ -57,7 +57,7 @@ class LocationData {
   /// デバイスの高度（メートル単位）。
   ///
   /// 高度はすべてのデバイスで利用できるわけではありません。この場合、返される値は0.0です。
-  final double altitude;
+  final double? altitude;
 
   /// The estimated horizontal accuracy of the position in meters.
   ///
@@ -67,7 +67,7 @@ class LocationData {
   /// 位置の推定水平精度（メートル単位）。
   ///
   /// 精度はすべてのデバイスで利用できるわけではありません。この場合、値は0.0です。
-  final double accuracy;
+  final double? accuracy;
 
   /// The heading in which the device is traveling in degrees.
   ///
@@ -77,7 +77,7 @@ class LocationData {
   /// デバイスが進行している方向の度数。
   ///
   /// ヘッディングはすべてのデバイスで利用できるわけではありません。この場合、値は0.0です。
-  final double heading;
+  final double? heading;
 
   /// The speed at which the devices is traveling in meters per second over
   /// ground.
@@ -88,7 +88,7 @@ class LocationData {
   /// 地上の秒速メートルでデバイスが移動している速度。
   ///
   /// 速度はすべてのデバイスで利用できるわけではありません。この場合、値は0.0です。
-  final double speed;
+  final double? speed;
 
   /// The estimated speed accuracy of this position, in meters per second.
   ///
@@ -98,7 +98,7 @@ class LocationData {
   /// この位置の推定速度精度（秒速メートル単位）。
   ///
   /// speedAccuracyはすべてのデバイスで利用できるわけではありません。この場合、値は0.0です。
-  final double speedAccuracy;
+  final double? speedAccuracy;
 
   /// Converts from internal location information to [GeoValue].
   ///

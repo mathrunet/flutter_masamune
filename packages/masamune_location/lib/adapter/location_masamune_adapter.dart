@@ -9,9 +9,10 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   /// 位置情報を取り扱うための初期設定を行う[MasamuneAdapter]。
   const LocationMasamuneAdapter({
     this.defaultAccuracy = LocationAccuracy.best,
-    this.defaultDistanceFilterMeters = 10,
+    this.defaultDistanceFilterMeters = 10.0,
     this.location,
     this.listenOnBoot = false,
+    this.enableBackgroundLocation = false,
   });
 
   /// Specifies the accuracy of location information.
@@ -22,7 +23,7 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   /// Minimum distance in meters for location updates.
   ///
   /// 位置情報を更新する際の最低距離（m）。
-  final int defaultDistanceFilterMeters;
+  final double defaultDistanceFilterMeters;
 
   /// Specify the object of [Location].
   ///
@@ -37,6 +38,15 @@ class LocationMasamuneAdapter extends MasamuneAdapter {
   ///
   /// [location]が設定されている場合、[onMaybeBoot]を実行した際合わせて位置情報の取得も開始する場合`true`。
   final bool listenOnBoot;
+
+  /// `true` to enable background location acquisition.
+  ///
+  /// You must allow location information to be "always allowed".
+  ///
+  /// バックグラウンドでの位置情報取得を有効にする場合`true`。
+  ///
+  /// 位置情報の許可を"常に許可"にする必要があります。
+  final bool enableBackgroundLocation;
 
   /// You can retrieve the [LocationMasamuneAdapter] first given by [MasamuneAdapterScope].
   ///
