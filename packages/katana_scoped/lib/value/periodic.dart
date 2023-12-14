@@ -61,7 +61,7 @@ extension RefHasPagePeriodicExtensions on RefHasPage {
     Object? name,
   }) {
     return page.periodic(
-      (currentTime, startTime) => null,
+      callback,
       duration: duration,
       name: name,
     );
