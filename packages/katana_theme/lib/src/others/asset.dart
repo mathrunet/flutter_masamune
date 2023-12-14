@@ -492,6 +492,7 @@ class _MemoizedFileImage extends FileImage {
       final file = File("${cacheDir.path}/$fileName");
       key = FileImage(file, scale: key.scale);
     }
+    final file = key.file;
     final int lengthInBytes = await file.length();
     if (lengthInBytes == 0) {
       PaintingBinding.instance.imageCache.evict(key);
