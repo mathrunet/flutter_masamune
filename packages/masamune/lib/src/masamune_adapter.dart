@@ -196,7 +196,7 @@ class MasamuneAdapterScope<TAdapter extends MasamuneAdapter>
         _MasamuneAdapterScope<TAdapter>>();
     assert(
       scope != null,
-      "MasamuneAdapterScope<TAdapter> is not found. Place [MasamuneAdapterScope<TAdapter>] widget closer to the root.",
+      "MasamuneAdapterScope<${TAdapter.toString()}> is not found. Place [MasamuneAdapterScope<${TAdapter.toString()}>] widget closer to the root.",
     );
     return (scope?.widget as _MasamuneAdapterScope<TAdapter>?)?.adapter;
   }
