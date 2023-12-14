@@ -15,6 +15,27 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`katana_cli` - `v2.11.7`](#katana_cli---v2117)
+
+---
+
+#### `katana_cli` - `v2.11.7`
+
+ - **FIX**: Added notification icon settings for Android. ([0cb631aa](https://github.com/mathrunet/flutter_masamune/commit/0cb631aaf226200428287368b8d87693aff3f70d))
+
+
+## 2023-12-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`katana_model` - `v2.16.0`](#katana_model---v2160)
  - [`katana_model_firestore` - `v2.11.0`](#katana_model_firestore---v2110)
  - [`masamune` - `v2.5.0`](#masamune---v250)

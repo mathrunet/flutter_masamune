@@ -1,3 +1,7 @@
+## 2.11.7
+
+ - **FIX**: Added notification icon settings for Android. ([0cb631aa](https://github.com/mathrunet/flutter_masamune/commit/0cb631aaf226200428287368b8d87693aff3f70d))
+
 ## 2.11.6
 
  - **FIX**: Organize Bluetooth permissions. ([c626d0f2](https://github.com/mathrunet/flutter_masamune/commit/c626d0f22d10cf5cae2fb3dc949905e3cc2258cd))
