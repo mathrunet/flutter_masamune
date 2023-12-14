@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: Added keepAlive setting to MapView. ([068f7c5d](https://github.com/mathrunet/flutter_masamune/commit/068f7c5d0b136f1ed65127f65359c0f6999d17af))
+
 ## 2.2.0
 
  - **FEAT**: Change the internal package to location. ([d32a1d53](https://github.com/mathrunet/flutter_masamune/commit/d32a1d5311e12b71019d28d1ca9aa9d3a97f3c82))

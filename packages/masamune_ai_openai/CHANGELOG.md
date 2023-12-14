@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Version up support. ([f2816461](https://github.com/mathrunet/flutter_masamune/commit/f281646196d372ad53e16d551eb30e2f05f93035))

@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - Update a dependency to the latest release.
+
 ## 2.3.0
 
  - **FEAT**: Change the internal package to location. ([d32a1d53](https://github.com/mathrunet/flutter_masamune/commit/d32a1d5311e12b71019d28d1ca9aa9d3a97f3c82))

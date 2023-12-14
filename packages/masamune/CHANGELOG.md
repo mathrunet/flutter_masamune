@@ -1,3 +1,7 @@
+## 2.4.116
+
+ - **FIX**: Correction of error messages. ([6ea9d6b8](https://github.com/mathrunet/flutter_masamune/commit/6ea9d6b815c7da5fa9c51b2e8b9d8dcc2e7d14e2))
+
 ## 2.4.115
 
  - Update a dependency to the latest release.
